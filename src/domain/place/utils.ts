@@ -297,26 +297,6 @@ export const getEditButtonProps = ({
   };
 };
 
-/* istanbul ignore next */
-export const clearPlaceQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>,
-  args?: PlaceQueryVariables
-): boolean =>
-  apolloClient.cache.evict({
-    id: 'ROOT_QUERY',
-    fieldName: 'place',
-    args,
-  });
-
-/* istanbul ignore next */
-export const clearPlacesQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>
-): boolean =>
-  apolloClient.cache.evict({
-    id: 'ROOT_QUERY',
-    fieldName: 'places',
-  });
-
 export const getFocusableFieldId = (fieldName: string): string => {
   // For the select elements, focus the toggle button
   if (PLACE_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {

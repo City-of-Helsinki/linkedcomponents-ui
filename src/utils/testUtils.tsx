@@ -20,7 +20,7 @@ import {
 } from 'react-router-dom';
 import wait from 'waait';
 
-import { testId } from '../common/components/loadingSpinner/LoadingSpinner';
+import { testIds } from '../constants';
 import { createCache } from '../domain/app/apollo/apolloClient';
 import { PageSettingsProvider } from '../domain/app/pageSettingsContext/PageSettingsContext';
 import { ThemeProvider } from '../domain/app/theme/Theme';
@@ -174,7 +174,7 @@ const pasteToTextEditor = (
 const loadingSpinnerIsNotInDocument = async (timeout = 5000): Promise<void> =>
   waitFor(
     () => {
-      expect(screen.queryAllByTestId(testId)).toHaveLength(0);
+      expect(screen.queryAllByTestId(testIds.loadingSpinner)).toHaveLength(0);
     },
     { timeout }
   );

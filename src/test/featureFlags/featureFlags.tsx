@@ -1,8 +1,8 @@
-import * as FeatureFlags from '../../utils/featureFlags';
+import { FeatureFlags, featureFlagUtils } from '../../utils/featureFlags';
 
-export const setFeatureFlags = (override: FeatureFlags.FeatureFlags): void => {
-  jest.spyOn(FeatureFlags, 'getFeatureFlags').mockReturnValue(override);
-  jest
-    .spyOn(FeatureFlags, 'isFeatureEnabled')
+export const setFeatureFlags = (override: FeatureFlags): void => {
+  featureFlagUtils.getFeatureFlags = jest.fn().mockReturnValue(override);
+  featureFlagUtils.isFeatureEnabled = jest
+    .fn()
     .mockImplementation((feature): boolean => override[feature]);
 };

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 
 import { DEPRECATED_ROUTES, ROUTES } from '../src/constants';
-import { isFeatureEnabled } from '../src/utils/featureFlags';
+import { featureFlagUtils } from '../src/utils/featureFlags';
 import {
   HOST,
   PATH_TO_BUILD_FOLDER,
@@ -17,7 +17,7 @@ const DISALLOWED_URLS = [
   `${DEPRECATED_ROUTES.VIEW_EVENT.replace(':id', '*')}`,
 ]
   .concat(
-    isFeatureEnabled('SHOW_ADMIN')
+    featureFlagUtils.isFeatureEnabled('SHOW_ADMIN')
       ? [
           `/*${ROUTES.EDIT_IMAGE.replace(':id', '*')}`,
           `/*${ROUTES.EDIT_KEYWORD.replace(':id', '*')}`,
@@ -28,7 +28,7 @@ const DISALLOWED_URLS = [
       : []
   )
   .concat(
-    isFeatureEnabled('SHOW_REGISTRATION')
+    featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION')
       ? [`/*${ROUTES.REGISTRATIONS}`, `/*${ROUTES.REGISTRATIONS}/*`]
       : []
   );

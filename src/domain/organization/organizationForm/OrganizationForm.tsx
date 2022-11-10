@@ -31,6 +31,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import { clearOrganizationsQueries } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 import {
@@ -48,7 +49,6 @@ import OrganizationAuthenticationNotification from '../organizationAuthenticatio
 import { OrganizationFormFields } from '../types';
 import {
   checkCanUserDoAction,
-  clearOrganizationsQueries,
   getOrganizationInitialValues,
   getOrganizationPayload,
 } from '../utils';

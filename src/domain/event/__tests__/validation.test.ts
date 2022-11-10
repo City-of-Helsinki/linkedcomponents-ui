@@ -1,4 +1,5 @@
 import { yupToFormErrors } from 'formik';
+import { advanceTo, clear } from 'jest-date-mock';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
@@ -6,9 +7,22 @@ import { TEST_KEYWORD_ID } from '../../keyword/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { TEST_PLACE_ID } from '../../place/constants';
 import { EVENT_INITIAL_VALUES } from '../constants';
-import { EventFormFields } from '../types';
+import { EventFormFields, EventTimeFormFields } from '../types';
 import { getEmptyOffer } from '../utils';
-import { publicEventSchema } from '../validation';
+import { eventTimeSchema, publicEventSchema } from '../validation';
+
+const testEventTimeSchema = async (attendee: EventTimeFormFields) => {
+  try {
+    await eventTimeSchema.validate(attendee);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+afterEach(() => {
+  clear();
+});
 
 describe('publiEventSchema', () => {
   const requiredValues: EventFormFields = {
@@ -81,5 +95,71 @@ describe('publiEventSchema', () => {
       maximumAttendeeCapacity: null,
       minimumAttendeeCapacity: null,
     });
+  });
+});
+
+describe('attendeeSchema function', () => {
+  const validEventTime: EventTimeFormFields = {
+    endDate: new Date('2022-11-09'),
+    endTime: '15:00',
+    startDate: new Date('2022-11-08'),
+    startTime: '12:00',
+  };
+
+  test('should return true if event time is valid', async () => {
+    advanceTo('2022-11-07');
+    expect(await testEventTimeSchema(validEventTime)).toBe(true);
+  });
+
+  test('should return false if start date is missing', async () => {
+    advanceTo('2022-11-07');
+    expect(
+      await testEventTimeSchema({ ...validEventTime, startDate: null })
+    ).toBe(false);
+  });
+
+  test('should return false if start time is missing', async () => {
+    advanceTo('2022-11-07');
+    expect(
+      await testEventTimeSchema({ ...validEventTime, startTime: '' })
+    ).toBe(false);
+  });
+
+  test('should return false if end date is missing', async () => {
+    advanceTo('2022-11-07');
+    expect(
+      await testEventTimeSchema({ ...validEventTime, endDate: null })
+    ).toBe(false);
+  });
+
+  test('should return false if end time is missing', async () => {
+    advanceTo('2022-11-07');
+    expect(await testEventTimeSchema({ ...validEventTime, endTime: '' })).toBe(
+      false
+    );
+  });
+
+  test('should return false if end time is not in the future', async () => {
+    advanceTo('2022-11-07');
+    expect(
+      await testEventTimeSchema({
+        endDate: new Date('2022-11-05'),
+        endTime: '15:00',
+        startDate: new Date('2022-11-04'),
+        startTime: '12:00',
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if end time is before start time', async () => {
+    advanceTo('2022-11-07');
+    expect(
+      await testEventTimeSchema({
+        endDate: new Date('2022-11-11'),
+        endTime: '15:00',
+        startDate: new Date('2022-11-12'),
+        startTime: '12:00',
+      })
+    ).toBe(false);
   });
 });

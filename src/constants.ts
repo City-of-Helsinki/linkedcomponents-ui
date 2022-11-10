@@ -208,3 +208,19 @@ export enum RESERVATION_NAMES {
 }
 
 export const COMBOBOX_DEBOUNCE_TIME_MS = 300;
+
+export const testIds = {
+  eventCard: { image: 'event-card-image' },
+  eventList: { resultList: 'event-result-list' },
+  eventSearchPanel: { searchPanel: 'event-search-panel' },
+  imageList: { resultList: 'image-result-list' },
+  imagePreview: { image: 'image-preview-image' },
+  imageUploader: { input: 'image-dropzone-file-input' },
+  keywordList: { resultList: 'keyword-result-list' },
+  keywordSetList: { resultList: 'keyword-set-result-list' },
+  landingPage: { searchButton: 'landing-page-search-button' },
+  loadingSpinner: 'loading-spinner',
+  organizationList: { resultList: 'organization-result-list' },
+  placeList: { resultList: 'place-result-list' },
+  registrationList: { resultList: 'registration-result-list' },
+};

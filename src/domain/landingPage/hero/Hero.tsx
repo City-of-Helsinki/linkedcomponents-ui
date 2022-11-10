@@ -7,13 +7,12 @@ import { useNavigate } from 'react-router';
 import bgImage from '../../../assets/images/jpg/landing-page-hero.jpg';
 import Button from '../../../common/components/button/Button';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
-import { ROUTES } from '../../../constants';
+import { ROUTES, testIds } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import Container from '../../app/layout/container/Container';
 import { useTheme } from '../../app/theme/Theme';
 import { clearEventFormData } from '../../event/utils';
 import { getEventSearchQuery } from '../../events/utils';
-import { testIds } from '../LandingPage';
 import styles from './hero.module.scss';
 
 const Hero: React.FC = () => {
@@ -86,7 +85,7 @@ const Hero: React.FC = () => {
                     <div className={styles.buttonWrapper}>
                       <Button
                         className={styles.searchButton}
-                        data-testid={testIds.searchButton}
+                        data-testid={testIds.landingPage.searchButton}
                         fullWidth={true}
                         onClick={() => handleSearch(searchValue)}
                         variant="secondary"

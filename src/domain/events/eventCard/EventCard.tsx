@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import TextWithIcon from '../../../common/components/textWithIcon/TextWithIcon';
+import { testIds } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
@@ -34,10 +35,6 @@ import DateText from './dateText/DateText';
 import styles from './eventCard.module.scss';
 import PriceText from './priceText/PriceText';
 import SubEventCards from './subEventCards/SubEventCards';
-
-export const testIds = {
-  image: 'event-card-image',
-};
 
 interface Props {
   event: EventFieldsFragment;
@@ -127,7 +124,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                 </div>
                 {/* Event image is hiding placeholder image when it's loaded */}
                 <div
-                  data-testid={testIds.image}
+                  data-testid={testIds.eventCard.image}
                   className={styles.image}
                   style={{
                     backgroundImage: imageUrl ? `url(${imageUrl})` : undefined,

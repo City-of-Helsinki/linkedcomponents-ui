@@ -2,9 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
 
-import { testIds as imagePreviewTestIds } from '../../../../../common/components/imagePreview/ImagePreview';
-import { testIds as imageUploaderTestIds } from '../../../../../common/components/imageUploader/ImageUploader';
-import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../constants';
+import { EMPTY_MULTI_LANGUAGE_OBJECT, testIds } from '../../../../../constants';
 import { ImageDocument } from '../../../../../generated/graphql';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
@@ -165,21 +163,21 @@ test('should select existing image', async () => {
   await waitFor(() => expect(submitButton).toBeEnabled());
   await act(async () => await user.click(submitButton));
 
-  await screen.findByTestId(imagePreviewTestIds.image);
+  await screen.findByTestId(testIds.imagePreview.image);
 });
 
 test('should remove image', async () => {
   const user = userEvent.setup();
   renderComponent({ [EVENT_FIELDS.IMAGES]: [imageAtId] });
 
-  await screen.findByTestId(imagePreviewTestIds.image);
+  await screen.findByTestId(testIds.imagePreview.image);
   // Both add button and preview image component have same label
   const removeButton = getElement('removeButton');
   await act(async () => await user.click(removeButton));
 
   await waitFor(() =>
     expect(
-      screen.queryByTestId(imagePreviewTestIds.image)
+      screen.queryByTestId(testIds.imagePreview.image)
     ).not.toBeInTheDocument()
   );
 });
@@ -193,7 +191,7 @@ test('should create and select new image by selecting image file', async () => {
 
   getElement('modalHeading');
 
-  const fileInput = screen.getByTestId(imageUploaderTestIds.input);
+  const fileInput = screen.getByTestId(testIds.imageUploader.input);
   Object.defineProperty(fileInput, 'files', { value: [file] });
   await act(async () => {
     await fireEvent.change(fileInput);
@@ -205,7 +203,7 @@ test('should create and select new image by selecting image file', async () => {
   await waitFor(() => expect(submitButton).toBeEnabled());
   await act(async () => await user.click(submitButton));
 
-  await screen.findByTestId(imagePreviewTestIds.image);
+  await screen.findByTestId(testIds.imagePreview.image);
 });
 
 test('should create and select new image by entering image url', async () => {
@@ -227,7 +225,7 @@ test('should create and select new image by entering image url', async () => {
   await waitFor(() => expect(submitButton).toBeEnabled());
   await act(async () => await user.click(submitButton));
 
-  await screen.findByTestId(imagePreviewTestIds.image);
+  await screen.findByTestId(testIds.imagePreview.image);
 });
 
 test('should show validation error if image alt text is too long', async () => {

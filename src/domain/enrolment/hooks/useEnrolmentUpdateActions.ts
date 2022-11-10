@@ -15,15 +15,15 @@ import {
 import useMountedState from '../../../hooks/useMountedState';
 import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
+import {
+  clearEnrolmentQueries,
+  clearEnrolmentsQueries,
+} from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
 import { EnrolmentFormFields } from '../types';
-import {
-  clearEnrolmentQueries,
-  clearEnrolmentsQueries,
-  getEnrolmentPayload,
-} from '../utils';
+import { getEnrolmentPayload } from '../utils';
 
 export enum ENROLMENT_MODALS {
   CANCEL = 'cancel',

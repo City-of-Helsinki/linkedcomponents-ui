@@ -8,13 +8,15 @@ import { useTranslation } from 'react-i18next';
 import { useUpdateImageMutation } from '../../../generated/graphql';
 import isTestEnv from '../../../utils/isTestEnv';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
+import {
+  clearImageQueries,
+  clearImagesQueries,
+} from '../../app/apollo/clearCacheUtils';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { IMAGE_ACTIONS } from '../../image/constants';
 import { ImageFormFields } from '../../image/types';
 import {
   checkIsImageActionAllowed,
-  clearImageQueries,
-  clearImagesQueries,
   getImageQueryResult,
   isImageUpdateNeeded,
 } from '../../image/utils';

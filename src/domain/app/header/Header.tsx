@@ -7,7 +7,7 @@ import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
-import { isFeatureEnabled } from '../../../utils/featureFlags';
+import { featureFlagUtils } from '../../../utils/featureFlags';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { getEventSearchQuery } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
@@ -66,11 +66,11 @@ const Header: React.FC = () => {
 
   const NAVIGATION_ITEMS = [
     { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
-    isFeatureEnabled('SHOW_REGISTRATION') && {
+    featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') && {
       labelKey: 'navigation.tabs.registrations',
       url: ROUTES.REGISTRATIONS,
     },
-    isFeatureEnabled('SHOW_ADMIN') && {
+    featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') && {
       labelKey: 'navigation.tabs.admin',
       url: ROUTES.ADMIN,
     },

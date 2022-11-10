@@ -24,13 +24,13 @@ import {
   scrollToFirstError,
   showFormErrors,
 } from '../../utils/validationUtils';
+import { clearRegistrationsQueries } from '../app/apollo/clearCacheUtils';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import Section from '../app/layout/section/Section';
 import { reportError } from '../app/sentry/utils';
 import { REGISTRATION_ACTIONS } from '../registrations/constants';
-import { clearRegistrationsQueries } from '../registrations/utils';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_INITIAL_VALUES } from './constants';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';

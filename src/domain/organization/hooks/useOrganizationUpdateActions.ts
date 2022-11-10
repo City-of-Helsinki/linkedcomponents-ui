@@ -14,15 +14,15 @@ import {
 import useMountedState from '../../../hooks/useMountedState';
 import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
+import {
+  clearOrganizationQueries,
+  clearOrganizationsQueries,
+} from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from '../constants';
 import { OrganizationFormFields } from '../types';
-import {
-  clearOrganizationQueries,
-  clearOrganizationsQueries,
-  getOrganizationPayload,
-} from '../utils';
+import { getOrganizationPayload } from '../utils';
 
 export enum ORGANIZATION_MODALS {
   DELETE = 'delete',

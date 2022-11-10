@@ -1,4 +1,3 @@
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import isSameDay from 'date-fns/isSameDay';
 import isValid from 'date-fns/isValid';
 import capitalize from 'lodash/capitalize';
@@ -113,11 +112,6 @@ export const eventsPathBuilder = ({
 
   return `/event/${query}`;
 };
-
-export const clearEventsQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>
-): boolean =>
-  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'events' });
 
 export const getEventsQueryBaseVariables = ({
   adminOrganizations,

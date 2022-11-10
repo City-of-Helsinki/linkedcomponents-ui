@@ -29,6 +29,7 @@ import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import unixTimeToMs from '../../../utils/unixTimeToMs';
 import { showFormErrors } from '../../../utils/validationUtils';
+import { clearEnrolmentsQueries } from '../../app/apollo/clearCacheUtils';
 import Container from '../../app/layout/container/Container';
 import { reportError } from '../../app/sentry/utils';
 import { getRegistrationWarning } from '../../registration/utils';
@@ -53,7 +54,6 @@ import { EnrolmentFormFields as EnrolmentFormFieldsType } from '../types';
 import {
   clearCreateEnrolmentFormData,
   clearEnrolmentReservationData,
-  clearEnrolmentsQueries,
   getEnrolmentPayload,
   getEnrolmentReservationData,
 } from '../utils';

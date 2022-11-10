@@ -8,9 +8,9 @@ import {
   ACCEPTED_IMAGE_TYPES,
   MIN_IMAGE_HEIGHT,
   MIN_IMAGE_WIDTH,
+  testIds,
 } from '../../../../constants';
 import isTestEnv from '../../../../utils/isTestEnv';
-import { testIds } from '../ImageUploader';
 import { getImageDimensions } from '../utils';
 import styles from './imageDropzone.module.scss';
 
@@ -96,7 +96,7 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({
   return (
     <div className={styles.imageDropzone}>
       <input
-        data-testid={testIds.input}
+        data-testid={testIds.imageUploader.input}
         disabled={disabled}
         ref={fileInput}
         type="file"

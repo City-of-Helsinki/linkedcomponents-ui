@@ -13,10 +13,6 @@ import Hero from './hero/Hero';
 import styles from './landingPage.module.scss';
 import ServiceCard from './serviceCard/ServiceCard';
 
-export const testIds = {
-  searchButton: 'landing-page-search-button',
-};
-
 const LandingPage: React.FC = () => {
   const locale = useLocale();
   const { t } = useTranslation();
