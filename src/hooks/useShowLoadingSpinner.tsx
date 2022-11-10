@@ -3,11 +3,9 @@ import React from 'react';
 
 import useIsMounted from './useIsMounted';
 
-export const LOADING_SPINNER_THROTTLE_TIME = 300;
-
 const useShowLoadingSpinner = (
   isLoading: boolean,
-  throttleTime = LOADING_SPINNER_THROTTLE_TIME
+  throttleTime = 300
 ): boolean => {
   const isMounted = useIsMounted();
   const [showLoadingSpinner, setShowLoadingSpinner] =

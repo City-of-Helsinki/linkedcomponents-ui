@@ -8,6 +8,7 @@ import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpi
 import Pagination from '../../../common/components/pagination/Pagination';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
+import { testIds } from '../../../constants';
 import { KeywordsQuery, useKeywordsQuery } from '../../../generated/graphql';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
@@ -27,10 +28,6 @@ import {
   replaceParamsToKeywordQueryString,
 } from '../utils';
 import styles from './keywordList.module.scss';
-
-export const testIds = {
-  resultList: 'keyword-result-list',
-};
 
 type KeywordListProps = {
   keywords: KeywordsQuery['keywords']['data'];
@@ -144,7 +141,7 @@ const KeywordListContainer: React.FC = () => {
   const pageCount = getPageCount(keywordsCount, KEYWORDS_PAGE_SIZE);
 
   return (
-    <div id={keywordListId} data-testid={testIds.resultList}>
+    <div id={keywordListId} data-testid={testIds.keywordList.resultList}>
       <div className={styles.searchRow}>
         <span className={styles.count}>
           {t('keywordsPage.count', { count: keywordsCount })}

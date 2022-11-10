@@ -41,12 +41,6 @@ export const createUserManager = (config: UserManagerSettings) => {
   return new UserManager(config);
 };
 
-/* istanbul ignore next */
-export const processSilentRenew = (config: UserManagerSettings) => {
-  const mgr = createUserManager(config);
-  mgr.signinSilentCallback();
-};
-
 // Oidc auth actions
 // event callback when the access token expired
 export const onAccessTokenExpired = ({

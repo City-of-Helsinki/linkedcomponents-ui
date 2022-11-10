@@ -14,15 +14,15 @@ import {
 import useMountedState from '../../../hooks/useMountedState';
 import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
+import {
+  clearPlaceQueries,
+  clearPlacesQueries,
+} from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 import { PLACE_ACTIONS } from '../constants';
 import { PlaceFormFields } from '../types';
-import {
-  clearPlaceQueries,
-  clearPlacesQueries,
-  getPlacePayload,
-} from '../utils';
+import { getPlacePayload } from '../utils';
 
 export enum PLACE_MODALS {
   DELETE = 'delete',

@@ -314,8 +314,8 @@ export const isRegistrationOpen = (
   registration: RegistrationFieldsFragment
 ): boolean => {
   return (
-    (!registration.enrolmentStartTime ||
-      isPast(new Date(registration.enrolmentStartTime))) &&
+    !!registration.enrolmentStartTime &&
+    isPast(new Date(registration.enrolmentStartTime)) &&
     (!registration.enrolmentEndTime ||
       isFuture(new Date(registration.enrolmentEndTime)))
   );

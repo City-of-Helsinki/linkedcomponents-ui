@@ -393,25 +393,16 @@ export const formatSingleDescription = ({
   );
   const descriptionDataMapping = {
     fi: {
-      text: [
-        'Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on',
-        'palvelukeskuskortti',
-      ],
-      link: 'https://www.hel.fi/sote/fi/palvelut/palvelukuvaus?id=3252',
+      text: 'Tapahtuma on tarkoitettu vain eläkeläisille ja työttömille, joilla on palvelukeskuskortti.',
+      expectedText: 'palvelukeskuskortti',
     },
     sv: {
-      text: [
-        'Evenemanget är avsett endast för pensionärer eller arbetslösa med',
-        'servicecentralkort',
-      ],
-      link: 'https://www.hel.fi/sote/sv/tjanster/tjanstebeskrivning?id=3252',
+      text: 'Evenemanget är avsett endast för pensionärer eller arbetslösa med servicecentralkort.',
+      expectedText: 'servicecentralkort',
     },
     en: {
-      text: [
-        'The event is intended only for retired or unemployed persons with a',
-        'Service Centre Card',
-      ],
-      link: 'https://www.hel.fi/sote/en/services/service-desription?id=3252',
+      text: 'The event is intended only for retired or unemployed persons with a Service Centre Card.',
+      expectedText: 'Service Centre Card',
     },
   };
 
@@ -436,10 +427,12 @@ export const formatSingleDescription = ({
     if (
       shouldAppendDescription &&
       descriptionDataMapping.hasOwnProperty(lang) &&
-      !formattedDescription.includes(descriptionAppendData.link)
+      !formattedDescription
+        .toLowerCase()
+        .includes(descriptionAppendData.expectedText.toLowerCase())
     ) {
       // eslint-disable-next-line max-len
-      const specialDescription = `<p>${descriptionAppendData.text[0]} <a href="${descriptionAppendData.link}">${descriptionAppendData.text[1]}</a>.</p>`;
+      const specialDescription = `<p>${descriptionAppendData.text}</p>`;
       return specialDescription + formattedDescription;
     } else {
       return formattedDescription;
@@ -1232,60 +1225,42 @@ export const canUserCreateEvent = ({
 
 export const isCreateEventButtonVisible = ({
   action,
+  actionAllowed,
   authenticated,
-  publisher,
-  user,
 }: {
   action: EVENT_CREATE_ACTIONS;
+  actionAllowed: boolean;
   authenticated: boolean;
-  publisher: string;
-  user?: UserFieldsFragment;
 }): boolean => {
-  const adminOrganizations = user?.adminOrganizations ?? [];
-  const organizationMemberships = user?.organizationMemberships ?? [];
-  const organization = user?.organization;
-  const canCreateDraft =
-    (authenticated && !publisher && !!organization) ||
-    organizationMemberships.includes(publisher);
-  const canPublish = adminOrganizations.includes(publisher);
-
   switch (action) {
     case EVENT_CREATE_ACTIONS.CREATE_DRAFT:
-      return canCreateDraft || canPublish;
+      return actionAllowed;
     case EVENT_CREATE_ACTIONS.PUBLISH:
-      return !authenticated || canPublish;
+      return !authenticated || actionAllowed;
   }
 };
 
 export const getCreateEventButtonWarning = ({
   action,
+  actionAllowed,
   authenticated,
-  publisher,
   t,
-  user,
 }: {
   action: EVENT_CREATE_ACTIONS;
+  actionAllowed: boolean;
   authenticated: boolean;
-  publisher: string;
   t: TFunction;
-  user?: UserFieldsFragment;
 }): string => {
-  const actionAllowed = canUserCreateEvent({
-    action,
-    authenticated,
-    publisher,
-    user,
-  });
   if (!authenticated) {
     return t('event.form.buttonPanel.warningNotAuthenticated');
   }
 
   if (action === EVENT_CREATE_ACTIONS.CREATE_DRAFT && !actionAllowed) {
-    return t('event.form.buttonPanel.warningNoRightsCreate');
+    return t('event.form.buttonPanel.warningNoRightsToCreate');
   }
 
   if (action === EVENT_CREATE_ACTIONS.PUBLISH && !actionAllowed) {
-    return t('event.form.buttonPanel.warningNoRightsPublish');
+    return t('event.form.buttonPanel.warningNoRightsToPublish');
   }
 
   return '';
@@ -1308,19 +1283,23 @@ export const getCreateButtonProps = ({
   t: TFunction;
   user?: UserFieldsFragment;
 }): MenuItemOptionProps | null => {
-  const warning = getCreateEventButtonWarning({
+  const actionAllowed = canUserCreateEvent({
     action,
     authenticated,
     publisher,
-    t,
     user,
+  });
+  const warning = getCreateEventButtonWarning({
+    action,
+    actionAllowed,
+    authenticated,
+    t,
   });
 
   return isCreateEventButtonVisible({
     action,
+    actionAllowed,
     authenticated,
-    publisher,
-    user,
   })
     ? {
         disabled: !!warning,

@@ -10,6 +10,7 @@ import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpi
 import Pagination from '../../../common/components/pagination/Pagination';
 import SingleSelect from '../../../common/components/singleSelect/SingleSelect';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
+import { testIds } from '../../../constants';
 import {
   EventFieldsFragment,
   EventsQuery,
@@ -42,10 +43,6 @@ import {
 } from '../utils';
 import styles from './eventList.module.scss';
 import ListTypeSelector from './listTypeSelector/ListTypeSelector';
-
-export const testIds = {
-  resultList: 'event-result-list',
-};
 
 type EventListContainerCommonProps = {
   baseVariables?: EventsQueryVariables;
@@ -207,7 +204,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
     <div
       id={eventListId}
       className={(styles.eventList, className)}
-      data-testid={testIds.resultList}
+      data-testid={testIds.eventList.resultList}
     >
       <Container withOffset={true}>
         <div className={styles.listTypeRow}>

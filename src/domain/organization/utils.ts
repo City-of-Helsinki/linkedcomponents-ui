@@ -364,23 +364,3 @@ export const getOrganizationPayload = (
     parentOrganization: parentOrganization || undefined,
   };
 };
-
-/* istanbul ignore next */
-export const clearOrganizationQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>,
-  args?: OrganizationQueryVariables
-): boolean =>
-  apolloClient.cache.evict({
-    id: 'ROOT_QUERY',
-    fieldName: 'organization',
-    args,
-  });
-
-/* istanbul ignore next */
-export const clearOrganizationsQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>
-): boolean =>
-  apolloClient.cache.evict({
-    id: 'ROOT_QUERY',
-    fieldName: 'organizations',
-  });

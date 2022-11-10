@@ -15,15 +15,15 @@ import {
 import useMountedState from '../../../hooks/useMountedState';
 import { UpdateActionsCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
+import {
+  clearImageQueries,
+  clearImagesQueries,
+} from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 import { IMAGE_ACTIONS } from '../constants';
 import { ImageFormFields } from '../types';
-import {
-  clearImageQueries,
-  clearImagesQueries,
-  getImagePayload,
-} from '../utils';
+import { getImagePayload } from '../utils';
 
 export enum IMAGE_MODALS {
   ADD_IMAGE = 'addImage',

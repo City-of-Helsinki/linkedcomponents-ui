@@ -1,7 +1,8 @@
-import { processSilentRenew } from '../utils';
+import { createUserManager } from '../utils';
 
 const SilentCallback = (): null => {
-  processSilentRenew({});
+  const mgr = createUserManager({});
+  mgr.signinSilentCallback();
 
   return null;
 };

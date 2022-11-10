@@ -2,6 +2,7 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { toast } from 'react-toastify';
 
+import { testIds } from '../../../../constants';
 import translations from '../../../../domain/app/i18n/fi.json';
 import {
   act,
@@ -13,7 +14,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { TEST_PIXEL_CROP } from '../contants';
-import ImageUploader, { ImageUploaderProps, testIds } from '../ImageUploader';
+import ImageUploader, { ImageUploaderProps } from '../ImageUploader';
 
 const defaultProps: ImageUploaderProps = {
   onChange: jest.fn(),
@@ -42,7 +43,7 @@ test('should show error message if trying to enter file with invalid type', asyn
   toast.error = jest.fn();
   renderComponent();
 
-  const fileInput = screen.getByTestId(testIds.input);
+  const fileInput = screen.getByTestId(testIds.imageUploader.input);
 
   const file = mockFile({ type: 'image/notsupported' });
 
@@ -63,7 +64,7 @@ test('should call onChange', async () => {
   const onChange = jest.fn();
   renderComponent({ onChange });
 
-  const fileInput = screen.getByTestId(testIds.input);
+  const fileInput = screen.getByTestId(testIds.imageUploader.input);
 
   const file = mockFile({});
 
@@ -83,7 +84,7 @@ test('should open file selection dialog by clicking button', async () => {
   const onChange = jest.fn();
   renderComponent({ onChange });
 
-  const fileInput = screen.getByTestId(testIds.input);
+  const fileInput = screen.getByTestId(testIds.imageUploader.input);
   const button = screen.getByRole('button', {
     name: translations.common.imageUploader.buttonDropImage,
   });

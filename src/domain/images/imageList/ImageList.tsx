@@ -8,6 +8,7 @@ import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpi
 import Pagination from '../../../common/components/pagination/Pagination';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
+import { testIds } from '../../../constants';
 import { ImagesQuery, useImagesQuery } from '../../../generated/graphql';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
@@ -27,10 +28,6 @@ import {
   replaceParamsToImageQueryString,
 } from '../utils';
 import styles from './imageList.module.scss';
-
-export const testIds = {
-  resultList: 'image-result-list',
-};
 
 type ImageListProps = {
   images: ImagesQuery['images']['data'];
@@ -144,7 +141,7 @@ const ImageListContainer: React.FC = () => {
   const pageCount = getPageCount(keywordsCount, IMAGES_PAGE_SIZE);
 
   return (
-    <div id={imageListId} data-testid={testIds.resultList}>
+    <div id={imageListId} data-testid={testIds.imageList.resultList}>
       <div className={styles.searchRow}>
         <span className={styles.count}>
           {t('imagesPage.count', { count: keywordsCount })}

@@ -4,7 +4,7 @@ import { Navigate, Route, Routes, useParams } from 'react-router';
 
 import { DEPRECATED_ROUTES, ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
-import { isFeatureEnabled } from '../../../../utils/featureFlags';
+import { featureFlagUtils } from '../../../../utils/featureFlags';
 import AdminPageLayout from '../../../admin/layout/AdminPageLayout';
 import LogoutPage from '../../../auth/logoutPage/LogoutPage';
 import EventSavedPage from '../../../eventSaved/EventSavedPage';
@@ -107,7 +107,7 @@ const LocaleRoutes: React.FC = () => {
           <Route path={ROUTES.EVENT_SAVED} element={<EventSavedPage />} />
           <Route path={ROUTES.EDIT_EVENT} element={<EditEventPage />} />
           <Route path={ROUTES.EVENTS} element={<EventsPage />} />
-          {isFeatureEnabled('SHOW_REGISTRATION') && (
+          {featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') && (
             <>
               <Route
                 path={ROUTES.CREATE_REGISTRATION}
@@ -141,7 +141,7 @@ const LocaleRoutes: React.FC = () => {
           )}
           <Route path={ROUTES.LOGOUT} element={<LogoutPage />} />
           <Route path={ROUTES.SEARCH} element={<EventSearchPage />} />
-          {isFeatureEnabled('SHOW_ADMIN') && (
+          {featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') && (
             <Route
               path={`${ROUTES.ADMIN}/*`}
               element={

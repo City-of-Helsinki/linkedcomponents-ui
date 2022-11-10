@@ -1,6 +1,7 @@
 import range from 'lodash/range';
 import React from 'react';
 
+import { testIds } from '../../../../constants';
 import {
   EventsDocument,
   PublicationStatus,
@@ -34,7 +35,7 @@ import {
   place,
   streetAddress,
 } from '../../../place/__mocks__/place';
-import EventCard, { testIds } from '../EventCard';
+import EventCard from '../EventCard';
 
 configure({ defaultHidden: true });
 
@@ -111,7 +112,7 @@ test('should render event card fields', async () => {
   render(<EventCard event={event} />, { mocks });
 
   screen.getByRole('heading', { name: eventValues.name });
-  const imageWrapper = screen.getByTestId(testIds.image);
+  const imageWrapper = screen.getByTestId(testIds.eventCard.image);
   expect(imageWrapper.style.backgroundImage).toBe('url(http://imageurl.com)');
   expect(screen.getAllByText('4.1.2021 – 23.1.2021')).toHaveLength(2);
   screen.getByText(eventValues.inLanguage);

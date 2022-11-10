@@ -15,7 +15,7 @@ import {
 } from '../../../../../constants';
 import { ImageDocument, ImageQuery } from '../../../../../generated/graphql';
 import useLocale from '../../../../../hooks/useLocale';
-import { isFeatureEnabled } from '../../../../../utils/featureFlags';
+import { featureFlagUtils } from '../../../../../utils/featureFlags';
 import getPathBuilder from '../../../../../utils/getPathBuilder';
 import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
 import parseIdFromAtId from '../../../../../utils/parseIdFromAtId';
@@ -120,7 +120,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
     <div className={styles.imageDetailsFields}>
       {/* TODO: Remove LOCALIZED_IMAGE feature flag when localized image alt
           text is deployed to production of API */}
-      {isFeatureEnabled('LOCALIZED_IMAGE') ? (
+      {featureFlagUtils.isFeatureEnabled('LOCALIZED_IMAGE') ? (
         ORDERED_LE_DATA_LANGUAGES.map((language) => {
           const langText = lowerCaseFirstLetter(
             t(`form.inLanguage.${language}`)

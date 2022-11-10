@@ -495,7 +495,7 @@
         "volunteering": "Open recurring volunteering settings"
       },
       "buttonPanel": {
-        "warningNoRightsCreate": "You do not have permission to create this event.",
+        "warningNoRightsToCreate": "You do not have permission to create this event.",
         "warningNoRightsToPublish": "You do not have permission to publish this event.",
         "warningNotAuthenticated": "If you want to publish this event, you must first login."
       },

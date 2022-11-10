@@ -495,7 +495,7 @@
         "volunteering": "Avaa toistuvan vapaaehtoistehtävän asetukset"
       },
       "buttonPanel": {
-        "warningNoRightsCreate": "Sinulla ei ole oikeuksia luoda tätä tapahtumaa.",
+        "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda tätä tapahtumaa.",
         "warningNoRightsToPublish": "Sinulla ei ole oikeuksia julkaista tätä tapahtumaa.",
         "warningNotAuthenticated": "Jos haluat julkaista tapahtuman, kirjaudu ensin sisään."
       },

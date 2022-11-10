@@ -495,7 +495,7 @@
         "volunteering": "Öppna inställningarna för återkommande volontärarbetet"
       },
       "buttonPanel": {
-        "warningNoRightsCreate": "Du har inte rättigheter att skapa det här evenemanget.",
+        "warningNoRightsToCreate": "Du har inte rättigheter att skapa det här evenemanget.",
         "warningNoRightsToPublish": "Du har inte rättigheter att publicera det här evenemanget.",
         "warningNotAuthenticated": "Om du vill publicera evenemanget måste du först logga in."
       },

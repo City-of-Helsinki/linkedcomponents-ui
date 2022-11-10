@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
+import { testIds } from '../../../constants';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useAllOrganizations from '../../organization/hooks/useAllOrganizations';
@@ -20,10 +21,6 @@ import {
   replaceParamsToOrganizationQueryString,
 } from '../utils';
 import styles from './organizationList.module.scss';
-
-export const testIds = {
-  resultList: 'organization-result-list',
-};
 
 const OrganizationList: React.FC = () => {
   const { t } = useTranslation();
@@ -85,7 +82,10 @@ const OrganizationList: React.FC = () => {
   };
 
   return (
-    <div id={organizationListId} data-testid={testIds.resultList}>
+    <div
+      id={organizationListId}
+      data-testid={testIds.organizationList.resultList}
+    >
       <div className={styles.searchRow}>
         <span className={styles.count}>
           {t('organizationsPage.count', { count: organizationsCount })}

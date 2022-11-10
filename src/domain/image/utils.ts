@@ -288,23 +288,6 @@ export const getImageQueryResult = async (
   }
 };
 
-/* istanbul ignore next */
-export const clearImageQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>,
-  args?: ImageQueryVariables
-): boolean =>
-  apolloClient.cache.evict({
-    id: 'ROOT_QUERY',
-    fieldName: 'image',
-    args,
-  });
-
-export const clearImagesQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>,
-  args?: Record<string, unknown>
-): boolean =>
-  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'images', args });
-
 export const getImageItemId = (id: string): string => `image-item-${id}`;
 
 export const isImageUpdateNeeded = (
