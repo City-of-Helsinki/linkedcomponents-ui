@@ -10,6 +10,7 @@ import { DATE_FORMAT } from '../../../constants';
 import { useTheme } from '../../../domain/app/theme/Theme';
 import useLocale from '../../../hooks/useLocale';
 import formatDate from '../../../utils/formatDate';
+import isTestEnv from '../../../utils/isTestEnv';
 import { isValidDateText } from '../../../utils/validationUtils';
 
 export type DateInputProps = {
@@ -60,6 +61,9 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
             onFocus={() => (isFocused.current = true)}
           >
             <BaseDateInput
+              // Date picker is rendered to dom all the time. Disable date picker to improve
+              // test performance
+              disableDatePicker={isTestEnv}
               {...rest}
               // TODO: Remove next line when minDate issue is fixed to HDS.
               // https://helsinkisolutionoffice.atlassian.net/browse/HDS-1437
