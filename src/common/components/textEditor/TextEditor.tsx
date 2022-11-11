@@ -66,8 +66,13 @@ const TextEditor: React.FC<TextEditorProps> = ({
     tooltipText,
   };
 
-  const setFocusToEditor = () => {
-    editor.current?.editing?.view?.focus();
+  const setFocusToEditor: React.MouseEventHandler<HTMLDivElement> = (event) => {
+    if (
+      event.target instanceof HTMLElement &&
+      !editor.current?.sourceElement?.nextSibling?.contains(event.target)
+    ) {
+      editor.current?.editing?.view?.focus();
+    }
   };
 
   return (
