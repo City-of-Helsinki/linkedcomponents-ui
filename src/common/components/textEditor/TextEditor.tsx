@@ -7,9 +7,10 @@ import './ckeditor.scss';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassNames } from '@emotion/react';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
 import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
@@ -45,9 +46,12 @@ const TextEditor: React.FC<TextEditorProps> = ({
   tooltipText,
   value,
 }) => {
-  const editor = React.useRef<ClassicEditor>();
+  const container = useRef<HTMLDivElement | null>(null);
+  const editor = useRef<ClassicEditor>();
   const { theme } = useTheme();
   const locale = useLocale();
+
+  const isComponentFocused = useIsComponentFocused(container);
 
   const wrapperProps = {
     className,
@@ -75,6 +79,27 @@ const TextEditor: React.FC<TextEditorProps> = ({
     }
   };
 
+  const handleDocumentClickOrFocusin = () => {
+    if (!isComponentFocused()) {
+      const sanitizedValue = sanitizeAfterBlur
+        ? sanitizeAfterBlur(value)
+        : value;
+      if (sanitizedValue !== value) {
+        onChange(sanitizedValue);
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleDocumentClickOrFocusin);
+    document.addEventListener('focusin', handleDocumentClickOrFocusin);
+
+    return () => {
+      document.removeEventListener('click', handleDocumentClickOrFocusin);
+      document.removeEventListener('focusin', handleDocumentClickOrFocusin);
+    };
+  });
+
   return (
     <ClassNames>
       {({ css, cx }) => (
@@ -87,6 +112,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           )}
           id={`${id}-text-editor`}
           onClick={setFocusToEditor}
+          ref={container}
         >
           <InputWrapper {...wrapperProps} className={styles.inputWrapper}>
             <CKEditor
@@ -113,14 +139,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
                 },
               }}
               data={value}
-              onBlur={() => {
-                const sanitizedValue = sanitizeAfterBlur
-                  ? sanitizeAfterBlur(value)
-                  : value;
-                onChange(sanitizedValue);
-
-                onBlur();
-              }}
+              onBlur={onBlur}
               onChange={(_, editor) => {
                 const data = editor.getData();
                 onChange(data);
