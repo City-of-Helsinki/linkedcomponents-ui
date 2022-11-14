@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { render, screen, userEvent } from '../../../../utils/testUtils';
+import { act, render, screen, userEvent } from '../../../../utils/testUtils';
 import TextEditor, { TextEditorProps } from '../TextEditor';
 
 const label = 'Text editor label';
@@ -25,11 +25,11 @@ test('should call onChange', async () => {
     name: /editorin muokkausalue: main/i,
   });
 
-  await user.type(editor, 'test');
+  await act(async () => await user.type(editor, 'test'));
   expect(onChange).lastCalledWith(expect.stringContaining('<p>test</p>'));
 
   const undoButton = screen.getByRole('button', { name: /peru/i });
 
-  await userEvent.click(undoButton);
+  await act(async () => await userEvent.click(undoButton));
   expect(onChange).lastCalledWith('');
 });

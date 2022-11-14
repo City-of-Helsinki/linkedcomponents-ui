@@ -7,10 +7,10 @@ import './ckeditor.scss';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassNames } from '@emotion/react';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
-import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
+import useDebounce from '../../../hooks/useDebounce';
 import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
 import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
@@ -46,12 +46,11 @@ const TextEditor: React.FC<TextEditorProps> = ({
   tooltipText,
   value,
 }) => {
-  const container = useRef<HTMLDivElement | null>(null);
+  const [isFocused, setIsFocused] = useState(false);
+  const debouncedIsFocused = useDebounce(isFocused, 20);
   const editor = useRef<ClassicEditor>();
   const { theme } = useTheme();
   const locale = useLocale();
-
-  const isComponentFocused = useIsComponentFocused(container);
 
   const wrapperProps = {
     className,
@@ -79,8 +78,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
     }
   };
 
-  const handleDocumentClickOrFocusin = () => {
-    if (!isComponentFocused()) {
+  useEffect(() => {
+    if (!debouncedIsFocused) {
       const sanitizedValue = sanitizeAfterBlur
         ? sanitizeAfterBlur(value)
         : value;
@@ -88,17 +87,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
         onChange(sanitizedValue);
       }
     }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', handleDocumentClickOrFocusin);
-    document.addEventListener('focusin', handleDocumentClickOrFocusin);
-
-    return () => {
-      document.removeEventListener('click', handleDocumentClickOrFocusin);
-      document.removeEventListener('focusin', handleDocumentClickOrFocusin);
-    };
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedIsFocused]);
 
   return (
     <ClassNames>
@@ -112,7 +102,12 @@ const TextEditor: React.FC<TextEditorProps> = ({
           )}
           id={`${id}-text-editor`}
           onClick={setFocusToEditor}
-          ref={container}
+          onBlur={() => {
+            setIsFocused(false);
+          }}
+          onFocus={() => {
+            setIsFocused(true);
+          }}
         >
           <InputWrapper {...wrapperProps} className={styles.inputWrapper}>
             <CKEditor
