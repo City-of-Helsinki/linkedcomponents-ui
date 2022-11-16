@@ -8,6 +8,8 @@ import {
   EnrolmentQueryVariables,
   OrganizationFieldsFragment,
   RegistrationFieldsFragment,
+  SignupInput,
+  UpdateEnrolmentMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, PathBuilderProps } from '../../types';
@@ -109,10 +111,59 @@ export const getEnrolmentNotificationsCode = (
   }
 };
 
-export const getEnrolmentPayload = (
-  formValues: EnrolmentFormFields,
-  registration: RegistrationFieldsFragment
-): CreateEnrolmentMutationInput => {
+export const getEnrolmentPayload = ({
+  formValues,
+  reservationCode,
+}: {
+  formValues: EnrolmentFormFields;
+  reservationCode: string;
+}): CreateEnrolmentMutationInput => {
+  const {
+    attendees,
+    email,
+    extraInfo,
+    membershipNumber,
+    nativeLanguage,
+    notifications,
+    phoneNumber,
+    serviceLanguage,
+  } = formValues;
+
+  const signups: SignupInput[] = attendees.map((attendee) => {
+    const { city, dateOfBirth, name, streetAddress, zip } = attendee;
+    return {
+      city: city || null,
+      dateOfBirth: dateOfBirth
+        ? formatDate(dateOfBirth, DATE_FORMAT_API)
+        : null,
+      email: email || null,
+      extraInfo: extraInfo,
+      membershipNumber: membershipNumber,
+      name: name || null,
+      nativeLanguage: nativeLanguage || null,
+      notifications: getEnrolmentNotificationsCode(notifications),
+      phoneNumber: phoneNumber || null,
+      serviceLanguage: serviceLanguage || null,
+      streetAddress: streetAddress || null,
+      zipcode: zip || null,
+    };
+  });
+
+  return {
+    reservationCode,
+    signups,
+  };
+};
+
+export const getUpdateEnrolmentPayload = ({
+  formValues,
+  id,
+  registration,
+}: {
+  formValues: EnrolmentFormFields;
+  id: string;
+  registration: RegistrationFieldsFragment;
+}): UpdateEnrolmentMutationInput => {
   const {
     attendees,
     email,
@@ -126,6 +177,7 @@ export const getEnrolmentPayload = (
   const { city, dateOfBirth, name, streetAddress, zip } = attendees[0] || {};
 
   return {
+    id,
     city: city || null,
     dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
     email: email || null,

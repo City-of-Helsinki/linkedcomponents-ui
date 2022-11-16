@@ -22,19 +22,14 @@ export enum AttendeeStatus {
 }
 
 export type CreateEnrolmentMutationInput = {
-  city?: InputMaybe<Scalars['String']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
-  extraInfo?: InputMaybe<Scalars['String']>;
-  membershipNumber?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  nativeLanguage?: InputMaybe<Scalars['String']>;
-  notifications?: InputMaybe<Scalars['String']>;
-  phoneNumber?: InputMaybe<Scalars['String']>;
-  registration?: InputMaybe<Scalars['ID']>;
-  serviceLanguage?: InputMaybe<Scalars['String']>;
-  streetAddress?: InputMaybe<Scalars['String']>;
-  zipcode?: InputMaybe<Scalars['String']>;
+  reservationCode?: InputMaybe<Scalars['String']>;
+  signups?: InputMaybe<Array<SignupInput>>;
+};
+
+export type CreateEnrolmentResponse = {
+  __typename?: 'CreateEnrolmentResponse';
+  attending?: Maybe<EnrolmentPeopleResponse>;
+  waitlisted?: Maybe<EnrolmentPeopleResponse>;
 };
 
 export type CreateEventMutationInput = {
@@ -189,6 +184,18 @@ export type Enrolment = {
   serviceLanguage?: Maybe<Scalars['String']>;
   streetAddress?: Maybe<Scalars['String']>;
   zipcode?: Maybe<Scalars['String']>;
+};
+
+export type EnrolmentPeopleResponse = {
+  __typename?: 'EnrolmentPeopleResponse';
+  count?: Maybe<Scalars['Int']>;
+  people?: Maybe<Array<EnrolmentPerson>>;
+};
+
+export type EnrolmentPerson = {
+  __typename?: 'EnrolmentPerson';
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type Event = {
@@ -420,7 +427,7 @@ export type Meta = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createEnrolment: Enrolment;
+  createEnrolment: CreateEnrolmentResponse;
   createEvent: Event;
   createEvents: Array<Event>;
   createKeyword: Keyword;
@@ -455,6 +462,7 @@ export type Mutation = {
 
 export type MutationCreateEnrolmentArgs = {
   input: CreateEnrolmentMutationInput;
+  registration?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -972,6 +980,21 @@ export type SeatsReservation = {
   waitlistSpots?: Maybe<Scalars['Int']>;
 };
 
+export type SignupInput = {
+  city?: InputMaybe<Scalars['String']>;
+  dateOfBirth?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  extraInfo?: InputMaybe<Scalars['String']>;
+  membershipNumber?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  nativeLanguage?: InputMaybe<Scalars['String']>;
+  notifications?: InputMaybe<Scalars['String']>;
+  phoneNumber?: InputMaybe<Scalars['String']>;
+  serviceLanguage?: InputMaybe<Scalars['String']>;
+  streetAddress?: InputMaybe<Scalars['String']>;
+  zipcode?: InputMaybe<Scalars['String']>;
+};
+
 export enum SuperEventType {
   Recurring = 'recurring',
   Umbrella = 'umbrella'
@@ -1175,10 +1198,11 @@ export type DataSourcesQuery = { __typename?: 'Query', dataSources: { __typename
 
 export type CreateEnrolmentMutationVariables = Exact<{
   input: CreateEnrolmentMutationInput;
+  registration: Scalars['String'];
 }>;
 
 
-export type CreateEnrolmentMutation = { __typename?: 'Mutation', createEnrolment: { __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } };
+export type CreateEnrolmentMutation = { __typename?: 'Mutation', createEnrolment: { __typename?: 'CreateEnrolmentResponse', attending?: { __typename?: 'EnrolmentPeopleResponse', count?: number | null, people?: Array<{ __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null }> | null } | null, waitlisted?: { __typename?: 'EnrolmentPeopleResponse', count?: number | null, people?: Array<{ __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null }> | null } | null } };
 
 export type DeleteEnrolmentMutationVariables = Exact<{
   cancellationCode: Scalars['String'];
@@ -1193,6 +1217,12 @@ export type UpdateEnrolmentMutationVariables = Exact<{
 
 
 export type UpdateEnrolmentMutation = { __typename?: 'Mutation', updateEnrolment: { __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } };
+
+export type EnrolmentPersonFieldsFragment = { __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null };
+
+export type EnrolmentPeopleResponseFieldsFragment = { __typename?: 'EnrolmentPeopleResponse', count?: number | null, people?: Array<{ __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null }> | null };
+
+export type CreateEnrolmentFieldsFragment = { __typename?: 'CreateEnrolmentResponse', attending?: { __typename?: 'EnrolmentPeopleResponse', count?: number | null, people?: Array<{ __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null }> | null } | null, waitlisted?: { __typename?: 'EnrolmentPeopleResponse', count?: number | null, people?: Array<{ __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null }> | null } | null };
 
 export type EnrolmentFieldsFragment = { __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null };
 
@@ -1671,6 +1701,30 @@ export const DataSourceFieldsFragmentDoc = gql`
   userEditable
 }
     `;
+export const EnrolmentPersonFieldsFragmentDoc = gql`
+    fragment enrolmentPersonFields on EnrolmentPerson {
+  id
+  name
+}
+    `;
+export const EnrolmentPeopleResponseFieldsFragmentDoc = gql`
+    fragment enrolmentPeopleResponseFields on EnrolmentPeopleResponse {
+  count
+  people {
+    ...enrolmentPersonFields
+  }
+}
+    ${EnrolmentPersonFieldsFragmentDoc}`;
+export const CreateEnrolmentFieldsFragmentDoc = gql`
+    fragment createEnrolmentFields on CreateEnrolmentResponse {
+  attending {
+    ...enrolmentPeopleResponseFields
+  }
+  waitlisted {
+    ...enrolmentPeopleResponseFields
+  }
+}
+    ${EnrolmentPeopleResponseFieldsFragmentDoc}`;
 export const LocalisedFieldsFragmentDoc = gql`
     fragment localisedFields on LocalisedObject {
   ar
@@ -2111,12 +2165,12 @@ export type DataSourcesQueryHookResult = ReturnType<typeof useDataSourcesQuery>;
 export type DataSourcesLazyQueryHookResult = ReturnType<typeof useDataSourcesLazyQuery>;
 export type DataSourcesQueryResult = Apollo.QueryResult<DataSourcesQuery, DataSourcesQueryVariables>;
 export const CreateEnrolmentDocument = gql`
-    mutation CreateEnrolment($input: CreateEnrolmentMutationInput!) {
-  createEnrolment(input: $input) @rest(type: "Enrolment", path: "/signup/", method: "POST", bodyKey: "input") {
-    ...enrolmentFields
+    mutation CreateEnrolment($input: CreateEnrolmentMutationInput!, $registration: String!) {
+  createEnrolment(input: $input, registration: $registration) @rest(type: "CreateEnrolmentResponse", path: "/registration/{args.registration}/signup/", method: "POST", bodyKey: "input") {
+    ...createEnrolmentFields
   }
 }
-    ${EnrolmentFieldsFragmentDoc}`;
+    ${CreateEnrolmentFieldsFragmentDoc}`;
 export type CreateEnrolmentMutationFn = Apollo.MutationFunction<CreateEnrolmentMutation, CreateEnrolmentMutationVariables>;
 
 /**
@@ -2133,6 +2187,7 @@ export type CreateEnrolmentMutationFn = Apollo.MutationFunction<CreateEnrolmentM
  * const [createEnrolmentMutation, { data, loading, error }] = useCreateEnrolmentMutation({
  *   variables: {
  *      input: // value for 'input'
+ *      registration: // value for 'registration'
  *   },
  * });
  */

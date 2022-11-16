@@ -32,7 +32,10 @@ import Container from '../../app/layout/container/Container';
 import { reportError } from '../../app/sentry/utils';
 import { getRegistrationWarning } from '../../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
-import { clearSeatsReservationData } from '../../reserveSeats/utils';
+import {
+  clearSeatsReservationData,
+  getSeatsReservationData,
+} from '../../reserveSeats/utils';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
@@ -156,10 +159,10 @@ const EnrolmentForm: React.FC<Props> = ({
   ) => {
     try {
       const data = await createEnrolmentMutation({
-        variables: { input: payload },
+        variables: { input: payload, registration: registration.id as string },
       });
 
-      return data.data?.createEnrolment.id as string;
+      return data.data?.createEnrolment;
     } catch (error) /* istanbul ignore next */ {
       showServerErrors({ error }, 'enrolment');
       // Report error to Sentry
@@ -179,11 +182,15 @@ const EnrolmentForm: React.FC<Props> = ({
   const createEnrolment = async (values: EnrolmentFormFieldsType) => {
     setCreatingEnrolment(true);
 
-    const payload = getEnrolmentPayload(values, registration);
+    const reservationData = getSeatsReservationData(registration.id as string);
+    const payload = getEnrolmentPayload({
+      formValues: values,
+      reservationCode: reservationData?.code as string,
+    });
 
-    const createdEventId = await createSingleEnrolment(payload);
+    const createdEnrolments = await createSingleEnrolment(payload);
 
-    if (createdEventId) {
+    if (createdEnrolments) {
       // Clear all enrolments queries from apollo cache to show added enrolment
       // in enrolment list
       clearEnrolmentsQueries(apolloClient);

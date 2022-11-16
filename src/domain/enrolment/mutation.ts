@@ -2,15 +2,18 @@
 import gql from 'graphql-tag';
 
 export const MUTATION_ENROLMENT = gql`
-  mutation CreateEnrolment($input: CreateEnrolmentMutationInput!) {
-    createEnrolment(input: $input)
+  mutation CreateEnrolment(
+    $input: CreateEnrolmentMutationInput!
+    $registration: String!
+  ) {
+    createEnrolment(input: $input, registration: $registration)
       @rest(
-        type: "Enrolment"
-        path: "/signup/"
+        type: "CreateEnrolmentResponse"
+        path: "/registration/{args.registration}/signup/"
         method: "POST"
         bodyKey: "input"
       ) {
-      ...enrolmentFields
+      ...createEnrolmentFields
     }
   }
 

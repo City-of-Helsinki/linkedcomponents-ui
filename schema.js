@@ -6,7 +6,10 @@ module.exports = buildSchema(/* GraphQL */ `
   scalar Any
 
   type Mutation {
-    createEnrolment(input: CreateEnrolmentMutationInput!): Enrolment!
+    createEnrolment(
+      input: CreateEnrolmentMutationInput!
+      registration: String
+    ): CreateEnrolmentResponse!
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     createKeyword(input: CreateKeywordMutationInput!): Keyword!
@@ -217,7 +220,7 @@ module.exports = buildSchema(/* GraphQL */ `
     url: String
   }
 
-  input CreateEnrolmentMutationInput {
+  input SignupInput {
     city: String
     dateOfBirth: String
     email: String
@@ -227,10 +230,14 @@ module.exports = buildSchema(/* GraphQL */ `
     nativeLanguage: String
     notifications: String
     phoneNumber: String
-    registration: ID
     serviceLanguage: String
     streetAddress: String
     zipcode: String
+  }
+
+  input CreateEnrolmentMutationInput {
+    reservationCode: String
+    signups: [SignupInput!]
   }
 
   input UpdateEnrolmentMutationInput {
@@ -860,6 +867,21 @@ module.exports = buildSchema(/* GraphQL */ `
     timestamp: String
     seatsAtEvent: Int
     waitlistSpots: Int
+  }
+
+  type EnrolmentPerson {
+    id: Int
+    name: String
+  }
+
+  type EnrolmentPeopleResponse {
+    count: Int
+    people: [EnrolmentPerson!]
+  }
+
+  type CreateEnrolmentResponse {
+    attending: EnrolmentPeopleResponse
+    waitlisted: EnrolmentPeopleResponse
   }
 
   type Enrolment {

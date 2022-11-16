@@ -23,7 +23,7 @@ import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
 import { EnrolmentFormFields } from '../types';
-import { getEnrolmentPayload } from '../utils';
+import { getUpdateEnrolmentPayload } from '../utils';
 
 export enum ENROLMENT_MODALS {
   CANCEL = 'cancel',
@@ -134,18 +134,14 @@ const useEnrolmentUpdateActions = ({
     values: EnrolmentFormFields,
     callbacks?: UpdateActionsCallbacks
   ) => {
-    let payload: UpdateEnrolmentMutationInput = {
+    const payload: UpdateEnrolmentMutationInput = getUpdateEnrolmentPayload({
+      formValues: values,
       id: enrolment?.id as string,
-      registration: registration.id as string,
-    };
+      registration,
+    });
 
     try {
       setSaving(ENROLMENT_ACTIONS.UPDATE);
-
-      payload = {
-        ...getEnrolmentPayload(values, registration),
-        id: enrolment?.id as string,
-      };
 
       await updateEnrolmentMutation({ variables: { input: payload } });
 

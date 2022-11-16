@@ -2,6 +2,27 @@
 import gql from 'graphql-tag';
 
 export const QUERY_ENROLMENT = gql`
+  fragment enrolmentPersonFields on EnrolmentPerson {
+    id
+    name
+  }
+
+  fragment enrolmentPeopleResponseFields on EnrolmentPeopleResponse {
+    count
+    people {
+      ...enrolmentPersonFields
+    }
+  }
+
+  fragment createEnrolmentFields on CreateEnrolmentResponse {
+    attending {
+      ...enrolmentPeopleResponseFields
+    }
+    waitlisted {
+      ...enrolmentPeopleResponseFields
+    }
+  }
+
   fragment enrolmentFields on Enrolment {
     id
     attendeeStatus

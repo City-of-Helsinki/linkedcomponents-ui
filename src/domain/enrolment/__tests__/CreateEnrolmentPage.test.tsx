@@ -29,6 +29,7 @@ import {
   registration,
   registrationId,
 } from '../../registration/__mocks__/registration';
+import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   enrolmentValues,
@@ -113,7 +114,7 @@ const getElement = (
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const code = 'code';
+const code = TEST_SEATS_RESERVATION_CODE;
 
 const createSeatsReservationPayload = {
   registration: registration.id,
