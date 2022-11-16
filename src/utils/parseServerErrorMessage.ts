@@ -47,6 +47,8 @@ const parseServerErrorMessage = ({
       return t(`serverError.methodPostNotAllowed`);
     case 'Metodi "PUT" ei ole sallittu.':
       return t(`serverError.methodPutNotAllowed`);
+    case 'Not enough seats available.':
+      return t(`serverError.notEnoughSeats`);
     case 'Price info must be specified before an event is published.':
       return t(`serverError.offersIsRequired`);
     case 'Short description length must be 160 characters or less':

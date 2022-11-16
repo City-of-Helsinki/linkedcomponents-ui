@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
+import addMinutes from 'date-fns/addMinutes';
 import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
 import { TEST_DATA_SOURCE_ID } from '../domain/dataSource/constants';
 import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
 import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
+import { TEST_REGISTRATION_ID } from '../domain/registration/constants';
 import {
   AttendeeStatus,
   DataSource,
@@ -37,6 +39,7 @@ import {
   PublicationStatus,
   Registration,
   RegistrationsResponse,
+  SeatsReservation,
   User,
   UsersResponse,
   Video,
@@ -453,6 +456,25 @@ export const fakeRegistration = (
       signups: [],
       waitingListCapacity: 0,
       __typename: 'Registration',
+    },
+    overrides
+  );
+};
+
+export const fakeSeatsReservation = (
+  overrides?: Partial<SeatsReservation>
+): SeatsReservation => {
+  const timestamp = new Date().toISOString();
+
+  return merge<SeatsReservation, typeof overrides>(
+    {
+      code: faker.datatype.uuid(),
+      expiration: addMinutes(new Date(timestamp), 30).toISOString(),
+      registration: TEST_REGISTRATION_ID,
+      seats: 1,
+      timestamp,
+      seatsAtEvent: 1,
+      waitlistSpots: 0,
     },
     overrides
   );

@@ -34,6 +34,7 @@ import styles from './enrolmentPage.module.scss';
 import EnrolmentPageContext, {
   useEnrolmentPageContextValue,
 } from './enrolmentPageContext/EnrolmentPageContext';
+import { EnrolmentServerErrorsProvider } from './enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import {
   checkCanUserDoAction,
   enrolmentPathBuilder,
@@ -180,12 +181,14 @@ const EditEnrolmentPageWrapper: React.FC = () => {
             toggleOpenParticipant,
           }}
         >
-          <EditEnrolmentPage
-            enrolment={enrolment}
-            event={event}
-            refetch={refetch}
-            registration={registration}
-          />
+          <EnrolmentServerErrorsProvider>
+            <EditEnrolmentPage
+              enrolment={enrolment}
+              event={event}
+              refetch={refetch}
+              registration={registration}
+            />
+          </EnrolmentServerErrorsProvider>
         </EnrolmentPageContext.Provider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />

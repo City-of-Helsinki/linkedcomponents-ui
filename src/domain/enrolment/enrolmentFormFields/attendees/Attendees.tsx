@@ -1,11 +1,23 @@
+/* eslint-disable max-len */
 import { FieldArray, useField } from 'formik';
 import React, { useContext, useState } from 'react';
+import { useLocation } from 'react-router';
 
+import {
+  SeatsReservation,
+  useUpdateSeatsReservationMutation,
+} from '../../../../generated/graphql';
+import { reportError } from '../../../app/sentry/utils';
+import {
+  getSeatsReservationData,
+  setSeatsReservationData,
+} from '../../../reserveSeats/utils';
+import useUser from '../../../user/hooks/useUser';
 import { ENROLMENT_FIELDS } from '../../constants';
 import EnrolmentPageContext from '../../enrolmentPageContext/EnrolmentPageContext';
+import { useEnrolmentServerErrorsContext } from '../../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import ConfirmDeleteParticipantModal from '../../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { AttendeeFields } from '../../types';
-import { updateEnrolmentReservationData } from '../../utils';
 import Attendee from './attendee/Attendee';
 import styles from './attendees.module.scss';
 
@@ -20,10 +32,64 @@ const Attendees: React.FC<Props> = ({ disabled }) => {
   const [openModalIndex, setOpenModalIndex] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
 
+  const location = useLocation();
+  const { user } = useUser();
+
+  const { setServerErrorItems, showServerErrors } =
+    useEnrolmentServerErrorsContext();
+
   const { registration } = useContext(EnrolmentPageContext);
+  const registrationId = registration.id as string;
+
   const [{ value: attendees }] = useField<AttendeeFields[]>({
     name: ENROLMENT_FIELDS.ATTENDEES,
   });
+
+  const [updateSeatsReservationMutation] = useUpdateSeatsReservationMutation();
+
+  const closeModal = () => {
+    setOpenModalIndex(null);
+  };
+
+  const updateSeatsReservation = async (participantAmount: number) => {
+    const reservationData = getSeatsReservationData(registrationId);
+    const payload = {
+      code: reservationData?.code as string,
+      registration: registrationId,
+      seats: participantAmount,
+      waitlist: true,
+    };
+
+    try {
+      const { data } = await updateSeatsReservationMutation({
+        variables: { input: payload },
+      });
+
+      setSeatsReservationData(
+        registrationId,
+        data?.updateSeatsReservation as SeatsReservation
+      );
+
+      setSaving(false);
+      closeModal();
+    } catch (error) {
+      showServerErrors({ error }, 'seatsReservation');
+
+      reportError({
+        data: {
+          error: error as Record<string, unknown>,
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to update reserve seats',
+        user,
+      });
+
+      setSaving(false);
+      closeModal();
+    }
+  };
 
   return (
     <div className={styles.accordions}>
@@ -32,26 +98,17 @@ const Attendees: React.FC<Props> = ({ disabled }) => {
         render={(arrayHelpers) => (
           <div>
             {attendees.map((attendee, index: number) => {
-              const closeModal = () => {
-                setOpenModalIndex(null);
-              };
-
               const openModal = () => {
                 setOpenModalIndex(index);
               };
 
-              const deleteParticipant = () => {
+              const deleteParticipant = async () => {
                 setSaving(true);
+                // Clear server errors
+                setServerErrorItems([]);
 
-                // TODO: Update reservation from API when BE is ready
-                updateEnrolmentReservationData(
-                  registration,
-                  attendees.length - 1
-                );
+                await updateSeatsReservation(attendees.length - 1);
                 arrayHelpers.remove(index);
-
-                setSaving(false);
-                closeModal();
               };
 
               return (

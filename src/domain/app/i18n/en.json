@@ -369,6 +369,11 @@
       "email": "By email",
       "sms": "By text message"
     },
+    "reservationTimeExpiredModal": {
+      "buttonTryAgain": "Try Again",
+      "text": "Unfortunately, the Reservation time has expired.",
+      "title": "Time’s Up."
+    },
     "warnings": {
       "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
       "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
@@ -1741,6 +1746,7 @@
     "min0": "This number must be at least 0.",
     "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",
+    "notEnoughSeats": "Not enough seats available.",
     "notFoundAllObjects": "Could not find all objects to update.",
     "notNull": "The value of this field cannot be \"null\".",
     "offersIsRequired": "Price info must be specified before an event is published.",

@@ -1,9 +1,18 @@
 /* eslint-disable import/no-named-as-default-member */
+import addSeconds from 'date-fns/addSeconds';
+import subSeconds from 'date-fns/subSeconds';
 import i18n from 'i18next';
 
 import { EnrolmentQueryVariables } from '../../../generated/graphql';
-import { fakeEnrolment, fakeRegistration } from '../../../utils/mockDataUtils';
+import {
+  fakeEnrolment,
+  fakeRegistration,
+  fakeSeatsReservation,
+} from '../../../utils/mockDataUtils';
+import { enrolment } from '../../enrolment/__mocks__/enrolment';
 import { registration } from '../../registration/__mocks__/registration';
+import { TEST_REGISTRATION_ID } from '../../registration/constants';
+import { setSeatsReservationData } from '../../reserveSeats/utils';
 import {
   ENROLMENT_ACTIONS,
   ENROLMENT_INITIAL_VALUES,
@@ -19,8 +28,29 @@ import {
   getEnrolmentNotificationTypes,
   getEnrolmentPayload,
   getFreeAttendeeCapacity,
-  getRegistrationTimeLeft,
+  isRestoringFormDataDisabled,
 } from '../utils';
+
+beforeEach(() => {
+  // values stored in tests will also be available in other tests unless you run
+  localStorage.clear();
+  sessionStorage.clear();
+});
+
+const generateSeatsReservationData = (expirationOffset: number) => {
+  const now = new Date();
+  let expiration = '';
+
+  if (expirationOffset) {
+    expiration = addSeconds(now, expirationOffset).toISOString();
+  } else {
+    expiration = subSeconds(now, expirationOffset).toISOString();
+  }
+
+  const reservation = fakeSeatsReservation({ expiration });
+
+  return reservation;
+};
 
 describe('getEnrolmentInitialValues function', () => {
   it('should return default values if value is not set', () => {
@@ -349,8 +379,45 @@ describe('getFreeAttendeeCapacity', () => {
   });
 });
 
-describe('getRegistrationTimeLeft function', () => {
-  it('should return 0 if data is not stored to session storage', () => {
-    expect(getRegistrationTimeLeft(registration)).toEqual(0);
+describe('isRestoringFormDataDisabled', () => {
+  it('should return true if enrolment is defined', () => {
+    expect(
+      isRestoringFormDataDisabled({
+        enrolment: enrolment,
+        registrationId: TEST_REGISTRATION_ID,
+      })
+    ).toBe(true);
+  });
+
+  it('should return true if reservation data is not defined', () => {
+    expect(
+      isRestoringFormDataDisabled({
+        registrationId: TEST_REGISTRATION_ID,
+      })
+    ).toBe(true);
+  });
+
+  it('should return true if reservation data is expired', () => {
+    setSeatsReservationData(
+      TEST_REGISTRATION_ID,
+      generateSeatsReservationData(-1000)
+    );
+    expect(
+      isRestoringFormDataDisabled({
+        registrationId: TEST_REGISTRATION_ID,
+      })
+    ).toBe(true);
+  });
+
+  it('should return false if reservation data is not expired', () => {
+    setSeatsReservationData(
+      TEST_REGISTRATION_ID,
+      generateSeatsReservationData(1000)
+    );
+    expect(
+      isRestoringFormDataDisabled({
+        registrationId: TEST_REGISTRATION_ID,
+      })
+    ).toBe(false);
   });
 });

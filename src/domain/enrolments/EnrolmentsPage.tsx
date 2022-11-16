@@ -26,7 +26,6 @@ import { ENROLMENT_ACTIONS } from '../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import {
   clearCreateEnrolmentFormData,
-  clearEnrolmentReservationData,
   getEditButtonProps,
 } from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
@@ -38,6 +37,7 @@ import {
   getRegistrationFields,
   registrationPathBuilder,
 } from '../registration/utils';
+import { clearSeatsReservationData } from '../reserveSeats/utils';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
 import ButtonPanel from './buttonPanel/ButtonPanel';
@@ -69,7 +69,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
 
   const handleCreate = () => {
     clearCreateEnrolmentFormData(registration.id as string);
-    clearEnrolmentReservationData(registration.id as string);
+    clearSeatsReservationData(registration.id as string);
 
     navigate({
       pathname: ROUTES.CREATE_ENROLMENT.replace(

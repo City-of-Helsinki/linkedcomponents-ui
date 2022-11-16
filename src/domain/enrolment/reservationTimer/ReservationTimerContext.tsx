@@ -1,0 +1,181 @@
+import React, {
+  FC,
+  PropsWithChildren,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { useLocation, useNavigate } from 'react-router';
+
+import {
+  Registration,
+  SeatsReservation,
+  useCreateSeatsReservationMutation,
+} from '../../../generated/graphql';
+import { reportError } from '../../app/sentry/utils';
+import {
+  clearSeatsReservationData,
+  getRegistrationTimeLeft,
+  getSeatsReservationData,
+  isSeatsReservationExpired,
+  setSeatsReservationData,
+} from '../../reserveSeats/utils';
+import useUser from '../../user/hooks/useUser';
+import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
+import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
+import { clearCreateEnrolmentFormData } from '../utils';
+
+export type ReservationTimerContextProps = {
+  callbacksDisabled: boolean;
+  disableCallbacks: () => void;
+  isModalOpen: boolean;
+  registration: Registration;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  timeLeft: number | null;
+};
+
+export const ReservationTimerContext = React.createContext<
+  ReservationTimerContextProps | undefined
+>(undefined);
+
+interface Props {
+  initializeReservationData: boolean;
+  registration: Registration;
+}
+
+export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
+  children,
+  initializeReservationData,
+  registration,
+}) => {
+  const registrationId = useMemo(
+    () => registration.id as string,
+    [registration]
+  );
+
+  const { user } = useUser();
+  const { setServerErrorItems, showServerErrors } =
+    useEnrolmentServerErrorsContext();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const creatingReservationStarted = useRef(false);
+  const callbacksDisabled = useRef(false);
+  const timerEnabled = useRef(false);
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const enableTimer = useCallback(() => {
+    timerEnabled.current = true;
+  }, []);
+
+  const [createSeatsReservationMutation] = useCreateSeatsReservationMutation();
+
+  const disableCallbacks = useCallback(() => {
+    callbacksDisabled.current = true;
+  }, []);
+
+  const handleTryAgain = () => {
+    navigate(0);
+  };
+
+  const createSeatsReservation = async () => {
+    const payload = { registration: registrationId, seats: 1, waitlist: true };
+
+    try {
+      const { data } = await createSeatsReservationMutation({
+        variables: { input: payload },
+      });
+
+      enableTimer();
+      setSeatsReservationData(
+        registrationId,
+        data?.createSeatsReservation as SeatsReservation
+      );
+      setTimeLeft(
+        getRegistrationTimeLeft(
+          data?.createSeatsReservation as SeatsReservation
+        )
+      );
+    } catch (error) {
+      showServerErrors({ error }, 'seatsReservation');
+
+      reportError({
+        data: {
+          error: error as Record<string, unknown>,
+          payload,
+          payloadAsString: JSON.stringify(payload),
+        },
+        location,
+        message: 'Failed to reserve seats',
+        user,
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    const data = getSeatsReservationData(registrationId);
+
+    if (
+      initializeReservationData &&
+      !creatingReservationStarted.current &&
+      !data
+    ) {
+      creatingReservationStarted.current = true;
+      // Clear server errors
+      setServerErrorItems([]);
+
+      // useEffect runs twice in React v18.0, so start creating new seats reservation
+      // only if creatingReservationStarted is false
+      createSeatsReservation();
+    } else if (data) {
+      enableTimer();
+      setTimeLeft(getRegistrationTimeLeft(data));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      /* istanbul ignore else */
+      if (timerEnabled.current) {
+        const data = getSeatsReservationData(registrationId);
+        setTimeLeft(getRegistrationTimeLeft(data));
+
+        /* istanbul ignore else */
+        if (!callbacksDisabled.current) {
+          if (!data || isSeatsReservationExpired(data)) {
+            disableCallbacks();
+
+            clearCreateEnrolmentFormData(registrationId);
+            clearSeatsReservationData(registrationId);
+
+            setIsModalOpen(true);
+          }
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [disableCallbacks, registrationId, setTimeLeft, timeLeft]);
+
+  return (
+    <ReservationTimerContext.Provider
+      value={{
+        callbacksDisabled: callbacksDisabled.current,
+        disableCallbacks,
+        isModalOpen,
+        registration,
+        setIsModalOpen,
+        timeLeft,
+      }}
+    >
+      <ReservationTimeExpiredModal
+        isOpen={isModalOpen}
+        onTryAgain={handleTryAgain}
+      />
+      {children}
+    </ReservationTimerContext.Provider>
+  );
+};

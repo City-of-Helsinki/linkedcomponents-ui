@@ -136,6 +136,12 @@ export type CreateRegistrationMutationInput = {
   waitingListCapacity?: InputMaybe<Scalars['Int']>;
 };
 
+export type CreateSeatsReservationMutationInput = {
+  registration?: InputMaybe<Scalars['String']>;
+  seats?: InputMaybe<Scalars['Int']>;
+  waitlist?: InputMaybe<Scalars['Boolean']>;
+};
+
 export type DataSource = {
   __typename?: 'DataSource';
   apiKey?: Maybe<Scalars['String']>;
@@ -422,6 +428,7 @@ export type Mutation = {
   createOrganization: Organization;
   createPlace: Place;
   createRegistration: Registration;
+  createSeatsReservation: SeatsReservation;
   deleteEnrolment?: Maybe<NoContent>;
   deleteEvent?: Maybe<NoContent>;
   deleteImage?: Maybe<NoContent>;
@@ -441,6 +448,7 @@ export type Mutation = {
   updateOrganization: Organization;
   updatePlace: Place;
   updateRegistration: Registration;
+  updateSeatsReservation: SeatsReservation;
   uploadImage: Image;
 };
 
@@ -482,6 +490,11 @@ export type MutationCreatePlaceArgs = {
 
 export type MutationCreateRegistrationArgs = {
   input: CreateRegistrationMutationInput;
+};
+
+
+export type MutationCreateSeatsReservationArgs = {
+  input: CreateSeatsReservationMutationInput;
 };
 
 
@@ -577,6 +590,11 @@ export type MutationUpdatePlaceArgs = {
 
 export type MutationUpdateRegistrationArgs = {
   input: UpdateRegistrationMutationInput;
+};
+
+
+export type MutationUpdateSeatsReservationArgs = {
+  input: UpdateSeatsReservationMutationInput;
 };
 
 
@@ -943,6 +961,17 @@ export type RegistrationsResponse = {
   meta: Meta;
 };
 
+export type SeatsReservation = {
+  __typename?: 'SeatsReservation';
+  code?: Maybe<Scalars['String']>;
+  expiration?: Maybe<Scalars['String']>;
+  registration?: Maybe<Scalars['String']>;
+  seats?: Maybe<Scalars['Int']>;
+  seatsAtEvent?: Maybe<Scalars['Int']>;
+  timestamp?: Maybe<Scalars['String']>;
+  waitlistSpots?: Maybe<Scalars['Int']>;
+};
+
 export enum SuperEventType {
   Recurring = 'recurring',
   Umbrella = 'umbrella'
@@ -1070,6 +1099,13 @@ export type UpdateRegistrationMutationInput = {
   maximumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
   minimumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
   waitingListCapacity?: InputMaybe<Scalars['Int']>;
+};
+
+export type UpdateSeatsReservationMutationInput = {
+  code?: InputMaybe<Scalars['String']>;
+  registration?: InputMaybe<Scalars['String']>;
+  seats?: InputMaybe<Scalars['Int']>;
+  waitlist?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type UploadImageMutationInput = {
@@ -1588,6 +1624,22 @@ export type RegistrationsQueryVariables = Exact<{
 
 export type RegistrationsQuery = { __typename?: 'Query', registrations: { __typename?: 'RegistrationsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, confirmationMessage?: string | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, event?: string | null, instructions?: string | null, lastModifiedAt?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, waitingListCapacity?: number | null, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } | null> } };
 
+export type CreateSeatsReservationMutationVariables = Exact<{
+  input: CreateSeatsReservationMutationInput;
+}>;
+
+
+export type CreateSeatsReservationMutation = { __typename?: 'Mutation', createSeatsReservation: { __typename?: 'SeatsReservation', code?: string | null, expiration?: string | null, registration?: string | null, seats?: number | null, timestamp?: string | null, seatsAtEvent?: number | null, waitlistSpots?: number | null } };
+
+export type UpdateSeatsReservationMutationVariables = Exact<{
+  input: UpdateSeatsReservationMutationInput;
+}>;
+
+
+export type UpdateSeatsReservationMutation = { __typename?: 'Mutation', updateSeatsReservation: { __typename?: 'SeatsReservation', code?: string | null, expiration?: string | null, registration?: string | null, seats?: number | null, timestamp?: string | null, seatsAtEvent?: number | null, waitlistSpots?: number | null } };
+
+export type SeatsReservationFieldsFragment = { __typename?: 'SeatsReservation', code?: string | null, expiration?: string | null, registration?: string | null, seats?: number | null, timestamp?: string | null, seatsAtEvent?: number | null, waitlistSpots?: number | null };
+
 export type UserFieldsFragment = { __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null };
 
 export type UserQueryVariables = Exact<{
@@ -1968,6 +2020,17 @@ export const RegistrationFieldsFragmentDoc = gql`
   waitingListCapacity
 }
     ${EnrolmentFieldsFragmentDoc}`;
+export const SeatsReservationFieldsFragmentDoc = gql`
+    fragment seatsReservationFields on SeatsReservation {
+  code
+  expiration
+  registration
+  seats
+  timestamp
+  seatsAtEvent
+  waitlistSpots
+}
+    `;
 export const DataSourceDocument = gql`
     query DataSource($id: ID!, $createPath: Any) {
   dataSource(id: $id) @rest(type: "DataSource", pathBuilder: $createPath) {
@@ -3846,6 +3909,72 @@ export function useRegistrationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type RegistrationsQueryHookResult = ReturnType<typeof useRegistrationsQuery>;
 export type RegistrationsLazyQueryHookResult = ReturnType<typeof useRegistrationsLazyQuery>;
 export type RegistrationsQueryResult = Apollo.QueryResult<RegistrationsQuery, RegistrationsQueryVariables>;
+export const CreateSeatsReservationDocument = gql`
+    mutation CreateSeatsReservation($input: CreateSeatsReservationMutationInput!) {
+  createSeatsReservation(input: $input) @rest(type: "SeatsReservation", path: "/registration/{args.input.registration}/reserve_seats/", method: "POST", bodyKey: "input") {
+    ...seatsReservationFields
+  }
+}
+    ${SeatsReservationFieldsFragmentDoc}`;
+export type CreateSeatsReservationMutationFn = Apollo.MutationFunction<CreateSeatsReservationMutation, CreateSeatsReservationMutationVariables>;
+
+/**
+ * __useCreateSeatsReservationMutation__
+ *
+ * To run a mutation, you first call `useCreateSeatsReservationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSeatsReservationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSeatsReservationMutation, { data, loading, error }] = useCreateSeatsReservationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateSeatsReservationMutation(baseOptions?: Apollo.MutationHookOptions<CreateSeatsReservationMutation, CreateSeatsReservationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateSeatsReservationMutation, CreateSeatsReservationMutationVariables>(CreateSeatsReservationDocument, options);
+      }
+export type CreateSeatsReservationMutationHookResult = ReturnType<typeof useCreateSeatsReservationMutation>;
+export type CreateSeatsReservationMutationResult = Apollo.MutationResult<CreateSeatsReservationMutation>;
+export type CreateSeatsReservationMutationOptions = Apollo.BaseMutationOptions<CreateSeatsReservationMutation, CreateSeatsReservationMutationVariables>;
+export const UpdateSeatsReservationDocument = gql`
+    mutation UpdateSeatsReservation($input: UpdateSeatsReservationMutationInput!) {
+  updateSeatsReservation(input: $input) @rest(type: "SeatsReservation", path: "/registration/{args.input.registration}/reserve_seats/", method: "POST", bodyKey: "input") {
+    ...seatsReservationFields
+  }
+}
+    ${SeatsReservationFieldsFragmentDoc}`;
+export type UpdateSeatsReservationMutationFn = Apollo.MutationFunction<UpdateSeatsReservationMutation, UpdateSeatsReservationMutationVariables>;
+
+/**
+ * __useUpdateSeatsReservationMutation__
+ *
+ * To run a mutation, you first call `useUpdateSeatsReservationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSeatsReservationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSeatsReservationMutation, { data, loading, error }] = useUpdateSeatsReservationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateSeatsReservationMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSeatsReservationMutation, UpdateSeatsReservationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateSeatsReservationMutation, UpdateSeatsReservationMutationVariables>(UpdateSeatsReservationDocument, options);
+      }
+export type UpdateSeatsReservationMutationHookResult = ReturnType<typeof useUpdateSeatsReservationMutation>;
+export type UpdateSeatsReservationMutationResult = Apollo.MutationResult<UpdateSeatsReservationMutation>;
+export type UpdateSeatsReservationMutationOptions = Apollo.BaseMutationOptions<UpdateSeatsReservationMutation, UpdateSeatsReservationMutationVariables>;
 export const UserDocument = gql`
     query User($id: ID!, $createPath: Any) {
   user(id: $id) @rest(type: "User", pathBuilder: $createPath) {

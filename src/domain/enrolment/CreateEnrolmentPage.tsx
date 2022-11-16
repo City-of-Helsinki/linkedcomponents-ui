@@ -32,6 +32,7 @@ import styles from './enrolmentPage.module.scss';
 import EnrolmentPageContext, {
   useEnrolmentPageContextValue,
 } from './enrolmentPageContext/EnrolmentPageContext';
+import { EnrolmentServerErrorsProvider } from './enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import {
   checkCanUserDoAction,
   getEnrolmentDefaultInitialValues,
@@ -141,7 +142,9 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
             toggleOpenParticipant,
           }}
         >
-          <CreateEnrolmentPage event={event} registration={registration} />
+          <EnrolmentServerErrorsProvider>
+            <CreateEnrolmentPage event={event} registration={registration} />
+          </EnrolmentServerErrorsProvider>
         </EnrolmentPageContext.Provider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />

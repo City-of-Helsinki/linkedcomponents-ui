@@ -1,11 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ApolloError } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
 import subYears from 'date-fns/subYears';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import {
+  CreateSeatsReservationDocument,
+  UpdateSeatsReservationDocument,
+} from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { fakeSeatsReservation } from '../../../utils/mockDataUtils';
 import {
   act,
   configure,
@@ -107,12 +113,98 @@ const getElement = (
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
+const code = 'code';
+
+const createSeatsReservationPayload = {
+  registration: registration.id,
+  seats: 1,
+  waitlist: true,
+};
+
+const seatsReservation = fakeSeatsReservation({ code });
+
+const getCreateSeatsReservationMock = (seats: number): MockedResponse => {
+  const createSeatsReservationVariables = {
+    input: { ...createSeatsReservationPayload, seats },
+  };
+
+  const createEnrolmentResponse = {
+    data: {
+      createSeatsReservation: {
+        ...seatsReservation,
+        seats,
+        seatsAtEvent: seats,
+      },
+    },
+  };
+
+  return {
+    request: {
+      query: CreateSeatsReservationDocument,
+      variables: createSeatsReservationVariables,
+    },
+    result: createEnrolmentResponse,
+  };
+};
+
+const updateSeatsReservationPayload = {
+  code,
+  registration: registration.id,
+  seats: 1,
+  waitlist: true,
+};
+
+const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
+  const updateSeatsReservationVariables = {
+    input: { ...updateSeatsReservationPayload, seats },
+  };
+
+  const updateEnrolmentResponse = {
+    data: {
+      updateSeatsReservation: {
+        ...seatsReservation,
+        seats,
+        seatsAtEvent: seats,
+      },
+    },
+  };
+
+  return {
+    request: {
+      query: UpdateSeatsReservationDocument,
+      variables: updateSeatsReservationVariables,
+    },
+    result: updateEnrolmentResponse,
+  };
+};
+
+const getUpdateSeatsReservationErrorMock = (seats: number): MockedResponse => {
+  const updateSeatsReservationVariables = {
+    input: { ...updateSeatsReservationPayload, seats },
+  };
+
+  const error = new ApolloError({
+    networkError: {
+      result: 'Not enough seats available.',
+    } as any,
+  });
+
+  return {
+    request: {
+      query: UpdateSeatsReservationDocument,
+      variables: updateSeatsReservationVariables,
+    },
+    error,
+  };
+};
+
 const defaultMocks = [
   mockedEventResponse,
   mockedEventResponse,
   mockedLanguagesResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
+  getCreateSeatsReservationMock(1),
 ];
 
 const route = ROUTES.CREATE_ENROLMENT.replace(
@@ -135,6 +227,7 @@ const waitLoadingAndGetNameInput = async () => {
 
 test('should validate enrolment form and focus invalid field and finally create enrolment', async () => {
   const user = userEvent.setup();
+
   const { history } = renderComponent([
     ...defaultMocks,
     mockedCreateEnrolmentResponse,
@@ -296,7 +389,11 @@ test('should show server errors', async () => {
 test('should add and delete participants', async () => {
   const user = userEvent.setup();
 
-  renderComponent();
+  renderComponent([
+    ...defaultMocks,
+    getUpdateSeatsReservationMock(1),
+    getUpdateSeatsReservationMock(2),
+  ]);
 
   await waitLoadingAndGetNameInput();
 
@@ -329,6 +426,29 @@ test('should add and delete participants', async () => {
   ).not.toBeInTheDocument();
 });
 
+test('should show server errors when updating seats reservation fails', async () => {
+  const user = userEvent.setup();
+
+  renderComponent([...defaultMocks, getUpdateSeatsReservationErrorMock(2)]);
+
+  await waitLoadingAndGetNameInput();
+
+  const participantAmountInput = getElement('participantAmountInput');
+  const updateParticipantAmountButton = getElement(
+    'updateParticipantAmountButton'
+  );
+
+  expect(
+    screen.queryByRole('button', { name: 'Osallistuja 2' })
+  ).not.toBeInTheDocument();
+
+  await act(async () => await user.clear(participantAmountInput));
+  await act(async () => await user.type(participantAmountInput, '2'));
+  await act(async () => await user.click(updateParticipantAmountButton));
+
+  await screen.findByText('Paikkoja ei ole riittävästi jäljellä.');
+});
+
 test('should show and hide participant specific fields', async () => {
   const user = userEvent.setup();
 
@@ -349,7 +469,11 @@ test('should show and hide participant specific fields', async () => {
 test('should delete participants by clicking delete participant button', async () => {
   const user = userEvent.setup();
 
-  renderComponent();
+  renderComponent([
+    ...defaultMocks,
+    getUpdateSeatsReservationMock(1),
+    getUpdateSeatsReservationMock(2),
+  ]);
 
   await waitLoadingAndGetNameInput();
 
@@ -381,4 +505,42 @@ test('should delete participants by clicking delete participant button', async (
   expect(
     screen.queryByRole('button', { name: 'Osallistuja 2' })
   ).not.toBeInTheDocument();
+});
+
+test('should show server errors when updating seats reservation fails', async () => {
+  const user = userEvent.setup();
+
+  renderComponent([
+    ...defaultMocks,
+    getUpdateSeatsReservationMock(3),
+    getUpdateSeatsReservationErrorMock(2),
+  ]);
+
+  await waitLoadingAndGetNameInput();
+
+  const participantAmountInput = getElement('participantAmountInput');
+  const updateParticipantAmountButton = getElement(
+    'updateParticipantAmountButton'
+  );
+
+  await act(async () => await user.clear(participantAmountInput));
+  await act(async () => await user.type(participantAmountInput, '3'));
+  await act(async () => await user.click(updateParticipantAmountButton));
+
+  await screen.findByRole('button', { name: 'Osallistuja 3' });
+
+  const deleteButton = screen.getAllByRole('button', {
+    name: /poista osallistuja/i,
+  })[1];
+  await act(async () => await user.click(deleteButton));
+
+  const dialog = screen.getByRole('dialog', {
+    name: 'Vahvista osallistujan poistaminen',
+  });
+  const deleteParticipantButton = within(dialog).getByRole('button', {
+    name: 'Poista osallistuja',
+  });
+  await act(async () => await user.click(deleteParticipantButton));
+
+  await screen.findByText('Paikkoja ei ole riittävästi jäljellä.');
 });

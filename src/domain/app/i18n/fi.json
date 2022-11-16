@@ -370,6 +370,11 @@
       "email": "Sähköpostilla",
       "sms": "Tekstiviestillä"
     },
+    "reservationTimeExpiredModal": {
+      "buttonTryAgain": "Yritä uudelleen",
+      "text": "Valitettavasti varausaika on umpeutunut.",
+      "title": "Varausaika on täynnä."
+    },
     "warnings": {
       "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
       "capacityInWaitingList_other": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
@@ -1741,6 +1746,7 @@
     "min0": "Tämän luvun on oltava vähintään 0.",
     "mustBeUnique": "Arvon tulee olla uniikki.",
     "nameIsRequired": "Nimi on pakollinen.",
+    "notEnoughSeats": "Paikkoja ei ole riittävästi jäljellä.",
     "notFoundAllObjects": "Kaikkia päivitettäviä objekteja ei löytynyt.",
     "notNull": "Tämän kentän arvo ei voi olla \"null\".",
     "offersIsRequired": "Hintatiedot on määritettävä ennen tapahtuman julkaisemista.",

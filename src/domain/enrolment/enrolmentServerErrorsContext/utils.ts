@@ -9,7 +9,6 @@ export const parseEnrolmentServerErrors = ({
   result,
   t,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   result: LEServerError;
   t: TFunction;
 }): ServerErrorItem[] => {
@@ -44,5 +43,30 @@ export const parseEnrolmentServerErrors = ({
       default:
         return t(`enrolment.form.label${pascalCase(key)}`);
     }
+  }
+};
+
+export const parseSeatsReservationServerErrors = ({
+  result,
+  t,
+}: {
+  result: LEServerError;
+  t: TFunction;
+}): ServerErrorItem[] => {
+  return parseServerErrors({
+    parseServerError: parseSeatsReservationServerError,
+    result,
+    t,
+  });
+
+  // Get error item for an single error.
+  function parseSeatsReservationServerError({
+    error,
+    key,
+  }: {
+    error: LEServerError;
+    key: string;
+  }) {
+    return [{ label: key, message: parseServerErrorMessage({ error, t }) }];
   }
 };

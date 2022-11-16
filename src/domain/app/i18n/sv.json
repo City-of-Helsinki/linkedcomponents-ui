@@ -370,6 +370,11 @@
       "email": "Via e-post",
       "sms": "Med sms"
     },
+    "reservationTimeExpiredModal": {
+      "buttonTryAgain": "Försök igen",
+      "text": "Tyvärr har bokningstiden gått ut.",
+      "title": "Tiden är ute."
+    },
     "warnings": {
       "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
       "capacityInWaitingList_other": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",
@@ -1741,6 +1746,7 @@
     "mustBeUnique": "Värdet måste vara unikt.",
     "min0": "Detta nummer måste vara minst 0.",
     "nameIsRequired": "Namnet krävs.",
+    "notEnoughSeats": "Inte tillräckligt med platser tillgängliga.",
     "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
     "notNull": "Värdet på detta fält kan inte vara \"null\".",
     "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",

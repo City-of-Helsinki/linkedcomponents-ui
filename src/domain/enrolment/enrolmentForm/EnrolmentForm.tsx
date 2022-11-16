@@ -6,7 +6,6 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import isPast from 'date-fns/isPast';
 import { Form, Formik } from 'formik';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -27,13 +26,13 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
-import unixTimeToMs from '../../../utils/unixTimeToMs';
 import { showFormErrors } from '../../../utils/validationUtils';
 import { clearEnrolmentsQueries } from '../../app/apollo/clearCacheUtils';
 import Container from '../../app/layout/container/Container';
 import { reportError } from '../../app/sentry/utils';
 import { getRegistrationWarning } from '../../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
+import { clearSeatsReservationData } from '../../reserveSeats/utils';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
@@ -41,21 +40,22 @@ import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import EnrolmentAuthenticationNotification from '../enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import EnrolmentFormFields from '../enrolmentFormFields/EnrolmentFormFields';
 import EnrolmentPageContext from '../enrolmentPageContext/EnrolmentPageContext';
+import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import EventInfo from '../eventInfo/EventInfo';
 import FormContainer from '../formContainer/FormContainer';
-import useEnrolmentServerErrors from '../hooks/useEnrolmentServerErrors';
 import useEnrolmentUpdateActions, {
   ENROLMENT_MODALS,
 } from '../hooks/useEnrolmentUpdateActions';
 import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
+import { useReservationTimer } from '../reservationTimer/hooks/useReservationTimer';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
+import { ReservationTimerProvider } from '../reservationTimer/ReservationTimerContext';
 import { EnrolmentFormFields as EnrolmentFormFieldsType } from '../types';
 import {
   clearCreateEnrolmentFormData,
-  clearEnrolmentReservationData,
   getEnrolmentPayload,
-  getEnrolmentReservationData,
+  isRestoringFormDataDisabled,
 } from '../utils';
 import { enrolmentSchema, scrollToFirstError } from '../validation';
 import styles from './enrolmentForm.module.scss';
@@ -77,6 +77,10 @@ const EnrolmentForm: React.FC<Props> = ({
   initialValues,
   refetchEnrolment,
 }) => {
+  const {
+    callbacksDisabled,
+    disableCallbacks: disableReservationTimerCallbacks,
+  } = useReservationTimer();
   const { registration } = useContext(EnrolmentPageContext);
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
@@ -107,9 +111,13 @@ const EnrolmentForm: React.FC<Props> = ({
   const [createEnrolmentMutation] = useCreateEnrolmentMutation();
 
   const goToEnrolmentsPageAfterCreate = () => {
+    // Disable reservation timer callbacks
+    // so user is not redirected to create enrolment page
+    disableReservationTimerCallbacks();
+
     formSavingDisabled.current = true;
     clearCreateEnrolmentFormData(registration.id as string);
-    clearEnrolmentReservationData(registration.id as string);
+    clearSeatsReservationData(registration.id as string);
 
     navigate(
       `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
@@ -141,7 +149,7 @@ const EnrolmentForm: React.FC<Props> = ({
   };
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
-    useEnrolmentServerErrors();
+    useEnrolmentServerErrorsContext();
 
   const createSingleEnrolment = async (
     payload: CreateEnrolmentMutationInput
@@ -153,7 +161,7 @@ const EnrolmentForm: React.FC<Props> = ({
 
       return data.data?.createEnrolment.id as string;
     } catch (error) /* istanbul ignore next */ {
-      showServerErrors({ error });
+      showServerErrors({ error }, 'enrolment');
       // Report error to Sentry
       reportError({
         data: {
@@ -194,7 +202,7 @@ const EnrolmentForm: React.FC<Props> = ({
 
   const onUpdate = (values: EnrolmentFormFieldsType) => {
     updateEnrolment(values, {
-      onError: (error: any) => showServerErrors({ error }),
+      onError: (error: any) => showServerErrors({ error }, 'enrolment'),
       onSuccess: async () => {
         refetchEnrolment && (await refetchEnrolment());
         window.scrollTo(0, 0);
@@ -203,11 +211,6 @@ const EnrolmentForm: React.FC<Props> = ({
   };
 
   const registrationWarning = getRegistrationWarning(registration, t);
-
-  const isRestoringDisabled = () => {
-    const data = getEnrolmentReservationData(registration.id as string);
-    return !!enrolment || !data || isPast(unixTimeToMs(data.expires));
-  };
 
   return (
     <Formik
@@ -261,8 +264,11 @@ const EnrolmentForm: React.FC<Props> = ({
               <FormikPersist
                 isSessionStorage={true}
                 name={`${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registration.id}`}
-                restoringDisabled={isRestoringDisabled()}
-                savingDisabled={formSavingDisabled.current}
+                restoringDisabled={isRestoringFormDataDisabled({
+                  enrolment,
+                  registrationId: registration.id as string,
+                })}
+                savingDisabled={callbacksDisabled || formSavingDisabled.current}
               >
                 <Container
                   contentWrapperClassName={styles.editPageContentContainer}
@@ -283,7 +289,7 @@ const EnrolmentForm: React.FC<Props> = ({
                     )}
                     {!enrolment && (
                       <>
-                        <ReservationTimer registration={registration} />
+                        <ReservationTimer />
                         <div className={styles.divider} />
                       </>
                     )}
@@ -319,4 +325,17 @@ const EnrolmentForm: React.FC<Props> = ({
   );
 };
 
-export default EnrolmentForm;
+const EnrolmentFormWrapper: React.FC<Props> = (props) => {
+  const { registration } = useContext(EnrolmentPageContext);
+
+  return (
+    <ReservationTimerProvider
+      initializeReservationData={!props.enrolment}
+      registration={registration}
+    >
+      <EnrolmentForm {...props} />
+    </ReservationTimerProvider>
+  );
+};
+
+export default EnrolmentFormWrapper;
