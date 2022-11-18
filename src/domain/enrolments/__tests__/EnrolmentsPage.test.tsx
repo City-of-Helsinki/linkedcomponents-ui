@@ -21,11 +21,7 @@ import {
   registrationId,
 } from '../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../user/__mocks__/user';
-import {
-  attendees,
-  mockedAttendeesResponse,
-  mockedWaitingAttendeesResponse,
-} from '../__mocks__/enrolmentsPage';
+import { attendees } from '../__mocks__/enrolmentsPage';
 import EnrolmentsPage from '../EnrolmentsPage';
 
 configure({ defaultHidden: true });
@@ -38,11 +34,9 @@ const route = ROUTES.REGISTRATION_ENROLMENTS.replace(
 );
 
 const defaultMocks = [
-  mockedAttendeesResponse,
   mockedEventResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
-  mockedWaitingAttendeesResponse,
 ];
 
 beforeEach(() => jest.clearAllMocks());
@@ -127,13 +121,15 @@ test("should show not found page if registration doesn't exist", async () => {
 test('should move to create enrolment page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
-
   await loadingSpinnerIsNotInDocument(10000);
 
   const createButton = await findElement('createEnrolmentButton');
+  await waitFor(() => expect(createButton).toBeEnabled(), { timeout: 5000 });
   await act(async () => await user.click(createButton));
 
-  expect(history.location.pathname).toBe(
-    `/registrations/${registrationId}/enrolments/create`
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/registrations/${registrationId}/enrolments/create`
+    )
   );
 });

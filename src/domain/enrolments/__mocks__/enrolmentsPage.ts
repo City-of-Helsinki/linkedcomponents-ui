@@ -39,7 +39,7 @@ const waitingAttendeeNames = range(1, 2).map(
 
 const waitingAttendees = fakeEnrolments(
   waitingAttendeeNames.length,
-  attendeeNames.map((name, index) => ({
+  waitingAttendeeNames.map((name, index) => ({
     attendeeStatus: AttendeeStatus.Waitlisted,
     id: `waitlisted:${index}`,
     name,

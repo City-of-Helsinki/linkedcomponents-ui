@@ -4,7 +4,6 @@ import { AttendeeStatus } from '../../../../generated/graphql';
 import {
   act,
   configure,
-  CustomRenderOptions,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -14,11 +13,7 @@ import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
-import {
-  attendeeNames,
-  attendees,
-  mockedAttendeesResponse,
-} from '../../__mocks__/enrolmentsPage';
+import { attendeeNames, attendees } from '../../__mocks__/enrolmentsPage';
 import { ENROLMENTS_PAGE_SIZE } from '../../constants';
 import EnrolmentsTable, { EnrolmentsTableProps } from '../EnrolmentsTable';
 
@@ -29,24 +24,14 @@ const defaultProps: EnrolmentsTableProps = {
   enrolmentsVariables: { attendeeStatus: AttendeeStatus.Attending },
   heading: 'Enrolments table',
   pagePath: 'attendeePage',
-  registration,
+  registration: { ...registration, signups: attendees },
 };
 
-const enrolmentName = attendees[0].name;
+const enrolmentName = attendees[0].name as string;
 const enrolmentId = attendees[0].id;
 
-const defaultMocks = [mockedAttendeesResponse];
-
-const renderComponent = (
-  props?: Partial<EnrolmentsTableProps>,
-  renderOptions: CustomRenderOptions = {}
-) => {
-  const { mocks = defaultMocks } = renderOptions;
-
-  return render(<EnrolmentsTable {...defaultProps} {...props} />, {
-    ...renderOptions,
-    mocks,
-  });
+const renderComponent = (props?: Partial<EnrolmentsTableProps>) => {
+  return render(<EnrolmentsTable {...defaultProps} {...props} />);
 };
 
 const getElement = (key: 'page1' | 'page2' | 'pagination') => {
@@ -61,7 +46,7 @@ const getElement = (key: 'page1' | 'page2' | 'pagination') => {
 };
 
 test('should render enrolments table', async () => {
-  renderComponent(undefined, { mocks: [] });
+  renderComponent({ registration: { ...registration, signups: [] } });
 
   screen.getByRole('heading', { name: 'Enrolments table' });
 

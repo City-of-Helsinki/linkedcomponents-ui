@@ -57,6 +57,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
 
   const { isAuthenticated: authenticated } = useAuth();
   const publisher = useRegistrationPublisher({ registration }) as string;
+
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { user } = useUser();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
@@ -89,7 +90,6 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
     t,
     user,
   });
-
   return (
     <PageWrapper
       backgroundColor="coatOfArms"
@@ -147,7 +147,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
             title={name}
           />
 
-          <SearchPanel registration={registration} />
+          <SearchPanel />
           <FilterSummary />
 
           <AttendeeList registration={registration} />

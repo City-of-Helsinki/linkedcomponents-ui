@@ -72,3 +72,29 @@ export const enrolmentsPathBuilder = ({
 
   return `/signup/${query}`;
 };
+
+export const filterEnrolments = ({
+  enrolments,
+  query,
+}: {
+  enrolments: EnrolmentFieldsFragment[];
+  query: EnrolmentsQueryVariables;
+}): EnrolmentFieldsFragment[] => {
+  const { attendeeStatus, text } = query;
+  let filteredEnrolments = [...enrolments];
+
+  if (attendeeStatus) {
+    filteredEnrolments = filteredEnrolments.filter(
+      (enrolment) => enrolment.attendeeStatus === attendeeStatus
+    );
+  }
+  if (text) {
+    filteredEnrolments = filteredEnrolments.filter(
+      (enrolment) =>
+        enrolment.name?.toLowerCase().includes(text.toLowerCase()) ||
+        enrolment.email?.toLowerCase().includes(text.toLowerCase()) ||
+        enrolment.phoneNumber?.toLowerCase().includes(text.toLowerCase())
+    );
+  }
+  return filteredEnrolments;
+};
