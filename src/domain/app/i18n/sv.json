@@ -370,6 +370,11 @@
       "email": "Via e-post",
       "sms": "Med sms"
     },
+    "personsAddedToWaitingListModal": {
+      "buttonClose": "Stänga",
+      "text": "Observera att inte alla anmäldas platser är garanterade. Deltagare på reservplatsen bekräftas endast om fler platser blir lediga i kön. Du kommer att få ett separat e-postmeddelande från bekräftad registrering.",
+      "title": "Deltagare har lagts till i bokningskön"
+    },
     "reservationTimeExpiredModal": {
       "buttonTryAgain": "Försök igen",
       "text": "Tyvärr har bokningstiden gått ut.",

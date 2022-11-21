@@ -369,6 +369,11 @@
       "email": "By email",
       "sms": "By text message"
     },
+    "personsAddedToWaitingListModal": {
+      "buttonClose": "Close",
+      "text": "Please note that not all registrants' places are guaranteed. Entrants in the reserve position will only be confirmed if more places become available in the queue. You will receive a separate email from confirmed registration.",
+      "title": "Entrants have been added to the reservation queue"
+    },
     "reservationTimeExpiredModal": {
       "buttonTryAgain": "Try Again",
       "text": "Unfortunately, the Reservation time has expired.",
