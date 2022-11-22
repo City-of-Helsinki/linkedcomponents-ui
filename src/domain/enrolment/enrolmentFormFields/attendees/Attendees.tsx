@@ -1,9 +1,10 @@
 /* eslint-disable max-len */
 import { FieldArray, useField } from 'formik';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router';
 
 import {
+  RegistrationFieldsFragment,
   SeatsReservation,
   useUpdateSeatsReservationMutation,
 } from '../../../../generated/graphql';
@@ -14,7 +15,6 @@ import {
 } from '../../../reserveSeats/utils';
 import useUser from '../../../user/hooks/useUser';
 import { ENROLMENT_FIELDS } from '../../constants';
-import EnrolmentPageContext from '../../enrolmentPageContext/EnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import ConfirmDeleteParticipantModal from '../../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { AttendeeFields } from '../../types';
@@ -26,9 +26,10 @@ const getAttendeePath = (index: number) =>
 
 interface Props {
   disabled?: boolean;
+  registration: RegistrationFieldsFragment;
 }
 
-const Attendees: React.FC<Props> = ({ disabled }) => {
+const Attendees: React.FC<Props> = ({ disabled, registration }) => {
   const [openModalIndex, setOpenModalIndex] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -38,7 +39,6 @@ const Attendees: React.FC<Props> = ({ disabled }) => {
   const { setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
 
-  const { registration } = useContext(EnrolmentPageContext);
   const registrationId = registration.id as string;
 
   const [{ value: attendees }] = useField<AttendeeFields[]>({

@@ -29,9 +29,7 @@ import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
 import EnrolmentForm from './enrolmentForm/EnrolmentForm';
 import styles from './enrolmentPage.module.scss';
-import EnrolmentPageContext, {
-  useEnrolmentPageContextValue,
-} from './enrolmentPageContext/EnrolmentPageContext';
+import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';
 import { EnrolmentServerErrorsProvider } from './enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import {
   checkCanUserDoAction,
@@ -91,6 +89,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
           disabled={formDisabled}
           event={event}
           initialValues={initialValues}
+          registration={registration}
         />
       </MainContent>
     </PageWrapper>
@@ -125,27 +124,17 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
     },
   });
 
-  const { openParticipant, setOpenParticipant, toggleOpenParticipant } =
-    useEnrolmentPageContextValue();
-
   const event = eventData?.event;
   const loading = loadingUser || loadingRegistration || loadingEvent;
 
   return (
     <LoadingSpinner isLoading={loading}>
       {event && registration ? (
-        <EnrolmentPageContext.Provider
-          value={{
-            openParticipant,
-            registration,
-            setOpenParticipant,
-            toggleOpenParticipant,
-          }}
-        >
+        <EnrolmentPageProvider>
           <EnrolmentServerErrorsProvider>
             <CreateEnrolmentPage event={event} registration={registration} />
           </EnrolmentServerErrorsProvider>
-        </EnrolmentPageContext.Provider>
+        </EnrolmentPageProvider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

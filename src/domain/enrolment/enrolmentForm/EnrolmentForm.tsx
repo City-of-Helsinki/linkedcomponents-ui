@@ -7,7 +7,7 @@ import {
   useApolloClient,
 } from '@apollo/client';
 import { Form, Formik } from 'formik';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
@@ -22,6 +22,7 @@ import {
   EnrolmentQuery,
   EnrolmentQueryVariables,
   EventFieldsFragment,
+  RegistrationFieldsFragment,
   useCreateEnrolmentMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -37,18 +38,16 @@ import {
   getSeatsReservationData,
 } from '../../reserveSeats/utils';
 import useUser from '../../user/hooks/useUser';
-import { ENROLMENT_ACTIONS } from '../constants';
+import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import EnrolmentAuthenticationNotification from '../enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import EnrolmentFormFields from '../enrolmentFormFields/EnrolmentFormFields';
-import EnrolmentPageContext from '../enrolmentPageContext/EnrolmentPageContext';
+import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import EventInfo from '../eventInfo/EventInfo';
 import FormContainer from '../formContainer/FormContainer';
-import useEnrolmentUpdateActions, {
-  ENROLMENT_MODALS,
-} from '../hooks/useEnrolmentUpdateActions';
+import useEnrolmentUpdateActions from '../hooks/useEnrolmentUpdateActions';
 import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
 import { useReservationTimer } from '../reservationTimer/hooks/useReservationTimer';
@@ -71,6 +70,7 @@ type Props = {
   refetchEnrolment?: (
     variables?: Partial<EnrolmentQueryVariables>
   ) => Promise<ApolloQueryResult<EnrolmentQuery>>;
+  registration: RegistrationFieldsFragment;
 };
 
 const EnrolmentForm: React.FC<Props> = ({
@@ -79,12 +79,12 @@ const EnrolmentForm: React.FC<Props> = ({
   event,
   initialValues,
   refetchEnrolment,
+  registration,
 }) => {
   const {
     callbacksDisabled,
     disableCallbacks: disableReservationTimerCallbacks,
   } = useReservationTimer();
-  const { registration } = useContext(EnrolmentPageContext);
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
   const locale = useLocale();
@@ -93,21 +93,16 @@ const EnrolmentForm: React.FC<Props> = ({
 
   const formSavingDisabled = React.useRef(!!enrolment);
 
-  const { setOpenParticipant } = useContext(EnrolmentPageContext);
-
   const { user } = useUser();
 
-  const {
-    cancelEnrolment,
-    closeModal,
-    openModal,
-    saving,
-    setOpenModal,
-    updateEnrolment,
-  } = useEnrolmentUpdateActions({
-    enrolment,
-    registration,
-  });
+  const { closeModal, openModal, setOpenModal, setOpenParticipant } =
+    useEnrolmentPageContext();
+
+  const { cancelEnrolment, saving, updateEnrolment } =
+    useEnrolmentUpdateActions({
+      enrolment,
+      registration,
+    });
 
   const [creatingEnrolment, setCreatingEnrolment] =
     React.useState<boolean>(false);
@@ -304,9 +299,13 @@ const EnrolmentForm: React.FC<Props> = ({
 
                     <ParticipantAmountSelector
                       disabled={disabled || !!enrolment}
+                      registration={registration}
                     />
 
-                    <EnrolmentFormFields disabled={disabled} />
+                    <EnrolmentFormFields
+                      disabled={disabled}
+                      registration={registration}
+                    />
                   </FormContainer>
                 </Container>
                 {enrolment ? (
@@ -314,12 +313,14 @@ const EnrolmentForm: React.FC<Props> = ({
                     enrolment={enrolment}
                     onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
                     onSave={handleSubmit}
+                    registration={registration}
                     saving={saving}
                   />
                 ) : (
                   <CreateButtonPanel
                     disabled={disabled}
                     onSave={handleSubmit}
+                    registration={registration}
                     saving={creatingEnrolment}
                   />
                 )}
@@ -333,12 +334,10 @@ const EnrolmentForm: React.FC<Props> = ({
 };
 
 const EnrolmentFormWrapper: React.FC<Props> = (props) => {
-  const { registration } = useContext(EnrolmentPageContext);
-
   return (
     <ReservationTimerProvider
       initializeReservationData={!props.enrolment}
-      registration={registration}
+      registration={props.registration}
     >
       <EnrolmentForm {...props} />
     </ReservationTimerProvider>

@@ -202,6 +202,17 @@ export const enrolmentPathBuilder = ({
   return `/signup_edit/${id}/`;
 };
 
+export const getTotalAttendeeCapacity = (
+  registration: RegistrationFieldsFragment
+): number | undefined => {
+  const attendeeCapacity = getFreeAttendeeCapacity(registration);
+  // If there are seats in the event
+  if (attendeeCapacity === undefined) {
+    return undefined;
+  }
+  return attendeeCapacity + getFreeWaitlistCapacity(registration);
+};
+
 export const getFreeAttendeeCapacity = (
   registration: RegistrationFieldsFragment
 ): number | undefined => {
@@ -216,6 +227,21 @@ export const getFreeAttendeeCapacity = (
   );
 };
 
+export const getFreeWaitlistCapacity = (
+  registration: RegistrationFieldsFragment
+): number => {
+  // If there are seats in the event
+  if (!registration.waitingListCapacity) {
+    return 0;
+  }
+
+  return Math.max(
+    registration.waitingListCapacity -
+      (registration.currentWaitingListCount ?? 0),
+    0
+  );
+};
+
 export const getAttendeeCapacityError = (
   registration: RegistrationFieldsFragment,
   participantAmount: number,
@@ -225,7 +251,7 @@ export const getAttendeeCapacityError = (
     return t(VALIDATION_MESSAGE_KEYS.CAPACITY_MIN, { min: 1 });
   }
 
-  const freeCapacity = getFreeAttendeeCapacity(registration);
+  const freeCapacity = getTotalAttendeeCapacity(registration);
 
   if (freeCapacity && participantAmount > freeCapacity) {
     return t(VALIDATION_MESSAGE_KEYS.CAPACITY_MAX, {

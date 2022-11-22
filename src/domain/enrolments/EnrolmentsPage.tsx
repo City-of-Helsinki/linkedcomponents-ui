@@ -24,6 +24,7 @@ import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
 import { ENROLMENT_ACTIONS } from '../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
+import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import {
   clearCreateEnrolmentFormData,
   getEditButtonProps,
@@ -181,7 +182,9 @@ const EnrolmentsPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {registration ? (
-        <EnrolmentsPage registration={registration} />
+        <EnrolmentPageProvider>
+          <EnrolmentsPage registration={registration} />
+        </EnrolmentPageProvider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

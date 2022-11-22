@@ -9,6 +9,7 @@ import {
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
+import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import {
   registration,
   registrationId,
@@ -31,7 +32,11 @@ const enrolmentName = attendees[0].name as string;
 const enrolmentId = attendees[0].id;
 
 const renderComponent = (props?: Partial<EnrolmentsTableProps>) => {
-  return render(<EnrolmentsTable {...defaultProps} {...props} />);
+  return render(
+    <EnrolmentPageProvider>
+      <EnrolmentsTable {...defaultProps} {...props} />
+    </EnrolmentPageProvider>
+  );
 };
 
 const getElement = (key: 'page1' | 'page2' | 'pagination') => {

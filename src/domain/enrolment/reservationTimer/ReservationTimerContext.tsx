@@ -22,6 +22,8 @@ import {
   setSeatsReservationData,
 } from '../../reserveSeats/utils';
 import useUser from '../../user/hooks/useUser';
+import { ENROLMENT_MODALS } from '../constants';
+import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
 import { clearCreateEnrolmentFormData } from '../utils';
@@ -29,9 +31,7 @@ import { clearCreateEnrolmentFormData } from '../utils';
 export type ReservationTimerContextProps = {
   callbacksDisabled: boolean;
   disableCallbacks: () => void;
-  isModalOpen: boolean;
   registration: Registration;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   timeLeft: number | null;
 };
 
@@ -54,6 +54,8 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
     [registration]
   );
 
+  const { openModal, setOpenModal } = useEnrolmentPageContext();
+
   const { user } = useUser();
   const { setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
@@ -63,7 +65,6 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
   const callbacksDisabled = useRef(false);
   const timerEnabled = useRef(false);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const enableTimer = useCallback(() => {
     timerEnabled.current = true;
@@ -97,6 +98,10 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
           data?.createSeatsReservation as SeatsReservation
         )
       );
+
+      if (data?.createSeatsReservation.waitlistSpots) {
+        setOpenModal(ENROLMENT_MODALS.PERSONS_ADDED_TO_WAITLIST);
+      }
     } catch (error) {
       showServerErrors({ error }, 'seatsReservation');
 
@@ -151,28 +156,26 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
             clearCreateEnrolmentFormData(registrationId);
             clearSeatsReservationData(registrationId);
 
-            setIsModalOpen(true);
+            setOpenModal(ENROLMENT_MODALS.RESERVATION_TIME_EXPIRED);
           }
         }
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [disableCallbacks, registrationId, setTimeLeft, timeLeft]);
+  }, [disableCallbacks, registrationId, setOpenModal, setTimeLeft, timeLeft]);
 
   return (
     <ReservationTimerContext.Provider
       value={{
         callbacksDisabled: callbacksDisabled.current,
         disableCallbacks,
-        isModalOpen,
         registration,
-        setIsModalOpen,
         timeLeft,
       }}
     >
       <ReservationTimeExpiredModal
-        isOpen={isModalOpen}
+        isOpen={openModal === ENROLMENT_MODALS.RESERVATION_TIME_EXPIRED}
         onTryAgain={handleTryAgain}
       />
       {children}

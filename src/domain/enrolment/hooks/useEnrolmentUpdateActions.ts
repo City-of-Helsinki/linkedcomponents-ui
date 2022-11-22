@@ -22,12 +22,9 @@ import {
 import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
+import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { EnrolmentFormFields } from '../types';
 import { getUpdateEnrolmentPayload } from '../utils';
-
-export enum ENROLMENT_MODALS {
-  CANCEL = 'cancel',
-}
 
 interface Props {
   enrolment?: EnrolmentFieldsFragment;
@@ -35,11 +32,8 @@ interface Props {
 }
 
 type UseEnrolmentUpdateActionsState = {
-  closeModal: () => void;
   cancelEnrolment: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
-  openModal: ENROLMENT_MODALS | null;
   saving: ENROLMENT_ACTIONS | false;
-  setOpenModal: (modal: ENROLMENT_MODALS | null) => void;
   updateEnrolment: (
     values: EnrolmentFormFields,
     callbacks?: UpdateActionsCallbacks
@@ -52,17 +46,13 @@ const useEnrolmentUpdateActions = ({
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
   const location = useLocation();
-  const [openModal, setOpenModal] = useMountedState<ENROLMENT_MODALS | null>(
-    null
-  );
+
+  const { closeModal } = useEnrolmentPageContext();
+
   const [saving, setSaving] = useMountedState<ENROLMENT_ACTIONS | false>(false);
 
   const [deleteEnrolmentMutation] = useDeleteEnrolmentMutation();
   const [updateEnrolmentMutation] = useUpdateEnrolmentMutation();
-
-  const closeModal = () => {
-    setOpenModal(null);
-  };
 
   const savingFinished = () => {
     setSaving(false);
@@ -157,11 +147,8 @@ const useEnrolmentUpdateActions = ({
   };
 
   return {
-    closeModal,
     cancelEnrolment,
-    openModal,
     saving,
-    setOpenModal,
     updateEnrolment,
   };
 };

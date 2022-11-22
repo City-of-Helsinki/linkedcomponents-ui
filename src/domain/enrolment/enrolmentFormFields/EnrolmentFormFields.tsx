@@ -11,6 +11,7 @@ import SingleSelectField from '../../../common/components/formFields/singleSelec
 import TextAreaField from '../../../common/components/formFields/textAreaField/TextAreaField';
 import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../common/components/formGroup/FormGroup';
+import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import { ENROLMENT_FIELDS, NOTIFICATIONS } from '../constants';
 import useLanguageOptions from '../hooks/useLanguageOptions';
 import useNotificationOptions from '../hooks/useNotificationOptions';
@@ -19,9 +20,10 @@ import styles from './enrolmentFormFields.module.scss';
 
 interface Props {
   disabled?: boolean;
+  registration: RegistrationFieldsFragment;
 }
 
-const EnrolmentForm: React.FC<Props> = ({ disabled }) => {
+const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
   const { t } = useTranslation();
   const notificationOptions = useNotificationOptions();
   const languageOptions = useLanguageOptions();
@@ -32,7 +34,7 @@ const EnrolmentForm: React.FC<Props> = ({ disabled }) => {
 
   return (
     <>
-      <Attendees disabled={disabled} />
+      <Attendees disabled={disabled} registration={registration} />
       <Fieldset heading={t(`enrolment.form.titleContactInfo`)}>
         <FormGroup>
           <div className={styles.emailRow}>

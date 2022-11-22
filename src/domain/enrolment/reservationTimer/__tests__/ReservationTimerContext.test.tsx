@@ -11,6 +11,7 @@ import {
 } from '../../../../generated/graphql';
 import { fakeSeatsReservation } from '../../../../utils/mockDataUtils';
 import {
+  act,
   render,
   screen,
   userEvent,
@@ -18,6 +19,7 @@ import {
   within,
 } from '../../../../utils/testUtils';
 import { registration } from '../../../registration/__mocks__/registration';
+import { EnrolmentPageProvider } from '../../enrolmentPageContext/EnrolmentPageContext';
 import {
   EnrolmentServerErrorsContext,
   EnrolmentServerErrorsContextProps,
@@ -50,14 +52,16 @@ const renderComponent = (
   mocks: MockedResponse[] = []
 ) =>
   render(
-    <EnrolmentServerErrorsContext.Provider
-      value={{ ...defaultServerErrorsProps, ...serverErrorProps }}
-    >
-      <ReservationTimerProvider
-        initializeReservationData={true}
-        registration={registration}
-      />
-    </EnrolmentServerErrorsContext.Provider>,
+    <EnrolmentPageProvider>
+      <EnrolmentServerErrorsContext.Provider
+        value={{ ...defaultServerErrorsProps, ...serverErrorProps }}
+      >
+        <ReservationTimerProvider
+          initializeReservationData={true}
+          registration={registration}
+        />
+      </EnrolmentServerErrorsContext.Provider>
+    </EnrolmentPageProvider>,
     { mocks }
   );
 
@@ -104,6 +108,32 @@ const getSeatsReservationErrorMock = (error: Error): MockedResponse => {
   };
 };
 
+const createSeatsReservationPayload = {
+  registration: registration.id,
+  seats: 1,
+  waitlist: true,
+};
+
+const getCreateSeatsReservationMock = (
+  seatsReservation: SeatsReservation
+): MockedResponse => {
+  const createSeatsReservationVariables = {
+    input: { ...createSeatsReservationPayload, seats: seatsReservation.seats },
+  };
+
+  const createEnrolmentResponse = {
+    data: { createSeatsReservation: seatsReservation },
+  };
+
+  return {
+    request: {
+      query: CreateSeatsReservationDocument,
+      variables: createSeatsReservationVariables,
+    },
+    result: createEnrolmentResponse,
+  };
+};
+
 test('should show server errors when creating seats reservation fails', async () => {
   const showServerErrors = jest.fn();
   const error = new Error();
@@ -113,6 +143,31 @@ test('should show server errors when creating seats reservation fails', async ()
   await waitFor(() =>
     expect(showServerErrors).toBeCalledWith({ error }, 'seatsReservation')
   );
+});
+
+test('should show modal if any of the reserved seats is in waiting list', async () => {
+  const user = userEvent.setup();
+  const mocks = [
+    getCreateSeatsReservationMock(
+      fakeSeatsReservation({
+        seats: 1,
+        waitlistSpots: 1,
+        seatsAtEvent: 0,
+      })
+    ),
+  ];
+  renderComponent(undefined, mocks);
+
+  const modal = await screen.findByRole('dialog', {
+    name: 'Ilmoittautujia on lisätty varausjonoon',
+  });
+
+  await act(
+    async () =>
+      await user.click(within(modal).getByRole('button', { name: 'Sulje' }))
+  );
+
+  await waitFor(() => expect(modal).not.toBeInTheDocument());
 });
 
 test('should route to create enrolment page if reservation is expired', async () => {

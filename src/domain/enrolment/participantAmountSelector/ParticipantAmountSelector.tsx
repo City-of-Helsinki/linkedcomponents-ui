@@ -1,12 +1,13 @@
 import { useField } from 'formik';
 import isEqual from 'lodash/isEqual';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
 import NumberInput from '../../../common/components/numberInput/NumberInput';
 import {
+  RegistrationFieldsFragment,
   SeatsReservation,
   useUpdateSeatsReservationMutation,
 } from '../../../generated/graphql';
@@ -16,37 +17,41 @@ import {
   setSeatsReservationData,
 } from '../../reserveSeats/utils';
 import useUser from '../../user/hooks/useUser';
-import { ENROLMENT_FIELDS } from '../constants';
-import EnrolmentPageContext from '../enrolmentPageContext/EnrolmentPageContext';
+import { ENROLMENT_FIELDS, ENROLMENT_MODALS } from '../constants';
+import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import ConfirmDeleteParticipantModal from '../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { AttendeeFields } from '../types';
 import {
   getAttendeeCapacityError,
   getAttendeeDefaultInitialValues,
-  getFreeAttendeeCapacity,
+  getTotalAttendeeCapacity,
 } from '../utils';
 import styles from './participantAmountSelector.module.scss';
 
 interface Props {
   disabled: boolean;
+  registration: RegistrationFieldsFragment;
 }
 
-const ParticipantAmountSelector: React.FC<Props> = ({ disabled }) => {
+const ParticipantAmountSelector: React.FC<Props> = ({
+  disabled,
+  registration,
+}) => {
   const { t } = useTranslation();
   const location = useLocation();
   const { user } = useUser();
+
+  const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
 
   const { setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
 
   const [updateSeatsReservationMutation] = useUpdateSeatsReservationMutation();
 
-  const [openModal, setOpenModal] = useState(false);
   const [saving, setSaving] = useState(false);
   const [participantsToDelete, setParticipantsToDelete] = useState(0);
 
-  const { registration } = useContext(EnrolmentPageContext);
   const registrationId = registration.id as string;
 
   const [{ value: attendees }, , { setValue: setAttendees }] = useField<
@@ -62,7 +67,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({ disabled }) => {
           1
         )
   );
-  const freeCapacity = getFreeAttendeeCapacity(registration);
+  const freeCapacity = getTotalAttendeeCapacity(registration);
 
   const handleParticipantAmountChange: React.ChangeEventHandler<
     HTMLInputElement
@@ -113,7 +118,12 @@ const ParticipantAmountSelector: React.FC<Props> = ({ disabled }) => {
       );
 
       setSaving(false);
-      closeModal();
+      // Show modal to inform that some of the persons will be added to the waiting list
+      if (data?.updateSeatsReservation.waitlistSpots) {
+        setOpenModal(ENROLMENT_MODALS.PERSONS_ADDED_TO_WAITLIST);
+      } else {
+        closeModal();
+      }
     } catch (error) {
       showServerErrors({ error }, 'seatsReservation');
 
@@ -144,18 +154,14 @@ const ParticipantAmountSelector: React.FC<Props> = ({ disabled }) => {
     }
   };
 
-  const closeModal = () => {
-    setOpenModal(false);
-  };
-
-  const openParticipantModal = () => {
-    setOpenModal(true);
+  const openDeleteParticipantModal = () => {
+    setOpenModal(ENROLMENT_MODALS.DELETE);
   };
 
   const handleUpdateClick = () => {
     if (participantAmount < attendees.length) {
       setParticipantsToDelete(attendees.length - participantAmount);
-      openParticipantModal();
+      openDeleteParticipantModal();
     } else {
       updateParticipantAmount();
     }
@@ -164,7 +170,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({ disabled }) => {
   return (
     <>
       <ConfirmDeleteParticipantModal
-        isOpen={openModal}
+        isOpen={openModal === ENROLMENT_MODALS.DELETE}
         isSaving={saving}
         onClose={closeModal}
         onDelete={updateParticipantAmount}
