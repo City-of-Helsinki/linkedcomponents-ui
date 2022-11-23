@@ -16,9 +16,10 @@ const content = 'Accordion content';
 const toggleButtonLabel = 'Toggle';
 
 const defaultProps: AttendeeAccordionProps = {
-  toggleButtonLabel,
-  open: true,
+  inWaitingList: false,
   onClick: jest.fn(),
+  open: true,
+  toggleButtonLabel,
 };
 
 const renderComponent = (props?: Partial<AttendeeAccordionProps>) =>
@@ -28,7 +29,7 @@ const renderComponent = (props?: Partial<AttendeeAccordionProps>) =>
     </AttendeeAccordion>
   );
 
-test('should not show contentif accordion is not open', async () => {
+test('should not show content if accordion is not open', async () => {
   renderComponent({ open: false });
 
   expect(
@@ -36,13 +37,25 @@ test('should not show contentif accordion is not open', async () => {
   ).not.toBeInTheDocument();
 });
 
-test('should show contentif accordion is open', async () => {
+test('should show content if accordion is open', async () => {
   renderComponent({ open: true });
 
   screen.getByRole('region', { hidden: false });
 });
 
-test('should call onClick', async () => {
+test('should not show in waiting list text if attendee is not in waiting list', async () => {
+  renderComponent({ inWaitingList: false, open: true });
+
+  expect(screen.queryByText('Varasija')).not.toBeInTheDocument();
+});
+
+test('should show in waiting list text if attendee is in waiting list', async () => {
+  renderComponent({ inWaitingList: true, open: true });
+
+  screen.getByText('Varasija');
+});
+
+test('should call onClick when clicking', async () => {
   const user = userEvent.setup();
   const onClick = jest.fn();
 
@@ -50,5 +63,16 @@ test('should call onClick', async () => {
 
   const toggleButton = screen.getByRole('button', { name: toggleButtonLabel });
   await user.click(toggleButton);
+  expect(onClick).toBeCalled();
+});
+
+test('should open edit keyword set page by pressing enter on row', async () => {
+  const user = userEvent.setup();
+  const onClick = jest.fn();
+
+  renderComponent({ open: true, onClick });
+
+  const toggleButton = screen.getByRole('button', { name: toggleButtonLabel });
+  await user.type(toggleButton, '{enter}');
   expect(onClick).toBeCalled();
 });

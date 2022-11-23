@@ -366,6 +366,10 @@
       "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
       "titleRegistration": "Ilmoittautuminen"
     },
+    "inWaitingList": {
+      "text": "Varasija",
+      "tooltip": "Ilmoittautuja on lisätty ilmoittautujien jonoon varasijalla. Ilmoittautuminen varmistuu vasta, kun paikka jonossa vapautuu. Saat paikan varmistumisesta ilmoituksen sähköpostitse."
+    },
     "notifications": {
       "email": "Sähköpostilla",
       "sms": "Tekstiviestillä"

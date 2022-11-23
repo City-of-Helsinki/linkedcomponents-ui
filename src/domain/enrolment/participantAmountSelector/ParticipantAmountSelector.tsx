@@ -109,7 +109,13 @@ const ParticipantAmountSelector: React.FC<Props> = ({
         ...Array(Math.max(seats - filledAttendees.length, 0)).fill(
           attendeeInitialValues
         ),
-      ].slice(0, seats);
+      ]
+        .slice(0, seats)
+        .map((attendee, index) => ({
+          ...attendee,
+          inWaitingList:
+            index + 1 > (data?.updateSeatsReservation.seatsAtEvent as number),
+        }));
 
       setAttendees(newAttendees);
       setSeatsReservationData(

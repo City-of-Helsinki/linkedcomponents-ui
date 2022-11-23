@@ -365,6 +365,10 @@
       "titleNotifications": "Event notifications",
       "titleRegistration": "Registration"
     },
+    "inWaitingList": {
+      "text": "In waiting list",
+      "tooltip": "Entrants have been added to the queue of registrants with a reserve place. Registration is confirmed only when a place in the queue becomes available. You will receive a notification by e-mail that the place has been confirmed."
+    },
     "notifications": {
       "email": "By email",
       "sms": "By text message"

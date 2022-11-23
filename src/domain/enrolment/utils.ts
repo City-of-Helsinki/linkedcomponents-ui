@@ -3,6 +3,7 @@ import { TFunction } from 'i18next';
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
 import {
+  AttendeeStatus,
   CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
   EnrolmentQueryVariables,
@@ -77,6 +78,7 @@ export const getEnrolmentInitialValues = (
           ? new Date(enrolment.dateOfBirth)
           : null,
         extraInfo: '',
+        inWaitingList: enrolment.attendeeStatus === AttendeeStatus.Waitlisted,
         name: enrolment.name ?? '',
         streetAddress: enrolment.streetAddress ?? '',
         zip: enrolment.zipcode ?? '',
@@ -134,7 +136,7 @@ export const getEnrolmentPayload = ({
     return {
       city: city || null,
       dateOfBirth: dateOfBirth
-        ? formatDate(dateOfBirth, DATE_FORMAT_API)
+        ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
         : null,
       email: email || null,
       extraInfo: extraInfo,
@@ -237,7 +239,7 @@ export const getFreeWaitlistCapacity = (
 
   return Math.max(
     registration.waitingListCapacity -
-      (registration.currentWaitingListCount ?? 0),
+      (registration.currentWaitingListCount ?? /* istanbul ignore next */ 0),
     0
   );
 };

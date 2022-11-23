@@ -41,9 +41,9 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
 
   const registrationId = registration.id as string;
 
-  const [{ value: attendees }] = useField<AttendeeFields[]>({
-    name: ENROLMENT_FIELDS.ATTENDEES,
-  });
+  const [{ value: attendees }, , { setValue: setAttendees }] = useField<
+    AttendeeFields[]
+  >({ name: ENROLMENT_FIELDS.ATTENDEES });
 
   const [updateSeatsReservationMutation] = useUpdateSeatsReservationMutation();
 
@@ -51,7 +51,10 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
     setOpenModalIndex(null);
   };
 
-  const updateSeatsReservation = async (participantAmount: number) => {
+  const updateSeatsReservation = async (
+    participantAmount: number,
+    indexToRemove: number
+  ) => {
     const reservationData = getSeatsReservationData(registrationId);
     const payload = {
       code: reservationData?.code as string,
@@ -64,6 +67,16 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
       const { data } = await updateSeatsReservationMutation({
         variables: { input: payload },
       });
+
+      const newAttendees = attendees
+        .filter((_, index) => index !== indexToRemove)
+        .map((attendee, index) => ({
+          ...attendee,
+          inWaitingList:
+            index + 1 > (data?.updateSeatsReservation.seatsAtEvent as number),
+        }));
+
+      setAttendees(newAttendees);
 
       setSeatsReservationData(
         registrationId,
@@ -95,7 +108,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
     <div className={styles.accordions}>
       <FieldArray
         name={ENROLMENT_FIELDS.ATTENDEES}
-        render={(arrayHelpers) => (
+        render={() => (
           <div>
             {attendees.map((attendee, index: number) => {
               const openModal = () => {
@@ -107,8 +120,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
                 // Clear server errors
                 setServerErrorItems([]);
 
-                await updateSeatsReservation(attendees.length - 1);
-                arrayHelpers.remove(index);
+                await updateSeatsReservation(attendees.length - 1, index);
               };
 
               return (

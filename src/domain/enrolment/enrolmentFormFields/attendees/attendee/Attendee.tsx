@@ -36,6 +36,9 @@ const Attendee: React.FC<Props> = ({
   const { t } = useTranslation();
   const { openParticipant, toggleOpenParticipant } = useEnrolmentPageContext();
 
+  const labelText =
+    attendee.name ||
+    t('enrolment.form.attendeeDefaultTitle', { index: index + 1 });
   return (
     <AttendeeAccordion
       deleteButton={
@@ -50,12 +53,10 @@ const Attendee: React.FC<Props> = ({
           </button>
         ) : undefined
       }
+      inWaitingList={attendee.inWaitingList}
       onClick={() => toggleOpenParticipant(index)}
       open={openParticipant === index}
-      toggleButtonLabel={
-        attendee.name ||
-        t('enrolment.form.attendeeDefaultTitle', { index: index + 1 })
-      }
+      toggleButtonLabel={labelText}
     >
       <Fieldset heading={t(`enrolment.form.titleBasicInfo`)}>
         <FormGroup>
