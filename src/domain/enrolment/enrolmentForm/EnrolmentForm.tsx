@@ -44,6 +44,7 @@ import {
   ENROLMENT_MODALS,
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
+import Divider from '../divider/Divider';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import EnrolmentAuthenticationNotification from '../enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import EnrolmentFormFields from '../enrolmentFormFields/EnrolmentFormFields';
@@ -64,6 +65,7 @@ import {
 import {
   clearCreateEnrolmentFormData,
   getEnrolmentPayload,
+  getFreeAttendeeCapacity,
   isRestoringFormDataDisabled,
 } from '../utils';
 import { enrolmentSchema, scrollToFirstError } from '../validation';
@@ -261,6 +263,8 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
     }
   };
 
+  const freeCapacity = getFreeAttendeeCapacity(registration);
+
   return (
     <>
       {enrolment && (
@@ -295,7 +299,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
               />
               <ServerErrorSummary errors={serverErrorItems} />
               <EventInfo event={event} />
-              <div className={styles.divider} />
+              <Divider />
               {!enrolment && registrationWarning && (
                 <Notification type="info" className={styles.warning}>
                   {registrationWarning}
@@ -304,10 +308,16 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
               {!enrolment && (
                 <>
                   <ReservationTimer />
-                  <div className={styles.divider} />
+                  <Divider />
                 </>
               )}
               <h2>{t('enrolment.form.titleRegistration')}</h2>
+              {typeof freeCapacity === 'number' && (
+                <p>
+                  {t('enrolment.form.freeCapacity')}{' '}
+                  <strong>{freeCapacity}</strong>
+                </p>
+              )}
 
               <ParticipantAmountSelector
                 disabled={disabled || !!enrolment}

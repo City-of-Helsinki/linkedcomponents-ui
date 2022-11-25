@@ -333,6 +333,7 @@
       "buttonDeleteAttendee": "Delete participant",
       "buttonSave": "Save participant",
       "buttonUpdateParticipantAmount": "Update",
+      "freeCapacity": "Available seats",
       "labelAttendeeExtraInfo": "Additional information (optional)",
       "labelCity": "City",
       "labelDateOfBirth": "Date of birth",
@@ -362,6 +363,7 @@
       "titleAdditionalInfo": "Additional information",
       "titleBasicInfo": "Basic information of the registrant",
       "titleContactInfo": "Contact information",
+      "titleInformantInfo": "Information of the informant",
       "titleNotifications": "Event notifications",
       "titleRegistration": "Registration"
     },

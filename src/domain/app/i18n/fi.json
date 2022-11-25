@@ -334,6 +334,7 @@
       "buttonDeleteAttendee": "Poista osallistuja",
       "buttonSave": "Tallenna osallistuja",
       "buttonUpdateParticipantAmount": "Päivitä",
+      "freeCapacity": "Saatavilla olevia paikkoja",
       "labelAttendeeExtraInfo": "Lisätietoa (valinnainen)",
       "labelCity": "Kaupunki",
       "labelDateOfBirth": "Syntymäaika",
@@ -363,6 +364,7 @@
       "titleAdditionalInfo": "Lisätiedot",
       "titleBasicInfo": "Ilmoittautujan perustiedot",
       "titleContactInfo": "Yhteystiedot",
+      "titleInformantInfo": "Ilmoittajan tiedot",
       "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
       "titleRegistration": "Ilmoittautuminen"
     },

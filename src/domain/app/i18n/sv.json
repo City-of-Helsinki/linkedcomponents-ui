@@ -334,6 +334,7 @@
       "buttonDeleteAttendee": "Ta bort deltagare",
       "buttonSave": "Spara deltagare",
       "buttonUpdateParticipantAmount": "Uppdatera",
+      "freeCapacity": "Tillgängliga platser",
       "labelAttendeeExtraInfo": "Ytterligare information (valfritt)",
       "labelCity": "Staden",
       "labelDateOfBirth": "Födelsedatum",
@@ -363,6 +364,7 @@
       "titleAdditionalInfo": "Ytterligare information",
       "titleBasicInfo": "Grundläggande information om registranten",
       "titleContactInfo": "Kontaktinformation",
+      "titleInformantInfo": "Information om uppgiftslämnaren",
       "titleNotifications": "Evenemangmeddelanden",
       "titleRegistration": "Registrering"
     },
