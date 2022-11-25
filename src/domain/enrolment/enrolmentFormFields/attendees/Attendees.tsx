@@ -18,6 +18,7 @@ import { ENROLMENT_FIELDS } from '../../constants';
 import { useEnrolmentServerErrorsContext } from '../../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import ConfirmDeleteParticipantModal from '../../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { AttendeeFields } from '../../types';
+import { getNewAttendees } from '../../utils';
 import Attendee from './attendee/Attendee';
 import styles from './attendees.module.scss';
 
@@ -67,21 +68,16 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
       const { data } = await updateSeatsReservationMutation({
         variables: { input: payload },
       });
-
-      const newAttendees = attendees
-        .filter((_, index) => index !== indexToRemove)
-        .map((attendee, index) => ({
-          ...attendee,
-          inWaitingList:
-            index + 1 > (data?.updateSeatsReservation.seatsAtEvent as number),
-        }));
+      const seatsReservation = data?.updateSeatsReservation as SeatsReservation;
+      const newAttendees = getNewAttendees({
+        attendees: attendees.filter((_, index) => index !== indexToRemove),
+        registration,
+        seatsReservation,
+      });
 
       setAttendees(newAttendees);
 
-      setSeatsReservationData(
-        registrationId,
-        data?.updateSeatsReservation as SeatsReservation
-      );
+      setSeatsReservationData(registrationId, seatsReservation);
 
       setSaving(false);
       closeModal();

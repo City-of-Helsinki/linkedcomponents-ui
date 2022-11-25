@@ -1,5 +1,4 @@
 import { useField } from 'formik';
-import isEqual from 'lodash/isEqual';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
@@ -24,7 +23,7 @@ import ConfirmDeleteParticipantModal from '../modals/confirmDeleteParticipantMod
 import { AttendeeFields } from '../types';
 import {
   getAttendeeCapacityError,
-  getAttendeeDefaultInitialValues,
+  getNewAttendees,
   getTotalAttendeeCapacity,
 } from '../utils';
 import styles from './participantAmountSelector.module.scss';
@@ -81,11 +80,6 @@ const ParticipantAmountSelector: React.FC<Props> = ({
     t
   );
 
-  const attendeeInitialValues = React.useMemo(
-    () => getAttendeeDefaultInitialValues(registration),
-    [registration]
-  );
-
   const updateSeatsReservation = async () => {
     const reservationData = getSeatsReservationData(registrationId);
     const payload = {
@@ -99,29 +93,16 @@ const ParticipantAmountSelector: React.FC<Props> = ({
       const { data } = await updateSeatsReservationMutation({
         variables: { input: payload },
       });
+      const seatsReservation = data?.updateSeatsReservation as SeatsReservation;
 
-      const seats = data?.updateSeatsReservation.seats as number;
-      const filledAttendees = attendees.filter(
-        (a) => !isEqual(a, attendeeInitialValues)
-      );
-      const newAttendees = [
-        ...filledAttendees,
-        ...Array(Math.max(seats - filledAttendees.length, 0)).fill(
-          attendeeInitialValues
-        ),
-      ]
-        .slice(0, seats)
-        .map((attendee, index) => ({
-          ...attendee,
-          inWaitingList:
-            index + 1 > (data?.updateSeatsReservation.seatsAtEvent as number),
-        }));
+      const newAttendees = getNewAttendees({
+        attendees: attendees,
+        registration,
+        seatsReservation,
+      });
 
       setAttendees(newAttendees);
-      setSeatsReservationData(
-        registrationId,
-        data?.updateSeatsReservation as SeatsReservation
-      );
+      setSeatsReservationData(registrationId, seatsReservation);
 
       setSaving(false);
       // Show modal to inform that some of the persons will be added to the waiting list

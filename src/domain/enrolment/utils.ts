@@ -1,4 +1,5 @@
 import { TFunction } from 'i18next';
+import isEqual from 'lodash/isEqual';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
@@ -9,6 +10,7 @@ import {
   EnrolmentQueryVariables,
   OrganizationFieldsFragment,
   RegistrationFieldsFragment,
+  SeatsReservationFieldsFragment,
   SignupInput,
   UpdateEnrolmentMutationInput,
   UserFieldsFragment,
@@ -409,4 +411,31 @@ export const isRestoringFormDataDisabled = ({
   const data = getSeatsReservationData(registrationId);
 
   return !!enrolment || !data || isSeatsReservationExpired(data);
+};
+
+export const getNewAttendees = ({
+  attendees,
+  registration,
+  seatsReservation,
+}: {
+  attendees: AttendeeFields[];
+  registration: RegistrationFieldsFragment;
+  seatsReservation: SeatsReservationFieldsFragment;
+}) => {
+  const { seats, seatsAtEvent } = seatsReservation;
+  const attendeeInitialValues = getAttendeeDefaultInitialValues(registration);
+  const filledAttendees = attendees.filter(
+    (a) => !isEqual(a, attendeeInitialValues)
+  );
+  return [
+    ...filledAttendees,
+    ...Array(Math.max((seats as number) - filledAttendees.length, 0)).fill(
+      attendeeInitialValues
+    ),
+  ]
+    .slice(0, seats as number)
+    .map((attendee, index) => ({
+      ...attendee,
+      inWaitingList: index + 1 > (seatsAtEvent as number),
+    }));
 };

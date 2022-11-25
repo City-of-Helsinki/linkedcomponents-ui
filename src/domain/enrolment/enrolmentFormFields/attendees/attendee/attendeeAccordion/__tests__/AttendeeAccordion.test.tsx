@@ -66,7 +66,7 @@ test('should call onClick when clicking', async () => {
   expect(onClick).toBeCalled();
 });
 
-test('should open edit keyword set page by pressing enter on row', async () => {
+test('should call onClick by pressing enter', async () => {
   const user = userEvent.setup();
   const onClick = jest.fn();
 

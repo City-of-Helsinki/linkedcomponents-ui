@@ -6,7 +6,7 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { Form, Formik } from 'formik';
+import { Form, Formik, FormikErrors, FormikTouched } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -38,7 +38,11 @@ import {
   getSeatsReservationData,
 } from '../../reserveSeats/utils';
 import useUser from '../../user/hooks/useUser';
-import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../constants';
+import {
+  ENROLMENT_ACTIONS,
+  ENROLMENT_FIELDS,
+  ENROLMENT_MODALS,
+} from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import EnrolmentAuthenticationNotification from '../enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
@@ -53,7 +57,10 @@ import ParticipantAmountSelector from '../participantAmountSelector/ParticipantA
 import { useReservationTimer } from '../reservationTimer/hooks/useReservationTimer';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
 import { ReservationTimerProvider } from '../reservationTimer/ReservationTimerContext';
-import { EnrolmentFormFields as EnrolmentFormFieldsType } from '../types';
+import {
+  AttendeeFields,
+  EnrolmentFormFields as EnrolmentFormFieldsType,
+} from '../types';
 import {
   clearCreateEnrolmentFormData,
   getEnrolmentPayload,
@@ -62,7 +69,7 @@ import {
 import { enrolmentSchema, scrollToFirstError } from '../validation';
 import styles from './enrolmentForm.module.scss';
 
-type Props = {
+type EnrolmentFormWrapperProps = {
   disabled: boolean;
   enrolment?: EnrolmentFieldsFragment;
   event: EventFieldsFragment;
@@ -73,30 +80,32 @@ type Props = {
   registration: RegistrationFieldsFragment;
 };
 
-const EnrolmentForm: React.FC<Props> = ({
+type EnrolmentFormProps = Omit<EnrolmentFormWrapperProps, 'initialValues'> & {
+  setErrors: (errors: FormikErrors<EnrolmentFormFieldsType>) => void;
+  setTouched: (
+    touched: FormikTouched<EnrolmentFormFieldsType>,
+    shouldValidate?: boolean
+  ) => void;
+  values: EnrolmentFormFieldsType;
+};
+
+const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
   disabled,
   enrolment,
   event,
-  initialValues,
   refetchEnrolment,
   registration,
+  setErrors,
+  setTouched,
+  values,
 }) => {
-  const {
-    callbacksDisabled,
-    disableCallbacks: disableReservationTimerCallbacks,
-  } = useReservationTimer();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
+
   const locale = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const formSavingDisabled = React.useRef(!!enrolment);
-
   const { user } = useUser();
-
-  const { closeModal, openModal, setOpenModal, setOpenParticipant } =
-    useEnrolmentPageContext();
 
   const { cancelEnrolment, saving, updateEnrolment } =
     useEnrolmentUpdateActions({
@@ -104,26 +113,24 @@ const EnrolmentForm: React.FC<Props> = ({
       registration,
     });
 
-  const [creatingEnrolment, setCreatingEnrolment] =
-    React.useState<boolean>(false);
+  const {
+    callbacksDisabled,
+    disableCallbacks: disableReservationTimerCallbacks,
+  } = useReservationTimer();
+
+  const { serverErrorItems, setServerErrorItems, showServerErrors } =
+    useEnrolmentServerErrorsContext();
+
   const [createEnrolmentMutation] = useCreateEnrolmentMutation();
 
-  const goToEnrolmentsPageAfterCreate = () => {
-    // Disable reservation timer callbacks
-    // so user is not redirected to create enrolment page
-    disableReservationTimerCallbacks();
+  const [creatingEnrolment, setCreatingEnrolment] =
+    React.useState<boolean>(false);
+  const formSavingDisabled = React.useRef(!!enrolment);
 
-    formSavingDisabled.current = true;
-    clearCreateEnrolmentFormData(registration.id as string);
-    clearSeatsReservationData(registration.id as string);
+  const { closeModal, openModal, setOpenModal, setOpenParticipant } =
+    useEnrolmentPageContext();
 
-    navigate(
-      `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
-        ':registrationId',
-        registration.id as string
-      )}`
-    );
-  };
+  const registrationWarning = getRegistrationWarning(registration, t);
 
   const goToEnrolmentsPage = () => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
@@ -146,8 +153,40 @@ const EnrolmentForm: React.FC<Props> = ({
     );
   };
 
-  const { serverErrorItems, setServerErrorItems, showServerErrors } =
-    useEnrolmentServerErrorsContext();
+  const goToEnrolmentsPageAfterCreate = () => {
+    // Disable reservation timer callbacks
+    // so user is not redirected to create enrolment page
+    disableReservationTimerCallbacks();
+
+    formSavingDisabled.current = true;
+    clearCreateEnrolmentFormData(registration.id as string);
+    clearSeatsReservationData(registration.id as string);
+
+    navigate(
+      `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
+        ':registrationId',
+        registration.id as string
+      )}`
+    );
+  };
+
+  const onCancel = () => {
+    cancelEnrolment({
+      onSuccess: () => goToEnrolmentsPage(),
+    });
+  };
+
+  const clearErrors = () => setErrors({});
+
+  const onUpdate = (values: EnrolmentFormFieldsType) => {
+    updateEnrolment(values, {
+      onError: (error: any) => showServerErrors({ error }, 'enrolment'),
+      onSuccess: async () => {
+        refetchEnrolment && (await refetchEnrolment());
+        window.scrollTo(0, 0);
+      },
+    });
+  };
 
   const createSingleEnrolment = async (
     payload: CreateEnrolmentMutationInput
@@ -196,151 +235,149 @@ const EnrolmentForm: React.FC<Props> = ({
     setCreatingEnrolment(false);
   };
 
-  const onCancel = () => {
-    cancelEnrolment({
-      onSuccess: () => goToEnrolmentsPage(),
-    });
+  const handleSubmit = async () => {
+    try {
+      setServerErrorItems([]);
+      clearErrors();
+
+      await enrolmentSchema.validate(values, { abortEarly: false });
+
+      if (enrolment) {
+        onUpdate(values);
+      } else {
+        createEnrolment(values);
+      }
+    } catch (error) {
+      showFormErrors({
+        error: error as ValidationError,
+        setErrors,
+        setTouched,
+      });
+
+      scrollToFirstError({
+        error: error as ValidationError,
+        setOpenAccordion: setOpenParticipant,
+      });
+    }
   };
 
-  const onUpdate = (values: EnrolmentFormFieldsType) => {
-    updateEnrolment(values, {
-      onError: (error: any) => showServerErrors({ error }, 'enrolment'),
-      onSuccess: async () => {
-        refetchEnrolment && (await refetchEnrolment());
-        window.scrollTo(0, 0);
-      },
-    });
-  };
+  return (
+    <>
+      {enrolment && (
+        <ConfirmCancelModal
+          enrolment={enrolment}
+          isOpen={openModal === ENROLMENT_MODALS.CANCEL}
+          isSaving={saving === ENROLMENT_ACTIONS.CANCEL}
+          onClose={closeModal}
+          onCancel={onCancel}
+          registration={registration}
+        />
+      )}
 
-  const registrationWarning = getRegistrationWarning(registration, t);
+      <Form noValidate>
+        <FormikPersist
+          isSessionStorage={true}
+          name={`${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registration.id}`}
+          restoringDisabled={isRestoringFormDataDisabled({
+            enrolment,
+            registrationId: registration.id as string,
+          })}
+          savingDisabled={callbacksDisabled || formSavingDisabled.current}
+        >
+          <Container
+            contentWrapperClassName={styles.editPageContentContainer}
+            withOffset
+          >
+            <FormContainer>
+              <EnrolmentAuthenticationNotification
+                action={ENROLMENT_ACTIONS.UPDATE}
+                registration={registration}
+              />
+              <ServerErrorSummary errors={serverErrorItems} />
+              <EventInfo event={event} />
+              <div className={styles.divider} />
+              {!enrolment && registrationWarning && (
+                <Notification type="info" className={styles.warning}>
+                  {registrationWarning}
+                </Notification>
+              )}
+              {!enrolment && (
+                <>
+                  <ReservationTimer />
+                  <div className={styles.divider} />
+                </>
+              )}
+              <h2>{t('enrolment.form.titleRegistration')}</h2>
 
+              <ParticipantAmountSelector
+                disabled={disabled || !!enrolment}
+                registration={registration}
+              />
+
+              <EnrolmentFormFields
+                disabled={disabled}
+                registration={registration}
+              />
+            </FormContainer>
+          </Container>
+          {enrolment ? (
+            <EditButtonPanel
+              enrolment={enrolment}
+              onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
+              onSave={handleSubmit}
+              registration={registration}
+              saving={saving}
+            />
+          ) : (
+            <CreateButtonPanel
+              disabled={disabled}
+              onSave={handleSubmit}
+              registration={registration}
+              saving={creatingEnrolment}
+            />
+          )}
+        </FormikPersist>
+      </Form>
+    </>
+  );
+};
+
+const EnrolmentFormWrapper: React.FC<EnrolmentFormWrapperProps> = ({
+  enrolment,
+  initialValues,
+  registration,
+  ...rest
+}) => {
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={/* istanbul ignore next */ () => undefined}
       validationSchema={enrolmentSchema}
     >
-      {({ setErrors, setTouched, values }) => {
-        const clearErrors = () => setErrors({});
-
-        const handleSubmit = async () => {
-          try {
-            setServerErrorItems([]);
-            clearErrors();
-
-            await enrolmentSchema.validate(values, { abortEarly: false });
-
-            if (enrolment) {
-              onUpdate(values);
-            } else {
-              createEnrolment(values);
-            }
-          } catch (error) {
-            showFormErrors({
-              error: error as ValidationError,
-              setErrors,
-              setTouched,
-            });
-
-            scrollToFirstError({
-              error: error as ValidationError,
-              setOpenAccordion: setOpenParticipant,
-            });
-          }
+      {({ setErrors, setFieldValue, setTouched, values }) => {
+        const setAttendees = (attendees: AttendeeFields[]) => {
+          setFieldValue(ENROLMENT_FIELDS.ATTENDEES, attendees);
         };
 
         return (
-          <>
-            {enrolment && (
-              <ConfirmCancelModal
-                enrolment={enrolment}
-                isOpen={openModal === ENROLMENT_MODALS.CANCEL}
-                isSaving={saving === ENROLMENT_ACTIONS.CANCEL}
-                onClose={closeModal}
-                onCancel={onCancel}
-                registration={registration}
-              />
-            )}
-
-            <Form noValidate>
-              <FormikPersist
-                isSessionStorage={true}
-                name={`${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registration.id}`}
-                restoringDisabled={isRestoringFormDataDisabled({
-                  enrolment,
-                  registrationId: registration.id as string,
-                })}
-                savingDisabled={callbacksDisabled || formSavingDisabled.current}
-              >
-                <Container
-                  contentWrapperClassName={styles.editPageContentContainer}
-                  withOffset
-                >
-                  <FormContainer>
-                    <EnrolmentAuthenticationNotification
-                      action={ENROLMENT_ACTIONS.UPDATE}
-                      registration={registration}
-                    />
-                    <ServerErrorSummary errors={serverErrorItems} />
-                    <EventInfo event={event} />
-                    <div className={styles.divider} />
-                    {!enrolment && registrationWarning && (
-                      <Notification type="info" className={styles.warning}>
-                        {registrationWarning}
-                      </Notification>
-                    )}
-                    {!enrolment && (
-                      <>
-                        <ReservationTimer />
-                        <div className={styles.divider} />
-                      </>
-                    )}
-                    <h2>{t('enrolment.form.titleRegistration')}</h2>
-
-                    <ParticipantAmountSelector
-                      disabled={disabled || !!enrolment}
-                      registration={registration}
-                    />
-
-                    <EnrolmentFormFields
-                      disabled={disabled}
-                      registration={registration}
-                    />
-                  </FormContainer>
-                </Container>
-                {enrolment ? (
-                  <EditButtonPanel
-                    enrolment={enrolment}
-                    onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
-                    onSave={handleSubmit}
-                    registration={registration}
-                    saving={saving}
-                  />
-                ) : (
-                  <CreateButtonPanel
-                    disabled={disabled}
-                    onSave={handleSubmit}
-                    registration={registration}
-                    saving={creatingEnrolment}
-                  />
-                )}
-              </FormikPersist>
-            </Form>
-          </>
+          <ReservationTimerProvider
+            attendees={values.attendees}
+            initializeReservationData={!enrolment}
+            registration={registration}
+            setAttendees={setAttendees}
+          >
+            <EnrolmentForm
+              enrolment={enrolment}
+              registration={registration}
+              {...rest}
+              setErrors={setErrors}
+              setTouched={setTouched}
+              values={values}
+            />
+          </ReservationTimerProvider>
         );
       }}
     </Formik>
-  );
-};
-
-const EnrolmentFormWrapper: React.FC<Props> = (props) => {
-  return (
-    <ReservationTimerProvider
-      initializeReservationData={!props.enrolment}
-      registration={props.registration}
-    >
-      <EnrolmentForm {...props} />
-    </ReservationTimerProvider>
   );
 };
 

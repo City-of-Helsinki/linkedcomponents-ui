@@ -26,12 +26,14 @@ import { ENROLMENT_MODALS } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
-import { clearCreateEnrolmentFormData } from '../utils';
+import { AttendeeFields } from '../types';
+import { clearCreateEnrolmentFormData, getNewAttendees } from '../utils';
 
 export type ReservationTimerContextProps = {
   callbacksDisabled: boolean;
   disableCallbacks: () => void;
   registration: Registration;
+
   timeLeft: number | null;
 };
 
@@ -40,14 +42,18 @@ export const ReservationTimerContext = React.createContext<
 >(undefined);
 
 interface Props {
+  attendees?: AttendeeFields[];
   initializeReservationData: boolean;
   registration: Registration;
+  setAttendees?: (value: AttendeeFields[]) => void;
 }
 
 export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
+  attendees,
   children,
   initializeReservationData,
   registration,
+  setAttendees,
 }) => {
   const registrationId = useMemo(
     () => registration.id as string,
@@ -87,17 +93,21 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
       const { data } = await createSeatsReservationMutation({
         variables: { input: payload },
       });
+      const seatsReservation = data?.createSeatsReservation as SeatsReservation;
 
       enableTimer();
-      setSeatsReservationData(
-        registrationId,
-        data?.createSeatsReservation as SeatsReservation
-      );
-      setTimeLeft(
-        getRegistrationTimeLeft(
-          data?.createSeatsReservation as SeatsReservation
-        )
-      );
+      setSeatsReservationData(registrationId, seatsReservation);
+      setTimeLeft(getRegistrationTimeLeft(seatsReservation));
+
+      if (setAttendees) {
+        const newAttendees = getNewAttendees({
+          attendees: attendees || /* istanbul ignore next */ [],
+          registration,
+          seatsReservation,
+        });
+
+        setAttendees(newAttendees);
+      }
 
       if (data?.createSeatsReservation.waitlistSpots) {
         setOpenModal(ENROLMENT_MODALS.PERSONS_ADDED_TO_WAITLIST);

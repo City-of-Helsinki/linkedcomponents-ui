@@ -25,6 +25,7 @@ import {
 import {
   enrolmentPathBuilder,
   getAttendeeCapacityError,
+  getAttendeeDefaultInitialValues,
   getEditEnrolmentWarning,
   getEnrolmentInitialValues,
   getEnrolmentNotificationsCode,
@@ -55,6 +56,48 @@ const generateSeatsReservationData = (expirationOffset: number) => {
 
   return reservation;
 };
+
+describe('getAttendeeDefaultInitialValues function', () => {
+  it('should return attendee initial values', () => {
+    expect(
+      getAttendeeDefaultInitialValues(
+        fakeRegistration({
+          audienceMaxAge: 18,
+          audienceMinAge: 8,
+        })
+      )
+    ).toEqual({
+      audienceMaxAge: 18,
+      audienceMinAge: 8,
+      city: '',
+      dateOfBirth: null,
+      extraInfo: '',
+      inWaitingList: false,
+      name: '',
+      streetAddress: '',
+      zip: '',
+    });
+
+    expect(
+      getAttendeeDefaultInitialValues(
+        fakeRegistration({
+          audienceMaxAge: null,
+          audienceMinAge: null,
+        })
+      )
+    ).toEqual({
+      audienceMaxAge: null,
+      audienceMinAge: null,
+      city: '',
+      dateOfBirth: null,
+      extraInfo: '',
+      inWaitingList: false,
+      name: '',
+      streetAddress: '',
+      zip: '',
+    });
+  });
+});
 
 describe('getEnrolmentInitialValues function', () => {
   it('should return default values if value is not set', () => {
