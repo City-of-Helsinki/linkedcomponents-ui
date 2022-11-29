@@ -37,11 +37,11 @@ const App: React.FC = () => {
       <PageSettingsProvider>
         <ThemeProvider initTheme={theme}>
           <ToastContainer hideProgressBar={true} theme="colored" />
-          <CookieConsent />
           <BrowserRouter>
             {/* @ts-ignore */}
             <MatomoProvider value={instance}>
               <ApolloProvider client={apolloClient}>
+                <CookieConsent />
                 <AppRoutes />
               </ApolloProvider>
             </MatomoProvider>

@@ -67,17 +67,22 @@
       "toggleButtonAriaLabel": "Menyn"
     },
     "cookieConsent": {
-      "buttonAcceptAll": "Alla",
-      "buttonAcceptOnlyNecessary": "Endast nödvändiga",
-      "buttonDecline": "Jag godkänner inte",
-      "checkboxAccept": "Jag har läst och godkänner tjänstens <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"användarvillkor {{openInNewTab}}\">användarvillkor</a>",
-      "checkboxAcceptAriaLabel": "Jag har läst och godkänner tjänstens användarvillkor",
-      "linkDataProtection": "https://www.hel.fi/helsinki/sv/stad-och-forvaltning/information/dataskydd",
-      "linkPrivacyPolicy": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf",
-      "text1": "Genom att välja “Jag godkänner” går du med på tjänsten användarvillkor. Till följande måste du godkänna antingen den nödvändiga eller alla cookies.",
-      "text2": "Läs mera om vår <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"integritetspolicy {{openInNewTab}}\">integritetspolicy</a> och <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registerbeskrivning {{openInNewTab}}\">registerbeskrivning</a>.",
-      "text3": "Vi använder cookies för att förbättra användarupplevelsen på vår tjänst.",
-      "title": "Linked Events användarvillkor och cookies"
+      "enrolmentForm": {
+        "description": "Cookien som krävs för att spara deltagande formulär data",
+        "name": "Cookie för deltagande formulär"
+      },
+      "eventForm": {
+        "description": "Cookien som krävs för att spara evenemang formulär data",
+        "name": "Cookie för evenemang formulär"
+      },
+      "expiration": {
+        "session": "Session"
+      },
+      "registrationForm": {
+        "description": "Cookien som krävs för att spara registrering formulär data",
+        "name": "Cookie för registrering formulär"
+      },
+      "siteName": "Linked Events"
     },
     "dateSelector": {
       "buttonToggle": "Välj datum",
@@ -109,23 +114,15 @@
     "imageUploader": {
       "areaLabel": {
         "cropArea": "Använd piltangenterna för att flytta området för val av beskärning",
-        "nwDragHandle":
-          "Använd piltangenterna för att flytta det nordvästliga draghandtaget för att ändra området för val av beskärning",
-        "nDragHandle":
-          "Använd upp- och nedpiltangenterna för att flytta det norra draghandtaget för att ändra området för val av beskärning",
-        "neDragHandle":
-          "Använd piltangenterna för att flytta det nordöstra draghandtaget för att ändra området för val av beskärning",
-        "eDragHandle":
-          "Använd piltangenterna för att flytta det östliga draghandtaget för att ändra området för val av beskärning",
-        "seDragHandle":
-          "Använd piltangenterna för att flytta det sydöstra draghandtaget för att ändra området för val av beskärning",
-        "sDragHandle":
-          "Använd piltangenterna för att flytta det södra draghandtaget för att ändra området för val av beskärning",
-        "swDragHandle":
-          "Använd piltangenterna för att flytta det sydvästliga draghandtaget för att ändra området för val av beskärning",
-        "wDragHandle":
-          "Använd piltangenterna för att flytta det västliga draghandtaget för att ändra området för val av beskärning"
-    },
+        "nwDragHandle": "Använd piltangenterna för att flytta det nordvästliga draghandtaget för att ändra området för val av beskärning",
+        "nDragHandle": "Använd upp- och nedpiltangenterna för att flytta det norra draghandtaget för att ändra området för val av beskärning",
+        "neDragHandle": "Använd piltangenterna för att flytta det nordöstra draghandtaget för att ändra området för val av beskärning",
+        "eDragHandle": "Använd piltangenterna för att flytta det östliga draghandtaget för att ändra området för val av beskärning",
+        "seDragHandle": "Använd piltangenterna för att flytta det sydöstra draghandtaget för att ändra området för val av beskärning",
+        "sDragHandle": "Använd piltangenterna för att flytta det södra draghandtaget för att ändra området för val av beskärning",
+        "swDragHandle": "Använd piltangenterna för att flytta det sydvästliga draghandtaget för att ändra området för val av beskärning",
+        "wDragHandle": "Använd piltangenterna för att flytta det västliga draghandtaget för att ändra området för val av beskärning"
+      },
       "belowMinDimensions": "Minsta tillåtna bildstorlek är 300 x 200 pixlar",
       "buttonDropImage": "Dra bilden hit eller klicka för att lägga till den från hårddisken",
       "buttonRemoveImage": "Ta bort bild",
@@ -142,7 +139,7 @@
                 "start": "Klicka på kartan för att fastställa en plats."
               }
             }
-          }, 
+          },
           "toolbar": {
             "actions": {
               "text": "Avbryt",
@@ -189,8 +186,8 @@
             "buttons": {
               "edit": "Redigera plats",
               "editDisabled": "Ingen redigerbar plats",
-              "remove":"Ta bort plats",
-              "removeDisabled":"Ingen plats att ta bort"
+              "remove": "Ta bort plats",
+              "removeDisabled": "Ingen plats att ta bort"
             }
           }
         }
@@ -498,13 +495,13 @@
       "buttonAddVideo": "Lägg till video",
       "buttonCancel": "Ställ in evenemang",
       "buttonCopy": "Kopiera som mall",
-      "buttonDelete":  "Radera evenemang",
+      "buttonDelete": "Radera evenemang",
       "buttonDeleteEventTime": "Ta bort tidpunkt",
       "buttonDeleteExternalLink": "Ta bort SoMe-länken",
       "buttonDeleteOffer": "Ta bort prisuppgift",
       "buttonDeleteRecurringEvent": "Ta bort återkommande evenemang",
       "buttonDeleteVideo": "Ta bort video",
-      "buttonEdit":  "Redigera evenemanget",
+      "buttonEdit": "Redigera evenemanget",
       "buttonOpenRecurringEventSettings": {
         "course": "Öppna inställningarna för återkommande kurser",
         "general": "Öppna inställningarna för återkommande evenemang",
@@ -924,9 +921,9 @@
       "titleAudienceAge": "Åldersbegränsningar",
       "titleEnrolmentTime": "Registreringstid",
       "titleEnterEventTime": {
-        "course":"Ange tidpunkten för kursen",
-        "general":"Ange tidpunkten för evenemanget",
-        "volunteering":"Ange tidpunkten för volontärarbetet"
+        "course": "Ange tidpunkten för kursen",
+        "general": "Ange tidpunkten för evenemanget",
+        "volunteering": "Ange tidpunkten för volontärarbetet"
       },
       "titleEventType": "Välj evenemangstyp",
       "titleImage": {

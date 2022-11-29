@@ -1,5 +1,7 @@
+/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable max-len */
 import { render, within } from '@testing-library/react';
+import i18n from 'i18next';
 import React from 'react';
 
 import {
@@ -27,6 +29,8 @@ beforeEach(() => {
     disconnect: jest.fn(),
   }));
   clearAllCookies();
+
+  i18n.changeLanguage('fi');
 });
 
 const renderApp = async () =>
@@ -67,6 +71,7 @@ const findCookieConsentModalElement = async (
     | 'acceptAllButton'
     | 'acceptOnlyNecessaryButton'
     | 'enOption'
+    | 'fiOption'
     | 'languageSelector'
     | 'svOption'
 ) => {
@@ -82,6 +87,10 @@ const findCookieConsentModalElement = async (
     case 'enOption':
       return within(cookieConsentModal).findByRole('link', {
         name: 'English (EN)',
+      });
+    case 'fiOption':
+      return within(cookieConsentModal).findByRole('link', {
+        name: 'Suomeksi (FI)',
       });
     case 'languageSelector':
       return within(cookieConsentModal).findByRole('button', {
@@ -111,10 +120,11 @@ it('should change cookie consent modal language', async () => {
   );
 
   const languageElements: {
-    optionKey: 'enOption' | 'svOption';
+    optionKey: 'enOption' | 'fiOption' | 'svOption';
     headingText: string;
   }[] = [
     { optionKey: 'enOption', headingText: 'Linked Events uses cookies' },
+    { optionKey: 'fiOption', headingText: 'Linked Events käyttää evästeitä' },
     { optionKey: 'svOption', headingText: 'Linked Events använder kakor' },
   ];
 

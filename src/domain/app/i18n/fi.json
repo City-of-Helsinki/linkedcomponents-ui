@@ -37,7 +37,7 @@
     "some": "Facebook, Google tai Twitter tunnus",
     "yle": "YLE-tunnus"
   },
-  "authenticationNotification": { 
+  "authenticationNotification": {
     "button": "kirjautua sisään",
     "part1": "Voit jatkaa palveluun tutustumista, mutta sinun täytyy",
     "part2": ", jos haluat tallentaa muutoksia."
@@ -67,17 +67,22 @@
       "toggleButtonAriaLabel": "Valikko"
     },
     "cookieConsent": {
-      "buttonAcceptAll": "Kaikki",
-      "buttonAcceptOnlyNecessary": "Vain välttämättömät",
-      "buttonDecline": "En hyväksy",
-      "checkboxAccept": "Olen lukenut ja hyväksyn palvelun <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"käyttöehdot {{openInNewTab}}\">käyttöehdot</a>",
-      "checkboxAcceptAriaLabel": "Olen lukenut ja hyväksyn palvelun käyttöehdot",
-      "linkDataProtection": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/tietosuoja/",
-      "linkPrivacyPolicy": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf",
-      "text1": "Valitsemalla ”hyväksy” hyväksyt palvelun käyttöehdot. Seuraavaksi tulee hyväksyä joko välttämättömät tai kaikki evästeet.",
-      "text2": "Lue lisää <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"tietosuojakäytännöistä {{openInNewTab}}\">tietosuojakäytännöistä</a> ja <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"rekisteriselosteesta {{openInNewTab}}\">rekisteriselosteesta</a>.",
-      "text3": "Käytämme evästeitä parantaaksemme käyttökokemustasi sivustolla.",
-      "title": "Linked Events käyttöehdot ja evästeet"
+      "enrolmentForm": {
+        "description": "Osallistumislomakkeen tietojen säilymiseksi vaadittu eväste",
+        "name": "Osallistumislomakkeen eväste"
+      },
+      "eventForm": {
+        "description": "Tapahtumalomakkeen tietojen säilymiseksi vaadittu eväste",
+        "name": "Tapahtumalomakkeen eväste"
+      },
+      "expiration": {
+        "session": "Istunto"
+      },
+      "registrationForm": {
+        "description": "Ilmoittautumislomakkeen tietojen säilymiseksi vaadittu eväste",
+        "name": "Ilmoittautumislomakkeen eväste"
+      },
+      "siteName": "Linked Events"
     },
     "dateSelector": {
       "buttonToggle": "Valitse päivämäärät",
@@ -109,22 +114,14 @@
     "imageUploader": {
       "areaLabel": {
         "cropArea": "Siirrä rajausaluetta nuolinäppäimillä",
-        "nwDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi luoteista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "nDragHandle":
-          "Käytä ylä- ja alanuolinäppäimiä siirtääksesi pohjoista vetämiskahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "neDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi koillista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "eDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi itäistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "seDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi lounaista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "sDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi eteläistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "swDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi kaakkoista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "wDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi läntistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta"
+        "nwDragHandle": "Käytä nuolinäppäimiä siirtääksesi luoteista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "nDragHandle": "Käytä ylä- ja alanuolinäppäimiä siirtääksesi pohjoista vetämiskahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "neDragHandle": "Käytä nuolinäppäimiä siirtääksesi koillista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "eDragHandle": "Käytä nuolinäppäimiä siirtääksesi itäistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "seDragHandle": "Käytä nuolinäppäimiä siirtääksesi lounaista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "sDragHandle": "Käytä nuolinäppäimiä siirtääksesi eteläistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "swDragHandle": "Käytä nuolinäppäimiä siirtääksesi kaakkoista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "wDragHandle": "Käytä nuolinäppäimiä siirtääksesi läntistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta"
       },
       "belowMinDimensions": "Kuvan pienin sallittu koko on 300 x 200 pikseliä",
       "buttonDropImage": "Raahaa ja pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
@@ -142,7 +139,7 @@
                 "start": "Klikkaa karttaa määrittääksesi sijainnin."
               }
             }
-          }, 
+          },
           "toolbar": {
             "actions": {
               "text": "Peruuta",
@@ -189,8 +186,8 @@
             "buttons": {
               "edit": "Muokkaa sijaintia",
               "editDisabled": "Ei muokattavaa sijaintia",
-              "remove":"Poista sijainti",
-              "removeDisabled":"Ei poistettavaa sijaintia"
+              "remove": "Poista sijainti",
+              "removeDisabled": "Ei poistettavaa sijaintia"
             }
           }
         }
@@ -204,7 +201,7 @@
     "noResults": "Ei tuloksia",
     "numberInput": {
       "buttonDecrease": "Vähennä",
-      "buttonIncrease": "Lisää" 
+      "buttonIncrease": "Lisää"
     },
     "openInExternalDomain": "Siirtyy toiseen sivustoon.",
     "openInNewTab": "(avataan uudessa välilehdessä)",
@@ -496,15 +493,15 @@
         "volunteering": "Lisää vapaaehtoistehtävälle ilmoittautuminen"
       },
       "buttonAddVideo": "Lisää video",
-      "buttonCancel":  "Peruuta tapahtuma",
+      "buttonCancel": "Peruuta tapahtuma",
       "buttonCopy": "Kopioi pohjaksi",
-      "buttonDelete":  "Poista tapahtuma",
+      "buttonDelete": "Poista tapahtuma",
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteExternalLink": "Poista SoMe-linkki",
       "buttonDeleteOffer": "Poista hintatieto",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
       "buttonDeleteVideo": "Poista video",
-      "buttonEdit":  "Muokkaa tapahtumaa",
+      "buttonEdit": "Muokkaa tapahtumaa",
       "buttonOpenRecurringEventSettings": {
         "course": "Avaa toistuvan kurssin asetukset",
         "general": "Avaa toistuvan tapahtuman asetukset",
@@ -924,8 +921,8 @@
       "titleAudienceAge": "Ikärajoitukset",
       "titleEnrolmentTime": "Ilmoittautumisaika",
       "titleEnterEventTime": {
-        "course":"Syötä kurssin ajankohta",
-        "general":"Syötä tapahtuman ajankohta",
+        "course": "Syötä kurssin ajankohta",
+        "general": "Syötä tapahtuman ajankohta",
         "volunteering": "Syötä vapaaehtoistehtävän ajankohta"
       },
       "titleEventType": "Valitse tapahtumatyyppi",
@@ -1308,7 +1305,7 @@
       "placeholderUrl": "Syötä kuvan URL-osoite",
       "titleImportFromHardDisk": "Tuo kiintolevyltä",
       "titleImportFromInternet": "Tuo internetistä",
-      "titleLicense": "Lisenssi",  
+      "titleLicense": "Lisenssi",
       "titleUseImportedImage": "Käytä aiemmin tuotua kuvaa"
     },
     "license": {

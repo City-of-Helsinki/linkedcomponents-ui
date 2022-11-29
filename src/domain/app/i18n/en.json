@@ -41,7 +41,7 @@
     "helsinkiEmployee": "Stad Helsinki anställd ID",
     "some": "Facebook, Google eller Twitter ID",
     "yle": "YLE ID"
-  }, 
+  },
   "common": {
     "add": "Add",
     "affiliate": "Affiliate",
@@ -66,17 +66,22 @@
       "toggleButtonAriaLabel": "Menu"
     },
     "cookieConsent": {
-      "buttonAcceptAll": "All",
-      "buttonAcceptOnlyNecessary": "Only necessary",
-      "buttonDecline": "I do not consent",
-      "checkboxAccept": "I have read and agree to the terms of this service <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"terms of this service {{openInNewTab}}\">terms of this service</a>",
-      "checkboxAcceptAriaLabel": "I have read and agree to the terms of this service",
-      "linkDataProtection": "https://www.hel.fi/helsinki/en/administration/information/data-protection",
-      "linkPrivacyPolicy": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf",
-      "text1": "By selecting I agree, I consent to the terms of this service. Next you must either consent to only the necessary, or all cookies. ",
-      "text2": "Read more about our <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"privacy policy {{openInNewTab}}\">privacy policy</a> and <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registry description {{openInNewTab}}\">registry description</a>.",
-      "text3": "We use cookies to improve your experience using the service.",
-      "title": "Linked Events terms and cookies"
+      "enrolmentForm": {
+        "description": "The cookie required to save the enrolment form data",
+        "name": "Enrolment form cookie"
+      },
+      "eventForm": {
+        "description": "The cookie required to save the event form data",
+        "name": "Event form cookie"
+      },
+      "expiration": {
+        "session": "Session"
+      },
+      "registrationForm": {
+        "description": "The cookie required to save the registration form data",
+        "name": "Registration form cookie"
+      },
+      "siteName": "Linked Events"
     },
     "dateSelector": {
       "buttonToggle": "Choose dates",
@@ -107,23 +112,15 @@
     "home": "Front page",
     "imageUploader": {
       "areaLabel": {
-          "cropArea": "Use the arrow keys to move the crop selection area",
-          "nwDragHandle":
-            "Use the arrow keys to move the north west drag handle to change the crop selection area",
-          "nDragHandle":
-            "Use the up and down arrow keys to move the north drag handle to change the crop selection area",
-          "neDragHandle":
-            "Use the arrow keys to move the north east drag handle to change the crop selection area",
-          "eDragHandle":
-            "Use the up and down arrow keys to move the east drag handle to change the crop selection area",
-          "seDragHandle":
-            "Use the arrow keys to move the south east drag handle to change the crop selection area",
-          "sDragHandle":
-            "Use the up and down arrow keys to move the south drag handle to change the crop selection area",
-          "swDragHandle":
-            "Use the arrow keys to move the south west drag handle to change the crop selection area",
-          "wDragHandle":
-            "Use the up and down arrow keys to move the west drag handle to change the crop selection area"
+        "cropArea": "Use the arrow keys to move the crop selection area",
+        "nwDragHandle": "Use the arrow keys to move the north west drag handle to change the crop selection area",
+        "nDragHandle": "Use the up and down arrow keys to move the north drag handle to change the crop selection area",
+        "neDragHandle": "Use the arrow keys to move the north east drag handle to change the crop selection area",
+        "eDragHandle": "Use the up and down arrow keys to move the east drag handle to change the crop selection area",
+        "seDragHandle": "Use the arrow keys to move the south east drag handle to change the crop selection area",
+        "sDragHandle": "Use the up and down arrow keys to move the south drag handle to change the crop selection area",
+        "swDragHandle": "Use the arrow keys to move the south west drag handle to change the crop selection area",
+        "wDragHandle": "Use the up and down arrow keys to move the west drag handle to change the crop selection area"
       },
       "belowMinDimensions": "The minimum allowed image size is 300 x 200 pixels",
       "buttonDropImage": "Drag and drop and image to this area or browse from your hard drive by clicking",
@@ -141,7 +138,7 @@
                 "start": "Click on the map to set the location."
               }
             }
-          }, 
+          },
           "toolbar": {
             "actions": {
               "text": "Cancel",
@@ -188,8 +185,8 @@
             "buttons": {
               "edit": "Edit location",
               "editDisabled": "No location to edit",
-              "remove":"Delete location",
-              "removeDisabled":"No location to delete"
+              "remove": "Delete location",
+              "removeDisabled": "No location to delete"
             }
           }
         }
@@ -391,7 +388,7 @@
       "closed": "Registration for this event is currently closed. Please try again later."
     }
   },
-  "enrolmentsPage": {  
+  "enrolmentsPage": {
     "actionButtons": {
       "cancel": "Cancel participation",
       "edit": "Edit information",
@@ -538,7 +535,7 @@
         "warningDeletedEvent": "Deleted events can't be edited.",
         "warningEventInPast": "Past events can't be edited.",
         "warningNoRightsToEdit": "You have insufficient rights to edit this event."
-      },      
+      },
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextAttendeeCapacity": {
         "course": "If the number of participants in the course is limited, specify the minimum and maximum number of participants here.",
@@ -566,7 +563,7 @@
         "volunteering": "The description is a longer and more detailed description of the content of the volunteering."
       },
       "infoTextDescription3": {
-        "course": "Also record the course's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.", 
+        "course": "Also record the course's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.",
         "general": "Also record the event's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.",
         "volunteering": "Also record the volunteering's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form."
       },
@@ -924,9 +921,9 @@
       "titleAudienceAge": "Age restrictions",
       "titleEnrolmentTime": "Registration time",
       "titleEnterEventTime": {
-        "course":"Enter course date",
-        "general":"Enter event date",
-        "volunteering":"Enter volunteering date"
+        "course": "Enter course date",
+        "general": "Enter event date",
+        "volunteering": "Enter volunteering date"
       },
       "titleEventType": "Select event type",
       "titleImage": {
