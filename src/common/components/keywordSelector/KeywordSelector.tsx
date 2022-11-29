@@ -4,7 +4,6 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { MultiSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -26,7 +25,7 @@ import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import Combobox from '../combobox/Combobox';
+import Combobox, { MultiComboboxProps } from '../combobox/Combobox';
 import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 
 const getOption = ({
@@ -41,12 +40,7 @@ const getOption = ({
   return { label, value };
 };
 
-type ValueType = string;
-
-export type KeywordSelectorProps = {
-  name: string;
-  value: ValueType[];
-} & Omit<MultiSelectProps<OptionType>, 'options' | 'value'>;
+export type KeywordSelectorProps = MultiComboboxProps<string>;
 
 const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   label,

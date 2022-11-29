@@ -31,7 +31,7 @@ const NotFoundPage: React.FC<Props> = ({ pathAfterSignIn }) => {
   };
 
   return (
-    <PageWrapper title={t('notFound.pageTitle')}>
+    <PageWrapper title={t('notFound.pageTitle') as string}>
       <MainContent>
         <ErrorTemplate
           buttons={

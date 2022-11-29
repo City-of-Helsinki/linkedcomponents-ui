@@ -28,10 +28,12 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             ref={ref}
             className={cx(className, styles.numberInput, css(theme.textEditor))}
             minusStepButtonAriaLabel={
-              minusStepButtonAriaLabel || t('common.numberInput.buttonDecrease')
+              minusStepButtonAriaLabel ||
+              (t('common.numberInput.buttonDecrease') as string)
             }
             plusStepButtonAriaLabel={
-              plusStepButtonAriaLabel || t('common.numberInput.buttonIncrease')
+              plusStepButtonAriaLabel ||
+              (t('common.numberInput.buttonIncrease') as string)
             }
             step={step || 1}
           />

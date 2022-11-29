@@ -1,5 +1,10 @@
 import classNames from 'classnames';
-import { Combobox as BaseCombobox, ComboboxProps } from 'hds-react';
+import {
+  Combobox as BaseCombobox,
+  ComboboxProps,
+  MultiSelectProps,
+  SingleSelectProps,
+} from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,6 +15,37 @@ import {
   getA11yStatusMessage,
 } from '../../../utils/accessibilityUtils';
 import styles from '../select/select.module.scss';
+
+type FilterFunction<OptionType> = (
+  options: OptionType[],
+  search: string
+) => OptionType[];
+
+type CommonComboboxProps = {
+  'aria-describedby'?: string;
+  catchEscapeKey?: boolean;
+  filter?: FilterFunction<OptionType>;
+  showToggleButton?: boolean;
+  toggleButtonAriaLabel: string;
+};
+
+export type MultiComboboxProps<ValueType> = Omit<
+  MultiSelectProps<OptionType>,
+  'aria-labelledby' | 'options' | 'value'
+> &
+  CommonComboboxProps & {
+    name: string;
+    value: ValueType[];
+  };
+
+export type SingleComboboxProps<ValueType> = Omit<
+  SingleSelectProps<OptionType>,
+  'aria-labelledby' | 'options' | 'value'
+> &
+  CommonComboboxProps & {
+    name: string;
+    value: ValueType;
+  };
 
 const Combobox: React.FC<ComboboxProps<OptionType>> = ({
   className,

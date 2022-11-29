@@ -102,8 +102,12 @@ const EventTableRow: React.FC<Props> = ({
               <button
                 aria-label={
                   open
-                    ? t('eventsPage.eventsTable.hideSubEvents', { name })
-                    : t('eventsPage.eventsTable.showSubEvents', { name })
+                    ? (t('eventsPage.eventsTable.hideSubEvents', {
+                        name,
+                      }) as string)
+                    : (t('eventsPage.eventsTable.showSubEvents', {
+                        name,
+                      }) as string)
                 }
                 onClick={toggle}
               >

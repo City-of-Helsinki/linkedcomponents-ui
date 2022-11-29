@@ -20,7 +20,10 @@ const PlatformPage: React.FC = () => {
     >
       <h1>{t('helpPage.platformPage.titlePlatform')}</h1>
       <div className={styles.mainContent}>
-        <img src={imageUrl} alt={t('helpPage.platformPage.imageAlt')} />
+        <img
+          src={imageUrl}
+          alt={t('helpPage.platformPage.imageAlt') as string}
+        />
         <div>
           <p>{t('helpPage.platformPage.textMainContent1')}</p>
           <p>{t('helpPage.platformPage.textMainContent2')}</p>

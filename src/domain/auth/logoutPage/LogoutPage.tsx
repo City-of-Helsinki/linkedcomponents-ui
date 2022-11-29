@@ -42,7 +42,7 @@ const LogoutPage: React.FC = () => {
   }
 
   return (
-    <PageWrapper title={t('logoutPage.pageTitle')}>
+    <PageWrapper title={t('logoutPage.pageTitle') as string}>
       <MainContent>
         <ErrorTemplate
           buttons={

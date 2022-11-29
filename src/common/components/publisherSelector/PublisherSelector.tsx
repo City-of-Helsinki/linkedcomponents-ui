@@ -1,4 +1,3 @@
-import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -11,7 +10,7 @@ import {
 } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
-import Combobox from '../combobox/Combobox';
+import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 
 const getOption = (organization: OrganizationFieldsFragment): OptionType => {
   return {
@@ -20,13 +19,9 @@ const getOption = (organization: OrganizationFieldsFragment): OptionType => {
   };
 };
 
-type ValueType = string | null;
-
 export type PublisherSelectorProps = {
-  name: string;
   publisher?: string | null;
-  value: ValueType;
-} & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
+} & SingleComboboxProps<string | null>;
 
 const PublisherSelector: React.FC<PublisherSelectorProps> = ({
   clearable = false,

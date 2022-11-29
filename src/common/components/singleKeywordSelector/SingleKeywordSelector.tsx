@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -20,7 +19,7 @@ import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
-import Combobox from '../combobox/Combobox';
+import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 
 const getOption = ({
@@ -35,12 +34,7 @@ const getOption = ({
   return { label, value };
 };
 
-type ValueType = string;
-
-export type SingleKeywordSelectorProps = {
-  name: string;
-  value: ValueType;
-} & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
+export type SingleKeywordSelectorProps = SingleComboboxProps<string>;
 
 const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
   label,
@@ -106,6 +100,7 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
     <ComboboxLoadingSpinner isLoading={loading}>
       <Combobox
         {...rest}
+        multiselect={false}
         filter={handleFilter}
         id={name}
         label={label}

@@ -79,7 +79,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           {value.length > 0 && (
             <button
               type="button"
-              aria-label={clearButtonAriaLabel || t('common.clear')}
+              aria-label={clearButtonAriaLabel || (t('common.clear') as string)}
               className={classNames(styles.button)}
               onClick={clear}
             >
@@ -88,7 +88,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
           )}
           <button
             type="button"
-            aria-label={searchButtonAriaLabel || t('common.search')}
+            aria-label={searchButtonAriaLabel || (t('common.search') as string)}
             className={classNames(styles.button)}
             onClick={search}
           >

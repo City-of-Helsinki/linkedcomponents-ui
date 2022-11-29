@@ -96,7 +96,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
       backgroundColor="coatOfArms"
       className={styles.enrolmentsPage}
       noFooter
-      titleText={t('enrolmentsPage.pageTitle', { name })}
+      titleText={t('enrolmentsPage.pageTitle', { name }) as string}
     >
       <MainContent>
         <Container

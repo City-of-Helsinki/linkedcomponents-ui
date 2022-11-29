@@ -41,7 +41,7 @@ const DateSelectorDropdownMenu: React.FC<Props> = ({
         initialMonth={endDate || undefined}
         maxDate={endDate || undefined}
         onChange={(value) => onChangeDate(DATE_FIELDS.START_DATE, value)}
-        placeholder={t('common.dateSelector.placeholderStartDate')}
+        placeholder={t('common.dateSelector.placeholderStartDate') as string}
         value={startDate}
       />
       <DateInput
@@ -50,7 +50,7 @@ const DateSelectorDropdownMenu: React.FC<Props> = ({
         initialMonth={startDate || undefined}
         minDate={startDate || undefined}
         onChange={(value) => onChangeDate(DATE_FIELDS.END_DATE, value)}
-        placeholder={t('common.dateSelector.placeholderEndDate')}
+        placeholder={t('common.dateSelector.placeholderEndDate') as string}
         value={endDate}
       />
     </DropdownMenu>

@@ -44,7 +44,7 @@ const Attendee: React.FC<Props> = ({
       deleteButton={
         showDelete && !disabled ? (
           <button
-            aria-label={t('enrolment.form.buttonDeleteAttendee')}
+            aria-label={t('enrolment.form.buttonDeleteAttendee') as string}
             className={styles.deleteButton}
             onClick={onDelete}
             type="button"
