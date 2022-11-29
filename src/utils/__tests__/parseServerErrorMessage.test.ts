@@ -53,6 +53,7 @@ const testCases: [LEServerError, string][] = [
   [['Metodi "DELETE" ei ole sallittu.'], 'Metodi "DELETE" ei ole sallittu.'],
   [['Metodi "POST" ei ole sallittu.'], 'Metodi "POST" ei ole sallittu.'],
   [['Metodi "PUT" ei ole sallittu.'], 'Metodi "PUT" ei ole sallittu.'],
+  ['Not enough seats available.', 'Paikkoja ei ole riittävästi jäljellä.'],
   [
     'Price info must be specified before an event is published.',
     'Hintatiedot on määritettävä ennen tapahtuman julkaisemista.',

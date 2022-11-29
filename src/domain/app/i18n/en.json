@@ -333,6 +333,7 @@
       "buttonDeleteAttendee": "Delete participant",
       "buttonSave": "Save participant",
       "buttonUpdateParticipantAmount": "Update",
+      "freeCapacity": "Available seats",
       "labelAttendeeExtraInfo": "Additional information (optional)",
       "labelCity": "City",
       "labelDateOfBirth": "Date of birth",
@@ -362,12 +363,27 @@
       "titleAdditionalInfo": "Additional information",
       "titleBasicInfo": "Basic information of the registrant",
       "titleContactInfo": "Contact information",
+      "titleInformantInfo": "Information of the informant",
       "titleNotifications": "Event notifications",
       "titleRegistration": "Registration"
+    },
+    "inWaitingList": {
+      "text": "In waiting list",
+      "tooltip": "Entrants have been added to the queue of registrants with a reserve place. Registration is confirmed only when a place in the queue becomes available. You will receive a notification by e-mail that the place has been confirmed."
     },
     "notifications": {
       "email": "By email",
       "sms": "By text message"
+    },
+    "personsAddedToWaitingListModal": {
+      "buttonClose": "Close",
+      "text": "Please note that not all registrants' places are guaranteed. Entrants in the reserve position will only be confirmed if more places become available in the queue. You will receive a separate email from confirmed registration.",
+      "title": "Entrants have been added to the reservation queue"
+    },
+    "reservationTimeExpiredModal": {
+      "buttonTryAgain": "Try Again",
+      "text": "Unfortunately, the Reservation time has expired.",
+      "title": "Time’s Up."
     },
     "warnings": {
       "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
@@ -1741,6 +1757,7 @@
     "min0": "This number must be at least 0.",
     "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",
+    "notEnoughSeats": "Not enough seats available.",
     "notFoundAllObjects": "Could not find all objects to update.",
     "notNull": "The value of this field cannot be \"null\".",
     "offersIsRequired": "Price info must be specified before an event is published.",

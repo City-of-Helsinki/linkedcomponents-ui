@@ -1,4 +1,3 @@
-import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -13,9 +12,7 @@ import {
 } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
-import Combobox from '../combobox/Combobox';
-
-type ValueType = string | null;
+import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 
 const getOption = ({
   organizationClass,
@@ -28,10 +25,9 @@ const getOption = ({
   return { label, value };
 };
 
-export type SingleOrganizationClassSelectorProps = {
-  name: string;
-  value: ValueType;
-} & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
+export type SingleOrganizationClassSelectorProps = SingleComboboxProps<
+  string | null
+>;
 
 const SingleOrganizationClassSelector: React.FC<
   SingleOrganizationClassSelectorProps

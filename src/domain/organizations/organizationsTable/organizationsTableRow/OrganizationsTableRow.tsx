@@ -127,14 +127,14 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
               <button
                 aria-label={
                   open
-                    ? t(
+                    ? (t(
                         'organizationsPage.organizationsTable.hideSubOrganizations',
                         { name: fullName }
-                      )
-                    : t(
+                      ) as string)
+                    : (t(
                         'organizationsPage.organizationsTable.showSubOrganizations',
                         { name: fullName }
-                      )
+                      ) as string)
                 }
                 onClick={toggle}
               >

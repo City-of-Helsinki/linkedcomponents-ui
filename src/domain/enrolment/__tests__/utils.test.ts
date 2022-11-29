@@ -1,26 +1,103 @@
 /* eslint-disable import/no-named-as-default-member */
+import addSeconds from 'date-fns/addSeconds';
+import subSeconds from 'date-fns/subSeconds';
 import i18n from 'i18next';
 
 import { EnrolmentQueryVariables } from '../../../generated/graphql';
-import { fakeEnrolment, fakeRegistration } from '../../../utils/mockDataUtils';
-import { registration } from '../../registration/__mocks__/registration';
 import {
+  fakeEnrolment,
+  fakeRegistration,
+  fakeSeatsReservation,
+} from '../../../utils/mockDataUtils';
+import { enrolment } from '../../enrolment/__mocks__/enrolment';
+import { registration } from '../../registration/__mocks__/registration';
+import { TEST_REGISTRATION_ID } from '../../registration/constants';
+import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
+import { setSeatsReservationData } from '../../reserveSeats/utils';
+import {
+  ATTENDEE_INITIAL_VALUES,
   ENROLMENT_ACTIONS,
   ENROLMENT_INITIAL_VALUES,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
+  TEST_ENROLMENT_ID,
 } from '../constants';
 import {
   enrolmentPathBuilder,
   getAttendeeCapacityError,
+  getAttendeeDefaultInitialValues,
   getEditEnrolmentWarning,
   getEnrolmentInitialValues,
   getEnrolmentNotificationsCode,
   getEnrolmentNotificationTypes,
   getEnrolmentPayload,
   getFreeAttendeeCapacity,
-  getRegistrationTimeLeft,
+  getUpdateEnrolmentPayload,
+  isRestoringFormDataDisabled,
 } from '../utils';
+
+beforeEach(() => {
+  // values stored in tests will also be available in other tests unless you run
+  localStorage.clear();
+  sessionStorage.clear();
+});
+
+const generateSeatsReservationData = (expirationOffset: number) => {
+  const now = new Date();
+  let expiration = '';
+
+  if (expirationOffset) {
+    expiration = addSeconds(now, expirationOffset).toISOString();
+  } else {
+    expiration = subSeconds(now, expirationOffset).toISOString();
+  }
+
+  const reservation = fakeSeatsReservation({ expiration });
+
+  return reservation;
+};
+
+describe('getAttendeeDefaultInitialValues function', () => {
+  it('should return attendee initial values', () => {
+    expect(
+      getAttendeeDefaultInitialValues(
+        fakeRegistration({
+          audienceMaxAge: 18,
+          audienceMinAge: 8,
+        })
+      )
+    ).toEqual({
+      audienceMaxAge: 18,
+      audienceMinAge: 8,
+      city: '',
+      dateOfBirth: null,
+      extraInfo: '',
+      inWaitingList: false,
+      name: '',
+      streetAddress: '',
+      zip: '',
+    });
+
+    expect(
+      getAttendeeDefaultInitialValues(
+        fakeRegistration({
+          audienceMaxAge: null,
+          audienceMinAge: null,
+        })
+      )
+    ).toEqual({
+      audienceMaxAge: null,
+      audienceMinAge: null,
+      city: '',
+      dateOfBirth: null,
+      extraInfo: '',
+      inWaitingList: false,
+      name: '',
+      streetAddress: '',
+      zip: '',
+    });
+  });
+});
 
 describe('getEnrolmentInitialValues function', () => {
   it('should return default values if value is not set', () => {
@@ -58,6 +135,7 @@ describe('getEnrolmentInitialValues function', () => {
         city: '',
         dateOfBirth: null,
         extraInfo: '',
+        inWaitingList: false,
         name: '',
         streetAddress: '',
         zip: '',
@@ -120,6 +198,7 @@ describe('getEnrolmentInitialValues function', () => {
         city: expectedCity,
         dateOfBirth: expectedDateOfBirth,
         extraInfo: '',
+        inWaitingList: false,
         name: expectedName,
         streetAddress: expectedStreetAddress,
         zip: expectedZip,
@@ -173,23 +252,119 @@ describe('getEnrolmentNotificationsCode function', () => {
 
 describe('getEnrolmentPayload function', () => {
   it('should return single enrolment as payload', () => {
-    expect(getEnrolmentPayload(ENROLMENT_INITIAL_VALUES, registration)).toEqual(
-      {
-        city: null,
-        dateOfBirth: null,
-        email: null,
-        extraInfo: '',
-        membershipNumber: '',
-        name: null,
-        nativeLanguage: null,
-        notifications: NOTIFICATION_TYPE.NO_NOTIFICATION,
-        phoneNumber: null,
-        registration: registration.id,
-        serviceLanguage: null,
-        streetAddress: null,
-        zipcode: null,
-      }
-    );
+    expect(
+      getEnrolmentPayload({
+        formValues: {
+          ...ENROLMENT_INITIAL_VALUES,
+          attendees: [ATTENDEE_INITIAL_VALUES],
+        },
+        reservationCode: TEST_SEATS_RESERVATION_CODE,
+      })
+    ).toEqual({
+      reservationCode: TEST_SEATS_RESERVATION_CODE,
+      signups: [
+        {
+          city: null,
+          dateOfBirth: null,
+          email: null,
+          extraInfo: '',
+          membershipNumber: '',
+          name: null,
+          nativeLanguage: null,
+          notifications: 'none',
+          phoneNumber: null,
+          serviceLanguage: null,
+          streetAddress: null,
+          zipcode: null,
+        },
+      ],
+    });
+
+    const city = 'City',
+      dateOfBirth = new Date('1999-10-10'),
+      email = 'Email',
+      extraInfo = 'Extra info',
+      membershipNumber = 'XXX-123',
+      name = 'Name',
+      nativeLanguage = 'fi',
+      notifications = [NOTIFICATIONS.EMAIL],
+      phoneNumber = '0441234567',
+      serviceLanguage = 'sv',
+      streetAddress = 'Street address',
+      zipcode = '00100';
+    const payload = getEnrolmentPayload({
+      formValues: {
+        ...ENROLMENT_INITIAL_VALUES,
+        attendees: [
+          {
+            audienceMaxAge: null,
+            audienceMinAge: null,
+            city,
+            dateOfBirth,
+            extraInfo: '',
+            inWaitingList: false,
+            name,
+            streetAddress,
+            zip: zipcode,
+          },
+        ],
+        email,
+        extraInfo,
+        membershipNumber,
+        nativeLanguage,
+        notifications,
+        phoneNumber,
+        serviceLanguage,
+      },
+      reservationCode: TEST_SEATS_RESERVATION_CODE,
+    });
+
+    expect(payload).toEqual({
+      reservationCode: TEST_SEATS_RESERVATION_CODE,
+      signups: [
+        {
+          city,
+          dateOfBirth: '1999-10-10',
+          email,
+          extraInfo,
+          membershipNumber,
+          name,
+          nativeLanguage,
+          notifications: NOTIFICATION_TYPE.EMAIL,
+          phoneNumber,
+          serviceLanguage,
+          streetAddress,
+          zipcode,
+        },
+      ],
+    });
+  });
+});
+
+describe('getUpdateEnrolmentPayload function', () => {
+  it('should return single enrolment as payload', () => {
+    expect(
+      getUpdateEnrolmentPayload({
+        formValues: ENROLMENT_INITIAL_VALUES,
+        id: TEST_ENROLMENT_ID,
+        registration,
+      })
+    ).toEqual({
+      city: null,
+      dateOfBirth: null,
+      email: null,
+      extraInfo: '',
+      id: TEST_ENROLMENT_ID,
+      membershipNumber: '',
+      name: null,
+      nativeLanguage: null,
+      notifications: NOTIFICATION_TYPE.NO_NOTIFICATION,
+      phoneNumber: null,
+      registration: registration.id,
+      serviceLanguage: null,
+      streetAddress: null,
+      zipcode: null,
+    });
 
     const city = 'City',
       dateOfBirth = new Date('1999-10-10'),
@@ -210,13 +385,14 @@ describe('getEnrolmentPayload function', () => {
         city,
         dateOfBirth,
         extraInfo: '',
+        inWaitingList: false,
         name,
         streetAddress,
         zip: zipcode,
       },
     ];
-    const payload = getEnrolmentPayload(
-      {
+    const payload = getUpdateEnrolmentPayload({
+      formValues: {
         ...ENROLMENT_INITIAL_VALUES,
         attendees,
         email,
@@ -227,14 +403,16 @@ describe('getEnrolmentPayload function', () => {
         phoneNumber,
         serviceLanguage,
       },
-      registration
-    );
+      id: TEST_ENROLMENT_ID,
+      registration,
+    });
 
     expect(payload).toEqual({
       city,
       dateOfBirth: '1999-10-10',
       email,
       extraInfo,
+      id: TEST_ENROLMENT_ID,
       membershipNumber,
       name,
       nativeLanguage,
@@ -349,8 +527,45 @@ describe('getFreeAttendeeCapacity', () => {
   });
 });
 
-describe('getRegistrationTimeLeft function', () => {
-  it('should return 0 if data is not stored to session storage', () => {
-    expect(getRegistrationTimeLeft(registration)).toEqual(0);
+describe('isRestoringFormDataDisabled', () => {
+  it('should return true if enrolment is defined', () => {
+    expect(
+      isRestoringFormDataDisabled({
+        enrolment: enrolment,
+        registrationId: TEST_REGISTRATION_ID,
+      })
+    ).toBe(true);
+  });
+
+  it('should return true if reservation data is not defined', () => {
+    expect(
+      isRestoringFormDataDisabled({
+        registrationId: TEST_REGISTRATION_ID,
+      })
+    ).toBe(true);
+  });
+
+  it('should return true if reservation data is expired', () => {
+    setSeatsReservationData(
+      TEST_REGISTRATION_ID,
+      generateSeatsReservationData(-1000)
+    );
+    expect(
+      isRestoringFormDataDisabled({
+        registrationId: TEST_REGISTRATION_ID,
+      })
+    ).toBe(true);
+  });
+
+  it('should return false if reservation data is not expired', () => {
+    setSeatsReservationData(
+      TEST_REGISTRATION_ID,
+      generateSeatsReservationData(1000)
+    );
+    expect(
+      isRestoringFormDataDisabled({
+        registrationId: TEST_REGISTRATION_ID,
+      })
+    ).toBe(false);
   });
 });

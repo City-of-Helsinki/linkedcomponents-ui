@@ -31,9 +31,8 @@ import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
 import EnrolmentForm from './enrolmentForm/EnrolmentForm';
 import styles from './enrolmentPage.module.scss';
-import EnrolmentPageContext, {
-  useEnrolmentPageContextValue,
-} from './enrolmentPageContext/EnrolmentPageContext';
+import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';
+import { EnrolmentServerErrorsProvider } from './enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import {
   checkCanUserDoAction,
   enrolmentPathBuilder,
@@ -112,6 +111,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
           event={event}
           initialValues={initialValues}
           refetchEnrolment={refetch}
+          registration={registration}
         />
       </MainContent>
     </PageWrapper>
@@ -166,27 +166,19 @@ const EditEnrolmentPageWrapper: React.FC = () => {
   const loading =
     loadingUser || loadingRegistration || loadingEvent || loadingEnrolment;
 
-  const { openParticipant, setOpenParticipant, toggleOpenParticipant } =
-    useEnrolmentPageContextValue();
-
   return (
     <LoadingSpinner isLoading={loading}>
       {event && registration && enrolment ? (
-        <EnrolmentPageContext.Provider
-          value={{
-            openParticipant,
-            registration,
-            setOpenParticipant,
-            toggleOpenParticipant,
-          }}
-        >
-          <EditEnrolmentPage
-            enrolment={enrolment}
-            event={event}
-            refetch={refetch}
-            registration={registration}
-          />
-        </EnrolmentPageContext.Provider>
+        <EnrolmentPageProvider>
+          <EnrolmentServerErrorsProvider>
+            <EditEnrolmentPage
+              enrolment={enrolment}
+              event={event}
+              refetch={refetch}
+              registration={registration}
+            />
+          </EnrolmentServerErrorsProvider>
+        </EnrolmentPageProvider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

@@ -16,9 +16,7 @@ import {
   registrationId,
 } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import EnrolmentPageContext, {
-  enrolmentPageContextDefaultValue,
-} from '../../enrolmentPageContext/EnrolmentPageContext';
+import { EnrolmentPageProvider } from '../../enrolmentPageContext/EnrolmentPageContext';
 import CreateButtonPanel, {
   CreateButtonPanelProps,
 } from '../CreateButtonPanel';
@@ -28,6 +26,7 @@ configure({ defaultHidden: true });
 const defaultProps: CreateButtonPanelProps = {
   disabled: false,
   onSave: jest.fn(),
+  registration,
   saving: false,
 };
 
@@ -46,11 +45,9 @@ const renderComponent = ({
   route?: string;
 } = {}) =>
   render(
-    <EnrolmentPageContext.Provider
-      value={{ ...enrolmentPageContextDefaultValue, registration }}
-    >
+    <EnrolmentPageProvider>
       <CreateButtonPanel {...defaultProps} {...props} />
-    </EnrolmentPageContext.Provider>,
+    </EnrolmentPageProvider>,
     {
       authContextValue,
       mocks,

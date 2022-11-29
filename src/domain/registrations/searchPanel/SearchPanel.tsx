@@ -96,12 +96,12 @@ const SearchPanel: React.FC = () => {
                 hideLabel={true}
                 label={t('registrationsPage.searchPanel.labelSearch')}
                 onSearch={handleSearch}
-                placeholder={t(
-                  'registrationsPage.searchPanel.placeholderSearch'
-                )}
-                searchButtonAriaLabel={t(
-                  'registrationsPage.searchPanel.buttonSearch'
-                )}
+                placeholder={
+                  t('registrationsPage.searchPanel.placeholderSearch') as string
+                }
+                searchButtonAriaLabel={
+                  t('registrationsPage.searchPanel.buttonSearch') as string
+                }
                 setValue={handleChangeText}
                 value={searchState.text}
               />

@@ -13,20 +13,16 @@ import {
   EnrolmentFieldsFragment,
   EnrolmentsQueryVariables,
   RegistrationFieldsFragment,
-  useEnrolmentsQuery,
 } from '../../../generated/graphql';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useSetFocused from '../../../hooks/useSetFocused';
 import getPageCount from '../../../utils/getPageCount';
-import getPathBuilder from '../../../utils/getPathBuilder';
-import { getRegistrationFields } from '../../registration/utils';
-// eslint-disable-next-line max-len
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 import {
-  enrolmentsPathBuilder,
+  filterEnrolments,
   getEnrolmentFields,
   getEnrolmentSearchInitialValues,
 } from '../utils';
@@ -58,21 +54,30 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     prefix: 'enrolment-attendee-list-',
   });
 
-  const { id } = getRegistrationFields(registration, locale);
   const { enrolmentText, [pagePath]: page } = getEnrolmentSearchInitialValues(
     location.search
   );
-  const { data: enrolmentsData, loading } = useEnrolmentsQuery({
-    variables: {
-      createPath: getPathBuilder(enrolmentsPathBuilder),
-      registrations: [id],
+  // const { id } = getRegistrationFields(registration, locale);
+  // const { data: enrolmentsData, loading } = useEnrolmentsQuery({
+  //   variables: {
+  //     createPath: getPathBuilder(enrolmentsPathBuilder),
+  //     registrations: [id],
+  //     text: enrolmentText,
+  //     ...enrolmentsVariables,
+  //   },
+  // });
+  // const enrolments =
+  //   (enrolmentsData?.enrolments as EnrolmentFieldsFragment[]) || [];
+
+  const loading = !registration;
+  const enrolments = filterEnrolments({
+    enrolments: (registration?.signups ||
+      /* istanbul ignore next */ []) as EnrolmentFieldsFragment[],
+    query: {
       text: enrolmentText,
       ...enrolmentsVariables,
     },
   });
-
-  const enrolments =
-    (enrolmentsData?.enrolments as EnrolmentFieldsFragment[]) || [];
 
   const onSelectedPageChange = (page: number) => {
     navigate({
@@ -133,6 +138,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
           </thead>
           <tbody>
             {loading ? (
+              /* istanbul ignore next */
               <tr>
                 <td colSpan={6}>
                   <LoadingSpinner isLoading={true} />

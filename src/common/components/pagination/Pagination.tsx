@@ -78,13 +78,13 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <ClassNames>
       {({ css, cx }) => (
-        <nav aria-label={t('common.pagination.navigation')}>
+        <nav aria-label={t('common.pagination.navigation') as string}>
           <ul
             className={cx(styles.pagination, className, css(theme.pagination))}
           >
             <li className={styles.pageItem}>
               <button
-                aria-label={t('common.pagination.previous')}
+                aria-label={t('common.pagination.previous') as string}
                 className={styles.pageLink}
                 disabled={isPreviousDisabled}
                 onClick={handlePreviousClick}
@@ -100,7 +100,9 @@ const Pagination: React.FC<PaginationProps> = ({
                 >
                   <button
                     aria-label={
-                      page ? t('common.pagination.page', { page }) : undefined
+                      page
+                        ? (t('common.pagination.page', { page }) as string)
+                        : undefined
                     }
                     className={cx(styles.pageLink, {
                       [styles.selected]: selectedPage === page,
@@ -120,7 +122,7 @@ const Pagination: React.FC<PaginationProps> = ({
             })}
             <li className={styles.pageItem}>
               <button
-                aria-label={t('common.pagination.next')}
+                aria-label={t('common.pagination.next') as string}
                 className={styles.pageLink}
                 disabled={isNextDisabled}
                 onClick={handleNextClick}

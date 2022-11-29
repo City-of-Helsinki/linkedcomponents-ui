@@ -64,7 +64,7 @@ const MultiSelectDropdownMenu: React.FC<Props> = ({
       onSearchChange={onSearchChange}
       id={id}
       isOpen={isOpen}
-      searchPlaceholder={searchPlaceholderText}
+      searchPlaceholder={searchPlaceholderText as string}
       searchRef={searchRef}
       searchValue={searchValue}
     >

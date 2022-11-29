@@ -38,7 +38,7 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({
           label={t(`event.form.labelNewExternalLinkName`)}
           onChange={handleChange}
           options={options}
-          placeholder={t(`common.select`)}
+          placeholder={t(`common.select`) as string}
           value={null as unknown as undefined}
         />
         <TextInput
@@ -47,7 +47,7 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({
           disabled
           hideLabel={true}
           label={t(`event.form.labelNewExternalLinkLink.${type}`)}
-          placeholder={t('event.form.placeholderNewExternalLinkLink')}
+          placeholder={t('event.form.placeholderNewExternalLinkLink') as string}
         />
       </fieldset>
     </FieldColumn>

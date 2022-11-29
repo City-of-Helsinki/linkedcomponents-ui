@@ -1,40 +1,56 @@
-import { createContext, useState } from 'react';
+import React, {
+  createContext,
+  FC,
+  PropsWithChildren,
+  useMemo,
+  useState,
+} from 'react';
 
-import { RegistrationFieldsFragment } from '../../../generated/graphql';
+import useMountedState from '../../../hooks/useMountedState';
+import { ENROLMENT_MODALS } from '../constants';
+import PersonsAddedToWaitingListModal from '../modals/personsAddedToWaitingListModal/PersonsAddedToWaitingListModal';
 
-type EnrolmentPageContext = {
+export type EnrolmentPageContextProps = {
+  closeModal: () => void;
+  openModal: ENROLMENT_MODALS | null;
   openParticipant: number | null;
-  registration: RegistrationFieldsFragment;
+  setOpenModal: (state: ENROLMENT_MODALS | null) => void;
   setOpenParticipant: (index: number | null) => void;
   toggleOpenParticipant: (index: number) => void;
 };
 
-export const enrolmentPageContextDefaultValue: EnrolmentPageContext = {
-  openParticipant: 0,
-  registration: { atId: '' },
-  setOpenParticipant:
-    /* istanbul ignore next */
-    () => undefined,
-  toggleOpenParticipant:
-    /* istanbul ignore next */
-    () => undefined,
-};
+export const EnrolmentPageContext = createContext<
+  EnrolmentPageContextProps | undefined
+>(undefined);
 
-export const useEnrolmentPageContextValue = (): Omit<
-  EnrolmentPageContext,
-  'registration'
-> => {
+export const EnrolmentPageProvider: FC<PropsWithChildren> = ({ children }) => {
   const [openParticipant, setOpenParticipant] = useState<number | null>(0);
 
-  const toggleOpenParticipant = (newIndex: number) => {
-    setOpenParticipant(openParticipant === newIndex ? null : newIndex);
-  };
+  const [openModal, setOpenModal] = useMountedState<ENROLMENT_MODALS | null>(
+    null
+  );
 
-  return {
-    openParticipant,
-    setOpenParticipant,
-    toggleOpenParticipant,
-  };
+  const value: EnrolmentPageContextProps = useMemo(
+    () => ({
+      closeModal: () => setOpenModal(null),
+      openModal,
+      openParticipant,
+      setOpenModal,
+      setOpenParticipant,
+      toggleOpenParticipant: (newIndex: number) => {
+        setOpenParticipant(openParticipant === newIndex ? null : newIndex);
+      },
+    }),
+    [openModal, openParticipant, setOpenModal]
+  );
+
+  return (
+    <EnrolmentPageContext.Provider value={value}>
+      <PersonsAddedToWaitingListModal
+        isOpen={openModal === ENROLMENT_MODALS.PERSONS_ADDED_TO_WAITLIST}
+        onClose={value.closeModal}
+      />
+      {children}
+    </EnrolmentPageContext.Provider>
+  );
 };
-
-export default createContext(enrolmentPageContextDefaultValue);

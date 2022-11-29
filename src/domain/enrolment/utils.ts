@@ -1,26 +1,28 @@
-import addMinutes from 'date-fns/addMinutes';
-import isPast from 'date-fns/isPast';
 import { TFunction } from 'i18next';
+import isEqual from 'lodash/isEqual';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
+import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
 import {
-  DATE_FORMAT_API,
-  FORM_NAMES,
-  RESERVATION_NAMES,
-} from '../../constants';
-import {
+  AttendeeStatus,
   CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
   EnrolmentQueryVariables,
   OrganizationFieldsFragment,
   RegistrationFieldsFragment,
+  SeatsReservationFieldsFragment,
+  SignupInput,
+  UpdateEnrolmentMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
-import getUnixTime from '../../utils/getUnixTime';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
+import {
+  getSeatsReservationData,
+  isSeatsReservationExpired,
+} from '../reserveSeats/utils';
 import {
   ATTENDEE_INITIAL_VALUES,
   AUTHENTICATION_NOT_NEEDED,
@@ -28,16 +30,10 @@ import {
   ENROLMENT_ICONS,
   ENROLMENT_INITIAL_VALUES,
   ENROLMENT_LABEL_KEYS,
-  ENROLMENT_TIME_IN_MINUTES,
-  ENROLMENT_TIME_PER_PARTICIPANT_IN_MINUTES,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
 } from './constants';
-import {
-  AttendeeFields,
-  EnrolmentFormFields,
-  EnrolmentReservation,
-} from './types';
+import { AttendeeFields, EnrolmentFormFields } from './types';
 
 export const getEnrolmentNotificationTypes = (
   notifications: string
@@ -84,6 +80,7 @@ export const getEnrolmentInitialValues = (
           ? new Date(enrolment.dateOfBirth)
           : null,
         extraInfo: '',
+        inWaitingList: enrolment.attendeeStatus === AttendeeStatus.Waitlisted,
         name: enrolment.name ?? '',
         streetAddress: enrolment.streetAddress ?? '',
         zip: enrolment.zipcode ?? '',
@@ -118,10 +115,59 @@ export const getEnrolmentNotificationsCode = (
   }
 };
 
-export const getEnrolmentPayload = (
-  formValues: EnrolmentFormFields,
-  registration: RegistrationFieldsFragment
-): CreateEnrolmentMutationInput => {
+export const getEnrolmentPayload = ({
+  formValues,
+  reservationCode,
+}: {
+  formValues: EnrolmentFormFields;
+  reservationCode: string;
+}): CreateEnrolmentMutationInput => {
+  const {
+    attendees,
+    email,
+    extraInfo,
+    membershipNumber,
+    nativeLanguage,
+    notifications,
+    phoneNumber,
+    serviceLanguage,
+  } = formValues;
+
+  const signups: SignupInput[] = attendees.map((attendee) => {
+    const { city, dateOfBirth, name, streetAddress, zip } = attendee;
+    return {
+      city: city || null,
+      dateOfBirth: dateOfBirth
+        ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
+        : null,
+      email: email || null,
+      extraInfo: extraInfo,
+      membershipNumber: membershipNumber,
+      name: name || null,
+      nativeLanguage: nativeLanguage || null,
+      notifications: getEnrolmentNotificationsCode(notifications),
+      phoneNumber: phoneNumber || null,
+      serviceLanguage: serviceLanguage || null,
+      streetAddress: streetAddress || null,
+      zipcode: zip || null,
+    };
+  });
+
+  return {
+    reservationCode,
+    signups,
+  };
+};
+
+export const getUpdateEnrolmentPayload = ({
+  formValues,
+  id,
+  registration,
+}: {
+  formValues: EnrolmentFormFields;
+  id: string;
+  registration: RegistrationFieldsFragment;
+}): UpdateEnrolmentMutationInput => {
   const {
     attendees,
     email,
@@ -135,6 +181,7 @@ export const getEnrolmentPayload = (
   const { city, dateOfBirth, name, streetAddress, zip } = attendees[0] || {};
 
   return {
+    id,
     city: city || null,
     dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
     email: email || null,
@@ -159,6 +206,17 @@ export const enrolmentPathBuilder = ({
   return `/signup_edit/${id}/`;
 };
 
+export const getTotalAttendeeCapacity = (
+  registration: RegistrationFieldsFragment
+): number | undefined => {
+  const attendeeCapacity = getFreeAttendeeCapacity(registration);
+  // If there are seats in the event
+  if (attendeeCapacity === undefined) {
+    return undefined;
+  }
+  return attendeeCapacity + getFreeWaitlistCapacity(registration);
+};
+
 export const getFreeAttendeeCapacity = (
   registration: RegistrationFieldsFragment
 ): number | undefined => {
@@ -173,21 +231,36 @@ export const getFreeAttendeeCapacity = (
   );
 };
 
+export const getFreeWaitlistCapacity = (
+  registration: RegistrationFieldsFragment
+): number => {
+  // If there are seats in the event
+  if (!registration.waitingListCapacity) {
+    return 0;
+  }
+
+  return Math.max(
+    registration.waitingListCapacity -
+      (registration.currentWaitingListCount ?? /* istanbul ignore next */ 0),
+    0
+  );
+};
+
 export const getAttendeeCapacityError = (
   registration: RegistrationFieldsFragment,
   participantAmount: number,
   t: TFunction
 ): string | undefined => {
   if (participantAmount < 1) {
-    return t(VALIDATION_MESSAGE_KEYS.CAPACITY_MIN, { min: 1 });
+    return t(VALIDATION_MESSAGE_KEYS.CAPACITY_MIN, { min: 1 }) as string;
   }
 
-  const freeCapacity = getFreeAttendeeCapacity(registration);
+  const freeCapacity = getTotalAttendeeCapacity(registration);
 
   if (freeCapacity && participantAmount > freeCapacity) {
     return t(VALIDATION_MESSAGE_KEYS.CAPACITY_MAX, {
       max: freeCapacity,
-    });
+    }) as string;
   }
 
   return undefined;
@@ -328,65 +401,41 @@ export const clearCreateEnrolmentFormData = (registrationId: string): void => {
   );
 };
 
-export const clearEnrolmentReservationData = (registrationId: string): void => {
-  sessionStorage?.removeItem(
-    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`
-  );
+export const isRestoringFormDataDisabled = ({
+  enrolment,
+  registrationId,
+}: {
+  enrolment?: EnrolmentFieldsFragment;
+  registrationId: string;
+}) => {
+  const data = getSeatsReservationData(registrationId);
+
+  return !!enrolment || !data || isSeatsReservationExpired(data);
 };
 
-export const getEnrolmentReservationData = (
-  registrationId: string
-): EnrolmentReservation | null => {
-  /* istanbul ignore next */
-  if (typeof sessionStorage === 'undefined') return null;
-
-  const data = sessionStorage?.getItem(
-    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`
+export const getNewAttendees = ({
+  attendees,
+  registration,
+  seatsReservation,
+}: {
+  attendees: AttendeeFields[];
+  registration: RegistrationFieldsFragment;
+  seatsReservation: SeatsReservationFieldsFragment;
+}) => {
+  const { seats, seatsAtEvent } = seatsReservation;
+  const attendeeInitialValues = getAttendeeDefaultInitialValues(registration);
+  const filledAttendees = attendees.filter(
+    (a) => !isEqual(a, attendeeInitialValues)
   );
-
-  return data ? JSON.parse(data) : null;
-};
-
-export const setEnrolmentReservationData = (
-  registrationId: string,
-  reservationData: EnrolmentReservation
-): void => {
-  sessionStorage?.setItem(
-    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`,
-    JSON.stringify(reservationData)
-  );
-};
-
-export const updateEnrolmentReservationData = (
-  registration: RegistrationFieldsFragment,
-  participants: number
-) => {
-  const data = getEnrolmentReservationData(registration.id as string);
-  // TODO: Get this data from the API when BE part is implemented
-  /* istanbul ignore else */
-  if (data && !isPast(data.expires * 1000)) {
-    setEnrolmentReservationData(registration.id as string, {
-      ...data,
-      expires: getUnixTime(
-        addMinutes(
-          data.started * 1000,
-          ENROLMENT_TIME_IN_MINUTES +
-            Math.max(participants - 1, 0) *
-              ENROLMENT_TIME_PER_PARTICIPANT_IN_MINUTES
-        )
-      ),
-      participants,
-    });
-  }
-};
-
-export const getRegistrationTimeLeft = (
-  registration: RegistrationFieldsFragment
-) => {
-  const now = new Date();
-
-  const reservationData = getEnrolmentReservationData(
-    registration.id as string
-  );
-  return reservationData ? reservationData.expires - getUnixTime(now) : 0;
+  return [
+    ...filledAttendees,
+    ...Array(Math.max((seats as number) - filledAttendees.length, 0)).fill(
+      attendeeInitialValues
+    ),
+  ]
+    .slice(0, seats as number)
+    .map((attendee, index) => ({
+      ...attendee,
+      inWaitingList: index + 1 > (seatsAtEvent as number),
+    }));
 };

@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -18,17 +17,13 @@ import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
-import Combobox from '../combobox/Combobox';
+import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
-
-type ValueType = string | null;
 
 export type EventSelectorProps = {
   getOption: (event: EventFieldsFragment, locale: Language) => OptionType;
-  name: string;
-  value: ValueType;
   variables: EventsQueryVariables;
-} & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
+} & SingleComboboxProps<string | null>;
 
 const EventSelector: React.FC<EventSelectorProps> = ({
   getOption,
@@ -100,7 +95,9 @@ const EventSelector: React.FC<EventSelectorProps> = ({
         id={name}
         label={label}
         options={options}
-        toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+        toggleButtonAriaLabel={
+          t('common.combobox.toggleButtonAriaLabel') as string
+        }
         // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
         // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
         value={selectedEvent as OptionType | undefined}

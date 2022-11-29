@@ -19,6 +19,7 @@ import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import queryBuilder from '../../utils/queryBuilder';
+import { getFreeWaitlistCapacity } from '../enrolment/utils';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -352,16 +353,6 @@ export const isWaitingCapacityUsed = (
   }
 };
 
-export const getFreeWaitingAttendeeCapacity = (
-  registration: RegistrationFieldsFragment
-): number => {
-  /* istanbul ignore next */
-  return (
-    (registration.waitingListCapacity ?? 0) -
-    (registration.currentWaitingListCount ?? 0)
-  );
-};
-
 export const isRegistrationPossible = (
   registration: RegistrationFieldsFragment
 ): boolean => {
@@ -383,7 +374,7 @@ export const getRegistrationWarning = (
     !isWaitingCapacityUsed(registration)
   ) {
     return t('enrolment.warnings.capacityInWaitingList', {
-      count: getFreeWaitingAttendeeCapacity(registration),
+      count: getFreeWaitlistCapacity(registration),
     });
   }
   return '';

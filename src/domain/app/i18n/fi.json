@@ -334,6 +334,7 @@
       "buttonDeleteAttendee": "Poista osallistuja",
       "buttonSave": "Tallenna osallistuja",
       "buttonUpdateParticipantAmount": "Päivitä",
+      "freeCapacity": "Saatavilla olevia paikkoja",
       "labelAttendeeExtraInfo": "Lisätietoa (valinnainen)",
       "labelCity": "Kaupunki",
       "labelDateOfBirth": "Syntymäaika",
@@ -363,12 +364,27 @@
       "titleAdditionalInfo": "Lisätiedot",
       "titleBasicInfo": "Ilmoittautujan perustiedot",
       "titleContactInfo": "Yhteystiedot",
+      "titleInformantInfo": "Ilmoittajan tiedot",
       "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
       "titleRegistration": "Ilmoittautuminen"
+    },
+    "inWaitingList": {
+      "text": "Varasija",
+      "tooltip": "Ilmoittautuja on lisätty ilmoittautujien jonoon varasijalla. Ilmoittautuminen varmistuu vasta, kun paikka jonossa vapautuu. Saat paikan varmistumisesta ilmoituksen sähköpostitse."
     },
     "notifications": {
       "email": "Sähköpostilla",
       "sms": "Tekstiviestillä"
+    },
+    "personsAddedToWaitingListModal": {
+      "buttonClose": "Sulje",
+      "text": "Huomioi, että kaikki ilmoittautujien paikat eivät ole varmistettuja. Varasijalla olevat ilmoittautujat varmistuvat vain, jos jonosta vapautuu lisää paikkoja. Varmistuneesta ilmoittautumisesta saat erillisen sähköpostin.",
+      "title": "Ilmoittautujia on lisätty varausjonoon"
+    },
+    "reservationTimeExpiredModal": {
+      "buttonTryAgain": "Yritä uudelleen",
+      "text": "Valitettavasti varausaika on umpeutunut.",
+      "title": "Varausaika on täynnä."
     },
     "warnings": {
       "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
@@ -1741,6 +1757,7 @@
     "min0": "Tämän luvun on oltava vähintään 0.",
     "mustBeUnique": "Arvon tulee olla uniikki.",
     "nameIsRequired": "Nimi on pakollinen.",
+    "notEnoughSeats": "Paikkoja ei ole riittävästi jäljellä.",
     "notFoundAllObjects": "Kaikkia päivitettäviä objekteja ei löytynyt.",
     "notNull": "Tämän kentän arvo ei voi olla \"null\".",
     "offersIsRequired": "Hintatiedot on määritettävä ennen tapahtuman julkaisemista.",

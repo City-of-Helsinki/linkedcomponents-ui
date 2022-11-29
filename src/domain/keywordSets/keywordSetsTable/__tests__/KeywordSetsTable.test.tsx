@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   act,
   render,
@@ -44,8 +46,8 @@ test('should render all keyword sets', async () => {
 });
 
 test('should open edit keyword set page by clicking keyword set row', async () => {
-  const keywordSetName = keywordSets.data[0].name.fi as string;
-  const keywordSetId = keywordSets.data[0].id;
+  const keywordSetName = keywordSets.data[0]?.name?.fi as string;
+  const keywordSetId = keywordSets.data[0]?.id;
   const user = userEvent.setup();
   const { history } = renderComponent({ keywordSets: [keywordSets.data[0]] });
 
@@ -62,8 +64,8 @@ test('should open edit keyword set page by clicking keyword set row', async () =
 });
 
 test('should open edit keyword set page by pressing enter on row', async () => {
-  const keywordSetName = keywordSets.data[0].name.fi as string;
-  const keywordSetId = keywordSets.data[0].id;
+  const keywordSetName = keywordSets.data[0]?.name?.fi as string;
+  const keywordSetId = keywordSets.data[0]?.id;
 
   const user = userEvent.setup();
   const { history } = renderComponent({ keywordSets: [keywordSets.data[0]] });

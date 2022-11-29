@@ -1,6 +1,6 @@
 import { Field } from 'formik';
 import { Fieldset, IconTrash } from 'hds-react';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DateInputField from '../../../../../common/components/formFields/dateInputField/DateInputField';
@@ -8,7 +8,7 @@ import TextAreaField from '../../../../../common/components/formFields/textAreaF
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { ATTENDEE_FIELDS } from '../../../constants';
-import EnrolmentPageContext from '../../../enrolmentPageContext/EnrolmentPageContext';
+import { useEnrolmentPageContext } from '../../../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { AttendeeFields } from '../../../types';
 import styles from './attendee.module.scss';
 import AttendeeAccordion from './attendeeAccordion/AttendeeAccordion';
@@ -34,15 +34,17 @@ const Attendee: React.FC<Props> = ({
   showDelete,
 }) => {
   const { t } = useTranslation();
-  const { openParticipant, toggleOpenParticipant } =
-    useContext(EnrolmentPageContext);
+  const { openParticipant, toggleOpenParticipant } = useEnrolmentPageContext();
 
+  const labelText =
+    attendee.name ||
+    t('enrolment.form.attendeeDefaultTitle', { index: index + 1 });
   return (
     <AttendeeAccordion
       deleteButton={
         showDelete && !disabled ? (
           <button
-            aria-label={t('enrolment.form.buttonDeleteAttendee')}
+            aria-label={t('enrolment.form.buttonDeleteAttendee') as string}
             className={styles.deleteButton}
             onClick={onDelete}
             type="button"
@@ -51,12 +53,10 @@ const Attendee: React.FC<Props> = ({
           </button>
         ) : undefined
       }
+      inWaitingList={attendee.inWaitingList}
       onClick={() => toggleOpenParticipant(index)}
       open={openParticipant === index}
-      toggleButtonLabel={
-        attendee.name ||
-        t('enrolment.form.attendeeDefaultTitle', { index: index + 1 })
-      }
+      toggleButtonLabel={labelText}
     >
       <Fieldset heading={t(`enrolment.form.titleBasicInfo`)}>
         <FormGroup>

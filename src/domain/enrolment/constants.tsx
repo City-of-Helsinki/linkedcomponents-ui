@@ -8,6 +8,7 @@ export enum ATTENDEE_FIELDS {
   CITY = 'city',
   DATE_OF_BIRTH = 'dateOfBirth',
   EXTRA_INFO = 'extraInfo',
+  IN_WAITING_LIST = 'inWaitingList',
   NAME = 'name',
   STREET_ADDRESS = 'streetAddress',
   ZIP = 'zip',
@@ -30,6 +31,7 @@ export const ATTENDEE_INITIAL_VALUES: AttendeeFields = {
   [ATTENDEE_FIELDS.CITY]: '',
   [ATTENDEE_FIELDS.DATE_OF_BIRTH]: null,
   [ATTENDEE_FIELDS.EXTRA_INFO]: '',
+  [ATTENDEE_FIELDS.IN_WAITING_LIST]: false,
   [ATTENDEE_FIELDS.NAME]: '',
   [ATTENDEE_FIELDS.STREET_ADDRESS]: '',
   [ATTENDEE_FIELDS.ZIP]: '',
@@ -96,3 +98,10 @@ export const TEST_ENROLMENT_ID = 'enrolment:0';
 
 export const ENROLMENT_TIME_IN_MINUTES = 30;
 export const ENROLMENT_TIME_PER_PARTICIPANT_IN_MINUTES = 1;
+
+export enum ENROLMENT_MODALS {
+  CANCEL = 'cancel',
+  DELETE = 'delete',
+  PERSONS_ADDED_TO_WAITLIST = 'personsAddedToWaitList',
+  RESERVATION_TIME_EXPIRED = 'reservationTimeExpired',
+}

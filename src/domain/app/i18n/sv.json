@@ -334,6 +334,7 @@
       "buttonDeleteAttendee": "Ta bort deltagare",
       "buttonSave": "Spara deltagare",
       "buttonUpdateParticipantAmount": "Uppdatera",
+      "freeCapacity": "Tillgängliga platser",
       "labelAttendeeExtraInfo": "Ytterligare information (valfritt)",
       "labelCity": "Staden",
       "labelDateOfBirth": "Födelsedatum",
@@ -363,12 +364,27 @@
       "titleAdditionalInfo": "Ytterligare information",
       "titleBasicInfo": "Grundläggande information om registranten",
       "titleContactInfo": "Kontaktinformation",
+      "titleInformantInfo": "Information om uppgiftslämnaren",
       "titleNotifications": "Evenemangmeddelanden",
       "titleRegistration": "Registrering"
+    },
+    "inWaitingList": {
+      "text": "På väntelista",
+      "tooltip": "Deltagare har lagts till i kön av anmälda med reservplats. Anmälan bekräftas först när en plats i kön blir ledig. Du får ett meddelande via e-post om att platsen är bekräftad."
     },
     "notifications": {
       "email": "Via e-post",
       "sms": "Med sms"
+    },
+    "personsAddedToWaitingListModal": {
+      "buttonClose": "Stänga",
+      "text": "Observera att inte alla anmäldas platser är garanterade. Deltagare på reservplatsen bekräftas endast om fler platser blir lediga i kön. Du kommer att få ett separat e-postmeddelande från bekräftad registrering.",
+      "title": "Deltagare har lagts till i bokningskön"
+    },
+    "reservationTimeExpiredModal": {
+      "buttonTryAgain": "Försök igen",
+      "text": "Tyvärr har bokningstiden gått ut.",
+      "title": "Tiden är ute."
     },
     "warnings": {
       "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
@@ -1741,6 +1757,7 @@
     "mustBeUnique": "Värdet måste vara unikt.",
     "min0": "Detta nummer måste vara minst 0.",
     "nameIsRequired": "Namnet krävs.",
+    "notEnoughSeats": "Inte tillräckligt med platser tillgängliga.",
     "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
     "notNull": "Värdet på detta fält kan inte vara \"null\".",
     "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",
