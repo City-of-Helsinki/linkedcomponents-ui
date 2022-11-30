@@ -49,15 +49,13 @@ const CookieConsent: FC = () => {
                 {
                   id: 'eventForm',
                   hostName: origin,
-                  requiredCookies: {
-                    name: t('common.cookieConsent.eventForm.name') as string,
-                    description: t(
-                      'common.cookieConsent.eventForm.description'
-                    ) as string,
-                    expiration: t(
-                      'common.cookieConsent.expiration.session'
-                    ) as string,
-                  },
+                  name: t('common.cookieConsent.eventForm.name') as string,
+                  description: t(
+                    'common.cookieConsent.eventForm.description'
+                  ) as string,
+                  expiration: t(
+                    'common.cookieConsent.expiration.session'
+                  ) as string,
                 },
                 {
                   id: 'registrationForm',
