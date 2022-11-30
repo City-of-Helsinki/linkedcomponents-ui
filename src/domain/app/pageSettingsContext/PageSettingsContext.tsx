@@ -1,4 +1,4 @@
-import { createContext, FC, PropsWithChildren, useMemo } from 'react';
+import React, { createContext, FC, PropsWithChildren, useMemo } from 'react';
 
 import useEventsPageSettings from '../../events/hooks/useEventsPageSettings';
 import useOrganizationsPageSettings from '../../organizations/hooks/useOrganizationsPageSettings';

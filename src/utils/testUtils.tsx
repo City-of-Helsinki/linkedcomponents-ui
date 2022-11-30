@@ -79,14 +79,14 @@ const customRender: CustomRender = (
       <PageSettingsProvider>
         <ThemeProvider>
           <MockedProvider cache={createCache()} mocks={mocks}>
-            <Router history={history}>{children}</Router>
+            <Router history={history as any}>{children}</Router>
           </MockedProvider>
         </ThemeProvider>
       </PageSettingsProvider>
     </AuthContext.Provider>
   );
 
-  const renderResult = render(ui, { wrapper: Wrapper });
+  const renderResult = render(ui, { wrapper: Wrapper as any });
   return { ...renderResult, history };
 };
 
@@ -130,7 +130,7 @@ const renderWithRoute: CustomRender = (
       <PageSettingsProvider>
         <ThemeProvider>
           <MockedProvider cache={createCache()} mocks={mocks}>
-            <Router history={history}>
+            <Router history={history as any}>
               <Routes>
                 <Route path={path} element={children} />
               </Routes>
@@ -141,7 +141,7 @@ const renderWithRoute: CustomRender = (
     </AuthContext.Provider>
   );
 
-  const renderResult = render(ui, { wrapper: Wrapper });
+  const renderResult = render(ui, { wrapper: Wrapper as any });
   return { ...renderResult, history };
 };
 

@@ -70,9 +70,10 @@ export const getUrlUtils = (t: TestController) => {
       await t.navigateTo(url);
     },
     async navigateToSearchUrl(searchString: string) {
-      const url = getEnvUrl(
-        `/fi/search?text=${encodeURIComponent(searchString)}`
-      );
+      const query = searchString
+        ? `?text=${encodeURIComponent(searchString)}`
+        : '';
+      const url = getEnvUrl(`/fi/search${query}`);
       setDataToPrintOnFailure(t, 'url', url);
       await t.navigateTo(url);
     },
