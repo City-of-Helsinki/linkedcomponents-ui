@@ -31,7 +31,12 @@ import styles from './keywordList.module.scss';
 
 type KeywordListProps = {
   keywords: KeywordsQuery['keywords']['data'];
-  onSelectedPageChange: (page: number) => void;
+  onPageChange: (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => void;
   onSortChange: (sort: KEYWORD_SORT_OPTIONS) => void;
   page: number;
   pageCount: number;
@@ -40,7 +45,7 @@ type KeywordListProps = {
 
 const KeywordList: React.FC<KeywordListProps> = ({
   keywords,
-  onSelectedPageChange,
+  onPageChange,
   onSortChange,
   page,
   pageCount,
@@ -79,13 +84,17 @@ const KeywordList: React.FC<KeywordListProps> = ({
           sort={sort as KEYWORD_SORT_OPTIONS}
         />
       </TableWrapper>
-      {pageCount > 1 && (
-        <Pagination
-          pageCount={pageCount}
-          selectedPage={page}
-          setSelectedPage={onSelectedPageChange}
-        />
-      )}
+      <Pagination
+        pageCount={pageCount}
+        pageHref={(index: number) => {
+          return `${location.pathname}${replaceParamsToKeywordQueryString(
+            location.search,
+            { page: index > 1 ? index : null }
+          )}`;
+        }}
+        pageIndex={page - 1}
+        onChange={onPageChange}
+      />
     </div>
   );
 };
@@ -99,11 +108,19 @@ const KeywordListContainer: React.FC = () => {
 
   const keywordListId = useIdWithPrefix({ prefix: 'keyword-list-' });
 
-  const handleSelectedPageChange = (page: number) => {
+  const handlePageChange = (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    event.preventDefault();
+
+    const pageNumber = index + 1;
     navigate({
       pathname: location.pathname,
       search: replaceParamsToKeywordQueryString(location.search, {
-        page: page > 1 ? page : null,
+        page: pageNumber > 1 ? pageNumber : null,
       }),
     });
     // Scroll to the beginning of keyword list
@@ -159,7 +176,7 @@ const KeywordListContainer: React.FC = () => {
       <LoadingSpinner isLoading={loading}>
         <KeywordList
           keywords={keywords}
-          onSelectedPageChange={handleSelectedPageChange}
+          onPageChange={handlePageChange}
           onSortChange={handleSortChange}
           page={page}
           pageCount={pageCount}

@@ -39,14 +39,12 @@ const renderComponent = (props?: Partial<EnrolmentsTableProps>) => {
   );
 };
 
-const getElement = (key: 'page1' | 'page2' | 'pagination') => {
+const getElement = (key: 'page1' | 'page2') => {
   switch (key) {
     case 'page1':
-      return screen.getByRole('button', { name: 'Sivu 1' });
+      return screen.getByRole('link', { name: 'Sivu 1' });
     case 'page2':
-      return screen.getByRole('button', { name: 'Sivu 2' });
-    case 'pagination':
-      return screen.getByRole('navigation', { name: 'Sivunavigointi' });
+      return screen.getByRole('link', { name: 'Sivu 2' });
   }
 };
 

@@ -205,12 +205,7 @@
     },
     "openInExternalDomain": "Flyttar till en annan webbplats.",
     "openInNewTab": "(öppnas i en ny flik)",
-    "pagination": {
-      "navigation": "Sidnavigering",
-      "next": "Nästa sida",
-      "page": "Sida {{page}}",
-      "previous": "Föregående sida"
-    },
+    "paginationAriaLabel": "Paginering",
     "placeholderDate": "d.m.åååå",
     "placeholderDateTime": "d.m.åååå hh.mm",
     "placeholderTime": "hh.mm",

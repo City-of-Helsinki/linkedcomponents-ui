@@ -205,12 +205,7 @@
     },
     "openInExternalDomain": "Siirtyy toiseen sivustoon.",
     "openInNewTab": "(avataan uudessa välilehdessä)",
-    "pagination": {
-      "navigation": "Sivunavigointi",
-      "next": "Seuraava sivu",
-      "page": "Sivu {{page}}",
-      "previous": "Edellinen sivu"
-    },
+    "paginationAriaLabel": "Sivunumerointi",
     "placeholderDate": "p.k.vvvv",
     "placeholderDateTime": "p.k.vvvv hh.mm",
     "placeholderTime": "hh.mm",

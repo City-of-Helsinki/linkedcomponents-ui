@@ -1,6 +1,7 @@
 import {
   FooterCustomTheme,
   LoadingSpinnerCustomTheme,
+  PaginationCustomTheme,
   SelectCustomTheme,
   SideNavigationCustomTheme,
 } from 'hds-react';
@@ -241,18 +242,7 @@ type NotificationSizeCSSProperties = {
   '--notification-padding'?: string;
 };
 
-type PaginationCSSProperties = {
-  '--pagination-item-background-color'?: string;
-  '--pagination-item-background-color-disabled'?: string;
-  '--pagination-item-background-color-hover'?: string;
-  '--pagination-item-background-color-selected'?: string;
-  '--pagination-item-color'?: string;
-  '--pagination-item-color-disabled'?: string;
-  '--pagination-item-color-hover'?: string;
-  '--pagination-item-color-selected'?: string;
-  '--pagination-item-size'?: string;
-  '--pagination-item-border-radius'?: string;
-};
+type PaginationCSSProperties = Partial<PaginationCustomTheme>;
 
 type PublicationStatusCSSProperties = {
   '--publication-status-color-draft'?: string;

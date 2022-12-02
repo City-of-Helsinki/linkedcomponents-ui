@@ -30,7 +30,12 @@ import {
 import styles from './placeList.module.scss';
 
 type PlaceListProps = {
-  onSelectedPageChange: (page: number) => void;
+  onPageChange: (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => void;
   onSortChange: (sort: PLACE_SORT_OPTIONS) => void;
   page: number;
   pageCount: number;
@@ -39,7 +44,7 @@ type PlaceListProps = {
 };
 
 const PlaceList: React.FC<PlaceListProps> = ({
-  onSelectedPageChange,
+  onPageChange,
   onSortChange,
   page,
   pageCount,
@@ -79,13 +84,17 @@ const PlaceList: React.FC<PlaceListProps> = ({
           sort={sort as PLACE_SORT_OPTIONS}
         />
       </TableWrapper>
-      {pageCount > 1 && (
-        <Pagination
-          pageCount={pageCount}
-          selectedPage={page}
-          setSelectedPage={onSelectedPageChange}
-        />
-      )}
+      <Pagination
+        pageCount={pageCount}
+        pageHref={(index: number) => {
+          return `${location.pathname}${replaceParamsToPlaceQueryString(
+            location.search,
+            { page: index > 1 ? index : null }
+          )}`;
+        }}
+        pageIndex={page - 1}
+        onChange={onPageChange}
+      />
     </div>
   );
 };
@@ -99,11 +108,19 @@ const PlaceListContainer: React.FC = () => {
 
   const placeListId = useIdWithPrefix({ prefix: 'place-list-' });
 
-  const handleSelectedPageChange = (page: number) => {
+  const handlePageChange = (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    event.preventDefault();
+
+    const pageNumber = index + 1;
     navigate({
       pathname: location.pathname,
       search: replaceParamsToPlaceQueryString(location.search, {
-        page: page > 1 ? page : null,
+        page: pageNumber > 1 ? pageNumber : null,
       }),
     });
     // Scroll to the beginning of keyword list
@@ -158,7 +175,7 @@ const PlaceListContainer: React.FC = () => {
 
       <LoadingSpinner isLoading={loading}>
         <PlaceList
-          onSelectedPageChange={handleSelectedPageChange}
+          onPageChange={handlePageChange}
           onSortChange={handleSortChange}
           page={page}
           pageCount={pageCount}

@@ -79,11 +79,19 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     },
   });
 
-  const onSelectedPageChange = (page: number) => {
+  const onPageChange = (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    event.preventDefault();
+
+    const pageNumber = index + 1;
     navigate({
       pathname: location.pathname,
       search: replaceParamsToRegistrationQueryString(location.search, {
-        [pagePath]: page > 1 ? page : null,
+        [pagePath]: pageNumber > 1 ? pageNumber : null,
       }),
     });
     // Scroll to the beginning of event list
@@ -162,13 +170,18 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
             )}
           </tbody>
         </Table>
-        {pageCount > 1 && (
-          <Pagination
-            pageCount={pageCount}
-            selectedPage={page}
-            setSelectedPage={onSelectedPageChange}
-          />
-        )}
+        <Pagination
+          pageCount={pageCount}
+          pageHref={(index: number) => {
+            return `${
+              location.pathname
+            }${replaceParamsToRegistrationQueryString(location.search, {
+              [pagePath]: index > 1 ? index : null,
+            })}`;
+          }}
+          pageIndex={page - 1}
+          onChange={onPageChange}
+        />
       </TableWrapper>
     </div>
   );

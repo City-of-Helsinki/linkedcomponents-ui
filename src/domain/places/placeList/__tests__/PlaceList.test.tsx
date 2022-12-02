@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   act,
   configure,
@@ -37,9 +39,9 @@ const getElement = (
 ) => {
   switch (key) {
     case 'page1Button':
-      return screen.getByRole('button', { name: 'Sivu 1' });
+      return screen.getByRole('link', { name: 'Sivu 1' });
     case 'page2Button':
-      return screen.getByRole('button', { name: 'Sivu 2' });
+      return screen.getByRole('link', { name: 'Sivu 2' });
     case 'searchButton':
       return screen.getByRole('button', { name: /etsi/i });
     case 'searchInput':
