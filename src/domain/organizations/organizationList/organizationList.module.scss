@@ -26,11 +26,9 @@
 }
 
 .searchInput {
+  --dropdown-border-color-default: var(--color-black-90);
+
   @include medium-up {
     @include min-width-column(4);
-  }
-
-  input {
-    --input-border-color-default: var(--color-black-90);
   }
 }

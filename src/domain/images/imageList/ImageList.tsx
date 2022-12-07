@@ -84,17 +84,19 @@ const ImageList: React.FC<ImageListProps> = ({
           sort={sort as IMAGE_SORT_OPTIONS}
         />
       </TableWrapper>
-      <Pagination
-        pageCount={pageCount}
-        pageHref={(index: number) => {
-          return `${location.pathname}${replaceParamsToImageQueryString(
-            location.search,
-            { page: index > 1 ? index : null }
-          )}`;
-        }}
-        pageIndex={page - 1}
-        onChange={onPageChange}
-      />
+      {pageCount > 1 && (
+        <Pagination
+          pageCount={pageCount}
+          pageHref={(index: number) => {
+            return `${location.pathname}${replaceParamsToImageQueryString(
+              location.search,
+              { page: index > 1 ? index : null }
+            )}`;
+          }}
+          pageIndex={page - 1}
+          onChange={onPageChange}
+        />
+      )}
     </div>
   );
 };
@@ -167,8 +169,8 @@ const ImageListContainer: React.FC = () => {
           className={styles.searchInput}
           label={t('imagesPage.labelSearch')}
           hideLabel
-          onSearch={handleSearchChange}
-          setValue={setSearch}
+          onSubmit={handleSearchChange}
+          onChange={setSearch}
           value={search}
         />
       </div>

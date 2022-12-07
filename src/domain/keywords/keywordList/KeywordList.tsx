@@ -84,17 +84,19 @@ const KeywordList: React.FC<KeywordListProps> = ({
           sort={sort as KEYWORD_SORT_OPTIONS}
         />
       </TableWrapper>
-      <Pagination
-        pageCount={pageCount}
-        pageHref={(index: number) => {
-          return `${location.pathname}${replaceParamsToKeywordQueryString(
-            location.search,
-            { page: index > 1 ? index : null }
-          )}`;
-        }}
-        pageIndex={page - 1}
-        onChange={onPageChange}
-      />
+      {pageCount > 1 && (
+        <Pagination
+          pageCount={pageCount}
+          pageHref={(index: number) => {
+            return `${location.pathname}${replaceParamsToKeywordQueryString(
+              location.search,
+              { page: index > 1 ? index : null }
+            )}`;
+          }}
+          pageIndex={page - 1}
+          onChange={onPageChange}
+        />
+      )}
     </div>
   );
 };
@@ -167,8 +169,8 @@ const KeywordListContainer: React.FC = () => {
           className={styles.searchInput}
           label={t('keywordsPage.labelSearch')}
           hideLabel
-          onSearch={handleSearchChange}
-          setValue={setSearch}
+          onSubmit={handleSearchChange}
+          onChange={setSearch}
           value={search}
         />
       </div>

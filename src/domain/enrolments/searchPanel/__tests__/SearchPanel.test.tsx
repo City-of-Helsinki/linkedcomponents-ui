@@ -5,16 +5,14 @@ import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthCon
 import {
   act,
   configure,
+  fireEvent,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
-import {
-  registration,
-  registrationId,
-} from '../../../registration/__mocks__/registration';
+import { registrationId } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import SearchPanel from '../SearchPanel';
 
@@ -23,7 +21,7 @@ configure({ defaultHidden: true });
 const getElement = (key: 'searchInput') => {
   switch (key) {
     case 'searchInput':
-      return screen.getByRole('searchbox', {
+      return screen.getByRole('combobox', {
         name: /hae osallistujia/i,
       });
   }
@@ -39,7 +37,7 @@ const mocks = [mockedEventResponse, mockedUserResponse];
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const renderComponent = (route: string = defaultRoute) =>
-  render(<SearchPanel registration={registration} />, {
+  render(<SearchPanel />, {
     authContextValue,
     mocks,
     routes: [route],
@@ -60,7 +58,7 @@ test('should search enrolments with correct search params', async () => {
 
   // Text filtering
   const searchInput = getElement('searchInput');
-  await act(async () => await user.type(searchInput, values.text));
+  fireEvent.change(searchInput, { target: { value: values.text } });
   await waitFor(() => expect(searchInput).toHaveValue(values.text));
 
   const searchButton = screen.getAllByRole('button', {

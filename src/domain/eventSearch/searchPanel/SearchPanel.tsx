@@ -105,7 +105,8 @@ const SearchPanel: React.FC = () => {
                   <SearchInput
                     className={styles.searchInput}
                     label={t('eventSearchPage.searchPanel.labelSearch')}
-                    onSearch={handleSearch}
+                    onChange={handleChangeText}
+                    onSubmit={handleSearch}
                     placeholder={
                       t(
                         'eventSearchPage.searchPanel.placeholderSearch'
@@ -114,7 +115,6 @@ const SearchPanel: React.FC = () => {
                     searchButtonAriaLabel={
                       t('eventSearchPage.searchPanel.buttonSearch') as string
                     }
-                    setValue={handleChangeText}
                     value={searchState.text}
                   />
                   <div className={styles.advancedFilters}>

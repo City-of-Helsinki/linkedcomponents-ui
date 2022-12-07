@@ -3,6 +3,7 @@ import React from 'react';
 import {
   act,
   configure,
+  fireEvent,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -45,7 +46,7 @@ const getElement = (
     case 'searchButton':
       return screen.getByRole('button', { name: /etsi/i });
     case 'searchInput':
-      return screen.getByRole('searchbox', { name: /hae avainsanaryhmiä/i });
+      return screen.getByRole('combobox', { name: /hae avainsanaryhmiä/i });
     case 'sortNameButton':
       return screen.getByRole('button', { name: /nimi/i });
   }
@@ -102,13 +103,8 @@ test('should search by text', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  // Page 1 keywords should be visible.
-  screen.getByRole('button', { name: keywordSetNames[0] });
-  await waitFor(() => expect(history.location.search).toBe(''));
-
-  await act(
-    async () => await user.type(getElement('searchInput'), searchValue)
-  );
+  const searchInput = getElement('searchInput');
+  fireEvent.change(searchInput, { target: { value: searchValue } });
   await act(async () => await user.click(getElement('searchButton')));
 
   await waitFor(() =>

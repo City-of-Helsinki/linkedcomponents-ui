@@ -1,7 +1,10 @@
+import React from 'react';
+
 import { ROUTES } from '../../../../constants';
 import {
   act,
   configure,
+  fireEvent,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
@@ -30,24 +33,23 @@ const getElement = (key: 'searchButton' | 'searchInput') => {
     case 'searchButton':
       return screen.getByRole('button', { name: /etsi/i });
     case 'searchInput':
-      return screen.getByRole('searchbox', { name: /hae organisaatioita/i });
+      return screen.getByRole('combobox', { name: /hae organisaatioita/i });
   }
 };
 
 test('should search by text', async () => {
-  const searchValue = organizations.data[0].name;
+  const searchValue = organizations.data[0]?.name as string;
   const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
-  screen.getByRole('button', { name: organizations.data[0].name });
-  screen.getByRole('button', { name: organizations.data[2].name });
+  screen.getByRole('button', { name: organizations.data[0]?.name as string });
+  screen.getByRole('button', { name: organizations.data[2]?.name as string });
   await waitFor(() => expect(history.location.search).toBe(''));
 
-  await act(
-    async () => await user.type(getElement('searchInput'), searchValue)
-  );
+  const searchInput = getElement('searchInput');
+  fireEvent.change(searchInput, { target: { value: searchValue } });
   await act(async () => await user.click(getElement('searchButton')));
 
   await waitFor(() =>
@@ -58,10 +60,12 @@ test('should search by text', async () => {
 
   await waitFor(() =>
     expect(
-      screen.queryByRole('button', { name: organizations.data[2].name })
+      screen.queryByRole('button', {
+        name: organizations.data[2]?.name as string,
+      })
     ).not.toBeInTheDocument()
   );
-  screen.getByRole('button', { name: organizations.data[0].name });
+  screen.getByRole('button', { name: organizations.data[0]?.name as string });
 });
 
 test('should show sub events', async () => {
@@ -71,20 +75,24 @@ test('should show sub events', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const showMoreButton = screen.getByRole('button', {
-    name: `Näytä alaorganisaatiot: ${organizations.data[0].name}`,
+    name: `Näytä alaorganisaatiot: ${organizations.data[0]?.name as string}`,
   });
   await act(async () => await user.click(showMoreButton));
 
   // Should show sub-organization
-  await screen.findByRole('button', { name: organizations.data[1].name });
+  await screen.findByRole('button', {
+    name: organizations.data[1]?.name as string,
+  });
 
   const hideButton = screen.getByRole('button', {
-    name: `Piilota alaorganisaatiot: ${organizations.data[0].name}`,
+    name: `Piilota alaorganisaatiot: ${organizations.data[0]?.name as string}`,
   });
   await act(async () => await user.click(hideButton));
 
   // Sub-organization should be hidden
   expect(
-    screen.queryByRole('button', { name: organizations.data[1].name })
+    screen.queryByRole('button', {
+      name: organizations.data[1]?.name as string,
+    })
   ).not.toBeInTheDocument();
 });

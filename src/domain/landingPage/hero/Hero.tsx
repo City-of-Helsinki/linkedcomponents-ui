@@ -71,7 +71,8 @@ const Hero: React.FC = () => {
                         className={styles.searchInput}
                         hideLabel={true}
                         label={t('eventSearchPage.searchPanel.labelSearch')}
-                        onSearch={handleSearch}
+                        onChange={setSearchValue}
+                        onSubmit={handleSearch}
                         placeholder={
                           t(
                             'eventSearchPage.searchPanel.placeholderSearch'
@@ -82,7 +83,6 @@ const Hero: React.FC = () => {
                             'eventSearchPage.searchPanel.buttonSearch'
                           ) as string
                         }
-                        setValue={setSearchValue}
                         value={searchValue}
                       />
                     </div>

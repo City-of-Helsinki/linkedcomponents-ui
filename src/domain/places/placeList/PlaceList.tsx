@@ -84,17 +84,19 @@ const PlaceList: React.FC<PlaceListProps> = ({
           sort={sort as PLACE_SORT_OPTIONS}
         />
       </TableWrapper>
-      <Pagination
-        pageCount={pageCount}
-        pageHref={(index: number) => {
-          return `${location.pathname}${replaceParamsToPlaceQueryString(
-            location.search,
-            { page: index > 1 ? index : null }
-          )}`;
-        }}
-        pageIndex={page - 1}
-        onChange={onPageChange}
-      />
+      {pageCount > 1 && (
+        <Pagination
+          pageCount={pageCount}
+          pageHref={(index: number) => {
+            return `${location.pathname}${replaceParamsToPlaceQueryString(
+              location.search,
+              { page: index > 1 ? index : null }
+            )}`;
+          }}
+          pageIndex={page - 1}
+          onChange={onPageChange}
+        />
+      )}
     </div>
   );
 };
@@ -167,8 +169,8 @@ const PlaceListContainer: React.FC = () => {
           className={styles.searchInput}
           label={t('placesPage.labelSearch')}
           hideLabel
-          onSearch={handleSearchChange}
-          setValue={setSearch}
+          onSubmit={handleSearchChange}
+          onChange={setSearch}
           value={search}
         />
       </div>

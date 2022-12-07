@@ -170,18 +170,20 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
             )}
           </tbody>
         </Table>
-        <Pagination
-          pageCount={pageCount}
-          pageHref={(index: number) => {
-            return `${
-              location.pathname
-            }${replaceParamsToRegistrationQueryString(location.search, {
-              [pagePath]: index > 1 ? index : null,
-            })}`;
-          }}
-          pageIndex={page - 1}
-          onChange={onPageChange}
-        />
+        {pageCount > 1 && (
+          <Pagination
+            pageCount={pageCount}
+            pageHref={(index: number) => {
+              return `${
+                location.pathname
+              }${replaceParamsToRegistrationQueryString(location.search, {
+                [pagePath]: index > 1 ? index : null,
+              })}`;
+            }}
+            pageIndex={page - 1}
+            onChange={onPageChange}
+          />
+        )}
       </TableWrapper>
     </div>
   );

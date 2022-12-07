@@ -90,18 +90,21 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
             registrations={registrations}
           />
         </TableWrapper>
-        <Pagination
-          pageCount={pageCount}
-          pageHref={(index: number) => {
-            return `${
-              location.pathname
-            }${replaceParamsToRegistrationQueryString(location.search, {
-              page: index > 1 ? index : null,
-            })}`;
-          }}
-          pageIndex={page - 1}
-          onChange={onPageChange}
-        />
+        {pageCount > 1 && (
+          <Pagination
+            pageCount={pageCount}
+            pageHref={(index: number) => {
+              return `${
+                location.pathname
+              }${replaceParamsToRegistrationQueryString(location.search, {
+                page: index > 1 ? index : null,
+              })}`;
+            }}
+            pageIndex={page - 1}
+            onChange={onPageChange}
+          />
+        )}
+
         <FeedbackButton theme="black" />
       </Container>
     </div>

@@ -3,6 +3,7 @@ import React from 'react';
 import {
   act,
   configure,
+  fireEvent,
   render,
   screen,
   userEvent,
@@ -27,7 +28,7 @@ const getElement = (
     case 'buttonSearch2':
       return screen.getAllByRole('button', { name: /etsi tapahtumia/i })[1];
     case 'searchInput':
-      return screen.getByRole('searchbox', {
+      return screen.getByRole('combobox', {
         name: 'Hae Linked Events -rajapinnasta',
       });
     case 'title':
@@ -37,7 +38,7 @@ const getElement = (
   }
 };
 
-test('should render hero', () => {
+test('should render hero', async () => {
   render(<Hero />);
 
   getElement('buttonCreate');
@@ -64,7 +65,7 @@ test('should route to search page when click button inside search input', async 
   const { history } = render(<Hero />);
 
   const searchInput = getElement('searchInput');
-  await act(async () => await user.type(searchInput, searchValue));
+  fireEvent.change(searchInput, { target: { value: searchValue } });
 
   const searchButton = getElement('buttonSearch1');
   await act(async () => await user.click(searchButton));
@@ -80,7 +81,7 @@ test('should route to search page when click search button', async () => {
   const { history } = render(<Hero />);
 
   const searchInput = getElement('searchInput');
-  await act(async () => await user.type(searchInput, searchValue));
+  fireEvent.change(searchInput, { target: { value: searchValue } });
 
   const searchButton = getElement('buttonSearch2');
   await act(async () => await user.click(searchButton));

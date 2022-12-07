@@ -134,17 +134,20 @@ const EventList: React.FC<EventListProps> = ({
             )}
           </div>
         )}
-        <Pagination
-          pageCount={pageCount}
-          pageHref={(index: number) => {
-            return `${location.pathname}${replaceParamsToEventQueryString(
-              location.search,
-              { page: index > 1 ? index : null }
-            )}`;
-          }}
-          pageIndex={page - 1}
-          onChange={onPageChange}
-        />
+        {pageCount > 1 && (
+          <Pagination
+            pageCount={pageCount}
+            pageHref={(index: number) => {
+              return `${location.pathname}${replaceParamsToEventQueryString(
+                location.search,
+                { page: index > 1 ? index : null }
+              )}`;
+            }}
+            pageIndex={page - 1}
+            onChange={onPageChange}
+          />
+        )}
+
         <FeedbackButton theme="black" />
       </Container>
     </div>

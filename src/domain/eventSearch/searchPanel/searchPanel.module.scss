@@ -77,6 +77,8 @@
   }
 
   .searchInput {
+    --dropdown-border-color-default: var(--dropdown-background-default);
+
     label {
       font-size: var(--fontsize-heading-s);
       color: var(--search-panel-label-color);

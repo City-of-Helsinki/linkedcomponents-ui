@@ -29,7 +29,7 @@ export const getImagesPage = async (t: TestController) => {
   const findSearchBanner = async () => {
     const selectors = {
       searchInput() {
-        return withinImagesPage().getByRole('searchbox', {
+        return withinImagesPage().getByRole('combobox', {
           name: /hae kuvia/i,
         });
       },

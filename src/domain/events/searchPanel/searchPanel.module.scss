@@ -2,6 +2,10 @@
 @import '../../../assets/styles/widths';
 
 .searchPanel {
+  .searchInput {
+    --dropdown-border-color-default: var(--dropdown-background-default);
+  }
+
   .inputRow {
     display: grid;
     grid-gap: var(--spacing-m);
