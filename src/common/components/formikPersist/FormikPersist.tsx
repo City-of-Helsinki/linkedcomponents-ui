@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 import { FormikProps, useFormikContext } from 'formik';
-import debounce from 'lodash/debounce';
 import * as React from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
 import useIsMounted from '../../../hooks/useIsMounted';
 
@@ -27,7 +27,7 @@ const FormikPersist: React.FC<PersistProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formik = useFormikContext<any>();
 
-  const debouncedSaveForm = debounce(
+  const debouncedSaveForm = useDebouncedCallback(
     (data: FormikProps<Record<string, unknown>>) => {
       /* istanbul ignore next */
       if (savingDisabled || !isMounted.current) return;

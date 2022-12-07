@@ -4,6 +4,7 @@ import {
   useApolloClient,
 } from '@apollo/client';
 import React from 'react';
+import { useDebounce } from 'use-debounce';
 
 import MultiSelectDropdown, {
   MultiselectDropdownProps,
@@ -13,7 +14,6 @@ import {
   PlaceFieldsFragment,
   usePlacesQuery,
 } from '../../../../generated/graphql';
-import useDebounce from '../../../../hooks/useDebounce';
 import useLocale from '../../../../hooks/useLocale';
 import useMountedState from '../../../../hooks/useMountedState';
 import useShowLoadingSpinner from '../../../../hooks/useShowLoadingSpinner';
@@ -56,7 +56,11 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const locale = useLocale();
   const [searchValue, setSearchValue] = React.useState('');
-  const debouncedSearch = useDebounce(searchValue, COMBOBOX_DEBOUNCE_TIME_MS);
+  const [debouncedSearch] = useDebounce(
+    searchValue,
+    COMBOBOX_DEBOUNCE_TIME_MS,
+    { leading: true }
+  );
   const [selectedPlaces, setSelectedPlaces] = useMountedState<OptionType[]>([]);
 
   const {

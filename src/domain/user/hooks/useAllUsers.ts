@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { useDebounce } from 'use-debounce';
 
 import { MAX_PAGE_SIZE } from '../../../constants';
 import { UserFieldsFragment, useUsersQuery } from '../../../generated/graphql';
-import useDebounce from '../../../hooks/useDebounce';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { usersPathBuilder } from '../utils';
@@ -33,7 +33,7 @@ const useAllUsers = (): UseAllOrganizationsState => {
     },
   });
 
-  const debouncedLoading = useDebounce(loading, 10);
+  const [debouncedLoading] = useDebounce(loading, 100, { leading: true });
 
   const handleLoadMore = React.useCallback(
     async (page: number) => {

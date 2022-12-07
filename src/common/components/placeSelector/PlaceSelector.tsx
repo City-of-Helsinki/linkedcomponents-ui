@@ -2,6 +2,7 @@
 import { TFunction } from 'i18next';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'use-debounce';
 
 import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import {
@@ -14,7 +15,6 @@ import {
   usePlaceQuery,
   usePlacesQuery,
 } from '../../../generated/graphql';
-import useDebounce from '../../../hooks/useDebounce';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
@@ -70,7 +70,9 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');
-  const debouncedSearch = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
+  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS, {
+    leading: true,
+  });
 
   const {
     data: placesData,

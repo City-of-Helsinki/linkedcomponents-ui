@@ -1,13 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { useDebounce } from 'use-debounce';
 
 import {
   OrganizationClassFieldsFragment,
   useOrganizationClassesQuery,
   UserFieldsFragment,
 } from '../../../generated/graphql';
-import useDebounce from '../../../hooks/useDebounce';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import useUser from '../../user/hooks/useUser';
@@ -37,7 +37,7 @@ const useAllOrganizationClasses = (): UseAllOrganizationClassesState => {
     },
   });
 
-  const debouncedLoading = useDebounce(loading, 20);
+  const [debouncedLoading] = useDebounce(loading, 100, { leading: true });
 
   const handleLoadMore = React.useCallback(
     async (page: number) => {

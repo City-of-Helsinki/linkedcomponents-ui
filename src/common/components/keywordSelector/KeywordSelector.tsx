@@ -6,6 +6,7 @@ import {
 } from '@apollo/client';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'use-debounce';
 
 import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import {
@@ -18,7 +19,6 @@ import {
   KeywordFieldsFragment,
   useKeywordsQuery,
 } from '../../../generated/graphql';
-import useDebounce from '../../../hooks/useDebounce';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
@@ -53,7 +53,9 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');
-  const debouncedSearch = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
+  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS, {
+    leading: true,
+  });
 
   const [selectedKeywords, setSelectedKeywords] = React.useState<OptionType[]>(
     []
