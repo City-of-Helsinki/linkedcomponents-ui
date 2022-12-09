@@ -34,13 +34,6 @@ type ButtonCSSProperties = {
 };
 
 type CheckboxCSSProperties = {
-  '--size'?: string;
-  '--icon-scale'?: number;
-  '--border-radius'?: string;
-  '--border-width'?: string;
-  '--outline-width'?: string;
-  '--label-font-size'?: string;
-  '--label-padding'?: string;
   '--background-unselected'?: string;
   '--background-selected'?: string;
   '--background-hover'?: string;
@@ -91,7 +84,6 @@ type DeleteButtonCSSProperties = {
 
 type ErrorTemplateCSSProperties = {
   '--error-template-icon-color'?: string;
-  '--error-template-icon-size'?: string;
 };
 
 type EventCardCSSProperties = {
@@ -100,8 +92,6 @@ type EventCardCSSProperties = {
   '--event-card-icon-color'?: string;
   '--event-card-heading-color'?: string;
   '--event-card-image-background-color'?: string;
-  '--event-card-image-min-height'?: string;
-  '--event-card-mobile-image-min-height'?: string;
 };
 
 type EventSearchPanelCSSProperties = {
@@ -128,7 +118,6 @@ type ImageSelectorCSSProperties = {
 };
 
 type NavigationDropdownCSSProperties = {
-  '--menu-border-width'?: string;
   '--menu-border-color'?: string;
   '--menu-button-focus-outline-color'?: string;
   '--menu-item-background-color'?: string;
@@ -163,12 +152,7 @@ type LayoutCSSProperties = {
   '--page-background-color'?: string;
 };
 
-type LoadingSpinnerCSSProperties = {
-  '--spinner-size'?: string;
-  '--spinner-thickness'?: string;
-  '--spinner-size-small'?: string;
-  '--spinner-thickness-small'?: string;
-} & Partial<LoadingSpinnerCustomTheme>;
+type LoadingSpinnerCSSProperties = Partial<LoadingSpinnerCustomTheme>;
 
 type MenuDropdownCSSProperties = {
   '--menu-dropdown-item-background-color'?: string;
@@ -181,11 +165,6 @@ type MenuDropdownCSSProperties = {
 
 type ModalCSSProperties = {
   '--modal-background-color'?: string;
-  '--modal-bottom'?: string;
-  '--modal-max-width-m'?: string;
-  '--modal-max-width-l'?: string;
-  '--modal-top'?: string;
-  '--modal-z-index'?: number;
   '--modal-heading-background-color'?: string;
   '--modal-heading-color'?: string;
   '--modal-heading-background-color-alert'?: string;
@@ -199,19 +178,14 @@ type DropdownCSSProperties = {
   '--dropdown-border-color'?: string;
   '--dropdown-border-color-focus'?: string;
   '--dropdown-color'?: string;
-  '--dropdown-button-height'?: string;
   '--dropdown-clear-button-color'?: string;
   '--dropdown-clear-button-border-top-color'?: string;
   '--dropdown-divider-color'?: string;
-  '--dropdown-icon-size'?: string;
   '--dropdown-menu-background'?: string;
   '--dropdown-menu-color'?: string;
-  '--dropdown-menu-max-height'?: string;
-  '--dropdown-menu-z-index'?: number;
 };
 
 type NavigationCSSProperties = {
-  '--header-z-index'?: number;
   '--header-background-color'?: string;
   '--header-color'?: string;
   '--header-divider-color'?: string;
@@ -221,7 +195,6 @@ type NavigationCSSProperties = {
   '--navigation-row-color'?: string;
   '--navigation-row-focus-outline-color'?: string;
   '--navigation-item-color'?: string;
-  '--mobile-menu-z-index'?: number;
   '--mobile-menu-background-color'?: string;
   '--mobile-menu-color'?: string;
 };
@@ -229,17 +202,8 @@ type NavigationCSSProperties = {
 type NotificationCSSProperties = {
   '--notification-background-color'?: string;
   '--notification-border-color'?: string;
-  '--notification-border-width'?: string;
   '--notification-color'?: string;
   '--notification-focus-outline-color'?: string;
-  '--notification-max-width-inline'?: string;
-  '--notification-max-width-toast'?: string;
-  '--notification-offset'?: string;
-  '--notification-z-index'?: number;
-};
-
-type NotificationSizeCSSProperties = {
-  '--notification-padding'?: string;
 };
 
 type PaginationCSSProperties = Partial<PaginationCustomTheme>;
@@ -250,12 +214,6 @@ type PublicationStatusCSSProperties = {
 };
 
 type RadioButtonCSSProperties = {
-  '--size'?: string;
-  '--icon-scale'?: number;
-  '--border-width'?: string;
-  '--outline-width'?: string;
-  '--label-font-size'?: string;
-  '--label-padding'?: string;
   '--background'?: string;
   '--background-hover'?: string;
   '--background-focus'?: string;
@@ -291,13 +249,8 @@ type RegistrationSearchPanelCSSProperties = {
 
 type RootCSSProperties = {
   '--focus-outline-color'?: string;
-  '--focus-outline-width'?: string;
   '--helper-color-invalid'?: string;
   '--icon-color-invalid'?: string;
-  '--input-height'?: string;
-  '--input-max-width-m'?: string;
-  '--input-max-width-l'?: string;
-  '--label-height'?: string;
 };
 
 type SearchPanelCSSProperties = {
@@ -312,16 +265,7 @@ type SearchPanelCSSProperties = {
   '--search-panel-button-focus-outline-color'?: string;
 };
 
-type SelectCSSProperties = {
-  '--border-radius'?: string;
-  '--border-width'?: string;
-  '--divider-width'?: string;
-  '--focus-outline-width'?: string;
-  '--dropdown-height'?: string;
-  '--menu-item-height'?: string;
-  '--icon-size'?: string;
-  '--menu-z-index'?: number;
-} & Partial<SelectCustomTheme>;
+type SelectCSSProperties = Partial<SelectCustomTheme>;
 
 type StatusTagCSSProperties = {
   '--status-tag-background-color-cancelled'?: string;
@@ -355,17 +299,9 @@ type TabsCSSProperties = {
 
 type TextEditorCSSProperties = {
   '--text-editor-border-color'?: string;
-  '--text-editor-editor-max-height'?: string;
-  '--text-editor-editor-min-height'?: string;
 };
 
 type TextInputCSSProperties = {
-  '--border-radius'?: string;
-  '--border-width'?: string;
-  '--outline-width'?: string;
-  '--input-height'?: string;
-  '--textarea-height'?: string;
-  '--icon-size'?: string;
   '--helper-color-default'?: string;
   '--input-background-default'?: string;
   '--input-background-disabled'?: string;
@@ -409,11 +345,6 @@ export type Theme = {
   navigation: NavigationCSSProperties;
   navigationDropdown: NavigationDropdownCSSProperties;
   notification: {
-    size?: {
-      default?: NotificationSizeCSSProperties;
-      large?: NotificationSizeCSSProperties;
-      small?: NotificationSizeCSSProperties;
-    };
     type?: {
       alert?: NotificationCSSProperties;
       error?: NotificationCSSProperties;

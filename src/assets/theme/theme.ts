@@ -114,13 +114,6 @@ const theme: Theme = {
     },
   },
   checkbox: {
-    '--size': '24px',
-    '--icon-scale': 1,
-    '--border-radius': '1px',
-    '--border-width': '2px',
-    '--outline-width': '3px',
-    '--label-font-size': 'var(--fontsize-body-m)',
-    '--label-padding': 'var(--spacing-2-xs)',
     '--background-unselected': 'transparent',
     '--background-selected': 'var(--color-bus)',
     '--background-hover': 'var(--color-bus-dark)',
@@ -170,19 +163,14 @@ const theme: Theme = {
     '--dropdown-border-color': 'var(--color-white)',
     '--dropdown-border-color-focus': 'var(--color-black)',
     '--dropdown-color': 'var(--color-black)',
-    '--dropdown-button-height': 'var(--spacing-3-xl)',
     '--dropdown-clear-button-color': 'var(--color-black-60)',
     '--dropdown-clear-button-border-top-color': 'var(--color-silver)',
     '--dropdown-divider-color': 'var(--color-silver)',
-    '--dropdown-icon-size': '24px',
     '--dropdown-menu-background': 'var(--color-white)',
     '--dropdown-menu-color': 'var(--color-black)',
-    '--dropdown-menu-max-height': '18.35rem',
-    '--dropdown-menu-z-index': 100,
   },
   errorTemplate: {
     '--error-template-icon-color': 'var(--color-bus)',
-    '--error-template-icon-size': '112px',
   },
   eventCard: {
     '--event-card-background-color': 'var(--color-white)',
@@ -190,8 +178,6 @@ const theme: Theme = {
     '--event-card-icon-color': 'var(--color-black-90)',
     '--event-card-heading-color': 'var(--color-black-90)',
     '--event-card-image-background-color': 'var(--color-black-10)',
-    '--event-card-image-min-height': '7.5rem',
-    '--event-card-mobile-image-min-height': '12rem',
   },
   eventSearchPanel: {
     '--event-search-panel-background-color': 'var(--color-coat-of-arms)',
@@ -255,10 +241,6 @@ const theme: Theme = {
   },
   loadingSpinner: {
     '--spinner-color': 'var(--color-bus)',
-    '--spinner-size': '7.5rem',
-    '--spinner-thickness': '1.25rem',
-    '--spinner-size-small': '1.5rem',
-    '--spinner-thickness-small': '0.1875rem',
   },
   menuDropdown: {
     '--menu-dropdown-item-background-color': 'var(--color-white)',
@@ -271,11 +253,6 @@ const theme: Theme = {
   },
   modal: {
     '--modal-background-color': 'var(--color-white)',
-    '--modal-bottom': '0px',
-    '--modal-max-width-m': '558px',
-    '--modal-max-width-l': '1157px',
-    '--modal-top': '0px',
-    '--modal-z-index': 102,
     '--modal-heading-background-color': 'var(--color-coat-of-arms)',
     '--modal-heading-color': 'var(--color-white)',
     '--modal-heading-background-color-alert': 'var(--color-error)',
@@ -284,7 +261,6 @@ const theme: Theme = {
     '--modal-heading-color-info': 'var(--color-white)',
   },
   navigation: {
-    '--header-z-index': 101,
     '--header-background-color': 'var(--color-coat-of-arms)',
     '--header-color': 'var(--color-white)',
     '--header-divider-color': 'var(--color-black-20)',
@@ -294,12 +270,10 @@ const theme: Theme = {
     '--navigation-row-color': 'var(--color-coat-of-arms)',
     '--navigation-row-focus-outline-color': 'var(--color-coat-of-arms)',
     '--navigation-item-color': 'var(--color-black-90)',
-    '--mobile-menu-z-index': 101,
     '--mobile-menu-background-color': 'var(--color-white)',
     '--mobile-menu-color': 'var(--color-black-90)',
   },
   navigationDropdown: {
-    '--menu-border-width': '0px',
     '--menu-border-color': 'transparent',
     '--menu-button-focus-outline-color': 'var(--color-white)',
     '--menu-item-background-color': 'var(--color-white)',
@@ -308,17 +282,6 @@ const theme: Theme = {
     '--menu-item-color-highlighted': 'var(--color-black)',
   },
   notification: {
-    size: {
-      default: {
-        '--notification-padding': 'var(--spacing-s)',
-      },
-      large: {
-        '--notification-padding': 'var(--spacing-l)',
-      },
-      small: {
-        '--notification-padding': 'var(--spacing-2-xs)',
-      },
-    },
     type: {
       alert: {
         ...commonNotificationVariables,
@@ -352,12 +315,6 @@ const theme: Theme = {
     '--publication-status-color-public': 'var(--color-success)',
   },
   radioButton: {
-    '--size': '24px',
-    '--icon-scale': 0.5,
-    '--border-width': '2px',
-    '--outline-width': '3px',
-    '--label-font-size': 'var(--fontsize-body-m)',
-    '--label-padding': 'var(--spacing-2-xs)',
     '--background': 'var(--color-white)',
     '--background-hover': 'var(--color-white)',
     '--background-focus': 'var(--color-white)',
@@ -397,13 +354,8 @@ const theme: Theme = {
   },
   root: {
     '--focus-outline-color': 'var(--color-coat-of-arms)',
-    '--focus-outline-width': '3px',
     '--helper-color-invalid': 'var(--color-error)',
     '--icon-color-invalid': 'var(--color-error)',
-    '--input-height': '56px',
-    '--input-max-width-m': '448px',
-    '--input-max-width-l': '566px',
-    '--label-height': '28px',
   },
   searchPanel: {
     '--search-panel-background-color': 'var(--color-coat-of-arms)',
@@ -419,15 +371,6 @@ const theme: Theme = {
     '--search-panel-button-focus-outline-color': 'var(--color-white)',
   },
   select: {
-    '--border-radius': '0px',
-    '--border-width': '2px',
-    '--divider-width': '1px',
-    '--focus-outline-width': '3px',
-    '--dropdown-height': 'var(--spacing-3-xl)',
-    '--menu-item-height':
-      'calc(var(--dropdown-height) - var(--border-width) * 2)',
-    '--icon-size': 'var(--spacing-m)',
-    '--menu-z-index': 101,
     '--dropdown-background-default': 'var(--color-white)',
     '--dropdown-background-disabled': 'var(--color-black-10)',
     '--dropdown-border-color-default': 'var(--color-black-50)',
@@ -477,7 +420,6 @@ const theme: Theme = {
     '--side-navigation-level-color-active': 'var(--color-black)',
     '--side-navigation-level-color-hover': 'var(--color-black)',
     '--side-navigation-mobile-menu-border-color': 'var(--color-black)',
-    '--side-navigation-mobile-menu-z-index': 100,
   },
   statusTag: {
     '--status-tag-background-color-cancelled': 'var(--color-error)',
@@ -507,15 +449,8 @@ const theme: Theme = {
   },
   textEditor: {
     '--text-editor-border-color': 'var(--color-black-50)',
-    '--text-editor-editor-max-height': '20rem',
-    '--text-editor-editor-min-height': 'var(--spacing-layout-2-xl)',
   },
   textInput: {
-    '--border-radius': '0px',
-    '--border-width': '2px',
-    '--outline-width': '3px',
-    '--textarea-height': '149px',
-    '--icon-size': 'var(--spacing-m)',
     '--helper-color-default': 'var(--color-black-60)',
     '--input-background-default': 'var(--color-white)',
     '--input-background-disabled': 'var(--color-black-10)',
