@@ -217,6 +217,11 @@
     "showMoreWithCount": "Näytä lisää ({{count}})",
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
+    "table": {
+      "ariaLabelSortButtonAscending": "Järjestetty nousevaan järjestykseen",
+      "ariaLabelSortButtonDescending": "Järjestetty laskevaan järjestykseen",
+      "noResultsText": "Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan."
+    },
     "timeInput": {
       "hoursLabel": "tunnit",
       "minutsLabel": "minuutit"

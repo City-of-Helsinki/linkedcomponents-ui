@@ -117,8 +117,8 @@
       "src/common/components/imageUploader/imageCropper/ImageCropper.tsx",
       "src/common/components/menuDropdown/menu/Menu.tsx",
       "src/common/components/sideNavigation/SideNavigationContext.tsx",
-      "src/common/components/textEditor/config/commands.ts",
-      "src/common/components/textEditor/config/rules.ts",
+      "src/common/components/table/tableBody/TableBody.tsx",
+      "src/common/components/table/tableContainer/TableContainer.tsx",
       "src/common/components/map/",
       "src/domain/app/apollo/apolloClient.ts",
       "src/domain/app/apollo/clearCacheUtils.ts",
@@ -148,7 +148,7 @@
     ],
     "resetMocks": false,
     "transformIgnorePatterns": [
-      "/node_modules/(?!react-leaflet|@react-leaflet|leaflet-draw|leaflet|react-toastify|swagger-ui-react|swagger-client|react-syntax-highlighter|react-image-crop|axios)"
+      "/node_modules/(?!react-leaflet|@react-leaflet|leaflet-draw|leaflet|react-toastify|swagger-ui-react|swagger-client|react-syntax-highlighter|react-image-crop|axios|hds-core)"
     ]
   },
   "browserslist": [

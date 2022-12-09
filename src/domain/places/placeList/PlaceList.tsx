@@ -84,6 +84,7 @@ const PlaceList: React.FC<PlaceListProps> = ({
           sort={sort as PLACE_SORT_OPTIONS}
         />
       </TableWrapper>
+
       {pageCount > 1 && (
         <Pagination
           pageCount={pageCount}

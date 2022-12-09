@@ -217,6 +217,11 @@
     "showMoreWithCount": "Visa mer ({{count}})",
     "signIn": "Logga in",
     "signOut": "Logga ut",
+    "table": {
+      "ariaLabelSortButtonAscending": "Ordnade i stigande ordning",
+      "ariaLabelSortButtonDescending": "Ordnade i fallande ordning",
+      "noResultsText": "Din sökning gav inga resultat. Kontrollera dina söktermer och försök igen."
+    },
     "timeInput": {
       "hoursLabel": "timmar",
       "minutsLabel": "minuter"

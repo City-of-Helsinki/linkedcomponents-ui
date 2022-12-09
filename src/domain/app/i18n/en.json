@@ -216,6 +216,11 @@
     "showMoreWithCount": "Show more ({{count}})",
     "signIn": "Sign in",
     "signOut": "Sign out",
+    "table": {
+      "ariaLabelSortButtonAscending": "Sorted in ascending order",
+      "ariaLabelSortButtonDescending": "Sorted in descending order",
+      "noResultsText": "Your search returned no results. Check your search terms and try again."
+    },
     "timeInput": {
       "hoursLabel": "hours",
       "minutsLabel": "minutes"

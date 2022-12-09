@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { fakePlaces } from '../../../../utils/mockDataUtils';
 import {
   act,
@@ -24,12 +26,19 @@ const renderComponent = (props?: Partial<PlacesTableProps>) =>
 test('should render places table', () => {
   renderComponent();
 
-  const columnHeaders = ['ID', 'Nimi', 'Tapahtumien lkm', 'Katuosoite'];
+  const columnHeaders = [
+    'ID',
+    'Nimi Järjestetty nousevaan järjestykseen',
+    'Tapahtumien lkm',
+    'Katuosoite',
+  ];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
   }
-  screen.getByText('Ei tuloksia');
+  screen.getByText(
+    'Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan.'
+  );
 });
 
 test('should render all places', () => {
@@ -85,7 +94,9 @@ test('should call setSort when clicking sortable column header', async () => {
   const user = userEvent.setup();
   renderComponent({ setSort });
 
-  const nameButton = screen.getByRole('button', { name: 'Nimi' });
+  const nameButton = screen.getByRole('button', {
+    name: 'Nimi Järjestetty nousevaan järjestykseen',
+  });
   await act(async () => await user.click(nameButton));
   await waitFor(() => expect(setSort).toBeCalledWith('-name'));
 
