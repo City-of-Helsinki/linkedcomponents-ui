@@ -56,11 +56,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const locale = useLocale();
   const [searchValue, setSearchValue] = React.useState('');
-  const [debouncedSearch] = useDebounce(
-    searchValue,
-    COMBOBOX_DEBOUNCE_TIME_MS,
-    { leading: true }
-  );
+  const [debouncedSearch] = useDebounce(searchValue, COMBOBOX_DEBOUNCE_TIME_MS);
   const [selectedPlaces, setSelectedPlaces] = useMountedState<OptionType[]>([]);
 
   const {

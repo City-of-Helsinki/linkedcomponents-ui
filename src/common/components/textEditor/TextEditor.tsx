@@ -47,7 +47,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   value,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [debouncedIsFocused] = useDebounce(isFocused, 20, { leading: true });
+  const [debouncedIsFocused] = useDebounce(isFocused, 20);
   const editor = useRef<ClassicEditor>();
   const { theme } = useTheme();
   const locale = useLocale();

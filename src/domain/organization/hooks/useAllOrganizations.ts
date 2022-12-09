@@ -32,7 +32,7 @@ const useAllOrganizations = (): UseAllOrganizationsState => {
     },
   });
 
-  const [debouncedLoading] = useDebounce(loading, 100, { leading: true });
+  const [debouncedLoading] = useDebounce(loading, 100);
 
   const handleLoadMore = React.useCallback(
     async (page: number) => {
