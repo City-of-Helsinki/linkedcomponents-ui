@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -19,6 +19,38 @@ export interface PlacesTableProps {
   setSort: (sort: PLACE_SORT_OPTIONS) => void;
   sort: PLACE_SORT_OPTIONS;
 }
+
+type ColumnProps = {
+  place: PlaceFieldsFragment;
+};
+
+const IdColumn: FC<ColumnProps> = ({ place }) => {
+  const locale = useLocale();
+  const { placeUrl } = getPlaceFields(place, locale);
+
+  return <Link to={placeUrl}>{place.id}</Link>;
+};
+
+const NameColumn: FC<ColumnProps> = ({ place }) => {
+  const locale = useLocale();
+  const { name } = getPlaceFields(place, locale);
+
+  return <>{name}</>;
+};
+
+const EventsAmountColumn: FC<ColumnProps> = ({ place }) => {
+  const locale = useLocale();
+  const { nEvents } = getPlaceFields(place, locale);
+
+  return <>{nEvents}</>;
+};
+
+const StreetAddressColumn: FC<ColumnProps> = ({ place }) => {
+  const locale = useLocale();
+  const { streetAddress } = getPlaceFields(place, locale);
+
+  return <>{streetAddress}</>;
+};
 
 const PlacesTable: React.FC<PlacesTableProps> = ({
   caption,
@@ -66,10 +98,7 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           key: PLACE_SORT_OPTIONS.ID,
           headerName: t('placesPage.placesTableColumns.id'),
           sortIconType: 'string',
-          transform: (place: PlaceFieldsFragment) => {
-            const { placeUrl } = getPlaceFields(place, locale);
-            return <Link to={placeUrl}>{place.id}</Link>;
-          },
+          transform: (place: PlaceFieldsFragment) => <IdColumn place={place} />,
         },
         {
           className: styles.nameColumn,
@@ -77,10 +106,9 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           key: PLACE_SORT_OPTIONS.NAME,
           headerName: t('placesPage.placesTableColumns.name'),
           sortIconType: 'string',
-          transform: (place: PlaceFieldsFragment) => {
-            const { name } = getPlaceFields(place, locale);
-            return name;
-          },
+          transform: (place: PlaceFieldsFragment) => (
+            <NameColumn place={place} />
+          ),
         },
         {
           className: styles.nEventsColumn,
@@ -88,10 +116,9 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           key: PLACE_SORT_OPTIONS.N_EVENTS,
           headerName: t('placesPage.placesTableColumns.nEvents'),
           sortIconType: 'other',
-          transform: (place: PlaceFieldsFragment) => {
-            const { nEvents } = getPlaceFields(place, locale);
-            return nEvents.toString();
-          },
+          transform: (place: PlaceFieldsFragment) => (
+            <EventsAmountColumn place={place} />
+          ),
         },
         {
           className: styles.streetAddressColumn,
@@ -99,10 +126,9 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           key: PLACE_SORT_OPTIONS.STREET_ADDRESS,
           headerName: t('placesPage.placesTableColumns.streetAddress'),
           sortIconType: 'other',
-          transform: (place: PlaceFieldsFragment) => {
-            const { streetAddress } = getPlaceFields(place, locale);
-            return streetAddress;
-          },
+          transform: (place: PlaceFieldsFragment) => (
+            <StreetAddressColumn place={place} />
+          ),
         },
         {
           className: styles.actionButtonsColumn,
@@ -123,10 +149,11 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           place as PlaceFieldsFragment,
           locale
         );
+
         return {
           'aria-label': name,
-          id: getPlaceItemId(id),
           'data-testid': id,
+          id: getPlaceItemId(id),
         };
       }}
       indexKey="id"

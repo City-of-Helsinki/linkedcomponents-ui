@@ -6,6 +6,7 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import noResultsImage from '../../../assets/images/jpg/no-results.jpg';
+import BodyRow from './bodyRow/BodyRow';
 import { HeaderRow } from './headerRow/HeaderRow';
 import { SortingHeaderCell } from './sortingHeaderCell/SortingHeaderCell';
 import styles from './table2.module.scss';
@@ -14,7 +15,11 @@ import { TableContainer } from './tableContainer/TableContainer';
 
 type Order = 'asc' | 'desc';
 
-type Header = {
+export type GetRowPropsFunc = (
+  item: object
+) => React.ComponentPropsWithoutRef<'tr'>;
+
+export type Header = {
   className?: string;
   /**
    * Custom sort compare function
@@ -97,11 +102,7 @@ const processRows = (
 
 type TableProps = {
   cols: Header[];
-  getRowProps?: (item: object) => {
-    'aria-label': string;
-    id: string;
-    'data-testid': string;
-  };
+  getRowProps?: GetRowPropsFunc;
   noResultsText?: string;
   onRowClick?: (item: object) => void;
 } & Omit<
@@ -216,47 +217,16 @@ const Table = ({
           </HeaderRow>
         </thead>
         <TableBody textAlignContentRight={textAlignContentRight}>
-          {processedRows.map((row, index) => {
-            const handleRowClick = () => {
-              onRowClick && onRowClick(row);
-            };
-
-            const handleKeyDown = (ev: React.KeyboardEvent) => {
-              /* istanbul ignore else */
-              if (ev.key === 'Enter') {
-                onRowClick && onRowClick(row);
-              }
-            };
-
-            const rowProps = onRowClick
-              ? {
-                  className: styles.clickableRow,
-                  role: 'button',
-                  onClick: handleRowClick,
-                  onKeyDown: handleKeyDown,
-                  tabIndex: 0,
-                  ...(getRowProps && getRowProps(row)),
-                }
-              : {};
-
-            return (
-              <tr key={row[indexKey as keyof typeof row]} {...rowProps}>
-                {visibleColumns.map((column, cellIndex) => {
-                  return (
-                    <td
-                      className={column.className}
-                      data-testid={`${column.key}-${index}`}
-                      key={cellIndex}
-                      onClick={column.onClick}
-                    >
-                      {column.transform && column.transform(row)}
-                      {!column.transform && row[column.key as keyof typeof row]}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
+          {processedRows.map((row, index) => (
+            <BodyRow
+              cols={visibleColumns}
+              getRowProps={getRowProps}
+              index={index}
+              key={row[indexKey as keyof typeof row]}
+              onRowClick={onRowClick}
+              row={row}
+            />
+          ))}
           {!processedRows.length && (
             <tr className={styles.noResultsRow}>
               <td colSpan={visibleColumns.length}>

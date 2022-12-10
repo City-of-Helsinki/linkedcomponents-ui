@@ -23,6 +23,13 @@
   }
 }
 
+.enrolmentsColumn,
+.waitingListColumn,
+.enrolmentStartTimeColumn,
+.enrolmentEndTimeColumn {
+  white-space: nowrap;
+}
+
 .actionButtonsColumn {
   padding: var(--focus-outline-width) !important;
 }

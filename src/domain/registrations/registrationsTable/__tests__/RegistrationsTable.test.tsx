@@ -9,7 +9,6 @@ import {
   userEvent,
 } from '../../../../utils/testUtils';
 import {
-  eventNames,
   mockedEventResponses,
   registrations,
 } from '../../__mocks__/registrationsPage';
@@ -46,14 +45,15 @@ test('should render registrations table', () => {
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
   }
-  screen.getByText('Ei tuloksia');
+  screen.getByText(
+    'Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan.'
+  );
 });
 
 test('should open registration page by clicking event name', async () => {
   const user = userEvent.setup();
 
-  const eventName = eventNames[0];
-  const registrationId = registrations.data[0]?.id;
+  const registrationId = registrations.data[0]?.id as string;
   const registration = registrations.data[0];
 
   await act(async () => {
@@ -65,7 +65,7 @@ test('should open registration page by clicking event name', async () => {
 
   const button = await screen.findByRole(
     'button',
-    { name: eventName },
+    { name: registrationId },
     { timeout: 20000 }
   );
   await act(async () => await user.click(button));
@@ -77,8 +77,7 @@ test('should open registration page by clicking event name', async () => {
 test('should open registration page by pressing enter on row', async () => {
   const user = userEvent.setup();
 
-  const eventName = eventNames[0];
-  const registrationId = registrations.data[0]?.id;
+  const registrationId = registrations.data[0]?.id as string;
   const registration = registrations.data[0];
 
   await act(async () => {
@@ -89,7 +88,7 @@ test('should open registration page by pressing enter on row', async () => {
   });
   const button = await screen.findByRole(
     'button',
-    { name: eventName },
+    { name: registrationId },
     { timeout: 20000 }
   );
   await act(async () => await user.click(button));

@@ -15,7 +15,6 @@ import {
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
-  eventNames,
   mockedEventResponses,
   mockedRegistrationsResponse,
   registrations,
@@ -119,7 +118,7 @@ it('scrolls to registration table row and calls history.replace correctly (delet
 
   const eventRowButton = await screen.findByRole(
     'button',
-    { name: eventNames[0] },
+    { name: registrations.data[0]?.id as string },
     { timeout: 20000 }
   );
   await waitFor(() => expect(eventRowButton).toHaveFocus());
