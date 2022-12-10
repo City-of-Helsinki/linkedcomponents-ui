@@ -1,21 +1,20 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
-import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
-import SortableColumn from '../../../common/components/table/sortableColumn/SortableColumn';
-import Table from '../../../common/components/table/Table';
+import Table from '../../../common/components/table/Table2';
 import {
   KeywordFieldsFragment,
   KeywordsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import useSetFocused from '../../../hooks/useSetFocused';
-import { getKeywordFields } from '../../keyword/utils';
+import getInitialSort from '../../../utils/getInitialSort';
+import { getKeywordFields, getKeywordItemId } from '../../keyword/utils';
 import { KEYWORD_SORT_OPTIONS } from '../constants';
+import KeywordActionsDropdown from '../keywordActionsDropdown/KeywordActionsDropdown';
 import styles from './keywordsTable.module.scss';
-import KeywordsTableRow from './keywordsTableRow/KeywordsTableRow';
 
 export interface KeywordsTableProps {
   caption: string;
@@ -24,6 +23,38 @@ export interface KeywordsTableProps {
   setSort: (sort: KEYWORD_SORT_OPTIONS) => void;
   sort: KEYWORD_SORT_OPTIONS;
 }
+
+type ColumnProps = {
+  keyword: KeywordFieldsFragment;
+};
+
+const IdColumn: FC<ColumnProps> = ({ keyword }) => {
+  const locale = useLocale();
+  const { keywordUrl, id } = getKeywordFields(keyword, locale);
+
+  return (
+    <Link
+      onClick={/* istanbul ignore next */ (e) => e.preventDefault()}
+      to={keywordUrl}
+    >
+      {id}
+    </Link>
+  );
+};
+
+const NameColumn: FC<ColumnProps> = ({ keyword }) => {
+  const locale = useLocale();
+  const { name } = getKeywordFields(keyword, locale);
+
+  return <>{name}</>;
+};
+
+const EventsAmountColumn: FC<ColumnProps> = ({ keyword }) => {
+  const locale = useLocale();
+  const { nEvents } = getKeywordFields(keyword, locale);
+
+  return <>{nEvents}</>;
+};
 
 const KeywordsTable: React.FC<KeywordsTableProps> = ({
   caption,
@@ -37,11 +68,11 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
   const locale = useLocale();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
-  const table = React.useRef<HTMLTableElement>(null);
-  const { focused } = useSetFocused(table);
-
-  const handleRowClick = (keyword: KeywordFieldsFragment) => {
-    const { keywordUrl } = getKeywordFields(keyword, locale);
+  const handleRowClick = (keyword: object) => {
+    const { keywordUrl } = getKeywordFields(
+      keyword as KeywordFieldsFragment,
+      locale
+    );
 
     navigate({
       pathname: keywordUrl,
@@ -49,57 +80,80 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
     });
   };
 
-  const handleSort = (key: string) => {
+  const handleSortChange = (key: string) => {
     setSort(key as KEYWORD_SORT_OPTIONS);
   };
 
   return (
-    <Table ref={table} className={className}>
-      <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
-      <thead>
-        <tr>
-          <SortableColumn
-            className={styles.idColumn}
-            label={t('keywordsPage.keywordsTableColumns.id')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={KEYWORD_SORT_OPTIONS.ID}
-            type="text"
-          />
-          <SortableColumn
-            className={styles.nameColumn}
-            label={t('keywordsPage.keywordsTableColumns.name')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={KEYWORD_SORT_OPTIONS.NAME}
-            type="text"
-          />
-          <SortableColumn
-            className={styles.nEventsColumn}
-            label={t('keywordsPage.keywordsTableColumns.nEvents')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={KEYWORD_SORT_OPTIONS.N_EVENTS}
-            type="default"
-          />
+    <Table
+      caption={caption}
+      className={className}
+      cols={[
+        {
+          className: styles.idColumn,
+          isSortable: true,
+          key: KEYWORD_SORT_OPTIONS.ID,
+          headerName: t('keywordsPage.keywordsTableColumns.id'),
+          sortIconType: 'string',
+          transform: (keyword: KeywordFieldsFragment) => (
+            <IdColumn keyword={keyword} />
+          ),
+        },
+        {
+          className: styles.nameColumn,
+          isSortable: true,
+          key: KEYWORD_SORT_OPTIONS.NAME,
+          headerName: t('keywordsPage.keywordsTableColumns.name'),
+          sortIconType: 'string',
+          transform: (keyword: KeywordFieldsFragment) => (
+            <NameColumn keyword={keyword} />
+          ),
+        },
+        {
+          className: styles.nEventsColumn,
+          isSortable: true,
+          key: KEYWORD_SORT_OPTIONS.N_EVENTS,
+          headerName: t('keywordsPage.keywordsTableColumns.nEvents'),
+          sortIconType: 'string',
+          transform: (keyword: KeywordFieldsFragment) => (
+            <EventsAmountColumn keyword={keyword} />
+          ),
+        },
+        {
+          className: styles.actionButtonsColumn,
+          key: 'actionButtons',
+          headerName: '',
+          onClick: (ev) => {
+            ev.stopPropagation();
+            ev.preventDefault();
+          },
+          transform: (keyword: KeywordFieldsFragment) => (
+            <KeywordActionsDropdown keyword={keyword} />
+          ),
+        },
+      ]}
+      {...getInitialSort(sort)}
+      getRowProps={(keyword) => {
+        const { id, name } = getKeywordFields(
+          keyword as KeywordFieldsFragment,
+          locale
+        );
 
-          <th className={styles.actionButtonsColumn}></th>
-        </tr>
-      </thead>
-      <tbody>
-        {keywords.map(
-          (keyword) =>
-            keyword && (
-              <KeywordsTableRow
-                key={keyword.id}
-                keyword={keyword}
-                onRowClick={handleRowClick}
-              />
-            )
-        )}
-        {!keywords.length && <NoDataRow colSpan={4} />}
-      </tbody>
-    </Table>
+        return {
+          'aria-label': name,
+          'data-testid': id,
+          id: getKeywordItemId(id),
+        };
+      }}
+      indexKey="id"
+      onRowClick={handleRowClick}
+      onSort={(order, colKey, handleSort) => {
+        handleSortChange(order === 'asc' ? colKey : `-${colKey}`);
+        handleSort();
+      }}
+      rows={keywords as KeywordFieldsFragment[]}
+      variant="light"
+    />
   );
 };
 
