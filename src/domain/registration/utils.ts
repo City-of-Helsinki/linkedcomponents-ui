@@ -1,4 +1,3 @@
-import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import copyToClipboard from 'copy-to-clipboard';
 import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
@@ -11,9 +10,6 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/types'
 import { FORM_NAMES, ROUTES, TIME_FORMAT_DATA } from '../../constants';
 import {
   CreateRegistrationMutationInput,
-  EventDocument,
-  EventFieldsFragment,
-  EventQuery,
   OrganizationFieldsFragment,
   RegistrationFieldsFragment,
   RegistrationQueryVariables,
@@ -22,11 +18,8 @@ import {
 import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
-import getPathBuilder from '../../utils/getPathBuilder';
 import queryBuilder from '../../utils/queryBuilder';
 import { getFreeWaitlistCapacity } from '../enrolment/utils';
-import { EVENT_INCLUDES } from '../event/constants';
-import { eventPathBuilder } from '../event/utils';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -404,27 +397,4 @@ export const copyEnrolmentLinkToClipboard = ({
 }): void => {
   copyToClipboard(getEnrolmentLink(registration, locale));
   toast.success(t('registration.registrationLinkCopied') as string);
-};
-
-export const getRegistrationEventQueryResult = async (
-  registration: RegistrationFieldsFragment,
-  apolloClient: ApolloClient<NormalizedCacheObject>
-): Promise<EventFieldsFragment | null> => {
-  const { event } = getRegistrationFields(registration, 'fi');
-
-  if (!event) return null;
-  try {
-    const { data: eventData } = await apolloClient.query<EventQuery>({
-      query: EventDocument,
-      variables: {
-        createPath: getPathBuilder(eventPathBuilder),
-        id: event,
-        include: EVENT_INCLUDES,
-      },
-    });
-
-    return eventData.event;
-  } catch (e) /* istanbul ignore next */ {
-    return null;
-  }
 };

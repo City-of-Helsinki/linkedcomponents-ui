@@ -7,6 +7,7 @@ import Table from '../../../common/components/table/Table2';
 import { PlaceFieldsFragment, PlacesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
+import getInitialSort from '../../../utils/getInitialSort';
 import { getPlaceFields, getPlaceItemId } from '../../place/utils';
 import { PLACE_SORT_OPTIONS } from '../constants';
 import PlaceActionsDropdown from '../placeActionsDropdown/PlaceActionsDropdown';
@@ -28,7 +29,14 @@ const IdColumn: FC<ColumnProps> = ({ place }) => {
   const locale = useLocale();
   const { placeUrl } = getPlaceFields(place, locale);
 
-  return <Link to={placeUrl}>{place.id}</Link>;
+  return (
+    <Link
+      onClick={/* istanbul ignore next */ (e) => e.preventDefault()}
+      to={placeUrl}
+    >
+      {place.id}
+    </Link>
+  );
 };
 
 const NameColumn: FC<ColumnProps> = ({ place }) => {
@@ -75,16 +83,6 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
 
   const handleSortChange = (key: string) => {
     setSort(key as PLACE_SORT_OPTIONS);
-  };
-
-  const getInitialSort = (): {
-    initialSortingColumnKey: string | undefined;
-    initialSortingOrder: 'desc' | 'asc' | undefined;
-  } => {
-    return {
-      initialSortingColumnKey: sort.replace('-', ''),
-      initialSortingOrder: sort.startsWith('-') ? 'desc' : 'asc',
-    };
   };
 
   return (
@@ -143,7 +141,7 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           ),
         },
       ]}
-      {...getInitialSort()}
+      {...getInitialSort(sort)}
       getRowProps={(place) => {
         const { id, name } = getPlaceFields(
           place as PlaceFieldsFragment,

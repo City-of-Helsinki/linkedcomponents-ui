@@ -28,12 +28,18 @@ const renderComponent = (props?: Partial<KeywordSetsTableProps>) =>
 test('should render keywords table', () => {
   renderComponent();
 
-  const columnHeaders = ['ID', 'Nimi', 'Käyttötarkoitus'];
+  const columnHeaders = [
+    'ID',
+    'Nimi Järjestetty nousevaan järjestykseen',
+    'Käyttötarkoitus',
+  ];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
   }
-  screen.getByText('Ei tuloksia');
+  screen.getByText(
+    'Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan.'
+  );
 });
 
 test('should render all keyword sets', async () => {
@@ -91,7 +97,9 @@ test('should call setSort when clicking sortable column header', async () => {
   const user = userEvent.setup();
   renderComponent({ setSort });
 
-  const nameButton = screen.getByRole('button', { name: 'Nimi' });
+  const nameButton = screen.getByRole('button', {
+    name: 'Nimi Järjestetty nousevaan järjestykseen',
+  });
   await act(async () => await user.click(nameButton));
   expect(setSort).toBeCalledWith('-name');
 
