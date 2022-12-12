@@ -117,6 +117,7 @@
       "src/common/components/imageUploader/imageCropper/ImageCropper.tsx",
       "src/common/components/menuDropdown/menu/Menu.tsx",
       "src/common/components/sideNavigation/SideNavigationContext.tsx",
+      "src/common/components/table/bodyRow/BodyRow.tsx",
       "src/common/components/table/tableBody/TableBody.tsx",
       "src/common/components/table/tableContainer/TableContainer.tsx",
       "src/common/components/map/",

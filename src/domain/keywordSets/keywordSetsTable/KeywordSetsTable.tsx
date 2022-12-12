@@ -11,6 +11,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getInitialSort from '../../../utils/getInitialSort';
+import getNewSort from '../../../utils/getNewSort';
 import {
   getKeywordSetFields,
   getKeywordSetItemId,
@@ -161,7 +162,7 @@ const KeywordSetsTable: React.FC<KeywordSetsTableProps> = ({
       indexKey="id"
       onRowClick={handleRowClick}
       onSort={(order, colKey, handleSort) => {
-        handleSortChange(order === 'asc' ? colKey : `-${colKey}`);
+        handleSortChange(getNewSort({ order, colKey }));
         handleSort();
       }}
       rows={keywordSets as KeywordSetFieldsFragment[]}

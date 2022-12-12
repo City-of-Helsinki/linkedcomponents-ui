@@ -3,15 +3,22 @@ import React from 'react';
 import { fakePlaces } from '../../../../utils/mockDataUtils';
 import {
   act,
+  configure,
   render,
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../../utils/testUtils';
 import { TEST_PLACE_ID } from '../../../place/constants';
 import { placeNames, places } from '../../__mocks__/placesPage';
 import { PLACE_SORT_OPTIONS } from '../../constants';
 import PlacesTable, { PlacesTableProps } from '../PlacesTable';
+
+configure({ defaultHidden: true });
+
+const placeName = 'Place name';
+const placeId = TEST_PLACE_ID;
 
 const defaultProps: PlacesTableProps = {
   caption: 'Keywords table',
@@ -51,8 +58,6 @@ test('should render all places', () => {
 });
 
 test('should open edit place page by clicking keyword', async () => {
-  const placeName = 'Place name';
-  const placeId = TEST_PLACE_ID;
   const user = userEvent.setup();
   const { history } = renderComponent({
     places: fakePlaces(1, [{ name: { fi: placeName }, id: placeId }]).data,
@@ -69,9 +74,6 @@ test('should open edit place page by clicking keyword', async () => {
 });
 
 test('should open edit keyword page by pressing enter on row', async () => {
-  const placeName = 'Place name';
-  const placeId = TEST_PLACE_ID;
-
   const user = userEvent.setup();
   const { history } = renderComponent({
     places: fakePlaces(1, [{ name: { fi: placeName }, id: placeId }]).data,
@@ -109,4 +111,27 @@ test('should call setSort when clicking sortable column header', async () => {
   await act(async () => await user.click(nEventsButton));
 
   await waitFor(() => expect(setSort).toBeCalledWith('n_events'));
+});
+
+test('should open actions dropdown', async () => {
+  const user = userEvent.setup();
+
+  const { history } = renderComponent({
+    places: fakePlaces(1, [{ name: { fi: placeName }, id: placeId }]).data,
+  });
+
+  const withinRow = within(screen.getByRole('button', { name: placeName }));
+  const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
+  await act(async () => await user.click(menuButton));
+
+  const editButton = await withinRow.findByRole('button', {
+    name: /muokkaa paikkaa/i,
+  });
+  await act(async () => await user.click(editButton));
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/administration/places/edit/${placeId}`
+    )
+  );
 });

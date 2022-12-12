@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { fakeImages } from '../../../../utils/mockDataUtils';
 import {
   act,
@@ -5,6 +7,8 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
+  within,
 } from '../../../../utils/testUtils';
 import { TEST_IMAGE_ID } from '../../../image/constants';
 import { imageNames, images } from '../../__mocks__/imagesPage';
@@ -12,6 +16,9 @@ import { IMAGE_SORT_OPTIONS } from '../../constants';
 import ImagesTable, { ImagesTableProps } from '../ImagesTable';
 
 configure({ defaultHidden: true });
+
+const imageName = 'Image name';
+const imageId = TEST_IMAGE_ID;
 
 const defaultProps: ImagesTableProps = {
   caption: 'Images table',
@@ -26,12 +33,19 @@ const renderComponent = (props?: Partial<ImagesTableProps>) =>
 test('should render images table', () => {
   renderComponent();
 
-  const columnHeaders = ['Kuva', 'ID', 'Nimi', 'Viimeksi muokattu'];
+  const columnHeaders = [
+    'Kuva',
+    'ID',
+    'Nimi',
+    'Viimeksi muokattu Järjestetty laskevaan järjestykseen',
+  ];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
   }
-  screen.getByText('Ei tuloksia');
+  screen.getByText(
+    'Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan.'
+  );
 });
 
 test('should render all images', () => {
@@ -44,12 +58,9 @@ test('should render all images', () => {
 });
 
 test('should open edit image page by clicking keyword', async () => {
-  const imageName = 'Image name';
-  const imageId = TEST_IMAGE_ID;
-
   const user = userEvent.setup();
   const { history } = renderComponent({
-    images: fakeImages(1, [{ name: imageName, id: imageId, url: null }]).data,
+    images: fakeImages(1, [{ name: imageName, id: imageId }]).data,
   });
 
   await act(
@@ -63,9 +74,6 @@ test('should open edit image page by clicking keyword', async () => {
 });
 
 test('should open edit keyword page by pressing enter on row', async () => {
-  const imageName = 'Image name';
-  const imageId = TEST_IMAGE_ID;
-
   const user = userEvent.setup();
   const { history } = renderComponent({
     images: fakeImages(1, [{ name: imageName, id: imageId }]).data,
@@ -91,8 +99,32 @@ test('should call setSort when clicking sortable column header', async () => {
   renderComponent({ setSort });
 
   const lastModifiedButton = screen.getByRole('button', {
-    name: 'Viimeksi muokattu',
+    name: 'Viimeksi muokattu Järjestetty laskevaan järjestykseen',
   });
   await act(async () => await user.click(lastModifiedButton));
   expect(setSort).toBeCalledWith('last_modified_time');
+});
+
+test('should open actions dropdown', async () => {
+  const user = userEvent.setup();
+
+  const { history } = renderComponent({
+    images: fakeImages(1, [{ name: imageName, id: imageId }]).data,
+  });
+
+  const withinRow = within(screen.getByRole('button', { name: imageName }));
+  const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
+  await act(async () => await user.click(menuButton));
+
+  const editButton = await withinRow.findByRole('button', {
+    name: /muokkaa kuvaa/i,
+  });
+
+  await act(async () => await user.click(editButton));
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/administration/images/edit/${imageId}`
+    )
+  );
 });

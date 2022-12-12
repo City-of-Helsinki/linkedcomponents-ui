@@ -82,7 +82,7 @@ test('should render enrolments page', async () => {
   getElement('waitingListTable');
 });
 
-it('scrolls to enrolment table row and calls history.replace correctly (deletes enrolmentId from state)', async () => {
+test('scrolls to enrolment table row and calls history.replace correctly (deletes enrolmentId from state)', async () => {
   const history = createMemoryHistory();
   history.push(route, { enrolmentId: attendees[0].id });
 

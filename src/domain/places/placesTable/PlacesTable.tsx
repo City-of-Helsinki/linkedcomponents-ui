@@ -8,6 +8,7 @@ import { PlaceFieldsFragment, PlacesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getInitialSort from '../../../utils/getInitialSort';
+import getNewSort from '../../../utils/getNewSort';
 import { getPlaceFields, getPlaceItemId } from '../../place/utils';
 import { PLACE_SORT_OPTIONS } from '../constants';
 import PlaceActionsDropdown from '../placeActionsDropdown/PlaceActionsDropdown';
@@ -157,7 +158,7 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
       indexKey="id"
       onRowClick={handleRowClick}
       onSort={(order, colKey, handleSort) => {
-        handleSortChange(order === 'asc' ? colKey : `-${colKey}`);
+        handleSortChange(getNewSort({ order, colKey }));
         handleSort();
       }}
       rows={places as PlaceFieldsFragment[]}
