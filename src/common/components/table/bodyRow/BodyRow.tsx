@@ -1,7 +1,8 @@
 import React, { FC, useRef } from 'react';
 
-import { GetRowPropsFunc, Header } from '../Table';
+import { GetRowPropsFunc } from '../Table';
 import styles from '../table.module.scss';
+import { Header } from '../types';
 
 type BodyRowProps = {
   cols: Header[];

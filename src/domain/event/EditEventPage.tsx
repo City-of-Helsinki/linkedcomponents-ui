@@ -112,10 +112,6 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     [event]
   );
 
-  const [descriptionLanguage, setDescriptionLanguage] = React.useState(
-    initialValues.eventInfoLanguages[0] as LE_DATA_LANGUAGES
-  );
-
   // Prefetch all related events which are used when postpone/delete/cancel events
   useRelatedEvents(event, isTestEnv);
 
@@ -194,9 +190,15 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     initialValues.eventInfoLanguages as LE_DATA_LANGUAGES[]
   );
 
+  const [descriptionLanguage, setDescriptionLanguage] = React.useState(
+    sortedEventInfoLanguages[0]
+  );
+
   React.useEffect(() => {
-    setDescriptionLanguage(sortedEventInfoLanguages[0]);
-  }, [sortedEventInfoLanguages]);
+    if (descriptionLanguage !== sortedEventInfoLanguages[0]) {
+      setDescriptionLanguage(sortedEventInfoLanguages[0]);
+    }
+  }, [descriptionLanguage, sortedEventInfoLanguages]);
 
   return (
     <Formik
