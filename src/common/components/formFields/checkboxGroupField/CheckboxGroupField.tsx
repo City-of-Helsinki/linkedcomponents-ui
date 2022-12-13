@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { FieldProps, useField } from 'formik';
-import { CheckboxProps, IconAngleDown, IconAngleUp } from 'hds-react';
+import { IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -8,29 +8,38 @@ import { OptionType } from '../../../../types';
 import { getErrorText } from '../../../../utils/validationUtils';
 import Button from '../../button/Button';
 import Checkbox from '../../checkbox/Checkbox';
+import { RequiredIndicator } from '../../requiredIndicator/RequiredIndicator';
 import styles from './checkboxGroupField.module.scss';
 
 type Columns = 1 | 2 | 3 | 4;
 
-type Props = {
-  columns: Columns;
-  disabledOptions: string[];
-  errorName?: string;
-  min: number;
-  options: OptionType[];
-  visibleOptionAmount?: number;
-} & FieldProps &
-  CheckboxProps;
+type Props = React.PropsWithChildren<
+  {
+    className?: string;
+    columns: Columns;
+    disabledOptions: string[];
+    errorName?: string;
+    label?: string;
+    min: number;
+    options: OptionType[];
+    required?: boolean;
+    visibleOptionAmount?: number;
+  } & FieldProps &
+    React.HTMLProps<HTMLFieldSetElement>
+>;
 
 const CheckboxGroupField: React.FC<Props> = ({
+  className,
   columns = 2,
   disabled,
   disabledOptions,
   field: { name, onBlur, value, ...field },
   form,
   errorName,
+  label,
   min = 0,
   options,
+  required,
   visibleOptionAmount,
   ...rest
 }) => {
@@ -56,37 +65,44 @@ const CheckboxGroupField: React.FC<Props> = ({
 
   return (
     <>
-      <div
-        id={errorName || name}
-        className={classNames(
-          styles.checkboxsWrapper,
-          styles[`columns${columns}`]
-        )}
+      <fieldset
+        className={classNames(styles.checkboxGroup, className)}
+        {...rest}
       >
-        {visibleOptions.map((option, index) => {
-          const checked = value.includes(option.value);
+        <legend className={styles.label}>
+          {label} {required && <RequiredIndicator />}
+        </legend>
+        <div
+          id={errorName || name}
+          className={classNames(
+            styles.checkboxsWrapper,
+            styles[`columns${columns}`]
+          )}
+        >
+          {visibleOptions.map((option, index) => {
+            const checked = value.includes(option.value);
 
-          return (
-            <Checkbox
-              key={index}
-              {...rest}
-              {...field}
-              id={`${name}-${option.value}`}
-              name={name}
-              checked={value.includes(option.value)}
-              disabled={
-                disabled ||
-                (checked && value.length <= min) ||
-                disabledOptions?.includes(option.value)
-              }
-              onBlur={handleBlur}
-              value={option.value}
-              label={option.label}
-            />
-          );
-        })}
-      </div>
-      {errorText && <div className={styles.errorText}>{errorText}</div>}
+            return (
+              <Checkbox
+                key={index}
+                {...field}
+                id={`${name}-${option.value}`}
+                name={name}
+                checked={value.includes(option.value)}
+                disabled={
+                  disabled ||
+                  (checked && value.length <= min) ||
+                  disabledOptions?.includes(option.value)
+                }
+                onBlur={handleBlur}
+                value={option.value}
+                label={option.label}
+              />
+            );
+          })}
+        </div>
+        {errorText && <div className={styles.errorText}>{errorText}</div>}
+      </fieldset>
       {visibleOptionAmount && options.length > visibleOptionAmount && (
         <div className={styles.buttonWrapper}>
           <Button

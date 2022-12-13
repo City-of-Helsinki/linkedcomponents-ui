@@ -299,8 +299,10 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                 <Field
                   disabled={!isEditingAllowed || !values.url}
                   component={RadioButtonGroupField}
+                  label={t(`image.form.titleLicense`)}
                   name={IMAGE_FIELDS.LICENSE}
                   options={licenseOptions}
+                  required
                 />
               </FormRow>
 

@@ -107,8 +107,17 @@ const openMenu = async () => {
   return toggleButton;
 };
 
-const findElement = (key: 'topicCheckbox') => {
+const findElement = (key: 'nameFi' | 'nameSv' | 'topicCheckbox') => {
   switch (key) {
+    case 'nameFi':
+      return screen.getByRole('textbox', {
+        name: /tapahtuman otsikko suomeksi/i,
+      });
+
+    case 'nameSv':
+      return screen.getByRole('textbox', {
+        name: /tapahtuman otsikko ruotsiksi/i,
+      });
     case 'topicCheckbox':
       return screen.findByRole('checkbox', { name: topicName });
   }
@@ -131,8 +140,12 @@ const getButton = (
   }
 };
 
-const getInput = (key: 'nameFi') => {
+const getInput = (key: 'infoLanguage' | 'nameFi') => {
   switch (key) {
+    case 'infoLanguage':
+      return screen.getByRole('group', {
+        name: /tapahtumatietojen syöttökielet/i,
+      });
     case 'nameFi':
       return screen.getByRole('textbox', {
         name: /tapahtuman otsikko suomeksi/i,
@@ -166,6 +179,24 @@ const getAddEventTimeFormElement = (
       });
   }
 };
+
+test('should change description section language to swedish', async () => {
+  const mocks: MockedResponse[] = [...baseMocks];
+
+  const user = userEvent.setup();
+  renderComponent(mocks);
+
+  await loadingSpinnerIsNotInDocument();
+  await findElement('nameFi');
+
+  const infoLanguageCheckboxes = getInput('infoLanguage');
+  const fiCheckbox = within(infoLanguageCheckboxes).getByRole('checkbox', {
+    name: 'Suomi',
+  });
+
+  await act(async () => await user.click(fiCheckbox));
+  await findElement('nameSv');
+});
 
 test('should cancel event', async () => {
   const mocks: MockedResponse[] = [

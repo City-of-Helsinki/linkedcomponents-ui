@@ -92,6 +92,7 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
             disabled={!isEditingAllowed}
             disabledOptions={disabledMainCategoryOptions}
             errorName={EVENT_FIELDS.MAIN_CATEGORIES}
+            label={t(`event.form.titleMainCategories`)}
             options={keywordOptions}
             name={EVENT_FIELDS.KEYWORDS}
             visibleOptionAmount={10}

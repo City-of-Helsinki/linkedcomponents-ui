@@ -62,9 +62,11 @@ const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
             component={CheckboxGroupField}
             columns={3}
             disabled={!isEditingAllowed}
+            label={t(`event.form.titleInfoLanguages.${eventType}`)}
             min={1}
             name={EVENT_FIELDS.EVENT_INFO_LANGUAGES}
             options={eventInfoLanguageOptions}
+            required
           />
         </FieldColumn>
       </FieldRow>
@@ -86,6 +88,7 @@ const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
             component={CheckboxGroupField}
             columns={3}
             disabled={!isEditingAllowed}
+            label={t(`event.form.titleInLanguages.${eventType}`)}
             name={EVENT_FIELDS.IN_LANGUAGE}
             options={inLanguageOptions}
             visibleOptionAmount={10}

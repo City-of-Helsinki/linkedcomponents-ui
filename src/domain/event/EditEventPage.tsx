@@ -195,10 +195,8 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   );
 
   React.useEffect(() => {
-    if (descriptionLanguage !== sortedEventInfoLanguages[0]) {
-      setDescriptionLanguage(sortedEventInfoLanguages[0]);
-    }
-  }, [descriptionLanguage, sortedEventInfoLanguages]);
+    setDescriptionLanguage(sortedEventInfoLanguages[0]);
+  }, [sortedEventInfoLanguages]);
 
   return (
     <Formik
