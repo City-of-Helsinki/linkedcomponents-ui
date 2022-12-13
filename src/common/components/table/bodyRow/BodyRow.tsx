@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useRef } from 'react';
 
-import { GetRowPropsFunc, Header } from '../Table2';
-import styles from '../table2.module.scss';
+import { GetRowPropsFunc, Header } from '../Table';
+import styles from '../table.module.scss';
 
 type BodyRowProps = {
   cols: Header[];
@@ -18,13 +18,15 @@ const BodyRow: FC<BodyRowProps> = ({
   onRowClick,
   row,
 }) => {
-  const handleRowClick = () => {
-    onRowClick && onRowClick(row);
+  const ref = useRef<HTMLTableRowElement>(null);
+  const handleRowClick = (ev: React.MouseEvent) => {
+    if (ev.target instanceof HTMLElement && ref.current?.contains(ev.target))
+      onRowClick && onRowClick(row);
   };
 
   const handleKeyDown = (ev: React.KeyboardEvent) => {
     /* istanbul ignore else */
-    if (ev.key === 'Enter') {
+    if (ev.key === 'Enter' && ev.target === ref.current) {
       onRowClick && onRowClick(row);
     }
   };
@@ -42,7 +44,7 @@ const BodyRow: FC<BodyRowProps> = ({
     : commonProps;
 
   return (
-    <tr {...rowProps}>
+    <tr {...rowProps} ref={ref}>
       {cols.map((column, cellIndex) => {
         return (
           <td
@@ -51,7 +53,7 @@ const BodyRow: FC<BodyRowProps> = ({
             key={cellIndex}
             onClick={column.onClick}
           >
-            {column.transform && column.transform(row)}
+            {column.transform && column.transform(row, index)}
             {!column.transform && row[column.key as keyof typeof row]}
           </td>
         );

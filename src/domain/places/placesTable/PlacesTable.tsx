@@ -1,14 +1,14 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import Table from '../../../common/components/table/Table2';
+import Table from '../../../common/components/table/Table';
 import { PlaceFieldsFragment, PlacesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import getInitialSort from '../../../utils/getInitialSort';
-import getNewSort from '../../../utils/getNewSort';
+import getSortByOrderAndColKey from '../../../utils/getSortByOrderAndColKey';
+import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
 import { getPlaceFields, getPlaceItemId } from '../../place/utils';
 import { PLACE_SORT_OPTIONS } from '../constants';
 import PlaceActionsDropdown from '../placeActionsDropdown/PlaceActionsDropdown';
@@ -86,6 +86,15 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
     setSort(key as PLACE_SORT_OPTIONS);
   };
 
+  const { initialSortingColumnKey, initialSortingOrder } = useMemo(() => {
+    const { colKey, order } = getSortOrderAndKey(sort);
+
+    return {
+      initialSortingColumnKey: colKey,
+      initialSortingOrder: order,
+    };
+  }, [sort]);
+
   return (
     <Table
       caption={caption}
@@ -142,7 +151,6 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           ),
         },
       ]}
-      {...getInitialSort(sort)}
       getRowProps={(place) => {
         const { id, name } = getPlaceFields(
           place as PlaceFieldsFragment,
@@ -156,9 +164,11 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
         };
       }}
       indexKey="id"
+      initialSortingColumnKey={initialSortingColumnKey}
+      initialSortingOrder={initialSortingOrder}
       onRowClick={handleRowClick}
       onSort={(order, colKey, handleSort) => {
-        handleSortChange(getNewSort({ order, colKey }));
+        handleSortChange(getSortByOrderAndColKey({ order, colKey }));
         handleSort();
       }}
       rows={places as PlaceFieldsFragment[]}

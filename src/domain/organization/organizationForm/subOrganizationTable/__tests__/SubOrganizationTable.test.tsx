@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   act,
   configure,
@@ -18,7 +20,7 @@ import SubOrganizationTable, {
 configure({ defaultHidden: true });
 
 const props: SubOrganizationTableProps = {
-  organizationIds: [organizations.data[0].atId],
+  organizationIds: [organizations.data[0]?.atId as string],
   title: 'Aliorganisaatiot',
 };
 
@@ -35,7 +37,9 @@ test('should render sub organizations', async () => {
     name: `${props.title}, järjestys Nimi, nouseva`,
   });
   await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('button', { name: organizations.data[0].name });
+  await screen.findByRole('button', {
+    name: organizations.data[0]?.name as string,
+  });
 });
 
 test('should sort sub organizations', async () => {
@@ -57,14 +61,14 @@ test('should open sub organization edit page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   const organizationButton = await screen.findByRole('button', {
-    name: organizations.data[0].name,
+    name: organizations.data[0]?.name as string,
   });
 
   await act(async () => await user.click(organizationButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/administration/organizations/edit/${organizations.data[0].id}`
+      `/fi/administration/organizations/edit/${organizations.data[0]?.id}`
     )
   );
 });
@@ -75,14 +79,14 @@ test('should open sub organization edit page by pressing enter on row', async ()
 
   await loadingSpinnerIsNotInDocument();
   const organizationButton = await screen.findByRole('button', {
-    name: organizations.data[0].name,
+    name: organizations.data[0]?.name as string,
   });
 
   await act(async () => await user.type(organizationButton, '{enter}'));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/administration/organizations/edit/${organizations.data[0].id}`
+      `/fi/administration/organizations/edit/${organizations.data[0]?.id}`
     )
   );
 });

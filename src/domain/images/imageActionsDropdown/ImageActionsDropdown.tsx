@@ -24,10 +24,10 @@ export interface ImageActionsDropdownProps {
   image: ImageFieldsFragment;
 }
 
-const ImageActionsDropdown = React.forwardRef<
-  HTMLDivElement,
-  ImageActionsDropdownProps
->(({ className, image }, ref) => {
+const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = (
+  { className, image },
+  ref
+) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -87,7 +87,7 @@ const ImageActionsDropdown = React.forwardRef<
   ].filter(skipFalsyType);
 
   return (
-    <div ref={ref}>
+    <>
       {openModal === IMAGE_MODALS.DELETE && (
         <ConfirmDeleteModal
           isOpen={openModal === IMAGE_MODALS.DELETE}
@@ -97,8 +97,8 @@ const ImageActionsDropdown = React.forwardRef<
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />
-    </div>
+    </>
   );
-});
+};
 
 export default ImageActionsDropdown;

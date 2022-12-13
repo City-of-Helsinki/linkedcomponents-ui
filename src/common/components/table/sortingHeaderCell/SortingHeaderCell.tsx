@@ -7,13 +7,14 @@ import {
   IconSortDescending,
 } from 'hds-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
-import styles from '../table2.module.scss';
+import styles from '../table.module.scss';
 
 export type SortingHeaderCellProps = React.ComponentPropsWithoutRef<'th'> & {
-  ariaLabelSortButtonUnset: string;
-  ariaLabelSortButtonAscending: string;
-  ariaLabelSortButtonDescending: string;
+  ariaLabelSortButtonUnset?: string;
+  ariaLabelSortButtonAscending?: string;
+  ariaLabelSortButtonDescending?: string;
   className?: string;
   colKey: string;
   onSort?: (
@@ -105,13 +106,17 @@ export const SortingHeaderCell = ({
   onSort,
   title,
   setSortingAndOrder,
+  /* istanbul ignore next */
   order = 'unset',
+  /* istanbul ignore next */
   sortIconType = 'string',
   ...rest
 }: SortingHeaderCellProps) => {
   const sortingCallback = () => {
     setSortingAndOrder(colKey);
   };
+  const { t } = useTranslation();
+
   return (
     <th
       className={classNames(styles.sortingHeader, className)}
@@ -126,6 +131,7 @@ export const SortingHeaderCell = ({
           onClick={(event) => {
             // Prevent default to not submit form if we happen to be inside form
             event.preventDefault();
+
             if (onSort) {
               onSort(
                 resolveNewOrder({ previousOrder: order }),
@@ -139,9 +145,14 @@ export const SortingHeaderCell = ({
         >
           <span>{title}</span>
           {renderSortIcon({
-            ariaLabelSortButtonUnset,
-            ariaLabelSortButtonAscending,
-            ariaLabelSortButtonDescending,
+            ariaLabelSortButtonAscending:
+              ariaLabelSortButtonAscending ||
+              t('common.table.ariaLabelSortButtonAscending'),
+            ariaLabelSortButtonDescending:
+              ariaLabelSortButtonDescending ||
+              t('common.table.ariaLabelSortButtonDescending'),
+            ariaLabelSortButtonUnset: ariaLabelSortButtonUnset || '',
+
             order,
             sortIconType,
           })}

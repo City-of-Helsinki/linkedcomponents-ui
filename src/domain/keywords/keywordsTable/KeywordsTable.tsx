@@ -1,17 +1,17 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import Table from '../../../common/components/table/Table2';
+import Table from '../../../common/components/table/Table';
 import {
   KeywordFieldsFragment,
   KeywordsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import getInitialSort from '../../../utils/getInitialSort';
-import getNewSort from '../../../utils/getNewSort';
+import getSortByOrderAndColKey from '../../../utils/getSortByOrderAndColKey';
+import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
 import { getKeywordFields, getKeywordItemId } from '../../keyword/utils';
 import { KEYWORD_SORT_OPTIONS } from '../constants';
 import KeywordActionsDropdown from '../keywordActionsDropdown/KeywordActionsDropdown';
@@ -85,6 +85,15 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
     setSort(key as KEYWORD_SORT_OPTIONS);
   };
 
+  const { initialSortingColumnKey, initialSortingOrder } = useMemo(() => {
+    const { colKey, order } = getSortOrderAndKey(sort);
+
+    return {
+      initialSortingColumnKey: colKey,
+      initialSortingOrder: order,
+    };
+  }, [sort]);
+
   return (
     <Table
       caption={caption}
@@ -133,7 +142,6 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
           ),
         },
       ]}
-      {...getInitialSort(sort)}
       getRowProps={(keyword) => {
         const { id, name } = getKeywordFields(
           keyword as KeywordFieldsFragment,
@@ -147,9 +155,11 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
         };
       }}
       indexKey="id"
+      initialSortingColumnKey={initialSortingColumnKey}
+      initialSortingOrder={initialSortingOrder}
       onRowClick={handleRowClick}
       onSort={(order, colKey, handleSort) => {
-        handleSortChange(getNewSort({ order, colKey }));
+        handleSortChange(getSortByOrderAndColKey({ order, colKey }));
         handleSort();
       }}
       rows={keywords as KeywordFieldsFragment[]}

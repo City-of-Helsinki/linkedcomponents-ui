@@ -61,3 +61,7 @@
     width: 100%;
   }
 }
+
+.clickableRow {
+  composes: clickableRow from '../../../common/components/table/table.module.scss';
+}

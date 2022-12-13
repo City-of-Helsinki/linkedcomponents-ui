@@ -1,16 +1,16 @@
 import { IconPhoto } from 'hds-react';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import Table from '../../../common/components/table/Table2';
+import Table from '../../../common/components/table/Table';
 import { ImageFieldsFragment, ImagesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import formatDate from '../../../utils/formatDate';
-import getInitialSort from '../../../utils/getInitialSort';
-import getNewSort from '../../../utils/getNewSort';
+import getSortByOrderAndColKey from '../../../utils/getSortByOrderAndColKey';
+import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
 import { getImageFields, getImageItemId } from '../../image/utils';
 import { IMAGE_SORT_OPTIONS } from '../constants';
 import ImageActionsDropdown from '../imageActionsDropdown/ImageActionsDropdown';
@@ -102,6 +102,15 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
     setSort(key as IMAGE_SORT_OPTIONS);
   };
 
+  const { initialSortingColumnKey, initialSortingOrder } = useMemo(() => {
+    const { colKey, order } = getSortOrderAndKey(sort);
+
+    return {
+      initialSortingColumnKey: colKey,
+      initialSortingOrder: order,
+    };
+  }, [sort]);
+
   return (
     <Table
       caption={caption}
@@ -152,7 +161,6 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
           ),
         },
       ]}
-      {...getInitialSort(sort)}
       getRowProps={(image) => {
         const { id, name } = getImageFields(
           image as ImageFieldsFragment,
@@ -166,9 +174,11 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
         };
       }}
       indexKey="id"
+      initialSortingColumnKey={initialSortingColumnKey}
+      initialSortingOrder={initialSortingOrder}
       onRowClick={handleRowClick}
       onSort={(order, colKey, handleSort) => {
-        handleSortChange(getNewSort({ order, colKey }));
+        handleSortChange(getSortByOrderAndColKey({ order, colKey }));
         handleSort();
       }}
       rows={images as ImageFieldsFragment[]}

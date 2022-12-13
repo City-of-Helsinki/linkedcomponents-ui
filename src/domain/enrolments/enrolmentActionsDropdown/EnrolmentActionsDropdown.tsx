@@ -30,10 +30,11 @@ export interface EnrolmentActionsDropdownProps {
   registration: RegistrationFieldsFragment;
 }
 
-const EnrolmentActionsDropdown = React.forwardRef<
-  HTMLDivElement,
-  EnrolmentActionsDropdownProps
->(({ className, enrolment, registration }, ref) => {
+const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
+  className,
+  enrolment,
+  registration,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -104,7 +105,7 @@ const EnrolmentActionsDropdown = React.forwardRef<
   ].filter(skipFalsyType);
 
   return (
-    <div ref={ref}>
+    <>
       {openModal === ENROLMENT_MODALS.CANCEL && (
         <ConfirmCancelModal
           enrolment={enrolment}
@@ -116,8 +117,8 @@ const EnrolmentActionsDropdown = React.forwardRef<
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />
-    </div>
+    </>
   );
-});
+};
 
 export default EnrolmentActionsDropdown;

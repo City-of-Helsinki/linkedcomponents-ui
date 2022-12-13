@@ -42,7 +42,6 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
       removeExpandedOrganization,
     },
   } = usePageSettings();
-  const actionsDropdownRef = React.useRef<HTMLDivElement>(null);
   const rowRef = React.useRef<HTMLTableRowElement>(null);
 
   const {
@@ -78,11 +77,7 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
 
   const handleRowClick = (ev: React.MouseEvent) => {
     /* istanbul ignore else */
-    if (
-      ev.target instanceof Node &&
-      rowRef.current?.contains(ev.target) &&
-      !actionsDropdownRef.current?.contains(ev.target)
-    ) {
+    if (ev.target instanceof Node && rowRef.current?.contains(ev.target)) {
       onRowClick(organization);
     }
   };
@@ -113,6 +108,7 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
         role="button"
         aria-label={fullName}
         id={getOrganizationItemId(id)}
+        className={styles.clickableRow}
         data-testid={id}
         onClick={handleRowClick}
         onKeyDown={handleKeyDown}
@@ -173,11 +169,14 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
             </span>
           </div>
         </td>
-        <td className={styles.actionButtonsColumn}>
-          <OrganizationActionsDropdown
-            ref={actionsDropdownRef}
-            organization={organization}
-          />
+        <td
+          className={styles.actionButtonsColumn}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
+          <OrganizationActionsDropdown organization={organization} />
         </td>
       </tr>
       {!!subOrganizationIds.length && open && (

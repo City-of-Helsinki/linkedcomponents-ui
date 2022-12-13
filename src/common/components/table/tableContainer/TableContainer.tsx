@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import styles from '../table2.module.scss';
+import styles from '../table.module.scss';
 
 export type TableContainerProps = React.ComponentPropsWithoutRef<'table'> & {
   children: React.ReactNode;

@@ -1,4 +1,4 @@
-const getNewSort = ({
+const getSortByOrderAndColKey = ({
   order,
   colKey,
 }: {
@@ -6,4 +6,4 @@ const getNewSort = ({
   colKey: string;
 }) => (order === 'asc' ? colKey : `-${colKey}`);
 
-export default getNewSort;
+export default getSortByOrderAndColKey;

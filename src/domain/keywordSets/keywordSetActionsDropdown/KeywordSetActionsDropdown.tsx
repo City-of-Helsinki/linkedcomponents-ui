@@ -27,10 +27,10 @@ export interface KeywordSetActionsDropdownProps {
   keywordSet: KeywordSetFieldsFragment;
 }
 
-const KeywordSetActionsDropdown = React.forwardRef<
-  HTMLDivElement,
-  KeywordSetActionsDropdownProps
->(({ className, keywordSet }, ref) => {
+const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
+  className,
+  keywordSet,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ const KeywordSetActionsDropdown = React.forwardRef<
   ].filter(skipFalsyType);
 
   return (
-    <div ref={ref}>
+    <>
       {openModal === KEYWORD_SET_MODALS.DELETE && (
         <ConfirmDeleteModal
           isOpen={openModal === KEYWORD_SET_MODALS.DELETE}
@@ -99,8 +99,8 @@ const KeywordSetActionsDropdown = React.forwardRef<
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />
-    </div>
+    </>
   );
-});
+};
 
 export default KeywordSetActionsDropdown;

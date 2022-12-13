@@ -52,9 +52,13 @@ const ModalContent: React.FC<ModalContentProps> = ({
     <Formik
       initialValues={{
         [EDIT_EVENT_TIME_FORM_NAME]: {
-          endDate: eventTime.endTime,
+          endDate: eventTime.endTime
+            ? new Date(eventTime.endTime)
+            : /* istanbul ignore next */ null,
           endTime: formatDate(eventTime.endTime, TIME_FORMAT_DATA),
-          startDate: eventTime.startTime,
+          startDate: eventTime.startTime
+            ? new Date(eventTime.startTime)
+            : /* istanbul ignore next */ null,
           startTime: formatDate(eventTime.startTime, TIME_FORMAT_DATA),
         },
       }}

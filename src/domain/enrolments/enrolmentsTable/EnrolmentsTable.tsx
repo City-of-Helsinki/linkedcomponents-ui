@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { scroller } from 'react-scroll';
 
 import Pagination from '../../../common/components/pagination/Pagination';
-import Table from '../../../common/components/table/Table2';
+import Table from '../../../common/components/table/Table';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import {
   EnrolmentFieldsFragment,

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
-import Table from '../../../common/components/table/Table2';
+import Table from '../../../common/components/table/Table';
 import {
   RegistrationFieldsFragment,
   RegistrationsQuery,
