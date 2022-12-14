@@ -4,6 +4,7 @@ import {
   PaginationCustomTheme,
   SelectCustomTheme,
   SideNavigationCustomTheme,
+  TableCustomTheme,
 } from 'hds-react';
 import React, { useContext, useState } from 'react';
 
@@ -285,11 +286,7 @@ type SuperEventTypeTagCSSProperties = {
   '--super-event-type-tag-color-umbrella'?: string;
 };
 
-type TableCSSProperties = {
-  '--table-body-background'?: string;
-  '--table-body-row-border-color'?: string;
-  '--table-head-background'?: string;
-};
+type TableCSSProperties = Partial<TableCustomTheme>;
 
 type TabsCSSProperties = {
   '--tabs-icon-color'?: string;
@@ -362,7 +359,12 @@ export type Theme = {
   sideNavigation: Partial<SideNavigationCustomTheme>;
   statusTag: StatusTagCSSProperties;
   superEventTypeTag: SuperEventTypeTagCSSProperties;
-  table: TableCSSProperties;
+  table: {
+    variant?: {
+      light: TableCSSProperties;
+      dark: TableCSSProperties;
+    };
+  };
   tabs: TabsCSSProperties;
   textEditor: TextEditorCSSProperties;
   textInput: TextInputCSSProperties;

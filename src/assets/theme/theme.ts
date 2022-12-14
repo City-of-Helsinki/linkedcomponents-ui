@@ -438,9 +438,16 @@ const theme: Theme = {
     '--super-event-type-tag-color-umbrella': 'var(--color-white)',
   },
   table: {
-    '--table-body-background': 'var(--color-white)',
-    '--table-body-row-border-color': 'var(--color-black-10)',
-    '--table-head-background': 'var(--color-black-5)',
+    variant: {
+      light: {
+        '--header-background-color': 'var(--color-black-5)',
+        '--content-background-color': 'var(--color-white)',
+      },
+      dark: {
+        '--header-background-color': 'var(--color-bus)',
+        '--content-background-color': 'var(--color-white)',
+      },
+    },
   },
   tabs: {
     '--tabs-icon-color': 'var(--color-success)',

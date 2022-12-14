@@ -30,6 +30,7 @@ type TableProps = {
   | 'ariaLabelCheckboxSelection'
   | 'checkboxSelection'
   | 'clearSelectionsText'
+  | 'cols'
   | 'customActionButtons'
   | 'heading'
   | 'headingAriaLevel'
