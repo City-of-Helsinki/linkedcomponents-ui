@@ -186,18 +186,16 @@ export const getOrganizationAncestorsQueryResult = async (
 export const checkCanUserDoAction = ({
   action,
   id,
-  organizationAncestors,
   user,
 }: {
   action: ORGANIZATION_ACTIONS;
   id: string;
-  organizationAncestors: OrganizationFieldsFragment[];
   user?: UserFieldsFragment;
 }): boolean => {
   /* istanbul ignore next */
   const isAdminUser = isAdminUserInOrganization({
     id,
-    organizationAncestors,
+    organizationAncestors: [],
     user,
   });
   const adminOrganizations = user?.adminOrganizations || [];
@@ -243,21 +241,18 @@ export const checkIsEditActionAllowed = ({
   action,
   authenticated,
   id,
-  organizationAncestors,
   t,
   user,
 }: {
   action: ORGANIZATION_ACTIONS;
   authenticated: boolean;
   id: string;
-  organizationAncestors: OrganizationFieldsFragment[];
   t: TFunction;
   user?: UserFieldsFragment;
 }): Editability => {
   const userCanDoAction = checkCanUserDoAction({
     action,
     id,
-    organizationAncestors,
     user,
   });
 
@@ -276,7 +271,6 @@ export const getEditButtonProps = ({
   authenticated,
   id,
   onClick,
-  organizationAncestors,
   t,
   user,
 }: {
@@ -284,7 +278,6 @@ export const getEditButtonProps = ({
   authenticated: boolean;
   id: string;
   onClick: () => void;
-  organizationAncestors: OrganizationFieldsFragment[];
   t: TFunction;
   user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
@@ -292,7 +285,6 @@ export const getEditButtonProps = ({
     action,
     authenticated,
     id,
-    organizationAncestors,
     t,
     user,
   });
@@ -311,6 +303,7 @@ export const getOrganizationInitialValues = (
 ): OrganizationFormFields => {
   const id = organization.id ?? '';
   const { dissolutionDate, foundingDate } = organization;
+
   return {
     adminUsers: organization.adminUsers?.length
       ? organization.adminUsers.map((o) => o?.username as string)

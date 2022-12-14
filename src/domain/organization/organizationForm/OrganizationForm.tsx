@@ -41,7 +41,6 @@ import {
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
-import useOrganizationAncestors from '../hooks/useOrganizationAncestors';
 import useOrganizationInternalTypeOptions from '../hooks/useOrganizationInternalTypeOptions';
 import useOrganizationServerErrors from '../hooks/useOrganizationServerErrors';
 import useOrganizationUpdateActions from '../hooks/useOrganizationUpdateActions';
@@ -69,16 +68,12 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
   const internalTypeOptions = useOrganizationInternalTypeOptions();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
-  const { organizationAncestors } = useOrganizationAncestors(
-    organization?.id ?? ''
-  );
 
   const isEditingAllowed = checkCanUserDoAction({
     action: organization
       ? ORGANIZATION_ACTIONS.UPDATE
       : ORGANIZATION_ACTIONS.CREATE,
     id: organization?.id ?? '',
-    organizationAncestors,
     user,
   });
 

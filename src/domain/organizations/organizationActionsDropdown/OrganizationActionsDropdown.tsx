@@ -10,7 +10,6 @@ import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { ORGANIZATION_ACTIONS } from '../../organization/constants';
-import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
 } from '../../organization/hooks/useOrganizationUpdateActions';
@@ -38,7 +37,6 @@ const OrganizationActionsDropdown: FC<OrganizationActionsDropdownProps> = ({
   const { user } = useUser();
   const { id } = getOrganizationFields(organization, locale, t);
   const { pathname, search } = useLocation();
-  const { organizationAncestors } = useOrganizationAncestors(id);
 
   const { closeModal, deleteOrganization, openModal, saving, setOpenModal } =
     useOrganizationUpdateActions({
@@ -72,7 +70,6 @@ const OrganizationActionsDropdown: FC<OrganizationActionsDropdownProps> = ({
       authenticated,
       id,
       onClick,
-      organizationAncestors,
       t,
       user,
     });

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
-import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from '../constants';
 import { checkIsEditActionAllowed } from '../utils';
@@ -20,7 +19,6 @@ const OrganizationAuthenticationNotification: React.FC<
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const adminOrganizations = user?.adminOrganizations || [];
-  const { organizationAncestors } = useOrganizationAncestors(id);
 
   const { t } = useTranslation();
 
@@ -37,7 +35,6 @@ const OrganizationAuthenticationNotification: React.FC<
         action,
         authenticated,
         id,
-        organizationAncestors,
         t,
         user,
       });
