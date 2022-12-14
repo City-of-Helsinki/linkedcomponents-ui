@@ -94,8 +94,8 @@ const OrganizationList: React.FC = () => {
           className={styles.searchInput}
           label={t('organizationsPage.labelSearch')}
           hideLabel
-          onSearch={handleSearchChange}
-          setValue={setSearch}
+          onSubmit={handleSearchChange}
+          onChange={setSearch}
           value={search}
         />
       </div>

@@ -1,9 +1,13 @@
+import React from 'react';
+
+import { Organization } from '../../../../generated/graphql';
 import {
   act,
   configure,
   render,
   screen,
   userEvent,
+  within,
 } from '../../../../utils/testUtils';
 import { organizations } from '../../__mocks__/organizationsPage';
 import { ORGANIZATION_SORT_OPTIONS } from '../../constants';
@@ -13,13 +17,16 @@ import OrganizationsTable, {
 
 configure({ defaultHidden: true });
 
+const organizationName = organizations.data[0]?.name as string;
+const organizationId = organizations.data[0]?.id as string;
+
 const defaultProps: OrganizationsTableProps = {
   caption: 'Organizations table',
   organizations: [],
   setSort: jest.fn(),
   showSubOrganizations: true,
   sort: ORGANIZATION_SORT_OPTIONS.NAME,
-  sortedOrganizations: organizations.data,
+  sortedOrganizations: organizations.data as Organization[],
 };
 
 const renderComponent = (props?: Partial<OrganizationsTableProps>) =>
@@ -29,7 +36,7 @@ test('should render organizations table', () => {
   renderComponent();
 
   const columnHeaders = [
-    'Nimi',
+    'Nimi Järjestetty nousevaan järjestykseen',
     'ID',
     'Datalähde',
     'Luokittelu',
@@ -39,22 +46,25 @@ test('should render organizations table', () => {
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
   }
-  screen.getByText('Ei tuloksia');
+  screen.getByText(
+    'Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan.'
+  );
 });
 
 test('should render all organizations', () => {
-  renderComponent({ organizations: organizations.data });
+  const organizationItems = organizations.data as Organization[];
+  renderComponent({ organizations: organizationItems });
 
-  for (const { name } of organizations.data) {
-    screen.getByRole('button', { name });
+  for (const { name } of organizationItems) {
+    screen.getByRole('button', { name: name as string });
   }
 });
 
 test('should open edit organization page by clicking organization', async () => {
-  const organizationName = organizations.data[0].name;
-  const organizationId = organizations.data[0].id;
   const user = userEvent.setup();
-  const { history } = renderComponent({ organizations: organizations.data });
+  const { history } = renderComponent({
+    organizations: organizations.data as Organization[],
+  });
 
   await act(
     async () =>
@@ -67,10 +77,10 @@ test('should open edit organization page by clicking organization', async () => 
 });
 
 test('should open edit organization page by pressing enter on row', async () => {
-  const organizationName = organizations.data[0].name;
-  const organizationId = organizations.data[0].id;
   const user = userEvent.setup();
-  const { history } = renderComponent({ organizations: organizations.data });
+  const { history } = renderComponent({
+    organizations: organizations.data as Organization[],
+  });
 
   await act(
     async () =>
@@ -90,7 +100,9 @@ test('should call setSort when clicking sortable column header', async () => {
   const user = userEvent.setup();
   renderComponent({ setSort });
 
-  const nameButton = screen.getByRole('button', { name: 'Nimi' });
+  const nameButton = screen.getByRole('button', {
+    name: 'Nimi Järjestetty nousevaan järjestykseen',
+  });
   await act(async () => await user.click(nameButton));
   expect(setSort).toBeCalledWith('-name');
 
@@ -98,4 +110,28 @@ test('should call setSort when clicking sortable column header', async () => {
   await act(async () => await user.click(idButton));
 
   expect(setSort).toBeCalledWith('id');
+});
+
+test('should open actions dropdown', async () => {
+  const user = userEvent.setup();
+
+  const { history } = renderComponent({
+    organizations: organizations.data as Organization[],
+  });
+
+  const withinRow = within(
+    screen.getByRole('button', { name: organizationName })
+  );
+  const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
+  await act(async () => await user.click(menuButton));
+
+  const editButton = await withinRow.findByRole('button', {
+    name: /muokkaa organisaatiota/i,
+  });
+
+  await act(async () => await user.click(editButton));
+
+  expect(history.location.pathname).toBe(
+    `/fi/administration/organizations/edit/${organizationId}`
+  );
 });

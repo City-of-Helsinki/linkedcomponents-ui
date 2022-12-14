@@ -1,10 +1,10 @@
 .contentWrapperTable {
   background-color: var(--color-white);
-  margin-top: var(--spacing-4-xl);
+  margin-top: var(--spacing-2-xl);
 }
 
 .tableWrapper {
-  margin-top: calc(0px - var(--spacing-4-xl));
+  margin-top: calc(0px - var(--spacing-2-xl) - 2px);
 }
 
 .count {

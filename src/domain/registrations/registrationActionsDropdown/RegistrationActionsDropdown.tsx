@@ -30,10 +30,9 @@ export interface RegistrationActionsDropdownProps {
   registration: RegistrationFieldsFragment;
 }
 
-const RegistrationActionsDropdown = React.forwardRef<
-  HTMLDivElement,
+const RegistrationActionsDropdown: React.FC<
   RegistrationActionsDropdownProps
->(({ className, registration }, ref) => {
+> = ({ className, registration }) => {
   const { t } = useTranslation();
   const { isAuthenticated: authenticated } = useAuth();
   const locale = useLocale();
@@ -118,7 +117,7 @@ const RegistrationActionsDropdown = React.forwardRef<
   ].filter(skipFalsyType);
 
   return (
-    <div ref={ref}>
+    <>
       {openModal === MODALS.DELETE && (
         <ConfirmDeleteModal
           isOpen={openModal === MODALS.DELETE}
@@ -128,8 +127,8 @@ const RegistrationActionsDropdown = React.forwardRef<
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />
-    </div>
+    </>
   );
-});
+};
 
 export default RegistrationActionsDropdown;

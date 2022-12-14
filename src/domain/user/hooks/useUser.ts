@@ -1,10 +1,13 @@
+import { useDebounce } from 'use-debounce';
+
 import { UserFieldsFragment, useUserQuery } from '../../../generated/graphql';
-import useDebounce from '../../../hooks/useDebounce';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import isTestEnv from '../../../utils/isTestEnv';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { userPathBuilder } from '../utils';
 
-const LOADING_USER_DEBOUNCE_TIME = 50;
+/* istanbul ignore next */
+const LOADING_USER_DEBOUNCE_TIME = isTestEnv ? 0 : 50;
 
 export type UserState = {
   loading: boolean;
@@ -23,7 +26,7 @@ const useUser = (): UserState => {
     },
   });
 
-  const loading = useDebounce(
+  const [loading] = useDebounce(
     loadingUser || loadingTokens,
     LOADING_USER_DEBOUNCE_TIME
   );

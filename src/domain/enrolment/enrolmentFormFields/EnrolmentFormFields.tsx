@@ -69,6 +69,7 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
             className={styles.notifications}
             component={CheckboxGroupField}
             disabled={disabled}
+            label={t(`enrolment.form.titleNotifications`)}
             options={notificationOptions}
           />
         </FormGroup>

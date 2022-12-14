@@ -60,7 +60,7 @@ const getElement = (
     case 'createKeywordSetButton':
       return screen.getByRole('button', { name: 'Lisää avainsanaryhmä' });
     case 'searchInput':
-      return screen.getByRole('searchbox', { name: 'Hae avainsanaryhmiä' });
+      return screen.getByRole('combobox', { name: 'Hae avainsanaryhmiä' });
     case 'sortNameButton':
       return screen.getByRole('button', { name: /nimi/i });
     case 'table':

@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
-import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
-import SortableColumn from '../../../common/components/table/sortableColumn/SortableColumn';
 import Table from '../../../common/components/table/Table';
 import { PlaceFieldsFragment, PlacesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import useSetFocused from '../../../hooks/useSetFocused';
-import { getPlaceFields } from '../../place/utils';
+import getSortByOrderAndColKey from '../../../utils/getSortByOrderAndColKey';
+import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
+import { getPlaceFields, getPlaceItemId } from '../../place/utils';
 import { PLACE_SORT_OPTIONS } from '../constants';
+import PlaceActionsDropdown from '../placeActionsDropdown/PlaceActionsDropdown';
 import styles from './placesTable.module.scss';
-import PlacesTableRow from './placesTableRow/PlacesTableRow';
 
 export interface PlacesTableProps {
   caption: string;
@@ -21,6 +21,45 @@ export interface PlacesTableProps {
   setSort: (sort: PLACE_SORT_OPTIONS) => void;
   sort: PLACE_SORT_OPTIONS;
 }
+
+type ColumnProps = {
+  place: PlaceFieldsFragment;
+};
+
+const IdColumn: FC<ColumnProps> = ({ place }) => {
+  const locale = useLocale();
+  const { placeUrl } = getPlaceFields(place, locale);
+
+  return (
+    <Link
+      onClick={/* istanbul ignore next */ (e) => e.preventDefault()}
+      to={placeUrl}
+    >
+      {place.id}
+    </Link>
+  );
+};
+
+const NameColumn: FC<ColumnProps> = ({ place }) => {
+  const locale = useLocale();
+  const { name } = getPlaceFields(place, locale);
+
+  return <>{name}</>;
+};
+
+const EventsAmountColumn: FC<ColumnProps> = ({ place }) => {
+  const locale = useLocale();
+  const { nEvents } = getPlaceFields(place, locale);
+
+  return <>{nEvents}</>;
+};
+
+const StreetAddressColumn: FC<ColumnProps> = ({ place }) => {
+  const locale = useLocale();
+  const { streetAddress } = getPlaceFields(place, locale);
+
+  return <>{streetAddress}</>;
+};
 
 const PlacesTable: React.FC<PlacesTableProps> = ({
   caption,
@@ -34,11 +73,8 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
   const locale = useLocale();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
-  const table = React.useRef<HTMLTableElement>(null);
-  const { focused } = useSetFocused(table);
-
-  const handleRowClick = (place: PlaceFieldsFragment) => {
-    const { placeUrl } = getPlaceFields(place, locale);
+  const handleRowClick = (place: object) => {
+    const { placeUrl } = getPlaceFields(place as PlaceFieldsFragment, locale);
 
     navigate({
       pathname: placeUrl,
@@ -46,65 +82,98 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
     });
   };
 
-  const handleSort = (key: string) => {
+  const handleSortChange = (key: string) => {
     setSort(key as PLACE_SORT_OPTIONS);
   };
 
-  return (
-    <Table ref={table} className={className}>
-      <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
-      <thead>
-        <tr>
-          <SortableColumn
-            className={styles.idColumn}
-            label={t('placesPage.placesTableColumns.id')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={PLACE_SORT_OPTIONS.ID}
-            type="text"
-          />
-          <SortableColumn
-            className={styles.nameColumn}
-            label={t('placesPage.placesTableColumns.name')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={PLACE_SORT_OPTIONS.NAME}
-            type="text"
-          />
-          <SortableColumn
-            className={styles.nEventsColumn}
-            label={t('placesPage.placesTableColumns.nEvents')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={PLACE_SORT_OPTIONS.N_EVENTS}
-            type="default"
-          />
-          <SortableColumn
-            className={styles.streetAddressColumn}
-            label={t('placesPage.placesTableColumns.streetAddress')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={PLACE_SORT_OPTIONS.STREET_ADDRESS}
-            type="text"
-          />
+  const { initialSortingColumnKey, initialSortingOrder } = useMemo(() => {
+    const { colKey, order } = getSortOrderAndKey(sort);
 
-          <th className={styles.actionButtonsColumn}></th>
-        </tr>
-      </thead>
-      <tbody>
-        {places.map(
-          (place) =>
-            place && (
-              <PlacesTableRow
-                key={place.id}
-                onRowClick={handleRowClick}
-                place={place}
-              />
-            )
-        )}
-        {!places.length && <NoDataRow colSpan={5} />}
-      </tbody>
-    </Table>
+    return {
+      initialSortingColumnKey: colKey,
+      initialSortingOrder: order,
+    };
+  }, [sort]);
+
+  return (
+    <Table
+      caption={caption}
+      className={className}
+      cols={[
+        {
+          className: styles.idColumn,
+          isSortable: true,
+          key: PLACE_SORT_OPTIONS.ID,
+          headerName: t('placesPage.placesTableColumns.id'),
+          sortIconType: 'string',
+          transform: (place: PlaceFieldsFragment) => <IdColumn place={place} />,
+        },
+        {
+          className: styles.nameColumn,
+          isSortable: true,
+          key: PLACE_SORT_OPTIONS.NAME,
+          headerName: t('placesPage.placesTableColumns.name'),
+          sortIconType: 'string',
+          transform: (place: PlaceFieldsFragment) => (
+            <NameColumn place={place} />
+          ),
+        },
+        {
+          className: styles.nEventsColumn,
+          isSortable: true,
+          key: PLACE_SORT_OPTIONS.N_EVENTS,
+          headerName: t('placesPage.placesTableColumns.nEvents'),
+          sortIconType: 'other',
+          transform: (place: PlaceFieldsFragment) => (
+            <EventsAmountColumn place={place} />
+          ),
+        },
+        {
+          className: styles.streetAddressColumn,
+          isSortable: true,
+          key: PLACE_SORT_OPTIONS.STREET_ADDRESS,
+          headerName: t('placesPage.placesTableColumns.streetAddress'),
+          sortIconType: 'other',
+          transform: (place: PlaceFieldsFragment) => (
+            <StreetAddressColumn place={place} />
+          ),
+        },
+        {
+          className: styles.actionButtonsColumn,
+          key: '',
+          headerName: '',
+          onClick: (ev) => {
+            ev.stopPropagation();
+            ev.preventDefault();
+          },
+          transform: (place: PlaceFieldsFragment) => (
+            <PlaceActionsDropdown place={place} />
+          ),
+        },
+      ]}
+      getRowProps={(place) => {
+        const { id, name } = getPlaceFields(
+          place as PlaceFieldsFragment,
+          locale
+        );
+
+        return {
+          'aria-label': name,
+          'data-testid': id,
+          id: getPlaceItemId(id),
+        };
+      }}
+      indexKey="id"
+      initialSortingColumnKey={initialSortingColumnKey}
+      initialSortingOrder={initialSortingOrder}
+      onRowClick={handleRowClick}
+      onSort={(order, colKey, handleSort) => {
+        handleSortChange(getSortByOrderAndColKey({ order, colKey }));
+        handleSort();
+      }}
+      rows={places as PlaceFieldsFragment[]}
+      variant="light"
+    />
   );
 };
 

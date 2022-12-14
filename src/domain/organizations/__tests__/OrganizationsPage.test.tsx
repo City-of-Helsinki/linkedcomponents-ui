@@ -59,7 +59,7 @@ const getElement = (
     case 'createOrganizationButton':
       return screen.getByRole('button', { name: 'Lisää uusi organisaatio' });
     case 'searchInput':
-      return screen.getByRole('searchbox', { name: 'Hae organisaatioita' });
+      return screen.getByRole('combobox', { name: 'Hae organisaatioita' });
     case 'sortNameButton':
       return screen.getByRole('button', { name: /nimi/i });
     case 'table':

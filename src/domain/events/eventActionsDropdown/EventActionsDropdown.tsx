@@ -30,10 +30,10 @@ export interface EventActionsDropdownProps {
   event: EventFieldsFragment;
 }
 
-const EventActionsDropdown = React.forwardRef<
-  HTMLDivElement,
-  EventActionsDropdownProps
->(({ className, event }, ref) => {
+const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
+  className,
+  event,
+}) => {
   const { t } = useTranslation();
   const { isAuthenticated: authenticated } = useAuth();
   const locale = useLocale();
@@ -119,7 +119,7 @@ const EventActionsDropdown = React.forwardRef<
   ].filter(skipFalsyType);
 
   return (
-    <div className={className} ref={ref}>
+    <div className={className}>
       {openModal === MODALS.CANCEL && (
         <ConfirmCancelModal
           event={event}
@@ -151,6 +151,6 @@ const EventActionsDropdown = React.forwardRef<
       <ActionsDropdown items={actionItems} />
     </div>
   );
-});
+};
 
 export default EventActionsDropdown;

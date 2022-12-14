@@ -39,7 +39,12 @@ export interface EventListContainerProps {
 }
 
 type RegistrationListProps = {
-  onSelectedPageChange: (page: number) => void;
+  onPageChange: (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => void;
   page: number;
   pageCount: number;
   registrations: RegistrationsQuery['registrations']['data'];
@@ -47,7 +52,7 @@ type RegistrationListProps = {
 };
 
 const RegistrationList: React.FC<RegistrationListProps> = ({
-  onSelectedPageChange,
+  onPageChange,
   page,
   pageCount,
   registrations,
@@ -88,10 +93,18 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
         {pageCount > 1 && (
           <Pagination
             pageCount={pageCount}
-            selectedPage={page}
-            setSelectedPage={onSelectedPageChange}
+            pageHref={(index: number) => {
+              return `${
+                location.pathname
+              }${replaceParamsToRegistrationQueryString(location.search, {
+                page: index > 1 ? index : null,
+              })}`;
+            }}
+            pageIndex={page - 1}
+            onChange={onPageChange}
           />
         )}
+
         <FeedbackButton theme="black" />
       </Container>
     </div>
@@ -106,11 +119,19 @@ const RegistrationListContainer: React.FC = () => {
 
   const registrationListId = useIdWithPrefix({ prefix: 'registration-list-' });
 
-  const handleSelectedPageChange = (page: number) => {
+  const handlePageChange = (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    event.preventDefault();
+
+    const pageNumber = index + 1;
     navigate({
       pathname: location.pathname,
       search: replaceParamsToRegistrationQueryString(location.search, {
-        page: page > 1 ? page : null,
+        page: pageNumber > 1 ? pageNumber : null,
       }),
     });
     // Scroll to the beginning of registration list
@@ -140,7 +161,7 @@ const RegistrationListContainer: React.FC = () => {
       </Container>
       <LoadingSpinner isLoading={loading}>
         <RegistrationList
-          onSelectedPageChange={handleSelectedPageChange}
+          onPageChange={handlePageChange}
           page={page}
           pageCount={pageCount}
           registrations={registrations}

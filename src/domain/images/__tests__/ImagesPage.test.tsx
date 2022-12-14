@@ -61,7 +61,7 @@ const getElement = (
     case 'createImageButton':
       return screen.getByRole('button', { name: 'Lisää kuva' });
     case 'searchInput':
-      return screen.getByRole('searchbox', { name: 'Hae kuvia' });
+      return screen.getByRole('combobox', { name: 'Hae kuvia' });
     case 'sortLastModifiedButton':
       return screen.getByRole('button', { name: /viimeksi muokattu/i });
     case 'table':

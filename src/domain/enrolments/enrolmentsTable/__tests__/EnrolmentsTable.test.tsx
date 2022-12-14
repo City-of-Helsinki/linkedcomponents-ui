@@ -8,6 +8,8 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
+  within,
 } from '../../../../utils/testUtils';
 import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import {
@@ -39,14 +41,12 @@ const renderComponent = (props?: Partial<EnrolmentsTableProps>) => {
   );
 };
 
-const getElement = (key: 'page1' | 'page2' | 'pagination') => {
+const getElement = (key: 'page1' | 'page2') => {
   switch (key) {
     case 'page1':
-      return screen.getByRole('button', { name: 'Sivu 1' });
+      return screen.getByRole('link', { name: 'Sivu 1' });
     case 'page2':
-      return screen.getByRole('button', { name: 'Sivu 2' });
-    case 'pagination':
-      return screen.getByRole('navigation', { name: 'Sivunavigointi' });
+      return screen.getByRole('link', { name: 'Sivu 2' });
   }
 };
 
@@ -60,7 +60,9 @@ test('should render enrolments table', async () => {
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
   }
-  await screen.findByText('Ei tuloksia');
+  await screen.findByText(
+    'Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan.'
+  );
 });
 
 test('should navigate between pages', async () => {
@@ -119,5 +121,27 @@ test('should open enrolment page by pressing enter on row', async () => {
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
+  );
+});
+
+test('should open actions dropdown', async () => {
+  const user = userEvent.setup();
+
+  const { history } = renderComponent();
+
+  const withinRow = within(screen.getByRole('button', { name: enrolmentName }));
+  const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
+  await act(async () => await user.click(menuButton));
+
+  const editButton = await withinRow.findByRole('button', {
+    name: /muokkaa tietoja/i,
+  });
+
+  await act(async () => await user.click(editButton));
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
+    )
   );
 });

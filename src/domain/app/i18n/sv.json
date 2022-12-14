@@ -205,12 +205,7 @@
     },
     "openInExternalDomain": "Flyttar till en annan webbplats.",
     "openInNewTab": "(öppnas i en ny flik)",
-    "pagination": {
-      "navigation": "Sidnavigering",
-      "next": "Nästa sida",
-      "page": "Sida {{page}}",
-      "previous": "Föregående sida"
-    },
+    "paginationAriaLabel": "Paginering",
     "placeholderDate": "d.m.åååå",
     "placeholderDateTime": "d.m.åååå hh.mm",
     "placeholderTime": "hh.mm",
@@ -222,6 +217,11 @@
     "showMoreWithCount": "Visa mer ({{count}})",
     "signIn": "Logga in",
     "signOut": "Logga ut",
+    "table": {
+      "ariaLabelSortButtonAscending": "Ordnade i stigande ordning",
+      "ariaLabelSortButtonDescending": "Ordnade i fallande ordning",
+      "noResultsText": "Din sökning gav inga resultat. Kontrollera dina söktermer och försök igen."
+    },
     "timeInput": {
       "hoursLabel": "timmar",
       "minutsLabel": "minuter"

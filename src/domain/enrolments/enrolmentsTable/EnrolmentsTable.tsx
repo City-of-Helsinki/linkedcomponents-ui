@@ -1,12 +1,10 @@
-import classNames from 'classnames';
-import React from 'react';
+import omit from 'lodash/omit';
+import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { scroller } from 'react-scroll';
 
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
 import Table from '../../../common/components/table/Table';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import {
@@ -17,17 +15,67 @@ import {
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import useSetFocused from '../../../hooks/useSetFocused';
 import getPageCount from '../../../utils/getPageCount';
+import { scrollToItem } from '../../../utils/scrollToItem';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
+import EnrolmentActionsDropdown from '../enrolmentActionsDropdown/EnrolmentActionsDropdown';
+import { EnrolmentsLocationState } from '../types';
 import {
   filterEnrolments,
   getEnrolmentFields,
+  getEnrolmentItemId,
   getEnrolmentSearchInitialValues,
 } from '../utils';
 import styles from './enrolmentsTable.module.scss';
-import EnrolmentTableRow from './enrolmentsTableRow/EnrolmentsTableRow';
+
+type ColumnProps = {
+  enrolment: EnrolmentFieldsFragment;
+  registration: RegistrationFieldsFragment;
+};
+
+const NameColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
+  const language = useLocale();
+  const { name } = getEnrolmentFields({ enrolment, language, registration });
+
+  return (
+    <div className={styles.nameWrapper}>
+      <span className={styles.enrolmentName} title={name}>
+        {name}
+      </span>
+    </div>
+  );
+};
+
+const EmailColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
+  const language = useLocale();
+  const { email } = getEnrolmentFields({ enrolment, language, registration });
+
+  return <>{email || /* istanbul ignore next */ '-'}</>;
+};
+
+const PhoneColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
+  const language = useLocale();
+  const { phoneNumber } = getEnrolmentFields({
+    enrolment,
+    language,
+    registration,
+  });
+
+  return <>{phoneNumber || /* istanbul ignore next */ '-'}</>;
+};
+
+const AttendeeStatusColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
+  const { t } = useTranslation();
+  const language = useLocale();
+  const { attendeeStatus } = getEnrolmentFields({
+    enrolment,
+    language,
+    registration,
+  });
+
+  return <>{t(`enrolment.attendeeStatus.${attendeeStatus}`)}</>;
+};
 
 export interface EnrolmentsTableProps {
   caption: string;
@@ -57,19 +105,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   const { enrolmentText, [pagePath]: page } = getEnrolmentSearchInitialValues(
     location.search
   );
-  // const { id } = getRegistrationFields(registration, locale);
-  // const { data: enrolmentsData, loading } = useEnrolmentsQuery({
-  //   variables: {
-  //     createPath: getPathBuilder(enrolmentsPathBuilder),
-  //     registrations: [id],
-  //     text: enrolmentText,
-  //     ...enrolmentsVariables,
-  //   },
-  // });
-  // const enrolments =
-  //   (enrolmentsData?.enrolments as EnrolmentFieldsFragment[]) || [];
 
-  const loading = !registration;
   const enrolments = filterEnrolments({
     enrolments: (registration?.signups ||
       /* istanbul ignore next */ []) as EnrolmentFieldsFragment[],
@@ -79,11 +115,19 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     },
   });
 
-  const onSelectedPageChange = (page: number) => {
+  const onPageChange = (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    event.preventDefault();
+
+    const pageNumber = index + 1;
     navigate({
       pathname: location.pathname,
       search: replaceParamsToRegistrationQueryString(location.search, {
-        [pagePath]: page > 1 ? page : null,
+        [pagePath]: pageNumber > 1 ? pageNumber : null,
       }),
     });
     // Scroll to the beginning of event list
@@ -98,75 +142,127 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     page * ENROLMENTS_PAGE_SIZE
   );
 
-  const table = React.useRef<HTMLTableElement>(null);
-
-  const { focused } = useSetFocused(table);
-
-  const handleRowClick = (enrolment: EnrolmentFieldsFragment) => {
+  const handleRowClick = (enrolment: object) => {
     const { enrolmentUrl } = getEnrolmentFields({
-      enrolment,
+      enrolment: enrolment as EnrolmentFieldsFragment,
       language: locale,
       registration,
     });
     navigate({ pathname: enrolmentUrl, search: queryStringWithReturnPath });
   };
 
+  React.useEffect(() => {
+    const locationState = location.state as EnrolmentsLocationState;
+    if (
+      locationState?.enrolmentId &&
+      paginatedEnrolments.find((item) => item.id === locationState.enrolmentId)
+    ) {
+      scrollToItem(getEnrolmentItemId(locationState.enrolmentId));
+      // Clear registrationId value to keep scroll position correctly
+      const state = omit(locationState, 'enrolmentId');
+      // location.search seems to reset if not added here (...location)
+      navigate(location, { state, replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div id={enrolmentListId}>
       <h2 className={styles.heading}>{heading}</h2>
+
       <TableWrapper>
-        <Table ref={table} className={classNames(styles.enrolmentsTable)}>
-          <caption aria-live={focused ? 'polite' : undefined}>
-            {caption}
-          </caption>
-          <thead>
-            <tr>
-              <th className={styles.nameColumn}>
-                {t('enrolmentsPage.enrolmentsTableColumns.name')}
-              </th>
-              <th className={styles.emailColumn}>
-                {t('enrolmentsPage.enrolmentsTableColumns.email')}
-              </th>
-              <th className={styles.phoneColumn}>
-                {t('enrolmentsPage.enrolmentsTableColumns.phone')}
-              </th>
-              <th className={styles.statusColumn}>
-                {t('enrolmentsPage.enrolmentsTableColumns.status')}
-              </th>
-              <th className={styles.actionButtonsColumn}></th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              /* istanbul ignore next */
-              <tr>
-                <td colSpan={6}>
-                  <LoadingSpinner isLoading={true} />
-                </td>
-              </tr>
-            ) : (
-              <>
-                {paginatedEnrolments.map(
-                  (enrolment) =>
-                    enrolment && (
-                      <EnrolmentTableRow
-                        key={enrolment.id}
-                        enrolment={enrolment}
-                        onRowClick={handleRowClick}
-                        registration={registration}
-                      />
-                    )
-                )}
-                {!paginatedEnrolments.length && <NoDataRow colSpan={6} />}
-              </>
-            )}
-          </tbody>
-        </Table>
+        <Table
+          caption={caption}
+          className={styles.enrolmentsTable}
+          cols={[
+            {
+              className: styles.nameColumn,
+              key: 'name',
+              headerName: t('enrolmentsPage.enrolmentsTableColumns.name'),
+              transform: (enrolment: EnrolmentFieldsFragment) => (
+                <NameColumn enrolment={enrolment} registration={registration} />
+              ),
+            },
+            {
+              className: styles.emailColumn,
+              key: 'email',
+              headerName: t('enrolmentsPage.enrolmentsTableColumns.email'),
+              transform: (enrolment: EnrolmentFieldsFragment) => (
+                <EmailColumn
+                  enrolment={enrolment}
+                  registration={registration}
+                />
+              ),
+            },
+            {
+              className: styles.phoneColumn,
+              key: 'phone',
+              headerName: t('enrolmentsPage.enrolmentsTableColumns.phone'),
+              transform: (enrolment: EnrolmentFieldsFragment) => (
+                <PhoneColumn
+                  enrolment={enrolment}
+                  registration={registration}
+                />
+              ),
+            },
+            {
+              className: styles.statusColumn,
+              key: 'status',
+              headerName: t('enrolmentsPage.enrolmentsTableColumns.status'),
+              transform: (enrolment: EnrolmentFieldsFragment) => (
+                <AttendeeStatusColumn
+                  enrolment={enrolment}
+                  registration={registration}
+                />
+              ),
+            },
+            {
+              className: styles.actionButtonsColumn,
+              key: 'actionButtons',
+              headerName: '',
+              onClick: (ev) => {
+                ev.stopPropagation();
+                ev.preventDefault();
+              },
+              transform: (enrolment: EnrolmentFieldsFragment) => (
+                <EnrolmentActionsDropdown
+                  enrolment={enrolment}
+                  registration={registration}
+                />
+              ),
+            },
+          ]}
+          getRowProps={(enrolment) => {
+            const { id, name } = getEnrolmentFields({
+              enrolment: enrolment as EnrolmentFieldsFragment,
+              language: locale,
+              registration,
+            });
+
+            return {
+              'aria-label': name,
+              'data-testid': id,
+              id: getEnrolmentItemId(id),
+            };
+          }}
+          indexKey="id"
+          onRowClick={handleRowClick}
+          rows={paginatedEnrolments as EnrolmentFieldsFragment[]}
+          variant="light"
+        />
+
         {pageCount > 1 && (
           <Pagination
             pageCount={pageCount}
-            selectedPage={page}
-            setSelectedPage={onSelectedPageChange}
+            pageHref={(index: number) => {
+              return `${
+                location.pathname
+              }${replaceParamsToRegistrationQueryString(location.search, {
+                [pagePath]: index > 1 ? index : null,
+              })}`;
+            }}
+            pageIndex={page - 1}
+            onChange={onPageChange}
           />
         )}
       </TableWrapper>

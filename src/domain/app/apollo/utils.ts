@@ -97,11 +97,7 @@ export const addTypenameImage = (image?: Image | null): Image | null =>
   image
     ? {
         ...image,
-        altText: addTypenameLocalisedObject(
-          typeof image.altText === 'string'
-            ? { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: image.altText }
-            : image.altText
-        ),
+        altText: addTypenameLocalisedObject(image.altText),
         __typename: 'Image',
       }
     : null;
@@ -141,11 +137,13 @@ export const addTypenameLanguage = (
     : null;
 
 export const addTypenameLocalisedObject = (
-  item?: LocalisedObject | null
+  item?: string | LocalisedObject | null
 ): LocalisedObject | null =>
   item
     ? {
-        ...item,
+        ...(typeof item === 'string'
+          ? { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: item }
+          : item),
         __typename: 'LocalisedObject',
       }
     : null;

@@ -112,10 +112,6 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
     [event]
   );
 
-  const [descriptionLanguage, setDescriptionLanguage] = React.useState(
-    initialValues.eventInfoLanguages[0] as LE_DATA_LANGUAGES
-  );
-
   // Prefetch all related events which are used when postpone/delete/cancel events
   useRelatedEvents(event, isTestEnv);
 
@@ -192,6 +188,10 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 
   const sortedEventInfoLanguages = useSortedInfoLanguages(
     initialValues.eventInfoLanguages as LE_DATA_LANGUAGES[]
+  );
+
+  const [descriptionLanguage, setDescriptionLanguage] = React.useState(
+    sortedEventInfoLanguages[0]
   );
 
   React.useEffect(() => {

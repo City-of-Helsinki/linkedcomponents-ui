@@ -9,10 +9,11 @@
 }
 
 .loadingSpinner {
-  --spinner-width: 7.5rem;
+  --spinner-size: 7.5rem;
+  --spinner-size-small: 1.5rem;
   --spinner-thickness: 1.25rem;
   --spinner-width-small: 1.5rem;
-  --spinner-thickness-small: 0.185rem;
+  --spinner-thickness-small: 0.1875rem;
 
   &.loadingSpinnerSmall {
     --spinner-size: var(--spinner-size-small);

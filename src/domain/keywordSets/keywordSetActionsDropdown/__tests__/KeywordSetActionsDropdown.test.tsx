@@ -117,7 +117,11 @@ test('should delete keyword set', async () => {
   const deleteButton = await findElement('deleteButton');
   await act(async () => await user.click(deleteButton));
 
-  const dialog = await screen.findByRole('dialog');
+  const dialog = await screen.findByRole(
+    'dialog',
+    { name: /Varmista avainsanaryhmän poistaminen/i },
+    { timeout: 5000 }
+  );
   const withinModal = within(dialog);
   const deleteKeywordButton = withinModal.getByRole('button', {
     name: /Poista avainsanaryhmä/i,

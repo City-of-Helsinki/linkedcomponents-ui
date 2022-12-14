@@ -1,6 +1,9 @@
+import React from 'react';
+
 import {
   act,
   configure,
+  fireEvent,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
@@ -37,13 +40,13 @@ const getElement = (
 ) => {
   switch (key) {
     case 'page1Button':
-      return screen.getByRole('button', { name: 'Sivu 1' });
+      return screen.getByRole('link', { name: 'Sivu 1' });
     case 'page2Button':
-      return screen.getByRole('button', { name: 'Sivu 2' });
+      return screen.getByRole('link', { name: 'Sivu 2' });
     case 'searchButton':
       return screen.getByRole('button', { name: /etsi/i });
     case 'searchInput':
-      return screen.getByRole('searchbox', { name: /hae kuvia/i });
+      return screen.getByRole('combobox', { name: /hae kuvia/i });
     case 'sortLastModifiedButton':
       return screen.getByRole('button', { name: /viimeksi muokattu/i });
   }
@@ -102,13 +105,10 @@ test('should search by text', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  // Page 1 keywords should be visible.
-  screen.getByRole('button', { name: imageNames[0] });
   await waitFor(() => expect(history.location.search).toBe(''));
 
-  await act(
-    async () => await user.type(getElement('searchInput'), searchValue)
-  );
+  const searchInput = getElement('searchInput');
+  fireEvent.change(searchInput, { target: { value: searchValue } });
   await act(async () => await user.click(getElement('searchButton')));
 
   await waitFor(() =>

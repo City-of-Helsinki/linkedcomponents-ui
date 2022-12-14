@@ -1,100 +1,161 @@
-@import '../../../assets/styles/breakpoints';
+@import '../../../assets/styles/breakpoints.scss';
 @import '../../../assets/styles/mixins';
 
 .table {
-  --table-body-background: var(--color-white);
-  --table-body-row-border-color: var(--color-black-10);
-  --table-head-background: var(--color-black-5);
+  --content-background-color: var(--color-white);
 
-  border-collapse: collapse;
-  min-width: 100%;
-  font-size: var(--fontsize-body-m);
+  composes: hds-table from '~hds-core/lib/components/table/table.css';
 
-  thead tr,
-  tbody tr {
-    height: var(--spacing-4-xl);
-
-    td,
-    th {
-      box-sizing: border-box;
-      text-align: left;
-      padding: var(--spacing-xs) var(--spacing-s);
-    }
+  &.dark th {
+    color: var(--color-white);
   }
 
-  thead {
-    tr {
-      th {
-        background-color: var(--table-head-background);
-        font-weight: 600;
-        white-space: nowrap;
-      }
-    }
-  }
-
-  tbody {
-    tr {
-      cursor: pointer;
-
-      &:focus {
-        outline: var(--focus-outline-width) solid var(--focus-outline-color);
-        outline-offset: calc(0px - var(--focus-outline-width));
-
-        &:not(:global(.focus-visible)) {
-          outline: none;
-        }
-      }
-
-      td {
-        background-color: var(--table-body-background);
-        border-bottom: 1px solid var(--table-body-row-border-color);
-        white-space: nowrap;
-      }
-    }
-  }
-
-  button {
-    @include focus-outline(0px);
-  }
-
-  a {
-    color: var(--color-coat-of-arms);
-
-    @include focus-outline(2px);
-  }
-
-  caption {
-    @include hidden-from-screen;
+  &.light th {
+    color: var(--color-black-90);
   }
 }
 
-.sortableColumnButton {
+.caption {
+  composes: hds-table__caption from '~hds-core/lib/components/table/table.css';
+
+  @include hidden-from-screen;
+}
+
+.container {
+  composes: hds-table-container from '~hds-core/lib/components/table/table.css';
+  height: inherit;
+}
+
+.headerRow {
+  composes: hds-table__header-row from '~hds-core/lib/components/table/table.css';
+}
+
+.content {
+  composes: hds-table__content from '~hds-core/lib/components/table/table.css';
+}
+
+.dark {
+  --header-background-color: var(--color-bus);
+
+  .sortButton {
+    color: var(--color-white);
+
+    &:focus {
+      outline: 3px solid var(--color-white);
+    }
+  }
+}
+
+.light {
+  --header-background-color: var(--color-black-5);
+
+  .sortButton {
+    color: var(--color-black-90);
+
+    &:focus {
+      outline: 3px solid var(--color-coat-of-arms);
+    }
+  }
+}
+
+.dense {
+  composes: hds-table--dense from '~hds-core/lib/components/table/table.css';
+
+  .sortButton {
+    font-size: var(--fontsize-body-s);
+    font-weight: bold;
+  }
+
+  .headerRow {
+    .sortingHeader {
+      padding-bottom: 7.5px !important;
+      padding-top: 7.5px !important;
+    }
+  }
+}
+
+.zebra {
+  composes: hds-table--zebra from '~hds-core/lib/components/table/table.css';
+}
+
+.verticalLines {
+  composes: hds-table--with-vertical-lines from '~hds-core/lib/components/table/table.css';
+}
+
+.textAlignRight {
+  composes: hds-table--text-align-right from '~hds-core/lib/components/table/table.css';
+}
+
+.textAlignContentRight {
+  composes: hds-table__content--text-align-td-right from '~hds-core/lib/components/table/table.css';
+}
+
+.sortButton {
   display: flex;
   align-items: center;
-  width: 100%;
+  justify-content: center;
   padding: 0;
-  font-weight: 600;
-  white-space: nowrap;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+  border: 0;
+  height: 100%;
+  overflow: hidden;
+  font-weight: 500;
 
-  svg {
-    margin-right: var(--spacing-2-xs);
+  .sortIcon {
+    margin-left: 10px;
+  }
+
+  &:focus {
+    outline: 3px solid var(--color-white);
+  }
+
+  @include small-down {
+    .sortButton {
+      font-size: var(--fontsize-body-s);
+      font-weight: bold;
+    }
+
+    .headerRow {
+      .sortingHeader {
+        padding-bottom: 7.5px;
+        padding-top: 7.5px;
+      }
+    }
   }
 }
 
-.noDataRow {
-  cursor: auto !important;
+.sortColumnCell {
+  display: flex;
+  align-items: center;
+}
 
-  td {
-    text-align: center !important;
-    font-weight: 500;
+.noResultsRow {
+  text-align: center;
+
+  .wrapper {
+    max-width: 80vw;
+    margin: var(--spacing-m) 0;
+
+    img {
+      width: 210px;
+      max-width: 100%;
+      display: block;
+      margin: var(--spacing-m) auto 0;
+    }
   }
 }
 
-.tableWrapper {
-  max-width: calc(100vw - 2 * var(--spacing-s));
-  overflow: auto;
+.clickableRow {
+  cursor: pointer;
 
-  @include medium-up {
-    max-width: calc(100vw - 2 * var(--spacing-m));
+  &:focus {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: calc(0px - var(--focus-outline-width));
+
+    &:not(:global(.focus-visible)) {
+      outline: none;
+    }
   }
 }

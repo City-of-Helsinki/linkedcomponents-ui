@@ -68,10 +68,15 @@ export type EventListContainerProps = EventListContainerCommonProps &
 type EventListProps = {
   events: EventsQuery['events']['data'];
   listType: EVENT_LIST_TYPES;
-  onSelectedPageChange: (page: number) => void;
+  onPageChange: (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => void;
   onSortChange: (sort: EVENT_SORT_OPTIONS) => void;
-  pageCount: number;
   page: number;
+  pageCount: number;
   sort: EVENT_SORT_OPTIONS;
 } & Pick<EventListContainerProps, 'activeTab'>;
 
@@ -79,7 +84,7 @@ const EventList: React.FC<EventListProps> = ({
   activeTab,
   events,
   listType,
-  onSelectedPageChange,
+  onPageChange,
   onSortChange,
   page,
   pageCount,
@@ -132,10 +137,17 @@ const EventList: React.FC<EventListProps> = ({
         {pageCount > 1 && (
           <Pagination
             pageCount={pageCount}
-            selectedPage={page}
-            setSelectedPage={onSelectedPageChange}
+            pageHref={(index: number) => {
+              return `${location.pathname}${replaceParamsToEventQueryString(
+                location.search,
+                { page: index > 1 ? index : null }
+              )}`;
+            }}
+            pageIndex={page - 1}
+            onChange={onPageChange}
           />
         )}
+
         <FeedbackButton theme="black" />
       </Container>
     </div>
@@ -173,11 +185,19 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
 
   const events = (eventsData?.events?.data as EventFieldsFragment[]) || [];
 
-  const handleSelectedPageChange = (page: number) => {
+  const handlePageChange = (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    event.preventDefault();
+
+    const pageNumber = index + 1;
     navigate({
       pathname: location.pathname,
       search: replaceParamsToEventQueryString(location.search, {
-        page: page > 1 ? page : null,
+        page: pageNumber > 1 ? pageNumber : null,
       }),
     });
     // Scroll to the beginning of event list
@@ -241,7 +261,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
           {...props}
           events={events}
           listType={listType}
-          onSelectedPageChange={handleSelectedPageChange}
+          onPageChange={handlePageChange}
           onSortChange={handleSortChange}
           page={page}
           pageCount={pageCount}

@@ -1,0 +1,9 @@
+.sizeDefault {
+  --notification-padding: var(--spacing-s);
+}
+.sizeLarge {
+  --notification-padding: var(--spacing-l);
+}
+.sizeSmall {
+  --notification-padding: var(--spacing-2-xs);
+}

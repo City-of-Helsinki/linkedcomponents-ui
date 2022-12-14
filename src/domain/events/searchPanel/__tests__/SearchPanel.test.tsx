@@ -4,6 +4,7 @@ import { ROUTES } from '../../../../constants';
 import {
   act,
   configure,
+  fireEvent,
   render,
   screen,
   userEvent,
@@ -19,7 +20,7 @@ const getElement = (key: 'eventTypeSelectorButton' | 'searchInput') => {
     case 'eventTypeSelectorButton':
       return screen.getByRole('button', { name: 'Tyyppi' });
     case 'searchInput':
-      return screen.getByRole('searchbox', {
+      return screen.getByRole('combobox', {
         name: 'Hae Linked Events -rajapinnasta',
       });
   }
@@ -47,7 +48,7 @@ test('should search events with correct search params', async () => {
 
   // Text filtering
   const searchInput = getElement('searchInput');
-  await act(async () => await user.type(searchInput, values.text));
+  fireEvent.change(searchInput, { target: { value: values.text } });
   await waitFor(() => expect(searchInput).toHaveValue(values.text));
 
   // Event type filtering

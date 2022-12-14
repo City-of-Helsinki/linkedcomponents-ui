@@ -2,13 +2,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
-import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
-import SortableColumn from '../../../common/components/table/sortableColumn/SortableColumn';
-import Table from '../../../common/components/table/Table';
+import CustomTable from '../../../common/components/table/CustomTable';
+import HeaderRow from '../../../common/components/table/headerRow/HeaderRow';
+import NoResultsRow from '../../../common/components/table/noResultsRow/NoResultsRow';
+import { SortingHeaderCell } from '../../../common/components/table/sortingHeaderCell/SortingHeaderCell';
+import TableBody from '../../../common/components/table/tableBody/TableBody';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import useSetFocused from '../../../hooks/useSetFocused';
+import getSortByColKey from '../../../utils/getSortByColKey';
+import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
 import { getOrganizationFields } from '../../organization/utils';
 import { ORGANIZATION_SORT_OPTIONS } from '../constants';
 import styles from './organizationsTable.module.scss';
@@ -39,9 +42,6 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
   const locale = useLocale();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
-  const table = React.useRef<HTMLTableElement>(null);
-  const { focused } = useSetFocused(table);
-
   const onRowClick = (organization: OrganizationFieldsFragment) => {
     const { organizationUrl } = getOrganizationFields(organization, locale, t);
 
@@ -55,66 +55,79 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
     setSort(key as ORGANIZATION_SORT_OPTIONS);
   };
 
+  const getColumnSortingOrder = (colKey: string) => {
+    const { colKey: currentColKey, order } = getSortOrderAndKey(sort);
+
+    return currentColKey === colKey ? (order as 'desc' | 'asc') : 'unset';
+  };
+
+  const setSortingAndOrder = (colKey: string): void => {
+    handleSort(getSortByColKey({ colKey, sort }));
+  };
+
   return (
     <OrganizationsTableContext.Provider
       value={{ onRowClick, showSubOrganizations, sortedOrganizations }}
     >
-      <Table ref={table} className={className}>
-        <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
+      <CustomTable className={className} caption={caption} variant="light">
         <thead>
-          <tr>
-            <SortableColumn
+          <HeaderRow>
+            <SortingHeaderCell
               className={styles.nameColumn}
-              label={t('organizationsPage.organizationsTableColumns.name')}
-              onClick={handleSort}
-              sort={sort}
-              sortKey={ORGANIZATION_SORT_OPTIONS.NAME}
-              type="text"
+              colKey={ORGANIZATION_SORT_OPTIONS.NAME}
+              title={t('organizationsPage.organizationsTableColumns.name')}
+              order={getColumnSortingOrder(ORGANIZATION_SORT_OPTIONS.NAME)}
+              setSortingAndOrder={setSortingAndOrder}
+              sortIconType={'string'}
             />
-            <SortableColumn
+            <SortingHeaderCell
               className={styles.idColumn}
-              label={t('organizationsPage.organizationsTableColumns.id')}
-              onClick={handleSort}
-              sort={sort}
-              sortKey={ORGANIZATION_SORT_OPTIONS.ID}
-              type="text"
+              colKey={ORGANIZATION_SORT_OPTIONS.ID}
+              title={t('organizationsPage.organizationsTableColumns.id')}
+              order={getColumnSortingOrder(ORGANIZATION_SORT_OPTIONS.ID)}
+              setSortingAndOrder={setSortingAndOrder}
+              sortIconType={'string'}
             />
-
-            <SortableColumn
+            <SortingHeaderCell
               className={styles.dataSourceColumn}
-              label={t(
+              colKey={ORGANIZATION_SORT_OPTIONS.DATA_SOURCE}
+              title={t(
                 'organizationsPage.organizationsTableColumns.dataSource'
               )}
-              onClick={handleSort}
-              sort={sort}
-              sortKey={ORGANIZATION_SORT_OPTIONS.DATA_SOURCE}
-              type="default"
+              order={getColumnSortingOrder(
+                ORGANIZATION_SORT_OPTIONS.DATA_SOURCE
+              )}
+              setSortingAndOrder={setSortingAndOrder}
+              sortIconType={'other'}
             />
-            <SortableColumn
+            <SortingHeaderCell
               className={styles.classificationColumn}
-              label={t(
+              colKey={ORGANIZATION_SORT_OPTIONS.CLASSIFICATION}
+              title={t(
                 'organizationsPage.organizationsTableColumns.classification'
               )}
-              onClick={handleSort}
-              sort={sort}
-              sortKey={ORGANIZATION_SORT_OPTIONS.CLASSIFICATION}
-              type="default"
+              order={getColumnSortingOrder(
+                ORGANIZATION_SORT_OPTIONS.CLASSIFICATION
+              )}
+              setSortingAndOrder={setSortingAndOrder}
+              sortIconType={'other'}
             />
-            <SortableColumn
+            <SortingHeaderCell
               className={styles.parentColumn}
-              label={t(
+              colKey={ORGANIZATION_SORT_OPTIONS.PARENT_ORGANIZATION}
+              title={t(
                 'organizationsPage.organizationsTableColumns.parentOrganization'
               )}
-              onClick={handleSort}
-              sort={sort}
-              sortKey={ORGANIZATION_SORT_OPTIONS.PARENT_ORGANIZATION}
-              type="default"
+              order={getColumnSortingOrder(
+                ORGANIZATION_SORT_OPTIONS.PARENT_ORGANIZATION
+              )}
+              setSortingAndOrder={setSortingAndOrder}
+              sortIconType={'other'}
             />
-
             <th className={styles.actionButtonsColumn}></th>
-          </tr>
+          </HeaderRow>
         </thead>
-        <tbody>
+        <TableBody>
           {organizations.map(
             (organization) =>
               organization && (
@@ -124,9 +137,9 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
                 />
               )
           )}
-          {!organizations.length && <NoDataRow colSpan={5} />}
-        </tbody>
-      </Table>
+          {!organizations.length && <NoResultsRow colSpan={5} />}
+        </TableBody>
+      </CustomTable>
     </OrganizationsTableContext.Provider>
   );
 };

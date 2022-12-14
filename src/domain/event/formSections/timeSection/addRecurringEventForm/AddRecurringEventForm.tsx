@@ -106,8 +106,10 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
                 component={CheckboxGroupField}
                 columns={4}
                 disabled={disabled}
+                label={t('event.form.recurringEvent.titleRepeatDays')}
                 name={RECURRING_EVENT_FIELDS.REPEAT_DAYS}
                 options={weekDayOptions}
+                required
               />
             </FormGroup>
             <FormGroup>

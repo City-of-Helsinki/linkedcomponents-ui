@@ -161,8 +161,10 @@ const TypeSection: React.FC<TypeSectionProps> = ({
             columns={1}
             component={RadioButtonGroupField}
             disabled={!isEditingAllowed}
+            label={t('event.form.titleEventType')}
             name={EVENT_FIELDS.TYPE}
             options={typeOptions}
+            required
           />
         </FieldColumn>
       </FieldRow>

@@ -15,8 +15,6 @@ const CookieConsent: FC = () => {
   const locale = useLocale();
   const [language, setLanguage] = useState(locale);
 
-  const [showCookieConsentModal, setShowCookieConsentModal] = useState(true);
-
   const { languageOptions, changeLanguage } = useSelectLanguage();
 
   const onLanguageChange = async (lang: string) => {
@@ -29,8 +27,6 @@ const CookieConsent: FC = () => {
     }
     setLanguage(lang as SupportedLanguage);
   };
-
-  if (!showCookieConsentModal) return null;
 
   return (
     <CookieModal
@@ -95,8 +91,6 @@ const CookieConsent: FC = () => {
         },
         language: { onLanguageChange },
         onAllConsentsGiven: (consents) => {
-          setShowCookieConsentModal(false);
-
           if (consents.matomo) {
             //  start tracking
             window._paq.push(['setConsentGiven']);
