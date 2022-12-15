@@ -80,7 +80,7 @@ const CheckboxGroupField: React.FC<Props> = ({
           )}
         >
           {visibleOptions.map((option, index) => {
-            const checked = value.includes(option.value);
+            const checked = value?.includes(option.value);
 
             return (
               <Checkbox
@@ -88,7 +88,7 @@ const CheckboxGroupField: React.FC<Props> = ({
                 {...field}
                 id={`${name}-${option.value}`}
                 name={name}
-                checked={value.includes(option.value)}
+                checked={checked}
                 disabled={
                   disabled ||
                   (checked && value.length <= min) ||

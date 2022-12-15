@@ -27,7 +27,7 @@ import {
   REGISTRATION_ICONS,
   REGISTRATION_LABEL_KEYS,
 } from '../registrations/constants';
-import { REGISTRATION_FIELDS, REGISTRATION_INITIAL_VALUES } from './constants';
+import { REGISTRATION_FIELDS } from './constants';
 import { RegistrationFields, RegistrationFormFields } from './types';
 
 export const clearRegistrationFormData = (): void => {
@@ -199,7 +199,6 @@ export const getRegistrationInitialValues = (
   registration: RegistrationFieldsFragment
 ): RegistrationFormFields => {
   return {
-    ...REGISTRATION_INITIAL_VALUES,
     [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: registration.audienceMaxAge ?? '',
     [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE]: registration.audienceMinAge ?? '',
     [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]:
@@ -227,6 +226,8 @@ export const getRegistrationInitialValues = (
       registration.maximumAttendeeCapacity ?? '',
     [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]:
       registration.minimumAttendeeCapacity ?? '',
+    // TODO: Initialize required fields when API supports it
+    [REGISTRATION_FIELDS.REQUIRED_FIELDS]: [],
     [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]:
       registration.waitingListCapacity ?? '',
   };

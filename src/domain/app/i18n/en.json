@@ -1624,7 +1624,7 @@
       "labelStreetAddress": "Street address ({{langText}})",
       "labelTelephone": "Telephone number ({{langText}})",
       "notificationTitleCannotEdit": "The place cannot be edited",
-      "titleContactInfo": "Contact info",
+      "titleContactInfo": "Contact information",
       "titleLocation": "Position"
     }
   },
@@ -1690,6 +1690,12 @@
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
       "placeholderEvent": "Select or search for an event",
       "placeholderInstructions": "Enter registration instructions",
+      "requiredFields": {
+        "address": "Address",
+        "city": "City",
+        "name": "Name",
+        "phoneNumber": "Phone number"
+      },
       "sections": {
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
@@ -1697,8 +1703,11 @@
         "enrolmentTime": "Registration time",
         "event": "Event",
         "instructions": "Additional registration information",
+        "requiredFields": "Required fields",
         "waitingList": "Waiting list"
-      }
+      },
+      "titleContactInfo": "Contact information",
+      "titleParticipantBasicInfo": "Basic information of the participant"
     },
     "registrationLinkCopied": "Registration link copied"
   },

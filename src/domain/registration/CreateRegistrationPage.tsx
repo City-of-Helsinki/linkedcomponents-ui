@@ -40,6 +40,7 @@ import ConfirmationMessageSection from './formSections/confirmationMessageSectio
 import EnrolmentTimeSection from './formSections/enrolmentTimeSection/EnrolmentTimeSection';
 import EventSection from './formSections/eventSection/EventSection';
 import InstructionsSection from './formSections/instructionsSection/InstructionsSection';
+import RequiredFieldsSection from './formSections/requiredFieldsSection/RequiredFieldsSection';
 import WaitingListSection from './formSections/waitingListSection/WaitingListSection';
 import useRegistrationServerErrors from './hooks/useRegistrationServerErrors';
 import AuthenticationNotification from './registrationAuthenticationNotification/RegistrationAuthenticationNotification';
@@ -214,6 +215,13 @@ const CreateRegistrationPage: React.FC = () => {
                   </Section>
                   <Section title={t('registration.form.sections.audienceAge')}>
                     <AudienceAgeSection isEditingAllowed={isEditingAllowed} />
+                  </Section>
+                  <Section
+                    title={t('registration.form.sections.requiredFields')}
+                  >
+                    <RequiredFieldsSection
+                      isEditingAllowed={isEditingAllowed}
+                    />
                   </Section>
                 </Container>
 
