@@ -1690,6 +1690,12 @@
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
       "placeholderEvent": "Valitse tai hae tapahtuma",
       "placeholderInstructions": "Syötä ilmoittautumisohjeet",
+      "requiredFields": {
+        "address": "Osoite",
+        "city": "Kaupunki",
+        "name": "Nimi",
+        "phoneNumber": "Puhelinnumero"
+      },
       "sections": {
         "attendeeCount": "Paikat",
         "audienceAge": "Ikäraja",
@@ -1697,8 +1703,11 @@
         "enrolmentTime": "Ilmoittautumisaika",
         "event": "Tapahtuma",
         "instructions": "Ilmoittautumisen lisätiedot",
+        "requiredFields": "Pakolliset kentät",
         "waitingList": "Jonopaikat"
-      }
+      },
+      "titleContactInfo": "Yhteystiedot",
+      "titleParticipantBasicInfo": "Ilmoittautujan perustiedot"
     },
     "registrationLinkCopied": "Ilmoittautumislinkki kopioitu"
   },

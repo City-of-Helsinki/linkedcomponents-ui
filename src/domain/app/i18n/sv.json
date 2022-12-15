@@ -1690,6 +1690,12 @@
       "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
       "placeholderEvent": "Välj eller sök efter evenemanget",
       "placeholderInstructions": "Ange registreringsinstruktioner",
+      "requiredFields": {
+        "address": "Adress",
+        "city": "Stad",
+        "name": "Namn",
+        "phoneNumber": "Telefonnummer"
+      },
       "sections": {
         "attendeeCount": "Sittplatser",
         "audienceAge": "Åldersgräns",
@@ -1697,8 +1703,11 @@
         "enrolmentTime": "Registreringstid",
         "event": "Evenemang",
         "instructions": "Ytterligare registreringsinformation",
+        "requiredFields": "Obligatoriska fält",
         "waitingList": "Väntelista"
-      }
+      },
+      "titleContactInfo": "Kontaktinformation",
+      "titleParticipantBasicInfo": "Grundläggande information om deltagaren"
     },
     "registrationLinkCopied": "Registreringslänk kopierad"
   },
