@@ -16,6 +16,7 @@ import KeywordAuthenticationNotification from '../keyword/keywordAuthenticationN
 import useUser from '../user/hooks/useUser';
 import KeywordList from './keywordList/KeywordList';
 import styles from './keywordsPage.module.scss';
+import ResetTimeInputExample from './ResetTimeInputExample';
 
 const KeywordsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -51,6 +52,7 @@ const KeywordsPage: React.FC = () => {
         title={t('keywordsPage.title')}
       />
 
+      <ResetTimeInputExample />
       <KeywordAuthenticationNotification
         action={KEYWORD_ACTIONS.CREATE}
         className={styles.notification}

@@ -83,12 +83,14 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
     }: TimeInputProps,
     ref?: React.Ref<HTMLInputElement>
   ) => {
-    if (defaultValue && value) {
+    if (defaultValue !== undefined && value !== undefined) {
       // eslint-disable-next-line no-console
       console.warn(
         'Use either defaultValue (for uncontrolled components) or value (for controlled components) in HDS TimeInput component.'
       );
     }
+
+    const [isControlledComponent] = useState(value !== undefined);
 
     const hoursAndMinutes: string[] | null = getHourAndMinuteValues(
       defaultValue || value
@@ -306,6 +308,17 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
     const hourInputId = `${id}-hours`;
     const minuteInputId = `${id}-minutes`;
     const labelId = `${id}-label`;
+
+    useEffect(() => {
+      if (isControlledComponent && value !== time) {
+        const newHoursAndMinutes = getHourAndMinuteValues(value);
+
+        setHours(newHoursAndMinutes ? newHoursAndMinutes[0] : '');
+        setMinutes(newHoursAndMinutes ? newHoursAndMinutes[1] : '');
+        setTime(newHoursAndMinutes ? newHoursAndMinutes.join(':') : '');
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isControlledComponent, value]);
 
     return (
       <InputWrapper
