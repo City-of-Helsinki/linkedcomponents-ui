@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../../common/components/button/Button';
 import DateInputField from '../../../../../common/components/formFields/dateInputField/DateInputField';
-import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import TimeInputField from '../../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { SuperEventType } from '../../../../../generated/graphql';
@@ -24,7 +23,6 @@ interface Props {
 }
 
 const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
-  const [resetTimeInputs, setResetTimeInputs] = React.useState(false);
   const { t } = useTranslation();
   const { eventType, isEditingAllowed, savedEvent } =
     React.useContext(TimeSectionContext);
@@ -50,16 +48,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
     });
     resetForm();
     validateForm();
-    setResetTimeInputs(true);
   };
-
-  // TODO: Remove this hack when time input component is fixed
-  // Unmount time input components after form reset to reset the input fields
-  React.useEffect(() => {
-    if (resetTimeInputs) {
-      setResetTimeInputs(false);
-    }
-  }, [resetTimeInputs]);
 
   return (
     <Formik
@@ -99,11 +88,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
                   required={true}
                 />
                 <Field
-                  component={
-                    // TODO: Remove this hack when time input component is fixed
-                    // Unmount time input after form reset to reset the input fields
-                    resetTimeInputs ? TextInputField : TimeInputField
-                  }
+                  component={TimeInputField}
                   disabled={disabled}
                   label={t(`event.form.labelStartTime`)}
                   name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
@@ -124,11 +109,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
                   required={true}
                 />
                 <Field
-                  component={
-                    // TODO: Remove this hack when time input component is fixed
-                    // Unmount time input after form reset to reset the input fields
-                    resetTimeInputs ? TextInputField : TimeInputField
-                  }
+                  component={TimeInputField}
                   disabled={disabled}
                   name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
                   label={t(`event.form.labelEndTime`)}

@@ -1,8 +1,9 @@
 import { ClassNames } from '@emotion/react';
-import { TimeInput as BaseTimeInput, TimeInputProps } from 'hds-react';
+import { TimeInputProps } from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import CustomTimeInput from './CustomTimeInput';
 
 const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
   ({ className, ...rest }, ref) => {
@@ -11,7 +12,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
     return (
       <ClassNames>
         {({ css, cx }) => (
-          <BaseTimeInput
+          <CustomTimeInput
             {...rest}
             ref={ref}
             className={cx(className, css(theme.textInput))}

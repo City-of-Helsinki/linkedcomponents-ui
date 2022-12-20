@@ -7,7 +7,6 @@ import Button from '../../../../../common/components/button/Button';
 import CheckboxGroupField from '../../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
 import DateInputField from '../../../../../common/components/formFields/dateInputField/DateInputField';
 import NumberInputField from '../../../../../common/components/formFields/numberInputField/NumberInputField';
-import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import TimeInputField from '../../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { WEEK_DAY } from '../../../../../constants';
@@ -137,11 +136,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
               <SplittedRow>
                 <div>
                   <Field
-                    component={
-                      // TODO: Remove this hack when time input component is fixed
-                      // Unmount time input after form reset to reset the input fields
-                      resetTimeInputs ? TextInputField : TimeInputField
-                    }
+                    component={TimeInputField}
                     disabled={disabled}
                     name={RECURRING_EVENT_FIELDS.START_TIME}
                     label={t(
@@ -153,11 +148,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
                 </div>
                 <div>
                   <Field
-                    component={
-                      // TODO: Remove this hack when time input component is fixed
-                      // Unmount time input after form reset to reset the input fields
-                      resetTimeInputs ? TextInputField : TimeInputField
-                    }
+                    component={TimeInputField}
                     disabled={disabled}
                     name={RECURRING_EVENT_FIELDS.END_TIME}
                     label={t(
