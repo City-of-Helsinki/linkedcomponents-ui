@@ -34,7 +34,12 @@ import styles from './keywordSetList.module.scss';
 
 type KeywordSetListProps = {
   keywordSets: KeywordSetsQuery['keywordSets']['data'];
-  onSelectedPageChange: (page: number) => void;
+  onPageChange: (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => void;
   onSortChange: (sort: KEYWORD_SET_SORT_OPTIONS) => void;
   page: number;
   pageCount: number;
@@ -43,7 +48,7 @@ type KeywordSetListProps = {
 
 const KeywordSetList: React.FC<KeywordSetListProps> = ({
   keywordSets,
-  onSelectedPageChange,
+  onPageChange,
   onSortChange,
   page,
   pageCount,
@@ -85,8 +90,14 @@ const KeywordSetList: React.FC<KeywordSetListProps> = ({
       {pageCount > 1 && (
         <Pagination
           pageCount={pageCount}
-          selectedPage={page}
-          setSelectedPage={onSelectedPageChange}
+          pageHref={(index: number) => {
+            return `${location.pathname}${replaceParamsToKeywordSetQueryString(
+              location.search,
+              { page: index > 1 ? index : null }
+            )}`;
+          }}
+          pageIndex={page - 1}
+          onChange={onPageChange}
         />
       )}
     </div>
@@ -104,11 +115,19 @@ const KeywordSetListContainer: React.FC = () => {
 
   const keywordSetListId = useIdWithPrefix({ prefix: 'keyword-set-list-' });
 
-  const handleSelectedPageChange = (page: number) => {
+  const handlePageChange = (
+    event:
+      | React.MouseEvent<HTMLAnchorElement>
+      | React.MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => {
+    event.preventDefault();
+
+    const pageNumber = index + 1;
     navigate({
       pathname: location.pathname,
       search: replaceParamsToKeywordSetQueryString(location.search, {
-        page: page > 1 ? page : null,
+        page: pageNumber > 1 ? pageNumber : null,
       }),
     });
     // Scroll to the beginning of keyword list
@@ -157,8 +176,8 @@ const KeywordSetListContainer: React.FC = () => {
           className={styles.searchInput}
           label={t('keywordSetsPage.labelSearch')}
           hideLabel
-          onSearch={handleSearchChange}
-          setValue={setSearch}
+          onSubmit={handleSearchChange}
+          onChange={setSearch}
           value={search}
         />
       </div>
@@ -166,7 +185,7 @@ const KeywordSetListContainer: React.FC = () => {
       <LoadingSpinner isLoading={loading}>
         <KeywordSetList
           keywordSets={keywordSets}
-          onSelectedPageChange={handleSelectedPageChange}
+          onPageChange={handlePageChange}
           onSortChange={handleSortChange}
           page={page}
           pageCount={pageCount}

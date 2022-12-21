@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../../common/components/button/Button';
 import DateInputField from '../../../../../common/components/formFields/dateInputField/DateInputField';
-import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import TimeInputField from '../../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { SuperEventType } from '../../../../../generated/graphql';
@@ -17,17 +16,15 @@ import {
 } from '../../../constants';
 import { AddEventTimeFormFields, EventTime } from '../../../types';
 import { addEventTimeSchema } from '../../../validation';
-import TimeSectionContext from '../TimeSectionContext';
+import useTimeSectionContext from '../hooks/useTimeSectionContext';
 
 interface Props {
   addEventTime: (eventTime: EventTime) => void;
 }
 
 const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
-  const [resetTimeInputs, setResetTimeInputs] = React.useState(false);
   const { t } = useTranslation();
-  const { eventType, isEditingAllowed, savedEvent } =
-    React.useContext(TimeSectionContext);
+  const { eventType, isEditingAllowed, savedEvent } = useTimeSectionContext();
   const disabled =
     !isEditingAllowed ||
     (savedEvent && savedEvent.superEventType !== SuperEventType.Recurring);
@@ -37,6 +34,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
     formikHelpers: FormikHelpers<AddEventTimeFormFields>
   ) => {
     const { resetForm, validateForm } = formikHelpers;
+
     addEventTime({
       id: null,
       endTime: setDateTime(
@@ -50,16 +48,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
     });
     resetForm();
     validateForm();
-    setResetTimeInputs(true);
   };
-
-  // TODO: Remove this hack when time input component is fixed
-  // Unmount time input components after form reset to reset the input fields
-  React.useEffect(() => {
-    if (resetTimeInputs) {
-      setResetTimeInputs(false);
-    }
-  }, [resetTimeInputs]);
 
   return (
     <Formik
@@ -74,7 +63,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
         } as AddEventTimeFormFields
       }
       onSubmit={submitAddEventTime}
-      validateOnBlur
+      validateOnBlur={false}
       validateOnChange
       validateOnMount
       validationSchema={addEventTimeSchema}
@@ -87,7 +76,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
         },
       }) => {
         return (
-          <div>
+          <>
             <FormGroup>
               <SplittedRow>
                 <Field
@@ -99,11 +88,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
                   required={true}
                 />
                 <Field
-                  component={
-                    // TODO: Remove this hack when time input component is fixed
-                    // Unmount time input after form reset to reset the input fields
-                    resetTimeInputs ? TextInputField : TimeInputField
-                  }
+                  component={TimeInputField}
                   disabled={disabled}
                   label={t(`event.form.labelStartTime`)}
                   name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.START_TIME}`}
@@ -124,11 +109,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
                   required={true}
                 />
                 <Field
-                  component={
-                    // TODO: Remove this hack when time input component is fixed
-                    // Unmount time input after form reset to reset the input fields
-                    resetTimeInputs ? TextInputField : TimeInputField
-                  }
+                  component={TimeInputField}
                   disabled={disabled}
                   name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_TIME}`}
                   label={t(`event.form.labelEndTime`)}
@@ -146,7 +127,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
             >
               {t(`event.form.buttonAddEventTime.${eventType}`)}
             </Button>
-          </div>
+          </>
         );
       }}
     </Formik>

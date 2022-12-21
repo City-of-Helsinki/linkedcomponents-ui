@@ -24,11 +24,32 @@
     font-weight: normal;
     font-size: var(--fontsize-body-m);
     border: none;
+    box-sizing: border-box;
 
     @include focus-outline(-3px);
 
     span:not(:last-child) {
       margin-right: var(--spacing-xs);
+      display: flex;
+    }
+
+    .label {
+      display: flex;
+      align-items: center;
+    }
+
+    .waitingListIndicator {
+      display: flex;
+      align-items: center;
+
+      .separator {
+        margin: 0 var(--spacing-3-xs);
+      }
+
+      .tooltip {
+        display: flex;
+        margin-left: var(--spacing-3-xs);
+      }
     }
   }
 

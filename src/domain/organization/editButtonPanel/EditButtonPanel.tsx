@@ -7,7 +7,6 @@ import LoadingButton from '../../../common/components/loadingButton/LoadingButto
 import { ROUTES } from '../../../constants';
 import useGoBack from '../../../hooks/useGoBack';
 import { useAuth } from '../../auth/hooks/useAuth';
-import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { OrganizationsLocationState } from '../../organizations/types';
 import useUser from '../../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from '../constants';
@@ -29,8 +28,6 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
 
-  const { organizationAncestors } = useOrganizationAncestors(id);
-
   const goBack = useGoBack<OrganizationsLocationState>({
     defaultReturnPath: ROUTES.ORGANIZATIONS,
     state: { organizationId: id },
@@ -41,7 +38,6 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     authenticated,
     id,
     onClick: onSave,
-    organizationAncestors,
     t,
     user,
   });

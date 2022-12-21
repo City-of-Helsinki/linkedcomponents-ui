@@ -29,7 +29,7 @@ export const getPlacesPage = async (t: TestController) => {
   const findSearchBanner = async () => {
     const selectors = {
       searchInput() {
-        return withinPlacesPage().getByRole('searchbox', {
+        return withinPlacesPage().getByRole('combobox', {
           name: /hae paikkoja/i,
         });
       },

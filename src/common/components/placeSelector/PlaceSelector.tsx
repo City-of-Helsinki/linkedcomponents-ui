@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
-import { SingleSelectProps } from 'hds-react';
 import { TFunction } from 'i18next';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'use-debounce';
 
 import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import {
@@ -15,14 +15,13 @@ import {
   usePlaceQuery,
   usePlacesQuery,
 } from '../../../generated/graphql';
-import useDebounce from '../../../hooks/useDebounce';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import Combobox from '../combobox/Combobox';
+import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 import styles from './placeSelector.module.scss';
 
@@ -59,12 +58,7 @@ export const getOption = ({
   };
 };
 
-type ValueType = string | null;
-
-export type PlaceSelectorProps = {
-  name: string;
-  value: ValueType;
-} & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
+export type PlaceSelectorProps = SingleComboboxProps<string | null>;
 
 const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   label,
@@ -76,7 +70,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');
-  const debouncedSearch = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
+  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
   const {
     data: placesData,

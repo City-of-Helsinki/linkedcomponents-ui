@@ -1,5 +1,12 @@
 import { RegistrationFormFields } from './types';
 
+export enum REGISTRATION_REQUIRED_FIELDS {
+  ADDRESS = 'address',
+  CITY = 'city',
+  NAME = 'name',
+  PHONE_NUMBER = 'phone_number',
+}
+
 export enum REGISTRATION_FIELDS {
   AUDIENCE_MAX_AGE = 'audienceMaxAge',
   AUDIENCE_MIN_AGE = 'audienceMinAge',
@@ -12,6 +19,7 @@ export enum REGISTRATION_FIELDS {
   INSTRUCTIONS = 'instructions',
   MAXIMUM_ATTENDEE_CAPACITY = 'maximumAttendeeCapacity',
   MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',
+  REQUIRED_FIELDS = 'requiredFields',
   WAITING_LIST_CAPACITY = 'waitingListCapacity',
 }
 
@@ -27,6 +35,7 @@ export const REGISTRATION_INITIAL_VALUES: RegistrationFormFields = {
   [REGISTRATION_FIELDS.INSTRUCTIONS]: '',
   [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: '',
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: '',
+  [REGISTRATION_FIELDS.REQUIRED_FIELDS]: [REGISTRATION_REQUIRED_FIELDS.NAME],
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: '',
 };
 

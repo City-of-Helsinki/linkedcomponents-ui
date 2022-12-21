@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -36,7 +37,6 @@ const EventTableRow: React.FC<Props> = ({
     events: { addExpandedEvent, expandedEvents, removeExpandedEvent },
   } = usePageSettings();
 
-  const actionsDropdownRef = React.useRef<HTMLDivElement>(null);
   const rowRef = React.useRef<HTMLTableRowElement>(null);
 
   const {
@@ -65,11 +65,7 @@ const EventTableRow: React.FC<Props> = ({
 
   const handleRowClick = (ev: React.MouseEvent) => {
     /* istanbul ignore else */
-    if (
-      ev.target instanceof Node &&
-      rowRef.current?.contains(ev.target) &&
-      !actionsDropdownRef.current?.contains(ev.target)
-    ) {
+    if (ev.target instanceof Node && rowRef.current?.contains(ev.target)) {
       onRowClick(event);
     }
   };
@@ -87,7 +83,10 @@ const EventTableRow: React.FC<Props> = ({
         ref={rowRef}
         role="button"
         aria-label={name}
-        className={open || hideBorder ? styles.noBorder : undefined}
+        className={classNames(
+          styles.clickableRow,
+          open || hideBorder ? styles.noBorder : undefined
+        )}
         id={getEventItemId(id)}
         onClick={handleRowClick}
         onKeyDown={handleKeyDown}
@@ -102,8 +101,12 @@ const EventTableRow: React.FC<Props> = ({
               <button
                 aria-label={
                   open
-                    ? t('eventsPage.eventsTable.hideSubEvents', { name })
-                    : t('eventsPage.eventsTable.showSubEvents', { name })
+                    ? (t('eventsPage.eventsTable.hideSubEvents', {
+                        name,
+                      }) as string)
+                    : (t('eventsPage.eventsTable.showSubEvents', {
+                        name,
+                      }) as string)
                 }
                 onClick={toggle}
               >
@@ -150,8 +153,14 @@ const EventTableRow: React.FC<Props> = ({
             />
           </div>
         </td>
-        <td className={styles.actionButtonsColumn}>
-          <EventActionsDropdown ref={actionsDropdownRef} event={event} />
+        <td
+          className={styles.actionButtonsColumn}
+          onClick={(ev) => {
+            ev.preventDefault();
+            ev.stopPropagation();
+          }}
+        >
+          <EventActionsDropdown event={event} />
         </td>
       </tr>
       {!!subEventAtIds.length && open && (

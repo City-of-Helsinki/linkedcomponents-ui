@@ -4,9 +4,9 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { MultiSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'use-debounce';
 
 import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import {
@@ -19,14 +19,13 @@ import {
   KeywordFieldsFragment,
   useKeywordsQuery,
 } from '../../../generated/graphql';
-import useDebounce from '../../../hooks/useDebounce';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import Combobox from '../combobox/Combobox';
+import Combobox, { MultiComboboxProps } from '../combobox/Combobox';
 import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 
 const getOption = ({
@@ -41,12 +40,7 @@ const getOption = ({
   return { label, value };
 };
 
-type ValueType = string;
-
-export type KeywordSelectorProps = {
-  name: string;
-  value: ValueType[];
-} & Omit<MultiSelectProps<OptionType>, 'options' | 'value'>;
+export type KeywordSelectorProps = MultiComboboxProps<string>;
 
 const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   label,
@@ -59,7 +53,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');
-  const debouncedSearch = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
+  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
   const [selectedKeywords, setSelectedKeywords] = React.useState<OptionType[]>(
     []

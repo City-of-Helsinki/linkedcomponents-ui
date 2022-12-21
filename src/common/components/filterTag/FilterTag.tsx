@@ -24,7 +24,9 @@ const FilterTag: React.FC<FilterTagProps> = ({
 
   return (
     <Tag
-      deleteButtonAriaLabel={t('common.buttonRemoveFilter', { name: text })}
+      deleteButtonAriaLabel={
+        t('common.buttonRemoveFilter', { name: text }) as string
+      }
       onDelete={deleteFilter}
     >
       {text}

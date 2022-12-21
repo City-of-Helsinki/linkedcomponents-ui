@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { fakeKeywords } from '../../../../utils/mockDataUtils';
 import {
   act,
@@ -5,6 +7,8 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
+  within,
 } from '../../../../utils/testUtils';
 import { TEST_KEYWORD_ID } from '../../../keyword/constants';
 import { keywordNames, keywords } from '../../__mocks__/keywordsPage';
@@ -12,6 +16,9 @@ import { KEYWORD_SORT_OPTIONS } from '../../constants';
 import KeywordsTable, { KeywordsTableProps } from '../KeywordsTable';
 
 configure({ defaultHidden: true });
+
+const keywordName = 'Keyword name';
+const keywordId = TEST_KEYWORD_ID;
 
 const defaultProps: KeywordsTableProps = {
   caption: 'Keywords table',
@@ -26,12 +33,18 @@ const renderComponent = (props?: Partial<KeywordsTableProps>) =>
 test('should render keywords table', () => {
   renderComponent();
 
-  const columnHeaders = ['ID', 'Nimi', 'Tapahtumien lkm'];
+  const columnHeaders = [
+    'ID',
+    'Nimi Järjestetty nousevaan järjestykseen',
+    'Tapahtumien lkm',
+  ];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
   }
-  screen.getByText('Ei tuloksia');
+  screen.getByText(
+    'Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan.'
+  );
 });
 
 test('should render all keywords', () => {
@@ -44,9 +57,6 @@ test('should render all keywords', () => {
 });
 
 test('should open edit keyword page by clicking keyword', async () => {
-  const keywordName = 'Keyword name';
-  const keywordId = TEST_KEYWORD_ID;
-
   const user = userEvent.setup();
   const { history } = renderComponent({
     keywords: fakeKeywords(1, [{ name: { fi: keywordName }, id: keywordId }])
@@ -64,9 +74,6 @@ test('should open edit keyword page by clicking keyword', async () => {
 });
 
 test('should open edit keyword page by pressing enter on row', async () => {
-  const keywordName = 'Keyword name';
-  const keywordId = TEST_KEYWORD_ID;
-
   const user = userEvent.setup();
   const { history } = renderComponent({
     keywords: fakeKeywords(1, [{ name: { fi: keywordName }, id: keywordId }])
@@ -91,7 +98,9 @@ test('should call setSort when clicking sortable column header', async () => {
   const user = userEvent.setup();
   renderComponent({ setSort });
 
-  const nameButton = screen.getByRole('button', { name: 'Nimi' });
+  const nameButton = screen.getByRole('button', {
+    name: 'Nimi Järjestetty nousevaan järjestykseen',
+  });
   await act(async () => await user.click(nameButton));
   expect(setSort).toBeCalledWith('-name');
 
@@ -104,4 +113,29 @@ test('should call setSort when clicking sortable column header', async () => {
   await act(async () => await user.click(nEventsButton));
 
   expect(setSort).toBeCalledWith('n_events');
+});
+
+test('should open actions dropdown', async () => {
+  const user = userEvent.setup();
+
+  const { history } = renderComponent({
+    keywords: fakeKeywords(1, [{ name: { fi: keywordName }, id: keywordId }])
+      .data,
+  });
+
+  const withinRow = within(screen.getByRole('button', { name: keywordName }));
+  const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
+  await act(async () => await user.click(menuButton));
+
+  const editButton = await withinRow.findByRole('button', {
+    name: /muokkaa avainsanaa/i,
+  });
+
+  await act(async () => await user.click(editButton));
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/administration/keywords/edit/${keywordId}`
+    )
+  );
 });

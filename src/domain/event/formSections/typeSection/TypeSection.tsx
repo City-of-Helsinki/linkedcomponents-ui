@@ -25,29 +25,13 @@ import {
 import styles from '../../eventPage.module.scss';
 import useEventTypeOptions from '../../hooks/useEventTypeOptions';
 import { EventTime, RecurringEventSettings } from '../../types';
-import { getEventFields } from '../../utils';
+import { getEventFields, isRecurringEvent } from '../../utils';
 import PublicationListLinks from './publicationListLinks/PublicationListLinks';
 
 export interface TypeSectionProps {
   isEditingAllowed: boolean;
   savedEvent?: EventFieldsFragment;
 }
-
-const getAllEventTimes = (
-  eventTimes: EventTime[],
-  recurringEvents: RecurringEventSettings[]
-): EventTime[] => [
-  ...eventTimes,
-  ...recurringEvents.reduce(
-    (previous: EventTime[], current) => [...previous, ...current.eventTimes],
-    []
-  ),
-];
-
-const isRecurringEvent = (
-  eventTimes: EventTime[],
-  recurringEvents: RecurringEventSettings[]
-): boolean => getAllEventTimes(eventTimes, recurringEvents).length > 1;
 
 const TypeSection: React.FC<TypeSectionProps> = ({
   isEditingAllowed,
@@ -61,9 +45,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({
   const [{ value: hasUmbrella }] = useField({
     name: EVENT_FIELDS.HAS_UMBRELLA,
   });
-  const [{ value: isUmbrella }, , { setValue: setIsUmbrella }] = useField({
-    name: EVENT_FIELDS.IS_UMBRELLA,
-  });
+  const [{ value: isUmbrella }] = useField({ name: EVENT_FIELDS.IS_UMBRELLA });
   const [{ value: eventTimes }] = useField<EventTime[]>({
     name: EVENT_FIELDS.EVENT_TIMES,
   });
@@ -121,15 +103,8 @@ const TypeSection: React.FC<TypeSectionProps> = ({
     }
   };
 
-  const disabledIsUmbrella: boolean =
+  const showIsUmbrellaTitle: boolean =
     hasUmbrella || isRecurringEvent(eventTimes, recurringEvents);
-
-  React.useEffect(() => {
-    // Set is umbrella to false if event has more than one event time
-    if (isRecurringEvent(eventTimes, recurringEvents) && isUmbrella) {
-      setIsUmbrella(false);
-    }
-  }, [eventTimes, isUmbrella, recurringEvents, setIsUmbrella]);
 
   return (
     <>
@@ -161,8 +136,10 @@ const TypeSection: React.FC<TypeSectionProps> = ({
             columns={1}
             component={RadioButtonGroupField}
             disabled={!isEditingAllowed}
+            label={t('event.form.titleEventType')}
             name={EVENT_FIELDS.TYPE}
             options={typeOptions}
+            required
           />
         </FieldColumn>
       </FieldRow>
@@ -203,7 +180,9 @@ const TypeSection: React.FC<TypeSectionProps> = ({
               label={t(`event.form.labelIsUmbrella.${type}`)}
               name={EVENT_FIELDS.IS_UMBRELLA}
               title={
-                disabledIsUmbrella ? t('event.form.tooltipEventIsUmbrella') : ''
+                showIsUmbrellaTitle
+                  ? t('event.form.tooltipEventIsUmbrella')
+                  : ''
               }
             />
           </FormGroup>

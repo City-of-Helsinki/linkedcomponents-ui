@@ -1,4 +1,3 @@
-import { SingleSelectProps } from 'hds-react';
 import { TFunction } from 'i18next';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,9 +7,7 @@ import { getOrganizationFields } from '../../../domain/organization/utils';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
-import Combobox from '../combobox/Combobox';
-
-type ValueType = string | null;
+import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 
 const getOption = ({
   locale,
@@ -30,10 +27,9 @@ const getOption = ({
   return { label, value };
 };
 
-export type SingleOrganizationSelectorProps = {
-  name: string;
-  value: ValueType;
-} & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
+export type SingleOrganizationSelectorProps = SingleComboboxProps<
+  string | null
+>;
 
 const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
   label,

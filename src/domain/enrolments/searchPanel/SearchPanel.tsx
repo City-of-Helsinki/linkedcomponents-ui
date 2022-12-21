@@ -5,21 +5,16 @@ import { useLocation, useNavigate } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
-import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useSearchState from '../../../hooks/useSearchState';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { getEnrolmentSearchInitialValues } from '../utils';
 import styles from './searchPanel.module.scss';
 
-type Props = {
-  registration: RegistrationFieldsFragment;
-};
-
 type SearchState = {
   enrolmentText: string;
 };
 
-const SearchPanel: React.FC<Props> = ({ registration }) => {
+const SearchPanel: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,12 +49,16 @@ const SearchPanel: React.FC<Props> = ({ registration }) => {
         <div className={styles.searchInputWrapper}>
           <SearchInput
             className={styles.searchInput}
-            hideLabel={true}
+            hideLabel
             label={t('enrolmentsPage.searchPanel.labelSearch')}
-            onSearch={handleSearch}
-            placeholder={t('enrolmentsPage.searchPanel.placeholderSearch')}
-            searchButtonAriaLabel={t('enrolmentsPage.searchPanel.buttonSearch')}
-            setValue={handleChangeText}
+            onChange={handleChangeText}
+            onSubmit={handleSearch}
+            placeholder={
+              t('enrolmentsPage.searchPanel.placeholderSearch') as string
+            }
+            searchButtonAriaLabel={
+              t('enrolmentsPage.searchPanel.buttonSearch') as string
+            }
             value={searchState.enrolmentText}
           />
         </div>

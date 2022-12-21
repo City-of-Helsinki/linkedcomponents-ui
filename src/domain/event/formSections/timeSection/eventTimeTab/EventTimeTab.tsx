@@ -4,23 +4,36 @@ import { useTranslation } from 'react-i18next';
 import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
 import { EventTime } from '../../../types';
+import { isRecurringEvent } from '../../../utils';
 import AddEventTimeForm from '../addEventTimeForm/AddEventTimeForm';
 import EventTimesSummary from '../eventTimesSummary/EventTimesSummary';
-import TimeSectionContext from '../TimeSectionContext';
+import useTimeSectionContext from '../hooks/useTimeSectionContext';
 import TimeSectionNotification from '../timeSectionNotification/TimeSectionNotification';
 import { sortEventTimes } from '../utils';
 import ValidationError from '../validationError/ValidationError';
 
 const EventTimeTab: React.FC = () => {
   const { t } = useTranslation();
-  const { eventTimes, eventType, setEventTimes } =
-    React.useContext(TimeSectionContext);
+  const {
+    events,
+    eventTimes,
+    eventType,
+    isUmbrella,
+    recurringEvents,
+    setEventTimes,
+    setIsUmbrella,
+  } = useTimeSectionContext();
 
   const addEventTime = (eventTime: EventTime) => {
-    const sortedEventTimes = [...eventTimes];
-    sortedEventTimes.push(eventTime);
-    sortedEventTimes.sort(sortEventTimes);
-    setEventTimes(sortedEventTimes);
+    const newEventTimes = [...eventTimes, eventTime];
+
+    if (
+      isRecurringEvent([...newEventTimes, ...events], recurringEvents) &&
+      isUmbrella
+    ) {
+      setIsUmbrella(false);
+    }
+    setEventTimes(newEventTimes.sort(sortEventTimes));
   };
 
   return (

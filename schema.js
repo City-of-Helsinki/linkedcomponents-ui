@@ -6,7 +6,10 @@ module.exports = buildSchema(/* GraphQL */ `
   scalar Any
 
   type Mutation {
-    createEnrolment(input: CreateEnrolmentMutationInput!): Enrolment!
+    createEnrolment(
+      input: CreateEnrolmentMutationInput!
+      registration: String
+    ): CreateEnrolmentResponse!
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     createKeyword(input: CreateKeywordMutationInput!): Keyword!
@@ -14,6 +17,9 @@ module.exports = buildSchema(/* GraphQL */ `
     createOrganization(input: CreateOrganizationMutationInput!): Organization!
     createPlace(input: CreatePlaceMutationInput!): Place!
     createRegistration(input: CreateRegistrationMutationInput!): Registration!
+    createSeatsReservation(
+      input: CreateSeatsReservationMutationInput!
+    ): SeatsReservation!
     deleteEnrolment(cancellationCode: String!): NoContent
     deleteEvent(id: ID!): NoContent
     deleteImage(id: ID!): NoContent
@@ -34,6 +40,9 @@ module.exports = buildSchema(/* GraphQL */ `
     updateOrganization(input: UpdateOrganizationMutationInput!): Organization!
     updatePlace(input: UpdatePlaceMutationInput!): Place!
     updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
+    updateSeatsReservation(
+      input: UpdateSeatsReservationMutationInput!
+    ): SeatsReservation!
   }
 
   type NoContent {
@@ -211,7 +220,7 @@ module.exports = buildSchema(/* GraphQL */ `
     url: String
   }
 
-  input CreateEnrolmentMutationInput {
+  input SignupInput {
     city: String
     dateOfBirth: String
     email: String
@@ -221,10 +230,14 @@ module.exports = buildSchema(/* GraphQL */ `
     nativeLanguage: String
     notifications: String
     phoneNumber: String
-    registration: ID
     serviceLanguage: String
     streetAddress: String
     zipcode: String
+  }
+
+  input CreateEnrolmentMutationInput {
+    reservationCode: String
+    signups: [SignupInput!]
   }
 
   input UpdateEnrolmentMutationInput {
@@ -463,6 +476,19 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     waitingListCapacity: Int
+  }
+
+  input CreateSeatsReservationMutationInput {
+    registration: String
+    seats: Int
+    waitlist: Boolean
+  }
+
+  input UpdateSeatsReservationMutationInput {
+    code: String
+    registration: String
+    seats: Int
+    waitlist: Boolean
   }
 
   type DataSource {
@@ -831,6 +857,31 @@ module.exports = buildSchema(/* GraphQL */ `
     atContext: String
     # @type is renamed as atType so it's usable on GraphQl
     atType: String
+  }
+
+  type SeatsReservation {
+    code: String
+    expiration: String
+    registration: String
+    seats: Int
+    timestamp: String
+    seatsAtEvent: Int
+    waitlistSpots: Int
+  }
+
+  type EnrolmentPerson {
+    id: Int
+    name: String
+  }
+
+  type EnrolmentPeopleResponse {
+    count: Int
+    people: [EnrolmentPerson!]
+  }
+
+  type CreateEnrolmentResponse {
+    attending: EnrolmentPeopleResponse
+    waitlisted: EnrolmentPeopleResponse
   }
 
   type Enrolment {

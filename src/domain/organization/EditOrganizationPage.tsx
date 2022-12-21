@@ -18,7 +18,6 @@ import { useAuth } from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from './constants';
-import useOrganizationAncestors from './hooks/useOrganizationAncestors';
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
 } from './hooks/useOrganizationUpdateActions';
@@ -41,7 +40,6 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
   const { id } = getOrganizationFields(organization, locale, t);
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const { organizationAncestors } = useOrganizationAncestors(id);
 
   const { closeModal, deleteOrganization, openModal, setOpenModal, saving } =
     useOrganizationUpdateActions({
@@ -63,7 +61,6 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
     authenticated,
     id,
     onClick: () => setOpenModal(ORGANIZATION_MODALS.DELETE),
-    organizationAncestors,
     t,
     user,
   });

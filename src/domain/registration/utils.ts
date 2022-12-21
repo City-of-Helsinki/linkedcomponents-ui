@@ -19,6 +19,7 @@ import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import queryBuilder from '../../utils/queryBuilder';
+import { getFreeWaitlistCapacity } from '../enrolment/utils';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -26,7 +27,7 @@ import {
   REGISTRATION_ICONS,
   REGISTRATION_LABEL_KEYS,
 } from '../registrations/constants';
-import { REGISTRATION_FIELDS, REGISTRATION_INITIAL_VALUES } from './constants';
+import { REGISTRATION_FIELDS } from './constants';
 import { RegistrationFields, RegistrationFormFields } from './types';
 
 export const clearRegistrationFormData = (): void => {
@@ -198,7 +199,6 @@ export const getRegistrationInitialValues = (
   registration: RegistrationFieldsFragment
 ): RegistrationFormFields => {
   return {
-    ...REGISTRATION_INITIAL_VALUES,
     [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: registration.audienceMaxAge ?? '',
     [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE]: registration.audienceMinAge ?? '',
     [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]:
@@ -226,6 +226,8 @@ export const getRegistrationInitialValues = (
       registration.maximumAttendeeCapacity ?? '',
     [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]:
       registration.minimumAttendeeCapacity ?? '',
+    // TODO: Initialize required fields when API supports it
+    [REGISTRATION_FIELDS.REQUIRED_FIELDS]: [],
     [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]:
       registration.waitingListCapacity ?? '',
   };
@@ -352,16 +354,6 @@ export const isWaitingCapacityUsed = (
   }
 };
 
-export const getFreeWaitingAttendeeCapacity = (
-  registration: RegistrationFieldsFragment
-): number => {
-  /* istanbul ignore next */
-  return (
-    (registration.waitingListCapacity ?? 0) -
-    (registration.currentWaitingListCount ?? 0)
-  );
-};
-
 export const isRegistrationPossible = (
   registration: RegistrationFieldsFragment
 ): boolean => {
@@ -383,7 +375,7 @@ export const getRegistrationWarning = (
     !isWaitingCapacityUsed(registration)
   ) {
     return t('enrolment.warnings.capacityInWaitingList', {
-      count: getFreeWaitingAttendeeCapacity(registration),
+      count: getFreeWaitlistCapacity(registration),
     });
   }
   return '';

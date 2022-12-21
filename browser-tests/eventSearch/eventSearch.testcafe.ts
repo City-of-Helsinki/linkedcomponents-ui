@@ -36,9 +36,11 @@ let urlUtils: ReturnType<typeof getUrlUtils>;
 fixture('Event search page')
   .page(getEnvUrl('/fi/search'))
   .beforeEach(async (t) => {
+    urlUtils = getUrlUtils(t);
+    await urlUtils.actions.navigateToSearchUrl('');
+
     clearDataToPrintOnFailure(t);
     eventSearchPage = getEventSearchPage(t);
-    urlUtils = getUrlUtils(t);
   })
   .after(async () => {
     requestLogger.clear();

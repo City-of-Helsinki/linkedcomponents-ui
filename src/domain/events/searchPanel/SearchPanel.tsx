@@ -88,16 +88,16 @@ const SearchPanel: React.FC = () => {
               <div className={styles.searchInputWrapper}>
                 <SearchInput
                   className={styles.searchInput}
-                  hideLabel={true}
+                  hideLabel
                   label={t('eventSearchPage.searchPanel.labelSearch')}
-                  onSearch={handleSearch}
-                  placeholder={t(
-                    'eventSearchPage.searchPanel.placeholderSearch'
-                  )}
-                  searchButtonAriaLabel={t(
-                    'eventSearchPage.searchPanel.buttonSearch'
-                  )}
-                  setValue={handleChangeText}
+                  onChange={handleChangeText}
+                  onSubmit={handleSearch}
+                  placeholder={
+                    t('eventSearchPage.searchPanel.placeholderSearch') as string
+                  }
+                  searchButtonAriaLabel={
+                    t('eventSearchPage.searchPanel.buttonSearch') as string
+                  }
                   value={searchState.text}
                 />
               </div>

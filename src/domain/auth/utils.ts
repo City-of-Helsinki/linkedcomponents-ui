@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Sentry from '@sentry/react';
 import axios, { AxiosResponse } from 'axios';
+import { TFunction } from 'i18next';
 import { User, UserManager, UserManagerSettings } from 'oidc-client';
 import React from 'react';
-import { TFunction } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 import { OIDC_API_TOKEN_ENDPOINT } from '../../constants';
@@ -168,9 +168,9 @@ export const signIn = async ({
     })
     .catch((error) => {
       if (error.message === 'Network Error') {
-        toast.error(t('authentication.networkError.message'));
+        toast.error(t('authentication.networkError.message') as string);
       } else {
-        toast.error(t('authentication.errorMessage'));
+        toast.error(t('authentication.errorMessage') as string);
         Sentry.captureException(error);
       }
     });
@@ -260,7 +260,7 @@ export const renewApiToken = async ({
     fetchTokenSuccess({ apiToken, dispatchApiTokenState });
   } catch (error: any) {
     fetchTokenError({ error, dispatchApiTokenState });
-    toast.error(t('authentication.errorMessage'));
+    toast.error(t('authentication.errorMessage') as string);
   }
 };
 

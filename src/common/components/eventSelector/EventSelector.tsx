@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'use-debounce';
 
 import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import { eventPathBuilder } from '../../../domain/event/utils';
@@ -12,23 +12,18 @@ import {
   useEventQuery,
   useEventsQuery,
 } from '../../../generated/graphql';
-import useDebounce from '../../../hooks/useDebounce';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
-import Combobox from '../combobox/Combobox';
+import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
-
-type ValueType = string | null;
 
 export type EventSelectorProps = {
   getOption: (event: EventFieldsFragment, locale: Language) => OptionType;
-  name: string;
-  value: ValueType;
   variables: EventsQueryVariables;
-} & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
+} & SingleComboboxProps<string | null>;
 
 const EventSelector: React.FC<EventSelectorProps> = ({
   getOption,
@@ -42,7 +37,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');
-  const debouncedSearch = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
+  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
   const {
     data: eventsData,
@@ -100,7 +95,9 @@ const EventSelector: React.FC<EventSelectorProps> = ({
         id={name}
         label={label}
         options={options}
-        toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+        toggleButtonAriaLabel={
+          t('common.combobox.toggleButtonAriaLabel') as string
+        }
         // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
         // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
         value={selectedEvent as OptionType | undefined}

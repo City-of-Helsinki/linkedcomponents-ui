@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
-import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
 import Table from '../../../common/components/table/Table';
 import {
   RegistrationFieldsFragment,
@@ -10,16 +9,105 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import useSetFocused from '../../../hooks/useSetFocused';
-import { getRegistrationFields } from '../../registration/utils';
+import useTimeFormat from '../../../hooks/useTimeFormat';
+import formatDate from '../../../utils/formatDate';
+import OrganizationName from '../../organization/organizationName/OrganizationName';
+import useRegistrationName from '../../registration/hooks/useRegistrationName';
+import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
+import {
+  getRegistrationFields,
+  getRegistrationItemId,
+} from '../../registration/utils';
+import RegistrationActionsDropdown from '../registrationActionsDropdown/RegistrationActionsDropdown';
 import styles from './registrationsTable.module.scss';
-import RegistrationsTableRow from './registrationsTableRow/RegistrationsTableRow';
 
 export interface RegistrationsTableProps {
   caption: string;
   className?: string;
   registrations: RegistrationsQuery['registrations']['data'];
 }
+
+type ColumnProps = {
+  registration: RegistrationFieldsFragment;
+};
+
+const NameColumn: FC<ColumnProps> = ({ registration }) => {
+  const name = useRegistrationName({ registration });
+
+  return (
+    <div className={styles.nameWrapper}>
+      <span className={styles.registrationName} title={name}>
+        {name}
+      </span>
+    </div>
+  );
+};
+
+const PublisherColumn: FC<ColumnProps> = ({ registration }) => {
+  const publisher = useRegistrationPublisher({ registration });
+
+  return <OrganizationName id={publisher} />;
+};
+
+const EnrolmentsColumn: FC<ColumnProps> = ({ registration }) => {
+  const locale = useLocale();
+  const { currentAttendeeCount, maximumAttendeeCapacity } =
+    getRegistrationFields(registration, locale);
+
+  return (
+    <>
+      {currentAttendeeCount} / {maximumAttendeeCapacity}
+    </>
+  );
+};
+
+const WaitingListColumn: FC<ColumnProps> = ({ registration }) => {
+  const locale = useLocale();
+  const { currentWaitingListCount, waitingListCapacity } =
+    getRegistrationFields(registration, locale);
+
+  return (
+    <>
+      {currentWaitingListCount} / {waitingListCapacity}
+    </>
+  );
+};
+
+const StartTimeColumn: FC<ColumnProps> = ({ registration }) => {
+  const timeFormat = useTimeFormat();
+  const locale = useLocale();
+  const { t } = useTranslation();
+  const { enrolmentStartTime } = getRegistrationFields(registration, locale);
+
+  return (
+    <>
+      {enrolmentStartTime
+        ? t('eventsPage.datetime', {
+            date: formatDate(enrolmentStartTime),
+            time: formatDate(enrolmentStartTime, timeFormat, locale),
+          })
+        : /* istanbul ignore next */ '-'}
+    </>
+  );
+};
+
+const EndTimeColumn: FC<ColumnProps> = ({ registration }) => {
+  const timeFormat = useTimeFormat();
+  const locale = useLocale();
+  const { t } = useTranslation();
+  const { enrolmentEndTime } = getRegistrationFields(registration, locale);
+
+  return (
+    <>
+      {enrolmentEndTime
+        ? t('eventsPage.datetime', {
+            date: formatDate(enrolmentEndTime),
+            time: formatDate(enrolmentEndTime, timeFormat, locale),
+          })
+        : /* istanbul ignore next */ '-'}
+    </>
+  );
+};
 
 const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   caption,
@@ -31,11 +119,11 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   const locale = useLocale();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
-  const table = React.useRef<HTMLTableElement>(null);
-  const { focused } = useSetFocused(table);
-
-  const handleRowClick = (registration: RegistrationFieldsFragment) => {
-    const { registrationUrl } = getRegistrationFields(registration, locale);
+  const handleRowClick = (registration: object) => {
+    const { registrationUrl } = getRegistrationFields(
+      registration as RegistrationFieldsFragment,
+      locale
+    );
 
     navigate({
       pathname: registrationUrl,
@@ -44,47 +132,100 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   };
 
   return (
-    <Table ref={table} className={className}>
-      <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
-      <thead>
-        <tr>
-          <th className={styles.nameColumn}>
-            {t('registrationsPage.registrationsTableColumns.name')}
-          </th>
-          <th className={styles.nameColumn}>
-            {t('registrationsPage.registrationsTableColumns.publisher')}
-          </th>
-          <th className={styles.enrolmentsColumn}>
-            {t('registrationsPage.registrationsTableColumns.enrolments')}
-          </th>
-          <th className={styles.waitingListColumn}>
-            {t('registrationsPage.registrationsTableColumns.waitingList')}
-          </th>
-          <th className={styles.enrolmentStartTimeColumn}>
-            {t(
-              'registrationsPage.registrationsTableColumns.enrolmentStartTime'
-            )}
-          </th>
-          <th className={styles.enrolmentEndTimeColumn}>
-            {t('registrationsPage.registrationsTableColumns.enrolmentEndTime')}
-          </th>
-          <th className={styles.actionButtonsColumn}></th>
-        </tr>
-      </thead>
-      <tbody>
-        {registrations.map(
-          (registration) =>
-            registration && (
-              <RegistrationsTableRow
-                key={registration.id}
-                onRowClick={handleRowClick}
-                registration={registration}
-              />
-            )
-        )}
-        {!registrations.length && <NoDataRow colSpan={6} />}
-      </tbody>
-    </Table>
+    <Table
+      caption={caption}
+      className={className}
+      cols={[
+        {
+          className: styles.nameColumn,
+          key: 'name',
+          headerName: t('registrationsPage.registrationsTableColumns.name'),
+          transform: (registration: RegistrationFieldsFragment) => (
+            <NameColumn registration={registration} />
+          ),
+        },
+        {
+          className: styles.publisherColumn,
+          key: 'publisher',
+          headerName: t(
+            'registrationsPage.registrationsTableColumns.publisher'
+          ),
+          transform: (registration: RegistrationFieldsFragment) => (
+            <PublisherColumn registration={registration} />
+          ),
+        },
+        {
+          className: styles.enrolmentsColumn,
+          key: 'enrolments',
+          headerName: t(
+            'registrationsPage.registrationsTableColumns.enrolments'
+          ),
+          transform: (registration: RegistrationFieldsFragment) => (
+            <EnrolmentsColumn registration={registration} />
+          ),
+        },
+        {
+          className: styles.waitingListColumn,
+          key: 'waitingList',
+          headerName: t(
+            'registrationsPage.registrationsTableColumns.waitingList'
+          ),
+          transform: (registration: RegistrationFieldsFragment) => (
+            <WaitingListColumn registration={registration} />
+          ),
+        },
+        {
+          className: styles.enrolmentStartTimeColumn,
+          key: 'startTime',
+          headerName: t(
+            'registrationsPage.registrationsTableColumns.enrolmentStartTime'
+          ),
+          transform: (registration: RegistrationFieldsFragment) => (
+            <StartTimeColumn registration={registration} />
+          ),
+        },
+        {
+          className: styles.enrolmentEndTimeColumn,
+          key: 'endTime',
+          headerName: t(
+            'registrationsPage.registrationsTableColumns.enrolmentEndTime'
+          ),
+          transform: (registration: RegistrationFieldsFragment) => (
+            <EndTimeColumn registration={registration} />
+          ),
+        },
+
+        {
+          className: styles.actionButtonsColumn,
+          key: '',
+          headerName: '',
+          onClick: (ev) => {
+            ev.stopPropagation();
+            ev.preventDefault();
+          },
+          transform: (registration: RegistrationFieldsFragment) => (
+            <RegistrationActionsDropdown registration={registration} />
+          ),
+        },
+      ]}
+      getRowProps={(registration) => {
+        const { id } = getRegistrationFields(
+          registration as RegistrationFieldsFragment,
+          locale
+        );
+
+        return {
+          'aria-label': id,
+          'data-testid': id,
+          id: getRegistrationItemId(id),
+        };
+      }}
+      indexKey="id"
+      onRowClick={handleRowClick}
+      renderIndexCol={false}
+      rows={registrations as RegistrationFieldsFragment[]}
+      variant="light"
+    />
   );
 };
 

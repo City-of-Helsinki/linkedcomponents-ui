@@ -32,7 +32,7 @@ const Breadcrumb = ({
       {({ css, cx }) => (
         <nav
           className={cx(styles.breadcrumb, className, css(theme.breadcrumb))}
-          aria-label={ariaLabel || t('common.breadcrumb')}
+          aria-label={ariaLabel || (t('common.breadcrumb') as string)}
           role="navigation"
         >
           {items.map((props, index) => (

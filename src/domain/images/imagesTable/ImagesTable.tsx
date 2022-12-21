@@ -1,18 +1,20 @@
-import React from 'react';
+import { IconPhoto } from 'hds-react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
-import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
-import SortableColumn from '../../../common/components/table/sortableColumn/SortableColumn';
 import Table from '../../../common/components/table/Table';
 import { ImageFieldsFragment, ImagesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import useSetFocused from '../../../hooks/useSetFocused';
-import { getImageFields } from '../../image/utils';
+import formatDate from '../../../utils/formatDate';
+import getSortByOrderAndColKey from '../../../utils/getSortByOrderAndColKey';
+import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
+import { getImageFields, getImageItemId } from '../../image/utils';
 import { IMAGE_SORT_OPTIONS } from '../constants';
+import ImageActionsDropdown from '../imageActionsDropdown/ImageActionsDropdown';
 import styles from './imagesTable.module.scss';
-import ImagesTableRow from './imagesTableRow/ImagesTableRow';
 
 export interface ImagesTableProps {
   caption: string;
@@ -21,6 +23,59 @@ export interface ImagesTableProps {
   setSort: (sort: IMAGE_SORT_OPTIONS) => void;
   sort: IMAGE_SORT_OPTIONS;
 }
+
+type ColumnProps = {
+  image: ImageFieldsFragment;
+};
+
+const ImageColumn: FC<ColumnProps> = ({ image }) => {
+  const locale = useLocale();
+  const { url } = getImageFields(image, locale);
+
+  return (
+    <div className={styles.imagePreview}>
+      {url ? (
+        <div
+          className={styles.image}
+          style={{ backgroundImage: `url(${url})` }}
+        />
+      ) : (
+        /* istanbul ignore next */
+        <div className={styles.placeholderImage}>
+          <IconPhoto size="xl" />
+        </div>
+      )}
+    </div>
+  );
+};
+
+const IdColumn: FC<ColumnProps> = ({ image }) => {
+  const locale = useLocale();
+  const { imageUrl, id } = getImageFields(image, locale);
+
+  return (
+    <Link
+      onClick={/* istanbul ignore next */ (e) => e.preventDefault()}
+      to={imageUrl}
+    >
+      {id}
+    </Link>
+  );
+};
+
+const NameColumn: FC<ColumnProps> = ({ image }) => {
+  const locale = useLocale();
+  const { name } = getImageFields(image, locale);
+
+  return <>{name}</>;
+};
+
+const LastModifiedTimeColumn: FC<ColumnProps> = ({ image }) => {
+  const locale = useLocale();
+  const { lastModifiedTime } = getImageFields(image, locale);
+
+  return <>{formatDate(lastModifiedTime)}</>;
+};
 
 const ImagesTable: React.FC<ImagesTableProps> = ({
   caption,
@@ -34,11 +89,8 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
   const locale = useLocale();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
-  const table = React.useRef<HTMLTableElement>(null);
-  const { focused } = useSetFocused(table);
-
-  const handleRowClick = (image: ImageFieldsFragment) => {
-    const { imageUrl } = getImageFields(image, locale);
+  const handleRowClick = (image: object) => {
+    const { imageUrl } = getImageFields(image as ImageFieldsFragment, locale);
 
     navigate({
       pathname: imageUrl,
@@ -46,50 +98,92 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
     });
   };
 
-  const handleSort = (key: string) => {
+  const handleSortChange = (key: string) => {
     setSort(key as IMAGE_SORT_OPTIONS);
   };
 
-  return (
-    <Table ref={table} className={className}>
-      <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
-      <thead>
-        <tr>
-          <th className={styles.imageColumn}>
-            {t('imagesPage.imagesTableColumns.image')}
-          </th>
-          <th className={styles.idColumn}>
-            {t('imagesPage.imagesTableColumns.id')}
-          </th>
-          <th className={styles.nameColumn}>
-            {t('imagesPage.imagesTableColumns.name')}
-          </th>
-          <SortableColumn
-            className={styles.nEventsColumn}
-            label={t('imagesPage.imagesTableColumns.lastModifiedTime')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={IMAGE_SORT_OPTIONS.LAST_MODIFIED_TIME}
-            type="default"
-          />
+  const { initialSortingColumnKey, initialSortingOrder } = useMemo(() => {
+    const { colKey, order } = getSortOrderAndKey(sort);
 
-          <th className={styles.actionButtonsColumn}></th>
-        </tr>
-      </thead>
-      <tbody>
-        {images.map(
-          (image) =>
-            image && (
-              <ImagesTableRow
-                key={image.id}
-                image={image}
-                onRowClick={handleRowClick}
-              />
-            )
-        )}
-        {!images.length && <NoDataRow colSpan={4} />}
-      </tbody>
-    </Table>
+    return {
+      initialSortingColumnKey: colKey,
+      initialSortingOrder: order,
+    };
+  }, [sort]);
+
+  return (
+    <Table
+      caption={caption}
+      className={className}
+      cols={[
+        {
+          className: styles.imageColumn,
+          key: 'image',
+          headerName: t('imagesPage.imagesTableColumns.image'),
+          transform: (image: ImageFieldsFragment) => (
+            <ImageColumn image={image} />
+          ),
+        },
+        {
+          className: styles.idColumn,
+          key: 'id',
+          headerName: t('imagesPage.imagesTableColumns.id'),
+          transform: (image: ImageFieldsFragment) => <IdColumn image={image} />,
+        },
+        {
+          className: styles.nameColumn,
+          key: 'name',
+          headerName: t('imagesPage.imagesTableColumns.name'),
+          transform: (image: ImageFieldsFragment) => (
+            <NameColumn image={image} />
+          ),
+        },
+        {
+          className: styles.lastModifiedTimeColumn,
+          isSortable: true,
+          key: IMAGE_SORT_OPTIONS.LAST_MODIFIED_TIME,
+          headerName: t('imagesPage.imagesTableColumns.lastModifiedTime'),
+          sortIconType: 'other',
+          transform: (image: ImageFieldsFragment) => (
+            <LastModifiedTimeColumn image={image} />
+          ),
+        },
+        {
+          className: styles.actionButtonsColumn,
+          key: 'actionButtons',
+          headerName: '',
+          onClick: (ev) => {
+            ev.stopPropagation();
+            ev.preventDefault();
+          },
+          transform: (image: ImageFieldsFragment) => (
+            <ImageActionsDropdown image={image} />
+          ),
+        },
+      ]}
+      getRowProps={(image) => {
+        const { id, name } = getImageFields(
+          image as ImageFieldsFragment,
+          locale
+        );
+
+        return {
+          'aria-label': name,
+          'data-testid': id,
+          id: getImageItemId(id),
+        };
+      }}
+      indexKey="id"
+      initialSortingColumnKey={initialSortingColumnKey}
+      initialSortingOrder={initialSortingOrder}
+      onRowClick={handleRowClick}
+      onSort={(order, colKey, handleSort) => {
+        handleSortChange(getSortByOrderAndColKey({ order, colKey }));
+        handleSort();
+      }}
+      rows={images as ImageFieldsFragment[]}
+      variant="light"
+    />
   );
 };
 

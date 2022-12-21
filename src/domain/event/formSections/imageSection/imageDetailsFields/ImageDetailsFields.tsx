@@ -179,7 +179,9 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
           disabled={!editable}
           name={getFieldName(IMAGE_FIELDS.LICENSE)}
           component={RadioButtonGroupField}
+          label={t(`image.form.titleLicense`)}
           options={licenseOptions}
+          required
           title={warning}
         />
       </div>

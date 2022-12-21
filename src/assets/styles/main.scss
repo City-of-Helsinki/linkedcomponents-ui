@@ -16,12 +16,17 @@ body {
 #root {
   flex: 1;
   background-color: var(--color-black-5);
+
   --breakpoint-xl: 1440px;
   --container-width-xl: 1392px;
   --focus-outline-color: var(--color-coat-of-arms);
   --focus-outline-width: 3px;
+  --helper-color-invalid: var(--color-error);
+  --icon-color-invalid: var(--color-error);
+  --input-height: 56px;
   --input-max-width-m: 448px;
   --input-max-width-l: 566px;
+  --label-height: 28px;
   --shadow-s: 0 2px 10px rgba(0, 0, 0, 0.07);
   --shadow-m: 0 2px 10px rgba(0, 0, 0, 0.1);
   --shadow-l: 0 2px 20px rgba(0, 0, 0, 0.2);

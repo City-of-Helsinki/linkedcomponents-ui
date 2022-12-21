@@ -11,11 +11,11 @@ type UseSelectLanguageState = {
   languageOptions: OptionType[];
   changeLanguage: (
     language: OptionType
-  ) => (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+  ) => (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 };
 
 const useSelectLanguage = (): UseSelectLanguageState => {
-  const { t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
@@ -29,9 +29,9 @@ const useSelectLanguage = (): UseSelectLanguageState => {
 
   const changeLanguage =
     (newLanguage: OptionType) =>
-    (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-      event.preventDefault();
-      navigate({
+    async (event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+      event?.preventDefault();
+      await navigate({
         pathname: updateLocaleParam(
           location.pathname,
           locale,
@@ -39,6 +39,7 @@ const useSelectLanguage = (): UseSelectLanguageState => {
         ),
         search: location.search,
       });
+      i18n.changeLanguage(newLanguage.value);
     };
   return { changeLanguage, languageOptions };
 };

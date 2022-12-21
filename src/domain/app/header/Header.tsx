@@ -206,7 +206,9 @@ const Header: React.FC = () => {
               />
             </Navigation.User>
             <Navigation.LanguageSelector
-              buttonAriaLabel={t('navigation.languageSelectorAriaLabel')}
+              buttonAriaLabel={
+                t('navigation.languageSelectorAriaLabel') as string
+              }
               className={cx(
                 styles.languageSelector,
                 css(theme.navigationDropdown)

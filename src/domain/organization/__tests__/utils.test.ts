@@ -62,30 +62,6 @@ describe('checkCanUserDoAction function', () => {
         checkCanUserDoAction({
           action,
           id: publisher,
-          organizationAncestors: [],
-          user,
-        })
-      ).toBe(true);
-    });
-  });
-
-  it('should allow correct actions if organizationAncestores contains any of the adminArganizations', () => {
-    const adminOrganization = 'admin:1';
-    const user = fakeUser({ adminOrganizations: [adminOrganization] });
-
-    const allowedActions = [
-      ORGANIZATION_ACTIONS.CREATE,
-      ORGANIZATION_ACTIONS.DELETE,
-      ORGANIZATION_ACTIONS.EDIT,
-      ORGANIZATION_ACTIONS.UPDATE,
-    ];
-
-    allowedActions.forEach((action) => {
-      expect(
-        checkCanUserDoAction({
-          action,
-          id: publisher,
-          organizationAncestors: [fakeOrganization({ id: adminOrganization })],
           user,
         })
       ).toBe(true);
@@ -106,7 +82,6 @@ describe('checkCanUserDoAction function', () => {
         checkCanUserDoAction({
           action,
           id: '',
-          organizationAncestors: [],
           user,
         })
       ).toBe(true);

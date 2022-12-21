@@ -49,27 +49,19 @@ afterAll(() => {
 const getElement = (key: 'endDate' | 'endTime' | 'startDate' | 'startTime') => {
   switch (key) {
     case 'endDate':
-      return screen.getByRole('textbox', {
-        name: 'Ilmoittautuminen päättyy *',
-      });
+      return screen.getByLabelText('Ilmoittautuminen päättyy *');
     case 'endTime':
       const endTimeGroup = screen.getByRole('group', {
-        name: 'Ilmoittautuminen päättyy klo *',
+        name: 'Ilmoittautuminen päättyy klo',
       });
-      return within(endTimeGroup).getByRole('textbox', {
-        name: 'tunnit',
-      });
+      return within(endTimeGroup).getByLabelText('tunnit');
     case 'startDate':
-      return screen.getByRole('textbox', {
-        name: 'Ilmoittautuminen alkaa *',
-      });
+      return screen.getByLabelText('Ilmoittautuminen alkaa *');
     case 'startTime':
       const startTimeGroup = screen.getByRole('group', {
-        name: 'Ilmoittautuminen alkaa klo *',
+        name: 'Ilmoittautuminen alkaa klo',
       });
-      return within(startTimeGroup).getByRole('textbox', {
-        name: 'tunnit',
-      });
+      return within(startTimeGroup).getByLabelText('tunnit');
   }
 };
 

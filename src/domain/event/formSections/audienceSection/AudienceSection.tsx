@@ -39,6 +39,7 @@ const AudienceSection: React.FC<Props> = ({ isEditingAllowed }) => {
             component={CheckboxGroupField}
             columns={2}
             disabled={!isEditingAllowed}
+            label={t(`event.form.titleAudience`)}
             name={EVENT_FIELDS.AUDIENCE}
             options={audienceOptions}
             visibleOptionAmount={10}

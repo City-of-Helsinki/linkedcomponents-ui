@@ -18,6 +18,7 @@ import {
   enrolment,
   mockedCancelEnrolmentResponse,
 } from '../../../enrolment/__mocks__/editEnrolmentPage';
+import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { registration } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
@@ -54,11 +55,16 @@ const renderComponent = ({
   mocks?: MockedResponse[];
   props?: Partial<EnrolmentActionsDropdownProps>;
 } = {}) =>
-  render(<EnrolmentActionsDropdown {...defaultProps} {...props} />, {
-    authContextValue,
-    mocks,
-    routes: [route],
-  });
+  render(
+    <EnrolmentPageProvider>
+      <EnrolmentActionsDropdown {...defaultProps} {...props} />
+    </EnrolmentPageProvider>,
+    {
+      authContextValue,
+      mocks,
+      routes: [route],
+    }
+  );
 
 const getElement = (key: 'cancel' | 'edit' | 'menu' | 'toggle') => {
   switch (key) {

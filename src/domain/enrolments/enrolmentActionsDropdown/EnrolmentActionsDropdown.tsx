@@ -12,10 +12,9 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { ENROLMENT_ACTIONS } from '../../enrolment/constants';
-import useEnrolmentUpdateActions, {
-  ENROLMENT_MODALS,
-} from '../../enrolment/hooks/useEnrolmentUpdateActions';
+import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../../enrolment/constants';
+import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import useEnrolmentUpdateActions from '../../enrolment/hooks/useEnrolmentUpdateActions';
 import ConfirmCancelModal from '../../enrolment/modals/confirmCancelModal/ConfirmCancelModal';
 import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -31,10 +30,11 @@ export interface EnrolmentActionsDropdownProps {
   registration: RegistrationFieldsFragment;
 }
 
-const EnrolmentActionsDropdown = React.forwardRef<
-  HTMLDivElement,
-  EnrolmentActionsDropdownProps
->(({ className, enrolment, registration }, ref) => {
+const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
+  className,
+  enrolment,
+  registration,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -50,11 +50,12 @@ const EnrolmentActionsDropdown = React.forwardRef<
     registration,
   });
 
-  const { cancelEnrolment, closeModal, openModal, saving, setOpenModal } =
-    useEnrolmentUpdateActions({
-      enrolment,
-      registration,
-    });
+  const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
+
+  const { cancelEnrolment, saving } = useEnrolmentUpdateActions({
+    enrolment,
+    registration,
+  });
 
   const goToEditEnrolmentPage = () => {
     const queryString = addParamsToRegistrationQueryString(search, {
@@ -104,7 +105,7 @@ const EnrolmentActionsDropdown = React.forwardRef<
   ].filter(skipFalsyType);
 
   return (
-    <div ref={ref}>
+    <>
       {openModal === ENROLMENT_MODALS.CANCEL && (
         <ConfirmCancelModal
           enrolment={enrolment}
@@ -116,8 +117,8 @@ const EnrolmentActionsDropdown = React.forwardRef<
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />
-    </div>
+    </>
   );
-});
+};
 
 export default EnrolmentActionsDropdown;

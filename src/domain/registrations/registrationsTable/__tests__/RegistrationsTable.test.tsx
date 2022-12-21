@@ -1,15 +1,16 @@
-import { History } from 'history';
 import React from 'react';
 
+import { Registration } from '../../../../generated/graphql';
 import {
   act,
   configure,
   render,
   screen,
   userEvent,
+  waitFor,
+  within,
 } from '../../../../utils/testUtils';
 import {
-  eventNames,
   mockedEventResponses,
   registrations,
 } from '../../__mocks__/registrationsPage';
@@ -17,9 +18,10 @@ import RegistrationsTable, {
   RegistrationsTableProps,
 } from '../RegistrationsTable';
 
-let history: History;
-
 configure({ defaultHidden: true });
+
+const registrationId = registrations.data[0]?.id as string;
+const registration = registrations.data[0] as Registration;
 
 const mocks = [...mockedEventResponses];
 
@@ -46,26 +48,19 @@ test('should render registrations table', () => {
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
   }
-  screen.getByText('Ei tuloksia');
+  screen.getByText(
+    'Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan.'
+  );
 });
 
 test('should open registration page by clicking event name', async () => {
   const user = userEvent.setup();
 
-  const eventName = eventNames[0];
-  const registrationId = registrations.data[0]?.id;
-  const registration = registrations.data[0];
-
-  await act(async () => {
-    const { history: newHistory } = await renderComponent({
-      registrations: [registration],
-    });
-    history = newHistory;
-  });
+  const { history } = await renderComponent({ registrations: [registration] });
 
   const button = await screen.findByRole(
     'button',
-    { name: eventName },
+    { name: registrationId },
     { timeout: 20000 }
   );
   await act(async () => await user.click(button));
@@ -77,19 +72,11 @@ test('should open registration page by clicking event name', async () => {
 test('should open registration page by pressing enter on row', async () => {
   const user = userEvent.setup();
 
-  const eventName = eventNames[0];
-  const registrationId = registrations.data[0]?.id;
-  const registration = registrations.data[0];
+  const { history } = renderComponent({ registrations: [registration] });
 
-  await act(async () => {
-    const { history: newHistory } = await renderComponent({
-      registrations: [registration],
-    });
-    history = newHistory;
-  });
   const button = await screen.findByRole(
     'button',
-    { name: eventName },
+    { name: registrationId },
     { timeout: 20000 }
   );
   await act(async () => await user.click(button));
@@ -97,5 +84,27 @@ test('should open registration page by pressing enter on row', async () => {
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/edit/${registrationId}`
+  );
+});
+
+test('should open actions dropdown', async () => {
+  const user = userEvent.setup();
+
+  const { history } = renderComponent({ registrations: [registration] });
+
+  const withinRow = within(
+    screen.getByRole('button', { name: registrationId })
+  );
+  const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
+  await act(async () => await user.click(menuButton));
+
+  const editButton = await withinRow.findByRole('button', { name: /muokkaa/i });
+
+  await act(async () => await user.click(editButton));
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/registrations/edit/${registrationId}`
+    )
   );
 });

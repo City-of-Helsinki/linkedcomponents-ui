@@ -3,7 +3,12 @@ import {
   EnrolmentsQueryVariables,
 } from '../../../generated/graphql';
 import { fakeEnrolment, fakeRegistration } from '../../../utils/mockDataUtils';
-import { enrolmentsPathBuilder, getEnrolmentFields } from '../utils';
+import { attendees, waitingAttendees } from '../__mocks__/enrolmentsPage';
+import {
+  enrolmentsPathBuilder,
+  filterEnrolments,
+  getEnrolmentFields,
+} from '../utils';
 
 describe('getEnrolmentFields function', () => {
   it('should return default values if value is not set', () => {
@@ -44,4 +49,55 @@ describe('enrolmentsPathBuilder function', () => {
     (variables, expectedPath) =>
       expect(enrolmentsPathBuilder({ args: variables })).toBe(expectedPath)
   );
+});
+
+describe('filterEnrolments function', () => {
+  const enrolments = [...attendees, ...waitingAttendees];
+
+  test('should return only attendees', () => {
+    const filteredEnrolments = filterEnrolments({
+      enrolments,
+      query: { attendeeStatus: AttendeeStatus.Attending },
+    });
+
+    expect(filteredEnrolments).toEqual(attendees);
+    expect(filteredEnrolments).not.toContain(waitingAttendees);
+  });
+
+  test('should return only waiting list attendees', () => {
+    const filteredEnrolments = filterEnrolments({
+      enrolments,
+      query: { attendeeStatus: AttendeeStatus.Waitlisted },
+    });
+
+    expect(filteredEnrolments).toEqual(waitingAttendees);
+    expect(filteredEnrolments).not.toContain(attendees);
+  });
+
+  test('should filter attendees by name text', () => {
+    const filteredEnrolments = filterEnrolments({
+      enrolments,
+      query: { text: waitingAttendees[0].name },
+    });
+
+    expect(filteredEnrolments).toEqual([waitingAttendees[0]]);
+  });
+
+  test('should filter attendees by email text', () => {
+    const filteredEnrolments = filterEnrolments({
+      enrolments,
+      query: { text: waitingAttendees[0].email },
+    });
+
+    expect(filteredEnrolments).toEqual([waitingAttendees[0]]);
+  });
+
+  test('should filter attendees by phone number text', () => {
+    const filteredEnrolments = filterEnrolments({
+      enrolments,
+      query: { text: waitingAttendees[0].phoneNumber },
+    });
+
+    expect(filteredEnrolments).toEqual([waitingAttendees[0]]);
+  });
 });

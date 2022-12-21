@@ -1,102 +1,39 @@
 import classNames from 'classnames';
-import { IconCrossCircle, IconSearch } from 'hds-react';
-import React, { KeyboardEvent, useRef } from 'react';
+import {
+  SearchInput as HdsSearchInput,
+  SearchInputProps as HdsSearchInputProps,
+} from 'hds-react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
-import InputWrapper from '../inputWrapper/InputWrapper';
 import styles from './searchInput.module.scss';
 
-export type SearchInputProps = React.ComponentPropsWithoutRef<'input'> & {
-  className?: string;
-  clearButtonAriaLabel?: string;
-  helperText?: string;
+export type SearchInputProps = {
   hideLabel?: boolean;
-  id?: string;
-  label: React.ReactNode;
-  onSearch: (value: string) => void;
-  searchButtonAriaLabel?: string;
-  setValue: (value: string) => void;
-  value: string;
-};
+} & HdsSearchInputProps<unknown>;
 
 const SearchInput: React.FC<SearchInputProps> = ({
   className,
   clearButtonAriaLabel,
-  helperText,
   hideLabel,
-  id: _id,
-  label,
-  onSearch,
   searchButtonAriaLabel,
-  setValue,
-  value,
   ...rest
 }) => {
   const { t } = useTranslation();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const id = useIdWithPrefix({ id: _id, prefix: 'search-input-' });
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-  };
-
-  const clear = () => {
-    setValue('');
-    inputRef.current?.focus();
-  };
-
-  const search = () => {
-    onSearch(value);
-  };
-
-  const onInputKeyUp = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      search();
-    }
-  };
 
   return (
-    <div className={classNames(styles.root, className)}>
-      <InputWrapper
-        helperText={helperText}
-        hideLabel={hideLabel}
-        id={id}
-        label={label}
-      >
-        <input
-          {...rest}
-          ref={inputRef}
-          className={classNames(styles.input)}
-          id={id}
-          onKeyUp={onInputKeyUp}
-          onChange={handleChange}
-          role="searchbox"
-          type="text"
-          value={value}
-        />
-        <div className={styles.buttons}>
-          {value.length > 0 && (
-            <button
-              type="button"
-              aria-label={clearButtonAriaLabel || t('common.clear')}
-              className={classNames(styles.button)}
-              onClick={clear}
-            >
-              <IconCrossCircle className={styles.searchIcon} aria-hidden />
-            </button>
-          )}
-          <button
-            type="button"
-            aria-label={searchButtonAriaLabel || t('common.search')}
-            className={classNames(styles.button)}
-            onClick={search}
-          >
-            <IconSearch className={styles.searchIcon} aria-hidden />
-          </button>
-        </div>
-      </InputWrapper>
-    </div>
+    <HdsSearchInput
+      {...rest}
+      className={classNames(className, {
+        [styles.hideLabel]: hideLabel,
+      })}
+      clearButtonAriaLabel={
+        clearButtonAriaLabel || (t('common.clear') as string)
+      }
+      searchButtonAriaLabel={
+        searchButtonAriaLabel || (t('common.search') as string)
+      }
+    />
   );
 };
 

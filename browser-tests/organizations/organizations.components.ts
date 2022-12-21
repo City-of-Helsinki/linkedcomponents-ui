@@ -29,7 +29,7 @@ export const getOrganizationsPage = async (t: TestController) => {
   const findSearchBanner = async () => {
     const selectors = {
       searchInput() {
-        return withinOrganizationsPage().getByRole('searchbox', {
+        return withinOrganizationsPage().getByRole('combobox', {
           name: /hae organisaatioita/i,
         });
       },

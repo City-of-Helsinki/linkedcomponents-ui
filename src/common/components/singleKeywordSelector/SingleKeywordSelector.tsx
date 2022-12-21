@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'use-debounce';
 
 import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import {
@@ -15,12 +15,11 @@ import {
   useKeywordQuery,
   useKeywordsQuery,
 } from '../../../generated/graphql';
-import useDebounce from '../../../hooks/useDebounce';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
-import Combobox from '../combobox/Combobox';
+import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 
 const getOption = ({
@@ -35,12 +34,7 @@ const getOption = ({
   return { label, value };
 };
 
-type ValueType = string;
-
-export type SingleKeywordSelectorProps = {
-  name: string;
-  value: ValueType;
-} & Omit<SingleSelectProps<OptionType>, 'options' | 'value'>;
+export type SingleKeywordSelectorProps = SingleComboboxProps<string>;
 
 const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
   label,
@@ -52,7 +46,7 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');
-  const debouncedSearch = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
+  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
   const {
     data: keywordsData,
@@ -106,6 +100,7 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
     <ComboboxLoadingSpinner isLoading={loading}>
       <Combobox
         {...rest}
+        multiselect={false}
         filter={handleFilter}
         id={name}
         label={label}

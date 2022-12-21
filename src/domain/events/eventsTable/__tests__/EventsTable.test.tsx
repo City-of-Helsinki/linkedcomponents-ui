@@ -9,11 +9,15 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../../utils/testUtils';
 import { EVENT_SORT_OPTIONS } from '../../constants';
 import EventsTable, { EventsTableProps } from '../EventsTable';
 
 configure({ defaultHidden: true });
+
+const eventName = 'Event name';
+const eventId = 'event:1';
 
 const defaultProps: EventsTableProps = {
   caption: 'Events table',
@@ -29,7 +33,7 @@ test('should render events table', () => {
   renderComponent();
 
   const columnHeaders = [
-    'Nimi',
+    'Nimi Järjestetty nousevaan järjestykseen',
     'Julkaisija',
     'Alkuaika',
     'Loppuaika',
@@ -39,7 +43,9 @@ test('should render events table', () => {
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
   }
-  screen.getByText('Ei tuloksia');
+  screen.getByText(
+    'Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan.'
+  );
 });
 
 test('should render all events', () => {
@@ -57,9 +63,6 @@ test('should render all events', () => {
 });
 
 test('should open event page by clicking event', async () => {
-  const eventName = 'Event name';
-  const eventId = 'event:1';
-
   const user = userEvent.setup();
   const { history } = renderComponent({
     events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
@@ -74,9 +77,6 @@ test('should open event page by clicking event', async () => {
 });
 
 test('should open event page by pressing enter on row', async () => {
-  const eventName = 'Event name';
-  const eventId = 'event:1';
-
   const user = userEvent.setup();
   const { history } = renderComponent({
     events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
@@ -99,7 +99,9 @@ test('should call setSort when clicking sortable column header', async () => {
 
   renderComponent({ setSort });
 
-  const nameButton = screen.getByRole('button', { name: 'Nimi' });
+  const nameButton = screen.getByRole('button', {
+    name: 'Nimi Järjestetty nousevaan järjestykseen',
+  });
   await act(async () => await user.click(nameButton));
   await waitFor(() => expect(setSort).toBeCalledWith('-name'));
 
@@ -112,4 +114,23 @@ test('should call setSort when clicking sortable column header', async () => {
   await act(async () => await user.click(endTimeButton));
 
   await waitFor(() => expect(setSort).toBeCalledWith('end_time'));
+});
+
+test('should open actions dropdown', async () => {
+  const user = userEvent.setup();
+
+  const { history } = renderComponent({
+    events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
+  });
+
+  const withinRow = within(screen.getByRole('button', { name: eventName }));
+  const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
+  await act(async () => await user.click(menuButton));
+
+  const editButton = await withinRow.findByRole('button', {
+    name: /muokkaa tapahtumaa/i,
+  });
+  await act(async () => await user.click(editButton));
+
+  expect(history.location.pathname).toBe('/fi/events/edit/event:1');
 });

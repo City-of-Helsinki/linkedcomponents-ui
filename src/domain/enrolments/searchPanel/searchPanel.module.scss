@@ -3,9 +3,7 @@
 
 .searchPanel {
   .searchInput {
-    input {
-      --input-border-color-default: var(--color-black-20);
-    }
+    --dropdown-border-color-default: var(--color-black-20);
   }
 
   .inputRow {

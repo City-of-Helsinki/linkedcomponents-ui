@@ -4,9 +4,11 @@ import {
   NotificationProps,
   NotificationSizeToast,
 } from 'hds-react';
+import capitalize from 'lodash/capitalize';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import styles from './notification.module.scss';
 
 const Notification: React.FC<NotificationProps> = ({
   className,
@@ -24,7 +26,7 @@ const Notification: React.FC<NotificationProps> = ({
           className={cx(
             className,
             css(theme.notification.type?.[type]),
-            css(theme.notification.size?.[size])
+            styles[`size${capitalize(size)}`]
           )}
           size={size as NotificationSizeToast}
           type={type}

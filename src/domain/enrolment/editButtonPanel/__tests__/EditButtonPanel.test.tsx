@@ -17,9 +17,7 @@ import {
 } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { enrolment } from '../../__mocks__/enrolment';
-import EnrolmentPageContext, {
-  enrolmentPageContextDefaultValue,
-} from '../../enrolmentPageContext/EnrolmentPageContext';
+import { EnrolmentPageProvider } from '../../enrolmentPageContext/EnrolmentPageContext';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
@@ -28,6 +26,7 @@ const defaultProps: EditButtonPanelProps = {
   enrolment,
   onCancel: jest.fn(),
   onSave: jest.fn(),
+  registration,
   saving: false,
 };
 
@@ -48,11 +47,9 @@ const renderComponent = ({
   route?: string;
 } = {}) =>
   render(
-    <EnrolmentPageContext.Provider
-      value={{ ...enrolmentPageContextDefaultValue, registration }}
-    >
+    <EnrolmentPageProvider>
       <EditButtonPanel {...defaultProps} {...props} />
-    </EnrolmentPageContext.Provider>,
+    </EnrolmentPageProvider>,
     {
       authContextValue,
       mocks,

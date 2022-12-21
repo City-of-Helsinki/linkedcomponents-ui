@@ -1,37 +1,7 @@
 @import '../../../assets/styles/mixins';
 
-.input {
-  composes: hds-text-input__input from '~hds-core/lib/components/text-input/text-input.css';
-  --input-border-color-default: var(--input-background-default);
-  padding: 0 calc(var(--spacing-l) + var(--icon-size)) 0 var(--spacing-s) !important;
-  border-radius: 0px;
-}
-
-.buttons {
-  position: absolute;
-  right: var(--spacing-s);
-  top: var(--spacing-s);
-  display: flex;
-}
-
-.button {
-  @include button-reset;
-  color: var(--dropdown-color-default);
-  outline: none;
-  display: flex;
-  margin-left: var(--spacing-xs);
-
-  &.hidden {
+.hideLabel {
+  label {
     @include hidden-from-screen;
   }
-
-  &:focus:global(.focus-visible) {
-    outline: none;
-    box-shadow: 0 0 0 var(--focus-outline-width) var(--focus-outline-color);
-  }
-}
-
-.searchIcon {
-  color: var(--dropdown-color-default);
-  display: flex;
 }

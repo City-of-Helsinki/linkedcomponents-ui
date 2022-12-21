@@ -45,6 +45,7 @@ import AudienceAgeSection from './formSections/audienceAgeSection/AudienceAgeSec
 import ConfirmationMessageSection from './formSections/confirmationMessageSection/ConfirmationMessageSection';
 import EnrolmentTimeSection from './formSections/enrolmentTimeSection/EnrolmentTimeSection';
 import InstructionsSection from './formSections/instructionsSection/InstructionsSection';
+import RequiredFieldsSection from './formSections/requiredFieldsSection/RequiredFieldsSection';
 import WaitingListSection from './formSections/waitingListSection/WaitingListSection';
 import useRegistrationServerErrors from './hooks/useRegistrationServerErrors';
 import useRegistrationUpdateActions, {
@@ -264,6 +265,13 @@ const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
                       title={t('registration.form.sections.audienceAge')}
                     >
                       <AudienceAgeSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section
+                      title={t('registration.form.sections.requiredFields')}
+                    >
+                      <RequiredFieldsSection
+                        isEditingAllowed={isEditingAllowed}
+                      />
                     </Section>
                   </Container>
                   <EditButtonPanel

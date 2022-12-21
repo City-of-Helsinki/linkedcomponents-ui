@@ -36,7 +36,7 @@ const RegistrationSavedPage: React.FC = () => {
   };
 
   return (
-    <PageWrapper title={t('registrationSavedPage.pageTitle')}>
+    <PageWrapper title={t('registrationSavedPage.pageTitle') as string}>
       <Container withOffset={true}>
         <h1>{t('registrationSavedPage.title')}</h1>
 

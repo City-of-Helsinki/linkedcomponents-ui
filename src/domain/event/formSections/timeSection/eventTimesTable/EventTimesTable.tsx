@@ -1,10 +1,12 @@
 import { IconCrossCircle, IconMenuDots, IconPen } from 'hds-react';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import MenuDropdown from '../../../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../../../common/components/menuDropdown/types';
-import Table from '../../../../../common/components/table/Table';
+import CustomTable from '../../../../../common/components/table/CustomTable';
+import HeaderRow from '../../../../../common/components/table/headerRow/HeaderRow';
+import TableBody from '../../../../../common/components/table/tableBody/TableBody';
 import { DATETIME_FORMAT } from '../../../../../constants';
 import {
   EventFieldsFragment,
@@ -19,8 +21,8 @@ import { EVENT_EDIT_ACTIONS } from '../../../constants';
 import { EventTime } from '../../../types';
 import { getEditButtonProps } from '../../../utils';
 import EditEventTimeModal from '../editEventTimeModal/EditEventTimeModal';
+import useTimeSectionContext from '../hooks/useTimeSectionContext';
 import styles from '../timeSection.module.scss';
-import TimeSectionContext from '../TimeSectionContext';
 import { getEventEditAction, sortEventTimes } from '../utils';
 
 interface EventTimeRowProps {
@@ -43,7 +45,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   startIndex,
 }) => {
   const { t } = useTranslation();
-  const { isEditingAllowed, savedEvent } = useContext(TimeSectionContext);
+  const { isEditingAllowed, savedEvent } = useTimeSectionContext();
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
@@ -155,9 +157,9 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
       )}
 
       <tr>
-        <td>{startIndex + index}</td>
+        <td className={styles.indexColumn}>{startIndex + index}</td>
         <td>{dateText}</td>
-        <td>
+        <td className={styles.buttonColumn}>
           <MenuDropdown
             button={
               <button
@@ -212,15 +214,15 @@ const EventTimesTable: React.FC<EventTimesTableProps> = ({
   }
 
   return (
-    <Table className={styles.eventTimesTable}>
+    <CustomTable className={styles.eventTimesTable} variant="light">
       <thead>
-        <tr>
+        <HeaderRow>
           <th className={styles.indexColumn}>#</th>
           <th>{t('event.form.labelTime')}</th>
           <th className={styles.buttonColumn}></th>
-        </tr>
+        </HeaderRow>
       </thead>
-      <tbody>
+      <TableBody>
         {eventTimes.map((eventTime, index) => {
           return (
             <EventTimeRow
@@ -233,8 +235,8 @@ const EventTimesTable: React.FC<EventTimesTableProps> = ({
             />
           );
         })}
-      </tbody>
-    </Table>
+      </TableBody>
+    </CustomTable>
   );
 };
 

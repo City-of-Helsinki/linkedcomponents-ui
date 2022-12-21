@@ -2,13 +2,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
-import NoDataRow from '../../../common/components/table/noDataRow/NoDataRow';
-import SortableColumn from '../../../common/components/table/sortableColumn/SortableColumn';
-import Table from '../../../common/components/table/Table';
+import CustomTable from '../../../common/components/table/CustomTable';
+import HeaderRow from '../../../common/components/table/headerRow/HeaderRow';
+import NoResultsRow from '../../../common/components/table/noResultsRow/NoResultsRow';
+import { SortingHeaderCell } from '../../../common/components/table/sortingHeaderCell/SortingHeaderCell';
+import TableBody from '../../../common/components/table/tableBody/TableBody';
 import { EventFieldsFragment, EventsQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import useSetFocused from '../../../hooks/useSetFocused';
+import getSortByColKey from '../../../utils/getSortByColKey';
+import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
 import { getEventFields } from '../../event/utils';
 import { EVENT_SORT_OPTIONS } from '../constants';
 import styles from './eventsTable.module.scss';
@@ -32,13 +35,9 @@ const EventsTable: React.FC<EventsTableProps> = ({
   const { t } = useTranslation();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
-  const table = React.useRef<HTMLTableElement>(null);
-
   const handleSort = (key: string) => {
     setSort(key as EVENT_SORT_OPTIONS);
   };
-
-  const { focused } = useSetFocused(table);
 
   const handleRowClick = (event: EventFieldsFragment) => {
     const { eventUrl } = getEventFields(event, locale);
@@ -47,41 +46,52 @@ const EventsTable: React.FC<EventsTableProps> = ({
     navigate({ pathname: eventUrl, search: queryString });
   };
 
+  const getColumnSortingOrder = (colKey: string) => {
+    const { colKey: currentColKey, order } = getSortOrderAndKey(sort);
+
+    return currentColKey === colKey ? (order as 'desc' | 'asc') : 'unset';
+  };
+
+  const setSortingAndOrder = (colKey: string): void => {
+    handleSort(getSortByColKey({ colKey, sort }));
+  };
+
   return (
-    <Table ref={table}>
-      <caption aria-live={focused ? 'polite' : undefined}>{caption}</caption>
+    <CustomTable caption={caption} variant="light">
       <thead>
-        <tr>
-          <SortableColumn
+        <HeaderRow>
+          <SortingHeaderCell
             className={styles.nameColumn}
-            label={t('eventsPage.eventsTableColumns.name')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={EVENT_SORT_OPTIONS.NAME}
-            type="text"
+            colKey={EVENT_SORT_OPTIONS.NAME}
+            title={t('eventsPage.eventsTableColumns.name')}
+            order={getColumnSortingOrder(EVENT_SORT_OPTIONS.NAME)}
+            setSortingAndOrder={setSortingAndOrder}
+            sortIconType={'string'}
           />
           <th className={styles.publisherColumn}>
             {t('eventsPage.eventsTableColumns.publisher')}
           </th>
-          <SortableColumn
-            label={t('eventsPage.eventsTableColumns.startTime')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={EVENT_SORT_OPTIONS.START_TIME}
+          <SortingHeaderCell
+            colKey={EVENT_SORT_OPTIONS.START_TIME}
+            title={t('eventsPage.eventsTableColumns.startTime')}
+            order={getColumnSortingOrder(EVENT_SORT_OPTIONS.START_TIME)}
+            setSortingAndOrder={setSortingAndOrder}
+            sortIconType={'other'}
           />
-          <SortableColumn
-            label={t('eventsPage.eventsTableColumns.endTime')}
-            onClick={handleSort}
-            sort={sort}
-            sortKey={EVENT_SORT_OPTIONS.END_TIME}
+          <SortingHeaderCell
+            colKey={EVENT_SORT_OPTIONS.END_TIME}
+            title={t('eventsPage.eventsTableColumns.endTime')}
+            order={getColumnSortingOrder(EVENT_SORT_OPTIONS.END_TIME)}
+            setSortingAndOrder={setSortingAndOrder}
+            sortIconType={'other'}
           />
           <th className={styles.statusColumn}>
             {t('eventsPage.eventsTableColumns.status')}
           </th>
           <th className={styles.actionButtonsColumn}></th>
-        </tr>
+        </HeaderRow>
       </thead>
-      <tbody>
+      <TableBody>
         {events.map((event) => {
           return (
             event && (
@@ -93,9 +103,9 @@ const EventsTable: React.FC<EventsTableProps> = ({
             )
           );
         })}
-        {!events.length && <NoDataRow colSpan={6} />}
-      </tbody>
-    </Table>
+        {!events.length && <NoResultsRow colSpan={6} />}
+      </TableBody>
+    </CustomTable>
   );
 };
 

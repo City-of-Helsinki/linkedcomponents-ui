@@ -29,7 +29,7 @@ export const getKeywordsPage = async (t: TestController) => {
   const findSearchBanner = async () => {
     const selectors = {
       searchInput() {
-        return withinKeywordsPage().getByRole('searchbox', {
+        return withinKeywordsPage().getByRole('combobox', {
           name: /hae avainsanoja/i,
         });
       },

@@ -37,7 +37,7 @@
     "some": "Facebook, Google tai Twitter tunnus",
     "yle": "YLE-tunnus"
   },
-  "authenticationNotification": { 
+  "authenticationNotification": {
     "button": "kirjautua sisään",
     "part1": "Voit jatkaa palveluun tutustumista, mutta sinun täytyy",
     "part2": ", jos haluat tallentaa muutoksia."
@@ -67,17 +67,22 @@
       "toggleButtonAriaLabel": "Valikko"
     },
     "cookieConsent": {
-      "buttonAcceptAll": "Kaikki",
-      "buttonAcceptOnlyNecessary": "Vain välttämättömät",
-      "buttonDecline": "En hyväksy",
-      "checkboxAccept": "Olen lukenut ja hyväksyn palvelun <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"käyttöehdot {{openInNewTab}}\">käyttöehdot</a>",
-      "checkboxAcceptAriaLabel": "Olen lukenut ja hyväksyn palvelun käyttöehdot",
-      "linkDataProtection": "https://www.hel.fi/helsinki/fi/kaupunki-ja-hallinto/tietoa-helsingista/tietosuoja/",
-      "linkPrivacyPolicy": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf",
-      "text1": "Valitsemalla ”hyväksy” hyväksyt palvelun käyttöehdot. Seuraavaksi tulee hyväksyä joko välttämättömät tai kaikki evästeet.",
-      "text2": "Lue lisää <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"tietosuojakäytännöistä {{openInNewTab}}\">tietosuojakäytännöistä</a> ja <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"rekisteriselosteesta {{openInNewTab}}\">rekisteriselosteesta</a>.",
-      "text3": "Käytämme evästeitä parantaaksemme käyttökokemustasi sivustolla.",
-      "title": "Linked Events käyttöehdot ja evästeet"
+      "enrolmentForm": {
+        "description": "Osallistumislomakkeen tietojen säilymiseksi vaadittu eväste",
+        "name": "Osallistumislomakkeen eväste"
+      },
+      "eventForm": {
+        "description": "Tapahtumalomakkeen tietojen säilymiseksi vaadittu eväste",
+        "name": "Tapahtumalomakkeen eväste"
+      },
+      "expiration": {
+        "session": "Istunto"
+      },
+      "registrationForm": {
+        "description": "Ilmoittautumislomakkeen tietojen säilymiseksi vaadittu eväste",
+        "name": "Ilmoittautumislomakkeen eväste"
+      },
+      "siteName": "Linked Events"
     },
     "dateSelector": {
       "buttonToggle": "Valitse päivämäärät",
@@ -109,22 +114,14 @@
     "imageUploader": {
       "areaLabel": {
         "cropArea": "Siirrä rajausaluetta nuolinäppäimillä",
-        "nwDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi luoteista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "nDragHandle":
-          "Käytä ylä- ja alanuolinäppäimiä siirtääksesi pohjoista vetämiskahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "neDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi koillista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "eDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi itäistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "seDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi lounaista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "sDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi eteläistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "swDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi kaakkoista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
-        "wDragHandle":
-          "Käytä nuolinäppäimiä siirtääksesi läntistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta"
+        "nwDragHandle": "Käytä nuolinäppäimiä siirtääksesi luoteista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "nDragHandle": "Käytä ylä- ja alanuolinäppäimiä siirtääksesi pohjoista vetämiskahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "neDragHandle": "Käytä nuolinäppäimiä siirtääksesi koillista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "eDragHandle": "Käytä nuolinäppäimiä siirtääksesi itäistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "seDragHandle": "Käytä nuolinäppäimiä siirtääksesi lounaista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "sDragHandle": "Käytä nuolinäppäimiä siirtääksesi eteläistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "swDragHandle": "Käytä nuolinäppäimiä siirtääksesi kaakkoista vetokahvaa muuttaaksesi rajauksen valinta-aluetta",
+        "wDragHandle": "Käytä nuolinäppäimiä siirtääksesi läntistä vetokahvaa muuttaaksesi rajauksen valinta-aluetta"
       },
       "belowMinDimensions": "Kuvan pienin sallittu koko on 300 x 200 pikseliä",
       "buttonDropImage": "Raahaa ja pudota kuva alueelle tai lisää omalta koneelta klikkaamalla",
@@ -142,7 +139,7 @@
                 "start": "Klikkaa karttaa määrittääksesi sijainnin."
               }
             }
-          }, 
+          },
           "toolbar": {
             "actions": {
               "text": "Peruuta",
@@ -189,8 +186,8 @@
             "buttons": {
               "edit": "Muokkaa sijaintia",
               "editDisabled": "Ei muokattavaa sijaintia",
-              "remove":"Poista sijainti",
-              "removeDisabled":"Ei poistettavaa sijaintia"
+              "remove": "Poista sijainti",
+              "removeDisabled": "Ei poistettavaa sijaintia"
             }
           }
         }
@@ -204,16 +201,11 @@
     "noResults": "Ei tuloksia",
     "numberInput": {
       "buttonDecrease": "Vähennä",
-      "buttonIncrease": "Lisää" 
+      "buttonIncrease": "Lisää"
     },
     "openInExternalDomain": "Siirtyy toiseen sivustoon.",
     "openInNewTab": "(avataan uudessa välilehdessä)",
-    "pagination": {
-      "navigation": "Sivunavigointi",
-      "next": "Seuraava sivu",
-      "page": "Sivu {{page}}",
-      "previous": "Edellinen sivu"
-    },
+    "paginationAriaLabel": "Sivunumerointi",
     "placeholderDate": "p.k.vvvv",
     "placeholderDateTime": "p.k.vvvv hh.mm",
     "placeholderTime": "hh.mm",
@@ -225,6 +217,11 @@
     "showMoreWithCount": "Näytä lisää ({{count}})",
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
+    "table": {
+      "ariaLabelSortButtonAscending": "Järjestetty nousevaan järjestykseen",
+      "ariaLabelSortButtonDescending": "Järjestetty laskevaan järjestykseen",
+      "noResultsText": "Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan."
+    },
     "timeInput": {
       "hoursLabel": "tunnit",
       "minutsLabel": "minuutit"
@@ -334,6 +331,7 @@
       "buttonDeleteAttendee": "Poista osallistuja",
       "buttonSave": "Tallenna osallistuja",
       "buttonUpdateParticipantAmount": "Päivitä",
+      "freeCapacity": "Saatavilla olevia paikkoja",
       "labelAttendeeExtraInfo": "Lisätietoa (valinnainen)",
       "labelCity": "Kaupunki",
       "labelDateOfBirth": "Syntymäaika",
@@ -363,12 +361,27 @@
       "titleAdditionalInfo": "Lisätiedot",
       "titleBasicInfo": "Ilmoittautujan perustiedot",
       "titleContactInfo": "Yhteystiedot",
+      "titleInformantInfo": "Ilmoittajan tiedot",
       "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
       "titleRegistration": "Ilmoittautuminen"
+    },
+    "inWaitingList": {
+      "text": "Varasija",
+      "tooltip": "Ilmoittautuja on lisätty ilmoittautujien jonoon varasijalla. Ilmoittautuminen varmistuu vasta, kun paikka jonossa vapautuu. Saat paikan varmistumisesta ilmoituksen sähköpostitse."
     },
     "notifications": {
       "email": "Sähköpostilla",
       "sms": "Tekstiviestillä"
+    },
+    "personsAddedToWaitingListModal": {
+      "buttonClose": "Sulje",
+      "text": "Huomioi, että kaikki ilmoittautujien paikat eivät ole varmistettuja. Varasijalla olevat ilmoittautujat varmistuvat vain, jos jonosta vapautuu lisää paikkoja. Varmistuneesta ilmoittautumisesta saat erillisen sähköpostin.",
+      "title": "Ilmoittautujia on lisätty varausjonoon"
+    },
+    "reservationTimeExpiredModal": {
+      "buttonTryAgain": "Yritä uudelleen",
+      "text": "Valitettavasti varausaika on umpeutunut.",
+      "title": "Varausaika on täynnä."
     },
     "warnings": {
       "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
@@ -480,15 +493,15 @@
         "volunteering": "Lisää vapaaehtoistehtävälle ilmoittautuminen"
       },
       "buttonAddVideo": "Lisää video",
-      "buttonCancel":  "Peruuta tapahtuma",
+      "buttonCancel": "Peruuta tapahtuma",
       "buttonCopy": "Kopioi pohjaksi",
-      "buttonDelete":  "Poista tapahtuma",
+      "buttonDelete": "Poista tapahtuma",
       "buttonDeleteEventTime": "Poista ajankohta",
       "buttonDeleteExternalLink": "Poista SoMe-linkki",
       "buttonDeleteOffer": "Poista hintatieto",
       "buttonDeleteRecurringEvent": "Poista toistuva tapahtuma",
       "buttonDeleteVideo": "Poista video",
-      "buttonEdit":  "Muokkaa tapahtumaa",
+      "buttonEdit": "Muokkaa tapahtumaa",
       "buttonOpenRecurringEventSettings": {
         "course": "Avaa toistuvan kurssin asetukset",
         "general": "Avaa toistuvan tapahtuman asetukset",
@@ -908,8 +921,8 @@
       "titleAudienceAge": "Ikärajoitukset",
       "titleEnrolmentTime": "Ilmoittautumisaika",
       "titleEnterEventTime": {
-        "course":"Syötä kurssin ajankohta",
-        "general":"Syötä tapahtuman ajankohta",
+        "course": "Syötä kurssin ajankohta",
+        "general": "Syötä tapahtuman ajankohta",
         "volunteering": "Syötä vapaaehtoistehtävän ajankohta"
       },
       "titleEventType": "Valitse tapahtumatyyppi",
@@ -1292,7 +1305,7 @@
       "placeholderUrl": "Syötä kuvan URL-osoite",
       "titleImportFromHardDisk": "Tuo kiintolevyltä",
       "titleImportFromInternet": "Tuo internetistä",
-      "titleLicense": "Lisenssi",  
+      "titleLicense": "Lisenssi",
       "titleUseImportedImage": "Käytä aiemmin tuotua kuvaa"
     },
     "license": {
@@ -1677,6 +1690,12 @@
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
       "placeholderEvent": "Valitse tai hae tapahtuma",
       "placeholderInstructions": "Syötä ilmoittautumisohjeet",
+      "requiredFields": {
+        "address": "Osoite",
+        "city": "Kaupunki",
+        "name": "Nimi",
+        "phoneNumber": "Puhelinnumero"
+      },
       "sections": {
         "attendeeCount": "Paikat",
         "audienceAge": "Ikäraja",
@@ -1684,8 +1703,11 @@
         "enrolmentTime": "Ilmoittautumisaika",
         "event": "Tapahtuma",
         "instructions": "Ilmoittautumisen lisätiedot",
+        "requiredFields": "Pakolliset kentät",
         "waitingList": "Jonopaikat"
-      }
+      },
+      "titleContactInfo": "Yhteystiedot",
+      "titleParticipantBasicInfo": "Ilmoittautujan perustiedot"
     },
     "registrationLinkCopied": "Ilmoittautumislinkki kopioitu"
   },
@@ -1741,6 +1763,7 @@
     "min0": "Tämän luvun on oltava vähintään 0.",
     "mustBeUnique": "Arvon tulee olla uniikki.",
     "nameIsRequired": "Nimi on pakollinen.",
+    "notEnoughSeats": "Paikkoja ei ole riittävästi jäljellä.",
     "notFoundAllObjects": "Kaikkia päivitettäviä objekteja ei löytynyt.",
     "notNull": "Tämän kentän arvo ei voi olla \"null\".",
     "offersIsRequired": "Hintatiedot on määritettävä ennen tapahtuman julkaisemista.",

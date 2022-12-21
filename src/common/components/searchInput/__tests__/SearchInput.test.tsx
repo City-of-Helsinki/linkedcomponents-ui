@@ -15,8 +15,8 @@ const label = 'Enter search value';
 
 const defaultProps: SearchInputProps = {
   label,
-  onSearch: jest.fn(),
-  setValue: jest.fn(),
+  onChange: jest.fn(),
+  onSubmit: jest.fn(),
   value: '',
 };
 
@@ -28,7 +28,7 @@ const getElement = (key: 'clearButton' | 'input' | 'searchButton') => {
     case 'clearButton':
       return screen.getByRole('button', { name: 'Tyhjennä' });
     case 'input':
-      return screen.getByRole('searchbox', { name: label });
+      return screen.getByRole('combobox', { name: label });
     case 'searchButton':
       return screen.getByRole('button', { name: 'Etsi' });
   }
@@ -47,8 +47,9 @@ test('should render component with default texts', async () => {
 test('should clear search value', async () => {
   const user = userEvent.setup();
   const searchValue = 'test';
-  const setValue = jest.fn();
-  renderComponent({ setValue, value: searchValue });
+  const onChange = jest.fn();
+
+  renderComponent({ onChange, value: searchValue });
 
   const searchInput = getElement('input');
   expect(searchInput).toHaveValue(searchValue);
@@ -56,30 +57,30 @@ test('should clear search value', async () => {
   const clearButton = getElement('clearButton');
   await act(async () => await user.click(clearButton));
 
-  expect(setValue).toBeCalledWith('');
+  expect(onChange).toBeCalledWith('');
 });
 
 test('should call onSearch when clicking search button', async () => {
   const searchValue = 'test';
-  const onSearch = jest.fn();
+  const onSubmit = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ onSearch, value: searchValue });
+  renderComponent({ onSubmit, value: searchValue });
 
   const searchButton = getElement('searchButton');
   await act(async () => await user.click(searchButton));
 
-  expect(onSearch).toBeCalledWith(searchValue);
+  expect(onSubmit).toBeCalledWith(searchValue);
 });
 
 test('should call onSearch when pressing enter', async () => {
   const searchValue = 'test';
-  const onSearch = jest.fn();
+  const onSubmit = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ onSearch, value: searchValue });
+  renderComponent({ onSubmit, value: searchValue });
 
   const searchInput = getElement('input');
   await act(async () => await user.click(searchInput));
   await act(async () => await user.type(searchInput, '{enter}'));
 
-  expect(onSearch).toBeCalledWith(searchValue);
+  expect(onSubmit).toBeCalledWith(searchValue);
 });

@@ -63,16 +63,20 @@ const LandingPage: React.FC = () => {
               <ServiceCard
                 backgroundColor="metro"
                 backgroundImageUrl={myHelsinkiImage}
-                description={t('landingPage.myHelsinkiDescription')}
+                description={t('landingPage.myHelsinkiDescription') as string}
                 href={myHelsinkiRoute}
                 title={t('landingPage.myHelsinkiTitle')}
               />
               <ServiceCard
                 backgroundColor="suomenlinna"
                 backgroundImageUrl={tapahtumatImage}
-                description={t('landingPage.tapahtumatHelDescription')}
+                description={
+                  t('landingPage.tapahtumatHelDescription') as string
+                }
                 href={tapahtumatHelRoute}
-                imageAuthor={t('landingPage.tapahtumatHelImageAuthor')}
+                imageAuthor={
+                  t('landingPage.tapahtumatHelImageAuthor') as string
+                }
                 title={t('landingPage.tapahtumatHelTitle')}
               />
             </div>

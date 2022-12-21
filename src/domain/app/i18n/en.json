@@ -41,7 +41,7 @@
     "helsinkiEmployee": "Stad Helsinki anställd ID",
     "some": "Facebook, Google eller Twitter ID",
     "yle": "YLE ID"
-  }, 
+  },
   "common": {
     "add": "Add",
     "affiliate": "Affiliate",
@@ -66,17 +66,22 @@
       "toggleButtonAriaLabel": "Menu"
     },
     "cookieConsent": {
-      "buttonAcceptAll": "All",
-      "buttonAcceptOnlyNecessary": "Only necessary",
-      "buttonDecline": "I do not consent",
-      "checkboxAccept": "I have read and agree to the terms of this service <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"terms of this service {{openInNewTab}}\">terms of this service</a>",
-      "checkboxAcceptAriaLabel": "I have read and agree to the terms of this service",
-      "linkDataProtection": "https://www.hel.fi/helsinki/en/administration/information/data-protection",
-      "linkPrivacyPolicy": "https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf",
-      "text1": "By selecting I agree, I consent to the terms of this service. Next you must either consent to only the necessary, or all cookies. ",
-      "text2": "Read more about our <a href={{urlDataProtection}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"privacy policy {{openInNewTab}}\">privacy policy</a> and <a href={{urlPrivacyPolicy}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"registry description {{openInNewTab}}\">registry description</a>.",
-      "text3": "We use cookies to improve your experience using the service.",
-      "title": "Linked Events terms and cookies"
+      "enrolmentForm": {
+        "description": "The cookie required to save the enrolment form data",
+        "name": "Enrolment form cookie"
+      },
+      "eventForm": {
+        "description": "The cookie required to save the event form data",
+        "name": "Event form cookie"
+      },
+      "expiration": {
+        "session": "Session"
+      },
+      "registrationForm": {
+        "description": "The cookie required to save the registration form data",
+        "name": "Registration form cookie"
+      },
+      "siteName": "Linked Events"
     },
     "dateSelector": {
       "buttonToggle": "Choose dates",
@@ -107,23 +112,15 @@
     "home": "Front page",
     "imageUploader": {
       "areaLabel": {
-          "cropArea": "Use the arrow keys to move the crop selection area",
-          "nwDragHandle":
-            "Use the arrow keys to move the north west drag handle to change the crop selection area",
-          "nDragHandle":
-            "Use the up and down arrow keys to move the north drag handle to change the crop selection area",
-          "neDragHandle":
-            "Use the arrow keys to move the north east drag handle to change the crop selection area",
-          "eDragHandle":
-            "Use the up and down arrow keys to move the east drag handle to change the crop selection area",
-          "seDragHandle":
-            "Use the arrow keys to move the south east drag handle to change the crop selection area",
-          "sDragHandle":
-            "Use the up and down arrow keys to move the south drag handle to change the crop selection area",
-          "swDragHandle":
-            "Use the arrow keys to move the south west drag handle to change the crop selection area",
-          "wDragHandle":
-            "Use the up and down arrow keys to move the west drag handle to change the crop selection area"
+        "cropArea": "Use the arrow keys to move the crop selection area",
+        "nwDragHandle": "Use the arrow keys to move the north west drag handle to change the crop selection area",
+        "nDragHandle": "Use the up and down arrow keys to move the north drag handle to change the crop selection area",
+        "neDragHandle": "Use the arrow keys to move the north east drag handle to change the crop selection area",
+        "eDragHandle": "Use the up and down arrow keys to move the east drag handle to change the crop selection area",
+        "seDragHandle": "Use the arrow keys to move the south east drag handle to change the crop selection area",
+        "sDragHandle": "Use the up and down arrow keys to move the south drag handle to change the crop selection area",
+        "swDragHandle": "Use the arrow keys to move the south west drag handle to change the crop selection area",
+        "wDragHandle": "Use the up and down arrow keys to move the west drag handle to change the crop selection area"
       },
       "belowMinDimensions": "The minimum allowed image size is 300 x 200 pixels",
       "buttonDropImage": "Drag and drop and image to this area or browse from your hard drive by clicking",
@@ -141,7 +138,7 @@
                 "start": "Click on the map to set the location."
               }
             }
-          }, 
+          },
           "toolbar": {
             "actions": {
               "text": "Cancel",
@@ -188,8 +185,8 @@
             "buttons": {
               "edit": "Edit location",
               "editDisabled": "No location to edit",
-              "remove":"Delete location",
-              "removeDisabled":"No location to delete"
+              "remove": "Delete location",
+              "removeDisabled": "No location to delete"
             }
           }
         }
@@ -207,12 +204,7 @@
     },
     "openInExternalDomain": "Moves to another site.",
     "openInNewTab": "(will open in a new tab)",
-    "pagination": {
-      "navigation": "Page navigation",
-      "next": "Next page",
-      "page": "Page {{page}}",
-      "previous": "Previous page"
-    },
+    "paginationAriaLabel": "Pagination",
     "placeholderDate": "d.m.yyyy",
     "placeholderDateTime": "d.m.yyyy hh.mm",
     "placeholderTime": "hh.mm",
@@ -224,6 +216,11 @@
     "showMoreWithCount": "Show more ({{count}})",
     "signIn": "Sign in",
     "signOut": "Sign out",
+    "table": {
+      "ariaLabelSortButtonAscending": "Sorted in ascending order",
+      "ariaLabelSortButtonDescending": "Sorted in descending order",
+      "noResultsText": "Your search returned no results. Check your search terms and try again."
+    },
     "timeInput": {
       "hoursLabel": "hours",
       "minutsLabel": "minutes"
@@ -333,6 +330,7 @@
       "buttonDeleteAttendee": "Delete participant",
       "buttonSave": "Save participant",
       "buttonUpdateParticipantAmount": "Update",
+      "freeCapacity": "Available seats",
       "labelAttendeeExtraInfo": "Additional information (optional)",
       "labelCity": "City",
       "labelDateOfBirth": "Date of birth",
@@ -362,12 +360,27 @@
       "titleAdditionalInfo": "Additional information",
       "titleBasicInfo": "Basic information of the registrant",
       "titleContactInfo": "Contact information",
+      "titleInformantInfo": "Information of the informant",
       "titleNotifications": "Event notifications",
       "titleRegistration": "Registration"
+    },
+    "inWaitingList": {
+      "text": "In waiting list",
+      "tooltip": "Entrants have been added to the queue of registrants with a reserve place. Registration is confirmed only when a place in the queue becomes available. You will receive a notification by e-mail that the place has been confirmed."
     },
     "notifications": {
       "email": "By email",
       "sms": "By text message"
+    },
+    "personsAddedToWaitingListModal": {
+      "buttonClose": "Close",
+      "text": "Please note that not all registrants' places are guaranteed. Entrants in the reserve position will only be confirmed if more places become available in the queue. You will receive a separate email from confirmed registration.",
+      "title": "Entrants have been added to the reservation queue"
+    },
+    "reservationTimeExpiredModal": {
+      "buttonTryAgain": "Try Again",
+      "text": "Unfortunately, the Reservation time has expired.",
+      "title": "Time’s Up."
     },
     "warnings": {
       "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
@@ -375,7 +388,7 @@
       "closed": "Registration for this event is currently closed. Please try again later."
     }
   },
-  "enrolmentsPage": {  
+  "enrolmentsPage": {
     "actionButtons": {
       "cancel": "Cancel participation",
       "edit": "Edit information",
@@ -522,7 +535,7 @@
         "warningDeletedEvent": "Deleted events can't be edited.",
         "warningEventInPast": "Past events can't be edited.",
         "warningNoRightsToEdit": "You have insufficient rights to edit this event."
-      },      
+      },
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextAttendeeCapacity": {
         "course": "If the number of participants in the course is limited, specify the minimum and maximum number of participants here.",
@@ -550,7 +563,7 @@
         "volunteering": "The description is a longer and more detailed description of the content of the volunteering."
       },
       "infoTextDescription3": {
-        "course": "Also record the course's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.", 
+        "course": "Also record the course's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.",
         "general": "Also record the event's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.",
         "volunteering": "Also record the volunteering's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form."
       },
@@ -908,9 +921,9 @@
       "titleAudienceAge": "Age restrictions",
       "titleEnrolmentTime": "Registration time",
       "titleEnterEventTime": {
-        "course":"Enter course date",
-        "general":"Enter event date",
-        "volunteering":"Enter volunteering date"
+        "course": "Enter course date",
+        "general": "Enter event date",
+        "volunteering": "Enter volunteering date"
       },
       "titleEventType": "Select event type",
       "titleImage": {
@@ -1611,7 +1624,7 @@
       "labelStreetAddress": "Street address ({{langText}})",
       "labelTelephone": "Telephone number ({{langText}})",
       "notificationTitleCannotEdit": "The place cannot be edited",
-      "titleContactInfo": "Contact info",
+      "titleContactInfo": "Contact information",
       "titleLocation": "Position"
     }
   },
@@ -1677,6 +1690,12 @@
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
       "placeholderEvent": "Select or search for an event",
       "placeholderInstructions": "Enter registration instructions",
+      "requiredFields": {
+        "address": "Address",
+        "city": "City",
+        "name": "Name",
+        "phoneNumber": "Phone number"
+      },
       "sections": {
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
@@ -1684,8 +1703,11 @@
         "enrolmentTime": "Registration time",
         "event": "Event",
         "instructions": "Additional registration information",
+        "requiredFields": "Required fields",
         "waitingList": "Waiting list"
-      }
+      },
+      "titleContactInfo": "Contact information",
+      "titleParticipantBasicInfo": "Basic information of the participant"
     },
     "registrationLinkCopied": "Registration link copied"
   },
@@ -1741,6 +1763,7 @@
     "min0": "This number must be at least 0.",
     "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",
+    "notEnoughSeats": "Not enough seats available.",
     "notFoundAllObjects": "Could not find all objects to update.",
     "notNull": "The value of this field cannot be \"null\".",
     "offersIsRequired": "Price info must be specified before an event is published.",

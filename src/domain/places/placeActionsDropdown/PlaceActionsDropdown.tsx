@@ -24,10 +24,10 @@ export interface PlaceActionsDropdownProps {
   place: PlaceFieldsFragment;
 }
 
-const PlaceActionsDropdown = React.forwardRef<
-  HTMLDivElement,
-  PlaceActionsDropdownProps
->(({ className, place }, ref) => {
+const PlaceActionsDropdown: React.FC<PlaceActionsDropdownProps> = ({
+  className,
+  place,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -87,7 +87,7 @@ const PlaceActionsDropdown = React.forwardRef<
   ].filter(skipFalsyType);
 
   return (
-    <div ref={ref}>
+    <>
       {openModal === PLACE_MODALS.DELETE && (
         <ConfirmDeleteModal
           isOpen={openModal === PLACE_MODALS.DELETE}
@@ -97,8 +97,8 @@ const PlaceActionsDropdown = React.forwardRef<
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />
-    </div>
+    </>
   );
-});
+};
 
 export default PlaceActionsDropdown;

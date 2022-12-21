@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -10,7 +10,6 @@ import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { ORGANIZATION_ACTIONS } from '../../organization/constants';
-import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
 } from '../../organization/hooks/useOrganizationUpdateActions';
@@ -27,10 +26,10 @@ export interface OrganizationActionsDropdownProps {
   organization: OrganizationFieldsFragment;
 }
 
-const OrganizationActionsDropdown = React.forwardRef<
-  HTMLDivElement,
-  OrganizationActionsDropdownProps
->(({ className, organization }, ref) => {
+const OrganizationActionsDropdown: FC<OrganizationActionsDropdownProps> = ({
+  className,
+  organization,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -38,7 +37,6 @@ const OrganizationActionsDropdown = React.forwardRef<
   const { user } = useUser();
   const { id } = getOrganizationFields(organization, locale, t);
   const { pathname, search } = useLocation();
-  const { organizationAncestors } = useOrganizationAncestors(id);
 
   const { closeModal, deleteOrganization, openModal, saving, setOpenModal } =
     useOrganizationUpdateActions({
@@ -72,7 +70,6 @@ const OrganizationActionsDropdown = React.forwardRef<
       authenticated,
       id,
       onClick,
-      organizationAncestors,
       t,
       user,
     });
@@ -90,7 +87,7 @@ const OrganizationActionsDropdown = React.forwardRef<
   ].filter(skipFalsyType);
 
   return (
-    <div ref={ref}>
+    <>
       {openModal === ORGANIZATION_MODALS.DELETE && (
         <ConfirmDeleteModal
           isOpen={openModal === ORGANIZATION_MODALS.DELETE}
@@ -100,8 +97,8 @@ const OrganizationActionsDropdown = React.forwardRef<
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />
-    </div>
+    </>
   );
-});
+};
 
 export default OrganizationActionsDropdown;

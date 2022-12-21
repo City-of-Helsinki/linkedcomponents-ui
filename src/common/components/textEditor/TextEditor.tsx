@@ -8,9 +8,9 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassNames } from '@emotion/react';
 import React, { useEffect, useRef, useState } from 'react';
+import { useDebounce } from 'use-debounce';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
-import useDebounce from '../../../hooks/useDebounce';
 import useLocale from '../../../hooks/useLocale';
 import isTestEnv from '../../../utils/isTestEnv';
 import InputWrapper, { InputWrapperProps } from '../inputWrapper/InputWrapper';
@@ -47,7 +47,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   value,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const debouncedIsFocused = useDebounce(isFocused, 20);
+  const [debouncedIsFocused] = useDebounce(isFocused, 20);
   const editor = useRef<ClassicEditor>();
   const { theme } = useTheme();
   const locale = useLocale();

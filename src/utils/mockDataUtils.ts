@@ -1,16 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
+import addMinutes from 'date-fns/addMinutes';
 import merge from 'lodash/merge';
 
 import { EXTLINK } from '../constants';
 import { TEST_DATA_SOURCE_ID } from '../domain/dataSource/constants';
 import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
 import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
+import { TEST_REGISTRATION_ID } from '../domain/registration/constants';
+import { TEST_SEATS_RESERVATION_CODE } from '../domain/reserveSeats/constants';
 import {
   AttendeeStatus,
+  CreateEnrolmentResponse,
   DataSource,
   DataSourcesResponse,
   Enrolment,
+  EnrolmentPeopleResponse,
+  EnrolmentPerson,
   Event,
   EventsResponse,
   EventStatus,
@@ -37,6 +43,7 @@ import {
   PublicationStatus,
   Registration,
   RegistrationsResponse,
+  SeatsReservation,
   User,
   UsersResponse,
   Video,
@@ -103,6 +110,45 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
     overrides
   );
 };
+
+export const fakeEnrolmentPerson = (
+  overrides?: Partial<EnrolmentPerson>
+): EnrolmentPerson => {
+  const id = overrides?.id || faker.datatype.number();
+
+  return merge<EnrolmentPerson, typeof overrides>(
+    {
+      id,
+      name: faker.name.firstName(),
+      __typename: 'EnrolmentPerson',
+    },
+    overrides
+  );
+};
+
+export const fakeEnrolmentPeopleResponse = (
+  count = 1,
+  people: Partial<EnrolmentPerson>[] = []
+): EnrolmentPeopleResponse => {
+  return {
+    count,
+    people: generateNodeArray((i) => fakeEnrolmentPerson(people?.[i]), count),
+  };
+};
+
+export const fakeCreateEnrolmentResponse = (
+  overrides?: Partial<CreateEnrolmentResponse>
+): CreateEnrolmentResponse => {
+  return merge<CreateEnrolmentResponse, typeof overrides>(
+    {
+      attending: fakeEnrolmentPeopleResponse(0),
+      waitlisted: fakeEnrolmentPeopleResponse(0),
+      __typename: 'CreateEnrolmentResponse',
+    },
+    overrides
+  );
+};
+
 export const fakeEvents = (
   count = 1,
   events?: Partial<Event>[]
@@ -453,6 +499,25 @@ export const fakeRegistration = (
       signups: [],
       waitingListCapacity: 0,
       __typename: 'Registration',
+    },
+    overrides
+  );
+};
+
+export const fakeSeatsReservation = (
+  overrides?: Partial<SeatsReservation>
+): SeatsReservation => {
+  const timestamp = new Date().toISOString();
+
+  return merge<SeatsReservation, typeof overrides>(
+    {
+      code: TEST_SEATS_RESERVATION_CODE,
+      expiration: addMinutes(new Date(timestamp), 30).toISOString(),
+      registration: TEST_REGISTRATION_ID,
+      seats: 1,
+      timestamp,
+      seatsAtEvent: 1,
+      waitlistSpots: 0,
     },
     overrides
   );

@@ -8,13 +8,13 @@ import {
 } from '../../../generated/graphql';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { TEST_ENROLMENT_ID } from '../../enrolment/constants';
+import { getFreeWaitlistCapacity } from '../../enrolment/utils';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { registrationsResponse } from '../__mocks__/registration';
 import { REGISTRATION_INITIAL_VALUES } from '../constants';
 import {
   getEditRegistrationWarning,
   getEnrolmentLink,
-  getFreeWaitingAttendeeCapacity,
   getRegistrationFields,
   getRegistrationInitialValues,
   getRegistrationPayload,
@@ -378,18 +378,16 @@ describe('isWaitingCapacityUsed', () => {
   });
 });
 
-describe('getFreeWaitingAttendeeCapacity', () => {
+describe('getFreeWaitlistCapacity', () => {
   it('should return 0 if waiting_list_capacity is not defined', () => {
     expect(
-      getFreeWaitingAttendeeCapacity(
-        fakeRegistration({ waitingListCapacity: null })
-      )
+      getFreeWaitlistCapacity(fakeRegistration({ waitingListCapacity: null }))
     ).toBe(0);
   });
 
   it('should return correct amount if waiting_list_capacity is defined', () => {
     expect(
-      getFreeWaitingAttendeeCapacity(
+      getFreeWaitlistCapacity(
         fakeRegistration({
           currentWaitingListCount: 4,
           waitingListCapacity: 40,

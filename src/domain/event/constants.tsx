@@ -7,6 +7,7 @@ import {
   IconCross,
   IconPen,
 } from 'hds-react';
+import React from 'react';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT, MAX_PAGE_SIZE } from '../../constants';
 import { EventsQueryVariables } from '../../generated/graphql';

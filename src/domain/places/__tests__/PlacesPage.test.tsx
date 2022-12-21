@@ -63,7 +63,7 @@ const getElement = (
     case 'createPlaceButton':
       return screen.getByRole('button', { name: 'Lisää paikka' });
     case 'searchInput':
-      return screen.getByRole('searchbox', { name: 'Hae paikkoja' });
+      return screen.getByRole('combobox', { name: 'Hae paikkoja' });
     case 'sortNameButton':
       return screen.getByRole('button', { name: /nimi/i });
     case 'table':

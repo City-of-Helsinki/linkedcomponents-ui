@@ -1,4 +1,14 @@
 @import '../../../../assets/styles/breakpoints';
+@import '../../../../assets/styles/mixins';
+
+.checkboxGroup {
+  padding: 0;
+  border: unset;
+
+  legend {
+    @include hidden-from-screen;
+  }
+}
 
 .checkboxsWrapper {
   display: grid;

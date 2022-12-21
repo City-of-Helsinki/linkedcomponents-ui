@@ -1413,3 +1413,19 @@ export const getRecurringEvent = async (
     return null;
   }
 };
+
+const getAllEventTimes = (
+  eventTimes: EventTime[],
+  recurringEvents: RecurringEventSettings[]
+): EventTime[] => [
+  ...eventTimes,
+  ...recurringEvents.reduce(
+    (previous: EventTime[], current) => [...previous, ...current.eventTimes],
+    []
+  ),
+];
+
+export const isRecurringEvent = (
+  eventTimes: EventTime[],
+  recurringEvents: RecurringEventSettings[]
+): boolean => getAllEventTimes(eventTimes, recurringEvents).length > 1;
