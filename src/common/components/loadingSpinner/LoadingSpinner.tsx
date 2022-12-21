@@ -1,4 +1,4 @@
-import { ClassNames } from '@emotion/react';
+import classNames from 'classnames';
 import {
   LoadingSpinner as HdsLoadingSpinner,
   LoadingSpinnerProps,
@@ -29,27 +29,23 @@ const LoadingSpinner: React.FC<Props> = ({
   return (
     <>
       {isLoading ? (
-        <ClassNames>
-          {({ css, cx }) => (
-            <div
-              className={cx(className, styles.loadingSpinnerWrapper)}
-              data-testid={testIds.loadingSpinner}
-            >
-              <HdsLoadingSpinner
-                {...rest}
-                className={cx(
-                  styles.loadingSpinner,
-                  { [styles.loadingSpinnerSmall]: small },
-                  css(theme.loadingSpinner)
-                )}
-                loadingText={loadingText || (t('common.loading') as string)}
-                loadingFinishedText={
-                  loadingFinishedText || (t('common.loadingFinished') as string)
-                }
-              />
-            </div>
-          )}
-        </ClassNames>
+        <div
+          className={classNames(className, styles.loadingSpinnerWrapper)}
+          data-testid={testIds.loadingSpinner}
+        >
+          <HdsLoadingSpinner
+            {...rest}
+            className={classNames(styles.loadingSpinner, {
+              [styles.large]: !small,
+            })}
+            loadingText={loadingText || (t('common.loading') as string)}
+            loadingFinishedText={
+              loadingFinishedText || (t('common.loadingFinished') as string)
+            }
+            theme={theme.loadingSpinner}
+            small={small}
+          />
+        </div>
       ) : (
         children
       )}
