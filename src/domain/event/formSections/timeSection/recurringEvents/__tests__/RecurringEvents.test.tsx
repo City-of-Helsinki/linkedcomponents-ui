@@ -6,9 +6,11 @@ import {
   render,
   screen,
   userEvent,
+  within,
 } from '../../../../../../utils/testUtils';
 import { RecurringEventSettings } from '../../../../types';
-import TimeSectionContext, {
+import {
+  TimeSectionContext,
   timeSectionContextDefaultValue,
   TimeSectionContextProps,
 } from '../../TimeSectionContext';
@@ -109,19 +111,22 @@ test('should call setRecurringEvents when deleting a single event time', async (
 
   renderComponent({ recurringEvents, setRecurringEvents });
 
-  const toggleButton1 = screen.getByRole('button', {
+  const toggleButton = screen.getByRole('button', {
     name: 'Ma, Viikon välein, 1.5.2021 – 15.5.2021',
   });
-  await act(async () => await user.click(toggleButton1));
+  await act(async () => await user.click(toggleButton));
 
-  const toggleMenuButton = screen.getAllByRole('button', {
+  const withinEventRow = within(
+    screen.getByRole('row', {
+      name: '1 2.5.2021 12.00 – 2.5.2021 15.00',
+    })
+  );
+  const toggleMenuButton = withinEventRow.getByRole('button', {
     name: 'Valinnat',
-  })[0];
+  });
   await act(async () => await user.click(toggleMenuButton));
 
-  const deleteButton = screen.getByRole('button', {
-    name: 'Poista',
-  });
+  const deleteButton = withinEventRow.getByRole('button', { name: 'Poista' });
   await act(async () => await user.click(deleteButton));
 
   expect(setRecurringEvents).toBeCalledWith([

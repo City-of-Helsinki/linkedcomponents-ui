@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 
 import Notification from '../../../../../common/components/notification/Notification';
 import styles from '../../../eventPage.module.scss';
-import TimeSectionContext from '../TimeSectionContext';
+import useTimeSectionContext from '../hooks/useTimeSectionContext';
 
 const TimeSectionNotification: React.FC = () => {
   const { t } = useTranslation();
-  const { eventType } = React.useContext(TimeSectionContext);
+  const { eventType } = useTimeSectionContext();
 
   return (
     <Notification

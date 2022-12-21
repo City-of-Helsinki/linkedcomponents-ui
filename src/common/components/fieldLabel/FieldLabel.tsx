@@ -6,7 +6,9 @@ import styles from './fieldLabel.module.scss';
 
 type FieldLabelProps = {
   hidden?: boolean;
+  id?: string;
   inputId: string;
+  isAriaLabelledBy?: boolean;
   label: string | React.ReactNode;
   required?: boolean;
   tooltipLabel?: string;
@@ -16,7 +18,9 @@ type FieldLabelProps = {
 
 const FieldLabel: React.FC<FieldLabelProps> = ({
   hidden,
+  id,
   inputId,
+  isAriaLabelledBy,
   label,
   required,
   tooltipLabel,
@@ -26,7 +30,8 @@ const FieldLabel: React.FC<FieldLabelProps> = ({
 }) => (
   <>
     <label
-      htmlFor={inputId}
+      id={id}
+      {...((!isAriaLabelledBy || !id) && { htmlFor: inputId })}
       className={`${styles.label} ${hidden ? styles.hidden : ''}`}
       {...rest}
     >

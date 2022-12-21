@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { FocusEvent } from 'react';
 
 import FieldLabel from '../fieldLabel/FieldLabel';
 import styles from './inputWrapper.module.scss';
@@ -13,10 +13,14 @@ export type InputWrapperProps = {
   hideLabel?: boolean;
   id: string;
   invalid?: boolean;
+  isAriaLabelledBy?: boolean;
   label?: string | React.ReactNode;
+  labelId?: string;
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
   required?: boolean;
   style?: React.CSSProperties;
   successText?: string;
+  infoText?: string;
   tooltipLabel?: string;
   tooltipText?: string;
   tooltipButtonLabel?: string;
@@ -31,15 +35,20 @@ const InputWrapper: React.FC<InputWrapperProps> = ({
   hideLabel = false,
   id,
   invalid = false,
+  isAriaLabelledBy = false,
   label,
+  labelId,
+  onBlur,
   required = false,
   style,
   successText,
+  infoText,
   tooltipLabel,
   tooltipText,
   tooltipButtonLabel,
 }) => (
   <div
+    onBlur={onBlur}
     className={classNames(
       styles.root,
       {
@@ -53,7 +62,9 @@ const InputWrapper: React.FC<InputWrapperProps> = ({
   >
     {label && (
       <FieldLabel
+        id={labelId}
         inputId={id}
+        isAriaLabelledBy={isAriaLabelledBy}
         hidden={hideLabel}
         label={label}
         required={required}
@@ -71,6 +82,11 @@ const InputWrapper: React.FC<InputWrapperProps> = ({
     {successText && (
       <div className={styles.successText} id={`${id}-success`}>
         {successText}
+      </div>
+    )}
+    {infoText && (
+      <div className={styles.infoText} id={`${id}-info`}>
+        {infoText}
       </div>
     )}
     {helperText && (
