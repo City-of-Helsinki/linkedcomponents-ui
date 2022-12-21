@@ -142,48 +142,6 @@ test('should disable isUmbrella checkbox when editing recurring event', async ()
   expect(isUmbrellaCheckbox).toBeDisabled();
 });
 
-test('should uncheck isUmbrella checkbox if there is more than 1 event time', async () => {
-  await act(async () => {
-    await renderComponent({
-      ...defaultInitialValues,
-      isUmbrella: true,
-      eventTimes: [
-        { id: null, endTime: new Date(), startTime: new Date() },
-        { id: null, endTime: new Date(), startTime: new Date() },
-      ],
-    });
-  });
-
-  const isUmbrellaCheckbox = await findElement('isUmbrellaCheckbox');
-  expect(isUmbrellaCheckbox).not.toBeChecked();
-});
-
-test('should uncheck isUmbrella checkbox if there is more than 1 event times', async () => {
-  await act(async () => {
-    await renderComponent({
-      ...defaultInitialValues,
-      isUmbrella: true,
-      recurringEvents: [
-        {
-          endDate: new Date('2011-01-01'),
-          endTime: '12.00',
-          eventTimes: [
-            { id: null, endTime: new Date(), startTime: new Date() },
-            { id: null, endTime: new Date(), startTime: new Date() },
-          ],
-          repeatDays: [],
-          repeatInterval: 1,
-          startDate: new Date('2011-01-03'),
-          startTime: '11.00',
-        },
-      ],
-    });
-  });
-
-  const isUmbrellaCheckbox = await findElement('isUmbrellaCheckbox');
-  expect(isUmbrellaCheckbox).not.toBeChecked();
-});
-
 test('should show link to super event if super event type is recurring', async () => {
   renderComponent(undefined, {
     savedEvent: fakeEvent({

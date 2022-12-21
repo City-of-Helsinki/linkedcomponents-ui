@@ -20,7 +20,7 @@ import styles from '../../../eventPage.module.scss';
 import { RecurringEventSettings } from '../../../types';
 import { generateEventTimesFromRecurringEvent } from '../../../utils';
 import { recurringEventSchema } from '../../../validation';
-import TimeSectionContext from '../TimeSectionContext';
+import useTimeSectionContext from '../hooks/useTimeSectionContext';
 import { sortEventTimes } from '../utils';
 
 interface Props {
@@ -28,10 +28,8 @@ interface Props {
 }
 
 const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
-  const [resetTimeInputs, setResetTimeInputs] = React.useState(false);
   const { t } = useTranslation();
-  const { eventType, isEditingAllowed, savedEvent } =
-    React.useContext(TimeSectionContext);
+  const { eventType, isEditingAllowed, savedEvent } = useTimeSectionContext();
 
   const disabled =
     !isEditingAllowed ||
@@ -55,47 +53,36 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
     });
     resetForm();
     validateForm();
-    setResetTimeInputs(true);
   };
-
-  // TODO: Remove this hack when time input component is fixed
-  // Unmount time input components after form reset to reset the input fields
-  React.useEffect(() => {
-    if (resetTimeInputs) {
-      setResetTimeInputs(false);
-    }
-  }, [resetTimeInputs]);
 
   return (
     <Formik
       initialValues={RECURRING_EVENT_INITIAL_VALUES}
       onSubmit={submitAddRecurringEvent}
-      validateOnBlur
+      validateOnBlur={false}
       validateOnChange
       validateOnMount
       validationSchema={recurringEventSchema}
     >
       {({ handleSubmit, isValid, values: { startDate } }) => {
         return (
-          <div>
+          <>
             <FormGroup>
               <SplittedRow>
-                <div>
-                  <Field
-                    component={NumberInputField}
-                    disabled={disabled}
-                    helperText={t(
-                      `event.form.recurringEvent.helperRepeatInterval`
-                    )}
-                    label={t(
-                      `event.form.recurringEvent.labelRepeatInterval.${eventType}`
-                    )}
-                    min={1}
-                    max={4}
-                    name={RECURRING_EVENT_FIELDS.REPEAT_INTERVAL}
-                    required={true}
-                  />
-                </div>
+                <Field
+                  component={NumberInputField}
+                  disabled={disabled}
+                  helperText={t(
+                    `event.form.recurringEvent.helperRepeatInterval`
+                  )}
+                  label={t(
+                    `event.form.recurringEvent.labelRepeatInterval.${eventType}`
+                  )}
+                  min={1}
+                  max={4}
+                  name={RECURRING_EVENT_FIELDS.REPEAT_INTERVAL}
+                  required={true}
+                />
               </SplittedRow>
             </FormGroup>
 
@@ -134,30 +121,26 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
             </FormGroup>
             <FormGroup>
               <SplittedRow>
-                <div>
-                  <Field
-                    component={TimeInputField}
-                    disabled={disabled}
-                    name={RECURRING_EVENT_FIELDS.START_TIME}
-                    label={t(
-                      `event.form.recurringEvent.labelStartTime.${eventType}`
-                    )}
-                    placeholder={t('common.placeholderTime')}
-                    required={true}
-                  />
-                </div>
-                <div>
-                  <Field
-                    component={TimeInputField}
-                    disabled={disabled}
-                    name={RECURRING_EVENT_FIELDS.END_TIME}
-                    label={t(
-                      `event.form.recurringEvent.labelEndTime.${eventType}`
-                    )}
-                    placeholder={t('common.placeholderTime')}
-                    required={true}
-                  />
-                </div>
+                <Field
+                  component={TimeInputField}
+                  disabled={disabled}
+                  name={RECURRING_EVENT_FIELDS.START_TIME}
+                  label={t(
+                    `event.form.recurringEvent.labelStartTime.${eventType}`
+                  )}
+                  placeholder={t('common.placeholderTime')}
+                  required={true}
+                />
+                <Field
+                  component={TimeInputField}
+                  disabled={disabled}
+                  name={RECURRING_EVENT_FIELDS.END_TIME}
+                  label={t(
+                    `event.form.recurringEvent.labelEndTime.${eventType}`
+                  )}
+                  placeholder={t('common.placeholderTime')}
+                  required={true}
+                />
               </SplittedRow>
             </FormGroup>
             <FormGroup className={styles.buttonWrapper}>
@@ -171,7 +154,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
                 {t(`event.form.buttonAddRecurringEvent.${eventType}`)}
               </Button>
             </FormGroup>
-          </div>
+          </>
         );
       }}
     </Formik>

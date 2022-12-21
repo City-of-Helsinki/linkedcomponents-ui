@@ -16,7 +16,7 @@ import {
 } from '../../../constants';
 import { AddEventTimeFormFields, EventTime } from '../../../types';
 import { addEventTimeSchema } from '../../../validation';
-import TimeSectionContext from '../TimeSectionContext';
+import useTimeSectionContext from '../hooks/useTimeSectionContext';
 
 interface Props {
   addEventTime: (eventTime: EventTime) => void;
@@ -24,8 +24,7 @@ interface Props {
 
 const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
   const { t } = useTranslation();
-  const { eventType, isEditingAllowed, savedEvent } =
-    React.useContext(TimeSectionContext);
+  const { eventType, isEditingAllowed, savedEvent } = useTimeSectionContext();
   const disabled =
     !isEditingAllowed ||
     (savedEvent && savedEvent.superEventType !== SuperEventType.Recurring);
@@ -35,6 +34,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
     formikHelpers: FormikHelpers<AddEventTimeFormFields>
   ) => {
     const { resetForm, validateForm } = formikHelpers;
+
     addEventTime({
       id: null,
       endTime: setDateTime(
@@ -63,7 +63,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
         } as AddEventTimeFormFields
       }
       onSubmit={submitAddEventTime}
-      validateOnBlur
+      validateOnBlur={false}
       validateOnChange
       validateOnMount
       validationSchema={addEventTimeSchema}
@@ -76,7 +76,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
         },
       }) => {
         return (
-          <div>
+          <>
             <FormGroup>
               <SplittedRow>
                 <Field
@@ -127,7 +127,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
             >
               {t(`event.form.buttonAddEventTime.${eventType}`)}
             </Button>
-          </div>
+          </>
         );
       }}
     </Formik>

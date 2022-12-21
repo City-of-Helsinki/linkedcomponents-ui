@@ -1,5 +1,5 @@
 import { IconCrossCircle, IconMenuDots, IconPen } from 'hds-react';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import MenuDropdown from '../../../../../common/components/menuDropdown/MenuDropdown';
@@ -21,8 +21,8 @@ import { EVENT_EDIT_ACTIONS } from '../../../constants';
 import { EventTime } from '../../../types';
 import { getEditButtonProps } from '../../../utils';
 import EditEventTimeModal from '../editEventTimeModal/EditEventTimeModal';
+import useTimeSectionContext from '../hooks/useTimeSectionContext';
 import styles from '../timeSection.module.scss';
-import TimeSectionContext from '../TimeSectionContext';
 import { getEventEditAction, sortEventTimes } from '../utils';
 
 interface EventTimeRowProps {
@@ -45,7 +45,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   startIndex,
 }) => {
   const { t } = useTranslation();
-  const { isEditingAllowed, savedEvent } = useContext(TimeSectionContext);
+  const { isEditingAllowed, savedEvent } = useTimeSectionContext();
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);

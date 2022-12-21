@@ -2,17 +2,17 @@ import React from 'react';
 
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { EventTime, RecurringEventSettings } from '../../../types';
-import TimeSectionContext from '../TimeSectionContext';
+import useTimeSectionContext from '../hooks/useTimeSectionContext';
 import RecurringEvent from './recurringEvent/RecurringEvent';
 
 const RecurringEvents: React.FC = () => {
   const { events, recurringEvents, setRecurringEvents } =
-    React.useContext(TimeSectionContext);
+    useTimeSectionContext();
 
   const handleDelete = (index: number) => {
     setRecurringEvents(
       recurringEvents.filter(
-        (recurringEvent, recurringEventIndex) => recurringEventIndex !== index
+        (_, recurringEventIndex) => recurringEventIndex !== index
       )
     );
   };

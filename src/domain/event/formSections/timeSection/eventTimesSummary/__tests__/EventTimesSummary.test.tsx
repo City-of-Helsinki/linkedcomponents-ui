@@ -9,7 +9,8 @@ import {
   userEvent,
 } from '../../../../../../utils/testUtils';
 import { EventTime, RecurringEventSettings } from '../../../../types';
-import TimeSectionContext, {
+import {
+  TimeSectionContext,
   timeSectionContextDefaultValue,
   TimeSectionContextProps,
 } from '../../TimeSectionContext';
