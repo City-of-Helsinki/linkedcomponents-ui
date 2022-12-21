@@ -9,7 +9,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import {
   EVENT_FIELDS,
   EVENT_INITIAL_VALUES,
@@ -49,11 +48,11 @@ const getElement = (
     case 'addButton':
       return screen.getByRole('button', { name: 'Lisää video' });
     case 'altTextInput':
-      return screen.getByRole('textbox', { name: 'Videon alt-teksti' });
+      return screen.getByLabelText('Videon alt-teksti');
     case 'nameInput':
-      return screen.getByRole('textbox', { name: 'Videon nimi' });
+      return screen.getByLabelText('Videon nimi');
     case 'urlInput':
-      return screen.getByRole('textbox', { name: 'Videon URL-osoite' });
+      return screen.getByLabelText('Videon URL-osoite');
   }
 };
 
@@ -69,14 +68,12 @@ test('should render VideoSection', () => {
 
   // Section title and notification title are same
   expect(
-    screen.getAllByRole('heading', {
-      name: translations.event.form.titleVideo[type],
-    })
+    screen.getAllByRole('heading', { name: 'Tapahtuman video' })
   ).toHaveLength(2);
 
   const texts = [
-    translations.event.form.infoTextVideo1[type],
-    translations.event.form.infoTextVideo2,
+    'Jos tapahtumaan liittyy video, voit lisätä sen osoitteen tässä.',
+    'Anna videolle nimi ja kuvaa lyhyesti mitä siinä tapahtuu.',
   ];
 
   texts.forEach((text) => screen.getByText(text));
@@ -123,20 +120,20 @@ test('should add and remove video', async () => {
   const fields = ['Videon nimi'];
 
   fields.forEach((name) => {
-    expect(screen.getAllByRole('textbox', { name })).toHaveLength(1);
+    expect(screen.getAllByLabelText(name)).toHaveLength(1);
   });
 
   const addButton = getElement('addButton');
   await act(async () => await user.click(addButton));
 
   await waitFor(() =>
-    expect(screen.getAllByRole('textbox', { name: fields[0] })).toHaveLength(2)
+    expect(screen.getAllByLabelText(fields[0])).toHaveLength(2)
   );
 
   const deleteButton = getElements('deleteButtons')[1];
   await act(async () => await user.click(deleteButton));
 
   await waitFor(() =>
-    expect(screen.getAllByRole('textbox', { name: fields[0] })).toHaveLength(1)
+    expect(screen.getAllByLabelText(fields[0])).toHaveLength(1)
   );
 });

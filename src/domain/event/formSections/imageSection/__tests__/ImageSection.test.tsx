@@ -17,7 +17,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import {
   DEFAULT_LICENSE_TYPE,
   IMAGE_FIELDS,
@@ -115,31 +114,25 @@ const getElement = (
     // Both add button and preview image component have same label
     case 'addButton':
       return screen.getAllByRole('button', {
-        name: translations.event.form.buttonAddImage[eventType],
+        name: 'Lisää tapahtuman kuva',
       })[0];
     case 'altTextInput':
-      return screen.getByRole('textbox', {
-        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
-      });
+      return screen.getByLabelText(
+        'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
+      );
     case 'modalHeading':
-      return screen.getByRole('heading', {
-        name: translations.event.form.modalTitleImage[eventType],
-      });
+      return screen.getByRole('heading', { name: 'Lisää tapahtuman kuva' });
     case 'nameInput':
-      return screen.getByRole('textbox', { name: /kuvateksti/i });
+      return screen.getByLabelText(/kuvateksti/i);
     // Both remove button and preview image component have same label
     case 'removeButton':
       return screen.getAllByRole('button', {
-        name: translations.event.form.buttonRemoveImage[eventType],
+        name: 'Poista tapahtuman kuva',
       })[0];
     case 'submitButton':
-      return screen.getByRole('button', {
-        name: translations.common.add,
-      });
+      return screen.getByRole('button', { name: 'Lisää' });
     case 'urlInput':
-      return screen.getByRole('textbox', {
-        name: translations.image.form.labelUrl,
-      });
+      return screen.getByLabelText('Kuvan URL-osoite');
   }
 };
 
@@ -157,9 +150,7 @@ test('should select existing image', async () => {
   });
   await act(async () => await user.click(imageCheckbox));
 
-  const submitButton = screen.getByRole('button', {
-    name: translations.common.add,
-  });
+  const submitButton = getElement('submitButton');
   await waitFor(() => expect(submitButton).toBeEnabled());
   await act(async () => await user.click(submitButton));
 
@@ -197,9 +188,7 @@ test('should create and select new image by selecting image file', async () => {
     await fireEvent.change(fileInput);
   });
 
-  const submitButton = screen.getByRole('button', {
-    name: translations.common.add,
-  });
+  const submitButton = getElement('submitButton');
   await waitFor(() => expect(submitButton).toBeEnabled());
   await act(async () => await user.click(submitButton));
 

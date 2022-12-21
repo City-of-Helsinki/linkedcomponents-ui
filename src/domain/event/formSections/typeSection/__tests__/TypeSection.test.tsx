@@ -3,14 +3,7 @@ import React from 'react';
 
 import { SuperEventType } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
-import {
-  act,
-  configure,
-  render,
-  screen,
-  userEvent,
-} from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
+import { configure, render, screen } from '../../../../../utils/testUtils';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { EventTime, RecurringEventSettings } from '../../../types';
 import { mockedUmbrellaEventsResponse } from '../__mocks__/typeSection';
@@ -58,41 +51,17 @@ const findElement = (key: 'isUmbrellaCheckbox' | 'umbrellaSelector') => {
   switch (key) {
     case 'isUmbrellaCheckbox':
       return screen.findByRole('checkbox', {
-        name: translations.event.form.labelIsUmbrella[type],
+        name: 'Tämä tapahtuma on kattotapahtuma.',
       });
     case 'umbrellaSelector':
       return screen.findByRole('combobox', {
-        name: new RegExp(translations.event.form.labelUmbrellaEvent),
+        name: new RegExp('Kattotapahtuma'),
       });
   }
 };
-
-const getElement = (key: 'hasUmbrellaCheckbox' | 'umbrellaSelector') => {
-  switch (key) {
-    case 'hasUmbrellaCheckbox':
-      return screen.getByRole('checkbox', {
-        name: translations.event.form.labelHasUmbrella[type],
-      });
-    case 'umbrellaSelector':
-      return screen.getByRole('combobox', {
-        name: new RegExp(translations.event.form.labelUmbrellaEvent),
-      });
-  }
-};
-
-test('should render type section', async () => {
-  renderComponent();
-
-  getElement('hasUmbrellaCheckbox');
-  await findElement('isUmbrellaCheckbox');
-});
 
 test('should render umbrella event selector if hasUmbrella is checked', async () => {
-  const user = userEvent.setup();
-  renderComponent();
-
-  const hasUmbrellaCheckbox = getElement('hasUmbrellaCheckbox');
-  await act(async () => await user.click(hasUmbrellaCheckbox));
+  renderComponent({ ...defaultInitialValues, hasUmbrella: true });
 
   await findElement('umbrellaSelector');
 });
@@ -149,5 +118,7 @@ test('should show link to super event if super event type is recurring', async (
     }),
   });
 
-  screen.getByText(translations.event.form.infoTextUmbrellaSubEvent);
+  screen.getByText(
+    'Jos haluat lisätä tämän tapahtuman osaksi kattotapahtumaa, tee se'
+  );
 });

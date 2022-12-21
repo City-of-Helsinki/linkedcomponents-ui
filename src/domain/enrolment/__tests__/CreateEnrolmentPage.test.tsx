@@ -185,9 +185,7 @@ const getUpdateSeatsReservationErrorMock = (seats: number): MockedResponse => {
   };
 
   const error = new ApolloError({
-    networkError: {
-      result: 'Not enough seats available.',
-    } as any,
+    networkError: { result: 'Not enough seats available.' } as any,
   });
 
   return {

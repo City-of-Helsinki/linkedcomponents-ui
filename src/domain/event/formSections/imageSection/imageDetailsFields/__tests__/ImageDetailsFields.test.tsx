@@ -15,7 +15,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../../utils/testUtils';
-import translations from '../../../../../app/i18n/fi.json';
 import {
   imageFields,
   imageNotFoundAtId,
@@ -101,9 +100,9 @@ const renderComponent = ({
 const findElement = (key: 'altText') => {
   switch (key) {
     case 'altText':
-      return screen.findByRole('textbox', {
-        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
-      });
+      return screen.findByLabelText(
+        'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
+      );
   }
 };
 
@@ -112,21 +111,19 @@ const getElement = (
 ) => {
   switch (key) {
     case 'altText':
-      return screen.getByRole('textbox', {
-        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
-      });
+      return screen.getByLabelText(
+        'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
+      );
     case 'ccByRadio':
-      return screen.getByRole('radio', {
-        name: translations.image.license.ccBy,
-      });
+      return screen.getByRole('radio', { name: 'Creative Commons BY 4.0' });
     case 'eventOnlyRadio':
       return screen.getByRole('radio', {
-        name: translations.image.license.eventOnly[eventType],
+        name: 'Käyttö rajattu tapahtuman yhteyteen',
       });
     case 'name':
-      return screen.getByRole('textbox', { name: 'Kuvateksti' });
+      return screen.getByLabelText('Kuvateksti');
     case 'photographerName':
-      return screen.getByRole('textbox', { name: 'Kuvaajan nimi' });
+      return screen.getByLabelText('Kuvaajan nimi');
   }
 };
 
@@ -145,24 +142,24 @@ test('should show localized alt-text fields', async () => {
     await renderComponent({});
   });
 
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
-  });
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (ruotsiksi)',
-  });
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (englanniksi)',
-  });
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (venäjäksi)',
-  });
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (kiinaksi)',
-  });
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (arabiaksi)',
-  });
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
+  );
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (ruotsiksi)'
+  );
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (englanniksi)'
+  );
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (venäjäksi)'
+  );
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (kiinaksi)'
+  );
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (arabiaksi)'
+  );
 });
 
 test('should show only Finnish alt-text field', async () => {
@@ -172,9 +169,9 @@ test('should show only Finnish alt-text field', async () => {
     await renderComponent({});
   });
 
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *',
-  });
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *'
+  );
 });
 
 test('all fields should be disabled when imageAtId is empty', async () => {
@@ -335,7 +332,6 @@ test('should show validation error when entering too short altText', async () =>
 
   await waitFor(() => expect(altTextInput).toHaveValue(imageFields.altText.fi));
 
-  await act(async () => await user.click(altTextInput));
   await act(async () => await user.clear(altTextInput));
   await act(async () => await user.type(altTextInput, '123'));
   await act(async () => await user.tab());

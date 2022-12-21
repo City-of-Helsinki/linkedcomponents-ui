@@ -72,14 +72,12 @@ const getElement = (
 ) => {
   switch (key) {
     case 'endTimeDate':
-      return screen.getByRole('textbox', { name: 'Ilmoittautuminen päättyy' });
+      return screen.getByLabelText('Ilmoittautuminen päättyy');
     case 'endTimeTime':
       const endTimeGroup = screen.getByRole('group', {
         name: /ilmoittautuminen päättyy klo/i,
       });
-      return within(endTimeGroup).getByRole('textbox', {
-        name: 'tunnit',
-      });
+      return within(endTimeGroup).getByLabelText('tunnit');
     case 'maxAge':
       return screen.getByRole('spinbutton', { name: 'Yläikäraja' });
     case 'minAge':
@@ -93,14 +91,12 @@ const getElement = (
         name: 'Enimmäisosallistujamäärä',
       });
     case 'startTimeDate':
-      return screen.getByRole('textbox', { name: 'Ilmoittautuminen alkaa' });
+      return screen.getByLabelText('Ilmoittautuminen alkaa');
     case 'startTimeTime':
       const startTimeGroup = screen.getByRole('group', {
         name: /ilmoittautuminen alkaa klo/i,
       });
-      return within(startTimeGroup).getByRole('textbox', {
-        name: 'tunnit',
-      });
+      return within(startTimeGroup).getByLabelText('tunnit');
   }
 };
 
@@ -177,14 +173,10 @@ test('should validate enrolment start and end dates', async () => {
   const endTimeDateInput = getElement('endTimeDate');
   const endTimeTimeInput = getElement('endTimeTime');
 
-  await act(async () => await user.click(startTimeDateInput));
   await act(async () => await user.type(startTimeDateInput, startDate));
-  await act(async () => await user.click(startTimeTimeInput));
   await act(async () => await user.type(startTimeTimeInput, startTime));
 
-  await act(async () => await user.click(endTimeDateInput));
   await act(async () => await user.type(endTimeDateInput, endDate));
-  await act(async () => await user.click(endTimeTimeInput));
   await act(async () => await user.type(endTimeTimeInput, endTime));
 
   await act(async () => await user.click(startTimeDateInput));

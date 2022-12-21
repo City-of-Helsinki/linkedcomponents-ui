@@ -89,9 +89,7 @@ const renderComponent = (
 const findElement = (key: 'descriptionFi') => {
   switch (key) {
     case 'descriptionFi':
-      return screen.findByRole('textbox', {
-        name: /editorin muokkausalue: main/i,
-      });
+      return screen.findByLabelText(/editorin muokkausalue: main/i);
   }
 };
 
@@ -102,13 +100,9 @@ const getElement = (
     case 'fiButton':
       return screen.getByRole('tab', { name: /suomi/i });
     case 'nameFi':
-      return screen.getByRole('textbox', {
-        name: /tapahtuman otsikko suomeksi/i,
-      });
+      return screen.getByLabelText(/tapahtuman otsikko suomeksi/i);
     case 'shortDescriptionFi':
-      return screen.getByRole('textbox', {
-        name: /lyhyt kuvaus suomeksi/i,
-      });
+      return screen.getByLabelText(/lyhyt kuvaus suomeksi/i);
     case 'svButton':
       return screen.getByRole('tab', { name: /ruotsi/i });
   }
