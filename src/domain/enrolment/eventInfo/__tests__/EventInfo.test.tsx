@@ -31,7 +31,7 @@ const getElement = (key: 'age' | 'date' | 'description' | 'name' | 'price') => {
     case 'name':
       return screen.getByText(eventOverrides.name.fi as string);
     case 'price':
-      return screen.getByText(eventOverrides.offers[0].price.fi as string);
+      return screen.getByText(eventOverrides.offers[0].price?.fi as string);
   }
 };
 

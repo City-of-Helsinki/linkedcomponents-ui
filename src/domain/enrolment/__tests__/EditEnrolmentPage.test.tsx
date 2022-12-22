@@ -37,13 +37,12 @@ const findElement = (key: 'cancelButton' | 'nameInput') => {
     case 'cancelButton':
       return screen.findByRole('button', { name: 'Peruuta osallistuminen' });
     case 'nameInput':
-      return screen.findByRole('textbox', { name: /nimi/i });
+      return screen.findByLabelText(/nimi/i);
   }
 };
 
 const getElement = (
   key:
-    | 'cancelButton'
     | 'cityInput'
     | 'dateOfBirthInput'
     | 'emailCheckbox'
@@ -60,36 +59,34 @@ const getElement = (
     | 'zipInput'
 ) => {
   switch (key) {
-    case 'cancelButton':
-      return screen.getByRole('button', { name: 'Peruuta osallistuminen' });
     case 'cityInput':
-      return screen.getByRole('textbox', { name: /kaupunki/i });
+      return screen.getByLabelText(/kaupunki/i);
     case 'dateOfBirthInput':
-      return screen.getByRole('textbox', { name: /syntymäaika/i });
+      return screen.getByLabelText(/syntymäaika/i);
     case 'emailCheckbox':
-      return screen.getByRole('checkbox', { name: /sähköpostilla/i });
+      return screen.getByLabelText(/sähköpostilla/i);
     case 'emailInput':
-      return screen.getByRole('textbox', { name: /sähköpostiosoite/i });
+      return screen.getByLabelText(/sähköpostiosoite/i);
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
     case 'nameInput':
-      return screen.getByRole('textbox', { name: /nimi/i });
+      return screen.getByLabelText(/nimi/i);
     case 'nativeLanguageButton':
       return screen.getByRole('button', { name: /äidinkieli/i });
     case 'phoneCheckbox':
-      return screen.getByRole('checkbox', { name: /tekstiviestillä/i });
+      return screen.getByLabelText(/tekstiviestillä/i);
     case 'phoneInput':
-      return screen.getByRole('textbox', { name: /puhelinnumero/i });
+      return screen.getByLabelText(/puhelinnumero/i);
     case 'serviceLanguageButton':
       return screen.getByRole('button', { name: /asiointikieli/i });
     case 'streetAddressInput':
-      return screen.getByRole('textbox', { name: /katuosoite/i });
+      return screen.getByLabelText(/katuosoite/i);
     case 'submitButton':
       return screen.getByRole('button', { name: /tallenna osallistuja/i });
     case 'toggle':
       return screen.getByRole('button', { name: /valinnat/i });
     case 'zipInput':
-      return screen.getByRole('textbox', { name: /postinumero/i });
+      return screen.getByLabelText(/postinumero/i);
   }
 };
 
@@ -97,9 +94,9 @@ const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggle');
   await act(async () => await user.click(toggleButton));
-  getElement('menu');
+  const menu = getElement('menu');
 
-  return toggleButton;
+  return { menu, toggleButton };
 };
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
@@ -131,8 +128,9 @@ test('should scroll to first validation error input field', async () => {
   renderComponent();
 
   const nameInput = await findElement('nameInput');
-  await act(async () => await user.clear(nameInput));
   const submitButton = getElement('submitButton');
+
+  await act(async () => await user.clear(nameInput));
   await act(async () => await user.click(submitButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
@@ -164,20 +162,21 @@ test('should cancel enrolment', async () => {
   ]);
 
   await findElement('nameInput');
-  await openMenu();
+  const { menu } = await openMenu();
 
-  const cancelButton = await findElement('cancelButton');
+  const cancelButton = await within(menu).findByRole('button', {
+    name: 'Peruuta osallistuminen',
+  });
   await act(async () => await user.click(cancelButton));
 
-  const withinModal = within(
-    screen.getByRole('dialog', {
-      name: 'Haluatko varmasti poistaa ilmoittautumisen?',
-    })
-  );
-  const cancelEventButton = withinModal.getByRole('button', {
+  const dialog = screen.getByRole('dialog', {
+    name: 'Haluatko varmasti poistaa ilmoittautumisen?',
+  });
+
+  const confirmCancelButton = within(dialog).getByRole('button', {
     name: 'Peruuta ilmoittautuminen',
   });
-  await act(async () => await user.click(cancelEventButton));
+  await act(async () => await user.click(confirmCancelButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
