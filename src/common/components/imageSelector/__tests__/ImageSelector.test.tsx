@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Image } from '../../../../generated/graphql';
 import {
   act,
   configure,
@@ -37,7 +38,7 @@ test('should render image selector', async () => {
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
   images.data.forEach((image) => {
-    screen.getByRole('checkbox', { name: image.name });
+    screen.getByLabelText(image?.name as string);
   });
 });
 
@@ -53,11 +54,9 @@ test('should load more images', async () => {
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
   for (const image of loadMoreImages.data) {
-    await screen.findByRole(
-      'checkbox',
-      { name: image.name },
-      { timeout: 5000 }
-    );
+    await screen.findByLabelText(image?.name as string, undefined, {
+      timeout: 5000,
+    });
   }
 });
 
@@ -70,17 +69,17 @@ test('should call onChange', async () => {
 
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
-  const { name, atId } = images.data[0];
+  const { name, atId } = images.data[0] as Image;
 
   await act(
-    async () => await user.click(screen.getByRole('checkbox', { name }))
+    async () => await user.click(screen.getByLabelText(name as string))
   );
   expect(onChange).toBeCalledWith([atId]);
 });
 
 test('should clear value when clicking selected image', async () => {
   const onChange = jest.fn();
-  const { name, atId } = images.data[0];
+  const { name, atId } = images.data[0] as Image;
   const user = userEvent.setup();
   renderComponent({ onChange, value: [atId] });
 
@@ -89,14 +88,14 @@ test('should clear value when clicking selected image', async () => {
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
   await act(
-    async () => await user.click(screen.getByRole('checkbox', { name }))
+    async () => await user.click(screen.getByLabelText(name as string))
   );
   expect(onChange).toBeCalledWith([]);
 });
 
 test('should call onChange with multiple image ids', async () => {
   const onChange = jest.fn();
-  const { atId } = images.data[0];
+  const { atId } = images.data[0] as Image;
   const user = userEvent.setup();
   renderComponent({ multiple: true, onChange, value: [atId] });
 
@@ -104,9 +103,9 @@ test('should call onChange with multiple image ids', async () => {
 
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
-  const { name, atId: atId2 } = images.data[1];
+  const { name, atId: atId2 } = images.data[1] as Image;
   await act(
-    async () => await user.click(screen.getByRole('checkbox', { name }))
+    async () => await user.click(screen.getByLabelText(name as string))
   );
 
   expect(onChange).toBeCalledWith([atId, atId2]);

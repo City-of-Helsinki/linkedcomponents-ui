@@ -4755,10 +4755,10 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
-"@popperjs/core@2.5.3":
-  version "2.5.3"
-  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.5.3.tgz#4982b0b66b7a4cf949b86f5d25a8cf757d3cfd9d"
-  integrity sha512-RFwCobxsvZ6j7twS7dHIZQZituMIDJJNHS/qY6iuthVebxS3zhRY+jaC2roEKiAYaVuTcGmX6Luc6YBcf6zJVg==
+"@popperjs/core@2.11.5":
+  version "2.11.5"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.5.tgz#db5a11bf66bdab39569719555b0f76e138d7bd64"
+  integrity sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==
 
 "@reach/observe-rect@^1.1.0":
   version "1.2.0"
@@ -10956,27 +10956,27 @@ hastscript@^6.0.0:
     property-information "^5.0.0"
     space-separated-tokens "^1.0.0"
 
-hds-core@2.8.0, hds-core@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-2.8.0.tgz#8dd00a5b1ea4783bd02575bfe8776825b71a086e"
-  integrity sha512-VvhsLYpzLDuD63od7DK1NpvxjIbgYSK0BM/YzTnd4TgBDAAHofec94EIJ83J//7vJgFqKu9de90pfqGwTq+Ovw==
+hds-core@2.9.0, hds-core@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-2.9.0.tgz#0b5a42c27ac2bb97f3e57af1a22c2cc0bc46502f"
+  integrity sha512-Hv9decQIqK5+zwthsODC76TBx0XgCd+83a/uoiZVcYqfJBhFXzEyfdzQjrZ417Zup3pnm9MHcRXH05xIBCqafg==
 
-hds-react@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-2.8.0.tgz#b4adc8da439d5a3c032b5c3fee53573cfdfa0280"
-  integrity sha512-LpryxwrnDNCWVftzc5OM8KKCN5M5kfru36WxJWRcNZRCpXfUZUIzrsEBvVhR8ZpERVQvIv2iU30bbeOd8rqK4Q==
+hds-react@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-2.9.0.tgz#7edae4864159b98eee73e71905d50a7cc90dbc0d"
+  integrity sha512-YfjH3KBCaxGuzcl4lbPUGMvNcuuC3iOmixvKhYnV6dAl29x5BI2B1bE7rI3oSwwsWbvvp0LZV41zJxC20yrb1A==
   dependencies:
     "@babel/runtime" "7.11.2"
     "@emotion/styled-base" "^11.0.0"
     "@juggle/resize-observer" "3.2.0"
-    "@popperjs/core" "2.5.3"
+    "@popperjs/core" "2.11.5"
     "@react-aria/visually-hidden" "3.2.0"
     "@types/cookie" "^0.4.1"
     cookie "^0.4.1"
     crc-32 "1.2.0"
     date-fns "2.16.1"
     downshift "6.0.6"
-    hds-core "2.8.0"
+    hds-core "2.9.0"
     kashe "1.0.4"
     lodash.get "^4.4.2"
     lodash.isequal "4.5.0"
@@ -10990,7 +10990,7 @@ hds-react@^2.8.0:
     memoize-one "5.2.1"
     postcss "7.0.36"
     react-merge-refs "1.1.0"
-    react-popper "2.2.3"
+    react-popper "2.2.5"
     react-spring "9.3.0"
     react-use-measure "2.0.1"
     react-virtual "2.2.7"
@@ -15395,10 +15395,10 @@ react-modal@^3.16.1:
     react-lifecycles-compat "^3.0.0"
     warning "^4.0.3"
 
-react-popper@2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-2.2.3.tgz#33d425fa6975d4bd54d9acd64897a89d904b9d97"
-  integrity sha512-mOEiMNT1249js0jJvkrOjyHsGvqcJd3aGW/agkiMoZk3bZ1fXN1wQszIQSjHIai48fE67+zwF8Cs+C4fWqlfjw==
+react-popper@2.2.5:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/react-popper/-/react-popper-2.2.5.tgz#1214ef3cec86330a171671a4fbcbeeb65ee58e96"
+  integrity sha512-kxGkS80eQGtLl18+uig1UIf9MKixFSyPxglsgLBxlYnyDf65BiY9B3nZSc6C9XUNDgStROB0fMQlTEz1KxGddw==
   dependencies:
     react-fast-compare "^3.0.1"
     warning "^4.0.2"

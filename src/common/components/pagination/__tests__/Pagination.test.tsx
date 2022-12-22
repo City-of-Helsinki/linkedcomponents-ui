@@ -16,13 +16,9 @@ const defaultProps: PaginationProps = {
 const getElement = (key: 'next' | 'previous') => {
   switch (key) {
     case 'next':
-      return screen.getByRole('button', {
-        name: 'Seuraava',
-      });
+      return screen.getByRole('button', { name: 'Seuraava' });
     case 'previous':
-      return screen.getByRole('button', {
-        name: 'Edellinen',
-      });
+      return screen.getByRole('button', { name: 'Edellinen' });
   }
 };
 

@@ -12,7 +12,6 @@ import {
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
-import translations from '../../../app/i18n/fi.json';
 import { AuthContextProps } from '../../types';
 import LogoutPage from '../LogoutPage';
 
@@ -28,7 +27,9 @@ const getElement = (key: 'buttonHome' | 'buttonSignIn' | 'text') => {
     case 'buttonSignIn':
       return screen.getByRole('button', { name: 'Kirjaudu sisään' });
     case 'text':
-      return screen.getByText(translations.logoutPage.text);
+      return screen.getByText(
+        'Olet kirjautunut ulos palvelusta. Kirjaudu takaisin sisään tai palaa etusivulle.'
+      );
   }
 };
 

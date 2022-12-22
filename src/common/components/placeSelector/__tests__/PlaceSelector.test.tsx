@@ -41,10 +41,7 @@ const place = fakePlace({
 const placeVariables = { id: placeId, createPath: undefined };
 const placeResponse = { data: { place } };
 const mockedPlaceResponse = {
-  request: {
-    query: PlaceDocument,
-    variables: placeVariables,
-  },
+  request: { query: PlaceDocument, variables: placeVariables },
   result: placeResponse,
 };
 
@@ -56,10 +53,7 @@ const filteredPlacesVariables = {
 };
 const filteredPlacesResponse = { data: { places: filteredPlaces } };
 const mockedFilterdPlacesRespomse = {
-  request: {
-    query: PlacesDocument,
-    variables: filteredPlacesVariables,
-  },
+  request: { query: PlacesDocument, variables: filteredPlacesVariables },
   result: filteredPlacesResponse,
 };
 

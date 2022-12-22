@@ -31,10 +31,7 @@ const event = fakeEvent({ id: eventId, name: { fi: eventName } });
 const eventVariables = { createPath: undefined, id: eventId };
 const eventResponse = { data: { event: event } };
 const mockedEventResponse = {
-  request: {
-    query: EventDocument,
-    variables: eventVariables,
-  },
+  request: { query: EventDocument, variables: eventVariables },
   result: eventResponse,
 };
 
@@ -47,10 +44,7 @@ const filteredEventsVariables = {
 const filteredEvents = fakeEvents(1, [event]);
 const filteredEventsResponse = { data: { events: filteredEvents } };
 const mockedFilteredEventsResponse = {
-  request: {
-    query: EventsDocument,
-    variables: filteredEventsVariables,
-  },
+  request: { query: EventsDocument, variables: filteredEventsVariables },
   result: filteredEventsResponse,
 };
 
@@ -108,6 +102,6 @@ test('should open menu by clickin toggle button and list of options should be vi
   expect(inputField.getAttribute('aria-expanded')).toBe('true');
 
   for (const option of filteredEvents.data) {
-    await screen.findByRole('option', { hidden: true, name: option.name.fi });
+    await screen.findByRole('option', { name: option.name.fi });
   }
 });

@@ -41,10 +41,8 @@ test('onScrollFn should be called and input should be focused', async () => {
 
   expect(onScrollFn).toBeCalledTimes(1);
 
-  const input = screen.getByRole('textbox', { name: 'Input 1' });
-  await waitFor(() => {
-    expect(input).toHaveFocus();
-  });
+  const input = screen.getByLabelText('Input 1');
+  await waitFor(() => expect(input).toHaveFocus());
 });
 
 test('onScrollFn should not be called', async () => {

@@ -96,7 +96,7 @@ test('should open dropdown menu', async () => {
   await renderComponentWithOpenMenu();
 
   options.forEach(({ label }) => {
-    screen.getByRole('checkbox', { name: label });
+    screen.getByLabelText(label);
   });
 
   getElement('searchInput');
@@ -132,7 +132,7 @@ test('should filter options', async () => {
   const user = userEvent.setup();
   await renderComponentWithOpenMenu();
 
-  options.forEach(({ label }) => screen.getByRole('checkbox', { name: label }));
+  options.forEach(({ label }) => screen.getByLabelText(label));
 
   const searchInput = getElement('searchInput');
   await act(async () => await user.type(searchInput, options[0].label));
@@ -140,13 +140,11 @@ test('should filter options', async () => {
   const optionsNotVisible = [options[1].label, options[2].label];
   for (const optionLabel in optionsNotVisible) {
     await waitFor(() =>
-      expect(
-        screen.queryByRole('checkbox', { name: optionLabel })
-      ).not.toBeInTheDocument()
+      expect(screen.queryByLabelText(optionLabel)).not.toBeInTheDocument()
     );
   }
 
-  screen.getByRole('checkbox', { name: options[0].label });
+  screen.getByLabelText(options[0].label);
 });
 
 test('should call onChange', async () => {
@@ -155,7 +153,7 @@ test('should call onChange', async () => {
   await renderComponentWithOpenMenu({ onChange });
 
   for (const option of options) {
-    const checkbox = screen.getByRole('checkbox', { name: option.label });
+    const checkbox = screen.getByLabelText(option.label);
     await act(async () => await user.click(checkbox));
 
     expect(onChange).toBeCalledWith([option]);
@@ -167,7 +165,7 @@ test('should uncheck option', async () => {
   const user = userEvent.setup();
   await renderComponentWithOpenMenu({ onChange, value: [options[0]] });
 
-  const checkbox = screen.getByRole('checkbox', { name: options[0].label });
+  const checkbox = screen.getByLabelText(options[0].label);
   await act(async () => await user.click(checkbox));
 
   expect(onChange).toBeCalledWith([]);
@@ -178,9 +176,7 @@ test('should call onChange when pressing enter', async () => {
   await renderComponentWithClosedMenu({ onChange });
 
   arrowDownKeyPressHelper();
-  const checkbox = await screen.findByRole('checkbox', {
-    name: options[0].label,
-  });
+  const checkbox = await screen.findByLabelText(options[0].label);
   enterKeyPressHelper(checkbox);
 
   expect(onChange).toBeCalledWith([options[0]]);
