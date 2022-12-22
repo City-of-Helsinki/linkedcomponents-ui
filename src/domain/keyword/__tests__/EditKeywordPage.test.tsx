@@ -43,7 +43,7 @@ const findElement = (key: 'deleteButton' | 'nameInput') => {
     case 'deleteButton':
       return screen.findByRole('button', { name: /poista avainsana/i });
     case 'nameInput':
-      return screen.findByRole('textbox', { name: /nimi \(suomeksi\)/i });
+      return screen.findByLabelText(/nimi \(suomeksi\)/i);
   }
 };
 
