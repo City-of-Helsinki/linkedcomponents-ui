@@ -61,9 +61,7 @@ const renderComponent = ({
 const findElement = (key: 'imageCheckbox') => {
   switch (key) {
     case 'imageCheckbox':
-      return screen.findByRole('checkbox', {
-        name: images.data[0]?.name as string,
-      });
+      return screen.findByLabelText(images.data[0]?.name as string);
   }
 };
 
@@ -74,7 +72,7 @@ const getElement = (key: 'addButton' | 'cancelButton' | 'urlInput') => {
     case 'cancelButton':
       return screen.getByRole('button', { name: /peruuta/i });
     case 'urlInput':
-      return screen.getByRole('textbox', { name: /kuvan url-osoite/i });
+      return screen.getByLabelText(/kuvan url-osoite/i);
   }
 };
 
