@@ -44,9 +44,9 @@ const getElement = (
 ) => {
   switch (key) {
     case 'nameInput':
-      return screen.getByRole('textbox', { name: /nimi \(suomeksi\)/i });
+      return screen.getByLabelText(/nimi \(suomeksi\)/i);
     case 'originIdInput':
-      return screen.getByRole('textbox', { name: /lähdetunniste/i });
+      return screen.getByLabelText(/lähdetunniste/i);
     case 'publisherInput':
       return screen.getByRole('combobox', { name: /julkaisija/i });
     case 'publisherToggleButton':
@@ -92,23 +92,15 @@ test('should focus to first validation error when trying to save new place', asy
   await loadingSpinnerIsNotInDocument();
 
   const originIdInput = getElement('originIdInput');
-  const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
-
-  await waitFor(() => expect(originIdInput).toHaveFocus());
-  await act(async () => await user.type(originIdInput, placeValues.originId));
-
   const publisherToggleButton = getElement('publisherToggleButton');
+  const saveButton = getElement('saveButton');
+
+  await act(async () => await user.click(saveButton));
+  await waitFor(() => expect(originIdInput).toHaveFocus());
+
+  await act(async () => await user.type(originIdInput, placeValues.originId));
   await act(async () => await user.click(saveButton));
   await waitFor(() => expect(publisherToggleButton).toHaveFocus());
-
-  await act(async () => await user.click(publisherToggleButton));
-  const option = await screen.findByRole('option', { name: organizationName });
-  await act(async () => await user.click(option));
-
-  const nameInput = getElement('nameInput');
-  await act(async () => await user.click(saveButton));
-  await waitFor(() => expect(nameInput).toHaveFocus());
 });
 
 test('should move to places page after creating new place', async () => {

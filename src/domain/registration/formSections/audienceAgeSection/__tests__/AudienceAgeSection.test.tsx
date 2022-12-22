@@ -40,13 +40,9 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
 const getElement = (key: 'maxAge' | 'minAge') => {
   switch (key) {
     case 'maxAge':
-      return screen.getByRole('spinbutton', {
-        name: translations.registration.form.labelAudienceMaxAge,
-      });
+      return screen.getByRole('spinbutton', { name: 'Yläikäraja' });
     case 'minAge':
-      return screen.getByRole('spinbutton', {
-        name: translations.registration.form.labelAudienceMinAge,
-      });
+      return screen.getByRole('spinbutton', { name: 'Alaikäraja' });
   }
 };
 

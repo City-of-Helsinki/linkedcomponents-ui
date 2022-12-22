@@ -6,7 +6,6 @@ import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContex
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import {
   act,
-  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
@@ -48,13 +47,9 @@ const getElement = (
 ) => {
   switch (key) {
     case 'addRegistrationButton':
-      return screen.getByRole('button', {
-        name: /Lisää uusi/i,
-      });
+      return screen.getByRole('button', { name: /Lisää uusi/i });
     case 'backToRegistrationsButton':
-      return screen.getByRole('button', {
-        name: /Palaa ilmoittautumisiin/i,
-      });
+      return screen.getByRole('button', { name: /Palaa ilmoittautumisiin/i });
     case 'registrationSavedHeading':
       return screen.getByRole('heading', {
         name: /Ilmoittautuminen tallennettu onnistuneesti/i,
@@ -85,7 +80,6 @@ test('should route to registration list page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   getElement('registrationSavedHeading');
-  await actWait(100);
 
   const backToRegistrationsButton = getElement('backToRegistrationsButton');
   await act(async () => await user.click(backToRegistrationsButton));
@@ -101,7 +95,6 @@ test('should route to create registration page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   getElement('registrationSavedHeading');
-  await actWait(100);
 
   const addEventButton = getElement('addRegistrationButton');
   await act(async () => await user.click(addEventButton));

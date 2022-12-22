@@ -7,7 +7,6 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import ConfirmDeleteModal, {
   ConfirmDeleteModalProps,
 } from '../ConfirmDeleteModal';
@@ -34,14 +33,14 @@ const getElement = (
       return screen.getByRole('button', { name: 'Poista organisaatio' });
     case 'text':
       return screen.getByText(
-        translations.organization.deleteOrganizationModal.text
+        'Tämä toiminto poistaa organisaation lopullisesti.'
       );
     case 'title':
       return screen.getByRole('heading', {
         name: 'Varmista organisaation poistaminen',
       });
     case 'warning':
-      return screen.getByText(translations.common.warning);
+      return screen.getByText('Varoitus!');
   }
 };
 

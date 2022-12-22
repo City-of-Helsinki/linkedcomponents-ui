@@ -44,7 +44,7 @@ const findElement = (key: 'deleteButton' | 'nameInput') => {
     case 'deleteButton':
       return screen.findByRole('button', { name: /poista paikka/i });
     case 'nameInput':
-      return screen.findByRole('textbox', { name: /nimi \(suomeksi\)/i });
+      return screen.findByLabelText(/nimi \(suomeksi\)/i);
   }
 };
 
@@ -61,8 +61,9 @@ test('should scroll to first validation error input field', async () => {
 
   await loadingSpinnerIsNotInDocument();
   const nameInput = await findElement('nameInput');
-  await act(async () => await user.clear(nameInput));
   const saveButton = getElement('saveButton');
+
+  await act(async () => await user.clear(nameInput));
   await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
@@ -76,14 +77,15 @@ test('should delete place', async () => {
   ]);
 
   await loadingSpinnerIsNotInDocument();
+
   const deleteButton = await findElement('deleteButton');
   await act(async () => await user.click(deleteButton));
 
   const withinModal = within(screen.getByRole('dialog'));
-  const deletePlaceButton = withinModal.getByRole('button', {
+  const confirmDeleteButton = withinModal.getByRole('button', {
     name: 'Poista paikka',
   });
-  await act(async () => await user.click(deletePlaceButton));
+  await act(async () => await user.click(confirmDeleteButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/places`)
@@ -111,7 +113,7 @@ test('should show server errors', async () => {
   const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedInvalidUpdatePlaceResponse]);
 
-  await findElement('nameInput');
+  await loadingSpinnerIsNotInDocument();
 
   const submitButton = getElement('saveButton');
   await act(async () => await user.click(submitButton));

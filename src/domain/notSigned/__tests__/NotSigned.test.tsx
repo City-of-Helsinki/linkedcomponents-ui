@@ -8,7 +8,6 @@ import {
   screen,
   userEvent,
 } from '../../../utils/testUtils';
-import translations from '../../app/i18n/fi.json';
 import { AuthContextProps } from '../../auth/types';
 import NotSigned from '../NotSigned';
 
@@ -20,11 +19,13 @@ const renderComponent = (authContextValue?: AuthContextProps) =>
 const getElement = (key: 'goToHomeButton' | 'signInButton' | 'text') => {
   switch (key) {
     case 'goToHomeButton':
-      return screen.getByRole('button', { name: translations.common.goToHome });
+      return screen.getByRole('button', { name: 'Etusivulle' });
     case 'signInButton':
-      return screen.getByRole('button', { name: translations.common.signIn });
+      return screen.getByRole('button', { name: 'Kirjaudu sisään' });
     case 'text':
-      return screen.getByText(translations.notSigned.text);
+      return screen.getByText(
+        'Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä. Kirjaudu sisään tai palaa etusivulle.'
+      );
   }
 };
 

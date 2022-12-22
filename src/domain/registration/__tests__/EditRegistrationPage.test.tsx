@@ -58,9 +58,9 @@ const openMenu = async () => {
     .pop() as HTMLElement;
 
   await act(async () => await user.click(toggleButton));
-  screen.getByRole('region', { name: /valinnat/i });
+  const menu = screen.getByRole('region', { name: /valinnat/i });
 
-  return toggleButton;
+  return { menu, toggleButton };
 };
 
 const getConfirmDeleteModal = () =>
@@ -71,10 +71,8 @@ const queryConfirmDeleteModal = () =>
     name: 'Varmista ilmoittautumisen poistaminen',
   });
 
-const getButton = (key: 'delete' | 'update') => {
+const getButton = (key: 'update') => {
   switch (key) {
-    case 'delete':
-      return screen.getByRole('button', { name: 'Poista ilmoittautuminen' });
     case 'update':
       return screen.getByRole('button', { name: 'Tallenna muutokset' });
   }
@@ -83,7 +81,7 @@ const getButton = (key: 'delete' | 'update') => {
 const getInput = (key: 'enrolmentStartTime' | 'minimumAttendeeCapacity') => {
   switch (key) {
     case 'enrolmentStartTime':
-      return screen.getByRole('textbox', { name: /ilmoittautuminen alkaa/i });
+      return screen.getByLabelText(/ilmoittautuminen alkaa/i);
     case 'minimumAttendeeCapacity':
       return screen.getByRole('spinbutton', {
         name: /paikkojen vähimmäismäärä/i,
@@ -96,11 +94,12 @@ test('should show link to event page', async () => {
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
+
   const eventLink = screen.getByRole('link', {
     name: event.name?.fi as string,
   });
-
   await act(async () => await user.click(eventLink));
+
   expect(history.location.pathname).toBe(
     `/fi${ROUTES.EDIT_EVENT.replace(':id', event.id)}`
   );
@@ -112,16 +111,18 @@ test('should move to registrations page after deleting registration', async () =
   const { history } = renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
-  await openMenu();
+  const { menu } = await openMenu();
 
-  const deleteButton = getButton('delete');
+  const deleteButton = within(menu).getByRole('button', {
+    name: 'Poista ilmoittautuminen',
+  });
   await act(async () => await user.click(deleteButton));
 
   const withinModal = within(getConfirmDeleteModal());
-  const deleteRegistrationButton = withinModal.getByRole('button', {
+  const confirmDeleteButton = withinModal.getByRole('button', {
     name: 'Poista ilmoittautuminen',
   });
-  await act(async () => await user.click(deleteRegistrationButton));
+  await act(async () => await user.click(confirmDeleteButton));
 
   await waitFor(
     () => expect(queryConfirmDeleteModal()).not.toBeInTheDocument(),
