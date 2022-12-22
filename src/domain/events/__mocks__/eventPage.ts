@@ -22,7 +22,7 @@ const commonSearchVariables = {
   text: '',
 };
 
-const waitingApprovalEventsCount = 3;
+const waitingApprovalEventsCount = 1;
 const waitingApprovalEvents = fakeEvents(
   waitingApprovalEventsCount,
   Array(waitingApprovalEventsCount).fill({ publisher: organizationId })
@@ -88,7 +88,7 @@ const mockedPublicEventsResponse: MockedResponse = {
   result: publicEventsResponse,
 };
 
-const draftEventsCount = 7;
+const draftEventsCount = 3;
 const draftEvents = fakeEvents(
   draftEventsCount,
   Array(draftEventsCount).fill({ publisher: organizationId })

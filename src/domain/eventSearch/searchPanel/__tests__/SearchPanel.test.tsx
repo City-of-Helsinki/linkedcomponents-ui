@@ -18,13 +18,12 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import translations from '../../../app/i18n/fi.json';
 import { PLACES_SORT_ORDER } from '../../../place/constants';
 import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
 
-const placeOverrides = range(1, 5).map((i) => ({
+const placeOverrides = range(1, 3).map((i) => ({
   id: `place:${i}`,
   name: `Place name ${i}`,
 }));
@@ -40,25 +39,16 @@ const placesVariables = {
 };
 const placesResponse = { data: { places } };
 const mockedPlacesResponse: MockedResponse = {
-  request: {
-    query: PlacesDocument,
-    variables: placesVariables,
-  },
+  request: { query: PlacesDocument, variables: placesVariables },
   result: placesResponse,
 };
 
 const place = places.data[0] as PlaceFieldsFragment;
 const placeId = place.id;
-const placeVariables = {
-  id: placeId,
-  createPath: undefined,
-};
+const placeVariables = { id: placeId, createPath: undefined };
 const placeResponse = { data: { place } };
 const mockedPlaceResponse: MockedResponse = {
-  request: {
-    query: PlaceDocument,
-    variables: placeVariables,
-  },
+  request: { query: PlaceDocument, variables: placeVariables },
   result: placeResponse,
 };
 
@@ -75,29 +65,19 @@ const getElement = (
 ) => {
   switch (key) {
     case 'dateSelectorButton':
-      return screen.getByRole('button', {
-        name: translations.common.dateSelector.buttonToggle,
-      });
+      return screen.getByRole('button', { name: 'Valitse päivämäärät' });
     case 'endDateInput':
-      return screen.getByPlaceholderText(
-        translations.common.dateSelector.placeholderEndDate
-      );
+      return screen.getByPlaceholderText('Loppuu p.k.vvvv');
     case 'eventTypeSelectorButton':
-      return screen.getByRole('button', {
-        name: translations.eventSearchPage.searchPanel.labelEventType,
-      });
+      return screen.getByRole('button', { name: 'Tyyppi' });
     case 'placeSelectorButton':
-      return screen.getByRole('button', {
-        name: translations.eventSearchPage.searchPanel.labelPlace,
-      });
+      return screen.getByRole('button', { name: 'Etsi tapahtumapaikkaa' });
     case 'searchInput':
       return screen.getByRole('combobox', {
-        name: translations.eventSearchPage.searchPanel.labelSearch,
+        name: 'Hae Linked Events -rajapinnasta',
       });
     case 'startDateInput':
-      return screen.getByPlaceholderText(
-        translations.common.dateSelector.placeholderStartDate
-      );
+      return screen.getByPlaceholderText('Alkaa p.k.vvvv');
   }
 };
 
@@ -126,46 +106,36 @@ test('should search events with correct search params', async () => {
   // Text filtering
   const searchInput = getElement('searchInput');
   fireEvent.change(searchInput, { target: { value: values.text } });
-  await waitFor(() => expect(searchInput).toHaveValue(values.text));
 
   // Date filtering
   const dateSelectorButton = getElement('dateSelectorButton');
   await act(async () => await user.click(dateSelectorButton));
 
   const startDateInput = getElement('startDateInput');
-  await act(async () => await user.click(startDateInput));
   await act(async () => await user.type(startDateInput, values.startDate));
   await waitFor(() => expect(startDateInput).toHaveValue(values.startDate));
 
   const endDateInput = getElement('endDateInput');
-  await act(async () => await user.click(endDateInput));
   await act(async () => await user.type(endDateInput, values.endDate));
   await waitFor(() => expect(endDateInput).toHaveValue(values.endDate));
 
   // Place filtering
   const placeSelectorButton = getElement('placeSelectorButton');
   await act(async () => await user.click(placeSelectorButton));
-  const placeCheckbox = screen.getByRole('checkbox', {
-    name: placeOverrides[0].name,
-    hidden: false,
-  });
+  const placeCheckbox = screen.getByLabelText(placeOverrides[0].name);
   await act(async () => await user.click(placeCheckbox));
 
   // Event type filtering
   const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
   await act(async () => await user.click(eventTypeSelectorButton));
-  await waitFor(() => expect(placeCheckbox).not.toBeInTheDocument());
-  const eventTypeCheckbox = screen.getByRole('checkbox', {
-    name: 'Tapahtuma',
-  });
+  const eventTypeCheckbox = await screen.findByLabelText('Tapahtuma');
   await act(async () => await user.click(eventTypeCheckbox));
 
   const searchButton = screen.getAllByRole('button', {
-    name: translations.eventSearchPage.searchPanel.buttonSearch,
+    name: 'Etsi tapahtumia',
   })[1];
   await act(async () => await user.click(searchButton));
-  await waitFor(() => expect(eventTypeCheckbox).not.toBeInTheDocument());
-  expect(history.location.pathname).toBe('/fi/search');
+  await waitFor(() => expect(history.location.pathname).toBe('/fi/search'));
   expect(history.location.search).toBe(
     '?place=place%3A1&text=search&type=general&end=2021-03-12&start=2021-03-05'
   );

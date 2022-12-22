@@ -27,10 +27,7 @@ const place = fakePlace({ id: placeId, name: { fi: placeName } });
 const placeVariables = { id: placeId, createPath: undefined };
 const placeResponse = { data: { place } };
 const mockedPlaceResponse: MockedResponse = {
-  request: {
-    query: PlaceDocument,
-    variables: placeVariables,
-  },
+  request: { query: PlaceDocument, variables: placeVariables },
   result: placeResponse,
 };
 

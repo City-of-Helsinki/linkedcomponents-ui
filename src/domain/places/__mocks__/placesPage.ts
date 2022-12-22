@@ -8,6 +8,8 @@ import {
   PLACES_PAGE_SIZE,
 } from '../constants';
 
+const TEST_PAGE_SIZE = 2;
+
 const variables = {
   createPath: undefined,
   page: 1,
@@ -17,9 +19,9 @@ const variables = {
   text: '',
 };
 
-const placeNames = range(1, PLACES_PAGE_SIZE + 1).map((n) => `Place name ${n}`);
+const placeNames = range(1, TEST_PAGE_SIZE + 1).map((n) => `Place name ${n}`);
 const places = fakePlaces(
-  PLACES_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   placeNames.map((name) => ({ name: { fi: name } }))
 );
 
@@ -31,11 +33,11 @@ const mockedPlacesResponse = {
   result: placesResponse,
 };
 
-const page2PlaceNames = range(1, PLACES_PAGE_SIZE + 1).map(
+const page2PlaceNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Page 2 place ${n}`
 );
 const page2Places = fakePlaces(
-  PLACES_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   page2PlaceNames.map((name) => ({ name: { fi: name } }))
 );
 const page2PlacesResponse = {
@@ -47,11 +49,11 @@ const mockedPage2PlacesResponse = {
   result: page2PlacesResponse,
 };
 
-const sortedPlaceNames = range(1, PLACES_PAGE_SIZE + 1).map(
+const sortedPlaceNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Sorted places ${n}`
 );
 const sortedPlaces = fakePlaces(
-  PLACES_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   sortedPlaceNames.map((name) => ({ name: { fi: name } }))
 );
 const sortedPlacesResponse = {

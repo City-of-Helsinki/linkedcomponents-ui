@@ -8,6 +8,8 @@ import {
   IMAGES_PAGE_SIZE,
 } from '../constants';
 
+const TEST_PAGE_SIZE = 2;
+
 const variables = {
   createPath: undefined,
   page: 1,
@@ -16,9 +18,9 @@ const variables = {
   text: '',
 };
 
-const imageNames = range(1, IMAGES_PAGE_SIZE + 1).map((n) => `Image name ${n}`);
+const imageNames = range(1, TEST_PAGE_SIZE + 1).map((n) => `Image name ${n}`);
 const images = fakeImages(
-  IMAGES_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   imageNames.map((name) => ({ name }))
 );
 
@@ -30,11 +32,11 @@ const mockedImagesResponse = {
   result: imagesResponse,
 };
 
-const page2ImageNames = range(1, IMAGES_PAGE_SIZE + 1).map(
+const page2ImageNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Page 2 image ${n}`
 );
 const page2Images = fakeImages(
-  IMAGES_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   page2ImageNames.map((name) => ({ name }))
 );
 const page2ImagesResponse = {
@@ -46,11 +48,11 @@ const mockedPage2ImagesResponse = {
   result: page2ImagesResponse,
 };
 
-const sortedImageNames = range(1, IMAGES_PAGE_SIZE + 1).map(
+const sortedImageNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Sorted images ${n}`
 );
 const sortedImages = fakeImages(
-  IMAGES_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   sortedImageNames.map((name) => ({ name }))
 );
 const sortedImagesResponse = {
