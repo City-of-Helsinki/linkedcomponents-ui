@@ -12,7 +12,7 @@ import {
   useUpdateOrganizationMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
-import { UpdateActionsCallbacks } from '../../../types';
+import { MutationCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearOrganizationQueries,
@@ -34,14 +34,14 @@ interface Props {
 
 type UseKeywordUpdateActionsState = {
   closeModal: () => void;
-  deleteOrganization: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+  deleteOrganization: (callbacks?: MutationCallbacks) => Promise<void>;
   openModal: ORGANIZATION_MODALS | null;
   saving: ORGANIZATION_ACTIONS | null;
   setOpenModal: (modal: ORGANIZATION_MODALS | null) => void;
   setSaving: (action: ORGANIZATION_ACTIONS | null) => void;
   updateOrganization: (
     values: OrganizationFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
 
@@ -69,7 +69,7 @@ const useOrganizationUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
+  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearOrganizationQueries(apolloClient);
     /* istanbul ignore next */
@@ -87,7 +87,7 @@ const useOrganizationUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: UpdateActionsCallbacks;
+    callbacks?: MutationCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
@@ -111,7 +111,7 @@ const useOrganizationUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const deleteOrganization = async (callbacks?: UpdateActionsCallbacks) => {
+  const deleteOrganization = async (callbacks?: MutationCallbacks) => {
     try {
       setSaving(ORGANIZATION_ACTIONS.DELETE);
 
@@ -131,7 +131,7 @@ const useOrganizationUpdateActions = ({
 
   const updateOrganization = async (
     values: OrganizationFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => {
     const payload: UpdateOrganizationMutationInput =
       getOrganizationPayload(values);

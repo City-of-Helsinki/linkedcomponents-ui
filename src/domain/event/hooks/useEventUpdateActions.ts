@@ -21,7 +21,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
-import { UpdateActionsCallbacks } from '../../../types';
+import { MutationCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import { clearEventsQueries } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
@@ -55,17 +55,17 @@ interface Props {
 }
 
 type UseEventUpdateActionsState = {
-  cancelEvent: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+  cancelEvent: (callbacks?: MutationCallbacks) => Promise<void>;
   closeModal: () => void;
-  deleteEvent: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+  deleteEvent: (callbacks?: MutationCallbacks) => Promise<void>;
   openModal: MODALS | null;
-  postponeEvent: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+  postponeEvent: (callbacks?: MutationCallbacks) => Promise<void>;
   saving: EVENT_EDIT_ACTIONS | null;
   setOpenModal: (modal: MODALS | null) => void;
   updateEvent: (
     values: EventFormFields,
     publicationStatus: PublicationStatus,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => Promise<void>;
   user: UserFieldsFragment | undefined;
 };
@@ -127,7 +127,7 @@ const useEventUpdateActions = ({
     return editableEvents;
   };
 
-  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
+  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearEventsQueries(apolloClient);
 
@@ -144,7 +144,7 @@ const useEventUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: UpdateActionsCallbacks;
+    callbacks?: MutationCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     eventIds?: string[];
@@ -170,7 +170,7 @@ const useEventUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const cancelEvent = async (callbacks?: UpdateActionsCallbacks) => {
+  const cancelEvent = async (callbacks?: MutationCallbacks) => {
     let payload: UpdateEventMutationInput[] = [];
 
     try {
@@ -214,7 +214,7 @@ const useEventUpdateActions = ({
     }
   };
 
-  const deleteEvent = async (callbacks?: UpdateActionsCallbacks) => {
+  const deleteEvent = async (callbacks?: MutationCallbacks) => {
     let deletableEventIds: string[] = [];
     try {
       setSaving(EVENT_EDIT_ACTIONS.DELETE);
@@ -243,7 +243,7 @@ const useEventUpdateActions = ({
     }
   };
 
-  const postponeEvent = async (callbacks?: UpdateActionsCallbacks) => {
+  const postponeEvent = async (callbacks?: MutationCallbacks) => {
     let payload: UpdateEventMutationInput[] = [];
     try {
       setSaving(EVENT_EDIT_ACTIONS.POSTPONE);
@@ -293,7 +293,7 @@ const useEventUpdateActions = ({
   const updateRecurringEvent = async (
     values: EventFormFields,
     publicationStatus: PublicationStatus,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => {
     let payload: UpdateEventMutationInput[] = [];
 
@@ -414,7 +414,7 @@ const useEventUpdateActions = ({
   const updateEvent = async (
     values: EventFormFields,
     publicationStatus: PublicationStatus,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => {
     let payload: UpdateEventMutationInput[] = [];
 
