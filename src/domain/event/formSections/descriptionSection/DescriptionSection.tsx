@@ -60,10 +60,10 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   );
 
   React.useEffect(() => {
-    if (!eventInfoLanguages.includes(selectedLanguage)) {
-      setSelectedLanguage(eventInfoLanguages[0]);
+    if (!sortedEventInfoLanguages.includes(selectedLanguage)) {
+      setSelectedLanguage(sortedEventInfoLanguages[0]);
     }
-  }, [eventInfoLanguages, selectedLanguage, setSelectedLanguage]);
+  }, [selectedLanguage, setSelectedLanguage, sortedEventInfoLanguages]);
 
   const langText = lowerCaseFirstLetter(
     t(`form.inLanguage.${selectedLanguage}`)

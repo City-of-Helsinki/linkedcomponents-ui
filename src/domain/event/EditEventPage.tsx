@@ -115,7 +115,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   // Prefetch all related events which are used when postpone/delete/cancel events
   useRelatedEvents(event, isTestEnv);
 
-  const goToEventsPage = () => {
+  const goToEventsPage = (): void => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
       location.search,
       ROUTES.SEARCH
@@ -193,10 +193,6 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
   const [descriptionLanguage, setDescriptionLanguage] = React.useState(
     sortedEventInfoLanguages[0]
   );
-
-  React.useEffect(() => {
-    setDescriptionLanguage(sortedEventInfoLanguages[0]);
-  }, [sortedEventInfoLanguages]);
 
   return (
     <Formik

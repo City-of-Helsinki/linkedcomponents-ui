@@ -167,21 +167,6 @@ const waitLoadingAndGetNameInput = async () => {
   return await findElement('nameFi');
 };
 
-test('should change description section language to swedish', async () => {
-  const mocks: MockedResponse[] = [...baseMocks];
-
-  const user = userEvent.setup();
-  renderComponent(mocks);
-
-  await waitLoadingAndGetNameInput();
-
-  const infoLanguageCheckboxes = getElement('infoLanguage');
-  const fiCheckbox = within(infoLanguageCheckboxes).getByLabelText('Suomi');
-
-  await act(async () => await user.click(fiCheckbox));
-  await findElement('nameSv');
-});
-
 test('should cancel event', async () => {
   const mocks: MockedResponse[] = [
     ...baseMocks,
