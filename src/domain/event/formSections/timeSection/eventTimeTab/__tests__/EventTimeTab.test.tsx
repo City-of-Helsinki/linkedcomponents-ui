@@ -195,9 +195,7 @@ test('should edit event time', async () => {
   const withinEditModal = within(
     screen.getByRole('dialog', { name: 'Muokkaa ajankohtaa' })
   );
-  const startDateInput = withinEditModal.getByRole('textbox', {
-    name: 'Tapahtuma alkaa *',
-  });
+  const startDateInput = withinEditModal.getByLabelText('Tapahtuma alkaa *');
   await act(async () => await user.click(startDateInput));
   await act(async () => await user.clear(startDateInput));
   await act(async () => await user.type(startDateInput, '2.5.2021'));

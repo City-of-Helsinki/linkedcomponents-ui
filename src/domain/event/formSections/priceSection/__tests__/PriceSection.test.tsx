@@ -62,9 +62,7 @@ const queryElements = (
 const getElement = (key: 'hasPriceCheckbox' | 'heading') => {
   switch (key) {
     case 'hasPriceCheckbox':
-      return screen.getByRole('checkbox', {
-        name: /tapahtuma on maksullinen/i,
-      });
+      return screen.getByLabelText(/tapahtuma on maksullinen/i);
     case 'heading':
       return screen.getByRole('heading', {
         name: /tapahtuman hintatiedot/i,

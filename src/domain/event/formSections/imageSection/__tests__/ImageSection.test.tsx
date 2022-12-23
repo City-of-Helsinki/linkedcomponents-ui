@@ -145,9 +145,9 @@ test('should select existing image', async () => {
 
   getElement('modalHeading');
 
-  const imageCheckbox = await screen.findByRole('checkbox', {
-    name: images.data[0]?.name as string,
-  });
+  const imageCheckbox = await screen.findByLabelText(
+    images.data[0]?.name as string
+  );
   await act(async () => await user.click(imageCheckbox));
 
   const submitButton = getElement('submitButton');
