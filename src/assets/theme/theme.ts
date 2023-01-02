@@ -179,20 +179,6 @@ const theme: Theme = {
     '--event-card-heading-color': 'var(--color-black-90)',
     '--event-card-image-background-color': 'var(--color-black-10)',
   },
-  eventSearchPanel: {
-    '--event-search-panel-background-color': 'var(--color-coat-of-arms)',
-    '--event-search-panel-label-color': 'var(--color-white)',
-    '--event-search-panel-button-background-color': 'var(--color-coat-of-arms)',
-    '--event-search-panel-button-background-color-hover':
-      'var(--color-coat-of-arms-dark)',
-    '--event-search-panel-button-background-color-focus':
-      'var(--color-coat-of-arms)',
-    '--event-search-panel-button-background-color-hover-focus':
-      'var(--color-coat-of-arms-dark)',
-    '--event-search-panel-button-border-color': 'var(--color-coat-of-arms)',
-    '--event-search-panel-button-color': 'var(--color-white)',
-    '--event-search-panel-button-focus-outline-color': 'var(--color-white)',
-  },
   footer: {
     '--footer-background': 'var(--color-black-5)',
     '--footer-color': 'var(--color-black)',
@@ -207,34 +193,14 @@ const theme: Theme = {
     '--image-selector-focus-outline-color': 'var(--color-coat-of-arms)',
   },
   landingPage: {
-    '--landing-page-cta-button-background-color': 'var(--color-coat-of-arms)',
-    '--landing-page-cta-button-background-color-hover':
-      'var(--color-coat-of-arms-dark)',
-    '--landing-page-cta-button-background-color-focus':
-      'var(--color-coat-of-arms)',
-    '--landing-page-cta-button-background-color-hover-focus':
-      'var(--color-coat-of-arms-dark)',
-    '--landing-page-cta-button-border-color': 'var(--color-coat-of-arms)',
-    '--landing-page-cta-button-border-color-hover':
-      'var(--color-coat-of-arms-dark)',
-    '--landing-page-cta-button-border-color-focus': 'var(--color-coat-of-arms)',
-    '--landing-page-cta-button-border-color-hover-focus':
-      'var(--color-coat-of-arms-dark)',
-    '--landing-page-cta-button-color': 'var(--color-white)',
-    '--landing-page-cta-button-focus-outline-color':
-      'var(--color-coat-of-arms)',
-    '--landing-page-hero-heading-color': 'var(--color-white)',
-    '--landing-page-hero-koros-color': 'var(--color-white)',
-    '--landing-page-search-button-background-color': 'transparent',
-    '--landing-page-search-button-background-color-hover':
-      'var(--color-coat-of-arms-dark)',
-    '--landing-page-search-button-background-color-focus':
-      'var(--color-coat-of-arms)',
-    '--landing-page-search-button-background-color-hover-focus':
-      'var(--color-coat-of-arms-dark)',
-    '--landing-page-search-button-border-color': 'var(--color-white)',
-    '--landing-page-search-button-color': 'var(--color-white)',
-    '--landing-page-search-button-focus-outline-color': 'var(--color-white)',
+    '--cta-button-background-color': 'var(--color-coat-of-arms)',
+    '--cta-button-background-color-hover': 'var(--color-coat-of-arms-dark)',
+    '--cta-button-color': 'var(--color-white)',
+    '--hero-heading-color': 'var(--color-white)',
+    '--hero-koros-color': 'var(--color-white)',
+    '--search-button-background-color': 'var(--color-white)',
+    '--search-button-background-color-hover': 'var(--color-bus-light)',
+    '--search-button-color': 'var(--color-bus)',
   },
   layout: {
     '--page-background-color': 'var(--color-white)',
@@ -363,12 +329,7 @@ const theme: Theme = {
     '--search-panel-button-background-color': 'var(--color-coat-of-arms)',
     '--search-panel-button-background-color-hover':
       'var(--color-coat-of-arms-dark)',
-    '--search-panel-button-background-color-focus': 'var(--color-coat-of-arms)',
-    '--search-panel-button-background-color-hover-focus':
-      'var(--color-coat-of-arms-dark)',
-    '--search-panel-button-border-color': 'var(--color-white)',
     '--search-panel-button-color': 'var(--color-white)',
-    '--search-panel-button-focus-outline-color': 'var(--color-white)',
   },
   select: {
     '--dropdown-background-default': 'var(--color-white)',

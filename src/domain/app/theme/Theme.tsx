@@ -95,18 +95,6 @@ type EventCardCSSProperties = {
   '--event-card-image-background-color'?: string;
 };
 
-type EventSearchPanelCSSProperties = {
-  '--event-search-panel-background-color'?: string;
-  '--event-search-panel-label-color'?: string;
-  '--event-search-panel-button-background-color'?: string;
-  '--event-search-panel-button-background-color-hover'?: string;
-  '--event-search-panel-button-background-color-focus'?: string;
-  '--event-search-panel-button-background-color-hover-focus'?: string;
-  '--event-search-panel-button-border-color'?: string;
-  '--event-search-panel-button-color'?: string;
-  '--event-search-panel-button-focus-outline-color'?: string;
-};
-
 type FooterCSSProperties = {
   '--footer-background-support'?: string;
   '--footer-color-support'?: string;
@@ -128,25 +116,14 @@ type NavigationDropdownCSSProperties = {
 };
 
 type LandingPageCSSProperties = {
-  '--landing-page-cta-button-background-color'?: string;
-  '--landing-page-cta-button-background-color-hover'?: string;
-  '--landing-page-cta-button-background-color-focus'?: string;
-  '--landing-page-cta-button-background-color-hover-focus'?: string;
-  '--landing-page-cta-button-border-color'?: string;
-  '--landing-page-cta-button-border-color-hover'?: string;
-  '--landing-page-cta-button-border-color-focus'?: string;
-  '--landing-page-cta-button-border-color-hover-focus'?: string;
-  '--landing-page-cta-button-color'?: string;
-  '--landing-page-cta-button-focus-outline-color'?: string;
-  '--landing-page-hero-heading-color'?: string;
-  '--landing-page-hero-koros-color'?: string;
-  '--landing-page-search-button-background-color'?: string;
-  '--landing-page-search-button-background-color-hover'?: string;
-  '--landing-page-search-button-background-color-focus'?: string;
-  '--landing-page-search-button-background-color-hover-focus'?: string;
-  '--landing-page-search-button-border-color'?: string;
-  '--landing-page-search-button-color'?: string;
-  '--landing-page-search-button-focus-outline-color'?: string;
+  '--cta-button-background-color'?: string;
+  '--cta-button-background-color-hover'?: string;
+  '--cta-button-color'?: string;
+  '--hero-heading-color'?: string;
+  '--hero-koros-color'?: string;
+  '--search-button-background-color'?: string;
+  '--search-button-background-color-hover'?: string;
+  '--search-button-color'?: string;
 };
 
 type LayoutCSSProperties = {
@@ -259,11 +236,7 @@ type SearchPanelCSSProperties = {
   '--search-panel-label-color'?: string;
   '--search-panel-button-background-color'?: string;
   '--search-panel-button-background-color-hover'?: string;
-  '--search-panel-button-background-color-focus'?: string;
-  '--search-panel-button-background-color-hover-focus'?: string;
-  '--search-panel-button-border-color'?: string;
   '--search-panel-button-color'?: string;
-  '--search-panel-button-focus-outline-color'?: string;
 };
 
 type SelectCSSProperties = Partial<SelectCustomTheme>;
@@ -331,7 +304,6 @@ export type Theme = {
   dropdown: DropdownCSSProperties;
   errorTemplate: ErrorTemplateCSSProperties;
   eventCard: EventCardCSSProperties;
-  eventSearchPanel: EventSearchPanelCSSProperties;
   footer: FooterCSSProperties;
   imageSelector: ImageSelectorCSSProperties;
   landingPage: LandingPageCSSProperties;
@@ -380,7 +352,6 @@ const defaultTheme: Theme = {
   dropdown: {},
   errorTemplate: {},
   eventCard: {},
-  eventSearchPanel: {},
   footer: {},
   imageSelector: {},
   landingPage: {},
