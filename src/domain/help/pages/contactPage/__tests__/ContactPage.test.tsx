@@ -39,10 +39,7 @@ const payload = {
 const postFeedbackVariables = { input: payload };
 const postFeedbackResponse = { data: { postFeedback: fakeFeedback(payload) } };
 const mockedPostFeedbackResponse: MockedResponse = {
-  request: {
-    query: PostFeedbackDocument,
-    variables: postFeedbackVariables,
-  },
+  request: { query: PostFeedbackDocument, variables: postFeedbackVariables },
   result: postFeedbackResponse,
 };
 const postGuestFeedbackResponse = {
@@ -73,9 +70,9 @@ type ElementKey =
 const getElement = (key: ElementKey) => {
   switch (key) {
     case 'body':
-      return screen.getByRole('textbox', { name: /viesti/i });
+      return screen.getByLabelText(/viesti/i);
     case 'email':
-      return screen.getByRole('textbox', { name: /sähköpostiosoite/i });
+      return screen.getByLabelText(/sähköpostiosoite/i);
     case 'eventFormTopicOption':
       return screen.getByRole('option', { name: /ongelma syöttölomakkeessa/i });
     case 'featureRequestTopicOption':
@@ -83,7 +80,7 @@ const getElement = (key: ElementKey) => {
     case 'generalTopicOption':
       return screen.getByRole('option', { name: /yleinen palaute/i });
     case 'name':
-      return screen.getByRole('textbox', { name: /nimi/i });
+      return screen.getByLabelText(/nimi/i);
     case 'otherTopicOption':
       return screen.getByRole('option', { name: /muu asia/i });
     case 'permissionsTopicOption':
@@ -91,7 +88,7 @@ const getElement = (key: ElementKey) => {
     case 'sendButton':
       return screen.getByRole('button', { name: /lähetä/i });
     case 'subject':
-      return screen.getByRole('textbox', { name: /otsikko/i });
+      return screen.getByLabelText(/otsikko/i);
     case 'success':
       return screen.getByRole('heading', { name: /kiitos yhteydenotostasi/i });
     case 'topicToggleButton':

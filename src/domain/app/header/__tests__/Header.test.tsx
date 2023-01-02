@@ -192,7 +192,6 @@ test('should route to search page', async () => {
   await act(async () => await user.click(openSearchButton));
 
   const searchInput = screen.getByPlaceholderText('Etsi tapahtumia');
-  await act(async () => await user.click(searchInput));
   await act(async () => await user.type(searchInput, searchValue));
   await act(async () => await user.type(searchInput, '{enter}'));
 

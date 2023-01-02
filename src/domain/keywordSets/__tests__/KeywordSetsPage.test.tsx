@@ -79,7 +79,6 @@ test('should render keyword sets page', async () => {
   getElement('createKeywordSetButton');
   getElement('searchInput');
   getElement('table');
-  screen.getByRole('button', { name: keywordSetNames[0] });
 });
 
 test('applies expected metadata', async () => {

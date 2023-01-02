@@ -18,24 +18,24 @@ test('should show localized alt-text fields', async () => {
     await renderComponent();
   });
 
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
-  });
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (ruotsiksi)',
-  });
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (englanniksi)',
-  });
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (venäjäksi)',
-  });
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (kiinaksi)',
-  });
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (arabiaksi)',
-  });
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
+  );
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (ruotsiksi)'
+  );
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (englanniksi)'
+  );
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (venäjäksi)'
+  );
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (kiinaksi)'
+  );
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (arabiaksi)'
+  );
 });
 
 test('should show only Finnish alt-text field', async () => {
@@ -49,7 +49,7 @@ test('should show only Finnish alt-text field', async () => {
     await renderComponent();
   });
 
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *',
-  });
+  screen.getByLabelText(
+    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *'
+  );
 });

@@ -13,7 +13,7 @@ import {
   useUpdateEnrolmentMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
-import { UpdateActionsCallbacks } from '../../../types';
+import { MutationCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearEnrolmentQueries,
@@ -32,11 +32,11 @@ interface Props {
 }
 
 type UseEnrolmentUpdateActionsState = {
-  cancelEnrolment: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+  cancelEnrolment: (callbacks?: MutationCallbacks) => Promise<void>;
   saving: ENROLMENT_ACTIONS | false;
   updateEnrolment: (
     values: EnrolmentFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
 const useEnrolmentUpdateActions = ({
@@ -58,7 +58,7 @@ const useEnrolmentUpdateActions = ({
     setSaving(false);
   };
 
-  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
+  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearEnrolmentQueries(apolloClient);
     /* istanbul ignore next */
@@ -76,7 +76,7 @@ const useEnrolmentUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: UpdateActionsCallbacks;
+    callbacks?: MutationCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
@@ -100,7 +100,7 @@ const useEnrolmentUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const cancelEnrolment = async (callbacks?: UpdateActionsCallbacks) => {
+  const cancelEnrolment = async (callbacks?: MutationCallbacks) => {
     try {
       setSaving(ENROLMENT_ACTIONS.CANCEL);
 
@@ -122,7 +122,7 @@ const useEnrolmentUpdateActions = ({
 
   const updateEnrolment = async (
     values: EnrolmentFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => {
     const payload: UpdateEnrolmentMutationInput = getUpdateEnrolmentPayload({
       formValues: values,

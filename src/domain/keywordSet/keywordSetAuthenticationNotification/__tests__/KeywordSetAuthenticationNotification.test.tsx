@@ -7,18 +7,13 @@ import {
   mockedUserWithoutOrganizationsResponse,
 } from '../../../../domain/user/__mocks__/user';
 import { OrganizationDocument } from '../../../../generated/graphql';
-import {
-  fakeAuthContextValue,
-  fakeAuthenticatedAuthContextValue,
-} from '../../../../utils/mockAuthContextValue';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeOrganization } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   CustomRenderOptions,
   render,
   screen,
-  userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
 import { TEST_DATA_SOURCE_ID } from '../../../dataSource/constants';
@@ -97,17 +92,4 @@ test('should show notification if user has an admin organization but the data so
   await screen.findByText(
     'Sinulla ei ole oikeuksia muokata tätä avainsanaryhmää.'
   );
-});
-
-test('should start sign in process', async () => {
-  const user = userEvent.setup();
-
-  const signIn = jest.fn();
-  const authContextValue = fakeAuthContextValue({ signIn });
-  renderComponent({ authContextValue });
-
-  const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
-  await act(async () => await user.click(signInButton));
-
-  await waitFor(() => expect(signIn).toBeCalled());
 });

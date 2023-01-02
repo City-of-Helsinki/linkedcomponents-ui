@@ -12,7 +12,7 @@ import {
   useUpdateKeywordSetMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
-import { UpdateActionsCallbacks } from '../../../types';
+import { MutationCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearKeywordSetQueries,
@@ -35,14 +35,14 @@ interface Props {
 
 type UseKeywordUpdateActionsState = {
   closeModal: () => void;
-  deleteKeywordSet: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+  deleteKeywordSet: (callbacks?: MutationCallbacks) => Promise<void>;
   openModal: KEYWORD_SET_MODALS | null;
   saving: KEYWORD_SET_ACTIONS | null;
   setOpenModal: (modal: KEYWORD_SET_MODALS | null) => void;
   setSaving: (action: KEYWORD_SET_ACTIONS | null) => void;
   updateKeywordSet: (
     values: KeywordSetFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
 
@@ -69,7 +69,7 @@ const useKeywordSetUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
+  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearKeywordSetQueries(apolloClient);
     /* istanbul ignore next */
@@ -87,7 +87,7 @@ const useKeywordSetUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: UpdateActionsCallbacks;
+    callbacks?: MutationCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
@@ -111,7 +111,7 @@ const useKeywordSetUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const deleteKeywordSet = async (callbacks?: UpdateActionsCallbacks) => {
+  const deleteKeywordSet = async (callbacks?: MutationCallbacks) => {
     try {
       setSaving(KEYWORD_SET_ACTIONS.DELETE);
 
@@ -131,7 +131,7 @@ const useKeywordSetUpdateActions = ({
 
   const updateKeywordSet = async (
     values: KeywordSetFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => {
     const payload: UpdateKeywordSetMutationInput = getKeywordSetPayload(
       values,

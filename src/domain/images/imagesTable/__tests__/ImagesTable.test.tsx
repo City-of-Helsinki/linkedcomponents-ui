@@ -51,8 +51,7 @@ test('should render images table', () => {
 test('should render all images', () => {
   renderComponent({ images: images.data });
 
-  // Test only first 2 to keep this test performant
-  for (const name of imageNames.slice(0, 2)) {
+  for (const name of imageNames) {
     screen.getByRole('button', { name });
   }
 });

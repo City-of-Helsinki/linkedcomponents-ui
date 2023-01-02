@@ -29,19 +29,6 @@ const mocks = [mockedOrganizationsResponse];
 const renderComponent = () =>
   render(<SubOrganizationTable {...props} />, { mocks });
 
-test('should render sub organizations', async () => {
-  renderComponent();
-
-  screen.getByRole('heading', { name: props.title });
-  screen.getByRole('table', {
-    name: `${props.title}, järjestys Nimi, nouseva`,
-  });
-  await loadingSpinnerIsNotInDocument();
-  await screen.findByRole('button', {
-    name: organizations.data[0]?.name as string,
-  });
-});
-
 test('should sort sub organizations', async () => {
   const user = userEvent.setup();
   renderComponent();
@@ -60,10 +47,15 @@ test('should open sub organization edit page', async () => {
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
+
+  screen.getByRole('heading', { name: props.title });
+  screen.getByRole('table', {
+    name: `${props.title}, järjestys Nimi, nouseva`,
+  });
+
   const organizationButton = await screen.findByRole('button', {
     name: organizations.data[0]?.name as string,
   });
-
   await act(async () => await user.click(organizationButton));
 
   await waitFor(() =>
@@ -78,10 +70,10 @@ test('should open sub organization edit page by pressing enter on row', async ()
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
+
   const organizationButton = await screen.findByRole('button', {
     name: organizations.data[0]?.name as string,
   });
-
   await act(async () => await user.type(organizationButton, '{enter}'));
 
   await waitFor(() =>

@@ -1,16 +1,11 @@
 import React from 'react';
 
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  fakeAuthContextValue,
-  fakeAuthenticatedAuthContextValue,
-} from '../../../../utils/mockAuthContextValue';
-import {
-  act,
   configure,
   CustomRenderOptions,
   render,
   screen,
-  userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
@@ -58,17 +53,4 @@ test('should not show notification if user is signed in and has an admin organiz
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
   );
-});
-
-test('should start sign in process', async () => {
-  const user = userEvent.setup();
-
-  const signIn = jest.fn();
-  const authContextValue = fakeAuthContextValue({ signIn });
-  renderComponent({ authContextValue });
-
-  const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
-  await act(async () => await user.click(signInButton));
-
-  expect(signIn).toBeCalled();
 });

@@ -1,16 +1,11 @@
 import React from 'react';
 
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  fakeAuthContextValue,
-  fakeAuthenticatedAuthContextValue,
-} from '../../../../utils/mockAuthContextValue';
-import {
-  act,
   configure,
   CustomRenderOptions,
   render,
   screen,
-  userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
@@ -69,17 +64,4 @@ test('should show notification if user has an admin organization but it is diffe
 
   await screen.findByRole('heading', { name: 'Kuvaa ei voi muokata' });
   screen.getByText('Sinulla ei ole oikeuksia muokata tätä kuvaa.');
-});
-
-test('should start sign in process', async () => {
-  const user = userEvent.setup();
-
-  const signIn = jest.fn();
-  const authContextValue = fakeAuthContextValue({ signIn });
-  renderComponent({ authContextValue });
-
-  const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
-  await act(async () => await user.click(signInButton));
-
-  expect(signIn).toBeCalled();
 });

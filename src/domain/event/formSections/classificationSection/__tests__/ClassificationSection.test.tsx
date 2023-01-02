@@ -8,6 +8,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../../../utils/testUtils';
 import { mockedAudienceKeywordSetResponse } from '../../../../keywordSet/__mocks__/keywordSets';
 import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
@@ -82,6 +83,7 @@ const getElement = (
   key:
     | 'infoTextKeywords'
     | 'infoTextMainCategories'
+    | 'mainCategories'
     | 'showMoreButton'
     | 'titleMainCategories'
     | 'titleNotification'
@@ -94,6 +96,8 @@ const getElement = (
       );
     case 'infoTextMainCategories':
       return screen.getByText(/valitse vähintään yksi pääluokka/i);
+    case 'mainCategories':
+      return screen.getByRole('group', { name: /valitse kategoria\(t\)/i });
     case 'showMoreButton':
       return screen.getByRole('button', { name: /näytä lisää/i });
     case 'titleMainCategories':
@@ -131,20 +135,23 @@ test('should show 10 first topics by default and rest by clicking show more', as
   const user = userEvent.setup();
   renderComponent();
 
-  await screen.findByLabelText(eventTopicNames[0]);
+  const mainCategories = getElement('mainCategories');
+  await within(mainCategories).findByLabelText(eventTopicNames[0]);
 
   for (const name of defaultKeywords.slice(1)) {
-    screen.getByLabelText(name);
+    within(mainCategories).getByLabelText(name);
   }
   for (const name of restKeywords) {
-    expect(screen.queryByLabelText(name)).not.toBeInTheDocument();
+    expect(
+      within(mainCategories).queryByLabelText(name)
+    ).not.toBeInTheDocument();
   }
 
   await act(async () => await user.click(getElement('showMoreButton')));
 
-  await screen.findByLabelText(restKeywords[0]);
+  await within(mainCategories).findByLabelText(restKeywords[0]);
   for (const name of restKeywords.slice(1)) {
-    screen.getByLabelText(name);
+    within(mainCategories).getByLabelText(name);
   }
 });
 
@@ -153,10 +160,11 @@ test('should show course topics', async () => {
     await renderComponent({ type: EVENT_TYPE.Course });
   });
 
-  await screen.findByLabelText(courseTopicNames[0]);
+  const mainCategories = getElement('mainCategories');
+  await within(mainCategories).findByLabelText(courseTopicNames[0]);
 
   for (const name of courseTopicNames.slice(1)) {
-    screen.getByLabelText(name);
+    within(mainCategories).getByLabelText(name);
   }
 });
 
@@ -180,9 +188,10 @@ test('should show correct validation error if none main category is selected', a
   const user = userEvent.setup();
   renderComponent();
 
-  const mainCategoryCheckbox = await screen.findByRole('checkbox', {
-    name: eventTopicNames[0],
-  });
+  const mainCategories = getElement('mainCategories');
+  const mainCategoryCheckbox = await within(mainCategories).findByLabelText(
+    eventTopicNames[0]
+  );
   await act(async () => await user.click(mainCategoryCheckbox));
   await act(async () => await user.click(mainCategoryCheckbox));
 
@@ -198,9 +207,10 @@ test('should select remote participation if internet is selected as a location',
     await renderComponent({ [EVENT_FIELDS.LOCATION]: INTERNET_PLACE_ID });
   });
 
-  const remoteParticipationCheckbox = await screen.findByRole('checkbox', {
-    name: removeParticipationName,
-  });
+  const mainCategories = getElement('mainCategories');
+  const remoteParticipationCheckbox = await within(
+    mainCategories
+  ).findByLabelText(removeParticipationName);
 
   await waitFor(() => expect(remoteParticipationCheckbox).toBeChecked());
   expect(remoteParticipationCheckbox).toBeDisabled();

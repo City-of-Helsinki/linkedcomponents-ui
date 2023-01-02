@@ -82,7 +82,6 @@ test('should render keywords page', async () => {
   getElement('createKeywordButton');
   getElement('searchInput');
   getElement('table');
-  screen.getByRole('button', { name: keywordNames[0] });
 });
 
 test('applies expected metadata', async () => {

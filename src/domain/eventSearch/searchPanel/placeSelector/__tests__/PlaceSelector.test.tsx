@@ -3,6 +3,7 @@ import range from 'lodash/range';
 import React from 'react';
 
 import {
+  Place,
   PlaceDocument,
   PlacesDocument,
 } from '../../../../../generated/graphql';
@@ -19,7 +20,7 @@ import PlaceSelector, { PlaceSelectorProps } from '../PlaceSelector';
 
 configure({ defaultHidden: true });
 
-const placeOverrides = range(1, 5).map((i) => ({
+const placeOverrides = range(1, 3).map((i) => ({
   id: `place:${i}`,
   name: `Place name ${i}`,
 }));
@@ -34,25 +35,16 @@ const placesVariables = {
 };
 const placesResponse = { data: { places } };
 const mockedPlacesResponse: MockedResponse = {
-  request: {
-    query: PlacesDocument,
-    variables: placesVariables,
-  },
+  request: { query: PlacesDocument, variables: placesVariables },
   result: placesResponse,
 };
 
-const place = places.data[0];
+const place = places.data[0] as Place;
 const placeId = place.id;
-const placeVariables = {
-  id: placeId,
-  createPath: undefined,
-};
+const placeVariables = { id: placeId, createPath: undefined };
 const placeResponse = { data: { place } };
 const mockedPlaceResponse: MockedResponse = {
-  request: {
-    query: PlaceDocument,
-    variables: placeVariables,
-  },
+  request: { query: PlaceDocument, variables: placeVariables },
   result: placeResponse,
 };
 
@@ -77,14 +69,14 @@ const getElement = (key: 'toggleButton') => {
 };
 test('should render place selector', async () => {
   const user = userEvent.setup();
-  renderComponent({ value: [placeId] });
+  renderComponent({ value: [placeId as string] });
 
-  await screen.findByText(place.name.fi);
+  await screen.findByText(place?.name?.fi as string);
 
   const toggleButton = getElement('toggleButton');
   await act(async () => await user.click(toggleButton));
 
   for (const { name } of placeOverrides) {
-    await screen.findByRole('checkbox', { name });
+    await screen.findByLabelText(name);
   }
 });

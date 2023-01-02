@@ -60,9 +60,9 @@ const getElement = (
     case 'classificationToggleButton':
       return screen.getByRole('button', { name: /luokittelu: valikko/i });
     case 'nameInput':
-      return screen.getByRole('textbox', { name: /nimi/i });
+      return screen.getByLabelText(/nimi/i);
     case 'originIdInput':
-      return screen.getByRole('textbox', { name: /lähdetunniste/i });
+      return screen.getByLabelText(/lähdetunniste/i);
     case 'parentInput':
       return screen.getByRole('combobox', { name: /pääorganisaatio/i });
     case 'parentToggleButton':
@@ -126,27 +126,21 @@ test('should focus to first validation error when trying to save new organizatio
 
   await loadingSpinnerIsNotInDocument();
 
+  const originIdInput = getElement('originIdInput');
+  const nameInput = getElement('nameInput');
+  const parentInput = getElement('parentInput');
   const saveButton = getElement('saveButton');
+
   await act(async () => await user.click(saveButton));
 
-  const originIdInput = getElement('originIdInput');
   await waitFor(() => expect(originIdInput).toHaveFocus());
+
   await act(
     async () => await user.type(originIdInput, organizationValues.originId)
   );
+  await act(async () => await user.type(nameInput, organizationValues.name));
   await act(async () => await user.click(saveButton));
 
-  const nameInput = getElement('nameInput');
-  await act(async () => await user.click(saveButton));
-
-  await waitFor(() => expect(nameInput).toHaveFocus());
-  await act(
-    async () =>
-      await user.type(getElement('nameInput'), organizationValues.name)
-  );
-  await act(async () => await user.click(saveButton));
-
-  const parentInput = getElement('parentInput');
   await waitFor(() => expect(parentInput).toHaveFocus());
 });
 

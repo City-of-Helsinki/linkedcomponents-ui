@@ -7,7 +7,6 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import ConfirmDeleteModal, {
   ConfirmDeleteModalProps,
 } from '../ConfirmDeleteModal';
@@ -29,8 +28,8 @@ test('should render component', async () => {
   screen.getByRole('heading', {
     name: 'Varmista ilmoittautumisen poistaminen',
   });
-  screen.getByText(translations.common.warning);
-  screen.getByText(translations.registration.deleteRegistrationModal.text);
+  screen.getByText('Varoitus!');
+  screen.getByText('Tämä toiminto poistaa ilmoittautumisen lopullisesti.');
 
   screen.getByRole('button', { name: 'Poista ilmoittautuminen' });
   screen.getByRole('button', { name: 'Peruuta' });
@@ -55,5 +54,6 @@ test('should call onClose', async () => {
 
   const closeButton = screen.getByRole('button', { name: 'Peruuta' });
   await act(async () => await user.click(closeButton));
+
   expect(onClose).toBeCalled();
 });

@@ -5,7 +5,7 @@ import LoadingSpinner from '../LoadingSpinner';
 
 it('render spinner if isLoading is true', () => {
   const { container } = render(<LoadingSpinner isLoading={true} />);
-  expect((container.firstChild.firstChild as HTMLElement).classList).toContain(
+  expect((container.firstChild?.firstChild as HTMLElement).classList).toContain(
     'loadingSpinner'
   );
 });

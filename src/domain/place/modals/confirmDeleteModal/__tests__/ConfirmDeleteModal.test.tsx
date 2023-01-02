@@ -7,7 +7,6 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import ConfirmDeleteModal, {
   ConfirmDeleteModalProps,
 } from '../ConfirmDeleteModal';
@@ -37,9 +36,9 @@ const getComponent = (
         name: 'Varmista paikan poistaminen',
       });
     case 'text':
-      return screen.getByText(translations.place.deletePlaceModal.text);
+      return screen.getByText('Tämä toiminto poistaa paikan lopullisesti.');
     case 'warning':
-      return screen.getByText(translations.common.warning);
+      return screen.getByText('Varoitus!');
   }
 };
 
@@ -59,6 +58,7 @@ test('should call onDelete', async () => {
 
   const deleteButton = getComponent('buttonDelete');
   await act(async () => await user.click(deleteButton));
+
   expect(onDelete).toBeCalled();
 });
 
@@ -69,5 +69,6 @@ test('should call onClose', async () => {
 
   const closeButton = getComponent('buttonCancel');
   await act(async () => await user.click(closeButton));
+
   expect(onClose).toBeCalled();
 });

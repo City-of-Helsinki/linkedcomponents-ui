@@ -12,7 +12,7 @@ import {
   useUpdatePlaceMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
-import { UpdateActionsCallbacks } from '../../../types';
+import { MutationCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearPlaceQueries,
@@ -34,14 +34,14 @@ interface Props {
 
 type UsePlaceUpdateActionsState = {
   closeModal: () => void;
-  deletePlace: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+  deletePlace: (callbacks?: MutationCallbacks) => Promise<void>;
   openModal: PLACE_MODALS | null;
   saving: PLACE_ACTIONS | null;
   setOpenModal: (modal: PLACE_MODALS | null) => void;
   setSaving: (action: PLACE_ACTIONS | null) => void;
   updatePlace: (
     values: PlaceFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
 const usePlaceUpdateActions = ({
@@ -64,7 +64,7 @@ const usePlaceUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
+  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearPlaceQueries(apolloClient);
     /* istanbul ignore next */
@@ -82,7 +82,7 @@ const usePlaceUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: UpdateActionsCallbacks;
+    callbacks?: MutationCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
@@ -106,7 +106,7 @@ const usePlaceUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const deletePlace = async (callbacks?: UpdateActionsCallbacks) => {
+  const deletePlace = async (callbacks?: MutationCallbacks) => {
     try {
       setSaving(PLACE_ACTIONS.DELETE);
 
@@ -126,7 +126,7 @@ const usePlaceUpdateActions = ({
 
   const updatePlace = async (
     values: PlaceFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => {
     const payload: UpdatePlaceMutationInput = getPlacePayload(values);
 

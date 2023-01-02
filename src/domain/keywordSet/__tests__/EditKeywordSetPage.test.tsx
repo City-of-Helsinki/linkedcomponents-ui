@@ -5,7 +5,6 @@ import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
-  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
@@ -50,16 +49,9 @@ const findElement = (key: 'deleteButton' | 'nameInput' | 'saveButton') => {
     case 'deleteButton':
       return screen.findByRole('button', { name: /poista avainsanaryhmä/i });
     case 'nameInput':
-      return screen.findByRole('textbox', { name: /nimi \(suomeksi\)/i });
+      return screen.findByLabelText(/nimi \(suomeksi\)/i);
     case 'saveButton':
       return screen.findByRole('button', { name: /tallenna/i });
-  }
-};
-
-const getElement = (key: 'nameInput') => {
-  switch (key) {
-    case 'nameInput':
-      return screen.getByRole('textbox', { name: /nimi \(suomeksi\)/i });
   }
 };
 
@@ -68,9 +60,8 @@ test('should scroll to first validation error input field', async () => {
   await renderComponent();
 
   await loadingSpinnerIsNotInDocument();
-  await actWait(100);
 
-  const nameInput = getElement('nameInput');
+  const nameInput = await findElement('nameInput');
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
 
@@ -88,7 +79,6 @@ test('should delete keyword', async () => {
   ]);
 
   await loadingSpinnerIsNotInDocument();
-  await actWait(100);
 
   const deleteButton = await findElement('deleteButton');
   await waitFor(() => expect(deleteButton).toBeEnabled());
@@ -113,7 +103,6 @@ test('should update keyword set', async () => {
   ]);
 
   await loadingSpinnerIsNotInDocument();
-  await actWait(100);
 
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
@@ -130,7 +119,6 @@ test('should show server errors', async () => {
   renderComponent([...defaultMocks, mockedInvalidUpdateKeywordSetResponse]);
 
   await loadingSpinnerIsNotInDocument();
-  await actWait(100);
 
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());

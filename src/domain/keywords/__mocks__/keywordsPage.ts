@@ -8,6 +8,8 @@ import {
   KEYWORDS_PAGE_SIZE,
 } from '../constants';
 
+const TEST_PAGE_SIZE = 2;
+
 const variables = {
   createPath: undefined,
   page: 1,
@@ -17,11 +19,11 @@ const variables = {
   text: '',
 };
 
-const keywordNames = range(1, KEYWORDS_PAGE_SIZE + 1).map(
+const keywordNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Keyword name ${n}`
 );
 const keywords = fakeKeywords(
-  KEYWORDS_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   keywordNames.map((name) => ({ name: { fi: name } }))
 );
 
@@ -33,11 +35,11 @@ const mockedKeywordsResponse = {
   result: keywordsResponse,
 };
 
-const page2KeywordNames = range(1, KEYWORDS_PAGE_SIZE + 1).map(
+const page2KeywordNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Page 2 keyword ${n}`
 );
 const page2Keywords = fakeKeywords(
-  KEYWORDS_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   page2KeywordNames.map((name) => ({ name: { fi: name } }))
 );
 const page2KeywordsResponse = {
@@ -49,11 +51,11 @@ const mockedPage2KeywordsResponse = {
   result: page2KeywordsResponse,
 };
 
-const sortedKeywordNames = range(1, KEYWORDS_PAGE_SIZE + 1).map(
+const sortedKeywordNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Sorted keywords ${n}`
 );
 const sortedKeywords = fakeKeywords(
-  KEYWORDS_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   sortedKeywordNames.map((name) => ({ name: { fi: name } }))
 );
 const sortedKeywordsResponse = {

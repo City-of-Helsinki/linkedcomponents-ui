@@ -12,7 +12,7 @@ import {
   useUpdateKeywordMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
-import { UpdateActionsCallbacks } from '../../../types';
+import { MutationCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearKeywordQueries,
@@ -34,14 +34,14 @@ interface Props {
 
 type UseKeywordUpdateActionsState = {
   closeModal: () => void;
-  deleteKeyword: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+  deleteKeyword: (callbacks?: MutationCallbacks) => Promise<void>;
   openModal: KEYWORD_MODALS | null;
   saving: KEYWORD_ACTIONS | null;
   setOpenModal: (modal: KEYWORD_MODALS | null) => void;
   setSaving: (action: KEYWORD_ACTIONS | null) => void;
   updateKeyword: (
     values: KeywordFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
 const useKeywordUpdateActions = ({
@@ -66,7 +66,7 @@ const useKeywordUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
+  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearKeywordQueries(apolloClient);
     /* istanbul ignore next */
@@ -84,7 +84,7 @@ const useKeywordUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: UpdateActionsCallbacks;
+    callbacks?: MutationCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
@@ -108,7 +108,7 @@ const useKeywordUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const deleteKeyword = async (callbacks?: UpdateActionsCallbacks) => {
+  const deleteKeyword = async (callbacks?: MutationCallbacks) => {
     try {
       setSaving(KEYWORD_ACTIONS.DELETE);
 
@@ -128,7 +128,7 @@ const useKeywordUpdateActions = ({
 
   const updateKeyword = async (
     values: KeywordFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => {
     const payload: UpdateKeywordMutationInput = getKeywordPayload(values);
 

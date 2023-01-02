@@ -39,7 +39,7 @@ const getElement = (key: 'waitingCapacity') => {
   switch (key) {
     case 'waitingCapacity':
       return screen.getByRole('spinbutton', {
-        name: translations.registration.form.labelWaitingListCapacity,
+        name: 'Varasijapaikkojen lukumäärä',
       });
   }
 };

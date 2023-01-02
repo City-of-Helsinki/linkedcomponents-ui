@@ -34,7 +34,7 @@ const getElement = (
 ) => {
   switch (key) {
     case 'nameInput':
-      return screen.getByRole('textbox', { name: /nimi \(suomeksi\)/i });
+      return screen.getByLabelText(/nimi \(suomeksi\)/i);
     case 'replacedByInput':
       return screen.getByRole('combobox', { name: /korvaus/i });
     case 'replacedByToggleButton':

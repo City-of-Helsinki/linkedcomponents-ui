@@ -13,7 +13,7 @@ import {
   useUploadImageMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
-import { UpdateActionsCallbacks } from '../../../types';
+import { MutationCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearImageQueries,
@@ -42,14 +42,14 @@ interface UploadImageValues {
 
 type UseImageUpdateActionsState = {
   closeModal: () => void;
-  deleteImage: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+  deleteImage: (callbacks?: MutationCallbacks) => Promise<void>;
   openModal: IMAGE_MODALS | null;
   saving: IMAGE_ACTIONS | null;
   setOpenModal: (modal: IMAGE_MODALS | null) => void;
   setSaving: (action: IMAGE_ACTIONS | null) => void;
   updateImage: (
     values: ImageFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => Promise<void>;
   uploadImage: (
     { image, publisher, url }: UploadImageValues,
@@ -77,7 +77,7 @@ const useImageUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
+  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearImageQueries(apolloClient);
     /* istanbul ignore next */
@@ -95,7 +95,7 @@ const useImageUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: UpdateActionsCallbacks;
+    callbacks?: MutationCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
@@ -119,7 +119,7 @@ const useImageUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const deleteImage = async (callbacks?: UpdateActionsCallbacks) => {
+  const deleteImage = async (callbacks?: MutationCallbacks) => {
     try {
       setSaving(IMAGE_ACTIONS.DELETE);
 
@@ -139,7 +139,7 @@ const useImageUpdateActions = ({
 
   const updateImage = async (
     values: ImageFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => {
     const payload: UpdateImageMutationInput = getImagePayload(values);
 

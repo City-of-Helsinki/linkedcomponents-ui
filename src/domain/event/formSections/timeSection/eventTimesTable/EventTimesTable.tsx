@@ -1,5 +1,5 @@
 import { IconCrossCircle, IconMenuDots, IconPen } from 'hds-react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import MenuDropdown from '../../../../../common/components/menuDropdown/MenuDropdown';
@@ -33,9 +33,7 @@ interface EventTimeRowProps {
   startIndex: number;
 }
 
-/* istanbul ignore next */
-const formatDateStr = (date?: Date | null) =>
-  (date && formatDate(new Date(date), DATETIME_FORMAT)) ?? '';
+const formatDateStr = (date: Date | null) => formatDate(date, DATETIME_FORMAT);
 
 const EventTimeRow: React.FC<EventTimeRowProps> = ({
   eventTime,
@@ -60,7 +58,16 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
     event?.publisher as string
   );
 
-  const { endTime, startTime } = eventTime;
+  const { endTime, startTime } = useMemo(() => {
+    return {
+      endTime: eventTime?.endTime
+        ? new Date(eventTime.endTime)
+        : /* istanbul ignore next */ null,
+      startTime: eventTime?.startTime
+        ? new Date(eventTime.startTime)
+        : /* istanbul ignore next */ null,
+    };
+  }, [eventTime]);
 
   const dateText =
     startTime || endTime

@@ -84,15 +84,11 @@ test('should open menu by clickin toggle button and list of options should be vi
   const user = userEvent.setup();
   renderComponent();
 
-  const combobox = screen.getByRole('combobox', {
-    name: new RegExp(label),
-  });
+  const combobox = screen.getByRole('combobox', { name: new RegExp(label) });
 
   expect(combobox.getAttribute('aria-expanded')).toBe('false');
 
-  const toggleButton = screen.queryByRole('button', {
-    name: new RegExp(label),
-  });
+  const toggleButton = screen.getByRole('button', { name: new RegExp(label) });
   await act(async () => await user.click(toggleButton));
 
   expect(combobox.getAttribute('aria-expanded')).toBe('true');

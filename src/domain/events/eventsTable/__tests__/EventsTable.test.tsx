@@ -49,7 +49,7 @@ test('should render events table', () => {
 });
 
 test('should render all events', () => {
-  const eventNames = range(1, 5).map((n) => `Event name ${n}`);
+  const eventNames = range(1, 3).map((n) => `Event name ${n}`);
   renderComponent({
     events: fakeEvents(
       eventNames.length,

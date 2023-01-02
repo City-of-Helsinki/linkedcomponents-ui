@@ -6,7 +6,7 @@ import { testIds } from '../../../../constants';
 import translations from '../../../../domain/app/i18n/fi.json';
 import {
   act,
-  actWait,
+  configure,
   fireEvent,
   mockFile,
   render,
@@ -15,6 +15,8 @@ import {
 } from '../../../../utils/testUtils';
 import { TEST_PIXEL_CROP } from '../contants';
 import ImageUploader, { ImageUploaderProps } from '../ImageUploader';
+
+configure({ defaultHidden: true });
 
 const defaultProps: ImageUploaderProps = {
   onChange: jest.fn(),
@@ -47,9 +49,7 @@ test('should show error message if trying to enter file with invalid type', asyn
 
   const file = mockFile({ type: 'image/notsupported' });
 
-  Object.defineProperty(fileInput, 'files', {
-    value: [file],
-  });
+  Object.defineProperty(fileInput, 'files', { value: [file] });
 
   fireEvent.change(fileInput);
 
@@ -71,8 +71,6 @@ test('should call onChange', async () => {
   Object.defineProperty(fileInput, 'files', { value: [file] });
 
   fireEvent.change(fileInput);
-
-  await actWait(1000);
 
   await waitFor(() =>
     expect(onChange).toBeCalledWith(file, TEST_PIXEL_CROP, null)

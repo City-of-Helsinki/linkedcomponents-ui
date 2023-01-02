@@ -164,8 +164,6 @@ test('should change active tab to published', async () => {
 
   await loadingSpinnerIsNotInDocument(10000);
 
-  getElement('waitingApprovalTable');
-
   const publishedTab = getElement('publishedTab');
   await act(async () => await user.click(publishedTab));
 
