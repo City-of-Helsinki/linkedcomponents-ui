@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../common/components/button/Button';
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import { EVENT_FIELDS } from '../../constants';
 import FieldWithButton from '../../layout/FieldWithButton';
 import { VideoDetails } from '../../types';
@@ -25,39 +26,41 @@ const VideoSection: React.FC<Props> = ({ isEditingAllowed }) => {
   });
 
   return (
-    <FieldArray
-      name={EVENT_FIELDS.VIDEOS}
-      render={(arrayHelpers) => (
-        <div>
-          {videos.map((_, index: number) => {
-            return (
-              <Video
-                key={index}
-                canDelete={videos.length > 1}
-                isEditingAllowed={isEditingAllowed}
-                onDelete={() => arrayHelpers.remove(index)}
-                showInstructions={!index}
-                type={type}
-                videoPath={getVideoPath(index)}
-              />
-            );
-          })}
+    <Fieldset heading={t('event.form.sections.video')} hideLegend>
+      <FieldArray
+        name={EVENT_FIELDS.VIDEOS}
+        render={(arrayHelpers) => (
+          <div>
+            {videos.map((_, index: number) => {
+              return (
+                <Video
+                  key={index}
+                  canDelete={videos.length > 1}
+                  isEditingAllowed={isEditingAllowed}
+                  onDelete={() => arrayHelpers.remove(index)}
+                  showInstructions={!index}
+                  type={type}
+                  videoPath={getVideoPath(index)}
+                />
+              );
+            })}
 
-          <FieldWithButton>
-            <Button
-              disabled={!isEditingAllowed}
-              fullWidth={true}
-              iconLeft={<IconPlus />}
-              onClick={() => arrayHelpers.push(getEmptyOffer())}
-              type="button"
-              variant="primary"
-            >
-              {t('event.form.buttonAddVideo')}
-            </Button>
-          </FieldWithButton>
-        </div>
-      )}
-    />
+            <FieldWithButton>
+              <Button
+                disabled={!isEditingAllowed}
+                fullWidth={true}
+                iconLeft={<IconPlus />}
+                onClick={() => arrayHelpers.push(getEmptyOffer())}
+                type="button"
+                variant="primary"
+              >
+                {t('event.form.buttonAddVideo')}
+              </Button>
+            </FieldWithButton>
+          </div>
+        )}
+      />
+    </Fieldset>
   );
 };
 
