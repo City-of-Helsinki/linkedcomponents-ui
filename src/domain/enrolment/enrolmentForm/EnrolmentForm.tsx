@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
-import {
-  ApolloClient,
-  ApolloQueryResult,
-  NormalizedCacheObject,
-  useApolloClient,
-} from '@apollo/client';
+import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik, FormikErrors, FormikTouched } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,27 +12,19 @@ import Notification from '../../../common/components/notification/Notification';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { FORM_NAMES, ROUTES } from '../../../constants';
 import {
-  CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
   EnrolmentQuery,
   EnrolmentQueryVariables,
   EventFieldsFragment,
   RegistrationFieldsFragment,
-  useCreateEnrolmentMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import { showFormErrors } from '../../../utils/validationUtils';
-import { clearEnrolmentsQueries } from '../../app/apollo/clearCacheUtils';
 import Container from '../../app/layout/container/Container';
-import { reportError } from '../../app/sentry/utils';
 import { getRegistrationWarning } from '../../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
-import {
-  clearSeatsReservationData,
-  getSeatsReservationData,
-} from '../../reserveSeats/utils';
-import useUser from '../../user/hooks/useUser';
+import { clearSeatsReservationData } from '../../reserveSeats/utils';
 import {
   ENROLMENT_ACTIONS,
   ENROLMENT_FIELDS,
@@ -52,7 +39,7 @@ import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolm
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import EventInfo from '../eventInfo/EventInfo';
 import FormContainer from '../formContainer/FormContainer';
-import useEnrolmentUpdateActions from '../hooks/useEnrolmentUpdateActions';
+import useEnrolmentUpdateActions from '../hooks/useEnrolmentActions';
 import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
 import { useReservationTimer } from '../reservationTimer/hooks/useReservationTimer';
@@ -64,7 +51,6 @@ import {
 } from '../types';
 import {
   clearCreateEnrolmentFormData,
-  getEnrolmentPayload,
   getFreeAttendeeCapacity,
   isRestoringFormDataDisabled,
 } from '../utils';
@@ -101,15 +87,13 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
   setTouched,
   values,
 }) => {
-  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
 
   const locale = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useUser();
 
-  const { cancelEnrolment, saving, updateEnrolment } =
+  const { cancelEnrolment, createEnrolment, saving, updateEnrolment } =
     useEnrolmentUpdateActions({
       enrolment,
       registration,
@@ -123,10 +107,6 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
 
-  const [createEnrolmentMutation] = useCreateEnrolmentMutation();
-
-  const [creatingEnrolment, setCreatingEnrolment] =
-    React.useState<boolean>(false);
   const formSavingDisabled = React.useRef(!!enrolment);
 
   const { closeModal, openModal, setOpenModal, setOpenParticipant } =
@@ -180,6 +160,13 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
 
   const clearErrors = () => setErrors({});
 
+  const onCreate = (values: EnrolmentFormFieldsType) => {
+    createEnrolment(values, {
+      onError: (error) => showServerErrors({ error }, 'enrolment'),
+      onSuccess: goToEnrolmentsPageAfterCreate,
+    });
+  };
+
   const onUpdate = (values: EnrolmentFormFieldsType) => {
     updateEnrolment(values, {
       onError: (error: any) => showServerErrors({ error }, 'enrolment'),
@@ -188,53 +175,6 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
         window.scrollTo(0, 0);
       },
     });
-  };
-
-  const createSingleEnrolment = async (
-    payload: CreateEnrolmentMutationInput
-  ) => {
-    try {
-      const data = await createEnrolmentMutation({
-        variables: { input: payload, registration: registration.id as string },
-      });
-
-      return data.data?.createEnrolment;
-    } catch (error) /* istanbul ignore next */ {
-      showServerErrors({ error }, 'enrolment');
-      // Report error to Sentry
-      reportError({
-        data: {
-          error: error as Record<string, unknown>,
-          payload,
-          payloadAsString: JSON.stringify(payload),
-        },
-        location,
-        message: 'Failed to create enrolment',
-        user,
-      });
-    }
-  };
-
-  const createEnrolment = async (values: EnrolmentFormFieldsType) => {
-    setCreatingEnrolment(true);
-
-    const reservationData = getSeatsReservationData(registration.id as string);
-    const payload = getEnrolmentPayload({
-      formValues: values,
-      reservationCode: reservationData?.code as string,
-    });
-
-    const createdEnrolments = await createSingleEnrolment(payload);
-
-    if (createdEnrolments) {
-      // Clear all enrolments queries from apollo cache to show added enrolment
-      // in enrolment list
-      clearEnrolmentsQueries(apolloClient);
-
-      goToEnrolmentsPageAfterCreate();
-    }
-
-    setCreatingEnrolment(false);
   };
 
   const handleSubmit = async () => {
@@ -247,7 +187,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
       if (enrolment) {
         onUpdate(values);
       } else {
-        createEnrolment(values);
+        onCreate(values);
       }
     } catch (error) {
       showFormErrors({
@@ -343,7 +283,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
               disabled={disabled}
               onSave={handleSubmit}
               registration={registration}
-              saving={creatingEnrolment}
+              saving={saving}
             />
           )}
         </FormikPersist>
