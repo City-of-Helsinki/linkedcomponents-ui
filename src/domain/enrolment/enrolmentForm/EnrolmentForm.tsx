@@ -153,9 +153,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
   };
 
   const onCancel = () => {
-    cancelEnrolment({
-      onSuccess: () => goToEnrolmentsPage(),
-    });
+    cancelEnrolment({ onSuccess: goToEnrolmentsPage });
   };
 
   const clearErrors = () => setErrors({});

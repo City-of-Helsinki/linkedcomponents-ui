@@ -1,14 +1,9 @@
 /* eslint-disable max-len */
-import {
-  ApolloClient,
-  NormalizedCacheObject,
-  ServerError,
-  useApolloClient,
-} from '@apollo/client';
+import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import KeywordSelectorField from '../../../common/components/formFields/keywordSelectorField/KeywordSelectorField';
@@ -21,11 +16,7 @@ import {
   ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
 } from '../../../constants';
-import {
-  CreateKeywordSetMutationInput,
-  KeywordSetFieldsFragment,
-  useCreateKeywordSetMutation,
-} from '../../../generated/graphql';
+import { KeywordSetFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
@@ -34,8 +25,6 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
-import { clearKeywordSetsQueries } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
 import useKeywordSetUsageOptions from '../../keywordSets/hooks/useKeywordSetUsageOptions';
 import useUser from '../../user/hooks/useUser';
 import useUserOrganization from '../../user/hooks/useUserOrganization';
@@ -46,15 +35,11 @@ import {
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
+import useKeywordSetActions from '../hooks/useKeywordSetActions';
 import useKeywordSetServerErrors from '../hooks/useKeywordSetServerErrors';
-import useKeywordSetUpdateActions from '../hooks/useKeywordSetUpdateActions';
 import KeywordSetAuthenticationNotification from '../keywordSetAuthenticationNotification/KeywordSetAuthenticationNotification';
 import { KeywordSetFormFields } from '../types';
-import {
-  checkCanUserDoAction,
-  getKeywordSetInitialValues,
-  getKeywordSetPayload,
-} from '../utils';
+import { checkCanUserDoAction, getKeywordSetInitialValues } from '../utils';
 import { getFocusableFieldId, keywordSetSchema } from '../validation';
 
 type KeywordSetFormProps = {
@@ -64,12 +49,10 @@ type KeywordSetFormProps = {
 const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation();
   const locale = useLocale();
   const { user } = useUser();
   const { organization: userOrganization } = useUserOrganization(user);
   const usageOptions = useKeywordSetUsageOptions();
-  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
   const isEditingAllowed = checkCanUserDoAction({
     action: keywordSet
@@ -79,67 +62,29 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
     userOrganization,
   });
 
-  const { saving, setSaving, updateKeywordSet } = useKeywordSetUpdateActions({
+  const { createKeywordSet, saving, updateKeywordSet } = useKeywordSetActions({
     keywordSet,
   });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useKeywordSetServerErrors();
 
-  const [createKeywordSetMutation] = useCreateKeywordSetMutation();
-
   const goToKeywordSetsPage = () => {
     navigate(`/${locale}${ROUTES.KEYWORD_SETS}`);
+  };
+
+  const onCreate = async (values: KeywordSetFormFields) => {
+    await createKeywordSet(values, {
+      onError: (error: ServerError) => showServerErrors({ error }),
+      onSuccess: goToKeywordSetsPage,
+    });
   };
 
   const onUpdate = async (values: KeywordSetFormFields) => {
     await updateKeywordSet(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
-      onSuccess: async () => {
-        goToKeywordSetsPage();
-      },
+      onSuccess: goToKeywordSetsPage,
     });
-  };
-
-  const createSingleKeywordSet = async (
-    payload: CreateKeywordSetMutationInput
-  ) => {
-    try {
-      const data = await createKeywordSetMutation({
-        variables: { input: payload },
-      });
-
-      return data.data?.createKeywordSet.id as string;
-    } catch (error) /* istanbul ignore next */ {
-      showServerErrors({ error });
-      // // Report error to Sentry
-      reportError({
-        data: {
-          error: error as Record<string, unknown>,
-          payload,
-          payloadAsString: JSON.stringify(payload),
-        },
-        location,
-        message: 'Failed to create keyword',
-        user,
-      });
-    }
-  };
-
-  const createKeywordSet = async (values: KeywordSetFormFields) => {
-    setSaving(KEYWORD_SET_ACTIONS.CREATE);
-    const payload = getKeywordSetPayload(values, userOrganization);
-
-    const createdKeywordId = await createSingleKeywordSet(payload);
-
-    if (createdKeywordId) {
-      // Clear all keywords queries from apollo cache to show added registrations
-      // in registration list
-      clearKeywordSetsQueries(apolloClient);
-      goToKeywordSetsPage();
-    }
-
-    setSaving(null);
   };
 
   return (
@@ -167,17 +112,16 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
           event?: React.FormEvent<HTMLFormElement>
         ) => {
           event?.preventDefault();
+          setServerErrorItems([]);
+          clearErrors();
 
           try {
-            setServerErrorItems([]);
-            clearErrors();
-
             await keywordSetSchema.validate(values, { abortEarly: false });
 
             if (keywordSet) {
               await onUpdate(values);
             } else {
-              await createKeywordSet(values);
+              await onCreate(values);
             }
           } catch (error) {
             showFormErrors({

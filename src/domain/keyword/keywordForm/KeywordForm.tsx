@@ -82,9 +82,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   const onUpdate = async (values: KeywordFormFields) => {
     await updateKeyword(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
-      onSuccess: async () => {
-        goToKeywordsPage();
-      },
+      onSuccess: goToKeywordsPage,
     });
   };
 
