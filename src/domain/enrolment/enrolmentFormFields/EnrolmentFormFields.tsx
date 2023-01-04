@@ -1,10 +1,10 @@
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Field, useField } from 'formik';
-import { Fieldset } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../common/components/fieldset/Fieldset';
 import CheckboxGroupField from '../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
 import PhoneInputField from '../../../common/components/formFields/phoneInputField/PhoneInputField';
 import SingleSelectField from '../../../common/components/formFields/singleSelectField/SingleSelectField';

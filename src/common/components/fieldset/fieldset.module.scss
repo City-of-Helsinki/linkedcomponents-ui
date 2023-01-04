@@ -1,0 +1,7 @@
+@import '../../../assets/styles/mixins.scss';
+
+.hideLegend {
+  > legend {
+    @include hidden-from-screen;
+  }
+}

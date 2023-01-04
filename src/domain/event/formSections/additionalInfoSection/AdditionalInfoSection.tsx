@@ -2,6 +2,7 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import DateInputField from '../../../../common/components/formFields/dateInputField/DateInputField';
 import NumberInputField from '../../../../common/components/formFields/numberInputField/NumberInputField';
 import TimeInputField from '../../../../common/components/formFields/timeInputField/TimeInputField';
@@ -25,7 +26,7 @@ const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
   });
 
   return (
-    <>
+    <Fieldset heading={t('event.form.sections.additionalInfo')} hideLegend>
       <h3>{t(`event.form.titleAudienceAge`)}</h3>
       <FieldRow
         notification={
@@ -163,7 +164,7 @@ const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
           </div>
         </FieldColumn>
       </FieldRow>
-    </>
+    </Fieldset>
   );
 };
 

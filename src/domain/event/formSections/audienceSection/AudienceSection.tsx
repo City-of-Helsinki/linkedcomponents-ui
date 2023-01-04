@@ -2,6 +2,7 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxGroupField from '../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
 import Notification from '../../../../common/components/notification/Notification';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
@@ -22,7 +23,7 @@ const AudienceSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
 
   return (
-    <>
+    <Fieldset heading={t('event.form.sections.audience')} hideLegend>
       <FieldRow
         notification={
           <Notification
@@ -46,7 +47,7 @@ const AudienceSection: React.FC<Props> = ({ isEditingAllowed }) => {
           />
         </FieldColumn>
       </FieldRow>
-    </>
+    </Fieldset>
   );
 };
 

@@ -2,6 +2,7 @@ import { Field } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import DateInputField from '../../../../common/components/formFields/dateInputField/DateInputField';
 import TimeInputField from '../../../../common/components/formFields/timeInputField/TimeInputField';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
@@ -18,7 +19,10 @@ const EnrolmentTimeSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   return (
-    <>
+    <Fieldset
+      heading={t('registration.form.sections.enrolmentTime')}
+      hideLegend
+    >
       <FieldRow>
         <FieldColumn>
           <SplittedRow>
@@ -67,7 +71,7 @@ const EnrolmentTimeSection: React.FC<Props> = ({ isEditingAllowed }) => {
           </SplittedRow>
         </FieldColumn>
       </FieldRow>
-    </>
+    </Fieldset>
   );
 };
 

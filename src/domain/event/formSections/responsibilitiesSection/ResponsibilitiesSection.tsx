@@ -3,6 +3,7 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import MultiLanguageField from '../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
 import PublisherSelectorField from '../../../../common/components/formFields/publisherSelectorField/PublisherSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
@@ -57,7 +58,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
   }, [user]);
 
   return (
-    <>
+    <Fieldset heading={t('event.form.sections.responsibilities')} hideLegend>
       <FieldRow
         notification={
           <Notification
@@ -99,7 +100,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
           />
         </FieldColumn>
       </FieldRow>
-    </>
+    </Fieldset>
   );
 };
 

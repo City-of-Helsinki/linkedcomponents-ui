@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../../../common/components/fieldset/Fieldset';
 import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
 import { RecurringEventSettings } from '../../../types';
@@ -36,7 +37,7 @@ const RecurringEventTab: React.FC = () => {
   };
 
   return (
-    <>
+    <Fieldset heading={t(`event.form.titleRecurringEvent`)} hideLegend>
       <h3>{t('event.form.titleRecurringEvent')}</h3>
       <FieldRow notification={<TimeSectionNotification />}>
         <FieldColumn>
@@ -45,7 +46,7 @@ const RecurringEventTab: React.FC = () => {
         </FieldColumn>
         <EventTimesSummary />
       </FieldRow>
-    </>
+    </Fieldset>
   );
 };
 

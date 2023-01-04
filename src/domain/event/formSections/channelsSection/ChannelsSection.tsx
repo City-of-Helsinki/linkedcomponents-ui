@@ -2,6 +2,7 @@ import { useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import MultiLanguageField from '../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
@@ -23,7 +24,7 @@ const ChannelsSection: React.FC<Props> = ({ isEditingAllowed }) => {
   });
 
   return (
-    <>
+    <Fieldset heading={t(`event.form.sections.channels.${type}`)} hideLegend>
       <h3>{t(`event.form.titleInfoUrl.${type}`)}</h3>
       <FieldRow>
         <FieldColumn>
@@ -52,7 +53,7 @@ const ChannelsSection: React.FC<Props> = ({ isEditingAllowed }) => {
       >
         <ExternalLinks isEditingAllowed={isEditingAllowed} />
       </FieldRow>
-    </>
+    </Fieldset>
   );
 };
 
