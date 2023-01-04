@@ -12,7 +12,7 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import { KEYWORD_ACTIONS } from '../../keyword/constants';
 import useKeywordUpdateActions, {
   KEYWORD_MODALS,
-} from '../../keyword/hooks/useKeywordUpdateActions';
+} from '../../keyword/hooks/useKeywordActions';
 import ConfirmDeleteModal from '../../keyword/modals/confirmDeleteModal/ConfirmDeleteModal';
 import { getEditButtonProps, getKeywordFields } from '../../keyword/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';

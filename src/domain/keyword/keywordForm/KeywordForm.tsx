@@ -1,14 +1,9 @@
 /* eslint-disable max-len */
-import {
-  ApolloClient,
-  NormalizedCacheObject,
-  ServerError,
-  useApolloClient,
-} from '@apollo/client';
+import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import CheckboxField from '../../../common/components/formFields/checkboxField/CheckboxField';
@@ -21,11 +16,7 @@ import {
   ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
 } from '../../../constants';
-import {
-  CreateKeywordMutationInput,
-  KeywordFieldsFragment,
-  useCreateKeywordMutation,
-} from '../../../generated/graphql';
+import { KeywordFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
@@ -34,8 +25,6 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
-import { clearKeywordsQueries } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import {
@@ -45,15 +34,11 @@ import {
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
+import useKeywordActions from '../hooks/useKeywordActions';
 import useKeywordServerErrors from '../hooks/useKeywordServerErrors';
-import useKeywordUpdateActions from '../hooks/useKeywordUpdateActions';
 import KeywordAuthenticationNotification from '../keywordAuthenticationNotification/KeywordAuthenticationNotification';
 import { KeywordFormFields } from '../types';
-import {
-  checkCanUserDoAction,
-  getKeywordInitialValues,
-  getKeywordPayload,
-} from '../utils';
+import { checkCanUserDoAction, getKeywordInitialValues } from '../utils';
 import { keywordSchema } from '../validation';
 
 type KeywordFormProps = {
@@ -64,9 +49,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
-  const location = useLocation();
   const { user } = useUser();
-  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { organizationAncestors } = useOrganizationAncestors(
     keyword?.publisher ?? ''
   );
@@ -81,14 +64,19 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useKeywordServerErrors();
 
-  const { saving, setSaving, updateKeyword } = useKeywordUpdateActions({
-    keyword: keyword as KeywordFieldsFragment,
+  const { createKeyword, saving, updateKeyword } = useKeywordActions({
+    keyword,
   });
-
-  const [createKeywordMutation] = useCreateKeywordMutation();
 
   const goToKeywordsPage = () => {
     navigate(`/${locale}${ROUTES.KEYWORDS}`);
+  };
+
+  const onCreate = async (values: KeywordFormFields) => {
+    await createKeyword(values, {
+      onError: (error: ServerError) => showServerErrors({ error }),
+      onSuccess: goToKeywordsPage,
+    });
   };
 
   const onUpdate = async (values: KeywordFormFields) => {
@@ -98,45 +86,6 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
         goToKeywordsPage();
       },
     });
-  };
-
-  const createSingleKeyword = async (payload: CreateKeywordMutationInput) => {
-    try {
-      const data = await createKeywordMutation({
-        variables: { input: payload },
-      });
-
-      return data.data?.createKeyword.id as string;
-    } catch (error) /* istanbul ignore next */ {
-      showServerErrors({ error });
-      // // Report error to Sentry
-      reportError({
-        data: {
-          error: error as Record<string, unknown>,
-          payload,
-          payloadAsString: JSON.stringify(payload),
-        },
-        location,
-        message: 'Failed to create keyword',
-        user,
-      });
-    }
-  };
-
-  const createKeyword = async (values: KeywordFormFields) => {
-    setSaving(KEYWORD_ACTIONS.CREATE);
-    const payload = getKeywordPayload(values);
-
-    const createdKeywordId = await createSingleKeyword(payload);
-
-    if (createdKeywordId) {
-      // Clear all keywords queries from apollo cache to show added registrations
-      // in registration list
-      clearKeywordsQueries(apolloClient);
-      goToKeywordsPage();
-    }
-
-    setSaving(null);
   };
 
   return (
@@ -172,7 +121,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
             if (keyword) {
               await onUpdate(values);
             } else {
-              await createKeyword(values);
+              await onCreate(values);
             }
           } catch (error) {
             showFormErrors({

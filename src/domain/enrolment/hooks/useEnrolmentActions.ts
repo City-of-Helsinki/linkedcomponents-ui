@@ -108,23 +108,20 @@ const useEnrolmentActions = ({
     callbacks?.onError?.(error);
   };
 
-  const createSingleEnrolment = async (
-    payload: CreateEnrolmentMutationInput,
-    callbacks?: MutationCallbacks
-  ) => {
+  const cancelEnrolment = async (callbacks?: MutationCallbacks) => {
     try {
-      const data = await createEnrolmentMutation({
-        variables: { input: payload, registration: registration.id as string },
+      setSaving(ENROLMENT_ACTIONS.CANCEL);
+
+      await deleteEnrolmentMutation({
+        variables: { cancellationCode: enrolment?.cancellationCode as string },
       });
 
-      return data.data?.createEnrolment;
+      await cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {
-      // Report error to Sentry
       handleError({
         callbacks,
         error,
-        message: 'Failed to create enrolment',
-        payload,
+        message: 'Failed to cancel enrolment',
       });
     }
   };
@@ -141,27 +138,21 @@ const useEnrolmentActions = ({
       reservationCode: reservationData?.code as string,
     });
 
-    const createdEnrolments = await createSingleEnrolment(payload, callbacks);
-
-    if (createdEnrolments) {
-      await cleanAfterUpdate(callbacks);
-    }
-  };
-
-  const cancelEnrolment = async (callbacks?: MutationCallbacks) => {
     try {
-      setSaving(ENROLMENT_ACTIONS.CANCEL);
-
-      await deleteEnrolmentMutation({
-        variables: { cancellationCode: enrolment?.cancellationCode as string },
+      const { data } = await createEnrolmentMutation({
+        variables: { input: payload, registration: registration.id as string },
       });
 
-      await cleanAfterUpdate(callbacks);
+      if (data?.createEnrolment) {
+        await cleanAfterUpdate(callbacks);
+      }
     } catch (error) /* istanbul ignore next */ {
+      // Report error to Sentry
       handleError({
         callbacks,
         error,
-        message: 'Failed to cancel enrolment',
+        message: 'Failed to create enrolment',
+        payload,
       });
     }
   };
