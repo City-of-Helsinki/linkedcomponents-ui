@@ -3,6 +3,7 @@ import camelCase from 'lodash/camelCase';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxGroupField from '../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
 import { OptionType } from '../../../../types';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
@@ -36,7 +37,10 @@ const RequiredFieldsSection: React.FC<Props> = ({ isEditingAllowed }) => {
   }));
 
   return (
-    <>
+    <Fieldset
+      heading={t('registration.form.sections.requiredFields')}
+      hideLegend
+    >
       <FieldRow>
         <FieldColumn>
           <h3 style={{ marginTop: 0 }}>
@@ -61,7 +65,7 @@ const RequiredFieldsSection: React.FC<Props> = ({ isEditingAllowed }) => {
           />
         </FieldColumn>
       </FieldRow>
-    </>
+    </Fieldset>
   );
 };
 
