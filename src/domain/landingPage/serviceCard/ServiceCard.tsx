@@ -35,7 +35,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     >
       <Linkbox
         {...rest}
-        className={styles.linkbox}
         external={true}
         heading={title}
         headingAriaLevel={1}
