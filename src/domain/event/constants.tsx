@@ -315,6 +315,13 @@ export const AUDIENCE_ORDER = [
   'yso:p2433', // Ikääntyneet
 ];
 
+export enum EVENT_MODALS {
+  CANCEL = 'cancel',
+  DELETE = 'delete',
+  POSTPONE = 'postpone',
+  UPDATE = 'update',
+}
+
 export const TEST_EVENT_ID = 'helmet:222453';
 
 export const PUBLICATION_LIST_LINKS: Record<EVENT_TYPE, PublicationListLink[]> =

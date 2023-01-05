@@ -13,6 +13,17 @@ import pascalCase from '../../../utils/pascalCase';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { AUDIENCE_ORDER, EVENT_ACTIONS } from '../constants';
 
+export const getEventCreateAction = (
+  publicationStatus: PublicationStatus
+): EVENT_ACTIONS => {
+  switch (publicationStatus) {
+    case PublicationStatus.Draft:
+      return EVENT_ACTIONS.CREATE_DRAFT;
+    case PublicationStatus.Public:
+      return EVENT_ACTIONS.PUBLISH;
+  }
+};
+
 export const getEventUpdateAction = (
   event: EventFieldsFragment,
   publicationStatus: PublicationStatus

@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import { ActionButtonProps, ButtonType } from '../../../types';
+import { PublicationStatus } from '../../../generated/graphql';
+import { ActionButtonProps } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
@@ -13,15 +14,13 @@ import { EVENT_ACTIONS, EVENT_FIELDS, EVENT_TYPE } from '../constants';
 import { getEventButtonProps } from '../utils';
 
 interface Props {
-  onPublish: () => void;
-  onSaveDraft: () => void;
+  onSubmit: (publicationStatus: PublicationStatus) => void;
   publisher: string;
   saving: EVENT_ACTIONS | null;
 }
 
 const CreateButtonPanel: React.FC<Props> = ({
-  onPublish,
-  onSaveDraft,
+  onSubmit,
   publisher,
   saving,
 }) => {
@@ -35,12 +34,10 @@ const CreateButtonPanel: React.FC<Props> = ({
   const getActionButtonProps = ({
     action,
     onClick,
-    type,
     variant,
   }: {
     action: EVENT_ACTIONS;
     onClick: () => void;
-    type: ButtonType;
     variant: Exclude<ButtonVariant, 'supplementary'>;
   }): ActionButtonProps | null => {
     const buttonProps = getEventButtonProps({
@@ -54,21 +51,19 @@ const CreateButtonPanel: React.FC<Props> = ({
       user,
     });
     return buttonProps
-      ? { ...buttonProps, isSaving: saving === action, type, variant }
+      ? { ...buttonProps, isSaving: saving === action, type: 'button', variant }
       : null;
   };
 
   const actionButtons: ActionButtonProps[] = [
     getActionButtonProps({
       action: EVENT_ACTIONS.CREATE_DRAFT,
-      onClick: onSaveDraft,
-      type: 'button',
+      onClick: () => onSubmit(PublicationStatus.Draft),
       variant: 'secondary',
     }),
     getActionButtonProps({
       action: EVENT_ACTIONS.PUBLISH,
-      onClick: onPublish,
-      type: 'button',
+      onClick: () => onSubmit(PublicationStatus.Public),
       variant: 'primary',
     }),
   ].filter(skipFalsyType);

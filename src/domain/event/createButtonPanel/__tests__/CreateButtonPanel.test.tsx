@@ -20,8 +20,7 @@ const renderComponent = (authContextValue?: AuthContextProps) =>
       onSubmit={jest.fn()}
     >
       <ButtonPanel
-        onPublish={jest.fn()}
-        onSaveDraft={jest.fn()}
+        onSubmit={jest.fn()}
         publisher={organizationId}
         saving={null}
       />

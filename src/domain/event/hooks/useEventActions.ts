@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ApolloClient,
+  FetchResult,
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
@@ -9,11 +10,14 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 
 import {
+  CreateEventMutationInput,
+  CreateEventsMutation,
   EventFieldsFragment,
   EventStatus,
   PublicationStatus,
   SuperEventType,
   UpdateEventMutationInput,
+  useCreateEventMutation,
   useCreateEventsMutation,
   useDeleteEventMutation,
   UserFieldsFragment,
@@ -28,7 +32,7 @@ import { reportError } from '../../app/sentry/utils';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
-import { EVENT_ACTIONS } from '../constants';
+import { EVENT_ACTIONS, EVENT_MODALS } from '../constants';
 import { EventFormFields } from '../types';
 import {
   calculateSuperEventTime,
@@ -36,32 +40,28 @@ import {
   getEventBasePayload,
   getEventFields,
   getEventInitialValues,
+  getEventPayload,
   getNewEventTimes,
+  getRecurringEventPayload,
   getRelatedEvents,
 } from '../utils';
 import useUpdateImageIfNeeded from './useUpdateImageIfNeeded';
 import useUpdateRecurringEventIfNeeded from './useUpdateRecurringEventIfNeeded';
-import { getEventUpdateAction } from './utils';
+import { getEventCreateAction, getEventUpdateAction } from './utils';
 
-export enum MODALS {
-  CANCEL = 'cancel',
-  DELETE = 'delete',
-  POSTPONE = 'postpone',
-  UPDATE = 'update',
-}
-
-interface Props {
-  event: EventFieldsFragment;
-}
-
-type UseEventUpdateActionsState = {
+type UseEventActionsState = {
   cancelEvent: (callbacks?: MutationCallbacks) => Promise<void>;
   closeModal: () => void;
+  createEvent: (
+    values: EventFormFields,
+    publicationStatus: PublicationStatus,
+    callbacks?: MutationCallbacks
+  ) => Promise<void>;
   deleteEvent: (callbacks?: MutationCallbacks) => Promise<void>;
-  openModal: MODALS | null;
+  openModal: EVENT_MODALS | null;
   postponeEvent: (callbacks?: MutationCallbacks) => Promise<void>;
   saving: EVENT_ACTIONS | null;
-  setOpenModal: (modal: MODALS | null) => void;
+  setOpenModal: (modal: EVENT_MODALS | null) => void;
   updateEvent: (
     values: EventFormFields,
     publicationStatus: PublicationStatus,
@@ -69,18 +69,18 @@ type UseEventUpdateActionsState = {
   ) => Promise<void>;
   user: UserFieldsFragment | undefined;
 };
-const useEventUpdateActions = ({
-  event,
-}: Props): UseEventUpdateActionsState => {
+
+const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const locale = useLocale();
   const location = useLocation();
-  const [openModal, setOpenModal] = useMountedState<MODALS | null>(null);
+  const [openModal, setOpenModal] = useMountedState<EVENT_MODALS | null>(null);
   const [saving, setSaving] = useMountedState<EVENT_ACTIONS | null>(null);
 
+  const [createEventMutation] = useCreateEventMutation();
   const [createEventsMutation] = useCreateEventsMutation();
   const [deleteEventMutation] = useDeleteEventMutation();
   const [updateEventsMutation] = useUpdateEventsMutation();
@@ -127,38 +127,47 @@ const useEventUpdateActions = ({
     return editableEvents;
   };
 
-  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
+  const cleanAfterCreateOrUpdate = async ({
+    callbacks,
+    id,
+  }: {
+    callbacks?: MutationCallbacks;
+    id?: string;
+  }) => {
     /* istanbul ignore next */
     !isTestEnv && clearEventsQueries(apolloClient);
 
     savingFinished();
     closeModal();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess());
+    await (callbacks?.onSuccess && callbacks.onSuccess(id));
   };
 
   const handleError = ({
     callbacks,
+    data,
     error,
-    eventIds,
     message,
     payload,
   }: {
     callbacks?: MutationCallbacks;
+    data?: Record<string, unknown>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
-    eventIds?: string[];
     message: string;
-    payload?: UpdateEventMutationInput[];
+    payload?:
+      | CreateEventMutationInput
+      | CreateEventMutationInput[]
+      | UpdateEventMutationInput[];
   }) => {
     savingFinished();
 
     // Report error to Sentry
     reportError({
       data: {
+        ...data,
         error,
         event,
-        eventIds,
         payloadAsString: payload && JSON.stringify(payload),
       },
       location,
@@ -176,7 +185,10 @@ const useEventUpdateActions = ({
     try {
       setSaving(EVENT_ACTIONS.CANCEL);
       // Check that user has permission to cancel events
-      const allEvents = await getRelatedEvents({ apolloClient, event });
+      const allEvents = await getRelatedEvents({
+        apolloClient,
+        event: event as EventFieldsFragment,
+      });
       const editableEvents = await getEditableEvents(
         allEvents,
         EVENT_ACTIONS.CANCEL
@@ -201,9 +213,9 @@ const useEventUpdateActions = ({
       });
 
       await updateEvents(payload);
-      await updateRecurringEventIfNeeded(event);
+      await updateRecurringEventIfNeeded(event as EventFieldsFragment);
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterCreateOrUpdate({ callbacks });
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
@@ -214,12 +226,115 @@ const useEventUpdateActions = ({
     }
   };
 
+  const createRecurringEvent = async (
+    payload: CreateEventMutationInput[],
+    values: EventFormFields,
+    callbacks?: MutationCallbacks
+  ) => {
+    let eventsData: FetchResult<CreateEventsMutation> | null = null;
+
+    // Save sub-events
+    try {
+      eventsData = await createEventsMutation({
+        variables: { input: payload },
+      });
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        payload,
+        message: 'Failed to create sub-events in recurring event creation',
+      });
+
+      // Don't save recurring event if sub-event creation fails
+      return;
+    }
+
+    /* istanbul ignore next */
+    const subEventIds =
+      eventsData?.data?.createEvents.map((item) => item.atId) || [];
+    const recurringEventPayload = getRecurringEventPayload(
+      payload,
+      subEventIds,
+      values
+    );
+
+    try {
+      const recurringEventData = await createEventMutation({
+        variables: { input: recurringEventPayload },
+      });
+
+      return recurringEventData.data?.createEvent.id as string;
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        payload: recurringEventPayload,
+        message: 'Failed to create recurring event',
+      });
+    }
+  };
+
+  const createSingleEvent = async (
+    payload: CreateEventMutationInput,
+    callbacks?: MutationCallbacks
+  ) => {
+    try {
+      const data = await createEventMutation({
+        variables: { input: payload },
+      });
+
+      return data.data?.createEvent.id as string;
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        payload,
+        message: 'Failed to create event',
+      });
+    }
+  };
+
+  const createEvent = async (
+    values: EventFormFields,
+    publicationStatus: PublicationStatus,
+    callbacks?: MutationCallbacks
+  ) => {
+    setSaving(getEventCreateAction(publicationStatus));
+    try {
+      await updateImageIfNeeded(values);
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        data: { images: values.images, imageDetails: values.imageDetails },
+        error,
+        message: 'Failed to update image',
+      });
+    }
+
+    const payload = getEventPayload(values, publicationStatus);
+    let createdEventId: string | undefined;
+
+    if (Array.isArray(payload)) {
+      createdEventId = await createRecurringEvent(payload, values, callbacks);
+    } else {
+      createdEventId = await createSingleEvent(payload, callbacks);
+    }
+
+    if (createdEventId) {
+      cleanAfterCreateOrUpdate({ id: createdEventId, callbacks });
+    }
+  };
+
   const deleteEvent = async (callbacks?: MutationCallbacks) => {
     let deletableEventIds: string[] = [];
     try {
       setSaving(EVENT_ACTIONS.DELETE);
       // Check that user has permission to delete events
-      const allEvents = await getRelatedEvents({ apolloClient, event });
+      const allEvents = await getRelatedEvents({
+        apolloClient,
+        event: event as EventFieldsFragment,
+      });
       const deletableEvents = await getEditableEvents(
         allEvents,
         EVENT_ACTIONS.DELETE
@@ -230,14 +345,16 @@ const useEventUpdateActions = ({
         await deleteEventMutation({ variables: { id } });
       }
 
-      await updateRecurringEventIfNeeded(event);
+      await updateRecurringEventIfNeeded(event as EventFieldsFragment);
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterCreateOrUpdate({ callbacks });
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
+        data: {
+          eventIds: deletableEventIds,
+        },
         error,
-        eventIds: deletableEventIds,
         message: 'Failed to delete event',
       });
     }
@@ -251,7 +368,7 @@ const useEventUpdateActions = ({
       // Check that user has permission to postpone events
       const allEvents = await getRelatedEvents({
         apolloClient,
-        event,
+        event: event as EventFieldsFragment,
       });
 
       const editableEvents = await getEditableEvents(
@@ -277,9 +394,9 @@ const useEventUpdateActions = ({
       });
 
       await updateEvents(payload);
-      await updateRecurringEventIfNeeded(event);
+      await updateRecurringEventIfNeeded(event as EventFieldsFragment);
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterCreateOrUpdate({ callbacks });
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
@@ -298,13 +415,16 @@ const useEventUpdateActions = ({
     let payload: UpdateEventMutationInput[] = [];
 
     try {
-      const { atId, id } = getEventFields(event, locale);
+      const { atId, id } = getEventFields(event as EventFieldsFragment, locale);
 
-      const action = getEventUpdateAction(event, publicationStatus);
+      const action = getEventUpdateAction(
+        event as EventFieldsFragment,
+        publicationStatus
+      );
       const basePayload = getEventBasePayload(values, publicationStatus);
 
       /* istanbul ignore next */
-      const subEvents = (event.subEvents || []) as EventFieldsFragment[];
+      const subEvents = (event?.subEvents || []) as EventFieldsFragment[];
       const editableSubEvents = await getEditableEvents(subEvents, action);
 
       const subEventIds: string[] = [];
@@ -435,10 +555,16 @@ const useEventUpdateActions = ({
     }
 
     try {
-      const action = getEventUpdateAction(event, publicationStatus);
+      const action = getEventUpdateAction(
+        event as EventFieldsFragment,
+        publicationStatus
+      );
       setSaving(action);
 
-      const { id, superEventType } = getEventFields(event, locale);
+      const { id, superEventType } = getEventFields(
+        event as EventFieldsFragment,
+        locale
+      );
 
       if (superEventType === SuperEventType.Recurring) {
         await updateRecurringEvent(values, publicationStatus, callbacks);
@@ -446,7 +572,7 @@ const useEventUpdateActions = ({
         // Update single event
         const basePayload = getEventBasePayload(values, publicationStatus);
 
-        if (event.superEvent?.superEventType === SuperEventType.Recurring) {
+        if (event?.superEvent?.superEventType === SuperEventType.Recurring) {
           basePayload.superEvent = { atId: event.superEvent.atId };
         }
 
@@ -461,10 +587,10 @@ const useEventUpdateActions = ({
         ];
 
         await updateEvents(payload);
-        await updateRecurringEventIfNeeded(event);
+        await updateRecurringEventIfNeeded(event as EventFieldsFragment);
       }
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterCreateOrUpdate({ callbacks });
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
@@ -478,6 +604,7 @@ const useEventUpdateActions = ({
   return {
     cancelEvent,
     closeModal,
+    createEvent,
     deleteEvent,
     openModal,
     postponeEvent,
@@ -488,4 +615,4 @@ const useEventUpdateActions = ({
   };
 };
 
-export default useEventUpdateActions;
+export default useEventActions;

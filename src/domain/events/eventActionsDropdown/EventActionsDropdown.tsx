@@ -10,10 +10,8 @@ import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { EVENT_ACTIONS } from '../../event/constants';
-import useEventUpdateActions, {
-  MODALS,
-} from '../../event/hooks/useEventUpdateActions';
+import { EVENT_ACTIONS, EVENT_MODALS } from '../../event/constants';
+import useEventActions from '../../event/hooks/useEventActions';
 import ConfirmCancelModal from '../../event/modals/confirmCancelModal/ConfirmCancelModal';
 import ConfirmDeleteModal from '../../event/modals/confirmDeleteModal/ConfirmDeleteModal';
 import ConfirmPostponeModal from '../../event/modals/confirmPostponeModal/ConfirmPostponeModal';
@@ -49,7 +47,7 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
     openModal,
     postponeEvent,
     setOpenModal,
-  } = useEventUpdateActions({ event });
+  } = useEventActions(event);
   const { organizationAncestors } = useOrganizationAncestors(
     event.publisher as string
   );
@@ -106,42 +104,42 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
     }),
     getActionItemProps({
       action: EVENT_ACTIONS.POSTPONE,
-      onClick: () => setOpenModal(MODALS.POSTPONE),
+      onClick: () => setOpenModal(EVENT_MODALS.POSTPONE),
     }),
     getActionItemProps({
       action: EVENT_ACTIONS.CANCEL,
-      onClick: () => setOpenModal(MODALS.CANCEL),
+      onClick: () => setOpenModal(EVENT_MODALS.CANCEL),
     }),
     getActionItemProps({
       action: EVENT_ACTIONS.DELETE,
-      onClick: () => setOpenModal(MODALS.DELETE),
+      onClick: () => setOpenModal(EVENT_MODALS.DELETE),
     }),
   ].filter(skipFalsyType);
 
   return (
     <div className={className}>
-      {openModal === MODALS.CANCEL && (
+      {openModal === EVENT_MODALS.CANCEL && (
         <ConfirmCancelModal
           event={event}
-          isOpen={openModal === MODALS.CANCEL}
+          isOpen={openModal === EVENT_MODALS.CANCEL}
           isSaving={saving === EVENT_ACTIONS.CANCEL}
           onCancel={onCancel}
           onClose={closeModal}
         />
       )}
-      {openModal === MODALS.DELETE && (
+      {openModal === EVENT_MODALS.DELETE && (
         <ConfirmDeleteModal
           event={event}
-          isOpen={openModal === MODALS.DELETE}
+          isOpen={openModal === EVENT_MODALS.DELETE}
           isSaving={saving === EVENT_ACTIONS.DELETE}
           onClose={closeModal}
           onDelete={onDelete}
         />
       )}
-      {openModal === MODALS.POSTPONE && (
+      {openModal === EVENT_MODALS.POSTPONE && (
         <ConfirmPostponeModal
           event={event}
-          isOpen={openModal === MODALS.POSTPONE}
+          isOpen={openModal === EVENT_MODALS.POSTPONE}
           isSaving={saving === EVENT_ACTIONS.POSTPONE}
           onClose={closeModal}
           onPostpone={onPostpone}

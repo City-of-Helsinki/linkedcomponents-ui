@@ -38,7 +38,7 @@ import {
   mockedUpdateRecurringEventWithDeletedSubEventResponse,
   recurringSuperEvent,
 } from '../__mocks__/useEventUpdateActions';
-import useEventUpdateActions from '../useEventUpdateActions';
+import useEventActions from '../useEventActions';
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
@@ -52,11 +52,11 @@ const getHookWrapper = (
   const wrapper = ({ children }) => (
     <AuthContext.Provider value={authContextValue}>
       <MockedProvider cache={createCache()} mocks={[...commonMocks, ...mocks]}>
-        <Router history={history}>{children}</Router>
+        <Router history={history as any}>{children}</Router>
       </MockedProvider>
     </AuthContext.Provider>
   );
-  const { result } = renderHook(() => useEventUpdateActions({ event }), {
+  const { result } = renderHook(() => useEventActions(event), {
     wrapper,
   });
   return { result };
