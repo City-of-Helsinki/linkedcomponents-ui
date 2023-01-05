@@ -21,11 +21,11 @@ import { reportError } from '../../app/sentry/utils';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
-import { EVENT_EDIT_ACTIONS } from '../constants';
+import { EVENT_ACTIONS } from '../constants';
 import { EventTime } from '../types';
 import {
   calculateSuperEventTime,
-  checkIsEditActionAllowed,
+  checkIsActionAllowed,
   getEventBasePayload,
   getEventInitialValues,
   getRecurringEvent,
@@ -80,11 +80,11 @@ const useUpdateRecurringEventIfNeeded =
 
         const publicationStatus = superEvent.publicationStatus;
 
-        const { editable } = checkIsEditActionAllowed({
+        const { editable } = checkIsActionAllowed({
           action:
             publicationStatus === PublicationStatus.Draft
-              ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
-              : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+              ? EVENT_ACTIONS.UPDATE_DRAFT
+              : EVENT_ACTIONS.UPDATE_PUBLIC,
           authenticated,
           event: superEvent,
           organizationAncestors,

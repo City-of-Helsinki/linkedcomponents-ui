@@ -31,7 +31,7 @@ import { replaceParamsToEventQueryString } from '../events/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
-import { EVENT_EDIT_ACTIONS, EVENT_INCLUDES } from './constants';
+import { EVENT_ACTIONS, EVENT_INCLUDES } from './constants';
 import EditButtonPanel from './editButtonPanel/EditButtonPanel';
 import AuthenticationNotification from './eventAuthenticationNotification/EventAuthenticationNotification';
 import EventInfo from './eventInfo/EventInfo';
@@ -208,7 +208,7 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
       validateOnChange={true}
     >
       {({ values, setErrors, setTouched }) => {
-        const isEventActionAllowed = (action: EVENT_EDIT_ACTIONS) => {
+        const isEventActionAllowed = (action: EVENT_ACTIONS) => {
           return checkCanUserDoAction({
             action,
             event,
@@ -219,9 +219,9 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
 
         /* istanbul ignore next */
         const isEditingAllowed =
-          isEventActionAllowed(EVENT_EDIT_ACTIONS.UPDATE_DRAFT) ||
-          isEventActionAllowed(EVENT_EDIT_ACTIONS.UPDATE_PUBLIC) ||
-          isEventActionAllowed(EVENT_EDIT_ACTIONS.PUBLISH);
+          isEventActionAllowed(EVENT_ACTIONS.UPDATE_DRAFT) ||
+          isEventActionAllowed(EVENT_ACTIONS.UPDATE_PUBLIC) ||
+          isEventActionAllowed(EVENT_ACTIONS.ACCEPT_AND_PUBLISH);
 
         const clearErrors = () => setErrors({});
         const handleUpdate = async (publicationStatus: PublicationStatus) => {
@@ -261,21 +261,21 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
             <ConfirmCancelModal
               event={event}
               isOpen={openModal === MODALS.CANCEL}
-              isSaving={saving === EVENT_EDIT_ACTIONS.CANCEL}
+              isSaving={saving === EVENT_ACTIONS.CANCEL}
               onCancel={() => onCancel(values.type)}
               onClose={closeModal}
             />
             <ConfirmDeleteModal
               event={event}
               isOpen={openModal === MODALS.DELETE}
-              isSaving={saving === EVENT_EDIT_ACTIONS.DELETE}
+              isSaving={saving === EVENT_ACTIONS.DELETE}
               onClose={closeModal}
               onDelete={onDelete}
             />
             <ConfirmPostponeModal
               event={event}
               isOpen={openModal === MODALS.POSTPONE}
-              isSaving={saving === EVENT_EDIT_ACTIONS.POSTPONE}
+              isSaving={saving === EVENT_ACTIONS.POSTPONE}
               onClose={closeModal}
               onPostpone={() => onPostpone(values.type)}
             />
@@ -283,9 +283,9 @@ const EditEventPage: React.FC<EditEventPageProps> = ({ event, refetch }) => {
               event={event}
               isOpen={openModal === MODALS.UPDATE}
               isSaving={
-                saving === EVENT_EDIT_ACTIONS.PUBLISH ||
-                saving === EVENT_EDIT_ACTIONS.UPDATE_DRAFT ||
-                saving === EVENT_EDIT_ACTIONS.UPDATE_PUBLIC
+                saving === EVENT_ACTIONS.ACCEPT_AND_PUBLISH ||
+                saving === EVENT_ACTIONS.UPDATE_DRAFT ||
+                saving === EVENT_ACTIONS.UPDATE_PUBLIC
               }
               onClose={closeModal}
               onSave={() => onUpdate(values, nextPublicationStatus)}

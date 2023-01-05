@@ -16,8 +16,7 @@ import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import Section from '../app/layout/section/Section';
-import { useAuth } from '../auth/hooks/useAuth';
-import { EVENT_CREATE_ACTIONS, EVENT_INITIAL_VALUES } from '../event/constants';
+import { EVENT_ACTIONS, EVENT_INITIAL_VALUES } from '../event/constants';
 import useUser from '../user/hooks/useUser';
 import CreateButtonPanel from './createButtonPanel/CreateButtonPanel';
 import AuthenticationNotification from './eventAuthenticationNotification/EventAuthenticationNotification';
@@ -39,7 +38,7 @@ import VideoSection from './formSections/videoSection/VideoSection';
 import useEventCreateActions from './hooks/useEventCreateActions';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import useEventServerErrors from './hooks/useEventServerErrors';
-import { canUserCreateEvent, scrollToFirstError } from './utils';
+import { checkCanUserDoAction, scrollToFirstError } from './utils';
 import { draftEventSchema, publicEventSchema } from './validation';
 
 const CreateEventPage: React.FC = () => {
@@ -50,7 +49,6 @@ const CreateEventPage: React.FC = () => {
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEventServerErrors();
   const { createEvent, saving } = useEventCreateActions();
-  const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
 
   const [descriptionLanguage, setDescriptionLanguage] = React.useState(
@@ -88,10 +86,10 @@ const CreateEventPage: React.FC = () => {
         setErrors,
         setTouched,
       }) => {
-        const isCreateEventAllowed = (action: EVENT_CREATE_ACTIONS) => {
-          return canUserCreateEvent({
+        const isCreateEventAllowed = (action: EVENT_ACTIONS) => {
+          return checkCanUserDoAction({
             action,
-            authenticated,
+            organizationAncestors: [],
             publisher,
             user,
           });
@@ -99,8 +97,8 @@ const CreateEventPage: React.FC = () => {
 
         /* istanbul ignore next */
         const isEditingAllowed =
-          isCreateEventAllowed(EVENT_CREATE_ACTIONS.CREATE_DRAFT) ||
-          isCreateEventAllowed(EVENT_CREATE_ACTIONS.PUBLISH);
+          isCreateEventAllowed(EVENT_ACTIONS.CREATE_DRAFT) ||
+          isCreateEventAllowed(EVENT_ACTIONS.PUBLISH);
 
         const clearErrors = () => setErrors({});
 

@@ -19,7 +19,7 @@ import { MutationCallbacks } from '../../../types';
 import { clearEventsQueries } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
-import { EVENT_CREATE_ACTIONS } from '../constants';
+import { EVENT_ACTIONS } from '../constants';
 import { EventFormFields } from '../types';
 import { getEventPayload, getRecurringEventPayload } from '../utils';
 import useUpdateImageIfNeeded from './useUpdateImageIfNeeded';
@@ -30,27 +30,23 @@ type UseEventCreateActionsState = {
     publicationStatus: PublicationStatus,
     callbacks?: MutationCallbacks
   ) => Promise<void>;
-  saving: EVENT_CREATE_ACTIONS | null;
+  saving: EVENT_ACTIONS | null;
   user: UserFieldsFragment | undefined;
 };
 
-const getAction = (
-  publicationStatus: PublicationStatus
-): EVENT_CREATE_ACTIONS => {
+const getAction = (publicationStatus: PublicationStatus): EVENT_ACTIONS => {
   switch (publicationStatus) {
     case PublicationStatus.Draft:
-      return EVENT_CREATE_ACTIONS.CREATE_DRAFT;
+      return EVENT_ACTIONS.CREATE_DRAFT;
     case PublicationStatus.Public:
-      return EVENT_CREATE_ACTIONS.PUBLISH;
+      return EVENT_ACTIONS.PUBLISH;
   }
 };
 
 const useEventCreateActions = (): UseEventCreateActionsState => {
   const { user } = useUser();
   const location = useLocation();
-  const [saving, setSaving] = useMountedState<EVENT_CREATE_ACTIONS | null>(
-    null
-  );
+  const [saving, setSaving] = useMountedState<EVENT_ACTIONS | null>(null);
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
   const [createEventMutation] = useCreateEventMutation();

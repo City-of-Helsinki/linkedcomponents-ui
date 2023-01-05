@@ -9,8 +9,8 @@ import AuthenticationNotification from '../../app/authenticationNotification/Aut
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import { EVENT_EDIT_ACTIONS } from '../constants';
-import { checkIsEditActionAllowed } from '../utils';
+import { EVENT_ACTIONS } from '../constants';
+import { checkIsActionAllowed } from '../utils';
 
 export type EventAuthenticationNotificationProps = {
   event?: EventFieldsFragment;
@@ -42,9 +42,9 @@ const EventAuthenticationNotification: React.FC<
       if (event) {
         const action =
           event.publicationStatus === PublicationStatus.Draft
-            ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
-            : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
-        const { warning } = checkIsEditActionAllowed({
+            ? EVENT_ACTIONS.UPDATE_DRAFT
+            : EVENT_ACTIONS.UPDATE_PUBLIC;
+        const { warning } = checkIsActionAllowed({
           action,
           authenticated,
           event,

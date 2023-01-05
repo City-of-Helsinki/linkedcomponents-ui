@@ -28,11 +28,11 @@ import { reportError } from '../../app/sentry/utils';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
-import { EVENT_EDIT_ACTIONS } from '../constants';
+import { EVENT_ACTIONS } from '../constants';
 import { EventFormFields } from '../types';
 import {
   calculateSuperEventTime,
-  checkIsEditActionAllowed,
+  checkIsActionAllowed,
   getEventBasePayload,
   getEventFields,
   getEventInitialValues,
@@ -60,7 +60,7 @@ type UseEventUpdateActionsState = {
   deleteEvent: (callbacks?: MutationCallbacks) => Promise<void>;
   openModal: MODALS | null;
   postponeEvent: (callbacks?: MutationCallbacks) => Promise<void>;
-  saving: EVENT_EDIT_ACTIONS | null;
+  saving: EVENT_ACTIONS | null;
   setOpenModal: (modal: MODALS | null) => void;
   updateEvent: (
     values: EventFormFields,
@@ -79,7 +79,7 @@ const useEventUpdateActions = ({
   const locale = useLocale();
   const location = useLocation();
   const [openModal, setOpenModal] = useMountedState<MODALS | null>(null);
-  const [saving, setSaving] = useMountedState<EVENT_EDIT_ACTIONS | null>(null);
+  const [saving, setSaving] = useMountedState<EVENT_ACTIONS | null>(null);
 
   const [createEventsMutation] = useCreateEventsMutation();
   const [deleteEventMutation] = useDeleteEventMutation();
@@ -100,7 +100,7 @@ const useEventUpdateActions = ({
 
   const getEditableEvents = async (
     events: EventFieldsFragment[],
-    action: EVENT_EDIT_ACTIONS
+    action: EVENT_ACTIONS
   ) => {
     const editableEvents: EventFieldsFragment[] = [];
     for (const item of events) {
@@ -109,7 +109,7 @@ const useEventUpdateActions = ({
         item.publisher ?? '',
         apolloClient
       );
-      const { editable } = checkIsEditActionAllowed({
+      const { editable } = checkIsActionAllowed({
         action,
         authenticated,
         event: item,
@@ -174,12 +174,12 @@ const useEventUpdateActions = ({
     let payload: UpdateEventMutationInput[] = [];
 
     try {
-      setSaving(EVENT_EDIT_ACTIONS.CANCEL);
+      setSaving(EVENT_ACTIONS.CANCEL);
       // Check that user has permission to cancel events
       const allEvents = await getRelatedEvents({ apolloClient, event });
       const editableEvents = await getEditableEvents(
         allEvents,
-        EVENT_EDIT_ACTIONS.CANCEL
+        EVENT_ACTIONS.CANCEL
       );
 
       payload = editableEvents.map((item) => {
@@ -217,12 +217,12 @@ const useEventUpdateActions = ({
   const deleteEvent = async (callbacks?: MutationCallbacks) => {
     let deletableEventIds: string[] = [];
     try {
-      setSaving(EVENT_EDIT_ACTIONS.DELETE);
+      setSaving(EVENT_ACTIONS.DELETE);
       // Check that user has permission to delete events
       const allEvents = await getRelatedEvents({ apolloClient, event });
       const deletableEvents = await getEditableEvents(
         allEvents,
-        EVENT_EDIT_ACTIONS.DELETE
+        EVENT_ACTIONS.DELETE
       );
       deletableEventIds = map(deletableEvents, 'id');
 
@@ -246,7 +246,7 @@ const useEventUpdateActions = ({
   const postponeEvent = async (callbacks?: MutationCallbacks) => {
     let payload: UpdateEventMutationInput[] = [];
     try {
-      setSaving(EVENT_EDIT_ACTIONS.POSTPONE);
+      setSaving(EVENT_ACTIONS.POSTPONE);
 
       // Check that user has permission to postpone events
       const allEvents = await getRelatedEvents({
@@ -256,7 +256,7 @@ const useEventUpdateActions = ({
 
       const editableEvents = await getEditableEvents(
         allEvents,
-        EVENT_EDIT_ACTIONS.POSTPONE
+        EVENT_ACTIONS.POSTPONE
       );
 
       payload = editableEvents.map((item) => {

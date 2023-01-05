@@ -9,14 +9,14 @@ import { ActionButtonProps, ButtonType } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
-import { EVENT_CREATE_ACTIONS, EVENT_FIELDS, EVENT_TYPE } from '../constants';
-import { getCreateButtonProps } from '../utils';
+import { EVENT_ACTIONS, EVENT_FIELDS, EVENT_TYPE } from '../constants';
+import { getEventButtonProps } from '../utils';
 
 interface Props {
   onPublish: () => void;
   onSaveDraft: () => void;
   publisher: string;
-  saving: EVENT_CREATE_ACTIONS | null;
+  saving: EVENT_ACTIONS | null;
 }
 
 const CreateButtonPanel: React.FC<Props> = ({
@@ -38,16 +38,17 @@ const CreateButtonPanel: React.FC<Props> = ({
     type,
     variant,
   }: {
-    action: EVENT_CREATE_ACTIONS;
+    action: EVENT_ACTIONS;
     onClick: () => void;
     type: ButtonType;
     variant: Exclude<ButtonVariant, 'supplementary'>;
   }): ActionButtonProps | null => {
-    const buttonProps = getCreateButtonProps({
+    const buttonProps = getEventButtonProps({
       action,
       authenticated,
       eventType,
       onClick,
+      organizationAncestors: [],
       publisher,
       t,
       user,
@@ -59,13 +60,13 @@ const CreateButtonPanel: React.FC<Props> = ({
 
   const actionButtons: ActionButtonProps[] = [
     getActionButtonProps({
-      action: EVENT_CREATE_ACTIONS.CREATE_DRAFT,
+      action: EVENT_ACTIONS.CREATE_DRAFT,
       onClick: onSaveDraft,
       type: 'button',
       variant: 'secondary',
     }),
     getActionButtonProps({
-      action: EVENT_CREATE_ACTIONS.PUBLISH,
+      action: EVENT_ACTIONS.PUBLISH,
       onClick: onPublish,
       type: 'button',
       variant: 'primary',

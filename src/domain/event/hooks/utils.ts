@@ -11,18 +11,18 @@ import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { AUDIENCE_ORDER, EVENT_EDIT_ACTIONS } from '../constants';
+import { AUDIENCE_ORDER, EVENT_ACTIONS } from '../constants';
 
 export const getEventUpdateAction = (
   event: EventFieldsFragment,
   publicationStatus: PublicationStatus
-): EVENT_EDIT_ACTIONS => {
+): EVENT_ACTIONS => {
   if (event.publicationStatus === PublicationStatus.Draft) {
     return publicationStatus === PublicationStatus.Draft
-      ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
-      : EVENT_EDIT_ACTIONS.PUBLISH;
+      ? EVENT_ACTIONS.UPDATE_DRAFT
+      : EVENT_ACTIONS.ACCEPT_AND_PUBLISH;
   }
-  return EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
+  return EVENT_ACTIONS.UPDATE_PUBLIC;
 };
 
 const getAudienceIndex = (atId: string) => {
