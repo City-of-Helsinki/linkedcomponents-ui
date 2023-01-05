@@ -53,9 +53,7 @@ const renderComponent = (
 
 const openMenu = async () => {
   const user = userEvent.setup();
-  const toggleButton = screen
-    .getAllByRole('button', { name: /valinnat/i })
-    .pop() as HTMLElement;
+  const toggleButton = await screen.findByRole('button', { name: /valinnat/i });
 
   await act(async () => await user.click(toggleButton));
   const menu = screen.getByRole('region', { name: /valinnat/i });
@@ -71,19 +69,17 @@ const queryConfirmDeleteModal = () =>
     name: 'Varmista ilmoittautumisen poistaminen',
   });
 
-const getButton = (key: 'update') => {
+const findButton = (key: 'update') => {
   switch (key) {
     case 'update':
-      return screen.getByRole('button', { name: 'Tallenna muutokset' });
+      return screen.findByRole('button', { name: 'Tallenna muutokset' });
   }
 };
 
-const getInput = (key: 'enrolmentStartTime' | 'minimumAttendeeCapacity') => {
+const findInput = (key: 'minimumAttendeeCapacity') => {
   switch (key) {
-    case 'enrolmentStartTime':
-      return screen.getByLabelText(/ilmoittautuminen alkaa/i);
     case 'minimumAttendeeCapacity':
-      return screen.getByRole('spinbutton', {
+      return screen.findByRole('spinbutton', {
         name: /paikkojen vähimmäismäärä/i,
       });
   }
@@ -95,7 +91,7 @@ test('should show link to event page', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const eventLink = screen.getByRole('link', {
+  const eventLink = await screen.findByRole('link', {
     name: event.name?.fi as string,
   });
   await act(async () => await user.click(eventLink));
@@ -142,7 +138,7 @@ test('should update registration', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const updateButton = getButton('update');
+  const updateButton = await findButton('update');
   await act(async () => await user.click(updateButton));
 
   await loadingSpinnerIsNotInDocument(30000);
@@ -155,11 +151,13 @@ test('should scroll to first error when validation error is thrown', async () =>
 
   await loadingSpinnerIsNotInDocument();
 
-  const minimumAttendeeCapacityInput = getInput('minimumAttendeeCapacity');
+  const minimumAttendeeCapacityInput = await findInput(
+    'minimumAttendeeCapacity'
+  );
   await act(async () => await user.clear(minimumAttendeeCapacityInput));
   await act(async () => await user.type(minimumAttendeeCapacityInput, '-1'));
 
-  const updateButton = getButton('update');
+  const updateButton = await findButton('update');
   await act(async () => await user.click(updateButton));
 
   await waitFor(() => expect(minimumAttendeeCapacityInput).toHaveFocus());
@@ -182,7 +180,7 @@ test('should show server errors', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const updateButton = getButton('update');
+  const updateButton = await findButton('update');
   await act(async () => await user.click(updateButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);

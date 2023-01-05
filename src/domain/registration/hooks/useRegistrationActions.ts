@@ -6,8 +6,10 @@ import {
 import { useLocation } from 'react-router';
 
 import {
+  CreateRegistrationMutationInput,
   RegistrationFieldsFragment,
   UpdateRegistrationMutationInput,
+  useCreateRegistrationMutation,
   useDeleteRegistrationMutation,
   useUpdateRegistrationMutation,
 } from '../../../generated/graphql';
@@ -19,59 +21,66 @@ import { clearRegistrationsQueries } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useUser from '../../user/hooks/useUser';
+import { REGISTRATION_MODALS } from '../constants';
 import { RegistrationFormFields } from '../types';
 import { getRegistrationFields, getRegistrationPayload } from '../utils';
 
-export enum MODALS {
-  DELETE = 'delete',
+interface UseRegistrationActionsProps {
+  registration?: RegistrationFieldsFragment;
 }
 
-interface Props {
-  registration: RegistrationFieldsFragment;
-}
-
-type UseRegistrationUpdateActionsState = {
+type UseRegistrationActionsState = {
   closeModal: () => void;
+  createRegistration: (
+    values: RegistrationFormFields,
+    callbacks?: MutationCallbacks
+  ) => Promise<void>;
   deleteRegistration: (callbacks?: MutationCallbacks) => Promise<void>;
-  openModal: MODALS | null;
-  saving: REGISTRATION_ACTIONS | false;
-  setOpenModal: (modal: MODALS | null) => void;
+  openModal: REGISTRATION_MODALS | null;
+  saving: REGISTRATION_ACTIONS | null;
+  setOpenModal: (modal: REGISTRATION_MODALS | null) => void;
   updateRegistration: (
     values: RegistrationFormFields,
     callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
-const useRegistrationUpdateActions = ({
+const useRegistrationActions = ({
   registration,
-}: Props): UseRegistrationUpdateActionsState => {
+}: UseRegistrationActionsProps): UseRegistrationActionsState => {
   const locale = useLocale();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
   const location = useLocation();
-  const [saving, setSaving] = useMountedState<REGISTRATION_ACTIONS | false>(
-    false
+  const [saving, setSaving] = useMountedState<REGISTRATION_ACTIONS | null>(
+    null
   );
-  const [openModal, setOpenModal] = useMountedState<MODALS | null>(null);
-  const { id } = getRegistrationFields(registration, locale);
+  const [openModal, setOpenModal] = useMountedState<REGISTRATION_MODALS | null>(
+    null
+  );
+
+  const [createRegistrationMutation] = useCreateRegistrationMutation();
   const [updateRegistrationMutation] = useUpdateRegistrationMutation();
   const [deleteRegistrationMutation] = useDeleteRegistrationMutation();
 
   const savingFinished = () => {
-    setSaving(false);
+    setSaving(null);
   };
 
   const closeModal = () => {
     setOpenModal(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
+  const cleanAfterUpdate = async (
+    callbacks?: MutationCallbacks,
+    id?: string
+  ) => {
     /* istanbul ignore next */
     !isTestEnv && clearRegistrationsQueries(apolloClient);
 
     savingFinished();
     closeModal();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess());
+    await (callbacks?.onSuccess && callbacks.onSuccess(id));
   };
 
   const handleError = ({
@@ -84,7 +93,7 @@ const useRegistrationUpdateActions = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: UpdateRegistrationMutationInput;
+    payload?: CreateRegistrationMutationInput | UpdateRegistrationMutationInput;
   }) => {
     savingFinished();
 
@@ -104,8 +113,39 @@ const useRegistrationUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
+  const createRegistration = async (
+    values: RegistrationFormFields,
+    callbacks?: MutationCallbacks
+  ) => {
+    setSaving(REGISTRATION_ACTIONS.CREATE);
+
+    const payload = getRegistrationPayload(values);
+
+    try {
+      const { data } = await createRegistrationMutation({
+        variables: { input: payload },
+      });
+
+      if (data?.createRegistration.id) {
+        await cleanAfterUpdate(callbacks, data?.createRegistration.id);
+      }
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to create registration',
+        payload,
+      });
+    }
+  };
+
   const deleteRegistration = async (callbacks?: MutationCallbacks) => {
     try {
+      const { id } = getRegistrationFields(
+        registration as RegistrationFieldsFragment,
+        locale
+      );
+
       setSaving(REGISTRATION_ACTIONS.DELETE);
       await deleteRegistrationMutation({ variables: { id } });
 
@@ -114,7 +154,7 @@ const useRegistrationUpdateActions = ({
       handleError({
         callbacks,
         error,
-        message: 'Failed to delete event',
+        message: 'Failed to delete registration',
       });
     }
   };
@@ -123,9 +163,14 @@ const useRegistrationUpdateActions = ({
     values: RegistrationFormFields,
     callbacks?: MutationCallbacks
   ) => {
+    const { id } = getRegistrationFields(
+      registration as RegistrationFieldsFragment,
+      locale
+    );
+
     let payload: UpdateRegistrationMutationInput = {
       event: values.event,
-      id: registration.id as string,
+      id,
     };
 
     try {
@@ -133,7 +178,7 @@ const useRegistrationUpdateActions = ({
 
       payload = {
         ...getRegistrationPayload(values),
-        id: registration.id as string,
+        id,
       };
 
       await updateRegistrationMutation({ variables: { input: payload } });
@@ -151,6 +196,7 @@ const useRegistrationUpdateActions = ({
 
   return {
     closeModal,
+    createRegistration,
     deleteRegistration,
     openModal,
     saving,
@@ -159,4 +205,4 @@ const useRegistrationUpdateActions = ({
   };
 };
 
-export default useRegistrationUpdateActions;
+export default useRegistrationActions;
