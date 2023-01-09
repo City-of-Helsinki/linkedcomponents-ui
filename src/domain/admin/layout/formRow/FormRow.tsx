@@ -17,9 +17,7 @@ const FormRow: React.FC<React.PropsWithChildren<Props>> = ({
     <div
       className={classNames(
         styles.formRow,
-        {
-          [styles.withBorder]: withBorder,
-        },
+        { [styles.withBorder]: withBorder },
         className
       )}
     >
