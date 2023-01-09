@@ -8,7 +8,6 @@ import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import FormikPersist from '../../../common/components/formikPersist/FormikPersist';
-import Notification from '../../../common/components/notification/Notification';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { FORM_NAMES, ROUTES } from '../../../constants';
 import {
@@ -22,7 +21,6 @@ import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
-import { getRegistrationWarning } from '../../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { clearSeatsReservationData } from '../../reserveSeats/utils';
 import {
@@ -42,6 +40,7 @@ import FormContainer from '../formContainer/FormContainer';
 import useEnrolmentUpdateActions from '../hooks/useEnrolmentActions';
 import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
+import RegistrationWarning from '../registrationWarning/RegistrationWarning';
 import { useReservationTimer } from '../reservationTimer/hooks/useReservationTimer';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
 import { ReservationTimerProvider } from '../reservationTimer/ReservationTimerContext';
@@ -111,8 +110,6 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
 
   const { closeModal, openModal, setOpenModal, setOpenParticipant } =
     useEnrolmentPageContext();
-
-  const registrationWarning = getRegistrationWarning(registration, t);
 
   const goToEnrolmentsPage = () => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
@@ -238,10 +235,8 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
               <ServerErrorSummary errors={serverErrorItems} />
               <EventInfo event={event} />
               <Divider />
-              {!enrolment && registrationWarning && (
-                <Notification type="info" className={styles.warning}>
-                  {registrationWarning}
-                </Notification>
+              {!enrolment && (
+                <RegistrationWarning registration={registration} />
               )}
               {!enrolment && (
                 <>
