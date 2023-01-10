@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+// eslint-disable-next-line simple-import-sort/imports
 import { ApolloQueryResult, ServerError } from '@apollo/client';
 import { Form, Formik } from 'formik';
 import React from 'react';
@@ -33,6 +34,7 @@ import { REGISTRATION_INITIAL_VALUES, REGISTRATION_MODALS } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import EventLink from '../eventLink/EventLink';
+import RegistrationAuthenticationNotification from '../registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import AttendeeCapacitySection from '../formSections/attendeeCapacitySection/AttendeeCapacitySection';
 import AudienceAgeSection from '../formSections/audienceAgeSection/AudienceAgeSection';
 import ConfirmationMessageSection from '../formSections/confirmationMessageSection/ConfirmationMessageSection';
@@ -44,7 +46,6 @@ import WaitingListSection from '../formSections/waitingListSection/WaitingListSe
 import useRegistrationActions from '../hooks/useRegistrationActions';
 import useRegistrationServerErrors from '../hooks/useRegistrationServerErrors';
 import ConfirmDeleteModal from '../modals/confirmDeleteModal/ConfirmDeleteModal';
-import RegistrationAuthenticationNotification from '../registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import RegistrationInfo from '../registrationInfo/RegistrationInfo';
 import styles from '../registrationPage.module.scss';
 import { RegistrationFormFields } from '../types';
