@@ -6,7 +6,6 @@ import { useDebouncedCallback } from 'use-debounce';
 import useIsMounted from '../../../hooks/useIsMounted';
 
 export interface PersistProps {
-  children: React.ReactNode;
   name: string;
   debounceTime?: number;
   isSessionStorage?: boolean;
@@ -14,7 +13,7 @@ export interface PersistProps {
   savingDisabled?: boolean;
 }
 
-const FormikPersist: React.FC<PersistProps> = ({
+const FormikPersist: React.FC<React.PropsWithChildren<PersistProps>> = ({
   children,
   debounceTime = 300,
   isSessionStorage = false,
@@ -22,7 +21,6 @@ const FormikPersist: React.FC<PersistProps> = ({
   restoringDisabled,
   savingDisabled,
 }) => {
-  const [isStateRestored, setIsStateRestored] = React.useState(false);
   const isMounted = useIsMounted();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formik = useFormikContext<any>();
@@ -65,17 +63,14 @@ const FormikPersist: React.FC<PersistProps> = ({
       // Validate form after setting state
       timeout = setTimeout(async () => {
         await formik.validateForm();
-        setIsStateRestored(true);
       }, 10);
-    } else {
-      setIsStateRestored(true);
     }
 
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return isStateRestored ? <>{children}</> : null;
+  return <>{children}</>;
 };
 
 export default FormikPersist;

@@ -10,16 +10,14 @@ import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { EVENT_EDIT_ACTIONS } from '../../event/constants';
-import useEventUpdateActions, {
-  MODALS,
-} from '../../event/hooks/useEventUpdateActions';
+import { EVENT_ACTIONS, EVENT_MODALS } from '../../event/constants';
+import useEventActions from '../../event/hooks/useEventActions';
 import ConfirmCancelModal from '../../event/modals/confirmCancelModal/ConfirmCancelModal';
 import ConfirmDeleteModal from '../../event/modals/confirmDeleteModal/ConfirmDeleteModal';
 import ConfirmPostponeModal from '../../event/modals/confirmPostponeModal/ConfirmPostponeModal';
 import {
   copyEventToSessionStorage,
-  getEditButtonProps,
+  getEventButtonProps,
   getEventFields,
 } from '../../event/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -49,7 +47,7 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
     openModal,
     postponeEvent,
     setOpenModal,
-  } = useEventUpdateActions({ event });
+  } = useEventActions(event);
   const { organizationAncestors } = useOrganizationAncestors(
     event.publisher as string
   );
@@ -81,10 +79,10 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
     action,
     onClick,
   }: {
-    action: EVENT_EDIT_ACTIONS;
+    action: EVENT_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getEditButtonProps({
+    return getEventButtonProps({
       action,
       authenticated,
       event,
@@ -97,52 +95,52 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.EDIT,
+      action: EVENT_ACTIONS.EDIT,
       onClick: goToEditEventPage,
     }),
     getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.COPY,
+      action: EVENT_ACTIONS.COPY,
       onClick: copyEvent,
     }),
     getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.POSTPONE,
-      onClick: () => setOpenModal(MODALS.POSTPONE),
+      action: EVENT_ACTIONS.POSTPONE,
+      onClick: () => setOpenModal(EVENT_MODALS.POSTPONE),
     }),
     getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.CANCEL,
-      onClick: () => setOpenModal(MODALS.CANCEL),
+      action: EVENT_ACTIONS.CANCEL,
+      onClick: () => setOpenModal(EVENT_MODALS.CANCEL),
     }),
     getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.DELETE,
-      onClick: () => setOpenModal(MODALS.DELETE),
+      action: EVENT_ACTIONS.DELETE,
+      onClick: () => setOpenModal(EVENT_MODALS.DELETE),
     }),
   ].filter(skipFalsyType);
 
   return (
     <div className={className}>
-      {openModal === MODALS.CANCEL && (
+      {openModal === EVENT_MODALS.CANCEL && (
         <ConfirmCancelModal
           event={event}
-          isOpen={openModal === MODALS.CANCEL}
-          isSaving={saving === EVENT_EDIT_ACTIONS.CANCEL}
+          isOpen={openModal === EVENT_MODALS.CANCEL}
+          isSaving={saving === EVENT_ACTIONS.CANCEL}
           onCancel={onCancel}
           onClose={closeModal}
         />
       )}
-      {openModal === MODALS.DELETE && (
+      {openModal === EVENT_MODALS.DELETE && (
         <ConfirmDeleteModal
           event={event}
-          isOpen={openModal === MODALS.DELETE}
-          isSaving={saving === EVENT_EDIT_ACTIONS.DELETE}
+          isOpen={openModal === EVENT_MODALS.DELETE}
+          isSaving={saving === EVENT_ACTIONS.DELETE}
           onClose={closeModal}
           onDelete={onDelete}
         />
       )}
-      {openModal === MODALS.POSTPONE && (
+      {openModal === EVENT_MODALS.POSTPONE && (
         <ConfirmPostponeModal
           event={event}
-          isOpen={openModal === MODALS.POSTPONE}
-          isSaving={saving === EVENT_EDIT_ACTIONS.POSTPONE}
+          isOpen={openModal === EVENT_MODALS.POSTPONE}
+          isSaving={saving === EVENT_ACTIONS.POSTPONE}
           onClose={closeModal}
           onPostpone={onPostpone}
         />

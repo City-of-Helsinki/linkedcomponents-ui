@@ -17,6 +17,7 @@ import capitalize from 'lodash/capitalize';
 import isNumber from 'lodash/isNumber';
 import keys from 'lodash/keys';
 import sortBy from 'lodash/sortBy';
+import { MouseEvent } from 'react';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
@@ -78,16 +79,13 @@ import { RegistrationFormFields } from '../registration/types';
 import {
   AUTHENTICATION_NOT_NEEDED,
   DESCRIPTION_SECTION_FIELDS,
-  EVENT_CREATE_ACTIONS,
-  EVENT_CREATE_ICONS,
-  EVENT_CREATE_LABEL_KEYS,
-  EVENT_EDIT_ACTIONS,
-  EVENT_EDIT_ICONS,
-  EVENT_EDIT_LABEL_KEYS,
+  EVENT_ACTIONS,
   EVENT_FIELD_ARRAYS,
   EVENT_FIELDS,
+  EVENT_ICONS,
   EVENT_INCLUDES,
   EVENT_INITIAL_VALUES,
+  EVENT_LABEL_KEYS,
   EVENT_SELECT_FIELDS,
   EVENT_TYPE,
   NOT_ALLOWED_WHEN_CANCELLED,
@@ -985,18 +983,35 @@ export const getRelatedEvents = async ({
   return allRelatedEvents;
 };
 
+type CommonEventActionProps = {
+  action: EVENT_ACTIONS;
+};
+
+type CreateEventActionProps = CommonEventActionProps & {
+  event?: undefined;
+  publisher: string;
+};
+
+type EditEventActionProps = CommonEventActionProps & {
+  event: EventFieldsFragment;
+  publisher?: undefined;
+};
+
+type EventActionProps = CreateEventActionProps | EditEventActionProps;
+
 export const checkCanUserDoAction = ({
   action,
   event,
   organizationAncestors,
+  publisher: selectedPublisher,
   user,
-}: {
-  action: EVENT_EDIT_ACTIONS;
-  event: EventFieldsFragment;
+}: EventActionProps & {
   organizationAncestors: OrganizationFieldsFragment[];
   user?: UserFieldsFragment;
 }): boolean => {
-  const { isDraft, publisher } = getEventFields(event, 'fi');
+  const { isDraft, publisher } = event
+    ? getEventFields(event, 'fi')
+    : { isDraft: true, publisher: selectedPublisher };
 
   const isRegularUser = isReqularUserInOrganization({
     id: publisher,
@@ -1008,67 +1023,88 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
+  const canCreateDraft =
+    (!publisher && !!user?.organization) || isRegularUser || isAdminUser;
 
   switch (action) {
-    case EVENT_EDIT_ACTIONS.CANCEL:
-    case EVENT_EDIT_ACTIONS.DELETE:
-    case EVENT_EDIT_ACTIONS.POSTPONE:
+    case EVENT_ACTIONS.COPY:
+    case EVENT_ACTIONS.EDIT:
+      return true;
+    case EVENT_ACTIONS.CREATE_DRAFT:
+      return canCreateDraft;
+    case EVENT_ACTIONS.CANCEL:
+    case EVENT_ACTIONS.DELETE:
+    case EVENT_ACTIONS.POSTPONE:
       return isDraft ? isRegularUser || isAdminUser : isAdminUser;
-    case EVENT_EDIT_ACTIONS.PUBLISH:
-    case EVENT_EDIT_ACTIONS.UPDATE_PUBLIC:
+    case EVENT_ACTIONS.ACCEPT_AND_PUBLISH:
+    case EVENT_ACTIONS.PUBLISH:
+    case EVENT_ACTIONS.UPDATE_PUBLIC:
       return isAdminUser;
-    case EVENT_EDIT_ACTIONS.UPDATE_DRAFT:
+    case EVENT_ACTIONS.UPDATE_DRAFT:
       return isRegularUser || isAdminUser;
   }
-
-  return true;
 };
 
-const getIsEditButtonVisible = ({
+export const getIsButtonVisible = ({
   action,
+  authenticated,
   event,
-  organizationAncestors,
-  user,
-}: {
-  action: EVENT_EDIT_ACTIONS;
-  event: EventFieldsFragment;
-  organizationAncestors: OrganizationFieldsFragment[];
-  user?: UserFieldsFragment;
-}) => {
-  const { isDraft, isPublic } = getEventFields(event, 'fi');
+  userCanDoAction,
+}: EventActionProps & { authenticated: boolean; userCanDoAction: boolean }) => {
+  const { isDraft, isPublic } = event
+    ? getEventFields(event, 'fi')
+    : { isDraft: true, isPublic: false };
 
   switch (action) {
-    case EVENT_EDIT_ACTIONS.CANCEL:
-    case EVENT_EDIT_ACTIONS.COPY:
-    case EVENT_EDIT_ACTIONS.DELETE:
-    case EVENT_EDIT_ACTIONS.EDIT:
-    case EVENT_EDIT_ACTIONS.POSTPONE:
+    case EVENT_ACTIONS.CANCEL:
+    case EVENT_ACTIONS.COPY:
+    case EVENT_ACTIONS.DELETE:
+    case EVENT_ACTIONS.EDIT:
+    case EVENT_ACTIONS.POSTPONE:
       return true;
-    case EVENT_EDIT_ACTIONS.PUBLISH:
-      return (
-        isDraft &&
-        checkCanUserDoAction({ action, event, organizationAncestors, user })
-      );
-    case EVENT_EDIT_ACTIONS.UPDATE_DRAFT:
+    case EVENT_ACTIONS.ACCEPT_AND_PUBLISH:
+      return isDraft && userCanDoAction;
+    case EVENT_ACTIONS.CREATE_DRAFT:
+      return userCanDoAction;
+    case EVENT_ACTIONS.PUBLISH:
+      return !authenticated || userCanDoAction;
+    case EVENT_ACTIONS.UPDATE_DRAFT:
       return isDraft;
-    case EVENT_EDIT_ACTIONS.UPDATE_PUBLIC:
+    case EVENT_ACTIONS.UPDATE_PUBLIC:
       return isPublic;
   }
 };
 
-export const getEditEventWarning = ({
+export const getEventActionWarning = ({
   action,
   authenticated,
   event,
   t,
   userCanDoAction,
-}: {
-  action: EVENT_EDIT_ACTIONS;
+}: EventActionProps & {
   authenticated: boolean;
-  event: EventFieldsFragment;
   t: TFunction;
   userCanDoAction: boolean;
 }): string => {
+  // Warning when creating a new event
+  if (!event) {
+    if (!authenticated) {
+      return t('event.form.buttonPanel.warningNotAuthenticated');
+    }
+
+    if (action === EVENT_ACTIONS.CREATE_DRAFT && !userCanDoAction) {
+      return t('event.form.buttonPanel.warningNoRightsToCreate');
+    }
+
+    if (action === EVENT_ACTIONS.PUBLISH && !userCanDoAction) {
+      return t('event.form.buttonPanel.warningNoRightsToPublish');
+    }
+
+    return '';
+  }
+
+  // Warning when updating an existing event
+
   const { deleted, endTime, eventStatus, isDraft, startTime } = getEventFields(
     event,
     'fi'
@@ -1100,15 +1136,15 @@ export const getEditEventWarning = ({
     return t('event.form.editButtonPanel.warningEventInPast');
   }
 
-  if (isDraft && action === EVENT_EDIT_ACTIONS.CANCEL) {
+  if (isDraft && action === EVENT_ACTIONS.CANCEL) {
     return t('event.form.editButtonPanel.warningCannotCancelDraft');
   }
 
-  if (isDraft && action === EVENT_EDIT_ACTIONS.POSTPONE) {
+  if (isDraft && action === EVENT_ACTIONS.POSTPONE) {
     return t('event.form.editButtonPanel.warningCannotPostponeDraft');
   }
 
-  if (isDraft && action === EVENT_EDIT_ACTIONS.PUBLISH && isSubEvent) {
+  if (isDraft && action === EVENT_ACTIONS.ACCEPT_AND_PUBLISH && isSubEvent) {
     return t('event.form.editButtonPanel.warningCannotPublishSubEvent');
   }
 
@@ -1119,195 +1155,47 @@ export const getEditEventWarning = ({
   return '';
 };
 
-export const checkIsEditActionAllowed = ({
-  action,
-  authenticated,
-  event,
-  organizationAncestors,
+export const checkIsActionAllowed = ({
   t,
-  user,
-}: {
-  action: EVENT_EDIT_ACTIONS;
+  ...rest
+}: EventActionProps & {
   authenticated: boolean;
-  event: EventFieldsFragment;
   organizationAncestors: OrganizationFieldsFragment[];
-  t: TFunction;
   user?: UserFieldsFragment;
-}): Editability => {
-  const userCanDoAction = checkCanUserDoAction({
-    action,
-    event,
-    organizationAncestors,
-    user,
-  });
+  t: TFunction;
+}): Editability & { userCanDoAction: boolean } => {
+  const userCanDoAction = checkCanUserDoAction(rest);
 
-  const warning = getEditEventWarning({
-    action,
-    authenticated,
-    event,
+  const warning = getEventActionWarning({
+    ...rest,
     t,
     userCanDoAction,
   });
 
-  return { editable: !warning, warning };
+  return { editable: !warning, userCanDoAction, warning };
 };
 
-export const getEditButtonProps = ({
-  action,
-  authenticated,
-  event,
-  onClick,
-  organizationAncestors,
-  t,
-  user,
-}: {
-  action: EVENT_EDIT_ACTIONS;
-  authenticated: boolean;
-  event: EventFieldsFragment;
-  onClick: () => void;
-  organizationAncestors: OrganizationFieldsFragment[];
-  t: TFunction;
-  user?: UserFieldsFragment;
-}): MenuItemOptionProps | null => {
-  const { editable, warning } = checkIsEditActionAllowed({
-    action,
-    authenticated,
-    event,
-    organizationAncestors,
-    t,
-    user,
-  });
-
-  return getIsEditButtonVisible({
-    action,
-    event,
-    organizationAncestors,
-    user,
-  })
-    ? {
-        disabled: !editable,
-        icon: EVENT_EDIT_ICONS[action],
-        label: t(EVENT_EDIT_LABEL_KEYS[action]),
-        onClick,
-        title: warning,
-      }
-    : null;
-};
-
-export const canUserCreateEvent = ({
-  action,
-  authenticated,
-  publisher,
-  user,
-}: {
-  action: EVENT_CREATE_ACTIONS;
-  authenticated: boolean;
-  publisher: string;
-  user?: UserFieldsFragment;
-}): boolean => {
-  /* istanbul ignore next */
-  const adminOrganizations = user?.adminOrganizations ?? [];
-  /* istanbul ignore next */
-  const organizationMemberships = user?.organizationMemberships ?? [];
-  const organization = user?.organization;
-  const canCreateDraft =
-    (authenticated && !publisher && !!organization) ||
-    organizationMemberships.includes(publisher);
-  const canPublish = adminOrganizations.includes(publisher);
-
-  switch (action) {
-    case EVENT_CREATE_ACTIONS.CREATE_DRAFT:
-      return canCreateDraft || canPublish;
-    case EVENT_CREATE_ACTIONS.PUBLISH:
-      return canPublish;
+export const getEventButtonProps = (
+  props: EventActionProps & {
+    authenticated: boolean;
+    eventType?: EVENT_TYPE;
+    onClick: (event?: MouseEvent<HTMLElement>) => void;
+    organizationAncestors: OrganizationFieldsFragment[];
+    user?: UserFieldsFragment;
+    t: TFunction;
   }
-};
+): MenuItemOptionProps | null => {
+  const { warning, userCanDoAction } = checkIsActionAllowed(props);
+  const { action, eventType = EVENT_TYPE.General, onClick, t } = props;
 
-export const isCreateEventButtonVisible = ({
-  action,
-  actionAllowed,
-  authenticated,
-}: {
-  action: EVENT_CREATE_ACTIONS;
-  actionAllowed: boolean;
-  authenticated: boolean;
-}): boolean => {
-  switch (action) {
-    case EVENT_CREATE_ACTIONS.CREATE_DRAFT:
-      return actionAllowed;
-    case EVENT_CREATE_ACTIONS.PUBLISH:
-      return !authenticated || actionAllowed;
-  }
-};
-
-export const getCreateEventButtonWarning = ({
-  action,
-  actionAllowed,
-  authenticated,
-  t,
-}: {
-  action: EVENT_CREATE_ACTIONS;
-  actionAllowed: boolean;
-  authenticated: boolean;
-  t: TFunction;
-}): string => {
-  if (!authenticated) {
-    return t('event.form.buttonPanel.warningNotAuthenticated');
-  }
-
-  if (action === EVENT_CREATE_ACTIONS.CREATE_DRAFT && !actionAllowed) {
-    return t('event.form.buttonPanel.warningNoRightsToCreate');
-  }
-
-  if (action === EVENT_CREATE_ACTIONS.PUBLISH && !actionAllowed) {
-    return t('event.form.buttonPanel.warningNoRightsToPublish');
-  }
-
-  return '';
-};
-
-export const getCreateButtonProps = ({
-  action,
-  authenticated,
-  eventType,
-  onClick,
-  publisher,
-  t,
-  user,
-}: {
-  action: EVENT_CREATE_ACTIONS;
-  authenticated: boolean;
-  eventType: EVENT_TYPE;
-  onClick: () => void;
-  publisher: string;
-  t: TFunction;
-  user?: UserFieldsFragment;
-}): MenuItemOptionProps | null => {
-  const actionAllowed = canUserCreateEvent({
-    action,
-    authenticated,
-    publisher,
-    user,
-  });
-  const warning = getCreateEventButtonWarning({
-    action,
-    actionAllowed,
-    authenticated,
-    t,
-  });
-
-  return isCreateEventButtonVisible({
-    action,
-    actionAllowed,
-    authenticated,
-  })
+  return getIsButtonVisible({ ...props, userCanDoAction })
     ? {
         disabled: !!warning,
-        icon: EVENT_CREATE_ICONS[action],
+        icon: EVENT_ICONS[action],
         label:
-          action === EVENT_CREATE_ACTIONS.PUBLISH
-            ? t(`${EVENT_CREATE_LABEL_KEYS[action]}.${eventType}`)
-            : t(EVENT_CREATE_LABEL_KEYS[action]),
+          action === EVENT_ACTIONS.PUBLISH
+            ? t(`${EVENT_LABEL_KEYS[action]}.${eventType}`)
+            : t(EVENT_LABEL_KEYS[action]),
         onClick,
         title: warning,
       }

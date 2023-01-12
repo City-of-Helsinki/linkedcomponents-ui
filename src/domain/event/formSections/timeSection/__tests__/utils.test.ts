@@ -1,6 +1,6 @@
 import { PublicationStatus } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
-import { EVENT_EDIT_ACTIONS } from '../../../constants';
+import { EVENT_ACTIONS } from '../../../constants';
 import {
   getEventEditAction,
   GetEventEditActionParams,
@@ -8,17 +8,17 @@ import {
 } from '../utils';
 
 describe('getEventEditAction function', () => {
-  const testCases: [EVENT_EDIT_ACTIONS, GetEventEditActionParams][] = [
-    [EVENT_EDIT_ACTIONS.DELETE, { action: 'delete', event: fakeEvent() }],
+  const testCases: [EVENT_ACTIONS, GetEventEditActionParams][] = [
+    [EVENT_ACTIONS.DELETE, { action: 'delete', event: fakeEvent() }],
     [
-      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.UPDATE_DRAFT,
       {
         action: 'update',
         event: fakeEvent({ publicationStatus: PublicationStatus.Draft }),
       },
     ],
     [
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
       {
         action: 'update',
         event: fakeEvent({ publicationStatus: PublicationStatus.Public }),

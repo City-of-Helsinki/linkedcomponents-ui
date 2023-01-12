@@ -31,7 +31,7 @@ export interface EditButtonPanelProps {
   onUpdate: () => void;
   publisher: string;
   registration: RegistrationFieldsFragment;
-  saving: REGISTRATION_ACTIONS | false;
+  saving: REGISTRATION_ACTIONS | null;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({

@@ -21,7 +21,7 @@ import useUser from '../user/hooks/useUser';
 import { KEYWORD_ACTIONS } from './constants';
 import useKeywordUpdateActions, {
   KEYWORD_MODALS,
-} from './hooks/useKeywordUpdateActions';
+} from './hooks/useKeywordActions';
 import KeywordForm from './keywordForm/KeywordForm';
 import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
 import {

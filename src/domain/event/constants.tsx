@@ -219,14 +219,11 @@ export const EVENT_INCLUDES = [
   'super_event',
 ];
 
-export enum EVENT_CREATE_ACTIONS {
-  CREATE_DRAFT = 'createDraft',
-  PUBLISH = 'publish',
-}
-
-export enum EVENT_EDIT_ACTIONS {
+export enum EVENT_ACTIONS {
+  ACCEPT_AND_PUBLISH = 'acceptAndPublish',
   CANCEL = 'cancel',
   COPY = 'copy',
+  CREATE_DRAFT = 'createDraft',
   DELETE = 'delete',
   EDIT = 'edit',
   POSTPONE = 'postpone',
@@ -243,63 +240,57 @@ export const SUB_EVENTS_VARIABLES: EventsQueryVariables = {
   sort: EVENT_SORT_OPTIONS.START_TIME,
 };
 
-export const AUTHENTICATION_NOT_NEEDED = [EVENT_EDIT_ACTIONS.EDIT];
+export const AUTHENTICATION_NOT_NEEDED = [EVENT_ACTIONS.EDIT];
 
 export const NOT_ALLOWED_WHEN_CANCELLED = [
-  EVENT_EDIT_ACTIONS.CANCEL,
-  EVENT_EDIT_ACTIONS.POSTPONE,
-  EVENT_EDIT_ACTIONS.PUBLISH,
-  EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
-  EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+  EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+  EVENT_ACTIONS.CANCEL,
+  EVENT_ACTIONS.POSTPONE,
+  EVENT_ACTIONS.UPDATE_DRAFT,
+  EVENT_ACTIONS.UPDATE_PUBLIC,
 ];
 
 export const NOT_ALLOWED_WHEN_DELETED = [
-  EVENT_EDIT_ACTIONS.CANCEL,
-  EVENT_EDIT_ACTIONS.DELETE,
-  EVENT_EDIT_ACTIONS.POSTPONE,
-  EVENT_EDIT_ACTIONS.PUBLISH,
-  EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
-  EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+  EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+  EVENT_ACTIONS.CANCEL,
+  EVENT_ACTIONS.DELETE,
+  EVENT_ACTIONS.POSTPONE,
+  EVENT_ACTIONS.UPDATE_DRAFT,
+  EVENT_ACTIONS.UPDATE_PUBLIC,
 ];
 
 export const NOT_ALLOWED_WHEN_IN_PAST = [
-  EVENT_EDIT_ACTIONS.CANCEL,
-  EVENT_EDIT_ACTIONS.POSTPONE,
-  EVENT_EDIT_ACTIONS.PUBLISH,
-  EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
-  EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+  EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+  EVENT_ACTIONS.CANCEL,
+  EVENT_ACTIONS.POSTPONE,
+  EVENT_ACTIONS.UPDATE_DRAFT,
+  EVENT_ACTIONS.UPDATE_PUBLIC,
 ];
 
-export const EVENT_CREATE_ICONS = {
-  [EVENT_CREATE_ACTIONS.CREATE_DRAFT]: <IconPen aria-hidden={true} />,
-  [EVENT_CREATE_ACTIONS.PUBLISH]: <IconCheck aria-hidden={true} />,
+export const EVENT_ICONS = {
+  [EVENT_ACTIONS.ACCEPT_AND_PUBLISH]: <IconCheck aria-hidden={true} />,
+  [EVENT_ACTIONS.CANCEL]: <IconCalendarCross aria-hidden={true} />,
+  [EVENT_ACTIONS.COPY]: <IconCalendarPlus aria-hidden={true} />,
+  [EVENT_ACTIONS.CREATE_DRAFT]: <IconPen aria-hidden={true} />,
+  [EVENT_ACTIONS.DELETE]: <IconCross aria-hidden={true} />,
+  [EVENT_ACTIONS.EDIT]: <IconCogwheel aria-hidden={true} />,
+  [EVENT_ACTIONS.POSTPONE]: <IconCalendarClock aria-hidden={true} />,
+  [EVENT_ACTIONS.PUBLISH]: <IconCheck aria-hidden={true} />,
+  [EVENT_ACTIONS.UPDATE_DRAFT]: <IconPen aria-hidden={true} />,
+  [EVENT_ACTIONS.UPDATE_PUBLIC]: <IconPen aria-hidden={true} />,
 };
 
-export const EVENT_CREATE_LABEL_KEYS = {
-  [EVENT_CREATE_ACTIONS.CREATE_DRAFT]: 'event.form.buttonSaveDraft',
-  [EVENT_CREATE_ACTIONS.PUBLISH]: 'event.form.buttonPublish',
-};
-
-export const EVENT_EDIT_ICONS = {
-  [EVENT_EDIT_ACTIONS.CANCEL]: <IconCalendarCross aria-hidden={true} />,
-  [EVENT_EDIT_ACTIONS.COPY]: <IconCalendarPlus aria-hidden={true} />,
-  [EVENT_EDIT_ACTIONS.DELETE]: <IconCross aria-hidden={true} />,
-  [EVENT_EDIT_ACTIONS.EDIT]: <IconCogwheel aria-hidden={true} />,
-  [EVENT_EDIT_ACTIONS.POSTPONE]: <IconCalendarClock aria-hidden={true} />,
-  [EVENT_EDIT_ACTIONS.PUBLISH]: <IconCheck aria-hidden={true} />,
-  [EVENT_EDIT_ACTIONS.UPDATE_DRAFT]: <IconPen aria-hidden={true} />,
-  [EVENT_EDIT_ACTIONS.UPDATE_PUBLIC]: <IconPen aria-hidden={true} />,
-};
-
-export const EVENT_EDIT_LABEL_KEYS = {
-  [EVENT_EDIT_ACTIONS.CANCEL]: 'event.form.buttonCancel',
-  [EVENT_EDIT_ACTIONS.COPY]: 'event.form.buttonCopy',
-  [EVENT_EDIT_ACTIONS.DELETE]: 'event.form.buttonDelete',
-  [EVENT_EDIT_ACTIONS.EDIT]: 'event.form.buttonEdit',
-  [EVENT_EDIT_ACTIONS.POSTPONE]: 'event.form.buttonPostpone',
-  [EVENT_EDIT_ACTIONS.PUBLISH]: 'event.form.buttonAcceptAndPublish',
-  [EVENT_EDIT_ACTIONS.UPDATE_DRAFT]: 'event.form.buttonUpdateDraft',
-  [EVENT_EDIT_ACTIONS.UPDATE_PUBLIC]: 'event.form.buttonUpdatePublic',
+export const EVENT_LABEL_KEYS = {
+  [EVENT_ACTIONS.ACCEPT_AND_PUBLISH]: 'event.form.buttonAcceptAndPublish',
+  [EVENT_ACTIONS.CANCEL]: 'event.form.buttonCancel',
+  [EVENT_ACTIONS.COPY]: 'event.form.buttonCopy',
+  [EVENT_ACTIONS.CREATE_DRAFT]: 'event.form.buttonSaveDraft',
+  [EVENT_ACTIONS.DELETE]: 'event.form.buttonDelete',
+  [EVENT_ACTIONS.EDIT]: 'event.form.buttonEdit',
+  [EVENT_ACTIONS.POSTPONE]: 'event.form.buttonPostpone',
+  [EVENT_ACTIONS.PUBLISH]: 'event.form.buttonPublish',
+  [EVENT_ACTIONS.UPDATE_DRAFT]: 'event.form.buttonUpdateDraft',
+  [EVENT_ACTIONS.UPDATE_PUBLIC]: 'event.form.buttonUpdatePublic',
 };
 
 export const ADD_EVENT_TIME_FORM_NAME = 'add-event-time';
@@ -323,6 +314,13 @@ export const AUDIENCE_ORDER = [
   'yso:p16486', // Opiskelijat
   'yso:p2433', // Ikääntyneet
 ];
+
+export enum EVENT_MODALS {
+  CANCEL = 'cancel',
+  DELETE = 'delete',
+  POSTPONE = 'postpone',
+  UPDATE = 'update',
+}
 
 export const TEST_EVENT_ID = 'helmet:222453';
 

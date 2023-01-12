@@ -20,8 +20,8 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import { EventsLocationState } from '../../events/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import { EVENT_EDIT_ACTIONS } from '../constants';
-import { copyEventToSessionStorage, getEditButtonProps } from '../utils';
+import { EVENT_ACTIONS } from '../constants';
+import { copyEventToSessionStorage, getEventButtonProps } from '../utils';
 
 export interface EditButtonPanelProps {
   event: EventFieldsFragment;
@@ -29,7 +29,7 @@ export interface EditButtonPanelProps {
   onDelete: () => void;
   onPostpone: () => void;
   onUpdate: (publicationStatus: PublicationStatus) => void;
-  saving: EVENT_EDIT_ACTIONS | null;
+  saving: EVENT_ACTIONS | null;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
@@ -64,10 +64,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     action,
     onClick,
   }: {
-    action: EVENT_EDIT_ACTIONS;
+    action: EVENT_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getEditButtonProps({
+    return getEventButtonProps({
       action,
       authenticated,
       event,
@@ -83,19 +83,12 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     onClick,
     variant,
   }: {
-    action: EVENT_EDIT_ACTIONS;
+    action: EVENT_ACTIONS;
     onClick: () => void;
     variant: Exclude<ButtonVariant, 'supplementary'>;
   }): ActionButtonProps | null => {
-    const buttonProps = getEditButtonProps({
-      action,
-      authenticated,
-      event,
-      onClick,
-      organizationAncestors,
-      t,
-      user,
-    });
+    const buttonProps = getActionItemProps({ action, onClick });
+
     return buttonProps
       ? { ...buttonProps, isSaving: saving === action, variant }
       : null;
@@ -103,20 +96,20 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.COPY,
+      action: EVENT_ACTIONS.COPY,
       onClick: copyEvent,
     }),
     /* Actions for all event */
     getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.POSTPONE,
+      action: EVENT_ACTIONS.POSTPONE,
       onClick: onPostpone,
     }),
     getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.CANCEL,
+      action: EVENT_ACTIONS.CANCEL,
       onClick: onCancel,
     }),
     getActionItemProps({
-      action: EVENT_EDIT_ACTIONS.DELETE,
+      action: EVENT_ACTIONS.DELETE,
       onClick: onDelete,
     }),
   ].filter(skipFalsyType);
@@ -124,18 +117,18 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const actionButtons: ActionButtonProps[] = [
     /* Actions for draft event */
     getActionButtonProps({
-      action: EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      action: EVENT_ACTIONS.UPDATE_DRAFT,
       onClick: () => onUpdate(PublicationStatus.Draft),
       variant: 'secondary',
     }),
     getActionButtonProps({
-      action: EVENT_EDIT_ACTIONS.PUBLISH,
+      action: EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
       onClick: () => onUpdate(PublicationStatus.Public),
       variant: 'primary',
     }),
     /* Actions for public event */
     getActionButtonProps({
-      action: EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      action: EVENT_ACTIONS.UPDATE_PUBLIC,
       onClick: () => onUpdate(PublicationStatus.Public),
       variant: 'primary',
     }),

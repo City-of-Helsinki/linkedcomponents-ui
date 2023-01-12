@@ -6,9 +6,11 @@ import {
 import { useLocation } from 'react-router';
 
 import {
+  CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
   RegistrationFieldsFragment,
   UpdateEnrolmentMutationInput,
+  useCreateEnrolmentMutation,
   useDeleteEnrolmentMutation,
   useUpdateEnrolmentMutation,
 } from '../../../generated/graphql';
@@ -20,29 +22,34 @@ import {
   clearEnrolmentsQueries,
 } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
+import { getSeatsReservationData } from '../../reserveSeats/utils';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { EnrolmentFormFields } from '../types';
-import { getUpdateEnrolmentPayload } from '../utils';
+import { getEnrolmentPayload, getUpdateEnrolmentPayload } from '../utils';
 
 interface Props {
   enrolment?: EnrolmentFieldsFragment;
   registration: RegistrationFieldsFragment;
 }
 
-type UseEnrolmentUpdateActionsState = {
+type UseEnrolmentActionsState = {
   cancelEnrolment: (callbacks?: MutationCallbacks) => Promise<void>;
+  createEnrolment: (
+    values: EnrolmentFormFields,
+    callbacks?: MutationCallbacks
+  ) => Promise<void>;
   saving: ENROLMENT_ACTIONS | false;
   updateEnrolment: (
     values: EnrolmentFormFields,
     callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
-const useEnrolmentUpdateActions = ({
+const useEnrolmentActions = ({
   enrolment,
   registration,
-}: Props): UseEnrolmentUpdateActionsState => {
+}: Props): UseEnrolmentActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
   const location = useLocation();
@@ -51,6 +58,7 @@ const useEnrolmentUpdateActions = ({
 
   const [saving, setSaving] = useMountedState<ENROLMENT_ACTIONS | false>(false);
 
+  const [createEnrolmentMutation] = useCreateEnrolmentMutation();
   const [deleteEnrolmentMutation] = useDeleteEnrolmentMutation();
   const [updateEnrolmentMutation] = useUpdateEnrolmentMutation();
 
@@ -80,7 +88,7 @@ const useEnrolmentUpdateActions = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: UpdateEnrolmentMutationInput;
+    payload?: CreateEnrolmentMutationInput | UpdateEnrolmentMutationInput;
   }) => {
     savingFinished();
 
@@ -105,9 +113,7 @@ const useEnrolmentUpdateActions = ({
       setSaving(ENROLMENT_ACTIONS.CANCEL);
 
       await deleteEnrolmentMutation({
-        variables: {
-          cancellationCode: enrolment?.cancellationCode as string,
-        },
+        variables: { cancellationCode: enrolment?.cancellationCode as string },
       });
 
       await cleanAfterUpdate(callbacks);
@@ -116,6 +122,37 @@ const useEnrolmentUpdateActions = ({
         callbacks,
         error,
         message: 'Failed to cancel enrolment',
+      });
+    }
+  };
+
+  const createEnrolment = async (
+    values: EnrolmentFormFields,
+    callbacks?: MutationCallbacks
+  ) => {
+    setSaving(ENROLMENT_ACTIONS.CREATE);
+
+    const reservationData = getSeatsReservationData(registration.id as string);
+    const payload = getEnrolmentPayload({
+      formValues: values,
+      reservationCode: reservationData?.code as string,
+    });
+
+    try {
+      const { data } = await createEnrolmentMutation({
+        variables: { input: payload, registration: registration.id as string },
+      });
+
+      if (data?.createEnrolment) {
+        await cleanAfterUpdate(callbacks);
+      }
+    } catch (error) /* istanbul ignore next */ {
+      // Report error to Sentry
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to create enrolment',
+        payload,
       });
     }
   };
@@ -148,9 +185,10 @@ const useEnrolmentUpdateActions = ({
 
   return {
     cancelEnrolment,
+    createEnrolment,
     saving,
     updateEnrolment,
   };
 };
 
-export default useEnrolmentUpdateActions;
+export default useEnrolmentActions;

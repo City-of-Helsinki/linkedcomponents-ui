@@ -1,295 +1,18 @@
-/* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { ApolloQueryResult } from '@apollo/client';
-import { Form, Formik } from 'formik';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams } from 'react-router';
-import { ValidationError } from 'yup';
+import { useLocation, useParams } from 'react-router';
 
-import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import ServerErrorSummary from '../../common/components/serverErrorSummary/ServerErrorSummary';
-import { ROUTES } from '../../constants';
-import {
-  EventFieldsFragment,
-  RegistrationFieldsFragment,
-  RegistrationQuery,
-  RegistrationQueryVariables,
-  useEventQuery,
-  useRegistrationQuery,
-} from '../../generated/graphql';
-import useLocale from '../../hooks/useLocale';
-import extractLatestReturnPath from '../../utils/extractLatestReturnPath';
+import { useEventQuery, useRegistrationQuery } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
-import {
-  scrollToFirstError,
-  showFormErrors,
-} from '../../utils/validationUtils';
-import Container from '../app/layout/container/Container';
-import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import Section from '../app/layout/section/Section';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
-import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
-import { REGISTRATION_ACTIONS } from '../registrations/constants';
-import { replaceParamsToRegistrationQueryString } from '../registrations/utils';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_INCLUDES } from './constants';
-import EditButtonPanel from './editButtonPanel/EditButtonPanel';
-import EventLink from './eventLink/EventLink';
-import AttendeeCapacitySection from './formSections/attendeeCapacitySection/AttendeeCapacitySection';
-import AudienceAgeSection from './formSections/audienceAgeSection/AudienceAgeSection';
-import ConfirmationMessageSection from './formSections/confirmationMessageSection/ConfirmationMessageSection';
-import EnrolmentTimeSection from './formSections/enrolmentTimeSection/EnrolmentTimeSection';
-import InstructionsSection from './formSections/instructionsSection/InstructionsSection';
-import RequiredFieldsSection from './formSections/requiredFieldsSection/RequiredFieldsSection';
-import WaitingListSection from './formSections/waitingListSection/WaitingListSection';
-import useRegistrationServerErrors from './hooks/useRegistrationServerErrors';
-import useRegistrationUpdateActions, {
-  MODALS,
-} from './hooks/useRegistrationUpdateActions';
-import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
-import AuthenticationNotification from './registrationAuthenticationNotification/RegistrationAuthenticationNotification';
-import RegistrationInfo from './registrationInfo/RegistrationInfo';
+import RegistrationForm from './registrationForm/RegistrationForm';
 import styles from './registrationPage.module.scss';
-import { RegistrationFormFields } from './types';
-import {
-  checkCanUserDoAction,
-  getRegistrationInitialValues,
-  registrationPathBuilder,
-} from './utils';
-import { getFocusableFieldId, registrationSchema } from './validation';
-
-interface EditRegistrationPageProps {
-  event: EventFieldsFragment;
-  refetch: (
-    variables?: Partial<RegistrationQueryVariables>
-  ) => Promise<ApolloQueryResult<RegistrationQuery>>;
-  registration: RegistrationFieldsFragment;
-}
-
-const EditRegistrationPage: React.FC<EditRegistrationPageProps> = ({
-  event,
-  refetch,
-  registration,
-}) => {
-  const { t } = useTranslation();
-  const locale = useLocale();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { user } = useUser();
-  const { organizationAncestors } = useOrganizationAncestors(
-    event.publisher as string
-  );
-  const isEditingAllowed = checkCanUserDoAction({
-    action: REGISTRATION_ACTIONS.CREATE,
-    organizationAncestors,
-    publisher: event.publisher as string,
-    user,
-  });
-
-  const { serverErrorItems, setServerErrorItems, showServerErrors } =
-    useRegistrationServerErrors();
-
-  const {
-    closeModal,
-    deleteRegistration,
-    openModal,
-    saving,
-    setOpenModal,
-    updateRegistration,
-  } = useRegistrationUpdateActions({
-    registration,
-  });
-
-  const initialValues = React.useMemo(
-    () => getRegistrationInitialValues(registration),
-    [registration]
-  );
-
-  const goToRegistrationsPage = () => {
-    const { returnPath, remainingQueryString } = extractLatestReturnPath(
-      location.search,
-      ROUTES.REGISTRATIONS
-    );
-
-    navigate(
-      {
-        pathname: `/${locale}${returnPath}`,
-        search: replaceParamsToRegistrationQueryString(remainingQueryString, {
-          page: null,
-        }),
-      },
-      { state: { registrationId: registration.id } }
-    );
-  };
-
-  const onDelete = () => {
-    deleteRegistration({
-      onSuccess: () => goToRegistrationsPage(),
-    });
-  };
-
-  const onUpdate = (values: RegistrationFormFields) => {
-    updateRegistration(values, {
-      onError: (error: any) => showServerErrors({ error }),
-      onSuccess: async () => {
-        await refetch();
-        window.scrollTo(0, 0);
-      },
-    });
-  };
-
-  return (
-    <Formik
-      enableReinitialize={true}
-      initialValues={initialValues}
-      // We have custom way to handle onSubmit so here is empty function
-      // to silent TypeScript error. The reason for custom onSubmit is that
-      // we want to scroll to first invalid field if error occurs
-
-      onSubmit={/* istanbul ignore next */ () => undefined}
-      validationSchema={registrationSchema}
-      validateOnMount
-      validateOnBlur={true}
-      validateOnChange={true}
-    >
-      {({ values, setErrors, setTouched }) => {
-        const clearErrors = () => setErrors({});
-
-        const handleUpdate = async () => {
-          try {
-            setServerErrorItems([]);
-            clearErrors();
-
-            await registrationSchema.validate(values, { abortEarly: false });
-
-            onUpdate(values);
-          } catch (error) {
-            showFormErrors({
-              error: error as ValidationError,
-              setErrors,
-              setTouched,
-            });
-
-            scrollToFirstError({
-              error: error as ValidationError,
-              getFocusableFieldId,
-            });
-          }
-        };
-
-        return (
-          <>
-            <ConfirmDeleteModal
-              isOpen={openModal === MODALS.DELETE}
-              isSaving={saving === REGISTRATION_ACTIONS.DELETE}
-              onClose={closeModal}
-              onDelete={onDelete}
-            />
-            <Form noValidate={true}>
-              <PageWrapper
-                backgroundColor="coatOfArms"
-                className={styles.registrationPage}
-                noFooter
-                title={'editRegistrationPage.title'}
-              >
-                <MainContent>
-                  <Container
-                    contentWrapperClassName={styles.editPageContentContainer}
-                    withOffset={true}
-                  >
-                    <Breadcrumb
-                      className={styles.breadcrumb}
-                      items={[
-                        { label: t('common.home'), to: ROUTES.HOME },
-                        {
-                          label: t('registrationsPage.title'),
-                          to: ROUTES.REGISTRATIONS,
-                        },
-                        {
-                          active: true,
-                          label: t(`editRegistrationPage.title`),
-                        },
-                      ]}
-                    />
-
-                    <AuthenticationNotification
-                      action={REGISTRATION_ACTIONS.UPDATE}
-                      registration={registration}
-                    />
-                    <ServerErrorSummary errors={serverErrorItems} />
-                    <RegistrationInfo registration={registration} />
-                    <Section title={t('registration.form.sections.event')}>
-                      <EventLink registration={registration} />
-                    </Section>
-                    <Section
-                      title={t('registration.form.sections.enrolmentTime')}
-                    >
-                      <EnrolmentTimeSection
-                        isEditingAllowed={isEditingAllowed}
-                      />
-                    </Section>
-                    <Section
-                      title={t('registration.form.sections.attendeeCount')}
-                    >
-                      <AttendeeCapacitySection
-                        isEditingAllowed={isEditingAllowed}
-                      />
-                    </Section>
-                    <Section
-                      title={t('registration.form.sections.waitingList')}
-                    >
-                      <WaitingListSection isEditingAllowed={isEditingAllowed} />
-                    </Section>
-                    <Section
-                      title={t('registration.form.sections.instructions')}
-                    >
-                      <InstructionsSection
-                        isEditingAllowed={isEditingAllowed}
-                      />
-                    </Section>
-                    <Section
-                      title={t(
-                        'registration.form.sections.confirmationMessage'
-                      )}
-                    >
-                      <ConfirmationMessageSection
-                        isEditingAllowed={isEditingAllowed}
-                      />
-                    </Section>
-                    <Section
-                      title={t('registration.form.sections.audienceAge')}
-                    >
-                      <AudienceAgeSection isEditingAllowed={isEditingAllowed} />
-                    </Section>
-                    <Section
-                      title={t('registration.form.sections.requiredFields')}
-                    >
-                      <RequiredFieldsSection
-                        isEditingAllowed={isEditingAllowed}
-                      />
-                    </Section>
-                  </Container>
-                  <EditButtonPanel
-                    onDelete={() => setOpenModal(MODALS.DELETE)}
-                    onUpdate={handleUpdate}
-                    publisher={event.publisher as string}
-                    registration={registration}
-                    saving={saving}
-                  />
-                </MainContent>
-              </PageWrapper>
-            </Form>
-          </>
-        );
-      }}
-    </Formik>
-  );
-};
+import { registrationPathBuilder } from './utils';
 
 const EditRegistrationPageWrapper: React.FC = () => {
   const location = useLocation();
@@ -325,11 +48,18 @@ const EditRegistrationPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {event && registration ? (
-        <EditRegistrationPage
-          event={event}
-          refetch={refetch}
-          registration={registration}
-        />
+        <PageWrapper
+          backgroundColor="coatOfArms"
+          className={styles.registrationPage}
+          noFooter
+          title={'editRegistrationPage.title'}
+        >
+          <RegistrationForm
+            event={event}
+            refetch={refetch}
+            registration={registration}
+          />
+        </PageWrapper>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

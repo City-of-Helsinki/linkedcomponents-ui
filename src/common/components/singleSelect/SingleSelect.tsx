@@ -9,7 +9,7 @@ import {
   getA11ySelectionMessage,
   getA11yStatusMessage,
 } from '../../../utils/accessibilityUtils';
-import styles from '../select/select.module.scss';
+import styles from './singleSelect.module.scss';
 
 const SingleSelect: React.FC<SingleSelectProps<OptionType>> = ({
   className,

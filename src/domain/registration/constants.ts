@@ -44,3 +44,7 @@ export const REGISTRATION_SELECT_FIELDS = [REGISTRATION_FIELDS.EVENT];
 export const REGISTRATION_INCLUDES = ['signups'];
 
 export const TEST_REGISTRATION_ID = 'registration:0';
+
+export enum REGISTRATION_MODALS {
+  DELETE = 'delete',
+}

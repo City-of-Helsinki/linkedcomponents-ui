@@ -11,7 +11,7 @@ import { getEditButtonProps } from '../utils';
 
 interface Props {
   onSave: () => void;
-  saving: boolean;
+  saving: REGISTRATION_ACTIONS | null;
 }
 
 const CreateButtonPanel: React.FC<Props> = ({ onSave, saving }) => {
@@ -36,8 +36,10 @@ const CreateButtonPanel: React.FC<Props> = ({ onSave, saving }) => {
           {...buttonProps}
           key="create"
           className={styles.fullWidthOnMobile}
-          disabled={saving || buttonProps.disabled}
-          loading={saving}
+          disabled={
+            saving === REGISTRATION_ACTIONS.CREATE || buttonProps.disabled
+          }
+          loading={saving === REGISTRATION_ACTIONS.CREATE}
           type="submit"
         >
           {buttonProps.label}

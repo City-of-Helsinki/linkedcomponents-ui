@@ -8,6 +8,9 @@
 !scripts
 !src
 !package.json
+!.eslintignore
+!.eslintrc.json
+!.prettierrc.json
 !tsconfig.json
 !yarn.lock
 !plugins
