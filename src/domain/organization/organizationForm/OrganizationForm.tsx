@@ -332,6 +332,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             </FormRow>
             <FormRow>
               <Field
+                alignedLabel={true}
                 className={styles.alignedSelect}
                 component={SingleOrganizationSelectorField}
                 disabled={!isEditingAllowed || !!organization}
@@ -342,6 +343,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             </FormRow>
             <FormRow>
               <Field
+                alignedLabel={true}
                 className={styles.alignedSelect}
                 component={SingleOrganizationSelectorField}
                 disabled={!isEditingAllowed}

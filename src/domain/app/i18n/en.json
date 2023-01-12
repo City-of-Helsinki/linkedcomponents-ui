@@ -1178,6 +1178,25 @@
     }
   },
   "helpPage": {
+    "askPermissionPage": {
+      "buttonSend": "Send",
+      "labelBody": "Message",
+      "labelEmail": "Email",
+      "labelJobDescription": "Job description",
+      "labelName": "Name",
+      "labelOrganization": "Organization",
+      "pageTitle": "Request access",
+      "placeholderBody": "Enter your message",
+      "placeholderEmail": "Enter email",
+      "placeholderJobDescription": "Describe your role in the organization",
+      "placeholderName": "Enter your first and last name or nickname",
+      "placeholderOrganization": "Select an organization",
+      "titleContactInfo": "Contact information",
+      "titleOrganization": "Organizational information",
+      "topics": {
+        "access": "Access request"
+      }
+    },
     "contactPage": {
       "buttonSend": "Send",
       "labelBody": "Message",
@@ -1260,6 +1279,7 @@
     },
     "sideNavigation": {
       "labelApi": "API",
+      "labelAskPermission": "Request access",
       "labelContact": "Contact us",
       "labelControlPanel": "Control panel",
       "labelDocumentation": "Documentation",

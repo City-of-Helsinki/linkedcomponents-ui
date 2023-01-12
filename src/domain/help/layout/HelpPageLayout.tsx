@@ -69,6 +69,10 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
       label: t('helpPage.sideNavigation.labelContact'),
       to: ROUTES.SUPPORT_CONTACT,
     },
+    {
+      label: t('helpPage.sideNavigation.labelAskPermission'),
+      to: ROUTES.SUPPORT_ASK_PERMISSION,
+    },
   ];
 
   const levels = [
