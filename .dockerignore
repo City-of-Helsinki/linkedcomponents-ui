@@ -8,6 +8,7 @@
 !scripts
 !src
 !package.json
+!.eslintrc.json
 !tsconfig.json
 !yarn.lock
 !plugins
