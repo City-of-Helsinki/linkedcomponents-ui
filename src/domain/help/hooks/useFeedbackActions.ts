@@ -85,7 +85,7 @@ const useFeedbackActions = ({
         await postGuestFeedback({ variables: { input: payload } });
       }
 
-      cleanAfterUpdate();
+      cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {
       //   showServerErrors({ error });
       handleError({

@@ -42,6 +42,15 @@ const mockedPostFeedbackResponse: MockedResponse = {
   request: { query: PostFeedbackDocument, variables: postFeedbackVariables },
   result: postFeedbackResponse,
 };
+
+const mockedInvalidPostFeedbackResponse: MockedResponse = {
+  request: { query: PostFeedbackDocument, variables: postFeedbackVariables },
+  error: {
+    ...new Error(),
+    result: { body: ['Arvo saa olla enintään 255 merkkiä pitkä.'] },
+  } as Error,
+};
+
 const postGuestFeedbackResponse = {
   data: { postGuestFeedback: fakeFeedback(payload) },
 };
@@ -94,6 +103,22 @@ const getElement = (key: ElementKey) => {
     case 'topicToggleButton':
       return screen.getByRole('button', { name: /yhteydenoton aihe/i });
   }
+};
+
+const enterCommonValues = async () => {
+  const user = userEvent.setup();
+
+  const topicToggleButton = getElement('topicToggleButton');
+  const subjectInput = getElement('subject');
+  const bodyInput = getElement('body');
+
+  await act(async () => await user.click(topicToggleButton));
+  const generalTopic = getElement('generalTopicOption');
+  await act(async () => await user.click(generalTopic));
+  await act(async () => await user.type(subjectInput, values.subject));
+  await act(async () => await user.type(bodyInput, values.body));
+
+  return { bodyInput, subjectInput, topicToggleButton };
 };
 
 const renderComponent = (options?: CustomRenderOptions) =>
@@ -228,18 +253,11 @@ test('should succesfully send feedback when user is not signed in', async () => 
 
   const nameInput = getElement('name');
   const emailInput = getElement('email');
-  const topicToggleButton = getElement('topicToggleButton');
-  const subjectInput = getElement('subject');
-  const bodyInput = getElement('body');
   const sendButton = getElement('sendButton');
 
   await act(async () => await user.type(nameInput, values.name));
   await act(async () => await user.type(emailInput, values.email));
-  await act(async () => await user.click(topicToggleButton));
-  const generalTopic = getElement('generalTopicOption');
-  await act(async () => await user.click(generalTopic));
-  await act(async () => await user.type(subjectInput, values.subject));
-  await act(async () => await user.type(bodyInput, values.body));
+  await enterCommonValues();
   await act(async () => await user.click(sendButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
@@ -256,18 +274,33 @@ test('should succesfully send feedback when user is signed in', async () => {
   const user = userEvent.setup();
   renderComponent({ mocks: [mockedPostFeedbackResponse], authContextValue });
 
-  const topicToggleButton = getElement('topicToggleButton');
-  const subjectInput = getElement('subject');
-  const bodyInput = getElement('body');
   const sendButton = getElement('sendButton');
 
-  await act(async () => await user.click(topicToggleButton));
-  const generalTopic = getElement('generalTopicOption');
-  await act(async () => await user.click(generalTopic));
-  await act(async () => await user.type(subjectInput, values.subject));
-  await act(async () => await user.type(bodyInput, values.body));
+  const { topicToggleButton } = await enterCommonValues();
   await act(async () => await user.click(sendButton));
 
-  await waitFor(() => expect(subjectInput).toHaveFocus());
+  await waitFor(() => expect(topicToggleButton).toHaveFocus());
   getElement('success');
+});
+
+test('should show server errors', async () => {
+  const authContextValue = fakeAuthenticatedAuthContextValue(
+    fakeOidcReducerState({
+      user: fakeOidcUserState({ profile: fakeOidcUserProfileState(values) }),
+    })
+  );
+
+  const user = userEvent.setup();
+  renderComponent({
+    mocks: [mockedInvalidPostFeedbackResponse],
+    authContextValue,
+  });
+
+  await enterCommonValues();
+
+  const sendButton = getElement('sendButton');
+  await act(async () => await user.click(sendButton));
+
+  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  screen.getByText(/arvo saa olla enintään 255 merkkiä pitkä./i);
 });

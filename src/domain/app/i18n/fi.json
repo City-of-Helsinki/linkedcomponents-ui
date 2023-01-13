@@ -1191,8 +1191,10 @@
       "placeholderJobDescription": "Kuvaile roolisi organisaatiossa",
       "placeholderName": "Syötä etu- ja sukunimi tai nimimerkki",
       "placeholderOrganization": "Valitse organisaatio",
+      "textSuccess": "Viestisi on lähetetty. Otamme sinuun yhteyttä pian!",
       "titleContactInfo": "Yhteystiedot",
       "titleOrganization": "Organisaatiotiedot",
+      "titleSuccess": "Kiitos yhteydenotostasi.",
       "topics": {
         "access": "Käyttöoikeuspyyntö"
       }

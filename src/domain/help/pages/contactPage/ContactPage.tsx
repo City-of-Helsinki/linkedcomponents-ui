@@ -81,7 +81,7 @@ const ContactPage: React.FC = () => {
       email,
       name,
       subject,
-      body: `${getPayloadStart(values)}:\n\n${values.body}`,
+      body: `${getPayloadStart(values)}${values.body}`,
     };
 
     submitFeedback(payload, {
@@ -94,7 +94,9 @@ const ContactPage: React.FC = () => {
 
         document
           .getElementById(
-            authenticated ? CONTACT_FORM_FIELD.SUBJECT : CONTACT_FORM_FIELD.NAME
+            getContactFormFocusableFieldId(
+              authenticated ? CONTACT_FORM_FIELD.TOPIC : CONTACT_FORM_FIELD.NAME
+            )
           )
           ?.focus();
       },
@@ -138,7 +140,7 @@ const ContactPage: React.FC = () => {
 
       <Formik
         initialValues={initialValues}
-        onSubmit={() => undefined}
+        onSubmit={/* istanbul ignore next */ () => undefined}
         validationSchema={contactFormSchema}
         validateOnMount
         validateOnBlur

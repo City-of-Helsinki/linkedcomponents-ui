@@ -74,7 +74,9 @@ const AskPermissionPage: React.FC = () => {
 
       return `${t(
         'helpPage.askPermissionPage.labelOrganization'
-      )}: ${name}\nID: ${id}\n\n`;
+      )}: ${name}\nID: ${id}\n${t(
+        'helpPage.askPermissionPage.labelJobDescription'
+      )}: ${values.jobDescription}\n\n`;
     }
 
     return '';
@@ -96,7 +98,9 @@ const AskPermissionPage: React.FC = () => {
     };
 
     submitFeedback(payload, {
-      onError: (error) => showServerErrors({ error }),
+      onError: (error) => {
+        showServerErrors({ error });
+      },
       onSuccess: async () => {
         const { resetForm, validateForm } = formikHelpers;
 
@@ -105,9 +109,11 @@ const AskPermissionPage: React.FC = () => {
 
         document
           .getElementById(
-            authenticated
-              ? ASK_PERMISSION_FORM_FIELD.ORGANIZATION
-              : ASK_PERMISSION_FORM_FIELD.NAME
+            getAskPermissionFormFocusableFieldId(
+              authenticated
+                ? ASK_PERMISSION_FORM_FIELD.ORGANIZATION
+                : ASK_PERMISSION_FORM_FIELD.NAME
+            )
           )
           ?.focus();
       },
@@ -120,7 +126,7 @@ const AskPermissionPage: React.FC = () => {
 
       <Formik
         initialValues={initialValues}
-        onSubmit={() => undefined}
+        onSubmit={/* istanbul ignore next */ () => undefined}
         validationSchema={askPermissionFormSchema}
         validateOnMount
         validateOnBlur

@@ -1191,8 +1191,10 @@
       "placeholderJobDescription": "Describe your role in the organization",
       "placeholderName": "Enter your first and last name or nickname",
       "placeholderOrganization": "Select an organization",
+      "textSuccess": "Your message has been successfully sent. We will contact you very soon!",
       "titleContactInfo": "Contact information",
       "titleOrganization": "Organizational information",
+      "titleSuccess": "Thank you for contacting us.",
       "topics": {
         "access": "Access request"
       }

@@ -1191,8 +1191,10 @@
       "placeholderJobDescription": "Beskriv din roll i organisationen",
       "placeholderName": "Ange ditt för- och efternamn eller smeknamn",
       "placeholderOrganization": "Välj en organisation",
+      "textSuccess": "Ditt meddelande har skickats. Vi kontaktar dig snart!",
       "titleContactInfo": "Kontaktinformation",
       "titleOrganization": "Organisationsinformation",
+      "titleSuccess": "Tack för att du kontaktar oss.",
       "topics": {
         "access": "Begäran om åtkomst"
       }
