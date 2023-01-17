@@ -1,4 +1,4 @@
-import { getErrorMessage } from './testcafe.utils';
+import { getRequestErrorMessage } from './testcafe.utils';
 
 /* eslint-disable no-undef */
 export const removeEmpty = (
@@ -36,7 +36,7 @@ export const waitRequest = async ({
 
   await t
     .expect(requestLogger.requests.find(findFn))
-    .ok(await getErrorMessage(t));
+    .ok(await getRequestErrorMessage(t, requestLogger, findFn));
 
   return requestLogger.requests.find(findFn) as LoggedRequest;
 };
