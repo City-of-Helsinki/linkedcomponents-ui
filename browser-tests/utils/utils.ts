@@ -1,3 +1,5 @@
+import { getRequestErrorMessage } from './testcafe.utils';
+
 /* eslint-disable no-undef */
 export const removeEmpty = (
   obj: Record<string, unknown>
@@ -32,7 +34,9 @@ export const waitRequest = async ({
     await t.wait(interval);
   }
 
-  await t.expect(requestLogger.requests.find(findFn)).ok();
+  await t
+    .expect(requestLogger.requests.find(findFn))
+    .ok(await getRequestErrorMessage(t, requestLogger, findFn));
 
   return requestLogger.requests.find(findFn) as LoggedRequest;
 };

@@ -1,8 +1,11 @@
+/* eslint-disable no-undef */
 import { screen, within } from '@testing-library/testcafe';
+import omit from 'lodash/omit';
 import pretty from 'pretty';
-import TestController, { ClientFunction } from 'testcafe';
+import { ClientFunction } from 'testcafe';
 
 import { requestLogger } from './requestLogger';
+import { getLinkedEventsUrl } from './settings';
 
 export const setDataToPrintOnFailure = (
   t: TestController,
@@ -69,11 +72,14 @@ export const getErrorMessage = async (t: TestController): Promise<string> => {
 
   let requestsText = '';
   requestLogger.requests.forEach((request) => {
-    requestsText = `${requestsText}\r\n\r\n${JSON.stringify(
-      request,
-      null,
-      2
-    )} `;
+    const { response, ...rest } = request;
+
+    requestsText = [
+      requestsText,
+      JSON.stringify({ ...rest, response: omit(response, 'body') }, null, 2),
+    ]
+      .filter((t) => t)
+      .join('\r\n\r\n');
   });
 
   return `Expectation failed on test context: 
@@ -84,6 +90,39 @@ export const getErrorMessage = async (t: TestController): Promise<string> => {
     ------------------------------------------------
     ${componentHtml}
     ------------------------------------------------ 
+    Requests in tests:
+    ------------------------------------------------ 
+    ${requestsText}
+    ------------------------------------------------
+    `;
+};
+
+export const getRequestErrorMessage = async (
+  t: TestController,
+  logger: RequestLogger,
+  findFn: (r: LoggedRequest) => boolean
+): Promise<string> => {
+  let requestsText = '';
+
+  logger.requests.forEach((request) => {
+    const { response, ...rest } = request;
+
+    requestsText = [
+      requestsText,
+      JSON.stringify({ ...rest, response: omit(response, 'body') }, null, 2),
+    ]
+      .filter((t) => t)
+      .join('\r\n\r\n');
+  });
+
+  return `Function to find request:
+    ------------------------------------------------ 
+    ${findFn.toString()}
+    ------------------------------------------------ 
+    Linked Events API url in browser tests:
+    ------------------------------------------------
+    ${getLinkedEventsUrl()}
+    ------------------------------------------------
     Requests in tests:
     ------------------------------------------------ 
     ${requestsText}
