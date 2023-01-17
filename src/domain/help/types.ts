@@ -1,4 +1,12 @@
-import { CONTACT_FORM_FIELD } from './constants';
+import { ASK_PERMISSION_FORM_FIELD, CONTACT_FORM_FIELD } from './constants';
+
+export type AskPermissionFormFields = {
+  [ASK_PERMISSION_FORM_FIELD.BODY]: string;
+  [ASK_PERMISSION_FORM_FIELD.EMAIL]: string;
+  [ASK_PERMISSION_FORM_FIELD.JOB_DESCRIPTION]: string;
+  [ASK_PERMISSION_FORM_FIELD.NAME]: string;
+  [ASK_PERMISSION_FORM_FIELD.ORGANIZATION]: string | null;
+};
 
 export type ContactFormFields = {
   [CONTACT_FORM_FIELD.BODY]: string;

@@ -1178,6 +1178,27 @@
     "copyrightText": "Alla rättigheter förbehållna."
   },
   "helpPage": {
+    "askPermissionPage": {
+      "buttonSend": "Skicka",
+      "labelBody": "Meddelande",
+      "labelEmail": "E-postadress",
+      "labelJobDescription": "Arbetsbeskrivning",
+      "labelName": "Namn",
+      "labelOrganization": "Organisation",
+      "pageTitle": "Begära tillgång",
+      "placeholderBody": "Ange ditt meddelande",
+      "placeholderEmail": "Skriv in din e-postadress",
+      "placeholderJobDescription": "Beskriv din roll i organisationen",
+      "placeholderName": "Ange ditt för- och efternamn eller smeknamn",
+      "placeholderOrganization": "Välj en organisation",
+      "textSuccess": "Ditt meddelande har skickats. Vi kontaktar dig snart!",
+      "titleContactInfo": "Kontaktinformation",
+      "titleOrganization": "Organisationsinformation",
+      "titleSuccess": "Tack för att du kontaktar oss.",
+      "topics": {
+        "access": "Begäran om åtkomst"
+      }
+    },
     "contactPage": {
       "buttonSend": "Skicka",
       "labelBody": "Meddelande",
@@ -1260,6 +1281,7 @@
     },
     "sideNavigation": {
       "labelApi": "API",
+      "labelAskPermission": "Begära tillgång",
       "labelContact": "Ta kontakt",
       "labelControlPanel": "Kontrollpanel",
       "labelDocumentation": "Dokumentation",

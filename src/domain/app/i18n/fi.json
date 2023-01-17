@@ -1178,6 +1178,27 @@
     "copyrightText": "Kaikki oikeudet pidätetään."
   },
   "helpPage": {
+    "askPermissionPage": {
+      "buttonSend": "Lähetä",
+      "labelBody": "Viesti",
+      "labelEmail": "Sähköpostiosoite",
+      "labelJobDescription": "Toimenkuva",
+      "labelName": "Nimi",
+      "labelOrganization": "Organisaatio",
+      "pageTitle": "Pyydä käyttöoikeutta",
+      "placeholderBody": "Syötä viestisi",
+      "placeholderEmail": "Syötä sähköposti",
+      "placeholderJobDescription": "Kuvaile roolisi organisaatiossa",
+      "placeholderName": "Syötä etu- ja sukunimi tai nimimerkki",
+      "placeholderOrganization": "Valitse organisaatio",
+      "textSuccess": "Viestisi on lähetetty. Otamme sinuun yhteyttä pian!",
+      "titleContactInfo": "Yhteystiedot",
+      "titleOrganization": "Organisaatiotiedot",
+      "titleSuccess": "Kiitos yhteydenotostasi.",
+      "topics": {
+        "access": "Käyttöoikeuspyyntö"
+      }
+    },
     "contactPage": {
       "buttonSend": "Lähetä",
       "labelBody": "Viesti",
@@ -1260,6 +1281,7 @@
     },
     "sideNavigation": {
       "labelApi": "Rajapinta",
+      "labelAskPermission": "Pyydä käyttöoikeutta",
       "labelContact": "Ota yhteyttä",
       "labelControlPanel": "Hallintapaneeli",
       "labelDocumentation": "Dokumentaatio",
