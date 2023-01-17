@@ -121,11 +121,23 @@ const enterCommonValues = async () => {
   return { bodyInput, subjectInput, topicToggleButton };
 };
 
+const authContextValue = fakeAuthenticatedAuthContextValue(
+  fakeOidcReducerState({
+    user: fakeOidcUserState({
+      profile: fakeOidcUserProfileState({
+        name: values.name,
+        email: values.email,
+      }),
+    }),
+  })
+);
+
 const renderComponent = (options?: CustomRenderOptions) =>
   render(<ContactPage />, options);
 
 test('should scroll to first error', async () => {
   const user = userEvent.setup();
+
   renderComponent();
 
   const nameInput = getElement('name');
@@ -140,6 +152,7 @@ test('should scroll to first error', async () => {
 
 test('should scroll to topic selector when topic is not selected', async () => {
   const user = userEvent.setup();
+
   renderComponent();
 
   const nameInput = getElement('name');
@@ -156,6 +169,7 @@ test('should scroll to topic selector when topic is not selected', async () => {
 
 test('should show correct faq items when "event_form" topic is selected', async () => {
   const user = userEvent.setup();
+
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
   const nameInput = getElement('name');
@@ -180,6 +194,7 @@ test('should show correct faq items when "event_form" topic is selected', async 
 
 test('should show correct faq items when "permissions" topic is selected', async () => {
   const user = userEvent.setup();
+
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
   const nameInput = getElement('name');
@@ -210,6 +225,7 @@ test.each([
   'should not show any faq item when %p topic is selected',
   async (topic, topicOption) => {
     const user = userEvent.setup();
+
     renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
     const topicToggleButton = getElement('topicToggleButton');
@@ -249,6 +265,7 @@ test.each([
 
 test('should succesfully send feedback when user is not signed in', async () => {
   const user = userEvent.setup();
+
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
   const nameInput = getElement('name');
@@ -265,13 +282,8 @@ test('should succesfully send feedback when user is not signed in', async () => 
 });
 
 test('should succesfully send feedback when user is signed in', async () => {
-  const authContextValue = fakeAuthenticatedAuthContextValue(
-    fakeOidcReducerState({
-      user: fakeOidcUserState({ profile: fakeOidcUserProfileState(values) }),
-    })
-  );
-
   const user = userEvent.setup();
+
   renderComponent({ mocks: [mockedPostFeedbackResponse], authContextValue });
 
   const sendButton = getElement('sendButton');
@@ -284,13 +296,8 @@ test('should succesfully send feedback when user is signed in', async () => {
 });
 
 test('should show server errors', async () => {
-  const authContextValue = fakeAuthenticatedAuthContextValue(
-    fakeOidcReducerState({
-      user: fakeOidcUserState({ profile: fakeOidcUserProfileState(values) }),
-    })
-  );
-
   const user = userEvent.setup();
+
   renderComponent({
     mocks: [mockedInvalidPostFeedbackResponse],
     authContextValue,

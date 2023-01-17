@@ -1,10 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import {
-  PostFeedbackDocument,
-  PostGuestFeedbackDocument,
-} from '../../../../../generated/graphql';
+import { PostFeedbackDocument } from '../../../../../generated/graphql';
 import {
   fakeAuthenticatedAuthContextValue,
   fakeOidcReducerState,
@@ -65,17 +62,6 @@ const mockedInvalidPostFeedbackResponse: MockedResponse = {
   } as Error,
 };
 
-const postGuestFeedbackResponse = {
-  data: { postGuestFeedback: fakeFeedback(payload) },
-};
-const mockedPostGuestFeedbackResponse: MockedResponse = {
-  request: {
-    query: PostGuestFeedbackDocument,
-    variables: postFeedbackVariables,
-  },
-  result: postGuestFeedbackResponse,
-};
-
 type ElementKey =
   | 'body'
   | 'email'
@@ -134,62 +120,53 @@ const enterCommonValues = async () => {
   return { organizationToggleButton, jobDescriptionInput, bodyInput };
 };
 
-test('should scroll to first error', async () => {
-  const user = userEvent.setup();
-  renderComponent();
+const authContextValue = fakeAuthenticatedAuthContextValue(
+  fakeOidcReducerState({
+    user: fakeOidcUserState({
+      profile: fakeOidcUserProfileState({
+        name: values.name,
+        email: values.email,
+      }),
+    }),
+  })
+);
+
+test('should disable all fields if user is not authenticated', async () => {
+  await act(async () => {
+    await renderComponent();
+  });
 
   const nameInput = getElement('name');
   const emailInput = getElement('email');
   const sendButton = getElement('sendButton');
+  const organizationToggleButton = getElement('organizationToggleButton');
+  const jobDescriptionInput = getElement('jobDescription');
+  const bodyInput = getElement('body');
 
-  await act(async () => await user.type(nameInput, values.name));
-  await act(async () => await user.click(sendButton));
-
-  await waitFor(() => expect(emailInput).toHaveFocus());
+  expect(nameInput).toBeDisabled();
+  expect(emailInput).toBeDisabled();
+  expect(organizationToggleButton).toBeDisabled();
+  expect(jobDescriptionInput).toBeDisabled();
+  expect(bodyInput).toBeDisabled();
+  expect(sendButton).toBeDisabled();
 });
 
 test('should scroll to organization selector when organization is not selected', async () => {
   const user = userEvent.setup();
-  renderComponent();
 
-  const nameInput = getElement('name');
-  const emailInput = getElement('email');
+  renderComponent({ mocks: [mockedPostFeedbackResponse], authContextValue });
+
   const organizationToggleButton = getElement('organizationToggleButton');
   const sendButton = getElement('sendButton');
 
-  await act(async () => await user.type(nameInput, values.name));
-  await act(async () => await user.type(emailInput, values.email));
   await act(async () => await user.click(sendButton));
 
   await waitFor(() => expect(organizationToggleButton).toHaveFocus());
 });
 
-test('should succesfully send feedback when user is not signed in', async () => {
+test('should succesfully send access request when user is signed in', async () => {
   const user = userEvent.setup();
-  renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
-  const nameInput = getElement('name');
-  const emailInput = getElement('email');
-
-  await act(async () => await user.type(nameInput, values.name));
-  await act(async () => await user.type(emailInput, values.email));
-  await enterCommonValues();
-
-  const sendButton = getElement('sendButton');
-  await act(async () => await user.click(sendButton));
-
-  await waitFor(() => expect(nameInput).toHaveFocus());
-  getElement('success');
-});
-
-test('should succesfully send feedback when user is signed in', async () => {
-  const authContextValue = fakeAuthenticatedAuthContextValue(
-    fakeOidcReducerState({
-      user: fakeOidcUserState({ profile: fakeOidcUserProfileState(values) }),
-    })
-  );
-
-  const user = userEvent.setup();
   renderComponent({ mocks: [mockedPostFeedbackResponse], authContextValue });
 
   const { organizationToggleButton } = await enterCommonValues();
@@ -202,13 +179,8 @@ test('should succesfully send feedback when user is signed in', async () => {
 });
 
 test('should show server errors', async () => {
-  const authContextValue = fakeAuthenticatedAuthContextValue(
-    fakeOidcReducerState({
-      user: fakeOidcUserState({ profile: fakeOidcUserProfileState(values) }),
-    })
-  );
-
   const user = userEvent.setup();
+
   renderComponent({
     mocks: [mockedInvalidPostFeedbackResponse],
     authContextValue,

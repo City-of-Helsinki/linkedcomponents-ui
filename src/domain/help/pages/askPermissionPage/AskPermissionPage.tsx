@@ -21,6 +21,7 @@ import {
   scrollToFirstError,
   showFormErrors,
 } from '../../../../utils/validationUtils';
+import AuthenticationNotification from '../../../app/authenticationNotification/AuthenticationNotification';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
 import { useAuth } from '../../../auth/hooks/useAuth';
 import useFeedbackServerErrors from '../../../feedback/hooks/useFeedbackServerErrors';
@@ -110,9 +111,7 @@ const AskPermissionPage: React.FC = () => {
         document
           .getElementById(
             getAskPermissionFormFocusableFieldId(
-              authenticated
-                ? ASK_PERMISSION_FORM_FIELD.ORGANIZATION
-                : ASK_PERMISSION_FORM_FIELD.NAME
+              ASK_PERMISSION_FORM_FIELD.ORGANIZATION
             )
           )
           ?.focus();
@@ -123,6 +122,10 @@ const AskPermissionPage: React.FC = () => {
   return (
     <PageWrapper title="helpPage.askPermissionPage.pageTitle">
       <h1>{t('helpPage.askPermissionPage.pageTitle')}</h1>
+      <AuthenticationNotification
+        className={styles.authenticationNotification}
+        label=""
+      />
 
       <Formik
         initialValues={initialValues}
@@ -177,7 +180,7 @@ const AskPermissionPage: React.FC = () => {
               <FormGroup>
                 <Field
                   component={TextInputField}
-                  disabled={authenticated && user?.profile.name}
+                  disabled={!authenticated}
                   label={t('helpPage.askPermissionPage.labelName')}
                   name={ASK_PERMISSION_FORM_FIELD.NAME}
                   placeholder={t('helpPage.askPermissionPage.placeholderName')}
@@ -187,7 +190,7 @@ const AskPermissionPage: React.FC = () => {
               <FormGroup>
                 <Field
                   component={TextInputField}
-                  disabled={authenticated && user?.profile.email}
+                  disabled={!authenticated}
                   label={t('helpPage.askPermissionPage.labelEmail')}
                   name={ASK_PERMISSION_FORM_FIELD.EMAIL}
                   placeholder={t('helpPage.askPermissionPage.placeholderEmail')}
@@ -198,6 +201,7 @@ const AskPermissionPage: React.FC = () => {
               <FormGroup>
                 <Field
                   component={SingleOrganizationSelectorField}
+                  disabled={!authenticated}
                   label={t('helpPage.askPermissionPage.labelOrganization')}
                   name={ASK_PERMISSION_FORM_FIELD.ORGANIZATION}
                   placeholder={t(
@@ -210,6 +214,7 @@ const AskPermissionPage: React.FC = () => {
               <FormGroup>
                 <Field
                   component={TextInputField}
+                  disabled={!authenticated}
                   label={t('helpPage.askPermissionPage.labelJobDescription')}
                   name={ASK_PERMISSION_FORM_FIELD.JOB_DESCRIPTION}
                   placeholder={t(
@@ -221,6 +226,7 @@ const AskPermissionPage: React.FC = () => {
               <FormGroup>
                 <Field
                   component={TextAreaField}
+                  disabled={!authenticated}
                   label={t('helpPage.contactPage.labelBody')}
                   maxLength={
                     CONTACT_FORM_BODY_MAX_LENGTH -
@@ -232,7 +238,11 @@ const AskPermissionPage: React.FC = () => {
                 />
               </FormGroup>
 
-              <Button onClick={handleSubmit} fullWidth>
+              <Button
+                disabled={!authenticated}
+                onClick={handleSubmit}
+                fullWidth
+              >
                 {t('helpPage.askPermissionPage.buttonSend')}
               </Button>
             </Form>
