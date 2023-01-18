@@ -180,7 +180,7 @@ const AskPermissionPage: React.FC = () => {
               <FormGroup>
                 <Field
                   component={TextInputField}
-                  disabled={!authenticated}
+                  disabled={!authenticated || user?.profile.name}
                   label={t('helpPage.askPermissionPage.labelName')}
                   name={ASK_PERMISSION_FORM_FIELD.NAME}
                   placeholder={t('helpPage.askPermissionPage.placeholderName')}
@@ -190,7 +190,7 @@ const AskPermissionPage: React.FC = () => {
               <FormGroup>
                 <Field
                   component={TextInputField}
-                  disabled={!authenticated}
+                  disabled={!authenticated || user?.profile.email}
                   label={t('helpPage.askPermissionPage.labelEmail')}
                   name={ASK_PERMISSION_FORM_FIELD.EMAIL}
                   placeholder={t('helpPage.askPermissionPage.placeholderEmail')}
