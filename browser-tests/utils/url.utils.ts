@@ -98,6 +98,11 @@ export const getUrlUtils = (t: TestController) => {
         .expect(getPathname())
         .eql(`/fi/help/technology/api`, await getErrorMessage(t));
     },
+    async urlChangedToAskPermissionPage() {
+      await t
+        .expect(getPathname())
+        .eql(`/fi/help/support/ask-permission`, await getErrorMessage(t));
+    },
     async urlChangedToContactPage() {
       await t
         .expect(getPathname())

@@ -32,6 +32,11 @@ export const findHelpPages = async (t: TestController) => {
           name: /rajapinta/i,
         });
       },
+      askPermissionLink() {
+        return withinSideNavigation().findByRole('link', {
+          name: /pyydä käyttöoikeutta/i,
+        });
+      },
       contactLink() {
         return withinSideNavigation().findByRole('link', {
           name: /ota yhteyttä/i,
@@ -100,6 +105,9 @@ export const findHelpPages = async (t: TestController) => {
       async clickApiLink() {
         return await t.click(selectors.apiLink());
       },
+      async clickAskPermissionLink() {
+        return await t.click(selectors.askPermissionLink());
+      },
       async clickContactLink() {
         return await t.click(selectors.contactLink());
       },
@@ -154,6 +162,11 @@ export const findHelpPages = async (t: TestController) => {
       apiTitle() {
         return withinHelpPage().findByRole('heading', { name: /rajapinta/i });
       },
+      askPermissionTitle() {
+        return withinHelpPage().findByRole('heading', {
+          name: /pyydä käyttöoikeutta/i,
+        });
+      },
       contactTitle() {
         return withinHelpPage().findByRole('heading', {
           name: /ota yhteyttä/i,
@@ -207,6 +220,11 @@ export const findHelpPages = async (t: TestController) => {
       async apiTitleIsVisible() {
         await t
           .expect(selectors.apiTitle().exists)
+          .ok(await getErrorMessage(t));
+      },
+      async askPermissionTitleIsVisible() {
+        await t
+          .expect(selectors.askPermissionTitle().exists)
           .ok(await getErrorMessage(t));
       },
       async contactTitleIsVisible() {

@@ -35,6 +35,10 @@ test('Side navigation tabs work', async (t) => {
   await helpPageTitles.expectations.featuresTitleIsVisible();
   // Open support main level
   await sideNavigation.actions.clickSupportButton();
+  // Ask permission link
+  await sideNavigation.actions.clickAskPermissionLink();
+  await urlUtils.expectations.urlChangedToAskPermissionPage();
+  await helpPageTitles.expectations.askPermissionTitleIsVisible();
   // Contact link
   await sideNavigation.actions.clickContactLink();
   await urlUtils.expectations.urlChangedToContactPage();
