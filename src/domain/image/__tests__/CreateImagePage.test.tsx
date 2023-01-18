@@ -50,9 +50,7 @@ const getElement = (
   switch (key) {
     // Both add button and preview image component have same label
     case 'addButton':
-      return screen.getAllByRole('button', {
-        name: /Lisää kuva/i,
-      })[0];
+      return screen.getAllByRole('button', { name: /Lisää kuva/i })[0];
     case 'publisherInput':
       return screen.getByRole('combobox', { name: /julkaisija/i });
     case 'publisherToggleButton':
@@ -83,8 +81,8 @@ const uploadImageByFile = async () => {
 
   const fileInput = withinModal.getByTestId(testIds.imageUploader.input);
   Object.defineProperty(fileInput, 'files', { value: [file] });
-  await act(async () => {
-    await fireEvent.change(fileInput);
+  await act(() => {
+    fireEvent.change(fileInput);
   });
 
   const submitButton = withinModal.getByRole('button', { name: 'Lisää' });
@@ -102,13 +100,9 @@ const uploadImageByUrl = async () => {
   const withinModal = within(dialog);
   withinModal.getByRole('heading', { name: /Lisää kuva/i });
 
-  const urlInput = withinModal.getByRole('textbox', {
-    name: /kuvan url-osoite/i,
-  });
+  const urlInput = withinModal.getByLabelText(/kuvan url-osoite/i);
   await waitFor(() => expect(urlInput).toBeEnabled());
-  await act(async () => await user.click(urlInput));
   await act(async () => await user.type(urlInput, imageUrl));
-  await waitFor(() => expect(urlInput).toHaveValue(imageUrl));
 
   const submitButton = withinModal.getByRole('button', { name: 'Lisää' });
   await waitFor(() => expect(submitButton).toBeEnabled());

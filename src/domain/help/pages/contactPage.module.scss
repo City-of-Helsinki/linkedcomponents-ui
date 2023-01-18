@@ -1,4 +1,4 @@
-@import '../../../../assets/styles/breakpoints';
+@import '../../../assets/styles/breakpoints';
 
 .contactForm {
   display: grid;
@@ -19,4 +19,8 @@
   display: grid;
   grid-gap: var(--spacing-m);
   margin-bottom: var(--spacing-m);
+}
+
+.authenticationNotification {
+  margin: var(--spacing-m) 0 0;
 }

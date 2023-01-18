@@ -24,6 +24,7 @@ import EventList, { EventListContainerProps } from '../EventList';
 
 configure({ defaultHidden: true });
 
+const TEST_PAGE_SIZE = 2;
 const variables = {
   createPath: undefined,
   page: 1,
@@ -38,9 +39,9 @@ const variables = {
   text: '',
 };
 
-const eventNames = range(1, EVENTS_PAGE_SIZE + 1).map((n) => `Event name ${n}`);
+const eventNames = range(1, TEST_PAGE_SIZE + 1).map((n) => `Event name ${n}`);
 const events = fakeEvents(
-  EVENTS_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   eventNames.map((name) => ({ name: { fi: name }, publisher: null }))
 );
 const count = 30;
@@ -51,11 +52,11 @@ const mockedEventsResponse = {
   result: eventsResponse,
 };
 
-const page2EventNames = range(1, EVENTS_PAGE_SIZE + 1).map(
+const page2EventNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Page 2 event ${n}`
 );
 const page2Events = fakeEvents(
-  EVENTS_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   page2EventNames.map((name) => ({ name: { fi: name }, publisher: null }))
 );
 const page2EventsResponse = { data: { events: { ...page2Events, meta } } };
@@ -65,11 +66,11 @@ const mockedPage2EventsResponse = {
   result: page2EventsResponse,
 };
 
-const sortedEventNames = range(1, EVENTS_PAGE_SIZE + 1).map(
+const sortedEventNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Sorted event ${n}`
 );
 const sortedEvents = fakeEvents(
-  EVENTS_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   sortedEventNames.map((name) => ({ name: { fi: name }, publisher: null }))
 );
 const sortedEventsResponse = { data: { events: { ...sortedEvents, meta } } };
@@ -110,13 +111,9 @@ const getElement = (
     case 'sortOptionLastModified':
       return screen.getByRole('option', {
         name: /viimeksi muokattu, laskeva/i,
-        hidden: true,
       });
     case 'sortOptionName':
-      return screen.getByRole('option', {
-        name: /nimi, nouseva/i,
-        hidden: true,
-      });
+      return screen.getByRole('option', { name: /nimi, nouseva/i });
     case 'sortSelect':
       return screen.getByRole('button', { name: /Lajitteluperuste/i });
   }

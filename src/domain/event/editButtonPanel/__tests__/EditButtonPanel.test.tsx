@@ -10,6 +10,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../../utils/testUtils';
 import { AuthContextProps } from '../../../auth/types';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
@@ -48,31 +49,13 @@ const renderComponent = ({
   });
 
 const getElement = (
-  key:
-    | 'back'
-    | 'cancel'
-    | 'copy'
-    | 'delete'
-    | 'menu'
-    | 'postpone'
-    | 'publish'
-    | 'toggle'
-    | 'updateDraft'
-    | 'updatePublic'
+  key: 'back' | 'menu' | 'publish' | 'toggle' | 'updateDraft' | 'updatePublic'
 ) => {
   switch (key) {
     case 'back':
       return screen.getByRole('button', { name: 'Takaisin' });
-    case 'cancel':
-      return screen.getByRole('button', { name: 'Peruuta tapahtuma' });
-    case 'copy':
-      return screen.getByRole('button', { name: 'Kopioi pohjaksi' });
-    case 'delete':
-      return screen.getByRole('button', { name: 'Poista tapahtuma' });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
-    case 'postpone':
-      return screen.getByRole('button', { name: 'Lykkää tapahtumaa' });
     case 'publish':
       return screen.getByRole('button', { name: 'Hyväksy ja julkaise' });
     case 'toggle':
@@ -84,13 +67,30 @@ const getElement = (
   }
 };
 
+const getMenuButton = (
+  key: 'cancel' | 'copy' | 'delete' | 'postpone',
+  menu: HTMLElement
+) => {
+  const withinMenu = within(menu);
+  switch (key) {
+    case 'cancel':
+      return withinMenu.getByRole('button', { name: 'Peruuta tapahtuma' });
+    case 'copy':
+      return withinMenu.getByRole('button', { name: 'Kopioi pohjaksi' });
+    case 'delete':
+      return withinMenu.getByRole('button', { name: 'Poista tapahtuma' });
+    case 'postpone':
+      return withinMenu.getByRole('button', { name: 'Lykkää tapahtumaa' });
+  }
+};
+
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggle');
   await act(async () => await user.click(toggleButton));
-  getElement('menu');
+  const menu = getElement('menu');
 
-  return toggleButton;
+  return { menu, toggleButton };
 };
 
 test('should toggle menu by clicking actions button', async () => {
@@ -100,7 +100,7 @@ test('should toggle menu by clicking actions button', async () => {
     props: { event: { ...event, publicationStatus: PublicationStatus.Draft } },
   });
 
-  const toggleButton = await openMenu();
+  const { toggleButton } = await openMenu();
   await act(async () => await user.click(toggleButton));
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
@@ -123,11 +123,11 @@ test('should show correct buttons for draft event', async () => {
     },
   });
 
-  await openMenu();
+  const { menu } = await openMenu();
 
-  getElement('copy');
+  getMenuButton('copy', menu);
 
-  const deleteButton = getElement('delete');
+  const deleteButton = getMenuButton('delete', menu);
   await waitFor(() => expect(deleteButton).toBeEnabled());
   await act(async () => await user.click(deleteButton));
   expect(onDelete).toBeCalled();
@@ -144,7 +144,10 @@ test('should show correct buttons for draft event', async () => {
 
   await openMenu();
 
-  const disabledButtons = [getElement('postpone'), getElement('cancel')];
+  const disabledButtons = [
+    getMenuButton('postpone', menu),
+    getMenuButton('cancel', menu),
+  ];
 
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
@@ -154,14 +157,14 @@ test('all buttons should be disabled when user is not logged in (draft)', async 
     props: { event: { ...event, publicationStatus: PublicationStatus.Draft } },
   });
 
-  await openMenu();
+  const { menu } = await openMenu();
 
   const disabledButtons = [
-    getElement('copy'),
-    getElement('delete'),
+    getMenuButton('copy', menu),
+    getMenuButton('delete', menu),
     getElement('updateDraft'),
-    getElement('postpone'),
-    getElement('cancel'),
+    getMenuButton('postpone', menu),
+    getMenuButton('cancel', menu),
   ];
 
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
@@ -185,25 +188,25 @@ test('should render correct buttons for public event', async () => {
     },
   });
 
-  await openMenu();
+  const { menu } = await openMenu();
 
-  getElement('copy');
+  getMenuButton('copy', menu);
 
-  const postponeButton = getElement('postpone');
+  const postponeButton = getMenuButton('postpone', menu);
   await waitFor(() => expect(postponeButton).toBeEnabled());
   await act(async () => await user.click(postponeButton));
   expect(onPostpone).toBeCalled();
 
-  await openMenu();
+  const { menu: menu2 } = await openMenu();
 
-  const cancelButton = getElement('cancel');
+  const cancelButton = getMenuButton('cancel', menu2);
   await waitFor(() => expect(cancelButton).toBeEnabled());
   await act(async () => await user.click(cancelButton));
   expect(onCancel).toBeCalled();
 
-  await openMenu();
+  const { menu: menu3 } = await openMenu();
 
-  const deleteButton = getElement('delete');
+  const deleteButton = getMenuButton('delete', menu3);
   await waitFor(() => expect(deleteButton).toBeEnabled());
   await act(async () => await user.click(deleteButton));
   expect(onDelete).toBeCalled();
@@ -212,8 +215,6 @@ test('should render correct buttons for public event', async () => {
   await waitFor(() => expect(updateButton).toBeEnabled());
   await act(async () => await user.click(updateButton));
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
-
-  await openMenu();
 
   const hiddenButtons = ['Tallenna luonnos'];
 
@@ -234,15 +235,18 @@ test('only copy and delete button should be enabled when event is cancelled', as
     },
   });
 
-  await openMenu();
+  const { menu } = await openMenu();
 
-  const enabledButtons = [getElement('delete'), getElement('copy')];
+  const enabledButtons = [
+    getMenuButton('delete', menu),
+    getMenuButton('copy', menu),
+  ];
   enabledButtons.forEach((button) => expect(button).toBeEnabled());
 
   const disabledButtons = [
     getElement('updatePublic'),
-    getElement('postpone'),
-    getElement('cancel'),
+    getMenuButton('postpone', menu),
+    getMenuButton('cancel', menu),
   ];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
@@ -252,14 +256,14 @@ test('all buttons should be enabled when user is not logged in (public)', async 
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });
 
-  await openMenu();
+  const { menu } = await openMenu();
 
   const disabledButtons = [
-    getElement('copy'),
-    getElement('delete'),
+    getMenuButton('copy', menu),
+    getMenuButton('delete', menu),
     getElement('updatePublic'),
-    getElement('postpone'),
-    getElement('cancel'),
+    getMenuButton('postpone', menu),
+    getMenuButton('cancel', menu),
   ];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
@@ -271,9 +275,9 @@ test('should route to create event page when clicking copy button', async () => 
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });
 
-  await openMenu();
+  const { menu } = await openMenu();
 
-  const copyButton = getElement('copy');
+  const copyButton = getMenuButton('copy', menu);
   await waitFor(() => expect(copyButton).toBeEnabled());
   await act(async () => await user.click(copyButton));
 

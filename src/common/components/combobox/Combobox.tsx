@@ -14,7 +14,7 @@ import {
   getA11ySelectionMessage,
   getA11yStatusMessage,
 } from '../../../utils/accessibilityUtils';
-import styles from '../select/select.module.scss';
+import styles from './combobox.module.scss';
 
 type FilterFunction<OptionType> = (
   options: OptionType[],

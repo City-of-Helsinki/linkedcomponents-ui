@@ -7,7 +7,6 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import ConfirmDeleteModal, {
   ConfirmDeleteModalProps,
 } from '../ConfirmDeleteModal';
@@ -27,8 +26,8 @@ const renderComponent = (props?: Partial<ConfirmDeleteModalProps>) =>
 test('should render component', async () => {
   renderComponent();
   screen.getByRole('heading', { name: 'Varmista avainsanaryhmän poistaminen' });
-  screen.getByText(translations.common.warning);
-  screen.getByText(translations.keywordSet.deleteKeywordSetModal.text);
+  screen.getByText('Varoitus!');
+  screen.getByText('Tämä toiminto poistaa avainsanaryhmän lopullisesti.');
 
   screen.getByRole('button', { name: 'Poista avainsanaryhmä' });
   screen.getByRole('button', { name: 'Peruuta' });

@@ -34,8 +34,7 @@ import {
 import { TEST_IMAGE_ID } from '../../image/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import {
-  EVENT_CREATE_ACTIONS,
-  EVENT_EDIT_ACTIONS,
+  EVENT_ACTIONS,
   EVENT_INITIAL_VALUES,
   EVENT_TYPE,
   TEST_EVENT_ID,
@@ -43,25 +42,23 @@ import {
 import { EventFormFields, RecurringEventSettings } from '../types';
 import {
   calculateSuperEventTime,
-  canUserCreateEvent,
   checkCanUserDoAction,
   copyEventInfoToRegistrationSessionStorage,
   copyEventToSessionStorage,
   eventPathBuilder,
   filterUnselectedLanguages,
   generateEventTimesFromRecurringEvent,
-  getCreateEventButtonWarning,
-  getEditEventWarning,
   getEmptyOffer,
   getEmptyVideo,
+  getEventActionWarning,
   getEventFields,
   getEventInfoLanguages,
   getEventInitialValues,
   getEventPayload,
   getEventTimes,
+  getIsButtonVisible,
   getNewEventTimes,
   getRecurringEventPayload,
-  isCreateEventButtonVisible,
   sortLanguage,
   sortWeekDays,
 } from '../utils';
@@ -1173,23 +1170,19 @@ describe('getEmptyVideo function', () => {
   });
 });
 
-describe('canUserCreateEvent function', () => {
+describe('checkCanUserDoAction function', () => {
   const publisher = TEST_PUBLISHER_ID;
-  const authenticated = true;
 
   it('should allow/deny correct actions if adminArganizations contains event publisher', () => {
     const user = fakeUser({ adminOrganizations: [publisher] });
 
-    const allowedActions = [
-      EVENT_CREATE_ACTIONS.CREATE_DRAFT,
-      EVENT_CREATE_ACTIONS.PUBLISH,
-    ];
+    const allowedActions = [EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH];
 
     allowedActions.forEach((action) => {
       expect(
-        canUserCreateEvent({
+        checkCanUserDoAction({
           action,
-          authenticated,
+          organizationAncestors: [],
           publisher,
           user,
         })
@@ -1200,26 +1193,26 @@ describe('canUserCreateEvent function', () => {
   it('should allow/deny correct actions if organizationMembers contains publisher', () => {
     const user = fakeUser({ organizationMemberships: [publisher] });
 
-    const allowedActions = [EVENT_CREATE_ACTIONS.CREATE_DRAFT];
+    const allowedActions = [EVENT_ACTIONS.CREATE_DRAFT];
 
     allowedActions.forEach((action) => {
       expect(
-        canUserCreateEvent({
+        checkCanUserDoAction({
           action,
-          authenticated,
+          organizationAncestors: [],
           publisher,
           user,
         })
       ).toBe(true);
     });
 
-    const deniedActions = [EVENT_CREATE_ACTIONS.PUBLISH];
+    const deniedActions = [EVENT_ACTIONS.PUBLISH];
 
     deniedActions.forEach((action) => {
       expect(
-        canUserCreateEvent({
+        checkCanUserDoAction({
           action,
-          authenticated,
+          organizationAncestors: [],
           publisher,
           user,
         })
@@ -1230,26 +1223,26 @@ describe('canUserCreateEvent function', () => {
   it('should allow/deny correct actions if publisher is empty but user has an organizations', () => {
     const user = fakeUser({ organization: publisher });
 
-    const allowedActions = [EVENT_CREATE_ACTIONS.CREATE_DRAFT];
+    const allowedActions = [EVENT_ACTIONS.CREATE_DRAFT];
 
     allowedActions.forEach((action) => {
       expect(
-        canUserCreateEvent({
+        checkCanUserDoAction({
           action,
-          authenticated,
+          organizationAncestors: [],
           publisher: '',
           user,
         })
       ).toBe(true);
     });
 
-    const deniedActions = [EVENT_CREATE_ACTIONS.PUBLISH];
+    const deniedActions = [EVENT_ACTIONS.PUBLISH];
 
     deniedActions.forEach((action) => {
       expect(
-        canUserCreateEvent({
+        checkCanUserDoAction({
           action,
-          authenticated,
+          organizationAncestors: [],
           publisher: '',
           user,
         })
@@ -1261,28 +1254,30 @@ describe('canUserCreateEvent function', () => {
 describe('isCreateEventButtonVisible function', () => {
   it('should show/hide correct buttons if action is not allowed but user is not authenticated', () => {
     const authenticated = false;
-    const actionAllowed = false;
+    const userCanDoAction = false;
 
-    const visibleButtons = [EVENT_CREATE_ACTIONS.PUBLISH];
+    const visibleButtons = [EVENT_ACTIONS.PUBLISH];
 
     visibleButtons.forEach((action) => {
       expect(
-        isCreateEventButtonVisible({
+        getIsButtonVisible({
           action,
-          actionAllowed,
           authenticated,
+          publisher: '',
+          userCanDoAction,
         })
       ).toBe(true);
     });
 
-    const hiddenButtons = [EVENT_CREATE_ACTIONS.CREATE_DRAFT];
+    const hiddenButtons = [EVENT_ACTIONS.CREATE_DRAFT];
 
     hiddenButtons.forEach((action) => {
       expect(
-        isCreateEventButtonVisible({
+        getIsButtonVisible({
           action,
-          actionAllowed,
           authenticated,
+          publisher: '',
+          userCanDoAction,
         })
       ).toBe(false);
     });
@@ -1290,19 +1285,17 @@ describe('isCreateEventButtonVisible function', () => {
 
   it('should hide all buttons if action is not allowed but user is authenticated', () => {
     const authenticated = true;
-    const actionAllowed = false;
+    const userCanDoAction = false;
 
-    const hiddenButtons = [
-      EVENT_CREATE_ACTIONS.CREATE_DRAFT,
-      EVENT_CREATE_ACTIONS.PUBLISH,
-    ];
+    const hiddenButtons = [EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH];
 
     hiddenButtons.forEach((action) => {
       expect(
-        isCreateEventButtonVisible({
+        getIsButtonVisible({
           action,
-          actionAllowed,
           authenticated,
+          publisher: '',
+          userCanDoAction,
         })
       ).toBe(false);
     });
@@ -1310,57 +1303,20 @@ describe('isCreateEventButtonVisible function', () => {
 
   it('should show all buttons if action is allowed and user is authenticated', () => {
     const authenticated = true;
-    const actionAllowed = true;
+    const userCanDoAction = true;
 
-    const visibleButtons = [
-      EVENT_CREATE_ACTIONS.CREATE_DRAFT,
-      EVENT_CREATE_ACTIONS.PUBLISH,
-    ];
+    const visibleButtons = [EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH];
 
     visibleButtons.forEach((action) => {
       expect(
-        isCreateEventButtonVisible({
+        getIsButtonVisible({
           action,
-          actionAllowed,
           authenticated,
+          publisher: '',
+          userCanDoAction,
         })
       ).toBe(true);
     });
-  });
-});
-
-describe('getCreateEventButtonWarning function', () => {
-  test('should show correct if user is not authenticated', () => {
-    expect(
-      getCreateEventButtonWarning({
-        action: EVENT_CREATE_ACTIONS.CREATE_DRAFT,
-        actionAllowed: true,
-        authenticated: false,
-        t,
-      })
-    ).toBe('Jos haluat julkaista tapahtuman, kirjaudu ensin sisään.');
-  });
-
-  test('should show correct warning if creating draft is not allowed', () => {
-    expect(
-      getCreateEventButtonWarning({
-        action: EVENT_CREATE_ACTIONS.CREATE_DRAFT,
-        actionAllowed: false,
-        authenticated: true,
-        t,
-      })
-    ).toBe('Sinulla ei ole oikeuksia luoda tätä tapahtumaa.');
-  });
-
-  test('should show correct warning if publishing event is not allowed', () => {
-    expect(
-      getCreateEventButtonWarning({
-        action: EVENT_CREATE_ACTIONS.PUBLISH,
-        actionAllowed: false,
-        authenticated: true,
-        t,
-      })
-    ).toBe('Sinulla ei ole oikeuksia julkaista tätä tapahtumaa.');
   });
 });
 
@@ -1372,14 +1328,14 @@ describe('checkCanUserDoAction function', () => {
     const user = fakeUser({ adminOrganizations: [publisher] });
 
     const allowedActions = [
-      EVENT_EDIT_ACTIONS.CANCEL,
-      EVENT_EDIT_ACTIONS.COPY,
-      EVENT_EDIT_ACTIONS.DELETE,
-      EVENT_EDIT_ACTIONS.EDIT,
-      EVENT_EDIT_ACTIONS.POSTPONE,
-      EVENT_EDIT_ACTIONS.PUBLISH,
-      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+      EVENT_ACTIONS.CANCEL,
+      EVENT_ACTIONS.COPY,
+      EVENT_ACTIONS.DELETE,
+      EVENT_ACTIONS.EDIT,
+      EVENT_ACTIONS.POSTPONE,
+      EVENT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ];
 
     allowedActions.forEach((action) => {
@@ -1400,14 +1356,14 @@ describe('checkCanUserDoAction function', () => {
     const user = fakeUser({ adminOrganizations: [adminOrganization] });
 
     const allowedActions = [
-      EVENT_EDIT_ACTIONS.CANCEL,
-      EVENT_EDIT_ACTIONS.COPY,
-      EVENT_EDIT_ACTIONS.DELETE,
-      EVENT_EDIT_ACTIONS.EDIT,
-      EVENT_EDIT_ACTIONS.POSTPONE,
-      EVENT_EDIT_ACTIONS.PUBLISH,
-      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+      EVENT_ACTIONS.CANCEL,
+      EVENT_ACTIONS.COPY,
+      EVENT_ACTIONS.DELETE,
+      EVENT_ACTIONS.EDIT,
+      EVENT_ACTIONS.POSTPONE,
+      EVENT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ];
 
     allowedActions.forEach((action) => {
@@ -1430,13 +1386,12 @@ describe('checkCanUserDoAction function', () => {
     const user = fakeUser({ organizationMemberships: [publisher] });
 
     const allowedActions = [
-      EVENT_EDIT_ACTIONS.CANCEL,
-      EVENT_EDIT_ACTIONS.COPY,
-      EVENT_EDIT_ACTIONS.DELETE,
-      EVENT_EDIT_ACTIONS.EDIT,
-      EVENT_EDIT_ACTIONS.POSTPONE,
-
-      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.CANCEL,
+      EVENT_ACTIONS.COPY,
+      EVENT_ACTIONS.DELETE,
+      EVENT_ACTIONS.EDIT,
+      EVENT_ACTIONS.POSTPONE,
+      EVENT_ACTIONS.UPDATE_DRAFT,
     ];
 
     allowedActions.forEach((action) => {
@@ -1451,8 +1406,8 @@ describe('checkCanUserDoAction function', () => {
     });
 
     const deniedActions = [
-      EVENT_EDIT_ACTIONS.PUBLISH,
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ];
 
     deniedActions.forEach((action) => {
@@ -1475,9 +1430,9 @@ describe('checkCanUserDoAction function', () => {
     const user = fakeUser({ organizationMemberships: [publisher] });
 
     const allowedActions = [
-      EVENT_EDIT_ACTIONS.COPY,
-      EVENT_EDIT_ACTIONS.EDIT,
-      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.COPY,
+      EVENT_ACTIONS.EDIT,
+      EVENT_ACTIONS.UPDATE_DRAFT,
     ];
 
     allowedActions.forEach((action) => {
@@ -1492,11 +1447,11 @@ describe('checkCanUserDoAction function', () => {
     });
 
     const deniedActions = [
-      EVENT_EDIT_ACTIONS.CANCEL,
-      EVENT_EDIT_ACTIONS.DELETE,
-      EVENT_EDIT_ACTIONS.POSTPONE,
-      EVENT_EDIT_ACTIONS.PUBLISH,
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+      EVENT_ACTIONS.CANCEL,
+      EVENT_ACTIONS.DELETE,
+      EVENT_ACTIONS.POSTPONE,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ];
 
     deniedActions.forEach((action) => {
@@ -1519,12 +1474,12 @@ describe('checkCanUserDoAction function', () => {
     });
 
     const deniedActions = [
-      EVENT_EDIT_ACTIONS.CANCEL,
-      EVENT_EDIT_ACTIONS.DELETE,
-      EVENT_EDIT_ACTIONS.POSTPONE,
-      EVENT_EDIT_ACTIONS.PUBLISH,
-      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+      EVENT_ACTIONS.CANCEL,
+      EVENT_ACTIONS.DELETE,
+      EVENT_ACTIONS.POSTPONE,
+      EVENT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ];
 
     deniedActions.forEach((action) => {
@@ -1538,7 +1493,7 @@ describe('checkCanUserDoAction function', () => {
       ).toBe(false);
     });
 
-    const allowedActions = [EVENT_EDIT_ACTIONS.COPY, EVENT_EDIT_ACTIONS.EDIT];
+    const allowedActions = [EVENT_ACTIONS.COPY, EVENT_ACTIONS.EDIT];
 
     allowedActions.forEach((action) => {
       expect(
@@ -1553,11 +1508,47 @@ describe('checkCanUserDoAction function', () => {
   });
 });
 
-describe('getEditEventWarning function', () => {
+describe('getEventActionWarning function', () => {
+  test('should show correct if user is not authenticated', () => {
+    expect(
+      getEventActionWarning({
+        action: EVENT_ACTIONS.CREATE_DRAFT,
+        authenticated: false,
+        publisher: '',
+        t,
+        userCanDoAction: true,
+      })
+    ).toBe('Jos haluat julkaista tapahtuman, kirjaudu ensin sisään.');
+  });
+
+  test('should show correct warning if creating draft is not allowed', () => {
+    expect(
+      getEventActionWarning({
+        action: EVENT_ACTIONS.CREATE_DRAFT,
+        authenticated: true,
+        publisher: '',
+        t,
+        userCanDoAction: false,
+      })
+    ).toBe('Sinulla ei ole oikeuksia luoda tätä tapahtumaa.');
+  });
+
+  test('should show correct warning if publishing event is not allowed', () => {
+    expect(
+      getEventActionWarning({
+        action: EVENT_ACTIONS.PUBLISH,
+        authenticated: true,
+        publisher: '',
+        t,
+        userCanDoAction: false,
+      })
+    ).toBe('Sinulla ei ole oikeuksia julkaista tätä tapahtumaa.');
+  });
+
   it('should return correct warning if user is not authenticated', () => {
     const event = fakeEvent();
 
-    const allowedActions = [EVENT_EDIT_ACTIONS.EDIT];
+    const allowedActions = [EVENT_ACTIONS.EDIT];
 
     const commonProps = {
       authenticated: false,
@@ -1568,7 +1559,7 @@ describe('getEditEventWarning function', () => {
 
     allowedActions.forEach((action) => {
       expect(
-        getEditEventWarning({
+        getEventActionWarning({
           action,
           ...commonProps,
         })
@@ -1576,18 +1567,18 @@ describe('getEditEventWarning function', () => {
     });
 
     const deniedActions = [
-      EVENT_EDIT_ACTIONS.CANCEL,
-      EVENT_EDIT_ACTIONS.COPY,
-      EVENT_EDIT_ACTIONS.DELETE,
-      EVENT_EDIT_ACTIONS.POSTPONE,
-      EVENT_EDIT_ACTIONS.PUBLISH,
-      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+      EVENT_ACTIONS.CANCEL,
+      EVENT_ACTIONS.COPY,
+      EVENT_ACTIONS.DELETE,
+      EVENT_ACTIONS.POSTPONE,
+      EVENT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ];
 
     deniedActions.forEach((action) => {
       expect(
-        getEditEventWarning({
+        getEventActionWarning({
           action,
           ...commonProps,
         })
@@ -1599,9 +1590,9 @@ describe('getEditEventWarning function', () => {
     const event = fakeEvent({ eventStatus: EventStatus.EventCancelled });
 
     const allowedActions = [
-      EVENT_EDIT_ACTIONS.COPY,
-      EVENT_EDIT_ACTIONS.DELETE,
-      EVENT_EDIT_ACTIONS.EDIT,
+      EVENT_ACTIONS.COPY,
+      EVENT_ACTIONS.DELETE,
+      EVENT_ACTIONS.EDIT,
     ];
 
     const commonProps = {
@@ -1612,7 +1603,7 @@ describe('getEditEventWarning function', () => {
     };
     allowedActions.forEach((action) => {
       expect(
-        getEditEventWarning({
+        getEventActionWarning({
           ...commonProps,
           action,
         })
@@ -1620,16 +1611,16 @@ describe('getEditEventWarning function', () => {
     });
 
     const deniedActions = [
-      EVENT_EDIT_ACTIONS.CANCEL,
-      EVENT_EDIT_ACTIONS.POSTPONE,
-      EVENT_EDIT_ACTIONS.PUBLISH,
-      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+      EVENT_ACTIONS.CANCEL,
+      EVENT_ACTIONS.POSTPONE,
+      EVENT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ];
 
     deniedActions.forEach((action) => {
       expect(
-        getEditEventWarning({
+        getEventActionWarning({
           ...commonProps,
           action,
         })
@@ -1640,7 +1631,7 @@ describe('getEditEventWarning function', () => {
   it('should return correct warning if event is cancelled', () => {
     const event = fakeEvent({ deleted: '2021-12-12' });
 
-    const allowedActions = [EVENT_EDIT_ACTIONS.COPY, EVENT_EDIT_ACTIONS.EDIT];
+    const allowedActions = [EVENT_ACTIONS.COPY, EVENT_ACTIONS.EDIT];
 
     const commonProps = {
       authenticated: true,
@@ -1650,7 +1641,7 @@ describe('getEditEventWarning function', () => {
     };
     allowedActions.forEach((action) => {
       expect(
-        getEditEventWarning({
+        getEventActionWarning({
           ...commonProps,
           action,
         })
@@ -1658,17 +1649,17 @@ describe('getEditEventWarning function', () => {
     });
 
     const deniedActions = [
-      EVENT_EDIT_ACTIONS.CANCEL,
-      EVENT_EDIT_ACTIONS.DELETE,
-      EVENT_EDIT_ACTIONS.POSTPONE,
-      EVENT_EDIT_ACTIONS.PUBLISH,
-      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+      EVENT_ACTIONS.CANCEL,
+      EVENT_ACTIONS.DELETE,
+      EVENT_ACTIONS.POSTPONE,
+      EVENT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ];
 
     deniedActions.forEach((action) => {
       expect(
-        getEditEventWarning({
+        getEventActionWarning({
           ...commonProps,
           action,
         })
@@ -1681,9 +1672,9 @@ describe('getEditEventWarning function', () => {
     const event = fakeEvent({ endTime: '2020-12-12', startTime: '2020-12-10' });
 
     const allowedActions = [
-      EVENT_EDIT_ACTIONS.COPY,
-      EVENT_EDIT_ACTIONS.DELETE,
-      EVENT_EDIT_ACTIONS.EDIT,
+      EVENT_ACTIONS.COPY,
+      EVENT_ACTIONS.DELETE,
+      EVENT_ACTIONS.EDIT,
     ];
 
     const commonProps = {
@@ -1694,7 +1685,7 @@ describe('getEditEventWarning function', () => {
     };
     allowedActions.forEach((action) => {
       expect(
-        getEditEventWarning({
+        getEventActionWarning({
           ...commonProps,
           action,
         })
@@ -1702,16 +1693,16 @@ describe('getEditEventWarning function', () => {
     });
 
     const deniedActions = [
-      EVENT_EDIT_ACTIONS.CANCEL,
-      EVENT_EDIT_ACTIONS.POSTPONE,
-      EVENT_EDIT_ACTIONS.PUBLISH,
-      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+      EVENT_ACTIONS.CANCEL,
+      EVENT_ACTIONS.POSTPONE,
+      EVENT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ];
 
     deniedActions.forEach((action) => {
       expect(
-        getEditEventWarning({
+        getEventActionWarning({
           ...commonProps,
           action,
         })
@@ -1728,12 +1719,12 @@ describe('getEditEventWarning function', () => {
     });
 
     expect(
-      getEditEventWarning({
+      getEventActionWarning({
         authenticated: true,
         event,
         t,
         userCanDoAction: true,
-        action: EVENT_EDIT_ACTIONS.CANCEL,
+        action: EVENT_ACTIONS.CANCEL,
       })
     ).toBe('Tapahtumaluonnosta ei voi perua.');
   });
@@ -1747,12 +1738,12 @@ describe('getEditEventWarning function', () => {
     });
 
     expect(
-      getEditEventWarning({
+      getEventActionWarning({
         authenticated: true,
         event,
         t,
         userCanDoAction: true,
-        action: EVENT_EDIT_ACTIONS.POSTPONE,
+        action: EVENT_ACTIONS.POSTPONE,
       })
     ).toBe('Tapahtumaluonnosta ei voi lykätä.');
   });
@@ -1767,12 +1758,12 @@ describe('getEditEventWarning function', () => {
     });
 
     expect(
-      getEditEventWarning({
+      getEventActionWarning({
         authenticated: true,
         event,
         t,
         userCanDoAction: true,
-        action: EVENT_EDIT_ACTIONS.PUBLISH,
+        action: EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
       })
     ).toBe('Sarjan alatapahtumia ei voi julkaista.');
   });
@@ -1787,12 +1778,12 @@ describe('getEditEventWarning function', () => {
     });
 
     expect(
-      getEditEventWarning({
+      getEventActionWarning({
         authenticated: true,
         event,
         t,
         userCanDoAction: false,
-        action: EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+        action: EVENT_ACTIONS.UPDATE_DRAFT,
       })
     ).toBe('Sinulla ei ole oikeuksia muokata tätä tapahtumaa.');
   });

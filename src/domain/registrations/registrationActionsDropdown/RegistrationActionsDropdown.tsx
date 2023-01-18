@@ -11,10 +11,9 @@ import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithRetur
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { REGISTRATION_MODALS } from '../../registration/constants';
+import useRegistrationActions from '../../registration/hooks/useRegistrationActions';
 import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
-import useRegistrationUpdateActions, {
-  MODALS,
-} from '../../registration/hooks/useRegistrationUpdateActions';
 import ConfirmDeleteModal from '../../registration/modals/confirmDeleteModal/ConfirmDeleteModal';
 import {
   copyEnrolmentLinkToClipboard,
@@ -45,9 +44,7 @@ const RegistrationActionsDropdown: React.FC<
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { closeModal, deleteRegistration, openModal, saving, setOpenModal } =
-    useRegistrationUpdateActions({
-      registration,
-    });
+    useRegistrationActions({ registration });
 
   const goToEditRegistrationPage = () => {
     const registrationUrlWithReturnPath = `${registrationUrl}${queryStringWithReturnPath}`;
@@ -112,15 +109,15 @@ const RegistrationActionsDropdown: React.FC<
     }),
     getActionItemProps({
       action: REGISTRATION_ACTIONS.DELETE,
-      onClick: () => setOpenModal(MODALS.DELETE),
+      onClick: () => setOpenModal(REGISTRATION_MODALS.DELETE),
     }),
   ].filter(skipFalsyType);
 
   return (
     <>
-      {openModal === MODALS.DELETE && (
+      {openModal === REGISTRATION_MODALS.DELETE && (
         <ConfirmDeleteModal
-          isOpen={openModal === MODALS.DELETE}
+          isOpen={openModal === REGISTRATION_MODALS.DELETE}
           isSaving={saving === REGISTRATION_ACTIONS.DELETE}
           onClose={closeModal}
           onDelete={onDelete}

@@ -21,7 +21,7 @@ const getOption = (organization: OrganizationFieldsFragment): OptionType => {
 
 export type PublisherSelectorProps = {
   publisher?: string | null;
-} & SingleComboboxProps<string | null>;
+} & Omit<SingleComboboxProps<string | null>, 'toggleButtonAriaLabel'>;
 
 const PublisherSelector: React.FC<PublisherSelectorProps> = ({
   clearable = false,

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  actWait,
   render,
   waitPageMetaDataToBeSet,
 } from '../../../../../utils/testUtils';
@@ -45,8 +44,6 @@ test('applies expected metadata', async () => {
   // using testing library to render for consistency.
   getWrapper();
 
-  await actWait(50);
-
   await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 });
 
@@ -56,17 +53,9 @@ test('applies custom page title', async () => {
 
   getWrapper({ title: pageTitle });
 
-  await actWait(50);
-
   await waitPageMetaDataToBeSet({
     pageDescription,
     pageKeywords,
     pageTitle: fullPageTitle,
   });
-  const title = document.title;
-  const head = document.querySelector('head');
-  const ogTitle = head?.querySelector('[property="og:title"]');
-
-  expect(title).toEqual(fullPageTitle);
-  expect(ogTitle).toHaveAttribute('content', fullPageTitle);
 });

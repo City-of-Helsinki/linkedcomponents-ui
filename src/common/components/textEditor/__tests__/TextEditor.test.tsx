@@ -1,7 +1,15 @@
 import React from 'react';
 
-import { act, render, screen, userEvent } from '../../../../utils/testUtils';
+import {
+  act,
+  configure,
+  render,
+  screen,
+  userEvent,
+} from '../../../../utils/testUtils';
 import TextEditor, { TextEditorProps } from '../TextEditor';
+
+configure({ defaultHidden: true });
 
 const label = 'Text editor label';
 
@@ -21,9 +29,7 @@ test('should call onChange', async () => {
   const onChange = jest.fn();
   renderComponent({ onChange });
 
-  const editor = await screen.findByRole('textbox', {
-    name: /editorin muokkausalue: main/i,
-  });
+  const editor = await screen.findByLabelText(/editorin muokkausalue: main/i);
 
   await act(async () => await user.type(editor, 'test'));
   expect(onChange).lastCalledWith(expect.stringContaining('<p>test</p>'));

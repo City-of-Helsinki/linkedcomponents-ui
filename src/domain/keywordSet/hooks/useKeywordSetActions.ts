@@ -6,13 +6,15 @@ import {
 import { useLocation } from 'react-router';
 
 import {
+  CreateKeywordSetMutationInput,
   KeywordSetFieldsFragment,
   UpdateKeywordSetMutationInput,
+  useCreateKeywordSetMutation,
   useDeleteKeywordSetMutation,
   useUpdateKeywordSetMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
-import { UpdateActionsCallbacks } from '../../../types';
+import { MutationCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearKeywordSetQueries,
@@ -29,26 +31,29 @@ export enum KEYWORD_SET_MODALS {
   DELETE = 'delete',
 }
 
-interface Props {
+interface UseKeywordActionsProps {
   keywordSet?: KeywordSetFieldsFragment;
 }
 
-type UseKeywordUpdateActionsState = {
+type UseKeywordActionsState = {
   closeModal: () => void;
-  deleteKeywordSet: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+  createKeywordSet: (
+    values: KeywordSetFormFields,
+    callbacks?: MutationCallbacks
+  ) => Promise<void>;
+  deleteKeywordSet: (callbacks?: MutationCallbacks) => Promise<void>;
   openModal: KEYWORD_SET_MODALS | null;
   saving: KEYWORD_SET_ACTIONS | null;
   setOpenModal: (modal: KEYWORD_SET_MODALS | null) => void;
-  setSaving: (action: KEYWORD_SET_ACTIONS | null) => void;
   updateKeywordSet: (
     values: KeywordSetFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
 
-const useKeywordSetUpdateActions = ({
+const useKeywordSetActions = ({
   keywordSet,
-}: Props): UseKeywordUpdateActionsState => {
+}: UseKeywordActionsProps): UseKeywordActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
   const { organization: userOrganization } = useUserOrganization(user);
@@ -58,6 +63,7 @@ const useKeywordSetUpdateActions = ({
   );
   const [saving, setSaving] = useMountedState<KEYWORD_SET_ACTIONS | null>(null);
 
+  const [createKeywordSetMutation] = useCreateKeywordSetMutation();
   const [deleteKeywordSetMutation] = useDeleteKeywordSetMutation();
   const [updateKeywordSetMutation] = useUpdateKeywordSetMutation();
 
@@ -69,7 +75,7 @@ const useKeywordSetUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
+  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearKeywordSetQueries(apolloClient);
     /* istanbul ignore next */
@@ -87,11 +93,11 @@ const useKeywordSetUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: UpdateActionsCallbacks;
+    callbacks?: MutationCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: UpdateKeywordSetMutationInput;
+    payload?: CreateKeywordSetMutationInput | UpdateKeywordSetMutationInput;
   }) => {
     savingFinished();
 
@@ -111,7 +117,32 @@ const useKeywordSetUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const deleteKeywordSet = async (callbacks?: UpdateActionsCallbacks) => {
+  const createKeywordSet = async (
+    values: KeywordSetFormFields,
+    callbacks?: MutationCallbacks
+  ) => {
+    setSaving(KEYWORD_SET_ACTIONS.CREATE);
+    const payload = getKeywordSetPayload(values, userOrganization);
+
+    try {
+      const { data } = await createKeywordSetMutation({
+        variables: { input: payload },
+      });
+
+      if (data?.createKeywordSet.id) {
+        cleanAfterUpdate(callbacks);
+      }
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to create keyword set',
+        payload,
+      });
+    }
+  };
+
+  const deleteKeywordSet = async (callbacks?: MutationCallbacks) => {
     try {
       setSaving(KEYWORD_SET_ACTIONS.DELETE);
 
@@ -131,7 +162,7 @@ const useKeywordSetUpdateActions = ({
 
   const updateKeywordSet = async (
     values: KeywordSetFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => {
     const payload: UpdateKeywordSetMutationInput = getKeywordSetPayload(
       values,
@@ -156,13 +187,13 @@ const useKeywordSetUpdateActions = ({
 
   return {
     closeModal,
+    createKeywordSet,
     deleteKeywordSet,
     openModal,
     saving,
     setOpenModal,
-    setSaving,
     updateKeywordSet,
   };
 };
 
-export default useKeywordSetUpdateActions;
+export default useKeywordSetActions;

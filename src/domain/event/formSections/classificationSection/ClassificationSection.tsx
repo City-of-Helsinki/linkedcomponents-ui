@@ -3,6 +3,7 @@ import sortBy from 'lodash/sortBy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxGroupField from '../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
 import KeywordSelectorField from '../../../../common/components/formFields/keywordSelectorField/KeywordSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
@@ -72,7 +73,7 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
   );
 
   return (
-    <>
+    <Fieldset heading={t('event.form.sections.classification')} hideLegend>
       <h3>{t(`event.form.titleMainCategories`)}</h3>
       <FieldRow
         notification={
@@ -122,7 +123,7 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
           />
         </FieldColumn>
       </FieldRow>
-    </>
+    </Fieldset>
   );
 };
 

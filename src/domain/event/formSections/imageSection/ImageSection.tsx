@@ -9,6 +9,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../../common/components/button/Button';
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import ImagePreview from '../../../../common/components/imagePreview/ImagePreview';
 import { PAGE_SIZE } from '../../../../common/components/imageSelector/constants';
@@ -119,68 +120,70 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
         </Modal>
       )}
 
-      <h3>{t(`event.form.titleImage.${type}`)}</h3>
-      <FieldRow
-        notification={
-          <Notification
-            className={eventPageStyles.notificationForTitle}
-            label={t(`event.form.notificationTitleImage.${type}`)}
-            type="info"
-          >
-            <p
-              dangerouslySetInnerHTML={{
-                __html: t(`event.form.infoTextImage1.${type}`, {
-                  openInNewTab: t('common.openInNewTab'),
-                }),
-              }}
-            />
-            <p>{t(`event.form.infoTextImage2`)}</p>
-            <p>{t(`event.form.infoTextImage3`)}</p>
-            <p>{t(`event.form.infoTextImage4`)}</p>
-          </Notification>
-        }
-      >
-        <FieldColumn
-          className={styles.imagePreviewWrapper}
-          maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
+      <Fieldset heading={t('event.form.sections.image')} hideLegend>
+        <h3>{t(`event.form.titleImage.${type}`)}</h3>
+        <FieldRow
+          notification={
+            <Notification
+              className={eventPageStyles.notificationForTitle}
+              label={t(`event.form.notificationTitleImage.${type}`)}
+              type="info"
+            >
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: t(`event.form.infoTextImage1.${type}`, {
+                    openInNewTab: t('common.openInNewTab'),
+                  }),
+                }}
+              />
+              <p>{t(`event.form.infoTextImage2`)}</p>
+              <p>{t(`event.form.infoTextImage3`)}</p>
+              <p>{t(`event.form.infoTextImage4`)}</p>
+            </Notification>
+          }
         >
-          <FormGroup>
-            <ImagePreview
-              disabled={!isEditingAllowed}
-              imageUrl={imageUrl}
-              label={t(`event.form.buttonAddImage.${type}`)}
-              onClick={openAddImageModal}
-            />
-          </FormGroup>
-
-          <FormGroup>
-            {!!images.length ? (
-              <Button
+          <FieldColumn
+            className={styles.imagePreviewWrapper}
+            maxWidth={INPUT_MAX_WIDTHS.MEDIUM}
+          >
+            <FormGroup>
+              <ImagePreview
                 disabled={!isEditingAllowed}
-                fullWidth={true}
-                iconLeft={<IconMinusCircle aria-hidden />}
-                onClick={removeImage}
-              >
-                {t(`event.form.buttonRemoveImage.${type}`)}
-              </Button>
-            ) : (
-              <Button
-                disabled={!isEditingAllowed}
-                fullWidth={true}
-                iconLeft={<IconPlusCircle aria-hidden />}
+                imageUrl={imageUrl}
+                label={t(`event.form.buttonAddImage.${type}`)}
                 onClick={openAddImageModal}
-              >
-                {t(`event.form.buttonAddImage.${type}`)}
-              </Button>
-            )}
-          </FormGroup>
+              />
+            </FormGroup>
 
-          <ImageDetailsFields
-            field={EVENT_FIELDS.IMAGE_DETAILS}
-            imageAtId={imageAtId}
-          />
-        </FieldColumn>
-      </FieldRow>
+            <FormGroup>
+              {!!images.length ? (
+                <Button
+                  disabled={!isEditingAllowed}
+                  fullWidth={true}
+                  iconLeft={<IconMinusCircle aria-hidden />}
+                  onClick={removeImage}
+                >
+                  {t(`event.form.buttonRemoveImage.${type}`)}
+                </Button>
+              ) : (
+                <Button
+                  disabled={!isEditingAllowed}
+                  fullWidth={true}
+                  iconLeft={<IconPlusCircle aria-hidden />}
+                  onClick={openAddImageModal}
+                >
+                  {t(`event.form.buttonAddImage.${type}`)}
+                </Button>
+              )}
+            </FormGroup>
+
+            <ImageDetailsFields
+              field={EVENT_FIELDS.IMAGE_DETAILS}
+              imageAtId={imageAtId}
+            />
+          </FieldColumn>
+        </FieldRow>
+      </Fieldset>
     </>
   );
 };

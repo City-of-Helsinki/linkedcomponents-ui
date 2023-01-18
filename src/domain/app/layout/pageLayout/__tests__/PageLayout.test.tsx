@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 
 import { SUPPORTED_LANGUAGES } from '../../../../../constants';
@@ -42,7 +43,9 @@ test('common meta data should be added', async () => {
   expect(canonicalLink).not.toBeNull();
 
   // Alternate language links
-  const links = head?.querySelectorAll(`[rel="alternate"]`);
+  const links = head?.querySelectorAll(
+    `[rel="alternate"]`
+  ) as NodeListOf<Element>;
   Object.values(SUPPORTED_LANGUAGES).forEach((lang) => {
     const link = Array.from(links).find((item) =>
       item.outerHTML.includes(`hreflang="${lang.toLowerCase()}"`)

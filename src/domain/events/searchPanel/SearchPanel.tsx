@@ -1,4 +1,3 @@
-import { ClassNames } from '@emotion/react';
 import { IconHeart, IconSearch } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -13,7 +12,6 @@ import useSearchState from '../../../hooks/useSearchState';
 import { OptionType } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Container from '../../app/layout/container/Container';
-import { useTheme } from '../../app/theme/Theme';
 import { EVENT_TYPE } from '../../event/constants';
 import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
 import FilterSummary from '../filterSummary/FilterSummary';
@@ -27,7 +25,6 @@ type SearchState = {
 
 const SearchPanel: React.FC = () => {
   const { t } = useTranslation();
-  const { theme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
@@ -62,62 +59,58 @@ const SearchPanel: React.FC = () => {
   }, [location.search, setSearchState]);
 
   return (
-    <ClassNames>
-      {({ css }) => (
-        <div className={styles.searchPanel}>
-          <Container className={css(theme.eventSearchPanel)} withOffset={true}>
-            <div className={styles.inputRow}>
-              <div className={styles.typeSelectorWrapper}>
-                <MultiSelectDropdown
-                  icon={<IconHeart aria-hidden />}
-                  onChange={handleChangeEventTypes}
-                  options={eventTypeOptions}
-                  showSearch={true}
-                  toggleButtonLabel={t(
-                    'eventSearchPage.searchPanel.labelEventType'
-                  )}
-                  value={
-                    searchState.type
-                      .filter(skipFalsyType)
-                      .map((type) =>
-                        eventTypeOptions.find((item) => item.value === type)
-                      ) as OptionType[]
-                  }
-                />
-              </div>
-              <div className={styles.searchInputWrapper}>
-                <SearchInput
-                  className={styles.searchInput}
-                  hideLabel
-                  label={t('eventSearchPage.searchPanel.labelSearch')}
-                  onChange={handleChangeText}
-                  onSubmit={handleSearch}
-                  placeholder={
-                    t('eventSearchPage.searchPanel.placeholderSearch') as string
-                  }
-                  searchButtonAriaLabel={
-                    t('eventSearchPage.searchPanel.buttonSearch') as string
-                  }
-                  value={searchState.text}
-                />
-              </div>
-              <div className={styles.buttonWrapper}>
-                <Button
-                  className={styles.button}
-                  fullWidth={true}
-                  iconLeft={<IconSearch aria-hidden />}
-                  onClick={handleSearch}
-                  variant="secondary"
-                >
-                  {t('eventSearchPage.searchPanel.buttonSearch')}
-                </Button>
-              </div>
-            </div>
-            <FilterSummary className={styles.filterSummary} />
-          </Container>
+    <div className={styles.searchPanel}>
+      <Container withOffset={true}>
+        <div className={styles.inputRow}>
+          <div className={styles.typeSelectorWrapper}>
+            <MultiSelectDropdown
+              icon={<IconHeart aria-hidden />}
+              onChange={handleChangeEventTypes}
+              options={eventTypeOptions}
+              showSearch={true}
+              toggleButtonLabel={t(
+                'eventSearchPage.searchPanel.labelEventType'
+              )}
+              value={
+                searchState.type
+                  .filter(skipFalsyType)
+                  .map((type) =>
+                    eventTypeOptions.find((item) => item.value === type)
+                  ) as OptionType[]
+              }
+            />
+          </div>
+          <div className={styles.searchInputWrapper}>
+            <SearchInput
+              className={styles.searchInput}
+              hideLabel
+              label={t('eventSearchPage.searchPanel.labelSearch')}
+              onChange={handleChangeText}
+              onSubmit={handleSearch}
+              placeholder={
+                t('eventSearchPage.searchPanel.placeholderSearch') as string
+              }
+              searchButtonAriaLabel={
+                t('eventSearchPage.searchPanel.buttonSearch') as string
+              }
+              value={searchState.text}
+            />
+          </div>
+          <div className={styles.buttonWrapper}>
+            <Button
+              className={styles.button}
+              fullWidth={true}
+              iconLeft={<IconSearch aria-hidden />}
+              onClick={handleSearch}
+              variant="secondary"
+            >
+              {t('eventSearchPage.searchPanel.buttonSearch')}
+            </Button>
+          </div>
         </div>
-      )}
-    </ClassNames>
+        <FilterSummary className={styles.filterSummary} />
+      </Container>
+    </div>
   );
 };
 

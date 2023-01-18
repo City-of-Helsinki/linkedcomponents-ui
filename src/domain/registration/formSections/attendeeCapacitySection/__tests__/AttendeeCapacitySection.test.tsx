@@ -8,7 +8,6 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import { REGISTRATION_FIELDS } from '../../../constants';
 import { registrationSchema } from '../../../validation';
 import AttendeeCapacitySection from '../AttendeeCapacitySection';
@@ -41,12 +40,12 @@ const getElement = (key: 'maxCapacity' | 'minCapacity') => {
   switch (key) {
     case 'maxCapacity':
       return screen.getByRole('spinbutton', {
-        name: translations.registration.form.labelMinimumAttendeeCapacity,
+        name: 'Paikkojen vähimmäismäärä',
       });
 
     case 'minCapacity':
       return screen.getByRole('spinbutton', {
-        name: translations.registration.form.labelMaximumAttendeeCapacity,
+        name: 'Paikkojen enimmäismäärä',
       });
   }
 };

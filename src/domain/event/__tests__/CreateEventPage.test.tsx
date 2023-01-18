@@ -19,6 +19,7 @@ import {
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import {
   imageFields,
@@ -123,15 +124,11 @@ const setFormValues = (values: Partial<EventFormFields>) => {
 };
 
 const getElement = (
-  key: 'keyword' | 'name' | 'publish' | 'saveDraft' | 'superEvent'
+  key: 'mainCategories' | 'publish' | 'saveDraft' | 'superEvent'
 ) => {
   switch (key) {
-    case 'keyword':
-      return screen.getByRole('checkbox', { name: keywordName });
-    case 'name':
-      return screen.getByRole('textbox', {
-        name: /tapahtuman otsikko suomeksi/i,
-      });
+    case 'mainCategories':
+      return screen.getByRole('group', { name: /valitse kategoria\(t\)/i });
     case 'publish':
       return screen.getByRole('button', {
         name: 'Julkaise tapahtuma',
@@ -147,24 +144,14 @@ const getElement = (
   }
 };
 
-const findElement = (
-  key: 'description' | 'keyword' | 'name' | 'nameSv' | 'superEvent'
-) => {
+const findElement = (key: 'description' | 'name' | 'nameSv' | 'superEvent') => {
   switch (key) {
     case 'description':
-      return screen.findByRole('textbox', {
-        name: /editorin muokkausalue: main/i,
-      });
-    case 'keyword':
-      return screen.findByRole('checkbox', { name: keywordName });
+      return screen.findByLabelText(/editorin muokkausalue: main/i);
     case 'name':
-      return screen.findByRole('textbox', {
-        name: /tapahtuman otsikko suomeksi/i,
-      });
+      return screen.findByLabelText(/tapahtuman otsikko suomeksi/i);
     case 'nameSv':
-      return screen.findByRole('textbox', {
-        name: /tapahtuman otsikko ruotsiksi/i,
-      });
+      return screen.findByLabelText(/tapahtuman otsikko ruotsiksi/i);
     case 'superEvent':
       return screen.findByRole(
         'combobox',
@@ -246,7 +233,7 @@ test('should focus to text editor component in case of validation error', async 
 
   renderComponent();
 
-  await waitLoadingAndGetNameInput();
+  await loadingSpinnerIsNotInDocument();
 
   const descriptionTextbox = await findElement('description');
 
@@ -321,7 +308,10 @@ test('should focus to first main category checkbox if none main category is sele
 
   await waitLoadingAndGetNameInput();
 
-  const keywordCheckbox = await findElement('keyword');
+  const withinMainCategories = within(getElement('mainCategories'));
+  const keywordCheckbox = await withinMainCategories.findByLabelText(
+    keywordName
+  );
 
   const publishButton = getElement('publish');
   await act(async () => await user.click(publishButton));

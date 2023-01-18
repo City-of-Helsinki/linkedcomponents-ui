@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { configure, render, screen } from '../../../../../utils/testUtils';
+import { configure, render, screen } from '../../../../../../utils/testUtils';
 import PublicationListLinks, {
   PublicationListLink,
-} from '../publicationListLinks/PublicationListLinks';
+} from '../PublicationListLinks';
 
 configure({ defaultHidden: true });
 

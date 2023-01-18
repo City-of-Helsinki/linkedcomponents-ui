@@ -19,7 +19,7 @@ export interface CreateButtonPanelProps {
   disabled: boolean;
   onSave: () => void;
   registration: RegistrationFieldsFragment;
-  saving: boolean;
+  saving: ENROLMENT_ACTIONS | false;
 }
 
 const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
@@ -62,7 +62,7 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
           {...buttonProps}
           className={buttonPanelStyles.fullWidthOnMobile}
           disabled={buttonProps.disabled || disabled}
-          loading={saving}
+          loading={saving === ENROLMENT_ACTIONS.CREATE}
           type="submit"
         >
           {buttonProps.label}

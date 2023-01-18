@@ -1,33 +1,29 @@
 import { PublicationStatus } from '../../../../generated/graphql';
 import { fakeEvent } from '../../../../utils/mockDataUtils';
-import { EVENT_EDIT_ACTIONS } from '../../constants';
+import { EVENT_ACTIONS } from '../../constants';
 import { getEventUpdateAction, sortAudienceOptions } from '../utils';
 
 describe('getEventUpdateAction function', () => {
-  const testCases: [
-    PublicationStatus,
-    PublicationStatus,
-    EVENT_EDIT_ACTIONS
-  ][] = [
+  const testCases: [PublicationStatus, PublicationStatus, EVENT_ACTIONS][] = [
     [
       PublicationStatus.Draft,
       PublicationStatus.Draft,
-      EVENT_EDIT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.UPDATE_DRAFT,
     ],
     [
       PublicationStatus.Draft,
       PublicationStatus.Public,
-      EVENT_EDIT_ACTIONS.PUBLISH,
+      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
     ],
     [
       PublicationStatus.Public,
       PublicationStatus.Draft,
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ],
     [
       PublicationStatus.Public,
       PublicationStatus.Public,
-      EVENT_EDIT_ACTIONS.UPDATE_PUBLIC,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ],
   ];
 

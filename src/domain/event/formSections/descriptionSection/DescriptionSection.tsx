@@ -2,6 +2,7 @@ import { Field, useField, useFormikContext } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import TextEditorField from '../../../../common/components/formFields/textEditorField/TextEditorField';
 import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
@@ -60,10 +61,10 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   );
 
   React.useEffect(() => {
-    if (!eventInfoLanguages.includes(selectedLanguage)) {
-      setSelectedLanguage(eventInfoLanguages[0]);
+    if (!sortedEventInfoLanguages.includes(selectedLanguage)) {
+      setSelectedLanguage(sortedEventInfoLanguages[0]);
     }
-  }, [eventInfoLanguages, selectedLanguage, setSelectedLanguage]);
+  }, [selectedLanguage, setSelectedLanguage, sortedEventInfoLanguages]);
 
   const langText = lowerCaseFirstLetter(
     t(`form.inLanguage.${selectedLanguage}`)
@@ -84,7 +85,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   );
 
   return (
-    <div>
+    <Fieldset heading={t('event.form.sections.description')} hideLegend>
       <Tabs
         name="description-language"
         onChange={handleSelectedLanguageChange}
@@ -160,7 +161,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
           );
         })}
       </Tabs>
-    </div>
+    </Fieldset>
   );
 };
 

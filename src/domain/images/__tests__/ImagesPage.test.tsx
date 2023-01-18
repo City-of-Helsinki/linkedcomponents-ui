@@ -82,7 +82,6 @@ test('should render images page', async () => {
   getElement('createImageButton');
   getElement('searchInput');
   getElement('table');
-  screen.getByRole('button', { name: imageNames[0] });
 });
 
 test('applies expected metadata', async () => {

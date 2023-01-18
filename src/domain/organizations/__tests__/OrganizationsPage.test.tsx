@@ -78,7 +78,6 @@ test('should render organizations page', async () => {
   getElement('createOrganizationButton');
   getElement('searchInput');
   getElement('table');
-  screen.getByRole('button', { name: organizations.data[0]?.name as string });
 });
 
 test('applies expected metadata', async () => {

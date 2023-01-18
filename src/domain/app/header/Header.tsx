@@ -221,7 +221,7 @@ const Header: React.FC = () => {
                   href="#"
                   lang={option.value}
                   label={option.label}
-                  onClick={changeLanguage(option)}
+                  onClick={(event) => changeLanguage(option, event)}
                 />
               ))}
             </Navigation.LanguageSelector>

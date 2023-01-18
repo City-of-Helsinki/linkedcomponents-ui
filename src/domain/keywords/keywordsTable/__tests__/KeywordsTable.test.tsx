@@ -50,8 +50,7 @@ test('should render keywords table', () => {
 test('should render all keywords', () => {
   renderComponent({ keywords: keywords.data });
 
-  // Test only first 2 to keep this test performant
-  for (const name of keywordNames.slice(0, 2)) {
+  for (const name of keywordNames) {
     screen.getByRole('button', { name });
   }
 });

@@ -10,7 +10,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { getEmptyOffer } from '../../../utils';
 import { publicEventSchema } from '../../../validation';
@@ -51,7 +50,7 @@ const queryElements = (
   switch (key) {
     case 'deleteButtons':
       return screen.queryAllByRole('button', {
-        name: translations.event.form.buttonDeleteOffer,
+        name: 'Poista hintatieto',
       });
     case 'instructions':
       return screen.queryAllByText(/merkitse onko tapahtuma maksuton/i);
@@ -63,9 +62,7 @@ const queryElements = (
 const getElement = (key: 'hasPriceCheckbox' | 'heading') => {
   switch (key) {
     case 'hasPriceCheckbox':
-      return screen.getByRole('checkbox', {
-        name: /tapahtuma on maksullinen/i,
-      });
+      return screen.getByLabelText(/tapahtuma on maksullinen/i);
     case 'heading':
       return screen.getByRole('heading', {
         name: /tapahtuman hintatiedot/i,

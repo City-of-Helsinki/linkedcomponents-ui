@@ -2,47 +2,24 @@
 @import '../../../assets/styles/widths';
 
 .hero {
-  --landing-page-hero-padding-top: var(--spacing-3-xl);
-  --landing-page-hero-heading-color: var(--color-white);
-  --landing-page-hero-heading-font-size: 80px;
-  --landing-page-hero-min-height: 580px;
-  --landing-page-hero-koros-color: var(--color-white);
-  --landing-page-hero-koros-height: 14px;
+  --hero-padding-top: var(--spacing-3-xl);
+  --hero-heading-color: var(--color-white);
+  --hero-heading-font-size: 80px;
+  --hero-min-height: 580px;
+  --hero-koros-color: var(--color-white);
+  --hero-koros-height: 14px;
 
-  --landing-page-cta-button-background-color: var(--color-coat-of-arms);
-  --landing-page-cta-button-background-color-hover: var(
-    --color-coat-of-arms-dark
-  );
-  --landing-page-cta-button-background-color-focus: var(--color-coat-of-arms);
-  --landing-page-cta-button-background-color-hover-focus: var(
-    --color-coat-of-arms-dark
-  );
-  --landing-page-cta-button-border-color: var(--color-coat-of-arms);
-  --landing-page-cta-button-border-color-hover: var(--color-coat-of-arms-dark);
-  --landing-page-cta-button-border-color-focus: var(--color-coat-of-arms);
-  --landing-page-cta-button-border-color-hover-focus: var(
-    --color-coat-of-arms-dark
-  );
-  --landing-page-cta-button-color: var(--color-white);
-  --landing-page-cta-button-focus-outline-color: var(--color-coat-of-arms);
+  --cta-button-background-color: var(--color-coat-of-arms);
+  --cta-button-background-color-hover: var(--color-coat-of-arms-dark);
+  --cta-button-color: var(--color-white);
 
-  --landing-page-search-button-background-color: transparent;
-  --landing-page-search-button-background-color-hover: var(
-    --color-coat-of-arms-dark
-  );
-  --landing-page-search-button-background-color-focus: var(
-    --color-coat-of-arms
-  );
-  --landing-page-search-button-background-color-hover-focus: var(
-    --color-coat-of-arms-dark
-  );
-  --landing-page-search-button-border-color: var(--color-white);
-  --landing-page-search-button-color: var(--color-white);
-  --landing-page-search-button-focus-outline-color: var(--color-white);
+  --search-button-background-color: var(--color-white);
+  --search-button-background-color-hover: var(--color-bus-light);
+  --search-button-color: var(--color-bus);
 
   .heroWrapper {
-    padding: var(--landing-page-hero-padding-top) 0
-      calc(var(--landing-page-hero-koros-height) + var(--spacing-3-xl));
+    padding: var(--hero-padding-top) 0
+      calc(var(--hero-koros-height) + var(--spacing-3-xl));
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -51,18 +28,18 @@
     display: grid;
 
     @include large-up {
-      min-height: var(--landing-page-hero-min-height);
+      min-height: var(--hero-min-height);
     }
 
     h1 {
-      color: var(--landing-page-hero-heading-color);
+      color: var(--hero-heading-color);
       margin: 0 0 var(--spacing-m);
       line-height: var(--lineheight-m);
 
       @include max-width-column(8);
 
       @include medium-up {
-        font-size: var(--landing-page-hero-heading-font-size) !important;
+        font-size: var(--hero-heading-font-size) !important;
       }
     }
   }
@@ -98,55 +75,37 @@
   }
 
   .ctaButton {
-    --background-color: var(--landing-page-cta-button-background-color);
-    --background-color-hover: var(
-      --landing-page-cta-button-background-color-hover
-    );
-    --background-color-focus: var(
-      --landing-page-cta-button-background-color-focus
-    );
-    --background-color-hover-focus: var(
-      --landing-page-cta-button-background-color-hover-focus
-    );
-    --border-color: var(--landing-page-cta-button-border-color);
-    --border-color-hover: var(--landing-page-cta-button-border-color-hover);
-    --border-color-focus: var(--landing-page-cta-button-border-color-focus);
-    --border-color-hover-focus: var(
-      --landing-page-cta-button-border-color-hover-focus
-    );
-    --color: var(--landing-page-cta-button-color);
-    --color-hover: var(--landing-page-cta-button-color);
-    --color-focus: var(--landing-page-cta-button-color);
-    --color-hover-focus: var(--landing-page-cta-button-color);
-    --focus-outline-color: var(--landing-page-cta-button-focus-outline-color);
+    --background-color: var(--cta-button-background-color);
+    --background-color-hover: var(--cta-button-background-color-hover);
+    --background-color-focus: var(--cta-button-background-color);
+    --background-color-hover-focus: var(--cta-button-background-color-hover);
+    --border-color: var(--cta-button-background-color);
+    --border-color-hover: var(--cta-button-background-color-hover);
+    --border-color-focus: var(--cta-button-background-color);
+    --border-color-hover-focus: var(--cta-button-background-color-hover);
+    --color: var(--cta-button-color);
+    --color-hover: var(--cta-button-color);
+    --color-focus: var(--cta-button-color);
+    --color-hover-focus: var(--cta-button-color);
   }
 
   .searchButton {
-    --background-color: var(--landing-page-search-button-background-color);
-    --background-color-hover: var(
-      --landing-page-search-button-background-color-hover
-    );
-    --background-color-focus: var(
-      --landing-page-search-button-background-color-focus
-    );
-    --background-color-hover-focus: var(
-      --landing-page-search-button-background-color-hover-focus
-    );
-    --border-color: var(--landing-page-search-button-border-color);
-    --border-color-hover: var(--landing-page-search-button-border-color);
-    --border-color-focus: var(--landing-page-search-button-border-color);
-    --border-color-hover-focus: var(--landing-page-search-button-border-color);
-    --color: var(--landing-page-search-button-color);
-    --color-hover: var(--landing-page-search-button-color);
-    --color-focus: var(--landing-page-search-button-color);
-    --color-hover-focus: var(--landing-page-search-button-color);
-    --focus-outline-color: var(
-      --landing-page-search-button-focus-outline-color
-    );
+    --background-color: var(--search-button-background-color);
+    --background-color-hover: var(--search-button-background-color-hover);
+    --background-color-focus: var(--search-button-background-color);
+    --background-color-hover-focus: var(--search-button-background-color-hover);
+    --border-color: var(--search-button-color);
+    --border-color-hover: var(--search-button-color);
+    --border-color-focus: var(--search-button-color);
+    --border-color-hover-focus: var(--search-button-color);
+    --color: var(--search-button-color);
+    --color-hover: var(--search-button-color);
+    --color-focus: var(--search-button-color);
+    --color-hover-focus: var(--search-button-color);
   }
 
   .koros {
-    margin-top: calc(0px - var(--landing-page-hero-koros-height));
-    fill: var(--landing-page-hero-koros-color);
+    margin-top: calc(0px - var(--hero-koros-height));
+    fill: var(--hero-koros-color);
   }
 }

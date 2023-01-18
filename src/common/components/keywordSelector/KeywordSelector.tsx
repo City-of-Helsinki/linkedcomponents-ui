@@ -40,7 +40,10 @@ const getOption = ({
   return { label, value };
 };
 
-export type KeywordSelectorProps = MultiComboboxProps<string>;
+export type KeywordSelectorProps = Omit<
+  MultiComboboxProps<string>,
+  'toggleButtonAriaLabel'
+>;
 
 const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   label,

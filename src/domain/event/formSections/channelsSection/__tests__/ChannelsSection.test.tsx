@@ -48,9 +48,7 @@ const findElements = (key: 'deleteButtons' | 'facebookLinks') => {
         name: /Poista SoMe-linkki/i,
       });
     case 'facebookLinks':
-      return screen.findAllByRole('textbox', {
-        name: /tapahtuman facebook url \*/i,
-      });
+      return screen.findAllByLabelText(/tapahtuman facebook url \*/i);
   }
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../../../common/components/fieldset/Fieldset';
 import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
 import { EventTime } from '../../../types';
@@ -37,7 +38,10 @@ const EventTimeTab: React.FC = () => {
   };
 
   return (
-    <>
+    <Fieldset
+      heading={t(`event.form.titleEnterEventTime.${eventType}`)}
+      hideLegend
+    >
       <h3>{t(`event.form.titleEnterEventTime.${eventType}`)}</h3>
       <FieldRow notification={<TimeSectionNotification />}>
         <FieldColumn>
@@ -46,7 +50,7 @@ const EventTimeTab: React.FC = () => {
         </FieldColumn>
         <EventTimesSummary />
       </FieldRow>
-    </>
+    </Fieldset>
   );
 };
 

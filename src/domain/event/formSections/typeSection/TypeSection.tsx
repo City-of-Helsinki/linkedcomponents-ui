@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
 import RadioButtonGroupField from '../../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
 import UmbrellaEventSelectorField from '../../../../common/components/formFields/umbrellaEventSelectorField/UmbrellaEventSelectorField';
@@ -107,7 +108,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({
     hasUmbrella || isRecurringEvent(eventTimes, recurringEvents);
 
   return (
-    <>
+    <Fieldset heading={t('event.form.sections.type')} hideLegend>
       <h3>{t('event.form.titleEventType')}</h3>
       <FieldRow
         notification={
@@ -143,6 +144,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({
           />
         </FieldColumn>
       </FieldRow>
+
       <h3>{t('event.form.titleUmrellaEvent')}</h3>
       <FieldRow
         notification={
@@ -209,7 +211,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({
           )}
         </FieldColumn>
       </FieldRow>
-    </>
+    </Fieldset>
   );
 };
 

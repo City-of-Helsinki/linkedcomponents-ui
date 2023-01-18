@@ -6,43 +6,50 @@ import {
 import { useLocation } from 'react-router';
 
 import {
+  CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
   RegistrationFieldsFragment,
   UpdateEnrolmentMutationInput,
+  useCreateEnrolmentMutation,
   useDeleteEnrolmentMutation,
   useUpdateEnrolmentMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
-import { UpdateActionsCallbacks } from '../../../types';
+import { MutationCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearEnrolmentQueries,
   clearEnrolmentsQueries,
 } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
+import { getSeatsReservationData } from '../../reserveSeats/utils';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { EnrolmentFormFields } from '../types';
-import { getUpdateEnrolmentPayload } from '../utils';
+import { getEnrolmentPayload, getUpdateEnrolmentPayload } from '../utils';
 
 interface Props {
   enrolment?: EnrolmentFieldsFragment;
   registration: RegistrationFieldsFragment;
 }
 
-type UseEnrolmentUpdateActionsState = {
-  cancelEnrolment: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+type UseEnrolmentActionsState = {
+  cancelEnrolment: (callbacks?: MutationCallbacks) => Promise<void>;
+  createEnrolment: (
+    values: EnrolmentFormFields,
+    callbacks?: MutationCallbacks
+  ) => Promise<void>;
   saving: ENROLMENT_ACTIONS | false;
   updateEnrolment: (
     values: EnrolmentFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
-const useEnrolmentUpdateActions = ({
+const useEnrolmentActions = ({
   enrolment,
   registration,
-}: Props): UseEnrolmentUpdateActionsState => {
+}: Props): UseEnrolmentActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
   const location = useLocation();
@@ -51,6 +58,7 @@ const useEnrolmentUpdateActions = ({
 
   const [saving, setSaving] = useMountedState<ENROLMENT_ACTIONS | false>(false);
 
+  const [createEnrolmentMutation] = useCreateEnrolmentMutation();
   const [deleteEnrolmentMutation] = useDeleteEnrolmentMutation();
   const [updateEnrolmentMutation] = useUpdateEnrolmentMutation();
 
@@ -58,7 +66,7 @@ const useEnrolmentUpdateActions = ({
     setSaving(false);
   };
 
-  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
+  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearEnrolmentQueries(apolloClient);
     /* istanbul ignore next */
@@ -76,11 +84,11 @@ const useEnrolmentUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: UpdateActionsCallbacks;
+    callbacks?: MutationCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: UpdateEnrolmentMutationInput;
+    payload?: CreateEnrolmentMutationInput | UpdateEnrolmentMutationInput;
   }) => {
     savingFinished();
 
@@ -100,14 +108,12 @@ const useEnrolmentUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const cancelEnrolment = async (callbacks?: UpdateActionsCallbacks) => {
+  const cancelEnrolment = async (callbacks?: MutationCallbacks) => {
     try {
       setSaving(ENROLMENT_ACTIONS.CANCEL);
 
       await deleteEnrolmentMutation({
-        variables: {
-          cancellationCode: enrolment?.cancellationCode as string,
-        },
+        variables: { cancellationCode: enrolment?.cancellationCode as string },
       });
 
       await cleanAfterUpdate(callbacks);
@@ -120,9 +126,40 @@ const useEnrolmentUpdateActions = ({
     }
   };
 
+  const createEnrolment = async (
+    values: EnrolmentFormFields,
+    callbacks?: MutationCallbacks
+  ) => {
+    setSaving(ENROLMENT_ACTIONS.CREATE);
+
+    const reservationData = getSeatsReservationData(registration.id as string);
+    const payload = getEnrolmentPayload({
+      formValues: values,
+      reservationCode: reservationData?.code as string,
+    });
+
+    try {
+      const { data } = await createEnrolmentMutation({
+        variables: { input: payload, registration: registration.id as string },
+      });
+
+      if (data?.createEnrolment) {
+        await cleanAfterUpdate(callbacks);
+      }
+    } catch (error) /* istanbul ignore next */ {
+      // Report error to Sentry
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to create enrolment',
+        payload,
+      });
+    }
+  };
+
   const updateEnrolment = async (
     values: EnrolmentFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => {
     const payload: UpdateEnrolmentMutationInput = getUpdateEnrolmentPayload({
       formValues: values,
@@ -148,9 +185,10 @@ const useEnrolmentUpdateActions = ({
 
   return {
     cancelEnrolment,
+    createEnrolment,
     saving,
     updateEnrolment,
   };
 };
 
-export default useEnrolmentUpdateActions;
+export default useEnrolmentActions;

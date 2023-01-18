@@ -5,7 +5,7 @@ import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../../generated/graphql';
-import { EVENT_EDIT_ACTIONS } from '../../constants';
+import { EVENT_ACTIONS } from '../../constants';
 import { EventTime, RecurringEventSettings } from '../../types';
 
 export type GetEventEditActionParams = {
@@ -16,14 +16,14 @@ export type GetEventEditActionParams = {
 export const getEventEditAction = ({
   action,
   event,
-}: GetEventEditActionParams): EVENT_EDIT_ACTIONS => {
+}: GetEventEditActionParams): EVENT_ACTIONS => {
   switch (action) {
     case 'delete':
-      return EVENT_EDIT_ACTIONS.DELETE;
+      return EVENT_ACTIONS.DELETE;
     case 'update':
       return event.publicationStatus === PublicationStatus.Draft
-        ? EVENT_EDIT_ACTIONS.UPDATE_DRAFT
-        : EVENT_EDIT_ACTIONS.UPDATE_PUBLIC;
+        ? EVENT_ACTIONS.UPDATE_DRAFT
+        : EVENT_ACTIONS.UPDATE_PUBLIC;
   }
 };
 

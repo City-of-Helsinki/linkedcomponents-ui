@@ -8,7 +8,6 @@ import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
-  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -76,20 +75,17 @@ const getElement = (
 ) => {
   switch (key) {
     case 'eventCombobox':
-      return screen.getByRole('combobox', {
-        name: /tapahtuma/i,
-      });
+      return screen.getByRole('combobox', { name: /tapahtuma/i });
     case 'enrolmentStartTime':
-      return screen.getByRole('textbox', { name: 'Ilmoittautuminen alkaa *' });
+      return screen.getByLabelText('Ilmoittautuminen alkaa *');
     case 'saveButton':
-      return screen.getByRole('button', {
-        name: /tallenna ilmoittautuminen/i,
-      });
+      return screen.getByRole('button', { name: /tallenna ilmoittautuminen/i });
   }
 };
 
 const waitLoadingAndGetSaveButton = async () => {
   await loadingSpinnerIsNotInDocument();
+
   return await findElement('saveButton');
 };
 
@@ -121,7 +117,6 @@ test('should move to registration completed page after creating new registration
 
   const saveButton = await waitLoadingAndGetSaveButton();
   const startTimeInput = getElement('enrolmentStartTime');
-  await actWait(1000);
 
   const expectedValue = formatDate(
     registrationValues.enrolmentStartTimeDate,
@@ -152,7 +147,6 @@ test('should show server errors', async () => {
 
   const saveButton = await waitLoadingAndGetSaveButton();
   const startTimeInput = getElement('enrolmentStartTime');
-  await actWait(1000);
 
   const expectedValue = formatDate(
     registrationValues.enrolmentStartTimeDate,

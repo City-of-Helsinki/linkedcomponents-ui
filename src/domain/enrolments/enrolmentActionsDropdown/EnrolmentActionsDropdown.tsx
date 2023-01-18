@@ -14,7 +14,7 @@ import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
-import useEnrolmentUpdateActions from '../../enrolment/hooks/useEnrolmentUpdateActions';
+import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
 import ConfirmCancelModal from '../../enrolment/modals/confirmCancelModal/ConfirmCancelModal';
 import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -52,7 +52,7 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
 
   const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
 
-  const { cancelEnrolment, saving } = useEnrolmentUpdateActions({
+  const { cancelEnrolment, saving } = useEnrolmentActions({
     enrolment,
     registration,
   });

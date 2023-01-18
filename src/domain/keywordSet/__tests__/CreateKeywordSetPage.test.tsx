@@ -4,7 +4,6 @@ import React from 'react';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   act,
-  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -55,9 +54,9 @@ const getElement = (
     case 'keywordsToggleButton':
       return screen.getByRole('button', { name: /avainsanat/i });
     case 'nameInput':
-      return screen.getByRole('textbox', { name: /nimi \(suomeksi\)/i });
+      return screen.getByLabelText(/nimi \(suomeksi\)/i);
     case 'originIdInput':
-      return screen.getByRole('textbox', { name: /lähdetunniste/i });
+      return screen.getByLabelText(/lähdetunniste/i);
     case 'saveButton':
       return screen.getByRole('button', { name: /tallenna/i });
     case 'usageToggleButton':
@@ -109,7 +108,6 @@ test('should focus to first validation error when trying to save new keyword set
   renderComponent(defaultMocks);
 
   await loadingSpinnerIsNotInDocument();
-  await actWait(100);
 
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
@@ -140,7 +138,6 @@ test('should move to keywords page after creating new keyword', async () => {
   ]);
 
   await loadingSpinnerIsNotInDocument();
-  await actWait(100);
 
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
@@ -159,7 +156,6 @@ test('should show server errors', async () => {
   renderComponent([...defaultMocks, mockedInvalidCreateKeywordSetResponse]);
 
   await loadingSpinnerIsNotInDocument();
-  await actWait(100);
 
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());

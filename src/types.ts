@@ -72,9 +72,9 @@ export type UseServerErrorsState = {
   showServerErrors: (params: ShowServerErrorsFnParams) => void;
 };
 
-export type UpdateActionsCallbacks = {
+export type MutationCallbacks = {
   onError?: (error: any) => void;
-  onSuccess?: () => void;
+  onSuccess?: (id?: string) => void;
 };
 
 export type ButtonType = 'button' | 'reset' | 'submit' | undefined;

@@ -13,15 +13,17 @@ import { EVENT_INCLUDES } from '../../event/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { REGISTRATIONS_PAGE_SIZE } from '../constants';
 
+const TEST_PAGE_SIZE = 2;
+
 const publisher = TEST_PUBLISHER_ID;
-const registrationNames = range(1, REGISTRATIONS_PAGE_SIZE + 1).map(
+const registrationNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Registration name ${n}`
 );
-const eventNames = range(1, REGISTRATIONS_PAGE_SIZE + 1).map(
+const eventNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Registration name ${n}`
 );
 const events = fakeEvents(
-  REGISTRATIONS_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   eventNames.map((name, index) => ({
     id: `event:${index}`,
     name: fakeLocalisedObject(name),
@@ -34,7 +36,7 @@ const mockedEventResponses = [
       query: EventDocument,
       variables: {
         createPath: undefined,
-        id: event.id,
+        id: event?.id,
         include: EVENT_INCLUDES,
       },
     },
@@ -43,10 +45,10 @@ const mockedEventResponses = [
 ];
 
 const registrations = fakeRegistrations(
-  REGISTRATIONS_PAGE_SIZE,
+  TEST_PAGE_SIZE,
   registrationNames.map((name, index) => ({
     id: `registration:${index}`,
-    event: events.data[index].id,
+    event: events.data[index]?.id,
     name,
     publisher,
   }))

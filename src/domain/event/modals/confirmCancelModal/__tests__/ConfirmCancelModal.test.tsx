@@ -43,6 +43,7 @@ test('should render component', async () => {
 
   screen.getByText(eventName);
   await screen.findByText(subEventName);
+
   for (const subSubEventName of subSubEventNames) {
     await screen.findByText(subSubEventName);
   }

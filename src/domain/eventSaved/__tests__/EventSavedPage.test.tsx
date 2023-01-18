@@ -6,7 +6,6 @@ import { EventDocument, PublicationStatus } from '../../../generated/graphql';
 import { fakeEvent } from '../../../utils/mockDataUtils';
 import {
   act,
-  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
@@ -14,7 +13,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
-import translations from '../../app/i18n/fi.json';
 import EventSavedPage from '../EventSavedPage';
 
 configure({ defaultHidden: true });
@@ -45,20 +43,16 @@ const getElement = (
 ) => {
   switch (key) {
     case 'addEventButton':
-      return screen.getByRole('button', {
-        name: translations.common.buttonAddEvent,
-      });
+      return screen.getByRole('button', { name: 'Lisää uusi tapahtuma' });
     case 'backToEventsButton':
-      return screen.getByRole('button', {
-        name: translations.eventSavedPage.buttonBackToEvents,
-      });
+      return screen.getByRole('button', { name: 'Palaa tapahtumiin' });
     case 'draftSavedHeading':
       return screen.getByRole('heading', {
-        name: translations.eventSavedPage.titleDraftSaved,
+        name: 'Luonnos tallennettu onnistuneesti',
       });
     case 'publishedHeading':
       return screen.getByRole('heading', {
-        name: translations.eventSavedPage.titlePublished,
+        name: 'Tapahtuma julkaistu onnistuneesti',
       });
   }
 };
@@ -98,7 +92,6 @@ test('should route to event list page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   getElement('draftSavedHeading');
-  await actWait(100);
 
   const backToEventsButton = getElement('backToEventsButton');
   await act(async () => await user.click(backToEventsButton));
@@ -115,7 +108,6 @@ test('should route to create event page', async () => {
 
   await loadingSpinnerIsNotInDocument();
   getElement('draftSavedHeading');
-  await actWait(100);
 
   const addEventButton = getElement('addEventButton');
   await act(async () => await user.click(addEventButton));

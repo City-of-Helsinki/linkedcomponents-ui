@@ -53,14 +53,12 @@ const renderComponent = (
 
 const openMenu = async () => {
   const user = userEvent.setup();
-  const toggleButton = screen
-    .getAllByRole('button', { name: /valinnat/i })
-    .pop() as HTMLElement;
+  const toggleButton = await screen.findByRole('button', { name: /valinnat/i });
 
   await act(async () => await user.click(toggleButton));
-  screen.getByRole('region', { name: /valinnat/i });
+  const menu = screen.getByRole('region', { name: /valinnat/i });
 
-  return toggleButton;
+  return { menu, toggleButton };
 };
 
 const getConfirmDeleteModal = () =>
@@ -71,21 +69,17 @@ const queryConfirmDeleteModal = () =>
     name: 'Varmista ilmoittautumisen poistaminen',
   });
 
-const getButton = (key: 'delete' | 'update') => {
+const findButton = (key: 'update') => {
   switch (key) {
-    case 'delete':
-      return screen.getByRole('button', { name: 'Poista ilmoittautuminen' });
     case 'update':
-      return screen.getByRole('button', { name: 'Tallenna muutokset' });
+      return screen.findByRole('button', { name: 'Tallenna muutokset' });
   }
 };
 
-const getInput = (key: 'enrolmentStartTime' | 'minimumAttendeeCapacity') => {
+const findInput = (key: 'minimumAttendeeCapacity') => {
   switch (key) {
-    case 'enrolmentStartTime':
-      return screen.getByRole('textbox', { name: /ilmoittautuminen alkaa/i });
     case 'minimumAttendeeCapacity':
-      return screen.getByRole('spinbutton', {
+      return screen.findByRole('spinbutton', {
         name: /paikkojen vähimmäismäärä/i,
       });
   }
@@ -96,11 +90,12 @@ test('should show link to event page', async () => {
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
-  const eventLink = screen.getByRole('link', {
+
+  const eventLink = await screen.findByRole('link', {
     name: event.name?.fi as string,
   });
-
   await act(async () => await user.click(eventLink));
+
   expect(history.location.pathname).toBe(
     `/fi${ROUTES.EDIT_EVENT.replace(':id', event.id)}`
   );
@@ -112,16 +107,18 @@ test('should move to registrations page after deleting registration', async () =
   const { history } = renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
-  await openMenu();
+  const { menu } = await openMenu();
 
-  const deleteButton = getButton('delete');
+  const deleteButton = within(menu).getByRole('button', {
+    name: 'Poista ilmoittautuminen',
+  });
   await act(async () => await user.click(deleteButton));
 
   const withinModal = within(getConfirmDeleteModal());
-  const deleteRegistrationButton = withinModal.getByRole('button', {
+  const confirmDeleteButton = withinModal.getByRole('button', {
     name: 'Poista ilmoittautuminen',
   });
-  await act(async () => await user.click(deleteRegistrationButton));
+  await act(async () => await user.click(confirmDeleteButton));
 
   await waitFor(
     () => expect(queryConfirmDeleteModal()).not.toBeInTheDocument(),
@@ -141,7 +138,7 @@ test('should update registration', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const updateButton = getButton('update');
+  const updateButton = await findButton('update');
   await act(async () => await user.click(updateButton));
 
   await loadingSpinnerIsNotInDocument(30000);
@@ -154,11 +151,13 @@ test('should scroll to first error when validation error is thrown', async () =>
 
   await loadingSpinnerIsNotInDocument();
 
-  const minimumAttendeeCapacityInput = getInput('minimumAttendeeCapacity');
+  const minimumAttendeeCapacityInput = await findInput(
+    'minimumAttendeeCapacity'
+  );
   await act(async () => await user.clear(minimumAttendeeCapacityInput));
   await act(async () => await user.type(minimumAttendeeCapacityInput, '-1'));
 
-  const updateButton = getButton('update');
+  const updateButton = await findButton('update');
   await act(async () => await user.click(updateButton));
 
   await waitFor(() => expect(minimumAttendeeCapacityInput).toHaveFocus());
@@ -181,7 +180,7 @@ test('should show server errors', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const updateButton = getButton('update');
+  const updateButton = await findButton('update');
   await act(async () => await user.click(updateButton));
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);

@@ -23,7 +23,7 @@ import useUserOrganization from '../user/hooks/useUserOrganization';
 import { KEYWORD_SET_ACTIONS } from './constants';
 import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
-} from './hooks/useKeywordSetUpdateActions';
+} from './hooks/useKeywordSetActions';
 import KeywordSetForm from './keywordSetForm/KeywordSetForm';
 import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
 import {

@@ -58,14 +58,6 @@ test('should render events in the event list', async () => {
   await screen.getByRole('heading', { name: eventNames[1] });
 });
 
-test('should render events in the event list', async () => {
-  renderComponent();
-  await loadingSpinnerIsNotInDocument();
-
-  await screen.getByRole('heading', { name: eventNames[0] });
-  await screen.getByRole('heading', { name: eventNames[1] });
-});
-
 it('scrolls to event card and calls history.replace correctly (deletes eventId from state)', async () => {
   const route = ROUTES.SEARCH;
   const history = createMemoryHistory();

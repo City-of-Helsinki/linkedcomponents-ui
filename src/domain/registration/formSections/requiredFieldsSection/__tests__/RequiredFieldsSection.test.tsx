@@ -25,12 +25,12 @@ test('should show correct checkboxes', async () => {
   const withinBasicInfo = within(
     screen.getByRole('group', { name: 'Ilmoittautujan perustiedot' })
   );
-  withinBasicInfo.getByRole('checkbox', { name: 'Nimi' });
-  withinBasicInfo.getByRole('checkbox', { name: 'Kaupunki' });
-  withinBasicInfo.getByRole('checkbox', { name: 'Osoite' });
+  withinBasicInfo.getByLabelText('Nimi');
+  withinBasicInfo.getByLabelText('Kaupunki');
+  withinBasicInfo.getByLabelText('Osoite');
 
   const withinContactInfo = within(
     screen.getByRole('group', { name: 'Yhteystiedot' })
   );
-  withinContactInfo.getByRole('checkbox', { name: 'Puhelinnumero' });
+  withinContactInfo.getByLabelText('Puhelinnumero');
 });

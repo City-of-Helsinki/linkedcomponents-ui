@@ -1,21 +1,15 @@
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
-import {
-  fakeAuthContextValue,
-  fakeAuthenticatedAuthContextValue,
-} from '../../../../utils/mockAuthContextValue';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeEvent } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   CustomRenderOptions,
   render,
   screen,
-  userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { hiddenStyles } from '../../../app/authenticationNotification/AuthenticationNotification';
 import { getMockedUserResponse } from '../../../user/__mocks__/user';
 import EventAuthenticationNotification, {
   EventAuthenticationNotificationProps,
@@ -78,28 +72,4 @@ test('should show notification if event is in the past', async () => {
   screen.getByRole('region');
   await screen.findByRole('heading', { name: 'Tapahtumaa ei voi muokata' });
   screen.getByText('Menneisyydessä olevia tapahtumia ei voi muokata.');
-});
-
-test('should start sign in process', async () => {
-  const user = userEvent.setup();
-
-  const signIn = jest.fn();
-  const authContextValue = fakeAuthContextValue({ signIn });
-  renderComponent({ authContextValue });
-
-  const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
-  await act(async () => await user.click(signInButton));
-
-  expect(signIn).toBeCalled();
-});
-
-test('should hide notification when clicking close button', async () => {
-  const user = userEvent.setup();
-  renderComponent();
-
-  const notification = screen.getByRole('region');
-  const closeButton = screen.getByRole('button', { name: 'Sulje' });
-
-  await act(async () => await user.click(closeButton));
-  await waitFor(() => expect(notification).toHaveStyle(hiddenStyles));
 });

@@ -47,6 +47,7 @@ const recurringEvent1: RecurringEventSettings = {
   startDate: new Date('2021-05-01T00:00:00.000Z'),
   startTime: '12.00',
 };
+
 const recurringEvent2: RecurringEventSettings = {
   endDate: new Date('2021-06-15T00:00:00.000Z'),
   endTime: '15.00',
@@ -54,7 +55,6 @@ const recurringEvent2: RecurringEventSettings = {
     {
       endTime: new Date('2021-06-02T15:00:00.000Z'),
       id: null,
-
       startTime: new Date('2021-06-02T12:00:00.000Z'),
     },
     {

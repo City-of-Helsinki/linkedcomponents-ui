@@ -58,7 +58,7 @@ const findElement = (key: 'deleteButton' | 'nameInput' | 'saveButton') => {
     case 'deleteButton':
       return screen.findByRole('button', { name: /poista organisaatio/i });
     case 'nameInput':
-      return screen.findByRole('textbox', { name: /nimi/i });
+      return screen.findByLabelText(/nimi/i);
     case 'saveButton':
       return screen.findByRole('button', { name: /tallenna/i });
   }
@@ -95,8 +95,9 @@ test('should scroll to first validation error input field', async () => {
   renderComponent();
 
   const nameInput = await findElement('nameInput');
-  await act(async () => await user.clear(nameInput));
   const saveButton = await findElement('saveButton');
+
+  await act(async () => await user.clear(nameInput));
   await act(async () => await user.click(saveButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
@@ -112,13 +113,13 @@ test('should delete organization', async () => {
   const deleteButton = await findElement('deleteButton');
   await act(async () => await user.click(deleteButton));
 
-  const withinModal = within(
-    screen.getByRole('dialog', { name: 'Varmista organisaation poistaminen' })
-  );
-  const deleteOrganizationButton = withinModal.getByRole('button', {
+  const dialog = screen.getByRole('dialog', {
+    name: 'Varmista organisaation poistaminen',
+  });
+  const confirmDeleteButton = within(dialog).getByRole('button', {
     name: 'Poista organisaatio',
   });
-  await act(async () => await user.click(deleteOrganizationButton));
+  await act(async () => await user.click(confirmDeleteButton));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/organizations`)

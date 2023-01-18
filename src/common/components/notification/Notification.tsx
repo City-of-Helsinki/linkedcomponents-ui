@@ -1,18 +1,11 @@
 import { ClassNames } from '@emotion/react';
-import {
-  Notification as BaseNotification,
-  NotificationProps,
-  NotificationSizeToast,
-} from 'hds-react';
-import capitalize from 'lodash/capitalize';
+import { Notification as BaseNotification, NotificationProps } from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
-import styles from './notification.module.scss';
 
 const Notification: React.FC<NotificationProps> = ({
   className,
-  size = 'default',
   type = 'success',
   ...rest
 }) => {
@@ -23,12 +16,7 @@ const Notification: React.FC<NotificationProps> = ({
       {({ css, cx }) => (
         <BaseNotification
           {...rest}
-          className={cx(
-            className,
-            css(theme.notification.type?.[type]),
-            styles[`size${capitalize(size)}`]
-          )}
-          size={size as NotificationSizeToast}
+          className={cx(className, css(theme.notification.type?.[type]))}
           type={type}
         />
       )}

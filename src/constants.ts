@@ -59,6 +59,7 @@ export enum ROUTES {
   SEARCH = '/search',
   SILENT_CALLBACK = '/silent-callback',
   SUPPORT = '/help/support',
+  SUPPORT_ASK_PERMISSION = '/help/support/ask-permission',
   SUPPORT_CONTACT = '/help/support/contact',
   SUPPORT_TERMS_OF_USE = '/help/support/terms-of-use',
   TECHNOLOGY = '/help/technology',

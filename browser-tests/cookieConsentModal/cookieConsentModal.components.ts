@@ -43,6 +43,7 @@ export const findCookieConsentModal = async (t: TestController) => {
       await actions.clickAcceptAllButton();
 
       await t.expect(screen.findByTestId('cookie-consent').exists).notOk();
+      await t.scroll(0, 0);
     },
   };
 

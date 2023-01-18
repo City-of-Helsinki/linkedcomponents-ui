@@ -6,13 +6,15 @@ import {
 import { useLocation } from 'react-router';
 
 import {
+  CreateKeywordMutationInput,
   KeywordFieldsFragment,
   UpdateKeywordMutationInput,
+  useCreateKeywordMutation,
   useDeleteKeywordMutation,
   useUpdateKeywordMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
-import { UpdateActionsCallbacks } from '../../../types';
+import { MutationCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearKeywordQueries,
@@ -28,25 +30,28 @@ export enum KEYWORD_MODALS {
   DELETE = 'delete',
 }
 
-interface Props {
-  keyword: KeywordFieldsFragment;
+interface UseKeywordActionsProps {
+  keyword?: KeywordFieldsFragment;
 }
 
-type UseKeywordUpdateActionsState = {
+type UseKeywordActionsState = {
   closeModal: () => void;
-  deleteKeyword: (callbacks?: UpdateActionsCallbacks) => Promise<void>;
+  createKeyword: (
+    values: KeywordFormFields,
+    callbacks?: MutationCallbacks
+  ) => Promise<void>;
+  deleteKeyword: (callbacks?: MutationCallbacks) => Promise<void>;
   openModal: KEYWORD_MODALS | null;
   saving: KEYWORD_ACTIONS | null;
   setOpenModal: (modal: KEYWORD_MODALS | null) => void;
-  setSaving: (action: KEYWORD_ACTIONS | null) => void;
   updateKeyword: (
     values: KeywordFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
-const useKeywordUpdateActions = ({
+const useKeywordActions = ({
   keyword,
-}: Props): UseKeywordUpdateActionsState => {
+}: UseKeywordActionsProps): UseKeywordActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
   const location = useLocation();
@@ -55,6 +60,7 @@ const useKeywordUpdateActions = ({
   );
   const [saving, setSaving] = useMountedState<KEYWORD_ACTIONS | null>(null);
 
+  const [createKeywordMutation] = useCreateKeywordMutation();
   const [deleteKeywordMutation] = useDeleteKeywordMutation();
   const [updateKeywordMutation] = useUpdateKeywordMutation();
 
@@ -66,7 +72,7 @@ const useKeywordUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: UpdateActionsCallbacks) => {
+  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearKeywordQueries(apolloClient);
     /* istanbul ignore next */
@@ -84,11 +90,11 @@ const useKeywordUpdateActions = ({
     message,
     payload,
   }: {
-    callbacks?: UpdateActionsCallbacks;
+    callbacks?: MutationCallbacks;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: UpdateKeywordMutationInput;
+    payload?: CreateKeywordMutationInput | UpdateKeywordMutationInput;
   }) => {
     savingFinished();
 
@@ -108,12 +114,38 @@ const useKeywordUpdateActions = ({
     callbacks?.onError?.(error);
   };
 
-  const deleteKeyword = async (callbacks?: UpdateActionsCallbacks) => {
+  const createKeyword = async (
+    values: KeywordFormFields,
+    callbacks?: MutationCallbacks
+  ) => {
+    setSaving(KEYWORD_ACTIONS.CREATE);
+    const payload = getKeywordPayload(values);
+
+    try {
+      const { data } = await createKeywordMutation({
+        variables: { input: payload },
+      });
+
+      if (data?.createKeyword.id) {
+        await cleanAfterUpdate(callbacks);
+      }
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to create keyword',
+        payload,
+      });
+    }
+    setSaving(KEYWORD_ACTIONS.CREATE);
+  };
+
+  const deleteKeyword = async (callbacks?: MutationCallbacks) => {
     try {
       setSaving(KEYWORD_ACTIONS.DELETE);
 
       await deleteKeywordMutation({
-        variables: { id: keyword.id as string },
+        variables: { id: keyword?.id as string },
       });
 
       await cleanAfterUpdate(callbacks);
@@ -128,9 +160,9 @@ const useKeywordUpdateActions = ({
 
   const updateKeyword = async (
     values: KeywordFormFields,
-    callbacks?: UpdateActionsCallbacks
+    callbacks?: MutationCallbacks
   ) => {
-    const payload: UpdateKeywordMutationInput = getKeywordPayload(values);
+    const payload = getKeywordPayload(values);
 
     try {
       setSaving(KEYWORD_ACTIONS.UPDATE);
@@ -150,13 +182,13 @@ const useKeywordUpdateActions = ({
 
   return {
     closeModal,
+    createKeyword,
     deleteKeyword,
     openModal,
     saving,
     setOpenModal,
-    setSaving,
     updateKeyword,
   };
 };
 
-export default useKeywordUpdateActions;
+export default useKeywordActions;

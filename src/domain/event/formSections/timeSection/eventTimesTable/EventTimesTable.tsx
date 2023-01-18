@@ -1,5 +1,5 @@
 import { IconCrossCircle, IconMenuDots, IconPen } from 'hds-react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import MenuDropdown from '../../../../../common/components/menuDropdown/MenuDropdown';
@@ -17,9 +17,9 @@ import formatDate from '../../../../../utils/formatDate';
 import { useAuth } from '../../../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../../../user/hooks/useUser';
-import { EVENT_EDIT_ACTIONS } from '../../../constants';
+import { EVENT_ACTIONS } from '../../../constants';
 import { EventTime } from '../../../types';
-import { getEditButtonProps } from '../../../utils';
+import { getEventButtonProps } from '../../../utils';
 import EditEventTimeModal from '../editEventTimeModal/EditEventTimeModal';
 import useTimeSectionContext from '../hooks/useTimeSectionContext';
 import styles from '../timeSection.module.scss';
@@ -33,9 +33,7 @@ interface EventTimeRowProps {
   startIndex: number;
 }
 
-/* istanbul ignore next */
-const formatDateStr = (date?: Date | null) =>
-  (date && formatDate(new Date(date), DATETIME_FORMAT)) ?? '';
+const formatDateStr = (date: Date | null) => formatDate(date, DATETIME_FORMAT);
 
 const EventTimeRow: React.FC<EventTimeRowProps> = ({
   eventTime,
@@ -60,7 +58,16 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
     event?.publisher as string
   );
 
-  const { endTime, startTime } = eventTime;
+  const { endTime, startTime } = useMemo(() => {
+    return {
+      endTime: eventTime?.endTime
+        ? new Date(eventTime.endTime)
+        : /* istanbul ignore next */ null,
+      startTime: eventTime?.startTime
+        ? new Date(eventTime.startTime)
+        : /* istanbul ignore next */ null,
+    };
+  }, [eventTime]);
 
   const dateText =
     startTime || endTime
@@ -104,7 +111,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
     };
 
     if (event) {
-      const options = getEditButtonProps({
+      const options = getEventButtonProps({
         action: getEventEditAction({ action, event }),
         authenticated,
         event,
@@ -116,7 +123,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
       return {
         ...baseOptions,
         disabled:
-          (action === EVENT_EDIT_ACTIONS.DELETE &&
+          (action === EVENT_ACTIONS.DELETE &&
             savedEvent &&
             savedEvent.superEventType !== SuperEventType.Recurring) ||
           options?.disabled,

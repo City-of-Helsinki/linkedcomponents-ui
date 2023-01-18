@@ -18,13 +18,9 @@ configure({ defaultHidden: true });
 const getElement = (key: 'eventTypeSelectorButton' | 'searchInput') => {
   switch (key) {
     case 'eventTypeSelectorButton':
-      return screen.getByRole('button', {
-        name: translations.registrationsPage.searchPanel.labelEventType,
-      });
+      return screen.getByRole('button', { name: 'Tyyppi' });
     case 'searchInput':
-      return screen.getByRole('combobox', {
-        name: translations.registrationsPage.searchPanel.labelSearch,
-      });
+      return screen.getByRole('combobox', { name: 'Hae ilmoittautumisia' });
   }
 };
 
@@ -51,14 +47,11 @@ test('should search registrations with correct search params', async () => {
   // Text filtering
   const searchInput = getElement('searchInput');
   fireEvent.change(searchInput, { target: { value: values.text } });
-  await waitFor(() => expect(searchInput).toHaveValue(values.text));
 
   // Event type filtering
   const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
   await act(async () => await user.click(eventTypeSelectorButton));
-  const eventTypeCheckbox = screen.getByRole('checkbox', {
-    name: /tapahtuma/i,
-  });
+  const eventTypeCheckbox = screen.getByLabelText(/tapahtuma/i);
   await act(async () => await user.click(eventTypeCheckbox));
 
   const searchButton = screen.getAllByRole('button', { name: /etsi/i })[1];

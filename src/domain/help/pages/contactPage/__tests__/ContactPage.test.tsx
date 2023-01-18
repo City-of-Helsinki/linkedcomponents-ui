@@ -39,12 +39,18 @@ const payload = {
 const postFeedbackVariables = { input: payload };
 const postFeedbackResponse = { data: { postFeedback: fakeFeedback(payload) } };
 const mockedPostFeedbackResponse: MockedResponse = {
-  request: {
-    query: PostFeedbackDocument,
-    variables: postFeedbackVariables,
-  },
+  request: { query: PostFeedbackDocument, variables: postFeedbackVariables },
   result: postFeedbackResponse,
 };
+
+const mockedInvalidPostFeedbackResponse: MockedResponse = {
+  request: { query: PostFeedbackDocument, variables: postFeedbackVariables },
+  error: {
+    ...new Error(),
+    result: { body: ['Arvo saa olla enintään 255 merkkiä pitkä.'] },
+  } as Error,
+};
+
 const postGuestFeedbackResponse = {
   data: { postGuestFeedback: fakeFeedback(payload) },
 };
@@ -73,9 +79,9 @@ type ElementKey =
 const getElement = (key: ElementKey) => {
   switch (key) {
     case 'body':
-      return screen.getByRole('textbox', { name: /viesti/i });
+      return screen.getByLabelText(/viesti/i);
     case 'email':
-      return screen.getByRole('textbox', { name: /sähköpostiosoite/i });
+      return screen.getByLabelText(/sähköpostiosoite/i);
     case 'eventFormTopicOption':
       return screen.getByRole('option', { name: /ongelma syöttölomakkeessa/i });
     case 'featureRequestTopicOption':
@@ -83,7 +89,7 @@ const getElement = (key: ElementKey) => {
     case 'generalTopicOption':
       return screen.getByRole('option', { name: /yleinen palaute/i });
     case 'name':
-      return screen.getByRole('textbox', { name: /nimi/i });
+      return screen.getByLabelText(/nimi/i);
     case 'otherTopicOption':
       return screen.getByRole('option', { name: /muu asia/i });
     case 'permissionsTopicOption':
@@ -91,7 +97,7 @@ const getElement = (key: ElementKey) => {
     case 'sendButton':
       return screen.getByRole('button', { name: /lähetä/i });
     case 'subject':
-      return screen.getByRole('textbox', { name: /otsikko/i });
+      return screen.getByLabelText(/otsikko/i);
     case 'success':
       return screen.getByRole('heading', { name: /kiitos yhteydenotostasi/i });
     case 'topicToggleButton':
@@ -99,11 +105,39 @@ const getElement = (key: ElementKey) => {
   }
 };
 
+const enterCommonValues = async () => {
+  const user = userEvent.setup();
+
+  const topicToggleButton = getElement('topicToggleButton');
+  const subjectInput = getElement('subject');
+  const bodyInput = getElement('body');
+
+  await act(async () => await user.click(topicToggleButton));
+  const generalTopic = getElement('generalTopicOption');
+  await act(async () => await user.click(generalTopic));
+  await act(async () => await user.type(subjectInput, values.subject));
+  await act(async () => await user.type(bodyInput, values.body));
+
+  return { bodyInput, subjectInput, topicToggleButton };
+};
+
+const authContextValue = fakeAuthenticatedAuthContextValue(
+  fakeOidcReducerState({
+    user: fakeOidcUserState({
+      profile: fakeOidcUserProfileState({
+        name: values.name,
+        email: values.email,
+      }),
+    }),
+  })
+);
+
 const renderComponent = (options?: CustomRenderOptions) =>
   render(<ContactPage />, options);
 
 test('should scroll to first error', async () => {
   const user = userEvent.setup();
+
   renderComponent();
 
   const nameInput = getElement('name');
@@ -118,6 +152,7 @@ test('should scroll to first error', async () => {
 
 test('should scroll to topic selector when topic is not selected', async () => {
   const user = userEvent.setup();
+
   renderComponent();
 
   const nameInput = getElement('name');
@@ -134,6 +169,7 @@ test('should scroll to topic selector when topic is not selected', async () => {
 
 test('should show correct faq items when "event_form" topic is selected', async () => {
   const user = userEvent.setup();
+
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
   const nameInput = getElement('name');
@@ -158,6 +194,7 @@ test('should show correct faq items when "event_form" topic is selected', async 
 
 test('should show correct faq items when "permissions" topic is selected', async () => {
   const user = userEvent.setup();
+
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
   const nameInput = getElement('name');
@@ -188,6 +225,7 @@ test.each([
   'should not show any faq item when %p topic is selected',
   async (topic, topicOption) => {
     const user = userEvent.setup();
+
     renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
     const topicToggleButton = getElement('topicToggleButton');
@@ -227,22 +265,16 @@ test.each([
 
 test('should succesfully send feedback when user is not signed in', async () => {
   const user = userEvent.setup();
+
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
   const nameInput = getElement('name');
   const emailInput = getElement('email');
-  const topicToggleButton = getElement('topicToggleButton');
-  const subjectInput = getElement('subject');
-  const bodyInput = getElement('body');
   const sendButton = getElement('sendButton');
 
   await act(async () => await user.type(nameInput, values.name));
   await act(async () => await user.type(emailInput, values.email));
-  await act(async () => await user.click(topicToggleButton));
-  const generalTopic = getElement('generalTopicOption');
-  await act(async () => await user.click(generalTopic));
-  await act(async () => await user.type(subjectInput, values.subject));
-  await act(async () => await user.type(bodyInput, values.body));
+  await enterCommonValues();
   await act(async () => await user.click(sendButton));
 
   await waitFor(() => expect(nameInput).toHaveFocus());
@@ -250,27 +282,32 @@ test('should succesfully send feedback when user is not signed in', async () => 
 });
 
 test('should succesfully send feedback when user is signed in', async () => {
-  const authContextValue = fakeAuthenticatedAuthContextValue(
-    fakeOidcReducerState({
-      user: fakeOidcUserState({ profile: fakeOidcUserProfileState(values) }),
-    })
-  );
-
   const user = userEvent.setup();
+
   renderComponent({ mocks: [mockedPostFeedbackResponse], authContextValue });
 
-  const topicToggleButton = getElement('topicToggleButton');
-  const subjectInput = getElement('subject');
-  const bodyInput = getElement('body');
   const sendButton = getElement('sendButton');
 
-  await act(async () => await user.click(topicToggleButton));
-  const generalTopic = getElement('generalTopicOption');
-  await act(async () => await user.click(generalTopic));
-  await act(async () => await user.type(subjectInput, values.subject));
-  await act(async () => await user.type(bodyInput, values.body));
+  const { topicToggleButton } = await enterCommonValues();
   await act(async () => await user.click(sendButton));
 
-  await waitFor(() => expect(subjectInput).toHaveFocus());
+  await waitFor(() => expect(topicToggleButton).toHaveFocus());
   getElement('success');
+});
+
+test('should show server errors', async () => {
+  const user = userEvent.setup();
+
+  renderComponent({
+    mocks: [mockedInvalidPostFeedbackResponse],
+    authContextValue,
+  });
+
+  await enterCommonValues();
+
+  const sendButton = getElement('sendButton');
+  await act(async () => await user.click(sendButton));
+
+  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  screen.getByText(/arvo saa olla enintään 255 merkkiä pitkä./i);
 });

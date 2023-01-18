@@ -27,8 +27,8 @@ const renderComponent = (props?: Partial<ConfirmDeleteModalProps>) =>
 test('should render component', async () => {
   renderComponent();
   screen.getByRole('heading', { name: 'Varmista kuvan poistaminen' });
-  screen.getByText(translations.common.warning);
-  screen.getByText(translations.image.deleteImageModal.text);
+  screen.getByText('Varoitus!');
+  screen.getByText('Tämä toiminto poistaa kuvan lopullisesti.');
 
   screen.getByRole('button', { name: 'Poista kuva' });
   screen.getByRole('button', { name: 'Peruuta' });

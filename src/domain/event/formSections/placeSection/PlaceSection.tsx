@@ -2,6 +2,7 @@ import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import MultiLanguageField from '../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
 import PlaceSelectorField from '../../../../common/components/formFields/placeSelectorField/PlaceSelectorField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
@@ -28,7 +29,7 @@ const PlaceSection: React.FC<Props> = ({ isEditingAllowed }) => {
   });
 
   return (
-    <>
+    <Fieldset heading={t('event.form.sections.place')} hideLegend>
       <h3>{t(`event.form.titleLocation`)}</h3>
       <FieldRow
         notification={
@@ -76,7 +77,7 @@ const PlaceSection: React.FC<Props> = ({ isEditingAllowed }) => {
           />
         </FieldColumn>
       </FieldRow>
-    </>
+    </Fieldset>
   );
 };
 

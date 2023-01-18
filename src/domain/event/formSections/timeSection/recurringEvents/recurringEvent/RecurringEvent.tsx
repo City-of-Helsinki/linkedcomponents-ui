@@ -1,5 +1,5 @@
 import formatDate from 'date-fns/format';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Collapsible from '../../../../../../common/components/collapsible/Collapsible';
@@ -26,16 +26,16 @@ const RecurringEvent: React.FC<Props> = ({
   recurringEvent,
   startIndex,
 }) => {
-  // istanbul ignore next
-  const startDate =
-    typeof recurringEvent.startDate === 'string'
-      ? new Date(recurringEvent.startDate)
-      : recurringEvent.startDate;
-  // istanbul ignore next
-  const endDate =
-    typeof recurringEvent.endDate === 'string'
-      ? new Date(recurringEvent.endDate)
-      : recurringEvent.endDate;
+  const { endDate, startDate } = useMemo(() => {
+    return {
+      endDate: recurringEvent.endDate
+        ? new Date(recurringEvent.endDate)
+        : /* istanbul ignore next */ null,
+      startDate: recurringEvent.startDate
+        ? new Date(recurringEvent.startDate)
+        : /* istanbul ignore next */ null,
+    };
+  }, [recurringEvent]);
 
   const { t } = useTranslation();
   const sortedRepeatDays = [...recurringEvent.repeatDays].sort(sortWeekDays);

@@ -5,6 +5,7 @@ import { ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import ApiPage from '../../../help/pages/apiPage/ApiPage';
+import AskPermissionPage from '../../../help/pages/askPermissionPage/AskPermissionPage';
 import ContactPage from '../../../help/pages/contactPage/ContactPage';
 import ControlPanelPage from '../../../help/pages/controlPanelPage/ControlPanelPage';
 import FaqPage from '../../../help/pages/faqPage/FaqPage';
@@ -111,6 +112,10 @@ const SupportRoutes: React.FC<Props> = ({ locale }) => {
         element={
           <Navigate replace to={getLocalePath(ROUTES.SUPPORT_TERMS_OF_USE)} />
         }
+      />
+      <Route
+        path={getSupportRoutePath(ROUTES.SUPPORT_ASK_PERMISSION)}
+        element={<AskPermissionPage />}
       />
       <Route
         path={getSupportRoutePath(ROUTES.SUPPORT_CONTACT)}

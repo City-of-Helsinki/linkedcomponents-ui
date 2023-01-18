@@ -58,7 +58,10 @@ export const getOption = ({
   };
 };
 
-export type PlaceSelectorProps = SingleComboboxProps<string | null>;
+export type PlaceSelectorProps = Omit<
+  SingleComboboxProps<string | null>,
+  'toggleButtonAriaLabel'
+>;
 
 const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   label,

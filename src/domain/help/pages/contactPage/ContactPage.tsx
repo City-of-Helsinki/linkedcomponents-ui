@@ -1,10 +1,7 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik';
 import camelCase from 'lodash/camelCase';
-import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
-import { scroller } from 'react-scroll';
 import { ValidationError } from 'yup';
 
 import Button from '../../../../common/components/button/Button';
@@ -14,24 +11,19 @@ import TextInputField from '../../../../common/components/formFields/textInputFi
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import ServerErrorSummary from '../../../../common/components/serverErrorSummary/ServerErrorSummary';
-import {
-  usePostFeedbackMutation,
-  usePostGuestFeedbackMutation,
-} from '../../../../generated/graphql';
+import { FeedbackInput } from '../../../../generated/graphql';
 import useIdWithPrefix from '../../../../hooks/useIdWithPrefix';
 import {
   scrollToFirstError,
   showFormErrors,
 } from '../../../../utils/validationUtils';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
-import { reportError } from '../../../app/sentry/utils';
 import { useAuth } from '../../../auth/hooks/useAuth';
 import useFeedbackServerErrors from '../../../feedback/hooks/useFeedbackServerErrors';
 import {
   CONTACT_FORM_BODY_MAX_LENGTH,
   CONTACT_FORM_FIELD,
   CONTACT_TOPICS,
-  contactFormSchema,
 } from '../../constants';
 import AddingEventsFaq from '../../faq/addingEventsFaq/AddingEventsFaq';
 import AddingToOwnProjectsFaq from '../../faq/addingToOwnProjectsFaq/AddingToOwnProjectsFaq';
@@ -39,28 +31,42 @@ import EventFormNotWorkingFaq from '../../faq/eventFormNotWorkingFaq/EventFormNo
 import EventNotShownFaq from '../../faq/eventNotShownFaq/EventNotShownFaq';
 import ImageRightsFaq from '../../faq/imageRightsFaq/ImageRightsFaq';
 import PublishingPermissionsFaq from '../../faq/publishingPermissionsFaq/PublishingPermissionsFaq';
+import useFeedbackActions from '../../hooks/useFeedbackActions';
 import { ContactFormFields } from '../../types';
-import { getFocusableFieldId, getInitialValues } from '../../utils';
-import styles from './contactPage.module.scss';
+import {
+  getContactFormFocusableFieldId,
+  getContactFormInitialValues,
+} from '../../utils';
+import { contactFormSchema } from '../../validation';
+import styles from '../contactPage.module.scss';
 
 const ContactPage: React.FC = () => {
   const { t } = useTranslation();
-  const location = useLocation();
+
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useFeedbackServerErrors();
+
+  const { isAuthenticated: authenticated, user } = useAuth();
+  const initialValues = React.useMemo(
+    () => getContactFormInitialValues(user),
+    [user]
+  );
+
+  const successId = useIdWithPrefix({ prefix: 'contact-form-success-' });
   const topicOptions = Object.values(CONTACT_TOPICS).map((topic) => ({
     label: t(`helpPage.contactPage.topics.${camelCase(topic)}`),
     value: topic,
   }));
-  const { isAuthenticated: authenticated, user } = useAuth();
-  const initialValues = React.useMemo(() => getInitialValues(user), [user]);
 
-  const successId = useIdWithPrefix({ prefix: 'contact-form-success-' });
+  const { setSuccess, submitFeedback, success } = useFeedbackActions({
+    successId,
+  });
 
-  const [success, setSuccess] = React.useState(false);
+  const getPayloadStart = (values: ContactFormFields) => {
+    const option = topicOptions.find((topic) => topic.value === values.topic);
 
-  const [postFeedback] = usePostFeedbackMutation();
-  const [postGuestFeedback] = usePostGuestFeedbackMutation();
+    return `${option?.label}:\n\n`;
+  };
 
   const submitContactForm = async (
     values: ContactFormFields,
@@ -69,51 +75,32 @@ const ContactPage: React.FC = () => {
       'resetForm' | 'validateForm'
     >
   ) => {
-    const { resetForm, validateForm } = formikHelpers;
+    const { email, name, subject } = values;
 
-    const payload = {
-      ...omit(values, ['body', 'topic']),
-      body: `${
-        topicOptions.find((topic) => topic.value === values.topic)?.label
-      }:\n\n${values.body}`,
+    const payload: FeedbackInput = {
+      email,
+      name,
+      subject,
+      body: `${getPayloadStart(values)}${values.body}`,
     };
 
-    try {
-      if (authenticated) {
-        await postFeedback({ variables: { input: payload } });
-      } else {
-        await postGuestFeedback({ variables: { input: payload } });
-      }
+    submitFeedback(payload, {
+      onError: (error) => showServerErrors({ error }),
+      onSuccess: async () => {
+        const { resetForm, validateForm } = formikHelpers;
 
-      resetForm();
-      await validateForm();
+        resetForm();
+        await validateForm();
 
-      scroller.scrollTo(successId, {
-        duration: 300,
-        offset: -200,
-        smooth: true,
-      });
-      setSuccess(true);
-
-      document
-        .getElementById(
-          authenticated ? CONTACT_FORM_FIELD.SUBJECT : CONTACT_FORM_FIELD.NAME
-        )
-        ?.focus();
-    } catch (error) /* istanbul ignore next */ {
-      setSuccess(false);
-      showServerErrors({ error });
-      // Report error to Sentry
-      reportError({
-        data: {
-          error: error as Record<string, unknown>,
-          payload,
-          payloadAsString: JSON.stringify(payload),
-        },
-        location,
-        message: 'Failed to send feedback',
-      });
-    }
+        document
+          .getElementById(
+            getContactFormFocusableFieldId(
+              authenticated ? CONTACT_FORM_FIELD.TOPIC : CONTACT_FORM_FIELD.NAME
+            )
+          )
+          ?.focus();
+      },
+    });
   };
 
   const getFaqItems = (topic: CONTACT_TOPICS) => {
@@ -153,33 +140,22 @@ const ContactPage: React.FC = () => {
 
       <Formik
         initialValues={initialValues}
-        onSubmit={submitContactForm}
+        onSubmit={/* istanbul ignore next */ () => undefined}
         validationSchema={contactFormSchema}
         validateOnMount
         validateOnBlur
         validateOnChange
       >
-        {({
-          resetForm,
-          setErrors,
-          setTouched,
-          validateForm,
-          values: { topic, ...restValues },
-        }) => {
-          const clearErrors = () => {
-            setErrors({});
-          };
+        {({ resetForm, setErrors, setTouched, validateForm, values }) => {
+          const clearErrors = () => setErrors({});
 
           const handleSubmit = async () => {
-            const values = { topic, ...restValues };
             try {
               setSuccess(false);
               setServerErrorItems([]);
               clearErrors();
 
-              await contactFormSchema.validate(values, {
-                abortEarly: false,
-              });
+              await contactFormSchema.validate(values, { abortEarly: false });
 
               submitContactForm(values, { resetForm, validateForm });
             } catch (error) {
@@ -191,12 +167,12 @@ const ContactPage: React.FC = () => {
 
               scrollToFirstError({
                 error: error as ValidationError,
-                getFocusableFieldId,
+                getFocusableFieldId: getContactFormFocusableFieldId,
               });
             }
           };
 
-          const faqItems = getFaqItems(topic as CONTACT_TOPICS);
+          const faqItems = getFaqItems(values.topic as CONTACT_TOPICS);
 
           return (
             <Form className={styles.contactForm} noValidate>
@@ -267,7 +243,10 @@ const ContactPage: React.FC = () => {
                 <Field
                   component={TextAreaField}
                   label={t('helpPage.contactPage.labelBody')}
-                  maxLength={CONTACT_FORM_BODY_MAX_LENGTH}
+                  maxLength={
+                    CONTACT_FORM_BODY_MAX_LENGTH -
+                    getPayloadStart(values).length
+                  }
                   name={CONTACT_FORM_FIELD.BODY}
                   placeholder={t('helpPage.contactPage.placeholderBody')}
                   required
