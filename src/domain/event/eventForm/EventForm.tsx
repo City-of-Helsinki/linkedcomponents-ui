@@ -268,10 +268,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, refetch }) => {
             }
 
             if (event) {
-              const { publicationStatus, superEventType } = getEventFields(
-                event,
-                locale
-              );
+              const { superEventType } = getEventFields(event, locale);
 
               if (superEventType === SuperEventType.Recurring) {
                 setNextPublicationStatus(publicationStatus);
