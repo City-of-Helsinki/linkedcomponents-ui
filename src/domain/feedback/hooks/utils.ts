@@ -1,6 +1,7 @@
 import { TFunction } from 'i18next';
 
 import { LEServerError, ServerErrorItem } from '../../../types';
+import isGenericServerError from '../../../utils/isGenericServerError';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import pascalCase from '../../../utils/pascalCase';
 
@@ -39,6 +40,10 @@ export const parseFeedbackServerErrors = ({
 
   // Get correct field name for an error item
   function parseFeedbackServerErrorLabel({ key }: { key: string }): string {
+    if (isGenericServerError(key)) {
+      return '';
+    }
+
     return t(`helpPage.contactPage.label${pascalCase(key)}`);
   }
 };

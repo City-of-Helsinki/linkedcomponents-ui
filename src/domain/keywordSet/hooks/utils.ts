@@ -1,6 +1,7 @@
 import { TFunction } from 'i18next';
 
 import { LEServerError, ServerErrorItem } from '../../../types';
+import isGenericServerError from '../../../utils/isGenericServerError';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
@@ -37,11 +38,10 @@ export const parseKeywordSetServerErrors = ({
 
   // Get correct field name for an error item
   function parseKeywordSetServerErrorLabel({ key }: { key: string }): string {
-    switch (key) {
-      case 'detail':
-        return '';
-      default:
-        return t(`keywordSet.form.label${pascalCase(key)}`);
+    if (isGenericServerError(key)) {
+      return '';
     }
+
+    return t(`keywordSet.form.label${pascalCase(key)}`);
   }
 };
