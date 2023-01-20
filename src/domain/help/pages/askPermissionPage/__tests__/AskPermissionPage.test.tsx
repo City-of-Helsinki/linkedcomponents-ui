@@ -102,16 +102,24 @@ const renderComponent = (options?: CustomRenderOptions) =>
     mocks: [...commonMocks, ...(options?.mocks || [])],
   });
 
-const enterCommonValues = async () => {
+const selectOrganization = async () => {
   const user = userEvent.setup();
-
   const organizationToggleButton = getElement('organizationToggleButton');
-  const jobDescriptionInput = getElement('jobDescription');
-  const bodyInput = getElement('body');
 
   await act(async () => await user.click(organizationToggleButton));
   const organizationOption = getElement('organizationOption');
   await act(async () => await user.click(organizationOption));
+
+  return { organizationToggleButton };
+};
+
+const enterCommonValues = async () => {
+  const user = userEvent.setup();
+
+  const jobDescriptionInput = getElement('jobDescription');
+  const bodyInput = getElement('body');
+
+  const { organizationToggleButton } = await selectOrganization();
   await act(
     async () => await user.type(jobDescriptionInput, values.jobDescription)
   );
@@ -162,6 +170,20 @@ test('should scroll to organization selector when organization is not selected',
   await act(async () => await user.click(sendButton));
 
   await waitFor(() => expect(organizationToggleButton).toHaveFocus());
+});
+
+test('should scroll to job description when it is empty', async () => {
+  const user = userEvent.setup();
+
+  renderComponent({ authContextValue });
+
+  const jobDescriptionInput = getElement('jobDescription');
+  const sendButton = getElement('sendButton');
+  await selectOrganization();
+
+  await act(async () => await user.click(sendButton));
+
+  await waitFor(() => expect(jobDescriptionInput).toHaveFocus());
 });
 
 test('should succesfully send access request when user is signed in', async () => {

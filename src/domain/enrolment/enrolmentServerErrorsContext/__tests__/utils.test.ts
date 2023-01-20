@@ -54,6 +54,14 @@ describe('parseEnrolmentServerErrors', () => {
 });
 
 describe('parseSeatsReservationServerErrors', () => {
+  it('should set generic server error items', async () => {
+    const result = { detail: 'Metodi "POST" ei ole sallittu.' };
+
+    expect(
+      parseSeatsReservationServerErrors({ result, t: i18n.t.bind(i18n) })
+    ).toEqual([{ label: '', message: 'Metodi "POST" ei ole sallittu.' }]);
+  });
+
   it('should set server error items', async () => {
     const result = {
       name: ['The name must be specified.'],

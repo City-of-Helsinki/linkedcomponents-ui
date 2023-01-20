@@ -1,6 +1,7 @@
 import { TFunction } from 'i18next';
 
 import { LEServerError, ServerErrorItem } from '../../../types';
+import isGenericServerError from '../../../utils/isGenericServerError';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
@@ -36,6 +37,10 @@ export const parseRegistrationServerErrors = ({
 
   // Get correct field name for an error item
   function parseRegistrationServerErrorLabel({ key }: { key: string }): string {
+    if (isGenericServerError(key)) {
+      return '';
+    }
+
     switch (key) {
       case 'enrolment_end_time':
       case 'enrolment_start_time':

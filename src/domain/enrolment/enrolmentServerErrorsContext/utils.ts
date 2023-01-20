@@ -1,6 +1,7 @@
 import { TFunction } from 'i18next';
 
 import { LEServerError, ServerErrorItem } from '../../../types';
+import isGenericServerError from '../../../utils/isGenericServerError';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
@@ -36,13 +37,11 @@ export const parseEnrolmentServerErrors = ({
 
   // Get correct field name for an error item
   function parseEnrolmentServerErrorLabel({ key }: { key: string }): string {
-    switch (key) {
-      case 'detail':
-      case 'non_field_errors':
-        return '';
-      default:
-        return t(`enrolment.form.label${pascalCase(key)}`);
+    if (isGenericServerError(key)) {
+      return '';
     }
+
+    return t(`enrolment.form.label${pascalCase(key)}`);
   }
 };
 
@@ -67,6 +66,24 @@ export const parseSeatsReservationServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
-    return [{ label: key, message: parseServerErrorMessage({ error, t }) }];
+    return [
+      {
+        label: parseSeatsReservationServerErrorLabel({ key }),
+        message: parseServerErrorMessage({ error, t }),
+      },
+    ];
+  }
+
+  // Get correct field name for an error item
+  function parseSeatsReservationServerErrorLabel({
+    key,
+  }: {
+    key: string;
+  }): string {
+    if (isGenericServerError(key)) {
+      return '';
+    }
+
+    return key;
   }
 };

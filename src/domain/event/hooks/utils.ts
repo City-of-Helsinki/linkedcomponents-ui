@@ -5,6 +5,7 @@ import {
   PublicationStatus,
 } from '../../../generated/graphql';
 import { LEServerError, OptionType, ServerErrorItem } from '../../../types';
+import isGenericServerError from '../../../utils/isGenericServerError';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
@@ -162,6 +163,10 @@ export const parseEventServerErrors = ({
     key: string;
     langText?: string;
   }): string {
+    if (isGenericServerError(key)) {
+      return '';
+    }
+
     switch (key) {
       case 'end_time':
       case 'start_time':

@@ -11,23 +11,35 @@ const getHookWrapper = () => {
   return { result };
 };
 
+it('should set generic server error items', async () => {
+  const { result } = getHookWrapper();
+
+  const error = new ApolloError({
+    networkError: {
+      result: { detail: 'Metodi "POST" ei ole sallittu.' },
+    } as any,
+  });
+
+  act(() => result.current.showServerErrors({ error }));
+
+  expect(result.current.serverErrorItems).toEqual([
+    { label: '', message: 'Metodi "POST" ei ole sallittu.' },
+  ]);
+});
+
 it('should set server error items', async () => {
   const callbackFn = jest.fn();
   const { result } = getHookWrapper();
 
   const error = new ApolloError({
     networkError: {
-      result: {
-        detail: 'Metodi "POST" ei ole sallittu.',
-        name: ['The name must be specified.'],
-      },
+      result: { name: ['The name must be specified.'] },
     } as any,
   });
 
   act(() => result.current.showServerErrors({ callbackFn, error }));
 
   expect(result.current.serverErrorItems).toEqual([
-    { label: '', message: 'Metodi "POST" ei ole sallittu.' },
     { label: 'Nimi', message: 'Nimi on pakollinen.' },
   ]);
   expect(callbackFn).toBeCalled();

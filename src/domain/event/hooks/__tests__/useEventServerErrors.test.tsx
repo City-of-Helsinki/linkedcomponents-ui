@@ -12,6 +12,24 @@ const getHookWrapper = () => {
   return { result };
 };
 
+it('should set generic server error items', async () => {
+  const { result } = getHookWrapper();
+
+  const error = new ApolloError({
+    networkError: {
+      result: { detail: 'Metodi "POST" ei ole sallittu.' },
+    } as any,
+  });
+
+  act(() =>
+    result.current.showServerErrors({ eventType: EVENT_TYPE.General, error })
+  );
+
+  expect(result.current.serverErrorItems).toEqual([
+    { label: '', message: 'Metodi "POST" ei ole sallittu.' },
+  ]);
+});
+
 it('should set server error items', async () => {
   const { result } = getHookWrapper();
 
