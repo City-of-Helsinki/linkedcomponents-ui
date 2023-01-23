@@ -1,6 +1,7 @@
 # ===============================================
 FROM registry.access.redhat.com/ubi8/nodejs-16 as appbase
 # ===============================================
+WORKDIR /app
 
 USER root
 RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
@@ -18,8 +19,8 @@ ENV NODE_ENV $NODE_ENV
 ENV YARN_VERSION 1.22.5
 RUN yarn policies set-version $YARN_VERSION
 
-COPY package.json yarn.lock /opt/app-root/src/
-RUN chown -R default:root /opt/app-root/src
+COPY package.json yarn.lock /app/
+RUN chown -R default:root /app
 
 USER default
 
@@ -29,7 +30,7 @@ RUN yarn && yarn cache clean --force
 # =============================
 FROM appbase as development
 # =============================
-
+WORKDIR /app
 # Set NODE_ENV to development in the development container
 ARG NODE_ENV=development
 ENV NODE_ENV $NODE_ENV
@@ -37,7 +38,7 @@ ENV NODE_ENV $NODE_ENV
 ENV PORT 8000
 
 # Copy all files
-COPY . /opt/app-root/src/
+COPY . /app/
 
 # Bake package.json start command into the image
 CMD ["yarn", "start"]
@@ -47,7 +48,8 @@ EXPOSE 8000
 # ===================================
 FROM appbase as staticbuilder
 # ===================================
-COPY . /opt/app-root/src/
+WORKDIR /app
+COPY . /app/
 
 # Set public url
 ARG PUBLIC_URL
@@ -93,6 +95,7 @@ RUN yarn build
 RUN yarn generate-sitemap
 RUN yarn generate-robots
 RUN yarn compress
+
 # =============================
 FROM registry.access.redhat.com/ubi8/nginx-118 as production
 # =============================
@@ -102,7 +105,7 @@ RUN chgrp -R 0 /usr/share/nginx/html && \
     chmod -R g=u /usr/share/nginx/html
 
 # Copy static build
-COPY --from=staticbuilder /opt/app-root/src/build /usr/share/nginx/html
+COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
 # Copy nginx config
 COPY .prod/nginx.conf /etc/nginx/nginx.conf
