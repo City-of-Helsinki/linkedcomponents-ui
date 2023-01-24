@@ -23,7 +23,7 @@ import {
   EnrolmentServerErrorsContext,
   EnrolmentServerErrorsContextProps,
 } from '../../enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
-import { ReservationTimerProvider } from '../ReservationTimerContext';
+import ReservationTimer from '../ReservationTimer';
 
 const mockedUseNavigate = jest.fn();
 
@@ -55,9 +55,13 @@ const renderComponent = (
       <EnrolmentServerErrorsContext.Provider
         value={{ ...defaultServerErrorsProps, ...serverErrorProps }}
       >
-        <ReservationTimerProvider
-          initializeReservationData={true}
+        <ReservationTimer
+          attendees={[]}
+          callbacksDisabled={false}
+          disableCallbacks={jest.fn()}
+          initReservationData={true}
           registration={registration}
+          setAttendees={jest.fn()}
         />
       </EnrolmentServerErrorsContext.Provider>
     </EnrolmentPageProvider>,

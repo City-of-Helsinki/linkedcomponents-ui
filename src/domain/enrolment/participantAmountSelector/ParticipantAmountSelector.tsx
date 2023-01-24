@@ -1,32 +1,19 @@
 import { useField } from 'formik';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
 import NumberInput from '../../../common/components/numberInput/NumberInput';
-import {
-  RegistrationFieldsFragment,
-  SeatsReservation,
-  useUpdateSeatsReservationMutation,
-} from '../../../generated/graphql';
+import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
-import { reportError } from '../../app/sentry/utils';
-import {
-  getSeatsReservationData,
-  setSeatsReservationData,
-} from '../../reserveSeats/utils';
-import useUser from '../../user/hooks/useUser';
+import { getSeatsReservationData } from '../../reserveSeats/utils';
 import { ENROLMENT_FIELDS, ENROLMENT_MODALS } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
+import useSeatsReservationActions from '../hooks/useSeatsReservationActions';
 import ConfirmDeleteParticipantModal from '../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { AttendeeFields } from '../types';
-import {
-  getAttendeeCapacityError,
-  getNewAttendees,
-  getTotalAttendeeCapacity,
-} from '../utils';
+import { getAttendeeCapacityError, getTotalAttendeeCapacity } from '../utils';
 import styles from './participantAmountSelector.module.scss';
 
 interface Props {
@@ -39,24 +26,25 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   registration,
 }) => {
   const { t } = useTranslation();
-  const location = useLocation();
-  const { user } = useUser();
 
   const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
-
-  const { setServerErrorItems, showServerErrors } =
-    useEnrolmentServerErrorsContext();
-
-  const [updateSeatsReservationMutation] = useUpdateSeatsReservationMutation();
-
-  const [saving, setSaving] = useState(false);
-  const [participantsToDelete, setParticipantsToDelete] = useState(0);
-
-  const registrationId = getValue(registration.id, '');
 
   const [{ value: attendees }, , { setValue: setAttendees }] = useField<
     AttendeeFields[]
   >({ name: ENROLMENT_FIELDS.ATTENDEES });
+
+  const { saving, updateSeatsReservation } = useSeatsReservationActions({
+    attendees,
+    registration,
+    setAttendees,
+  });
+
+  const { setServerErrorItems, showServerErrors } =
+    useEnrolmentServerErrorsContext();
+
+  const [participantsToDelete, setParticipantsToDelete] = useState(0);
+
+  const registrationId = getValue(registration.id, '');
 
   const [participantAmount, setParticipantAmount] = useState(
     disabled
@@ -81,64 +69,14 @@ const ParticipantAmountSelector: React.FC<Props> = ({
     t
   );
 
-  const updateSeatsReservation = async () => {
-    const reservationData = getSeatsReservationData(registrationId);
-    const payload = {
-      code: getValue(reservationData?.code, ''),
-      registration: registrationId,
-      seats: participantAmount,
-      waitlist: true,
-    };
-
-    try {
-      const { data } = await updateSeatsReservationMutation({
-        variables: { input: payload },
-      });
-      const seatsReservation = data?.updateSeatsReservation as SeatsReservation;
-
-      const newAttendees = getNewAttendees({
-        attendees: attendees,
-        registration,
-        seatsReservation,
-      });
-
-      setAttendees(newAttendees);
-      setSeatsReservationData(registrationId, seatsReservation);
-
-      setSaving(false);
-      // Show modal to inform that some of the persons will be added to the waiting list
-      if (data?.updateSeatsReservation.waitlistSpots) {
-        setOpenModal(ENROLMENT_MODALS.PERSONS_ADDED_TO_WAITLIST);
-      } else {
-        closeModal();
-      }
-    } catch (error) {
-      showServerErrors({ error }, 'seatsReservation');
-
-      reportError({
-        data: {
-          error: error as Record<string, unknown>,
-          payload,
-          payloadAsString: JSON.stringify(payload),
-        },
-        location,
-        message: 'Failed to update reserve seats',
-        user,
-      });
-
-      setSaving(false);
-      closeModal();
-    }
-  };
-
   const updateParticipantAmount = () => {
     /* istanbul ignore else */
     if (participantAmount !== attendees.length) {
-      setSaving(true);
-
       setServerErrorItems([]);
 
-      updateSeatsReservation();
+      updateSeatsReservation(participantAmount, {
+        onError: (error) => showServerErrors({ error }, 'seatsReservation'),
+      });
     }
   };
 

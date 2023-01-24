@@ -2,7 +2,6 @@ import { PlacesQueryVariables } from '../../generated/graphql';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
-import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import { placesPathBuilder } from '../place/utils';
