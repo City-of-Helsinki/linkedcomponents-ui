@@ -8,6 +8,7 @@ import NumberInputField from '../../../../common/components/formFields/numberInp
 import TimeInputField from '../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
+import getDatePickerInitialMonth from '../../../../utils/getDatePickerInitialMonth';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import SplittedRow from '../../../app/layout/splittedRow/SplittedRow';
@@ -107,6 +108,7 @@ const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
               <Field
                 component={DateInputField}
                 disabled={!isEditingAllowed}
+                initialMonth={getDatePickerInitialMonth(enrolmentStartTime)}
                 label={t(`event.form.labelEnrolmentEndTimeDate`)}
                 minDate={enrolmentStartTime ?? null}
                 name={EVENT_FIELDS.ENROLMENT_END_TIME_DATE}

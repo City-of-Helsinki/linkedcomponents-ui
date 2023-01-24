@@ -11,6 +11,7 @@ import TimeInputField from '../../../../../common/components/formFields/timeInpu
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { WEEK_DAY } from '../../../../../constants';
 import { SuperEventType } from '../../../../../generated/graphql';
+import getDatePickerInitialMonth from '../../../../../utils/getDatePickerInitialMonth';
 import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
 import {
   RECURRING_EVENT_FIELDS,
@@ -112,6 +113,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
               <Field
                 component={DateInputField}
                 disabled={disabled}
+                initialMonth={getDatePickerInitialMonth(startDate)}
                 minDate={startDate}
                 name={RECURRING_EVENT_FIELDS.END_DATE}
                 label={t('event.form.recurringEvent.labelEndDate')}

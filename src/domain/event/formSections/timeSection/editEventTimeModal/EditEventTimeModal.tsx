@@ -9,6 +9,7 @@ import TimeInputField from '../../../../../common/components/formFields/timeInpu
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { TIME_FORMAT_DATA } from '../../../../../constants';
 import formatDate from '../../../../../utils/formatDate';
+import getDatePickerInitialMonth from '../../../../../utils/getDatePickerInitialMonth';
 import setDateTime from '../../../../../utils/setDateTime';
 import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
 import {
@@ -128,6 +129,7 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
                     <Field
                       component={DateInputField}
                       name={`${EDIT_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_DATE}`}
+                      initialMonth={getDatePickerInitialMonth(startDate)}
                       label={t(`event.form.labelEndDate.${eventType}`)}
                       minDate={startDate}
                       placeholder={t('common.placeholderDate')}

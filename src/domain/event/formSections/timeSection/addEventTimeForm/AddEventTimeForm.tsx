@@ -8,6 +8,7 @@ import DateInputField from '../../../../../common/components/formFields/dateInpu
 import TimeInputField from '../../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { SuperEventType } from '../../../../../generated/graphql';
+import getDatePickerInitialMonth from '../../../../../utils/getDatePickerInitialMonth';
 import setDateTime from '../../../../../utils/setDateTime';
 import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
 import {
@@ -102,6 +103,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
                 <Field
                   component={DateInputField}
                   disabled={disabled}
+                  initialMonth={getDatePickerInitialMonth(startDate)}
                   minDate={startDate}
                   name={`${ADD_EVENT_TIME_FORM_NAME}.${EVENT_TIME_FIELDS.END_DATE}`}
                   label={t(`event.form.labelEndDate.${eventType}`)}
