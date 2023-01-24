@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import DateInput from '../../../../../common/components/dateInput/DateInput';
 import DropdownMenu from '../../../../../common/components/dropdown/dropdownMenu/DropdownMenu';
+import getDatePickerInitialMonth from '../../../../../utils/getDatePickerInitialMonth';
 import styles from '../dateSelector.module.scss';
 import { DATE_FIELDS } from '../DateSelectorDropdown';
 
@@ -47,7 +48,7 @@ const DateSelectorDropdownMenu: React.FC<Props> = ({
       <DateInput
         id={endDateInputId}
         disableConfirmation
-        initialMonth={startDate || undefined}
+        initialMonth={getDatePickerInitialMonth(startDate)}
         minDate={startDate || undefined}
         onChange={(value) => onChangeDate(DATE_FIELDS.END_DATE, value)}
         placeholder={t('common.dateSelector.placeholderEndDate') as string}
