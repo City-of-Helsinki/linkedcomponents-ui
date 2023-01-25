@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { ApolloQueryResult, ServerError } from '@apollo/client';
-import { Form, Formik } from 'formik';
+import { Form, Formik, FormikErrors, FormikTouched, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -29,8 +29,10 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import useUser from '../../user/hooks/useUser';
 import {
   EVENT_ACTIONS,
+  EVENT_FIELDS,
   EVENT_INITIAL_VALUES,
   EVENT_MODALS,
+  EVENT_TYPE,
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
@@ -55,6 +57,7 @@ import TypeSection from '../formSections/typeSection/TypeSection';
 import VideoSection from '../formSections/videoSection/VideoSection';
 import useEventActions from '../hooks/useEventActions';
 import useEventServerErrors from '../hooks/useEventServerErrors';
+import useMainCategories from '../hooks/useMainCategories';
 import useSortedInfoLanguages from '../hooks/useSortedInfoLanguages';
 import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal';
 import ConfirmDeleteModal from '../modals/confirmDeleteModal/ConfirmDeleteModal';
@@ -81,9 +84,26 @@ export type EditEventFormProps = {
   ) => Promise<ApolloQueryResult<EventQuery>>;
 };
 
-export type EventFormProps = CreateEventFormProps | EditEventFormProps;
+export type EventFormWrapperProps = CreateEventFormProps | EditEventFormProps;
 
-const EventForm: React.FC<EventFormProps> = ({ event, refetch }) => {
+type EventFormProps = EventFormWrapperProps & {
+  initialValues: EventFormFields;
+  setErrors: (errors: FormikErrors<EventFormFields>) => void;
+  setTouched: (
+    touched: FormikTouched<EventFormFields>,
+    shouldValidate?: boolean
+  ) => void;
+  values: EventFormFields;
+};
+
+const EventForm: React.FC<EventFormProps> = ({
+  event,
+  initialValues,
+  refetch,
+  setErrors,
+  setTouched,
+  values,
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
   const location = useLocation();
@@ -93,6 +113,12 @@ const EventForm: React.FC<EventFormProps> = ({ event, refetch }) => {
   const { organizationAncestors } = useOrganizationAncestors(
     event?.publisher ?? ''
   );
+
+  const mainCategories = useMainCategories(values.type as EVENT_TYPE);
+
+  const [, , { setValue: setMainCategories }] = useField<string[]>({
+    name: EVENT_FIELDS.MAIN_CATEGORIES,
+  });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEventServerErrors();
@@ -194,17 +220,6 @@ const EventForm: React.FC<EventFormProps> = ({ event, refetch }) => {
     });
   };
 
-  const initialValues = React.useMemo(
-    () =>
-      event
-        ? getEventInitialValues(event)
-        : {
-            ...EVENT_INITIAL_VALUES,
-            publisher: user?.organization ?? /* istanbul ignore next */ '',
-          },
-    [event, user]
-  );
-
   const [nextPublicationStatus, setNextPublicationStatus] = React.useState(
     event?.publicationStatus as PublicationStatus
   );
@@ -215,6 +230,261 @@ const EventForm: React.FC<EventFormProps> = ({ event, refetch }) => {
 
   const [descriptionLanguage, setDescriptionLanguage] = React.useState(
     sortedEventInfoLanguages[0]
+  );
+
+  const isEventActionAllowed = (actions: EVENT_ACTIONS[]) => {
+    return actions.some((action) =>
+      checkCanUserDoAction({
+        action,
+        organizationAncestors,
+        user,
+        ...(event ? { event } : { publisher: values.publisher }),
+      })
+    );
+  };
+
+  /* istanbul ignore next */
+  const isEditingAllowed = event
+    ? isEventActionAllowed([
+        EVENT_ACTIONS.UPDATE_DRAFT,
+        EVENT_ACTIONS.UPDATE_PUBLIC,
+        EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+      ])
+    : isEventActionAllowed([EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH]);
+
+  const clearErrors = () => setErrors({});
+
+  const handleSubmit = async (publicationStatus: PublicationStatus) => {
+    try {
+      const valuesWithMainCategories = { ...values, mainCategories };
+      setServerErrorItems([]);
+      clearErrors();
+
+      if (publicationStatus === PublicationStatus.Draft) {
+        await draftEventSchema.validate(valuesWithMainCategories, {
+          abortEarly: false,
+        });
+      } else {
+        await publicEventSchema.validate(valuesWithMainCategories, {
+          abortEarly: false,
+        });
+      }
+
+      if (event) {
+        const { superEventType } = getEventFields(event, locale);
+
+        if (superEventType === SuperEventType.Recurring) {
+          setNextPublicationStatus(publicationStatus);
+          setOpenModal(EVENT_MODALS.UPDATE);
+        } else {
+          onUpdate(values, publicationStatus);
+        }
+      } else {
+        onCreate(values, publicationStatus);
+      }
+    } catch (error) {
+      showFormErrors({
+        error: error as ValidationError,
+        setErrors,
+        setTouched,
+      });
+
+      await scrollToFirstError({
+        descriptionLanguage,
+        error: error as ValidationError,
+        setDescriptionLanguage,
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    setMainCategories(mainCategories);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mainCategories]);
+
+  const { name } = event ? getEventFields(event, locale) : { name: '' };
+
+  return (
+    <>
+      {event && (
+        <>
+          <ConfirmCancelModal
+            event={event}
+            isOpen={openModal === EVENT_MODALS.CANCEL}
+            isSaving={saving === EVENT_ACTIONS.CANCEL}
+            onCancel={() => onCancel(values.type)}
+            onClose={closeModal}
+          />
+          <ConfirmDeleteModal
+            event={event}
+            isOpen={openModal === EVENT_MODALS.DELETE}
+            isSaving={saving === EVENT_ACTIONS.DELETE}
+            onClose={closeModal}
+            onDelete={onDelete}
+          />
+          <ConfirmPostponeModal
+            event={event}
+            isOpen={openModal === EVENT_MODALS.POSTPONE}
+            isSaving={saving === EVENT_ACTIONS.POSTPONE}
+            onClose={closeModal}
+            onPostpone={() => onPostpone(values.type)}
+          />
+          <ConfirmUpdateModal
+            event={event}
+            isOpen={openModal === EVENT_MODALS.UPDATE}
+            isSaving={
+              saving === EVENT_ACTIONS.ACCEPT_AND_PUBLISH ||
+              saving === EVENT_ACTIONS.UPDATE_DRAFT ||
+              saving === EVENT_ACTIONS.UPDATE_PUBLIC
+            }
+            onClose={closeModal}
+            onSave={() => onUpdate(values, nextPublicationStatus)}
+          />
+        </>
+      )}
+
+      <Form noValidate={true}>
+        <PageWrapper
+          {...(event
+            ? {
+                backgroundColor: 'coatOfArms',
+                className: styles.eventPage,
+                noFooter: true,
+                titleText: name,
+              }
+            : {
+                className: styles.eventPage,
+                title: `createEventPage.pageTitle.${values.type}`,
+              })}
+        >
+          <MainContent>
+            <Container
+              className={event ? '' : styles.createContainer}
+              contentWrapperClassName={
+                event ? styles.editPageContentContainer : ''
+              }
+              withOffset={true}
+            >
+              <Breadcrumb
+                className={styles.breadcrumb}
+                items={[
+                  { label: t('common.home'), to: ROUTES.HOME },
+                  { label: t('eventsPage.title'), to: ROUTES.EVENTS },
+                  {
+                    active: true,
+                    label: event
+                      ? t(`editEventPage.title.${values.type}`)
+                      : t(`createEventPage.title.${values.type}`),
+                  },
+                ]}
+              />
+
+              <EventAuthenticationNotification event={event} />
+              {event && <EventInfo event={event} />}
+              <ServerErrorSummary errors={serverErrorItems} />
+
+              <Section title={t('event.form.sections.type')}>
+                <TypeSection
+                  isEditingAllowed={isEditingAllowed}
+                  savedEvent={event}
+                />
+              </Section>
+              <Section title={t('event.form.sections.languages')}>
+                <LanguagesSection isEditingAllowed={isEditingAllowed} />
+              </Section>
+              <Section title={t('event.form.sections.responsibilities')}>
+                <ResponsibilitiesSection
+                  isEditingAllowed={isEditingAllowed}
+                  savedEvent={event}
+                />
+              </Section>
+              <Section title={t('event.form.sections.description')}>
+                <DescriptionSection
+                  isEditingAllowed={isEditingAllowed}
+                  selectedLanguage={descriptionLanguage}
+                  setSelectedLanguage={setDescriptionLanguage}
+                />
+              </Section>
+              <Section title={t('event.form.sections.time')}>
+                <TimeSection
+                  isEditingAllowed={isEditingAllowed}
+                  savedEvent={event}
+                />
+              </Section>
+              <Section title={t('event.form.sections.place')}>
+                <PlaceSection isEditingAllowed={isEditingAllowed} />
+              </Section>
+              <Section title={t('event.form.sections.price')}>
+                <PriceSection isEditingAllowed={isEditingAllowed} />
+              </Section>
+              <Section title={t(`event.form.sections.channels.${values.type}`)}>
+                <ChannelsSection isEditingAllowed={isEditingAllowed} />
+              </Section>
+              <Section title={t('event.form.sections.image')}>
+                <ImageSection isEditingAllowed={isEditingAllowed} />
+              </Section>
+              <Section title={t('event.form.sections.video')}>
+                <VideoSection isEditingAllowed={isEditingAllowed} />
+              </Section>
+              <Section title={t('event.form.sections.classification')}>
+                <ClassificationSection isEditingAllowed={isEditingAllowed} />
+              </Section>
+              <Section title={t('event.form.sections.audience')}>
+                <AudienceSection isEditingAllowed={isEditingAllowed} />
+              </Section>
+              <Section title={t('event.form.sections.additionalInfo')}>
+                <AdditionalInfoSection isEditingAllowed={isEditingAllowed} />
+              </Section>
+
+              {event ? (
+                <>
+                  <RegistrationSection event={event} />
+                  <Section title={t('event.form.sections.linksToEvents')}>
+                    <LinksToEventsSection event={event} />
+                  </Section>
+                </>
+              ) : (
+                <SummarySection isEditingAllowed={isEditingAllowed} />
+              )}
+            </Container>
+            {event ? (
+              <EditButtonPanel
+                event={event}
+                onCancel={() => setOpenModal(EVENT_MODALS.CANCEL)}
+                onDelete={() => setOpenModal(EVENT_MODALS.DELETE)}
+                onPostpone={() => setOpenModal(EVENT_MODALS.POSTPONE)}
+                onUpdate={handleSubmit}
+                saving={saving}
+              />
+            ) : (
+              <CreateButtonPanel
+                onSubmit={handleSubmit}
+                publisher={values.publisher}
+                saving={saving}
+              />
+            )}
+          </MainContent>
+        </PageWrapper>
+      </Form>
+    </>
+  );
+};
+
+const EventFormWrapper: React.FC<EventFormWrapperProps> = ({
+  event,
+  refetch,
+}) => {
+  const { user } = useUser();
+
+  const initialValues = React.useMemo(
+    () =>
+      event
+        ? getEventInitialValues(event)
+        : {
+            ...EVENT_INITIAL_VALUES,
+            publisher: user?.organization ?? /* istanbul ignore next */ '',
+          },
+    [event, user]
   );
 
   return (
@@ -230,256 +500,28 @@ const EventForm: React.FC<EventFormProps> = ({ event, refetch }) => {
       validateOnBlur={true}
       validateOnChange={true}
     >
-      {({ values, setErrors, setTouched }) => {
-        const isEventActionAllowed = (actions: EVENT_ACTIONS[]) => {
-          return actions.some((action) =>
-            checkCanUserDoAction({
-              action,
-              organizationAncestors,
-              user,
-              ...(event ? { event } : { publisher: values.publisher }),
-            })
-          );
-        };
-
-        /* istanbul ignore next */
-        const isEditingAllowed = event
-          ? isEventActionAllowed([
-              EVENT_ACTIONS.UPDATE_DRAFT,
-              EVENT_ACTIONS.UPDATE_PUBLIC,
-              EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
-            ])
-          : isEventActionAllowed([
-              EVENT_ACTIONS.CREATE_DRAFT,
-              EVENT_ACTIONS.PUBLISH,
-            ]);
-
-        const clearErrors = () => setErrors({});
-
-        const handleSubmit = async (publicationStatus: PublicationStatus) => {
-          try {
-            setServerErrorItems([]);
-            clearErrors();
-
-            if (publicationStatus === PublicationStatus.Draft) {
-              await draftEventSchema.validate(values, { abortEarly: false });
-            } else {
-              await publicEventSchema.validate(values, { abortEarly: false });
-            }
-
-            if (event) {
-              const { superEventType } = getEventFields(event, locale);
-
-              if (superEventType === SuperEventType.Recurring) {
-                setNextPublicationStatus(publicationStatus);
-                setOpenModal(EVENT_MODALS.UPDATE);
-              } else {
-                onUpdate(values, publicationStatus);
-              }
-            } else {
-              onCreate(values, publicationStatus);
-            }
-          } catch (error) {
-            showFormErrors({
-              error: error as ValidationError,
-              setErrors,
-              setTouched,
-            });
-
-            await scrollToFirstError({
-              descriptionLanguage,
-              error: error as ValidationError,
-              setDescriptionLanguage,
-            });
-          }
-        };
-
-        const { name } = event ? getEventFields(event, locale) : { name: '' };
-
+      {({ setErrors, setTouched, values }) => {
         return (
-          <>
-            {event && (
-              <>
-                <ConfirmCancelModal
-                  event={event}
-                  isOpen={openModal === EVENT_MODALS.CANCEL}
-                  isSaving={saving === EVENT_ACTIONS.CANCEL}
-                  onCancel={() => onCancel(values.type)}
-                  onClose={closeModal}
-                />
-                <ConfirmDeleteModal
-                  event={event}
-                  isOpen={openModal === EVENT_MODALS.DELETE}
-                  isSaving={saving === EVENT_ACTIONS.DELETE}
-                  onClose={closeModal}
-                  onDelete={onDelete}
-                />
-                <ConfirmPostponeModal
-                  event={event}
-                  isOpen={openModal === EVENT_MODALS.POSTPONE}
-                  isSaving={saving === EVENT_ACTIONS.POSTPONE}
-                  onClose={closeModal}
-                  onPostpone={() => onPostpone(values.type)}
-                />
-                <ConfirmUpdateModal
-                  event={event}
-                  isOpen={openModal === EVENT_MODALS.UPDATE}
-                  isSaving={
-                    saving === EVENT_ACTIONS.ACCEPT_AND_PUBLISH ||
-                    saving === EVENT_ACTIONS.UPDATE_DRAFT ||
-                    saving === EVENT_ACTIONS.UPDATE_PUBLIC
-                  }
-                  onClose={closeModal}
-                  onSave={() => onUpdate(values, nextPublicationStatus)}
-                />
-              </>
-            )}
-
-            <Form noValidate={true}>
-              <FormikPersist
-                name={FORM_NAMES.EVENT_FORM}
-                isSessionStorage={true}
-                restoringDisabled={!!event}
-                savingDisabled={!!event}
-              >
-                <PageWrapper
-                  {...(event
-                    ? {
-                        backgroundColor: 'coatOfArms',
-                        className: styles.eventPage,
-                        noFooter: true,
-                        titleText: name,
-                      }
-                    : {
-                        className: styles.eventPage,
-                        title: `createEventPage.pageTitle.${values.type}`,
-                      })}
-                >
-                  <MainContent>
-                    <Container
-                      className={event ? '' : styles.createContainer}
-                      contentWrapperClassName={
-                        event ? styles.editPageContentContainer : ''
-                      }
-                      withOffset={true}
-                    >
-                      <Breadcrumb
-                        className={styles.breadcrumb}
-                        items={[
-                          { label: t('common.home'), to: ROUTES.HOME },
-                          { label: t('eventsPage.title'), to: ROUTES.EVENTS },
-                          {
-                            active: true,
-                            label: event
-                              ? t(`editEventPage.title.${values.type}`)
-                              : t(`createEventPage.title.${values.type}`),
-                          },
-                        ]}
-                      />
-
-                      <EventAuthenticationNotification event={event} />
-                      {event && <EventInfo event={event} />}
-                      <ServerErrorSummary errors={serverErrorItems} />
-
-                      <Section title={t('event.form.sections.type')}>
-                        <TypeSection
-                          isEditingAllowed={isEditingAllowed}
-                          savedEvent={event}
-                        />
-                      </Section>
-                      <Section title={t('event.form.sections.languages')}>
-                        <LanguagesSection isEditingAllowed={isEditingAllowed} />
-                      </Section>
-                      <Section
-                        title={t('event.form.sections.responsibilities')}
-                      >
-                        <ResponsibilitiesSection
-                          isEditingAllowed={isEditingAllowed}
-                          savedEvent={event}
-                        />
-                      </Section>
-                      <Section title={t('event.form.sections.description')}>
-                        <DescriptionSection
-                          isEditingAllowed={isEditingAllowed}
-                          selectedLanguage={descriptionLanguage}
-                          setSelectedLanguage={setDescriptionLanguage}
-                        />
-                      </Section>
-                      <Section title={t('event.form.sections.time')}>
-                        <TimeSection
-                          isEditingAllowed={isEditingAllowed}
-                          savedEvent={event}
-                        />
-                      </Section>
-                      <Section title={t('event.form.sections.place')}>
-                        <PlaceSection isEditingAllowed={isEditingAllowed} />
-                      </Section>
-                      <Section title={t('event.form.sections.price')}>
-                        <PriceSection isEditingAllowed={isEditingAllowed} />
-                      </Section>
-                      <Section
-                        title={t(`event.form.sections.channels.${values.type}`)}
-                      >
-                        <ChannelsSection isEditingAllowed={isEditingAllowed} />
-                      </Section>
-                      <Section title={t('event.form.sections.image')}>
-                        <ImageSection isEditingAllowed={isEditingAllowed} />
-                      </Section>
-                      <Section title={t('event.form.sections.video')}>
-                        <VideoSection isEditingAllowed={isEditingAllowed} />
-                      </Section>
-                      <Section title={t('event.form.sections.classification')}>
-                        <ClassificationSection
-                          isEditingAllowed={isEditingAllowed}
-                        />
-                      </Section>
-                      <Section title={t('event.form.sections.audience')}>
-                        <AudienceSection isEditingAllowed={isEditingAllowed} />
-                      </Section>
-                      <Section title={t('event.form.sections.additionalInfo')}>
-                        <AdditionalInfoSection
-                          isEditingAllowed={isEditingAllowed}
-                        />
-                      </Section>
-
-                      {event ? (
-                        <>
-                          <RegistrationSection event={event} />
-                          <Section
-                            title={t('event.form.sections.linksToEvents')}
-                          >
-                            <LinksToEventsSection event={event} />
-                          </Section>
-                        </>
-                      ) : (
-                        <SummarySection isEditingAllowed={isEditingAllowed} />
-                      )}
-                    </Container>
-                    {event ? (
-                      <EditButtonPanel
-                        event={event}
-                        onCancel={() => setOpenModal(EVENT_MODALS.CANCEL)}
-                        onDelete={() => setOpenModal(EVENT_MODALS.DELETE)}
-                        onPostpone={() => setOpenModal(EVENT_MODALS.POSTPONE)}
-                        onUpdate={handleSubmit}
-                        saving={saving}
-                      />
-                    ) : (
-                      <CreateButtonPanel
-                        onSubmit={handleSubmit}
-                        publisher={values.publisher}
-                        saving={saving}
-                      />
-                    )}
-                  </MainContent>
-                </PageWrapper>
-              </FormikPersist>
-            </Form>
-          </>
+          <FormikPersist
+            name={FORM_NAMES.EVENT_FORM}
+            isSessionStorage={true}
+            restoringDisabled={!!event}
+            savingDisabled={!!event}
+          >
+            <EventForm
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              event={event as any}
+              initialValues={initialValues}
+              refetch={refetch}
+              setErrors={setErrors}
+              setTouched={setTouched}
+              values={values}
+            />
+          </FormikPersist>
         );
       }}
     </Formik>
   );
 };
 
-export default EventForm;
+export default EventFormWrapper;

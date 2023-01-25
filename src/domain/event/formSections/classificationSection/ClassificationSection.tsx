@@ -31,9 +31,6 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const [{ value: keywords }, , { setValue: setKeywords }] = useField<string[]>(
     { name: EVENT_FIELDS.KEYWORDS }
   );
-  const [, , { setValue: setMainCategories }] = useField<string[]>({
-    name: EVENT_FIELDS.MAIN_CATEGORIES,
-  });
 
   const { topicsData } = useEventFieldOptionsData(type);
 
@@ -47,12 +44,6 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
       ),
     [locale, topicsData]
   );
-
-  React.useEffect(() => {
-    // Set main categories to validate that at least one main category is selected
-    setMainCategories(keywordOptions?.map((k) => k.value));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [keywordOptions]);
 
   // Internet location automatically implies "remote participation"
   React.useEffect(() => {

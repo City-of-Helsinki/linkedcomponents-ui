@@ -22,6 +22,7 @@ const FormikPersist: React.FC<React.PropsWithChildren<PersistProps>> = ({
   savingDisabled,
 }) => {
   const isMounted = useIsMounted();
+  const [isInitialized, setIsInitialized] = React.useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formik = useFormikContext<any>();
 
@@ -59,18 +60,20 @@ const FormikPersist: React.FC<React.PropsWithChildren<PersistProps>> = ({
 
     if (!restoringDisabled && maybeState) {
       formik.setFormikState(JSON.parse(maybeState), formik.validateForm);
-
       // Validate form after setting state
       timeout = setTimeout(async () => {
         await formik.validateForm();
+        setIsInitialized(true);
       }, 10);
+    } else {
+      setIsInitialized(true);
     }
 
     return () => clearTimeout(timeout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return <>{children}</>;
+  return <>{isInitialized ? children : null}</>;
 };
 
 export default FormikPersist;

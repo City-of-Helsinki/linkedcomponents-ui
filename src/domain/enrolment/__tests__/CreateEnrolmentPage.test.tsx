@@ -216,15 +216,16 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
     path: ROUTES.CREATE_ENROLMENT,
   });
 
-const waitLoadingAndGetNameInput = async () => {
+const waitLoadingAndFindNameInput = async () => {
   await loadingSpinnerIsNotInDocument();
-  return await findElement('nameInput');
+  const nameInput = await findElement('nameInput');
+  return nameInput;
 };
 
 const enterFormValues = async () => {
   const user = userEvent.setup();
 
-  const nameInput = await waitLoadingAndGetNameInput();
+  const nameInput = await waitLoadingAndFindNameInput();
   const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
@@ -270,7 +271,7 @@ test('should validate enrolment form and focus to invalid field and finally crea
     mockedCreateEnrolmentResponse,
   ]);
 
-  const nameInput = await waitLoadingAndGetNameInput();
+  const nameInput = await waitLoadingAndFindNameInput();
   const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
@@ -358,7 +359,7 @@ test('should add and delete participants', async () => {
     getUpdateSeatsReservationMock(2),
   ]);
 
-  await waitLoadingAndGetNameInput();
+  await waitLoadingAndFindNameInput();
 
   const participantAmountInput = getElement('participantAmountInput');
   const updateParticipantAmountButton = getElement(
@@ -394,7 +395,7 @@ test('should show server errors when updating seats reservation fails', async ()
 
   renderComponent([...defaultMocks, getUpdateSeatsReservationErrorMock(2)]);
 
-  await waitLoadingAndGetNameInput();
+  await waitLoadingAndFindNameInput();
 
   const participantAmountInput = getElement('participantAmountInput');
   const updateParticipantAmountButton = getElement(
@@ -417,7 +418,7 @@ test('should show and hide participant specific fields', async () => {
 
   renderComponent();
 
-  const nameInput = await waitLoadingAndGetNameInput();
+  const nameInput = await waitLoadingAndFindNameInput();
   const toggleButton = screen.getByRole('button', {
     name: 'Osallistuja 1',
   });
@@ -438,7 +439,7 @@ test('should delete participants by clicking delete participant button', async (
     getUpdateSeatsReservationMock(2),
   ]);
 
-  await waitLoadingAndGetNameInput();
+  await waitLoadingAndFindNameInput();
 
   const participantAmountInput = getElement('participantAmountInput');
   const updateParticipantAmountButton = getElement(
@@ -479,7 +480,7 @@ test('should show server errors when updating seats reservation fails', async ()
     getUpdateSeatsReservationErrorMock(2),
   ]);
 
-  await waitLoadingAndGetNameInput();
+  await waitLoadingAndFindNameInput();
 
   const participantAmountInput = getElement('participantAmountInput');
   const updateParticipantAmountButton = getElement(
