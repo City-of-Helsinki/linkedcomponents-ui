@@ -161,7 +161,7 @@ const findElement = (key: 'description' | 'name' | 'nameSv' | 'superEvent') => {
   }
 };
 
-const waitLoadingAndGetNameInput = async () => {
+const waitLoadingAndFindNameInput = async () => {
   await loadingSpinnerIsNotInDocument();
   return await findElement('name');
 };
@@ -170,7 +170,7 @@ test('should focus to first validation error when trying to save draft event', a
   const user = userEvent.setup();
   renderComponent();
 
-  const nameTextbox = await waitLoadingAndGetNameInput();
+  const nameTextbox = await waitLoadingAndFindNameInput();
   const saveDraftButton = getElement('saveDraft');
 
   await act(async () => await user.click(saveDraftButton));
@@ -193,7 +193,7 @@ test('should focus to validation error of swedish name when trying to save draft
 
   renderComponent();
 
-  await waitLoadingAndGetNameInput();
+  await waitLoadingAndFindNameInput();
 
   const saveDraftButton = getElement('saveDraft');
   await act(async () => await user.click(saveDraftButton));
@@ -208,7 +208,7 @@ test('should focus to select component in case of validation error', async () =>
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
+  await waitLoadingAndFindNameInput();
 
   const superEventSelect = await findElement('superEvent');
 
@@ -233,7 +233,7 @@ test('should focus to text editor component in case of validation error', async 
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
+  await waitLoadingAndFindNameInput();
 
   const descriptionTextbox = await findElement('description');
 
@@ -263,7 +263,7 @@ test('should focus to event times error if none event time exists', async () => 
 
   renderComponent();
 
-  await waitLoadingAndGetNameInput();
+  await waitLoadingAndFindNameInput();
 
   const publishButton = getElement('publish');
   await act(async () => await user.click(publishButton));
@@ -306,7 +306,7 @@ test('should focus to first main category checkbox if none main category is sele
 
   renderComponent(mocks);
 
-  await waitLoadingAndGetNameInput();
+  await waitLoadingAndFindNameInput();
 
   const withinMainCategories = within(getElement('mainCategories'));
   const keywordCheckbox = await withinMainCategories.findByLabelText(
@@ -333,7 +333,7 @@ test('should show server errors', async () => {
 
   renderComponent(mocks);
 
-  await waitLoadingAndGetNameInput();
+  await waitLoadingAndFindNameInput();
 
   const saveDraftButton = getElement('saveDraft');
   await act(async () => await user.click(saveDraftButton));
@@ -356,7 +356,7 @@ test('should route to event completed page after saving draft event', async () =
 
   const { history } = renderComponent(mocks);
 
-  await waitLoadingAndGetNameInput();
+  await waitLoadingAndFindNameInput();
 
   const saveDraftButton = getElement('saveDraft');
   await act(async () => await user.click(saveDraftButton));
@@ -404,7 +404,7 @@ test('should route to event completed page after publishing event', async () => 
 
   const { history } = renderComponent(mocks);
 
-  await waitLoadingAndGetNameInput();
+  await waitLoadingAndFindNameInput();
 
   const publishButton = getElement('publish');
   await act(async () => await user.click(publishButton));

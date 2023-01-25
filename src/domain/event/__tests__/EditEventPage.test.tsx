@@ -111,10 +111,10 @@ const openMenu = async () => {
 const findElement = (key: 'nameFi' | 'nameSv') => {
   switch (key) {
     case 'nameFi':
-      return screen.getByLabelText(/tapahtuman otsikko suomeksi/i);
+      return screen.findByLabelText(/tapahtuman otsikko suomeksi/i);
 
     case 'nameSv':
-      return screen.getByLabelText(/tapahtuman otsikko ruotsiksi/i);
+      return screen.findByLabelText(/tapahtuman otsikko ruotsiksi/i);
   }
 };
 
@@ -162,7 +162,7 @@ const getAddEventTimeElements = () => {
   };
 };
 
-const waitLoadingAndGetNameInput = async () => {
+const waitLoadingAndFindNameInput = async () => {
   await loadingSpinnerIsNotInDocument();
   return await findElement('nameFi');
 };
@@ -177,7 +177,7 @@ test('should cancel event', async () => {
   const user = userEvent.setup();
   renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
+  await waitLoadingAndFindNameInput();
   const { menu } = await openMenu();
 
   const cancelButton = within(menu).getByRole('button', {
@@ -211,7 +211,7 @@ test('should postpone event', async () => {
   const user = userEvent.setup();
   renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
+  await waitLoadingAndFindNameInput();
   const { menu } = await openMenu();
 
   const postponeButton = within(menu).getByRole('button', {
@@ -245,7 +245,7 @@ test('should delete event', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
+  await waitLoadingAndFindNameInput();
   const { menu } = await openMenu();
 
   const deleteButton = within(menu).getByRole('button', {
@@ -279,7 +279,7 @@ test('should update event', async () => {
   const user = userEvent.setup();
   renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
+  await waitLoadingAndFindNameInput();
 
   const withinMainCategories = within(getElement('mainCategories'));
   const topicCheckbox = await withinMainCategories.findByLabelText(topicName);
@@ -317,7 +317,7 @@ test('should update recurring event', async () => {
   const user = userEvent.setup();
   renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
+  await waitLoadingAndFindNameInput();
   screen.getByText(expectedValues.lastModifiedTime);
 
   // Delete first sub-event
@@ -390,7 +390,7 @@ test('should scroll to first error when validation error is thrown', async () =>
   const user = userEvent.setup();
   renderComponent(mocks);
 
-  const nameFiInput = await waitLoadingAndGetNameInput();
+  const nameFiInput = await waitLoadingAndFindNameInput();
 
   const updateButton = getElement('updateDraft');
   await act(async () => await user.click(updateButton));
@@ -404,7 +404,7 @@ test('should show server errors', async () => {
   const user = userEvent.setup();
   renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
+  await waitLoadingAndFindNameInput();
 
   const withinMainCategories = within(getElement('mainCategories'));
   const topicCheckbox = await withinMainCategories.findByLabelText(topicName);
