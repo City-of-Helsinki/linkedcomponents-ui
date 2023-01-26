@@ -1,3 +1,6 @@
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
 #
 # Test pipeline. Run build and deploy for Platta test environments.
 # Pipeline runs different tests e.g. unittest and browser tests.
@@ -24,6 +27,14 @@ jobs:
       # Replace '10.14' with the latest Node.js LTS version
       versionSpec: '16'
     displayName: 'Install Node.js'
+  - task: Cache@2
+    inputs:
+      key: 'yarn | "$(Agent.OS)" | yarn.lock'
+      restoreKeys: |
+        yarn | "$(Agent.OS)"
+        yarn
+      path: $(YARN_CACHE_FOLDER)
+    displayName: Cache Yarn packages
   - script: yarn --prefer-offline --frozen-lockfile --check-files --production=false
     displayName: 'Install TestCafe'
   - script: yarn browser-test:azure
