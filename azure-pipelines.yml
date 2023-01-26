@@ -49,3 +49,4 @@ jobs:
     inputs:
       testResultsFiles: '**/report.xml'
       testResultsFormat: 'JUnit'
+    condition: always()
