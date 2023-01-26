@@ -31,8 +31,8 @@ jobs:
     env:
       BROWSER_TESTS_ENV_URL: 'https://linkedcomponents-ui-dev.agw.arodevtest.hel.fi'
       BROWSER_TESTS_LINKED_EVENTS_URL: 'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1'
-      BROWSER_TESTS_SHOW_ADMIN: 'false'
-      BROWSER_TESTS_SHOW_REGISTRATION: 'false'
+      BROWSER_TESTS_SHOW_ADMIN: 'true'
+      BROWSER_TESTS_SHOW_REGISTRATION: 'true'
   - task: PublishTestResults@2
     inputs:
       testResultsFiles: '**/report.xml'
