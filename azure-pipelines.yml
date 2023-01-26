@@ -22,7 +22,7 @@ jobs:
   - script: yarn browser-test:azure
     displayName: 'Run TestCafe Tests'
     env:
-      BROWSER_TESTS_ENV_URL: 'linkedcomponents-ui-dev.agw.arodevtest.hel.fi'
+      BROWSER_TESTS_ENV_URL: 'https://linkedcomponents-ui-dev.agw.arodevtest.hel.fi'
       BROWSER_TESTS_LINKED_EVENTS_URL: 'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1'
       BROWSER_TESTS_SHOW_ADMIN: 'false'
       BROWSER_TESTS_SHOW_REGISTRATION: 'false'
