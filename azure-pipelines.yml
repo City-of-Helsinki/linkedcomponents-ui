@@ -7,6 +7,13 @@
 # only PR trigger pipeline
 trigger: none
 
+schedules: 
+# Every hour from 7 - 24 (finnish time winter time)
+- cron: '0 5-22 * * *'
+  branches: 
+    include: 
+    - azure-testcafe-test 
+
 jobs:
 - job: e2e_tests
   pool:
