@@ -122,6 +122,10 @@ export const getRequestErrorMessage = async (
     Linked Events API url in browser tests:
     ------------------------------------------------
     ${getLinkedEventsUrl()}
+    ${process.env.BROWSER_TESTS_ENV_URL}
+    ${process.env.BROWSER_TESTS_LINKED_EVENTS_URL}
+    ${process.env.BROWSER_TESTS_SHOW_ADMIN}
+    ${process.env.BROWSER_TESTS_SHOW_REGISTRATION}
     ------------------------------------------------
     Requests in tests:
     ------------------------------------------------ 
