@@ -16,6 +16,7 @@ schedules:
   branches: 
     include: 
     - azure-testcafe-test 
+  always: true
 
 jobs:
 - job: e2e_tests
