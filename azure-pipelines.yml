@@ -25,17 +25,8 @@ jobs:
       # Replace '10.14' with the latest Node.js LTS version
       versionSpec: '16'
     displayName: 'Install Node.js'
-  - bash: echo "##vso[task.setvariable variable=yarnCacheDir;]$(yarn cache dir)"
-    displayName: Set yarn cache dir variable
-  - task: Cache@2
-    inputs:
-      key: '"yarn" | "$(Agent.OS)" | yarn.lock'
-      restoreKeys: |
-        yarn | "$(Agent.OS)"
-      path: $(yarnCacheDir)
-    displayName: Cache Yarn packages
   - script: yarn --prefer-offline --frozen-lockfile --check-files --production=false
-    displayName: 'Install TestCafe'
+    displayName: 'Install dependencies'
   - script: yarn browser-test:azure
     displayName: 'Run TestCafe Tests'
     env:
