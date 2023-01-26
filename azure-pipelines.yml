@@ -1,0 +1,23 @@
+jobs:
+- job: e2e_tests
+  pool:
+    vmImage: 'Ubuntu 16.04'
+  steps:
+  - task: NodeTool@0
+    inputs:
+      # Replace '10.14' with the latest Node.js LTS version
+      versionSpec: '16'
+    displayName: 'Install Node.js'
+  - script: yarn --prefer-offline --frozen-lockfile --check-files --production=false
+    displayName: 'Install TestCafe'
+  - script: yarn browser-test:azure
+    displayName: 'Run TestCafe Tests'
+    env:
+      BROWSER_TESTS_ENV_URL: 'linkedcomponents-ui-dev.agw.arodevtest.hel.fi'
+      BROWSER_TESTS_LINKED_EVENTS_URL: 'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1'
+      BROWSER_TESTS_SHOW_ADMIN: 'false'
+      BROWSER_TESTS_SHOW_REGISTRATION: 'false'
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '**/report.xml'
+      testResultsFormat: 'JUnit'
