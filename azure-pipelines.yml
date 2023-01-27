@@ -38,10 +38,11 @@ jobs:
       path: $(yarnCacheDir)
     displayName: Cache Yarn packages
   - script: |
-        set -e
-        export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
         node -v
         yarn -v
+        yarn cache get
+        echo ${{ variables.YARN_CACHE_FOLDER }} 
+        echo $(yarnCacheDir)
     displayName: "Print versions"
   - script: yarn --frozen-lockfile
     displayName: "Install dependencies"
