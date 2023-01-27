@@ -16,7 +16,7 @@ schedules:
   always: true
 
 variables:
-  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/v6
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
 jobs:
 - job: e2e_tests
@@ -35,7 +35,7 @@ jobs:
       restoreKeys: |
         yarn | "$(Agent.OS)"
         yarn
-      path: $(YARN_CACHE_FOLDER)
+      path: $(yarnCacheDir)
     displayName: Cache Yarn packages
   - script: yarn --frozen-lockfile
     displayName: "Install dependencies"
