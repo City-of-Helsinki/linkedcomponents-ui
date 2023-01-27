@@ -35,7 +35,7 @@ jobs:
         yarn
       path: $(YARN_CACHE_FOLDER)
     displayName: Cache Yarn packages
-  - script: yarn --prefer-offline --frozen-lockfile --check-files --production=false
+  - script: yarn --frozen-lockfile --production=false
     displayName: 'Install dependencies'
   - script: yarn browser-test:azure
     displayName: 'Run TestCafe Tests'
