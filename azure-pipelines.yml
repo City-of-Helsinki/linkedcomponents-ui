@@ -24,19 +24,32 @@ jobs:
   steps:
   - task: NodeTool@0
     inputs:
-      # Replace '10.14' with the latest Node.js LTS version
-      versionSpec: '16'
+      versionSpec: '16.x'
     displayName: 'Install Node.js'
-  - task: Cache@2
+  - script: |
+      if [ -d ".yarn/cache/" ]; then
+        echo ".yarn/cache checked in for 'Zero Installs', pushing cache and not running install.."  
+      elif [ ! -d ".yarn/cache/" ]; then
+        echo ".yarn/cache not found, configuring yarn.."
+        echo "Setting yarn version to stable.."
+        yarn set version stable
+        echo "Checking yarn version.."
+        yarn -v
+        echo "Running yarn install.."
+        yarn install 
+      fi
+      displayName: 'Check for .yarn cache or install packages'
+  - task: ArchiveFiles@2
+    displayName: 'Archive files'
     inputs:
-      key: '"yarn" | "$(Agent.OS)" | yarn.lock'
-      restoreKeys: |
-        yarn | "$(Agent.OS)"
-        yarn
-      path: $(YARN_CACHE_FOLDER)
-    displayName: Cache Yarn packages
-  - script: yarn --frozen-lockfile --production=false
-    displayName: 'Install dependencies'
+      rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+      includeRootFolder: false
+      archiveType: zip
+      archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      replaceExistingArchive: true
+
+  - publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+    artifact: drop
   - script: yarn browser-test:azure
     displayName: 'Run TestCafe Tests'
     env:
