@@ -17464,6 +17464,11 @@ testcafe-reporter-xunit@^2.2.1:
   resolved "https://registry.yarnpkg.com/testcafe-reporter-xunit/-/testcafe-reporter-xunit-2.2.1.tgz#674b6551bec88829d4ed08af43e7838793cf714e"
   integrity sha512-ge1msi8RyNVyK0QrsmC79zedV7jHasKpBPeOUZd/ORpbYLeYDnprjIeOuIukw0knnTieeYsOK29/ZD+UI7/tdw==
 
+testcafe-reporter-xunit@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/testcafe-reporter-xunit/-/testcafe-reporter-xunit-2.2.2.tgz#e26d517a2fb509139184cd06e41fe7822923e661"
+  integrity sha512-Si2cloquvpgv71JAcut8qdx+HrsTuU5vjmxxbf8xGPBZuITW/J9HF0lGLNGFAp7IRRgqu3oZ/HyfAQrobGawOQ==
+
 testcafe-safe-storage@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/testcafe-safe-storage/-/testcafe-safe-storage-1.1.2.tgz#dacfda9a51c77f61f11b13506d4004dd7f27eb73"
