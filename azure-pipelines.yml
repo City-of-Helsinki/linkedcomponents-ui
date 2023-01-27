@@ -16,7 +16,7 @@ schedules:
   always: true
 
 variables:
-  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn/v6
 
 jobs:
 - job: e2e_tests
@@ -35,7 +35,7 @@ jobs:
       restoreKeys: |
         yarn | "$(Agent.OS)"
         yarn
-      path: $(yarnCacheDir)
+      path: $(YARN_CACHE_FOLDER)
     displayName: Cache Yarn packages
   - script: |
         node -v
