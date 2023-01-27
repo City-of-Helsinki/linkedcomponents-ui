@@ -1,0 +1,50 @@
+#
+# Test pipeline. Run build and deploy for Platta test environments.
+# Pipeline runs different tests e.g. unittest and browser tests.
+#
+# Continuous integration (CI) triggers cause a pipeline to run whenever you push 
+# an update to the specified branches or you push specified tags.
+# only PR trigger pipeline
+trigger: none
+
+schedules: 
+# Every hour from 7 - 24 (finnish time winter time)
+- cron: '0 5-22 * * *'
+  branches: 
+    include: 
+    - azure-testcafe-test 
+  always: true
+
+jobs:
+- job: e2e_tests
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '16.x'
+    displayName: 'Install Node.js'
+  - script: yarn --frozen-lockfile
+    displayName: "Install dependencies"
+  - script: yarn browser-test:azure
+    displayName: 'Run TestCafe Tests'
+    env:
+      BROWSER_TESTS_ENV_URL: 'https://linkedcomponents-ui-dev.agw.arodevtest.hel.fi'
+      BROWSER_TESTS_LINKED_EVENTS_URL: 'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1'
+      BROWSER_TESTS_SHOW_ADMIN: 'true'
+      BROWSER_TESTS_SHOW_REGISTRATION: 'true'
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish Screenshots and videos'
+    condition: failed()
+    inputs:
+      artifactName: 'report'
+      artifactType: 'pipeline'
+      targetPath: '$(Build.SourcesDirectory)/report'
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '**/report.xml'
+      testResultsFormat: 'JUnit'
+      testRunTitle: 'TestCafe Test Results'
+      publishRunAttachments: true
+    condition: succeededOrFailed() 
+ 
