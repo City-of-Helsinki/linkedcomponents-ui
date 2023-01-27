@@ -38,7 +38,8 @@ jobs:
     condition: succeededOrFailed()
     inputs:
       artifactName: 'report'
-      targetPath: '$(Build.SourcesDirectory)/report'
+      artifactType: 'pipeline'
+      targetPath: '$(Pipeline.Workspace)'
   - task: PublishTestResults@2
     inputs:
       testResultsFiles: '**/report.xml'
