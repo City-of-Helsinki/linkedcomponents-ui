@@ -27,13 +27,15 @@ jobs:
     inputs:
       versionSpec: '16.x'
     displayName: 'Install Node.js'
+  - bash: echo "##vso[task.setvariable variable=yarnCacheDir;]$(yarn cache dir)"
+    displayName: Set yarn cache dir variable
   - task: Cache@2
     inputs:
       key: 'yarn | "$(Agent.OS)" | yarn.lock'
       restoreKeys: |
         yarn | "$(Agent.OS)"
         yarn
-      path: $(YARN_CACHE_FOLDER)
+      path: $(yarnCacheDir)
     displayName: Cache Yarn packages
   - script: |
         set -e
