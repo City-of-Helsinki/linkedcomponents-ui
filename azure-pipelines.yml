@@ -42,6 +42,7 @@ jobs:
         yarn -v
     displayName: "Print versions"
   - script: yarn --frozen-lockfile
+    displayName: "Install dependencies"
   - script: yarn browser-test:azure
     displayName: 'Run TestCafe Tests'
     env:
