@@ -40,7 +40,7 @@ jobs:
         export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
         node -v
         yarn -v
-        displayName: "Print versions"
+    displayName: "Print versions"
   - script: yarn --frozen-lockfile
   - script: yarn browser-test:azure
     displayName: 'Run TestCafe Tests'
