@@ -52,7 +52,12 @@ const getHookWrapper = (
   const wrapper = ({ children }) => (
     <AuthContext.Provider value={authContextValue}>
       <MockedProvider cache={createCache()} mocks={[...commonMocks, ...mocks]}>
-        <Router history={history as any}>{children}</Router>
+        <Router
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+          history={history as any}
+        >
+          {children}
+        </Router>
       </MockedProvider>
     </AuthContext.Provider>
   );

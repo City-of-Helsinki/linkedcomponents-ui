@@ -10,7 +10,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import translations from '../../../app/i18n/fi.json';
 import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });

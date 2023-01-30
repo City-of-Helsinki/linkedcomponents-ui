@@ -7,7 +7,6 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import ConfirmDeleteModal, {
   ConfirmDeleteModalProps,
 } from '../ConfirmDeleteModal';

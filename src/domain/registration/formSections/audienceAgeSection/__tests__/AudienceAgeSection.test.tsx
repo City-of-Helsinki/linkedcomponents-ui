@@ -8,7 +8,6 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import translations from '../../../../app/i18n/fi.json';
 import { REGISTRATION_FIELDS } from '../../../constants';
 import { registrationSchema } from '../../../validation';
 import AudienceAgeSection from '../AudienceAgeSection';
