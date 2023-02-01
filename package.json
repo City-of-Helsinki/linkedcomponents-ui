@@ -68,6 +68,7 @@
     "react-scripts": "5.0.1",
     "react-scroll": "^1.8.9",
     "react-toastify": "^9.1.1",
+    "react-uuid": "^2.0.0",
     "sass": "^1.57.1",
     "swagger-ui-react": "^4.15.5",
     "swc-loader": "^0.2.3",

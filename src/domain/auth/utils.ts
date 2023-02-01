@@ -228,14 +228,14 @@ export const fetchTokenSuccess = async ({
   });
 };
 
-export const fetchTokenError = async ({
+export const fetchTokenError = ({
   dispatchApiTokenState,
   error,
 }: {
   dispatchApiTokenState: React.Dispatch<ApiTokenAction>;
   error: Error;
 }) => {
-  await clearApiTokenFromStorage();
+  clearApiTokenFromStorage();
   dispatchApiTokenState({
     type: ApiTokenActionTypes.FETCH_TOKEN_ERROR,
     payload: error,
@@ -277,12 +277,12 @@ export const getApiToken = async ({
   await renewApiToken({ accessToken, dispatchApiTokenState, t });
 };
 
-export const resetApiTokenData = async ({
+export const resetApiTokenData = ({
   dispatchApiTokenState,
 }: {
   dispatchApiTokenState: React.Dispatch<ApiTokenAction>;
 }) => {
-  await clearApiTokenFromStorage();
+  clearApiTokenFromStorage();
   dispatchApiTokenState({
     type: ApiTokenActionTypes.RESET_API_TOKEN_DATA,
     payload: null,

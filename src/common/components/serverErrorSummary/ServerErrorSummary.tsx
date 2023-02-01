@@ -2,6 +2,7 @@ import { ErrorSummary } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { scroller } from 'react-scroll';
+import uuid from 'react-uuid';
 
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import { ServerErrorItem } from '../../../types';
@@ -37,8 +38,8 @@ const ServerErrorSummary: React.FC<Props> = ({ errors, id: _id }) => {
         size="default"
       >
         <ul>
-          {errors.map(({ label, message }, index) => (
-            <li key={`${label}:${message}:${index}`}>
+          {errors.map(({ label, message }) => (
+            <li key={uuid()}>
               {label ? (
                 <span>
                   <strong>{label}:</strong> {message}

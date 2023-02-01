@@ -1,5 +1,6 @@
 import { FieldArray, useField } from 'formik';
 import React from 'react';
+import uuid from 'react-uuid';
 
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { EVENT_FIELDS, EXTERNAL_LINK_FIELDS } from '../../../constants';
@@ -24,7 +25,7 @@ const ExternalLinks: React.FC<Props> = ({ isEditingAllowed }) => {
         <div>
           {externalLinks.map((externalLink, index) => {
             return (
-              <FormGroup key={`${externalLink.toString()}-${index}`}>
+              <FormGroup key={uuid()}>
                 <ExternalLink
                   externalLink={externalLink}
                   index={index}

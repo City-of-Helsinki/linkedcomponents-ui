@@ -1,4 +1,5 @@
 import React from 'react';
+import uuid from 'react-uuid';
 
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { EventTime, RecurringEventSettings } from '../../../types';
@@ -41,7 +42,7 @@ const RecurringEvents: React.FC = () => {
       {recurringEvents.map(
         (recurringEvent: RecurringEventSettings, index: number) => {
           return (
-            <FormGroup key={`${recurringEvent.toString()}-${index}`}>
+            <FormGroup key={uuid()}>
               <RecurringEvent
                 key={recurringEvent.toString()}
                 index={index}

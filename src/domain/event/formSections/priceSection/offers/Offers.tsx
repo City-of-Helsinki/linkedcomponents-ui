@@ -2,6 +2,7 @@ import { FieldArray, useField } from 'formik';
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import uuid from 'react-uuid';
 
 import Button from '../../../../../common/components/button/Button';
 import { EVENT_FIELDS } from '../../../constants';
@@ -28,10 +29,10 @@ const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
       name={EVENT_FIELDS.OFFERS}
       render={(arrayHelpers) => (
         <>
-          {offers.map((offer, index) => {
+          {offers.map((_, index) => {
             return (
               <Offer
-                key={`${offer.toString()}-${index}`}
+                key={uuid()}
                 isEditingAllowed={isEditingAllowed}
                 offerPath={getOfferPath(index)}
                 onDelete={() => arrayHelpers.remove(index)}

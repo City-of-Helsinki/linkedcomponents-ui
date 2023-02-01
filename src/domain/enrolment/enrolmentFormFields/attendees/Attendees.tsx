@@ -2,6 +2,7 @@
 import { FieldArray, useField } from 'formik';
 import React, { useState } from 'react';
 import { useLocation } from 'react-router';
+import uuid from 'react-uuid';
 
 import {
   RegistrationFieldsFragment,
@@ -120,7 +121,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
               };
 
               return (
-                <React.Fragment key={`${attendee.toString()}-${index}`}>
+                <React.Fragment key={uuid()}>
                   <ConfirmDeleteParticipantModal
                     isOpen={openModalIndex === index}
                     isSaving={saving}
