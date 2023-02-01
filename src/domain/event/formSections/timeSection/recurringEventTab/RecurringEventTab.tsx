@@ -33,7 +33,8 @@ const RecurringEventTab: React.FC = () => {
     ) {
       setIsUmbrella(false);
     }
-    setRecurringEvents(newRecurringEvents.sort(sortRecurringEvents));
+
+    setRecurringEvents([...newRecurringEvents].sort(sortRecurringEvents));
   };
 
   return (
