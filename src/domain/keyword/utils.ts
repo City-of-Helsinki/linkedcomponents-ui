@@ -151,11 +151,10 @@ export const getEditKeywordWarning = ({
   }
 
   if (!userCanDoAction) {
-    switch (action) {
-      case KEYWORD_ACTIONS.CREATE:
-        return t('keywordsPage.warningNoRightsToCreate');
-      default:
-        return t('keywordsPage.warningNoRightsToEdit');
+    if (action === KEYWORD_ACTIONS.CREATE) {
+      return t('keywordsPage.warningNoRightsToCreate');
+    } else {
+      return t('keywordsPage.warningNoRightsToEdit');
     }
   }
 

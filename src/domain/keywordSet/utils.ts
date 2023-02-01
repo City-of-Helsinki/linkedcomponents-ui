@@ -105,11 +105,10 @@ export const getEditKeywordSetWarning = ({
   }
 
   if (!userCanDoAction) {
-    switch (action) {
-      case KEYWORD_SET_ACTIONS.CREATE:
-        return t('keywordSetsPage.warningNoRightsToCreate');
-      default:
-        return t('keywordSetsPage.warningNoRightsToEdit');
+    if (action === KEYWORD_SET_ACTIONS.CREATE) {
+      return t('keywordSetsPage.warningNoRightsToCreate');
+    } else {
+      return t('keywordSetsPage.warningNoRightsToEdit');
     }
   }
 
