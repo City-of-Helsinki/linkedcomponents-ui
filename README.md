@@ -43,12 +43,16 @@ Use .env.development.local for development.
 
 | Name                                       | Description                                                                                            |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| GENERATE_ROBOTS                            | Set to true to generate robots.txt file                                                                |
+| GENERATE_SITEMAP                           | Set to true to generate sitemap for the site                                                           |
+| PUBLIC_URL                                 | Public url of the application url                                                                      |
 | REACT_APP_LINKED_EVENTS_URL                | linkedevents api base url                                                                              |
 | REACT_APP_LINKED_REGISTRATIONS_UI_URL      | Linked registration UI url. Used to get signup form url                                                |
 | REACT_APP_OIDC_AUTHORITY                   | https://api.hel.fi/sso                                                                                 |
 | REACT_APP_OIDC_CLIENT_ID                   | linkedcomponents-ui-test                                                                               |
 | REACT_APP_OIDC_API_SCOPE                   | https://api.hel.fi/auth/linkedeventsdev                                                                |
 | REACT_APP_SENTRY_DSN                       | https://9b104b8db52740ffb5002e0c9e40da45@sentry.hel.ninja/12                                           |
+| REACT_APP_SENTRY_ENVIRONMENT               | Setry environment. Set to local to use Sentry in development environment                               |
 | REACT_APP_MATOMO_URL_BASE                  | https://analytics.hel.ninja/                                                                           |
 | REACT_APP_MATOMO_SITE_ID                   | 69                                                                                                     |
 | REACT_APP_MATOMO_SRC_URL                   | matomo.js                                                                                              |
