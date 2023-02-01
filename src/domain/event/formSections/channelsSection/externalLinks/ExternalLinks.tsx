@@ -22,11 +22,10 @@ const ExternalLinks: React.FC<Props> = ({ isEditingAllowed }) => {
       name={EVENT_FIELDS.EXTERNAL_LINKS}
       render={(arrayHelpers) => (
         <div>
-          {externalLinks.map((externalLink, index: number) => {
+          {externalLinks.map((externalLink, index) => {
             return (
-              <FormGroup key={index}>
+              <FormGroup key={`${externalLink.toString()}-${index}`}>
                 <ExternalLink
-                  key={index}
                   externalLink={externalLink}
                   index={index}
                   isEditingAllowed={isEditingAllowed}

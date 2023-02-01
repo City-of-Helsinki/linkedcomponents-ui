@@ -233,7 +233,7 @@ const EventTimesTable: React.FC<EventTimesTableProps> = ({
         {eventTimes.map((eventTime, index) => {
           return (
             <EventTimeRow
-              key={index}
+              key={`${eventTime.toString()}-${index}`}
               eventTime={eventTime}
               index={index}
               onDelete={handleDelete}

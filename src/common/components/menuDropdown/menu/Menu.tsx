@@ -85,7 +85,7 @@ export const Menu: React.FC<MenuProps> = ({
         };
         return (
           <MenuItem
-            key={index}
+            key={label}
             disabled={disabled}
             icon={icon}
             index={index}

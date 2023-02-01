@@ -90,8 +90,8 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
           />
         </div>
         <div className={styles.keywordsRow}>
-          {keywords.map((keyword, index) => (
-            <Tag key={index} id={keyword.id as string}>
+          {keywords.map((keyword) => (
+            <Tag key={keyword.atId} id={keyword.id as string}>
               {capitalize(getLocalisedString(keyword.name, locale))}
             </Tag>
           ))}

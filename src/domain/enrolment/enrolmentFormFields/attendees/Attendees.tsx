@@ -120,7 +120,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
               };
 
               return (
-                <React.Fragment key={index}>
+                <React.Fragment key={`${attendee.toString()}-${index}`}>
                   <ConfirmDeleteParticipantModal
                     isOpen={openModalIndex === index}
                     isSaving={saving}

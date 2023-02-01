@@ -161,7 +161,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
 
         return (
           <TabPanel
-            key={index}
+            key={tab}
             className={styles.tabPanel}
             isActive={isActive}
             index={index}

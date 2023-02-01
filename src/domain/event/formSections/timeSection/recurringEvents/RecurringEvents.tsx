@@ -41,9 +41,9 @@ const RecurringEvents: React.FC = () => {
       {recurringEvents.map(
         (recurringEvent: RecurringEventSettings, index: number) => {
           return (
-            <FormGroup key={index}>
+            <FormGroup key={`${recurringEvent.toString()}-${index}`}>
               <RecurringEvent
-                key={index}
+                key={recurringEvent.toString()}
                 index={index}
                 onDelete={handleDelete}
                 onUpdateEventTimes={handleUpdateEventTimes}

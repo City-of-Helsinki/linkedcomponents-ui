@@ -28,10 +28,10 @@ const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
       name={EVENT_FIELDS.OFFERS}
       render={(arrayHelpers) => (
         <>
-          {offers.map((_, index: number) => {
+          {offers.map((offer, index) => {
             return (
               <Offer
-                key={index}
+                key={`${offer.toString()}-${index}`}
                 isEditingAllowed={isEditingAllowed}
                 offerPath={getOfferPath(index)}
                 onDelete={() => arrayHelpers.remove(index)}

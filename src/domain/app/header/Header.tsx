@@ -172,9 +172,9 @@ const Header: React.FC = () => {
           }
         >
           <Navigation.Row>
-            {navigationItems.map((item, index) => (
+            {navigationItems.map((item) => (
               <Navigation.Item
-                key={index}
+                key={item.url}
                 active={isTabActive(item.url)}
                 className={cx(styles.navigationItem, item.className)}
                 icon={item.icon}
