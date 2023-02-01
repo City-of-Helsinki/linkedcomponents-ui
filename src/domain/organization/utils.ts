@@ -171,7 +171,7 @@ export const getOrganizationAncestorsQueryResult = async (
       await apolloClient.query<OrganizationsQuery>({
         query: OrganizationsDocument,
         variables: {
-          child: id as string,
+          child: id,
           createPath: getPathBuilder(organizationsPathBuilder),
           pageSize: MAX_PAGE_SIZE,
         },

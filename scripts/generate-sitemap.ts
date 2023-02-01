@@ -153,16 +153,12 @@ const saveSitemapFile = (elements: Element[]) => {
 };
 
 const generateSitemap = async () => {
-  try {
-    const time = new Date();
+  const time = new Date();
 
-    const staticUrlElements = getStaticUrlElements(time);
+  const staticUrlElements = getStaticUrlElements(time);
 
-    await saveSitemapFile(staticUrlElements);
-    return true;
-  } catch (err) {
-    throw err;
-  }
+  await saveSitemapFile(staticUrlElements);
+  return true;
 };
 
 // Generate sitemap only if GENERATE_SITEMAP flag is true and PUBLIC_URL is set

@@ -221,7 +221,7 @@ export const fetchTokenSuccess = async ({
   apiToken: string;
   dispatchApiTokenState: React.Dispatch<ApiTokenAction>;
 }) => {
-  await setApiTokenToStorage(apiToken);
+  setApiTokenToStorage(apiToken);
   dispatchApiTokenState({
     type: ApiTokenActionTypes.FETCH_TOKEN_SUCCESS,
     payload: apiToken,

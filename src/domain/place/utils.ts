@@ -219,11 +219,10 @@ export const getEditPlaceWarning = ({
   }
 
   if (!userCanDoAction) {
-    switch (action) {
-      case PLACE_ACTIONS.CREATE:
-        return t('placesPage.warningNoRightsToCreate');
-      default:
-        return t('placesPage.warningNoRightsToEdit');
+    if (action === PLACE_ACTIONS.CREATE) {
+      return t('placesPage.warningNoRightsToCreate');
+    } else {
+      return t('placesPage.warningNoRightsToEdit');
     }
   }
 

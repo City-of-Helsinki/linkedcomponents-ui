@@ -6,6 +6,7 @@ import subYears from 'date-fns/subYears';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
+import { Maybe } from '../../types';
 import {
   createArrayMinErrorMessage,
   isValidPhoneNumber,
@@ -22,8 +23,8 @@ import {
 
 export const isAboveMinAge = (
   minAge: string,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
+  schema: Yup.DateSchema<Maybe<Date>>
+): Yup.DateSchema<Maybe<Date>> => {
   /* istanbul ignore else */
   if (minAge) {
     return schema.test(
@@ -49,8 +50,8 @@ export const isAboveMinAge = (
 
 export const isBelowMaxAge = (
   maxAge: string,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
+  schema: Yup.DateSchema<Maybe<Date>>
+): Yup.DateSchema<Maybe<Date>> => {
   /* istanbul ignore else */
   if (maxAge) {
     return schema.test(

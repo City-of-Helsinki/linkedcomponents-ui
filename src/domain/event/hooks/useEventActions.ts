@@ -460,7 +460,7 @@ const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
           return {
             ...basePayload,
             endTime: eventTime?.endTime?.toISOString() ?? null,
-            id: subEvent?.id as string,
+            id: subEvent?.id,
             startTime: eventTime?.startTime?.toISOString() ?? null,
             superEvent: { atId },
             superEventType: subEvent?.superEventType,

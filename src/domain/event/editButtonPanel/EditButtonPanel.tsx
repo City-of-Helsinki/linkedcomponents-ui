@@ -147,7 +147,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
             disabled={disabled || Boolean(saving)}
             icon={icon}
             loading={isSaving}
-            variant={variant as Exclude<ButtonVariant, 'supplementary'>}
+            variant={variant}
           >
             {label}
           </LoadingButton>

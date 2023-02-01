@@ -72,11 +72,9 @@ const DateSelectorDropdown: React.FC<DateSelectorProps> = ({
       // Handle keyboard events only if current element is focused
       if (!isComponentFocused()) return;
 
-      switch (event.key) {
-        case 'Escape':
-          setIsMenuOpen(false);
-          setFocusToToggleButton();
-          break;
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false);
+        setFocusToToggleButton();
       }
     },
     [isComponentFocused]

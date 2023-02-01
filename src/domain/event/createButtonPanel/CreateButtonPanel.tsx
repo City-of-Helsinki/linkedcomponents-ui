@@ -71,7 +71,7 @@ const CreateButtonPanel: React.FC<Props> = ({
   return (
     <ButtonPanel
       submitButtons={actionButtons.map(
-        ({ disabled, label, isSaving, ...rest }) => (
+        ({ disabled, label, isSaving, ...rest }, index) => (
           <LoadingButton
             key={label}
             {...rest}

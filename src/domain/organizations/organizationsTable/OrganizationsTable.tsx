@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
@@ -42,14 +42,21 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
   const locale = useLocale();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
-  const onRowClick = (organization: OrganizationFieldsFragment) => {
-    const { organizationUrl } = getOrganizationFields(organization, locale, t);
+  const onRowClick = useCallback(
+    (organization: OrganizationFieldsFragment) => {
+      const { organizationUrl } = getOrganizationFields(
+        organization,
+        locale,
+        t
+      );
 
-    navigate({
-      pathname: organizationUrl,
-      search: queryStringWithReturnPath,
-    });
-  };
+      navigate({
+        pathname: organizationUrl,
+        search: queryStringWithReturnPath,
+      });
+    },
+    [locale, navigate, queryStringWithReturnPath, t]
+  );
 
   const handleSort = (key: string) => {
     setSort(key as ORGANIZATION_SORT_OPTIONS);
@@ -58,17 +65,19 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
   const getColumnSortingOrder = (colKey: string) => {
     const { colKey: currentColKey, order } = getSortOrderAndKey(sort);
 
-    return currentColKey === colKey ? (order as 'desc' | 'asc') : 'unset';
+    return currentColKey === colKey ? order : 'unset';
   };
 
   const setSortingAndOrder = (colKey: string): void => {
     handleSort(getSortByColKey({ colKey, sort }));
   };
 
+  const value = useMemo(
+    () => ({ onRowClick, showSubOrganizations, sortedOrganizations }),
+    [onRowClick, showSubOrganizations, sortedOrganizations]
+  );
   return (
-    <OrganizationsTableContext.Provider
-      value={{ onRowClick, showSubOrganizations, sortedOrganizations }}
-    >
+    <OrganizationsTableContext.Provider value={value}>
       <CustomTable className={className} caption={caption} variant="light">
         <thead>
           <HeaderRow>

@@ -134,7 +134,7 @@ const useUpdateRecurringEventIfNeeded =
             getEventInitialValues(superEvent),
             publicationStatus as PublicationStatus
           ),
-          id: superEvent.id as string,
+          id: superEvent.id,
           endTime: newEndTime?.toISOString() ?? null,
           startTime: newStartTime?.toISOString() ?? null,
           subEvents:

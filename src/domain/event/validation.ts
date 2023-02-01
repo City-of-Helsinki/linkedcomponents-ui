@@ -2,6 +2,7 @@ import isFuture from 'date-fns/isFuture';
 import * as Yup from 'yup';
 
 import { CHARACTER_LIMITS } from '../../constants';
+import { Maybe } from '../../types';
 import {
   createArrayMinErrorMessage,
   createMultiLanguageValidation,
@@ -207,7 +208,7 @@ const enrolmentSchemaFields = {
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .when(
       [EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
-      (endTime: string, schema: Yup.DateSchema<Date | null | undefined>) =>
+      (endTime: string, schema: Yup.DateSchema<Maybe<Date>>) =>
         endTime
           ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
           : schema
@@ -228,7 +229,7 @@ const enrolmentSchemaFields = {
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .when(
       [EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
-      (endTime: string, schema: Yup.DateSchema<Date | null | undefined>) =>
+      (endTime: string, schema: Yup.DateSchema<Maybe<Date>>) =>
         endTime
           ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
           : schema

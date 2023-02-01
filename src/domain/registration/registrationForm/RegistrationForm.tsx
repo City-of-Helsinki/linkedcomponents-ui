@@ -143,8 +143,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
     });
   };
 
-  const onUpdate = (values: RegistrationFormFields) => {
-    updateRegistration(values, {
+  const onUpdate = async (values: RegistrationFormFields) => {
+    await updateRegistration(values, {
       onError: (error) => showServerErrors({ error }),
       onSuccess: async () => {
         refetch && (await refetch());

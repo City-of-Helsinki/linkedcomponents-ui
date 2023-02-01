@@ -78,10 +78,10 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     }
     filters.push(
       ...places.map((place) => (
-        <PlaceFilterTag onDelete={removeFilter} value={place} />
+        <PlaceFilterTag key={place} onDelete={removeFilter} value={place} />
       )),
       ...types.map((type) => (
-        <EventTypeFilterTag onDelete={removeFilter} value={type} />
+        <EventTypeFilterTag key={type} onDelete={removeFilter} value={type} />
       ))
     );
 
@@ -92,8 +92,8 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(styles.filterSummary, className)}>
-      {React.Children.map(filters, (filter, index) =>
-        cloneElement(filter, { ...filter.props, key: index })
+      {React.Children.map(filters, (filter) =>
+        cloneElement(filter, { ...filter.props })
       )}
       <button
         className={styles.clearButton}

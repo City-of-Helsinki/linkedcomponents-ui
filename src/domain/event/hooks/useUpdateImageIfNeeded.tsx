@@ -25,7 +25,7 @@ import useUser from '../../user/hooks/useUser';
 import { EventFormFields } from '../types';
 
 type UpdateImageIfNeededState = {
-  updateImageIfNeeded: (values: EventFormFields) => void;
+  updateImageIfNeeded: (values: EventFormFields) => Promise<void>;
 };
 
 const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {

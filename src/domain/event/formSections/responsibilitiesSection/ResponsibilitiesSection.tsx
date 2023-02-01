@@ -38,14 +38,14 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
   const getDisabled = (name: EVENT_FIELDS.PUBLISHER): boolean => {
     const savedPublisher = savedEvent?.publisher;
 
-    switch (name) {
-      case EVENT_FIELDS.PUBLISHER:
-        return (
-          !userOrganizations.length ||
-          Boolean(savedPublisher) ||
-          (publisher && userOrganizations.length === 1)
-        );
+    if (name === EVENT_FIELDS.PUBLISHER) {
+      return (
+        !userOrganizations.length ||
+        Boolean(savedPublisher) ||
+        (publisher && userOrganizations.length === 1)
+      );
     }
+    return false;
   };
 
   React.useEffect(() => {

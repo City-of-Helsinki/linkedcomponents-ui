@@ -17,7 +17,7 @@ import {
   VALIDATION_ERROR_SCROLLER_OPTIONS,
 } from '../constants';
 import { VALIDATION_MESSAGE_KEYS } from '../domain/app/i18n/constants';
-import { Error } from '../types';
+import { Error, Maybe } from '../types';
 import formatDate from './formatDate';
 import setDateTime from './setDateTime';
 
@@ -73,9 +73,7 @@ export const transformNumber = (
 ): number | null => (String(originalValue).trim() === '' ? null : value);
 
 export const isValidPhoneNumber = (phone: string): boolean =>
-  /^\+?\(?[0-9]{1,3}\)? ?-?[0-9]{1,3} ?-?[0-9]{3,5} ?-?[0-9]{4}( ?-?[0-9]{3})?/.test(
-    phone
-  );
+  /^\+?\(?\d{1,3}\)? ?-?\d{1,3} ?-?\d{3,5} ?-?\d{4}( ?-?\d{3})?/.test(phone);
 
 export const isValidDateText = (date?: string): boolean => {
   return date
@@ -86,7 +84,7 @@ export const isValidDateText = (date?: string): boolean => {
 };
 
 export const isValidTime = (time?: string): boolean =>
-  time ? /^(([01][0-9])|(2[0-3]))(:|\.)[0-5][0-9]$/.test(time) : true;
+  time ? /^(([01]\d)|(2[0-3]))(:|\.)[0-5]\d$/.test(time) : true;
 
 export const isValidUrl = (url?: string): boolean => {
   if (!url) return true;
@@ -99,14 +97,14 @@ export const isValidUrl = (url?: string): boolean => {
   return true;
 };
 
-export const isValidZip = (zip: string): boolean => /^[0-9]{5}$/.test(zip);
+export const isValidZip = (zip: string): boolean => /^\d{5}$/.test(zip);
 
 export const isAfterStartDateAndTime = (
   startDate: Date | null,
   startTimeStr: string,
   endTimeStr: string,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
+  schema: Yup.DateSchema<Maybe<Date>>
+): Yup.DateSchema<Maybe<Date>> => {
   /* istanbul ignore else */
   if (
     startDate &&
@@ -141,8 +139,8 @@ export const isAfterStartDateAndTime = (
 
 export const isFutureDateAndTime = (
   timeStr: string,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
+  schema: Yup.DateSchema<Maybe<Date>>
+): Yup.DateSchema<Maybe<Date>> => {
   /* istanbul ignore else */
   if (timeStr && isValidTime(timeStr)) {
     return schema.test(
@@ -166,8 +164,8 @@ export const isFutureDateAndTime = (
 
 export const isAfterDate = (
   startDate: Date | null,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
+  schema: Yup.DateSchema<Maybe<Date>>
+): Yup.DateSchema<Maybe<Date>> => {
   if (startDate && isValid(startDate)) {
     return schema.test(
       'isAfterDate',

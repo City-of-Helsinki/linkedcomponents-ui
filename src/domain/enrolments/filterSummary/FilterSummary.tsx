@@ -6,7 +6,6 @@ import { useLocation, useNavigate } from 'react-router';
 import FilterTag from '../../../common/components/filterTag/FilterTag';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { getEnrolmentSearchInitialValues } from '../utils';
-import styles from './filterSummary.module.scss';
 
 interface Props {
   className?: string;
@@ -36,7 +35,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
   if (!hasFilters) return null;
 
   return (
-    <div className={classNames(styles.filterSummary, className)}>
+    <div className={classNames(className)}>
       {text && (
         <FilterTag
           text={text}
@@ -46,11 +45,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
         />
       )}
 
-      <button
-        className={styles.clearButton}
-        onClick={clearFilters}
-        type="button"
-      >
+      <button onClick={clearFilters} type="button">
         {t('enrolmentsPage.buttonClearFilters')}
       </button>
     </div>

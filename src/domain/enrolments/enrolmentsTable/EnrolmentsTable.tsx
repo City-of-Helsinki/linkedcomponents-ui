@@ -247,7 +247,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
           }}
           indexKey="id"
           onRowClick={handleRowClick}
-          rows={paginatedEnrolments as EnrolmentFieldsFragment[]}
+          rows={paginatedEnrolments}
           variant="light"
         />
 

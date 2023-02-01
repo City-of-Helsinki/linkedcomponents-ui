@@ -2,6 +2,7 @@ import { FieldArray, useField } from 'formik';
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import uuid from 'react-uuid';
 
 import Button from '../../../../common/components/button/Button';
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
@@ -34,7 +35,7 @@ const VideoSection: React.FC<Props> = ({ isEditingAllowed }) => {
             {videos.map((_, index: number) => {
               return (
                 <Video
-                  key={index}
+                  key={uuid()}
                   canDelete={videos.length > 1}
                   isEditingAllowed={isEditingAllowed}
                   onDelete={() => arrayHelpers.remove(index)}

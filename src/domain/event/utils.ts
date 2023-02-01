@@ -637,7 +637,7 @@ const SKIP_FIELDS = new Set([
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function* propertyNames(obj: Record<string, unknown>): any {
   for (const name of keys(obj)) {
-    const val = (obj as Record<string, unknown>)[name];
+    const val = obj[name];
     if (val instanceof Object && !SKIP_FIELDS.has(name)) {
       yield* propertyNames(val as Record<string, unknown>);
     }
