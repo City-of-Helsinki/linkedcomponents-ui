@@ -1,5 +1,5 @@
 # ===============================================
-FROM registry.access.redhat.com/ubi8/nodejs-16 as appbase
+FROM registry.access.redhat.com/ubi8/nodejs-16 AS appbase
 # ===============================================
 WORKDIR /app
 
@@ -28,7 +28,7 @@ USER default
 RUN yarn && yarn cache clean --force
 
 # =============================
-FROM appbase as development
+FROM appbase AS development
 # =============================
 WORKDIR /app
 # Set NODE_ENV to development in the development container
@@ -46,7 +46,7 @@ CMD ["yarn", "start"]
 EXPOSE 8000
 
 # ===================================
-FROM appbase as staticbuilder
+FROM appbase AS staticbuilder
 # ===================================
 WORKDIR /app
 COPY . /app/
@@ -101,7 +101,7 @@ RUN yarn generate-robots
 RUN yarn compress
 
 # =============================
-FROM registry.access.redhat.com/ubi8/nginx-118 as production
+FROM registry.access.redhat.com/ubi8/nginx-118 AS production
 # =============================
 USER root
 
