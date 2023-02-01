@@ -18,40 +18,44 @@ module.exports = {
     const appSwcConfig = path.resolve(paths.appPath, '.swcrc');
     const useSwcConfig = fs.existsSync(appSwcConfig);
 
+    const getOptions = () => {
+      if (pluginOptions && pluginOptions.swcLoaderOptions) {
+        return pluginOptions.swcLoaderOptions;
+      }
+
+      return useSwcConfig
+        ? // If there is an .swcrc file at the root of the project we pass undefined
+          // That way swc will use the .swcrc config
+          undefined
+        : {
+            jsc: {
+              target: 'es2015',
+              externalHelpers: true,
+              transform: {
+                react: {
+                  runtime: 'automatic',
+                },
+              },
+              parser: useTypeScript
+                ? {
+                    syntax: 'typescript',
+                    tsx: true,
+                    dynamicImport: true,
+                  }
+                : {
+                    syntax: 'ecmascript',
+                    jsx: true,
+                    dynamicImport: true,
+                  },
+            },
+          };
+    };
     // add swc-loader
     addAfterLoader(webpackConfig, loaderByName('babel-loader'), {
       test: /\.(js|mjs|jsx|ts|tsx)$/,
       include: paths.appSrc,
       loader: require.resolve('swc-loader'),
-      options:
-        pluginOptions && pluginOptions.swcLoaderOptions
-          ? pluginOptions.swcLoaderOptions
-          : useSwcConfig
-          ? // If there is an .swcrc file at the root of the project we pass undefined
-            // That way swc will use the .swcrc config
-            undefined
-          : {
-              jsc: {
-                target: 'es2015',
-                externalHelpers: true,
-                transform: {
-                  react: {
-                    runtime: 'automatic',
-                  },
-                },
-                parser: useTypeScript
-                  ? {
-                      syntax: 'typescript',
-                      tsx: true,
-                      dynamicImport: true,
-                    }
-                  : {
-                      syntax: 'ecmascript',
-                      jsx: true,
-                      dynamicImport: true,
-                    },
-              },
-            },
+      options: getOptions(),
     });
 
     // remove the babel loaders

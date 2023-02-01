@@ -48,12 +48,16 @@ const OrganizationNameContainer: React.FC<OrganizationNameContainerProps> = ({
     },
   });
 
-  return organizationData?.organization ? (
-    <OrganizationName
-      organization={organizationData.organization}
-      withIcon={withIcon}
-    />
-  ) : withIcon ? (
+  if (organizationData?.organization) {
+    return (
+      <OrganizationName
+        organization={organizationData.organization}
+        withIcon={withIcon}
+      />
+    );
+  }
+
+  return withIcon ? (
     <TextWithIcon icon={<OrganizationBadge name="" />} text={'-'} />
   ) : (
     <span>-</span>

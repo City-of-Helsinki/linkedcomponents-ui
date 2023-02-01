@@ -227,11 +227,11 @@ export const getErrorText = (
   touched: boolean,
   t: TFunction
 ): string => {
-  return !!error && touched
-    ? typeof error === 'string'
-      ? t(error)
-      : t(error.key, error)
-    : '';
+  if (!!error && touched) {
+    return typeof error === 'string' ? t(error) : t(error.key, error);
+  }
+
+  return '';
 };
 
 // This functions sets formik errors and touched values correctly after validation.
