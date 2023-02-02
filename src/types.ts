@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ButtonVariant } from 'hds-react';
-import React from 'react';
 
 import { MenuItemOptionProps } from './common/components/menuDropdown/types';
 import { LE_DATA_LANGUAGES, SEARCH_PARAMS } from './constants';
@@ -23,10 +22,6 @@ export type Error<T> = {
 export interface PathBuilderProps<T> {
   args: T;
 }
-
-export type FCWithName<P = Record<string, unknown>> = React.FC<P> & {
-  componentName: string;
-};
 
 export type LEServerError =
   | string
