@@ -84,7 +84,7 @@ export const isValidDateText = (date?: string): boolean => {
 };
 
 export const isValidTime = (time?: string): boolean =>
-  time ? /^(([01]\d)|(2[0-3]))(:|\.)[0-5]\d$/.test(time) : true;
+  time ? /^(([01]\d)|(2[0-3]))[:.][0-5]\d$/.test(time) : true;
 
 export const isValidUrl = (url?: string): boolean => {
   if (!url) return true;
