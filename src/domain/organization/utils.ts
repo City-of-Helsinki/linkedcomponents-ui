@@ -21,6 +21,7 @@ import {
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
+import getDateFromString from '../../utils/getDateFromString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
@@ -84,9 +85,7 @@ export const getOrganizationFields = (
     atId: getValue(organization.atId, ''),
     classification: getValue(organization.classification, ''),
     dataSource: getValue(organization.dataSource, ''),
-    foundingDate: organization.foundingDate
-      ? new Date(organization.foundingDate)
-      : null,
+    foundingDate: getDateFromString(organization.foundingDate),
     fullName: getOrganizationFullName(organization, t),
     id: getValue(organization.id, ''),
     name: getValue(organization.name, ''),
@@ -323,8 +322,8 @@ export const getOrganizationInitialValues = (
     ),
     classification: getValue(organization.classification, ''),
     dataSource: getValue(organization.dataSource, ''),
-    dissolutionDate: dissolutionDate ? new Date(dissolutionDate) : null,
-    foundingDate: foundingDate ? new Date(foundingDate) : null,
+    dissolutionDate: getDateFromString(dissolutionDate),
+    foundingDate: getDateFromString(foundingDate),
     id,
     internalType: organization.isAffiliated
       ? ORGANIZATION_INTERNAL_TYPE.AFFILIATED

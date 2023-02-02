@@ -16,6 +16,7 @@ import {
   UserFieldsFragment,
   useUpdateEventMutation,
 } from '../../../generated/graphql';
+import getDateFromString from '../../../utils/getDateFromString';
 import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
@@ -96,20 +97,14 @@ const useUpdateRecurringEventIfNeeded =
 
         if (!editable) return null;
 
-        const startTime = superEvent?.startTime
-          ? new Date(superEvent.startTime)
-          : null;
-        const endTime = superEvent?.endTime
-          ? new Date(superEvent.endTime)
-          : null;
+        const startTime = getDateFromString(superEvent?.startTime);
+        const endTime = getDateFromString(superEvent?.endTime);
 
         const eventTimes: EventTime[] = getValue(superEvent?.subEvents, []).map(
           (subEvent) => ({
-            endTime: subEvent?.endTime ? new Date(subEvent.endTime) : null,
+            endTime: getDateFromString(subEvent?.endTime),
             id: null,
-            startTime: subEvent?.startTime
-              ? new Date(subEvent.startTime)
-              : null,
+            startTime: getDateFromString(subEvent?.startTime),
           })
         );
         const { endTime: calculatedEndTime, startTime: newStartTime } =

@@ -58,6 +58,7 @@ import {
 } from '../../types';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
+import getDateFromString from '../../utils/getDateFromString';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
@@ -176,11 +177,6 @@ export const getEmptyVideo = (): VideoDetails => {
 export const clearEventFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.EVENT_FORM);
 };
-
-const getEventDate = (time: Maybe<string>) => {
-  return time ? new Date(time) : null;
-};
-
 const getEventTime = (time: Maybe<string>) => {
   return time ? formatDate(new Date(time), TIME_FORMAT_DATA) : '';
 };
@@ -205,7 +201,7 @@ export const getEventFields = (
     createdBy: getValue(event.createdBy, ''),
     deleted: getValue(event.deleted, null),
     description: getLocalisedString(event.description, language),
-    endTime: getEventDate(event.endTime),
+    endTime: getDateFromString(event.endTime),
     eventStatus: getValue(event.eventStatus, EventStatus.EventScheduled),
     eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
     freeEvent: !!event.offers[0]?.isFree,
@@ -216,7 +212,7 @@ export const getEventFields = (
     isDraft: publicationStatus === PublicationStatus.Draft,
     isPublic: publicationStatus === PublicationStatus.Public,
     keywords: event.keywords.filter(skipFalsyType),
-    lastModifiedTime: getEventDate(event.lastModifiedTime),
+    lastModifiedTime: getDateFromString(event.lastModifiedTime),
     name: getLocalisedString(event.name, language),
     offers: event.offers.filter(
       (offer) => !!offer && !offer?.isFree
@@ -235,7 +231,7 @@ export const getEventFields = (
       .map((subEvent) => subEvent.atId),
     superEventAtId: getValue(event.superEvent?.atId, null),
     superEventType: getValue(event.superEventType, null),
-    startTime: getEventDate(event.startTime),
+    startTime: getDateFromString(event.startTime),
   };
 };
 
@@ -617,8 +613,8 @@ export const getRecurringEventPayload = (
   const superEventTime = calculateSuperEventTime(
     basePayload.map(({ startTime, endTime }) => ({
       id: null,
-      endTime: endTime ? new Date(endTime) : null,
-      startTime: startTime ? new Date(startTime) : null,
+      endTime: getDateFromString(endTime),
+      startTime: getDateFromString(startTime),
     }))
   );
   const subEvents = subEventAtIds.map((atId) => ({
@@ -712,17 +708,17 @@ const getSavedEventTimes = (event: EventFieldsFragment): EventTime[] => {
   if (event.superEventType === SuperEventType.Recurring) {
     return event.subEvents
       .map((subEvent) => ({
-        endTime: subEvent?.endTime ? new Date(subEvent?.endTime) : null,
+        endTime: getDateFromString(subEvent?.endTime),
         id: getValue(subEvent?.id, null),
-        startTime: subEvent?.startTime ? new Date(subEvent?.startTime) : null,
+        startTime: getDateFromString(subEvent?.startTime),
       }))
       .sort(sortEventTimes);
   } else {
     return [
       {
-        endTime: event.endTime ? new Date(event.endTime) : null,
+        endTime: getDateFromString(event.endTime),
         id: event.id,
-        startTime: event.startTime ? new Date(event.startTime) : null,
+        startTime: getDateFromString(event.startTime),
       },
     ];
   }
@@ -789,7 +785,7 @@ const getRecurringEventDate = (
   time: Maybe<string>
 ) => {
   if (superEventType === SuperEventType.Recurring) {
-    return time ? new Date(time) : null;
+    return getDateFromString(time);
   }
 
   return null;
@@ -814,9 +810,9 @@ export const getEventInitialValues = (
     audienceMinAge: event.audienceMinAge ?? '',
     description: getSanitizedDescription(event),
     events,
-    enrolmentEndTimeDate: getEventDate(event.enrolmentEndTime),
+    enrolmentEndTimeDate: getDateFromString(event.enrolmentEndTime),
     enrolmentEndTimeTime: getEventTime(event.enrolmentEndTime),
-    enrolmentStartTimeDate: getEventDate(event.enrolmentStartTime),
+    enrolmentStartTimeDate: getDateFromString(event.enrolmentStartTime),
     enrolmentStartTimeTime: getEventTime(event.enrolmentStartTime),
     eventInfoLanguages: getEventInfoLanguages(event),
     externalLinks: sortBy(event.externalLinks, ['name']).map(
@@ -1144,7 +1140,6 @@ const getCreateEventActionWarning = ({
   t: TFunction;
   userCanDoAction: boolean;
 }) => {
-  console.log('CREATE');
   if (!authenticated) {
     return t('event.form.buttonPanel.warningNotAuthenticated');
   }

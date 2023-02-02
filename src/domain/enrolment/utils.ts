@@ -17,6 +17,7 @@ import {
 } from '../../generated/graphql';
 import { Editability, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
+import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
@@ -77,9 +78,7 @@ export const getEnrolmentInitialValues = (
         audienceMaxAge: registration.audienceMaxAge ?? null,
         audienceMinAge: registration.audienceMinAge ?? null,
         city: getValue(enrolment.city, ''),
-        dateOfBirth: enrolment.dateOfBirth
-          ? new Date(enrolment.dateOfBirth)
-          : null,
+        dateOfBirth: getDateFromString(enrolment.dateOfBirth),
         extraInfo: '',
         inWaitingList: enrolment.attendeeStatus === AttendeeStatus.Waitlisted,
         name: getValue(enrolment.name, ''),

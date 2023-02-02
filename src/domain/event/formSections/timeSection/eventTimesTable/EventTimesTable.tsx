@@ -14,6 +14,7 @@ import {
 } from '../../../../../generated/graphql';
 import useIdWithPrefix from '../../../../../hooks/useIdWithPrefix';
 import formatDate from '../../../../../utils/formatDate';
+import getDateFromString from '../../../../../utils/getDateFromString';
 import getValue from '../../../../../utils/getValue';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
 import { useAuth } from '../../../../auth/hooks/useAuth';
@@ -64,12 +65,8 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
 
   const { endTime, startTime } = useMemo(() => {
     return {
-      endTime: eventTime?.endTime
-        ? new Date(eventTime.endTime)
-        : /* istanbul ignore next */ null,
-      startTime: eventTime?.startTime
-        ? new Date(eventTime.startTime)
-        : /* istanbul ignore next */ null,
+      endTime: getDateFromString(eventTime?.endTime),
+      startTime: getDateFromString(eventTime?.startTime),
     };
   }, [eventTime]);
 

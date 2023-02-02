@@ -24,6 +24,7 @@ import {
   MultiLanguageObject,
   PathBuilderProps,
 } from '../../types';
+import getDateFromString from '../../utils/getDateFromString';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
@@ -91,9 +92,7 @@ export const getImageFields = (
     altText: getImageAltText(image.altText),
     id,
     imageUrl: `/${language}${ROUTES.EDIT_IMAGE.replace(':id', id)}`,
-    lastModifiedTime: image.lastModifiedTime
-      ? new Date(image.lastModifiedTime)
-      : null,
+    lastModifiedTime: getDateFromString(image.lastModifiedTime),
     license: getValue(image.license, DEFAULT_LICENSE_TYPE) as LICENSE_TYPES,
     name: getValue(image.name, ''),
     photographerName: getValue(image.photographerName, ''),

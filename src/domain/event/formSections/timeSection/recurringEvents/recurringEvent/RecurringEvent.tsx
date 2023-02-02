@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Collapsible from '../../../../../../common/components/collapsible/Collapsible';
 import DeleteButton from '../../../../../../common/components/deleteButton/DeleteButton';
 import { DATE_FORMAT } from '../../../../../../constants';
+import getDateFromString from '../../../../../../utils/getDateFromString';
 import FieldWithButton from '../../../../layout/FieldWithButton';
 import { EventTime, RecurringEventSettings } from '../../../../types';
 import { sortWeekDays } from '../../../../utils';
@@ -28,12 +29,8 @@ const RecurringEvent: React.FC<Props> = ({
 }) => {
   const { endDate, startDate } = useMemo(() => {
     return {
-      endDate: recurringEvent.endDate
-        ? new Date(recurringEvent.endDate)
-        : /* istanbul ignore next */ null,
-      startDate: recurringEvent.startDate
-        ? new Date(recurringEvent.startDate)
-        : /* istanbul ignore next */ null,
+      endDate: getDateFromString(recurringEvent.endDate),
+      startDate: getDateFromString(recurringEvent.startDate),
     };
   }, [recurringEvent]);
 

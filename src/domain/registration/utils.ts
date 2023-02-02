@@ -18,6 +18,7 @@ import {
 import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
+import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import { getFreeWaitlistCapacity } from '../enrolment/utils';
@@ -176,17 +177,11 @@ export const getRegistrationFields = (
     createdBy: getValue(registration.createdBy, ''),
     currentAttendeeCount: registration.currentAttendeeCount ?? 0,
     currentWaitingListCount: registration.currentWaitingListCount ?? 0,
-    enrolmentEndTime: registration.enrolmentEndTime
-      ? new Date(registration.enrolmentEndTime)
-      : null,
-    enrolmentStartTime: registration.enrolmentStartTime
-      ? new Date(registration.enrolmentStartTime)
-      : null,
+    enrolmentEndTime: getDateFromString(registration.enrolmentEndTime),
+    enrolmentStartTime: getDateFromString(registration.enrolmentStartTime),
     event,
     eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', event)}`,
-    lastModifiedAt: registration.lastModifiedAt
-      ? new Date(registration.lastModifiedAt)
-      : null,
+    lastModifiedAt: getDateFromString(registration.lastModifiedAt),
     maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
       ':id',
@@ -212,16 +207,15 @@ export const getRegistrationInitialValues = (
       registration.confirmationMessage,
       ''
     ),
-    [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: registration.enrolmentEndTime
-      ? new Date(registration.enrolmentEndTime)
-      : null,
+    [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: getDateFromString(
+      registration.enrolmentEndTime
+    ),
     [REGISTRATION_FIELDS.ENROLMENT_END_TIME_TIME]: registration.enrolmentEndTime
       ? formatDate(new Date(registration.enrolmentEndTime), TIME_FORMAT_DATA)
       : '',
-    [REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE]:
+    [REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE]: getDateFromString(
       registration.enrolmentStartTime
-        ? new Date(registration.enrolmentStartTime)
-        : null,
+    ),
     [REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME]:
       registration.enrolmentStartTime
         ? formatDate(
