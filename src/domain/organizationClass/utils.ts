@@ -4,6 +4,7 @@ import {
   OrganizationClassQueryVariables,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import { OrganizationClassFields } from './types';
 
@@ -33,10 +34,10 @@ export const organizationClassesPathBuilder = ({
 export const getOrganizationClassFields = (
   organizationClass: OrganizationClassFieldsFragment
 ): OrganizationClassFields => {
-  const id = organizationClass.id ?? '';
+  const id = getValue(organizationClass.id, '');
 
   return {
     id,
-    name: organizationClass.name ?? '',
+    name: getValue(organizationClass.name, ''),
   };
 };

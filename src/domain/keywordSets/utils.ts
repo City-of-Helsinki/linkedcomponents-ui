@@ -2,6 +2,7 @@ import { INCLUDE } from '../../constants';
 import { KeywordSetsQueryVariables } from '../../generated/graphql';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
@@ -33,7 +34,7 @@ export const getKeywordSetSearchInitialValues = (
     sort: Object.values(KEYWORD_SET_SORT_OPTIONS).includes(sort)
       ? sort
       : DEFAULT_KEYWORD_SET_SORT,
-    text: text || '',
+    text: getValue(text, ''),
   };
 };
 

@@ -22,6 +22,7 @@ import {
 import { ImageFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { featureFlagUtils } from '../../../utils/featureFlags';
+import getValue from '../../../utils/getValue';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
   scrollToFirstError,
@@ -64,7 +65,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
   const { user } = useUser();
 
   const action = image ? IMAGE_ACTIONS.UPDATE : IMAGE_ACTIONS.CREATE;
-  const savedImagePublisher = image?.publisher ?? '';
+  const savedImagePublisher = getValue(image?.publisher, '');
 
   const { organizationAncestors } =
     useOrganizationAncestors(savedImagePublisher);

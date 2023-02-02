@@ -10,6 +10,8 @@ import {
 } from '../../../generated/graphql';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import useUser from '../../user/hooks/useUser';
 import { MAX_OGRANIZATION_CLASSES_PAGE_SIZE } from '../constants';
 import { organizationClassesPathBuilder } from '../utils';
@@ -62,9 +64,10 @@ const useAllOrganizationClasses = (): UseAllOrganizationClassesState => {
 
   return {
     loading: debouncedLoading,
-    organizationClasses:
-      (organizationClassesData?.organizationClasses
-        .data as OrganizationClassFieldsFragment[]) || [],
+    organizationClasses: getValue(
+      organizationClassesData?.organizationClasses.data.filter(skipFalsyType),
+      []
+    ),
     user,
   };
 };

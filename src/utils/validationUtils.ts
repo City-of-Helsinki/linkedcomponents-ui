@@ -17,9 +17,9 @@ import {
   VALIDATION_ERROR_SCROLLER_OPTIONS,
 } from '../constants';
 import { VALIDATION_MESSAGE_KEYS } from '../domain/app/i18n/constants';
-import { Maybe } from '../generated/graphql';
-import { Error } from '../types';
+import { Error, Maybe } from '../types';
 import formatDate from './formatDate';
+import getValue from './getValue';
 import setDateTime from './setDateTime';
 
 const createMaxErrorMessage = (
@@ -254,12 +254,11 @@ export const showFormErrors = ({
   if (error.name === 'ValidationError') {
     const newErrors = error.inner.reduce(
       (acc, e: Yup.ValidationError) =>
-        set(acc, e.path ?? /* istanbul ignore next */ '', e.errors[0]),
+        set(acc, getValue(e.path, ''), e.errors[0]),
       {}
     );
     const touchedFields = error.inner.reduce(
-      (acc, e: Yup.ValidationError) =>
-        set(acc, e.path ?? /* istanbul ignore next */ '', true),
+      (acc, e: Yup.ValidationError) => set(acc, getValue(e.path, ''), true),
       {}
     );
 

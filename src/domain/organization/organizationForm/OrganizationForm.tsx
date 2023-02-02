@@ -25,6 +25,7 @@ import {
   useCreateOrganizationMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import getValue from '../../../utils/getValue';
 import {
   scrollToFirstError,
   showFormErrors,
@@ -72,7 +73,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
   const action = organization
     ? ORGANIZATION_ACTIONS.UPDATE
     : ORGANIZATION_ACTIONS.CREATE;
-  const id = organization?.id ?? '';
+  const id = getValue(organization?.id, '');
 
   const isEditingAllowed = checkCanUserDoAction({
     action,

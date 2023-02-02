@@ -7,6 +7,7 @@ import {
 import { PathBuilderProps } from '../../types';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
@@ -44,7 +45,7 @@ export const getRegistrationSearchInitialValues = (
     sort: Object.values(REGISTRATION_SORT_OPTIONS).includes(sort)
       ? sort
       : DEFAULT_REGISTRATION_SORT,
-    text: text || '',
+    text: getValue(text, ''),
   };
 };
 

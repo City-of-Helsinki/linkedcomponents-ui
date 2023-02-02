@@ -19,6 +19,7 @@ import {
 } from '../../types';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -65,7 +66,7 @@ export const getKeywordOption = ({
 }): OptionType => {
   return {
     label: capitalize(getLocalisedString(keyword?.name, locale)).split(' (')[0],
-    value: keyword?.atId ?? '',
+    value: getValue(keyword?.atId, ''),
   };
 };
 
@@ -73,15 +74,15 @@ export const getKeywordSetFields = (
   keywordSet: KeywordSetFieldsFragment,
   language: Language
 ): KeywordSetFields => {
-  const id = keywordSet.id ?? '';
+  const id = getValue(keywordSet.id, '');
 
   return {
-    dataSource: keywordSet.dataSource ?? '',
+    dataSource: getValue(keywordSet.dataSource, ''),
     id,
     keywordSetUrl: `/${language}${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`,
     name: getLocalisedString(keywordSet.name, language),
-    organization: keywordSet.organization ?? '',
-    usage: keywordSet.usage ?? '',
+    organization: getValue(keywordSet.organization, ''),
+    usage: getValue(keywordSet.usage, ''),
   };
 };
 
@@ -200,16 +201,17 @@ export const getEditButtonProps = ({
 export const getKeywordSetInitialValues = (
   keywordSet: KeywordSetFieldsFragment
 ): KeywordSetFormFields => {
-  const id = keywordSet.id ?? '';
+  const id = getValue(keywordSet.id, '');
+
   return {
-    dataSource: keywordSet.dataSource ?? '',
+    dataSource: getValue(keywordSet.dataSource, ''),
     id,
     keywords:
       keywordSet.keywords?.map((keyword) => keyword?.atId as string) || [],
     name: getLocalisedObject(keywordSet.name),
-    originId: id.split(':')[1] ?? '',
-    organization: keywordSet.organization ?? '',
-    usage: keywordSet.usage ?? '',
+    originId: getValue(id.split(':')[1], ''),
+    organization: getValue(keywordSet.organization, ''),
+    usage: getValue(keywordSet.usage, ''),
   };
 };
 

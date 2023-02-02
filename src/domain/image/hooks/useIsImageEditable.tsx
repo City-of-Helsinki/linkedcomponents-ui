@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useImageQuery } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -40,7 +41,7 @@ const useIsImageEditable = ({ imageAtId }: Props): IsImageEditableState => {
       action: IMAGE_ACTIONS.UPDATE,
       authenticated,
       organizationAncestors,
-      publisher: imageData?.image.publisher ?? '',
+      publisher: getValue(imageData?.image.publisher, ''),
       t,
       user,
     });

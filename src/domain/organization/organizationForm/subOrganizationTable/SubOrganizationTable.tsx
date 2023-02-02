@@ -11,6 +11,7 @@ import useLocale from '../../../../hooks/useLocale';
 import formatDate from '../../../../utils/formatDate';
 import getSortByOrderAndColKey from '../../../../utils/getSortByOrderAndColKey';
 import getSortOrderAndKey from '../../../../utils/getSortOrderAndKey';
+import getValue from '../../../../utils/getValue';
 import useOrganizationSortOptions from '../../../organizations/hooks/useOrganizationSortOptions';
 import {
   addParamsToOrganizationQueryString,
@@ -46,7 +47,7 @@ const ClassificationColumn = (organization: OrganizationFieldsFragment) => {
   const { t } = useTranslation();
   const { classification } = getOrganizationFields(organization, locale, t);
 
-  return <>{classification ?? /* istanbul ignore next */ '-'}</>;
+  return <>{getValue(classification, '-')}</>;
 };
 
 const DataSourceColumn = (organization: OrganizationFieldsFragment) => {
@@ -54,7 +55,7 @@ const DataSourceColumn = (organization: OrganizationFieldsFragment) => {
   const { t } = useTranslation();
   const { dataSource } = getOrganizationFields(organization, locale, t);
 
-  return <>{dataSource ?? /* istanbul ignore next */ '-'}</>;
+  return <>{getValue(dataSource, '-')}</>;
 };
 
 const OriginIdColumn = (organization: OrganizationFieldsFragment) => {
@@ -62,7 +63,7 @@ const OriginIdColumn = (organization: OrganizationFieldsFragment) => {
   const { t } = useTranslation();
   const { originId } = getOrganizationFields(organization, locale, t);
 
-  return <>{originId ?? /* istanbul ignore next */ '-'}</>;
+  return <>{getValue(originId, '-')}</>;
 };
 
 export type SubOrganizationTableProps = {

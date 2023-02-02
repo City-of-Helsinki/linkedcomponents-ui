@@ -16,7 +16,9 @@ import {
   UserFieldsFragment,
   useUpdateEventMutation,
 } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { reportError } from '../../app/sentry/utils';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
@@ -74,7 +76,7 @@ const useUpdateRecurringEventIfNeeded =
 
         /* istanbul ignore next */
         const organizationAncestors = await getOrganizationAncestorsQueryResult(
-          superEvent.publisher ?? '',
+          getValue(superEvent.publisher, ''),
           apolloClient
         );
 
@@ -101,7 +103,7 @@ const useUpdateRecurringEventIfNeeded =
           ? new Date(superEvent.endTime)
           : null;
 
-        const eventTimes: EventTime[] = (superEvent?.subEvents ?? []).map(
+        const eventTimes: EventTime[] = getValue(superEvent?.subEvents, []).map(
           (subEvent) => ({
             endTime: subEvent?.endTime ? new Date(subEvent.endTime) : null,
             id: null,
@@ -135,12 +137,14 @@ const useUpdateRecurringEventIfNeeded =
             publicationStatus as PublicationStatus
           ),
           id: superEvent.id,
-          endTime: newEndTime?.toISOString() ?? null,
-          startTime: newStartTime?.toISOString() ?? null,
-          subEvents:
-            superEvent?.subEvents.map((subEvent) => ({
-              atId: subEvent?.atId as string,
-            })) || [],
+          endTime: getValue(newEndTime?.toISOString(), null),
+          startTime: getValue(newStartTime?.toISOString(), null),
+          subEvents: getValue(
+            superEvent?.subEvents.filter(skipFalsyType).map((subEvent) => ({
+              atId: subEvent.atId,
+            })),
+            []
+          ),
           superEvent: superEvent.superEvent
             ? { atId: superEvent.superEvent.atId }
             : null,
@@ -148,7 +152,7 @@ const useUpdateRecurringEventIfNeeded =
         };
         const data = await updateEvent({ variables: { input: payload } });
 
-        return data.data?.updateEvent ?? null;
+        return getValue(data.data?.updateEvent, null);
       } catch (error) {
         reportError({
           data: {

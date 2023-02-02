@@ -1,5 +1,6 @@
 import { User } from 'oidc-client';
 
+import getValue from '../../utils/getValue';
 import {
   ASK_PERMISSION_FORM_SELECT_FIELDS,
   askPermissionFormInitialValues,
@@ -34,8 +35,8 @@ export const getAskPermissionFormInitialValues = (
   user
     ? {
         ...askPermissionFormInitialValues,
-        name: user.profile.name ?? /* istanbul ignore next */ '',
-        email: user.profile.email ?? /* istanbul ignore next */ '',
+        name: getValue(user.profile.name, ''),
+        email: getValue(user.profile.email, ''),
       }
     : askPermissionFormInitialValues;
 
@@ -45,7 +46,7 @@ export const getContactFormInitialValues = (
   user
     ? {
         ...contactFormInitialValues,
-        name: user.profile.name ?? /* istanbul ignore next */ '',
-        email: user.profile.email ?? /* istanbul ignore next */ '',
+        name: getValue(user.profile.name, ''),
+        email: getValue(user.profile.email, ''),
       }
     : contactFormInitialValues;

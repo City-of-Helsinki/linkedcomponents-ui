@@ -18,6 +18,7 @@ import { Editability, Language, PathBuilderProps } from '../../types';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -90,14 +91,14 @@ export const getKeywordFields = (
   keyword: KeywordFieldsFragment,
   language: Language
 ): KeywordFields => {
-  const id = keyword.id ?? '';
+  const id = getValue(keyword.id, '');
   return {
-    atId: keyword.atId ?? '',
+    atId: getValue(keyword.atId, ''),
     id,
     keywordUrl: `/${language}${ROUTES.EDIT_KEYWORD.replace(':id', id)}`,
     name: getLocalisedString(keyword.name, language),
     nEvents: keyword.nEvents ?? 0,
-    publisher: keyword.publisher ?? '',
+    publisher: getValue(keyword.publisher, ''),
   };
 };
 
@@ -113,7 +114,7 @@ export const checkCanUserDoAction = ({
   user?: UserFieldsFragment;
 }): boolean => {
   /* istanbul ignore next */
-  const adminOrganizations = user?.adminOrganizations ?? [];
+  const adminOrganizations = getValue(user?.adminOrganizations, []);
   const isAdminUser = isAdminUserInOrganization({
     id: publisher,
     organizationAncestors,
@@ -231,15 +232,16 @@ export const getEditButtonProps = ({
 export const getKeywordInitialValues = (
   keyword: KeywordFieldsFragment
 ): KeywordFormFields => {
-  const id = keyword.id ?? '';
+  const id = getValue(keyword.id, '');
+
   return {
-    dataSource: keyword.dataSource ?? '',
+    dataSource: getValue(keyword.dataSource, ''),
     deprecated: !!keyword.deprecated,
     id,
     name: getLocalisedObject(keyword.name),
-    originId: id.split(':')[1] ?? '',
-    publisher: keyword.publisher ?? '',
-    replacedBy: keyword.replacedBy ?? '',
+    originId: getValue(id.split(':')[1], ''),
+    publisher: getValue(keyword.publisher, ''),
+    replacedBy: getValue(keyword.replacedBy, ''),
   };
 };
 

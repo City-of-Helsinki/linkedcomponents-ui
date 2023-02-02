@@ -19,6 +19,7 @@ import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import IconFlag from '../../../icons/IconFlag';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { usePageSettings } from '../../app/hooks/usePageSettings';
 import { useTheme } from '../../app/theme/Theme';
@@ -84,12 +85,14 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
 
   const open = expandedEvents.includes(id);
 
-  const inLanguageText = inLanguage.join(', ') || '-';
+  const inLanguageText = getValue(inLanguage.join(', '), '-');
 
-  const locationText =
+  const locationText = getValue(
     [locationName, streetAddress, addressLocality]
       .filter(skipFalsyType)
-      .join(', ') || '-';
+      .join(', '),
+    '-'
+  );
 
   const toggle = () => {
     if (open) {

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
+import getValue from '../../utils/getValue';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
@@ -70,7 +71,7 @@ export const getOrganizationSearchInitialValues = (
     sort: Object.values(ORGANIZATION_SORT_OPTIONS).includes(sort)
       ? sort
       : DEFAULT_ORGANIZATION_SORT,
-    text: text || '',
+    text: getValue(text, ''),
   };
 };
 

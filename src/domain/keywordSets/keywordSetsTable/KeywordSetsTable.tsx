@@ -12,6 +12,7 @@ import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getSortByOrderAndColKey from '../../../utils/getSortByOrderAndColKey';
 import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
+import getValue from '../../../utils/getValue';
 import {
   getKeywordSetFields,
   getKeywordSetItemId,
@@ -57,9 +58,9 @@ const UsageColumn = (keywordSet: KeywordSetFieldsFragment) => {
   const usageOptions = useKeywordSetUsageOptions();
 
   const getUsageText = (usage: string) => {
-    return (
-      usageOptions.find((option) => option.value === usage)?.label ||
-      /* istanbul ignore next */ usage
+    return getValue(
+      usageOptions.find((option) => option.value === usage)?.label,
+      usage
     );
   };
 

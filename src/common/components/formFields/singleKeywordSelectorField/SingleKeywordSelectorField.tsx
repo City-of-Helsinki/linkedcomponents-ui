@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../../types';
+import getValue from '../../../../utils/getValue';
 import { getErrorText } from '../../../../utils/validationUtils';
 import SingleKeywordSelector, {
   SingleKeywordSelectorProps,
@@ -26,7 +27,7 @@ const SingleKeywordSelectorField: React.FC<Props> = ({
   };
 
   const handleChange = (selected: OptionType | null) => {
-    onChange({ target: { id: name, value: selected?.value || null } });
+    onChange({ target: { id: name, value: getValue(selected?.value, null) } });
   };
 
   return (

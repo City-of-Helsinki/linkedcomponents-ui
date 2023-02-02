@@ -16,7 +16,9 @@ import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getPageCount from '../../../utils/getPageCount';
+import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 import EnrolmentActionsDropdown from '../enrolmentActionsDropdown/EnrolmentActionsDropdown';
@@ -51,7 +53,7 @@ const EmailColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
   const language = useLocale();
   const { email } = getEnrolmentFields({ enrolment, language, registration });
 
-  return <>{email || /* istanbul ignore next */ '-'}</>;
+  return <>{getValue(email, '-')}</>;
 };
 
 const PhoneColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
@@ -62,7 +64,7 @@ const PhoneColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
     registration,
   });
 
-  return <>{phoneNumber || /* istanbul ignore next */ '-'}</>;
+  return <>{getValue(phoneNumber, '-')}</>;
 };
 
 const AttendeeStatusColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
@@ -107,8 +109,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   );
 
   const enrolments = filterEnrolments({
-    enrolments: (registration?.signups ||
-      /* istanbul ignore next */ []) as EnrolmentFieldsFragment[],
+    enrolments: getValue(registration?.signups?.filter(skipFalsyType), []),
     query: {
       text: enrolmentText,
       ...enrolmentsVariables,

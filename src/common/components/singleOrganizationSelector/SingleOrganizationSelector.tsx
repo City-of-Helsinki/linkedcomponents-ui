@@ -8,6 +8,7 @@ import { getOrganizationFields } from '../../../domain/organization/utils';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
+import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 
@@ -48,16 +49,23 @@ const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
   const options: OptionType[] = React.useMemo(
     () =>
       sortBy(
-        organizations.map((organization) =>
-          getOption({ locale, organization, t })
-        ) ?? /* istanbul ignore next */ [],
+        getValue(
+          organizations.map((organization) =>
+            getOption({ locale, organization, t })
+          ),
+          []
+        ),
         'label'
       ),
     [locale, organizations, t]
   );
 
   const selectedOrganization = React.useMemo(
-    () => options.find((o) => o.value === value) ?? null,
+    () =>
+      getValue(
+        options.find((o) => o.value === value),
+        null
+      ),
     [options, value]
   );
 

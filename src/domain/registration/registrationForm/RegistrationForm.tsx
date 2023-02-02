@@ -51,6 +51,7 @@ import styles from '../registrationPage.module.scss';
 import { RegistrationFormFields } from '../types';
 import { checkCanUserDoAction, getRegistrationInitialValues } from '../utils';
 import { getFocusableFieldId, registrationSchema } from '../validation';
+import getValue from '../../../utils/getValue';
 
 export type CreateRegistrationFormProps = {
   event?: null;
@@ -85,7 +86,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const action = registration
     ? REGISTRATION_ACTIONS.UPDATE
     : REGISTRATION_ACTIONS.CREATE;
-  const savedEventPublisher = event?.publisher ?? '';
+  const savedEventPublisher = getValue(event?.publisher, '');
 
   const { organizationAncestors } =
     useOrganizationAncestors(savedEventPublisher);

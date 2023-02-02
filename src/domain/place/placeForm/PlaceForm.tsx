@@ -27,6 +27,7 @@ import {
   useCreatePlaceMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
@@ -72,7 +73,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
   const action = place ? PLACE_ACTIONS.UPDATE : PLACE_ACTIONS.CREATE;
-  const savedPlacePublisher = place?.publisher ?? '';
+  const savedPlacePublisher = getValue(place?.publisher, '');
 
   const { organizationAncestors } =
     useOrganizationAncestors(savedPlacePublisher);

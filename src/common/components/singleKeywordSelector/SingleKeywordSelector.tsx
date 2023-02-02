@@ -19,6 +19,7 @@ import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 
@@ -77,9 +78,12 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
 
   const options: OptionType[] = React.useMemo(
     () =>
-      (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
-        getOption({ keyword: keyword as KeywordFieldsFragment, locale })
-      ) ?? [],
+      getValue(
+        (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
+          getOption({ keyword: keyword as KeywordFieldsFragment, locale })
+        ),
+        []
+      ),
     [keywordsData, locale, previousKeywordsData]
   );
 

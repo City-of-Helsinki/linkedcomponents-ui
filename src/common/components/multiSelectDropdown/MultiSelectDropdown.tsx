@@ -5,6 +5,7 @@ import useDropdownCloseEvents from '../../../hooks/useDropdownCloseEvents';
 import useKeyboardNavigation from '../../../hooks/useDropdownKeyboardNavigation';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import { OptionType } from '../../../types';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Dropdown from '../dropdown/Dropdown';
 import ToggleButton from '../dropdown/toggleButton/ToggleButton';
@@ -50,7 +51,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   const toggleButtonId = `${id}-toggle-button`;
   const menuId = `${id}-menu`;
   const [internalSearchValue, setInternalSearchValue] = React.useState('');
-  const searchValue = _searchValue ?? internalSearchValue;
+  const searchValue = getValue(_searchValue, internalSearchValue);
 
   const dropdown = React.useRef<HTMLDivElement | null>(null);
   const toggleButton = React.useRef<HTMLButtonElement | null>(null);

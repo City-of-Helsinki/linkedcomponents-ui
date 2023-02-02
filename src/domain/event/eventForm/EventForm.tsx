@@ -19,6 +19,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
+import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
 import MainContent from '../../app/layout/mainContent/MainContent';
@@ -111,7 +112,7 @@ const EventForm: React.FC<EventFormProps> = ({
 
   const { user } = useUser();
   const { organizationAncestors } = useOrganizationAncestors(
-    event?.publisher ?? ''
+    getValue(event?.publisher, '')
   );
 
   const mainCategories = useMainCategories(values.type as EVENT_TYPE);
@@ -480,7 +481,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
         ? getEventInitialValues(event)
         : {
             ...EVENT_INITIAL_VALUES,
-            publisher: user?.organization ?? /* istanbul ignore next */ '',
+            publisher: getValue(user?.organization, ''),
           },
     [event, user]
   );

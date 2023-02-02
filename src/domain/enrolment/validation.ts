@@ -6,7 +6,8 @@ import subYears from 'date-fns/subYears';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
-import { Maybe } from '../../generated/graphql';
+import { Maybe } from '../../types';
+import getValue from '../../utils/getValue';
 import {
   createArrayMinErrorMessage,
   isValidPhoneNumber,
@@ -160,7 +161,7 @@ export const scrollToFirstError = async ({
   setOpenAccordion: (index: number) => void;
 }): Promise<void> => {
   for (const e of error.inner) {
-    const path = e.path ?? /* istanbul ignore next */ '';
+    const path = getValue(e.path, '');
 
     if (/^attendees\[\d*\]\./.test(path)) {
       const attendeeIndex = Number(path.match(/(?<=\[)[[\d]{1,4}(?=\])/)?.[0]);

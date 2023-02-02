@@ -18,6 +18,7 @@ import {
 } from '../../../constants';
 import { KeywordSetFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import getValue from '../../../utils/getValue';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
   scrollToFirstError,
@@ -57,7 +58,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const action = keywordSet
     ? KEYWORD_SET_ACTIONS.UPDATE
     : KEYWORD_SET_ACTIONS.CREATE;
-  const savedKeywordSetDataSource = keywordSet?.dataSource ?? '';
+  const savedKeywordSetDataSource = getValue(keywordSet?.dataSource, '');
 
   const isEditingAllowed = checkCanUserDoAction({
     action,

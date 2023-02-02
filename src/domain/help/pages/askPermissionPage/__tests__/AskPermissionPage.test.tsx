@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { PostFeedbackDocument } from '../../../../../generated/graphql';
+import getValue from '../../../../../utils/getValue';
 import {
   fakeAuthenticatedAuthContextValue,
   fakeOidcReducerState,
@@ -99,7 +100,7 @@ const getElement = (key: ElementKey) => {
 const renderComponent = (options?: CustomRenderOptions) =>
   render(<AskPermissionPage />, {
     ...options,
-    mocks: [...commonMocks, ...(options?.mocks || [])],
+    mocks: [...commonMocks, ...getValue(options?.mocks, [])],
   });
 
 const selectOrganization = async () => {

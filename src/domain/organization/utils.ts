@@ -22,7 +22,9 @@ import {
 import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import skipFalsyType from '../../utils/skipFalsyType';
 import {
   AUTHENTICATION_NOT_NEEDED,
   ORGANIZATION_ACTION_ICONS,
@@ -60,7 +62,8 @@ export const getOrganizationFullName = (
   organization: OrganizationFieldsFragment,
   t: TFunction
 ): string => {
-  const name = organization.name ?? '';
+  const name = getValue(organization.name, '');
+
   if (organization.dissolutionDate) {
     return `${name} (${t('common.dissolved')})`;
   } else if (organization.isAffiliated) {
@@ -74,23 +77,26 @@ export const getOrganizationFields = (
   locale: Language,
   t: TFunction
 ): OrganizationFields => {
-  const id = organization.id ?? '';
+  const id = getValue(organization.id, '');
 
   return {
     affiliatedOrganizations: organization.affiliatedOrganizations as string[],
-    atId: organization.atId ?? '',
-    classification: organization.classification ?? '',
-    dataSource: organization.dataSource ?? '',
+    atId: getValue(organization.atId, ''),
+    classification: getValue(organization.classification, ''),
+    dataSource: getValue(organization.dataSource, ''),
     foundingDate: organization.foundingDate
       ? new Date(organization.foundingDate)
       : null,
     fullName: getOrganizationFullName(organization, t),
-    id: organization.id ?? '',
-    name: organization.name ?? '',
+    id: getValue(organization.id, ''),
+    name: getValue(organization.name, ''),
     organizationUrl: `/${locale}${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`,
-    originId: id.split(':')[1] ?? '',
-    parentOrganization: organization.parentOrganization ?? null,
-    subOrganizations: organization.subOrganizations as string[],
+    originId: getValue(id.split(':')[1], ''),
+    parentOrganization: getValue(organization.parentOrganization, null),
+    subOrganizations: getValue(
+      organization.subOrganizations?.filter(skipFalsyType),
+      []
+    ),
   };
 };
 
@@ -123,7 +129,7 @@ export const isAdminUserInOrganization = ({
   organizationAncestors: OrganizationFieldsFragment[];
   user?: UserFieldsFragment;
 }): boolean => {
-  const adminOrganizations = user?.adminOrganizations ?? [];
+  const adminOrganizations: string[] = getValue(user?.adminOrganizations, []);
 
   return Boolean(
     id &&
@@ -141,7 +147,10 @@ export const isReqularUserInOrganization = ({
   id: string | null;
   user?: UserFieldsFragment;
 }): boolean => {
-  const organizationMemberships = user?.organizationMemberships ?? [];
+  const organizationMemberships: string[] = getValue(
+    user?.organizationMemberships,
+    []
+  );
 
   return Boolean(id && organizationMemberships.includes(id));
 };
@@ -198,7 +207,7 @@ export const checkCanUserDoAction = ({
     organizationAncestors: [],
     user,
   });
-  const adminOrganizations = user?.adminOrganizations || [];
+  const adminOrganizations = getValue(user?.adminOrganizations, []);
 
   switch (action) {
     case ORGANIZATION_ACTIONS.EDIT:
@@ -301,31 +310,36 @@ export const getEditButtonProps = ({
 export const getOrganizationInitialValues = (
   organization: OrganizationFieldsFragment
 ): OrganizationFormFields => {
-  const id = organization.id ?? '';
+  const id = getValue(organization.id, '');
   const { dissolutionDate, foundingDate } = organization;
 
   return {
     adminUsers: organization.adminUsers?.length
       ? organization.adminUsers.map((o) => o?.username as string)
       : [],
-    affiliatedOrganizations:
-      (organization.affiliatedOrganizations as string[]) ?? [],
-    classification: organization.classification ?? '',
-    dataSource: organization.dataSource ?? '',
+    affiliatedOrganizations: getValue(
+      organization.affiliatedOrganizations?.filter(skipFalsyType),
+      []
+    ),
+    classification: getValue(organization.classification, ''),
+    dataSource: getValue(organization.dataSource, ''),
     dissolutionDate: dissolutionDate ? new Date(dissolutionDate) : null,
     foundingDate: foundingDate ? new Date(foundingDate) : null,
     id,
     internalType: organization.isAffiliated
       ? ORGANIZATION_INTERNAL_TYPE.AFFILIATED
       : ORGANIZATION_INTERNAL_TYPE.NORMAL,
-    name: organization.name ?? '',
-    originId: id.split(':')[1] ?? '',
-    parentOrganization: organization.parentOrganization ?? '',
-    regularUsers: organization.regularUsers?.length
-      ? organization.regularUsers.map((o) => o?.username as string)
-      : [],
+    name: getValue(organization.name, ''),
+    originId: getValue(id.split(':')[1], ''),
+    parentOrganization: getValue(organization.parentOrganization, ''),
+    regularUsers: getValue(organization.regularUsers, []).map((o) =>
+      getValue(o?.username, '')
+    ),
     replacedBy: '',
-    subOrganizations: (organization.subOrganizations as string[]) ?? [],
+    subOrganizations: getValue(
+      organization.subOrganizations?.filter(skipFalsyType),
+      []
+    ),
   };
 };
 

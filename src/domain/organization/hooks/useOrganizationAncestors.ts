@@ -4,6 +4,8 @@ import {
   useOrganizationsQuery,
 } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { organizationsPathBuilder } from '../../organization/utils';
 
 type OrganizationState = {
@@ -23,8 +25,10 @@ const useOrganizationAncestors = (publisher: string): OrganizationState => {
 
   return {
     loading,
-    organizationAncestors:
-      (data?.organizations.data as OrganizationFieldsFragment[]) || [],
+    organizationAncestors: getValue(
+      data?.organizations.data.filter(skipFalsyType),
+      []
+    ),
   };
 };
 

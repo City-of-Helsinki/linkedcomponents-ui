@@ -3,7 +3,8 @@ import * as Yup from 'yup';
 import { ValidateOptions } from 'yup/lib/types';
 
 import { CHARACTER_LIMITS } from '../../constants';
-import { Maybe } from '../../generated/graphql';
+import { Maybe } from '../../types';
+import getValue from '../../utils/getValue';
 import {
   createArrayMinErrorMessage,
   createMultiLanguageValidation,
@@ -54,7 +55,10 @@ const validateEventTimes = (
     'hasAtLeaseOneEventTime',
     VALIDATION_MESSAGE_KEYS.EVENT_TIMES_REQUIRED,
     (eventTimes) => {
-      const allEventTimes = [...(eventTimes ?? []), ...(events ?? [])];
+      const allEventTimes = [
+        ...getValue(eventTimes, []),
+        ...getValue(events, []),
+      ];
       recurringEvents?.forEach((recurringEvent) => {
         allEventTimes.push(...recurringEvent.eventTimes);
       });
@@ -187,9 +191,12 @@ const validateMainCategories = (
     'atLeastOneMainCategoryIsSelected',
     VALIDATION_MESSAGE_KEYS.MAIN_CATEGORY_REQUIRED,
     (mainCategories) =>
-      mainCategories?.some(
-        (category) => category && keywords.includes(category)
-      ) ?? false
+      getValue(
+        mainCategories?.some(
+          (category) => category && keywords.includes(category)
+        ),
+        false
+      )
   );
 
 const enrolmentSchemaFields = {

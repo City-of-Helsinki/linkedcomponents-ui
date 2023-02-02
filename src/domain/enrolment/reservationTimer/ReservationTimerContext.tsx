@@ -13,6 +13,7 @@ import {
   SeatsReservation,
   useCreateSeatsReservationMutation,
 } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import { reportError } from '../../app/sentry/utils';
 import {
   clearSeatsReservationData,
@@ -101,7 +102,7 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
 
       if (setAttendees) {
         const newAttendees = getNewAttendees({
-          attendees: attendees || /* istanbul ignore next */ [],
+          attendees: getValue(attendees, []),
           registration,
           seatsReservation,
         });

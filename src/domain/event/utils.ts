@@ -44,7 +44,6 @@ import {
   EventTypeId,
   Language as LELanguage,
   LocalisedObject,
-  Maybe,
   OrganizationFieldsFragment,
   PublicationStatus,
   SuperEventType,
@@ -53,6 +52,7 @@ import {
 import {
   Editability,
   Language,
+  Maybe,
   MultiLanguageObject,
   PathBuilderProps,
 } from '../../types';
@@ -63,6 +63,7 @@ import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getTimeObject from '../../utils/getTimeObject';
+import getValue from '../../utils/getValue';
 import isHtml from '../../utils/isHtml';
 import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import queryBuilder from '../../utils/queryBuilder';
@@ -188,25 +189,28 @@ export const getEventFields = (
   event: EventFieldsFragment,
   language: Language
 ): EventFields => {
-  const id = event.id || '';
-  const publicationStatus = event.publicationStatus || PublicationStatus.Public;
+  const id = getValue(event.id, '');
+  const publicationStatus = getValue(
+    event.publicationStatus,
+    PublicationStatus.Public
+  );
 
   const registrationAtId = event.registration?.atId;
 
   return {
     id,
-    atId: event.atId || '',
-    audienceMaxAge: event.audienceMaxAge || null,
-    audienceMinAge: event.audienceMinAge || null,
-    createdBy: event.createdBy || '',
-    deleted: event.deleted ?? null,
+    atId: getValue(event.atId, ''),
+    audienceMaxAge: getValue(event.audienceMaxAge, null),
+    audienceMinAge: getValue(event.audienceMinAge, null),
+    createdBy: getValue(event.createdBy, ''),
+    deleted: getValue(event.deleted, null),
     description: getLocalisedString(event.description, language),
     endTime: getEventDate(event.endTime),
-    eventStatus: event.eventStatus || EventStatus.EventScheduled,
+    eventStatus: getValue(event.eventStatus, EventStatus.EventScheduled),
     eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
     freeEvent: !!event.offers[0]?.isFree,
-    imageUrl: event.images.find((image) => image?.url)?.url || null,
-    inLanguage: (event.inLanguage || [])
+    imageUrl: getValue(event.images.find((image) => image?.url)?.url, null),
+    inLanguage: getValue(event.inLanguage, [])
       .filter(skipFalsyType)
       .map((item) => getLocalisedString(item?.name, language)),
     isDraft: publicationStatus === PublicationStatus.Draft,
@@ -217,9 +221,9 @@ export const getEventFields = (
     offers: event.offers.filter(
       (offer) => !!offer && !offer?.isFree
     ) as Offer[],
-    publisher: event.publisher || null,
+    publisher: getValue(event.publisher, null),
     publicationStatus,
-    registrationAtId: registrationAtId ?? null,
+    registrationAtId: getValue(registrationAtId, null),
     registrationUrl: registrationAtId
       ? `/${language}${ROUTES.EDIT_REGISTRATION.replace(
           ':id',
@@ -229,8 +233,8 @@ export const getEventFields = (
     subEventAtIds: (event.subEvents || [])
       .filter(skipFalsyType)
       .map((subEvent) => subEvent.atId),
-    superEventAtId: event.superEvent?.atId || null,
-    superEventType: event.superEventType || null,
+    superEventAtId: getValue(event.superEvent?.atId, null),
+    superEventType: getValue(event.superEventType, null),
     startTime: getEventDate(event.startTime),
   };
 };
@@ -347,7 +351,7 @@ export const calculateSuperEventTime = (eventTimes: EventTime[]): EventTime => {
 
   return {
     id: null,
-    startTime: superEventStartTime || null,
+    startTime: getValue(superEventStartTime, null),
     endTime: getSuperEventEndTime() || null,
   };
 };
@@ -624,8 +628,8 @@ export const getRecurringEventPayload = (
   /* istanbul ignore next */
   return {
     ...basePayload[0],
-    endTime: superEventTime.endTime?.toISOString() ?? null,
-    startTime: superEventTime.startTime?.toISOString() ?? null,
+    endTime: getValue(superEventTime.endTime?.toISOString(), null),
+    startTime: getValue(superEventTime.startTime?.toISOString(), null),
     superEvent: hasUmbrella && superEvent ? { atId: superEvent } : null,
     superEventType: SuperEventType.Recurring,
     subEvents,
@@ -709,7 +713,7 @@ const getSavedEventTimes = (event: EventFieldsFragment): EventTime[] => {
     return event.subEvents
       .map((subEvent) => ({
         endTime: subEvent?.endTime ? new Date(subEvent?.endTime) : null,
-        id: subEvent?.id || null,
+        id: getValue(subEvent?.id, null),
         startTime: subEvent?.startTime ? new Date(subEvent?.startTime) : null,
       }))
       .sort(sortEventTimes);
@@ -727,12 +731,18 @@ const getSavedEventTimes = (event: EventFieldsFragment): EventTime[] => {
 const getEventImageDetails = (event: EventFieldsFragment): ImageDetails => {
   return {
     altText: getImageAltText(event.images[0]?.altText),
-    license:
-      event.images[0]?.license || EVENT_INITIAL_VALUES.imageDetails.license,
-    name: event.images[0]?.name || EVENT_INITIAL_VALUES.imageDetails.name,
-    photographerName:
-      event.images[0]?.photographerName ||
-      EVENT_INITIAL_VALUES.imageDetails.photographerName,
+    license: getValue(
+      event.images[0]?.license,
+      EVENT_INITIAL_VALUES.imageDetails.license
+    ),
+    name: getValue(
+      event.images[0]?.name,
+      EVENT_INITIAL_VALUES.imageDetails.name
+    ),
+    photographerName: getValue(
+      event.images[0]?.photographerName,
+      EVENT_INITIAL_VALUES.imageDetails.photographerName
+    ),
   };
 };
 
@@ -762,9 +772,9 @@ const getEventVideos = (event: EventFieldsFragment): VideoDetails[] => {
   const videos: VideoDetails[] = event.videos
     .filter(skipFalsyType)
     .map((video) => ({
-      altText: video.altText ?? '',
-      name: video.name ?? '',
-      url: video.url ?? '',
+      altText: getValue(video.altText, ''),
+      name: getValue(video.name, ''),
+      url: getValue(video.url, ''),
     }));
 
   if (!videos.length) {
@@ -811,8 +821,8 @@ export const getEventInitialValues = (
     eventInfoLanguages: getEventInfoLanguages(event),
     externalLinks: sortBy(event.externalLinks, ['name']).map(
       (externalLink) => ({
-        link: externalLink?.link ?? '',
-        name: externalLink?.name ?? '',
+        link: getValue(externalLink?.link, ''),
+        name: getValue(externalLink?.name, ''),
       })
     ),
     hasPrice,
@@ -828,13 +838,13 @@ export const getEventInitialValues = (
     keywords: event.keywords
       .filter(skipFalsyType)
       .map((keyword) => keyword.atId),
-    location: event.location?.atId || '',
+    location: getValue(event.location?.atId, ''),
     locationExtraInfo: getLocalisedObject(event.locationExtraInfo),
     maximumAttendeeCapacity: event.maximumAttendeeCapacity ?? '',
     minimumAttendeeCapacity: event.minimumAttendeeCapacity ?? '',
     name: getLocalisedObject(event.name),
     offers,
-    publisher: event.publisher ?? '',
+    publisher: getValue(event.publisher, ''),
     provider: getLocalisedObject(event.provider),
     recurringEventEndTime: getRecurringEventDate(
       event.superEventType,
@@ -845,8 +855,8 @@ export const getEventInitialValues = (
       event.startTime
     ),
     shortDescription: getLocalisedObject(event.shortDescription),
-    superEvent: event.superEvent?.atId || '',
-    type: event.typeId?.toLowerCase() ?? EVENT_TYPE.General,
+    superEvent: getValue(event.superEvent?.atId, ''),
+    type: getValue(event.typeId?.toLowerCase(), EVENT_TYPE.General),
     videos: getEventVideos(event),
   };
 };
@@ -936,7 +946,7 @@ export const scrollToFirstError = async ({
   setDescriptionLanguage: (value: LE_DATA_LANGUAGES) => void;
 }): Promise<void> => {
   for (const e of error.inner) {
-    const path = e.path ?? /* istanbul ignore next */ '';
+    const path = getValue(e.path, '');
 
     await changeLanguageIfNeeded({
       descriptionLanguage,
@@ -1124,7 +1134,7 @@ export const getIsButtonVisible = ({
   }
 };
 
-export const getCreateEventActionWarning = ({
+const getCreateEventActionWarning = ({
   action,
   authenticated,
   t,
@@ -1134,6 +1144,7 @@ export const getCreateEventActionWarning = ({
   t: TFunction;
   userCanDoAction: boolean;
 }) => {
+  console.log('CREATE');
   if (!authenticated) {
     return t('event.form.buttonPanel.warningNotAuthenticated');
   }
@@ -1183,7 +1194,7 @@ const getDraftEventWarning = ({
   return '';
 };
 
-export const getUpdateEventActionWarning = (
+const getUpdateEventActionWarning = (
   props: EventActionProps & {
     authenticated: boolean;
     event: EventFieldsFragment;
@@ -1301,8 +1312,8 @@ export const copyEventToSessionStorage = async (
     ...restInitialValues
   } = getEventInitialValues(event);
   const organizations = [
-    ...(user?.adminOrganizations || []),
-    ...(user?.organizationMemberships || []),
+    ...getValue(user?.adminOrganizations, []),
+    ...getValue(user?.organizationMemberships, []),
   ];
   const publisher = organizations.includes(eventPublisher)
     ? eventPublisher

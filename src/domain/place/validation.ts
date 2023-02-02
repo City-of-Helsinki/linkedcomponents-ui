@@ -6,7 +6,7 @@ import {
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
 } from '../../constants';
-import { Maybe } from '../../generated/graphql';
+import { Maybe } from '../../types';
 import {
   createStringMaxErrorMessage,
   isValidPhoneNumber,

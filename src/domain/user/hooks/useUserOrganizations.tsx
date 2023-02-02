@@ -12,6 +12,7 @@ import {
   UserFieldsFragment,
 } from '../../../generated/graphql';
 import useIsMounted from '../../../hooks/useIsMounted';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { getOrganizationQueryResult } from '../../organization/utils';
 
@@ -33,8 +34,8 @@ const useUserOrganizations = (
   React.useEffect(() => {
     const organizationIds = uniq([
       user?.organization,
-      ...(user?.adminOrganizations ?? []),
-      ...(user?.organizationMemberships ?? []),
+      ...getValue(user?.adminOrganizations, []),
+      ...getValue(user?.organizationMemberships, []),
     ]).filter(skipFalsyType);
 
     const getUserOrganizations = async () => {
@@ -43,7 +44,7 @@ const useUserOrganizations = (
 
         const userOrganizations = await Promise.all(
           organizationIds.map((id) =>
-            getOrganizationQueryResult(id as string, apolloClient)
+            getOrganizationQueryResult(getValue(id, ''), apolloClient)
           )
         );
 

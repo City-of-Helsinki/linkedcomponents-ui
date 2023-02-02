@@ -18,6 +18,7 @@ import {
 } from '../../../constants';
 import { KeywordFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import getValue from '../../../utils/getValue';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
   scrollToFirstError,
@@ -52,7 +53,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   const { user } = useUser();
 
   const action = keyword ? KEYWORD_ACTIONS.UPDATE : KEYWORD_ACTIONS.CREATE;
-  const savedKeywordPublisher = keyword?.publisher ?? '';
+  const savedKeywordPublisher = getValue(keyword?.publisher, '');
 
   const { organizationAncestors } = useOrganizationAncestors(
     savedKeywordPublisher

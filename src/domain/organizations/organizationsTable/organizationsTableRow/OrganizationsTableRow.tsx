@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 import { OrganizationFieldsFragment } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
+import getValue from '../../../../utils/getValue';
 import { scrollToItem } from '../../../../utils/scrollToItem';
 import { usePageSettings } from '../../../app/hooks/usePageSettings';
 import DataSourceName from '../../../dataSource/dataSourceName/DataSourceName';
@@ -165,7 +166,7 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
               className={styles.organizationName}
               title={parentOrganizationName}
             >
-              {parentOrganizationName || /* istanbul ignore next */ '–'}
+              {getValue(parentOrganizationName, '–')}
             </span>
           </div>
         </td>

@@ -8,6 +8,7 @@ import MultiLanguageField from '../../../../common/components/formFields/multiLa
 import PublisherSelectorField from '../../../../common/components/formFields/publisherSelectorField/PublisherSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
 import { EventFieldsFragment } from '../../../../generated/graphql';
+import getValue from '../../../../utils/getValue';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import useUser from '../../../user/hooks/useUser';
@@ -54,7 +55,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
     if (!savedEvent && user && publisher) {
       // Set default publisher after user logs in if publisher is not set
       /* istanbul ignore next */
-      setPublisher(user.organization ?? '');
+      setPublisher(getValue(user.organization, ''));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
