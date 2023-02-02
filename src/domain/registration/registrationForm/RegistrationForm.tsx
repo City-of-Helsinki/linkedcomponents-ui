@@ -81,16 +81,19 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const navigate = useNavigate();
 
   const { user } = useUser();
-  const { organizationAncestors } = useOrganizationAncestors(
-    event?.publisher ?? ''
-  );
+
+  const action = registration
+    ? REGISTRATION_ACTIONS.UPDATE
+    : REGISTRATION_ACTIONS.CREATE;
+  const savedEventPublisher = event?.publisher ?? '';
+
+  const { organizationAncestors } =
+    useOrganizationAncestors(savedEventPublisher);
 
   const isEditingAllowed = checkCanUserDoAction({
-    action: registration
-      ? REGISTRATION_ACTIONS.EDIT
-      : REGISTRATION_ACTIONS.CREATE,
+    action,
     organizationAncestors,
-    publisher: event?.publisher as string,
+    publisher: savedEventPublisher,
     user,
   });
 
@@ -249,11 +252,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                       ]}
                     />
                     <RegistrationAuthenticationNotification
-                      action={
-                        registration
-                          ? REGISTRATION_ACTIONS.UPDATE
-                          : REGISTRATION_ACTIONS.CREATE
-                      }
+                      action={action}
                       registration={registration}
                     />
                     <ServerErrorSummary errors={serverErrorItems} />
@@ -321,7 +320,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                   <EditButtonPanel
                     onDelete={() => setOpenModal(REGISTRATION_MODALS.DELETE)}
                     onUpdate={handleSubmit}
-                    publisher={event?.publisher as string}
+                    publisher={savedEventPublisher}
                     registration={registration}
                     saving={saving}
                   />

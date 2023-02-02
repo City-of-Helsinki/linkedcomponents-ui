@@ -6,7 +6,7 @@ import {
   useApolloClient,
 } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
@@ -69,11 +69,14 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
 
+  const action = organization
+    ? ORGANIZATION_ACTIONS.UPDATE
+    : ORGANIZATION_ACTIONS.CREATE;
+  const id = organization?.id ?? '';
+
   const isEditingAllowed = checkCanUserDoAction({
-    action: organization
-      ? ORGANIZATION_ACTIONS.UPDATE
-      : ORGANIZATION_ACTIONS.CREATE,
-    id: organization?.id ?? '',
+    action,
+    id,
     user,
   });
 
@@ -140,6 +143,35 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
     setSaving(null);
   };
 
+  const inputRowBorderStyle = useMemo(
+    () =>
+      /* istanbul ignore next */
+      isEditingAllowed ? '' : styles.borderInMobile,
+    [isEditingAllowed]
+  );
+
+  const inputRowBorderStyleIfOrganization = useMemo(
+    () => (!isEditingAllowed || organization ? styles.borderInMobile : ''),
+    [isEditingAllowed, organization]
+  );
+
+  const alignedInputStyle = useMemo(
+    () =>
+      /* istanbul ignore next */
+      isEditingAllowed
+        ? styles.alignedInput
+        : styles.alignedInputWithFullBorder,
+    [isEditingAllowed]
+  );
+
+  const alignedInputStyleIfOrganization = useMemo(
+    () =>
+      !isEditingAllowed || organization
+        ? styles.alignedInputWithFullBorder
+        : styles.alignedInput,
+    [isEditingAllowed, organization]
+  );
+
   return (
     <Formik
       enableReinitialize={true}
@@ -191,16 +223,11 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
           }
         };
 
+        const disabledIfOrganization = !isEditingAllowed || !!organization;
+
         return (
           <Form className={styles.form} noValidate={true}>
-            <OrganizationAuthenticationNotification
-              action={
-                organization
-                  ? ORGANIZATION_ACTIONS.UPDATE
-                  : ORGANIZATION_ACTIONS.CREATE
-              }
-              id={organization?.id ?? ''}
-            />
+            <OrganizationAuthenticationNotification action={action} id={id} />
 
             <ServerErrorSummary errors={serverErrorItems} />
 
@@ -215,43 +242,24 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             </FormRow>
             <FormRow className={styles.borderInMobile}>
               <Field
-                className={
-                  /* istanbul ignore next */
-                  !isEditingAllowed || organization
-                    ? styles.alignedInputWithFullBorder
-                    : styles.alignedInput
-                }
+                className={alignedInputStyleIfOrganization}
                 component={TextInputField}
                 label={t(`organization.form.labelDataSource`)}
                 name={ORGANIZATION_FIELDS.DATA_SOURCE}
                 readOnly
               />
             </FormRow>
-            <FormRow
-              className={
-                !isEditingAllowed || organization ? styles.borderInMobile : ''
-              }
-            >
+            <FormRow className={inputRowBorderStyleIfOrganization}>
               <Field
-                className={
-                  /* istanbul ignore next */
-                  isEditingAllowed
-                    ? styles.alignedInput
-                    : styles.alignedInputWithFullBorder
-                }
+                className={alignedInputStyle}
                 component={TextInputField}
                 label={t(`organization.form.labelOriginId`)}
                 name={ORGANIZATION_FIELDS.ORIGIN_ID}
-                readOnly={!isEditingAllowed || !!organization}
+                readOnly={disabledIfOrganization}
                 required={!organization}
               />
             </FormRow>
-            <FormRow
-              className={
-                /* istanbul ignore next */
-                isEditingAllowed ? '' : styles.borderInMobile
-              }
-            >
+            <FormRow className={inputRowBorderStyle}>
               <Field
                 className={styles.alignedInput}
                 component={TextInputField}
@@ -284,7 +292,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
               <Field
                 className={styles.alignedSelect}
                 component={SingleSelectField}
-                disabled={!isEditingAllowed || !!organization}
+                disabled={disabledIfOrganization}
                 label={t(`organization.form.labelInternalType`)}
                 options={internalTypeOptions}
                 name={ORGANIZATION_FIELDS.INTERNAL_TYPE}
@@ -295,39 +303,27 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 className={styles.alignedSelect}
                 clearable
                 component={SingleOrganizationClassSelectorField}
-                disabled={!isEditingAllowed || !!organization}
+                disabled={disabledIfOrganization}
                 label={t(`organization.form.labelClassification`)}
                 name={ORGANIZATION_FIELDS.CLASSIFICATION}
               />
             </FormRow>
-            <FormRow
-              className={
-                !isEditingAllowed || organization ? styles.borderInMobile : ''
-              }
-            >
+            <FormRow className={inputRowBorderStyleIfOrganization}>
               <Field
-                className={
-                  !isEditingAllowed || !!organization
-                    ? styles.alignedInputWithFullBorder
-                    : styles.alignedInput
-                }
+                className={alignedInputStyleIfOrganization}
                 component={DateInputField}
                 label={t(`organization.form.labelFoundingDate`)}
                 name={ORGANIZATION_FIELDS.FOUNDING_DATE}
-                readOnly={!isEditingAllowed || !!organization}
+                readOnly={disabledIfOrganization}
               />
             </FormRow>
-            <FormRow
-              className={
-                !isEditingAllowed || organization ? styles.borderInMobile : ''
-              }
-            >
+            <FormRow className={inputRowBorderStyleIfOrganization}>
               <Field
                 className={styles.alignedInput}
                 component={DateInputField}
                 label={t(`organization.form.labelDissolutionDate`)}
                 name={ORGANIZATION_FIELDS.DISSOLUTION_DATE}
-                readOnly={!isEditingAllowed || !!organization}
+                readOnly={disabledIfOrganization}
               />
             </FormRow>
             <FormRow>
@@ -335,7 +331,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 alignedLabel={true}
                 className={styles.alignedSelect}
                 component={SingleOrganizationSelectorField}
-                disabled={!isEditingAllowed || !!organization}
+                disabled={disabledIfOrganization}
                 label={t(`organization.form.labelParentOrganization`)}
                 name={ORGANIZATION_FIELDS.PARENT_ORGANIZATION}
                 required={!organization}

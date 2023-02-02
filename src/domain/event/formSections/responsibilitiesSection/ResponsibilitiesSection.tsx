@@ -45,6 +45,8 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
         (publisher && userOrganizations.length === 1)
       );
     }
+
+    /* istanbul ignore next */
     return false;
   };
 

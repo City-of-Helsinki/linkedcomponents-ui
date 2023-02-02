@@ -70,14 +70,17 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
   const navigate = useNavigate();
   const { user } = useUser();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { organizationAncestors } = useOrganizationAncestors(
-    place?.publisher ?? ''
-  );
+
+  const action = place ? PLACE_ACTIONS.UPDATE : PLACE_ACTIONS.CREATE;
+  const savedPlacePublisher = place?.publisher ?? '';
+
+  const { organizationAncestors } =
+    useOrganizationAncestors(savedPlacePublisher);
 
   const isEditingAllowed = checkCanUserDoAction({
-    action: place ? PLACE_ACTIONS.UPDATE : PLACE_ACTIONS.CREATE,
+    action,
     organizationAncestors,
-    publisher: place?.publisher ?? '',
+    publisher: savedPlacePublisher,
     user,
   });
 
@@ -141,7 +144,9 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
   };
 
   const inputRowBorderStyle = useMemo(
-    () => (isEditingAllowed ? '' : styles.borderInMobile),
+    () =>
+      /* istanbul ignore next */
+      isEditingAllowed ? '' : styles.borderInMobile,
     [isEditingAllowed]
   );
 
@@ -152,6 +157,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
 
   const alignedInputStyle = useMemo(
     () =>
+      /* istanbul ignore next */
       isEditingAllowed
         ? styles.alignedInput
         : styles.alignedInputWithFullBorder,
@@ -215,11 +221,11 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
           }
         };
 
-        const action = place ? PLACE_ACTIONS.UPDATE : PLACE_ACTIONS.CREATE;
-
         const publisher = place
           ? (place.publisher as string)
           : values.publisher;
+
+        const disabledIfPlace = !isEditingAllowed || !!place;
 
         return (
           <Form className={styles.form} noValidate={true}>
@@ -254,7 +260,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 component={TextInputField}
                 label={t(`place.form.labelOriginId`)}
                 name={PLACE_FIELDS.ORIGIN_ID}
-                readOnly={!isEditingAllowed || !!place}
+                readOnly={disabledIfPlace}
                 required={!place}
               />
             </FormRow>
@@ -263,7 +269,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 className={styles.alignedSelect}
                 clearable={!place}
                 component={PublisherSelectorField}
-                disabled={!isEditingAllowed || !!place}
+                disabled={disabledIfPlace}
                 label={t(`place.form.labelPublisher`)}
                 name={PLACE_FIELDS.PUBLISHER}
                 required={true}
@@ -451,13 +457,13 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
               <EditButtonPanel
                 id={values.id}
                 onSave={handleSubmit}
-                publisher={place.publisher as string}
+                publisher={publisher}
                 saving={saving}
               />
             ) : (
               <CreateButtonPanel
                 onSave={handleSubmit}
-                publisher={values.publisher}
+                publisher={publisher}
                 saving={saving}
               />
             )}

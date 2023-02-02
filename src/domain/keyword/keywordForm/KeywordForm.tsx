@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
@@ -50,14 +50,18 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   const locale = useLocale();
   const navigate = useNavigate();
   const { user } = useUser();
+
+  const action = keyword ? KEYWORD_ACTIONS.UPDATE : KEYWORD_ACTIONS.CREATE;
+  const savedKeywordPublisher = keyword?.publisher ?? '';
+
   const { organizationAncestors } = useOrganizationAncestors(
-    keyword?.publisher ?? ''
+    savedKeywordPublisher
   );
 
   const isEditingAllowed = checkCanUserDoAction({
-    action: keyword ? KEYWORD_ACTIONS.UPDATE : KEYWORD_ACTIONS.CREATE,
+    action,
     organizationAncestors,
-    publisher: keyword?.publisher ?? '',
+    publisher: savedKeywordPublisher,
     user,
   });
 
@@ -85,6 +89,24 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
       onSuccess: goToKeywordsPage,
     });
   };
+
+  const inputRowBorderStyle = useMemo(
+    () => (isEditingAllowed ? '' : styles.borderInMobile),
+    [isEditingAllowed]
+  );
+
+  const inputRowBorderStyleIfKeyword = useMemo(
+    () => (!isEditingAllowed || keyword ? styles.borderInMobile : ''),
+    [isEditingAllowed, keyword]
+  );
+
+  const alignedInputStyleIfKeyword = useMemo(
+    () =>
+      !isEditingAllowed || keyword
+        ? styles.alignedInputWithFullBorder
+        : styles.alignedInput,
+    [isEditingAllowed, keyword]
+  );
 
   return (
     <Formik
@@ -132,13 +154,17 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
           }
         };
 
+        const publisher = keyword
+          ? (keyword.publisher as string)
+          : values.publisher;
+
+        const disabledIfKeyword = !isEditingAllowed || !!keyword;
+
         return (
           <Form className={styles.form} noValidate={true}>
             <KeywordAuthenticationNotification
-              action={keyword ? KEYWORD_ACTIONS.UPDATE : KEYWORD_ACTIONS.CREATE}
-              publisher={
-                keyword ? (keyword.publisher as string) : values.publisher
-              }
+              action={action}
+              publisher={publisher}
             />
             <ServerErrorSummary errors={serverErrorItems} />
 
@@ -154,11 +180,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
 
             <FormRow className={styles.borderInMobile}>
               <Field
-                className={
-                  !isEditingAllowed || keyword
-                    ? styles.alignedInputWithFullBorder
-                    : styles.alignedInput
-                }
+                className={alignedInputStyleIfKeyword}
                 component={TextInputField}
                 label={t(`keyword.form.labelDataSource`)}
                 name={KEYWORD_FIELDS.DATA_SOURCE}
@@ -166,17 +188,13 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
               />
             </FormRow>
 
-            <FormRow
-              className={
-                !isEditingAllowed || keyword ? styles.borderInMobile : ''
-              }
-            >
+            <FormRow className={inputRowBorderStyleIfKeyword}>
               <Field
                 className={styles.alignedInput}
                 component={TextInputField}
                 label={t(`keyword.form.labelOriginId`)}
                 name={KEYWORD_FIELDS.ORIGIN_ID}
-                readOnly={!isEditingAllowed || !!keyword}
+                readOnly={disabledIfKeyword}
               />
             </FormRow>
 
@@ -187,7 +205,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                 component={PublisherSelectorField}
                 label={t(`keyword.form.labelPublisher`)}
                 name={KEYWORD_FIELDS.PUBLISHER}
-                disabled={!isEditingAllowed || !!keyword}
+                disabled={disabledIfKeyword}
               />
             </FormRow>
 
@@ -197,21 +215,16 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
               );
               const isLastRow = ORDERED_LE_DATA_LANGUAGES.length - 1 === i;
 
+              const inputStyle =
+                /* istanbul ignore next */
+                !isEditingAllowed && !isLastRow
+                  ? styles.alignedInputWithFullBorder
+                  : styles.alignedInput;
+
               return (
-                <FormRow
-                  key={language}
-                  className={
-                    /* istanbul ignore next */
-                    !isEditingAllowed ? styles.borderInMobile : ''
-                  }
-                >
+                <FormRow key={language} className={inputRowBorderStyle}>
                   <Field
-                    className={
-                      /* istanbul ignore next */
-                      !isEditingAllowed && !isLastRow
-                        ? styles.alignedInputWithFullBorder
-                        : styles.alignedInput
-                    }
+                    className={inputStyle}
                     component={TextInputField}
                     label={`${t('keyword.form.labelName')} (${langText})`}
                     name={`${KEYWORD_FIELDS.NAME}.${language}`}
@@ -245,13 +258,13 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
               <EditButtonPanel
                 id={values.id}
                 onSave={handleSubmit}
-                publisher={keyword.publisher as string}
+                publisher={publisher}
                 saving={saving}
               />
             ) : (
               <CreateButtonPanel
                 onSave={handleSubmit}
-                publisher={values.publisher}
+                publisher={publisher}
                 saving={saving}
               />
             )}
