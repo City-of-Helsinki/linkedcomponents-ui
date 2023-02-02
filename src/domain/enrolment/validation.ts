@@ -6,7 +6,7 @@ import subYears from 'date-fns/subYears';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
-import { Maybe } from '../../types';
+import { Maybe } from '../../generated/graphql';
 import {
   createArrayMinErrorMessage,
   isValidPhoneNumber,

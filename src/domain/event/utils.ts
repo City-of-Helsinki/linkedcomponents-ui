@@ -12,7 +12,6 @@ import setMinutes from 'date-fns/setMinutes';
 import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import { FormikState } from 'formik';
-import { Maybe } from 'graphql/jsutils/Maybe';
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import isNumber from 'lodash/isNumber';
@@ -45,6 +44,7 @@ import {
   EventTypeId,
   Language as LELanguage,
   LocalisedObject,
+  Maybe,
   OrganizationFieldsFragment,
   PublicationStatus,
   SuperEventType,
@@ -176,11 +176,11 @@ export const clearEventFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.EVENT_FORM);
 };
 
-const getEventDate = (time: string | null | undefined) => {
+const getEventDate = (time: Maybe<string>) => {
   return time ? new Date(time) : null;
 };
 
-const getEventTime = (time: string | null | undefined) => {
+const getEventTime = (time: Maybe<string>) => {
   return time ? formatDate(new Date(time), TIME_FORMAT_DATA) : '';
 };
 
@@ -776,7 +776,7 @@ const getEventVideos = (event: EventFieldsFragment): VideoDetails[] => {
 
 const getRecurringEventDate = (
   superEventType: Maybe<SuperEventType>,
-  time: string | null | undefined
+  time: Maybe<string>
 ) => {
   if (superEventType === SuperEventType.Recurring) {
     return time ? new Date(time) : null;

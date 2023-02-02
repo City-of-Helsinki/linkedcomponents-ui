@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { ValidateOptions } from 'yup/lib/types';
 
 import { CHARACTER_LIMITS } from '../../constants';
-import { Maybe } from '../../types';
+import { Maybe } from '../../generated/graphql';
 import {
   createArrayMinErrorMessage,
   createMultiLanguageValidation,
@@ -37,7 +37,7 @@ import {
 } from './types';
 
 const createMultiLanguageValidationByInfoLanguages = (
-  rule: Yup.StringSchema<string | null | undefined>
+  rule: Yup.StringSchema<Maybe<string>>
 ) => {
   return Yup.object().when(
     [EVENT_FIELDS.EVENT_INFO_LANGUAGES],

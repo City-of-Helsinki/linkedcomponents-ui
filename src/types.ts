@@ -79,5 +79,3 @@ export type ActionButtonProps = {
   type?: ButtonType;
   variant: Exclude<ButtonVariant, 'supplementary'>;
 } & MenuItemOptionProps;
-
-export type Maybe<T> = T | null | undefined;

@@ -17,7 +17,8 @@ import {
   VALIDATION_ERROR_SCROLLER_OPTIONS,
 } from '../constants';
 import { VALIDATION_MESSAGE_KEYS } from '../domain/app/i18n/constants';
-import { Error, Maybe } from '../types';
+import { Maybe } from '../generated/graphql';
+import { Error } from '../types';
 import formatDate from './formatDate';
 import setDateTime from './setDateTime';
 
@@ -61,7 +62,7 @@ export const createStringMinErrorMessage = (message: {
 
 export const createMultiLanguageValidation = (
   languages: string[],
-  rule: Yup.StringSchema<string | null | undefined>
+  rule: Yup.StringSchema<Maybe<string>>
 ) => {
   return Yup.object().shape(
     reduce(languages, (acc, lang) => ({ ...acc, [lang]: rule }), {})

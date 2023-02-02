@@ -6,6 +6,7 @@ import {
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
 } from '../../constants';
+import { Maybe } from '../../generated/graphql';
 import {
   createStringMaxErrorMessage,
   isValidPhoneNumber,
@@ -16,7 +17,7 @@ import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { PLACE_FIELDS } from './constants';
 
 const createMultiLanguageValidation = (
-  rule: Yup.StringSchema<string | null | undefined>
+  rule: Yup.StringSchema<Maybe<string>>
 ) => {
   return Yup.object().shape(
     reduce(
