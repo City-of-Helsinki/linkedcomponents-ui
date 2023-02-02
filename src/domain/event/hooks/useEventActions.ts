@@ -70,7 +70,9 @@ type UseEventActionsState = {
   user: UserFieldsFragment | undefined;
 };
 
-const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
+const useEventActions = (
+  event?: EventFieldsFragment | null
+): UseEventActionsState => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { isAuthenticated: authenticated } = useAuth();

@@ -990,13 +990,13 @@ type CommonEventActionProps = {
 };
 
 type CreateEventActionProps = CommonEventActionProps & {
-  event?: undefined;
+  event?: null;
   publisher: string;
 };
 
 type EditEventActionProps = CommonEventActionProps & {
   event: EventFieldsFragment;
-  publisher?: undefined;
+  publisher?: null;
 };
 
 type EventActionProps = CreateEventActionProps | EditEventActionProps;

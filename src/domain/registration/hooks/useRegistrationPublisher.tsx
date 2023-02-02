@@ -9,7 +9,7 @@ import { eventPathBuilder, getEventFields } from '../../event/utils';
 import { getRegistrationFields } from '../utils';
 
 interface Props {
-  registration?: RegistrationFieldsFragment;
+  registration?: RegistrationFieldsFragment | null;
 }
 const useRegistrationPublisher = ({ registration }: Props): string | null => {
   const locale = useLocale();

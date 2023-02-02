@@ -25,7 +25,7 @@ export type TimeSectionContextProps = {
   isEditingAllowed: boolean;
   isUmbrella: boolean;
   recurringEvents: RecurringEventSettings[];
-  savedEvent?: EventFieldsFragment;
+  savedEvent?: EventFieldsFragment | null;
   setEvents: (events: EventTime[]) => void;
   setEventTimes: (events: EventTime[]) => void;
   setIsUmbrella: (isUmbrella: boolean) => void;
@@ -34,7 +34,7 @@ export type TimeSectionContextProps = {
 
 export type TimeSectionProviderProps = {
   isEditingAllowed: boolean;
-  savedEvent?: EventFieldsFragment;
+  savedEvent?: EventFieldsFragment | null;
 };
 
 export const TimeSectionContext = createContext<

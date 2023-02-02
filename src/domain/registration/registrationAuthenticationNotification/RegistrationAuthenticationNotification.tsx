@@ -13,7 +13,7 @@ import { checkIsEditActionAllowed } from '../utils';
 export type RegistrationAuthenticationNotificationProps = {
   action: REGISTRATION_ACTIONS;
   className?: string;
-  registration?: RegistrationFieldsFragment;
+  registration?: RegistrationFieldsFragment | null;
 };
 
 const RegistrationAuthenticationNotification: React.FC<

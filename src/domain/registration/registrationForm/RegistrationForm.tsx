@@ -53,9 +53,9 @@ import { checkCanUserDoAction, getRegistrationInitialValues } from '../utils';
 import { getFocusableFieldId, registrationSchema } from '../validation';
 
 export type CreateRegistrationFormProps = {
-  event?: undefined;
-  refetch?: undefined;
-  registration?: undefined;
+  event?: null;
+  refetch?: null;
+  registration?: null;
 };
 
 export type EditRegistrationFormProps = {

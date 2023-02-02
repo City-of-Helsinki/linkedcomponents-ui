@@ -31,7 +31,7 @@ import PublicationListLinks from './publicationListLinks/PublicationListLinks';
 
 export interface TypeSectionProps {
   isEditingAllowed: boolean;
-  savedEvent?: EventFieldsFragment;
+  savedEvent?: EventFieldsFragment | null;
 }
 
 const TypeSection: React.FC<TypeSectionProps> = ({

@@ -16,7 +16,7 @@ enum EVENT_TIME_TAB {
 
 interface Props {
   isEditingAllowed: boolean;
-  savedEvent?: EventFieldsFragment;
+  savedEvent?: EventFieldsFragment | null;
 }
 
 const TimeSection: React.FC<Props> = ({ isEditingAllowed, savedEvent }) => {

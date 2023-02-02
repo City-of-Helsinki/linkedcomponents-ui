@@ -73,8 +73,8 @@ import {
 import { draftEventSchema, publicEventSchema } from '../validation';
 
 export type CreateEventFormProps = {
-  event?: undefined;
-  refetch?: undefined;
+  event?: null;
+  refetch?: null;
 };
 
 export type EditEventFormProps = {

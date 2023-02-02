@@ -16,7 +16,7 @@ import { EVENT_FIELDS } from '../../constants';
 
 export interface ResponsibilitiesSectionProps {
   isEditingAllowed: boolean;
-  savedEvent?: EventFieldsFragment;
+  savedEvent?: EventFieldsFragment | null;
 }
 
 const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
