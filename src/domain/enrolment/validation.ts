@@ -162,8 +162,8 @@ export const scrollToFirstError = async ({
   for (const e of error.inner) {
     const path = e.path ?? /* istanbul ignore next */ '';
 
-    if (/^attendees\[[0-9]*\]\./.test(path)) {
-      const attendeeIndex = Number(path.match(/(?<=\[)[[0-9]*(?=\])/)?.[0]);
+    if (/^attendees\[\d*\]\./.test(path)) {
+      const attendeeIndex = Number(path.match(/(?<=\[)[[\d]*(?=\])/)?.[0]);
       setOpenAccordion(attendeeIndex);
 
       await wait(100);
