@@ -141,8 +141,8 @@ const saveSitemapFile = (elements: Element[]) => {
         type: 'element',
         name: 'urlset',
         attributes: {
-          xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9',
-          'xmlns:xhtml': 'http://www.w3.org/1999/xhtml',
+          xmlns: 'https://www.sitemaps.org/schemas/sitemap/0.9',
+          'xmlns:xhtml': 'https://www.w3.org/1999/xhtml',
         },
         elements,
       },
