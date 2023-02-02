@@ -328,29 +328,20 @@ export const calculateSuperEventTime = (eventTimes: EventTime[]): EventTime => {
   const superEventStartTime = startTimes.length
     ? minDate(startTimes)
     : undefined;
-  const superEventEndTime = endTimes.length
-    ? maxDate(endTimes)
-    : startTimes.length
-    ? endOfDay(maxDate(startTimes))
-    : undefined;
+
+  const getSuperEventEndTime = () => {
+    if (endTimes.length) {
+      return maxDate(endTimes);
+    }
+
+    return startTimes.length ? endOfDay(maxDate(startTimes)) : undefined;
+  };
 
   return {
     id: null,
     startTime: superEventStartTime || null,
-    endTime: superEventEndTime || null,
+    endTime: getSuperEventEndTime() || null,
   };
-};
-
-export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
-  const { events, eventTimes, recurringEvents } = formValues;
-
-  const allEventTimes: EventTime[] = [...events, ...eventTimes];
-
-  recurringEvents.forEach((settings) =>
-    allEventTimes.push(...settings.eventTimes)
-  );
-
-  return sortBy(allEventTimes, 'startTime');
 };
 
 export const getNewEventTimes = (
@@ -363,6 +354,17 @@ export const getNewEventTimes = (
     []
   ),
 ];
+
+export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
+  const { events, eventTimes, recurringEvents } = formValues;
+
+  const allEventTimes = getNewEventTimes(
+    [...events, ...eventTimes],
+    recurringEvents
+  );
+
+  return sortBy(allEventTimes, 'startTime');
+};
 
 export const filterUnselectedLanguages = (
   obj: LocalisedObject,
@@ -1302,18 +1304,7 @@ export const getRecurringEvent = async (
   }
 };
 
-const getAllEventTimes = (
-  eventTimes: EventTime[],
-  recurringEvents: RecurringEventSettings[]
-): EventTime[] => [
-  ...eventTimes,
-  ...recurringEvents.reduce(
-    (previous: EventTime[], current) => [...previous, ...current.eventTimes],
-    []
-  ),
-];
-
 export const isRecurringEvent = (
   eventTimes: EventTime[],
   recurringEvents: RecurringEventSettings[]
-): boolean => getAllEventTimes(eventTimes, recurringEvents).length > 1;
+): boolean => getNewEventTimes(eventTimes, recurringEvents).length > 1;
