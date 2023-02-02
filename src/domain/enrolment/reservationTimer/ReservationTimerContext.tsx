@@ -175,15 +175,18 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
     return () => clearInterval(interval);
   }, [disableCallbacks, registrationId, setOpenModal, setTimeLeft, timeLeft]);
 
+  const value = useMemo(
+    () => ({
+      callbacksDisabled: callbacksDisabled.current,
+      disableCallbacks,
+      registration,
+      timeLeft,
+    }),
+    [disableCallbacks, registration, timeLeft]
+  );
+
   return (
-    <ReservationTimerContext.Provider
-      value={{
-        callbacksDisabled: callbacksDisabled.current,
-        disableCallbacks,
-        registration,
-        timeLeft,
-      }}
-    >
+    <ReservationTimerContext.Provider value={value}>
       <ReservationTimeExpiredModal
         isOpen={openModal === ENROLMENT_MODALS.RESERVATION_TIME_EXPIRED}
         onTryAgain={handleTryAgain}
