@@ -1,9 +1,6 @@
 import uniq from 'lodash/uniq';
 
-import {
-  EventListOptionsActionTypes,
-  ExpandedEventsActionTypes,
-} from './constants';
+import { ExpandedEventsActionTypes } from './constants';
 import {
   EventListOptionsAction,
   EventListOptionsState,

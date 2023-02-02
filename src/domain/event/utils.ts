@@ -1102,6 +1102,15 @@ export const getCreateEventActionWarning = ({
   return '';
 };
 
+const isEventInThePast = (event: EventFieldsFragment): boolean => {
+  const { endTime, startTime } = getEventFields(event, 'fi');
+
+  return Boolean(
+    (endTime && isPast(endTime)) ||
+      (!endTime && startTime && isBefore(startTime, startOfDay(new Date())))
+  );
+};
+
 export const getUpdateEventActionWarning = ({
   action,
   authenticated,
@@ -1114,16 +1123,11 @@ export const getUpdateEventActionWarning = ({
   t: TFunction;
   userCanDoAction: boolean;
 }) => {
-  const { deleted, endTime, eventStatus, isDraft, startTime } = getEventFields(
-    event,
-    'fi'
-  );
+  const { deleted, eventStatus, isDraft } = getEventFields(event, 'fi');
   const isCancelled = eventStatus === EventStatus.EventCancelled;
 
   const isSubEvent = Boolean(event.superEvent);
-  const eventIsInThePast =
-    (endTime && isPast(endTime)) ||
-    (!endTime && startTime && isBefore(startTime, startOfDay(new Date())));
+  const isInThePast = isEventInThePast(event);
 
   if (AUTHENTICATION_NOT_NEEDED.includes(action)) {
     return '';
@@ -1141,7 +1145,7 @@ export const getUpdateEventActionWarning = ({
     return t('event.form.editButtonPanel.warningDeletedEvent');
   }
 
-  if (eventIsInThePast && NOT_ALLOWED_WHEN_IN_PAST.includes(action)) {
+  if (isInThePast && NOT_ALLOWED_WHEN_IN_PAST.includes(action)) {
     return t('event.form.editButtonPanel.warningEventInPast');
   }
 
