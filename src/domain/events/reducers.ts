@@ -29,12 +29,9 @@ export const eventListOptionsReducer = (
   state: EventListOptionsState,
   action: EventListOptionsAction
 ): EventListOptionsState => {
-  const { type, payload } = action;
+  const { payload } = action;
 
-  switch (type) {
-    case EventListOptionsActionTypes.SET_EVENT_LIST_OPTIONS:
-      return { ...state, ...payload };
-  }
+  return { ...state, ...payload };
 };
 
 export const reducers = {

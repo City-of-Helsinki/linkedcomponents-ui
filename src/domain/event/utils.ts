@@ -1075,7 +1075,34 @@ export const getIsButtonVisible = ({
   }
 };
 
-export const getEventActionWarning = ({
+export const getCreateEventActionWarning = ({
+  action,
+  authenticated,
+  t,
+  userCanDoAction,
+}: EventActionProps & {
+  authenticated: boolean;
+  t: TFunction;
+  userCanDoAction: boolean;
+}) => {
+  if (!authenticated) {
+    return t('event.form.buttonPanel.warningNotAuthenticated');
+  }
+
+  if (!userCanDoAction) {
+    if (action === EVENT_ACTIONS.CREATE_DRAFT) {
+      return t('event.form.buttonPanel.warningNoRightsToCreate');
+    }
+
+    if (action === EVENT_ACTIONS.PUBLISH) {
+      return t('event.form.buttonPanel.warningNoRightsToPublish');
+    }
+  }
+
+  return '';
+};
+
+export const getUpdateEventActionWarning = ({
   action,
   authenticated,
   event,
@@ -1083,28 +1110,10 @@ export const getEventActionWarning = ({
   userCanDoAction,
 }: EventActionProps & {
   authenticated: boolean;
+  event: EventFieldsFragment;
   t: TFunction;
   userCanDoAction: boolean;
-}): string => {
-  // Warning when creating a new event
-  if (!event) {
-    if (!authenticated) {
-      return t('event.form.buttonPanel.warningNotAuthenticated');
-    }
-
-    if (action === EVENT_ACTIONS.CREATE_DRAFT && !userCanDoAction) {
-      return t('event.form.buttonPanel.warningNoRightsToCreate');
-    }
-
-    if (action === EVENT_ACTIONS.PUBLISH && !userCanDoAction) {
-      return t('event.form.buttonPanel.warningNoRightsToPublish');
-    }
-
-    return '';
-  }
-
-  // Warning when updating an existing event
-
+}) => {
   const { deleted, endTime, eventStatus, isDraft, startTime } = getEventFields(
     event,
     'fi'
@@ -1136,16 +1145,16 @@ export const getEventActionWarning = ({
     return t('event.form.editButtonPanel.warningEventInPast');
   }
 
-  if (isDraft && action === EVENT_ACTIONS.CANCEL) {
-    return t('event.form.editButtonPanel.warningCannotCancelDraft');
-  }
-
-  if (isDraft && action === EVENT_ACTIONS.POSTPONE) {
-    return t('event.form.editButtonPanel.warningCannotPostponeDraft');
-  }
-
-  if (isDraft && action === EVENT_ACTIONS.ACCEPT_AND_PUBLISH && isSubEvent) {
-    return t('event.form.editButtonPanel.warningCannotPublishSubEvent');
+  if (isDraft) {
+    if (action === EVENT_ACTIONS.CANCEL) {
+      return t('event.form.editButtonPanel.warningCannotCancelDraft');
+    }
+    if (action === EVENT_ACTIONS.POSTPONE) {
+      return t('event.form.editButtonPanel.warningCannotPostponeDraft');
+    }
+    if (action === EVENT_ACTIONS.ACCEPT_AND_PUBLISH && isSubEvent) {
+      return t('event.form.editButtonPanel.warningCannotPublishSubEvent');
+    }
   }
 
   if (!userCanDoAction) {
@@ -1153,6 +1162,22 @@ export const getEventActionWarning = ({
   }
 
   return '';
+};
+
+export const getEventActionWarning = (
+  props: EventActionProps & {
+    authenticated: boolean;
+    t: TFunction;
+    userCanDoAction: boolean;
+  }
+): string => {
+  // Warning when creating a new event
+  if (!props.event) {
+    return getCreateEventActionWarning(props);
+  }
+
+  // Warning when updating an existing event
+  return getUpdateEventActionWarning(props);
 };
 
 export const checkIsActionAllowed = ({
