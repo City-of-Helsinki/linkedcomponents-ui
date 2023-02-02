@@ -12,6 +12,7 @@ import setMinutes from 'date-fns/setMinutes';
 import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import { FormikState } from 'formik';
+import { Maybe } from 'graphql/jsutils/Maybe';
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import isNumber from 'lodash/isNumber';
@@ -42,7 +43,6 @@ import {
   EventsQuery,
   EventStatus,
   EventTypeId,
-  KeywordFieldsFragment,
   Language as LELanguage,
   LocalisedObject,
   OrganizationFieldsFragment,
@@ -101,6 +101,7 @@ import {
   EventFields,
   EventFormFields,
   EventTime,
+  ImageDetails,
   Offer,
   RecurringEventSettings,
   VideoDetails,
@@ -139,7 +140,7 @@ const weekDayWeight = (day: WEEK_DAY): number => {
 export const sortWeekDays = (a: string, b: string): number =>
   weekDayWeight(a as WEEK_DAY) - weekDayWeight(b as WEEK_DAY);
 
-const languageWeight = (lang: string): number => {
+const languageWeight = (lang: Maybe<string>): number => {
   switch (lang) {
     case 'fi':
       return 1;
@@ -153,7 +154,7 @@ const languageWeight = (lang: string): number => {
 };
 
 export const sortLanguage = (a: LELanguage, b: LELanguage): number =>
-  languageWeight(a.id as string) - languageWeight(b.id as string);
+  languageWeight(a.id) - languageWeight(b.id);
 
 export const getEmptyOffer = (): Offer => {
   return {
@@ -175,6 +176,14 @@ export const clearEventFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.EVENT_FORM);
 };
 
+const getEventDate = (time: string | null | undefined) => {
+  return time ? new Date(time) : null;
+};
+
+const getEventTime = (time: string | null | undefined) => {
+  return time ? formatDate(new Date(time), TIME_FORMAT_DATA) : '';
+};
+
 export const getEventFields = (
   event: EventFieldsFragment,
   language: Language
@@ -192,20 +201,18 @@ export const getEventFields = (
     createdBy: event.createdBy || '',
     deleted: event.deleted ?? null,
     description: getLocalisedString(event.description, language),
-    endTime: event.endTime ? new Date(event.endTime) : null,
+    endTime: getEventDate(event.endTime),
     eventStatus: event.eventStatus || EventStatus.EventScheduled,
     eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', id)}`,
     freeEvent: !!event.offers[0]?.isFree,
     imageUrl: event.images.find((image) => image?.url)?.url || null,
-    inLanguage: event.inLanguage
-      .map((item) => getLocalisedString(item?.name, language))
-      .filter(skipFalsyType),
+    inLanguage: (event.inLanguage || [])
+      .filter(skipFalsyType)
+      .map((item) => getLocalisedString(item?.name, language)),
     isDraft: publicationStatus === PublicationStatus.Draft,
     isPublic: publicationStatus === PublicationStatus.Public,
-    keywords: event.keywords as KeywordFieldsFragment[],
-    lastModifiedTime: event.lastModifiedTime
-      ? new Date(event.lastModifiedTime)
-      : null,
+    keywords: event.keywords.filter(skipFalsyType),
+    lastModifiedTime: getEventDate(event.lastModifiedTime),
     name: getLocalisedString(event.name, language),
     offers: event.offers.filter(
       (offer) => !!offer && !offer?.isFree
@@ -219,11 +226,12 @@ export const getEventFields = (
           parseIdFromAtId(registrationAtId) as string
         )}`
       : null,
-    subEventAtIds:
-      event.subEvents?.map((subEvent) => subEvent?.atId as string) || [],
+    subEventAtIds: (event.subEvents || [])
+      .filter(skipFalsyType)
+      .map((subEvent) => subEvent.atId),
     superEventAtId: event.superEvent?.atId || null,
     superEventType: event.superEventType || null,
-    startTime: event.startTime ? new Date(event.startTime) : null,
+    startTime: getEventDate(event.startTime),
   };
 };
 
@@ -682,40 +690,61 @@ const getSanitizedDescription = (event: EventFieldsFragment) => {
   return description;
 };
 
-export const getEventInitialValues = (
-  event: EventFieldsFragment
-): EventFormFields => {
+const hasEventUmbrella = (event: EventFieldsFragment): boolean => {
   // set the 'hasUmbrella' checkbox as checked, if:
   //  - the event has a super event with the super event type 'umbrella'
   //  - the super event value is not empty
-  const hasUmbrella =
+  return (
     event.superEvent?.superEventType === SuperEventType.Umbrella &&
-    !!event.superEvent.atId;
-  // set the 'isUmbrella' checkbox as checked, if:
-  //  - super event type of the event is 'umbrella'
-  const isUmbrella = event.superEventType === SuperEventType.Umbrella;
-  const hasPrice = event.offers?.[0]?.isFree === false;
-  const events: EventTime[] =
-    event.superEventType === SuperEventType.Recurring
-      ? event.subEvents
-          .map((subEvent) => ({
-            endTime: subEvent?.endTime ? new Date(subEvent?.endTime) : null,
-            id: subEvent?.id || null,
-            startTime: subEvent?.startTime
-              ? new Date(subEvent?.startTime)
-              : null,
-          }))
-          .sort(sortEventTimes)
-      : [
-          {
-            endTime: event.endTime ? new Date(event.endTime) : null,
-            id: event.id,
-            startTime: event.startTime ? new Date(event.startTime) : null,
-          },
-        ];
+    !!event.superEvent.atId
+  );
+};
 
-  const offers = event.offers
-    .filter((offer) => !!offer?.isFree !== hasPrice)
+const hasEventPrice = (event: EventFieldsFragment): boolean => {
+  return event.offers?.[0]?.isFree === false;
+};
+
+const getSavedEventTimes = (event: EventFieldsFragment): EventTime[] => {
+  if (event.superEventType === SuperEventType.Recurring) {
+    return event.subEvents
+      .map((subEvent) => ({
+        endTime: subEvent?.endTime ? new Date(subEvent?.endTime) : null,
+        id: subEvent?.id || null,
+        startTime: subEvent?.startTime ? new Date(subEvent?.startTime) : null,
+      }))
+      .sort(sortEventTimes);
+  } else {
+    return [
+      {
+        endTime: event.endTime ? new Date(event.endTime) : null,
+        id: event.id,
+        startTime: event.startTime ? new Date(event.startTime) : null,
+      },
+    ];
+  }
+};
+
+const getEventImageDetails = (event: EventFieldsFragment): ImageDetails => {
+  return {
+    altText: getImageAltText(event.images[0]?.altText),
+    license:
+      event.images[0]?.license || EVENT_INITIAL_VALUES.imageDetails.license,
+    name: event.images[0]?.name || EVENT_INITIAL_VALUES.imageDetails.name,
+    photographerName:
+      event.images[0]?.photographerName ||
+      EVENT_INITIAL_VALUES.imageDetails.photographerName,
+  };
+};
+
+const getEventOffers = (event: EventFieldsFragment): Offer[] => {
+  const hasPrice = hasEventPrice(event);
+
+  const offers: Offer[] = (
+    hasPrice
+      ? event.offers.filter((offer) => !offer?.isFree)
+      : [event.offers[0]]
+  )
+    .filter(skipFalsyType)
     .map((offer) => ({
       description: getLocalisedObject(offer?.description),
       infoUrl: getLocalisedObject(offer?.infoUrl),
@@ -726,13 +755,47 @@ export const getEventInitialValues = (
     offers.push(getEmptyOffer());
   }
 
-  const getRecurringEventTime = (time: string | null | undefined) => {
-    if (event.superEventType === SuperEventType.Recurring) {
-      return time ? new Date(time) : null;
-    }
+  return offers;
+};
 
-    return null;
-  };
+const getEventVideos = (event: EventFieldsFragment): VideoDetails[] => {
+  const videos: VideoDetails[] = event.videos
+    .filter(skipFalsyType)
+    .map((video) => ({
+      altText: video.altText ?? '',
+      name: video.name ?? '',
+      url: video.url ?? '',
+    }));
+
+  if (!videos.length) {
+    videos.push(getEmptyVideo());
+  }
+
+  return videos;
+};
+
+const getRecurringEventDate = (
+  superEventType: Maybe<SuperEventType>,
+  time: string | null | undefined
+) => {
+  if (superEventType === SuperEventType.Recurring) {
+    return time ? new Date(time) : null;
+  }
+
+  return null;
+};
+
+export const getEventInitialValues = (
+  event: EventFieldsFragment
+): EventFormFields => {
+  const hasUmbrella = hasEventUmbrella(event);
+  // set the 'isUmbrella' checkbox as checked, if:
+  //  - super event type of the event is 'umbrella'
+  const isUmbrella = event.superEventType === SuperEventType.Umbrella;
+  const hasPrice = hasEventPrice(event);
+  const events: EventTime[] = getSavedEventTimes(event);
+
+  const offers = getEventOffers(event);
 
   return {
     ...EVENT_INITIAL_VALUES,
@@ -741,18 +804,10 @@ export const getEventInitialValues = (
     audienceMinAge: event.audienceMinAge ?? '',
     description: getSanitizedDescription(event),
     events,
-    enrolmentEndTimeDate: event.enrolmentEndTime
-      ? new Date(event.enrolmentEndTime)
-      : null,
-    enrolmentEndTimeTime: event.enrolmentEndTime
-      ? formatDate(new Date(event.enrolmentEndTime), TIME_FORMAT_DATA)
-      : '',
-    enrolmentStartTimeDate: event.enrolmentStartTime
-      ? new Date(event.enrolmentStartTime)
-      : null,
-    enrolmentStartTimeTime: event.enrolmentStartTime
-      ? formatDate(new Date(event.enrolmentStartTime), TIME_FORMAT_DATA)
-      : '',
+    enrolmentEndTimeDate: getEventDate(event.enrolmentEndTime),
+    enrolmentEndTimeTime: getEventTime(event.enrolmentEndTime),
+    enrolmentStartTimeDate: getEventDate(event.enrolmentStartTime),
+    enrolmentStartTimeTime: getEventTime(event.enrolmentStartTime),
     eventInfoLanguages: getEventInfoLanguages(event),
     externalLinks: sortBy(event.externalLinks, ['name']).map(
       (externalLink) => ({
@@ -762,23 +817,17 @@ export const getEventInitialValues = (
     ),
     hasPrice,
     hasUmbrella: hasUmbrella,
-    imageDetails: {
-      altText: getImageAltText(event.images[0]?.altText),
-      license:
-        event.images[0]?.license || EVENT_INITIAL_VALUES.imageDetails.license,
-      name: event.images[0]?.name || EVENT_INITIAL_VALUES.imageDetails.name,
-      photographerName:
-        event.images[0]?.photographerName ||
-        EVENT_INITIAL_VALUES.imageDetails.photographerName,
-    },
-    images: event.images.map((image) => image?.atId as string),
+    imageDetails: getEventImageDetails(event),
+    images: event.images.filter(skipFalsyType).map((image) => image?.atId),
     infoUrl: getLocalisedObject(event.infoUrl),
     inLanguage: event.inLanguage
       .filter(skipFalsyType)
-      .map((language) => language?.atId),
+      .map((language) => language.atId),
     isUmbrella: isUmbrella,
     isVerified: true,
-    keywords: event.keywords.map((keyword) => keyword?.atId as string),
+    keywords: event.keywords
+      .filter(skipFalsyType)
+      .map((keyword) => keyword.atId),
     location: event.location?.atId || '',
     locationExtraInfo: getLocalisedObject(event.locationExtraInfo),
     maximumAttendeeCapacity: event.maximumAttendeeCapacity ?? '',
@@ -787,18 +836,18 @@ export const getEventInitialValues = (
     offers,
     publisher: event.publisher ?? '',
     provider: getLocalisedObject(event.provider),
-    recurringEventEndTime: getRecurringEventTime(event.endTime),
-    recurringEventStartTime: getRecurringEventTime(event.startTime),
+    recurringEventEndTime: getRecurringEventDate(
+      event.superEventType,
+      event.endTime
+    ),
+    recurringEventStartTime: getRecurringEventDate(
+      event.superEventType,
+      event.startTime
+    ),
     shortDescription: getLocalisedObject(event.shortDescription),
     superEvent: event.superEvent?.atId || '',
     type: event.typeId?.toLowerCase() ?? EVENT_TYPE.General,
-    videos: event.videos.length
-      ? event.videos.map((video) => ({
-          altText: video?.altText ?? '',
-          name: video?.name ?? '',
-          url: video?.url ?? '',
-        }))
-      : [getEmptyVideo()],
+    videos: getEventVideos(event),
   };
 };
 
@@ -935,7 +984,7 @@ const getSubEvents = async ({
     variables,
   });
 
-  subEvents.push(...(data.events.data as EventFieldsFragment[]));
+  subEvents.push(...data.events.data.filter(skipFalsyType));
 
   let nextPage = getNextPage(data.events.meta);
 
@@ -946,7 +995,7 @@ const getSubEvents = async ({
       variables: { ...variables, page: nextPage },
     });
 
-    subEvents.push(...(data.events.data as EventFieldsFragment[]));
+    subEvents.push(...data.events.data.filter(skipFalsyType));
     nextPage = getNextPage(data.events.meta);
   }
 
@@ -1111,22 +1160,41 @@ const isEventInThePast = (event: EventFieldsFragment): boolean => {
   );
 };
 
-export const getUpdateEventActionWarning = ({
+const getDraftEventWarning = ({
   action,
-  authenticated,
   event,
   t,
-  userCanDoAction,
 }: EventActionProps & {
-  authenticated: boolean;
   event: EventFieldsFragment;
   t: TFunction;
-  userCanDoAction: boolean;
-}) => {
+}): string => {
+  const isSubEvent = Boolean(event.superEvent);
+
+  if (action === EVENT_ACTIONS.CANCEL) {
+    return t('event.form.editButtonPanel.warningCannotCancelDraft');
+  }
+  if (action === EVENT_ACTIONS.POSTPONE) {
+    return t('event.form.editButtonPanel.warningCannotPostponeDraft');
+  }
+  if (action === EVENT_ACTIONS.ACCEPT_AND_PUBLISH && isSubEvent) {
+    return t('event.form.editButtonPanel.warningCannotPublishSubEvent');
+  }
+
+  return '';
+};
+
+export const getUpdateEventActionWarning = (
+  props: EventActionProps & {
+    authenticated: boolean;
+    event: EventFieldsFragment;
+    t: TFunction;
+    userCanDoAction: boolean;
+  }
+) => {
+  const { action, authenticated, event, t, userCanDoAction } = props;
   const { deleted, eventStatus, isDraft } = getEventFields(event, 'fi');
   const isCancelled = eventStatus === EventStatus.EventCancelled;
 
-  const isSubEvent = Boolean(event.superEvent);
   const isInThePast = isEventInThePast(event);
 
   if (AUTHENTICATION_NOT_NEEDED.includes(action)) {
@@ -1135,6 +1203,10 @@ export const getUpdateEventActionWarning = ({
 
   if (!authenticated) {
     return t('authentication.noRightsUpdateEvent');
+  }
+
+  if (!userCanDoAction) {
+    return t('event.form.editButtonPanel.warningNoRightsToEdit');
   }
 
   if (isCancelled && NOT_ALLOWED_WHEN_CANCELLED.includes(action)) {
@@ -1150,19 +1222,7 @@ export const getUpdateEventActionWarning = ({
   }
 
   if (isDraft) {
-    if (action === EVENT_ACTIONS.CANCEL) {
-      return t('event.form.editButtonPanel.warningCannotCancelDraft');
-    }
-    if (action === EVENT_ACTIONS.POSTPONE) {
-      return t('event.form.editButtonPanel.warningCannotPostponeDraft');
-    }
-    if (action === EVENT_ACTIONS.ACCEPT_AND_PUBLISH && isSubEvent) {
-      return t('event.form.editButtonPanel.warningCannotPublishSubEvent');
-    }
-  }
-
-  if (!userCanDoAction) {
-    return t('event.form.editButtonPanel.warningNoRightsToEdit');
+    return getDraftEventWarning(props);
   }
 
   return '';
