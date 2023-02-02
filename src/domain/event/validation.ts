@@ -90,7 +90,7 @@ type ValidateOptionsWithIndex = ValidateOptions & {
 
 const createFreeOfferSchema = (eventInfoLanguage: string[]) =>
   Yup.object().test(async (values, { options }) => {
-    const index: number = (options as ValidateOptionsWithIndex).index;
+    const index = (options as ValidateOptionsWithIndex).index;
 
     if (index === 0) {
       try {

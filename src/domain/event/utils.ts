@@ -726,6 +726,14 @@ export const getEventInitialValues = (
     offers.push(getEmptyOffer());
   }
 
+  const getRecurringEventTime = (time: string | null | undefined) => {
+    if (event.superEventType === SuperEventType.Recurring) {
+      return time ? new Date(time) : null;
+    }
+
+    return null;
+  };
+
   return {
     ...EVENT_INITIAL_VALUES,
     audience: event.audience.map((keyword) => keyword?.atId as string),
@@ -779,18 +787,8 @@ export const getEventInitialValues = (
     offers,
     publisher: event.publisher ?? '',
     provider: getLocalisedObject(event.provider),
-    recurringEventEndTime:
-      event.superEventType === SuperEventType.Recurring
-        ? event.endTime
-          ? new Date(event.endTime)
-          : null
-        : null,
-    recurringEventStartTime:
-      event.superEventType === SuperEventType.Recurring
-        ? event.startTime
-          ? new Date(event.startTime)
-          : null
-        : null,
+    recurringEventEndTime: getRecurringEventTime(event.endTime),
+    recurringEventStartTime: getRecurringEventTime(event.startTime),
     shortDescription: getLocalisedObject(event.shortDescription),
     superEvent: event.superEvent?.atId || '',
     type: event.typeId?.toLowerCase() ?? EVENT_TYPE.General,
