@@ -80,6 +80,7 @@ import { REGISTRATION_INITIAL_VALUES } from '../registration/constants';
 import { RegistrationFormFields } from '../registration/types';
 import {
   AUTHENTICATION_NOT_NEEDED,
+  DAY_CODES,
   DESCRIPTION_SECTION_FIELDS,
   EVENT_ACTIONS,
   EVENT_FIELD_ARRAYS,
@@ -235,6 +236,12 @@ export const getEventFields = (
   };
 };
 
+const getDayCode = (startDay: number, dayCode: string) => {
+  return startDay > DAY_CODES[dayCode]
+    ? 7 - (startDay - DAY_CODES[dayCode])
+    : DAY_CODES[dayCode] - startDay;
+};
+
 export const generateEventTimesFromRecurringEvent = (
   settings: RecurringEventSettings
 ): EventTime[] => {
@@ -244,16 +251,6 @@ export const generateEventTimesFromRecurringEvent = (
 
   /* istanbul ignore else  */
   if (startDate && endDate && repeatInterval > 0) {
-    const dayCodes: Record<string, number> = {
-      [WEEK_DAY.MON]: 1,
-      [WEEK_DAY.TUE]: 2,
-      [WEEK_DAY.WED]: 3,
-      [WEEK_DAY.THU]: 4,
-      [WEEK_DAY.FRI]: 5,
-      [WEEK_DAY.SAT]: 6,
-      [WEEK_DAY.SUN]: 0,
-    };
-
     const recurrenceStart = endOfDay(subDays(new Date(startDate), 1));
     const recurrenceEnd = endOfDay(new Date(endDate));
     const formattedStartTime = getTimeObject(startTime);
@@ -261,10 +258,7 @@ export const generateEventTimesFromRecurringEvent = (
 
     repeatDays.forEach((dayCode) => {
       const startDay = new Date(startDate).getDay();
-      const day =
-        startDay > dayCodes[dayCode]
-          ? 7 - (startDay - dayCodes[dayCode])
-          : dayCodes[dayCode] - startDay;
+      const day = getDayCode(startDay, dayCode);
       let firstMatchWeekday;
 
       for (let i = 0; i <= repeatInterval; i = i + 1) {
@@ -290,6 +284,7 @@ export const generateEventTimesFromRecurringEvent = (
       /* istanbul ignore else  */
       if (firstMatchWeekday) {
         let matchWeekday = firstMatchWeekday;
+
         while (
           isWithinInterval(matchWeekday, {
             start: recurrenceStart,
