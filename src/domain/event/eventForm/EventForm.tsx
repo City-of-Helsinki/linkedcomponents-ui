@@ -470,10 +470,8 @@ const EventForm: React.FC<EventFormProps> = ({
   );
 };
 
-const EventFormWrapper: React.FC<EventFormWrapperProps> = ({
-  event,
-  refetch,
-}) => {
+const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
+  const { event } = props;
   const { user } = useUser();
 
   const initialValues = React.useMemo(
@@ -509,10 +507,8 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = ({
             savingDisabled={!!event}
           >
             <EventForm
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              event={event as any}
+              {...props}
               initialValues={initialValues}
-              refetch={refetch}
               setErrors={setErrors}
               setTouched={setTouched}
               values={values}
