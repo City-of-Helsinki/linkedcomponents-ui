@@ -15710,11 +15710,6 @@ react-use-measure@2.0.1:
   dependencies:
     debounce "^1.2.0"
 
-react-uuid@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-uuid/-/react-uuid-2.0.0.tgz#e3c97e190db9eef53cb9dacfcc7314d913a411fa"
-  integrity sha512-FNUH/8WR/FEtx0Bu6gmt1eONfc413hhvrEXFWUSFGvznUhI4dYoVZA09p7JHoTpnM4WC2D/bG2YSxGKXF4oVLg==
-
 react-virtual@2.2.7:
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/react-virtual/-/react-virtual-2.2.7.tgz#01f46e8eb1bfd722edb9a6e01daaef438dd7111f"

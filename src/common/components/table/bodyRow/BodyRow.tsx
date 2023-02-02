@@ -1,5 +1,4 @@
 import React, { FC, useRef } from 'react';
-import uuid from 'react-uuid';
 
 import { GetRowPropsFunc } from '../Table';
 import styles from '../table.module.scss';
@@ -52,7 +51,7 @@ const BodyRow: FC<BodyRowProps> = ({
           <td
             className={column.className}
             data-testid={`${column.key}-${index}`}
-            key={uuid()}
+            key={column.key}
             onClick={column.onClick}
           >
             {column.transform && column.transform(row, index)}

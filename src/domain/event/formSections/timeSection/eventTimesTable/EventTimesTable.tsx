@@ -1,7 +1,6 @@
 import { IconCrossCircle, IconMenuDots, IconPen } from 'hds-react';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import uuid from 'react-uuid';
 
 import MenuDropdown from '../../../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../../../common/components/menuDropdown/types';
@@ -234,7 +233,7 @@ const EventTimesTable: React.FC<EventTimesTableProps> = ({
         {eventTimes.map((eventTime, index) => {
           return (
             <EventTimeRow
-              key={uuid()}
+              key={index}
               eventTime={eventTime}
               index={index}
               onDelete={handleDelete}
