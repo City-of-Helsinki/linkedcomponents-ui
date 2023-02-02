@@ -1,5 +1,5 @@
 import { IconPhoto } from 'hds-react';
-import React, { FC, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -24,11 +24,7 @@ export interface ImagesTableProps {
   sort: IMAGE_SORT_OPTIONS;
 }
 
-type ColumnProps = {
-  image: ImageFieldsFragment;
-};
-
-const ImageColumn: FC<ColumnProps> = ({ image }) => {
+const ImageColumn = (image: ImageFieldsFragment) => {
   const locale = useLocale();
   const { url } = getImageFields(image, locale);
 
@@ -49,7 +45,7 @@ const ImageColumn: FC<ColumnProps> = ({ image }) => {
   );
 };
 
-const IdColumn: FC<ColumnProps> = ({ image }) => {
+const IdColumn = (image: ImageFieldsFragment) => {
   const locale = useLocale();
   const { imageUrl, id } = getImageFields(image, locale);
 
@@ -63,18 +59,22 @@ const IdColumn: FC<ColumnProps> = ({ image }) => {
   );
 };
 
-const NameColumn: FC<ColumnProps> = ({ image }) => {
+const NameColumn = (image: ImageFieldsFragment) => {
   const locale = useLocale();
   const { name } = getImageFields(image, locale);
 
   return <>{name}</>;
 };
 
-const LastModifiedTimeColumn: FC<ColumnProps> = ({ image }) => {
+const LastModifiedTimeColumn = (image: ImageFieldsFragment) => {
   const locale = useLocale();
   const { lastModifiedTime } = getImageFields(image, locale);
 
   return <>{formatDate(lastModifiedTime)}</>;
+};
+
+const ActionColumn = (image: ImageFieldsFragment) => {
+  return <ImageActionsDropdown image={image} />;
 };
 
 const ImagesTable: React.FC<ImagesTableProps> = ({
@@ -120,23 +120,19 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
           className: styles.imageColumn,
           key: 'image',
           headerName: t('imagesPage.imagesTableColumns.image'),
-          transform: (image: ImageFieldsFragment) => (
-            <ImageColumn image={image} />
-          ),
+          transform: ImageColumn,
         },
         {
           className: styles.idColumn,
           key: 'id',
           headerName: t('imagesPage.imagesTableColumns.id'),
-          transform: (image: ImageFieldsFragment) => <IdColumn image={image} />,
+          transform: IdColumn,
         },
         {
           className: styles.nameColumn,
           key: 'name',
           headerName: t('imagesPage.imagesTableColumns.name'),
-          transform: (image: ImageFieldsFragment) => (
-            <NameColumn image={image} />
-          ),
+          transform: NameColumn,
         },
         {
           className: styles.lastModifiedTimeColumn,
@@ -144,9 +140,7 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
           key: IMAGE_SORT_OPTIONS.LAST_MODIFIED_TIME,
           headerName: t('imagesPage.imagesTableColumns.lastModifiedTime'),
           sortIconType: 'other',
-          transform: (image: ImageFieldsFragment) => (
-            <LastModifiedTimeColumn image={image} />
-          ),
+          transform: LastModifiedTimeColumn,
         },
         {
           className: styles.actionButtonsColumn,
@@ -156,9 +150,7 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
             ev.stopPropagation();
             ev.preventDefault();
           },
-          transform: (image: ImageFieldsFragment) => (
-            <ImageActionsDropdown image={image} />
-          ),
+          transform: ActionColumn,
         },
       ]}
       getRowProps={(image) => {

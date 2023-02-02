@@ -1,5 +1,5 @@
 import orderBy from 'lodash/orderBy';
-import React, { FC, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
@@ -21,11 +21,7 @@ import useAllOrganizations from '../../hooks/useAllOrganizations';
 import { getOrganizationFields } from '../../utils';
 import styles from './subOrganizationTable.module.scss';
 
-type ColumnProps = {
-  organization: OrganizationFieldsFragment;
-};
-
-const NameColumn: FC<ColumnProps> = ({ organization }) => {
+const NameColumn = (organization: OrganizationFieldsFragment) => {
   const locale = useLocale();
   const { t } = useTranslation();
   const { fullName } = getOrganizationFields(organization, locale, t);
@@ -33,7 +29,7 @@ const NameColumn: FC<ColumnProps> = ({ organization }) => {
   return <>{fullName}</>;
 };
 
-const FoundingDateColumn: FC<ColumnProps> = ({ organization }) => {
+const FoundingDateColumn = (organization: OrganizationFieldsFragment) => {
   const locale = useLocale();
   const { t } = useTranslation();
   const { foundingDate } = getOrganizationFields(organization, locale, t);
@@ -45,7 +41,7 @@ const FoundingDateColumn: FC<ColumnProps> = ({ organization }) => {
   );
 };
 
-const ClassificationColumn: FC<ColumnProps> = ({ organization }) => {
+const ClassificationColumn = (organization: OrganizationFieldsFragment) => {
   const locale = useLocale();
   const { t } = useTranslation();
   const { classification } = getOrganizationFields(organization, locale, t);
@@ -53,7 +49,7 @@ const ClassificationColumn: FC<ColumnProps> = ({ organization }) => {
   return <>{classification ?? /* istanbul ignore next */ '-'}</>;
 };
 
-const DataSourceColumn: FC<ColumnProps> = ({ organization }) => {
+const DataSourceColumn = (organization: OrganizationFieldsFragment) => {
   const locale = useLocale();
   const { t } = useTranslation();
   const { dataSource } = getOrganizationFields(organization, locale, t);
@@ -61,7 +57,7 @@ const DataSourceColumn: FC<ColumnProps> = ({ organization }) => {
   return <>{dataSource ?? /* istanbul ignore next */ '-'}</>;
 };
 
-const OriginIdColumn: FC<ColumnProps> = ({ organization }) => {
+const OriginIdColumn = (organization: OrganizationFieldsFragment) => {
   const locale = useLocale();
   const { t } = useTranslation();
   const { originId } = getOrganizationFields(organization, locale, t);
@@ -142,9 +138,7 @@ const SubOrganizationTable: React.FC<SubOrganizationTableProps> = ({
               key: ORGANIZATION_FIELDS.NAME,
               headerName: t('organization.form.labelName'),
               sortIconType: 'string',
-              transform: (organization: OrganizationFieldsFragment) => (
-                <NameColumn organization={organization} />
-              ),
+              transform: NameColumn,
             },
             {
               className: styles.foundingDateColumn,
@@ -152,9 +146,7 @@ const SubOrganizationTable: React.FC<SubOrganizationTableProps> = ({
               key: ORGANIZATION_FIELDS.FOUNDING_DATE,
               headerName: t('organization.form.labelFoundingDate'),
               sortIconType: 'other',
-              transform: (organization: OrganizationFieldsFragment) => (
-                <FoundingDateColumn organization={organization} />
-              ),
+              transform: FoundingDateColumn,
             },
             {
               className: styles.classificationColumn,
@@ -162,9 +154,7 @@ const SubOrganizationTable: React.FC<SubOrganizationTableProps> = ({
               key: ORGANIZATION_FIELDS.CLASSIFICATION,
               headerName: t('organization.form.labelClassification'),
               sortIconType: 'string',
-              transform: (organization: OrganizationFieldsFragment) => (
-                <ClassificationColumn organization={organization} />
-              ),
+              transform: ClassificationColumn,
             },
             {
               className: styles.dataSourceColumn,
@@ -172,9 +162,7 @@ const SubOrganizationTable: React.FC<SubOrganizationTableProps> = ({
               key: ORGANIZATION_FIELDS.DATA_SOURCE,
               headerName: t('organization.form.labelDataSource'),
               sortIconType: 'string',
-              transform: (organization: OrganizationFieldsFragment) => (
-                <DataSourceColumn organization={organization} />
-              ),
+              transform: DataSourceColumn,
             },
             {
               className: styles.originIdColumn,
@@ -182,9 +170,7 @@ const SubOrganizationTable: React.FC<SubOrganizationTableProps> = ({
               key: ORGANIZATION_FIELDS.ID,
               headerName: t('organization.form.labelOriginId'),
               sortIconType: 'string',
-              transform: (organization: OrganizationFieldsFragment) => (
-                <OriginIdColumn organization={organization} />
-              ),
+              transform: OriginIdColumn,
             },
           ]}
           getRowProps={(organization) => {

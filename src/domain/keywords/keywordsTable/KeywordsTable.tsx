@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -25,11 +25,7 @@ export interface KeywordsTableProps {
   sort: KEYWORD_SORT_OPTIONS;
 }
 
-type ColumnProps = {
-  keyword: KeywordFieldsFragment;
-};
-
-const IdColumn: FC<ColumnProps> = ({ keyword }) => {
+const IdColumn = (keyword: KeywordFieldsFragment) => {
   const locale = useLocale();
   const { keywordUrl, id } = getKeywordFields(keyword, locale);
 
@@ -43,18 +39,22 @@ const IdColumn: FC<ColumnProps> = ({ keyword }) => {
   );
 };
 
-const NameColumn: FC<ColumnProps> = ({ keyword }) => {
+const NameColumn = (keyword: KeywordFieldsFragment) => {
   const locale = useLocale();
   const { name } = getKeywordFields(keyword, locale);
 
   return <>{name}</>;
 };
 
-const EventsAmountColumn: FC<ColumnProps> = ({ keyword }) => {
+const EventsAmountColumn = (keyword: KeywordFieldsFragment) => {
   const locale = useLocale();
   const { nEvents } = getKeywordFields(keyword, locale);
 
   return <>{nEvents}</>;
+};
+
+const ActionsColumn = (keyword: KeywordFieldsFragment) => {
+  return <KeywordActionsDropdown keyword={keyword} />;
 };
 
 const KeywordsTable: React.FC<KeywordsTableProps> = ({
@@ -105,9 +105,7 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
           key: KEYWORD_SORT_OPTIONS.ID,
           headerName: t('keywordsPage.keywordsTableColumns.id'),
           sortIconType: 'string',
-          transform: (keyword: KeywordFieldsFragment) => (
-            <IdColumn keyword={keyword} />
-          ),
+          transform: IdColumn,
         },
         {
           className: styles.nameColumn,
@@ -115,9 +113,7 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
           key: KEYWORD_SORT_OPTIONS.NAME,
           headerName: t('keywordsPage.keywordsTableColumns.name'),
           sortIconType: 'string',
-          transform: (keyword: KeywordFieldsFragment) => (
-            <NameColumn keyword={keyword} />
-          ),
+          transform: NameColumn,
         },
         {
           className: styles.nEventsColumn,
@@ -125,9 +121,7 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
           key: KEYWORD_SORT_OPTIONS.N_EVENTS,
           headerName: t('keywordsPage.keywordsTableColumns.nEvents'),
           sortIconType: 'string',
-          transform: (keyword: KeywordFieldsFragment) => (
-            <EventsAmountColumn keyword={keyword} />
-          ),
+          transform: EventsAmountColumn,
         },
         {
           className: styles.actionButtonsColumn,
@@ -137,9 +131,7 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
             ev.stopPropagation();
             ev.preventDefault();
           },
-          transform: (keyword: KeywordFieldsFragment) => (
-            <KeywordActionsDropdown keyword={keyword} />
-          ),
+          transform: ActionsColumn,
         },
       ]}
       getRowProps={(keyword) => {
