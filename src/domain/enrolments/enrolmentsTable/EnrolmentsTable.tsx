@@ -166,6 +166,44 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const MemoizedNameColumn = React.useCallback(
+    (enrolment: EnrolmentFieldsFragment) => (
+      <NameColumn enrolment={enrolment} registration={registration} />
+    ),
+    [registration]
+  );
+
+  const MemoizedEmailColumn = React.useCallback(
+    (enrolment: EnrolmentFieldsFragment) => (
+      <EmailColumn enrolment={enrolment} registration={registration} />
+    ),
+    [registration]
+  );
+
+  const MemoizedPhoneColumn = React.useCallback(
+    (enrolment: EnrolmentFieldsFragment) => (
+      <PhoneColumn enrolment={enrolment} registration={registration} />
+    ),
+    [registration]
+  );
+
+  const MemoizedAttendeeStatueColumn = React.useCallback(
+    (enrolment: EnrolmentFieldsFragment) => (
+      <AttendeeStatusColumn enrolment={enrolment} registration={registration} />
+    ),
+    [registration]
+  );
+
+  const MemoizedEnrolmentActionsDropdown = React.useCallback(
+    (enrolment: EnrolmentFieldsFragment) => (
+      <EnrolmentActionsDropdown
+        enrolment={enrolment}
+        registration={registration}
+      />
+    ),
+    [registration]
+  );
+
   return (
     <div id={enrolmentListId}>
       <h2 className={styles.heading}>{heading}</h2>
@@ -179,42 +217,25 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
               className: styles.nameColumn,
               key: 'name',
               headerName: t('enrolmentsPage.enrolmentsTableColumns.name'),
-              transform: (enrolment: EnrolmentFieldsFragment) => (
-                <NameColumn enrolment={enrolment} registration={registration} />
-              ),
+              transform: MemoizedNameColumn,
             },
             {
               className: styles.emailColumn,
               key: 'email',
               headerName: t('enrolmentsPage.enrolmentsTableColumns.email'),
-              transform: (enrolment: EnrolmentFieldsFragment) => (
-                <EmailColumn
-                  enrolment={enrolment}
-                  registration={registration}
-                />
-              ),
+              transform: MemoizedEmailColumn,
             },
             {
               className: styles.phoneColumn,
               key: 'phone',
               headerName: t('enrolmentsPage.enrolmentsTableColumns.phone'),
-              transform: (enrolment: EnrolmentFieldsFragment) => (
-                <PhoneColumn
-                  enrolment={enrolment}
-                  registration={registration}
-                />
-              ),
+              transform: MemoizedPhoneColumn,
             },
             {
               className: styles.statusColumn,
               key: 'status',
               headerName: t('enrolmentsPage.enrolmentsTableColumns.status'),
-              transform: (enrolment: EnrolmentFieldsFragment) => (
-                <AttendeeStatusColumn
-                  enrolment={enrolment}
-                  registration={registration}
-                />
-              ),
+              transform: MemoizedAttendeeStatueColumn,
             },
             {
               className: styles.actionButtonsColumn,
@@ -224,12 +245,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
                 ev.stopPropagation();
                 ev.preventDefault();
               },
-              transform: (enrolment: EnrolmentFieldsFragment) => (
-                <EnrolmentActionsDropdown
-                  enrolment={enrolment}
-                  registration={registration}
-                />
-              ),
+              transform: MemoizedEnrolmentActionsDropdown,
             },
           ]}
           getRowProps={(enrolment) => {
