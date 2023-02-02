@@ -1,5 +1,6 @@
 import isFuture from 'date-fns/isFuture';
 import * as Yup from 'yup';
+import { ValidateOptions } from 'yup/lib/types';
 
 import { CHARACTER_LIMITS } from '../../constants';
 import { Maybe } from '../../types';
@@ -83,10 +84,13 @@ const createPaidOfferSchema = (eventInfoLanguage: string[]) =>
     ),
   });
 
+type ValidateOptionsWithIndex = ValidateOptions & {
+  index: number;
+};
+
 const createFreeOfferSchema = (eventInfoLanguage: string[]) =>
   Yup.object().test(async (values, { options }) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const index: number = (options as any).index;
+    const index: number = (options as ValidateOptionsWithIndex).index;
 
     if (index === 0) {
       try {
