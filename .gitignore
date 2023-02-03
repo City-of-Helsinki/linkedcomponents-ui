@@ -11,6 +11,7 @@
 /screenshots
 jest-report.xml
 report.xml
+.dccache
 
 # production
 /build
