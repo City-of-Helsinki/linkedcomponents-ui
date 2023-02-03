@@ -78,10 +78,10 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     }
     filters.push(
       ...places.map((place) => (
-        <PlaceFilterTag onDelete={removeFilter} value={place} />
+        <PlaceFilterTag key={place} onDelete={removeFilter} value={place} />
       )),
       ...types.map((type) => (
-        <EventTypeFilterTag onDelete={removeFilter} value={type} />
+        <EventTypeFilterTag key={type} onDelete={removeFilter} value={type} />
       ))
     );
 

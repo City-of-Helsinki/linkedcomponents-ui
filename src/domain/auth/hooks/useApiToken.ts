@@ -58,7 +58,7 @@ const useApiToken = (oidcState: OidcReducerState): UseApiTokenState => {
   };
 
   const stopApiTimer = () => {
-    apiTokenTimer.current && clearTimeout(apiTokenTimer.current);
+    apiTokenTimer.current && clearInterval(apiTokenTimer.current);
   };
 
   React.useEffect(() => {

@@ -83,10 +83,8 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
           setIsMenuOpen(false);
           setFocusToToggleButton();
           break;
-        case 'ArrowUp':
-          ensureMenuIsOpen();
-          break;
         case 'ArrowDown':
+        case 'ArrowUp':
           ensureMenuIsOpen();
           break;
       }
