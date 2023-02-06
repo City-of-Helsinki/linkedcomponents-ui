@@ -1,8 +1,6 @@
-import { History } from 'history';
 import React from 'react';
 
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -17,8 +15,6 @@ import {
   mockedRegistrationsResponse,
 } from '../__mocks__/registrationList';
 import RegistrationList from '../RegistrationList';
-
-let history: History;
 
 configure({ defaultHidden: true });
 
@@ -42,15 +38,12 @@ const renderComponent = () => render(<RegistrationList />, { mocks });
 
 test('should navigate between pages', async () => {
   const user = userEvent.setup();
-  await act(() => {
-    const { history: newHistory } = renderComponent();
-    history = newHistory;
-  });
+  const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
   const page2Button = getElement('page2');
-  await act(async () => await user.click(page2Button));
+  await user.click(page2Button);
 
   await loadingSpinnerIsNotInDocument();
   // Page 2 event should be visible.
@@ -58,7 +51,7 @@ test('should navigate between pages', async () => {
 
   // Should clear page from url search if selecting the first page
   const page1Button = getElement('page1');
-  await act(async () => await user.click(page1Button));
+  await user.click(page1Button);
 
   await waitFor(() => expect(history.location.search).toBe(''));
 });

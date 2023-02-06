@@ -4,7 +4,6 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
@@ -65,8 +64,8 @@ test('should scroll to first validation error input field', async () => {
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
 
-  await act(async () => await user.clear(nameInput));
-  await act(async () => await user.click(saveButton));
+  await user.clear(nameInput);
+  await user.click(saveButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
@@ -82,13 +81,13 @@ test('should delete keyword', async () => {
 
   const deleteButton = await findElement('deleteButton');
   await waitFor(() => expect(deleteButton).toBeEnabled());
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteKeywordSetButton = withinModal.getByRole('button', {
     name: 'Poista avainsanaryhmä',
   });
-  await act(async () => await user.click(deleteKeywordSetButton));
+  await user.click(deleteKeywordSetButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keyword-sets`)
@@ -107,7 +106,7 @@ test('should update keyword set', async () => {
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
 
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keyword-sets`)
@@ -123,7 +122,7 @@ test('should show server errors', async () => {
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
 
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

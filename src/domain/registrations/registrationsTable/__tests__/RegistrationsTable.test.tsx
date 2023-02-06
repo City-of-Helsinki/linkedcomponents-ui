@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Registration } from '../../../../generated/graphql';
 import {
-  act,
   configure,
   render,
   screen,
@@ -63,7 +62,7 @@ test('should open registration page by clicking event name', async () => {
     { name: registrationId },
     { timeout: 20000 }
   );
-  await act(async () => await user.click(button));
+  await user.click(button);
   expect(history.location.pathname).toBe(
     `/fi/registrations/edit/${registrationId}`
   );
@@ -79,8 +78,8 @@ test('should open registration page by pressing enter on row', async () => {
     { name: registrationId },
     { timeout: 20000 }
   );
-  await act(async () => await user.click(button));
-  await act(async () => await user.type(button, '{enter}'));
+  await user.click(button);
+  await user.type(button, '{enter}');
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/edit/${registrationId}`
@@ -96,11 +95,11 @@ test('should open actions dropdown', async () => {
     screen.getByRole('button', { name: registrationId })
   );
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
-  await act(async () => await user.click(menuButton));
+  await user.click(menuButton);
 
   const editButton = await withinRow.findByRole('button', { name: /muokkaa/i });
 
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(

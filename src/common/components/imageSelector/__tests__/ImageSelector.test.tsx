@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Image } from '../../../../generated/graphql';
 import {
-  act,
   configure,
   render,
   screen,
@@ -49,7 +48,7 @@ test('should load more images', async () => {
   const loadMoreButton = screen.getByRole('button', { name: /näytä lisää/i });
 
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
-  await act(async () => await user.click(loadMoreButton));
+  await user.click(loadMoreButton);
 
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
@@ -71,9 +70,7 @@ test('should call onChange', async () => {
 
   const { name, atId } = images.data[0] as Image;
 
-  await act(
-    async () => await user.click(screen.getByLabelText(name as string))
-  );
+  await user.click(screen.getByLabelText(name as string));
   expect(onChange).toBeCalledWith([atId]);
 });
 
@@ -87,9 +84,7 @@ test('should clear value when clicking selected image', async () => {
 
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
-  await act(
-    async () => await user.click(screen.getByLabelText(name as string))
-  );
+  await user.click(screen.getByLabelText(name as string));
   expect(onChange).toBeCalledWith([]);
 });
 
@@ -104,9 +99,7 @@ test('should call onChange with multiple image ids', async () => {
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
   const { name, atId: atId2 } = images.data[1] as Image;
-  await act(
-    async () => await user.click(screen.getByLabelText(name as string))
-  );
+  await user.click(screen.getByLabelText(name as string));
 
   expect(onChange).toBeCalledWith([atId, atId2]);
 });

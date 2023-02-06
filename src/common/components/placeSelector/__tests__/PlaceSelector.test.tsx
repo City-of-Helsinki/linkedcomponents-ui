@@ -7,7 +7,6 @@ import { OptionType } from '../../../../types';
 import generateAtId from '../../../../utils/generateAtId';
 import { fakePlace, fakePlaces } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
@@ -94,7 +93,7 @@ test('should open menu by clickin toggle button and list of options should be vi
   expect(inputField.getAttribute('aria-expanded')).toBe('false');
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   expect(inputField.getAttribute('aria-expanded')).toBe('true');
   for (const option of filteredPlaces.data) {

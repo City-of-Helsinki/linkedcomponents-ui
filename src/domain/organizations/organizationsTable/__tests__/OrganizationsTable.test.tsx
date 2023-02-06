@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Organization } from '../../../../generated/graphql';
 import {
-  act,
   configure,
   render,
   screen,
@@ -66,10 +65,7 @@ test('should open edit organization page by clicking organization', async () => 
     organizations: organizations.data as Organization[],
   });
 
-  await act(
-    async () =>
-      await user.click(screen.getByRole('button', { name: organizationName }))
-  );
+  await user.click(screen.getByRole('button', { name: organizationName }));
 
   expect(history.location.pathname).toBe(
     `/fi/administration/organizations/edit/${organizationId}`
@@ -82,12 +78,9 @@ test('should open edit organization page by pressing enter on row', async () => 
     organizations: organizations.data as Organization[],
   });
 
-  await act(
-    async () =>
-      await user.type(
-        screen.getByRole('button', { name: organizationName }),
-        '{enter}'
-      )
+  await user.type(
+    screen.getByRole('button', { name: organizationName }),
+    '{enter}'
   );
 
   expect(history.location.pathname).toBe(
@@ -103,11 +96,11 @@ test('should call setSort when clicking sortable column header', async () => {
   const nameButton = screen.getByRole('button', {
     name: 'Nimi Järjestetty nousevaan järjestykseen',
   });
-  await act(async () => await user.click(nameButton));
+  await user.click(nameButton);
   expect(setSort).toBeCalledWith('-name');
 
   const idButton = screen.getByRole('button', { name: 'ID' });
-  await act(async () => await user.click(idButton));
+  await user.click(idButton);
 
   expect(setSort).toBeCalledWith('id');
 });
@@ -123,13 +116,13 @@ test('should open actions dropdown', async () => {
     screen.getByRole('button', { name: organizationName })
   );
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
-  await act(async () => await user.click(menuButton));
+  await user.click(menuButton);
 
   const editButton = await withinRow.findByRole('button', {
     name: /muokkaa organisaatiota/i,
   });
 
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   expect(history.location.pathname).toBe(
     `/fi/administration/organizations/edit/${organizationId}`

@@ -1,4 +1,4 @@
-import { act, fireEvent, renderHook } from '@testing-library/react';
+import { fireEvent, renderHook } from '@testing-library/react';
 
 import useDropdownKeyboardNavigation, {
   KeyboardNavigationProps,
@@ -28,11 +28,9 @@ const renderNavigationHook = (props?: Partial<KeyboardNavigationProps>) => {
   div.focus();
 
   const keyDown = (key: string) => {
-    act(() => {
-      result.current.teardown();
-      result.current.setup();
-      fireEvent.keyDown(div, { key });
-    });
+    result.current.teardown();
+    result.current.setup();
+    fireEvent.keyDown(div, { key });
   };
 
   const arrowDown = () => {

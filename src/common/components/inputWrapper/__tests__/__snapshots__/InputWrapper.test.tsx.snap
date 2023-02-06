@@ -25,6 +25,12 @@ exports[`matched snapshot 1`] = `
       Success
     </div>
     <div
+      class="infoText"
+      id="test-info"
+    >
+      info text
+    </div>
+    <div
       class="helperText"
       id="test-helper"
     >

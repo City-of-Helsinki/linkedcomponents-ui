@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   escKeyPressHelper,
   render,
   screen,
@@ -44,7 +43,7 @@ test('should open menu by clicking toggle button', async () => {
   renderComponent({ onChangeDate });
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   screen.getByText('8.10.2021 - 15.10.2021');
   getElement('endDateInput');
@@ -59,7 +58,7 @@ test('should close menu with esc button', async () => {
   renderComponent({ onChangeDate });
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   getElement('clearButton');
 
@@ -77,10 +76,10 @@ test('should clear start and end date by clicking clear button', async () => {
   renderComponent({ onChangeDate });
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   const clearButton = getElement('clearButton');
-  await act(async () => await user.click(clearButton));
+  await user.click(clearButton);
 
   expect(onChangeDate).toBeCalledWith('endDate', null);
   expect(onChangeDate).toBeCalledWith('startDate', null);

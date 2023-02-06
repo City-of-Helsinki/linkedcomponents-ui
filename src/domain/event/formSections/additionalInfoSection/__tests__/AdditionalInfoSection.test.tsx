@@ -3,7 +3,6 @@ import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -101,9 +100,7 @@ const getElement = (
 };
 
 test('should render additional info section', async () => {
-  await act(async () => {
-    await renderComponent();
-  });
+  renderComponent();
 
   const headings = [
     translations.event.form.titleAudienceAge,
@@ -136,9 +133,9 @@ test('should show validation error if max age is less than min age', async () =>
   const minAgeInput = getElement('minAge');
   const maxAgeInput = getElement('maxAge');
 
-  await act(async () => await user.click(maxAgeInput));
-  await act(async () => await user.click(minAgeInput));
-  await act(async () => await user.tab());
+  await user.click(maxAgeInput);
+  await user.click(minAgeInput);
+  await user.tab();
 
   await screen.findByText('Arvon tulee olla vähintään 10');
 });
@@ -152,8 +149,8 @@ test('should show validation error if min age is less than 0', async () => {
   const minAgeInput = getElement('minAge');
   const maxAgeInput = getElement('maxAge');
 
-  await act(async () => await user.click(minAgeInput));
-  await act(async () => await user.click(maxAgeInput));
+  await user.click(minAgeInput);
+  await user.click(maxAgeInput);
 
   await screen.findByText('Arvon tulee olla vähintään 0');
 });
@@ -173,13 +170,13 @@ test('should validate enrolment start and end dates', async () => {
   const endTimeDateInput = getElement('endTimeDate');
   const endTimeTimeInput = getElement('endTimeTime');
 
-  await act(async () => await user.type(startTimeDateInput, startDate));
-  await act(async () => await user.type(startTimeTimeInput, startTime));
+  await user.type(startTimeDateInput, startDate);
+  await user.type(startTimeTimeInput, startTime);
 
-  await act(async () => await user.type(endTimeDateInput, endDate));
-  await act(async () => await user.type(endTimeTimeInput, endTime));
+  await user.type(endTimeDateInput, endDate);
+  await user.type(endTimeTimeInput, endTime);
 
-  await act(async () => await user.click(startTimeDateInput));
+  await user.click(startTimeDateInput);
 
   screen.getByText('Tämän päivämäärän tulee olla 19.12.2021 12.15 jälkeen');
 });
@@ -194,9 +191,9 @@ test('should show validation error if max capacity is less than min capacity', a
   const minCapacityInput = getElement('minCapacity');
   const maxCapacityInput = getElement('maxCapacity');
 
-  await act(async () => await user.click(maxCapacityInput));
-  await act(async () => await user.click(minCapacityInput));
-  await act(async () => await user.tab());
+  await user.click(maxCapacityInput);
+  await user.click(minCapacityInput);
+  await user.tab();
 
   await screen.findByText('Arvon tulee olla vähintään 10');
 });
@@ -210,8 +207,8 @@ test('should show validation error if min attendee capacity is less than 0', asy
   const minCapacityInput = getElement('minCapacity');
   const maxCapacityInput = getElement('maxCapacity');
 
-  await act(async () => await user.click(maxCapacityInput));
-  await act(async () => await user.click(minCapacityInput));
+  await user.click(maxCapacityInput);
+  await user.click(minCapacityInput);
 
   await screen.findByText('Arvon tulee olla vähintään 0');
 });

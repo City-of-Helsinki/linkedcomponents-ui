@@ -2,7 +2,6 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -59,9 +58,9 @@ test('should show validation error if min capacity is less than 0', async () => 
   const minCapacityInput = getElement('minCapacity');
   const maxCapacityInput = getElement('maxCapacity');
 
-  await act(async () => await user.click(minCapacityInput));
-  await act(async () => await user.click(maxCapacityInput));
-  await act(async () => await user.tab());
+  await user.click(minCapacityInput);
+  await user.click(maxCapacityInput);
+  await user.tab();
 
   await screen.findByText('Arvon tulee olla vähintään 0');
 });
@@ -76,9 +75,9 @@ test('should show validation error if max capacity is less than min capacity', a
   const minCapacityInput = getElement('minCapacity');
   const maxCapacityInput = getElement('maxCapacity');
 
-  await act(async () => await user.click(maxCapacityInput));
-  await act(async () => await user.click(minCapacityInput));
-  await act(async () => await user.tab());
+  await user.click(maxCapacityInput);
+  await user.click(minCapacityInput);
+  await user.tab();
 
   await screen.findByText('Arvon tulee olla vähintään 10');
 });

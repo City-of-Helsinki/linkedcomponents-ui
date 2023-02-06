@@ -39,6 +39,7 @@ const useRelatedEvents = (
       }
     };
 
+    /* istanbul ignore else */
     if (!skip) {
       setRelatedEvents();
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -31,11 +30,11 @@ test('should call onChange', async () => {
 
   const editor = await screen.findByLabelText(/editorin muokkausalue: main/i);
 
-  await act(async () => await user.type(editor, 'test'));
+  await user.type(editor, 'test');
   expect(onChange).lastCalledWith(expect.stringContaining('<p>test</p>'));
 
   const undoButton = screen.getByRole('button', { name: /peru/i });
 
-  await act(async () => await userEvent.click(undoButton));
+  await userEvent.click(undoButton);
   expect(onChange).lastCalledWith('');
 });

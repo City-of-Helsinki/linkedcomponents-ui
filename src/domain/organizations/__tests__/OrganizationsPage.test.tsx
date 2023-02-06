@@ -4,7 +4,6 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   CustomRenderOptions,
   loadingSpinnerIsNotInDocument,
@@ -102,7 +101,7 @@ test('should open create organization page', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const createOrganizationButton = getElement('createOrganizationButton');
-  await act(async () => await user.click(createOrganizationButton));
+  await user.click(createOrganizationButton);
 
   expect(history.location.pathname).toBe(
     '/fi/administration/organizations/create'
@@ -116,7 +115,7 @@ test('should add sort parameter to search query', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const sortNameButton = getElement('sortNameButton');
-  await act(async () => await user.click(sortNameButton));
+  await user.click(sortNameButton);
 
   expect(history.location.search).toBe('?sort=-name');
 });

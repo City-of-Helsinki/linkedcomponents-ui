@@ -2,7 +2,6 @@ import React from 'react';
 
 import { fakeAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   CustomRenderOptions,
   render,
@@ -32,7 +31,7 @@ test('should start sign in process', async () => {
   renderComponent({ authContextValue });
 
   const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
-  await act(async () => await user.click(signInButton));
+  await user.click(signInButton);
 
   expect(signIn).toBeCalled();
 });
@@ -44,6 +43,6 @@ test('should hide notification when clicking close button', async () => {
   const notification = screen.getByRole('region');
   const closeButton = screen.getByRole('button', { name: 'Sulje' });
 
-  await act(async () => await user.click(closeButton));
+  await user.click(closeButton);
   await waitFor(() => expect(notification).toHaveStyle(hiddenStyles));
 });

@@ -3,7 +3,6 @@ import React from 'react';
 
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   actWait,
   configure,
   loadingSpinnerIsNotInDocument,
@@ -75,33 +74,27 @@ const getElement = (
 const fillClassificationField = async () => {
   const user = userEvent.setup();
   const classificationToggleButton = getElement('classificationToggleButton');
-  await act(async () => await user.click(classificationToggleButton));
+  await user.click(classificationToggleButton);
 
   const option = await screen.findByRole('option', {
     name: organizationClassName,
   });
-  await act(async () => await user.click(option));
+  await user.click(option);
 };
 
 const fillParentField = async () => {
   const user = userEvent.setup();
-  await act(async () => await user.click(getElement('parentToggleButton')));
+  await user.click(getElement('parentToggleButton'));
   const organizationOption = await screen.findByRole('option', {
     name: organizations.data[0]?.name as string,
   });
-  await act(async () => await user.click(organizationOption));
+  await user.click(organizationOption);
 };
 
 const fillInputValues = async () => {
   const user = userEvent.setup();
-  await act(
-    async () =>
-      await user.type(getElement('originIdInput'), organizationValues.originId)
-  );
-  await act(
-    async () =>
-      await user.type(getElement('nameInput'), organizationValues.name)
-  );
+  await user.type(getElement('originIdInput'), organizationValues.originId);
+  await user.type(getElement('nameInput'), organizationValues.name);
   await fillClassificationField();
   await fillParentField();
 };
@@ -131,15 +124,13 @@ test('should focus to first validation error when trying to save new organizatio
   const parentInput = getElement('parentInput');
   const saveButton = getElement('saveButton');
 
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() => expect(originIdInput).toHaveFocus());
 
-  await act(
-    async () => await user.type(originIdInput, organizationValues.originId)
-  );
-  await act(async () => await user.type(nameInput, organizationValues.name));
-  await act(async () => await user.click(saveButton));
+  await user.type(originIdInput, organizationValues.originId);
+  await user.type(nameInput, organizationValues.name);
+  await user.click(saveButton);
 
   await waitFor(() => expect(parentInput).toHaveFocus());
 });
@@ -155,7 +146,7 @@ test('should move to organizations page after creating new organization', async 
 
   await fillInputValues();
 
-  await act(async () => await user.click(getElement('saveButton')));
+  await user.click(getElement('saveButton'));
 
   await waitFor(
     () =>
@@ -175,7 +166,7 @@ test('should show server errors', async () => {
   await fillInputValues();
 
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i, undefined, {
     timeout: 10000,

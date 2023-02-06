@@ -8,6 +8,10 @@ import './test/testI18nInit';
 import '@testing-library/jest-dom/extend-expect';
 import 'jest-localstorage-mock';
 
+import { TextEncoder } from 'util';
+
+global.TextEncoder = TextEncoder;
+
 // Mock scrollTo function
 window.scrollTo = jest.fn();
 
@@ -22,6 +26,9 @@ console.warn = (msg: any, ...optionalParams: any[]) => {
     ) &&
     !msgStr.includes(
       'Invalid default value for TimeInput. The default value must be in hh:mm format'
+    ) &&
+    !msgStr.includes(
+      'The current testing environment is not configured to support act(...)'
     ) &&
     !msgStr.match(
       /Could not find the stylesheet to update with the ".*" selector!/i

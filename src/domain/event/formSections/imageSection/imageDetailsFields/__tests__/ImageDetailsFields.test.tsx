@@ -86,16 +86,18 @@ const renderComponent = ({
   mocks?: MockedResponse[];
   props?: Partial<ImageDetailsFieldsProps>;
 }) =>
-  render(
-    <Formik
-      onSubmit={jest.fn()}
-      initialValues={initialValues || defaultInitialValus}
-      validationSchema={publicEventSchema}
-    >
-      <ImageDetailsFields {...defaultProps} {...props} />
-    </Formik>,
-    { mocks, authContextValue }
-  );
+  act(async () => {
+    await render(
+      <Formik
+        onSubmit={jest.fn()}
+        initialValues={initialValues || defaultInitialValus}
+        validationSchema={publicEventSchema}
+      >
+        <ImageDetailsFields {...defaultProps} {...props} />
+      </Formik>,
+      { mocks, authContextValue }
+    );
+  });
 
 const findElement = (key: 'altText') => {
   switch (key) {
@@ -121,7 +123,7 @@ const getElement = (
         name: 'Käyttö rajattu tapahtuman yhteyteen',
       });
     case 'name':
-      return screen.getByLabelText('Kuvateksti');
+      return screen.getByLabelText(/Kuvateksti/i);
     case 'photographerName':
       return screen.getByLabelText('Kuvaajan nimi');
   }
@@ -138,9 +140,7 @@ const setLocalizedImageFeatureFlag = (localizedImage: boolean) => {
 test('should show localized alt-text fields', async () => {
   setLocalizedImageFeatureFlag(true);
 
-  await act(async () => {
-    await renderComponent({});
-  });
+  await renderComponent({});
 
   screen.getByLabelText(
     'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
@@ -165,9 +165,7 @@ test('should show localized alt-text fields', async () => {
 test('should show only Finnish alt-text field', async () => {
   setLocalizedImageFeatureFlag(false);
 
-  await act(async () => {
-    await renderComponent({});
-  });
+  await renderComponent({});
 
   screen.getByLabelText(
     'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *'
@@ -177,9 +175,7 @@ test('should show only Finnish alt-text field', async () => {
 test('all fields should be disabled when imageAtId is empty', async () => {
   setLocalizedImageFeatureFlag(true);
 
-  await act(async () => {
-    await renderComponent({ props: { imageAtId: '' } });
-  });
+  await renderComponent({ props: { imageAtId: '' } });
 
   await findElement('altText');
   const textInputs = [
@@ -196,23 +192,21 @@ test('all fields should be disabled when imageAtId is empty', async () => {
 test('should clear field values when imageAtId is empty', async () => {
   setLocalizedImageFeatureFlag(true);
 
-  await act(async () => {
-    await renderComponent({
-      initialValues: {
-        [EVENT_FIELDS.IMAGES]: [],
-        [EVENT_FIELDS.IMAGE_DETAILS]: {
-          [IMAGE_FIELDS.ALT_TEXT]: {
-            ...EMPTY_MULTI_LANGUAGE_OBJECT,
-            fi: 'Lorem ipsum',
-          },
-          [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
-          [IMAGE_FIELDS.NAME]: 'Lorem ipsum',
-          [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
+  await renderComponent({
+    initialValues: {
+      [EVENT_FIELDS.IMAGES]: [],
+      [EVENT_FIELDS.IMAGE_DETAILS]: {
+        [IMAGE_FIELDS.ALT_TEXT]: {
+          ...EMPTY_MULTI_LANGUAGE_OBJECT,
+          fi: 'Lorem ipsum',
         },
-        [EVENT_FIELDS.TYPE]: eventType,
+        [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
+        [IMAGE_FIELDS.NAME]: 'Lorem ipsum',
+        [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
       },
-      props: { imageAtId: '' },
-    });
+      [EVENT_FIELDS.TYPE]: eventType,
+    },
+    props: { imageAtId: '' },
   });
 
   await findElement('altText');
@@ -229,7 +223,7 @@ test('should clear field values when imageAtId is empty', async () => {
 test('should clear field values when image with imageAtId does not exist', async () => {
   setLocalizedImageFeatureFlag(true);
 
-  renderComponent({
+  await renderComponent({
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [imageNotFoundAtId],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
@@ -261,7 +255,7 @@ test('should clear field values when image with imageAtId does not exist', async
 test('should set field values', async () => {
   setLocalizedImageFeatureFlag(true);
 
-  renderComponent({ props: { imageAtId: imageFields.atId } });
+  await renderComponent({ props: { imageAtId: imageFields.atId } });
 
   const textInputCases = [
     { input: getElement('altText'), expectedValue: imageFields.altText.fi },
@@ -288,9 +282,7 @@ test("all fields should be disabled when user doesn't have permission to edit im
     ...defaultMocks.filter((mock) => mock.request.query !== UserDocument),
     mockedUserWithoutOrganizationsResponse,
   ];
-  await act(async () => {
-    await renderComponent({ mocks, props: { imageAtId: imageFields.atId } });
-  });
+  await renderComponent({ mocks, props: { imageAtId: imageFields.atId } });
 
   const textInputs = [
     getElement('altText'),
@@ -311,7 +303,7 @@ test('should show validation error when entering too short altText', async () =>
 
   const user = userEvent.setup();
 
-  renderComponent({
+  await renderComponent({
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [imageFields.atId],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
@@ -332,9 +324,9 @@ test('should show validation error when entering too short altText', async () =>
 
   await waitFor(() => expect(altTextInput).toHaveValue(imageFields.altText.fi));
 
-  await act(async () => await user.clear(altTextInput));
-  await act(async () => await user.type(altTextInput, '123'));
-  await act(async () => await user.tab());
+  await user.clear(altTextInput);
+  await user.type(altTextInput, '123');
+  await user.tab();
 
   await screen.findByText('Tämä kenttä tulee olla vähintään 6 merkkiä pitkä');
 });

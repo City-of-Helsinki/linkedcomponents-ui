@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -55,7 +54,7 @@ test('should call onSave', async () => {
   renderComponent({ onSave });
 
   const updateEventButton = screen.getByRole('button', { name: 'Tallenna' });
-  await act(async () => await user.click(updateEventButton));
+  await user.click(updateEventButton);
   expect(onSave).toBeCalled();
 });
 
@@ -66,6 +65,6 @@ test('should call onClose', async () => {
   renderComponent({ onClose });
 
   const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  await act(async () => await user.click(closeButton));
+  await user.click(closeButton);
   expect(onClose).toBeCalled();
 });

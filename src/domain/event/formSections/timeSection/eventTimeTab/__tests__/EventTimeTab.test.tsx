@@ -3,7 +3,6 @@ import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
-  act,
   configure,
   fireEvent,
   render,
@@ -125,8 +124,8 @@ const enterFormValues = async ({
   ];
 
   for (const { component, value } of timeFields) {
-    await act(async () => await user.click(component));
-    await act(async () => await user.type(component, value));
+    await user.click(component);
+    await user.type(component, value);
   }
 };
 
@@ -147,7 +146,7 @@ test('should add/delete event time', async () => {
 
   const addButton = getSingleEventElement('addButton');
   await waitFor(() => expect(addButton).toBeEnabled());
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   await screen.findByRole('row', {
     name: '1 14.4.2021 12.00 – 14.4.2021 14.00',
@@ -157,10 +156,10 @@ test('should add/delete event time', async () => {
   });
 
   const toggleButton = getSingleEventElement('toggle');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   const deleteButton = getSingleEventElement('delete');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   await waitFor(() =>
     expect(
@@ -187,23 +186,23 @@ test('should edit event time', async () => {
   });
 
   const toggleMenuButton = screen.getByRole('button', { name: /valinnat/i });
-  await act(async () => await user.click(toggleMenuButton));
+  await user.click(toggleMenuButton);
 
   const editButton = screen.getByRole('button', { name: /muokkaa/i });
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   const withinEditModal = within(
     screen.getByRole('dialog', { name: 'Muokkaa ajankohtaa' })
   );
   const startDateInput = withinEditModal.getByLabelText('Tapahtuma alkaa *');
-  await act(async () => await user.click(startDateInput));
-  await act(async () => await user.clear(startDateInput));
-  await act(async () => await user.type(startDateInput, '2.5.2021'));
+  await user.click(startDateInput);
+  await user.clear(startDateInput);
+  await user.type(startDateInput, '2.5.2021');
 
   const updateButton = screen.getByRole('button', {
     name: /tallenna muutokset/i,
   });
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
 
   await screen.findByRole('row', {
     name: '1 2.5.2021 12.00 – 11.6.2021 15.00',
@@ -229,8 +228,8 @@ test('should show validation error when end time is before start time in new eve
   ];
 
   for (const { component, value } of timeFields) {
-    await act(async () => await user.click(component));
-    await act(async () => await user.type(component, value));
+    await user.click(component);
+    await user.type(component, value);
   }
 
   await screen.findByText(
@@ -275,7 +274,7 @@ test('should set isUmbrella to false when adding more than 1 event time', async 
 
   const addButton = getSingleEventElement('addButton');
   await waitFor(() => expect(addButton).toBeEnabled());
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   expect(setIsUmbrella).toBeCalledWith(false);
 });

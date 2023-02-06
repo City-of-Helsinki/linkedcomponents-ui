@@ -10,7 +10,6 @@ import {
 } from '../../../../generated/graphql';
 import { fakePlaces } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   fireEvent,
   render,
@@ -109,32 +108,32 @@ test('should search events with correct search params', async () => {
 
   // Date filtering
   const dateSelectorButton = getElement('dateSelectorButton');
-  await act(async () => await user.click(dateSelectorButton));
+  await user.click(dateSelectorButton);
 
   const startDateInput = getElement('startDateInput');
-  await act(async () => await user.type(startDateInput, values.startDate));
+  await user.type(startDateInput, values.startDate);
   await waitFor(() => expect(startDateInput).toHaveValue(values.startDate));
 
   const endDateInput = getElement('endDateInput');
-  await act(async () => await user.type(endDateInput, values.endDate));
+  await user.type(endDateInput, values.endDate);
   await waitFor(() => expect(endDateInput).toHaveValue(values.endDate));
 
   // Place filtering
   const placeSelectorButton = getElement('placeSelectorButton');
-  await act(async () => await user.click(placeSelectorButton));
+  await user.click(placeSelectorButton);
   const placeCheckbox = screen.getByLabelText(placeOverrides[0].name);
-  await act(async () => await user.click(placeCheckbox));
+  await user.click(placeCheckbox);
 
   // Event type filtering
   const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
-  await act(async () => await user.click(eventTypeSelectorButton));
+  await user.click(eventTypeSelectorButton);
   const eventTypeCheckbox = await screen.findByLabelText('Tapahtuma');
-  await act(async () => await user.click(eventTypeCheckbox));
+  await user.click(eventTypeCheckbox);
 
   const searchButton = screen.getAllByRole('button', {
     name: 'Etsi tapahtumia',
   })[1];
-  await act(async () => await user.click(searchButton));
+  await user.click(searchButton);
   await waitFor(() => expect(history.location.pathname).toBe('/fi/search'));
   expect(history.location.search).toBe(
     '?place=place%3A1&text=search&type=general&end=2021-03-12&start=2021-03-05'

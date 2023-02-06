@@ -3,7 +3,6 @@ import React from 'react';
 
 import { LE_DATA_LANGUAGES } from '../../../../../constants';
 import {
-  act,
   configure,
   render,
   screen,
@@ -74,7 +73,7 @@ test('should add and delete an offer', async () => {
   const user = userEvent.setup();
   renderPriceSection();
 
-  await act(async () => await user.click(getElement('hasPriceCheckbox')));
+  await user.click(getElement('hasPriceCheckbox'));
 
   const placeholders = [
     /syötä tapahtuman hinta/i,
@@ -90,14 +89,14 @@ test('should add and delete an offer', async () => {
   }
 
   const addButton = await findElement('addButton');
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   await waitFor(() =>
     expect(screen.queryAllByPlaceholderText(placeholders[0])).toHaveLength(2)
   );
 
   const deleteButton = queryElements('deleteButtons')[0];
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   await waitFor(() =>
     expect(screen.queryAllByPlaceholderText(placeholders[0])).toHaveLength(1)
@@ -108,7 +107,7 @@ test('should validate an offer', async () => {
   const user = userEvent.setup();
   renderPriceSection();
 
-  await act(async () => await user.click(getElement('hasPriceCheckbox')));
+  await user.click(getElement('hasPriceCheckbox'));
 
   const priceInput = await screen.findByPlaceholderText(
     /syötä tapahtuman hinta/i
@@ -119,12 +118,12 @@ test('should validate an offer', async () => {
   const descriptionInput = screen.getByPlaceholderText(
     /syötä lisätietoa hinnasta/i
   );
-  await act(async () => await user.click(priceInput));
-  await act(async () => await user.click(urlInput));
+  await user.click(priceInput);
+  await user.click(urlInput);
   await screen.findByText(/tämä kenttä on pakollinen/i);
 
-  await act(async () => await user.type(urlInput, 'invalidurl.com'));
-  await act(async () => await user.click(descriptionInput));
+  await user.type(urlInput, 'invalidurl.com');
+  await user.click(descriptionInput);
   await screen.findByText(
     /kirjoita url osoite kokonaisena ja oikeassa muodossa/i
   );
@@ -139,12 +138,12 @@ test('should show instructions only once', async () => {
   // Should be instructions to free event
   expect(queryElements('instructions')).toHaveLength(1);
 
-  await act(async () => await user.click(getElement('hasPriceCheckbox')));
+  await user.click(getElement('hasPriceCheckbox'));
 
   await waitFor(() => expect(queryElements('priceInputs')).toHaveLength(1));
 
   const addButton = await findElement('addButton');
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   await waitFor(() => expect(queryElements('priceInputs')).toHaveLength(2));
   expect(queryElements('instructions')).toHaveLength(1);
