@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import {
-  act,
   configure,
   render,
   screen,
@@ -31,7 +30,7 @@ test('should route to features help page', async () => {
   const { history } = renderComponent();
 
   const keywordsLink = screen.getByRole('link', { name: 'Avainsanat' });
-  await act(async () => await user.click(keywordsLink));
+  await user.click(keywordsLink);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/administration/keywords')

@@ -2,7 +2,6 @@ import { IconInfoCircle } from 'hds-react';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -66,6 +65,6 @@ test('should call onChange', async () => {
   const type2Radio = getComponent('type2');
   expect(type1Radio).toBeChecked();
 
-  await act(async () => await user.click(type2Radio));
+  await user.click(type2Radio);
   expect(onChange).toBeCalledWith('type2');
 });

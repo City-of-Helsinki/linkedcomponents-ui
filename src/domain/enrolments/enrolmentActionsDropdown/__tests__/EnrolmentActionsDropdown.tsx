@@ -5,7 +5,6 @@ import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
-  act,
   configure,
   render,
   screen,
@@ -82,7 +81,7 @@ const getElement = (key: 'cancel' | 'edit' | 'menu' | 'toggle') => {
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   getElement('menu');
 
   return toggleButton;
@@ -93,7 +92,7 @@ test('should toggle menu by clicking actions button', async () => {
   renderComponent({ authContextValue });
 
   const toggleButton = await openMenu();
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -115,7 +114,7 @@ test('should route to edit enrolment page when clicking edit button', async () =
   await openMenu();
 
   const editButton = getElement('edit');
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -135,13 +134,13 @@ test('should try to cancel enrolment when clicking cancel button', async () => {
   await openMenu();
 
   const cancelButton = getElement('cancel');
-  await act(async () => await user.click(cancelButton));
+  await user.click(cancelButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta ilmoittautuminen',
   });
-  await act(async () => await user.click(cancelEventButton));
+  await user.click(cancelEventButton);
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

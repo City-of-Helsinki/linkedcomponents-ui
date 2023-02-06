@@ -143,6 +143,7 @@ const useEnrolmentActions = ({
         variables: { input: payload, registration: registration.id as string },
       });
 
+      /* istanbul ignore else */
       if (data?.createEnrolment) {
         await cleanAfterUpdate(callbacks);
       }

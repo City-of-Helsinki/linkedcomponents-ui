@@ -3,7 +3,6 @@ import React from 'react';
 
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -47,16 +46,16 @@ const getElement = (
 const fillInputValues = async () => {
   const user = userEvent.setup();
   const nameInput = getElement('nameInput');
-  await act(async () => await user.type(nameInput, keywordValues.name));
+  await user.type(nameInput, keywordValues.name);
 
   const replacedByToggleButton = getElement('replacedByToggleButton');
-  await act(async () => await user.click(replacedByToggleButton));
+  await user.click(replacedByToggleButton);
 
   const replacingKeywordOption = await screen.findByRole('option', {
     name: replacingKeyword?.name?.fi as string,
     hidden: true,
   });
-  await act(async () => await user.click(replacingKeywordOption));
+  await user.click(replacingKeywordOption);
 };
 
 test('applies expected metadata', async () => {
@@ -80,7 +79,7 @@ test('should focus to first validation error when trying to save new keyword', a
 
   const nameInput = getElement('nameInput');
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
@@ -98,7 +97,7 @@ test('should move to keywords page after creating new keyword', async () => {
   await fillInputValues();
 
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keywords`)
@@ -118,7 +117,7 @@ test('should show server errors', async () => {
   await fillInputValues();
 
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);

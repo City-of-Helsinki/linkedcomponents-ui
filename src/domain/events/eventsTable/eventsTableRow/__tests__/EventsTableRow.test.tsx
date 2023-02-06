@@ -10,7 +10,6 @@ import {
 } from '../../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
@@ -136,7 +135,7 @@ test('should show sub events', async () => {
   const showMoreButton = screen.getByRole('button', {
     name: `Näytä alatapahtumat: ${eventValues.name}`,
   });
-  await act(async () => await user.click(showMoreButton));
+  await user.click(showMoreButton);
 
   // Should show sub-events
   await screen.findByRole('button', { name: subEventFields[0].name });
@@ -147,7 +146,7 @@ test('should show sub events', async () => {
   const hideButton = screen.getByRole('button', {
     name: `Piilota alatapahtumat: ${eventValues.name}`,
   });
-  await act(async () => await user.click(hideButton));
+  await user.click(hideButton);
 
   // Sub-events should be hidden
   for (const { name } of subEventFields) {

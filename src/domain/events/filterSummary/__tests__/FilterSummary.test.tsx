@@ -5,7 +5,6 @@ import { ROUTES } from '../../../../constants';
 import { PlaceDocument } from '../../../../generated/graphql';
 import { fakePlace } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
@@ -43,7 +42,7 @@ test('should render and remove text filter', async () => {
   const deleteFilterButton = screen.getByRole('button', {
     name: `Poista suodatusehto: ${text}`,
   });
-  await act(async () => await user.click(deleteFilterButton));
+  await user.click(deleteFilterButton);
 
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe('');
@@ -56,7 +55,7 @@ test('should render and remove place filter', async () => {
   const deleteFilterButton = await screen.findByRole('button', {
     name: `Poista suodatusehto: ${placeName}`,
   });
-  await act(async () => await user.click(deleteFilterButton));
+  await user.click(deleteFilterButton);
 
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe('');
@@ -71,7 +70,7 @@ test('should render and remove date filter', async () => {
   const deleteFilterButton = screen.getByRole('button', {
     name: `Poista suodatusehto: 5.10.2021 - 13.10.2021`,
   });
-  await act(async () => await user.click(deleteFilterButton));
+  await user.click(deleteFilterButton);
 
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe('');
@@ -84,7 +83,7 @@ test('should render and remove type filter', async () => {
   const deleteFilterButton = screen.getByRole('button', {
     name: `Poista suodatusehto: Tapahtuma`,
   });
-  await act(async () => await user.click(deleteFilterButton));
+  await user.click(deleteFilterButton);
 
   expect(history.location.pathname).toBe('/fi/events');
   expect(history.location.search).toBe('');
@@ -112,7 +111,7 @@ test('should remove all filters with clear button', async () => {
   const clearButton = screen.getByRole('button', {
     name: 'Tyhjennä hakuehdot',
   });
-  await act(async () => await user.click(clearButton));
+  await user.click(clearButton);
 
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe('');

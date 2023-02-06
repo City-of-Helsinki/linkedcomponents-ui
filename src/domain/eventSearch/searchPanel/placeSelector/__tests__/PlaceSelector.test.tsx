@@ -9,7 +9,6 @@ import {
 } from '../../../../../generated/graphql';
 import { fakePlaces } from '../../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
@@ -74,7 +73,7 @@ test('should render place selector', async () => {
   await screen.findByText(place?.name?.fi as string);
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   for (const { name } of placeOverrides) {
     await screen.findByLabelText(name);

@@ -4,7 +4,6 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   renderWithRoute,
   screen,
@@ -59,9 +58,9 @@ test('should scroll to first validation error input field', async () => {
   renderComponent();
 
   const nameInput = await findElement('nameInput');
-  await act(async () => await user.clear(nameInput));
+  await user.clear(nameInput);
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
@@ -74,13 +73,13 @@ test('should delete keyword', async () => {
   ]);
 
   const deleteButton = await findElement('deleteButton');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteKeywordButton = withinModal.getByRole('button', {
     name: 'Poista avainsana',
   });
-  await act(async () => await user.click(deleteKeywordButton));
+  await user.click(deleteKeywordButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keywords`)
@@ -97,7 +96,7 @@ test('should update keyword', async () => {
   await findElement('nameInput');
 
   const submitButton = getElement('saveButton');
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keywords`)
@@ -111,7 +110,7 @@ test('should show server errors', async () => {
   await findElement('nameInput');
 
   const submitButton = getElement('saveButton');
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

@@ -4,7 +4,6 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
@@ -63,8 +62,8 @@ test('should scroll to first validation error input field', async () => {
   const nameInput = await findElement('nameInput');
   const saveButton = getElement('saveButton');
 
-  await act(async () => await user.clear(nameInput));
-  await act(async () => await user.click(saveButton));
+  await user.clear(nameInput);
+  await user.click(saveButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
@@ -79,13 +78,13 @@ test('should delete place', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const deleteButton = await findElement('deleteButton');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const confirmDeleteButton = withinModal.getByRole('button', {
     name: 'Poista paikka',
   });
-  await act(async () => await user.click(confirmDeleteButton));
+  await user.click(confirmDeleteButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/places`)
@@ -102,7 +101,7 @@ test('should update place', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const submitButton = getElement('saveButton');
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/places`)
@@ -116,7 +115,7 @@ test('should show server errors', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const submitButton = getElement('saveButton');
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

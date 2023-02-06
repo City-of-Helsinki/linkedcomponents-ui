@@ -1,4 +1,4 @@
-import { act, configure, render, screen } from '@testing-library/react';
+import { configure, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -24,7 +24,7 @@ test('should call onClick', async () => {
   renderComponent({ onClick });
 
   const button = screen.getByRole('button', { name: label });
-  await act(async () => await user.click(button));
+  await user.click(button);
 
   expect(onClick).toBeCalled();
 });

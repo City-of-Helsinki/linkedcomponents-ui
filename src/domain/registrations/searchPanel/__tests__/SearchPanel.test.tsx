@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import {
-  act,
   configure,
   fireEvent,
   render,
@@ -49,12 +48,12 @@ test('should search registrations with correct search params', async () => {
 
   // Event type filtering
   const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
-  await act(async () => await user.click(eventTypeSelectorButton));
+  await user.click(eventTypeSelectorButton);
   const eventTypeCheckbox = screen.getByLabelText(/tapahtuma/i);
-  await act(async () => await user.click(eventTypeCheckbox));
+  await user.click(eventTypeCheckbox);
 
   const searchButton = screen.getAllByRole('button', { name: /etsi/i })[1];
-  await act(async () => await user.click(searchButton));
+  await user.click(searchButton);
 
   expect(history.location.pathname).toBe('/fi/registrations');
   expect(history.location.search).toBe('?eventType=general&text=search');

@@ -147,7 +147,7 @@ test('should change to recurring event tab', async () => {
   screen.getByRole('tabpanel', { name: /tapahtuman ajankohta/i });
 
   const recurringEventTab = getElement('recurringEventTab');
-  await act(async () => await user.click(recurringEventTab));
+  await user.click(recurringEventTab);
 
   screen.getByRole('tabpanel', { name: /toistuva tapahtuma/i });
 });
@@ -170,7 +170,7 @@ test('should not be able to add new event times when editing single event', asyn
   expect(getEventTimeElement('startDate')).toBeDisabled();
 
   const recurringEventTab = getElement('recurringEventTab');
-  await act(async () => await user.click(recurringEventTab));
+  await user.click(recurringEventTab);
 
   expect(getRecurringEventElement('startDate')).toBeDisabled();
 });
@@ -193,7 +193,7 @@ test('should be able to add new event times when editing recurring event', async
   expect(getEventTimeElement('startDate')).toBeEnabled();
 
   const recurringEventTab = getElement('recurringEventTab');
-  await act(async () => await user.click(recurringEventTab));
+  await user.click(recurringEventTab);
 
   expect(getRecurringEventElement('startDate')).toBeEnabled();
 });

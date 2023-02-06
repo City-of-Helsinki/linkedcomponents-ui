@@ -4,7 +4,6 @@ import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
-  act,
   configure,
   CustomRenderOptions,
   render,
@@ -70,7 +69,7 @@ const getElement = (key: 'editButton' | 'menu' | 'toggle') => {
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   getElement('menu');
 
   return toggleButton;
@@ -84,7 +83,7 @@ test('should toggle menu by clicking actions button', async () => {
   getElement('editButton');
   await findElement('deleteButton');
 
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -97,7 +96,7 @@ test('should route to edit organization page', async () => {
   await openMenu();
 
   const editButton = getElement('editButton');
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -117,13 +116,13 @@ test('should delete organization', async () => {
   await openMenu();
 
   const deleteButton = await findElement('deleteButton');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteKeywordButton = withinModal.getByRole('button', {
     name: /Poista organisaatio/i,
   });
-  await act(async () => await user.click(deleteKeywordButton));
+  await user.click(deleteKeywordButton);
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

@@ -3,7 +3,6 @@ import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -80,16 +79,16 @@ test('should validate enrolment start and end dates', async () => {
   const endDateInput = getElement('endDate');
   const endTimeInput = getElement('endTime');
 
-  await act(async () => await user.click(startDateInput));
-  await act(async () => await user.type(startDateInput, startDate));
-  await act(async () => await user.click(startTimeInput));
-  await act(async () => await user.type(startTimeInput, startTime));
+  await user.click(startDateInput);
+  await user.type(startDateInput, startDate);
+  await user.click(startTimeInput);
+  await user.type(startTimeInput, startTime);
 
-  await act(async () => await user.click(endDateInput));
-  await act(async () => await user.type(endDateInput, endDate));
-  await act(async () => await user.click(endTimeInput));
-  await act(async () => await user.type(endTimeInput, endTime));
-  await act(async () => await user.click(startDateInput));
+  await user.click(endDateInput);
+  await user.type(endDateInput, endDate);
+  await user.click(endTimeInput);
+  await user.type(endTimeInput, endTime);
+  await user.click(startDateInput);
 
   await screen.findByText(
     'Tämän päivämäärän tulee olla 19.12.2021 12.15 jälkeen'

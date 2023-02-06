@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   arrowLeftKeyPressHelper,
   arrowRightKeyPressHelper,
   configure,
@@ -85,7 +84,7 @@ test('should call onKeyDown and change focused tab', async () => {
   const tab1 = getElement('tab1');
   const tab2 = getElement('tab2');
   const tab3 = getElement('tab3');
-  await act(async () => await user.click(tab1));
+  await user.click(tab1);
   expect(tab1).toHaveFocus();
 
   arrowRightKeyPressHelper(tab1);
@@ -103,10 +102,10 @@ test('should call onChange', async () => {
 
   const tab1 = getElement('tab1');
   const tab2 = getElement('tab2');
-  await act(async () => await user.click(tab1));
+  await user.click(tab1);
   expect(tab1).toHaveFocus();
 
-  await act(async () => await user.click(tab2));
+  await user.click(tab2);
   expect(tab2).toHaveFocus();
   expect(onChange).toBeCalledWith('tab2');
 });

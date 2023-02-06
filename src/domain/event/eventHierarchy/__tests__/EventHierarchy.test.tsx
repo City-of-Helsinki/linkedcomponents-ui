@@ -2,7 +2,6 @@ import map from 'lodash/map';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -94,7 +93,7 @@ test('should hide/show sub-events when clicking toggle button', async () => {
   const hideUmbrellaButton = screen.getByRole('button', {
     name: `Piilota alatapahtumat: ${eventName}`,
   });
-  await act(async () => await user.click(hideUmbrellaButton));
+  await user.click(hideUmbrellaButton);
 
   await eventsShouldBeVisible([eventName]);
 
@@ -108,7 +107,7 @@ test('should hide/show sub-events when clicking toggle button', async () => {
   const showUmbrellaButton = screen.getByRole('button', {
     name: `Näytä alatapahtumat: ${eventName}`,
   });
-  await act(async () => await user.click(showUmbrellaButton));
+  await user.click(showUmbrellaButton);
 
   await eventsShouldBeVisible([
     eventName,
@@ -121,7 +120,7 @@ test('should hide/show sub-events when clicking toggle button', async () => {
   const hideRecurringButton = screen.getByRole('button', {
     name: `Piilota alatapahtumat: ${subSubEventFields[0].name}`,
   });
-  await act(async () => await user.click(hideRecurringButton));
+  await user.click(hideRecurringButton);
 
   await eventsShouldBeVisible([
     eventName,
@@ -135,7 +134,7 @@ test('should hide/show sub-events when clicking toggle button', async () => {
   const showRecurringButton = screen.getByRole('button', {
     name: `Näytä alatapahtumat: ${subSubEventFields[0].name}`,
   });
-  await act(async () => await user.click(showRecurringButton));
+  await user.click(showRecurringButton);
 
   await eventsShouldBeVisible([
     eventName,

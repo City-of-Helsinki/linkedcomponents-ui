@@ -3,7 +3,6 @@ import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
-  act,
   configure,
   fireEvent,
   render,
@@ -125,7 +124,7 @@ const enterFormValues = async () => {
   const startDateInput = getRecurringEventElement('startDate');
   const startTimeInput = getRecurringEventElement('startTime');
 
-  await act(async () => await user.click(tueCheckbox));
+  await user.click(tueCheckbox);
 
   const dateFields = [
     { component: startDateInput, value: '23.4.2021' },
@@ -142,8 +141,8 @@ const enterFormValues = async () => {
   ];
 
   for (const { component, value } of timeFields) {
-    await act(async () => await user.click(component));
-    await act(async () => await user.type(component, value));
+    await user.click(component);
+    await user.type(component, value);
   }
 };
 
@@ -160,7 +159,7 @@ test('should add/delete recurring event', async () => {
   await enterFormValues();
 
   await waitFor(() => expect(addButton).toBeEnabled());
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   await screen.findByRole('heading', {
     name: 'Ti, Viikon välein, 23.4.2021 – 11.5.2021',
@@ -170,7 +169,7 @@ test('should add/delete recurring event', async () => {
   });
 
   const deleteButton = screen.getAllByRole('button', { name: /poista/i })[0];
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   await waitFor(() =>
     expect(
@@ -193,14 +192,14 @@ test('should show validation error when repeat interval in invalid', async () =>
   const repeatIntervalInput = getRecurringEventElement('repeatInterval');
   const startDateInput = getRecurringEventElement('startDate');
 
-  await act(async () => await user.clear(repeatIntervalInput));
-  await act(async () => await user.type(repeatIntervalInput, '0'));
+  await user.clear(repeatIntervalInput);
+  await user.type(repeatIntervalInput, '0');
 
-  await act(async () => await user.click(startDateInput));
+  await user.click(startDateInput);
   await screen.findByText('Arvon tulee olla vähintään 1');
 
-  await act(async () => await user.clear(repeatIntervalInput));
-  await act(async () => await user.type(repeatIntervalInput, '5'));
+  await user.clear(repeatIntervalInput);
+  await user.type(repeatIntervalInput, '5');
 
   await screen.findByText('Arvon tulee olla enintään 4');
 });
@@ -220,11 +219,11 @@ test('should show validation error when end date is before start date', async ()
   ];
 
   for (const { component, value } of dateFields) {
-    await act(async () => await user.click(component));
-    await act(async () => await user.type(component, value));
+    await user.click(component);
+    await user.type(component, value);
   }
 
-  await act(async () => await user.click(startDateInput));
+  await user.click(startDateInput);
   await screen.findByText('Tämän päivämäärän tulee olla 11.5.2021 jälkeen');
 });
 
@@ -232,9 +231,7 @@ test('should show validation error when end time is before start time in recurri
   advanceTo('2021-04-12');
   const user = userEvent.setup();
 
-  await act(async () => {
-    await renderComponent();
-  });
+  await renderComponent();
 
   const endTimeInput = getRecurringEventElement('endTime');
   const startTimeInput = getRecurringEventElement('startTime');
@@ -245,11 +242,11 @@ test('should show validation error when end time is before start time in recurri
   ];
 
   for (const { component, value } of timeFields) {
-    await act(async () => await user.click(component));
-    await act(async () => await user.type(component, value));
+    await user.click(component);
+    await user.type(component, value);
   }
 
-  await act(async () => await user.click(startTimeInput));
+  await user.click(startTimeInput);
   await screen.findByText('Tämän kellonajan tulee olla 14.00 jälkeen');
 });
 
@@ -279,7 +276,7 @@ test('should set isUmbrella to false when adding more than 1 event time', async 
 
   const addButton = getRecurringEventElement('addButton');
   await waitFor(() => expect(addButton).toBeEnabled());
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   expect(setIsUmbrella).toBeCalledWith(false);
 });

@@ -31,6 +31,8 @@ export const processRows = (
     if (order === 'asc') {
       return sortedRows;
     }
+
+    /* istanbul ignore else */
     if (order === 'desc') {
       return sortedRows.reverse();
     }

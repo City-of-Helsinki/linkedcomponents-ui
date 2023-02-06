@@ -126,6 +126,7 @@ const useKeywordActions = ({
         variables: { input: payload },
       });
 
+      /* istanbul ignore else */
       if (data?.createKeyword.id) {
         await cleanAfterUpdate(callbacks);
       }

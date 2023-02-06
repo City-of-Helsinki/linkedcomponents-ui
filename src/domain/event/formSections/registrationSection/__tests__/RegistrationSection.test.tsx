@@ -10,7 +10,6 @@ import generateAtId from '../../../../../utils/generateAtId';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
@@ -53,7 +52,7 @@ test('should show registration link if event has registration', async () => {
   });
 
   const link = screen.getByRole('link', { name: 'Siirry ilmoittautumiseen' });
-  await act(async () => await user.click(link));
+  await user.click(link);
   await waitFor(() =>
     expect(history.location.pathname).toBe(
       `/fi${ROUTES.EDIT_REGISTRATION.replace(':id', TEST_REGISTRATION_ID)}`
@@ -73,7 +72,7 @@ test('should show create registration button if user has permissions to create r
   const createButton = await screen.findByRole('button', {
     name: 'Lisää tapahtumalle ilmoittautuminen',
   });
-  await act(async () => await user.click(createButton));
+  await user.click(createButton);
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi${ROUTES.CREATE_REGISTRATION}`)
   );

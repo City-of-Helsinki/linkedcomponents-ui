@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   fireEvent,
   loadingSpinnerIsNotInDocument,
@@ -62,7 +61,7 @@ test('should navigate between pages', async () => {
   screen.getByRole('button', { name: imageNames[0] });
 
   const page2Button = getElement('page2Button');
-  await act(async () => await user.click(page2Button));
+  await user.click(page2Button);
 
   await loadingSpinnerIsNotInDocument();
   // Page 2 event should be visible.
@@ -71,7 +70,7 @@ test('should navigate between pages', async () => {
 
   // Should clear page from url search if selecting the first page
   const page1Button = getElement('page1Button');
-  await act(async () => await user.click(page1Button));
+  await user.click(page1Button);
 
   await waitFor(() => expect(history.location.search).toBe(''));
 });
@@ -87,7 +86,7 @@ test('should change sort order', async () => {
   await waitFor(() => expect(history.location.search).toBe(''));
 
   const sortLastModifiedButton = getElement('sortLastModifiedButton');
-  await act(async () => await user.click(sortLastModifiedButton));
+  await user.click(sortLastModifiedButton);
 
   await loadingSpinnerIsNotInDocument();
   // Sorted keywords should be visible.
@@ -109,7 +108,7 @@ test('should search by text', async () => {
 
   const searchInput = getElement('searchInput');
   fireEvent.change(searchInput, { target: { value: searchValue } });
-  await act(async () => await user.click(getElement('searchButton')));
+  await user.click(getElement('searchButton'));
 
   await waitFor(() =>
     expect(history.location.search).toBe(`?text=${searchValue}`)

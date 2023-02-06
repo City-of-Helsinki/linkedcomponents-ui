@@ -6,7 +6,6 @@ import { testIds } from '../../../../constants';
 import { UserDocument } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   fireEvent,
   mockFile,
@@ -85,7 +84,7 @@ test('should call onCancel', async () => {
   await findElement('imageCheckbox');
 
   const cancelButton = getElement('cancelButton');
-  await act(async () => await user.click(cancelButton));
+  await user.click(cancelButton);
   await waitFor(() => expect(onCancel).toBeCalled());
 });
 
@@ -101,11 +100,11 @@ test('should call onSubmit with existing image', async () => {
 
   await waitFor(() => expect(urlInput).toBeEnabled());
 
-  await act(async () => await user.click(imageCheckbox));
+  await user.click(imageCheckbox);
   expect(urlInput).toBeDisabled();
   await waitFor(() => expect(addButton).toBeEnabled());
 
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
   await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
       ...ADD_IMAGE_INITIAL_VALUES,
@@ -125,7 +124,7 @@ test('should call onSubmit by double clicking image', async () => {
 
   await waitFor(() => expect(urlInput).toBeEnabled());
 
-  await act(async () => await user.dblClick(imageCheckbox));
+  await user.dblClick(imageCheckbox);
   await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
       ...ADD_IMAGE_INITIAL_VALUES,
@@ -150,7 +149,7 @@ test('should show error message if trying to enter too large image file', async 
   fireEvent.change(fileInput);
 
   await waitFor(() => expect(addButton).toBeEnabled());
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   await waitFor(() => {
     expect(toast.error).toBeCalledWith(
@@ -169,10 +168,10 @@ test('should validate url', async () => {
   const addButton = getElement('addButton');
 
   await waitFor(() => expect(urlInput).toBeEnabled());
-  await act(async () => await user.click(urlInput));
-  await act(async () => await user.type(urlInput, invalidUrlText));
+  await user.click(urlInput);
+  await user.type(urlInput, invalidUrlText);
 
-  await act(async () => await user.tab());
+  await user.tab();
 
   await screen.findByText(translations.form.validation.string.url);
   expect(addButton).toBeDisabled();
@@ -216,12 +215,12 @@ test('should call onSubmit with image url', async () => {
   expect(addButton).toBeDisabled();
   await waitFor(() => expect(urlInput).toBeEnabled());
 
-  await act(async () => await user.click(urlInput));
-  await act(async () => await user.type(urlInput, url));
+  await user.click(urlInput);
+  await user.type(urlInput, url);
   expect(imageCheckbox).toBeDisabled();
 
   await waitFor(() => expect(addButton).toBeEnabled());
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
   await waitFor(() =>
     expect(onSubmit).toBeCalledWith({
       ...ADD_IMAGE_INITIAL_VALUES,

@@ -129,12 +129,12 @@ it('should change cookie consent modal language', async () => {
   ];
 
   for (const { optionKey, headingText } of languageElements) {
-    await act(async () => await user.click(languageSelector));
+    await user.click(languageSelector);
     const languageOption = await findCookieConsentModalElement(
       cookieConsentModal,
       optionKey
     );
-    await act(async () => await user.click(languageOption));
+    await user.click(languageOption);
 
     await within(cookieConsentModal).findByRole('heading', {
       name: headingText,
@@ -152,7 +152,7 @@ it('should store consent to cookie when clicking accept all button', async () =>
     cookieConsentModal,
     'acceptAllButton'
   );
-  await act(async () => await user.click(acceptAllButton));
+  await user.click(acceptAllButton);
 
   expect(document.cookie).toEqual(expect.stringContaining(acceptAllCookieText));
   await waitCookieConsentModalToBeHidden();
@@ -169,7 +169,7 @@ it('should store consent to cookie when clicking accept only necessary button', 
     'acceptOnlyNecessaryButton'
   );
 
-  await act(async () => await user.click(acceptOnlyNecessaryButton));
+  await user.click(acceptOnlyNecessaryButton);
 
   expect(document.cookie).toEqual(
     expect.stringContaining(acceptOnlyNecessaryCookieText)

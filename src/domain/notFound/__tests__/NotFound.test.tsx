@@ -1,13 +1,7 @@
 import React from 'react';
 
 import { fakeAuthContextValue } from '../../../utils/mockAuthContextValue';
-import {
-  act,
-  configure,
-  render,
-  screen,
-  userEvent,
-} from '../../../utils/testUtils';
+import { configure, render, screen, userEvent } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
 import { AuthContextProps } from '../../auth/types';
 import NotFound from '../NotFound';
@@ -39,7 +33,7 @@ test('should route to home page', async () => {
 
   const { history } = renderComponent();
 
-  await act(async () => await user.click(getElement('buttonHome')));
+  await user.click(getElement('buttonHome'));
 
   expect(history.location.pathname).toBe('/fi/');
 });
@@ -51,7 +45,7 @@ test('should start login process', async () => {
   const authContextValue = fakeAuthContextValue({ signIn });
   renderComponent(authContextValue);
 
-  await act(async () => await user.click(getElement('buttonSignIn')));
+  await user.click(getElement('buttonSignIn'));
 
   expect(signIn).toBeCalled();
 });

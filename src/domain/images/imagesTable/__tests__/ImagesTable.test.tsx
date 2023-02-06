@@ -2,7 +2,6 @@ import React from 'react';
 
 import { fakeImages } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
@@ -62,10 +61,7 @@ test('should open edit image page by clicking keyword', async () => {
     images: fakeImages(1, [{ name: imageName, id: imageId }]).data,
   });
 
-  await act(
-    async () =>
-      await user.click(screen.getByRole('button', { name: imageName }))
-  );
+  await user.click(screen.getByRole('button', { name: imageName }));
 
   expect(history.location.pathname).toBe(
     `/fi/administration/images/edit/${imageId}`
@@ -78,13 +74,7 @@ test('should open edit keyword page by pressing enter on row', async () => {
     images: fakeImages(1, [{ name: imageName, id: imageId }]).data,
   });
 
-  await act(
-    async () =>
-      await user.type(
-        screen.getByRole('button', { name: imageName }),
-        '{enter}'
-      )
-  );
+  await user.type(screen.getByRole('button', { name: imageName }), '{enter}');
 
   expect(history.location.pathname).toBe(
     `/fi/administration/images/edit/${imageId}`
@@ -100,7 +90,7 @@ test('should call setSort when clicking sortable column header', async () => {
   const lastModifiedButton = screen.getByRole('button', {
     name: 'Viimeksi muokattu Järjestetty laskevaan järjestykseen',
   });
-  await act(async () => await user.click(lastModifiedButton));
+  await user.click(lastModifiedButton);
   expect(setSort).toBeCalledWith('last_modified_time');
 });
 
@@ -113,13 +103,13 @@ test('should open actions dropdown', async () => {
 
   const withinRow = within(screen.getByRole('button', { name: imageName }));
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
-  await act(async () => await user.click(menuButton));
+  await user.click(menuButton);
 
   const editButton = await withinRow.findByRole('button', {
     name: /muokkaa kuvaa/i,
   });
 
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import {
-  act,
   configure,
   render,
   screen,
@@ -43,7 +42,7 @@ test('should route to edit registration page when clicking back button', async (
   const { history } = renderComponent();
 
   const backButton = getElement('back');
-  await act(async () => await user.click(backButton));
+  await user.click(backButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -59,7 +58,7 @@ test('should route to page defined in returnPath when clicking back button', asy
   });
 
   const backButton = getElement('back');
-  await act(async () => await user.click(backButton));
+  await user.click(backButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations')

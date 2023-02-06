@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   render,
   screen,
@@ -93,7 +92,7 @@ const getElement = (
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   getElement('menu');
 
   return toggleButton;
@@ -104,7 +103,7 @@ test('should toggle menu by clicking actions button', async () => {
   renderComponent({ authContextValue });
 
   const toggleButton = await openMenu();
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -124,11 +123,11 @@ test('should render all buttons when user is authenticated', async () => {
   getElement('copyLink');
 
   const deleteButton = await findElement('delete');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
   expect(onDelete).toBeCalled();
 
   const updateButton = getElement('update');
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
   expect(onUpdate).toBeCalled();
 });
 
@@ -156,7 +155,7 @@ test('should route to enrolments page when clicking show enrolments button', asy
   await openMenu();
 
   const showEnrolmentsButton = await findElement('showEnrolments');
-  await act(async () => await user.click(showEnrolmentsButton));
+  await user.click(showEnrolmentsButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -172,7 +171,7 @@ test('should route to create registration page when clicking copy button', async
   await openMenu();
 
   const copyButton = getElement('copy');
-  await act(async () => await user.click(copyButton));
+  await user.click(copyButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations/create')
@@ -187,7 +186,7 @@ test('should copy registration link to clipboard', async () => {
   await openMenu();
 
   const copyLinkButton = getElement('copyLink');
-  await act(async () => await user.click(copyLinkButton));
+  await user.click(copyLinkButton);
 
   expect(copyToClipboard).toBeCalledWith(
     `https://linkedregistrations-ui.test.kuva.hel.ninja/fi/registration/${registrationId}/enrolment/create`
@@ -200,7 +199,7 @@ test('should route to search page when clicking back button', async () => {
   const { history } = renderComponent();
 
   const backButton = getElement('back');
-  await act(async () => await user.click(backButton));
+  await user.click(backButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations')
@@ -214,7 +213,7 @@ test('should route to page defined in returnPath when clicking back button', asy
   });
 
   const backButton = getElement('back');
-  await act(async () => await user.click(backButton));
+  await user.click(backButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations')

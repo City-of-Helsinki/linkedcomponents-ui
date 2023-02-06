@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -60,7 +59,7 @@ test('should call onDelete', async () => {
   renderComponent({ onDelete });
 
   const deleteButton = getElement('deleteButton');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
   expect(onDelete).toBeCalled();
 });
 
@@ -70,6 +69,6 @@ test('should call onClose', async () => {
   renderComponent({ onClose });
 
   const cancelButton = getElement('cancelButton');
-  await act(async () => await user.click(cancelButton));
+  await user.click(cancelButton);
   expect(onClose).toBeCalled();
 });

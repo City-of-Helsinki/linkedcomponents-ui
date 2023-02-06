@@ -329,7 +329,7 @@ export const isAttendeeCapacityUsed = (
   const maxCapacityDefined = !!registration.maximumAttendeeCapacity;
   const maxCapacityUsed =
     registration.maximumAttendeeCapacity &&
-    (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0) <
+    (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0) >=
       registration.maximumAttendeeCapacity;
 
   // If there are seats in the event

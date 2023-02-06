@@ -72,7 +72,7 @@ const basePayload = {
 const getHookWrapper = (mocks: MockedResponse[] = []) => {
   const wrapper = ({ children }) => (
     <AuthContext.Provider value={authContextValue}>
-      <Router history={createMemoryHistory()}>
+      <Router history={createMemoryHistory() as any}>
         <MockedProvider mocks={mocks} addTypename={false}>
           {children}
         </MockedProvider>

@@ -2,7 +2,6 @@ import { IconPen } from 'hds-react';
 import React from 'react';
 
 import {
-  act,
   arrowDownKeyPressHelper,
   arrowUpKeyPressHelper,
   configure,
@@ -48,7 +47,7 @@ const findElement = (key: 'menu') => {
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   await findElement('menu');
 };
@@ -115,7 +114,7 @@ test('calls onClick callback correctly', async () => {
   await openMenu();
 
   for (const [index, item] of items.entries()) {
-    await act(async () => await user.click(getItemAtIndex(index)));
+    await user.click(getItemAtIndex(index));
     expect(item.onClick).toHaveBeenCalled();
   }
 });

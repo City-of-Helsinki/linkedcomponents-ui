@@ -2,7 +2,6 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -110,10 +109,8 @@ const getElement = (
 };
 
 test('should render classification section', async () => {
-  await act(async () => {
-    await renderComponent({
-      [EVENT_FIELDS.KEYWORDS]: [keyword?.atId as string],
-    });
+  renderComponent({
+    [EVENT_FIELDS.KEYWORDS]: [keyword?.atId as string],
   });
 
   getElement('titleMainCategories');
@@ -147,7 +144,7 @@ test('should show 10 first topics by default and rest by clicking show more', as
     ).not.toBeInTheDocument();
   }
 
-  await act(async () => await user.click(getElement('showMoreButton')));
+  await user.click(getElement('showMoreButton'));
 
   await within(mainCategories).findByLabelText(restKeywords[0]);
   for (const name of restKeywords.slice(1)) {
@@ -156,9 +153,7 @@ test('should show 10 first topics by default and rest by clicking show more', as
 });
 
 test('should show course topics', async () => {
-  await act(async () => {
-    await renderComponent({ type: EVENT_TYPE.Course });
-  });
+  renderComponent({ type: EVENT_TYPE.Course });
 
   const mainCategories = getElement('mainCategories');
   await within(mainCategories).findByLabelText(courseTopicNames[0]);
@@ -173,10 +168,10 @@ test('should change keyword', async () => {
   renderComponent();
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   const keywordOption = await findElement('keywordOption');
-  await act(async () => await user.click(keywordOption));
+  await user.click(keywordOption);
 
   expect(
     screen.queryByRole('listbox', { name: /avainsanahaku/i })
@@ -192,20 +187,18 @@ test('should show correct validation error if none main category is selected', a
   const mainCategoryCheckbox = await within(mainCategories).findByLabelText(
     eventTopicNames[0]
   );
-  await act(async () => await user.click(mainCategoryCheckbox));
-  await act(async () => await user.click(mainCategoryCheckbox));
+  await user.click(mainCategoryCheckbox);
+  await user.click(mainCategoryCheckbox);
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
-  await act(async () => await user.tab());
+  await user.click(toggleButton);
+  await user.tab();
 
   await screen.findByText('Vähintään 1 pääluokka tulee olla valittuna');
 });
 
 test('should select remote participation if internet is selected as a location', async () => {
-  await act(async () => {
-    await renderComponent({ [EVENT_FIELDS.LOCATION]: INTERNET_PLACE_ID });
-  });
+  renderComponent({ [EVENT_FIELDS.LOCATION]: INTERNET_PLACE_ID });
 
   const mainCategories = getElement('mainCategories');
   const remoteParticipationCheckbox = await within(
@@ -221,8 +214,8 @@ test('should show correct validation error if none keyword is selected', async (
   renderComponent();
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
-  await act(async () => await user.tab());
+  await user.click(toggleButton);
+  await user.tab();
 
   await screen.findByText('Vähintään 1 avainsana tulee olla valittuna');
 });

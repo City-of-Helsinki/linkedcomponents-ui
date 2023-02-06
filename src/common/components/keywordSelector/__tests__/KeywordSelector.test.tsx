@@ -7,7 +7,6 @@ import {
 } from '../../../../generated/graphql';
 import { fakeKeyword, fakeKeywords } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
@@ -89,7 +88,7 @@ test('should open menu by clickin toggle button and list of options should be vi
   expect(combobox.getAttribute('aria-expanded')).toBe('false');
 
   const toggleButton = screen.getByRole('button', { name: new RegExp(label) });
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   expect(combobox.getAttribute('aria-expanded')).toBe('true');
 

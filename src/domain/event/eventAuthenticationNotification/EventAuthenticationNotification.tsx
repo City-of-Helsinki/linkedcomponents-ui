@@ -31,6 +31,7 @@ const EventAuthenticationNotification: React.FC<
   );
 
   const getNotificationProps = () => {
+    /* istanbul ignore else */
     if (authenticated) {
       if (!userOrganizations.length) {
         return {

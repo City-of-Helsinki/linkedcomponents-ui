@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import {
-  act,
   configure,
   render,
   screen,
@@ -30,7 +29,7 @@ test('should render and remove text filter', async () => {
   const deleteFilterButton = screen.getByRole('button', {
     name: `Poista suodatusehto: ${text}`,
   });
-  await act(async () => await user.click(deleteFilterButton));
+  await user.click(deleteFilterButton);
 
   expect(history.location.pathname).toBe(defaultRoute);
   expect(history.location.search).toBe('');
@@ -45,7 +44,7 @@ test('should remove all filters with clear button', async () => {
   const clearButton = screen.getByRole('button', {
     name: 'Tyhjennä hakuehdot',
   });
-  await act(async () => await user.click(clearButton));
+  await user.click(clearButton);
 
   expect(history.location.pathname).toBe(defaultRoute);
   expect(history.location.search).toBe('');

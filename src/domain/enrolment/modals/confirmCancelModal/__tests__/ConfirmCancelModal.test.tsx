@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -35,7 +34,7 @@ test('should call onCancel', async () => {
   const cancelEventButton = screen.getByRole('button', {
     name: 'Peruuta ilmoittautuminen',
   });
-  await act(async () => await user.click(cancelEventButton));
+  await user.click(cancelEventButton);
   expect(onCancel).toBeCalled();
 });
 
@@ -45,6 +44,6 @@ test('should call onClose', async () => {
   renderComponent({ onClose });
 
   const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  await act(async () => await user.click(closeButton));
+  await user.click(closeButton);
   expect(onClose).toBeCalled();
 });

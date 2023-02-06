@@ -12,7 +12,6 @@ import {
 } from '../../../../generated/graphql';
 import { fakeSeatsReservation } from '../../../../utils/mockDataUtils';
 import {
-  act,
   render,
   screen,
   userEvent,
@@ -139,18 +138,15 @@ test('should show modal if any of the reserved seats is in waiting list', async 
     'updateParticipantAmountButton'
   );
 
-  await act(async () => await user.clear(participantAmountInput));
-  await act(async () => await user.type(participantAmountInput, '2'));
-  await act(async () => await user.click(updateParticipantAmountButton));
+  await user.clear(participantAmountInput);
+  await user.type(participantAmountInput, '2');
+  await user.click(updateParticipantAmountButton);
 
   const modal = await screen.findByRole('dialog', {
     name: 'Ilmoittautujia on lisätty varausjonoon',
   });
 
-  await act(
-    async () =>
-      await user.click(within(modal).getByRole('button', { name: 'Sulje' }))
-  );
+  await user.click(within(modal).getByRole('button', { name: 'Sulje' }));
 
   await waitFor(() => expect(modal).not.toBeInTheDocument());
 });

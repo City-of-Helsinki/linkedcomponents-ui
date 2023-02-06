@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -26,9 +25,9 @@ it('should show and hide content by clicking title', async () => {
 
   expect(region.getAttribute('hidden')).toBe('');
 
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   expect(region.getAttribute('hidden')).toBeNull();
 
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   expect(region.getAttribute('hidden')).toBe('');
 });

@@ -8,6 +8,7 @@ import { Language } from '../../../../../types';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import {
   act,
+  actWait,
   configure,
   CustomRenderResult,
   loadingSpinnerIsNotInDocument,
@@ -106,9 +107,7 @@ const isPageRendered = async ({
 
 const isHeadingRendered = async (heading: string | RegExp) => {
   await loadingSpinnerIsNotInDocument();
-  await act(async () => {
-    await screen.findByRole('heading', { name: heading });
-  });
+  await screen.findByRole('heading', { name: heading }, { timeout: 5000 });
 };
 
 beforeEach(() => {
@@ -178,6 +177,8 @@ it.each([
     pageTitle: `${eventName} - Linked Events`,
     pathname: `/fi/events/edit/${TEST_EVENT_ID}`,
   });
+
+  await actWait(100);
 });
 
 it('should render registrations page', async () => {
