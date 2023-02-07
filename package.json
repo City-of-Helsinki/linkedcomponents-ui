@@ -191,5 +191,8 @@
     "source-map-explorer": "^2.5.3",
     "testcafe-reporter-custom": "^1.2.1",
     "testcafe-reporter-html": "^1.4.6"
+  },
+  "resolutions": {
+    "@svgr/webpack": "6.5.1"
   }
 }
