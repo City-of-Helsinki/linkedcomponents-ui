@@ -242,15 +242,25 @@ const getDayCode = (startDay: number, dayCode: string) => {
     : DAY_CODES[dayCode] - startDay;
 };
 
+const isRequiredRecurringEventSettingsFilled = (
+  settings: RecurringEventSettings
+): boolean => {
+  const { startDate, endDate, repeatInterval } = settings;
+
+  return Boolean(startDate && endDate && repeatInterval > 0);
+};
+
 export const generateEventTimesFromRecurringEvent = (
   settings: RecurringEventSettings
 ): EventTime[] => {
-  const { startDate, startTime, endDate, endTime, repeatDays, repeatInterval } =
-    settings;
   const eventTimes: EventTime[] = [];
 
   /* istanbul ignore else  */
-  if (startDate && endDate && repeatInterval > 0) {
+  if (isRequiredRecurringEventSettingsFilled(settings)) {
+    const { startTime, endTime, repeatDays, repeatInterval } = settings;
+    const endDate = settings.endDate as Date;
+    const startDate = settings.startDate as Date;
+
     const recurrenceStart = endOfDay(subDays(new Date(startDate), 1));
     const recurrenceEnd = endOfDay(new Date(endDate));
     const formattedStartTime = getTimeObject(startTime);
