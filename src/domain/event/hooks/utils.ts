@@ -129,7 +129,10 @@ export const parseEventServerErrors = ({
     if (Array.isArray(error)) {
       return error.filter(skipFalsyType).map((e) => ({
         label: parseEventServerErrorLabel({ key }),
-        message: parseServerErrorMessage({ error: e.link as string[], t }),
+        message: parseServerErrorMessage({
+          error: typeof e === 'string' ? e : (e.link as string[]),
+          t,
+        }),
       }));
     } else {
       return [];
