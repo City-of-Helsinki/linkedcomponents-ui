@@ -67,8 +67,12 @@ const Tabs: React.FC<React.PropsWithChildren<Props>> = ({
       {({ css, cx }) => (
         <div
           className={className}
-          onBlur={() => (isFocused.current = false)}
-          onFocus={() => (isFocused.current = true)}
+          onBlur={() => {
+            isFocused.current = false;
+          }}
+          onFocus={() => {
+            isFocused.current = true;
+          }}
         >
           <div
             className={cx(styles.tabList, css(theme.tabs))}

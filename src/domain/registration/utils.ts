@@ -335,13 +335,14 @@ export const isRegistrationOpen = (
 export const isAttendeeCapacityUsed = (
   registration: RegistrationFieldsFragment
 ): boolean => {
+  const maxCapacityDefined = !!registration.maximumAttendeeCapacity;
+  const maxCapacityUsed =
+    registration.maximumAttendeeCapacity &&
+    (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0) >=
+      registration.maximumAttendeeCapacity;
+
   // If there are seats in the event
-  if (!registration.maximumAttendeeCapacity) {
-    return false;
-  } else if (
-    (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0) <
-    registration.maximumAttendeeCapacity
-  ) {
+  if (!maxCapacityDefined || !maxCapacityUsed) {
     return false;
   } else {
     return true;

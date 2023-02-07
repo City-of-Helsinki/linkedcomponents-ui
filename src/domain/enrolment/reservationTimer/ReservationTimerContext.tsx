@@ -110,6 +110,7 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
         setAttendees(newAttendees);
       }
 
+      /* istanbul ignore else */
       if (data?.createSeatsReservation.waitlistSpots) {
         setOpenModal(ENROLMENT_MODALS.PERSONS_ADDED_TO_WAITLIST);
       }

@@ -126,6 +126,7 @@ const useRegistrationActions = ({
         variables: { input: payload },
       });
 
+      /* istanbul ignore else */
       if (data?.createRegistration.id) {
         await cleanAfterUpdate(callbacks, data?.createRegistration.id);
       }

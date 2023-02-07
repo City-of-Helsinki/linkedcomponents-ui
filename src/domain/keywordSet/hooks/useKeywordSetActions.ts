@@ -129,6 +129,7 @@ const useKeywordSetActions = ({
         variables: { input: payload },
       });
 
+      /* istanbul ignore else */
       if (data?.createKeywordSet.id) {
         cleanAfterUpdate(callbacks);
       }

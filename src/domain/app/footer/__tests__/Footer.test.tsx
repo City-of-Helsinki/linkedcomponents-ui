@@ -5,7 +5,6 @@ import React from 'react';
 import { ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import {
-  act,
   configure,
   render,
   screen,
@@ -50,7 +49,7 @@ test('should show navigation links and should route to correct page after clicki
   for (const { name, url } of links) {
     const link = screen.getByRole('link', { name });
 
-    await act(async () => await user.click(link));
+    await user.click(link);
 
     await waitFor(() => expect(history.location.pathname).toBe(url));
   }
@@ -74,7 +73,7 @@ test('should not show keywords and registrations link when those features are di
   for (const { name, url } of links) {
     const link = screen.getAllByRole('link', { name })[0];
 
-    await act(async () => await user.click(link));
+    await user.click(link);
 
     await waitFor(() => expect(history.location.pathname).toBe(url));
   }
@@ -92,7 +91,7 @@ test('should show feedback link and link should have correct href', async () => 
   const { history } = renderComponent();
 
   const feedbackLink = screen.getByRole('link', { name: /anna palautetta/i });
-  await act(async () => await user.click(feedbackLink));
+  await user.click(feedbackLink);
 
   expect(history.location.pathname).toBe('/fi/help/support/contact');
 });

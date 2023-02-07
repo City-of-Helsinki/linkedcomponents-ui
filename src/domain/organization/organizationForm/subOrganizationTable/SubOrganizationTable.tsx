@@ -88,7 +88,7 @@ const SubOrganizationTable: React.FC<SubOrganizationTableProps> = ({
   );
   const sortedOrganizations = orderBy(
     organizations,
-    [sort.replace('-', '')],
+    [sort.replace(/-/g, '')],
     [sort.startsWith('-') ? 'desc' : 'asc']
   );
 

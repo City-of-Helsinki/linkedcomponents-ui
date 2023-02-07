@@ -71,7 +71,7 @@
     "sass": "^1.57.1",
     "swagger-ui-react": "^4.15.5",
     "swc-loader": "^0.2.3",
-    "testcafe": "2.2.0",
+    "testcafe": "2.3.0",
     "testcafe-reporter-xunit": "^2.2.2",
     "ts-node": "^10.9.1",
     "typescript": "~4.9.4",
@@ -89,9 +89,9 @@
     "compress": "gzipper compress ./build",
     "generate-robots": "ts-node  -P ./scripts/tsconfig.json -r dotenv/config scripts/generate-robots.ts",
     "generate-sitemap": "ts-node  -P ./scripts/tsconfig.json -r dotenv/config scripts/generate-sitemap.ts",
-    "test": "TZ=UTC craco test",
-    "test:azure": "TZ=UTC craco test --testResultsProcessor=\"./node_modules/jest-junit\" --coverage --coverageReporters=cobertura --watchAll=false",
-    "test:coverage": "TZ=UTC craco test --coverage --watchAll=false",
+    "test": "TZ=UTC react-scripts test",
+    "test:azure": "TZ=UTC react-scripts test --testResultsProcessor=\"./node_modules/jest-junit\" --coverage --coverageReporters=cobertura --watchAll=false",
+    "test:coverage": "TZ=UTC react-scripts test --coverage --watchAll=false",
     "browser-test": "BROWSER_TESTS_SHOW_ADMIN=true BROWSER_TESTS_SHOW_REGISTRATION=true BROWSER_TESTS_ENV_URL=https://linkedcomponents-ui.test.kuva.hel.ninja testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
     "browser-test:local": "BROWSER_TESTS_SHOW_ADMIN=true BROWSER_TESTS_SHOW_REGISTRATION=true BROWSER_TESTS_ENV_URL=http://localhost:3000 testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
     "browser-test:prod": "BROWSER_TESTS_LINKED_EVENTS_URL=https://api.hel.fi/linkedevents/v1 BROWSER_TESTS_ENV_URL=https://linkedevents.hel.fi testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
@@ -187,8 +187,12 @@
     "jest-localstorage-mock": "^2.4.26",
     "prettier": "^2.8.2",
     "slack-node": "^0.1.8",
+    "snyk": "^1.1095.0",
     "source-map-explorer": "^2.5.3",
     "testcafe-reporter-custom": "^1.2.1",
     "testcafe-reporter-html": "^1.4.6"
+  },
+  "resolutions": {
+    "@svgr/webpack": "6.5.1"
   }
 }

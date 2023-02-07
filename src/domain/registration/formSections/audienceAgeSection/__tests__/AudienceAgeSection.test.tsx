@@ -2,7 +2,6 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -55,9 +54,9 @@ test('should show validation error if max age is less than min age', async () =>
   const minAgeInput = getElement('minAge');
   const maxAgeInput = getElement('maxAge');
 
-  await act(async () => await user.click(maxAgeInput));
-  await act(async () => await user.click(minAgeInput));
-  await act(async () => await user.tab());
+  await user.click(maxAgeInput);
+  await user.click(minAgeInput);
+  await user.tab();
 
   await screen.findByText('Arvon tulee olla vähintään 10');
 });
@@ -71,8 +70,8 @@ test('should show validation error if min age is less than 0', async () => {
   const minAgeInput = getElement('minAge');
   const maxAgeInput = getElement('maxAge');
 
-  await act(async () => await user.click(minAgeInput));
-  await act(async () => await user.click(maxAgeInput));
+  await user.click(minAgeInput);
+  await user.click(maxAgeInput);
 
   await screen.findByText('Arvon tulee olla vähintään 0');
 });

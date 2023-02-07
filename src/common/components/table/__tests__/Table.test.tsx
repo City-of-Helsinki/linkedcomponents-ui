@@ -2,7 +2,6 @@ import { axe } from 'jest-axe';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -150,12 +149,7 @@ describe('<Table /> spec', () => {
       '[data-testid="age-0"] > div'
     );
     expect(ageOfFirstRow).toHaveTextContent('39');
-    await act(
-      async () =>
-        await userEvent.click(
-          screen.getByTestId('hds-table-sorting-header-age')
-        )
-    );
+    await userEvent.click(screen.getByTestId('hds-table-sorting-header-age'));
     const ageOfSortedTableFirstRow = container.querySelector(
       '[data-testid="age-0"] > div'
     );

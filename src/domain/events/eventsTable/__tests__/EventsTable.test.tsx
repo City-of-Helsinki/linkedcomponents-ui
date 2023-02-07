@@ -3,7 +3,6 @@ import React from 'react';
 
 import { fakeEvents } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
@@ -68,10 +67,7 @@ test('should open event page by clicking event', async () => {
     events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
   });
 
-  await act(
-    async () =>
-      await user.click(screen.getByRole('button', { name: eventName }))
-  );
+  await user.click(screen.getByRole('button', { name: eventName }));
 
   expect(history.location.pathname).toBe('/fi/events/edit/event:1');
 });
@@ -82,13 +78,7 @@ test('should open event page by pressing enter on row', async () => {
     events: fakeEvents(1, [{ name: { fi: eventName }, id: eventId }]).data,
   });
 
-  await act(
-    async () =>
-      await user.type(
-        screen.getByRole('button', { name: eventName }),
-        '{enter}'
-      )
-  );
+  await user.type(screen.getByRole('button', { name: eventName }), '{enter}');
 
   expect(history.location.pathname).toBe('/fi/events/edit/event:1');
 });
@@ -102,16 +92,16 @@ test('should call setSort when clicking sortable column header', async () => {
   const nameButton = screen.getByRole('button', {
     name: 'Nimi Järjestetty nousevaan järjestykseen',
   });
-  await act(async () => await user.click(nameButton));
+  await user.click(nameButton);
   await waitFor(() => expect(setSort).toBeCalledWith('-name'));
 
   const startTimeButton = screen.getByRole('button', { name: 'Alkuaika' });
-  await act(async () => await user.click(startTimeButton));
+  await user.click(startTimeButton);
 
   await waitFor(() => expect(setSort).toBeCalledWith('start_time'));
 
   const endTimeButton = screen.getByRole('button', { name: 'Loppuaika' });
-  await act(async () => await user.click(endTimeButton));
+  await user.click(endTimeButton);
 
   await waitFor(() => expect(setSort).toBeCalledWith('end_time'));
 });
@@ -125,12 +115,12 @@ test('should open actions dropdown', async () => {
 
   const withinRow = within(screen.getByRole('button', { name: eventName }));
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
-  await act(async () => await user.click(menuButton));
+  await user.click(menuButton);
 
   const editButton = await withinRow.findByRole('button', {
     name: /muokkaa tapahtumaa/i,
   });
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   expect(history.location.pathname).toBe('/fi/events/edit/event:1');
 });

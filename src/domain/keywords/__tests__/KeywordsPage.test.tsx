@@ -4,7 +4,6 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   CustomRenderOptions,
   loadingSpinnerIsNotInDocument,
@@ -105,7 +104,7 @@ test('should open create keyword page', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const createKeywordButton = getElement('createKeywordButton');
-  await act(async () => await user.click(createKeywordButton));
+  await user.click(createKeywordButton);
 
   expect(history.location.pathname).toBe('/fi/administration/keywords/create');
 });
@@ -117,7 +116,7 @@ test('should add sort parameter to search query', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const sortNameButton = getElement('sortNameButton');
-  await act(async () => await user.click(sortNameButton));
+  await user.click(sortNameButton);
 
   expect(history.location.search).toBe('?sort=name');
 });

@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import {
-  act,
   configure,
   fireEvent,
   loadingSpinnerIsNotInDocument,
@@ -50,7 +49,7 @@ test('should search by text', async () => {
 
   const searchInput = getElement('searchInput');
   fireEvent.change(searchInput, { target: { value: searchValue } });
-  await act(async () => await user.click(getElement('searchButton')));
+  await user.click(getElement('searchButton'));
 
   await waitFor(() =>
     expect(history.location.search).toBe(
@@ -77,7 +76,7 @@ test('should show sub events', async () => {
   const showMoreButton = screen.getByRole('button', {
     name: `Näytä alaorganisaatiot: ${organizations.data[0]?.name as string}`,
   });
-  await act(async () => await user.click(showMoreButton));
+  await user.click(showMoreButton);
 
   // Should show sub-organization
   await screen.findByRole('button', {
@@ -87,7 +86,7 @@ test('should show sub events', async () => {
   const hideButton = screen.getByRole('button', {
     name: `Piilota alaorganisaatiot: ${organizations.data[0]?.name as string}`,
   });
-  await act(async () => await user.click(hideButton));
+  await user.click(hideButton);
 
   // Sub-organization should be hidden
   expect(

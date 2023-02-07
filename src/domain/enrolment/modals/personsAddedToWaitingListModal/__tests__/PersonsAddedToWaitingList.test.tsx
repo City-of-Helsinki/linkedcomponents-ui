@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -27,5 +26,5 @@ test('should call onClose', async () => {
   renderComponent({ onClose });
 
   const closeButton = screen.getByRole('button', { name: 'Sulje' });
-  await act(async () => await user.click(closeButton));
+  await user.click(closeButton);
 });

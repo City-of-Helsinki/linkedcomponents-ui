@@ -4,7 +4,6 @@ import React from 'react';
 
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -85,7 +84,7 @@ test('should open create registration page', async () => {
   const createRegistrationButton = await findElement(
     'createRegistrationButton'
   );
-  await act(async () => await user.click(createRegistrationButton));
+  await user.click(createRegistrationButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations/create')

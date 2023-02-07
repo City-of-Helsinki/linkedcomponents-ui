@@ -4,9 +4,11 @@ import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
+  fakeAuthContextValue,
+  fakeAuthenticatedAuthContextValue,
+} from '../../../../utils/mockAuthContextValue';
+import {
   configure,
   render,
   screen,
@@ -77,14 +79,14 @@ test('should show navigation links and should route to correct page after clicki
   for (const { name, url } of links) {
     const link = screen.getAllByRole('link', { name })[0];
 
-    await act(async () => await user.click(link));
+    await user.click(link);
 
     await waitFor(() => expect(history.location.pathname).toBe(url));
   }
 
   const homeLink = screen.getAllByRole('link', { name: /linked events/i })[0];
 
-  await act(async () => await user.click(homeLink));
+  await user.click(homeLink);
   expect(history.location.pathname).toBe(`/fi${ROUTES.HOME}`);
 });
 
@@ -104,7 +106,7 @@ test('should not show keywords and registrations link when those features are di
   for (const { name, url } of links) {
     const link = screen.getAllByRole('link', { name })[0];
 
-    await act(async () => await user.click(link));
+    await user.click(link);
 
     await waitFor(() => expect(history.location.pathname).toBe(url));
   }
@@ -125,7 +127,7 @@ test('should show mobile menu', async () => {
   expect(screen.getAllByRole('navigation')).toHaveLength(1);
 
   const menuButton = getElement('menuButton');
-  await act(async () => await user.click(menuButton));
+  await user.click(menuButton);
 
   await waitFor(() =>
     expect(screen.getAllByRole('navigation')).toHaveLength(2)
@@ -140,10 +142,10 @@ test('should change language', async () => {
   expect(history.location.pathname).toBe('/fi');
 
   const languageSelectors = getElements('languageSelector');
-  await act(async () => await user.click(languageSelectors[0]));
+  await user.click(languageSelectors[0]);
 
   const enOption = getElement('enOption');
-  await act(async () => await user.click(enOption));
+  await user.click(enOption);
 
   expect(history.location.pathname).toBe('/en');
 });
@@ -152,12 +154,11 @@ test('should start login process', async () => {
   const user = userEvent.setup();
 
   const signIn = jest.fn();
-  const authContextValue = fakeAuthenticatedAuthContextValue({ signIn });
+  const authContextValue = fakeAuthContextValue({ signIn });
   renderComponent(authContextValue);
 
   const signInButtons = getElements('signInButton');
-  await act(async () => await user.click(signInButtons[0]));
-
+  await user.click(signInButtons[0]);
   expect(signIn).toBeCalled();
 });
 
@@ -173,10 +174,10 @@ test('should start logout process', async () => {
     { name: userName },
     { timeout: 10000 }
   );
-  await act(async () => await user.click(userMenuButton));
+  await user.click(userMenuButton);
 
   const signOutLinks = getElements('signOutLink');
-  await act(async () => await user.click(signOutLinks[0]));
+  await user.click(signOutLinks[0]);
 
   await waitFor(() => expect(signOut).toBeCalled());
 });
@@ -189,11 +190,11 @@ test('should route to search page', async () => {
   const openSearchButton = screen.getByRole('button', {
     name: 'Etsi tapahtumia',
   });
-  await act(async () => await user.click(openSearchButton));
+  await user.click(openSearchButton);
 
   const searchInput = screen.getByPlaceholderText('Etsi tapahtumia');
-  await act(async () => await user.type(searchInput, searchValue));
-  await act(async () => await user.type(searchInput, '{enter}'));
+  await user.type(searchInput, searchValue);
+  await user.type(searchInput, '{enter}');
 
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe(`?text=${searchValue}`);

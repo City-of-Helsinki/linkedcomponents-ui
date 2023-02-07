@@ -3,7 +3,6 @@ import React from 'react';
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   fireEvent,
   render,
@@ -64,7 +63,7 @@ test('should search enrolments with correct search params', async () => {
   const searchButton = screen.getAllByRole('button', {
     name: /etsi osallistujia/i,
   })[1];
-  await act(async () => await user.click(searchButton));
+  await user.click(searchButton);
 
   expect(history.location.pathname).toBe(
     `/registrations/${registrationId}/enrolments`

@@ -5,7 +5,6 @@ import { ROUTES } from '../../../constants';
 import { EventDocument, PublicationStatus } from '../../../generated/graphql';
 import { fakeEvent } from '../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
@@ -94,7 +93,7 @@ test('should route to event list page', async () => {
   getElement('draftSavedHeading');
 
   const backToEventsButton = getElement('backToEventsButton');
-  await act(async () => await user.click(backToEventsButton));
+  await user.click(backToEventsButton);
 
   await waitFor(() => expect(history.location.pathname).toBe('/fi/events'), {
     timeout: 10000,
@@ -110,7 +109,7 @@ test('should route to create event page', async () => {
   getElement('draftSavedHeading');
 
   const addEventButton = getElement('addEventButton');
-  await act(async () => await user.click(addEventButton));
+  await user.click(addEventButton);
 
   await waitFor(
     () => expect(history.location.pathname).toBe('/fi/events/create'),

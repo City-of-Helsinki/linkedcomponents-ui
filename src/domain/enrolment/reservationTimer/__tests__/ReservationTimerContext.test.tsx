@@ -11,7 +11,6 @@ import {
 } from '../../../../generated/graphql';
 import { fakeSeatsReservation } from '../../../../utils/mockDataUtils';
 import {
-  act,
   render,
   screen,
   userEvent,
@@ -26,11 +25,11 @@ import {
 } from '../../enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import { ReservationTimerProvider } from '../ReservationTimerContext';
 
-const useNavigate = jest.fn();
+const mockedUseNavigate = jest.fn();
 
 jest.mock('react-router', () => ({
   ...jest.requireActual('react-router'),
-  useNavigate: () => useNavigate,
+  useNavigate: () => mockedUseNavigate,
 }));
 
 const defaultServerErrorsProps: EnrolmentServerErrorsContextProps = {
@@ -162,10 +161,7 @@ test('should show modal if any of the reserved seats is in waiting list', async 
     name: 'Ilmoittautujia on lisätty varausjonoon',
   });
 
-  await act(
-    async () =>
-      await user.click(within(modal).getByRole('button', { name: 'Sulje' }))
-  );
+  await user.click(within(modal).getByRole('button', { name: 'Sulje' }));
 
   await waitFor(() => expect(modal).not.toBeInTheDocument());
 });
@@ -187,5 +183,5 @@ test('should route to create enrolment page if reservation is expired', async ()
 
   await user.click(tryAgainButton);
 
-  await waitFor(() => expect(useNavigate).toBeCalledWith(0));
+  await waitFor(() => expect(mockedUseNavigate).toBeCalledWith(0));
 });

@@ -3,7 +3,6 @@ import React from 'react';
 import { testIds } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   actWait,
   configure,
   fireEvent,
@@ -63,17 +62,17 @@ const getElement = (
 const fillPublisherField = async () => {
   const user = userEvent.setup();
   const publisherToggleButton = getElement('publisherToggleButton');
-  await act(async () => await user.click(publisherToggleButton));
+  await user.click(publisherToggleButton);
 
   const option = await screen.findByRole('option', { name: organizationName });
-  await act(async () => await user.click(option));
+  await user.click(option);
 };
 
 const uploadImageByFile = async () => {
   const user = userEvent.setup();
 
   const addButton = getElement('addButton');
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   const dialog = await screen.findByRole('dialog');
   const withinModal = within(dialog);
@@ -81,20 +80,18 @@ const uploadImageByFile = async () => {
 
   const fileInput = withinModal.getByTestId(testIds.imageUploader.input);
   Object.defineProperty(fileInput, 'files', { value: [file] });
-  await act(() => {
-    fireEvent.change(fileInput);
-  });
+  fireEvent.change(fileInput);
 
   const submitButton = withinModal.getByRole('button', { name: 'Lisää' });
   await waitFor(() => expect(submitButton).toBeEnabled());
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 };
 
 const uploadImageByUrl = async () => {
   const user = userEvent.setup();
 
   const addButton = getElement('addButton');
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   const dialog = await screen.findByRole('dialog');
   const withinModal = within(dialog);
@@ -102,11 +99,11 @@ const uploadImageByUrl = async () => {
 
   const urlInput = withinModal.getByLabelText(/kuvan url-osoite/i);
   await waitFor(() => expect(urlInput).toBeEnabled());
-  await act(async () => await user.type(urlInput, imageUrl));
+  await user.type(urlInput, imageUrl);
 
   const submitButton = withinModal.getByRole('button', { name: 'Lisää' });
   await waitFor(() => expect(submitButton).toBeEnabled());
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 };
 
 test('applies expected metadata', async () => {
@@ -130,7 +127,7 @@ test('should scroll to first validation error input field', async () => {
 
   const publisherInput = getElement('publisherInput');
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() => expect(publisherInput).toHaveFocus());
 });
@@ -167,7 +164,7 @@ test('should move to images page after creating new image', async () => {
   await uploadImageByFile();
 
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(
     () => expect(history.location.pathname).toBe(`/fi/administration/images`),

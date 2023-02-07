@@ -26,6 +26,7 @@ const KeywordAuthenticationNotification: React.FC<
   const { t } = useTranslation();
 
   const getNotificationProps = () => {
+    /* istanbul ignore else */
     if (authenticated) {
       if (!adminOrganizations.length) {
         return {

@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { testIds } from '../../../../constants';
 import translations from '../../../../domain/app/i18n/fi.json';
 import {
-  act,
   configure,
   fireEvent,
   mockFile,
@@ -88,7 +87,7 @@ test('should open file selection dialog by clicking button', async () => {
   });
   const spy = jest.spyOn(fileInput, 'click');
 
-  await act(async () => await user.click(button));
+  await user.click(button);
 
   expect(spy).toBeCalled();
 });
@@ -107,7 +106,7 @@ test('should call onChange with empty values when unselecting an image file', as
   );
 
   const removeImageButton = await findElement('removeImageButton');
-  await act(async () => await userEvent.click(removeImageButton));
+  await userEvent.click(removeImageButton);
   await waitFor(() => expect(onChange).lastCalledWith(null, null, null));
 });
 

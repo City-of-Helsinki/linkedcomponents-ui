@@ -5,6 +5,7 @@ import InputWrapper, { InputWrapperProps } from '../InputWrapper';
 
 const wrapperProps: InputWrapperProps = {
   helperText: 'helper text',
+  infoText: 'info text',
   label: 'label text',
   id: 'test',
   successText: 'Success',

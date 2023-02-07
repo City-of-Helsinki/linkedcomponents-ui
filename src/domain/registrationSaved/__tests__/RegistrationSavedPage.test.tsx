@@ -5,7 +5,6 @@ import { RegistrationDocument } from '../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
@@ -82,7 +81,7 @@ test('should route to registration list page', async () => {
   getElement('registrationSavedHeading');
 
   const backToRegistrationsButton = getElement('backToRegistrationsButton');
-  await act(async () => await user.click(backToRegistrationsButton));
+  await user.click(backToRegistrationsButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations')
@@ -97,7 +96,7 @@ test('should route to create registration page', async () => {
   getElement('registrationSavedHeading');
 
   const addEventButton = getElement('addRegistrationButton');
-  await act(async () => await user.click(addEventButton));
+  await user.click(addEventButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations/create')

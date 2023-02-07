@@ -134,7 +134,6 @@ export const checkCanUserDoAction = ({
     case IMAGE_ACTIONS.DELETE:
       return isInDefaultOrganization({ id: publisher, user });
     case IMAGE_ACTIONS.UPDATE:
-      return isRegularUser || isAdminUser;
     case IMAGE_ACTIONS.UPLOAD:
       return isRegularUser || isAdminUser;
   }

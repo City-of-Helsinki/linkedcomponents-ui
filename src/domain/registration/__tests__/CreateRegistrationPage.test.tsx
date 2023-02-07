@@ -7,7 +7,6 @@ import { DATE_FORMAT, FORM_NAMES } from '../../../constants';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -97,7 +96,7 @@ test('should focus to first validation error when trying to save new registratio
   const saveButton = await waitLoadingAndGetSaveButton();
   const eventCombobox = getElement('eventCombobox');
 
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() => expect(eventCombobox).toHaveFocus());
 });
@@ -125,7 +124,7 @@ test('should move to registration completed page after creating new registration
   await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
 
   await waitFor(() => expect(saveButton).toBeEnabled());
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -155,7 +154,7 @@ test('should show server errors', async () => {
   await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
 
   await waitFor(() => expect(saveButton).toBeEnabled());
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);

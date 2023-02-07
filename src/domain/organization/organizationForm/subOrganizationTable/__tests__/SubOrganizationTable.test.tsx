@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -36,7 +35,7 @@ test('should sort sub organizations', async () => {
   await loadingSpinnerIsNotInDocument();
   const nameColumn = await screen.findByRole('button', { name: /nimi/i });
 
-  await act(async () => await user.click(nameColumn));
+  await user.click(nameColumn);
   screen.getByRole('table', {
     name: `${props.title}, järjestys Nimi, laskeva`,
   });
@@ -56,7 +55,7 @@ test('should open sub organization edit page', async () => {
   const organizationButton = await screen.findByRole('button', {
     name: organizations.data[0]?.name as string,
   });
-  await act(async () => await user.click(organizationButton));
+  await user.click(organizationButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -74,7 +73,7 @@ test('should open sub organization edit page by pressing enter on row', async ()
   const organizationButton = await screen.findByRole('button', {
     name: organizations.data[0]?.name as string,
   });
-  await act(async () => await user.type(organizationButton, '{enter}'));
+  await user.type(organizationButton, '{enter}');
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(

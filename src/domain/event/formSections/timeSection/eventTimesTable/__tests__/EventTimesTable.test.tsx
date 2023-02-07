@@ -3,7 +3,6 @@ import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -85,9 +84,9 @@ test('should call setEventTimes when deleting an event time', async () => {
     screen.getByRole('row', { name: '1 2.5.2021 12.00 – 2.5.2021 15.00' })
   );
   const toggleMenuButton = withinRow.getByRole('button', { name: /valinnat/i });
-  await act(async () => await user.click(toggleMenuButton));
+  await user.click(toggleMenuButton);
   const deleteButton = withinRow.getByRole('button', { name: /poista/i });
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   expect(setEventTimes).toBeCalledWith([eventTime2]);
 });
@@ -105,21 +104,21 @@ test('should call setEventTimes when updating an event time', async () => {
     screen.getByRole('row', { name: '1 2.5.2021 12.00 – 2.5.2021 15.00' })
   );
   const toggleMenuButton = withinRow.getByRole('button', { name: /valinnat/i });
-  await act(async () => await user.click(toggleMenuButton));
+  await user.click(toggleMenuButton);
   const editButton = withinRow.getByRole('button', { name: /muokkaa/i });
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   const withinDialog = within(
     screen.getByRole('dialog', { name: 'Muokkaa ajankohtaa' })
   );
   const startDateInput = withinDialog.getByLabelText('Tapahtuma alkaa *');
-  await act(async () => await user.clear(startDateInput));
-  await act(async () => await user.type(startDateInput, '2.5.2021'));
+  await user.clear(startDateInput);
+  await user.type(startDateInput, '2.5.2021');
 
   const updateButton = withinDialog.getByRole('button', {
     name: /tallenna muutokset/i,
   });
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
 
   await waitFor(() => {
     expect(setEventTimes).toBeCalledWith([

@@ -421,7 +421,7 @@ export const getNewAttendees = ({
   attendees: AttendeeFields[];
   registration: RegistrationFieldsFragment;
   seatsReservation: SeatsReservationFieldsFragment;
-}) => {
+}): AttendeeFields[] => {
   const { seats, seatsAtEvent } = seatsReservation;
   const attendeeInitialValues = getAttendeeDefaultInitialValues(registration);
   const filledAttendees = attendees.filter(

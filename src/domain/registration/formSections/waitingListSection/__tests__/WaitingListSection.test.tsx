@@ -2,7 +2,6 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -51,8 +50,8 @@ test('should show validation error if waiting attendee capacity is less than 0',
 
   const waitingCapacityInput = getElement('waitingCapacity');
 
-  await act(async () => await user.click(waitingCapacityInput));
-  await act(async () => await user.tab());
+  await user.click(waitingCapacityInput);
+  await user.tab();
 
   await screen.findByText('Arvon tulee olla vähintään 0');
 });

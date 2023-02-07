@@ -8,7 +8,6 @@ import {
 } from '../../../../../constants';
 import { MultiLanguageObject } from '../../../../../types';
 import {
-  act,
   configure,
   mockString,
   render,
@@ -114,7 +113,7 @@ test('should change form section language', async () => {
   renderComponent(undefined, { setSelectedLanguage });
 
   const svButton = getElement('svButton');
-  await act(async () => await user.click(svButton));
+  await user.click(svButton);
 
   expect(setSelectedLanguage).toBeCalledWith('sv');
 });
@@ -122,20 +121,16 @@ test('should change form section language', async () => {
 // eslint-disable-next-line max-len
 test('should change selected language when current selected language is removed from event info languages', async () => {
   const setSelectedLanguage = jest.fn();
-  let rerender: any;
 
-  await act(async () => {
-    const renderResult = await renderComponent(
-      {
-        [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
-          LE_DATA_LANGUAGES.FI,
-          LE_DATA_LANGUAGES.SV,
-        ],
-      },
-      { setSelectedLanguage }
-    );
-    rerender = renderResult.rerender;
-  });
+  const { rerender } = await renderComponent(
+    {
+      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [
+        LE_DATA_LANGUAGES.FI,
+        LE_DATA_LANGUAGES.SV,
+      ],
+    },
+    { setSelectedLanguage }
+  );
 
   const fiButton = getElement('fiButton');
   const svButton = getElement('svButton');
@@ -170,8 +165,8 @@ test('should show validation error if name is missing', async () => {
   const nameInput = getElement('nameFi');
   const shortDescriptionInput = getElement('shortDescriptionFi');
 
-  await act(async () => await user.click(nameInput));
-  await act(async () => await user.click(shortDescriptionInput));
+  await user.click(nameInput);
+  await user.click(shortDescriptionInput);
 
   await screen.findByText('Tämä kenttä on pakollinen');
 });
@@ -193,8 +188,8 @@ test('should show validation error if short description is missing', async () =>
   const shortDescriptionInput = getElement('shortDescriptionFi');
   const nameInput = getElement('nameFi');
 
-  await act(async () => await user.click(shortDescriptionInput));
-  await act(async () => await user.click(nameInput));
+  await user.click(shortDescriptionInput);
+  await user.click(nameInput);
 
   await screen.findByText('Tämä kenttä on pakollinen');
 });
@@ -217,8 +212,8 @@ test('should show validation error if short description is too long', async () =
   const shortDescriptionInput = getElement('shortDescriptionFi');
   const nameInput = getElement('nameFi');
 
-  await act(async () => await user.click(shortDescriptionInput));
-  await act(async () => await user.click(nameInput));
+  await user.click(shortDescriptionInput);
+  await user.click(nameInput);
 
   await screen.findByText('Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä');
 });
@@ -244,8 +239,8 @@ test('should show validation error if description is missing', async () => {
   const descriptionInput = await findElement('descriptionFi');
   const shortDescriptionInput = getElement('shortDescriptionFi');
 
-  await act(async () => await user.click(descriptionInput));
-  await act(async () => await user.click(shortDescriptionInput));
+  await user.click(descriptionInput);
+  await user.click(shortDescriptionInput);
 
   await screen.findByText('Tämä kenttä on pakollinen');
 });
@@ -272,8 +267,8 @@ test('should show validation error if description is too long', async () => {
   const descriptionInput = await findElement('descriptionFi');
   const shortDescriptionInput = getElement('shortDescriptionFi');
 
-  await act(async () => await user.click(descriptionInput));
-  await act(async () => await user.click(shortDescriptionInput));
+  await user.click(descriptionInput);
+  await user.click(shortDescriptionInput);
 
   await screen.findByText(
     'Tämä kenttä voi olla korkeintaan 5000 merkkiä pitkä'
