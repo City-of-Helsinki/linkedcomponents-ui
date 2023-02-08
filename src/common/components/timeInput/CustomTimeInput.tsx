@@ -102,7 +102,7 @@ const isArrowUpOrDownKey = (event: React.KeyboardEvent<HTMLInputElement>) =>
 const isShortNumericString = (inputValue: string): boolean =>
   inputValue.match(/^(\d{1,2})?$/) !== null;
 
-const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
+const CustomTimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
   (
     {
       className = '',
@@ -423,4 +423,4 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
   }
 );
 
-export default TimeInput;
+export default CustomTimeInput;
