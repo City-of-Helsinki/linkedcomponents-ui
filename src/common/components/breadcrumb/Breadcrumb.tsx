@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import getValue from '../../../utils/getValue';
 import styles from './breadcrumb.module.scss';
 import BreadcrumbItem, {
   BreadcrumbCurrentItemProps,
@@ -32,7 +33,7 @@ const Breadcrumb = ({
       {({ css, cx }) => (
         <nav
           className={cx(styles.breadcrumb, className, css(theme.breadcrumb))}
-          aria-label={ariaLabel || (t('common.breadcrumb') as string)}
+          aria-label={ariaLabel || getValue(t('common.breadcrumb'), undefined)}
         >
           {items.map((props) => (
             <BreadcrumbItem key={props.label} {...props} />

@@ -8,6 +8,7 @@ import {
   SeatsReservation,
   useUpdateSeatsReservationMutation,
 } from '../../../../generated/graphql';
+import getValue from '../../../../utils/getValue';
 import { reportError } from '../../../app/sentry/utils';
 import {
   getSeatsReservationData,
@@ -40,7 +41,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
   const { setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
 
-  const registrationId = registration.id as string;
+  const registrationId = getValue(registration.id, '');
 
   const [{ value: attendees }, , { setValue: setAttendees }] = useField<
     AttendeeFields[]
@@ -58,7 +59,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
   ) => {
     const reservationData = getSeatsReservationData(registrationId);
     const payload = {
-      code: reservationData?.code as string,
+      code: getValue(reservationData?.code, ''),
       registration: registrationId,
       seats: participantAmount,
       waitlist: true,

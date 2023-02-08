@@ -8,6 +8,7 @@ import ErrorTemplate from '../../../common/components/errorTemplate/ErrorTemplat
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
+import getValue from '../../../utils/getValue';
 import MainContent from '../../app/layout/mainContent/MainContent';
 import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 import { useAuth } from '../hooks/useAuth';
@@ -42,7 +43,7 @@ const LogoutPage: React.FC = () => {
   }
 
   return (
-    <PageWrapper title={t('logoutPage.pageTitle') as string}>
+    <PageWrapper title={getValue(t('logoutPage.pageTitle'), '')}>
       <MainContent>
         <ErrorTemplate
           buttons={

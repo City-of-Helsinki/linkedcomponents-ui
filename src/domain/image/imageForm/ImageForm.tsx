@@ -173,7 +173,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
         };
 
         const publisher = image
-          ? (image.publisher as string)
+          ? getValue(image.publisher, '')
           : values.publisher;
 
         const disabledIfPublisherSelected =

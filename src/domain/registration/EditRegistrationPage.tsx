@@ -4,6 +4,7 @@ import { useLocation, useParams } from 'react-router';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { useEventQuery, useRegistrationQuery } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import { EVENT_INCLUDES } from '../event/constants';
 import { eventPathBuilder } from '../event/utils';
@@ -26,7 +27,7 @@ const EditRegistrationPageWrapper: React.FC = () => {
   } = useRegistrationQuery({
     skip: !id || !user,
     variables: {
-      id: id as string,
+      id: getValue(id, ''),
       include: REGISTRATION_INCLUDES,
       createPath: getPathBuilder(registrationPathBuilder),
     },
@@ -37,7 +38,7 @@ const EditRegistrationPageWrapper: React.FC = () => {
     skip: !registration?.event,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
-      id: registration?.event as string,
+      id: getValue(registration?.event, ''),
       include: EVENT_INCLUDES,
     },
   });

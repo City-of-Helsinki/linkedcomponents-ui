@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { AttendeeStatus } from '../../../../generated/graphql';
+import getValue from '../../../../utils/getValue';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -29,7 +30,7 @@ const defaultProps: EnrolmentsTableProps = {
   registration: { ...registration, signups: attendees },
 };
 
-const enrolmentName = attendees[0].name as string;
+const enrolmentName = getValue(attendees[0].name, '');
 const enrolmentId = attendees[0].id;
 
 const renderComponent = (props?: Partial<EnrolmentsTableProps>) => {

@@ -5,6 +5,7 @@ import {
   PublicationStatus,
 } from '../../../generated/graphql';
 import { LEServerError, OptionType, ServerErrorItem } from '../../../types';
+import getValue from '../../../utils/getValue';
 import isGenericServerError from '../../../utils/isGenericServerError';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
@@ -38,7 +39,7 @@ export const getEventUpdateAction = (
 };
 
 const getAudienceIndex = (atId: string) => {
-  const index = AUDIENCE_ORDER.indexOf(parseIdFromAtId(atId) as string);
+  const index = AUDIENCE_ORDER.indexOf(getValue(parseIdFromAtId(atId), ''));
   return index !== -1 ? index : AUDIENCE_ORDER.length;
 };
 

@@ -22,7 +22,7 @@ export const getPlaces = async (
     timeout: 20000,
   });
 
-  return JSON.parse(placesResponse.response.body as string).data.map((place) =>
+  return JSON.parse(placesResponse.response.body.toString()).data.map((place) =>
     normalizeKeys(place, normalizeKey)
   );
 };

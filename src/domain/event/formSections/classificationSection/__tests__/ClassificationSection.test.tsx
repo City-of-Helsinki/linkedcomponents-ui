@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
 import React from 'react';
 
+import getValue from '../../../../../utils/getValue';
 import {
   configure,
   render,
@@ -69,12 +70,14 @@ const findElement = (key: 'keywordText' | 'keywordOption') => {
   switch (key) {
     case 'keywordText':
       return screen.findByText(
-        keyword?.name?.fi as string,
+        getValue(keyword?.name?.fi, ''),
         { selector: 'span' },
         { timeout: 2000 }
       );
     case 'keywordOption':
-      return screen.findByRole('option', { name: keyword?.name?.fi as string });
+      return screen.findByRole('option', {
+        name: getValue(keyword?.name?.fi, ''),
+      });
   }
 };
 
@@ -110,7 +113,7 @@ const getElement = (
 
 test('should render classification section', async () => {
   renderComponent({
-    [EVENT_FIELDS.KEYWORDS]: [keyword?.atId as string],
+    [EVENT_FIELDS.KEYWORDS]: [getValue(keyword?.atId, '')],
   });
 
   getElement('titleMainCategories');

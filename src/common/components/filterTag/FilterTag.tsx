@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FilterType } from '../../../types';
+import getValue from '../../../utils/getValue';
 
 export interface FilterTagProps {
   onDelete: (options: { type: FilterType; value: string }) => void;
@@ -24,9 +25,10 @@ const FilterTag: React.FC<FilterTagProps> = ({
 
   return (
     <Tag
-      deleteButtonAriaLabel={
-        t('common.buttonRemoveFilter', { name: text }) as string
-      }
+      deleteButtonAriaLabel={getValue(
+        t('common.buttonRemoveFilter', { name: text }),
+        undefined
+      )}
       onDelete={deleteFilter}
     >
       {text}

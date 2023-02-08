@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 
 import { testIds } from '../../../../constants';
 import { UserDocument } from '../../../../generated/graphql';
+import getValue from '../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   configure,
@@ -60,7 +61,7 @@ const renderComponent = ({
 const findElement = (key: 'imageCheckbox') => {
   switch (key) {
     case 'imageCheckbox':
-      return screen.findByLabelText(images.data[0]?.name as string);
+      return screen.findByLabelText(getValue(images.data[0]?.name, ''));
   }
 };
 

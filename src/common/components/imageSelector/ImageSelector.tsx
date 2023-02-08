@@ -10,6 +10,7 @@ import { Image, useImagesQuery } from '../../../generated/graphql';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import Button from '../button/Button';
 import { PAGE_SIZE } from './constants';
 import styles from './imageSelector.module.scss';
@@ -129,7 +130,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
                       className={cx(styles.image, {
                         [styles.checked]: checked,
                       })}
-                      aria-label={image.name as string}
+                      aria-label={getValue(image.name, undefined)}
                       disabled={disabled}
                       style={{ backgroundImage: `url(${image.url})` }}
                       role="checkbox"

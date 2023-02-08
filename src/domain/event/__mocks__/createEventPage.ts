@@ -9,6 +9,7 @@ import {
   KeywordsDocument,
 } from '../../../generated/graphql';
 import generateAtId from '../../../utils/generateAtId';
+import getValue from '../../../utils/getValue';
 import { fakeEvent, fakeEvents } from '../../../utils/mockDataUtils';
 import { imageFields } from '../../image/__mocks__/image';
 import { topics } from '../../keywordSet/__mocks__/keywordSets';
@@ -38,7 +39,7 @@ const eventValues = {
 };
 
 const keyword = topics.data[0] as Keyword;
-const keywordName = keyword.name?.fi as string;
+const keywordName = getValue(keyword.name?.fi, '');
 const keywordId = keyword.id;
 const keywordAtId = keyword.atId;
 

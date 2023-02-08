@@ -2,6 +2,7 @@
 import TestController from 'testcafe';
 
 import { OrganizationFieldsFragment } from '../../src/generated/graphql';
+import getValue from '../../src/utils/getValue';
 import { getCommonComponents } from '../common.components';
 import { getExpectedOrganizationContext } from '../utils/organization.utils';
 import {
@@ -83,7 +84,7 @@ export const getOrganizationsPage = async (t: TestController) => {
 
       const organizationRow = () => {
         return withinSearchResultList().getAllByTestId(
-          organization.id as string
+          getValue(organization.id, '')
         );
       };
 

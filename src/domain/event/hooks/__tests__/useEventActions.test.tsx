@@ -9,6 +9,7 @@ import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../../generated/graphql';
+import getValue from '../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { createCache } from '../../../app/apollo/apolloClient';
 import { AuthContext } from '../../../auth/AuthContext';
@@ -132,8 +133,8 @@ test('should update single event', async () => {
         events: [
           {
             id: event.id,
-            endTime: new Date(event.endTime as string),
-            startTime: new Date(event.startTime as string),
+            endTime: new Date(getValue(event.endTime, '')),
+            startTime: new Date(getValue(event.startTime, '')),
           },
         ],
       },
@@ -159,9 +160,11 @@ test('should update single event with recurring super event', async () => {
         events: [
           {
             id: eventWithRecurringSuperEvent2.id,
-            endTime: new Date(eventWithRecurringSuperEvent2.endTime as string),
+            endTime: new Date(
+              getValue(eventWithRecurringSuperEvent2.endTime, '')
+            ),
             startTime: new Date(
-              eventWithRecurringSuperEvent2.startTime as string
+              getValue(eventWithRecurringSuperEvent2.startTime, '')
             ),
           },
         ],

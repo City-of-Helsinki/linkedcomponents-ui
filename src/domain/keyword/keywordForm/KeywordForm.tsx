@@ -156,7 +156,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
         };
 
         const publisher = keyword
-          ? (keyword.publisher as string)
+          ? getValue(keyword.publisher, '')
           : values.publisher;
 
         const disabledIfKeyword = !isEditingAllowed || !!keyword;

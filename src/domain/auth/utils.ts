@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { OIDC_API_TOKEN_ENDPOINT } from '../../constants';
 import { Language } from '../../types';
 import getUnixTime from '../../utils/getUnixTime';
+import getValue from '../../utils/getValue';
 import {
   API_SCOPE,
   API_TOKEN_EXPIRATION_TIME,
@@ -168,9 +169,9 @@ export const signIn = async ({
     })
     .catch((error) => {
       if (error.message === 'Network Error') {
-        toast.error(t('authentication.networkError.message') as string);
+        toast.error(getValue(t('authentication.networkError.message'), ''));
       } else {
-        toast.error(t('authentication.errorMessage') as string);
+        toast.error(getValue(t('authentication.errorMessage'), ''));
         Sentry.captureException(error);
       }
     });
@@ -260,7 +261,7 @@ export const renewApiToken = async ({
     fetchTokenSuccess({ apiToken, dispatchApiTokenState });
   } catch (error: any) {
     fetchTokenError({ error, dispatchApiTokenState });
-    toast.error(t('authentication.errorMessage') as string);
+    toast.error(getValue(t('authentication.errorMessage'), ''));
   }
 };
 

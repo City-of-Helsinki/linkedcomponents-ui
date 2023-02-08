@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 import Notification from '../../../common/components/notification/Notification';
+import getValue from '../../../utils/getValue';
 import { useAuth } from '../../auth/hooks/useAuth';
 import styles from './authenticationNotification.module.scss';
 
@@ -32,7 +33,7 @@ const AuthenticationNotification: React.FC<
   const notificationProps = {
     className: classNames(styles.authenticationNotification, className),
     closeAnimationDuration: 300,
-    closeButtonLabelText: t('common.close') as string,
+    closeButtonLabelText: getValue(t('common.close'), ''),
     dismissible: true,
     onClose: () => setHidden(true),
     style: hidden ? hiddenStyles : undefined,

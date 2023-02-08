@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   configure,
@@ -71,7 +72,7 @@ const fillInputValues = async () => {
   await user.click(getElement('keywordsToggleButton'));
   const keywordsOption = await screen.findByRole(
     'option',
-    { name: keywordSetValues.keyword?.name?.fi as string },
+    { name: getValue(keywordSetValues.keyword?.name?.fi, '') },
     { timeout: 10000 }
   );
   await user.click(keywordsOption);

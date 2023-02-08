@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   configure,
@@ -28,7 +29,7 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [mockedPlaceResponse, mockedUserResponse];
 
-const route = ROUTES.EDIT_PLACE.replace(':id', place.id as string);
+const route = ROUTES.EDIT_PLACE.replace(':id', getValue(place.id, ''));
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditPlacePage />, {

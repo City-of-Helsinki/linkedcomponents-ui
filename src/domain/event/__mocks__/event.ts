@@ -1,4 +1,5 @@
 import { EventDocument } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import {
   fakeEvent,
   fakeLocalisedObject,
@@ -27,9 +28,9 @@ const eventOverrides = {
   publisher: TEST_PUBLISHER_ID,
   startTime: '2020-07-10T12:00:00.000000Z',
 };
-const locationName = place.name?.fi as string;
-const streetAddress = place.streetAddress?.fi as string;
-const addressLocality = place.addressLocality?.fi as string;
+const locationName = getValue(place.name?.fi, '');
+const streetAddress = getValue(place.streetAddress?.fi, '');
+const addressLocality = getValue(place.addressLocality?.fi, '');
 const locationText = [locationName, streetAddress, addressLocality].join(', ');
 
 const event = fakeEvent(eventOverrides);

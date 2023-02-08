@@ -137,7 +137,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const onCreate = async (values: RegistrationFormFields) => {
     await createRegistration(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
-      onSuccess: (id) => goToRegistrationSavedPage(id as string),
+      onSuccess: (id) => goToRegistrationSavedPage(getValue(id, '')),
     });
   };
 

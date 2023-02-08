@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import { DEPRECATED_ROUTES, ROUTES } from '../../../../../constants';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../../types';
+import getValue from '../../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import {
   act,
@@ -279,7 +280,7 @@ it('should render create image page', async () => {
 });
 
 it('should render edit image page', async () => {
-  const id = image.id as string;
+  const id = getValue(image.id, '');
   const { history } = await renderRoute(
     `${ROUTES.EDIT_IMAGE.replace(':id', id)}`
   );
@@ -313,7 +314,7 @@ it('should render create keyword page', async () => {
 });
 
 it('should render edit keyword page', async () => {
-  const id = keyword.id as string;
+  const id = getValue(keyword.id, '');
   const { history } = await renderRoute(
     `${ROUTES.EDIT_KEYWORD.replace(':id', id)}`
   );
@@ -346,7 +347,7 @@ it('should render create keyword set page', async () => {
 });
 
 it('should render edit keyword set page', async () => {
-  const id = keywordSet.id as string;
+  const id = getValue(keywordSet.id, '');
   const { history } = await renderRoute(
     `${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`
   );
@@ -412,7 +413,7 @@ it('should render create place page', async () => {
 });
 
 it('should render edit place page', async () => {
-  const id = place.id as string;
+  const id = getValue(place.id, '');
   const { history } = await renderRoute(
     `${ROUTES.EDIT_PLACE.replace(':id', id)}`
   );

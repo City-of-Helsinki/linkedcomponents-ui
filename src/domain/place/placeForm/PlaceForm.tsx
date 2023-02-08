@@ -111,7 +111,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
     try {
       const data = await createPlaceMutation({ variables: { input: payload } });
 
-      return data.data?.createPlace.id as string;
+      return getValue(data.data?.createPlace.id, '');
     } catch (error) /* istanbul ignore next */ {
       showServerErrors({ error });
       // // Report error to Sentry
@@ -223,7 +223,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
         };
 
         const publisher = place
-          ? (place.publisher as string)
+          ? getValue(place.publisher, '')
           : values.publisher;
 
         const disabledIfPlace = !isEditingAllowed || !!place;

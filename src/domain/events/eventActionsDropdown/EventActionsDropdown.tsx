@@ -8,6 +8,7 @@ import { ROUTES } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { EVENT_ACTIONS, EVENT_MODALS } from '../../event/constants';
@@ -49,7 +50,7 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
     setOpenModal,
   } = useEventActions(event);
   const { organizationAncestors } = useOrganizationAncestors(
-    event.publisher as string
+    getValue(event.publisher, '')
   );
   const { user } = useUser();
 

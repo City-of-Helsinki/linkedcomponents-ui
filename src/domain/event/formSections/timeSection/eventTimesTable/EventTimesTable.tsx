@@ -60,7 +60,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   ].find((subEvent) => subEvent?.id === eventTime.id);
 
   const { organizationAncestors } = useOrganizationAncestors(
-    event?.publisher as string
+    getValue(event?.publisher, '')
   );
 
   const { endTime, startTime } = useMemo(() => {

@@ -2,6 +2,7 @@
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   configure,
@@ -117,7 +118,7 @@ it('scrolls to registration table row and calls history.replace correctly (delet
 
   const eventRowButton = await screen.findByRole(
     'button',
-    { name: registrations.data[0]?.id as string },
+    { name: getValue(registrations.data[0]?.id, '') },
     { timeout: 20000 }
   );
   await waitFor(() => expect(eventRowButton).toHaveFocus());

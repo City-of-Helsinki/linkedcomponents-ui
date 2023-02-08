@@ -2,6 +2,7 @@
 import TestController from 'testcafe';
 
 import { KeywordFieldsFragment } from '../../src/generated/graphql';
+import getValue from '../../src/utils/getValue';
 import { getCommonComponents } from '../common.components';
 import { getExpectedKeywordContext } from '../utils/keyword.utils';
 import {
@@ -80,7 +81,9 @@ export const getKeywordsPage = async (t: TestController) => {
       );
 
       const keywordRow = () => {
-        return withinSearchResultList().getAllByTestId(keyword.id as string);
+        return withinSearchResultList().getAllByTestId(
+          getValue(keyword.id, '')
+        );
       };
 
       if (searchedField) {

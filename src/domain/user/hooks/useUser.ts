@@ -2,6 +2,7 @@ import { useDebounce } from 'use-debounce';
 
 import { UserFieldsFragment, useUserQuery } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { userPathBuilder } from '../utils';
@@ -21,7 +22,7 @@ const useUser = (): UserState => {
   const { data: userData, loading: loadingUser } = useUserQuery({
     skip: !apiToken || !user,
     variables: {
-      id: userId as string,
+      id: getValue(userId, ''),
       createPath: getPathBuilder(userPathBuilder),
     },
   });

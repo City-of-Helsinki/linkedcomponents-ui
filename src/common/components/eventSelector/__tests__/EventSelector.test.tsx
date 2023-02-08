@@ -8,6 +8,7 @@ import {
   EventsDocument,
 } from '../../../../generated/graphql';
 import { Language, OptionType } from '../../../../types';
+import getValue from '../../../../utils/getValue';
 import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import {
   configure,
@@ -62,6 +63,7 @@ const defaultProps: EventSelectorProps = {
   helper,
   label,
   name,
+  toggleButtonAriaLabel: '',
   value: event.atId,
   variables: {
     sort: EVENT_SORT_OPTIONS.NAME,
@@ -101,6 +103,6 @@ test('should open menu by clickin toggle button and list of options should be vi
   expect(inputField.getAttribute('aria-expanded')).toBe('true');
 
   for (const option of filteredEvents.data) {
-    await screen.findByRole('option', { name: option?.name?.fi as string });
+    await screen.findByRole('option', { name: getValue(option?.name?.fi, '') });
   }
 });

@@ -15,6 +15,7 @@ import {
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
+import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearKeywordSetQueries,
@@ -148,7 +149,7 @@ const useKeywordSetActions = ({
       setSaving(KEYWORD_SET_ACTIONS.DELETE);
 
       await deleteKeywordSetMutation({
-        variables: { id: keywordSet?.id as string },
+        variables: { id: getValue(keywordSet?.id, '') },
       });
 
       await cleanAfterUpdate(callbacks);

@@ -103,7 +103,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
           await Promise.all(
             value.map(async (atId) => {
               const keyword = await getKeywordQueryResult(
-                parseIdFromAtId(atId) as string,
+                getValue(parseIdFromAtId(atId), ''),
                 apolloClient
               );
               /* istanbul ignore next */

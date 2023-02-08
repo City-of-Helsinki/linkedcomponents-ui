@@ -7,6 +7,7 @@ import {
   PlaceDocument,
   PlacesDocument,
 } from '../../../../../generated/graphql';
+import getValue from '../../../../../utils/getValue';
 import { fakePlaces } from '../../../../../utils/mockDataUtils';
 import {
   configure,
@@ -54,7 +55,7 @@ const toggleButtonLabel = 'Select place';
 const defaultProps: PlaceSelectorProps = {
   onChange: jest.fn(),
   toggleButtonLabel,
-  value: [] as string[],
+  value: [],
 };
 
 const renderComponent = (props?: Partial<PlaceSelectorProps>) =>
@@ -68,9 +69,9 @@ const getElement = (key: 'toggleButton') => {
 };
 test('should render place selector', async () => {
   const user = userEvent.setup();
-  renderComponent({ value: [placeId as string] });
+  renderComponent({ value: [getValue(placeId, '')] });
 
-  await screen.findByText(place?.name?.fi as string);
+  await screen.findByText(getValue(place?.name?.fi, ''));
 
   const toggleButton = getElement('toggleButton');
   await user.click(toggleButton);

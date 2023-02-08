@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
+import getValue from '../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   configure,
@@ -21,13 +22,13 @@ const mocks = [mockedUserResponse];
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: EditButtonPanelProps = {
-  id: image.id as string,
+  id: getValue(image.id, ''),
   onSave: jest.fn(),
   publisher: TEST_PUBLISHER_ID,
   saving: null,
 };
 
-const route = `/fi/${ROUTES.EDIT_IMAGE.replace(':id', image.id as string)}`;
+const route = `/fi/${ROUTES.EDIT_IMAGE.replace(':id', getValue(image.id, ''))}`;
 const routes = [route];
 
 const renderComponent = (props?: Partial<EditButtonPanelProps>) =>

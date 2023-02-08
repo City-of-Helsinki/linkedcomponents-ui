@@ -12,6 +12,7 @@ import {
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { EnrolmentsLocationState } from '../../enrolments/types';
@@ -40,13 +41,13 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const { t } = useTranslation();
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const publisher = useRegistrationPublisher({ registration }) as string;
+  const publisher = getValue(useRegistrationPublisher({ registration }), '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const goBack = useGoBack<EnrolmentsLocationState>({
     defaultReturnPath: ROUTES.REGISTRATION_ENROLMENTS.replace(
       ':registrationId',
-      registration.id as string
+      getValue(registration.id, '')
     ),
     state: { enrolmentId: enrolment.id },
   });

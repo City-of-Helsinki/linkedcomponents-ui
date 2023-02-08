@@ -18,7 +18,7 @@ const useEventLocation = (
 ): UseEventLocationState => {
   /* istanbul ignore next */
   const id: string = event.location?.atId
-    ? (parseIdFromAtId(event.location?.atId) as string)
+    ? getValue(parseIdFromAtId(event.location?.atId), '')
     : '';
   const { data, loading } = usePlaceQuery({
     skip: !id,

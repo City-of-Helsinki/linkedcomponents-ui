@@ -57,7 +57,7 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
   setAttendees,
 }) => {
   const registrationId = useMemo(
-    () => registration.id as string,
+    () => getValue(registration.id, ''),
     [registration]
   );
 

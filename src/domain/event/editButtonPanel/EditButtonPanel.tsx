@@ -15,6 +15,7 @@ import {
 import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
 import { ActionButtonProps } from '../../../types';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { EventsLocationState } from '../../events/types';
@@ -46,7 +47,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const navigate = useNavigate();
 
   const { organizationAncestors } = useOrganizationAncestors(
-    event.publisher as string
+    getValue(event.publisher, '')
   );
   const { user } = useUser();
 

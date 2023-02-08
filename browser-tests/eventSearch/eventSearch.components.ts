@@ -6,6 +6,7 @@ import {
   OrganizationFieldsFragment,
   PlaceFieldsFragment,
 } from '../../src/generated/graphql';
+import getValue from '../../src/utils/getValue';
 import { getCommonComponents } from '../common.components';
 import { getExpectedEventContext } from '../utils/event.utils';
 import {
@@ -40,7 +41,7 @@ export const getEventSearchPage = (t: TestController) => {
       },
       placeCheckbox(place: PlaceFieldsFragment) {
         return withinSearchBanner().findAllByRole('checkbox', {
-          name: place.name?.fi as string,
+          name: getValue(place.name?.fi, ''),
         });
       },
       placeFilter() {
@@ -71,11 +72,11 @@ export const getEventSearchPage = (t: TestController) => {
       },
 
       async selectPlaceFilter(place: PlaceFieldsFragment) {
-        setDataToPrintOnFailure(t, 'typeText', place.name?.fi as string);
+        setDataToPrintOnFailure(t, 'typeText', getValue(place.name?.fi, ''));
         await t
           .click(selectors.placeSearchInput())
           .pressKey('ctrl+a delete') // clears previous input
-          .typeText(selectors.placeSearchInput(), place.name?.fi as string)
+          .typeText(selectors.placeSearchInput(), getValue(place.name?.fi, ''))
           .click(selectors.placeCheckbox(place));
       },
     };
@@ -138,7 +139,7 @@ export const getEventSearchPage = (t: TestController) => {
           );
         },
         publisherText(publisher: OrganizationFieldsFragment) {
-          return withinEventCard().findByText(publisher.name as string);
+          return withinEventCard().findByText(getValue(publisher.name, ''));
         },
         containsText(text: string) {
           return withinEventCard().findByText(RegExp(text, 'gi'));

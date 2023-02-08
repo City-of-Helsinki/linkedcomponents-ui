@@ -2,6 +2,7 @@
 import { RequestLogger } from 'testcafe';
 
 import { SUPPORTED_LANGUAGES } from '../../src/constants';
+import getValue from '../../src/utils/getValue';
 import { findCookieConsentModal } from '../cookieConsentModal/cookieConsentModal.components';
 import { getKeywords } from '../data/keywordData';
 import { isFeatureEnabled } from '../utils/featureFlag.utils';
@@ -57,7 +58,7 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
       );
 
       await urlUtils.actions.navigateToKeywordsUrl(
-        getRandomSentence(keyword.name?.fi as string)
+        getRandomSentence(getValue(keyword.name?.fi, ''))
       );
 
       const searchResults = await keywordsPage.findSearchResultList();

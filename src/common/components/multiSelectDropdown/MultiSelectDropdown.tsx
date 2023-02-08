@@ -190,7 +190,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
         isOpen={isMenuOpen}
         loadingSpinnerFinishedText={loadingSpinnerFinishedText}
         loadingSpinnerText={
-          loadingSpinnerText || (t('common.loading') as string)
+          loadingSpinnerText || getValue(t('common.loading'), undefined)
         }
         onClear={handleClear}
         onItemChange={handleItemChange}

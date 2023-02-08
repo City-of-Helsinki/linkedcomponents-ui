@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   configure,
@@ -91,7 +92,7 @@ test('should show link to event page', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const eventLink = await screen.findByRole('link', {
-    name: event.name?.fi as string,
+    name: getValue(event.name?.fi, ''),
   });
   await user.click(eventLink);
 

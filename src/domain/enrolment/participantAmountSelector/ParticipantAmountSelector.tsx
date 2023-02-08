@@ -10,6 +10,7 @@ import {
   SeatsReservation,
   useUpdateSeatsReservationMutation,
 } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import { reportError } from '../../app/sentry/utils';
 import {
   getSeatsReservationData,
@@ -51,7 +52,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   const [saving, setSaving] = useState(false);
   const [participantsToDelete, setParticipantsToDelete] = useState(0);
 
-  const registrationId = registration.id as string;
+  const registrationId = getValue(registration.id, '');
 
   const [{ value: attendees }, , { setValue: setAttendees }] = useField<
     AttendeeFields[]
@@ -83,7 +84,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   const updateSeatsReservation = async () => {
     const reservationData = getSeatsReservationData(registrationId);
     const payload = {
-      code: reservationData?.code as string,
+      code: getValue(reservationData?.code, ''),
       registration: registrationId,
       seats: participantAmount,
       waitlist: true,

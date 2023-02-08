@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
+import getValue from '../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
@@ -42,7 +43,7 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const route = `/fi${ROUTES.REGISTRATION_ENROLMENTS.replace(
   ':registrationId',
-  registration.id as string
+  getValue(registration.id, '')
 )}`;
 
 const renderComponent = ({

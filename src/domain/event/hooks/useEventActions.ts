@@ -269,7 +269,7 @@ const useEventActions = (
         variables: { input: recurringEventPayload },
       });
 
-      return recurringEventData.data?.createEvent.id as string;
+      return getValue(recurringEventData.data?.createEvent.id, '');
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
@@ -289,7 +289,7 @@ const useEventActions = (
         variables: { input: payload },
       });
 
-      return data.data?.createEvent.id as string;
+      return getValue(data.data?.createEvent.id, '');
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,

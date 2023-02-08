@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../../types';
+import getValue from '../../../../utils/getValue';
 import DropdownMenu from '../../dropdown/dropdownMenu/DropdownMenu';
 import LoadingSpinner from '../../loadingSpinner/LoadingSpinner';
 import DropdownItem from '../dropdownItem/DropdownItem';
@@ -64,7 +65,7 @@ const MultiSelectDropdownMenu: React.FC<Props> = ({
       onSearchChange={onSearchChange}
       id={id}
       isOpen={isOpen}
-      searchPlaceholder={searchPlaceholderText as string}
+      searchPlaceholder={getValue(searchPlaceholderText, '')}
       searchRef={searchRef}
       searchValue={searchValue}
     >

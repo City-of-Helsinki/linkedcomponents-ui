@@ -18,6 +18,7 @@ import {
   useRegistrationQuery,
 } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
@@ -57,12 +58,12 @@ const EditEnrolmentPage: React.FC<Props> = ({
   const { t } = useTranslation();
   const { user } = useUser();
   const { organizationAncestors } = useOrganizationAncestors(
-    event.publisher as string
+    getValue(event.publisher, '')
   );
   const isEditingAllowed = checkCanUserDoAction({
     action: ENROLMENT_ACTIONS.EDIT,
     organizationAncestors,
-    publisher: event.publisher as string,
+    publisher: getValue(event.publisher, ''),
     user,
   });
 
@@ -91,14 +92,14 @@ const EditEnrolmentPage: React.FC<Props> = ({
                 label: t(`editRegistrationPage.title`),
                 to: ROUTES.EDIT_REGISTRATION.replace(
                   ':id',
-                  registration.id as string
+                  getValue(registration.id, '')
                 ),
               },
               {
                 label: t(`enrolmentsPage.title`),
                 to: ROUTES.REGISTRATION_ENROLMENTS.replace(
                   ':registrationId',
-                  registration.id as string
+                  getValue(registration.id, '')
                 ),
               },
               { active: true, label: t(`editEnrolmentPage.pageTitle`) },
@@ -130,7 +131,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
     useRegistrationQuery({
       skip: !registrationId || !user,
       variables: {
-        id: registrationId as string,
+        id: getValue(registrationId, ''),
         include: REGISTRATION_INCLUDES,
         createPath: getPathBuilder(registrationPathBuilder),
       },
@@ -144,7 +145,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
     skip: loadingUser || !registration?.event,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
-      id: registration?.event as string,
+      id: getValue(registration?.event, ''),
       include: EVENT_INCLUDES,
     },
   });
@@ -156,7 +157,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
   } = useEnrolmentQuery({
     skip: !enrolmentId || !user,
     variables: {
-      id: enrolmentId as string,
+      id: getValue(enrolmentId, ''),
       createPath: getPathBuilder(enrolmentPathBuilder),
     },
   });

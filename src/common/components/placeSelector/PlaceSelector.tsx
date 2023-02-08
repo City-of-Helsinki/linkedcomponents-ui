@@ -91,7 +91,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const { data: placeData } = usePlaceQuery({
     skip: !value,
     variables: {
-      id: parseIdFromAtId(value) as string,
+      id: getValue(parseIdFromAtId(value), ''),
       createPath: getPathBuilder(placePathBuilder),
     },
   });

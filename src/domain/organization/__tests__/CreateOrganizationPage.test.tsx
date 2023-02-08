@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   actWait,
@@ -86,7 +87,7 @@ const fillParentField = async () => {
   const user = userEvent.setup();
   await user.click(getElement('parentToggleButton'));
   const organizationOption = await screen.findByRole('option', {
-    name: organizations.data[0]?.name as string,
+    name: getValue(organizations.data[0]?.name, ''),
   });
   await user.click(organizationOption);
 };

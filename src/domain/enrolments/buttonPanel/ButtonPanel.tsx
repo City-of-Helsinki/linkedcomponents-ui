@@ -18,7 +18,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({ registration }) => {
 
   const goBack = useGoBack<RegistrationsLocationState>({
     defaultReturnPath: ROUTES.EDIT_REGISTRATION.replace(':id', id),
-    state: { registrationId: registration.id as string },
+    state: { registrationId: id },
   });
 
   return <CommonButtonPanel onBack={goBack} />;

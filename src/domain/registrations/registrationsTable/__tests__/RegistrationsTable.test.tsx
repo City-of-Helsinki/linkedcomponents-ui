@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Registration } from '../../../../generated/graphql';
+import getValue from '../../../../utils/getValue';
 import {
   configure,
   render,
@@ -19,7 +20,7 @@ import RegistrationsTable, {
 
 configure({ defaultHidden: true });
 
-const registrationId = registrations.data[0]?.id as string;
+const registrationId = getValue(registrations.data[0]?.id, '');
 const registration = registrations.data[0] as Registration;
 
 const mocks = [...mockedEventResponses];
@@ -32,7 +33,7 @@ const defaultProps: RegistrationsTableProps = {
 const renderComponent = (props?: Partial<RegistrationsTableProps>) =>
   render(<RegistrationsTable {...defaultProps} {...props} />, { mocks });
 
-test('should render registrations table', () => {
+test('should render registrations table', async () => {
   renderComponent();
 
   const columnHeaders = [

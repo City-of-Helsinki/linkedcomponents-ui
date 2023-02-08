@@ -99,7 +99,10 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
             labelKey={`event.form.labelProvider.${type}`}
             languages={eventInfoLanguages}
             name={EVENT_FIELDS.PROVIDER}
-            placeholder={t(`event.form.placeholderProvider.${type}`) as string}
+            placeholder={getValue(
+              t(`event.form.placeholderProvider.${type}`),
+              undefined
+            )}
           />
         </FieldColumn>
       </FieldRow>

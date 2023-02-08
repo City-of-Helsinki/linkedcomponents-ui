@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
 import theme from '../../assets/theme/theme';
+import getValue from '../../utils/getValue';
 import { AuthProvider } from '../auth/AuthContext';
 import userManager from '../auth/userManager';
 import apolloClient from './apollo/apolloClient';
@@ -21,7 +22,7 @@ const getMatomoUrlPath = (path: string) =>
 
 const instance = createInstance({
   disabled: process.env.REACT_APP_MATOMO_ENABLED !== 'true',
-  urlBase: process.env.REACT_APP_MATOMO_URL_BASE as string,
+  urlBase: getValue(process.env.REACT_APP_MATOMO_URL_BASE, ''),
   srcUrl:
     process.env.REACT_APP_MATOMO_SRC_URL &&
     getMatomoUrlPath(process.env.REACT_APP_MATOMO_SRC_URL),

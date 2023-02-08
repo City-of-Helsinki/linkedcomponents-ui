@@ -28,12 +28,12 @@ const useIsImageEditable = ({ imageAtId }: Props): IsImageEditableState => {
     skip: !imageAtId,
     variables: {
       createPath: getPathBuilder(imagePathBuilder),
-      id: parseIdFromAtId(imageAtId) as string,
+      id: getValue(parseIdFromAtId(imageAtId), ''),
     },
   });
 
   const { organizationAncestors } = useOrganizationAncestors(
-    imageData?.image.publisher as string
+    getValue(imageData?.image.publisher, '')
   );
 
   const { editable, warning } = useMemo(() => {

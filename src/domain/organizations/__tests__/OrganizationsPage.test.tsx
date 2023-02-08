@@ -2,6 +2,7 @@ import { createMemoryHistory } from 'history';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   configure,
@@ -130,7 +131,7 @@ it('scrolls to organization row and calls history.replace correctly (deletes org
 
   await loadingSpinnerIsNotInDocument();
   const organizationButton = screen.getByRole('button', {
-    name: organizations.data[0]?.name as string,
+    name: getValue(organizations.data[0]?.name, ''),
   });
 
   await waitFor(() =>

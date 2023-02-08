@@ -4,6 +4,7 @@ import { createMemoryHistory } from 'history';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   configure,
@@ -100,7 +101,7 @@ test('scrolls to enrolment table row and calls history.replace correctly (delete
   );
 
   const enrolmentRowButton = screen.getAllByRole('button', {
-    name: attendees[0].name as string,
+    name: getValue(attendees[0].name, ''),
   })[0];
   await waitFor(() => expect(enrolmentRowButton).toHaveFocus());
 });

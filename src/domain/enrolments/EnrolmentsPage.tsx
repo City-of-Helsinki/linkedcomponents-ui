@@ -17,6 +17,7 @@ import {
 import useLocale from '../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../hooks/useQueryStringWithReturnPath';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
@@ -57,7 +58,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   const locale = useLocale();
 
   const { isAuthenticated: authenticated } = useAuth();
-  const publisher = useRegistrationPublisher({ registration }) as string;
+  const publisher = getValue(useRegistrationPublisher({ registration }), '');
 
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { user } = useUser();
@@ -70,13 +71,14 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   );
 
   const handleCreate = () => {
-    clearCreateEnrolmentFormData(registration.id as string);
-    clearSeatsReservationData(registration.id as string);
+    const registrationId = getValue(registration.id, '');
+    clearCreateEnrolmentFormData(registrationId);
+    clearSeatsReservationData(registrationId);
 
     navigate({
       pathname: ROUTES.CREATE_ENROLMENT.replace(
         ':registrationId',
-        registration.id as string
+        registrationId
       ),
       search: queryStringWithReturnPath,
     });
@@ -96,7 +98,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
       backgroundColor="coatOfArms"
       className={styles.enrolmentsPage}
       noFooter
-      titleText={t('enrolmentsPage.pageTitle', { name }) as string}
+      titleText={getValue(t('enrolmentsPage.pageTitle', { name }), '')}
     >
       <MainContent>
         <Container
@@ -120,7 +122,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
                     label: t(`editRegistrationPage.title`),
                     to: ROUTES.EDIT_REGISTRATION.replace(
                       ':id',
-                      registration.id as string
+                      getValue(registration.id, '')
                     ),
                   },
                   { active: true, label: t(`enrolmentsPage.title`) },
@@ -170,7 +172,7 @@ const EnrolmentsPageWrapper: React.FC = () => {
       skip: !registrationId || !user,
       fetchPolicy: 'network-only',
       variables: {
-        id: registrationId as string,
+        id: getValue(registrationId, ''),
         createPath: getPathBuilder(registrationPathBuilder),
         include: REGISTRATION_INCLUDES,
       },

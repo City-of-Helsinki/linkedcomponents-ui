@@ -5,6 +5,7 @@ import React from 'react';
 import { PlaceDocument, PlacesDocument } from '../../../../generated/graphql';
 import { OptionType } from '../../../../types';
 import generateAtId from '../../../../utils/generateAtId';
+import getValue from '../../../../utils/getValue';
 import { fakePlace, fakePlaces } from '../../../../utils/mockDataUtils';
 import {
   configure,
@@ -99,7 +100,7 @@ test('should open menu by clickin toggle button and list of options should be vi
   for (const option of filteredPlaces.data) {
     await screen.findByRole('option', {
       hidden: true,
-      name: new RegExp(option?.name?.fi as string),
+      name: new RegExp(getValue(option?.name?.fi, '')),
     });
   }
 });

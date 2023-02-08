@@ -160,7 +160,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
         };
 
         const dataSource = keywordSet
-          ? (keywordSet.dataSource as string)
+          ? getValue(keywordSet.dataSource, '')
           : values.dataSource;
 
         const disabledIfKeywordSet = !isEditingAllowed || !!keywordSet;

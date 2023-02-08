@@ -6,6 +6,7 @@ import {
   ImagesDocument,
   UploadImageDocument,
 } from '../../../../../generated/graphql';
+import getValue from '../../../../../utils/getValue';
 import { fakeImages } from '../../../../../utils/mockDataUtils';
 import { mockFile } from '../../../../../utils/testUtils';
 import { TEST_PUBLISHER_ID } from '../../../../organization/constants';
@@ -48,8 +49,8 @@ const mockedImageResponse: MockedResponse = {
   result: imageResponse,
 };
 
-const imageAtId = image?.atId as string;
-const imageUrl = image?.url as string;
+const imageAtId = getValue(image?.atId, '');
+const imageUrl = getValue(image?.url, '');
 const file = mockFile({});
 
 const uploadImage1Variables = {

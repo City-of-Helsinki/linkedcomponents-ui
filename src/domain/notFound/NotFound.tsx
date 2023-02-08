@@ -7,6 +7,7 @@ import Button from '../../common/components/button/Button';
 import ErrorTemplate from '../../common/components/errorTemplate/ErrorTemplate';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
+import getValue from '../../utils/getValue';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import { useAuth } from '../auth/hooks/useAuth';
@@ -31,7 +32,7 @@ const NotFoundPage: React.FC<Props> = ({ pathAfterSignIn }) => {
   };
 
   return (
-    <PageWrapper title={t('notFound.pageTitle') as string}>
+    <PageWrapper title={getValue(t('notFound.pageTitle'), '')}>
       <MainContent>
         <ErrorTemplate
           buttons={

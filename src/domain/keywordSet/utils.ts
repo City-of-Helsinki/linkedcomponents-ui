@@ -21,6 +21,7 @@ import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import skipFalsyType from '../../utils/skipFalsyType';
 import {
   AUTHENTICATION_NOT_NEEDED,
   KEYWORD_SET_ACTION_ICONS,
@@ -206,8 +207,9 @@ export const getKeywordSetInitialValues = (
   return {
     dataSource: getValue(keywordSet.dataSource, ''),
     id,
-    keywords:
-      keywordSet.keywords?.map((keyword) => keyword?.atId as string) || [],
+    keywords: getValue(keywordSet.keywords, [])
+      .map((keyword) => keyword?.atId)
+      .filter(skipFalsyType),
     name: getLocalisedObject(keywordSet.name),
     originId: getValue(id.split(':')[1], ''),
     organization: getValue(keywordSet.organization, ''),

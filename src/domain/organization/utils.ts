@@ -81,7 +81,10 @@ export const getOrganizationFields = (
   const id = getValue(organization.id, '');
 
   return {
-    affiliatedOrganizations: organization.affiliatedOrganizations as string[],
+    affiliatedOrganizations: getValue(
+      organization.affiliatedOrganizations?.filter(skipFalsyType),
+      []
+    ),
     atId: getValue(organization.atId, ''),
     classification: getValue(organization.classification, ''),
     dataSource: getValue(organization.dataSource, ''),
@@ -313,9 +316,9 @@ export const getOrganizationInitialValues = (
   const { dissolutionDate, foundingDate } = organization;
 
   return {
-    adminUsers: organization.adminUsers?.length
-      ? organization.adminUsers.map((o) => o?.username as string)
-      : [],
+    adminUsers: getValue(organization.adminUsers, []).map((o) =>
+      getValue(o?.username, '')
+    ),
     affiliatedOrganizations: getValue(
       organization.affiliatedOrganizations?.filter(skipFalsyType),
       []

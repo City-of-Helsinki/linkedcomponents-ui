@@ -224,7 +224,7 @@ export const getEventFields = (
     registrationUrl: registrationAtId
       ? `/${language}${ROUTES.EDIT_REGISTRATION.replace(
           ':id',
-          parseIdFromAtId(registrationAtId) as string
+          getValue(parseIdFromAtId(registrationAtId), '')
         )}`
       : null,
     subEventAtIds: (event.subEvents || [])
@@ -810,7 +810,9 @@ export const getEventInitialValues = (
 
   return {
     ...EVENT_INITIAL_VALUES,
-    audience: event.audience.map((keyword) => keyword?.atId as string),
+    audience: event.audience
+      .map((keyword) => keyword?.atId)
+      .filter(skipFalsyType),
     audienceMaxAge: event.audienceMaxAge ?? '',
     audienceMinAge: event.audienceMinAge ?? '',
     description: getSanitizedDescription(event),

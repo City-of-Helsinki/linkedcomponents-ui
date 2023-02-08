@@ -12,6 +12,7 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
@@ -112,7 +113,7 @@ const EditOrganizationPageWrapper: React.FC = () => {
       fetchPolicy: 'no-cache',
       skip: loadingUser,
       variables: {
-        id: id as string,
+        id: getValue(id, ''),
         createPath: getPathBuilder(organizationPathBuilder),
       },
     });

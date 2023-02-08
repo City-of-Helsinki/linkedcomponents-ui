@@ -13,6 +13,7 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
@@ -48,15 +49,15 @@ const EventSavedPage: React.FC<EventSavedPageProps> = ({ event }) => {
     <PageWrapper
       title={
         publicationStatus === PublicationStatus.Draft
-          ? (t('eventSavedPage.pageTitleDraftSaved') as string)
-          : (t(`eventSavedPage.pageTitlePublished`) as string)
+          ? getValue(t('eventSavedPage.pageTitleDraftSaved'), undefined)
+          : getValue(t(`eventSavedPage.pageTitlePublished`), undefined)
       }
     >
       <Container withOffset={true}>
         <h1>
           {publicationStatus === PublicationStatus.Draft
-            ? (t('eventSavedPage.titleDraftSaved') as string)
-            : (t(`eventSavedPage.titlePublished`) as string)}
+            ? getValue(t('eventSavedPage.titleDraftSaved'), undefined)
+            : getValue(t(`eventSavedPage.titlePublished`), undefined)}
         </h1>
 
         <div className={styles.buttonPanel}>
@@ -82,7 +83,7 @@ const EventSavedPageWrapper: React.FC = () => {
   const { data: eventData, loading } = useEventQuery({
     skip: !eventId,
     variables: {
-      id: eventId as string,
+      id: getValue(eventId, ''),
       createPath: getPathBuilder(eventPathBuilder),
     },
   });

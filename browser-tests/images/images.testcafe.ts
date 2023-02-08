@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { RequestLogger } from 'testcafe';
 
+import getValue from '../../src/utils/getValue';
 import { findCookieConsentModal } from '../cookieConsentModal/cookieConsentModal.components';
 import { getImages } from '../data/imageData';
 import { isFeatureEnabled } from '../utils/featureFlag.utils';
@@ -52,7 +53,7 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
       const [image] = images;
 
       await urlUtils.actions.navigateToImagesUrl(
-        getRandomSentence(image.name as string)
+        getRandomSentence(getValue(image.name, ''))
       );
 
       const searchResults = await imagesPage.findSearchResultList();

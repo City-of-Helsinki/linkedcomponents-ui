@@ -6,6 +6,7 @@ import TextWithIcon from '../../../common/components/textWithIcon/TextWithIcon';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getLocalisedString from '../../../utils/getLocalisedString';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import useEventLocation from '../../event/hooks/useEventLocation';
 import { getEventFields } from '../../event/utils';
@@ -91,7 +92,7 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
         </div>
         <div className={styles.keywordsRow}>
           {keywords.map((keyword) => (
-            <Tag key={keyword.atId} id={keyword.id as string}>
+            <Tag key={keyword.atId} id={getValue(keyword.id, '')}>
               {capitalize(getLocalisedString(keyword.name, locale))}
             </Tag>
           ))}

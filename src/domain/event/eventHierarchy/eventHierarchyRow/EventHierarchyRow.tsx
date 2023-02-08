@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { EventFieldsFragment } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import formatDate from '../../../../utils/formatDate';
+import getValue from '../../../../utils/getValue';
 import useOrganizationAncestors from '../../../organization/hooks/useOrganizationAncestors';
 import SuperEventTypeTag from '../../tags/superEventTypeTag/SuperEventTypeTag';
 import { getEventFields } from '../../utils';
@@ -36,7 +37,7 @@ const EventHierarchyRow: React.FC<Props> = ({
 
   // Organization ancestors per sub-event are checked when saving recurring events,
   // so fetch organization ancestors for each sub-event to make saving more performant
-  useOrganizationAncestors(event.publisher as string);
+  useOrganizationAncestors(getValue(event.publisher, ''));
 
   const handleToggle = () => {
     toggle(id);
@@ -53,8 +54,14 @@ const EventHierarchyRow: React.FC<Props> = ({
         <button
           aria-label={
             open
-              ? (t('eventsPage.eventsTable.hideSubEvents', { name }) as string)
-              : (t('eventsPage.eventsTable.showSubEvents', { name }) as string)
+              ? getValue(
+                  t('eventsPage.eventsTable.hideSubEvents', { name }),
+                  undefined
+                )
+              : getValue(
+                  t('eventsPage.eventsTable.showSubEvents', { name }),
+                  undefined
+                )
           }
           disabled={disabled}
           onClick={handleToggle}

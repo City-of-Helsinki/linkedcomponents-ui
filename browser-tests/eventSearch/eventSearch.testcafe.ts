@@ -3,6 +3,7 @@ import TestController, { RequestLogger } from 'testcafe';
 
 import { SUPPORTED_LANGUAGES, supportedLanguages } from '../../src/constants';
 import { EventFieldsFragment } from '../../src/generated/graphql';
+import getValue from '../../src/utils/getValue';
 import { findCookieConsentModal } from '../cookieConsentModal/cookieConsentModal.components';
 import {
   getEvents,
@@ -88,7 +89,7 @@ test.disablePageReloads(
     );
 
     await urlUtils.actions.navigateToSearchUrl(
-      getRandomSentence(event.name?.fi as string)
+      getRandomSentence(getValue(event.name?.fi, ''))
     );
     const searchResults = await eventSearchPage.findSearchResultList();
     const eventCard = await searchResults.eventCard(event);
@@ -176,7 +177,7 @@ test.disablePageReloads(
         await testSearchEventByText(
           t,
           eventWithLocation,
-          eventLocation.streetAddress?.[locale] as string,
+          getValue(eventLocation.streetAddress?.[locale], ''),
           'location'
         );
       }

@@ -8,6 +8,7 @@ import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -40,7 +41,7 @@ const RegistrationActionsDropdown: React.FC<
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const { user } = useUser();
 
-  const publisher = useRegistrationPublisher({ registration }) as string;
+  const publisher = getValue(useRegistrationPublisher({ registration }), '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { closeModal, deleteRegistration, openModal, saving, setOpenModal } =

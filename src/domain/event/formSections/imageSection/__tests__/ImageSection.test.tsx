@@ -5,6 +5,7 @@ import React from 'react';
 import { EMPTY_MULTI_LANGUAGE_OBJECT, testIds } from '../../../../../constants';
 import { ImageDocument } from '../../../../../generated/graphql';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
+import getValue from '../../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import { fakeImage } from '../../../../../utils/mockDataUtils';
 import {
@@ -146,7 +147,7 @@ test('should select existing image', async () => {
   getElement('modalHeading');
 
   const imageCheckbox = await screen.findByLabelText(
-    images.data[0]?.name as string
+    getValue(images.data[0]?.name, '')
   );
   await user.click(imageCheckbox);
 

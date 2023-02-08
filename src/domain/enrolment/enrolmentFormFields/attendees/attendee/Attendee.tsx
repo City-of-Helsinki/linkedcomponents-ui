@@ -7,6 +7,7 @@ import DateInputField from '../../../../../common/components/formFields/dateInpu
 import TextAreaField from '../../../../../common/components/formFields/textAreaField/TextAreaField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
+import getValue from '../../../../../utils/getValue';
 import { ATTENDEE_FIELDS } from '../../../constants';
 import { useEnrolmentPageContext } from '../../../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { AttendeeFields } from '../../../types';
@@ -44,7 +45,7 @@ const Attendee: React.FC<Props> = ({
       deleteButton={
         showDelete && !disabled ? (
           <button
-            aria-label={t('enrolment.form.buttonDeleteAttendee') as string}
+            aria-label={getValue(t('enrolment.form.buttonDeleteAttendee'), '')}
             className={styles.deleteButton}
             onClick={onDelete}
             type="button"

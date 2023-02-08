@@ -275,7 +275,7 @@ export const scrollToFirstError = ({
   getFocusableFieldId?: (path: string) => string;
 }): void => {
   forEach(error.inner, (e) => {
-    const path = e.path as string;
+    const path = getValue(e.path, '');
     const fieldId = getFocusableFieldId ? getFocusableFieldId(path) : path;
     const field = document.getElementById(fieldId);
 

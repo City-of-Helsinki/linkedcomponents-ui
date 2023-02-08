@@ -112,7 +112,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
         variables: { input: payload },
       });
 
-      return data.data?.createOrganization.id as string;
+      return getValue(data.data?.createOrganization.id, '');
     } catch (error) /* istanbul ignore next */ {
       showServerErrors({ error });
       // // Report error to Sentry

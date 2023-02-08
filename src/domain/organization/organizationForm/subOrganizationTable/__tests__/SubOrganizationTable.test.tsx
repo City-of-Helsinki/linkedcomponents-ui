@@ -1,5 +1,6 @@
 import React from 'react';
 
+import getValue from '../../../../../utils/getValue';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -19,7 +20,7 @@ import SubOrganizationTable, {
 configure({ defaultHidden: true });
 
 const props: SubOrganizationTableProps = {
-  organizationIds: [organizations.data[0]?.atId as string],
+  organizationIds: [getValue(organizations.data[0]?.atId, '')],
   title: 'Aliorganisaatiot',
 };
 
@@ -53,7 +54,7 @@ test('should open sub organization edit page', async () => {
   });
 
   const organizationButton = await screen.findByRole('button', {
-    name: organizations.data[0]?.name as string,
+    name: getValue(organizations.data[0]?.name, ''),
   });
   await user.click(organizationButton);
 
@@ -71,7 +72,7 @@ test('should open sub organization edit page by pressing enter on row', async ()
   await loadingSpinnerIsNotInDocument();
 
   const organizationButton = await screen.findByRole('button', {
-    name: organizations.data[0]?.name as string,
+    name: getValue(organizations.data[0]?.name, ''),
   });
   await user.type(organizationButton, '{enter}');
 

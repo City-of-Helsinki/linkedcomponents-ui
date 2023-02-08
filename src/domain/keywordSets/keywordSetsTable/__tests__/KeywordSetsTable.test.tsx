@@ -1,5 +1,6 @@
 import React from 'react';
 
+import getValue from '../../../../utils/getValue';
 import {
   configure,
   render,
@@ -16,8 +17,8 @@ import KeywordSetsTable, { KeywordSetsTableProps } from '../KeywordSetsTable';
 
 configure({ defaultHidden: true });
 
-const keywordSetName = keywordSets.data[0]?.name?.fi as string;
-const keywordSetId = keywordSets.data[0]?.id as string;
+const keywordSetName = getValue(keywordSets.data[0]?.name?.fi, '');
+const keywordSetId = getValue(keywordSets.data[0]?.id, '');
 
 const defaultProps: KeywordSetsTableProps = {
   caption: 'Keyword set table',

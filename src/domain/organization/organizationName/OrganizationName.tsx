@@ -8,6 +8,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import OrganizationBadge from '../organizationBadge/OrganizationBadge';
 import { getOrganizationFields, organizationPathBuilder } from '../utils';
 
@@ -43,7 +44,7 @@ const OrganizationNameContainer: React.FC<OrganizationNameContainerProps> = ({
   const { data: organizationData } = useOrganizationQuery({
     skip: !id,
     variables: {
-      id: id as string,
+      id: getValue(id, ''),
       createPath: getPathBuilder(organizationPathBuilder),
     },
   });

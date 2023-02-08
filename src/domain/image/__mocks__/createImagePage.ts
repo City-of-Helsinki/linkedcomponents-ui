@@ -5,6 +5,7 @@ import {
   ImageFieldsFragment,
   UploadImageDocument,
 } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import { fakeImage } from '../../../utils/mockDataUtils';
 import { mockFile } from '../../../utils/testUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
@@ -20,7 +21,7 @@ const imageValues: Partial<ImageFieldsFragment> = {
 };
 
 const image = fakeImage(imageValues);
-const imageUrl = image.url as string;
+const imageUrl = getValue(image.url, '');
 const file = mockFile({});
 
 const uploadImageByUrlVariables = {

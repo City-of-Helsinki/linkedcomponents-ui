@@ -19,6 +19,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
+import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
@@ -116,7 +117,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
       location.search,
       ROUTES.REGISTRATION_ENROLMENTS.replace(
         ':registrationId',
-        registration.id as string
+        getValue(registration.id, '')
       )
     );
 
@@ -133,18 +134,19 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
   };
 
   const goToEnrolmentsPageAfterCreate = () => {
+    const registrationId = getValue(registration.id, '');
     // Disable reservation timer callbacks
     // so user is not redirected to create enrolment page
     disableReservationTimerCallbacks();
 
     formSavingDisabled.current = true;
-    clearCreateEnrolmentFormData(registration.id as string);
-    clearSeatsReservationData(registration.id as string);
+    clearCreateEnrolmentFormData(registrationId);
+    clearSeatsReservationData(registrationId);
 
     navigate(
       `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
         ':registrationId',
-        registration.id as string
+        registrationId
       )}`
     );
   };
@@ -219,7 +221,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
           name={`${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registration.id}`}
           restoringDisabled={isRestoringFormDataDisabled({
             enrolment,
-            registrationId: registration.id as string,
+            registrationId: getValue(registration.id, ''),
           })}
           savingDisabled={callbacksDisabled || formSavingDisabled.current}
         >

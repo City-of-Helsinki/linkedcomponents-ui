@@ -13,6 +13,7 @@ import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import { ActionButtonProps, ButtonType } from '../../../types';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -53,7 +54,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const goBack = useGoBack<RegistrationsLocationState>({
     defaultReturnPath: ROUTES.REGISTRATIONS,
-    state: { registrationId: registration.id as string },
+    state: { registrationId: getValue(registration.id, '') },
   });
 
   const copyRegistration = async () => {

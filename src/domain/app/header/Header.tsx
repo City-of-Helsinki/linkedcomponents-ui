@@ -8,6 +8,7 @@ import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { featureFlagUtils } from '../../../utils/featureFlags';
+import getValue from '../../../utils/getValue';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { getEventSearchQuery } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
@@ -206,9 +207,10 @@ const Header: React.FC = () => {
               />
             </Navigation.User>
             <Navigation.LanguageSelector
-              buttonAriaLabel={
-                t('navigation.languageSelectorAriaLabel') as string
-              }
+              buttonAriaLabel={getValue(
+                t('navigation.languageSelectorAriaLabel'),
+                ''
+              )}
               className={cx(
                 styles.languageSelector,
                 css(theme.navigationDropdown)

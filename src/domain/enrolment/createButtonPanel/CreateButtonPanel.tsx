@@ -7,6 +7,7 @@ import LoadingButton from '../../../common/components/loadingButton/LoadingButto
 import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
+import getValue from '../../../utils/getValue';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
@@ -31,14 +32,14 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
   const { t } = useTranslation();
 
   const { isAuthenticated: authenticated } = useAuth();
-  const publisher = useRegistrationPublisher({ registration }) as string;
+  const publisher = getValue(useRegistrationPublisher({ registration }), '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { user } = useUser();
 
   const goBack = useGoBack({
     defaultReturnPath: ROUTES.REGISTRATION_ENROLMENTS.replace(
       ':registrationId',
-      registration.id as string
+      getValue(registration.id, '')
     ),
   });
 

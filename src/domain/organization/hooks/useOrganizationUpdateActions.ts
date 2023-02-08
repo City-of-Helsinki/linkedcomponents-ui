@@ -13,6 +13,7 @@ import {
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
+import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearOrganizationQueries,
@@ -116,7 +117,7 @@ const useOrganizationUpdateActions = ({
       setSaving(ORGANIZATION_ACTIONS.DELETE);
 
       await deleteOrganizationMutation({
-        variables: { id: organization?.id as string },
+        variables: { id: getValue(organization?.id, '') },
       });
 
       await cleanAfterUpdate(callbacks);

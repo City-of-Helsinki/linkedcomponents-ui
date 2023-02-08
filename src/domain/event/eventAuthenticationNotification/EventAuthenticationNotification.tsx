@@ -5,6 +5,7 @@ import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -27,7 +28,7 @@ const EventAuthenticationNotification: React.FC<
     : [];
   const { t } = useTranslation();
   const { organizationAncestors } = useOrganizationAncestors(
-    event?.publisher as string
+    getValue(event?.publisher, '')
   );
 
   const getNotificationProps = () => {

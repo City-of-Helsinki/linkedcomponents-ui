@@ -178,7 +178,7 @@ const EventForm: React.FC<EventFormProps> = ({
   ) => {
     createEvent(values, publicationStatus, {
       onError: (error) => showServerErrors({ error, eventType: values.type }),
-      onSuccess: (id?: string) => goToEventSavedPage(id as string),
+      onSuccess: (id) => goToEventSavedPage(getValue(id, '')),
     });
   };
 

@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   configure,
@@ -84,7 +85,7 @@ const fillFormValues = async () => {
 
   await user.click(getElement('replacedByToggleButton'));
   const organizationOption = await screen.findByRole('option', {
-    name: organizations.data[0]?.name as string,
+    name: getValue(organizations.data[0]?.name, ''),
   });
   await user.click(organizationOption);
 };

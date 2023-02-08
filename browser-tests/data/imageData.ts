@@ -22,7 +22,7 @@ export const getImages = async (
     timeout: 20000,
   });
 
-  return JSON.parse(imagesResponse.response.body as string).data.map((image) =>
+  return JSON.parse(imagesResponse.response.body.toString()).data.map((image) =>
     normalizeKeys(image, normalizeKey)
   );
 };

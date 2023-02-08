@@ -67,7 +67,7 @@ const useUpdateRecurringEventIfNeeded =
 
       try {
         const superEvent = await getRecurringEvent(
-          parseIdFromAtId(event.superEvent.atId) as string,
+          getValue(parseIdFromAtId(event.superEvent.atId), ''),
           apolloClient
         );
 

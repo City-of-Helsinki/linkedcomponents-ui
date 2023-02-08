@@ -51,7 +51,7 @@ const SingleOrganizationClassSelector: React.FC<
   const { data: organizationClassData } = useOrganizationClassQuery({
     skip: !value,
     variables: {
-      id: value as string,
+      id: getValue(value, ''),
       createPath: getPathBuilder(organizationClassPathBuilder),
     },
   });

@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router';
 import Button from '../../../common/components/button/Button';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import useSearchState from '../../../hooks/useSearchState';
+import getValue from '../../../utils/getValue';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { getEnrolmentSearchInitialValues } from '../utils';
 import styles from './searchPanel.module.scss';
@@ -53,12 +54,14 @@ const SearchPanel: React.FC = () => {
             label={t('enrolmentsPage.searchPanel.labelSearch')}
             onChange={handleChangeText}
             onSubmit={handleSearch}
-            placeholder={
-              t('enrolmentsPage.searchPanel.placeholderSearch') as string
-            }
-            searchButtonAriaLabel={
-              t('enrolmentsPage.searchPanel.buttonSearch') as string
-            }
+            placeholder={getValue(
+              t('enrolmentsPage.searchPanel.placeholderSearch'),
+              undefined
+            )}
+            searchButtonAriaLabel={getValue(
+              t('enrolmentsPage.searchPanel.buttonSearch'),
+              undefined
+            )}
             value={searchState.enrolmentText}
           />
         </div>

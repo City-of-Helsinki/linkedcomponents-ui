@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { PAGE_HEADER_ID } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
+import getValue from '../../../utils/getValue';
 
 type SupportedLanguage = 'en' | 'fi' | 'sv';
 
@@ -31,7 +32,7 @@ const CookieConsent: FC = () => {
   return (
     <CookieModal
       contentSource={{
-        siteName: t('common.cookieConsent.siteName') as string,
+        siteName: getValue(t('common.cookieConsent.siteName'), ''),
         currentLanguage: language,
         requiredCookies: {
           groups: [
@@ -45,37 +46,47 @@ const CookieConsent: FC = () => {
                 {
                   id: 'eventForm',
                   hostName: origin,
-                  name: t('common.cookieConsent.eventForm.name') as string,
-                  description: t(
-                    'common.cookieConsent.eventForm.description'
-                  ) as string,
-                  expiration: t(
-                    'common.cookieConsent.expiration.session'
-                  ) as string,
+                  name: getValue(t('common.cookieConsent.eventForm.name'), ''),
+                  description: getValue(
+                    t('common.cookieConsent.eventForm.description'),
+                    ''
+                  ),
+                  expiration: getValue(
+                    t('common.cookieConsent.expiration.session'),
+                    ''
+                  ),
                 },
                 {
                   id: 'registrationForm',
                   hostName: origin,
-                  name: t(
-                    'common.cookieConsent.registrationForm.name'
-                  ) as string,
-                  description: t(
-                    'common.cookieConsent.registrationForm.description'
-                  ) as string,
-                  expiration: t(
-                    'common.cookieConsent.expiration.session'
-                  ) as string,
+                  name: getValue(
+                    t('common.cookieConsent.registrationForm.name'),
+                    ''
+                  ),
+                  description: getValue(
+                    t('common.cookieConsent.registrationForm.description'),
+                    ''
+                  ),
+                  expiration: getValue(
+                    t('common.cookieConsent.expiration.session'),
+                    ''
+                  ),
                 },
                 {
                   id: 'enrolmentForm',
                   hostName: origin,
-                  name: t('common.cookieConsent.enrolmentForm.name') as string,
-                  description: t(
-                    'common.cookieConsent.enrolmentForm.description'
-                  ) as string,
-                  expiration: t(
-                    'common.cookieConsent.expiration.session'
-                  ) as string,
+                  name: getValue(
+                    t('common.cookieConsent.enrolmentForm.name'),
+                    ''
+                  ),
+                  description: getValue(
+                    t('common.cookieConsent.enrolmentForm.description'),
+                    ''
+                  ),
+                  expiration: getValue(
+                    t('common.cookieConsent.expiration.session'),
+                    ''
+                  ),
                 },
               ],
             },

@@ -30,7 +30,7 @@ import {
 } from '../../../place/utils';
 
 const getPlaceFields = (place: PlaceFieldsFragment, locale: Language) => ({
-  id: place.id as string,
+  id: getValue(place.id, ''),
   name: getLocalisedString(place.name, locale),
 });
 

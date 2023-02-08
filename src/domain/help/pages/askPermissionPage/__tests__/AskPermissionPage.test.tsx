@@ -91,7 +91,7 @@ const getElement = (key: GetElementKey) => {
       return screen.getByLabelText(/nimi/i);
     case 'organizationOption':
       return screen.getByRole('option', {
-        name: organizations.data[0]?.name as string,
+        name: getValue(organizations.data[0]?.name, ''),
       });
     case 'organizationToggleButton':
       return screen.getByRole('button', { name: /organisaatio/i });

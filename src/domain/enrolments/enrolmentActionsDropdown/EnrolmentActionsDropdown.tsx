@@ -10,6 +10,7 @@ import {
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../../enrolment/constants';
@@ -40,7 +41,7 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
   const navigate = useNavigate();
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const publisher = useRegistrationPublisher({ registration }) as string;
+  const publisher = getValue(useRegistrationPublisher({ registration }), '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { pathname, search } = useLocation();
   const { id: registrationId } = getRegistrationFields(registration, locale);

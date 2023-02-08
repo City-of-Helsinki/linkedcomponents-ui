@@ -1,6 +1,7 @@
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   configure,
@@ -219,7 +220,7 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
   );
 
   const eventRowButton = screen.getByRole('button', {
-    name: waitingApprovalEvents.data[0]?.name?.fi as string,
+    name: getValue(waitingApprovalEvents.data[0]?.name?.fi, ''),
   });
   await waitFor(() => expect(eventRowButton).toHaveFocus());
 });

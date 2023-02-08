@@ -9,6 +9,7 @@ import { ROUTES } from '../../constants';
 import { useRegistrationQuery } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
@@ -36,7 +37,7 @@ const RegistrationSavedPage: React.FC = () => {
   };
 
   return (
-    <PageWrapper title={t('registrationSavedPage.pageTitle') as string}>
+    <PageWrapper title={getValue(t('registrationSavedPage.pageTitle'), '')}>
       <Container withOffset={true}>
         <h1>{t('registrationSavedPage.title')}</h1>
 
@@ -64,7 +65,7 @@ const RegistrationSavedPageWrapper: React.FC = () => {
   const { data: registrationData, loading } = useRegistrationQuery({
     skip: !registrationId || !user,
     variables: {
-      id: registrationId as string,
+      id: getValue(registrationId, ''),
       include: REGISTRATION_INCLUDES,
       createPath: getPathBuilder(registrationPathBuilder),
     },

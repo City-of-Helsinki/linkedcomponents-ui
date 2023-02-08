@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
+import getValue from '../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   configure,
@@ -23,14 +24,14 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: EditButtonPanelProps = {
   dataSource: TEST_DATA_SOURCE_ID,
-  id: keywordSet.id as string,
+  id: getValue(keywordSet.id, ''),
   onSave: jest.fn(),
   saving: null,
 };
 
 const route = `/fi/${ROUTES.EDIT_KEYWORD_SET.replace(
   ':id',
-  keywordSet.id as string
+  getValue(keywordSet.id, '')
 )}`;
 const routes = [route];
 

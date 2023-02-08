@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Image } from '../../../../generated/graphql';
+import getValue from '../../../../utils/getValue';
 import {
   configure,
   render,
@@ -37,7 +38,7 @@ test('should render image selector', async () => {
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
   images.data.forEach((image) => {
-    screen.getByLabelText(image?.name as string);
+    screen.getByLabelText(getValue(image?.name, ''));
   });
 });
 
@@ -53,7 +54,7 @@ test('should load more images', async () => {
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
   for (const image of loadMoreImages.data) {
-    await screen.findByLabelText(image?.name as string, undefined, {
+    await screen.findByLabelText(getValue(image?.name, ''), undefined, {
       timeout: 5000,
     });
   }
@@ -70,7 +71,7 @@ test('should call onChange', async () => {
 
   const { name, atId } = images.data[0] as Image;
 
-  await user.click(screen.getByLabelText(name as string));
+  await user.click(screen.getByLabelText(getValue(name, '')));
   expect(onChange).toBeCalledWith([atId]);
 });
 
@@ -84,7 +85,7 @@ test('should clear value when clicking selected image', async () => {
 
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
-  await user.click(screen.getByLabelText(name as string));
+  await user.click(screen.getByLabelText(getValue(name, '')));
   expect(onChange).toBeCalledWith([]);
 });
 
@@ -99,7 +100,7 @@ test('should call onChange with multiple image ids', async () => {
   await waitFor(() => expect(loadMoreButton).toBeEnabled());
 
   const { name, atId: atId2 } = images.data[1] as Image;
-  await user.click(screen.getByLabelText(name as string));
+  await user.click(screen.getByLabelText(getValue(name, '')));
 
   expect(onChange).toBeCalledWith([atId, atId2]);
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Organization } from '../../../../generated/graphql';
+import getValue from '../../../../utils/getValue';
 import {
   configure,
   render,
@@ -16,8 +17,8 @@ import OrganizationsTable, {
 
 configure({ defaultHidden: true });
 
-const organizationName = organizations.data[0]?.name as string;
-const organizationId = organizations.data[0]?.id as string;
+const organizationName = getValue(organizations.data[0]?.name, '');
+const organizationId = getValue(organizations.data[0]?.id, '');
 
 const defaultProps: OrganizationsTableProps = {
   caption: 'Organizations table',
@@ -55,7 +56,7 @@ test('should render all organizations', () => {
   renderComponent({ organizations: organizationItems });
 
   for (const { name } of organizationItems) {
-    screen.getByRole('button', { name: name as string });
+    screen.getByRole('button', { name: getValue(name, '') });
   }
 });
 

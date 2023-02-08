@@ -9,6 +9,7 @@ import { ROUTES } from '../../constants';
 import { ImageFieldsFragment, useImageQuery } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
@@ -108,7 +109,7 @@ const EditImagePageWrapper: React.FC = () => {
     notifyOnNetworkStatusChange: true,
     variables: {
       createPath: getPathBuilder(imagePathBuilder),
-      id: id as string,
+      id: getValue(id, ''),
     },
   });
 

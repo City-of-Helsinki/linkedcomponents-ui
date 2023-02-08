@@ -14,6 +14,7 @@ import {
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
+import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearImageQueries,
@@ -124,7 +125,7 @@ const useImageUpdateActions = ({
       setSaving(IMAGE_ACTIONS.DELETE);
 
       await deleteImageMutation({
-        variables: { id: image?.id as string },
+        variables: { id: getValue(image?.id, '') },
       });
 
       await cleanAfterUpdate(callbacks);
