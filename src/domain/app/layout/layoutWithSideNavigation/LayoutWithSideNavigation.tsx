@@ -72,40 +72,39 @@ const LayoutWithSideNavigation: React.FC<Props> = ({
                 id="side-navigation"
                 toggleButtonLabel={toggleButtonLabel}
               >
-                {levels.map(
-                  ({ icon, label, subLevels, to }, mainLevelIndex) => {
-                    const localePath = getLocalePath(to);
-                    return (
-                      <SideNavigation.MainLevel
-                        key={mainLevelIndex}
-                        id={localePath}
-                        href={localePath}
-                        icon={icon}
-                        label={label}
-                        onClick={
-                          subLevels.length
-                            ? undefined
-                            : handleLinkClick(localePath)
-                        }
-                      >
-                        {subLevels?.map(({ label, to }, subLevelIndex) => {
-                          const localePath = getLocalePath(to);
+                {levels.map(({ icon, label, subLevels, to }) => {
+                  const localePath = getLocalePath(to);
 
-                          return (
-                            <SideNavigation.SubLevel
-                              key={subLevelIndex}
-                              id={localePath}
-                              active={getIsActive(localePath)}
-                              href={localePath}
-                              label={label}
-                              onClick={handleLinkClick(localePath)}
-                            />
-                          );
-                        })}
-                      </SideNavigation.MainLevel>
-                    );
-                  }
-                )}
+                  return (
+                    <SideNavigation.MainLevel
+                      key={localePath}
+                      id={localePath}
+                      href={localePath}
+                      icon={icon}
+                      label={label}
+                      onClick={
+                        subLevels.length
+                          ? undefined
+                          : handleLinkClick(localePath)
+                      }
+                    >
+                      {subLevels?.map(({ label, to }) => {
+                        const localePath = getLocalePath(to);
+
+                        return (
+                          <SideNavigation.SubLevel
+                            key={localePath}
+                            id={localePath}
+                            active={getIsActive(localePath)}
+                            href={localePath}
+                            label={label}
+                            onClick={handleLinkClick(localePath)}
+                          />
+                        );
+                      })}
+                    </SideNavigation.MainLevel>
+                  );
+                })}
               </SideNavigation>
             </div>
           </div>

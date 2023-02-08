@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -12,6 +12,7 @@ import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getSortByOrderAndColKey from '../../../utils/getSortByOrderAndColKey';
 import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
+import getValue from '../../../utils/getValue';
 import {
   getKeywordSetFields,
   getKeywordSetItemId,
@@ -29,11 +30,7 @@ export interface KeywordSetsTableProps {
   sort: KEYWORD_SET_SORT_OPTIONS;
 }
 
-type ColumnProps = {
-  keywordSet: KeywordSetFieldsFragment;
-};
-
-const IdColumn: FC<ColumnProps> = ({ keywordSet }) => {
+const IdColumn = (keywordSet: KeywordSetFieldsFragment) => {
   const locale = useLocale();
   const { keywordSetUrl, id } = getKeywordSetFields(keywordSet, locale);
 
@@ -47,27 +44,31 @@ const IdColumn: FC<ColumnProps> = ({ keywordSet }) => {
   );
 };
 
-const NameColumn: FC<ColumnProps> = ({ keywordSet }) => {
+const NameColumn = (keywordSet: KeywordSetFieldsFragment) => {
   const locale = useLocale();
   const { name } = getKeywordSetFields(keywordSet, locale);
 
   return <>{name}</>;
 };
 
-const UsageColumn: FC<ColumnProps> = ({ keywordSet }) => {
+const UsageColumn = (keywordSet: KeywordSetFieldsFragment) => {
   const locale = useLocale();
   const { usage } = getKeywordSetFields(keywordSet, locale);
 
   const usageOptions = useKeywordSetUsageOptions();
 
   const getUsageText = (usage: string) => {
-    return (
-      usageOptions.find((option) => option.value === usage)?.label ||
-      /* istanbul ignore next */ usage
+    return getValue(
+      usageOptions.find((option) => option.value === usage)?.label,
+      usage
     );
   };
 
   return <>{getUsageText(usage)}</>;
+};
+
+const ActionsColumn = (keywordSet: KeywordSetFieldsFragment) => {
+  return <KeywordSetActionsDropdown keywordSet={keywordSet} />;
 };
 
 const KeywordSetsTable: React.FC<KeywordSetsTableProps> = ({
@@ -118,9 +119,7 @@ const KeywordSetsTable: React.FC<KeywordSetsTableProps> = ({
           key: KEYWORD_SET_SORT_OPTIONS.ID,
           headerName: t('keywordSetsPage.keywordSetsTableColumns.id'),
           sortIconType: 'string',
-          transform: (keywordSet: KeywordSetFieldsFragment) => (
-            <IdColumn keywordSet={keywordSet} />
-          ),
+          transform: IdColumn,
         },
         {
           className: styles.nameColumn,
@@ -128,9 +127,7 @@ const KeywordSetsTable: React.FC<KeywordSetsTableProps> = ({
           key: KEYWORD_SET_SORT_OPTIONS.NAME,
           headerName: t('keywordSetsPage.keywordSetsTableColumns.name'),
           sortIconType: 'string',
-          transform: (keywordSet: KeywordSetFieldsFragment) => (
-            <NameColumn keywordSet={keywordSet} />
-          ),
+          transform: NameColumn,
         },
         {
           className: styles.usageColumn,
@@ -138,9 +135,7 @@ const KeywordSetsTable: React.FC<KeywordSetsTableProps> = ({
           key: KEYWORD_SET_SORT_OPTIONS.USAGE,
           headerName: t('keywordSetsPage.keywordSetsTableColumns.usage'),
           sortIconType: 'string',
-          transform: (keywordSet: KeywordSetFieldsFragment) => (
-            <UsageColumn keywordSet={keywordSet} />
-          ),
+          transform: UsageColumn,
         },
         {
           className: styles.actionButtonsColumn,
@@ -150,9 +145,7 @@ const KeywordSetsTable: React.FC<KeywordSetsTableProps> = ({
             ev.stopPropagation();
             ev.preventDefault();
           },
-          transform: (keywordSet: KeywordSetFieldsFragment) => (
-            <KeywordSetActionsDropdown keywordSet={keywordSet} />
-          ),
+          transform: ActionsColumn,
         },
       ]}
       getRowProps={(keywordSet) => {

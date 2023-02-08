@@ -92,8 +92,8 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(styles.filterSummary, className)}>
-      {React.Children.map(filters, (filter, index) =>
-        cloneElement(filter, { ...filter.props, key: index })
+      {React.Children.map(filters, (filter) =>
+        cloneElement(filter, { ...filter.props })
       )}
       <button
         className={styles.clearButton}

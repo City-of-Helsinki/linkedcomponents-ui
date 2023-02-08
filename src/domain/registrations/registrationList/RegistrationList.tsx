@@ -16,6 +16,7 @@ import {
 } from '../../../generated/graphql';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
+import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import Container from '../../app/layout/container/Container';
 import { getRegistrationItemId } from '../../registration/utils';
@@ -142,8 +143,7 @@ const RegistrationListContainer: React.FC = () => {
     variables: getRegistrationsQueryVariables(location.search),
   });
 
-  /* istanbul ignore next */
-  const registrations = registrationsData?.registrations?.data || [];
+  const registrations = getValue(registrationsData?.registrations?.data, []);
   /* istanbul ignore next */
   const registrationsCount = registrationsData?.registrations?.meta.count || 0;
   const pageCount = getPageCount(registrationsCount, REGISTRATIONS_PAGE_SIZE);

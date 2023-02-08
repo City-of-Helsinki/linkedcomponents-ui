@@ -9,7 +9,11 @@ import {
 } from 'hds-react';
 import React from 'react';
 
-import { EMPTY_MULTI_LANGUAGE_OBJECT, MAX_PAGE_SIZE } from '../../constants';
+import {
+  EMPTY_MULTI_LANGUAGE_OBJECT,
+  MAX_PAGE_SIZE,
+  WEEK_DAY,
+} from '../../constants';
 import { EventsQueryVariables } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
 import { EVENT_LIST_INCLUDES, EVENT_SORT_OPTIONS } from '../events/constants';
@@ -337,3 +341,13 @@ export const PUBLICATION_LIST_LINKS: Record<EVENT_TYPE, PublicationListLink[]> =
       },
     ],
   };
+
+export const DAY_CODES: Record<string, number> = {
+  [WEEK_DAY.MON]: 1,
+  [WEEK_DAY.TUE]: 2,
+  [WEEK_DAY.WED]: 3,
+  [WEEK_DAY.THU]: 4,
+  [WEEK_DAY.FRI]: 5,
+  [WEEK_DAY.SAT]: 6,
+  [WEEK_DAY.SUN]: 0,
+};

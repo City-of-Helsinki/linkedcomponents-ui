@@ -19,6 +19,7 @@ import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
@@ -106,9 +107,12 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
 
   const options = React.useMemo(
     () =>
-      (placesData || previousPlacesData)?.places.data.map((place) =>
-        getOption({ place: place as PlaceFieldsFragment, locale, t })
-      ) ?? [],
+      getValue(
+        (placesData || previousPlacesData)?.places.data.map((place) =>
+          getOption({ place: place as PlaceFieldsFragment, locale, t })
+        ),
+        []
+      ),
     [locale, placesData, previousPlacesData, t]
   );
 

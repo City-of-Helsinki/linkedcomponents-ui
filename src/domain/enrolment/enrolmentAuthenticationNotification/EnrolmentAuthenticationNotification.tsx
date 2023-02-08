@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -20,8 +21,8 @@ const EnrolmentAuthenticationNotification: React.FC<
 > = ({ action, registration }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const adminOrganizations = user?.adminOrganizations || [];
-  const publisher = useRegistrationPublisher({ registration }) as string;
+  const adminOrganizations = getValue(user?.adminOrganizations, []);
+  const publisher = getValue(useRegistrationPublisher({ registration }), '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { t } = useTranslation();

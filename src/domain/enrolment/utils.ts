@@ -17,6 +17,8 @@ import {
 } from '../../generated/graphql';
 import { Editability, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
+import getDateFromString from '../../utils/getDateFromString';
+import getValue from '../../utils/getValue';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -75,26 +77,24 @@ export const getEnrolmentInitialValues = (
       {
         audienceMaxAge: registration.audienceMaxAge ?? null,
         audienceMinAge: registration.audienceMinAge ?? null,
-        city: enrolment.city ?? '',
-        dateOfBirth: enrolment.dateOfBirth
-          ? new Date(enrolment.dateOfBirth)
-          : null,
+        city: getValue(enrolment.city, ''),
+        dateOfBirth: getDateFromString(enrolment.dateOfBirth),
         extraInfo: '',
         inWaitingList: enrolment.attendeeStatus === AttendeeStatus.Waitlisted,
-        name: enrolment.name ?? '',
-        streetAddress: enrolment.streetAddress ?? '',
-        zip: enrolment.zipcode ?? '',
+        name: getValue(enrolment.name, ''),
+        streetAddress: getValue(enrolment.streetAddress, ''),
+        zip: getValue(enrolment.zipcode, ''),
       },
     ],
-    email: enrolment.email ?? '',
-    extraInfo: enrolment.extraInfo ?? '',
-    membershipNumber: enrolment.membershipNumber ?? '',
-    nativeLanguage: enrolment.nativeLanguage ?? '',
+    email: getValue(enrolment.email, ''),
+    extraInfo: getValue(enrolment.extraInfo, ''),
+    membershipNumber: getValue(enrolment.membershipNumber, ''),
+    nativeLanguage: getValue(enrolment.nativeLanguage, ''),
     notifications: getEnrolmentNotificationTypes(
-      enrolment.notifications as string
+      getValue(enrolment.notifications, '')
     ),
-    phoneNumber: enrolment.phoneNumber ?? '',
-    serviceLanguage: enrolment.serviceLanguage ?? '',
+    phoneNumber: getValue(enrolment.phoneNumber, ''),
+    serviceLanguage: getValue(enrolment.serviceLanguage, ''),
   };
 };
 
@@ -136,20 +136,20 @@ export const getEnrolmentPayload = ({
   const signups: SignupInput[] = attendees.map((attendee) => {
     const { city, dateOfBirth, name, streetAddress, zip } = attendee;
     return {
-      city: city || null,
+      city: getValue(city, null),
       dateOfBirth: dateOfBirth
         ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
         : null,
-      email: email || null,
+      email: getValue(email, null),
       extraInfo: extraInfo,
       membershipNumber: membershipNumber,
-      name: name || null,
-      nativeLanguage: nativeLanguage || null,
+      name: getValue(name, null),
+      nativeLanguage: getValue(nativeLanguage, null),
       notifications: getEnrolmentNotificationsCode(notifications),
-      phoneNumber: phoneNumber || null,
-      serviceLanguage: serviceLanguage || null,
-      streetAddress: streetAddress || null,
-      zipcode: zip || null,
+      phoneNumber: getValue(phoneNumber, null),
+      serviceLanguage: getValue(serviceLanguage, null),
+      streetAddress: getValue(streetAddress, null),
+      zipcode: getValue(zip, null),
     };
   });
 
@@ -182,19 +182,19 @@ export const getUpdateEnrolmentPayload = ({
 
   return {
     id,
-    city: city || null,
+    city: getValue(city, null),
     dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
-    email: email || null,
+    email: getValue(email, null),
     extraInfo: extraInfo,
     membershipNumber: membershipNumber,
-    name: name || null,
-    nativeLanguage: nativeLanguage || null,
+    name: getValue(name, null),
+    nativeLanguage: getValue(nativeLanguage, null),
     notifications: getEnrolmentNotificationsCode(notifications),
-    phoneNumber: phoneNumber || null,
-    registration: registration.id as string,
-    serviceLanguage: serviceLanguage || null,
-    streetAddress: streetAddress || null,
-    zipcode: zip || null,
+    phoneNumber: getValue(phoneNumber, null),
+    registration: getValue(registration.id, ''),
+    serviceLanguage: getValue(serviceLanguage, null),
+    streetAddress: getValue(streetAddress, null),
+    zipcode: getValue(zip, null),
   };
 };
 

@@ -6,6 +6,7 @@ import { getEventFields } from '../../../../domain/event/utils';
 import { EVENT_SORT_OPTIONS } from '../../../../domain/events/constants';
 import { EventFieldsFragment } from '../../../../generated/graphql';
 import { Language, OptionType } from '../../../../types';
+import getValue from '../../../../utils/getValue';
 import { getErrorText } from '../../../../utils/validationUtils';
 import EventSelector, {
   EventSelectorProps,
@@ -37,7 +38,7 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
   };
 
   const handleChange = (selected: OptionType | null) => {
-    onChange({ target: { id: name, value: selected?.value || null } });
+    onChange({ target: { id: name, value: getValue(selected?.value, null) } });
   };
 
   return (

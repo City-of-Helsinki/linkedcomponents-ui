@@ -13,7 +13,6 @@ import {
   ImageQueryVariables,
   ImagesQueryVariables,
   LocalisedFieldsFragment,
-  Maybe,
   OrganizationFieldsFragment,
   UpdateImageMutationInput,
   UserFieldsFragment,
@@ -21,11 +20,14 @@ import {
 import {
   Editability,
   Language,
+  Maybe,
   MultiLanguageObject,
   PathBuilderProps,
 } from '../../types';
+import getDateFromString from '../../utils/getDateFromString';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   isAdminUserInOrganization,
@@ -84,25 +86,23 @@ export const getImageFields = (
   image: ImageFieldsFragment,
   language: Language
 ): ImageFields => {
-  const id = image.id ?? '';
+  const id = getValue(image.id, '');
 
   return {
     altText: getImageAltText(image.altText),
     id,
     imageUrl: `/${language}${ROUTES.EDIT_IMAGE.replace(':id', id)}`,
-    lastModifiedTime: image.lastModifiedTime
-      ? new Date(image.lastModifiedTime)
-      : null,
-    license: (image.license as LICENSE_TYPES) || DEFAULT_LICENSE_TYPE,
-    name: image.name || '',
-    photographerName: image.photographerName || '',
-    publisher: image.publisher || '',
-    url: image.url || '',
+    lastModifiedTime: getDateFromString(image.lastModifiedTime),
+    license: getValue(image.license, DEFAULT_LICENSE_TYPE) as LICENSE_TYPES,
+    name: getValue(image.name, ''),
+    photographerName: getValue(image.photographerName, ''),
+    publisher: getValue(image.publisher, ''),
+    url: getValue(image.url, ''),
   };
 };
 
 export const getImageAltText = (
-  altText?: Maybe<LocalisedFieldsFragment> | string
+  altText: Maybe<LocalisedFieldsFragment> | string
 ) =>
   getLocalisedObject(typeof altText === 'string' ? { fi: altText } : altText);
 
@@ -253,12 +253,12 @@ export const getImageInitialValues = (
 ): ImageFormFields => {
   return {
     altText: getLocalisedObject(image.altText),
-    id: image.id ?? '',
-    license: image.license ?? '',
-    name: image.name ?? '',
-    photographerName: image.photographerName ?? '',
-    publisher: image.publisher ?? '',
-    url: image.url ?? '',
+    id: getValue(image.id, ''),
+    license: getValue(image.license, ''),
+    name: getValue(image.name, ''),
+    photographerName: getValue(image.photographerName, ''),
+    publisher: getValue(image.publisher, ''),
+    url: getValue(image.url, ''),
   };
 };
 

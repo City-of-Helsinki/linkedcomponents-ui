@@ -91,9 +91,9 @@ const Footer: React.FC = () => {
           title={t('appName')}
         >
           <HdsFooter.Navigation>
-            {navigationItems.map((item, index) => (
+            {navigationItems.map((item) => (
               <HdsFooter.Item
-                key={index}
+                key={item.url}
                 href={item.url}
                 label={item.label}
                 onClick={goToPage(item.url)}

@@ -13,7 +13,7 @@ import { EVENT_ACTIONS } from '../constants';
 import { checkIsActionAllowed } from '../utils';
 
 export type EventAuthenticationNotificationProps = {
-  event?: EventFieldsFragment;
+  event?: EventFieldsFragment | null;
 };
 
 const EventAuthenticationNotification: React.FC<

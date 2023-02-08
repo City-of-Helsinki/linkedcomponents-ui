@@ -7,7 +7,6 @@ const origin = window.location.origin;
 
 const enableOidcLogging = () => {
   Oidc.Log.logger = console;
-  // Oidc.Log.level = Oidc.Log.DEBUG;
 };
 
 if (process.env.NODE_ENV === 'development') {

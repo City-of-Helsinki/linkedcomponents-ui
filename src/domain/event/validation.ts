@@ -1,7 +1,10 @@
 import isFuture from 'date-fns/isFuture';
 import * as Yup from 'yup';
+import { ValidateOptions } from 'yup/lib/types';
 
 import { CHARACTER_LIMITS } from '../../constants';
+import { Maybe } from '../../types';
+import getValue from '../../utils/getValue';
 import {
   createArrayMinErrorMessage,
   createMultiLanguageValidation,
@@ -35,7 +38,7 @@ import {
 } from './types';
 
 const createMultiLanguageValidationByInfoLanguages = (
-  rule: Yup.StringSchema<string | null | undefined>
+  rule: Yup.StringSchema<Maybe<string>>
 ) => {
   return Yup.object().when(
     [EVENT_FIELDS.EVENT_INFO_LANGUAGES],
@@ -52,7 +55,10 @@ const validateEventTimes = (
     'hasAtLeaseOneEventTime',
     VALIDATION_MESSAGE_KEYS.EVENT_TIMES_REQUIRED,
     (eventTimes) => {
-      const allEventTimes = [...(eventTimes ?? []), ...(events ?? [])];
+      const allEventTimes = [
+        ...getValue(eventTimes, []),
+        ...getValue(events, []),
+      ];
       recurringEvents?.forEach((recurringEvent) => {
         allEventTimes.push(...recurringEvent.eventTimes);
       });
@@ -82,10 +88,13 @@ const createPaidOfferSchema = (eventInfoLanguage: string[]) =>
     ),
   });
 
+type ValidateOptionsWithIndex = ValidateOptions & {
+  index: number;
+};
+
 const createFreeOfferSchema = (eventInfoLanguage: string[]) =>
   Yup.object().test(async (values, { options }) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const index: number = (options as any).index;
+    const index = (options as ValidateOptionsWithIndex).index;
 
     if (index === 0) {
       try {
@@ -182,9 +191,12 @@ const validateMainCategories = (
     'atLeastOneMainCategoryIsSelected',
     VALIDATION_MESSAGE_KEYS.MAIN_CATEGORY_REQUIRED,
     (mainCategories) =>
-      mainCategories?.some(
-        (category) => category && keywords.includes(category)
-      ) ?? false
+      getValue(
+        mainCategories?.some(
+          (category) => category && keywords.includes(category)
+        ),
+        false
+      )
   );
 
 const enrolmentSchemaFields = {
@@ -207,7 +219,7 @@ const enrolmentSchemaFields = {
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .when(
       [EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
-      (endTime: string, schema: Yup.DateSchema<Date | null | undefined>) =>
+      (endTime: string, schema: Yup.DateSchema<Maybe<Date>>) =>
         endTime
           ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
           : schema
@@ -228,7 +240,7 @@ const enrolmentSchemaFields = {
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
     .when(
       [EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
-      (endTime: string, schema: Yup.DateSchema<Date | null | undefined>) =>
+      (endTime: string, schema: Yup.DateSchema<Maybe<Date>>) =>
         endTime
           ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
           : schema

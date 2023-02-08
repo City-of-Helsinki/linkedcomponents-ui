@@ -52,10 +52,57 @@ const getHourAndMinuteValues = (value?: string): string[] | null => {
   return null;
 };
 
+const getHours = (hoursAndMinutes: string[] | null): string =>
+  hoursAndMinutes ? hoursAndMinutes[0] : '';
+
+const getMinutes = (hoursAndMinutes: string[] | null): string =>
+  hoursAndMinutes ? hoursAndMinutes[0] : '';
+
+const getTime = (hoursAndMinutes: string[] | null): string =>
+  hoursAndMinutes ? hoursAndMinutes.join(':') : '';
+
+const getNewTimeValue = (newHours: string, newMinutes: string) => {
+  return newHours.length === 0 && newMinutes.length === 0
+    ? ''
+    : `${newHours}:${newMinutes}`;
+};
+
+const getNewHoursOrMinutesValue = ({
+  event,
+  type,
+  value,
+}: {
+  event: React.KeyboardEvent<HTMLInputElement>;
+  type: 'hours' | 'minutes';
+  value: string;
+}) => {
+  const modifier = event.key === 'ArrowUp' ? 1 : -1;
+  const minutesAsInt = parseInt(value, 10) || 0;
+  const maxValue = type === 'hours' ? 23 : 59;
+
+  return zeroPad(`${incrementNumber(0, maxValue, minutesAsInt, modifier)}`);
+};
+
+const shouldFocusToMinutesAfterHoursKeyUp = (
+  event: React.KeyboardEvent<HTMLInputElement>
+) =>
+  event.currentTarget.value.length === 2 &&
+  event.currentTarget.value !== '00' &&
+  NUMBER_KEYS.includes(event.key);
+
+const isArrowLeftKey = (event: React.KeyboardEvent<HTMLInputElement>) =>
+  event.key === 'ArrowLeft' && !event.shiftKey;
+
+const isArrowRightKey = (event: React.KeyboardEvent<HTMLInputElement>) =>
+  event.key === 'ArrowRight' && !event.shiftKey;
+
+const isArrowUpOrDownKey = (event: React.KeyboardEvent<HTMLInputElement>) =>
+  ['ArrowUp', 'ArrowDown'].includes(event.key) && !event.shiftKey;
+
 const isShortNumericString = (inputValue: string): boolean =>
   inputValue.match(/^(\d{1,2})?$/) !== null;
 
-const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
+const CustomTimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
   (
     {
       className = '',
@@ -98,15 +145,9 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
     const inputRef = useRef<HTMLInputElement>(null);
     const hoursInputRef = useRef<HTMLInputElement>(null);
     const minutesInputRef = useRef<HTMLInputElement>(null);
-    const [hours, setHours] = useState<string>(
-      hoursAndMinutes ? hoursAndMinutes[0] : ''
-    );
-    const [minutes, setMinutes] = useState<string>(
-      hoursAndMinutes ? hoursAndMinutes[1] : ''
-    );
-    const [time, setTime] = useState<string>(
-      hoursAndMinutes ? hoursAndMinutes.join(':') : ''
-    );
+    const [hours, setHours] = useState<string>(getHours(hoursAndMinutes));
+    const [minutes, setMinutes] = useState<string>(getMinutes(hoursAndMinutes));
+    const [time, setTime] = useState<string>(getTime(hoursAndMinutes));
 
     const wrapperProps = {
       className,
@@ -129,13 +170,12 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
      * Update the full time input and dispatch the native onChange event
      */
     const updateTimeInput = (newHours: string, newMinutes: string) => {
+      const newTimeValue = getNewTimeValue(newHours, newMinutes);
+
       setHours(newHours);
       setMinutes(newMinutes);
-      const newTimeValue =
-        newHours.length === 0 && newMinutes.length === 0
-          ? ''
-          : `${newHours}:${newMinutes}`;
       setTime(newTimeValue);
+
       const nativeInputValueSetter = (
         Object.getOwnPropertyDescriptor(
           window.HTMLInputElement.prototype,
@@ -206,11 +246,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
     const onHoursKeyUp: React.KeyboardEventHandler<HTMLInputElement> = (
       event
     ) => {
-      if (
-        event.currentTarget.value.length === 2 &&
-        event.currentTarget.value !== '00' &&
-        NUMBER_KEYS.includes(event.key)
-      ) {
+      if (shouldFocusToMinutesAfterHoursKeyUp(event)) {
         minutesInputRef.current?.focus();
       }
     };
@@ -222,18 +258,18 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
       event
     ) => {
       // Move to the minutes input with right arrow key
-      if (event.key === 'ArrowRight' && !event.shiftKey) {
+      if (isArrowRightKey(event)) {
         event.preventDefault();
         minutesInputRef.current?.focus();
       }
       // Increase/decrease the value with arrow up/down keys
-      if (['ArrowUp', 'ArrowDown'].includes(event.key) && !event.shiftKey) {
+      if (isArrowUpOrDownKey(event)) {
         event.preventDefault();
-        const modifier = event.key === 'ArrowUp' ? 1 : -1;
-        const hoursAsInt = parseInt(hours, 10) || 0;
-        const newHours = zeroPad(
-          `${incrementNumber(0, 23, hoursAsInt, modifier)}`
-        );
+        const newHours = getNewHoursOrMinutesValue({
+          event,
+          type: 'hours',
+          value: hours,
+        });
         updateTimeInput(newHours, minutes);
       }
     };
@@ -245,18 +281,18 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
       event
     ) => {
       // Move to the hours input with left arrow key
-      if (event.key === 'ArrowLeft' && !event.shiftKey) {
+      if (isArrowLeftKey(event)) {
         event.preventDefault();
         hoursInputRef.current?.focus();
       }
       // Increase/decrease the value with arrow up/down keys
-      if (['ArrowUp', 'ArrowDown'].includes(event.key) && !event.shiftKey) {
+      if (isArrowUpOrDownKey(event)) {
         event.preventDefault();
-        const modifier = event.key === 'ArrowUp' ? 1 : -1;
-        const minutesAsInt = parseInt(minutes, 10) || 0;
-        const newMinutes = zeroPad(
-          `${incrementNumber(0, 59, minutesAsInt, modifier)}`
-        );
+        const newMinutes = getNewHoursOrMinutesValue({
+          event,
+          type: 'minutes',
+          value: minutes,
+        });
         updateTimeInput(hours, newMinutes);
       }
     };
@@ -280,13 +316,14 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
     };
 
     // Compose aria-describedby attribute
-    const ariaDescribedBy = composeAriaDescribedBy(
-      id,
-      helperText,
-      errorText,
-      successText,
-      infoText
-    );
+    const ariaDescribedBy =
+      composeAriaDescribedBy(
+        id,
+        helperText,
+        errorText,
+        successText,
+        infoText
+      ) || undefined;
 
     // Compose props for the input frame
     const frameProps = {
@@ -313,9 +350,9 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
       if (isControlledComponent && value !== time) {
         const newHoursAndMinutes = getHourAndMinuteValues(value);
 
-        setHours(newHoursAndMinutes ? newHoursAndMinutes[0] : '');
-        setMinutes(newHoursAndMinutes ? newHoursAndMinutes[1] : '');
-        setTime(newHoursAndMinutes ? newHoursAndMinutes.join(':') : '');
+        setHours(getHours(newHoursAndMinutes));
+        setMinutes(getMinutes(newHoursAndMinutes));
+        setTime(getTime(newHoursAndMinutes));
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isControlledComponent, value]);
@@ -358,9 +395,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
             onKeyUp={onHoursKeyUp}
             onFocus={onInputFocus}
             onBlur={onHoursBlur}
-            aria-describedby={
-              ariaDescribedBy.length > 0 ? ariaDescribedBy : undefined
-            }
+            aria-describedby={ariaDescribedBy}
             placeholder="--"
           />
           <div className={styles.divider}>:</div>
@@ -379,9 +414,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
             onKeyDown={onMinutesKeyDown}
             onFocus={onInputFocus}
             onBlur={onMinutesBlur}
-            aria-describedby={
-              ariaDescribedBy.length > 0 ? ariaDescribedBy : undefined
-            }
+            aria-describedby={ariaDescribedBy}
             placeholder="--"
           />
         </div>
@@ -390,4 +423,4 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
   }
 );
 
-export default TimeInput;
+export default CustomTimeInput;

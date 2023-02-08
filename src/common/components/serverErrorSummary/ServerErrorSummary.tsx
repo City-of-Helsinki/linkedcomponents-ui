@@ -37,8 +37,8 @@ const ServerErrorSummary: React.FC<Props> = ({ errors, id: _id }) => {
         size="default"
       >
         <ul>
-          {errors.map(({ label, message }, index) => (
-            <li key={index}>
+          {errors.map(({ label, message }) => (
+            <li key={`${label}-${message}`}>
               {label ? (
                 <span>
                   <strong>{label}:</strong> {message}

@@ -4,6 +4,7 @@ import {
   UsersQueryVariables,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import { UserFields } from './types';
 
@@ -32,9 +33,9 @@ export const usersPathBuilder = ({
 
 export const getUserFields = (user: UserFieldsFragment): UserFields => ({
   adminOrganizations: user.adminOrganizations,
-  displayName: user.displayName ?? '',
-  email: user.email ?? '',
+  displayName: getValue(user.displayName, ''),
+  email: getValue(user.email, ''),
   isStaff: user.isStaff || false,
   organizationMemberships: user.organizationMemberships,
-  username: user.username ?? '',
+  username: getValue(user.username, ''),
 });

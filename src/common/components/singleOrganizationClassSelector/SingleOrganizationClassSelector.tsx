@@ -12,6 +12,7 @@ import {
 } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 
 const getOption = ({
@@ -38,9 +39,12 @@ const SingleOrganizationClassSelector: React.FC<
 
   const options: OptionType[] = React.useMemo(
     () =>
-      organizationClasses.map((organizationClass) =>
-        getOption({ organizationClass })
-      ) ?? /* istanbul ignore next */ [],
+      getValue(
+        organizationClasses.map((organizationClass) =>
+          getOption({ organizationClass })
+        ),
+        []
+      ),
     [organizationClasses]
   );
 

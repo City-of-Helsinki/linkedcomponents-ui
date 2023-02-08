@@ -49,7 +49,7 @@ const EventsTable: React.FC<EventsTableProps> = ({
   const getColumnSortingOrder = (colKey: string) => {
     const { colKey: currentColKey, order } = getSortOrderAndKey(sort);
 
-    return currentColKey === colKey ? (order as 'desc' | 'asc') : 'unset';
+    return currentColKey === colKey ? order : 'unset';
   };
 
   const setSortingAndOrder = (colKey: string): void => {

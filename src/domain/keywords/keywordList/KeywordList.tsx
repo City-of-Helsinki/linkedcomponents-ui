@@ -12,6 +12,7 @@ import { testIds } from '../../../constants';
 import { KeywordsQuery, useKeywordsQuery } from '../../../generated/graphql';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
+import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import { getKeywordItemId } from '../../keyword/utils';
 import {
@@ -153,8 +154,7 @@ const KeywordListContainer: React.FC = () => {
     variables: getKeywordsQueryVariables(location.search),
   });
 
-  /* istanbul ignore next */
-  const keywords = keywordsData?.keywords?.data || [];
+  const keywords = getValue(keywordsData?.keywords?.data, []);
   /* istanbul ignore next */
   const keywordsCount = keywordsData?.keywords?.meta.count || 0;
   const pageCount = getPageCount(keywordsCount, KEYWORDS_PAGE_SIZE);

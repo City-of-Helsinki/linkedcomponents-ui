@@ -9,6 +9,8 @@ import {
 } from '../../../generated/graphql';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { MAX_OGRANIZATIONS_PAGE_SIZE } from '../constants';
 import { organizationsPathBuilder } from '../utils';
 
@@ -57,9 +59,10 @@ const useAllOrganizations = (): UseAllOrganizationsState => {
 
   return {
     loading: debouncedLoading,
-    organizations:
-      (organizationsData?.organizations.data as OrganizationFieldsFragment[]) ||
-      [],
+    organizations: getValue(
+      organizationsData?.organizations.data.filter(skipFalsyType),
+      []
+    ),
   };
 };
 

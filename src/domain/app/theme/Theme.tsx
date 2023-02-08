@@ -6,7 +6,7 @@ import {
   SideNavigationCustomTheme,
   TableCustomTheme,
 } from 'hds-react';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 
 type BreadcrumbCSSProperties = {
   '--breadcrumb-color'?: string;
@@ -393,10 +393,10 @@ export const ThemeProvider: React.FC<
 > = ({ children, initTheme = defaultTheme }) => {
   const [theme, setTheme] = useState<Theme>(initTheme);
 
+  const value = useMemo(() => ({ setTheme, theme }), [theme]);
+
   return (
-    <ThemeContext.Provider value={{ setTheme, theme }}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 };
 

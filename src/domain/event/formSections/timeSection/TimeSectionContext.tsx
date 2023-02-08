@@ -1,5 +1,5 @@
 import { useField } from 'formik';
-import { createContext, FC, PropsWithChildren } from 'react';
+import { createContext, FC, PropsWithChildren, useMemo } from 'react';
 
 import { EventFieldsFragment } from '../../../../generated/graphql';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
@@ -25,7 +25,7 @@ export type TimeSectionContextProps = {
   isEditingAllowed: boolean;
   isUmbrella: boolean;
   recurringEvents: RecurringEventSettings[];
-  savedEvent?: EventFieldsFragment;
+  savedEvent?: EventFieldsFragment | null;
   setEvents: (events: EventTime[]) => void;
   setEventTimes: (events: EventTime[]) => void;
   setIsUmbrella: (isUmbrella: boolean) => void;
@@ -34,7 +34,7 @@ export type TimeSectionContextProps = {
 
 export type TimeSectionProviderProps = {
   isEditingAllowed: boolean;
-  savedEvent?: EventFieldsFragment;
+  savedEvent?: EventFieldsFragment | null;
 };
 
 export const TimeSectionContext = createContext<
@@ -57,22 +57,37 @@ export const TimeSectionProvider: FC<
   const [{ value: recurringEvents }, , { setValue: setRecurringEvents }] =
     useField<RecurringEventSettings[]>(EVENT_FIELDS.RECURRING_EVENTS);
 
+  const value = useMemo(
+    () => ({
+      events,
+      eventTimes,
+      eventType,
+      isEditingAllowed,
+      isUmbrella,
+      recurringEvents,
+      savedEvent,
+      setEvents,
+      setEventTimes,
+      setIsUmbrella,
+      setRecurringEvents,
+    }),
+    [
+      eventTimes,
+      eventType,
+      events,
+      isEditingAllowed,
+      isUmbrella,
+      recurringEvents,
+      savedEvent,
+      setEventTimes,
+      setEvents,
+      setIsUmbrella,
+      setRecurringEvents,
+    ]
+  );
+
   return (
-    <TimeSectionContext.Provider
-      value={{
-        events,
-        eventTimes,
-        eventType,
-        isEditingAllowed,
-        isUmbrella,
-        recurringEvents,
-        savedEvent,
-        setEvents,
-        setEventTimes,
-        setIsUmbrella,
-        setRecurringEvents,
-      }}
-    >
+    <TimeSectionContext.Provider value={value}>
       {children}
     </TimeSectionContext.Provider>
   );

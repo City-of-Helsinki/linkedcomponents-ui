@@ -1,11 +1,11 @@
 import reduce from 'lodash/reduce';
 
 import { ORDERED_LE_DATA_LANGUAGES } from '../constants';
-import { LocalisedFieldsFragment, Maybe } from '../generated/graphql';
-import { MultiLanguageObject } from '../types';
+import { LocalisedFieldsFragment } from '../generated/graphql';
+import { Maybe, MultiLanguageObject } from '../types';
 
 const getLocalisedObject = (
-  obj?: Maybe<LocalisedFieldsFragment>,
+  obj: Maybe<LocalisedFieldsFragment>,
   defaultValue = ''
 ): MultiLanguageObject => {
   return reduce(

@@ -12,7 +12,6 @@ import SingleSelect from '../../../common/components/singleSelect/SingleSelect';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import { testIds } from '../../../constants';
 import {
-  EventFieldsFragment,
   EventsQuery,
   EventsQueryVariables,
   useEventsQuery,
@@ -20,6 +19,7 @@ import {
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import { OptionType } from '../../../types';
 import getPageCount from '../../../utils/getPageCount';
+import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import Container from '../../app/layout/container/Container';
@@ -183,7 +183,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
     variables,
   });
 
-  const events = (eventsData?.events?.data as EventFieldsFragment[]) || [];
+  const events = getValue(eventsData?.events?.data, []);
 
   const handlePageChange = (
     event:

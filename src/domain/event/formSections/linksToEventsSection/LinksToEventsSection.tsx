@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -20,6 +20,23 @@ const LinksToEventsSection: React.FC<Props> = ({ event }) => {
 
   const { id, superEventType } = getEventFields(event, locale);
 
+  const EventName = useCallback(
+    (event: EventFieldsFragment) => {
+      const { eventUrl, id: itemId, name } = getEventFields(event, locale);
+      if (id === itemId) return <>{name}</>;
+
+      return (
+        <Link
+          className={styles.hierarchyLink}
+          to={{ pathname: eventUrl, search: location.search }}
+        >
+          {name}
+        </Link>
+      );
+    },
+    [id, locale, location.search]
+  );
+
   const showLinks = Boolean(superEventType || event.superEvent?.superEventType);
 
   if (!showLinks) {
@@ -29,19 +46,7 @@ const LinksToEventsSection: React.FC<Props> = ({ event }) => {
   return (
     <EventHierarchy
       event={event}
-      eventNameRenderer={(item) => {
-        const { eventUrl, id: itemId, name } = getEventFields(item, locale);
-        if (id === itemId) return <>{name}</>;
-
-        return (
-          <Link
-            className={styles.hierarchyLink}
-            to={{ pathname: eventUrl, search: location.search }}
-          >
-            {name}
-          </Link>
-        );
-      }}
+      eventNameRenderer={EventName}
       showSuperEvent={true}
     />
   );

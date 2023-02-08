@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -19,7 +20,7 @@ const PlaceAuthenticationNotification: React.FC<
 > = ({ action, className, publisher }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const adminOrganizations = user?.adminOrganizations || [];
+  const adminOrganizations = getValue(user?.adminOrganizations, []);
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { t } = useTranslation();

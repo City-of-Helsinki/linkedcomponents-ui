@@ -9,6 +9,7 @@ import TimeInputField from '../../../../../common/components/formFields/timeInpu
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { TIME_FORMAT_DATA } from '../../../../../constants';
 import formatDate from '../../../../../utils/formatDate';
+import getDateFromString from '../../../../../utils/getDateFromString';
 import getDatePickerInitialMonth from '../../../../../utils/getDatePickerInitialMonth';
 import setDateTime from '../../../../../utils/setDateTime';
 import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
@@ -42,12 +43,8 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
 
   const { end, start } = useMemo(() => {
     return {
-      end: eventTime.endTime
-        ? new Date(eventTime.endTime)
-        : /* istanbul ignore next */ null,
-      start: eventTime.startTime
-        ? new Date(eventTime.startTime)
-        : /* istanbul ignore next */ null,
+      end: getDateFromString(eventTime.endTime),
+      start: getDateFromString(eventTime.startTime),
     };
   }, [eventTime]);
 

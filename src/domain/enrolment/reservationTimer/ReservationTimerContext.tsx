@@ -13,6 +13,7 @@ import {
   SeatsReservation,
   useCreateSeatsReservationMutation,
 } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import { reportError } from '../../app/sentry/utils';
 import {
   clearSeatsReservationData,
@@ -101,7 +102,7 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
 
       if (setAttendees) {
         const newAttendees = getNewAttendees({
-          attendees: attendees || /* istanbul ignore next */ [],
+          attendees: getValue(attendees, []),
           registration,
           seatsReservation,
         });
@@ -176,15 +177,18 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
     return () => clearInterval(interval);
   }, [disableCallbacks, registrationId, setOpenModal, setTimeLeft, timeLeft]);
 
+  const value = useMemo(
+    () => ({
+      callbacksDisabled: callbacksDisabled.current,
+      disableCallbacks,
+      registration,
+      timeLeft,
+    }),
+    [disableCallbacks, registration, timeLeft]
+  );
+
   return (
-    <ReservationTimerContext.Provider
-      value={{
-        callbacksDisabled: callbacksDisabled.current,
-        disableCallbacks,
-        registration,
-        timeLeft,
-      }}
-    >
+    <ReservationTimerContext.Provider value={value}>
       <ReservationTimeExpiredModal
         isOpen={openModal === ENROLMENT_MODALS.RESERVATION_TIME_EXPIRED}
         onTryAgain={handleTryAgain}

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
-import { EventTime, RecurringEventSettings } from '../../../types';
+import { EventTime } from '../../../types';
 import useTimeSectionContext from '../hooks/useTimeSectionContext';
 import RecurringEvent from './recurringEvent/RecurringEvent';
 
@@ -38,22 +38,20 @@ const RecurringEvents: React.FC = () => {
 
   return (
     <>
-      {recurringEvents.map(
-        (recurringEvent: RecurringEventSettings, index: number) => {
-          return (
-            <FormGroup key={index}>
-              <RecurringEvent
-                key={index}
-                index={index}
-                onDelete={handleDelete}
-                onUpdateEventTimes={handleUpdateEventTimes}
-                recurringEvent={recurringEvent}
-                startIndex={getStartIndex(index)}
-              />
-            </FormGroup>
-          );
-        }
-      )}
+      {recurringEvents.map((recurringEvent, index) => {
+        return (
+          <FormGroup key={index}>
+            <RecurringEvent
+              key={recurringEvent.toString()}
+              index={index}
+              onDelete={handleDelete}
+              onUpdateEventTimes={handleUpdateEventTimes}
+              recurringEvent={recurringEvent}
+              startIndex={getStartIndex(index)}
+            />
+          </FormGroup>
+        );
+      })}
     </>
   );
 };

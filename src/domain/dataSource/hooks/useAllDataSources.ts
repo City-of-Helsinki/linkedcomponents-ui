@@ -10,6 +10,8 @@ import {
 } from '../../../generated/graphql';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import useUser from '../../user/hooks/useUser';
 import { MAX_DATA_SOURCES_PAGE_SIZE } from '../constants';
 import { dataSourcesPathBuilder } from '../utils';
@@ -61,8 +63,10 @@ const useAllDataSources = (): UseAllDataSourcesState => {
   }, [handleLoadMore, dataSourcesData]);
 
   return {
-    dataSources:
-      (dataSourcesData?.dataSources.data as DataSourceFieldsFragment[]) || [],
+    dataSources: getValue(
+      dataSourcesData?.dataSources.data.filter(skipFalsyType),
+      []
+    ),
     loading: debouncedLoading,
     user,
   };

@@ -14,6 +14,9 @@ import {
 } from '../../../../../generated/graphql';
 import useIdWithPrefix from '../../../../../hooks/useIdWithPrefix';
 import formatDate from '../../../../../utils/formatDate';
+import getDateFromString from '../../../../../utils/getDateFromString';
+import getValue from '../../../../../utils/getValue';
+import skipFalsyType from '../../../../../utils/skipFalsyType';
 import { useAuth } from '../../../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../../../user/hooks/useUser';
@@ -50,7 +53,9 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   // Get the event by event time id. This variable is used to check
   // update/delete permissions
   const event = [
-    ...((savedEvent?.subEvents ?? []) as EventFieldsFragment[]),
+    ...(getValue(savedEvent?.subEvents, []).filter(
+      skipFalsyType
+    ) as EventFieldsFragment[]),
     savedEvent,
   ].find((subEvent) => subEvent?.id === eventTime.id);
 
@@ -60,12 +65,8 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
 
   const { endTime, startTime } = useMemo(() => {
     return {
-      endTime: eventTime?.endTime
-        ? new Date(eventTime.endTime)
-        : /* istanbul ignore next */ null,
-      startTime: eventTime?.startTime
-        ? new Date(eventTime.startTime)
-        : /* istanbul ignore next */ null,
+      endTime: getDateFromString(eventTime?.endTime),
+      startTime: getDateFromString(eventTime?.startTime),
     };
   }, [eventTime]);
 

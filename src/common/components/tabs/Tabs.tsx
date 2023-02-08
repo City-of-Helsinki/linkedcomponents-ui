@@ -2,7 +2,7 @@ import { ClassNames } from '@emotion/react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
-import { FCWithName, OptionType } from '../../../types';
+import { OptionType } from '../../../types';
 import Tab from './tab/Tab';
 import styles from './tabs.module.scss';
 
@@ -51,7 +51,7 @@ const Tabs: React.FC<React.PropsWithChildren<Props>> = ({
     .filter((child) => {
       return (
         React.isValidElement(child) &&
-        (child.type as FCWithName).componentName === 'TabPanel'
+        (child.type as React.FunctionComponent).displayName === 'TabPanel'
       );
     })
     .map((child, index) => {

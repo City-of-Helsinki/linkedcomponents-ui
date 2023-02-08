@@ -34,7 +34,8 @@ const EventTimeTab: React.FC = () => {
     ) {
       setIsUmbrella(false);
     }
-    setEventTimes(newEventTimes.sort(sortEventTimes));
+
+    setEventTimes([...newEventTimes].sort(sortEventTimes));
   };
 
   return (

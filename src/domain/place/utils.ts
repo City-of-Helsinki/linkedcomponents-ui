@@ -18,6 +18,7 @@ import { Editability, Language, PathBuilderProps } from '../../types';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -35,17 +36,17 @@ export const getPlaceFields = (
   place: PlaceFieldsFragment,
   locale: Language
 ): PlaceFields => {
-  const id = place.id ?? '';
+  const id = getValue(place.id, '');
 
   return {
     addressLocality: getLocalisedString(place.addressLocality, locale),
-    atId: place.atId ?? '',
-    dataSource: place.dataSource ?? '',
+    atId: getValue(place.atId, ''),
+    dataSource: getValue(place.dataSource, ''),
     id,
     name: getLocalisedString(place.name, locale),
     nEvents: place.nEvents ?? 0,
     placeUrl: `/${locale}${ROUTES.EDIT_PLACE.replace(':id', id)}`,
-    publisher: place.publisher ?? '',
+    publisher: getValue(place.publisher, ''),
     streetAddress: getLocalisedString(place.streetAddress, locale),
   };
 };
@@ -53,28 +54,28 @@ export const getPlaceFields = (
 export const getPlaceInitialValues = (
   place: PlaceFieldsFragment
 ): PlaceFormFields => {
-  const id = place.id ?? '';
+  const id = getValue(place.id, '');
 
   return {
     addressLocality: getLocalisedObject(place.addressLocality),
-    addressRegion: place.addressRegion ?? '',
+    addressRegion: getValue(place.addressRegion, ''),
     coordinates: place.position?.coordinates
       ? new LatLng(
           place.position?.coordinates[1] as number,
           place.position?.coordinates[0] as number
         )
       : null,
-    contactType: place.contactType ?? '',
-    dataSource: place.dataSource ?? '',
+    contactType: getValue(place.contactType, ''),
+    dataSource: getValue(place.dataSource, ''),
     description: getLocalisedObject(place.description),
-    email: place.email ?? '',
+    email: getValue(place.email, ''),
     id,
     infoUrl: getLocalisedObject(place.infoUrl),
     name: getLocalisedObject(place.name),
-    originId: id.split(':')[1] ?? '',
-    postOfficeBoxNum: place.postOfficeBoxNum ?? '',
-    postalCode: place.postalCode ?? '',
-    publisher: place.publisher ?? '',
+    originId: getValue(id.split(':')[1], ''),
+    postOfficeBoxNum: getValue(place.postOfficeBoxNum, ''),
+    postalCode: getValue(place.postalCode, ''),
+    publisher: getValue(place.publisher, ''),
     streetAddress: getLocalisedObject(place.streetAddress),
     telephone: getLocalisedObject(place.telephone),
   };
@@ -147,7 +148,7 @@ export const getPlaceFromCache = (
     },
   });
 
-  return data?.place || /* istanbul ignore next */ null;
+  return getValue(data?.place, null);
 };
 
 export const getPlaceQueryResult = async (
@@ -181,7 +182,7 @@ export const checkCanUserDoAction = ({
   user?: UserFieldsFragment;
 }): boolean => {
   /* istanbul ignore next */
-  const adminOrganizations = user?.adminOrganizations ?? [];
+  const adminOrganizations = getValue(user?.adminOrganizations, []);
   const isAdminUser = isAdminUserInOrganization({
     id: publisher,
     organizationAncestors,
@@ -219,11 +220,10 @@ export const getEditPlaceWarning = ({
   }
 
   if (!userCanDoAction) {
-    switch (action) {
-      case PLACE_ACTIONS.CREATE:
-        return t('placesPage.warningNoRightsToCreate');
-      default:
-        return t('placesPage.warningNoRightsToEdit');
+    if (action === PLACE_ACTIONS.CREATE) {
+      return t('placesPage.warningNoRightsToCreate');
+    } else {
+      return t('placesPage.warningNoRightsToEdit');
     }
   }
 

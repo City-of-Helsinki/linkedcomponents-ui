@@ -12,6 +12,7 @@ import { testIds } from '../../../constants';
 import { ImagesQuery, useImagesQuery } from '../../../generated/graphql';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
+import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import { getImageItemId } from '../../image/utils';
 import {
@@ -153,8 +154,7 @@ const ImageListContainer: React.FC = () => {
     variables: getImagesQueryVariables(location.search),
   });
 
-  /* istanbul ignore next */
-  const images = imagesData?.images?.data || [];
+  const images = getValue(imagesData?.images?.data, []);
   /* istanbul ignore next */
   const keywordsCount = imagesData?.images?.meta.count || 0;
   const pageCount = getPageCount(keywordsCount, IMAGES_PAGE_SIZE);

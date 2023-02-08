@@ -107,7 +107,7 @@ const OrganizationList: React.FC = () => {
             organizations={text ? filteredOrganizations : rootOrganizations}
             setSort={onSortChange}
             showSubOrganizations={!text}
-            sort={sort as ORGANIZATION_SORT_OPTIONS}
+            sort={sort}
             sortedOrganizations={sortedOrganizations}
           />
         </TableWrapper>

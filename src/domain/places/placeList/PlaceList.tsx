@@ -12,6 +12,7 @@ import { testIds } from '../../../constants';
 import { PlacesQuery, usePlacesQuery } from '../../../generated/graphql';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import getPageCount from '../../../utils/getPageCount';
+import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import { getPlaceItemId } from '../../place/utils';
 import {
@@ -154,8 +155,7 @@ const PlaceListContainer: React.FC = () => {
     variables: getPlacesQueryVariables(location.search),
   });
 
-  /* istanbul ignore next */
-  const places = placesData?.places?.data || [];
+  const places = getValue(placesData?.places?.data, []);
   /* istanbul ignore next */
   const placesCount = placesData?.places?.meta.count || 0;
   const pageCount = getPageCount(placesCount, PLACES_PAGE_SIZE);

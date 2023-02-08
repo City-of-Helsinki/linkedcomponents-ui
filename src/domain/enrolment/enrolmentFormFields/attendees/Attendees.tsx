@@ -106,7 +106,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
         name={ENROLMENT_FIELDS.ATTENDEES}
         render={() => (
           <div>
-            {attendees.map((attendee, index: number) => {
+            {attendees.map((attendee, index) => {
               const openModal = () => {
                 setOpenModalIndex(index);
               };

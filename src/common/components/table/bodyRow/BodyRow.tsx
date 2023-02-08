@@ -46,12 +46,12 @@ const BodyRow: FC<BodyRowProps> = ({
 
   return (
     <tr {...rowProps} ref={ref}>
-      {cols.map((column, cellIndex) => {
+      {cols.map((column) => {
         return (
           <td
             className={column.className}
             data-testid={`${column.key}-${index}`}
-            key={cellIndex}
+            key={column.key}
             onClick={column.onClick}
           >
             {column.transform && column.transform(row, index)}

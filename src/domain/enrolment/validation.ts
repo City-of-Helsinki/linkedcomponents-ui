@@ -6,6 +6,8 @@ import subYears from 'date-fns/subYears';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
+import { Maybe } from '../../types';
+import getValue from '../../utils/getValue';
 import {
   createArrayMinErrorMessage,
   isValidPhoneNumber,
@@ -22,8 +24,8 @@ import {
 
 export const isAboveMinAge = (
   minAge: string,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
+  schema: Yup.DateSchema<Maybe<Date>>
+): Yup.DateSchema<Maybe<Date>> => {
   /* istanbul ignore else */
   if (minAge) {
     return schema.test(
@@ -49,8 +51,8 @@ export const isAboveMinAge = (
 
 export const isBelowMaxAge = (
   maxAge: string,
-  schema: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> => {
+  schema: Yup.DateSchema<Maybe<Date>>
+): Yup.DateSchema<Maybe<Date>> => {
   /* istanbul ignore else */
   if (maxAge) {
     return schema.test(
@@ -159,10 +161,10 @@ export const scrollToFirstError = async ({
   setOpenAccordion: (index: number) => void;
 }): Promise<void> => {
   for (const e of error.inner) {
-    const path = e.path ?? /* istanbul ignore next */ '';
+    const path = getValue(e.path, '');
 
-    if (/^attendees\[[0-9]*\]\./.test(path)) {
-      const attendeeIndex = Number(path.match(/(?<=\[)[[0-9]*(?=\])/)?.[0]);
+    if (/^attendees\[\d*\]\./.test(path)) {
+      const attendeeIndex = Number(path.match(/(?<=\[)[[\d]{1,4}(?=\])/)?.[0]);
       setOpenAccordion(attendeeIndex);
 
       await wait(100);

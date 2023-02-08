@@ -8,10 +8,12 @@ import CheckboxGroupField from '../../../../common/components/formFields/checkbo
 import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import Notification from '../../../../common/components/notification/Notification';
 import { ORDERED_LE_DATA_LANGUAGES } from '../../../../constants';
-import { Language, useLanguagesQuery } from '../../../../generated/graphql';
+import { useLanguagesQuery } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import { OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
+import getValue from '../../../../utils/getValue';
+import skipFalsyType from '../../../../utils/skipFalsyType';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
@@ -35,9 +37,10 @@ const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
     })
   );
 
-  const inLanguageOptions: OptionType[] = (
-    [...(data?.languages.data ?? /* istanbul ignore next */ [])] as Language[]
-  )
+  const inLanguageOptions: OptionType[] = [
+    ...getValue(data?.languages.data, []),
+  ]
+    .filter(skipFalsyType)
     .sort(sortLanguage)
     .map((language) => ({
       label: capitalize(getLocalisedString(language?.name, locale)),

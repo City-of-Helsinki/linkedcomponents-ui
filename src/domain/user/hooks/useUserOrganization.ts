@@ -2,6 +2,7 @@ import {
   OrganizationFieldsFragment,
   UserFieldsFragment,
 } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import useUserOrganizations from './useUserOrganizations';
 
 type userOrganizationState = {
@@ -16,8 +17,10 @@ const useUserOrganization = (
 
   return {
     loading,
-    organization:
-      organizations.find((o) => o.id === user?.organization) || null,
+    organization: getValue(
+      organizations.find((o) => o.id === user?.organization),
+      null
+    ),
   };
 };
 

@@ -88,7 +88,6 @@ const useFeedbackActions = ({
 
       cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {
-      //   showServerErrors({ error });
       handleError({
         callbacks,
         error,

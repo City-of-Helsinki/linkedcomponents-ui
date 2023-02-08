@@ -337,7 +337,9 @@ test('should show server errors', async () => {
   const saveDraftButton = getElement('saveDraft');
   await user.click(saveDraftButton);
 
-  await screen.findByText(/lomakkeella on seuraavat virheet/i, {timeout: 5000});
+  await screen.findByText(/lomakkeella on seuraavat virheet/i, undefined, {
+    timeout: 5000,
+  });
   screen.getByText(/lopetusaika ei voi olla menneisyydessä./i);
 });
 

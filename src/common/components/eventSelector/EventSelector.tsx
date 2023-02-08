@@ -16,6 +16,7 @@ import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
@@ -70,9 +71,12 @@ const EventSelector: React.FC<EventSelectorProps> = ({
 
   const options: OptionType[] = React.useMemo(
     () =>
-      (eventsData || previousEventsData)?.events.data.map((event) =>
-        getOption(event as EventFieldsFragment, locale)
-      ) ?? [],
+      getValue(
+        (eventsData || previousEventsData)?.events.data.map((event) =>
+          getOption(event as EventFieldsFragment, locale)
+        ),
+        []
+      ),
     [eventsData, getOption, locale, previousEventsData]
   );
 

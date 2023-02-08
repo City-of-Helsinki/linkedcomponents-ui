@@ -293,17 +293,6 @@
         }
       }
     }
-
-    .actionButtons {
-      position: absolute;
-      right: var(--spacing-m);
-      top: var(--spacing-m);
-
-      @include small-up {
-        right: var(--spacing-s);
-        top: var(--spacing-s);
-      }
-    }
   }
 
   .eventStatusTagWrapper {

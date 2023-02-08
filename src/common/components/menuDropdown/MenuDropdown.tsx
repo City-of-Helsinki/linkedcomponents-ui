@@ -117,14 +117,6 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
     toggleButton.current?.focus();
   };
 
-  const onDocumentClick = (event: MouseEvent) => {
-    const target = event.target;
-
-    if (!(target instanceof Node && containerRef.current?.contains(target))) {
-      ensureMenuIsClosed();
-    }
-  };
-
   const handleItemClick = (event?: React.MouseEvent<HTMLElement>) => {
     if (closeOnItemClick) {
       ensureMenuIsClosed();
@@ -132,7 +124,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
     }
   };
 
-  const onDocumentFocusin = (event: FocusEvent) => {
+  const onDocumentClickOrFocusin = (event: FocusEvent | MouseEvent) => {
     const target = event.target;
 
     if (!(target instanceof Node && containerRef.current?.contains(target))) {
@@ -142,12 +134,12 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
 
   React.useEffect(() => {
     setupKeyboardNav();
-    document.addEventListener('click', onDocumentClick);
-    document.addEventListener('focusin', onDocumentFocusin);
+    document.addEventListener('click', onDocumentClickOrFocusin);
+    document.addEventListener('focusin', onDocumentClickOrFocusin);
     return () => {
       teardownKeyoboardNav();
-      document.removeEventListener('click', onDocumentClick);
-      document.removeEventListener('focusin', onDocumentFocusin);
+      document.removeEventListener('click', onDocumentClickOrFocusin);
+      document.removeEventListener('focusin', onDocumentClickOrFocusin);
     };
   });
 

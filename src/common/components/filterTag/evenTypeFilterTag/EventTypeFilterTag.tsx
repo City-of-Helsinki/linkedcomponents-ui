@@ -1,6 +1,7 @@
 import React from 'react';
 
 import useEventTypeOptions from '../../../../domain/event/hooks/useEventTypeOptions';
+import getValue from '../../../../utils/getValue';
 import FilterTag, { FilterTagProps } from '../FilterTag';
 
 type Props = Omit<FilterTagProps, 'text' | 'type'>;
@@ -11,10 +12,10 @@ const EventTypeFilterTag: React.FC<Props> = ({ value, ...rest }) => {
   return (
     <FilterTag
       {...rest}
-      text={
-        eventTypeOptions.find((item) => item.value === value)?.label ||
-        /* istanbul ignore next */ '-'
-      }
+      text={getValue(
+        eventTypeOptions.find((item) => item.value === value)?.label,
+        '-'
+      )}
       type="eventType"
       value={value}
     />

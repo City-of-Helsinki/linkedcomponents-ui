@@ -10,6 +10,7 @@ import {
   PublicationStatus,
 } from '../../../../generated/graphql';
 import { Language, OptionType } from '../../../../types';
+import getValue from '../../../../utils/getValue';
 import { getErrorText } from '../../../../utils/validationUtils';
 import EventSelector, {
   EventSelectorProps,
@@ -44,7 +45,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
   };
 
   const handleChange = (selected: OptionType | null) => {
-    onChange({ target: { id: name, value: selected?.value || null } });
+    onChange({ target: { id: name, value: getValue(selected?.value, null) } });
   };
 
   return (

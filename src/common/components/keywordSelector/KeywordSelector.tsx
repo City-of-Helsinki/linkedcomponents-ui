@@ -23,6 +23,7 @@ import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Combobox, { MultiComboboxProps } from '../combobox/Combobox';
@@ -86,9 +87,12 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
 
   const options: OptionType[] = React.useMemo(
     () =>
-      (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
-        getOption({ keyword: keyword as KeywordFieldsFragment, locale })
-      ) ?? [],
+      getValue(
+        (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
+          getOption({ keyword: keyword as KeywordFieldsFragment, locale })
+        ),
+        []
+      ),
     [keywordsData, locale, previousKeywordsData]
   );
 

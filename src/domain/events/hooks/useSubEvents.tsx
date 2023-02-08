@@ -6,6 +6,7 @@ import {
   useEventsQuery,
 } from '../../../generated/graphql';
 import getNextPage from '../../../utils/getNextPage';
+import getValue from '../../../utils/getValue';
 import { SUB_EVENTS_VARIABLES } from '../../event/constants';
 
 type UseSubEventsState = {
@@ -51,7 +52,7 @@ const useSubEvents = ({
     }
   }, [fetchMore, nextPage, variables]);
 
-  const subEvents = data?.events.data || [];
+  const subEvents = getValue(data?.events.data, []);
 
   return { subEvents, loading };
 };

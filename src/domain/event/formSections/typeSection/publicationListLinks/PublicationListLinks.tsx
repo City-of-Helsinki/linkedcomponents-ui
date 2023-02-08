@@ -14,7 +14,7 @@ const PublicationListLinks: React.FC<Props> = ({ links }) => {
     <strong>
       {links.map(({ href, text }, index, array) => {
         return (
-          <React.Fragment key={index}>
+          <React.Fragment key={href}>
             <a href={href} target="_blank" rel="noreferrer">
               {text}
             </a>

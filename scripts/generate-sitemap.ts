@@ -141,8 +141,8 @@ const saveSitemapFile = (elements: Element[]) => {
         type: 'element',
         name: 'urlset',
         attributes: {
-          xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9',
-          'xmlns:xhtml': 'http://www.w3.org/1999/xhtml',
+          xmlns: 'https://www.sitemaps.org/schemas/sitemap/0.9',
+          'xmlns:xhtml': 'https://www.w3.org/1999/xhtml',
         },
         elements,
       },
@@ -153,16 +153,12 @@ const saveSitemapFile = (elements: Element[]) => {
 };
 
 const generateSitemap = async () => {
-  try {
-    const time = new Date();
+  const time = new Date();
 
-    const staticUrlElements = getStaticUrlElements(time);
+  const staticUrlElements = getStaticUrlElements(time);
 
-    await saveSitemapFile(staticUrlElements);
-    return true;
-  } catch (err) {
-    throw err;
-  }
+  await saveSitemapFile(staticUrlElements);
+  return true;
 };
 
 // Generate sitemap only if GENERATE_SITEMAP flag is true and PUBLIC_URL is set

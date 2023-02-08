@@ -6,6 +6,7 @@ import {
   RegistrationFieldsFragment,
 } from '../../generated/graphql';
 import { Language, PathBuilderProps } from '../../types';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import { REGISTRATION_SEARCH_PARAMS } from '../registrations/constants';
 import { EnrolmentFields, EnrolmentSearchInitialValues } from './types';
@@ -22,7 +23,7 @@ export const getEnrolmentSearchInitialValues = (
 
   return {
     attendeePage: Number(attendeePage) || 1,
-    enrolmentText: text || '',
+    enrolmentText: getValue(text, ''),
     waitingPage: Number(waitingPage) || 1,
   };
 };
@@ -36,20 +37,20 @@ export const getEnrolmentFields = ({
   language: Language;
   registration: RegistrationFieldsFragment;
 }): EnrolmentFields => {
-  const id = enrolment.id || '';
+  const id = getValue(enrolment.id, '');
   /* istanbul ignore next */
-  const registrationId = registration.id || '';
+  const registrationId = getValue(registration.id, '');
 
   return {
     id,
     attendeeStatus: enrolment.attendeeStatus as AttendeeStatus,
-    email: enrolment.email ?? '',
+    email: getValue(enrolment.email, ''),
     enrolmentUrl: `/${language}${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
       ':registrationId',
       registrationId
     ).replace(':enrolmentId', id)}`,
-    name: enrolment.name ?? '',
-    phoneNumber: enrolment.phoneNumber ?? '',
+    name: getValue(enrolment.name, ''),
+    phoneNumber: getValue(enrolment.phoneNumber, ''),
   };
 };
 

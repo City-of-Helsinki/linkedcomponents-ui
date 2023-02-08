@@ -139,15 +139,15 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       actionItems={actionItems}
       onBack={goBack}
       submitButtons={actionButtons.map(
-        ({ icon, disabled, label, isSaving, variant, ...rest }, index) => (
+        ({ icon, disabled, label, isSaving, variant, ...rest }) => (
           <LoadingButton
-            key={index}
+            key={label}
             {...rest}
             className={styles.mediumButton}
             disabled={disabled || Boolean(saving)}
             icon={icon}
             loading={isSaving}
-            variant={variant as Exclude<ButtonVariant, 'supplementary'>}
+            variant={variant}
           >
             {label}
           </LoadingButton>

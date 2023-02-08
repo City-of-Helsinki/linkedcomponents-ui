@@ -26,7 +26,7 @@ import { RegistrationFormFields } from '../types';
 import { getRegistrationFields, getRegistrationPayload } from '../utils';
 
 interface UseRegistrationActionsProps {
-  registration?: RegistrationFieldsFragment;
+  registration?: RegistrationFieldsFragment | null;
 }
 
 type UseRegistrationActionsState = {

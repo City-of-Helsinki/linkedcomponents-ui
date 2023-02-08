@@ -6,6 +6,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
+import getValue from '../../../utils/getValue';
 import { getLanguageOption, sortLanguageOptions } from '../../language/utils';
 
 const useLanguageOptions = (): OptionType[] => {
@@ -14,12 +15,13 @@ const useLanguageOptions = (): OptionType[] => {
   const { data } = useLanguagesQuery();
 
   const languageOptions = React.useMemo(() => {
-    return (
+    return getValue(
       data?.languages.data
         ?.map((language) =>
           getLanguageOption(language as LanguageFieldsFragment, locale)
         )
-        .sort(sortLanguageOptions) || []
+        .sort(sortLanguageOptions),
+      []
     );
   }, [data, locale]);
 
