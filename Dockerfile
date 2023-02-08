@@ -27,6 +27,13 @@ USER default
 # Install dependencies
 RUN yarn && yarn cache clean --force
 
+# Copy all necessary files
+COPY craco.config.js tsconfig.json .eslintignore .eslintrc.json .prettierrc.json .env /app/
+COPY /plugins/ /app/plugins
+COPY /public/ /app/public
+COPY /scripts/ /app/scripts
+COPY /src/ /app/src
+
 # =============================
 FROM appbase AS development
 # =============================
@@ -37,13 +44,6 @@ ENV NODE_ENV $NODE_ENV
 
 ENV PORT 8000
 
-# Copy all necessary files
-COPY craco.config.js tsconfig.json .eslintignore .eslintrc.json .prettierrc.json .env* /app/
-COPY /plugins/ /app/plugins
-COPY /public/ /app/public
-COPY /src/ /app/src
-
-
 # Bake package.json start command into the image
 CMD ["yarn", "start"]
 
@@ -53,7 +53,6 @@ EXPOSE 8000
 FROM appbase AS staticbuilder
 # ===================================
 WORKDIR /app
-COPY . /app/
 
 # Set public url
 ARG PUBLIC_URL
@@ -117,8 +116,6 @@ COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
 # Copy nginx config
 COPY .prod/nginx.conf /etc/nginx/nginx.conf
-
-COPY .env .
 
 USER 1001
 
