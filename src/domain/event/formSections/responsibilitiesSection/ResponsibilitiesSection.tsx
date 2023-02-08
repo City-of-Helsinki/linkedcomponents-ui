@@ -39,6 +39,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
   const getDisabled = (name: EVENT_FIELDS.PUBLISHER): boolean => {
     const savedPublisher = savedEvent?.publisher;
 
+    /* istanbul ignore else */
     if (name === EVENT_FIELDS.PUBLISHER) {
       return (
         !userOrganizations.length ||
@@ -47,7 +48,6 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
       );
     }
 
-    /* istanbul ignore next */
     return false;
   };
 

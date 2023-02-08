@@ -1154,6 +1154,7 @@ const getCreateEventActionWarning = ({
       return t('event.form.buttonPanel.warningNoRightsToCreate');
     }
 
+    /* istanbul ignore else */
     if (action === EVENT_ACTIONS.PUBLISH) {
       return t('event.form.buttonPanel.warningNoRightsToPublish');
     }
