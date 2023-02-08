@@ -37,8 +37,12 @@ ENV NODE_ENV $NODE_ENV
 
 ENV PORT 8000
 
-# Copy all files
-COPY . /app/
+# Copy all necessary files
+COPY craco.config.js tsconfig.json .eslintignore .eslintrc.json .prettierrc.json .env* /app/
+COPY /plugins/ /app/plugins
+COPY /public/ /app/public
+COPY /src/ /app/src
+
 
 # Bake package.json start command into the image
 CMD ["yarn", "start"]
