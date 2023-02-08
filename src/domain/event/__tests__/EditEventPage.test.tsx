@@ -199,7 +199,7 @@ test('should cancel event', async () => {
   await loadingSpinnerIsNotInDocument(10000);
   await screen.findByText('Peruutettu');
   // Wait organization selector and keyword selector components to be updated to avoid act warnings
-  await actWait();
+  await actWait(100);
 });
 
 test('should postpone event', async () => {
@@ -235,7 +235,7 @@ test('should postpone event', async () => {
   await loadingSpinnerIsNotInDocument(10000);
   await screen.findByText('Lykätty');
   // Wait organization selector and keyword selector components to be updated to avoid act warnings
-  await actWait();
+  await actWait(100);
 });
 
 test('should delete event', async () => {
@@ -299,7 +299,7 @@ test('should update event', async () => {
     timeout: 30000,
   });
   // Wait organization selector and keyword selector components to be updated to avoid act warnings
-  await actWait();
+  await actWait(100);
 });
 
 test('should update recurring event', async () => {
