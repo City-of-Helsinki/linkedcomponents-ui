@@ -90,7 +90,7 @@
     "generate-robots": "ts-node  -P ./scripts/tsconfig.json -r dotenv/config scripts/generate-robots.ts",
     "generate-sitemap": "ts-node  -P ./scripts/tsconfig.json -r dotenv/config scripts/generate-sitemap.ts",
     "test": "TZ=UTC react-scripts test",
-    "test:coverage": "TZ=UTC jest --testResultsProcessor=\"./node_modules/jest-junit\" --coverage --watchAll=false",
+    "test:coverage": "TZ=UTC react-scripts test --testResultsProcessor=\"./node_modules/jest-junit\" --coverage --watchAll=false",
     "browser-test": "BROWSER_TESTS_SHOW_ADMIN=true BROWSER_TESTS_SHOW_REGISTRATION=true BROWSER_TESTS_ENV_URL=https://linkedcomponents-ui.test.kuva.hel.ninja testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
     "browser-test:local": "BROWSER_TESTS_SHOW_ADMIN=true BROWSER_TESTS_SHOW_REGISTRATION=true BROWSER_TESTS_ENV_URL=http://localhost:3000 testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
     "browser-test:prod": "BROWSER_TESTS_LINKED_EVENTS_URL=https://api.hel.fi/linkedevents/v1 BROWSER_TESTS_ENV_URL=https://linkedevents.hel.fi testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
