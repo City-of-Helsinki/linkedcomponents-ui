@@ -19,15 +19,19 @@ type Result = {
 };
 
 type Reporter = {
-  reportTaskStart: (start: number, userAgents: string, test: number) => void;
-  reportFixtureStart: (fixtureName: string) => void;
-  reportTestDone: (name: string, testRunInfo: TestRunInfo) => void;
+  reportTaskStart: (
+    start: number,
+    userAgents: string,
+    test: number
+  ) => Promise<void>;
+  reportFixtureStart: (fixtureName: string) => Promise<void>;
+  reportTestDone: (name: string, testRunInfo: TestRunInfo) => Promise<void>;
   reportTaskDone: (
     endTime: number,
     passed: number,
     warnings: TestRunInfo['warnings'],
     result: Result
-  ) => void;
+  ) => Promise<void>;
 };
 
 /**
@@ -39,7 +43,11 @@ const SlackReporter = (): Reporter => {
   let startTime: number, testCount: number;
   const slack = createSlackMessageSender();
 
-  const reportTaskStart = (start: number, userAgents: string, test: number) => {
+  const reportTaskStart = async (
+    start: number,
+    userAgents: string,
+    test: number
+  ) => {
     startTime = start;
     testCount = test;
     const githubWorkflow = process.env.GITHUB_WORKFLOW_NAME || '';
@@ -69,15 +77,15 @@ const SlackReporter = (): Reporter => {
     return message;
   };
 
-  const reportTestDone = (name: string, testRunInfo: TestRunInfo) => {
+  const reportTestDone = async (name: string, testRunInfo: TestRunInfo) => {
     slack.addMessage(getTestDoneMessage(name, testRunInfo));
   };
 
-  const reportFixtureStart = (fixtureName: string) => {
+  const reportFixtureStart = async (fixtureName: string) => {
     slack.addMessage(bold(fixtureName));
   };
 
-  const reportTaskDone = (
+  const reportTaskDone = async (
     endTime: number,
     passed: number,
     warnings: TestRunInfo['warnings'],
@@ -105,7 +113,7 @@ const SlackReporter = (): Reporter => {
     }
     slack.addMessage(`\n\n${finishedStr} ${durationStr} ${summaryStr}`);
 
-    slack.sendTestReport(testCount - passed);
+    await slack.sendTestReport(testCount - passed);
   };
 
   return {

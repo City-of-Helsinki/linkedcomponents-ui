@@ -1,12 +1,15 @@
-import Slack, { WebhookOptions, WebhookResponse } from 'slack-node';
+import { IncomingWebhook, IncomingWebhookSendArguments } from '@slack/webhook';
 
 import { bold, codeBlock } from './utils/slackTextFormatters';
 
 type SlackMessageSender = {
   addMessage: (message: string) => void;
   addErrorMessage: (message: string) => void;
-  sendMessage: (message: string, slackProperties?: WebhookOptions) => void;
-  sendTestReport: (amountOfFailedTests: number) => void;
+  sendMessage: (
+    message: string,
+    sendArguments?: IncomingWebhookSendArguments
+  ) => Promise<void>;
+  sendTestReport: (amountOfFailedTests: number) => Promise<void>;
 };
 
 /**
@@ -15,8 +18,9 @@ type SlackMessageSender = {
 const SLACK_MESSAGE_MAX_LENGTH = 7_200;
 
 export const createSlackMessageSender = (): SlackMessageSender => {
-  const slack = new Slack();
-  slack.setWebhook(process.env.TESTCAFE_SLACK_WEBHOOK || '');
+  const url = process.env.TESTCAFE_SLACK_WEBHOOK ?? '';
+  const webhook = new IncomingWebhook(url);
+
   const channel = process.env.TESTCAFE_SLACK_CHANNEL;
   const username = process.env.TESTCAFE_SLACK_USERNAME;
   const messages: string[] = [];
@@ -32,31 +36,28 @@ export const createSlackMessageSender = (): SlackMessageSender => {
     errorMessages.push(codeBlock(msg));
   };
 
-  const sendMessage = (
+  const sendMessage = async (
     message: string,
-    slackProperties: WebhookOptions = {}
+    sendArguments: IncomingWebhookSendArguments = {}
   ) => {
-    slack.webhook(
-      {
+    try {
+      await webhook.send({
         channel,
         username,
         text: message,
-        ...slackProperties,
-      },
-      (err: Error, response: WebhookResponse) => {
-        if (err) {
-          // eslint-disable-next-line no-console
-          console.log('Unable to send a message to slack', response, err.stack);
-        }
-      }
-    );
+        ...sendArguments,
+      });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log('Unable to send a message to slack', e.stack);
+    }
   };
 
-  const sendTestReport = (amountOfFailedTests: number) => {
+  const sendTestReport = async (amountOfFailedTests: number) => {
     // send report only when something has failed
     const message = messages.join('\n');
     if (amountOfFailedTests > 0) {
-      sendMessage(
+      await sendMessage(
         message,
         amountOfFailedTests
           ? {
