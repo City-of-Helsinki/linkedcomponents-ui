@@ -33,6 +33,126 @@ Start the container
 
 The web application is running at http://localhost:3000
 
+## Setting up complete development environment locally with docker
+
+### Set tunnistamo and linkedevents hostname
+
+Add the following lines to your hosts file (`/etc/hosts` on mac and linux):
+
+    127.0.0.1 tunnistamo-backend
+    127.0.0.1 linkedevents-backend
+
+### Create a new OAuth app on GitHub
+
+Go to https://github.com/settings/developers/ and add a new app with the following settings:
+
+- Application name: can be anything, e.g. local tunnistamo
+- Homepage URL: http://tunnistamo-backend:8000
+- Authorization callback URL: http://tunnistamo-backend:8000/accounts/github/login/callback/
+
+Save. You'll need the created **Client ID** and **Client Secret** for configuring tunnistamo in the next step.
+
+### Install local tunnistamo
+
+Clone https://github.com/City-of-Helsinki/tunnistamo/.
+
+Follow the instructions for setting up tunnistamo locally. Before running `docker-compose up` set the following settings in tunnistamo roots `docker-compose.env.yaml`:
+
+- SOCIAL_AUTH_GITHUB_KEY: **Client ID** from the GitHub OAuth app
+- SOCIAL_AUTH_GITHUB_SECRET: **Client Secret** from the GitHub OAuth app
+
+After you've got tunnistamo running locally, ssh to the tunnistamo docker container:
+
+`docker-compose exec django bash`
+
+and execute the following four commands inside your docker container:
+
+```bash
+./manage.py add_oidc_client -n linkedevents-ui -t "id_token token" -u "http://localhost:3000/callback" "http://localhost:3000/silent-callback" -i https://api.hel.fi/auth/linkedevents-ui -m github -s dev
+./manage.py add_oidc_client -n linkedevents -t "code" -u http://linkedevents-backend:8080/accounts/helsinki/login/callback -i https://api.hel.fi/auth/linkedevents -m github -s dev -c
+./manage.py add_oidc_api -n linkedevents -d https://api.hel.fi/auth -s email,profile -c https://api.hel.fi/auth/linkedevents
+./manage.py add_oidc_api_scope -an linkedevents -c https://api.hel.fi/auth/linkedevents -n "Linked events" -d"Lorem ipsum"
+./manage.py add_oidc_client_to_api_scope -asi https://api.hel.fi/auth/linkedevents -c https://api.hel.fi/auth/linkedevents-ui
+```
+
+### Install local Linked Events API
+
+Clone the repository (https://github.com/City-of-Helsinki/linkedevents). Follow the instructions for running linkedevents with docker. Before running `docker-compose up` you have to do couple of changes:
+
+1.  Change port mapping for django service in docker-compose.yml
+
+        "8080:8000" -> "8080:8080"
+
+2.  Set the following settings in `/docker/django/.env`:
+
+- ALLOWED_HOSTS=\*
+- APPLY_MIGRATIONS=false
+- CREATE_SUPERUSER=true
+- DATABASE_URL=postgres://linkedevents:linkedevents@linkedevents-db/linkedevents
+- DEBUG=true
+- DEV_SERVER=true
+- MEMCACHED_URL=linkedevents-memcached:11211
+- RUNSERVER_ADDRESS=0.0.0.0:8080
+- SEAT_RESERVATION_DURATION=15
+- WAIT_FOR_IT_ADDRESS=linkedevents-db:5432
+- TOKEN_AUTH_AUTHSERVER_URL=http://tunnistamo-backend:8000/openid
+- TOKEN_AUTH_SHARED_SECRET=<linkedevents client secret>
+
+3.  Override rest framwork settings by adding following settings in "local_settings.py"
+
+    ```bash
+    REST_FRAMEWORK = {
+         "PAGE_SIZE": 20,
+         "ORDERING_PARAM": "sort",
+         "DEFAULT_RENDERER_CLASSES": (
+             "events.renderers.JSONRenderer",
+             "events.renderers.JSONLDRenderer",
+             "rest_framework.renderers.BrowsableAPIRenderer",
+         ),
+         "DEFAULT_PARSER_CLASSES": (
+             "events.parsers.CamelCaseJSONParser",
+             "events.parsers.JSONLDParser",
+             "rest_framework.parsers.FormParser",
+             "rest_framework.parsers.MultiPartParser",
+         ),
+         "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+         "DEFAULT_PAGINATION_CLASS": "events.api_pagination.CustomPagination",
+         "DEFAULT_PERMISSION_CLASSES": (
+             "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+         ),
+         "DEFAULT_AUTHENTICATION_CLASSES": (
+             "events.auth.ApiKeyAuthentication",
+             "helusers.oidc.ApiTokenAuthentication",
+         ),
+         "DEFAULT_VERSIONING_CLASS": "rest_framework.versioning.URLPathVersioning",
+         "VIEW_NAME_FUNCTION": "events.api.get_view_name",
+     }
+    ```
+
+4.  helusers.oidc.ApiTokenAuthentication requires drf-oidc-auth so add it to requirements
+
+    Add drf-oidc-auth==0.10.0 to requirements.in
+
+    Run `pip-compile requirements.in`
+
+### Linked Events UI
+
+Set the following settings in `.env.local`:
+
+- REACT_APP_OIDC_AUTHORITY=http://tunnistamo-backend:8000/openid
+- REACT_APP_OIDC_API_TOKENS_URL=http://tunnistamo-backend:8000/api-tokens/
+- REACT_APP_OIDC_CLIENT_ID=https://api.hel.fi/auth/linkedevents-ui
+- REACT_APP_OIDC_API_SCOPE=https://api.hel.fi/auth/linkedevents
+- REACT_APP_LINKED_EVENTS_URL=http://linkedevents-backend:8080/v1
+- REACT_APP_LINKED_REGISTRATIONS_UI_URL=http://localhost:3001
+
+Run `docker-compose up`, now the app should be running at `http://localhost:3000/`!
+`docker-compose down` stops the container.
+
+OR
+
+Run `yarn && yarn start`
+
 ## Running development environment locally without docker
 
 Run `yarn && yarn start`
@@ -48,7 +168,8 @@ Use .env.development.local for development.
 | PUBLIC_URL                                 | Public url of the application url                                                                      |
 | REACT_APP_LINKED_EVENTS_URL                | linkedevents api base url                                                                              |
 | REACT_APP_LINKED_REGISTRATIONS_UI_URL      | Linked registration UI url. Used to get signup form url                                                |
-| REACT_APP_OIDC_AUTHORITY                   | https://api.hel.fi/sso                                                                                 |
+| REACT_APP_OIDC_AUTHORITY                   | Tunnistamo SSO service url. Default api https://api.hel.fi/sso                                         |
+| REACT_APP_OIDC_API_TOKENS_URL              | Tunnistamo api tokens endpoint url. Default api https://api.hel.fi/sso/api-tokens/                     |
 | REACT_APP_OIDC_CLIENT_ID                   | linkedcomponents-ui-test                                                                               |
 | REACT_APP_OIDC_API_SCOPE                   | https://api.hel.fi/auth/linkedeventsdev                                                                |
 | REACT_APP_SENTRY_DSN                       | https://9b104b8db52740ffb5002e0c9e40da45@sentry.hel.ninja/12                                           |
