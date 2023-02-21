@@ -30,6 +30,7 @@ jobs:
           DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1'
           DOCKER_BUILD_ARG_REACT_APP_LINKED_REGISTRATIONS_UI_URL: 'https://linkedregistrations-ui.test.kuva.hel.ninja'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://api.hel.fi/sso'
+          DOCKER_BUILD_ARG_REACT_APP_OIDC_API_TOKENS_URL: 'https://api.hel.fi/sso/api-tokens/'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'linkedcomponents-ui-test'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_API_SCOPE: 'https://api.hel.fi/auth/linkedeventsdev'
           DOCKER_BUILD_ARG_REACT_APP_INTERNET_PLACE_ID: 'system:internet'

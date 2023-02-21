@@ -70,8 +70,6 @@ export enum ROUTES {
   TECHNOLOGY_SOURCE_CODE = '/help/technology/source-code',
 }
 
-export const OIDC_API_TOKEN_ENDPOINT = `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`;
-
 // Supported languages
 export enum SUPPORTED_LANGUAGES {
   FI = 'fi',
