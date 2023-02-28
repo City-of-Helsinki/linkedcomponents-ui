@@ -36,19 +36,14 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
     name: EVENT_FIELDS.PUBLISHER,
   });
 
-  const getDisabled = (name: EVENT_FIELDS.PUBLISHER): boolean => {
+  const isPublisherDisabled = (): boolean => {
     const savedPublisher = savedEvent?.publisher;
 
-    /* istanbul ignore else */
-    if (name === EVENT_FIELDS.PUBLISHER) {
-      return (
-        !userOrganizations.length ||
-        Boolean(savedPublisher) ||
-        (publisher && userOrganizations.length === 1)
-      );
-    }
-
-    return false;
+    return (
+      !userOrganizations.length ||
+      Boolean(savedPublisher) ||
+      (publisher && userOrganizations.length === 1)
+    );
   };
 
   React.useEffect(() => {
@@ -75,7 +70,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
         <FieldColumn>
           <Field
             component={PublisherSelectorField}
-            disabled={!isEditingAllowed || getDisabled(EVENT_FIELDS.PUBLISHER)}
+            disabled={!isEditingAllowed || isPublisherDisabled()}
             label={t(`event.form.labelPublisher.${type}`)}
             name={EVENT_FIELDS.PUBLISHER}
             publisher={savedEvent?.publisher}
