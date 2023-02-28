@@ -1,17 +1,11 @@
-import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
 
-import Button from '../../common/components/button/Button';
-import ErrorTemplate from '../../common/components/errorTemplate/ErrorTemplate';
+import ErrorPage from '../../common/components/errorPage/ErrorPage';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
 import getValue from '../../utils/getValue';
-import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import { useAuth } from '../auth/hooks/useAuth';
-import styles from './notFound.module.scss';
 
 interface Props {
   pathAfterSignIn?: string;
@@ -20,45 +14,13 @@ interface Props {
 const NotFoundPage: React.FC<Props> = ({ pathAfterSignIn }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const navigate = useNavigate();
-  const { signIn } = useAuth();
-
-  const goToHome = () => {
-    navigate(`/${locale}${ROUTES.HOME}`);
-  };
-
-  const handleSignIn = () => {
-    signIn(pathAfterSignIn ?? `/${locale}${ROUTES.HOME}`);
-  };
 
   return (
     <PageWrapper title={getValue(t('notFound.pageTitle'), '')}>
-      <MainContent>
-        <ErrorTemplate
-          buttons={
-            <div className={styles.buttons}>
-              <Button
-                fullWidth={true}
-                iconLeft={<IconArrowLeft />}
-                onClick={goToHome}
-                type="button"
-                variant="secondary"
-              >
-                {t('common.goToHome')}
-              </Button>
-              <Button
-                fullWidth={true}
-                onClick={handleSignIn}
-                type="button"
-                variant="primary"
-              >
-                {t('common.signIn')}
-              </Button>
-            </div>
-          }
-          text={t('notFound.text')}
-        />
-      </MainContent>
+      <ErrorPage
+        signInPath={pathAfterSignIn ?? `/${locale}${ROUTES.HOME}`}
+        text={t('notFound.text')}
+      />
     </PageWrapper>
   );
 };

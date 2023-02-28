@@ -83,8 +83,8 @@ type DeleteButtonCSSProperties = {
   '--delete-button-color-icon'?: string;
 };
 
-type ErrorTemplateCSSProperties = {
-  '--error-template-icon-color'?: string;
+type ErrorPageCSSProperties = {
+  '--error-page-icon-color'?: string;
 };
 
 type EventCardCSSProperties = {
@@ -302,7 +302,7 @@ export type Theme = {
   dateInput: DateInputCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   dropdown: DropdownCSSProperties;
-  errorTemplate: ErrorTemplateCSSProperties;
+  errorPage: ErrorPageCSSProperties;
   eventCard: EventCardCSSProperties;
   footer: FooterCSSProperties;
   imageSelector: ImageSelectorCSSProperties;
@@ -350,7 +350,7 @@ const defaultTheme: Theme = {
   dateInput: {},
   deleteButton: {},
   dropdown: {},
-  errorTemplate: {},
+  errorPage: {},
   eventCard: {},
   footer: {},
   imageSelector: {},

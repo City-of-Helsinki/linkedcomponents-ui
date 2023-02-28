@@ -1,8 +1,8 @@
 @import '../../../assets/styles/widths';
 
-.errorTemplate {
-  --error-template-icon-color: var(--color-bus);
-  --error-template-icon-size: 112px;
+.errorPage {
+  --error-page-icon-color: var(--color-bus);
+  --error-page-icon-size: 112px;
 
   display: grid;
   grid-gap: var(--spacing-m);
@@ -25,9 +25,19 @@
     margin: var(--spacing-l) 0 var(--spacing-m);
   }
 
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--spacing-m);
+
+    button {
+      white-space: nowrap;
+    }
+  }
+
   .icon {
-    color: var(--error-template-icon-color);
-    height: var(--error-template-icon-size);
-    width: var(--error-template-icon-size);
+    color: var(--error-page-icon-color);
+    height: var(--error-page-icon-size);
+    width: var(--error-page-icon-size);
   }
 }
