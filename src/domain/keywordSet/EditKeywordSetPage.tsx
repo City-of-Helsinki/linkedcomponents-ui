@@ -26,7 +26,7 @@ import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
 } from './hooks/useKeywordSetActions';
 import KeywordSetForm from './keywordSetForm/KeywordSetForm';
-import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteKeywordSetModal from './modals/confirmDeleteKeywordSetModal/ConfirmDeleteKeywordSetModal';
 import {
   getEditButtonProps,
   getKeywordSetFields,
@@ -72,7 +72,7 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
 
   return (
     <div>
-      <ConfirmDeleteModal
+      <ConfirmDeleteKeywordSetModal
         isOpen={openModal === KEYWORD_SET_MODALS.DELETE}
         isSaving={saving === KEYWORD_SET_ACTIONS.DELETE}
         onClose={closeModal}

@@ -6,21 +6,22 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import ConfirmDeleteModal, {
-  ConfirmDeleteModalProps,
-} from '../ConfirmDeleteModal';
+import ConfirmDeleteOrganizationModal, {
+  ConfirmDeleteOrganizationModalProps,
+} from '../ConfirmDeleteOrganizationModal';
 
 configure({ defaultHidden: true });
 
-const defaultProps: ConfirmDeleteModalProps = {
+const defaultProps: ConfirmDeleteOrganizationModalProps = {
   isOpen: true,
   isSaving: false,
   onClose: jest.fn(),
   onDelete: jest.fn(),
 };
 
-const renderComponent = (props?: Partial<ConfirmDeleteModalProps>) =>
-  render(<ConfirmDeleteModal {...defaultProps} {...props} />);
+const renderComponent = (
+  props?: Partial<ConfirmDeleteOrganizationModalProps>
+) => render(<ConfirmDeleteOrganizationModal {...defaultProps} {...props} />);
 
 const getElement = (
   key: 'cancelButton' | 'deleteButton' | 'text' | 'title' | 'warning'

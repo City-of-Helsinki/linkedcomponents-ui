@@ -6,21 +6,21 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import ConfirmDeleteModal, {
-  ConfirmDeleteModalProps,
-} from '../ConfirmDeleteModal';
+import ConfirmDeleteKeywordModal, {
+  ConfirmDeleteKeywordModalProps,
+} from '../ConfirmDeleteKeywordModal';
 
 configure({ defaultHidden: true });
 
-const defaultProps: ConfirmDeleteModalProps = {
+const defaultProps: ConfirmDeleteKeywordModalProps = {
   isOpen: true,
   isSaving: false,
   onClose: jest.fn(),
   onDelete: jest.fn(),
 };
 
-const renderComponent = (props?: Partial<ConfirmDeleteModalProps>) =>
-  render(<ConfirmDeleteModal {...defaultProps} {...props} />);
+const renderComponent = (props?: Partial<ConfirmDeleteKeywordModalProps>) =>
+  render(<ConfirmDeleteKeywordModal {...defaultProps} {...props} />);
 
 test('should render component', async () => {
   renderComponent();

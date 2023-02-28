@@ -22,7 +22,7 @@ import { ORGANIZATION_ACTIONS } from './constants';
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
 } from './hooks/useOrganizationUpdateActions';
-import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteOrganizationModal from './modals/confirmDeleteOrganizationModal/ConfirmDeleteOrganizationModal';
 import OrganizationForm from './organizationForm/OrganizationForm';
 import {
   getEditButtonProps,
@@ -68,7 +68,7 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
 
   return (
     <div>
-      <ConfirmDeleteModal
+      <ConfirmDeleteOrganizationModal
         isOpen={openModal === ORGANIZATION_MODALS.DELETE}
         isSaving={saving === ORGANIZATION_ACTIONS.DELETE}
         onClose={closeModal}

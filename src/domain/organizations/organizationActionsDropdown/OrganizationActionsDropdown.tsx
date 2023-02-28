@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -13,7 +14,7 @@ import { ORGANIZATION_ACTIONS } from '../../organization/constants';
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
 } from '../../organization/hooks/useOrganizationUpdateActions';
-import ConfirmDeleteModal from '../../organization/modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteOrganizationModal from '../../organization/modals/confirmDeleteOrganizationModal/ConfirmDeleteOrganizationModal';
 import {
   getEditButtonProps,
   getOrganizationFields,
@@ -89,7 +90,7 @@ const OrganizationActionsDropdown: FC<OrganizationActionsDropdownProps> = ({
   return (
     <>
       {openModal === ORGANIZATION_MODALS.DELETE && (
-        <ConfirmDeleteModal
+        <ConfirmDeleteOrganizationModal
           isOpen={openModal === ORGANIZATION_MODALS.DELETE}
           isSaving={saving === ORGANIZATION_ACTIONS.DELETE}
           onClose={closeModal}

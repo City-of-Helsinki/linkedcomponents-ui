@@ -14,13 +14,13 @@ import {
   subEventName,
   subSubEventNames,
 } from '../../__mocks__/modals';
-import ConfirmDeleteModal, {
-  ConfirmDeleteModalProps,
-} from '../ConfirmDeleteModal';
+import ConfirmDeleteEventModal, {
+  ConfirmDeleteEventModalProps,
+} from '../ConfirmDeleteEventModal';
 
 configure({ defaultHidden: true });
 
-const defaultProps: ConfirmDeleteModalProps = {
+const defaultProps: ConfirmDeleteEventModalProps = {
   event,
   isOpen: true,
   isSaving: false,
@@ -28,8 +28,8 @@ const defaultProps: ConfirmDeleteModalProps = {
   onDelete: jest.fn(),
 };
 
-const renderComponent = (props?: Partial<ConfirmDeleteModalProps>) =>
-  render(<ConfirmDeleteModal {...defaultProps} {...props} />, { mocks });
+const renderComponent = (props?: Partial<ConfirmDeleteEventModalProps>) =>
+  render(<ConfirmDeleteEventModal {...defaultProps} {...props} />, { mocks });
 
 test('should render component', async () => {
   renderComponent();

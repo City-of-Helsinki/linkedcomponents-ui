@@ -14,7 +14,7 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import { EVENT_ACTIONS, EVENT_MODALS } from '../../event/constants';
 import useEventActions from '../../event/hooks/useEventActions';
 import ConfirmCancelModal from '../../event/modals/confirmCancelModal/ConfirmCancelModal';
-import ConfirmDeleteModal from '../../event/modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteEventModal from '../../event/modals/confirmDeleteEventModal/ConfirmDeleteEventModal';
 import ConfirmPostponeModal from '../../event/modals/confirmPostponeModal/ConfirmPostponeModal';
 import {
   copyEventToSessionStorage,
@@ -129,7 +129,7 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
         />
       )}
       {openModal === EVENT_MODALS.DELETE && (
-        <ConfirmDeleteModal
+        <ConfirmDeleteEventModal
           event={event}
           isOpen={openModal === EVENT_MODALS.DELETE}
           isSaving={saving === EVENT_ACTIONS.DELETE}

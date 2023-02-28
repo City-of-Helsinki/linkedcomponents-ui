@@ -13,7 +13,7 @@ import { KEYWORD_SET_ACTIONS } from '../../keywordSet/constants';
 import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
 } from '../../keywordSet/hooks/useKeywordSetActions';
-import ConfirmDeleteModal from '../../keywordSet/modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteKeywordSetModal from '../../keywordSet/modals/confirmDeleteKeywordSetModal/ConfirmDeleteKeywordSetModal';
 import {
   getEditButtonProps,
   getKeywordSetFields,
@@ -91,7 +91,7 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
   return (
     <>
       {openModal === KEYWORD_SET_MODALS.DELETE && (
-        <ConfirmDeleteModal
+        <ConfirmDeleteKeywordSetModal
           isOpen={openModal === KEYWORD_SET_MODALS.DELETE}
           isSaving={saving === KEYWORD_SET_ACTIONS.DELETE}
           onClose={closeModal}

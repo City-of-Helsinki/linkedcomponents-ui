@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -15,7 +16,7 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import { REGISTRATION_MODALS } from '../../registration/constants';
 import useRegistrationActions from '../../registration/hooks/useRegistrationActions';
 import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
-import ConfirmDeleteModal from '../../registration/modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteRegistrationModal from '../../registration/modals/confirmDeleteRegistrationModal/ConfirmDeleteRegistrationModal';
 import {
   copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,
@@ -117,7 +118,7 @@ const RegistrationActionsDropdown: React.FC<
   return (
     <>
       {openModal === REGISTRATION_MODALS.DELETE && (
-        <ConfirmDeleteModal
+        <ConfirmDeleteRegistrationModal
           isOpen={openModal === REGISTRATION_MODALS.DELETE}
           isSaving={saving === REGISTRATION_ACTIONS.DELETE}
           onClose={closeModal}

@@ -14,7 +14,7 @@ import { PLACE_ACTIONS } from '../../place/constants';
 import usePlaceUpdateActions, {
   PLACE_MODALS,
 } from '../../place/hooks/usePlaceUpdateActions';
-import ConfirmDeleteModal from '../../place/modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeletePlaceModal from '../../place/modals/confirmDeletePlaceModal/ConfirmDeletePlaceModal';
 import { getEditButtonProps, getPlaceFields } from '../../place/utils';
 import useUser from '../../user/hooks/useUser';
 import { addParamsToPlaceQueryString } from '../utils';
@@ -89,7 +89,7 @@ const PlaceActionsDropdown: React.FC<PlaceActionsDropdownProps> = ({
   return (
     <>
       {openModal === PLACE_MODALS.DELETE && (
-        <ConfirmDeleteModal
+        <ConfirmDeletePlaceModal
           isOpen={openModal === PLACE_MODALS.DELETE}
           isSaving={saving === PLACE_ACTIONS.DELETE}
           onClose={closeModal}

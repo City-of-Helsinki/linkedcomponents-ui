@@ -20,7 +20,7 @@ import { PLACE_ACTIONS } from './constants';
 import usePlaceUpdateActions, {
   PLACE_MODALS,
 } from './hooks/usePlaceUpdateActions';
-import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeletePlaceModal from './modals/confirmDeletePlaceModal/ConfirmDeletePlaceModal';
 import PlaceForm from './placeForm/PlaceForm';
 import { getEditButtonProps, getPlaceFields, placePathBuilder } from './utils';
 
@@ -64,7 +64,7 @@ const EditPlacePage: React.FC<Props> = ({ place }) => {
 
   return (
     <div>
-      <ConfirmDeleteModal
+      <ConfirmDeletePlaceModal
         isOpen={openModal === PLACE_MODALS.DELETE}
         isSaving={saving === PLACE_ACTIONS.DELETE}
         onClose={closeModal}
