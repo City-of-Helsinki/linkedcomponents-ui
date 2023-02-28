@@ -61,7 +61,7 @@ import useEventServerErrors from '../hooks/useEventServerErrors';
 import useMainCategories from '../hooks/useMainCategories';
 import useSortedInfoLanguages from '../hooks/useSortedInfoLanguages';
 import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal';
-import ConfirmDeleteModal from '../modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteEventModal from '../modals/confirmDeleteEventModal/ConfirmDeleteEventModal';
 import ConfirmPostponeModal from '../modals/confirmPostponeModal/ConfirmPostponeModal';
 import ConfirmUpdateModal from '../modals/confirmUpdateModal/ConfirmUpdateModal';
 import { EventFormFields } from '../types';
@@ -316,7 +316,7 @@ const EventForm: React.FC<EventFormProps> = ({
             onCancel={() => onCancel(values.type)}
             onClose={closeModal}
           />
-          <ConfirmDeleteModal
+          <ConfirmDeleteEventModal
             event={event}
             isOpen={openModal === EVENT_MODALS.DELETE}
             isSaving={saving === EVENT_ACTIONS.DELETE}

@@ -45,7 +45,7 @@ import RequiredFieldsSection from '../formSections/requiredFieldsSection/Require
 import WaitingListSection from '../formSections/waitingListSection/WaitingListSection';
 import useRegistrationActions from '../hooks/useRegistrationActions';
 import useRegistrationServerErrors from '../hooks/useRegistrationServerErrors';
-import ConfirmDeleteModal from '../modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteRegistrationModal from '../modals/confirmDeleteRegistrationModal/ConfirmDeleteRegistrationModal';
 import RegistrationInfo from '../registrationInfo/RegistrationInfo';
 import styles from '../registrationPage.module.scss';
 import { RegistrationFormFields } from '../types';
@@ -214,7 +214,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
 
         return (
           <>
-            <ConfirmDeleteModal
+            <ConfirmDeleteRegistrationModal
               isOpen={openModal === REGISTRATION_MODALS.DELETE}
               isSaving={saving === REGISTRATION_ACTIONS.DELETE}
               onClose={closeModal}

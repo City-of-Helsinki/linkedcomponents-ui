@@ -6,21 +6,21 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import ConfirmDeleteModal, {
-  ConfirmDeleteModalProps,
-} from '../ConfirmDeleteModal';
+import ConfirmDeleteImageModal, {
+  ConfirmDeleteImageModalProps,
+} from '../ConfirmDeleteImageModal';
 
 configure({ defaultHidden: true });
 
-const defaultProps: ConfirmDeleteModalProps = {
+const defaultProps: ConfirmDeleteImageModalProps = {
   isOpen: true,
   isSaving: false,
   onClose: jest.fn(),
   onDelete: jest.fn(),
 };
 
-const renderComponent = (props?: Partial<ConfirmDeleteModalProps>) =>
-  render(<ConfirmDeleteModal {...defaultProps} {...props} />);
+const renderComponent = (props?: Partial<ConfirmDeleteImageModalProps>) =>
+  render(<ConfirmDeleteImageModal {...defaultProps} {...props} />);
 
 test('should render component', async () => {
   renderComponent();

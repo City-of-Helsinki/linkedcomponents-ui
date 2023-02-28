@@ -2,19 +2,33 @@ import { Dialog, IconAlertCircle } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Button from '../../../../common/components/button/Button';
-import styles from '../../../../common/components/dialog/dialog.module.scss';
-import LoadingButton from '../../../../common/components/loadingButton/LoadingButton';
-import { IMAGE_ACTION_ICONS, IMAGE_ACTIONS } from '../../constants';
+import LoadingButton from '../..//loadingButton/LoadingButton';
+import Button from '../../button/Button';
+import styles from '../dialog.module.scss';
 
-export interface ConfirmDeleteModalProps {
+export type CommonConfirmDeleteModalProps = {
   isOpen: boolean;
   isSaving: boolean;
   onClose: () => void;
   onDelete: () => void;
-}
+};
+
+export type ConfirmDeleteModalProps = {
+  bodyContent?: React.ReactElement;
+  deleteButtonIcon: React.ReactElement;
+  deleteButtonText: string;
+  description: string;
+  heading: string;
+  id: string;
+} & CommonConfirmDeleteModalProps;
 
 const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
+  bodyContent,
+  deleteButtonIcon,
+  deleteButtonText,
+  description,
+  heading,
+  id,
   isOpen,
   isSaving,
   onClose,
@@ -36,7 +50,6 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
     onDelete();
   };
 
-  const id = 'confirm-image-delete-modal';
   const titleId = `${id}-title`;
   const descriptionId = `${id}-description`;
 
@@ -52,26 +65,26 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
       <Dialog.Header
         id={titleId}
         iconLeft={<IconAlertCircle aria-hidden={true} />}
-        title={t('image.deleteImageModal.title')}
+        title={heading}
       />
       <Dialog.Content>
         <p className={styles.warning}>
           <strong>{t('common.warning')}</strong>
         </p>
-        <p id={descriptionId}>{t('image.deleteImageModal.text')} </p>
+        <p id={descriptionId}>{description} </p>
+        {bodyContent}
       </Dialog.Content>
       <Dialog.ActionButtons>
         <LoadingButton
           disabled={isSaving}
-          icon={IMAGE_ACTION_ICONS[IMAGE_ACTIONS.DELETE]}
+          icon={deleteButtonIcon}
           loading={isSaving}
           onClick={handleDelete}
           type="button"
           variant="danger"
         >
-          {t('image.deleteImageModal.buttonDelete')}
+          {deleteButtonText}
         </LoadingButton>
-
         <Button
           disabled={isSaving}
           onClick={handleClose}

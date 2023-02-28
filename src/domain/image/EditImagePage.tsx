@@ -21,7 +21,7 @@ import useImageUpdateActions, {
   IMAGE_MODALS,
 } from './hooks/useImageUpdateActions';
 import ImageForm from './imageForm/ImageForm';
-import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteModal from './modals/confirmDeleteImageModal/ConfirmDeleteImageModal';
 import { getEditButtonProps, getImageFields, imagePathBuilder } from './utils';
 
 type Props = {
