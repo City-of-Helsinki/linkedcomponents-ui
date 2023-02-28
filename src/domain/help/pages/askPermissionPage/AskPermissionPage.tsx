@@ -113,7 +113,11 @@ const AskPermissionPage: React.FC = () => {
   };
 
   return (
-    <PageWrapper title="helpPage.askPermissionPage.pageTitle">
+    <PageWrapper
+      description="helpPage.askPermissionPage.pageDescription"
+      keywords={['keywords.ask', 'keywords.permission']}
+      title="helpPage.askPermissionPage.pageTitle"
+    >
       <h1>{t('helpPage.askPermissionPage.pageTitle')}</h1>
       <AuthenticationNotification
         className={styles.authenticationNotification}
