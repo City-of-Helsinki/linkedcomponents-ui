@@ -600,6 +600,49 @@ it.each(contactCases)(
   }
 );
 
+const askPermissionCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description: 'Ask permission to Linked Events organisation.',
+      expectedRoute: '/en/help/support/ask-permission',
+      keywords:
+        'ask, permission, linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'Request access',
+      title: 'Request access - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description: 'Pyydä oikeudet Linked Events -organisaatioon.',
+      expectedRoute: '/fi/help/support/ask-permission',
+      keywords:
+        'kysy, oikeudet, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Pyydä käyttöoikeutta',
+      title: 'Pyydä käyttöoikeutta - Linked Events',
+    },
+  ],
+  // TODO: Add this when Swedish is added to supported languages
+  // [
+  //   'sv',
+  //   {
+  //     description: '',
+  //     expectedRoute: '/sv/help/support/ask-permission',
+  //     keywords: '',
+  //     pageTitle: 'Begära tillgång',
+  //     title: '',
+  //   },
+  // ],
+];
+
+it.each(askPermissionCases)(
+  'should render ask permission help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(language, ROUTES.SUPPORT_ASK_PERMISSION, expectedValues);
+  }
+);
+
 const featuresCases: [Language, PageValues][] = [
   [
     'en',
