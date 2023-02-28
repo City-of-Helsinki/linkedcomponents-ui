@@ -1,11 +1,9 @@
-import { FieldProps, useField } from 'formik';
+import { FieldProps } from 'formik';
 import { TextInputProps } from 'hds-react';
-import isNil from 'lodash/isNil';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { getErrorText } from '../../../../utils/validationUtils';
 import TextInput from '../../textInput/TextInput';
+import useCommonTextInputProps from '../hooks/useCommonTextInputProps';
 
 type Props = FieldProps & TextInputProps;
 
@@ -16,15 +14,11 @@ const TextInputField: React.FC<Props> = ({
   maxLength,
   ...rest
 }) => {
-  const { t } = useTranslation();
-  const [, { touched, error }] = useField(name);
-
-  const errorText = getErrorText(error, touched, t);
-
-  const charsLeft = !isNil(maxLength) ? maxLength - value.length : undefined;
-  const charsLeftText = !isNil(charsLeft)
-    ? t('form.validation.string.charsLeft', { count: charsLeft })
-    : undefined;
+  const { errorText, charsLeftText } = useCommonTextInputProps({
+    maxLength,
+    name,
+    value,
+  });
 
   return (
     <TextInput

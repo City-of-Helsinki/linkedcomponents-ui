@@ -1,13 +1,11 @@
-import { FieldProps, useField } from 'formik';
+import { FieldProps } from 'formik';
 import { TextAreaProps } from 'hds-react';
-import isNil from 'lodash/isNil';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { getErrorText } from '../../../../utils/validationUtils';
 import TextArea from '../../textArea/TextArea';
+import useCommonTextInputProps from '../hooks/useCommonTextInputProps';
 
-type Props = FieldProps & TextAreaProps;
+type Props = FieldProps<string> & TextAreaProps;
 
 const TextAreaField: React.FC<Props> = ({
   field: { name, value, ...field },
@@ -16,15 +14,11 @@ const TextAreaField: React.FC<Props> = ({
   maxLength,
   ...rest
 }) => {
-  const { t } = useTranslation();
-  const [, { touched, error }] = useField(name);
-
-  const errorText = getErrorText(error, touched, t);
-
-  const charsLeft = !isNil(maxLength) ? maxLength - value.length : undefined;
-  const charsLeftText = !isNil(charsLeft)
-    ? t('form.validation.string.charsLeft', { count: charsLeft })
-    : undefined;
+  const { errorText, charsLeftText } = useCommonTextInputProps({
+    maxLength,
+    name,
+    value,
+  });
 
   return (
     <TextArea
