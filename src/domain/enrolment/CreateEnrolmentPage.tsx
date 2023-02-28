@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
@@ -9,29 +8,21 @@ import { ROUTES } from '../../constants';
 import {
   EventFieldsFragment,
   RegistrationFieldsFragment,
-  useEventQuery,
-  useRegistrationQuery,
 } from '../../generated/graphql';
-import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import { EVENT_INCLUDES } from '../event/constants';
-import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
-import { REGISTRATION_INCLUDES } from '../registration/constants';
-import {
-  isRegistrationPossible,
-  registrationPathBuilder,
-} from '../registration/utils';
+import { isRegistrationPossible } from '../registration/utils';
 import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
 import EnrolmentForm from './enrolmentForm/EnrolmentForm';
 import styles from './enrolmentPage.module.scss';
 import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';
 import { EnrolmentServerErrorsProvider } from './enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
+import useRegistrationAndEventData from './hooks/useRegistrationAndEventData';
 import {
   checkCanUserDoAction,
   getEnrolmentDefaultInitialValues,
@@ -99,34 +90,9 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
 
 const CreateEnrolmentPageWrapper: React.FC = () => {
   const location = useLocation();
-  const { registrationId } = useParams<{ registrationId: string }>();
-  const { loading: loadingUser, user } = useUser();
-
-  const { data: registrationData, loading: loadingRegistration } =
-    useRegistrationQuery({
-      skip: !registrationId || !user,
-      variables: {
-        id: getValue(registrationId, ''),
-        include: REGISTRATION_INCLUDES,
-        createPath: getPathBuilder(registrationPathBuilder),
-      },
-    });
-
-  const registration = registrationData?.registration;
-
-  const { data: eventData, loading: loadingEvent } = useEventQuery({
-    fetchPolicy: 'no-cache',
-    notifyOnNetworkStatusChange: true,
-    skip: loadingUser || !registration?.event,
-    variables: {
-      createPath: getPathBuilder(eventPathBuilder),
-      id: getValue(registration?.event, ''),
-      include: EVENT_INCLUDES,
-    },
+  const { event, loading, registration } = useRegistrationAndEventData({
+    shouldFetchEvent: true,
   });
-
-  const event = eventData?.event;
-  const loading = loadingUser || loadingRegistration || loadingEvent;
 
   return (
     <LoadingSpinner isLoading={loading}>

@@ -14,26 +14,21 @@ import {
   EventFieldsFragment,
   RegistrationFieldsFragment,
   useEnrolmentQuery,
-  useEventQuery,
-  useRegistrationQuery,
 } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import { EVENT_INCLUDES } from '../event/constants';
-import { eventPathBuilder } from '../event/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
-import { REGISTRATION_INCLUDES } from '../registration/constants';
-import { registrationPathBuilder } from '../registration/utils';
 import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
 import EnrolmentForm from './enrolmentForm/EnrolmentForm';
 import styles from './enrolmentPage.module.scss';
 import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';
 import { EnrolmentServerErrorsProvider } from './enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
+import useRegistrationAndEventData from './hooks/useRegistrationAndEventData';
 import {
   checkCanUserDoAction,
   enrolmentPathBuilder,
@@ -121,34 +116,14 @@ const EditEnrolmentPage: React.FC<Props> = ({
 
 const EditEnrolmentPageWrapper: React.FC = () => {
   const location = useLocation();
-  const { loading: loadingUser, user } = useUser();
-  const { enrolmentId, registrationId } = useParams<{
-    enrolmentId: string;
-    registrationId: string;
-  }>();
+  const { enrolmentId } = useParams<{ enrolmentId: string }>();
+  const { user } = useUser();
 
-  const { data: registrationData, loading: loadingRegistration } =
-    useRegistrationQuery({
-      skip: !registrationId || !user,
-      variables: {
-        id: getValue(registrationId, ''),
-        include: REGISTRATION_INCLUDES,
-        createPath: getPathBuilder(registrationPathBuilder),
-      },
-    });
-
-  const registration = registrationData?.registration;
-
-  const { data: eventData, loading: loadingEvent } = useEventQuery({
-    fetchPolicy: 'no-cache',
-    notifyOnNetworkStatusChange: true,
-    skip: loadingUser || !registration?.event,
-    variables: {
-      createPath: getPathBuilder(eventPathBuilder),
-      id: getValue(registration?.event, ''),
-      include: EVENT_INCLUDES,
-    },
-  });
+  const {
+    event,
+    loading: loadingRegistrationAndEvent,
+    registration,
+  } = useRegistrationAndEventData({ shouldFetchEvent: true });
 
   const {
     data: enrolmentData,
@@ -163,9 +138,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
   });
 
   const enrolment = enrolmentData?.enrolment;
-  const event = eventData?.event;
-  const loading =
-    loadingUser || loadingRegistration || loadingEvent || loadingEnrolment;
+  const loading = loadingRegistrationAndEvent || loadingEnrolment;
 
   return (
     <LoadingSpinner isLoading={loading}>
