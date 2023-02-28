@@ -22,46 +22,33 @@ const RegistrationAuthenticationNotification: React.FC<
 > = ({ action, className, registration }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const adminOrganizations = getValue(user?.adminOrganizations, []);
   const publisher = getValue(useRegistrationPublisher({ registration }), '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { t } = useTranslation();
 
-  const getNotificationProps = () => {
-    /* istanbul ignore else */
-    if (authenticated) {
-      if (!adminOrganizations.length) {
-        return {
-          children: <p>{t('authentication.noRightsUpdateRegistration')}</p>,
-          label: t('authentication.noRightsUpdateRegistrationLabel'),
-        };
-      }
-
-      const { warning } = checkIsEditActionAllowed({
-        action,
-        authenticated,
-        organizationAncestors,
-        publisher,
-        t,
-        user,
-      });
-
-      if (warning) {
-        return {
-          children: <p>{warning}</p>,
-          label: t('registration.form.notificationTitleCannotEdit'),
-        };
-      }
-    }
-
-    return { label: null };
-  };
-
   return (
     <AuthenticationNotification
-      {...getNotificationProps()}
+      authorizationWarningLabel={t(
+        'registration.form.notificationTitleCannotEdit'
+      )}
       className={className}
+      getAuthorizationWarning={() =>
+        checkIsEditActionAllowed({
+          action,
+          authenticated,
+          organizationAncestors,
+          publisher,
+          t,
+          user,
+        })
+      }
+      noRequiredOrganizationLabel={t(
+        'authentication.noRightsUpdateRegistrationLabel'
+      )}
+      noRequiredOrganizationText={t(
+        'authentication.noRightsUpdateRegistration'
+      )}
     />
   );
 };

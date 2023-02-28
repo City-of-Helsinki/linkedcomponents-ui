@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -20,45 +19,26 @@ const ImageAuthenticationNotification: React.FC<
 > = ({ action, className, publisher }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const adminOrganizations = getValue(user?.adminOrganizations, []);
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { t } = useTranslation();
 
-  const getNotificationProps = () => {
-    /* istanbul ignore else */
-    if (authenticated) {
-      if (!adminOrganizations.length) {
-        return {
-          children: <p>{t('authentication.noRightsUpdateImage')}</p>,
-          label: t('authentication.noRightsUpdateImageLabel'),
-        };
-      }
-
-      const { warning } = checkIsImageActionAllowed({
-        action,
-        authenticated,
-        organizationAncestors,
-        publisher,
-        t,
-        user,
-      });
-
-      if (warning) {
-        return {
-          children: <p>{warning}</p>,
-          label: t('image.form.notificationTitleCannotEdit'),
-        };
-      }
-    }
-
-    return { label: null };
-  };
-
   return (
     <AuthenticationNotification
-      {...getNotificationProps()}
+      authorizationWarningLabel={t('image.form.notificationTitleCannotEdit')}
       className={className}
+      getAuthorizationWarning={() =>
+        checkIsImageActionAllowed({
+          action,
+          authenticated,
+          organizationAncestors,
+          publisher,
+          t,
+          user,
+        })
+      }
+      noRequiredOrganizationLabel={t('authentication.noRightsUpdateImageLabel')}
+      noRequiredOrganizationText={t('authentication.noRightsUpdateImage')}
     />
   );
 };

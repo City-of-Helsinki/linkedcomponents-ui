@@ -117,7 +117,7 @@ const AskPermissionPage: React.FC = () => {
       <h1>{t('helpPage.askPermissionPage.pageTitle')}</h1>
       <AuthenticationNotification
         className={styles.authenticationNotification}
-        label=""
+        showOnlyNotAuthenticatedError
       />
 
       <Formik

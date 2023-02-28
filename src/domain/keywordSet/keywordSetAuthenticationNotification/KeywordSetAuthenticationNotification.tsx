@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
@@ -20,44 +19,29 @@ const KeywordSetAuthenticationNotification: React.FC<
 > = ({ action, className, dataSource }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const adminOrganizations = getValue(user?.adminOrganizations, []);
-  const { organization: userOrganization, loading: loadingUserOrganization } =
-    useUserOrganization(user);
+  const { organization: userOrganization } = useUserOrganization(user);
 
   const { t } = useTranslation();
 
-  const getNotificationProps = () => {
-    if (authenticated && !loadingUserOrganization) {
-      if (!adminOrganizations.length) {
-        return {
-          children: <p>{t('authentication.noRightsUpdateKeywordSet')}</p>,
-          label: t('authentication.noRightsUpdateKeywordSetLabel'),
-        };
-      }
-
-      const { warning } = checkIsEditActionAllowed({
-        action,
-        authenticated,
-        dataSource,
-        t,
-        userOrganization,
-      });
-
-      if (warning) {
-        return {
-          children: <p>{warning}</p>,
-          label: t('keywordSet.form.notificationTitleCannotEdit'),
-        };
-      }
-    }
-
-    return { label: null };
-  };
-
   return (
     <AuthenticationNotification
-      {...getNotificationProps()}
+      authorizationWarningLabel={t(
+        'keywordSet.form.notificationTitleCannotEdit'
+      )}
       className={className}
+      getAuthorizationWarning={() =>
+        checkIsEditActionAllowed({
+          action,
+          authenticated,
+          dataSource,
+          t,
+          userOrganization,
+        })
+      }
+      noRequiredOrganizationLabel={t(
+        'authentication.noRightsUpdateKeywordSetLabel'
+      )}
+      noRequiredOrganizationText={t('authentication.noRightsUpdateKeywordSet')}
     />
   );
 };

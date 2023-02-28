@@ -5,8 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 import Notification from '../../../common/components/notification/Notification';
+import { Editability } from '../../../types';
 import getValue from '../../../utils/getValue';
 import { useAuth } from '../../auth/hooks/useAuth';
+import useUser from '../../user/hooks/useUser';
 import styles from './authenticationNotification.module.scss';
 
 export const hiddenStyles = {
@@ -16,19 +18,83 @@ export const hiddenStyles = {
   padding: 0,
 };
 
-export type AuthenticationNotificationProps = {
+type CommonProps = {
   className?: string;
-  label: string | null;
+  requiredOrganizationType?: 'admin' | 'any';
 };
 
-const AuthenticationNotification: React.FC<
-  React.PropsWithChildren<AuthenticationNotificationProps>
-> = ({ children, className, label }) => {
+type OnlyNotAuthenticatedErrorProps = {
+  authorizationWarningLabel?: null;
+  getAuthorizationWarning?: null;
+  noRequiredOrganizationLabel?: null;
+  noRequiredOrganizationText?: null;
+  showOnlyNotAuthenticatedError: true;
+} & CommonProps;
+
+type AllErrorsProps = {
+  authorizationWarningLabel: string;
+  getAuthorizationWarning: () => Editability;
+  noRequiredOrganizationLabel: string;
+  noRequiredOrganizationText: string;
+  showOnlyNotAuthenticatedError?: false;
+} & CommonProps;
+
+export type AuthenticationNotificationProps =
+  | OnlyNotAuthenticatedErrorProps
+  | AllErrorsProps;
+
+const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
+  authorizationWarningLabel,
+  className,
+  getAuthorizationWarning,
+  noRequiredOrganizationLabel,
+  noRequiredOrganizationText,
+  requiredOrganizationType = 'admin',
+  showOnlyNotAuthenticatedError,
+}) => {
   const location = useLocation();
-  const { isAuthenticated: authenticated } = useAuth();
   const { t } = useTranslation();
   const [hidden, setHidden] = useState(false);
   const { signIn } = useAuth();
+
+  const { isAuthenticated: authenticated } = useAuth();
+  const { user } = useUser();
+  const adminOrganizations = getValue(user?.adminOrganizations, []);
+  const organizationMemberships = getValue(user?.organizationMemberships, []);
+  const userOrganizations = [...adminOrganizations, ...organizationMemberships];
+
+  const getAuthenticationWarnings = () => {
+    /* istanbul ignore else */
+    if (authenticated) {
+      const hasRequiredOrganization = () => {
+        if (requiredOrganizationType === 'admin') {
+          return adminOrganizations.length;
+        }
+        return userOrganizations.length;
+      };
+
+      if (!hasRequiredOrganization()) {
+        return {
+          children: <p>{noRequiredOrganizationText}</p>,
+          label: noRequiredOrganizationLabel,
+        };
+      }
+
+      /* istanbul ignore else */
+      if (typeof getAuthorizationWarning === 'function') {
+        const { warning } = getAuthorizationWarning();
+
+        if (warning) {
+          return {
+            children: <p>{warning}</p>,
+            label: authorizationWarningLabel,
+          };
+        }
+      }
+    }
+
+    return { label: null };
+  };
 
   const notificationProps = {
     className: classNames(styles.authenticationNotification, className),
@@ -62,7 +128,9 @@ const AuthenticationNotification: React.FC<
     );
   }
 
-  if (!label) {
+  const { label, children } = getAuthenticationWarnings();
+
+  if (showOnlyNotAuthenticatedError || !label) {
     return null;
   }
 

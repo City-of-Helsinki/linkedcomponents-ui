@@ -21,46 +21,32 @@ const EnrolmentAuthenticationNotification: React.FC<
 > = ({ action, registration }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const adminOrganizations = getValue(user?.adminOrganizations, []);
   const publisher = getValue(useRegistrationPublisher({ registration }), '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { t } = useTranslation();
 
-  const getNotificationProps = () => {
-    /* istanbul ignore else */
-    if (authenticated) {
-      if (!adminOrganizations.length) {
-        return {
-          children: <p>{t('authentication.noRightsUpdateEnrolment')}</p>,
-          label: t('authentication.noRightsUpdateEnrolmentLabel'),
-        };
-      }
-
-      /* istanbul ignore else */
-      if (registration) {
-        const { warning } = checkIsEditActionAllowed({
+  return (
+    <AuthenticationNotification
+      authorizationWarningLabel={t(
+        'enrolment.form.notificationTitleCannotEdit'
+      )}
+      getAuthorizationWarning={() =>
+        checkIsEditActionAllowed({
           action,
           authenticated,
           organizationAncestors,
           publisher,
           t,
           user,
-        });
-
-        if (warning) {
-          return {
-            children: <p>{warning}</p>,
-            label: t('enrolment.form.notificationTitleCannotEdit'),
-          };
-        }
+        })
       }
-    }
-
-    return { label: null };
-  };
-
-  return <AuthenticationNotification {...getNotificationProps()} />;
+      noRequiredOrganizationLabel={t(
+        'authentication.noRightsUpdateEnrolmentLabel'
+      )}
+      noRequiredOrganizationText={t('authentication.noRightsUpdateEnrolment')}
+    />
+  );
 };
 
 export default EnrolmentAuthenticationNotification;

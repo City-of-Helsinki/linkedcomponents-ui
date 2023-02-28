@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
@@ -19,43 +18,30 @@ const OrganizationAuthenticationNotification: React.FC<
 > = ({ action, className, id }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const adminOrganizations = getValue(user?.adminOrganizations, []);
 
   const { t } = useTranslation();
 
-  const getNotificationProps = () => {
-    /* istanbul ignore else */
-    if (authenticated) {
-      if (!adminOrganizations.length) {
-        return {
-          children: <p>{t('authentication.noRightsUpdateOrganization')}</p>,
-          label: t('authentication.noRightsUpdateOrganizationLabel'),
-        };
-      }
-
-      const { warning } = checkIsEditActionAllowed({
-        action,
-        authenticated,
-        id,
-        t,
-        user,
-      });
-
-      if (warning) {
-        return {
-          children: <p>{warning}</p>,
-          label: t('organization.form.notificationTitleCannotEdit'),
-        };
-      }
-    }
-
-    return { label: null };
-  };
-
   return (
     <AuthenticationNotification
-      {...getNotificationProps()}
+      authorizationWarningLabel={t(
+        'organization.form.notificationTitleCannotEdit'
+      )}
       className={className}
+      getAuthorizationWarning={() =>
+        checkIsEditActionAllowed({
+          action,
+          authenticated,
+          id,
+          t,
+          user,
+        })
+      }
+      noRequiredOrganizationLabel={t(
+        'authentication.noRightsUpdateOrganizationLabel'
+      )}
+      noRequiredOrganizationText={t(
+        'authentication.noRightsUpdateOrganization'
+      )}
     />
   );
 };
