@@ -1,15 +1,12 @@
-import { FieldProps, useField } from 'formik';
+import { FieldProps } from 'formik';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { OptionType } from '../../../../types';
-import getValue from '../../../../utils/getValue';
-import { getErrorText } from '../../../../utils/validationUtils';
 import PublisherSelector, {
   PublisherSelectorProps,
 } from '../../publisherSelector/PublisherSelector';
+import useComboboxFieldProps from '../hooks/useComboboxFieldProps';
 
-type Props = PublisherSelectorProps & FieldProps;
+type Props = PublisherSelectorProps & FieldProps<string>;
 
 const PublisherSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
@@ -17,18 +14,12 @@ const PublisherSelectorField: React.FC<Props> = ({
   helper,
   ...rest
 }) => {
-  const { t } = useTranslation();
-  const [, { touched, error }] = useField(name);
-
-  const errorText = getErrorText(error, touched, t);
-
-  const handleBlur = () => {
-    onBlur({ target: { id: name, value } });
-  };
-
-  const handleChange = (selected: OptionType | null) => {
-    onChange({ target: { id: name, value: getValue(selected?.value, null) } });
-  };
+  const { errorText, handleBlur, handleChange } = useComboboxFieldProps({
+    name,
+    onBlur,
+    onChange,
+    value,
+  });
 
   return (
     <PublisherSelector
