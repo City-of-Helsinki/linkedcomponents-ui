@@ -17,7 +17,13 @@ import AuthenticationNotification, {
 configure({ defaultHidden: true });
 
 const props: AuthenticationNotificationProps = {
-  label: "You don't have permission to edit this content",
+  authorizationWarningLabel: 'Sinulla ei ole oikeutta muokata sisältöä',
+  getAuthorizationWarning: () => ({
+    editable: false,
+    warning: "You don't have permission to edit this content",
+  }),
+  noRequiredOrganizationLabel: 'Ei riittäviäoikeuksia',
+  noRequiredOrganizationText: 'Sinulla ei ole oikeutta muokata sisältöä',
 };
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
