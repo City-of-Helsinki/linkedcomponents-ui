@@ -6,12 +6,12 @@ import {
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
-import ErrorTemplate from '../ErrorTemplate';
+import ErrorPage from '../ErrorPage';
 
 configure({ defaultHidden: true });
 
 const renderComponent = () =>
-  render(<ErrorTemplate buttons={<div>Buttons</div>} text={'Lorem ipsum'} />, {
+  render(<ErrorPage signInPath="" text={'Lorem ipsum'} />, {
     routes: ['/fi/events'],
   });
 
