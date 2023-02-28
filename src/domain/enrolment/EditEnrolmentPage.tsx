@@ -4,9 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
-import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
-import { ROUTES } from '../../constants';
 import {
   EnrolmentFieldsFragment,
   EnrolmentQuery,
@@ -26,6 +24,7 @@ import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
 import EnrolmentForm from './enrolmentForm/EnrolmentForm';
 import styles from './enrolmentPage.module.scss';
+import EnrolmentPageBreadcrumb from './enrolmentPageBreadbrumb/EnrolmentPageBreadcrumb';
 import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';
 import { EnrolmentServerErrorsProvider } from './enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import useRegistrationAndEventData from './hooks/useRegistrationAndEventData';
@@ -78,27 +77,9 @@ const EditEnrolmentPage: React.FC<Props> = ({
           contentWrapperClassName={styles.breadcrumbContainer}
           withOffset
         >
-          <Breadcrumb
-            className={styles.breadcrumb}
-            items={[
-              { label: t('common.home'), to: ROUTES.HOME },
-              { label: t('registrationsPage.title'), to: ROUTES.REGISTRATIONS },
-              {
-                label: t(`editRegistrationPage.title`),
-                to: ROUTES.EDIT_REGISTRATION.replace(
-                  ':id',
-                  getValue(registration.id, '')
-                ),
-              },
-              {
-                label: t(`enrolmentsPage.title`),
-                to: ROUTES.REGISTRATION_ENROLMENTS.replace(
-                  ':registrationId',
-                  getValue(registration.id, '')
-                ),
-              },
-              { active: true, label: t(`editEnrolmentPage.pageTitle`) },
-            ]}
+          <EnrolmentPageBreadcrumb
+            activeLabel={t(`editEnrolmentPage.pageTitle`)}
+            registration={registration}
           />
         </Container>
         <EnrolmentForm
