@@ -3,20 +3,16 @@
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
 import EditingInfo from '../../common/components/editingInfo/EditingInfo';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
-import {
-  RegistrationFieldsFragment,
-  useRegistrationQuery,
-} from '../../generated/graphql';
+import { RegistrationFieldsFragment } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../hooks/useQueryStringWithReturnPath';
-import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
@@ -26,19 +22,16 @@ import { useAuth } from '../auth/hooks/useAuth';
 import { ENROLMENT_ACTIONS } from '../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
+import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import {
   clearCreateEnrolmentFormData,
   getEditButtonProps,
 } from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
-import { REGISTRATION_INCLUDES } from '../registration/constants';
 import useRegistrationName from '../registration/hooks/useRegistrationName';
 import useRegistrationPublisher from '../registration/hooks/useRegistrationPublisher';
-import {
-  getRegistrationFields,
-  registrationPathBuilder,
-} from '../registration/utils';
+import { getRegistrationFields } from '../registration/utils';
 import { clearSeatsReservationData } from '../reserveSeats/utils';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
@@ -164,22 +157,10 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
 
 const EnrolmentsPageWrapper: React.FC = () => {
   const location = useLocation();
-  const { registrationId } = useParams<{ registrationId: string }>();
-  const { loading: loadingUser, user } = useUser();
 
-  const { data: registrationData, loading: loadingRegistration } =
-    useRegistrationQuery({
-      skip: !registrationId || !user,
-      fetchPolicy: 'network-only',
-      variables: {
-        id: getValue(registrationId, ''),
-        createPath: getPathBuilder(registrationPathBuilder),
-        include: REGISTRATION_INCLUDES,
-      },
-    });
-
-  const registration = registrationData?.registration;
-  const loading = loadingUser || loadingRegistration;
+  const { loading, registration } = useRegistrationAndEventData({
+    shouldFetchEvent: false,
+  });
 
   return (
     <LoadingSpinner isLoading={loading}>
