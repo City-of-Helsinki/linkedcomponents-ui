@@ -1,0 +1,22 @@
+@import '../../../assets/styles/breakpoints';
+@import '../../../assets/styles/widths';
+
+.searchRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  margin-top: var(--spacing-m);
+  margin-bottom: var(--spacing-m);
+
+  @include medium-up {
+    display: flex;
+  }
+}
+
+.selectorColumn,
+.buttonColumn {
+  @include min-width-column(2);
+}
+
+.textSearchColumn {
+  flex: 1 1 0%;
+}
