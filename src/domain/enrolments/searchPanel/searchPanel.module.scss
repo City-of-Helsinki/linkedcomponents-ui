@@ -1,27 +1,5 @@
-@import '../../../assets/styles/breakpoints';
-@import '../../../assets/styles/widths';
-
 .searchPanel {
   .searchInput {
     --dropdown-border-color-default: var(--color-black-20);
-  }
-
-  .inputRow {
-    display: grid;
-    grid-gap: var(--spacing-m);
-    margin-top: var(--spacing-m);
-    margin-bottom: var(--spacing-m);
-
-    @include medium-up {
-      display: flex;
-
-      .typeSelectorWrapper,
-      .buttonWrapper {
-        @include min-width-column(2);
-      }
-      .searchInputWrapper {
-        flex: 1 1 0%;
-      }
-    }
   }
 }
