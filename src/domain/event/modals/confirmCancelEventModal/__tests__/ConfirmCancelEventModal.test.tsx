@@ -14,48 +14,54 @@ import {
   subEventName,
   subSubEventNames,
 } from '../../__mocks__/modals';
-import ConfirmUpdateModal, {
-  ConfirmUpdateModalProps,
-} from '../ConfirmUpdateModal';
+import ConfirmCancelEventModal, {
+  ConfirmCancelEventModalProps,
+} from '../ConfirmCancelEventModal';
 
 configure({ defaultHidden: true });
 
-const defaultProps: ConfirmUpdateModalProps = {
+const defaultProps: ConfirmCancelEventModalProps = {
   event,
   isOpen: true,
   isSaving: false,
   onClose: jest.fn(),
-  onSave: jest.fn(),
+  onConfirm: jest.fn(),
 };
 
-const renderComponent = (props?: Partial<ConfirmUpdateModalProps>) =>
-  render(<ConfirmUpdateModal {...defaultProps} {...props} />, { mocks });
+const renderComponent = (props?: Partial<ConfirmCancelEventModalProps>) =>
+  render(<ConfirmCancelEventModal {...defaultProps} {...props} />, { mocks });
 
 test('should render component', async () => {
   renderComponent();
-  screen.getByRole('heading', { name: 'Varmista tapahtuman tallentaminen' });
-  screen.getByText(translations.event.updateEventModal.text1);
-  screen.getByText(translations.event.updateEventModal.text2);
+
+  screen.getByRole('heading', { name: 'Varmista tapahtuman peruminen' });
+  screen.getByText(translations.event.cancelEventModal.warning);
+  screen.getByText(translations.common.warning);
+  screen.getByText(translations.event.cancelEventModal.text1);
+  screen.getByText(translations.event.cancelEventModal.text2);
 
   screen.getByText(eventName);
   await screen.findByText(subEventName);
+
   for (const subSubEventName of subSubEventNames) {
     await screen.findByText(subSubEventName);
   }
 
-  screen.getByRole('button', { name: 'Tallenna' });
+  screen.getByRole('button', { name: 'Peruuta tapahtuma' });
   screen.getByRole('button', { name: 'Peruuta' });
 });
 
-test('should call onSave', async () => {
-  const onSave = jest.fn();
+test('should call onConfirm', async () => {
+  const onConfirm = jest.fn();
   const user = userEvent.setup();
 
-  renderComponent({ onSave });
+  renderComponent({ onConfirm });
 
-  const updateEventButton = screen.getByRole('button', { name: 'Tallenna' });
-  await user.click(updateEventButton);
-  expect(onSave).toBeCalled();
+  const cancelEventButton = screen.getByRole('button', {
+    name: 'Peruuta tapahtuma',
+  });
+  await user.click(cancelEventButton);
+  expect(onConfirm).toBeCalled();
 });
 
 test('should call onClose', async () => {

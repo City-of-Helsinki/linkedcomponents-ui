@@ -1,38 +1,47 @@
-import { Dialog, IconAlertCircle } from 'hds-react';
+import {
+  Dialog,
+  DialogVariant,
+  IconAlertCircle,
+  IconInfoCircle,
+} from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import LoadingButton from '../..//loadingButton/LoadingButton';
 import Button from '../../button/Button';
+import LoadingButton from '../../loadingButton/LoadingButton';
 import styles from '../dialog.module.scss';
 
-export type CommonConfirmDeleteModalProps = {
+export type CommonConfirmModalProps = {
   isOpen: boolean;
   isSaving: boolean;
   onClose: () => void;
-  onDelete: () => void;
+  onConfirm: () => void;
 };
 
-export type ConfirmDeleteModalProps = {
+type ConfirmModalProps = {
   bodyContent?: React.ReactElement;
-  deleteButtonIcon: React.ReactElement;
-  deleteButtonText: string;
+  confirmButtonIcon: React.ReactElement;
+  confirmButtonText: string;
   description: string;
+  extraWarning?: React.ReactElement;
   heading: string;
   id: string;
-} & CommonConfirmDeleteModalProps;
+  variant: DialogVariant;
+} & CommonConfirmModalProps;
 
-const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
+const ConfirmModal: React.FC<ConfirmModalProps> = ({
   bodyContent,
-  deleteButtonIcon,
-  deleteButtonText,
+  confirmButtonIcon,
+  confirmButtonText,
   description,
+  extraWarning,
   heading,
   id,
   isOpen,
   isSaving,
   onClose,
-  onDelete,
+  onConfirm,
+  variant,
 }) => {
   const { t } = useTranslation();
 
@@ -43,11 +52,11 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
     onClose();
   };
 
-  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleConfirm = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
-    onDelete();
+    onConfirm();
   };
 
   const titleId = `${id}-title`;
@@ -60,30 +69,39 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
       aria-describedby={descriptionId}
       className={styles.dialog}
       isOpen={isOpen}
-      variant="danger"
+      variant={variant}
     >
       <Dialog.Header
         id={titleId}
-        iconLeft={<IconAlertCircle aria-hidden={true} />}
+        iconLeft={
+          variant === 'primary' ? (
+            <IconInfoCircle aria-hidden={true} />
+          ) : (
+            <IconAlertCircle aria-hidden={true} />
+          )
+        }
         title={heading}
       />
       <Dialog.Content>
-        <p className={styles.warning}>
-          <strong>{t('common.warning')}</strong>
-        </p>
-        <p id={descriptionId}>{description} </p>
+        {extraWarning}
+        {variant === 'danger' && (
+          <p className={styles.warning}>
+            <strong>{t('common.warning')}</strong>
+          </p>
+        )}
+        <p id={descriptionId}>{description}</p>
         {bodyContent}
       </Dialog.Content>
       <Dialog.ActionButtons>
         <LoadingButton
           disabled={isSaving}
-          icon={deleteButtonIcon}
+          icon={confirmButtonIcon}
           loading={isSaving}
-          onClick={handleDelete}
+          onClick={handleConfirm}
           type="button"
-          variant="danger"
+          variant={variant === 'danger' ? 'danger' : 'primary'}
         >
-          {deleteButtonText}
+          {confirmButtonText}
         </LoadingButton>
         <Button
           disabled={isSaving}
@@ -99,4 +117,4 @@ const ConfirmDeleteModal: React.FC<ConfirmDeleteModalProps> = ({
   );
 };
 
-export default ConfirmDeleteModal;
+export default ConfirmModal;

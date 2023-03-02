@@ -53,7 +53,7 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
     navigate(`/${locale}${ROUTES.KEYWORDS}`);
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deleteKeyword({
       onSuccess: () => goToKeywordsPage(),
     });
@@ -75,7 +75,7 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
         isOpen={openModal === KEYWORD_MODALS.DELETE}
         isSaving={saving === KEYWORD_ACTIONS.DELETE}
         onClose={closeModal}
-        onDelete={onDelete}
+        onConfirm={handleDelete}
       />
       <TitleRow
         breadcrumb={

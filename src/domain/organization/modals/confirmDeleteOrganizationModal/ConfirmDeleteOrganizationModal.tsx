@@ -2,15 +2,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ConfirmDeleteModal, {
-  CommonConfirmDeleteModalProps,
-} from '../../../../common/components/dialog/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmModal, {
+  CommonConfirmModalProps,
+} from '../../../../common/components/dialog/confirmModal/ConfirmModal';
 import {
   ORGANIZATION_ACTION_ICONS,
   ORGANIZATION_ACTIONS,
 } from '../../constants';
 
-export type ConfirmDeleteOrganizationModalProps = CommonConfirmDeleteModalProps;
+export type ConfirmDeleteOrganizationModalProps = CommonConfirmModalProps;
 
 const ConfirmDeleteOrganizationModal: React.FC<
   ConfirmDeleteOrganizationModalProps
@@ -18,13 +18,14 @@ const ConfirmDeleteOrganizationModal: React.FC<
   const { t } = useTranslation();
 
   return (
-    <ConfirmDeleteModal
+    <ConfirmModal
       {...props}
-      deleteButtonIcon={ORGANIZATION_ACTION_ICONS[ORGANIZATION_ACTIONS.DELETE]}
-      deleteButtonText={t('organization.deleteOrganizationModal.buttonDelete')}
+      confirmButtonIcon={ORGANIZATION_ACTION_ICONS[ORGANIZATION_ACTIONS.DELETE]}
+      confirmButtonText={t('organization.deleteOrganizationModal.buttonDelete')}
       description={t('organization.deleteOrganizationModal.text')}
       heading={t('organization.deleteOrganizationModal.title')}
       id={'confirm-organization-delete-modal'}
+      variant="danger"
     />
   );
 };

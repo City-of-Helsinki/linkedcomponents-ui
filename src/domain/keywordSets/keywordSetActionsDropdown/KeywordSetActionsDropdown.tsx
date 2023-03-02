@@ -57,10 +57,6 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
     });
   };
 
-  const onDelete = () => {
-    deleteKeywordSet();
-  };
-
   const getActionItemProps = ({
     action,
     onClick,
@@ -96,7 +92,7 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
           isOpen={openModal === KEYWORD_SET_MODALS.DELETE}
           isSaving={saving === KEYWORD_SET_ACTIONS.DELETE}
           onClose={closeModal}
-          onDelete={onDelete}
+          onConfirm={deleteKeywordSet}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

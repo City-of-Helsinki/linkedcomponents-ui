@@ -161,7 +161,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
         isOpen={openModal === ENROLMENT_MODALS.DELETE}
         isSaving={saving}
         onClose={closeModal}
-        onDelete={updateParticipantAmount}
+        onConfirm={updateParticipantAmount}
         participantCount={participantsToDelete}
       />
       <div className={styles.participantAmountSelector}>

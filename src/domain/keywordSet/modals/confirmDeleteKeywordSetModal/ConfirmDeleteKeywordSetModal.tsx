@@ -2,12 +2,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ConfirmDeleteModal, {
-  CommonConfirmDeleteModalProps,
-} from '../../../../common/components/dialog/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmModal, {
+  CommonConfirmModalProps,
+} from '../../../../common/components/dialog/confirmModal/ConfirmModal';
 import { KEYWORD_SET_ACTION_ICONS, KEYWORD_SET_ACTIONS } from '../../constants';
 
-export type ConfirmDeleteKeywordSetModalProps = CommonConfirmDeleteModalProps;
+export type ConfirmDeleteKeywordSetModalProps = CommonConfirmModalProps;
 
 const ConfirmDeleteKeywordSetModal: React.FC<
   ConfirmDeleteKeywordSetModalProps
@@ -15,13 +15,14 @@ const ConfirmDeleteKeywordSetModal: React.FC<
   const { t } = useTranslation();
 
   return (
-    <ConfirmDeleteModal
+    <ConfirmModal
       {...props}
-      deleteButtonIcon={KEYWORD_SET_ACTION_ICONS[KEYWORD_SET_ACTIONS.DELETE]}
-      deleteButtonText={t('keywordSet.deleteKeywordSetModal.buttonDelete')}
+      confirmButtonIcon={KEYWORD_SET_ACTION_ICONS[KEYWORD_SET_ACTIONS.DELETE]}
+      confirmButtonText={t('keywordSet.deleteKeywordSetModal.buttonDelete')}
       description={t('keywordSet.deleteKeywordSetModal.text')}
       heading={t('keywordSet.deleteKeywordSetModal.title')}
       id={'confirm-keyword-set-delete-modal'}
+      variant="danger"
     />
   );
 };

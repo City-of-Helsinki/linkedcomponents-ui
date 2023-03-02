@@ -68,10 +68,6 @@ const RegistrationActionsDropdown: React.FC<
     navigate(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
   };
 
-  const onDelete = () => {
-    deleteRegistration();
-  };
-
   const getActionItemProps = ({
     action,
     onClick,
@@ -122,7 +118,7 @@ const RegistrationActionsDropdown: React.FC<
           isOpen={openModal === REGISTRATION_MODALS.DELETE}
           isSaving={saving === REGISTRATION_ACTIONS.DELETE}
           onClose={closeModal}
-          onDelete={onDelete}
+          onConfirm={deleteRegistration}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

@@ -21,7 +21,7 @@ import useImageUpdateActions, {
   IMAGE_MODALS,
 } from './hooks/useImageUpdateActions';
 import ImageForm from './imageForm/ImageForm';
-import ConfirmDeleteModal from './modals/confirmDeleteImageModal/ConfirmDeleteImageModal';
+import ConfirmDeleteImageModal from './modals/confirmDeleteImageModal/ConfirmDeleteImageModal';
 import { getEditButtonProps, getImageFields, imagePathBuilder } from './utils';
 
 type Props = {
@@ -46,7 +46,7 @@ const EditImagePage: React.FC<Props> = ({ image }) => {
     navigate(`/${locale}${ROUTES.IMAGES}`);
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deleteImage({
       onSuccess: () => goToImagesPage(),
     });
@@ -64,11 +64,11 @@ const EditImagePage: React.FC<Props> = ({ image }) => {
 
   return (
     <div>
-      <ConfirmDeleteModal
+      <ConfirmDeleteImageModal
         isOpen={openModal === IMAGE_MODALS.DELETE}
         isSaving={saving === IMAGE_ACTIONS.DELETE}
         onClose={closeModal}
-        onDelete={onDelete}
+        onConfirm={handleDelete}
       />
       <TitleRow
         breadcrumb={

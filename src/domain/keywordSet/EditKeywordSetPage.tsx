@@ -55,7 +55,7 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
     navigate(`/${locale}${ROUTES.KEYWORD_SETS}`);
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deleteKeywordSet({
       onSuccess: () => goToKeywordSetsPage(),
     });
@@ -76,7 +76,7 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
         isOpen={openModal === KEYWORD_SET_MODALS.DELETE}
         isSaving={saving === KEYWORD_SET_ACTIONS.DELETE}
         onClose={closeModal}
-        onDelete={onDelete}
+        onConfirm={handleDelete}
       />
 
       <TitleRow

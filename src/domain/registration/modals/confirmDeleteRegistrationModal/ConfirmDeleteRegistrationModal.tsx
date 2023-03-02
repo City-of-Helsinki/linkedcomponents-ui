@@ -3,11 +3,11 @@ import { IconCross } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ConfirmDeleteModal, {
-  CommonConfirmDeleteModalProps,
-} from '../../../../common/components/dialog/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmModal, {
+  CommonConfirmModalProps,
+} from '../../../../common/components/dialog/confirmModal/ConfirmModal';
 
-export type ConfirmDeleteRegistrationModalProps = CommonConfirmDeleteModalProps;
+export type ConfirmDeleteRegistrationModalProps = CommonConfirmModalProps;
 
 const ConfirmDeleteRegistrationModal: React.FC<
   ConfirmDeleteRegistrationModalProps
@@ -15,13 +15,14 @@ const ConfirmDeleteRegistrationModal: React.FC<
   const { t } = useTranslation();
 
   return (
-    <ConfirmDeleteModal
+    <ConfirmModal
       {...props}
-      deleteButtonIcon={<IconCross aria-hidden />}
-      deleteButtonText={t('registration.deleteRegistrationModal.buttonDelete')}
+      confirmButtonIcon={<IconCross aria-hidden />}
+      confirmButtonText={t('registration.deleteRegistrationModal.buttonDelete')}
       description={t('registration.deleteRegistrationModal.text')}
       heading={t('registration.deleteRegistrationModal.title')}
       id={'confirm-registration-delete-modal'}
+      variant="danger"
     />
   );
 };
