@@ -46,7 +46,7 @@ const EditPlacePage: React.FC<Props> = ({ place }) => {
     navigate(`/${locale}${ROUTES.PLACES}`);
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deletePlace({
       onSuccess: () => goToPlacesPage(),
     });
@@ -68,7 +68,7 @@ const EditPlacePage: React.FC<Props> = ({ place }) => {
         isOpen={openModal === PLACE_MODALS.DELETE}
         isSaving={saving === PLACE_ACTIONS.DELETE}
         onClose={closeModal}
-        onDelete={onDelete}
+        onConfirm={handleDelete}
       />
       <TitleRow
         breadcrumb={

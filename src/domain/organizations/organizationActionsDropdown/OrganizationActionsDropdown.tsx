@@ -55,10 +55,6 @@ const OrganizationActionsDropdown: FC<OrganizationActionsDropdownProps> = ({
     });
   };
 
-  const onDelete = () => {
-    deleteOrganization();
-  };
-
   const getActionItemProps = ({
     action,
     onClick,
@@ -94,7 +90,7 @@ const OrganizationActionsDropdown: FC<OrganizationActionsDropdownProps> = ({
           isOpen={openModal === ORGANIZATION_MODALS.DELETE}
           isSaving={saving === ORGANIZATION_ACTIONS.DELETE}
           onClose={closeModal}
-          onDelete={onDelete}
+          onConfirm={deleteOrganization}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

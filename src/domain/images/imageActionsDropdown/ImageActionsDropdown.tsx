@@ -53,10 +53,6 @@ const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = (
     });
   };
 
-  const onDelete = () => {
-    deleteImage();
-  };
-
   const getActionItemProps = ({
     action,
     onClick,
@@ -93,7 +89,7 @@ const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = (
           isOpen={openModal === IMAGE_MODALS.DELETE}
           isSaving={saving === IMAGE_ACTIONS.DELETE}
           onClose={closeModal}
-          onDelete={onDelete}
+          onConfirm={deleteImage}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

@@ -51,7 +51,7 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
     navigate(`/${locale}${ROUTES.ORGANIZATIONS}`);
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deleteOrganization({
       onSuccess: () => goToOrganizationsPage(),
     });
@@ -72,7 +72,7 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
         isOpen={openModal === ORGANIZATION_MODALS.DELETE}
         isSaving={saving === ORGANIZATION_ACTIONS.DELETE}
         onClose={closeModal}
-        onDelete={onDelete}
+        onConfirm={handleDelete}
       />
       <TitleRow
         breadcrumb={

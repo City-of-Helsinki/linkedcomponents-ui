@@ -39,7 +39,7 @@ import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext
 import EventInfo from '../eventInfo/EventInfo';
 import FormContainer from '../formContainer/FormContainer';
 import useEnrolmentUpdateActions from '../hooks/useEnrolmentActions';
-import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal';
+import ConfirmCancelEnrolmentModal from '../modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
 import RegistrationWarning from '../registrationWarning/RegistrationWarning';
 import { useReservationTimer } from '../reservationTimer/hooks/useReservationTimer';
@@ -151,20 +151,20 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
     );
   };
 
-  const onCancel = () => {
+  const handleCancel = () => {
     cancelEnrolment({ onSuccess: goToEnrolmentsPage });
   };
 
   const clearErrors = () => setErrors({});
 
-  const onCreate = (values: EnrolmentFormFieldsType) => {
+  const handleCreate = (values: EnrolmentFormFieldsType) => {
     createEnrolment(values, {
       onError: (error) => showServerErrors({ error }, 'enrolment'),
       onSuccess: goToEnrolmentsPageAfterCreate,
     });
   };
 
-  const onUpdate = (values: EnrolmentFormFieldsType) => {
+  const handleUpdate = (values: EnrolmentFormFieldsType) => {
     updateEnrolment(values, {
       onError: (error: any) => showServerErrors({ error }, 'enrolment'),
       onSuccess: async () => {
@@ -182,9 +182,9 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
       await enrolmentSchema.validate(values, { abortEarly: false });
 
       if (enrolment) {
-        onUpdate(values);
+        handleUpdate(values);
       } else {
-        onCreate(values);
+        handleCreate(values);
       }
     } catch (error) {
       showFormErrors({
@@ -205,12 +205,12 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
   return (
     <>
       {enrolment && (
-        <ConfirmCancelModal
+        <ConfirmCancelEnrolmentModal
           enrolment={enrolment}
           isOpen={openModal === ENROLMENT_MODALS.CANCEL}
           isSaving={saving === ENROLMENT_ACTIONS.CANCEL}
           onClose={closeModal}
-          onCancel={onCancel}
+          onConfirm={handleCancel}
           registration={registration}
         />
       )}

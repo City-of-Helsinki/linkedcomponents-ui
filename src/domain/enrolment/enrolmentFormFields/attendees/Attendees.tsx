@@ -126,7 +126,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
                     isOpen={openModalIndex === index}
                     isSaving={saving}
                     onClose={closeModal}
-                    onDelete={deleteParticipant}
+                    onConfirm={deleteParticipant}
                     participantCount={1}
                   />
                   <Attendee

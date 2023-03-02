@@ -83,7 +83,7 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
     callbacksDisabled.current = true;
   }, []);
 
-  const handleTryAgain = () => {
+  const reloadPage = () => {
     navigate(0);
   };
 
@@ -191,7 +191,7 @@ export const ReservationTimerProvider: FC<PropsWithChildren<Props>> = ({
     <ReservationTimerContext.Provider value={value}>
       <ReservationTimeExpiredModal
         isOpen={openModal === ENROLMENT_MODALS.RESERVATION_TIME_EXPIRED}
-        onTryAgain={handleTryAgain}
+        onClose={reloadPage}
       />
       {children}
     </ReservationTimerContext.Provider>

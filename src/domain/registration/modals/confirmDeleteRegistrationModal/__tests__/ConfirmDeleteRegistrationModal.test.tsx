@@ -16,7 +16,7 @@ const defaultProps: ConfirmDeleteRegistrationModalProps = {
   isOpen: true,
   isSaving: false,
   onClose: jest.fn(),
-  onDelete: jest.fn(),
+  onConfirm: jest.fn(),
 };
 
 const renderComponent = (
@@ -35,16 +35,16 @@ test('should render component', async () => {
   screen.getByRole('button', { name: 'Peruuta' });
 });
 
-test('should call onDelete', async () => {
-  const onDelete = jest.fn();
+test('should call onConfirm', async () => {
+  const onConfirm = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ onDelete });
+  renderComponent({ onConfirm });
 
   const deleteRegistrationButton = screen.getByRole('button', {
     name: 'Poista ilmoittautuminen',
   });
   await user.click(deleteRegistrationButton);
-  expect(onDelete).toBeCalled();
+  expect(onConfirm).toBeCalled();
 });
 
 test('should call onClose', async () => {

@@ -2,15 +2,15 @@ import { IconCross } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import ConfirmDeleteModal, {
-  CommonConfirmDeleteModalProps,
-} from '../../../../common/components/dialog/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmModal, {
+  CommonConfirmModalProps,
+} from '../../../../common/components/dialog/confirmModal/ConfirmModal';
 import { EventFieldsFragment } from '../../../../generated/graphql';
 import EventHierarchy from '../../eventHierarchy/EventHierarchy';
 
 export type ConfirmDeleteEventModalProps = {
   event: EventFieldsFragment;
-} & CommonConfirmDeleteModalProps;
+} & CommonConfirmModalProps;
 
 const ConfirmDeleteEventModal: React.FC<ConfirmDeleteEventModalProps> = ({
   event,
@@ -19,7 +19,7 @@ const ConfirmDeleteEventModal: React.FC<ConfirmDeleteEventModalProps> = ({
   const { t } = useTranslation();
 
   return (
-    <ConfirmDeleteModal
+    <ConfirmModal
       {...props}
       bodyContent={
         <>
@@ -28,11 +28,12 @@ const ConfirmDeleteEventModal: React.FC<ConfirmDeleteEventModalProps> = ({
           <EventHierarchy event={event} />
         </>
       }
-      deleteButtonIcon={<IconCross aria-hidden={true} />}
-      deleteButtonText={t('event.deleteEventModal.buttonDelete')}
+      confirmButtonIcon={<IconCross aria-hidden={true} />}
+      confirmButtonText={t('event.deleteEventModal.buttonDelete')}
       description={t('event.deleteEventModal.text1')}
       heading={t('event.deleteEventModal.title')}
       id="confirm-event-delete-modal"
+      variant="danger"
     />
   );
 };

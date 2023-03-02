@@ -14,22 +14,22 @@ import {
   subEventName,
   subSubEventNames,
 } from '../../__mocks__/modals';
-import ConfirmPostponeModal, {
-  ConfirmPostponeModalProps,
-} from '../ConfirmPostponeModal';
+import ConfirmPostponeEventModal, {
+  ConfirmPostponeEventModalProps,
+} from '../ConfirmPostponeEventModal';
 
 configure({ defaultHidden: true });
 
-const defaultProps: ConfirmPostponeModalProps = {
+const defaultProps: ConfirmPostponeEventModalProps = {
   event,
   isOpen: true,
   isSaving: false,
   onClose: jest.fn(),
-  onPostpone: jest.fn(),
+  onConfirm: jest.fn(),
 };
 
-const renderComponent = (props?: Partial<ConfirmPostponeModalProps>) =>
-  render(<ConfirmPostponeModal {...defaultProps} {...props} />, { mocks });
+const renderComponent = (props?: Partial<ConfirmPostponeEventModalProps>) =>
+  render(<ConfirmPostponeEventModal {...defaultProps} {...props} />, { mocks });
 
 test('should render component', async () => {
   renderComponent();
@@ -48,17 +48,17 @@ test('should render component', async () => {
   screen.getByRole('button', { name: 'Peruuta' });
 });
 
-test('should call onPostpone', async () => {
-  const onPostpone = jest.fn();
+test('should call onConfirm', async () => {
+  const onConfirm = jest.fn();
   const user = userEvent.setup();
 
-  renderComponent({ onPostpone });
+  renderComponent({ onConfirm });
 
   const postponeEventButton = screen.getByRole('button', {
     name: 'Lykkää tapahtumaa',
   });
   await user.click(postponeEventButton);
-  expect(onPostpone).toBeCalled();
+  expect(onConfirm).toBeCalled();
 });
 
 test('should call onClose', async () => {

@@ -8,34 +8,34 @@ import {
 } from '../../../../../utils/testUtils';
 import { registration } from '../../../../registration/__mocks__/registration';
 import { enrolment } from '../../../__mocks__/enrolment';
-import ConfirmCancelModal, {
-  ConfirmCancelModalProps,
-} from '../ConfirmCancelModal';
+import ConfirmCancelEnrolmentModal, {
+  ConfirmCancelEnrolmentModalProps,
+} from '../ConfirmCancelEnrolmentModal';
 
 configure({ defaultHidden: true });
 
-const defaultProps: ConfirmCancelModalProps = {
+const defaultProps: ConfirmCancelEnrolmentModalProps = {
   enrolment,
   isOpen: true,
   isSaving: false,
-  onCancel: jest.fn(),
   onClose: jest.fn(),
+  onConfirm: jest.fn(),
   registration,
 };
 
-const renderComponent = (props: Partial<ConfirmCancelModalProps>) =>
-  render(<ConfirmCancelModal {...defaultProps} {...props} />);
+const renderComponent = (props: Partial<ConfirmCancelEnrolmentModalProps>) =>
+  render(<ConfirmCancelEnrolmentModal {...defaultProps} {...props} />);
 
 test('should call onCancel', async () => {
-  const onCancel = jest.fn();
+  const onConfirm = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ onCancel });
+  renderComponent({ onConfirm });
 
   const cancelEventButton = screen.getByRole('button', {
     name: 'Peruuta ilmoittautuminen',
   });
   await user.click(cancelEventButton);
-  expect(onCancel).toBeCalled();
+  expect(onConfirm).toBeCalled();
 });
 
 test('should call onClose', async () => {

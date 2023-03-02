@@ -53,10 +53,6 @@ const PlaceActionsDropdown: React.FC<PlaceActionsDropdownProps> = ({
     });
   };
 
-  const onDelete = () => {
-    deletePlace();
-  };
-
   const getActionItemProps = ({
     action,
     onClick,
@@ -93,7 +89,7 @@ const PlaceActionsDropdown: React.FC<PlaceActionsDropdownProps> = ({
           isOpen={openModal === PLACE_MODALS.DELETE}
           isSaving={saving === PLACE_ACTIONS.DELETE}
           onClose={closeModal}
-          onDelete={onDelete}
+          onConfirm={deletePlace}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

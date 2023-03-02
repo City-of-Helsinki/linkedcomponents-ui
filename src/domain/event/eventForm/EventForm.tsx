@@ -60,10 +60,10 @@ import useEventActions from '../hooks/useEventActions';
 import useEventServerErrors from '../hooks/useEventServerErrors';
 import useMainCategories from '../hooks/useMainCategories';
 import useSortedInfoLanguages from '../hooks/useSortedInfoLanguages';
-import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal';
+import ConfirmCancelEventModal from '../modals/confirmCancelEventModal/ConfirmCancelEventModal';
 import ConfirmDeleteEventModal from '../modals/confirmDeleteEventModal/ConfirmDeleteEventModal';
-import ConfirmPostponeModal from '../modals/confirmPostponeModal/ConfirmPostponeModal';
-import ConfirmUpdateModal from '../modals/confirmUpdateModal/ConfirmUpdateModal';
+import ConfirmPostponeEventModal from '../modals/confirmPostponeEventModal/ConfirmPostponeEventModal';
+import ConfirmUpdateEventModal from '../modals/confirmUpdateEventModal/ConfirmUpdateEventModal';
 import { EventFormFields } from '../types';
 import {
   checkCanUserDoAction,
@@ -157,7 +157,7 @@ const EventForm: React.FC<EventFormProps> = ({
     );
   };
 
-  const onCancel = (eventType: string) => {
+  const handleCancel = (eventType: string) => {
     cancelEvent({
       onError: /* istanbul ignore next */ (error) =>
         showServerErrors({
@@ -172,7 +172,7 @@ const EventForm: React.FC<EventFormProps> = ({
     });
   };
 
-  const onCreate = (
+  const handleCreate = (
     values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {
@@ -182,13 +182,13 @@ const EventForm: React.FC<EventFormProps> = ({
     });
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deleteEvent({
       onSuccess: () => goToEventsPage(),
     });
   };
 
-  const onPostpone = (eventType: string) => {
+  const handlePostpone = (eventType: string) => {
     postponeEvent({
       onError: /* istanbul ignore next */ (error) =>
         showServerErrors({
@@ -203,7 +203,7 @@ const EventForm: React.FC<EventFormProps> = ({
     });
   };
 
-  const onUpdate = (
+  const handleUpdate = (
     values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {
@@ -278,10 +278,10 @@ const EventForm: React.FC<EventFormProps> = ({
           setNextPublicationStatus(publicationStatus);
           setOpenModal(EVENT_MODALS.UPDATE);
         } else {
-          onUpdate(values, publicationStatus);
+          handleUpdate(values, publicationStatus);
         }
       } else {
-        onCreate(values, publicationStatus);
+        handleCreate(values, publicationStatus);
       }
     } catch (error) {
       showFormErrors({
@@ -309,28 +309,28 @@ const EventForm: React.FC<EventFormProps> = ({
     <>
       {event && (
         <>
-          <ConfirmCancelModal
+          <ConfirmCancelEventModal
             event={event}
             isOpen={openModal === EVENT_MODALS.CANCEL}
             isSaving={saving === EVENT_ACTIONS.CANCEL}
-            onCancel={() => onCancel(values.type)}
             onClose={closeModal}
+            onConfirm={() => handleCancel(values.type)}
           />
           <ConfirmDeleteEventModal
             event={event}
             isOpen={openModal === EVENT_MODALS.DELETE}
             isSaving={saving === EVENT_ACTIONS.DELETE}
             onClose={closeModal}
-            onDelete={onDelete}
+            onConfirm={handleDelete}
           />
-          <ConfirmPostponeModal
+          <ConfirmPostponeEventModal
             event={event}
             isOpen={openModal === EVENT_MODALS.POSTPONE}
             isSaving={saving === EVENT_ACTIONS.POSTPONE}
             onClose={closeModal}
-            onPostpone={() => onPostpone(values.type)}
+            onConfirm={() => handlePostpone(values.type)}
           />
-          <ConfirmUpdateModal
+          <ConfirmUpdateEventModal
             event={event}
             isOpen={openModal === EVENT_MODALS.UPDATE}
             isSaving={
@@ -339,7 +339,7 @@ const EventForm: React.FC<EventFormProps> = ({
               saving === EVENT_ACTIONS.UPDATE_PUBLIC
             }
             onClose={closeModal}
-            onSave={() => onUpdate(values, nextPublicationStatus)}
+            onConfirm={() => handleUpdate(values, nextPublicationStatus)}
           />
         </>
       )}

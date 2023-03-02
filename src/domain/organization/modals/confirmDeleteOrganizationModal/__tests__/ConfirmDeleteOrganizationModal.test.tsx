@@ -16,7 +16,7 @@ const defaultProps: ConfirmDeleteOrganizationModalProps = {
   isOpen: true,
   isSaving: false,
   onClose: jest.fn(),
-  onDelete: jest.fn(),
+  onConfirm: jest.fn(),
 };
 
 const renderComponent = (
@@ -54,14 +54,14 @@ test('should render component', async () => {
   getElement('cancelButton');
 });
 
-test('should call onDelete', async () => {
-  const onDelete = jest.fn();
+test('should call onConfirm', async () => {
+  const onConfirm = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ onDelete });
+  renderComponent({ onConfirm });
 
   const deleteButton = getElement('deleteButton');
   await user.click(deleteButton);
-  expect(onDelete).toBeCalled();
+  expect(onConfirm).toBeCalled();
 });
 
 test('should call onClose', async () => {

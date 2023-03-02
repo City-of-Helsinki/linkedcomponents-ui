@@ -134,20 +134,20 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
     navigate(`/${locale}${ROUTES.REGISTRATION_SAVED.replace(':id', id)}`);
   };
 
-  const onCreate = async (values: RegistrationFormFields) => {
+  const handleCreate = async (values: RegistrationFormFields) => {
     await createRegistration(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
       onSuccess: (id) => goToRegistrationSavedPage(getValue(id, '')),
     });
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deleteRegistration({
       onSuccess: goToRegistrationsPage,
     });
   };
 
-  const onUpdate = async (values: RegistrationFormFields) => {
+  const handleUpdate = async (values: RegistrationFormFields) => {
     await updateRegistration(values, {
       onError: (error) => showServerErrors({ error }),
       onSuccess: async () => {
@@ -194,9 +194,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
             await registrationSchema.validate(values, { abortEarly: false });
 
             if (registration) {
-              await onUpdate(values);
+              await handleUpdate(values);
             } else {
-              await onCreate(values);
+              await handleCreate(values);
             }
           } catch (error) {
             showFormErrors({
@@ -218,7 +218,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
               isOpen={openModal === REGISTRATION_MODALS.DELETE}
               isSaving={saving === REGISTRATION_ACTIONS.DELETE}
               onClose={closeModal}
-              onDelete={onDelete}
+              onConfirm={handleDelete}
             />
             <Form noValidate={true}>
               <FormikPersist
