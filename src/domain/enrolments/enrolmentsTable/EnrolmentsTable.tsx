@@ -2,7 +2,6 @@ import omit from 'lodash/omit';
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
-import { scroller } from 'react-scroll';
 
 import Pagination from '../../../common/components/pagination/Pagination';
 import Table from '../../../common/components/table/Table';
@@ -12,6 +11,7 @@ import {
   EnrolmentsQueryVariables,
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
+import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
@@ -19,7 +19,6 @@ import getPageCount from '../../../utils/getPageCount';
 import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 import EnrolmentActionsDropdown from '../enrolmentActionsDropdown/EnrolmentActionsDropdown';
 import { EnrolmentsLocationState } from '../types';
@@ -116,25 +115,6 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     },
   });
 
-  const onPageChange = (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => {
-    event.preventDefault();
-
-    const pageNumber = index + 1;
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToRegistrationQueryString(location.search, {
-        [pagePath]: pageNumber > 1 ? pageNumber : null,
-      }),
-    });
-    // Scroll to the beginning of event list
-    scroller.scrollTo(enrolmentListId, { offset: -100 });
-  };
-
   const enrolmentCount = enrolments.length;
   const pageCount = getPageCount(enrolmentCount, ENROLMENTS_PAGE_SIZE);
 
@@ -142,6 +122,14 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     (page - 1) * ENROLMENTS_PAGE_SIZE,
     page * ENROLMENTS_PAGE_SIZE
   );
+
+  const { onPageChange, pageHref } = useCommonListProps({
+    defaultSort: '',
+    listId: enrolmentListId,
+    meta: undefined,
+    pagePath,
+    pageSize: ENROLMENTS_PAGE_SIZE,
+  });
 
   const handleRowClick = (enrolment: object) => {
     const { enrolmentUrl } = getEnrolmentFields({
@@ -271,13 +259,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
         {pageCount > 1 && (
           <Pagination
             pageCount={pageCount}
-            pageHref={(index: number) => {
-              return `${
-                location.pathname
-              }${replaceParamsToRegistrationQueryString(location.search, {
-                [pagePath]: index > 1 ? index : null,
-              })}`;
-            }}
+            pageHref={pageHref}
             pageIndex={page - 1}
             onChange={onPageChange}
           />

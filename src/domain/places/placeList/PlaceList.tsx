@@ -2,18 +2,18 @@ import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
-import { scroller } from 'react-scroll';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import SearchInput from '../../../common/components/searchInput/SearchInput';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import { testIds } from '../../../constants';
 import { PlacesQuery, usePlacesQuery } from '../../../generated/graphql';
+import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
-import getPageCount from '../../../utils/getPageCount';
+import { CommonListProps } from '../../../types';
 import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
+import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
 import { getPlaceItemId } from '../../place/utils';
 import {
   DEFAULT_PLACE_SORT,
@@ -23,32 +23,20 @@ import {
 import usePlacesSortOptions from '../hooks/usePlacesSortOptions';
 import PlacesTable from '../placesTable/PlacesTable';
 import { PlacesLocationState } from '../types';
-import {
-  getPlaceSearchInitialValues,
-  getPlacesQueryVariables,
-  replaceParamsToPlaceQueryString,
-} from '../utils';
-import styles from './placeList.module.scss';
+import { getPlaceSearchInitialValues, getPlacesQueryVariables } from '../utils';
 
 type PlaceListProps = {
-  onPageChange: (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => void;
-  onSortChange: (sort: PLACE_SORT_OPTIONS) => void;
   page: number;
-  pageCount: number;
   places: PlacesQuery['places']['data'];
   sort: PLACE_SORT_OPTIONS;
-};
+} & CommonListProps;
 
 const PlaceList: React.FC<PlaceListProps> = ({
   onPageChange,
   onSortChange,
   page,
   pageCount,
+  pageHref,
   places,
   sort,
 }) => {
@@ -67,7 +55,7 @@ const PlaceList: React.FC<PlaceListProps> = ({
     const locationState = location.state as PlacesLocationState;
     if (locationState?.placeId) {
       scrollToItem(getPlaceItemId(locationState.placeId));
-      // Clear keywordId value to keep scroll position correctly
+      // Clear placeId value to keep scroll position correctly
       const state = omit(locationState, 'placeId');
       // location.search seems to reset if not added here (...location)
       navigate(location, { state, replace: true });
@@ -89,12 +77,7 @@ const PlaceList: React.FC<PlaceListProps> = ({
       {pageCount > 1 && (
         <Pagination
           pageCount={pageCount}
-          pageHref={(index: number) => {
-            return `${location.pathname}${replaceParamsToPlaceQueryString(
-              location.search,
-              { page: index > 1 ? index : null }
-            )}`;
-          }}
+          pageHref={pageHref}
           pageIndex={page - 1}
           onChange={onPageChange}
         />
@@ -104,87 +87,38 @@ const PlaceList: React.FC<PlaceListProps> = ({
 };
 
 const PlaceListContainer: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation();
+
   const { page, sort, text } = getPlaceSearchInitialValues(location.search);
   const [search, setSearch] = React.useState(text);
 
   const placeListId = useIdWithPrefix({ prefix: 'place-list-' });
-
-  const handlePageChange = (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => {
-    event.preventDefault();
-
-    const pageNumber = index + 1;
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToPlaceQueryString(location.search, {
-        page: pageNumber > 1 ? pageNumber : null,
-      }),
-    });
-    // Scroll to the beginning of keyword list
-    scroller.scrollTo(placeListId, { offset: -100 });
-  };
-
-  const handleSearchChange = (text: string) => {
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToPlaceQueryString(location.search, {
-        page: null,
-        text,
-      }),
-    });
-  };
-
-  const handleSortChange = (val: PLACE_SORT_OPTIONS) => {
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToPlaceQueryString(location.search, {
-        sort:
-          val !== DEFAULT_PLACE_SORT ? val : /* istanbul ignore next */ null,
-      }),
-    });
-  };
 
   const { data: placesData, loading } = usePlacesQuery({
     variables: getPlacesQueryVariables(location.search),
   });
 
   const places = getValue(placesData?.places?.data, []);
-  /* istanbul ignore next */
-  const placesCount = placesData?.places?.meta.count || 0;
-  const pageCount = getPageCount(placesCount, PLACES_PAGE_SIZE);
+  const { count, onSearchSubmit, ...listProps } = useCommonListProps({
+    defaultSort: DEFAULT_PLACE_SORT,
+    listId: placeListId,
+    meta: placesData?.places.meta,
+    pageSize: PLACES_PAGE_SIZE,
+  });
 
   return (
     <div id={placeListId} data-testid={testIds.placeList.resultList}>
-      <div className={styles.searchRow}>
-        <span className={styles.count}>
-          {t('placesPage.count', { count: placesCount })}
-        </span>
-        <SearchInput
-          className={styles.searchInput}
-          label={t('placesPage.labelSearch')}
-          hideLabel
-          onSubmit={handleSearchChange}
-          onChange={setSearch}
-          value={search}
-        />
-      </div>
+      <AdminSearchRow
+        countText={t('placesPage.count', { count })}
+        onSearchSubmit={onSearchSubmit}
+        onSearchChange={setSearch}
+        searchInputLabel={t('placesPage.labelSearch')}
+        searchValue={search}
+      />
 
       <LoadingSpinner isLoading={loading}>
-        <PlaceList
-          onPageChange={handlePageChange}
-          onSortChange={handleSortChange}
-          page={page}
-          pageCount={pageCount}
-          places={places}
-          sort={sort}
-        />
+        <PlaceList page={page} places={places} sort={sort} {...listProps} />
       </LoadingSpinner>
     </div>
   );

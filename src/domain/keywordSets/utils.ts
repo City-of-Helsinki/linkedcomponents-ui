@@ -82,14 +82,3 @@ export const addParamsToKeywordSetQueryString = (
     getKeywordSetParamValue
   );
 };
-
-export const replaceParamsToKeywordSetQueryString = (
-  queryString: string,
-  queryParams: Partial<KeywordSetSearchParams>
-): string => {
-  return replaceParamsToQueryString<KeywordSetSearchParams>(
-    queryString,
-    queryParams,
-    getKeywordSetParamValue
-  );
-};

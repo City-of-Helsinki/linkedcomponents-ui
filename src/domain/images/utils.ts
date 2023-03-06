@@ -78,14 +78,3 @@ export const addParamsToImageQueryString = (
     getImageParamValue
   );
 };
-
-export const replaceParamsToImageQueryString = (
-  queryString: string,
-  queryParams: Partial<ImageSearchParams>
-): string => {
-  return replaceParamsToQueryString<ImageSearchParams>(
-    queryString,
-    queryParams,
-    getImageParamValue
-  );
-};
