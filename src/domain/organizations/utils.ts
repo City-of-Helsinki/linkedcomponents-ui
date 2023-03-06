@@ -47,17 +47,6 @@ export const addParamsToOrganizationQueryString = (
   );
 };
 
-export const replaceParamsToOrganizationQueryString = (
-  queryString: string,
-  queryParams: Partial<OrganizationSearchParams>
-): string => {
-  return replaceParamsToQueryString<OrganizationSearchParams>(
-    queryString,
-    queryParams,
-    getOrganizationParamValue
-  );
-};
-
 export const getOrganizationSearchInitialValues = (
   search: string
 ): OrganizationSearchInitialValues => {

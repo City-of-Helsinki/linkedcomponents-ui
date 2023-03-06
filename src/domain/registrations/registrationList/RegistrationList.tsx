@@ -2,7 +2,6 @@ import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
-import { scroller } from 'react-scroll';
 
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
@@ -14,8 +13,9 @@ import {
   RegistrationsQuery,
   useRegistrationsQuery,
 } from '../../../generated/graphql';
+import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
-import getPageCount from '../../../utils/getPageCount';
+import { CommonListProps } from '../../../types';
 import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import Container from '../../app/layout/container/Container';
@@ -31,7 +31,6 @@ import { RegistrationsLocationState } from '../types';
 import {
   getRegistrationSearchInitialValues,
   getRegistrationsQueryVariables,
-  replaceParamsToRegistrationQueryString,
 } from '../utils';
 import styles from './registrationList.module.scss';
 
@@ -40,22 +39,16 @@ export interface EventListContainerProps {
 }
 
 type RegistrationListProps = {
-  onPageChange: (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => void;
   page: number;
-  pageCount: number;
   registrations: RegistrationsQuery['registrations']['data'];
   sort: REGISTRATION_SORT_OPTIONS;
-};
+} & CommonListProps;
 
 const RegistrationList: React.FC<RegistrationListProps> = ({
   onPageChange,
   page,
   pageCount,
+  pageHref,
   registrations,
   sort,
 }) => {
@@ -94,13 +87,7 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
         {pageCount > 1 && (
           <Pagination
             pageCount={pageCount}
-            pageHref={(index: number) => {
-              return `${
-                location.pathname
-              }${replaceParamsToRegistrationQueryString(location.search, {
-                page: index > 1 ? index : null,
-              })}`;
-            }}
+            pageHref={pageHref}
             pageIndex={page - 1}
             onChange={onPageChange}
           />
@@ -113,40 +100,23 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
 };
 
 const RegistrationListContainer: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation();
+
   const { page } = getRegistrationSearchInitialValues(location.search);
-
   const registrationListId = useIdWithPrefix({ prefix: 'registration-list-' });
-
-  const handlePageChange = (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => {
-    event.preventDefault();
-
-    const pageNumber = index + 1;
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToRegistrationQueryString(location.search, {
-        page: pageNumber > 1 ? pageNumber : null,
-      }),
-    });
-    // Scroll to the beginning of registration list
-    scroller.scrollTo(registrationListId, { offset: -100 });
-  };
 
   const { data: registrationsData, loading } = useRegistrationsQuery({
     variables: getRegistrationsQueryVariables(location.search),
   });
 
   const registrations = getValue(registrationsData?.registrations?.data, []);
-  /* istanbul ignore next */
-  const registrationsCount = registrationsData?.registrations?.meta.count || 0;
-  const pageCount = getPageCount(registrationsCount, REGISTRATIONS_PAGE_SIZE);
+  const { count, ...listProps } = useCommonListProps({
+    defaultSort: DEFAULT_REGISTRATION_SORT,
+    listId: registrationListId,
+    meta: registrationsData?.registrations.meta,
+    pageSize: REGISTRATIONS_PAGE_SIZE,
+  });
 
   return (
     <div
@@ -156,16 +126,15 @@ const RegistrationListContainer: React.FC = () => {
     >
       <Container withOffset={true}>
         <span className={styles.count}>
-          {t('registrationsPage.count', { count: registrationsCount })}
+          {t('registrationsPage.count', { count })}
         </span>
       </Container>
       <LoadingSpinner isLoading={loading}>
         <RegistrationList
-          onPageChange={handlePageChange}
           page={page}
-          pageCount={pageCount}
           registrations={registrations}
           sort={DEFAULT_REGISTRATION_SORT}
+          {...listProps}
         />
       </LoadingSpinner>
     </div>

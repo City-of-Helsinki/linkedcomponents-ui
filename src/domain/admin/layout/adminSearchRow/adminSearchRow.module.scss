@@ -1,7 +1,7 @@
-@import '../../../assets/styles/breakpoints';
-@import '../../../assets/styles/widths';
+@import '../../../../assets/styles/breakpoints.scss';
+@import '../../../../assets/styles/widths';
 
-.searchRow {
+.adminSearchRow {
   display: flex;
   flex-direction: column-reverse;
   margin: var(--spacing-m) 0;

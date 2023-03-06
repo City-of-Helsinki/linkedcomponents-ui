@@ -65,17 +65,6 @@ export const addParamsToPlaceQueryString = (
   );
 };
 
-export const replaceParamsToPlaceQueryString = (
-  queryString: string,
-  queryParams: Partial<PlaceSearchParams>
-): string => {
-  return replaceParamsToQueryString<PlaceSearchParams>(
-    queryString,
-    queryParams,
-    getPlaceParamValue
-  );
-};
-
 export const getPlacesQueryVariables = (
   search: string
 ): PlacesQueryVariables => {

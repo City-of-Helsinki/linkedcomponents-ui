@@ -81,14 +81,3 @@ export const addParamsToKeywordQueryString = (
     getKeywordParamValue
   );
 };
-
-export const replaceParamsToKeywordQueryString = (
-  queryString: string,
-  queryParams: Partial<KeywordSearchParams>
-): string => {
-  return replaceParamsToQueryString<KeywordSearchParams>(
-    queryString,
-    queryParams,
-    getKeywordParamValue
-  );
-};
