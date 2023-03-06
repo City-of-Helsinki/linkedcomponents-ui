@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ButtonVariant } from 'hds-react';
+import { MouseEvent } from 'react';
 
 import { MenuItemOptionProps } from './common/components/menuDropdown/types';
 import { LE_DATA_LANGUAGES, SEARCH_PARAMS } from './constants';
@@ -81,3 +82,13 @@ export type ActionButtonProps = {
 } & MenuItemOptionProps;
 
 export type Maybe<T> = T | null | undefined;
+
+export type CommonListProps = {
+  onPageChange: (
+    event: MouseEvent<HTMLAnchorElement> | MouseEvent<HTMLButtonElement>,
+    index: number
+  ) => void;
+  onSortChange: (sort: string) => void;
+  pageCount: number;
+  pageHref: (index: number) => string;
+};
