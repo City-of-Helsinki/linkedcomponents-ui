@@ -128,6 +128,7 @@
       "buttonRemoveImage": "Ta bort bild",
       "notAllowedFileFormat": "Filformatet stöds inte",
       "titleCropImage": "Beskära bild",
+      "tooLongFileName": "Filnamnet är för långt. Maximalt antal tecken är {{maxLength}}.",
       "tooLargeFileSize": "Filstorleken är för stor. Största tillåtna storlek är {{maxSize}} MB"
     },
     "leaflet": {

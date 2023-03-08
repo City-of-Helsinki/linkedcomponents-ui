@@ -144,6 +144,7 @@ export enum FORM_NAMES {
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/gif', 'image/png'];
 export const COMPRESSABLE_IMAGE_TYPES = ['image/jpeg', 'image/png'];
 export const MAX_IMAGE_SIZE_MB = 2;
+export const MAX_IMAGE_FILE_NAME_LENGTH = 200;
 export const MIN_IMAGE_HEIGHT = 200;
 export const MIN_IMAGE_WIDTH = 300;
 export const MIN_UPSCALED_IMAGE_HEIGHT = 400;
