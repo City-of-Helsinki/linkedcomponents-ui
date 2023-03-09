@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { testIds } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
@@ -7,6 +8,7 @@ import {
   configure,
   fireEvent,
   loadingSpinnerIsNotInDocument,
+  mockFile,
   render,
   screen,
   userEvent,
@@ -169,5 +171,31 @@ test('should move to images page after creating new image', async () => {
   await waitFor(
     () => expect(history.location.pathname).toBe(`/fi/administration/images`),
     { timeout: 10000 }
+  );
+});
+
+test('should prevent upload on a file name that is too long', async () => {
+  toast.error = jest.fn();
+  const user = userEvent.setup();
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  await fillPublisherField();
+
+  const addButton = getElement('addButton');
+  await user.click(addButton);
+
+  const dialog = await screen.findByRole('dialog');
+  const withinModal = within(dialog);
+  withinModal.getByRole('heading', { name: /Lisää kuva/i });
+
+  const fileInput = withinModal.getByTestId(testIds.imageUploader.input);
+  const fileName = 'a'.repeat(255);
+  const fileWithLongName = mockFile({ name: fileName });
+  Object.defineProperty(fileInput, 'files', { value: [fileWithLongName] });
+  fireEvent.change(fileInput);
+  expect(toast.error).toBeCalledWith(
+    'Tiedoston nimi on liian pitkä. Nimi voi olla enintään 200 merkkiä.'
   );
 });

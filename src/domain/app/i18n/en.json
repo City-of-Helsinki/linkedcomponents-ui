@@ -127,6 +127,7 @@
       "buttonRemoveImage": "Remove image",
       "notAllowedFileFormat": "File format is not supported",
       "titleCropImage": "Crop image",
+      "tooLongFileName": "File name is too long. Maximum length is {{maxLength}} characters.",
       "tooLargeFileSize": "File size is too large. The maximum file size is {{maxSize}} MB"
     },
     "leaflet": {

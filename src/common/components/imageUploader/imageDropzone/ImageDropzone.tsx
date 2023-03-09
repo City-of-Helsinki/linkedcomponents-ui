@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 
 import {
   ACCEPTED_IMAGE_TYPES,
+  MAX_IMAGE_FILE_NAME_LENGTH,
   MIN_IMAGE_HEIGHT,
   MIN_IMAGE_WIDTH,
   testIds,
@@ -34,6 +35,15 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({
       toast.error(t('common.imageUploader.notAllowedFileFormat'));
       return;
     }
+
+    if (!validateImageFileNameLength(file)) {
+      toast.error(
+        t('common.imageUploader.tooLongFileName', {
+          maxLength: MAX_IMAGE_FILE_NAME_LENGTH,
+        })
+      );
+      return;
+    }
     /* istanbul ignore next */
     if (!isTestEnv && !(await validateImageMinDimensions(file))) {
       toast.error(t('common.imageUploader.belowMinDimensions'));
@@ -45,6 +55,9 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({
 
   const validateImageFileType = (file: File): boolean =>
     ACCEPTED_IMAGE_TYPES.includes(file.type);
+
+  const validateImageFileNameLength = (file: File): boolean =>
+    file.name.length <= MAX_IMAGE_FILE_NAME_LENGTH;
 
   /* istanbul ignore next */
   const validateImageMinDimensions = async (file: File): Promise<boolean> => {
