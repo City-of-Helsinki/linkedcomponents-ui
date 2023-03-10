@@ -8,6 +8,7 @@ import {
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { getMockedUserResponse } from '../../../user/__mocks__/user';
 import { KEYWORD_ACTIONS } from '../../constants';
@@ -16,6 +17,8 @@ import KeywordAuthenticationNotification, {
 } from '../KeywordAuthenticationNotification';
 
 configure({ defaultHidden: true });
+
+const defaultMocks = [mockedOrganizationAncestorsResponse];
 
 const props: KeywordAuthenticationNotificationProps = {
   action: KEYWORD_ACTIONS.UPDATE,
@@ -27,12 +30,12 @@ const renderComponent = (renderOptions?: CustomRenderOptions) =>
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-test("should show notification if user is signed in but doesn't have any organizations", () => {
+test("should show notification if user is signed in but doesn't have any organizations", async () => {
   const mockedUserResponse = getMockedUserResponse({
     adminOrganizations: [],
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [...defaultMocks, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 
@@ -44,7 +47,7 @@ test('should not show notification if user is signed in and has an admin organiz
     adminOrganizations: [TEST_PUBLISHER_ID],
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [...defaultMocks, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 
@@ -58,7 +61,7 @@ test('should show notification if user has an admin organization but it is diffe
     adminOrganizations: ['not-publisher'],
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [...defaultMocks, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 

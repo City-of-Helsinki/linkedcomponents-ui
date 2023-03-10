@@ -34,7 +34,6 @@ const variables = {
   include: EVENT_LIST_INCLUDES,
   location: [],
   start: null,
-  suprtEvent: 'null',
   text: '',
 };
 
@@ -45,7 +44,14 @@ const events = fakeEvents(
 );
 const count = 30;
 const meta: Meta = { ...events.meta, count };
-const eventsResponse = { data: { events: { ...events, meta } } };
+const eventsResponse = {
+  data: {
+    events: {
+      ...events,
+      meta: { ...meta, next: 'http://localhost:8000/v1/event/?page=2' },
+    },
+  },
+};
 const mockedEventsResponse = {
   request: { query: EventsDocument, variables },
   result: eventsResponse,
@@ -58,7 +64,14 @@ const page2Events = fakeEvents(
   TEST_PAGE_SIZE,
   page2EventNames.map((name) => ({ name: { fi: name }, publisher: null }))
 );
-const page2EventsResponse = { data: { events: { ...page2Events, meta } } };
+const page2EventsResponse = {
+  data: {
+    events: {
+      ...page2Events,
+      meta: { ...meta, previous: 'http://localhost:8000/v1/event/' },
+    },
+  },
+};
 const page2EventsVariables = { ...variables, page: 2 };
 const mockedPage2EventsResponse = {
   request: { query: EventsDocument, variables: page2EventsVariables },

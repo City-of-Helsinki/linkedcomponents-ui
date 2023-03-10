@@ -28,7 +28,7 @@ import {
   publicEventsCount,
   waitingApprovalEvents,
   waitingApprovalEventsCount,
-} from '../__mocks__/eventPage';
+} from '../__mocks__/eventsPage';
 import EventsPage from '../EventsPage';
 
 configure({ defaultHidden: true });

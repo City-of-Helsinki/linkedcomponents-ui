@@ -8,7 +8,7 @@ import {
   eventOverrides,
   locationText,
 } from '../../../event/__mocks__/event';
-import { keywordsOverrides } from '../../../keyword/__mocks__/keyword';
+import { keywordName } from '../../../keyword/__mocks__/keyword';
 import { mockedPlaceResponse } from '../../../place/__mocks__/place';
 import EventInfo from '../EventInfo';
 
@@ -43,9 +43,7 @@ test('should show event info', async () => {
 
   await findElement('location');
   getElement('name');
-  keywordsOverrides.forEach((item) =>
-    screen.getByText(getValue(item.name?.fi, ''))
-  );
+  screen.getByText(keywordName);
   getElement('description');
   getElement('price');
   getElement('age');

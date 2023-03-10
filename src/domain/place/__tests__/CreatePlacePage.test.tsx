@@ -16,6 +16,7 @@ import {
   mockedOrganizationResponse,
   organizationName,
 } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedCreatePlaceResponse,
@@ -28,7 +29,11 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedOrganizationResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
   render(<CreatePlacePage />, { authContextValue, mocks });

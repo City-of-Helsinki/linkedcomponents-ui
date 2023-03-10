@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 
+import { keywordAtId } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import {
   DeleteKeywordSetDocument,
   KeywordSetDocument,
@@ -10,12 +11,11 @@ import { fakeKeywordSet } from '../../../utils/mockDataUtils';
 import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { TEST_KEYWORD_SET_ID } from '../constants';
-import { keywords } from './createKeywordSetPage';
 
 const keywordSetValues: Partial<KeywordSetFieldsFragment> = {
   dataSource: TEST_DATA_SOURCE_ID,
   id: TEST_KEYWORD_SET_ID,
-  keywords: [{ atId: keywords.data[0].atId }],
+  keywords: [{ atId: keywordAtId }],
   name: {
     ar: 'Keyword (ar)',
     en: 'Keyword (en)',

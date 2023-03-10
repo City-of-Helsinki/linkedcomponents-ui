@@ -2,10 +2,14 @@ import React from 'react';
 
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import { act, render, screen } from '../../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { image } from '../../__mocks__/image';
 import ImageForm from '../ImageForm';
 
-const renderComponent = () => render(<ImageForm image={image} />);
+const mocks = [mockedOrganizationResponse, mockedOrganizationAncestorsResponse];
+
+const renderComponent = () => render(<ImageForm image={image} />, { mocks });
 
 test('should show localized alt-text fields', async () => {
   setFeatureFlags({

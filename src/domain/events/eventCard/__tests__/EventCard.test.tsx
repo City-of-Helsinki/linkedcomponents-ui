@@ -29,9 +29,9 @@ import {
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   addressLocality,
-  locationName,
   mockedPlaceResponse,
   place,
+  placeName,
   streetAddress,
 } from '../../../place/__mocks__/place';
 import EventCard from '../EventCard';
@@ -39,7 +39,7 @@ import EventCard from '../EventCard';
 configure({ defaultHidden: true });
 
 const imageUrl = 'http://imageurl.com';
-const locationText = [locationName, streetAddress, addressLocality].join(', ');
+const locationText = [placeName, streetAddress, addressLocality].join(', ');
 
 const eventValues = {
   id: 'event:1',

@@ -15,6 +15,7 @@ import {
   keyword,
   mockedDeleteKeywordResponse,
 } from '../../../keyword/__mocks__/editKeywordPage';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import KeywordActionsDropdown, {
   KeywordActionsDropdownProps,
@@ -24,7 +25,11 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const mocks = [mockedDeleteKeywordResponse, mockedUserResponse];
+const mocks = [
+  mockedDeleteKeywordResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const route = `/fi${ROUTES.KEYWORDS}`;
 const routes = [route];

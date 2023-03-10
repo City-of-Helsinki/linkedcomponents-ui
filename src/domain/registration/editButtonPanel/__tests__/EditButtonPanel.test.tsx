@@ -12,6 +12,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { AuthContextProps } from '../../../auth/types';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
   publisher,
@@ -28,11 +29,11 @@ const defaultProps: EditButtonPanelProps = {
   onUpdate: jest.fn(),
   publisher,
   registration,
-  saving: false,
+  saving: null,
 };
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
-const mocks = [mockedUserResponse];
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const renderComponent = ({
   authContextValue,

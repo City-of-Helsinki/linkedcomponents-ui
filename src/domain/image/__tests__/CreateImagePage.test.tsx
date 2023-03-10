@@ -18,6 +18,7 @@ import {
   mockedOrganizationResponse,
   organizationName,
 } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   file,
@@ -31,6 +32,7 @@ import CreateImagePage from '../CreateImagePage';
 configure({ defaultHidden: true });
 
 const mocks = [
+  mockedOrganizationAncestorsResponse,
   mockedOrganizationResponse,
   mockedUpdateImageResponse,
   mockedUploadImageByFileResponse,

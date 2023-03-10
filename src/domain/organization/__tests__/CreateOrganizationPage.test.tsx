@@ -22,7 +22,10 @@ import {
   mockedOrganizationsResponse,
   organizations,
 } from '../../organizations/__mocks__/organizationsPage';
-import { mockedUserResponse } from '../../user/__mocks__/user';
+import {
+  mockedUserResponse,
+  mockedUsersResponse,
+} from '../../user/__mocks__/user';
 import {
   mockedCreateOrganizationResponse,
   mockedInvalidCreateOrganizationResponse,
@@ -39,9 +42,10 @@ const defaultMocks = [
   mockedOrganizationClassResponse,
   mockedOrganizationClassesResponse,
   mockedUserResponse,
+  mockedUsersResponse,
 ];
 
-const renderComponent = (mocks: MockedResponse[] = []) =>
+const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   render(<CreateOrganizationPage />, { authContextValue, mocks });
 
 const getElement = (

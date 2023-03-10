@@ -10,6 +10,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { place } from '../../__mocks__/editPlacePage';
@@ -17,7 +18,7 @@ import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
 
-const mocks = [mockedUserResponse];
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 

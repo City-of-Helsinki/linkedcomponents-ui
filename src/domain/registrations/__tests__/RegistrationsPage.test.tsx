@@ -13,6 +13,8 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedEventResponses,
@@ -25,6 +27,8 @@ configure({ defaultHidden: true });
 
 const mocks = [
   ...mockedEventResponses,
+  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
   mockedRegistrationsResponse,
   mockedUserResponse,
 ];

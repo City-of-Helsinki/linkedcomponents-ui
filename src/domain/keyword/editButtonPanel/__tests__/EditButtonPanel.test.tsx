@@ -10,6 +10,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { keyword } from '../../__mocks__/keyword';
@@ -19,7 +20,7 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const mocks = [mockedUserResponse];
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const route = `/fi/${ROUTES.EDIT_KEYWORD.replace(
   ':id',

@@ -10,6 +10,7 @@ import {
   within,
 } from '../../../../utils/testUtils';
 import { TEST_IMAGE_ID } from '../../../image/constants';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { imageNames, images } from '../../__mocks__/imagesPage';
 import { IMAGE_SORT_OPTIONS } from '../../constants';
 import ImagesTable, { ImagesTableProps } from '../ImagesTable';
@@ -26,8 +27,10 @@ const defaultProps: ImagesTableProps = {
   sort: IMAGE_SORT_OPTIONS.LAST_MODIFIED_TIME_DESC,
 };
 
+const mocks = [mockedOrganizationAncestorsResponse];
+
 const renderComponent = (props?: Partial<ImagesTableProps>) =>
-  render(<ImagesTable {...defaultProps} {...props} />);
+  render(<ImagesTable {...defaultProps} {...props} />, { mocks });
 
 test('should render images table', () => {
   renderComponent();

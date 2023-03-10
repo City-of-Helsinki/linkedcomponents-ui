@@ -11,6 +11,7 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   mockedDeletePlaceResponse,
   place,
@@ -28,7 +29,11 @@ const defaultProps: PlaceActionsDropdownProps = {
 
 const route = `/fi${ROUTES.KEYWORDS}`;
 
-const defaultMocks = [mockedDeletePlaceResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedDeletePlaceResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const renderComponent = (
   props?: Partial<PlaceActionsDropdownProps>,

@@ -9,7 +9,7 @@ import generateAtId from '../../../utils/generateAtId';
 import { fakePlace, fakePlaces } from '../../../utils/mockDataUtils';
 import { TEST_PLACE_ID } from '../constants';
 
-const locationName = 'Location name';
+const placeName = 'Location name';
 const streetAddress = 'Venue address';
 const addressLocality = 'Helsinki';
 const placeId = TEST_PLACE_ID;
@@ -19,11 +19,11 @@ const placeOverrides = {
   id: placeId,
   atId: placeAtId,
   addressLocality: { fi: addressLocality },
-  name: { fi: locationName },
+  name: { fi: placeName },
   streetAddress: { fi: streetAddress },
 };
 
-const locationText = `${locationName} (${streetAddress}, ${addressLocality})`;
+const locationText = `${placeName} (${streetAddress}, ${addressLocality})`;
 
 const place = fakePlace({ ...placeOverrides }) as PlaceFieldsFragment;
 const places = fakePlaces(1, [place]);
@@ -31,10 +31,7 @@ const places = fakePlaces(1, [place]);
 const placeResponse = { data: { place } };
 const placeVariables = { id: TEST_PLACE_ID, createPath: undefined };
 const mockedPlaceResponse = {
-  request: {
-    query: PlaceDocument,
-    variables: placeVariables,
-  },
+  request: { query: PlaceDocument, variables: placeVariables },
   result: placeResponse,
 };
 
@@ -62,7 +59,6 @@ const mockedFilteredPlacesResponse: MockedResponse = {
 
 export {
   addressLocality,
-  locationName,
   locationText,
   mockedFilteredPlacesResponse,
   mockedPlaceResponse,
@@ -70,6 +66,7 @@ export {
   place,
   placeAtId,
   placeId,
+  placeName,
   placeOverrides,
   streetAddress,
 };

@@ -16,6 +16,8 @@ import {
   waitFor,
 } from '../../../utils/testUtils';
 import { mockedEventResponse } from '../../event/__mocks__/event';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
+import { mockedNotFoundRegistrationResponse } from '../../registration/__mocks__/editRegistrationPage';
 import {
   mockedRegistrationResponse,
   registrationId,
@@ -35,6 +37,8 @@ const route = ROUTES.REGISTRATION_ENROLMENTS.replace(
 
 const defaultMocks = [
   mockedEventResponse,
+  mockedNotFoundRegistrationResponse,
+  mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
 ];

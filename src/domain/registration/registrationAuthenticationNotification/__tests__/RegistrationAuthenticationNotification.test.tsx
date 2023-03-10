@@ -9,6 +9,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { registration } from '../../../registration/__mocks__/registration';
 import { REGISTRATION_ACTIONS } from '../../../registrations/constants';
 import {
@@ -21,7 +22,7 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedEventResponse];
+const defaultMocks = [mockedEventResponse, mockedOrganizationAncestorsResponse];
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
   render(

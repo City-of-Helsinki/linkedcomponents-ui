@@ -12,6 +12,8 @@ import {
   within,
 } from '../../../../utils/testUtils';
 import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
+import { mockedEventResponse } from '../../../event/__mocks__/event';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   registration,
   registrationId,
@@ -21,6 +23,8 @@ import { ENROLMENTS_PAGE_SIZE } from '../../constants';
 import EnrolmentsTable, { EnrolmentsTableProps } from '../EnrolmentsTable';
 
 configure({ defaultHidden: true });
+
+const mocks = [mockedEventResponse, mockedOrganizationAncestorsResponse];
 
 const defaultProps: EnrolmentsTableProps = {
   caption: 'Enrolments table',
@@ -37,7 +41,8 @@ const renderComponent = (props?: Partial<EnrolmentsTableProps>) => {
   return render(
     <EnrolmentPageProvider>
       <EnrolmentsTable {...defaultProps} {...props} />
-    </EnrolmentPageProvider>
+    </EnrolmentPageProvider>,
+    { mocks }
   );
 };
 

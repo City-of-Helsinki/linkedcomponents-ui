@@ -1,8 +1,44 @@
 import { MockedResponse } from '@apollo/client/testing';
 
-import { CreateRegistrationDocument } from '../../../generated/graphql';
-import { fakeRegistration } from '../../../utils/mockDataUtils';
+import {
+  CreateRegistrationDocument,
+  EventDocument,
+  EventsDocument,
+} from '../../../generated/graphql';
+import {
+  fakeEvent,
+  fakeEvents,
+  fakeRegistration,
+} from '../../../utils/mockDataUtils';
 import { TEST_EVENT_ID } from '../../event/constants';
+import { TEST_REGISTRATION_ID } from '../constants';
+
+const eventId = TEST_EVENT_ID;
+const eventName = 'Event name';
+
+const event = fakeEvent({ id: eventId, name: { fi: eventName } });
+const eventVariables = { createPath: undefined, id: eventId };
+const eventResponse = { data: { event: event } };
+const mockedEventResponse = {
+  request: { query: EventDocument, variables: eventVariables },
+  result: eventResponse,
+};
+
+const eventsVariables = {
+  adminUser: true,
+  publicationStatus: 'public',
+  start: 'now',
+  sort: 'name',
+  superEventType: ['none'],
+  createPath: undefined,
+  text: '',
+};
+const events = fakeEvents(1, [event]);
+const eventsResponse = { data: { events } };
+const mockedEventsResponse = {
+  request: { query: EventsDocument, variables: eventsVariables },
+  result: eventsResponse,
+};
 
 const registrationValues = {
   event: TEST_EVENT_ID,
@@ -11,7 +47,7 @@ const registrationValues = {
   enrolmentStartTimeDate: new Date('2020-12-31T18:00:00.000Z'),
   enrolmentStartTimeTime: '18:00',
 };
-const registrationId = 'registration:1';
+const registrationId = TEST_REGISTRATION_ID;
 
 const payload = {
   audienceMaxAge: null,
@@ -57,6 +93,8 @@ const mockedInvalidCreateRegistrationResponse: MockedResponse = {
 
 export {
   mockedCreateRegistrationResponse,
+  mockedEventResponse,
+  mockedEventsResponse,
   mockedInvalidCreateRegistrationResponse,
   payload,
   registrationValues,

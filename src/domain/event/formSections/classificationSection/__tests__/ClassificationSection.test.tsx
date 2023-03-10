@@ -32,11 +32,11 @@ configure({ defaultHidden: true });
 const type = EVENT_TYPE.General;
 
 const mocks = [
-  mockedKeywordResponse,
-  mockedKeywordsResponse,
   mockedEventTopicsKeywordSetResponse,
   mockedCourseTopicsKeywordSetResponse,
   mockedAudienceKeywordSetResponse,
+  mockedKeywordResponse,
+  mockedKeywordsResponse,
   mockedLanguagesResponse,
 ];
 

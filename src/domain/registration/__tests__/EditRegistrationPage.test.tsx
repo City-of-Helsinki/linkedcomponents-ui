@@ -14,12 +14,14 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   event,
   mockedDeleteRegistrationResponse,
   mockedEventResponse,
   mockedInvalidUpdateRegistrationResponse,
+  mockedNotFoundRegistrationResponse,
   mockedRegistrationResponse,
   mockedUpdatedRegistationResponse,
   mockedUpdateRegistrationResponse,
@@ -31,6 +33,7 @@ configure({ defaultHidden: true });
 
 const baseMocks = [
   mockedEventResponse,
+  mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
 ];
@@ -164,7 +167,7 @@ test('should scroll to first error when validation error is thrown', async () =>
 });
 
 test('should show "not found" page if registration doesn\'t exist', async () => {
-  renderComponent(undefined, {
+  renderComponent([mockedNotFoundRegistrationResponse, mockedUserResponse], {
     routes: [ROUTES.EDIT_REGISTRATION.replace(':id', 'not-exist')],
   });
 

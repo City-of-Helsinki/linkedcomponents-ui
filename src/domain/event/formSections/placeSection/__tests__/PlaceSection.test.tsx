@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 import { Formik } from 'formik';
 import React from 'react';
 
+import { mockedPlacesResponse as mockedPlaceSelectorPlacesResponse } from '../../../../../common/components/placeSelector/__mocks__/placeSelector';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   LE_DATA_LANGUAGES,
@@ -13,11 +15,21 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
+import {
+  mockedPlacesResponse,
+  mockedSortedPlacesResponse,
+} from '../../../../places/__mocks__/placesPage';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { publicEventSchema } from '../../../validation';
 import PlaceSection from '../PlaceSection';
 
 configure({ defaultHidden: true });
+
+const mocks = [
+  mockedPlaceSelectorPlacesResponse,
+  mockedSortedPlacesResponse,
+  mockedPlacesResponse,
+];
 
 const languages: LE_DATA_LANGUAGES[] = [LE_DATA_LANGUAGES.FI];
 const type = EVENT_TYPE.General;
@@ -45,7 +57,8 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
       validationSchema={publicEventSchema}
     >
       <PlaceSection isEditingAllowed={true} />
-    </Formik>
+    </Formik>,
+    { mocks }
   );
 
 const getElement = (key: 'location' | 'locationExtraInfo') => {

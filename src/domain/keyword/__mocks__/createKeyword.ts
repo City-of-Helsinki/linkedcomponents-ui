@@ -3,6 +3,7 @@ import range from 'lodash/range';
 
 import {
   CreateKeywordDocument,
+  KeywordFieldsFragment,
   KeywordsDocument,
 } from '../../../generated/graphql';
 import { fakeKeyword, fakeKeywords } from '../../../utils/mockDataUtils';
@@ -31,7 +32,25 @@ const mockedKeywordsResponse: MockedResponse = {
   result: keywordsResponse,
 };
 
-const keywordValues = { name: 'Keyword name', replacedBy: replacingKeyword.id };
+const filteredKeywords = fakeKeywords(1, [
+  keywords.data[0] as KeywordFieldsFragment,
+]);
+const filteredKeywordsResponse = {
+  data: { keywords: filteredKeywords },
+};
+const filteredKeywordsVariables = {
+  ...keywordsVariables,
+  text: keywords.data[0]?.name?.fi,
+};
+const mockedFilteredKeywordsResponse = {
+  request: { query: KeywordsDocument, variables: filteredKeywordsVariables },
+  result: filteredKeywordsResponse,
+};
+
+const keywordValues = {
+  name: 'Keyword name',
+  replacedBy: replacingKeyword?.id,
+};
 
 const payload = {
   dataSource: 'helsinki',
@@ -62,6 +81,7 @@ const mockedInvalidCreateKeywordResponse: MockedResponse = {
 export {
   keywordValues,
   mockedCreateKeywordResponse,
+  mockedFilteredKeywordsResponse,
   mockedInvalidCreateKeywordResponse,
   mockedKeywordsResponse,
   replacingKeyword,

@@ -10,6 +10,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   registration,
   registrationId,
@@ -29,7 +30,11 @@ const defaultProps: EditButtonPanelProps = {
   saving: false,
 };
 
-const mocks = [mockedEventResponse, mockedUserResponse];
+const mocks = [
+  mockedEventResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 

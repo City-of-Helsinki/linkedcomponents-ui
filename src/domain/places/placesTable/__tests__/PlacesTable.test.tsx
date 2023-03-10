@@ -9,6 +9,7 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PLACE_ID } from '../../../place/constants';
 import { placeNames, places } from '../../__mocks__/placesPage';
 import { PLACE_SORT_OPTIONS } from '../../constants';
@@ -26,8 +27,10 @@ const defaultProps: PlacesTableProps = {
   sort: PLACE_SORT_OPTIONS.NAME,
 };
 
+const mocks = [mockedOrganizationAncestorsResponse];
+
 const renderComponent = (props?: Partial<PlacesTableProps>) =>
-  render(<PlacesTable {...defaultProps} {...props} />);
+  render(<PlacesTable {...defaultProps} {...props} />, { mocks });
 
 test('should render places table', () => {
   renderComponent();

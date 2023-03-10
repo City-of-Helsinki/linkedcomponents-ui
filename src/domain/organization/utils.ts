@@ -5,7 +5,6 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/types'
 import {
   DATE_FORMAT_API,
   LINKED_EVENTS_SYSTEM_DATA_SOURCE,
-  MAX_PAGE_SIZE,
   ROUTES,
 } from '../../constants';
 import {
@@ -28,6 +27,7 @@ import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
 import {
   AUTHENTICATION_NOT_NEEDED,
+  MAX_OGRANIZATIONS_PAGE_SIZE,
   ORGANIZATION_ACTION_ICONS,
   ORGANIZATION_ACTION_LABEL_KEYS,
   ORGANIZATION_ACTIONS,
@@ -184,7 +184,7 @@ export const getOrganizationAncestorsQueryResult = async (
         variables: {
           child: id,
           createPath: getPathBuilder(organizationsPathBuilder),
-          pageSize: MAX_PAGE_SIZE,
+          pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
         },
       });
 

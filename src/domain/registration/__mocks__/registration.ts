@@ -15,9 +15,9 @@ import {
   waitingAttendees,
 } from '../../enrolments/__mocks__/enrolmentsPage';
 import { TEST_EVENT_ID } from '../../event/constants';
-import { REGISTRATION_INCLUDES } from '../constants';
+import { REGISTRATION_INCLUDES, TEST_REGISTRATION_ID } from '../constants';
 
-const registrationId = 'registration:1';
+const registrationId = TEST_REGISTRATION_ID;
 
 const now = new Date();
 const enrolmentStartTime = subDays(now, 1).toISOString();

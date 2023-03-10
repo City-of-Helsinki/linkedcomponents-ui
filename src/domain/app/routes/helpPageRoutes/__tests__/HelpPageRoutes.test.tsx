@@ -12,6 +12,9 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
+import { mockedOrganizationsResponse } from '../../../../organizations/__mocks__/organizationsPage';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import HelpPageRoutes from '../HelpPageRoutes';
 
 configure({ defaultHidden: true });
@@ -31,6 +34,12 @@ afterEach(() => {
   document.head.innerHTML = initialHeadInnerHTML || '';
 });
 
+const mocks = [
+  mockedOrganizationAncestorsResponse,
+  mockedOrganizationsResponse,
+  mockedUserResponse,
+];
+
 const renderRoute = (route: string, locale: Language = 'fi') =>
   render(
     <Routes>
@@ -43,7 +52,7 @@ const renderRoute = (route: string, locale: Language = 'fi') =>
         }
       />
     </Routes>,
-    { routes: [`/${locale}${route}`] }
+    { mocks, routes: [`/${locale}${route}`] }
   );
 
 const shouldHaveCorrectMetaData = async ({

@@ -11,19 +11,20 @@ import { fakePlace } from '../../../utils/mockDataUtils';
 import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { TEST_PLACE_ID } from '../constants';
+import { addressLocality, placeName, streetAddress } from './place';
 
 const placeValues: Partial<PlaceFieldsFragment> = {
-  addressLocality: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Helsinki' },
+  addressLocality: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: addressLocality },
   dataSource: TEST_DATA_SOURCE_ID,
   description: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Place description' },
   email: 'test@email.com',
   id: TEST_PLACE_ID,
   infoUrl: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'http://www.info.com' },
-  name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Place (fi)' },
+  name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: placeName },
   position: { coordinates: [24.924889, 60.159661] },
   postalCode: '00100',
   publisher: TEST_PUBLISHER_ID,
-  streetAddress: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Street address' },
+  streetAddress: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: streetAddress },
   telephone: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: '+358441234567' },
 };
 
@@ -46,22 +47,22 @@ const mockedDeletePlaceResponse: MockedResponse = {
 const emptyLangObj = { fi: '', sv: '', en: '', ru: '', zhHans: '', ar: '' };
 
 const payload = {
-  addressLocality: { ...emptyLangObj, fi: placeValues.addressLocality.fi },
+  addressLocality: { ...emptyLangObj, fi: placeValues.addressLocality?.fi },
   addressRegion: '',
   contactType: '',
   dataSource: placeValues.dataSource,
-  description: { ...emptyLangObj, fi: placeValues.description.fi },
+  description: { ...emptyLangObj, fi: placeValues.description?.fi },
   email: placeValues.email,
-  infoUrl: { ...emptyLangObj, fi: placeValues.infoUrl.fi },
-  name: { ...emptyLangObj, fi: placeValues.name.fi },
-  position: { type: 'Point', coordinates: placeValues.position.coordinates },
+  infoUrl: { ...emptyLangObj, fi: placeValues.infoUrl?.fi },
+  name: { ...emptyLangObj, fi: placeValues.name?.fi },
+  position: { type: 'Point', coordinates: placeValues.position?.coordinates },
   postOfficeBoxNum: '',
   postalCode: placeValues.postalCode,
   publisher: placeValues.publisher,
-  streetAddress: { ...emptyLangObj, fi: placeValues.streetAddress.fi },
-  telephone: { ...emptyLangObj, fi: placeValues.telephone.fi },
+  streetAddress: { ...emptyLangObj, fi: placeValues.streetAddress?.fi },
+  telephone: { ...emptyLangObj, fi: placeValues.telephone?.fi },
   id: placeValues.id,
-  originId: placeValues.id.split(':')[1],
+  originId: placeValues.id?.split(':')[1],
 };
 
 const updatePlaceVariables = { input: payload };

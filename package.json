@@ -3,7 +3,7 @@
   "version": "0.11.0",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.7.3",
+    "@apollo/client": "^3.7.10",
     "@ckeditor/ckeditor5-build-classic": "35.2.1",
     "@ckeditor/ckeditor5-react": "^5.0.6",
     "@craco/craco": "^7.0.0",

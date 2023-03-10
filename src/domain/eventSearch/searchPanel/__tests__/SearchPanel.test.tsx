@@ -1,14 +1,6 @@
-import { MockedResponse } from '@apollo/client/testing';
-import range from 'lodash/range';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import {
-  PlaceDocument,
-  PlaceFieldsFragment,
-  PlacesDocument,
-} from '../../../../generated/graphql';
-import { fakePlaces } from '../../../../utils/mockDataUtils';
 import {
   configure,
   fireEvent,
@@ -17,39 +9,15 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { PLACES_SORT_ORDER } from '../../../place/constants';
+import {
+  mockedPlaceResponse,
+  mockedPlacesResponse,
+  placeId,
+  placeName,
+} from '../../__mocks__/eventSearchPage';
 import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
-
-const placeOverrides = range(1, 3).map((i) => ({
-  id: `place:${i}`,
-  name: `Place name ${i}`,
-}));
-
-const places = fakePlaces(
-  placeOverrides.length,
-  placeOverrides.map(({ id, name }) => ({ id, name: { fi: name } }))
-);
-const placesVariables = {
-  createPath: undefined,
-  sort: PLACES_SORT_ORDER.NAME,
-  text: '',
-};
-const placesResponse = { data: { places } };
-const mockedPlacesResponse: MockedResponse = {
-  request: { query: PlacesDocument, variables: placesVariables },
-  result: placesResponse,
-};
-
-const place = places.data[0] as PlaceFieldsFragment;
-const placeId = place.id;
-const placeVariables = { id: placeId, createPath: undefined };
-const placeResponse = { data: { place } };
-const mockedPlaceResponse: MockedResponse = {
-  request: { query: PlaceDocument, variables: placeVariables },
-  result: placeResponse,
-};
 
 const mocks = [mockedPlacesResponse, mockedPlaceResponse];
 
@@ -121,7 +89,7 @@ test('should search events with correct search params', async () => {
   // Place filtering
   const placeSelectorButton = getElement('placeSelectorButton');
   await user.click(placeSelectorButton);
-  const placeCheckbox = screen.getByLabelText(placeOverrides[0].name);
+  const placeCheckbox = screen.getByLabelText(placeName);
   await user.click(placeCheckbox);
 
   // Event type filtering
