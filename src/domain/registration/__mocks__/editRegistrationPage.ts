@@ -9,10 +9,10 @@ import {
 import { fakeEvent, fakeRegistration } from '../../../utils/mockDataUtils';
 import { EVENT_INCLUDES, TEST_EVENT_ID } from '../../event/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
-import { REGISTRATION_INCLUDES } from '../constants';
+import { REGISTRATION_INCLUDES, TEST_REGISTRATION_ID } from '../constants';
 
 const publisher = TEST_PUBLISHER_ID;
-const registrationId = 'registration:1';
+const registrationId = TEST_REGISTRATION_ID;
 
 const registrationOverrides = {
   id: registrationId,
@@ -48,11 +48,16 @@ const eventVariables = {
 };
 const eventResponse = { data: { event: event } };
 const mockedEventResponse = {
-  request: {
-    query: EventDocument,
-    variables: eventVariables,
-  },
+  request: { query: EventDocument, variables: eventVariables },
   result: eventResponse,
+};
+
+const mockedNotFoundRegistrationResponse: MockedResponse = {
+  request: {
+    query: RegistrationDocument,
+    variables: { ...registrationVariables, id: 'not-exist' },
+  },
+  error: new Error(),
 };
 
 const deleteRegistrationVariables = { id: registrationId };
@@ -107,6 +112,7 @@ export {
   mockedDeleteRegistrationResponse,
   mockedEventResponse,
   mockedInvalidUpdateRegistrationResponse,
+  mockedNotFoundRegistrationResponse,
   mockedRegistrationResponse,
   mockedUpdatedRegistationResponse,
   mockedUpdateRegistrationResponse,

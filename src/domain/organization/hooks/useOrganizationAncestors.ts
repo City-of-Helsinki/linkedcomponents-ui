@@ -1,4 +1,3 @@
-import { MAX_PAGE_SIZE } from '../../../constants';
 import {
   OrganizationFieldsFragment,
   useOrganizationsQuery,
@@ -7,6 +6,7 @@ import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { organizationsPathBuilder } from '../../organization/utils';
+import { MAX_OGRANIZATIONS_PAGE_SIZE } from '../constants';
 
 type OrganizationState = {
   loading: boolean;
@@ -19,7 +19,7 @@ const useOrganizationAncestors = (publisher: string): OrganizationState => {
     variables: {
       child: publisher,
       createPath: getPathBuilder(organizationsPathBuilder),
-      pageSize: MAX_PAGE_SIZE,
+      pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
     },
   });
 

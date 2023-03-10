@@ -13,11 +13,13 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   keywordSetNames,
   keywordSets,
   mockedKeywordSetsResponse,
+  mockedSortedKeywordSetsResponse,
 } from '../__mocks__/keywordSetsPage';
 import KeywordSetsPage from '../KeywordSetsPage';
 
@@ -25,7 +27,12 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const mocks = [mockedKeywordSetsResponse, mockedUserResponse];
+const mocks = [
+  mockedKeywordSetsResponse,
+  mockedOrganizationResponse,
+  mockedSortedKeywordSetsResponse,
+  mockedUserResponse,
+];
 
 const route = ROUTES.KEYWORD_SETS;
 const routes = [route];

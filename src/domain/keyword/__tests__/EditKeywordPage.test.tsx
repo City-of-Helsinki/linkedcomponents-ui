@@ -12,12 +12,15 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   keyword,
   mockedDeleteKeywordResponse,
   mockedInvalidUpdateKeywordResponse,
   mockedKeywordResponse,
+  mockedKeywordsResponse,
   mockedUpdateKeywordResponse,
 } from '../__mocks__/editKeywordPage';
 import EditKeywordPage from '../EditKeywordPage';
@@ -26,7 +29,13 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedKeywordResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedKeywordResponse,
+  mockedKeywordsResponse,
+  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const route = ROUTES.EDIT_KEYWORD.replace(':id', getValue(keyword.id, ''));
 

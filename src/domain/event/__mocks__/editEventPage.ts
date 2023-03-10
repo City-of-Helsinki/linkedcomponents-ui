@@ -16,7 +16,6 @@ import {
   EventsDocument,
   EventStatus,
   EventTypeId,
-  KeywordsDocument,
   PublicationStatus,
   SuperEventType,
   UpdateEventsDocument,
@@ -34,6 +33,7 @@ import {
   EVENT_INCLUDES,
   EVENT_TYPE,
   SUB_EVENTS_VARIABLES,
+  TEST_EVENT_ID,
 } from '../../event/constants';
 import { image, imageFields } from '../../image/__mocks__/image';
 import {
@@ -48,7 +48,7 @@ import { EventFormFields } from '../types';
 
 const now = new Date();
 
-const eventId = 'helsinki:1';
+const eventId = TEST_EVENT_ID;
 const audienceMaxAge = 18;
 const audienceMinAge = 12;
 const description = {
@@ -540,18 +540,6 @@ const mockedUpdatedRecurringEventResponse: MockedResponse = {
   result: updatedRecurringEventResponse,
 };
 
-const keywordsVariables = {
-  createPath: undefined,
-  dataSource: ['yso', 'helsinki'],
-  showAllKeywords: true,
-  text: '',
-};
-const keywordsResponse = { data: { keywords: topics } };
-const mockedKeywordsResponse: MockedResponse = {
-  request: { query: KeywordsDocument, variables: keywordsVariables },
-  result: keywordsResponse,
-};
-
 export {
   baseFormValues,
   basePayload,
@@ -572,7 +560,6 @@ export {
   mockedEventWithSubEventResponse,
   mockedInvalidEventResponse,
   mockedInvalidUpdateEventResponse,
-  mockedKeywordsResponse,
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,

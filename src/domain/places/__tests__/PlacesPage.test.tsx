@@ -13,9 +13,11 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedPlacesResponse,
+  mockedSortedPlacesResponse,
   placeNames,
   places,
 } from '../__mocks__/placesPage';
@@ -25,7 +27,12 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedPlacesResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedOrganizationAncestorsResponse,
+  mockedPlacesResponse,
+  mockedSortedPlacesResponse,
+  mockedUserResponse,
+];
 const route = ROUTES.PLACES;
 
 const renderComponent = ({

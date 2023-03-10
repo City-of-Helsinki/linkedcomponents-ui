@@ -237,6 +237,7 @@ test('should show validation error if image alt text is too long', async () => {
   const user = userEvent.setup();
   renderComponent({ [EVENT_FIELDS.IMAGES]: [image.atId] }, [
     mockedImageResponse,
+    mockedOrganizationAncestorsResponse,
     mockedUserResponse,
   ]);
 
@@ -262,6 +263,7 @@ test('should show validation error if image name is too long', async () => {
   const user = userEvent.setup();
   renderComponent({ [EVENT_FIELDS.IMAGES]: [image.atId] }, [
     mockedImageResponse,
+    mockedOrganizationAncestorsResponse,
     mockedUserResponse,
   ]);
 

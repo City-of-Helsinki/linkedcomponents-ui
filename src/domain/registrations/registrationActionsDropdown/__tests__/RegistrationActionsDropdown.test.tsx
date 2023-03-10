@@ -16,6 +16,7 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   mockedDeleteRegistrationResponse,
   mockedEventResponse,
@@ -35,7 +36,11 @@ const defaultProps: RegistrationActionsDropdownProps = {
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedEventResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedEventResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const routes = [`/fi${ROUTES.REGISTRATIONS}`];
 

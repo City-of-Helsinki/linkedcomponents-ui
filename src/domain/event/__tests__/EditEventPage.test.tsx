@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import {
   DATE_FORMAT,
   DATETIME_FORMAT,
@@ -35,6 +37,7 @@ import { mockedOrganizationResponse } from '../../organization/__mocks__/organiz
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import {
   mockedFilteredPlacesResponse,
+  mockedPlaceResponse,
   mockedPlacesResponse,
 } from '../../place/__mocks__/place';
 import { mockedUserResponse } from '../../user/__mocks__/user';
@@ -51,7 +54,6 @@ import {
   mockedEventWithSubEventResponse,
   mockedInvalidEventResponse,
   mockedInvalidUpdateEventResponse,
-  mockedKeywordsResponse,
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
@@ -72,10 +74,11 @@ const baseMocks = [
   mockedEventResponse,
   mockedEventTimeResponse,
   mockedImageResponse,
-  mockedKeywordsResponse,
+  mockedKeywordSelectorKeywordsResponse,
   mockedAudienceKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
   mockedLanguagesResponse,
+  mockedPlaceResponse,
   mockedPlacesResponse,
   mockedFilteredPlacesResponse,
   mockedUserResponse,

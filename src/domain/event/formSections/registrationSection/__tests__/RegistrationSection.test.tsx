@@ -16,6 +16,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
 import { TEST_PUBLISHER_ID } from '../../../../organization/constants';
 import { TEST_REGISTRATION_ID } from '../../../../registration/constants';
 import { mockedUserResponse } from '../../../../user/__mocks__/user';
@@ -26,7 +27,7 @@ import RegistrationSection, {
 
 configure({ defaultHidden: true });
 
-const mocks = [mockedUserResponse];
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 

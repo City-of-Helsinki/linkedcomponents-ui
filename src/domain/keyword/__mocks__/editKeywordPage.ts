@@ -4,9 +4,10 @@ import {
   DeleteKeywordDocument,
   KeywordDocument,
   KeywordFieldsFragment,
+  KeywordsDocument,
   UpdateKeywordDocument,
 } from '../../../generated/graphql';
-import { fakeKeyword } from '../../../utils/mockDataUtils';
+import { fakeKeyword, fakeKeywords } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { TEST_KEYWORD_ID } from '../constants';
 
@@ -33,6 +34,20 @@ const keywordResponse = { data: { keyword } };
 const mockedKeywordResponse = {
   request: { query: KeywordDocument, variables: keywordVariables },
   result: keywordResponse,
+};
+
+const keywords = fakeKeywords(1, [keyword]);
+
+const keywordsVariables = {
+  createPath: undefined,
+  showAllKeywords: true,
+  text: '',
+};
+const keywordsResponse = { data: { keywords } };
+
+const mockedKeywordsResponse: MockedResponse = {
+  request: { query: KeywordsDocument, variables: keywordsVariables },
+  result: keywordsResponse,
 };
 
 const updateKeywordVariables = { input: keywordValues };
@@ -64,5 +79,6 @@ export {
   mockedDeleteKeywordResponse,
   mockedInvalidUpdateKeywordResponse,
   mockedKeywordResponse,
+  mockedKeywordsResponse,
   mockedUpdateKeywordResponse,
 };

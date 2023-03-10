@@ -4,9 +4,9 @@ import React from 'react';
 import { SuperEventType } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
 import { configure, render, screen } from '../../../../../utils/testUtils';
+import { mockedUmbrellaEventsResponse } from '../../../__mocks__/createEventPage';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { EventTime, RecurringEventSettings } from '../../../types';
-import { mockedUmbrellaEventsResponse } from '../__mocks__/typeSection';
 import TypeSection, { TypeSectionProps } from '../TypeSection';
 
 configure({ defaultHidden: true });

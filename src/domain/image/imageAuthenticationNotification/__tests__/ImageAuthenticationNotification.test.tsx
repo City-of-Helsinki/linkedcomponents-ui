@@ -8,6 +8,7 @@ import {
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { getMockedUserResponse } from '../../../user/__mocks__/user';
 import { IMAGE_ACTIONS } from '../../constants';
@@ -32,7 +33,7 @@ test("should show notification if user is signed in but doesn't have any organiz
     adminOrganizations: [],
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 
@@ -44,7 +45,7 @@ test('should not show notification if user is signed in and has an admin organiz
     adminOrganizations: [TEST_PUBLISHER_ID],
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 
@@ -58,7 +59,7 @@ test('should show notification if user has an admin organization but it is diffe
     adminOrganizations: ['not-publisher'],
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 

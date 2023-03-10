@@ -9,8 +9,10 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   imageNames,
+  mockedFilteredImagesResponse,
   mockedImagesResponse,
   mockedPage2ImagesResponse,
   mockedSortedImagesResponse,
@@ -22,7 +24,9 @@ import ImageList from '../ImageList';
 configure({ defaultHidden: true });
 
 const mocks = [
+  mockedFilteredImagesResponse,
   mockedImagesResponse,
+  mockedOrganizationAncestorsResponse,
   mockedPage2ImagesResponse,
   mockedSortedImagesResponse,
 ];
@@ -97,7 +101,7 @@ test('should change sort order', async () => {
 });
 
 test('should search by text', async () => {
-  const searchValue = 'search';
+  const searchValue = imageNames[0];
   const user = userEvent.setup();
 
   const { history } = renderComponent();
@@ -111,6 +115,8 @@ test('should search by text', async () => {
   await user.click(getElement('searchButton'));
 
   await waitFor(() =>
-    expect(history.location.search).toBe(`?text=${searchValue}`)
+    expect(history.location.search).toBe(
+      `?text=${searchValue.replace(/ /g, '+')}`
+    )
   );
 });

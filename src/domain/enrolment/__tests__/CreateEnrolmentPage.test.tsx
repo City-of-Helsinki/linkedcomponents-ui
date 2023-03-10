@@ -22,6 +22,8 @@ import {
 } from '../../../utils/testUtils';
 import { mockedEventResponse } from '../../event/__mocks__/event';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
+import { mockedPlaceResponse } from '../../place/__mocks__/place';
 import {
   mockedRegistrationResponse,
   registration,
@@ -113,17 +115,16 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const code = TEST_SEATS_RESERVATION_CODE;
 
-const createSeatsReservationPayload = {
-  registration: registration.id,
-  seats: 1,
-  waitlist: true,
-};
-
 const seatsReservation = fakeSeatsReservation({ code });
 
 const getCreateSeatsReservationMock = (seats: number): MockedResponse => {
+  const createSeatsReservationPayload = {
+    registration: registration.id,
+    seats,
+    waitlist: true,
+  };
   const createSeatsReservationVariables = {
-    input: { ...createSeatsReservationPayload, seats },
+    input: createSeatsReservationPayload,
   };
 
   const createEnrolmentResponse = {
@@ -145,16 +146,16 @@ const getCreateSeatsReservationMock = (seats: number): MockedResponse => {
   };
 };
 
-const updateSeatsReservationPayload = {
-  code,
-  registration: registration.id,
-  seats: 1,
-  waitlist: true,
-};
-
 const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
+  const updateSeatsReservationPayload = {
+    code,
+    registration: registration.id,
+    seats,
+    waitlist: true,
+  };
+
   const updateSeatsReservationVariables = {
-    input: { ...updateSeatsReservationPayload, seats },
+    input: updateSeatsReservationPayload,
   };
 
   const updateEnrolmentResponse = {
@@ -177,8 +178,14 @@ const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
 };
 
 const getUpdateSeatsReservationErrorMock = (seats: number): MockedResponse => {
+  const updateSeatsReservationPayload = {
+    code,
+    registration: registration.id,
+    seats,
+    waitlist: true,
+  };
   const updateSeatsReservationVariables = {
-    input: { ...updateSeatsReservationPayload, seats },
+    input: updateSeatsReservationPayload,
   };
 
   const error = new ApolloError({
@@ -198,6 +205,8 @@ const defaultMocks = [
   mockedEventResponse,
   mockedEventResponse,
   mockedLanguagesResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedPlaceResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
   getCreateSeatsReservationMock(1),

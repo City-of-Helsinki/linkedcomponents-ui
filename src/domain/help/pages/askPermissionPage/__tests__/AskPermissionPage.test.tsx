@@ -23,6 +23,7 @@ import {
   mockedOrganizationsResponse,
   organizations,
 } from '../../../../organizations/__mocks__/organizationsPage';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import AskPermissionPage from '../AskPermissionPage';
 
 configure({ defaultHidden: true });
@@ -46,7 +47,7 @@ const payload = {
     'Feedback message',
 };
 
-const commonMocks = [mockedOrganizationsResponse];
+const commonMocks = [mockedOrganizationsResponse, mockedUserResponse];
 
 const postFeedbackVariables = { input: payload };
 const postFeedbackResponse = { data: { postFeedback: fakeFeedback(payload) } };

@@ -1,7 +1,13 @@
+/* eslint-disable max-len */
 import { History } from 'history';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsReponse } from '../../../../../common/components/keywordSelector/__mocks__/keywordSelector';
+import {
+  mockedFilteredPlacesResponse as mockedPlaceSelectorFilteredPlacesReponse,
+  mockedPlacesResponse as mockedPlaceSelectorPlacesReponse,
+} from '../../../../../common/components/placeSelector/__mocks__/placeSelector';
 import { DEPRECATED_ROUTES, ROUTES } from '../../../../../constants';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../../types';
@@ -18,6 +24,10 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import {
+  mockedDataSourceResponse,
+  mockedDataSourcesResponse,
+} from '../../../../dataSource/__mocks__/dataSource';
+import {
   enrolmentId,
   mockedEnrolmentResponse,
 } from '../../../../enrolment/__mocks__/editEnrolmentPage';
@@ -27,36 +37,68 @@ import {
 } from '../../../../event/__mocks__/event';
 import { TEST_EVENT_ID } from '../../../../event/constants';
 import {
+  mockedBaseDraftEventsResponse,
+  mockedBasePublicEventsResponse,
+  mockedBaseWaitingApprovalEventsResponse,
+  mockedDraftEventsResponse,
+  mockedWaitingApprovalEventsResponse,
+} from '../../../../events/__mocks__/eventsPage';
+import {
   mockedEventsResponse,
-  mockedPlacesResponse,
+  mockedPlacesResponse as mockedEventSearchPlacesResponse,
   searchText,
 } from '../../../../eventSearch/__mocks__/eventSearchPage';
 import {
   image,
   mockedImageResponse,
-  mockedImagesResponse,
+  mockedImagesResponse as mockedImageSelectorImagesResponse,
 } from '../../../../image/__mocks__/image';
+import { mockedImagesResponse } from '../../../../images/__mocks__/imagesPage';
 import {
   keyword,
   mockedKeywordResponse,
+  mockedKeywordsResponse as mockedEditKeywordKeywordsResponse,
 } from '../../../../keyword/__mocks__/editKeywordPage';
+import { mockedKeywordsResponse } from '../../../../keywords/__mocks__/keywordsPage';
 import {
   keywordSet,
   mockedKeywordSetResponse,
 } from '../../../../keywordSet/__mocks__/editKeywordSetPage';
 import {
+  mockedAudienceKeywordSetResponse,
+  mockedTopicsKeywordSetResponse,
+} from '../../../../keywordSet/__mocks__/keywordSets';
+import { mockedKeywordSetsResponse } from '../../../../keywordSets/__mocks__/keywordSetsPage';
+import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
+import {
   mockedOrganizationResponse,
   organizationId,
 } from '../../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
+import {
+  mockedOrganizationClassesResponse,
+  mockedOrganizationClassResponse,
+} from '../../../../organizationClass/__mocks__/organizationClass';
+import { mockedOrganizationsResponse } from '../../../../organizations/__mocks__/organizationsPage';
 import {
   mockedPlaceResponse,
   place,
 } from '../../../../place/__mocks__/editPlacePage';
+import { mockedPlacesResponse } from '../../../../places/__mocks__/placesPage';
+import { mockedEventsResponse as mockedCreateRegistrationEventsResponse } from '../../../../registration/__mocks__/createRegistrationPage';
 import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../../../registration/__mocks__/editRegistrationPage';
-import { mockedUserResponse } from '../../../../user/__mocks__/user';
+import {
+  mockedEventResponses as mockedRegistrationEventResponses,
+  mockedRegistrationsResponse,
+} from '../../../../registrations/__mocks__/registrationsPage';
+import { mockedCreateSeatsReservationResponse } from '../../../../reserveSeats/__mocks__/createSeatsReservation';
+import {
+  mockedUserResponse,
+  mockedUsersResponse,
+} from '../../../../user/__mocks__/user';
 import LocaleRoutes from '../LocaleRoutes';
 
 configure({ defaultHidden: true });
@@ -64,18 +106,46 @@ configure({ defaultHidden: true });
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const mocks = [
+  mockedDataSourceResponse,
+  mockedDataSourcesResponse,
   mockedEnrolmentResponse,
   mockedEventResponse,
+  mockedBaseDraftEventsResponse,
+  mockedBaseWaitingApprovalEventsResponse,
+  mockedBasePublicEventsResponse,
+  mockedDraftEventsResponse,
+  mockedWaitingApprovalEventsResponse,
   mockedEventsResponse,
   mockedImageResponse,
   mockedImagesResponse,
+  mockedImageSelectorImagesResponse,
   mockedKeywordResponse,
+  mockedKeywordsResponse,
+  mockedKeywordSelectorKeywordsReponse,
+  mockedEditKeywordKeywordsResponse,
   mockedKeywordSetResponse,
+  mockedTopicsKeywordSetResponse,
+  mockedAudienceKeywordSetResponse,
+  mockedKeywordSetsResponse,
+  mockedLanguagesResponse,
   mockedOrganizationResponse,
+  mockedOrganizationsResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedOrganizationClassResponse,
+  mockedOrganizationClassesResponse,
   mockedPlaceResponse,
+  mockedEventSearchPlacesResponse,
   mockedPlacesResponse,
+  mockedPlaceSelectorPlacesReponse,
+  mockedPlaceSelectorFilteredPlacesReponse,
   mockedRegistrationResponse,
+  mockedCreateRegistrationEventsResponse,
+  mockedCreateSeatsReservationResponse,
+  mockedRegistrationsResponse,
+  mockedEventResponse,
+  ...mockedRegistrationEventResponses,
   mockedUserResponse,
+  mockedUsersResponse,
 ];
 
 const renderRoute = async (route: string, locale: Language = 'fi') => {
@@ -142,7 +212,7 @@ it('should render event search page', async () => {
 it.each([DEPRECATED_ROUTES.MODERATION, ROUTES.EVENTS])(
   'should render events page, route %p',
   async (route) => {
-    const { history } = await renderRoute(`${route}?text=${searchText}`);
+    const { history } = await renderRoute(`${route}`);
 
     await isPageRendered({
       history,
@@ -173,19 +243,18 @@ it.each([
   const { history } = await renderRoute(route);
 
   await isHeadingRendered(eventName);
+  await actWait(100);
+
   await isPageRendered({
     history,
     pageTitle: `${eventName} - Linked Events`,
     pathname: `/fi/events/edit/${TEST_EVENT_ID}`,
   });
-
   await actWait(100);
 });
 
 it('should render registrations page', async () => {
-  const { history } = await renderRoute(
-    `${ROUTES.REGISTRATIONS}?text=${searchText}`
-  );
+  const { history } = await renderRoute(`${ROUTES.REGISTRATIONS}`);
 
   await isPageRendered({
     history,

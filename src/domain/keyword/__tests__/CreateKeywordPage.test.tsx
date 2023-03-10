@@ -12,10 +12,12 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   keywordValues,
   mockedCreateKeywordResponse,
+  mockedFilteredKeywordsResponse,
   mockedInvalidCreateKeywordResponse,
   mockedKeywordsResponse,
   replacingKeyword,
@@ -26,7 +28,14 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const renderComponent = (mocks: MockedResponse[] = []) =>
+const defaultMocks = [
+  mockedKeywordsResponse,
+  mockedFilteredKeywordsResponse,
+  mockedOrganizationResponse,
+  mockedUserResponse,
+];
+
+const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   render(<CreateKeywordPage />, { authContextValue, mocks });
 
 const getElement = (
@@ -59,6 +68,14 @@ const fillInputValues = async () => {
   await user.click(replacingKeywordOption);
 };
 
+test('form should be disabled if user is not authenticated', async () => {
+  render(<CreateKeywordPage />, { mocks: defaultMocks });
+
+  await loadingSpinnerIsNotInDocument();
+  const nameInput = getElement('nameInput');
+  expect(nameInput).toHaveAttribute('readOnly');
+});
+
 test('applies expected metadata', async () => {
   const pageTitle = 'Lisää avainsana - Linked Events';
   const pageDescription = 'Lisää uusi avainsana Linked Eventsiin.';
@@ -74,7 +91,7 @@ test('applies expected metadata', async () => {
 test('should focus to first validation error when trying to save new keyword', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
   const user = userEvent.setup();
-  renderComponent([mockedUserResponse]);
+  renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
@@ -88,9 +105,8 @@ test('should focus to first validation error when trying to save new keyword', a
 test('should move to keywords page after creating new keyword', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent([
+    ...defaultMocks,
     mockedCreateKeywordResponse,
-    mockedKeywordsResponse,
-    mockedUserResponse,
   ]);
 
   await loadingSpinnerIsNotInDocument();
@@ -107,11 +123,7 @@ test('should move to keywords page after creating new keyword', async () => {
 
 test('should show server errors', async () => {
   const user = userEvent.setup();
-  renderComponent([
-    mockedInvalidCreateKeywordResponse,
-    mockedKeywordsResponse,
-    mockedUserResponse,
-  ]);
+  renderComponent([...defaultMocks, mockedInvalidCreateKeywordResponse]);
 
   await loadingSpinnerIsNotInDocument();
 

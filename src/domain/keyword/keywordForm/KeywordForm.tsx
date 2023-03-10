@@ -214,10 +214,10 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
               const langText = lowerCaseFirstLetter(
                 t(`form.inLanguage.${language}`)
               );
+
               const isLastRow = ORDERED_LE_DATA_LANGUAGES.length - 1 === i;
 
               const inputStyle =
-                /* istanbul ignore next */
                 !isEditingAllowed && !isLastRow
                   ? styles.alignedInputWithFullBorder
                   : styles.alignedInput;

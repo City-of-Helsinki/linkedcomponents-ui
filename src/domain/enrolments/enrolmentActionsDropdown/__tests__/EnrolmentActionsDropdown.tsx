@@ -20,6 +20,7 @@ import {
 } from '../../../enrolment/__mocks__/editEnrolmentPage';
 import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { registration } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import EnrolmentActionsDropdown, {
@@ -36,6 +37,7 @@ const defaultProps: EnrolmentActionsDropdownProps = {
 const defaultMocks = [
   mockedCancelEnrolmentResponse,
   mockedEventResponse,
+  mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
 

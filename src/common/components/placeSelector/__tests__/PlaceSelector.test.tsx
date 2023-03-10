@@ -2,11 +2,10 @@
 import i18n from 'i18next';
 import React from 'react';
 
-import { PlaceDocument, PlacesDocument } from '../../../../generated/graphql';
 import { OptionType } from '../../../../types';
 import generateAtId from '../../../../utils/generateAtId';
 import getValue from '../../../../utils/getValue';
-import { fakePlace, fakePlaces } from '../../../../utils/mockDataUtils';
+import { fakePlace } from '../../../../utils/mockDataUtils';
 import {
   configure,
   render,
@@ -14,6 +13,14 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import {
+  filteredPlaces,
+  mockedFilteredPlacesResponse,
+  mockedPlaceResponse,
+  mockedPlacesResponse,
+  place,
+  selectedPlaceText,
+} from '../__mocks__/placeSelector';
 import PlaceSelector, {
   getOption,
   GetOptionArgs,
@@ -22,42 +29,15 @@ import PlaceSelector, {
 
 configure({ defaultHidden: true });
 
-const streetAddress = 'Testikatu 123';
-const addressLocality = 'Helsinki';
-const placeId = 'hel:123';
-const placeName = 'Place name';
+const mocks = [
+  mockedPlaceResponse,
+  mockedFilteredPlacesResponse,
+  mockedPlacesResponse,
+];
+
 const helper = 'Helper text';
 const label = 'Select place';
 const name = 'place';
-const selectedPlaceText = `${placeName} (${streetAddress}, ${addressLocality})`;
-
-const place = fakePlace({
-  id: placeId,
-  addressLocality: { fi: addressLocality },
-  streetAddress: { fi: streetAddress },
-  name: { fi: placeName },
-});
-
-const placeVariables = { id: placeId, createPath: undefined };
-const placeResponse = { data: { place } };
-const mockedPlaceResponse = {
-  request: { query: PlaceDocument, variables: placeVariables },
-  result: placeResponse,
-};
-
-const filteredPlaces = fakePlaces(1, [place]);
-const filteredPlacesVariables = {
-  createPath: undefined,
-  showAllPlaces: true,
-  text: selectedPlaceText,
-};
-const filteredPlacesResponse = { data: { places: filteredPlaces } };
-const mockedFilterdPlacesRespomse = {
-  request: { query: PlacesDocument, variables: filteredPlacesVariables },
-  result: filteredPlacesResponse,
-};
-
-const mocks = [mockedPlaceResponse, mockedFilterdPlacesRespomse];
 
 const defaultProps: PlaceSelectorProps = {
   helper,

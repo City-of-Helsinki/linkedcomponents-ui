@@ -10,6 +10,8 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { EVENT_SORT_OPTIONS } from '../../constants';
 import EventsTable, { EventsTableProps } from '../EventsTable';
 
@@ -25,8 +27,10 @@ const defaultProps: EventsTableProps = {
   sort: EVENT_SORT_OPTIONS.NAME,
 };
 
+const mocks = [mockedOrganizationResponse, mockedOrganizationAncestorsResponse];
+
 const renderComponent = (props?: Partial<EventsTableProps>) =>
-  render(<EventsTable {...defaultProps} {...props} />);
+  render(<EventsTable {...defaultProps} {...props} />, { mocks });
 
 test('should render events table', () => {
   renderComponent();

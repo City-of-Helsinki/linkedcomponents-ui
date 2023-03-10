@@ -13,6 +13,7 @@ import getValue from '../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { createCache } from '../../../app/apollo/apolloClient';
 import { AuthContext } from '../../../auth/AuthContext';
+import { mockedImageResponse } from '../../../image/__mocks__/image';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
@@ -21,6 +22,7 @@ import {
   mockedCancelEventResponse,
   mockedCreateNewSubEventsResponse,
   mockedDeleteEventResponse,
+  mockedEventResponse,
   mockedPostponeEventResponse,
   mockedUpdateEventResponse,
   mockedUpdateRecurringEventResponse,
@@ -44,7 +46,12 @@ import useEventActions from '../useEventActions';
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const history = createMemoryHistory();
-const commonMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
+const commonMocks = [
+  mockedEventResponse,
+  mockedImageResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const getHookWrapper = (
   event: EventFieldsFragment,

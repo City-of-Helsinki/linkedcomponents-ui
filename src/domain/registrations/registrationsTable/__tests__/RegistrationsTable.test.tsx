@@ -10,6 +10,8 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   mockedEventResponses,
   registrations,
@@ -23,7 +25,11 @@ configure({ defaultHidden: true });
 const registrationId = getValue(registrations.data[0]?.id, '');
 const registration = registrations.data[0] as Registration;
 
-const mocks = [...mockedEventResponses];
+const mocks = [
+  ...mockedEventResponses,
+  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
+];
 
 const defaultProps: RegistrationsTableProps = {
   caption: 'Registrations table',

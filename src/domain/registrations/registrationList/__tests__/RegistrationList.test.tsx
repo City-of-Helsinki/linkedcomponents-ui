@@ -8,6 +8,8 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   mockedEventResponses,
   mockedPage2EventResponses,
@@ -21,6 +23,8 @@ configure({ defaultHidden: true });
 const mocks = [
   ...mockedEventResponses,
   ...mockedPage2EventResponses,
+  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
   mockedPage2RegistrationsResponse,
   mockedRegistrationsResponse,
 ];

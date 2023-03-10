@@ -1,6 +1,11 @@
+/* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import {
+  mockedKeywordResponse as mockedKeywordSelectorKeywordResponse,
+  mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse,
+} from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
@@ -18,7 +23,6 @@ import {
   keywordSetValues,
   mockedCreateKeywordSetResponse,
   mockedInvalidCreateKeywordSetResponse,
-  mockedKeywordsResponse,
 } from '../__mocks__/createKeywordSetPage';
 import CreateKeywordSetPage from '../CreateKeywordSetPage';
 
@@ -27,12 +31,13 @@ configure({ defaultHidden: true });
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
-  mockedKeywordsResponse,
+  mockedKeywordSelectorKeywordResponse,
+  mockedKeywordSelectorKeywordsResponse,
   mockedOrganizationResponse,
   mockedUserResponse,
 ];
 
-const renderComponent = (mocks: MockedResponse[] = []) =>
+const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   render(<CreateKeywordSetPage />, { authContextValue, mocks });
 
 const findElement = (key: 'saveButton') => {
@@ -100,7 +105,7 @@ test('applies expected metadata', async () => {
 
 test('should focus to first validation error when trying to save new keyword set', async () => {
   const user = userEvent.setup();
-  renderComponent(defaultMocks);
+  renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 

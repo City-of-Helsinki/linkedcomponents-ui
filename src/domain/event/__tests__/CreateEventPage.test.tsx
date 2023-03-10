@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 
 import { MockedResponse } from '@apollo/client/testing';
@@ -5,6 +6,7 @@ import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
+import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   FORM_NAMES,
@@ -52,8 +54,6 @@ import {
   mockedCreatePublicEventResponse,
   mockedCreateSubEventsResponse,
   mockedInvalidCreateDraftEventResponse,
-  mockedKeywordResponse,
-  mockedKeywordsResponse,
   mockedUmbrellaEventsResponse,
 } from '../__mocks__/createEventPage';
 import { EVENT_FIELDS, EVENT_INITIAL_VALUES } from '../constants';
@@ -65,11 +65,10 @@ configure({ defaultHidden: true });
 const defaultMocks = [
   mockedImagesResponse,
   mockedImageResponse,
-  mockedKeywordResponse,
-  mockedKeywordsResponse,
   mockedUmbrellaEventsResponse,
   mockedAudienceKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
+  mockedKeywordSelectorKeywordsResponse,
   mockedLanguagesResponse,
   mockedPlaceResponse,
   mockedPlacesResponse,

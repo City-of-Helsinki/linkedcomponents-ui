@@ -14,6 +14,8 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
+import { mockedDataSourceResponse } from '../../dataSource/__mocks__/dataSource';
+import { mockedOrganizationClassResponse } from '../../organizationClass/__mocks__/organizationClass';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedOrganizationsResponse,
@@ -25,7 +27,12 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const mocks = [mockedOrganizationsResponse, mockedUserResponse];
+const mocks = [
+  mockedDataSourceResponse,
+  mockedOrganizationClassResponse,
+  mockedOrganizationsResponse,
+  mockedUserResponse,
+];
 
 const route = ROUTES.ORGANIZATIONS;
 const routes = [route];

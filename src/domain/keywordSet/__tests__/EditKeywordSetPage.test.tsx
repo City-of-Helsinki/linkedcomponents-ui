@@ -1,6 +1,10 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import {
+  mockedKeywordResponse,
+  mockedKeywordsResponse,
+} from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import { ROUTES } from '../../../constants';
 import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
@@ -13,6 +17,7 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import { mockedKeywordSetsResponse } from '../../keywordSets/__mocks__/keywordSetsPage';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -30,6 +35,9 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
   mockedKeywordSetResponse,
+  mockedKeywordSetsResponse,
+  mockedKeywordResponse,
+  mockedKeywordsResponse,
   mockedOrganizationResponse,
   mockedUserResponse,
 ];

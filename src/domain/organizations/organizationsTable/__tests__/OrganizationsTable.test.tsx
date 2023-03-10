@@ -9,6 +9,8 @@ import {
   userEvent,
   within,
 } from '../../../../utils/testUtils';
+import { mockedDataSourceResponse } from '../../../dataSource/__mocks__/dataSource';
+import { mockedOrganizationClassResponse } from '../../../organizationClass/__mocks__/organizationClass';
 import { organizations } from '../../__mocks__/organizationsPage';
 import { ORGANIZATION_SORT_OPTIONS } from '../../constants';
 import OrganizationsTable, {
@@ -29,8 +31,10 @@ const defaultProps: OrganizationsTableProps = {
   sortedOrganizations: organizations.data as Organization[],
 };
 
+const mocks = [mockedDataSourceResponse, mockedOrganizationClassResponse];
+
 const renderComponent = (props?: Partial<OrganizationsTableProps>) =>
-  render(<OrganizationsTable {...defaultProps} {...props} />);
+  render(<OrganizationsTable {...defaultProps} {...props} />, { mocks });
 
 test('should render organizations table', () => {
   renderComponent();

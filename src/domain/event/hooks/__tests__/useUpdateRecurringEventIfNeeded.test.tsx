@@ -11,19 +11,26 @@ import { unstable_HistoryRouter as Router } from 'react-router-dom';
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../constants';
 import {
   EventDocument,
+  OrganizationsDocument,
   SuperEventType,
   UpdateEventDocument,
 } from '../../../../generated/graphql';
 import generateAtId from '../../../../utils/generateAtId';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
-import { fakeEvent } from '../../../../utils/mockDataUtils';
+import { fakeEvent, fakeOrganizations } from '../../../../utils/mockDataUtils';
 import { AuthContext } from '../../../auth/AuthContext';
-import { TEST_PUBLISHER_ID } from '../../../organization/constants';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import {
+  MAX_OGRANIZATIONS_PAGE_SIZE,
+  TEST_PUBLISHER_ID,
+} from '../../../organization/constants';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { EVENT_INCLUDES } from '../../constants';
 import useUpdateRecurringEventIfNeeded from '../useUpdateRecurringEventIfNeeded';
 
 afterEach(() => clear());
+
+const commonMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const publisher = TEST_PUBLISHER_ID;
 const description = {
@@ -70,7 +77,7 @@ const basePayload = {
   id: superEventId,
 };
 
-const getHookWrapper = (mocks: MockedResponse[] = []) => {
+const getHookWrapper = (mocks: MockedResponse[] = commonMocks) => {
   const wrapper = ({ children }) => (
     <AuthContext.Provider value={authContextValue}>
       <Router history={createMemoryHistory() as any}>
@@ -108,10 +115,7 @@ test('should return null if super event type of super event is not recurring ', 
     request: { query: EventDocument, variables: superEventVariables },
     result: superEventResponse,
   };
-  const { result } = getHookWrapper([
-    mockedSuperEventResponse,
-    mockedUserResponse,
-  ]);
+  const { result } = getHookWrapper([...commonMocks, mockedSuperEventResponse]);
 
   const event = fakeEvent({ superEvent });
   await act(async () => {
@@ -121,9 +125,28 @@ test('should return null if super event type of super event is not recurring ', 
 });
 
 test('should return null if event is not editable', async () => {
+  const publisher = 'publisher:2';
+  const organizationAncestorsVariables = {
+    child: publisher,
+    createPath: undefined,
+    pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
+  };
+
+  const organizationAncestorsResponse = {
+    data: { organizations: fakeOrganizations(0) },
+  };
+
+  const mockedOrganizationAncestorsResponse = {
+    request: {
+      query: OrganizationsDocument,
+      variables: organizationAncestorsVariables,
+    },
+    result: organizationAncestorsResponse,
+  };
+
   const superEvent = fakeEvent({
     id: superEventId,
-    publisher: 'publisher:2',
+    publisher,
     superEventType: SuperEventType.Recurring,
   });
   const superEventResponse = { data: { event: superEvent } };
@@ -132,8 +155,9 @@ test('should return null if event is not editable', async () => {
     result: superEventResponse,
   };
   const { result } = getHookWrapper([
+    ...commonMocks,
+    mockedOrganizationAncestorsResponse,
     mockedSuperEventResponse,
-    mockedUserResponse,
   ]);
 
   const event = fakeEvent({ superEvent });
@@ -164,10 +188,7 @@ test('should return null if recurring event start/end time is not changed', asyn
     request: { query: EventDocument, variables: superEventVariables },
     result: superEventResponse,
   };
-  const { result } = getHookWrapper([
-    mockedSuperEventResponse,
-    mockedUserResponse,
-  ]);
+  const { result } = getHookWrapper([...commonMocks, mockedSuperEventResponse]);
 
   const event = fakeEvent({ superEvent });
 
@@ -197,10 +218,7 @@ test('should return null if new end date would be in past', async () => {
     request: { query: EventDocument, variables: superEventVariables },
     result: superEventResponse,
   };
-  const { result } = getHookWrapper([
-    mockedSuperEventResponse,
-    mockedUserResponse,
-  ]);
+  const { result } = getHookWrapper([...commonMocks, mockedSuperEventResponse]);
 
   const event = fakeEvent({ superEvent });
 
@@ -270,8 +288,8 @@ test('should update only start time if new end time would be in past but start t
   };
 
   const { result } = getHookWrapper([
+    ...commonMocks,
     mockedSuperEventResponse,
-    mockedUserResponse,
     mockedUpdateEventResponse,
   ]);
   const event = fakeEvent({ superEvent });
@@ -344,8 +362,8 @@ test('should return new super event if recurring event is updated', async () => 
   };
 
   const { result } = getHookWrapper([
+    ...commonMocks,
     mockedSuperEventResponse,
-    mockedUserResponse,
     mockedUpdateEventResponse,
   ]);
   const event = fakeEvent({ superEvent });

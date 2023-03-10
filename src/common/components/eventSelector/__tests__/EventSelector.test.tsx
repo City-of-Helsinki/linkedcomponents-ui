@@ -2,14 +2,9 @@ import React from 'react';
 
 import { getEventFields } from '../../../../domain/event/utils';
 import { EVENT_SORT_OPTIONS } from '../../../../domain/events/constants';
-import {
-  EventDocument,
-  EventFieldsFragment,
-  EventsDocument,
-} from '../../../../generated/graphql';
+import { EventFieldsFragment } from '../../../../generated/graphql';
 import { Language, OptionType } from '../../../../types';
 import getValue from '../../../../utils/getValue';
-import { fakeEvent, fakeEvents } from '../../../../utils/mockDataUtils';
 import {
   configure,
   render,
@@ -17,36 +12,20 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import {
+  event,
+  eventName,
+  filteredEvents,
+  mockedEventResponse,
+  mockedFilteredEventsResponse,
+} from '../__mocks__/eventSelector';
 import EventSelector, { EventSelectorProps } from '../EventSelector';
 
 configure({ defaultHidden: true });
 
-const eventId = 'hel:123';
-const eventName = 'Event name';
 const helper = 'Helper text';
 const label = 'Select umbrella event';
 const name = 'umbrellaEvent';
-
-const event = fakeEvent({ id: eventId, name: { fi: eventName } });
-const eventVariables = { createPath: undefined, id: eventId };
-const eventResponse = { data: { event: event } };
-const mockedEventResponse = {
-  request: { query: EventDocument, variables: eventVariables },
-  result: eventResponse,
-};
-
-const filteredEventsVariables = {
-  createPath: undefined,
-  sort: EVENT_SORT_OPTIONS.NAME,
-  superEventType: ['umbrella'],
-  text: '',
-};
-const filteredEvents = fakeEvents(1, [event]);
-const filteredEventsResponse = { data: { events: filteredEvents } };
-const mockedFilteredEventsResponse = {
-  request: { query: EventsDocument, variables: filteredEventsVariables },
-  result: filteredEventsResponse,
-};
 
 const getOption = (
   event: EventFieldsFragment,

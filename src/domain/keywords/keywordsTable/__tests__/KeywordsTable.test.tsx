@@ -10,6 +10,7 @@ import {
   within,
 } from '../../../../utils/testUtils';
 import { TEST_KEYWORD_ID } from '../../../keyword/constants';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { keywordNames, keywords } from '../../__mocks__/keywordsPage';
 import { KEYWORD_SORT_OPTIONS } from '../../constants';
 import KeywordsTable, { KeywordsTableProps } from '../KeywordsTable';
@@ -26,10 +27,12 @@ const defaultProps: KeywordsTableProps = {
   sort: KEYWORD_SORT_OPTIONS.NAME,
 };
 
-const renderComponent = (props?: Partial<KeywordsTableProps>) =>
-  render(<KeywordsTable {...defaultProps} {...props} />);
+const mocks = [mockedOrganizationAncestorsResponse];
 
-test('should render keywords table', () => {
+const renderComponent = (props?: Partial<KeywordsTableProps>) =>
+  render(<KeywordsTable {...defaultProps} {...props} />, { mocks });
+
+test('should render keywords table', async () => {
   renderComponent();
 
   const columnHeaders = [
@@ -46,7 +49,7 @@ test('should render keywords table', () => {
   );
 });
 
-test('should render all keywords', () => {
+test('should render all keywords', async () => {
   renderComponent({ keywords: keywords.data });
 
   for (const name of keywordNames) {

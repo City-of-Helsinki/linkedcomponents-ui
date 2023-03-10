@@ -11,6 +11,8 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedDataSourceResponse } from '../../../dataSource/__mocks__/dataSource';
+import { mockedOrganizationClassResponse } from '../../../organizationClass/__mocks__/organizationClass';
 import {
   mockedOrganizationsResponse,
   organizations,
@@ -19,8 +21,14 @@ import OrganizationList from '../OrganizationList';
 
 configure({ defaultHidden: true });
 
-const mocks = [mockedOrganizationsResponse];
+const mocks = [
+  mockedDataSourceResponse,
+  mockedOrganizationClassResponse,
+  mockedOrganizationsResponse,
+];
+
 const route = ROUTES.ORGANIZATIONS;
+
 const renderComponent = () =>
   renderWithRoute(<OrganizationList />, {
     mocks,

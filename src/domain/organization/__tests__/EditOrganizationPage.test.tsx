@@ -17,6 +17,10 @@ import {
   organizationId,
 } from '../../organization/__mocks__/organization';
 import {
+  mockedOrganizationClassesResponse,
+  mockedOrganizationClassResponse,
+} from '../../organizationClass/__mocks__/organizationClass';
+import {
   mockedOrganizationsResponse,
   organizations,
 } from '../../organizations/__mocks__/organizationsPage';
@@ -39,6 +43,8 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 const defaultMocks = [
   mockedOrganizationResponse,
   mockedOrganizationsResponse,
+  mockedOrganizationClassResponse,
+  mockedOrganizationClassesResponse,
   mockedUserResponse,
   mockedUsersResponse,
 ];

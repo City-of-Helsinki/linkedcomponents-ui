@@ -1,9 +1,11 @@
-import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import {
+  mockedPlaceResponse,
+  placeId,
+  placeName,
+} from '../../../../common/components/placeSelector/__mocks__/placeSelector';
 import { ROUTES } from '../../../../constants';
-import { PlaceDocument } from '../../../../generated/graphql';
-import { fakePlace } from '../../../../utils/mockDataUtils';
 import {
   configure,
   render,
@@ -19,16 +21,6 @@ const text = 'Search word';
 const end = '2021-10-13';
 const start = '2021-10-05';
 const type = EVENT_TYPE.General;
-
-const placeId = 'place:id';
-const placeName = 'Place name';
-const place = fakePlace({ id: placeId, name: { fi: placeName } });
-const placeVariables = { id: placeId, createPath: undefined };
-const placeResponse = { data: { place } };
-const mockedPlaceResponse: MockedResponse = {
-  request: { query: PlaceDocument, variables: placeVariables },
-  result: placeResponse,
-};
 
 const mocks = [mockedPlaceResponse];
 

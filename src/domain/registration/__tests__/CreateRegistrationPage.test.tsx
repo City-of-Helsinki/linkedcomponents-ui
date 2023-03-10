@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
@@ -17,6 +18,8 @@ import {
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedCreateRegistrationResponse,
+  mockedEventResponse,
+  mockedEventsResponse,
   mockedInvalidCreateRegistrationResponse,
   registrationValues,
 } from '../__mocks__/createRegistrationPage';
@@ -31,7 +34,13 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 beforeEach(() => clear());
 
-const renderComponent = (mocks: MockedResponse[] = []) =>
+const commonMocks = [
+  mockedEventResponse,
+  mockedEventsResponse,
+  mockedUserResponse,
+];
+
+const renderComponent = (mocks: MockedResponse[] = commonMocks) =>
   render(<CreateRegistrationPage />, { authContextValue, mocks });
 
 beforeEach(() => {
@@ -91,7 +100,7 @@ const waitLoadingAndGetSaveButton = async () => {
 test('should focus to first validation error when trying to save new registration', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
   const user = userEvent.setup();
-  renderComponent([mockedUserResponse]);
+  renderComponent();
 
   const saveButton = await waitLoadingAndGetSaveButton();
   const eventCombobox = getElement('eventCombobox');
@@ -110,8 +119,8 @@ test('should move to registration completed page after creating new registration
 
   const user = userEvent.setup();
   const { history } = renderComponent([
+    ...commonMocks,
     mockedCreateRegistrationResponse,
-    mockedUserResponse,
   ]);
 
   const saveButton = await waitLoadingAndGetSaveButton();
@@ -140,7 +149,11 @@ test('should show server errors', async () => {
     ...registrationValues,
   });
 
-  const mocks = [mockedInvalidCreateRegistrationResponse, mockedUserResponse];
+  const mocks = [
+    ...commonMocks,
+    mockedInvalidCreateRegistrationResponse,
+    mockedUserResponse,
+  ];
   const user = userEvent.setup();
   renderComponent(mocks);
 
