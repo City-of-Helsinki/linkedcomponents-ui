@@ -145,6 +145,7 @@ test('should move to organizations page after creating new organization', async 
   const { history } = renderComponent([
     ...defaultMocks,
     mockedCreateOrganizationResponse,
+    mockedOrganizationsResponse,
   ]);
 
   await loadingSpinnerIsNotInDocument();
