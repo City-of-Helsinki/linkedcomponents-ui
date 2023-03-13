@@ -5,7 +5,6 @@ import { ROUTES } from '../../../constants';
 import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  actWait,
   configure,
   renderWithRoute,
   screen,
@@ -28,7 +27,6 @@ import {
 import {
   mockedUserResponse,
   mockedUsersResponse,
-  userNames,
   users,
 } from '../../user/__mocks__/user';
 import {
