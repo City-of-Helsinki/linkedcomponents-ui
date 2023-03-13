@@ -23,7 +23,7 @@ import {
 } from './constants';
 
 export const isAboveMinAge = (
-  minAge: string,
+  [minAge]: string[],
   schema: Yup.DateSchema<Maybe<Date>>
 ): Yup.DateSchema<Maybe<Date>> => {
   /* istanbul ignore else */
@@ -50,7 +50,7 @@ export const isAboveMinAge = (
 };
 
 export const isBelowMaxAge = (
-  maxAge: string,
+  [maxAge]: string[],
   schema: Yup.DateSchema<Maybe<Date>>
 ): Yup.DateSchema<Maybe<Date>> => {
   /* istanbul ignore else */
@@ -107,7 +107,7 @@ export const enrolmentSchema = Yup.object().shape({
     .email(VALIDATION_MESSAGE_KEYS.EMAIL)
     .when(
       [ENROLMENT_FIELDS.NOTIFICATIONS],
-      (notifications: string[], schema) => {
+      ([notifications]: string[][], schema) => {
         return notifications.includes(NOTIFICATIONS.EMAIL)
           ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
           : schema;
@@ -121,11 +121,10 @@ export const enrolmentSchema = Yup.object().shape({
     )
     .when(
       [ENROLMENT_FIELDS.NOTIFICATIONS],
-      (notifications: string[], schema) => {
-        return notifications.includes(NOTIFICATIONS.SMS)
+      ([notifications]: string[][], schema) =>
+        notifications.includes(NOTIFICATIONS.SMS)
           ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          : schema;
-      }
+          : schema
     ),
   [ENROLMENT_FIELDS.NOTIFICATIONS]: Yup.array()
     .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)

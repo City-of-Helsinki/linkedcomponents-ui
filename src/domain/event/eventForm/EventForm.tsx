@@ -499,7 +499,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
       validateOnBlur={true}
       validateOnChange={true}
     >
-      {({ setErrors, setTouched, values }) => {
+      {({ errors, setErrors, setTouched, values }) => {
         return (
           <FormikPersist
             name={FORM_NAMES.EVENT_FORM}
