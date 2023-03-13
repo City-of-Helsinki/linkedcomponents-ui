@@ -62,6 +62,8 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   const titleId = `${id}-title`;
   const descriptionId = `${id}-description`;
 
+  if (!isOpen) return null;
+
   return (
     <Dialog
       id={id}

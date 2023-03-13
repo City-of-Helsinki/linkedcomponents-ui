@@ -118,9 +118,9 @@ const getElement = (
         name: 'Lisää tapahtuman kuva',
       })[0];
     case 'altTextInput':
-      return screen.getByLabelText(
-        'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
-      );
+      return screen.getByRole('textbox', {
+        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
+      });
     case 'modalHeading':
       return screen.getByRole('heading', { name: 'Lisää tapahtuman kuva' });
     case 'nameInput':

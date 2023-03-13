@@ -75,7 +75,7 @@ const findElement = (key: 'keywordText' | 'keywordOption') => {
         { timeout: 2000 }
       );
     case 'keywordOption':
-      return screen.findByRole('option', {
+      return screen.findByRole('checkbox', {
         name: getValue(keyword?.name?.fi, ''),
       });
   }

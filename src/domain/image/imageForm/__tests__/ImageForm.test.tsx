@@ -22,9 +22,9 @@ test('should show localized alt-text fields', async () => {
     await renderComponent();
   });
 
-  screen.getByLabelText(
-    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
-  );
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
+  });
   screen.getByLabelText(
     'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (ruotsiksi)'
   );
@@ -53,7 +53,7 @@ test('should show only Finnish alt-text field', async () => {
     await renderComponent();
   });
 
-  screen.getByLabelText(
-    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *'
-  );
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *',
+  });
 });

@@ -79,7 +79,7 @@ const getSingleEventElement = (
     case 'delete':
       return screen.getByRole('button', { name: /poista/i });
     case 'endDate':
-      return screen.getByLabelText('Tapahtuma päättyy *');
+      return screen.getByRole('textbox', { name: 'Tapahtuma päättyy *' });
     case 'endTime':
       const endTimeGroup = screen.getByRole('group', {
         name: /päättymisaika/i,
@@ -88,7 +88,7 @@ const getSingleEventElement = (
     case 'toggle':
       return screen.getAllByRole('button', { name: /valinnat/i })[0];
     case 'startDate':
-      return screen.getByLabelText('Tapahtuma alkaa *');
+      return screen.getByRole('textbox', { name: 'Tapahtuma alkaa *' });
     case 'startTime':
       const startTimeGroup = screen.getByRole('group', {
         name: /alkamisaika/i,
@@ -194,7 +194,9 @@ test('should edit event time', async () => {
   const withinEditModal = within(
     screen.getByRole('dialog', { name: 'Muokkaa ajankohtaa' })
   );
-  const startDateInput = withinEditModal.getByLabelText('Tapahtuma alkaa *');
+  const startDateInput = withinEditModal.getByRole('textbox', {
+    name: 'Tapahtuma alkaa *',
+  });
   await user.click(startDateInput);
   await user.clear(startDateInput);
   await user.type(startDateInput, '2.5.2021');

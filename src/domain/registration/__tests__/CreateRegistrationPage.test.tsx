@@ -85,7 +85,7 @@ const getElement = (
     case 'eventCombobox':
       return screen.getByRole('combobox', { name: /tapahtuma/i });
     case 'enrolmentStartTime':
-      return screen.getByLabelText('Ilmoittautuminen alkaa *');
+      return screen.getByRole('textbox', { name: 'Ilmoittautuminen alkaa *' });
     case 'saveButton':
       return screen.getByRole('button', { name: /tallenna ilmoittautuminen/i });
   }
