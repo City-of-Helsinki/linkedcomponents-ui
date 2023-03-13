@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import isBefore from 'date-fns/isBefore';
 import isFuture from 'date-fns/isFuture';
 import isValid from 'date-fns/isValid';
@@ -101,11 +102,15 @@ export const isValidUrl = (url?: string): boolean => {
 export const isValidZip = (zip: string): boolean => /^\d{5}$/.test(zip);
 
 export const isAfterStartDateAndTime = (
-  startDate: Date | null,
-  startTimeStr: string,
-  endTimeStr: string,
+  values: any[],
   schema: Yup.DateSchema<Maybe<Date>>
 ): Yup.DateSchema<Maybe<Date>> => {
+  const [startDate, startTimeStr, endTimeStr] = values as [
+    Date | null,
+    string,
+    string
+  ];
+
   /* istanbul ignore else */
   if (
     startDate &&
@@ -139,7 +144,7 @@ export const isAfterStartDateAndTime = (
 };
 
 export const isFutureDateAndTime = (
-  timeStr: string,
+  [timeStr]: string[],
   schema: Yup.DateSchema<Maybe<Date>>
 ): Yup.DateSchema<Maybe<Date>> => {
   /* istanbul ignore else */
@@ -164,7 +169,7 @@ export const isFutureDateAndTime = (
 };
 
 export const isAfterDate = (
-  startDate: Date | null,
+  [startDate]: Array<Date | null>,
   schema: Yup.DateSchema<Maybe<Date>>
 ): Yup.DateSchema<Maybe<Date>> => {
   if (startDate && isValid(startDate)) {
@@ -188,7 +193,7 @@ export const isAfterDate = (
 };
 
 export const isAfterTime = (
-  startsAt: string,
+  [startsAt]: string[],
   schema: Yup.StringSchema
 ): Yup.StringSchema => {
   if (isValidTime(startsAt)) {

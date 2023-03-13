@@ -6,7 +6,7 @@ import { ORGANIZATION_FIELDS, ORGANIZATION_SELECT_FIELDS } from './constants';
 export const organizationSchema = Yup.object().shape({
   [ORGANIZATION_FIELDS.ORIGIN_ID]: Yup.string().when(
     [ORGANIZATION_FIELDS.ID],
-    (id, schema) =>
+    ([id], schema) =>
       id ? schema : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
   ),
   [ORGANIZATION_FIELDS.NAME]: Yup.string()
@@ -20,7 +20,7 @@ export const organizationSchema = Yup.object().shape({
     .typeError(VALIDATION_MESSAGE_KEYS.DATE),
   [ORGANIZATION_FIELDS.PARENT_ORGANIZATION]: Yup.string().when(
     [ORGANIZATION_FIELDS.ID],
-    (id, schema) =>
+    ([id], schema) =>
       id ? schema : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
   ),
 });
