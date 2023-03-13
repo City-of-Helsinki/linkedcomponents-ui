@@ -144,12 +144,16 @@ const getAddEventTimeElements = () => {
   const addButton = withinAddEventTime.getByRole('button', {
     name: /lisää ajankohta/i,
   });
-  const endDateInput = withinAddEventTime.getByLabelText('Tapahtuma päättyy *');
+  const endDateInput = withinAddEventTime.getByRole('textbox', {
+    name: 'Tapahtuma päättyy *',
+  });
   const endTimeGroup = withinAddEventTime.getByRole('group', {
     name: /päättymisaika/i,
   });
   const endTimeInput = within(endTimeGroup).getByLabelText('tunnit');
-  const startDateInput = withinAddEventTime.getByLabelText('Tapahtuma alkaa *');
+  const startDateInput = withinAddEventTime.getByRole('textbox', {
+    name: 'Tapahtuma alkaa *',
+  });
   const startTimeGroup = withinAddEventTime.getByRole('group', {
     name: /alkamisaika/i,
   });

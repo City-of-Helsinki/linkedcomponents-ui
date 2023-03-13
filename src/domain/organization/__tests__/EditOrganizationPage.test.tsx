@@ -5,6 +5,7 @@ import { ROUTES } from '../../../constants';
 import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
+  actWait,
   configure,
   renderWithRoute,
   screen,
@@ -28,6 +29,7 @@ import {
   mockedUserResponse,
   mockedUsersResponse,
   userNames,
+  users,
 } from '../../user/__mocks__/user';
 import {
   mockedDeleteOrganizationResponse,
@@ -84,8 +86,9 @@ const getElement = (
 const fillFormValues = async () => {
   const user = userEvent.setup();
   await user.click(getElement('adminUsersToggleButton'));
+
   const userOption = await screen.findByRole('option', {
-    name: new RegExp(userNames[0]),
+    name: `${users.data[0]?.displayName} - ${users.data[0]?.email}`,
   });
   await user.click(userOption);
 

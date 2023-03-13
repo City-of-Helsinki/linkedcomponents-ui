@@ -102,9 +102,9 @@ const renderComponent = ({
 const findElement = (key: 'altText') => {
   switch (key) {
     case 'altText':
-      return screen.findByLabelText(
-        'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
-      );
+      return screen.findByRole('textbox', {
+        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
+      });
   }
 };
 
@@ -113,9 +113,9 @@ const getElement = (
 ) => {
   switch (key) {
     case 'altText':
-      return screen.getByLabelText(
-        'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
-      );
+      return screen.getByRole('textbox', {
+        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
+      });
     case 'ccByRadio':
       return screen.getByRole('radio', { name: 'Creative Commons BY 4.0' });
     case 'eventOnlyRadio':
@@ -142,9 +142,9 @@ test('should show localized alt-text fields', async () => {
 
   await renderComponent({});
 
-  screen.getByLabelText(
-    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
-  );
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
+  });
   screen.getByLabelText(
     'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (ruotsiksi)'
   );
@@ -167,9 +167,9 @@ test('should show only Finnish alt-text field', async () => {
 
   await renderComponent({});
 
-  screen.getByLabelText(
-    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *'
-  );
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *',
+  });
 });
 
 test('all fields should be disabled when imageAtId is empty', async () => {
