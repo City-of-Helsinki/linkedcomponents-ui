@@ -8,18 +8,18 @@ afterEach(() => {
   clear();
 });
 
-const testAboveMinAge = async (minAge: string, date: string) => {
+const testAboveMinAge = async (minAge: string, date: Date | null) => {
   try {
-    await isAboveMinAge(minAge, Yup.date()).validate(date);
+    await isAboveMinAge([minAge], Yup.date().nullable()).validate(date);
     return true;
   } catch (e) {
     return false;
   }
 };
 
-const testBelowMaxAge = async (maxAge: string, date: string) => {
+const testBelowMaxAge = async (maxAge: string, date: Date | null) => {
   try {
-    await isBelowMaxAge(maxAge, Yup.date()).validate(date);
+    await isBelowMaxAge([maxAge], Yup.date().nullable()).validate(date);
     return true;
   } catch (e) {
     return false;
@@ -36,10 +36,18 @@ const testAttendeeSchema = async (attendee: AttendeeFields) => {
 };
 
 describe('isAboveMinAge function', () => {
+  test('should return true value is null', async () => {
+    advanceTo('2022-10-10');
+
+    const result = await testAboveMinAge('9', null);
+
+    expect(result).toBe(true);
+  });
+
   test('should return false if age is less than min age', async () => {
     advanceTo('2022-10-10');
 
-    const result = await testAboveMinAge('9', '1.1.2022');
+    const result = await testAboveMinAge('9', new Date('2022-01-01'));
 
     expect(result).toBe(false);
   });
@@ -47,17 +55,25 @@ describe('isAboveMinAge function', () => {
   test('should return true if age is greater than min age', async () => {
     advanceTo('2022-10-10');
 
-    const result = await testAboveMinAge('9', '1.1.2012');
+    const result = await testAboveMinAge('9', new Date('2012-01-01'));
 
     expect(result).toBe(true);
   });
 });
 
 describe('isBelowMaxAge function', () => {
-  test('should return false if age is greater than min age', async () => {
+  test('should return true if value is null', async () => {
     advanceTo('2022-10-10');
 
-    const result = await testBelowMaxAge('9', '1.1.2012');
+    const result = await testBelowMaxAge('9', null);
+
+    expect(result).toBe(true);
+  });
+
+  test('should return false if age is greater than max age', async () => {
+    advanceTo('2022-10-10');
+
+    const result = await testBelowMaxAge('9', new Date('2012-01-01'));
 
     expect(result).toBe(false);
   });
@@ -65,7 +81,7 @@ describe('isBelowMaxAge function', () => {
   test('should return true if age is less than max age', async () => {
     advanceTo('2022-10-10');
 
-    const result = await testBelowMaxAge('9', '1.1.2015');
+    const result = await testBelowMaxAge('9', new Date('2015-01-01'));
 
     expect(result).toBe(true);
   });
