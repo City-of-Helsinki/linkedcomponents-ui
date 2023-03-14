@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   configure,
+  pasteToTextEditor,
   render,
   screen,
   userEvent,
@@ -24,13 +25,17 @@ const renderComponent = (props?: Partial<TextEditorProps>) =>
   render(<TextEditor {...defaultProps} {...props} />);
 
 test('should call onChange', async () => {
-  const user = userEvent.setup();
+  global.Range.prototype.getClientRects = jest
+    .fn()
+    .mockImplementation(() => []);
+
   const onChange = jest.fn();
   renderComponent({ onChange });
 
   const editor = await screen.findByLabelText(/editorin muokkausalue: main/i);
 
-  await user.type(editor, 'test');
+  pasteToTextEditor(editor, 'test');
+
   expect(onChange).lastCalledWith(expect.stringContaining('<p>test</p>'));
 
   const undoButton = screen.getByRole('button', { name: /peru/i });
