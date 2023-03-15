@@ -40,6 +40,7 @@ jobs:
           DOCKER_BUILD_ARG_REACT_APP_OIDC_API_TOKENS_URL: 'https://api.hel.fi/sso/api-tokens/'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'linkedcomponents-ui-prod'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_API_SCOPE: 'https://api.hel.fi/auth/linkedevents'
+          DOCKER_BUILD_ARG_REACT_APP_OIDC_RESPONSE_TYPE: 'id_token token'
           DOCKER_BUILD_ARG_REACT_APP_SENTRY_ENVIRONMENT: 'production'
           DOCKER_BUILD_ARG_REACT_APP_MATOMO_URL_BASE: '//webanalytics.digiaiiris.com/js/'
           DOCKER_BUILD_ARG_REACT_APP_MATOMO_SITE_ID: 223
