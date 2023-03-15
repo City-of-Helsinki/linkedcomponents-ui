@@ -68,7 +68,7 @@ After you've got tunnistamo running locally, ssh to the tunnistamo docker contai
 and execute the following four commands inside your docker container:
 
 ```bash
-./manage.py add_oidc_client -n linkedevents-ui -t "id_token token" -u "http://localhost:3000/callback" "http://localhost:3000/silent-callback" -i https://api.hel.fi/auth/linkedevents-ui -m github -s dev
+./manage.py add_oidc_client -n linkedevents-ui -t "code" -u "http://localhost:3000/callback" "http://localhost:3000/silent-callback" -i https://api.hel.fi/auth/linkedevents-ui -m github -s dev
 ./manage.py add_oidc_client -n linkedevents -t "code" -u http://linkedevents-backend:8080/accounts/helsinki/login/callback -i https://api.hel.fi/auth/linkedevents -m github -s dev -c
 ./manage.py add_oidc_api -n linkedevents -d https://api.hel.fi/auth -s email,profile -c https://api.hel.fi/auth/linkedevents
 ./manage.py add_oidc_api_scope -an linkedevents -c https://api.hel.fi/auth/linkedevents -n "Linked events" -d"Lorem ipsum"
@@ -172,6 +172,7 @@ Use .env.development.local for development.
 | REACT_APP_OIDC_API_TOKENS_URL              | Tunnistamo api tokens endpoint url. Default api https://api.hel.fi/sso/api-tokens/                     |
 | REACT_APP_OIDC_CLIENT_ID                   | linkedcomponents-ui-test                                                                               |
 | REACT_APP_OIDC_API_SCOPE                   | https://api.hel.fi/auth/linkedeventsdev                                                                |
+| REACT_APP_OIDC_RESPONSE_TYPE               | Response type of oidc client. Default is 'id_token token'                                              |
 | REACT_APP_SENTRY_DSN                       | https://9b104b8db52740ffb5002e0c9e40da45@sentry.hel.ninja/12                                           |
 | REACT_APP_SENTRY_ENVIRONMENT               | Setry environment. Set to local to use Sentry in development environment                               |
 | REACT_APP_MATOMO_URL_BASE                  | https://analytics.hel.ninja/                                                                           |
