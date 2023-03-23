@@ -97,6 +97,7 @@ const useSeatsReservationActions = ({
 
       setSeatsReservationData(registrationId, seatsReservation);
 
+      /* istanbul ignore else */
       if (setAttendees) {
         const newAttendees = getNewAttendees({
           attendees: attendees || /* istanbul ignore next */ [],
