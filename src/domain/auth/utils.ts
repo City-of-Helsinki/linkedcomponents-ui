@@ -7,7 +7,6 @@ import { User, UserManager, UserManagerSettings } from 'oidc-client';
 import React from 'react';
 import { toast } from 'react-toastify';
 
-import { OIDC_API_TOKEN_ENDPOINT } from '../../constants';
 import { Language } from '../../types';
 import getUnixTime from '../../utils/getUnixTime';
 import getValue from '../../utils/getValue';
@@ -252,8 +251,16 @@ export const renewApiToken = async ({
   dispatchApiTokenState: React.Dispatch<ApiTokenAction>;
   t: TFunction;
 }) => {
+  const apiTokensUrl = process.env.REACT_APP_OIDC_API_TOKENS_URL;
+
+  if (!apiTokensUrl) {
+    throw new Error(
+      'Application configuration error, missing Tunnistamo api tokens url.'
+    );
+  }
+
   try {
-    const res: AxiosResponse = await axios.get(OIDC_API_TOKEN_ENDPOINT, {
+    const res: AxiosResponse = await axios.get(apiTokensUrl, {
       headers: { Authorization: `bearer ${accessToken}` },
     });
 

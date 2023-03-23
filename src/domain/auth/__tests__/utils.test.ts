@@ -36,9 +36,20 @@ import {
   startFetchingToken,
 } from '../utils';
 
+const OLD_ENV = process.env;
+
+beforeEach(() => {
+  jest.resetModules();
+  process.env = { ...OLD_ENV }; // Make a copy of env
+});
+
 afterEach(() => {
   jest.clearAllMocks();
   clear();
+});
+
+afterAll(() => {
+  process.env = OLD_ENV; // Restore old environment variables
 });
 
 const events = {
@@ -403,6 +414,23 @@ describe('getApiToken function', () => {
       axiosFn: axiosGet,
       dispatch: dispatchApiTokenState,
     });
+  });
+
+  it('should throw an error if REACT_APP_OIDC_API_TOKENS_URL is not set', async () => {
+    process.env.REACT_APP_OIDC_API_TOKENS_URL = '';
+
+    const dispatchApiTokenState = jest.fn();
+
+    await expect(
+      async () =>
+        await renewApiToken({
+          accessToken: '',
+          dispatchApiTokenState,
+          t: i18n.t.bind(i18n),
+        })
+    ).rejects.toThrow(
+      'Application configuration error, missing Tunnistamo api tokens url.'
+    );
   });
 
   it('should show toast error message when failing to get api token', async () => {
