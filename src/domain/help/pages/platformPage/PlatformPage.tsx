@@ -1,4 +1,4 @@
-import { IconCogwheel, IconPhone } from 'hds-react';
+import { IconCalendar, IconCogwheel, IconPhone } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -28,6 +28,7 @@ const PlatformPage: React.FC = () => {
         <div>
           <p>{t('helpPage.platformPage.textMainContent1')}</p>
           <p>{t('helpPage.platformPage.textMainContent2')}</p>
+          <p>{t('helpPage.platformPage.textMainContent3')}</p>
         </div>
       </div>
       <h2>{t('helpPage.platformPage.titleServiceHighlights')}</h2>
@@ -46,6 +47,11 @@ const PlatformPage: React.FC = () => {
           icon={<IconPhone />}
           text={t('helpPage.platformPage.textSupport')}
           title={t('helpPage.platformPage.titleSupport')}
+        />
+        <Highlight
+          icon={<IconCalendar />}
+          text={t('helpPage.platformPage.textRegistration')}
+          title={t('helpPage.platformPage.titleRegistration')}
         />
       </div>
     </PageWrapper>

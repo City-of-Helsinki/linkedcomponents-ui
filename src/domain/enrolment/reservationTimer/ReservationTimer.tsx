@@ -79,6 +79,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
   React.useEffect(() => {
     const data = getSeatsReservationData(registrationId);
 
+    /* istanbul ignore else */
     if (initReservationData && !creatingReservationStarted.current && !data) {
       creatingReservationStarted.current = true;
       // Clear server errors
