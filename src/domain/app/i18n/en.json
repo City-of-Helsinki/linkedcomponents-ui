@@ -1365,8 +1365,12 @@
     "pageDescription": "Image listing. Browse, filter and edit Linked Events images.",
     "pageTitle": "Images",
     "sortOptions": {
+      "id": "Id, ascending",
+      "idDesc": "Id, descending",
       "lastModifiedTime": "Last modified, ascending",
-      "lastModifiedTimeDesc": "Last modified, descending"
+      "lastModifiedTimeDesc": "Last modified, descending",
+      "name": "Name, ascending",
+      "nameDesc": "Name, descending"
     },
     "title": "Images",
     "warningNoRightsToCreate": "You have insufficient rights to create images.",
