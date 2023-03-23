@@ -1,6 +1,8 @@
 @import '../../../assets/styles/breakpoints';
 
 .navigation {
+  --header-z-index: 101;
+
   z-index: var(--header-z-index);
   left: 0;
   position: sticky !important;
