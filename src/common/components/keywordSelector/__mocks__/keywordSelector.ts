@@ -32,7 +32,7 @@ const keywordsVariables = {
   createPath: undefined,
   dataSource: ['yso', 'helsinki'],
   showAllKeywords: true,
-  text: '',
+  freeText: '',
 };
 const keywordsResponse = { data: { keywords } };
 const mockedKeywordsResponse = {

@@ -72,7 +72,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
       createPath: getPathBuilder(keywordsPathBuilder),
       dataSource: ['yso', 'helsinki'],
       showAllKeywords: true,
-      text: debouncedSearch,
+      freeText: debouncedSearch,
     },
   });
 
