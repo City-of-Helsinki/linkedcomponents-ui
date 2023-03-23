@@ -124,14 +124,18 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
         },
         {
           className: styles.idColumn,
-          key: 'id',
+          isSortable: true,
+          key: IMAGE_SORT_OPTIONS.ID,
           headerName: t('imagesPage.imagesTableColumns.id'),
+          sortIconType: 'string',
           transform: IdColumn,
         },
         {
           className: styles.nameColumn,
-          key: 'name',
+          isSortable: true,
+          key: IMAGE_SORT_OPTIONS.NAME,
           headerName: t('imagesPage.imagesTableColumns.name'),
+          sortIconType: 'string',
           transform: NameColumn,
         },
         {

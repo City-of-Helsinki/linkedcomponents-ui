@@ -1370,8 +1370,12 @@
     "pageDescription": "Bildlista. Bläddra, filtrera och redigera Linked Events bilder.",
     "pageTitle": "Bilder",
     "sortOptions": {
+      "id": "Id, stigande",
+      "idDesc": "Id, fallande",
       "lastModifiedTime": "Senast ändrad, stigande",
-      "lastModifiedTimeDesc": "Senast ändrad, fallande"
+      "lastModifiedTimeDesc": "Senast ändrad, fallande",
+      "name": "Name, stigande",
+      "nameDesc": "Name, fallande"
     },
     "title": "Bilder",
     "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa bilder.",

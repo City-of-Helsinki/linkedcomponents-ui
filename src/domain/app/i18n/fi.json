@@ -1370,8 +1370,12 @@
     "pageDescription": "Kuvien listaus. Selaa, suodata ja muokkaa Linked Events -kuvia.",
     "pageTitle": "Kuvat",
     "sortOptions": {
+      "id": "Id, nouseva",
+      "idDesc": "Id, laskeva",
       "lastModifiedTime": "Viimeksi muokattu, nouseva",
-      "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva"
+      "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva",
+      "name": "Nimi, nouseva",
+      "nameDesc": "Nimi, laskeva"
     },
     "title": "Kuvat",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda kuvia.",
