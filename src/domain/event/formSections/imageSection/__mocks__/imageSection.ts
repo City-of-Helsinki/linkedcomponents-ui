@@ -22,6 +22,7 @@ const imagesVariables = {
   mergePages: true,
   pageSize: PAGE_SIZE,
   publisher,
+  text: '',
 };
 const imagesResponse = {
   data: {

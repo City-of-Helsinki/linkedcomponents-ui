@@ -111,6 +111,9 @@
     },
     "goToHome": "Etusivulle",
     "home": "Etusivu",
+    "imageSelector": {
+      "labelSearch": "Hae kuvia"
+    },
     "imageUploader": {
       "areaLabel": {
         "cropArea": "Siirrä rajausaluetta nuolinäppäimillä",

@@ -110,6 +110,9 @@
     },
     "goToHome": "To front page",
     "home": "Front page",
+    "imageSelector": {
+      "labelSearch": "Search images"
+    },
     "imageUploader": {
       "areaLabel": {
         "cropArea": "Use the arrow keys to move the crop selection area",
