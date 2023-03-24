@@ -8,6 +8,7 @@ import Table from '../../../common/components/table/Table';
 import { ImageFieldsFragment, ImagesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
+import useShowPlaceholderImage from '../../../hooks/useShowPlaceholderImage';
 import formatDate from '../../../utils/formatDate';
 import getSortByOrderAndColKey from '../../../utils/getSortByOrderAndColKey';
 import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
@@ -27,19 +28,20 @@ export interface ImagesTableProps {
 const ImageColumn = (image: ImageFieldsFragment) => {
   const locale = useLocale();
   const { url } = getImageFields(image, locale);
+  const showPlaceholder = useShowPlaceholderImage(url);
 
   return (
     <div className={styles.imagePreview}>
-      {url ? (
-        <div
-          className={styles.image}
-          style={{ backgroundImage: `url(${url})` }}
-        />
-      ) : (
+      {showPlaceholder ? (
         /* istanbul ignore next */
         <div className={styles.placeholderImage}>
           <IconPhoto size="xl" />
         </div>
+      ) : (
+        <div
+          className={styles.image}
+          style={{ backgroundImage: `url(${url})` }}
+        />
       )}
     </div>
   );

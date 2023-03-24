@@ -111,6 +111,9 @@
     },
     "goToHome": "Till startsidan",
     "home": "Startsidan",
+    "imageSelector": {
+      "labelSearch": "Sök bilder"
+    },
     "imageUploader": {
       "areaLabel": {
         "cropArea": "Använd piltangenterna för att flytta området för val av beskärning",

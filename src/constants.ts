@@ -215,6 +215,7 @@ export const testIds = {
   eventSearchPanel: { searchPanel: 'event-search-panel' },
   imageList: { resultList: 'image-result-list' },
   imagePreview: { image: 'image-preview-image' },
+  imageSelector: { imageItem: 'image-selector-item' },
   imageUploader: { input: 'image-dropzone-file-input' },
   keywordList: { resultList: 'keyword-result-list' },
   keywordSetList: { resultList: 'keyword-set-result-list' },
