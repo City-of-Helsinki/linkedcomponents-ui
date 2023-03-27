@@ -81,6 +81,7 @@ module.exports = buildSchema(/* GraphQL */ `
       pageSize: Int
       publicationStatus: PublicationStatus
       publisher: [String]
+      registration: Boolean
       showAll: Boolean
       sort: String
       start: String

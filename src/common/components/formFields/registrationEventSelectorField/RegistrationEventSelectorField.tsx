@@ -48,6 +48,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
       variables={{
         adminUser: true,
         publicationStatus: PublicationStatus.Public,
+        registration: false,
         start: 'now',
         sort: EVENT_SORT_OPTIONS.NAME,
         superEventType: ['none'],

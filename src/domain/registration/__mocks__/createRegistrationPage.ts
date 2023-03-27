@@ -26,11 +26,12 @@ const mockedEventResponse = {
 
 const eventsVariables = {
   adminUser: true,
-  publicationStatus: 'public',
-  start: 'now',
-  sort: 'name',
-  superEventType: ['none'],
   createPath: undefined,
+  publicationStatus: 'public',
+  registration: false,
+  sort: 'name',
+  start: 'now',
+  superEventType: ['none'],
   text: '',
 };
 const events = fakeEvents(1, [event]);
