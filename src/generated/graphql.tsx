@@ -83,7 +83,7 @@ export type CreateKeywordSetMutationInput = {
 };
 
 export type CreateOrganizationMutationInput = {
-  adminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  adminUsers?: InputMaybe<OrganizationUsersInput>;
   affiliatedOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   classification?: InputMaybe<Scalars['String']>;
   dataSource?: InputMaybe<Scalars['String']>;
@@ -94,7 +94,7 @@ export type CreateOrganizationMutationInput = {
   name?: InputMaybe<Scalars['String']>;
   originId?: InputMaybe<Scalars['String']>;
   parentOrganization?: InputMaybe<Scalars['String']>;
-  regularUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  regularUsers?: InputMaybe<OrganizationUsersInput>;
   replacedBy?: InputMaybe<Scalars['String']>;
   subOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -671,6 +671,10 @@ export type OrganizationClassesResponse = {
   meta: Meta;
 };
 
+export type OrganizationUsersInput = {
+  username?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type OrganizationsResponse = {
   __typename?: 'OrganizationsResponse';
   data: Array<Maybe<Organization>>;
@@ -1077,7 +1081,7 @@ export type UpdateKeywordSetMutationInput = {
 };
 
 export type UpdateOrganizationMutationInput = {
-  adminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  adminUsers?: InputMaybe<OrganizationUsersInput>;
   affiliatedOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   classification?: InputMaybe<Scalars['String']>;
   dataSource?: InputMaybe<Scalars['String']>;
@@ -1087,7 +1091,7 @@ export type UpdateOrganizationMutationInput = {
   internalType?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   parentOrganization?: InputMaybe<Scalars['String']>;
-  regularUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  regularUsers?: InputMaybe<OrganizationUsersInput>;
   replacedBy?: InputMaybe<Scalars['String']>;
   subOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };

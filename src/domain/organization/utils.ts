@@ -349,11 +349,13 @@ export const getOrganizationPayload = (
   formValues: OrganizationFormFields
 ): CreateOrganizationMutationInput => {
   const {
+    adminUsers,
     dissolutionDate,
     foundingDate,
     id,
     originId,
     parentOrganization,
+    regularUsers,
     ...restFormValues
   } = formValues;
 
@@ -361,6 +363,7 @@ export const getOrganizationPayload = (
 
   return {
     ...restFormValues,
+    adminUsers: { username: adminUsers },
     dataSource,
     dissolutionDate: dissolutionDate
       ? formatDate(dissolutionDate, DATE_FORMAT_API)
@@ -371,5 +374,6 @@ export const getOrganizationPayload = (
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
     originId,
     parentOrganization: parentOrganization || undefined,
+    regularUsers: { username: regularUsers },
   };
 };
