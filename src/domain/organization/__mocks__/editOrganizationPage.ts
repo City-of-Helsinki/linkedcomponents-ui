@@ -25,14 +25,14 @@ const mockedDeleteOrganizationResponse: MockedResponse = {
 };
 
 const payload = {
-  adminUsers: [users.data[0].username],
+  adminUsers: { username: [users.data[0]?.username] },
   affiliatedOrganizations: [],
   classification: organizationClassification,
   internalType: 'normal',
   name: organizationName,
   parentOrganization: undefined,
-  regularUsers: [],
-  replacedBy: organizations.data[0].atId,
+  regularUsers: { username: [] },
+  replacedBy: organizations.data[0]?.atId,
   subOrganizations: [],
   dataSource: TEST_DATA_SOURCE_ID,
   dissolutionDate: null,

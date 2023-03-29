@@ -377,8 +377,12 @@ module.exports = buildSchema(/* GraphQL */ `
     usage: String
   }
 
+  input OrganizationUsersInput {
+    username: [String]
+  }
+
   input CreateOrganizationMutationInput {
-    adminUsers: [String]
+    adminUsers: OrganizationUsersInput
     affiliatedOrganizations: [String]
     classification: String
     dataSource: String
@@ -389,13 +393,13 @@ module.exports = buildSchema(/* GraphQL */ `
     name: String
     originId: String
     parentOrganization: String
-    regularUsers: [String]
+    regularUsers: OrganizationUsersInput
     replacedBy: String
     subOrganizations: [String]
   }
 
   input UpdateOrganizationMutationInput {
-    adminUsers: [String]
+    adminUsers: OrganizationUsersInput
     affiliatedOrganizations: [String]
     classification: String
     dataSource: String
@@ -405,7 +409,7 @@ module.exports = buildSchema(/* GraphQL */ `
     internalType: String
     name: String
     parentOrganization: String
-    regularUsers: [String]
+    regularUsers: OrganizationUsersInput
     replacedBy: String
     subOrganizations: [String]
   }
