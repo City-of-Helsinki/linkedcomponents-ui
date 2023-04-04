@@ -18,6 +18,7 @@ import {
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   keywordSetValues,
@@ -34,6 +35,7 @@ const defaultMocks = [
   mockedKeywordSelectorKeywordResponse,
   mockedKeywordSelectorKeywordsResponse,
   mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
 

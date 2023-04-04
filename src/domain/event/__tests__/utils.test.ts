@@ -1350,7 +1350,7 @@ describe('checkCanUserDoAction function', () => {
     });
   });
 
-  it('should allow/deny correct actions if organizationAncestores contains any of the adminArganizations', () => {
+  it('should allow/deny correct actions if organizationAncestors contains any of the adminArganizations', () => {
     const adminOrganization = 'admin:1';
     const event = fakeEvent({ publisher });
     const user = fakeUser({ adminOrganizations: [adminOrganization] });

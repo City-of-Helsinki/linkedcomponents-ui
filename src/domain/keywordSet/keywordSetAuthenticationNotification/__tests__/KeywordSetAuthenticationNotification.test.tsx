@@ -1,4 +1,3 @@
-import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import {
@@ -6,9 +5,7 @@ import {
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
 } from '../../../../domain/user/__mocks__/user';
-import { OrganizationDocument } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
-import { fakeOrganization } from '../../../../utils/mockDataUtils';
 import {
   configure,
   CustomRenderOptions,
@@ -16,9 +13,9 @@ import {
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
-import { TEST_DATA_SOURCE_ID } from '../../../dataSource/constants';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
-import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { KEYWORD_SET_ACTIONS } from '../../constants';
 import KeywordSetAuthenticationNotification, {
   KeywordSetAuthenticationNotificationProps,
@@ -28,7 +25,7 @@ configure({ defaultHidden: true });
 
 const props: KeywordSetAuthenticationNotificationProps = {
   action: KEYWORD_SET_ACTIONS.UPDATE,
-  dataSource: TEST_DATA_SOURCE_ID,
+  organization: TEST_PUBLISHER_ID,
 };
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
@@ -36,8 +33,10 @@ const renderComponent = (renderOptions?: CustomRenderOptions) =>
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
+const defaultMocks = [mockedEventResponse, mockedOrganizationAncestorsResponse];
+
 test("should show notification if user is signed in but doesn't have any organizations", async () => {
-  const mocks = [mockedEventResponse, mockedUserWithoutOrganizationsResponse];
+  const mocks = [...defaultMocks, mockedUserWithoutOrganizationsResponse];
 
   renderComponent({ authContextValue, mocks });
 
@@ -47,11 +46,7 @@ test("should show notification if user is signed in but doesn't have any organiz
 });
 
 test('should not show notification if user is signed in and has an admin organization', async () => {
-  const mocks = [
-    mockedEventResponse,
-    mockedOrganizationResponse,
-    mockedUserResponse,
-  ];
+  const mocks = [...defaultMocks, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 
@@ -60,29 +55,16 @@ test('should not show notification if user is signed in and has an admin organiz
   );
 });
 
-test('should show notification if user has an admin organization but the data source is different', async () => {
-  const dataSource = 'not-publisher';
+test('should show notification if user has an admin organization but to different organization', async () => {
   const organizationId = 'not-publisher';
-
-  const organization = fakeOrganization({ dataSource });
-  const organizationVariables = { createPath: undefined, id: organizationId };
-  const organizationResponse = { data: { organization } };
-  const mockedOrganizationResponse: MockedResponse = {
-    request: { query: OrganizationDocument, variables: organizationVariables },
-    result: organizationResponse,
-  };
 
   const mockedUserResponse = getMockedUserResponse({
     organization: organizationId,
     adminOrganizations: [organizationId],
-    organizationMemberships: [],
+    organizationMemberships: [organizationId],
   });
 
-  const mocks = [
-    mockedEventResponse,
-    mockedOrganizationResponse,
-    mockedUserResponse,
-  ];
+  const mocks = [...defaultMocks, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 

@@ -10,22 +10,22 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { TEST_DATA_SOURCE_ID } from '../../../dataSource/constants';
-import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { keywordSet } from '../../__mocks__/editKeywordSetPage';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
 
-const mocks = [mockedOrganizationResponse, mockedUserResponse];
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: EditButtonPanelProps = {
-  dataSource: TEST_DATA_SOURCE_ID,
   id: getValue(keywordSet.id, ''),
   onSave: jest.fn(),
+  organization: TEST_PUBLISHER_ID,
   saving: null,
 };
 

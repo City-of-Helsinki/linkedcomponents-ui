@@ -13,7 +13,7 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
-import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   keywordSetNames,
@@ -29,7 +29,7 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const mocks = [
   mockedKeywordSetsResponse,
-  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
   mockedSortedKeywordSetsResponse,
   mockedUserResponse,
 ];

@@ -9,7 +9,7 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
-import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { keywordSetNames, keywordSets } from '../../__mocks__/keywordSetsPage';
 import { KEYWORD_SET_SORT_OPTIONS } from '../../constants';
@@ -27,7 +27,7 @@ const defaultProps: KeywordSetsTableProps = {
   sort: KEYWORD_SET_SORT_OPTIONS.NAME,
 };
 
-const mocks = [mockedOrganizationResponse, mockedUserResponse];
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const renderComponent = (props?: Partial<KeywordSetsTableProps>) =>
   render(<KeywordSetsTable {...defaultProps} {...props} />, { mocks });
