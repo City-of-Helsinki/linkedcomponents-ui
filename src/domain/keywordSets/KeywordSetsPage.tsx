@@ -55,7 +55,7 @@ const KeywordsPage: React.FC = () => {
       <KeywordSetAuthenticationNotification
         action={KEYWORD_SET_ACTIONS.CREATE}
         className={styles.notification}
-        dataSource=""
+        organization=""
       />
 
       <KeywordSetList />

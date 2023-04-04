@@ -8,30 +8,29 @@ import { ROUTES } from '../../../constants';
 import useGoBack from '../../../hooks/useGoBack';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { KeywordSetsLocationState } from '../../keywordSets/types';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import useUserOrganization from '../../user/hooks/useUserOrganization';
 import { KEYWORD_SET_ACTIONS } from '../constants';
 import { getEditButtonProps } from '../utils';
 
 export interface EditButtonPanelProps {
-  dataSource: string;
   id: string;
   onSave: () => void;
+  organization: string;
   saving: KEYWORD_SET_ACTIONS | null;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
-  dataSource,
   id,
   onSave,
+  organization,
   saving,
 }) => {
   const { t } = useTranslation();
 
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-
-  const { organization: userOrganization } = useUserOrganization(user);
+  const { organizationAncestors } = useOrganizationAncestors(organization);
 
   const goBack = useGoBack<KeywordSetsLocationState>({
     defaultReturnPath: ROUTES.KEYWORD_SETS,
@@ -41,10 +40,11 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const buttonProps = getEditButtonProps({
     action: KEYWORD_SET_ACTIONS.UPDATE,
     authenticated,
-    dataSource,
     onClick: onSave,
+    organizationAncestors,
+    organization,
     t,
-    userOrganization,
+    user,
   });
 
   return (

@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../constants';
 import {
   CreateKeywordDocument,
   KeywordFieldsFragment,
@@ -53,7 +54,7 @@ const keywordValues = {
 };
 
 const payload = {
-  dataSource: 'helsinki',
+  dataSource: LINKED_EVENTS_SYSTEM_DATA_SOURCE,
   deprecated: false,
   id: undefined,
   name: { fi: keywordValues.name, sv: '', en: '', ru: '', zhHans: '', ar: '' },

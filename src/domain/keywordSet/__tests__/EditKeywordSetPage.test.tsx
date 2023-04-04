@@ -19,6 +19,7 @@ import {
 } from '../../../utils/testUtils';
 import { mockedKeywordSetsResponse } from '../../keywordSets/__mocks__/keywordSetsPage';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   keywordSet,
@@ -39,6 +40,7 @@ const defaultMocks = [
   mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
 

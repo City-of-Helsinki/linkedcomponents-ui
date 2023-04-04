@@ -1,12 +1,12 @@
 import { MockedResponse } from '@apollo/client/testing';
 
 import { keyword } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../constants';
 import { CreateKeywordSetDocument } from '../../../generated/graphql';
 import { fakeKeywordSet } from '../../../utils/mockDataUtils';
-import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
 
 const keywordSetValues = {
-  dataSource: TEST_DATA_SOURCE_ID,
+  dataSource: LINKED_EVENTS_SYSTEM_DATA_SOURCE,
   name: 'Keyword set name',
   keyword,
   originId: '123',

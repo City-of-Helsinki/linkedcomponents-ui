@@ -247,7 +247,7 @@ describe('checkCanUserDoAction function', () => {
     });
   });
 
-  it('should allow correct actions if organizationAncestores contains any of the adminArganizations', () => {
+  it('should allow correct actions if organizationAncestors contains any of the adminArganizations', () => {
     const adminOrganization = 'admin:1';
     const user = fakeUser({ adminOrganizations: [adminOrganization] });
 

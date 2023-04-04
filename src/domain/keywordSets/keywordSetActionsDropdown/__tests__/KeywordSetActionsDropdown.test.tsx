@@ -16,7 +16,7 @@ import {
   keywordSet,
   mockedDeleteKeywordSetResponse,
 } from '../../../keywordSet/__mocks__/editKeywordSetPage';
-import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import KeywordSetActionsDropdown, {
   KeywordSetActionsDropdownProps,
@@ -32,7 +32,7 @@ const route = `/fi${ROUTES.KEYWORD_SETS}`;
 
 const defaultMocks = [
   mockedDeleteKeywordSetResponse,
-  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
 

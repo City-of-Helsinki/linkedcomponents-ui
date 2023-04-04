@@ -27,8 +27,8 @@ import {
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
 import useKeywordSetUsageOptions from '../../keywordSets/hooks/useKeywordSetUsageOptions';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import useUserOrganization from '../../user/hooks/useUserOrganization';
 import {
   KEYWORD_SET_ACTIONS,
   KEYWORD_SET_FIELDS,
@@ -52,18 +52,18 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const navigate = useNavigate();
   const locale = useLocale();
   const { user } = useUser();
-  const { organization: userOrganization } = useUserOrganization(user);
   const usageOptions = useKeywordSetUsageOptions();
 
   const action = keywordSet
     ? KEYWORD_SET_ACTIONS.UPDATE
     : KEYWORD_SET_ACTIONS.CREATE;
-  const savedKeywordSetDataSource = getValue(keywordSet?.dataSource, '');
-
+  const organization = getValue(keywordSet?.organization, '');
+  const { organizationAncestors } = useOrganizationAncestors(organization);
   const isEditingAllowed = checkCanUserDoAction({
     action,
-    dataSource: savedKeywordSetDataSource,
-    userOrganization,
+    organization,
+    organizationAncestors,
+    user,
   });
 
   const { createKeywordSet, saving, updateKeywordSet } = useKeywordSetActions({
@@ -92,7 +92,9 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   };
 
   const inputRowBorderStyle = useMemo(
-    () => (isEditingAllowed ? '' : styles.borderInMobile),
+    () =>
+      /* istanbul ignore next */
+      isEditingAllowed ? '' : styles.borderInMobile,
     [isEditingAllowed]
   );
 
@@ -159,9 +161,9 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
           }
         };
 
-        const dataSource = keywordSet
-          ? getValue(keywordSet.dataSource, '')
-          : values.dataSource;
+        const organization = keywordSet
+          ? getValue(keywordSet.organization, '')
+          : values.organization;
 
         const disabledIfKeywordSet = !isEditingAllowed || !!keywordSet;
 
@@ -169,7 +171,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
           <Form className={styles.form} noValidate={true}>
             <KeywordSetAuthenticationNotification
               action={action}
-              dataSource={dataSource}
+              organization={organization}
             />
             <ServerErrorSummary errors={serverErrorItems} />
 
@@ -266,13 +268,13 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
               <EditButtonPanel
                 id={values.id}
                 onSave={handleSubmit}
-                dataSource={dataSource}
+                organization={organization}
                 saving={saving}
               />
             ) : (
               <CreateButtonPanel
-                dataSource={dataSource}
                 onSave={handleSubmit}
+                organization={organization}
                 saving={saving}
               />
             )}

@@ -19,8 +19,8 @@ import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
+import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
-import useUserOrganization from '../user/hooks/useUserOrganization';
 import { KEYWORD_SET_ACTIONS } from './constants';
 import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
@@ -42,9 +42,9 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
   const locale = useLocale();
   const navigate = useNavigate();
   const { isAuthenticated: authenticated } = useAuth();
-  const { dataSource } = getKeywordSetFields(keywordSet, locale);
+  const { organization } = getKeywordSetFields(keywordSet, locale);
   const { user } = useUser();
-  const { organization: userOrganization } = useUserOrganization(user);
+  const { organizationAncestors } = useOrganizationAncestors(organization);
 
   const { closeModal, deleteKeywordSet, openModal, setOpenModal, saving } =
     useKeywordSetUpdateActions({
@@ -64,10 +64,11 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
   const buttonProps = getEditButtonProps({
     action: KEYWORD_SET_ACTIONS.DELETE,
     authenticated,
-    dataSource,
     onClick: () => setOpenModal(KEYWORD_SET_MODALS.DELETE),
+    organizationAncestors,
+    organization,
     t,
-    userOrganization,
+    user,
   });
 
   return (

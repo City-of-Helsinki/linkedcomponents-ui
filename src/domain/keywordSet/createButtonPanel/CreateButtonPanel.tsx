@@ -7,19 +7,19 @@ import LoadingButton from '../../../common/components/loadingButton/LoadingButto
 import { ROUTES } from '../../../constants';
 import useGoBack from '../../../hooks/useGoBack';
 import { useAuth } from '../../auth/hooks/useAuth';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import useUserOrganization from '../../user/hooks/useUserOrganization';
 import { KEYWORD_SET_ACTIONS } from '../constants';
 import { getEditButtonProps } from '../utils';
 
 export interface CreateButtonPanelProps {
-  dataSource: string;
   onSave: () => void;
+  organization: string;
   saving: KEYWORD_SET_ACTIONS | null;
 }
 
 const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
-  dataSource,
+  organization,
   onSave,
   saving,
 }) => {
@@ -27,17 +27,18 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
 
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const { organization: userOrganization } = useUserOrganization(user);
+  const { organizationAncestors } = useOrganizationAncestors(organization);
 
   const goBack = useGoBack({ defaultReturnPath: ROUTES.KEYWORD_SETS });
 
   const buttonProps = getEditButtonProps({
     action: KEYWORD_SET_ACTIONS.CREATE,
     authenticated,
-    dataSource,
     onClick: onSave,
+    organizationAncestors,
+    organization,
     t,
-    userOrganization,
+    user,
   });
 
   return (

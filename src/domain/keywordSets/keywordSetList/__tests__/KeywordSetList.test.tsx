@@ -9,6 +9,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   keywordSetNames,
   mockedFilteredKeywordSetsResponse,
@@ -23,6 +24,7 @@ import KeywordSetList from '../KeywordSetList';
 configure({ defaultHidden: true });
 
 const mocks = [
+  mockedOrganizationAncestorsResponse,
   mockedFilteredKeywordSetsResponse,
   mockedKeywordSetsResponse,
   mockedPage2KeywordSetsResponse,
