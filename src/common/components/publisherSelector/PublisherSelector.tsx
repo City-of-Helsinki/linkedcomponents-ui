@@ -34,7 +34,7 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
 }) => {
   const { t } = useTranslation();
   const { user } = useUser();
-  const { organizations } = useUserOrganizations(user);
+  const { loading, organizations } = useUserOrganizations(user);
 
   const { data: organizationData } = useOrganizationQuery({
     skip: !value,
@@ -65,6 +65,7 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
       multiselect={false}
       clearable={clearable}
       id={name}
+      isLoading={loading}
       label={label}
       options={options}
       toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}

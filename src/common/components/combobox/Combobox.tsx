@@ -14,6 +14,9 @@ import {
   getA11ySelectionMessage,
   getA11yStatusMessage,
 } from '../../../utils/accessibilityUtils';
+import ComboboxLoadingSpinner, {
+  ComboboxLoadingSpinnerProps,
+} from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 import styles from './combobox.module.scss';
 
 type FilterFunction<OptionType> = (
@@ -27,7 +30,7 @@ type CommonComboboxProps = {
   filter?: FilterFunction<OptionType>;
   showToggleButton?: boolean;
   toggleButtonAriaLabel: string;
-};
+} & ComboboxLoadingSpinnerProps;
 
 export type MultiComboboxProps<ValueType> = Omit<
   MultiSelectProps<OptionType>,
@@ -47,7 +50,11 @@ export type SingleComboboxProps<ValueType> = Omit<
     value: ValueType;
   };
 
-const Combobox: React.FC<ComboboxProps<OptionType>> = ({
+type Props = ComboboxLoadingSpinnerProps & ComboboxProps<OptionType>;
+
+const Combobox: React.FC<Props> = ({
+  alignedLabel,
+  isLoading,
   className,
   ...rest
 }) => {
@@ -55,17 +62,19 @@ const Combobox: React.FC<ComboboxProps<OptionType>> = ({
   const { t } = useTranslation();
 
   return (
-    <BaseCombobox
-      {...rest}
-      className={classNames(className, styles.combobox)}
-      getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}
-      getA11ySelectionMessage={
-        /* istanbul ignore next */
-        (options) => getA11ySelectionMessage(options, t)
-      }
-      theme={theme.select}
-      virtualized={true}
-    />
+    <ComboboxLoadingSpinner alignedLabel={alignedLabel} isLoading={isLoading}>
+      <BaseCombobox
+        {...rest}
+        className={classNames(className, styles.combobox)}
+        getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}
+        getA11ySelectionMessage={
+          /* istanbul ignore next */
+          (options) => getA11ySelectionMessage(options, t)
+        }
+        theme={theme.select}
+        virtualized={true}
+      />
+    </ComboboxLoadingSpinner>
   );
 };
 

@@ -23,7 +23,6 @@ import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
-import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 import styles from './placeSelector.module.scss';
 
 export type GetOptionArgs = {
@@ -135,21 +134,20 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   );
 
   return (
-    <ComboboxLoadingSpinner isLoading={loading}>
-      <Combobox
-        {...rest}
-        className={styles.placeSelector}
-        multiselect={false}
-        filter={handleFilter}
-        id={name}
-        label={label}
-        options={options}
-        toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
-        // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
-        // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-        value={selectedPlace as OptionType | undefined}
-      />
-    </ComboboxLoadingSpinner>
+    <Combobox
+      {...rest}
+      className={styles.placeSelector}
+      multiselect={false}
+      filter={handleFilter}
+      id={name}
+      isLoading={loading}
+      label={label}
+      options={options}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+      // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
+      // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
+      value={selectedPlace as OptionType | undefined}
+    />
   );
 };
 

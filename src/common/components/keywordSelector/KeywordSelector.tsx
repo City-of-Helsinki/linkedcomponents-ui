@@ -27,7 +27,6 @@ import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Combobox, { MultiComboboxProps } from '../combobox/Combobox';
-import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 
 const getOption = ({
   keyword,
@@ -122,18 +121,17 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   }, []);
 
   return (
-    <ComboboxLoadingSpinner isLoading={loading}>
-      <Combobox
-        {...rest}
-        multiselect={true}
-        filter={handleFilter}
-        id={name}
-        label={label}
-        options={options}
-        toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
-        value={selectedKeywords}
-      />
-    </ComboboxLoadingSpinner>
+    <Combobox
+      {...rest}
+      multiselect={true}
+      filter={handleFilter}
+      id={name}
+      isLoading={loading}
+      label={label}
+      options={options}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+      value={selectedKeywords}
+    />
   );
 };
 
