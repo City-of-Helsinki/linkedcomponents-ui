@@ -31,7 +31,6 @@ import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   isAdminUserInOrganization,
-  isInDefaultOrganization,
   isReqularUserInOrganization,
 } from '../organization/utils';
 import {
@@ -132,7 +131,7 @@ export const checkCanUserDoAction = ({
     case IMAGE_ACTIONS.CREATE:
       return hasOrganizations;
     case IMAGE_ACTIONS.DELETE:
-      return isInDefaultOrganization({ id: publisher, user });
+      return isAdminUser;
     case IMAGE_ACTIONS.UPDATE:
     case IMAGE_ACTIONS.UPLOAD:
       return isRegularUser || isAdminUser;
