@@ -14,7 +14,7 @@ type BreadcrumbCSSProperties = {
   '--breadcrumb-color-separator'?: string;
 };
 
-type ButtonCSSProperties = {
+export type ButtonCSSProperties = {
   '--background-color'?: string;
   '--background-color-hover'?: string;
   '--background-color-focus'?: string;
@@ -177,7 +177,7 @@ type NavigationCSSProperties = {
   '--mobile-menu-color'?: string;
 };
 
-type NotificationCSSProperties = {
+export type NotificationCSSProperties = {
   '--notification-background-color'?: string;
   '--notification-border-color'?: string;
   '--notification-color'?: string;

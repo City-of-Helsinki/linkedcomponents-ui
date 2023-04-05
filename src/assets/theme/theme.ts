@@ -1,11 +1,15 @@
-import { Theme } from '../../domain/app/theme/Theme';
+import {
+  ButtonCSSProperties,
+  NotificationCSSProperties,
+  Theme,
+} from '../../domain/app/theme/Theme';
 
-const commonButtonVariables = {
+const commonButtonVariables: ButtonCSSProperties = {
   '--focus-outline-color': 'var(--color-coat-of-arms)',
   '--submit-input-focus-gutter-color': 'var(--color-white)',
 };
 
-const secondaryAndSumplementaryButtonVariables = {
+const secondaryAndSumplementaryButtonVariables: ButtonCSSProperties = {
   '--background-color': 'transparent',
   '--background-color-hover': 'var(--color-bus-light)',
   '--background-color-focus': 'transparent',
@@ -18,7 +22,7 @@ const secondaryAndSumplementaryButtonVariables = {
   '--color-disabled': 'var(--color-black-40)',
 };
 
-const dangerAndSuccessButtonVariables = {
+const dangerAndSuccessButtonVariables: ButtonCSSProperties = {
   '--color': 'var(--color-white)',
   '--color-hover': 'var(--color-white)',
   '--color-focus': 'var(--color-white)',
@@ -26,14 +30,9 @@ const dangerAndSuccessButtonVariables = {
   '--focus-outline-color': 'var(--color-coat-of-arms)',
 };
 
-const commonNotificationVariables = {
-  '--notification-border-width': 'var(--spacing-2-xs)',
+const commonNotificationVariables: NotificationCSSProperties = {
   '--notification-color': 'var(--color-black-90)',
   '--notification-focus-outline-color': 'var(--color-coat-of-arms)',
-  '--notification-max-width-inline': 'none',
-  '--notification-max-width-toast': '21rem',
-  '--notification-offset': 'var(--spacing-layout-s)',
-  '--notification-z-index': 99,
 };
 
 const theme: Theme = {

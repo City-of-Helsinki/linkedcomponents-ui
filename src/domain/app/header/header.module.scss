@@ -1,8 +1,6 @@
 @import '../../../assets/styles/breakpoints';
 
 .navigation {
-  --header-z-index: 101;
-
   z-index: var(--header-z-index);
   left: 0;
   position: sticky !important;
@@ -41,10 +39,6 @@
         min-width: 16rem;
       }
     }
-  }
-
-  > a:first-child {
-    z-index: calc(var(--header-z-index) + 1) !important;
   }
 
   .navigationItem {
