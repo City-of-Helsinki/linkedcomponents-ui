@@ -1,20 +1,17 @@
 import classNames from 'classnames';
-import React from 'react';
+import { FC, PropsWithChildren } from 'react';
 
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 import styles from './comboboxLoadingSpinner.module.scss';
 
-type Props = {
+export type ComboboxLoadingSpinnerProps = {
   alignedLabel?: boolean;
-  children: React.ReactNode;
-  isLoading: boolean;
+  isLoading?: boolean;
 };
 
-const ComboboxLoadingSpinner = ({
-  alignedLabel,
-  children,
-  isLoading,
-}: Props): React.ReactElement => {
+const ComboboxLoadingSpinner: FC<
+  PropsWithChildren<ComboboxLoadingSpinnerProps>
+> = ({ alignedLabel, children, isLoading }) => {
   return (
     <div className={styles.comboboxLoadingSpinner}>
       {children}

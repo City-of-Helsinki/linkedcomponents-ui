@@ -35,7 +35,7 @@ const SingleOrganizationClassSelector: React.FC<
 > = ({ label, name, value, ...rest }) => {
   const { t } = useTranslation();
 
-  const { organizationClasses } = useAllOrganizationClasses();
+  const { loading, organizationClasses } = useAllOrganizationClasses();
 
   const options: OptionType[] = React.useMemo(
     () =>
@@ -66,6 +66,7 @@ const SingleOrganizationClassSelector: React.FC<
       {...rest}
       multiselect={false}
       id={name}
+      isLoading={loading}
       label={label}
       options={options}
       toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}

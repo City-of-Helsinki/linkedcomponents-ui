@@ -271,6 +271,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             </FormRow>
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 clearable
                 component={UserSelectorField}
@@ -281,6 +282,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             </FormRow>
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 clearable
                 component={UserSelectorField}
@@ -291,6 +293,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             </FormRow>
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 component={SingleSelectField}
                 disabled={disabledIfOrganization}
@@ -301,6 +304,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             </FormRow>
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 clearable
                 component={SingleOrganizationClassSelectorField}
@@ -329,7 +333,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             </FormRow>
             <FormRow>
               <Field
-                alignedLabel={true}
+                alignedLabel
                 className={styles.alignedSelect}
                 component={SingleOrganizationSelectorField}
                 disabled={disabledIfOrganization}
@@ -340,7 +344,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             </FormRow>
             <FormRow>
               <Field
-                alignedLabel={true}
+                alignedLabel
                 className={styles.alignedSelect}
                 component={SingleOrganizationSelectorField}
                 disabled={!isEditingAllowed}

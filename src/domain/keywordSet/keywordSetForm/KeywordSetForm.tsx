@@ -208,6 +208,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
 
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 clearable
                 component={PublisherSelectorField}
@@ -243,6 +244,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
             })}
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 component={KeywordSelectorField}
                 disabled={!isEditingAllowed}
@@ -254,6 +256,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
 
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 component={SingleSelectField}
                 disabled={!isEditingAllowed}

@@ -211,6 +211,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
 
               <FormRow>
                 <Field
+                  alignedLabel
                   className={styles.alignedSelect}
                   component={PublisherSelectorField}
                   disabled={disabledIfPublisherSelected}

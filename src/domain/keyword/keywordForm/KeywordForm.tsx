@@ -201,6 +201,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
 
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 clearable
                 component={PublisherSelectorField}
@@ -238,6 +239,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
 
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 clearable
                 component={SingleKeywordSelectorField}

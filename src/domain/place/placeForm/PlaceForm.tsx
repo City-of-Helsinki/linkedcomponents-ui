@@ -267,6 +267,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
             </FormRow>
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 clearable={!place}
                 component={PublisherSelectorField}

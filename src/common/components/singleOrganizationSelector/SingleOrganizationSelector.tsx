@@ -10,7 +10,6 @@ import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
-import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 
 const getOption = ({
   locale,
@@ -30,12 +29,11 @@ const getOption = ({
   return { label, value };
 };
 
-export type SingleOrganizationSelectorProps = {
-  alignedLabel?: boolean;
-} & SingleComboboxProps<string | null>;
+export type SingleOrganizationSelectorProps = SingleComboboxProps<
+  string | null
+>;
 
 const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
-  alignedLabel,
   label,
   name,
   value,
@@ -70,19 +68,18 @@ const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
   );
 
   return (
-    <ComboboxLoadingSpinner alignedLabel={alignedLabel} isLoading={loading}>
-      <Combobox
-        {...rest}
-        multiselect={false}
-        id={name}
-        label={label}
-        options={options}
-        toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
-        // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
-        // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-        value={selectedOrganization as OptionType | undefined}
-      />
-    </ComboboxLoadingSpinner>
+    <Combobox
+      {...rest}
+      multiselect={false}
+      id={name}
+      isLoading={loading}
+      label={label}
+      options={options}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+      // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
+      // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
+      value={selectedOrganization as OptionType | undefined}
+    />
   );
 };
 
