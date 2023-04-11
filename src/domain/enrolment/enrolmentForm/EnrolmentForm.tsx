@@ -52,7 +52,7 @@ import {
   getFreeAttendeeCapacity,
   isRestoringFormDataDisabled,
 } from '../utils';
-import { enrolmentSchema, scrollToFirstError } from '../validation';
+import { getEnrolmentSchema, scrollToFirstError } from '../validation';
 import styles from './enrolmentForm.module.scss';
 
 type EnrolmentFormWrapperProps = {
@@ -181,7 +181,9 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
       setServerErrorItems([]);
       clearErrors();
 
-      await enrolmentSchema.validate(values, { abortEarly: false });
+      await getEnrolmentSchema(registration).validate(values, {
+        abortEarly: false,
+      });
 
       if (enrolment) {
         handleUpdate(values);
@@ -308,7 +310,7 @@ const EnrolmentFormWrapper: React.FC<EnrolmentFormWrapperProps> = ({
     <Formik
       initialValues={initialValues}
       onSubmit={/* istanbul ignore next */ () => undefined}
-      validationSchema={enrolmentSchema}
+      validationSchema={() => getEnrolmentSchema(registration)}
     >
       {({ setErrors, setTouched, values }) => {
         return (

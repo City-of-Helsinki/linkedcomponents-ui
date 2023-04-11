@@ -8,14 +8,14 @@ import {
   within,
 } from '../../../../../utils/testUtils';
 import { REGISTRATION_INITIAL_VALUES } from '../../../constants';
-import RequiredFieldsSection from '../RequiredFieldsSection';
+import MandatoryFieldsSection from '../MandatoryFieldsSection';
 
 configure({ defaultHidden: true });
 
 const renderComponent = () =>
   render(
     <Formik initialValues={REGISTRATION_INITIAL_VALUES} onSubmit={jest.fn()}>
-      <RequiredFieldsSection isEditingAllowed={true} />
+      <MandatoryFieldsSection isEditingAllowed={true} />
     </Formik>
   );
 
@@ -23,14 +23,15 @@ test('should show correct checkboxes', async () => {
   renderComponent();
 
   const withinBasicInfo = within(
-    screen.getByRole('group', { name: 'Ilmoittautujan perustiedot' })
+    await screen.findByRole('group', { name: 'Ilmoittautujan perustiedot' })
   );
   withinBasicInfo.getByLabelText('Nimi');
   withinBasicInfo.getByLabelText('Kaupunki');
-  withinBasicInfo.getByLabelText('Osoite');
+  withinBasicInfo.getByLabelText('Postinumero');
+  withinBasicInfo.getByLabelText('Katuosoite');
 
   const withinContactInfo = within(
-    screen.getByRole('group', { name: 'Yhteystiedot' })
+    await screen.findByRole('group', { name: 'Yhteystiedot' })
   );
   withinContactInfo.getByLabelText('Puhelinnumero');
 });

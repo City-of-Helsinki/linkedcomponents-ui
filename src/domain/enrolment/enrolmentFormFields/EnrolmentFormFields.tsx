@@ -16,6 +16,7 @@ import { ENROLMENT_FIELDS, NOTIFICATIONS } from '../constants';
 import Divider from '../divider/Divider';
 import useLanguageOptions from '../hooks/useLanguageOptions';
 import useNotificationOptions from '../hooks/useNotificationOptions';
+import { isEnrolmentFieldRequired } from '../utils';
 import Attendees from './attendees/Attendees';
 import styles from './enrolmentFormFields.module.scss';
 
@@ -28,7 +29,6 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
   const { t } = useTranslation();
   const notificationOptions = useNotificationOptions();
   const languageOptions = useLanguageOptions();
-
   const [{ value: notifications }] = useField<NOTIFICATIONS>({
     name: ENROLMENT_FIELDS.NOTIFICATIONS,
   });
@@ -47,7 +47,7 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
               disabled={disabled}
               label={t(`enrolment.form.labelEmail`)}
               placeholder={t(`enrolment.form.placeholderEmail`)}
-              required={notifications.includes(NOTIFICATIONS.EMAIL)}
+              required
             />
             <Field
               name={ENROLMENT_FIELDS.PHONE_NUMBER}
@@ -56,7 +56,13 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
               label={t(`enrolment.form.labelPhoneNumber`)}
               placeholder={t(`enrolment.form.placeholderPhoneNumber`)}
               type="tel"
-              required={notifications.includes(NOTIFICATIONS.SMS)}
+              required={
+                notifications.includes(NOTIFICATIONS.SMS) ||
+                isEnrolmentFieldRequired(
+                  registration,
+                  ENROLMENT_FIELDS.PHONE_NUMBER
+                )
+              }
             />
           </div>
         </FormGroup>
@@ -71,6 +77,7 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
             disabled={disabled}
             label={t(`enrolment.form.titleNotifications`)}
             options={notificationOptions}
+            required
           />
         </FormGroup>
       </Fieldset>
@@ -84,6 +91,10 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
               disabled={disabled}
               label={t(`enrolment.form.labelMembershipNumber`)}
               placeholder={t(`enrolment.form.placeholderMembershipNumber`)}
+              required={isEnrolmentFieldRequired(
+                registration,
+                ENROLMENT_FIELDS.MEMBERSHIP_NUMBER
+              )}
             />
           </div>
         </FormGroup>
@@ -116,6 +127,10 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
             disabled={disabled}
             label={t(`enrolment.form.labelExtraInfo`)}
             placeholder={t(`enrolment.form.placeholderExtraInfo`)}
+            required={isEnrolmentFieldRequired(
+              registration,
+              ENROLMENT_FIELDS.EXTRA_INFO
+            )}
           />
         </FormGroup>
       </Fieldset>

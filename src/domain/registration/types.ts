@@ -10,9 +10,9 @@ export type RegistrationFormFields = {
   [REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME]: string;
   [REGISTRATION_FIELDS.EVENT]: string;
   [REGISTRATION_FIELDS.INSTRUCTIONS]: string;
+  [REGISTRATION_FIELDS.MANDATORY_FIELDS]: string[];
   [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: number | '';
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
-  [REGISTRATION_FIELDS.REQUIRED_FIELDS]: string[];
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: number | '';
 };
 
@@ -27,6 +27,7 @@ export type RegistrationFields = {
   event: string;
   eventUrl: string;
   lastModifiedAt: Date | null;
+  mandatoryFields: string[];
   maximumAttendeeCapacity: number;
   registrationUrl: string;
   waitingListCapacity: number;

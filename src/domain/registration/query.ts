@@ -16,6 +16,7 @@ export const QUERY_REGISTRATION = gql`
     event
     instructions
     lastModifiedAt
+    mandatoryFields
     maximumAttendeeCapacity
     minimumAttendeeCapacity
     signups {

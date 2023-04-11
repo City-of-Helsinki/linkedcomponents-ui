@@ -17,6 +17,7 @@ import { setSeatsReservationData } from '../../reserveSeats/utils';
 import {
   ATTENDEE_INITIAL_VALUES,
   ENROLMENT_ACTIONS,
+  ENROLMENT_FIELDS,
   ENROLMENT_INITIAL_VALUES,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
@@ -33,6 +34,7 @@ import {
   getEnrolmentPayload,
   getFreeAttendeeCapacity,
   getUpdateEnrolmentPayload,
+  isEnrolmentFieldRequired,
   isRestoringFormDataDisabled,
 } from '../utils';
 
@@ -59,42 +61,14 @@ const generateSeatsReservationData = (expirationOffset: number) => {
 
 describe('getAttendeeDefaultInitialValues function', () => {
   it('should return attendee initial values', () => {
-    expect(
-      getAttendeeDefaultInitialValues(
-        fakeRegistration({
-          audienceMaxAge: 18,
-          audienceMinAge: 8,
-        })
-      )
-    ).toEqual({
-      audienceMaxAge: 18,
-      audienceMinAge: 8,
+    expect(getAttendeeDefaultInitialValues(fakeRegistration())).toEqual({
       city: '',
       dateOfBirth: null,
       extraInfo: '',
       inWaitingList: false,
       name: '',
       streetAddress: '',
-      zip: '',
-    });
-
-    expect(
-      getAttendeeDefaultInitialValues(
-        fakeRegistration({
-          audienceMaxAge: null,
-          audienceMinAge: null,
-        })
-      )
-    ).toEqual({
-      audienceMaxAge: null,
-      audienceMinAge: null,
-      city: '',
-      dateOfBirth: null,
-      extraInfo: '',
-      inWaitingList: false,
-      name: '',
-      streetAddress: '',
-      zip: '',
+      zipcode: '',
     });
   });
 });
@@ -125,20 +99,18 @@ describe('getEnrolmentInitialValues function', () => {
         streetAddress: null,
         zipcode: null,
       }),
-      fakeRegistration({ audienceMinAge: null, audienceMaxAge: null })
+      fakeRegistration()
     );
 
     expect(attendees).toEqual([
       {
-        audienceMaxAge: null,
-        audienceMinAge: null,
         city: '',
         dateOfBirth: null,
         extraInfo: '',
         inWaitingList: false,
         name: '',
         streetAddress: '',
-        zip: '',
+        zipcode: '',
       },
     ]);
     expect(email).toBe('');
@@ -193,15 +165,13 @@ describe('getEnrolmentInitialValues function', () => {
 
     expect(attendees).toEqual([
       {
-        audienceMaxAge: 18,
-        audienceMinAge: 12,
         city: expectedCity,
         dateOfBirth: expectedDateOfBirth,
         extraInfo: '',
         inWaitingList: false,
         name: expectedName,
         streetAddress: expectedStreetAddress,
-        zip: expectedZip,
+        zipcode: expectedZip,
       },
     ]);
     expect(email).toBe(expectedEmail);
@@ -264,12 +234,12 @@ describe('getEnrolmentPayload function', () => {
       reservationCode: TEST_SEATS_RESERVATION_CODE,
       signups: [
         {
-          city: null,
+          city: '',
           dateOfBirth: null,
           email: null,
           extraInfo: '',
           membershipNumber: '',
-          name: null,
+          name: '',
           nativeLanguage: null,
           notifications: 'none',
           phoneNumber: null,
@@ -297,15 +267,13 @@ describe('getEnrolmentPayload function', () => {
         ...ENROLMENT_INITIAL_VALUES,
         attendees: [
           {
-            audienceMaxAge: null,
-            audienceMinAge: null,
             city,
             dateOfBirth,
             extraInfo: '',
             inWaitingList: false,
             name,
             streetAddress,
-            zip: zipcode,
+            zipcode,
           },
         ],
         email,
@@ -350,13 +318,13 @@ describe('getUpdateEnrolmentPayload function', () => {
         registration,
       })
     ).toEqual({
-      city: null,
+      city: '',
       dateOfBirth: null,
       email: null,
       extraInfo: '',
       id: TEST_ENROLMENT_ID,
       membershipNumber: '',
-      name: null,
+      name: '',
       nativeLanguage: null,
       notifications: NOTIFICATION_TYPE.NO_NOTIFICATION,
       phoneNumber: null,
@@ -380,15 +348,13 @@ describe('getUpdateEnrolmentPayload function', () => {
       zipcode = '00100';
     const attendees = [
       {
-        audienceMaxAge: null,
-        audienceMinAge: null,
         city,
         dateOfBirth,
         extraInfo: '',
         inWaitingList: false,
         name,
         streetAddress,
-        zip: zipcode,
+        zipcode,
       },
     ];
     const payload = getUpdateEnrolmentPayload({
@@ -568,4 +534,34 @@ describe('isRestoringFormDataDisabled', () => {
       })
     ).toBe(false);
   });
+});
+
+describe('isEnrolmentFieldRequired', () => {
+  const falseCases: [string[], ENROLMENT_FIELDS][] = [
+    [['phone_number'], ENROLMENT_FIELDS.EMAIL],
+    [['phone_number'], ENROLMENT_FIELDS.EXTRA_INFO],
+    [['phone_number'], ENROLMENT_FIELDS.MEMBERSHIP_NUMBER],
+    [['phone_number'], ENROLMENT_FIELDS.NATIVE_LANGUAGE],
+    [['phone_number'], ENROLMENT_FIELDS.SERVICE_LANGUAGE],
+  ];
+
+  it.each(falseCases)(
+    'should return false if field is not mandatory with args %p, result %p',
+    (mandatoryFields, field) =>
+      expect(
+        isEnrolmentFieldRequired(fakeRegistration({ mandatoryFields }), field)
+      ).toBe(false)
+  );
+
+  const trueCases: [string[], ENROLMENT_FIELDS][] = [
+    [['phone_number'], ENROLMENT_FIELDS.PHONE_NUMBER],
+  ];
+
+  it.each(trueCases)(
+    'should return false if field is not mandatory with args %p, result %p',
+    (mandatoryFields, field) =>
+      expect(
+        isEnrolmentFieldRequired(fakeRegistration({ mandatoryFields }), field)
+      ).toBe(true)
+  );
 });

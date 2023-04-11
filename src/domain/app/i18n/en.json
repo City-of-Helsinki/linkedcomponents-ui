@@ -347,7 +347,7 @@
       "labelPhoneNumber": "Telephone number",
       "labelServiceLanguage": "Language of communication",
       "labelStreetAddress": "Street address",
-      "labelZip": "Postcode",
+      "labelZipcode": "Postcode",
       "notificationTitleCannotEdit": "Participants cannot be edited",
       "placeholderAttendeeExtraInfo": "Enter any additional information or request",
       "placeholderCity": "Enter city",
@@ -359,7 +359,7 @@
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Select language",
       "placeholderStreetAddress": "Enter a street address",
-      "placeholderZip": "Enter postcode",
+      "placeholderZipcode": "Enter postcode",
       "timeLeft": "Time left to register",
       "titleAdditionalInfo": "Additional information",
       "titleBasicInfo": "Basic information of the registrant",
@@ -1728,12 +1728,6 @@
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
       "placeholderEvent": "Select or search for an event",
       "placeholderInstructions": "Enter registration instructions",
-      "requiredFields": {
-        "address": "Address",
-        "city": "City",
-        "name": "Name",
-        "phoneNumber": "Phone number"
-      },
       "sections": {
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
@@ -1741,7 +1735,7 @@
         "enrolmentTime": "Registration time",
         "event": "Event",
         "instructions": "Additional registration information",
-        "requiredFields": "Required fields",
+        "mandatoryFields": "Required fields",
         "waitingList": "Waiting list"
       },
       "titleContactInfo": "Contact information",
