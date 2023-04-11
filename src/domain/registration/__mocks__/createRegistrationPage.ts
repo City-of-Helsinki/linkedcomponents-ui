@@ -58,6 +58,7 @@ const payload = {
   enrolmentStartTime: '2020-12-31T18:00:00.000Z',
   event: TEST_EVENT_ID,
   instructions: null,
+  mandatoryFields: ['name'],
   maximumAttendeeCapacity: null,
   minimumAttendeeCapacity: null,
   waitingListCapacity: null,

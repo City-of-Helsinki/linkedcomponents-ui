@@ -23,6 +23,7 @@ const registrationOverrides = {
   enrolmentStartTime: '2020-09-27T15:00:00.000Z',
   event: TEST_EVENT_ID,
   instructions: 'Instructions',
+  mandatoryFields: [],
   maximumAttendeeCapacity: 100,
   minimumAttendeeCapacity: 10,
   waitingListCapacity: 5,

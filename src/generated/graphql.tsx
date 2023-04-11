@@ -126,6 +126,7 @@ export type CreateRegistrationMutationInput = {
   enrolmentStartTime?: InputMaybe<Scalars['String']>;
   event: Scalars['ID'];
   instructions?: InputMaybe<Scalars['String']>;
+  mandatoryFields?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   maximumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
   minimumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
   waitingListCapacity?: InputMaybe<Scalars['Int']>;
@@ -962,6 +963,7 @@ export type Registration = {
   instructions?: Maybe<Scalars['String']>;
   lastModifiedAt?: Maybe<Scalars['String']>;
   lastModifiedBy?: Maybe<Scalars['String']>;
+  mandatoryFields?: Maybe<Array<Maybe<Scalars['String']>>>;
   maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
   minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
   signups?: Maybe<Array<Maybe<Enrolment>>>;
@@ -1124,6 +1126,7 @@ export type UpdateRegistrationMutationInput = {
   event: Scalars['ID'];
   id: Scalars['ID'];
   instructions?: InputMaybe<Scalars['String']>;
+  mandatoryFields?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   maximumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
   minimumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
   waitingListCapacity?: InputMaybe<Scalars['Int']>;
@@ -1621,7 +1624,7 @@ export type CreateRegistrationMutationVariables = Exact<{
 }>;
 
 
-export type CreateRegistrationMutation = { __typename?: 'Mutation', createRegistration: { __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, confirmationMessage?: string | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, event?: string | null, instructions?: string | null, lastModifiedAt?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, waitingListCapacity?: number | null, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } };
+export type CreateRegistrationMutation = { __typename?: 'Mutation', createRegistration: { __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, confirmationMessage?: string | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, event?: string | null, instructions?: string | null, lastModifiedAt?: string | null, mandatoryFields?: Array<string | null> | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, waitingListCapacity?: number | null, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } };
 
 export type DeleteRegistrationMutationVariables = Exact<{
   id: Scalars['ID'];
@@ -1635,9 +1638,9 @@ export type UpdateRegistrationMutationVariables = Exact<{
 }>;
 
 
-export type UpdateRegistrationMutation = { __typename?: 'Mutation', updateRegistration: { __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, confirmationMessage?: string | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, event?: string | null, instructions?: string | null, lastModifiedAt?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, waitingListCapacity?: number | null, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } };
+export type UpdateRegistrationMutation = { __typename?: 'Mutation', updateRegistration: { __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, confirmationMessage?: string | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, event?: string | null, instructions?: string | null, lastModifiedAt?: string | null, mandatoryFields?: Array<string | null> | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, waitingListCapacity?: number | null, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } };
 
-export type RegistrationFieldsFragment = { __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, confirmationMessage?: string | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, event?: string | null, instructions?: string | null, lastModifiedAt?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, waitingListCapacity?: number | null, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null };
+export type RegistrationFieldsFragment = { __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, confirmationMessage?: string | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, event?: string | null, instructions?: string | null, lastModifiedAt?: string | null, mandatoryFields?: Array<string | null> | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, waitingListCapacity?: number | null, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null };
 
 export type RegistrationQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1646,7 +1649,7 @@ export type RegistrationQueryVariables = Exact<{
 }>;
 
 
-export type RegistrationQuery = { __typename?: 'Query', registration: { __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, confirmationMessage?: string | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, event?: string | null, instructions?: string | null, lastModifiedAt?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, waitingListCapacity?: number | null, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } };
+export type RegistrationQuery = { __typename?: 'Query', registration: { __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, confirmationMessage?: string | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, event?: string | null, instructions?: string | null, lastModifiedAt?: string | null, mandatoryFields?: Array<string | null> | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, waitingListCapacity?: number | null, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } };
 
 export type RegistrationsQueryVariables = Exact<{
   adminUser?: InputMaybe<Scalars['Boolean']>;
@@ -1658,7 +1661,7 @@ export type RegistrationsQueryVariables = Exact<{
 }>;
 
 
-export type RegistrationsQuery = { __typename?: 'Query', registrations: { __typename?: 'RegistrationsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, confirmationMessage?: string | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, event?: string | null, instructions?: string | null, lastModifiedAt?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, waitingListCapacity?: number | null, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } | null> } };
+export type RegistrationsQuery = { __typename?: 'Query', registrations: { __typename?: 'RegistrationsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, confirmationMessage?: string | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, event?: string | null, instructions?: string | null, lastModifiedAt?: string | null, mandatoryFields?: Array<string | null> | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, waitingListCapacity?: number | null, signups?: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } | null> } };
 
 export type CreateSeatsReservationMutationVariables = Exact<{
   input: CreateSeatsReservationMutationInput;
@@ -2072,6 +2075,7 @@ export const RegistrationFieldsFragmentDoc = gql`
   event
   instructions
   lastModifiedAt
+  mandatoryFields
   maximumAttendeeCapacity
   minimumAttendeeCapacity
   signups {

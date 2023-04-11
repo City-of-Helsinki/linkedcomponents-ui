@@ -1,34 +1,61 @@
 import { advanceTo, clear } from 'jest-date-mock';
 import * as Yup from 'yup';
 
+import { RegistrationFieldsFragment } from '../../../generated/graphql';
+import { fakeRegistration } from '../../../utils/mockDataUtils';
+import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
+import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
 import { AttendeeFields } from '../types';
-import { attendeeSchema, isAboveMinAge, isBelowMaxAge } from '../validation';
+import { getAttendeeSchema, isAboveMinAge, isBelowMaxAge } from '../validation';
 
 afterEach(() => {
   clear();
 });
 
-const testAboveMinAge = async (minAge: string, date: Date | null) => {
+const testAboveMinAge = async (minAge: number, date: Date | null) => {
   try {
-    await isAboveMinAge([minAge], Yup.date().nullable()).validate(date);
+    await Yup.date()
+      .nullable()
+      .test(
+        'isAboveMinAge',
+        () => ({
+          key: VALIDATION_MESSAGE_KEYS.AGE_MIN,
+          min: minAge,
+        }),
+        (date) => isAboveMinAge(date, minAge)
+      )
+      .validate(date);
     return true;
   } catch (e) {
     return false;
   }
 };
 
-const testBelowMaxAge = async (maxAge: string, date: Date | null) => {
+const testBelowMaxAge = async (maxAge: number, date: Date | null) => {
   try {
-    await isBelowMaxAge([maxAge], Yup.date().nullable()).validate(date);
+    await Yup.date()
+      .nullable()
+      .test(
+        'isBelowMaxAge',
+        () => ({
+          key: VALIDATION_MESSAGE_KEYS.AGE_MAX,
+          max: maxAge,
+        }),
+        (date) => isBelowMaxAge(date, maxAge)
+      )
+      .validate(date);
     return true;
   } catch (e) {
     return false;
   }
 };
 
-const testAttendeeSchema = async (attendee: AttendeeFields) => {
+const testAttendeeSchema = async (
+  registration: RegistrationFieldsFragment,
+  attendee: AttendeeFields
+) => {
   try {
-    await attendeeSchema.validate(attendee);
+    await getAttendeeSchema(registration).validate(attendee);
     return true;
   } catch (e) {
     return false;
@@ -39,7 +66,7 @@ describe('isAboveMinAge function', () => {
   test('should return true value is null', async () => {
     advanceTo('2022-10-10');
 
-    const result = await testAboveMinAge('9', null);
+    const result = await testAboveMinAge(9, null);
 
     expect(result).toBe(true);
   });
@@ -47,7 +74,7 @@ describe('isAboveMinAge function', () => {
   test('should return false if age is less than min age', async () => {
     advanceTo('2022-10-10');
 
-    const result = await testAboveMinAge('9', new Date('2022-01-01'));
+    const result = await testAboveMinAge(9, new Date('2022-01-01'));
 
     expect(result).toBe(false);
   });
@@ -55,7 +82,7 @@ describe('isAboveMinAge function', () => {
   test('should return true if age is greater than min age', async () => {
     advanceTo('2022-10-10');
 
-    const result = await testAboveMinAge('9', new Date('2012-01-01'));
+    const result = await testAboveMinAge(9, new Date('2012-01-01'));
 
     expect(result).toBe(true);
   });
@@ -65,7 +92,7 @@ describe('isBelowMaxAge function', () => {
   test('should return true if value is null', async () => {
     advanceTo('2022-10-10');
 
-    const result = await testBelowMaxAge('9', null);
+    const result = await testBelowMaxAge(9, null);
 
     expect(result).toBe(true);
   });
@@ -73,7 +100,7 @@ describe('isBelowMaxAge function', () => {
   test('should return false if age is greater than max age', async () => {
     advanceTo('2022-10-10');
 
-    const result = await testBelowMaxAge('9', new Date('2012-01-01'));
+    const result = await testBelowMaxAge(9, new Date('2012-01-01'));
 
     expect(result).toBe(false);
   });
@@ -81,60 +108,132 @@ describe('isBelowMaxAge function', () => {
   test('should return true if age is less than max age', async () => {
     advanceTo('2022-10-10');
 
-    const result = await testBelowMaxAge('9', new Date('2015-01-01'));
+    const result = await testBelowMaxAge(9, new Date('2015-01-01'));
 
     expect(result).toBe(true);
   });
 });
 
 describe('attendeeSchema function', () => {
+  const registration = fakeRegistration();
   const validAttendee: AttendeeFields = {
-    audienceMaxAge: null,
-    audienceMinAge: null,
     city: 'City',
     dateOfBirth: new Date('2000-01-01'),
     extraInfo: '',
     inWaitingList: true,
     name: 'name',
     streetAddress: 'Street address',
-    zip: '00100',
+    zipcode: '00100',
   };
 
   test('should return true if attendee is valid', async () => {
-    expect(await testAttendeeSchema(validAttendee)).toBe(true);
+    expect(await testAttendeeSchema(registration, validAttendee)).toBe(true);
   });
 
   test('should return false if name is missing', async () => {
-    expect(await testAttendeeSchema({ ...validAttendee, name: '' })).toBe(
-      false
-    );
+    expect(
+      await testAttendeeSchema(
+        fakeRegistration({
+          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.NAME],
+        }),
+        { ...validAttendee, name: '' }
+      )
+    ).toBe(false);
   });
 
   test('should return false if street address is missing', async () => {
     expect(
-      await testAttendeeSchema({ ...validAttendee, streetAddress: '' })
+      await testAttendeeSchema(
+        fakeRegistration({
+          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.STREET_ADDRESS],
+        }),
+        { ...validAttendee, streetAddress: '' }
+      )
     ).toBe(false);
   });
 
   test('should return false if date of birth is missing', async () => {
     expect(
-      await testAttendeeSchema({ ...validAttendee, dateOfBirth: null })
+      await testAttendeeSchema(fakeRegistration({ audienceMinAge: 8 }), {
+        ...validAttendee,
+        dateOfBirth: null,
+      })
+    ).toBe(false);
+
+    expect(
+      await testAttendeeSchema(fakeRegistration({ audienceMaxAge: 12 }), {
+        ...validAttendee,
+        dateOfBirth: null,
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if date of birth is missing', async () => {
+    expect(
+      await testAttendeeSchema(fakeRegistration({ audienceMinAge: 8 }), {
+        ...validAttendee,
+        dateOfBirth: null,
+      })
+    ).toBe(false);
+
+    expect(
+      await testAttendeeSchema(fakeRegistration({ audienceMaxAge: 12 }), {
+        ...validAttendee,
+        dateOfBirth: null,
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if age is greater than max age', async () => {
+    advanceTo('2022-10-10');
+
+    expect(
+      await testAttendeeSchema(fakeRegistration({ audienceMaxAge: 8 }), {
+        ...validAttendee,
+        dateOfBirth: new Date('2012-01-01'),
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if age is less than min age', async () => {
+    advanceTo('2022-10-10');
+
+    expect(
+      await testAttendeeSchema(fakeRegistration({ audienceMinAge: 5 }), {
+        ...validAttendee,
+        dateOfBirth: new Date('2022-01-01'),
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if city is missing', async () => {
+    expect(
+      await testAttendeeSchema(
+        fakeRegistration({
+          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.CITY],
+        }),
+        { ...validAttendee, city: '' }
+      )
     ).toBe(false);
   });
 
   test('should return false if zip is missing', async () => {
-    expect(await testAttendeeSchema({ ...validAttendee, zip: '' })).toBe(false);
+    expect(
+      await testAttendeeSchema(
+        fakeRegistration({
+          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.ZIPCODE],
+        }),
+        { ...validAttendee, zipcode: '' }
+      )
+    ).toBe(false);
   });
 
   test('should return false if zip is invalid', async () => {
-    expect(await testAttendeeSchema({ ...validAttendee, zip: '123456' })).toBe(
-      false
-    );
-  });
-
-  test('should return false if city is missing', async () => {
-    expect(await testAttendeeSchema({ ...validAttendee, city: '' })).toBe(
-      false
-    );
+    expect(
+      await testAttendeeSchema(registration, {
+        ...validAttendee,
+        zipcode: '123456',
+      })
+    ).toBe(false);
   });
 });

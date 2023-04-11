@@ -15,7 +15,11 @@ import {
   waitingAttendees,
 } from '../../enrolments/__mocks__/enrolmentsPage';
 import { TEST_EVENT_ID } from '../../event/constants';
-import { REGISTRATION_INCLUDES, TEST_REGISTRATION_ID } from '../constants';
+import {
+  REGISTRATION_INCLUDES,
+  REGISTRATION_MANDATORY_FIELDS,
+  TEST_REGISTRATION_ID,
+} from '../constants';
 
 const registrationId = TEST_REGISTRATION_ID;
 
@@ -32,6 +36,7 @@ const registrationOverrides = {
   enrolmentStartTime,
   event: TEST_EVENT_ID,
   instructions: 'Instructions',
+  mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.NAME],
   maximumAttendeeCapacity: 100,
   minimumAttendeeCapacity: 10,
   signups: [...attendees, ...waitingAttendees],

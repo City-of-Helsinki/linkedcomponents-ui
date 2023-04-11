@@ -1,5 +1,6 @@
 import { TFunction } from 'i18next';
 import isEqual from 'lodash/isEqual';
+import snakeCase from 'lodash/snakeCase';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
@@ -26,9 +27,11 @@ import {
   isSeatsReservationExpired,
 } from '../reserveSeats/utils';
 import {
+  ATTENDEE_FIELDS,
   ATTENDEE_INITIAL_VALUES,
   AUTHENTICATION_NOT_NEEDED,
   ENROLMENT_ACTIONS,
+  ENROLMENT_FIELDS,
   ENROLMENT_ICONS,
   ENROLMENT_INITIAL_VALUES,
   ENROLMENT_LABEL_KEYS,
@@ -56,8 +59,6 @@ export const getAttendeeDefaultInitialValues = (
   registration: RegistrationFieldsFragment
 ): AttendeeFields => ({
   ...ATTENDEE_INITIAL_VALUES,
-  audienceMaxAge: registration.audienceMaxAge ?? null,
-  audienceMinAge: registration.audienceMinAge ?? null,
 });
 
 export const getEnrolmentDefaultInitialValues = (
@@ -75,15 +76,13 @@ export const getEnrolmentInitialValues = (
     ...getEnrolmentDefaultInitialValues(registration),
     attendees: [
       {
-        audienceMaxAge: registration.audienceMaxAge ?? null,
-        audienceMinAge: registration.audienceMinAge ?? null,
         city: getValue(enrolment.city, ''),
         dateOfBirth: getDateFromString(enrolment.dateOfBirth),
         extraInfo: '',
         inWaitingList: enrolment.attendeeStatus === AttendeeStatus.Waitlisted,
         name: getValue(enrolment.name, ''),
         streetAddress: getValue(enrolment.streetAddress, ''),
-        zip: getValue(enrolment.zipcode, ''),
+        zipcode: getValue(enrolment.zipcode, ''),
       },
     ],
     email: getValue(enrolment.email, ''),
@@ -134,22 +133,22 @@ export const getEnrolmentPayload = ({
   } = formValues;
 
   const signups: SignupInput[] = attendees.map((attendee) => {
-    const { city, dateOfBirth, name, streetAddress, zip } = attendee;
+    const { city, dateOfBirth, name, streetAddress, zipcode } = attendee;
     return {
-      city: getValue(city, null),
+      city: getValue(city, ''),
       dateOfBirth: dateOfBirth
         ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
         : null,
       email: getValue(email, null),
       extraInfo: extraInfo,
       membershipNumber: membershipNumber,
-      name: getValue(name, null),
+      name: getValue(name, ''),
       nativeLanguage: getValue(nativeLanguage, null),
       notifications: getEnrolmentNotificationsCode(notifications),
       phoneNumber: getValue(phoneNumber, null),
       serviceLanguage: getValue(serviceLanguage, null),
       streetAddress: getValue(streetAddress, null),
-      zipcode: getValue(zip, null),
+      zipcode: getValue(zipcode, null),
     };
   });
 
@@ -178,23 +177,24 @@ export const getUpdateEnrolmentPayload = ({
     phoneNumber,
     serviceLanguage,
   } = formValues;
-  const { city, dateOfBirth, name, streetAddress, zip } = attendees[0] || {};
+  const { city, dateOfBirth, name, streetAddress, zipcode } =
+    attendees[0] || {};
 
   return {
     id,
-    city: getValue(city, null),
+    city: getValue(city, ''),
     dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
     email: getValue(email, null),
     extraInfo: extraInfo,
     membershipNumber: membershipNumber,
-    name: getValue(name, null),
+    name: getValue(name, ''),
     nativeLanguage: getValue(nativeLanguage, null),
     notifications: getEnrolmentNotificationsCode(notifications),
     phoneNumber: getValue(phoneNumber, null),
     registration: getValue(registration.id, ''),
     serviceLanguage: getValue(serviceLanguage, null),
     streetAddress: getValue(streetAddress, null),
-    zipcode: getValue(zip, null),
+    zipcode: getValue(zipcode, null),
   };
 };
 
@@ -441,4 +441,18 @@ export const getNewAttendees = ({
       ...attendee,
       inWaitingList: index + 1 > (seatsAtEvent as number),
     }));
+};
+
+export const isEnrolmentFieldRequired = (
+  registration: RegistrationFieldsFragment,
+  fieldId: ENROLMENT_FIELDS | ATTENDEE_FIELDS
+): boolean =>
+  Boolean(registration.mandatoryFields?.includes(snakeCase(fieldId)));
+
+export const isDateOfBirthFieldRequired = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  const { audienceMinAge, audienceMaxAge } = registration;
+
+  return Boolean(audienceMaxAge || audienceMinAge);
 };

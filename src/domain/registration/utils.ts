@@ -21,6 +21,7 @@ import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import skipFalsyType from '../../utils/skipFalsyType';
 import { getFreeWaitlistCapacity } from '../enrolment/utils';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -182,6 +183,10 @@ export const getRegistrationFields = (
     event,
     eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', event)}`,
     lastModifiedAt: getDateFromString(registration.lastModifiedAt),
+    mandatoryFields: getValue(
+      registration.mandatoryFields?.filter(skipFalsyType),
+      []
+    ),
     maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
       ':id',
@@ -225,6 +230,10 @@ export const getRegistrationInitialValues = (
         : '',
     [REGISTRATION_FIELDS.EVENT]: getValue(registration.event, ''),
     [REGISTRATION_FIELDS.INSTRUCTIONS]: getValue(registration.instructions, ''),
+    [REGISTRATION_FIELDS.MANDATORY_FIELDS]: getValue(
+      registration.mandatoryFields?.filter(skipFalsyType),
+      []
+    ),
     [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: getValue(
       registration.maximumAttendeeCapacity,
       ''
@@ -233,8 +242,6 @@ export const getRegistrationInitialValues = (
       registration.minimumAttendeeCapacity,
       ''
     ),
-    // TODO: Initialize required fields when API supports it
-    [REGISTRATION_FIELDS.REQUIRED_FIELDS]: [],
     [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: getValue(
       registration.waitingListCapacity,
       ''
@@ -275,6 +282,7 @@ export const getRegistrationPayload = (
     enrolmentStartTimeTime,
     event,
     instructions,
+    mandatoryFields,
     maximumAttendeeCapacity,
     minimumAttendeeCapacity,
     waitingListCapacity,
@@ -297,6 +305,7 @@ export const getRegistrationPayload = (
         : null,
     event,
     instructions: instructions ? instructions : null,
+    mandatoryFields,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity
       : null,

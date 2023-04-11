@@ -135,6 +135,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
                     disabled={disabled}
                     index={index}
                     onDelete={openModal}
+                    registration={registration}
                     showDelete={attendees.length > 1}
                   />
                 </React.Fragment>

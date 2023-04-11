@@ -495,6 +495,7 @@ export const fakeRegistration = (
       instructions: faker.lorem.paragraph(),
       lastModifiedAt: '2020-09-12T15:00:00.000000Z',
       lastModifiedBy: faker.name.firstName(),
+      mandatoryFields: [],
       maximumAttendeeCapacity: 0,
       minimumAttendeeCapacity: 0,
       signups: [],

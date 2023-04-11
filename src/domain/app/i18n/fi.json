@@ -348,7 +348,7 @@
       "labelPhoneNumber": "Puhelinnumero",
       "labelServiceLanguage": "Asiointikieli",
       "labelStreetAddress": "Katuosoite",
-      "labelZip": "Postinumero",
+      "labelZipcode": "Postinumero",
       "notificationTitleCannotEdit": "Osallistujia ei voi muokata",
       "placeholderAttendeeExtraInfo": "Syötä mahdollinen lisätieto tai toive",
       "placeholderCity": "Syötä kaupunki",
@@ -360,7 +360,7 @@
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Valitse asiointikieli",
       "placeholderStreetAddress": "Syötä katuosoite",
-      "placeholderZip": "Syötä postinumero",
+      "placeholderZipcode": "Syötä postinumero",
       "timeLeft": "Aikaa jäljellä ilmoittautumisen tekoon",
       "titleAdditionalInfo": "Lisätiedot",
       "titleBasicInfo": "Ilmoittautujan perustiedot",
@@ -1729,12 +1729,6 @@
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
       "placeholderEvent": "Valitse tai hae tapahtuma",
       "placeholderInstructions": "Syötä ilmoittautumisohjeet",
-      "requiredFields": {
-        "address": "Osoite",
-        "city": "Kaupunki",
-        "name": "Nimi",
-        "phoneNumber": "Puhelinnumero"
-      },
       "sections": {
         "attendeeCount": "Paikat",
         "audienceAge": "Ikäraja",
@@ -1742,7 +1736,7 @@
         "enrolmentTime": "Ilmoittautumisaika",
         "event": "Tapahtuma",
         "instructions": "Ilmoittautumisen lisätiedot",
-        "requiredFields": "Pakolliset kentät",
+        "mandatoryFields": "Pakolliset kentät",
         "waitingList": "Jonopaikat"
       },
       "titleContactInfo": "Yhteystiedot",

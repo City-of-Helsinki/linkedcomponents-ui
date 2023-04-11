@@ -99,12 +99,7 @@ export const addTypenameEvent = (event?: Event | null): Event | null =>
 export const addTypenameExternalLink = (
   externalLink?: ExternalLink | null
 ): ExternalLink | null =>
-  externalLink
-    ? {
-        ...externalLink,
-        __typename: 'ExternalLink',
-      }
-    : null;
+  externalLink ? { ...externalLink, __typename: 'ExternalLink' } : null;
 
 export const addTypenameImage = (image?: Image | null): Image | null =>
   image
@@ -181,21 +176,13 @@ export const addTypenameOffer = (offer?: Offer | null): Offer | null =>
 export const addTypenameOrganization = (
   organization?: Organization | null
 ): Organization | null =>
-  organization
-    ? {
-        ...organization,
-        __typename: 'Organization',
-      }
-    : null;
+  organization ? { ...organization, __typename: 'Organization' } : null;
 
 export const addTypenameOrganizationClass = (
   organizationClass?: OrganizationClass | null
 ): OrganizationClass | null =>
   organizationClass
-    ? {
-        ...organizationClass,
-        __typename: 'OrganizationClass',
-      }
+    ? { ...organizationClass, __typename: 'OrganizationClass' }
     : null;
 
 export const addTypenamePlace = (place?: Place | null): Place | null =>
@@ -219,12 +206,7 @@ export const addTypenamePlace = (place?: Place | null): Place | null =>
 export const addTypenamePosition = (
   position?: Position | null
 ): Position | null =>
-  position
-    ? {
-        ...position,
-        __typename: 'Position',
-      }
-    : null;
+  position ? { ...position, __typename: 'Position' } : null;
 
 export const addTypenameRegistration = (
   registration?: Registration | null
@@ -242,9 +224,4 @@ export const addTypenameRegistration = (
     : null;
 
 export const addTypenameUser = (user?: User | null): User | null =>
-  user
-    ? {
-        ...user,
-        __typename: 'User',
-      }
-    : null;
+  user ? { ...user, __typename: 'User' } : null;

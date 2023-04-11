@@ -295,17 +295,15 @@ test('should validate enrolment form and focus to invalid field and finally crea
   await user.type(cityInput, enrolmentValues.city);
   await user.click(submitButton);
 
-  await waitFor(() => expect(emailCheckbox).toHaveFocus());
-  expect(emailInput).not.toBeRequired();
-
-  await user.click(emailCheckbox);
-  await user.click(submitButton);
-
   await waitFor(() => expect(emailInput).toHaveFocus());
   expect(emailInput).toBeRequired();
   expect(phoneInput).not.toBeRequired();
 
   await user.type(emailInput, enrolmentValues.email);
+  await user.click(submitButton);
+  await waitFor(() => expect(emailCheckbox).toHaveFocus());
+
+  await user.click(emailCheckbox);
   await user.click(phoneCheckbox);
   await user.click(submitButton);
 

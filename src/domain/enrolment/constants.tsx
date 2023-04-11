@@ -3,15 +3,13 @@ import { IconCrossCircle, IconEnvelope, IconEye, IconPen } from 'hds-react';
 import { AttendeeFields, EnrolmentFormFields } from './types';
 
 export enum ATTENDEE_FIELDS {
-  AUDIENCE_MAX_AGE = 'audienceMaxAge',
-  AUDIENCE_MIN_AGE = 'audienceMinAge',
   CITY = 'city',
   DATE_OF_BIRTH = 'dateOfBirth',
   EXTRA_INFO = 'extraInfo',
   IN_WAITING_LIST = 'inWaitingList',
   NAME = 'name',
   STREET_ADDRESS = 'streetAddress',
-  ZIP = 'zip',
+  ZIPCODE = 'zipcode',
 }
 
 export enum ENROLMENT_FIELDS {
@@ -26,15 +24,13 @@ export enum ENROLMENT_FIELDS {
 }
 
 export const ATTENDEE_INITIAL_VALUES: AttendeeFields = {
-  [ATTENDEE_FIELDS.AUDIENCE_MAX_AGE]: null,
-  [ATTENDEE_FIELDS.AUDIENCE_MIN_AGE]: null,
   [ATTENDEE_FIELDS.CITY]: '',
   [ATTENDEE_FIELDS.DATE_OF_BIRTH]: null,
   [ATTENDEE_FIELDS.EXTRA_INFO]: '',
   [ATTENDEE_FIELDS.IN_WAITING_LIST]: false,
   [ATTENDEE_FIELDS.NAME]: '',
   [ATTENDEE_FIELDS.STREET_ADDRESS]: '',
-  [ATTENDEE_FIELDS.ZIP]: '',
+  [ATTENDEE_FIELDS.ZIPCODE]: '',
 };
 
 export const ENROLMENT_INITIAL_VALUES: EnrolmentFormFields = {

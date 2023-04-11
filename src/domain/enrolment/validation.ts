@@ -6,6 +6,7 @@ import subYears from 'date-fns/subYears';
 import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
+import { RegistrationFieldsFragment } from '../../generated/graphql';
 import { Maybe } from '../../types';
 import getValue from '../../utils/getValue';
 import {
@@ -21,121 +22,124 @@ import {
   ENROLMENT_FORM_SELECT_FIELDS,
   NOTIFICATIONS,
 } from './constants';
+import { isDateOfBirthFieldRequired, isEnrolmentFieldRequired } from './utils';
 
 export const isAboveMinAge = (
-  [minAge]: string[],
-  schema: Yup.DateSchema<Maybe<Date>>
-): Yup.DateSchema<Maybe<Date>> => {
-  /* istanbul ignore else */
-  if (minAge) {
-    return schema.test(
-      'isAboveMinAge',
-      () => ({
-        key: VALIDATION_MESSAGE_KEYS.AGE_MIN,
-        min: parseInt(minAge),
-      }),
-      (date) => {
-        if (date) {
-          return isBefore(
-            date,
-            subYears(endOfDay(new Date()), parseInt(minAge))
-          );
-        }
-        return true;
-      }
-    );
-  } else {
-    return schema;
-  }
-};
+  date: Maybe<Date>,
+  minAge: Maybe<number>
+): boolean =>
+  minAge && date
+    ? isBefore(date, subYears(endOfDay(new Date()), minAge))
+    : true;
 
 export const isBelowMaxAge = (
-  [maxAge]: string[],
-  schema: Yup.DateSchema<Maybe<Date>>
-): Yup.DateSchema<Maybe<Date>> => {
-  /* istanbul ignore else */
-  if (maxAge) {
-    return schema.test(
-      'isBelowMaxAge',
-      () => ({
-        key: VALIDATION_MESSAGE_KEYS.AGE_MAX,
-        max: parseInt(maxAge),
-      }),
-      (date) => {
-        if (date) {
-          return isAfter(
-            date,
-            subYears(startOfDay(new Date()), parseInt(maxAge) + 1)
-          );
-        }
-        return true;
-      }
-    );
-  } else {
-    return schema;
-  }
-};
+  date: Maybe<Date>,
+  maxAge: Maybe<number>
+): boolean =>
+  maxAge && date
+    ? isAfter(date, subYears(startOfDay(new Date()), maxAge + 1))
+    : true;
 
-export const attendeeSchema = Yup.object().shape({
-  [ATTENDEE_FIELDS.NAME]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-  [ATTENDEE_FIELDS.STREET_ADDRESS]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-  [ATTENDEE_FIELDS.DATE_OF_BIRTH]: Yup.date()
-    .nullable()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    .when([ATTENDEE_FIELDS.AUDIENCE_MIN_AGE], isAboveMinAge)
-    .when([ATTENDEE_FIELDS.AUDIENCE_MAX_AGE], isBelowMaxAge),
-  [ATTENDEE_FIELDS.ZIP]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .test(
+const getStringSchema = (required: boolean) =>
+  required
+    ? Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    : Yup.string();
+
+const getDateSchema = (required: boolean) =>
+  required
+    ? Yup.date()
+        .nullable()
+        .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+        .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    : Yup.date().nullable().typeError(VALIDATION_MESSAGE_KEYS.DATE);
+
+export const getAttendeeSchema = (registration: RegistrationFieldsFragment) => {
+  const { audienceMaxAge, audienceMinAge } = registration;
+
+  return Yup.object().shape({
+    [ATTENDEE_FIELDS.NAME]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ATTENDEE_FIELDS.NAME)
+    ),
+    [ATTENDEE_FIELDS.STREET_ADDRESS]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ATTENDEE_FIELDS.STREET_ADDRESS)
+    ),
+    [ATTENDEE_FIELDS.DATE_OF_BIRTH]: getDateSchema(
+      isDateOfBirthFieldRequired(registration)
+    )
+      .test(
+        'isAboveMinAge',
+        () => ({
+          key: VALIDATION_MESSAGE_KEYS.AGE_MIN,
+          min: audienceMinAge,
+        }),
+        (date) => isAboveMinAge(date, audienceMinAge)
+      )
+      .test(
+        'isBelowMaxAge',
+        () => ({
+          key: VALIDATION_MESSAGE_KEYS.AGE_MAX,
+          max: audienceMaxAge,
+        }),
+        (date) => isBelowMaxAge(date, audienceMaxAge)
+      ),
+    [ATTENDEE_FIELDS.ZIPCODE]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ATTENDEE_FIELDS.ZIPCODE)
+    ).test(
       'isValidZip',
       VALIDATION_MESSAGE_KEYS.ZIP,
       (value) => !value || isValidZip(value)
     ),
-  [ATTENDEE_FIELDS.CITY]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-});
+    [ATTENDEE_FIELDS.CITY]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ATTENDEE_FIELDS.CITY)
+    ),
+    [ATTENDEE_FIELDS.EXTRA_INFO]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ATTENDEE_FIELDS.EXTRA_INFO)
+    ),
+  });
+};
 
-export const enrolmentSchema = Yup.object().shape({
-  [ENROLMENT_FIELDS.ATTENDEES]: Yup.array().of(attendeeSchema),
-  [ENROLMENT_FIELDS.EMAIL]: Yup.string()
-    .email(VALIDATION_MESSAGE_KEYS.EMAIL)
-    .when(
-      [ENROLMENT_FIELDS.NOTIFICATIONS],
-      ([notifications]: string[][], schema) => {
-        return notifications.includes(NOTIFICATIONS.EMAIL)
-          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          : schema;
-      }
+export const getEnrolmentSchema = (
+  registration: RegistrationFieldsFragment
+) => {
+  return Yup.object().shape({
+    [ENROLMENT_FIELDS.ATTENDEES]: Yup.array().of(
+      getAttendeeSchema(registration)
     ),
-  [ENROLMENT_FIELDS.PHONE_NUMBER]: Yup.string()
-    .test(
-      'isValidPhoneNumber',
-      VALIDATION_MESSAGE_KEYS.PHONE,
-      (value) => !value || isValidPhoneNumber(value)
+    [ENROLMENT_FIELDS.EMAIL]: Yup.string()
+      .email(VALIDATION_MESSAGE_KEYS.EMAIL)
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+    [ENROLMENT_FIELDS.PHONE_NUMBER]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ENROLMENT_FIELDS.PHONE_NUMBER)
     )
-    .when(
-      [ENROLMENT_FIELDS.NOTIFICATIONS],
-      ([notifications]: string[][], schema) =>
-        notifications.includes(NOTIFICATIONS.SMS)
-          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          : schema
+      .test(
+        'isValidPhoneNumber',
+        VALIDATION_MESSAGE_KEYS.PHONE,
+        (value) => !value || isValidPhoneNumber(value)
+      )
+      .when(
+        [ENROLMENT_FIELDS.NOTIFICATIONS],
+        ([notifications]: string[][], schema) =>
+          notifications.includes(NOTIFICATIONS.SMS)
+            ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+            : schema
+      ),
+    [ENROLMENT_FIELDS.NOTIFICATIONS]: Yup.array()
+      .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
+      .min(1, createArrayMinErrorMessage),
+    [ENROLMENT_FIELDS.MEMBERSHIP_NUMBER]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ENROLMENT_FIELDS.MEMBERSHIP_NUMBER)
     ),
-  [ENROLMENT_FIELDS.NOTIFICATIONS]: Yup.array()
-    .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
-    .min(1, createArrayMinErrorMessage),
-  [ENROLMENT_FIELDS.NATIVE_LANGUAGE]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-  [ENROLMENT_FIELDS.SERVICE_LANGUAGE]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-});
+    [ENROLMENT_FIELDS.NATIVE_LANGUAGE]: Yup.string().required(
+      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    ),
+    [ENROLMENT_FIELDS.SERVICE_LANGUAGE]: Yup.string().required(
+      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    ),
+    [ENROLMENT_FIELDS.EXTRA_INFO]: getStringSchema(
+      isEnrolmentFieldRequired(registration, ENROLMENT_FIELDS.EXTRA_INFO)
+    ),
+  });
+};
 
 const getFocusableFieldId = (
   fieldName: string
