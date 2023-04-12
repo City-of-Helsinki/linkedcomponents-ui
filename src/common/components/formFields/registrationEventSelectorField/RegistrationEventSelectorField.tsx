@@ -12,7 +12,7 @@ import { Language, OptionType } from '../../../../types';
 import EventSelector, {
   EventSelectorProps,
 } from '../../eventSelector/EventSelector';
-import useComboboxFieldProps from '../hooks/useComboboxFieldProps';
+import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
 type Props = EventSelectorProps & FieldProps<string>;
 
@@ -31,9 +31,11 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
   helper,
+  disabled,
   ...rest
 }) => {
-  const { errorText, handleBlur, handleChange } = useComboboxFieldProps({
+  const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
+    disabled,
     name,
     onBlur,
     onChange,
@@ -44,6 +46,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
     <EventSelector
       {...rest}
       {...field}
+      disabled={disabled}
       name={name}
       variables={{
         adminUser: true,

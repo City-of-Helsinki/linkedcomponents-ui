@@ -4,7 +4,7 @@ import React from 'react';
 import SingleOrganizationClassSelector, {
   SingleOrganizationClassSelectorProps,
 } from '../../singleOrganizationClassSelector/SingleOrganizationClassSelector';
-import useComboboxFieldProps from '../hooks/useComboboxFieldProps';
+import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
 type Props = SingleOrganizationClassSelectorProps & FieldProps<string>;
 
@@ -12,9 +12,11 @@ const SingleOrganizationClassSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
   helper,
+  disabled,
   ...rest
 }) => {
-  const { errorText, handleBlur, handleChange } = useComboboxFieldProps({
+  const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
+    disabled,
     name,
     onBlur,
     onChange,
@@ -25,6 +27,7 @@ const SingleOrganizationClassSelectorField: React.FC<Props> = ({
     <SingleOrganizationClassSelector
       {...rest}
       {...field}
+      disabled={disabled}
       name={name}
       onBlur={handleBlur}
       onChange={handleChange}
