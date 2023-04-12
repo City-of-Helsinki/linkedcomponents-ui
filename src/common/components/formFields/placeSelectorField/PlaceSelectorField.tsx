@@ -4,7 +4,7 @@ import React from 'react';
 import PlaceSelector, {
   PlaceSelectorProps,
 } from '../../placeSelector/PlaceSelector';
-import useComboboxFieldProps from '../hooks/useComboboxFieldProps';
+import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
 type Props = PlaceSelectorProps & FieldProps<string>;
 
@@ -12,9 +12,11 @@ const PlaceSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
   helper,
+  disabled,
   ...rest
 }) => {
-  const { errorText, handleBlur, handleChange } = useComboboxFieldProps({
+  const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
+    disabled,
     name,
     onBlur,
     onChange,
@@ -25,6 +27,7 @@ const PlaceSelectorField: React.FC<Props> = ({
     <PlaceSelector
       {...rest}
       {...field}
+      disabled={disabled}
       name={name}
       onBlur={handleBlur}
       onChange={handleChange}

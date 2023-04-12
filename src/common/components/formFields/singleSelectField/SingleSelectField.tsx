@@ -1,12 +1,10 @@
-import { FieldProps, useField } from 'formik';
+import { FieldProps } from 'formik';
 import { SingleSelectProps } from 'hds-react';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../../types';
-import getValue from '../../../../utils/getValue';
-import { getErrorText } from '../../../../utils/validationUtils';
 import SingleSelect from '../../singleSelect/SingleSelect';
+import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
 type Props = SingleSelectProps<OptionType> & FieldProps;
 
@@ -15,27 +13,22 @@ const SingleSelectField: React.FC<Props> = ({
   form,
   helper,
   options,
+  disabled,
   ...rest
 }) => {
-  const { t } = useTranslation();
-  const [, { touched, error }] = useField(name);
-
-  const errorText = getErrorText(error, touched, t);
-
-  const handleBlur = () => {
-    onBlur({ target: { id: name, value } });
-  };
-
-  const handleChange = (selected: OptionType | null) => {
-    onChange({
-      target: { id: name, value: getValue(selected?.value, null) },
-    });
-  };
+  const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
+    disabled,
+    name,
+    onBlur,
+    onChange,
+    value,
+  });
 
   return (
     <SingleSelect
       {...rest}
       {...field}
+      disabled={disabled}
       id={name}
       onBlur={handleBlur}
       onChange={handleChange}
