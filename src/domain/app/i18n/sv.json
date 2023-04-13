@@ -1562,8 +1562,7 @@
       "admin": "Admin",
       "events": "Evenemang",
       "help": "Stöd",
-      "registrations": "Registrering",
-      "dataProtection": "Dataskydd"
+      "registrations": "Registrering"
     }
   },
   "notFound": {
