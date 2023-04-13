@@ -1562,7 +1562,8 @@
       "admin": "Hallinta",
       "events": "Tapahtumat",
       "help": "Tuki",
-      "registrations": "Ilmoittautuminen"
+      "registrations": "Ilmoittautuminen",
+      "dataProtection": "Tietosuoja"
     }
   },
   "notFound": {

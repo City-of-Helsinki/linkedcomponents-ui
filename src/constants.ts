@@ -225,3 +225,7 @@ export const testIds = {
   placeList: { resultList: 'place-result-list' },
   registrationList: { resultList: 'registration-result-list' },
 };
+
+export const DATA_PROTECTION_URL =
+  // eslint-disable-next-line max-len
+  'https://www.hel.fi/fi/paatoksenteko-ja-hallinto/tietoa-helsingista/tietosuoja-ja-tiedonhallinta/tietosuoja/tietosuojaselosteet';
