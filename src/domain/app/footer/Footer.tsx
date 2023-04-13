@@ -4,7 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
-import { ROUTES } from '../../../constants';
+import { DATA_PROTECTION_URL, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { featureFlagUtils } from '../../../utils/featureFlags';
 import { useTheme } from '../theme/Theme';
@@ -13,6 +13,8 @@ import styles from './footer.module.scss';
 interface NavigationItem {
   labelKey: string;
   url: ROUTES;
+  target: string;
+  externalUrl?: boolean;
 }
 
 const NO_FOOTER_PATHS: PathPattern[] = [
@@ -46,17 +48,29 @@ const Footer: React.FC = () => {
       url: ROUTES.ADMIN,
     },
     { labelKey: 'navigation.tabs.help', url: ROUTES.HELP, target: '_self' },
+    {
+      labelKey: 'navigation.tabs.dataProtection',
+      url: DATA_PROTECTION_URL,
+      externalUrl: true,
+    },
   ].filter((i) => i) as NavigationItem[];
 
-  const navigationItems = FOOTER_NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
-    label: t(labelKey),
-    url: `/${locale}${url}`,
-  }));
+  const navigationItems = FOOTER_NAVIGATION_ITEMS.map(
+    ({ labelKey, url, externalUrl, target }) => ({
+      label: t(labelKey),
+      url: !externalUrl ? `/${locale}${url}` : url,
+      externalUrl: externalUrl || false,
+      target: externalUrl ? '_blank' : '_self',
+    })
+  );
 
   const goToPage =
-    (pathname: string) => (event?: React.MouseEvent<HTMLAnchorElement>) => {
-      event?.preventDefault();
-      navigate({ pathname });
+    (pathname: string, external?: boolean) =>
+    (event?: React.MouseEvent<HTMLAnchorElement>) => {
+      if (!external) {
+        event?.preventDefault();
+        navigate({ pathname });
+      }
     };
 
   const getFooterThemeClassName = () => {
@@ -99,7 +113,8 @@ const Footer: React.FC = () => {
                 key={item.url}
                 href={item.url}
                 label={item.label}
-                onClick={goToPage(item.url)}
+                target={item.target}
+                onClick={goToPage(item.url, item.externalUrl)}
               />
             ))}
           </HdsFooter.Navigation>
