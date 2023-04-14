@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
   const logoLanguage = locale === 'sv' ? 'sv' : 'fi';
 
   const FOOTER_NAVIGATION_ITEMS = [
-    { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS, target: '_self' },
+    { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
     {
       labelKey: 'navigation.searchEvents',
       url: ROUTES.SEARCH,
@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
       labelKey: 'navigation.tabs.admin',
       url: ROUTES.ADMIN,
     },
-    { labelKey: 'navigation.tabs.help', url: ROUTES.HELP, target: '_self' },
+    { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
     {
       labelKey: 'navigation.tabs.dataProtection',
       url: DATA_PROTECTION_URL,
