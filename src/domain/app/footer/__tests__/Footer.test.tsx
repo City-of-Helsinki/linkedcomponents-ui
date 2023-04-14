@@ -66,6 +66,8 @@ test('should show navigation links and should route to correct page after clicki
   await user.click(dataProtectionLink);
 
   expect(spyWindowOpen).toHaveBeenCalled();
+
+  spyWindowOpen.mockRestore();
 });
 
 test('should not show keywords and registrations link when those features are disabled', async () => {
