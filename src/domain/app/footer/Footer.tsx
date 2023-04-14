@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
     ({ labelKey, url, externalUrl }) => ({
       label: t(labelKey),
       url: !externalUrl ? `/${locale}${url}` : url,
-      externalUrl: externalUrl || false,
+      externalUrl: externalUrl,
       target: externalUrl ? '_blank' : '_self',
     })
   );
