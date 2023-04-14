@@ -7,15 +7,9 @@ import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 import { DATA_PROTECTION_URL, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { featureFlagUtils } from '../../../utils/featureFlags';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { useTheme } from '../theme/Theme';
 import styles from './footer.module.scss';
-
-interface NavigationItem {
-  labelKey: string;
-  url: ROUTES;
-  target: string;
-  externalUrl?: boolean;
-}
 
 const NO_FOOTER_PATHS: PathPattern[] = [
   { path: ROUTES.EDIT_EVENT },
@@ -53,10 +47,10 @@ const Footer: React.FC = () => {
       url: DATA_PROTECTION_URL,
       externalUrl: true,
     },
-  ].filter((i) => i) as NavigationItem[];
+  ].filter(skipFalsyType);
 
   const navigationItems = FOOTER_NAVIGATION_ITEMS.map(
-    ({ labelKey, url, externalUrl, target }) => ({
+    ({ labelKey, url, externalUrl }) => ({
       label: t(labelKey),
       url: !externalUrl ? `/${locale}${url}` : url,
       externalUrl: externalUrl || false,
@@ -67,9 +61,12 @@ const Footer: React.FC = () => {
   const goToPage =
     (pathname: string, external?: boolean) =>
     (event?: React.MouseEvent<HTMLAnchorElement>) => {
+      event?.preventDefault();
+
       if (!external) {
-        event?.preventDefault();
         navigate({ pathname });
+      } else {
+        window.open(pathname, '_blank');
       }
     };
 

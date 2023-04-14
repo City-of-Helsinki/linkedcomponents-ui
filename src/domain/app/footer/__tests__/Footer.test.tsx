@@ -2,7 +2,7 @@
 import i18n from 'i18next';
 import React from 'react';
 
-import { ROUTES } from '../../../../constants';
+import { DATA_PROTECTION_URL, ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import {
   configure,
@@ -46,6 +46,7 @@ test('should show navigation links and should route to correct page after clicki
     { name: /hallinta/i, url: `/fi${ROUTES.ADMIN}` },
     { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
   ];
+
   for (const { name, url } of links) {
     const link = screen.getByRole('link', { name });
 
@@ -53,6 +54,18 @@ test('should show navigation links and should route to correct page after clicki
 
     await waitFor(() => expect(history.location.pathname).toBe(url));
   }
+
+  const dataProtectionLink = screen.getByRole('link', { name: /tietosuoja/i });
+
+  expect(dataProtectionLink.getAttribute('href')).toEqual(DATA_PROTECTION_URL);
+
+  const spyWindowOpen = jest
+    .spyOn(window, 'open')
+    .mockImplementation(jest.fn());
+
+  await user.click(dataProtectionLink);
+
+  expect(spyWindowOpen).toHaveBeenCalled();
 });
 
 test('should not show keywords and registrations link when those features are disabled', async () => {
