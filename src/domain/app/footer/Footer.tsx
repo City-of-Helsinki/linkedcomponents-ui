@@ -4,16 +4,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
-import { ROUTES } from '../../../constants';
+import { DATA_PROTECTION_URL, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { featureFlagUtils } from '../../../utils/featureFlags';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { useTheme } from '../theme/Theme';
 import styles from './footer.module.scss';
-
-interface NavigationItem {
-  labelKey: string;
-  url: ROUTES;
-}
 
 const NO_FOOTER_PATHS: PathPattern[] = [
   { path: ROUTES.EDIT_EVENT },
@@ -32,7 +28,7 @@ const Footer: React.FC = () => {
   const logoLanguage = locale === 'sv' ? 'sv' : 'fi';
 
   const FOOTER_NAVIGATION_ITEMS = [
-    { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS, target: '_self' },
+    { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
     {
       labelKey: 'navigation.searchEvents',
       url: ROUTES.SEARCH,
@@ -45,18 +41,33 @@ const Footer: React.FC = () => {
       labelKey: 'navigation.tabs.admin',
       url: ROUTES.ADMIN,
     },
-    { labelKey: 'navigation.tabs.help', url: ROUTES.HELP, target: '_self' },
-  ].filter((i) => i) as NavigationItem[];
+    { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
+    {
+      labelKey: 'navigation.tabs.dataProtection',
+      url: DATA_PROTECTION_URL,
+      externalUrl: true,
+    },
+  ].filter(skipFalsyType);
 
-  const navigationItems = FOOTER_NAVIGATION_ITEMS.map(({ labelKey, url }) => ({
-    label: t(labelKey),
-    url: `/${locale}${url}`,
-  }));
+  const navigationItems = FOOTER_NAVIGATION_ITEMS.map(
+    ({ labelKey, url, externalUrl }) => ({
+      label: t(labelKey),
+      url: !externalUrl ? `/${locale}${url}` : url,
+      externalUrl,
+      target: externalUrl ? '_blank' : '_self',
+    })
+  );
 
   const goToPage =
-    (pathname: string) => (event?: React.MouseEvent<HTMLAnchorElement>) => {
+    (pathname: string, external?: boolean) =>
+    (event?: React.MouseEvent<HTMLAnchorElement>) => {
       event?.preventDefault();
-      navigate({ pathname });
+
+      if (!external) {
+        navigate({ pathname });
+      } else {
+        window.open(pathname, '_blank');
+      }
     };
 
   const getFooterThemeClassName = () => {
@@ -99,7 +110,8 @@ const Footer: React.FC = () => {
                 key={item.url}
                 href={item.url}
                 label={item.label}
-                onClick={goToPage(item.url)}
+                target={item.target}
+                onClick={goToPage(item.url, item.externalUrl)}
               />
             ))}
           </HdsFooter.Navigation>

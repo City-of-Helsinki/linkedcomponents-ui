@@ -1562,7 +1562,8 @@
       "admin": "Admin",
       "events": "Events",
       "help": "Support",
-      "registrations": "Registration"
+      "registrations": "Registration",
+      "dataProtection": "Data Protection"
     }
   },
   "notFound": {
