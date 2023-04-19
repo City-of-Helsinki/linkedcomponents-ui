@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import useRegistrationName from '../hooks/useRegistrationName';
 import { getRegistrationFields } from '../utils';
 import styles from './eventLink.module.scss';
 
@@ -15,13 +14,12 @@ interface Props {
 const EventLink: React.FC<Props> = ({ registration }) => {
   const locale = useLocale();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
-  const { eventUrl } = getRegistrationFields(registration, locale);
-  const eventUrlWithReturnPath = `${eventUrl}${queryStringWithReturnPath}`;
-  const name = useRegistrationName({ registration });
+  const { event } = getRegistrationFields(registration, locale);
+  const eventUrlWithReturnPath = `${event?.eventUrl}${queryStringWithReturnPath}`;
 
   return (
     <Link className={styles.eventLink} to={eventUrlWithReturnPath}>
-      {name}
+      {event?.name}
     </Link>
   );
 };

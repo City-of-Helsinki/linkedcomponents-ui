@@ -4,6 +4,8 @@ import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
+import { mockedEventResponse } from '../../../common/components/eventSelector/__mocks__/eventSelector';
+import { mockedRegistrationEventSelectorEventsResponse } from '../../../common/components/formFields/registrationEventSelectorField/__mocks__/registrationEventSelectorField';
 import { DATE_FORMAT, FORM_NAMES } from '../../../constants';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
@@ -18,8 +20,6 @@ import {
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedCreateRegistrationResponse,
-  mockedEventResponse,
-  mockedEventsResponse,
   mockedInvalidCreateRegistrationResponse,
   registrationValues,
 } from '../__mocks__/createRegistrationPage';
@@ -36,7 +36,7 @@ beforeEach(() => clear());
 
 const commonMocks = [
   mockedEventResponse,
-  mockedEventsResponse,
+  mockedRegistrationEventSelectorEventsResponse,
   mockedUserResponse,
 ];
 

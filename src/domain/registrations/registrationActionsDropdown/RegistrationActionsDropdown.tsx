@@ -15,7 +15,6 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_MODALS } from '../../registration/constants';
 import useRegistrationActions from '../../registration/hooks/useRegistrationActions';
-import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import ConfirmDeleteRegistrationModal from '../../registration/modals/confirmDeleteRegistrationModal/ConfirmDeleteRegistrationModal';
 import {
   copyEnrolmentLinkToClipboard,
@@ -39,10 +38,10 @@ const RegistrationActionsDropdown: React.FC<
   const locale = useLocale();
   const navigate = useNavigate();
   const { id, registrationUrl } = getRegistrationFields(registration, locale);
+  const publisher = getValue(registration.publisher, '');
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const { user } = useUser();
 
-  const publisher = getValue(useRegistrationPublisher({ registration }), '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { closeModal, deleteRegistration, openModal, saving, setOpenModal } =

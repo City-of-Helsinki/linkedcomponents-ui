@@ -1,3 +1,4 @@
+import { EventFields } from '../event/types';
 import { REGISTRATION_FIELDS } from './constants';
 
 export type RegistrationFormFields = {
@@ -24,11 +25,11 @@ export type RegistrationFields = {
   currentWaitingListCount: number;
   enrolmentEndTime: Date | null;
   enrolmentStartTime: Date | null;
-  event: string;
-  eventUrl: string;
+  event: EventFields | null;
   lastModifiedAt: Date | null;
   mandatoryFields: string[];
   maximumAttendeeCapacity: number;
+  publisher: string | null;
   registrationUrl: string;
   waitingListCapacity: number;
 };

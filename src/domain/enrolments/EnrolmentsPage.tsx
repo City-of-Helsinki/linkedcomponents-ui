@@ -29,8 +29,6 @@ import {
 } from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
-import useRegistrationName from '../registration/hooks/useRegistrationName';
-import useRegistrationPublisher from '../registration/hooks/useRegistrationPublisher';
 import { getRegistrationFields } from '../registration/utils';
 import { clearSeatsReservationData } from '../reserveSeats/utils';
 import useUser from '../user/hooks/useUser';
@@ -51,12 +49,12 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   const locale = useLocale();
 
   const { isAuthenticated: authenticated } = useAuth();
-  const publisher = getValue(useRegistrationPublisher({ registration }), '');
+  const publisher = getValue(registration.publisher, '');
 
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { user } = useUser();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
-  const name = useRegistrationName({ registration });
+  const { event } = getRegistrationFields(registration, locale);
 
   const { createdBy, lastModifiedAt } = getRegistrationFields(
     registration,
@@ -91,7 +89,10 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
       backgroundColor="coatOfArms"
       className={styles.enrolmentsPage}
       noFooter
-      titleText={getValue(t('enrolmentsPage.pageTitle', { name }), '')}
+      titleText={getValue(
+        t('enrolmentsPage.pageTitle', { name: event?.name }),
+        ''
+      )}
     >
       <MainContent>
         <Container
@@ -140,7 +141,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
                 lastModifiedAt={lastModifiedAt}
               />
             }
-            title={name}
+            title={getValue(event?.name, '')}
           />
 
           <SearchPanel />

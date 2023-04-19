@@ -20,7 +20,6 @@ import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
 import ConfirmCancelEnrolmentModal from '../../enrolment/modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
 import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
-import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import { getRegistrationFields } from '../../registration/utils';
 import { addParamsToRegistrationQueryString } from '../../registrations/utils';
 import useUser from '../../user/hooks/useUser';
@@ -42,7 +41,7 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
   const navigate = useNavigate();
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const publisher = getValue(useRegistrationPublisher({ registration }), '');
+  const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { pathname, search } = useLocation();
   const { id: registrationId } = getRegistrationFields(registration, locale);

@@ -12,7 +12,6 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
-import { mockedEventResponse } from '../../event/__mocks__/event';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedPlaceResponse } from '../../place/__mocks__/place';
@@ -104,8 +103,6 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
   mockedEnrolmentResponse,
-  mockedEventResponse,
-  mockedEventResponse,
   mockedLanguagesResponse,
   mockedOrganizationAncestorsResponse,
   mockedPlaceResponse,

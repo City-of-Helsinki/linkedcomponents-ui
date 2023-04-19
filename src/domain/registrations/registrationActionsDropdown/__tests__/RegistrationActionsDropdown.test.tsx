@@ -19,7 +19,6 @@ import {
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   mockedDeleteRegistrationResponse,
-  mockedEventResponse,
   registration,
 } from '../../../registration/__mocks__/editRegistrationPage';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
@@ -31,16 +30,12 @@ configure({ defaultHidden: true });
 jest.mock('copy-to-clipboard');
 
 const defaultProps: RegistrationActionsDropdownProps = {
-  registration: registration,
+  registration,
 };
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [
-  mockedEventResponse,
-  mockedOrganizationAncestorsResponse,
-  mockedUserResponse,
-];
+const defaultMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const routes = [`/fi${ROUTES.REGISTRATIONS}`];
 

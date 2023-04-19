@@ -214,6 +214,7 @@ export const addTypenameRegistration = (
   registration
     ? {
         ...registration,
+        event: addTypenameEvent(registration?.event),
         signups: Array.isArray(registration.signups)
           ? registration.signups.map((enrolment) =>
               addTypenameEnrolment(enrolment)
