@@ -17,7 +17,6 @@ import { mockedOrganizationResponse } from '../../organization/__mocks__/organiz
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
-  mockedEventResponses,
   mockedRegistrationsResponse,
   registrations,
 } from '../__mocks__/registrationsPage';
@@ -26,7 +25,6 @@ import RegistrationsPage from '../RegistrationsPage';
 configure({ defaultHidden: true });
 
 const mocks = [
-  ...mockedEventResponses,
   mockedOrganizationResponse,
   mockedOrganizationAncestorsResponse,
   mockedRegistrationsResponse,

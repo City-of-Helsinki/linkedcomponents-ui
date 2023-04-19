@@ -170,7 +170,7 @@ const useRegistrationActions = ({
     );
 
     let payload: UpdateRegistrationMutationInput = {
-      event: values.event,
+      event: { atId: values.event },
       id,
     };
 

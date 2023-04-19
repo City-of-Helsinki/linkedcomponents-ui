@@ -1709,6 +1709,7 @@
         "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
       },
       "editButtonPanel": {
+        "warningHasEnrolments": "Ilmoittautumisia joilla on osallistujia ei voi poistaa.",
         "warningNoRightsToCreate": "Sinulla ei ole oikeuksia lisätä ilmoittautumisia.",
         "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä ilmoittautumista."
       },

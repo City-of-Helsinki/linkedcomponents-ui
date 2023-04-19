@@ -1,17 +1,15 @@
 import range from 'lodash/range';
 
+import { Meta, RegistrationsDocument } from '../../../../generated/graphql';
 import {
-  EventDocument,
-  Meta,
-  RegistrationsDocument,
-} from '../../../../generated/graphql';
-import {
-  fakeEvents,
+  fakeEvent,
   fakeLocalisedObject,
   fakeRegistrations,
 } from '../../../../utils/mockDataUtils';
-import { EVENT_INCLUDES } from '../../../event/constants';
-import { REGISTRATIONS_PAGE_SIZE } from '../../constants';
+import {
+  REGISTRATION_LIST_INCLUDES,
+  REGISTRATIONS_PAGE_SIZE,
+} from '../../constants';
 
 const PAGE_SIZE = 2;
 
@@ -19,34 +17,15 @@ const registrationNames = range(1, PAGE_SIZE + 1).map(
   (n) => `Registration name ${n}`
 );
 const eventNames = range(1, PAGE_SIZE + 1).map((n) => `Event name ${n}`);
-const events = fakeEvents(
-  PAGE_SIZE,
-  eventNames.map((name, index) => ({
-    id: `event:${index}`,
-    name: fakeLocalisedObject(name),
-  }))
-);
-
-const mockedEventResponses = [
-  ...events.data.map((event) => ({
-    request: {
-      query: EventDocument,
-      variables: {
-        createPath: undefined,
-        id: event?.id,
-        include: EVENT_INCLUDES,
-      },
-    },
-    result: { data: { event } },
-  })),
-];
 
 const registrations = fakeRegistrations(
   PAGE_SIZE,
   registrationNames.map((name, index) => ({
     id: `registration:${index}`,
-    event: events.data[index]?.id,
-    name,
+    event: fakeEvent({
+      id: `event:${index}`,
+      name: fakeLocalisedObject(name),
+    }),
   }))
 );
 
@@ -64,6 +43,7 @@ const registrationsVariables = {
   adminUser: true,
   createPath: undefined,
   eventType: [],
+  include: REGISTRATION_LIST_INCLUDES,
   page: 1,
   pageSize: REGISTRATIONS_PAGE_SIZE,
   text: '',
@@ -82,29 +62,10 @@ const page2EventNames = range(PAGE_SIZE + 1, 2 * PAGE_SIZE + 1).map(
   (n) => `Event name ${n}`
 );
 
-const page2Events = fakeEvents(
-  PAGE_SIZE,
-  page2EventNames.map((name, index) => ({ name: fakeLocalisedObject(name) }))
-);
-
-const mockedPage2EventResponses = [
-  ...page2Events.data.map((event) => ({
-    request: {
-      query: EventDocument,
-      variables: {
-        createPath: undefined,
-        id: event?.id,
-        include: EVENT_INCLUDES,
-      },
-    },
-    result: { data: { event } },
-  })),
-];
-
 const page2Registrations = fakeRegistrations(
   REGISTRATIONS_PAGE_SIZE,
   page2RegistrationNames.map((name, index) => ({
-    event: page2Events.data[index]?.id,
+    event: fakeEvent({ name: fakeLocalisedObject(name) }),
     name,
   }))
 );
@@ -124,8 +85,6 @@ const mockedPage2RegistrationsResponse = {
 
 export {
   eventNames,
-  mockedEventResponses,
-  mockedPage2EventResponses,
   mockedPage2RegistrationsResponse,
   mockedRegistrationsResponse,
   page2EventNames,

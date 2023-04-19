@@ -11,9 +11,8 @@ import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useTimeFormat from '../../../hooks/useTimeFormat';
 import formatDate from '../../../utils/formatDate';
+import getValue from '../../../utils/getValue';
 import OrganizationName from '../../organization/organizationName/OrganizationName';
-import useRegistrationName from '../../registration/hooks/useRegistrationName';
-import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import {
   getRegistrationFields,
   getRegistrationItemId,
@@ -28,21 +27,20 @@ export interface RegistrationsTableProps {
 }
 
 const NameColumn = (registration: RegistrationFieldsFragment) => {
-  const name = useRegistrationName({ registration });
+  const locale = useLocale();
+  const { event } = getRegistrationFields(registration, locale);
 
   return (
     <div className={styles.nameWrapper}>
-      <span className={styles.registrationName} title={name}>
-        {name}
+      <span className={styles.registrationName} title={event?.name}>
+        {event?.name}
       </span>
     </div>
   );
 };
 
 const PublisherColumn = (registration: RegistrationFieldsFragment) => {
-  const publisher = useRegistrationPublisher({ registration });
-
-  return <OrganizationName id={publisher} />;
+  return <OrganizationName id={getValue(registration.publisher, '')} />;
 };
 
 const EnrolmentsColumn = (registration: RegistrationFieldsFragment) => {

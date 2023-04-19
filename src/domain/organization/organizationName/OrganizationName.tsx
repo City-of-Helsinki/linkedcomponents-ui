@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import TextWithIcon from '../../../common/components/textWithIcon/TextWithIcon';
 import {
   OrganizationFieldsFragment,
@@ -11,9 +12,10 @@ import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import OrganizationBadge from '../organizationBadge/OrganizationBadge';
 import { getOrganizationFields, organizationPathBuilder } from '../utils';
+import styles from './organizationName.module.scss';
 
 interface OrganizationNameProps {
-  organization: OrganizationFieldsFragment;
+  organization?: OrganizationFieldsFragment;
   withIcon?: boolean;
 }
 
@@ -23,12 +25,18 @@ const OrganizationName: React.FC<OrganizationNameProps> = ({
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const { name } = getOrganizationFields(organization, locale, t);
+  const fields = organization
+    ? getOrganizationFields(organization, locale, t)
+    : null;
+  const name = fields?.name;
 
   return withIcon ? (
-    <TextWithIcon icon={<OrganizationBadge name={name} />} text={name} />
+    <TextWithIcon
+      icon={name && <OrganizationBadge name={name} />}
+      text={name ?? '-'}
+    />
   ) : (
-    <span title={name}>{name}</span>
+    <span title={name}>{name ?? '-'}</span>
   );
 };
 
@@ -41,7 +49,7 @@ const OrganizationNameContainer: React.FC<OrganizationNameContainerProps> = ({
   id,
   withIcon,
 }) => {
-  const { data: organizationData } = useOrganizationQuery({
+  const { data: organizationData, loading } = useOrganizationQuery({
     skip: !id,
     variables: {
       id: getValue(id, ''),
@@ -49,19 +57,13 @@ const OrganizationNameContainer: React.FC<OrganizationNameContainerProps> = ({
     },
   });
 
-  if (organizationData?.organization) {
-    return (
+  return (
+    <LoadingSpinner className={styles.loadingSpinner} isLoading={loading} small>
       <OrganizationName
-        organization={organizationData.organization}
+        organization={organizationData?.organization}
         withIcon={withIcon}
       />
-    );
-  }
-
-  return withIcon ? (
-    <TextWithIcon icon={<OrganizationBadge name="" />} text={'-'} />
-  ) : (
-    <span>-</span>
+    </LoadingSpinner>
   );
 };
 

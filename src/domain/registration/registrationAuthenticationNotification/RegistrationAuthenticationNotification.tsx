@@ -8,7 +8,6 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useUser from '../../user/hooks/useUser';
-import useRegistrationPublisher from '../hooks/useRegistrationPublisher';
 import { checkIsEditActionAllowed } from '../utils';
 
 export type RegistrationAuthenticationNotificationProps = {
@@ -22,7 +21,8 @@ const RegistrationAuthenticationNotification: React.FC<
 > = ({ action, className, registration }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const publisher = getValue(useRegistrationPublisher({ registration }), '');
+
+  const publisher = getValue(registration?.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { t } = useTranslation();

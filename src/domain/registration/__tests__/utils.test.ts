@@ -78,6 +78,18 @@ describe('getEditRegistrationWarning function', () => {
       })
     ).toBe('Sinulla ei ole oikeuksia muokata tätä ilmoittautumista.');
   });
+
+  it('should return warning if registration has enrolments', () => {
+    expect(
+      getEditRegistrationWarning({
+        authenticated: true,
+        registration: fakeRegistration({ currentAttendeeCount: 1 }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: REGISTRATION_ACTIONS.DELETE,
+      })
+    ).toBe('Ilmoittautumisia joilla on osallistujia ei voi poistaa.');
+  });
 });
 
 describe('getRegistrationFields function', () => {
@@ -177,7 +189,7 @@ describe('getRegistrationPayload function', () => {
       confirmationMessage: null,
       enrolmentEndTime: null,
       enrolmentStartTime: null,
-      event: '',
+      event: { atId: '' },
       instructions: null,
       mandatoryFields: ['name'],
       maximumAttendeeCapacity: null,
@@ -217,7 +229,7 @@ describe('getRegistrationPayload function', () => {
       confirmationMessage,
       enrolmentEndTime,
       enrolmentStartTime,
-      event,
+      event: { atId: event },
       instructions,
       mandatoryFields: ['name'],
       maximumAttendeeCapacity,
@@ -230,6 +242,10 @@ describe('getRegistrationPayload function', () => {
 describe('registrationPathBuilder function', () => {
   const cases: [RegistrationQueryVariables, string][] = [
     [{ id: 'hel:123' }, '/registration/hel:123/'],
+    [
+      { id: 'hel:123', include: 'event' },
+      '/registration/hel:123/?include=event',
+    ],
   ];
 
   it.each(cases)('should build correct path', (variables, expectedPath) =>

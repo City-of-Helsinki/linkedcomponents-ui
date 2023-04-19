@@ -5,6 +5,7 @@ import {
 } from '../../../generated/graphql';
 import { EVENT_TYPE } from '../../event/constants';
 import {
+  REGISTRATION_LIST_INCLUDES,
   REGISTRATION_SEARCH_PARAMS,
   REGISTRATION_SORT_OPTIONS,
 } from '../constants';
@@ -147,6 +148,7 @@ describe('getRegistrationsQueryVariables', () => {
     adminUser: true,
     createPath: undefined,
     eventType: [],
+    include: REGISTRATION_LIST_INCLUDES,
     page: 1,
     pageSize: 10,
     text: '',

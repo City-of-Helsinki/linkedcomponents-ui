@@ -429,14 +429,29 @@ describe('getEditEnrolmentWarning function', () => {
   });
 
   it('should return correct warning if user cannot do action', () => {
-    expect(
-      getEditEnrolmentWarning({
-        authenticated: true,
-        t: i18n.t.bind(i18n),
-        userCanDoAction: false,
-        action: ENROLMENT_ACTIONS.CANCEL,
-      })
-    ).toBe('Sinulla ei ole oikeuksia muokata tätä osallistujaa.');
+    const commonProps = {
+      authenticated: true,
+      t: i18n.t.bind(i18n),
+      userCanDoAction: false,
+    };
+    const actions: [ENROLMENT_ACTIONS, string][] = [
+      [
+        ENROLMENT_ACTIONS.CANCEL,
+        'Sinulla ei ole oikeuksia muokata tätä osallistujaa.',
+      ],
+      [
+        ENROLMENT_ACTIONS.CREATE,
+        'Sinulla ei ole oikeuksia luoda osallistujia tähän ilmoittautumiseen.',
+      ],
+      [
+        ENROLMENT_ACTIONS.VIEW,
+        'Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia.',
+      ],
+    ];
+
+    actions.forEach(([action, error]) =>
+      expect(getEditEnrolmentWarning({ ...commonProps, action })).toBe(error)
+    );
   });
 });
 

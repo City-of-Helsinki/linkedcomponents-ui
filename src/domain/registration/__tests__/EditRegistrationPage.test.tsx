@@ -19,7 +19,6 @@ import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   event,
   mockedDeleteRegistrationResponse,
-  mockedEventResponse,
   mockedInvalidUpdateRegistrationResponse,
   mockedNotFoundRegistrationResponse,
   mockedRegistrationResponse,
@@ -32,7 +31,6 @@ import EditRegistrationPage from '../EditRegistrationPage';
 configure({ defaultHidden: true });
 
 const baseMocks = [
-  mockedEventResponse,
   mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
   mockedUserResponse,

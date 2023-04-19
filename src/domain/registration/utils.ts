@@ -23,6 +23,7 @@ import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
 import { getFreeWaitlistCapacity } from '../enrolment/utils';
+import { getEventFields } from '../event/utils';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -72,11 +73,13 @@ export const checkCanUserDoAction = ({
 export const getEditRegistrationWarning = ({
   action,
   authenticated,
+  registration,
   t,
   userCanDoAction,
 }: {
   action: REGISTRATION_ACTIONS;
   authenticated: boolean;
+  registration?: RegistrationFieldsFragment;
   t: TFunction;
   userCanDoAction: boolean;
 }): string => {
@@ -95,6 +98,13 @@ export const getEditRegistrationWarning = ({
     return t('registration.form.editButtonPanel.warningNoRightsToEdit');
   }
 
+  if (
+    registration &&
+    hasEnrolments(registration) &&
+    action === REGISTRATION_ACTIONS.DELETE
+  )
+    return t('registration.form.editButtonPanel.warningHasEnrolments');
+
   return '';
 };
 
@@ -102,6 +112,7 @@ export const checkIsEditActionAllowed = ({
   action,
   authenticated,
   organizationAncestors,
+  registration,
   publisher,
   t,
   user,
@@ -110,6 +121,7 @@ export const checkIsEditActionAllowed = ({
   authenticated: boolean;
   organizationAncestors: OrganizationFieldsFragment[];
   publisher: string;
+  registration?: RegistrationFieldsFragment;
   t: TFunction;
   user?: UserFieldsFragment;
 }): Editability => {
@@ -123,6 +135,7 @@ export const checkIsEditActionAllowed = ({
   const warning = getEditRegistrationWarning({
     action,
     authenticated,
+    registration,
     t,
     userCanDoAction,
   });
@@ -135,7 +148,7 @@ export const getEditButtonProps = ({
   authenticated,
   onClick,
   organizationAncestors,
-  publisher,
+  registration,
   t,
   user,
 }: {
@@ -143,15 +156,17 @@ export const getEditButtonProps = ({
   authenticated: boolean;
   onClick: () => void;
   organizationAncestors: OrganizationFieldsFragment[];
-  publisher: string;
+  registration?: RegistrationFieldsFragment;
   t: TFunction;
   user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
+  const publisher = getValue(registration?.publisher, '');
   const { editable, warning } = checkIsEditActionAllowed({
     action,
     authenticated,
     organizationAncestors,
     publisher,
+    registration,
     t,
     user,
   });
@@ -170,7 +185,7 @@ export const getRegistrationFields = (
   language: Language
 ): RegistrationFields => {
   const id = getValue(registration.id, '');
-  const event = getValue(registration.event, '');
+  const event = registration.event;
 
   return {
     id,
@@ -180,14 +195,14 @@ export const getRegistrationFields = (
     currentWaitingListCount: registration.currentWaitingListCount ?? 0,
     enrolmentEndTime: getDateFromString(registration.enrolmentEndTime),
     enrolmentStartTime: getDateFromString(registration.enrolmentStartTime),
-    event,
-    eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', event)}`,
+    event: event?.id ? getEventFields(event, language) : null,
     lastModifiedAt: getDateFromString(registration.lastModifiedAt),
     mandatoryFields: getValue(
       registration.mandatoryFields?.filter(skipFalsyType),
       []
     ),
     maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
+    publisher: getValue(registration.publisher, null),
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
       ':id',
       id
@@ -228,7 +243,7 @@ export const getRegistrationInitialValues = (
             TIME_FORMAT_DATA
           )
         : '',
-    [REGISTRATION_FIELDS.EVENT]: getValue(registration.event, ''),
+    [REGISTRATION_FIELDS.EVENT]: getValue(registration.event?.atId, ''),
     [REGISTRATION_FIELDS.INSTRUCTIONS]: getValue(registration.instructions, ''),
     [REGISTRATION_FIELDS.MANDATORY_FIELDS]: getValue(
       registration.mandatoryFields?.filter(skipFalsyType),
@@ -303,7 +318,7 @@ export const getRegistrationPayload = (
             enrolmentStartTimeTime
           )
         : null,
-    event,
+    event: { atId: event },
     instructions: instructions ? instructions : null,
     mandatoryFields,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
@@ -371,6 +386,14 @@ export const isWaitingCapacityUsed = (
   } else {
     return true;
   }
+};
+
+export const hasEnrolments = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  return Boolean(
+    registration.currentAttendeeCount || registration.currentWaitingListCount
+  );
 };
 
 export const isRegistrationPossible = (
