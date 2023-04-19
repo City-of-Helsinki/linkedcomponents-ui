@@ -20,10 +20,10 @@ const getEventOption = (
   event: EventFieldsFragment,
   locale: Language
 ): OptionType => {
-  const { endTime, id, name, startTime } = getEventFields(event, locale);
+  const { endTime, atId, name, startTime } = getEventFields(event, locale);
   return {
     label: `${name} ${getEventDateText(endTime, startTime)}`,
-    value: id,
+    value: atId,
   };
 };
 

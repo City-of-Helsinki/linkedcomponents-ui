@@ -86,15 +86,14 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const action = registration
     ? REGISTRATION_ACTIONS.UPDATE
     : REGISTRATION_ACTIONS.CREATE;
-  const savedEventPublisher = getValue(event?.publisher, '');
 
-  const { organizationAncestors } =
-    useOrganizationAncestors(savedEventPublisher);
+  const publisher = getValue(registration?.publisher, '');
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const isEditingAllowed = checkCanUserDoAction({
     action,
     organizationAncestors,
-    publisher: savedEventPublisher,
+    publisher,
     user,
   });
 
@@ -321,7 +320,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                   <EditButtonPanel
                     onDelete={() => setOpenModal(REGISTRATION_MODALS.DELETE)}
                     onUpdate={handleSubmit}
-                    publisher={savedEventPublisher}
+                    publisher={publisher}
                     registration={registration}
                     saving={saving}
                   />

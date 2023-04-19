@@ -1,48 +1,13 @@
 import { MockedResponse } from '@apollo/client/testing';
 
-import {
-  CreateRegistrationDocument,
-  EventDocument,
-  EventsDocument,
-} from '../../../generated/graphql';
-import {
-  fakeEvent,
-  fakeEvents,
-  fakeRegistration,
-} from '../../../utils/mockDataUtils';
+import { CreateRegistrationDocument } from '../../../generated/graphql';
+import generateAtId from '../../../utils/generateAtId';
+import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { TEST_EVENT_ID } from '../../event/constants';
 import { TEST_REGISTRATION_ID } from '../constants';
 
-const eventId = TEST_EVENT_ID;
-const eventName = 'Event name';
-
-const event = fakeEvent({ id: eventId, name: { fi: eventName } });
-const eventVariables = { createPath: undefined, id: eventId };
-const eventResponse = { data: { event: event } };
-const mockedEventResponse = {
-  request: { query: EventDocument, variables: eventVariables },
-  result: eventResponse,
-};
-
-const eventsVariables = {
-  adminUser: true,
-  createPath: undefined,
-  publicationStatus: 'public',
-  registration: false,
-  sort: 'name',
-  start: 'now',
-  superEventType: ['none'],
-  text: '',
-};
-const events = fakeEvents(1, [event]);
-const eventsResponse = { data: { events } };
-const mockedEventsResponse = {
-  request: { query: EventsDocument, variables: eventsVariables },
-  result: eventsResponse,
-};
-
 const registrationValues = {
-  event: TEST_EVENT_ID,
+  event: generateAtId(TEST_EVENT_ID, 'event'),
   enrolmentEndTimeDate: new Date('2020-12-31T21:00:00.000Z'),
   enrolmentEndTimeTime: '21:00',
   enrolmentStartTimeDate: new Date('2020-12-31T18:00:00.000Z'),
@@ -56,7 +21,7 @@ const payload = {
   confirmationMessage: null,
   enrolmentEndTime: '2020-12-31T21:00:00.000Z',
   enrolmentStartTime: '2020-12-31T18:00:00.000Z',
-  event: TEST_EVENT_ID,
+  event: { atId: generateAtId(TEST_EVENT_ID, 'event') },
   instructions: null,
   mandatoryFields: ['name'],
   maximumAttendeeCapacity: null,
@@ -95,8 +60,6 @@ const mockedInvalidCreateRegistrationResponse: MockedResponse = {
 
 export {
   mockedCreateRegistrationResponse,
-  mockedEventResponse,
-  mockedEventsResponse,
   mockedInvalidCreateRegistrationResponse,
   payload,
   registrationValues,

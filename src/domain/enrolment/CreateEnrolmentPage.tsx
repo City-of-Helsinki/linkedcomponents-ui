@@ -35,9 +35,8 @@ type Props = {
 const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
   const { t } = useTranslation();
   const { user } = useUser();
-  const { organizationAncestors } = useOrganizationAncestors(
-    getValue(event.publisher, '')
-  );
+  const publisher = getValue(registration.publisher, '');
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const initialValues = getEnrolmentDefaultInitialValues(registration);
   const formDisabled =
@@ -45,7 +44,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
     !checkCanUserDoAction({
       action: ENROLMENT_ACTIONS.CREATE,
       organizationAncestors,
-      publisher: getValue(event.publisher, ''),
+      publisher,
       user,
     });
 

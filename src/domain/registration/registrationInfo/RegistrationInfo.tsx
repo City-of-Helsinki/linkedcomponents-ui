@@ -3,7 +3,6 @@ import React from 'react';
 import EditingInfo from '../../../common/components/editingInfo/EditingInfo';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import useRegistrationName from '../hooks/useRegistrationName';
 import { getRegistrationFields } from '../utils';
 import styles from './registrationInfo.module.scss';
 
@@ -18,12 +17,12 @@ const RegistrationInfo: React.FC<Props> = ({ registration }) => {
     locale
   );
 
-  const name = useRegistrationName({ registration });
+  const { event } = getRegistrationFields(registration, locale);
 
   return (
     <div className={styles.registrationInfo}>
       <div className={styles.heading}>
-        <h1>{name}</h1>
+        <h1>{event?.name}</h1>
       </div>
 
       <EditingInfo createdBy={createdBy} lastModifiedAt={lastModifiedAt} />

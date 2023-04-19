@@ -3,6 +3,7 @@ import { History } from 'history';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
+import { mockedRegistrationEventSelectorEventsResponse } from '../../../../../common/components/formFields/registrationEventSelectorField/__mocks__/registrationEventSelectorField';
 import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsReponse } from '../../../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import {
   mockedFilteredPlacesResponse as mockedPlaceSelectorFilteredPlacesReponse,
@@ -85,15 +86,11 @@ import {
   place,
 } from '../../../../place/__mocks__/editPlacePage';
 import { mockedPlacesResponse } from '../../../../places/__mocks__/placesPage';
-import { mockedEventsResponse as mockedCreateRegistrationEventsResponse } from '../../../../registration/__mocks__/createRegistrationPage';
 import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../../../registration/__mocks__/editRegistrationPage';
-import {
-  mockedEventResponses as mockedRegistrationEventResponses,
-  mockedRegistrationsResponse,
-} from '../../../../registrations/__mocks__/registrationsPage';
+import { mockedRegistrationsResponse } from '../../../../registrations/__mocks__/registrationsPage';
 import { mockedCreateSeatsReservationResponse } from '../../../../reserveSeats/__mocks__/createSeatsReservation';
 import {
   mockedUserResponse,
@@ -138,12 +135,11 @@ const mocks = [
   mockedPlacesResponse,
   mockedPlaceSelectorPlacesReponse,
   mockedPlaceSelectorFilteredPlacesReponse,
+  mockedRegistrationEventSelectorEventsResponse,
   mockedRegistrationResponse,
-  mockedCreateRegistrationEventsResponse,
   mockedCreateSeatsReservationResponse,
   mockedRegistrationsResponse,
   mockedEventResponse,
-  ...mockedRegistrationEventResponses,
   mockedUserResponse,
   mockedUsersResponse,
 ];

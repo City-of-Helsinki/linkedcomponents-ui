@@ -51,13 +51,12 @@ const EditEnrolmentPage: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const { user } = useUser();
-  const { organizationAncestors } = useOrganizationAncestors(
-    getValue(event.publisher, '')
-  );
+  const publisher = getValue(registration.publisher, '');
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
   const isEditingAllowed = checkCanUserDoAction({
     action: ENROLMENT_ACTIONS.EDIT,
     organizationAncestors,
-    publisher: getValue(event.publisher, ''),
+    publisher,
     user,
   });
 
