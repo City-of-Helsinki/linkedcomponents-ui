@@ -73,11 +73,13 @@ export const checkCanUserDoAction = ({
 export const getEditRegistrationWarning = ({
   action,
   authenticated,
+  registration,
   t,
   userCanDoAction,
 }: {
   action: REGISTRATION_ACTIONS;
   authenticated: boolean;
+  registration?: RegistrationFieldsFragment;
   t: TFunction;
   userCanDoAction: boolean;
 }): string => {
@@ -96,6 +98,13 @@ export const getEditRegistrationWarning = ({
     return t('registration.form.editButtonPanel.warningNoRightsToEdit');
   }
 
+  if (
+    registration &&
+    hasEnrolments(registration) &&
+    action === REGISTRATION_ACTIONS.DELETE
+  )
+    return t('registration.form.editButtonPanel.warningHasEnrolments');
+
   return '';
 };
 
@@ -103,6 +112,7 @@ export const checkIsEditActionAllowed = ({
   action,
   authenticated,
   organizationAncestors,
+  registration,
   publisher,
   t,
   user,
@@ -111,6 +121,7 @@ export const checkIsEditActionAllowed = ({
   authenticated: boolean;
   organizationAncestors: OrganizationFieldsFragment[];
   publisher: string;
+  registration?: RegistrationFieldsFragment;
   t: TFunction;
   user?: UserFieldsFragment;
 }): Editability => {
@@ -124,6 +135,7 @@ export const checkIsEditActionAllowed = ({
   const warning = getEditRegistrationWarning({
     action,
     authenticated,
+    registration,
     t,
     userCanDoAction,
   });
@@ -136,7 +148,7 @@ export const getEditButtonProps = ({
   authenticated,
   onClick,
   organizationAncestors,
-  publisher,
+  registration,
   t,
   user,
 }: {
@@ -144,15 +156,17 @@ export const getEditButtonProps = ({
   authenticated: boolean;
   onClick: () => void;
   organizationAncestors: OrganizationFieldsFragment[];
-  publisher: string;
+  registration?: RegistrationFieldsFragment;
   t: TFunction;
   user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
+  const publisher = getValue(registration?.publisher, '');
   const { editable, warning } = checkIsEditActionAllowed({
     action,
     authenticated,
     organizationAncestors,
     publisher,
+    registration,
     t,
     user,
   });
@@ -372,6 +386,14 @@ export const isWaitingCapacityUsed = (
   } else {
     return true;
   }
+};
+
+export const hasEnrolments = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  return Boolean(
+    registration.currentAttendeeCount || registration.currentWaitingListCount
+  );
 };
 
 export const isRegistrationPossible = (

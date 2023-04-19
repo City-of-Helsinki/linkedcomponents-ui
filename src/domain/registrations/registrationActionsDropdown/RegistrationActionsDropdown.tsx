@@ -79,7 +79,7 @@ const RegistrationActionsDropdown: React.FC<
       authenticated,
       onClick,
       organizationAncestors,
-      publisher,
+      registration,
       t,
       user,
     });
