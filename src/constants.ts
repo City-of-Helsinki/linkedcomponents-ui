@@ -1,6 +1,6 @@
 import reduce from 'lodash/reduce';
 
-import { MultiLanguageObject } from './types';
+import { Language, MultiLanguageObject } from './types';
 
 export const BREAKPOINTS = {
   XS: 576,
@@ -226,6 +226,11 @@ export const testIds = {
   registrationList: { resultList: 'registration-result-list' },
 };
 
-export const DATA_PROTECTION_URL =
+export const DATA_PROTECTION_URL: { [key in Language]: string } = {
   // eslint-disable-next-line max-len
-  'https://www.hel.fi/fi/paatoksenteko-ja-hallinto/tietoa-helsingista/tietosuoja-ja-tiedonhallinta/tietosuoja/tietosuojaselosteet';
+  fi: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf',
+  // eslint-disable-next-line max-len
+  sv: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Hantering%20av%20anvandar-id.pdf',
+  // eslint-disable-next-line max-len
+  en: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf',
+};
