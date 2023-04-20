@@ -44,7 +44,7 @@ const Footer: React.FC = () => {
     { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
     {
       labelKey: 'navigation.tabs.dataProtection',
-      url: DATA_PROTECTION_URL,
+      url: DATA_PROTECTION_URL[locale],
       externalUrl: true,
     },
   ].filter(skipFalsyType);
