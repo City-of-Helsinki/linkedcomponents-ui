@@ -56,7 +56,7 @@ const getHours = (hoursAndMinutes: string[] | null): string =>
   hoursAndMinutes ? hoursAndMinutes[0] : '';
 
 const getMinutes = (hoursAndMinutes: string[] | null): string =>
-  hoursAndMinutes ? hoursAndMinutes[0] : '';
+  hoursAndMinutes ? hoursAndMinutes[1] : '';
 
 const getTime = (hoursAndMinutes: string[] | null): string =>
   hoursAndMinutes ? hoursAndMinutes.join(':') : '';
@@ -105,7 +105,7 @@ const isShortNumericString = (inputValue: string): boolean =>
 const CustomTimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
   (
     {
-      className = '',
+      className,
       disabled = false,
       defaultValue,
       value,
@@ -310,6 +310,7 @@ const CustomTimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
      * Format minutes on blur
      */
     const onMinutesBlur: React.FocusEventHandler = () => {
+      /* istanbul ignore else */
       if (minutes.length > 0) {
         updateTimeInput(hours, zeroPad(minutes));
       }
