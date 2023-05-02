@@ -33,6 +33,89 @@ Start the container
 
 The web application is running at http://localhost:3000
 
+## Setting up complete development environment locally with docker
+
+### Set tunnistamo and linkedevents hostname
+
+Add the following lines to your hosts file (`/etc/hosts` on mac and linux):
+
+    127.0.0.1 tunnistamo-backend
+    127.0.0.1 linkedevents-backend
+
+### Create a new OAuth app on GitHub
+
+Go to https://github.com/settings/developers/ and add a new app with the following settings:
+
+- Application name: can be anything, e.g. local tunnistamo
+- Homepage URL: http://tunnistamo-backend:8000
+- Authorization callback URL: http://tunnistamo-backend:8000/accounts/github/login/callback/
+
+Save. You'll need the created **Client ID** and **Client Secret** for configuring tunnistamo in the next step.
+
+### Install local tunnistamo
+
+Clone https://github.com/City-of-Helsinki/tunnistamo/.
+
+Follow the instructions for setting up tunnistamo locally. Before running `docker-compose up` set the following settings in tunnistamo roots `docker-compose.env.yaml`:
+
+- SOCIAL_AUTH_GITHUB_KEY: **Client ID** from the GitHub OAuth app
+- SOCIAL_AUTH_GITHUB_SECRET: **Client Secret** from the GitHub OAuth app
+
+After you've got tunnistamo running locally, ssh to the tunnistamo docker container:
+
+`docker-compose exec django bash`
+
+and execute the following four commands inside your docker container:
+
+```bash
+./manage.py add_oidc_client -n linkedevents-ui -t "code" -u "http://localhost:3000/callback" "http://localhost:3000/silent-callback" -i https://api.hel.fi/auth/linkedevents-ui -m github -s dev
+./manage.py add_oidc_client -n linkedevents -t "code" -u http://linkedevents-backend:8080/accounts/helsinki/login/callback -i https://api.hel.fi/auth/linkedevents -m github -s dev -c
+./manage.py add_oidc_api -n linkedevents -d https://api.hel.fi/auth -s email,profile -c https://api.hel.fi/auth/linkedevents
+./manage.py add_oidc_api_scope -an linkedevents -c https://api.hel.fi/auth/linkedevents -n "Linked events" -d"Lorem ipsum"
+./manage.py add_oidc_client_to_api_scope -asi https://api.hel.fi/auth/linkedevents -c https://api.hel.fi/auth/linkedevents-ui
+```
+
+### Install local Linked Events API
+
+Clone the repository (https://github.com/City-of-Helsinki/linkedevents). Follow the instructions for running linkedevents with docker. Before running `docker-compose up` set the following settings in `/docker/django/.env`:
+
+- ALLOWED_HOSTS=\*
+- APPLY_MIGRATIONS=false
+- CREATE_SUPERUSER=true
+- DATABASE_URL=postgres://linkedevents:linkedevents@linkedevents-db/linkedevents
+- DEBUG=true
+- DEV_SERVER=true
+- MEMCACHED_URL=linkedevents-memcached:11211
+- RUNSERVER_ADDRESS=0.0.0.0:8080
+- SEAT_RESERVATION_DURATION=15
+- WAIT_FOR_IT_ADDRESS=linkedevents-db:5432
+- TOKEN_AUTH_AUTHSERVER_URL=http://tunnistamo-backend:8000/openid
+- TOKEN_AUTH_ACCEPTED_AUDIENCE=https://api.hel.fi/auth/linkedevents
+- TOKEN_AUTH_REQUIRE_SCOPE_PREFIX=False
+- SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT=http://tunnistamo-backend:8000/openid
+- SOCIAL_AUTH_TUNNISTAMO_KEY=linkedevents
+- SOCIAL_AUTH_TUNNISTAMO_SECRET<linkedevents client secret>
+
+### Linked Events UI
+
+Set the following settings in `.env.local`:
+
+- REACT_APP_OIDC_AUTHORITY=http://tunnistamo-backend:8000/openid
+- REACT_APP_OIDC_API_TOKENS_URL=http://tunnistamo-backend:8000/api-tokens/
+- REACT_APP_OIDC_CLIENT_ID=https://api.hel.fi/auth/linkedevents-ui
+- REACT_APP_OIDC_API_SCOPE=https://api.hel.fi/auth/linkedevents
+- REACT_APP_OIDC_RESPONSE_TYPE=code
+- REACT_APP_LINKED_EVENTS_URL=http://linkedevents-backend:8080/v1
+- REACT_APP_LINKED_REGISTRATIONS_UI_URL=http://localhost:3001
+
+Run `docker-compose up`, now the app should be running at `http://localhost:3000/`
+
+`docker-compose down` stops the container.
+
+OR
+
+Run `yarn && yarn start`
+
 ## Running development environment locally without docker
 
 Run `yarn && yarn start`
@@ -43,12 +126,18 @@ Use .env.development.local for development.
 
 | Name                                       | Description                                                                                            |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------ |
+| GENERATE_ROBOTS                            | Set to true to generate robots.txt file                                                                |
+| GENERATE_SITEMAP                           | Set to true to generate sitemap for the site                                                           |
+| PUBLIC_URL                                 | Public url of the application url                                                                      |
 | REACT_APP_LINKED_EVENTS_URL                | linkedevents api base url                                                                              |
 | REACT_APP_LINKED_REGISTRATIONS_UI_URL      | Linked registration UI url. Used to get signup form url                                                |
-| REACT_APP_OIDC_AUTHORITY                   | https://api.hel.fi/sso                                                                                 |
+| REACT_APP_OIDC_AUTHORITY                   | Tunnistamo SSO service url. Default api https://api.hel.fi/sso                                         |
+| REACT_APP_OIDC_API_TOKENS_URL              | Tunnistamo api tokens endpoint url. Default api https://api.hel.fi/sso/api-tokens/                     |
 | REACT_APP_OIDC_CLIENT_ID                   | linkedcomponents-ui-test                                                                               |
 | REACT_APP_OIDC_API_SCOPE                   | https://api.hel.fi/auth/linkedeventsdev                                                                |
+| REACT_APP_OIDC_RESPONSE_TYPE               | Response type of oidc client. Default is 'id_token token'                                              |
 | REACT_APP_SENTRY_DSN                       | https://9b104b8db52740ffb5002e0c9e40da45@sentry.hel.ninja/12                                           |
+| REACT_APP_SENTRY_ENVIRONMENT               | Setry environment. Set to local to use Sentry in development environment                               |
 | REACT_APP_MATOMO_URL_BASE                  | https://analytics.hel.ninja/                                                                           |
 | REACT_APP_MATOMO_SITE_ID                   | 69                                                                                                     |
 | REACT_APP_MATOMO_SRC_URL                   | matomo.js                                                                                              |
@@ -91,6 +180,24 @@ Features enabled:
 Features enabled:
 
 - Localized alt-text of image.
+
+## Snyk
+
+Snyk CLI scans and monitors your projects for security vulnerabilities and license issues.
+
+For more information visit the Snyk website https://snyk.io
+
+For details see the CLI documentation https://docs.snyk.io/features/snyk-cli
+
+How to get started
+
+1. Authenticate by running `yarn snyk auth`
+2. Test your local project with `yarn snyk test`
+3. Get alerted for new vulnerabilities with `yarn snyk monitor`
+
+You can see all available command with `yarn snyk`
+
+You can install Snyk extension for Visual Studio Code from https://marketplace.visualstudio.com/items?itemName=snyk-security.snyk-vulnerability-scanner
 
 ## Available Scripts
 

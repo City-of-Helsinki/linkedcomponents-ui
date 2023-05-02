@@ -1350,7 +1350,7 @@ describe('checkCanUserDoAction function', () => {
     });
   });
 
-  it('should allow/deny correct actions if organizationAncestores contains any of the adminArganizations', () => {
+  it('should allow/deny correct actions if organizationAncestors contains any of the adminArganizations', () => {
     const adminOrganization = 'admin:1';
     const event = fakeEvent({ publisher });
     const user = fakeUser({ adminOrganizations: [adminOrganization] });
@@ -1822,7 +1822,7 @@ describe('copyEventInfoToRegistrationSessionStorage function', () => {
     expect(sessionStorage.setItem).toHaveBeenCalledWith(
       FORM_NAMES.REGISTRATION_FORM,
       expect.stringContaining(
-        '"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":"","enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"helmet:222453","instructions":"","maximumAttendeeCapacity":10,"minimumAttendeeCapacity":5,"requiredFields":["name"],"waitingListCapacity":""'
+        '"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":"","enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"helmet:222453","instructions":"","mandatoryFields":["name"],"maximumAttendeeCapacity":10,"minimumAttendeeCapacity":5,"waitingListCapacity":""'
       )
     );
   });

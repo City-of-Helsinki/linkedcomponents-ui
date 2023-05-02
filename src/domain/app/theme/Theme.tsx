@@ -6,7 +6,7 @@ import {
   SideNavigationCustomTheme,
   TableCustomTheme,
 } from 'hds-react';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 
 type BreadcrumbCSSProperties = {
   '--breadcrumb-color'?: string;
@@ -14,7 +14,7 @@ type BreadcrumbCSSProperties = {
   '--breadcrumb-color-separator'?: string;
 };
 
-type ButtonCSSProperties = {
+export type ButtonCSSProperties = {
   '--background-color'?: string;
   '--background-color-hover'?: string;
   '--background-color-focus'?: string;
@@ -83,8 +83,8 @@ type DeleteButtonCSSProperties = {
   '--delete-button-color-icon'?: string;
 };
 
-type ErrorTemplateCSSProperties = {
-  '--error-template-icon-color'?: string;
+type ErrorPageCSSProperties = {
+  '--error-page-icon-color'?: string;
 };
 
 type EventCardCSSProperties = {
@@ -177,7 +177,7 @@ type NavigationCSSProperties = {
   '--mobile-menu-color'?: string;
 };
 
-type NotificationCSSProperties = {
+export type NotificationCSSProperties = {
   '--notification-background-color'?: string;
   '--notification-border-color'?: string;
   '--notification-color'?: string;
@@ -302,7 +302,7 @@ export type Theme = {
   dateInput: DateInputCSSProperties;
   deleteButton: DeleteButtonCSSProperties;
   dropdown: DropdownCSSProperties;
-  errorTemplate: ErrorTemplateCSSProperties;
+  errorPage: ErrorPageCSSProperties;
   eventCard: EventCardCSSProperties;
   footer: FooterCSSProperties;
   imageSelector: ImageSelectorCSSProperties;
@@ -350,7 +350,7 @@ const defaultTheme: Theme = {
   dateInput: {},
   deleteButton: {},
   dropdown: {},
-  errorTemplate: {},
+  errorPage: {},
   eventCard: {},
   footer: {},
   imageSelector: {},
@@ -393,10 +393,10 @@ export const ThemeProvider: React.FC<
 > = ({ children, initTheme = defaultTheme }) => {
   const [theme, setTheme] = useState<Theme>(initTheme);
 
+  const value = useMemo(() => ({ setTheme, theme }), [theme]);
+
   return (
-    <ThemeContext.Provider value={{ setTheme, theme }}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 };
 

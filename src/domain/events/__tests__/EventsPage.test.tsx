@@ -1,9 +1,9 @@
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   CustomRenderOptions,
   loadingSpinnerIsNotInDocument,
@@ -28,7 +28,7 @@ import {
   publicEventsCount,
   waitingApprovalEvents,
   waitingApprovalEventsCount,
-} from '../__mocks__/eventPage';
+} from '../__mocks__/eventsPage';
 import EventsPage from '../EventsPage';
 
 configure({ defaultHidden: true });
@@ -136,7 +136,7 @@ test('should open create event page', async () => {
   await loadingSpinnerIsNotInDocument(10000);
 
   const createEventButton = getElement('createEventButton');
-  await act(async () => await user.click(createEventButton));
+  await user.click(createEventButton);
 
   expect(history.location.pathname).toBe('/fi/events/create');
 });
@@ -152,7 +152,7 @@ test('should change list type to event card', async () => {
   ).not.toBeInTheDocument();
 
   const eventCardTypeRadio = getElement('eventCardType');
-  await act(async () => await user.click(eventCardTypeRadio));
+  await user.click(eventCardTypeRadio);
 
   await findElement('sortOrderButton');
 });
@@ -165,7 +165,7 @@ test('should change active tab to published', async () => {
   await loadingSpinnerIsNotInDocument(10000);
 
   const publishedTab = getElement('publishedTab');
-  await act(async () => await user.click(publishedTab));
+  await user.click(publishedTab);
 
   await findElement('publishedTable');
 });
@@ -178,7 +178,7 @@ test('should change active tab to drafts', async () => {
   await loadingSpinnerIsNotInDocument(10000);
 
   const draftsTab = getElement('draftsTab');
-  await act(async () => await user.click(draftsTab));
+  await user.click(draftsTab);
 
   await findElement('draftsTable');
 });
@@ -191,7 +191,7 @@ test('should add sort parameter to search query', async () => {
   await loadingSpinnerIsNotInDocument(10000);
 
   const sortNameButton = getElement('sortName');
-  await act(async () => await user.click(sortNameButton));
+  await user.click(sortNameButton);
 
   expect(history.location.search).toBe('?sort=name');
 });
@@ -220,7 +220,7 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
   );
 
   const eventRowButton = screen.getByRole('button', {
-    name: waitingApprovalEvents.data[0]?.name?.fi as string,
+    name: getValue(waitingApprovalEvents.data[0]?.name?.fi, ''),
   });
   await waitFor(() => expect(eventRowButton).toHaveFocus());
 });

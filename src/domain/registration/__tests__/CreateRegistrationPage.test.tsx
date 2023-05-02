@@ -1,13 +1,15 @@
+/* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
+import { mockedEventResponse } from '../../../common/components/eventSelector/__mocks__/eventSelector';
+import { mockedRegistrationEventSelectorEventsResponse } from '../../../common/components/formFields/registrationEventSelectorField/__mocks__/registrationEventSelectorField';
 import { DATE_FORMAT, FORM_NAMES } from '../../../constants';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -32,7 +34,13 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 beforeEach(() => clear());
 
-const renderComponent = (mocks: MockedResponse[] = []) =>
+const commonMocks = [
+  mockedEventResponse,
+  mockedRegistrationEventSelectorEventsResponse,
+  mockedUserResponse,
+];
+
+const renderComponent = (mocks: MockedResponse[] = commonMocks) =>
   render(<CreateRegistrationPage />, { authContextValue, mocks });
 
 beforeEach(() => {
@@ -77,7 +85,7 @@ const getElement = (
     case 'eventCombobox':
       return screen.getByRole('combobox', { name: /tapahtuma/i });
     case 'enrolmentStartTime':
-      return screen.getByLabelText('Ilmoittautuminen alkaa *');
+      return screen.getByRole('textbox', { name: 'Ilmoittautuminen alkaa *' });
     case 'saveButton':
       return screen.getByRole('button', { name: /tallenna ilmoittautuminen/i });
   }
@@ -92,12 +100,12 @@ const waitLoadingAndGetSaveButton = async () => {
 test('should focus to first validation error when trying to save new registration', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
   const user = userEvent.setup();
-  renderComponent([mockedUserResponse]);
+  renderComponent();
 
   const saveButton = await waitLoadingAndGetSaveButton();
   const eventCombobox = getElement('eventCombobox');
 
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() => expect(eventCombobox).toHaveFocus());
 });
@@ -111,8 +119,8 @@ test('should move to registration completed page after creating new registration
 
   const user = userEvent.setup();
   const { history } = renderComponent([
+    ...commonMocks,
     mockedCreateRegistrationResponse,
-    mockedUserResponse,
   ]);
 
   const saveButton = await waitLoadingAndGetSaveButton();
@@ -125,7 +133,7 @@ test('should move to registration completed page after creating new registration
   await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
 
   await waitFor(() => expect(saveButton).toBeEnabled());
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -141,7 +149,11 @@ test('should show server errors', async () => {
     ...registrationValues,
   });
 
-  const mocks = [mockedInvalidCreateRegistrationResponse, mockedUserResponse];
+  const mocks = [
+    ...commonMocks,
+    mockedInvalidCreateRegistrationResponse,
+    mockedUserResponse,
+  ];
   const user = userEvent.setup();
   renderComponent(mocks);
 
@@ -155,7 +167,7 @@ test('should show server errors', async () => {
   await waitFor(() => expect(startTimeInput).toHaveValue(expectedValue));
 
   await waitFor(() => expect(saveButton).toBeEnabled());
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);

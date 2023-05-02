@@ -26,8 +26,8 @@ import {
   onUserLoaded as onUserLoadedFn,
   onUserSignedOut as onUserSignedOutFn,
   onUserUnloaded as onUserUnloadedFn,
-  signIn,
-  signOut,
+  signIn as signInFn,
+  signOut as signOutFn,
 } from './utils';
 
 export const AuthContext = React.createContext<AuthContextProps | undefined>(
@@ -99,8 +99,9 @@ export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({
 
   const value = useMemo<AuthContextProps>(() => {
     return {
-      signIn: async (path?: string) => signIn({ userManager, locale, t, path }),
-      signOut: async () => signOut({ resetApiTokenData, userManager }),
+      signIn: async (path?: string) =>
+        signInFn({ userManager, locale, t, path }),
+      signOut: async () => signOutFn({ resetApiTokenData, userManager }),
       userManager,
       ...oidcState,
       ...apiTokenState,

@@ -28,8 +28,8 @@ const SourceCodeLinks: FC<Props> = ({ showExplanations }) => {
 
   return (
     <>
-      {links.map(({ explanation, link }, index) => (
-        <p key={index}>
+      {links.map(({ explanation, link }) => (
+        <p key={link}>
           <ExternalLink href={link}>{removeProtocolFromUrl(link)}</ExternalLink>
           {showExplanations && ` (${explanation})`}
         </p>

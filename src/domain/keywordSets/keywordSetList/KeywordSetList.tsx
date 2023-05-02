@@ -2,20 +2,21 @@ import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
-import { scroller } from 'react-scroll';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import SearchInput from '../../../common/components/searchInput/SearchInput';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import { testIds } from '../../../constants';
 import {
   KeywordSetsQuery,
   useKeywordSetsQuery,
 } from '../../../generated/graphql';
+import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
-import getPageCount from '../../../utils/getPageCount';
+import { CommonListProps } from '../../../types';
+import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
+import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
 import { getKeywordSetItemId } from '../../keywordSet/utils';
 import {
   DEFAULT_KEYWORD_SET_SORT,
@@ -28,23 +29,13 @@ import { KeywordSetsLocationState } from '../types';
 import {
   getKeywordSetSearchInitialValues,
   getKeywordSetsQueryVariables,
-  replaceParamsToKeywordSetQueryString,
 } from '../utils';
-import styles from './keywordSetList.module.scss';
 
 type KeywordSetListProps = {
   keywordSets: KeywordSetsQuery['keywordSets']['data'];
-  onPageChange: (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => void;
-  onSortChange: (sort: KEYWORD_SET_SORT_OPTIONS) => void;
   page: number;
-  pageCount: number;
   sort: KEYWORD_SET_SORT_OPTIONS;
-};
+} & CommonListProps;
 
 const KeywordSetList: React.FC<KeywordSetListProps> = ({
   keywordSets,
@@ -52,6 +43,7 @@ const KeywordSetList: React.FC<KeywordSetListProps> = ({
   onSortChange,
   page,
   pageCount,
+  pageHref,
   sort,
 }) => {
   const { t } = useTranslation();
@@ -90,12 +82,7 @@ const KeywordSetList: React.FC<KeywordSetListProps> = ({
       {pageCount > 1 && (
         <Pagination
           pageCount={pageCount}
-          pageHref={(index: number) => {
-            return `${location.pathname}${replaceParamsToKeywordSetQueryString(
-              location.search,
-              { page: index > 1 ? index : null }
-            )}`;
-          }}
+          pageHref={pageHref}
           pageIndex={page - 1}
           onChange={onPageChange}
         />
@@ -105,9 +92,9 @@ const KeywordSetList: React.FC<KeywordSetListProps> = ({
 };
 
 const KeywordSetListContainer: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation();
+
   const { page, sort, text } = getKeywordSetSearchInitialValues(
     location.search
   );
@@ -115,81 +102,34 @@ const KeywordSetListContainer: React.FC = () => {
 
   const keywordSetListId = useIdWithPrefix({ prefix: 'keyword-set-list-' });
 
-  const handlePageChange = (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => {
-    event.preventDefault();
-
-    const pageNumber = index + 1;
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToKeywordSetQueryString(location.search, {
-        page: pageNumber > 1 ? pageNumber : null,
-      }),
-    });
-    // Scroll to the beginning of keyword list
-    scroller.scrollTo(keywordSetListId, { offset: -100 });
-  };
-
-  const handleSearchChange = (text: string) => {
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToKeywordSetQueryString(location.search, {
-        page: null,
-        text,
-      }),
-    });
-  };
-
-  const handleSortChange = (val: KEYWORD_SET_SORT_OPTIONS) => {
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToKeywordSetQueryString(location.search, {
-        sort:
-          val !== DEFAULT_KEYWORD_SET_SORT
-            ? val
-            : /* istanbul ignore next */ null,
-      }),
-    });
-  };
-
   const { data: keywordSetsData, loading } = useKeywordSetsQuery({
     variables: getKeywordSetsQueryVariables(location.search),
   });
 
-  /* istanbul ignore next */
-  const keywordSets = keywordSetsData?.keywordSets?.data || [];
-  /* istanbul ignore next */
-  const keywordSetsCount = keywordSetsData?.keywordSets?.meta.count || 0;
-  const pageCount = getPageCount(keywordSetsCount, KEYWORD_SETS_PAGE_SIZE);
+  const keywordSets = getValue(keywordSetsData?.keywordSets?.data, []);
+  const { count, onSearchSubmit, ...listProps } = useCommonListProps({
+    defaultSort: DEFAULT_KEYWORD_SET_SORT,
+    listId: keywordSetListId,
+    meta: keywordSetsData?.keywordSets.meta,
+    pageSize: KEYWORD_SETS_PAGE_SIZE,
+  });
 
   return (
     <div id={keywordSetListId} data-testid={testIds.keywordSetList.resultList}>
-      <div className={styles.searchRow}>
-        <span className={styles.count}>
-          {t('keywordSetsPage.count', { count: keywordSetsCount })}
-        </span>
-        <SearchInput
-          className={styles.searchInput}
-          label={t('keywordSetsPage.labelSearch')}
-          hideLabel
-          onSubmit={handleSearchChange}
-          onChange={setSearch}
-          value={search}
-        />
-      </div>
+      <AdminSearchRow
+        countText={t('keywordSetsPage.count', { count })}
+        onSearchChange={setSearch}
+        onSearchSubmit={onSearchSubmit}
+        searchInputLabel={t('keywordSetsPage.labelSearch')}
+        searchValue={search}
+      />
 
       <LoadingSpinner isLoading={loading}>
         <KeywordSetList
           keywordSets={keywordSets}
-          onPageChange={handlePageChange}
-          onSortChange={handleSortChange}
           page={page}
-          pageCount={pageCount}
           sort={sort}
+          {...listProps}
         />
       </LoadingSpinner>
     </div>

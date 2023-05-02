@@ -6,7 +6,6 @@ import {
   fakeAuthenticatedAuthContextValue,
 } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   render,
   screen,
@@ -45,7 +44,7 @@ test('should route to home page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await act(async () => await user.click(getElement('buttonHome')));
+  await user.click(getElement('buttonHome'));
 
   expect(history.location.pathname).toBe('/fi/');
 });
@@ -57,7 +56,7 @@ test('should start login process', async () => {
   const authContextValue = fakeAuthContextValue({ signIn });
   renderComponent(authContextValue);
 
-  await act(async () => await user.click(getElement('buttonSignIn')));
+  await user.click(getElement('buttonSignIn'));
 
   expect(signIn).toBeCalled();
 });

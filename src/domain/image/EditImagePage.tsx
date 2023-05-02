@@ -9,6 +9,7 @@ import { ROUTES } from '../../constants';
 import { ImageFieldsFragment, useImageQuery } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
@@ -20,7 +21,7 @@ import useImageUpdateActions, {
   IMAGE_MODALS,
 } from './hooks/useImageUpdateActions';
 import ImageForm from './imageForm/ImageForm';
-import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteImageModal from './modals/confirmDeleteImageModal/ConfirmDeleteImageModal';
 import { getEditButtonProps, getImageFields, imagePathBuilder } from './utils';
 
 type Props = {
@@ -45,7 +46,7 @@ const EditImagePage: React.FC<Props> = ({ image }) => {
     navigate(`/${locale}${ROUTES.IMAGES}`);
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deleteImage({
       onSuccess: () => goToImagesPage(),
     });
@@ -63,11 +64,11 @@ const EditImagePage: React.FC<Props> = ({ image }) => {
 
   return (
     <div>
-      <ConfirmDeleteModal
+      <ConfirmDeleteImageModal
         isOpen={openModal === IMAGE_MODALS.DELETE}
         isSaving={saving === IMAGE_ACTIONS.DELETE}
         onClose={closeModal}
-        onDelete={onDelete}
+        onConfirm={handleDelete}
       />
       <TitleRow
         breadcrumb={
@@ -108,7 +109,7 @@ const EditImagePageWrapper: React.FC = () => {
     notifyOnNetworkStatusChange: true,
     variables: {
       createPath: getPathBuilder(imagePathBuilder),
-      id: id as string,
+      id: getValue(id, ''),
     },
   });
 

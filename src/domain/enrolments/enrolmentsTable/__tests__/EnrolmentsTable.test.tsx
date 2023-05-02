@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { AttendeeStatus } from '../../../../generated/graphql';
+import getValue from '../../../../utils/getValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -12,6 +12,8 @@ import {
   within,
 } from '../../../../utils/testUtils';
 import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
+import { mockedEventResponse } from '../../../event/__mocks__/event';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   registration,
   registrationId,
@@ -22,6 +24,8 @@ import EnrolmentsTable, { EnrolmentsTableProps } from '../EnrolmentsTable';
 
 configure({ defaultHidden: true });
 
+const mocks = [mockedEventResponse, mockedOrganizationAncestorsResponse];
+
 const defaultProps: EnrolmentsTableProps = {
   caption: 'Enrolments table',
   enrolmentsVariables: { attendeeStatus: AttendeeStatus.Attending },
@@ -30,14 +34,15 @@ const defaultProps: EnrolmentsTableProps = {
   registration: { ...registration, signups: attendees },
 };
 
-const enrolmentName = attendees[0].name as string;
+const enrolmentName = getValue(attendees[0].name, '');
 const enrolmentId = attendees[0].id;
 
 const renderComponent = (props?: Partial<EnrolmentsTableProps>) => {
   return render(
     <EnrolmentPageProvider>
       <EnrolmentsTable {...defaultProps} {...props} />
-    </EnrolmentPageProvider>
+    </EnrolmentPageProvider>,
+    { mocks }
   );
 };
 
@@ -78,16 +83,18 @@ test('should navigate between pages', async () => {
   ).not.toBeInTheDocument();
 
   const page2Button = getElement('page2');
-  await act(async () => await user.click(page2Button));
+  await user.click(page2Button);
 
   // Page 2 enrolment should be visible.
-  screen.getByRole('button', { name: attendeeNames[ENROLMENTS_PAGE_SIZE] });
+  await screen.findByRole('button', {
+    name: attendeeNames[ENROLMENTS_PAGE_SIZE],
+  });
   expect(
     screen.queryByRole('button', { name: attendeeNames[0] })
   ).not.toBeInTheDocument();
 
   const page1Button = getElement('page1');
-  await act(async () => await user.click(page1Button));
+  await user.click(page1Button);
 
   // Page 1 enrolment should be visible.
   screen.getByRole('button', { name: attendeeNames[0] });
@@ -103,7 +110,7 @@ test('should open enrolment page by clicking event', async () => {
   const enrolmentButton = await screen.findByRole('button', {
     name: enrolmentName,
   });
-  await act(async () => await user.click(enrolmentButton));
+  await user.click(enrolmentButton);
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
@@ -117,7 +124,7 @@ test('should open enrolment page by pressing enter on row', async () => {
   const enrolmentButton = await screen.findByRole('button', {
     name: enrolmentName,
   });
-  await act(async () => await user.type(enrolmentButton, '{enter}'));
+  await user.type(enrolmentButton, '{enter}');
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
@@ -131,13 +138,13 @@ test('should open actions dropdown', async () => {
 
   const withinRow = within(screen.getByRole('button', { name: enrolmentName }));
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
-  await act(async () => await user.click(menuButton));
+  await user.click(menuButton);
 
   const editButton = await withinRow.findByRole('button', {
     name: /muokkaa tietoja/i,
   });
 
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(

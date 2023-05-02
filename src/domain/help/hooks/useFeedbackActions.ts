@@ -79,6 +79,7 @@ const useFeedbackActions = ({
     setSuccess(false);
 
     try {
+      /* istanbul ignore else */
       if (authenticated) {
         await postFeedback({ variables: { input: payload } });
       } else {
@@ -87,7 +88,6 @@ const useFeedbackActions = ({
 
       cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {
-      //   showServerErrors({ error });
       handleError({
         callbacks,
         error,

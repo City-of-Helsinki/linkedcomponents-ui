@@ -29,7 +29,7 @@ export const getOrganizations = async (
 
   return organizationResponses
     .reduce(
-      (pre, cur) => pre.concat(JSON.parse(cur.response.body as string).data),
+      (pre, cur) => pre.concat(JSON.parse(cur.response.body.toString()).data),
       []
     )
     .map((organization) => normalizeKeys(organization, normalizeKey));

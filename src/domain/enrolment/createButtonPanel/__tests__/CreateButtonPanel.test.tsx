@@ -3,7 +3,6 @@ import React from 'react';
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   render,
   screen,
@@ -11,6 +10,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   registration,
   registrationId,
@@ -30,7 +30,11 @@ const defaultProps: CreateButtonPanelProps = {
   saving: false,
 };
 
-const mocks = [mockedEventResponse, mockedUserResponse];
+const mocks = [
+  mockedEventResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
@@ -76,7 +80,7 @@ test('should route to enrolments page when clicking back button', async () => {
   const { history } = renderComponent();
 
   const backButton = getElement('back');
-  await act(async () => await user.click(backButton));
+  await user.click(backButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -95,7 +99,7 @@ test('should route to page defined in returnPath when clicking back button', asy
   });
 
   const backButton = getElement('back');
-  await act(async () => await user.click(backButton));
+  await user.click(backButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -111,7 +115,7 @@ test('should call onSave', async () => {
 
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   expect(onSave).toBeCalled();
 });

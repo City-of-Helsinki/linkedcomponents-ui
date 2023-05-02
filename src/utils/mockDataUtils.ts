@@ -7,6 +7,7 @@ import { EXTLINK } from '../constants';
 import { TEST_DATA_SOURCE_ID } from '../domain/dataSource/constants';
 import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
 import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
+import { TEST_ORGANIZATION_CLASS_ID } from '../domain/organizationClass/constants';
 import { TEST_REGISTRATION_ID } from '../domain/registration/constants';
 import { TEST_SEATS_RESERVATION_CODE } from '../domain/reserveSeats/constants';
 import {
@@ -191,7 +192,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       offers: [],
       provider: fakeLocalisedObject(),
       publicationStatus: PublicationStatus.Public,
-      publisher: 'provider:123',
+      publisher: TEST_PUBLISHER_ID,
       registration: { atId: null },
       shortDescription: fakeLocalisedObject(),
       startTime: '2020-07-13T05:51:05.761000Z',
@@ -366,9 +367,9 @@ export const fakeOrganization = (
       affiliatedOrganizations: [],
       id,
       atId: generateAtId(id, 'organization'),
-      classification: faker.random.words(),
+      classification: TEST_ORGANIZATION_CLASS_ID,
       createdTime: null,
-      dataSource: faker.datatype.uuid(),
+      dataSource: TEST_DATA_SOURCE_ID,
       dissolutionDate: null,
       foundingDate: '2021-01-01',
       hasRegularUsers: false,
@@ -494,8 +495,10 @@ export const fakeRegistration = (
       instructions: faker.lorem.paragraph(),
       lastModifiedAt: '2020-09-12T15:00:00.000000Z',
       lastModifiedBy: faker.name.firstName(),
+      mandatoryFields: [],
       maximumAttendeeCapacity: 0,
       minimumAttendeeCapacity: 0,
+      publisher: TEST_PUBLISHER_ID,
       signups: [],
       waitingListCapacity: 0,
       __typename: 'Registration',

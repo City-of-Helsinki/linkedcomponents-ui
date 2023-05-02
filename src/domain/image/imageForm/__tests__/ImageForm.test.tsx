@@ -2,10 +2,14 @@ import React from 'react';
 
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import { act, render, screen } from '../../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { image } from '../../__mocks__/image';
 import ImageForm from '../ImageForm';
 
-const renderComponent = () => render(<ImageForm image={image} />);
+const mocks = [mockedOrganizationResponse, mockedOrganizationAncestorsResponse];
+
+const renderComponent = () => render(<ImageForm image={image} />, { mocks });
 
 test('should show localized alt-text fields', async () => {
   setFeatureFlags({
@@ -18,9 +22,9 @@ test('should show localized alt-text fields', async () => {
     await renderComponent();
   });
 
-  screen.getByLabelText(
-    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
-  );
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
+  });
   screen.getByLabelText(
     'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (ruotsiksi)'
   );
@@ -49,7 +53,7 @@ test('should show only Finnish alt-text field', async () => {
     await renderComponent();
   });
 
-  screen.getByLabelText(
-    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *'
-  );
+  screen.getByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *',
+  });
 });

@@ -1,9 +1,9 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -12,10 +12,12 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   keywordValues,
   mockedCreateKeywordResponse,
+  mockedFilteredKeywordsResponse,
   mockedInvalidCreateKeywordResponse,
   mockedKeywordsResponse,
   replacingKeyword,
@@ -26,7 +28,14 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const renderComponent = (mocks: MockedResponse[] = []) =>
+const defaultMocks = [
+  mockedKeywordsResponse,
+  mockedFilteredKeywordsResponse,
+  mockedOrganizationResponse,
+  mockedUserResponse,
+];
+
+const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   render(<CreateKeywordPage />, { authContextValue, mocks });
 
 const getElement = (
@@ -47,17 +56,25 @@ const getElement = (
 const fillInputValues = async () => {
   const user = userEvent.setup();
   const nameInput = getElement('nameInput');
-  await act(async () => await user.type(nameInput, keywordValues.name));
+  await user.type(nameInput, keywordValues.name);
 
   const replacedByToggleButton = getElement('replacedByToggleButton');
-  await act(async () => await user.click(replacedByToggleButton));
+  await user.click(replacedByToggleButton);
 
   const replacingKeywordOption = await screen.findByRole('option', {
-    name: replacingKeyword?.name?.fi as string,
+    name: getValue(replacingKeyword?.name?.fi, ''),
     hidden: true,
   });
-  await act(async () => await user.click(replacingKeywordOption));
+  await user.click(replacingKeywordOption);
 };
+
+test('form should be disabled if user is not authenticated', async () => {
+  render(<CreateKeywordPage />, { mocks: defaultMocks });
+
+  await loadingSpinnerIsNotInDocument();
+  const nameInput = getElement('nameInput');
+  expect(nameInput).toHaveAttribute('readOnly');
+});
 
 test('applies expected metadata', async () => {
   const pageTitle = 'Lisää avainsana - Linked Events';
@@ -74,13 +91,13 @@ test('applies expected metadata', async () => {
 test('should focus to first validation error when trying to save new keyword', async () => {
   global.HTMLFormElement.prototype.submit = () => jest.fn();
   const user = userEvent.setup();
-  renderComponent([mockedUserResponse]);
+  renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
   const nameInput = getElement('nameInput');
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
@@ -88,9 +105,8 @@ test('should focus to first validation error when trying to save new keyword', a
 test('should move to keywords page after creating new keyword', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent([
+    ...defaultMocks,
     mockedCreateKeywordResponse,
-    mockedKeywordsResponse,
-    mockedUserResponse,
   ]);
 
   await loadingSpinnerIsNotInDocument();
@@ -98,7 +114,7 @@ test('should move to keywords page after creating new keyword', async () => {
   await fillInputValues();
 
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keywords`)
@@ -107,18 +123,14 @@ test('should move to keywords page after creating new keyword', async () => {
 
 test('should show server errors', async () => {
   const user = userEvent.setup();
-  renderComponent([
-    mockedInvalidCreateKeywordResponse,
-    mockedKeywordsResponse,
-    mockedUserResponse,
-  ]);
+  renderComponent([...defaultMocks, mockedInvalidCreateKeywordResponse]);
 
   await loadingSpinnerIsNotInDocument();
 
   await fillInputValues();
 
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);

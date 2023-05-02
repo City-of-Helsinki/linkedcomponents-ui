@@ -13,6 +13,7 @@ import { PathBuilderProps } from '../../types';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import formatDate from '../../utils/formatDate';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
@@ -62,6 +63,7 @@ export const eventsPathBuilder = ({
     pageSize,
     publicationStatus,
     publisher,
+    registration,
     showAll,
     sort,
     start,
@@ -97,6 +99,7 @@ export const eventsPathBuilder = ({
     { key: 'page_size', value: pageSize },
     { key: 'publication_status', value: publicationStatus },
     { key: 'publisher', value: publisher },
+    { key: 'registration', value: registration },
     { key: 'show_all', value: showAll },
     { key: 'sort', value: sort },
     { key: 'start', value: start },
@@ -185,7 +188,7 @@ export const getEventSearchInitialValues = (
       ? sort
       : DEFAULT_EVENT_SORT,
     start: start && isValid(new Date(start)) ? new Date(start) : null,
-    text: text || '',
+    text: getValue(text, ''),
     types,
   };
 };

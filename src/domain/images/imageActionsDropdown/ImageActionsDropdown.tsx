@@ -13,7 +13,7 @@ import { IMAGE_ACTIONS } from '../../image/constants';
 import useImageUpdateActions, {
   IMAGE_MODALS,
 } from '../../image/hooks/useImageUpdateActions';
-import ConfirmDeleteModal from '../../image/modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteImageModal from '../../image/modals/confirmDeleteImageModal/ConfirmDeleteImageModal';
 import { getEditButtonProps, getImageFields } from '../../image/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -53,10 +53,6 @@ const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = (
     });
   };
 
-  const onDelete = () => {
-    deleteImage();
-  };
-
   const getActionItemProps = ({
     action,
     onClick,
@@ -89,11 +85,11 @@ const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = (
   return (
     <>
       {openModal === IMAGE_MODALS.DELETE && (
-        <ConfirmDeleteModal
+        <ConfirmDeleteImageModal
           isOpen={openModal === IMAGE_MODALS.DELETE}
           isSaving={saving === IMAGE_ACTIONS.DELETE}
           onClose={closeModal}
-          onDelete={onDelete}
+          onConfirm={deleteImage}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

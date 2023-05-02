@@ -4,7 +4,6 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   CustomRenderOptions,
   loadingSpinnerIsNotInDocument,
@@ -14,11 +13,13 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   imageNames,
   images,
   mockedImagesResponse,
+  mockedSortedImagesResponse,
 } from '../__mocks__/imagesPage';
 import ImagesPage from '../ImagesPage';
 
@@ -26,7 +27,12 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const mocks = [mockedImagesResponse, mockedUserResponse];
+const mocks = [
+  mockedImagesResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedSortedImagesResponse,
+  mockedUserResponse,
+];
 
 const route = ROUTES.KEYWORDS;
 const routes = [route];
@@ -105,7 +111,7 @@ test('should open create image page', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const createImageButton = getElement('createImageButton');
-  await act(async () => await user.click(createImageButton));
+  await user.click(createImageButton);
 
   expect(history.location.pathname).toBe('/fi/administration/images/create');
 });
@@ -117,7 +123,7 @@ test('should add sort parameter to search query', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const sortLastModifiedButton = getElement('sortLastModifiedButton');
-  await act(async () => await user.click(sortLastModifiedButton));
+  await user.click(sortLastModifiedButton);
 
   expect(history.location.search).toBe('?sort=last_modified_time');
 });

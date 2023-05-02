@@ -5,7 +5,6 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   renderWithRoute,
   screen,
@@ -13,8 +12,9 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
-import { mockedEventResponse } from '../../event/__mocks__/event';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
+import { mockedPlaceResponse } from '../../place/__mocks__/place';
 import {
   mockedRegistrationResponse,
   registrationId,
@@ -93,7 +93,7 @@ const getElement = (
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   const menu = getElement('menu');
 
   return { menu, toggleButton };
@@ -103,9 +103,9 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
   mockedEnrolmentResponse,
-  mockedEventResponse,
-  mockedEventResponse,
   mockedLanguagesResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedPlaceResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
 ];
@@ -130,8 +130,8 @@ test('should scroll to first validation error input field', async () => {
   const nameInput = await findElement('nameInput');
   const submitButton = getElement('submitButton');
 
-  await act(async () => await user.clear(nameInput));
-  await act(async () => await user.click(submitButton));
+  await user.clear(nameInput);
+  await user.click(submitButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
@@ -167,7 +167,7 @@ test('should cancel enrolment', async () => {
   const cancelButton = await within(menu).findByRole('button', {
     name: 'Peruuta osallistuminen',
   });
-  await act(async () => await user.click(cancelButton));
+  await user.click(cancelButton);
 
   const dialog = screen.getByRole('dialog', {
     name: 'Haluatko varmasti poistaa ilmoittautumisen?',
@@ -176,7 +176,7 @@ test('should cancel enrolment', async () => {
   const confirmCancelButton = within(dialog).getByRole('button', {
     name: 'Peruuta ilmoittautuminen',
   });
-  await act(async () => await user.click(confirmCancelButton));
+  await user.click(confirmCancelButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -197,7 +197,7 @@ test('should update enrolment', async () => {
   await findElement('nameInput');
 
   const submitButton = getElement('submitButton');
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await waitFor(() => expect(global.scrollTo).toHaveBeenCalled());
 });
@@ -210,7 +210,7 @@ test('should show server errors', async () => {
   await findElement('nameInput');
 
   const submitButton = getElement('submitButton');
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

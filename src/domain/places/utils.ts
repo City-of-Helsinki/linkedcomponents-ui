@@ -1,7 +1,7 @@
 import { PlacesQueryVariables } from '../../generated/graphql';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPathBuilder from '../../utils/getPathBuilder';
-import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
+import getValue from '../../utils/getValue';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import { placesPathBuilder } from '../place/utils';
@@ -30,7 +30,7 @@ export const getPlaceSearchInitialValues = (
     sort: Object.values(PLACE_SORT_OPTIONS).includes(sort)
       ? sort
       : DEFAULT_PLACE_SORT,
-    text: text || '',
+    text: getValue(text, ''),
   };
 };
 
@@ -58,17 +58,6 @@ export const addParamsToPlaceQueryString = (
   queryParams: Partial<PlaceSearchParams>
 ): string => {
   return addParamsToQueryString<PlaceSearchParams>(
-    queryString,
-    queryParams,
-    getPlaceParamValue
-  );
-};
-
-export const replaceParamsToPlaceQueryString = (
-  queryString: string,
-  queryParams: Partial<PlaceSearchParams>
-): string => {
-  return replaceParamsToQueryString<PlaceSearchParams>(
     queryString,
     queryParams,
     getPlaceParamValue

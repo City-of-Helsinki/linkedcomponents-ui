@@ -1,16 +1,28 @@
 import { ClassNames } from '@emotion/react';
-import { IconEye } from 'hds-react';
+import { IconEye, IconPhoto } from 'hds-react';
 import xor from 'lodash/xor';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'use-debounce';
 
+import { COMBOBOX_DEBOUNCE_TIME_MS, testIds } from '../../../constants';
 import { useTheme } from '../../../domain/app/theme/Theme';
 import { imagesPathBuilder } from '../../../domain/image/utils';
-import { Image, useImagesQuery } from '../../../generated/graphql';
+import {
+  Image,
+  ImageFieldsFragment,
+  useImagesQuery,
+} from '../../../generated/graphql';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
+import useMountedState from '../../../hooks/useMountedState';
+import useShowPlaceholderImage from '../../../hooks/useShowPlaceholderImage';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import Button from '../button/Button';
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import SearchInput from '../searchInput/SearchInput';
 import { PAGE_SIZE } from './constants';
 import styles from './imageSelector.module.scss';
 
@@ -23,6 +35,49 @@ export interface ImageSelectorProps {
   publisher: string;
   value: string[];
 }
+
+export type ImageItemProps = {
+  checked: boolean;
+  disabled: boolean;
+  image: ImageFieldsFragment;
+  onClick: (image: ImageFieldsFragment) => void;
+  onDoubleClick: (image: ImageFieldsFragment) => void;
+};
+
+export const ImageItem: React.FC<ImageItemProps> = ({
+  checked,
+  disabled,
+  image,
+  onClick,
+  onDoubleClick,
+}) => {
+  const url = useMemo(() => getValue(image.url, ''), [image]);
+  const showPlaceholder = useShowPlaceholderImage(url);
+
+  return (
+    <ClassNames>
+      {({ cx }) => (
+        <button
+          className={cx(styles.image, {
+            [styles.checked]: checked,
+            [styles.showPlaceholder]: showPlaceholder,
+          })}
+          aria-label={getValue(image.name, '')}
+          disabled={disabled}
+          data-testid={`${testIds.imageSelector.imageItem}-${image.id}`}
+          style={{ backgroundImage: `url(${url})` }}
+          role="checkbox"
+          type="button"
+          aria-checked={checked}
+          onClick={() => onClick(image)}
+          onDoubleClick={() => onDoubleClick(image)}
+        >
+          {showPlaceholder && <IconPhoto size="xl" />}
+        </button>
+      )}
+    </ClassNames>
+  );
+};
 
 const ImageSelector: React.FC<ImageSelectorProps> = ({
   disabled = false,
@@ -41,6 +96,9 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
 
   const isComponentFocused = useIsComponentFocused(container);
 
+  const [search, setSearch] = useMountedState('');
+  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
+
   const {
     data: imagesData,
     loading,
@@ -51,6 +109,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
       mergePages: true,
       pageSize: PAGE_SIZE,
       publisher,
+      text: debouncedSearch,
     },
   });
 
@@ -65,11 +124,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
       try {
         setLoadingMore(true);
 
-        await fetchMoreImages({
-          variables: {
-            page: nextPage,
-          },
-        });
+        await fetchMoreImages({ variables: { page: nextPage } });
 
         setLoadingMore(false);
       } catch (e) /* istanbul ignore next */ {
@@ -78,7 +133,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
     }
   };
 
-  const handleChange = (image: Image) => () => {
+  const handleChange = (image: Image) => {
     if (multiple) {
       onChange(xor(value, [image.atId]));
     } else {
@@ -86,7 +141,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
     }
   };
 
-  const handleDoubleClick = (image: Image) => () => {
+  const handleDoubleClick = (image: Image) => {
     onDoubleClick && onDoubleClick(image);
   };
 
@@ -117,32 +172,36 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
           className={cx(styles.imageSelector, css(theme.imageSelector))}
           ref={container}
         >
+          <div className={styles.searchInputRow}>
+            <SearchInput
+              hideLabel
+              label={t('common.imageSelector.labelSearch')}
+              onChange={setSearch}
+              onSubmit={setSearch}
+              placeholder={getValue(t('common.imageSelector.labelSearch'), '')}
+              value={search}
+            />
+          </div>
           <div className={styles.imagesGrid}>
             {imagesData?.images.data.length ? (
-              imagesData?.images.data.map((image) => {
-                const checked = !!image && value.includes(image?.atId);
+              imagesData?.images.data.filter(skipFalsyType).map((image) => {
+                const checked = value.includes(image?.atId);
 
                 return (
-                  image?.url && (
-                    <button
-                      key={image.id}
-                      className={cx(styles.image, {
-                        [styles.checked]: checked,
-                      })}
-                      aria-label={image.name as string}
-                      disabled={disabled}
-                      style={{ backgroundImage: `url(${image.url})` }}
-                      role="checkbox"
-                      type="button"
-                      aria-checked={checked}
-                      onClick={handleChange(image)}
-                      onDoubleClick={handleDoubleClick(image)}
-                    />
-                  )
+                  <ImageItem
+                    key={image.atId}
+                    checked={checked}
+                    disabled={disabled}
+                    image={image}
+                    onClick={handleChange}
+                    onDoubleClick={handleDoubleClick}
+                  />
                 );
               })
             ) : (
-              <div className={styles.noImages}>Ei kuvia</div>
+              <div className={styles.noImages}>
+                <LoadingSpinner isLoading={loading}>Ei kuvia</LoadingSpinner>
+              </div>
             )}
           </div>
           <div className={styles.buttonWrapper}>

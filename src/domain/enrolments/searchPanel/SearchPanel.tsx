@@ -3,8 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
-import Button from '../../../common/components/button/Button';
-import SearchInput from '../../../common/components/searchInput/SearchInput';
+import { SearchRow } from '../../../common/components/searchPanel/SearchPanel';
 import useSearchState from '../../../hooks/useSearchState';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { getEnrolmentSearchInitialValues } from '../utils';
@@ -45,34 +44,18 @@ const SearchPanel: React.FC = () => {
 
   return (
     <div className={classNames(styles.searchPanel)}>
-      <div className={styles.inputRow}>
-        <div className={styles.searchInputWrapper}>
-          <SearchInput
-            className={styles.searchInput}
-            hideLabel
-            label={t('enrolmentsPage.searchPanel.labelSearch')}
-            onChange={handleChangeText}
-            onSubmit={handleSearch}
-            placeholder={
-              t('enrolmentsPage.searchPanel.placeholderSearch') as string
-            }
-            searchButtonAriaLabel={
-              t('enrolmentsPage.searchPanel.buttonSearch') as string
-            }
-            value={searchState.enrolmentText}
-          />
-        </div>
-        <div className={styles.buttonWrapper}>
-          <Button
-            className={styles.button}
-            fullWidth={true}
-            onClick={handleSearch}
-            variant="secondary"
-          >
-            {t('enrolmentsPage.searchPanel.buttonSearch')}
-          </Button>
-        </div>
-      </div>
+      <SearchRow
+        onSearch={handleSearch}
+        onSearchValueChange={handleChangeText}
+        searchButtonAriaLabel={t('enrolmentsPage.searchPanel.buttonSearch')}
+        searchButtonText={t('enrolmentsPage.searchPanel.buttonSearch')}
+        searchInputClassName={styles.searchInput}
+        searchInputLabel={t('enrolmentsPage.searchPanel.labelSearch')}
+        searchInputPlaceholder={t(
+          'enrolmentsPage.searchPanel.placeholderSearch'
+        )}
+        searchInputValue={searchState.enrolmentText}
+      />
     </div>
   );
 };

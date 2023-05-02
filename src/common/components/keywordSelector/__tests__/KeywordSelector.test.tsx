@@ -1,60 +1,25 @@
-import range from 'lodash/range';
 import React from 'react';
 
 import {
-  KeywordDocument,
-  KeywordsDocument,
-} from '../../../../generated/graphql';
-import { fakeKeyword, fakeKeywords } from '../../../../utils/mockDataUtils';
-import {
-  act,
   configure,
   render,
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
+import {
+  keywordAtId,
+  keywordName,
+  keywordNames,
+  mockedKeywordResponse,
+  mockedKeywordsResponse,
+} from '../__mocks__/keywordSelector';
 import KeywordSelector, { KeywordSelectorProps } from '../KeywordSelector';
 
 configure({ defaultHidden: true });
 
-const keywordId = 'hel:123';
-const keywordAtId = `https://api.hel.fi/linkedevents/v1/keyword/${keywordId}/`;
-const keywordName = 'Keyword name';
 const helper = 'Helper text';
 const label = 'Select keyword';
 const name = 'keyword';
-
-const keyword = fakeKeyword({
-  id: keywordId,
-  atId: keywordAtId,
-  name: { fi: keywordName },
-});
-const keywordVariables = { id: keywordId, createPath: undefined };
-const keywordResponse = { data: { keyword } };
-const mockedKeywordResponse = {
-  request: {
-    query: KeywordDocument,
-    variables: keywordVariables,
-  },
-  result: keywordResponse,
-};
-
-const keywordNames = range(1, 6).map((val) => `Keyword name ${val}`);
-const keywords = fakeKeywords(
-  keywordNames.length,
-  keywordNames.map((name) => ({ name: { fi: name } }))
-);
-const keywordsVariables = {
-  createPath: undefined,
-  dataSource: ['yso', 'helsinki'],
-  showAllKeywords: true,
-  text: '',
-};
-const keywordsResponse = { data: { keywords } };
-const mockedKeywordsResponse = {
-  request: { query: KeywordsDocument, variables: keywordsVariables },
-  result: keywordsResponse,
-};
 
 const mocks = [mockedKeywordResponse, mockedKeywordsResponse];
 
@@ -89,12 +54,12 @@ test('should open menu by clickin toggle button and list of options should be vi
   expect(combobox.getAttribute('aria-expanded')).toBe('false');
 
   const toggleButton = screen.getByRole('button', { name: new RegExp(label) });
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   expect(combobox.getAttribute('aria-expanded')).toBe('true');
 
-  await screen.findByRole('option', { hidden: true, name: keywordNames[0] });
-  keywordNames
-    .slice(1)
-    .forEach((name) => screen.getByRole('option', { hidden: true, name }));
+  await screen.findByRole('option', { hidden: true, name: keywordName });
+  keywordNames.forEach((name) =>
+    screen.getByRole('option', { hidden: true, name })
+  );
 });

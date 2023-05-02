@@ -2,6 +2,7 @@
 import TestController from 'testcafe';
 
 import { ImageFieldsFragment } from '../../src/generated/graphql';
+import getValue from '../../src/utils/getValue';
 import { getCommonComponents } from '../common.components';
 import { getExpectedImageContext } from '../utils/image.utils';
 import {
@@ -80,7 +81,7 @@ export const getImagesPage = async (t: TestController) => {
       );
 
       const imageRow = () => {
-        return withinSearchResultList().getAllByTestId(image.id as string);
+        return withinSearchResultList().getAllByTestId(getValue(image.id, ''));
       };
 
       if (searchedField) {

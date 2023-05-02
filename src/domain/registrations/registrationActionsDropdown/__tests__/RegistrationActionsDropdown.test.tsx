@@ -8,7 +8,6 @@ import {
   fakeAuthenticatedAuthContextValue,
 } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   CustomRenderOptions,
   render,
@@ -17,9 +16,9 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   mockedDeleteRegistrationResponse,
-  mockedEventResponse,
   registration,
 } from '../../../registration/__mocks__/editRegistrationPage';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
@@ -31,12 +30,12 @@ configure({ defaultHidden: true });
 jest.mock('copy-to-clipboard');
 
 const defaultProps: RegistrationActionsDropdownProps = {
-  registration: registration,
+  registration,
 };
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedEventResponse, mockedUserResponse];
+const defaultMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const routes = [`/fi${ROUTES.REGISTRATIONS}`];
 
@@ -95,7 +94,7 @@ const titleDisabled = 'Sinulla ei ole oikeuksia muokata ilmoittautumisia.';
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   getElement('menu');
 
   return toggleButton;
@@ -107,7 +106,7 @@ test('should toggle menu by clicking actions button', async () => {
   renderComponent();
 
   const toggleButton = await openMenu();
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -148,7 +147,7 @@ test('should route to edit registration page when clicking edit button', async (
   await openMenu();
 
   const editButton = await findElement('edit');
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -166,7 +165,7 @@ test('should route to enrolments page when clicking show enrolments button', asy
   await openMenu();
 
   const editButton = await findElement('showEnrolments');
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -184,7 +183,7 @@ test('should route to create registration page when clicking copy button', async
   await openMenu();
 
   const copyButton = getElement('copy');
-  await act(async () => await user.click(copyButton));
+  await user.click(copyButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/registrations/create`)
@@ -200,7 +199,7 @@ test('should copy registration link to clipboard', async () => {
   await openMenu();
 
   const copyLinkButton = getElement('copyLink');
-  await act(async () => await user.click(copyLinkButton));
+  await user.click(copyLinkButton);
 
   expect(copyToClipboard).toBeCalledWith(
     `https://linkedregistrations-ui.test.kuva.hel.ninja/fi/registration/${registration.id}/enrolment/create`
@@ -217,13 +216,13 @@ test('should delete registration', async () => {
   await openMenu();
 
   const deleteButton = await findElement('delete');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteRegistrationButton = withinModal.getByRole('button', {
     name: 'Poista ilmoittautuminen',
   });
-  await act(async () => await user.click(deleteRegistrationButton));
+  await user.click(deleteRegistrationButton);
 
   await waitFor(
     () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),

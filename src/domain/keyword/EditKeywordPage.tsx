@@ -12,6 +12,7 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
@@ -23,7 +24,7 @@ import useKeywordUpdateActions, {
   KEYWORD_MODALS,
 } from './hooks/useKeywordActions';
 import KeywordForm from './keywordForm/KeywordForm';
-import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteKeywordModal from './modals/confirmDeleteKeywordModal/ConfirmDeleteKeywordModal';
 import {
   getEditButtonProps,
   getKeywordFields,
@@ -52,7 +53,7 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
     navigate(`/${locale}${ROUTES.KEYWORDS}`);
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deleteKeyword({
       onSuccess: () => goToKeywordsPage(),
     });
@@ -70,11 +71,11 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
 
   return (
     <div>
-      <ConfirmDeleteModal
+      <ConfirmDeleteKeywordModal
         isOpen={openModal === KEYWORD_MODALS.DELETE}
         isSaving={saving === KEYWORD_ACTIONS.DELETE}
         onClose={closeModal}
-        onDelete={onDelete}
+        onConfirm={handleDelete}
       />
       <TitleRow
         breadcrumb={
@@ -115,7 +116,7 @@ const EditKeywordPageWrapper: React.FC = () => {
     notifyOnNetworkStatusChange: true,
     variables: {
       createPath: getPathBuilder(keywordPathBuilder),
-      id: id as string,
+      id: getValue(id, ''),
     },
   });
 

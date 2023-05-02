@@ -15,7 +15,6 @@ import {
   fakeOffers,
 } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
@@ -30,9 +29,9 @@ import {
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   addressLocality,
-  locationName,
   mockedPlaceResponse,
   place,
+  placeName,
   streetAddress,
 } from '../../../place/__mocks__/place';
 import EventCard from '../EventCard';
@@ -40,7 +39,7 @@ import EventCard from '../EventCard';
 configure({ defaultHidden: true });
 
 const imageUrl = 'http://imageurl.com';
-const locationText = [locationName, streetAddress, addressLocality].join(', ');
+const locationText = [placeName, streetAddress, addressLocality].join(', ');
 
 const eventValues = {
   id: 'event:1',
@@ -126,7 +125,7 @@ test('should render event card fields', async () => {
   const showMoreButton = screen.getByRole('button', {
     name: `Näytä alatapahtumat (${subEvents.data.length})`,
   });
-  await act(async () => await user.click(showMoreButton));
+  await user.click(showMoreButton);
 
   // Should show sub-events
   await screen.findByRole('heading', { name: subEventFields[0].name });
@@ -137,7 +136,7 @@ test('should render event card fields', async () => {
   const hideButton = screen.getByRole('button', {
     name: `Piilota alatapahtumat`,
   });
-  await act(async () => await user.click(hideButton));
+  await user.click(hideButton);
 
   // Sub-events should be hidden
   for (const { name } of subEventFields) {

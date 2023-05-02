@@ -1,24 +1,35 @@
+/* eslint-disable max-len */
 import { Formik } from 'formik';
 import React from 'react';
 
+import { mockedPlacesResponse as mockedPlaceSelectorPlacesResponse } from '../../../../../common/components/placeSelector/__mocks__/placeSelector';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   LE_DATA_LANGUAGES,
 } from '../../../../../constants';
 import { MultiLanguageObject } from '../../../../../types';
 import {
-  act,
   configure,
   mockString,
   render,
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
+import {
+  mockedPlacesResponse,
+  mockedSortedPlacesResponse,
+} from '../../../../places/__mocks__/placesPage';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { publicEventSchema } from '../../../validation';
 import PlaceSection from '../PlaceSection';
 
 configure({ defaultHidden: true });
+
+const mocks = [
+  mockedPlaceSelectorPlacesResponse,
+  mockedSortedPlacesResponse,
+  mockedPlacesResponse,
+];
 
 const languages: LE_DATA_LANGUAGES[] = [LE_DATA_LANGUAGES.FI];
 const type = EVENT_TYPE.General;
@@ -46,7 +57,8 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
       validationSchema={publicEventSchema}
     >
       <PlaceSection isEditingAllowed={true} />
-    </Formik>
+    </Formik>,
+    { mocks }
   );
 
 const getElement = (key: 'location' | 'locationExtraInfo') => {
@@ -67,8 +79,8 @@ test('should show validation error if location is missing', async () => {
   const locationCombobox = getElement('location');
   const locationExtraInfoInput = getElement('locationExtraInfo');
 
-  await act(async () => await user.click(locationCombobox));
-  await act(async () => await user.click(locationExtraInfoInput));
+  await user.click(locationCombobox);
+  await user.click(locationExtraInfoInput);
 
   await screen.findByText('Tämä kenttä on pakollinen');
 });
@@ -85,8 +97,8 @@ test('should show validation error if location extra info is too long', async ()
   const locationExtraInfoInput = getElement('locationExtraInfo');
   const locationCombobox = getElement('location');
 
-  await act(async () => await user.click(locationExtraInfoInput));
-  await act(async () => await user.click(locationCombobox));
+  await user.click(locationExtraInfoInput);
+  await user.click(locationCombobox);
 
   await screen.findByText('Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä');
 });

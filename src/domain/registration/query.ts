@@ -11,13 +11,18 @@ export const QUERY_REGISTRATION = gql`
     createdBy
     currentAttendeeCount
     currentWaitingListCount
+    dataSource
     enrolmentEndTime
     enrolmentStartTime
-    event
+    event {
+      ...eventFields
+    }
     instructions
     lastModifiedAt
+    mandatoryFields
     maximumAttendeeCapacity
     minimumAttendeeCapacity
+    publisher
     signups {
       ...enrolmentFields
     }

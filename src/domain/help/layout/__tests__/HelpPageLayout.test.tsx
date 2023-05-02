@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import {
-  act,
   configure,
   render,
   screen,
@@ -43,7 +42,7 @@ test('should route to features help page', async () => {
   const featuresLink = screen.getByRole('link', {
     name: 'Palvelun ominaisuudet',
   });
-  await act(async () => await user.click(featuresLink));
+  await user.click(featuresLink);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/help/features')
@@ -55,7 +54,7 @@ test('should route to platform help page', async () => {
   const { history } = renderComponent();
 
   const platformLink = screen.getByRole('link', { name: 'Alusta' });
-  await act(async () => await user.click(platformLink));
+  await user.click(platformLink);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/help/instructions/platform')

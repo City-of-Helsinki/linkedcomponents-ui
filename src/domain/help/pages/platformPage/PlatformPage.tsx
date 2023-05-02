@@ -1,10 +1,11 @@
-import { IconCogwheel, IconPhone } from 'hds-react';
+import { IconCalendar, IconCogwheel, IconPhone } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import imageUrl from '../../../../assets/images/png/platform-page.png';
 import Highlight from '../../../../common/components/highlight/Highlight';
 import IconCloud from '../../../../icons/IconCloud';
+import getValue from '../../../../utils/getValue';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
 import styles from './platformPage.module.scss';
 
@@ -22,11 +23,12 @@ const PlatformPage: React.FC = () => {
       <div className={styles.mainContent}>
         <img
           src={imageUrl}
-          alt={t('helpPage.platformPage.imageAlt') as string}
+          alt={getValue(t('helpPage.platformPage.imageAlt'), undefined)}
         />
         <div>
           <p>{t('helpPage.platformPage.textMainContent1')}</p>
           <p>{t('helpPage.platformPage.textMainContent2')}</p>
+          <p>{t('helpPage.platformPage.textMainContent3')}</p>
         </div>
       </div>
       <h2>{t('helpPage.platformPage.titleServiceHighlights')}</h2>
@@ -45,6 +47,11 @@ const PlatformPage: React.FC = () => {
           icon={<IconPhone />}
           text={t('helpPage.platformPage.textSupport')}
           title={t('helpPage.platformPage.titleSupport')}
+        />
+        <Highlight
+          icon={<IconCalendar />}
+          text={t('helpPage.platformPage.textRegistration')}
+          title={t('helpPage.platformPage.titleRegistration')}
         />
       </div>
     </PageWrapper>

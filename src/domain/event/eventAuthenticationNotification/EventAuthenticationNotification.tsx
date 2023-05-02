@@ -5,6 +5,7 @@ import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -13,7 +14,7 @@ import { EVENT_ACTIONS } from '../constants';
 import { checkIsActionAllowed } from '../utils';
 
 export type EventAuthenticationNotificationProps = {
-  event?: EventFieldsFragment;
+  event?: EventFieldsFragment | null;
 };
 
 const EventAuthenticationNotification: React.FC<
@@ -22,50 +23,37 @@ const EventAuthenticationNotification: React.FC<
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
 
-  const userOrganizations = user
-    ? [...user?.adminOrganizations, ...user.organizationMemberships]
-    : [];
   const { t } = useTranslation();
   const { organizationAncestors } = useOrganizationAncestors(
-    event?.publisher as string
+    getValue(event?.publisher, '')
   );
 
-  const getNotificationProps = () => {
-    if (authenticated) {
-      if (!userOrganizations.length) {
-        return {
-          children: <p>{t('authentication.noRightsUpdateEvent')}</p>,
-          label: t('authentication.noRightsUpdateEventLabel'),
-        };
-      }
+  return (
+    <AuthenticationNotification
+      authorizationWarningLabel={t('event.form.notificationTitleCannotEdit')}
+      getAuthorizationWarning={() => {
+        if (event) {
+          const action =
+            event.publicationStatus === PublicationStatus.Draft
+              ? EVENT_ACTIONS.UPDATE_DRAFT
+              : EVENT_ACTIONS.UPDATE_PUBLIC;
 
-      if (event) {
-        const action =
-          event.publicationStatus === PublicationStatus.Draft
-            ? EVENT_ACTIONS.UPDATE_DRAFT
-            : EVENT_ACTIONS.UPDATE_PUBLIC;
-        const { warning } = checkIsActionAllowed({
-          action,
-          authenticated,
-          event,
-          organizationAncestors,
-          t,
-          user,
-        });
-
-        if (warning) {
-          return {
-            children: <p>{warning}</p>,
-            label: t('event.form.notificationTitleCannotEdit'),
-          };
+          return checkIsActionAllowed({
+            action,
+            authenticated,
+            event,
+            organizationAncestors,
+            t,
+            user,
+          });
         }
-      }
-    }
-
-    return { label: null };
-  };
-
-  return <AuthenticationNotification {...getNotificationProps()} />;
+        return { warning: '', editable: true };
+      }}
+      noRequiredOrganizationLabel={t('authentication.noRightsUpdateEventLabel')}
+      noRequiredOrganizationText={t('authentication.noRightsUpdateEvent')}
+      requiredOrganizationType="any"
+    />
+  );
 };
 
 export default EventAuthenticationNotification;

@@ -9,6 +9,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { registration } from '../../../registration/__mocks__/registration';
 import {
   getMockedUserResponse,
@@ -33,7 +34,11 @@ test("should show notification if user is signed in but doesn't have any organiz
     adminOrganizations: [],
     organizationMemberships: [],
   });
-  const mocks = [mockedEventResponse, mockedUserResponse];
+  const mocks = [
+    mockedEventResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedUserResponse,
+  ];
 
   const authContextValue = fakeAuthenticatedAuthContextValue();
 
@@ -44,7 +49,11 @@ test("should show notification if user is signed in but doesn't have any organiz
 });
 
 test('should not show notification if user is signed in and has an admin organization', async () => {
-  const mocks = [mockedEventResponse, mockedUserResponse];
+  const mocks = [
+    mockedEventResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedUserResponse,
+  ];
 
   const authContextValue = fakeAuthenticatedAuthContextValue();
 

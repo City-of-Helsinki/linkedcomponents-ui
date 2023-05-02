@@ -6,6 +6,7 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import { useUpdateImageMutation } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import {
@@ -25,7 +26,7 @@ import useUser from '../../user/hooks/useUser';
 import { EventFormFields } from '../types';
 
 type UpdateImageIfNeededState = {
-  updateImageIfNeeded: (values: EventFormFields) => void;
+  updateImageIfNeeded: (values: EventFormFields) => Promise<void>;
 };
 
 const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
@@ -48,9 +49,9 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
     const imageAtId = images[0];
 
     if (imageAtId) {
-      const imageId = parseIdFromAtId(imageAtId) as string;
+      const imageId = getValue(parseIdFromAtId(imageAtId), '');
       const image = await getImageQueryResult(imageId, apolloClient);
-      const publisher = image?.publisher ?? '';
+      const publisher = getValue(image?.publisher, '');
       const organizationAncestors = await getOrganizationAncestorsQueryResult(
         publisher,
         apolloClient
@@ -72,7 +73,7 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
         await updateImage({
           variables: {
             input: {
-              id: parseIdFromAtId(imageId) as string,
+              id: getValue(parseIdFromAtId(imageId), ''),
               ...imageDetails,
             },
           },

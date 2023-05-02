@@ -4,7 +4,6 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   CustomRenderOptions,
   loadingSpinnerIsNotInDocument,
@@ -14,9 +13,11 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedPlacesResponse,
+  mockedSortedPlacesResponse,
   placeNames,
   places,
 } from '../__mocks__/placesPage';
@@ -26,7 +27,12 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedPlacesResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedOrganizationAncestorsResponse,
+  mockedPlacesResponse,
+  mockedSortedPlacesResponse,
+  mockedUserResponse,
+];
 const route = ROUTES.PLACES;
 
 const renderComponent = ({
@@ -109,7 +115,7 @@ test('should open create place page', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const createKeywordButton = getElement('createPlaceButton');
-  await act(async () => await user.click(createKeywordButton));
+  await user.click(createKeywordButton);
 
   expect(history.location.pathname).toBe('/fi/administration/places/create');
 });
@@ -121,7 +127,7 @@ test('should add sort parameter to search query', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const sortNameButton = getElement('sortNameButton');
-  await act(async () => await user.click(sortNameButton));
+  await user.click(sortNameButton);
 
   expect(history.location.search).toBe('?sort=name');
 });

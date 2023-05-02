@@ -100,7 +100,7 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
                   onDoubleClick={(image: Image) => {
                     onSubmit({
                       ...ADD_IMAGE_INITIAL_VALUES,
-                      [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [image.atId as string],
+                      [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: [image.atId],
                     });
                   }}
                   publisher={publisher}

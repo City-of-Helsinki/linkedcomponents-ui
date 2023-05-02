@@ -1,6 +1,5 @@
 @import '../../assets/styles/breakpoints';
 
-
 .breadcrumbContainer {
   background-color: var(--color-white);
   margin: var(--spacing-m) calc(0px - var(--spacing-s)) 0;
@@ -11,12 +10,6 @@
   }
 }
 
-.breadcrumb {
-  margin-top: calc(0px - var(--spacing-2-xs)) !important;
-}
-
 .createContainer {
   margin-top: var(--spacing-m);
 }
-
-

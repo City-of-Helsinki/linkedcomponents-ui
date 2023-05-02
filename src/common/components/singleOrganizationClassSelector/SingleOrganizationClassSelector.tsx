@@ -12,6 +12,7 @@ import {
 } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 
 const getOption = ({
@@ -34,20 +35,23 @@ const SingleOrganizationClassSelector: React.FC<
 > = ({ label, name, value, ...rest }) => {
   const { t } = useTranslation();
 
-  const { organizationClasses } = useAllOrganizationClasses();
+  const { loading, organizationClasses } = useAllOrganizationClasses();
 
   const options: OptionType[] = React.useMemo(
     () =>
-      organizationClasses.map((organizationClass) =>
-        getOption({ organizationClass })
-      ) ?? /* istanbul ignore next */ [],
+      getValue(
+        organizationClasses.map((organizationClass) =>
+          getOption({ organizationClass })
+        ),
+        []
+      ),
     [organizationClasses]
   );
 
   const { data: organizationClassData } = useOrganizationClassQuery({
     skip: !value,
     variables: {
-      id: value as string,
+      id: getValue(value, ''),
       createPath: getPathBuilder(organizationClassPathBuilder),
     },
   });
@@ -62,6 +66,7 @@ const SingleOrganizationClassSelector: React.FC<
       {...rest}
       multiselect={false}
       id={name}
+      isLoading={loading}
       label={label}
       options={options}
       toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}

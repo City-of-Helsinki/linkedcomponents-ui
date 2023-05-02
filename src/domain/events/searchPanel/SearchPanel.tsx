@@ -1,21 +1,18 @@
-import { IconHeart, IconSearch } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
-import Button from '../../../common/components/button/Button';
-import MultiSelectDropdown from '../../../common/components/multiSelectDropdown/MultiSelectDropdown';
-import SearchInput from '../../../common/components/searchInput/SearchInput';
+import { SearchRow } from '../../../common/components/searchPanel/SearchPanel';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSearchState from '../../../hooks/useSearchState';
 import { OptionType } from '../../../types';
-import skipFalsyType from '../../../utils/skipFalsyType';
 import Container from '../../app/layout/container/Container';
 import { EVENT_TYPE } from '../../event/constants';
 import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
 import FilterSummary from '../filterSummary/FilterSummary';
 import { getEventSearchInitialValues, getEventSearchQuery } from '../utils';
+import EventTypeSelector from './eventTypeSelector/EventTypeSelector';
 import styles from './searchPanel.module.scss';
 
 type SearchState = {
@@ -61,53 +58,28 @@ const SearchPanel: React.FC = () => {
   return (
     <div className={styles.searchPanel}>
       <Container withOffset={true}>
-        <div className={styles.inputRow}>
-          <div className={styles.typeSelectorWrapper}>
-            <MultiSelectDropdown
-              icon={<IconHeart aria-hidden />}
+        <SearchRow
+          onSearch={handleSearch}
+          onSearchValueChange={handleChangeText}
+          searchButtonAriaLabel={t('eventSearchPage.searchPanel.buttonSearch')}
+          searchButtonText={t('eventSearchPage.searchPanel.buttonSearch')}
+          searchInputClassName={styles.searchInput}
+          searchInputLabel={t('eventSearchPage.searchPanel.labelSearch')}
+          searchInputPlaceholder={t(
+            'eventSearchPage.searchPanel.placeholderSearch'
+          )}
+          searchInputValue={searchState.text}
+          selector={
+            <EventTypeSelector
               onChange={handleChangeEventTypes}
               options={eventTypeOptions}
-              showSearch={true}
               toggleButtonLabel={t(
                 'eventSearchPage.searchPanel.labelEventType'
               )}
-              value={
-                searchState.type
-                  .filter(skipFalsyType)
-                  .map((type) =>
-                    eventTypeOptions.find((item) => item.value === type)
-                  ) as OptionType[]
-              }
+              value={searchState.type}
             />
-          </div>
-          <div className={styles.searchInputWrapper}>
-            <SearchInput
-              className={styles.searchInput}
-              hideLabel
-              label={t('eventSearchPage.searchPanel.labelSearch')}
-              onChange={handleChangeText}
-              onSubmit={handleSearch}
-              placeholder={
-                t('eventSearchPage.searchPanel.placeholderSearch') as string
-              }
-              searchButtonAriaLabel={
-                t('eventSearchPage.searchPanel.buttonSearch') as string
-              }
-              value={searchState.text}
-            />
-          </div>
-          <div className={styles.buttonWrapper}>
-            <Button
-              className={styles.button}
-              fullWidth={true}
-              iconLeft={<IconSearch aria-hidden />}
-              onClick={handleSearch}
-              variant="secondary"
-            >
-              {t('eventSearchPage.searchPanel.buttonSearch')}
-            </Button>
-          </div>
-        </div>
+          }
+        />
         <FilterSummary className={styles.filterSummary} />
       </Container>
     </div>

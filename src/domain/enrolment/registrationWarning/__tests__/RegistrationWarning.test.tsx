@@ -25,7 +25,7 @@ test('should show warning if registration is full', async () => {
 
   renderComponent(registration);
 
-  screen.getByText(
+  await screen.findByText(
     'Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen.'
   );
 });

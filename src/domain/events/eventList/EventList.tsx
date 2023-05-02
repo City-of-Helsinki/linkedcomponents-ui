@@ -3,7 +3,6 @@ import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
-import { scroller } from 'react-scroll';
 
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
@@ -12,14 +11,14 @@ import SingleSelect from '../../../common/components/singleSelect/SingleSelect';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import { testIds } from '../../../constants';
 import {
-  EventFieldsFragment,
   EventsQuery,
   EventsQueryVariables,
   useEventsQuery,
 } from '../../../generated/graphql';
+import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
-import { OptionType } from '../../../types';
-import getPageCount from '../../../utils/getPageCount';
+import { CommonListProps, OptionType } from '../../../types';
+import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
 import Container from '../../app/layout/container/Container';
@@ -39,7 +38,6 @@ import {
   getEventItemId,
   getEventSearchInitialValues,
   getEventsQueryVariables,
-  replaceParamsToEventQueryString,
 } from '../utils';
 import styles from './eventList.module.scss';
 import ListTypeSelector from './listTypeSelector/ListTypeSelector';
@@ -68,17 +66,10 @@ export type EventListContainerProps = EventListContainerCommonProps &
 type EventListProps = {
   events: EventsQuery['events']['data'];
   listType: EVENT_LIST_TYPES;
-  onPageChange: (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => void;
-  onSortChange: (sort: EVENT_SORT_OPTIONS) => void;
   page: number;
-  pageCount: number;
   sort: EVENT_SORT_OPTIONS;
-} & Pick<EventListContainerProps, 'activeTab'>;
+} & Pick<EventListContainerProps, 'activeTab'> &
+  CommonListProps;
 
 const EventList: React.FC<EventListProps> = ({
   activeTab,
@@ -88,6 +79,7 @@ const EventList: React.FC<EventListProps> = ({
   onSortChange,
   page,
   pageCount,
+  pageHref,
   sort,
 }) => {
   const { t } = useTranslation();
@@ -137,12 +129,7 @@ const EventList: React.FC<EventListProps> = ({
         {pageCount > 1 && (
           <Pagination
             pageCount={pageCount}
-            pageHref={(index: number) => {
-              return `${location.pathname}${replaceParamsToEventQueryString(
-                location.search,
-                { page: index > 1 ? index : null }
-              )}`;
-            }}
+            pageHref={pageHref}
             pageIndex={page - 1}
             onChange={onPageChange}
           />
@@ -164,8 +151,8 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
     skip,
   } = props;
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const location = useLocation();
+
   const { page, sort } = getEventSearchInitialValues(location.search);
 
   const eventListId = useIdWithPrefix({ prefix: 'event-list-' });
@@ -183,42 +170,18 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
     variables,
   });
 
-  const events = (eventsData?.events?.data as EventFieldsFragment[]) || [];
+  const events = getValue(eventsData?.events?.data, []);
 
-  const handlePageChange = (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => {
-    event.preventDefault();
-
-    const pageNumber = index + 1;
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToEventQueryString(location.search, {
-        page: pageNumber > 1 ? pageNumber : null,
-      }),
-    });
-    // Scroll to the beginning of event list
-    scroller.scrollTo(eventListId, { offset: -100 });
-  };
+  const { count, onSortChange, ...listProps } = useCommonListProps({
+    defaultSort: DEFAULT_EVENT_SORT,
+    listId: eventListId,
+    meta: eventsData?.events.meta,
+    pageSize: EVENTS_PAGE_SIZE,
+  });
 
   const handleSortSelectorChange = (sortOption: OptionType) => {
-    handleSortChange(sortOption.value as EVENT_SORT_OPTIONS);
+    onSortChange(sortOption.value);
   };
-
-  const handleSortChange = (val: EVENT_SORT_OPTIONS) => {
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToEventQueryString(location.search, {
-        sort: val !== DEFAULT_EVENT_SORT ? val : null,
-      }),
-    });
-  };
-
-  const eventsCount = eventsData?.events?.meta.count || 0;
-  const pageCount = getPageCount(eventsCount, EVENTS_PAGE_SIZE);
 
   return (
     <div
@@ -240,7 +203,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
             )}
 
             <span className={styles.count}>
-              {t('eventsPage.count', { count: eventsCount })}
+              {t('eventsPage.count', { count })}
             </span>
           </div>
           <div className={styles.sortSelector}>
@@ -261,11 +224,10 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
           {...props}
           events={events}
           listType={listType}
-          onPageChange={handlePageChange}
-          onSortChange={handleSortChange}
+          onSortChange={onSortChange}
           page={page}
-          pageCount={pageCount}
           sort={sort}
+          {...listProps}
         />
       </LoadingSpinner>
     </div>

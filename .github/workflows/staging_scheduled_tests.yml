@@ -12,21 +12,12 @@ jobs:
     name: Scheduled Acceptance tests against Staging environment
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-      - uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          cache: 'yarn'
       - name: Install dependencies
         run: yarn --prefer-offline --frozen-lockfile --check-files --production=false
       - name: Run TestCafe tests
@@ -43,7 +34,7 @@ jobs:
           TESTCAFE_SLACK_CHANNEL: '#linked-alerts'
           TESTCAFE_SLACK_USERNAME: TestCafé
       - name: Upload screenshots and videos of failed tests to artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: report
           path: report/

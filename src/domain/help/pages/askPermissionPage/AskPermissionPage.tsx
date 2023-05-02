@@ -11,10 +11,7 @@ import TextInputField from '../../../../common/components/formFields/textInputFi
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import ServerErrorSummary from '../../../../common/components/serverErrorSummary/ServerErrorSummary';
-import {
-  FeedbackInput,
-  OrganizationFieldsFragment,
-} from '../../../../generated/graphql';
+import { FeedbackInput } from '../../../../generated/graphql';
 import useIdWithPrefix from '../../../../hooks/useIdWithPrefix';
 import useLocale from '../../../../hooks/useLocale';
 import {
@@ -67,11 +64,7 @@ const AskPermissionPage: React.FC = () => {
     );
 
     if (organization) {
-      const { id, name } = getOrganizationFields(
-        organization as OrganizationFieldsFragment,
-        locale,
-        t
-      );
+      const { id, name } = getOrganizationFields(organization, locale, t);
 
       return `${t(
         'helpPage.askPermissionPage.labelOrganization'
@@ -120,11 +113,15 @@ const AskPermissionPage: React.FC = () => {
   };
 
   return (
-    <PageWrapper title="helpPage.askPermissionPage.pageTitle">
+    <PageWrapper
+      description="helpPage.askPermissionPage.pageDescription"
+      keywords={['keywords.ask', 'keywords.permission']}
+      title="helpPage.askPermissionPage.pageTitle"
+    >
       <h1>{t('helpPage.askPermissionPage.pageTitle')}</h1>
       <AuthenticationNotification
         className={styles.authenticationNotification}
-        label=""
+        showOnlyNotAuthenticatedError
       />
 
       <Formik

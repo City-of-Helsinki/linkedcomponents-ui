@@ -13,7 +13,6 @@ import {
 } from '../../../../../utils/mockAuthContextValue';
 import { fakeFeedback } from '../../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   CustomRenderOptions,
   render,
@@ -62,7 +61,14 @@ const mockedPostGuestFeedbackResponse: MockedResponse = {
   result: postGuestFeedbackResponse,
 };
 
-type ElementKey =
+const findElement = (key: 'success') => {
+  switch (key) {
+    case 'success':
+      return screen.findByRole('heading', { name: /kiitos yhteydenotostasi/i });
+  }
+};
+
+type GetElementKey =
   | 'body'
   | 'email'
   | 'eventFormTopicOption'
@@ -73,10 +79,9 @@ type ElementKey =
   | 'permissionsTopicOption'
   | 'sendButton'
   | 'subject'
-  | 'success'
   | 'topicToggleButton';
 
-const getElement = (key: ElementKey) => {
+const getElement = (key: GetElementKey) => {
   switch (key) {
     case 'body':
       return screen.getByLabelText(/viesti/i);
@@ -98,8 +103,6 @@ const getElement = (key: ElementKey) => {
       return screen.getByRole('button', { name: /lähetä/i });
     case 'subject':
       return screen.getByLabelText(/otsikko/i);
-    case 'success':
-      return screen.getByRole('heading', { name: /kiitos yhteydenotostasi/i });
     case 'topicToggleButton':
       return screen.getByRole('button', { name: /yhteydenoton aihe/i });
   }
@@ -112,11 +115,11 @@ const enterCommonValues = async () => {
   const subjectInput = getElement('subject');
   const bodyInput = getElement('body');
 
-  await act(async () => await user.click(topicToggleButton));
+  await user.click(topicToggleButton);
   const generalTopic = getElement('generalTopicOption');
-  await act(async () => await user.click(generalTopic));
-  await act(async () => await user.type(subjectInput, values.subject));
-  await act(async () => await user.type(bodyInput, values.body));
+  await user.click(generalTopic);
+  await user.type(subjectInput, values.subject);
+  await user.type(bodyInput, values.body);
 
   return { bodyInput, subjectInput, topicToggleButton };
 };
@@ -144,8 +147,8 @@ test('should scroll to first error', async () => {
   const emailInput = getElement('email');
   const sendButton = getElement('sendButton');
 
-  await act(async () => await user.type(nameInput, values.name));
-  await act(async () => await user.click(sendButton));
+  await user.type(nameInput, values.name);
+  await user.click(sendButton);
 
   await waitFor(() => expect(emailInput).toHaveFocus());
 });
@@ -160,9 +163,9 @@ test('should scroll to topic selector when topic is not selected', async () => {
   const topicToggleButton = getElement('topicToggleButton');
   const sendButton = getElement('sendButton');
 
-  await act(async () => await user.type(nameInput, values.name));
-  await act(async () => await user.type(emailInput, values.email));
-  await act(async () => await user.click(sendButton));
+  await user.type(nameInput, values.name);
+  await user.type(emailInput, values.email);
+  await user.click(sendButton);
 
   await waitFor(() => expect(topicToggleButton).toHaveFocus());
 });
@@ -176,11 +179,11 @@ test('should show correct faq items when "event_form" topic is selected', async 
   const emailInput = getElement('email');
   const topicToggleButton = getElement('topicToggleButton');
 
-  await act(async () => await user.type(nameInput, values.name));
-  await act(async () => await user.type(emailInput, values.email));
-  await act(async () => await user.click(topicToggleButton));
+  await user.type(nameInput, values.name);
+  await user.type(emailInput, values.email);
+  await user.click(topicToggleButton);
   const eventFormTopic = getElement('eventFormTopicOption');
-  await act(async () => await user.click(eventFormTopic));
+  await user.click(eventFormTopic);
 
   const faqHeadings = [
     'Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?',
@@ -201,11 +204,11 @@ test('should show correct faq items when "permissions" topic is selected', async
   const emailInput = getElement('email');
   const topicToggleButton = getElement('topicToggleButton');
 
-  await act(async () => await user.type(nameInput, values.name));
-  await act(async () => await user.type(emailInput, values.email));
-  await act(async () => await user.click(topicToggleButton));
+  await user.type(nameInput, values.name);
+  await user.type(emailInput, values.email);
+  await user.click(topicToggleButton);
   const permissionsTopic = getElement('permissionsTopicOption');
-  await act(async () => await user.click(permissionsTopic));
+  await user.click(permissionsTopic);
 
   const faqHeadings = [
     'Saako Linked Events-rajapintaa käyttää omiin projekteihin?',
@@ -221,7 +224,7 @@ test.each([
   ['feature_request', 'featureRequestTopicOption'],
   ['general', 'generalTopicOption'],
   ['other', 'otherTopicOption'],
-] as [string, ElementKey][])(
+] as [string, GetElementKey][])(
   'should not show any faq item when %p topic is selected',
   async (topic, topicOption) => {
     const user = userEvent.setup();
@@ -230,10 +233,10 @@ test.each([
 
     const topicToggleButton = getElement('topicToggleButton');
 
-    await act(async () => await user.click(topicToggleButton));
+    await user.click(topicToggleButton);
 
     const eventFormTopic = getElement('eventFormTopicOption');
-    await act(async () => await user.click(eventFormTopic));
+    await user.click(eventFormTopic);
 
     const faqHeadings = [
       'Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?',
@@ -246,9 +249,9 @@ test.each([
 
     await screen.findByRole('button', { name: faqHeadings[0] });
 
-    await act(async () => await user.click(topicToggleButton));
+    await user.click(topicToggleButton);
     const option = getElement(topicOption);
-    await act(async () => await user.click(option));
+    await user.click(option);
 
     await waitFor(() =>
       expect(
@@ -272,13 +275,13 @@ test('should succesfully send feedback when user is not signed in', async () => 
   const emailInput = getElement('email');
   const sendButton = getElement('sendButton');
 
-  await act(async () => await user.type(nameInput, values.name));
-  await act(async () => await user.type(emailInput, values.email));
+  await user.type(nameInput, values.name);
+  await user.type(emailInput, values.email);
   await enterCommonValues();
-  await act(async () => await user.click(sendButton));
+  await user.click(sendButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
-  getElement('success');
+  await findElement('success');
 });
 
 test('should succesfully send feedback when user is signed in', async () => {
@@ -289,10 +292,10 @@ test('should succesfully send feedback when user is signed in', async () => {
   const sendButton = getElement('sendButton');
 
   const { topicToggleButton } = await enterCommonValues();
-  await act(async () => await user.click(sendButton));
+  await user.click(sendButton);
 
   await waitFor(() => expect(topicToggleButton).toHaveFocus());
-  getElement('success');
+  await findElement('success');
 });
 
 test('should show server errors', async () => {
@@ -306,7 +309,7 @@ test('should show server errors', async () => {
   await enterCommonValues();
 
   const sendButton = getElement('sendButton');
-  await act(async () => await user.click(sendButton));
+  await user.click(sendButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/arvo saa olla enintään 255 merkkiä pitkä./i);

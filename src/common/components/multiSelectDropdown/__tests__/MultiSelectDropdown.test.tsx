@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   arrowDownKeyPressHelper,
   arrowUpKeyPressHelper,
   configure,
@@ -68,7 +67,7 @@ const renderComponentWithOpenMenu = async (
   renderComponent(props);
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   await findElement('clearButton');
 };
@@ -135,7 +134,7 @@ test('should filter options', async () => {
   options.forEach(({ label }) => screen.getByLabelText(label));
 
   const searchInput = getElement('searchInput');
-  await act(async () => await user.type(searchInput, options[0].label));
+  await user.type(searchInput, options[0].label);
 
   const optionsNotVisible = [options[1].label, options[2].label];
   for (const optionLabel in optionsNotVisible) {
@@ -154,7 +153,7 @@ test('should call onChange', async () => {
 
   for (const option of options) {
     const checkbox = screen.getByLabelText(option.label);
-    await act(async () => await user.click(checkbox));
+    await user.click(checkbox);
 
     expect(onChange).toBeCalledWith([option]);
   }
@@ -166,7 +165,7 @@ test('should uncheck option', async () => {
   await renderComponentWithOpenMenu({ onChange, value: [options[0]] });
 
   const checkbox = screen.getByLabelText(options[0].label);
-  await act(async () => await user.click(checkbox));
+  await user.click(checkbox);
 
   expect(onChange).toBeCalledWith([]);
 });
@@ -188,7 +187,7 @@ test('should clear value', async () => {
   await renderComponentWithOpenMenu({ onChange, value: [options[0]] });
 
   const clearButton = getElement('clearButton');
-  await act(async () => await user.click(clearButton));
+  await user.click(clearButton);
 
   expect(onChange).toBeCalledWith([]);
 });

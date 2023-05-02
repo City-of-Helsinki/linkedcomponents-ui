@@ -13,6 +13,7 @@ import {
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
+import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearPlaceQueries,
@@ -111,7 +112,7 @@ const usePlaceUpdateActions = ({
       setSaving(PLACE_ACTIONS.DELETE);
 
       await deletePlaceMutation({
-        variables: { id: place.id as string },
+        variables: { id: getValue(place.id, '') },
       });
 
       await cleanAfterUpdate(callbacks);

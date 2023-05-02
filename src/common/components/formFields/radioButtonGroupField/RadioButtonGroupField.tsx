@@ -42,9 +42,9 @@ const RadioButtonGroupField: React.FC<Props> = ({
           styles[`columns${columns}`]
         )}
       >
-        {options.map((option, index) => (
+        {options.map((option) => (
           <RadioButton
-            key={index}
+            key={option.value}
             {...field}
             id={`${name}-${option.value}`}
             name={name}

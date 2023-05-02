@@ -10,7 +10,7 @@ const useSortedInfoLanguages = (
 ): LE_DATA_LANGUAGES[] => {
   const sortedEventInfoLanguages = useMemo(
     () =>
-      eventInfoLanguages.sort(
+      [...eventInfoLanguages].sort(
         (a, b) =>
           ORDERED_LE_DATA_LANGUAGES.indexOf(a) -
           ORDERED_LE_DATA_LANGUAGES.indexOf(b)

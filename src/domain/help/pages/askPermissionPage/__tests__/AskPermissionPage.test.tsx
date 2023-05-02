@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { PostFeedbackDocument } from '../../../../../generated/graphql';
+import getValue from '../../../../../utils/getValue';
 import {
   fakeAuthenticatedAuthContextValue,
   fakeOidcReducerState,
@@ -22,6 +23,7 @@ import {
   mockedOrganizationsResponse,
   organizations,
 } from '../../../../organizations/__mocks__/organizationsPage';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import AskPermissionPage from '../AskPermissionPage';
 
 configure({ defaultHidden: true });
@@ -45,7 +47,7 @@ const payload = {
     'Feedback message',
 };
 
-const commonMocks = [mockedOrganizationsResponse];
+const commonMocks = [mockedOrganizationsResponse, mockedUserResponse];
 
 const postFeedbackVariables = { input: payload };
 const postFeedbackResponse = { data: { postFeedback: fakeFeedback(payload) } };
@@ -62,17 +64,23 @@ const mockedInvalidPostFeedbackResponse: MockedResponse = {
   } as Error,
 };
 
-type ElementKey =
+type GetElementKey =
   | 'body'
   | 'email'
   | 'jobDescription'
   | 'name'
   | 'organizationOption'
   | 'organizationToggleButton'
-  | 'sendButton'
-  | 'success';
+  | 'sendButton';
 
-const getElement = (key: ElementKey) => {
+const findElement = (key: 'success') => {
+  switch (key) {
+    case 'success':
+      return screen.findByRole('heading', { name: /kiitos yhteydenotostasi/i });
+  }
+};
+
+const getElement = (key: GetElementKey) => {
   switch (key) {
     case 'body':
       return screen.getByLabelText(/viesti/i);
@@ -84,31 +92,28 @@ const getElement = (key: ElementKey) => {
       return screen.getByLabelText(/nimi/i);
     case 'organizationOption':
       return screen.getByRole('option', {
-        name: organizations.data[0]?.name as string,
+        name: getValue(organizations.data[0]?.name, ''),
       });
     case 'organizationToggleButton':
       return screen.getByRole('button', { name: /organisaatio/i });
     case 'sendButton':
       return screen.getByRole('button', { name: /lähetä/i });
-
-    case 'success':
-      return screen.getByRole('heading', { name: /kiitos yhteydenotostasi/i });
   }
 };
 
 const renderComponent = (options?: CustomRenderOptions) =>
   render(<AskPermissionPage />, {
     ...options,
-    mocks: [...commonMocks, ...(options?.mocks || [])],
+    mocks: [...commonMocks, ...getValue(options?.mocks, [])],
   });
 
 const selectOrganization = async () => {
   const user = userEvent.setup();
   const organizationToggleButton = getElement('organizationToggleButton');
 
-  await act(async () => await user.click(organizationToggleButton));
+  await user.click(organizationToggleButton);
   const organizationOption = getElement('organizationOption');
-  await act(async () => await user.click(organizationOption));
+  await user.click(organizationOption);
 
   return { organizationToggleButton };
 };
@@ -120,10 +125,8 @@ const enterCommonValues = async () => {
   const bodyInput = getElement('body');
 
   const { organizationToggleButton } = await selectOrganization();
-  await act(
-    async () => await user.type(jobDescriptionInput, values.jobDescription)
-  );
-  await act(async () => await user.type(bodyInput, values.body));
+  await user.type(jobDescriptionInput, values.jobDescription);
+  await user.type(bodyInput, values.body);
 
   return { organizationToggleButton, jobDescriptionInput, bodyInput };
 };
@@ -167,7 +170,7 @@ test('should scroll to organization selector when organization is not selected',
   const organizationToggleButton = getElement('organizationToggleButton');
   const sendButton = getElement('sendButton');
 
-  await act(async () => await user.click(sendButton));
+  await user.click(sendButton);
 
   await waitFor(() => expect(organizationToggleButton).toHaveFocus());
 });
@@ -181,7 +184,7 @@ test('should scroll to job description when it is empty', async () => {
   const sendButton = getElement('sendButton');
   await selectOrganization();
 
-  await act(async () => await user.click(sendButton));
+  await user.click(sendButton);
 
   await waitFor(() => expect(jobDescriptionInput).toHaveFocus());
 });
@@ -194,10 +197,10 @@ test('should succesfully send access request when user is signed in', async () =
   const { organizationToggleButton } = await enterCommonValues();
 
   const sendButton = getElement('sendButton');
-  await act(async () => await user.click(sendButton));
+  await user.click(sendButton);
 
   await waitFor(() => expect(organizationToggleButton).toHaveFocus());
-  getElement('success');
+  await findElement('success');
 });
 
 test('should show server errors', async () => {
@@ -211,7 +214,7 @@ test('should show server errors', async () => {
   await enterCommonValues();
 
   const sendButton = getElement('sendButton');
-  await act(async () => await user.click(sendButton));
+  await user.click(sendButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/arvo saa olla enintään 255 merkkiä pitkä./i);

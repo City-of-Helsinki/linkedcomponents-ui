@@ -26,6 +26,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
+import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import { clearEventsQueries } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
@@ -70,7 +71,9 @@ type UseEventActionsState = {
   user: UserFieldsFragment | undefined;
 };
 
-const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
+const useEventActions = (
+  event?: EventFieldsFragment | null
+): UseEventActionsState => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { isAuthenticated: authenticated } = useAuth();
@@ -106,7 +109,7 @@ const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
     for (const item of events) {
       /* istanbul ignore next */
       const organizationAncestors = await getOrganizationAncestorsQueryResult(
-        item.publisher ?? '',
+        getValue(item.publisher, ''),
         apolloClient
       );
       const { editable } = checkIsActionAllowed({
@@ -251,8 +254,10 @@ const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
     }
 
     /* istanbul ignore next */
-    const subEventIds =
-      eventsData?.data?.createEvents.map((item) => item.atId) || [];
+    const subEventIds = getValue(
+      eventsData?.data?.createEvents.map((item) => item.atId),
+      []
+    );
     const recurringEventPayload = getRecurringEventPayload(
       payload,
       subEventIds,
@@ -264,7 +269,7 @@ const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
         variables: { input: recurringEventPayload },
       });
 
-      return recurringEventData.data?.createEvent.id as string;
+      return getValue(recurringEventData.data?.createEvent.id, '');
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
@@ -284,7 +289,7 @@ const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
         variables: { input: payload },
       });
 
-      return data.data?.createEvent.id as string;
+      return getValue(data.data?.createEvent.id, '');
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
@@ -424,7 +429,7 @@ const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
       const basePayload = getEventBasePayload(values, publicationStatus);
 
       /* istanbul ignore next */
-      const subEvents = (event?.subEvents || []) as EventFieldsFragment[];
+      const subEvents = getValue(event?.subEvents, []) as EventFieldsFragment[];
       const editableSubEvents = await getEditableEvents(subEvents, action);
 
       const subEventIds: string[] = [];
@@ -459,9 +464,9 @@ const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
           /* istanbul ignore next */
           return {
             ...basePayload,
-            endTime: eventTime?.endTime?.toISOString() ?? null,
-            id: subEvent?.id as string,
-            startTime: eventTime?.startTime?.toISOString() ?? null,
+            endTime: getValue(eventTime?.endTime?.toISOString(), null),
+            id: subEvent?.id,
+            startTime: getValue(eventTime?.startTime?.toISOString(), null),
             superEvent: { atId },
             superEventType: subEvent?.superEventType,
           };
@@ -482,8 +487,8 @@ const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
         const newSubEventsPayload = newEventTimes.map(
           /* istanbul ignore next */ (eventTime) => ({
             ...basePayload,
-            endTime: eventTime?.endTime?.toISOString() ?? null,
-            startTime: eventTime?.startTime?.toISOString() ?? null,
+            endTime: getValue(eventTime?.endTime?.toISOString(), null),
+            startTime: getValue(eventTime?.startTime?.toISOString(), null),
             superEvent: { atId },
             superEventType: null,
           })
@@ -508,13 +513,13 @@ const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
       payload = [
         {
           ...basePayload,
-          endTime: superEventTime.endTime?.toISOString() ?? null,
+          endTime: getValue(superEventTime.endTime?.toISOString(), null),
           id,
           superEvent:
             values.hasUmbrella && values.superEvent
               ? { atId: values.superEvent }
               : null,
-          startTime: superEventTime.startTime?.toISOString() ?? null,
+          startTime: getValue(superEventTime.startTime?.toISOString(), null),
           subEvents: subEventIds.map((atId) => ({ atId: atId })),
           superEventType: SuperEventType.Recurring,
         },
@@ -580,9 +585,12 @@ const useEventActions = (event?: EventFieldsFragment): UseEventActionsState => {
         payload = [
           {
             ...basePayload,
-            endTime: values.events[0]?.endTime?.toISOString() ?? null,
+            endTime: getValue(values.events[0]?.endTime?.toISOString(), null),
             id,
-            startTime: values.events[0]?.startTime?.toISOString() ?? null,
+            startTime: getValue(
+              values.events[0]?.startTime?.toISOString(),
+              null
+            ),
           },
         ];
 

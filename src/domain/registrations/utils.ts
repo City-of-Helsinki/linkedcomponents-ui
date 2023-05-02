@@ -7,6 +7,7 @@ import {
 import { PathBuilderProps } from '../../types';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
@@ -15,6 +16,7 @@ import { assertUnreachable } from '../../utils/typescript';
 import { EVENT_TYPE } from '../event/constants';
 import {
   DEFAULT_REGISTRATION_SORT,
+  REGISTRATION_LIST_INCLUDES,
   REGISTRATION_SEARCH_PARAMS,
   REGISTRATION_SORT_OPTIONS,
   REGISTRATIONS_PAGE_SIZE,
@@ -44,7 +46,7 @@ export const getRegistrationSearchInitialValues = (
     sort: Object.values(REGISTRATION_SORT_OPTIONS).includes(sort)
       ? sort
       : DEFAULT_REGISTRATION_SORT,
-    text: text || '',
+    text: getValue(text, ''),
   };
 };
 
@@ -69,6 +71,7 @@ export const getRegistrationsQueryVariables = (
     adminUser: true,
     createPath: getPathBuilder(registrationsPathBuilder),
     eventType: eventType.map((type) => capitalize(type)) as EventTypeId[],
+    include: REGISTRATION_LIST_INCLUDES,
     page,
     pageSize: REGISTRATIONS_PAGE_SIZE,
     text,
@@ -123,7 +126,7 @@ export const replaceParamsToRegistrationQueryString = (
 export const registrationsPathBuilder = ({
   args,
 }: PathBuilderProps<RegistrationsQueryVariables>): string => {
-  const { adminUser, eventType, page, pageSize, text } = args;
+  const { adminUser, eventType, include, page, pageSize, text } = args;
 
   const variableToKeyItems = [
     { key: 'admin_user', value: adminUser },
@@ -131,6 +134,7 @@ export const registrationsPathBuilder = ({
       key: 'event_type',
       value: eventType?.length ? eventType : Object.values(EventTypeId),
     },
+    { key: 'include', value: include },
     { key: 'page', value: page },
     { key: 'page_size', value: pageSize },
     { key: 'text', value: text },

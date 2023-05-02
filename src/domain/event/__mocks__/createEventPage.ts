@@ -5,11 +5,11 @@ import {
   CreateEventsDocument,
   EventsDocument,
   Keyword,
-  KeywordDocument,
-  KeywordsDocument,
 } from '../../../generated/graphql';
 import generateAtId from '../../../utils/generateAtId';
+import getValue from '../../../utils/getValue';
 import { fakeEvent, fakeEvents } from '../../../utils/mockDataUtils';
+import { EVENT_SORT_OPTIONS } from '../../events/constants';
 import { imageFields } from '../../image/__mocks__/image';
 import { topics } from '../../keywordSet/__mocks__/keywordSets';
 import { organizationId } from '../../organization/__mocks__/organization';
@@ -38,8 +38,7 @@ const eventValues = {
 };
 
 const keyword = topics.data[0] as Keyword;
-const keywordName = keyword.name?.fi as string;
-const keywordId = keyword.id;
+const keywordName = getValue(keyword.name?.fi, '');
 const keywordAtId = keyword.atId;
 
 const baseEventPayload = {
@@ -207,6 +206,7 @@ const mockedCreatePublicEventResponse: MockedResponse = {
 
 const umbrellaEventsVariables = {
   createPath: undefined,
+  sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['umbrella'],
   text: '',
 };
@@ -216,28 +216,6 @@ const mockedUmbrellaEventsResponse: MockedResponse = {
   result: umbrellaEventsResponse,
 };
 
-// Mock keywords
-const keywordVariables = { id: keywordId, createPath: undefined };
-const keywordResponse = { data: { keyword } };
-const mockedKeywordResponse: MockedResponse = {
-  request: { query: KeywordDocument, variables: keywordVariables },
-  result: keywordResponse,
-};
-
-const keywordsVariables = {
-  createPath: undefined,
-  dataSource: ['yso', 'helsinki'],
-  showAllKeywords: true,
-  text: '',
-};
-const keywordsResponse = { data: { keywords: topics } };
-const mockedKeywordsResponse: MockedResponse = {
-  request: { query: KeywordsDocument, variables: keywordsVariables },
-  result: keywordsResponse,
-};
-
-// Mock places
-
 export {
   eventValues,
   keywordAtId,
@@ -246,7 +224,5 @@ export {
   mockedCreatePublicEventResponse,
   mockedCreateSubEventsResponse,
   mockedInvalidCreateDraftEventResponse,
-  mockedKeywordResponse,
-  mockedKeywordsResponse,
   mockedUmbrellaEventsResponse,
 };

@@ -34,27 +34,23 @@ const DISALLOWED_URLS = [
   );
 
 const generateRobotsTxt = async () => {
-  try {
-    const writeStream = fs.createWriteStream(
-      `${PATH_TO_BUILD_FOLDER}/${ROBOTS_FILENAME}`
-    );
+  const writeStream = fs.createWriteStream(
+    `${PATH_TO_BUILD_FOLDER}/${ROBOTS_FILENAME}`
+  );
 
-    writeStream.write(`# https://www.robotstxt.org/robotstxt.html\n`);
-    writeStream.write(`User-agent: *\n`);
-    DISALLOWED_URLS.forEach((url) => {
-      writeStream.write(`Disallow: ${url}\n`);
-    });
+  writeStream.write(`# https://www.robotstxt.org/robotstxt.html\n`);
+  writeStream.write(`User-agent: *\n`);
+  DISALLOWED_URLS.forEach((url) => {
+    writeStream.write(`Disallow: ${url}\n`);
+  });
 
-    if (process.env.GENERATE_SITEMAP === 'true') {
-      writeStream.write('\n');
-      writeStream.write(`Sitemap: ${HOST}/${SITEMAP_FILENAME}\n`);
-    }
-
-    // close the stream
-    writeStream.end();
-  } catch (err) {
-    throw err;
+  if (process.env.GENERATE_SITEMAP === 'true') {
+    writeStream.write('\n');
+    writeStream.write(`Sitemap: ${HOST}/${SITEMAP_FILENAME}\n`);
   }
+
+  // close the stream
+  writeStream.end();
 };
 
 // Generate robots.txt only if GENERATE_ROBOTS flag is true and PUBLIC_URL is set

@@ -113,6 +113,10 @@ describe('eventsPathBuilder function', () => {
       '/event/?event_type=Course,General,Volunteering&publisher=publisher1,publisher2',
     ],
     [
+      { registration: true },
+      '/event/?event_type=Course,General,Volunteering&registration=true',
+    ],
+    [
       { showAll: true },
       '/event/?event_type=Course,General,Volunteering&show_all=true',
     ],

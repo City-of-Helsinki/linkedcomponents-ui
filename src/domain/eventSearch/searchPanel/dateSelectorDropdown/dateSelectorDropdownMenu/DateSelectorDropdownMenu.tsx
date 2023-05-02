@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import DateInput from '../../../../../common/components/dateInput/DateInput';
 import DropdownMenu from '../../../../../common/components/dropdown/dropdownMenu/DropdownMenu';
 import getDatePickerInitialMonth from '../../../../../utils/getDatePickerInitialMonth';
+import getValue from '../../../../../utils/getValue';
 import styles from '../dateSelector.module.scss';
 import { DATE_FIELDS } from '../DateSelectorDropdown';
 
@@ -42,7 +43,10 @@ const DateSelectorDropdownMenu: React.FC<Props> = ({
         initialMonth={endDate || undefined}
         maxDate={endDate || undefined}
         onChange={(value) => onChangeDate(DATE_FIELDS.START_DATE, value)}
-        placeholder={t('common.dateSelector.placeholderStartDate') as string}
+        placeholder={getValue(
+          t('common.dateSelector.placeholderStartDate'),
+          undefined
+        )}
         value={startDate}
       />
       <DateInput
@@ -51,7 +55,10 @@ const DateSelectorDropdownMenu: React.FC<Props> = ({
         initialMonth={getDatePickerInitialMonth(startDate)}
         minDate={startDate || undefined}
         onChange={(value) => onChangeDate(DATE_FIELDS.END_DATE, value)}
-        placeholder={t('common.dateSelector.placeholderEndDate') as string}
+        placeholder={getValue(
+          t('common.dateSelector.placeholderEndDate'),
+          undefined
+        )}
         value={endDate}
       />
     </DropdownMenu>

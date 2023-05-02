@@ -8,6 +8,7 @@ import {
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { getMockedUserResponse } from '../../../user/__mocks__/user';
 import { PLACE_ACTIONS } from '../../constants';
@@ -17,13 +18,15 @@ import PlaceAuthenticationNotification, {
 
 configure({ defaultHidden: true });
 
+const defaultMocks = [mockedOrganizationAncestorsResponse];
+
 const props: PlaceAuthenticationNotificationProps = {
   action: PLACE_ACTIONS.UPDATE,
   publisher: TEST_PUBLISHER_ID,
 };
 
-const renderComponent = (renderOptions?: CustomRenderOptions) =>
-  render(<PlaceAuthenticationNotification {...props} />, renderOptions);
+const renderComponent = (renderoptions?: CustomRenderOptions) =>
+  render(<PlaceAuthenticationNotification {...props} />, renderoptions);
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
@@ -32,7 +35,7 @@ test("should show notification if user is signed in but doesn't have any organiz
     adminOrganizations: [],
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [...defaultMocks, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 
@@ -44,7 +47,7 @@ test('should not show notification if user is signed in and has an admin organiz
     adminOrganizations: [TEST_PUBLISHER_ID],
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [...defaultMocks, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 
@@ -58,7 +61,7 @@ test('should show notification if user has an admin organization but it is diffe
     adminOrganizations: ['not-publisher'],
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [...defaultMocks, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 

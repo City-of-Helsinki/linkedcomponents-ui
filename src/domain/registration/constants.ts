@@ -1,10 +1,11 @@
 import { RegistrationFormFields } from './types';
 
-export enum REGISTRATION_REQUIRED_FIELDS {
-  ADDRESS = 'address',
+export enum REGISTRATION_MANDATORY_FIELDS {
   CITY = 'city',
   NAME = 'name',
   PHONE_NUMBER = 'phone_number',
+  STREET_ADDRESS = 'street_address',
+  ZIPCODE = 'zipcode',
 }
 
 export enum REGISTRATION_FIELDS {
@@ -17,9 +18,9 @@ export enum REGISTRATION_FIELDS {
   ENROLMENT_START_TIME_TIME = 'enrolmentStartTimeTime',
   EVENT = 'event',
   INSTRUCTIONS = 'instructions',
+  MANDATORY_FIELDS = 'mandatoryFields',
   MAXIMUM_ATTENDEE_CAPACITY = 'maximumAttendeeCapacity',
   MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',
-  REQUIRED_FIELDS = 'requiredFields',
   WAITING_LIST_CAPACITY = 'waitingListCapacity',
 }
 
@@ -33,15 +34,20 @@ export const REGISTRATION_INITIAL_VALUES: RegistrationFormFields = {
   [REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME]: '',
   [REGISTRATION_FIELDS.EVENT]: '',
   [REGISTRATION_FIELDS.INSTRUCTIONS]: '',
+  [REGISTRATION_FIELDS.MANDATORY_FIELDS]: [REGISTRATION_MANDATORY_FIELDS.NAME],
   [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: '',
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: '',
-  [REGISTRATION_FIELDS.REQUIRED_FIELDS]: [REGISTRATION_REQUIRED_FIELDS.NAME],
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: '',
 };
 
 export const REGISTRATION_SELECT_FIELDS = [REGISTRATION_FIELDS.EVENT];
 
-export const REGISTRATION_INCLUDES = ['signups'];
+export const REGISTRATION_INCLUDES = [
+  'event',
+  'signups',
+  'keywords',
+  'location',
+];
 
 export const TEST_REGISTRATION_ID = 'registration:0';
 

@@ -2,6 +2,7 @@
 import { RequestLogger } from 'testcafe';
 
 import { SUPPORTED_LANGUAGES } from '../../src/constants';
+import getValue from '../../src/utils/getValue';
 import { findCookieConsentModal } from '../cookieConsentModal/cookieConsentModal.components';
 import { getPlaces } from '../data/placeData';
 import { isFeatureEnabled } from '../utils/featureFlag.utils';
@@ -55,7 +56,7 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
       const [place] = places.filter((place) => isLocalized(place, locale));
 
       await urlUtils.actions.navigateToPlacesUrl(
-        getRandomSentence(place.name?.fi as string)
+        getRandomSentence(getValue(place.name?.fi, ''))
       );
 
       const searchResults = await placesPage.findSearchResultList();

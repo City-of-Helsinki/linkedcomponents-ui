@@ -1,5 +1,25 @@
 import { Header, Order } from './types';
 
+const shouldNotSortRows = (
+  order: Order | undefined,
+  sorting: string | undefined,
+  sortingEnabled: boolean
+): boolean => {
+  return !sortingEnabled || !order || !sorting;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const defaultSortCompareFunction: (a: any, b: any) => number = (a, b) => {
+  if (a < b) {
+    return -1;
+  }
+  if (a > b) {
+    return 1;
+  }
+
+  return 0;
+};
+
 export const processRows = (
   rows: Array<object>,
   order: Order | undefined,
@@ -10,7 +30,7 @@ export const processRows = (
     return column.isSortable === true;
   });
 
-  if (!sortingEnabled || !order || !sorting) {
+  if (shouldNotSortRows(order, sorting, sortingEnabled)) {
     return [...rows];
   }
 
@@ -18,35 +38,15 @@ export const processRows = (
     return column.key === sorting;
   });
 
-  const customSortCompareFunction = sortColumn?.customSortCompareFunction;
+  const sortCompareFunction =
+    sortColumn?.customSortCompareFunction || defaultSortCompareFunction;
 
-  if (customSortCompareFunction) {
-    const sortedRows = [...rows].sort((a, b) => {
-      const aValue = a[sorting as keyof typeof a];
-      const bValue = b[sorting as keyof typeof b];
-
-      return customSortCompareFunction(aValue, bValue);
-    });
-
-    if (order === 'asc') {
-      return sortedRows;
-    }
-    if (order === 'desc') {
-      return sortedRows.reverse();
-    }
-  }
-
-  return [...rows].sort((a, b) => {
+  const sortedRows = [...rows].sort((a, b) => {
     const aValue = a[sorting as keyof typeof a];
     const bValue = b[sorting as keyof typeof b];
 
-    if (aValue < bValue) {
-      return order === 'asc' ? -1 : 1;
-    }
-    if (aValue > bValue) {
-      return order === 'asc' ? 1 : -1;
-    }
-
-    return 0;
+    return sortCompareFunction(aValue, bValue);
   });
+
+  return order === 'asc' ? sortedRows : sortedRows.reverse();
 };

@@ -9,6 +9,7 @@ import { ROUTES } from '../../constants';
 import { PlaceFieldsFragment, usePlaceQuery } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
@@ -19,7 +20,7 @@ import { PLACE_ACTIONS } from './constants';
 import usePlaceUpdateActions, {
   PLACE_MODALS,
 } from './hooks/usePlaceUpdateActions';
-import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeletePlaceModal from './modals/confirmDeletePlaceModal/ConfirmDeletePlaceModal';
 import PlaceForm from './placeForm/PlaceForm';
 import { getEditButtonProps, getPlaceFields, placePathBuilder } from './utils';
 
@@ -45,7 +46,7 @@ const EditPlacePage: React.FC<Props> = ({ place }) => {
     navigate(`/${locale}${ROUTES.PLACES}`);
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deletePlace({
       onSuccess: () => goToPlacesPage(),
     });
@@ -63,11 +64,11 @@ const EditPlacePage: React.FC<Props> = ({ place }) => {
 
   return (
     <div>
-      <ConfirmDeleteModal
+      <ConfirmDeletePlaceModal
         isOpen={openModal === PLACE_MODALS.DELETE}
         isSaving={saving === PLACE_ACTIONS.DELETE}
         onClose={closeModal}
-        onDelete={onDelete}
+        onConfirm={handleDelete}
       />
       <TitleRow
         breadcrumb={
@@ -108,7 +109,7 @@ const EditPlacePageWrapper: React.FC = () => {
     notifyOnNetworkStatusChange: true,
     variables: {
       createPath: getPathBuilder(placePathBuilder),
-      id: id as string,
+      id: getValue(id, ''),
     },
   });
 

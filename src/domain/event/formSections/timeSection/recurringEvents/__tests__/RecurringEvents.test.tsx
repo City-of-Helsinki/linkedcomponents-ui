@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -78,7 +77,7 @@ test('should render component', async () => {
   const toggleButton1 = screen.getByRole('button', {
     name: 'Ma, Viikon välein, 1.5.2021 – 15.5.2021',
   });
-  await act(async () => await user.click(toggleButton1));
+  await user.click(toggleButton1);
 
   screen.getByRole('row', {
     name: '1 2.5.2021 12.00 – 2.5.2021 15.00',
@@ -92,7 +91,7 @@ test('should render component', async () => {
   const toggleButton2 = screen.getByRole('button', {
     name: 'Ma ja Ke, Viikon välein, 1.6.2021 – 15.6.2021',
   });
-  await act(async () => await user.click(toggleButton2));
+  await user.click(toggleButton2);
 
   screen.getByRole('row', {
     name: '3 2.6.2021 12.00 – 2.6.2021 15.00',
@@ -114,7 +113,7 @@ test('should call setRecurringEvents when deleting a single event time', async (
   const toggleButton = screen.getByRole('button', {
     name: 'Ma, Viikon välein, 1.5.2021 – 15.5.2021',
   });
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   const withinEventRow = within(
     screen.getByRole('row', {
@@ -124,10 +123,10 @@ test('should call setRecurringEvents when deleting a single event time', async (
   const toggleMenuButton = withinEventRow.getByRole('button', {
     name: 'Valinnat',
   });
-  await act(async () => await user.click(toggleMenuButton));
+  await user.click(toggleMenuButton);
 
   const deleteButton = withinEventRow.getByRole('button', { name: 'Poista' });
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   expect(setRecurringEvents).toBeCalledWith([
     {

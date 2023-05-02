@@ -111,6 +111,9 @@
     },
     "goToHome": "Till startsidan",
     "home": "Startsidan",
+    "imageSelector": {
+      "labelSearch": "Sök bilder"
+    },
     "imageUploader": {
       "areaLabel": {
         "cropArea": "Använd piltangenterna för att flytta området för val av beskärning",
@@ -128,6 +131,7 @@
       "buttonRemoveImage": "Ta bort bild",
       "notAllowedFileFormat": "Filformatet stöds inte",
       "titleCropImage": "Beskära bild",
+      "tooLongFileName": "Filnamnet är för långt. Maximalt antal tecken är {{maxLength}}.",
       "tooLargeFileSize": "Filstorleken är för stor. Största tillåtna storlek är {{maxSize}} MB"
     },
     "leaflet": {
@@ -344,7 +348,7 @@
       "labelPhoneNumber": "Telefonnummer",
       "labelServiceLanguage": "Transaktionsspråk",
       "labelStreetAddress": "Gatuadress",
-      "labelZip": "Postnummer",
+      "labelZipcode": "Postnummer",
       "notificationTitleCannotEdit": "Deltagaren kan inte redigeras",
       "placeholderAttendeeExtraInfo": "Ange ytterligare information eller begäran",
       "placeholderCity": "Ange staden",
@@ -356,7 +360,7 @@
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Välj transaktionsspråk",
       "placeholderStreetAddress": "Ange en gatuadress",
-      "placeholderZip": "Ange postnummer",
+      "placeholderZipcode": "Ange postnummer",
       "timeLeft": "Tid kvar att registrera sig",
       "titleAdditionalInfo": "Ytterligare information",
       "titleBasicInfo": "Grundläggande information om registranten",
@@ -1185,6 +1189,7 @@
       "labelJobDescription": "Arbetsbeskrivning",
       "labelName": "Namn",
       "labelOrganization": "Organisation",
+      "pageDescription": "Be om tillåtelse till Linked Events-organisationen.",
       "pageTitle": "Begära tillgång",
       "placeholderBody": "Ange ditt meddelande",
       "placeholderEmail": "Skriv in din e-postadress",
@@ -1234,6 +1239,7 @@
       "textEventNotShown": "Evenemang listas alltid enligt olika sökkriterier. Om inga sökkriterier anges, returnerar gränssnittet framtida evenemang inom vald basorganisation med ett evenemangstyp av \"event\". Som ett resultat visas till exempel kurser inte i sökresultaten om de inte specifikt definierats. Kontrollera också att evenemanget du lade till har publicerats och att datumet är i framtiden.",
       "textImageRights": "Du måste ha rättigheter till bilden du laddade upp. Se avsnitt: <a href={{controlPanelUrl}}>bifoga en bild till evenemang</a>.",
       "textPublishingPermission": "Du kan begära behörighetsrättigheter för att lägga till händelser i din organisation från oss. Kom ihåg att lägga till detaljerad information om din roll i organisationen.",
+      "textRegistrationForRecurringEvent": "Ja det kan du, men du måste skapa en separat anmälan för varje evenemang.",
       "textSlowRequests": "Kontrollera först sökkriterierna för att bara hitta den information du behöver för din tjänst. Vi rekommenderar också att du förvarar informationen i din egen tjänst, i vilket fall du bara behöver hämta den ändrade eller tillagda informationen från gränssnittet för Linked Events.",
       "titleAddingEvents": "Hur anger jag evenemang i Linked Events?",
       "titleAddingToOwnProjects": "Kan gränssnittet för Linked Events användas för mina egna projekt?",
@@ -1241,6 +1247,7 @@
       "titleEventNotShown": "Evenemangen jag lade till visas inte på tjänsten, var är felet?",
       "titleImageRights": "Kan jag lägga till vilka bilder som helst till evenemang?",
       "titlePublishingPermission": "Vem har rätt att lägga till nya offentliga evenemang?",
+      "titleRegistrationForRecurringEvent": "Kan du aktivera registreringar för återkommande evenemang?",
       "titleSlowRequests": "Gränssnittssökningar är långsamma - hur gör jag dem snabbare?"
     },
     "pageDescriptionApi": "Mer information om API (application protocol interface) för Linked Events.",
@@ -1269,13 +1276,16 @@
       "pageDescription": "Introduktion till Linked Events-plattformen och kontrollpanelen.",
       "pageTitle": "Plattform",
       "textApi": "Med det offentliga API:et kan du hämta evenemang för din egen tjänst. Du kan också ge oss ett tips om en befintlig databank som ska införlivas i Linked Events.",
-      "textEventManagement": "Kontrollpanelen för Linked Events används för att ange evenemang, kurser och volontäruppgifter och för att hantera relaterad information och material.",
+      "textEventManagement": "Linked Events kontrollpanelen används för att ange evenemang, kurser och volontäruppgifter och för att hantera relaterad information och material.",
       "textMainContent1": "Linked Events är ett öppet gränssnitt utvecklat av Helsingfors stad för evenemang, kurser och för volontärarbete i Helsingfors stad. Denna webbplats innehåller verktyg och instruktioner för att hantera evenemang och dokumentation om hur man använder det offentliga gränssnittet.",
       "textMainContent2": "Evenemang kan skrivas in med tillstånd av staden. Evenemang behöver inte organiseras av staden. Du kan ange flera datum för ett evenemang. I det här fallet skapas automatiskt ett paraplyevenemang för evenamangssekvensen.",
+      "textMainContent3": "Du kan aktivera registrering för alla evenemang genom att fylla i de uppgifter som behövs för deltagandeformuläret.",
+      "textRegistration": "Linked Registrations kontrollpanelen används för att hantera registreringar och deltagare för evenemanget.",
       "textSupport": "Kontakta oss om du behöver mer information eller funderingar eller förslag på hur vi kan förbättra tjänsten. I avsnittet Hjälp hittar du mer detaljerad information och ett kontaktformulär.",
       "titleApi": "Linked Events API",
       "titleEventManagement": "Evenemanghantering",
       "titlePlatform": "Plattform",
+      "titleRegistration": "Registreringshantering",
       "titleServiceHighlights": "Servicehöjdpunkter",
       "titleSupport": "Stöd och vidareutveckling"
     },
@@ -1363,8 +1373,12 @@
     "pageDescription": "Bildlista. Bläddra, filtrera och redigera Linked Events bilder.",
     "pageTitle": "Bilder",
     "sortOptions": {
+      "id": "Id, stigande",
+      "idDesc": "Id, fallande",
       "lastModifiedTime": "Senast ändrad, stigande",
-      "lastModifiedTimeDesc": "Senast ändrad, fallande"
+      "lastModifiedTimeDesc": "Senast ändrad, fallande",
+      "name": "Name, stigande",
+      "nameDesc": "Name, fallande"
     },
     "title": "Bilder",
     "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa bilder.",
@@ -1392,6 +1406,7 @@
     "add": "lägg till",
     "admin": "admin",
     "api": "api",
+    "ask": "fråga",
     "asked": "frågade",
     "browse": "bläddra",
     "bug": "bugg",
@@ -1419,6 +1434,7 @@
     "myListing": "min, lista",
     "new": "ny",
     "organization": "organisation",
+    "permission": "tillstånd",
     "place": "plats",
     "platform": "plattform",
     "questions": "frågor",
@@ -1546,7 +1562,8 @@
       "admin": "Admin",
       "events": "Evenemang",
       "help": "Stöd",
-      "registrations": "Registrering"
+      "registrations": "Registrering",
+      "dataProtection": "Dataskydd"
     }
   },
   "notFound": {
@@ -1712,12 +1729,6 @@
       "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
       "placeholderEvent": "Välj eller sök efter evenemanget",
       "placeholderInstructions": "Ange registreringsinstruktioner",
-      "requiredFields": {
-        "address": "Adress",
-        "city": "Stad",
-        "name": "Namn",
-        "phoneNumber": "Telefonnummer"
-      },
       "sections": {
         "attendeeCount": "Sittplatser",
         "audienceAge": "Åldersgräns",
@@ -1725,7 +1736,7 @@
         "enrolmentTime": "Registreringstid",
         "event": "Evenemang",
         "instructions": "Ytterligare registreringsinformation",
-        "requiredFields": "Obligatoriska fält",
+        "mandatoryFields": "Obligatoriska fält",
         "waitingList": "Väntelista"
       },
       "titleContactInfo": "Kontaktinformation",

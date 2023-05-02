@@ -5,6 +5,7 @@ export const QUERY_REGISTRATIONS = gql`
   query Registrations(
     $adminUser: Boolean
     $eventType: [EventTypeId]
+    $include: [String]
     $page: Int
     $pageSize: Int
     $text: String
@@ -13,6 +14,7 @@ export const QUERY_REGISTRATIONS = gql`
     registrations(
       adminUser: $adminUser
       eventType: $eventType
+      include: $include
       page: $page
       pageSize: $pageSize
       text: $text

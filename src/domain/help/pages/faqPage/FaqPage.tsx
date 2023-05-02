@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -8,6 +9,7 @@ import EventFormNotWorkingFaq from '../../faq/eventFormNotWorkingFaq/EventFormNo
 import EventNotShownFaq from '../../faq/eventNotShownFaq/EventNotShownFaq';
 import ImageRightsFaq from '../../faq/imageRightsFaq/ImageRightsFaq';
 import PublishingPermissionsFaq from '../../faq/publishingPermissionsFaq/PublishingPermissionsFaq';
+import RegistrationForRecurringEventFaq from '../../faq/registrationForRecurringEventFaq/RegistrationForRecurringEventFaq';
 import SlowRequestsFaq from '../../faq/slowRequestsFaq/SlowRequestsFaq';
 import styles from './faqPage.module.scss';
 
@@ -29,6 +31,7 @@ const FaqPage: React.FC = () => {
         <AddingToOwnProjectsFaq />
         <PublishingPermissionsFaq />
         <SlowRequestsFaq />
+        <RegistrationForRecurringEventFaq />
       </div>
     </PageWrapper>
   );

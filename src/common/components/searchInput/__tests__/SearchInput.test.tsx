@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -55,7 +54,7 @@ test('should clear search value', async () => {
   expect(searchInput).toHaveValue(searchValue);
 
   const clearButton = getElement('clearButton');
-  await act(async () => await user.click(clearButton));
+  await user.click(clearButton);
 
   expect(onChange).toBeCalledWith('');
 });
@@ -67,7 +66,7 @@ test('should call onSearch when clicking search button', async () => {
   renderComponent({ onSubmit, value: searchValue });
 
   const searchButton = getElement('searchButton');
-  await act(async () => await user.click(searchButton));
+  await user.click(searchButton);
 
   expect(onSubmit).toBeCalledWith(searchValue);
 });
@@ -79,8 +78,8 @@ test('should call onSearch when pressing enter', async () => {
   renderComponent({ onSubmit, value: searchValue });
 
   const searchInput = getElement('input');
-  await act(async () => await user.click(searchInput));
-  await act(async () => await user.type(searchInput, '{enter}'));
+  await user.click(searchInput);
+  await user.type(searchInput, '{enter}');
 
   expect(onSubmit).toBeCalledWith(searchValue);
 });

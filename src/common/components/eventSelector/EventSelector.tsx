@@ -16,9 +16,9 @@ import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
-import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 
 export type EventSelectorProps = {
   getOption: (event: EventFieldsFragment, locale: Language) => OptionType;
@@ -55,7 +55,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     skip: !value,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
-      id: parseIdFromAtId(value) as string,
+      id: getValue(parseIdFromAtId(value), ''),
     },
   });
 
@@ -70,9 +70,12 @@ const EventSelector: React.FC<EventSelectorProps> = ({
 
   const options: OptionType[] = React.useMemo(
     () =>
-      (eventsData || previousEventsData)?.events.data.map((event) =>
-        getOption(event as EventFieldsFragment, locale)
-      ) ?? [],
+      getValue(
+        (eventsData || previousEventsData)?.events.data.map((event) =>
+          getOption(event as EventFieldsFragment, locale)
+        ),
+        []
+      ),
     [eventsData, getOption, locale, previousEventsData]
   );
 
@@ -87,22 +90,22 @@ const EventSelector: React.FC<EventSelectorProps> = ({
   }, []);
 
   return (
-    <ComboboxLoadingSpinner isLoading={loading}>
-      <Combobox
-        {...rest}
-        multiselect={false}
-        filter={handleFilter}
-        id={name}
-        label={label}
-        options={options}
-        toggleButtonAriaLabel={
-          t('common.combobox.toggleButtonAriaLabel') as string
-        }
-        // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
-        // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-        value={selectedEvent as OptionType | undefined}
-      />
-    </ComboboxLoadingSpinner>
+    <Combobox
+      {...rest}
+      multiselect={false}
+      filter={handleFilter}
+      id={name}
+      isLoading={loading}
+      label={label}
+      options={options}
+      toggleButtonAriaLabel={getValue(
+        t('common.combobox.toggleButtonAriaLabel'),
+        ''
+      )}
+      // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
+      // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
+      value={selectedEvent as OptionType | undefined}
+    />
   );
 };
 

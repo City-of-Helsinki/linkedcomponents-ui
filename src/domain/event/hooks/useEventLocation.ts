@@ -4,6 +4,7 @@ import {
   usePlaceQuery,
 } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import { placePathBuilder } from '../../place/utils';
 
@@ -17,14 +18,14 @@ const useEventLocation = (
 ): UseEventLocationState => {
   /* istanbul ignore next */
   const id: string = event.location?.atId
-    ? (parseIdFromAtId(event.location?.atId) as string)
+    ? getValue(parseIdFromAtId(event.location?.atId), '')
     : '';
   const { data, loading } = usePlaceQuery({
     skip: !id,
     variables: { createPath: getPathBuilder(placePathBuilder), id },
   });
 
-  return { loading, location: data?.place ?? null };
+  return { loading, location: getValue(data?.place, null) };
 };
 
 export default useEventLocation;

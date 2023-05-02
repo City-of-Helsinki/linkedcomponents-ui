@@ -1,7 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import isFuture from 'date-fns/isFuture';
 import * as Yup from 'yup';
 
 import { CHARACTER_LIMITS } from '../../constants';
+import { Maybe } from '../../types';
+import getValue from '../../utils/getValue';
+import skipFalsyType from '../../utils/skipFalsyType';
 import {
   createArrayMinErrorMessage,
   createMultiLanguageValidation,
@@ -27,45 +31,50 @@ import {
   RECURRING_EVENT_FIELDS,
   VIDEO_DETAILS_FIELDS,
 } from './constants';
-import {
-  EventTime,
-  ImageDetails,
-  Offer,
-  RecurringEventSettings,
-} from './types';
+import { EventTime, Offer, RecurringEventSettings } from './types';
 
 const createMultiLanguageValidationByInfoLanguages = (
-  rule: Yup.StringSchema<string | null | undefined>
+  rule: Yup.StringSchema<Maybe<string>>
 ) => {
   return Yup.object().when(
     [EVENT_FIELDS.EVENT_INFO_LANGUAGES],
-    (languages: string[]) => createMultiLanguageValidation(languages, rule)
+    ([languages]: string[][]) => createMultiLanguageValidation(languages, rule)
   );
 };
 
 const validateEventTimes = (
-  recurringEvents: RecurringEventSettings[] | null,
-  events: EventTime[] | null,
-  schema: Yup.SchemaOf<EventTime[]>
-) =>
-  schema.test(
+  values: any[],
+  schema: Yup.ArraySchema<EventTime[] | undefined, Yup.AnyObject>
+) => {
+  const [recurringEvents, events] = values as [
+    RecurringEventSettings[] | null,
+    EventTime[] | null
+  ];
+
+  return schema.test(
     'hasAtLeaseOneEventTime',
     VALIDATION_MESSAGE_KEYS.EVENT_TIMES_REQUIRED,
     (eventTimes) => {
-      const allEventTimes = [...(eventTimes ?? []), ...(events ?? [])];
+      const allEventTimes = [
+        ...getValue(eventTimes, []),
+        ...getValue(events, []),
+      ].filter(skipFalsyType);
+
       recurringEvents?.forEach((recurringEvent) => {
         allEventTimes.push(...recurringEvent.eventTimes);
       });
+
       return Boolean(
         allEventTimes.filter(({ endTime, startTime }) => endTime && startTime)
           .length
       );
     }
   );
+};
 
 const eventTimesSchema = Yup.array().when(
   [EVENT_FIELDS.RECURRING_EVENTS, EVENT_FIELDS.EVENTS],
-  validateEventTimes as () => Yup.SchemaOf<EventTime[]>
+  validateEventTimes
 );
 
 const createPaidOfferSchema = (eventInfoLanguage: string[]) =>
@@ -82,10 +91,13 @@ const createPaidOfferSchema = (eventInfoLanguage: string[]) =>
     ),
   });
 
+type ValidateOptionsWithIndex = Yup.ValidateOptions & {
+  index: number;
+};
+
 const createFreeOfferSchema = (eventInfoLanguage: string[]) =>
   Yup.object().test(async (values, { options }) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const index: number = (options as any).index;
+    const index = (options as ValidateOptionsWithIndex).index;
 
     if (index === 0) {
       try {
@@ -112,13 +124,14 @@ const createFreeOfferSchema = (eventInfoLanguage: string[]) =>
   });
 
 const validateOffers = (
-  hasPrice: boolean,
-  eventInfoLanguage: string[],
-  schema: Yup.SchemaOf<Offer[]>
-) =>
-  hasPrice
+  values: any[],
+  schema: Yup.ArraySchema<Offer[] | undefined, Yup.AnyObject>
+) => {
+  const [hasPrice, eventInfoLanguage] = values as [boolean, string[]];
+  return hasPrice
     ? schema.of(createPaidOfferSchema(eventInfoLanguage))
     : schema.of(createFreeOfferSchema(eventInfoLanguage));
+};
 
 const externalLinksSchema = Yup.array().of(
   Yup.object().shape({
@@ -134,14 +147,18 @@ const externalLinksSchema = Yup.array().of(
 );
 
 const validateImageDetails = (
-  images: string[],
-  isImageEditable: boolean,
-  schema: Yup.SchemaOf<ImageDetails>
-) => (isImageEditable && images && images.length ? imageDetailsSchema : schema);
+  values: any[],
+  schema: Yup.ObjectSchema<Yup.AnyObject>
+) => {
+  const [images, isImageEditable] = values as [string[], boolean];
+
+  return isImageEditable && images && images.length
+    ? imageDetailsSchema
+    : schema;
+};
 
 const validateVideoFields = (
-  field1: string,
-  field2: string,
+  [field1, field2]: string[],
   schema: Yup.StringSchema
 ) =>
   field1 || field2
@@ -175,16 +192,19 @@ const videoSchema = Yup.object().shape(
 );
 
 const validateMainCategories = (
-  keywords: string[],
-  schema: Yup.SchemaOf<string[]>
+  [keywords]: string[][],
+  schema: Yup.ArraySchema<string[] | undefined, Yup.AnyObject>
 ) =>
   schema.test(
     'atLeastOneMainCategoryIsSelected',
     VALIDATION_MESSAGE_KEYS.MAIN_CATEGORY_REQUIRED,
     (mainCategories) =>
-      mainCategories?.some(
-        (category) => category && keywords.includes(category)
-      ) ?? false
+      getValue(
+        mainCategories?.some(
+          (category) => category && keywords.includes(category)
+        ),
+        false
+      )
   );
 
 const enrolmentSchemaFields = {
@@ -195,30 +215,24 @@ const enrolmentSchemaFields = {
     .transform(transformNumber),
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .when(
-      [EVENT_FIELDS.AUDIENCE_MIN_AGE],
-      (audienceMinAge: number, schema: Yup.NumberSchema) =>
-        schema.min(audienceMinAge || 0, createNumberMinErrorMessage)
+    .when([EVENT_FIELDS.AUDIENCE_MIN_AGE], ([audienceMinAge], schema) =>
+      schema.min(audienceMinAge || 0, createNumberMinErrorMessage)
     )
     .nullable()
     .transform(transformNumber),
   [EVENT_FIELDS.ENROLMENT_START_TIME_DATE]: Yup.date()
     .nullable()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .when(
-      [EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
-      (endTime: string, schema: Yup.DateSchema<Date | null | undefined>) =>
-        endTime
-          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          : schema
+    .when([EVENT_FIELDS.ENROLMENT_END_TIME_TIME], ([endTime], schema) =>
+      endTime
+        ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        : schema
     ),
   [EVENT_FIELDS.ENROLMENT_START_TIME_TIME]: Yup.string()
-    .when(
-      [EVENT_FIELDS.ENROLMENT_START_TIME_DATE],
-      (startDate: string, schema: Yup.StringSchema) =>
-        startDate
-          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          : schema
+    .when([EVENT_FIELDS.ENROLMENT_START_TIME_DATE], ([startDate], schema) =>
+      startDate
+        ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        : schema
     )
     .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value) =>
       isValidTime(value)
@@ -226,12 +240,10 @@ const enrolmentSchemaFields = {
   [EVENT_FIELDS.ENROLMENT_END_TIME_DATE]: Yup.date()
     .nullable()
     .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-    .when(
-      [EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
-      (endTime: string, schema: Yup.DateSchema<Date | null | undefined>) =>
-        endTime
-          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          : schema
+    .when([EVENT_FIELDS.ENROLMENT_END_TIME_TIME], ([endTime], schema) =>
+      endTime
+        ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        : schema
     )
 
     .when(
@@ -244,12 +256,10 @@ const enrolmentSchemaFields = {
       isAfterStartDateAndTime as any
     ),
   [EVENT_FIELDS.ENROLMENT_END_TIME_TIME]: Yup.string()
-    .when(
-      [EVENT_FIELDS.ENROLMENT_END_TIME_DATE],
-      (endDate: string, schema: Yup.StringSchema) =>
-        endDate
-          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          : schema
+    .when([EVENT_FIELDS.ENROLMENT_END_TIME_DATE], ([endDate], schema) =>
+      endDate
+        ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        : schema
     )
     .test('isValidTime', VALIDATION_MESSAGE_KEYS.TIME, (value) =>
       isValidTime(value)
@@ -261,7 +271,7 @@ const enrolmentSchemaFields = {
     .transform(transformNumber),
   [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
     [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
-    (minimumAttendeeCapacity: number) => {
+    ([minimumAttendeeCapacity]) => {
       return Yup.number()
         .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
         .min(minimumAttendeeCapacity || 0, createNumberMinErrorMessage)
@@ -303,7 +313,7 @@ export const publicEventSchema = Yup.object().shape(
     [EVENT_FIELDS.SUPER_EVENT]: Yup.string()
       .nullable()
       .when([EVENT_FIELDS.HAS_UMBRELLA], {
-        is: (value: string) => value,
+        is: (hasUmbrella: boolean) => hasUmbrella,
         then: (schema) =>
           schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
       }),
@@ -339,7 +349,7 @@ export const publicEventSchema = Yup.object().shape(
       .min(1, VALIDATION_MESSAGE_KEYS.OFFERS_REQUIRED)
       .when(
         [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
-        validateOffers as () => Yup.SchemaOf<Offer[]>
+        validateOffers
       ),
     [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
       Yup.string().test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
@@ -349,7 +359,7 @@ export const publicEventSchema = Yup.object().shape(
     [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
     [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
       [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
-      validateImageDetails as () => Yup.SchemaOf<ImageDetails>
+      validateImageDetails
     ),
     [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoSchema),
     [EVENT_FIELDS.MAIN_CATEGORIES]: Yup.array().when(
@@ -393,7 +403,7 @@ export const draftEventSchema = Yup.object().shape(
       .min(1, VALIDATION_MESSAGE_KEYS.OFFERS_REQUIRED)
       .when(
         [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
-        validateOffers as () => Yup.SchemaOf<Offer[]>
+        validateOffers
       ),
     [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
       Yup.string().test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
@@ -403,7 +413,7 @@ export const draftEventSchema = Yup.object().shape(
     [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
     [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
       [EVENT_FIELDS.IMAGES, EVENT_FIELDS.IS_IMAGE_EDITABLE],
-      validateImageDetails as () => Yup.SchemaOf<ImageDetails>
+      validateImageDetails
     ),
     [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoSchema),
     // Validate enrolment related fields
@@ -438,7 +448,7 @@ export const eventTimeSchema = Yup.object().shape({
         EVENT_TIME_FIELDS.END_TIME,
       ],
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      isAfterStartDateAndTime as any
+      isAfterStartDateAndTime
     ),
   [EVENT_TIME_FIELDS.END_TIME]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)

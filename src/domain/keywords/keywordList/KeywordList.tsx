@@ -2,17 +2,18 @@ import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
-import { scroller } from 'react-scroll';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import SearchInput from '../../../common/components/searchInput/SearchInput';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import { testIds } from '../../../constants';
 import { KeywordsQuery, useKeywordsQuery } from '../../../generated/graphql';
+import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
-import getPageCount from '../../../utils/getPageCount';
+import { CommonListProps } from '../../../types';
+import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
+import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
 import { getKeywordItemId } from '../../keyword/utils';
 import {
   DEFAULT_KEYWORD_SORT,
@@ -25,23 +26,13 @@ import { KeywordsLocationState } from '../types';
 import {
   getKeywordSearchInitialValues,
   getKeywordsQueryVariables,
-  replaceParamsToKeywordQueryString,
 } from '../utils';
-import styles from './keywordList.module.scss';
 
 type KeywordListProps = {
   keywords: KeywordsQuery['keywords']['data'];
-  onPageChange: (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => void;
-  onSortChange: (sort: KEYWORD_SORT_OPTIONS) => void;
   page: number;
-  pageCount: number;
   sort: KEYWORD_SORT_OPTIONS;
-};
+} & CommonListProps;
 
 const KeywordList: React.FC<KeywordListProps> = ({
   keywords,
@@ -49,6 +40,7 @@ const KeywordList: React.FC<KeywordListProps> = ({
   onSortChange,
   page,
   pageCount,
+  pageHref,
   sort,
 }) => {
   const { t } = useTranslation();
@@ -87,12 +79,7 @@ const KeywordList: React.FC<KeywordListProps> = ({
       {pageCount > 1 && (
         <Pagination
           pageCount={pageCount}
-          pageHref={(index: number) => {
-            return `${location.pathname}${replaceParamsToKeywordQueryString(
-              location.search,
-              { page: index > 1 ? index : null }
-            )}`;
-          }}
+          pageHref={pageHref}
           pageIndex={page - 1}
           onChange={onPageChange}
         />
@@ -102,87 +89,42 @@ const KeywordList: React.FC<KeywordListProps> = ({
 };
 
 const KeywordListContainer: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const { t } = useTranslation();
+  const location = useLocation();
+
   const { page, sort, text } = getKeywordSearchInitialValues(location.search);
   const [search, setSearch] = React.useState(text);
 
   const keywordListId = useIdWithPrefix({ prefix: 'keyword-list-' });
 
-  const handlePageChange = (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => {
-    event.preventDefault();
-
-    const pageNumber = index + 1;
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToKeywordQueryString(location.search, {
-        page: pageNumber > 1 ? pageNumber : null,
-      }),
-    });
-    // Scroll to the beginning of keyword list
-    scroller.scrollTo(keywordListId, { offset: -100 });
-  };
-
-  const handleSearchChange = (text: string) => {
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToKeywordQueryString(location.search, {
-        page: null,
-        text,
-      }),
-    });
-  };
-
-  const handleSortChange = (val: KEYWORD_SORT_OPTIONS) => {
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToKeywordQueryString(location.search, {
-        sort:
-          val !== DEFAULT_KEYWORD_SORT ? val : /* istanbul ignore next */ null,
-      }),
-    });
-  };
-
   const { data: keywordsData, loading } = useKeywordsQuery({
     variables: getKeywordsQueryVariables(location.search),
   });
 
-  /* istanbul ignore next */
-  const keywords = keywordsData?.keywords?.data || [];
-  /* istanbul ignore next */
-  const keywordsCount = keywordsData?.keywords?.meta.count || 0;
-  const pageCount = getPageCount(keywordsCount, KEYWORDS_PAGE_SIZE);
+  const keywords = getValue(keywordsData?.keywords?.data, []);
+  const { count, onSearchSubmit, ...listProps } = useCommonListProps({
+    defaultSort: DEFAULT_KEYWORD_SORT,
+    listId: keywordListId,
+    meta: keywordsData?.keywords.meta,
+    pageSize: KEYWORDS_PAGE_SIZE,
+  });
 
   return (
     <div id={keywordListId} data-testid={testIds.keywordList.resultList}>
-      <div className={styles.searchRow}>
-        <span className={styles.count}>
-          {t('keywordsPage.count', { count: keywordsCount })}
-        </span>
-        <SearchInput
-          className={styles.searchInput}
-          label={t('keywordsPage.labelSearch')}
-          hideLabel
-          onSubmit={handleSearchChange}
-          onChange={setSearch}
-          value={search}
-        />
-      </div>
+      <AdminSearchRow
+        countText={t('keywordsPage.count', { count })}
+        onSearchSubmit={onSearchSubmit}
+        onSearchChange={setSearch}
+        searchInputLabel={t('keywordsPage.labelSearch')}
+        searchValue={search}
+      />
 
       <LoadingSpinner isLoading={loading}>
         <KeywordList
           keywords={keywords}
-          onPageChange={handlePageChange}
-          onSortChange={handleSortChange}
           page={page}
-          pageCount={pageCount}
           sort={sort}
+          {...listProps}
         />
       </LoadingSpinner>
     </div>

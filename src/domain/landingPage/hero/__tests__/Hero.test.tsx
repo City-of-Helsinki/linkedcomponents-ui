@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   fireEvent,
   render,
@@ -53,7 +52,7 @@ test('should route to create new page', async () => {
   const { history } = render(<Hero />);
 
   const createButton = getElement('buttonCreate');
-  await act(async () => await user.click(createButton));
+  await user.click(createButton);
 
   expect(history.location.pathname).toBe('/fi/events/create');
 });
@@ -68,7 +67,7 @@ test('should route to search page when click button inside search input', async 
   fireEvent.change(searchInput, { target: { value: searchValue } });
 
   const searchButton = getElement('buttonSearch1');
-  await act(async () => await user.click(searchButton));
+  await user.click(searchButton);
 
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe(`?text=${searchValue}`);
@@ -84,7 +83,7 @@ test('should route to search page when click search button', async () => {
   fireEvent.change(searchInput, { target: { value: searchValue } });
 
   const searchButton = getElement('buttonSearch2');
-  await act(async () => await user.click(searchButton));
+  await user.click(searchButton);
 
   expect(history.location.pathname).toBe('/fi/search');
   expect(history.location.search).toBe(`?text=${searchValue}`);

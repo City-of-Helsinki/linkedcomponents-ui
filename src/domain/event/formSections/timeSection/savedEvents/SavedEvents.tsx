@@ -6,6 +6,7 @@ import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { DATETIME_FORMAT } from '../../../../../constants';
 import { SuperEventType } from '../../../../../generated/graphql';
 import formatDate from '../../../../../utils/formatDate';
+import getDateFromString from '../../../../../utils/getDateFromString';
 import EventTimesTable from '../eventTimesTable/EventTimesTable';
 import useTimeSectionContext from '../hooks/useTimeSectionContext';
 
@@ -17,12 +18,8 @@ const SavedEvents: React.FC = () => {
 
   const { end, start } = useMemo(() => {
     return {
-      end: savedEvent?.endTime
-        ? new Date(savedEvent.endTime)
-        : /* istanbul ignore next */ null,
-      start: savedEvent?.startTime
-        ? new Date(savedEvent.startTime)
-        : /* istanbul ignore next */ null,
+      end: getDateFromString(savedEvent?.endTime),
+      start: getDateFromString(savedEvent?.startTime),
     };
   }, [savedEvent]);
 

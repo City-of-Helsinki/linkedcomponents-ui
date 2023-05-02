@@ -2,7 +2,6 @@ import omit from 'lodash/omit';
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
-import { scroller } from 'react-scroll';
 
 import Pagination from '../../../common/components/pagination/Pagination';
 import Table from '../../../common/components/table/Table';
@@ -12,12 +11,14 @@ import {
   EnrolmentsQueryVariables,
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
+import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getPageCount from '../../../utils/getPageCount';
+import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
-import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 import EnrolmentActionsDropdown from '../enrolmentActionsDropdown/EnrolmentActionsDropdown';
 import { EnrolmentsLocationState } from '../types';
@@ -51,7 +52,7 @@ const EmailColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
   const language = useLocale();
   const { email } = getEnrolmentFields({ enrolment, language, registration });
 
-  return <>{email || /* istanbul ignore next */ '-'}</>;
+  return <>{getValue(email, '-')}</>;
 };
 
 const PhoneColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
@@ -62,7 +63,7 @@ const PhoneColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
     registration,
   });
 
-  return <>{phoneNumber || /* istanbul ignore next */ '-'}</>;
+  return <>{getValue(phoneNumber, '-')}</>;
 };
 
 const AttendeeStatusColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
@@ -107,32 +108,12 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   );
 
   const enrolments = filterEnrolments({
-    enrolments: (registration?.signups ||
-      /* istanbul ignore next */ []) as EnrolmentFieldsFragment[],
+    enrolments: getValue(registration?.signups?.filter(skipFalsyType), []),
     query: {
       text: enrolmentText,
       ...enrolmentsVariables,
     },
   });
-
-  const onPageChange = (
-    event:
-      | React.MouseEvent<HTMLAnchorElement>
-      | React.MouseEvent<HTMLButtonElement>,
-    index: number
-  ) => {
-    event.preventDefault();
-
-    const pageNumber = index + 1;
-    navigate({
-      pathname: location.pathname,
-      search: replaceParamsToRegistrationQueryString(location.search, {
-        [pagePath]: pageNumber > 1 ? pageNumber : null,
-      }),
-    });
-    // Scroll to the beginning of event list
-    scroller.scrollTo(enrolmentListId, { offset: -100 });
-  };
 
   const enrolmentCount = enrolments.length;
   const pageCount = getPageCount(enrolmentCount, ENROLMENTS_PAGE_SIZE);
@@ -141,6 +122,14 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     (page - 1) * ENROLMENTS_PAGE_SIZE,
     page * ENROLMENTS_PAGE_SIZE
   );
+
+  const { onPageChange, pageHref } = useCommonListProps({
+    defaultSort: '',
+    listId: enrolmentListId,
+    meta: undefined,
+    pagePath,
+    pageSize: ENROLMENTS_PAGE_SIZE,
+  });
 
   const handleRowClick = (enrolment: object) => {
     const { enrolmentUrl } = getEnrolmentFields({
@@ -166,6 +155,44 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const MemoizedNameColumn = React.useCallback(
+    (enrolment: EnrolmentFieldsFragment) => (
+      <NameColumn enrolment={enrolment} registration={registration} />
+    ),
+    [registration]
+  );
+
+  const MemoizedEmailColumn = React.useCallback(
+    (enrolment: EnrolmentFieldsFragment) => (
+      <EmailColumn enrolment={enrolment} registration={registration} />
+    ),
+    [registration]
+  );
+
+  const MemoizedPhoneColumn = React.useCallback(
+    (enrolment: EnrolmentFieldsFragment) => (
+      <PhoneColumn enrolment={enrolment} registration={registration} />
+    ),
+    [registration]
+  );
+
+  const MemoizedAttendeeStatueColumn = React.useCallback(
+    (enrolment: EnrolmentFieldsFragment) => (
+      <AttendeeStatusColumn enrolment={enrolment} registration={registration} />
+    ),
+    [registration]
+  );
+
+  const MemoizedEnrolmentActionsDropdown = React.useCallback(
+    (enrolment: EnrolmentFieldsFragment) => (
+      <EnrolmentActionsDropdown
+        enrolment={enrolment}
+        registration={registration}
+      />
+    ),
+    [registration]
+  );
+
   return (
     <div id={enrolmentListId}>
       <h2 className={styles.heading}>{heading}</h2>
@@ -179,42 +206,25 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
               className: styles.nameColumn,
               key: 'name',
               headerName: t('enrolmentsPage.enrolmentsTableColumns.name'),
-              transform: (enrolment: EnrolmentFieldsFragment) => (
-                <NameColumn enrolment={enrolment} registration={registration} />
-              ),
+              transform: MemoizedNameColumn,
             },
             {
               className: styles.emailColumn,
               key: 'email',
               headerName: t('enrolmentsPage.enrolmentsTableColumns.email'),
-              transform: (enrolment: EnrolmentFieldsFragment) => (
-                <EmailColumn
-                  enrolment={enrolment}
-                  registration={registration}
-                />
-              ),
+              transform: MemoizedEmailColumn,
             },
             {
               className: styles.phoneColumn,
               key: 'phone',
               headerName: t('enrolmentsPage.enrolmentsTableColumns.phone'),
-              transform: (enrolment: EnrolmentFieldsFragment) => (
-                <PhoneColumn
-                  enrolment={enrolment}
-                  registration={registration}
-                />
-              ),
+              transform: MemoizedPhoneColumn,
             },
             {
               className: styles.statusColumn,
               key: 'status',
               headerName: t('enrolmentsPage.enrolmentsTableColumns.status'),
-              transform: (enrolment: EnrolmentFieldsFragment) => (
-                <AttendeeStatusColumn
-                  enrolment={enrolment}
-                  registration={registration}
-                />
-              ),
+              transform: MemoizedAttendeeStatueColumn,
             },
             {
               className: styles.actionButtonsColumn,
@@ -224,12 +234,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
                 ev.stopPropagation();
                 ev.preventDefault();
               },
-              transform: (enrolment: EnrolmentFieldsFragment) => (
-                <EnrolmentActionsDropdown
-                  enrolment={enrolment}
-                  registration={registration}
-                />
-              ),
+              transform: MemoizedEnrolmentActionsDropdown,
             },
           ]}
           getRowProps={(enrolment) => {
@@ -247,20 +252,14 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
           }}
           indexKey="id"
           onRowClick={handleRowClick}
-          rows={paginatedEnrolments as EnrolmentFieldsFragment[]}
+          rows={paginatedEnrolments}
           variant="light"
         />
 
         {pageCount > 1 && (
           <Pagination
             pageCount={pageCount}
-            pageHref={(index: number) => {
-              return `${
-                location.pathname
-              }${replaceParamsToRegistrationQueryString(location.search, {
-                [pagePath]: index > 1 ? index : null,
-              })}`;
-            }}
+            pageHref={pageHref}
             pageIndex={page - 1}
             onChange={onPageChange}
           />

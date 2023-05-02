@@ -2,7 +2,7 @@ import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
-import { ROUTES } from '../../constants';
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE, ROUTES } from '../../constants';
 import {
   CreateKeywordSetMutationInput,
   KeywordFieldsFragment,
@@ -10,6 +10,7 @@ import {
   KeywordSetQueryVariables,
   KeywordSetsQueryVariables,
   OrganizationFieldsFragment,
+  UserFieldsFragment,
 } from '../../generated/graphql';
 import {
   Editability,
@@ -19,7 +20,10 @@ import {
 } from '../../types';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import skipFalsyType from '../../utils/skipFalsyType';
+import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
   KEYWORD_SET_ACTION_ICONS,
@@ -65,7 +69,7 @@ export const getKeywordOption = ({
 }): OptionType => {
   return {
     label: capitalize(getLocalisedString(keyword?.name, locale)).split(' (')[0],
-    value: keyword?.atId ?? '',
+    value: getValue(keyword?.atId, ''),
   };
 };
 
@@ -73,15 +77,15 @@ export const getKeywordSetFields = (
   keywordSet: KeywordSetFieldsFragment,
   language: Language
 ): KeywordSetFields => {
-  const id = keywordSet.id ?? '';
+  const id = getValue(keywordSet.id, '');
 
   return {
-    dataSource: keywordSet.dataSource ?? '',
+    dataSource: getValue(keywordSet.dataSource, ''),
     id,
     keywordSetUrl: `/${language}${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`,
     name: getLocalisedString(keywordSet.name, language),
-    organization: keywordSet.organization ?? '',
-    usage: keywordSet.usage ?? '',
+    organization: getValue(keywordSet.organization, ''),
+    usage: getValue(keywordSet.usage, ''),
   };
 };
 
@@ -105,11 +109,10 @@ export const getEditKeywordSetWarning = ({
   }
 
   if (!userCanDoAction) {
-    switch (action) {
-      case KEYWORD_SET_ACTIONS.CREATE:
-        return t('keywordSetsPage.warningNoRightsToCreate');
-      default:
-        return t('keywordSetsPage.warningNoRightsToEdit');
+    if (action === KEYWORD_SET_ACTIONS.CREATE) {
+      return t('keywordSetsPage.warningNoRightsToCreate');
+    } else {
+      return t('keywordSetsPage.warningNoRightsToEdit');
     }
   }
 
@@ -118,42 +121,52 @@ export const getEditKeywordSetWarning = ({
 
 export const checkCanUserDoAction = ({
   action,
-  dataSource,
-  userOrganization,
+  organization,
+  organizationAncestors,
+  user,
 }: {
   action: KEYWORD_SET_ACTIONS;
-  dataSource: string;
-  userOrganization: OrganizationFieldsFragment | null;
+  organization: string;
+  organizationAncestors: OrganizationFieldsFragment[];
+  user?: UserFieldsFragment;
 }): boolean => {
-  /* istanbul ignore next */
+  const adminOrganizations = getValue(user?.adminOrganizations, []);
+  const isAdminUser = isAdminUserInOrganization({
+    id: organization,
+    organizationAncestors,
+    user,
+  });
+
   switch (action) {
     case KEYWORD_SET_ACTIONS.EDIT:
       return true;
     case KEYWORD_SET_ACTIONS.CREATE:
-      return !!userOrganization?.dataSource;
+      return organization ? isAdminUser : !!adminOrganizations.length;
     case KEYWORD_SET_ACTIONS.DELETE:
     case KEYWORD_SET_ACTIONS.UPDATE:
-      return userOrganization?.dataSource === dataSource;
+      return isAdminUser;
   }
 };
-
 export const checkIsEditActionAllowed = ({
   action,
   authenticated,
-  dataSource,
+  organization,
+  organizationAncestors,
   t,
-  userOrganization,
+  user,
 }: {
   action: KEYWORD_SET_ACTIONS;
   authenticated: boolean;
-  dataSource: string;
+  organization: string;
+  organizationAncestors: OrganizationFieldsFragment[];
   t: TFunction;
-  userOrganization: OrganizationFieldsFragment | null;
+  user?: UserFieldsFragment;
 }): Editability => {
   const userCanDoAction = checkCanUserDoAction({
     action,
-    dataSource,
-    userOrganization,
+    organization,
+    organizationAncestors,
+    user,
   });
 
   const warning = getEditKeywordSetWarning({
@@ -169,24 +182,27 @@ export const checkIsEditActionAllowed = ({
 export const getEditButtonProps = ({
   action,
   authenticated,
-  dataSource,
   onClick,
+  organization,
+  organizationAncestors,
   t,
-  userOrganization,
+  user,
 }: {
   action: KEYWORD_SET_ACTIONS;
   authenticated: boolean;
-  dataSource: string;
   onClick: () => void;
+  organization: string;
+  organizationAncestors: OrganizationFieldsFragment[];
   t: TFunction;
-  userOrganization: OrganizationFieldsFragment | null;
+  user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
   const { editable, warning } = checkIsEditActionAllowed({
     action,
     authenticated,
-    dataSource,
+    organization,
+    organizationAncestors,
     t,
-    userOrganization,
+    user,
   });
 
   return {
@@ -201,22 +217,23 @@ export const getEditButtonProps = ({
 export const getKeywordSetInitialValues = (
   keywordSet: KeywordSetFieldsFragment
 ): KeywordSetFormFields => {
-  const id = keywordSet.id ?? '';
+  const id = getValue(keywordSet.id, '');
+
   return {
-    dataSource: keywordSet.dataSource ?? '',
+    dataSource: getValue(keywordSet.dataSource, ''),
     id,
-    keywords:
-      keywordSet.keywords?.map((keyword) => keyword?.atId as string) || [],
+    keywords: getValue(keywordSet.keywords, [])
+      .map((keyword) => keyword?.atId)
+      .filter(skipFalsyType),
     name: getLocalisedObject(keywordSet.name),
-    originId: id.split(':')[1] ?? '',
-    organization: keywordSet.organization ?? '',
-    usage: keywordSet.usage ?? '',
+    originId: getValue(id.split(':')[1], ''),
+    organization: getValue(keywordSet.organization, ''),
+    usage: getValue(keywordSet.usage, ''),
   };
 };
 
 export const getKeywordSetPayload = (
-  formValues: KeywordSetFormFields,
-  userOrganization: OrganizationFieldsFragment | null
+  formValues: KeywordSetFormFields
 ): CreateKeywordSetMutationInput => {
   const {
     dataSource: formDataSource,
@@ -224,7 +241,7 @@ export const getKeywordSetPayload = (
     id,
     ...restFormValues
   } = formValues;
-  const dataSource = formDataSource || userOrganization?.dataSource;
+  const dataSource = formDataSource || LINKED_EVENTS_SYSTEM_DATA_SOURCE;
 
   return {
     ...restFormValues,

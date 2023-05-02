@@ -1,3 +1,4 @@
+import { EventFields } from '../event/types';
 import { REGISTRATION_FIELDS } from './constants';
 
 export type RegistrationFormFields = {
@@ -10,9 +11,9 @@ export type RegistrationFormFields = {
   [REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME]: string;
   [REGISTRATION_FIELDS.EVENT]: string;
   [REGISTRATION_FIELDS.INSTRUCTIONS]: string;
+  [REGISTRATION_FIELDS.MANDATORY_FIELDS]: string[];
   [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: number | '';
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
-  [REGISTRATION_FIELDS.REQUIRED_FIELDS]: string[];
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: number | '';
 };
 
@@ -24,10 +25,11 @@ export type RegistrationFields = {
   currentWaitingListCount: number;
   enrolmentEndTime: Date | null;
   enrolmentStartTime: Date | null;
-  event: string;
-  eventUrl: string;
+  event: EventFields | null;
   lastModifiedAt: Date | null;
+  mandatoryFields: string[];
   maximumAttendeeCapacity: number;
+  publisher: string | null;
   registrationUrl: string;
   waitingListCapacity: number;
 };

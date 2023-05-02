@@ -90,11 +90,9 @@ export function createEditControlComponent(
             eventHandlers[handler as keyof typeof eventHandlers] === evt.type
         );
 
-        const fn = props[handler as keyof typeof props] as
-          | LeafletEventHandlerFn
-          | undefined;
+        const fn = props[handler as keyof typeof props];
 
-        fn && fn(evt);
+        typeof fn === 'function' && fn(evt);
       });
     }
 

@@ -19,44 +19,26 @@ const PlaceAuthenticationNotification: React.FC<
 > = ({ action, className, publisher }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const adminOrganizations = user?.adminOrganizations || [];
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { t } = useTranslation();
 
-  const getNotificationProps = () => {
-    if (authenticated) {
-      if (!adminOrganizations.length) {
-        return {
-          children: <p>{t('authentication.noRightsUpdatePlace')}</p>,
-          label: t('authentication.noRightsUpdatePlaceLabel'),
-        };
-      }
-
-      const { warning } = checkIsEditActionAllowed({
-        action,
-        authenticated,
-        organizationAncestors,
-        publisher,
-        t,
-        user,
-      });
-
-      if (warning) {
-        return {
-          children: <p>{warning}</p>,
-          label: t('place.form.notificationTitleCannotEdit'),
-        };
-      }
-    }
-
-    return { label: null };
-  };
-
   return (
     <AuthenticationNotification
-      {...getNotificationProps()}
+      authorizationWarningLabel={t('place.form.notificationTitleCannotEdit')}
+      getAuthorizationWarning={() =>
+        checkIsEditActionAllowed({
+          action,
+          authenticated,
+          organizationAncestors,
+          publisher,
+          t,
+          user,
+        })
+      }
       className={className}
+      noRequiredOrganizationLabel={t('authentication.noRightsUpdatePlaceLabel')}
+      noRequiredOrganizationText={t('authentication.noRightsUpdatePlace')}
     />
   );
 };

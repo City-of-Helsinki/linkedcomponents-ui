@@ -6,19 +6,14 @@ import { useNavigate, useParams } from 'react-router';
 import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
-import { useRegistrationQuery } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
-import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import NotFound from '../notFound/NotFound';
-import { REGISTRATION_INCLUDES } from '../registration/constants';
-import {
-  clearRegistrationFormData,
-  registrationPathBuilder,
-} from '../registration/utils';
-import useUser from '../user/hooks/useUser';
+import { clearRegistrationFormData } from '../registration/utils';
 import styles from './registrationSavedPage.module.scss';
 
 const RegistrationSavedPage: React.FC = () => {
@@ -36,7 +31,7 @@ const RegistrationSavedPage: React.FC = () => {
   };
 
   return (
-    <PageWrapper title={t('registrationSavedPage.pageTitle') as string}>
+    <PageWrapper title={getValue(t('registrationSavedPage.pageTitle'), '')}>
       <Container withOffset={true}>
         <h1>{t('registrationSavedPage.title')}</h1>
 
@@ -59,21 +54,14 @@ const RegistrationSavedPage: React.FC = () => {
 
 const RegistrationSavedPageWrapper: React.FC = () => {
   const { id: registrationId } = useParams<{ id: string }>();
-  const { loading: loadingUser, user } = useUser();
-
-  const { data: registrationData, loading } = useRegistrationQuery({
-    skip: !registrationId || !user,
-    variables: {
-      id: registrationId as string,
-      include: REGISTRATION_INCLUDES,
-      createPath: getPathBuilder(registrationPathBuilder),
-    },
+  const { registration, loading } = useRegistrationAndEventData({
+    registrationId,
   });
 
   return (
     <MainContent>
-      <LoadingSpinner isLoading={loadingUser || loading}>
-        {registrationData ? <RegistrationSavedPage /> : <NotFound />}
+      <LoadingSpinner isLoading={loading}>
+        {registration ? <RegistrationSavedPage /> : <NotFound />}
       </LoadingSpinner>
     </MainContent>
   );

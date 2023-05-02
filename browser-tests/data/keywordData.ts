@@ -22,7 +22,7 @@ export const getKeywords = async (
     timeout: 20000,
   });
 
-  return JSON.parse(keywordsResponse.response.body as string).data.map(
+  return JSON.parse(keywordsResponse.response.body.toString()).data.map(
     (keyword) => normalizeKeys(keyword, normalizeKey)
   );
 };

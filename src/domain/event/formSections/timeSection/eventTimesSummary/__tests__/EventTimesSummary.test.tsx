@@ -2,7 +2,6 @@ import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -75,7 +74,7 @@ test('should render event times summary', async () => {
   const toggleButton = screen.getByRole('button', {
     name: 'Ma ja Ke, Viikon välein, 7.5.2021 – 7.5.2021',
   });
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   screen.getByRole('row', { name: '1 7.5.2021 12.00 – 7.5.2021 15.00' });
   screen.getByRole('row', { name: '2 9.5.2021 12.00 – 9.5.2021 15.00' });

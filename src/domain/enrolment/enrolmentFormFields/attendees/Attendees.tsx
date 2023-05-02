@@ -8,6 +8,7 @@ import {
   SeatsReservation,
   useUpdateSeatsReservationMutation,
 } from '../../../../generated/graphql';
+import getValue from '../../../../utils/getValue';
 import { reportError } from '../../../app/sentry/utils';
 import {
   getSeatsReservationData,
@@ -40,7 +41,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
   const { setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
 
-  const registrationId = registration.id as string;
+  const registrationId = getValue(registration.id, '');
 
   const [{ value: attendees }, , { setValue: setAttendees }] = useField<
     AttendeeFields[]
@@ -58,7 +59,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
   ) => {
     const reservationData = getSeatsReservationData(registrationId);
     const payload = {
-      code: reservationData?.code as string,
+      code: getValue(reservationData?.code, ''),
       registration: registrationId,
       seats: participantAmount,
       waitlist: true,
@@ -106,7 +107,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
         name={ENROLMENT_FIELDS.ATTENDEES}
         render={() => (
           <div>
-            {attendees.map((attendee, index: number) => {
+            {attendees.map((attendee, index) => {
               const openModal = () => {
                 setOpenModalIndex(index);
               };
@@ -125,7 +126,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
                     isOpen={openModalIndex === index}
                     isSaving={saving}
                     onClose={closeModal}
-                    onDelete={deleteParticipant}
+                    onConfirm={deleteParticipant}
                     participantCount={1}
                   />
                   <Attendee
@@ -134,6 +135,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
                     disabled={disabled}
                     index={index}
                     onDelete={openModal}
+                    registration={registration}
                     showDelete={attendees.length > 1}
                   />
                 </React.Fragment>

@@ -1,15 +1,16 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
+import getValue from '../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { place } from '../../__mocks__/editPlacePage';
@@ -17,18 +18,18 @@ import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
 
-const mocks = [mockedUserResponse];
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: EditButtonPanelProps = {
-  id: place.id as string,
+  id: getValue(place.id, ''),
   onSave: jest.fn(),
   publisher: TEST_PUBLISHER_ID,
   saving: null,
 };
 
-const route = `/fi/${ROUTES.EDIT_PLACE.replace(':id', place.id as string)}`;
+const route = `/fi/${ROUTES.EDIT_PLACE.replace(':id', getValue(place.id, ''))}`;
 
 const renderComponent = (props?: Partial<EditButtonPanelProps>) =>
   render(<EditButtonPanel {...defaultProps} {...props} />, {
@@ -57,7 +58,7 @@ test('should route to places page when clicking back button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await act(async () => await user.click(getElement('backButton')));
+  await user.click(getElement('backButton'));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/places`)
@@ -71,7 +72,7 @@ test('should call onSave', async () => {
 
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   expect(onSave).toBeCalled();
 });

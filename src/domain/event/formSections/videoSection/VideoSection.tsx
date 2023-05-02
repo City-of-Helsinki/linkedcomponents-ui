@@ -31,7 +31,7 @@ const VideoSection: React.FC<Props> = ({ isEditingAllowed }) => {
         name={EVENT_FIELDS.VIDEOS}
         render={(arrayHelpers) => (
           <div>
-            {videos.map((_, index: number) => {
+            {videos.map((_, index) => {
               return (
                 <Video
                   key={index}

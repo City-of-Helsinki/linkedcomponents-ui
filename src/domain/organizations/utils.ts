@@ -1,7 +1,7 @@
 import React from 'react';
 
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
-import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
+import getValue from '../../utils/getValue';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import {
@@ -46,17 +46,6 @@ export const addParamsToOrganizationQueryString = (
   );
 };
 
-export const replaceParamsToOrganizationQueryString = (
-  queryString: string,
-  queryParams: Partial<OrganizationSearchParams>
-): string => {
-  return replaceParamsToQueryString<OrganizationSearchParams>(
-    queryString,
-    queryParams,
-    getOrganizationParamValue
-  );
-};
-
 export const getOrganizationSearchInitialValues = (
   search: string
 ): OrganizationSearchInitialValues => {
@@ -70,7 +59,7 @@ export const getOrganizationSearchInitialValues = (
     sort: Object.values(ORGANIZATION_SORT_OPTIONS).includes(sort)
       ? sort
       : DEFAULT_ORGANIZATION_SORT,
-    text: text || '',
+    text: getValue(text, ''),
   };
 };
 

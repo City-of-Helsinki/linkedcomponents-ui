@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Build
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         uses: andersinno/kolga-build-action@v2
         env:
@@ -36,8 +36,10 @@ jobs:
           DOCKER_BUILD_ARG_REACT_APP_LINKED_EVENTS_URL: 'https://linkedevents-api.dev.hel.ninja/linkedevents-dev/v1'
           DOCKER_BUILD_ARG_REACT_APP_LINKED_REGISTRATIONS_UI_URL: 'https://linkedregistrations-ui.test.kuva.hel.ninja'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_AUTHORITY: 'https://api.hel.fi/sso'
+          DOCKER_BUILD_ARG_REACT_APP_OIDC_API_TOKENS_URL: 'https://api.hel.fi/sso/api-tokens/'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_CLIENT_ID: 'linkedcomponents-ui-test'
           DOCKER_BUILD_ARG_REACT_APP_OIDC_API_SCOPE: 'https://api.hel.fi/auth/linkedeventsdev'
+          DOCKER_BUILD_ARG_REACT_APP_OIDC_RESPONSE_TYPE: 'id_token token'
           DOCKER_BUILD_ARG_REACT_APP_SENTRY_ENVIRONMENT: 'test'
           DOCKER_BUILD_ARG_REACT_APP_MATOMO_URL_BASE: 'https://analytics.hel.ninja/'
           DOCKER_BUILD_ARG_REACT_APP_MATOMO_SITE_ID: 69
@@ -55,7 +57,7 @@ jobs:
     needs: build
     name: Staging + Acceptance tests
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: andersinno/kolga-setup-action@v2
 
       - name: Deploy
@@ -87,19 +89,10 @@ jobs:
           SLACK_CHANNEL: linked-alerts
         if: failure()
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2.1.2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-      - uses: actions/cache@v2
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          cache: 'yarn'
       - name: Install dependencies
         run: yarn --prefer-offline --frozen-lockfile --check-files --production=false
       - name: Run TestCafe tests for https://linkedcomponents-ui.test.kuva.hel.ninja
@@ -116,7 +109,7 @@ jobs:
           TESTCAFE_SLACK_CHANNEL: '#linked-alerts'
           TESTCAFE_SLACK_USERNAME: TestCafé
       - name: Upload screenshots and videos of failed tests to artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: report
           path: report/

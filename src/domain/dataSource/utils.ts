@@ -4,6 +4,7 @@ import {
   DataSourcesQueryVariables,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import { DataSourceFields } from './types';
 
@@ -33,10 +34,10 @@ export const dataSourcesPathBuilder = ({
 export const getDataSourceFields = (
   dataSource: DataSourceFieldsFragment
 ): DataSourceFields => {
-  const id = dataSource.id ?? '';
+  const id = getValue(dataSource.id, '');
 
   return {
     id,
-    name: dataSource.name ?? '',
+    name: getValue(dataSource.name, ''),
   };
 };

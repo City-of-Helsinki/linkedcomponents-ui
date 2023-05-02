@@ -7,9 +7,9 @@ import { User, UserManager, UserManagerSettings } from 'oidc-client';
 import React from 'react';
 import { toast } from 'react-toastify';
 
-import { OIDC_API_TOKEN_ENDPOINT } from '../../constants';
 import { Language } from '../../types';
 import getUnixTime from '../../utils/getUnixTime';
+import getValue from '../../utils/getValue';
 import {
   API_SCOPE,
   API_TOKEN_EXPIRATION_TIME,
@@ -168,9 +168,9 @@ export const signIn = async ({
     })
     .catch((error) => {
       if (error.message === 'Network Error') {
-        toast.error(t('authentication.networkError.message') as string);
+        toast.error(getValue(t('authentication.networkError.message'), ''));
       } else {
-        toast.error(t('authentication.errorMessage') as string);
+        toast.error(getValue(t('authentication.errorMessage'), ''));
         Sentry.captureException(error);
       }
     });
@@ -221,21 +221,21 @@ export const fetchTokenSuccess = async ({
   apiToken: string;
   dispatchApiTokenState: React.Dispatch<ApiTokenAction>;
 }) => {
-  await setApiTokenToStorage(apiToken);
+  setApiTokenToStorage(apiToken);
   dispatchApiTokenState({
     type: ApiTokenActionTypes.FETCH_TOKEN_SUCCESS,
     payload: apiToken,
   });
 };
 
-export const fetchTokenError = async ({
+export const fetchTokenError = ({
   dispatchApiTokenState,
   error,
 }: {
   dispatchApiTokenState: React.Dispatch<ApiTokenAction>;
   error: Error;
 }) => {
-  await clearApiTokenFromStorage();
+  clearApiTokenFromStorage();
   dispatchApiTokenState({
     type: ApiTokenActionTypes.FETCH_TOKEN_ERROR,
     payload: error,
@@ -251,8 +251,16 @@ export const renewApiToken = async ({
   dispatchApiTokenState: React.Dispatch<ApiTokenAction>;
   t: TFunction;
 }) => {
+  const apiTokensUrl = process.env.REACT_APP_OIDC_API_TOKENS_URL;
+
+  if (!apiTokensUrl) {
+    throw new Error(
+      'Application configuration error, missing Tunnistamo api tokens url.'
+    );
+  }
+
   try {
-    const res: AxiosResponse = await axios.get(OIDC_API_TOKEN_ENDPOINT, {
+    const res: AxiosResponse = await axios.get(apiTokensUrl, {
       headers: { Authorization: `bearer ${accessToken}` },
     });
 
@@ -260,7 +268,7 @@ export const renewApiToken = async ({
     fetchTokenSuccess({ apiToken, dispatchApiTokenState });
   } catch (error: any) {
     fetchTokenError({ error, dispatchApiTokenState });
-    toast.error(t('authentication.errorMessage') as string);
+    toast.error(getValue(t('authentication.errorMessage'), ''));
   }
 };
 
@@ -277,12 +285,12 @@ export const getApiToken = async ({
   await renewApiToken({ accessToken, dispatchApiTokenState, t });
 };
 
-export const resetApiTokenData = async ({
+export const resetApiTokenData = ({
   dispatchApiTokenState,
 }: {
   dispatchApiTokenState: React.Dispatch<ApiTokenAction>;
 }) => {
-  await clearApiTokenFromStorage();
+  clearApiTokenFromStorage();
   dispatchApiTokenState({
     type: ApiTokenActionTypes.RESET_API_TOKEN_DATA,
     payload: null,

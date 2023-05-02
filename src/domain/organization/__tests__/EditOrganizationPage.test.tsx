@@ -2,9 +2,9 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   renderWithRoute,
   screen,
@@ -17,13 +17,17 @@ import {
   organizationId,
 } from '../../organization/__mocks__/organization';
 import {
+  mockedOrganizationClassesResponse,
+  mockedOrganizationClassResponse,
+} from '../../organizationClass/__mocks__/organizationClass';
+import {
   mockedOrganizationsResponse,
   organizations,
 } from '../../organizations/__mocks__/organizationsPage';
 import {
   mockedUserResponse,
   mockedUsersResponse,
-  userNames,
+  users,
 } from '../../user/__mocks__/user';
 import {
   mockedDeleteOrganizationResponse,
@@ -39,6 +43,8 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 const defaultMocks = [
   mockedOrganizationResponse,
   mockedOrganizationsResponse,
+  mockedOrganizationClassResponse,
+  mockedOrganizationClassesResponse,
   mockedUserResponse,
   mockedUsersResponse,
 ];
@@ -77,17 +83,18 @@ const getElement = (
 
 const fillFormValues = async () => {
   const user = userEvent.setup();
-  await act(async () => await user.click(getElement('adminUsersToggleButton')));
-  const userOption = await screen.findByRole('option', {
-    name: new RegExp(userNames[0]),
-  });
-  await act(async () => await user.click(userOption));
+  await user.click(getElement('adminUsersToggleButton'));
 
-  await act(async () => await user.click(getElement('replacedByToggleButton')));
-  const organizationOption = await screen.findByRole('option', {
-    name: organizations.data[0]?.name as string,
+  const userOption = await screen.findByRole('option', {
+    name: `${users.data[0]?.displayName} - ${users.data[0]?.email}`,
   });
-  await act(async () => await user.click(organizationOption));
+  await user.click(userOption);
+
+  await user.click(getElement('replacedByToggleButton'));
+  const organizationOption = await screen.findByRole('option', {
+    name: getValue(organizations.data[0]?.name, ''),
+  });
+  await user.click(organizationOption);
 };
 
 test('should scroll to first validation error input field', async () => {
@@ -97,8 +104,8 @@ test('should scroll to first validation error input field', async () => {
   const nameInput = await findElement('nameInput');
   const saveButton = await findElement('saveButton');
 
-  await act(async () => await user.clear(nameInput));
-  await act(async () => await user.click(saveButton));
+  await user.clear(nameInput);
+  await user.click(saveButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
@@ -111,7 +118,7 @@ test('should delete organization', async () => {
   ]);
 
   const deleteButton = await findElement('deleteButton');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const dialog = screen.getByRole('dialog', {
     name: 'Varmista organisaation poistaminen',
@@ -119,7 +126,7 @@ test('should delete organization', async () => {
   const confirmDeleteButton = within(dialog).getByRole('button', {
     name: 'Poista organisaatio',
   });
-  await act(async () => await user.click(confirmDeleteButton));
+  await user.click(confirmDeleteButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/organizations`)
@@ -137,7 +144,7 @@ test('should update organization', async () => {
 
   await fillFormValues();
 
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/organizations`)
@@ -152,7 +159,7 @@ test('should show server errors', async () => {
 
   await fillFormValues();
 
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

@@ -7,7 +7,12 @@ import {
 import { image } from '../../image/__mocks__/image';
 import { keywordsResponse } from '../../keyword/__mocks__/keyword';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
-import { place } from '../../place/__mocks__/place';
+import {
+  addressLocality,
+  place,
+  placeName,
+  streetAddress,
+} from '../../place/__mocks__/place';
 import { EVENT_INCLUDES, TEST_EVENT_ID } from '../constants';
 
 const eventName = 'Event name';
@@ -17,7 +22,7 @@ const eventOverrides = {
   audienceMinAge: 8,
   description: fakeLocalisedObject('Event description'),
   endTime: '2020-07-13T12:00:00.000000Z',
-  keywords: keywordsResponse.data,
+  keywords: [keywordsResponse.data[0]],
   images: [image],
   name: fakeLocalisedObject(eventName),
   location: place,
@@ -27,10 +32,7 @@ const eventOverrides = {
   publisher: TEST_PUBLISHER_ID,
   startTime: '2020-07-10T12:00:00.000000Z',
 };
-const locationName = place.name?.fi as string;
-const streetAddress = place.streetAddress?.fi as string;
-const addressLocality = place.addressLocality?.fi as string;
-const locationText = [locationName, streetAddress, addressLocality].join(', ');
+const locationText = [placeName, streetAddress, addressLocality].join(', ');
 
 const event = fakeEvent(eventOverrides);
 const eventVariables = {

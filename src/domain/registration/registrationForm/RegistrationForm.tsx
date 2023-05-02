@@ -41,21 +41,22 @@ import ConfirmationMessageSection from '../formSections/confirmationMessageSecti
 import EnrolmentTimeSection from '../formSections/enrolmentTimeSection/EnrolmentTimeSection';
 import EventSection from '../formSections/eventSection/EventSection';
 import InstructionsSection from '../formSections/instructionsSection/InstructionsSection';
-import RequiredFieldsSection from '../formSections/requiredFieldsSection/RequiredFieldsSection';
+import MandatoryFieldsSection from '../formSections/mandatoryFieldsSection/MandatoryFieldsSection';
 import WaitingListSection from '../formSections/waitingListSection/WaitingListSection';
 import useRegistrationActions from '../hooks/useRegistrationActions';
 import useRegistrationServerErrors from '../hooks/useRegistrationServerErrors';
-import ConfirmDeleteModal from '../modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteRegistrationModal from '../modals/confirmDeleteRegistrationModal/ConfirmDeleteRegistrationModal';
 import RegistrationInfo from '../registrationInfo/RegistrationInfo';
 import styles from '../registrationPage.module.scss';
 import { RegistrationFormFields } from '../types';
 import { checkCanUserDoAction, getRegistrationInitialValues } from '../utils';
 import { getFocusableFieldId, registrationSchema } from '../validation';
+import getValue from '../../../utils/getValue';
 
 export type CreateRegistrationFormProps = {
-  event?: undefined;
-  refetch?: undefined;
-  registration?: undefined;
+  event?: null;
+  refetch?: null;
+  registration?: null;
 };
 
 export type EditRegistrationFormProps = {
@@ -81,16 +82,18 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const navigate = useNavigate();
 
   const { user } = useUser();
-  const { organizationAncestors } = useOrganizationAncestors(
-    event?.publisher ?? ''
-  );
+
+  const action = registration
+    ? REGISTRATION_ACTIONS.UPDATE
+    : REGISTRATION_ACTIONS.CREATE;
+
+  const publisher = getValue(registration?.publisher, '');
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const isEditingAllowed = checkCanUserDoAction({
-    action: registration
-      ? REGISTRATION_ACTIONS.EDIT
-      : REGISTRATION_ACTIONS.CREATE,
+    action,
     organizationAncestors,
-    publisher: event?.publisher as string,
+    publisher,
     user,
   });
 
@@ -130,21 +133,21 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
     navigate(`/${locale}${ROUTES.REGISTRATION_SAVED.replace(':id', id)}`);
   };
 
-  const onCreate = async (values: RegistrationFormFields) => {
+  const handleCreate = async (values: RegistrationFormFields) => {
     await createRegistration(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
-      onSuccess: (id) => goToRegistrationSavedPage(id as string),
+      onSuccess: (id) => goToRegistrationSavedPage(getValue(id, '')),
     });
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deleteRegistration({
       onSuccess: goToRegistrationsPage,
     });
   };
 
-  const onUpdate = (values: RegistrationFormFields) => {
-    updateRegistration(values, {
+  const handleUpdate = async (values: RegistrationFormFields) => {
+    await updateRegistration(values, {
       onError: (error) => showServerErrors({ error }),
       onSuccess: async () => {
         refetch && (await refetch());
@@ -190,9 +193,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
             await registrationSchema.validate(values, { abortEarly: false });
 
             if (registration) {
-              await onUpdate(values);
+              await handleUpdate(values);
             } else {
-              await onCreate(values);
+              await handleCreate(values);
             }
           } catch (error) {
             showFormErrors({
@@ -210,11 +213,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
 
         return (
           <>
-            <ConfirmDeleteModal
+            <ConfirmDeleteRegistrationModal
               isOpen={openModal === REGISTRATION_MODALS.DELETE}
               isSaving={saving === REGISTRATION_ACTIONS.DELETE}
               onClose={closeModal}
-              onDelete={onDelete}
+              onConfirm={handleDelete}
             />
             <Form noValidate={true}>
               <FormikPersist
@@ -249,11 +252,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                       ]}
                     />
                     <RegistrationAuthenticationNotification
-                      action={
-                        registration
-                          ? REGISTRATION_ACTIONS.UPDATE
-                          : REGISTRATION_ACTIONS.CREATE
-                      }
+                      action={action}
                       registration={registration}
                     />
                     <ServerErrorSummary errors={serverErrorItems} />
@@ -309,9 +308,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                       <AudienceAgeSection isEditingAllowed={isEditingAllowed} />
                     </Section>
                     <Section
-                      title={t('registration.form.sections.requiredFields')}
+                      title={t('registration.form.sections.mandatoryFields')}
                     >
-                      <RequiredFieldsSection
+                      <MandatoryFieldsSection
                         isEditingAllowed={isEditingAllowed}
                       />
                     </Section>
@@ -321,7 +320,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                   <EditButtonPanel
                     onDelete={() => setOpenModal(REGISTRATION_MODALS.DELETE)}
                     onUpdate={handleSubmit}
-                    publisher={event?.publisher as string}
+                    publisher={publisher}
                     registration={registration}
                     saving={saving}
                   />

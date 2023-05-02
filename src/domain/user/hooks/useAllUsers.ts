@@ -7,6 +7,8 @@ import { MAX_PAGE_SIZE } from '../../../constants';
 import { UserFieldsFragment, useUsersQuery } from '../../../generated/graphql';
 import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { usersPathBuilder } from '../utils';
 import useUser from './useUser';
 
@@ -59,7 +61,7 @@ const useAllUsers = (): UseAllOrganizationsState => {
   return {
     loading: debouncedLoading,
     user,
-    users: (usersData?.users.data as UserFieldsFragment[]) || [],
+    users: getValue(usersData?.users.data.filter(skipFalsyType), []),
   };
 };
 

@@ -2,6 +2,7 @@
 import TestController from 'testcafe';
 
 import { PlaceFieldsFragment } from '../../src/generated/graphql';
+import getValue from '../../src/utils/getValue';
 import { getCommonComponents } from '../common.components';
 import { getExpectedPlaceContext } from '../utils/place.utils';
 import {
@@ -80,7 +81,7 @@ export const getPlacesPage = async (t: TestController) => {
       );
 
       const placeRow = () => {
-        return withinSearchResultList().getAllByTestId(place.id as string);
+        return withinSearchResultList().getAllByTestId(getValue(place.id, ''));
       };
 
       if (searchedField) {

@@ -5,7 +5,6 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/types'
 import {
   DATE_FORMAT_API,
   LINKED_EVENTS_SYSTEM_DATA_SOURCE,
-  MAX_PAGE_SIZE,
   ROUTES,
 } from '../../constants';
 import {
@@ -21,10 +20,14 @@ import {
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
+import getDateFromString from '../../utils/getDateFromString';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import skipFalsyType from '../../utils/skipFalsyType';
 import {
   AUTHENTICATION_NOT_NEEDED,
+  MAX_OGRANIZATIONS_PAGE_SIZE,
   ORGANIZATION_ACTION_ICONS,
   ORGANIZATION_ACTION_LABEL_KEYS,
   ORGANIZATION_ACTIONS,
@@ -60,7 +63,8 @@ export const getOrganizationFullName = (
   organization: OrganizationFieldsFragment,
   t: TFunction
 ): string => {
-  const name = organization.name ?? '';
+  const name = getValue(organization.name, '');
+
   if (organization.dissolutionDate) {
     return `${name} (${t('common.dissolved')})`;
   } else if (organization.isAffiliated) {
@@ -74,23 +78,27 @@ export const getOrganizationFields = (
   locale: Language,
   t: TFunction
 ): OrganizationFields => {
-  const id = organization.id ?? '';
+  const id = getValue(organization.id, '');
 
   return {
-    affiliatedOrganizations: organization.affiliatedOrganizations as string[],
-    atId: organization.atId ?? '',
-    classification: organization.classification ?? '',
-    dataSource: organization.dataSource ?? '',
-    foundingDate: organization.foundingDate
-      ? new Date(organization.foundingDate)
-      : null,
+    affiliatedOrganizations: getValue(
+      organization.affiliatedOrganizations?.filter(skipFalsyType),
+      []
+    ),
+    atId: getValue(organization.atId, ''),
+    classification: getValue(organization.classification, ''),
+    dataSource: getValue(organization.dataSource, ''),
+    foundingDate: getDateFromString(organization.foundingDate),
     fullName: getOrganizationFullName(organization, t),
-    id: organization.id ?? '',
-    name: organization.name ?? '',
+    id: getValue(organization.id, ''),
+    name: getValue(organization.name, ''),
     organizationUrl: `/${locale}${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`,
-    originId: id.split(':')[1] ?? '',
-    parentOrganization: organization.parentOrganization ?? null,
-    subOrganizations: organization.subOrganizations as string[],
+    originId: getValue(id.split(':')[1], ''),
+    parentOrganization: getValue(organization.parentOrganization, null),
+    subOrganizations: getValue(
+      organization.subOrganizations?.filter(skipFalsyType),
+      []
+    ),
   };
 };
 
@@ -123,7 +131,7 @@ export const isAdminUserInOrganization = ({
   organizationAncestors: OrganizationFieldsFragment[];
   user?: UserFieldsFragment;
 }): boolean => {
-  const adminOrganizations = user?.adminOrganizations ?? [];
+  const adminOrganizations: string[] = getValue(user?.adminOrganizations, []);
 
   return Boolean(
     id &&
@@ -141,21 +149,12 @@ export const isReqularUserInOrganization = ({
   id: string | null;
   user?: UserFieldsFragment;
 }): boolean => {
-  const organizationMemberships = user?.organizationMemberships ?? [];
+  const organizationMemberships: string[] = getValue(
+    user?.organizationMemberships,
+    []
+  );
 
   return Boolean(id && organizationMemberships.includes(id));
-};
-
-export const isInDefaultOrganization = ({
-  id,
-  user,
-}: {
-  id: string | null;
-  user?: UserFieldsFragment;
-}): boolean => {
-  const organization = user?.organization;
-
-  return id === organization;
 };
 
 export const getOrganizationAncestorsQueryResult = async (
@@ -171,9 +170,9 @@ export const getOrganizationAncestorsQueryResult = async (
       await apolloClient.query<OrganizationsQuery>({
         query: OrganizationsDocument,
         variables: {
-          child: id as string,
+          child: id,
           createPath: getPathBuilder(organizationsPathBuilder),
-          pageSize: MAX_PAGE_SIZE,
+          pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
         },
       });
 
@@ -198,7 +197,7 @@ export const checkCanUserDoAction = ({
     organizationAncestors: [],
     user,
   });
-  const adminOrganizations = user?.adminOrganizations || [];
+  const adminOrganizations = getValue(user?.adminOrganizations, []);
 
   switch (action) {
     case ORGANIZATION_ACTIONS.EDIT:
@@ -301,31 +300,36 @@ export const getEditButtonProps = ({
 export const getOrganizationInitialValues = (
   organization: OrganizationFieldsFragment
 ): OrganizationFormFields => {
-  const id = organization.id ?? '';
+  const id = getValue(organization.id, '');
   const { dissolutionDate, foundingDate } = organization;
 
   return {
-    adminUsers: organization.adminUsers?.length
-      ? organization.adminUsers.map((o) => o?.username as string)
-      : [],
-    affiliatedOrganizations:
-      (organization.affiliatedOrganizations as string[]) ?? [],
-    classification: organization.classification ?? '',
-    dataSource: organization.dataSource ?? '',
-    dissolutionDate: dissolutionDate ? new Date(dissolutionDate) : null,
-    foundingDate: foundingDate ? new Date(foundingDate) : null,
+    adminUsers: getValue(organization.adminUsers, []).map((o) =>
+      getValue(o?.username, '')
+    ),
+    affiliatedOrganizations: getValue(
+      organization.affiliatedOrganizations?.filter(skipFalsyType),
+      []
+    ),
+    classification: getValue(organization.classification, ''),
+    dataSource: getValue(organization.dataSource, ''),
+    dissolutionDate: getDateFromString(dissolutionDate),
+    foundingDate: getDateFromString(foundingDate),
     id,
     internalType: organization.isAffiliated
       ? ORGANIZATION_INTERNAL_TYPE.AFFILIATED
       : ORGANIZATION_INTERNAL_TYPE.NORMAL,
-    name: organization.name ?? '',
-    originId: id.split(':')[1] ?? '',
-    parentOrganization: organization.parentOrganization ?? '',
-    regularUsers: organization.regularUsers?.length
-      ? organization.regularUsers.map((o) => o?.username as string)
-      : [],
+    name: getValue(organization.name, ''),
+    originId: getValue(id.split(':')[1], ''),
+    parentOrganization: getValue(organization.parentOrganization, ''),
+    regularUsers: getValue(organization.regularUsers, []).map((o) =>
+      getValue(o?.username, '')
+    ),
     replacedBy: '',
-    subOrganizations: (organization.subOrganizations as string[]) ?? [],
+    subOrganizations: getValue(
+      organization.subOrganizations?.filter(skipFalsyType),
+      []
+    ),
   };
 };
 
@@ -333,11 +337,13 @@ export const getOrganizationPayload = (
   formValues: OrganizationFormFields
 ): CreateOrganizationMutationInput => {
   const {
+    adminUsers,
     dissolutionDate,
     foundingDate,
     id,
     originId,
     parentOrganization,
+    regularUsers,
     ...restFormValues
   } = formValues;
 
@@ -345,6 +351,7 @@ export const getOrganizationPayload = (
 
   return {
     ...restFormValues,
+    adminUsers: { username: adminUsers },
     dataSource,
     dissolutionDate: dissolutionDate
       ? formatDate(dissolutionDate, DATE_FORMAT_API)
@@ -355,5 +362,6 @@ export const getOrganizationPayload = (
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
     originId,
     parentOrganization: parentOrganization || undefined,
+    regularUsers: { username: regularUsers },
   };
 };

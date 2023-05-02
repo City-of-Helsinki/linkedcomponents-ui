@@ -7,6 +7,7 @@ import {
   PlaceFieldsFragment,
 } from '../../src/generated/graphql';
 import { normalizeKey } from '../../src/utils/apolloUtils';
+import getValue from '../../src/utils/getValue';
 import { getLinkedEventsUrl } from '../utils/settings';
 import { waitRequest } from '../utils/utils';
 
@@ -26,7 +27,7 @@ export const getEvents = async (
     timeout: 20000,
   });
 
-  return JSON.parse(eventsResponse.response.body as string).data.map((event) =>
+  return JSON.parse(eventsResponse.response.body.toString()).data.map((event) =>
     normalizeKeys(event, normalizeKey)
   );
 };
@@ -42,7 +43,7 @@ export const getEventsCount = async (
     timeout: 20000,
   });
 
-  return JSON.parse(eventsResponse.response.body as string).meta.count;
+  return JSON.parse(eventsResponse.response.body.toString()).meta.count;
 };
 
 const findPlaceRequest = (atId: string) => (r: LoggedRequest) =>
@@ -60,7 +61,7 @@ export const getPlace = async (
     return place;
   }
 
-  const findFn = findPlaceRequest(event.location?.atId as string);
+  const findFn = findPlaceRequest(getValue(event.location?.atId, ''));
 
   const placeResponse = await waitRequest({
     findFn,
@@ -69,7 +70,7 @@ export const getPlace = async (
   });
 
   return normalizeKeys(
-    JSON.parse(placeResponse.response.body as string),
+    JSON.parse(placeResponse.response.body.toString()),
     normalizeKey
   );
 };
@@ -89,7 +90,7 @@ export const getPlaces = async (
     t,
   });
 
-  return JSON.parse(placesResponse.response.body as string).data.map((place) =>
+  return JSON.parse(placesResponse.response.body.toString()).data.map((place) =>
     normalizeKeys(place, normalizeKey)
   );
 };
@@ -104,7 +105,7 @@ export const getPublisher = async (
   requestLogger: RequestLogger,
   event: EventFieldsFragment
 ): Promise<OrganizationFieldsFragment | undefined> => {
-  const findFn = findPublisherRequest(event.publisher as string);
+  const findFn = findPublisherRequest(getValue(event.publisher, ''));
 
   const publisherResponse = await waitRequest({
     findFn,
@@ -113,7 +114,7 @@ export const getPublisher = async (
   });
 
   return normalizeKeys(
-    JSON.parse(publisherResponse.response.body as string),
+    JSON.parse(publisherResponse.response.body.toString()),
     normalizeKey
   );
 };

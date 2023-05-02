@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useOrganizationClassQuery } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import { organizationClassPathBuilder } from '../utils';
 
 interface OrganizationClassNameProps {
@@ -17,12 +18,7 @@ const OrganizationClassName: React.FC<OrganizationClassNameProps> = ({
   });
 
   return (
-    <>
-      {
-        /* istanbul ignore next */
-        organizationClassData?.organizationClass?.name || id || '-'
-      }
-    </>
+    <>{getValue(organizationClassData?.organizationClass?.name || id, '-')}</>
   );
 };
 

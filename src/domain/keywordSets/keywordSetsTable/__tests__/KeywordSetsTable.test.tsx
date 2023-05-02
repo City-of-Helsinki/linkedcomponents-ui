@@ -1,7 +1,7 @@
 import React from 'react';
 
+import getValue from '../../../../utils/getValue';
 import {
-  act,
   configure,
   render,
   screen,
@@ -9,7 +9,7 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
-import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { keywordSetNames, keywordSets } from '../../__mocks__/keywordSetsPage';
 import { KEYWORD_SET_SORT_OPTIONS } from '../../constants';
@@ -17,8 +17,8 @@ import KeywordSetsTable, { KeywordSetsTableProps } from '../KeywordSetsTable';
 
 configure({ defaultHidden: true });
 
-const keywordSetName = keywordSets.data[0]?.name?.fi as string;
-const keywordSetId = keywordSets.data[0]?.id as string;
+const keywordSetName = getValue(keywordSets.data[0]?.name?.fi, '');
+const keywordSetId = getValue(keywordSets.data[0]?.id, '');
 
 const defaultProps: KeywordSetsTableProps = {
   caption: 'Keyword set table',
@@ -27,7 +27,7 @@ const defaultProps: KeywordSetsTableProps = {
   sort: KEYWORD_SET_SORT_OPTIONS.NAME,
 };
 
-const mocks = [mockedOrganizationResponse, mockedUserResponse];
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const renderComponent = (props?: Partial<KeywordSetsTableProps>) =>
   render(<KeywordSetsTable {...defaultProps} {...props} />, { mocks });
@@ -62,10 +62,7 @@ test('should open edit keyword set page by clicking keyword set row', async () =
   const user = userEvent.setup();
   const { history } = renderComponent({ keywordSets: [keywordSets.data[0]] });
 
-  await act(
-    async () =>
-      await user.click(screen.getByRole('button', { name: keywordSetName }))
-  );
+  await user.click(screen.getByRole('button', { name: keywordSetName }));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -78,12 +75,9 @@ test('should open edit keyword set page by pressing enter on row', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({ keywordSets: [keywordSets.data[0]] });
 
-  await act(
-    async () =>
-      await user.type(
-        screen.getByRole('button', { name: keywordSetName }),
-        '{enter}'
-      )
+  await user.type(
+    screen.getByRole('button', { name: keywordSetName }),
+    '{enter}'
   );
 
   await waitFor(() =>
@@ -102,16 +96,16 @@ test('should call setSort when clicking sortable column header', async () => {
   const nameButton = screen.getByRole('button', {
     name: 'Nimi Järjestetty nousevaan järjestykseen',
   });
-  await act(async () => await user.click(nameButton));
+  await user.click(nameButton);
   expect(setSort).toBeCalledWith('-name');
 
   const idButton = screen.getByRole('button', { name: 'ID' });
-  await act(async () => await user.click(idButton));
+  await user.click(idButton);
 
   expect(setSort).toBeCalledWith('id');
 
   const usageButton = screen.getByRole('button', { name: 'Käyttötarkoitus' });
-  await act(async () => await user.click(usageButton));
+  await user.click(usageButton);
 
   expect(setSort).toBeCalledWith('usage');
 });
@@ -125,12 +119,12 @@ test('should open actions dropdown', async () => {
     screen.getByRole('button', { name: keywordSetName })
   );
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
-  await act(async () => await user.click(menuButton));
+  await user.click(menuButton);
 
   const editButton = await withinRow.findByRole('button', {
     name: /muokkaa avainsanaryhmää/i,
   });
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(

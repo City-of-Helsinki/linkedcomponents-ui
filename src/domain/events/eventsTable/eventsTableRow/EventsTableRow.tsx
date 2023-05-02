@@ -7,6 +7,7 @@ import { EventFieldsFragment } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import useTimeFormat from '../../../../hooks/useTimeFormat';
 import formatDate from '../../../../utils/formatDate';
+import getValue from '../../../../utils/getValue';
 import { usePageSettings } from '../../../app/hooks/usePageSettings';
 import StatusTag from '../../../event/tags/statusTag/StatusTag';
 import SuperEventTypeTag from '../../../event/tags/superEventTypeTag/SuperEventTypeTag';
@@ -101,12 +102,18 @@ const EventTableRow: React.FC<Props> = ({
               <button
                 aria-label={
                   open
-                    ? (t('eventsPage.eventsTable.hideSubEvents', {
-                        name,
-                      }) as string)
-                    : (t('eventsPage.eventsTable.showSubEvents', {
-                        name,
-                      }) as string)
+                    ? getValue(
+                        t('eventsPage.eventsTable.hideSubEvents', {
+                          name,
+                        }),
+                        undefined
+                      )
+                    : getValue(
+                        t('eventsPage.eventsTable.showSubEvents', {
+                          name,
+                        }),
+                        undefined
+                      )
                 }
                 onClick={toggle}
               >

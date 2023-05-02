@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -13,13 +14,13 @@ import { KEYWORD_SET_ACTIONS } from '../../keywordSet/constants';
 import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
 } from '../../keywordSet/hooks/useKeywordSetActions';
-import ConfirmDeleteModal from '../../keywordSet/modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteKeywordSetModal from '../../keywordSet/modals/confirmDeleteKeywordSetModal/ConfirmDeleteKeywordSetModal';
 import {
   getEditButtonProps,
   getKeywordSetFields,
 } from '../../keywordSet/utils';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import useUserOrganization from '../../user/hooks/useUserOrganization';
 import { addParamsToKeywordSetQueryString } from '../utils';
 
 export interface KeywordSetActionsDropdownProps {
@@ -36,8 +37,9 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
   const navigate = useNavigate();
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const { dataSource, id } = getKeywordSetFields(keywordSet, locale);
-  const { organization: userOrganization } = useUserOrganization(user);
+  const { id, organization } = getKeywordSetFields(keywordSet, locale);
+  const { organizationAncestors } = useOrganizationAncestors(organization);
+
   const { pathname, search } = useLocation();
 
   const { closeModal, deleteKeywordSet, openModal, saving, setOpenModal } =
@@ -56,10 +58,6 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
     });
   };
 
-  const onDelete = () => {
-    deleteKeywordSet();
-  };
-
   const getActionItemProps = ({
     action,
     onClick,
@@ -70,10 +68,11 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
     return getEditButtonProps({
       action,
       authenticated,
-      dataSource,
       onClick,
+      organization,
+      organizationAncestors,
       t,
-      userOrganization,
+      user,
     });
   };
 
@@ -91,11 +90,11 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
   return (
     <>
       {openModal === KEYWORD_SET_MODALS.DELETE && (
-        <ConfirmDeleteModal
+        <ConfirmDeleteKeywordSetModal
           isOpen={openModal === KEYWORD_SET_MODALS.DELETE}
           isSaving={saving === KEYWORD_SET_ACTIONS.DELETE}
           onClose={closeModal}
-          onDelete={onDelete}
+          onConfirm={deleteKeywordSet}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

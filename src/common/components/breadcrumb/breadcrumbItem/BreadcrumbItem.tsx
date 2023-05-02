@@ -2,6 +2,7 @@ import { IconAngleRight } from 'hds-react';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 
+import getValue from '../../../../utils/getValue';
 import styles from '../breadcrumb.module.scss';
 
 type BreadcrumbItemCommonProps = {
@@ -31,7 +32,7 @@ const BreadcrumbItem: FC<BreadcrumbItemProps> = ({ active, label, to }) => {
         </span>
       ) : (
         <>
-          <Link to={to as string} className={styles.link}>
+          <Link to={getValue(to, '')} className={styles.link}>
             {label}
           </Link>
           <IconAngleRight aria-hidden={true} className={styles.icon} />

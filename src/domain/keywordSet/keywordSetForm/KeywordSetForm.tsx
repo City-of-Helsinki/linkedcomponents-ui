@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
@@ -18,6 +18,7 @@ import {
 } from '../../../constants';
 import { KeywordSetFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import getValue from '../../../utils/getValue';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
   scrollToFirstError,
@@ -26,8 +27,8 @@ import {
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
 import useKeywordSetUsageOptions from '../../keywordSets/hooks/useKeywordSetUsageOptions';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import useUserOrganization from '../../user/hooks/useUserOrganization';
 import {
   KEYWORD_SET_ACTIONS,
   KEYWORD_SET_FIELDS,
@@ -51,15 +52,18 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const navigate = useNavigate();
   const locale = useLocale();
   const { user } = useUser();
-  const { organization: userOrganization } = useUserOrganization(user);
   const usageOptions = useKeywordSetUsageOptions();
 
+  const action = keywordSet
+    ? KEYWORD_SET_ACTIONS.UPDATE
+    : KEYWORD_SET_ACTIONS.CREATE;
+  const organization = getValue(keywordSet?.organization, '');
+  const { organizationAncestors } = useOrganizationAncestors(organization);
   const isEditingAllowed = checkCanUserDoAction({
-    action: keywordSet
-      ? KEYWORD_SET_ACTIONS.UPDATE
-      : KEYWORD_SET_ACTIONS.CREATE,
-    dataSource: keywordSet?.dataSource ?? '',
-    userOrganization,
+    action,
+    organization,
+    organizationAncestors,
+    user,
   });
 
   const { createKeywordSet, saving, updateKeywordSet } = useKeywordSetActions({
@@ -86,6 +90,26 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
       onSuccess: goToKeywordSetsPage,
     });
   };
+
+  const inputRowBorderStyle = useMemo(
+    () =>
+      /* istanbul ignore next */
+      isEditingAllowed ? '' : styles.borderInMobile,
+    [isEditingAllowed]
+  );
+
+  const inputRowBorderStyleIfKeywordSet = useMemo(
+    () => (!isEditingAllowed || keywordSet ? styles.borderInMobile : ''),
+    [isEditingAllowed, keywordSet]
+  );
+
+  const alignedInputStyleIfKeywordSet = useMemo(
+    () =>
+      !isEditingAllowed || keywordSet
+        ? styles.alignedInputWithFullBorder
+        : styles.alignedInput,
+    [isEditingAllowed, keywordSet]
+  );
 
   return (
     <Formik
@@ -137,19 +161,17 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
           }
         };
 
+        const organization = keywordSet
+          ? getValue(keywordSet.organization, '')
+          : values.organization;
+
+        const disabledIfKeywordSet = !isEditingAllowed || !!keywordSet;
+
         return (
           <Form className={styles.form} noValidate={true}>
             <KeywordSetAuthenticationNotification
-              action={
-                keywordSet
-                  ? KEYWORD_SET_ACTIONS.UPDATE
-                  : KEYWORD_SET_ACTIONS.CREATE
-              }
-              dataSource={
-                keywordSet
-                  ? (keywordSet.dataSource as string)
-                  : values.dataSource
-              }
+              action={action}
+              organization={organization}
             />
             <ServerErrorSummary errors={serverErrorItems} />
 
@@ -165,11 +187,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
 
             <FormRow className={styles.borderInMobile}>
               <Field
-                className={
-                  !isEditingAllowed || keywordSet
-                    ? styles.alignedInputWithFullBorder
-                    : styles.alignedInput
-                }
+                className={alignedInputStyleIfKeywordSet}
                 component={TextInputField}
                 label={t(`keywordSet.form.labelDataSource`)}
                 name={KEYWORD_SET_FIELDS.DATA_SOURCE}
@@ -177,27 +195,24 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
               />
             </FormRow>
 
-            <FormRow
-              className={
-                !isEditingAllowed || keywordSet ? styles.borderInMobile : ''
-              }
-            >
+            <FormRow className={inputRowBorderStyleIfKeywordSet}>
               <Field
                 className={styles.alignedInput}
                 component={TextInputField}
                 label={t(`keywordSet.form.labelOriginId`)}
                 name={KEYWORD_SET_FIELDS.ORIGIN_ID}
-                readOnly={!isEditingAllowed || !!keywordSet}
+                readOnly={disabledIfKeywordSet}
                 required
               />
             </FormRow>
 
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 clearable
                 component={PublisherSelectorField}
-                disabled={!isEditingAllowed || !!keywordSet}
+                disabled={disabledIfKeywordSet}
                 label={t(`keywordSet.form.labelOrganization`)}
                 name={KEYWORD_SET_FIELDS.ORGANIZATION}
               />
@@ -210,13 +225,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
               const isLastRow = ORDERED_LE_DATA_LANGUAGES.length - 1 === i;
 
               return (
-                <FormRow
-                  key={language}
-                  className={
-                    /* istanbul ignore next */
-                    !isEditingAllowed ? styles.borderInMobile : ''
-                  }
-                >
+                <FormRow key={language} className={inputRowBorderStyle}>
                   <Field
                     className={
                       /* istanbul ignore next */
@@ -235,6 +244,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
             })}
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 component={KeywordSelectorField}
                 disabled={!isEditingAllowed}
@@ -246,6 +256,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
 
             <FormRow>
               <Field
+                alignedLabel
                 className={styles.alignedSelect}
                 component={SingleSelectField}
                 disabled={!isEditingAllowed}
@@ -260,13 +271,13 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
               <EditButtonPanel
                 id={values.id}
                 onSave={handleSubmit}
-                dataSource={keywordSet.dataSource as string}
+                organization={organization}
                 saving={saving}
               />
             ) : (
               <CreateButtonPanel
-                dataSource={values.dataSource}
                 onSave={handleSubmit}
+                organization={organization}
                 saving={saving}
               />
             )}

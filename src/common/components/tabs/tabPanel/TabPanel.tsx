@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { FCWithName } from '../../../../types';
+import React, { FC } from 'react';
 
 export type TabPanelProps = React.PropsWithChildren<{
   className?: string;
@@ -10,7 +8,7 @@ export type TabPanelProps = React.PropsWithChildren<{
   style?: React.CSSProperties;
 }>;
 
-const TabPanel: FCWithName<TabPanelProps> = ({
+const TabPanel: FC<TabPanelProps> = ({
   children,
   className,
   index,
@@ -31,6 +29,6 @@ const TabPanel: FCWithName<TabPanelProps> = ({
   ) : null;
 };
 
-TabPanel.componentName = 'TabPanel';
+TabPanel.displayName = 'TabPanel';
 
 export default TabPanel;

@@ -7,7 +7,6 @@ import { OrganizationDocument } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeOrganization } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
@@ -106,7 +105,7 @@ test('should show users organizations as menu options', async () => {
   getElement('searchInput');
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   await screen.findByRole('option', { name: organizationName });
   screen.getByRole('option', { name: adminOrganizationName });
@@ -120,7 +119,7 @@ test('should show publisher as menu option', async () => {
   await waitFor(() => expect(searchinput).toHaveValue(publisherName));
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   await screen.findByRole('option', { name: publisherName });
 });

@@ -1,7 +1,7 @@
 import { useMatomo } from '@datapunt/matomo-tracker-react';
 import classNames from 'classnames';
 import { useCookies } from 'hds-react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
@@ -56,11 +56,13 @@ const PageWrapper: React.FC<React.PropsWithChildren<PageWrapperProps>> = ({
       .join(', ');
   };
 
-  const translatedTitle = titleText
-    ? `${titleText} - ${t('appName')}`
-    : title !== 'appName'
-    ? `${t(title)} - ${t('appName')}`
-    : t('appName');
+  const translatedTitle = useMemo(() => {
+    if (titleText) {
+      return `${titleText} - ${t('appName')}`;
+    }
+    return title !== 'appName' ? `${t(title)} - ${t('appName')}` : t('appName');
+  }, [t, title, titleText]);
+
   const translatedDescription = t(description);
   const translatedKeywords = getTranslatedKeywords();
 

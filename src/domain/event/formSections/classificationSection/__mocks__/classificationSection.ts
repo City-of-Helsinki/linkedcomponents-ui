@@ -82,7 +82,7 @@ const keywordsVariables = {
   createPath: undefined,
   dataSource: ['yso', 'helsinki'],
   showAllKeywords: true,
-  text: '',
+  freeText: '',
 };
 const keywordsResponse = { data: { keywords: eventTopics } };
 const mockedKeywordsResponse = {
@@ -91,13 +91,12 @@ const mockedKeywordsResponse = {
 };
 
 const keyword = eventTopics.data[0];
-const keywordVariables = { id: keyword.id, createPath: undefined };
+const keywordVariables = { id: keyword?.id, createPath: undefined };
 const keywordResponse = { data: { keyword } };
 const mockedKeywordResponse = {
   request: { query: KeywordDocument, variables: keywordVariables },
   result: keywordResponse,
 };
-
 export {
   courseTopicNames,
   eventTopicNames,

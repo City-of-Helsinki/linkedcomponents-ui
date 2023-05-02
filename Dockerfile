@@ -1,5 +1,5 @@
 # ===============================================
-FROM registry.access.redhat.com/ubi8/nodejs-16 as appbase
+FROM registry.access.redhat.com/ubi8/nodejs-16 AS appbase
 # ===============================================
 WORKDIR /app
 
@@ -27,8 +27,15 @@ USER default
 # Install dependencies
 RUN yarn && yarn cache clean --force
 
+# Copy all necessary files
+COPY craco.config.js tsconfig.json .eslintignore .eslintrc.json .prettierrc.json .env /app/
+COPY /plugins/ /app/plugins
+COPY /public/ /app/public
+COPY /scripts/ /app/scripts
+COPY /src/ /app/src
+
 # =============================
-FROM appbase as development
+FROM appbase AS development
 # =============================
 WORKDIR /app
 # Set NODE_ENV to development in the development container
@@ -37,19 +44,15 @@ ENV NODE_ENV $NODE_ENV
 
 ENV PORT 8000
 
-# Copy all files
-COPY . /app/
-
 # Bake package.json start command into the image
 CMD ["yarn", "start"]
 
 EXPOSE 8000
 
 # ===================================
-FROM appbase as staticbuilder
+FROM appbase AS staticbuilder
 # ===================================
 WORKDIR /app
-COPY . /app/
 
 # Set public url
 ARG PUBLIC_URL
@@ -65,8 +68,10 @@ ARG REACT_APP_LINKED_REGISTRATIONS_UI_URL
 
 # Set OIDC settings
 ARG REACT_APP_OIDC_AUTHORITY
+ARG REACT_APP_OIDC_API_TOKENS_URL
 ARG REACT_APP_OIDC_CLIENT_ID
 ARG REACT_APP_OIDC_API_SCOPE
+ARG REACT_APP_OIDC_RESPONSE_TYPE
 
 # Set Sentry settings
 ARG REACT_APP_SENTRY_DSN
@@ -86,6 +91,10 @@ ARG REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID
 # Data source of new linked events objects
 ARG REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE
 
+# Swagger URLs
+ARG REACT_APP_SWAGGER_SCHEMA_URL
+ARG REACT_APP_SWAGGER_URL
+
 # Feature flags
 ARG REACT_APP_SHOW_ADMIN
 ARG REACT_APP_SHOW_REGISTRATION
@@ -97,7 +106,7 @@ RUN yarn generate-robots
 RUN yarn compress
 
 # =============================
-FROM registry.access.redhat.com/ubi8/nginx-118 as production
+FROM registry.access.redhat.com/ubi8/nginx-120 AS production
 # =============================
 USER root
 
@@ -109,8 +118,6 @@ COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
 # Copy nginx config
 COPY .prod/nginx.conf /etc/nginx/nginx.conf
-
-COPY .env .
 
 USER 1001
 

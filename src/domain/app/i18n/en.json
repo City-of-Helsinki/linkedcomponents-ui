@@ -110,6 +110,9 @@
     },
     "goToHome": "To front page",
     "home": "Front page",
+    "imageSelector": {
+      "labelSearch": "Search images"
+    },
     "imageUploader": {
       "areaLabel": {
         "cropArea": "Use the arrow keys to move the crop selection area",
@@ -127,6 +130,7 @@
       "buttonRemoveImage": "Remove image",
       "notAllowedFileFormat": "File format is not supported",
       "titleCropImage": "Crop image",
+      "tooLongFileName": "File name is too long. Maximum length is {{maxLength}} characters.",
       "tooLargeFileSize": "File size is too large. The maximum file size is {{maxSize}} MB"
     },
     "leaflet": {
@@ -343,7 +347,7 @@
       "labelPhoneNumber": "Telephone number",
       "labelServiceLanguage": "Language of communication",
       "labelStreetAddress": "Street address",
-      "labelZip": "Postcode",
+      "labelZipcode": "Postcode",
       "notificationTitleCannotEdit": "Participants cannot be edited",
       "placeholderAttendeeExtraInfo": "Enter any additional information or request",
       "placeholderCity": "Enter city",
@@ -355,7 +359,7 @@
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Select language",
       "placeholderStreetAddress": "Enter a street address",
-      "placeholderZip": "Enter postcode",
+      "placeholderZipcode": "Enter postcode",
       "timeLeft": "Time left to register",
       "titleAdditionalInfo": "Additional information",
       "titleBasicInfo": "Basic information of the registrant",
@@ -1185,6 +1189,7 @@
       "labelJobDescription": "Job description",
       "labelName": "Name",
       "labelOrganization": "Organization",
+      "pageDescription": "Ask permission to Linked Events organisation.",
       "pageTitle": "Request access",
       "placeholderBody": "Enter your message",
       "placeholderEmail": "Enter email",
@@ -1234,6 +1239,7 @@
       "textEventNotShown": "Events are always listed according to different search criteria. If no search criteria are specified, then the interface returns future events within the selected base organization with an event type of “event”. As a result, courses, for example, will not appear in search results unless specifically defined. Also, check that the event you added has been published and that its date is in the future.",
       "textImageRights": "You must have rights to the image you uploaded. See section: <a href={{controlPanelUrl}}>attaching an image to events</a>.",
       "textPublishingPermission": "You can request permission rights to add events to your organisation from us. Remember to add detailed information about your role in the organisation.",
+      "textRegistrationForRecurringEvent": "Yes you can, but you need to create a separate registration for each event.",
       "textSlowRequests": "First, check the search criteria to find only the information you need for your service. We also recommend that you keep the information in your own service, in which case you only need to retrieve the changed or added information from the Linked Events interface.",
       "titleAddingEvents": "How do I enter events into Linked Events?",
       "titleAddingToOwnProjects": "Can I use Linked Events in my own projects?",
@@ -1241,6 +1247,7 @@
       "titleEventNotShown": "The event I added doesn't appear in the service, where's the problem?",
       "titleImageRights": "Can I add any image to events?",
       "titlePublishingPermission": "Who has rights for adding new public events?",
+      "titleRegistrationForRecurringEvent": "Can you enable registrations for recurring events?",
       "titleSlowRequests": "API searches are slow - how do I make them faster?"
     },
     "pageDescriptionApi": "More information about the API (application protocol interface) of Linked Events.",
@@ -1272,10 +1279,13 @@
       "textEventManagement": "The Linked Events control panel is used to enter events, courses, and volunteering assignments, and to manage related information and materials.",
       "textMainContent1": "Linked Events is an open interface developed by the City of Helsinki for events, courses and for volunteering in the City of Helsinki. This site provides tools and instructions for managing events and documentation on how to use the public interface.",
       "textMainContent2": "Events may be entered with the permission of the city. Events do not have to be organised by the city. You can enter multiple dates for an event. In this case, an umbrella event is automatically created for the event sequence.",
+      "textMainContent3": "You can enable registration for any event by filling up the information needed for the participation form.",
+      "textRegistration": "The Linked Registration control panel is used to manage registrations and participants for the event.",
       "textSupport": "Contact us if you require more information or have concerns, or any suggestions on how we could improve the service. In the Support section, you will find more detailed information and a contact form.",
       "titleApi": "Linked Events API",
       "titleEventManagement": "Event management",
       "titlePlatform": "Platform",
+      "titleRegistration": "Registration management",
       "titleServiceHighlights": "Service highlights",
       "titleSupport": "Support and further development"
     },
@@ -1363,8 +1373,12 @@
     "pageDescription": "Image listing. Browse, filter and edit Linked Events images.",
     "pageTitle": "Images",
     "sortOptions": {
+      "id": "Id, ascending",
+      "idDesc": "Id, descending",
       "lastModifiedTime": "Last modified, ascending",
-      "lastModifiedTimeDesc": "Last modified, descending"
+      "lastModifiedTimeDesc": "Last modified, descending",
+      "name": "Name, ascending",
+      "nameDesc": "Name, descending"
     },
     "title": "Images",
     "warningNoRightsToCreate": "You have insufficient rights to create images.",
@@ -1392,6 +1406,7 @@
     "add": "add",
     "admin": "admin",
     "api": "api",
+    "ask": "ask",
     "asked": "asked",
     "browse": "browse",
     "bug": "bug",
@@ -1419,6 +1434,7 @@
     "myListing": "my, listing",
     "new": "new",
     "organization": "organization",
+    "permission": "permission",
     "place": "place",
     "platform": "platform",
     "questions": "questions",
@@ -1546,7 +1562,8 @@
       "admin": "Admin",
       "events": "Events",
       "help": "Support",
-      "registrations": "Registration"
+      "registrations": "Registration",
+      "dataProtection": "Data Protection"
     }
   },
   "notFound": {
@@ -1712,12 +1729,6 @@
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
       "placeholderEvent": "Select or search for an event",
       "placeholderInstructions": "Enter registration instructions",
-      "requiredFields": {
-        "address": "Address",
-        "city": "City",
-        "name": "Name",
-        "phoneNumber": "Phone number"
-      },
       "sections": {
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
@@ -1725,7 +1736,7 @@
         "enrolmentTime": "Registration time",
         "event": "Event",
         "instructions": "Additional registration information",
-        "requiredFields": "Required fields",
+        "mandatoryFields": "Required fields",
         "waitingList": "Waiting list"
       },
       "titleContactInfo": "Contact information",

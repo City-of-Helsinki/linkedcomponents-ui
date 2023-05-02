@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -10,15 +11,15 @@ import {
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
-import ConfirmCancelModal from '../../enrolment/modals/confirmCancelModal/ConfirmCancelModal';
+import ConfirmCancelEnrolmentModal from '../../enrolment/modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
 import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
-import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import { getRegistrationFields } from '../../registration/utils';
 import { addParamsToRegistrationQueryString } from '../../registrations/utils';
 import useUser from '../../user/hooks/useUser';
@@ -40,7 +41,7 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
   const navigate = useNavigate();
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const publisher = useRegistrationPublisher({ registration }) as string;
+  const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { pathname, search } = useLocation();
   const { id: registrationId } = getRegistrationFields(registration, locale);
@@ -69,10 +70,6 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
       ).replace(':enrolmentId', id)}`,
       search: queryString,
     });
-  };
-
-  const onCancel = () => {
-    cancelEnrolment();
   };
 
   const getActionItemProps = ({
@@ -107,11 +104,11 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
   return (
     <>
       {openModal === ENROLMENT_MODALS.CANCEL && (
-        <ConfirmCancelModal
+        <ConfirmCancelEnrolmentModal
           enrolment={enrolment}
           isOpen={openModal === ENROLMENT_MODALS.CANCEL}
           isSaving={saving === ENROLMENT_ACTIONS.CANCEL}
-          onCancel={onCancel}
+          onConfirm={cancelEnrolment}
           onClose={closeModal}
           registration={registration}
         />

@@ -43,6 +43,7 @@ import {
 import { normalizeKey } from '../../../utils/apolloUtils';
 import { featureFlagUtils } from '../../../utils/featureFlags';
 import generateAtId from '../../../utils/generateAtId';
+import getValue from '../../../utils/getValue';
 import { getApiTokenFromStorage } from '../../auth/utils';
 import i18n from '../i18n/i18nInit';
 import {
@@ -267,7 +268,7 @@ const linkedEventsLink = new RestLink({
       } else if (config.method === 'PUT' && requestParts[0] === 'image') {
         // TODO: Remove LOCALIZED_IMAGE feature flag when localized image alt text
         // is deployed to production of API
-        const bodyObj = JSON.parse(config.body as string);
+        const bodyObj = JSON.parse(getValue(config.body?.toString(), ''));
 
         return fetch(request, {
           ...config,
@@ -453,11 +454,11 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
             operation.operationName
           )
         ) {
-          toast.error(i18n.t('errors.validationError') as string);
+          toast.error(getValue(i18n.t('errors.validationError'), ''));
         }
         break;
       case 401:
-        toast.error(i18n.t('errors.authorizationRequired') as string);
+        toast.error(getValue(i18n.t('errors.authorizationRequired'), ''));
         break;
       case 403:
         if (
@@ -465,17 +466,17 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
             operation.operationName
           )
         ) {
-          toast.error(i18n.t('errors.forbidden') as string);
+          toast.error(getValue(i18n.t('errors.forbidden'), ''));
         }
         break;
       case 404:
-        toast.error(i18n.t('errors.notFound') as string);
+        toast.error(getValue(i18n.t('errors.notFound'), ''));
         break;
       case 410:
-        toast.error(i18n.t('errors.deleted') as string);
+        toast.error(getValue(i18n.t('errors.deleted'), ''));
         break;
       default:
-        toast.error(i18n.t('errors.serverError') as string);
+        toast.error(getValue(i18n.t('errors.serverError'), ''));
     }
   }
 });

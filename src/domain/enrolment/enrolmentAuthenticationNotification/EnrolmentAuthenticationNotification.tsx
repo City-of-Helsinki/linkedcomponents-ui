@@ -2,10 +2,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
-import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
 import { checkIsEditActionAllowed } from '../utils';
@@ -20,45 +20,32 @@ const EnrolmentAuthenticationNotification: React.FC<
 > = ({ action, registration }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const adminOrganizations = user?.adminOrganizations || [];
-  const publisher = useRegistrationPublisher({ registration }) as string;
+  const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { t } = useTranslation();
 
-  const getNotificationProps = () => {
-    if (authenticated) {
-      if (!adminOrganizations.length) {
-        return {
-          children: <p>{t('authentication.noRightsUpdateEnrolment')}</p>,
-          label: t('authentication.noRightsUpdateEnrolmentLabel'),
-        };
-      }
-
-      /* istanbul ignore else */
-      if (registration) {
-        const { warning } = checkIsEditActionAllowed({
+  return (
+    <AuthenticationNotification
+      authorizationWarningLabel={t(
+        'enrolment.form.notificationTitleCannotEdit'
+      )}
+      getAuthorizationWarning={() =>
+        checkIsEditActionAllowed({
           action,
           authenticated,
           organizationAncestors,
           publisher,
           t,
           user,
-        });
-
-        if (warning) {
-          return {
-            children: <p>{warning}</p>,
-            label: t('enrolment.form.notificationTitleCannotEdit'),
-          };
-        }
+        })
       }
-    }
-
-    return { label: null };
-  };
-
-  return <AuthenticationNotification {...getNotificationProps()} />;
+      noRequiredOrganizationLabel={t(
+        'authentication.noRightsUpdateEnrolmentLabel'
+      )}
+      noRequiredOrganizationText={t('authentication.noRightsUpdateEnrolment')}
+    />
+  );
 };
 
 export default EnrolmentAuthenticationNotification;

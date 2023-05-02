@@ -111,6 +111,9 @@
     },
     "goToHome": "Etusivulle",
     "home": "Etusivu",
+    "imageSelector": {
+      "labelSearch": "Hae kuvia"
+    },
     "imageUploader": {
       "areaLabel": {
         "cropArea": "Siirrä rajausaluetta nuolinäppäimillä",
@@ -128,6 +131,7 @@
       "buttonRemoveImage": "Poista kuva",
       "notAllowedFileFormat": "Tiedostomuoto ei ole sallittu",
       "titleCropImage": "Rajaa kuva",
+      "tooLongFileName": "Tiedoston nimi on liian pitkä. Nimi voi olla enintään {{maxLength}} merkkiä.",
       "tooLargeFileSize": "Tiedostokoko on liian suuri. Tiedoston maksimikoko on {{maxSize}} Mt"
     },
     "leaflet": {
@@ -344,7 +348,7 @@
       "labelPhoneNumber": "Puhelinnumero",
       "labelServiceLanguage": "Asiointikieli",
       "labelStreetAddress": "Katuosoite",
-      "labelZip": "Postinumero",
+      "labelZipcode": "Postinumero",
       "notificationTitleCannotEdit": "Osallistujia ei voi muokata",
       "placeholderAttendeeExtraInfo": "Syötä mahdollinen lisätieto tai toive",
       "placeholderCity": "Syötä kaupunki",
@@ -356,7 +360,7 @@
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Valitse asiointikieli",
       "placeholderStreetAddress": "Syötä katuosoite",
-      "placeholderZip": "Syötä postinumero",
+      "placeholderZipcode": "Syötä postinumero",
       "timeLeft": "Aikaa jäljellä ilmoittautumisen tekoon",
       "titleAdditionalInfo": "Lisätiedot",
       "titleBasicInfo": "Ilmoittautujan perustiedot",
@@ -1185,6 +1189,7 @@
       "labelJobDescription": "Toimenkuva",
       "labelName": "Nimi",
       "labelOrganization": "Organisaatio",
+      "pageDescription": "Pyydä oikeudet Linked Events -organisaatioon.",
       "pageTitle": "Pyydä käyttöoikeutta",
       "placeholderBody": "Syötä viestisi",
       "placeholderEmail": "Syötä sähköposti",
@@ -1234,6 +1239,7 @@
       "textEventNotShown": "Tapahtumat listataan aina eri hakuehtojen mukaan. Jos hakuehtoja ei ole määritelty, niin rajapinta palauttaa valitun pohja-organisaation sisällä olevat tulevat tapahtumat, joiden tapahtumatyyppi on “event”. Tästä johtuen esimerkiksi kurssit, eivät tule hakutuloksiin jos sitä ei ole erikseen määritelty. Tarkista myös, että lisäämäsi tapahtuma on julkaistu, ja että sen ajankohta on tulevaisuudessa.",
       "textImageRights": "Sinulla tulee olla oikeudet lataamaasi kuvaan. Katso kohta: <a href={{controlPanelUrl}}>kuvan liittäminen tapahtumiin</a>.",
       "textPublishingPermission": "Voit pyytää oikeudet edustamaasi organisaatioon meiltä. Lisää viestiin mahdollisimman tarkka kuvaus roolistasi organisaatiossa.",
+      "textRegistrationForRecurringEvent": "Kyllä voi, mutta jokaisella sarjatapahtuman tapahtumalla tulee olla oma ilmoittautuminen.",
       "textSlowRequests": "Tarkista ensin hakuehdot, eli että haet vain ne tiedot mitä palveluusi tarvitset. Suosittelemme myös tiedon säilyttämistä omassa palvelussa, jolloin Linked Events rajapinnasta tarvitsee hakea vain muuttuneet tai lisätyt tiedot.",
       "titleAddingEvents": "Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?",
       "titleAddingToOwnProjects": "Saako Linked Events-rajapintaa käyttää omiin projekteihin?",
@@ -1241,6 +1247,7 @@
       "titleEventNotShown": "Lisäämäni tapahtuma ei näy palvelussa, missä vika?",
       "titleImageRights": "Voinko lisätä mitä tahansa kuvia tapahtumiin?",
       "titlePublishingPermission": "Kenellä on oikeus lisätä julkisia tapahtumia?",
+      "titleRegistrationForRecurringEvent": "Voiko ilmoittautumisen luoda sarjatapahtumalle?",
       "titleSlowRequests": "Rajapinnan haut ovat hitaita - miten saan ne nopeammiksi?"
     },
     "pageDescriptionApi": "Lisätietoja Linked Eventsin API: sta (application protocol interface).",
@@ -1272,10 +1279,13 @@
       "textEventManagement": "Linked Eventsin hallintapaneelin avulla syötetään tapahtumia, kursseja ja vapaaehtoistehtäviä, sekä hallitaan niihin liittyviä tietoja ja materiaaleja.",
       "textMainContent1": "Linked Events on Helsingin kaupungin kehittämä avoin rajapinta Helsingin kaupungin tapahtumille, kursseille ja vapaaehtoistehtäville. Tämä sivusto tarjoaa työkalut ja ohjeet niiden hallintaan sekä dokumentaation julkisen rajapinnan käyttämiseen.",
       "textMainContent2": "Tapahtumia saa syöttää kaupungin luvalla. Niiden ei tarvitse olla kaupungin järjestämiä. Tapahtumalle voi antaa useita päivämääriä. Tässä tapauksessa tapahtumasarjalle luodaan automaattisesti kattotapahtuma.",
+      "textMainContent3": "Tapahtumille voidaan aktivoida myös ilmoittautuminen, määrittämällä vaadittavat ilmoittautumistiedot.",
+      "textRegistration": "Linked Registrations hallintapaneelin avulla hallinnoidaan tapahtumien ilmoittautumisasetuksia sekä osallistujia.",
       "textSupport": "Ota meihin yhteyttä jos haluat lisätietoa tai sinulla on ehdotuksia miten voisimme parantaa palvelua. Ohjeet-osiosta löydät tarkempaa tietoa ja yhteydenottolomakkeen.",
       "titleApi": "Linked Events API",
       "titleEventManagement": "Tapahtumien hallinta",
       "titlePlatform": "Alusta",
+      "titleRegistration": "Ilmoittautumisten hallinta",
       "titleServiceHighlights": "Palvelun kohokohdat",
       "titleSupport": "Tuki ja jatkokehitys"
     },
@@ -1363,8 +1373,12 @@
     "pageDescription": "Kuvien listaus. Selaa, suodata ja muokkaa Linked Events -kuvia.",
     "pageTitle": "Kuvat",
     "sortOptions": {
+      "id": "Id, nouseva",
+      "idDesc": "Id, laskeva",
       "lastModifiedTime": "Viimeksi muokattu, nouseva",
-      "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva"
+      "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva",
+      "name": "Nimi, nouseva",
+      "nameDesc": "Nimi, laskeva"
     },
     "title": "Kuvat",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda kuvia.",
@@ -1392,6 +1406,7 @@
     "add": "lisää",
     "admin": "admin",
     "api": "api",
+    "ask": "kysy",
     "asked": "kysytyt",
     "browse": "selailla",
     "bug": "vika",
@@ -1419,6 +1434,7 @@
     "myListing": "minun, luetteloni",
     "new": "uusi",
     "organization": "organisaatio",
+    "permission": "oikeudet",
     "place": "paikka",
     "platform": "alusta",
     "questions": "kysymykset",
@@ -1546,7 +1562,8 @@
       "admin": "Hallinta",
       "events": "Tapahtumat",
       "help": "Tuki",
-      "registrations": "Ilmoittautuminen"
+      "registrations": "Ilmoittautuminen",
+      "dataProtection": "Tietosuoja"
     }
   },
   "notFound": {
@@ -1712,12 +1729,6 @@
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
       "placeholderEvent": "Valitse tai hae tapahtuma",
       "placeholderInstructions": "Syötä ilmoittautumisohjeet",
-      "requiredFields": {
-        "address": "Osoite",
-        "city": "Kaupunki",
-        "name": "Nimi",
-        "phoneNumber": "Puhelinnumero"
-      },
       "sections": {
         "attendeeCount": "Paikat",
         "audienceAge": "Ikäraja",
@@ -1725,7 +1736,7 @@
         "enrolmentTime": "Ilmoittautumisaika",
         "event": "Tapahtuma",
         "instructions": "Ilmoittautumisen lisätiedot",
-        "requiredFields": "Pakolliset kentät",
+        "mandatoryFields": "Pakolliset kentät",
         "waitingList": "Jonopaikat"
       },
       "titleContactInfo": "Yhteystiedot",

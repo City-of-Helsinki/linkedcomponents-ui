@@ -5,6 +5,7 @@ import React from 'react';
 import useMeasure from 'react-use-measure';
 
 import { testIds } from '../../../constants';
+import useShowPlaceholderImage from '../../../hooks/useShowPlaceholderImage';
 import styles from './imagePreview.module.scss';
 
 const RATIO = 2 / 3;
@@ -32,6 +33,9 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
     scroll: false,
     polyfill: ResizeObserver,
   });
+
+  const showPlaceholder = useShowPlaceholderImage(imageUrl);
+
   const containerStyles: ContainerStyles = React.useMemo(() => {
     const { width } = menuContainerSize;
     // the menu width should be at least 190px
@@ -67,16 +71,16 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
       style={containerStyles}
       tabIndex={0}
     >
-      {imageUrl ? (
+      {showPlaceholder ? (
+        <div className={styles.placeholderImage}>
+          <IconPhoto size="xl" />
+        </div>
+      ) : (
         <div
           data-testid={testIds.imagePreview.image}
           className={styles.image}
           style={{ backgroundImage: `url(${imageUrl})` }}
         />
-      ) : (
-        <div className={styles.placeholderImage}>
-          <IconPhoto size="xl" />
-        </div>
       )}
     </div>
   );

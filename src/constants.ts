@@ -1,6 +1,6 @@
 import reduce from 'lodash/reduce';
 
-import { MultiLanguageObject } from './types';
+import { Language, MultiLanguageObject } from './types';
 
 export const BREAKPOINTS = {
   XS: 576,
@@ -69,8 +69,6 @@ export enum ROUTES {
   TECHNOLOGY_IMAGE_RIGHTS = '/help/technology/image-rights',
   TECHNOLOGY_SOURCE_CODE = '/help/technology/source-code',
 }
-
-export const OIDC_API_TOKEN_ENDPOINT = `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`;
 
 // Supported languages
 export enum SUPPORTED_LANGUAGES {
@@ -144,6 +142,7 @@ export enum FORM_NAMES {
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/gif', 'image/png'];
 export const COMPRESSABLE_IMAGE_TYPES = ['image/jpeg', 'image/png'];
 export const MAX_IMAGE_SIZE_MB = 2;
+export const MAX_IMAGE_FILE_NAME_LENGTH = 200;
 export const MIN_IMAGE_HEIGHT = 200;
 export const MIN_IMAGE_WIDTH = 300;
 export const MIN_UPSCALED_IMAGE_HEIGHT = 400;
@@ -216,6 +215,7 @@ export const testIds = {
   eventSearchPanel: { searchPanel: 'event-search-panel' },
   imageList: { resultList: 'image-result-list' },
   imagePreview: { image: 'image-preview-image' },
+  imageSelector: { imageItem: 'image-selector-item' },
   imageUploader: { input: 'image-dropzone-file-input' },
   keywordList: { resultList: 'keyword-result-list' },
   keywordSetList: { resultList: 'keyword-set-result-list' },
@@ -224,4 +224,13 @@ export const testIds = {
   organizationList: { resultList: 'organization-result-list' },
   placeList: { resultList: 'place-result-list' },
   registrationList: { resultList: 'registration-result-list' },
+};
+
+export const DATA_PROTECTION_URL: { [key in Language]: string } = {
+  // eslint-disable-next-line max-len
+  fi: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf',
+  // eslint-disable-next-line max-len
+  sv: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Hantering%20av%20anvandar-id.pdf',
+  // eslint-disable-next-line max-len
+  en: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf',
 };

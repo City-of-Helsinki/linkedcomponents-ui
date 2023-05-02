@@ -18,42 +18,30 @@ const OrganizationAuthenticationNotification: React.FC<
 > = ({ action, className, id }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const adminOrganizations = user?.adminOrganizations || [];
 
   const { t } = useTranslation();
 
-  const getNotificationProps = () => {
-    if (authenticated) {
-      if (!adminOrganizations.length) {
-        return {
-          children: <p>{t('authentication.noRightsUpdateOrganization')}</p>,
-          label: t('authentication.noRightsUpdateOrganizationLabel'),
-        };
-      }
-
-      const { warning } = checkIsEditActionAllowed({
-        action,
-        authenticated,
-        id,
-        t,
-        user,
-      });
-
-      if (warning) {
-        return {
-          children: <p>{warning}</p>,
-          label: t('organization.form.notificationTitleCannotEdit'),
-        };
-      }
-    }
-
-    return { label: null };
-  };
-
   return (
     <AuthenticationNotification
-      {...getNotificationProps()}
+      authorizationWarningLabel={t(
+        'organization.form.notificationTitleCannotEdit'
+      )}
       className={className}
+      getAuthorizationWarning={() =>
+        checkIsEditActionAllowed({
+          action,
+          authenticated,
+          id,
+          t,
+          user,
+        })
+      }
+      noRequiredOrganizationLabel={t(
+        'authentication.noRightsUpdateOrganizationLabel'
+      )}
+      noRequiredOrganizationText={t(
+        'authentication.noRightsUpdateOrganization'
+      )}
     />
   );
 };

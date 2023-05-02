@@ -1,5 +1,6 @@
 import React from 'react';
 
+import getValue from '../../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import { configure, render, screen } from '../../../../../utils/testUtils';
 import {
@@ -43,8 +44,8 @@ const renderComponent = () =>
 test('should render organizations table row', async () => {
   renderComponent();
 
-  screen.getByRole('link', { name: organization.name as string });
-  screen.getByText(organization.id as string);
+  screen.getByRole('link', { name: getValue(organization.name, '') });
+  screen.getByText(getValue(organization.id, ''));
   await screen.findByText(dataSourceName);
   await screen.findByText(organizationClassName);
 });

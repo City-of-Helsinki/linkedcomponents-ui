@@ -2,7 +2,6 @@ import React from 'react';
 
 import { fakePlaces } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   render,
   screen,
@@ -10,6 +9,7 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PLACE_ID } from '../../../place/constants';
 import { placeNames, places } from '../../__mocks__/placesPage';
 import { PLACE_SORT_OPTIONS } from '../../constants';
@@ -27,8 +27,10 @@ const defaultProps: PlacesTableProps = {
   sort: PLACE_SORT_OPTIONS.NAME,
 };
 
+const mocks = [mockedOrganizationAncestorsResponse];
+
 const renderComponent = (props?: Partial<PlacesTableProps>) =>
-  render(<PlacesTable {...defaultProps} {...props} />);
+  render(<PlacesTable {...defaultProps} {...props} />, { mocks });
 
 test('should render places table', () => {
   renderComponent();
@@ -63,10 +65,7 @@ test('should open edit place page by clicking keyword', async () => {
     places: fakePlaces(1, [{ name: { fi: placeName }, id: placeId }]).data,
   });
 
-  await act(
-    async () =>
-      await user.click(screen.getByRole('button', { name: placeName }))
-  );
+  await user.click(screen.getByRole('button', { name: placeName }));
 
   expect(history.location.pathname).toBe(
     `/fi/administration/places/edit/${placeId}`
@@ -79,13 +78,7 @@ test('should open edit keyword page by pressing enter on row', async () => {
     places: fakePlaces(1, [{ name: { fi: placeName }, id: placeId }]).data,
   });
 
-  await act(
-    async () =>
-      await user.type(
-        screen.getByRole('button', { name: placeName }),
-        '{enter}'
-      )
-  );
+  await user.type(screen.getByRole('button', { name: placeName }), '{enter}');
   expect(history.location.pathname).toBe(
     `/fi/administration/places/edit/${placeId}`
   );
@@ -99,16 +92,16 @@ test('should call setSort when clicking sortable column header', async () => {
   const nameButton = screen.getByRole('button', {
     name: 'Nimi Järjestetty nousevaan järjestykseen',
   });
-  await act(async () => await user.click(nameButton));
+  await user.click(nameButton);
   await waitFor(() => expect(setSort).toBeCalledWith('-name'));
 
   const idButton = screen.getByRole('button', { name: 'ID' });
-  await act(async () => await user.click(idButton));
+  await user.click(idButton);
 
   await waitFor(() => expect(setSort).toBeCalledWith('id'));
 
   const nEventsButton = screen.getByRole('button', { name: 'Tapahtumien lkm' });
-  await act(async () => await user.click(nEventsButton));
+  await user.click(nEventsButton);
 
   await waitFor(() => expect(setSort).toBeCalledWith('n_events'));
 });
@@ -122,12 +115,12 @@ test('should open actions dropdown', async () => {
 
   const withinRow = within(screen.getByRole('button', { name: placeName }));
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
-  await act(async () => await user.click(menuButton));
+  await user.click(menuButton);
 
   const editButton = await withinRow.findByRole('button', {
     name: /muokkaa paikkaa/i,
   });
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(

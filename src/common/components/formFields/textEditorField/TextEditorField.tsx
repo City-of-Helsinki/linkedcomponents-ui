@@ -1,12 +1,10 @@
-import { FieldProps, useField } from 'formik';
-import isNil from 'lodash/isNil';
+import { FieldProps } from 'formik';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
-import { getErrorText } from '../../../../utils/validationUtils';
 import TextEditor, { TextEditorProps } from '../../textEditor/TextEditor';
+import useCommonTextInputProps from '../hooks/useCommonTextInputProps';
 
-type Props = { maxLength?: number } & FieldProps & TextEditorProps;
+type Props = { maxLength?: number } & FieldProps<string> & TextEditorProps;
 
 const TextEditorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
@@ -15,15 +13,11 @@ const TextEditorField: React.FC<Props> = ({
   maxLength,
   ...rest
 }) => {
-  const { t } = useTranslation();
-  const [, { touched, error }] = useField(name);
-
-  const errorText = getErrorText(error, touched, t);
-
-  const charsLeft = !isNil(maxLength) ? maxLength - value.length : undefined;
-  const charsLeftText = !isNil(charsLeft)
-    ? t('form.validation.string.charsLeft', { count: charsLeft })
-    : undefined;
+  const { errorText, charsLeftText } = useCommonTextInputProps({
+    maxLength,
+    name,
+    value,
+  });
 
   const handleBlur = () => {
     onBlur({ target: { id: name, value } });

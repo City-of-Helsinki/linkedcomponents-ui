@@ -12,6 +12,7 @@ import {
 } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
@@ -21,7 +22,7 @@ import { ORGANIZATION_ACTIONS } from './constants';
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
 } from './hooks/useOrganizationUpdateActions';
-import ConfirmDeleteModal from './modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteOrganizationModal from './modals/confirmDeleteOrganizationModal/ConfirmDeleteOrganizationModal';
 import OrganizationForm from './organizationForm/OrganizationForm';
 import {
   getEditButtonProps,
@@ -50,7 +51,7 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
     navigate(`/${locale}${ROUTES.ORGANIZATIONS}`);
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deleteOrganization({
       onSuccess: () => goToOrganizationsPage(),
     });
@@ -67,11 +68,11 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
 
   return (
     <div>
-      <ConfirmDeleteModal
+      <ConfirmDeleteOrganizationModal
         isOpen={openModal === ORGANIZATION_MODALS.DELETE}
         isSaving={saving === ORGANIZATION_ACTIONS.DELETE}
         onClose={closeModal}
-        onDelete={onDelete}
+        onConfirm={handleDelete}
       />
       <TitleRow
         breadcrumb={
@@ -112,7 +113,7 @@ const EditOrganizationPageWrapper: React.FC = () => {
       fetchPolicy: 'no-cache',
       skip: loadingUser,
       variables: {
-        id: id as string,
+        id: getValue(id, ''),
         createPath: getPathBuilder(organizationPathBuilder),
       },
     });

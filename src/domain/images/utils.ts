@@ -1,7 +1,7 @@
 import { ImagesQueryVariables } from '../../generated/graphql';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPathBuilder from '../../utils/getPathBuilder';
-import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
+import getValue from '../../utils/getValue';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import { imagesPathBuilder } from '../image/utils';
@@ -30,7 +30,7 @@ export const getImageSearchInitialValues = (
     sort: Object.values(IMAGE_SORT_OPTIONS).includes(sort)
       ? sort
       : DEFAULT_IMAGE_SORT,
-    text: text || '',
+    text: getValue(text, ''),
   };
 };
 
@@ -72,17 +72,6 @@ export const addParamsToImageQueryString = (
   queryParams: Partial<ImageSearchParams>
 ): string => {
   return addParamsToQueryString<ImageSearchParams>(
-    queryString,
-    queryParams,
-    getImageParamValue
-  );
-};
-
-export const replaceParamsToImageQueryString = (
-  queryString: string,
-  queryParams: Partial<ImageSearchParams>
-): string => {
-  return replaceParamsToQueryString<ImageSearchParams>(
     queryString,
     queryParams,
     getImageParamValue

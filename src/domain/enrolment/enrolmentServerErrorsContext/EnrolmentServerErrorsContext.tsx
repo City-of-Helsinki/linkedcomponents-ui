@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloError, ServerError } from '@apollo/client';
-import React, { FC, PropsWithChildren } from 'react';
+import React, { FC, PropsWithChildren, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ServerErrorItem } from '../../../types';
@@ -37,39 +37,38 @@ export const EnrolmentServerErrorsProvider: FC<PropsWithChildren> = ({
     ServerErrorItem[]
   >([]);
 
-  const showServerErrors = (
-    { error }: ShowServerErrorsFnParams,
-    type: RequestType
-  ) => {
-    /* istanbul ignore else */
-    if (error instanceof ApolloError) {
-      const { networkError } = error;
-      const { result } = networkError as ServerError;
-
+  const showServerErrors = useCallback(
+    ({ error }: ShowServerErrorsFnParams, type: RequestType) => {
       /* istanbul ignore else */
-      if (result) {
-        switch (type) {
-          case 'enrolment':
+      if (error instanceof ApolloError) {
+        const { networkError } = error;
+        const { result } = networkError as ServerError;
+
+        /* istanbul ignore else */
+        if (result) {
+          if (type === 'enrolment') {
             setServerErrorItems(parseEnrolmentServerErrors({ result, t }));
-            break;
-          case 'seatsReservation':
+          } else {
             setServerErrorItems(
               parseSeatsReservationServerErrors({ result, t })
             );
-            break;
+          }
         }
       }
-    }
-  };
+    },
+    [t]
+  );
 
+  const value = useMemo(
+    () => ({
+      serverErrorItems,
+      setServerErrorItems,
+      showServerErrors,
+    }),
+    [serverErrorItems, showServerErrors]
+  );
   return (
-    <EnrolmentServerErrorsContext.Provider
-      value={{
-        serverErrorItems,
-        setServerErrorItems,
-        showServerErrors,
-      }}
-    >
+    <EnrolmentServerErrorsContext.Provider value={value}>
       {children}
     </EnrolmentServerErrorsContext.Provider>
   );

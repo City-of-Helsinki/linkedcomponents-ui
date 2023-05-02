@@ -4,7 +4,6 @@ import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
-  act,
   render,
   screen,
   userEvent,
@@ -15,6 +14,7 @@ import {
   image,
   mockedDeleteImageResponse,
 } from '../../../image/__mocks__/editImagePage';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import ImageActionsDropdown, {
   ImageActionsDropdownProps,
@@ -22,7 +22,11 @@ import ImageActionsDropdown, {
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const mocks = [mockedDeleteImageResponse, mockedUserResponse];
+const mocks = [
+  mockedDeleteImageResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const route = `/fi${ROUTES.IMAGES}`;
 const routes = [route];
@@ -52,7 +56,7 @@ const getElement = (key: 'deleteButton' | 'editButton' | 'menu' | 'toggle') => {
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   getElement('menu');
 
   return toggleButton;
@@ -63,7 +67,7 @@ test('should toggle menu by clicking actions button', async () => {
   renderComponent();
 
   const toggleButton = await openMenu();
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -85,7 +89,7 @@ test('should route to edit image page', async () => {
   await openMenu();
 
   const editButton = getElement('editButton');
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -105,13 +109,13 @@ test('should delete image', async () => {
   await openMenu();
 
   const deleteButton = getElement('deleteButton');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteImageButton = withinModal.getByRole('button', {
     name: /Poista kuva/i,
   });
-  await act(async () => await user.click(deleteImageButton));
+  await user.click(deleteImageButton);
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

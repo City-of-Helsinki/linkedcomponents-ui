@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import getValue from '../../../utils/getValue';
 import styles from './numberInput.module.scss';
 
 const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
@@ -29,11 +30,11 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             className={cx(className, styles.numberInput, css(theme.textEditor))}
             minusStepButtonAriaLabel={
               minusStepButtonAriaLabel ||
-              (t('common.numberInput.buttonDecrease') as string)
+              getValue(t('common.numberInput.buttonDecrease'), undefined)
             }
             plusStepButtonAriaLabel={
               plusStepButtonAriaLabel ||
-              (t('common.numberInput.buttonIncrease') as string)
+              getValue(t('common.numberInput.buttonIncrease'), undefined)
             }
             step={step || 1}
           />

@@ -9,6 +9,7 @@ import Button from '../../../common/components/button/Button';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import { ROUTES, testIds } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
+import getValue from '../../../utils/getValue';
 import Container from '../../app/layout/container/Container';
 import { useTheme } from '../../app/theme/Theme';
 import { clearEventFormData } from '../../event/utils';
@@ -73,16 +74,14 @@ const Hero: React.FC = () => {
                         label={t('eventSearchPage.searchPanel.labelSearch')}
                         onChange={setSearchValue}
                         onSubmit={handleSearch}
-                        placeholder={
-                          t(
-                            'eventSearchPage.searchPanel.placeholderSearch'
-                          ) as string
-                        }
-                        searchButtonAriaLabel={
-                          t(
-                            'eventSearchPage.searchPanel.buttonSearch'
-                          ) as string
-                        }
+                        placeholder={getValue(
+                          t('eventSearchPage.searchPanel.placeholderSearch'),
+                          undefined
+                        )}
+                        searchButtonAriaLabel={getValue(
+                          t('eventSearchPage.searchPanel.buttonSearch'),
+                          undefined
+                        )}
                         value={searchValue}
                       />
                     </div>

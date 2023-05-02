@@ -16,7 +16,10 @@ import {
   UserFieldsFragment,
   useUpdateEventMutation,
 } from '../../../generated/graphql';
+import getDateFromString from '../../../utils/getDateFromString';
+import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import { reportError } from '../../app/sentry/utils';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
@@ -64,7 +67,7 @@ const useUpdateRecurringEventIfNeeded =
 
       try {
         const superEvent = await getRecurringEvent(
-          parseIdFromAtId(event.superEvent.atId) as string,
+          getValue(parseIdFromAtId(event.superEvent.atId), ''),
           apolloClient
         );
 
@@ -74,7 +77,7 @@ const useUpdateRecurringEventIfNeeded =
 
         /* istanbul ignore next */
         const organizationAncestors = await getOrganizationAncestorsQueryResult(
-          superEvent.publisher ?? '',
+          getValue(superEvent.publisher, ''),
           apolloClient
         );
 
@@ -94,20 +97,14 @@ const useUpdateRecurringEventIfNeeded =
 
         if (!editable) return null;
 
-        const startTime = superEvent?.startTime
-          ? new Date(superEvent.startTime)
-          : null;
-        const endTime = superEvent?.endTime
-          ? new Date(superEvent.endTime)
-          : null;
+        const startTime = getDateFromString(superEvent?.startTime);
+        const endTime = getDateFromString(superEvent?.endTime);
 
-        const eventTimes: EventTime[] = (superEvent?.subEvents ?? []).map(
+        const eventTimes: EventTime[] = getValue(superEvent?.subEvents, []).map(
           (subEvent) => ({
-            endTime: subEvent?.endTime ? new Date(subEvent.endTime) : null,
+            endTime: getDateFromString(subEvent?.endTime),
             id: null,
-            startTime: subEvent?.startTime
-              ? new Date(subEvent.startTime)
-              : null,
+            startTime: getDateFromString(subEvent?.startTime),
           })
         );
         const { endTime: calculatedEndTime, startTime: newStartTime } =
@@ -134,13 +131,15 @@ const useUpdateRecurringEventIfNeeded =
             getEventInitialValues(superEvent),
             publicationStatus as PublicationStatus
           ),
-          id: superEvent.id as string,
-          endTime: newEndTime?.toISOString() ?? null,
-          startTime: newStartTime?.toISOString() ?? null,
-          subEvents:
-            superEvent?.subEvents.map((subEvent) => ({
-              atId: subEvent?.atId as string,
-            })) || [],
+          id: superEvent.id,
+          endTime: getValue(newEndTime?.toISOString(), null),
+          startTime: getValue(newStartTime?.toISOString(), null),
+          subEvents: getValue(
+            superEvent?.subEvents.filter(skipFalsyType).map((subEvent) => ({
+              atId: subEvent.atId,
+            })),
+            []
+          ),
           superEvent: superEvent.superEvent
             ? { atId: superEvent.superEvent.atId }
             : null,
@@ -148,7 +147,7 @@ const useUpdateRecurringEventIfNeeded =
         };
         const data = await updateEvent({ variables: { input: payload } });
 
-        return data.data?.updateEvent ?? null;
+        return getValue(data.data?.updateEvent, null);
       } catch (error) {
         reportError({
           data: {

@@ -10,6 +10,8 @@ import {
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { getMockedUserResponse } from '../../../user/__mocks__/user';
 import EventAuthenticationNotification, {
   EventAuthenticationNotificationProps,
@@ -27,10 +29,10 @@ const renderComponent = (
 
 test('should not show notification if user is signed in and has organizations', async () => {
   const mockedUserResponse = getMockedUserResponse({
-    adminOrganizations: ['helsinki:123'],
+    adminOrganizations: [TEST_PUBLISHER_ID],
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 
@@ -44,7 +46,7 @@ test("should show notification if user is signed in but doesn't have any organiz
     adminOrganizations: [],
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks });
 
@@ -54,7 +56,7 @@ test("should show notification if user is signed in but doesn't have any organiz
 
 test('should show notification if event is in the past', async () => {
   advanceTo('2021-07-09');
-  const publisher = 'helsinki:123';
+  const publisher = TEST_PUBLISHER_ID;
   const event = fakeEvent({
     publisher,
     startTime: '2019-11-08T12:27:34+00:00',
@@ -65,7 +67,7 @@ test('should show notification if event is in the past', async () => {
     organization: publisher,
     organizationMemberships: [],
   });
-  const mocks = [mockedUserResponse];
+  const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks }, { event });
 

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
@@ -11,9 +11,8 @@ import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useTimeFormat from '../../../hooks/useTimeFormat';
 import formatDate from '../../../utils/formatDate';
+import getValue from '../../../utils/getValue';
 import OrganizationName from '../../organization/organizationName/OrganizationName';
-import useRegistrationName from '../../registration/hooks/useRegistrationName';
-import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
 import {
   getRegistrationFields,
   getRegistrationItemId,
@@ -27,29 +26,24 @@ export interface RegistrationsTableProps {
   registrations: RegistrationsQuery['registrations']['data'];
 }
 
-type ColumnProps = {
-  registration: RegistrationFieldsFragment;
-};
-
-const NameColumn: FC<ColumnProps> = ({ registration }) => {
-  const name = useRegistrationName({ registration });
+const NameColumn = (registration: RegistrationFieldsFragment) => {
+  const locale = useLocale();
+  const { event } = getRegistrationFields(registration, locale);
 
   return (
     <div className={styles.nameWrapper}>
-      <span className={styles.registrationName} title={name}>
-        {name}
+      <span className={styles.registrationName} title={event?.name}>
+        {event?.name}
       </span>
     </div>
   );
 };
 
-const PublisherColumn: FC<ColumnProps> = ({ registration }) => {
-  const publisher = useRegistrationPublisher({ registration });
-
-  return <OrganizationName id={publisher} />;
+const PublisherColumn = (registration: RegistrationFieldsFragment) => {
+  return <OrganizationName id={getValue(registration.publisher, '')} />;
 };
 
-const EnrolmentsColumn: FC<ColumnProps> = ({ registration }) => {
+const EnrolmentsColumn = (registration: RegistrationFieldsFragment) => {
   const locale = useLocale();
   const { currentAttendeeCount, maximumAttendeeCapacity } =
     getRegistrationFields(registration, locale);
@@ -61,7 +55,7 @@ const EnrolmentsColumn: FC<ColumnProps> = ({ registration }) => {
   );
 };
 
-const WaitingListColumn: FC<ColumnProps> = ({ registration }) => {
+const WaitingListColumn = (registration: RegistrationFieldsFragment) => {
   const locale = useLocale();
   const { currentWaitingListCount, waitingListCapacity } =
     getRegistrationFields(registration, locale);
@@ -73,7 +67,7 @@ const WaitingListColumn: FC<ColumnProps> = ({ registration }) => {
   );
 };
 
-const StartTimeColumn: FC<ColumnProps> = ({ registration }) => {
+const StartTimeColumn = (registration: RegistrationFieldsFragment) => {
   const timeFormat = useTimeFormat();
   const locale = useLocale();
   const { t } = useTranslation();
@@ -91,7 +85,7 @@ const StartTimeColumn: FC<ColumnProps> = ({ registration }) => {
   );
 };
 
-const EndTimeColumn: FC<ColumnProps> = ({ registration }) => {
+const EndTimeColumn = (registration: RegistrationFieldsFragment) => {
   const timeFormat = useTimeFormat();
   const locale = useLocale();
   const { t } = useTranslation();
@@ -107,6 +101,10 @@ const EndTimeColumn: FC<ColumnProps> = ({ registration }) => {
         : /* istanbul ignore next */ '-'}
     </>
   );
+};
+
+const ActionsColumn = (registration: RegistrationFieldsFragment) => {
+  return <RegistrationActionsDropdown registration={registration} />;
 };
 
 const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
@@ -140,9 +138,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
           className: styles.nameColumn,
           key: 'name',
           headerName: t('registrationsPage.registrationsTableColumns.name'),
-          transform: (registration: RegistrationFieldsFragment) => (
-            <NameColumn registration={registration} />
-          ),
+          transform: NameColumn,
         },
         {
           className: styles.publisherColumn,
@@ -150,9 +146,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
           headerName: t(
             'registrationsPage.registrationsTableColumns.publisher'
           ),
-          transform: (registration: RegistrationFieldsFragment) => (
-            <PublisherColumn registration={registration} />
-          ),
+          transform: PublisherColumn,
         },
         {
           className: styles.enrolmentsColumn,
@@ -160,9 +154,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
           headerName: t(
             'registrationsPage.registrationsTableColumns.enrolments'
           ),
-          transform: (registration: RegistrationFieldsFragment) => (
-            <EnrolmentsColumn registration={registration} />
-          ),
+          transform: EnrolmentsColumn,
         },
         {
           className: styles.waitingListColumn,
@@ -170,9 +162,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
           headerName: t(
             'registrationsPage.registrationsTableColumns.waitingList'
           ),
-          transform: (registration: RegistrationFieldsFragment) => (
-            <WaitingListColumn registration={registration} />
-          ),
+          transform: WaitingListColumn,
         },
         {
           className: styles.enrolmentStartTimeColumn,
@@ -180,9 +170,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
           headerName: t(
             'registrationsPage.registrationsTableColumns.enrolmentStartTime'
           ),
-          transform: (registration: RegistrationFieldsFragment) => (
-            <StartTimeColumn registration={registration} />
-          ),
+          transform: StartTimeColumn,
         },
         {
           className: styles.enrolmentEndTimeColumn,
@@ -190,9 +178,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
           headerName: t(
             'registrationsPage.registrationsTableColumns.enrolmentEndTime'
           ),
-          transform: (registration: RegistrationFieldsFragment) => (
-            <EndTimeColumn registration={registration} />
-          ),
+          transform: EndTimeColumn,
         },
 
         {
@@ -203,9 +189,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
             ev.stopPropagation();
             ev.preventDefault();
           },
-          transform: (registration: RegistrationFieldsFragment) => (
-            <RegistrationActionsDropdown registration={registration} />
-          ),
+          transform: ActionsColumn,
         },
       ]}
       getRowProps={(registration) => {

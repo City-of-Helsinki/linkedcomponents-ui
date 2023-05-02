@@ -20,6 +20,7 @@ import useShowLoadingSpinner from '../../../../hooks/useShowLoadingSpinner';
 import { Language, OptionType } from '../../../../types';
 import getLocalisedString from '../../../../utils/getLocalisedString';
 import getPathBuilder from '../../../../utils/getPathBuilder';
+import getValue from '../../../../utils/getValue';
 import skipFalsyType from '../../../../utils/skipFalsyType';
 import { PLACES_SORT_ORDER } from '../../../place/constants';
 import {
@@ -29,7 +30,7 @@ import {
 } from '../../../place/utils';
 
 const getPlaceFields = (place: PlaceFieldsFragment, locale: Language) => ({
-  id: place.id as string,
+  id: getValue(place.id, ''),
   name: getLocalisedString(place.name, locale),
 });
 
@@ -74,9 +75,12 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
 
   const options = React.useMemo(
     () =>
-      (placesData || previousPlacesData)?.places.data.map((place) =>
-        getOption(place as PlaceFieldsFragment, locale)
-      ) ?? [],
+      getValue(
+        (placesData || previousPlacesData)?.places.data.map((place) =>
+          getOption(place as PlaceFieldsFragment, locale)
+        ),
+        []
+      ),
     [locale, placesData, previousPlacesData]
   );
 

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 
 import { MockedResponse } from '@apollo/client/testing';
@@ -5,6 +6,7 @@ import { FormikState } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
+import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   FORM_NAMES,
@@ -12,7 +14,6 @@ import {
 } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -53,8 +54,6 @@ import {
   mockedCreatePublicEventResponse,
   mockedCreateSubEventsResponse,
   mockedInvalidCreateDraftEventResponse,
-  mockedKeywordResponse,
-  mockedKeywordsResponse,
   mockedUmbrellaEventsResponse,
 } from '../__mocks__/createEventPage';
 import { EVENT_FIELDS, EVENT_INITIAL_VALUES } from '../constants';
@@ -66,11 +65,10 @@ configure({ defaultHidden: true });
 const defaultMocks = [
   mockedImagesResponse,
   mockedImageResponse,
-  mockedKeywordResponse,
-  mockedKeywordsResponse,
   mockedUmbrellaEventsResponse,
   mockedAudienceKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
+  mockedKeywordSelectorKeywordsResponse,
   mockedLanguagesResponse,
   mockedPlaceResponse,
   mockedPlacesResponse,
@@ -173,7 +171,7 @@ test('should focus to first validation error when trying to save draft event', a
   const nameTextbox = await waitLoadingAndFindNameInput();
   const saveDraftButton = getElement('saveDraft');
 
-  await act(async () => await user.click(saveDraftButton));
+  await user.click(saveDraftButton);
 
   await waitFor(() => expect(nameTextbox).toHaveFocus());
 });
@@ -196,7 +194,7 @@ test('should focus to validation error of swedish name when trying to save draft
   await waitLoadingAndFindNameInput();
 
   const saveDraftButton = getElement('saveDraft');
-  await act(async () => await user.click(saveDraftButton));
+  await user.click(saveDraftButton);
 
   const nameSvTextbox = await findElement('nameSv');
   await waitFor(() => expect(nameSvTextbox).toHaveFocus());
@@ -213,7 +211,7 @@ test('should focus to select component in case of validation error', async () =>
   const superEventSelect = await findElement('superEvent');
 
   const publishButton = getElement('publish');
-  await act(async () => await user.click(publishButton));
+  await user.click(publishButton);
 
   await waitFor(() => expect(superEventSelect).toHaveFocus());
 });
@@ -238,7 +236,7 @@ test('should focus to text editor component in case of validation error', async 
   const descriptionTextbox = await findElement('description');
 
   const publishButton = getElement('publish');
-  await act(async () => await user.click(publishButton));
+  await user.click(publishButton);
 
   await waitFor(() => expect(descriptionTextbox).toHaveFocus());
 });
@@ -266,7 +264,7 @@ test('should focus to event times error if none event time exists', async () => 
   await waitLoadingAndFindNameInput();
 
   const publishButton = getElement('publish');
-  await act(async () => await user.click(publishButton));
+  await user.click(publishButton);
 
   const error = await screen.findByText(/vähintään 1 ajankohta vaaditaan/i);
   await waitFor(() => expect(error).toHaveFocus());
@@ -314,7 +312,7 @@ test('should focus to first main category checkbox if none main category is sele
   );
 
   const publishButton = getElement('publish');
-  await act(async () => await user.click(publishButton));
+  await user.click(publishButton);
 
   await waitFor(() => expect(keywordCheckbox).toHaveFocus());
 });
@@ -336,9 +334,11 @@ test('should show server errors', async () => {
   await waitLoadingAndFindNameInput();
 
   const saveDraftButton = getElement('saveDraft');
-  await act(async () => await user.click(saveDraftButton));
+  await user.click(saveDraftButton);
 
-  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  await screen.findByText(/lomakkeella on seuraavat virheet/i, undefined, {
+    timeout: 5000,
+  });
   screen.getByText(/lopetusaika ei voi olla menneisyydessä./i);
 });
 
@@ -359,7 +359,7 @@ test('should route to event completed page after saving draft event', async () =
   await waitLoadingAndFindNameInput();
 
   const saveDraftButton = getElement('saveDraft');
-  await act(async () => await user.click(saveDraftButton));
+  await user.click(saveDraftButton);
 
   await waitFor(
     () =>
@@ -407,7 +407,7 @@ test('should route to event completed page after publishing event', async () => 
   await waitLoadingAndFindNameInput();
 
   const publishButton = getElement('publish');
-  await act(async () => await user.click(publishButton));
+  await user.click(publishButton);
 
   await waitFor(
     () =>

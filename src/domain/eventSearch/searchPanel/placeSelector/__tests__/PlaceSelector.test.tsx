@@ -1,52 +1,21 @@
-import { MockedResponse } from '@apollo/client/testing';
-import range from 'lodash/range';
 import React from 'react';
 
 import {
-  Place,
-  PlaceDocument,
-  PlacesDocument,
-} from '../../../../../generated/graphql';
-import { fakePlaces } from '../../../../../utils/mockDataUtils';
-import {
-  act,
   configure,
   render,
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import { PLACES_SORT_ORDER } from '../../../../place/constants';
+import {
+  mockedPlaceResponse,
+  mockedPlacesResponse,
+  placeId,
+  placeName,
+  placeOverrides,
+} from '../../../__mocks__/eventSearchPage';
 import PlaceSelector, { PlaceSelectorProps } from '../PlaceSelector';
 
 configure({ defaultHidden: true });
-
-const placeOverrides = range(1, 3).map((i) => ({
-  id: `place:${i}`,
-  name: `Place name ${i}`,
-}));
-const places = fakePlaces(
-  placeOverrides.length,
-  placeOverrides.map(({ id, name }) => ({ id, name: { fi: name } }))
-);
-const placesVariables = {
-  createPath: undefined,
-  sort: PLACES_SORT_ORDER.NAME,
-  text: '',
-};
-const placesResponse = { data: { places } };
-const mockedPlacesResponse: MockedResponse = {
-  request: { query: PlacesDocument, variables: placesVariables },
-  result: placesResponse,
-};
-
-const place = places.data[0] as Place;
-const placeId = place.id;
-const placeVariables = { id: placeId, createPath: undefined };
-const placeResponse = { data: { place } };
-const mockedPlaceResponse: MockedResponse = {
-  request: { query: PlaceDocument, variables: placeVariables },
-  result: placeResponse,
-};
 
 const mocks = [mockedPlacesResponse, mockedPlaceResponse];
 
@@ -55,7 +24,7 @@ const toggleButtonLabel = 'Select place';
 const defaultProps: PlaceSelectorProps = {
   onChange: jest.fn(),
   toggleButtonLabel,
-  value: [] as string[],
+  value: [],
 };
 
 const renderComponent = (props?: Partial<PlaceSelectorProps>) =>
@@ -69,12 +38,12 @@ const getElement = (key: 'toggleButton') => {
 };
 test('should render place selector', async () => {
   const user = userEvent.setup();
-  renderComponent({ value: [placeId as string] });
+  renderComponent({ value: [placeId] });
 
-  await screen.findByText(place?.name?.fi as string);
+  await screen.findByText(placeName);
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   for (const { name } of placeOverrides) {
     await screen.findByLabelText(name);

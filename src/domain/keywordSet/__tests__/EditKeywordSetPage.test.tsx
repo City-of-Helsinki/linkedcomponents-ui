@@ -1,10 +1,14 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import {
+  mockedKeywordResponse,
+  mockedKeywordsResponse,
+} from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import { ROUTES } from '../../../constants';
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
@@ -13,7 +17,9 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import { mockedKeywordSetsResponse } from '../../keywordSets/__mocks__/keywordSetsPage';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   keywordSet,
@@ -30,11 +36,18 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
   mockedKeywordSetResponse,
+  mockedKeywordSetsResponse,
+  mockedKeywordResponse,
+  mockedKeywordsResponse,
   mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
 
-const route = ROUTES.EDIT_KEYWORD_SET.replace(':id', keywordSet.id as string);
+const route = ROUTES.EDIT_KEYWORD_SET.replace(
+  ':id',
+  getValue(keywordSet.id, '')
+);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditKeywordSetPage />, {
@@ -65,8 +78,8 @@ test('should scroll to first validation error input field', async () => {
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
 
-  await act(async () => await user.clear(nameInput));
-  await act(async () => await user.click(saveButton));
+  await user.clear(nameInput);
+  await user.click(saveButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
@@ -82,13 +95,13 @@ test('should delete keyword', async () => {
 
   const deleteButton = await findElement('deleteButton');
   await waitFor(() => expect(deleteButton).toBeEnabled());
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteKeywordSetButton = withinModal.getByRole('button', {
     name: 'Poista avainsanaryhmä',
   });
-  await act(async () => await user.click(deleteKeywordSetButton));
+  await user.click(deleteKeywordSetButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keyword-sets`)
@@ -107,7 +120,7 @@ test('should update keyword set', async () => {
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
 
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keyword-sets`)
@@ -123,7 +136,7 @@ test('should show server errors', async () => {
   const saveButton = await findElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
 
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

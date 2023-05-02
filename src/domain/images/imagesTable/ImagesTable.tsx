@@ -1,5 +1,5 @@
 import { IconPhoto } from 'hds-react';
-import React, { FC, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import Table from '../../../common/components/table/Table';
 import { ImageFieldsFragment, ImagesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
+import useShowPlaceholderImage from '../../../hooks/useShowPlaceholderImage';
 import formatDate from '../../../utils/formatDate';
 import getSortByOrderAndColKey from '../../../utils/getSortByOrderAndColKey';
 import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
@@ -24,32 +25,29 @@ export interface ImagesTableProps {
   sort: IMAGE_SORT_OPTIONS;
 }
 
-type ColumnProps = {
-  image: ImageFieldsFragment;
-};
-
-const ImageColumn: FC<ColumnProps> = ({ image }) => {
+const ImageColumn = (image: ImageFieldsFragment) => {
   const locale = useLocale();
   const { url } = getImageFields(image, locale);
+  const showPlaceholder = useShowPlaceholderImage(url);
 
   return (
     <div className={styles.imagePreview}>
-      {url ? (
-        <div
-          className={styles.image}
-          style={{ backgroundImage: `url(${url})` }}
-        />
-      ) : (
+      {showPlaceholder ? (
         /* istanbul ignore next */
         <div className={styles.placeholderImage}>
           <IconPhoto size="xl" />
         </div>
+      ) : (
+        <div
+          className={styles.image}
+          style={{ backgroundImage: `url(${url})` }}
+        />
       )}
     </div>
   );
 };
 
-const IdColumn: FC<ColumnProps> = ({ image }) => {
+const IdColumn = (image: ImageFieldsFragment) => {
   const locale = useLocale();
   const { imageUrl, id } = getImageFields(image, locale);
 
@@ -63,18 +61,22 @@ const IdColumn: FC<ColumnProps> = ({ image }) => {
   );
 };
 
-const NameColumn: FC<ColumnProps> = ({ image }) => {
+const NameColumn = (image: ImageFieldsFragment) => {
   const locale = useLocale();
   const { name } = getImageFields(image, locale);
 
   return <>{name}</>;
 };
 
-const LastModifiedTimeColumn: FC<ColumnProps> = ({ image }) => {
+const LastModifiedTimeColumn = (image: ImageFieldsFragment) => {
   const locale = useLocale();
   const { lastModifiedTime } = getImageFields(image, locale);
 
   return <>{formatDate(lastModifiedTime)}</>;
+};
+
+const ActionColumn = (image: ImageFieldsFragment) => {
+  return <ImageActionsDropdown image={image} />;
 };
 
 const ImagesTable: React.FC<ImagesTableProps> = ({
@@ -120,23 +122,23 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
           className: styles.imageColumn,
           key: 'image',
           headerName: t('imagesPage.imagesTableColumns.image'),
-          transform: (image: ImageFieldsFragment) => (
-            <ImageColumn image={image} />
-          ),
+          transform: ImageColumn,
         },
         {
           className: styles.idColumn,
-          key: 'id',
+          isSortable: true,
+          key: IMAGE_SORT_OPTIONS.ID,
           headerName: t('imagesPage.imagesTableColumns.id'),
-          transform: (image: ImageFieldsFragment) => <IdColumn image={image} />,
+          sortIconType: 'string',
+          transform: IdColumn,
         },
         {
           className: styles.nameColumn,
-          key: 'name',
+          isSortable: true,
+          key: IMAGE_SORT_OPTIONS.NAME,
           headerName: t('imagesPage.imagesTableColumns.name'),
-          transform: (image: ImageFieldsFragment) => (
-            <NameColumn image={image} />
-          ),
+          sortIconType: 'string',
+          transform: NameColumn,
         },
         {
           className: styles.lastModifiedTimeColumn,
@@ -144,9 +146,7 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
           key: IMAGE_SORT_OPTIONS.LAST_MODIFIED_TIME,
           headerName: t('imagesPage.imagesTableColumns.lastModifiedTime'),
           sortIconType: 'other',
-          transform: (image: ImageFieldsFragment) => (
-            <LastModifiedTimeColumn image={image} />
-          ),
+          transform: LastModifiedTimeColumn,
         },
         {
           className: styles.actionButtonsColumn,
@@ -156,9 +156,7 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
             ev.stopPropagation();
             ev.preventDefault();
           },
-          transform: (image: ImageFieldsFragment) => (
-            <ImageActionsDropdown image={image} />
-          ),
+          transform: ActionColumn,
         },
       ]}
       getRowProps={(image) => {

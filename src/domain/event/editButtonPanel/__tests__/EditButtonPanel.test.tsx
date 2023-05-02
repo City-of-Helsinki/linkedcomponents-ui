@@ -4,7 +4,6 @@ import { ROUTES } from '../../../../constants';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   render,
   screen,
@@ -87,7 +86,7 @@ const getMenuButton = (
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   const menu = getElement('menu');
 
   return { menu, toggleButton };
@@ -101,7 +100,7 @@ test('should toggle menu by clicking actions button', async () => {
   });
 
   const { toggleButton } = await openMenu();
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -129,17 +128,17 @@ test('should show correct buttons for draft event', async () => {
 
   const deleteButton = getMenuButton('delete', menu);
   await waitFor(() => expect(deleteButton).toBeEnabled());
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
   expect(onDelete).toBeCalled();
 
   const updateButton = getElement('updateDraft');
   await waitFor(() => expect(updateButton).toBeEnabled());
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Draft);
 
   const publishButton = getElement('publish');
   await waitFor(() => expect(publishButton).toBeEnabled());
-  await act(async () => await user.click(publishButton));
+  await user.click(publishButton);
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
 
   await openMenu();
@@ -194,26 +193,26 @@ test('should render correct buttons for public event', async () => {
 
   const postponeButton = getMenuButton('postpone', menu);
   await waitFor(() => expect(postponeButton).toBeEnabled());
-  await act(async () => await user.click(postponeButton));
+  await user.click(postponeButton);
   expect(onPostpone).toBeCalled();
 
   const { menu: menu2 } = await openMenu();
 
   const cancelButton = getMenuButton('cancel', menu2);
   await waitFor(() => expect(cancelButton).toBeEnabled());
-  await act(async () => await user.click(cancelButton));
+  await user.click(cancelButton);
   expect(onCancel).toBeCalled();
 
   const { menu: menu3 } = await openMenu();
 
   const deleteButton = getMenuButton('delete', menu3);
   await waitFor(() => expect(deleteButton).toBeEnabled());
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
   expect(onDelete).toBeCalled();
 
   const updateButton = getElement('updatePublic');
   await waitFor(() => expect(updateButton).toBeEnabled());
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
 
   const hiddenButtons = ['Tallenna luonnos'];
@@ -279,7 +278,7 @@ test('should route to create event page when clicking copy button', async () => 
 
   const copyButton = getMenuButton('copy', menu);
   await waitFor(() => expect(copyButton).toBeEnabled());
-  await act(async () => await user.click(copyButton));
+  await user.click(copyButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/events/create')
@@ -293,7 +292,7 @@ test('should route to search page when clicking back button', async () => {
   });
 
   const backButton = getElement('back');
-  await act(async () => await user.click(backButton));
+  await user.click(backButton);
 
   await waitFor(() => expect(history.location.pathname).toBe('/fi/search'));
 });
@@ -306,7 +305,7 @@ test('should route to page defined in returnPath when clicking back button', asy
   });
 
   const backButton = getElement('back');
-  await act(async () => await user.click(backButton));
+  await user.click(backButton);
 
   await waitFor(() => expect(history.location.pathname).toBe('/fi/events'));
   expect(history.location.search).toBe(`?returnPath=%2Fsearch`);

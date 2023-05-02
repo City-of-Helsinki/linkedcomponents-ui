@@ -177,8 +177,9 @@ describe('getRegistrationPayload function', () => {
       confirmationMessage: null,
       enrolmentEndTime: null,
       enrolmentStartTime: null,
-      event: '',
+      event: { atId: '' },
       instructions: null,
+      mandatoryFields: ['name'],
       maximumAttendeeCapacity: null,
       minimumAttendeeCapacity: null,
       waitingListCapacity: null,
@@ -216,8 +217,9 @@ describe('getRegistrationPayload function', () => {
       confirmationMessage,
       enrolmentEndTime,
       enrolmentStartTime,
-      event,
+      event: { atId: event },
       instructions,
+      mandatoryFields: ['name'],
       maximumAttendeeCapacity,
       minimumAttendeeCapacity,
       waitingListCapacity,
@@ -228,6 +230,10 @@ describe('getRegistrationPayload function', () => {
 describe('registrationPathBuilder function', () => {
   const cases: [RegistrationQueryVariables, string][] = [
     [{ id: 'hel:123' }, '/registration/hel:123/'],
+    [
+      { id: 'hel:123', include: 'event' },
+      '/registration/hel:123/?include=event',
+    ],
   ];
 
   it.each(cases)('should build correct path', (variables, expectedPath) =>

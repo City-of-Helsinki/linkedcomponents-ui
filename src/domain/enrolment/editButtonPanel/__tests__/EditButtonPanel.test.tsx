@@ -3,7 +3,6 @@ import React from 'react';
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   render,
   screen,
@@ -11,6 +10,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   registration,
   registrationId,
@@ -30,7 +30,11 @@ const defaultProps: EditButtonPanelProps = {
   saving: false,
 };
 
-const mocks = [mockedEventResponse, mockedUserResponse];
+const mocks = [
+  mockedEventResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
@@ -84,7 +88,7 @@ const getElement = (
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   getElement('menu');
 
   return toggleButton;
@@ -95,7 +99,7 @@ test('should toggle menu by clicking actions button', async () => {
   renderComponent();
 
   const toggleButton = await openMenu();
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
 
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
@@ -109,7 +113,7 @@ test('should call onCancel clicking cancel button', async () => {
 
   await openMenu();
   const cancelButton = await findElement('cancelButton');
-  await act(async () => await user.click(cancelButton));
+  await user.click(cancelButton);
   expect(onCancel).toBeCalled();
 });
 
@@ -117,7 +121,7 @@ test('should route to enrolments page when clicking back button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await act(async () => await user.click(getElement('backButton')));
+  await user.click(getElement('backButton'));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -135,7 +139,7 @@ test('should route to page defined in returnPath when clicking back button', asy
     )}?returnPath=${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`,
   });
 
-  await act(async () => await user.click(getElement('backButton')));
+  await user.click(getElement('backButton'));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -151,7 +155,7 @@ test('should call onSave', async () => {
 
   const saveButton = getElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   expect(onSave).toBeCalled();
 });

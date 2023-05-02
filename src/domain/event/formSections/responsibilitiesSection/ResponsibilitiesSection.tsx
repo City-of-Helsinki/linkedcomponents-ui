@@ -8,6 +8,7 @@ import MultiLanguageField from '../../../../common/components/formFields/multiLa
 import PublisherSelectorField from '../../../../common/components/formFields/publisherSelectorField/PublisherSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
 import { EventFieldsFragment } from '../../../../generated/graphql';
+import getValue from '../../../../utils/getValue';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import useUser from '../../../user/hooks/useUser';
@@ -16,7 +17,7 @@ import { EVENT_FIELDS } from '../../constants';
 
 export interface ResponsibilitiesSectionProps {
   isEditingAllowed: boolean;
-  savedEvent?: EventFieldsFragment;
+  savedEvent?: EventFieldsFragment | null;
 }
 
 const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
@@ -35,24 +36,21 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
     name: EVENT_FIELDS.PUBLISHER,
   });
 
-  const getDisabled = (name: EVENT_FIELDS.PUBLISHER): boolean => {
+  const isPublisherDisabled = (): boolean => {
     const savedPublisher = savedEvent?.publisher;
 
-    switch (name) {
-      case EVENT_FIELDS.PUBLISHER:
-        return (
-          !userOrganizations.length ||
-          Boolean(savedPublisher) ||
-          (publisher && userOrganizations.length === 1)
-        );
-    }
+    return (
+      !userOrganizations.length ||
+      Boolean(savedPublisher) ||
+      (publisher && userOrganizations.length === 1)
+    );
   };
 
   React.useEffect(() => {
     if (!savedEvent && user && publisher) {
       // Set default publisher after user logs in if publisher is not set
       /* istanbul ignore next */
-      setPublisher(user.organization ?? '');
+      setPublisher(getValue(user.organization, ''));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
@@ -72,7 +70,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
         <FieldColumn>
           <Field
             component={PublisherSelectorField}
-            disabled={!isEditingAllowed || getDisabled(EVENT_FIELDS.PUBLISHER)}
+            disabled={!isEditingAllowed || isPublisherDisabled()}
             label={t(`event.form.labelPublisher.${type}`)}
             name={EVENT_FIELDS.PUBLISHER}
             publisher={savedEvent?.publisher}
@@ -96,7 +94,10 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
             labelKey={`event.form.labelProvider.${type}`}
             languages={eventInfoLanguages}
             name={EVENT_FIELDS.PROVIDER}
-            placeholder={t(`event.form.placeholderProvider.${type}`) as string}
+            placeholder={getValue(
+              t(`event.form.placeholderProvider.${type}`),
+              undefined
+            )}
           />
         </FieldColumn>
       </FieldRow>

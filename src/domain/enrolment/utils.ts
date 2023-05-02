@@ -1,5 +1,6 @@
 import { TFunction } from 'i18next';
 import isEqual from 'lodash/isEqual';
+import snakeCase from 'lodash/snakeCase';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
@@ -17,6 +18,8 @@ import {
 } from '../../generated/graphql';
 import { Editability, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
+import getDateFromString from '../../utils/getDateFromString';
+import getValue from '../../utils/getValue';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -24,9 +27,11 @@ import {
   isSeatsReservationExpired,
 } from '../reserveSeats/utils';
 import {
+  ATTENDEE_FIELDS,
   ATTENDEE_INITIAL_VALUES,
   AUTHENTICATION_NOT_NEEDED,
   ENROLMENT_ACTIONS,
+  ENROLMENT_FIELDS,
   ENROLMENT_ICONS,
   ENROLMENT_INITIAL_VALUES,
   ENROLMENT_LABEL_KEYS,
@@ -54,8 +59,6 @@ export const getAttendeeDefaultInitialValues = (
   registration: RegistrationFieldsFragment
 ): AttendeeFields => ({
   ...ATTENDEE_INITIAL_VALUES,
-  audienceMaxAge: registration.audienceMaxAge ?? null,
-  audienceMinAge: registration.audienceMinAge ?? null,
 });
 
 export const getEnrolmentDefaultInitialValues = (
@@ -73,28 +76,24 @@ export const getEnrolmentInitialValues = (
     ...getEnrolmentDefaultInitialValues(registration),
     attendees: [
       {
-        audienceMaxAge: registration.audienceMaxAge ?? null,
-        audienceMinAge: registration.audienceMinAge ?? null,
-        city: enrolment.city ?? '',
-        dateOfBirth: enrolment.dateOfBirth
-          ? new Date(enrolment.dateOfBirth)
-          : null,
+        city: getValue(enrolment.city, ''),
+        dateOfBirth: getDateFromString(enrolment.dateOfBirth),
         extraInfo: '',
         inWaitingList: enrolment.attendeeStatus === AttendeeStatus.Waitlisted,
-        name: enrolment.name ?? '',
-        streetAddress: enrolment.streetAddress ?? '',
-        zip: enrolment.zipcode ?? '',
+        name: getValue(enrolment.name, ''),
+        streetAddress: getValue(enrolment.streetAddress, ''),
+        zipcode: getValue(enrolment.zipcode, ''),
       },
     ],
-    email: enrolment.email ?? '',
-    extraInfo: enrolment.extraInfo ?? '',
-    membershipNumber: enrolment.membershipNumber ?? '',
-    nativeLanguage: enrolment.nativeLanguage ?? '',
+    email: getValue(enrolment.email, ''),
+    extraInfo: getValue(enrolment.extraInfo, ''),
+    membershipNumber: getValue(enrolment.membershipNumber, ''),
+    nativeLanguage: getValue(enrolment.nativeLanguage, ''),
     notifications: getEnrolmentNotificationTypes(
-      enrolment.notifications as string
+      getValue(enrolment.notifications, '')
     ),
-    phoneNumber: enrolment.phoneNumber ?? '',
-    serviceLanguage: enrolment.serviceLanguage ?? '',
+    phoneNumber: getValue(enrolment.phoneNumber, ''),
+    serviceLanguage: getValue(enrolment.serviceLanguage, ''),
   };
 };
 
@@ -134,22 +133,22 @@ export const getEnrolmentPayload = ({
   } = formValues;
 
   const signups: SignupInput[] = attendees.map((attendee) => {
-    const { city, dateOfBirth, name, streetAddress, zip } = attendee;
+    const { city, dateOfBirth, name, streetAddress, zipcode } = attendee;
     return {
-      city: city || null,
+      city: getValue(city, ''),
       dateOfBirth: dateOfBirth
         ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
         : null,
-      email: email || null,
+      email: getValue(email, null),
       extraInfo: extraInfo,
       membershipNumber: membershipNumber,
-      name: name || null,
-      nativeLanguage: nativeLanguage || null,
+      name: getValue(name, ''),
+      nativeLanguage: getValue(nativeLanguage, null),
       notifications: getEnrolmentNotificationsCode(notifications),
-      phoneNumber: phoneNumber || null,
-      serviceLanguage: serviceLanguage || null,
-      streetAddress: streetAddress || null,
-      zipcode: zip || null,
+      phoneNumber: getValue(phoneNumber, null),
+      serviceLanguage: getValue(serviceLanguage, null),
+      streetAddress: getValue(streetAddress, null),
+      zipcode: getValue(zipcode, null),
     };
   });
 
@@ -178,23 +177,24 @@ export const getUpdateEnrolmentPayload = ({
     phoneNumber,
     serviceLanguage,
   } = formValues;
-  const { city, dateOfBirth, name, streetAddress, zip } = attendees[0] || {};
+  const { city, dateOfBirth, name, streetAddress, zipcode } =
+    attendees[0] || {};
 
   return {
     id,
-    city: city || null,
+    city: getValue(city, ''),
     dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
-    email: email || null,
+    email: getValue(email, null),
     extraInfo: extraInfo,
     membershipNumber: membershipNumber,
-    name: name || null,
-    nativeLanguage: nativeLanguage || null,
+    name: getValue(name, ''),
+    nativeLanguage: getValue(nativeLanguage, null),
     notifications: getEnrolmentNotificationsCode(notifications),
-    phoneNumber: phoneNumber || null,
-    registration: registration.id as string,
-    serviceLanguage: serviceLanguage || null,
-    streetAddress: streetAddress || null,
-    zipcode: zip || null,
+    phoneNumber: getValue(phoneNumber, null),
+    registration: getValue(registration.id, ''),
+    serviceLanguage: getValue(serviceLanguage, null),
+    streetAddress: getValue(streetAddress, null),
+    zipcode: getValue(zipcode, null),
   };
 };
 
@@ -252,15 +252,18 @@ export const getAttendeeCapacityError = (
   t: TFunction
 ): string | undefined => {
   if (participantAmount < 1) {
-    return t(VALIDATION_MESSAGE_KEYS.CAPACITY_MIN, { min: 1 }) as string;
+    return getValue(t(VALIDATION_MESSAGE_KEYS.CAPACITY_MIN, { min: 1 }), '');
   }
 
   const freeCapacity = getTotalAttendeeCapacity(registration);
 
   if (freeCapacity && participantAmount > freeCapacity) {
-    return t(VALIDATION_MESSAGE_KEYS.CAPACITY_MAX, {
-      max: freeCapacity,
-    }) as string;
+    return getValue(
+      t(VALIDATION_MESSAGE_KEYS.CAPACITY_MAX, {
+        max: freeCapacity,
+      }),
+      ''
+    );
   }
 
   return undefined;
@@ -421,7 +424,7 @@ export const getNewAttendees = ({
   attendees: AttendeeFields[];
   registration: RegistrationFieldsFragment;
   seatsReservation: SeatsReservationFieldsFragment;
-}) => {
+}): AttendeeFields[] => {
   const { seats, seatsAtEvent } = seatsReservation;
   const attendeeInitialValues = getAttendeeDefaultInitialValues(registration);
   const filledAttendees = attendees.filter(
@@ -438,4 +441,18 @@ export const getNewAttendees = ({
       ...attendee,
       inWaitingList: index + 1 > (seatsAtEvent as number),
     }));
+};
+
+export const isEnrolmentFieldRequired = (
+  registration: RegistrationFieldsFragment,
+  fieldId: ENROLMENT_FIELDS | ATTENDEE_FIELDS
+): boolean =>
+  Boolean(registration.mandatoryFields?.includes(snakeCase(fieldId)));
+
+export const isDateOfBirthFieldRequired = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  const { audienceMinAge, audienceMaxAge } = registration;
+
+  return Boolean(audienceMaxAge || audienceMinAge);
 };

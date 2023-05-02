@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -17,23 +16,23 @@ const defaultProps: ConfirmDeleteParticipantModalProps = {
   isOpen: true,
   isSaving: false,
   onClose: jest.fn(),
-  onDelete: jest.fn(),
+  onConfirm: jest.fn(),
   participantCount: 1,
 };
 
 const renderComponent = (props: Partial<ConfirmDeleteParticipantModalProps>) =>
   render(<ConfirmDeleteParticipantModal {...defaultProps} {...props} />);
 
-test('should call onCancel', async () => {
-  const onDelete = jest.fn();
+test('should call onConfirm', async () => {
+  const onConfirm = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ onDelete });
+  renderComponent({ onConfirm });
 
   const deleteParticipantButton = screen.getByRole('button', {
     name: 'Poista osallistuja',
   });
-  await act(async () => await user.click(deleteParticipantButton));
-  expect(onDelete).toBeCalled();
+  await user.click(deleteParticipantButton);
+  expect(onConfirm).toBeCalled();
 });
 
 test('should call onClose', async () => {
@@ -42,6 +41,6 @@ test('should call onClose', async () => {
   renderComponent({ onClose });
 
   const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  await act(async () => await user.click(closeButton));
+  await user.click(closeButton);
   expect(onClose).toBeCalled();
 });

@@ -2,7 +2,6 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -95,7 +94,7 @@ test('fields should be set required if any field is not empty', async () => {
   const inputs = [nameInput, altTextInput, urlInput];
 
   for (const input of inputs) {
-    await act(async () => await user.type(input, 'text'));
+    await user.type(input, 'text');
 
     for (const field of inputs) {
       await waitFor(() =>
@@ -103,7 +102,7 @@ test('fields should be set required if any field is not empty', async () => {
       );
     }
 
-    await act(async () => await user.clear(input));
+    await user.clear(input);
 
     for (const field of inputs) {
       await waitFor(() =>
@@ -124,14 +123,14 @@ test('should add and remove video', async () => {
   });
 
   const addButton = getElement('addButton');
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   await waitFor(() =>
     expect(screen.getAllByLabelText(fields[0])).toHaveLength(2)
   );
 
   const deleteButton = getElements('deleteButtons')[1];
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   await waitFor(() =>
     expect(screen.getAllByLabelText(fields[0])).toHaveLength(1)

@@ -2,18 +2,18 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useUser from '../../user/hooks/useUser';
-import useRegistrationPublisher from '../hooks/useRegistrationPublisher';
 import { checkIsEditActionAllowed } from '../utils';
 
 export type RegistrationAuthenticationNotificationProps = {
   action: REGISTRATION_ACTIONS;
   className?: string;
-  registration?: RegistrationFieldsFragment;
+  registration?: RegistrationFieldsFragment | null;
 };
 
 const RegistrationAuthenticationNotification: React.FC<
@@ -21,45 +21,34 @@ const RegistrationAuthenticationNotification: React.FC<
 > = ({ action, className, registration }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
-  const adminOrganizations = user?.adminOrganizations || [];
-  const publisher = useRegistrationPublisher({ registration }) as string;
+
+  const publisher = getValue(registration?.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { t } = useTranslation();
 
-  const getNotificationProps = () => {
-    if (authenticated) {
-      if (!adminOrganizations.length) {
-        return {
-          children: <p>{t('authentication.noRightsUpdateRegistration')}</p>,
-          label: t('authentication.noRightsUpdateRegistrationLabel'),
-        };
-      }
-
-      const { warning } = checkIsEditActionAllowed({
-        action,
-        authenticated,
-        organizationAncestors,
-        publisher,
-        t,
-        user,
-      });
-
-      if (warning) {
-        return {
-          children: <p>{warning}</p>,
-          label: t('registration.form.notificationTitleCannotEdit'),
-        };
-      }
-    }
-
-    return { label: null };
-  };
-
   return (
     <AuthenticationNotification
-      {...getNotificationProps()}
+      authorizationWarningLabel={t(
+        'registration.form.notificationTitleCannotEdit'
+      )}
       className={className}
+      getAuthorizationWarning={() =>
+        checkIsEditActionAllowed({
+          action,
+          authenticated,
+          organizationAncestors,
+          publisher,
+          t,
+          user,
+        })
+      }
+      noRequiredOrganizationLabel={t(
+        'authentication.noRightsUpdateRegistrationLabel'
+      )}
+      noRequiredOrganizationText={t(
+        'authentication.noRightsUpdateRegistration'
+      )}
     />
   );
 };

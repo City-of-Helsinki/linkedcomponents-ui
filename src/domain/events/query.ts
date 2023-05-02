@@ -23,6 +23,7 @@ export const QUERY_EVENTS = gql`
     $pageSize: Int
     $publicationStatus: PublicationStatus
     $publisher: [String]
+    $registration: Boolean
     $showAll: Boolean
     $sort: String
     $start: String
@@ -55,6 +56,7 @@ export const QUERY_EVENTS = gql`
       pageSize: $pageSize
       publicationStatus: $publicationStatus
       publisher: $publisher
+      registration: $registration
       showAll: $showAll
       sort: $sort
       start: $start

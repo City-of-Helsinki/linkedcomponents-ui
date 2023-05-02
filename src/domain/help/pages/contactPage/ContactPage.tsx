@@ -107,15 +107,15 @@ const ContactPage: React.FC = () => {
     switch (topic) {
       case CONTACT_TOPICS.EVENT_FORM:
         return [
-          <AddingEventsFaq />,
-          <EventFormNotWorkingFaq />,
-          <EventNotShownFaq />,
+          <AddingEventsFaq key="adding-events-faq" />,
+          <EventFormNotWorkingFaq key="event-form-not-working-faq" />,
+          <EventNotShownFaq key="event-not-shown-faq" />,
         ];
       case CONTACT_TOPICS.PERMISSIONS:
         return [
-          <AddingToOwnProjectsFaq />,
-          <PublishingPermissionsFaq />,
-          <ImageRightsFaq />,
+          <AddingToOwnProjectsFaq key="adding-to-own-project-faq" />,
+          <PublishingPermissionsFaq key="publishing-permissions-faq" />,
+          <ImageRightsFaq key="image-rights-faq" />,
         ];
       case CONTACT_TOPICS.FEATURE_REQUEST:
       case CONTACT_TOPICS.GENERAL:
@@ -223,9 +223,7 @@ const ContactPage: React.FC = () => {
                 <>
                   <h3>{t('helpPage.contactPage.titleSuggestedTopics')}</h3>
                   <div className={styles.accordions}>
-                    {faqItems.map((item, index) =>
-                      React.cloneElement(item, { key: index })
-                    )}
+                    {faqItems.map((item) => React.cloneElement(item))}
                   </div>
                 </>
               )}

@@ -15,6 +15,7 @@ import {
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
+import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearKeywordSetQueries,
@@ -22,7 +23,6 @@ import {
 } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
-import useUserOrganization from '../../user/hooks/useUserOrganization';
 import { KEYWORD_SET_ACTIONS } from '../constants';
 import { KeywordSetFormFields } from '../types';
 import { getKeywordSetPayload } from '../utils';
@@ -56,7 +56,6 @@ const useKeywordSetActions = ({
 }: UseKeywordActionsProps): UseKeywordActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
-  const { organization: userOrganization } = useUserOrganization(user);
   const location = useLocation();
   const [openModal, setOpenModal] = useMountedState<KEYWORD_SET_MODALS | null>(
     null
@@ -122,13 +121,14 @@ const useKeywordSetActions = ({
     callbacks?: MutationCallbacks
   ) => {
     setSaving(KEYWORD_SET_ACTIONS.CREATE);
-    const payload = getKeywordSetPayload(values, userOrganization);
+    const payload = getKeywordSetPayload(values);
 
     try {
       const { data } = await createKeywordSetMutation({
         variables: { input: payload },
       });
 
+      /* istanbul ignore else */
       if (data?.createKeywordSet.id) {
         cleanAfterUpdate(callbacks);
       }
@@ -147,7 +147,7 @@ const useKeywordSetActions = ({
       setSaving(KEYWORD_SET_ACTIONS.DELETE);
 
       await deleteKeywordSetMutation({
-        variables: { id: keywordSet?.id as string },
+        variables: { id: getValue(keywordSet?.id, '') },
       });
 
       await cleanAfterUpdate(callbacks);
@@ -164,10 +164,7 @@ const useKeywordSetActions = ({
     values: KeywordSetFormFields,
     callbacks?: MutationCallbacks
   ) => {
-    const payload: UpdateKeywordSetMutationInput = getKeywordSetPayload(
-      values,
-      userOrganization
-    );
+    const payload: UpdateKeywordSetMutationInput = getKeywordSetPayload(values);
 
     try {
       setSaving(KEYWORD_SET_ACTIONS.UPDATE);

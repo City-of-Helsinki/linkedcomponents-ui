@@ -1,6 +1,10 @@
 import range from 'lodash/range';
 
-import { KeywordsDocument, Meta } from '../../../generated/graphql';
+import {
+  KeywordFieldsFragment,
+  KeywordsDocument,
+  Meta,
+} from '../../../generated/graphql';
 import { fakeKeywords } from '../../../utils/mockDataUtils';
 import {
   DEFAULT_KEYWORD_SORT,
@@ -70,9 +74,22 @@ const mockedSortedKeywordsResponse = {
   result: sortedKeywordsResponse,
 };
 
+const filteredKeywords = fakeKeywords(1, [
+  keywords.data[0] as KeywordFieldsFragment,
+]);
+const filteredKeywordsResponse = {
+  data: { keywords: filteredKeywords },
+};
+const filteredKeywordsVariables = { ...variables, text: keywordNames[0] };
+const mockedFilteredKeywordsResponse = {
+  request: { query: KeywordsDocument, variables: filteredKeywordsVariables },
+  result: filteredKeywordsResponse,
+};
+
 export {
   keywordNames,
   keywords,
+  mockedFilteredKeywordsResponse,
   mockedKeywordsResponse,
   mockedPage2KeywordsResponse,
   mockedSortedKeywordsResponse,

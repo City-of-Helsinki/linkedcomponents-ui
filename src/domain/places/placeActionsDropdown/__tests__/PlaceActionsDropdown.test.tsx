@@ -4,7 +4,6 @@ import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
-  act,
   CustomRenderOptions,
   render,
   screen,
@@ -12,6 +11,7 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   mockedDeletePlaceResponse,
   place,
@@ -29,7 +29,11 @@ const defaultProps: PlaceActionsDropdownProps = {
 
 const route = `/fi${ROUTES.KEYWORDS}`;
 
-const defaultMocks = [mockedDeletePlaceResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedDeletePlaceResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const renderComponent = (
   props?: Partial<PlaceActionsDropdownProps>,
@@ -57,7 +61,7 @@ const getElement = (key: 'deleteButton' | 'editButton' | 'menu' | 'toggle') => {
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   getElement('menu');
 
   return toggleButton;
@@ -68,7 +72,7 @@ test('should toggle menu by clicking actions button', async () => {
   renderComponent(undefined, { authContextValue });
 
   const toggleButton = await openMenu();
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -90,7 +94,7 @@ test('should route to edit place page', async () => {
   await openMenu();
 
   const editButton = getElement('editButton');
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -110,13 +114,13 @@ test('should delete keyword', async () => {
   await openMenu();
 
   const deleteButton = getElement('deleteButton');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteKeywordButton = withinModal.getByRole('button', {
     name: /Poista paikka/i,
   });
-  await act(async () => await user.click(deleteKeywordButton));
+  await user.click(deleteKeywordButton);
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

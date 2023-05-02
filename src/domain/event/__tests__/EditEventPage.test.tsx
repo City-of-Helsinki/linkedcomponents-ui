@@ -1,6 +1,8 @@
+/* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
+import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import {
   DATE_FORMAT,
   DATETIME_FORMAT,
@@ -11,7 +13,6 @@ import { EventDocument } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   actWait,
   configure,
   fireEvent,
@@ -36,6 +37,7 @@ import { mockedOrganizationResponse } from '../../organization/__mocks__/organiz
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import {
   mockedFilteredPlacesResponse,
+  mockedPlaceResponse,
   mockedPlacesResponse,
 } from '../../place/__mocks__/place';
 import { mockedUserResponse } from '../../user/__mocks__/user';
@@ -52,7 +54,6 @@ import {
   mockedEventWithSubEventResponse,
   mockedInvalidEventResponse,
   mockedInvalidUpdateEventResponse,
-  mockedKeywordsResponse,
   mockedPostponedEventResponse,
   mockedPostponeEventResponse,
   mockedSubEventsResponse,
@@ -73,10 +74,11 @@ const baseMocks = [
   mockedEventResponse,
   mockedEventTimeResponse,
   mockedImageResponse,
-  mockedKeywordsResponse,
+  mockedKeywordSelectorKeywordsResponse,
   mockedAudienceKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
   mockedLanguagesResponse,
+  mockedPlaceResponse,
   mockedPlacesResponse,
   mockedFilteredPlacesResponse,
   mockedUserResponse,
@@ -102,7 +104,7 @@ const openMenu = async () => {
     .getAllByRole('button', { name: /valinnat/i })
     .pop() as HTMLElement;
 
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   const menu = screen.getByRole('region', { name: /valinnat/i });
 
   return { menu, toggleButton };
@@ -142,12 +144,16 @@ const getAddEventTimeElements = () => {
   const addButton = withinAddEventTime.getByRole('button', {
     name: /lisää ajankohta/i,
   });
-  const endDateInput = withinAddEventTime.getByLabelText('Tapahtuma päättyy *');
+  const endDateInput = withinAddEventTime.getByRole('textbox', {
+    name: 'Tapahtuma päättyy *',
+  });
   const endTimeGroup = withinAddEventTime.getByRole('group', {
     name: /päättymisaika/i,
   });
   const endTimeInput = within(endTimeGroup).getByLabelText('tunnit');
-  const startDateInput = withinAddEventTime.getByLabelText('Tapahtuma alkaa *');
+  const startDateInput = withinAddEventTime.getByRole('textbox', {
+    name: 'Tapahtuma alkaa *',
+  });
   const startTimeGroup = withinAddEventTime.getByRole('group', {
     name: /alkamisaika/i,
   });
@@ -183,7 +189,7 @@ test('should cancel event', async () => {
   const cancelButton = within(menu).getByRole('button', {
     name: 'Peruuta tapahtuma',
   });
-  await act(async () => await user.click(cancelButton));
+  await user.click(cancelButton);
 
   const modal = screen.getByRole('dialog', {
     name: 'Varmista tapahtuman peruminen',
@@ -192,13 +198,15 @@ test('should cancel event', async () => {
   const confirmCancelButton = within(modal).getByRole('button', {
     name: 'Peruuta tapahtuma',
   });
-  await act(async () => await user.click(confirmCancelButton));
+  await user.click(confirmCancelButton);
 
   await waitFor(() => expect(modal).not.toBeInTheDocument(), {
     timeout: 10000,
   });
   await loadingSpinnerIsNotInDocument(10000);
-  screen.getByText('Peruutettu');
+  await screen.findByText('Peruutettu');
+  // Wait organization selector and keyword selector components to be updated to avoid act warnings
+  await actWait(100);
 });
 
 test('should postpone event', async () => {
@@ -217,7 +225,7 @@ test('should postpone event', async () => {
   const postponeButton = within(menu).getByRole('button', {
     name: 'Lykkää tapahtumaa',
   });
-  await act(async () => await user.click(postponeButton));
+  await user.click(postponeButton);
 
   const modal = screen.getByRole('dialog', {
     name: 'Varmista tapahtuman lykkääminen',
@@ -226,13 +234,15 @@ test('should postpone event', async () => {
   const confirmPostponeButton = within(modal).getByRole('button', {
     name: 'Lykkää tapahtumaa',
   });
-  await act(async () => await user.click(confirmPostponeButton));
+  await user.click(confirmPostponeButton);
 
   await waitFor(() => expect(modal).not.toBeInTheDocument(), {
     timeout: 10000,
   });
   await loadingSpinnerIsNotInDocument(10000);
-  screen.getByText('Lykätty');
+  await screen.findByText('Lykätty');
+  // Wait organization selector and keyword selector components to be updated to avoid act warnings
+  await actWait(100);
 });
 
 test('should delete event', async () => {
@@ -251,7 +261,7 @@ test('should delete event', async () => {
   const deleteButton = within(menu).getByRole('button', {
     name: 'Poista tapahtuma',
   });
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const modal = screen.getByRole('dialog', {
     name: 'Varmista tapahtuman poistaminen',
@@ -260,7 +270,7 @@ test('should delete event', async () => {
   const confirmDeleteButton = within(modal).getByRole('button', {
     name: 'Poista tapahtuma',
   });
-  await act(async () => await user.click(confirmDeleteButton));
+  await user.click(confirmDeleteButton);
 
   await waitFor(() => expect(modal).not.toBeInTheDocument(), {
     timeout: 10000,
@@ -289,12 +299,14 @@ test('should update event', async () => {
   await actWait(100);
   const updateButton = getElement('updatePublic');
   await waitFor(() => expect(updateButton).toBeEnabled());
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
 
   await loadingSpinnerIsNotInDocument(30000);
   await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
     timeout: 30000,
   });
+  // Wait organization selector and keyword selector components to be updated to avoid act warnings
+  await actWait(100);
 });
 
 test('should update recurring event', async () => {
@@ -330,10 +342,10 @@ test('should update recurring event', async () => {
     })
   );
   const toggleMenuButton = withinRow.getByRole('button', { name: /valinnat/i });
-  await act(async () => await user.click(toggleMenuButton));
+  await user.click(toggleMenuButton);
   const menu = withinRow.getByRole('region', { name: /valinnat/i });
   const deleteButton = within(menu).getByRole('button', { name: /poista/i });
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const {
     addButton,
@@ -350,16 +362,16 @@ test('should update recurring event', async () => {
     const endTimeValue = formatDate(newEventTime.endTime, TIME_FORMAT_DATA);
 
     fireEvent.change(startDateInput, { target: { value: startDateValue } });
-    await act(async () => await user.type(startTimeInput, startTimeValue));
+    await user.type(startTimeInput, startTimeValue);
     fireEvent.change(endDateInput, { target: { value: endDateValue } });
-    await act(async () => await user.type(endTimeInput, endTimeValue));
+    await user.type(endTimeInput, endTimeValue);
 
     await waitFor(() => expect(addButton).toBeEnabled());
-    await act(async () => await user.click(addButton));
+    await user.click(addButton);
   }
 
   const updateButton = getElement('updatePublic');
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
 
   const modal = await screen.findByRole('dialog', {
     name: 'Varmista tapahtuman tallentaminen',
@@ -368,7 +380,7 @@ test('should update recurring event', async () => {
   const confirmUpdateButton = await within(modal).getByRole('button', {
     name: 'Tallenna',
   });
-  await act(async () => await user.click(confirmUpdateButton));
+  await user.click(confirmUpdateButton);
 
   // This test is pretty heavy so give DOM some time to update
   await waitFor(() => expect(modal).not.toBeInTheDocument(), {
@@ -393,7 +405,7 @@ test('should scroll to first error when validation error is thrown', async () =>
   const nameFiInput = await waitLoadingAndFindNameInput();
 
   const updateButton = getElement('updateDraft');
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
 
   await waitFor(() => expect(nameFiInput).toHaveFocus());
 });
@@ -412,7 +424,7 @@ test('should show server errors', async () => {
 
   const updateButton = getElement('updatePublic');
   await waitFor(() => expect(updateButton).toBeEnabled());
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
 
   await loadingSpinnerIsNotInDocument(10000);
   await screen.findByText(/lomakkeella on seuraavat virheet/i);

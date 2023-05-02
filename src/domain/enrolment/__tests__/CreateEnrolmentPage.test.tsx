@@ -11,7 +11,7 @@ import {
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import { fakeSeatsReservation } from '../../../utils/mockDataUtils';
 import {
-  act,
+  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
@@ -20,8 +20,9 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
-import { mockedEventResponse } from '../../event/__mocks__/event';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
+import { mockedPlaceResponse } from '../../place/__mocks__/place';
 import {
   mockedRegistrationResponse,
   registration,
@@ -113,17 +114,16 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const code = TEST_SEATS_RESERVATION_CODE;
 
-const createSeatsReservationPayload = {
-  registration: registration.id,
-  seats: 1,
-  waitlist: true,
-};
-
 const seatsReservation = fakeSeatsReservation({ code });
 
 const getCreateSeatsReservationMock = (seats: number): MockedResponse => {
+  const createSeatsReservationPayload = {
+    registration: registration.id,
+    seats,
+    waitlist: true,
+  };
   const createSeatsReservationVariables = {
-    input: { ...createSeatsReservationPayload, seats },
+    input: createSeatsReservationPayload,
   };
 
   const createEnrolmentResponse = {
@@ -145,16 +145,16 @@ const getCreateSeatsReservationMock = (seats: number): MockedResponse => {
   };
 };
 
-const updateSeatsReservationPayload = {
-  code,
-  registration: registration.id,
-  seats: 1,
-  waitlist: true,
-};
-
 const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
+  const updateSeatsReservationPayload = {
+    code,
+    registration: registration.id,
+    seats,
+    waitlist: true,
+  };
+
   const updateSeatsReservationVariables = {
-    input: { ...updateSeatsReservationPayload, seats },
+    input: updateSeatsReservationPayload,
   };
 
   const updateEnrolmentResponse = {
@@ -177,8 +177,14 @@ const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
 };
 
 const getUpdateSeatsReservationErrorMock = (seats: number): MockedResponse => {
+  const updateSeatsReservationPayload = {
+    code,
+    registration: registration.id,
+    seats,
+    waitlist: true,
+  };
   const updateSeatsReservationVariables = {
-    input: { ...updateSeatsReservationPayload, seats },
+    input: updateSeatsReservationPayload,
   };
 
   const error = new ApolloError({
@@ -195,9 +201,9 @@ const getUpdateSeatsReservationErrorMock = (seats: number): MockedResponse => {
 };
 
 const defaultMocks = [
-  mockedEventResponse,
-  mockedEventResponse,
   mockedLanguagesResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedPlaceResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
   getCreateSeatsReservationMock(1),
@@ -237,30 +243,25 @@ const enterFormValues = async () => {
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
 
-  await act(async () => await user.type(nameInput, enrolmentValues.name));
-  await act(
-    async () =>
-      await user.type(streetAddressInput, enrolmentValues.streetAddress)
-  );
-  await act(
-    async () => await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth)
-  );
-  await act(async () => await user.type(zipInput, enrolmentValues.zip));
-  await act(async () => await user.type(cityInput, enrolmentValues.city));
-  await act(async () => await user.click(emailCheckbox));
-  await act(async () => await user.type(emailInput, enrolmentValues.email));
-  await act(async () => await user.click(phoneCheckbox));
-  await act(async () => await user.type(phoneInput, enrolmentValues.phone));
-  await act(async () => await user.click(nativeLanguageButton));
+  await user.type(nameInput, enrolmentValues.name);
+  await user.type(streetAddressInput, enrolmentValues.streetAddress);
+  await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
+  await user.type(zipInput, enrolmentValues.zip);
+  await user.type(cityInput, enrolmentValues.city);
+  await user.click(emailCheckbox);
+  await user.type(emailInput, enrolmentValues.email);
+  await user.click(phoneCheckbox);
+  await user.type(phoneInput, enrolmentValues.phone);
+  await user.click(nativeLanguageButton);
   const nativeLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,
   });
-  await act(async () => await user.click(nativeLanguageOption));
-  await act(async () => await user.click(serviceLanguageButton));
+  await user.click(nativeLanguageOption);
+  await user.click(serviceLanguageButton);
   const serviceLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,
   });
-  await act(async () => await user.click(serviceLanguageOption));
+  await user.click(serviceLanguageOption);
 };
 
 test('should validate enrolment form and focus to invalid field and finally create enrolment', async () => {
@@ -284,51 +285,44 @@ test('should validate enrolment form and focus to invalid field and finally crea
   const serviceLanguageButton = getElement('serviceLanguageButton');
   const submitButton = await findElement('submitButton');
 
-  await act(async () => await user.type(nameInput, enrolmentValues.name));
-  await act(
-    async () =>
-      await user.type(streetAddressInput, enrolmentValues.streetAddress)
-  );
-  await act(
-    async () => await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth)
-  );
-  await act(async () => await user.type(zipInput, enrolmentValues.zip));
-  await act(async () => await user.type(cityInput, enrolmentValues.city));
-  await act(async () => await user.click(submitButton));
-
-  await waitFor(() => expect(emailCheckbox).toHaveFocus());
-  expect(emailInput).not.toBeRequired();
-
-  await act(async () => await user.click(emailCheckbox));
-  await act(async () => await user.click(submitButton));
+  await user.type(nameInput, enrolmentValues.name);
+  await user.type(streetAddressInput, enrolmentValues.streetAddress);
+  await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
+  await user.type(zipInput, enrolmentValues.zip);
+  await user.type(cityInput, enrolmentValues.city);
+  await user.click(submitButton);
 
   await waitFor(() => expect(emailInput).toHaveFocus());
   expect(emailInput).toBeRequired();
   expect(phoneInput).not.toBeRequired();
 
-  await act(async () => await user.type(emailInput, enrolmentValues.email));
-  await act(async () => await user.click(phoneCheckbox));
-  await act(async () => await user.click(submitButton));
+  await user.type(emailInput, enrolmentValues.email);
+  await user.click(submitButton);
+  await waitFor(() => expect(emailCheckbox).toHaveFocus());
+
+  await user.click(emailCheckbox);
+  await user.click(phoneCheckbox);
+  await user.click(submitButton);
 
   await waitFor(() => expect(phoneInput).toHaveFocus());
   expect(phoneInput).toBeRequired();
 
-  await act(async () => await user.type(phoneInput, enrolmentValues.phone));
-  await act(async () => await user.click(submitButton));
+  await user.type(phoneInput, enrolmentValues.phone);
+  await user.click(submitButton);
 
   await waitFor(() => expect(nativeLanguageButton).toHaveFocus());
 
-  await act(async () => await user.click(nativeLanguageButton));
+  await user.click(nativeLanguageButton);
   const nativeLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,
   });
-  await act(async () => await user.click(nativeLanguageOption));
-  await act(async () => await user.click(serviceLanguageButton));
+  await user.click(nativeLanguageOption);
+  await user.click(serviceLanguageButton);
   const serviceLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,
   });
-  await act(async () => await user.click(serviceLanguageOption));
-  await act(async () => await user.click(submitButton));
+  await user.click(serviceLanguageOption);
+  await user.click(submitButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -344,7 +338,7 @@ test('should show server errors', async () => {
   const submitButton = await findElement('submitButton');
 
   await enterFormValues();
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
@@ -370,24 +364,27 @@ test('should add and delete participants', async () => {
     screen.queryByRole('button', { name: 'Osallistuja 2' })
   ).not.toBeInTheDocument();
 
-  await act(async () => await user.clear(participantAmountInput));
-  await act(async () => await user.type(participantAmountInput, '2'));
-  await act(async () => await user.click(updateParticipantAmountButton));
+  await user.clear(participantAmountInput);
+  await user.type(participantAmountInput, '2');
+  await user.click(updateParticipantAmountButton);
 
-  screen.getByRole('button', { name: 'Osallistuja 2' });
+  await screen.findByRole('button', { name: 'Osallistuja 2' });
 
-  await act(async () => await user.clear(participantAmountInput));
-  await act(async () => await user.type(participantAmountInput, '1'));
-  await act(async () => await user.click(updateParticipantAmountButton));
+  await user.clear(participantAmountInput);
+  await user.type(participantAmountInput, '1');
+  await user.click(updateParticipantAmountButton);
 
   const confirmDeleteButton = within(
     getElement('confirmDeleteModal')
   ).getByRole('button', { name: 'Poista osallistuja' });
-  await act(async () => await user.click(confirmDeleteButton));
+  await user.click(confirmDeleteButton);
 
-  expect(
-    screen.queryByRole('button', { name: 'Osallistuja 2' })
-  ).not.toBeInTheDocument();
+  await waitFor(() =>
+    expect(
+      screen.queryByRole('button', { name: 'Osallistuja 2' })
+    ).not.toBeInTheDocument()
+  );
+  await actWait(100);
 });
 
 test('should show server errors when updating seats reservation fails', async () => {
@@ -402,13 +399,15 @@ test('should show server errors when updating seats reservation fails', async ()
     'updateParticipantAmountButton'
   );
 
-  expect(
-    screen.queryByRole('button', { name: 'Osallistuja 2' })
-  ).not.toBeInTheDocument();
+  await waitFor(() =>
+    expect(
+      screen.queryByRole('button', { name: 'Osallistuja 2' })
+    ).not.toBeInTheDocument()
+  );
 
-  await act(async () => await user.clear(participantAmountInput));
-  await act(async () => await user.type(participantAmountInput, '2'));
-  await act(async () => await user.click(updateParticipantAmountButton));
+  await user.clear(participantAmountInput);
+  await user.type(participantAmountInput, '2');
+  await user.click(updateParticipantAmountButton);
 
   await screen.findByText('Paikkoja ei ole riittävästi jäljellä.');
 });
@@ -423,10 +422,10 @@ test('should show and hide participant specific fields', async () => {
     name: 'Osallistuja 1',
   });
 
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   expect(nameInput).not.toBeInTheDocument();
 
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   getElement('nameInput');
 });
 
@@ -450,25 +449,28 @@ test('should delete participants by clicking delete participant button', async (
     screen.queryByRole('button', { name: 'Osallistuja 2' })
   ).not.toBeInTheDocument();
 
-  await act(async () => await user.clear(participantAmountInput));
-  await act(async () => await user.type(participantAmountInput, '2'));
-  await act(async () => await user.click(updateParticipantAmountButton));
+  await user.clear(participantAmountInput);
+  await user.type(participantAmountInput, '2');
+  await user.click(updateParticipantAmountButton);
 
-  screen.getByRole('button', { name: 'Osallistuja 2' });
+  await screen.findByRole('button', { name: 'Osallistuja 2' });
 
   const deleteButton = screen.getAllByRole('button', {
     name: /poista osallistuja/i,
   })[1];
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const deleteParticipantButton = within(
     getElement('confirmDeleteModal')
   ).getByRole('button', { name: 'Poista osallistuja' });
-  await act(async () => await user.click(deleteParticipantButton));
+  await user.click(deleteParticipantButton);
 
-  expect(
-    screen.queryByRole('button', { name: 'Osallistuja 2' })
-  ).not.toBeInTheDocument();
+  await waitFor(() =>
+    expect(
+      screen.queryByRole('button', { name: 'Osallistuja 2' })
+    ).not.toBeInTheDocument()
+  );
+  await actWait(100);
 });
 
 test('should show server errors when updating seats reservation fails', async () => {
@@ -487,16 +489,16 @@ test('should show server errors when updating seats reservation fails', async ()
     'updateParticipantAmountButton'
   );
 
-  await act(async () => await user.clear(participantAmountInput));
-  await act(async () => await user.type(participantAmountInput, '3'));
-  await act(async () => await user.click(updateParticipantAmountButton));
+  await user.clear(participantAmountInput);
+  await user.type(participantAmountInput, '3');
+  await user.click(updateParticipantAmountButton);
 
   await screen.findByRole('button', { name: 'Osallistuja 3' });
 
   const deleteButton = screen.getAllByRole('button', {
     name: /poista osallistuja/i,
   })[1];
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const dialog = screen.getByRole('dialog', {
     name: 'Vahvista osallistujan poistaminen',
@@ -504,7 +506,7 @@ test('should show server errors when updating seats reservation fails', async ()
   const deleteParticipantButton = within(dialog).getByRole('button', {
     name: 'Poista osallistuja',
   });
-  await act(async () => await user.click(deleteParticipantButton));
+  await user.click(deleteParticipantButton);
 
   await screen.findByText('Paikkoja ei ole riittävästi jäljellä.');
 });

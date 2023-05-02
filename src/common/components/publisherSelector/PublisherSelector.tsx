@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { organizationPathBuilder } from '../../../domain/organization/utils';
@@ -10,12 +10,13 @@ import {
 } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 
 const getOption = (organization: OrganizationFieldsFragment): OptionType => {
   return {
-    label: organization.name as string,
-    value: organization.id as string,
+    label: getValue(organization.name, ''),
+    value: getValue(organization.id, ''),
   };
 };
 
@@ -33,12 +34,12 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
 }) => {
   const { t } = useTranslation();
   const { user } = useUser();
-  const { organizations } = useUserOrganizations(user);
+  const { loading, organizations } = useUserOrganizations(user);
 
   const { data: organizationData } = useOrganizationQuery({
     skip: !value,
     variables: {
-      id: value as string,
+      id: getValue(value, ''),
       createPath: getPathBuilder(organizationPathBuilder),
     },
   });
@@ -51,11 +52,12 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
     [organizationData]
   );
 
-  const options = publisher
-    ? selectedOrganization
-      ? [selectedOrganization]
-      : []
-    : organizations.map((org) => getOption(org));
+  const options = useMemo(() => {
+    if (publisher) {
+      return selectedOrganization ? [selectedOrganization] : [];
+    }
+    return organizations.map((org) => getOption(org));
+  }, [organizations, publisher, selectedOrganization]);
 
   return (
     <Combobox
@@ -63,6 +65,7 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
       multiselect={false}
       clearable={clearable}
       id={name}
+      isLoading={loading}
       label={label}
       options={options}
       toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}

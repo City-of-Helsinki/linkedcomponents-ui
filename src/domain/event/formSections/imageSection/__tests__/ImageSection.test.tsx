@@ -5,10 +5,11 @@ import React from 'react';
 import { EMPTY_MULTI_LANGUAGE_OBJECT, testIds } from '../../../../../constants';
 import { ImageDocument } from '../../../../../generated/graphql';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
+import getValue from '../../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import { fakeImage } from '../../../../../utils/mockDataUtils';
 import {
-  act,
+  actWait,
   configure,
   fireEvent,
   mockString,
@@ -117,9 +118,9 @@ const getElement = (
         name: 'Lisää tapahtuman kuva',
       })[0];
     case 'altTextInput':
-      return screen.getByLabelText(
-        'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *'
-      );
+      return screen.getByRole('textbox', {
+        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
+      });
     case 'modalHeading':
       return screen.getByRole('heading', { name: 'Lisää tapahtuman kuva' });
     case 'nameInput':
@@ -141,20 +142,22 @@ test('should select existing image', async () => {
   renderComponent();
 
   const addButton = getElement('addButton');
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   getElement('modalHeading');
 
   const imageCheckbox = await screen.findByLabelText(
-    images.data[0]?.name as string
+    getValue(images.data[0]?.name, '')
   );
-  await act(async () => await user.click(imageCheckbox));
+  await user.click(imageCheckbox);
 
   const submitButton = getElement('submitButton');
   await waitFor(() => expect(submitButton).toBeEnabled());
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await screen.findByTestId(testIds.imagePreview.image);
+  // Wait formik to update state to avoid act warnings
+  await actWait();
 });
 
 test('should remove image', async () => {
@@ -164,7 +167,7 @@ test('should remove image', async () => {
   await screen.findByTestId(testIds.imagePreview.image);
   // Both add button and preview image component have same label
   const removeButton = getElement('removeButton');
-  await act(async () => await user.click(removeButton));
+  await user.click(removeButton);
 
   await waitFor(() =>
     expect(
@@ -178,21 +181,21 @@ test('should create and select new image by selecting image file', async () => {
   renderComponent();
 
   const addButton = getElement('addButton');
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   getElement('modalHeading');
 
   const fileInput = screen.getByTestId(testIds.imageUploader.input);
   Object.defineProperty(fileInput, 'files', { value: [file] });
-  await act(async () => {
-    await fireEvent.change(fileInput);
-  });
+  await fireEvent.change(fileInput);
 
   const submitButton = getElement('submitButton');
   await waitFor(() => expect(submitButton).toBeEnabled());
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await screen.findByTestId(testIds.imagePreview.image);
+  // Wait formik to update state to avoid act warnings
+  await actWait();
 });
 
 test('should create and select new image by entering image url', async () => {
@@ -200,21 +203,23 @@ test('should create and select new image by entering image url', async () => {
   renderComponent();
 
   const addButton = getElement('addButton');
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   getElement('modalHeading');
 
   const urlInput = getElement('urlInput');
   await waitFor(() => expect(urlInput).toBeEnabled());
-  await act(async () => await user.click(urlInput));
-  await act(async () => await user.type(urlInput, imageUrl));
+  await user.click(urlInput);
+  await user.type(urlInput, imageUrl);
   await waitFor(() => expect(urlInput).toHaveValue(imageUrl));
 
   const submitButton = getElement('submitButton');
   await waitFor(() => expect(submitButton).toBeEnabled());
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await screen.findByTestId(testIds.imagePreview.image);
+  // Wait formik to update state to avoid act warnings
+  await actWait();
 });
 
 test('should show validation error if image alt text is too long', async () => {
@@ -232,6 +237,7 @@ test('should show validation error if image alt text is too long', async () => {
   const user = userEvent.setup();
   renderComponent({ [EVENT_FIELDS.IMAGES]: [image.atId] }, [
     mockedImageResponse,
+    mockedOrganizationAncestorsResponse,
     mockedUserResponse,
   ]);
 
@@ -239,8 +245,8 @@ test('should show validation error if image alt text is too long', async () => {
   const nameInput = getElement('nameInput');
 
   await waitFor(() => expect(altTextInput).toBeEnabled());
-  await act(async () => await user.click(altTextInput));
-  await act(async () => await user.click(nameInput));
+  await user.click(altTextInput);
+  await user.click(nameInput);
 
   await screen.findByText('Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä');
 });
@@ -257,6 +263,7 @@ test('should show validation error if image name is too long', async () => {
   const user = userEvent.setup();
   renderComponent({ [EVENT_FIELDS.IMAGES]: [image.atId] }, [
     mockedImageResponse,
+    mockedOrganizationAncestorsResponse,
     mockedUserResponse,
   ]);
 
@@ -264,8 +271,8 @@ test('should show validation error if image name is too long', async () => {
   const nameInput = getElement('nameInput');
 
   await waitFor(() => expect(nameInput).toBeEnabled());
-  await act(async () => await user.click(nameInput));
-  await act(async () => await user.click(altTextInput));
+  await user.click(nameInput);
+  await user.click(altTextInput);
 
   await screen.findByText('Tämä kenttä voi olla korkeintaan 255 merkkiä pitkä');
 });

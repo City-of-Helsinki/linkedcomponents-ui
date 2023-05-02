@@ -5,6 +5,7 @@ import { useLocation, useParams } from 'react-router';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { useEventQuery } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
+import getValue from '../../utils/getValue';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
 import { EVENT_INCLUDES } from './constants';
@@ -27,7 +28,7 @@ const EditEventPageWrapper: React.FC = () => {
     skip: loadingUser,
     variables: {
       createPath: getPathBuilder(eventPathBuilder),
-      id: id as string,
+      id: getValue(id, ''),
       include: EVENT_INCLUDES,
     },
   });

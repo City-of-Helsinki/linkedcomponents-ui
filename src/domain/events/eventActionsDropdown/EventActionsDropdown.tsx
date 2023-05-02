@@ -8,13 +8,14 @@ import { ROUTES } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { EVENT_ACTIONS, EVENT_MODALS } from '../../event/constants';
 import useEventActions from '../../event/hooks/useEventActions';
-import ConfirmCancelModal from '../../event/modals/confirmCancelModal/ConfirmCancelModal';
-import ConfirmDeleteModal from '../../event/modals/confirmDeleteModal/ConfirmDeleteModal';
-import ConfirmPostponeModal from '../../event/modals/confirmPostponeModal/ConfirmPostponeModal';
+import ConfirmCancelEventModal from '../../event/modals/confirmCancelEventModal/ConfirmCancelEventModal';
+import ConfirmDeleteEventModal from '../../event/modals/confirmDeleteEventModal/ConfirmDeleteEventModal';
+import ConfirmPostponeEventModal from '../../event/modals/confirmPostponeEventModal/ConfirmPostponeEventModal';
 import {
   copyEventToSessionStorage,
   getEventButtonProps,
@@ -49,21 +50,9 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
     setOpenModal,
   } = useEventActions(event);
   const { organizationAncestors } = useOrganizationAncestors(
-    event.publisher as string
+    getValue(event.publisher, '')
   );
   const { user } = useUser();
-
-  const onCancel = () => {
-    cancelEvent();
-  };
-
-  const onDelete = () => {
-    deleteEvent();
-  };
-
-  const onPostpone = () => {
-    postponeEvent();
-  };
 
   const goToEditEventPage = () => {
     const eventUrlWithReturnPath = `${eventUrl}${queryStringWithReturnPath}`;
@@ -119,30 +108,30 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
   return (
     <div className={className}>
       {openModal === EVENT_MODALS.CANCEL && (
-        <ConfirmCancelModal
+        <ConfirmCancelEventModal
           event={event}
           isOpen={openModal === EVENT_MODALS.CANCEL}
           isSaving={saving === EVENT_ACTIONS.CANCEL}
-          onCancel={onCancel}
           onClose={closeModal}
+          onConfirm={cancelEvent}
         />
       )}
       {openModal === EVENT_MODALS.DELETE && (
-        <ConfirmDeleteModal
+        <ConfirmDeleteEventModal
           event={event}
           isOpen={openModal === EVENT_MODALS.DELETE}
           isSaving={saving === EVENT_ACTIONS.DELETE}
           onClose={closeModal}
-          onDelete={onDelete}
+          onConfirm={deleteEvent}
         />
       )}
       {openModal === EVENT_MODALS.POSTPONE && (
-        <ConfirmPostponeModal
+        <ConfirmPostponeEventModal
           event={event}
           isOpen={openModal === EVENT_MODALS.POSTPONE}
           isSaving={saving === EVENT_ACTIONS.POSTPONE}
           onClose={closeModal}
-          onPostpone={onPostpone}
+          onConfirm={postponeEvent}
         />
       )}
 

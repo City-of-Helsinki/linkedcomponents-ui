@@ -1,15 +1,16 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
+import getValue from '../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   render,
   screen,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { keyword } from '../../__mocks__/keyword';
@@ -19,13 +20,16 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const mocks = [mockedUserResponse];
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
-const route = `/fi/${ROUTES.EDIT_KEYWORD.replace(':id', keyword.id as string)}`;
+const route = `/fi/${ROUTES.EDIT_KEYWORD.replace(
+  ':id',
+  getValue(keyword.id, '')
+)}`;
 const routes = [route];
 
 const defaultProps: EditButtonPanelProps = {
-  id: keyword.id as string,
+  id: getValue(keyword.id, ''),
   onSave: jest.fn(),
   publisher: TEST_PUBLISHER_ID,
   saving: null,
@@ -51,7 +55,7 @@ test('should route to keywords page when clicking back button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await act(async () => await user.click(getElement('backButton')));
+  await user.click(getElement('backButton'));
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keywords`)
@@ -66,7 +70,7 @@ test('should call onSave', async () => {
 
   const saveButton = getElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   expect(onSave).toBeCalled();
 });

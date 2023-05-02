@@ -19,6 +19,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
+import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
 import MainContent from '../../app/layout/mainContent/MainContent';
@@ -59,10 +60,10 @@ import useEventActions from '../hooks/useEventActions';
 import useEventServerErrors from '../hooks/useEventServerErrors';
 import useMainCategories from '../hooks/useMainCategories';
 import useSortedInfoLanguages from '../hooks/useSortedInfoLanguages';
-import ConfirmCancelModal from '../modals/confirmCancelModal/ConfirmCancelModal';
-import ConfirmDeleteModal from '../modals/confirmDeleteModal/ConfirmDeleteModal';
-import ConfirmPostponeModal from '../modals/confirmPostponeModal/ConfirmPostponeModal';
-import ConfirmUpdateModal from '../modals/confirmUpdateModal/ConfirmUpdateModal';
+import ConfirmCancelEventModal from '../modals/confirmCancelEventModal/ConfirmCancelEventModal';
+import ConfirmDeleteEventModal from '../modals/confirmDeleteEventModal/ConfirmDeleteEventModal';
+import ConfirmPostponeEventModal from '../modals/confirmPostponeEventModal/ConfirmPostponeEventModal';
+import ConfirmUpdateEventModal from '../modals/confirmUpdateEventModal/ConfirmUpdateEventModal';
 import { EventFormFields } from '../types';
 import {
   checkCanUserDoAction,
@@ -73,8 +74,8 @@ import {
 import { draftEventSchema, publicEventSchema } from '../validation';
 
 export type CreateEventFormProps = {
-  event?: undefined;
-  refetch?: undefined;
+  event?: null;
+  refetch?: null;
 };
 
 export type EditEventFormProps = {
@@ -111,7 +112,7 @@ const EventForm: React.FC<EventFormProps> = ({
 
   const { user } = useUser();
   const { organizationAncestors } = useOrganizationAncestors(
-    event?.publisher ?? ''
+    getValue(event?.publisher, '')
   );
 
   const mainCategories = useMainCategories(values.type as EVENT_TYPE);
@@ -156,7 +157,7 @@ const EventForm: React.FC<EventFormProps> = ({
     );
   };
 
-  const onCancel = (eventType: string) => {
+  const handleCancel = (eventType: string) => {
     cancelEvent({
       onError: /* istanbul ignore next */ (error) =>
         showServerErrors({
@@ -171,23 +172,23 @@ const EventForm: React.FC<EventFormProps> = ({
     });
   };
 
-  const onCreate = (
+  const handleCreate = (
     values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {
     createEvent(values, publicationStatus, {
       onError: (error) => showServerErrors({ error, eventType: values.type }),
-      onSuccess: (id?: string) => goToEventSavedPage(id as string),
+      onSuccess: (id) => goToEventSavedPage(getValue(id, '')),
     });
   };
 
-  const onDelete = () => {
+  const handleDelete = () => {
     deleteEvent({
       onSuccess: () => goToEventsPage(),
     });
   };
 
-  const onPostpone = (eventType: string) => {
+  const handlePostpone = (eventType: string) => {
     postponeEvent({
       onError: /* istanbul ignore next */ (error) =>
         showServerErrors({
@@ -202,7 +203,7 @@ const EventForm: React.FC<EventFormProps> = ({
     });
   };
 
-  const onUpdate = (
+  const handleUpdate = (
     values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {
@@ -277,10 +278,10 @@ const EventForm: React.FC<EventFormProps> = ({
           setNextPublicationStatus(publicationStatus);
           setOpenModal(EVENT_MODALS.UPDATE);
         } else {
-          onUpdate(values, publicationStatus);
+          handleUpdate(values, publicationStatus);
         }
       } else {
-        onCreate(values, publicationStatus);
+        handleCreate(values, publicationStatus);
       }
     } catch (error) {
       showFormErrors({
@@ -308,28 +309,28 @@ const EventForm: React.FC<EventFormProps> = ({
     <>
       {event && (
         <>
-          <ConfirmCancelModal
+          <ConfirmCancelEventModal
             event={event}
             isOpen={openModal === EVENT_MODALS.CANCEL}
             isSaving={saving === EVENT_ACTIONS.CANCEL}
-            onCancel={() => onCancel(values.type)}
             onClose={closeModal}
+            onConfirm={() => handleCancel(values.type)}
           />
-          <ConfirmDeleteModal
+          <ConfirmDeleteEventModal
             event={event}
             isOpen={openModal === EVENT_MODALS.DELETE}
             isSaving={saving === EVENT_ACTIONS.DELETE}
             onClose={closeModal}
-            onDelete={onDelete}
+            onConfirm={handleDelete}
           />
-          <ConfirmPostponeModal
+          <ConfirmPostponeEventModal
             event={event}
             isOpen={openModal === EVENT_MODALS.POSTPONE}
             isSaving={saving === EVENT_ACTIONS.POSTPONE}
             onClose={closeModal}
-            onPostpone={() => onPostpone(values.type)}
+            onConfirm={() => handlePostpone(values.type)}
           />
-          <ConfirmUpdateModal
+          <ConfirmUpdateEventModal
             event={event}
             isOpen={openModal === EVENT_MODALS.UPDATE}
             isSaving={
@@ -338,7 +339,7 @@ const EventForm: React.FC<EventFormProps> = ({
               saving === EVENT_ACTIONS.UPDATE_PUBLIC
             }
             onClose={closeModal}
-            onSave={() => onUpdate(values, nextPublicationStatus)}
+            onConfirm={() => handleUpdate(values, nextPublicationStatus)}
           />
         </>
       )}
@@ -470,10 +471,8 @@ const EventForm: React.FC<EventFormProps> = ({
   );
 };
 
-const EventFormWrapper: React.FC<EventFormWrapperProps> = ({
-  event,
-  refetch,
-}) => {
+const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
+  const { event } = props;
   const { user } = useUser();
 
   const initialValues = React.useMemo(
@@ -482,7 +481,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = ({
         ? getEventInitialValues(event)
         : {
             ...EVENT_INITIAL_VALUES,
-            publisher: user?.organization ?? /* istanbul ignore next */ '',
+            publisher: getValue(user?.organization, ''),
           },
     [event, user]
   );
@@ -500,7 +499,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = ({
       validateOnBlur={true}
       validateOnChange={true}
     >
-      {({ setErrors, setTouched, values }) => {
+      {({ errors, setErrors, setTouched, values }) => {
         return (
           <FormikPersist
             name={FORM_NAMES.EVENT_FORM}
@@ -509,10 +508,8 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = ({
             savingDisabled={!!event}
           >
             <EventForm
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              event={event as any}
+              {...props}
               initialValues={initialValues}
-              refetch={refetch}
               setErrors={setErrors}
               setTouched={setTouched}
               values={values}

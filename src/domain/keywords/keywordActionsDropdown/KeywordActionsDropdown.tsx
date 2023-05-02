@@ -13,7 +13,7 @@ import { KEYWORD_ACTIONS } from '../../keyword/constants';
 import useKeywordUpdateActions, {
   KEYWORD_MODALS,
 } from '../../keyword/hooks/useKeywordActions';
-import ConfirmDeleteModal from '../../keyword/modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteKeywordModal from '../../keyword/modals/confirmDeleteKeywordModal/ConfirmDeleteKeywordModal';
 import { getEditButtonProps, getKeywordFields } from '../../keyword/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -53,10 +53,6 @@ const KeywordActionsDropdown: React.FC<KeywordActionsDropdownProps> = ({
     });
   };
 
-  const onDelete = () => {
-    deleteKeyword();
-  };
-
   const getActionItemProps = ({
     action,
     onClick,
@@ -89,11 +85,11 @@ const KeywordActionsDropdown: React.FC<KeywordActionsDropdownProps> = ({
   return (
     <>
       {openModal === KEYWORD_MODALS.DELETE && (
-        <ConfirmDeleteModal
+        <ConfirmDeleteKeywordModal
           isOpen={openModal === KEYWORD_MODALS.DELETE}
           isSaving={saving === KEYWORD_ACTIONS.DELETE}
           onClose={closeModal}
-          onDelete={onDelete}
+          onConfirm={deleteKeyword}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

@@ -8,6 +8,7 @@ import CheckboxGroupField from '../../../../common/components/formFields/checkbo
 import KeywordSelectorField from '../../../../common/components/formFields/keywordSelectorField/KeywordSelectorField';
 import Notification from '../../../../common/components/notification/Notification';
 import useLocale from '../../../../hooks/useLocale';
+import getValue from '../../../../utils/getValue';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
@@ -37,9 +38,12 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const keywordOptions = React.useMemo(
     () =>
       sortBy(
-        topicsData?.keywordSet?.keywords?.map((keyword) =>
-          getKeywordOption({ keyword, locale })
-        ) || [],
+        getValue(
+          topicsData?.keywordSet?.keywords?.map((keyword) =>
+            getKeywordOption({ keyword, locale })
+          ),
+          []
+        ),
         'label'
       ),
     [locale, topicsData]

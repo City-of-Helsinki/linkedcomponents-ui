@@ -1,13 +1,14 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { testIds } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   actWait,
   configure,
   fireEvent,
   loadingSpinnerIsNotInDocument,
+  mockFile,
   render,
   screen,
   userEvent,
@@ -19,6 +20,7 @@ import {
   mockedOrganizationResponse,
   organizationName,
 } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   file,
@@ -32,6 +34,7 @@ import CreateImagePage from '../CreateImagePage';
 configure({ defaultHidden: true });
 
 const mocks = [
+  mockedOrganizationAncestorsResponse,
   mockedOrganizationResponse,
   mockedUpdateImageResponse,
   mockedUploadImageByFileResponse,
@@ -63,17 +66,17 @@ const getElement = (
 const fillPublisherField = async () => {
   const user = userEvent.setup();
   const publisherToggleButton = getElement('publisherToggleButton');
-  await act(async () => await user.click(publisherToggleButton));
+  await user.click(publisherToggleButton);
 
   const option = await screen.findByRole('option', { name: organizationName });
-  await act(async () => await user.click(option));
+  await user.click(option);
 };
 
 const uploadImageByFile = async () => {
   const user = userEvent.setup();
 
   const addButton = getElement('addButton');
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   const dialog = await screen.findByRole('dialog');
   const withinModal = within(dialog);
@@ -81,20 +84,18 @@ const uploadImageByFile = async () => {
 
   const fileInput = withinModal.getByTestId(testIds.imageUploader.input);
   Object.defineProperty(fileInput, 'files', { value: [file] });
-  await act(() => {
-    fireEvent.change(fileInput);
-  });
+  fireEvent.change(fileInput);
 
   const submitButton = withinModal.getByRole('button', { name: 'Lisää' });
   await waitFor(() => expect(submitButton).toBeEnabled());
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 };
 
 const uploadImageByUrl = async () => {
   const user = userEvent.setup();
 
   const addButton = getElement('addButton');
-  await act(async () => await user.click(addButton));
+  await user.click(addButton);
 
   const dialog = await screen.findByRole('dialog');
   const withinModal = within(dialog);
@@ -102,11 +103,11 @@ const uploadImageByUrl = async () => {
 
   const urlInput = withinModal.getByLabelText(/kuvan url-osoite/i);
   await waitFor(() => expect(urlInput).toBeEnabled());
-  await act(async () => await user.type(urlInput, imageUrl));
+  await user.type(urlInput, imageUrl);
 
   const submitButton = withinModal.getByRole('button', { name: 'Lisää' });
   await waitFor(() => expect(submitButton).toBeEnabled());
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 };
 
 test('applies expected metadata', async () => {
@@ -130,7 +131,7 @@ test('should scroll to first validation error input field', async () => {
 
   const publisherInput = getElement('publisherInput');
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(() => expect(publisherInput).toHaveFocus());
 });
@@ -167,10 +168,36 @@ test('should move to images page after creating new image', async () => {
   await uploadImageByFile();
 
   const saveButton = getElement('saveButton');
-  await act(async () => await user.click(saveButton));
+  await user.click(saveButton);
 
   await waitFor(
     () => expect(history.location.pathname).toBe(`/fi/administration/images`),
     { timeout: 10000 }
+  );
+});
+
+test('should prevent upload on a file name that is too long', async () => {
+  toast.error = jest.fn();
+  const user = userEvent.setup();
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  await fillPublisherField();
+
+  const addButton = getElement('addButton');
+  await user.click(addButton);
+
+  const dialog = await screen.findByRole('dialog');
+  const withinModal = within(dialog);
+  withinModal.getByRole('heading', { name: /Lisää kuva/i });
+
+  const fileInput = withinModal.getByTestId(testIds.imageUploader.input);
+  const fileName = 'a'.repeat(255);
+  const fileWithLongName = mockFile({ name: fileName });
+  Object.defineProperty(fileInput, 'files', { value: [fileWithLongName] });
+  fireEvent.change(fileInput);
+  expect(toast.error).toBeCalledWith(
+    'Tiedoston nimi on liian pitkä. Nimi voi olla enintään 200 merkkiä.'
   );
 });

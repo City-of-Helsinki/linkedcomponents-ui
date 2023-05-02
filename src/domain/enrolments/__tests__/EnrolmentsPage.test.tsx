@@ -4,9 +4,9 @@ import { createMemoryHistory } from 'history';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   CustomRenderOptions,
   loadingSpinnerIsNotInDocument,
@@ -15,7 +15,8 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
-import { mockedEventResponse } from '../../event/__mocks__/event';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
+import { mockedNotFoundRegistrationResponse } from '../../registration/__mocks__/editRegistrationPage';
 import {
   mockedRegistrationResponse,
   registrationId,
@@ -34,7 +35,8 @@ const route = ROUTES.REGISTRATION_ENROLMENTS.replace(
 );
 
 const defaultMocks = [
-  mockedEventResponse,
+  mockedNotFoundRegistrationResponse,
+  mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
 ];
@@ -101,7 +103,7 @@ test('scrolls to enrolment table row and calls history.replace correctly (delete
   );
 
   const enrolmentRowButton = screen.getAllByRole('button', {
-    name: attendees[0].name as string,
+    name: getValue(attendees[0].name, ''),
   })[0];
   await waitFor(() => expect(enrolmentRowButton).toHaveFocus());
 });
@@ -125,7 +127,7 @@ test('should move to create enrolment page', async () => {
 
   const createButton = await findElement('createEnrolmentButton');
   await waitFor(() => expect(createButton).toBeEnabled(), { timeout: 5000 });
-  await act(async () => await user.click(createButton));
+  await user.click(createButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(

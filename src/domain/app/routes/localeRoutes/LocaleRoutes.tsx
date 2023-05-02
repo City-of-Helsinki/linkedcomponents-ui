@@ -5,6 +5,7 @@ import { Navigate, Route, Routes, useParams } from 'react-router';
 import { DEPRECATED_ROUTES, ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { featureFlagUtils } from '../../../../utils/featureFlags';
+import getValue from '../../../../utils/getValue';
 import AdminPageLayout from '../../../admin/layout/AdminPageLayout';
 import LogoutPage from '../../../auth/logoutPage/LogoutPage';
 import EventSavedPage from '../../../eventSaved/EventSavedPage';
@@ -54,7 +55,7 @@ const DeprecetedEditEventPageRoute = () => {
   return (
     <Navigate
       replace
-      to={getLocalePath(ROUTES.EDIT_EVENT).replace(':id', id as string)}
+      to={getLocalePath(ROUTES.EDIT_EVENT).replace(':id', getValue(id, ''))}
     />
   );
 };

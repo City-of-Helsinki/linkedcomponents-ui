@@ -6,7 +6,6 @@ import {
   LE_DATA_LANGUAGES,
 } from '../../../../../constants';
 import {
-  act,
   configure,
   render,
   screen,
@@ -48,7 +47,9 @@ const findElements = (key: 'deleteButtons' | 'facebookLinks') => {
         name: /Poista SoMe-linkki/i,
       });
     case 'facebookLinks':
-      return screen.findAllByLabelText(/tapahtuman facebook url \*/i);
+      return screen.findAllByRole('textbox', {
+        name: /tapahtuman facebook url \*/i,
+      });
   }
 };
 
@@ -94,13 +95,13 @@ test('should add and remove some link', async () => {
   ).not.toBeInTheDocument();
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   const facebookOption = getElement('facebookOption');
-  await act(async () => await user.click(facebookOption));
+  await user.click(facebookOption);
 
   const deleteButtons = await findElements('deleteButtons');
   for (const deleteButton of deleteButtons.reverse()) {
-    await act(async () => await user.click(deleteButton));
+    await user.click(deleteButton);
   }
 
   await waitFor(() =>
@@ -112,19 +113,17 @@ test('should add and remove some link', async () => {
 
 test('should show validation error if some link url is empty', async () => {
   const user = userEvent.setup();
-  await act(async () => {
-    await renderComponent();
-  });
+  await renderComponent();
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   const facebookOption = getElement('facebookOption');
-  await act(async () => await user.click(facebookOption));
+  await user.click(facebookOption);
 
   const facebookLinks = await findElements('facebookLinks');
-  await act(async () => await user.click(facebookLinks[0]));
+  await user.click(facebookLinks[0]);
 
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   await screen.findByText(/Tämä kenttä on pakollinen/i);
 });
 
@@ -133,15 +132,15 @@ test('should show validation error if some link url is invalid', async () => {
   renderComponent();
 
   const toggleButton = getElement('toggleButton');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   const facebookOption = getElement('facebookOption');
-  await act(async () => await user.click(facebookOption));
+  await user.click(facebookOption);
 
   const facebookLinks = await findElements('facebookLinks');
-  await act(async () => await user.click(facebookLinks[0]));
-  await act(async () => await user.type(facebookLinks[0], 'invalid url'));
+  await user.click(facebookLinks[0]);
+  await user.type(facebookLinks[0], 'invalid url');
 
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   await screen.findByText(
     /Kirjoita URL osoite kokonaisena ja oikeassa muodossa/i
   );

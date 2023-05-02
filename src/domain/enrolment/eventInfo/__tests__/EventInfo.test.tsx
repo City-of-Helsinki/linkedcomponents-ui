@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 
+import getValue from '../../../../utils/getValue';
 import { configure, render, screen } from '../../../../utils/testUtils';
 import {
   event,
   eventOverrides,
   locationText,
 } from '../../../event/__mocks__/event';
-import { keywordsOverrides } from '../../../keyword/__mocks__/keyword';
+import { keywordName } from '../../../keyword/__mocks__/keyword';
 import { mockedPlaceResponse } from '../../../place/__mocks__/place';
 import EventInfo from '../EventInfo';
 
@@ -27,11 +28,11 @@ const getElement = (key: 'age' | 'date' | 'description' | 'name' | 'price') => {
     case 'date':
       return screen.getByText('10.07.2020 – 13.07.2020');
     case 'description':
-      return screen.getByText(eventOverrides.description.fi as string);
+      return screen.getByText(getValue(eventOverrides.description.fi, ''));
     case 'name':
-      return screen.getByText(eventOverrides.name.fi as string);
+      return screen.getByText(getValue(eventOverrides.name.fi, ''));
     case 'price':
-      return screen.getByText(eventOverrides.offers[0].price?.fi as string);
+      return screen.getByText(getValue(eventOverrides.offers[0].price?.fi, ''));
   }
 };
 
@@ -42,9 +43,7 @@ test('should show event info', async () => {
 
   await findElement('location');
   getElement('name');
-  keywordsOverrides.forEach((item) =>
-    screen.getByText(item.name?.fi as string)
-  );
+  screen.getByText(keywordName);
   getElement('description');
   getElement('price');
   getElement('age');

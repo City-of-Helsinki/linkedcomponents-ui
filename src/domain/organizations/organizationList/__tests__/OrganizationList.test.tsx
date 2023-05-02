@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
+import getValue from '../../../../utils/getValue';
 import {
-  act,
   configure,
   fireEvent,
   loadingSpinnerIsNotInDocument,
@@ -11,6 +11,8 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedDataSourceResponse } from '../../../dataSource/__mocks__/dataSource';
+import { mockedOrganizationClassResponse } from '../../../organizationClass/__mocks__/organizationClass';
 import {
   mockedOrganizationsResponse,
   organizations,
@@ -19,8 +21,14 @@ import OrganizationList from '../OrganizationList';
 
 configure({ defaultHidden: true });
 
-const mocks = [mockedOrganizationsResponse];
+const mocks = [
+  mockedDataSourceResponse,
+  mockedOrganizationClassResponse,
+  mockedOrganizationsResponse,
+];
+
 const route = ROUTES.ORGANIZATIONS;
+
 const renderComponent = () =>
   renderWithRoute(<OrganizationList />, {
     mocks,
@@ -38,19 +46,23 @@ const getElement = (key: 'searchButton' | 'searchInput') => {
 };
 
 test('should search by text', async () => {
-  const searchValue = organizations.data[0]?.name as string;
+  const searchValue = getValue(organizations.data[0]?.name, '');
   const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
-  screen.getByRole('button', { name: organizations.data[0]?.name as string });
-  screen.getByRole('button', { name: organizations.data[2]?.name as string });
+  screen.getByRole('button', {
+    name: getValue(organizations.data[0]?.name, ''),
+  });
+  screen.getByRole('button', {
+    name: getValue(organizations.data[2]?.name, ''),
+  });
   await waitFor(() => expect(history.location.search).toBe(''));
 
   const searchInput = getElement('searchInput');
   fireEvent.change(searchInput, { target: { value: searchValue } });
-  await act(async () => await user.click(getElement('searchButton')));
+  await user.click(getElement('searchButton'));
 
   await waitFor(() =>
     expect(history.location.search).toBe(
@@ -61,11 +73,13 @@ test('should search by text', async () => {
   await waitFor(() =>
     expect(
       screen.queryByRole('button', {
-        name: organizations.data[2]?.name as string,
+        name: getValue(organizations.data[2]?.name, ''),
       })
     ).not.toBeInTheDocument()
   );
-  screen.getByRole('button', { name: organizations.data[0]?.name as string });
+  screen.getByRole('button', {
+    name: getValue(organizations.data[0]?.name, ''),
+  });
 });
 
 test('should show sub events', async () => {
@@ -75,24 +89,30 @@ test('should show sub events', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const showMoreButton = screen.getByRole('button', {
-    name: `Näytä alaorganisaatiot: ${organizations.data[0]?.name as string}`,
+    name: `Näytä alaorganisaatiot: ${getValue(
+      organizations.data[0]?.name,
+      ''
+    )}`,
   });
-  await act(async () => await user.click(showMoreButton));
+  await user.click(showMoreButton);
 
   // Should show sub-organization
   await screen.findByRole('button', {
-    name: organizations.data[1]?.name as string,
+    name: getValue(organizations.data[1]?.name, ''),
   });
 
   const hideButton = screen.getByRole('button', {
-    name: `Piilota alaorganisaatiot: ${organizations.data[0]?.name as string}`,
+    name: `Piilota alaorganisaatiot: ${getValue(
+      organizations.data[0]?.name,
+      ''
+    )}`,
   });
-  await act(async () => await user.click(hideButton));
+  await user.click(hideButton);
 
   // Sub-organization should be hidden
   expect(
     screen.queryByRole('button', {
-      name: organizations.data[1]?.name as string,
+      name: getValue(organizations.data[1]?.name, ''),
     })
   ).not.toBeInTheDocument();
 });

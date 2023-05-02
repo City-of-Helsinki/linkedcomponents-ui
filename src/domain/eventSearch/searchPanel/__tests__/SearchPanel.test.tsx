@@ -1,16 +1,7 @@
-import { MockedResponse } from '@apollo/client/testing';
-import range from 'lodash/range';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import {
-  PlaceDocument,
-  PlaceFieldsFragment,
-  PlacesDocument,
-} from '../../../../generated/graphql';
-import { fakePlaces } from '../../../../utils/mockDataUtils';
-import {
-  act,
   configure,
   fireEvent,
   render,
@@ -18,39 +9,15 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { PLACES_SORT_ORDER } from '../../../place/constants';
+import {
+  mockedPlaceResponse,
+  mockedPlacesResponse,
+  placeId,
+  placeName,
+} from '../../__mocks__/eventSearchPage';
 import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
-
-const placeOverrides = range(1, 3).map((i) => ({
-  id: `place:${i}`,
-  name: `Place name ${i}`,
-}));
-
-const places = fakePlaces(
-  placeOverrides.length,
-  placeOverrides.map(({ id, name }) => ({ id, name: { fi: name } }))
-);
-const placesVariables = {
-  createPath: undefined,
-  sort: PLACES_SORT_ORDER.NAME,
-  text: '',
-};
-const placesResponse = { data: { places } };
-const mockedPlacesResponse: MockedResponse = {
-  request: { query: PlacesDocument, variables: placesVariables },
-  result: placesResponse,
-};
-
-const place = places.data[0] as PlaceFieldsFragment;
-const placeId = place.id;
-const placeVariables = { id: placeId, createPath: undefined };
-const placeResponse = { data: { place } };
-const mockedPlaceResponse: MockedResponse = {
-  request: { query: PlaceDocument, variables: placeVariables },
-  result: placeResponse,
-};
 
 const mocks = [mockedPlacesResponse, mockedPlaceResponse];
 
@@ -109,32 +76,32 @@ test('should search events with correct search params', async () => {
 
   // Date filtering
   const dateSelectorButton = getElement('dateSelectorButton');
-  await act(async () => await user.click(dateSelectorButton));
+  await user.click(dateSelectorButton);
 
   const startDateInput = getElement('startDateInput');
-  await act(async () => await user.type(startDateInput, values.startDate));
+  await user.type(startDateInput, values.startDate);
   await waitFor(() => expect(startDateInput).toHaveValue(values.startDate));
 
   const endDateInput = getElement('endDateInput');
-  await act(async () => await user.type(endDateInput, values.endDate));
+  await user.type(endDateInput, values.endDate);
   await waitFor(() => expect(endDateInput).toHaveValue(values.endDate));
 
   // Place filtering
   const placeSelectorButton = getElement('placeSelectorButton');
-  await act(async () => await user.click(placeSelectorButton));
-  const placeCheckbox = screen.getByLabelText(placeOverrides[0].name);
-  await act(async () => await user.click(placeCheckbox));
+  await user.click(placeSelectorButton);
+  const placeCheckbox = screen.getByLabelText(placeName);
+  await user.click(placeCheckbox);
 
   // Event type filtering
   const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
-  await act(async () => await user.click(eventTypeSelectorButton));
+  await user.click(eventTypeSelectorButton);
   const eventTypeCheckbox = await screen.findByLabelText('Tapahtuma');
-  await act(async () => await user.click(eventTypeCheckbox));
+  await user.click(eventTypeCheckbox);
 
   const searchButton = screen.getAllByRole('button', {
     name: 'Etsi tapahtumia',
   })[1];
-  await act(async () => await user.click(searchButton));
+  await user.click(searchButton);
   await waitFor(() => expect(history.location.pathname).toBe('/fi/search'));
   expect(history.location.search).toBe(
     '?place=place%3A1&text=search&type=general&end=2021-03-12&start=2021-03-05'

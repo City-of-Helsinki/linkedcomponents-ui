@@ -56,8 +56,12 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
       <ClassNames>
         {({ css, cx }) => (
           <div
-            onBlur={() => (isFocused.current = false)}
-            onFocus={() => (isFocused.current = true)}
+            onBlur={() => {
+              isFocused.current = false;
+            }}
+            onFocus={() => {
+              isFocused.current = true;
+            }}
           >
             <BaseDateInput
               {...rest}

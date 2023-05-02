@@ -11,6 +11,7 @@ import { ROUTES, testIds } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSearchState from '../../../hooks/useSearchState';
 import { OptionType } from '../../../types';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Container from '../../app/layout/container/Container';
 import { useTheme } from '../../app/theme/Theme';
@@ -107,14 +108,14 @@ const SearchPanel: React.FC = () => {
                     label={t('eventSearchPage.searchPanel.labelSearch')}
                     onChange={handleChangeText}
                     onSubmit={handleSearch}
-                    placeholder={
-                      t(
-                        'eventSearchPage.searchPanel.placeholderSearch'
-                      ) as string
-                    }
-                    searchButtonAriaLabel={
-                      t('eventSearchPage.searchPanel.buttonSearch') as string
-                    }
+                    placeholder={getValue(
+                      t('eventSearchPage.searchPanel.placeholderSearch'),
+                      undefined
+                    )}
+                    searchButtonAriaLabel={getValue(
+                      t('eventSearchPage.searchPanel.buttonSearch'),
+                      undefined
+                    )}
                     value={searchState.text}
                   />
                   <div className={styles.advancedFilters}>

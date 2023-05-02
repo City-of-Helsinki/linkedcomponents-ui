@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -8,13 +9,13 @@ import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
+import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_MODALS } from '../../registration/constants';
 import useRegistrationActions from '../../registration/hooks/useRegistrationActions';
-import useRegistrationPublisher from '../../registration/hooks/useRegistrationPublisher';
-import ConfirmDeleteModal from '../../registration/modals/confirmDeleteModal/ConfirmDeleteModal';
+import ConfirmDeleteRegistrationModal from '../../registration/modals/confirmDeleteRegistrationModal/ConfirmDeleteRegistrationModal';
 import {
   copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,
@@ -37,10 +38,10 @@ const RegistrationActionsDropdown: React.FC<
   const locale = useLocale();
   const navigate = useNavigate();
   const { id, registrationUrl } = getRegistrationFields(registration, locale);
+  const publisher = getValue(registration.publisher, '');
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const { user } = useUser();
 
-  const publisher = useRegistrationPublisher({ registration }) as string;
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const { closeModal, deleteRegistration, openModal, saving, setOpenModal } =
@@ -64,10 +65,6 @@ const RegistrationActionsDropdown: React.FC<
   const copyRegistration = async () => {
     await copyRegistrationToSessionStorage(registration);
     navigate(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
-  };
-
-  const onDelete = () => {
-    deleteRegistration();
   };
 
   const getActionItemProps = ({
@@ -116,11 +113,11 @@ const RegistrationActionsDropdown: React.FC<
   return (
     <>
       {openModal === REGISTRATION_MODALS.DELETE && (
-        <ConfirmDeleteModal
+        <ConfirmDeleteRegistrationModal
           isOpen={openModal === REGISTRATION_MODALS.DELETE}
           isSaving={saving === REGISTRATION_ACTIONS.DELETE}
           onClose={closeModal}
-          onDelete={onDelete}
+          onConfirm={deleteRegistration}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

@@ -1,43 +1,20 @@
 import { MockedResponse } from '@apollo/client/testing';
-import range from 'lodash/range';
 
-import {
-  CreateKeywordSetDocument,
-  KeywordsDocument,
-} from '../../../generated/graphql';
-import { fakeKeywords, fakeKeywordSet } from '../../../utils/mockDataUtils';
-import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
-import { KEYWORDS_PAGE_SIZE } from '../../keywords/constants';
-
-const keywordNames = range(1, KEYWORDS_PAGE_SIZE).map(
-  (val) => `Keyword name ${val}`
-);
-const keywords = fakeKeywords(
-  keywordNames.length,
-  keywordNames.map((name) => ({ name: { fi: name } }))
-);
-const keywordsVariables = {
-  createPath: undefined,
-  dataSource: ['yso', 'helsinki'],
-  showAllKeywords: true,
-  text: '',
-};
-const keywordsResponse = { data: { keywords } };
-const mockedKeywordsResponse = {
-  request: { query: KeywordsDocument, variables: keywordsVariables },
-  result: keywordsResponse,
-};
+import { keyword } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../constants';
+import { CreateKeywordSetDocument } from '../../../generated/graphql';
+import { fakeKeywordSet } from '../../../utils/mockDataUtils';
 
 const keywordSetValues = {
-  dataSource: TEST_DATA_SOURCE_ID,
+  dataSource: LINKED_EVENTS_SYSTEM_DATA_SOURCE,
   name: 'Keyword set name',
-  keyword: keywords.data[0],
+  keyword,
   originId: '123',
 };
 
 const payload = {
   dataSource: keywordSetValues.dataSource,
-  keywords: [{ atId: keywordSetValues.keyword.atId }],
+  keywords: [{ atId: keywordSetValues.keyword?.atId }],
   name: {
     fi: keywordSetValues.name,
     sv: '',
@@ -77,9 +54,7 @@ const mockedInvalidCreateKeywordSetResponse: MockedResponse = {
 };
 
 export {
-  keywords,
   keywordSetValues,
   mockedCreateKeywordSetResponse,
   mockedInvalidCreateKeywordSetResponse,
-  mockedKeywordsResponse,
 };

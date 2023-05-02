@@ -5,6 +5,7 @@ import useAllUsers from '../../../domain/user/hooks/useAllUsers';
 import { getUserFields } from '../../../domain/user/utils';
 import { UserFieldsFragment } from '../../../generated/graphql';
 import { OptionType } from '../../../types';
+import getValue from '../../../utils/getValue';
 import Combobox, { MultiComboboxProps } from '../combobox/Combobox';
 
 const getOption = ({ user }: { user: UserFieldsFragment }): OptionType => {
@@ -30,7 +31,10 @@ const UserSelector: React.FC<UserSelectorProps> = ({
 
   const options: OptionType[] = React.useMemo(
     () =>
-      users.map((user) => getOption({ user })) ?? /* istanbul ignore next */ [],
+      getValue(
+        users.map((user) => getOption({ user })),
+        []
+      ),
     [users]
   );
 

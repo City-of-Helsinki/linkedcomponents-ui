@@ -47,7 +47,7 @@ export const registrationSchema = Yup.object().shape({
     .transform(transformNumber),
   [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
     [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
-    (minimumAttendeeCapacity: number) => {
+    ([minimumAttendeeCapacity]) => {
       return Yup.number()
         .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
         .min(minimumAttendeeCapacity || 0, createNumberMinErrorMessage)
@@ -69,10 +69,8 @@ export const registrationSchema = Yup.object().shape({
     .transform(transformNumber),
   [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .when(
-      [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE],
-      (audienceMinAge: number, schema: Yup.NumberSchema) =>
-        schema.min(audienceMinAge || 0, createNumberMinErrorMessage)
+    .when([REGISTRATION_FIELDS.AUDIENCE_MIN_AGE], ([audienceMinAge], schema) =>
+      schema.min(audienceMinAge || 0, createNumberMinErrorMessage)
     )
     .nullable()
     .transform(transformNumber),

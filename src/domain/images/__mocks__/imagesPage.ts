@@ -1,6 +1,10 @@
 import range from 'lodash/range';
 
-import { ImagesDocument, Meta } from '../../../generated/graphql';
+import {
+  ImageFieldsFragment,
+  ImagesDocument,
+  Meta,
+} from '../../../generated/graphql';
 import { fakeImages } from '../../../utils/mockDataUtils';
 import {
   DEFAULT_IMAGE_SORT,
@@ -67,9 +71,23 @@ const mockedSortedImagesResponse = {
   result: sortedImagesResponse,
 };
 
+const filteredImages = fakeImages(1, [images.data[0] as ImageFieldsFragment]);
+const filteredImagesResponse = {
+  data: { images: filteredImages },
+};
+const filteredImagesVariables = {
+  ...variables,
+  text: images.data[0]?.name,
+};
+const mockedFilteredImagesResponse = {
+  request: { query: ImagesDocument, variables: filteredImagesVariables },
+  result: filteredImagesResponse,
+};
+
 export {
   imageNames,
   images,
+  mockedFilteredImagesResponse,
   mockedImagesResponse,
   mockedPage2ImagesResponse,
   mockedSortedImagesResponse,

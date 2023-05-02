@@ -15,14 +15,14 @@ const organizationValues = {
 };
 
 const payload = {
-  adminUsers: [],
+  adminUsers: { username: [] },
   affiliatedOrganizations: [],
   classification: organizationValues.classification,
   dataSource: organizationValues.dataSource,
   internalType: ORGANIZATION_INTERNAL_TYPE.NORMAL,
   name: organizationValues.name,
-  parentOrganization: organizations.data[0].atId,
-  regularUsers: [],
+  parentOrganization: organizations.data[0]?.atId,
+  regularUsers: { username: [] },
   replacedBy: '',
   subOrganizations: [],
   dissolutionDate: null,

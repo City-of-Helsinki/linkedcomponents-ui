@@ -19,6 +19,7 @@ import {
   Registration,
   User,
 } from '../../../generated/graphql';
+import getValue from '../../../utils/getValue';
 
 export const addTypenameDataSource = (
   dataSource?: DataSource | null
@@ -60,25 +61,37 @@ export const addTypenameEvent = (event?: Event | null): Event | null =>
         name: addTypenameLocalisedObject(event.name),
         provider: addTypenameLocalisedObject(event.provider),
         shortDescription: addTypenameLocalisedObject(event.shortDescription),
-        externalLinks:
-          event.externalLinks?.map((externalLink) =>
-            addTypenameExternalLink(externalLink)
-          ) || [],
-        images: event.images?.map((image) => addTypenameImage(image)) || [],
-        inLanguage:
-          event.inLanguage?.map((language) => addTypenameLanguage(language)) ||
-          [],
-        keywords:
-          event.keywords?.map((keyword) => addTypenameKeyword(keyword)) || [],
-        audience:
-          event.audience?.map((keyword) => addTypenameKeyword(keyword)) || [],
+        externalLinks: getValue(event.externalLinks, [])?.map((externalLink) =>
+          addTypenameExternalLink(externalLink)
+        ),
+        images: getValue(
+          event.images?.map((image) => addTypenameImage(image)),
+          []
+        ),
+        inLanguage: getValue(
+          event.inLanguage?.map((language) => addTypenameLanguage(language)),
+          []
+        ),
+        keywords: getValue(
+          event.keywords?.map((keyword) => addTypenameKeyword(keyword)),
+          []
+        ),
+        audience: getValue(
+          event.audience?.map((keyword) => addTypenameKeyword(keyword)),
+          []
+        ),
         location: addTypenamePlace(event.location),
-        offers: event.offers?.map((offer) => addTypenameOffer(offer)) || [],
+        offers: getValue(
+          event.offers?.map((offer) => addTypenameOffer(offer)),
+          []
+        ),
         superEvent: event.superEvent
           ? addTypenameEvent(event.superEvent)
           : null,
-        subEvents:
-          event.subEvents?.map((subEvent) => addTypenameEvent(subEvent)) || [],
+        subEvents: getValue(
+          event.subEvents?.map((subEvent) => addTypenameEvent(subEvent)),
+          []
+        ),
         __typename: 'Event',
       }
     : null;
@@ -86,12 +99,7 @@ export const addTypenameEvent = (event?: Event | null): Event | null =>
 export const addTypenameExternalLink = (
   externalLink?: ExternalLink | null
 ): ExternalLink | null =>
-  externalLink
-    ? {
-        ...externalLink,
-        __typename: 'ExternalLink',
-      }
-    : null;
+  externalLink ? { ...externalLink, __typename: 'ExternalLink' } : null;
 
 export const addTypenameImage = (image?: Image | null): Image | null =>
   image
@@ -117,9 +125,10 @@ export const addTypenameKeywordSet = (
   keywordSet
     ? {
         ...keywordSet,
-        keywords:
-          keywordSet.keywords?.map((keyword) => addTypenameKeyword(keyword)) ||
-          [],
+        keywords: getValue(
+          keywordSet.keywords?.map((keyword) => addTypenameKeyword(keyword)),
+          []
+        ),
         name: addTypenameLocalisedObject(keywordSet?.name),
         __typename: 'KeywordSet',
       }
@@ -167,21 +176,13 @@ export const addTypenameOffer = (offer?: Offer | null): Offer | null =>
 export const addTypenameOrganization = (
   organization?: Organization | null
 ): Organization | null =>
-  organization
-    ? {
-        ...organization,
-        __typename: 'Organization',
-      }
-    : null;
+  organization ? { ...organization, __typename: 'Organization' } : null;
 
 export const addTypenameOrganizationClass = (
   organizationClass?: OrganizationClass | null
 ): OrganizationClass | null =>
   organizationClass
-    ? {
-        ...organizationClass,
-        __typename: 'OrganizationClass',
-      }
+    ? { ...organizationClass, __typename: 'OrganizationClass' }
     : null;
 
 export const addTypenamePlace = (place?: Place | null): Place | null =>
@@ -189,9 +190,10 @@ export const addTypenamePlace = (place?: Place | null): Place | null =>
     ? {
         ...place,
         addressLocality: addTypenameLocalisedObject(place.addressLocality),
-        divisions:
-          place.divisions?.map((division) => addTypenameDivision(division)) ||
-          [],
+        divisions: getValue(
+          place.divisions?.map((division) => addTypenameDivision(division)),
+          []
+        ),
         infoUrl: addTypenameLocalisedObject(place.infoUrl),
         name: addTypenameLocalisedObject(place.name),
         position: addTypenamePosition(place.position),
@@ -204,12 +206,7 @@ export const addTypenamePlace = (place?: Place | null): Place | null =>
 export const addTypenamePosition = (
   position?: Position | null
 ): Position | null =>
-  position
-    ? {
-        ...position,
-        __typename: 'Position',
-      }
-    : null;
+  position ? { ...position, __typename: 'Position' } : null;
 
 export const addTypenameRegistration = (
   registration?: Registration | null
@@ -217,6 +214,7 @@ export const addTypenameRegistration = (
   registration
     ? {
         ...registration,
+        event: addTypenameEvent(registration?.event),
         signups: Array.isArray(registration.signups)
           ? registration.signups.map((enrolment) =>
               addTypenameEnrolment(enrolment)
@@ -227,9 +225,4 @@ export const addTypenameRegistration = (
     : null;
 
 export const addTypenameUser = (user?: User | null): User | null =>
-  user
-    ? {
-        ...user,
-        __typename: 'User',
-      }
-    : null;
+  user ? { ...user, __typename: 'User' } : null;

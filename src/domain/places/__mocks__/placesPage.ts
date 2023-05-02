@@ -1,6 +1,6 @@
 import range from 'lodash/range';
 
-import { Meta, PlacesDocument } from '../../../generated/graphql';
+import { Meta, Place, PlacesDocument } from '../../../generated/graphql';
 import { fakePlaces } from '../../../utils/mockDataUtils';
 import {
   DEFAULT_PLACE_SORT,
@@ -40,9 +40,7 @@ const page2Places = fakePlaces(
   TEST_PAGE_SIZE,
   page2PlaceNames.map((name) => ({ name: { fi: name } }))
 );
-const page2PlacesResponse = {
-  data: { places: { ...page2Places, meta } },
-};
+const page2PlacesResponse = { data: { places: { ...page2Places, meta } } };
 const page2PlacesVariables = { ...variables, page: 2 };
 const mockedPage2PlacesResponse = {
   request: { query: PlacesDocument, variables: page2PlacesVariables },
@@ -56,19 +54,23 @@ const sortedPlaces = fakePlaces(
   TEST_PAGE_SIZE,
   sortedPlaceNames.map((name) => ({ name: { fi: name } }))
 );
-const sortedPlacesResponse = {
-  data: { places: { ...sortedPlaces, meta } },
-};
-const sortedPlacesVariables = {
-  ...variables,
-  sort: PLACE_SORT_OPTIONS.NAME,
-};
+const sortedPlacesResponse = { data: { places: { ...sortedPlaces, meta } } };
+const sortedPlacesVariables = { ...variables, sort: PLACE_SORT_OPTIONS.NAME };
 const mockedSortedPlacesResponse = {
   request: { query: PlacesDocument, variables: sortedPlacesVariables },
   result: sortedPlacesResponse,
 };
 
+const filteredPlaces = fakePlaces(1, [places.data[0] as Place]);
+const filteredPlacesResponse = { data: { places: filteredPlaces } };
+const filteredPlacesVariables = { ...variables, text: placeNames[0] };
+const mockedFilteredSortedPlacesResponse = {
+  request: { query: PlacesDocument, variables: filteredPlacesVariables },
+  result: filteredPlacesResponse,
+};
+
 export {
+  mockedFilteredSortedPlacesResponse,
   mockedPage2PlacesResponse,
   mockedPlacesResponse,
   mockedSortedPlacesResponse,

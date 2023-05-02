@@ -16,6 +16,7 @@ import {
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
+import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearEnrolmentQueries,
@@ -113,7 +114,9 @@ const useEnrolmentActions = ({
       setSaving(ENROLMENT_ACTIONS.CANCEL);
 
       await deleteEnrolmentMutation({
-        variables: { cancellationCode: enrolment?.cancellationCode as string },
+        variables: {
+          cancellationCode: getValue(enrolment?.cancellationCode, ''),
+        },
       });
 
       await cleanAfterUpdate(callbacks);
@@ -132,17 +135,23 @@ const useEnrolmentActions = ({
   ) => {
     setSaving(ENROLMENT_ACTIONS.CREATE);
 
-    const reservationData = getSeatsReservationData(registration.id as string);
+    const reservationData = getSeatsReservationData(
+      getValue(registration.id, '')
+    );
     const payload = getEnrolmentPayload({
       formValues: values,
-      reservationCode: reservationData?.code as string,
+      reservationCode: getValue(reservationData?.code, ''),
     });
 
     try {
       const { data } = await createEnrolmentMutation({
-        variables: { input: payload, registration: registration.id as string },
+        variables: {
+          input: payload,
+          registration: getValue(registration.id, ''),
+        },
       });
 
+      /* istanbul ignore else */
       if (data?.createEnrolment) {
         await cleanAfterUpdate(callbacks);
       }
@@ -163,7 +172,7 @@ const useEnrolmentActions = ({
   ) => {
     const payload: UpdateEnrolmentMutationInput = getUpdateEnrolmentPayload({
       formValues: values,
-      id: enrolment?.id as string,
+      id: getValue(enrolment?.id, ''),
       registration,
     });
 

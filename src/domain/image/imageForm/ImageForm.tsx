@@ -22,6 +22,7 @@ import {
 import { ImageFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { featureFlagUtils } from '../../../utils/featureFlags';
+import getValue from '../../../utils/getValue';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import {
   scrollToFirstError,
@@ -62,14 +63,17 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
   const locale = useLocale();
   const navigate = useNavigate();
   const { user } = useUser();
-  const { organizationAncestors } = useOrganizationAncestors(
-    image?.publisher ?? ''
-  );
+
+  const action = image ? IMAGE_ACTIONS.UPDATE : IMAGE_ACTIONS.CREATE;
+  const savedImagePublisher = getValue(image?.publisher, '');
+
+  const { organizationAncestors } =
+    useOrganizationAncestors(savedImagePublisher);
 
   const isEditingAllowed = checkCanUserDoAction({
-    action: image ? IMAGE_ACTIONS.UPDATE : IMAGE_ACTIONS.CREATE,
+    action,
     organizationAncestors,
-    publisher: image?.publisher ?? '',
+    publisher: savedImagePublisher,
     user,
   });
 
@@ -128,8 +132,6 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
       validationSchema={isEditingAllowed && imageSchema}
     >
       {({ setErrors, setFieldValue, setTouched, values }) => {
-        const isAltTextDisabled = !isEditingAllowed || !values.url;
-
         const clearErrors = () => setErrors({});
 
         const handleSubmit = async (
@@ -170,6 +172,16 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
           setFieldValue(IMAGE_FIELDS.LICENSE, license);
         };
 
+        const publisher = image
+          ? getValue(image.publisher, '')
+          : values.publisher;
+
+        const disabledIfPublisherSelected =
+          !isEditingAllowed || !!values.publisher;
+        const disabledIfNoPublisherSelected =
+          !isEditingAllowed || !values.publisher;
+        const disabledIfNoUrl = !isEditingAllowed || !values.url;
+
         return (
           <>
             <AddImageModal
@@ -192,18 +204,17 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
             />
             <Form className={styles.form} noValidate={true}>
               <ImageAuthenticationNotification
-                action={image ? IMAGE_ACTIONS.UPDATE : IMAGE_ACTIONS.CREATE}
-                publisher={
-                  image ? (image.publisher as string) : values.publisher
-                }
+                action={action}
+                publisher={publisher}
               />
               <ServerErrorSummary errors={serverErrorItems} />
 
               <FormRow>
                 <Field
+                  alignedLabel
                   className={styles.alignedSelect}
                   component={PublisherSelectorField}
-                  disabled={!isEditingAllowed || !!image?.publisher}
+                  disabled={disabledIfPublisherSelected}
                   label={t(`image.form.labelPublisher`)}
                   name={IMAGE_FIELDS.PUBLISHER}
                 />
@@ -223,7 +234,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                     {!values.url && (
                       <Button
                         className={styles.addButton}
-                        disabled={!isEditingAllowed || !values.publisher}
+                        disabled={disabledIfNoPublisherSelected}
                         fullWidth={true}
                         iconLeft={<IconPlusCircle aria-hidden />}
                         onClick={() => setOpenModal(IMAGE_MODALS.ADD_IMAGE)}
@@ -248,7 +259,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                       <Field
                         className={styles.alignedInput}
                         component={TextInputField}
-                        disabled={isAltTextDisabled}
+                        disabled={disabledIfNoUrl}
                         label={`${t('image.form.labelAltText')} (${langText})`}
                         name={`${IMAGE_FIELDS.ALT_TEXT}.${language}`}
                         placeholder={`${t(
@@ -264,7 +275,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                   <Field
                     className={styles.alignedInput}
                     component={TextInputField}
-                    disabled={isAltTextDisabled}
+                    disabled={disabledIfNoUrl}
                     label={t('image.form.labelAltText')}
                     name={`${IMAGE_FIELDS.ALT_TEXT}.fi`}
                     placeholder={t('image.form.placeholderAltText')}
@@ -277,7 +288,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                 <Field
                   className={styles.alignedInput}
                   component={TextInputField}
-                  disabled={!isEditingAllowed || !values.url}
+                  disabled={disabledIfNoUrl}
                   label={t(`image.form.labelName`)}
                   name={IMAGE_FIELDS.NAME}
                   placeholder={t(`image.form.placeholderName`)}
@@ -288,7 +299,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                 <Field
                   className={styles.alignedInput}
                   component={TextInputField}
-                  disabled={!isEditingAllowed || !values.url}
+                  disabled={disabledIfNoUrl}
                   label={t(`image.form.labelPhotographerName`)}
                   name={IMAGE_FIELDS.PHOTOGRAPHER_NAME}
                   placeholder={t(`image.form.placeholderPhotographerName`)}
@@ -297,7 +308,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
               <FormRow>
                 <h3>{t(`image.form.titleLicense`)}</h3>
                 <Field
-                  disabled={!isEditingAllowed || !values.url}
+                  disabled={disabledIfNoUrl}
                   component={RadioButtonGroupField}
                   label={t(`image.form.titleLicense`)}
                   name={IMAGE_FIELDS.LICENSE}
@@ -310,13 +321,13 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                 <EditButtonPanel
                   id={values.id}
                   onSave={handleSubmit}
-                  publisher={image.publisher as string}
+                  publisher={publisher}
                   saving={saving}
                 />
               ) : (
                 <CreateButtonPanel
                   onSave={handleSubmit}
-                  publisher={values.publisher as string}
+                  publisher={publisher}
                   saving={saving}
                 />
               )}

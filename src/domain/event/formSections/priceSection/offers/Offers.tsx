@@ -28,7 +28,7 @@ const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
       name={EVENT_FIELDS.OFFERS}
       render={(arrayHelpers) => (
         <>
-          {offers.map((_, index: number) => {
+          {offers.map((_, index) => {
             return (
               <Offer
                 key={index}

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   render,
   screen,
@@ -26,10 +25,7 @@ test('should show content only when accordion is open', async () => {
     screen.queryByRole('region', { hidden: false })
   ).not.toBeInTheDocument();
 
-  await act(
-    async () =>
-      await user.click(screen.getByRole('button', { name: toggleButtonLabel }))
-  );
+  await user.click(screen.getByRole('button', { name: toggleButtonLabel }));
 
   screen.getByRole('region');
 });

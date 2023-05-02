@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import SingleSelect from '../../../../../common/components/singleSelect/SingleSelect';
 import TextInput from '../../../../../common/components/textInput/TextInput';
 import { OptionType } from '../../../../../types';
+import getValue from '../../../../../utils/getValue';
 import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import useExtlinkOptions from '../../../hooks/useExtlinkOptions';
 import styles from './externalLinks.module.scss';
@@ -38,7 +39,7 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({
           label={t(`event.form.labelNewExternalLinkName`)}
           onChange={handleChange}
           options={options}
-          placeholder={t(`common.select`) as string}
+          placeholder={getValue(t(`common.select`), undefined)}
           value={null as unknown as undefined}
         />
         <TextInput
@@ -47,7 +48,10 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({
           disabled
           hideLabel={true}
           label={t(`event.form.labelNewExternalLinkLink.${type}`)}
-          placeholder={t('event.form.placeholderNewExternalLinkLink') as string}
+          placeholder={getValue(
+            t('event.form.placeholderNewExternalLinkLink'),
+            undefined
+          )}
         />
       </fieldset>
     </FieldColumn>

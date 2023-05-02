@@ -21,6 +21,7 @@ import {
   useImageQuery,
 } from '../../../../generated/graphql';
 import getPathBuilder from '../../../../utils/getPathBuilder';
+import getValue from '../../../../utils/getValue';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import { clearImagesQueries } from '../../../app/apollo/clearCacheUtils';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
@@ -64,12 +65,13 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
   });
 
   const imageAtId = images[0];
+  const imageId = getValue(parseIdFromAtId(imageAtId), '');
 
   const { data: imageData } = useImageQuery({
-    skip: !imageAtId,
+    skip: !imageId,
     variables: {
       createPath: getPathBuilder(imagePathBuilder),
-      id: parseIdFromAtId(imageAtId) as string,
+      id: imageId,
     },
   });
 

@@ -18,8 +18,12 @@ import {
 import { Editability, Language, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
+import getDateFromString from '../../utils/getDateFromString';
+import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import skipFalsyType from '../../utils/skipFalsyType';
 import { getFreeWaitlistCapacity } from '../enrolment/utils';
+import { getEventFields } from '../event/utils';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -50,7 +54,7 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
-  const adminOrganizations = [...(user?.adminOrganizations || [])];
+  const adminOrganizations = [...getValue(user?.adminOrganizations, [])];
 
   switch (action) {
     case REGISTRATION_ACTIONS.COPY:
@@ -166,27 +170,25 @@ export const getRegistrationFields = (
   registration: RegistrationFieldsFragment,
   language: Language
 ): RegistrationFields => {
-  const id = registration.id || '';
-  const event = registration.event ?? '';
+  const id = getValue(registration.id, '');
+  const event = registration.event;
 
   return {
     id,
-    atId: registration.atId || '',
-    createdBy: registration.createdBy ?? '',
+    atId: getValue(registration.atId, ''),
+    createdBy: getValue(registration.createdBy, ''),
     currentAttendeeCount: registration.currentAttendeeCount ?? 0,
     currentWaitingListCount: registration.currentWaitingListCount ?? 0,
-    enrolmentEndTime: registration.enrolmentEndTime
-      ? new Date(registration.enrolmentEndTime)
-      : null,
-    enrolmentStartTime: registration.enrolmentStartTime
-      ? new Date(registration.enrolmentStartTime)
-      : null,
-    event,
-    eventUrl: `/${language}${ROUTES.EDIT_EVENT.replace(':id', event)}`,
-    lastModifiedAt: registration.lastModifiedAt
-      ? new Date(registration.lastModifiedAt)
-      : null,
+    enrolmentEndTime: getDateFromString(registration.enrolmentEndTime),
+    enrolmentStartTime: getDateFromString(registration.enrolmentStartTime),
+    event: event?.id ? getEventFields(event, language) : null,
+    lastModifiedAt: getDateFromString(registration.lastModifiedAt),
+    mandatoryFields: getValue(
+      registration.mandatoryFields?.filter(skipFalsyType),
+      []
+    ),
     maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
+    publisher: getValue(registration.publisher, null),
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
       ':id',
       id
@@ -199,20 +201,27 @@ export const getRegistrationInitialValues = (
   registration: RegistrationFieldsFragment
 ): RegistrationFormFields => {
   return {
-    [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: registration.audienceMaxAge ?? '',
-    [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE]: registration.audienceMinAge ?? '',
-    [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]:
-      registration.confirmationMessage ?? '',
-    [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: registration.enrolmentEndTime
-      ? new Date(registration.enrolmentEndTime)
-      : null,
+    [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: getValue(
+      registration.audienceMaxAge,
+      ''
+    ),
+    [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE]: getValue(
+      registration.audienceMinAge,
+      ''
+    ),
+    [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]: getValue(
+      registration.confirmationMessage,
+      ''
+    ),
+    [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: getDateFromString(
+      registration.enrolmentEndTime
+    ),
     [REGISTRATION_FIELDS.ENROLMENT_END_TIME_TIME]: registration.enrolmentEndTime
       ? formatDate(new Date(registration.enrolmentEndTime), TIME_FORMAT_DATA)
       : '',
-    [REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE]:
+    [REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE]: getDateFromString(
       registration.enrolmentStartTime
-        ? new Date(registration.enrolmentStartTime)
-        : null,
+    ),
     [REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME]:
       registration.enrolmentStartTime
         ? formatDate(
@@ -220,16 +229,24 @@ export const getRegistrationInitialValues = (
             TIME_FORMAT_DATA
           )
         : '',
-    [REGISTRATION_FIELDS.EVENT]: registration.event ?? '',
-    [REGISTRATION_FIELDS.INSTRUCTIONS]: registration.instructions ?? '',
-    [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]:
-      registration.maximumAttendeeCapacity ?? '',
-    [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]:
-      registration.minimumAttendeeCapacity ?? '',
-    // TODO: Initialize required fields when API supports it
-    [REGISTRATION_FIELDS.REQUIRED_FIELDS]: [],
-    [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]:
-      registration.waitingListCapacity ?? '',
+    [REGISTRATION_FIELDS.EVENT]: getValue(registration.event?.atId, ''),
+    [REGISTRATION_FIELDS.INSTRUCTIONS]: getValue(registration.instructions, ''),
+    [REGISTRATION_FIELDS.MANDATORY_FIELDS]: getValue(
+      registration.mandatoryFields?.filter(skipFalsyType),
+      []
+    ),
+    [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: getValue(
+      registration.maximumAttendeeCapacity,
+      ''
+    ),
+    [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: getValue(
+      registration.minimumAttendeeCapacity,
+      ''
+    ),
+    [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: getValue(
+      registration.waitingListCapacity,
+      ''
+    ),
   };
 };
 
@@ -266,6 +283,7 @@ export const getRegistrationPayload = (
     enrolmentStartTimeTime,
     event,
     instructions,
+    mandatoryFields,
     maximumAttendeeCapacity,
     minimumAttendeeCapacity,
     waitingListCapacity,
@@ -286,8 +304,9 @@ export const getRegistrationPayload = (
             enrolmentStartTimeTime
           )
         : null,
-    event,
+    event: { atId: event },
     instructions: instructions ? instructions : null,
+    mandatoryFields,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity
       : null,
@@ -326,13 +345,14 @@ export const isRegistrationOpen = (
 export const isAttendeeCapacityUsed = (
   registration: RegistrationFieldsFragment
 ): boolean => {
+  const maxCapacityDefined = !!registration.maximumAttendeeCapacity;
+  const maxCapacityUsed =
+    registration.maximumAttendeeCapacity &&
+    (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0) >=
+      registration.maximumAttendeeCapacity;
+
   // If there are seats in the event
-  if (!registration.maximumAttendeeCapacity) {
-    return false;
-  } else if (
-    (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0) <
-    registration.maximumAttendeeCapacity
-  ) {
+  if (!maxCapacityDefined || !maxCapacityUsed) {
     return false;
   } else {
     return true;
@@ -397,5 +417,5 @@ export const copyEnrolmentLinkToClipboard = ({
   t: TFunction;
 }): void => {
   copyToClipboard(getEnrolmentLink(registration, locale));
-  toast.success(t('registration.registrationLinkCopied') as string);
+  toast.success(getValue(t('registration.registrationLinkCopied'), ''));
 };

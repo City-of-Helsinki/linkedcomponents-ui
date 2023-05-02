@@ -2,9 +2,9 @@
 import { createMemoryHistory } from 'history';
 import React from 'react';
 
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -13,9 +13,10 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
-  mockedEventResponses,
   mockedRegistrationsResponse,
   registrations,
 } from '../__mocks__/registrationsPage';
@@ -24,7 +25,8 @@ import RegistrationsPage from '../RegistrationsPage';
 configure({ defaultHidden: true });
 
 const mocks = [
-  ...mockedEventResponses,
+  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
   mockedRegistrationsResponse,
   mockedUserResponse,
 ];
@@ -85,7 +87,7 @@ test('should open create registration page', async () => {
   const createRegistrationButton = await findElement(
     'createRegistrationButton'
   );
-  await act(async () => await user.click(createRegistrationButton));
+  await user.click(createRegistrationButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe('/fi/registrations/create')
@@ -118,7 +120,7 @@ it('scrolls to registration table row and calls history.replace correctly (delet
 
   const eventRowButton = await screen.findByRole(
     'button',
-    { name: registrations.data[0]?.id as string },
+    { name: getValue(registrations.data[0]?.id, '') },
     { timeout: 20000 }
   );
   await waitFor(() => expect(eventRowButton).toHaveFocus());

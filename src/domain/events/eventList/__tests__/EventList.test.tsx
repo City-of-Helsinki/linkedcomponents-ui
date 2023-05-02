@@ -4,7 +4,6 @@ import React from 'react';
 import { EventsDocument, Meta } from '../../../../generated/graphql';
 import { fakeEvents } from '../../../../utils/mockDataUtils';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -35,7 +34,6 @@ const variables = {
   include: EVENT_LIST_INCLUDES,
   location: [],
   start: null,
-  suprtEvent: 'null',
   text: '',
 };
 
@@ -46,7 +44,14 @@ const events = fakeEvents(
 );
 const count = 30;
 const meta: Meta = { ...events.meta, count };
-const eventsResponse = { data: { events: { ...events, meta } } };
+const eventsResponse = {
+  data: {
+    events: {
+      ...events,
+      meta: { ...meta, next: 'http://localhost:8000/v1/event/?page=2' },
+    },
+  },
+};
 const mockedEventsResponse = {
   request: { query: EventsDocument, variables },
   result: eventsResponse,
@@ -59,7 +64,14 @@ const page2Events = fakeEvents(
   TEST_PAGE_SIZE,
   page2EventNames.map((name) => ({ name: { fi: name }, publisher: null }))
 );
-const page2EventsResponse = { data: { events: { ...page2Events, meta } } };
+const page2EventsResponse = {
+  data: {
+    events: {
+      ...page2Events,
+      meta: { ...meta, previous: 'http://localhost:8000/v1/event/' },
+    },
+  },
+};
 const page2EventsVariables = { ...variables, page: 2 };
 const mockedPage2EventsResponse = {
   request: { query: EventsDocument, variables: page2EventsVariables },
@@ -136,7 +148,7 @@ test('should navigate between pages', async () => {
   screen.getByRole('button', { name: eventNames[0] });
 
   const page2Button = getElement('page2');
-  await act(async () => await user.click(page2Button));
+  await user.click(page2Button);
 
   await loadingSpinnerIsNotInDocument();
   // Page 2 event should be visible.
@@ -145,7 +157,7 @@ test('should navigate between pages', async () => {
 
   // Should clear page from url search if selecting the first page
   const page1Button = getElement('page1');
-  await act(async () => await user.click(page1Button));
+  await user.click(page1Button);
 
   await waitFor(() => expect(history.location.search).toBe(''));
 });
@@ -161,10 +173,10 @@ test('should change sort order', async () => {
   await waitFor(() => expect(history.location.search).toBe(''));
 
   const sortSelect = getElement('sortSelect');
-  await act(async () => await user.click(sortSelect));
+  await user.click(sortSelect);
 
   const sortOptionName = getElement('sortOptionName');
-  await act(async () => await user.click(sortOptionName));
+  await user.click(sortOptionName);
 
   await loadingSpinnerIsNotInDocument();
   // Sorted events should be visible.
@@ -172,8 +184,8 @@ test('should change sort order', async () => {
   await waitFor(() => expect(history.location.search).toBe('?sort=name'));
 
   // Should clear sort from url search if selecting default sort value
-  await act(async () => await user.click(sortSelect));
+  await user.click(sortSelect);
   const sortOptionLastModified = getElement('sortOptionLastModified');
-  await act(async () => await user.click(sortOptionLastModified));
+  await user.click(sortOptionLastModified);
   await waitFor(() => expect(history.location.search).toBe(''));
 });

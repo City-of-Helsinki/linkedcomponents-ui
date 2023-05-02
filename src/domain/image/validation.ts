@@ -6,6 +6,7 @@ import {
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
 } from '../../constants';
+import { Maybe } from '../../types';
 import { featureFlagUtils } from '../../utils/featureFlags';
 import {
   createMultiLanguageValidation,
@@ -52,15 +53,17 @@ export const imageSchema = Yup.object().shape({
 });
 
 const validateSelectedImage = (
-  file: File | null,
-  url: string,
-  schema: Yup.SchemaOf<string[]>
-) => (!!file || url ? schema.min(0) : schema.min(1));
-const validateFile = (ids: string[], url: string, schema: Yup.StringSchema) =>
+  [file, url]: any[],
+  schema: Yup.ArraySchema<Maybe<string[]>, Yup.AnyObject>
+): Yup.ArraySchema<Maybe<string[]>, Yup.AnyObject> =>
+  !!file || !!url ? schema.min(0) : schema.min(1);
+
+const validateFile = ([ids, url]: any[], schema: Yup.MixedSchema<any>) =>
   ids.length || url
     ? schema
     : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
-const validateUrl = (ids: string[], imageFile: any, schema: Yup.StringSchema) =>
+
+const validateUrl = ([ids, imageFile]: any[], schema: Yup.StringSchema) =>
   imageFile || ids.length
     ? schema
     : schema.test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
@@ -71,15 +74,17 @@ export const addImageSchema = Yup.object().shape(
   {
     [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: Yup.array().when(
       [ADD_IMAGE_FIELDS.IMAGE_FILE, ADD_IMAGE_FIELDS.URL],
-      validateSelectedImage as any
+      validateSelectedImage
     ),
-    [ADD_IMAGE_FIELDS.IMAGE_FILE]: Yup.mixed().when(
-      [ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL],
-      validateFile as any
-    ),
+    [ADD_IMAGE_FIELDS.IMAGE_FILE]: Yup.mixed()
+      .nullable()
+      .when(
+        [ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL],
+        validateFile
+      ),
     [ADD_IMAGE_FIELDS.URL]: Yup.string().when(
       [ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.IMAGE_FILE],
-      validateUrl as any
+      validateUrl
     ),
   },
   [

@@ -1,7 +1,7 @@
 import { KeywordsQueryVariables } from '../../generated/graphql';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPathBuilder from '../../utils/getPathBuilder';
-import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
+import getValue from '../../utils/getValue';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import { keywordsPathBuilder } from '../keyword/utils';
@@ -32,7 +32,7 @@ export const getKeywordSearchInitialValues = (
     sort: Object.values(KEYWORD_SORT_OPTIONS).includes(sort)
       ? sort
       : DEFAULT_KEYWORD_SORT,
-    text: text || '',
+    text: getValue(text, ''),
   };
 };
 
@@ -75,17 +75,6 @@ export const addParamsToKeywordQueryString = (
   queryParams: Partial<KeywordSearchParams>
 ): string => {
   return addParamsToQueryString<KeywordSearchParams>(
-    queryString,
-    queryParams,
-    getKeywordParamValue
-  );
-};
-
-export const replaceParamsToKeywordQueryString = (
-  queryString: string,
-  queryParams: Partial<KeywordSearchParams>
-): string => {
-  return replaceParamsToQueryString<KeywordSearchParams>(
     queryString,
     queryParams,
     getKeywordParamValue

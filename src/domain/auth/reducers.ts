@@ -43,16 +43,14 @@ export const oidcReducer = (
 
   switch (type) {
     case OidcActionTypes.USER_EXPIRED:
-      return { ...state, user: null, isLoadingUser: false };
-    case OidcActionTypes.USER_FOUND:
-      return { ...state, user: payload, isLoadingUser: false };
     case OidcActionTypes.SILENT_RENEW_ERROR:
-      return { ...state, user: null, isLoadingUser: false };
-    case OidcActionTypes.LOADING_USER:
-      return { ...state, isLoadingUser: true };
     case OidcActionTypes.SESSION_TERMINATED:
     case OidcActionTypes.USER_SIGNED_OUT:
       return { ...state, user: null, isLoadingUser: false };
+    case OidcActionTypes.USER_FOUND:
+      return { ...state, user: payload, isLoadingUser: false };
+    case OidcActionTypes.LOADING_USER:
+      return { ...state, isLoadingUser: true };
     default:
       return state;
   }

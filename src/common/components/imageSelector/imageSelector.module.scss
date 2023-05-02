@@ -7,7 +7,15 @@
   grid-gap: var(--spacing-m);
 
   @include medium-up {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
+  }
+
+  .searchInputRow {
+    @include medium-up {
+      display: grid;
+      grid-gap: var(--spacing-m);
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   .imagesGrid {
@@ -48,6 +56,10 @@
     position: relative;
     justify-content: center;
     outline: none;
+
+    &.showPlaceholder {
+      background-color: var(--color-black-10);
+    }
   }
 
   .image:disabled {

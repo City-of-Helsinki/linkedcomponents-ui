@@ -3,9 +3,10 @@ import range from 'lodash/range';
 
 import { AttendeeStatus, EnrolmentsDocument } from '../../../generated/graphql';
 import { fakeEnrolments } from '../../../utils/mockDataUtils';
+import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 
-const registrationId = 'registration:1';
+const registrationId = TEST_REGISTRATION_ID;
 const attendeeNames = range(1, 2 * ENROLMENTS_PAGE_SIZE + 1).map(
   (n) => `Attendee name ${n}`
 );

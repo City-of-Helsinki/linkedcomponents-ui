@@ -2,9 +2,9 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   CustomRenderOptions,
   loadingSpinnerIsNotInDocument,
@@ -14,12 +14,13 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   event,
   mockedDeleteRegistrationResponse,
-  mockedEventResponse,
   mockedInvalidUpdateRegistrationResponse,
+  mockedNotFoundRegistrationResponse,
   mockedRegistrationResponse,
   mockedUpdatedRegistationResponse,
   mockedUpdateRegistrationResponse,
@@ -30,7 +31,7 @@ import EditRegistrationPage from '../EditRegistrationPage';
 configure({ defaultHidden: true });
 
 const baseMocks = [
-  mockedEventResponse,
+  mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
 ];
@@ -55,7 +56,7 @@ const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = await screen.findByRole('button', { name: /valinnat/i });
 
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   const menu = screen.getByRole('region', { name: /valinnat/i });
 
   return { menu, toggleButton };
@@ -92,9 +93,9 @@ test('should show link to event page', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const eventLink = await screen.findByRole('link', {
-    name: event.name?.fi as string,
+    name: getValue(event.name?.fi, ''),
   });
-  await act(async () => await user.click(eventLink));
+  await user.click(eventLink);
 
   expect(history.location.pathname).toBe(
     `/fi${ROUTES.EDIT_EVENT.replace(':id', event.id)}`
@@ -112,13 +113,13 @@ test('should move to registrations page after deleting registration', async () =
   const deleteButton = within(menu).getByRole('button', {
     name: 'Poista ilmoittautuminen',
   });
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const withinModal = within(getConfirmDeleteModal());
   const confirmDeleteButton = withinModal.getByRole('button', {
     name: 'Poista ilmoittautuminen',
   });
-  await act(async () => await user.click(confirmDeleteButton));
+  await user.click(confirmDeleteButton);
 
   await waitFor(
     () => expect(queryConfirmDeleteModal()).not.toBeInTheDocument(),
@@ -139,7 +140,7 @@ test('should update registration', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const updateButton = await findButton('update');
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
 
   await loadingSpinnerIsNotInDocument(30000);
   await screen.findByText('23.8.2021 12.00');
@@ -154,17 +155,17 @@ test('should scroll to first error when validation error is thrown', async () =>
   const minimumAttendeeCapacityInput = await findInput(
     'minimumAttendeeCapacity'
   );
-  await act(async () => await user.clear(minimumAttendeeCapacityInput));
-  await act(async () => await user.type(minimumAttendeeCapacityInput, '-1'));
+  await user.clear(minimumAttendeeCapacityInput);
+  await user.type(minimumAttendeeCapacityInput, '-1');
 
   const updateButton = await findButton('update');
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
 
   await waitFor(() => expect(minimumAttendeeCapacityInput).toHaveFocus());
 });
 
 test('should show "not found" page if registration doesn\'t exist', async () => {
-  renderComponent(undefined, {
+  renderComponent([mockedNotFoundRegistrationResponse, mockedUserResponse], {
     routes: [ROUTES.EDIT_REGISTRATION.replace(':id', 'not-exist')],
   });
 
@@ -181,7 +182,7 @@ test('should show server errors', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const updateButton = await findButton('update');
-  await act(async () => await user.click(updateButton));
+  await user.click(updateButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);

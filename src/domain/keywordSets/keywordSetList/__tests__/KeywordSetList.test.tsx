@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  act,
   configure,
   fireEvent,
   loadingSpinnerIsNotInDocument,
@@ -10,8 +9,10 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   keywordSetNames,
+  mockedFilteredKeywordSetsResponse,
   mockedKeywordSetsResponse,
   mockedPage2KeywordSetsResponse,
   mockedSortedKeywordSetsResponse,
@@ -23,6 +24,8 @@ import KeywordSetList from '../KeywordSetList';
 configure({ defaultHidden: true });
 
 const mocks = [
+  mockedOrganizationAncestorsResponse,
+  mockedFilteredKeywordSetsResponse,
   mockedKeywordSetsResponse,
   mockedPage2KeywordSetsResponse,
   mockedSortedKeywordSetsResponse,
@@ -62,7 +65,7 @@ test('should navigate between pages', async () => {
   screen.getByRole('button', { name: keywordSetNames[0] });
 
   const page2Button = getElement('page2Button');
-  await act(async () => await user.click(page2Button));
+  await user.click(page2Button);
 
   await loadingSpinnerIsNotInDocument();
   // Page 2 event should be visible.
@@ -71,7 +74,7 @@ test('should navigate between pages', async () => {
 
   // Should clear page from url search if selecting the first page
   const page1Button = getElement('page1Button');
-  await act(async () => await user.click(page1Button));
+  await user.click(page1Button);
 
   await waitFor(() => expect(history.location.search).toBe(''));
 });
@@ -87,7 +90,7 @@ test('should change sort order', async () => {
   await waitFor(() => expect(history.location.search).toBe(''));
 
   const sortNameButton = getElement('sortNameButton');
-  await act(async () => await user.click(sortNameButton));
+  await user.click(sortNameButton);
 
   await loadingSpinnerIsNotInDocument();
   // Sorted keywords should be visible.
@@ -96,7 +99,7 @@ test('should change sort order', async () => {
 });
 
 test('should search by text', async () => {
-  const searchValue = 'search';
+  const searchValue = keywordSetNames[0];
 
   const user = userEvent.setup();
   const { history } = renderComponent();
@@ -105,9 +108,11 @@ test('should search by text', async () => {
 
   const searchInput = getElement('searchInput');
   fireEvent.change(searchInput, { target: { value: searchValue } });
-  await act(async () => await user.click(getElement('searchButton')));
+  await user.click(getElement('searchButton'));
 
   await waitFor(() =>
-    expect(history.location.search).toBe(`?text=${searchValue}`)
+    expect(history.location.search).toBe(
+      `?text=${searchValue.replace(/ /g, '+')}`
+    )
   );
 });

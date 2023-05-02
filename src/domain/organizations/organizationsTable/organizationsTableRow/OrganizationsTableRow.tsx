@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 import { OrganizationFieldsFragment } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
+import getValue from '../../../../utils/getValue';
 import { scrollToItem } from '../../../../utils/scrollToItem';
 import { usePageSettings } from '../../../app/hooks/usePageSettings';
 import DataSourceName from '../../../dataSource/dataSourceName/DataSourceName';
@@ -123,14 +124,20 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
               <button
                 aria-label={
                   open
-                    ? (t(
-                        'organizationsPage.organizationsTable.hideSubOrganizations',
-                        { name: fullName }
-                      ) as string)
-                    : (t(
-                        'organizationsPage.organizationsTable.showSubOrganizations',
-                        { name: fullName }
-                      ) as string)
+                    ? getValue(
+                        t(
+                          'organizationsPage.organizationsTable.hideSubOrganizations',
+                          { name: fullName }
+                        ),
+                        undefined
+                      )
+                    : getValue(
+                        t(
+                          'organizationsPage.organizationsTable.showSubOrganizations',
+                          { name: fullName }
+                        ),
+                        undefined
+                      )
                 }
                 onClick={toggle}
               >
@@ -165,7 +172,7 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
               className={styles.organizationName}
               title={parentOrganizationName}
             >
-              {parentOrganizationName || /* istanbul ignore next */ '–'}
+              {getValue(parentOrganizationName, '–')}
             </span>
           </div>
         </td>

@@ -2,9 +2,9 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
@@ -13,6 +13,8 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
+import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedDeletePlaceResponse,
@@ -27,9 +29,14 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedPlaceResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedPlaceResponse,
+  mockedUserResponse,
+];
 
-const route = ROUTES.EDIT_PLACE.replace(':id', place.id as string);
+const route = ROUTES.EDIT_PLACE.replace(':id', getValue(place.id, ''));
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditPlacePage />, {
@@ -63,8 +70,8 @@ test('should scroll to first validation error input field', async () => {
   const nameInput = await findElement('nameInput');
   const saveButton = getElement('saveButton');
 
-  await act(async () => await user.clear(nameInput));
-  await act(async () => await user.click(saveButton));
+  await user.clear(nameInput);
+  await user.click(saveButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
@@ -79,13 +86,13 @@ test('should delete place', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const deleteButton = await findElement('deleteButton');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const confirmDeleteButton = withinModal.getByRole('button', {
     name: 'Poista paikka',
   });
-  await act(async () => await user.click(confirmDeleteButton));
+  await user.click(confirmDeleteButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/places`)
@@ -102,7 +109,7 @@ test('should update place', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const submitButton = getElement('saveButton');
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/places`)
@@ -116,7 +123,7 @@ test('should show server errors', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const submitButton = getElement('saveButton');
-  await act(async () => await user.click(submitButton));
+  await user.click(submitButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

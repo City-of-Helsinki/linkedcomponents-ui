@@ -1,6 +1,5 @@
-import { FieldProps, useField } from 'formik';
+import { FieldProps } from 'formik';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { getEventFields } from '../../../../domain/event/utils';
 import { EVENT_SORT_OPTIONS } from '../../../../domain/events/constants';
@@ -10,21 +9,21 @@ import {
   PublicationStatus,
 } from '../../../../generated/graphql';
 import { Language, OptionType } from '../../../../types';
-import { getErrorText } from '../../../../utils/validationUtils';
 import EventSelector, {
   EventSelectorProps,
 } from '../../eventSelector/EventSelector';
+import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
-type Props = EventSelectorProps & FieldProps;
+type Props = EventSelectorProps & FieldProps<string>;
 
 const getEventOption = (
   event: EventFieldsFragment,
   locale: Language
 ): OptionType => {
-  const { endTime, id, name, startTime } = getEventFields(event, locale);
+  const { endTime, atId, name, startTime } = getEventFields(event, locale);
   return {
     label: `${name} ${getEventDateText(endTime, startTime)}`,
-    value: id,
+    value: atId,
   };
 };
 
@@ -32,29 +31,27 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
   helper,
+  disabled,
   ...rest
 }) => {
-  const { t } = useTranslation();
-  const [, { touched, error }] = useField(name);
-
-  const errorText = getErrorText(error, touched, t);
-
-  const handleBlur = () => {
-    onBlur({ target: { id: name, value } });
-  };
-
-  const handleChange = (selected: OptionType | null) => {
-    onChange({ target: { id: name, value: selected?.value || null } });
-  };
+  const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
+    disabled,
+    name,
+    onBlur,
+    onChange,
+    value,
+  });
 
   return (
     <EventSelector
       {...rest}
       {...field}
+      disabled={disabled}
       name={name}
       variables={{
         adminUser: true,
         publicationStatus: PublicationStatus.Public,
+        registration: false,
         start: 'now',
         sort: EVENT_SORT_OPTIONS.NAME,
         superEventType: ['none'],

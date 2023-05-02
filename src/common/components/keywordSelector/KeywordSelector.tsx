@@ -23,10 +23,10 @@ import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
+import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Combobox, { MultiComboboxProps } from '../combobox/Combobox';
-import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 
 const getOption = ({
   keyword,
@@ -71,7 +71,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
       createPath: getPathBuilder(keywordsPathBuilder),
       dataSource: ['yso', 'helsinki'],
       showAllKeywords: true,
-      text: debouncedSearch,
+      freeText: debouncedSearch,
     },
   });
 
@@ -86,9 +86,12 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
 
   const options: OptionType[] = React.useMemo(
     () =>
-      (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
-        getOption({ keyword: keyword as KeywordFieldsFragment, locale })
-      ) ?? [],
+      getValue(
+        (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
+          getOption({ keyword: keyword as KeywordFieldsFragment, locale })
+        ),
+        []
+      ),
     [keywordsData, locale, previousKeywordsData]
   );
 
@@ -99,7 +102,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
           await Promise.all(
             value.map(async (atId) => {
               const keyword = await getKeywordQueryResult(
-                parseIdFromAtId(atId) as string,
+                getValue(parseIdFromAtId(atId), ''),
                 apolloClient
               );
               /* istanbul ignore next */
@@ -118,18 +121,17 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   }, []);
 
   return (
-    <ComboboxLoadingSpinner isLoading={loading}>
-      <Combobox
-        {...rest}
-        multiselect={true}
-        filter={handleFilter}
-        id={name}
-        label={label}
-        options={options}
-        toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
-        value={selectedKeywords}
-      />
-    </ComboboxLoadingSpinner>
+    <Combobox
+      {...rest}
+      multiselect={true}
+      filter={handleFilter}
+      id={name}
+      isLoading={loading}
+      label={label}
+      options={options}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+      value={selectedKeywords}
+    />
   );
 };
 

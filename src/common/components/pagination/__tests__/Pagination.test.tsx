@@ -1,7 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
-import { act, configure, render, screen } from '../../../../utils/testUtils';
+import { configure, render, screen } from '../../../../utils/testUtils';
 import Pagination, { PaginationProps } from '../Pagination';
 
 configure({ defaultHidden: true });
@@ -38,7 +38,7 @@ test('should call onChange when clicking previous button', async () => {
   renderComponent({ pageIndex: 1, onChange });
 
   const previousButton = getElement('previous');
-  await act(async () => await user.click(previousButton));
+  await user.click(previousButton);
 
   expect(onChange).toBeCalledWith(expect.objectContaining({}), 0);
 });
@@ -57,7 +57,7 @@ test('should call onChange when clicking next button', async () => {
   renderComponent({ pageIndex: 8, onChange });
 
   const nextButton = getElement('next');
-  await act(async () => await user.click(nextButton));
+  await user.click(nextButton);
 
   expect(onChange).toBeCalledWith(expect.objectContaining({}), 9);
 });
@@ -68,7 +68,7 @@ test('should call onChange when clicking page link', async () => {
   renderComponent({ pageIndex: 0, onChange });
 
   const page2Link = screen.getByRole('link', { name: 'Sivu 2' });
-  await act(async () => await user.click(page2Link));
+  await user.click(page2Link);
 
   expect(onChange).toBeCalledWith(expect.objectContaining({}), 1);
 });

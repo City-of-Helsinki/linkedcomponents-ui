@@ -5,7 +5,6 @@ import { ROUTES } from '../../../../constants';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   render,
   screen,
@@ -84,7 +83,7 @@ const getElement = (
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getElement('toggle');
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   getElement('menu');
 
   return toggleButton;
@@ -95,7 +94,7 @@ test('should toggle menu by clicking actions button', async () => {
   renderComponent({ authContextValue });
 
   const toggleButton = await openMenu();
-  await act(async () => await user.click(toggleButton));
+  await user.click(toggleButton);
   expect(
     screen.queryByRole('region', { name: /valinnat/i })
   ).not.toBeInTheDocument();
@@ -196,7 +195,7 @@ test('should route to create event page when clicking copy button', async () => 
 
   const copyButton = getElement('copy');
   await waitFor(() => expect(copyButton).toBeEnabled());
-  await act(async () => await user.click(copyButton));
+  await user.click(copyButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/events/create`)
@@ -210,7 +209,7 @@ test('should route to edit page when clicking edit button', async () => {
   await openMenu();
 
   const editButton = getElement('edit');
-  await act(async () => await user.click(editButton));
+  await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/events/edit/${eventId}`)
@@ -227,13 +226,13 @@ test('should cancel event', async () => {
   await openMenu();
 
   const cancelButton = getElement('cancel');
-  await act(async () => await user.click(cancelButton));
+  await user.click(cancelButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Peruuta tapahtuma',
   });
-  await act(async () => await user.click(cancelEventButton));
+  await user.click(cancelEventButton);
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
@@ -249,13 +248,13 @@ test('should delete event', async () => {
   await openMenu();
 
   const deleteButton = getElement('delete');
-  await act(async () => await user.click(deleteButton));
+  await user.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const deleteEventButton = withinModal.getByRole('button', {
     name: 'Poista tapahtuma',
   });
-  await act(async () => await user.click(deleteEventButton));
+  await user.click(deleteEventButton);
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
@@ -274,13 +273,13 @@ test('should postpone event', async () => {
   await openMenu();
 
   const postponeButton = getElement('postpone');
-  await act(async () => await user.click(postponeButton));
+  await user.click(postponeButton);
 
   const withinModal = within(screen.getByRole('dialog'));
   const cancelEventButton = withinModal.getByRole('button', {
     name: 'Lykkää tapahtumaa',
   });
-  await act(async () => await user.click(cancelEventButton));
+  await user.click(cancelEventButton);
 
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()

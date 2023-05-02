@@ -26,7 +26,7 @@ import { RegistrationFormFields } from '../types';
 import { getRegistrationFields, getRegistrationPayload } from '../utils';
 
 interface UseRegistrationActionsProps {
-  registration?: RegistrationFieldsFragment;
+  registration?: RegistrationFieldsFragment | null;
 }
 
 type UseRegistrationActionsState = {
@@ -126,6 +126,7 @@ const useRegistrationActions = ({
         variables: { input: payload },
       });
 
+      /* istanbul ignore else */
       if (data?.createRegistration.id) {
         await cleanAfterUpdate(callbacks, data?.createRegistration.id);
       }
@@ -169,7 +170,7 @@ const useRegistrationActions = ({
     );
 
     let payload: UpdateRegistrationMutationInput = {
-      event: values.event,
+      event: { atId: values.event },
       id,
     };
 

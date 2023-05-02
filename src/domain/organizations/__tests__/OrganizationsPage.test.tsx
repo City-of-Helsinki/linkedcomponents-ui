@@ -2,9 +2,9 @@ import { createMemoryHistory } from 'history';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
-  act,
   configure,
   CustomRenderOptions,
   loadingSpinnerIsNotInDocument,
@@ -14,6 +14,8 @@ import {
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
+import { mockedDataSourceResponse } from '../../dataSource/__mocks__/dataSource';
+import { mockedOrganizationClassResponse } from '../../organizationClass/__mocks__/organizationClass';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedOrganizationsResponse,
@@ -25,7 +27,12 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const mocks = [mockedOrganizationsResponse, mockedUserResponse];
+const mocks = [
+  mockedDataSourceResponse,
+  mockedOrganizationClassResponse,
+  mockedOrganizationsResponse,
+  mockedUserResponse,
+];
 
 const route = ROUTES.ORGANIZATIONS;
 const routes = [route];
@@ -102,7 +109,7 @@ test('should open create organization page', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const createOrganizationButton = getElement('createOrganizationButton');
-  await act(async () => await user.click(createOrganizationButton));
+  await user.click(createOrganizationButton);
 
   expect(history.location.pathname).toBe(
     '/fi/administration/organizations/create'
@@ -116,7 +123,7 @@ test('should add sort parameter to search query', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const sortNameButton = getElement('sortNameButton');
-  await act(async () => await user.click(sortNameButton));
+  await user.click(sortNameButton);
 
   expect(history.location.search).toBe('?sort=-name');
 });
@@ -131,7 +138,7 @@ it('scrolls to organization row and calls history.replace correctly (deletes org
 
   await loadingSpinnerIsNotInDocument();
   const organizationButton = screen.getByRole('button', {
-    name: organizations.data[0]?.name as string,
+    name: getValue(organizations.data[0]?.name, ''),
   });
 
   await waitFor(() =>

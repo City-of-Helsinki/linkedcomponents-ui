@@ -12,7 +12,7 @@ export const keywordsOverrides: Partial<Keyword>[] = range(1, 5).map(
     name: fakeLocalisedObject(`Keyword name ${index}`),
   })
 );
-export const keywordName = keywordsOverrides[0].name?.fi;
+export const keywordName = keywordsOverrides[0].name?.fi as string;
 export const keywordId = keywordsOverrides[0].id;
 export const keywordsResponse = fakeKeywords(
   keywordsOverrides.length,

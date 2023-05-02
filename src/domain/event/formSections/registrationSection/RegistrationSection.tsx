@@ -12,6 +12,7 @@ import {
 } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../../hooks/useQueryStringWithReturnPath';
+import getValue from '../../../../utils/getValue';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import Section from '../../../app/layout/section/Section';
@@ -37,7 +38,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({ event }) => {
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const { publisher, registrationUrl } = getEventFields(event, locale);
   const { organizationAncestors } = useOrganizationAncestors(
-    publisher as string
+    getValue(publisher, '')
   );
   const { user } = useUser();
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
@@ -68,7 +69,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({ event }) => {
     checkCanUserDoAction({
       action: REGISTRATION_ACTIONS.CREATE,
       organizationAncestors,
-      publisher: publisher as string,
+      publisher: getValue(publisher, ''),
       user,
     })
   ) {
