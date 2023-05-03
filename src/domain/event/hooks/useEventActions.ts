@@ -310,7 +310,6 @@ const useEventActions = (
       await updateImageIfNeeded(values);
     } catch (error) /* istanbul ignore next */ {
       handleError({
-        callbacks,
         data: { images: values.images, imageDetails: values.imageDetails },
         error,
         message: 'Failed to update image',

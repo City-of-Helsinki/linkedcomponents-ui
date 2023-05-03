@@ -421,6 +421,7 @@ const MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR = [
   'CreateKeywordSet',
   'CreateOrganization',
   'CreatePlace',
+  'UpdateImage',
   'UpdateKeyword',
   'UpdateKeywordSet',
   'UpdateOrganization',
