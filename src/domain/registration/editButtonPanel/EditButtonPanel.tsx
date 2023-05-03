@@ -84,7 +84,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       authenticated,
       onClick,
       organizationAncestors,
-      publisher,
+      registration,
       t,
       user,
     });

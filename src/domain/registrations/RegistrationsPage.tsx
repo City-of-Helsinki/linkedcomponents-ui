@@ -48,7 +48,6 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
     authenticated,
     onClick: goToCreateRegistrationPage,
     organizationAncestors: [],
-    publisher: '',
     t,
     user,
   });
