@@ -24,7 +24,6 @@ const CreateButtonPanel: React.FC<Props> = ({ onSave, saving }) => {
     authenticated,
     onClick: onSave,
     organizationAncestors: [],
-    publisher: '',
     t,
     user,
   });

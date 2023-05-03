@@ -1709,6 +1709,7 @@
         "warningNotAuthenticated": "För att skapa en registrering, logga in först."
       },
       "editButtonPanel": {
+        "warningHasEnrolments": "Registreringar med deltagare kan inte raderas.",
         "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa registreringar.",
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
       },

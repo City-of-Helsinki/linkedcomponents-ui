@@ -78,6 +78,18 @@ describe('getEditRegistrationWarning function', () => {
       })
     ).toBe('Sinulla ei ole oikeuksia muokata tätä ilmoittautumista.');
   });
+
+  it('should return warning if registration has enrolments', () => {
+    expect(
+      getEditRegistrationWarning({
+        authenticated: true,
+        registration: fakeRegistration({ currentAttendeeCount: 1 }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: REGISTRATION_ACTIONS.DELETE,
+      })
+    ).toBe('Ilmoittautumisia joilla on osallistujia ei voi poistaa.');
+  });
 });
 
 describe('getRegistrationFields function', () => {
