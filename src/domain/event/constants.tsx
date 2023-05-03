@@ -99,6 +99,8 @@ export enum EVENT_FIELDS {
   RECURRING_EVENT_END_TIME = 'recurringEventEndTime',
   RECURRING_EVENT_START_TIME = 'recurringEventStartTime',
   SHORT_DESCRIPTION = 'shortDescription',
+  HAS_CERTIFICATE = 'hasCertificate',
+  CERTIFICATE = 'certificate',
   SUPER_EVENT = 'superEvent',
   TYPE = 'type',
   VIDEOS = 'videos',

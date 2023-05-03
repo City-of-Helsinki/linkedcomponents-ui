@@ -3,6 +3,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
+import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
+// eslint-disable-next-line max-len
+import RadioButtonGroupField from '../../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
 import TextEditorField from '../../../../common/components/formFields/textEditorField/TextEditorField';
 import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
@@ -26,12 +29,14 @@ const FIELDS = [
 
 export interface DescriptionSectionProps {
   isEditingAllowed: boolean;
+  isUnknownUser: boolean;
   selectedLanguage: LE_DATA_LANGUAGES;
   setSelectedLanguage: (value: LE_DATA_LANGUAGES) => void;
 }
 
 const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   isEditingAllowed,
+  isUnknownUser,
   selectedLanguage,
   setSelectedLanguage,
 }) => {
@@ -42,6 +47,10 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   });
   const [{ value: audience }] = useField({ name: EVENT_FIELDS.AUDIENCE });
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: hasCertificate }] = useField({
+    name: EVENT_FIELDS.HAS_CERTIFICATE,
+  });
+
   const sortedEventInfoLanguages = useSortedInfoLanguages(eventInfoLanguages);
 
   const languageOptions = React.useMemo(
@@ -157,6 +166,28 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   sanitizeAfterBlur={sanitizeDescription}
                 />
               </FormGroup>
+              {isUnknownUser && (
+                <FieldRow>
+                  <FormGroup>
+                    <Field
+                      component={CheckboxField}
+                      label={t('event.form.labelHasCertificate')}
+                      name={EVENT_FIELDS.HAS_CERTIFICATE}
+                    ></Field>
+                  </FormGroup>
+                  <FormGroup>
+                    <FieldColumn>
+                      <Field
+                        component={TextInputField}
+                        disabled={!hasCertificate}
+                        label={t('event.form.labelCertificate')}
+                        name={EVENT_FIELDS.CERTIFICATE}
+                        required={hasCertificate}
+                      ></Field>
+                    </FieldColumn>
+                  </FormGroup>
+                </FieldRow>
+              )}
             </TabPanel>
           );
         })}
