@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import MultiLanguageField from '../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
 import PlaceSelectorField from '../../../../common/components/formFields/placeSelectorField/PlaceSelectorField';
+// eslint-disable-next-line max-len
+import RadioButtonGroupField from '../../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import { CHARACTER_LIMITS } from '../../../../constants';
@@ -17,9 +19,10 @@ import styles from './placeSection.module.scss';
 
 interface Props {
   isEditingAllowed: boolean;
+  isUnknownUser: boolean;
 }
 
-const PlaceSection: React.FC<Props> = ({ isEditingAllowed }) => {
+const PlaceSection: React.FC<Props> = ({ isEditingAllowed, isUnknownUser }) => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
@@ -66,15 +69,44 @@ const PlaceSection: React.FC<Props> = ({ isEditingAllowed }) => {
               {t('event.form.labelLocationId')} {parseIdFromAtId(location)}
             </div>
           </FormGroup>
+
           <h3>{t(`event.form.titleLocationExtraInfo`)}</h3>
-          <MultiLanguageField
-            disabled={!isEditingAllowed}
-            labelKey={`event.form.labelLocationExtraInfo`}
-            languages={eventInfoLanguages}
-            maxLength={CHARACTER_LIMITS.SHORT_STRING}
-            name={EVENT_FIELDS.LOCATION_EXTRA_INFO}
-            placeholderKey={`event.form.placeholderLocationExtraInfo`}
-          />
+          <FormGroup>
+            <MultiLanguageField
+              disabled={!isEditingAllowed}
+              labelKey={`event.form.labelLocationExtraInfo`}
+              languages={eventInfoLanguages}
+              maxLength={CHARACTER_LIMITS.SHORT_STRING}
+              name={EVENT_FIELDS.LOCATION_EXTRA_INFO}
+              placeholderKey={`event.form.placeholderLocationExtraInfo`}
+            />
+          </FormGroup>
+          {isUnknownUser && (
+            <Fieldset heading={t('event.form.labelLocationOutdoorsIndoors')}>
+              <FieldColumn>
+                <Field
+                  columns={1}
+                  component={RadioButtonGroupField}
+                  name={EVENT_FIELDS.LOCATION_OUTDOORS_INDOORS}
+                  options={[
+                    {
+                      label: t(
+                        'event.form.locationOutdoorsIndoorsOptions.indoors'
+                      ),
+                      value: 'indoors',
+                    },
+                    {
+                      label: t(
+                        'event.form.locationOutdoorsIndoorsOptions.outdoors'
+                      ),
+                      value: 'outdoors',
+                    },
+                  ]}
+                  required
+                ></Field>
+              </FieldColumn>
+            </Fieldset>
+          )}
         </FieldColumn>
       </FieldRow>
     </Fieldset>

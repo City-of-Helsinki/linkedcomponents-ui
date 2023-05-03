@@ -420,7 +420,10 @@ const EventForm: React.FC<EventFormProps> = ({
                 />
               </Section>
               <Section title={t('event.form.sections.place')}>
-                <PlaceSection isEditingAllowed={isEditingAllowed} />
+                <PlaceSection
+                  isEditingAllowed={isEditingAllowed}
+                  isUnknownUser={isUnknownUser}
+                />
               </Section>
               <Section title={t('event.form.sections.price')}>
                 <PriceSection isEditingAllowed={isEditingAllowed} />

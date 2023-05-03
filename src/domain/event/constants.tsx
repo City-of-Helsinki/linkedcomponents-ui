@@ -84,6 +84,7 @@ export enum EVENT_FIELDS {
   KEYWORDS = 'keywords',
   LOCATION = 'location',
   LOCATION_EXTRA_INFO = 'locationExtraInfo',
+  LOCATION_OUTDOORS_INDOORS = 'locationOutdoorsIndoors',
   MAIN_CATEGORIES = 'mainCategories',
   MAXIMUM_ATTENDEE_CAPACITY = 'maximumAttendeeCapacity',
   MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',

@@ -735,6 +735,7 @@
       "labelKeywords": "Avainsanahaku",
       "labelLocation": "Paikka",
       "labelLocationExtraInfo": "{{langText}}",
+      "labelLocationOutdoorsIndoors": "Tapahtuma järjestetään",
       "labelLocationId": "Paikan ID:",
       "labelMaximumAttendeeCapacity": "Enimmäisosallistujamäärä",
       "labelMinimumAttendeeCapacity": "Vähimmäisosallistujamäärä",
@@ -998,7 +999,11 @@
         "general": "Tapahtuman video",
         "volunteering": "Vapaaehtoistehtävän video"
       },
-      "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
+      "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma.",
+      "locationOutdoorsIndoorsOptions": {
+        "indoors": "Sisällä",
+        "outdoors": "Ulkona"
+      }
     },
     "freeEvent": "Maksuton",
     "postponeEventModal": {

@@ -735,6 +735,7 @@
       "labelKeywords": "Keyword search",
       "labelLocation": "Location",
       "labelLocationExtraInfo": "{{langText}}",
+      "labelLocationOutdoorsIndoors": "Event is held",
       "labelLocationId": "Location ID:",
       "labelMaximumAttendeeCapacity": "Maximum number of participants",
       "labelMinimumAttendeeCapacity": "Minimum number of participants",
@@ -998,7 +999,11 @@
         "general": "Event video",
         "volunteering": "Volunteering video"
       },
-      "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event."
+      "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event.",
+      "locationOutdoorsIndoorsOptions": {
+        "indoors": "Indoors",
+        "outdoors": "Outdoors"
+      }
     },
     "freeEvent": "Free",
     "postponeEventModal": {
