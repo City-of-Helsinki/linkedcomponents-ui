@@ -753,6 +753,7 @@
       "labelProvider": {
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "general": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)",
+        "generalUnknown": "Tapahtuman järjestäjä {{langText}}",
         "volunteering": "Vapaaehtoistehtävän järjestäjä {{langText}} (jos eri kuin julkaisija)"
       },
       "labelPublisher": {

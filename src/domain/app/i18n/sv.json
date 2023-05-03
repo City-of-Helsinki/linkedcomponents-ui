@@ -753,6 +753,7 @@
       "labelProvider": {
         "course": "Arrangör av kurs {{langText}} (om det skiljer sig från utgivaren)",
         "general": "Arrangör av evenemang {{langText}} (om det skiljer sig från utgivaren)",
+        "generalUnknown": "Arrangör av evenemang {{langText}}",
         "volunteering": "Arrangör av volontärarbete {{langText}} (om det skiljer sig från utgivaren)"
       },
       "labelPublisher": {

@@ -17,11 +17,13 @@ import { EVENT_FIELDS } from '../../constants';
 
 export interface ResponsibilitiesSectionProps {
   isEditingAllowed: boolean;
+  isUnknownUser: boolean;
   savedEvent?: EventFieldsFragment | null;
 }
 
 const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
   isEditingAllowed,
+  isUnknownUser,
   savedEvent,
 }) => {
   const { user } = useUser();
@@ -70,7 +72,9 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
         <FieldColumn>
           <Field
             component={PublisherSelectorField}
-            disabled={!isEditingAllowed || isPublisherDisabled()}
+            disabled={
+              !isEditingAllowed || isUnknownUser || isPublisherDisabled()
+            }
             label={t(`event.form.labelPublisher.${type}`)}
             name={EVENT_FIELDS.PUBLISHER}
             publisher={savedEvent?.publisher}
@@ -91,13 +95,18 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
         <FieldColumn>
           <MultiLanguageField
             disabled={!isEditingAllowed}
-            labelKey={`event.form.labelProvider.${type}`}
+            labelKey={
+              !isUnknownUser
+                ? `event.form.labelProvider.${type}`
+                : `event.form.labelProvider.${type}Unknown`
+            }
             languages={eventInfoLanguages}
             name={EVENT_FIELDS.PROVIDER}
             placeholder={getValue(
               t(`event.form.placeholderProvider.${type}`),
               undefined
             )}
+            required={isUnknownUser}
           />
         </FieldColumn>
       </FieldRow>

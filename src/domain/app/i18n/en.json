@@ -753,6 +753,7 @@
       "labelProvider": {
         "course": "Course organizer {{langText}} (if different from publisher)",
         "general": "Event organizer {{langText}} (if different from publisher)",
+        "generalUnknown": "Event organizer {{langText}}",
         "volunteering": "Volunteering organizer {{langText}} (if different from publisher)"
       },
       "labelPublisher": {
