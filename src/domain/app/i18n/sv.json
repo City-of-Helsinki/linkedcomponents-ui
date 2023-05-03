@@ -560,6 +560,7 @@
         "general": "Om antalet deltagare i evenemanget är begränsat, ange lägsta och högsta antal deltagare här.",
         "volunteering": "Om antalet deltagare i volontärarbetet är begränsat, ange lägsta och högsta antal deltagare här."
       },
+      "infoTextAttendeeCapacityUnknownUser": "If the number of event participants is not limited in any way, write a rough estimate of the maximum number of participants. (This information will be used for statistical purposes).",
       "infoTextAudience": {
         "course": "Om kursen inte har en specifik målgrupp lämnar du valet tomt.",
         "general": "Om evenemanget inte har en specifik målgrupp lämnar du valet tomt.",

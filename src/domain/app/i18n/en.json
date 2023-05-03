@@ -560,6 +560,7 @@
         "general": "If the number of participants in the event is limited, specify the minimum and maximum number of participants here.",
         "volunteering": "If the number of participants in the volunteering is limited, specify the minimum and maximum number of participants here."
       },
+      "infoTextAttendeeCapacityUnknownUser": "If the number of event participants is not limited in any way, write a rough estimate of the maximum number of participants. (This information will be used for statistical purposes).",
       "infoTextAudience": {
         "course": "If the course does not have a specific target group, you must leave the selection unchecked.",
         "general": "If the event does not have a specific target group, you must leave the selection unchecked.",

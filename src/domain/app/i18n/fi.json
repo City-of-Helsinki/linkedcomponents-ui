@@ -560,6 +560,7 @@
         "general": "Jos tapahtuman osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä.",
         "volunteering": "Jos vapaaehtoistehtävän osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä."
       },
+      "infoTextAttendeeCapacityUnknownUser": "Jos tapahtuman osallistujien määrä ei ole rajoitettu, ilmoita karkea arvio vähintään enimmäisosallistujamäärästä. (Tätä tietoa käytetään tilastointitarkoituksiin).",
       "infoTextAudience": {
         "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
         "general": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",

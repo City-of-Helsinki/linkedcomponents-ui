@@ -444,7 +444,10 @@ const EventForm: React.FC<EventFormProps> = ({
                 <AudienceSection isEditingAllowed={isEditingAllowed} />
               </Section>
               <Section title={t('event.form.sections.additionalInfo')}>
-                <AdditionalInfoSection isEditingAllowed={isEditingAllowed} />
+                <AdditionalInfoSection
+                  isEditingAllowed={isEditingAllowed}
+                  isUnknownUser={isUnknownUser}
+                />
               </Section>
 
               {event ? (
