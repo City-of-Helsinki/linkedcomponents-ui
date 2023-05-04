@@ -256,7 +256,7 @@ const EventForm: React.FC<EventFormProps> = ({
   //   : isEventActionAllowed([EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH]);
 
   const isEditingAllowed = true;
-  const isUnknownUser = true;
+  const isUserOtherOrganisation = true;
 
   const clearErrors = () => setErrors({});
 
@@ -401,14 +401,14 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.responsibilities')}>
                 <ResponsibilitiesSection
                   isEditingAllowed={isEditingAllowed}
-                  isUnknownUser={isUnknownUser}
+                  isUserOtherOrganisation={isUserOtherOrganisation}
                   savedEvent={event}
                 />
               </Section>
               <Section title={t('event.form.sections.description')}>
                 <DescriptionSection
                   isEditingAllowed={isEditingAllowed}
-                  isUnknownUser={isUnknownUser}
+                  isUserOtherOrganisation={isUserOtherOrganisation}
                   selectedLanguage={descriptionLanguage}
                   setSelectedLanguage={setDescriptionLanguage}
                 />
@@ -422,7 +422,7 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.place')}>
                 <PlaceSection
                   isEditingAllowed={isEditingAllowed}
-                  isUnknownUser={isUnknownUser}
+                  isUserOtherOrganisation={isUserOtherOrganisation}
                 />
               </Section>
               <Section title={t('event.form.sections.price')}>
@@ -446,7 +446,7 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.additionalInfo')}>
                 <AdditionalInfoSection
                   isEditingAllowed={isEditingAllowed}
-                  isUnknownUser={isUnknownUser}
+                  isUserOtherOrganisation={isUserOtherOrganisation}
                 />
               </Section>
 

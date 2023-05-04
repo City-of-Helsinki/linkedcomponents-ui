@@ -694,7 +694,7 @@
         "general": "Tapahtuman kuvaus {{langText}}",
         "volunteering": "Vapaaehtoistehtävän kuvaus {{langText}}"
       },
-      "labelHasCertificate": "Tapahtumalla on ekokompassi tai muu vastaava sertifikaatti",
+      "labelHasEnvironmentalCertificate": "Tapahtumalla on ekokompassi tai muu vastaava sertifikaatti",
       "labelCertificate": "Sertifikaatin nimi",
       "labelEndDate": {
         "course": "Kurssi päättyy",
@@ -757,8 +757,8 @@
       "labelProvider": {
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "general": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)",
-        "generalUnknown": "Tapahtuman järjestäjä {{langText}}",
-        "volunteering": "Vapaaehtoistehtävän järjestäjä {{langText}} (jos eri kuin julkaisija)"
+        "volunteering": "Vapaaehtoistehtävän järjestäjä {{langText}} (jos eri kuin julkaisija)",
+        "other": "Tapahtuman järjestäjä {{langText}}"
       },
       "labelPublisher": {
         "course": "Kurssin julkaisija",

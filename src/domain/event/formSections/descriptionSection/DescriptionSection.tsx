@@ -29,14 +29,14 @@ const FIELDS = [
 
 export interface DescriptionSectionProps {
   isEditingAllowed: boolean;
-  isUnknownUser: boolean;
+  isUserOtherOrganisation: boolean;
   selectedLanguage: LE_DATA_LANGUAGES;
   setSelectedLanguage: (value: LE_DATA_LANGUAGES) => void;
 }
 
 const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   isEditingAllowed,
-  isUnknownUser,
+  isUserOtherOrganisation,
   selectedLanguage,
   setSelectedLanguage,
 }) => {
@@ -47,8 +47,8 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   });
   const [{ value: audience }] = useField({ name: EVENT_FIELDS.AUDIENCE });
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
-  const [{ value: hasCertificate }] = useField({
-    name: EVENT_FIELDS.HAS_CERTIFICATE,
+  const [{ value: hasEnvironmentalCertificate }] = useField({
+    name: EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE,
   });
 
   const sortedEventInfoLanguages = useSortedInfoLanguages(eventInfoLanguages);
@@ -166,23 +166,23 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   sanitizeAfterBlur={sanitizeDescription}
                 />
               </FormGroup>
-              {isUnknownUser && (
+              {isUserOtherOrganisation && (
                 <FieldRow>
                   <FormGroup>
                     <Field
                       component={CheckboxField}
-                      label={t('event.form.labelHasCertificate')}
-                      name={EVENT_FIELDS.HAS_CERTIFICATE}
+                      label={t('event.form.labelHasEnvironmentalCertificate')}
+                      name="hasEnvironmentalCertificate"
                     ></Field>
                   </FormGroup>
                   <FormGroup>
                     <FieldColumn>
                       <Field
                         component={TextInputField}
-                        disabled={!hasCertificate}
+                        disabled={!hasEnvironmentalCertificate}
                         label={t('event.form.labelCertificate')}
-                        name={EVENT_FIELDS.CERTIFICATE}
-                        required={hasCertificate}
+                        name={EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE}
+                        required
                       ></Field>
                     </FieldColumn>
                   </FormGroup>
