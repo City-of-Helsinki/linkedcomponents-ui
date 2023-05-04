@@ -49,6 +49,7 @@ import DescriptionSection from '../formSections/descriptionSection/DescriptionSe
 import ImageSection from '../formSections/imageSection/ImageSection';
 import LanguagesSection from '../formSections/languagesSection/LanguagesSection';
 import LinksToEventsSection from '../formSections/linksToEventsSection/LinksToEventsSection';
+import OtherOrganisationUserContact from '../formSections/otherOrganisationUserContact/OtherOrganisationUserContact';
 import PlaceSection from '../formSections/placeSection/PlaceSection';
 import PriceSection from '../formSections/priceSection/PriceSection';
 import RegistrationSection from '../formSections/registrationSection/RegistrationSection';
@@ -247,16 +248,15 @@ const EventForm: React.FC<EventFormProps> = ({
   };
 
   /* istanbul ignore next */
-  // const isEditingAllowed = event
-  //   ? isEventActionAllowed([
-  //       EVENT_ACTIONS.UPDATE_DRAFT,
-  //       EVENT_ACTIONS.UPDATE_PUBLIC,
-  //       EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
-  //     ])
-  //   : isEventActionAllowed([EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH]);
+  const isEditingAllowed = event
+    ? isEventActionAllowed([
+        EVENT_ACTIONS.UPDATE_DRAFT,
+        EVENT_ACTIONS.UPDATE_PUBLIC,
+        EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+      ])
+    : isEventActionAllowed([EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH]);
 
-  const isEditingAllowed = true;
-  const isUserOtherOrganisation = true;
+  const isOtherOrganisationUser = true;
 
   const clearErrors = () => setErrors({});
 
@@ -401,14 +401,14 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.responsibilities')}>
                 <ResponsibilitiesSection
                   isEditingAllowed={isEditingAllowed}
-                  isUserOtherOrganisation={isUserOtherOrganisation}
+                  isOtherOrganisationUser={isOtherOrganisationUser}
                   savedEvent={event}
                 />
               </Section>
               <Section title={t('event.form.sections.description')}>
                 <DescriptionSection
                   isEditingAllowed={isEditingAllowed}
-                  isUserOtherOrganisation={isUserOtherOrganisation}
+                  isOtherOrganisationUser={isOtherOrganisationUser}
                   selectedLanguage={descriptionLanguage}
                   setSelectedLanguage={setDescriptionLanguage}
                 />
@@ -422,7 +422,7 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.place')}>
                 <PlaceSection
                   isEditingAllowed={isEditingAllowed}
-                  isUserOtherOrganisation={isUserOtherOrganisation}
+                  isOtherOrganisationUser={isOtherOrganisationUser}
                 />
               </Section>
               <Section title={t('event.form.sections.price')}>
@@ -446,10 +446,14 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.additionalInfo')}>
                 <AdditionalInfoSection
                   isEditingAllowed={isEditingAllowed}
-                  isUserOtherOrganisation={isUserOtherOrganisation}
+                  isOtherOrganisationUser={isOtherOrganisationUser}
                 />
               </Section>
-
+              {isOtherOrganisationUser && (
+                <Section title="Yhteystiedot">
+                  <OtherOrganisationUserContact />
+                </Section>
+              )}
               {event ? (
                 <>
                   {featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') && (

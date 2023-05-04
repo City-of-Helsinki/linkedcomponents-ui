@@ -29,14 +29,14 @@ const FIELDS = [
 
 export interface DescriptionSectionProps {
   isEditingAllowed: boolean;
-  isUserOtherOrganisation: boolean;
+  isOtherOrganisationUser: boolean;
   selectedLanguage: LE_DATA_LANGUAGES;
   setSelectedLanguage: (value: LE_DATA_LANGUAGES) => void;
 }
 
 const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   isEditingAllowed,
-  isUserOtherOrganisation,
+  isOtherOrganisationUser,
   selectedLanguage,
   setSelectedLanguage,
 }) => {
@@ -166,7 +166,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   sanitizeAfterBlur={sanitizeDescription}
                 />
               </FormGroup>
-              {isUserOtherOrganisation && (
+              {isOtherOrganisationUser && (
                 <FieldRow>
                   <FormGroup>
                     <Field

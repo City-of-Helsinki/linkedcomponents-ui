@@ -17,13 +17,13 @@ import { EVENT_FIELDS } from '../../constants';
 
 export interface ResponsibilitiesSectionProps {
   isEditingAllowed: boolean;
-  isUserOtherOrganisation: boolean;
+  isOtherOrganisationUser: boolean;
   savedEvent?: EventFieldsFragment | null;
 }
 
 const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
   isEditingAllowed,
-  isUserOtherOrganisation,
+  isOtherOrganisationUser,
   savedEvent,
 }) => {
   const { user } = useUser();
@@ -74,7 +74,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
             component={PublisherSelectorField}
             disabled={
               !isEditingAllowed ||
-              isUserOtherOrganisation ||
+              isOtherOrganisationUser ||
               isPublisherDisabled()
             }
             label={t(`event.form.labelPublisher.${type}`)}
@@ -98,7 +98,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
           <MultiLanguageField
             disabled={!isEditingAllowed}
             labelKey={
-              !isUserOtherOrganisation
+              !isOtherOrganisationUser
                 ? `event.form.labelProvider.${type}`
                 : 'event.form.labelProvider.other'
             }
@@ -108,7 +108,7 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
               t(`event.form.placeholderProvider.${type}`),
               undefined
             )}
-            required={isUserOtherOrganisation}
+            required={isOtherOrganisationUser}
           />
         </FieldColumn>
       </FieldRow>

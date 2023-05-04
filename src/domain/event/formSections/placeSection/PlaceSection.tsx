@@ -19,12 +19,12 @@ import styles from './placeSection.module.scss';
 
 interface Props {
   isEditingAllowed: boolean;
-  isUserOtherOrganisation: boolean;
+  isOtherOrganisationUser: boolean;
 }
 
 const PlaceSection: React.FC<Props> = ({
   isEditingAllowed,
-  isUserOtherOrganisation,
+  isOtherOrganisationUser,
 }) => {
   const { t } = useTranslation();
 
@@ -84,7 +84,7 @@ const PlaceSection: React.FC<Props> = ({
               placeholderKey={`event.form.placeholderLocationExtraInfo`}
             />
           </FormGroup>
-          {isUserOtherOrganisation && (
+          {isOtherOrganisationUser && (
             <Fieldset heading={t('event.form.labelLocationOutdoorsIndoors')}>
               <FieldColumn>
                 <Field
