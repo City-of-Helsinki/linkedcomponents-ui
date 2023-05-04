@@ -695,7 +695,7 @@
         "volunteering": "Volunteering description {{langText}}"
       },
       "labelHasEnvironmentalCertificate": "Event has received an EcoCompass or similar environmental certification",
-      "labelCertificate": "Certificate name",
+      "labelEnvironmentalCertificate": "Certificate name",
       "labelEndDate": {
         "course": "Course ends",
         "general": "Event ends",

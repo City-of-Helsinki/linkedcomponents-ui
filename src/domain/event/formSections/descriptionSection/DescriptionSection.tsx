@@ -180,7 +180,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                       <Field
                         component={TextInputField}
                         disabled={!hasEnvironmentalCertificate}
-                        label={t('event.form.labelCertificate')}
+                        label={t('event.form.labelEnvironmentalCertificate')}
                         name={EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE}
                         required
                       ></Field>
