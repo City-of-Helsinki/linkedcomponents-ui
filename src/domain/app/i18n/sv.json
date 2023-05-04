@@ -387,6 +387,15 @@
       "text": "Tyvärr har bokningstiden gått ut.",
       "title": "Tiden är ute."
     },
+    "sendMessageModal": {
+      "buttonSendMessage": "Skicka meddelande",
+      "labelBody": "Meddelande",
+      "labelSubject": "Ämne",
+      "placeholderBody": "Ange meddelande",
+      "placeholderSubject": "Ange ämne",
+      "title": "Skicka ett meddelande till deltagarna",
+      "titleSingle": "Skicka ett meddelande till deltagaren"
+    },
     "warnings": {
       "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
       "capacityInWaitingList_other": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",

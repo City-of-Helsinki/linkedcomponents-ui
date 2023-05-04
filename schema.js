@@ -30,6 +30,10 @@ module.exports = buildSchema(/* GraphQL */ `
     deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
+    sendMessage(
+      input: SendMessageMutationInput!
+      registration: String
+    ): SendMessageResponse
     updateEnrolment(input: UpdateEnrolmentMutationInput!): Enrolment!
     updateEvent(input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
@@ -500,6 +504,12 @@ module.exports = buildSchema(/* GraphQL */ `
     waitlist: Boolean
   }
 
+  input SendMessageMutationInput {
+    body: String!
+    signups: [String!]
+    subject: String!
+  }
+
   type DataSource {
     apiKey: String
     createPastEvents: Boolean
@@ -913,5 +923,12 @@ module.exports = buildSchema(/* GraphQL */ `
     serviceLanguage: String
     streetAddress: String
     zipcode: String
+  }
+
+  type SendMessageResponse {
+    emails: [String!]
+    htmlMessage: String!
+    message: String!
+    subject: String!
   }
 `);

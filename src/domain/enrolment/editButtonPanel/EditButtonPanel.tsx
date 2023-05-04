@@ -26,6 +26,7 @@ export interface EditButtonPanelProps {
   enrolment: EnrolmentFieldsFragment;
   onCancel: () => void;
   onSave: () => void;
+  onSendMessage: () => void;
   registration: RegistrationFieldsFragment;
   saving: ENROLMENT_ACTIONS | false;
 }
@@ -34,6 +35,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   enrolment,
   onCancel,
   onSave,
+  onSendMessage,
   registration,
   saving,
 }) => {
@@ -73,6 +75,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionItemProps({
       action: ENROLMENT_ACTIONS.CANCEL,
       onClick: onCancel,
+    }),
+    getActionItemProps({
+      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
+      onClick: onSendMessage,
     }),
   ].filter(skipFalsyType);
 

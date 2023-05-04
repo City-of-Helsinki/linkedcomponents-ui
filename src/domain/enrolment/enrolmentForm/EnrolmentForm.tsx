@@ -38,8 +38,9 @@ import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolm
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import EventInfo from '../eventInfo/EventInfo';
 import FormContainer from '../formContainer/FormContainer';
-import useEnrolmentUpdateActions from '../hooks/useEnrolmentActions';
+import useEnrolmentActions from '../hooks/useEnrolmentActions';
 import ConfirmCancelEnrolmentModal from '../modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
+import SendMessageModal from '../modals/sendMessageModal/SendMessageModal';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
 import RegistrationWarning from '../registrationWarning/RegistrationWarning';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
@@ -100,11 +101,16 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
     timerCallbacksDisabled.current = true;
   }, []);
 
-  const { cancelEnrolment, createEnrolment, saving, updateEnrolment } =
-    useEnrolmentUpdateActions({
-      enrolment,
-      registration,
-    });
+  const {
+    cancelEnrolment,
+    createEnrolment,
+    saving,
+    sendMessage,
+    updateEnrolment,
+  } = useEnrolmentActions({
+    enrolment,
+    registration,
+  });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
@@ -218,6 +224,15 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
           registration={registration}
         />
       )}
+      {enrolment && (
+        <SendMessageModal
+          enrolment={enrolment}
+          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT}
+          isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
+          onClose={closeModal}
+          onSendMessage={sendMessage}
+        />
+      )}
 
       <Form noValidate>
         <FormikPersist
@@ -283,6 +298,9 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
               enrolment={enrolment}
               onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
               onSave={handleSubmit}
+              onSendMessage={() =>
+                setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT)
+              }
               registration={registration}
               saving={saving}
             />
