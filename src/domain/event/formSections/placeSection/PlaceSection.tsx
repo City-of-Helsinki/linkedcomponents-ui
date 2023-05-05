@@ -34,6 +34,17 @@ const PlaceSection: React.FC<Props> = ({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
 
+  const eventIndoorsOutdoorsOptions = [
+    {
+      label: t('event.form.locationOutdoorsIndoorsOptions.indoors'),
+      value: 'indoors',
+    },
+    {
+      label: t('event.form.locationOutdoorsIndoorsOptions.outdoors'),
+      value: 'outdoors',
+    },
+  ];
+
   return (
     <Fieldset heading={t('event.form.sections.place')} hideLegend>
       <h3>{t(`event.form.titleLocation`)}</h3>
@@ -84,33 +95,23 @@ const PlaceSection: React.FC<Props> = ({
               placeholderKey={`event.form.placeholderLocationExtraInfo`}
             />
           </FormGroup>
-          {isOtherOrganisationUser && (
-            <Fieldset heading={t('event.form.labelLocationOutdoorsIndoors')}>
-              <FieldColumn>
+        </FieldColumn>
+        {isOtherOrganisationUser && (
+          <Fieldset heading={t('event.form.labelLocationOutdoorsIndoors')}>
+            <FieldColumn>
+              <FormGroup>
                 <Field
                   columns={1}
                   component={RadioButtonGroupField}
                   name={EVENT_FIELDS.LOCATION_OUTDOORS_INDOORS}
-                  options={[
-                    {
-                      label: t(
-                        'event.form.locationOutdoorsIndoorsOptions.indoors'
-                      ),
-                      value: 'indoors',
-                    },
-                    {
-                      label: t(
-                        'event.form.locationOutdoorsIndoorsOptions.outdoors'
-                      ),
-                      value: 'outdoors',
-                    },
-                  ]}
+                  disabled={!isEditingAllowed}
+                  options={eventIndoorsOutdoorsOptions}
                   required
                 ></Field>
-              </FieldColumn>
-            </Fieldset>
-          )}
-        </FieldColumn>
+              </FormGroup>
+            </FieldColumn>
+          </Fieldset>
+        )}
       </FieldRow>
     </Fieldset>
   );

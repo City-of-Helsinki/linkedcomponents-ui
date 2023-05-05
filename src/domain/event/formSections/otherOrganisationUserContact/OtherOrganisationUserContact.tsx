@@ -1,5 +1,6 @@
 import { Field, useField } from 'formik';
 import React, { FC, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
@@ -9,83 +10,88 @@ import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 
-const OtherOrganisationUserContact: FC = () => {
+type Props = {
+  isEditingAllowed: boolean;
+};
+
+const OtherOrganisationUserContact: FC<Props> = ({ isEditingAllowed }) => {
   const [{ value: email }] = useField({ name: EVENT_FIELDS.EMAIL });
   const [{ value: phoneNumber }] = useField({
     name: EVENT_FIELDS.PHONE_NUMBER,
   });
 
-  const [emailRequired, setEmailRequired] = useState(!!email === false);
-  const [phoneRequired, setPhoneRequired] = useState(!!phoneNumber === false);
+  const { t } = useTranslation();
+
+  const [emailRequired, setEmailRequired] = useState(!!phoneNumber === false);
+  const [phoneRequired, setPhoneRequired] = useState(!!email === false);
 
   useEffect(() => {
-    if (phoneNumber) {
-      setEmailRequired(false);
-    } else {
-      setEmailRequired(true);
-    }
-    if (email) {
-      setPhoneRequired(false);
-    } else {
-      setPhoneRequired(true);
-    }
+    setEmailRequired(!!phoneNumber === false);
+    setPhoneRequired(!!email === false);
   }, [phoneNumber, email]);
 
   return (
-    <Fieldset heading="Yhteystiedot" hideLegend>
+    <Fieldset heading={t('event.form.sections.contact')} hideLegend>
       <FieldRow>
         <FieldColumn>
           <FormGroup>
             <Field
               component={TextInputField}
-              label="Nimi"
+              label={t('event.form.labelContactName')}
               name={EVENT_FIELDS.USER_NAME}
-              placeholder="Nimi"
+              placeholder={t('event.form.placeholderContactName')}
+              disabled={!isEditingAllowed}
               required
             ></Field>
           </FormGroup>
           <FormGroup>
             <Field
               component={TextInputField}
-              label="Sähköposti"
+              label={t('event.form.labelEmail')}
               name={EVENT_FIELDS.EMAIL}
-              placeholder="Sähköposti"
+              placeholder={t('event.form.placeholderEmail')}
               required={emailRequired}
-              disabled={!emailRequired}
+              disabled={!isEditingAllowed || !emailRequired}
+              type="email"
             ></Field>
           </FormGroup>
           <FormGroup>
             <Field
               component={TextInputField}
-              label="Puhelinnumero"
+              label={t('event.form.labelPhoneNumber')}
               name={EVENT_FIELDS.PHONE_NUMBER}
-              placeholder="Puhelinnumero"
+              placeholder={t('event.form.placeholderPhoneNumber')}
               required={phoneRequired}
-              disabled={!phoneRequired}
+              disabled={!isEditingAllowed || !phoneRequired}
+              type="tel"
             ></Field>
           </FormGroup>
           <FormGroup>
             <Field
               component={TextInputField}
-              label="Organisaatio"
-              name={EVENT_FIELDS.ORGANISATION}
-              placeholder="Organisaatio"
+              label={t('event.form.labelOrganization')}
+              name={EVENT_FIELDS.ORGANIZATION}
+              placeholder={t('event.form.placeholderOrganization')}
+              disabled={!isEditingAllowed}
             ></Field>
           </FormGroup>
           <FormGroup>
             <Field
               component={TextInputField}
-              label="Matkailun rekisteriseloste (linkki)"
+              label={t('event.form.labelRegistrationLink')}
               name={EVENT_FIELDS.REGISTRATION_LINK}
-              placeholder="Matkailun rekisteriseloste (linkki)"
+              placeholder={t('event.form.placeholderRegistrationLink')}
+              disabled={!isEditingAllowed}
+              type="url"
               required
             ></Field>
           </FormGroup>
           <FormGroup>
             <Field
               component={CheckboxField}
-              label="Annan suostumukseni tietojeni käyttöön"
+              label={t('event.form.labelUserConsent')}
               name={EVENT_FIELDS.USER_CONSENT}
+              disabled={!isEditingAllowed}
               required
             ></Field>
           </FormGroup>

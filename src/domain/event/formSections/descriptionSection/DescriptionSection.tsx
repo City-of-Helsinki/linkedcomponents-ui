@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
-// eslint-disable-next-line max-len
-import RadioButtonGroupField from '../../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
 import TextEditorField from '../../../../common/components/formFields/textEditorField/TextEditorField';
 import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
@@ -173,13 +171,16 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                       component={CheckboxField}
                       label={t('event.form.labelHasEnvironmentalCertificate')}
                       name="hasEnvironmentalCertificate"
+                      disabled={!isEditingAllowed}
                     ></Field>
                   </FormGroup>
                   <FormGroup>
                     <FieldColumn>
                       <Field
                         component={TextInputField}
-                        disabled={!hasEnvironmentalCertificate}
+                        disabled={
+                          !isEditingAllowed || !hasEnvironmentalCertificate
+                        }
                         label={t('event.form.labelEnvironmentalCertificate')}
                         name={EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE}
                         required

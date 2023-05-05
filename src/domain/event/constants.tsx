@@ -97,7 +97,7 @@ export enum EVENT_FIELDS {
   OFFER_IS_FREE = 'isFree',
   OFFER_PRICE = 'price',
   OFFERS = 'offers',
-  ORGANISATION = 'organisation',
+  ORGANIZATION = 'organization',
   PHONE_NUMBER = 'phoneNumber',
   PROVIDER = 'provider',
   PUBLISHER = 'publisher',

@@ -560,7 +560,7 @@
         "general": "If the number of participants in the event is limited, specify the minimum and maximum number of participants here.",
         "volunteering": "If the number of participants in the volunteering is limited, specify the minimum and maximum number of participants here."
       },
-      "infoTextAttendeeCapacityUnknownUser": "If the number of event participants is not limited in any way, write a rough estimate of the maximum number of participants. (This information will be used for statistical purposes).",
+      "infoTextAttendeeCapacityUserUnknown": "If the number of event participants is not limited in any way, write a rough estimate of the maximum number of participants. (This information will be used for statistical purposes).",
       "infoTextAudience": {
         "course": "If the course does not have a specific target group, you must leave the selection unchecked.",
         "general": "If the event does not have a specific target group, you must leave the selection unchecked.",
@@ -689,12 +689,14 @@
       "infoTextVideo2": "Name the video and give a brief description of the contents.",
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
+      "labelContactName": "Name",
       "labelDescription": {
         "course": "Course description {{langText}}",
         "general": "Event description {{langText}}",
         "volunteering": "Volunteering description {{langText}}"
       },
       "labelHasEnvironmentalCertificate": "Event has received an EcoCompass or similar environmental certification",
+      "labelEmail": "Email address",
       "labelEnvironmentalCertificate": "Certificate name",
       "labelEndDate": {
         "course": "Course ends",
@@ -754,6 +756,8 @@
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
+      "labelOrganization": "Organization",
+      "labelPhoneNumber": "Telephone number",
       "labelProvider": {
         "course": "Course organizer {{langText}} (if different from publisher)",
         "general": "Event organizer {{langText}} (if different from publisher)",
@@ -765,6 +769,7 @@
         "general": "Event publisher",
         "volunteering": "Volunteering publisher"
       },
+      "labelRegistrationLink": "Matkailun rekisteriselosteen URL",
       "labelShortDescription": {
         "course": "Short description {{langText}} (up to 160 characters)",
         "general": "Short description {{langText}} (up to 160 characters)",
@@ -778,6 +783,7 @@
       "labelStartTime": "Start time",
       "labelTime": "Time",
       "labelUmbrellaEvent": "Umbrella event",
+      "labelUserConsent": "I consent to use of my information",
       "labelVideoAltText": "Video alt text",
       "labelVideoName": "Name for video",
       "labelVideoUrl": "Video URL",
@@ -843,11 +849,13 @@
         "general": "Enter the minimum age for the event",
         "volunteering": "Enter the minimum age for the volunteering"
       },
+      "placeholderContactName": "Enter your first and last name or nickname",
       "placeholderDescription": {
         "course": "Enter a description of the course",
         "general": "Enter a description of the event",
         "volunteering": "Enter a description of the volunteering"
       },
+      "placeholderEmail": "Enter your email address",
       "placeholderExternalLinkLink": {
         "course": "Enter the course's {{name}} URL",
         "general": "Enter the event's {{name}} URL",
@@ -879,11 +887,14 @@
         "general": "Enter the price of the event {{langText}}",
         "volunteering": "Enter the price of the volunteering {{langText}}"
       },
+      "placeholderOrganization": "Organization name",
+      "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderProvider": {
         "course": "Enter the name of the course organizer",
         "general": "Enter the name of the event organizer",
         "volunteering": "Enter the name of the volunteering organizer"
       },
+      "placeholderRegistrationLink": "Syötä matkailun rekisteriselosteen URL",
       "placeholderShortDescription": {
         "course": "Enter a short description of the course",
         "general": "Enter a short description of the event",
@@ -924,6 +935,7 @@
           "volunteering": "Volunteering channels"
         },
         "classification": "Classification",
+        "contact": "Contact",
         "description": "Description",
         "image": "Image",
         "languages": "Languages",

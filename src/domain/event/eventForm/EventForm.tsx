@@ -113,7 +113,6 @@ const EventForm: React.FC<EventFormProps> = ({
   const navigate = useNavigate();
 
   const { user } = useUser();
-
   const { organizationAncestors } = useOrganizationAncestors(
     getValue(event?.publisher, '')
   );
@@ -450,8 +449,10 @@ const EventForm: React.FC<EventFormProps> = ({
                 />
               </Section>
               {isOtherOrganisationUser && (
-                <Section title="Yhteystiedot">
-                  <OtherOrganisationUserContact />
+                <Section title={t('event.form.sections.contact')}>
+                  <OtherOrganisationUserContact
+                    isEditingAllowed={isEditingAllowed}
+                  />
                 </Section>
               )}
               {event ? (

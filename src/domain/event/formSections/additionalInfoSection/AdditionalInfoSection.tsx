@@ -143,7 +143,7 @@ const AdditionalInfoSection: React.FC<Props> = ({
           >
             <p>{t(`event.form.infoTextAttendeeCapacity.${type}`)}</p>
             {isOtherOrganisationUser && (
-              <p>{t('event.form.infoTextAttendeeCapacityUnknownUser')}</p>
+              <p>{t('event.form.infoTextAttendeeCapacityUserUnknown')}</p>
             )}
           </Notification>
         }

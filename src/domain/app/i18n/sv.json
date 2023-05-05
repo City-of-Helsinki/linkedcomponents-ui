@@ -560,7 +560,7 @@
         "general": "Om antalet deltagare i evenemanget är begränsat, ange lägsta och högsta antal deltagare här.",
         "volunteering": "Om antalet deltagare i volontärarbetet är begränsat, ange lägsta och högsta antal deltagare här."
       },
-      "infoTextAttendeeCapacityUnknownUser": "If the number of event participants is not limited in any way, write a rough estimate of the maximum number of participants. (This information will be used for statistical purposes).",
+      "infoTextAttendeeCapacityUserUnknown": "If the number of event participants is not limited in any way, write a rough estimate of the maximum number of participants. (This information will be used for statistical purposes).",
       "infoTextAudience": {
         "course": "Om kursen inte har en specifik målgrupp lämnar du valet tomt.",
         "general": "Om evenemanget inte har en specifik målgrupp lämnar du valet tomt.",
@@ -689,12 +689,14 @@
       "infoTextVideo2": "Namnge videon och ge en kort beskrivning av innehållet.",
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
+      "labelContactName": "Namn",
       "labelDescription": {
         "course": "Kursensbeskrivning {{langText}}",
         "general": "Evenemangsbeskrivning {{langText}}",
         "volunteering": "Volontärarbetetsbeskrivning {{langText}}"
       },
       "labelHasEnvironmentalCertificate": "Event has received an EcoCompass or similar environmental certification",
+      "labelEmail": "E-postadress",
       "labelEnvironmentalCertificate": "Certificate name",
       "labelEndDate": {
         "course": "Kursen avslutas",
@@ -754,6 +756,8 @@
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
+      "labelOrganization": "Organisation",
+      "labelPhoneNumber": "Telefonnummer",
       "labelProvider": {
         "course": "Arrangör av kurs {{langText}} (om det skiljer sig från utgivaren)",
         "general": "Arrangör av evenemang {{langText}} (om det skiljer sig från utgivaren)",
@@ -765,6 +769,7 @@
         "general": "Evenemangsutgivare",
         "volunteering": "Volontärarbetesutgivare"
       },
+      "labelRegistrationLink": "Matkailun rekisteriselosteen URL",
       "labelShortDescription": {
         "course": "Kort beskrivning {{langText}} (upp till 160 tecken)",
         "general": "Kort beskrivning {{langText}} (upp till 160 tecken)",
@@ -778,6 +783,7 @@
       "labelStartTime": "Starttid",
       "labelTime": "Tid",
       "labelUmbrellaEvent": "Huvudevenemang",
+      "labelUserConsent": "I consent to use of my information",
       "labelVideoAltText": "Videons alt-text",
       "labelVideoName": "Namn på videon",
       "labelVideoUrl": "Videons URL-webaddress",
@@ -843,11 +849,13 @@
         "general": "Ange lägsta ålder för evenemanget",
         "volunteering": "Ange lägsta ålder för volontärarbetet"
       },
+      "placeholderContactName": "Ange ditt för- och efternamn eller smeknamn",
       "placeholderDescription": {
         "course": "Ange kursensbeskrivning",
         "general": "Ange evenemangetsbeskrivning",
         "volunteering": "Ange volontärarbetetsbeskrivning"
       },
+      "placeholderEmail": "Skriv in din mailadress",
       "placeholderExternalLinkLink": {
         "course": "Ange kursens Facebook-URL",
         "general": "Ange evenemangets Facebook-URL",
@@ -879,11 +887,14 @@
         "general": "Ange priset för evenemanget {{langText}}",
         "volunteering": "Ange priset för volontärarbetet {{langText}}"
       },
+      "placeholderOrganization": "Organisation namn",
+      "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderProvider": {
         "course": "Ange namnet på arrangören",
         "general": "Ange namnet på arrangören",
         "volunteering": "Ange namnet på arrangören"
       },
+      "placeholderRegistrationLink": "Syötä matkailun rekisteriselosteen URL",
       "placeholderShortDescription": {
         "course": "Ange en kort beskrivning av kursen",
         "general": "Ange en kort beskrivning av evenemanget",
@@ -924,6 +935,7 @@
           "volunteering": "Volontärarbetets medier"
         },
         "classification": "Klassificering",
+        "contact": "Kontakt",
         "description": "Beskrivning",
         "image": "Bild",
         "languages": "Språk",
