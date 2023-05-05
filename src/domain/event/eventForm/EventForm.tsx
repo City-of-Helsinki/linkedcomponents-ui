@@ -391,6 +391,7 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.type')}>
                 <TypeSection
                   isEditingAllowed={isEditingAllowed}
+                  isOtherOrganisationUser={isOtherOrganisationUser}
                   savedEvent={event}
                 />
               </Section>
