@@ -74,7 +74,11 @@ import {
   getEventInitialValues,
   scrollToFirstError,
 } from '../utils';
-import { draftEventSchema, publicEventSchema } from '../validation';
+import {
+  draftEventSchema,
+  getUnknownUserEventSchema,
+  publicEventSchema,
+} from '../validation';
 
 export type CreateEventFormProps = {
   event?: null;
@@ -268,14 +272,22 @@ const EventForm: React.FC<EventFormProps> = ({
       setServerErrorItems([]);
       clearErrors();
 
-      if (publicationStatus === PublicationStatus.Draft) {
-        await draftEventSchema.validate(valuesWithMainCategories, {
+      if (isOtherOrganisationUser) {
+        const validationSchema = getUnknownUserEventSchema(publicationStatus);
+
+        await validationSchema.validate(valuesWithMainCategories, {
           abortEarly: false,
         });
       } else {
-        await publicEventSchema.validate(valuesWithMainCategories, {
-          abortEarly: false,
-        });
+        if (publicationStatus === PublicationStatus.Draft) {
+          await draftEventSchema.validate(valuesWithMainCategories, {
+            abortEarly: false,
+          });
+        } else {
+          await publicEventSchema.validate(valuesWithMainCategories, {
+            abortEarly: false,
+          });
+        }
       }
 
       if (event) {

@@ -3,6 +3,7 @@ import isFuture from 'date-fns/isFuture';
 import * as Yup from 'yup';
 
 import { CHARACTER_LIMITS } from '../../constants';
+import { PublicationStatus } from '../../generated/graphql';
 import { Maybe } from '../../types';
 import getValue from '../../utils/getValue';
 import skipFalsyType from '../../utils/skipFalsyType';
@@ -425,6 +426,35 @@ export const draftEventSchema = Yup.object().shape(
   },
   CYCLIC_DEPENDENCIES
 );
+
+const unknownUserEventSchema = Yup.object().shape({
+  [EVENT_FIELDS.EMAIL]: Yup.string().required(
+    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+  ),
+  [EVENT_FIELDS.PHONE_NUMBER]: Yup.string().required(
+    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+  ),
+  [EVENT_FIELDS.REGISTRATION_LINK]: Yup.string().required(
+    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+  ),
+  [EVENT_FIELDS.USER_CONSENT]: Yup.boolean().required(
+    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+  ),
+  [EVENT_FIELDS.USER_NAME]: Yup.string().required(
+    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+  ),
+});
+
+export const getUnknownUserEventSchema = (
+  publicationStatus: PublicationStatus
+) => {
+  switch (publicationStatus) {
+    case PublicationStatus.Draft:
+      return draftEventSchema.concat(unknownUserEventSchema);
+    default:
+      return publicEventSchema.concat(unknownUserEventSchema);
+  }
+};
 
 export const eventTimeSchema = Yup.object().shape({
   [EVENT_TIME_FIELDS.START_DATE]: Yup.date()
