@@ -23,6 +23,7 @@ import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearEnrolmentQueries,
   clearEnrolmentsQueries,
+  clearRegistrationQueries,
 } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import { getSeatsReservationData } from '../../reserveSeats/utils';
@@ -77,6 +78,8 @@ const useEnrolmentActions = ({
 
   const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
+    !isTestEnv && clearRegistrationQueries(apolloClient);
+    /* istanbul ignore next */
     !isTestEnv && clearEnrolmentQueries(apolloClient);
     /* istanbul ignore next */
     !isTestEnv && clearEnrolmentsQueries(apolloClient);
@@ -126,7 +129,8 @@ const useEnrolmentActions = ({
 
       await deleteEnrolmentMutation({
         variables: {
-          cancellationCode: getValue(enrolment?.cancellationCode, ''),
+          registration: getValue(registration.id, ''),
+          signup: getValue(enrolment?.id, ''),
         },
       });
 
@@ -190,7 +194,13 @@ const useEnrolmentActions = ({
     try {
       setSaving(ENROLMENT_ACTIONS.UPDATE);
 
-      await updateEnrolmentMutation({ variables: { input: payload } });
+      await updateEnrolmentMutation({
+        variables: {
+          input: payload,
+          registration: getValue(registration.id, ''),
+          signup: getValue(enrolment?.id, ''),
+        },
+      });
 
       await cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {

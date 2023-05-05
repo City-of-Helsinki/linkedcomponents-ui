@@ -17,22 +17,30 @@ export const MUTATION_ENROLMENT = gql`
     }
   }
 
-  mutation DeleteEnrolment($cancellationCode: String!) {
-    deleteEnrolment(cancellationCode: $cancellationCode)
+  mutation DeleteEnrolment($registration: String!, $signup: String!) {
+    deleteEnrolment(registration: $registration, signup: $signup)
       @rest(
         type: "NoContent"
-        path: "/signup/{args.cancellationCode}"
+        path: "/registration/{args.registration}/signup/{args.signup}/"
         method: "DELETE"
       ) {
       noContent
     }
   }
 
-  mutation UpdateEnrolment($input: UpdateEnrolmentMutationInput!) {
-    updateEnrolment(input: $input)
+  mutation UpdateEnrolment(
+    $input: UpdateEnrolmentMutationInput!
+    $registration: String!
+    $signup: String!
+  ) {
+    updateEnrolment(
+      input: $input
+      registration: $registration
+      signup: $signup
+    )
       @rest(
         type: "Enrolment"
-        path: "/signup_edit/{args.input.id}/"
+        path: "/registration/{args.registration}/signup/{args.signup}/"
         method: "PUT"
         bodyKey: "input"
       ) {

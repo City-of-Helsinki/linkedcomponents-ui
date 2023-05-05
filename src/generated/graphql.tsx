@@ -509,7 +509,8 @@ export type MutationCreateSeatsReservationArgs = {
 
 
 export type MutationDeleteEnrolmentArgs = {
-  cancellationCode: Scalars['String'];
+  registration: Scalars['String'];
+  signup: Scalars['String'];
 };
 
 
@@ -566,6 +567,8 @@ export type MutationSendMessageArgs = {
 
 export type MutationUpdateEnrolmentArgs = {
   input: UpdateEnrolmentMutationInput;
+  registration: Scalars['String'];
+  signup: Scalars['String'];
 };
 
 
@@ -784,14 +787,14 @@ export type QueryDataSourcesArgs = {
 
 
 export type QueryEnrolmentArgs = {
-  id?: InputMaybe<Scalars['ID']>;
+  id: Scalars['ID'];
+  registration: Scalars['ID'];
 };
 
 
 export type QueryEnrolmentsArgs = {
   attendeeStatus?: InputMaybe<AttendeeStatus>;
-  events?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  registrations?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  registration: Scalars['ID'];
   text?: InputMaybe<Scalars['String']>;
 };
 
@@ -1237,7 +1240,8 @@ export type CreateEnrolmentMutationVariables = Exact<{
 export type CreateEnrolmentMutation = { __typename?: 'Mutation', createEnrolment: { __typename?: 'CreateEnrolmentResponse', attending?: { __typename?: 'EnrolmentPeopleResponse', count?: number | null, people?: Array<{ __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null }> | null } | null, waitlisted?: { __typename?: 'EnrolmentPeopleResponse', count?: number | null, people?: Array<{ __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null }> | null } | null } };
 
 export type DeleteEnrolmentMutationVariables = Exact<{
-  cancellationCode: Scalars['String'];
+  registration: Scalars['String'];
+  signup: Scalars['String'];
 }>;
 
 
@@ -1245,6 +1249,8 @@ export type DeleteEnrolmentMutation = { __typename?: 'Mutation', deleteEnrolment
 
 export type UpdateEnrolmentMutationVariables = Exact<{
   input: UpdateEnrolmentMutationInput;
+  registration: Scalars['String'];
+  signup: Scalars['String'];
 }>;
 
 
@@ -1268,6 +1274,7 @@ export type EnrolmentFieldsFragment = { __typename?: 'Enrolment', id: string, at
 
 export type EnrolmentQueryVariables = Exact<{
   id: Scalars['ID'];
+  registration: Scalars['ID'];
   createPath?: InputMaybe<Scalars['Any']>;
 }>;
 
@@ -1276,8 +1283,7 @@ export type EnrolmentQuery = { __typename?: 'Query', enrolment: { __typename?: '
 
 export type EnrolmentsQueryVariables = Exact<{
   attendeeStatus?: InputMaybe<AttendeeStatus>;
-  events?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
-  registrations?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  registration: Scalars['ID'];
   text?: InputMaybe<Scalars['String']>;
   createPath?: InputMaybe<Scalars['Any']>;
 }>;
@@ -2247,8 +2253,8 @@ export type CreateEnrolmentMutationHookResult = ReturnType<typeof useCreateEnrol
 export type CreateEnrolmentMutationResult = Apollo.MutationResult<CreateEnrolmentMutation>;
 export type CreateEnrolmentMutationOptions = Apollo.BaseMutationOptions<CreateEnrolmentMutation, CreateEnrolmentMutationVariables>;
 export const DeleteEnrolmentDocument = gql`
-    mutation DeleteEnrolment($cancellationCode: String!) {
-  deleteEnrolment(cancellationCode: $cancellationCode) @rest(type: "NoContent", path: "/signup/{args.cancellationCode}", method: "DELETE") {
+    mutation DeleteEnrolment($registration: String!, $signup: String!) {
+  deleteEnrolment(registration: $registration, signup: $signup) @rest(type: "NoContent", path: "/registration/{args.registration}/signup/{args.signup}/", method: "DELETE") {
     noContent
   }
 }
@@ -2268,7 +2274,8 @@ export type DeleteEnrolmentMutationFn = Apollo.MutationFunction<DeleteEnrolmentM
  * @example
  * const [deleteEnrolmentMutation, { data, loading, error }] = useDeleteEnrolmentMutation({
  *   variables: {
- *      cancellationCode: // value for 'cancellationCode'
+ *      registration: // value for 'registration'
+ *      signup: // value for 'signup'
  *   },
  * });
  */
@@ -2280,8 +2287,8 @@ export type DeleteEnrolmentMutationHookResult = ReturnType<typeof useDeleteEnrol
 export type DeleteEnrolmentMutationResult = Apollo.MutationResult<DeleteEnrolmentMutation>;
 export type DeleteEnrolmentMutationOptions = Apollo.BaseMutationOptions<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>;
 export const UpdateEnrolmentDocument = gql`
-    mutation UpdateEnrolment($input: UpdateEnrolmentMutationInput!) {
-  updateEnrolment(input: $input) @rest(type: "Enrolment", path: "/signup_edit/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    mutation UpdateEnrolment($input: UpdateEnrolmentMutationInput!, $registration: String!, $signup: String!) {
+  updateEnrolment(input: $input, registration: $registration, signup: $signup) @rest(type: "Enrolment", path: "/registration/{args.registration}/signup/{args.signup}/", method: "PUT", bodyKey: "input") {
     ...enrolmentFields
   }
 }
@@ -2302,6 +2309,8 @@ export type UpdateEnrolmentMutationFn = Apollo.MutationFunction<UpdateEnrolmentM
  * const [updateEnrolmentMutation, { data, loading, error }] = useUpdateEnrolmentMutation({
  *   variables: {
  *      input: // value for 'input'
+ *      registration: // value for 'registration'
+ *      signup: // value for 'signup'
  *   },
  * });
  */
@@ -2350,8 +2359,8 @@ export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMuta
 export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutation>;
 export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutation, SendMessageMutationVariables>;
 export const EnrolmentDocument = gql`
-    query Enrolment($id: ID!, $createPath: Any) {
-  enrolment(id: $id) @rest(type: "Enrolment", pathBuilder: $createPath) {
+    query Enrolment($id: ID!, $registration: ID!, $createPath: Any) {
+  enrolment(id: $id, registration: $registration) @rest(type: "Enrolment", pathBuilder: $createPath) {
     ...enrolmentFields
   }
 }
@@ -2370,6 +2379,7 @@ export const EnrolmentDocument = gql`
  * const { data, loading, error } = useEnrolmentQuery({
  *   variables: {
  *      id: // value for 'id'
+ *      registration: // value for 'registration'
  *      createPath: // value for 'createPath'
  *   },
  * });
@@ -2386,11 +2396,10 @@ export type EnrolmentQueryHookResult = ReturnType<typeof useEnrolmentQuery>;
 export type EnrolmentLazyQueryHookResult = ReturnType<typeof useEnrolmentLazyQuery>;
 export type EnrolmentQueryResult = Apollo.QueryResult<EnrolmentQuery, EnrolmentQueryVariables>;
 export const EnrolmentsDocument = gql`
-    query Enrolments($attendeeStatus: AttendeeStatus, $events: [ID], $registrations: [ID], $text: String, $createPath: Any) {
+    query Enrolments($attendeeStatus: AttendeeStatus, $registration: ID!, $text: String, $createPath: Any) {
   enrolments(
     attendeeStatus: $attendeeStatus
-    events: $events
-    registrations: $registrations
+    registration: $registration
     text: $text
   ) @rest(type: "Enrolment", pathBuilder: $createPath) {
     ...enrolmentFields
@@ -2411,14 +2420,13 @@ export const EnrolmentsDocument = gql`
  * const { data, loading, error } = useEnrolmentsQuery({
  *   variables: {
  *      attendeeStatus: // value for 'attendeeStatus'
- *      events: // value for 'events'
- *      registrations: // value for 'registrations'
+ *      registration: // value for 'registration'
  *      text: // value for 'text'
  *      createPath: // value for 'createPath'
  *   },
  * });
  */
-export function useEnrolmentsQuery(baseOptions?: Apollo.QueryHookOptions<EnrolmentsQuery, EnrolmentsQueryVariables>) {
+export function useEnrolmentsQuery(baseOptions: Apollo.QueryHookOptions<EnrolmentsQuery, EnrolmentsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<EnrolmentsQuery, EnrolmentsQueryVariables>(EnrolmentsDocument, options);
       }

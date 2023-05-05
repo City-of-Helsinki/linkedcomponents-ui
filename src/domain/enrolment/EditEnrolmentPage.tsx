@@ -96,7 +96,10 @@ const EditEnrolmentPage: React.FC<Props> = ({
 
 const EditEnrolmentPageWrapper: React.FC = () => {
   const location = useLocation();
-  const { enrolmentId } = useParams<{ enrolmentId: string }>();
+  const { enrolmentId, registrationId } = useParams<{
+    enrolmentId: string;
+    registrationId: string;
+  }>();
   const { user } = useUser();
 
   const {
@@ -113,6 +116,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
     skip: !enrolmentId || !user,
     variables: {
       id: getValue(enrolmentId, ''),
+      registration: getValue(registrationId, ''),
       createPath: getPathBuilder(enrolmentPathBuilder),
     },
   });

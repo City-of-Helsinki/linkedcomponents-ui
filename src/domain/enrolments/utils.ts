@@ -60,18 +60,16 @@ export const getEnrolmentItemId = (id: string): string =>
 export const enrolmentsPathBuilder = ({
   args,
 }: PathBuilderProps<EnrolmentsQueryVariables>): string => {
-  const { attendeeStatus, events, registrations, text } = args;
+  const { attendeeStatus, registration, text } = args;
 
   const variableToKeyItems = [
     { key: 'attendee_status', value: attendeeStatus },
-    { key: 'events', value: events },
-    { key: 'registrations', value: registrations },
     { key: 'text', value: text },
   ];
 
   const query = queryBuilder(variableToKeyItems);
 
-  return `/signup/${query}`;
+  return `/registration/${registration}/signup/${query}`;
 };
 
 export const filterEnrolments = ({

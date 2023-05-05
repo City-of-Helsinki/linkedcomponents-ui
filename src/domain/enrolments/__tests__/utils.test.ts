@@ -3,6 +3,7 @@ import {
   EnrolmentsQueryVariables,
 } from '../../../generated/graphql';
 import { fakeEnrolment, fakeRegistration } from '../../../utils/mockDataUtils';
+import { registrationId } from '../../registration/__mocks__/registration';
 import { attendees, waitingAttendees } from '../__mocks__/enrolmentsPage';
 import {
   enrolmentsPathBuilder,
@@ -33,15 +34,20 @@ describe('getEnrolmentFields function', () => {
 describe('enrolmentsPathBuilder function', () => {
   const cases: [EnrolmentsQueryVariables, string][] = [
     [
-      { attendeeStatus: AttendeeStatus.Attending },
-      '/signup/?attendee_status=attending',
+      {
+        attendeeStatus: AttendeeStatus.Attending,
+        registration: registrationId,
+      },
+      `/registration/${registrationId}/signup/?attendee_status=attending`,
     ],
-    [{ events: ['event:1', 'event:2'] }, '/signup/?events=event:1,event:2'],
     [
-      { registrations: ['registration:1', 'registration:2'] },
-      '/signup/?registrations=registration:1,registration:2',
+      { registration: registrationId },
+      `/registration/${registrationId}/signup/`,
     ],
-    [{ text: 'text' }, '/signup/?text=text'],
+    [
+      { registration: registrationId, text: 'text' },
+      `/registration/${registrationId}/signup/?text=text`,
+    ],
   ];
 
   it.each(cases)(
@@ -57,7 +63,10 @@ describe('filterEnrolments function', () => {
   test('should return only attendees', () => {
     const filteredEnrolments = filterEnrolments({
       enrolments,
-      query: { attendeeStatus: AttendeeStatus.Attending },
+      query: {
+        attendeeStatus: AttendeeStatus.Attending,
+        registration: registrationId,
+      },
     });
 
     expect(filteredEnrolments).toEqual(attendees);
@@ -67,7 +76,10 @@ describe('filterEnrolments function', () => {
   test('should return only waiting list attendees', () => {
     const filteredEnrolments = filterEnrolments({
       enrolments,
-      query: { attendeeStatus: AttendeeStatus.Waitlisted },
+      query: {
+        attendeeStatus: AttendeeStatus.Waitlisted,
+        registration: registrationId,
+      },
     });
 
     expect(filteredEnrolments).toEqual(waitingAttendees);
@@ -77,7 +89,7 @@ describe('filterEnrolments function', () => {
   test('should filter attendees by name text', () => {
     const filteredEnrolments = filterEnrolments({
       enrolments,
-      query: { text: waitingAttendees[0].name },
+      query: { registration: registrationId, text: waitingAttendees[0].name },
     });
 
     expect(filteredEnrolments).toEqual([waitingAttendees[0]]);
@@ -86,7 +98,7 @@ describe('filterEnrolments function', () => {
   test('should filter attendees by email text', () => {
     const filteredEnrolments = filterEnrolments({
       enrolments,
-      query: { text: waitingAttendees[0].email },
+      query: { registration: registrationId, text: waitingAttendees[0].email },
     });
 
     expect(filteredEnrolments).toEqual([waitingAttendees[0]]);
@@ -95,7 +107,10 @@ describe('filterEnrolments function', () => {
   test('should filter attendees by phone number text', () => {
     const filteredEnrolments = filterEnrolments({
       enrolments,
-      query: { text: waitingAttendees[0].phoneNumber },
+      query: {
+        registration: registrationId,
+        text: waitingAttendees[0].phoneNumber,
+      },
     });
 
     expect(filteredEnrolments).toEqual([waitingAttendees[0]]);

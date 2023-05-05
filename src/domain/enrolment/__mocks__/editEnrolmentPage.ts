@@ -41,7 +41,11 @@ const enrolment = fakeEnrolment({
   id: enrolmentId,
 });
 
-const enrolmentVariables = { createPath: undefined, id: enrolmentId };
+const enrolmentVariables = {
+  createPath: undefined,
+  id: enrolmentId,
+  registration: registrationId,
+};
 const enrolmentResponse = { data: { enrolment } };
 const mockedEnrolmentResponse: MockedResponse = {
   request: { query: EnrolmentDocument, variables: enrolmentVariables },
@@ -49,7 +53,8 @@ const mockedEnrolmentResponse: MockedResponse = {
 };
 
 const cancelEnrolmentVariables = {
-  cancellationCode: enrolment.cancellationCode,
+  registration: registrationId,
+  signup: enrolmentId,
 };
 const cancelEnrolmentResponse = { data: { deleteEnrolment: null } };
 const mockedCancelEnrolmentResponse: MockedResponse = {
@@ -77,7 +82,11 @@ const payload = {
   zipcode: enrolmentValues.zipcode,
 };
 
-const updateEnrolmentVariables = { input: payload };
+const updateEnrolmentVariables = {
+  input: payload,
+  registration: registrationId,
+  signup: enrolmentId,
+};
 
 const updateEnrolmentResponse = { data: { updateEnrolment: enrolment } };
 

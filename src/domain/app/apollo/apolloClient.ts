@@ -258,13 +258,6 @@ const linkedEventsLink = new RestLink({
 
       if (config.method === 'GET') {
         return fetch(addNocacheToUrl(request), config);
-      } else if (config.method === 'DELETE' && requestParts[0] === 'signup') {
-        // Apollo cleans body from delete request so parse cancellation code
-        // from the request to make this to work with LE API
-        return fetch(request.replace(requestParts[1], ''), {
-          ...config,
-          body: JSON.stringify({ cancellation_code: requestParts[1] }),
-        });
       } else if (config.method === 'PUT' && requestParts[0] === 'image') {
         // TODO: Remove LOCALIZED_IMAGE feature flag when localized image alt text
         // is deployed to production of API

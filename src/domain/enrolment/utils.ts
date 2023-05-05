@@ -201,9 +201,9 @@ export const getUpdateEnrolmentPayload = ({
 export const enrolmentPathBuilder = ({
   args,
 }: PathBuilderProps<EnrolmentQueryVariables>): string => {
-  const { id } = args;
+  const { id, registration } = args;
 
-  return `/signup_edit/${id}/`;
+  return `/registration/${registration}/signup/${id}/`;
 };
 
 export const getTotalAttendeeCapacity = (

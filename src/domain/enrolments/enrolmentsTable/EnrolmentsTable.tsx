@@ -80,7 +80,7 @@ const AttendeeStatusColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
 
 export interface EnrolmentsTableProps {
   caption: string;
-  enrolmentsVariables: EnrolmentsQueryVariables;
+  enrolmentsVariables: Partial<EnrolmentsQueryVariables>;
   heading: string;
   pagePath: 'attendeePage' | 'waitingPage';
   registration: RegistrationFieldsFragment;
@@ -110,6 +110,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   const enrolments = filterEnrolments({
     enrolments: getValue(registration?.signups?.filter(skipFalsyType), []),
     query: {
+      registration: getValue(registration.id, ''),
       text: enrolmentText,
       ...enrolmentsVariables,
     },
