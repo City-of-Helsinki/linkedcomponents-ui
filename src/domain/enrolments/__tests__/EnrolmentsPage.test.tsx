@@ -9,11 +9,14 @@ import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContex
 import {
   configure,
   CustomRenderOptions,
+  fireEvent,
   loadingSpinnerIsNotInDocument,
+  pasteToTextEditor,
   renderWithRoute,
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedNotFoundRegistrationResponse } from '../../registration/__mocks__/editRegistrationPage';
@@ -22,7 +25,11 @@ import {
   registrationId,
 } from '../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../user/__mocks__/user';
-import { attendees } from '../__mocks__/enrolmentsPage';
+import {
+  attendees,
+  mockedSendMessageResponse,
+  sendMessageValues,
+} from '../__mocks__/enrolmentsPage';
 import EnrolmentsPage from '../EnrolmentsPage';
 
 configure({ defaultHidden: true });
@@ -50,16 +57,34 @@ const findElement = (key: 'createEnrolmentButton') => {
   }
 };
 const getElement = (
-  key: 'attendeeTable' | 'createEnrolmentButton' | 'waitingListTable'
+  key:
+    | 'attendeeTable'
+    | 'createEnrolmentButton'
+    | 'menu'
+    | 'toggle'
+    | 'waitingListTable'
 ) => {
   switch (key) {
     case 'attendeeTable':
       return screen.getByRole('table', { name: /osallistujat/i });
     case 'createEnrolmentButton':
       return screen.getByRole('button', { name: /lisää osallistuja/i });
+    case 'menu':
+      return screen.getByRole('region', { name: /valinnat/i });
+    case 'toggle':
+      return screen.getAllByRole('button', { name: /valinnat/i })[0];
     case 'waitingListTable':
       return screen.getByRole('table', { name: /jonopaikat/i });
   }
+};
+
+const openMenu = async () => {
+  const user = userEvent.setup();
+  const toggleButton = getElement('toggle');
+  await user.click(toggleButton);
+  const menu = getElement('menu');
+
+  return { menu, toggleButton };
 };
 
 const renderComponent = (
@@ -133,5 +158,43 @@ test('should move to create enrolment page', async () => {
     expect(history.location.pathname).toBe(
       `/registrations/${registrationId}/enrolments/create`
     )
+  );
+});
+
+test('should send message to participants', async () => {
+  // Mock getClientRects for ckeditor
+  global.Range.prototype.getClientRects = jest
+    .fn()
+    .mockImplementation(() => []);
+
+  const user = userEvent.setup();
+  renderComponent([...defaultMocks, mockedSendMessageResponse]);
+
+  await loadingSpinnerIsNotInDocument(10000);
+  const { menu } = await openMenu();
+  const sendMessageButton = await within(menu).findByRole('button', {
+    name: 'Lähetä viesti',
+  });
+  await user.click(sendMessageButton);
+
+  const withinModal = within(
+    screen.getByRole('dialog', { name: 'Lähetä viesti osallistujille' })
+  );
+  const subjectInput = withinModal.getByRole('textbox', { name: 'Otsikko *' });
+  const messageInput = await withinModal.findByLabelText(
+    /editorin muokkausalue: main/i
+  );
+  fireEvent.change(subjectInput, {
+    target: { value: sendMessageValues.subject },
+  });
+  pasteToTextEditor(messageInput, sendMessageValues.body);
+
+  const confirmSendMessageButton = withinModal.getByRole('button', {
+    name: 'Lähetä viesti',
+  });
+  await user.click(confirmSendMessageButton);
+
+  await waitFor(() =>
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   );
 });
