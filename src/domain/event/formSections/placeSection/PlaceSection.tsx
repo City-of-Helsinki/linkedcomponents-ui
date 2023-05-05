@@ -13,7 +13,7 @@ import { CHARACTER_LIMITS } from '../../../../constants';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
-import { EVENT_FIELDS } from '../../constants';
+import { EVENT_FIELDS, EVENT_INDOORS_OUTDOORS_VALUE } from '../../constants';
 import stylesEventPage from '../../eventPage.module.scss';
 import styles from './placeSection.module.scss';
 
@@ -34,16 +34,12 @@ const PlaceSection: React.FC<Props> = ({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
 
-  const eventIndoorsOutdoorsOptions = [
-    {
-      label: t('event.form.locationOutdoorsIndoorsOptions.indoors'),
-      value: 'indoors',
-    },
-    {
-      label: t('event.form.locationOutdoorsIndoorsOptions.outdoors'),
-      value: 'outdoors',
-    },
-  ];
+  const eventIndoorsOutdoorsOptions = Object.values(
+    EVENT_INDOORS_OUTDOORS_VALUE
+  ).map((value) => ({
+    label: t(`event.form.locationOutdoorsIndoorsOptions.${value}`),
+    value,
+  }));
 
   return (
     <Fieldset heading={t('event.form.sections.place')} hideLegend>

@@ -35,6 +35,7 @@ import {
   EVENT_INITIAL_VALUES,
   EVENT_MODALS,
   EVENT_TYPE,
+  EVENT_UNKNOWN_USER_INITIAL_VALUES,
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
@@ -66,7 +67,7 @@ import ConfirmCancelEventModal from '../modals/confirmCancelEventModal/ConfirmCa
 import ConfirmDeleteEventModal from '../modals/confirmDeleteEventModal/ConfirmDeleteEventModal';
 import ConfirmPostponeEventModal from '../modals/confirmPostponeEventModal/ConfirmPostponeEventModal';
 import ConfirmUpdateEventModal from '../modals/confirmUpdateEventModal/ConfirmUpdateEventModal';
-import { EventFormFields } from '../types';
+import { EventFormFields, EventFormUnknownUserFields } from '../types';
 import {
   checkCanUserDoAction,
   getEventFields,
@@ -90,13 +91,16 @@ export type EditEventFormProps = {
 export type EventFormWrapperProps = CreateEventFormProps | EditEventFormProps;
 
 type EventFormProps = EventFormWrapperProps & {
-  initialValues: EventFormFields;
-  setErrors: (errors: FormikErrors<EventFormFields>) => void;
+  initialValues: EventFormFields | EventFormUnknownUserFields;
+  setErrors: (
+    errors: FormikErrors<EventFormFields | EventFormUnknownUserFields>
+  ) => void;
   setTouched: (
-    touched: FormikTouched<EventFormFields>,
+    touched: FormikTouched<EventFormFields | EventFormUnknownUserFields>,
     shouldValidate?: boolean
   ) => void;
-  values: EventFormFields;
+  values: EventFormFields | EventFormUnknownUserFields;
+  isOtherOrganisationUser?: boolean;
 };
 
 const EventForm: React.FC<EventFormProps> = ({
@@ -106,6 +110,7 @@ const EventForm: React.FC<EventFormProps> = ({
   setErrors,
   setTouched,
   values,
+  isOtherOrganisationUser = false,
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
@@ -175,7 +180,7 @@ const EventForm: React.FC<EventFormProps> = ({
   };
 
   const handleCreate = (
-    values: EventFormFields,
+    values: EventFormFields | EventFormUnknownUserFields,
     publicationStatus: PublicationStatus
   ) => {
     createEvent(values, publicationStatus, {
@@ -206,7 +211,7 @@ const EventForm: React.FC<EventFormProps> = ({
   };
 
   const handleUpdate = (
-    values: EventFormFields,
+    values: EventFormFields | EventFormUnknownUserFields,
     publicationStatus: PublicationStatus
   ) => {
     updateEvent(values, publicationStatus, {
@@ -254,8 +259,6 @@ const EventForm: React.FC<EventFormProps> = ({
         EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
       ])
     : isEventActionAllowed([EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH]);
-
-  const isOtherOrganisationUser = true;
 
   const clearErrors = () => setErrors({});
 
@@ -496,15 +499,20 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
   const { event } = props;
   const { user } = useUser();
 
+  const isOtherOrganisationUser = true;
+  const eventInitialValues = !isOtherOrganisationUser
+    ? EVENT_INITIAL_VALUES
+    : EVENT_UNKNOWN_USER_INITIAL_VALUES;
+
   const initialValues = React.useMemo(
     () =>
       event
         ? getEventInitialValues(event)
         : {
-            ...EVENT_INITIAL_VALUES,
+            ...eventInitialValues,
             publisher: getValue(user?.organization, ''),
           },
-    [event, user]
+    [event, eventInitialValues, user?.organization]
   );
 
   return (
@@ -534,6 +542,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
               setErrors={setErrors}
               setTouched={setTouched}
               values={values}
+              isOtherOrganisationUser={isOtherOrganisationUser}
             />
           </FormikPersist>
         );

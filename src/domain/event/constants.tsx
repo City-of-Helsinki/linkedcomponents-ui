@@ -21,7 +21,11 @@ import { EVENT_LIST_INCLUDES, EVENT_SORT_OPTIONS } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
 import { DEFAULT_LICENSE_TYPE, IMAGE_FIELDS } from '../image/constants';
 import { PublicationListLink } from './formSections/typeSection/publicationListLinks/PublicationListLinks';
-import { EventFormFields, RecurringEventSettings } from './types';
+import {
+  EventFormFields,
+  EventFormUnknownUserFields,
+  RecurringEventSettings,
+} from './types';
 
 export enum EVENT_TYPE {
   General = 'general',
@@ -180,6 +184,24 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
       [VIDEO_DETAILS_FIELDS.URL]: '',
     },
   ],
+};
+
+export enum EVENT_INDOORS_OUTDOORS_VALUE {
+  Indoors = 'indoors',
+  Outdoors = 'outdoors',
+}
+
+export const EVENT_UNKNOWN_USER_INITIAL_VALUES: EventFormUnknownUserFields = {
+  ...EVENT_INITIAL_VALUES,
+  [EVENT_FIELDS.EMAIL]: '',
+  [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: '',
+  [EVENT_FIELDS.LOCATION_OUTDOORS_INDOORS]:
+    EVENT_INDOORS_OUTDOORS_VALUE.Indoors,
+  [EVENT_FIELDS.ORGANIZATION]: '',
+  [EVENT_FIELDS.PHONE_NUMBER]: '',
+  [EVENT_FIELDS.REGISTRATION_LINK]: '',
+  [EVENT_FIELDS.USER_CONSENT]: false,
+  [EVENT_FIELDS.USER_NAME]: '',
 };
 
 export enum URL_PARAMS {
