@@ -4,6 +4,7 @@ import { createMemoryHistory } from 'history';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import { AttendeeStatus } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
@@ -27,6 +28,7 @@ import {
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   attendees,
+  getMockedAttendeesResponse,
   mockedSendMessageResponse,
   sendMessageValues,
 } from '../__mocks__/enrolmentsPage';
@@ -46,6 +48,8 @@ const defaultMocks = [
   mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
+  getMockedAttendeesResponse(attendees),
+  getMockedAttendeesResponse([], { attendeeStatus: AttendeeStatus.Waitlisted }),
 ];
 
 beforeEach(() => jest.clearAllMocks());

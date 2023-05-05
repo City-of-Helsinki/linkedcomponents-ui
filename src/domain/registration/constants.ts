@@ -42,12 +42,7 @@ export const REGISTRATION_INITIAL_VALUES: RegistrationFormFields = {
 
 export const REGISTRATION_SELECT_FIELDS = [REGISTRATION_FIELDS.EVENT];
 
-export const REGISTRATION_INCLUDES = [
-  'event',
-  'signups',
-  'keywords',
-  'location',
-];
+export const REGISTRATION_INCLUDES = ['event', 'keywords', 'location'];
 
 export const TEST_REGISTRATION_ID = 'registration:0';
 

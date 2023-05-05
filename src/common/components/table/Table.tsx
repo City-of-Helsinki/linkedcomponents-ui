@@ -5,6 +5,7 @@ import 'hds-core';
 import { TableProps as HdsTableProps } from 'hds-react';
 import React, { useMemo, useState } from 'react';
 
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
 import BodyRow from './bodyRow/BodyRow';
 import HeaderRow from './headerRow/HeaderRow';
 import NoResultsRow from './noResultsRow/NoResultsRow';
@@ -22,6 +23,7 @@ export type GetRowPropsFunc = (
 type TableProps = {
   cols: Header[];
   getRowProps?: GetRowPropsFunc;
+  loading?: boolean;
   noResultsText?: string;
   onRowClick?: (item: object) => void;
   showNoResultsRow?: boolean;
@@ -56,6 +58,7 @@ const Table = ({
   indexKey,
   initialSortingColumnKey,
   initialSortingOrder,
+  loading,
   noResultsText,
   onRowClick,
   onSort,
@@ -134,21 +137,31 @@ const Table = ({
           </HeaderRow>
         </thead>
         <TableBody textAlignContentRight={textAlignContentRight}>
-          {processedRows.map((row, index) => (
-            <BodyRow
-              cols={visibleColumns}
-              getRowProps={getRowProps}
-              index={index}
-              key={row[indexKey as keyof typeof row]}
-              onRowClick={onRowClick}
-              row={row}
-            />
-          ))}
-          {showNoResultsRow && !processedRows.length && (
-            <NoResultsRow
-              colSpan={visibleColumns.length}
-              noResultsText={noResultsText}
-            />
+          {loading ? (
+            <tr>
+              <td colSpan={visibleColumns.length}>
+                <LoadingSpinner isLoading={true} />
+              </td>
+            </tr>
+          ) : (
+            <>
+              {processedRows.map((row, index) => (
+                <BodyRow
+                  cols={visibleColumns}
+                  getRowProps={getRowProps}
+                  index={index}
+                  key={row[indexKey as keyof typeof row]}
+                  onRowClick={onRowClick}
+                  row={row}
+                />
+              ))}
+              {showNoResultsRow && !processedRows.length && (
+                <NoResultsRow
+                  colSpan={visibleColumns.length}
+                  noResultsText={noResultsText}
+                />
+              )}
+            </>
           )}
         </TableBody>
       </TableContainer>

@@ -10,6 +10,7 @@ import {
   mockedPlacesResponse as mockedPlaceSelectorPlacesReponse,
 } from '../../../../../common/components/placeSelector/__mocks__/placeSelector';
 import { DEPRECATED_ROUTES, ROUTES } from '../../../../../constants';
+import { AttendeeStatus } from '../../../../../generated/graphql';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../../types';
 import getValue from '../../../../../utils/getValue';
@@ -32,6 +33,7 @@ import {
   enrolmentId,
   mockedEnrolmentResponse,
 } from '../../../../enrolment/__mocks__/editEnrolmentPage';
+import { getMockedAttendeesResponse } from '../../../../enrolments/__mocks__/enrolmentsPage';
 import {
   eventName,
   mockedEventResponse,
@@ -142,6 +144,8 @@ const mocks = [
   mockedEventResponse,
   mockedUserResponse,
   mockedUsersResponse,
+  getMockedAttendeesResponse([]),
+  getMockedAttendeesResponse([], { attendeeStatus: AttendeeStatus.Waitlisted }),
 ];
 
 const renderRoute = async (route: string, locale: Language = 'fi') => {

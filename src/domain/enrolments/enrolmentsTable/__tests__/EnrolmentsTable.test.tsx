@@ -1,7 +1,7 @@
+import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { AttendeeStatus } from '../../../../generated/graphql';
-import getValue from '../../../../utils/getValue';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -18,29 +18,33 @@ import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
-import { attendeeNames, attendees } from '../../__mocks__/enrolmentsPage';
+import {
+  attendeeNames,
+  attendees,
+  getMockedAttendeesResponse,
+} from '../../__mocks__/enrolmentsPage';
 import { ENROLMENTS_PAGE_SIZE } from '../../constants';
 import EnrolmentsTable, { EnrolmentsTableProps } from '../EnrolmentsTable';
 
 configure({ defaultHidden: true });
 
-const mocks = [mockedEventResponse, mockedOrganizationAncestorsResponse];
+const defaultMocks = [mockedEventResponse, mockedOrganizationAncestorsResponse];
 
 const defaultProps: EnrolmentsTableProps = {
   caption: 'Enrolments table',
   enrolmentsVariables: { attendeeStatus: AttendeeStatus.Attending },
   heading: 'Enrolments table',
   pagePath: 'attendeePage',
-  registration: { ...registration, signups: attendees },
+  registration: registration,
 };
 
-const enrolmentName = getValue(attendees[0].name, '');
+const enrolmentName = attendeeNames[0];
 const enrolmentId = attendees[0].id;
 
-const renderComponent = (props?: Partial<EnrolmentsTableProps>) => {
+const renderComponent = (mocks: MockedResponse[] = defaultMocks) => {
   return render(
     <EnrolmentPageProvider>
-      <EnrolmentsTable {...defaultProps} {...props} />
+      <EnrolmentsTable {...defaultProps} />
     </EnrolmentPageProvider>,
     { mocks }
   );
@@ -56,7 +60,7 @@ const getElement = (key: 'page1' | 'page2') => {
 };
 
 test('should render enrolments table', async () => {
-  renderComponent({ registration: { ...registration, signups: [] } });
+  renderComponent([...defaultMocks, getMockedAttendeesResponse([])]);
 
   screen.getByRole('heading', { name: 'Enrolments table' });
 
@@ -72,7 +76,8 @@ test('should render enrolments table', async () => {
 
 test('should navigate between pages', async () => {
   const user = userEvent.setup();
-  renderComponent();
+
+  renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
 
   await loadingSpinnerIsNotInDocument();
 
@@ -105,7 +110,10 @@ test('should navigate between pages', async () => {
 
 test('should open enrolment page by clicking event', async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent();
+  const { history } = renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse(attendees),
+  ]);
 
   const enrolmentButton = await screen.findByRole('button', {
     name: enrolmentName,
@@ -119,8 +127,12 @@ test('should open enrolment page by clicking event', async () => {
 
 test('should open enrolment page by pressing enter on row', async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent();
+  const { history } = renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse(attendees),
+  ]);
 
+  await loadingSpinnerIsNotInDocument();
   const enrolmentButton = await screen.findByRole('button', {
     name: enrolmentName,
   });
@@ -134,9 +146,14 @@ test('should open enrolment page by pressing enter on row', async () => {
 test('should open actions dropdown', async () => {
   const user = userEvent.setup();
 
-  const { history } = renderComponent();
+  const { history } = renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse(attendees),
+  ]);
 
-  const withinRow = within(screen.getByRole('button', { name: enrolmentName }));
+  const withinRow = within(
+    await screen.findByRole('button', { name: enrolmentName })
+  );
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
   await user.click(menuButton);
 

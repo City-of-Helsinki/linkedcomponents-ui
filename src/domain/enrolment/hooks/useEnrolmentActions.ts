@@ -23,7 +23,6 @@ import isTestEnv from '../../../utils/isTestEnv';
 import {
   clearEnrolmentQueries,
   clearEnrolmentsQueries,
-  clearRegistrationQueries,
 } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import { getSeatsReservationData } from '../../reserveSeats/utils';
@@ -77,8 +76,6 @@ const useEnrolmentActions = ({
   };
 
   const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
-    /* istanbul ignore next */
-    !isTestEnv && clearRegistrationQueries(apolloClient);
     /* istanbul ignore next */
     !isTestEnv && clearEnrolmentQueries(apolloClient);
     /* istanbul ignore next */
