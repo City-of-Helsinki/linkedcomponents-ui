@@ -170,7 +170,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                     <Field
                       component={CheckboxField}
                       label={t('event.form.labelHasEnvironmentalCertificate')}
-                      name="hasEnvironmentalCertificate"
+                      name={EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE}
                       disabled={!isEditingAllowed}
                     ></Field>
                   </FormGroup>

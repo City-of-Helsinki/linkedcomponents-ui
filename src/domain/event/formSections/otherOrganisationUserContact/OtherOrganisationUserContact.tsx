@@ -1,5 +1,5 @@
-import { Field, useField } from 'formik';
-import React, { FC, useEffect, useState } from 'react';
+import { Field } from 'formik';
+import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
@@ -15,20 +15,7 @@ type Props = {
 };
 
 const OtherOrganisationUserContact: FC<Props> = ({ isEditingAllowed }) => {
-  const [{ value: email }] = useField({ name: EVENT_FIELDS.EMAIL });
-  const [{ value: phoneNumber }] = useField({
-    name: EVENT_FIELDS.PHONE_NUMBER,
-  });
-
   const { t } = useTranslation();
-
-  const [emailRequired, setEmailRequired] = useState(!!phoneNumber === false);
-  const [phoneRequired, setPhoneRequired] = useState(!!email === false);
-
-  useEffect(() => {
-    setEmailRequired(!!phoneNumber === false);
-    setPhoneRequired(!!email === false);
-  }, [phoneNumber, email]);
 
   return (
     <Fieldset heading={t('event.form.sections.contact')} hideLegend>
@@ -50,8 +37,8 @@ const OtherOrganisationUserContact: FC<Props> = ({ isEditingAllowed }) => {
               label={t('event.form.labelEmail')}
               name={EVENT_FIELDS.EMAIL}
               placeholder={t('event.form.placeholderEmail')}
-              required={emailRequired}
-              disabled={!isEditingAllowed || !emailRequired}
+              required
+              disabled={!isEditingAllowed}
               type="email"
             ></Field>
           </FormGroup>
@@ -61,8 +48,8 @@ const OtherOrganisationUserContact: FC<Props> = ({ isEditingAllowed }) => {
               label={t('event.form.labelPhoneNumber')}
               name={EVENT_FIELDS.PHONE_NUMBER}
               placeholder={t('event.form.placeholderPhoneNumber')}
-              required={phoneRequired}
-              disabled={!isEditingAllowed || !phoneRequired}
+              required
+              disabled={!isEditingAllowed}
               type="tel"
             ></Field>
           </FormGroup>

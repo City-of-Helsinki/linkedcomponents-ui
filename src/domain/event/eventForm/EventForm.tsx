@@ -527,6 +527,10 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
     [event, eventInitialValues, user?.organization]
   );
 
+  const validationSchema = !isOtherOrganisationUser
+    ? publicEventSchema
+    : getUnknownUserEventSchema();
+
   return (
     <Formik
       initialValues={initialValues}
@@ -535,7 +539,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
       // we want to scroll to first invalid field if error occurs
       enableReinitialize={true}
       onSubmit={/* istanbul ignore next */ () => undefined}
-      validationSchema={publicEventSchema}
+      validationSchema={validationSchema}
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}

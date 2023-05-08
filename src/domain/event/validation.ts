@@ -306,6 +306,11 @@ const CYCLIC_DEPENDENCIES: [string, string][] = [
   [EVENT_FIELDS.ENROLMENT_END_TIME_DATE, EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
 ];
 
+const UNKNOWN_USER_CYCLIC_DEPENDENCIES: [string, string][] = [
+  ...CYCLIC_DEPENDENCIES,
+  [EVENT_FIELDS.EMAIL, EVENT_FIELDS.PHONE_NUMBER],
+];
+
 export const publicEventSchema = Yup.object().shape(
   {
     [EVENT_FIELDS.TYPE]: Yup.string().required(
@@ -427,33 +432,66 @@ export const draftEventSchema = Yup.object().shape(
   CYCLIC_DEPENDENCIES
 );
 
-const unknownUserEventSchema = Yup.object().shape({
-  [EVENT_FIELDS.EMAIL]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-  [EVENT_FIELDS.PHONE_NUMBER]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-  [EVENT_FIELDS.REGISTRATION_LINK]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-  [EVENT_FIELDS.USER_CONSENT]: Yup.boolean().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-  [EVENT_FIELDS.USER_NAME]: Yup.string().required(
-    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-  ),
-});
-
 export const getUnknownUserEventSchema = (
-  publicationStatus: PublicationStatus
+  publicationStatus?: PublicationStatus
 ) => {
-  switch (publicationStatus) {
-    case PublicationStatus.Draft:
-      return draftEventSchema.concat(unknownUserEventSchema);
-    default:
-      return publicEventSchema.concat(unknownUserEventSchema);
-  }
+  const baseSchema =
+    publicationStatus && publicationStatus === PublicationStatus.Draft
+      ? draftEventSchema
+      : publicEventSchema;
+
+  return Yup.object().shape(
+    {
+      ...baseSchema.fields,
+      [EVENT_FIELDS.USER_NAME]: Yup.string().required(
+        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+      ),
+      [EVENT_FIELDS.EMAIL]: Yup.string().when([EVENT_FIELDS.PHONE_NUMBER], {
+        is: (phoneNumber: string) => !phoneNumber || phoneNumber.length === 0,
+        then: (schema) =>
+          schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+      }),
+      [EVENT_FIELDS.PHONE_NUMBER]: Yup.string().when([EVENT_FIELDS.EMAIL], {
+        is: (email: string) => !email || email.length === 0,
+        then: (schema) =>
+          schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+      }),
+      [EVENT_FIELDS.USER_CONSENT]: Yup.boolean().required(
+        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+      ),
+      [EVENT_FIELDS.REGISTRATION_LINK]: Yup.string().required(
+        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+      ),
+      [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: Yup.string().when(
+        [EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE],
+        {
+          is: (hasCertificate: boolean) => hasCertificate,
+          then: (schema) =>
+            schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+        }
+      ),
+      [EVENT_FIELDS.SHORT_DESCRIPTION]:
+        createMultiLanguageValidationByInfoLanguages(
+          Yup.string()
+            .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+            .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
+        ),
+      [EVENT_FIELDS.PROVIDER]: createMultiLanguageValidationByInfoLanguages(
+        Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      ),
+      [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
+        [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
+        ([minimumAttendeeCapacity]) => {
+          return Yup.number()
+            .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+            .min(minimumAttendeeCapacity || 1, createNumberMinErrorMessage)
+            .nullable()
+            .transform(transformNumber);
+        }
+      ),
+    },
+    UNKNOWN_USER_CYCLIC_DEPENDENCIES
+  );
 };
 
 export const eventTimeSchema = Yup.object().shape({
