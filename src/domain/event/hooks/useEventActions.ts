@@ -34,7 +34,7 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_ACTIONS, EVENT_MODALS } from '../constants';
-import { EventFormFields } from '../types';
+import { EventFormFields, EventFormUnknownUserFields } from '../types';
 import {
   calculateSuperEventTime,
   checkIsActionAllowed,
@@ -54,7 +54,7 @@ type UseEventActionsState = {
   cancelEvent: (callbacks?: MutationCallbacks) => Promise<void>;
   closeModal: () => void;
   createEvent: (
-    values: EventFormFields,
+    values: EventFormFields | EventFormUnknownUserFields,
     publicationStatus: PublicationStatus,
     callbacks?: MutationCallbacks
   ) => Promise<void>;
@@ -64,7 +64,7 @@ type UseEventActionsState = {
   saving: EVENT_ACTIONS | null;
   setOpenModal: (modal: EVENT_MODALS | null) => void;
   updateEvent: (
-    values: EventFormFields,
+    values: EventFormFields | EventFormUnknownUserFields,
     publicationStatus: PublicationStatus,
     callbacks?: MutationCallbacks
   ) => Promise<void>;
@@ -231,7 +231,7 @@ const useEventActions = (
 
   const createRecurringEvent = async (
     payload: CreateEventMutationInput[],
-    values: EventFormFields,
+    values: EventFormFields | EventFormUnknownUserFields,
     callbacks?: MutationCallbacks
   ) => {
     let eventsData: FetchResult<CreateEventsMutation> | null = null;
@@ -301,7 +301,7 @@ const useEventActions = (
   };
 
   const createEvent = async (
-    values: EventFormFields,
+    values: EventFormFields | EventFormUnknownUserFields,
     publicationStatus: PublicationStatus,
     callbacks?: MutationCallbacks
   ) => {
@@ -412,7 +412,7 @@ const useEventActions = (
   };
 
   const updateRecurringEvent = async (
-    values: EventFormFields,
+    values: EventFormFields | EventFormUnknownUserFields,
     publicationStatus: PublicationStatus,
     callbacks?: MutationCallbacks
   ) => {
@@ -536,7 +536,7 @@ const useEventActions = (
   };
 
   const updateEvent = async (
-    values: EventFormFields,
+    values: EventFormFields | EventFormUnknownUserFields,
     publicationStatus: PublicationStatus,
     callbacks?: MutationCallbacks
   ) => {

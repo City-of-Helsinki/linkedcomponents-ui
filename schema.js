@@ -274,6 +274,8 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
+    email: String
+    environmentalCertificate: String
     eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
     images: [IdObjectInput!]
@@ -282,19 +284,25 @@ module.exports = buildSchema(/* GraphQL */ `
     keywords: [IdObjectInput!]
     location: IdObjectInput
     locationExtraInfo: LocalisedObjectInput
+    locationOutdoorsIndoors: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     name: LocalisedObjectInput
     offers: [OfferInput!]
+    organization: String
+    phoneNumber: String
     provider: LocalisedObjectInput
     publicationStatus: PublicationStatus
     publisher: String
+    registrationLink: String
     shortDescription: LocalisedObjectInput
     startTime: String
     subEvents: [IdObjectInput!]
     superEvent: IdObjectInput
     superEventType: SuperEventType
     typeId: EventTypeId
+    userConsent: Boolean
+    userName: String
     videos: [VideoInput]
   }
 
@@ -307,6 +315,8 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
+    email: String
+    environmentalCertificate: String
     eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
     images: [IdObjectInput!]
@@ -315,11 +325,15 @@ module.exports = buildSchema(/* GraphQL */ `
     keywords: [IdObjectInput!]
     location: IdObjectInput
     locationExtraInfo: LocalisedObjectInput
+    locationOutdoorsIndoors: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     name: LocalisedObjectInput
     offers: [OfferInput!]
+    organization: String
+    phoneNumber: String
     provider: LocalisedObjectInput
+    registrationLink: String
     publicationStatus: PublicationStatus
     shortDescription: LocalisedObjectInput
     startTime: String
@@ -327,6 +341,8 @@ module.exports = buildSchema(/* GraphQL */ `
     superEvent: IdObjectInput
     superEventType: SuperEventType
     typeId: EventTypeId
+    userConsent: Boolean
+    userName: String
     videos: [VideoInput]
   }
 
@@ -604,6 +620,8 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
+    email: String
+    environmentalCertificate: String
     extensionCourse: ExtensionCourse
     externalLinks: [ExternalLink]!
     eventStatus: EventStatus
@@ -614,21 +632,27 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedTime: String
     location: Place
     locationExtraInfo: LocalisedObject
+    locationOutdoorsIndoors: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     name: LocalisedObject
     offers: [Offer]!
+    organization: String
+    phoneNumber: String
     provider: LocalisedObject
     providerContactInfo: String
     publisher: ID
     publicationStatus: PublicationStatus
     registration: IdObject
+    registrationLink: String
     shortDescription: LocalisedObject
     startTime: String
     subEvents: [Event]!
     superEvent: Event
     superEventType: SuperEventType
     typeId: EventTypeId
+    userConsent: Boolean
+    userName: String
     videos: [Video]!
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!
