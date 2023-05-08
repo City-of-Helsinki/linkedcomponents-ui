@@ -456,7 +456,8 @@ export const getUnknownUserEventSchema = (
         then: (schema) =>
           schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
       }),
-      [EVENT_FIELDS.USER_CONSENT]: Yup.boolean().required(
+      [EVENT_FIELDS.USER_CONSENT]: Yup.bool().oneOf(
+        [true],
         VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
       ),
       [EVENT_FIELDS.REGISTRATION_LINK]: Yup.string().required(
