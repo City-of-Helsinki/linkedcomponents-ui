@@ -131,11 +131,11 @@ Use .env.development.local for development.
 | PUBLIC_URL                                 | Public url of the application url                                                                      |
 | REACT_APP_LINKED_EVENTS_URL                | linkedevents api base url                                                                              |
 | REACT_APP_LINKED_REGISTRATIONS_UI_URL      | Linked registration UI url. Used to get signup form url                                                |
-| REACT_APP_OIDC_AUTHORITY                   | Tunnistamo SSO service url. Default api https://api.hel.fi/sso                                         |
-| REACT_APP_OIDC_API_TOKENS_URL              | Tunnistamo api tokens endpoint url. Default api https://api.hel.fi/sso/api-tokens/                     |
-| REACT_APP_OIDC_CLIENT_ID                   | linkedcomponents-ui-test                                                                               |
-| REACT_APP_OIDC_API_SCOPE                   | https://api.hel.fi/auth/linkedeventsdev                                                                |
-| REACT_APP_OIDC_RESPONSE_TYPE               | Response type of oidc client. Default is 'id_token token'                                              |
+| REACT_APP_OIDC_AUTHORITY                   | Tunnistamo SSO service url. Default is https://tunnistamo.test.hel.ninja/openid                        |
+| REACT_APP_OIDC_API_TOKENS_URL              | Tunnistamo api tokens endpoint url. Default is https://tunnistamo.test.hel.ninja/api-tokens/           |
+| REACT_APP_OIDC_CLIENT_ID                   | Oidc client. Default is linkedcomponents-ui-dev                                                        |
+| REACT_APP_OIDC_API_SCOPE                   | Linked Events API scope. Default is https://api.hel.fi/auth/linkedeventsapidev                         |
+| REACT_APP_OIDC_RESPONSE_TYPE               | Response type of oidc client. Default is 'code'                                                        |
 | REACT_APP_SENTRY_DSN                       | https://9b104b8db52740ffb5002e0c9e40da45@sentry.hel.ninja/12                                           |
 | REACT_APP_SENTRY_ENVIRONMENT               | Setry environment. Set to local to use Sentry in development environment                               |
 | REACT_APP_MATOMO_URL_BASE                  | https://analytics.hel.ninja/                                                                           |
