@@ -486,6 +486,8 @@ export const getEventBasePayload = (
     enrolmentStartTimeDate,
     enrolmentStartTimeTime,
     eventInfoLanguages,
+    email,
+    environmentalCertificate,
     externalLinks,
     hasPrice,
     hasUmbrella,
@@ -496,15 +498,19 @@ export const getEventBasePayload = (
     keywords,
     location,
     locationExtraInfo,
+    locationOutdoorsIndoors,
     maximumAttendeeCapacity,
     minimumAttendeeCapacity,
     name,
     offers,
     provider,
     publisher,
+    registrationLink,
     shortDescription,
     superEvent,
     type,
+    userConsent,
+    userName,
     videos,
   } = formValues;
 
@@ -528,6 +534,8 @@ export const getEventBasePayload = (
             enrolmentStartTimeTime
           )
         : null,
+    email,
+    environmentalCertificate,
     externalLinks: externalLinks.map((item) => ({
       ...item,
       language: LE_DATA_LANGUAGES.FI,
@@ -541,6 +549,7 @@ export const getEventBasePayload = (
       locationExtraInfo,
       eventInfoLanguages
     ),
+    locationOutdoorsIndoors,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity
       : null,
@@ -569,6 +578,7 @@ export const getEventBasePayload = (
         ],
     provider: filterUnselectedLanguages(provider, eventInfoLanguages),
     publisher,
+    registrationLink,
     shortDescription: filterUnselectedLanguages(
       shortDescription,
       eventInfoLanguages
@@ -576,6 +586,8 @@ export const getEventBasePayload = (
     superEvent: hasUmbrella && superEvent ? { atId: superEvent } : null,
     superEventType: isUmbrella ? SuperEventType.Umbrella : null,
     typeId: capitalize(type) as EventTypeId,
+    userConsent,
+    userName,
     videos: videos.filter((video) => video.altText || video.name || video.url),
   };
 };

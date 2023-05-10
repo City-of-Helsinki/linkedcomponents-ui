@@ -67,7 +67,7 @@ import ConfirmCancelEventModal from '../modals/confirmCancelEventModal/ConfirmCa
 import ConfirmDeleteEventModal from '../modals/confirmDeleteEventModal/ConfirmDeleteEventModal';
 import ConfirmPostponeEventModal from '../modals/confirmPostponeEventModal/ConfirmPostponeEventModal';
 import ConfirmUpdateEventModal from '../modals/confirmUpdateEventModal/ConfirmUpdateEventModal';
-import { EventFormFields, EventFormUnknownUserFields } from '../types';
+import { EventFormFields } from '../types';
 import {
   checkCanUserDoAction,
   getEventFields,
@@ -95,15 +95,13 @@ export type EditEventFormProps = {
 export type EventFormWrapperProps = CreateEventFormProps | EditEventFormProps;
 
 type EventFormProps = EventFormWrapperProps & {
-  initialValues: EventFormFields | EventFormUnknownUserFields;
-  setErrors: (
-    errors: FormikErrors<EventFormFields | EventFormUnknownUserFields>
-  ) => void;
+  initialValues: EventFormFields;
+  setErrors: (errors: FormikErrors<EventFormFields>) => void;
   setTouched: (
-    touched: FormikTouched<EventFormFields | EventFormUnknownUserFields>,
+    touched: FormikTouched<EventFormFields>,
     shouldValidate?: boolean
   ) => void;
-  values: EventFormFields | EventFormUnknownUserFields;
+  values: EventFormFields;
   isOtherOrganisationUser?: boolean;
 };
 
@@ -184,7 +182,7 @@ const EventForm: React.FC<EventFormProps> = ({
   };
 
   const handleCreate = (
-    values: EventFormFields | EventFormUnknownUserFields,
+    values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {
     createEvent(values, publicationStatus, {
@@ -215,7 +213,7 @@ const EventForm: React.FC<EventFormProps> = ({
   };
 
   const handleUpdate = (
-    values: EventFormFields | EventFormUnknownUserFields,
+    values: EventFormFields,
     publicationStatus: PublicationStatus
   ) => {
     updateEvent(values, publicationStatus, {
@@ -511,7 +509,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
   const { event } = props;
   const { user } = useUser();
 
-  const isOtherOrganisationUser = true;
+  const isOtherOrganisationUser = false;
   const eventInitialValues = !isOtherOrganisationUser
     ? EVENT_INITIAL_VALUES
     : EVENT_UNKNOWN_USER_INITIAL_VALUES;

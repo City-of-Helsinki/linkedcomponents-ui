@@ -21,11 +21,7 @@ import { EVENT_LIST_INCLUDES, EVENT_SORT_OPTIONS } from '../events/constants';
 import { eventsPathBuilder } from '../events/utils';
 import { DEFAULT_LICENSE_TYPE, IMAGE_FIELDS } from '../image/constants';
 import { PublicationListLink } from './formSections/typeSection/publicationListLinks/PublicationListLinks';
-import {
-  EventFormFields,
-  EventFormUnknownUserFields,
-  RecurringEventSettings,
-} from './types';
+import { EventFormFields, RecurringEventSettings } from './types';
 
 export enum EVENT_TYPE {
   General = 'general',
@@ -191,7 +187,7 @@ export enum EVENT_INDOORS_OUTDOORS_VALUE {
   Outdoors = 'outdoors',
 }
 
-export const EVENT_UNKNOWN_USER_INITIAL_VALUES: EventFormUnknownUserFields = {
+export const EVENT_UNKNOWN_USER_INITIAL_VALUES: EventFormFields = {
   ...EVENT_INITIAL_VALUES,
   [EVENT_FIELDS.EMAIL]: '',
   [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: '',

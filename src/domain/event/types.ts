@@ -47,6 +47,17 @@ export type EventFields = {
   superEventType: SuperEventType | null;
 };
 
+type EventFormUnknownUserFields = {
+  [EVENT_FIELDS.EMAIL]?: string;
+  [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]?: string;
+  [EVENT_FIELDS.LOCATION_OUTDOORS_INDOORS]?: EVENT_INDOORS_OUTDOORS_VALUE;
+  [EVENT_FIELDS.ORGANIZATION]?: string;
+  [EVENT_FIELDS.PHONE_NUMBER]?: string;
+  [EVENT_FIELDS.REGISTRATION_LINK]?: string;
+  [EVENT_FIELDS.USER_CONSENT]?: boolean;
+  [EVENT_FIELDS.USER_NAME]?: string;
+};
+
 export type EventFormFields = {
   [EVENT_FIELDS.AUDIENCE]: string[];
   [EVENT_FIELDS.AUDIENCE_MAX_AGE]: number | '';
@@ -86,18 +97,7 @@ export type EventFormFields = {
   [EVENT_FIELDS.SUPER_EVENT]: string | null;
   [EVENT_FIELDS.TYPE]: string;
   [EVENT_FIELDS.VIDEOS]: VideoDetails[];
-};
-
-export type EventFormUnknownUserFields = {
-  [EVENT_FIELDS.EMAIL]: string;
-  [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: string;
-  [EVENT_FIELDS.LOCATION_OUTDOORS_INDOORS]: EVENT_INDOORS_OUTDOORS_VALUE;
-  [EVENT_FIELDS.ORGANIZATION]: string;
-  [EVENT_FIELDS.PHONE_NUMBER]: string;
-  [EVENT_FIELDS.REGISTRATION_LINK]: string;
-  [EVENT_FIELDS.USER_CONSENT]: boolean;
-  [EVENT_FIELDS.USER_NAME]: string;
-} & EventFormFields;
+} & EventFormUnknownUserFields;
 
 export type EventTimeFormFields = {
   [EVENT_TIME_FIELDS.END_DATE]: Date | null;
