@@ -51,9 +51,9 @@ export const MUTATION_ENROLMENT = gql`
         method: "POST"
         bodyKey: "input"
       ) {
-      emails
       htmlMessage
       message
+      signups
       subject
     }
   }

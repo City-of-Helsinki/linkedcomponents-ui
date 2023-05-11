@@ -926,9 +926,9 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type SendMessageResponse {
-    emails: [String!]
     htmlMessage: String!
     message: String!
+    signups: [String!]
     subject: String!
   }
 `);

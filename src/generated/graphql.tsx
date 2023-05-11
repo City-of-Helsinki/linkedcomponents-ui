@@ -1005,9 +1005,9 @@ export type SendMessageMutationInput = {
 
 export type SendMessageResponse = {
   __typename?: 'SendMessageResponse';
-  emails?: Maybe<Array<Scalars['String']>>;
   htmlMessage: Scalars['String'];
   message: Scalars['String'];
+  signups?: Maybe<Array<Scalars['String']>>;
   subject: Scalars['String'];
 };
 
@@ -1256,7 +1256,7 @@ export type SendMessageMutationVariables = Exact<{
 }>;
 
 
-export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __typename?: 'SendMessageResponse', emails?: Array<string> | null, htmlMessage: string, message: string, subject: string } | null };
+export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __typename?: 'SendMessageResponse', htmlMessage: string, message: string, signups?: Array<string> | null, subject: string } | null };
 
 export type EnrolmentPersonFieldsFragment = { __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null };
 
@@ -2315,9 +2315,9 @@ export type UpdateEnrolmentMutationOptions = Apollo.BaseMutationOptions<UpdateEn
 export const SendMessageDocument = gql`
     mutation SendMessage($input: SendMessageMutationInput!, $registration: String!) {
   sendMessage(input: $input, registration: $registration) @rest(type: "SendMessageResponse", path: "/registration/{args.registration}/send_message/", method: "POST", bodyKey: "input") {
-    emails
     htmlMessage
     message
+    signups
     subject
   }
 }

@@ -533,9 +533,9 @@ export const fakeSendMessageResponse = (
 ): SendMessageResponse =>
   merge<SendMessageResponse, typeof overrides>(
     {
-      emails: [],
       htmlMessage: faker.lorem.sentence(),
       message: faker.lorem.sentence(),
+      signups: [],
       subject: faker.lorem.sentence(),
       __typename: 'SendMessageResponse',
     },
