@@ -116,9 +116,11 @@ export const getEnrolmentNotificationsCode = (
 
 export const getEnrolmentPayload = ({
   formValues,
+  registration,
   reservationCode,
 }: {
   formValues: EnrolmentFormFields;
+  registration: RegistrationFieldsFragment;
   reservationCode: string;
 }): CreateEnrolmentMutationInput => {
   const {
@@ -153,6 +155,7 @@ export const getEnrolmentPayload = ({
   });
 
   return {
+    registration: registration.id,
     reservationCode,
     signups,
   };
@@ -201,9 +204,9 @@ export const getUpdateEnrolmentPayload = ({
 export const enrolmentPathBuilder = ({
   args,
 }: PathBuilderProps<EnrolmentQueryVariables>): string => {
-  const { id, registration } = args;
+  const { id } = args;
 
-  return `/registration/${registration}/signup/${id}/`;
+  return `/signup/${id}/`;
 };
 
 export const getTotalAttendeeCapacity = (

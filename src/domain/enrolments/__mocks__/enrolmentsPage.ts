@@ -3,9 +3,9 @@ import range from 'lodash/range';
 
 import {
   AttendeeStatus,
-  EnrolmentFieldsFragment,
   EnrolmentsDocument,
   EnrolmentsQueryVariables,
+  EnrolmentsResponse,
   SendMessageDocument,
 } from '../../../generated/graphql';
 import {
@@ -30,16 +30,16 @@ const attendees = fakeEnrolments(
 );
 
 const getMockedAttendeesResponse = (
-  enrolments: EnrolmentFieldsFragment[],
+  enrolmentsResponse: EnrolmentsResponse,
   overrideVariables?: Partial<EnrolmentsQueryVariables>
 ): MockedResponse => {
   const defaultVariables = {
     createPath: undefined,
-    registration: registrationId,
+    registration: [registrationId],
     text: '',
     attendeeStatus: AttendeeStatus.Attending,
   };
-  const attendeesResponse = { data: { enrolments: enrolments } };
+  const attendeesResponse = { data: { enrolments: enrolmentsResponse } };
   return {
     request: {
       query: EnrolmentsDocument,

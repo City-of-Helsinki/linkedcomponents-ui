@@ -231,9 +231,11 @@ describe('getEnrolmentPayload function', () => {
           ...ENROLMENT_INITIAL_VALUES,
           attendees: [ATTENDEE_INITIAL_VALUES],
         },
+        registration,
         reservationCode: TEST_SEATS_RESERVATION_CODE,
       })
     ).toEqual({
+      registration: registrationId,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
       signups: [
         {
@@ -287,10 +289,12 @@ describe('getEnrolmentPayload function', () => {
         phoneNumber,
         serviceLanguage,
       },
+      registration,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
     });
 
     expect(payload).toEqual({
+      registration: registrationId,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
       signups: [
         {
@@ -397,10 +401,7 @@ describe('getUpdateEnrolmentPayload function', () => {
 
 describe('enrolmentPathBuilder function', () => {
   const cases: [EnrolmentQueryVariables, string][] = [
-    [
-      { id: 'hel:123', registration: registrationId },
-      `/registration/${registrationId}/signup/hel:123/`,
-    ],
+    [{ id: 'hel:123' }, `/signup/hel:123/`],
   ];
 
   it.each(cases)('should build correct path', (variables, expectedPath) =>

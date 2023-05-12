@@ -7,10 +7,6 @@ import {
   fakeRegistration,
   fakeRegistrations,
 } from '../../../utils/mockDataUtils';
-import {
-  attendees,
-  waitingAttendees,
-} from '../../enrolments/__mocks__/enrolmentsPage';
 import { event } from '../../event/__mocks__/event';
 import {
   REGISTRATION_INCLUDES,
@@ -37,7 +33,7 @@ const registrationOverrides = {
   maximumAttendeeCapacity: 100,
   minimumAttendeeCapacity: 10,
   publisher: event.publisher,
-  signups: [...attendees, ...waitingAttendees],
+  signups: [],
   waitingListCapacity: 5,
 };
 

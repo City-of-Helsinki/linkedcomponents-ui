@@ -41,9 +41,8 @@ export const QUERY_ENROLMENT = gql`
     zipcode
   }
 
-  query Enrolment($id: ID!, $registration: ID!, $createPath: Any) {
-    enrolment(id: $id, registration: $registration)
-      @rest(type: "Enrolment", pathBuilder: $createPath) {
+  query Enrolment($id: ID!, $createPath: Any) {
+    enrolment(id: $id) @rest(type: "Enrolment", pathBuilder: $createPath) {
       ...enrolmentFields
     }
   }

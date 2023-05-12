@@ -22,6 +22,7 @@ export enum AttendeeStatus {
 }
 
 export type CreateEnrolmentMutationInput = {
+  registration?: InputMaybe<Scalars['String']>;
   reservationCode?: InputMaybe<Scalars['String']>;
   signups?: InputMaybe<Array<SignupInput>>;
 };
@@ -197,6 +198,12 @@ export type EnrolmentPerson = {
   __typename?: 'EnrolmentPerson';
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+};
+
+export type EnrolmentsResponse = {
+  __typename?: 'EnrolmentsResponse';
+  data: Array<Enrolment>;
+  meta: Meta;
 };
 
 export type Event = {
@@ -464,7 +471,6 @@ export type Mutation = {
 
 export type MutationCreateEnrolmentArgs = {
   input: CreateEnrolmentMutationInput;
-  registration?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -509,7 +515,6 @@ export type MutationCreateSeatsReservationArgs = {
 
 
 export type MutationDeleteEnrolmentArgs = {
-  registration: Scalars['String'];
   signup: Scalars['String'];
 };
 
@@ -567,7 +572,6 @@ export type MutationSendMessageArgs = {
 
 export type MutationUpdateEnrolmentArgs = {
   input: UpdateEnrolmentMutationInput;
-  registration: Scalars['String'];
   signup: Scalars['String'];
 };
 
@@ -752,7 +756,7 @@ export type Query = {
   dataSource: DataSource;
   dataSources: DataSourcesResponse;
   enrolment: Enrolment;
-  enrolments: Array<Maybe<Enrolment>>;
+  enrolments: EnrolmentsResponse;
   event: Event;
   events: EventsResponse;
   image: Image;
@@ -788,13 +792,12 @@ export type QueryDataSourcesArgs = {
 
 export type QueryEnrolmentArgs = {
   id: Scalars['ID'];
-  registration: Scalars['ID'];
 };
 
 
 export type QueryEnrolmentsArgs = {
   attendeeStatus?: InputMaybe<AttendeeStatus>;
-  registration: Scalars['ID'];
+  registration?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   text?: InputMaybe<Scalars['String']>;
 };
 
@@ -1233,14 +1236,12 @@ export type DataSourcesQuery = { __typename?: 'Query', dataSources: { __typename
 
 export type CreateEnrolmentMutationVariables = Exact<{
   input: CreateEnrolmentMutationInput;
-  registration: Scalars['String'];
 }>;
 
 
 export type CreateEnrolmentMutation = { __typename?: 'Mutation', createEnrolment: { __typename?: 'CreateEnrolmentResponse', attending?: { __typename?: 'EnrolmentPeopleResponse', count?: number | null, people?: Array<{ __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null }> | null } | null, waitlisted?: { __typename?: 'EnrolmentPeopleResponse', count?: number | null, people?: Array<{ __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null }> | null } | null } };
 
 export type DeleteEnrolmentMutationVariables = Exact<{
-  registration: Scalars['String'];
   signup: Scalars['String'];
 }>;
 
@@ -1249,7 +1250,6 @@ export type DeleteEnrolmentMutation = { __typename?: 'Mutation', deleteEnrolment
 
 export type UpdateEnrolmentMutationVariables = Exact<{
   input: UpdateEnrolmentMutationInput;
-  registration: Scalars['String'];
   signup: Scalars['String'];
 }>;
 
@@ -1274,7 +1274,6 @@ export type EnrolmentFieldsFragment = { __typename?: 'Enrolment', id: string, at
 
 export type EnrolmentQueryVariables = Exact<{
   id: Scalars['ID'];
-  registration: Scalars['ID'];
   createPath?: InputMaybe<Scalars['Any']>;
 }>;
 
@@ -1283,13 +1282,13 @@ export type EnrolmentQuery = { __typename?: 'Query', enrolment: { __typename?: '
 
 export type EnrolmentsQueryVariables = Exact<{
   attendeeStatus?: InputMaybe<AttendeeStatus>;
-  registration: Scalars['ID'];
+  registration?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
   text?: InputMaybe<Scalars['String']>;
   createPath?: InputMaybe<Scalars['Any']>;
 }>;
 
 
-export type EnrolmentsQuery = { __typename?: 'Query', enrolments: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> };
+export type EnrolmentsQuery = { __typename?: 'Query', enrolments: { __typename?: 'EnrolmentsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null }> } };
 
 export type CreateEventMutationVariables = Exact<{
   input: CreateEventMutationInput;
@@ -2219,8 +2218,8 @@ export type DataSourcesQueryHookResult = ReturnType<typeof useDataSourcesQuery>;
 export type DataSourcesLazyQueryHookResult = ReturnType<typeof useDataSourcesLazyQuery>;
 export type DataSourcesQueryResult = Apollo.QueryResult<DataSourcesQuery, DataSourcesQueryVariables>;
 export const CreateEnrolmentDocument = gql`
-    mutation CreateEnrolment($input: CreateEnrolmentMutationInput!, $registration: String!) {
-  createEnrolment(input: $input, registration: $registration) @rest(type: "CreateEnrolmentResponse", path: "/registration/{args.registration}/signup/", method: "POST", bodyKey: "input") {
+    mutation CreateEnrolment($input: CreateEnrolmentMutationInput!) {
+  createEnrolment(input: $input) @rest(type: "CreateEnrolmentResponse", path: "/signup/", method: "POST", bodyKey: "input") {
     ...createEnrolmentFields
   }
 }
@@ -2241,7 +2240,6 @@ export type CreateEnrolmentMutationFn = Apollo.MutationFunction<CreateEnrolmentM
  * const [createEnrolmentMutation, { data, loading, error }] = useCreateEnrolmentMutation({
  *   variables: {
  *      input: // value for 'input'
- *      registration: // value for 'registration'
  *   },
  * });
  */
@@ -2253,8 +2251,8 @@ export type CreateEnrolmentMutationHookResult = ReturnType<typeof useCreateEnrol
 export type CreateEnrolmentMutationResult = Apollo.MutationResult<CreateEnrolmentMutation>;
 export type CreateEnrolmentMutationOptions = Apollo.BaseMutationOptions<CreateEnrolmentMutation, CreateEnrolmentMutationVariables>;
 export const DeleteEnrolmentDocument = gql`
-    mutation DeleteEnrolment($registration: String!, $signup: String!) {
-  deleteEnrolment(registration: $registration, signup: $signup) @rest(type: "NoContent", path: "/registration/{args.registration}/signup/{args.signup}/", method: "DELETE") {
+    mutation DeleteEnrolment($signup: String!) {
+  deleteEnrolment(signup: $signup) @rest(type: "NoContent", path: "/signup/{args.signup}/", method: "DELETE") {
     noContent
   }
 }
@@ -2274,7 +2272,6 @@ export type DeleteEnrolmentMutationFn = Apollo.MutationFunction<DeleteEnrolmentM
  * @example
  * const [deleteEnrolmentMutation, { data, loading, error }] = useDeleteEnrolmentMutation({
  *   variables: {
- *      registration: // value for 'registration'
  *      signup: // value for 'signup'
  *   },
  * });
@@ -2287,8 +2284,8 @@ export type DeleteEnrolmentMutationHookResult = ReturnType<typeof useDeleteEnrol
 export type DeleteEnrolmentMutationResult = Apollo.MutationResult<DeleteEnrolmentMutation>;
 export type DeleteEnrolmentMutationOptions = Apollo.BaseMutationOptions<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>;
 export const UpdateEnrolmentDocument = gql`
-    mutation UpdateEnrolment($input: UpdateEnrolmentMutationInput!, $registration: String!, $signup: String!) {
-  updateEnrolment(input: $input, registration: $registration, signup: $signup) @rest(type: "Enrolment", path: "/registration/{args.registration}/signup/{args.signup}/", method: "PUT", bodyKey: "input") {
+    mutation UpdateEnrolment($input: UpdateEnrolmentMutationInput!, $signup: String!) {
+  updateEnrolment(input: $input, signup: $signup) @rest(type: "Enrolment", path: "/signup/{args.signup}/", method: "PUT", bodyKey: "input") {
     ...enrolmentFields
   }
 }
@@ -2309,7 +2306,6 @@ export type UpdateEnrolmentMutationFn = Apollo.MutationFunction<UpdateEnrolmentM
  * const [updateEnrolmentMutation, { data, loading, error }] = useUpdateEnrolmentMutation({
  *   variables: {
  *      input: // value for 'input'
- *      registration: // value for 'registration'
  *      signup: // value for 'signup'
  *   },
  * });
@@ -2359,8 +2355,8 @@ export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMuta
 export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutation>;
 export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutation, SendMessageMutationVariables>;
 export const EnrolmentDocument = gql`
-    query Enrolment($id: ID!, $registration: ID!, $createPath: Any) {
-  enrolment(id: $id, registration: $registration) @rest(type: "Enrolment", pathBuilder: $createPath) {
+    query Enrolment($id: ID!, $createPath: Any) {
+  enrolment(id: $id) @rest(type: "Enrolment", pathBuilder: $createPath) {
     ...enrolmentFields
   }
 }
@@ -2379,7 +2375,6 @@ export const EnrolmentDocument = gql`
  * const { data, loading, error } = useEnrolmentQuery({
  *   variables: {
  *      id: // value for 'id'
- *      registration: // value for 'registration'
  *      createPath: // value for 'createPath'
  *   },
  * });
@@ -2396,16 +2391,22 @@ export type EnrolmentQueryHookResult = ReturnType<typeof useEnrolmentQuery>;
 export type EnrolmentLazyQueryHookResult = ReturnType<typeof useEnrolmentLazyQuery>;
 export type EnrolmentQueryResult = Apollo.QueryResult<EnrolmentQuery, EnrolmentQueryVariables>;
 export const EnrolmentsDocument = gql`
-    query Enrolments($attendeeStatus: AttendeeStatus, $registration: ID!, $text: String, $createPath: Any) {
+    query Enrolments($attendeeStatus: AttendeeStatus, $registration: [ID], $text: String, $createPath: Any) {
   enrolments(
     attendeeStatus: $attendeeStatus
     registration: $registration
     text: $text
-  ) @rest(type: "Enrolment", pathBuilder: $createPath) {
-    ...enrolmentFields
+  ) @rest(type: "EnrolmentsResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...enrolmentFields
+    }
   }
 }
-    ${EnrolmentFieldsFragmentDoc}`;
+    ${MetaFieldsFragmentDoc}
+${EnrolmentFieldsFragmentDoc}`;
 
 /**
  * __useEnrolmentsQuery__
@@ -2426,7 +2427,7 @@ export const EnrolmentsDocument = gql`
  *   },
  * });
  */
-export function useEnrolmentsQuery(baseOptions: Apollo.QueryHookOptions<EnrolmentsQuery, EnrolmentsQueryVariables>) {
+export function useEnrolmentsQuery(baseOptions?: Apollo.QueryHookOptions<EnrolmentsQuery, EnrolmentsQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<EnrolmentsQuery, EnrolmentsQueryVariables>(EnrolmentsDocument, options);
       }

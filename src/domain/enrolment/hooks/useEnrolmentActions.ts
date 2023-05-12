@@ -126,7 +126,6 @@ const useEnrolmentActions = ({
 
       await deleteEnrolmentMutation({
         variables: {
-          registration: getValue(registration.id, ''),
           signup: getValue(enrolment?.id, ''),
         },
       });
@@ -150,8 +149,9 @@ const useEnrolmentActions = ({
     const reservationData = getSeatsReservationData(
       getValue(registration.id, '')
     );
-    const payload = getEnrolmentPayload({
+    const payload: CreateEnrolmentMutationInput = getEnrolmentPayload({
       formValues: values,
+      registration,
       reservationCode: getValue(reservationData?.code, ''),
     });
 
@@ -159,7 +159,6 @@ const useEnrolmentActions = ({
       const { data } = await createEnrolmentMutation({
         variables: {
           input: payload,
-          registration: getValue(registration.id, ''),
         },
       });
 
@@ -194,7 +193,6 @@ const useEnrolmentActions = ({
       await updateEnrolmentMutation({
         variables: {
           input: payload,
-          registration: getValue(registration.id, ''),
           signup: getValue(enrolment?.id, ''),
         },
       });

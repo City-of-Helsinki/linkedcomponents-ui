@@ -18,6 +18,7 @@ import {
   Enrolment,
   EnrolmentPeopleResponse,
   EnrolmentPerson,
+  EnrolmentsResponse,
   Event,
   EventsResponse,
   EventStatus,
@@ -83,9 +84,12 @@ export const fakeDataSource = (overrides?: Partial<DataSource>): DataSource => {
 
 export const fakeEnrolments = (
   count = 1,
-  enrolments: Partial<Enrolment>[]
-): Enrolment[] =>
-  generateNodeArray((i) => fakeEnrolment(enrolments?.[i]), count);
+  enrolments?: Partial<Enrolment>[]
+): EnrolmentsResponse => ({
+  data: generateNodeArray((i) => fakeEnrolment(enrolments?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'EnrolmentsResponse',
+});
 
 export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
   const id = overrides?.id || faker.datatype.uuid();

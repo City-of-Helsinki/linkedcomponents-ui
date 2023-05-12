@@ -8,7 +8,6 @@ module.exports = buildSchema(/* GraphQL */ `
   type Mutation {
     createEnrolment(
       input: CreateEnrolmentMutationInput!
-      registration: String
     ): CreateEnrolmentResponse!
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
@@ -20,7 +19,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createSeatsReservation(
       input: CreateSeatsReservationMutationInput!
     ): SeatsReservation!
-    deleteEnrolment(registration: String!, signup: String!): NoContent
+    deleteEnrolment(signup: String!): NoContent
     deleteEvent(id: ID!): NoContent
     deleteImage(id: ID!): NoContent
     deleteKeyword(id: ID!): NoContent
@@ -36,7 +35,6 @@ module.exports = buildSchema(/* GraphQL */ `
     ): SendMessageResponse
     updateEnrolment(
       input: UpdateEnrolmentMutationInput!
-      registration: String!
       signup: String!
     ): Enrolment!
     updateEvent(input: UpdateEventMutationInput!): Event!
@@ -60,12 +58,12 @@ module.exports = buildSchema(/* GraphQL */ `
   type Query {
     dataSource(id: ID!): DataSource!
     dataSources(page: Int, pageSize: Int): DataSourcesResponse!
-    enrolment(id: ID!, registration: ID!): Enrolment!
+    enrolment(id: ID!): Enrolment!
     enrolments(
       attendeeStatus: AttendeeStatus
-      registration: ID!
+      registration: [ID]
       text: String
-    ): [Enrolment]!
+    ): EnrolmentsResponse!
     event(id: ID, include: [String]): Event!
     events(
       adminUser: Boolean
@@ -245,6 +243,7 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input CreateEnrolmentMutationInput {
+    registration: String
     reservationCode: String
     signups: [SignupInput!]
   }
@@ -925,6 +924,11 @@ module.exports = buildSchema(/* GraphQL */ `
     serviceLanguage: String
     streetAddress: String
     zipcode: String
+  }
+
+  type EnrolmentsResponse {
+    meta: Meta!
+    data: [Enrolment!]!
   }
 
   type SendMessageResponse {

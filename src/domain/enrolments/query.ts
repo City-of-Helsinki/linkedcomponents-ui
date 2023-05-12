@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 export const QUERY_ENROLMENTS = gql`
   query Enrolments(
     $attendeeStatus: AttendeeStatus
-    $registration: ID!
+    $registration: [ID]
     $text: String
     $createPath: Any
   ) {
@@ -12,8 +12,13 @@ export const QUERY_ENROLMENTS = gql`
       attendeeStatus: $attendeeStatus
       registration: $registration
       text: $text
-    ) @rest(type: "Enrolment", pathBuilder: $createPath) {
-      ...enrolmentFields
+    ) @rest(type: "EnrolmentsResponse", pathBuilder: $createPath) {
+      meta {
+        ...metaFields
+      }
+      data {
+        ...enrolmentFields
+      }
     }
   }
 `;

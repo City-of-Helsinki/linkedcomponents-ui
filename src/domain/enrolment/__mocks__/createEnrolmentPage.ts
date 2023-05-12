@@ -28,6 +28,7 @@ const enrolmentValues = {
 };
 
 const payload: CreateEnrolmentMutationInput = {
+  registration: registrationId,
   reservationCode: TEST_SEATS_RESERVATION_CODE,
   signups: [
     {
@@ -49,7 +50,6 @@ const payload: CreateEnrolmentMutationInput = {
 
 const createEnrolmentVariables = {
   input: payload,
-  registration: registrationId,
 };
 
 const createEnrolmentResponse = {

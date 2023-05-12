@@ -64,10 +64,11 @@ export const enrolmentsPathBuilder = ({
 
   const variableToKeyItems = [
     { key: 'attendee_status', value: attendeeStatus },
+    { key: 'registration', value: registration },
     { key: 'text', value: text },
   ];
 
   const query = queryBuilder(variableToKeyItems);
 
-  return `/registration/${registration}/signup/${query}`;
+  return `/signup/${query}`;
 };

@@ -19,6 +19,7 @@ import {
   DataSource,
   DataSourcesResponse,
   Enrolment,
+  EnrolmentsResponse,
   Event,
   EventsResponse,
   Image,
@@ -301,6 +302,14 @@ const linkedEventsLink = new RestLink({
     },
     Enrolment: (enrolment: Enrolment): Enrolment | null =>
       addTypenameEnrolment(enrolment),
+    EnrolmentsResponse: (data: EnrolmentsResponse): EnrolmentsResponse => {
+      return {
+        meta: addTypenameMeta(data.meta),
+        data: data.data.map(
+          (enrolment) => addTypenameEnrolment(enrolment) as Enrolment
+        ),
+      };
+    },
     Event: (event: Event): Event | null => addTypenameEvent(event),
     EventsResponse: (data: EventsResponse): EventsResponse => {
       data.meta = addTypenameMeta(data.meta);

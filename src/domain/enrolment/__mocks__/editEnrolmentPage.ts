@@ -44,7 +44,6 @@ const enrolment = fakeEnrolment({
 const enrolmentVariables = {
   createPath: undefined,
   id: enrolmentId,
-  registration: registrationId,
 };
 const enrolmentResponse = { data: { enrolment } };
 const mockedEnrolmentResponse: MockedResponse = {
@@ -53,7 +52,6 @@ const mockedEnrolmentResponse: MockedResponse = {
 };
 
 const cancelEnrolmentVariables = {
-  registration: registrationId,
   signup: enrolmentId,
 };
 const cancelEnrolmentResponse = { data: { deleteEnrolment: null } };
@@ -84,7 +82,6 @@ const payload = {
 
 const updateEnrolmentVariables = {
   input: payload,
-  registration: registrationId,
   signup: enrolmentId,
 };
 

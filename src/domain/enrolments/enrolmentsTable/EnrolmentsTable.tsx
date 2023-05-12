@@ -112,14 +112,15 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   const { data: enrolmentsData, loading } = useEnrolmentsQuery({
     variables: {
       ...enrolmentsVariables,
-      registration: getValue(registration.id, ''),
+      registration: [getValue(registration.id, '')],
       text: enrolmentText,
       createPath: getPathBuilder(enrolmentsPathBuilder),
     },
   });
-  const enrolments = getValue(enrolmentsData?.enrolments, []).filter(
+
+  const enrolments = getValue(enrolmentsData?.enrolments.data, []).filter(
     skipFalsyType
-  ) as EnrolmentFieldsFragment[];
+  );
 
   const enrolmentCount = enrolments.length;
   const pageCount = getPageCount(enrolmentCount, ENROLMENTS_PAGE_SIZE);

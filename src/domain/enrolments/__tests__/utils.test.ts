@@ -29,20 +29,14 @@ describe('getEnrolmentFields function', () => {
 describe('enrolmentsPathBuilder function', () => {
   const cases: [EnrolmentsQueryVariables, string][] = [
     [
-      {
-        attendeeStatus: AttendeeStatus.Attending,
-        registration: registrationId,
-      },
-      `/registration/${registrationId}/signup/?attendee_status=attending`,
+      { attendeeStatus: AttendeeStatus.Attending },
+      `/signup/?attendee_status=attending`,
     ],
     [
-      { registration: registrationId },
-      `/registration/${registrationId}/signup/`,
+      { registration: [registrationId] },
+      `/signup/?registration=${registrationId}`,
     ],
-    [
-      { registration: registrationId, text: 'text' },
-      `/registration/${registrationId}/signup/?text=text`,
-    ],
+    [{ text: 'text' }, `/signup/?text=text`],
   ];
 
   it.each(cases)(
