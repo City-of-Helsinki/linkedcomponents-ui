@@ -689,7 +689,6 @@
       "infoTextVideo2": "Anna videolle nimi ja kuvaa lyhyesti mitä siinä tapahtuu.",
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
-      "labelContactName": "Nimi",
       "labelDescription": {
         "course": "Kurssin kuvaus {{langText}}",
         "general": "Tapahtuman kuvaus {{langText}}",
@@ -738,7 +737,6 @@
       "labelKeywords": "Avainsanahaku",
       "labelLocation": "Paikka",
       "labelLocationExtraInfo": "{{langText}}",
-      "labelLocationOutdoorsIndoors": "Tapahtuma järjestetään",
       "labelLocationId": "Paikan ID:",
       "labelMaximumAttendeeCapacity": "Enimmäisosallistujamäärä",
       "labelMinimumAttendeeCapacity": "Vähimmäisosallistujamäärä",
@@ -758,6 +756,7 @@
       "labelOfferPrice": "{{langText}}",
       "labelOrganization": "Organisaatio",
       "labelPhoneNumber": "Puhelinnumero",
+      "labelPlace": "Tapahtuma järjestetään",
       "labelProvider": {
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "general": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)",
@@ -784,6 +783,7 @@
       "labelTime": "Ajankohta",
       "labelUmbrellaEvent": "Kattotapahtuma",
       "labelUserConsent": "Annan suostumukseni tietojeni käyttöön",
+      "labelUserName": "Nimi",
       "labelVideoAltText": "Videon alt-teksti",
       "labelVideoName": "Videon nimi",
       "labelVideoUrl": "Videon URL-osoite",
@@ -849,7 +849,6 @@
         "general": "Syötä tapahtuman alaikäraja",
         "volunteering": "Syötä vapaaehtoistehtävän alaikäraja"
       },
-      "placeholderContactName": "Syötä etu- ja sukunimi tai nimimerkki",
       "placeholderDescription": {
         "course": "Syötä kurssin kuvaus",
         "general": "Syötä tapahtuman kuvaus",
@@ -900,6 +899,7 @@
         "general": "Syötä tapahtuman lyhyt kuvaus",
         "volunteering": "Syötä vapaaehtoistehtävän lyhyt kuvaus"
       },
+      "placeholderUserName": "Syötä etu- ja sukunimi tai nimimerkki",
       "placeholderVideoAltText": "Syötä videon alt-teksti ruudunlukijoita varten",
       "placeholderVideoName": "Syötä videon nimi",
       "placeholderVideoUrl": "Syötä videon URL-osoite",
@@ -1013,7 +1013,7 @@
         "volunteering": "Vapaaehtoistehtävän video"
       },
       "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma.",
-      "locationOutdoorsIndoorsOptions": {
+      "placeOptions": {
         "indoors": "Sisällä",
         "outdoors": "Ulkona"
       }

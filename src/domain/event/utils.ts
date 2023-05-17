@@ -498,11 +498,13 @@ export const getEventBasePayload = (
     keywords,
     location,
     locationExtraInfo,
-    locationOutdoorsIndoors,
     maximumAttendeeCapacity,
     minimumAttendeeCapacity,
     name,
     offers,
+    organization,
+    phoneNumber,
+    place,
     provider,
     publisher,
     registrationLink,
@@ -549,7 +551,7 @@ export const getEventBasePayload = (
       locationExtraInfo,
       eventInfoLanguages
     ),
-    locationOutdoorsIndoors,
+    place,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity
       : null,
@@ -576,6 +578,8 @@ export const getEventBasePayload = (
             isFree: true,
           },
         ],
+    organization,
+    phoneNumber,
     provider: filterUnselectedLanguages(provider, eventInfoLanguages),
     publisher,
     registrationLink,

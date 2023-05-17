@@ -14,7 +14,7 @@ type Props = {
   isEditingAllowed: boolean;
 };
 
-const OtherOrganisationUserContact: FC<Props> = ({ isEditingAllowed }) => {
+const ExternalUserContact: FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
   return (
@@ -24,9 +24,9 @@ const OtherOrganisationUserContact: FC<Props> = ({ isEditingAllowed }) => {
           <FormGroup>
             <Field
               component={TextInputField}
-              label={t('event.form.labelContactName')}
+              label={t('event.form.labelUserName')}
               name={EVENT_FIELDS.USER_NAME}
-              placeholder={t('event.form.placeholderContactName')}
+              placeholder={t('event.form.placeholderUserName')}
               disabled={!isEditingAllowed}
               required
             ></Field>
@@ -88,4 +88,4 @@ const OtherOrganisationUserContact: FC<Props> = ({ isEditingAllowed }) => {
   );
 };
 
-export default OtherOrganisationUserContact;
+export default ExternalUserContact;

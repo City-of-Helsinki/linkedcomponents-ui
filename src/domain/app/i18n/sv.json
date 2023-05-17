@@ -689,7 +689,6 @@
       "infoTextVideo2": "Namnge videon och ge en kort beskrivning av innehållet.",
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
-      "labelContactName": "Namn",
       "labelDescription": {
         "course": "Kursensbeskrivning {{langText}}",
         "general": "Evenemangsbeskrivning {{langText}}",
@@ -738,7 +737,6 @@
       "labelKeywords": "Nyckelordssökning",
       "labelLocation": "Plats",
       "labelLocationExtraInfo": "{{langText}}",
-      "labelLocationOutdoorsIndoors": "Event is held",
       "labelLocationId": "Plats ID:",
       "labelMaximumAttendeeCapacity": "Högsta antal deltagare",
       "labelMinimumAttendeeCapacity": "Minsta antal deltagare",
@@ -758,6 +756,7 @@
       "labelOfferPrice": "{{langText}}",
       "labelOrganization": "Organisation",
       "labelPhoneNumber": "Telefonnummer",
+      "labelPlace": "Event is held",
       "labelProvider": {
         "course": "Arrangör av kurs {{langText}} (om det skiljer sig från utgivaren)",
         "general": "Arrangör av evenemang {{langText}} (om det skiljer sig från utgivaren)",
@@ -784,6 +783,7 @@
       "labelTime": "Tid",
       "labelUmbrellaEvent": "Huvudevenemang",
       "labelUserConsent": "I consent to use of my information",
+      "labelUserName": "Namn",
       "labelVideoAltText": "Videons alt-text",
       "labelVideoName": "Namn på videon",
       "labelVideoUrl": "Videons URL-webaddress",
@@ -849,7 +849,6 @@
         "general": "Ange lägsta ålder för evenemanget",
         "volunteering": "Ange lägsta ålder för volontärarbetet"
       },
-      "placeholderContactName": "Ange ditt för- och efternamn eller smeknamn",
       "placeholderDescription": {
         "course": "Ange kursensbeskrivning",
         "general": "Ange evenemangetsbeskrivning",
@@ -900,6 +899,7 @@
         "general": "Ange en kort beskrivning av evenemanget",
         "volunteering": "Ange en kort beskrivning av volontärarbetet"
       },
+      "placeholderUserName": "Ange ditt för- och efternamn eller smeknamn",
       "placeholderVideoAltText": "Ange videons alt-text för skärmläsare",
       "placeholderVideoName": "Ange videon namn",
       "placeholderVideoUrl": "Ange videons URL-webbaddress",
@@ -1013,7 +1013,7 @@
         "volunteering": "Video för volontärarbetet"
       },
       "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett huvudevenemang.",
-      "locationOutdoorsIndoorsOptions": {
+      "placeOptions": {
         "indoors": "Indoors",
         "outdoors": "Outdoors"
       }

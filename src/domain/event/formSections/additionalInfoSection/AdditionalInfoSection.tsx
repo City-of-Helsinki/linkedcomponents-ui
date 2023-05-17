@@ -17,12 +17,12 @@ import styles from '../../eventPage.module.scss';
 
 interface Props {
   isEditingAllowed: boolean;
-  isOtherOrganisationUser: boolean;
+  isExternalUser: boolean;
 }
 
 const AdditionalInfoSection: React.FC<Props> = ({
   isEditingAllowed,
-  isOtherOrganisationUser,
+  isExternalUser,
 }) => {
   const { t } = useTranslation();
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
@@ -142,7 +142,7 @@ const AdditionalInfoSection: React.FC<Props> = ({
             type="info"
           >
             <p>{t(`event.form.infoTextAttendeeCapacity.${type}`)}</p>
-            {isOtherOrganisationUser && (
+            {isExternalUser && (
               <p>{t('event.form.infoTextAttendeeCapacityUserUnknown')}</p>
             )}
           </Notification>
@@ -168,7 +168,7 @@ const AdditionalInfoSection: React.FC<Props> = ({
                 min={0}
                 name={EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
                 placeholder={0}
-                required={isOtherOrganisationUser}
+                required={isExternalUser}
               />
             </FormGroup>
           </div>

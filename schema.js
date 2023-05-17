@@ -284,13 +284,13 @@ module.exports = buildSchema(/* GraphQL */ `
     keywords: [IdObjectInput!]
     location: IdObjectInput
     locationExtraInfo: LocalisedObjectInput
-    locationOutdoorsIndoors: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     name: LocalisedObjectInput
     offers: [OfferInput!]
     organization: String
     phoneNumber: String
+    place: String
     provider: LocalisedObjectInput
     publicationStatus: PublicationStatus
     publisher: String
@@ -325,13 +325,13 @@ module.exports = buildSchema(/* GraphQL */ `
     keywords: [IdObjectInput!]
     location: IdObjectInput
     locationExtraInfo: LocalisedObjectInput
-    locationOutdoorsIndoors: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     name: LocalisedObjectInput
     offers: [OfferInput!]
     organization: String
     phoneNumber: String
+    place: String
     provider: LocalisedObjectInput
     registrationLink: String
     publicationStatus: PublicationStatus
@@ -632,13 +632,13 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedTime: String
     location: Place
     locationExtraInfo: LocalisedObject
-    locationOutdoorsIndoors: String
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
     name: LocalisedObject
     offers: [Offer]!
     organization: String
     phoneNumber: String
+    place: String
     provider: LocalisedObject
     providerContactInfo: String
     publisher: ID

@@ -10,7 +10,7 @@ import {
   ADD_EVENT_TIME_FORM_NAME,
   EDIT_EVENT_TIME_FORM_NAME,
   EVENT_FIELDS,
-  EVENT_INDOORS_OUTDOORS_VALUE,
+  EVENT_PLACE_VALUE,
   EVENT_TIME_FIELDS,
   EXTERNAL_LINK_FIELDS,
   RECURRING_EVENT_FIELDS,
@@ -47,10 +47,10 @@ export type EventFields = {
   superEventType: SuperEventType | null;
 };
 
-type EventFormUnknownUserFields = {
+type EventFormExternalUserFields = {
   [EVENT_FIELDS.EMAIL]?: string;
   [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]?: string;
-  [EVENT_FIELDS.LOCATION_OUTDOORS_INDOORS]?: EVENT_INDOORS_OUTDOORS_VALUE;
+  [EVENT_FIELDS.PLACE]?: EVENT_PLACE_VALUE;
   [EVENT_FIELDS.ORGANIZATION]?: string;
   [EVENT_FIELDS.PHONE_NUMBER]?: string;
   [EVENT_FIELDS.REGISTRATION_LINK]?: string;
@@ -97,7 +97,7 @@ export type EventFormFields = {
   [EVENT_FIELDS.SUPER_EVENT]: string | null;
   [EVENT_FIELDS.TYPE]: string;
   [EVENT_FIELDS.VIDEOS]: VideoDetails[];
-} & EventFormUnknownUserFields;
+} & EventFormExternalUserFields;
 
 export type EventTimeFormFields = {
   [EVENT_TIME_FIELDS.END_DATE]: Date | null;

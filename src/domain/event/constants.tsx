@@ -87,7 +87,6 @@ export enum EVENT_FIELDS {
   KEYWORDS = 'keywords',
   LOCATION = 'location',
   LOCATION_EXTRA_INFO = 'locationExtraInfo',
-  LOCATION_OUTDOORS_INDOORS = 'locationOutdoorsIndoors',
   MAIN_CATEGORIES = 'mainCategories',
   MAXIMUM_ATTENDEE_CAPACITY = 'maximumAttendeeCapacity',
   MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',
@@ -99,6 +98,7 @@ export enum EVENT_FIELDS {
   OFFERS = 'offers',
   ORGANIZATION = 'organization',
   PHONE_NUMBER = 'phoneNumber',
+  PLACE = 'place',
   PROVIDER = 'provider',
   PUBLISHER = 'publisher',
   RECURRING_EVENTS = 'recurringEvents',
@@ -182,7 +182,7 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   ],
 };
 
-export enum EVENT_INDOORS_OUTDOORS_VALUE {
+export enum EVENT_PLACE_VALUE {
   Indoors = 'indoors',
   Outdoors = 'outdoors',
 }
@@ -191,10 +191,9 @@ export const EVENT_UNKNOWN_USER_INITIAL_VALUES: EventFormFields = {
   ...EVENT_INITIAL_VALUES,
   [EVENT_FIELDS.EMAIL]: '',
   [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: '',
-  [EVENT_FIELDS.LOCATION_OUTDOORS_INDOORS]:
-    EVENT_INDOORS_OUTDOORS_VALUE.Indoors,
   [EVENT_FIELDS.ORGANIZATION]: '',
   [EVENT_FIELDS.PHONE_NUMBER]: '',
+  [EVENT_FIELDS.PLACE]: EVENT_PLACE_VALUE.Indoors,
   [EVENT_FIELDS.REGISTRATION_LINK]: '',
   [EVENT_FIELDS.USER_CONSENT]: false,
   [EVENT_FIELDS.USER_NAME]: '',

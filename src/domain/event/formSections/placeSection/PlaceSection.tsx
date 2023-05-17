@@ -13,18 +13,18 @@ import { CHARACTER_LIMITS } from '../../../../constants';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
-import { EVENT_FIELDS, EVENT_INDOORS_OUTDOORS_VALUE } from '../../constants';
+import { EVENT_FIELDS, EVENT_PLACE_VALUE } from '../../constants';
 import stylesEventPage from '../../eventPage.module.scss';
 import styles from './placeSection.module.scss';
 
 interface Props {
   isEditingAllowed: boolean;
-  isOtherOrganisationUser: boolean;
+  isExternalUser: boolean;
 }
 
 const PlaceSection: React.FC<Props> = ({
   isEditingAllowed,
-  isOtherOrganisationUser,
+  isExternalUser,
 }) => {
   const { t } = useTranslation();
 
@@ -34,10 +34,8 @@ const PlaceSection: React.FC<Props> = ({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
 
-  const eventIndoorsOutdoorsOptions = Object.values(
-    EVENT_INDOORS_OUTDOORS_VALUE
-  ).map((value) => ({
-    label: t(`event.form.locationOutdoorsIndoorsOptions.${value}`),
+  const eventPlaceOptions = Object.values(EVENT_PLACE_VALUE).map((value) => ({
+    label: t(`event.form.placeOptions.${value}`),
     value,
   }));
 
@@ -92,16 +90,16 @@ const PlaceSection: React.FC<Props> = ({
             />
           </FormGroup>
         </FieldColumn>
-        {isOtherOrganisationUser && (
-          <Fieldset heading={t('event.form.labelLocationOutdoorsIndoors')}>
+        {isExternalUser && (
+          <Fieldset heading={t('event.form.labelPlace')}>
             <FieldColumn>
               <FormGroup>
                 <Field
                   columns={1}
                   component={RadioButtonGroupField}
-                  name={EVENT_FIELDS.LOCATION_OUTDOORS_INDOORS}
+                  name={EVENT_FIELDS.PLACE}
                   disabled={!isEditingAllowed}
-                  options={eventIndoorsOutdoorsOptions}
+                  options={eventPlaceOptions}
                   required
                 ></Field>
               </FormGroup>

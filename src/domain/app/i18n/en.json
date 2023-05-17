@@ -689,7 +689,6 @@
       "infoTextVideo2": "Name the video and give a brief description of the contents.",
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
-      "labelContactName": "Name",
       "labelDescription": {
         "course": "Course description {{langText}}",
         "general": "Event description {{langText}}",
@@ -738,7 +737,6 @@
       "labelKeywords": "Keyword search",
       "labelLocation": "Location",
       "labelLocationExtraInfo": "{{langText}}",
-      "labelLocationOutdoorsIndoors": "Event is held",
       "labelLocationId": "Location ID:",
       "labelMaximumAttendeeCapacity": "Maximum number of participants",
       "labelMinimumAttendeeCapacity": "Minimum number of participants",
@@ -758,6 +756,7 @@
       "labelOfferPrice": "{{langText}}",
       "labelOrganization": "Organization",
       "labelPhoneNumber": "Telephone number",
+      "labelPlace": "Event is held",
       "labelProvider": {
         "course": "Course organizer {{langText}} (if different from publisher)",
         "general": "Event organizer {{langText}} (if different from publisher)",
@@ -784,6 +783,7 @@
       "labelTime": "Time",
       "labelUmbrellaEvent": "Umbrella event",
       "labelUserConsent": "I consent to use of my information",
+      "labelUserName": "Name",
       "labelVideoAltText": "Video alt text",
       "labelVideoName": "Name for video",
       "labelVideoUrl": "Video URL",
@@ -849,7 +849,6 @@
         "general": "Enter the minimum age for the event",
         "volunteering": "Enter the minimum age for the volunteering"
       },
-      "placeholderContactName": "Enter your first and last name or nickname",
       "placeholderDescription": {
         "course": "Enter a description of the course",
         "general": "Enter a description of the event",
@@ -900,6 +899,7 @@
         "general": "Enter a short description of the event",
         "volunteering": "Enter a short description of the volunteering"
       },
+      "placeholderUserName": "Enter your first and last name or nickname",
       "placeholderVideoAltText": "Enter video alt text for screen readers",
       "placeholderVideoName": "Enter video name",
       "placeholderVideoUrl": "Enter video URL",
@@ -1013,7 +1013,7 @@
         "volunteering": "Volunteering video"
       },
       "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event.",
-      "locationOutdoorsIndoorsOptions": {
+      "placeOptions": {
         "indoors": "Indoors",
         "outdoors": "Outdoors"
       }

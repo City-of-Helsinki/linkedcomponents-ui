@@ -306,7 +306,7 @@ const CYCLIC_DEPENDENCIES: [string, string][] = [
   [EVENT_FIELDS.ENROLMENT_END_TIME_DATE, EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
 ];
 
-const UNKNOWN_USER_CYCLIC_DEPENDENCIES: [string, string][] = [
+const EXTERNAL_USER_CYCLIC_DEPENDENCIES: [string, string][] = [
   ...CYCLIC_DEPENDENCIES,
   [EVENT_FIELDS.EMAIL, EVENT_FIELDS.PHONE_NUMBER],
 ];
@@ -432,7 +432,7 @@ export const draftEventSchema = Yup.object().shape(
   CYCLIC_DEPENDENCIES
 );
 
-export const getUnknownUserEventSchema = (
+export const getExternalUserEventSchema = (
   publicationStatus?: PublicationStatus
 ) => {
   const baseSchema =
@@ -491,7 +491,7 @@ export const getUnknownUserEventSchema = (
         }
       ),
     },
-    UNKNOWN_USER_CYCLIC_DEPENDENCIES
+    EXTERNAL_USER_CYCLIC_DEPENDENCIES
   );
 };
 
