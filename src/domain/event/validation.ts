@@ -446,6 +446,7 @@ export const getExternalUserEventSchema = (
         Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
       ),
       ...baseSchema.fields,
+      [EVENT_FIELDS.PUBLISHER]: Yup.string().nullable().optional(),
       [EVENT_FIELDS.SHORT_DESCRIPTION]:
         createMultiLanguageValidationByInfoLanguages(
           Yup.string()
