@@ -442,7 +442,34 @@ export const getExternalUserEventSchema = (
 
   return Yup.object().shape(
     {
+      [EVENT_FIELDS.PROVIDER]: createMultiLanguageValidationByInfoLanguages(
+        Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      ),
       ...baseSchema.fields,
+      [EVENT_FIELDS.SHORT_DESCRIPTION]:
+        createMultiLanguageValidationByInfoLanguages(
+          Yup.string()
+            .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+            .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
+        ),
+      [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: Yup.string().when(
+        [EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE],
+        {
+          is: (hasCertificate: boolean) => hasCertificate,
+          then: (schema) =>
+            schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+        }
+      ),
+      [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
+        [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
+        ([minimumAttendeeCapacity]) => {
+          return Yup.number()
+            .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+            .min(minimumAttendeeCapacity || 1, createNumberMinErrorMessage)
+            .nullable()
+            .transform(transformNumber);
+        }
+      ),
       [EVENT_FIELDS.USER_NAME]: Yup.string().required(
         VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
       ),
@@ -456,39 +483,12 @@ export const getExternalUserEventSchema = (
         then: (schema) =>
           schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
       }),
-      [EVENT_FIELDS.USER_CONSENT]: Yup.bool().oneOf(
-        [true],
-        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-      ),
       [EVENT_FIELDS.REGISTRATION_LINK]: Yup.string().required(
         VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
       ),
-      [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: Yup.string().when(
-        [EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE],
-        {
-          is: (hasCertificate: boolean) => hasCertificate,
-          then: (schema) =>
-            schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-        }
-      ),
-      [EVENT_FIELDS.SHORT_DESCRIPTION]:
-        createMultiLanguageValidationByInfoLanguages(
-          Yup.string()
-            .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-            .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
-        ),
-      [EVENT_FIELDS.PROVIDER]: createMultiLanguageValidationByInfoLanguages(
-        Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      ),
-      [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
-        [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
-        ([minimumAttendeeCapacity]) => {
-          return Yup.number()
-            .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-            .min(minimumAttendeeCapacity || 1, createNumberMinErrorMessage)
-            .nullable()
-            .transform(transformNumber);
-        }
+      [EVENT_FIELDS.USER_CONSENT]: Yup.bool().oneOf(
+        [true],
+        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
       ),
     },
     EXTERNAL_USER_CYCLIC_DEPENDENCIES

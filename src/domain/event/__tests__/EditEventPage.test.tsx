@@ -90,8 +90,11 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const route = ROUTES.EDIT_EVENT.replace(':id', eventId);
 
-const renderComponent = (mocks: MockedResponse[] = baseMocks) =>
-  renderWithRoute(<EditEventPage />, {
+const renderComponent = (
+  externalUser = false,
+  mocks: MockedResponse[] = baseMocks
+) =>
+  renderWithRoute(<EditEventPage externalUser={externalUser} />, {
     authContextValue,
     mocks,
     routes: [route],
@@ -177,7 +180,7 @@ test('should cancel event', async () => {
   ];
 
   const user = userEvent.setup();
-  renderComponent(mocks);
+  renderComponent(false, mocks);
 
   await waitLoadingAndFindNameInput();
   const { menu } = await openMenu();
@@ -213,7 +216,7 @@ test('should postpone event', async () => {
   ];
 
   const user = userEvent.setup();
-  renderComponent(mocks);
+  renderComponent(false, mocks);
 
   await waitLoadingAndFindNameInput();
   const { menu } = await openMenu();
@@ -249,7 +252,7 @@ test('should delete event', async () => {
   ];
 
   const user = userEvent.setup();
-  const { history } = renderComponent(mocks);
+  const { history } = renderComponent(false, mocks);
 
   await waitLoadingAndFindNameInput();
   const { menu } = await openMenu();
@@ -283,7 +286,7 @@ test('should update event', async () => {
   ];
 
   const user = userEvent.setup();
-  renderComponent(mocks);
+  renderComponent(false, mocks);
 
   await waitLoadingAndFindNameInput();
 
@@ -323,7 +326,7 @@ test.only('should update recurring event', async () => {
   ];
 
   const user = userEvent.setup();
-  renderComponent(mocks);
+  renderComponent(false, mocks);
 
   await waitLoadingAndFindNameInput();
   screen.getByText(expectedValues.lastModifiedTime);
@@ -396,7 +399,7 @@ test('should scroll to first error when validation error is thrown', async () =>
   ];
 
   const user = userEvent.setup();
-  renderComponent(mocks);
+  renderComponent(false, mocks);
 
   const nameFiInput = await waitLoadingAndFindNameInput();
 
@@ -410,7 +413,7 @@ test('should show server errors', async () => {
   const mocks = [...baseMocks, mockedInvalidUpdateEventResponse];
 
   const user = userEvent.setup();
-  renderComponent(mocks);
+  renderComponent(false, mocks);
 
   await waitLoadingAndFindNameInput();
 
@@ -425,4 +428,52 @@ test('should show server errors', async () => {
   await loadingSpinnerIsNotInDocument(10000);
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/lopetusaika ei voi olla menneisyydessä./i);
+});
+
+test('should render fields for external user', async () => {
+  const mocks = [...baseMocks];
+
+  renderComponent(true, mocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const externalUserFieldLabels = [
+    /tapahtumalla on ekokompassi tai muu vastaava sertifikaatti/i,
+    /sertifikaatin nimi/i,
+    /sisällä/i,
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /organisaatio/i,
+    /matkailun rekisteriselosteen url/i,
+    /annan suostumukseni tietojeni käyttöön/i,
+  ];
+
+  externalUserFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeInTheDocument()
+  );
+
+  const disabledFieldLabels = [
+    /tapahtuma/i,
+    /sertifikaatin nimi/i,
+    /tapahtuman julkaisija/i,
+  ];
+
+  disabledFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeDisabled()
+  );
+
+  const requiredFieldLabels = [
+    /tapahtuman järjestäjä suomeksi/i,
+    /sertifikaatin nimi/i,
+    /enimmäisosallistujamäärä/i,
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /matkailun rekisteriselosteen url/i,
+  ];
+
+  requiredFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeRequired()
+  );
 });

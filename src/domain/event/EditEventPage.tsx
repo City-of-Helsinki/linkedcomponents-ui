@@ -13,7 +13,13 @@ import EventForm from './eventForm/EventForm';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import { eventPathBuilder } from './utils';
 
-const EditEventPageWrapper: React.FC = () => {
+type EditEventPageProps = {
+  externalUser?: boolean;
+};
+
+const EditEventPageWrapper: React.FC<EditEventPageProps> = ({
+  externalUser = true,
+}) => {
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
   const { loading: loadingUser } = useUser();
@@ -40,7 +46,11 @@ const EditEventPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {eventData?.event ? (
-        <EventForm event={eventData?.event} refetch={refetch} />
+        <EventForm
+          externalUser={externalUser}
+          event={eventData?.event}
+          refetch={refetch}
+        />
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

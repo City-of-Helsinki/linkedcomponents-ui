@@ -82,8 +82,14 @@ const defaultMocks = [
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
-  render(<CreateEventPage />, { authContextValue, mocks });
+const renderComponent = (
+  externalUser = false,
+  mocks: MockedResponse[] = defaultMocks
+) =>
+  render(<CreateEventPage externalUser={externalUser} />, {
+    authContextValue,
+    mocks,
+  });
 
 beforeEach(() => {
   // values stored in tests will also be available in other tests unless you run
@@ -174,6 +180,23 @@ test('should focus to first validation error when trying to save draft event', a
   await user.click(saveDraftButton);
 
   await waitFor(() => expect(nameTextbox).toHaveFocus());
+});
+
+test('should focus to first validation error when trying to save draft event as external user', async () => {
+  const user = userEvent.setup();
+
+  renderComponent(true);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const saveDraftButton = getElement('saveDraft');
+  const providerField = await screen.findByLabelText(
+    /tapahtuman järjestäjä suomeksi/i
+  );
+
+  await user.click(saveDraftButton);
+
+  await waitFor(() => expect(providerField).toHaveFocus());
 });
 
 test('should focus to validation error of swedish name when trying to save draft event', async () => {
@@ -302,7 +325,7 @@ test('should focus to first main category checkbox if none main category is sele
   ];
   const user = userEvent.setup();
 
-  renderComponent(mocks);
+  renderComponent(false, mocks);
 
   await waitLoadingAndFindNameInput();
 
@@ -329,7 +352,7 @@ test('should show server errors', async () => {
   const mocks = [...defaultMocks, mockedInvalidCreateDraftEventResponse];
   const user = userEvent.setup();
 
-  renderComponent(mocks);
+  renderComponent(false, mocks);
 
   await waitLoadingAndFindNameInput();
 
@@ -354,7 +377,7 @@ test('should route to event completed page after saving draft event', async () =
   const mocks = [...defaultMocks, mockedCreateDraftEventResponse];
   const user = userEvent.setup();
 
-  const { history } = renderComponent(mocks);
+  const { history } = renderComponent(false, mocks);
 
   await waitLoadingAndFindNameInput();
 
@@ -402,7 +425,7 @@ test('should route to event completed page after publishing event', async () => 
   ];
   const user = userEvent.setup();
 
-  const { history } = renderComponent(mocks);
+  const { history } = renderComponent(false, mocks);
 
   await waitLoadingAndFindNameInput();
 
@@ -415,5 +438,51 @@ test('should route to event completed page after publishing event', async () => 
         `/fi/events/completed/${eventValues.id}`
       ),
     { timeout: 20000 }
+  );
+});
+
+test('should render fields for external user', async () => {
+  renderComponent(true);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const externalUserFieldLabels = [
+    /tapahtumalla on ekokompassi tai muu vastaava sertifikaatti/i,
+    /sertifikaatin nimi/i,
+    /sisällä/i,
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /organisaatio/i,
+    /matkailun rekisteriselosteen url/i,
+    /annan suostumukseni tietojeni käyttöön/i,
+  ];
+
+  externalUserFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeInTheDocument()
+  );
+
+  const disabledFieldLabels = [
+    /tapahtuma/i,
+    /sertifikaatin nimi/i,
+    /tapahtuman julkaisija/i,
+  ];
+
+  disabledFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeDisabled()
+  );
+
+  const requiredFieldLabels = [
+    /tapahtuman järjestäjä suomeksi/i,
+    /sertifikaatin nimi/i,
+    /enimmäisosallistujamäärä/i,
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /matkailun rekisteriselosteen url/i,
+  ];
+
+  requiredFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeRequired()
   );
 });

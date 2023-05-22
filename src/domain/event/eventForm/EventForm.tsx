@@ -83,6 +83,7 @@ import {
 export type CreateEventFormProps = {
   event?: null;
   refetch?: null;
+  externalUser?: boolean;
 };
 
 export type EditEventFormProps = {
@@ -90,6 +91,7 @@ export type EditEventFormProps = {
   refetch: (
     variables?: Partial<EventQueryVariables>
   ) => Promise<ApolloQueryResult<EventQuery>>;
+  externalUser?: boolean;
 };
 
 export type EventFormWrapperProps = CreateEventFormProps | EditEventFormProps;
@@ -504,11 +506,10 @@ const EventForm: React.FC<EventFormProps> = ({
 };
 
 const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
-  const { event } = props;
+  const { event, externalUser = false } = props;
   const { user } = useUser();
 
-  const isExternalUser = true;
-  const eventInitialValues = !isExternalUser
+  const eventInitialValues = !externalUser
     ? EVENT_INITIAL_VALUES
     : EVENT_UNKNOWN_USER_INITIAL_VALUES;
 
@@ -523,7 +524,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
     [event, eventInitialValues, user?.organization]
   );
 
-  const validationSchema = !isExternalUser
+  const validationSchema = !externalUser
     ? publicEventSchema
     : getExternalUserEventSchema();
 
@@ -554,7 +555,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
               setErrors={setErrors}
               setTouched={setTouched}
               values={values}
-              isExternalUser={isExternalUser}
+              isExternalUser={externalUser}
             />
           </FormikPersist>
         );
