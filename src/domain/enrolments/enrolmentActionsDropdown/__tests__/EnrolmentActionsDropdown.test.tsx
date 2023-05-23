@@ -7,6 +7,8 @@ import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthCon
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   configure,
+  fireEvent,
+  pasteToTextEditor,
   render,
   screen,
   userEvent,
@@ -17,6 +19,8 @@ import { AuthContextProps } from '../../../auth/types';
 import {
   enrolment,
   mockedCancelEnrolmentResponse,
+  mockedSendMessageResponse,
+  sendMessageValues,
 } from '../../../enrolment/__mocks__/editEnrolmentPage';
 import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
@@ -37,6 +41,7 @@ const defaultProps: EnrolmentActionsDropdownProps = {
 const defaultMocks = [
   mockedCancelEnrolmentResponse,
   mockedEventResponse,
+  mockedSendMessageResponse,
   mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
@@ -68,7 +73,9 @@ const renderComponent = ({
     }
   );
 
-const getElement = (key: 'cancel' | 'edit' | 'menu' | 'toggle') => {
+const getElement = (
+  key: 'cancel' | 'edit' | 'menu' | 'sendMessage' | 'toggle'
+) => {
   switch (key) {
     case 'cancel':
       return screen.getByRole('button', { name: 'Peruuta osallistuminen' });
@@ -76,6 +83,8 @@ const getElement = (key: 'cancel' | 'edit' | 'menu' | 'toggle') => {
       return screen.getByRole('button', { name: 'Muokkaa tietoja' });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
+    case 'sendMessage':
+      return screen.getByRole('button', { name: 'Lähetä viesti' });
     case 'toggle':
       return screen.getByRole('button', { name: /valinnat/i });
   }
@@ -127,6 +136,42 @@ test('should route to edit enrolment page when clicking edit button', async () =
 
   expect(history.location.search).toBe(
     `?returnPath=${encodeURIComponent(stripLanguageFromPath(route))}`
+  );
+});
+
+test('should send message to participant when clicking send message button', async () => {
+  // Mock getClientRects for ckeditor
+  global.Range.prototype.getClientRects = jest
+    .fn()
+    .mockImplementation(() => []);
+
+  const user = userEvent.setup();
+  renderComponent({ authContextValue });
+
+  await openMenu();
+
+  const sendMessageButton = getElement('sendMessage');
+  await user.click(sendMessageButton);
+
+  const withinModal = within(
+    screen.getByRole('dialog', { name: 'Lähetä viesti osallistujalle' })
+  );
+  const subjectInput = withinModal.getByRole('textbox', { name: 'Otsikko *' });
+  const messageInput = await withinModal.findByLabelText(
+    /editorin muokkausalue: main/i
+  );
+  fireEvent.change(subjectInput, {
+    target: { value: sendMessageValues.subject },
+  });
+  pasteToTextEditor(messageInput, sendMessageValues.body);
+
+  const confirmSendMessageButton = withinModal.getByRole('button', {
+    name: 'Lähetä viesti',
+  });
+  await user.click(confirmSendMessageButton);
+
+  await waitFor(() =>
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   );
 });
 

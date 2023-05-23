@@ -9,9 +9,11 @@ import {
   CreateEnrolmentMutationInput,
   EnrolmentFieldsFragment,
   RegistrationFieldsFragment,
+  SendMessageMutationInput,
   UpdateEnrolmentMutationInput,
   useCreateEnrolmentMutation,
   useDeleteEnrolmentMutation,
+  useSendMessageMutation,
   useUpdateEnrolmentMutation,
 } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
@@ -25,9 +27,9 @@ import {
 import { reportError } from '../../app/sentry/utils';
 import { getSeatsReservationData } from '../../reserveSeats/utils';
 import useUser from '../../user/hooks/useUser';
-import { ENROLMENT_ACTIONS } from '../constants';
+import { ENROLMENT_ACTIONS, SEND_MESSAGE_FORM_NAME } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { EnrolmentFormFields } from '../types';
+import { EnrolmentFormFields, SendMessageFormFields } from '../types';
 import { getEnrolmentPayload, getUpdateEnrolmentPayload } from '../utils';
 
 interface Props {
@@ -42,6 +44,11 @@ type UseEnrolmentActionsState = {
     callbacks?: MutationCallbacks
   ) => Promise<void>;
   saving: ENROLMENT_ACTIONS | false;
+  sendMessage: (
+    values: SendMessageFormFields,
+    signups?: string[],
+    callbacks?: MutationCallbacks
+  ) => Promise<void>;
   updateEnrolment: (
     values: EnrolmentFormFields,
     callbacks?: MutationCallbacks
@@ -61,6 +68,7 @@ const useEnrolmentActions = ({
 
   const [createEnrolmentMutation] = useCreateEnrolmentMutation();
   const [deleteEnrolmentMutation] = useDeleteEnrolmentMutation();
+  const [sendMessageMutation] = useSendMessageMutation();
   const [updateEnrolmentMutation] = useUpdateEnrolmentMutation();
 
   const savingFinished = () => {
@@ -89,7 +97,10 @@ const useEnrolmentActions = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: CreateEnrolmentMutationInput | UpdateEnrolmentMutationInput;
+    payload?:
+      | CreateEnrolmentMutationInput
+      | SendMessageMutationInput
+      | UpdateEnrolmentMutationInput;
   }) => {
     savingFinished();
 
@@ -192,10 +203,46 @@ const useEnrolmentActions = ({
     }
   };
 
+  const sendMessage = async (
+    values: SendMessageFormFields,
+    signups?: string[],
+    callbacks?: MutationCallbacks
+  ) => {
+    const payload: SendMessageMutationInput = {
+      body: values[SEND_MESSAGE_FORM_NAME].body,
+      signups,
+      subject: values[SEND_MESSAGE_FORM_NAME].subject,
+    };
+
+    try {
+      setSaving(ENROLMENT_ACTIONS.SEND_MESSAGE);
+
+      await sendMessageMutation({
+        variables: {
+          input: payload,
+          registration: getValue(registration.id, ''),
+        },
+      });
+
+      savingFinished();
+      closeModal();
+      // Call callback function if defined
+      await (callbacks?.onSuccess && callbacks.onSuccess());
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to send message',
+        payload,
+      });
+    }
+  };
+
   return {
     cancelEnrolment,
     createEnrolment,
     saving,
+    sendMessage,
     updateEnrolment,
   };
 };

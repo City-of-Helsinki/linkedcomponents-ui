@@ -21,6 +21,8 @@ import {
   ENROLMENT_FIELDS,
   ENROLMENT_FORM_SELECT_FIELDS,
   NOTIFICATIONS,
+  SEND_MESSAGE_FIELDS,
+  SEND_MESSAGE_FORM_NAME,
 } from './constants';
 import { isDateOfBirthFieldRequired, isEnrolmentFieldRequired } from './utils';
 
@@ -140,6 +142,17 @@ export const getEnrolmentSchema = (
     ),
   });
 };
+
+export const sendMessageSchema = Yup.object().shape({
+  [SEND_MESSAGE_FORM_NAME]: Yup.object().shape({
+    [SEND_MESSAGE_FIELDS.SUBJECT]: Yup.string().required(
+      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    ),
+    [SEND_MESSAGE_FIELDS.BODY]: Yup.string().required(
+      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    ),
+  }),
+});
 
 const getFocusableFieldId = (
   fieldName: string

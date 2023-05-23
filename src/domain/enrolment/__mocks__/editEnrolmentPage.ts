@@ -5,10 +5,14 @@ import { DATE_FORMAT_API } from '../../../constants';
 import {
   DeleteEnrolmentDocument,
   EnrolmentDocument,
+  SendMessageDocument,
   UpdateEnrolmentDocument,
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
-import { fakeEnrolment } from '../../../utils/mockDataUtils';
+import {
+  fakeEnrolment,
+  fakeSendMessageResponse,
+} from '../../../utils/mockDataUtils';
 import { registrationId } from '../../registration/__mocks__/registration';
 import { NOTIFICATION_TYPE } from '../constants';
 
@@ -96,11 +100,40 @@ const mockedInvalidUpdateEnrolmentResponse: MockedResponse = {
   } as Error,
 };
 
+const sendMessageValues = {
+  body: '<p>Message</p>',
+  subject: 'Subject',
+};
+
+const sendMessageVariables = {
+  input: {
+    ...sendMessageValues,
+    body: '<p>Message</p>',
+    signups: [enrolmentId],
+    subject: 'Subject',
+  },
+  registration: registrationId,
+};
+
+const sendMessageResponse = {
+  data: { sendMessage: fakeSendMessageResponse() },
+};
+
+const mockedSendMessageResponse: MockedResponse = {
+  request: {
+    query: SendMessageDocument,
+    variables: sendMessageVariables,
+  },
+  result: sendMessageResponse,
+};
+
 export {
   enrolment,
   enrolmentId,
   mockedCancelEnrolmentResponse,
   mockedEnrolmentResponse,
   mockedInvalidUpdateEnrolmentResponse,
+  mockedSendMessageResponse,
   mockedUpdateEnrolmentResponse,
+  sendMessageValues,
 };

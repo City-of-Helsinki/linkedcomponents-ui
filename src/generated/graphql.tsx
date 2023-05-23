@@ -447,6 +447,7 @@ export type Mutation = {
   deleteRegistration?: Maybe<NoContent>;
   postFeedback?: Maybe<Feedback>;
   postGuestFeedback?: Maybe<Feedback>;
+  sendMessage?: Maybe<SendMessageResponse>;
   updateEnrolment: Enrolment;
   updateEvent: Event;
   updateEvents: Array<Event>;
@@ -554,6 +555,12 @@ export type MutationPostFeedbackArgs = {
 
 export type MutationPostGuestFeedbackArgs = {
   input: FeedbackInput;
+};
+
+
+export type MutationSendMessageArgs = {
+  input: SendMessageMutationInput;
+  registration?: InputMaybe<Scalars['String']>;
 };
 
 
@@ -990,6 +997,20 @@ export type SeatsReservation = {
   waitlistSpots?: Maybe<Scalars['Int']>;
 };
 
+export type SendMessageMutationInput = {
+  body: Scalars['String'];
+  signups?: InputMaybe<Array<Scalars['String']>>;
+  subject: Scalars['String'];
+};
+
+export type SendMessageResponse = {
+  __typename?: 'SendMessageResponse';
+  htmlMessage: Scalars['String'];
+  message: Scalars['String'];
+  signups?: Maybe<Array<Scalars['String']>>;
+  subject: Scalars['String'];
+};
+
 export type SignupInput = {
   city?: InputMaybe<Scalars['String']>;
   dateOfBirth?: InputMaybe<Scalars['String']>;
@@ -1228,6 +1249,14 @@ export type UpdateEnrolmentMutationVariables = Exact<{
 
 
 export type UpdateEnrolmentMutation = { __typename?: 'Mutation', updateEnrolment: { __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } };
+
+export type SendMessageMutationVariables = Exact<{
+  input: SendMessageMutationInput;
+  registration: Scalars['String'];
+}>;
+
+
+export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __typename?: 'SendMessageResponse', htmlMessage: string, message: string, signups?: Array<string> | null, subject: string } | null };
 
 export type EnrolmentPersonFieldsFragment = { __typename?: 'EnrolmentPerson', id?: number | null, name?: string | null };
 
@@ -2283,6 +2312,43 @@ export function useUpdateEnrolmentMutation(baseOptions?: Apollo.MutationHookOpti
 export type UpdateEnrolmentMutationHookResult = ReturnType<typeof useUpdateEnrolmentMutation>;
 export type UpdateEnrolmentMutationResult = Apollo.MutationResult<UpdateEnrolmentMutation>;
 export type UpdateEnrolmentMutationOptions = Apollo.BaseMutationOptions<UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables>;
+export const SendMessageDocument = gql`
+    mutation SendMessage($input: SendMessageMutationInput!, $registration: String!) {
+  sendMessage(input: $input, registration: $registration) @rest(type: "SendMessageResponse", path: "/registration/{args.registration}/send_message/", method: "POST", bodyKey: "input") {
+    htmlMessage
+    message
+    signups
+    subject
+  }
+}
+    `;
+export type SendMessageMutationFn = Apollo.MutationFunction<SendMessageMutation, SendMessageMutationVariables>;
+
+/**
+ * __useSendMessageMutation__
+ *
+ * To run a mutation, you first call `useSendMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendMessageMutation, { data, loading, error }] = useSendMessageMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      registration: // value for 'registration'
+ *   },
+ * });
+ */
+export function useSendMessageMutation(baseOptions?: Apollo.MutationHookOptions<SendMessageMutation, SendMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendMessageMutation, SendMessageMutationVariables>(SendMessageDocument, options);
+      }
+export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMutation>;
+export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutation>;
+export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutation, SendMessageMutationVariables>;
 export const EnrolmentDocument = gql`
     query Enrolment($id: ID!, $createPath: Any) {
   enrolment(id: $id) @rest(type: "Enrolment", pathBuilder: $createPath) {

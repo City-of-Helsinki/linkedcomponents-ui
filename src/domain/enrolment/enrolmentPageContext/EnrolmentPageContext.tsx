@@ -13,8 +13,10 @@ import PersonsAddedToWaitingListModal from '../modals/personsAddedToWaitingListM
 export type EnrolmentPageContextProps = {
   closeModal: () => void;
   openModal: ENROLMENT_MODALS | null;
+  openModalId: string | null;
   openParticipant: number | null;
   setOpenModal: (state: ENROLMENT_MODALS | null) => void;
+  setOpenModalId: (state: string | null) => void;
   setOpenParticipant: (index: number | null) => void;
   toggleOpenParticipant: (index: number) => void;
 };
@@ -29,19 +31,25 @@ export const EnrolmentPageProvider: FC<PropsWithChildren> = ({ children }) => {
   const [openModal, setOpenModal] = useMountedState<ENROLMENT_MODALS | null>(
     null
   );
+  const [openModalId, setOpenModalId] = useMountedState<string | null>(null);
 
   const value: EnrolmentPageContextProps = useMemo(
     () => ({
-      closeModal: () => setOpenModal(null),
+      closeModal: () => {
+        setOpenModalId(null);
+        setOpenModal(null);
+      },
       openModal,
+      openModalId,
       openParticipant,
       setOpenModal,
+      setOpenModalId,
       setOpenParticipant,
       toggleOpenParticipant: (newIndex: number) => {
         setOpenParticipant(openParticipant === newIndex ? null : newIndex);
       },
     }),
-    [openModal, openParticipant, setOpenModal]
+    [openModal, openModalId, openParticipant, setOpenModal, setOpenModalId]
   );
 
   return (

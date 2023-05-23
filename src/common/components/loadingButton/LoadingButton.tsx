@@ -8,11 +8,12 @@ import styles from './loadingButton.module.scss';
 type Props = { icon: React.ReactNode; loading: boolean } & ButtonProps;
 
 const LoadingButton = React.forwardRef<HTMLButtonElement, Props>(
-  ({ children, icon, loading, ...rest }, ref) => {
+  ({ children, disabled, icon, loading, ...rest }, ref) => {
     return (
       <Button
         {...rest}
         ref={ref}
+        disabled={loading || disabled}
         iconLeft={
           loading ? (
             <LoadingSpinner

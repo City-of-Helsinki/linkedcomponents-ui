@@ -1,8 +1,15 @@
 import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 
-import { AttendeeStatus, EnrolmentsDocument } from '../../../generated/graphql';
-import { fakeEnrolments } from '../../../utils/mockDataUtils';
+import {
+  AttendeeStatus,
+  EnrolmentsDocument,
+  SendMessageDocument,
+} from '../../../generated/graphql';
+import {
+  fakeEnrolments,
+  fakeSendMessageResponse,
+} from '../../../utils/mockDataUtils';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 
@@ -61,12 +68,40 @@ const mockedWaitingAttendeesResponse: MockedResponse = {
   result: waitingAttendeesResponse,
 };
 
+const sendMessageValues = {
+  body: '<p>Message</p>',
+  subject: 'Subject',
+};
+
+const sendMessageVariables = {
+  input: {
+    ...sendMessageValues,
+    body: '<p>Message</p>',
+    subject: 'Subject',
+  },
+  registration: registrationId,
+};
+
+const sendMessageResponse = {
+  data: { sendMessage: fakeSendMessageResponse() },
+};
+
+const mockedSendMessageResponse: MockedResponse = {
+  request: {
+    query: SendMessageDocument,
+    variables: sendMessageVariables,
+  },
+  result: sendMessageResponse,
+};
+
 export {
   attendeeNames,
   attendees,
   attendeesResponse,
   mockedAttendeesResponse,
+  mockedSendMessageResponse,
   mockedWaitingAttendeesResponse,
+  sendMessageValues,
   waitingAttendeeNames,
   waitingAttendees,
   waitingAttendeesResponse,

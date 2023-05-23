@@ -45,6 +45,7 @@ import {
   Registration,
   RegistrationsResponse,
   SeatsReservation,
+  SendMessageResponse,
   User,
   UsersResponse,
   Video,
@@ -526,6 +527,20 @@ export const fakeSeatsReservation = (
     overrides
   );
 };
+
+export const fakeSendMessageResponse = (
+  overrides?: Partial<SendMessageResponse>
+): SendMessageResponse =>
+  merge<SendMessageResponse, typeof overrides>(
+    {
+      htmlMessage: faker.lorem.sentence(),
+      message: faker.lorem.sentence(),
+      signups: [],
+      subject: faker.lorem.sentence(),
+      __typename: 'SendMessageResponse',
+    },
+    overrides
+  );
 
 export const fakeUsers = (
   count = 1,

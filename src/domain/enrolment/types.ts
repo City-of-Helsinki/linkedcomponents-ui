@@ -1,4 +1,9 @@
-import { ATTENDEE_FIELDS, ENROLMENT_FIELDS } from './constants';
+import {
+  ATTENDEE_FIELDS,
+  ENROLMENT_FIELDS,
+  SEND_MESSAGE_FIELDS,
+  SEND_MESSAGE_FORM_NAME,
+} from './constants';
 
 export type AttendeeFields = {
   [ATTENDEE_FIELDS.CITY]: string;
@@ -26,4 +31,11 @@ export type EnrolmentReservation = {
   participants: number;
   started: number;
   session: string;
+};
+
+export type SendMessageFormFields = {
+  [SEND_MESSAGE_FORM_NAME]: {
+    [SEND_MESSAGE_FIELDS.BODY]: string;
+    [SEND_MESSAGE_FIELDS.SUBJECT]: string;
+  };
 };

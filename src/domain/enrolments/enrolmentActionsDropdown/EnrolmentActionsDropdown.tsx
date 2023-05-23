@@ -18,6 +18,7 @@ import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
 import ConfirmCancelEnrolmentModal from '../../enrolment/modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
+import SendMessageModal from '../../enrolment/modals/sendMessageModal/SendMessageModal';
 import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { getRegistrationFields } from '../../registration/utils';
@@ -51,9 +52,10 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
     registration,
   });
 
-  const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
+  const { closeModal, openModal, openModalId, setOpenModalId, setOpenModal } =
+    useEnrolmentPageContext();
 
-  const { cancelEnrolment, saving } = useEnrolmentActions({
+  const { cancelEnrolment, saving, sendMessage } = useEnrolmentActions({
     enrolment,
     registration,
   });
@@ -96,14 +98,27 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
       onClick: goToEditEnrolmentPage,
     }),
     getActionItemProps({
+      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
+      onClick: () => {
+        setOpenModalId(enrolment.id);
+        setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT);
+      },
+    }),
+    getActionItemProps({
       action: ENROLMENT_ACTIONS.CANCEL,
-      onClick: () => setOpenModal(ENROLMENT_MODALS.CANCEL),
+      onClick: () => {
+        setOpenModalId(enrolment.id);
+        setOpenModal(ENROLMENT_MODALS.CANCEL);
+      },
     }),
   ].filter(skipFalsyType);
 
+  const isModalOpen = (modal: ENROLMENT_MODALS) =>
+    openModalId === enrolment.id && openModal === modal;
+
   return (
     <>
-      {openModal === ENROLMENT_MODALS.CANCEL && (
+      {isModalOpen(ENROLMENT_MODALS.CANCEL) && (
         <ConfirmCancelEnrolmentModal
           enrolment={enrolment}
           isOpen={openModal === ENROLMENT_MODALS.CANCEL}
@@ -111,6 +126,15 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
           onConfirm={cancelEnrolment}
           onClose={closeModal}
           registration={registration}
+        />
+      )}
+      {isModalOpen(ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT) && (
+        <SendMessageModal
+          enrolment={enrolment}
+          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT}
+          isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
+          onClose={closeModal}
+          onSendMessage={sendMessage}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

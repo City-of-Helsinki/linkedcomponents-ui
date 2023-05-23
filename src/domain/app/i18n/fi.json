@@ -387,6 +387,15 @@
       "text": "Valitettavasti varausaika on umpeutunut.",
       "title": "Varausaika on täynnä."
     },
+    "sendMessageModal": {
+      "buttonSendMessage": "Lähetä viesti",
+      "labelBody": "Viesti",
+      "labelSubject": "Otsikko",
+      "placeholderBody": "Syötä viesti",
+      "placeholderSubject": "Syötä otsikko",
+      "title": "Lähetä viesti osallistujille",
+      "titleSingle": "Lähetä viesti osallistujalle"
+    },
     "warnings": {
       "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
       "capacityInWaitingList_other": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
