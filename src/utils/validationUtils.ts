@@ -77,6 +77,9 @@ export const transformNumber = (
 export const isValidPhoneNumber = (phone: string): boolean =>
   /^\+?\(?\d{1,3}\)? ?-?\d{1,3} ?-?\d{3,5} ?-?\d{4}( ?-?\d{3})?/.test(phone);
 
+export const isValidEmail = (email: string): boolean =>
+  /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/i.test(email);
+
 export const isValidDateText = (date?: string): boolean => {
   return date
     ? isValid(parseDate(date, DATE_FORMAT, new Date())) &&

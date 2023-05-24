@@ -17,6 +17,8 @@ import {
   isAfterStartDateAndTime,
   isAfterTime,
   isFutureDateAndTime,
+  isValidEmail,
+  isValidPhoneNumber,
   isValidTime,
   isValidUrl,
   transformNumber,
@@ -463,30 +465,52 @@ export const getExternalUserEventSchema = (
       ),
       [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
         [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
-        ([minimumAttendeeCapacity]) => {
-          return Yup.number()
+        ([minimumAttendeeCapacity], schema) => {
+          if (Boolean(minimumAttendeeCapacity)) {
+            return Yup.number()
+              .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+              .min(minimumAttendeeCapacity || 1, createNumberMinErrorMessage)
+              .nullable()
+              .transform(transformNumber);
+          }
+
+          return schema
+            .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
             .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-            .min(minimumAttendeeCapacity || 1, createNumberMinErrorMessage)
-            .nullable()
-            .transform(transformNumber);
+            .min(1, createNumberMinErrorMessage)
+            .nullable();
         }
       ),
       [EVENT_FIELDS.USER_NAME]: Yup.string().required(
         VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
       ),
-      [EVENT_FIELDS.EMAIL]: Yup.string().when([EVENT_FIELDS.PHONE_NUMBER], {
-        is: (phoneNumber: string) => !phoneNumber || phoneNumber.length === 0,
-        then: (schema) =>
-          schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-      }),
-      [EVENT_FIELDS.PHONE_NUMBER]: Yup.string().when([EVENT_FIELDS.EMAIL], {
-        is: (email: string) => !email || email.length === 0,
-        then: (schema) =>
-          schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-      }),
-      [EVENT_FIELDS.REGISTRATION_LINK]: Yup.string().required(
-        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-      ),
+      [EVENT_FIELDS.EMAIL]: Yup.string()
+        .when([EVENT_FIELDS.PHONE_NUMBER], {
+          is: (phoneNumber: string) => !phoneNumber || phoneNumber.length === 0,
+          then: (schema) =>
+            schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+        })
+        .test(
+          'is-valid-email',
+          VALIDATION_MESSAGE_KEYS.EMAIL,
+          (value) => !value || isValidEmail(value)
+        ),
+      [EVENT_FIELDS.PHONE_NUMBER]: Yup.string()
+        .when([EVENT_FIELDS.EMAIL], {
+          is: (email: string) => !email || email.length === 0,
+          then: (schema) =>
+            schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+        })
+        .test(
+          'is-valid-phone-number',
+          VALIDATION_MESSAGE_KEYS.PHONE,
+          (value) => !value || isValidPhoneNumber(value)
+        ),
+      [EVENT_FIELDS.REGISTRATION_LINK]: Yup.string()
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+          isValidUrl(value)
+        ),
       [EVENT_FIELDS.USER_CONSENT]: Yup.bool().oneOf(
         [true],
         VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
