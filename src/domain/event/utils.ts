@@ -1116,6 +1116,7 @@ export const checkCanUserDoAction = ({
       return isDraft ? isRegularUser || isAdminUser : isAdminUser;
     case EVENT_ACTIONS.ACCEPT_AND_PUBLISH:
     case EVENT_ACTIONS.PUBLISH:
+    case EVENT_ACTIONS.SEND_TO_PUBLISHING:
     case EVENT_ACTIONS.UPDATE_PUBLIC:
     case EVENT_ACTIONS.SEND_EMAIL:
       return isAdminUser;
@@ -1149,6 +1150,8 @@ export const getIsButtonVisible = ({
     case EVENT_ACTIONS.SEND_EMAIL:
       return userCanDoAction;
     case EVENT_ACTIONS.PUBLISH:
+      return !authenticated || userCanDoAction;
+    case EVENT_ACTIONS.SEND_TO_PUBLISHING:
       return !authenticated || userCanDoAction;
     case EVENT_ACTIONS.UPDATE_DRAFT:
       return isDraft;

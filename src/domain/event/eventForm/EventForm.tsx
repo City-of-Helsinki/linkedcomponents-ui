@@ -496,6 +496,7 @@ const EventForm: React.FC<EventFormProps> = ({
                 onSubmit={handleSubmit}
                 publisher={values.publisher}
                 saving={saving}
+                isExternalUser={isExternalUser}
               />
             )}
           </MainContent>

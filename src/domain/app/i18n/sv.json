@@ -535,6 +535,7 @@
         "general": "Publicera evenemanget",
         "volunteering": "Publicera volontärarbetet"
       },
+      "buttonSendToPublishing": "Send to publising",
       "buttonRemoveImage": {
         "course": "Ta bort kursens bild",
         "general": "Ta bort evenemangets bild",
