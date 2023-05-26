@@ -102,7 +102,7 @@ export const parseSeatsReservationServerErrors = ({
   }: {
     key: string;
   }): string {
-    if (isGenericServerError(key)) {
+    if (isGenericServerError(key) || key === 'seats') {
       return '';
     }
 

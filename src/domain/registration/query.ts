@@ -22,6 +22,8 @@ export const QUERY_REGISTRATION = gql`
     mandatoryFields
     maximumAttendeeCapacity
     minimumAttendeeCapacity
+    remainingAttendeeCapacity
+    remainingWaitingListCapacity
     publisher
     signups {
       ...enrolmentFields

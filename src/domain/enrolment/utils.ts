@@ -20,7 +20,6 @@ import { Editability, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
-import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   getSeatsReservationData,
@@ -209,69 +208,6 @@ export const enrolmentPathBuilder = ({
   return `/signup/${id}/`;
 };
 
-export const getTotalAttendeeCapacity = (
-  registration: RegistrationFieldsFragment
-): number | undefined => {
-  const attendeeCapacity = getFreeAttendeeCapacity(registration);
-  // If there are seats in the event
-  if (attendeeCapacity === undefined) {
-    return undefined;
-  }
-  return attendeeCapacity + getFreeWaitlistCapacity(registration);
-};
-
-export const getFreeAttendeeCapacity = (
-  registration: RegistrationFieldsFragment
-): number | undefined => {
-  // If there are seats in the event
-  if (!registration.maximumAttendeeCapacity) {
-    return undefined;
-  }
-  return Math.max(
-    registration.maximumAttendeeCapacity -
-      (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0),
-    0
-  );
-};
-
-export const getFreeWaitlistCapacity = (
-  registration: RegistrationFieldsFragment
-): number => {
-  // If there are seats in the event
-  if (!registration.waitingListCapacity) {
-    return 0;
-  }
-
-  return Math.max(
-    registration.waitingListCapacity -
-      (registration.currentWaitingListCount ?? /* istanbul ignore next */ 0),
-    0
-  );
-};
-
-export const getAttendeeCapacityError = (
-  registration: RegistrationFieldsFragment,
-  participantAmount: number,
-  t: TFunction
-): string | undefined => {
-  if (participantAmount < 1) {
-    return getValue(t(VALIDATION_MESSAGE_KEYS.CAPACITY_MIN, { min: 1 }), '');
-  }
-
-  const freeCapacity = getTotalAttendeeCapacity(registration);
-
-  if (freeCapacity && participantAmount > freeCapacity) {
-    return getValue(
-      t(VALIDATION_MESSAGE_KEYS.CAPACITY_MAX, {
-        max: freeCapacity,
-      }),
-      ''
-    );
-  }
-
-  return undefined;
-};
-
 export const checkCanUserDoAction = ({
   action,
   organizationAncestors,
@@ -428,7 +364,7 @@ export const getNewAttendees = ({
   registration: RegistrationFieldsFragment;
   seatsReservation: SeatsReservationFieldsFragment;
 }): AttendeeFields[] => {
-  const { seats, seatsAtEvent } = seatsReservation;
+  const { seats, inWaitlist } = seatsReservation;
   const attendeeInitialValues = getAttendeeDefaultInitialValues(registration);
   const filledAttendees = attendees.filter(
     (a) => !isEqual(a, attendeeInitialValues)
@@ -440,10 +376,7 @@ export const getNewAttendees = ({
     ),
   ]
     .slice(0, seats as number)
-    .map((attendee, index) => ({
-      ...attendee,
-      inWaitingList: index + 1 > (seatsAtEvent as number),
-    }));
+    .map((attendee, index) => ({ ...attendee, inWaitingList: inWaitlist }));
 };
 
 export const isEnrolmentFieldRequired = (

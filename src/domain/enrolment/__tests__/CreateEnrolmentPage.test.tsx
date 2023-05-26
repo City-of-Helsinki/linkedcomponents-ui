@@ -120,7 +120,6 @@ const getCreateSeatsReservationMock = (seats: number): MockedResponse => {
   const createSeatsReservationPayload = {
     registration: registration.id,
     seats,
-    waitlist: true,
   };
   const createSeatsReservationVariables = {
     input: createSeatsReservationPayload,
@@ -145,15 +144,18 @@ const getCreateSeatsReservationMock = (seats: number): MockedResponse => {
   };
 };
 
-const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
+const getUpdateSeatsReservationMock = (
+  id: string,
+  seats: number
+): MockedResponse => {
   const updateSeatsReservationPayload = {
     code,
     registration: registration.id,
     seats,
-    waitlist: true,
   };
 
   const updateSeatsReservationVariables = {
+    id,
     input: updateSeatsReservationPayload,
   };
 
@@ -162,7 +164,6 @@ const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
       updateSeatsReservation: {
         ...seatsReservation,
         seats,
-        seatsAtEvent: seats,
       },
     },
   };
@@ -176,19 +177,24 @@ const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
   };
 };
 
-const getUpdateSeatsReservationErrorMock = (seats: number): MockedResponse => {
+const getUpdateSeatsReservationErrorMock = (
+  id: string,
+  seats: number
+): MockedResponse => {
   const updateSeatsReservationPayload = {
     code,
     registration: registration.id,
     seats,
-    waitlist: true,
   };
   const updateSeatsReservationVariables = {
+    id,
     input: updateSeatsReservationPayload,
   };
 
   const error = new ApolloError({
-    networkError: { result: 'Not enough seats available.' } as any,
+    networkError: {
+      result: 'Not enough seats available. Capacity left: 0.',
+    } as any,
   });
 
   return {
@@ -200,13 +206,17 @@ const getUpdateSeatsReservationErrorMock = (seats: number): MockedResponse => {
   };
 };
 
+const mockedCreateSeatsReservation = getCreateSeatsReservationMock(1);
+const reservationId = (mockedCreateSeatsReservation?.result as any).data
+  ?.createSeatsReservation.id;
+
 const defaultMocks = [
   mockedLanguagesResponse,
   mockedOrganizationAncestorsResponse,
   mockedPlaceResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
-  getCreateSeatsReservationMock(1),
+  mockedCreateSeatsReservation,
 ];
 
 const route = ROUTES.CREATE_ENROLMENT.replace(
@@ -349,8 +359,8 @@ test('should add and delete participants', async () => {
 
   renderComponent([
     ...defaultMocks,
-    getUpdateSeatsReservationMock(1),
-    getUpdateSeatsReservationMock(2),
+    getUpdateSeatsReservationMock(reservationId, 1),
+    getUpdateSeatsReservationMock(reservationId, 2),
   ]);
 
   await waitLoadingAndFindNameInput();
@@ -390,7 +400,10 @@ test('should add and delete participants', async () => {
 test('should show server errors when updating seats reservation fails', async () => {
   const user = userEvent.setup();
 
-  renderComponent([...defaultMocks, getUpdateSeatsReservationErrorMock(2)]);
+  renderComponent([
+    ...defaultMocks,
+    getUpdateSeatsReservationErrorMock(reservationId, 2),
+  ]);
 
   await waitLoadingAndFindNameInput();
 
@@ -409,7 +422,9 @@ test('should show server errors when updating seats reservation fails', async ()
   await user.type(participantAmountInput, '2');
   await user.click(updateParticipantAmountButton);
 
-  await screen.findByText('Paikkoja ei ole riittävästi jäljellä.');
+  await screen.findByText(
+    'Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: 0.'
+  );
 });
 
 test('should show and hide participant specific fields', async () => {
@@ -434,8 +449,8 @@ test('should delete participants by clicking delete participant button', async (
 
   renderComponent([
     ...defaultMocks,
-    getUpdateSeatsReservationMock(1),
-    getUpdateSeatsReservationMock(2),
+    getUpdateSeatsReservationMock(reservationId, 1),
+    getUpdateSeatsReservationMock(reservationId, 2),
   ]);
 
   await waitLoadingAndFindNameInput();
@@ -478,8 +493,8 @@ test('should show server errors when updating seats reservation fails', async ()
 
   renderComponent([
     ...defaultMocks,
-    getUpdateSeatsReservationMock(3),
-    getUpdateSeatsReservationErrorMock(2),
+    getUpdateSeatsReservationMock(reservationId, 3),
+    getUpdateSeatsReservationErrorMock(reservationId, 2),
   ]);
 
   await waitLoadingAndFindNameInput();
@@ -508,5 +523,7 @@ test('should show server errors when updating seats reservation fails', async ()
   });
   await user.click(deleteParticipantButton);
 
-  await screen.findByText('Paikkoja ei ole riittävästi jäljellä.');
+  await screen.findByText(
+    'Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: 0.'
+  );
 });

@@ -335,7 +335,8 @@
       "buttonDeleteAttendee": "Ta bort deltagare",
       "buttonSave": "Spara deltagare",
       "buttonUpdateParticipantAmount": "Uppdatera",
-      "freeCapacity": "Tillgängliga platser",
+      "freeAttendeeCapacity": "Tillgängliga platser",
+      "freeWaitingListCapacity": "Tillgängliga väntelistplatser",
       "labelAttendeeExtraInfo": "Ytterligare information (valfritt)",
       "labelCity": "Staden",
       "labelDateOfBirth": "Födelsedatum",
@@ -400,6 +401,7 @@
     "warnings": {
       "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
       "capacityInWaitingList_other": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",
+      "capacityInWaitingListNoLimit": "Registrering till detta evenemang är fortfarande möjlig, men det finns endast platser kvar i kön.",
       "closed": "Registreringen för detta evenemang är för närvarande stängd. Vänligen försök igen senare."
     }
   },
@@ -1807,7 +1809,8 @@
     "mustBeUnique": "Värdet måste vara unikt.",
     "min0": "Detta nummer måste vara minst 0.",
     "nameIsRequired": "Namnet krävs.",
-    "notEnoughSeats": "Inte tillräckligt med platser tillgängliga.",
+    "notEnoughSeats": "Det finns inte tillräckligt med platser kvar. Platser kvar: {{seatsLeft}}.",
+    "notEnoughWaitingListSeats": "Det finns inte tillräckligt med köer kvar. Platser kvar: {{seatsLeft}}.",
     "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
     "notNull": "Värdet på detta fält kan inte vara \"null\".",
     "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",

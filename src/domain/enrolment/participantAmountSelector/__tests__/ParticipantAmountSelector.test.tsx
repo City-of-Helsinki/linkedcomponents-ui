@@ -90,18 +90,16 @@ const getReservationData = (expirationOffset: number) => {
   return reservation;
 };
 
-const updateSeatsReservationPayload = {
-  code,
-  registration: registration.id,
-  seats: 1,
-  waitlist: true,
-};
-
 const getUpdateSeatsReservationMock = (
   seatsReservation: SeatsReservation
 ): MockedResponse => {
   const updateSeatsReservationVariables = {
-    input: { ...updateSeatsReservationPayload, seats: seatsReservation.seats },
+    id: seatsReservation.id,
+    input: {
+      code,
+      registration: registration.id,
+      seats: seatsReservation.seats,
+    },
   };
 
   const updateEnrolmentResponse = {
@@ -117,18 +115,15 @@ const getUpdateSeatsReservationMock = (
   };
 };
 
-test('should show modal if any of the reserved seats is in waiting list', async () => {
+test('should show modal if the reserved seats are in waiting list', async () => {
   const user = userEvent.setup();
 
-  setSessionStorageValues(getReservationData(1000));
+  const reservation = getReservationData(1000);
+  setSessionStorageValues(reservation);
 
   const mocks = [
     getUpdateSeatsReservationMock(
-      fakeSeatsReservation({
-        seats: 2,
-        waitlistSpots: 1,
-        seatsAtEvent: 1,
-      })
+      fakeSeatsReservation({ id: reservation.id, seats: 2, inWaitlist: true })
     ),
   ];
   renderComponent(mocks);

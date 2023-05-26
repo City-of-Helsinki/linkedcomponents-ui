@@ -3,6 +3,7 @@ import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
 import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
+import isNil from 'lodash/isNil';
 import isNumber from 'lodash/isNumber';
 import { toast } from 'react-toastify';
 
@@ -22,7 +23,6 @@ import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
-import { getFreeWaitlistCapacity } from '../enrolment/utils';
 import { getEventFields } from '../event/utils';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -358,34 +358,43 @@ export const isRegistrationOpen = (
 
 export const isAttendeeCapacityUsed = (
   registration: RegistrationFieldsFragment
-): boolean => {
-  const maxCapacityDefined = !!registration.maximumAttendeeCapacity;
-  const maxCapacityUsed =
-    registration.maximumAttendeeCapacity &&
-    (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0) >=
-      registration.maximumAttendeeCapacity;
+): boolean =>
+  !isNil(registration.maximumAttendeeCapacity) &&
+  registration.maximumAttendeeCapacity <=
+    (registration.currentAttendeeCount as number);
 
-  // If there are seats in the event
-  if (!maxCapacityDefined || !maxCapacityUsed) {
-    return false;
-  } else {
-    return true;
-  }
-};
-
-export const isWaitingCapacityUsed = (
+export const isWaitingListCapacityUsed = (
   registration: RegistrationFieldsFragment
-): boolean => {
-  // If there are seats in the event
-  if (
-    ((registration.waitingListCapacity &&
-      registration.currentWaitingListCount) ??
-      0) < (registration.waitingListCapacity ?? 0)
-  ) {
-    return false;
-  } else {
-    return true;
+): boolean =>
+  !isNil(registration.waitingListCapacity) &&
+  registration.waitingListCapacity <=
+    (registration.currentWaitingListCount as number);
+
+export const getFreeAttendeeCapacity = (
+  registration: RegistrationFieldsFragment
+): number | undefined =>
+  isNil(registration.maximumAttendeeCapacity)
+    ? undefined
+    : (registration.remainingAttendeeCapacity as number);
+
+export const getFreeWaitingListCapacity = (
+  registration: RegistrationFieldsFragment
+): number | undefined =>
+  isNil(registration.waitingListCapacity)
+    ? undefined
+    : (registration.remainingWaitingListCapacity as number);
+
+export const getFreeAttendeeOrWaitingListCapacity = (
+  registration: RegistrationFieldsFragment
+) => {
+  const freeAttendeeCapacity = getFreeAttendeeCapacity(registration);
+  // Return the amount of free capacity if there are still capacity left
+  // Seat reservations are not counted
+  if (!isAttendeeCapacityUsed(registration)) {
+    return freeAttendeeCapacity;
   }
+
+  return getFreeWaitingListCapacity(registration);
 };
 
 export const hasEnrolments = (
@@ -402,7 +411,7 @@ export const isRegistrationPossible = (
   return (
     isRegistrationOpen(registration) &&
     (!isAttendeeCapacityUsed(registration) ||
-      !isWaitingCapacityUsed(registration))
+      !isWaitingListCapacityUsed(registration))
   );
 };
 
@@ -414,11 +423,15 @@ export const getRegistrationWarning = (
     return t('enrolment.warnings.closed');
   } else if (
     isAttendeeCapacityUsed(registration) &&
-    !isWaitingCapacityUsed(registration)
+    !isWaitingListCapacityUsed(registration)
   ) {
-    return t('enrolment.warnings.capacityInWaitingList', {
-      count: getFreeWaitlistCapacity(registration),
-    });
+    const freeWaitlistCapacity = getFreeWaitingListCapacity(registration);
+
+    return isNil(freeWaitlistCapacity)
+      ? t('enrolment.warnings.capacityInWaitingListNoLimit')
+      : t('enrolment.warnings.capacityInWaitingList', {
+          count: freeWaitlistCapacity,
+        });
   }
   return '';
 };

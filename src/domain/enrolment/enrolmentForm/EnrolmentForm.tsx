@@ -50,10 +50,10 @@ import {
 } from '../types';
 import {
   clearCreateEnrolmentFormData,
-  getFreeAttendeeCapacity,
   isRestoringFormDataDisabled,
 } from '../utils';
 import { getEnrolmentSchema, scrollToFirstError } from '../validation';
+import AvailableSeatsText from './availableSeatsText/AvailableSeatsText';
 import styles from './enrolmentForm.module.scss';
 
 type EnrolmentFormWrapperProps = {
@@ -210,8 +210,6 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
     }
   };
 
-  const freeCapacity = getFreeAttendeeCapacity(registration);
-
   return (
     <>
       {enrolment && (
@@ -275,12 +273,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
                 </>
               )}
               <h2>{t('enrolment.form.titleRegistration')}</h2>
-              {typeof freeCapacity === 'number' && (
-                <p>
-                  {t('enrolment.form.freeCapacity')}{' '}
-                  <strong>{freeCapacity}</strong>
-                </p>
-              )}
+              <AvailableSeatsText registration={registration} />
 
               <ParticipantAmountSelector
                 disabled={disabled || !!enrolment}

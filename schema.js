@@ -47,6 +47,7 @@ module.exports = buildSchema(/* GraphQL */ `
     updatePlace(input: UpdatePlaceMutationInput!): Place!
     updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
     updateSeatsReservation(
+      id: ID!
       input: UpdateSeatsReservationMutationInput!
     ): SeatsReservation!
   }
@@ -493,16 +494,14 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input CreateSeatsReservationMutationInput {
-    registration: String
-    seats: Int
-    waitlist: Boolean
+    registration: ID!
+    seats: Int!
   }
 
   input UpdateSeatsReservationMutationInput {
-    code: String
-    registration: String
-    seats: Int
-    waitlist: Boolean
+    code: String!
+    registration: ID!
+    seats: Int!
   }
 
   input SendMessageMutationInput {
@@ -871,6 +870,8 @@ module.exports = buildSchema(/* GraphQL */ `
     mandatoryFields: [String]
     maximumAttendeeCapacity: Int
     minimumAttendeeCapacity: Int
+    remainingAttendeeCapacity: Int
+    remainingWaitingListCapacity: Int
     publisher: String
     signups: [Enrolment]
     waitingListCapacity: Int
@@ -883,13 +884,13 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type SeatsReservation {
-    code: String
-    expiration: String
-    registration: String
-    seats: Int
-    timestamp: String
-    seatsAtEvent: Int
-    waitlistSpots: Int
+    id: ID!
+    code: String!
+    expiration: String!
+    inWaitlist: Boolean!
+    registration: ID!
+    seats: Int!
+    timestamp: String!
   }
 
   type EnrolmentPerson {
