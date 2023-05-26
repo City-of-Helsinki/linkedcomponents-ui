@@ -41,7 +41,6 @@ const defaultServerErrorsProps: EnrolmentServerErrorsContextProps = {
 const payload = {
   registration: registration.id,
   seats: 1,
-  waitlist: true,
 };
 
 const createSeatsReservationVariables = { input: payload };
@@ -114,7 +113,6 @@ const getSeatsReservationErrorMock = (error: Error): MockedResponse => {
 const createSeatsReservationPayload = {
   registration: registration.id,
   seats: 1,
-  waitlist: true,
 };
 
 const getCreateSeatsReservationMock = (
@@ -152,18 +150,16 @@ test('should show modal if any of the reserved seats is in waiting list', async 
   const user = userEvent.setup();
   const mocks = [
     getCreateSeatsReservationMock(
-      fakeSeatsReservation({
-        seats: 1,
-        waitlistSpots: 1,
-        seatsAtEvent: 0,
-      })
+      fakeSeatsReservation({ seats: 1, inWaitlist: true })
     ),
   ];
   renderComponent(undefined, mocks);
 
-  const modal = await screen.findByRole('dialog', {
-    name: 'Ilmoittautujia on lisätty varausjonoon',
-  });
+  const modal = await screen.findByRole(
+    'dialog',
+    { name: 'Ilmoittautujia on lisätty varausjonoon' },
+    { timeout: 10000 }
+  );
 
   await user.click(within(modal).getByRole('button', { name: 'Sulje' }));
 

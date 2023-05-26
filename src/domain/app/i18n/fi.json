@@ -335,7 +335,8 @@
       "buttonDeleteAttendee": "Poista osallistuja",
       "buttonSave": "Tallenna osallistuja",
       "buttonUpdateParticipantAmount": "Päivitä",
-      "freeCapacity": "Saatavilla olevia paikkoja",
+      "freeAttendeeCapacity": "Saatavilla olevia paikkoja",
+      "freeWaitingListCapacity": "Saatavilla olevia jonopaikkoja",
       "labelAttendeeExtraInfo": "Lisätietoa (valinnainen)",
       "labelCity": "Kaupunki",
       "labelDateOfBirth": "Syntymäaika",
@@ -400,6 +401,7 @@
     "warnings": {
       "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
       "capacityInWaitingList_other": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
+      "capacityInWaitingListNoLimit": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta vain jonopaikkoja on jäljellä.",
       "closed": "Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen."
     }
   },
@@ -1807,7 +1809,8 @@
     "min0": "Tämän luvun on oltava vähintään 0.",
     "mustBeUnique": "Arvon tulee olla uniikki.",
     "nameIsRequired": "Nimi on pakollinen.",
-    "notEnoughSeats": "Paikkoja ei ole riittävästi jäljellä.",
+    "notEnoughSeats": "Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: {{seatsLeft}}.",
+    "notEnoughWaitingListSeats": "Jonopaikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: {{seatsLeft}}.",
     "notFoundAllObjects": "Kaikkia päivitettäviä objekteja ei löytynyt.",
     "notNull": "Tämän kentän arvo ei voi olla \"null\".",
     "offersIsRequired": "Hintatiedot on määritettävä ennen tapahtuman julkaisemista.",

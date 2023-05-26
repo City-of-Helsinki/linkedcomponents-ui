@@ -504,6 +504,8 @@ export const fakeRegistration = (
       mandatoryFields: [],
       maximumAttendeeCapacity: 0,
       minimumAttendeeCapacity: 0,
+      remainingAttendeeCapacity: 0,
+      remainingWaitingListCapacity: 0,
       publisher: TEST_PUBLISHER_ID,
       signups: [],
       waitingListCapacity: 0,
@@ -516,17 +518,18 @@ export const fakeRegistration = (
 export const fakeSeatsReservation = (
   overrides?: Partial<SeatsReservation>
 ): SeatsReservation => {
+  const id = overrides?.id || faker.datatype.uuid();
   const timestamp = new Date().toISOString();
 
   return merge<SeatsReservation, typeof overrides>(
     {
+      id,
       code: TEST_SEATS_RESERVATION_CODE,
       expiration: addMinutes(new Date(timestamp), 30).toISOString(),
+      inWaitlist: false,
       registration: TEST_REGISTRATION_ID,
       seats: 1,
       timestamp,
-      seatsAtEvent: 1,
-      waitlistSpots: 0,
     },
     overrides
   );

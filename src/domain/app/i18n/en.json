@@ -334,7 +334,8 @@
       "buttonDeleteAttendee": "Delete participant",
       "buttonSave": "Save participant",
       "buttonUpdateParticipantAmount": "Update",
-      "freeCapacity": "Available seats",
+      "freeAttendeeCapacity": "Available seats",
+      "freeWaitingListCapacity": "Available waiting list seats",
       "labelAttendeeExtraInfo": "Additional information (optional)",
       "labelCity": "City",
       "labelDateOfBirth": "Date of birth",
@@ -399,6 +400,7 @@
     "warnings": {
       "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
       "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
+      "capacityInWaitingListNoLimit": "Registration for this event is still possible, but there are only seats left in the queue.",
       "closed": "Registration for this event is currently closed. Please try again later."
     }
   },
@@ -1807,7 +1809,8 @@
     "min0": "This number must be at least 0.",
     "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",
-    "notEnoughSeats": "Not enough seats available.",
+    "notEnoughSeats": "Not enough seats available. Capacity left: {{seatsLeft}}.",
+    "notEnoughWaitingListSeats": "Not enough capacity in the waiting list. Capacity left: {{seatsLeft}}.",
     "notFoundAllObjects": "Could not find all objects to update.",
     "notNull": "The value of this field cannot be \"null\".",
     "offersIsRequired": "Price info must be specified before an event is published.",

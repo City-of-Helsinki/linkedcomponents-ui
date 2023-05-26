@@ -26,6 +26,20 @@ const parseServerErrorMessage = ({
     errorStr = Array.isArray(e) ? e[0] : e;
   }
 
+  const noSeatsLeftStart = `Not enough seats available. Capacity left: `;
+  if (errorStr.startsWith(noSeatsLeftStart)) {
+    const seatsLeft = errorStr.split(noSeatsLeftStart)[1].split('.')[0];
+    return t(`serverError.notEnoughSeats`, { seatsLeft });
+  }
+
+  const noWaitingListSeatsLeftStart = `Not enough capacity in the waiting list. Capacity left: `;
+  if (errorStr.startsWith(noWaitingListSeatsLeftStart)) {
+    const seatsLeft = errorStr
+      .split(noWaitingListSeatsLeftStart)[1]
+      .split('.')[0];
+    return t(`serverError.notEnoughWaitingListSeats`, { seatsLeft });
+  }
+
   switch (errorStr) {
     case 'An object with given id already exists.':
     case 'Arvon tulee olla uniikki.':
@@ -46,8 +60,6 @@ const parseServerErrorMessage = ({
       return t(`serverError.methodPostNotAllowed`);
     case 'Metodi "PUT" ei ole sallittu.':
       return t(`serverError.methodPutNotAllowed`);
-    case 'Not enough seats available.':
-      return t(`serverError.notEnoughSeats`);
     case 'Price info must be specified before an event is published.':
       return t(`serverError.offersIsRequired`);
     case 'Short description length must be 160 characters or less':

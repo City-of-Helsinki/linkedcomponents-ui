@@ -8,7 +8,7 @@ export const MUTATION_SEATS_RESERVATION = gql`
     createSeatsReservation(input: $input)
       @rest(
         type: "SeatsReservation"
-        path: "/registration/{args.input.registration}/reserve_seats/"
+        path: "/seats_reservation/"
         method: "POST"
         bodyKey: "input"
       ) {
@@ -17,13 +17,14 @@ export const MUTATION_SEATS_RESERVATION = gql`
   }
 
   mutation UpdateSeatsReservation(
+    $id: ID!
     $input: UpdateSeatsReservationMutationInput!
   ) {
-    updateSeatsReservation(input: $input)
+    updateSeatsReservation(id: $id, input: $input)
       @rest(
         type: "SeatsReservation"
-        path: "/registration/{args.input.registration}/reserve_seats/"
-        method: "POST"
+        path: "/seats_reservation/{args.id}/"
+        method: "PUT"
         bodyKey: "input"
       ) {
       ...seatsReservationFields

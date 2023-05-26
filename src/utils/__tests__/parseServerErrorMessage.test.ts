@@ -7,6 +7,14 @@ import parseServerErrorMessage from '../parseServerErrorMessage';
 const testCases: [LEServerError, string][] = [
   ['An object with given id already exists.', 'Arvon tulee olla uniikki.'],
   [
+    'Not enough seats available. Capacity left: 4.',
+    'Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: 4.',
+  ],
+  [
+    'Not enough capacity in the waiting list. Capacity left: 1.',
+    'Jonopaikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: 1.',
+  ],
+  [
     'Arvo saa olla enintään 255 merkkiä pitkä.',
     'Arvo saa olla enintään 255 merkkiä pitkä.',
   ],
@@ -53,7 +61,6 @@ const testCases: [LEServerError, string][] = [
   [['Metodi "DELETE" ei ole sallittu.'], 'Metodi "DELETE" ei ole sallittu.'],
   [['Metodi "POST" ei ole sallittu.'], 'Metodi "POST" ei ole sallittu.'],
   [['Metodi "PUT" ei ole sallittu.'], 'Metodi "PUT" ei ole sallittu.'],
-  ['Not enough seats available.', 'Paikkoja ei ole riittävästi jäljellä.'],
   [
     'Price info must be specified before an event is published.',
     'Hintatiedot on määritettävä ennen tapahtuman julkaisemista.',

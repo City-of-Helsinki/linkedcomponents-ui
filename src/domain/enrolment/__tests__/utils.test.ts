@@ -28,14 +28,12 @@ import {
 } from '../constants';
 import {
   enrolmentPathBuilder,
-  getAttendeeCapacityError,
   getAttendeeDefaultInitialValues,
   getEditEnrolmentWarning,
   getEnrolmentInitialValues,
   getEnrolmentNotificationsCode,
   getEnrolmentNotificationTypes,
   getEnrolmentPayload,
-  getFreeAttendeeCapacity,
   getUpdateEnrolmentPayload,
   isEnrolmentFieldRequired,
   isRestoringFormDataDisabled,
@@ -459,59 +457,6 @@ describe('getEditEnrolmentWarning function', () => {
     actions.forEach(([action, error]) =>
       expect(getEditEnrolmentWarning({ ...commonProps, action })).toBe(error)
     );
-  });
-});
-
-describe('getAttendeeCapacityError', () => {
-  it('should return undefined if maximum_attendee_capacity is not defined', () => {
-    expect(
-      getAttendeeCapacityError(
-        fakeRegistration({ maximumAttendeeCapacity: null }),
-        4,
-        i18n.t.bind(i18n)
-      )
-    ).toBeUndefined();
-  });
-
-  it('should return correct error if participantAmount is less than 1', () => {
-    expect(
-      getAttendeeCapacityError(
-        fakeRegistration({ maximumAttendeeCapacity: null }),
-        0,
-        i18n.t.bind(i18n)
-      )
-    ).toBe('Osallistujien vähimmäismäärä on 1.');
-  });
-
-  it('should return correct error if participantAmount is greater than maximum_attendee_capacity', () => {
-    expect(
-      getAttendeeCapacityError(
-        fakeRegistration({ maximumAttendeeCapacity: 3 }),
-        4,
-        i18n.t.bind(i18n)
-      )
-    ).toBe('Osallistujien enimmäismäärä on 3.');
-  });
-});
-
-describe('getFreeAttendeeCapacity', () => {
-  it('should return undefined if maximum_attendee_capacity is not defined', () => {
-    expect(
-      getFreeAttendeeCapacity(
-        fakeRegistration({ maximumAttendeeCapacity: null })
-      )
-    ).toBeUndefined();
-  });
-
-  it('should return correct amount if maximum_attendee_capacity is defined', () => {
-    expect(
-      getFreeAttendeeCapacity(
-        fakeRegistration({
-          currentAttendeeCount: 4,
-          maximumAttendeeCapacity: 40,
-        })
-      )
-    ).toBe(36);
   });
 });
 
