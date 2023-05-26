@@ -517,6 +517,7 @@
         "warningNotAuthenticated": "Om du vill publicera evenemanget måste du först logga in."
       },
       "buttonPostpone": "Skjut upp",
+      "buttonSendEmail": "Skicka epost",
       "buttonPublish": {
         "course": "Publicera kursen",
         "general": "Publicera evenemanget",
@@ -538,7 +539,8 @@
         "warningCannotPublishSubEvent": "Ett underevenemang i en serie kan inte publiceras.",
         "warningDeletedEvent": "Raderade evenemang kan inte redigeras.",
         "warningEventInPast": "Tidigare evenemnag kan inte redigeras.",
-        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta evenemang."
+        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta evenemang.",
+        "warningNoEmailFound": "Could not find email address linked to this event"
       },
       "helperUmbrellaEvent": "Notera. Ett huvudevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "infoTextAttendeeCapacity": {

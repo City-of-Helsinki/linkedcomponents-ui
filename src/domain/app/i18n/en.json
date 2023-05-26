@@ -517,6 +517,7 @@
         "warningNotAuthenticated": "If you want to publish this event, you must first login."
       },
       "buttonPostpone": "Postpone event",
+      "buttonSendEmail": "Send email",
       "buttonPublish": {
         "course": "Publish course",
         "general": "Publish event",
@@ -538,7 +539,8 @@
         "warningCannotPublishSubEvent": "A sub event of a series cannot be published.",
         "warningDeletedEvent": "Deleted events can't be edited.",
         "warningEventInPast": "Past events can't be edited.",
-        "warningNoRightsToEdit": "You have insufficient rights to edit this event."
+        "warningNoRightsToEdit": "You have insufficient rights to edit this event.",
+        "warningNoEmailFound": "Could not find email address linked to this event"
       },
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextAttendeeCapacity": {

@@ -5,6 +5,7 @@ import {
   IconCheck,
   IconCogwheel,
   IconCross,
+  IconEnvelope,
   IconPen,
 } from 'hds-react';
 import React from 'react';
@@ -234,6 +235,7 @@ export enum EVENT_ACTIONS {
   PUBLISH = 'publish',
   UPDATE_DRAFT = 'updateDraft',
   UPDATE_PUBLIC = 'updatePublic',
+  SEND_EMAIL = 'sendEmail',
 }
 
 export const SUB_EVENTS_VARIABLES: EventsQueryVariables = {
@@ -282,6 +284,7 @@ export const EVENT_ICONS = {
   [EVENT_ACTIONS.PUBLISH]: <IconCheck aria-hidden={true} />,
   [EVENT_ACTIONS.UPDATE_DRAFT]: <IconPen aria-hidden={true} />,
   [EVENT_ACTIONS.UPDATE_PUBLIC]: <IconPen aria-hidden={true} />,
+  [EVENT_ACTIONS.SEND_EMAIL]: <IconEnvelope aria-hidden={true} />,
 };
 
 export const EVENT_LABEL_KEYS = {
@@ -295,6 +298,7 @@ export const EVENT_LABEL_KEYS = {
   [EVENT_ACTIONS.PUBLISH]: 'event.form.buttonPublish',
   [EVENT_ACTIONS.UPDATE_DRAFT]: 'event.form.buttonUpdateDraft',
   [EVENT_ACTIONS.UPDATE_PUBLIC]: 'event.form.buttonUpdatePublic',
+  [EVENT_ACTIONS.SEND_EMAIL]: 'event.form.buttonSendEmail',
 };
 
 export const ADD_EVENT_TIME_FORM_NAME = 'add-event-time';
