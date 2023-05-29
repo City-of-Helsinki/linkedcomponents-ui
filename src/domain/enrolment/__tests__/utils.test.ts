@@ -10,7 +10,10 @@ import {
   fakeSeatsReservation,
 } from '../../../utils/mockDataUtils';
 import { enrolment } from '../../enrolment/__mocks__/enrolment';
-import { registration } from '../../registration/__mocks__/registration';
+import {
+  registration,
+  registrationId,
+} from '../../registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
 import { setSeatsReservationData } from '../../reserveSeats/utils';
@@ -228,9 +231,11 @@ describe('getEnrolmentPayload function', () => {
           ...ENROLMENT_INITIAL_VALUES,
           attendees: [ATTENDEE_INITIAL_VALUES],
         },
+        registration,
         reservationCode: TEST_SEATS_RESERVATION_CODE,
       })
     ).toEqual({
+      registration: registrationId,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
       signups: [
         {
@@ -284,10 +289,12 @@ describe('getEnrolmentPayload function', () => {
         phoneNumber,
         serviceLanguage,
       },
+      registration,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
     });
 
     expect(payload).toEqual({
+      registration: registrationId,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
       signups: [
         {
@@ -394,7 +401,7 @@ describe('getUpdateEnrolmentPayload function', () => {
 
 describe('enrolmentPathBuilder function', () => {
   const cases: [EnrolmentQueryVariables, string][] = [
-    [{ id: 'hel:123' }, '/signup_edit/hel:123/'],
+    [{ id: 'hel:123' }, `/signup/hel:123/`],
   ];
 
   it.each(cases)('should build correct path', (variables, expectedPath) =>

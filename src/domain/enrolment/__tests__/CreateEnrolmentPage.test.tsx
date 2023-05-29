@@ -126,7 +126,7 @@ const getCreateSeatsReservationMock = (seats: number): MockedResponse => {
     input: createSeatsReservationPayload,
   };
 
-  const createEnrolmentResponse = {
+  const createSeatsReservationResponse = {
     data: {
       createSeatsReservation: {
         ...seatsReservation,
@@ -141,7 +141,7 @@ const getCreateSeatsReservationMock = (seats: number): MockedResponse => {
       query: CreateSeatsReservationDocument,
       variables: createSeatsReservationVariables,
     },
-    result: createEnrolmentResponse,
+    result: createSeatsReservationResponse,
   };
 };
 
@@ -157,7 +157,7 @@ const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
     input: updateSeatsReservationPayload,
   };
 
-  const updateEnrolmentResponse = {
+  const updateSeatsReservationResponse = {
     data: {
       updateSeatsReservation: {
         ...seatsReservation,
@@ -172,7 +172,7 @@ const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
       query: UpdateSeatsReservationDocument,
       variables: updateSeatsReservationVariables,
     },
-    result: updateEnrolmentResponse,
+    result: updateSeatsReservationResponse,
   };
 };
 

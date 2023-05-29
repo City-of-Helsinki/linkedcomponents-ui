@@ -10,12 +10,14 @@ import {
   EnrolmentFieldsFragment,
   EnrolmentsQueryVariables,
   RegistrationFieldsFragment,
+  useEnrolmentsQuery,
 } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getPageCount from '../../../utils/getPageCount';
+import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import skipFalsyType from '../../../utils/skipFalsyType';
@@ -23,7 +25,7 @@ import { ENROLMENTS_PAGE_SIZE } from '../constants';
 import EnrolmentActionsDropdown from '../enrolmentActionsDropdown/EnrolmentActionsDropdown';
 import { EnrolmentsLocationState } from '../types';
 import {
-  filterEnrolments,
+  enrolmentsPathBuilder,
   getEnrolmentFields,
   getEnrolmentItemId,
   getEnrolmentSearchInitialValues,
@@ -80,7 +82,7 @@ const AttendeeStatusColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
 
 export interface EnrolmentsTableProps {
   caption: string;
-  enrolmentsVariables: EnrolmentsQueryVariables;
+  enrolmentsVariables: Partial<EnrolmentsQueryVariables>;
   heading: string;
   pagePath: 'attendeePage' | 'waitingPage';
   registration: RegistrationFieldsFragment;
@@ -107,13 +109,18 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     location.search
   );
 
-  const enrolments = filterEnrolments({
-    enrolments: getValue(registration?.signups?.filter(skipFalsyType), []),
-    query: {
-      text: enrolmentText,
+  const { data: enrolmentsData, loading } = useEnrolmentsQuery({
+    variables: {
       ...enrolmentsVariables,
+      registration: [getValue(registration.id, '')],
+      text: enrolmentText,
+      createPath: getPathBuilder(enrolmentsPathBuilder),
     },
   });
+
+  const enrolments = getValue(enrolmentsData?.enrolments.data, []).filter(
+    skipFalsyType
+  );
 
   const enrolmentCount = enrolments.length;
   const pageCount = getPageCount(enrolmentCount, ENROLMENTS_PAGE_SIZE);
@@ -122,7 +129,6 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     (page - 1) * ENROLMENTS_PAGE_SIZE,
     page * ENROLMENTS_PAGE_SIZE
   );
-
   const { onPageChange, pageHref } = useCommonListProps({
     defaultSort: '',
     listId: enrolmentListId,
@@ -144,7 +150,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     const locationState = location.state as EnrolmentsLocationState;
     if (
       locationState?.enrolmentId &&
-      paginatedEnrolments.find((item) => item.id === locationState.enrolmentId)
+      paginatedEnrolments.find((item) => item?.id === locationState.enrolmentId)
     ) {
       scrollToItem(getEnrolmentItemId(locationState.enrolmentId));
       // Clear registrationId value to keep scroll position correctly
@@ -153,7 +159,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
       navigate(location, { state, replace: true });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [enrolmentsData]);
 
   const MemoizedNameColumn = React.useCallback(
     (enrolment: EnrolmentFieldsFragment) => (
@@ -251,6 +257,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
             };
           }}
           indexKey="id"
+          loading={loading}
           onRowClick={handleRowClick}
           rows={paginatedEnrolments}
           variant="light"

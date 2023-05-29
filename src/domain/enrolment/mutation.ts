@@ -2,14 +2,11 @@
 import gql from 'graphql-tag';
 
 export const MUTATION_ENROLMENT = gql`
-  mutation CreateEnrolment(
-    $input: CreateEnrolmentMutationInput!
-    $registration: String!
-  ) {
-    createEnrolment(input: $input, registration: $registration)
+  mutation CreateEnrolment($input: CreateEnrolmentMutationInput!) {
+    createEnrolment(input: $input)
       @rest(
         type: "CreateEnrolmentResponse"
-        path: "/registration/{args.registration}/signup/"
+        path: "/signup/"
         method: "POST"
         bodyKey: "input"
       ) {
@@ -17,22 +14,25 @@ export const MUTATION_ENROLMENT = gql`
     }
   }
 
-  mutation DeleteEnrolment($cancellationCode: String!) {
-    deleteEnrolment(cancellationCode: $cancellationCode)
+  mutation DeleteEnrolment($signup: String!) {
+    deleteEnrolment(signup: $signup)
       @rest(
         type: "NoContent"
-        path: "/signup/{args.cancellationCode}"
+        path: "/signup/{args.signup}/"
         method: "DELETE"
       ) {
       noContent
     }
   }
 
-  mutation UpdateEnrolment($input: UpdateEnrolmentMutationInput!) {
-    updateEnrolment(input: $input)
+  mutation UpdateEnrolment(
+    $input: UpdateEnrolmentMutationInput!
+    $signup: String!
+  ) {
+    updateEnrolment(input: $input, signup: $signup)
       @rest(
         type: "Enrolment"
-        path: "/signup_edit/{args.input.id}/"
+        path: "/signup/{args.signup}/"
         method: "PUT"
         bodyKey: "input"
       ) {

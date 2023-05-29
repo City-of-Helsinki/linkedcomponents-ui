@@ -4,6 +4,8 @@ import range from 'lodash/range';
 import {
   AttendeeStatus,
   EnrolmentsDocument,
+  EnrolmentsQueryVariables,
+  EnrolmentsResponse,
   SendMessageDocument,
 } from '../../../generated/graphql';
 import {
@@ -27,19 +29,29 @@ const attendees = fakeEnrolments(
   }))
 );
 
-const attendeesResponse = { data: { enrolments: attendees } };
+const getMockedAttendeesResponse = (
+  enrolmentsResponse: EnrolmentsResponse,
+  overrideVariables?: Partial<EnrolmentsQueryVariables>
+): MockedResponse => {
+  const defaultVariables = {
+    createPath: undefined,
+    registration: [registrationId],
+    text: '',
+    attendeeStatus: AttendeeStatus.Attending,
+  };
+  const attendeesResponse = { data: { enrolments: enrolmentsResponse } };
+  return {
+    request: {
+      query: EnrolmentsDocument,
+      variables: { ...defaultVariables, ...overrideVariables },
+    },
+    result: attendeesResponse,
+  };
+};
 
-const attendeesVariables = {
-  createPath: undefined,
-  registrations: [registrationId],
-  text: '',
+const mockedAttendeesResponse = getMockedAttendeesResponse(attendees, {
   attendeeStatus: AttendeeStatus.Attending,
-};
-
-const mockedAttendeesResponse: MockedResponse = {
-  request: { query: EnrolmentsDocument, variables: attendeesVariables },
-  result: attendeesResponse,
-};
+});
 
 const waitingAttendeeNames = range(1, 2).map(
   (n) => `Waiting attendee name ${n}`
@@ -54,19 +66,12 @@ const waitingAttendees = fakeEnrolments(
   }))
 );
 
-const waitingAttendeesResponse = { data: { enrolments: waitingAttendees } };
-
-const waitingAttendeesVariables = {
-  createPath: undefined,
-  registrations: [registrationId],
-  text: '',
-  attendeeStatus: AttendeeStatus.Waitlisted,
-};
-
-const mockedWaitingAttendeesResponse: MockedResponse = {
-  request: { query: EnrolmentsDocument, variables: waitingAttendeesVariables },
-  result: waitingAttendeesResponse,
-};
+const mockedWaitingAttendeesResponse = getMockedAttendeesResponse(
+  waitingAttendees,
+  {
+    attendeeStatus: AttendeeStatus.Waitlisted,
+  }
+);
 
 const sendMessageValues = {
   body: '<p>Message</p>',
@@ -97,12 +102,11 @@ const mockedSendMessageResponse: MockedResponse = {
 export {
   attendeeNames,
   attendees,
-  attendeesResponse,
+  getMockedAttendeesResponse,
   mockedAttendeesResponse,
   mockedSendMessageResponse,
   mockedWaitingAttendeesResponse,
   sendMessageValues,
   waitingAttendeeNames,
   waitingAttendees,
-  waitingAttendeesResponse,
 };

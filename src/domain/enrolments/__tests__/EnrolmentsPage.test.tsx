@@ -4,8 +4,10 @@ import { createMemoryHistory } from 'history';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import { AttendeeStatus } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { fakeEnrolments } from '../../../utils/mockDataUtils';
 import {
   configure,
   CustomRenderOptions,
@@ -27,6 +29,7 @@ import {
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   attendees,
+  getMockedAttendeesResponse,
   mockedSendMessageResponse,
   sendMessageValues,
 } from '../__mocks__/enrolmentsPage';
@@ -46,6 +49,10 @@ const defaultMocks = [
   mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
+  getMockedAttendeesResponse(attendees),
+  getMockedAttendeesResponse(fakeEnrolments(0), {
+    attendeeStatus: AttendeeStatus.Waitlisted,
+  }),
 ];
 
 beforeEach(() => jest.clearAllMocks());
@@ -111,7 +118,7 @@ test('should render enrolments page', async () => {
 
 test('scrolls to enrolment table row and calls history.replace correctly (deletes enrolmentId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { enrolmentId: attendees[0].id });
+  history.push(route, { enrolmentId: attendees.data[0].id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
@@ -128,7 +135,7 @@ test('scrolls to enrolment table row and calls history.replace correctly (delete
   );
 
   const enrolmentRowButton = screen.getAllByRole('button', {
-    name: getValue(attendees[0].name, ''),
+    name: getValue(attendees.data[0].name, ''),
   })[0];
   await waitFor(() => expect(enrolmentRowButton).toHaveFocus());
 });

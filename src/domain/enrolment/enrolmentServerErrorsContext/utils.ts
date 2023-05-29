@@ -27,6 +27,10 @@ export const parseEnrolmentServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
+    if (key === 'signups') {
+      return parseSignupServerError(error);
+    }
+
     return [
       {
         label: parseEnrolmentServerErrorLabel({ key }),
@@ -35,6 +39,24 @@ export const parseEnrolmentServerErrors = ({
     ];
   }
 
+  // Get error items for video fields
+  function parseSignupServerError(error: LEServerError): ServerErrorItem[] {
+    /* istanbul ignore else */
+    if (Array.isArray(error)) {
+      return Object.entries(error[0]).reduce(
+        (previous: ServerErrorItem[], [key, e]) => [
+          ...previous,
+          {
+            label: parseEnrolmentServerErrorLabel({ key }),
+            message: parseServerErrorMessage({ error: e as string[], t }),
+          },
+        ],
+        []
+      );
+    } else {
+      return [];
+    }
+  }
   // Get correct field name for an error item
   function parseEnrolmentServerErrorLabel({ key }: { key: string }): string {
     if (isGenericServerError(key)) {

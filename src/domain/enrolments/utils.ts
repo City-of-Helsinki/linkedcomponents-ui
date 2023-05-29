@@ -60,42 +60,15 @@ export const getEnrolmentItemId = (id: string): string =>
 export const enrolmentsPathBuilder = ({
   args,
 }: PathBuilderProps<EnrolmentsQueryVariables>): string => {
-  const { attendeeStatus, events, registrations, text } = args;
+  const { attendeeStatus, registration, text } = args;
 
   const variableToKeyItems = [
     { key: 'attendee_status', value: attendeeStatus },
-    { key: 'events', value: events },
-    { key: 'registrations', value: registrations },
+    { key: 'registration', value: registration },
     { key: 'text', value: text },
   ];
 
   const query = queryBuilder(variableToKeyItems);
 
   return `/signup/${query}`;
-};
-
-export const filterEnrolments = ({
-  enrolments,
-  query,
-}: {
-  enrolments: EnrolmentFieldsFragment[];
-  query: EnrolmentsQueryVariables;
-}): EnrolmentFieldsFragment[] => {
-  const { attendeeStatus, text } = query;
-  let filteredEnrolments = [...enrolments];
-
-  if (attendeeStatus) {
-    filteredEnrolments = filteredEnrolments.filter(
-      (enrolment) => enrolment.attendeeStatus === attendeeStatus
-    );
-  }
-  if (text) {
-    filteredEnrolments = filteredEnrolments.filter(
-      (enrolment) =>
-        enrolment.name?.toLowerCase().includes(text.toLowerCase()) ||
-        enrolment.email?.toLowerCase().includes(text.toLowerCase()) ||
-        enrolment.phoneNumber?.toLowerCase().includes(text.toLowerCase())
-    );
-  }
-  return filteredEnrolments;
 };

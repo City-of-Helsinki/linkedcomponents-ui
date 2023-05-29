@@ -126,7 +126,7 @@ const useEnrolmentActions = ({
 
       await deleteEnrolmentMutation({
         variables: {
-          cancellationCode: getValue(enrolment?.cancellationCode, ''),
+          signup: getValue(enrolment?.id, ''),
         },
       });
 
@@ -149,8 +149,9 @@ const useEnrolmentActions = ({
     const reservationData = getSeatsReservationData(
       getValue(registration.id, '')
     );
-    const payload = getEnrolmentPayload({
+    const payload: CreateEnrolmentMutationInput = getEnrolmentPayload({
       formValues: values,
+      registration,
       reservationCode: getValue(reservationData?.code, ''),
     });
 
@@ -158,7 +159,6 @@ const useEnrolmentActions = ({
       const { data } = await createEnrolmentMutation({
         variables: {
           input: payload,
-          registration: getValue(registration.id, ''),
         },
       });
 
@@ -190,7 +190,12 @@ const useEnrolmentActions = ({
     try {
       setSaving(ENROLMENT_ACTIONS.UPDATE);
 
-      await updateEnrolmentMutation({ variables: { input: payload } });
+      await updateEnrolmentMutation({
+        variables: {
+          input: payload,
+          signup: getValue(enrolment?.id, ''),
+        },
+      });
 
       await cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {

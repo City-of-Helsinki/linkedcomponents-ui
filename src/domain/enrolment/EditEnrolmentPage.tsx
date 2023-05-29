@@ -96,7 +96,9 @@ const EditEnrolmentPage: React.FC<Props> = ({
 
 const EditEnrolmentPageWrapper: React.FC = () => {
   const location = useLocation();
-  const { enrolmentId } = useParams<{ enrolmentId: string }>();
+  const { enrolmentId } = useParams<{
+    enrolmentId: string;
+  }>();
   const { user } = useUser();
 
   const {

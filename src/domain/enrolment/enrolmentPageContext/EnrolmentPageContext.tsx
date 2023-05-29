@@ -45,6 +45,7 @@ export const EnrolmentPageProvider: FC<PropsWithChildren> = ({ children }) => {
       setOpenModal,
       setOpenModalId,
       setOpenParticipant,
+      setOpenModalId,
       toggleOpenParticipant: (newIndex: number) => {
         setOpenParticipant(openParticipant === newIndex ? null : newIndex);
       },
