@@ -101,7 +101,7 @@ const getElement = (key: 'recurringEventTab') => {
 const getEventTimeElement = (key: 'startDate') => {
   switch (key) {
     case 'startDate':
-      return screen.getByRole('textbox', { name: 'Tapahtuma alkaa *' });
+      return screen.getByLabelText(/Tapahtuma alkaa/i);
   }
 };
 

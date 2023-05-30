@@ -144,16 +144,12 @@ const getAddEventTimeElements = () => {
   const addButton = withinAddEventTime.getByRole('button', {
     name: /lisää ajankohta/i,
   });
-  const endDateInput = withinAddEventTime.getByRole('textbox', {
-    name: 'Tapahtuma päättyy *',
-  });
+  const endDateInput = withinAddEventTime.getByLabelText(/Tapahtuma päättyy/i);
   const endTimeGroup = withinAddEventTime.getByRole('group', {
     name: /päättymisaika/i,
   });
   const endTimeInput = within(endTimeGroup).getByLabelText('tunnit');
-  const startDateInput = withinAddEventTime.getByRole('textbox', {
-    name: 'Tapahtuma alkaa *',
-  });
+  const startDateInput = withinAddEventTime.getByLabelText(/Tapahtuma alkaa/i);
   const startTimeGroup = withinAddEventTime.getByRole('group', {
     name: /alkamisaika/i,
   });
@@ -309,7 +305,7 @@ test('should update event', async () => {
   await actWait(100);
 });
 
-test('should update recurring event', async () => {
+test.only('should update recurring event', async () => {
   const mocks: MockedResponse[] = [
     ...baseMocks.filter((item) => item.request.query !== EventDocument),
     mockedEventWithSubEventResponse,

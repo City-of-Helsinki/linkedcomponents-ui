@@ -38,7 +38,7 @@ test('should validate fields and call onSendMessage', async () => {
   const cancelEventButton = screen.getByRole('button', {
     name: 'Lähetä viesti',
   });
-  const subjectInput = screen.getByRole('textbox', { name: 'Otsikko *' });
+  const subjectInput = screen.getByLabelText(/Otsikko/i);
   const messageInput = await screen.findByLabelText(
     /editorin muokkausalue: main/i
   );
@@ -70,7 +70,7 @@ test('should call onSendMessage when sending message to a single enrolment', asy
   renderComponent({ onSendMessage });
 
   screen.getByRole('heading', { name: 'Lähetä viesti osallistujalle' });
-  const subjectInput = screen.getByRole('textbox', { name: 'Otsikko *' });
+  const subjectInput = screen.getByLabelText(/Otsikko/i);
   const messageInput = await screen.findByLabelText(
     /editorin muokkausalue: main/i
   );

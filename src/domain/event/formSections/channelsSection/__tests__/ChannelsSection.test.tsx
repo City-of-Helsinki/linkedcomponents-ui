@@ -47,9 +47,7 @@ const findElements = (key: 'deleteButtons' | 'facebookLinks') => {
         name: /Poista SoMe-linkki/i,
       });
     case 'facebookLinks':
-      return screen.findAllByRole('textbox', {
-        name: /tapahtuman facebook url \*/i,
-      });
+      return screen.findAllByLabelText(/tapahtuman facebook url/i);
   }
 };
 
@@ -81,7 +79,7 @@ test('should render social media section', () => {
     'Tapahtuman kotisivun URL suomeksi',
     'Tapahtuman kotisivun URL englanniksi',
   ];
-  fields.forEach((name) => screen.getByRole('textbox', { name }));
+  fields.forEach((name) => screen.getByLabelText(name));
 
   getElement('toggleButton');
 });

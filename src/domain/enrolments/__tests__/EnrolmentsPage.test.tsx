@@ -187,7 +187,7 @@ test('should send message to participants', async () => {
   const withinModal = within(
     screen.getByRole('dialog', { name: 'Lähetä viesti osallistujille' })
   );
-  const subjectInput = withinModal.getByRole('textbox', { name: 'Otsikko *' });
+  const subjectInput = withinModal.getByLabelText(/Otsikko/i);
   const messageInput = await withinModal.findByLabelText(
     /editorin muokkausalue: main/i
   );
