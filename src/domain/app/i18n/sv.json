@@ -540,7 +540,7 @@
         "warningDeletedEvent": "Raderade evenemang kan inte redigeras.",
         "warningEventInPast": "Tidigare evenemnag kan inte redigeras.",
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta evenemang.",
-        "warningNoEmailFound": "Could not find email address linked to this event"
+        "warningNoEmailFound": "E-postadressen som är kopplad till denna evenemang kunde inte hittas"
       },
       "helperUmbrellaEvent": "Notera. Ett huvudevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "infoTextAttendeeCapacity": {
