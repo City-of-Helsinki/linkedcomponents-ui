@@ -510,9 +510,9 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
   const { event, externalUser = false } = props;
   const { user } = useUser();
 
-  const eventInitialValues = !externalUser
-    ? EVENT_INITIAL_VALUES
-    : EVENT_UNKNOWN_USER_INITIAL_VALUES;
+  const eventInitialValues = externalUser
+    ? EVENT_UNKNOWN_USER_INITIAL_VALUES
+    : EVENT_INITIAL_VALUES;
 
   const initialValues = React.useMemo(
     () =>
@@ -525,9 +525,9 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
     [event, eventInitialValues, user?.organization]
   );
 
-  const validationSchema = !externalUser
-    ? publicEventSchema
-    : getExternalUserEventSchema();
+  const validationSchema = externalUser
+    ? getExternalUserEventSchema()
+    : publicEventSchema;
 
   return (
     <Formik

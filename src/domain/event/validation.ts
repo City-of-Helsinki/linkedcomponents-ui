@@ -17,7 +17,6 @@ import {
   isAfterStartDateAndTime,
   isAfterTime,
   isFutureDateAndTime,
-  isValidEmail,
   isValidPhoneNumber,
   isValidTime,
   isValidUrl,
@@ -490,11 +489,7 @@ export const getExternalUserEventSchema = (
           then: (schema) =>
             schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
         })
-        .test(
-          'is-valid-email',
-          VALIDATION_MESSAGE_KEYS.EMAIL,
-          (value) => !value || isValidEmail(value)
-        ),
+        .email(VALIDATION_MESSAGE_KEYS.EMAIL),
       [EVENT_FIELDS.PHONE_NUMBER]: Yup.string()
         .when([EVENT_FIELDS.EMAIL], {
           is: (email: string) => !email || email.length === 0,
