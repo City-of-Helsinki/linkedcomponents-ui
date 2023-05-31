@@ -540,7 +540,7 @@
         "warningDeletedEvent": "Poistettuja tapahtumia ei voi muokata.",
         "warningEventInPast": "Menneisyydessä olevia tapahtumia ei voi muokata.",
         "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
-        "warningNoEmailFound": "Could not find email address linked to this event"
+        "warningNoEmailFound": "Tähän tapahtumaan ei liity sähköpostiosoitetta."
       },
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "infoTextAttendeeCapacity": {

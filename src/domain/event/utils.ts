@@ -1071,9 +1071,9 @@ export const checkCanUserDoAction = ({
   organizationAncestors: OrganizationFieldsFragment[];
   user?: UserFieldsFragment;
 }): boolean => {
-  const { isDraft, publisher, createdBy } = event
+  const { isDraft, publisher } = event
     ? getEventFields(event, 'fi')
-    : { isDraft: true, publisher: selectedPublisher, createdBy: undefined };
+    : { isDraft: true, publisher: selectedPublisher };
 
   const isRegularUser = isReqularUserInOrganization({
     id: publisher,
@@ -1105,9 +1105,9 @@ export const checkCanUserDoAction = ({
       return isAdminUser;
     case EVENT_ACTIONS.UPDATE_DRAFT:
       return isRegularUser || isAdminUser;
+    default:
+      return false;
   }
-
-  return false;
 };
 
 export const getIsButtonVisible = ({
@@ -1142,7 +1142,7 @@ export const getIsButtonVisible = ({
 };
 
 const validateCreatedBy = (createdBy: string | null | undefined): boolean => {
-  return createdBy !== (null || undefined || '' || ' - ');
+  return !!createdBy && createdBy !== ' - ';
 };
 
 const getCreateEventActionWarning = ({
@@ -1248,7 +1248,7 @@ const getUpdateEventActionWarning = (
     return t('event.form.editButtonPanel.warningEventInPast');
   }
 
-  if (noEmailFound && action == EVENT_ACTIONS.SEND_EMAIL) {
+  if (noEmailFound && action === EVENT_ACTIONS.SEND_EMAIL) {
     return t('event.form.editButtonPanel.warningNoEmailFound');
   }
 

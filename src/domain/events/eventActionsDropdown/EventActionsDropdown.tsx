@@ -67,7 +67,7 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
 
   const sendEmail = () => {
     let targetEmail = '';
-    if (event.createdBy != null && event.createdBy != undefined) {
+    if (event.createdBy) {
       targetEmail = event.createdBy.split('-')[1].trim();
     }
     window.location.href =
