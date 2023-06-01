@@ -1015,8 +1015,8 @@
       },
       "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett huvudevenemang.",
       "placeOptions": {
-        "indoors": "Indoors",
-        "outdoors": "Outdoors"
+        "in": "Indoors",
+        "out": "Outdoors"
       }
     },
     "freeEvent": "Fri",

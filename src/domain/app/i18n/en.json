@@ -1015,8 +1015,8 @@
       },
       "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event.",
       "placeOptions": {
-        "indoors": "Indoors",
-        "outdoors": "Outdoors"
+        "in": "Indoors",
+        "out": "Outdoors"
       }
     },
     "freeEvent": "Free",

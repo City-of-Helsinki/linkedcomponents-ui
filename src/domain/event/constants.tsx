@@ -183,8 +183,8 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
 };
 
 export enum EVENT_PLACE_VALUE {
-  Indoors = 'indoors',
-  Outdoors = 'outdoors',
+  Indoors = 'in',
+  Outdoors = 'out',
 }
 
 export const EVENT_UNKNOWN_USER_INITIAL_VALUES: EventFormFields = {

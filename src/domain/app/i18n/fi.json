@@ -1015,8 +1015,8 @@
       },
       "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma.",
       "placeOptions": {
-        "indoors": "Sisällä",
-        "outdoors": "Ulkona"
+        "in": "Sisällä",
+        "out": "Ulkona"
       }
     },
     "freeEvent": "Maksuton",
