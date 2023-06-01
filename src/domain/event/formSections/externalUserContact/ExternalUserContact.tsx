@@ -10,11 +10,13 @@ import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
 
-type Props = {
+export type ExternalUserContactProps = {
   isEditingAllowed: boolean;
 };
 
-const ExternalUserContact: FC<Props> = ({ isEditingAllowed }) => {
+const ExternalUserContact: FC<ExternalUserContactProps> = ({
+  isEditingAllowed,
+}) => {
   const { t } = useTranslation();
 
   return (

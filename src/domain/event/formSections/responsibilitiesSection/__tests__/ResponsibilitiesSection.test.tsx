@@ -40,7 +40,11 @@ const renderComponent = (
       initialValues={initialValues || defaultInitialValues}
       onSubmit={jest.fn()}
     >
-      <ResponsibilitiesSection {...props} isEditingAllowed={true} />
+      <ResponsibilitiesSection
+        {...props}
+        isEditingAllowed={true}
+        isExternalUser={false}
+      />
     </Formik>
   );
 

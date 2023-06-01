@@ -15,12 +15,12 @@ import SplittedRow from '../../../app/layout/splittedRow/SplittedRow';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 
-interface Props {
+export interface AdditionalInfoSectionProps {
   isEditingAllowed: boolean;
   isExternalUser: boolean;
 }
 
-const AdditionalInfoSection: React.FC<Props> = ({
+const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
   isEditingAllowed,
   isExternalUser,
 }) => {
