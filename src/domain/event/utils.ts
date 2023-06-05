@@ -1101,9 +1101,12 @@ export const checkCanUserDoAction = ({
     case EVENT_ACTIONS.ACCEPT_AND_PUBLISH:
     case EVENT_ACTIONS.PUBLISH:
     case EVENT_ACTIONS.UPDATE_PUBLIC:
+    case EVENT_ACTIONS.SEND_EMAIL:
       return isAdminUser;
     case EVENT_ACTIONS.UPDATE_DRAFT:
       return isRegularUser || isAdminUser;
+    default:
+      return false;
   }
 };
 
@@ -1127,6 +1130,7 @@ export const getIsButtonVisible = ({
     case EVENT_ACTIONS.ACCEPT_AND_PUBLISH:
       return isDraft && userCanDoAction;
     case EVENT_ACTIONS.CREATE_DRAFT:
+    case EVENT_ACTIONS.SEND_EMAIL:
       return userCanDoAction;
     case EVENT_ACTIONS.PUBLISH:
       return !authenticated || userCanDoAction;
@@ -1135,6 +1139,10 @@ export const getIsButtonVisible = ({
     case EVENT_ACTIONS.UPDATE_PUBLIC:
       return isPublic;
   }
+};
+
+const validateCreatedBy = (createdBy: string | null | undefined): boolean => {
+  return !!createdBy && createdBy !== ' - ';
 };
 
 const getCreateEventActionWarning = ({
@@ -1206,8 +1214,13 @@ const getUpdateEventActionWarning = (
   }
 ) => {
   const { action, authenticated, event, t, userCanDoAction } = props;
-  const { deleted, eventStatus, isDraft } = getEventFields(event, 'fi');
+  const { deleted, eventStatus, isDraft, createdBy } = getEventFields(
+    event,
+    'fi'
+  );
   const isCancelled = eventStatus === EventStatus.EventCancelled;
+
+  const noEmailFound = !validateCreatedBy(createdBy);
 
   const isInThePast = isEventInThePast(event);
 
@@ -1233,6 +1246,10 @@ const getUpdateEventActionWarning = (
 
   if (isInThePast && NOT_ALLOWED_WHEN_IN_PAST.includes(action)) {
     return t('event.form.editButtonPanel.warningEventInPast');
+  }
+
+  if (noEmailFound && action === EVENT_ACTIONS.SEND_EMAIL) {
+    return t('event.form.editButtonPanel.warningNoEmailFound');
   }
 
   if (isDraft) {
