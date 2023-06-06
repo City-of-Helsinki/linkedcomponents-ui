@@ -5,7 +5,6 @@ import getValue from '../../src/utils/getValue';
 import { findCookieConsentModal } from '../cookieConsentModal/cookieConsentModal.components';
 import { getImages } from '../data/imageData';
 import { isFeatureEnabled } from '../utils/featureFlag.utils';
-import { getRandomSentence } from '../utils/random.utils';
 import { requestLogger } from '../utils/requestLogger';
 import { getEnvUrl, LINKED_EVENTS_URL } from '../utils/settings';
 import { clearDataToPrintOnFailure } from '../utils/testcafe.utils';
@@ -52,9 +51,7 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
       const images = await getImages(t, imagesLogger);
       const [image] = images;
 
-      await urlUtils.actions.navigateToImagesUrl(
-        getRandomSentence(getValue(image.name, ''))
-      );
+      await urlUtils.actions.navigateToImagesUrl(getValue(image.name, ''));
 
       const searchResults = await imagesPage.findSearchResultList();
       const imageRow = await searchResults.imageRow(image);
