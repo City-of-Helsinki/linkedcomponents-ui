@@ -572,20 +572,34 @@
         "general": "Om åldersbegränsningar gäller för evenemanget, ställ in lägsta och högsta åldersgräns här.",
         "volunteering": "Om åldersbegränsningar gäller för volontärarbetet, ställ in lägsta och högsta åldersgräns här."
       },
-      "infoTextDescription1": {
-        "course": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om kursen kortfattat.",
-        "general": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om evenemanget kortfattat.",
-        "volunteering": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om volontärarbetet kortfattat."
-      },
-      "infoTextDescription2": {
-        "course": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i kursen.",
-        "general": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i evenemanget.",
-        "volunteering": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i volontärarbetet."
-      },
-      "infoTextDescription3": {
-        "course": "Anteckna även kursens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär.",
-        "general": "Anteckna även evenemangets <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär.",
-        "volunteering": "Anteckna även volontärens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär."
+      "infoTextDescription": {
+        "course": {
+          "paragraph1": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om kursen kortfattat.",
+          "paragraph2": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i kursen.",
+          "paragraph3": "Anteckna även kursens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär."
+        },
+        "general": {
+          "paragraph1": "The description text includes language versions: Finnish and English, possibly also Swedish. <strong>Content specifically aimed at visitors must be at least in Finnish and English.</strong>",
+          "paragraph2": "A short description is shown in some services when there is no room for a long description. It explains the most important things about the event in a concise way.",
+          "paragraph3": "A description is a longer and more detailed explanation of the content of the event.",
+          "paragraph4": "The text must not contain misspellings, umlauts, superlatives and superlatives, or the 'we' form, because then it refers to the city of Helsinki, not to the event itself.",
+          "paragraph5": "In addition, the content of the event must comply with the City of Helsinki's guidelines, i.e. the City does not publish:",
+          "exclusions": [
+            "political events (demonstrations, radical events related to elections or wars, etc.)",
+            "religious events (church services, prayers, although concerts are included in the calendar)",
+            "online events not related to Helsinki or the metropolitan area",
+            "events taking place in a private dwelling",
+            "not open to all, e.g. professional or investor events",
+            "dining without a programme; simply eating is not an event in itself",
+            "fund-raising events (except for charity events, where there is a programme)",
+            "job or student recruitment advertisements"
+          ]
+        },
+        "volunteering": {
+          "paragraph1": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om volontärarbetet kortfattat.",
+          "paragraph2": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i volontärarbetet.",
+          "paragraph3": "Anteckna även volontärens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär."
+        }
       },
       "infoTextEnrolmentTime": {
         "course": "Om det är möjligt att registrera sig för kursen, ange start- och sluttiderna för registreringen här.",
@@ -623,7 +637,7 @@
       "infoTextImage4": "Alt-text förbättrar tillgängligheten eftersom skärmläsare skickar alt-text till användaren. Så beskriv innehållet i bilden på ett förståeligt sätt.",
       "infoTextInfoLanguages": {
         "course": "Välj de språk som kursinformationen matas in på.",
-        "general": "Välj de språk som evenemangsinformationen matas in på.",
+        "general": "Välj de språk som evenemangsinformationen matas in på. <strong>Content specifically aimed at visitors has to be at least in Finnish and English.</strong>",
         "volunteering": "Välj de språk som volontärarbetesinformation matas in på."
       },
       "infoTextInLanguages": {
@@ -665,7 +679,13 @@
         "general": "Ange namnet på organisationen som är värd för evenemanget om arrangören inte är densamma som utgivaren.",
         "volunteering": "Ange namnet på organisationen som är värd för volontärarbetet om arrangören inte är densamma som utgivaren."
       },
-      "infoTextPublication": "Evenemangtypen du valde kommer att publiceras på följande kanaler:",
+      "infoTextPublication": {
+        "paragraph1": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area.",
+        "paragraph2": "Evenemangtypen du valde kommer att publiceras på följande kanaler:",
+        "paragraph3": "or via the interface on other services.",
+        "paragraph4": "Please only enter event/hobby information that has not yet been published on any of the services mentioned above.",
+        "paragraph5": "The event to be moderated must be announced at least one week before the event."
+      },
       "infoTextPublisher": {
         "course": "Välj den organisation som ska visas som kurssutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
         "general": "Välj den organisation som ska visas som evenemangsutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",

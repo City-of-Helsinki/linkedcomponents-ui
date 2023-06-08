@@ -58,7 +58,11 @@ const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
               label={t(`event.form.titleInfoLanguages.${eventType}`)}
               type="info"
             >
-              <p>{t(`event.form.infoTextInfoLanguages.${eventType}`)}</p>
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: t(`event.form.infoTextInfoLanguages.${eventType}`),
+                }}
+              />
             </Notification>
           }
         >

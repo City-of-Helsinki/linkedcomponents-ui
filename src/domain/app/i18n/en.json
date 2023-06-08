@@ -572,20 +572,34 @@
         "general": "If age restrictions apply to the event, set the age minimum and maximum age limit here.",
         "volunteering": "If age restrictions apply to the volunteering, set the age minimum and maximum age limit here."
       },
-      "infoTextDescription1": {
-        "course": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the course concisely.",
-        "general": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the event concisely.",
-        "volunteering": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the volunteering concisely."
-      },
-      "infoTextDescription2": {
-        "course": "The description is a longer and more detailed description of the content of the course.",
-        "general": "The description is a longer and more detailed description of the content of the event.",
-        "volunteering": "The description is a longer and more detailed description of the content of the volunteering."
-      },
-      "infoTextDescription3": {
-        "course": "Also record the course's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.",
-        "general": "Also record the event's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.",
-        "volunteering": "Also record the volunteering's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form."
+      "infoTextDescription": {
+        "course": {
+          "paragraph1": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the course concisely.",
+          "paragraph2": "The description is a longer and more detailed description of the content of the course.",
+          "paragraph3": "Also record the course's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form."
+        },
+        "general": {
+          "paragraph1": "The description text includes language versions: Finnish and English, possibly also Swedish. <strong>Content specifically aimed at visitors must be at least in Finnish and English.</strong>",
+          "paragraph2": "A short description is shown in some services when there is no room for a long description. It explains the most important things about the event in a concise way.",
+          "paragraph3": "A description is a longer and more detailed explanation of the content of the event.",
+          "paragraph4": "The text must not contain misspellings, umlauts, superlatives and superlatives, or the 'we' form, because then it refers to the city of Helsinki, not to the event itself.",
+          "paragraph5": "In addition, the content of the event must comply with the City of Helsinki's guidelines, i.e. the City does not publish:",
+          "exclusions": [
+            "political events (demonstrations, radical events related to elections or wars, etc.)",
+            "religious events (church services, prayers, although concerts are included in the calendar)",
+            "online events not related to Helsinki or the metropolitan area",
+            "events taking place in a private dwelling",
+            "not open to all, e.g. professional or investor events",
+            "dining without a programme; simply eating is not an event in itself",
+            "fund-raising events (except for charity events, where there is a programme)",
+            "job or student recruitment advertisements"
+          ]
+        },
+        "volunteering": {
+          "paragraph1": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the volunteering concisely.",
+          "paragraph2": "The description is a longer and more detailed description of the content of the volunteering.",
+          "paragraph3": "Also record the volunteering's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form."
+        }
       },
       "infoTextEnrolmentTime": {
         "course": "If it is possible to register for the course, specify the start and end times of the registration here.",
@@ -623,7 +637,7 @@
       "infoTextImage4": "Alt text improves accessibility because screen readers pass alt text to the user. So describe the content of the picture in an understandable way.",
       "infoTextInfoLanguages": {
         "course": "Select the languages to be used to input course information for this service.",
-        "general": "Select the languages to be used to input event information for this service.",
+        "general": "Select the languages you want to use to describe the event information in Linked Events. <strong>Content specifically aimed at visitors has to be at least in Finnish and English.</strong>",
         "volunteering": "Select the languages to be used to input volunteering information for this service."
       },
       "infoTextInLanguages": {

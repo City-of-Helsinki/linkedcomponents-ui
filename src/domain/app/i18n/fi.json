@@ -572,20 +572,34 @@
         "general": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua tapahtumaan, määritä ikärajat tässä.",
         "volunteering": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua vapaaehtoistehtävään, määritä ikärajat tässä."
       },
-      "infoTextDescription1": {
-        "course": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo kurssista olennaisimmat asiat ytimekkäästi.",
-        "general": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo tapahtumasta olennaisimmat asiat ytimekkäästi.",
-        "volunteering": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo vapaaehtoistehtävästä olennaisimmat asiat ytimekkäästi."
-      },
-      "infoTextDescription2": {
-        "course": "Kuvaus on pidempi ja tarkempi selostus kurssin sisällöstä.",
-        "general": "Kuvaus on pidempi ja tarkempi selostus tapahtuman sisällöstä.",
-        "volunteering": "Kuvaus on pidempi ja tarkempi selostus vapaaehtoistehtävän sisällöstä."
-      },
-      "infoTextDescription3": {
-        "course": "Kirjaa myös kurssin <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja.",
-        "general": "Kirjaa myös tapahtuman <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja.",
-        "volunteering": "Kirjaa myös vapaaehtoistehtävän <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja."
+      "infoTextDescription": {
+        "course": {
+          "paragraph1": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo kurssista olennaisimmat asiat ytimekkäästi.",
+          "paragraph2": "Kuvaus on pidempi ja tarkempi selostus kurssin sisällöstä.",
+          "paragraph3": "Kirjaa myös kurssin <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja."
+        },
+        "general": {
+          "paragraph1": "Kuvausteksti sisältää kieliversiot: suomi ja englanti, mahdollisesti myös ruotsi. <strong>Erityisesti vierailijoille suunnattu sisältö pitää olla vähintään suomeksi ja englanniksi.</strong>",
+          "paragraph2": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo tapahtumasta olennaisimmat asiat ytimekkäästi.",
+          "paragraph3": "Kuvaus on pidempi ja tarkempi selostus tapahtuman sisällöstä.",
+          "paragraph4": "Teksti ei sisällä kirjoitusvirheitä, ylisanoja, korulauseita ja superlatiiveja tai me-muotoa, sillä silloin se viittaa Helsingin kaupunkiin, ei tapahtumaan itseensä. ",
+          "paragraph5": "Lisäksi tapahtuman sisällön pitää noudattaa Helsingin kaupungin linjauksia eli kaupunki ei julkaise:",
+          "exclusions": [
+            "poliittisia tapahtumia (mielenosoitukset, vaaleihin tai sotiin liittyvät tms. radikaalit tapahtumat)",
+            "uskonnollisia tapahtumia (jumalanpalvelukset, rukoushetket, tosin konsertit käyvät kalenteriin)",
+            "verkkotapahtumia, jotka eivät liity Helsinkiin tai pääkaupunkiseutuun",
+            "yksityisasunnossa tapahtuvia tilaisuuksia",
+            "ei kaikille avoimia, esim.  ammattilais- tai sijoittajatapahtumia",
+            "ruokailua ilman ohjelmaa; pelkkä syöminen ei ole tapahtuma sinänsä",
+            "rahan ym. asioiden keräystapahtumia (poikkeuksena hyväntekeväisyystapahtuma, jossa on ohjelmaa)",
+            "työ- tai opiskelijahakuilmoituksia"
+          ]
+        },
+        "volunteering": {
+          "paragraph1": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo vapaaehtoistehtävästä olennaisimmat asiat ytimekkäästi.",
+          "paragraph2": "Kuvaus on pidempi ja tarkempi selostus vapaaehtoistehtävän sisällöstä.",
+          "paragraph3": "Kirjaa myös vapaaehtoistehtävän <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja."
+        }
       },
       "infoTextEnrolmentTime": {
         "course": "Jos kurssille on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",
@@ -623,7 +637,7 @@
       "infoTextImage4": "Alt-teksti parantaa saavutettavuutta, sillä ruudunlukuohjelmat välittävät alt-tekstin sisällön käyttäjälle. Kuvaa tähän kohtaan siis kuvan sisältö ymmärrettävästi.",
       "infoTextInfoLanguages": {
         "course": "Valitse kielet, joilla kuvaat kurssin tiedot Linked Events -palvelussa.",
-        "general": "Valitse kielet, joilla kuvaat tapahtuman tiedot Linked Events -palvelussa.",
+        "general": "Valitse kielet, joilla kuvaat tapahtuman tiedot Linked Events -palvelussa. <strong>Erityisesti vierailijoille suunnattu sisältö pitää olla vähintään suomeksi ja englanniksi.</strong",
         "volunteering": "Valitse kielet, joilla kuvaat vapaaehtoistehtävän tiedot Linked Events -palvelussa."
       },
       "infoTextInLanguages": {

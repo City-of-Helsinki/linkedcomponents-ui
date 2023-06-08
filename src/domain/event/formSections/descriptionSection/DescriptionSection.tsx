@@ -15,7 +15,7 @@ import lowerCaseFirstLetter from '../../../../utils/lowerCaseFirstLetter';
 import skipFalsyType from '../../../../utils/skipFalsyType';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
-import { EVENT_FIELDS } from '../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import useSortedInfoLanguages from '../../hooks/useSortedInfoLanguages';
 import { formatSingleDescription } from '../../utils';
 
@@ -111,15 +111,52 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                     label={t(`event.form.notificationTitleDescription.${type}`)}
                     type="info"
                   >
-                    <p>{t(`event.form.infoTextDescription1.${type}`)}</p>
-                    <p>{t(`event.form.infoTextDescription2.${type}`)}</p>
                     <p
                       dangerouslySetInnerHTML={{
-                        __html: t(`event.form.infoTextDescription3.${type}`, {
-                          openInNewTab: t('common.openInNewTab'),
-                        }),
+                        __html: t(
+                          `event.form.infoTextDescription.${type}.paragraph1`
+                        ),
                       }}
                     />
+                    <p>
+                      {t(`event.form.infoTextDescription.${type}.paragraph2`)}
+                    </p>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: t(
+                          `event.form.infoTextDescription.${type}.paragraph3`,
+                          {
+                            openInNewTab: t('common.openInNewTab'),
+                          }
+                        ),
+                      }}
+                    />
+                    {type === EVENT_TYPE.General && (
+                      <>
+                        <p>
+                          {t(
+                            `event.form.infoTextDescription.${type}.paragraph4`
+                          )}
+                        </p>
+                        <p>
+                          {t(
+                            `event.form.infoTextDescription.${type}.paragraph5`
+                          )}
+                        </p>
+                        <ul style={{ paddingInlineStart: 'var(--spacing-s)' }}>
+                          {Object.values(
+                            t(
+                              `event.form.infoTextDescription.${type}.exclusions`,
+                              {
+                                returnObjects: true,
+                              }
+                            )
+                          ).map((exlusion, index) => (
+                            <li key={index}>{exlusion}</li>
+                          ))}
+                        </ul>
+                      </>
+                    )}
                   </Notification>
                 }
               >
