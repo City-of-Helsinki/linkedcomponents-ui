@@ -1,7 +1,6 @@
-/* eslint-disable no-undef */
 import classNames from 'classnames';
 import { NotificationType } from 'hds-react';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
@@ -30,7 +29,7 @@ type OnlyNotAuthenticatedErrorProps = {
   noRequiredOrganizationLabel?: null;
   noRequiredOrganizationText?: null;
   showOnlyNotAuthenticatedError: true;
-  notAuthenticatedMessage?: JSX.Element;
+  notAuthenticatedMessage?: ReactNode;
 } & CommonProps;
 
 type AllErrorsProps = {
@@ -39,7 +38,7 @@ type AllErrorsProps = {
   noRequiredOrganizationLabel: string;
   noRequiredOrganizationText: string;
   showOnlyNotAuthenticatedError?: false;
-  notAuthenticatedMessage?: JSX.Element;
+  notAuthenticatedMessage?: ReactNode;
 } & CommonProps;
 
 export type AuthenticationNotificationProps =

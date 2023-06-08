@@ -1,7 +1,5 @@
 import React from 'react';
 
-import styles from './PublicationListLinks.module.scss';
-
 export type PublicationListLink = {
   href: string;
   text: string;
@@ -13,7 +11,7 @@ type Props = {
 
 const PublicationListLinks: React.FC<Props> = ({ links }) => {
   return (
-    <ul className={styles.list}>
+    <ul style={{ paddingInlineStart: 'var(--spacing-s)' }}>
       {links.map(({ href, text }) => {
         return (
           <li key={href}>
