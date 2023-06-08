@@ -665,7 +665,13 @@
         "general": "Kirjoita tähän tapahtuman järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija.",
         "volunteering": "Kirjoita tähän vapaaehtoistehtävän järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija."
       },
-      "infoTextPublication": "Valitsemasi tapahtumatyyppi julkaistaan seuraavissa kanavissa:",
+      "infoTextPublication": {
+        "paragraph1": "Julkaistavien tapahtuma-/harrastustietojen tulee olla kaupunkilaisia ja/tai vierailijoita kiinnostavia ja sijaita pääkaupunkiseudulla.",
+        "paragraph2": "Valitsemasi tapahtumatyyppi voidaan julkaista seuraavissa kanavissa:",
+        "paragraph3": "tai rajapinnan kautta muissa palveluissa.",
+        "paragraph4": "Ilmoitathan vain tapahtuma-/harrastustietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista.",
+        "paragraph5": "Moderoitava tapahtuma pitää ilmoittaa vähintään viikkoa ennen tapahtumaa."
+      },
       "infoTextPublisher": {
         "course": "Valitse organisaatio, joka näytetään kurssin julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet.",
         "general": "Valitse organisaatio, joka näytetään tapahtuman julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet.",
@@ -838,6 +844,10 @@
         "course": "Kurssin video",
         "general": "Tapahtuman video",
         "volunteering": "Vapaaehtoistehtävän video"
+      },
+      "notificationNotAuthenticated": {
+        "paragraph1": "Helsingin kaupunki julkaisee maksutta pääkaupunkiseudulla toteutettavien tapahtumien tietoja muun muassa <a href=\"https://tapahtumat.hel.fi\" target=\"_blank\" rel=\"noreferrer\">tapahtumat.hel.fi</a>- ja <a href=\"https://harrastukset.hel.fi\" target=\"_blank\" rel=\"noreferrer\">harrastukset.hel.fi</a>-palveluissa. Tilaisuudet tiedot tulevat näkyviin lisäksi muihin digitaalisiin alustoihin, jotka hyödyntävät kaupungin Linked Events -rajapintaa.",
+        "paragraph2": "Voit jatkaa palveluun tutustumista, mutta sinun täytyy kirjautua sisään, jos haluat tallentaa muutoksia."
       },
       "placeholderAudienceMaxAge": {
         "course": "Syötä kurssin yläikäraja",

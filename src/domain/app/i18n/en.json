@@ -665,7 +665,13 @@
         "general": "Enter the name of the organization hosting the event if the organizer is not the same as the publisher.",
         "volunteering": "Enter the name of the organization hosting the volunteering if the organizer is not the same as the publisher."
       },
-      "infoTextPublication": "The event type you selected will be published on the following channels:",
+      "infoTextPublication": {
+        "paragraph1": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area.",
+        "paragraph2": "The type of event you choose can be published in the following channels:",
+        "paragraph3": "or via the interface on other services.",
+        "paragraph4": "Please only enter event/hobby information that has not yet been published on any of the services mentioned above.",
+        "paragraph5": "The event to be moderated must be announced at least one week before the event."
+      },
       "infoTextPublisher": {
         "course": "Select the organization to be displayed as the course publisher. You do not need to make a selection if you only have rights to publish under one organization.",
         "general": "Select the organization to be displayed as the event publisher. You do not need to make a selection if you only have rights to publish under one organization.",
@@ -838,6 +844,10 @@
         "course": "Course video",
         "general": "Event video",
         "volunteering": "Volunteering video"
+      },
+      "notificationNotAuthenticated": {
+        "paragraph1": "The City of Helsinki publishes information about events in the Helsinki Metropolitan Area free of charge, for example on the services <a href=\"https://tapahtumat.hel.fi\" target=\"_blank\" rel=\"noreferrer\">tapahtumat.hel.fi</a> and <a href=\"https://harrastukset.hel.fi\" target=\"_blank\" rel=\"noreferrer\">harrastukset.hel.fi</a>. Event information will also be visible on other digital platforms that use the city's Linked Events interface.",
+        "paragraph2": "You can continue to explore the service, but you will need to log in if you want to save changes."
       },
       "placeholderAudienceMaxAge": {
         "course": "Enter the maximum age for the course",

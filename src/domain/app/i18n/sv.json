@@ -839,6 +839,10 @@
         "general": "Video för evenemanget",
         "volunteering": "Video för volontärarbetet"
       },
+      "notificationNotAuthenticated": {
+        "paragraph1": "The City of Helsinki publishes information about events in the Helsinki Metropolitan Area free of charge, for example on the services <a href=\"https://tapahtumat.hel.fi\" target=\"_blank\" rel=\"noreferrer\">tapahtumat.hel.fi</a> and <a href=\"https://harrastukset.hel.fi\" target=\"_blank\" rel=\"noreferrer\">harrastukset.hel.fi</a>. Event information will also be visible on other digital platforms that use the city's Linked Events interface.",
+        "paragraph2": "You can continue to explore the service, but you will need to log in if you want to save changes."
+      },
       "placeholderAudienceMaxAge": {
         "course": "Ange högsta ålder för kursen",
         "general": "Ange högsta ålder för evenemanget",

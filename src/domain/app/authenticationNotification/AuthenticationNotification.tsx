@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import classNames from 'classnames';
 import { NotificationType } from 'hds-react';
 import React, { useState } from 'react';
@@ -29,6 +30,7 @@ type OnlyNotAuthenticatedErrorProps = {
   noRequiredOrganizationLabel?: null;
   noRequiredOrganizationText?: null;
   showOnlyNotAuthenticatedError: true;
+  notAuthenticatedMessage?: JSX.Element;
 } & CommonProps;
 
 type AllErrorsProps = {
@@ -37,6 +39,7 @@ type AllErrorsProps = {
   noRequiredOrganizationLabel: string;
   noRequiredOrganizationText: string;
   showOnlyNotAuthenticatedError?: false;
+  notAuthenticatedMessage?: JSX.Element;
 } & CommonProps;
 
 export type AuthenticationNotificationProps =
@@ -51,6 +54,7 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   noRequiredOrganizationText,
   requiredOrganizationType = 'admin',
   showOnlyNotAuthenticatedError,
+  notAuthenticatedMessage,
 }) => {
   const location = useLocation();
   const { t } = useTranslation();
@@ -115,19 +119,21 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   };
 
   if (!authenticated) {
+    const message = notAuthenticatedMessage ? (
+      notAuthenticatedMessage
+    ) : (
+      <p>
+        {t('authenticationNotification.part1')}{' '}
+        <button className={styles.button} onClick={handleSignIn} type="button">
+          {t('authenticationNotification.button')}
+        </button>
+        {t('authenticationNotification.part2')}
+      </p>
+    );
+
     return (
       <Notification {...notificationProps} label={t('common.signIn')}>
-        <p>
-          {t('authenticationNotification.part1')}{' '}
-          <button
-            className={styles.button}
-            onClick={handleSignIn}
-            type="button"
-          >
-            {t('authenticationNotification.button')}
-          </button>
-          {t('authenticationNotification.part2')}
-        </p>
+        {message}
       </Notification>
     );
   }

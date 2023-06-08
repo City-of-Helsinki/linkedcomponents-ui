@@ -1,5 +1,7 @@
 import React from 'react';
 
+import styles from './PublicationListLinks.module.scss';
+
 export type PublicationListLink = {
   href: string;
   text: string;
@@ -11,18 +13,17 @@ type Props = {
 
 const PublicationListLinks: React.FC<Props> = ({ links }) => {
   return (
-    <strong>
-      {links.map(({ href, text }, index, array) => {
+    <ul className={styles.list}>
+      {links.map(({ href, text }) => {
         return (
-          <React.Fragment key={href}>
+          <li key={href}>
             <a href={href} target="_blank" rel="noreferrer">
-              {text}
+              <strong>{text}</strong>
             </a>
-            {index + 1 < array.length && ', '}
-          </React.Fragment>
+          </li>
         );
       })}
-    </strong>
+    </ul>
   );
 };
 

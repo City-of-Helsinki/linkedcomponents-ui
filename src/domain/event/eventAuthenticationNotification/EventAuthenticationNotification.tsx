@@ -56,6 +56,16 @@ const EventAuthenticationNotification: React.FC<
         )}
         noRequiredOrganizationText={t('authentication.noRightsUpdateEvent')}
         requiredOrganizationType="external"
+        notAuthenticatedMessage={
+          <>
+            <p
+              dangerouslySetInnerHTML={{
+                __html: t('event.form.notificationNotAuthenticated.paragraph1'),
+              }}
+            />
+            <p>{t('event.form.notificationNotAuthenticated.paragraph2')}</p>
+          </>
+        }
       />
     </LoadingSpinner>
   );
