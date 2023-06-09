@@ -13,16 +13,10 @@ import EventForm from './eventForm/EventForm';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import { eventPathBuilder } from './utils';
 
-type EditEventPageProps = {
-  externalUser?: boolean;
-};
-
-const EditEventPageWrapper: React.FC<EditEventPageProps> = ({
-  externalUser = true,
-}) => {
+const EditEventPageWrapper: React.FC = () => {
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
-  const { loading: loadingUser } = useUser();
+  const { loading: loadingUser, externalUser } = useUser();
 
   const {
     data: eventData,

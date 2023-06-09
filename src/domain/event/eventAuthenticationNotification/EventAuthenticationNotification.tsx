@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import {
   EventFieldsFragment,
   PublicationStatus,
@@ -21,7 +22,7 @@ const EventAuthenticationNotification: React.FC<
   EventAuthenticationNotificationProps
 > = ({ event }) => {
   const { isAuthenticated: authenticated } = useAuth();
-  const { user } = useUser();
+  const { user, loading } = useUser();
 
   const { t } = useTranslation();
   const { organizationAncestors } = useOrganizationAncestors(
@@ -29,30 +30,34 @@ const EventAuthenticationNotification: React.FC<
   );
 
   return (
-    <AuthenticationNotification
-      authorizationWarningLabel={t('event.form.notificationTitleCannotEdit')}
-      getAuthorizationWarning={() => {
-        if (event) {
-          const action =
-            event.publicationStatus === PublicationStatus.Draft
-              ? EVENT_ACTIONS.UPDATE_DRAFT
-              : EVENT_ACTIONS.UPDATE_PUBLIC;
+    <LoadingSpinner isLoading={loading}>
+      <AuthenticationNotification
+        authorizationWarningLabel={t('event.form.notificationTitleCannotEdit')}
+        getAuthorizationWarning={() => {
+          if (event) {
+            const action =
+              event.publicationStatus === PublicationStatus.Draft
+                ? EVENT_ACTIONS.UPDATE_DRAFT
+                : EVENT_ACTIONS.UPDATE_PUBLIC;
 
-          return checkIsActionAllowed({
-            action,
-            authenticated,
-            event,
-            organizationAncestors,
-            t,
-            user,
-          });
-        }
-        return { warning: '', editable: true };
-      }}
-      noRequiredOrganizationLabel={t('authentication.noRightsUpdateEventLabel')}
-      noRequiredOrganizationText={t('authentication.noRightsUpdateEvent')}
-      requiredOrganizationType="any"
-    />
+            return checkIsActionAllowed({
+              action,
+              authenticated,
+              event,
+              organizationAncestors,
+              t,
+              user,
+            });
+          }
+          return { warning: '', editable: true };
+        }}
+        noRequiredOrganizationLabel={t(
+          'authentication.noRightsUpdateEventLabel'
+        )}
+        noRequiredOrganizationText={t('authentication.noRightsUpdateEvent')}
+        requiredOrganizationType="external"
+      />
+    </LoadingSpinner>
   );
 };
 

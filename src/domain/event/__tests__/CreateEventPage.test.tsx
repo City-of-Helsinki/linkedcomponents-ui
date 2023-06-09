@@ -45,7 +45,10 @@ import {
   mockedPlacesResponse,
   placeAtId,
 } from '../../place/__mocks__/place';
-import { mockedUserResponse } from '../../user/__mocks__/user';
+import {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../user/__mocks__/user';
 import {
   eventValues,
   keywordAtId,
@@ -82,11 +85,8 @@ const defaultMocks = [
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const renderComponent = (
-  externalUser = false,
-  mocks: MockedResponse[] = defaultMocks
-) =>
-  render(<CreateEventPage externalUser={externalUser} />, {
+const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
+  render(<CreateEventPage />, {
     authContextValue,
     mocks,
   });
@@ -185,7 +185,25 @@ test('should focus to first validation error when trying to save draft event', a
 test('should focus to first validation error when trying to save draft event as external user', async () => {
   const user = userEvent.setup();
 
-  renderComponent(true);
+  const mocks = [
+    mockedImagesResponse,
+    mockedImageResponse,
+    mockedUmbrellaEventsResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedTopicsKeywordSetResponse,
+    mockedKeywordSelectorKeywordsResponse,
+    mockedLanguagesResponse,
+    mockedPlaceResponse,
+    mockedPlacesResponse,
+    // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
+    mockedFilteredPlacesResponse,
+    mockedFilteredPlacesResponse,
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedUserWithoutOrganizationsResponse,
+  ];
+
+  renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
 
@@ -325,7 +343,7 @@ test('should focus to first main category checkbox if none main category is sele
   ];
   const user = userEvent.setup();
 
-  renderComponent(false, mocks);
+  renderComponent(mocks);
 
   await waitLoadingAndFindNameInput();
 
@@ -352,7 +370,7 @@ test('should show server errors', async () => {
   const mocks = [...defaultMocks, mockedInvalidCreateDraftEventResponse];
   const user = userEvent.setup();
 
-  renderComponent(false, mocks);
+  renderComponent(mocks);
 
   await waitLoadingAndFindNameInput();
 
@@ -377,7 +395,7 @@ test('should route to event completed page after saving draft event', async () =
   const mocks = [...defaultMocks, mockedCreateDraftEventResponse];
   const user = userEvent.setup();
 
-  const { history } = renderComponent(false, mocks);
+  const { history } = renderComponent(mocks);
 
   await waitLoadingAndFindNameInput();
 
@@ -425,7 +443,7 @@ test('should route to event completed page after publishing event', async () => 
   ];
   const user = userEvent.setup();
 
-  const { history } = renderComponent(false, mocks);
+  const { history } = renderComponent(mocks);
 
   await waitLoadingAndFindNameInput();
 
@@ -442,7 +460,25 @@ test('should route to event completed page after publishing event', async () => 
 });
 
 test('should render fields for external user', async () => {
-  renderComponent(true);
+  const mocks = [
+    mockedImagesResponse,
+    mockedImageResponse,
+    mockedUmbrellaEventsResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedTopicsKeywordSetResponse,
+    mockedKeywordSelectorKeywordsResponse,
+    mockedLanguagesResponse,
+    mockedPlaceResponse,
+    mockedPlacesResponse,
+    // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
+    mockedFilteredPlacesResponse,
+    mockedFilteredPlacesResponse,
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedUserWithoutOrganizationsResponse,
+  ];
+
+  renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
 
@@ -454,8 +490,7 @@ test('should render fields for external user', async () => {
     /sähköpostiosoite/i,
     /puhelinnumero/i,
     /organisaatio/i,
-    /matkailun rekisteriselosteen url/i,
-    /annan suostumukseni tietojeni käyttöön/i,
+    /olen lukenut matkailun rekisteriselosteen ja annan suostumukseni tietojeni käyttöön/i,
   ];
 
   externalUserFieldLabels.forEach(async (label) =>
@@ -479,7 +514,7 @@ test('should render fields for external user', async () => {
     /nimi/i,
     /sähköpostiosoite/i,
     /puhelinnumero/i,
-    /matkailun rekisteriselosteen url/i,
+    /olen lukenut matkailun rekisteriselosteen ja annan suostumukseni tietojeni käyttöön/i,
   ];
 
   requiredFieldLabels.forEach(async (label) =>

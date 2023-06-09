@@ -769,7 +769,6 @@
         "general": "Evenemangsutgivare",
         "volunteering": "Volontärarbetesutgivare"
       },
-      "labelRegistrationLink": "Matkailun rekisteriselosteen URL",
       "labelShortDescription": {
         "course": "Kort beskrivning {{langText}} (upp till 160 tecken)",
         "general": "Kort beskrivning {{langText}} (upp till 160 tecken)",
@@ -783,7 +782,7 @@
       "labelStartTime": "Starttid",
       "labelTime": "Tid",
       "labelUmbrellaEvent": "Huvudevenemang",
-      "labelUserConsent": "I consent to use of my information",
+      "labelUserConsent": "I have read <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Yritystoiminnan%20tukeminen%20ja%20neuvonta%20seka%20matkailuneuvontapalvelut.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Matkailu register statement {{openInNewTab}}\">Matkailu register statement</a> and consent to use of my information",
       "labelUserName": "Namn",
       "labelVideoAltText": "Videons alt-text",
       "labelVideoName": "Namn på videon",
@@ -894,7 +893,6 @@
         "general": "Ange namnet på arrangören",
         "volunteering": "Ange namnet på arrangören"
       },
-      "placeholderRegistrationLink": "Syötä matkailun rekisteriselosteen URL",
       "placeholderShortDescription": {
         "course": "Ange en kort beskrivning av kursen",
         "general": "Ange en kort beskrivning av evenemanget",

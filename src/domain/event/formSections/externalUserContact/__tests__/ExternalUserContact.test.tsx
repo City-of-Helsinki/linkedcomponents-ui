@@ -22,7 +22,6 @@ type InitialValues = {
   [EVENT_FIELDS.EMAIL]: string;
   [EVENT_FIELDS.PHONE_NUMBER]: string;
   [EVENT_FIELDS.ORGANIZATION]: string;
-  [EVENT_FIELDS.REGISTRATION_LINK]: string;
   [EVENT_FIELDS.USER_CONSENT]: boolean;
 };
 
@@ -31,7 +30,6 @@ const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.EMAIL]: '',
   [EVENT_FIELDS.PHONE_NUMBER]: '',
   [EVENT_FIELDS.ORGANIZATION]: '',
-  [EVENT_FIELDS.REGISTRATION_LINK]: '',
   [EVENT_FIELDS.USER_CONSENT]: false,
 };
 
@@ -66,10 +64,9 @@ test('should render fields', async () => {
   expect(await screen.findByLabelText(/puhelinnumero/i)).toBeInTheDocument();
   expect(await screen.findByLabelText(/organisaatio/i)).toBeInTheDocument();
   expect(
-    await screen.findByLabelText(/matkailun rekisteriselosteen url/i)
-  ).toBeInTheDocument();
-  expect(
-    await screen.findByLabelText(/annan suostumukseni tietojeni käyttöön/i)
+    await screen.findByLabelText(
+      /olen lukenut matkailun rekisteriselosteen ja annan suostumukseni tietojeni käyttöön/i
+    )
   ).toBeInTheDocument();
 });
 
@@ -86,10 +83,9 @@ test('should validate required fields', async () => {
   await user.tab();
   await user.tab();
   await user.tab();
-  await user.tab();
 
   expect(await screen.findAllByText('Tämä kenttä on pakollinen')).toHaveLength(
-    5
+    4
   );
 });
 

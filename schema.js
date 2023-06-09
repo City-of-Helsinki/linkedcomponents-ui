@@ -294,7 +294,6 @@ module.exports = buildSchema(/* GraphQL */ `
     provider: LocalisedObjectInput
     publicationStatus: PublicationStatus
     publisher: String
-    registrationLink: String
     shortDescription: LocalisedObjectInput
     startTime: String
     subEvents: [IdObjectInput!]
@@ -333,7 +332,6 @@ module.exports = buildSchema(/* GraphQL */ `
     phoneNumber: String
     place: String
     provider: LocalisedObjectInput
-    registrationLink: String
     publicationStatus: PublicationStatus
     shortDescription: LocalisedObjectInput
     startTime: String
@@ -644,7 +642,6 @@ module.exports = buildSchema(/* GraphQL */ `
     publisher: ID
     publicationStatus: PublicationStatus
     registration: IdObject
-    registrationLink: String
     shortDescription: LocalisedObject
     startTime: String
     subEvents: [Event]!

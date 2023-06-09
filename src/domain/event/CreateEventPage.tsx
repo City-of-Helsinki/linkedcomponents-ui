@@ -5,14 +5,8 @@ import useUser from '../user/hooks/useUser';
 import EventForm from './eventForm/EventForm';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 
-type CreateEventPageProps = {
-  externalUser?: boolean;
-};
-
-const CreateEventPage: React.FC<CreateEventPageProps> = ({
-  externalUser = true,
-}) => {
-  const { loading: loadingUser } = useUser();
+const CreateEventPage: React.FC = () => {
+  const { loading: loadingUser, externalUser } = useUser();
 
   // Load options for inLanguage, audience and keywords checkboxes
   const { loading: loadingEventFieldOptions } = useEventFieldOptionsData();

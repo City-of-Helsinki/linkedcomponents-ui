@@ -157,6 +157,20 @@ export const isReqularUserInOrganization = ({
   return Boolean(id && organizationMemberships.includes(id));
 };
 
+export const isExternalUserWithoutOrganization = ({
+  user,
+}: {
+  user?: UserFieldsFragment;
+}): boolean => {
+  const adminOrganizations: string[] = getValue(user?.adminOrganizations, []);
+  const organizationMemberships: string[] = getValue(
+    user?.organizationMemberships,
+    []
+  );
+
+  return Boolean(!adminOrganizations.length && !organizationMemberships.length);
+};
+
 export const getOrganizationAncestorsQueryResult = async (
   id: string,
   apolloClient: ApolloClient<NormalizedCacheObject>

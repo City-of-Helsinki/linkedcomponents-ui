@@ -48,6 +48,9 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   const [{ value: hasEnvironmentalCertificate }] = useField({
     name: EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE,
   });
+  const [{ value: environmentalCertificate }] = useField({
+    name: EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE,
+  });
 
   const sortedEventInfoLanguages = useSortedInfoLanguages(eventInfoLanguages);
 
@@ -172,6 +175,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                       label={t('event.form.labelHasEnvironmentalCertificate')}
                       name={EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE}
                       disabled={!isEditingAllowed}
+                      value={!!environmentalCertificate}
                     ></Field>
                   </FormGroup>
                   <FormGroup>

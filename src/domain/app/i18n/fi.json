@@ -769,7 +769,7 @@
         "general": "Tapahtuman julkaisija",
         "volunteering": "Vapaaehtoistehtävän julkaisija"
       },
-      "labelRegistrationLink": "Matkailun rekisteriselosteen URL",
+
       "labelShortDescription": {
         "course": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
         "general": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
@@ -783,7 +783,7 @@
       "labelStartTime": "Alkamisaika",
       "labelTime": "Ajankohta",
       "labelUmbrellaEvent": "Kattotapahtuma",
-      "labelUserConsent": "Annan suostumukseni tietojeni käyttöön",
+      "labelUserConsent": "Olen lukenut <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Yritystoiminnan%20tukeminen%20ja%20neuvonta%20seka%20matkailuneuvontapalvelut.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Matkailun rekisteriselosteen {{openInNewTab}}\">Matkailun rekisteriselosteen</a> ja annan suostumukseni tietojeni käyttöön",
       "labelUserName": "Nimi",
       "labelVideoAltText": "Videon alt-teksti",
       "labelVideoName": "Videon nimi",
@@ -894,7 +894,6 @@
         "general": "Syötä tapahtuman järjestäjän nimi",
         "volunteering": "Syötä vapaaehtoistehtävän järjestäjän nimi"
       },
-      "placeholderRegistrationLink": "Syötä matkailun rekisteriselosteen URL",
       "placeholderShortDescription": {
         "course": "Syötä kurssin lyhyt kuvaus",
         "general": "Syötä tapahtuman lyhyt kuvaus",

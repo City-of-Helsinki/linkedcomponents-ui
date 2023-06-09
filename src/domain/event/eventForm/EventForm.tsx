@@ -35,7 +35,6 @@ import {
   EVENT_INITIAL_VALUES,
   EVENT_MODALS,
   EVENT_TYPE,
-  EVENT_UNKNOWN_USER_INITIAL_VALUES,
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
@@ -261,8 +260,13 @@ const EventForm: React.FC<EventFormProps> = ({
         EVENT_ACTIONS.UPDATE_DRAFT,
         EVENT_ACTIONS.UPDATE_PUBLIC,
         EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+        EVENT_ACTIONS.SEND_TO_PUBLISHING,
       ])
-    : isEventActionAllowed([EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH]);
+    : isEventActionAllowed([
+        EVENT_ACTIONS.CREATE_DRAFT,
+        EVENT_ACTIONS.PUBLISH,
+        EVENT_ACTIONS.SEND_TO_PUBLISHING,
+      ]);
 
   const clearErrors = () => setErrors({});
 
@@ -496,7 +500,6 @@ const EventForm: React.FC<EventFormProps> = ({
                 onSubmit={handleSubmit}
                 publisher={values.publisher}
                 saving={saving}
-                isExternalUser={isExternalUser}
               />
             )}
           </MainContent>
@@ -507,22 +510,18 @@ const EventForm: React.FC<EventFormProps> = ({
 };
 
 const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
-  const { event, externalUser = false } = props;
+  const { event, externalUser } = props;
   const { user } = useUser();
-
-  const eventInitialValues = externalUser
-    ? EVENT_UNKNOWN_USER_INITIAL_VALUES
-    : EVENT_INITIAL_VALUES;
 
   const initialValues = React.useMemo(
     () =>
       event
         ? getEventInitialValues(event)
         : {
-            ...eventInitialValues,
+            ...EVENT_INITIAL_VALUES,
             publisher: getValue(user?.organization, ''),
           },
-    [event, eventInitialValues, user?.organization]
+    [event, user]
   );
 
   const validationSchema = externalUser

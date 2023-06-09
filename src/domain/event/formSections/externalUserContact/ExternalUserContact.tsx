@@ -9,6 +9,7 @@ import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
+import styles from './externalUserContact.module.scss';
 
 export type ExternalUserContactProps = {
   isEditingAllowed: boolean;
@@ -65,24 +66,23 @@ const ExternalUserContact: FC<ExternalUserContactProps> = ({
             ></Field>
           </FormGroup>
           <FormGroup>
-            <Field
-              component={TextInputField}
-              label={t('event.form.labelRegistrationLink')}
-              name={EVENT_FIELDS.REGISTRATION_LINK}
-              placeholder={t('event.form.placeholderRegistrationLink')}
-              disabled={!isEditingAllowed}
-              type="url"
-              required
-            ></Field>
-          </FormGroup>
-          <FormGroup>
-            <Field
-              component={CheckboxField}
-              label={t('event.form.labelUserConsent')}
-              name={EVENT_FIELDS.USER_CONSENT}
-              disabled={!isEditingAllowed}
-              required
-            ></Field>
+            <div className={styles.panel}>
+              <Field
+                component={CheckboxField}
+                label={
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: t('event.form.labelUserConsent', {
+                        openInNewTab: t('common.openInNewTab'),
+                      }),
+                    }}
+                  />
+                }
+                name={EVENT_FIELDS.USER_CONSENT}
+                disabled={!isEditingAllowed}
+                required
+              ></Field>
+            </div>
           </FormGroup>
         </FieldColumn>
       </FieldRow>

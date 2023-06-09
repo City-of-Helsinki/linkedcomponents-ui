@@ -74,6 +74,7 @@ import wait from '../../utils/wait';
 import { getImageAltText } from '../image/utils';
 import {
   isAdminUserInOrganization,
+  isExternalUserWithoutOrganization,
   isReqularUserInOrganization,
 } from '../organization/utils';
 import { REGISTRATION_INITIAL_VALUES } from '../registration/constants';
@@ -507,7 +508,6 @@ export const getEventBasePayload = (
     place,
     provider,
     publisher,
-    registrationLink,
     shortDescription,
     superEvent,
     type,
@@ -551,7 +551,7 @@ export const getEventBasePayload = (
       locationExtraInfo,
       eventInfoLanguages
     ),
-    place,
+    place: capitalize(place),
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity
       : null,
@@ -582,7 +582,6 @@ export const getEventBasePayload = (
     phoneNumber,
     provider: filterUnselectedLanguages(provider, eventInfoLanguages),
     publisher,
-    registrationLink,
     shortDescription: filterUnselectedLanguages(
       shortDescription,
       eventInfoLanguages
@@ -837,6 +836,8 @@ export const getEventInitialValues = (
     enrolmentEndTimeTime: getEventTime(event.enrolmentEndTime),
     enrolmentStartTimeDate: getDateFromString(event.enrolmentStartTime),
     enrolmentStartTimeTime: getEventTime(event.enrolmentStartTime),
+    email: getValue(event.email, ''),
+    environmentalCertificate: getValue(event.environmentalCertificate, ''),
     eventInfoLanguages: getEventInfoLanguages(event),
     externalLinks: sortBy(event.externalLinks, ['name']).map(
       (externalLink) => ({
@@ -844,6 +845,7 @@ export const getEventInitialValues = (
         name: getValue(externalLink?.name, ''),
       })
     ),
+    hasEnvironmentalCertificate: Boolean(event.environmentalCertificate),
     hasPrice,
     hasUmbrella: hasUmbrella,
     imageDetails: getEventImageDetails(event),
@@ -863,6 +865,9 @@ export const getEventInitialValues = (
     minimumAttendeeCapacity: event.minimumAttendeeCapacity ?? '',
     name: getLocalisedObject(event.name),
     offers,
+    organization: getValue(event.organization, ''),
+    phoneNumber: getValue(event.phoneNumber, ''),
+    place: getValue(event.place?.toLowerCase(), ''),
     publisher: getValue(event.publisher, ''),
     provider: getLocalisedObject(event.provider),
     recurringEventEndTime: getRecurringEventDate(
@@ -876,6 +881,8 @@ export const getEventInitialValues = (
     shortDescription: getLocalisedObject(event.shortDescription),
     superEvent: getValue(event.superEvent?.atId, ''),
     type: getValue(event.typeId?.toLowerCase(), EVENT_TYPE.General),
+    userConsent: Boolean(event.userConsent),
+    userName: getValue(event.userName, ''),
     videos: getEventVideos(event),
   };
 };
@@ -1101,8 +1108,14 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
+
+  const isExternalUser = isExternalUserWithoutOrganization({ user });
+
   const canCreateDraft =
-    (!publisher && !!user?.organization) || isRegularUser || isAdminUser;
+    (!publisher && !!user?.organization) ||
+    isRegularUser ||
+    isAdminUser ||
+    isExternalUser;
 
   switch (action) {
     case EVENT_ACTIONS.COPY:
@@ -1113,15 +1126,18 @@ export const checkCanUserDoAction = ({
     case EVENT_ACTIONS.CANCEL:
     case EVENT_ACTIONS.DELETE:
     case EVENT_ACTIONS.POSTPONE:
-      return isDraft ? isRegularUser || isAdminUser : isAdminUser;
+      return isDraft
+        ? isRegularUser || isAdminUser || isExternalUser
+        : isAdminUser;
     case EVENT_ACTIONS.ACCEPT_AND_PUBLISH:
     case EVENT_ACTIONS.PUBLISH:
-    case EVENT_ACTIONS.SEND_TO_PUBLISHING:
     case EVENT_ACTIONS.UPDATE_PUBLIC:
     case EVENT_ACTIONS.SEND_EMAIL:
       return isAdminUser;
+    case EVENT_ACTIONS.SEND_TO_PUBLISHING:
+      return isExternalUser;
     case EVENT_ACTIONS.UPDATE_DRAFT:
-      return isRegularUser || isAdminUser;
+      return isRegularUser || isAdminUser || isExternalUser;
     default:
       return false;
   }
@@ -1149,9 +1165,8 @@ export const getIsButtonVisible = ({
     case EVENT_ACTIONS.CREATE_DRAFT:
     case EVENT_ACTIONS.SEND_EMAIL:
       return userCanDoAction;
-    case EVENT_ACTIONS.PUBLISH:
-      return !authenticated || userCanDoAction;
     case EVENT_ACTIONS.SEND_TO_PUBLISHING:
+    case EVENT_ACTIONS.PUBLISH:
       return !authenticated || userCanDoAction;
     case EVENT_ACTIONS.UPDATE_DRAFT:
       return isDraft;

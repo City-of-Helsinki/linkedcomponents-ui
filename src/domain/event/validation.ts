@@ -501,11 +501,6 @@ export const getExternalUserEventSchema = (
           VALIDATION_MESSAGE_KEYS.PHONE,
           (value) => !value || isValidPhoneNumber(value)
         ),
-      [EVENT_FIELDS.REGISTRATION_LINK]: Yup.string()
-        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-        .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
-          isValidUrl(value)
-        ),
       [EVENT_FIELDS.USER_CONSENT]: Yup.bool().oneOf(
         [true],
         VALIDATION_MESSAGE_KEYS.STRING_REQUIRED

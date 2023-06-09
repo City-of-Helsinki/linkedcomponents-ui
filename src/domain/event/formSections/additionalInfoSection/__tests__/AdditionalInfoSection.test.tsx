@@ -57,6 +57,7 @@ const defaultProps: AdditionalInfoSectionProps = {
 const renderComponent = (
   initialValues?: Partial<InitialValues>,
   props?: Partial<AdditionalInfoSectionProps>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: ObjectSchema<any> = publicEventSchema
 ) =>
   render(

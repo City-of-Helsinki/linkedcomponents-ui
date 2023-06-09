@@ -17,16 +17,14 @@ interface Props {
   onSubmit: (publicationStatus: PublicationStatus) => void;
   publisher: string;
   saving: EVENT_ACTIONS | null;
-  isExternalUser?: boolean;
 }
 
 const CreateButtonPanel: React.FC<Props> = ({
   onSubmit,
   publisher,
   saving,
-  isExternalUser = false,
 }) => {
-  const { user } = useUser();
+  const { user, externalUser } = useUser();
   const { t } = useTranslation();
   const [{ value: eventType }] = useField<EVENT_TYPE>({
     name: EVENT_FIELDS.TYPE,
@@ -64,7 +62,7 @@ const CreateButtonPanel: React.FC<Props> = ({
       variant: 'secondary',
     }),
     getActionButtonProps({
-      action: !isExternalUser
+      action: !externalUser
         ? EVENT_ACTIONS.PUBLISH
         : EVENT_ACTIONS.SEND_TO_PUBLISHING,
       onClick: () => onSubmit(PublicationStatus.Public),
