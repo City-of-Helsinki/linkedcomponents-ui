@@ -52,3 +52,14 @@ test('should hide notification when clicking close button', async () => {
   await user.click(closeButton);
   await waitFor(() => expect(notification).toHaveStyle(hiddenStyles));
 });
+
+test('should show custom message', async () => {
+  render(
+    <AuthenticationNotification
+      {...props}
+      notAuthenticatedCustomMessage={<p>Custom message</p>}
+    />
+  );
+
+  expect(await screen.findByText(/custom message/i)).toBeInTheDocument();
+});

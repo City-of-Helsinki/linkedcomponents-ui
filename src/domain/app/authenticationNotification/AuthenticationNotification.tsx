@@ -29,7 +29,7 @@ type OnlyNotAuthenticatedErrorProps = {
   noRequiredOrganizationLabel?: null;
   noRequiredOrganizationText?: null;
   showOnlyNotAuthenticatedError: true;
-  notAuthenticatedMessage?: ReactNode;
+  notAuthenticatedCustomMessage?: ReactNode;
 } & CommonProps;
 
 type AllErrorsProps = {
@@ -38,7 +38,7 @@ type AllErrorsProps = {
   noRequiredOrganizationLabel: string;
   noRequiredOrganizationText: string;
   showOnlyNotAuthenticatedError?: false;
-  notAuthenticatedMessage?: ReactNode;
+  notAuthenticatedCustomMessage?: ReactNode;
 } & CommonProps;
 
 export type AuthenticationNotificationProps =
@@ -53,7 +53,7 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   noRequiredOrganizationText,
   requiredOrganizationType = 'admin',
   showOnlyNotAuthenticatedError,
-  notAuthenticatedMessage,
+  notAuthenticatedCustomMessage,
 }) => {
   const location = useLocation();
   const { t } = useTranslation();
@@ -118,8 +118,8 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   };
 
   if (!authenticated) {
-    const message = notAuthenticatedMessage ? (
-      notAuthenticatedMessage
+    const message = notAuthenticatedCustomMessage ? (
+      notAuthenticatedCustomMessage
     ) : (
       <p>
         {t('authenticationNotification.part1')}{' '}
