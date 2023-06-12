@@ -275,6 +275,7 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentEndTime: String
     enrolmentStartTime: String
     email: String
+    environment: String
     environmentalCertificate: String
     eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
@@ -290,7 +291,6 @@ module.exports = buildSchema(/* GraphQL */ `
     offers: [OfferInput!]
     organization: String
     phoneNumber: String
-    place: String
     provider: LocalisedObjectInput
     publicationStatus: PublicationStatus
     publisher: String
@@ -315,6 +315,7 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentEndTime: String
     enrolmentStartTime: String
     email: String
+    environment: String
     environmentalCertificate: String
     eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
@@ -330,7 +331,6 @@ module.exports = buildSchema(/* GraphQL */ `
     offers: [OfferInput!]
     organization: String
     phoneNumber: String
-    place: String
     provider: LocalisedObjectInput
     publicationStatus: PublicationStatus
     shortDescription: LocalisedObjectInput
@@ -619,6 +619,7 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentEndTime: String
     enrolmentStartTime: String
     email: String
+    environment: String
     environmentalCertificate: String
     extensionCourse: ExtensionCourse
     externalLinks: [ExternalLink]!
@@ -636,7 +637,6 @@ module.exports = buildSchema(/* GraphQL */ `
     offers: [Offer]!
     organization: String
     phoneNumber: String
-    place: String
     provider: LocalisedObject
     providerContactInfo: String
     publisher: ID

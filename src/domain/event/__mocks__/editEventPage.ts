@@ -195,6 +195,7 @@ const basePayload = {
   email: '',
   enrolmentEndTime: null,
   enrolmentStartTime: null,
+  environment: 'in',
   environmentalCertificate: '',
   externalLinks: [
     { name: EXTLINK.EXTLINK_FACEBOOK, link: facebookUrl, language: 'fi' },
@@ -213,7 +214,6 @@ const basePayload = {
   offers: offers.map((offer) => ({ ...offer, isFree: false })),
   organization: '',
   phoneNumber: '',
-  place: '',
   provider,
   publisher,
   shortDescription,
@@ -241,6 +241,7 @@ const baseFormValues: EventFormFields = {
   eventInfoLanguages: ['fi', 'sv'],
   eventTimes: [],
   events: [],
+  environment: 'in',
   environmentalCertificate: '',
   externalLinks: [
     { name: EXTLINK.EXTLINK_FACEBOOK, link: facebookUrl },
@@ -267,7 +268,6 @@ const baseFormValues: EventFormFields = {
   offers: offers.map((offer) => ({ ...offer, isFree: false })),
   organization: '',
   phoneNumber: '',
-  place: '',
   provider,
   publisher,
   recurringEvents: [],

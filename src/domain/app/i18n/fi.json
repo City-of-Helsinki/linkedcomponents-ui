@@ -697,6 +697,7 @@
       },
       "labelHasEnvironmentalCertificate": "Tapahtumalla on ekokompassi tai muu vastaava sertifikaatti",
       "labelEmail": "Sähköpostiosoite",
+      "labelEnvironment": "Tapahtuma järjestetään",
       "labelEnvironmentalCertificate": "Sertifikaatin nimi",
       "labelEndDate": {
         "course": "Kurssi päättyy",
@@ -757,7 +758,6 @@
       "labelOfferPrice": "{{langText}}",
       "labelOrganization": "Organisaatio",
       "labelPhoneNumber": "Puhelinnumero",
-      "labelPlace": "Tapahtuma järjestetään",
       "labelProvider": {
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "general": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)",

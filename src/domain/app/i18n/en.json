@@ -697,6 +697,7 @@
       },
       "labelHasEnvironmentalCertificate": "Event has received an EcoCompass or similar environmental certification",
       "labelEmail": "Email address",
+      "labelEnvironment": "Event is held",
       "labelEnvironmentalCertificate": "Certificate name",
       "labelEndDate": {
         "course": "Course ends",
@@ -757,7 +758,6 @@
       "labelOfferPrice": "{{langText}}",
       "labelOrganization": "Organization",
       "labelPhoneNumber": "Telephone number",
-      "labelPlace": "Event is held",
       "labelProvider": {
         "course": "Course organizer {{langText}} (if different from publisher)",
         "general": "Event organizer {{langText}} (if different from publisher)",

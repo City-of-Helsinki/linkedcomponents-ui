@@ -51,6 +51,7 @@ const baseEventPayload = {
   email: '',
   enrolmentEndTime: null,
   enrolmentStartTime: null,
+  environment: 'in',
   environmentalCertificate: '',
   images: [],
   infoUrl: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
@@ -83,7 +84,6 @@ const baseEventPayload = {
   ],
   organization: '',
   phoneNumber: '',
-  place: '',
   provider: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
   publisher: organizationId,
   shortDescription: {

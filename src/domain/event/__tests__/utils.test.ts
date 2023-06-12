@@ -81,6 +81,7 @@ const defaultEventPayload = {
   endTime: null,
   enrolmentEndTime: null,
   enrolmentStartTime: null,
+  environment: 'in',
   environmentalCertificate: '',
   externalLinks: [],
   images: [],
@@ -121,7 +122,6 @@ const defaultEventPayload = {
   ],
   organization: '',
   phoneNumber: '',
-  place: '',
   provider: {
     ar: null,
     en: null,
@@ -856,6 +856,7 @@ describe('getEventInitialValues function', () => {
     const endTime = new Date('2021-07-13T05:51:05.761Z');
     const enrolmentEndTime = new Date('2021-06-15T05:51:05.761Z');
     const enrolmentStartTime = new Date('2021-05-05T05:51:05.761Z');
+    const environment = 'in';
     const environmentalCertificate = 'certificate';
     const facebookUrl = 'http://facebook.com';
     const hasEnvironmentalCertificate = true;
@@ -936,7 +937,6 @@ describe('getEventInitialValues function', () => {
     ];
     const organization = 'organization';
     const phoneNumber = '+358401234567';
-    const place = 'in';
     const provider = {
       ar: 'Provider ar',
       en: 'Provider en',
@@ -981,6 +981,7 @@ describe('getEventInitialValues function', () => {
           endTime: endTime.toISOString(),
           enrolmentEndTime: enrolmentEndTime.toISOString(),
           enrolmentStartTime: enrolmentStartTime.toISOString(),
+          environment,
           environmentalCertificate,
           externalLinks: [
             fakeExternalLink({
@@ -1022,7 +1023,6 @@ describe('getEventInitialValues function', () => {
           ),
           organization,
           phoneNumber,
-          place,
           provider,
           publisher,
           shortDescription,
@@ -1060,6 +1060,7 @@ describe('getEventInitialValues function', () => {
           startTime,
         },
       ],
+      environment,
       environmentalCertificate,
       externalLinks: [
         {
@@ -1095,7 +1096,6 @@ describe('getEventInitialValues function', () => {
       offers,
       organization,
       phoneNumber,
-      place,
       provider,
       publisher,
       recurringEvents: [],

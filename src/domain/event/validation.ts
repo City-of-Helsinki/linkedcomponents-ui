@@ -462,6 +462,9 @@ export const getExternalUserEventSchema = (
             schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
         }
       ),
+      [EVENT_FIELDS.ENVIRONMENT]: Yup.string().required(
+        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+      ),
       [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
         [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
         ([minimumAttendeeCapacity], schema) => {

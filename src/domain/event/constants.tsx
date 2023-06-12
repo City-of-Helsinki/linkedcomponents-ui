@@ -29,6 +29,11 @@ export enum EVENT_TYPE {
   Volunteering = 'volunteering',
 }
 
+export enum EVENT_ENVIRONMENT_VALUE {
+  In = 'in',
+  Out = 'out',
+}
+
 export enum RECURRING_EVENT_FIELDS {
   END_DATE = 'endDate',
   END_TIME = 'endTime',
@@ -71,6 +76,7 @@ export enum EVENT_FIELDS {
   EVENT_TIMES = 'eventTimes',
   EVENTS = 'events',
   EMAIL = 'email',
+  ENVIRONMENT = 'environment',
   ENVIRONMENTAL_CERTIFICATE = 'environmentalCertificate',
   EXTENSION_COURSE = 'extensionCourse',
   EXTERNAL_LINKS = 'externalLinks',
@@ -98,7 +104,6 @@ export enum EVENT_FIELDS {
   OFFERS = 'offers',
   ORGANIZATION = 'organization',
   PHONE_NUMBER = 'phoneNumber',
-  PLACE = 'place',
   PROVIDER = 'provider',
   PUBLISHER = 'publisher',
   RECURRING_EVENTS = 'recurringEvents',
@@ -132,6 +137,7 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.ENROLMENT_END_TIME_TIME]: '',
   [EVENT_FIELDS.ENROLMENT_START_TIME_DATE]: null,
   [EVENT_FIELDS.ENROLMENT_START_TIME_TIME]: '',
+  [EVENT_FIELDS.ENVIRONMENT]: EVENT_ENVIRONMENT_VALUE.In,
   [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: '',
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],
   [EVENT_FIELDS.EVENT_TIMES]: [],
@@ -167,7 +173,6 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   ],
   [EVENT_FIELDS.ORGANIZATION]: '',
   [EVENT_FIELDS.PHONE_NUMBER]: '',
-  [EVENT_FIELDS.PLACE]: '',
   [EVENT_FIELDS.PROVIDER]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.PUBLISHER]: '',
   [EVENT_FIELDS.RECURRING_EVENTS]: [],
@@ -187,11 +192,6 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
     },
   ],
 };
-
-export enum EVENT_PLACE_VALUE {
-  In = 'in',
-  Out = 'out',
-}
 
 export enum URL_PARAMS {
   TAB = 'tab',

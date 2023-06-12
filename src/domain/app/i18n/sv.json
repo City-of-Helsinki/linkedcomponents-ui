@@ -697,6 +697,7 @@
       },
       "labelHasEnvironmentalCertificate": "Event has received an EcoCompass or similar environmental certification",
       "labelEmail": "E-postadress",
+      "labelEnvironment": "Event is held",
       "labelEnvironmentalCertificate": "Certificate name",
       "labelEndDate": {
         "course": "Kursen avslutas",
@@ -757,7 +758,6 @@
       "labelOfferPrice": "{{langText}}",
       "labelOrganization": "Organisation",
       "labelPhoneNumber": "Telefonnummer",
-      "labelPlace": "Event is held",
       "labelProvider": {
         "course": "Arrangör av kurs {{langText}} (om det skiljer sig från utgivaren)",
         "general": "Arrangör av evenemang {{langText}} (om det skiljer sig från utgivaren)",

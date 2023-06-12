@@ -43,6 +43,7 @@ export const QUERY_EVENT = gql`
     enrolmentEndTime
     enrolmentStartTime
     email
+    environment
     environmentalCertificate
     externalLinks {
       ...externalLinkFields
@@ -77,7 +78,6 @@ export const QUERY_EVENT = gql`
     }
     organization
     phoneNumber
-    place
     publicationStatus
     provider {
       ...localisedFields

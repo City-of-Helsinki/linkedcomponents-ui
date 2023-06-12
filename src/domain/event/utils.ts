@@ -84,6 +84,7 @@ import {
   DAY_CODES,
   DESCRIPTION_SECTION_FIELDS,
   EVENT_ACTIONS,
+  EVENT_ENVIRONMENT_VALUE,
   EVENT_FIELD_ARRAYS,
   EVENT_FIELDS,
   EVENT_ICONS,
@@ -488,6 +489,7 @@ export const getEventBasePayload = (
     enrolmentStartTimeTime,
     eventInfoLanguages,
     email,
+    environment,
     environmentalCertificate,
     externalLinks,
     hasPrice,
@@ -505,7 +507,6 @@ export const getEventBasePayload = (
     offers,
     organization,
     phoneNumber,
-    place,
     provider,
     publisher,
     shortDescription,
@@ -537,6 +538,7 @@ export const getEventBasePayload = (
           )
         : null,
     email,
+    environment,
     environmentalCertificate,
     externalLinks: externalLinks.map((item) => ({
       ...item,
@@ -551,7 +553,6 @@ export const getEventBasePayload = (
       locationExtraInfo,
       eventInfoLanguages
     ),
-    place,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity
       : null,
@@ -837,6 +838,10 @@ export const getEventInitialValues = (
     enrolmentStartTimeDate: getDateFromString(event.enrolmentStartTime),
     enrolmentStartTimeTime: getEventTime(event.enrolmentStartTime),
     email: getValue(event.email, ''),
+    environment: getValue(
+      event.environment?.toLowerCase(),
+      EVENT_ENVIRONMENT_VALUE.In
+    ),
     environmentalCertificate: getValue(event.environmentalCertificate, ''),
     eventInfoLanguages: getEventInfoLanguages(event),
     externalLinks: sortBy(event.externalLinks, ['name']).map(
@@ -867,7 +872,6 @@ export const getEventInitialValues = (
     offers,
     organization: getValue(event.organization, ''),
     phoneNumber: getValue(event.phoneNumber, ''),
-    place: getValue(event.place?.toLowerCase(), ''),
     publisher: getValue(event.publisher, ''),
     provider: getLocalisedObject(event.provider),
     recurringEventEndTime: getRecurringEventDate(

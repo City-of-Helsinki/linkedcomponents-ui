@@ -13,7 +13,7 @@ import { CHARACTER_LIMITS } from '../../../../constants';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
-import { EVENT_FIELDS, EVENT_PLACE_VALUE } from '../../constants';
+import { EVENT_ENVIRONMENT_VALUE, EVENT_FIELDS } from '../../constants';
 import stylesEventPage from '../../eventPage.module.scss';
 import styles from './placeSection.module.scss';
 
@@ -34,10 +34,12 @@ const PlaceSection: React.FC<Props> = ({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
 
-  const eventPlaceOptions = Object.values(EVENT_PLACE_VALUE).map((value) => ({
-    label: t(`event.form.placeOptions.${value}`),
-    value,
-  }));
+  const eventPlaceOptions = Object.values(EVENT_ENVIRONMENT_VALUE).map(
+    (value) => ({
+      label: t(`event.form.placeOptions.${value}`),
+      value,
+    })
+  );
 
   return (
     <Fieldset heading={t('event.form.sections.place')} hideLegend>
@@ -91,13 +93,13 @@ const PlaceSection: React.FC<Props> = ({
           </FormGroup>
         </FieldColumn>
         {isExternalUser && (
-          <Fieldset heading={t('event.form.labelPlace')}>
+          <Fieldset heading={t('event.form.labelEnvironment')}>
             <FieldColumn>
               <FormGroup>
                 <Field
                   columns={1}
                   component={RadioButtonGroupField}
-                  name={EVENT_FIELDS.PLACE}
+                  name={EVENT_FIELDS.ENVIRONMENT}
                   disabled={!isEditingAllowed}
                   options={eventPlaceOptions}
                   required
