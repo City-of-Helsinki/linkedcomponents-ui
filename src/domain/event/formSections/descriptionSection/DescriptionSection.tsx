@@ -1,5 +1,5 @@
 import { Field, useField, useFormikContext } from 'formik';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
@@ -16,6 +16,7 @@ import skipFalsyType from '../../../../utils/skipFalsyType';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
+import useLanguageTabOptions from '../../hooks/useLanguageTabOptions';
 import useSortedInfoLanguages from '../../hooks/useSortedInfoLanguages';
 import { formatSingleDescription } from '../../utils';
 
@@ -38,7 +39,6 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   selectedLanguage,
   setSelectedLanguage,
 }) => {
-  const { getFieldMeta } = useFormikContext();
   const { t } = useTranslation();
   const [{ value: eventInfoLanguages }] = useField<LE_DATA_LANGUAGES[]>({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
@@ -54,20 +54,20 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
 
   const sortedEventInfoLanguages = useSortedInfoLanguages(eventInfoLanguages);
 
-  const languageOptions = React.useMemo(
-    () =>
-      sortedEventInfoLanguages.map((language) => {
-        const errors = FIELDS.map(
-          (field) => getFieldMeta(`${field}.${language}`).error
-        ).filter(skipFalsyType);
+  const { getFieldMeta } = useFormikContext();
+  const isLangCompleted = useCallback(
+    (lng: LE_DATA_LANGUAGES) => {
+      const errors = FIELDS.map(
+        (field) => getFieldMeta(`${field}.${lng}`).error
+      ).filter(skipFalsyType);
 
-        return {
-          isCompleted: !errors.length,
-          label: t(`form.language.${language}`),
-          value: language,
-        };
-      }),
-    [getFieldMeta, sortedEventInfoLanguages, t]
+      return !!errors.length;
+    },
+    [getFieldMeta]
+  );
+  const languageOptions = useLanguageTabOptions(
+    eventInfoLanguages,
+    isLangCompleted
   );
 
   React.useEffect(() => {

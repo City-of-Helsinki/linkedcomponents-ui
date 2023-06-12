@@ -7,7 +7,9 @@ export const QUERY_REGISTRATION = gql`
     atId
     audienceMaxAge
     audienceMinAge
-    confirmationMessage
+    confirmationMessage {
+      ...localisedFields
+    }
     createdBy
     currentAttendeeCount
     currentWaitingListCount
@@ -17,7 +19,9 @@ export const QUERY_REGISTRATION = gql`
     event {
       ...eventFields
     }
-    instructions
+    instructions {
+      ...localisedFields
+    }
     lastModifiedAt
     mandatoryFields
     maximumAttendeeCapacity

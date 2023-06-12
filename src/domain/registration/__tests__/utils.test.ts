@@ -2,6 +2,7 @@
 import i18n from 'i18next';
 import { advanceTo, clear } from 'jest-date-mock';
 
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import { RegistrationQueryVariables } from '../../../generated/graphql';
 import {
   fakeRegistration,
@@ -169,12 +170,26 @@ describe('getRegistrationInitialValues function', () => {
 
     expect(audienceMaxAge).toBe('');
     expect(audienceMinAge).toBe('');
-    expect(confirmationMessage).toBe('');
+    expect(confirmationMessage).toEqual({
+      ar: '',
+      en: '',
+      fi: '',
+      ru: '',
+      sv: '',
+      zhHans: '',
+    });
     expect(enrolmentEndTimeDate).toBe(null);
     expect(enrolmentEndTimeTime).toBe('');
     expect(enrolmentStartTimeDate).toBe(null);
     expect(enrolmentStartTimeTime).toBe('');
-    expect(instructions).toBe('');
+    expect(instructions).toEqual({
+      ar: '',
+      en: '',
+      fi: '',
+      ru: '',
+      sv: '',
+      zhHans: '',
+    });
     expect(maximumAttendeeCapacity).toBe('');
     expect(minimumAttendeeCapacity).toBe('');
     expect(waitingListCapacity).toBe('');
@@ -190,11 +205,25 @@ describe('getRegistrationPayload function', () => {
     ).toEqual({
       audienceMaxAge: null,
       audienceMinAge: null,
-      confirmationMessage: null,
+      confirmationMessage: {
+        ar: null,
+        en: null,
+        fi: '',
+        ru: null,
+        sv: null,
+        zhHans: null,
+      },
       enrolmentEndTime: null,
       enrolmentStartTime: null,
       event: { atId: '' },
-      instructions: null,
+      instructions: {
+        ar: null,
+        en: null,
+        fi: '',
+        ru: null,
+        sv: null,
+        zhHans: null,
+      },
       mandatoryFields: ['name'],
       maximumAttendeeCapacity: null,
       maximumGroupSize: null,
@@ -217,13 +246,19 @@ describe('getRegistrationPayload function', () => {
       ...REGISTRATION_INITIAL_VALUES,
       audienceMaxAge,
       audienceMinAge,
-      confirmationMessage,
+      confirmationMessage: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+        fi: confirmationMessage,
+      },
       enrolmentEndTimeDate: new Date(enrolmentEndTime),
       enrolmentEndTimeTime: '15:15',
       enrolmentStartTimeDate: new Date(enrolmentStartTime),
       enrolmentStartTimeTime: '09:15',
       event,
-      instructions,
+      instructions: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+        fi: instructions,
+      },
       maximumAttendeeCapacity,
       maximumGroupSize,
       minimumAttendeeCapacity,
@@ -233,11 +268,25 @@ describe('getRegistrationPayload function', () => {
     expect(payload).toEqual({
       audienceMaxAge,
       audienceMinAge,
-      confirmationMessage,
+      confirmationMessage: {
+        ar: null,
+        en: null,
+        fi: confirmationMessage,
+        ru: null,
+        sv: null,
+        zhHans: null,
+      },
       enrolmentEndTime,
       enrolmentStartTime,
       event: { atId: event },
-      instructions,
+      instructions: {
+        ar: null,
+        en: null,
+        fi: instructions,
+        ru: null,
+        sv: null,
+        zhHans: null,
+      },
       mandatoryFields: ['name'],
       maximumAttendeeCapacity,
       maximumGroupSize,

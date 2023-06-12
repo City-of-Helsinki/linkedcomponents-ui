@@ -17,11 +17,25 @@ const registrationOverrides = {
   id: registrationId,
   audienceMaxAge: 18,
   audienceMinAge: 12,
-  confirmationMessage: 'Confirmation message',
+  confirmationMessage: {
+    fi: 'Confirmation message',
+    sv: null,
+    en: null,
+    ru: null,
+    zhHans: null,
+    ar: null,
+  },
   enrolmentEndTime: '2020-09-30T16:00:00.000Z',
   enrolmentStartTime: '2020-09-27T15:00:00.000Z',
   event,
-  instructions: 'Instructions',
+  instructions: {
+    fi: 'Instructions',
+    sv: null,
+    en: null,
+    ru: null,
+    zhHans: null,
+    ar: null,
+  },
   mandatoryFields: [],
   maximumAttendeeCapacity: 100,
   maximumGroupSize: 5,
@@ -61,7 +75,10 @@ const mockedDeleteRegistrationResponse: MockedResponse = {
 
 const updatedLastModifiedTime = '2021-08-23T12:00:00.000Z';
 const updateRegistrationVariables = {
-  input: { ...registrationOverrides, event: { atId: event.atId } },
+  input: {
+    ...registrationOverrides,
+    event: { atId: event.atId },
+  },
 };
 const updatedRegistration = {
   ...registration,

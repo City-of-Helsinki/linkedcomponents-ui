@@ -15,7 +15,6 @@ import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import isNumber from 'lodash/isNumber';
-import keys from 'lodash/keys';
 import sortBy from 'lodash/sortBy';
 import { MouseEvent } from 'react';
 import { scroller } from 'react-scroll';
@@ -26,7 +25,6 @@ import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   FORM_NAMES,
   LE_DATA_LANGUAGES,
-  ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
   TIME_FORMAT_DATA,
   VALIDATION_ERROR_SCROLLER_OPTIONS,
@@ -43,7 +41,6 @@ import {
   EventStatus,
   EventTypeId,
   Language as LELanguage,
-  LocalisedObject,
   OrganizationFieldsFragment,
   PublicationStatus,
   SuperEventType,
@@ -56,9 +53,11 @@ import {
   MultiLanguageObject,
   PathBuilderProps,
 } from '../../types';
+import { filterUnselectedLanguages } from '../../utils/filterUnselectedLanguages';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import getDateFromString from '../../utils/getDateFromString';
+import { getInfoLanguages } from '../../utils/getInfoLanguages';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
@@ -382,18 +381,6 @@ export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
   return sortBy(allEventTimes, 'startTime');
 };
 
-export const filterUnselectedLanguages = (
-  obj: LocalisedObject,
-  eventInfoLanguages: string[]
-): LocalisedObject =>
-  Object.entries(obj).reduce(
-    (acc, [k, v]) => ({
-      ...acc,
-      [k]: eventInfoLanguages.includes(k) ? v : null,
-    }),
-    {}
-  );
-
 export const formatSingleDescription = ({
   audience = [],
   description,
@@ -676,34 +663,9 @@ const SKIP_FIELDS = new Set([
   'superEvent',
 ]);
 
-// Enumerate all the property names of an object recursively.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function* propertyNames(obj: Record<string, unknown>): any {
-  for (const name of keys(obj)) {
-    const val = obj[name];
-    if (val instanceof Object && !SKIP_FIELDS.has(name)) {
-      yield* propertyNames(val as Record<string, unknown>);
-    }
-    if (val && val !== '') {
-      yield name;
-    }
-  }
-}
+export const getEventInfoLanguages = (event: EventFieldsFragment): string[] =>
+  getInfoLanguages(event, SKIP_FIELDS);
 
-export const getEventInfoLanguages = (event: EventFieldsFragment): string[] => {
-  const languages = new Set(ORDERED_LE_DATA_LANGUAGES);
-  const foundLanguages = new Set<string>();
-
-  for (const name of propertyNames(event)) {
-    if (foundLanguages.size === languages.size) {
-      break;
-    }
-    if (languages.has(name)) {
-      foundLanguages.add(name);
-    }
-  }
-  return Array.from(foundLanguages);
-};
 const getSanitizedDescription = (event: EventFieldsFragment) => {
   const description = getLocalisedObject(event.description);
 
@@ -1170,8 +1132,6 @@ export const checkCanUserDoAction = ({
       return isExternalUser;
     case EVENT_ACTIONS.UPDATE_DRAFT:
       return isRegularUser || isAdminUser || isExternalUser;
-    default:
-      return false;
   }
 };
 
