@@ -551,7 +551,7 @@ export const getEventBasePayload = (
       locationExtraInfo,
       eventInfoLanguages
     ),
-    place: capitalize(place),
+    place,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity
       : null,
