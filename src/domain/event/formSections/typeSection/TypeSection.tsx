@@ -128,11 +128,11 @@ const TypeSection: React.FC<TypeSectionProps> = ({
               label={t('event.form.notificationTitlePublication')}
               type="info"
             >
-              <p>{t('event.form.infoTextPublication.paragraph1')}</p>
+              <p>{t(`event.form.infoTextPublication.paragraph1.${type}`)}</p>
               <p>{t('event.form.infoTextPublication.paragraph2')}</p>
               <PublicationListLinks links={PUBLICATION_LIST_LINKS[type]} />
               <p>{t('event.form.infoTextPublication.paragraph3')}</p>
-              <p>{t('event.form.infoTextPublication.paragraph4')}</p>
+              <p>{t(`event.form.infoTextPublication.paragraph4.${type}`)}</p>
               <p>{t('event.form.infoTextPublication.paragraph5')}</p>
             </Notification>
           </>

@@ -680,10 +680,18 @@
         "volunteering": "Ange namnet på organisationen som är värd för volontärarbetet om arrangören inte är densamma som utgivaren."
       },
       "infoTextPublication": {
-        "paragraph1": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area.",
+        "paragraph1": {
+          "general": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area.",
+          "course": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area.",
+          "volunteering": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area."
+        },
         "paragraph2": "Evenemangtypen du valde kommer att publiceras på följande kanaler:",
         "paragraph3": "or via the interface on other services.",
-        "paragraph4": "Please only enter event/hobby information that has not yet been published on any of the services mentioned above.",
+        "paragraph4": {
+          "general": "Please only enter event information that has not yet been published on any of the services mentioned above.",
+          "course": "Please only enter hobby information that has not yet been published on any of the services mentioned above.",
+          "volunteering": "Please only enter event information that has not yet been published on any of the services mentioned above."
+        },
         "paragraph5": "The event to be moderated must be announced at least one week before the event."
       },
       "infoTextPublisher": {

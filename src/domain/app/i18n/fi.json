@@ -680,10 +680,18 @@
         "volunteering": "Kirjoita tähän vapaaehtoistehtävän järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija."
       },
       "infoTextPublication": {
-        "paragraph1": "Julkaistavien tapahtuma-/harrastustietojen tulee olla kaupunkilaisia ja/tai vierailijoita kiinnostavia ja sijaita pääkaupunkiseudulla.",
+        "paragraph1": {
+          "general": "Julkaistavien tapahtumatietojen tulee olla kaupunkilaisia ja/tai vierailijoita kiinnostavia ja sijaita pääkaupunkiseudulla.",
+          "course": "Julkaistavien harrastustietojen tulee olla kaupunkilaisia ja/tai vierailijoita kiinnostavia ja sijaita pääkaupunkiseudulla.",
+          "volunteering": "Julkaistavien tapahtumatietojen tulee olla kaupunkilaisia ja/tai vierailijoita kiinnostavia ja sijaita pääkaupunkiseudulla."
+        },
         "paragraph2": "Valitsemasi tapahtumatyyppi voidaan julkaista seuraavissa kanavissa:",
         "paragraph3": "tai rajapinnan kautta muissa palveluissa.",
-        "paragraph4": "Ilmoitathan vain tapahtuma-/harrastustietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista.",
+        "paragraph4": {
+          "general": "Ilmoitathan vain tapahtumatietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista.",
+          "course": "Ilmoitathan vain harrastustietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista.",
+          "volunteering": "Ilmoitathan vain tapahtumatietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista."
+        },
         "paragraph5": "Moderoitava tapahtuma pitää ilmoittaa vähintään viikkoa ennen tapahtumaa."
       },
       "infoTextPublisher": {
