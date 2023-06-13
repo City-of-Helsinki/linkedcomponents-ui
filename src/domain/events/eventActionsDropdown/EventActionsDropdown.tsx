@@ -67,6 +67,7 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
 
   const sendEmail = () => {
     let targetEmail = '';
+    /* istanbul ignore else */
     if (event.createdBy) {
       targetEmail = event.createdBy.split('-')[1].trim();
     }

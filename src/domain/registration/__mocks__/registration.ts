@@ -22,6 +22,8 @@ const registrationOverrides = {
   audienceMaxAge: 18,
   audienceMinAge: 12,
   confirmationMessage: 'Confirmation message',
+  currentAttendeeCount: 0,
+  currentWaitingListCount: 0,
   enrolmentEndTime,
   enrolmentStartTime,
   event,
@@ -30,6 +32,8 @@ const registrationOverrides = {
   maximumAttendeeCapacity: 100,
   minimumAttendeeCapacity: 10,
   publisher: event.publisher,
+  remainingAttendeeCapacity: 100,
+  remainingWaitingListCapacity: 10,
   signups: [],
   waitingListCapacity: 5,
 };

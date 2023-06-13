@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import copyToClipboard from 'copy-to-clipboard';
 import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
@@ -31,6 +32,10 @@ import {
   REGISTRATION_ICONS,
   REGISTRATION_LABEL_KEYS,
 } from '../registrations/constants';
+import {
+  getSeatsReservationData,
+  isSeatsReservationExpired,
+} from '../reserveSeats/utils';
 import { REGISTRATION_FIELDS } from './constants';
 import { RegistrationFields, RegistrationFormFields } from './types';
 
@@ -354,12 +359,19 @@ export const registrationPathBuilder = ({
 export const isRegistrationOpen = (
   registration: RegistrationFieldsFragment
 ): boolean => {
-  return (
-    !!registration.enrolmentStartTime &&
-    isPast(new Date(registration.enrolmentStartTime)) &&
-    (!registration.enrolmentEndTime ||
-      isFuture(new Date(registration.enrolmentEndTime)))
-  );
+  const enrolmentStartTime = registration.enrolmentStartTime;
+  const enrolmentEndTime = registration.enrolmentEndTime;
+
+  // Registration is not open if enrolment start time is defined and in the future
+  if (enrolmentStartTime && isFuture(new Date(enrolmentStartTime))) {
+    return false;
+  }
+  // Registration is not open if enrolment end time is defined and in the past
+  if (enrolmentEndTime && isPast(new Date(enrolmentEndTime))) {
+    return false;
+  }
+
+  return true;
 };
 
 export const isAttendeeCapacityUsed = (
@@ -403,12 +415,22 @@ export const getFreeAttendeeOrWaitingListCapacity = (
   return getFreeWaitingListCapacity(registration);
 };
 
+const getReservedSeats = (registration: RegistrationFieldsFragment): number => {
+  const data = getSeatsReservationData(registration.id as string);
+  return data && !isSeatsReservationExpired(data) ? data.seats : 0;
+};
+
 export const getMaxSeatsAmount = (
   registration: RegistrationFieldsFragment
 ): number | undefined => {
+  const reservedSeats = getReservedSeats(registration);
   const maximumGroupSize = registration.maximumGroupSize;
   const freeCapacity = getFreeAttendeeOrWaitingListCapacity(registration);
-  const maxValues = [maximumGroupSize, freeCapacity].filter(
+  const maxSeatsAmount =
+    freeCapacity !== undefined
+      ? freeCapacity + reservedSeats
+      : /* istanbul ignore next */ undefined;
+  const maxValues = [maximumGroupSize, maxSeatsAmount].filter(
     (v) => !isNil(v)
   ) as number[];
 
@@ -426,25 +448,48 @@ export const hasEnrolments = (
 export const isRegistrationPossible = (
   registration: RegistrationFieldsFragment
 ): boolean => {
-  return (
-    isRegistrationOpen(registration) &&
-    (!isAttendeeCapacityUsed(registration) ||
-      !isWaitingListCapacityUsed(registration))
-  );
+  const registrationOpen = isRegistrationOpen(registration);
+  const attendeeCapacityUsed = isAttendeeCapacityUsed(registration);
+  const freeAttendeeCapacity = getFreeAttendeeCapacity(registration);
+  const waitingListCapacityUsed = isWaitingListCapacityUsed(registration);
+  const freeWaitingListCapacity = getFreeWaitingListCapacity(registration);
+
+  // Enrolment is not opened or is already closed
+  if (!registrationOpen) {
+    return false;
+  }
+  // Attendee capacity and waiting list capacity is used
+  if (attendeeCapacityUsed && waitingListCapacityUsed) {
+    return false;
+  }
+  // Attendee capacity is not used
+  if (!attendeeCapacityUsed) {
+    return freeAttendeeCapacity !== 0;
+  }
+
+  // Waiting list capacity is not used
+  return freeWaitingListCapacity !== 0;
 };
 
 export const getRegistrationWarning = (
   registration: RegistrationFieldsFragment,
   t: TFunction
 ): string => {
-  if (!isRegistrationPossible(registration)) {
-    return t('enrolment.warnings.closed');
-  } else if (
-    isAttendeeCapacityUsed(registration) &&
-    !isWaitingListCapacityUsed(registration)
-  ) {
-    const freeWaitlistCapacity = getFreeWaitingListCapacity(registration);
+  const registrationOpen = isRegistrationOpen(registration);
+  const registrationPossible = isRegistrationPossible(registration);
+  const attendeeCapacityUsed = isAttendeeCapacityUsed(registration);
+  const waitingListCapacityUsed = isWaitingListCapacityUsed(registration);
+  const freeWaitlistCapacity = getFreeWaitingListCapacity(registration);
 
+  if (!registrationOpen) {
+    return t('enrolment.warnings.closed');
+  }
+
+  if (!registrationPossible) {
+    return t('enrolment.warnings.allSeatsReserved');
+  }
+
+  if (attendeeCapacityUsed && !waitingListCapacityUsed) {
     return isNil(freeWaitlistCapacity)
       ? t('enrolment.warnings.capacityInWaitingListNoLimit')
       : t('enrolment.warnings.capacityInWaitingList', {

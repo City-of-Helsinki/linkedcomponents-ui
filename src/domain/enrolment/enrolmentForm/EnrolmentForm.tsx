@@ -22,6 +22,7 @@ import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
+import { isRegistrationPossible } from '../../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { clearSeatsReservationData } from '../../reserveSeats/utils';
 import {
@@ -259,13 +260,13 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
               {!enrolment && (
                 <RegistrationWarning registration={registration} />
               )}
-              {!enrolment && (
+              {isRegistrationPossible(registration) && !enrolment && (
                 <>
                   <ReservationTimer
                     attendees={attendees}
                     callbacksDisabled={timerCallbacksDisabled.current}
                     disableCallbacks={disableTimerCallbacks}
-                    initReservationData={!enrolment}
+                    initReservationData={true}
                     registration={registration}
                     setAttendees={setAttendees}
                   />
