@@ -38,7 +38,7 @@ const ExternalUserContact: FC<ExternalUserContactProps> = ({
             <Field
               component={TextInputField}
               label={t('event.form.labelEmail')}
-              name={EVENT_FIELDS.EMAIL}
+              name={EVENT_FIELDS.USER_EMAIL}
               placeholder={t('event.form.placeholderEmail')}
               required
               disabled={!isEditingAllowed}
@@ -49,7 +49,7 @@ const ExternalUserContact: FC<ExternalUserContactProps> = ({
             <Field
               component={TextInputField}
               label={t('event.form.labelPhoneNumber')}
-              name={EVENT_FIELDS.PHONE_NUMBER}
+              name={EVENT_FIELDS.USER_PHONE_NUMBER}
               placeholder={t('event.form.placeholderPhoneNumber')}
               required
               disabled={!isEditingAllowed}
@@ -60,7 +60,7 @@ const ExternalUserContact: FC<ExternalUserContactProps> = ({
             <Field
               component={TextInputField}
               label={t('event.form.labelOrganization')}
-              name={EVENT_FIELDS.ORGANIZATION}
+              name={EVENT_FIELDS.USER_ORGANIZATION}
               placeholder={t('event.form.placeholderOrganization')}
               disabled={!isEditingAllowed}
             ></Field>

@@ -42,7 +42,6 @@ export const QUERY_EVENT = gql`
     endTime
     enrolmentEndTime
     enrolmentStartTime
-    email
     environment
     environmentalCertificate
     externalLinks {
@@ -76,8 +75,6 @@ export const QUERY_EVENT = gql`
     offers {
       ...offerFields
     }
-    organization
-    phoneNumber
     publicationStatus
     provider {
       ...localisedFields
@@ -93,7 +90,10 @@ export const QUERY_EVENT = gql`
     superEventType
     typeId
     userConsent
+    userEmail
     userName
+    userOrganization
+    userPhoneNumber
     videos {
       ...videoFields
     }

@@ -274,7 +274,6 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
-    email: String
     environment: String
     environmentalCertificate: String
     eventStatus: EventStatus
@@ -289,8 +288,6 @@ module.exports = buildSchema(/* GraphQL */ `
     minimumAttendeeCapacity: Int
     name: LocalisedObjectInput
     offers: [OfferInput!]
-    organization: String
-    phoneNumber: String
     provider: LocalisedObjectInput
     publicationStatus: PublicationStatus
     publisher: String
@@ -301,7 +298,10 @@ module.exports = buildSchema(/* GraphQL */ `
     superEventType: SuperEventType
     typeId: EventTypeId
     userConsent: Boolean
+    userEmail: String
     userName: String
+    userOrganization: String
+    userPhoneNumber: String
     videos: [VideoInput]
   }
 
@@ -314,7 +314,6 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
-    email: String
     environment: String
     environmentalCertificate: String
     eventStatus: EventStatus
@@ -329,8 +328,6 @@ module.exports = buildSchema(/* GraphQL */ `
     minimumAttendeeCapacity: Int
     name: LocalisedObjectInput
     offers: [OfferInput!]
-    organization: String
-    phoneNumber: String
     provider: LocalisedObjectInput
     publicationStatus: PublicationStatus
     shortDescription: LocalisedObjectInput
@@ -340,7 +337,10 @@ module.exports = buildSchema(/* GraphQL */ `
     superEventType: SuperEventType
     typeId: EventTypeId
     userConsent: Boolean
+    userEmail: String
     userName: String
+    userOrganization: String
+    userPhoneNumber: String
     videos: [VideoInput]
   }
 
@@ -618,7 +618,6 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
-    email: String
     environment: String
     environmentalCertificate: String
     extensionCourse: ExtensionCourse
@@ -635,8 +634,6 @@ module.exports = buildSchema(/* GraphQL */ `
     minimumAttendeeCapacity: Int
     name: LocalisedObject
     offers: [Offer]!
-    organization: String
-    phoneNumber: String
     provider: LocalisedObject
     providerContactInfo: String
     publisher: ID
@@ -649,7 +646,10 @@ module.exports = buildSchema(/* GraphQL */ `
     superEventType: SuperEventType
     typeId: EventTypeId
     userConsent: Boolean
+    userEmail: String
     userName: String
+    userOrganization: String
+    userPhoneNumber: String
     videos: [Video]!
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!

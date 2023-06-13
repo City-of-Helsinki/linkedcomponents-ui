@@ -77,7 +77,6 @@ const defaultEventPayload = {
     sv: null,
     zhHans: null,
   },
-  email: '',
   endTime: null,
   enrolmentEndTime: null,
   enrolmentStartTime: null,
@@ -120,8 +119,6 @@ const defaultEventPayload = {
       isFree: true,
     },
   ],
-  organization: '',
-  phoneNumber: '',
   provider: {
     ar: null,
     en: null,
@@ -145,7 +142,10 @@ const defaultEventPayload = {
   superEventType: null,
   typeId: EventTypeId.General,
   userConsent: false,
+  userEmail: '',
   userName: '',
+  userOrganization: '',
+  userPhoneNumber: '',
   videos: [],
 };
 
@@ -852,7 +852,6 @@ describe('getEventInitialValues function', () => {
       sv: 'Description sv',
       zhHans: 'Description zh',
     };
-    const email = 'test.test@test.com';
     const endTime = new Date('2021-07-13T05:51:05.761Z');
     const enrolmentEndTime = new Date('2021-06-15T05:51:05.761Z');
     const enrolmentStartTime = new Date('2021-05-05T05:51:05.761Z');
@@ -935,8 +934,6 @@ describe('getEventInitialValues function', () => {
         },
       },
     ];
-    const organization = 'organization';
-    const phoneNumber = '+358401234567';
     const provider = {
       ar: 'Provider ar',
       en: 'Provider en',
@@ -961,7 +958,10 @@ describe('getEventInitialValues function', () => {
 
     const type = EVENT_TYPE.Course;
     const userConsent = true;
+    const userEmail = 'test.test@test.com';
     const userName = 'User Name';
+    const userOrganization = 'organization';
+    const userPhoneNumber = '+358401234567';
     const twitterUrl = 'http://twitter.com';
     const videos = [
       { altText: 'alt text', name: 'video name', url: 'httl://www.url.com' },
@@ -977,7 +977,6 @@ describe('getEventInitialValues function', () => {
           audienceMaxAge,
           audienceMinAge,
           description,
-          email,
           endTime: endTime.toISOString(),
           enrolmentEndTime: enrolmentEndTime.toISOString(),
           enrolmentStartTime: enrolmentStartTime.toISOString(),
@@ -1021,8 +1020,6 @@ describe('getEventInitialValues function', () => {
               isFree: false,
             }))
           ),
-          organization,
-          phoneNumber,
           provider,
           publisher,
           shortDescription,
@@ -1034,7 +1031,10 @@ describe('getEventInitialValues function', () => {
           superEventType,
           typeId: EventTypeId.Course,
           userConsent,
+          userEmail,
           userName,
+          userOrganization,
+          userPhoneNumber,
           videos: videos.map((video) => fakeVideo(video)),
         })
       )
@@ -1046,7 +1046,6 @@ describe('getEventInitialValues function', () => {
         (prev, [key, val]) => ({ ...prev, [key]: `<p>${val}</p>` }),
         {}
       ),
-      email,
       enrolmentEndTimeDate: enrolmentEndTime,
       enrolmentEndTimeTime: '05:51',
       enrolmentStartTimeDate: enrolmentStartTime,
@@ -1094,8 +1093,6 @@ describe('getEventInitialValues function', () => {
       minimumAttendeeCapacity,
       name,
       offers,
-      organization,
-      phoneNumber,
       provider,
       publisher,
       recurringEvents: [],
@@ -1105,7 +1102,10 @@ describe('getEventInitialValues function', () => {
       superEvent: superEventAtId,
       type,
       userConsent,
+      userEmail,
       userName,
+      userOrganization,
+      userPhoneNumber,
       videos,
     });
   });

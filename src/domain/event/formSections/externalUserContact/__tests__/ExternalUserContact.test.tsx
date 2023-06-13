@@ -19,17 +19,17 @@ configure({ defaultHidden: true });
 
 type InitialValues = {
   [EVENT_FIELDS.USER_NAME]: string;
-  [EVENT_FIELDS.EMAIL]: string;
-  [EVENT_FIELDS.PHONE_NUMBER]: string;
-  [EVENT_FIELDS.ORGANIZATION]: string;
+  [EVENT_FIELDS.USER_EMAIL]: string;
+  [EVENT_FIELDS.USER_PHONE_NUMBER]: string;
+  [EVENT_FIELDS.USER_ORGANIZATION]: string;
   [EVENT_FIELDS.USER_CONSENT]: boolean;
 };
 
 const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.USER_NAME]: '',
-  [EVENT_FIELDS.EMAIL]: '',
-  [EVENT_FIELDS.PHONE_NUMBER]: '',
-  [EVENT_FIELDS.ORGANIZATION]: '',
+  [EVENT_FIELDS.USER_EMAIL]: '',
+  [EVENT_FIELDS.USER_PHONE_NUMBER]: '',
+  [EVENT_FIELDS.USER_ORGANIZATION]: '',
   [EVENT_FIELDS.USER_CONSENT]: false,
 };
 
@@ -92,7 +92,7 @@ test('should validate required fields', async () => {
 test('phone number should be optional if email address exists', async () => {
   const user = userEvent.setup();
 
-  renderComponent({ [EVENT_FIELDS.EMAIL]: 'test.test@test.com' });
+  renderComponent({ [EVENT_FIELDS.USER_EMAIL]: 'test.test@test.com' });
 
   const phoneNumberInput = await screen.findByLabelText(/puhelinnumero/i);
 
@@ -107,7 +107,7 @@ test('phone number should be optional if email address exists', async () => {
 test('email should be optional if phone number exists', async () => {
   const user = userEvent.setup();
 
-  renderComponent({ [EVENT_FIELDS.PHONE_NUMBER]: '+358441234567' });
+  renderComponent({ [EVENT_FIELDS.USER_PHONE_NUMBER]: '+358441234567' });
 
   const emailInput = await screen.findByLabelText(/sähköposti/i);
 

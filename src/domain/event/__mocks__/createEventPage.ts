@@ -48,7 +48,6 @@ const baseEventPayload = {
   audienceMinAge: null,
   externalLinks: [],
   description: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
-  email: '',
   enrolmentEndTime: null,
   enrolmentStartTime: null,
   environment: 'in',
@@ -82,8 +81,6 @@ const baseEventPayload = {
       isFree: true,
     },
   ],
-  organization: '',
-  phoneNumber: '',
   provider: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
   publisher: organizationId,
   shortDescription: {
@@ -97,7 +94,10 @@ const baseEventPayload = {
   superEvent: null,
   superEventType: null,
   userConsent: false,
+  userEmail: '',
   userName: '',
+  userOrganization: '',
+  userPhoneNumber: '',
   typeId: 'General',
   videos: [],
 };

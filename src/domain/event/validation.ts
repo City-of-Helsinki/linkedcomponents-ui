@@ -309,7 +309,7 @@ const CYCLIC_DEPENDENCIES: [string, string][] = [
 
 const EXTERNAL_USER_CYCLIC_DEPENDENCIES: [string, string][] = [
   ...CYCLIC_DEPENDENCIES,
-  [EVENT_FIELDS.EMAIL, EVENT_FIELDS.PHONE_NUMBER],
+  [EVENT_FIELDS.USER_EMAIL, EVENT_FIELDS.USER_PHONE_NUMBER],
 ];
 
 export const publicEventSchema = Yup.object().shape(
@@ -486,15 +486,15 @@ export const getExternalUserEventSchema = (
       [EVENT_FIELDS.USER_NAME]: Yup.string().required(
         VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
       ),
-      [EVENT_FIELDS.EMAIL]: Yup.string()
-        .when([EVENT_FIELDS.PHONE_NUMBER], {
+      [EVENT_FIELDS.USER_EMAIL]: Yup.string()
+        .when([EVENT_FIELDS.USER_PHONE_NUMBER], {
           is: (phoneNumber: string) => !phoneNumber || phoneNumber.length === 0,
           then: (schema) =>
             schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
         })
         .email(VALIDATION_MESSAGE_KEYS.EMAIL),
-      [EVENT_FIELDS.PHONE_NUMBER]: Yup.string()
-        .when([EVENT_FIELDS.EMAIL], {
+      [EVENT_FIELDS.USER_PHONE_NUMBER]: Yup.string()
+        .when([EVENT_FIELDS.USER_EMAIL], {
           is: (email: string) => !email || email.length === 0,
           then: (schema) =>
             schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),

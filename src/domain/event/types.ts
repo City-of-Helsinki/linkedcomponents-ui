@@ -47,12 +47,12 @@ export type EventFields = {
 };
 
 type EventFormExternalUserFields = {
-  [EVENT_FIELDS.EMAIL]?: string;
+  [EVENT_FIELDS.USER_EMAIL]?: string;
   [EVENT_FIELDS.ENVIRONMENT]?: string;
   [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]?: string;
   [EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE]?: boolean;
-  [EVENT_FIELDS.ORGANIZATION]?: string;
-  [EVENT_FIELDS.PHONE_NUMBER]?: string;
+  [EVENT_FIELDS.USER_ORGANIZATION]?: string;
+  [EVENT_FIELDS.USER_PHONE_NUMBER]?: string;
   [EVENT_FIELDS.USER_CONSENT]?: boolean;
   [EVENT_FIELDS.USER_NAME]?: string;
 };

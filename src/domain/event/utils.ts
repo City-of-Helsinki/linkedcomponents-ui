@@ -488,7 +488,6 @@ export const getEventBasePayload = (
     enrolmentStartTimeDate,
     enrolmentStartTimeTime,
     eventInfoLanguages,
-    email,
     environment,
     environmentalCertificate,
     externalLinks,
@@ -505,14 +504,15 @@ export const getEventBasePayload = (
     minimumAttendeeCapacity,
     name,
     offers,
-    organization,
-    phoneNumber,
     provider,
     publisher,
     shortDescription,
     superEvent,
     type,
     userConsent,
+    userEmail,
+    userOrganization,
+    userPhoneNumber,
     userName,
     videos,
   } = formValues;
@@ -537,7 +537,6 @@ export const getEventBasePayload = (
             enrolmentStartTimeTime
           )
         : null,
-    email,
     environment,
     environmentalCertificate,
     externalLinks: externalLinks.map((item) => ({
@@ -579,8 +578,6 @@ export const getEventBasePayload = (
             isFree: true,
           },
         ],
-    organization,
-    phoneNumber,
     provider: filterUnselectedLanguages(provider, eventInfoLanguages),
     publisher,
     shortDescription: filterUnselectedLanguages(
@@ -591,7 +588,10 @@ export const getEventBasePayload = (
     superEventType: isUmbrella ? SuperEventType.Umbrella : null,
     typeId: capitalize(type) as EventTypeId,
     userConsent,
+    userEmail,
     userName,
+    userOrganization,
+    userPhoneNumber,
     videos: videos.filter((video) => video.altText || video.name || video.url),
   };
 };
@@ -837,7 +837,6 @@ export const getEventInitialValues = (
     enrolmentEndTimeTime: getEventTime(event.enrolmentEndTime),
     enrolmentStartTimeDate: getDateFromString(event.enrolmentStartTime),
     enrolmentStartTimeTime: getEventTime(event.enrolmentStartTime),
-    email: getValue(event.email, ''),
     environment: getValue(
       event.environment?.toLowerCase(),
       EVENT_ENVIRONMENT_VALUE.In
@@ -870,8 +869,6 @@ export const getEventInitialValues = (
     minimumAttendeeCapacity: event.minimumAttendeeCapacity ?? '',
     name: getLocalisedObject(event.name),
     offers,
-    organization: getValue(event.organization, ''),
-    phoneNumber: getValue(event.phoneNumber, ''),
     publisher: getValue(event.publisher, ''),
     provider: getLocalisedObject(event.provider),
     recurringEventEndTime: getRecurringEventDate(
@@ -886,7 +883,10 @@ export const getEventInitialValues = (
     superEvent: getValue(event.superEvent?.atId, ''),
     type: getValue(event.typeId?.toLowerCase(), EVENT_TYPE.General),
     userConsent: Boolean(event.userConsent),
+    userEmail: getValue(event.userEmail, ''),
     userName: getValue(event.userName, ''),
+    userOrganization: getValue(event.userOrganization, ''),
+    userPhoneNumber: getValue(event.userPhoneNumber, ''),
     videos: getEventVideos(event),
   };
 };
