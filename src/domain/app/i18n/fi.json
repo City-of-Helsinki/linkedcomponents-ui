@@ -769,7 +769,6 @@
         "general": "Tapahtuman julkaisija",
         "volunteering": "Vapaaehtoistehtävän julkaisija"
       },
-
       "labelShortDescription": {
         "course": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",
         "general": "Lyhyt kuvaus {{langText}} (korkeintaan 160 merkkiä)",

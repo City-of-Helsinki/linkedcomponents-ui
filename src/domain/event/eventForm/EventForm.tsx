@@ -82,7 +82,6 @@ import {
 export type CreateEventFormProps = {
   event?: null;
   refetch?: null;
-  externalUser?: boolean;
 };
 
 export type EditEventFormProps = {
@@ -90,7 +89,6 @@ export type EditEventFormProps = {
   refetch: (
     variables?: Partial<EventQueryVariables>
   ) => Promise<ApolloQueryResult<EventQuery>>;
-  externalUser?: boolean;
 };
 
 export type EventFormWrapperProps = CreateEventFormProps | EditEventFormProps;
@@ -103,7 +101,7 @@ type EventFormProps = EventFormWrapperProps & {
     shouldValidate?: boolean
   ) => void;
   values: EventFormFields;
-  isExternalUser?: boolean;
+  isExternalUser: boolean;
 };
 
 const EventForm: React.FC<EventFormProps> = ({
@@ -113,7 +111,7 @@ const EventForm: React.FC<EventFormProps> = ({
   setErrors,
   setTouched,
   values,
-  isExternalUser = false,
+  isExternalUser,
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
@@ -510,8 +508,8 @@ const EventForm: React.FC<EventFormProps> = ({
 };
 
 const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
-  const { event, externalUser } = props;
-  const { user } = useUser();
+  const { event } = props;
+  const { user, externalUser } = useUser();
 
   const initialValues = React.useMemo(
     () =>

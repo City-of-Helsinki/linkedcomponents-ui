@@ -96,9 +96,9 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
           <MultiLanguageField
             disabled={!isEditingAllowed}
             labelKey={
-              !isExternalUser
-                ? `event.form.labelProvider.${type}`
-                : 'event.form.labelProvider.other'
+              isExternalUser
+                ? 'event.form.labelProvider.other'
+                : `event.form.labelProvider.${type}`
             }
             languages={eventInfoLanguages}
             name={EVENT_FIELDS.PROVIDER}

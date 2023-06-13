@@ -16,7 +16,7 @@ import { eventPathBuilder } from './utils';
 const EditEventPageWrapper: React.FC = () => {
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
-  const { loading: loadingUser, externalUser } = useUser();
+  const { loading: loadingUser } = useUser();
 
   const {
     data: eventData,
@@ -40,11 +40,7 @@ const EditEventPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {eventData?.event ? (
-        <EventForm
-          externalUser={externalUser}
-          event={eventData?.event}
-          refetch={refetch}
-        />
+        <EventForm event={eventData?.event} refetch={refetch} />
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

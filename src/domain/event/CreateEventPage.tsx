@@ -6,7 +6,7 @@ import EventForm from './eventForm/EventForm';
 import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 
 const CreateEventPage: React.FC = () => {
-  const { loading: loadingUser, externalUser } = useUser();
+  const { loading: loadingUser } = useUser();
 
   // Load options for inLanguage, audience and keywords checkboxes
   const { loading: loadingEventFieldOptions } = useEventFieldOptionsData();
@@ -15,7 +15,7 @@ const CreateEventPage: React.FC = () => {
 
   return (
     <LoadingSpinner isLoading={loading}>
-      <EventForm externalUser={externalUser} />
+      <EventForm />
     </LoadingSpinner>
   );
 };
