@@ -535,7 +535,7 @@
         "general": "Publicera evenemanget",
         "volunteering": "Publicera volontärarbetet"
       },
-      "buttonSendToPublishing": "Send to publishing",
+      "buttonSendToPublishing": "Skicka till publicering",
       "buttonRemoveImage": {
         "course": "Ta bort kursens bild",
         "general": "Ta bort evenemangets bild",
@@ -561,7 +561,7 @@
         "general": "Om antalet deltagare i evenemanget är begränsat, ange lägsta och högsta antal deltagare här.",
         "volunteering": "Om antalet deltagare i volontärarbetet är begränsat, ange lägsta och högsta antal deltagare här."
       },
-      "infoTextAttendeeCapacityUserUnknown": "If the number of event participants is not limited in any way, write a rough estimate of the maximum number of participants. (This information will be used for statistical purposes).",
+      "infoTextAttendeeCapacityUserUnknown": "Om antalet deltagare i evenemanget inte begränsas på något sätt, skriva en uppskattning av det maximala antalet deltagare. (Denna information kommer att användas för statistiska ändamål).",
       "infoTextAudience": {
         "course": "Om kursen inte har en specifik målgrupp lämnar du valet tomt.",
         "general": "Om evenemanget inte har en specifik målgrupp lämnar du valet tomt.",
@@ -695,10 +695,10 @@
         "general": "Evenemangsbeskrivning {{langText}}",
         "volunteering": "Volontärarbetetsbeskrivning {{langText}}"
       },
-      "labelHasEnvironmentalCertificate": "Event has received an EcoCompass or similar environmental certification",
+      "labelHasEnvironmentalCertificate": "Evenemanget har fått en Ekokompass eller liknande miljöcertifiering",
       "labelEmail": "E-postadress",
-      "labelEnvironment": "Event is held",
-      "labelEnvironmentalCertificate": "Certificate name",
+      "labelEnvironment": "Evenemanget hålls",
+      "labelEnvironmentalCertificate": "Certifikatets namn",
       "labelEndDate": {
         "course": "Kursen avslutas",
         "general": "Evenemanget avslutas",
@@ -782,7 +782,7 @@
       "labelStartTime": "Starttid",
       "labelTime": "Tid",
       "labelUmbrellaEvent": "Huvudevenemang",
-      "labelUserConsent": "I have read <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Yritystoiminnan%20tukeminen%20ja%20neuvonta%20seka%20matkailuneuvontapalvelut.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Matkailu register statement {{openInNewTab}}\">Matkailu register statement</a> and consent to use of my information",
+      "labelUserConsent": "Jag har läst <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Yritystoiminnan%20tukeminen%20ja%20neuvonta%20seka%20matkailuneuvontapalvelut.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Touristinfos Registerutdrag {{openInNewTab}}\">Touristinfos Registerutdrag</a> och ger mitt samtycke till användningen av mina uppgifter.",
       "labelUserName": "Namn",
       "labelVideoAltText": "Videons alt-text",
       "labelVideoName": "Namn på videon",
@@ -1013,8 +1013,8 @@
       },
       "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett huvudevenemang.",
       "placeOptions": {
-        "in": "Indoors",
-        "out": "Outdoors"
+        "in": "Inomhus",
+        "out": "Utomhus"
       }
     },
     "freeEvent": "Fri",
