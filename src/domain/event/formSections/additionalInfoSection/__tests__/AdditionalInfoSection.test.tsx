@@ -59,8 +59,8 @@ const renderComponent = (
   props?: Partial<AdditionalInfoSectionProps>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: ObjectSchema<any> = publicEventSchema
-) =>
-  render(
+) => {
+  const { rerender, ...rest } = render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
       onSubmit={jest.fn()}
@@ -70,6 +70,26 @@ const renderComponent = (
       <AdditionalInfoSection {...defaultProps} {...props} />
     </Formik>
   );
+
+  return {
+    rerender: (newInitialValues?: Partial<InitialValues>) =>
+      rerender(
+        <Formik
+          initialValues={{
+            ...defaultInitialValues,
+            ...initialValues,
+            ...newInitialValues,
+          }}
+          onSubmit={jest.fn()}
+          enableReinitialize={true}
+          validationSchema={schema}
+        >
+          <AdditionalInfoSection {...defaultProps} {...props} />
+        </Formik>
+      ),
+    ...rest,
+  };
+};
 
 afterAll(() => {
   clear();
@@ -234,7 +254,7 @@ test('maximum attendee capacity should be required for external user', async () 
   const user = userEvent.setup();
   const schema = getExternalUserEventSchema(PublicationStatus.Draft);
 
-  renderComponent(
+  const { rerender } = renderComponent(
     {
       [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: 0,
       [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: 1,
@@ -257,4 +277,17 @@ test('maximum attendee capacity should be required for external user', async () 
   expect(
     await screen.findByText('Arvon tulee olla vähintään 1')
   ).toBeInTheDocument();
+
+  rerender({
+    [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: 1,
+    [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: 1,
+  });
+
+  await user.click(maxCapacityInput);
+  await user.click(minCapacityInput);
+  await user.tab();
+
+  expect(
+    screen.queryByText('Arvon tulee olla vähintään 1')
+  ).not.toBeInTheDocument();
 });
