@@ -782,7 +782,7 @@
       "labelStartTime": "Start time",
       "labelTime": "Time",
       "labelUmbrellaEvent": "Umbrella event",
-      "labelUserConsent": "I have read the <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Yritystoiminnan%20tukeminen%20ja%20neuvonta%20seka%20matkailuneuvontapalvelut.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Data protection description {{openInNewTab}}\">Data protection description</a> and give my consent to the use of my data.",
+      "labelUserConsent": "I have read the <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Enterprise%20Support%20and%20Advisory%20Services%20Tourist%20Information%20Services.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Data protection description {{openInNewTab}}\">Data protection description</a> and give my consent to the use of my data.",
       "labelUserName": "Name",
       "labelVideoAltText": "Video alt text",
       "labelVideoName": "Name for video",
