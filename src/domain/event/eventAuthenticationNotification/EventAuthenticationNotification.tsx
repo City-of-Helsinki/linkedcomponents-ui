@@ -56,7 +56,7 @@ const EventAuthenticationNotification: React.FC<
         )}
         noRequiredOrganizationText={t('authentication.noRightsUpdateEvent')}
         requiredOrganizationType="external"
-        notAuthenticatedMessage={
+        notAuthenticatedCustomMessage={
           <>
             <p
               dangerouslySetInnerHTML={{
