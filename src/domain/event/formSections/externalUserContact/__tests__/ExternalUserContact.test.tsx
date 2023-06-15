@@ -65,7 +65,7 @@ test('should render fields', async () => {
   expect(await screen.findByLabelText(/organisaatio/i)).toBeInTheDocument();
   expect(
     await screen.findByLabelText(
-      /olen lukenut matkailun rekisteriselosteen ja annan suostumukseni tietojeni käyttöön/i
+      /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i
     )
   ).toBeInTheDocument();
 });

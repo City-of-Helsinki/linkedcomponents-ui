@@ -459,7 +459,7 @@ test('should render fields for external user', async () => {
     /sähköpostiosoite/i,
     /puhelinnumero/i,
     /organisaatio/i,
-    /olen lukenut matkailun rekisteriselosteen ja annan suostumukseni tietojeni käyttöön/i,
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
   ];
 
   externalUserFieldLabels.forEach(async (label) =>
@@ -483,7 +483,7 @@ test('should render fields for external user', async () => {
     /nimi/i,
     /sähköpostiosoite/i,
     /puhelinnumero/i,
-    /olen lukenut matkailun rekisteriselosteen ja annan suostumukseni tietojeni käyttöön/i,
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
   ];
 
   requiredFieldLabels.forEach(async (label) =>
