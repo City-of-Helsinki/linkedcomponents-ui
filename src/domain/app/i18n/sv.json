@@ -535,6 +535,7 @@
         "general": "Publicera evenemanget",
         "volunteering": "Publicera volontärarbetet"
       },
+      "buttonSendToPublishing": "Skicka till publicering",
       "buttonRemoveImage": {
         "course": "Ta bort kursens bild",
         "general": "Ta bort evenemangets bild",
@@ -560,6 +561,7 @@
         "general": "Om antalet deltagare i evenemanget är begränsat, ange lägsta och högsta antal deltagare här.",
         "volunteering": "Om antalet deltagare i volontärarbetet är begränsat, ange lägsta och högsta antal deltagare här."
       },
+      "infoTextAttendeeCapacityUserUnknown": "Om evenemangets deltagarantal inte är begränsat på något sätt, ange en grov uppskattning av det maximala antalet deltagare. (Denna information kommer att användas för statistiska ändamål).",
       "infoTextAudience": {
         "course": "Om kursen inte har en specifik målgrupp lämnar du valet tomt.",
         "general": "Om evenemanget inte har en specifik målgrupp lämnar du valet tomt.",
@@ -693,6 +695,10 @@
         "general": "Evenemangsbeskrivning {{langText}}",
         "volunteering": "Volontärarbetetsbeskrivning {{langText}}"
       },
+      "labelHasEnvironmentalCertificate": "Evenemanget ett Ekokompassi-certifikat eller en liknande miljöcertifiering",
+      "labelEmail": "E-postadress",
+      "labelEnvironment": "Evenemanget hålls",
+      "labelEnvironmentalCertificate": "Certifikatets namn",
       "labelEndDate": {
         "course": "Kursen avslutas",
         "general": "Evenemanget avslutas",
@@ -750,10 +756,13 @@
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
+      "labelOrganization": "Organisation",
+      "labelPhoneNumber": "Telefonnummer",
       "labelProvider": {
         "course": "Arrangör av kurs {{langText}} (om det skiljer sig från utgivaren)",
         "general": "Arrangör av evenemang {{langText}} (om det skiljer sig från utgivaren)",
-        "volunteering": "Arrangör av volontärarbete {{langText}} (om det skiljer sig från utgivaren)"
+        "volunteering": "Arrangör av volontärarbete {{langText}} (om det skiljer sig från utgivaren)",
+        "other": "Arrangör av evenemang {{langText}}"
       },
       "labelPublisher": {
         "course": "Kursutgivare",
@@ -773,6 +782,8 @@
       "labelStartTime": "Starttid",
       "labelTime": "Tid",
       "labelUmbrellaEvent": "Huvudevenemang",
+      "labelUserConsent": "Jag har läst <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Stod-%20och%20radgivningstjanster%20till%20foretag%20samt%20turistradgivning.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Registerutdrag {{openInNewTab}}\">Registerutdrag</a> och ger mitt samtycke till användningen av mina uppgifter.",
+      "labelUserName": "Namn",
       "labelVideoAltText": "Videons alt-text",
       "labelVideoName": "Namn på videon",
       "labelVideoUrl": "Videons URL-webaddress",
@@ -843,6 +854,7 @@
         "general": "Ange evenemangetsbeskrivning",
         "volunteering": "Ange volontärarbetetsbeskrivning"
       },
+      "placeholderEmail": "Skriv in din mailadress",
       "placeholderExternalLinkLink": {
         "course": "Ange kursens Facebook-URL",
         "general": "Ange evenemangets Facebook-URL",
@@ -874,6 +886,8 @@
         "general": "Ange priset för evenemanget {{langText}}",
         "volunteering": "Ange priset för volontärarbetet {{langText}}"
       },
+      "placeholderOrganization": "Organisation namn",
+      "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderProvider": {
         "course": "Ange namnet på arrangören",
         "general": "Ange namnet på arrangören",
@@ -884,6 +898,7 @@
         "general": "Ange en kort beskrivning av evenemanget",
         "volunteering": "Ange en kort beskrivning av volontärarbetet"
       },
+      "placeholderUserName": "Ange ditt för- och efternamn eller smeknamn",
       "placeholderVideoAltText": "Ange videons alt-text för skärmläsare",
       "placeholderVideoName": "Ange videon namn",
       "placeholderVideoUrl": "Ange videons URL-webbaddress",
@@ -919,6 +934,7 @@
           "volunteering": "Volontärarbetets medier"
         },
         "classification": "Klassificering",
+        "contact": "Kontakt",
         "description": "Beskrivning",
         "image": "Bild",
         "languages": "Språk",
@@ -995,7 +1011,11 @@
         "general": "Video för evenemanget",
         "volunteering": "Video för volontärarbetet"
       },
-      "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett huvudevenemang."
+      "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett huvudevenemang.",
+      "placeOptions": {
+        "in": "Inomhus",
+        "out": "Utomhus"
+      }
     },
     "freeEvent": "Fri",
     "postponeEventModal": {

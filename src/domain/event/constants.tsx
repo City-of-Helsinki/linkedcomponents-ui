@@ -29,6 +29,11 @@ export enum EVENT_TYPE {
   Volunteering = 'volunteering',
 }
 
+export enum EVENT_ENVIRONMENT_VALUE {
+  In = 'in',
+  Out = 'out',
+}
+
 export enum RECURRING_EVENT_FIELDS {
   END_DATE = 'endDate',
   END_TIME = 'endTime',
@@ -70,8 +75,11 @@ export enum EVENT_FIELDS {
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
   EVENT_TIMES = 'eventTimes',
   EVENTS = 'events',
+  ENVIRONMENT = 'environment',
+  ENVIRONMENTAL_CERTIFICATE = 'environmentalCertificate',
   EXTENSION_COURSE = 'extensionCourse',
   EXTERNAL_LINKS = 'externalLinks',
+  HAS_ENVIRONMENTAL_CERTIFICATE = 'hasEnvironmentalCertificate',
   HAS_PRICE = 'hasPrice',
   HAS_UMBRELLA = 'hasUmbrella',
   IMAGES = 'images',
@@ -101,6 +109,11 @@ export enum EVENT_FIELDS {
   SHORT_DESCRIPTION = 'shortDescription',
   SUPER_EVENT = 'superEvent',
   TYPE = 'type',
+  USER_CONSENT = 'userConsent',
+  USER_EMAIL = 'userEmail',
+  USER_NAME = 'userName',
+  USER_ORGANIZATION = 'userOrganization',
+  USER_PHONE_NUMBER = 'userPhoneNumber',
   VIDEOS = 'videos',
 }
 
@@ -123,6 +136,8 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.ENROLMENT_END_TIME_TIME]: '',
   [EVENT_FIELDS.ENROLMENT_START_TIME_DATE]: null,
   [EVENT_FIELDS.ENROLMENT_START_TIME_TIME]: '',
+  [EVENT_FIELDS.ENVIRONMENT]: EVENT_ENVIRONMENT_VALUE.In,
+  [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: '',
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: ['fi'],
   [EVENT_FIELDS.EVENT_TIMES]: [],
   [EVENT_FIELDS.EVENTS]: [],
@@ -164,6 +179,11 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
 
   [EVENT_FIELDS.SUPER_EVENT]: null,
   [EVENT_FIELDS.TYPE]: EVENT_TYPE.General,
+  [EVENT_FIELDS.USER_CONSENT]: false,
+  [EVENT_FIELDS.USER_EMAIL]: '',
+  [EVENT_FIELDS.USER_NAME]: '',
+  [EVENT_FIELDS.USER_ORGANIZATION]: '',
+  [EVENT_FIELDS.USER_PHONE_NUMBER]: '',
   [EVENT_FIELDS.VIDEOS]: [
     {
       [VIDEO_DETAILS_FIELDS.ALT_TEXT]: '',
@@ -233,6 +253,7 @@ export enum EVENT_ACTIONS {
   EDIT = 'edit',
   POSTPONE = 'postpone',
   PUBLISH = 'publish',
+  SEND_TO_PUBLISHING = 'sendToPublishing',
   UPDATE_DRAFT = 'updateDraft',
   UPDATE_PUBLIC = 'updatePublic',
   SEND_EMAIL = 'sendEmail',
@@ -281,6 +302,7 @@ export const EVENT_ICONS = {
   [EVENT_ACTIONS.DELETE]: <IconCross aria-hidden={true} />,
   [EVENT_ACTIONS.EDIT]: <IconCogwheel aria-hidden={true} />,
   [EVENT_ACTIONS.POSTPONE]: <IconCalendarClock aria-hidden={true} />,
+  [EVENT_ACTIONS.SEND_TO_PUBLISHING]: <IconCheck aria-hidden={true} />,
   [EVENT_ACTIONS.PUBLISH]: <IconCheck aria-hidden={true} />,
   [EVENT_ACTIONS.UPDATE_DRAFT]: <IconPen aria-hidden={true} />,
   [EVENT_ACTIONS.UPDATE_PUBLIC]: <IconPen aria-hidden={true} />,
@@ -296,6 +318,7 @@ export const EVENT_LABEL_KEYS = {
   [EVENT_ACTIONS.EDIT]: 'event.form.buttonEdit',
   [EVENT_ACTIONS.POSTPONE]: 'event.form.buttonPostpone',
   [EVENT_ACTIONS.PUBLISH]: 'event.form.buttonPublish',
+  [EVENT_ACTIONS.SEND_TO_PUBLISHING]: 'event.form.buttonSendToPublishing',
   [EVENT_ACTIONS.UPDATE_DRAFT]: 'event.form.buttonUpdateDraft',
   [EVENT_ACTIONS.UPDATE_PUBLIC]: 'event.form.buttonUpdatePublic',
   [EVENT_ACTIONS.SEND_EMAIL]: 'event.form.buttonSendEmail',

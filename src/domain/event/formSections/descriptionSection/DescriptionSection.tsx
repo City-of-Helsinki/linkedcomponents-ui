@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
+import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
 import TextEditorField from '../../../../common/components/formFields/textEditorField/TextEditorField';
 import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
@@ -26,12 +27,14 @@ const FIELDS = [
 
 export interface DescriptionSectionProps {
   isEditingAllowed: boolean;
+  isExternalUser: boolean;
   selectedLanguage: LE_DATA_LANGUAGES;
   setSelectedLanguage: (value: LE_DATA_LANGUAGES) => void;
 }
 
 const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   isEditingAllowed,
+  isExternalUser,
   selectedLanguage,
   setSelectedLanguage,
 }) => {
@@ -42,6 +45,13 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   });
   const [{ value: audience }] = useField({ name: EVENT_FIELDS.AUDIENCE });
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
+  const [{ value: hasEnvironmentalCertificate }] = useField({
+    name: EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE,
+  });
+  const [{ value: environmentalCertificate }] = useField({
+    name: EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE,
+  });
+
   const sortedEventInfoLanguages = useSortedInfoLanguages(eventInfoLanguages);
 
   const languageOptions = React.useMemo(
@@ -157,6 +167,32 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   sanitizeAfterBlur={sanitizeDescription}
                 />
               </FormGroup>
+              {isExternalUser && (
+                <FieldRow>
+                  <FormGroup>
+                    <Field
+                      component={CheckboxField}
+                      label={t('event.form.labelHasEnvironmentalCertificate')}
+                      name={EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE}
+                      disabled={!isEditingAllowed}
+                      value={!!environmentalCertificate}
+                    ></Field>
+                  </FormGroup>
+                  <FormGroup>
+                    <FieldColumn>
+                      <Field
+                        component={TextInputField}
+                        disabled={
+                          !isEditingAllowed || !hasEnvironmentalCertificate
+                        }
+                        label={t('event.form.labelEnvironmentalCertificate')}
+                        name={EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE}
+                        required
+                      ></Field>
+                    </FieldColumn>
+                  </FormGroup>
+                </FieldRow>
+              )}
             </TabPanel>
           );
         })}

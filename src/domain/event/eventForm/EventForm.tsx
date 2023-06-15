@@ -46,6 +46,7 @@ import AudienceSection from '../formSections/audienceSection/AudienceSection';
 import ChannelsSection from '../formSections/channelsSection/ChannelsSection';
 import ClassificationSection from '../formSections/classificationSection/ClassificationSection';
 import DescriptionSection from '../formSections/descriptionSection/DescriptionSection';
+import ExternalUserContact from '../formSections/externalUserContact/ExternalUserContact';
 import ImageSection from '../formSections/imageSection/ImageSection';
 import LanguagesSection from '../formSections/languagesSection/LanguagesSection';
 import LinksToEventsSection from '../formSections/linksToEventsSection/LinksToEventsSection';
@@ -72,7 +73,11 @@ import {
   getEventInitialValues,
   scrollToFirstError,
 } from '../utils';
-import { draftEventSchema, publicEventSchema } from '../validation';
+import {
+  draftEventSchema,
+  getExternalUserEventSchema,
+  publicEventSchema,
+} from '../validation';
 
 export type CreateEventFormProps = {
   event?: null;
@@ -96,6 +101,7 @@ type EventFormProps = EventFormWrapperProps & {
     shouldValidate?: boolean
   ) => void;
   values: EventFormFields;
+  isExternalUser: boolean;
 };
 
 const EventForm: React.FC<EventFormProps> = ({
@@ -105,6 +111,7 @@ const EventForm: React.FC<EventFormProps> = ({
   setErrors,
   setTouched,
   values,
+  isExternalUser,
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
@@ -251,8 +258,13 @@ const EventForm: React.FC<EventFormProps> = ({
         EVENT_ACTIONS.UPDATE_DRAFT,
         EVENT_ACTIONS.UPDATE_PUBLIC,
         EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+        EVENT_ACTIONS.SEND_TO_PUBLISHING,
       ])
-    : isEventActionAllowed([EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH]);
+    : isEventActionAllowed([
+        EVENT_ACTIONS.CREATE_DRAFT,
+        EVENT_ACTIONS.PUBLISH,
+        EVENT_ACTIONS.SEND_TO_PUBLISHING,
+      ]);
 
   const clearErrors = () => setErrors({});
 
@@ -262,14 +274,22 @@ const EventForm: React.FC<EventFormProps> = ({
       setServerErrorItems([]);
       clearErrors();
 
-      if (publicationStatus === PublicationStatus.Draft) {
-        await draftEventSchema.validate(valuesWithMainCategories, {
+      if (isExternalUser) {
+        const validationSchema = getExternalUserEventSchema(publicationStatus);
+
+        await validationSchema.validate(valuesWithMainCategories, {
           abortEarly: false,
         });
       } else {
-        await publicEventSchema.validate(valuesWithMainCategories, {
-          abortEarly: false,
-        });
+        if (publicationStatus === PublicationStatus.Draft) {
+          await draftEventSchema.validate(valuesWithMainCategories, {
+            abortEarly: false,
+          });
+        } else {
+          await publicEventSchema.validate(valuesWithMainCategories, {
+            abortEarly: false,
+          });
+        }
       }
 
       if (event) {
@@ -388,6 +408,7 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.type')}>
                 <TypeSection
                   isEditingAllowed={isEditingAllowed}
+                  isExternalUser={isExternalUser}
                   savedEvent={event}
                 />
               </Section>
@@ -397,12 +418,14 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.responsibilities')}>
                 <ResponsibilitiesSection
                   isEditingAllowed={isEditingAllowed}
+                  isExternalUser={isExternalUser}
                   savedEvent={event}
                 />
               </Section>
               <Section title={t('event.form.sections.description')}>
                 <DescriptionSection
                   isEditingAllowed={isEditingAllowed}
+                  isExternalUser={isExternalUser}
                   selectedLanguage={descriptionLanguage}
                   setSelectedLanguage={setDescriptionLanguage}
                 />
@@ -414,7 +437,10 @@ const EventForm: React.FC<EventFormProps> = ({
                 />
               </Section>
               <Section title={t('event.form.sections.place')}>
-                <PlaceSection isEditingAllowed={isEditingAllowed} />
+                <PlaceSection
+                  isEditingAllowed={isEditingAllowed}
+                  isExternalUser={isExternalUser}
+                />
               </Section>
               <Section title={t('event.form.sections.price')}>
                 <PriceSection isEditingAllowed={isEditingAllowed} />
@@ -435,9 +461,16 @@ const EventForm: React.FC<EventFormProps> = ({
                 <AudienceSection isEditingAllowed={isEditingAllowed} />
               </Section>
               <Section title={t('event.form.sections.additionalInfo')}>
-                <AdditionalInfoSection isEditingAllowed={isEditingAllowed} />
+                <AdditionalInfoSection
+                  isEditingAllowed={isEditingAllowed}
+                  isExternalUser={isExternalUser}
+                />
               </Section>
-
+              {isExternalUser && (
+                <Section title={t('event.form.sections.contact')}>
+                  <ExternalUserContact isEditingAllowed={isEditingAllowed} />
+                </Section>
+              )}
               {event ? (
                 <>
                   {featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') && (
@@ -476,7 +509,7 @@ const EventForm: React.FC<EventFormProps> = ({
 
 const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
   const { event } = props;
-  const { user } = useUser();
+  const { user, externalUser } = useUser();
 
   const initialValues = React.useMemo(
     () =>
@@ -489,6 +522,10 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
     [event, user]
   );
 
+  const validationSchema = externalUser
+    ? getExternalUserEventSchema()
+    : publicEventSchema;
+
   return (
     <Formik
       initialValues={initialValues}
@@ -497,7 +534,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
       // we want to scroll to first invalid field if error occurs
       enableReinitialize={true}
       onSubmit={/* istanbul ignore next */ () => undefined}
-      validationSchema={publicEventSchema}
+      validationSchema={validationSchema}
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
@@ -516,6 +553,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
               setErrors={setErrors}
               setTouched={setTouched}
               values={values}
+              isExternalUser={externalUser}
             />
           </FormikPersist>
         );

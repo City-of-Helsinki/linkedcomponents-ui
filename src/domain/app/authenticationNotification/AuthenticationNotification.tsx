@@ -20,7 +20,7 @@ export const hiddenStyles = {
 
 type CommonProps = {
   className?: string;
-  requiredOrganizationType?: 'admin' | 'any';
+  requiredOrganizationType?: 'admin' | 'any' | 'external';
 };
 
 type OnlyNotAuthenticatedErrorProps = {
@@ -67,6 +67,10 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
     /* istanbul ignore else */
     if (authenticated) {
       const hasRequiredOrganization = () => {
+        if (requiredOrganizationType === 'external') {
+          return true;
+        }
+
         if (requiredOrganizationType === 'admin') {
           return adminOrganizations.length;
         }

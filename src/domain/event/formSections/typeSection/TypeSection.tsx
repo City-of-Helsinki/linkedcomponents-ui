@@ -31,11 +31,13 @@ import PublicationListLinks from './publicationListLinks/PublicationListLinks';
 
 export interface TypeSectionProps {
   isEditingAllowed: boolean;
+  isExternalUser: boolean;
   savedEvent?: EventFieldsFragment | null;
 }
 
 const TypeSection: React.FC<TypeSectionProps> = ({
   isEditingAllowed,
+  isExternalUser,
   savedEvent,
 }) => {
   const { t } = useTranslation();
@@ -136,7 +138,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({
           <Field
             columns={1}
             component={RadioButtonGroupField}
-            disabled={!isEditingAllowed}
+            disabled={!isEditingAllowed || isExternalUser}
             label={t('event.form.titleEventType')}
             name={EVENT_FIELDS.TYPE}
             options={typeOptions}

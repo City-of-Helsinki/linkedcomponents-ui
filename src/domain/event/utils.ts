@@ -74,6 +74,7 @@ import wait from '../../utils/wait';
 import { getImageAltText } from '../image/utils';
 import {
   isAdminUserInOrganization,
+  isExternalUserWithoutOrganization,
   isReqularUserInOrganization,
 } from '../organization/utils';
 import { REGISTRATION_INITIAL_VALUES } from '../registration/constants';
@@ -83,6 +84,7 @@ import {
   DAY_CODES,
   DESCRIPTION_SECTION_FIELDS,
   EVENT_ACTIONS,
+  EVENT_ENVIRONMENT_VALUE,
   EVENT_FIELD_ARRAYS,
   EVENT_FIELDS,
   EVENT_ICONS,
@@ -486,6 +488,8 @@ export const getEventBasePayload = (
     enrolmentStartTimeDate,
     enrolmentStartTimeTime,
     eventInfoLanguages,
+    environment,
+    environmentalCertificate,
     externalLinks,
     hasPrice,
     hasUmbrella,
@@ -505,6 +509,11 @@ export const getEventBasePayload = (
     shortDescription,
     superEvent,
     type,
+    userConsent,
+    userEmail,
+    userOrganization,
+    userPhoneNumber,
+    userName,
     videos,
   } = formValues;
 
@@ -528,6 +537,8 @@ export const getEventBasePayload = (
             enrolmentStartTimeTime
           )
         : null,
+    environment,
+    environmentalCertificate,
     externalLinks: externalLinks.map((item) => ({
       ...item,
       language: LE_DATA_LANGUAGES.FI,
@@ -576,6 +587,11 @@ export const getEventBasePayload = (
     superEvent: hasUmbrella && superEvent ? { atId: superEvent } : null,
     superEventType: isUmbrella ? SuperEventType.Umbrella : null,
     typeId: capitalize(type) as EventTypeId,
+    userConsent,
+    userEmail,
+    userName,
+    userOrganization,
+    userPhoneNumber,
     videos: videos.filter((video) => video.altText || video.name || video.url),
   };
 };
@@ -821,6 +837,11 @@ export const getEventInitialValues = (
     enrolmentEndTimeTime: getEventTime(event.enrolmentEndTime),
     enrolmentStartTimeDate: getDateFromString(event.enrolmentStartTime),
     enrolmentStartTimeTime: getEventTime(event.enrolmentStartTime),
+    environment: getValue(
+      event.environment?.toLowerCase(),
+      EVENT_ENVIRONMENT_VALUE.In
+    ),
+    environmentalCertificate: getValue(event.environmentalCertificate, ''),
     eventInfoLanguages: getEventInfoLanguages(event),
     externalLinks: sortBy(event.externalLinks, ['name']).map(
       (externalLink) => ({
@@ -828,6 +849,7 @@ export const getEventInitialValues = (
         name: getValue(externalLink?.name, ''),
       })
     ),
+    hasEnvironmentalCertificate: Boolean(event.environmentalCertificate),
     hasPrice,
     hasUmbrella: hasUmbrella,
     imageDetails: getEventImageDetails(event),
@@ -860,6 +882,11 @@ export const getEventInitialValues = (
     shortDescription: getLocalisedObject(event.shortDescription),
     superEvent: getValue(event.superEvent?.atId, ''),
     type: getValue(event.typeId?.toLowerCase(), EVENT_TYPE.General),
+    userConsent: Boolean(event.userConsent),
+    userEmail: getValue(event.userEmail, ''),
+    userName: getValue(event.userName, ''),
+    userOrganization: getValue(event.userOrganization, ''),
+    userPhoneNumber: getValue(event.userPhoneNumber, ''),
     videos: getEventVideos(event),
   };
 };
@@ -1085,8 +1112,14 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
+
+  const isExternalUser = isExternalUserWithoutOrganization({ user });
+
   const canCreateDraft =
-    (!publisher && !!user?.organization) || isRegularUser || isAdminUser;
+    (!publisher && !!user?.organization) ||
+    isRegularUser ||
+    isAdminUser ||
+    isExternalUser;
 
   switch (action) {
     case EVENT_ACTIONS.COPY:
@@ -1097,14 +1130,18 @@ export const checkCanUserDoAction = ({
     case EVENT_ACTIONS.CANCEL:
     case EVENT_ACTIONS.DELETE:
     case EVENT_ACTIONS.POSTPONE:
-      return isDraft ? isRegularUser || isAdminUser : isAdminUser;
+      return isDraft
+        ? isRegularUser || isAdminUser || isExternalUser
+        : isAdminUser;
     case EVENT_ACTIONS.ACCEPT_AND_PUBLISH:
     case EVENT_ACTIONS.PUBLISH:
     case EVENT_ACTIONS.UPDATE_PUBLIC:
     case EVENT_ACTIONS.SEND_EMAIL:
       return isAdminUser;
+    case EVENT_ACTIONS.SEND_TO_PUBLISHING:
+      return isExternalUser;
     case EVENT_ACTIONS.UPDATE_DRAFT:
-      return isRegularUser || isAdminUser;
+      return isRegularUser || isAdminUser || isExternalUser;
     default:
       return false;
   }
@@ -1132,6 +1169,7 @@ export const getIsButtonVisible = ({
     case EVENT_ACTIONS.CREATE_DRAFT:
     case EVENT_ACTIONS.SEND_EMAIL:
       return userCanDoAction;
+    case EVENT_ACTIONS.SEND_TO_PUBLISHING:
     case EVENT_ACTIONS.PUBLISH:
       return !authenticated || userCanDoAction;
     case EVENT_ACTIONS.UPDATE_DRAFT:

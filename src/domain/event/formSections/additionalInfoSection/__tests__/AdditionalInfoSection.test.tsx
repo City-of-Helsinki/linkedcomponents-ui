@@ -1,7 +1,9 @@
 import { Formik } from 'formik';
 import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
+import { ObjectSchema } from 'yup';
 
+import { PublicationStatus } from '../../../../../generated/graphql';
 import {
   configure,
   render,
@@ -11,8 +13,13 @@ import {
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { publicEventSchema } from '../../../validation';
-import AdditionalInfoSection from '../AdditionalInfoSection';
+import {
+  getExternalUserEventSchema,
+  publicEventSchema,
+} from '../../../validation';
+import AdditionalInfoSection, {
+  AdditionalInfoSectionProps,
+} from '../AdditionalInfoSection';
 
 configure({ defaultHidden: true });
 
@@ -42,17 +49,47 @@ const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.TYPE]: type,
 };
 
-const renderComponent = (initialValues?: Partial<InitialValues>) =>
-  render(
+const defaultProps: AdditionalInfoSectionProps = {
+  isEditingAllowed: true,
+  isExternalUser: false,
+};
+
+const renderComponent = (
+  initialValues?: Partial<InitialValues>,
+  props?: Partial<AdditionalInfoSectionProps>,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  schema: ObjectSchema<any> = publicEventSchema
+) => {
+  const { rerender, ...rest } = render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
       onSubmit={jest.fn()}
       enableReinitialize={true}
-      validationSchema={publicEventSchema}
+      validationSchema={schema}
     >
-      <AdditionalInfoSection isEditingAllowed={true} />
+      <AdditionalInfoSection {...defaultProps} {...props} />
     </Formik>
   );
+
+  return {
+    rerender: (newInitialValues?: Partial<InitialValues>) =>
+      rerender(
+        <Formik
+          initialValues={{
+            ...defaultInitialValues,
+            ...initialValues,
+            ...newInitialValues,
+          }}
+          onSubmit={jest.fn()}
+          enableReinitialize={true}
+          validationSchema={schema}
+        >
+          <AdditionalInfoSection {...defaultProps} {...props} />
+        </Formik>
+      ),
+    ...rest,
+  };
+};
 
 afterAll(() => {
   clear();
@@ -83,11 +120,11 @@ const getElement = (
       return screen.getByRole('spinbutton', { name: 'Alaikäraja' });
     case 'maxCapacity':
       return screen.getByRole('spinbutton', {
-        name: 'Vähimmäisosallistujamäärä',
+        name: 'Enimmäisosallistujamäärä',
       });
     case 'minCapacity':
       return screen.getByRole('spinbutton', {
-        name: 'Enimmäisosallistujamäärä',
+        name: 'Vähimmäisosallistujamäärä',
       });
     case 'startTimeDate':
       return screen.getByLabelText('Ilmoittautuminen alkaa');
@@ -207,8 +244,50 @@ test('should show validation error if min attendee capacity is less than 0', asy
   const minCapacityInput = getElement('minCapacity');
   const maxCapacityInput = getElement('maxCapacity');
 
-  await user.click(maxCapacityInput);
   await user.click(minCapacityInput);
+  await user.click(maxCapacityInput);
 
   await screen.findByText('Arvon tulee olla vähintään 0');
+});
+
+test('maximum attendee capacity should be required for external user', async () => {
+  const user = userEvent.setup();
+  const schema = getExternalUserEventSchema(PublicationStatus.Draft);
+
+  const { rerender } = renderComponent(
+    {
+      [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: 0,
+      [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: 1,
+    },
+    { isExternalUser: true },
+    schema
+  );
+
+  const minCapacityInput = getElement('minCapacity');
+  const maxCapacityInput = screen.getByRole('spinbutton', {
+    name: 'Enimmäisosallistujamäärä *',
+  });
+
+  expect(maxCapacityInput).toBeInTheDocument();
+
+  await user.click(maxCapacityInput);
+  await user.click(minCapacityInput);
+  await user.tab();
+
+  expect(
+    await screen.findByText('Arvon tulee olla vähintään 1')
+  ).toBeInTheDocument();
+
+  rerender({
+    [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: 1,
+    [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: 1,
+  });
+
+  await user.click(maxCapacityInput);
+  await user.click(minCapacityInput);
+  await user.tab();
+
+  expect(
+    screen.queryByText('Arvon tulee olla vähintään 1')
+  ).not.toBeInTheDocument();
 });

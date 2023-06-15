@@ -535,6 +535,7 @@
         "general": "Julkaise tapahtuma",
         "volunteering": "Julkaise vapaaehtoistehtävä"
       },
+      "buttonSendToPublishing": "Lähetä julkaistavaksi",
       "buttonRemoveImage": {
         "course": "Poista kurssin kuva",
         "general": "Poista tapahtuman kuva",
@@ -560,6 +561,7 @@
         "general": "Jos tapahtuman osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä.",
         "volunteering": "Jos vapaaehtoistehtävän osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä."
       },
+      "infoTextAttendeeCapacityUserUnknown": "Jos tapahtuman osallistujien määrä ei ole rajoitettu, ilmoita karkea arvio vähintään enimmäisosallistujamäärästä. (Tätä tietoa käytetään tilastointitarkoituksiin).",
       "infoTextAudience": {
         "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
         "general": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",
@@ -693,6 +695,10 @@
         "general": "Tapahtuman kuvaus {{langText}}",
         "volunteering": "Vapaaehtoistehtävän kuvaus {{langText}}"
       },
+      "labelHasEnvironmentalCertificate": "Tapahtumalla on ekokompassi tai muu vastaava sertifikaatti",
+      "labelEmail": "Sähköpostiosoite",
+      "labelEnvironment": "Tapahtuma järjestetään",
+      "labelEnvironmentalCertificate": "Sertifikaatin nimi",
       "labelEndDate": {
         "course": "Kurssi päättyy",
         "general": "Tapahtuma päättyy",
@@ -750,10 +756,13 @@
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
+      "labelOrganization": "Organisaatio",
+      "labelPhoneNumber": "Puhelinnumero",
       "labelProvider": {
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "general": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)",
-        "volunteering": "Vapaaehtoistehtävän järjestäjä {{langText}} (jos eri kuin julkaisija)"
+        "volunteering": "Vapaaehtoistehtävän järjestäjä {{langText}} (jos eri kuin julkaisija)",
+        "other": "Tapahtuman järjestäjä {{langText}}"
       },
       "labelPublisher": {
         "course": "Kurssin julkaisija",
@@ -773,6 +782,8 @@
       "labelStartTime": "Alkamisaika",
       "labelTime": "Ajankohta",
       "labelUmbrellaEvent": "Kattotapahtuma",
+      "labelUserConsent": "Olen lukenut <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Yritystoiminnan%20tukeminen%20ja%20neuvonta%20seka%20matkailuneuvontapalvelut.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"tietosuojaselosteen {{openInNewTab}}\">tietosuojaselosteen</a> ja annan luvan tietojeni käyttöön.",
+      "labelUserName": "Nimi",
       "labelVideoAltText": "Videon alt-teksti",
       "labelVideoName": "Videon nimi",
       "labelVideoUrl": "Videon URL-osoite",
@@ -843,6 +854,7 @@
         "general": "Syötä tapahtuman kuvaus",
         "volunteering": "Syötä vapaaehtoistehtävän kuvaus"
       },
+      "placeholderEmail": "Syötä sähköpostiosoite",
       "placeholderExternalLinkLink": {
         "course": "Syötä kurssin {{name}} URL",
         "general": "Syötä tapahtuman {{name}} URL",
@@ -874,6 +886,8 @@
         "general": "Syötä tapahtuman hinta {{langText}}",
         "volunteering": "Syötä vapaaehtoistehtävän hinta {{langText}}"
       },
+      "placeholderOrganization": "Organisaation nimi",
+      "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderProvider": {
         "course": "Syötä kurssin järjestäjän nimi",
         "general": "Syötä tapahtuman järjestäjän nimi",
@@ -884,6 +898,7 @@
         "general": "Syötä tapahtuman lyhyt kuvaus",
         "volunteering": "Syötä vapaaehtoistehtävän lyhyt kuvaus"
       },
+      "placeholderUserName": "Syötä etu- ja sukunimi tai nimimerkki",
       "placeholderVideoAltText": "Syötä videon alt-teksti ruudunlukijoita varten",
       "placeholderVideoName": "Syötä videon nimi",
       "placeholderVideoUrl": "Syötä videon URL-osoite",
@@ -919,6 +934,7 @@
           "volunteering": "Vapaaehtoistehtävän kanavat"
         },
         "classification": "Luokittelu",
+        "contact": "Yhteystiedot",
         "description": "Kuvaus",
         "image": "Kuva",
         "languages": "Kielet",
@@ -995,7 +1011,11 @@
         "general": "Tapahtuman video",
         "volunteering": "Vapaaehtoistehtävän video"
       },
-      "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
+      "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma.",
+      "placeOptions": {
+        "in": "Sisällä",
+        "out": "Ulkona"
+      }
     },
     "freeEvent": "Maksuton",
     "postponeEventModal": {

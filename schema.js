@@ -274,6 +274,8 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
+    environment: String
+    environmentalCertificate: String
     eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
     images: [IdObjectInput!]
@@ -295,6 +297,11 @@ module.exports = buildSchema(/* GraphQL */ `
     superEvent: IdObjectInput
     superEventType: SuperEventType
     typeId: EventTypeId
+    userConsent: Boolean
+    userEmail: String
+    userName: String
+    userOrganization: String
+    userPhoneNumber: String
     videos: [VideoInput]
   }
 
@@ -307,6 +314,8 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
+    environment: String
+    environmentalCertificate: String
     eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
     images: [IdObjectInput!]
@@ -327,6 +336,11 @@ module.exports = buildSchema(/* GraphQL */ `
     superEvent: IdObjectInput
     superEventType: SuperEventType
     typeId: EventTypeId
+    userConsent: Boolean
+    userEmail: String
+    userName: String
+    userOrganization: String
+    userPhoneNumber: String
     videos: [VideoInput]
   }
 
@@ -604,6 +618,8 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
+    environment: String
+    environmentalCertificate: String
     extensionCourse: ExtensionCourse
     externalLinks: [ExternalLink]!
     eventStatus: EventStatus
@@ -629,6 +645,11 @@ module.exports = buildSchema(/* GraphQL */ `
     superEvent: Event
     superEventType: SuperEventType
     typeId: EventTypeId
+    userConsent: Boolean
+    userEmail: String
+    userName: String
+    userOrganization: String
+    userPhoneNumber: String
     videos: [Video]!
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!

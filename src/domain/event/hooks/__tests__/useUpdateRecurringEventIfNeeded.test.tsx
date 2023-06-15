@@ -62,6 +62,8 @@ const basePayload = {
   audienceMinAge: null,
   enrolmentEndTime: null,
   enrolmentStartTime: null,
+  environment: 'in',
+  environmentalCertificate: '',
   externalLinks: [],
   images: [],
   inLanguage: [],
@@ -74,6 +76,11 @@ const basePayload = {
   superEventType: 'recurring',
   typeId: 'General',
   videos: [],
+  userConsent: false,
+  userEmail: '',
+  userName: '',
+  userOrganization: '',
+  userPhoneNumber: '',
   id: superEventId,
 };
 

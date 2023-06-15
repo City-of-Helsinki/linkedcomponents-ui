@@ -80,6 +80,8 @@ const defaultEventPayload = {
   endTime: null,
   enrolmentEndTime: null,
   enrolmentStartTime: null,
+  environment: 'in',
+  environmentalCertificate: '',
   externalLinks: [],
   images: [],
   inLanguage: [],
@@ -139,6 +141,11 @@ const defaultEventPayload = {
   superEvent: null,
   superEventType: null,
   typeId: EventTypeId.General,
+  userConsent: false,
+  userEmail: '',
+  userName: '',
+  userOrganization: '',
+  userPhoneNumber: '',
   videos: [],
 };
 
@@ -848,7 +855,10 @@ describe('getEventInitialValues function', () => {
     const endTime = new Date('2021-07-13T05:51:05.761Z');
     const enrolmentEndTime = new Date('2021-06-15T05:51:05.761Z');
     const enrolmentStartTime = new Date('2021-05-05T05:51:05.761Z');
+    const environment = 'in';
+    const environmentalCertificate = 'certificate';
     const facebookUrl = 'http://facebook.com';
+    const hasEnvironmentalCertificate = true;
     const id = 'event:1';
     const imageDetails = {
       altText: EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -945,7 +955,13 @@ describe('getEventInitialValues function', () => {
     const superEventType = null;
     const superEventAtId =
       'https://api.hel.fi/linkedevents-test/v1/event/event:543/';
+
     const type = EVENT_TYPE.Course;
+    const userConsent = true;
+    const userEmail = 'test.test@test.com';
+    const userName = 'User Name';
+    const userOrganization = 'organization';
+    const userPhoneNumber = '+358401234567';
     const twitterUrl = 'http://twitter.com';
     const videos = [
       { altText: 'alt text', name: 'video name', url: 'httl://www.url.com' },
@@ -964,6 +980,8 @@ describe('getEventInitialValues function', () => {
           endTime: endTime.toISOString(),
           enrolmentEndTime: enrolmentEndTime.toISOString(),
           enrolmentStartTime: enrolmentStartTime.toISOString(),
+          environment,
+          environmentalCertificate,
           externalLinks: [
             fakeExternalLink({
               name: EXTLINK.EXTLINK_FACEBOOK,
@@ -1012,6 +1030,11 @@ describe('getEventInitialValues function', () => {
           }),
           superEventType,
           typeId: EventTypeId.Course,
+          userConsent,
+          userEmail,
+          userName,
+          userOrganization,
+          userPhoneNumber,
           videos: videos.map((video) => fakeVideo(video)),
         })
       )
@@ -1036,6 +1059,8 @@ describe('getEventInitialValues function', () => {
           startTime,
         },
       ],
+      environment,
+      environmentalCertificate,
       externalLinks: [
         {
           name: EXTLINK.EXTLINK_FACEBOOK,
@@ -1050,6 +1075,7 @@ describe('getEventInitialValues function', () => {
           link: twitterUrl,
         },
       ],
+      hasEnvironmentalCertificate,
       hasPrice: true,
       hasUmbrella: true,
       imageDetails,
@@ -1075,6 +1101,11 @@ describe('getEventInitialValues function', () => {
       shortDescription,
       superEvent: superEventAtId,
       type,
+      userConsent,
+      userEmail,
+      userName,
+      userOrganization,
+      userPhoneNumber,
       videos,
     });
   });
@@ -1478,7 +1509,6 @@ describe('checkCanUserDoAction function', () => {
       EVENT_ACTIONS.CANCEL,
       EVENT_ACTIONS.DELETE,
       EVENT_ACTIONS.POSTPONE,
-      EVENT_ACTIONS.UPDATE_DRAFT,
       EVENT_ACTIONS.UPDATE_PUBLIC,
     ];
 
@@ -1493,7 +1523,13 @@ describe('checkCanUserDoAction function', () => {
       ).toBe(false);
     });
 
-    const allowedActions = [EVENT_ACTIONS.COPY, EVENT_ACTIONS.EDIT];
+    const allowedActions = [
+      EVENT_ACTIONS.COPY,
+      EVENT_ACTIONS.EDIT,
+      EVENT_ACTIONS.CREATE_DRAFT,
+      EVENT_ACTIONS.SEND_TO_PUBLISHING,
+      EVENT_ACTIONS.UPDATE_DRAFT,
+    ];
 
     allowedActions.forEach((action) => {
       expect(

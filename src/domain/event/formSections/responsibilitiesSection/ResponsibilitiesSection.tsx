@@ -17,11 +17,13 @@ import { EVENT_FIELDS } from '../../constants';
 
 export interface ResponsibilitiesSectionProps {
   isEditingAllowed: boolean;
+  isExternalUser: boolean;
   savedEvent?: EventFieldsFragment | null;
 }
 
 const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
   isEditingAllowed,
+  isExternalUser,
   savedEvent,
 }) => {
   const { user } = useUser();
@@ -70,7 +72,9 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
         <FieldColumn>
           <Field
             component={PublisherSelectorField}
-            disabled={!isEditingAllowed || isPublisherDisabled()}
+            disabled={
+              !isEditingAllowed || isExternalUser || isPublisherDisabled()
+            }
             label={t(`event.form.labelPublisher.${type}`)}
             name={EVENT_FIELDS.PUBLISHER}
             publisher={savedEvent?.publisher}
@@ -91,13 +95,18 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
         <FieldColumn>
           <MultiLanguageField
             disabled={!isEditingAllowed}
-            labelKey={`event.form.labelProvider.${type}`}
+            labelKey={
+              isExternalUser
+                ? 'event.form.labelProvider.other'
+                : `event.form.labelProvider.${type}`
+            }
             languages={eventInfoLanguages}
             name={EVENT_FIELDS.PROVIDER}
             placeholder={getValue(
               t(`event.form.placeholderProvider.${type}`),
               undefined
             )}
+            required={isExternalUser}
           />
         </FieldColumn>
       </FieldRow>

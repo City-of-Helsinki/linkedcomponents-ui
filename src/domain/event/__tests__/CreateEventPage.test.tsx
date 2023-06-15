@@ -45,7 +45,10 @@ import {
   mockedPlacesResponse,
   placeAtId,
 } from '../../place/__mocks__/place';
-import { mockedUserResponse } from '../../user/__mocks__/user';
+import {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../user/__mocks__/user';
 import {
   eventValues,
   keywordAtId,
@@ -83,7 +86,10 @@ const defaultMocks = [
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
-  render(<CreateEventPage />, { authContextValue, mocks });
+  render(<CreateEventPage />, {
+    authContextValue,
+    mocks,
+  });
 
 beforeEach(() => {
   // values stored in tests will also be available in other tests unless you run
@@ -174,6 +180,41 @@ test('should focus to first validation error when trying to save draft event', a
   await user.click(saveDraftButton);
 
   await waitFor(() => expect(nameTextbox).toHaveFocus());
+});
+
+test('should focus to first validation error when trying to save draft event as external user', async () => {
+  const user = userEvent.setup();
+
+  const mocks = [
+    mockedImagesResponse,
+    mockedImageResponse,
+    mockedUmbrellaEventsResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedTopicsKeywordSetResponse,
+    mockedKeywordSelectorKeywordsResponse,
+    mockedLanguagesResponse,
+    mockedPlaceResponse,
+    mockedPlacesResponse,
+    // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
+    mockedFilteredPlacesResponse,
+    mockedFilteredPlacesResponse,
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedUserWithoutOrganizationsResponse,
+  ];
+
+  renderComponent(mocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const saveDraftButton = getElement('saveDraft');
+  const providerField = await screen.findByLabelText(
+    /tapahtuman järjestäjä suomeksi/i
+  );
+
+  await user.click(saveDraftButton);
+
+  await waitFor(() => expect(providerField).toHaveFocus());
 });
 
 test('should focus to validation error of swedish name when trying to save draft event', async () => {
@@ -415,5 +456,68 @@ test('should route to event completed page after publishing event', async () => 
         `/fi/events/completed/${eventValues.id}`
       ),
     { timeout: 20000 }
+  );
+});
+
+test('should render fields for external user', async () => {
+  const mocks = [
+    mockedImagesResponse,
+    mockedImageResponse,
+    mockedUmbrellaEventsResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedTopicsKeywordSetResponse,
+    mockedKeywordSelectorKeywordsResponse,
+    mockedLanguagesResponse,
+    mockedPlaceResponse,
+    mockedPlacesResponse,
+    // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
+    mockedFilteredPlacesResponse,
+    mockedFilteredPlacesResponse,
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedUserWithoutOrganizationsResponse,
+  ];
+
+  renderComponent(mocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const externalUserFieldLabels = [
+    /tapahtumalla on ekokompassi tai muu vastaava sertifikaatti/i,
+    /sertifikaatin nimi/i,
+    /sisällä/i,
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /organisaatio/i,
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
+  ];
+
+  externalUserFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeInTheDocument()
+  );
+
+  const disabledFieldLabels = [
+    /tapahtuma/i,
+    /sertifikaatin nimi/i,
+    /tapahtuman julkaisija/i,
+  ];
+
+  disabledFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeDisabled()
+  );
+
+  const requiredFieldLabels = [
+    /tapahtuman järjestäjä suomeksi/i,
+    /sertifikaatin nimi/i,
+    /enimmäisosallistujamäärä/i,
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
+  ];
+
+  requiredFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeRequired()
   );
 });
