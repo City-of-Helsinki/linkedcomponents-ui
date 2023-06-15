@@ -561,7 +561,7 @@
         "general": "Om antalet deltagare i evenemanget är begränsat, ange lägsta och högsta antal deltagare här.",
         "volunteering": "Om antalet deltagare i volontärarbetet är begränsat, ange lägsta och högsta antal deltagare här."
       },
-      "infoTextAttendeeCapacityUserUnknown": "Om antalet deltagare i evenemanget inte begränsas på något sätt, skriva en uppskattning av det maximala antalet deltagare. (Denna information kommer att användas för statistiska ändamål).",
+      "infoTextAttendeeCapacityUserUnknown": "Om evenemangets deltagarantal inte är begränsat på något sätt, ange en grov uppskattning av det maximala antalet deltagare. (Denna information kommer att användas för statistiska ändamål).",
       "infoTextAudience": {
         "course": "Om kursen inte har en specifik målgrupp lämnar du valet tomt.",
         "general": "Om evenemanget inte har en specifik målgrupp lämnar du valet tomt.",
@@ -695,7 +695,7 @@
         "general": "Evenemangsbeskrivning {{langText}}",
         "volunteering": "Volontärarbetetsbeskrivning {{langText}}"
       },
-      "labelHasEnvironmentalCertificate": "Evenemanget har fått en Ekokompass eller liknande miljöcertifiering",
+      "labelHasEnvironmentalCertificate": "Evenemanget ett Ekokompassi-certifikat eller en liknande miljöcertifiering",
       "labelEmail": "E-postadress",
       "labelEnvironment": "Evenemanget hålls",
       "labelEnvironmentalCertificate": "Certifikatets namn",
@@ -782,7 +782,7 @@
       "labelStartTime": "Starttid",
       "labelTime": "Tid",
       "labelUmbrellaEvent": "Huvudevenemang",
-      "labelUserConsent": "Jag har läst <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Yritystoiminnan%20tukeminen%20ja%20neuvonta%20seka%20matkailuneuvontapalvelut.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Touristinfos Registerutdrag {{openInNewTab}}\">Touristinfos Registerutdrag</a> och ger mitt samtycke till användningen av mina uppgifter.",
+      "labelUserConsent": "Jag har läst <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Yritystoiminnan%20tukeminen%20ja%20neuvonta%20seka%20matkailuneuvontapalvelut.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Registerutdrag {{openInNewTab}}\">Registerutdrag</a> och ger mitt samtycke till användningen av mina uppgifter.",
       "labelUserName": "Namn",
       "labelVideoAltText": "Videons alt-text",
       "labelVideoName": "Namn på videon",

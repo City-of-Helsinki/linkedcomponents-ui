@@ -782,7 +782,7 @@
       "labelStartTime": "Alkamisaika",
       "labelTime": "Ajankohta",
       "labelUmbrellaEvent": "Kattotapahtuma",
-      "labelUserConsent": "Olen lukenut <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Yritystoiminnan%20tukeminen%20ja%20neuvonta%20seka%20matkailuneuvontapalvelut.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Matkailun rekisteriselosteen {{openInNewTab}}\">Matkailun rekisteriselosteen</a> ja annan suostumukseni tietojeni käyttöön",
+      "labelUserConsent": "Olen lukenut <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Yritystoiminnan%20tukeminen%20ja%20neuvonta%20seka%20matkailuneuvontapalvelut.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"tietosuojaselosteen {{openInNewTab}}\">tietosuojaselosteen</a> ja annan luvan tietojeni käyttöön.",
       "labelUserName": "Nimi",
       "labelVideoAltText": "Videon alt-teksti",
       "labelVideoName": "Videon nimi",
