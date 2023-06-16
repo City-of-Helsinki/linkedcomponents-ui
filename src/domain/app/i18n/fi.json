@@ -1757,6 +1757,7 @@
       "labelEvent": "Tapahtuma",
       "labelInstructions": "Ilmoittautumisohjeet (valinnainen)",
       "labelMaximumAttendeeCapacity": "Paikkojen enimmäismäärä",
+      "labelMaximumGroupSize": "Ryhmän enimmäiskoko",
       "labelMinimumAttendeeCapacity": "Paikkojen vähimmäismäärä",
       "labelName": "Nimi",
       "labelWaitingListCapacity": "Varasijapaikkojen lukumäärä",
@@ -1770,6 +1771,7 @@
         "confirmationMessage": "Vahvistusviestin lisätiedot",
         "enrolmentTime": "Ilmoittautumisaika",
         "event": "Tapahtuma",
+        "groupSize": "Ryhmän koko",
         "instructions": "Ilmoittautumisen lisätiedot",
         "mandatoryFields": "Pakolliset kentät",
         "waitingList": "Jonopaikat"

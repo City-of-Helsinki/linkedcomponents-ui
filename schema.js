@@ -488,6 +488,7 @@ module.exports = buildSchema(/* GraphQL */ `
     instructions: String
     mandatoryFields: [String]
     maximumAttendeeCapacity: Int
+    maximumGroupSize: Int
     minimumAttendeeCapacity: Int
     waitingListCapacity: Int
   }
@@ -503,6 +504,7 @@ module.exports = buildSchema(/* GraphQL */ `
     instructions: String
     mandatoryFields: [String]
     maximumAttendeeCapacity: Int
+    maximumGroupSize: Int
     minimumAttendeeCapacity: Int
     waitingListCapacity: Int
   }
@@ -890,6 +892,7 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedBy: String
     mandatoryFields: [String]
     maximumAttendeeCapacity: Int
+    maximumGroupSize: Int
     minimumAttendeeCapacity: Int
     remainingAttendeeCapacity: Int
     remainingWaitingListCapacity: Int

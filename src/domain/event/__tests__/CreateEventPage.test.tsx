@@ -148,7 +148,9 @@ const getElement = (
   }
 };
 
-const findElement = (key: 'description' | 'name' | 'nameSv' | 'superEvent') => {
+const findElement = (
+  key: 'description' | 'name' | 'nameSv' | 'saveDraft' | 'superEvent'
+) => {
   switch (key) {
     case 'description':
       return screen.findByLabelText(/editorin muokkausalue: main/i);
@@ -156,6 +158,10 @@ const findElement = (key: 'description' | 'name' | 'nameSv' | 'superEvent') => {
       return screen.findByLabelText(/tapahtuman otsikko suomeksi/i);
     case 'nameSv':
       return screen.findByLabelText(/tapahtuman otsikko ruotsiksi/i);
+    case 'saveDraft':
+      return screen.findByRole('button', {
+        name: 'Tallenna luonnos',
+      });
     case 'superEvent':
       return screen.findByRole(
         'combobox',
@@ -207,7 +213,7 @@ test('should focus to first validation error when trying to save draft event as 
 
   await loadingSpinnerIsNotInDocument();
 
-  const saveDraftButton = getElement('saveDraft');
+  const saveDraftButton = await findElement('saveDraft');
   const providerField = await screen.findByLabelText(
     /tapahtuman järjestäjä suomeksi/i
   );

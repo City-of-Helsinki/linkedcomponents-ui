@@ -253,6 +253,10 @@ export const getRegistrationInitialValues = (
       registration.maximumAttendeeCapacity,
       ''
     ),
+    [REGISTRATION_FIELDS.MAXIMUM_GROUP_SIZE]: getValue(
+      registration.maximumGroupSize,
+      ''
+    ),
     [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: getValue(
       registration.minimumAttendeeCapacity,
       ''
@@ -299,6 +303,7 @@ export const getRegistrationPayload = (
     instructions,
     mandatoryFields,
     maximumAttendeeCapacity,
+    maximumGroupSize,
     minimumAttendeeCapacity,
     waitingListCapacity,
   } = formValues;
@@ -324,6 +329,7 @@ export const getRegistrationPayload = (
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity
       : null,
+    maximumGroupSize: isNumber(maximumGroupSize) ? maximumGroupSize : null,
     minimumAttendeeCapacity: isNumber(minimumAttendeeCapacity)
       ? minimumAttendeeCapacity
       : null,

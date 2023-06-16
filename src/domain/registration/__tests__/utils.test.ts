@@ -188,6 +188,7 @@ describe('getRegistrationPayload function', () => {
       instructions: null,
       mandatoryFields: ['name'],
       maximumAttendeeCapacity: null,
+      maximumGroupSize: null,
       minimumAttendeeCapacity: null,
       waitingListCapacity: null,
     });
@@ -200,6 +201,7 @@ describe('getRegistrationPayload function', () => {
       event = 'event:1',
       instructions = 'Instructions',
       maximumAttendeeCapacity = 10,
+      maximumGroupSize = 2,
       minimumAttendeeCapacity = 5,
       waitingListCapacity = 3;
     const payload = getRegistrationPayload({
@@ -214,6 +216,7 @@ describe('getRegistrationPayload function', () => {
       event,
       instructions,
       maximumAttendeeCapacity,
+      maximumGroupSize,
       minimumAttendeeCapacity,
       waitingListCapacity,
     });
@@ -228,6 +231,7 @@ describe('getRegistrationPayload function', () => {
       instructions,
       mandatoryFields: ['name'],
       maximumAttendeeCapacity,
+      maximumGroupSize,
       minimumAttendeeCapacity,
       waitingListCapacity,
     });

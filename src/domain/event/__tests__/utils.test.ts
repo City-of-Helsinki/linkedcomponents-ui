@@ -1858,7 +1858,7 @@ describe('copyEventInfoToRegistrationSessionStorage function', () => {
     expect(sessionStorage.setItem).toHaveBeenCalledWith(
       FORM_NAMES.REGISTRATION_FORM,
       expect.stringContaining(
-        '"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":"","enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"helmet:222453","instructions":"","mandatoryFields":["name"],"maximumAttendeeCapacity":10,"minimumAttendeeCapacity":5,"waitingListCapacity":""'
+        '"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":"","enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"helmet:222453","instructions":"","mandatoryFields":["name"],"maximumAttendeeCapacity":10,"maximumGroupSize":"","minimumAttendeeCapacity":5,"waitingListCapacity":""'
       )
     );
   });

@@ -1757,6 +1757,7 @@
       "labelEvent": "Evenemang",
       "labelInstructions": "Anvisningar för registrering (valfritt)",
       "labelMaximumAttendeeCapacity": "Max antal platser",
+      "labelMaximumGroupSize": "Maximal gruppstorlek",
       "labelMinimumAttendeeCapacity": "Minsta antal platser",
       "labelName": "Namn",
       "labelWaitingListCapacity": "Antal reservplatser",
@@ -1770,6 +1771,7 @@
         "confirmationMessage": "Bekräftelsemeddelande",
         "enrolmentTime": "Registreringstid",
         "event": "Evenemang",
+        "groupSize": "Gruppstorlek",
         "instructions": "Ytterligare registreringsinformation",
         "mandatoryFields": "Obligatoriska fält",
         "waitingList": "Väntelista"

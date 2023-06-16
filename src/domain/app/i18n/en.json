@@ -1757,6 +1757,7 @@
       "labelEvent": "Event",
       "labelInstructions": "Registration instructions (optional)",
       "labelMaximumAttendeeCapacity": "Maximum number of seats",
+      "labelMaximumGroupSize": "Maximum group size",
       "labelMinimumAttendeeCapacity": "Minimum number of seats",
       "labelName": "Name",
       "labelWaitingListCapacity": "Number of spare seats",
@@ -1770,6 +1771,7 @@
         "confirmationMessage": "Confirmation message details",
         "enrolmentTime": "Registration time",
         "event": "Event",
+        "groupSize": "Group size",
         "instructions": "Additional registration information",
         "mandatoryFields": "Required fields",
         "waitingList": "Waiting list"
