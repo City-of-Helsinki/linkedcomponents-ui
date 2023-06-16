@@ -360,6 +360,8 @@ export const PUBLICATION_LIST_LINKS: Record<EVENT_TYPE, PublicationListLink[]> =
     [EVENT_TYPE.Course]: [],
     [EVENT_TYPE.General]: [
       { href: 'https://tapahtumat.hel.fi', text: 'tapahtumat.hel.fi' },
+      { href: 'https://harrastukset.hel.fi', text: 'harrastukset.hel.fi' },
+      { href: 'https://www.myhelsinki.fi', text: 'myhelsinki.fi' },
     ],
     [EVENT_TYPE.Volunteering]: [
       {
