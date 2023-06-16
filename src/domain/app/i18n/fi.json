@@ -1826,6 +1826,7 @@
     "emailMustBeUnique": "Sähköpostiosoitteella on jo ilmoittautuminen.",
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
     "invalidUrl": "Syötä oikea URL-osoite.",
+    "maxGroupSize": "Ryhmän enimmäiskoko on {{maxGroupSize}}.",
     "maxLength255": "Arvo saa olla enintään 255 merkkiä pitkä.",
     "methodDeleteNotAllowed": "Metodi \"DELETE\" ei ole sallittu.",
     "methodPostNotAllowed": "Metodi \"POST\" ei ole sallittu.",

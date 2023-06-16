@@ -1826,6 +1826,7 @@
     "emailMustBeUnique": "E-post har redan registrering.",
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",
+    "maxGroupSize": "Den maximala gruppstorleken är {{maxGroupSize}}.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
     "methodDeleteNotAllowed": "\"DELETE\"-metoden är inte tillåten.",
     "methodPostNotAllowed": "\"POST\"-metoden är inte tillåten.",

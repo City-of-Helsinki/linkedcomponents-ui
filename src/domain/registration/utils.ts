@@ -392,7 +392,7 @@ export const getFreeWaitingListCapacity = (
 
 export const getFreeAttendeeOrWaitingListCapacity = (
   registration: RegistrationFieldsFragment
-) => {
+): number | undefined => {
   const freeAttendeeCapacity = getFreeAttendeeCapacity(registration);
   // Return the amount of free capacity if there are still capacity left
   // Seat reservations are not counted
@@ -401,6 +401,18 @@ export const getFreeAttendeeOrWaitingListCapacity = (
   }
 
   return getFreeWaitingListCapacity(registration);
+};
+
+export const getMaxSeatsAmount = (
+  registration: RegistrationFieldsFragment
+): number | undefined => {
+  const maximumGroupSize = registration.maximumGroupSize;
+  const freeCapacity = getFreeAttendeeOrWaitingListCapacity(registration);
+  const maxValues = [maximumGroupSize, freeCapacity].filter(
+    (v) => !isNil(v)
+  ) as number[];
+
+  return maxValues.length ? Math.min(...maxValues) : undefined;
 };
 
 export const hasEnrolments = (
