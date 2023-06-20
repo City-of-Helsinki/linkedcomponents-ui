@@ -1,8 +1,11 @@
 import React from 'react';
 
 import { testIds } from '../../../../constants';
+import { mockedOrganizationAncestorsResponse } from '../../../../domain/organization/__mocks__/organizationAncestors';
+import { mockedUserResponse } from '../../../../domain/user/__mocks__/user';
 import { Image, ImageFieldsFragment } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeImage } from '../../../../utils/mockDataUtils';
 import {
   configure,
@@ -40,11 +43,19 @@ const defaultImageItemProps: ImageItemProps = {
   onDoubleClick: jest.fn(),
 };
 
-const mocks = [mockedImagesReponse, mockedLoadMoreImagesResponse];
+const mocks = [
+  mockedImagesReponse,
+  mockedLoadMoreImagesResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
+
+const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const renderImageSelector = (props?: Partial<ImageSelectorProps>) =>
   render(<ImageSelector {...defaultImageSelectorProps} {...props} />, {
     mocks,
+    authContextValue,
   });
 
 const renderImageItem = (props?: Partial<ImageItemProps>) =>

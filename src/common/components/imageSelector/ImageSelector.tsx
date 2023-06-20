@@ -8,6 +8,7 @@ import { useDebounce } from 'use-debounce';
 import { COMBOBOX_DEBOUNCE_TIME_MS, testIds } from '../../../constants';
 import { useTheme } from '../../../domain/app/theme/Theme';
 import { imagesPathBuilder } from '../../../domain/image/utils';
+import useUser from '../../../domain/user/hooks/useUser';
 import {
   Image,
   ImageFieldsFragment,
@@ -99,12 +100,15 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   const [search, setSearch] = useMountedState('');
   const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
+  const { externalUser, loading: loadingUser } = useUser();
+
   const {
     data: imagesData,
     loading,
     fetchMore: fetchMoreImages,
   } = useImagesQuery({
     variables: {
+      createdBy: !loadingUser && externalUser ? 'me' : undefined,
       createPath: getPathBuilder(imagesPathBuilder),
       mergePages: true,
       pageSize: PAGE_SIZE,

@@ -7,6 +7,7 @@ const publisher = TEST_PUBLISHER_ID;
 
 const images = fakeImages(PAGE_SIZE);
 const imagesVariables = {
+  createdBy: undefined,
   createPath: undefined,
   mergePages: true,
   pageSize: PAGE_SIZE,

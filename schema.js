@@ -100,6 +100,7 @@ module.exports = buildSchema(/* GraphQL */ `
     ): EventsResponse!
     image(id: ID): Image!
     images(
+      createdBy: String
       dataSource: String
       mergePages: Boolean
       page: Int
@@ -674,6 +675,7 @@ module.exports = buildSchema(/* GraphQL */ `
   type Image {
     id: ID
     altText: LocalisedObject
+    createdBy: String
     createdTime: String
     cropping: String
     dataSource: String

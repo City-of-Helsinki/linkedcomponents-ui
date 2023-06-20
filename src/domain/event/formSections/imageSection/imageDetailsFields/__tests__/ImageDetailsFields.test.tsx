@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../../constants';
-import { UserDocument } from '../../../../../../generated/graphql';
 import { setFeatureFlags } from '../../../../../../test/featureFlags/featureFlags';
 import { MultiLanguageObject } from '../../../../../../types';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../../utils/mockAuthContextValue';
@@ -27,10 +26,7 @@ import {
   LICENSE_TYPES,
 } from '../../../../../image/constants';
 import { mockedOrganizationAncestorsResponse } from '../../../../../organization/__mocks__/organizationAncestors';
-import {
-  mockedUserResponse,
-  mockedUserWithoutOrganizationsResponse,
-} from '../../../../../user/__mocks__/user';
+import { mockedUserResponse } from '../../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../../constants';
 import { publicEventSchema } from '../../../../validation';
 import ImageDetailsFields, {
@@ -273,29 +269,6 @@ test('should set field values', async () => {
   const eventOnlyRadio = getElement('eventOnlyRadio');
   expect(eventOnlyRadio).toBeChecked();
   expect(eventOnlyRadio).toBeEnabled();
-});
-
-test("all fields should be disabled when user doesn't have permission to edit image", async () => {
-  setLocalizedImageFeatureFlag(true);
-
-  const mocks = [
-    ...defaultMocks.filter((mock) => mock.request.query !== UserDocument),
-    mockedUserWithoutOrganizationsResponse,
-  ];
-  await renderComponent({ mocks, props: { imageAtId: imageFields.atId } });
-
-  const textInputs = [
-    getElement('altText'),
-    getElement('name'),
-    getElement('photographerName'),
-  ];
-
-  for (const input of textInputs) {
-    await waitFor(() => expect(input).toBeDisabled());
-  }
-
-  const eventOnlyRadio = getElement('eventOnlyRadio');
-  expect(eventOnlyRadio).toBeDisabled();
 });
 
 test('should show validation error when entering too short altText', async () => {

@@ -18,6 +18,7 @@ const eventType = EVENT_TYPE.General;
 
 const images = fakeImages(PAGE_SIZE, [{ publisher }]);
 const imagesVariables = {
+  createdBy: undefined,
   createPath: undefined,
   mergePages: true,
   pageSize: PAGE_SIZE,

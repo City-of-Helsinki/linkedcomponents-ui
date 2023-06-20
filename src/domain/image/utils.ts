@@ -31,6 +31,7 @@ import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import {
   isAdminUserInOrganization,
+  isExternalUserWithoutOrganization,
   isReqularUserInOrganization,
 } from '../organization/utils';
 import {
@@ -54,7 +55,7 @@ export const imagePathBuilder = ({
 export const imagesPathBuilder = ({
   args,
 }: PathBuilderProps<ImagesQueryVariables>): string => {
-  const { dataSource, page, pageSize, publisher, sort, text } = args;
+  const { dataSource, page, pageSize, publisher, sort, text, createdBy } = args;
   const variableToKeyItems = [
     { key: 'data_source', value: dataSource },
     { key: 'page', value: page },
@@ -62,6 +63,7 @@ export const imagesPathBuilder = ({
     { key: 'publisher', value: publisher },
     { key: 'sort', value: sort },
     { key: 'text', value: text },
+    { key: 'created_by', value: createdBy },
   ];
 
   const query = queryBuilder(variableToKeyItems);
@@ -122,6 +124,8 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
+  const isExternalUser = isExternalUserWithoutOrganization({ user });
+
   const hasOrganizations =
     !!user?.adminOrganizations.length || !!user?.organizationMemberships.length;
 
@@ -134,7 +138,7 @@ export const checkCanUserDoAction = ({
       return isAdminUser;
     case IMAGE_ACTIONS.UPDATE:
     case IMAGE_ACTIONS.UPLOAD:
-      return isRegularUser || isAdminUser;
+      return isRegularUser || isAdminUser || isExternalUser;
   }
 };
 
