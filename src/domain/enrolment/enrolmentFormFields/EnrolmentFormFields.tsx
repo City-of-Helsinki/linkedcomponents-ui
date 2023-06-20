@@ -29,6 +29,7 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
   const { t } = useTranslation();
   const notificationOptions = useNotificationOptions();
   const languageOptions = useLanguageOptions();
+  const serviceLanguageOptions = useLanguageOptions({ serviceLanguage: true });
   const [{ value: notifications }] = useField<NOTIFICATIONS>({
     name: ENROLMENT_FIELDS.NOTIFICATIONS,
   });
@@ -114,7 +115,7 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
               component={SingleSelectField}
               disabled={disabled}
               label={t(`enrolment.form.labelServiceLanguage`)}
-              options={languageOptions}
+              options={serviceLanguageOptions}
               placeholder={t(`enrolment.form.placeholderServiceLanguage`)}
               required
             />

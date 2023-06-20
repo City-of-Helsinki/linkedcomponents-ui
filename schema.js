@@ -127,7 +127,7 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): KeywordSetsResponse!
-    languages: LanguagesResponse!
+    languages(serviceLanguage: Boolean): LanguagesResponse!
     organization(id: ID!): Organization!
     organizations(
       child: ID
@@ -735,6 +735,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Language {
     id: ID
+    serviceLanguage: Boolean
     translationAvailable: Boolean
     name: LocalisedObject
     # @id is renamed as atId so it's usable on GraphQl

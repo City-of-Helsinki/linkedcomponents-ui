@@ -5,6 +5,7 @@ import {
   fakeLanguages,
   fakeLocalisedObject,
 } from '../../../utils/mockDataUtils';
+import skipFalsyType from '../../../utils/skipFalsyType';
 
 const languagesData = [
   {
@@ -59,9 +60,34 @@ const languagesData = [
 
 const languages = fakeLanguages(languagesData.length, languagesData);
 const languagesResponse = { data: { languages } };
+const languagesVariables = { createPath: undefined };
 const mockedLanguagesResponse: MockedResponse = {
   request: { query: LanguagesDocument },
   result: languagesResponse,
 };
 
-export { languages, languagesResponse, mockedLanguagesResponse };
+const serviceLanguageOverrides = languages.data
+  .filter(skipFalsyType)
+  .filter((l) => ['en', 'fi', 'sv'].includes(l.id as string))
+  .map((l) => ({ ...l, serviceLanguage: true }));
+
+const serviceLanguages = fakeLanguages(
+  serviceLanguageOverrides.length,
+  serviceLanguageOverrides
+);
+const serviceLanguagesResponse = { data: { languages: serviceLanguages } };
+const serviceLanguagesVariables = {
+  ...languagesVariables,
+  serviceLanguage: true,
+};
+const mockedServiceLanguagesResponse: MockedResponse = {
+  request: { query: LanguagesDocument, variables: serviceLanguagesVariables },
+  result: serviceLanguagesResponse,
+};
+
+export {
+  languages,
+  languagesResponse,
+  mockedLanguagesResponse,
+  mockedServiceLanguagesResponse,
+};

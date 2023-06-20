@@ -411,6 +411,7 @@ export type Language = {
   atType?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<LocalisedObject>;
+  serviceLanguage?: Maybe<Scalars['Boolean']>;
   translationAvailable?: Maybe<Scalars['Boolean']>;
 };
 
@@ -901,6 +902,11 @@ export type QueryKeywordsArgs = {
   showAllKeywords?: InputMaybe<Scalars['Boolean']>;
   sort?: InputMaybe<Scalars['String']>;
   text?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryLanguagesArgs = {
+  serviceLanguage?: InputMaybe<Scalars['Boolean']>;
 };
 
 
@@ -1562,7 +1568,10 @@ export type KeywordSetsQuery = { __typename?: 'Query', keywordSets: { __typename
 
 export type LanguageFieldsFragment = { __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null };
 
-export type LanguagesQueryVariables = Exact<{ [key: string]: never; }>;
+export type LanguagesQueryVariables = Exact<{
+  serviceLanguage?: InputMaybe<Scalars['Boolean']>;
+  createPath?: InputMaybe<Scalars['Any']>;
+}>;
 
 
 export type LanguagesQuery = { __typename?: 'Query', languages: { __typename?: 'LanguagesResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null> } };
@@ -3413,8 +3422,8 @@ export type KeywordSetsQueryHookResult = ReturnType<typeof useKeywordSetsQuery>;
 export type KeywordSetsLazyQueryHookResult = ReturnType<typeof useKeywordSetsLazyQuery>;
 export type KeywordSetsQueryResult = Apollo.QueryResult<KeywordSetsQuery, KeywordSetsQueryVariables>;
 export const LanguagesDocument = gql`
-    query Languages {
-  languages @rest(type: "LanguagesResponse", path: "/language/", method: "GET") {
+    query Languages($serviceLanguage: Boolean, $createPath: Any) {
+  languages(serviceLanguage: $serviceLanguage) @rest(type: "LanguagesResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }
@@ -3438,6 +3447,8 @@ ${LanguageFieldsFragmentDoc}`;
  * @example
  * const { data, loading, error } = useLanguagesQuery({
  *   variables: {
+ *      serviceLanguage: // value for 'serviceLanguage'
+ *      createPath: // value for 'createPath'
  *   },
  * });
  */

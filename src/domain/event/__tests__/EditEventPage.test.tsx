@@ -308,7 +308,7 @@ test('should update event', async () => {
   await actWait(100);
 });
 
-test.only('should update recurring event', async () => {
+test('should update recurring event', async () => {
   const mocks: MockedResponse[] = [
     ...baseMocks.filter((item) => item.request.query !== EventDocument),
     mockedEventWithSubEventResponse,
