@@ -35,6 +35,7 @@ import { TEST_IMAGE_ID } from '../../image/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import {
   EVENT_ACTIONS,
+  EVENT_EXTERNAL_USER_INITIAL_VALUES,
   EVENT_INITIAL_VALUES,
   EVENT_TYPE,
   TEST_EVENT_ID,
@@ -80,8 +81,6 @@ const defaultEventPayload = {
   endTime: null,
   enrolmentEndTime: null,
   enrolmentStartTime: null,
-  environment: 'in',
-  environmentalCertificate: '',
   externalLinks: [],
   images: [],
   inLanguage: [],
@@ -141,12 +140,19 @@ const defaultEventPayload = {
   superEvent: null,
   superEventType: null,
   typeId: EventTypeId.General,
+
+  videos: [],
+};
+
+const defaultEventExternalUserPayload = {
+  ...defaultEventPayload,
+  environment: 'in',
+  environmentalCertificate: '',
   userConsent: false,
   userEmail: '',
   userName: '',
   userOrganization: '',
   userPhoneNumber: '',
-  videos: [],
 };
 
 beforeEach(() => {
@@ -167,7 +173,7 @@ describe('eventPathBuilder function', () => {
 });
 
 describe('sortLanguage function', () => {
-  it('should sort languages correctly', () => {
+  it('should sort languages correctly', () => {
     const en = fakeLanguage({ name: { fi: 'Englanti' }, id: 'en' });
     const fi = fakeLanguage({ name: { fi: 'Suomi' }, id: 'fi' });
     const ru = fakeLanguage({ name: { fi: 'Venäjä' }, id: 'ru' });
@@ -178,7 +184,7 @@ describe('sortLanguage function', () => {
 });
 
 describe('sortWeekDays function', () => {
-  it('should sort week days correctly', () => {
+  it('should sort week days correctly', () => {
     expect(
       [
         WEEK_DAY.SUN,
@@ -290,7 +296,7 @@ describe('calculateSuperEventTime function', () => {
 describe('getEventTimes function', () => {
   it('should return all event times event time', () => {
     const values: EventFormFields = {
-      ...EVENT_INITIAL_VALUES,
+      ...EVENT_EXTERNAL_USER_INITIAL_VALUES,
       eventTimes: [
         {
           startTime: new Date('2020-01-02T14:15:00.000Z'),
@@ -362,8 +368,11 @@ describe('filterUnselectedLanguages function', () => {
 describe('getEventPayload function', () => {
   it('should return single event as payload', () => {
     expect(
-      getEventPayload(EVENT_INITIAL_VALUES, PublicationStatus.Draft)
-    ).toEqual(defaultEventPayload);
+      getEventPayload(
+        EVENT_EXTERNAL_USER_INITIAL_VALUES,
+        PublicationStatus.Draft
+      )
+    ).toEqual(defaultEventExternalUserPayload);
 
     const audienceMaxAge = 18,
       audienceMinAge = 12,
@@ -385,7 +394,7 @@ describe('getEventPayload function', () => {
 
     const payload = getEventPayload(
       {
-        ...EVENT_INITIAL_VALUES,
+        ...EVENT_EXTERNAL_USER_INITIAL_VALUES,
         audience: ['audience:1'],
         audienceMaxAge,
         audienceMinAge,
@@ -480,7 +489,7 @@ describe('getEventPayload function', () => {
     );
 
     expect(payload).toEqual({
-      ...defaultEventPayload,
+      ...defaultEventExternalUserPayload,
       audience: [{ atId: 'audience:1' }],
       audienceMaxAge,
       audienceMinAge,
@@ -623,7 +632,7 @@ describe('getEventPayload function', () => {
     ];
     const payload = getEventPayload(
       {
-        ...EVENT_INITIAL_VALUES,
+        ...EVENT_EXTERNAL_USER_INITIAL_VALUES,
         eventTimes,
         recurringEvents,
         hasUmbrella: true,
@@ -634,24 +643,24 @@ describe('getEventPayload function', () => {
 
     expect(payload).toEqual([
       {
-        ...defaultEventPayload,
+        ...defaultEventExternalUserPayload,
         startTime: '2020-01-02T14:15:00.000Z',
         superEvent: null,
       },
       {
-        ...defaultEventPayload,
+        ...defaultEventExternalUserPayload,
         startTime: '2020-05-14T12:00:00.000Z',
         endTime: '2020-05-14T14:00:00.000Z',
         superEvent: null,
       },
       {
-        ...defaultEventPayload,
+        ...defaultEventExternalUserPayload,
         startTime: '2020-05-15T12:00:00.000Z',
         endTime: '2020-05-15T14:00:00.000Z',
         superEvent: null,
       },
       {
-        ...defaultEventPayload,
+        ...defaultEventExternalUserPayload,
         endTime: '2020-12-12T16:15:00.000Z',
         superEvent: null,
       },
@@ -661,7 +670,7 @@ describe('getEventPayload function', () => {
   it('should add link to description if audience is Service Centre Card', () => {
     const payload = getEventPayload(
       {
-        ...EVENT_INITIAL_VALUES,
+        ...EVENT_EXTERNAL_USER_INITIAL_VALUES,
         audience: ['/keyword/helsinki:aflfbat76e/'],
         audienceMaxAge: 18,
         audienceMinAge: 12,
@@ -684,6 +693,21 @@ describe('getEventPayload function', () => {
       sv: '<p>Evenemanget är avsett endast för pensionärer eller arbetslösa med servicecentralkort.</p><p>Description sv</p>',
       zhHans: null,
     });
+  });
+
+  it('should return base payload when external user events are disabled', async () => {
+    const originalEnv = process.env;
+
+    process.env = {
+      ...originalEnv,
+      REACT_APP_ENABLE_EXTERNAL_USER_EVENTS: 'false',
+    };
+
+    expect(
+      getEventPayload(EVENT_INITIAL_VALUES, PublicationStatus.Draft)
+    ).toEqual(defaultEventPayload);
+
+    process.env = originalEnv;
   });
 });
 
@@ -732,31 +756,31 @@ describe('getRecurringEventPayload function', () => {
       getRecurringEventPayload(
         [
           {
-            ...defaultEventPayload,
+            ...defaultEventExternalUserPayload,
             startTime: '2020-01-02T14:15:00.000Z',
             endTime: '2020-01-02T16:15:00.000Z',
           },
           {
-            ...defaultEventPayload,
+            ...defaultEventExternalUserPayload,
             startTime: '2020-02-02T14:15:00.000Z',
             endTime: null,
           },
           {
-            ...defaultEventPayload,
+            ...defaultEventExternalUserPayload,
             startTime: null,
             endTime: '2020-11-12T16:15:00.000Z',
           },
           {
-            ...defaultEventPayload,
+            ...defaultEventExternalUserPayload,
             startTime: '2020-12-12T14:15:00.000Z',
             endTime: '2020-12-12T16:15:00.000Z',
           },
         ],
         ['event:1', 'event:2'],
-        EVENT_INITIAL_VALUES
+        EVENT_EXTERNAL_USER_INITIAL_VALUES
       )
     ).toEqual({
-      ...defaultEventPayload,
+      ...defaultEventExternalUserPayload,
       endTime: '2020-12-12T16:15:00.000Z',
       startTime: '2020-01-02T14:15:00.000Z',
       subEvents: [
@@ -1111,6 +1135,13 @@ describe('getEventInitialValues function', () => {
   });
 
   it('should return event edit form default initial values', () => {
+    const originalEnv = process.env;
+
+    process.env = {
+      ...originalEnv,
+      REACT_APP_ENABLE_EXTERNAL_USER_EVENTS: 'false',
+    };
+
     const expectedName = {
       ar: '',
       en: '',
@@ -1173,6 +1204,8 @@ describe('getEventInitialValues function', () => {
     expect(superEvent).toEqual(superEvent);
     expect(type).toEqual(EVENT_TYPE.General);
     expect(videos).toEqual([{ altText: '', name: '', url: '' }]);
+
+    process.env = originalEnv;
   });
 
   it('should return event edit form default initial values for recurring event', () => {
