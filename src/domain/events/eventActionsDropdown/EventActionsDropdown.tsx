@@ -66,16 +66,21 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
   };
 
   const sendEmail = () => {
-    let targetEmail = '';
-    if (event.createdBy) {
-      targetEmail = event.createdBy.split('-')[1].trim();
-    }
+    const targetEmail = findEmail(event.createdBy);
     window.location.href =
       'mailto:' +
       targetEmail +
       '?subject=' +
       getLocalisedString(event.name, locale);
   };
+
+  const findEmail = (createdBy: string | null | undefined) => {
+    if (!createdBy) {
+      return '';
+    }
+    let targetEmail = createdBy.split(' - '); 
+    return targetEmail.find(element => element.includes('@'));
+  }
 
   const getActionItemProps = ({
     action,
