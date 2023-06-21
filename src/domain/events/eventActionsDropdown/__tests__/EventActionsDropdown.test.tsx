@@ -333,7 +333,8 @@ test('should find the email address even when the createdBy field has extra dash
 
   window.location = { href: '' };
   const specialEvent = { ...event };
-  specialEvent.createdBy = 'Jaska Joki-Niemi - jaska_joki-niemi@testi-domaini.fi';
+  specialEvent.createdBy =
+    'Jaska Joki-Niemi - jaska_joki-niemi@testi-domaini.fi';
 
   const user = userEvent.setup();
   renderComponent({ authContextValue, props: { event: specialEvent }, mocks });
