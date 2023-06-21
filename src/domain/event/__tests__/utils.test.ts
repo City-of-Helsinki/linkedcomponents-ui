@@ -149,6 +149,9 @@ const defaultEventPayload = {
   videos: [],
 };
 
+const ENABLE_EXTERNAL_USER_EVENTS =
+  process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
 beforeEach(() => {
   clear();
 });
@@ -1504,13 +1507,26 @@ describe('checkCanUserDoAction function', () => {
       organizationMemberships: [],
     });
 
-    const deniedActions = [
-      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
-      EVENT_ACTIONS.CANCEL,
-      EVENT_ACTIONS.DELETE,
-      EVENT_ACTIONS.POSTPONE,
-      EVENT_ACTIONS.UPDATE_PUBLIC,
-    ];
+    let deniedActions: EVENT_ACTIONS[];
+
+    if (ENABLE_EXTERNAL_USER_EVENTS) {
+      deniedActions = [
+        EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+        EVENT_ACTIONS.CANCEL,
+        EVENT_ACTIONS.DELETE,
+        EVENT_ACTIONS.POSTPONE,
+        EVENT_ACTIONS.UPDATE_PUBLIC,
+      ];
+    } else {
+      deniedActions = [
+        EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+        EVENT_ACTIONS.CANCEL,
+        EVENT_ACTIONS.DELETE,
+        EVENT_ACTIONS.POSTPONE,
+        EVENT_ACTIONS.UPDATE_DRAFT,
+        EVENT_ACTIONS.UPDATE_PUBLIC,
+      ];
+    }
 
     deniedActions.forEach((action) => {
       expect(
@@ -1523,13 +1539,19 @@ describe('checkCanUserDoAction function', () => {
       ).toBe(false);
     });
 
-    const allowedActions = [
-      EVENT_ACTIONS.COPY,
-      EVENT_ACTIONS.EDIT,
-      EVENT_ACTIONS.CREATE_DRAFT,
-      EVENT_ACTIONS.SEND_TO_PUBLISHING,
-      EVENT_ACTIONS.UPDATE_DRAFT,
-    ];
+    let allowedActions: EVENT_ACTIONS[];
+
+    if (ENABLE_EXTERNAL_USER_EVENTS) {
+      allowedActions = [
+        EVENT_ACTIONS.COPY,
+        EVENT_ACTIONS.EDIT,
+        EVENT_ACTIONS.CREATE_DRAFT,
+        EVENT_ACTIONS.SEND_TO_PUBLISHING,
+        EVENT_ACTIONS.UPDATE_DRAFT,
+      ];
+    } else {
+      allowedActions = [EVENT_ACTIONS.COPY, EVENT_ACTIONS.EDIT];
+    }
 
     allowedActions.forEach((action) => {
       expect(

@@ -65,6 +65,9 @@ import { EventFormFields } from '../types';
 
 configure({ defaultHidden: true });
 
+const ENABLE_EXTERNAL_USER_EVENTS =
+  process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
 const defaultMocks = [
   mockedImagesResponse,
   mockedImageResponse,
@@ -182,40 +185,42 @@ test('should focus to first validation error when trying to save draft event', a
   await waitFor(() => expect(nameTextbox).toHaveFocus());
 });
 
-test('should focus to first validation error when trying to save draft event as external user', async () => {
-  const user = userEvent.setup();
+if (ENABLE_EXTERNAL_USER_EVENTS) {
+  test('should focus to first validation error when trying to save draft event as external user', async () => {
+    const user = userEvent.setup();
 
-  const mocks = [
-    mockedImagesResponse,
-    mockedImageResponse,
-    mockedUmbrellaEventsResponse,
-    mockedAudienceKeywordSetResponse,
-    mockedTopicsKeywordSetResponse,
-    mockedKeywordSelectorKeywordsResponse,
-    mockedLanguagesResponse,
-    mockedPlaceResponse,
-    mockedPlacesResponse,
-    // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
-    mockedFilteredPlacesResponse,
-    mockedFilteredPlacesResponse,
-    mockedOrganizationResponse,
-    mockedOrganizationAncestorsResponse,
-    mockedUserWithoutOrganizationsResponse,
-  ];
+    const mocks = [
+      mockedImagesResponse,
+      mockedImageResponse,
+      mockedUmbrellaEventsResponse,
+      mockedAudienceKeywordSetResponse,
+      mockedTopicsKeywordSetResponse,
+      mockedKeywordSelectorKeywordsResponse,
+      mockedLanguagesResponse,
+      mockedPlaceResponse,
+      mockedPlacesResponse,
+      // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
+      mockedFilteredPlacesResponse,
+      mockedFilteredPlacesResponse,
+      mockedOrganizationResponse,
+      mockedOrganizationAncestorsResponse,
+      mockedUserWithoutOrganizationsResponse,
+    ];
 
-  renderComponent(mocks);
+    renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
+    await loadingSpinnerIsNotInDocument();
 
-  const saveDraftButton = getElement('saveDraft');
-  const providerField = await screen.findByLabelText(
-    /tapahtuman järjestäjä suomeksi/i
-  );
+    const saveDraftButton = getElement('saveDraft');
+    const providerField = await screen.findByLabelText(
+      /tapahtuman järjestäjä suomeksi/i
+    );
 
-  await user.click(saveDraftButton);
+    await user.click(saveDraftButton);
 
-  await waitFor(() => expect(providerField).toHaveFocus());
-});
+    await waitFor(() => expect(providerField).toHaveFocus());
+  });
+}
 
 test('should focus to validation error of swedish name when trying to save draft event', async () => {
   setFormValues({
@@ -459,65 +464,67 @@ test('should route to event completed page after publishing event', async () => 
   );
 });
 
-test('should render fields for external user', async () => {
-  const mocks = [
-    mockedImagesResponse,
-    mockedImageResponse,
-    mockedUmbrellaEventsResponse,
-    mockedAudienceKeywordSetResponse,
-    mockedTopicsKeywordSetResponse,
-    mockedKeywordSelectorKeywordsResponse,
-    mockedLanguagesResponse,
-    mockedPlaceResponse,
-    mockedPlacesResponse,
-    // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
-    mockedFilteredPlacesResponse,
-    mockedFilteredPlacesResponse,
-    mockedOrganizationResponse,
-    mockedOrganizationAncestorsResponse,
-    mockedUserWithoutOrganizationsResponse,
-  ];
+if (ENABLE_EXTERNAL_USER_EVENTS) {
+  test('should render fields for external user', async () => {
+    const mocks = [
+      mockedImagesResponse,
+      mockedImageResponse,
+      mockedUmbrellaEventsResponse,
+      mockedAudienceKeywordSetResponse,
+      mockedTopicsKeywordSetResponse,
+      mockedKeywordSelectorKeywordsResponse,
+      mockedLanguagesResponse,
+      mockedPlaceResponse,
+      mockedPlacesResponse,
+      // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
+      mockedFilteredPlacesResponse,
+      mockedFilteredPlacesResponse,
+      mockedOrganizationResponse,
+      mockedOrganizationAncestorsResponse,
+      mockedUserWithoutOrganizationsResponse,
+    ];
 
-  renderComponent(mocks);
+    renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
+    await loadingSpinnerIsNotInDocument();
 
-  const externalUserFieldLabels = [
-    /tapahtumalla on ekokompassi tai muu vastaava sertifikaatti/i,
-    /sertifikaatin nimi/i,
-    /sisällä/i,
-    /nimi/i,
-    /sähköpostiosoite/i,
-    /puhelinnumero/i,
-    /organisaatio/i,
-    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
-  ];
+    const externalUserFieldLabels = [
+      /tapahtumalla on ekokompassi tai muu vastaava sertifikaatti/i,
+      /sertifikaatin nimi/i,
+      /sisällä/i,
+      /nimi/i,
+      /sähköpostiosoite/i,
+      /puhelinnumero/i,
+      /organisaatio/i,
+      /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
+    ];
 
-  externalUserFieldLabels.forEach(async (label) =>
-    expect(await screen.findByLabelText(label)).toBeInTheDocument()
-  );
+    externalUserFieldLabels.forEach(async (label) =>
+      expect(await screen.findByLabelText(label)).toBeInTheDocument()
+    );
 
-  const disabledFieldLabels = [
-    /tapahtuma/i,
-    /sertifikaatin nimi/i,
-    /tapahtuman julkaisija/i,
-  ];
+    const disabledFieldLabels = [
+      /tapahtuma/i,
+      /sertifikaatin nimi/i,
+      /tapahtuman julkaisija/i,
+    ];
 
-  disabledFieldLabels.forEach(async (label) =>
-    expect(await screen.findByLabelText(label)).toBeDisabled()
-  );
+    disabledFieldLabels.forEach(async (label) =>
+      expect(await screen.findByLabelText(label)).toBeDisabled()
+    );
 
-  const requiredFieldLabels = [
-    /tapahtuman järjestäjä suomeksi/i,
-    /sertifikaatin nimi/i,
-    /enimmäisosallistujamäärä/i,
-    /nimi/i,
-    /sähköpostiosoite/i,
-    /puhelinnumero/i,
-    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
-  ];
+    const requiredFieldLabels = [
+      /tapahtuman järjestäjä suomeksi/i,
+      /sertifikaatin nimi/i,
+      /enimmäisosallistujamäärä/i,
+      /nimi/i,
+      /sähköpostiosoite/i,
+      /puhelinnumero/i,
+      /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
+    ];
 
-  requiredFieldLabels.forEach(async (label) =>
-    expect(await screen.findByLabelText(label)).toBeRequired()
-  );
-});
+    requiredFieldLabels.forEach(async (label) =>
+      expect(await screen.findByLabelText(label)).toBeRequired()
+    );
+  });
+}

@@ -10,6 +10,8 @@ import { userPathBuilder } from '../utils';
 
 /* istanbul ignore next */
 const LOADING_USER_DEBOUNCE_TIME = isTestEnv ? 0 : 50;
+const ENABLE_EXTERNAL_USER_EVENTS =
+  process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
 
 export type UserState = {
   loading: boolean;
@@ -34,9 +36,11 @@ const useUser = (): UserState => {
     LOADING_USER_DEBOUNCE_TIME
   );
 
-  const isExternalUser = isExternalUserWithoutOrganization({
-    user: userData?.user,
-  });
+  const isExternalUser =
+    ENABLE_EXTERNAL_USER_EVENTS &&
+    isExternalUserWithoutOrganization({
+      user: userData?.user,
+    });
 
   return { loading, user: userData?.user, externalUser: isExternalUser };
 };

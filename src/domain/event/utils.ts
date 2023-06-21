@@ -1088,6 +1088,9 @@ type EditEventActionProps = CommonEventActionProps & {
 
 type EventActionProps = CreateEventActionProps | EditEventActionProps;
 
+const ENABLE_EXTERNAL_USER_EVENTS =
+  process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
 export const checkCanUserDoAction = ({
   action,
   event,
@@ -1113,7 +1116,8 @@ export const checkCanUserDoAction = ({
     user,
   });
 
-  const isExternalUser = isExternalUserWithoutOrganization({ user });
+  const isExternalUser =
+    ENABLE_EXTERNAL_USER_EVENTS && isExternalUserWithoutOrganization({ user });
 
   const canCreateDraft =
     (!publisher && !!user?.organization) ||

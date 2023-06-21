@@ -18,6 +18,9 @@ export type EventAuthenticationNotificationProps = {
   event?: EventFieldsFragment | null;
 };
 
+const ENABLE_EXTERNAL_USER_EVENTS =
+  process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
 const EventAuthenticationNotification: React.FC<
   EventAuthenticationNotificationProps
 > = ({ event }) => {
@@ -28,6 +31,10 @@ const EventAuthenticationNotification: React.FC<
   const { organizationAncestors } = useOrganizationAncestors(
     getValue(event?.publisher, '')
   );
+
+  const requiredOrganizationType = ENABLE_EXTERNAL_USER_EVENTS
+    ? 'external'
+    : 'any';
 
   return (
     <LoadingSpinner isLoading={loading}>
@@ -55,7 +62,7 @@ const EventAuthenticationNotification: React.FC<
           'authentication.noRightsUpdateEventLabel'
         )}
         noRequiredOrganizationText={t('authentication.noRightsUpdateEvent')}
-        requiredOrganizationType="external"
+        requiredOrganizationType={requiredOrganizationType}
         notAuthenticatedCustomMessage={
           <>
             <p

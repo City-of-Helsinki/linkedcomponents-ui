@@ -15,6 +15,9 @@ import ButtonPanel from '../CreateButtonPanel';
 
 configure({ defaultHidden: true });
 
+const ENABLE_EXTERNAL_USER_EVENTS =
+  process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
 const renderComponent = (
   authContextValue?: AuthContextProps,
   mocks?: MockedResponse[]
@@ -36,30 +39,15 @@ const renderComponent = (
 test('publish should be disabled when user is not authenticated', () => {
   renderComponent();
 
-  const buttons = ['Lähetä julkaistavaksi'];
+  const buttons = [
+    ENABLE_EXTERNAL_USER_EVENTS
+      ? 'Lähetä julkaistavaksi'
+      : 'Julkaise tapahtuma',
+  ];
 
   buttons.forEach((name) => {
     expect(screen.getByRole('button', { name })).toBeDisabled();
   });
-});
-
-test('buttons should be enabled when external user is authenticated', async () => {
-  const authContextValue = fakeAuthenticatedAuthContextValue();
-  const mocks = [mockedUserWithoutOrganizationsResponse];
-
-  renderComponent(authContextValue, mocks);
-
-  const buttonSaveDraft = await screen.findByRole('button', {
-    name: /tallenna luonnos/i,
-  });
-  const buttonSendToPublish = screen.getByRole('button', {
-    name: /lähetä julkaistavaksi/i,
-  });
-  const buttons = [buttonSaveDraft, buttonSendToPublish];
-
-  for (const button of buttons) {
-    expect(button).toBeEnabled();
-  }
 });
 
 test('buttons should be enabled when regular user is authenticated', async () => {
@@ -78,3 +66,24 @@ test('buttons should be enabled when regular user is authenticated', async () =>
     expect(button).toBeEnabled();
   }
 });
+
+if (ENABLE_EXTERNAL_USER_EVENTS) {
+  test('buttons should be enabled when external user is authenticated', async () => {
+    const authContextValue = fakeAuthenticatedAuthContextValue();
+    const mocks = [mockedUserWithoutOrganizationsResponse];
+
+    renderComponent(authContextValue, mocks);
+
+    const buttonSaveDraft = await screen.findByRole('button', {
+      name: /tallenna luonnos/i,
+    });
+    const buttonSendToPublish = screen.getByRole('button', {
+      name: /lähetä julkaistavaksi/i,
+    });
+    const buttons = [buttonSaveDraft, buttonSendToPublish];
+
+    for (const button of buttons) {
+      expect(button).toBeEnabled();
+    }
+  });
+}
