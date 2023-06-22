@@ -253,6 +253,10 @@ export const getRegistrationInitialValues = (
       registration.maximumAttendeeCapacity,
       ''
     ),
+    [REGISTRATION_FIELDS.MAXIMUM_GROUP_SIZE]: getValue(
+      registration.maximumGroupSize,
+      ''
+    ),
     [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: getValue(
       registration.minimumAttendeeCapacity,
       ''
@@ -299,6 +303,7 @@ export const getRegistrationPayload = (
     instructions,
     mandatoryFields,
     maximumAttendeeCapacity,
+    maximumGroupSize,
     minimumAttendeeCapacity,
     waitingListCapacity,
   } = formValues;
@@ -324,6 +329,7 @@ export const getRegistrationPayload = (
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity
       : null,
+    maximumGroupSize: isNumber(maximumGroupSize) ? maximumGroupSize : null,
     minimumAttendeeCapacity: isNumber(minimumAttendeeCapacity)
       ? minimumAttendeeCapacity
       : null,
@@ -386,7 +392,7 @@ export const getFreeWaitingListCapacity = (
 
 export const getFreeAttendeeOrWaitingListCapacity = (
   registration: RegistrationFieldsFragment
-) => {
+): number | undefined => {
   const freeAttendeeCapacity = getFreeAttendeeCapacity(registration);
   // Return the amount of free capacity if there are still capacity left
   // Seat reservations are not counted
@@ -395,6 +401,18 @@ export const getFreeAttendeeOrWaitingListCapacity = (
   }
 
   return getFreeWaitingListCapacity(registration);
+};
+
+export const getMaxSeatsAmount = (
+  registration: RegistrationFieldsFragment
+): number | undefined => {
+  const maximumGroupSize = registration.maximumGroupSize;
+  const freeCapacity = getFreeAttendeeOrWaitingListCapacity(registration);
+  const maxValues = [maximumGroupSize, freeCapacity].filter(
+    (v) => !isNil(v)
+  ) as number[];
+
+  return maxValues.length ? Math.min(...maxValues) : undefined;
 };
 
 export const hasEnrolments = (

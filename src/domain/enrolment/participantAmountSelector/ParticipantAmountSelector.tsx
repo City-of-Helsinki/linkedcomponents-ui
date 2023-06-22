@@ -6,7 +6,7 @@ import Button from '../../../common/components/button/Button';
 import NumberInput from '../../../common/components/numberInput/NumberInput';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
-import { getFreeAttendeeOrWaitingListCapacity } from '../../registration/utils';
+import { getMaxSeatsAmount } from '../../registration/utils';
 import { getSeatsReservationData } from '../../reserveSeats/utils';
 import { ENROLMENT_FIELDS, ENROLMENT_MODALS } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
@@ -87,7 +87,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   };
 
   const maxSeatAmount = useMemo(
-    () => getFreeAttendeeOrWaitingListCapacity(registration),
+    () => getMaxSeatsAmount(registration),
     [registration]
   );
 

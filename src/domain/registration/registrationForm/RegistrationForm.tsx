@@ -52,6 +52,7 @@ import { RegistrationFormFields } from '../types';
 import { checkCanUserDoAction, getRegistrationInitialValues } from '../utils';
 import { getFocusableFieldId, registrationSchema } from '../validation';
 import getValue from '../../../utils/getValue';
+import GroupSizeSection from '../formSections/groupSizeSection/GroupSizeSection';
 
 export type CreateRegistrationFormProps = {
   event?: null;
@@ -285,6 +286,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                       title={t('registration.form.sections.waitingList')}
                     >
                       <WaitingListSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section title={t('registration.form.sections.groupSize')}>
+                      <GroupSizeSection isEditingAllowed={isEditingAllowed} />
                     </Section>
                     <Section
                       title={t('registration.form.sections.instructions')}

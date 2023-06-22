@@ -21,6 +21,7 @@ export const QUERY_REGISTRATION = gql`
     lastModifiedAt
     mandatoryFields
     maximumAttendeeCapacity
+    maximumGroupSize
     minimumAttendeeCapacity
     remainingAttendeeCapacity
     remainingWaitingListCapacity

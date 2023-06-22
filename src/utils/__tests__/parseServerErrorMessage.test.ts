@@ -7,6 +7,10 @@ import parseServerErrorMessage from '../parseServerErrorMessage';
 const testCases: [LEServerError, string][] = [
   ['An object with given id already exists.', 'Arvon tulee olla uniikki.'],
   [
+    'Amount of seats is greater than maximum group size: 3',
+    'Ryhmän enimmäiskoko on 3.',
+  ],
+  [
     'Not enough seats available. Capacity left: 4.',
     'Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: 4.',
   ],

@@ -510,6 +510,7 @@ export const fakeRegistration = (
       lastModifiedBy: faker.name.firstName(),
       mandatoryFields: [],
       maximumAttendeeCapacity: 0,
+      maximumGroupSize: null,
       minimumAttendeeCapacity: 0,
       remainingAttendeeCapacity: 0,
       remainingWaitingListCapacity: 0,

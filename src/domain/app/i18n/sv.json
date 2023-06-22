@@ -1789,6 +1789,7 @@
       "labelEvent": "Evenemang",
       "labelInstructions": "Anvisningar för registrering (valfritt)",
       "labelMaximumAttendeeCapacity": "Max antal platser",
+      "labelMaximumGroupSize": "Maximal gruppstorlek",
       "labelMinimumAttendeeCapacity": "Minsta antal platser",
       "labelName": "Namn",
       "labelWaitingListCapacity": "Antal reservplatser",
@@ -1802,6 +1803,7 @@
         "confirmationMessage": "Bekräftelsemeddelande",
         "enrolmentTime": "Registreringstid",
         "event": "Evenemang",
+        "groupSize": "Gruppstorlek",
         "instructions": "Ytterligare registreringsinformation",
         "mandatoryFields": "Obligatoriska fält",
         "waitingList": "Väntelista"
@@ -1856,6 +1858,7 @@
     "emailMustBeUnique": "E-post har redan registrering.",
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",
+    "maxGroupSize": "Den maximala gruppstorleken är {{maxGroupSize}}.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
     "methodDeleteNotAllowed": "\"DELETE\"-metoden är inte tillåten.",
     "methodPostNotAllowed": "\"POST\"-metoden är inte tillåten.",

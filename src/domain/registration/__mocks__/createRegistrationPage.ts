@@ -25,6 +25,7 @@ const payload = {
   instructions: null,
   mandatoryFields: ['name'],
   maximumAttendeeCapacity: null,
+  maximumGroupSize: null,
   minimumAttendeeCapacity: null,
   waitingListCapacity: null,
 };

@@ -1789,6 +1789,7 @@
       "labelEvent": "Event",
       "labelInstructions": "Registration instructions (optional)",
       "labelMaximumAttendeeCapacity": "Maximum number of seats",
+      "labelMaximumGroupSize": "Maximum group size",
       "labelMinimumAttendeeCapacity": "Minimum number of seats",
       "labelName": "Name",
       "labelWaitingListCapacity": "Number of spare seats",
@@ -1802,6 +1803,7 @@
         "confirmationMessage": "Confirmation message details",
         "enrolmentTime": "Registration time",
         "event": "Event",
+        "groupSize": "Group size",
         "instructions": "Additional registration information",
         "mandatoryFields": "Required fields",
         "waitingList": "Waiting list"
@@ -1856,6 +1858,7 @@
     "emailMustBeUnique": "Email already has registration.",
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
     "invalidUrl": "Enter a valid URL.",
+    "maxGroupSize": "The maximum group size is {{maxGroupSize}}.",
     "maxLength255": "The value can be up to 255 characters long.",
     "methodDeleteNotAllowed": "\"DELETE\" method is not allowed.",
     "methodPostNotAllowed": "\"POST\" method is not allowed.",

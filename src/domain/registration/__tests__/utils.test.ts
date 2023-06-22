@@ -11,6 +11,7 @@ import {
   getEditRegistrationWarning,
   getEnrolmentLink,
   getFreeAttendeeOrWaitingListCapacity,
+  getMaxSeatsAmount,
   getRegistrationFields,
   getRegistrationInitialValues,
   getRegistrationPayload,
@@ -188,6 +189,7 @@ describe('getRegistrationPayload function', () => {
       instructions: null,
       mandatoryFields: ['name'],
       maximumAttendeeCapacity: null,
+      maximumGroupSize: null,
       minimumAttendeeCapacity: null,
       waitingListCapacity: null,
     });
@@ -200,6 +202,7 @@ describe('getRegistrationPayload function', () => {
       event = 'event:1',
       instructions = 'Instructions',
       maximumAttendeeCapacity = 10,
+      maximumGroupSize = 2,
       minimumAttendeeCapacity = 5,
       waitingListCapacity = 3;
     const payload = getRegistrationPayload({
@@ -214,6 +217,7 @@ describe('getRegistrationPayload function', () => {
       event,
       instructions,
       maximumAttendeeCapacity,
+      maximumGroupSize,
       minimumAttendeeCapacity,
       waitingListCapacity,
     });
@@ -228,6 +232,7 @@ describe('getRegistrationPayload function', () => {
       instructions,
       mandatoryFields: ['name'],
       maximumAttendeeCapacity,
+      maximumGroupSize,
       minimumAttendeeCapacity,
       waitingListCapacity,
     });
@@ -492,5 +497,68 @@ describe('getFreeAttendeeOrWaitingListCapacity function', () => {
         })
       )
     ).toBe(7);
+  });
+});
+
+describe('getMaxSeatsAmount function', () => {
+  test('should return undefined if maximum attendee capacity maximum group size is not set', () => {
+    expect(
+      getMaxSeatsAmount(
+        fakeRegistration({
+          maximumAttendeeCapacity: null,
+          maximumGroupSize: null,
+        })
+      )
+    ).toBe(undefined);
+  });
+
+  test('should return maximum group size if maximum attendee capacity is not defined', () => {
+    expect(
+      getMaxSeatsAmount(
+        fakeRegistration({
+          maximumAttendeeCapacity: null,
+          maximumGroupSize: 4,
+        })
+      )
+    ).toBe(4);
+  });
+
+  test('should return free capacity if maximum group size is not defined', () => {
+    expect(
+      getMaxSeatsAmount(
+        fakeRegistration({
+          currentAttendeeCount: 3,
+          maximumAttendeeCapacity: 10,
+          maximumGroupSize: null,
+          remainingAttendeeCapacity: 7,
+        })
+      )
+    ).toBe(7);
+  });
+
+  test('should return free capacity if maximum group size is greated than free capacity', () => {
+    expect(
+      getMaxSeatsAmount(
+        fakeRegistration({
+          currentAttendeeCount: 3,
+          maximumAttendeeCapacity: 10,
+          maximumGroupSize: 8,
+          remainingAttendeeCapacity: 7,
+        })
+      )
+    ).toBe(7);
+  });
+
+  test('should return maximum group size if maximum group size is less that free capacity', () => {
+    expect(
+      getMaxSeatsAmount(
+        fakeRegistration({
+          currentAttendeeCount: 3,
+          maximumAttendeeCapacity: 10,
+          maximumGroupSize: 6,
+          remainingAttendeeCapacity: 7,
+        })
+      )
+    ).toBe(6);
   });
 });

@@ -24,6 +24,7 @@ const registrationOverrides = {
   instructions: 'Instructions',
   mandatoryFields: [],
   maximumAttendeeCapacity: 100,
+  maximumGroupSize: 5,
   minimumAttendeeCapacity: 10,
   waitingListCapacity: 5,
 };
