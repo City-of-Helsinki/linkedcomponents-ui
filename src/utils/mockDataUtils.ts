@@ -164,59 +164,70 @@ export const fakeEvents = (
   __typename: 'EventsResponse',
 });
 
+const ENABLE_EXTERNAL_USER_EVENTS =
+  process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
 export const fakeEvent = (overrides?: Partial<Event>): Event => {
   const id = overrides?.id || faker.datatype.uuid();
 
-  return merge<Event, typeof overrides>(
-    {
-      id,
-      atId: generateAtId(id, 'event'),
-      audience: [],
-      audienceMaxAge: null,
-      audienceMinAge: null,
-      createdBy: null,
-      dataSource: 'hel',
-      datePublished: null,
-      deleted: null,
-      description: fakeLocalisedObject(),
-      endTime: null,
-      enrolmentEndTime: null,
-      enrolmentStartTime: null,
-      environment: 'in',
-      environmentalCertificate: '',
-      eventStatus: EventStatus.EventScheduled,
-      externalLinks: [],
-      images: [],
-      infoUrl: fakeLocalisedObject(),
-      inLanguage: [],
-      keywords: [],
-      lastModifiedTime: '2020-07-13T05:51:05.761000Z',
-      location: fakePlace(),
-      locationExtraInfo: fakeLocalisedObject(faker.address.streetAddress()),
-      maximumAttendeeCapacity: null,
-      minimumAttendeeCapacity: null,
-      name: fakeLocalisedObject(faker.lorem.text()),
-      offers: [],
-      provider: fakeLocalisedObject(),
-      publicationStatus: PublicationStatus.Public,
-      publisher: TEST_PUBLISHER_ID,
-      registration: { atId: null },
-      shortDescription: fakeLocalisedObject(),
-      startTime: '2020-07-13T05:51:05.761000Z',
-      subEvents: [],
-      superEvent: null,
-      superEventType: null,
-      userConsent: false,
-      userEmail: '',
-      userName: '',
-      userOrganization: '',
-      userPhoneNumber: '',
-      typeId: EventTypeId.General,
-      videos: [],
-      __typename: 'Event',
-    },
-    overrides
-  );
+  const baseEvent: Event = {
+    id,
+    atId: generateAtId(id, 'event'),
+    audience: [],
+    audienceMaxAge: null,
+    audienceMinAge: null,
+    createdBy: null,
+    dataSource: 'hel',
+    datePublished: null,
+    deleted: null,
+    description: fakeLocalisedObject(),
+    endTime: null,
+    enrolmentEndTime: null,
+    enrolmentStartTime: null,
+    eventStatus: EventStatus.EventScheduled,
+    externalLinks: [],
+    images: [],
+    infoUrl: fakeLocalisedObject(),
+    inLanguage: [],
+    keywords: [],
+    lastModifiedTime: '2020-07-13T05:51:05.761000Z',
+    location: fakePlace(),
+    locationExtraInfo: fakeLocalisedObject(faker.address.streetAddress()),
+    maximumAttendeeCapacity: null,
+    minimumAttendeeCapacity: null,
+    name: fakeLocalisedObject(faker.lorem.text()),
+    offers: [],
+    provider: fakeLocalisedObject(),
+    publicationStatus: PublicationStatus.Public,
+    publisher: TEST_PUBLISHER_ID,
+    registration: { atId: null },
+    shortDescription: fakeLocalisedObject(),
+    startTime: '2020-07-13T05:51:05.761000Z',
+    subEvents: [],
+    superEvent: null,
+    superEventType: null,
+    typeId: EventTypeId.General,
+    videos: [],
+    __typename: 'Event',
+  };
+
+  if (ENABLE_EXTERNAL_USER_EVENTS) {
+    return merge<Event, typeof overrides>(
+      {
+        ...baseEvent,
+        environment: 'in',
+        environmentalCertificate: '',
+        userConsent: false,
+        userEmail: '',
+        userName: '',
+        userOrganization: '',
+        userPhoneNumber: '',
+      },
+      overrides
+    );
+  }
+
+  return merge<Event, typeof overrides>({ ...baseEvent }, overrides);
 };
 
 export const fakeExternalLink = (

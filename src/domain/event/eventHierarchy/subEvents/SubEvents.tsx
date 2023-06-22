@@ -26,6 +26,7 @@ const SubEvents: React.FC<SubEventsProps> = ({
 }) => {
   const locale = useLocale();
   const { id, subEventAtIds } = getEventFields(event, locale);
+
   const open = !closedIds.includes(id);
 
   const { subEvents, loading } = useSubEvents({

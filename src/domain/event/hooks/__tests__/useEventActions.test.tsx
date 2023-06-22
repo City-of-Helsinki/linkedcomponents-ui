@@ -17,8 +17,8 @@ import { mockedImageResponse } from '../../../image/__mocks__/image';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
-  baseFormValues,
   event,
+  getBaseFormValues,
   mockedCancelEventResponse,
   mockedCreateNewSubEventsResponse,
   mockedDeleteEventResponse,
@@ -136,7 +136,7 @@ test('should update single event', async () => {
   await act(() =>
     result.current.updateEvent(
       {
-        ...baseFormValues,
+        ...getBaseFormValues(),
         events: [
           {
             id: event.id,
@@ -163,7 +163,7 @@ test('should update single event with recurring super event', async () => {
   await act(() =>
     result.current.updateEvent(
       {
-        ...baseFormValues,
+        ...getBaseFormValues(),
         events: [
           {
             id: eventWithRecurringSuperEvent2.id,
@@ -196,7 +196,7 @@ test('should update recurring event', async () => {
   await act(() =>
     result.current.updateEvent(
       {
-        ...baseFormValues,
+        ...getBaseFormValues(),
         eventTimes: [...newSubEventTimes],
         events: [{ ...subEventTimes[1] }],
       },

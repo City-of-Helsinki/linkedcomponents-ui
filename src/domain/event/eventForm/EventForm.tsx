@@ -31,6 +31,7 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import useUser from '../../user/hooks/useUser';
 import {
   EVENT_ACTIONS,
+  EVENT_EXTERNAL_USER_INITIAL_VALUES,
   EVENT_FIELDS,
   EVENT_INITIAL_VALUES,
   EVENT_MODALS,
@@ -511,15 +512,19 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
   const { event } = props;
   const { user, externalUser } = useUser();
 
+  const eventInitialValues = externalUser
+    ? EVENT_EXTERNAL_USER_INITIAL_VALUES
+    : EVENT_INITIAL_VALUES;
+
   const initialValues = React.useMemo(
     () =>
       event
         ? getEventInitialValues(event)
         : {
-            ...EVENT_INITIAL_VALUES,
+            ...eventInitialValues,
             publisher: getValue(user?.organization, ''),
           },
-    [event, user]
+    [event, eventInitialValues, user]
   );
 
   const validationSchema = externalUser

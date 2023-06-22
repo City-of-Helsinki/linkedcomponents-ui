@@ -59,7 +59,11 @@ import {
   mockedInvalidCreateDraftEventResponse,
   mockedUmbrellaEventsResponse,
 } from '../__mocks__/createEventPage';
-import { EVENT_FIELDS, EVENT_INITIAL_VALUES } from '../constants';
+import {
+  EVENT_EXTERNAL_USER_INITIAL_VALUES,
+  EVENT_FIELDS,
+  EVENT_INITIAL_VALUES,
+} from '../constants';
 import CreateEventPage from '../CreateEventPage';
 import { EventFormFields } from '../types';
 
@@ -113,7 +117,9 @@ const setFormValues = (values: Partial<EventFormFields>) => {
     submitCount: 0,
     touched: {},
     values: {
-      ...EVENT_INITIAL_VALUES,
+      ...(ENABLE_EXTERNAL_USER_EVENTS
+        ? EVENT_EXTERNAL_USER_INITIAL_VALUES
+        : EVENT_INITIAL_VALUES),
       [EVENT_FIELDS.PUBLISHER]: organizationId,
       [EVENT_FIELDS.MAIN_CATEGORIES]: topicAtIds,
       ...values,

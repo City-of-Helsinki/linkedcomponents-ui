@@ -186,99 +186,122 @@ const eventOverrides = {
   videos: [fakeVideo(videoDetails)],
 };
 
-const basePayload = {
-  publicationStatus: PublicationStatus.Public,
-  audience: audienceAtIds.map((atId) => ({ atId })),
-  audienceMaxAge,
-  audienceMinAge,
-  description: formattedDescription,
-  enrolmentEndTime: null,
-  enrolmentStartTime: null,
-  environment: 'in',
-  environmentalCertificate: '',
-  externalLinks: [
-    { name: EXTLINK.EXTLINK_FACEBOOK, link: facebookUrl, language: 'fi' },
-    { name: EXTLINK.EXTLINK_INSTAGRAM, link: instagramUrl, language: 'fi' },
-    { name: EXTLINK.EXTLINK_TWITTER, link: twitterUrl, language: 'fi' },
-  ],
-  images: [{ atId: imageFields.atId }],
-  infoUrl,
-  inLanguage: [],
-  keywords: topicAtIds.map((atId) => ({ atId })),
-  location: { atId: placeAtId },
-  locationExtraInfo,
-  maximumAttendeeCapacity: null,
-  minimumAttendeeCapacity: null,
-  name,
-  offers: offers.map((offer) => ({ ...offer, isFree: false })),
-  provider,
-  publisher,
-  shortDescription,
-  endTime: endTime.toISOString(),
-  startTime: startTime.toISOString(),
-  superEvent: null,
-  superEventType: null,
-  userConsent: false,
-  userEmail: '',
-  userName: '',
-  userOrganization: '',
-  userPhoneNumber: '',
-  typeId: EventTypeId.General,
-  videos: [videoDetails],
-  id: eventId,
+const ENABLE_EXTERNAL_USER_EVENTS =
+  process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
+const getBasePayload = () => {
+  const basePayload = {
+    publicationStatus: PublicationStatus.Public,
+    audience: audienceAtIds.map((atId) => ({ atId })),
+    audienceMaxAge,
+    audienceMinAge,
+    description: formattedDescription,
+    enrolmentEndTime: null,
+    enrolmentStartTime: null,
+    externalLinks: [
+      { name: EXTLINK.EXTLINK_FACEBOOK, link: facebookUrl, language: 'fi' },
+      { name: EXTLINK.EXTLINK_INSTAGRAM, link: instagramUrl, language: 'fi' },
+      { name: EXTLINK.EXTLINK_TWITTER, link: twitterUrl, language: 'fi' },
+    ],
+    images: [{ atId: imageFields.atId }],
+    infoUrl,
+    inLanguage: [],
+    keywords: topicAtIds.map((atId) => ({ atId })),
+    location: { atId: placeAtId },
+    locationExtraInfo,
+    maximumAttendeeCapacity: null,
+    minimumAttendeeCapacity: null,
+    name,
+    offers: offers.map((offer) => ({ ...offer, isFree: false })),
+    provider,
+    publisher,
+    shortDescription,
+    endTime: endTime.toISOString(),
+    startTime: startTime.toISOString(),
+    superEvent: null,
+    superEventType: null,
+    typeId: EventTypeId.General,
+    videos: [videoDetails],
+    id: eventId,
+  };
+
+  if (ENABLE_EXTERNAL_USER_EVENTS) {
+    return {
+      ...basePayload,
+      environment: 'in',
+      environmentalCertificate: '',
+      userConsent: false,
+      userEmail: '',
+      userName: '',
+      userOrganization: '',
+      userPhoneNumber: '',
+    };
+  }
+
+  return basePayload;
 };
 
-const baseFormValues: EventFormFields = {
-  audience: [...audienceAtIds],
-  audienceMaxAge,
-  audienceMinAge,
-  description,
-  enrolmentEndTimeDate: null,
-  enrolmentEndTimeTime: '',
-  enrolmentStartTimeDate: null,
-  enrolmentStartTimeTime: '',
-  eventInfoLanguages: ['fi', 'sv'],
-  eventTimes: [],
-  events: [],
-  environment: 'in',
-  environmentalCertificate: '',
-  externalLinks: [
-    { name: EXTLINK.EXTLINK_FACEBOOK, link: facebookUrl },
-    { name: EXTLINK.EXTLINK_INSTAGRAM, link: instagramUrl },
-    { name: EXTLINK.EXTLINK_TWITTER, link: twitterUrl },
-  ],
+const getBaseFormValues = () => {
+  const baseFormValues: EventFormFields = {
+    audience: [...audienceAtIds],
+    audienceMaxAge,
+    audienceMinAge,
+    description,
+    enrolmentEndTimeDate: null,
+    enrolmentEndTimeTime: '',
+    enrolmentStartTimeDate: null,
+    enrolmentStartTimeTime: '',
+    eventInfoLanguages: ['fi', 'sv'],
+    eventTimes: [],
+    events: [],
+    externalLinks: [
+      { name: EXTLINK.EXTLINK_FACEBOOK, link: facebookUrl },
+      { name: EXTLINK.EXTLINK_INSTAGRAM, link: instagramUrl },
+      { name: EXTLINK.EXTLINK_TWITTER, link: twitterUrl },
+    ],
 
-  hasPrice: true,
-  hasUmbrella: false,
-  images: [imageFields.atId],
-  imageDetails: imageFields,
-  inLanguage: [],
-  isVerified: true,
-  infoUrl,
-  isImageEditable: true,
-  isUmbrella: false,
-  keywords: [...topicAtIds],
-  location: placeAtId,
-  locationExtraInfo,
-  mainCategories: [...topicAtIds],
-  maximumAttendeeCapacity: '',
-  minimumAttendeeCapacity: '',
-  name,
-  offers: offers.map((offer) => ({ ...offer, isFree: false })),
-  provider,
-  publisher,
-  recurringEvents: [],
-  recurringEventEndTime: null,
-  recurringEventStartTime: null,
-  shortDescription,
-  superEvent: '',
-  userConsent: false,
-  userEmail: '',
-  userName: '',
-  userOrganization: '',
-  userPhoneNumber: '',
-  type: EVENT_TYPE.General,
-  videos: [videoDetails],
+    hasPrice: true,
+    hasUmbrella: false,
+    images: [imageFields.atId],
+    imageDetails: imageFields,
+    inLanguage: [],
+    isVerified: true,
+    infoUrl,
+    isImageEditable: true,
+    isUmbrella: false,
+    keywords: [...topicAtIds],
+    location: placeAtId,
+    locationExtraInfo,
+    mainCategories: [...topicAtIds],
+    maximumAttendeeCapacity: '',
+    minimumAttendeeCapacity: '',
+    name,
+    offers: offers.map((offer) => ({ ...offer, isFree: false })),
+    provider,
+    publisher,
+    recurringEvents: [],
+    recurringEventEndTime: null,
+    recurringEventStartTime: null,
+    shortDescription,
+    superEvent: '',
+    type: EVENT_TYPE.General,
+    videos: [videoDetails],
+  };
+
+  if (ENABLE_EXTERNAL_USER_EVENTS) {
+    return {
+      ...baseFormValues,
+      environment: 'in',
+      environmentalCertificate: '',
+      userConsent: false,
+      userEmail: '',
+      userName: '',
+      userOrganization: '',
+      userPhoneNumber: '',
+    };
+  }
+
+  return baseFormValues;
 };
 
 const expectedValues = {
@@ -328,7 +351,11 @@ const mockedEventTimeResponse: MockedResponse = {
 
 const cancelEventVariables = {
   input: [
-    { ...basePayload, eventStatus: EventStatus.EventCancelled, superEventType },
+    {
+      ...getBasePayload(),
+      eventStatus: EventStatus.EventCancelled,
+      superEventType,
+    },
   ],
 };
 const cancelledEvent = { ...event, eventStatus: EventStatus.EventCancelled };
@@ -344,7 +371,9 @@ const mockedCancelledEventResponse: MockedResponse = {
 };
 
 const postponeEventVariables = {
-  input: [{ ...basePayload, startTime: null, endTime: null, superEventType }],
+  input: [
+    { ...getBasePayload(), startTime: null, endTime: null, superEventType },
+  ],
 };
 const postponedEvent = {
   ...event,
@@ -371,7 +400,7 @@ const mockedDeleteEventResponse: MockedResponse = {
 };
 
 const updatedLastModifiedTime = '2021-08-23T12:00:00.000Z';
-const updateEventVariables = { input: [basePayload] };
+const updateEventVariables = { input: [getBasePayload()] };
 const updatedEvent = { ...event, lastModifiedTime: updatedLastModifiedTime };
 const updateEventResponse = { data: { updateEvents: [updatedEvent] } };
 const updatedEventResponse = { data: { event: updatedEvent } };
@@ -477,7 +506,7 @@ const mockedEventWithSubEventResponse: MockedResponse = {
 const updateRecurringEventVariables = {
   input: [
     {
-      ...basePayload,
+      ...getBasePayload(),
       endTime: newSubEventTimes[0].endTime.toISOString(),
       startTime: subEventTimes[1].startTime.toISOString(),
       superEventType: SuperEventType.Recurring,
@@ -515,7 +544,7 @@ const mockedDeleteSubEvent1Response: MockedResponse = {
 
 const updateSubEventsVariables = {
   input: [subEventTimes[1]].map(({ endTime, id, startTime }) => ({
-    ...basePayload,
+    ...getBasePayload(),
     endTime: endTime.toISOString(),
     id,
     startTime: startTime.toISOString(),
@@ -531,7 +560,7 @@ const mockedUpdateSubEventsResponse: MockedResponse = {
 
 const createNewSubEventsVariables = {
   input: newSubEventTimes.map(({ endTime, id, startTime }) => ({
-    ...omit(basePayload, ['id']),
+    ...omit(getBasePayload(), ['id']),
     endTime: endTime.toISOString(),
     startTime: startTime.toISOString(),
     superEvent: { atId: eventWithSubEvent.atId },
@@ -555,8 +584,6 @@ const mockedUpdatedRecurringEventResponse: MockedResponse = {
 };
 
 export {
-  baseFormValues,
-  basePayload,
   cancelEventVariables,
   endTime,
   event,
@@ -564,6 +591,8 @@ export {
   eventOverrides,
   eventWithSubEvent,
   expectedValues,
+  getBaseFormValues,
+  getBasePayload,
   mockedCancelEventResponse,
   mockedCancelledEventResponse,
   mockedCreateNewSubEventsResponse,

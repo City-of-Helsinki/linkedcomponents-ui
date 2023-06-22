@@ -27,8 +27,8 @@ configure({ defaultHidden: true });
 
 const mocks = [
   mockedOrganizationAncestorsResponse,
-  mockedSubSubEventsResponse,
   mockedSubSubEventsPage2Response,
+  mockedSubSubEventsResponse,
   mockedSubEventsResponse,
   mockedSubSubSubEventsResponse,
 ];

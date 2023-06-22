@@ -9,7 +9,11 @@ import {
   UpdateEventDocument,
   UpdateEventsDocument,
 } from '../../../../generated/graphql';
-import { basePayload, event, subEvents } from '../../__mocks__/editEventPage';
+import {
+  event,
+  getBasePayload,
+  subEvents,
+} from '../../__mocks__/editEventPage';
 import { EVENT_INCLUDES } from '../../constants';
 
 const eventWithRecurringSuperEvent1 = {
@@ -25,7 +29,7 @@ const eventWithRecurringSuperEvent2 = {
 const postponeEventWithRecurringSuperEventVariables = {
   input: [
     {
-      ...basePayload,
+      ...getBasePayload(),
       id: subEvents.data[0]?.id,
       superEvent: { atId: event.atId },
       startTime: null,
@@ -92,7 +96,7 @@ const updateRecurringEventWithDeletedSubEventResponse = {
 };
 const updateRecurringEventWithDeletedSubEventVariables = {
   input: {
-    ...basePayload,
+    ...getBasePayload(),
     endTime: subEvents.data[1]?.endTime,
     startTime: subEvents.data[1]?.startTime,
     superEventType: SuperEventType.Recurring,
@@ -110,7 +114,7 @@ const mockedUpdateRecurringEventWithDeletedSubEventResponse: MockedResponse = {
 const updateEventWithRecurringSuperEventVariables = {
   input: [
     {
-      ...basePayload,
+      ...getBasePayload(),
       id: subEvents.data[1]?.id,
       superEvent: { atId: event.atId },
       startTime: subEvents.data[1]?.startTime,

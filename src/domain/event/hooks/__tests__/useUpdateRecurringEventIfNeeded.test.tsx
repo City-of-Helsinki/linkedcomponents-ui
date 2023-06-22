@@ -55,33 +55,46 @@ const superEventVariables = {
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const basePayload = {
-  publicationStatus: 'public',
-  audience: [],
-  audienceMaxAge: null,
-  audienceMinAge: null,
-  enrolmentEndTime: null,
-  enrolmentStartTime: null,
-  environment: 'in',
-  environmentalCertificate: '',
-  externalLinks: [],
-  images: [],
-  inLanguage: [],
-  keywords: [],
-  maximumAttendeeCapacity: null,
-  minimumAttendeeCapacity: null,
-  offers: [{ infoUrl: EMPTY_MULTI_LANGUAGE_OBJECT, isFree: true }],
-  publisher,
-  superEvent: null,
-  superEventType: 'recurring',
-  typeId: 'General',
-  videos: [],
-  userConsent: false,
-  userEmail: '',
-  userName: '',
-  userOrganization: '',
-  userPhoneNumber: '',
-  id: superEventId,
+const ENABLE_EXTERNAL_USER_EVENTS =
+  process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
+const getBasePayload = () => {
+  const basePayload = {
+    publicationStatus: 'public',
+    audience: [],
+    audienceMaxAge: null,
+    audienceMinAge: null,
+    enrolmentEndTime: null,
+    enrolmentStartTime: null,
+    externalLinks: [],
+    images: [],
+    inLanguage: [],
+    keywords: [],
+    maximumAttendeeCapacity: null,
+    minimumAttendeeCapacity: null,
+    offers: [{ infoUrl: EMPTY_MULTI_LANGUAGE_OBJECT, isFree: true }],
+    publisher,
+    superEvent: null,
+    superEventType: 'recurring',
+    typeId: 'General',
+    videos: [],
+    id: superEventId,
+  };
+
+  if (ENABLE_EXTERNAL_USER_EVENTS) {
+    return {
+      ...basePayload,
+      environment: 'in',
+      environmentalCertificate: '',
+      userConsent: false,
+      userEmail: '',
+      userName: '',
+      userOrganization: '',
+      userPhoneNumber: '',
+    };
+  }
+
+  return basePayload;
 };
 
 const getHookWrapper = (mocks: MockedResponse[] = commonMocks) => {
@@ -265,7 +278,7 @@ test('should update only start time if new end time would be in past but start t
 
   const updateEventVariables = {
     input: {
-      ...basePayload,
+      ...getBasePayload(),
       description: omit(superEvent.description, '__typename'),
       infoUrl: omit(superEvent.infoUrl, '__typename'),
       location: {
@@ -339,7 +352,7 @@ test('should return new super event if recurring event is updated', async () => 
 
   const updateEventVariables = {
     input: {
-      ...basePayload,
+      ...getBasePayload(),
       description: omit(superEvent.description, '__typename'),
       infoUrl: omit(superEvent.infoUrl, '__typename'),
       location: { atId: superEvent.location?.atId },

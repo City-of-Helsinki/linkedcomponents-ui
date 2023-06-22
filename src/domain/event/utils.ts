@@ -85,6 +85,7 @@ import {
   DESCRIPTION_SECTION_FIELDS,
   EVENT_ACTIONS,
   EVENT_ENVIRONMENT_VALUE,
+  EVENT_EXTERNAL_USER_INITIAL_VALUES,
   EVENT_FIELD_ARRAYS,
   EVENT_FIELDS,
   EVENT_ICONS,
@@ -479,6 +480,9 @@ export const getEventBasePayload = (
   formValues: EventFormFields,
   publicationStatus: PublicationStatus
 ): Omit<CreateEventMutationInput, 'endTime' | 'startTime'> => {
+  const ENABLE_EXTERNAL_USER_EVENTS =
+    process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
   const {
     audience,
     audienceMaxAge,
@@ -517,7 +521,7 @@ export const getEventBasePayload = (
     videos,
   } = formValues;
 
-  return {
+  const basePayload = {
     publicationStatus,
     audience: audience.map((atId) => ({ atId })),
     audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
@@ -537,8 +541,6 @@ export const getEventBasePayload = (
             enrolmentStartTimeTime
           )
         : null,
-    environment,
-    environmentalCertificate,
     externalLinks: externalLinks.map((item) => ({
       ...item,
       language: LE_DATA_LANGUAGES.FI,
@@ -587,13 +589,23 @@ export const getEventBasePayload = (
     superEvent: hasUmbrella && superEvent ? { atId: superEvent } : null,
     superEventType: isUmbrella ? SuperEventType.Umbrella : null,
     typeId: capitalize(type) as EventTypeId,
-    userConsent,
-    userEmail,
-    userName,
-    userOrganization,
-    userPhoneNumber,
     videos: videos.filter((video) => video.altText || video.name || video.url),
   };
+
+  if (ENABLE_EXTERNAL_USER_EVENTS) {
+    return {
+      ...basePayload,
+      environment,
+      environmentalCertificate,
+      userConsent,
+      userEmail,
+      userName,
+      userOrganization,
+      userPhoneNumber,
+    };
+  }
+
+  return basePayload;
 };
 
 export const getEventPayload = (
@@ -824,8 +836,13 @@ export const getEventInitialValues = (
 
   const offers = getEventOffers(event);
 
-  return {
-    ...EVENT_INITIAL_VALUES,
+  const ENABLE_EXTERNAL_USER_EVENTS =
+    process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
+  const baseInitialValues: EventFormFields = {
+    ...(ENABLE_EXTERNAL_USER_EVENTS
+      ? EVENT_EXTERNAL_USER_INITIAL_VALUES
+      : EVENT_INITIAL_VALUES),
     audience: event.audience
       .map((keyword) => keyword?.atId)
       .filter(skipFalsyType),
@@ -837,11 +854,6 @@ export const getEventInitialValues = (
     enrolmentEndTimeTime: getEventTime(event.enrolmentEndTime),
     enrolmentStartTimeDate: getDateFromString(event.enrolmentStartTime),
     enrolmentStartTimeTime: getEventTime(event.enrolmentStartTime),
-    environment: getValue(
-      event.environment?.toLowerCase(),
-      EVENT_ENVIRONMENT_VALUE.In
-    ),
-    environmentalCertificate: getValue(event.environmentalCertificate, ''),
     eventInfoLanguages: getEventInfoLanguages(event),
     externalLinks: sortBy(event.externalLinks, ['name']).map(
       (externalLink) => ({
@@ -849,7 +861,6 @@ export const getEventInitialValues = (
         name: getValue(externalLink?.name, ''),
       })
     ),
-    hasEnvironmentalCertificate: Boolean(event.environmentalCertificate),
     hasPrice,
     hasUmbrella: hasUmbrella,
     imageDetails: getEventImageDetails(event),
@@ -882,13 +893,27 @@ export const getEventInitialValues = (
     shortDescription: getLocalisedObject(event.shortDescription),
     superEvent: getValue(event.superEvent?.atId, ''),
     type: getValue(event.typeId?.toLowerCase(), EVENT_TYPE.General),
-    userConsent: Boolean(event.userConsent),
-    userEmail: getValue(event.userEmail, ''),
-    userName: getValue(event.userName, ''),
-    userOrganization: getValue(event.userOrganization, ''),
-    userPhoneNumber: getValue(event.userPhoneNumber, ''),
     videos: getEventVideos(event),
   };
+
+  if (ENABLE_EXTERNAL_USER_EVENTS) {
+    return {
+      ...baseInitialValues,
+      environment: getValue(
+        event.environment?.toLowerCase(),
+        EVENT_ENVIRONMENT_VALUE.In
+      ),
+      environmentalCertificate: getValue(event.environmentalCertificate, ''),
+      hasEnvironmentalCertificate: Boolean(event.environmentalCertificate),
+      userConsent: Boolean(event.userConsent),
+      userEmail: getValue(event.userEmail, ''),
+      userName: getValue(event.userName, ''),
+      userOrganization: getValue(event.userOrganization, ''),
+      userPhoneNumber: getValue(event.userPhoneNumber, ''),
+    };
+  }
+
+  return baseInitialValues;
 };
 
 type EventErrorFieldType =

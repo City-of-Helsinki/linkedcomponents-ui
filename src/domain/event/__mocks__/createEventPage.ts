@@ -41,69 +41,96 @@ const keyword = topics.data[0] as Keyword;
 const keywordName = getValue(keyword.name?.fi, '');
 const keywordAtId = keyword.atId;
 
-const baseEventPayload = {
-  publicationStatus: 'draft',
-  audience: [],
-  audienceMaxAge: null,
-  audienceMinAge: null,
-  externalLinks: [],
-  description: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
-  enrolmentEndTime: null,
-  enrolmentStartTime: null,
-  environment: 'in',
-  environmentalCertificate: '',
-  images: [],
-  infoUrl: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
-  inLanguage: [],
-  keywords: [],
-  location: null,
-  locationExtraInfo: {
-    ar: null,
-    en: null,
-    fi: '',
-    ru: null,
-    sv: null,
-    zhHans: null,
-  },
-  maximumAttendeeCapacity: null,
-  minimumAttendeeCapacity: null,
-  name: {
-    ar: null,
-    en: null,
-    fi: eventValues.name,
-    ru: null,
-    sv: null,
-    zhHans: null,
-  },
-  offers: [
-    {
-      infoUrl: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
-      isFree: true,
+const ENABLE_EXTERNAL_USER_EVENTS =
+  process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
+const getBaseEventPayload = () => {
+  const baseEventPayload = {
+    publicationStatus: 'draft',
+    audience: [],
+    audienceMaxAge: null,
+    audienceMinAge: null,
+    externalLinks: [],
+    description: {
+      ar: null,
+      en: null,
+      fi: '',
+      ru: null,
+      sv: null,
+      zhHans: null,
     },
-  ],
-  provider: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
-  publisher: organizationId,
-  shortDescription: {
-    ar: null,
-    en: null,
-    fi: '',
-    ru: null,
-    sv: null,
-    zhHans: null,
-  },
-  superEvent: null,
-  superEventType: null,
-  userConsent: false,
-  userEmail: '',
-  userName: '',
-  userOrganization: '',
-  userPhoneNumber: '',
-  typeId: 'General',
-  videos: [],
+    enrolmentEndTime: null,
+    enrolmentStartTime: null,
+    images: [],
+    infoUrl: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
+    inLanguage: [],
+    keywords: [],
+    location: null,
+    locationExtraInfo: {
+      ar: null,
+      en: null,
+      fi: '',
+      ru: null,
+      sv: null,
+      zhHans: null,
+    },
+    maximumAttendeeCapacity: null,
+    minimumAttendeeCapacity: null,
+    name: {
+      ar: null,
+      en: null,
+      fi: eventValues.name,
+      ru: null,
+      sv: null,
+      zhHans: null,
+    },
+    offers: [
+      {
+        infoUrl: {
+          ar: null,
+          en: null,
+          fi: '',
+          ru: null,
+          sv: null,
+          zhHans: null,
+        },
+        isFree: true,
+      },
+    ],
+    provider: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
+    publisher: organizationId,
+    shortDescription: {
+      ar: null,
+      en: null,
+      fi: '',
+      ru: null,
+      sv: null,
+      zhHans: null,
+    },
+    superEvent: null,
+    superEventType: null,
+    typeId: 'General',
+    videos: [],
+  };
+
+  if (ENABLE_EXTERNAL_USER_EVENTS) {
+    return {
+      ...baseEventPayload,
+      environment: 'in',
+      environmentalCertificate: '',
+      userEmail: '',
+      userName: '',
+      userOrganization: '',
+      userPhoneNumber: '',
+      userConsent: false,
+    };
+  }
+
+  return baseEventPayload;
 };
 
 const basePublicEventPayload = {
-  ...baseEventPayload,
+  ...getBaseEventPayload(),
   publicationStatus: 'public',
   description: {
     ar: null,
@@ -129,7 +156,7 @@ const basePublicEventPayload = {
 // Mock events
 const createDraftEventVariables = {
   input: {
-    ...baseEventPayload,
+    ...getBaseEventPayload(),
     endTime: '2020-12-31T21:00:00.000Z',
     startTime: '2020-12-31T18:00:00.000Z',
   },

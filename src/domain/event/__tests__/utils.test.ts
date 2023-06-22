@@ -35,6 +35,7 @@ import { TEST_IMAGE_ID } from '../../image/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import {
   EVENT_ACTIONS,
+  EVENT_EXTERNAL_USER_INITIAL_VALUES,
   EVENT_INITIAL_VALUES,
   EVENT_TYPE,
   TEST_EVENT_ID,
@@ -65,92 +66,109 @@ import {
 
 const t = i18n.t.bind(i18n);
 
-const defaultEventPayload = {
-  audience: [],
-  audienceMaxAge: null,
-  audienceMinAge: null,
-  description: {
-    ar: null,
-    en: null,
-    fi: '',
-    ru: null,
-    sv: null,
-    zhHans: null,
-  },
-  endTime: null,
-  enrolmentEndTime: null,
-  enrolmentStartTime: null,
-  environment: 'in',
-  environmentalCertificate: '',
-  externalLinks: [],
-  images: [],
-  inLanguage: [],
-  infoUrl: {
-    ar: null,
-    en: null,
-    fi: '',
-    ru: null,
-    sv: null,
-    zhHans: null,
-  },
-  keywords: [],
-  location: null,
-  locationExtraInfo: {
-    ar: null,
-    en: null,
-    fi: '',
-    ru: null,
-    sv: null,
-    zhHans: null,
-  },
-  maximumAttendeeCapacity: null,
-  minimumAttendeeCapacity: null,
-  name: {
-    ar: null,
-    en: null,
-    fi: '',
-    ru: null,
-    sv: null,
-    zhHans: null,
-  },
-  offers: [
-    {
-      infoUrl: { ar: null, en: null, fi: '', ru: null, sv: null, zhHans: null },
-      isFree: true,
-    },
-  ],
-  provider: {
-    ar: null,
-    en: null,
-    fi: '',
-    ru: null,
-    sv: null,
-    zhHans: null,
-  },
-  publicationStatus: PublicationStatus.Draft,
-  publisher: '',
-  shortDescription: {
-    ar: null,
-    en: null,
-    fi: '',
-    ru: null,
-    sv: null,
-    zhHans: null,
-  },
-  startTime: null,
-  superEvent: null,
-  superEventType: null,
-  typeId: EventTypeId.General,
-  userConsent: false,
-  userEmail: '',
-  userName: '',
-  userOrganization: '',
-  userPhoneNumber: '',
-  videos: [],
-};
-
 const ENABLE_EXTERNAL_USER_EVENTS =
   process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
+const getDefaultEventPayload = () => {
+  const defaultEventPayload = {
+    audience: [],
+    audienceMaxAge: null,
+    audienceMinAge: null,
+    description: {
+      ar: null,
+      en: null,
+      fi: '',
+      ru: null,
+      sv: null,
+      zhHans: null,
+    },
+    endTime: null,
+    enrolmentEndTime: null,
+    enrolmentStartTime: null,
+    externalLinks: [],
+    images: [],
+    inLanguage: [],
+    infoUrl: {
+      ar: null,
+      en: null,
+      fi: '',
+      ru: null,
+      sv: null,
+      zhHans: null,
+    },
+    keywords: [],
+    location: null,
+    locationExtraInfo: {
+      ar: null,
+      en: null,
+      fi: '',
+      ru: null,
+      sv: null,
+      zhHans: null,
+    },
+    maximumAttendeeCapacity: null,
+    minimumAttendeeCapacity: null,
+    name: {
+      ar: null,
+      en: null,
+      fi: '',
+      ru: null,
+      sv: null,
+      zhHans: null,
+    },
+    offers: [
+      {
+        infoUrl: {
+          ar: null,
+          en: null,
+          fi: '',
+          ru: null,
+          sv: null,
+          zhHans: null,
+        },
+        isFree: true,
+      },
+    ],
+    provider: {
+      ar: null,
+      en: null,
+      fi: '',
+      ru: null,
+      sv: null,
+      zhHans: null,
+    },
+    publicationStatus: PublicationStatus.Draft,
+    publisher: '',
+    shortDescription: {
+      ar: null,
+      en: null,
+      fi: '',
+      ru: null,
+      sv: null,
+      zhHans: null,
+    },
+    startTime: null,
+    superEvent: null,
+    superEventType: null,
+    typeId: EventTypeId.General,
+    videos: [],
+  };
+
+  if (ENABLE_EXTERNAL_USER_EVENTS) {
+    return {
+      ...defaultEventPayload,
+      environment: 'in',
+      environmentalCertificate: '',
+      userConsent: false,
+      userEmail: '',
+      userName: '',
+      userOrganization: '',
+      userPhoneNumber: '',
+    };
+  }
+
+  return defaultEventPayload;
+};
 
 beforeEach(() => {
   clear();
@@ -293,7 +311,9 @@ describe('calculateSuperEventTime function', () => {
 describe('getEventTimes function', () => {
   it('should return all event times event time', () => {
     const values: EventFormFields = {
-      ...EVENT_INITIAL_VALUES,
+      ...(ENABLE_EXTERNAL_USER_EVENTS
+        ? EVENT_EXTERNAL_USER_INITIAL_VALUES
+        : EVENT_INITIAL_VALUES),
       eventTimes: [
         {
           startTime: new Date('2020-01-02T14:15:00.000Z'),
@@ -365,8 +385,13 @@ describe('filterUnselectedLanguages function', () => {
 describe('getEventPayload function', () => {
   it('should return single event as payload', () => {
     expect(
-      getEventPayload(EVENT_INITIAL_VALUES, PublicationStatus.Draft)
-    ).toEqual(defaultEventPayload);
+      getEventPayload(
+        ENABLE_EXTERNAL_USER_EVENTS
+          ? EVENT_EXTERNAL_USER_INITIAL_VALUES
+          : EVENT_INITIAL_VALUES,
+        PublicationStatus.Draft
+      )
+    ).toEqual(getDefaultEventPayload());
 
     const audienceMaxAge = 18,
       audienceMinAge = 12,
@@ -388,7 +413,9 @@ describe('getEventPayload function', () => {
 
     const payload = getEventPayload(
       {
-        ...EVENT_INITIAL_VALUES,
+        ...(ENABLE_EXTERNAL_USER_EVENTS
+          ? EVENT_EXTERNAL_USER_INITIAL_VALUES
+          : EVENT_INITIAL_VALUES),
         audience: ['audience:1'],
         audienceMaxAge,
         audienceMinAge,
@@ -483,7 +510,7 @@ describe('getEventPayload function', () => {
     );
 
     expect(payload).toEqual({
-      ...defaultEventPayload,
+      ...getDefaultEventPayload(),
       audience: [{ atId: 'audience:1' }],
       audienceMaxAge,
       audienceMinAge,
@@ -626,7 +653,9 @@ describe('getEventPayload function', () => {
     ];
     const payload = getEventPayload(
       {
-        ...EVENT_INITIAL_VALUES,
+        ...(ENABLE_EXTERNAL_USER_EVENTS
+          ? EVENT_EXTERNAL_USER_INITIAL_VALUES
+          : EVENT_INITIAL_VALUES),
         eventTimes,
         recurringEvents,
         hasUmbrella: true,
@@ -637,24 +666,24 @@ describe('getEventPayload function', () => {
 
     expect(payload).toEqual([
       {
-        ...defaultEventPayload,
+        ...getDefaultEventPayload(),
         startTime: '2020-01-02T14:15:00.000Z',
         superEvent: null,
       },
       {
-        ...defaultEventPayload,
+        ...getDefaultEventPayload(),
         startTime: '2020-05-14T12:00:00.000Z',
         endTime: '2020-05-14T14:00:00.000Z',
         superEvent: null,
       },
       {
-        ...defaultEventPayload,
+        ...getDefaultEventPayload(),
         startTime: '2020-05-15T12:00:00.000Z',
         endTime: '2020-05-15T14:00:00.000Z',
         superEvent: null,
       },
       {
-        ...defaultEventPayload,
+        ...getDefaultEventPayload(),
         endTime: '2020-12-12T16:15:00.000Z',
         superEvent: null,
       },
@@ -664,7 +693,9 @@ describe('getEventPayload function', () => {
   it('should add link to description if audience is Service Centre Card', () => {
     const payload = getEventPayload(
       {
-        ...EVENT_INITIAL_VALUES,
+        ...(ENABLE_EXTERNAL_USER_EVENTS
+          ? EVENT_EXTERNAL_USER_INITIAL_VALUES
+          : EVENT_INITIAL_VALUES),
         audience: ['/keyword/helsinki:aflfbat76e/'],
         audienceMaxAge: 18,
         audienceMinAge: 12,
@@ -735,31 +766,33 @@ describe('getRecurringEventPayload function', () => {
       getRecurringEventPayload(
         [
           {
-            ...defaultEventPayload,
+            ...getDefaultEventPayload(),
             startTime: '2020-01-02T14:15:00.000Z',
             endTime: '2020-01-02T16:15:00.000Z',
           },
           {
-            ...defaultEventPayload,
+            ...getDefaultEventPayload(),
             startTime: '2020-02-02T14:15:00.000Z',
             endTime: null,
           },
           {
-            ...defaultEventPayload,
+            ...getDefaultEventPayload(),
             startTime: null,
             endTime: '2020-11-12T16:15:00.000Z',
           },
           {
-            ...defaultEventPayload,
+            ...getDefaultEventPayload(),
             startTime: '2020-12-12T14:15:00.000Z',
             endTime: '2020-12-12T16:15:00.000Z',
           },
         ],
         ['event:1', 'event:2'],
-        EVENT_INITIAL_VALUES
+        ENABLE_EXTERNAL_USER_EVENTS
+          ? EVENT_EXTERNAL_USER_INITIAL_VALUES
+          : EVENT_INITIAL_VALUES
       )
     ).toEqual({
-      ...defaultEventPayload,
+      ...getDefaultEventPayload(),
       endTime: '2020-12-12T16:15:00.000Z',
       startTime: '2020-01-02T14:15:00.000Z',
       subEvents: [
@@ -970,6 +1003,81 @@ describe('getEventInitialValues function', () => {
       { altText: 'alt text', name: 'video name', url: 'httl://www.url.com' },
     ];
 
+    const mockInitialValues = {
+      audience: audienceAtIds,
+      audienceMaxAge,
+      audienceMinAge,
+      description: Object.entries(description).reduce(
+        (prev, [key, val]) => ({ ...prev, [key]: `<p>${val}</p>` }),
+        {}
+      ),
+      enrolmentEndTimeDate: enrolmentEndTime,
+      enrolmentEndTimeTime: '05:51',
+      enrolmentStartTimeDate: enrolmentStartTime,
+      enrolmentStartTimeTime: '05:51',
+      eventInfoLanguages: ['ar', 'en', 'fi', 'ru', 'sv', 'zhHans'],
+      eventTimes: [],
+      events: [
+        {
+          endTime,
+          id,
+          startTime,
+        },
+      ],
+      externalLinks: [
+        {
+          name: EXTLINK.EXTLINK_FACEBOOK,
+          link: facebookUrl,
+        },
+        {
+          name: EXTLINK.EXTLINK_INSTAGRAM,
+          link: instagramUrl,
+        },
+        {
+          name: EXTLINK.EXTLINK_TWITTER,
+          link: twitterUrl,
+        },
+      ],
+      hasPrice: true,
+      hasUmbrella: true,
+      imageDetails,
+      images: imageAtIds,
+      infoUrl,
+      inLanguage: inLanguageAtIds,
+      isImageEditable: false,
+      isUmbrella: false,
+      isVerified: true,
+      keywords: keywordAtIds,
+      location: locationAtId,
+      locationExtraInfo,
+      mainCategories: [],
+      maximumAttendeeCapacity,
+      minimumAttendeeCapacity,
+      name,
+      offers,
+      provider,
+      publisher,
+      recurringEvents: [],
+      recurringEventEndTime: null,
+      recurringEventStartTime: null,
+      shortDescription,
+      superEvent: superEventAtId,
+      type,
+      videos,
+    };
+
+    if (ENABLE_EXTERNAL_USER_EVENTS) {
+      mockInitialValues['environment'] = environment;
+      mockInitialValues['environmentalCertificate'] = environmentalCertificate;
+      mockInitialValues['hasEnvironmentalCertificate'] =
+        hasEnvironmentalCertificate;
+      mockInitialValues['userConsent'] = userConsent;
+      mockInitialValues['userEmail'] = userEmail;
+      mockInitialValues['userName'] = userName;
+      mockInitialValues['userOrganization'] = userOrganization;
+      mockInitialValues['userPhoneNumber'] = userPhoneNumber;
+    }
+
     expect(
       getEventInitialValues(
         fakeEvent({
@@ -1041,76 +1149,7 @@ describe('getEventInitialValues function', () => {
           videos: videos.map((video) => fakeVideo(video)),
         })
       )
-    ).toEqual({
-      audience: audienceAtIds,
-      audienceMaxAge,
-      audienceMinAge,
-      description: Object.entries(description).reduce(
-        (prev, [key, val]) => ({ ...prev, [key]: `<p>${val}</p>` }),
-        {}
-      ),
-      enrolmentEndTimeDate: enrolmentEndTime,
-      enrolmentEndTimeTime: '05:51',
-      enrolmentStartTimeDate: enrolmentStartTime,
-      enrolmentStartTimeTime: '05:51',
-      eventInfoLanguages: ['ar', 'en', 'fi', 'ru', 'sv', 'zhHans'],
-      eventTimes: [],
-      events: [
-        {
-          endTime,
-          id,
-          startTime,
-        },
-      ],
-      environment,
-      environmentalCertificate,
-      externalLinks: [
-        {
-          name: EXTLINK.EXTLINK_FACEBOOK,
-          link: facebookUrl,
-        },
-        {
-          name: EXTLINK.EXTLINK_INSTAGRAM,
-          link: instagramUrl,
-        },
-        {
-          name: EXTLINK.EXTLINK_TWITTER,
-          link: twitterUrl,
-        },
-      ],
-      hasEnvironmentalCertificate,
-      hasPrice: true,
-      hasUmbrella: true,
-      imageDetails,
-      images: imageAtIds,
-      infoUrl,
-      inLanguage: inLanguageAtIds,
-      isImageEditable: false,
-      isUmbrella: false,
-      isVerified: true,
-      keywords: keywordAtIds,
-      location: locationAtId,
-      locationExtraInfo,
-      mainCategories: [],
-      maximumAttendeeCapacity,
-      minimumAttendeeCapacity,
-      name,
-      offers,
-      provider,
-      publisher,
-      recurringEvents: [],
-      recurringEventEndTime: null,
-      recurringEventStartTime: null,
-      shortDescription,
-      superEvent: superEventAtId,
-      type,
-      userConsent,
-      userEmail,
-      userName,
-      userOrganization,
-      userPhoneNumber,
-      videos,
-    });
+    ).toEqual(mockInitialValues);
   });
 
   it('should return event edit form default initial values', () => {
