@@ -3,10 +3,17 @@ import i18n from 'i18next';
 import { advanceTo, clear } from 'jest-date-mock';
 
 import { RegistrationQueryVariables } from '../../../generated/graphql';
-import { fakeRegistration } from '../../../utils/mockDataUtils';
+import {
+  fakeRegistration,
+  getMockedSeatsReservationData,
+  setSessionStorageValues,
+} from '../../../utils/mockDataUtils';
 import { TEST_ENROLMENT_ID } from '../../enrolment/constants';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
-import { REGISTRATION_INITIAL_VALUES } from '../constants';
+import {
+  REGISTRATION_INITIAL_VALUES,
+  TEST_REGISTRATION_ID,
+} from '../constants';
 import {
   getEditRegistrationWarning,
   getEnrolmentLink,
@@ -18,6 +25,7 @@ import {
   getRegistrationWarning,
   isAttendeeCapacityUsed,
   isRegistrationOpen,
+  isRegistrationPossible,
   registrationPathBuilder,
 } from '../utils';
 
@@ -254,53 +262,30 @@ describe('registrationPathBuilder function', () => {
 });
 
 describe('isRegistrationOpen', () => {
-  it('should return false if enrolment_start_time is not defined', () => {
-    expect(
-      isRegistrationOpen(fakeRegistration({ enrolmentStartTime: '' }))
-    ).toBe(false);
+  beforeEach(() => {
+    advanceTo('2022-11-07');
   });
 
-  it('should return false if enrolment_start_time is not in the past', () => {
-    advanceTo('2022-11-07');
-
+  it('should return true if enrolment_start_time is not defined', () => {
     expect(
       isRegistrationOpen(
-        fakeRegistration({
-          enrolmentStartTime: new Date('2022-11-08').toISOString(),
-        })
-      )
-    ).toBe(false);
-  });
-
-  it('should return false if enrolment_start_time is in the past and enrolment_start_time is in the past', () => {
-    advanceTo('2022-11-07');
-
-    expect(
-      isRegistrationOpen(
-        fakeRegistration({
-          enrolmentEndTime: new Date('2022-11-06').toISOString(),
-          enrolmentStartTime: new Date('2022-11-06').toISOString(),
-        })
-      )
-    ).toBe(false);
-  });
-
-  it('should return true if enrolment_start_time is in the past and enrolment_start_time is not defined', () => {
-    advanceTo('2022-11-07');
-
-    expect(
-      isRegistrationOpen(
-        fakeRegistration({
-          enrolmentEndTime: '',
-          enrolmentStartTime: new Date('2022-11-06').toISOString(),
-        })
+        fakeRegistration({ enrolmentStartTime: '', enrolmentEndTime: '' })
       )
     ).toBe(true);
   });
 
-  it('should return true if enrolment_start_time is in the past and enrolment_start_time is in the future', () => {
-    advanceTo('2022-11-07');
+  it('should return false if enrolment_start_time is in the future', () => {
+    expect(
+      isRegistrationOpen(
+        fakeRegistration({
+          enrolmentStartTime: new Date('2022-11-08').toISOString(),
+          enrolmentEndTime: '',
+        })
+      )
+    ).toBe(false);
+  });
 
+  it('should return true if enrolment_start_time is in the past and enrolment_start_time is in the future', () => {
     expect(
       isRegistrationOpen(
         fakeRegistration({
@@ -309,6 +294,111 @@ describe('isRegistrationOpen', () => {
         })
       )
     ).toBe(true);
+  });
+
+  it('should return false if enrolment_end_time is in the past', () => {
+    expect(
+      isRegistrationOpen(
+        fakeRegistration({
+          enrolmentStartTime: '',
+          enrolmentEndTime: new Date('2022-11-06').toISOString(),
+        })
+      )
+    ).toBe(false);
+  });
+});
+
+describe('isRegistrationPossible', () => {
+  it('should return false if registration is not open', () => {
+    advanceTo('2022-11-07');
+
+    expect(
+      isRegistrationPossible(
+        fakeRegistration({
+          enrolmentStartTime: new Date('2022-11-08').toISOString(),
+          enrolmentEndTime: '',
+        })
+      )
+    ).toBe(false);
+  });
+
+  it('should return false if all seats are reserved', () => {
+    expect(
+      isRegistrationPossible(
+        fakeRegistration({
+          enrolmentStartTime: '',
+          enrolmentEndTime: '',
+          currentAttendeeCount: 10,
+          currentWaitingListCount: 10,
+          maximumAttendeeCapacity: 10,
+          waitingListCapacity: 10,
+          remainingAttendeeCapacity: 0,
+          remainingWaitingListCapacity: 0,
+        })
+      )
+    ).toBe(false);
+  });
+
+  it('should return true if all seats in event are not reserved', () => {
+    expect(
+      isRegistrationPossible(
+        fakeRegistration({
+          enrolmentStartTime: '',
+          enrolmentEndTime: '',
+          currentAttendeeCount: 5,
+          maximumAttendeeCapacity: 10,
+          remainingAttendeeCapacity: 5,
+        })
+      )
+    ).toBe(true);
+  });
+
+  it('should return false if all seats in event are reserved', () => {
+    expect(
+      isRegistrationPossible(
+        fakeRegistration({
+          enrolmentStartTime: '',
+          enrolmentEndTime: '',
+          currentAttendeeCount: 5,
+          maximumAttendeeCapacity: 10,
+          remainingAttendeeCapacity: 0,
+        })
+      )
+    ).toBe(false);
+  });
+
+  it('should return true if all seats in waiting list are not reserved', () => {
+    expect(
+      isRegistrationPossible(
+        fakeRegistration({
+          enrolmentStartTime: '',
+          enrolmentEndTime: '',
+          currentAttendeeCount: 10,
+          currentWaitingListCount: 5,
+          maximumAttendeeCapacity: 10,
+          waitingListCapacity: 10,
+          remainingAttendeeCapacity: 0,
+          remainingWaitingListCapacity: 5,
+        })
+      )
+    ).toBe(true);
+  });
+
+  it('should return false if all seats in waiting list are reserved', () => {
+    expect(
+      isRegistrationPossible(
+        fakeRegistration({
+          enrolmentStartTime: '',
+          enrolmentEndTime: '',
+          currentAttendeeCount: 10,
+          currentWaitingListCount: 5,
+          maximumAttendeeCapacity: 10,
+          waitingListCapacity: 10,
+          remainingAttendeeCapacity: 0,
+          remainingWaitingListCapacity: 0,
+        })
+      )
+    ).toBe(false);
   });
 });
 
@@ -373,8 +463,8 @@ describe('getRegistrationWarning', () => {
   });
 
   const singleRegistrationOverrides = {
-    enrolmentEndTime: new Date('2022-11-08').toISOString(),
     enrolmentStartTime: new Date('2022-11-06').toISOString(),
+    enrolmentEndTime: new Date('2022-11-08').toISOString(),
     maximumAttendeeCapacity: 10,
     waitingListCapacity: 10,
   };
@@ -392,7 +482,39 @@ describe('getRegistrationWarning', () => {
     ).toBe('');
   });
 
-  it('should return correct warning if there is space in waiting list', () => {
+  it('should return correct warning if enrolment is not open', () => {
+    expect(
+      getRegistrationWarning(
+        fakeRegistration({
+          ...singleRegistrationOverrides,
+          enrolmentStartTime: new Date('2022-11-04').toISOString(),
+          enrolmentEndTime: new Date('2022-11-06').toISOString(),
+        }),
+        i18n.t.bind(i18n)
+      )
+    ).toBe(
+      'Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen.'
+    );
+  });
+
+  it('should return correct warning if there is no available seats', () => {
+    expect(
+      getRegistrationWarning(
+        fakeRegistration({
+          ...singleRegistrationOverrides,
+          currentAttendeeCount: 10,
+          currentWaitingListCount: 0,
+          remainingAttendeeCapacity: 0,
+          remainingWaitingListCapacity: 0,
+        }),
+        i18n.t.bind(i18n)
+      )
+    ).toBe(
+      'Tapahtuman kaikki paikat ovat tällä hetkellä varatut. Kokeile myöhemmin uudelleen.'
+    );
+  });
+
+  it('should return correct warning if there are free seats in waiting list', () => {
     expect(
       getRegistrationWarning(
         fakeRegistration({
@@ -560,5 +682,20 @@ describe('getMaxSeatsAmount function', () => {
         })
       )
     ).toBe(6);
+  });
+
+  test('should return correct free capacity if seats reservation is stored to session storage', () => {
+    const reservation = getMockedSeatsReservationData(1000);
+    reservation.seats = 5;
+    const registration = fakeRegistration({
+      currentAttendeeCount: 2,
+      id: TEST_REGISTRATION_ID,
+      maximumAttendeeCapacity: 15,
+      maximumGroupSize: null,
+      remainingAttendeeCapacity: 7,
+    });
+    setSessionStorageValues(reservation, registration);
+
+    expect(getMaxSeatsAmount(registration)).toBe(12);
   });
 });

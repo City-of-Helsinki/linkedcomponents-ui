@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
@@ -14,6 +14,10 @@ import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import { isRegistrationPossible } from '../registration/utils';
+import {
+  getSeatsReservationData,
+  isSeatsReservationExpired,
+} from '../reserveSeats/utils';
 import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
 import EnrolmentForm from './enrolmentForm/EnrolmentForm';
@@ -39,14 +43,23 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const initialValues = getEnrolmentDefaultInitialValues(registration);
-  const formDisabled =
-    !isRegistrationPossible(registration) ||
-    !checkCanUserDoAction({
-      action: ENROLMENT_ACTIONS.CREATE,
-      organizationAncestors,
-      publisher,
-      user,
-    });
+
+  const formDisabled = useMemo(() => {
+    const data = getSeatsReservationData(registration.id as string);
+    if (data && !isSeatsReservationExpired(data)) {
+      return false;
+    }
+
+    return (
+      !isRegistrationPossible(registration) ||
+      !checkCanUserDoAction({
+        action: ENROLMENT_ACTIONS.CREATE,
+        organizationAncestors,
+        publisher,
+        user,
+      })
+    );
+  }, [organizationAncestors, publisher, registration, user]);
 
   return (
     <PageWrapper title={`createEnrolmentPage.pageTitle`}>

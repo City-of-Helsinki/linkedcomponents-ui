@@ -399,6 +399,7 @@
       "titleSingle": "Skicka ett meddelande till deltagaren"
     },
     "warnings": {
+      "allSeatsReserved": "Alla platser i evenemanget är för närvarande bokade. Vänligen försök igen senare.",
       "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
       "capacityInWaitingList_other": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",
       "capacityInWaitingListNoLimit": "Registrering till detta evenemang är fortfarande möjlig, men det finns endast platser kvar i kön.",

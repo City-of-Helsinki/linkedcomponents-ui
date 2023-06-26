@@ -398,6 +398,7 @@
       "titleSingle": "Send message to the participant"
     },
     "warnings": {
+      "allSeatsReserved": "All seats in the event are currently booked. Please try again later.",
       "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
       "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
       "capacityInWaitingListNoLimit": "Registration for this event is still possible, but there are only seats left in the queue.",

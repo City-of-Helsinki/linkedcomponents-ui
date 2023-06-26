@@ -399,6 +399,7 @@
       "titleSingle": "Lähetä viesti osallistujalle"
     },
     "warnings": {
+      "allSeatsReserved": "Tapahtuman kaikki paikat ovat tällä hetkellä varatut. Kokeile myöhemmin uudelleen.",
       "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
       "capacityInWaitingList_other": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
       "capacityInWaitingListNoLimit": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta vain jonopaikkoja on jäljellä.",

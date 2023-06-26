@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
 import addMinutes from 'date-fns/addMinutes';
+import addSeconds from 'date-fns/addSeconds';
 import merge from 'lodash/merge';
 
-import { EXTLINK } from '../constants';
+import { EXTLINK, RESERVATION_NAMES } from '../constants';
 import { TEST_DATA_SOURCE_ID } from '../domain/dataSource/constants';
 import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
 import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
@@ -44,6 +45,7 @@ import {
   PlacesResponse,
   PublicationStatus,
   Registration,
+  RegistrationFieldsFragment,
   RegistrationsResponse,
   SeatsReservation,
   SendMessageResponse,
@@ -625,4 +627,25 @@ const generateNodeArray = <T extends (...args: any) => any>(
   length: number
 ): ReturnType<T>[] => {
   return Array.from({ length }).map((_, i) => fakeFunc(i));
+};
+
+export const getMockedSeatsReservationData = (expirationOffset: number) => {
+  const now = new Date();
+  const expiration = addSeconds(now, expirationOffset).toISOString();
+
+  return fakeSeatsReservation({ expiration });
+};
+
+export const setSessionStorageValues = (
+  reservation: SeatsReservation,
+  registration: RegistrationFieldsFragment
+) => {
+  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
+    const reservationKey = `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registration.id}`;
+
+    if (key === reservationKey) {
+      return reservation ? JSON.stringify(reservation) : '';
+    }
+    return '';
+  });
 };
