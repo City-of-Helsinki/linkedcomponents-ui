@@ -62,9 +62,9 @@ const CreateButtonPanel: React.FC<Props> = ({
       variant: 'secondary',
     }),
     getActionButtonProps({
-      action: !externalUser
-        ? EVENT_ACTIONS.PUBLISH
-        : EVENT_ACTIONS.SEND_TO_PUBLISHING,
+      action: externalUser
+        ? EVENT_ACTIONS.SEND_TO_PUBLISHING
+        : EVENT_ACTIONS.PUBLISH,
       onClick: () => onSubmit(PublicationStatus.Public),
       variant: 'primary',
     }),

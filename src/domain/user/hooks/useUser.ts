@@ -34,9 +34,14 @@ const useUser = (): UserState => {
     LOADING_USER_DEBOUNCE_TIME
   );
 
-  const isExternalUser = isExternalUserWithoutOrganization({
-    user: userData?.user,
-  });
+  const ENABLE_EXTERNAL_USER_EVENTS =
+    process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
+  const isExternalUser =
+    ENABLE_EXTERNAL_USER_EVENTS &&
+    isExternalUserWithoutOrganization({
+      user: userData?.user,
+    });
 
   return { loading, user: userData?.user, externalUser: isExternalUser };
 };

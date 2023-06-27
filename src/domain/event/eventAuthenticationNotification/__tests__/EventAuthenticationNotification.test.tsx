@@ -34,6 +34,13 @@ const renderComponent = (
 };
 
 test('should not show notification if user is signed in', async () => {
+  const originalEnv = process.env;
+
+  process.env = {
+    ...originalEnv,
+    REACT_APP_ENABLE_EXTERNAL_USER_EVENTS: 'false',
+  };
+
   const mocks = [
     mockedOrganizationAncestorsResponse,
     mockedUserWithoutOrganizationsResponse,
@@ -44,6 +51,8 @@ test('should not show notification if user is signed in', async () => {
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
   );
+
+  process.env = originalEnv;
 });
 
 test('should show notification if event is in the past', async () => {

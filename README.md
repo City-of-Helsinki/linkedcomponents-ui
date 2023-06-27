@@ -151,6 +151,7 @@ Use .env.development.local for development.
 | REACT_APP_SHOW_ADMIN                       | Flag to show admin, Default true. pages                                                                |
 | REACT_APP_SHOW_REGISTRATION                | Flag to show registration related pages, Default true.                                                 |
 | REACT_APP_LOCALIZED_IMAGE                  | Flag to disabled localized image alt texts, Default true.                                              |
+| REACT_APP_ENABLE_EXTERNAL_USER_EVENTS      | Flag to enable events for users without an organization, Default true.                                 |
 
 ## Feature flags
 
