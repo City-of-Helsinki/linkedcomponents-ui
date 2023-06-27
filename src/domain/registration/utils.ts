@@ -18,9 +18,12 @@ import {
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
+import { filterUnselectedLanguages } from '../../utils/filterUnselectedLanguages';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import getDateFromString from '../../utils/getDateFromString';
+import { getInfoLanguages } from '../../utils/getInfoLanguages';
+import getLocalisedObject from '../../utils/getLocalisedObject';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
@@ -219,6 +222,8 @@ export const getRegistrationFields = (
 export const getRegistrationInitialValues = (
   registration: RegistrationFieldsFragment
 ): RegistrationFormFields => {
+  const infoLanguages = getInfoLanguages(registration, new Set(['event']));
+
   return {
     [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: getValue(
       registration.audienceMaxAge,
@@ -228,9 +233,8 @@ export const getRegistrationInitialValues = (
       registration.audienceMinAge,
       ''
     ),
-    [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]: getValue(
-      registration.confirmationMessage,
-      ''
+    [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]: getLocalisedObject(
+      registration.confirmationMessage
     ),
     [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: getDateFromString(
       registration.enrolmentEndTime
@@ -249,7 +253,12 @@ export const getRegistrationInitialValues = (
           )
         : '',
     [REGISTRATION_FIELDS.EVENT]: getValue(registration.event?.atId, ''),
-    [REGISTRATION_FIELDS.INSTRUCTIONS]: getValue(registration.instructions, ''),
+    [REGISTRATION_FIELDS.INFO_LANGUAGES]: infoLanguages.length
+      ? infoLanguages
+      : ['fi'],
+    [REGISTRATION_FIELDS.INSTRUCTIONS]: getLocalisedObject(
+      registration.instructions
+    ),
     [REGISTRATION_FIELDS.MANDATORY_FIELDS]: getValue(
       registration.mandatoryFields?.filter(skipFalsyType),
       []
@@ -312,11 +321,14 @@ export const getRegistrationPayload = (
     minimumAttendeeCapacity,
     waitingListCapacity,
   } = formValues;
-
+  const infoLanguages = ['fi'];
   return {
     audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
     audienceMinAge: isNumber(audienceMinAge) ? audienceMinAge : null,
-    confirmationMessage: confirmationMessage ? confirmationMessage : null,
+    confirmationMessage: filterUnselectedLanguages(
+      confirmationMessage,
+      infoLanguages
+    ),
     enrolmentEndTime:
       enrolmentEndTimeDate && enrolmentEndTimeTime
         ? formatDateAndTimeForApi(enrolmentEndTimeDate, enrolmentEndTimeTime)
@@ -329,7 +341,7 @@ export const getRegistrationPayload = (
           )
         : null,
     event: { atId: event },
-    instructions: instructions ? instructions : null,
+    instructions: filterUnselectedLanguages(instructions, infoLanguages),
     mandatoryFields,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity

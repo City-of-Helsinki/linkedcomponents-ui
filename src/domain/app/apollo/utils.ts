@@ -214,7 +214,11 @@ export const addTypenameRegistration = (
   registration
     ? {
         ...registration,
+        confirmationMessage: addTypenameLocalisedObject(
+          registration?.confirmationMessage
+        ),
         event: addTypenameEvent(registration?.event),
+        instructions: addTypenameLocalisedObject(registration?.instructions),
         signups: Array.isArray(registration.signups)
           ? registration.signups.map((enrolment) =>
               addTypenameEnrolment(enrolment)
