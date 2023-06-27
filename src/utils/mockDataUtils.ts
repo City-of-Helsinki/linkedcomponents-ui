@@ -348,6 +348,7 @@ export const fakeLanguage = (overrides?: Partial<Language>): Language => {
     {
       id,
       atId: generateAtId(id, 'language'),
+      serviceLanguage: false,
       translationAvailable: false,
       name: fakeLocalisedObject(),
       __typename: 'Language',
