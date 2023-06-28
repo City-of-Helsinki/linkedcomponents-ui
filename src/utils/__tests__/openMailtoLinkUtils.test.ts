@@ -1,4 +1,4 @@
-import parseEmailFromCreatedBy from '../parseEmailFromCreatedBy';
+import { parseEmailFromCreatedBy, openMailtoLink }  from '../openMailtoLinkUtils';
 const cases = [
   [
     'Testi-Ukko Kapiainen - ukko.kapiainen@testiosoite.fi',
@@ -18,3 +18,19 @@ it.each(cases)(
     expect(parseEmailFromCreatedBy(createdBy)).toBe(email);
   }
 );
+
+it('should have correct window.location set after calling the function', async () => {
+  const originalLocation = window.location;
+
+  delete window.location;
+
+  window.location = { href: '' };
+
+  openMailtoLink('ukko.kapiainen@testiosoite.fi', 'testiotsikko');
+
+  expect(window.location.href).toBe(
+    'mailto:ukko.kapiainen@testiosoite.fi?subject=testiotsikko'
+  );
+
+  window.location = originalLocation;
+});

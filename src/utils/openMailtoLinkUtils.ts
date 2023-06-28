@@ -8,5 +8,10 @@ const parseEmailFromCreatedBy = (
   const targetEmail = createdBy.match(filterRegexp);
   return targetEmail ? targetEmail[0] : '';
 };
-
-export default parseEmailFromCreatedBy;
+const openMailtoLink = (
+  targetEmail: string | null | undefined,
+  subject: string | null | undefined
+): void => {
+  window.location.href = 'mailto:' + targetEmail + '?subject=' + subject;
+};
+export { openMailtoLink, parseEmailFromCreatedBy };

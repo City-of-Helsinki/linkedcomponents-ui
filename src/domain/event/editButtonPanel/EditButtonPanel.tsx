@@ -17,7 +17,10 @@ import useLocale from '../../../hooks/useLocale';
 import { ActionButtonProps } from '../../../types';
 import getLocalisedString from '../../../utils/getLocalisedString';
 import getValue from '../../../utils/getValue';
-import parseEmailFromCreatedBy from '../../../utils/parseEmailFromCreatedBy';
+import {
+  openMailtoLink,
+  parseEmailFromCreatedBy,
+} from '../../../utils/openMailtoLinkUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { EventsLocationState } from '../../events/types';
@@ -64,11 +67,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   };
   const sendEmail = () => {
     const targetEmail = parseEmailFromCreatedBy(event.createdBy);
-    window.location.href =
-      'mailto:' +
-      targetEmail +
-      '?subject=' +
-      getLocalisedString(event.name, locale);
+    openMailtoLink(targetEmail, getLocalisedString(event.name, locale));
   };
 
   const getActionItemProps = ({
