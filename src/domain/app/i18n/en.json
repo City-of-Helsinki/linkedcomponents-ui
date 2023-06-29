@@ -398,6 +398,7 @@
       "titleSingle": "Send message to the participant"
     },
     "warnings": {
+      "allSeatsReserved": "All seats in the event are currently booked. Please try again later.",
       "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
       "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
       "capacityInWaitingListNoLimit": "Registration for this event is still possible, but there are only seats left in the queue.",
@@ -1781,14 +1782,15 @@
       },
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
-      "labelConfirmationMessage": "Confirmation message to send (optional)",
+      "labelConfirmationMessage": "Confirmation message {{langText}} (optional)",
       "labelEnrolmentEndTimeDate": "Registration ends",
       "labelEnrolmentEndTimeTime": "Registration ends at",
       "labelEnrolmentStartTimeDate": "Registration begins",
       "labelEnrolmentStartTimeTime": "Registration begins at",
       "labelEvent": "Event",
-      "labelInstructions": "Registration instructions (optional)",
+      "labelInstructions": "Registration instructions {{langText}} (optional)",
       "labelMaximumAttendeeCapacity": "Maximum number of seats",
+      "labelMaximumGroupSize": "Maximum group size",
       "labelMinimumAttendeeCapacity": "Minimum number of seats",
       "labelName": "Name",
       "labelWaitingListCapacity": "Number of spare seats",
@@ -1799,14 +1801,16 @@
       "sections": {
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
-        "confirmationMessage": "Confirmation message details",
         "enrolmentTime": "Registration time",
         "event": "Event",
-        "instructions": "Additional registration information",
+        "groupSize": "Group size",
+        "instructions": "Instructions and confirmation message",
+        "languages": "Languages",
         "mandatoryFields": "Required fields",
         "waitingList": "Waiting list"
       },
       "titleContactInfo": "Contact information",
+      "titleInfoLanguages": "Input languages",
       "titleParticipantBasicInfo": "Basic information of the participant"
     },
     "registrationLinkCopied": "Registration link copied"
@@ -1856,6 +1860,7 @@
     "emailMustBeUnique": "Email already has registration.",
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
     "invalidUrl": "Enter a valid URL.",
+    "maxGroupSize": "The maximum group size is {{maxGroupSize}}.",
     "maxLength255": "The value can be up to 255 characters long.",
     "methodDeleteNotAllowed": "\"DELETE\" method is not allowed.",
     "methodPostNotAllowed": "\"POST\" method is not allowed.",

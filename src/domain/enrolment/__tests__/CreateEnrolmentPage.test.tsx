@@ -20,7 +20,10 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
-import { mockedLanguagesResponse } from '../../language/__mocks__/language';
+import {
+  mockedLanguagesResponse,
+  mockedServiceLanguagesResponse,
+} from '../../language/__mocks__/language';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedPlaceResponse } from '../../place/__mocks__/place';
 import {
@@ -212,6 +215,7 @@ const reservationId = (mockedCreateSeatsReservation?.result as any).data
 
 const defaultMocks = [
   mockedLanguagesResponse,
+  mockedServiceLanguagesResponse,
   mockedOrganizationAncestorsResponse,
   mockedPlaceResponse,
   mockedRegistrationResponse,

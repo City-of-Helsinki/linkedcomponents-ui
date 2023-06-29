@@ -2,17 +2,30 @@ import React from 'react';
 
 import {
   LanguageFieldsFragment,
+  LanguagesQueryVariables,
   useLanguagesQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
+import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
-import { getLanguageOption, sortLanguageOptions } from '../../language/utils';
+import {
+  getLanguageOption,
+  languagesPathBuilder,
+  sortLanguageOptions,
+} from '../../language/utils';
 
-const useLanguageOptions = (): OptionType[] => {
+const useLanguageOptions = (
+  variables?: LanguagesQueryVariables
+): OptionType[] => {
   const locale = useLocale();
 
-  const { data } = useLanguagesQuery();
+  const { data } = useLanguagesQuery({
+    variables: {
+      ...variables,
+      createPath: getPathBuilder(languagesPathBuilder),
+    },
+  });
 
   const languageOptions = React.useMemo(() => {
     return getValue(

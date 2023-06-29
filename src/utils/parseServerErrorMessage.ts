@@ -26,6 +26,12 @@ const parseServerErrorMessage = ({
     errorStr = Array.isArray(e) ? e[0] : e;
   }
 
+  const maxGroupSizeStart = `Amount of seats is greater than maximum group size: `;
+  if (errorStr.startsWith(maxGroupSizeStart)) {
+    const maxGroupSize = errorStr.split(maxGroupSizeStart)[1].split('.')[0];
+    return t(`serverError.maxGroupSize`, { maxGroupSize });
+  }
+
   const noSeatsLeftStart = `Not enough seats available. Capacity left: `;
   if (errorStr.startsWith(noSeatsLeftStart)) {
     const seatsLeft = errorStr.split(noSeatsLeftStart)[1].split('.')[0];

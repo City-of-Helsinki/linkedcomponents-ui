@@ -10,9 +10,9 @@ export const QUERY_LANGUAGE = gql`
     }
   }
 
-  query Languages {
-    languages
-      @rest(type: "LanguagesResponse", path: "/language/", method: "GET") {
+  query Languages($serviceLanguage: Boolean, $createPath: Any) {
+    languages(serviceLanguage: $serviceLanguage)
+      @rest(type: "LanguagesResponse", pathBuilder: $createPath) {
       meta {
         ...metaFields
       }

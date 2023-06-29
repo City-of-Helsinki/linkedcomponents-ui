@@ -127,7 +127,7 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): KeywordSetsResponse!
-    languages: LanguagesResponse!
+    languages(serviceLanguage: Boolean): LanguagesResponse!
     organization(id: ID!): Organization!
     organizations(
       child: ID
@@ -481,13 +481,14 @@ module.exports = buildSchema(/* GraphQL */ `
   input CreateRegistrationMutationInput {
     audienceMaxAge: Int
     audienceMinAge: Int
-    confirmationMessage: String
+    confirmationMessage: LocalisedObjectInput
     enrolmentEndTime: String
     enrolmentStartTime: String
     event: IdObjectInput!
-    instructions: String
+    instructions: LocalisedObjectInput
     mandatoryFields: [String]
     maximumAttendeeCapacity: Int
+    maximumGroupSize: Int
     minimumAttendeeCapacity: Int
     waitingListCapacity: Int
   }
@@ -496,13 +497,14 @@ module.exports = buildSchema(/* GraphQL */ `
     id: ID!
     audienceMaxAge: Int
     audienceMinAge: Int
-    confirmationMessage: String
+    confirmationMessage: LocalisedObjectInput
     enrolmentEndTime: String
     enrolmentStartTime: String
     event: IdObjectInput!
-    instructions: String
+    instructions: LocalisedObjectInput
     mandatoryFields: [String]
     maximumAttendeeCapacity: Int
+    maximumGroupSize: Int
     minimumAttendeeCapacity: Int
     waitingListCapacity: Int
   }
@@ -735,6 +737,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Language {
     id: ID
+    serviceLanguage: Boolean
     translationAvailable: Boolean
     name: LocalisedObject
     # @id is renamed as atId so it's usable on GraphQl
@@ -876,7 +879,7 @@ module.exports = buildSchema(/* GraphQL */ `
     attendeeRegistration: Boolean
     audienceMaxAge: Int
     audienceMinAge: Int
-    confirmationMessage: String
+    confirmationMessage: LocalisedObject
     createdAt: String
     createdBy: String
     currentAttendeeCount: Int
@@ -885,11 +888,12 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentEndTime: String
     enrolmentStartTime: String
     event: Event
-    instructions: String
+    instructions: LocalisedObject
     lastModifiedAt: String
     lastModifiedBy: String
     mandatoryFields: [String]
     maximumAttendeeCapacity: Int
+    maximumGroupSize: Int
     minimumAttendeeCapacity: Int
     remainingAttendeeCapacity: Int
     remainingWaitingListCapacity: Int

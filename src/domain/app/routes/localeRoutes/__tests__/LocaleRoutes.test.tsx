@@ -15,6 +15,7 @@ import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../../types';
 import getValue from '../../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
+import { fakeEnrolments } from '../../../../../utils/mockDataUtils';
 import {
   act,
   actWait,
@@ -72,7 +73,10 @@ import {
   mockedTopicsKeywordSetResponse,
 } from '../../../../keywordSet/__mocks__/keywordSets';
 import { mockedKeywordSetsResponse } from '../../../../keywordSets/__mocks__/keywordSetsPage';
-import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
+import {
+  mockedLanguagesResponse,
+  mockedServiceLanguagesResponse,
+} from '../../../../language/__mocks__/language';
 import {
   mockedOrganizationResponse,
   organizationId,
@@ -127,6 +131,7 @@ const mocks = [
   mockedAudienceKeywordSetResponse,
   mockedKeywordSetsResponse,
   mockedLanguagesResponse,
+  mockedServiceLanguagesResponse,
   mockedOrganizationResponse,
   mockedOrganizationsResponse,
   mockedOrganizationAncestorsResponse,
@@ -144,8 +149,10 @@ const mocks = [
   mockedEventResponse,
   mockedUserResponse,
   mockedUsersResponse,
-  getMockedAttendeesResponse([]),
-  getMockedAttendeesResponse([], { attendeeStatus: AttendeeStatus.Waitlisted }),
+  getMockedAttendeesResponse(fakeEnrolments(0)),
+  getMockedAttendeesResponse(fakeEnrolments(0), {
+    attendeeStatus: AttendeeStatus.Waitlisted,
+  }),
 ];
 
 const renderRoute = async (route: string, locale: Language = 'fi') => {

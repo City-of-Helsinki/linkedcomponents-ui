@@ -399,6 +399,7 @@
       "titleSingle": "Lähetä viesti osallistujalle"
     },
     "warnings": {
+      "allSeatsReserved": "Tapahtuman kaikki paikat ovat tällä hetkellä varatut. Kokeile myöhemmin uudelleen.",
       "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
       "capacityInWaitingList_other": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
       "capacityInWaitingListNoLimit": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta vain jonopaikkoja on jäljellä.",
@@ -1781,14 +1782,15 @@
       },
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
-      "labelConfirmationMessage": "Lähetettävä vahvistusviesti (valinnainen)",
+      "labelConfirmationMessage": "Vahvistusviesti {{langText}} (valinnainen)",
       "labelEnrolmentEndTimeDate": "Ilmoittautuminen päättyy",
       "labelEnrolmentEndTimeTime": "Ilmoittautuminen päättyy klo",
       "labelEnrolmentStartTimeDate": "Ilmoittautuminen alkaa",
       "labelEnrolmentStartTimeTime": "Ilmoittautuminen alkaa klo",
       "labelEvent": "Tapahtuma",
-      "labelInstructions": "Ilmoittautumisohjeet (valinnainen)",
+      "labelInstructions": "Ilmoittautumisohjeet {{langText}} (valinnainen)",
       "labelMaximumAttendeeCapacity": "Paikkojen enimmäismäärä",
+      "labelMaximumGroupSize": "Ryhmän enimmäiskoko",
       "labelMinimumAttendeeCapacity": "Paikkojen vähimmäismäärä",
       "labelName": "Nimi",
       "labelWaitingListCapacity": "Varasijapaikkojen lukumäärä",
@@ -1799,14 +1801,16 @@
       "sections": {
         "attendeeCount": "Paikat",
         "audienceAge": "Ikäraja",
-        "confirmationMessage": "Vahvistusviestin lisätiedot",
         "enrolmentTime": "Ilmoittautumisaika",
         "event": "Tapahtuma",
-        "instructions": "Ilmoittautumisen lisätiedot",
+        "groupSize": "Ryhmän koko",
+        "instructions": "Ilmoittautumisohjeet ja vahvistusviesti",
+        "languages": "Kielet",
         "mandatoryFields": "Pakolliset kentät",
         "waitingList": "Jonopaikat"
       },
       "titleContactInfo": "Yhteystiedot",
+      "titleInfoLanguages": "Syöttökielet",
       "titleParticipantBasicInfo": "Ilmoittautujan perustiedot"
     },
     "registrationLinkCopied": "Ilmoittautumislinkki kopioitu"
@@ -1856,6 +1860,7 @@
     "emailMustBeUnique": "Sähköpostiosoitteella on jo ilmoittautuminen.",
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
     "invalidUrl": "Syötä oikea URL-osoite.",
+    "maxGroupSize": "Ryhmän enimmäiskoko on {{maxGroupSize}}.",
     "maxLength255": "Arvo saa olla enintään 255 merkkiä pitkä.",
     "methodDeleteNotAllowed": "Metodi \"DELETE\" ei ole sallittu.",
     "methodPostNotAllowed": "Metodi \"POST\" ei ole sallittu.",

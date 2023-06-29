@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
 import addMinutes from 'date-fns/addMinutes';
+import addSeconds from 'date-fns/addSeconds';
 import merge from 'lodash/merge';
 
-import { EXTLINK } from '../constants';
+import { EXTLINK, RESERVATION_NAMES } from '../constants';
 import { TEST_DATA_SOURCE_ID } from '../domain/dataSource/constants';
 import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
 import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
@@ -44,6 +45,7 @@ import {
   PlacesResponse,
   PublicationStatus,
   Registration,
+  RegistrationFieldsFragment,
   RegistrationsResponse,
   SeatsReservation,
   SendMessageResponse,
@@ -346,6 +348,7 @@ export const fakeLanguage = (overrides?: Partial<Language>): Language => {
     {
       id,
       atId: generateAtId(id, 'language'),
+      serviceLanguage: false,
       translationAvailable: false,
       name: fakeLocalisedObject(),
       __typename: 'Language',
@@ -496,7 +499,7 @@ export const fakeRegistration = (
       atId: generateAtId(id, 'registration'),
       audienceMaxAge: null,
       audienceMinAge: null,
-      confirmationMessage: faker.lorem.paragraph(),
+      confirmationMessage: fakeLocalisedObject(faker.lorem.paragraph()),
       createdAt: null,
       createdBy: faker.name.firstName(),
       currentAttendeeCount: 0,
@@ -505,11 +508,12 @@ export const fakeRegistration = (
       enrolmentEndTime: '2020-09-30T16:00:00.000000Z',
       enrolmentStartTime: '2020-09-27T15:00:00.000000Z',
       event: null,
-      instructions: faker.lorem.paragraph(),
+      instructions: fakeLocalisedObject(faker.lorem.paragraph()),
       lastModifiedAt: '2020-09-12T15:00:00.000000Z',
       lastModifiedBy: faker.name.firstName(),
       mandatoryFields: [],
       maximumAttendeeCapacity: 0,
+      maximumGroupSize: null,
       minimumAttendeeCapacity: 0,
       remainingAttendeeCapacity: 0,
       remainingWaitingListCapacity: 0,
@@ -624,4 +628,25 @@ const generateNodeArray = <T extends (...args: any) => any>(
   length: number
 ): ReturnType<T>[] => {
   return Array.from({ length }).map((_, i) => fakeFunc(i));
+};
+
+export const getMockedSeatsReservationData = (expirationOffset: number) => {
+  const now = new Date();
+  const expiration = addSeconds(now, expirationOffset).toISOString();
+
+  return fakeSeatsReservation({ expiration });
+};
+
+export const setSessionStorageValues = (
+  reservation: SeatsReservation,
+  registration: RegistrationFieldsFragment
+) => {
+  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
+    const reservationKey = `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registration.id}`;
+
+    if (key === reservationKey) {
+      return reservation ? JSON.stringify(reservation) : '';
+    }
+    return '';
+  });
 };

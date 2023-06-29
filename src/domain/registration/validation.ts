@@ -55,13 +55,16 @@ export const registrationSchema = Yup.object().shape({
         .transform(transformNumber);
     }
   ),
-
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
     .min(0, createNumberMinErrorMessage)
     .nullable()
     .transform(transformNumber),
-
+  [REGISTRATION_FIELDS.MAXIMUM_GROUP_SIZE]: Yup.number()
+    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+    .min(1, createNumberMinErrorMessage)
+    .nullable()
+    .transform(transformNumber),
   [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
     .min(0, createNumberMinErrorMessage)

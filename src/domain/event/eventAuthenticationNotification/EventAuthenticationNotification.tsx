@@ -29,6 +29,12 @@ const EventAuthenticationNotification: React.FC<
     getValue(event?.publisher, '')
   );
 
+  const ENABLE_EXTERNAL_USER_EVENTS =
+    process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+  const requiredOrganizationType = ENABLE_EXTERNAL_USER_EVENTS
+    ? 'external'
+    : 'any';
+
   return (
     <LoadingSpinner isLoading={loading}>
       <AuthenticationNotification
@@ -55,7 +61,7 @@ const EventAuthenticationNotification: React.FC<
           'authentication.noRightsUpdateEventLabel'
         )}
         noRequiredOrganizationText={t('authentication.noRightsUpdateEvent')}
-        requiredOrganizationType="external"
+        requiredOrganizationType={requiredOrganizationType}
         notAuthenticatedCustomMessage={
           <>
             <p

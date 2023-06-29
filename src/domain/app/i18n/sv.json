@@ -399,6 +399,7 @@
       "titleSingle": "Skicka ett meddelande till deltagaren"
     },
     "warnings": {
+      "allSeatsReserved": "Alla platser i evenemanget är för närvarande bokade. Vänligen försök igen senare.",
       "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
       "capacityInWaitingList_other": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",
       "capacityInWaitingListNoLimit": "Registrering till detta evenemang är fortfarande möjlig, men det finns endast platser kvar i kön.",
@@ -1781,14 +1782,15 @@
       },
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
-      "labelConfirmationMessage": "Bekräftelsemeddelande att skicka (valfritt)",
+      "labelConfirmationMessage": "Bekräftelsemeddelande {{langText}}(valfritt)",
       "labelEnrolmentEndTimeDate": "Registreringen avslutas",
       "labelEnrolmentEndTimeTime": "Registreringen avslutas kl",
       "labelEnrolmentStartTimeDate": "Registreringen börjar",
       "labelEnrolmentStartTimeTime": "Registreringen börjar kl",
       "labelEvent": "Evenemang",
-      "labelInstructions": "Anvisningar för registrering (valfritt)",
+      "labelInstructions": "Anvisningar för registrering {{langText}} (valfritt)",
       "labelMaximumAttendeeCapacity": "Max antal platser",
+      "labelMaximumGroupSize": "Maximal gruppstorlek",
       "labelMinimumAttendeeCapacity": "Minsta antal platser",
       "labelName": "Namn",
       "labelWaitingListCapacity": "Antal reservplatser",
@@ -1799,14 +1801,16 @@
       "sections": {
         "attendeeCount": "Sittplatser",
         "audienceAge": "Åldersgräns",
-        "confirmationMessage": "Bekräftelsemeddelande",
         "enrolmentTime": "Registreringstid",
         "event": "Evenemang",
-        "instructions": "Ytterligare registreringsinformation",
+        "groupSize": "Gruppstorlek",
+        "instructions": "Instruktioner och bekräftelsemeddelande",
+        "languages": "Språk",
         "mandatoryFields": "Obligatoriska fält",
         "waitingList": "Väntelista"
       },
       "titleContactInfo": "Kontaktinformation",
+      "titleInfoLanguages": "Inmatningsspråk",
       "titleParticipantBasicInfo": "Grundläggande information om deltagaren"
     },
     "registrationLinkCopied": "Registreringslänk kopierad"
@@ -1856,6 +1860,7 @@
     "emailMustBeUnique": "E-post har redan registrering.",
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",
+    "maxGroupSize": "Den maximala gruppstorleken är {{maxGroupSize}}.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
     "methodDeleteNotAllowed": "\"DELETE\"-metoden är inte tillåten.",
     "methodPostNotAllowed": "\"POST\"-metoden är inte tillåten.",
