@@ -1,4 +1,7 @@
-import { parseEmailFromCreatedBy, openMailtoLink }  from '../openMailtoLinkUtils';
+import {
+  openMailtoLink,
+  parseEmailFromCreatedBy,
+} from '../openMailtoLinkUtils';
 const cases = [
   [
     'Testi-Ukko Kapiainen - ukko.kapiainen@testiosoite.fi',
