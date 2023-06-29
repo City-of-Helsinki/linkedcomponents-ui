@@ -10,6 +10,10 @@ import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getLocalisedString from '../../../utils/getLocalisedString';
 import getValue from '../../../utils/getValue';
+import {
+  openMailtoLink,
+  parseEmailFromCreatedBy,
+} from '../../../utils/openMailtoLinkUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { EVENT_ACTIONS, EVENT_MODALS } from '../../event/constants';
@@ -66,17 +70,8 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
   };
 
   const sendEmail = () => {
-    let targetEmail = '';
-
-    /* istanbul ignore else */
-    if (event.createdBy) {
-      targetEmail = event.createdBy.split('-')[1].trim();
-    }
-    window.location.href =
-      'mailto:' +
-      targetEmail +
-      '?subject=' +
-      getLocalisedString(event.name, locale);
+    const targetEmail = parseEmailFromCreatedBy(event.createdBy);
+    openMailtoLink(targetEmail, getLocalisedString(event.name, locale));
   };
 
   const getActionItemProps = ({

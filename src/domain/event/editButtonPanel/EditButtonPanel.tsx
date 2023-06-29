@@ -15,7 +15,12 @@ import {
 import useGoBack from '../../../hooks/useGoBack';
 import useLocale from '../../../hooks/useLocale';
 import { ActionButtonProps } from '../../../types';
+import getLocalisedString from '../../../utils/getLocalisedString';
 import getValue from '../../../utils/getValue';
+import {
+  openMailtoLink,
+  parseEmailFromCreatedBy,
+} from '../../../utils/openMailtoLinkUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { EventsLocationState } from '../../events/types';
@@ -59,6 +64,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const copyEvent = async () => {
     await copyEventToSessionStorage(event, user);
     navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
+  };
+  const sendEmail = () => {
+    const targetEmail = parseEmailFromCreatedBy(event.createdBy);
+    openMailtoLink(targetEmail, getLocalisedString(event.name, locale));
   };
 
   const getActionItemProps = ({
@@ -112,6 +121,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionItemProps({
       action: EVENT_ACTIONS.DELETE,
       onClick: onDelete,
+    }),
+    getActionItemProps({
+      action: EVENT_ACTIONS.SEND_EMAIL,
+      onClick: sendEmail,
     }),
   ].filter(skipFalsyType);
 
