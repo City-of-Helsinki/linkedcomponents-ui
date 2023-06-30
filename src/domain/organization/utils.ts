@@ -365,7 +365,7 @@ export const getOrganizationPayload = (
 
   return {
     ...restFormValues,
-    adminUsers: { username: adminUsers },
+    adminUsers,
     dataSource,
     dissolutionDate: dissolutionDate
       ? formatDate(dissolutionDate, DATE_FORMAT_API)
@@ -376,6 +376,6 @@ export const getOrganizationPayload = (
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
     originId,
     parentOrganization: parentOrganization || undefined,
-    regularUsers: { username: regularUsers },
+    regularUsers,
   };
 };

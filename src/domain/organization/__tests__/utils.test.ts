@@ -297,7 +297,7 @@ describe('getOrganizationInitialValues function', () => {
 describe('getOrganizationPayload function', () => {
   it('should return organization payload', () => {
     expect(getOrganizationPayload(ORGANIZATION_INITIAL_VALUES)).toEqual({
-      adminUsers: { username: [] },
+      adminUsers: [],
       affiliatedOrganizations: [],
       classification: '',
       dataSource: LINKED_EVENTS_SYSTEM_DATA_SOURCE,
@@ -308,7 +308,7 @@ describe('getOrganizationPayload function', () => {
       name: '',
       originId: '',
       parentOrganization: undefined,
-      regularUsers: { username: [] },
+      regularUsers: [],
       replacedBy: '',
       subOrganizations: [],
     });
@@ -331,7 +331,7 @@ describe('getOrganizationPayload function', () => {
         subOrganizations: ['organization:sub'],
       })
     ).toEqual({
-      adminUsers: { username: ['admin:1'] },
+      adminUsers: ['admin:1'],
       affiliatedOrganizations: ['organization:affiliated'],
       classification: 'ahjo:1',
       dataSource: 'helsinki',
@@ -342,7 +342,7 @@ describe('getOrganizationPayload function', () => {
       name: 'name',
       originId: '123',
       parentOrganization: 'organization:parent',
-      regularUsers: { username: ['regular:1'] },
+      regularUsers: ['regular:1'],
       replacedBy: 'organization:replaced',
       subOrganizations: ['organization:sub'],
     });
