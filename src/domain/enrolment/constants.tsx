@@ -2,6 +2,18 @@ import { IconCrossCircle, IconEnvelope, IconEye, IconPen } from 'hds-react';
 
 import { AttendeeFields, EnrolmentFormFields } from './types';
 
+export enum NOTIFICATIONS {
+  EMAIL = 'email',
+  SMS = 'sms',
+}
+
+export enum NOTIFICATION_TYPE {
+  NO_NOTIFICATION = 'none',
+  SMS = 'sms',
+  EMAIL = 'email',
+  SMS_EMAIL = 'sms and email',
+}
+
 export enum ATTENDEE_FIELDS {
   CITY = 'city',
   DATE_OF_BIRTH = 'dateOfBirth',
@@ -46,22 +58,10 @@ export const ENROLMENT_INITIAL_VALUES: EnrolmentFormFields = {
   [ENROLMENT_FIELDS.EXTRA_INFO]: '',
   [ENROLMENT_FIELDS.MEMBERSHIP_NUMBER]: '',
   [ENROLMENT_FIELDS.NATIVE_LANGUAGE]: '',
-  [ENROLMENT_FIELDS.NOTIFICATIONS]: [],
+  [ENROLMENT_FIELDS.NOTIFICATIONS]: [NOTIFICATIONS.EMAIL],
   [ENROLMENT_FIELDS.PHONE_NUMBER]: '',
   [ENROLMENT_FIELDS.SERVICE_LANGUAGE]: '',
 };
-
-export enum NOTIFICATIONS {
-  EMAIL = 'email',
-  SMS = 'sms',
-}
-
-export enum NOTIFICATION_TYPE {
-  NO_NOTIFICATION = 'none',
-  SMS = 'sms',
-  EMAIL = 'email',
-  SMS_EMAIL = 'sms and email',
-}
 
 export const ENROLMENT_FORM_SELECT_FIELDS = [
   ENROLMENT_FIELDS.NATIVE_LANGUAGE,

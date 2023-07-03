@@ -252,8 +252,6 @@ const enterFormValues = async () => {
   const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
-  const emailCheckbox = getElement('emailCheckbox');
-  const phoneCheckbox = getElement('phoneCheckbox');
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
 
@@ -262,9 +260,7 @@ const enterFormValues = async () => {
   await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
   await user.type(zipInput, enrolmentValues.zip);
   await user.type(cityInput, enrolmentValues.city);
-  await user.click(emailCheckbox);
   await user.type(emailInput, enrolmentValues.email);
-  await user.click(phoneCheckbox);
   await user.type(phoneInput, enrolmentValues.phone);
   await user.click(nativeLanguageButton);
   const nativeLanguageOption = await screen.findByRole('option', {
@@ -293,8 +289,6 @@ test('should validate enrolment form and focus to invalid field and finally crea
   const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
-  const emailCheckbox = getElement('emailCheckbox');
-  const phoneCheckbox = getElement('phoneCheckbox');
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
   const submitButton = await findElement('submitButton');
@@ -311,16 +305,6 @@ test('should validate enrolment form and focus to invalid field and finally crea
   expect(phoneInput).not.toBeRequired();
 
   await user.type(emailInput, enrolmentValues.email);
-  await user.click(submitButton);
-  await waitFor(() => expect(emailCheckbox).toHaveFocus());
-
-  await user.click(emailCheckbox);
-  await user.click(phoneCheckbox);
-  await user.click(submitButton);
-
-  await waitFor(() => expect(phoneInput).toHaveFocus());
-  expect(phoneInput).toBeRequired();
-
   await user.type(phoneInput, enrolmentValues.phone);
   await user.click(submitButton);
 

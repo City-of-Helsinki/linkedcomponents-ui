@@ -75,7 +75,9 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
             name={ENROLMENT_FIELDS.NOTIFICATIONS}
             className={styles.notifications}
             component={CheckboxGroupField}
-            disabled={disabled}
+            // TODO: At the moment only email notifications are supported
+            disabled={true}
+            // disabled={disabled}
             label={t(`enrolment.form.titleNotifications`)}
             options={notificationOptions}
             required

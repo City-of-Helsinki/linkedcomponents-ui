@@ -27,7 +27,7 @@ const enrolmentValues = {
   name: 'Participant name',
   nativeLanguage: 'fi',
   notificationLanguage: 'fi',
-  notifications: NOTIFICATION_TYPE.SMS_EMAIL,
+  notifications: NOTIFICATION_TYPE.EMAIL,
   phoneNumber: '+358 44 123 4567',
   serviceLanguage: 'fi',
   streetAddress: 'Street address',
