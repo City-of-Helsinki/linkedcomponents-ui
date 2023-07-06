@@ -153,3 +153,29 @@ test('should show sub events', async () => {
     expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
   }
 });
+
+test('should have an icon highlighting that the event was created by external user', async () => {
+  const user = userEvent.setup();
+  const commonEventInfo = {
+    id: eventValues.id,
+    publicationStatus: eventValues.publicationStatus,
+    publisher: null,
+  };
+  const event = fakeEvent({
+    ...commonEventInfo,
+    id: eventValues.id,
+    endTime: eventValues.endTime,
+    name: { fi: eventValues.name },
+    startTime: eventValues.startTime,
+    superEventType: SuperEventType.Recurring,
+  });
+
+  const mocks = [
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+  ];
+
+  renderComponent(event, mocks);
+
+  expect(screen.getByText(/External/i)).toBeInTheDocument();
+});
