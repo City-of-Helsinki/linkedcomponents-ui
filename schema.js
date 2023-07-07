@@ -33,6 +33,7 @@ module.exports = buildSchema(/* GraphQL */ `
       input: SendMessageMutationInput!
       registration: String
     ): SendMessageResponse
+    sendRegistrationUserInvitation(id: Int): NoContent
     updateEnrolment(
       input: UpdateEnrolmentMutationInput!
       signup: String!
@@ -484,6 +485,10 @@ module.exports = buildSchema(/* GraphQL */ `
     type: String
   }
 
+  input RegistrationUserInput {
+    email: String
+  }
+
   input CreateRegistrationMutationInput {
     audienceMaxAge: Int
     audienceMinAge: Int
@@ -496,6 +501,7 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    registrationUsers: [RegistrationUserInput]
     waitingListCapacity: Int
   }
 
@@ -512,6 +518,7 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    registrationUsers: [RegistrationUserInput]
     waitingListCapacity: Int
   }
 
@@ -877,6 +884,11 @@ module.exports = buildSchema(/* GraphQL */ `
     url: String
   }
 
+  type RegistrationUser {
+    email: String
+    id: Int
+  }
+
   type RegistrationsResponse {
     meta: Meta!
     data: [Registration]!
@@ -903,9 +915,10 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    publisher: String
+    registrationUsers: [RegistrationUser]
     remainingAttendeeCapacity: Int
     remainingWaitingListCapacity: Int
-    publisher: String
     signups: [Enrolment]
     waitingListCapacity: Int
     # @id is renamed as atId so it's usable on GraphQl

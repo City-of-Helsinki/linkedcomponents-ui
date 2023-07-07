@@ -1791,7 +1791,9 @@
       "title": "Confirm registration deletion"
     },
     "form": {
+      "buttonAddRegistrationUser": "Add user",
       "buttonCreate": "Save",
+      "buttonDeleteRegistrationUser": "Remove user",
       "buttonPanel": {
         "warningNotAuthenticated": "To create a registration, log in first."
       },
@@ -1813,11 +1815,17 @@
       "labelMaximumGroupSize": "Maximum group size",
       "labelMinimumAttendeeCapacity": "Minimum number of seats",
       "labelName": "Name",
+      "labelRegistrationUserEmail": "User's email address",
       "labelWaitingListCapacity": "Number of spare seats",
+      "messages": {
+        "failedToSendInvitation": "Failed to send invitation",
+        "succeededToSendInvitation": "An invitation to the participant list has been sent to {{email}}."
+      },
       "notificationTitleCannotEdit": "The registration cannot be edited",
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
       "placeholderEvent": "Select or search for an event",
       "placeholderInstructions": "Enter registration instructions",
+      "placeholderRegistrationUserEmail": "Enter user's email address",
       "sections": {
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
@@ -1827,8 +1835,10 @@
         "instructions": "Instructions and confirmation message",
         "languages": "Languages",
         "mandatoryFields": "Required fields",
+        "registrationUsers": "Participant list read permissions",
         "waitingList": "Waiting list"
       },
+      "sendInvitation": "Resend invitation",
       "titleContactInfo": "Contact information",
       "titleInfoLanguages": "Input languages",
       "titleParticipantBasicInfo": "Basic information of the participant"

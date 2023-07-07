@@ -2,6 +2,11 @@
 import gql from 'graphql-tag';
 
 export const QUERY_REGISTRATION = gql`
+  fragment registrationUserFields on RegistrationUser {
+    email
+    id
+  }
+
   fragment registrationFields on Registration {
     id
     atId
@@ -30,6 +35,9 @@ export const QUERY_REGISTRATION = gql`
     remainingAttendeeCapacity
     remainingWaitingListCapacity
     publisher
+    registrationUsers {
+      ...registrationUserFields
+    }
     signups {
       ...enrolmentFields
     }

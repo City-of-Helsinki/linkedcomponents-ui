@@ -228,6 +228,7 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity: null,
       maximumGroupSize: null,
       minimumAttendeeCapacity: null,
+      registrationUsers: [],
       waitingListCapacity: null,
     });
 
@@ -241,6 +242,7 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity = 10,
       maximumGroupSize = 2,
       minimumAttendeeCapacity = 5,
+      registrationUsers = [{ email: 'user@email.com', id: null }],
       waitingListCapacity = 3;
     const payload = getRegistrationPayload({
       ...REGISTRATION_INITIAL_VALUES,
@@ -262,6 +264,7 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity,
       maximumGroupSize,
       minimumAttendeeCapacity,
+      registrationUsers,
       waitingListCapacity,
     });
 
@@ -291,6 +294,7 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity,
       maximumGroupSize,
       minimumAttendeeCapacity,
+      registrationUsers: [{ email: 'user@email.com' }],
       waitingListCapacity,
     });
   });
