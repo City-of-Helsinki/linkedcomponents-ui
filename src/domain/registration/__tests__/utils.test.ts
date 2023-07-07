@@ -153,6 +153,7 @@ describe('getRegistrationInitialValues function', () => {
       instructions,
       maximumAttendeeCapacity,
       minimumAttendeeCapacity,
+      registrationUsers,
       waitingListCapacity,
     } = getRegistrationInitialValues(
       fakeRegistration({
@@ -192,7 +193,57 @@ describe('getRegistrationInitialValues function', () => {
     });
     expect(maximumAttendeeCapacity).toBe('');
     expect(minimumAttendeeCapacity).toBe('');
+    expect(registrationUsers).toEqual([]);
     expect(waitingListCapacity).toBe('');
+  });
+
+  it('should return initial values if value is not set', () => {
+    expect(
+      getRegistrationInitialValues(
+        fakeRegistration({
+          audienceMaxAge: 15,
+          audienceMinAge: 8,
+          confirmationMessage: {
+            ...EMPTY_MULTI_LANGUAGE_OBJECT,
+            fi: 'Confirmation message fi',
+          },
+          enrolmentEndTime: '2021-06-15T12:00:00.000Z',
+          enrolmentStartTime: '2021-06-13T12:00:00.000Z',
+          instructions: {
+            ...EMPTY_MULTI_LANGUAGE_OBJECT,
+            fi: 'Instructions fi',
+          },
+          mandatoryFields: ['city'],
+          maximumAttendeeCapacity: 15,
+          minimumAttendeeCapacity: 5,
+          registrationUsers: [{ email: 'user@email.com', id: 1 }],
+          waitingListCapacity: 5,
+        })
+      )
+    ).toEqual({
+      audienceMaxAge: 15,
+      audienceMinAge: 8,
+      confirmationMessage: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+        fi: 'Confirmation message fi',
+      },
+      enrolmentEndTimeDate: new Date('2021-06-15T12:00:00.000Z'),
+      enrolmentEndTimeTime: '12:00',
+      enrolmentStartTimeDate: new Date('2021-06-13T12:00:00.000Z'),
+      enrolmentStartTimeTime: '12:00',
+      event: '',
+      infoLanguages: ['fi'],
+      instructions: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+        fi: 'Instructions fi',
+      },
+      mandatoryFields: ['city'],
+      maximumAttendeeCapacity: 15,
+      maximumGroupSize: '',
+      minimumAttendeeCapacity: 5,
+      registrationUsers: [{ email: 'user@email.com', id: 1 }],
+      waitingListCapacity: 5,
+    });
   });
 });
 

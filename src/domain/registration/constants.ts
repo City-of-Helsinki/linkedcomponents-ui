@@ -63,6 +63,7 @@ export const REGISTRATION_SELECT_FIELDS = [REGISTRATION_FIELDS.EVENT];
 export const REGISTRATION_INCLUDES = ['event', 'keywords', 'location'];
 
 export const TEST_REGISTRATION_ID = 'registration:0';
+export const TEST_REGISTRATION_USER_ID = 1;
 
 export enum REGISTRATION_MODALS {
   DELETE = 'delete',

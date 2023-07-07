@@ -11,9 +11,9 @@ import { EventFormFields, EventTimeFormFields } from '../types';
 import { getEmptyOffer } from '../utils';
 import { eventTimeSchema, publicEventSchema } from '../validation';
 
-const testEventTimeSchema = async (attendee: EventTimeFormFields) => {
+const testEventTimeSchema = async (eventTime: EventTimeFormFields) => {
   try {
-    await eventTimeSchema.validate(attendee);
+    await eventTimeSchema.validate(eventTime);
     return true;
   } catch (e) {
     return false;
@@ -98,7 +98,7 @@ describe('publiEventSchema', () => {
   });
 });
 
-describe('attendeeSchema function', () => {
+describe('event time validation', () => {
   const validEventTime: EventTimeFormFields = {
     endDate: new Date('2022-11-09'),
     endTime: '15:00',
