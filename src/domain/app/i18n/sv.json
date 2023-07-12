@@ -1086,6 +1086,7 @@
     "pageTitleDraftSaved": "Utkastet har sparats",
     "pageTitlePublished": "Evenemanget har publicerats",
     "titleDraftSaved": "Utkastet har sparats",
+    "titleDraftSavedInfo": "Den sparade informationen kommer automatiskt att vara synlig även för moderatorn. Informationen kan dock redigeras fram till dess att moderatorn publicerar evenemanget. Det senare kan undvikas genom att skriva \"OFULLBORDAD\" i början av evenemangets titel medan redigeringen pågår.",    
     "titlePublished": "Evenemanget har publicerats"
   },
   "eventsPage": {

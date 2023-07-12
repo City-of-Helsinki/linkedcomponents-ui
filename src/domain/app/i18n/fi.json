@@ -1086,6 +1086,7 @@
     "pageTitleDraftSaved": "Luonnos tallennettu",
     "pageTitlePublished": "Tapahtuma julkaistu",
     "titleDraftSaved": "Luonnos tallennettu onnistuneesti",
+    "titleDraftSavedInfo": "Tallennetut tiedot tulevat automaattisesti näkyville myös moderoijalle. Tietoja voi kuitenkin muokata, kunnes moderaattori julkaisee tapahtuman. Jälkimmäisen voi välttää kirjoittamalla muokkauksen ajaksi tapahtuman otsikon alkuun \"KESKENERÄINEN\".",
     "titlePublished": "Tapahtuma julkaistu onnistuneesti"
   },
   "eventsPage": {

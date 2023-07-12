@@ -1086,6 +1086,7 @@
     "pageTitleDraftSaved": "Draft saved",
     "pageTitlePublished": "Event published",
     "titleDraftSaved": "Draft successfully saved",
+    "titleDraftSavedInfo": "The saved information will automatically be visible to the moderator as well. However, the information can be edited until the moderator publishes the event. The latter can be avoided by writing \"UNFINISHED\" at the beginning of the event title while editing is in progress.",
     "titlePublished": "Event successfully published"
   },
   "eventsPage": {
