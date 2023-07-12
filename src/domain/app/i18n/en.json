@@ -546,6 +546,7 @@
       "buttonUpdateDraft": "Save draft",
       "buttonUpdatePublic": "Save changes",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
+      "eventDraftStateInfo": "The saved information will automatically be visible to the moderator as well. However, the information can be edited until the moderator publishes the event. The latter can be avoided by writing \"UNFINISHED\" at the beginning of the event title while editing is in progress.",
       "editButtonPanel": {
         "warningCancelledEvent": "Cancelled events can't be edited.",
         "warningCannotCancelDraft": "Event drafts can't be cancelled.",
@@ -1086,7 +1087,6 @@
     "pageTitleDraftSaved": "Draft saved",
     "pageTitlePublished": "Event published",
     "titleDraftSaved": "Draft successfully saved",
-    "titleDraftSavedInfo": "The saved information will automatically be visible to the moderator as well. However, the information can be edited until the moderator publishes the event. The latter can be avoided by writing \"UNFINISHED\" at the beginning of the event title while editing is in progress.",
     "titlePublished": "Event successfully published"
   },
   "eventsPage": {

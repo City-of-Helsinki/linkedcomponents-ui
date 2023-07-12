@@ -546,6 +546,7 @@
       "buttonUpdateDraft": "Tallenna luonnos",
       "buttonUpdatePublic": "Tallenna muutokset",
       "checkboxIsVerified": "Vakuutan, että antamani tiedot ovat oikein ja sitoudun noudattamaan kaikkia Helsingin kaupungin kursseja ja tapahtumia <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"koskevia ohjeita ja säädöksiä {{openInNewTab}}\">koskevia ohjeita ja säädöksiä</a>.",
+      "eventDraftStateInfo": "Tallennetut tiedot tulevat automaattisesti näkyville myös moderoijalle. Tietoja voi kuitenkin muokata, kunnes moderaattori julkaisee tapahtuman. Jälkimmäisen voi välttää kirjoittamalla muokkauksen ajaksi tapahtuman otsikon alkuun \"KESKENERÄINEN\".",
       "editButtonPanel": {
         "warningCancelledEvent": "Peruttuja tapahtumia ei voi muokata.",
         "warningCannotCancelDraft": "Tapahtumaluonnosta ei voi perua.",
@@ -1086,7 +1087,6 @@
     "pageTitleDraftSaved": "Luonnos tallennettu",
     "pageTitlePublished": "Tapahtuma julkaistu",
     "titleDraftSaved": "Luonnos tallennettu onnistuneesti",
-    "titleDraftSavedInfo": "Tallennetut tiedot tulevat automaattisesti näkyville myös moderoijalle. Tietoja voi kuitenkin muokata, kunnes moderaattori julkaisee tapahtuman. Jälkimmäisen voi välttää kirjoittamalla muokkauksen ajaksi tapahtuman otsikon alkuun \"KESKENERÄINEN\".",
     "titlePublished": "Tapahtuma julkaistu onnistuneesti"
   },
   "eventsPage": {

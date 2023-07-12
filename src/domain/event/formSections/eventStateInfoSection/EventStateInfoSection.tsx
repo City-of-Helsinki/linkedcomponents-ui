@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './eventStateInfoSection.module.scss';
 
 type EventStateInfoProps = {
-  text?: string;
+  text: string;
 };
 
 const EventStateInfoSection: React.FC<EventStateInfoProps> = ({ text }) => {
