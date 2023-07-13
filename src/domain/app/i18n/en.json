@@ -660,7 +660,7 @@
       "infoTextLocation3": "If the venue is found on the list, its location does not need to be described separately. However, you can provide additional information for finding the venue, such as the floor number or classroom name.",
       "infoTextLocation4": "If the exact venue is not found on the list, select the nearest street address as the venue, enter the name of the venue or other brief arrival instructions in the additional information field.",
       "infoTextLocation5": "If the location information has changed, update it in the location register. For services other than the city, add or update the information in the <a href=\"https://kaupunkialustana.hel.fi/en/\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"City Platform {{openInNewTab}}\">City Platform</a> service.",
-      "infoTextLocation6": "Select where the event will mainly take place from the Inside/Outside options.",
+      "infoTextLocation6": "Select where the event will mainly take place from the Indoors/Outdoors options.",
       "infoTextMainCategories": {
         "course": "Select at least one main category. Using the correct main categories makes it easier to find the course.",
         "general": "Select at least one main category. Using the correct main categories makes it easier to find the event.",
