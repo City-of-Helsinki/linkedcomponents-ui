@@ -62,6 +62,7 @@ const PlaceSection: React.FC<Props> = ({
                 }),
               }}
             />
+            <p>{t(`event.form.infoTextLocation6`)}</p>
           </Notification>
         }
       >

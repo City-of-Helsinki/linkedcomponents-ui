@@ -660,6 +660,7 @@
       "infoTextLocation3": "Om platsen finns i listan behöver dess plats inte beskrivas separat. Du kan dock ge ytterligare information för att hitta platsen, till exempel våningsnummer eller klassrumsnamn.",
       "infoTextLocation4": "Om den exakta platsen inte finns i listan, välj närmaste gatuadress som plats och ange platsens namn eller andra detaljerade ankomstinstruktioner i fältet för ytterligare information.",
       "infoTextLocation5": "Om platsinformationen har ändrats, uppdatera den i platsregistret. För tjänster utanför staden, lägg till eller uppdatera information i tjänsten <a href=\"https://kaupunkialustana.hel.fi/sv/\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Stadsplattform {{openInNewTab}}\">Stadsplattform</a>.",
+      "infoTextLocation6": "Välj var evenemanget huvudsakligen kommer att äga rum från alternativen Inomhus/Utomhus.",
       "infoTextMainCategories": {
         "course": "Välj minst en huvudkategori. Rätt huvudkategori gör det lättare att hitta kursen.",
         "general": "Välj minst en huvudkategori. Rätt huvudkategori gör det lättare att hitta evenemanget.",

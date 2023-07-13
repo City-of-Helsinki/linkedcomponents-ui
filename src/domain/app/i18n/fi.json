@@ -660,6 +660,7 @@
       "infoTextLocation3": "Jos tapahtumapaikka löytyy listasta, sen sijaintia ei tarvitse kuvailla erikseen. Voit kuitenkin antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi kerrosnumeron tai luokkahuoneen nimen.",
       "infoTextLocation4": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
       "infoTextLocation5": "Jos paikan tiedot ovat muuttuneet, päivitä ne toimipisterekisterissä. Muiden kuin kaupungin palvelujen osalta, lisää tai päivitä tiedot <a href=\"https://kaupunkialustana.hel.fi/\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Kaupunki alustana {{openInNewTab}}\">Kaupunki alustana</a> -palvelussa.",
+      "infoTextLocation6": "Valitse tapahtuman pääasiallinen tapahtumapaikka Sisällä/Ulkona-vaihtoehdoista.",
       "infoTextMainCategories": {
         "course": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa kurssin löytämistä.",
         "general": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa tapahtuman löytämistä.",
