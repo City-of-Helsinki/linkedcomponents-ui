@@ -151,6 +151,7 @@ export const getEventsQueryBaseVariables = ({
         adminUser: true,
         publisher: adminOrganizations,
         publicationStatus: PublicationStatus.Draft,
+        start: 'now',
       };
   }
 };
