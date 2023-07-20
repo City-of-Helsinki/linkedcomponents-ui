@@ -47,6 +47,7 @@ import AudienceSection from '../formSections/audienceSection/AudienceSection';
 import ChannelsSection from '../formSections/channelsSection/ChannelsSection';
 import ClassificationSection from '../formSections/classificationSection/ClassificationSection';
 import DescriptionSection from '../formSections/descriptionSection/DescriptionSection';
+import EventStateInfoSection from '../formSections/eventStateInfoSection/EventStateInfoSection';
 import ExternalUserContact from '../formSections/externalUserContact/ExternalUserContact';
 import ImageSection from '../formSections/imageSection/ImageSection';
 import LanguagesSection from '../formSections/languagesSection/LanguagesSection';
@@ -482,7 +483,14 @@ const EventForm: React.FC<EventFormProps> = ({
                   </Section>
                 </>
               ) : (
-                <SummarySection isEditingAllowed={isEditingAllowed} />
+                <>
+                  <SummarySection isEditingAllowed={isEditingAllowed} />
+                  {isExternalUser && (
+                    <EventStateInfoSection
+                      text={getValue(t('event.form.eventDraftStateInfo'), '')}
+                    />
+                  )}
+                </>
               )}
             </Container>
             {event ? (
