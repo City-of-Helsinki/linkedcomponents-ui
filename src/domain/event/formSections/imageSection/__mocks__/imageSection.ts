@@ -43,12 +43,28 @@ const mockedImagesResponse: MockedResponse = {
   newData: () => imagesResponse,
 };
 
+const mockedImagesUserWithoutOrganizationsReponse = {
+  ...mockedImagesResponse,
+  request: {
+    ...mockedImagesResponse.request,
+    variables: { ...imagesVariables, createdBy: 'me', publisher: '' },
+  },
+};
+
 const image = images.data[0];
 const imageVariables = { createPath: undefined, id: image?.id };
 const imageResponse = { data: { image } };
 const mockedImageResponse: MockedResponse = {
   request: { query: ImageDocument, variables: imageVariables },
   result: imageResponse,
+};
+
+const mockedImageUserWithoutOrganizationsReponse = {
+  ...mockedImageResponse,
+  request: {
+    ...mockedImageResponse.request,
+    variables: { ...imagesVariables, createdBy: 'me', publisher: '' },
+  },
 };
 
 const imageAtId = getValue(image?.atId, '');
@@ -69,6 +85,13 @@ const mockedUploadImage1Response: MockedResponse = {
   },
   result: uploadImageResponse,
 };
+const mockedUploadImage1UserWithoutOrganizationsResponse: MockedResponse = {
+  ...mockedUploadImage1Response,
+  request: {
+    ...mockedUploadImage1Response.request,
+    variables: { input: { ...uploadImage1Variables, publisher: '' } },
+  },
+};
 
 const uploadImage2Variables = {
   image: file,
@@ -83,6 +106,13 @@ const mockedUploadImage2Response: MockedResponse = {
   },
   result: uploadImageResponse,
 };
+const mockedUploadImage2UserWithoutOrganizationsResponse: MockedResponse = {
+  ...mockedUploadImage2Response,
+  request: {
+    ...mockedUploadImage2Response.request,
+    variables: { input: { ...uploadImage2Variables, publisher: '' } },
+  },
+};
 
 export {
   eventType,
@@ -92,7 +122,11 @@ export {
   imageUrl,
   mockedImageResponse,
   mockedImagesResponse,
+  mockedImagesUserWithoutOrganizationsReponse,
+  mockedImageUserWithoutOrganizationsReponse,
   mockedUploadImage1Response,
+  mockedUploadImage1UserWithoutOrganizationsResponse,
   mockedUploadImage2Response,
+  mockedUploadImage2UserWithoutOrganizationsResponse,
   publisher,
 };

@@ -34,6 +34,14 @@ const mockedImagesReponse = {
   result: imagesResponse,
 };
 
+const mockedImagesUserWithoutOrganizationsReponse = {
+  ...mockedImagesReponse,
+  request: {
+    ...mockedImagesReponse.request,
+    variables: { ...imagesVariables, createdBy: 'me', publisher: '' },
+  },
+};
+
 const loadMoreImages = fakeImages(PAGE_SIZE);
 const loadMoreImagesVariables = { ...imagesVariables, page: 2 };
 
@@ -57,6 +65,7 @@ export {
   images,
   loadMoreImages,
   mockedImagesReponse,
+  mockedImagesUserWithoutOrganizationsReponse,
   mockedLoadMoreImagesResponse,
   publisher,
 };

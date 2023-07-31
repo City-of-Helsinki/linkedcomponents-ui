@@ -23,7 +23,10 @@ import {
   IMAGE_FIELDS,
 } from '../../../../image/constants';
 import { mockedOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
-import { mockedUserResponse } from '../../../../user/__mocks__/user';
+import {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS } from '../../../constants';
 import { ImageDetails } from '../../../types';
 import { publicEventSchema } from '../../../validation';
@@ -35,8 +38,12 @@ import {
   imageUrl,
   mockedImageResponse,
   mockedImagesResponse,
+  mockedImagesUserWithoutOrganizationsReponse,
+  mockedImageUserWithoutOrganizationsReponse,
   mockedUploadImage1Response,
+  mockedUploadImage1UserWithoutOrganizationsResponse,
   mockedUploadImage2Response,
+  mockedUploadImage2UserWithoutOrganizationsResponse,
   publisher,
 } from '../__mocks__/imageSection';
 import ImageSection from '../ImageSection';
@@ -275,4 +282,39 @@ test('should show validation error if image name is too long', async () => {
   await user.click(altTextInput);
 
   await screen.findByText('Tämä kenttä voi olla korkeintaan 255 merkkiä pitkä');
+});
+
+test('should create and select new image by entering image url for external user', async () => {
+  const user = userEvent.setup();
+
+  const mockValues = { ...defaultInitialValues, [EVENT_FIELDS.PUBLISHER]: '' };
+  const mocks = [
+    mockedImagesUserWithoutOrganizationsReponse,
+    mockedImageUserWithoutOrganizationsReponse,
+    mockedUploadImage1UserWithoutOrganizationsResponse,
+    mockedUploadImage2UserWithoutOrganizationsResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedUserWithoutOrganizationsResponse,
+  ];
+
+  renderComponent(mockValues, mocks);
+
+  const addButton = getElement('addButton');
+  await user.click(addButton);
+
+  getElement('modalHeading');
+
+  const urlInput = getElement('urlInput');
+  await waitFor(() => expect(urlInput).toBeEnabled());
+  await user.click(urlInput);
+  await user.type(urlInput, imageUrl);
+  await waitFor(() => expect(urlInput).toHaveValue(imageUrl));
+
+  const submitButton = getElement('submitButton');
+  await waitFor(() => expect(submitButton).toBeEnabled());
+  await user.click(submitButton);
+
+  await screen.findByTestId(testIds.imagePreview.image);
+  // Wait formik to update state to avoid act warnings
+  await actWait();
 });

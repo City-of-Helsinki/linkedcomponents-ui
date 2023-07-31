@@ -1,8 +1,12 @@
+import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { testIds } from '../../../../constants';
 import { mockedOrganizationAncestorsResponse } from '../../../../domain/organization/__mocks__/organizationAncestors';
-import { mockedUserResponse } from '../../../../domain/user/__mocks__/user';
+import {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../../../domain/user/__mocks__/user';
 import { Image, ImageFieldsFragment } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
@@ -18,6 +22,7 @@ import {
   images,
   loadMoreImages,
   mockedImagesReponse,
+  mockedImagesUserWithoutOrganizationsReponse,
   mockedLoadMoreImagesResponse,
   publisher,
 } from '../__mocks__/imageSelector';
@@ -43,7 +48,7 @@ const defaultImageItemProps: ImageItemProps = {
   onDoubleClick: jest.fn(),
 };
 
-const mocks = [
+const defaultMocks = [
   mockedImagesReponse,
   mockedLoadMoreImagesResponse,
   mockedOrganizationAncestorsResponse,
@@ -52,7 +57,10 @@ const mocks = [
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const renderImageSelector = (props?: Partial<ImageSelectorProps>) =>
+const renderImageSelector = (
+  props?: Partial<ImageSelectorProps>,
+  mocks: MockedResponse[] = defaultMocks
+) =>
   render(<ImageSelector {...defaultImageSelectorProps} {...props} />, {
     mocks,
     authContextValue,
@@ -134,6 +142,29 @@ describe('ImageSelector', () => {
     await user.click(screen.getByLabelText(getValue(name, '')));
 
     expect(onChange).toBeCalledWith([atId, atId2]);
+  });
+
+  test('should call onChange with external user', async () => {
+    const mocks = [
+      mockedImagesUserWithoutOrganizationsReponse,
+      mockedLoadMoreImagesResponse,
+      mockedOrganizationAncestorsResponse,
+      mockedUserWithoutOrganizationsResponse,
+    ];
+
+    const onChange = jest.fn();
+    const user = userEvent.setup();
+
+    renderImageSelector({ onChange }, mocks);
+
+    const loadMoreButton = screen.getByRole('button', { name: /näytä lisää/i });
+
+    await waitFor(() => expect(loadMoreButton).toBeEnabled());
+
+    const { name, atId } = images.data[0] as Image;
+
+    await user.click(screen.getByLabelText(getValue(name, '')));
+    expect(onChange).toBeCalledWith([atId]);
   });
 });
 
