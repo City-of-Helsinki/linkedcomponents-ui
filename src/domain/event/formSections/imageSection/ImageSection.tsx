@@ -32,6 +32,7 @@ import useImageUpdateActions, {
 } from '../../../image/hooks/useImageUpdateActions';
 import { AddImageSettings } from '../../../image/types';
 import { imagePathBuilder } from '../../../image/utils';
+import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS } from '../../constants';
 import eventPageStyles from '../../eventPage.module.scss';
 import ImageDetailsFields from './imageDetailsFields/ImageDetailsFields';
@@ -44,6 +45,7 @@ interface Props {
 const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
+  const { loading: loadingUser, externalUser } = useUser();
 
   const { closeModal, openModal, setOpenModal, uploadImage } =
     useImageUpdateActions({});
@@ -83,7 +85,13 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
       setImagesValue(values.selectedImage);
       closeModal();
     } else if (values.url) {
-      uploadImage({ publisher, url: values.url }, setImageFields);
+      uploadImage(
+        {
+          publisher: !loadingUser && externalUser ? '' : publisher,
+          url: values.url,
+        },
+        setImageFields
+      );
     }
   };
 
@@ -114,7 +122,13 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
           <AddImageForm
             onCancel={closeModal}
             onAddImageByFile={(image) =>
-              uploadImage({ publisher, image }, setImageFields)
+              uploadImage(
+                {
+                  publisher: !loadingUser && externalUser ? '' : publisher,
+                  image,
+                },
+                setImageFields
+              )
             }
             onSubmit={handleAddImageFormSubmit}
             publisher={publisher}

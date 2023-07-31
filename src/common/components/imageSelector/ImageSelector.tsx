@@ -112,7 +112,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
       createPath: getPathBuilder(imagesPathBuilder),
       mergePages: true,
       pageSize: PAGE_SIZE,
-      publisher,
+      publisher: !loadingUser && externalUser ? '' : publisher,
       text: debouncedSearch,
     },
   });
