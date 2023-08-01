@@ -61,10 +61,11 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: publisher }] = useField({ name: EVENT_FIELDS.PUBLISHER });
-
   const [{ value: images }, , { setValue: setImagesValue }] = useField({
     name: EVENT_FIELDS.IMAGES,
   });
+
+  const imagePublisherValue = !loadingUser && externalUser ? '' : publisher;
 
   const imageAtId = images[0];
   const imageId = getValue(parseIdFromAtId(imageAtId), '');
@@ -87,7 +88,7 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
     } else if (values.url) {
       uploadImage(
         {
-          publisher: !loadingUser && externalUser ? '' : publisher,
+          publisher: imagePublisherValue,
           url: values.url,
         },
         setImageFields
@@ -124,7 +125,7 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
             onAddImageByFile={(image) =>
               uploadImage(
                 {
-                  publisher: !loadingUser && externalUser ? '' : publisher,
+                  publisher: imagePublisherValue,
                   image,
                 },
                 setImageFields

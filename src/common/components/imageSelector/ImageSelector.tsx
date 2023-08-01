@@ -101,6 +101,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
   const { externalUser, loading: loadingUser } = useUser();
+  const isExternalUser = !loadingUser && externalUser;
 
   const {
     data: imagesData,
@@ -108,11 +109,11 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
     fetchMore: fetchMoreImages,
   } = useImagesQuery({
     variables: {
-      createdBy: !loadingUser && externalUser ? 'me' : undefined,
+      createdBy: isExternalUser ? 'me' : undefined,
       createPath: getPathBuilder(imagesPathBuilder),
       mergePages: true,
       pageSize: PAGE_SIZE,
-      publisher: !loadingUser && externalUser ? '' : publisher,
+      publisher: isExternalUser ? '' : publisher,
       text: debouncedSearch,
     },
   });

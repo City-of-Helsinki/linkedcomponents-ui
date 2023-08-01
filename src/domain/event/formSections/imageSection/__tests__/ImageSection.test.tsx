@@ -284,6 +284,40 @@ test('should show validation error if image name is too long', async () => {
   await screen.findByText('Tämä kenttä voi olla korkeintaan 255 merkkiä pitkä');
 });
 
+test('should create and select new image by selecting image file for external user', async () => {
+  const user = userEvent.setup();
+  renderComponent();
+
+  const mockValues = { ...defaultInitialValues, [EVENT_FIELDS.PUBLISHER]: '' };
+  const mocks = [
+    mockedImagesUserWithoutOrganizationsReponse,
+    mockedImageUserWithoutOrganizationsReponse,
+    mockedUploadImage1UserWithoutOrganizationsResponse,
+    mockedUploadImage2UserWithoutOrganizationsResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedUserWithoutOrganizationsResponse,
+  ];
+
+  renderComponent(mockValues, mocks);
+
+  const addButton = getElement('addButton');
+  await user.click(addButton);
+
+  getElement('modalHeading');
+
+  const fileInput = screen.getByTestId(testIds.imageUploader.input);
+  Object.defineProperty(fileInput, 'files', { value: [file] });
+  await fireEvent.change(fileInput);
+
+  const submitButton = getElement('submitButton');
+  await waitFor(() => expect(submitButton).toBeEnabled());
+  await user.click(submitButton);
+
+  await screen.findByTestId(testIds.imagePreview.image);
+  // Wait formik to update state to avoid act warnings
+  await actWait();
+});
+
 test('should create and select new image by entering image url for external user', async () => {
   const user = userEvent.setup();
 

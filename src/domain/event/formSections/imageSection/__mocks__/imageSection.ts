@@ -110,7 +110,9 @@ const mockedUploadImage2UserWithoutOrganizationsResponse: MockedResponse = {
   ...mockedUploadImage2Response,
   request: {
     ...mockedUploadImage2Response.request,
-    variables: { input: { ...uploadImage2Variables, publisher: '' } },
+    variables: {
+      input: { ...uploadImage2Variables, publisher: '' },
+    },
   },
 };
 
