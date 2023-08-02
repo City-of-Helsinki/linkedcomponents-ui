@@ -3,7 +3,6 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import { testIds } from '../../../../constants';
-import { UserDocument } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
@@ -22,10 +21,7 @@ import {
   publisher,
 } from '../../../event/formSections/imageSection/__mocks__/imageSection';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
-import {
-  getMockedUserResponse,
-  mockedUserResponse,
-} from '../../../user/__mocks__/user';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { ADD_IMAGE_INITIAL_VALUES } from '../../constants';
 import AddImageForm, { AddImageFormProps } from '../AddImageForm';
 
@@ -176,30 +172,6 @@ test('should validate url', async () => {
 
   await screen.findByText(translations.form.validation.string.url);
   expect(addButton).toBeDisabled();
-});
-
-test("inputs to add new images should be disabled if user doesn't have permissions to add images", async () => {
-  const mockedUserResponse = getMockedUserResponse({
-    organization: '',
-    adminOrganizations: [],
-    organizationMemberships: [],
-  });
-
-  const mocks = [
-    ...defaultMocks.filter((mock) => mock.request.query !== UserDocument),
-    mockedUserResponse,
-  ];
-  const onSubmit = jest.fn();
-  renderComponent({ mocks, props: { onSubmit } });
-
-  await findElement('imageCheckbox');
-  const uploadImageButton = screen.getByRole('button', {
-    name: 'Raahaa ja pudota kuva alueelle tai lisää omalta koneelta klikkaamalla',
-  });
-  const urlInput = getElement('urlInput');
-
-  await waitFor(() => expect(urlInput).toBeDisabled());
-  expect(uploadImageButton).toBeDisabled();
 });
 
 test('should call onSubmit with image url', async () => {

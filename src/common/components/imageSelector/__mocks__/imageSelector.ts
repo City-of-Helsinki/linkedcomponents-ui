@@ -7,6 +7,7 @@ const publisher = TEST_PUBLISHER_ID;
 
 const images = fakeImages(PAGE_SIZE);
 const imagesVariables = {
+  createdBy: undefined,
   createPath: undefined,
   mergePages: true,
   pageSize: PAGE_SIZE,
@@ -33,6 +34,14 @@ const mockedImagesReponse = {
   result: imagesResponse,
 };
 
+const mockedImagesUserWithoutOrganizationsReponse = {
+  ...mockedImagesReponse,
+  request: {
+    ...mockedImagesReponse.request,
+    variables: { ...imagesVariables, createdBy: 'me', publisher: '' },
+  },
+};
+
 const loadMoreImages = fakeImages(PAGE_SIZE);
 const loadMoreImagesVariables = { ...imagesVariables, page: 2 };
 
@@ -56,6 +65,7 @@ export {
   images,
   loadMoreImages,
   mockedImagesReponse,
+  mockedImagesUserWithoutOrganizationsReponse,
   mockedLoadMoreImagesResponse,
   publisher,
 };

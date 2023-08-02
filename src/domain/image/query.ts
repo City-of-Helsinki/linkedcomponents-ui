@@ -23,6 +23,7 @@ export const QUERY_IMAGE = gql`
   }
 
   query Images(
+    $createdBy: String
     $dataSource: String
     $mergePages: Boolean
     $page: Int
@@ -33,6 +34,7 @@ export const QUERY_IMAGE = gql`
     $createPath: Any
   ) {
     images(
+      createdBy: $createdBy
       dataSource: $dataSource
       mergePages: $mergePages
       page: $page

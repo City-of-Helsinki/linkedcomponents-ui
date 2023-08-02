@@ -339,6 +339,7 @@ export type Image = {
   atContext?: Maybe<Scalars['String']>;
   atId: Scalars['String'];
   atType?: Maybe<Scalars['String']>;
+  createdBy?: Maybe<Scalars['String']>;
   createdTime?: Maybe<Scalars['String']>;
   cropping?: Maybe<Scalars['String']>;
   dataSource?: Maybe<Scalars['String']>;
@@ -860,6 +861,7 @@ export type QueryImageArgs = {
 
 
 export type QueryImagesArgs = {
+  createdBy?: InputMaybe<Scalars['String']>;
   dataSource?: InputMaybe<Scalars['String']>;
   mergePages?: InputMaybe<Scalars['Boolean']>;
   page?: InputMaybe<Scalars['Int']>;
@@ -1462,6 +1464,7 @@ export type ImageQueryVariables = Exact<{
 export type ImageQuery = { __typename?: 'Query', image: { __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } };
 
 export type ImagesQueryVariables = Exact<{
+  createdBy?: InputMaybe<Scalars['String']>;
   dataSource?: InputMaybe<Scalars['String']>;
   mergePages?: InputMaybe<Scalars['Boolean']>;
   page?: InputMaybe<Scalars['Int']>;
@@ -2990,8 +2993,9 @@ export type ImageQueryHookResult = ReturnType<typeof useImageQuery>;
 export type ImageLazyQueryHookResult = ReturnType<typeof useImageLazyQuery>;
 export type ImageQueryResult = Apollo.QueryResult<ImageQuery, ImageQueryVariables>;
 export const ImagesDocument = gql`
-    query Images($dataSource: String, $mergePages: Boolean, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $text: String, $createPath: Any) {
+    query Images($createdBy: String, $dataSource: String, $mergePages: Boolean, $page: Int, $pageSize: Int, $publisher: ID, $sort: String, $text: String, $createPath: Any) {
   images(
+    createdBy: $createdBy
     dataSource: $dataSource
     mergePages: $mergePages
     page: $page
@@ -3023,6 +3027,7 @@ ${ImageFieldsFragmentDoc}`;
  * @example
  * const { data, loading, error } = useImagesQuery({
  *   variables: {
+ *      createdBy: // value for 'createdBy'
  *      dataSource: // value for 'dataSource'
  *      mergePages: // value for 'mergePages'
  *      page: // value for 'page'
