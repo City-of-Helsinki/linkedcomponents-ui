@@ -195,13 +195,19 @@ export const getEventSearchInitialValues = (
 };
 
 export const getEventsQueryVariables = (
-  search: string
+  search: string,
+  baseVariables?: EventsQueryVariables
 ): EventsQueryVariables => {
   const searchParams = new URLSearchParams(search);
 
+  const start = searchParams.get(EVENT_SEARCH_PARAMS.START)
+    ? searchParams.get(EVENT_SEARCH_PARAMS.START)
+    : baseVariables && baseVariables.start
+    ? baseVariables.start
+    : null;
+
   const end = searchParams.get(EVENT_SEARCH_PARAMS.END);
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
-  const start = searchParams.get(EVENT_SEARCH_PARAMS.START);
 
   const { page, sort, text, types } = getEventSearchInitialValues(search);
 
