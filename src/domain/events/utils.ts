@@ -200,11 +200,13 @@ export const getEventsQueryVariables = (
 ): EventsQueryVariables => {
   const searchParams = new URLSearchParams(search);
 
-  const start = searchParams.get(EVENT_SEARCH_PARAMS.START)
-    ? searchParams.get(EVENT_SEARCH_PARAMS.START)
-    : baseVariables && baseVariables.start
-    ? baseVariables.start
-    : null;
+  let start = null;
+
+  if (searchParams.get(EVENT_SEARCH_PARAMS.START)) {
+    start = searchParams.get(EVENT_SEARCH_PARAMS.START);
+  } else if (baseVariables?.start) {
+    start = baseVariables.start;
+  }
 
   const end = searchParams.get(EVENT_SEARCH_PARAMS.END);
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
