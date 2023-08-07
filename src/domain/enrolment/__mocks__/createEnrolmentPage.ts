@@ -39,7 +39,7 @@ const payload: CreateEnrolmentMutationInput = {
       membershipNumber: '',
       name: enrolmentValues.name,
       nativeLanguage: 'fi',
-      notifications: NOTIFICATION_TYPE.SMS_EMAIL,
+      notifications: NOTIFICATION_TYPE.EMAIL,
       phoneNumber: enrolmentValues.phone,
       serviceLanguage: 'fi',
       streetAddress: enrolmentValues.streetAddress,

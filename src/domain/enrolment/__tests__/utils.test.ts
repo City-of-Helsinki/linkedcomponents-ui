@@ -118,7 +118,7 @@ describe('getEnrolmentInitialValues function', () => {
     expect(extraInfo).toBe('');
     expect(membershipNumber).toBe('');
     expect(nativeLanguage).toBe('');
-    expect(notifications).toEqual([]);
+    expect(notifications).toEqual([NOTIFICATIONS.EMAIL]);
     expect(phoneNumber).toBe('');
     expect(serviceLanguage).toBe('');
   });
@@ -131,7 +131,7 @@ describe('getEnrolmentInitialValues function', () => {
     const expectedMembershipNumber = 'XXX-XXX-XXX';
     const expectedName = 'Name';
     const expectedNativeLanguage = 'fi';
-    const expectedNotifications = [NOTIFICATIONS.EMAIL, NOTIFICATIONS.SMS];
+    const expectedNotifications = [NOTIFICATIONS.EMAIL];
     const expectedPhoneNumber = '+358 44 123 4567';
     const expectedServiceLanguage = 'sv';
     const expectedStreetAddress = 'Test address';
@@ -155,7 +155,7 @@ describe('getEnrolmentInitialValues function', () => {
         membershipNumber: expectedMembershipNumber,
         name: expectedName,
         nativeLanguage: expectedNativeLanguage,
-        notifications: NOTIFICATION_TYPE.SMS_EMAIL,
+        notifications: NOTIFICATION_TYPE.EMAIL,
         phoneNumber: expectedPhoneNumber,
         serviceLanguage: expectedServiceLanguage,
         streetAddress: expectedStreetAddress,
@@ -244,7 +244,7 @@ describe('getEnrolmentPayload function', () => {
           membershipNumber: '',
           name: '',
           nativeLanguage: null,
-          notifications: 'none',
+          notifications: NOTIFICATION_TYPE.EMAIL,
           phoneNumber: null,
           serviceLanguage: null,
           streetAddress: null,
@@ -331,7 +331,7 @@ describe('getUpdateEnrolmentPayload function', () => {
       membershipNumber: '',
       name: '',
       nativeLanguage: null,
-      notifications: NOTIFICATION_TYPE.NO_NOTIFICATION,
+      notifications: NOTIFICATION_TYPE.EMAIL,
       phoneNumber: null,
       registration: registration.id,
       serviceLanguage: null,

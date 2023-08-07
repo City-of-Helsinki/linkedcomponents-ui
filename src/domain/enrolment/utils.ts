@@ -88,9 +88,11 @@ export const getEnrolmentInitialValues = (
     extraInfo: getValue(enrolment.extraInfo, ''),
     membershipNumber: getValue(enrolment.membershipNumber, ''),
     nativeLanguage: getValue(enrolment.nativeLanguage, ''),
-    notifications: getEnrolmentNotificationTypes(
-      getValue(enrolment.notifications, '')
-    ),
+    // TODO: At the moment only email notifications are supported
+    notifications: [NOTIFICATIONS.EMAIL],
+    // notifications: getEnrolmentNotificationTypes(
+    //   getValue(enrolment.notifications, '')
+    // ),
     phoneNumber: getValue(enrolment.phoneNumber, ''),
     serviceLanguage: getValue(enrolment.serviceLanguage, ''),
   };
@@ -175,7 +177,6 @@ export const getUpdateEnrolmentPayload = ({
     extraInfo,
     membershipNumber,
     nativeLanguage,
-    notifications,
     phoneNumber,
     serviceLanguage,
   } = formValues;
@@ -191,7 +192,9 @@ export const getUpdateEnrolmentPayload = ({
     membershipNumber: membershipNumber,
     name: getValue(name, ''),
     nativeLanguage: getValue(nativeLanguage, null),
-    notifications: getEnrolmentNotificationsCode(notifications),
+    // TODO: At the moment only email notifications are supported
+    notifications: NOTIFICATION_TYPE.EMAIL,
+    // notifications: getEnrolmentNotificationsCode(notifications),
     phoneNumber: getValue(phoneNumber, null),
     registration: getValue(registration.id, ''),
     serviceLanguage: getValue(serviceLanguage, null),

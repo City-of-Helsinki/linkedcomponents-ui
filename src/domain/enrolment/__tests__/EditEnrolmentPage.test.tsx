@@ -152,14 +152,12 @@ test('should initialize input fields', async () => {
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
   const emailCheckbox = getElement('emailCheckbox');
-  const phoneCheckbox = getElement('phoneCheckbox');
 
   await waitFor(() => expect(nameInput).toHaveValue(enrolment.name));
   expect(cityInput).toHaveValue(enrolment.city);
   expect(emailInput).toHaveValue(enrolment.email);
   expect(phoneInput).toHaveValue(enrolment.phoneNumber);
   expect(emailCheckbox).toBeChecked();
-  expect(phoneCheckbox).toBeChecked();
 });
 
 test('should cancel enrolment', async () => {
