@@ -10,7 +10,7 @@
     "@datapunt/matomo-tracker-react": "^0.5.1",
     "@emotion/react": "^11.10.6",
     "@faker-js/faker": "^7.6.0",
-    "@sentry/react": "^6.19.7",
+    "@sentry/react": "^7.57.0",
     "@swc/helpers": "^0.4.14",
     "@types/ckeditor__ckeditor5-build-classic": "^29.0.1",
     "@types/dompurify": "^3.0.0",
