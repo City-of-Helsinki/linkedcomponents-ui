@@ -162,7 +162,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
 
   const variables = {
     ...baseVariables,
-    ...getEventsQueryVariables(location.search),
+    ...getEventsQueryVariables(location.search, baseVariables),
   };
 
   const { data: eventsData, loading } = useEventsQuery({
