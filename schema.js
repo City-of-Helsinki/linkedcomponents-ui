@@ -234,8 +234,9 @@ module.exports = buildSchema(/* GraphQL */ `
     dateOfBirth: String
     email: String
     extraInfo: String
+    firstName: String
+    lastName: String
     membershipNumber: String
-    name: String
     nativeLanguage: String
     notifications: String
     phoneNumber: String
@@ -256,8 +257,9 @@ module.exports = buildSchema(/* GraphQL */ `
     dateOfBirth: String
     email: String
     extraInfo: String
+    firstName: String
+    lastName: String
     membershipNumber: String
-    name: String
     nativeLanguage: String
     notifications: String
     phoneNumber: String
@@ -916,14 +918,9 @@ module.exports = buildSchema(/* GraphQL */ `
     timestamp: String!
   }
 
-  type EnrolmentPerson {
-    id: Int
-    name: String
-  }
-
   type EnrolmentPeopleResponse {
     count: Int
-    people: [EnrolmentPerson!]
+    people: [Enrolment!]
   }
 
   type CreateEnrolmentResponse {
@@ -939,8 +936,9 @@ module.exports = buildSchema(/* GraphQL */ `
     dateOfBirth: String
     email: String
     extraInfo: String
+    firstName: String
+    lastName: String
     membershipNumber: String
-    name: String
     nativeLanguage: String
     notifications: String
     phoneNumber: String

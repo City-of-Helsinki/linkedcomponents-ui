@@ -5,7 +5,6 @@ import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import { AttendeeStatus } from '../../../generated/graphql';
-import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import { fakeEnrolments } from '../../../utils/mockDataUtils';
 import {
@@ -134,8 +133,12 @@ test('scrolls to enrolment table row and calls history.replace correctly (delete
     )
   );
 
+  const attendeeName = [
+    attendees.data[0].firstName,
+    attendees.data[0].lastName,
+  ].join(' ');
   const enrolmentRowButton = screen.getAllByRole('button', {
-    name: getValue(attendees.data[0].name, ''),
+    name: attendeeName,
   })[0];
   await waitFor(() => expect(enrolmentRowButton).toHaveFocus());
 });

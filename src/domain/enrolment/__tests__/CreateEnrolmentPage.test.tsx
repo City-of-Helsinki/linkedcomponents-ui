@@ -48,10 +48,10 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-const findElement = (key: 'nameInput' | 'submitButton') => {
+const findElement = (key: 'firstNameInput' | 'submitButton') => {
   switch (key) {
-    case 'nameInput':
-      return screen.findByLabelText(/nimi/i);
+    case 'firstNameInput':
+      return screen.findByLabelText(/etunimi/i);
     case 'submitButton':
       return screen.findByRole('button', { name: /tallenna osallistuja/i });
   }
@@ -64,7 +64,8 @@ const getElement = (
     | 'dateOfBirthInput'
     | 'emailCheckbox'
     | 'emailInput'
-    | 'nameInput'
+    | 'firstNameInput'
+    | 'lastNameInput'
     | 'nativeLanguageButton'
     | 'participantAmountInput'
     | 'phoneCheckbox'
@@ -88,8 +89,10 @@ const getElement = (
       return screen.getByLabelText(/sähköpostilla/i);
     case 'emailInput':
       return screen.getByLabelText(/sähköpostiosoite/i);
-    case 'nameInput':
-      return screen.getByLabelText(/nimi/i);
+    case 'firstNameInput':
+      return screen.getByLabelText(/etunimi/i);
+    case 'lastNameInput':
+      return screen.getByLabelText(/sukunimi/i);
     case 'nativeLanguageButton':
       return screen.getByRole('button', { name: /äidinkieli/i });
     case 'participantAmountInput':
@@ -238,14 +241,15 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
 
 const waitLoadingAndFindNameInput = async () => {
   await loadingSpinnerIsNotInDocument();
-  const nameInput = await findElement('nameInput');
+  const nameInput = await findElement('firstNameInput');
   return nameInput;
 };
 
 const enterFormValues = async () => {
   const user = userEvent.setup();
 
-  const nameInput = await waitLoadingAndFindNameInput();
+  const firstNameInput = await waitLoadingAndFindNameInput();
+  const lastNameInput = getElement('lastNameInput');
   const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
@@ -255,7 +259,8 @@ const enterFormValues = async () => {
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
 
-  await user.type(nameInput, enrolmentValues.name);
+  await user.type(firstNameInput, enrolmentValues.firstName);
+  await user.type(lastNameInput, enrolmentValues.lastName);
   await user.type(streetAddressInput, enrolmentValues.streetAddress);
   await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
   await user.type(zipInput, enrolmentValues.zip);
@@ -282,7 +287,8 @@ test('should validate enrolment form and focus to invalid field and finally crea
     mockedCreateEnrolmentResponse,
   ]);
 
-  const nameInput = await waitLoadingAndFindNameInput();
+  const firstNameInput = await waitLoadingAndFindNameInput();
+  const lastNameInput = getElement('lastNameInput');
   const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
@@ -293,7 +299,8 @@ test('should validate enrolment form and focus to invalid field and finally crea
   const serviceLanguageButton = getElement('serviceLanguageButton');
   const submitButton = await findElement('submitButton');
 
-  await user.type(nameInput, enrolmentValues.name);
+  await user.type(firstNameInput, enrolmentValues.firstName);
+  await user.type(lastNameInput, enrolmentValues.lastName);
   await user.type(streetAddressInput, enrolmentValues.streetAddress);
   await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
   await user.type(zipInput, enrolmentValues.zip);
@@ -429,7 +436,7 @@ test('should show and hide participant specific fields', async () => {
   expect(nameInput).not.toBeInTheDocument();
 
   await user.click(toggleButton);
-  getElement('nameInput');
+  getElement('firstNameInput');
 });
 
 test('should delete participants by clicking delete participant button', async () => {

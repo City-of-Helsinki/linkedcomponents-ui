@@ -138,8 +138,9 @@ describe('attendeeSchema function', () => {
     city: 'City',
     dateOfBirth: new Date('2000-01-01'),
     extraInfo: '',
+    firstName: 'first name',
     inWaitingList: true,
-    name: 'name',
+    lastName: 'last name',
     streetAddress: 'Street address',
     zipcode: '00100',
   };
@@ -148,13 +149,24 @@ describe('attendeeSchema function', () => {
     expect(await testAttendeeSchema(registration, validAttendee)).toBe(true);
   });
 
-  test('should return false if name is missing', async () => {
+  test('should return false if first name is missing', async () => {
     expect(
       await testAttendeeSchema(
         fakeRegistration({
-          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.NAME],
+          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.FIRST_NAME],
         }),
-        { ...validAttendee, name: '' }
+        { ...validAttendee, firstName: '' }
+      )
+    ).toBe(false);
+  });
+
+  test('should return false if last name is missing', async () => {
+    expect(
+      await testAttendeeSchema(
+        fakeRegistration({
+          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.LAST_NAME],
+        }),
+        { ...validAttendee, lastName: '' }
       )
     ).toBe(false);
   });

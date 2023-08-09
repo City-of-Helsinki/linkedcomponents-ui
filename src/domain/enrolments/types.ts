@@ -11,8 +11,10 @@ export type EnrolmentFields = {
   attendeeStatus: AttendeeStatus;
   email: string;
   enrolmentUrl: string;
+  firstName: string;
+  fullName: string;
+  lastName: string;
   id: string;
-  name: string;
   phoneNumber: string;
 };
 

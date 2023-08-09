@@ -37,7 +37,7 @@ const payload = {
     zhHans: null,
     ar: null,
   },
-  mandatoryFields: ['name'],
+  mandatoryFields: ['first_name', 'last_name'],
   maximumAttendeeCapacity: null,
   maximumGroupSize: null,
   minimumAttendeeCapacity: null,

@@ -18,8 +18,9 @@ export enum ATTENDEE_FIELDS {
   CITY = 'city',
   DATE_OF_BIRTH = 'dateOfBirth',
   EXTRA_INFO = 'extraInfo',
+  FIRST_NAME = 'firstName',
   IN_WAITING_LIST = 'inWaitingList',
-  NAME = 'name',
+  LAST_NAME = 'lastName',
   STREET_ADDRESS = 'streetAddress',
   ZIPCODE = 'zipcode',
 }
@@ -46,8 +47,9 @@ export const ATTENDEE_INITIAL_VALUES: AttendeeFields = {
   [ATTENDEE_FIELDS.CITY]: '',
   [ATTENDEE_FIELDS.DATE_OF_BIRTH]: null,
   [ATTENDEE_FIELDS.EXTRA_INFO]: '',
+  [ATTENDEE_FIELDS.FIRST_NAME]: '',
   [ATTENDEE_FIELDS.IN_WAITING_LIST]: false,
-  [ATTENDEE_FIELDS.NAME]: '',
+  [ATTENDEE_FIELDS.LAST_NAME]: '',
   [ATTENDEE_FIELDS.STREET_ADDRESS]: '',
   [ATTENDEE_FIELDS.ZIPCODE]: '',
 };
