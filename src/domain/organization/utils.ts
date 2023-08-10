@@ -162,13 +162,7 @@ export const isExternalUserWithoutOrganization = ({
 }: {
   user?: UserFieldsFragment;
 }): boolean => {
-  const adminOrganizations: string[] = getValue(user?.adminOrganizations, []);
-  const organizationMemberships: string[] = getValue(
-    user?.organizationMemberships,
-    []
-  );
-
-  return Boolean(!adminOrganizations.length && !organizationMemberships.length);
+  return Boolean(user?.isExternal);
 };
 
 export const getOrganizationAncestorsQueryResult = async (

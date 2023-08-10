@@ -1748,7 +1748,7 @@ export type UpdateSeatsReservationMutation = { __typename?: 'Mutation', updateSe
 
 export type SeatsReservationFieldsFragment = { __typename?: 'SeatsReservation', id: string, code: string, expiration: string, inWaitlist: boolean, registration: string, seats: number, timestamp: string };
 
-export type UserFieldsFragment = { __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null };
+export type UserFieldsFragment = { __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null };
 
 export type UserQueryVariables = Exact<{
   id: Scalars['ID'];

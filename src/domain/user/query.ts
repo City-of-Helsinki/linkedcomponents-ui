@@ -9,6 +9,7 @@ export const QUERY_USER = gql`
     displayName
     email
     firstName
+    isExternal    
     isStaff
     lastLogin
     lastName
