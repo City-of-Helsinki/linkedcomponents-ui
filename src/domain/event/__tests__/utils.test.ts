@@ -1517,6 +1517,7 @@ describe('checkCanUserDoAction function', () => {
     const user = fakeUser({
       adminOrganizations: [],
       organizationMemberships: [],
+      isExternal: true,
     });
 
     const deniedActions = [

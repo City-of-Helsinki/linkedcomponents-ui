@@ -579,6 +579,7 @@ export const fakeUser = (overrides?: Partial<User>): User => {
       email: faker.internet.email(),
       firstName: faker.name.firstName(),
       isStaff: false,
+      isExternal: false,
       lastLogin: '',
       lastName: faker.name.lastName(),
       organization: faker.random.words(),
