@@ -36,7 +36,7 @@ const renderComponent = (
 test('publish should be disabled when user is not authenticated', () => {
   renderComponent();
 
-  const buttons = ['Lähetä julkaistavaksi'];
+  const buttons = ['Julkaise tapahtuma'];
 
   buttons.forEach((name) => {
     expect(screen.getByRole('button', { name })).toBeDisabled();
