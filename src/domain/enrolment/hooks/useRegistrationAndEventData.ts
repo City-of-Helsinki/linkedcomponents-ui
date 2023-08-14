@@ -6,6 +6,7 @@ import {
   RegistrationFieldsFragment,
   RegistrationQuery,
   RegistrationQueryVariables,
+  RegistrationsQueryVariables,
   useRegistrationQuery,
 } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
@@ -17,6 +18,7 @@ import useUser from '../../user/hooks/useUser';
 type UseRegistrationAndEventDataProps = {
   overrideEventQueryOptions?: Omit<QueryOptions, 'query' | 'variables'>;
   registrationId?: string;
+  overrideRegistrationsVariables?: Partial<RegistrationsQueryVariables>;
   shouldFetchEvent?: boolean;
 };
 
@@ -31,6 +33,7 @@ type UseRegistrationAndEventDataState = {
 };
 
 const useRegistrationAndEventData = ({
+  overrideRegistrationsVariables,
   registrationId: _registrationId,
 }: UseRegistrationAndEventDataProps): UseRegistrationAndEventDataState => {
   const { registrationId: registrationIdParam } = useParams<{
@@ -50,6 +53,7 @@ const useRegistrationAndEventData = ({
       id: getValue(registrationId, ''),
       createPath: getPathBuilder(registrationPathBuilder),
       include: REGISTRATION_INCLUDES,
+      ...overrideRegistrationsVariables,
     },
   });
 

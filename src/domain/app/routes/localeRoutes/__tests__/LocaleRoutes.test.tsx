@@ -26,6 +26,7 @@ import {
   screen,
   waitFor,
 } from '../../../../../utils/testUtils';
+import { mockedRegistrationResponse as mockedAttendanceListRegistrationResponse } from '../../../../attendanceList/__mocks__/attendanceListPage';
 import {
   mockedDataSourceResponse,
   mockedDataSourcesResponse,
@@ -109,6 +110,7 @@ configure({ defaultHidden: true });
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const mocks = [
+  mockedAttendanceListRegistrationResponse,
   mockedDataSourceResponse,
   mockedDataSourcesResponse,
   mockedEnrolmentResponse,
@@ -289,6 +291,18 @@ it('should render edit registration page', async () => {
     history,
     pageTitle: `Muokkaa ilmoittautumista - Linked Events`,
     pathname: `/fi/registrations/edit/${registrationId}`,
+  });
+});
+
+it('should render attendance list page', async () => {
+  const { history } = await renderRoute(
+    `${ROUTES.ATTENDANCE_LIST.replace(':registrationId', registrationId)}`
+  );
+
+  await isPageRendered({
+    history,
+    pageTitle: `Osallistujalista: ${eventName} - Linked Events`,
+    pathname: `/fi/registrations/${registrationId}/attendance-list`,
   });
 });
 

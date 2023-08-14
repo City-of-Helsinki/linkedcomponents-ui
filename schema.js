@@ -174,6 +174,11 @@ module.exports = buildSchema(/* GraphQL */ `
     EventScheduled
   }
 
+  enum PresenceStatus {
+    not_present
+    present
+  }
+
   enum PublicationStatus {
     draft
     public
@@ -239,6 +244,7 @@ module.exports = buildSchema(/* GraphQL */ `
     membershipNumber: String
     nativeLanguage: String
     notifications: String
+    presenceStatus: PresenceStatus
     phoneNumber: String
     serviceLanguage: String
     streetAddress: String
@@ -263,6 +269,7 @@ module.exports = buildSchema(/* GraphQL */ `
     nativeLanguage: String
     notifications: String
     phoneNumber: String
+    presenceStatus: PresenceStatus
     registration: ID
     serviceLanguage: String
     streetAddress: String
@@ -943,6 +950,7 @@ module.exports = buildSchema(/* GraphQL */ `
     nativeLanguage: String
     notifications: String
     phoneNumber: String
+    presenceStatus: PresenceStatus
     registration: ID
     serviceLanguage: String
     streetAddress: String

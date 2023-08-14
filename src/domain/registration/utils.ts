@@ -73,6 +73,7 @@ export const checkCanUserDoAction = ({
       return publisher ? isAdminUser : !!adminOrganizations.length;
     case REGISTRATION_ACTIONS.DELETE:
     case REGISTRATION_ACTIONS.SHOW_ENROLMENTS:
+    case REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST:
     case REGISTRATION_ACTIONS.UPDATE:
       return isAdminUser;
   }

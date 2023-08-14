@@ -38,6 +38,7 @@ export const QUERY_ENROLMENT = gql`
     nativeLanguage
     notifications
     phoneNumber
+    presenceStatus
     serviceLanguage
     streetAddress
     zipcode

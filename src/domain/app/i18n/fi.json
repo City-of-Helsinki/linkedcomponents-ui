@@ -8,6 +8,13 @@
   },
   "appDescription": "Linked Events on ohjelmistokomponenttien ja API-päätepisteiden kokoelma, joka mahdollistaa tapahtumien hallinnan ja jakelun eri tapahtumapalvelujen tarjoajille Suomessa.",
   "appName": "Linked Events",
+  "attendanceListPage": {
+    "count": "{{count}} osallistuja",
+    "count_other": "{{count}} osallistujaa",
+    "labelSearch": "Hae osallistujia",
+    "pageTitle": "Osallistujalista: {{name}}",
+    "title": "Osallistujalista"
+  },
   "authentication": {
     "errorMessage": "Tapahtui virhe. Yritä uudestaan",
     "networkError": {
@@ -1831,6 +1838,7 @@
       "copyLink": "Kopioi linkki",
       "delete": "Poista ilmoittautuminen",
       "edit": "Muokkaa",
+      "editAttendanceList": "Merkkaa läsnäolijat",
       "showEnrolments": "Näytä ilmoittautuneet",
       "update": "Tallenna muutokset"
     },

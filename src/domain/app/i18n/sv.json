@@ -8,6 +8,13 @@
   },
   "appDescription": "Linked Events är en samling mjukvarukomponenter och API-slutpunkter som möjliggör evenemnaghantering och distribution för olika evenemangsleverantörer i Finland.",
   "appName": "Linked Events",
+  "attendanceListPage": {
+    "count": "{{count}} deltagare",
+    "count_other": "{{count}} deltagare",
+    "labelSearch": "Sök deltagare",
+    "pageTitle": "Märk de närvarande: {{name}}",
+    "title": "Märk de närvarande"
+  },
   "authentication": {
     "errorMessage": "Ett fel har uppstått. Vänligen försök igen.",
     "networkError": {
@@ -1831,6 +1838,7 @@
       "copyLink": "Kopiera länken",
       "delete": "Radera registrering",
       "edit": "Redigera",
+      "editAttendanceList": "Märk de närvarande",
       "showEnrolments": "Visa deltagare",
       "update": "Spara ändringar"
     },

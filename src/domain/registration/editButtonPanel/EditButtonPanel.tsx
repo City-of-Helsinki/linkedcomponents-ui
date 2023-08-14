@@ -72,6 +72,16 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     });
   };
 
+  const goToAttendanceListPage = () => {
+    navigate({
+      pathname: `/${locale}${ROUTES.ATTENDANCE_LIST.replace(
+        ':registrationId',
+        id
+      )}`,
+      search: queryStringWithReturnPath,
+    });
+  };
+
   const getActionItemProps = ({
     action,
     onClick,
@@ -112,6 +122,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionItemProps({
       action: REGISTRATION_ACTIONS.SHOW_ENROLMENTS,
       onClick: goToRegistrationEnrolmentsPage,
+    }),
+    getActionItemProps({
+      action: REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST,
+      onClick: goToAttendanceListPage,
     }),
     getActionItemProps({
       action: REGISTRATION_ACTIONS.COPY,
