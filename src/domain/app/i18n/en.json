@@ -11,6 +11,9 @@
   "attendanceListPage": {
     "count": "{{count}} attendee",
     "count_other": "{{count}} attendees",
+    "errors": {
+      "presenceStatusUpdateFails": "Failed to update presence information"
+    },
     "labelSearch": "Search attendees",
     "pageTitle": "Mark attendees: {{name}}",
     "title": "Mark attendees"

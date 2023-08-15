@@ -2,6 +2,7 @@ import orderBy from 'lodash/orderBy';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
+import { toast } from 'react-toastify';
 
 import Checkbox from '../../../common/components/checkbox/Checkbox';
 import {
@@ -14,6 +15,7 @@ import {
 } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
 import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
+import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 
 type Props = {
@@ -99,6 +101,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
         payload,
         signup,
       });
+      toast.error(t('attendanceListPage.errors.presenceStatusUpdateFails'));
     }
   };
   return (
@@ -107,7 +110,10 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
         countText={t('attendanceListPage.count', {
           count: attendees.length,
         })}
-        onSearchSubmit={() => undefined}
+        onSearchSubmit={
+          /* istanbul ignore next */
+          () => undefined
+        }
         onSearchChange={setSearch}
         searchInputLabel={t('attendanceListPage.labelSearch')}
         searchValue={search}
