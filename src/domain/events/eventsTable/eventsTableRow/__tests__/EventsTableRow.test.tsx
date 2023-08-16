@@ -18,10 +18,11 @@ import {
 import { SUB_EVENTS_VARIABLES } from '../../../../event/constants';
 import {
   mockedOrganizationResponse,
+  mockedExternalOrganizationResponse,
   organizationId,
   organizationName,
 } from '../../../../organization/__mocks__/organization';
-import { mockedOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
+import { mockedOrganizationAncestorsResponse, mockedExternalOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
 import EventsTableRow from '../EventsTableRow';
 
 configure({ defaultHidden: true });
@@ -171,11 +172,10 @@ test('should have an icon highlighting that the event was created by external us
   });
 
   const mocks = [
-    mockedOrganizationResponse,
-    mockedOrganizationAncestorsResponse,
+    mockedExternalOrganizationResponse,
+    mockedExternalOrganizationAncestorsResponse
   ];
 
   renderComponent(event, mocks);
-
-  expect(screen.getByText(/Muu/i)).toBeInTheDocument();
+  expect(document.getElementsByClassName('externalPublisher').length > 0).toBeTruthy()
 });
