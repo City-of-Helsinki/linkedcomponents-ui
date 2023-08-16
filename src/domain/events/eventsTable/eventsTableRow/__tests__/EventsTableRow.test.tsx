@@ -177,5 +177,5 @@ test('should have an icon highlighting that the event was created by external us
 
   renderComponent(event, mocks);
 
-  expect(screen.getByText(/External/i)).toBeInTheDocument();
+  expect(screen.getByText(/Muu/i)).toBeInTheDocument();
 });
