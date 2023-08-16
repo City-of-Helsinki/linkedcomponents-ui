@@ -1291,6 +1291,14 @@ export type UpdateEnrolmentMutationVariables = Exact<{
 
 export type UpdateEnrolmentMutation = { __typename?: 'Mutation', updateEnrolment: { __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } };
 
+export type PatchEnrolmentMutationVariables = Exact<{
+  input: UpdateEnrolmentMutationInput;
+  signup: Scalars['String'];
+}>;
+
+
+export type PatchEnrolmentMutation = { __typename?: 'Mutation', updateEnrolment: { __typename?: 'Enrolment', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, membershipNumber?: string | null, name?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, serviceLanguage?: string | null, streetAddress?: string | null, zipcode?: string | null } };
+
 export type SendMessageMutationVariables = Exact<{
   input: SendMessageMutationInput;
   registration: Scalars['String'];
@@ -2367,6 +2375,40 @@ export function useUpdateEnrolmentMutation(baseOptions?: Apollo.MutationHookOpti
 export type UpdateEnrolmentMutationHookResult = ReturnType<typeof useUpdateEnrolmentMutation>;
 export type UpdateEnrolmentMutationResult = Apollo.MutationResult<UpdateEnrolmentMutation>;
 export type UpdateEnrolmentMutationOptions = Apollo.BaseMutationOptions<UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables>;
+export const PatchEnrolmentDocument = gql`
+    mutation PatchEnrolment($input: UpdateEnrolmentMutationInput!, $signup: String!) {
+  updateEnrolment(input: $input, signup: $signup) @rest(type: "Enrolment", path: "/signup/{args.signup}/", method: "PATCH", bodyKey: "input") {
+    ...enrolmentFields
+  }
+}
+    ${EnrolmentFieldsFragmentDoc}`;
+export type PatchEnrolmentMutationFn = Apollo.MutationFunction<PatchEnrolmentMutation, PatchEnrolmentMutationVariables>;
+
+/**
+ * __usePatchEnrolmentMutation__
+ *
+ * To run a mutation, you first call `usePatchEnrolmentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePatchEnrolmentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [patchEnrolmentMutation, { data, loading, error }] = usePatchEnrolmentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      signup: // value for 'signup'
+ *   },
+ * });
+ */
+export function usePatchEnrolmentMutation(baseOptions?: Apollo.MutationHookOptions<PatchEnrolmentMutation, PatchEnrolmentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PatchEnrolmentMutation, PatchEnrolmentMutationVariables>(PatchEnrolmentDocument, options);
+      }
+export type PatchEnrolmentMutationHookResult = ReturnType<typeof usePatchEnrolmentMutation>;
+export type PatchEnrolmentMutationResult = Apollo.MutationResult<PatchEnrolmentMutation>;
+export type PatchEnrolmentMutationOptions = Apollo.BaseMutationOptions<PatchEnrolmentMutation, PatchEnrolmentMutationVariables>;
 export const SendMessageDocument = gql`
     mutation SendMessage($input: SendMessageMutationInput!, $registration: String!) {
   sendMessage(input: $input, registration: $registration) @rest(type: "SendMessageResponse", path: "/registration/{args.registration}/send_message/", method: "POST", bodyKey: "input") {

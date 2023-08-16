@@ -2,9 +2,9 @@ import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 
 import {
+  PatchEnrolmentDocument,
   PresenceStatus,
   RegistrationDocument,
-  UpdateEnrolmentDocument,
 } from '../../../generated/graphql';
 import { fakeEnrolments, fakeRegistration } from '../../../utils/mockDataUtils';
 import { event } from '../../event/__mocks__/event';
@@ -39,11 +39,7 @@ const mockedRegistrationResponse: MockedResponse = {
 };
 
 const updatePresentSignupVariables = {
-  input: {
-    id: signups[0].id,
-    presenceStatus: PresenceStatus.Present,
-    registration: registrationId,
-  },
+  input: { id: signups[0].id, presenceStatus: PresenceStatus.Present },
   signup: signups[0].id,
 };
 const updatePresentSignupResponse = {
@@ -53,18 +49,14 @@ const updatePresentSignupResponse = {
 };
 const mockedUpdatePresentSignupResponse: MockedResponse = {
   request: {
-    query: UpdateEnrolmentDocument,
+    query: PatchEnrolmentDocument,
     variables: updatePresentSignupVariables,
   },
   result: updatePresentSignupResponse,
 };
 
 const updateNotPresentSignupVariables = {
-  input: {
-    id: signups[0].id,
-    presenceStatus: PresenceStatus.NotPresent,
-    registration: registrationId,
-  },
+  input: { id: signups[0].id, presenceStatus: PresenceStatus.NotPresent },
   signup: signups[0].id,
 };
 const updateNotPresentSignupResponse = {
@@ -77,7 +69,7 @@ const updateNotPresentSignupResponse = {
 };
 const mockedUpdateNotPresentSignupResponse: MockedResponse = {
   request: {
-    query: UpdateEnrolmentDocument,
+    query: PatchEnrolmentDocument,
     variables: updateNotPresentSignupVariables,
   },
   result: updateNotPresentSignupResponse,
@@ -85,7 +77,7 @@ const mockedUpdateNotPresentSignupResponse: MockedResponse = {
 
 const mockedInvalidUpdateSignupResponse: MockedResponse = {
   request: {
-    query: UpdateEnrolmentDocument,
+    query: PatchEnrolmentDocument,
     variables: updatePresentSignupVariables,
   },
   error: {

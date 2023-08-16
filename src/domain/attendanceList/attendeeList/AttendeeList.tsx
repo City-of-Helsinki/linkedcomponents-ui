@@ -11,7 +11,7 @@ import {
   PresenceStatus,
   RegistrationFieldsFragment,
   UpdateEnrolmentMutationInput,
-  useUpdateEnrolmentMutation,
+  usePatchEnrolmentMutation,
 } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
 import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
@@ -39,7 +39,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     signup.name?.toLowerCase().includes(search.toLowerCase())
   );
 
-  const [updateEnrolmentMutation] = useUpdateEnrolmentMutation();
+  const [patchEnrolmentMutation] = usePatchEnrolmentMutation();
 
   const savingFinished = () => {
     setSaving(false);
@@ -72,7 +72,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     });
   };
 
-  const updateEnrolment = async (
+  const patchEnrolment = async (
     checked: boolean,
     signup: EnrolmentFieldsFragment
   ) => {
@@ -81,12 +81,11 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
       presenceStatus: checked
         ? PresenceStatus.Present
         : PresenceStatus.NotPresent,
-      registration: registration.id,
     };
     try {
       setSaving(true);
 
-      await updateEnrolmentMutation({
+      await patchEnrolmentMutation({
         variables: {
           input: payload,
           signup: signup.id,
@@ -97,7 +96,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     } catch (error) /* istanbul ignore next */ {
       handleError({
         error,
-        message: 'Failed to update enrolment presence status',
+        message: 'Failed to patch enrolment presence status',
         payload,
         signup,
       });
@@ -126,7 +125,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
           label={signup.name}
           checked={signup.presenceStatus === PresenceStatus.Present}
           onChange={(e) => {
-            updateEnrolment(e.target.checked, signup);
+            patchEnrolment(e.target.checked, signup);
           }}
         />
       ))}
