@@ -159,7 +159,7 @@ test('should have an icon highlighting that the event was created by external us
   const commonEventInfo = {
     id: eventValues.id,
     publicationStatus: eventValues.publicationStatus,
-    publisher: null,
+    publisher: 'others',
   };
   const event = fakeEvent({
     ...commonEventInfo,
