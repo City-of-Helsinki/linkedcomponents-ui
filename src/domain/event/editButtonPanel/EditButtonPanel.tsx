@@ -54,7 +54,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const { organizationAncestors } = useOrganizationAncestors(
     getValue(event.publisher, '')
   );
-  const { user, externalUser } = useUser();
+  const { user } = useUser();
 
   const goBack = useGoBack<EventsLocationState>({
     defaultReturnPath: ROUTES.SEARCH,
@@ -136,9 +136,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       variant: 'secondary',
     }),
     getActionButtonProps({
-      action: !externalUser
-        ? EVENT_ACTIONS.ACCEPT_AND_PUBLISH
-        : EVENT_ACTIONS.SEND_TO_PUBLISHING,
+      action: EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
       onClick: () => onUpdate(PublicationStatus.Public),
       variant: 'primary',
     }),

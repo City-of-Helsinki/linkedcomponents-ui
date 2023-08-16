@@ -536,7 +536,6 @@
         "general": "Publish event",
         "volunteering": "Publish volunteering"
       },
-      "buttonSendToPublishing": "Send to publishing",
       "buttonRemoveImage": {
         "course": "Remove course image",
         "general": "Remove event image",
