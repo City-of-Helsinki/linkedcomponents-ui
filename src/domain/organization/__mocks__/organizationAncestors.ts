@@ -2,7 +2,11 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { OrganizationsDocument } from '../../../generated/graphql';
 import { fakeOrganizations } from '../../../utils/mockDataUtils';
-import { MAX_OGRANIZATIONS_PAGE_SIZE, TEST_PUBLISHER_ID, EXTERNAL_PUBLISHER_ID } from '../constants';
+import {
+  EXTERNAL_PUBLISHER_ID,
+  MAX_OGRANIZATIONS_PAGE_SIZE,
+  TEST_PUBLISHER_ID,
+} from '../constants';
 
 const organizationAncestorsVariables = {
   child: TEST_PUBLISHER_ID,
@@ -42,4 +46,7 @@ const mockedExternalOrganizationAncestorsResponse: MockedResponse = {
   newData: () => externalOrganizationAncestorsResponse,
 };
 
-export { mockedOrganizationAncestorsResponse, mockedExternalOrganizationAncestorsResponse };
+export {
+  mockedExternalOrganizationAncestorsResponse,
+  mockedOrganizationAncestorsResponse,
+};

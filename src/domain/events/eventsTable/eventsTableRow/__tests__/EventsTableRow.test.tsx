@@ -17,12 +17,15 @@ import {
 } from '../../../../../utils/testUtils';
 import { SUB_EVENTS_VARIABLES } from '../../../../event/constants';
 import {
-  mockedOrganizationResponse,
   mockedExternalOrganizationResponse,
+  mockedOrganizationResponse,
   organizationId,
   organizationName,
 } from '../../../../organization/__mocks__/organization';
-import { mockedOrganizationAncestorsResponse, mockedExternalOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
+import {
+  mockedExternalOrganizationAncestorsResponse,
+  mockedOrganizationAncestorsResponse,
+} from '../../../../organization/__mocks__/organizationAncestors';
 import EventsTableRow from '../EventsTableRow';
 
 configure({ defaultHidden: true });
@@ -156,7 +159,7 @@ test('should show sub events', async () => {
 });
 
 test('should have an icon highlighting that the event was created by external user', async () => {
-  const user = userEvent.setup();
+  userEvent.setup();
   const commonEventInfo = {
     id: eventValues.id,
     publicationStatus: eventValues.publicationStatus,
@@ -173,9 +176,11 @@ test('should have an icon highlighting that the event was created by external us
 
   const mocks = [
     mockedExternalOrganizationResponse,
-    mockedExternalOrganizationAncestorsResponse
+    mockedExternalOrganizationAncestorsResponse,
   ];
 
   renderComponent(event, mocks);
-  expect(document.getElementsByClassName('externalPublisher').length > 0).toBeTruthy()
+  expect(
+    document.getElementsByClassName('externalPublisher').length > 0
+  ).toBeTruthy();
 });
