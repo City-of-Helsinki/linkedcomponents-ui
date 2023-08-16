@@ -17,11 +17,15 @@ import {
 } from '../../../../../utils/testUtils';
 import { SUB_EVENTS_VARIABLES } from '../../../../event/constants';
 import {
+  mockedExternalOrganizationResponse,
   mockedOrganizationResponse,
   organizationId,
   organizationName,
 } from '../../../../organization/__mocks__/organization';
-import { mockedOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
+import {
+  mockedExternalOrganizationAncestorsResponse,
+  mockedOrganizationAncestorsResponse,
+} from '../../../../organization/__mocks__/organizationAncestors';
 import EventsTableRow from '../EventsTableRow';
 
 configure({ defaultHidden: true });
@@ -152,4 +156,31 @@ test('should show sub events', async () => {
   for (const { name } of subEventFields) {
     expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
   }
+});
+
+test('should have an icon highlighting that the event was created by external user', async () => {
+  userEvent.setup();
+  const commonEventInfo = {
+    id: eventValues.id,
+    publicationStatus: eventValues.publicationStatus,
+    publisher: 'others',
+  };
+  const event = fakeEvent({
+    ...commonEventInfo,
+    id: eventValues.id,
+    endTime: eventValues.endTime,
+    name: { fi: eventValues.name },
+    startTime: eventValues.startTime,
+    superEventType: SuperEventType.Recurring,
+  });
+
+  const mocks = [
+    mockedExternalOrganizationResponse,
+    mockedExternalOrganizationAncestorsResponse,
+  ];
+
+  renderComponent(event, mocks);
+  expect(
+    document.getElementsByClassName('externalPublisher').length > 0
+  ).toBeTruthy();
 });
