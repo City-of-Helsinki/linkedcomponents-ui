@@ -8,6 +8,7 @@ import {
 import { Language, PathBuilderProps } from '../../types';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import skipFalsyType from '../../utils/skipFalsyType';
 import { REGISTRATION_SEARCH_PARAMS } from '../registrations/constants';
 import { EnrolmentFields, EnrolmentSearchInitialValues } from './types';
 
@@ -40,6 +41,9 @@ export const getEnrolmentFields = ({
   const id = getValue(enrolment.id, '');
   /* istanbul ignore next */
   const registrationId = getValue(registration.id, '');
+  const firstName = getValue(enrolment.firstName, '');
+  const lastName = getValue(enrolment.lastName, '');
+  const fullName = [firstName, lastName].filter(skipFalsyType).join(' ');
 
   return {
     id,
@@ -49,7 +53,9 @@ export const getEnrolmentFields = ({
       ':registrationId',
       registrationId
     ).replace(':enrolmentId', id)}`,
-    name: getValue(enrolment.name, ''),
+    firstName,
+    fullName,
+    lastName,
     phoneNumber: getValue(enrolment.phoneNumber, ''),
   };
 };

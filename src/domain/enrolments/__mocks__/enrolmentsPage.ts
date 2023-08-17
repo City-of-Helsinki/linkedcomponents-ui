@@ -16,16 +16,18 @@ import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 
 const registrationId = TEST_REGISTRATION_ID;
-const attendeeNames = range(1, 2 * ENROLMENTS_PAGE_SIZE + 1).map(
-  (n) => `Attendee name ${n}`
-);
+const attendeeNames = range(1, 2 * ENROLMENTS_PAGE_SIZE + 1).map((n) => ({
+  firstName: `Attendee`,
+  lastName: `User ${n}`,
+}));
 
 const attendees = fakeEnrolments(
   attendeeNames.length,
-  attendeeNames.map((name, index) => ({
+  attendeeNames.map(({ firstName, lastName }, index) => ({
     attendeeStatus: AttendeeStatus.Attending,
     id: `attending:${index}`,
-    name,
+    firstName,
+    lastName,
   }))
 );
 
@@ -53,16 +55,18 @@ const mockedAttendeesResponse = getMockedAttendeesResponse(attendees, {
   attendeeStatus: AttendeeStatus.Attending,
 });
 
-const waitingAttendeeNames = range(1, 2).map(
-  (n) => `Waiting attendee name ${n}`
-);
+const waitingAttendeeNames = range(1, 2).map((n) => ({
+  firstName: `Waiting attendee`,
+  lastName: `User ${n}`,
+}));
 
 const waitingAttendees = fakeEnrolments(
   waitingAttendeeNames.length,
-  waitingAttendeeNames.map((name, index) => ({
+  waitingAttendeeNames.map(({ firstName, lastName }, index) => ({
     attendeeStatus: AttendeeStatus.Waitlisted,
     id: `waitlisted:${index}`,
-    name,
+    firstName,
+    lastName,
   }))
 );
 

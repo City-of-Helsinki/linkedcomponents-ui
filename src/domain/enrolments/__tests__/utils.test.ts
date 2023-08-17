@@ -8,11 +8,12 @@ import { enrolmentsPathBuilder, getEnrolmentFields } from '../utils';
 
 describe('getEnrolmentFields function', () => {
   it('should return default values if value is not set', () => {
-    const { email, id, name, phoneNumber } = getEnrolmentFields({
+    const { email, firstName, id, lastName, phoneNumber } = getEnrolmentFields({
       enrolment: fakeEnrolment({
         email: null,
-        name: null,
+        firstName: null,
         id: '',
+        lastName: null,
         phoneNumber: null,
       }),
       language: 'fi',
@@ -20,8 +21,9 @@ describe('getEnrolmentFields function', () => {
     });
 
     expect(email).toBe('');
+    expect(firstName).toBe('');
     expect(id).toBe('');
-    expect(name).toBe('');
+    expect(lastName).toBe('');
     expect(phoneNumber).toBe('');
   });
 });

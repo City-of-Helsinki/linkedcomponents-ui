@@ -39,7 +39,10 @@ const defaultProps: EnrolmentsTableProps = {
   registration: registration,
 };
 
-const enrolmentName = attendeeNames[0];
+const enrolmentName = [
+  attendeeNames[0].firstName,
+  attendeeNames[0].lastName,
+].join(' ');
 const enrolmentId = attendees.data[0].id;
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) => {
@@ -86,9 +89,14 @@ test('should navigate between pages', async () => {
   await loadingSpinnerIsNotInDocument();
 
   // Page 1 enrolment should be visible.
-  screen.getByRole('button', { name: attendeeNames[0] });
+  screen.getByRole('button', { name: enrolmentName });
   expect(
-    screen.queryByRole('button', { name: attendeeNames[ENROLMENTS_PAGE_SIZE] })
+    screen.queryByRole('button', {
+      name: [
+        attendeeNames[ENROLMENTS_PAGE_SIZE].firstName,
+        attendeeNames[ENROLMENTS_PAGE_SIZE].lastName,
+      ].join(' '),
+    })
   ).not.toBeInTheDocument();
 
   const page2Button = getElement('page2');
@@ -96,19 +104,27 @@ test('should navigate between pages', async () => {
 
   // Page 2 enrolment should be visible.
   await screen.findByRole('button', {
-    name: attendeeNames[ENROLMENTS_PAGE_SIZE],
+    name: [
+      attendeeNames[ENROLMENTS_PAGE_SIZE].firstName,
+      attendeeNames[ENROLMENTS_PAGE_SIZE].lastName,
+    ].join(' '),
   });
   expect(
-    screen.queryByRole('button', { name: attendeeNames[0] })
+    screen.queryByRole('button', { name: enrolmentName })
   ).not.toBeInTheDocument();
 
   const page1Button = getElement('page1');
   await user.click(page1Button);
 
   // Page 1 enrolment should be visible.
-  screen.getByRole('button', { name: attendeeNames[0] });
+  screen.getByRole('button', { name: enrolmentName });
   expect(
-    screen.queryByRole('button', { name: attendeeNames[ENROLMENTS_PAGE_SIZE] })
+    screen.queryByRole('button', {
+      name: [
+        attendeeNames[ENROLMENTS_PAGE_SIZE].firstName,
+        attendeeNames[ENROLMENTS_PAGE_SIZE].lastName,
+      ].join(' '),
+    })
   ).not.toBeInTheDocument();
 });
 

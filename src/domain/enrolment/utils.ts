@@ -78,8 +78,9 @@ export const getEnrolmentInitialValues = (
         city: getValue(enrolment.city, ''),
         dateOfBirth: getDateFromString(enrolment.dateOfBirth),
         extraInfo: '',
+        firstName: getValue(enrolment.firstName, ''),
         inWaitingList: enrolment.attendeeStatus === AttendeeStatus.Waitlisted,
-        name: getValue(enrolment.name, ''),
+        lastName: getValue(enrolment.lastName, ''),
         streetAddress: getValue(enrolment.streetAddress, ''),
         zipcode: getValue(enrolment.zipcode, ''),
       },
@@ -136,7 +137,8 @@ export const getEnrolmentPayload = ({
   } = formValues;
 
   const signups: SignupInput[] = attendees.map((attendee) => {
-    const { city, dateOfBirth, name, streetAddress, zipcode } = attendee;
+    const { city, dateOfBirth, firstName, lastName, streetAddress, zipcode } =
+      attendee;
     return {
       city: getValue(city, ''),
       dateOfBirth: dateOfBirth
@@ -144,8 +146,9 @@ export const getEnrolmentPayload = ({
         : null,
       email: getValue(email, null),
       extraInfo: extraInfo,
+      firstName: getValue(firstName, ''),
+      lastName: getValue(lastName, ''),
       membershipNumber: membershipNumber,
-      name: getValue(name, ''),
       nativeLanguage: getValue(nativeLanguage, null),
       notifications: getEnrolmentNotificationsCode(notifications),
       phoneNumber: getValue(phoneNumber, null),
@@ -180,7 +183,7 @@ export const getUpdateEnrolmentPayload = ({
     phoneNumber,
     serviceLanguage,
   } = formValues;
-  const { city, dateOfBirth, name, streetAddress, zipcode } =
+  const { city, dateOfBirth, firstName, lastName, streetAddress, zipcode } =
     attendees[0] || {};
 
   return {
@@ -189,8 +192,9 @@ export const getUpdateEnrolmentPayload = ({
     dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
     email: getValue(email, null),
     extraInfo: extraInfo,
+    firstName: getValue(firstName, ''),
+    lastName: getValue(lastName, ''),
     membershipNumber: membershipNumber,
-    name: getValue(name, ''),
     nativeLanguage: getValue(nativeLanguage, null),
     // TODO: At the moment only email notifications are supported
     notifications: NOTIFICATION_TYPE.EMAIL,
@@ -374,11 +378,11 @@ export const getNewAttendees = ({
   );
   return [
     ...filledAttendees,
-    ...Array(Math.max((seats as number) - filledAttendees.length, 0)).fill(
+    ...Array(Math.max(seats - filledAttendees.length, 0)).fill(
       attendeeInitialValues
     ),
   ]
-    .slice(0, seats as number)
+    .slice(0, seats)
     .map((attendee, index) => ({ ...attendee, inWaitingList: inWaitlist }));
 };
 

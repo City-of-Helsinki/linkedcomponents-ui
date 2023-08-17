@@ -21,7 +21,8 @@ const enrolmentValues = {
   city: 'City',
   dateOfBirth: formatDate(dateOfBirth),
   email: 'participant@email.com',
-  name: 'Participant name',
+  firstName: 'First name',
+  lastName: 'Last name',
   phone: '+358 44 123 4567',
   streetAddress: 'Street address',
   zip: '00100',
@@ -36,8 +37,9 @@ const payload: CreateEnrolmentMutationInput = {
       dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
       email: enrolmentValues.email,
       extraInfo: '',
+      firstName: enrolmentValues.firstName,
+      lastName: enrolmentValues.lastName,
       membershipNumber: '',
-      name: enrolmentValues.name,
       nativeLanguage: 'fi',
       notifications: NOTIFICATION_TYPE.EMAIL,
       phoneNumber: enrolmentValues.phone,
@@ -56,7 +58,10 @@ const createEnrolmentResponse = {
   data: {
     createEnrolment: fakeCreateEnrolmentResponse({
       attending: fakeEnrolmentPeopleResponse(1, [
-        { name: enrolmentValues.name },
+        {
+          firstName: enrolmentValues.firstName,
+          lastName: enrolmentValues.lastName,
+        },
       ]),
     }),
   },

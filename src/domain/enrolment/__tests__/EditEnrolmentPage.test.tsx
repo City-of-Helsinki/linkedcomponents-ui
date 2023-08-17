@@ -39,12 +39,12 @@ import EditEnrolmentPage from '../EditEnrolmentPage';
 
 configure({ defaultHidden: true });
 
-const findElement = (key: 'cancelButton' | 'nameInput') => {
+const findElement = (key: 'cancelButton' | 'firstNameInput') => {
   switch (key) {
     case 'cancelButton':
       return screen.findByRole('button', { name: 'Peruuta osallistuminen' });
-    case 'nameInput':
-      return screen.findByLabelText(/nimi/i);
+    case 'firstNameInput':
+      return screen.findByLabelText(/etunimi/i);
   }
 };
 
@@ -54,8 +54,9 @@ const getElement = (
     | 'dateOfBirthInput'
     | 'emailCheckbox'
     | 'emailInput'
+    | 'firstNameInput'
+    | 'lastNameInput'
     | 'menu'
-    | 'nameInput'
     | 'nativeLanguageButton'
     | 'phoneCheckbox'
     | 'phoneInput'
@@ -74,10 +75,12 @@ const getElement = (
       return screen.getByLabelText(/sähköpostilla/i);
     case 'emailInput':
       return screen.getByLabelText(/sähköpostiosoite/i);
+    case 'firstNameInput':
+      return screen.getByLabelText(/etunimi/i);
+    case 'lastNameInput':
+      return screen.getByLabelText(/sukunimi/i);
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
-    case 'nameInput':
-      return screen.getByLabelText(/nimi/i);
     case 'nativeLanguageButton':
       return screen.getByRole('button', { name: /äidinkieli/i });
     case 'phoneCheckbox':
@@ -135,25 +138,27 @@ test('should scroll to first validation error input field', async () => {
   const user = userEvent.setup();
   renderComponent();
 
-  const nameInput = await findElement('nameInput');
+  const firstNameInput = await findElement('firstNameInput');
   const submitButton = getElement('submitButton');
 
-  await user.clear(nameInput);
+  await user.clear(firstNameInput);
   await user.click(submitButton);
 
-  await waitFor(() => expect(nameInput).toHaveFocus());
+  await waitFor(() => expect(firstNameInput).toHaveFocus());
 });
 
 test('should initialize input fields', async () => {
   renderComponent();
 
-  const nameInput = await findElement('nameInput');
+  const firstNameInput = await findElement('firstNameInput');
+  const lastNameInput = await getElement('lastNameInput');
   const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
   const emailCheckbox = getElement('emailCheckbox');
 
-  await waitFor(() => expect(nameInput).toHaveValue(enrolment.name));
+  await waitFor(() => expect(firstNameInput).toHaveValue(enrolment.firstName));
+  expect(lastNameInput).toHaveValue(enrolment.lastName);
   expect(cityInput).toHaveValue(enrolment.city);
   expect(emailInput).toHaveValue(enrolment.email);
   expect(phoneInput).toHaveValue(enrolment.phoneNumber);
@@ -167,7 +172,7 @@ test('should cancel enrolment', async () => {
     mockedCancelEnrolmentResponse,
   ]);
 
-  await findElement('nameInput');
+  await findElement('firstNameInput');
   const { menu } = await openMenu();
 
   const cancelButton = await within(menu).findByRole('button', {
@@ -200,7 +205,7 @@ test('should send message to participant', async () => {
   const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedSendMessageResponse]);
 
-  await findElement('nameInput');
+  await findElement('firstNameInput');
   const { menu } = await openMenu();
 
   const sendMessageButton = await within(menu).findByRole('button', {
@@ -239,7 +244,7 @@ test('should update enrolment', async () => {
     mockedEnrolmentResponse,
   ]);
 
-  await findElement('nameInput');
+  await findElement('firstNameInput');
 
   const submitButton = getElement('submitButton');
   await user.click(submitButton);
@@ -252,7 +257,7 @@ test('should show server errors', async () => {
   const mocks = [...defaultMocks, mockedInvalidUpdateEnrolmentResponse];
   renderComponent(mocks);
 
-  await findElement('nameInput');
+  await findElement('firstNameInput');
 
   const submitButton = getElement('submitButton');
   await user.click(submitButton);

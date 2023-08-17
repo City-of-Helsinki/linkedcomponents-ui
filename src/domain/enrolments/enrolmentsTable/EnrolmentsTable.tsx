@@ -39,12 +39,16 @@ type ColumnProps = {
 
 const NameColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
   const language = useLocale();
-  const { name } = getEnrolmentFields({ enrolment, language, registration });
+  const { fullName } = getEnrolmentFields({
+    enrolment,
+    language,
+    registration,
+  });
 
   return (
     <div className={styles.nameWrapper}>
-      <span className={styles.enrolmentName} title={name}>
-        {name}
+      <span className={styles.enrolmentName} title={fullName}>
+        {fullName}
       </span>
     </div>
   );
@@ -244,14 +248,14 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
             },
           ]}
           getRowProps={(enrolment) => {
-            const { id, name } = getEnrolmentFields({
+            const { id, fullName } = getEnrolmentFields({
               enrolment: enrolment as EnrolmentFieldsFragment,
               language: locale,
               registration,
             });
 
             return {
-              'aria-label': name,
+              'aria-label': fullName,
               'data-testid': id,
               id: getEnrolmentItemId(id),
             };

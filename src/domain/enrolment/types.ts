@@ -9,8 +9,9 @@ export type AttendeeFields = {
   [ATTENDEE_FIELDS.CITY]: string;
   [ATTENDEE_FIELDS.DATE_OF_BIRTH]: Date | null;
   [ATTENDEE_FIELDS.EXTRA_INFO]: string;
+  [ATTENDEE_FIELDS.FIRST_NAME]: string;
   [ATTENDEE_FIELDS.IN_WAITING_LIST]: boolean;
-  [ATTENDEE_FIELDS.NAME]: string;
+  [ATTENDEE_FIELDS.LAST_NAME]: string;
   [ATTENDEE_FIELDS.STREET_ADDRESS]: string;
   [ATTENDEE_FIELDS.ZIPCODE]: string;
 };

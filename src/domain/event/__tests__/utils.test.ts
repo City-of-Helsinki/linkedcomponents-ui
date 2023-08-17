@@ -1874,7 +1874,7 @@ describe('copyEventInfoToRegistrationSessionStorage function', () => {
     expect(sessionStorage.setItem).toHaveBeenCalledWith(
       FORM_NAMES.REGISTRATION_FORM,
       expect.stringContaining(
-        '"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"helmet:222453","infoLanguages":["fi"],"instructions":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"mandatoryFields":["name"],"maximumAttendeeCapacity":10,"maximumGroupSize":"","minimumAttendeeCapacity":5,"waitingListCapacity":""'
+        '"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"helmet:222453","infoLanguages":["fi"],"instructions":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"mandatoryFields":["first_name","last_name"],"maximumAttendeeCapacity":10,"maximumGroupSize":"","minimumAttendeeCapacity":5,"waitingListCapacity":""'
       )
     );
   });

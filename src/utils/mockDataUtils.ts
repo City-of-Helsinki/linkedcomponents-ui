@@ -18,7 +18,6 @@ import {
   DataSourcesResponse,
   Enrolment,
   EnrolmentPeopleResponse,
-  EnrolmentPerson,
   EnrolmentsResponse,
   Event,
   EventsResponse,
@@ -105,8 +104,9 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
       dateOfBirth: '1990-10-10',
       email: faker.internet.email(),
       extraInfo: faker.lorem.paragraph(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
       membershipNumber: faker.datatype.uuid(),
-      name: faker.name.firstName(),
       nativeLanguage: 'fi',
       notifications: NOTIFICATION_TYPE.SMS_EMAIL,
       phoneNumber: faker.phone.number(),
@@ -119,28 +119,13 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
   );
 };
 
-export const fakeEnrolmentPerson = (
-  overrides?: Partial<EnrolmentPerson>
-): EnrolmentPerson => {
-  const id = overrides?.id || faker.datatype.number();
-
-  return merge<EnrolmentPerson, typeof overrides>(
-    {
-      id,
-      name: faker.name.firstName(),
-      __typename: 'EnrolmentPerson',
-    },
-    overrides
-  );
-};
-
 export const fakeEnrolmentPeopleResponse = (
   count = 1,
-  people: Partial<EnrolmentPerson>[] = []
+  people: Partial<Enrolment>[] = []
 ): EnrolmentPeopleResponse => {
   return {
     count,
-    people: generateNodeArray((i) => fakeEnrolmentPerson(people?.[i]), count),
+    people: generateNodeArray((i) => fakeEnrolment(people?.[i]), count),
   };
 };
 

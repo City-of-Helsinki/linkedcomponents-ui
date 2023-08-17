@@ -23,8 +23,9 @@ const enrolmentValues = {
   dateOfBirth: formatDate(dateOfBirth),
   email: 'participant@email.com',
   extraInfo: null,
+  firstName: 'First name',
+  lastName: 'Last name',
   membershipNumber: null,
-  name: 'Participant name',
   nativeLanguage: 'fi',
   notificationLanguage: 'fi',
   notifications: NOTIFICATION_TYPE.EMAIL,
@@ -69,8 +70,9 @@ const payload = {
   dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
   email: enrolmentValues.email,
   extraInfo: '',
+  firstName: enrolmentValues.firstName,
+  lastName: enrolmentValues.lastName,
   membershipNumber: '',
-  name: enrolmentValues.name,
   nativeLanguage: enrolmentValues.nativeLanguage,
   notifications: enrolmentValues.notifications,
   phoneNumber: enrolmentValues.phoneNumber,
@@ -102,7 +104,7 @@ const mockedInvalidUpdateEnrolmentResponse: MockedResponse = {
   },
   error: {
     ...new Error(),
-    result: { name: ['The name must be specified.'] },
+    result: { first_name: ['The name must be specified.'] },
   } as Error,
 };
 
