@@ -28,9 +28,6 @@ const apiAccessTokenStorage = sessionStorage;
 
 const storageKey = `oidc.apiToken.${API_SCOPE}`;
 
-const MAINTENANCE_MODE =
-  process.env.REACT_APP_ENABLE_MAINTENANCE_MODE === 'true';
-
 export const getApiTokenFromStorage = (): string | null =>
   apiAccessTokenStorage.getItem(storageKey);
 
@@ -164,10 +161,13 @@ export const signIn = async ({
   t: TFunction;
   userManager: UserManager;
 }): Promise<void> => {
+  const MAINTENANCE_MODE =
+    process.env.REACT_APP_ENABLE_MAINTENANCE_MODE === 'true';
+
   if (MAINTENANCE_MODE) {
     toast.error(getValue(t('maintenance.toast'), ''));
 
-    return Promise.reject();
+    return Promise.resolve();
   }
 
   await userManager

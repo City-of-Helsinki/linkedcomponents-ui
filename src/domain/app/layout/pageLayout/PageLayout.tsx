@@ -15,9 +15,6 @@ import styles from './pageLayout.module.scss';
 
 const RESET_IGNORED_PATHS: PathPattern[] = [{ end: false, path: ROUTES.HELP }];
 
-const MAINTENANCE_MODE =
-  process.env.REACT_APP_ENABLE_MAINTENANCE_MODE === 'true';
-
 const NO_KORO_PATHS: PathPattern[] = [
   { path: ROUTES.HELP, end: false },
   { path: ROUTES.EDIT_EVENT },
@@ -46,6 +43,9 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
 
   const noKoro = isMatch(NO_KORO_PATHS);
   const canonicalUrl = host + pathname;
+
+  const MAINTENANCE_MODE =
+    process.env.REACT_APP_ENABLE_MAINTENANCE_MODE === 'true';
 
   return (
     <ClassNames>

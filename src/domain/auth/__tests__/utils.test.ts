@@ -342,6 +342,25 @@ describe('signIn function', () => {
       'Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan'
     );
   });
+
+  it('should show toast error message when maintenance mode', async () => {
+    const originalEnv = process.env;
+
+    process.env = {
+      ...originalEnv,
+      REACT_APP_ENABLE_MAINTENANCE_MODE: 'true',
+    };
+
+    const toastError = jest.spyOn(toast, 'error');
+
+    const path = '/fi/events';
+
+    await signIn({ locale: 'fi', path, t: i18n.t.bind(i18n), userManager });
+
+    expect(toastError).toHaveBeenCalledTimes(1);
+
+    process.env = originalEnv;
+  });
 });
 
 describe('signOut function', () => {
