@@ -52,14 +52,8 @@ test('buttons should be enabled when external user is authenticated', async () =
   const buttonSaveDraft = await screen.findByRole('button', {
     name: /tallenna luonnos/i,
   });
-  const buttonSendToPublish = screen.getByRole('button', {
-    name: /lähetä julkaistavaksi/i,
-  });
-  const buttons = [buttonSaveDraft, buttonSendToPublish];
 
-  for (const button of buttons) {
-    expect(button).toBeEnabled();
-  }
+  expect(buttonSaveDraft).toBeEnabled();
 });
 
 test('buttons should be enabled when regular user is authenticated', async () => {

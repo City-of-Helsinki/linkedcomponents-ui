@@ -1543,7 +1543,6 @@ describe('checkCanUserDoAction function', () => {
       EVENT_ACTIONS.COPY,
       EVENT_ACTIONS.EDIT,
       EVENT_ACTIONS.CREATE_DRAFT,
-      EVENT_ACTIONS.SEND_TO_PUBLISHING,
       EVENT_ACTIONS.UPDATE_DRAFT,
     ];
 

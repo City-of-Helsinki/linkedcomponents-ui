@@ -260,13 +260,8 @@ const EventForm: React.FC<EventFormProps> = ({
         EVENT_ACTIONS.UPDATE_DRAFT,
         EVENT_ACTIONS.UPDATE_PUBLIC,
         EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
-        EVENT_ACTIONS.SEND_TO_PUBLISHING,
       ])
-    : isEventActionAllowed([
-        EVENT_ACTIONS.CREATE_DRAFT,
-        EVENT_ACTIONS.PUBLISH,
-        EVENT_ACTIONS.SEND_TO_PUBLISHING,
-      ]);
+    : isEventActionAllowed([EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH]);
 
   const clearErrors = () => setErrors({});
 

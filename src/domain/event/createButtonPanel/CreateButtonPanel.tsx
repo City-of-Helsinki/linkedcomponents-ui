@@ -24,7 +24,7 @@ const CreateButtonPanel: React.FC<Props> = ({
   publisher,
   saving,
 }) => {
-  const { user, externalUser } = useUser();
+  const { user } = useUser();
   const { t } = useTranslation();
   const [{ value: eventType }] = useField<EVENT_TYPE>({
     name: EVENT_FIELDS.TYPE,
@@ -62,9 +62,7 @@ const CreateButtonPanel: React.FC<Props> = ({
       variant: 'secondary',
     }),
     getActionButtonProps({
-      action: externalUser
-        ? EVENT_ACTIONS.SEND_TO_PUBLISHING
-        : EVENT_ACTIONS.PUBLISH,
+      action: EVENT_ACTIONS.PUBLISH,
       onClick: () => onSubmit(PublicationStatus.Public),
       variant: 'primary',
     }),
