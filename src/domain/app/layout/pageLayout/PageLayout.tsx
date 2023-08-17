@@ -8,7 +8,7 @@ import useLocale from '../../../../hooks/useLocale';
 import Footer from '../../footer/Footer';
 import Header from '../../header/Header';
 import { useTheme } from '../../theme/Theme';
-import GeneralNotification from '../generalNotification/GeneralNotification';
+import MaintenanceNotification from '../maintenanceNotification/MaintenanceNotification';
 import ResetFocus from '../resetFocus/ResetFocus';
 import ScrollToTop from '../scrollToTop/ScrollToTop';
 import styles from './pageLayout.module.scss';
@@ -83,7 +83,7 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
             </Helmet>
 
             <Header />
-            {MAINTENANCE_MODE && <GeneralNotification />}
+            {MAINTENANCE_MODE && <MaintenanceNotification />}
             <div className={cx(styles.pageBody, { [styles.noKoro]: noKoro })}>
               {children}
             </div>
