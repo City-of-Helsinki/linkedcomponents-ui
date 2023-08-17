@@ -8,11 +8,15 @@ import useLocale from '../../../../hooks/useLocale';
 import Footer from '../../footer/Footer';
 import Header from '../../header/Header';
 import { useTheme } from '../../theme/Theme';
+import GeneralNotification from '../generalNotification/GeneralNotification';
 import ResetFocus from '../resetFocus/ResetFocus';
 import ScrollToTop from '../scrollToTop/ScrollToTop';
 import styles from './pageLayout.module.scss';
 
 const RESET_IGNORED_PATHS: PathPattern[] = [{ end: false, path: ROUTES.HELP }];
+
+const MAINTENANCE_MODE =
+  process.env.REACT_APP_ENABLE_MAINTENANCE_MODE === 'true';
 
 const NO_KORO_PATHS: PathPattern[] = [
   { path: ROUTES.HELP, end: false },
@@ -79,6 +83,7 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
             </Helmet>
 
             <Header />
+            {MAINTENANCE_MODE && <GeneralNotification />}
             <div className={cx(styles.pageBody, { [styles.noKoro]: noKoro })}>
               {children}
             </div>
