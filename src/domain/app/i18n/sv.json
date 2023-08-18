@@ -1618,6 +1618,13 @@
     "pageTitle": "Logga ut",
     "text": "Du har loggat ut från tjänsten. Logga in igen eller återvänd till hemsidan."
   },
+  "maintenance": {
+    "header": {
+      "label": "Underhåll",
+      "text": "Onsdagen den 23 augusti kommer tjänsten Linked Events att uppdateras. Det kommer inte att vara möjligt att skapa innehåll eller logga in den dagen."
+    },
+    "toast": "På onsdag 23.8. kommer Linked Events-tjänsten att uppdateras, vilket innebär att inloggning inte kommer att vara möjlig."
+  },
   "navigation": {
     "languages": {
       "en": "In English",

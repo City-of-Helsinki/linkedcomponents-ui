@@ -41,3 +41,4 @@ console.warn = (msg: any, ...optionalParams: any[]) => {
 jest.setTimeout(1000000);
 
 process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS = 'true';
+process.env.REACT_APP_ENABLE_MAINTENANCE_MODE = 'false';

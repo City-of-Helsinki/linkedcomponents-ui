@@ -1,0 +1,17 @@
+@import '../../../../assets/styles//breakpoints.scss';
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-s) var(--spacing-m);
+
+  @include small-down {
+    padding: var(--spacing-s);
+  }
+}
+
+.notification {
+  margin: 0 auto;
+  max-width: var(--breakpoint-xl);
+}

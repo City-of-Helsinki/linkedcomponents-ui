@@ -1618,6 +1618,13 @@
     "pageTitle": "Uloskirjaus",
     "text": "Olet kirjautunut ulos palvelusta. Kirjaudu takaisin sisään tai palaa etusivulle."
   },
+  "maintenance": {
+    "header": {
+      "label": "Palvelua päivitetään",
+      "text": "Keskiviikkona 23.8. Linked Events -palvelua päivitetään. Kyseisenä päivänä sisällöntuotanto tai kirjautuminen ei ole mahdollista."
+    },
+    "toast": "Keskiviikkona 23.8. päivitetään Linked Events -palvelu, mistä johtuen kirjautuminen ei ole mahdollista."
+  },
   "navigation": {
     "languages": {
       "en": "In English",

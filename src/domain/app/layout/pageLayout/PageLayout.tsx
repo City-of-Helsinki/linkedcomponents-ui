@@ -8,6 +8,7 @@ import useLocale from '../../../../hooks/useLocale';
 import Footer from '../../footer/Footer';
 import Header from '../../header/Header';
 import { useTheme } from '../../theme/Theme';
+import MaintenanceNotification from '../maintenanceNotification/MaintenanceNotification';
 import ResetFocus from '../resetFocus/ResetFocus';
 import ScrollToTop from '../scrollToTop/ScrollToTop';
 import styles from './pageLayout.module.scss';
@@ -42,6 +43,9 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
 
   const noKoro = isMatch(NO_KORO_PATHS);
   const canonicalUrl = host + pathname;
+
+  const MAINTENANCE_MODE =
+    process.env.REACT_APP_ENABLE_MAINTENANCE_MODE === 'true';
 
   return (
     <ClassNames>
@@ -79,6 +83,7 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
             </Helmet>
 
             <Header />
+            {MAINTENANCE_MODE && <MaintenanceNotification />}
             <div className={cx(styles.pageBody, { [styles.noKoro]: noKoro })}>
               {children}
             </div>
