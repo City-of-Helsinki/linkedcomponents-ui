@@ -33,6 +33,8 @@ const baseMocks = [
   mockedOrganizationAncestorsResponse,
 ];
 
+const signUpName = `${signupNames[0].firstName} ${signupNames[0].lastName}`;
+
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const route = ROUTES.ATTENDANCE_LIST.replace(':registrationId', registrationId);
@@ -56,7 +58,8 @@ test('should show attendance list page', async () => {
   renderComponent();
   await loadingSpinnerIsNotInDocument();
 
-  for (const name of signupNames) {
+  for (const { firstName, lastName } of signupNames) {
+    const name = `${firstName} ${lastName}`;
     screen.getByRole('checkbox', { name });
   }
 });
@@ -68,10 +71,11 @@ test('should search attendees by name', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const searchInput = getSearchInput();
-  await user.type(searchInput, signupNames[0]);
+  await user.type(searchInput, signUpName);
 
-  screen.getByRole('checkbox', { name: signupNames[0] });
-  for (const name of signupNames.slice(1)) {
+  screen.getByRole('checkbox', { name: signUpName });
+  for (const { firstName, lastName } of signupNames.slice(1)) {
+    const name = `${firstName} ${lastName}`;
     expect(screen.queryByRole('checkbox', { name })).not.toBeInTheDocument();
   }
 });
@@ -98,7 +102,7 @@ test('should mark signup as present', async () => {
   ]);
   await loadingSpinnerIsNotInDocument();
 
-  const signupCheckbox = screen.getByRole('checkbox', { name: signupNames[0] });
+  const signupCheckbox = screen.getByRole('checkbox', { name: signUpName });
   user.click(signupCheckbox);
   await waitFor(() => expect(signupCheckbox).toBeChecked());
 
@@ -113,7 +117,7 @@ test('should show toast message if updating presence status fails', async () => 
   renderComponent([...baseMocks, mockedInvalidUpdateSignupResponse]);
   await loadingSpinnerIsNotInDocument();
 
-  const signupCheckbox = screen.getByRole('checkbox', { name: signupNames[0] });
+  const signupCheckbox = screen.getByRole('checkbox', { name: signUpName });
   user.click(signupCheckbox);
   await waitFor(() =>
     expect(toast.error).toBeCalledWith(

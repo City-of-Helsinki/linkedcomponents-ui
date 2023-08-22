@@ -13,9 +13,12 @@ import {
   UpdateEnrolmentMutationInput,
   usePatchEnrolmentMutation,
 } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
 import { reportError } from '../../app/sentry/utils';
+import { getEnrolmentFields } from '../../enrolments/utils';
 import useUser from '../../user/hooks/useUser';
 
 type Props = {
@@ -24,6 +27,7 @@ type Props = {
 const AttendeeList: React.FC<Props> = ({ registration }) => {
   const { t } = useTranslation();
   const location = useLocation();
+  const locale = useLocale();
   const { user } = useUser();
 
   const [saving, setSaving] = useState(false);
@@ -35,9 +39,20 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     ['asc']
   ).filter((signup) => signup.attendeeStatus === AttendeeStatus.Attending);
 
-  const filteredAttendees = attendees.filter((signup) =>
-    signup.name?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredAttendees = attendees.filter((signup) => {
+    const { firstName, lastName } = getEnrolmentFields({
+      enrolment: signup,
+      registration,
+      language: locale,
+    });
+    const firstLastName = [firstName, lastName].filter(skipFalsyType).join(' ');
+    const lastFirstName = [lastName, firstName].filter(skipFalsyType).join(' ');
+
+    return (
+      firstLastName.toLowerCase().includes(search.toLowerCase()) ||
+      lastFirstName.toLowerCase().includes(search.toLowerCase())
+    );
+  });
 
   const [patchEnrolmentMutation] = usePatchEnrolmentMutation();
 
@@ -117,18 +132,26 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
         searchInputLabel={t('attendanceListPage.labelSearch')}
         searchValue={search}
       />
-      {filteredAttendees.map((signup) => (
-        <Checkbox
-          disabled={saving}
-          key={signup.id}
-          id={signup.id}
-          label={signup.name}
-          checked={signup.presenceStatus === PresenceStatus.Present}
-          onChange={(e) => {
-            patchEnrolment(e.target.checked, signup);
-          }}
-        />
-      ))}
+      {filteredAttendees.map((signup) => {
+        const { fullName } = getEnrolmentFields({
+          enrolment: signup,
+          registration,
+          language: locale,
+        });
+
+        return (
+          <Checkbox
+            disabled={saving}
+            key={signup.id}
+            id={signup.id}
+            label={fullName}
+            checked={signup.presenceStatus === PresenceStatus.Present}
+            onChange={(e) => {
+              patchEnrolment(e.target.checked, signup);
+            }}
+          />
+        );
+      })}
       {filteredAttendees.length === 0 && <span>{t('common.noResults')}</span>}
     </>
   );

@@ -15,10 +15,13 @@ import {
 
 const registrationId = TEST_REGISTRATION_ID;
 
-const signupNames = range(1, 4).map((i) => `User name ${i}`);
+const signupNames = range(1, 4).map((i) => ({
+  firstName: 'First',
+  lastName: `last ${i}`,
+}));
 const signups = fakeEnrolments(
   signupNames.length,
-  signupNames.map((name) => ({ name }))
+  signupNames.map(({ firstName, lastName }) => ({ firstName, lastName }))
 ).data;
 const registrationOverrides = {
   id: registrationId,
