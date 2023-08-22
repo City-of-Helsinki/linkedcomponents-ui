@@ -40,6 +40,21 @@ export const MUTATION_ENROLMENT = gql`
     }
   }
 
+  mutation PatchEnrolment(
+    $input: UpdateEnrolmentMutationInput!
+    $signup: String!
+  ) {
+    updateEnrolment(input: $input, signup: $signup)
+      @rest(
+        type: "Enrolment"
+        path: "/signup/{args.signup}/"
+        method: "PATCH"
+        bodyKey: "input"
+      ) {
+      ...enrolmentFields
+    }
+  }
+
   mutation SendMessage(
     $input: SendMessageMutationInput!
     $registration: String!

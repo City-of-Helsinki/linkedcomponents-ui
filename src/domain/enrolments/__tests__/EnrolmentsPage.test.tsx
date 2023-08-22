@@ -208,3 +208,26 @@ test('should send message to participants', async () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   );
 });
+
+test('should route to attendance list page when clicking mark present button', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedSendMessageResponse,
+  ]);
+
+  await loadingSpinnerIsNotInDocument(10000);
+  const { menu } = await openMenu();
+
+  const markPresentButton = await within(menu).findByRole('button', {
+    name: 'Merkkaa läsnäolijat',
+  });
+
+  await user.click(markPresentButton);
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/registrations/${registrationId}/attendance-list`
+    )
+  );
+});

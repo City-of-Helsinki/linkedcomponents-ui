@@ -29,11 +29,15 @@ import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEv
 import SendMessageModal from '../enrolment/modals/sendMessageModal/SendMessageModal';
 import {
   clearCreateEnrolmentFormData,
-  getEditButtonProps,
+  getEditButtonProps as getEnrolmentEditButtonProps,
 } from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
-import { getRegistrationFields } from '../registration/utils';
+import {
+  getEditButtonProps as getRegistrationEditButtonProps,
+  getRegistrationFields,
+} from '../registration/utils';
+import { REGISTRATION_ACTIONS } from '../registrations/constants';
 import { clearSeatsReservationData } from '../reserveSeats/utils';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
@@ -84,8 +88,18 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
     });
   };
 
+  const goToAttendanceListPage = () => {
+    navigate({
+      pathname: `/${locale}${ROUTES.ATTENDANCE_LIST.replace(
+        ':registrationId',
+        getValue(registration.id, '')
+      )}`,
+      search: queryStringWithReturnPath,
+    });
+  };
+
   const actionItems: MenuItemOptionProps[] = [
-    getEditButtonProps({
+    getEnrolmentEditButtonProps({
       action: ENROLMENT_ACTIONS.SEND_MESSAGE,
       authenticated,
       onClick: () => {
@@ -96,9 +110,18 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
       t,
       user,
     }),
+    getRegistrationEditButtonProps({
+      action: REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST,
+      authenticated,
+      onClick: goToAttendanceListPage,
+      organizationAncestors,
+      registration,
+      t,
+      user,
+    }),
   ];
 
-  const buttonProps = getEditButtonProps({
+  const buttonProps = getEnrolmentEditButtonProps({
     action: ENROLMENT_ACTIONS.CREATE,
     authenticated,
     onClick: handleCreate,
@@ -110,7 +133,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   return (
     <PageWrapper
       backgroundColor="coatOfArms"
-      className={styles.enrolmentsPage}
+      className={styles.attendanceListPage}
       noFooter
       titleText={getValue(
         t('enrolmentsPage.pageTitle', { name: event?.name }),

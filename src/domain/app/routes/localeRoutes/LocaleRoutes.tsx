@@ -16,6 +16,9 @@ import RegistrationSavedPage from '../../../registrationSaved/RegistrationSavedP
 import PageLayout from '../../layout/pageLayout/PageLayout';
 import AdminPageRoutes from '../adminRoutes/AdminRoutes';
 
+const AttendanceListPage = React.lazy(
+  () => import('../../../attendanceList/AttendanceListPage')
+);
 const CreateEnrolmentPage = React.lazy(
   () => import('../../../enrolment/CreateEnrolmentPage')
 );
@@ -129,6 +132,10 @@ const LocaleRoutes: React.FC = () => {
               <Route
                 path={ROUTES.REGISTRATION_ENROLMENTS}
                 element={<EnrolmentsPage />}
+              />
+              <Route
+                path={ROUTES.ATTENDANCE_LIST}
+                element={<AttendanceListPage />}
               />
               <Route
                 path={ROUTES.CREATE_ENROLMENT}
