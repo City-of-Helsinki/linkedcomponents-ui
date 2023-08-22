@@ -17,7 +17,7 @@ import {
   Place,
   Position,
   Registration,
-  RegistrationUser,
+  RegistrationUserAccess,
   User,
 } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
@@ -209,11 +209,11 @@ export const addTypenamePosition = (
 ): Position | null =>
   position ? { ...position, __typename: 'Position' } : null;
 
-export const addTypenameRegistrationUser = (
-  registrationUser?: RegistrationUser | null
-): RegistrationUser | null =>
-  registrationUser
-    ? { ...registrationUser, __typename: 'RegistrationUser' }
+export const addTypenameRegistrationUserAccess = (
+  registrationUserAccess?: RegistrationUserAccess | null
+): RegistrationUserAccess | null =>
+  registrationUserAccess
+    ? { ...registrationUserAccess, __typename: 'RegistrationUserAccess' }
     : null;
 
 export const addTypenameRegistration = (
@@ -227,8 +227,8 @@ export const addTypenameRegistration = (
         ),
         event: addTypenameEvent(registration?.event),
         instructions: addTypenameLocalisedObject(registration?.instructions),
-        registrationUsers: registration.registrationUsers?.map((ru) =>
-          addTypenameRegistrationUser(ru)
+        registrationUserAccesses: registration.registrationUserAccesses?.map(
+          (ru) => addTypenameRegistrationUserAccess(ru)
         ),
         signups: Array.isArray(registration.signups)
           ? registration.signups.map((enrolment) =>

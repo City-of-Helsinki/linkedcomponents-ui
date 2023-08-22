@@ -404,7 +404,9 @@ const linkedEventsLink = new RestLink({
 });
 
 const QUERIES_TO_SHOW_ERROR = ['User'];
-const MUTATIONS_NOT_TO_SHOW_SERVER_ERROR = ['SendRegistrationUserInvitation'];
+const MUTATIONS_NOT_TO_SHOW_SERVER_ERROR = [
+  'SendRegistrationUserAccessInvitation',
+];
 const MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR = [
   'CreateEvent',
   'CreateEvents',

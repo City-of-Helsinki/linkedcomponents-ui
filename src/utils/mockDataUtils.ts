@@ -47,7 +47,7 @@ import {
   Registration,
   RegistrationFieldsFragment,
   RegistrationsResponse,
-  RegistrationUser,
+  RegistrationUserAccess,
   SeatsReservation,
   SendMessageResponse,
   User,
@@ -503,7 +503,7 @@ export const fakeRegistration = (
       maximumAttendeeCapacity: 0,
       maximumGroupSize: null,
       minimumAttendeeCapacity: 0,
-      registrationUsers: [],
+      registrationUserAccesses: [],
       remainingAttendeeCapacity: 0,
       remainingWaitingListCapacity: 0,
       publisher: TEST_PUBLISHER_ID,
@@ -515,16 +515,16 @@ export const fakeRegistration = (
   );
 };
 
-export const fakeRegistrationUser = (
-  overrides?: Partial<RegistrationUser>
-): RegistrationUser => {
+export const fakeRegistrationUserAccess = (
+  overrides?: Partial<RegistrationUserAccess>
+): RegistrationUserAccess => {
   const id = overrides?.id || faker.datatype.number();
 
-  return merge<RegistrationUser, typeof overrides>(
+  return merge<RegistrationUserAccess, typeof overrides>(
     {
       id,
       email: faker.internet.email(),
-      __typename: 'RegistrationUser',
+      __typename: 'RegistrationUserAccess',
     },
     overrides
   );

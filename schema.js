@@ -33,7 +33,7 @@ module.exports = buildSchema(/* GraphQL */ `
       input: SendMessageMutationInput!
       registration: String
     ): SendMessageResponse
-    sendRegistrationUserInvitation(id: Int): NoContent
+    sendRegistrationUserAccessInvitation(id: Int): NoContent
     updateEnrolment(
       input: UpdateEnrolmentMutationInput!
       signup: String!
@@ -485,8 +485,10 @@ module.exports = buildSchema(/* GraphQL */ `
     type: String
   }
 
-  input RegistrationUserInput {
+  input RegistrationUserAccessInput {
     email: String
+    id: Int
+    language: String
   }
 
   input CreateRegistrationMutationInput {
@@ -501,7 +503,7 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
-    registrationUsers: [RegistrationUserInput]
+    registrationUserAccesses: [RegistrationUserAccessInput]
     waitingListCapacity: Int
   }
 
@@ -518,7 +520,7 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
-    registrationUsers: [RegistrationUserInput]
+    registrationUserAccesses: [RegistrationUserAccessInput]
     waitingListCapacity: Int
   }
 
@@ -884,9 +886,10 @@ module.exports = buildSchema(/* GraphQL */ `
     url: String
   }
 
-  type RegistrationUser {
+  type RegistrationUserAccess {
     email: String
     id: Int
+    language: String
   }
 
   type RegistrationsResponse {
@@ -916,7 +919,7 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
     publisher: String
-    registrationUsers: [RegistrationUser]
+    registrationUserAccesses: [RegistrationUserAccess]
     remainingAttendeeCapacity: Int
     remainingWaitingListCapacity: Int
     signups: [Enrolment]

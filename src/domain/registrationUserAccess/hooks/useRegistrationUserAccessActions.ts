@@ -1,30 +1,30 @@
 import { useLocation } from 'react-router';
 
-import { useSendRegistrationUserInvitationMutation } from '../../../generated/graphql';
+import { useSendRegistrationUserAccessInvitationMutation } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
-import { REGISTRATION_USER_ACTIONS } from '../constants';
+import { REGISTRATION_USER_ACCESS_ACTIONS } from '../constants';
 
-interface UseRegistrationUserActionsProps {
+interface UseRegistrationUserAccessActionsProps {
   id: number | null;
 }
 
-type UseRegistrationUserActionsState = {
-  saving: REGISTRATION_USER_ACTIONS | null;
+type UseRegistrationUserAccessActionsState = {
+  saving: REGISTRATION_USER_ACCESS_ACTIONS | null;
   sendInvitation: (callbacks?: MutationCallbacks) => Promise<void>;
 };
-const useRegistrationUserActions = ({
+const useRegistrationUserAccessActions = ({
   id,
-}: UseRegistrationUserActionsProps): UseRegistrationUserActionsState => {
+}: UseRegistrationUserAccessActionsProps): UseRegistrationUserAccessActionsState => {
   const { user } = useUser();
   const location = useLocation();
-  const [saving, setSaving] = useMountedState<REGISTRATION_USER_ACTIONS | null>(
-    null
-  );
+  const [saving, setSaving] =
+    useMountedState<REGISTRATION_USER_ACCESS_ACTIONS | null>(null);
 
-  const [sendInvitationMutation] = useSendRegistrationUserInvitationMutation();
+  const [sendInvitationMutation] =
+    useSendRegistrationUserAccessInvitationMutation();
 
   const savingFinished = () => {
     setSaving(null);
@@ -65,7 +65,7 @@ const useRegistrationUserActions = ({
 
   const sendInvitation = async (callbacks?: MutationCallbacks) => {
     try {
-      setSaving(REGISTRATION_USER_ACTIONS.SEND_INVITATION);
+      setSaving(REGISTRATION_USER_ACCESS_ACTIONS.SEND_INVITATION);
       await sendInvitationMutation({ variables: { id: id as number } });
 
       await cleanAfterUpdate(callbacks);
@@ -73,7 +73,7 @@ const useRegistrationUserActions = ({
       handleError({
         callbacks,
         error,
-        message: 'Failed to send invitation to registration user',
+        message: 'Failed to send invitation to registration user access',
       });
     }
   };
@@ -84,4 +84,4 @@ const useRegistrationUserActions = ({
   };
 };
 
-export default useRegistrationUserActions;
+export default useRegistrationUserAccessActions;

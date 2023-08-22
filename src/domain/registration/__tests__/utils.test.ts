@@ -153,7 +153,7 @@ describe('getRegistrationInitialValues function', () => {
       instructions,
       maximumAttendeeCapacity,
       minimumAttendeeCapacity,
-      registrationUsers,
+      registrationUserAccesses,
       waitingListCapacity,
     } = getRegistrationInitialValues(
       fakeRegistration({
@@ -193,7 +193,7 @@ describe('getRegistrationInitialValues function', () => {
     });
     expect(maximumAttendeeCapacity).toBe('');
     expect(minimumAttendeeCapacity).toBe('');
-    expect(registrationUsers).toEqual([]);
+    expect(registrationUserAccesses).toEqual([]);
     expect(waitingListCapacity).toBe('');
   });
 
@@ -216,7 +216,9 @@ describe('getRegistrationInitialValues function', () => {
           mandatoryFields: ['city'],
           maximumAttendeeCapacity: 15,
           minimumAttendeeCapacity: 5,
-          registrationUsers: [{ email: 'user@email.com', id: 1 }],
+          registrationUserAccesses: [
+            { email: 'user@email.com', id: 1, language: 'fi' },
+          ],
           waitingListCapacity: 5,
         })
       )
@@ -241,7 +243,9 @@ describe('getRegistrationInitialValues function', () => {
       maximumAttendeeCapacity: 15,
       maximumGroupSize: '',
       minimumAttendeeCapacity: 5,
-      registrationUsers: [{ email: 'user@email.com', id: 1 }],
+      registrationUserAccesses: [
+        { email: 'user@email.com', id: 1, language: 'fi' },
+      ],
       waitingListCapacity: 5,
     });
   });
@@ -279,7 +283,7 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity: null,
       maximumGroupSize: null,
       minimumAttendeeCapacity: null,
-      registrationUsers: [],
+      registrationUserAccesses: [],
       waitingListCapacity: null,
     });
 
@@ -293,7 +297,9 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity = 10,
       maximumGroupSize = 2,
       minimumAttendeeCapacity = 5,
-      registrationUsers = [{ email: 'user@email.com', id: null }],
+      registrationUserAccesses = [
+        { email: 'user@email.com', id: null, language: '' },
+      ],
       waitingListCapacity = 3;
     const payload = getRegistrationPayload({
       ...REGISTRATION_INITIAL_VALUES,
@@ -315,7 +321,7 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity,
       maximumGroupSize,
       minimumAttendeeCapacity,
-      registrationUsers,
+      registrationUserAccesses,
       waitingListCapacity,
     });
 
@@ -345,7 +351,9 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity,
       maximumGroupSize,
       minimumAttendeeCapacity,
-      registrationUsers: [{ email: 'user@email.com' }],
+      registrationUserAccesses: [
+        { email: 'user@email.com', id: null, language: null },
+      ],
       waitingListCapacity,
     });
   });

@@ -1791,9 +1791,9 @@
       "title": "Varmista ilmoittautumisen poistaminen"
     },
     "form": {
-      "buttonAddRegistrationUser": "Lisää käyttäjä",
+      "buttonAddRegistrationUserAccess": "Lisää käyttäjä",
       "buttonCreate": "Tallenna ilmoittautuminen",
-      "buttonDeleteRegistrationUser": "Poista käyttäjä",
+      "buttonDeleteRegistrationUserAccess": "Poista käyttäjä",
       "buttonPanel": {
         "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
       },
@@ -1815,7 +1815,8 @@
       "labelMaximumGroupSize": "Ryhmän enimmäiskoko",
       "labelMinimumAttendeeCapacity": "Paikkojen vähimmäismäärä",
       "labelName": "Nimi",
-      "labelRegistrationUserEmail": "Käyttäjän sähköpostiosoite",
+      "labelRegistrationUserAccessEmail": "Käyttäjän sähköpostiosoite",
+      "labelRegistrationUserAccessLanguage": "Kieli",
       "labelWaitingListCapacity": "Varasijapaikkojen lukumäärä",
       "messages": {
         "failedToSendInvitation": "Kutsun lähettäminen epäonnistui",
@@ -1825,7 +1826,8 @@
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
       "placeholderEvent": "Valitse tai hae tapahtuma",
       "placeholderInstructions": "Syötä ilmoittautumisohjeet",
-      "placeholderRegistrationUserEmail": "Syötä käyttäjän sähköpostiosoite",
+      "placeholderRegistrationUserAccessEmail": "Syötä käyttäjän sähköpostiosoite",
+      "placeholderRegistrationUserAccessLanguage": "Valitse kieli",
       "sections": {
         "attendeeCount": "Paikat",
         "audienceAge": "Ikäraja",
@@ -1835,7 +1837,7 @@
         "instructions": "Ilmoittautumisohjeet ja vahvistusviesti",
         "languages": "Kielet",
         "mandatoryFields": "Pakolliset kentät",
-        "registrationUsers": "Osallistujalistan lukuoikeudet",
+        "registrationUserAccesses": "Osallistujalistan lukuoikeudet",
         "waitingList": "Jonopaikat"
       },
       "sendInvitation": "Lähetä kutsu uudelleen",

@@ -1,57 +1,72 @@
-import { FastField, useField } from 'formik';
+import { Field, useField } from 'formik';
 import { IconCrossCircle, IconEnvelope, IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+import SingleSelectField from '../../../../../common/components/formFields/singleSelectField/SingleSelectField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import MenuDropdown from '../../../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../../../common/components/menuDropdown/types';
 import useIdWithPrefix from '../../../../../hooks/useIdWithPrefix';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
+import useLanguageOptions from '../../../../enrolment/hooks/useLanguageOptions';
 import FieldWithButton from '../../../../event/layout/FieldWithButton';
-import { REGISTRATION_USER_ACTIONS } from '../../../../registrationUser/constants';
-import useRegistrationUserActions from '../../../../registrationUser/hooks/useRegistrationUserActions';
-import { REGISTRATION_USER_FIELDS } from '../../../constants';
-import styles from './registrationUser.module.scss';
+import { REGISTRATION_USER_ACCESS_ACTIONS } from '../../../../registrationUserAccess/constants';
+// eslint-disable-next-line max-len
+import useRegistrationUserAccessActions from '../../../../registrationUserAccess/hooks/useRegistrationUserAccessActions';
+import { REGISTRATION_USER_ACCESS_FIELDS } from '../../../constants';
+import styles from './registrationUserAccess.module.scss';
 
 type Props = {
   isEditingAllowed: boolean;
   onDelete: () => void;
-  registrationUserPath: string;
+  registrationUserAccessPath: string;
 };
 
 const getFieldName = (registrationUserPath: string, field: string) =>
   `${registrationUserPath}.${field}`;
 
-const RegistrationUser: React.FC<Props> = ({
+const RegistrationUserAccess: React.FC<Props> = ({
   isEditingAllowed,
   onDelete,
-  registrationUserPath,
+  registrationUserAccessPath,
 }) => {
   const { t } = useTranslation();
+
+  const serviceLanguageOptions = useLanguageOptions({ serviceLanguage: true });
 
   const menuDropdownId = useIdWithPrefix({ prefix: 'menu-dropdown-' });
 
   const fieldNames = React.useMemo(
     () => ({
-      email: getFieldName(registrationUserPath, REGISTRATION_USER_FIELDS.EMAIL),
-      id: getFieldName(registrationUserPath, REGISTRATION_USER_FIELDS.ID),
+      email: getFieldName(
+        registrationUserAccessPath,
+        REGISTRATION_USER_ACCESS_FIELDS.EMAIL
+      ),
+      id: getFieldName(
+        registrationUserAccessPath,
+        REGISTRATION_USER_ACCESS_FIELDS.ID
+      ),
+      language: getFieldName(
+        registrationUserAccessPath,
+        REGISTRATION_USER_ACCESS_FIELDS.LANGUAGE
+      ),
     }),
-    [registrationUserPath]
+    [registrationUserAccessPath]
   );
 
   const [{ value: email }] = useField({ name: fieldNames.email });
   const [{ value: id }] = useField({ name: fieldNames.id });
 
-  const { sendInvitation } = useRegistrationUserActions({ id });
+  const { sendInvitation } = useRegistrationUserAccessActions({ id });
 
   const getActionItemProps = ({
     action,
     onClick,
   }: {
-    action: REGISTRATION_USER_ACTIONS;
+    action: REGISTRATION_USER_ACCESS_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps => {
     const icons = {
@@ -73,7 +88,7 @@ const RegistrationUser: React.FC<Props> = ({
 
   const actionItems = [
     getActionItemProps({
-      action: REGISTRATION_USER_ACTIONS.SEND_INVITATION,
+      action: REGISTRATION_USER_ACCESS_ACTIONS.SEND_INVITATION,
       onClick: () => {
         sendInvitation({
           onError: () =>
@@ -88,7 +103,7 @@ const RegistrationUser: React.FC<Props> = ({
       },
     }),
     getActionItemProps({
-      action: REGISTRATION_USER_ACTIONS.DELETE,
+      action: REGISTRATION_USER_ACCESS_ACTIONS.DELETE,
       onClick: onDelete,
     }),
   ];
@@ -118,15 +133,31 @@ const RegistrationUser: React.FC<Props> = ({
         >
           <>
             <FormGroup>
-              <FastField
+              <Field
                 component={TextInputField}
                 disabled={!isEditingAllowed}
-                label={t(`registration.form.labelRegistrationUserEmail`)}
+                label={t(`registration.form.labelRegistrationUserAccessEmail`)}
                 name={fieldNames.email}
                 placeholder={t(
-                  `registration.form.placeholderRegistrationUserEmail`
+                  `registration.form.placeholderRegistrationUserAccessEmail`
                 )}
                 required={true}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Field
+                name={fieldNames.language}
+                component={SingleSelectField}
+                clearable={true}
+                language
+                disabled={!isEditingAllowed}
+                label={t(
+                  `registration.form.labelRegistrationUserAccessLanguage`
+                )}
+                options={serviceLanguageOptions}
+                placeholder={t(
+                  `registration.form.placeholderRegistrationUserAccessLanguage`
+                )}
               />
             </FormGroup>
           </>
@@ -136,4 +167,4 @@ const RegistrationUser: React.FC<Props> = ({
   );
 };
 
-export default RegistrationUser;
+export default RegistrationUserAccess;

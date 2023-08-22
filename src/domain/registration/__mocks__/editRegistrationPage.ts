@@ -40,7 +40,7 @@ const registrationOverrides = {
   maximumAttendeeCapacity: 100,
   maximumGroupSize: 5,
   minimumAttendeeCapacity: 10,
-  registrationUsers: [],
+  registrationUserAccesses: [],
   waitingListCapacity: 5,
 };
 

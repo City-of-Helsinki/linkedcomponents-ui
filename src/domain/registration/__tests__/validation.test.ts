@@ -169,25 +169,29 @@ describe('registrationSchema', () => {
     ).toBe(true);
   });
 
-  it('should return false if registration user email is invalid or missing', async () => {
+  it('should return false if registration user access email is invalid or missing', async () => {
     expect(
       await testRegistrationSchema({
         ...validRegistrationValues,
-        registrationUsers: [{ email: '', id: null }],
+        registrationUserAccesses: [{ email: '', id: null, language: '' }],
       })
     ).toBe(false);
 
     expect(
       await testRegistrationSchema({
         ...validRegistrationValues,
-        registrationUsers: [{ email: 'invalid@', id: null }],
+        registrationUserAccesses: [
+          { email: 'invalid@', id: null, language: '' },
+        ],
       })
     ).toBe(false);
 
     expect(
       await testRegistrationSchema({
         ...validRegistrationValues,
-        registrationUsers: [{ email: 'invalid@email.com', id: null }],
+        registrationUserAccesses: [
+          { email: 'invalid@email.com', id: null, language: '' },
+        ],
       })
     ).toBe(true);
   });

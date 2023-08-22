@@ -1791,9 +1791,9 @@
       "title": "Confirm registration deletion"
     },
     "form": {
-      "buttonAddRegistrationUser": "Add user",
+      "buttonAddRegistrationUserAccess": "Add user",
       "buttonCreate": "Save",
-      "buttonDeleteRegistrationUser": "Remove user",
+      "buttonDeleteRegistrationUserAccess": "Remove user",
       "buttonPanel": {
         "warningNotAuthenticated": "To create a registration, log in first."
       },
@@ -1815,7 +1815,8 @@
       "labelMaximumGroupSize": "Maximum group size",
       "labelMinimumAttendeeCapacity": "Minimum number of seats",
       "labelName": "Name",
-      "labelRegistrationUserEmail": "User's email address",
+      "labelRegistrationUserAccessEmail": "User's email address",
+      "labelRegistrationUserAccessLanguage": "Language",
       "labelWaitingListCapacity": "Number of spare seats",
       "messages": {
         "failedToSendInvitation": "Failed to send invitation",
@@ -1825,7 +1826,8 @@
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
       "placeholderEvent": "Select or search for an event",
       "placeholderInstructions": "Enter registration instructions",
-      "placeholderRegistrationUserEmail": "Enter user's email address",
+      "placeholderRegistrationUserAccessEmail": "Enter user's email address",
+      "placeholderRegistrationUserAccessLanguage": "Select language",
       "sections": {
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
@@ -1835,7 +1837,7 @@
         "instructions": "Instructions and confirmation message",
         "languages": "Languages",
         "mandatoryFields": "Required fields",
-        "registrationUsers": "Participant list read permissions",
+        "registrationUserAccesses": "Participant list read permissions",
         "waitingList": "Waiting list"
       },
       "sendInvitation": "Resend invitation",

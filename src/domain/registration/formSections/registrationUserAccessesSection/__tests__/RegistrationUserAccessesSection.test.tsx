@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import React from 'react';
 import { toast } from 'react-toastify';
 
-import { SendRegistrationUserInvitationDocument } from '../../../../../generated/graphql';
+import { SendRegistrationUserAccessInvitationDocument } from '../../../../../generated/graphql';
 import {
   configure,
   render,
@@ -11,38 +11,41 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
+import { mockedServiceLanguagesResponse } from '../../../../language/__mocks__/language';
 import {
   REGISTRATION_FIELDS,
   TEST_REGISTRATION_USER_ID,
 } from '../../../constants';
 import { RegistrationFormFields } from '../../../types';
 import { registrationSchema } from '../../../validation';
-import RegistrationUsersSection from '../RegistrationUsersSection';
+import RegistrationUsersSection from '../RegistrationUserAccessesSection';
 
 configure({ defaultHidden: true });
 
+const defaultMocks = [mockedServiceLanguagesResponse];
+
 const defaultInitialValue = {
-  [REGISTRATION_FIELDS.REGISTRATION_USERS]: [],
+  [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: [],
 };
 const sendInvitationVariables = { id: TEST_REGISTRATION_USER_ID };
 const mockedSendInvitationResponse: MockedResponse = {
   request: {
-    query: SendRegistrationUserInvitationDocument,
+    query: SendRegistrationUserAccessInvitationDocument,
     variables: sendInvitationVariables,
   },
-  result: { data: { sendRegistrationUserInvitation: null } },
+  result: { data: { sendRegistrationUserAccessInvitation: null } },
 };
 const mockedInvalidSendInvitationResponse: MockedResponse = {
   request: {
-    query: SendRegistrationUserInvitationDocument,
+    query: SendRegistrationUserAccessInvitationDocument,
     variables: sendInvitationVariables,
   },
   error: new Error(),
 };
 
-const renderRegistrationUsersSection = (
+const renderRegistrationUserAccessesSection = (
   initialValues?: Partial<RegistrationFormFields>,
-  mocks: MockedResponse[] = []
+  mocks: MockedResponse[] = defaultMocks
 ) =>
   render(
     <Formik
@@ -65,9 +68,9 @@ const getElement = (key: 'addButton') => {
   }
 };
 
-test('should add and remove registration user', async () => {
+test('should add and remove registration user assess', async () => {
   const user = userEvent.setup();
-  renderRegistrationUsersSection();
+  renderRegistrationUserAccessesSection();
 
   const fields = ['Käyttäjän sähköpostiosoite*'];
 
@@ -88,13 +91,14 @@ test('should add and remove registration user', async () => {
   expect(screen.queryByLabelText(fields[0])).not.toBeInTheDocument();
 });
 
-test('should send invitation to registration user', async () => {
+test('should send invitation to registration user access', async () => {
   toast.success = jest.fn();
   const user = userEvent.setup();
   const email = 'user@email.com';
-  renderRegistrationUsersSection({ registrationUsers: [{ email, id: 1 }] }, [
-    mockedSendInvitationResponse,
-  ]);
+  renderRegistrationUserAccessesSection(
+    { registrationUserAccesses: [{ email, id: 1, language: '' }] },
+    [...defaultMocks, mockedSendInvitationResponse]
+  );
 
   const toggleMenuButton = screen.getByRole('button', { name: /valinnat/i });
   await user.click(toggleMenuButton);
@@ -114,9 +118,10 @@ test('should show error message is sending invitation fails', async () => {
   toast.error = jest.fn();
   const user = userEvent.setup();
   const email = 'user@email.com';
-  renderRegistrationUsersSection({ registrationUsers: [{ email, id: 1 }] }, [
-    mockedInvalidSendInvitationResponse,
-  ]);
+  renderRegistrationUserAccessesSection(
+    { registrationUserAccesses: [{ email, id: 1, language: '' }] },
+    [...defaultMocks, mockedInvalidSendInvitationResponse]
+  );
 
   const toggleMenuButton = screen.getByRole('button', { name: /valinnat/i });
   await user.click(toggleMenuButton);

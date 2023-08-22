@@ -7,42 +7,46 @@ import Button from '../../../../common/components/button/Button';
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import FieldWithButton from '../../../event/layout/FieldWithButton';
 import { REGISTRATION_FIELDS } from '../../constants';
-import { RegistrationUserFormFields } from '../../types';
-import { getEmptyRegistrationUser } from '../../utils';
-import RegistrationUser from './registrationUser/RegistrationUser';
+import { RegistrationUserAccessFormFields } from '../../types';
+import { getEmptyRegistrationUserAccess } from '../../utils';
+import RegistrationUserAccess from './registrationUserAccess/RegistrationUserAccess';
 
 interface Props {
   isEditingAllowed: boolean;
 }
 
-const getRegistrationUserPath = (index: number) =>
-  `${REGISTRATION_FIELDS.REGISTRATION_USERS}[${index}]`;
+const getRegistrationUserAccessPath = (index: number) =>
+  `${REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES}[${index}]`;
 
-const RegistrationUsersSection: React.FC<Props> = ({ isEditingAllowed }) => {
+const RegistrationUserAccessesSection: React.FC<Props> = ({
+  isEditingAllowed,
+}) => {
   const { t } = useTranslation();
 
-  const [{ value: registrationUsers }] = useField<RegistrationUserFormFields[]>(
-    {
-      name: REGISTRATION_FIELDS.REGISTRATION_USERS,
-    }
-  );
+  const [{ value: registrationUserAccesses }] = useField<
+    RegistrationUserAccessFormFields[]
+  >({
+    name: REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES,
+  });
 
   return (
     <Fieldset
-      heading={t('registration.form.sections.registrationUsers')}
+      heading={t('registration.form.sections.registrationUserAccesses')}
       hideLegend
     >
       <FieldArray
-        name={REGISTRATION_FIELDS.REGISTRATION_USERS}
+        name={REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES}
         render={(arrayHelpers) => (
           <div>
-            {registrationUsers.map((_, index) => {
+            {registrationUserAccesses.map((_, index) => {
               return (
-                <RegistrationUser
+                <RegistrationUserAccess
                   key={index}
                   isEditingAllowed={isEditingAllowed}
                   onDelete={() => arrayHelpers.remove(index)}
-                  registrationUserPath={getRegistrationUserPath(index)}
+                  registrationUserAccessPath={getRegistrationUserAccessPath(
+                    index
+                  )}
                 />
               );
             })}
@@ -52,11 +56,13 @@ const RegistrationUsersSection: React.FC<Props> = ({ isEditingAllowed }) => {
                 disabled={!isEditingAllowed}
                 fullWidth={true}
                 iconLeft={<IconPlus />}
-                onClick={() => arrayHelpers.push(getEmptyRegistrationUser())}
+                onClick={() =>
+                  arrayHelpers.push(getEmptyRegistrationUserAccess())
+                }
                 type="button"
                 variant="primary"
               >
-                {t('registration.form.buttonAddRegistrationUser')}
+                {t('registration.form.buttonAddRegistrationUserAccess')}
               </Button>
             </FieldWithButton>
           </div>
@@ -66,4 +72,4 @@ const RegistrationUsersSection: React.FC<Props> = ({ isEditingAllowed }) => {
   );
 };
 
-export default RegistrationUsersSection;
+export default RegistrationUserAccessesSection;

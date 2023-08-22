@@ -53,7 +53,7 @@ import { getFocusableFieldId, registrationSchema } from '../validation';
 import getValue from '../../../utils/getValue';
 import GroupSizeSection from '../formSections/groupSizeSection/GroupSizeSection';
 import LanguagesSection from '../formSections/languageSection/LanguageSection';
-import RegistrationUsersSection from '../formSections/registrationUsersSection/RegistrationUsersSection';
+import RegistrationUserAccessesSection from '../formSections/registrationUserAccessesSection/RegistrationUserAccessesSection';
 
 export type CreateRegistrationFormProps = {
   event?: null;
@@ -327,9 +327,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                     </Section>
                     <Section
                       className={styles.section}
-                      title={t('registration.form.sections.registrationUsers')}
+                      title={t(
+                        'registration.form.sections.registrationUserAccesses'
+                      )}
                     >
-                      <RegistrationUsersSection
+                      <RegistrationUserAccessesSection
                         isEditingAllowed={isEditingAllowed}
                       />
                     </Section>
