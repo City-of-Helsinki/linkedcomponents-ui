@@ -162,7 +162,7 @@ export const signIn = async ({
   userManager: UserManager;
 }): Promise<void> => {
   const MAINTENANCE_MODE =
-    process.env.REACT_APP_ENABLE_MAINTENANCE_MODE === 'true';
+    process.env.REACT_APP_MAINTENANCE_DISABLE_LOGIN === 'true';
 
   if (MAINTENANCE_MODE) {
     toast.error(getValue(t('maintenance.toast'), ''));
