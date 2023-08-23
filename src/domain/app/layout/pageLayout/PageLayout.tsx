@@ -44,8 +44,8 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
   const noKoro = isMatch(NO_KORO_PATHS);
   const canonicalUrl = host + pathname;
 
-  const MAINTENANCE_MODE =
-    process.env.REACT_APP_ENABLE_MAINTENANCE_MODE === 'true';
+  const MAINTENANCE_SHOW_NOTIFICATION =
+    process.env.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION === 'true';
 
   return (
     <ClassNames>
@@ -83,7 +83,7 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
             </Helmet>
 
             <Header />
-            {MAINTENANCE_MODE && <MaintenanceNotification />}
+            {MAINTENANCE_SHOW_NOTIFICATION && <MaintenanceNotification />}
             <div className={cx(styles.pageBody, { [styles.noKoro]: noKoro })}>
               {children}
             </div>

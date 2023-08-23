@@ -161,10 +161,10 @@ export const signIn = async ({
   t: TFunction;
   userManager: UserManager;
 }): Promise<void> => {
-  const MAINTENANCE_MODE =
-    process.env.REACT_APP_ENABLE_MAINTENANCE_MODE === 'true';
+  const MAINTENANCE_DISABLE_LOGIN =
+    process.env.REACT_APP_MAINTENANCE_DISABLE_LOGIN === 'true';
 
-  if (MAINTENANCE_MODE) {
+  if (MAINTENANCE_DISABLE_LOGIN) {
     toast.error(getValue(t('maintenance.toast'), ''));
 
     return Promise.resolve();

@@ -348,7 +348,7 @@ describe('signIn function', () => {
 
     process.env = {
       ...originalEnv,
-      REACT_APP_ENABLE_MAINTENANCE_MODE: 'true',
+      REACT_APP_MAINTENANCE_DISABLE_LOGIN: 'true',
     };
 
     const toastError = jest.spyOn(toast, 'error');
