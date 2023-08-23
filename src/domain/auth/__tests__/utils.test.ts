@@ -348,7 +348,6 @@ describe('signIn function', () => {
 
     process.env = {
       ...originalEnv,
-      REACT_APP_MAINTENANCE_SHOW_NOTIFICATION: 'true',
       REACT_APP_MAINTENANCE_DISABLE_LOGIN: 'true',
     };
 
