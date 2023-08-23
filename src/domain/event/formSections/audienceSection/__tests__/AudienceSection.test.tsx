@@ -61,11 +61,15 @@ test('should show 10 first audiences by default and rest by clicking show more',
   const user = userEvent.setup();
   renderComponent();
 
+  const sortedAudienceNames = audienceNames
+    .slice()
+    .sort((a, b) => a.localeCompare(b, 'en'));
+
   await waitFor(() => {
-    expect(screen.queryByLabelText(audienceNames[0])).toBeInTheDocument();
+    expect(screen.queryByLabelText(sortedAudienceNames[0])).toBeInTheDocument();
   });
-  const defaultKeywords = audienceNames.slice(0, 10);
-  const restKeywords = audienceNames.slice(10);
+  const defaultKeywords = sortedAudienceNames.slice(0, 10);
+  const restKeywords = sortedAudienceNames.slice(10);
 
   defaultKeywords.forEach((keyword) => {
     expect(screen.queryByLabelText(keyword)).toBeInTheDocument();

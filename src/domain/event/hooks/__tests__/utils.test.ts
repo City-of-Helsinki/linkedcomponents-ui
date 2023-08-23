@@ -45,7 +45,6 @@ describe('sortAudienceOptions function', () => {
       [
         { value: 'helsinki:aflfbat76e', label: 'Palvelukeskuskortti' },
         { value: 'yso:p11617', label: 'Nuoret' },
-        { value: 'yso:p23886', label: 'Päihdekuntoutujat' },
         { value: 'yso:p13050', label: 'Lapsiperheet' },
         { value: 'yso:p6165', label: 'Maahanmuuttajat' },
         { value: 'yso:p7179', label: 'Vammaiset' },
@@ -59,24 +58,22 @@ describe('sortAudienceOptions function', () => {
         { value: 'yso:p20513', label: 'Vauvaperheet' },
         { value: 'yso:p1393', label: 'Järjestöt' },
         { value: 'yso:p4354', label: 'Lapset' },
-      ].sort(sortAudienceOptions)
+      ].sort(sortAudienceOptions('fi'))
     ).toEqual([
-      { value: 'yso:p7179', label: 'Vammaiset' },
+      { value: 'yso:p5590', label: 'Aikuiset' },
+      { value: 'yso:p2433', label: 'Ikääntyneet' },
+      { value: 'yso:p1393', label: 'Järjestöt' },
+      { value: 'yso:p16485', label: 'Koululaiset' },
       { value: 'yso:p4354', label: 'Lapset' },
       { value: 'yso:p13050', label: 'Lapsiperheet' },
       { value: 'yso:p6165', label: 'Maahanmuuttajat' },
-
-      { value: 'yso:p11617', label: 'Nuoret' },
-      { value: 'yso:p3128', label: 'Yritykset' },
-      { value: 'yso:p1393', label: 'Järjestöt' },
       { value: 'yso:p12297', label: 'Mielenterveyskuntoutujat' },
-      { value: 'yso:p23886', label: 'Päihdekuntoutujat' },
+      { value: 'yso:p11617', label: 'Nuoret' },
       { value: 'helsinki:aflfbatkwe', label: 'Omaishoitoperheet' },
-      { value: 'helsinki:aflfbat76e', label: 'Palvelukeskuskortti' },
-      { value: 'yso:p16485', label: 'Koululaiset' },
-      { value: 'yso:p20513', label: 'Vauvaperheet' },
-      { value: 'yso:p5590', label: 'Aikuiset' },
       { value: 'yso:p16486', label: 'Opiskelijat' },
-      { value: 'yso:p2433', label: 'Ikääntyneet' },
+      { value: 'helsinki:aflfbat76e', label: 'Palvelukeskuskortti' },
+      { value: 'yso:p7179', label: 'Vammaiset' },
+      { value: 'yso:p20513', label: 'Vauvaperheet' },
+      { value: 'yso:p3128', label: 'Yritykset' },
     ]));
 });
