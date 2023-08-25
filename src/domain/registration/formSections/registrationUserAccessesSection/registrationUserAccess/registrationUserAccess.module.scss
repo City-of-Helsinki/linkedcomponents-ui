@@ -1,0 +1,17 @@
+@import '../../../../../assets/styles/mixins';
+
+.toggleButton {
+  padding: 0;
+  display: flex;
+  color: var(--color-black);
+  height: var(--input-height);
+  width: var(--input-height);
+  align-items: center;
+  justify-content: center;
+
+  @include focus-outline(0px);
+
+  > svg {
+    transform: rotate(90deg);
+  }
+}

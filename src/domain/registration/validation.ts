@@ -7,7 +7,17 @@ import {
   transformNumber,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { REGISTRATION_FIELDS, REGISTRATION_SELECT_FIELDS } from './constants';
+import {
+  REGISTRATION_FIELDS,
+  REGISTRATION_SELECT_FIELDS,
+  REGISTRATION_USER_ACCESS_FIELDS,
+} from './constants';
+
+const registrationUserAccessSchema = Yup.object().shape({
+  [REGISTRATION_USER_ACCESS_FIELDS.EMAIL]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .email(VALIDATION_MESSAGE_KEYS.EMAIL),
+});
 
 export const registrationSchema = Yup.object().shape({
   [REGISTRATION_FIELDS.EVENT]: Yup.string()
@@ -77,6 +87,9 @@ export const registrationSchema = Yup.object().shape({
     )
     .nullable()
     .transform(transformNumber),
+  [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: Yup.array().of(
+    registrationUserAccessSchema
+  ),
 });
 
 export const getFocusableFieldId = (fieldName: string): string => {

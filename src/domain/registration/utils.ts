@@ -40,7 +40,11 @@ import {
   isSeatsReservationExpired,
 } from '../reserveSeats/utils';
 import { REGISTRATION_FIELDS } from './constants';
-import { RegistrationFields, RegistrationFormFields } from './types';
+import {
+  RegistrationFields,
+  RegistrationFormFields,
+  RegistrationUserAccessFormFields,
+} from './types';
 
 export const clearRegistrationFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.REGISTRATION_FORM);
@@ -220,6 +224,13 @@ export const getRegistrationFields = (
   };
 };
 
+export const getEmptyRegistrationUserAccess =
+  (): RegistrationUserAccessFormFields => ({
+    email: '',
+    id: null,
+    language: '',
+  });
+
 export const getRegistrationInitialValues = (
   registration: RegistrationFieldsFragment
 ): RegistrationFormFields => {
@@ -276,6 +287,14 @@ export const getRegistrationInitialValues = (
       registration.minimumAttendeeCapacity,
       ''
     ),
+    [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: getValue(
+      registration.registrationUserAccesses?.map((ru) => ({
+        email: getValue(ru?.email, ''),
+        id: getValue(ru?.id, null),
+        language: getValue(ru?.language, ''),
+      })),
+      []
+    ),
     [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: getValue(
       registration.waitingListCapacity,
       ''
@@ -320,6 +339,7 @@ export const getRegistrationPayload = (
     maximumAttendeeCapacity,
     maximumGroupSize,
     minimumAttendeeCapacity,
+    registrationUserAccesses,
     waitingListCapacity,
   } = formValues;
   const infoLanguages = ['fi'];
@@ -351,6 +371,11 @@ export const getRegistrationPayload = (
     minimumAttendeeCapacity: isNumber(minimumAttendeeCapacity)
       ? minimumAttendeeCapacity
       : null,
+    registrationUserAccesses: registrationUserAccesses.map((ru) => ({
+      email: ru.email,
+      id: getValue(ru.id, null),
+      language: getValue(ru.language, null),
+    })),
     waitingListCapacity: isNumber(waitingListCapacity)
       ? waitingListCapacity
       : null,

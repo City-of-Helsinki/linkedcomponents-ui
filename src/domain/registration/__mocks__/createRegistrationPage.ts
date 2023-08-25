@@ -41,6 +41,7 @@ const payload = {
   maximumAttendeeCapacity: null,
   maximumGroupSize: null,
   minimumAttendeeCapacity: null,
+  registrationUserAccesses: [],
   waitingListCapacity: null,
 };
 

@@ -404,6 +404,9 @@ const linkedEventsLink = new RestLink({
 });
 
 const QUERIES_TO_SHOW_ERROR = ['User'];
+const MUTATIONS_NOT_TO_SHOW_SERVER_ERROR = [
+  'SendRegistrationUserAccessInvitation',
+];
 const MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR = [
   'CreateEvent',
   'CreateEvents',
@@ -438,7 +441,6 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         definition.operation === 'mutation'
     )
   );
-
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
       const errorMessage = `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`;
@@ -479,7 +481,11 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         toast.error(getValue(i18n.t('errors.deleted'), ''));
         break;
       default:
-        toast.error(getValue(i18n.t('errors.serverError'), ''));
+        if (
+          !MUTATIONS_NOT_TO_SHOW_SERVER_ERROR.includes(operation.operationName)
+        ) {
+          toast.error(getValue(i18n.t('errors.serverError'), ''));
+        }
     }
   }
 });

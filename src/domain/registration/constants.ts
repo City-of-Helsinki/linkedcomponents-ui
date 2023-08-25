@@ -25,7 +25,14 @@ export enum REGISTRATION_FIELDS {
   MAXIMUM_ATTENDEE_CAPACITY = 'maximumAttendeeCapacity',
   MAXIMUM_GROUP_SIZE = 'maximumGroupSize',
   MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',
+  REGISTRATION_USER_ACCESSES = 'registrationUserAccesses',
   WAITING_LIST_CAPACITY = 'waitingListCapacity',
+}
+
+export enum REGISTRATION_USER_ACCESS_FIELDS {
+  EMAIL = 'email',
+  ID = 'id',
+  LANGUAGE = 'language',
 }
 
 export const REGISTRATION_INITIAL_VALUES: RegistrationFormFields = {
@@ -48,6 +55,7 @@ export const REGISTRATION_INITIAL_VALUES: RegistrationFormFields = {
   [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: '',
   [REGISTRATION_FIELDS.MAXIMUM_GROUP_SIZE]: '',
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: '',
+  [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: [],
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: '',
 };
 
@@ -56,6 +64,7 @@ export const REGISTRATION_SELECT_FIELDS = [REGISTRATION_FIELDS.EVENT];
 export const REGISTRATION_INCLUDES = ['event', 'keywords', 'location'];
 
 export const TEST_REGISTRATION_ID = 'registration:0';
+export const TEST_REGISTRATION_USER_ID = 1;
 
 export enum REGISTRATION_MODALS {
   DELETE = 'delete',

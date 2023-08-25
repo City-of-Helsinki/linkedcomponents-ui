@@ -1791,7 +1791,9 @@
       "title": "Bekräfta raderingen av registeringen"
     },
     "form": {
+      "buttonAddRegistrationUserAccess": "Lägg till användare",
       "buttonCreate": "Spara registrering",
+      "buttonDeleteRegistrationUserAccess": "Ta bort användare",
       "buttonPanel": {
         "warningNotAuthenticated": "För att skapa en registrering, logga in först."
       },
@@ -1813,11 +1815,19 @@
       "labelMaximumGroupSize": "Maximal gruppstorlek",
       "labelMinimumAttendeeCapacity": "Minsta antal platser",
       "labelName": "Namn",
+      "labelRegistrationUserAccessEmail": "Användarens e-postadress",
+      "labelRegistrationUserAccessLanguage": "Språk",
       "labelWaitingListCapacity": "Antal reservplatser",
+      "messages": {
+        "failedToSendInvitation": "Det gick inte att skicka inbjudan",
+        "succeededToSendInvitation": "En inbjudan till deltagarlista har skickats till {{email}}."
+      },
       "notificationTitleCannotEdit": "Registreringet kan inte redigeras",
       "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
       "placeholderEvent": "Välj eller sök efter evenemanget",
       "placeholderInstructions": "Ange registreringsinstruktioner",
+      "placeholderRegistrationUserAccessEmail": "Ange användarens e-postadress",
+      "placeholderRegistrationUserAccessLanguage": "Välj språk",
       "sections": {
         "attendeeCount": "Sittplatser",
         "audienceAge": "Åldersgräns",
@@ -1827,8 +1837,10 @@
         "instructions": "Instruktioner och bekräftelsemeddelande",
         "languages": "Språk",
         "mandatoryFields": "Obligatoriska fält",
+        "registrationUserAccesses": "Läsbehörigheter för deltagarlistan",
         "waitingList": "Väntelista"
       },
+      "sendInvitation": "Skicka inbjudan igen",
       "titleContactInfo": "Kontaktinformation",
       "titleInfoLanguages": "Inmatningsspråk",
       "titleParticipantBasicInfo": "Grundläggande information om deltagaren"

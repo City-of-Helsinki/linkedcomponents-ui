@@ -33,6 +33,7 @@ module.exports = buildSchema(/* GraphQL */ `
       input: SendMessageMutationInput!
       registration: String
     ): SendMessageResponse
+    sendRegistrationUserAccessInvitation(id: Int): NoContent
     updateEnrolment(
       input: UpdateEnrolmentMutationInput!
       signup: String!
@@ -484,6 +485,12 @@ module.exports = buildSchema(/* GraphQL */ `
     type: String
   }
 
+  input RegistrationUserAccessInput {
+    email: String
+    id: Int
+    language: String
+  }
+
   input CreateRegistrationMutationInput {
     audienceMaxAge: Int
     audienceMinAge: Int
@@ -496,6 +503,7 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    registrationUserAccesses: [RegistrationUserAccessInput]
     waitingListCapacity: Int
   }
 
@@ -512,6 +520,7 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    registrationUserAccesses: [RegistrationUserAccessInput]
     waitingListCapacity: Int
   }
 
@@ -877,6 +886,12 @@ module.exports = buildSchema(/* GraphQL */ `
     url: String
   }
 
+  type RegistrationUserAccess {
+    email: String
+    id: Int
+    language: String
+  }
+
   type RegistrationsResponse {
     meta: Meta!
     data: [Registration]!
@@ -903,9 +918,10 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    publisher: String
+    registrationUserAccesses: [RegistrationUserAccess]
     remainingAttendeeCapacity: Int
     remainingWaitingListCapacity: Int
-    publisher: String
     signups: [Enrolment]
     waitingListCapacity: Int
     # @id is renamed as atId so it's usable on GraphQl

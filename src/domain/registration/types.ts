@@ -1,6 +1,15 @@
 import { MultiLanguageObject } from '../../types';
 import { EventFields } from '../event/types';
-import { REGISTRATION_FIELDS } from './constants';
+import {
+  REGISTRATION_FIELDS,
+  REGISTRATION_USER_ACCESS_FIELDS,
+} from './constants';
+
+export type RegistrationUserAccessFormFields = {
+  [REGISTRATION_USER_ACCESS_FIELDS.EMAIL]: string;
+  [REGISTRATION_USER_ACCESS_FIELDS.ID]: number | null;
+  [REGISTRATION_USER_ACCESS_FIELDS.LANGUAGE]: string;
+};
 
 export type RegistrationFormFields = {
   [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: number | '';
@@ -17,6 +26,7 @@ export type RegistrationFormFields = {
   [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: number | '';
   [REGISTRATION_FIELDS.MAXIMUM_GROUP_SIZE]: number | '';
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
+  [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: RegistrationUserAccessFormFields[];
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: number | '';
 };
 
