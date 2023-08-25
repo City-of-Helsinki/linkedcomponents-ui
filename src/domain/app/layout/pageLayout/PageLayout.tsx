@@ -57,7 +57,8 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
             className={cx(
               styles.pageLayout,
               css(theme.layout),
-              css(theme.root)
+              css(theme.root),
+              MAINTENANCE_SHOW_NOTIFICATION && styles.hasMaintenanceNotification
             )}
           >
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
