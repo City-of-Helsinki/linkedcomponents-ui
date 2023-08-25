@@ -4,16 +4,19 @@ import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../generated/graphql';
-import { LEServerError, OptionType, ServerErrorItem } from '../../../types';
-import getValue from '../../../utils/getValue';
+import {
+  Language,
+  LEServerError,
+  OptionType,
+  ServerErrorItem,
+} from '../../../types';
 import isGenericServerError from '../../../utils/isGenericServerError';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
-import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { AUDIENCE_ORDER, EVENT_ACTIONS } from '../constants';
+import { EVENT_ACTIONS } from '../constants';
 
 export const getEventCreateAction = (
   publicationStatus: PublicationStatus
@@ -38,13 +41,10 @@ export const getEventUpdateAction = (
   return EVENT_ACTIONS.UPDATE_PUBLIC;
 };
 
-const getAudienceIndex = (atId: string) => {
-  const index = AUDIENCE_ORDER.indexOf(getValue(parseIdFromAtId(atId), ''));
-  return index !== -1 ? index : AUDIENCE_ORDER.length;
-};
-
-export const sortAudienceOptions = (a: OptionType, b: OptionType): number =>
-  getAudienceIndex(a.value) - getAudienceIndex(b.value);
+export const sortAudienceOptions =
+  (locale: Language) =>
+  (a: OptionType, b: OptionType): number =>
+    a.label.localeCompare(b.label, locale);
 
 export const parseEventServerErrors = ({
   eventType,
