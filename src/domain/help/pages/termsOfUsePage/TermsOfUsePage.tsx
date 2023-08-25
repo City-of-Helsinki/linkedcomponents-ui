@@ -69,6 +69,7 @@ const TermsOfUsePage: React.FC = () => {
             <p>
               As a rule, data is kept for 5 years, but may be deleted earlier
               upon request.
+              {/*eslint-disable*/}
               <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf">
                 City of Helsinki Access Rights Privacy Policy (in Finnish)
               </ExternalLink>
@@ -206,6 +207,7 @@ const TermsOfUsePage: React.FC = () => {
             </p>
             <p>
               Helsingin kaupungin käyttöoikeuksien tietosuojaseloste
+              {/*eslint-disable*/}
               <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf">
                 Tietosuojaseloste
               </ExternalLink>
@@ -337,6 +339,7 @@ const TermsOfUsePage: React.FC = () => {
             <p>
               Uppgifterna sparas i regel i 5 år, men kan raderas tidigare på
               begäran
+              {/*eslint-disable*/}
               <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf">
                 City of Helsinki Access Rights Privacy Policy (in Finnish)
               </ExternalLink>
