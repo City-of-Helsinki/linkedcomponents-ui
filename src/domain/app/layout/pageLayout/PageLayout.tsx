@@ -85,11 +85,7 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
 
             <Header />
             {MAINTENANCE_SHOW_NOTIFICATION && <MaintenanceNotification />}
-            <div
-              className={cx(styles.pageBody, {
-                [styles.noKoro]: noKoro,
-              })}
-            >
+            <div className={cx(styles.pageBody, { [styles.noKoro]: noKoro })}>
               {children}
             </div>
             <Footer />
