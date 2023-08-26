@@ -14,7 +14,8 @@ const TermsOfUsePage: React.FC = () => {
       case 'en':
         return (
           <>
-            <h1>Data protection and terms of use</h1>
+            {/*eslint-disable*/}
+            <h1 role="heading">Data protection and terms of use</h1>
             <p>
               The registration for Linked Events uses the City of Helsinki's
               Tunnistamo application, where the registration options can be
@@ -148,7 +149,8 @@ const TermsOfUsePage: React.FC = () => {
       case 'fi':
         return (
           <>
-            <h1>Tietosuoja ja käyttöehdot</h1>
+            {/*eslint-disable*/}
+            <h1 role="heading">Tietosuoja ja käyttöehdot</h1>
             <p>
               Linked Events -palveluun kirjaudutaan Helsingin kaupungin
               Tunnistamo-sovelluksella, jossa kirjautumisvaihtoehtoina ovat:
@@ -284,7 +286,8 @@ const TermsOfUsePage: React.FC = () => {
       case 'sv':
         return (
           <>
-            <h1>Dataskydd och användarvillkor</h1>
+            {/*eslint-disable*/}
+            <h1 role="heading">Dataskydd och användarvillkor</h1>
             <p>
               Anmälan till länkade evenemang sker via Helsingfors stads
               applikation Tunnistamo, där anmälningsalternativen finns:
