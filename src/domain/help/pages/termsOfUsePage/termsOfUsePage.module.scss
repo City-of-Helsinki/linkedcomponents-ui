@@ -1,8 +1,11 @@
 .termOfUse {
   list-style-type: none;
+  color: var(--color-black-70);
 }
 .termOfUse li:before {
   content: '\2013';
   padding-right: var(--spacing-xs);
-
+}
+.listLink:before {
+  content: '\0020';
 }

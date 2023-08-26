@@ -526,7 +526,7 @@ const termsOfUseCases: [Language, PageValues][] = [
   [
     'en',
     {
-      description: 'Linked Events service terms and restrictions.',
+      description: 'Linked Events service data protection and terms of use.',
       expectedRoute: '/en/help/support/terms-of-use',
       keywords:
         'terms, of, use, linked, events, event, management, api, admin, Helsinki, Finland',
@@ -537,7 +537,7 @@ const termsOfUseCases: [Language, PageValues][] = [
   [
     'fi',
     {
-      description: 'Linked Eventsin palvelusehdot ja rajoitukset.',
+      description: 'Linked Eventsin tietosuoja ja käyttöehdot.',
       expectedRoute: '/fi/help/support/terms-of-use',
       keywords:
         'käyttöehdot, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
@@ -548,7 +548,7 @@ const termsOfUseCases: [Language, PageValues][] = [
   [
     'sv',
     {
-      description: '',
+      description: 'Dataskydd och användarvillkor för Linked Events.',
       expectedRoute: '/sv/help/support/terms-of-use',
       keywords: '',
       pageTitle: 'Villkor',

@@ -70,7 +70,7 @@ const TermsOfUsePage: React.FC = () => {
               As a rule, data is kept for 5 years, but may be deleted earlier
               upon request.
               {/*eslint-disable*/}
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf">
+              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf" className={styles.listLink}>
                 City of Helsinki Access Rights Privacy Policy (in Finnish)
               </ExternalLink>
             </p>
@@ -94,7 +94,7 @@ const TermsOfUsePage: React.FC = () => {
             <p>
               Event information, images and other material added to the Linked
               Events interface (further the Material) are published under a
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi">
+              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
               , unless otherwise stated.
@@ -102,7 +102,7 @@ const TermsOfUsePage: React.FC = () => {
             <p>
               By using the interface, the user of the service who added the
               material agrees to the publication of the Material under a
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi">
+              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
               , except in cases where the person who added the image through the
@@ -208,7 +208,7 @@ const TermsOfUsePage: React.FC = () => {
             <p>
               Helsingin kaupungin käyttöoikeuksien tietosuojaseloste
               {/*eslint-disable*/}
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf">
+              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf"  className={styles.listLink}>
                 Tietosuojaseloste
               </ExternalLink>
             </p>
@@ -231,7 +231,7 @@ const TermsOfUsePage: React.FC = () => {
             <p>
               Linked Events –tapahtumarajapintaan lisätyt tapahtumatiedot, kuvat
               ja muu materiaali (yhdessä Materiaali) julkaistaan
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi">
+              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
               , ellei toisin mainita.
@@ -239,7 +239,7 @@ const TermsOfUsePage: React.FC = () => {
             <p>
               Käyttämällä rajapintaa Materiaalia lisännyt palvelun käyttäjä
               hyväksyy Materiaalin julkaisemisen
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi">
+              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
               , lukuun ottamatta tilanteita, joissa kuvan rajapinnan kautta
@@ -340,7 +340,7 @@ const TermsOfUsePage: React.FC = () => {
               Uppgifterna sparas i regel i 5 år, men kan raderas tidigare på
               begäran
               {/*eslint-disable*/}
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf">
+              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf"  className={styles.listLink}>
                 City of Helsinki Access Rights Privacy Policy (in Finnish)
               </ExternalLink>
             </p>
@@ -364,7 +364,7 @@ const TermsOfUsePage: React.FC = () => {
               Evenemangsinformation, bilder och annat material som läggs till i
               gränssnittet för Linked Events (vidare Materialet) publiceras
               under en
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi">
+              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -licens
               </ExternalLink>
               , om inte annat anges.
@@ -372,7 +372,7 @@ const TermsOfUsePage: React.FC = () => {
             <p>
               Genom att använda gränssnittet samtycker den användare av tjänsten
               som lagt till materialet till publicering av materialet under en
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi">
+              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -licens
               </ExternalLink>
               , utom i de fall där den person som lagt till bilden via
