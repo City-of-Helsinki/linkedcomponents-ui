@@ -530,7 +530,7 @@ const termsOfUseCases: [Language, PageValues][] = [
       expectedRoute: '/en/help/support/terms-of-use',
       keywords:
         'terms, of, use, linked, events, event, management, api, admin, Helsinki, Finland',
-      pageTitle: 'Terms of use',
+      pageTitle: 'Linked Events service data protection and terms of use',
       title: 'Terms of use - Linked Events',
     },
   ],
@@ -541,8 +541,8 @@ const termsOfUseCases: [Language, PageValues][] = [
       expectedRoute: '/fi/help/support/terms-of-use',
       keywords:
         'käyttöehdot, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-      pageTitle: 'Käyttöehdot',
-      title: 'Käyttöehdot - Linked Events',
+      pageTitle: 'Linked Eventsin tietosuoja ja käyttöehdot',
+      title: 'Tietosuoja ja käyttöehdot - Linked Events',
     },
   ],
   [
@@ -551,7 +551,7 @@ const termsOfUseCases: [Language, PageValues][] = [
       description: 'Dataskydd och användarvillkor för Linked Events.',
       expectedRoute: '/sv/help/support/terms-of-use',
       keywords: '',
-      pageTitle: 'Villkor',
+      pageTitle: 'Dataskydd och användarvillkor för Linked Events',
       title: '',
     },
   ],

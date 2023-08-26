@@ -203,7 +203,7 @@ it('should redirect to terms of use page from deprecated terms page', async () =
 
   await isPageRendered({
     history,
-    pageTitle: `Käyttöehdot - Linked Events`,
+    pageTitle: `Tietosuoja ja käyttöehdot - Linked Events`,
     pathname: '/fi/help/support/terms-of-use',
   });
 });
