@@ -531,7 +531,7 @@ const termsOfUseCases: [Language, PageValues][] = [
       keywords:
         'terms, of, use, linked, events, event, management, api, admin, Helsinki, Finland',
       pageTitle: 'Linked Events service data protection and terms of use',
-      title: 'Terms of use - Linked Events',
+      title: 'Data protection and terms of use - Linked Events',
     },
   ],
   [
