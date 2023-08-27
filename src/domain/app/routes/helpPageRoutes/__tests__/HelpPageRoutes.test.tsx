@@ -87,7 +87,8 @@ const testHelpPage = async (
 
   const { history } = await renderRoute(route, language);
 
-  await screen.findByRole('heading', { name: pageTitle });
+  const headding = await screen.findByRole('heading', {});
+  expect(headding.innerText).toBe(pageTitle);
 
   // Swedish is not supported language at the moment
   if (language !== 'sv') {
