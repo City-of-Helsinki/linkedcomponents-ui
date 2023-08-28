@@ -600,7 +600,7 @@
           "exclusions": [
             "political events (demonstrations, radical events related to elections or wars, etc.)",
             "religious events (church services, prayers, although concerts are included in the calendar)",
-            "online events not related to Helsinki or the metropolitan area",
+            "online events not related to Helsinki or the Metropolitan area",
             "events taking place in a private dwelling",
             "not open to all, e.g. professional or investor events",
             "dining without a programme; simply eating is not an event in itself",
@@ -695,9 +695,9 @@
       },
       "infoTextPublication": {
         "paragraph1": {
-          "general": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area.",
-          "course": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area.",
-          "volunteering": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area."
+          "general": "Published information must be interesting to residents and/or visitors and be located in the Metropolitan area.",
+          "course": "Published information must be interesting to residents and/or visitors and be located in the Metropolitan area.",
+          "volunteering": "Published information must be interesting to residents and/or visitors and be located in the Metropolitan area."
         },
         "paragraph2": "The type of event you choose can be published in the following channels:",
         "paragraph3": "or via the interface on other services.",
