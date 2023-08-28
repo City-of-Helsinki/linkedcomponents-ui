@@ -79,8 +79,7 @@ const testHelpPage = async (
   route: ROUTES,
   expectedValues: PageValues
 ) => {
-  const { description, expectedRoute, keywords, /*pageTitle,*/ title } =
-    expectedValues;
+  const { description, expectedRoute, keywords, title } = expectedValues;
 
   await i18n.changeLanguage(language);
 
