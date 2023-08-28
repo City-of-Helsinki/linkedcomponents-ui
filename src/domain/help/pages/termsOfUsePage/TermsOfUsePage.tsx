@@ -68,8 +68,8 @@ const TermsOfUsePage: React.FC = () => {
               controller, i.e. the City of Helsinki.
             </p>
             <p>
-              As a rule, data is kept for 5 years, but may be deleted earlier
-              upon request.
+              <span className={styles.spaceAfter}>As a rule, data is kept for 5 years, but may be deleted earlier
+              upon request.</span>
               {/*eslint-disable*/}
               <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf" className={styles.listLink}>
                 City of Helsinki Access Rights Privacy Policy (in Finnish)
@@ -93,16 +93,16 @@ const TermsOfUsePage: React.FC = () => {
             </ul>
             <h1>Terms of use for event information</h1>
             <p>
-              Event information, images and other material added to the Linked
-              Events interface (further the Material) are published under a
+              <span className={styles.spaceAfter}>Event information, images and other material added to the Linked
+              Events interface (further the Material) are published under a</span>
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
               , unless otherwise stated.
             </p>
             <p>
-              By using the interface, the user of the service who added the
-              material agrees to the publication of the Material under a
+              <span className={styles.spaceAfter}>By using the interface, the user of the service who added the
+              material agrees to the publication of the Material under a</span>
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
@@ -208,10 +208,10 @@ const TermsOfUsePage: React.FC = () => {
               poistetaan nopeammin.
             </p>
             <p>
-              Helsingin kaupungin käyttöoikeuksien
+              <span className={styles.spaceAfter}>Helsingin kaupungin käyttöoikeuksien</span>
               {/*eslint-disable*/}
               <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf"  className={styles.listLink}>
-                Tietosuojaseloste
+                tietosuojaseloste
               </ExternalLink>.
             </p>
             <h1>Evästeet</h1>
@@ -231,16 +231,16 @@ const TermsOfUsePage: React.FC = () => {
             </ul>
             <h1>Tapahtumatietoihin liittyvät käyttöehdot</h1>
             <p>
-              Linked Events –tapahtumarajapintaan lisätyt tapahtumatiedot, kuvat
-              ja muu materiaali (yhdessä Materiaali) julkaistaan
+              <span className={styles.spaceAfter}>Linked Events –tapahtumarajapintaan lisätyt tapahtumatiedot, kuvat
+              ja muu materiaali (yhdessä Materiaali) julkaistaan</span>
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
               , ellei toisin mainita.
             </p>
             <p>
-              Käyttämällä rajapintaa Materiaalia lisännyt palvelun käyttäjä
-              hyväksyy Materiaalin julkaisemisen
+              <span className={styles.spaceAfter}>Käyttämällä rajapintaa Materiaalia lisännyt palvelun käyttäjä
+              hyväksyy Materiaalin julkaisemisen</span>
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
@@ -340,8 +340,8 @@ const TermsOfUsePage: React.FC = () => {
               dvs. Helsingfors stad.
             </p>
             <p>
-              Uppgifterna sparas i regel i 5 år, men kan raderas tidigare på
-              begäran
+              <span className={styles.spaceAfter}>Uppgifterna sparas i regel i 5 år, men kan raderas tidigare på
+              begäran</span>
               {/*eslint-disable*/}
               <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf"  className={styles.listLink}>
                 City of Helsinki Access Rights Privacy Policy (in Finnish)
@@ -364,17 +364,17 @@ const TermsOfUsePage: React.FC = () => {
             </ul>
             <h1>Användarvillkor för evenemangsinformation</h1>
             <p>
-              Evenemangsinformation, bilder och annat material som läggs till i
+              <span className={styles.spaceAfter}>Evenemangsinformation, bilder och annat material som läggs till i
               gränssnittet för Linked Events (vidare Materialet) publiceras
-              under en
+              under en</span>
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -licens
               </ExternalLink>
               , om inte annat anges.
             </p>
             <p>
-              Genom att använda gränssnittet samtycker den användare av tjänsten
-              som lagt till materialet till publicering av materialet under en
+              <span className={styles.spaceAfter}>Genom att använda gränssnittet samtycker den användare av tjänsten
+              som lagt till materialet till publicering av materialet under en</span>
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
                 Creative Commons BY 4.0 -licens
               </ExternalLink>
