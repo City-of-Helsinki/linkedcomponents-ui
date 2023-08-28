@@ -20,7 +20,7 @@ interface Props {
 const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const [{ value: eventType }] = useField({ name: EVENT_FIELDS.TYPE });
-  const inLanguageOptions = useLanguageOptions();
+  const inLanguageOptions = useLanguageOptions({ idKey: 'atId' });
   const eventInfoLanguageOptions: OptionType[] = ORDERED_LE_DATA_LANGUAGES.map(
     (type) => ({
       label: t(`form.language.${type}`),

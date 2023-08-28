@@ -15,9 +15,13 @@ import {
   sortLanguageOptions,
 } from '../../language/utils';
 
-const useLanguageOptions = (
-  variables?: LanguagesQueryVariables
-): OptionType[] => {
+const useLanguageOptions = ({
+  variables,
+  idKey,
+}: {
+  variables?: LanguagesQueryVariables;
+  idKey?: 'atId' | 'id';
+} = {}): OptionType[] => {
   const locale = useLocale();
 
   const { data } = useLanguagesQuery({
@@ -31,12 +35,12 @@ const useLanguageOptions = (
     return getValue(
       data?.languages.data
         ?.map((language) =>
-          getLanguageOption(language as LanguageFieldsFragment, locale)
+          getLanguageOption(language as LanguageFieldsFragment, locale, idKey)
         )
         .sort(sortLanguageOptions),
       []
     );
-  }, [data, locale]);
+  }, [data?.languages.data, idKey, locale]);
 
   return languageOptions;
 };

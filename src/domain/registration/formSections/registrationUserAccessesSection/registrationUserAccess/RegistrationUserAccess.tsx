@@ -35,7 +35,9 @@ const RegistrationUserAccess: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
 
-  const serviceLanguageOptions = useLanguageOptions({ serviceLanguage: true });
+  const serviceLanguageOptions = useLanguageOptions({
+    variables: { serviceLanguage: true },
+  });
 
   const menuDropdownId = useIdWithPrefix({ prefix: 'menu-dropdown-' });
 
