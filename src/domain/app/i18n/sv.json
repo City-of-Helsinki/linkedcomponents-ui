@@ -592,20 +592,20 @@
           "paragraph3": "Anteckna även kursens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär."
         },
         "general": {
-          "paragraph1": "The description text includes language versions: Finnish and English, possibly also Swedish. <strong>Content specifically aimed at visitors must be at least in Finnish and English.</strong>",
-          "paragraph2": "A short description is shown in some services when there is no room for a long description. It explains the most important things about the event in a concise way.",
-          "paragraph3": "A description is a longer and more detailed explanation of the content of the event.",
-          "paragraph4": "The text must not contain misspellings, umlauts, superlatives and superlatives, or the 'we' form, because then it refers to the city of Helsinki, not to the event itself.",
-          "paragraph5": "In addition, the content of the event must comply with the City of Helsinki's guidelines, i.e. the City does not publish:",
+          "paragraph1": "Beskrivningstexten innehåller språkversioner: finska och engelska, eventuellt även svenska. <strong>Innehåll som specifikt riktar sig till besökare måste vara på minst finska och engelska.</strong>",
+          "paragraph2": "En kort beskrivning visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den förklarar det viktigaste om händelsen på ett kortfattat sätt.",
+          "paragraph3": "Beskrivningen är en längre och mer detaljerad förklaring av innehållet i evenemanget.",
+          "paragraph4": "Texten innehåller inte felstavningar, omljud, superlativ eller \"vi\"-formen, eftersom den då hänvisar till staden Helsingfors, inte till själva evenemanget.",
+          "paragraph5": "Dessutom måste evenemangets innehåll följa Helsingfors stads riktlinjer, dvs. staden publicerar inte:",
           "exclusions": [
-            "political events (demonstrations, radical events related to elections or wars, etc.)",
-            "religious events (church services, prayers, although concerts are included in the calendar)",
-            "online events not related to Helsinki or the metropolitan area",
-            "events taking place in a private dwelling",
-            "not open to all, e.g. professional or investor events",
-            "dining without a programme; simply eating is not an event in itself",
-            "fund-raising events (except for charity events, where there is a programme)",
-            "job or student recruitment advertisements"
+            "Politiska händelser (demonstrationer, radikala händelser i samband med val eller krig etc.)",
+            "religiösa evenemang (gudstjänster, böner, även om konserter ingår i kalendern)",
+            "online-evenemang som inte är relaterade till Helsingfors eller huvudstadsregionen",
+            "evenemang i en privatbostad",
+            "inte öppna för alla, t.ex. evenemang för yrkesverksamma eller investerare",
+            "middag utan program; att bara äta är inte ett evenemang i sig",
+            "Insamlingsevenemang (med undantag för välgörenhetsevenemang, där det finns ett program)",
+            "rekryteringsannonser för jobb eller studenter"
           ]
         },
         "volunteering": {
@@ -650,7 +650,7 @@
       "infoTextImage4": "Alt-text förbättrar tillgängligheten eftersom skärmläsare skickar alt-text till användaren. Så beskriv innehållet i bilden på ett förståeligt sätt.",
       "infoTextInfoLanguages": {
         "course": "Välj de språk som kursinformationen matas in på.",
-        "general": "Välj de språk som evenemangsinformationen matas in på. <strong>Content specifically aimed at visitors has to be at least in Finnish and English.</strong>",
+        "general": "Välj vilka språk du vill använda för att beskriva evenemangsinformationen i Linked Events. <strong>Innehåll som riktar sig specifikt till besökare måste finnas på minst finska och engelska.</strong>",
         "volunteering": "Välj de språk som volontärarbetesinformation matas in på."
       },
       "infoTextInLanguages": {
@@ -695,18 +695,18 @@
       },
       "infoTextPublication": {
         "paragraph1": {
-          "general": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area.",
-          "course": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area.",
-          "volunteering": "Published information must be interesting to residents and/or visitors and be located in the metropolitan area."
+          "general": "Publicerad information måste vara intressant för invånare och/eller besökare och vara lokaliserad i storstadsområdet. ",
+          "course": "Publicerad information måste vara intressant för invånare och/eller besökare och vara lokaliserad i storstadsområdet. ",
+          "volunteering": "Publicerad information måste vara intressant för invånare och/eller besökare och vara lokaliserad i storstadsområdet. "
         },
-        "paragraph2": "Evenemangtypen du valde kommer att publiceras på följande kanaler:",
-        "paragraph3": "or via the interface on other services.",
+        "paragraph2": "Vilken typ av evenemang du väljer kan publiceras i följande kanaler:",
+        "paragraph3": "eller via gränssnittet för andra tjänster",
         "paragraph4": {
-          "general": "Please only enter event information that has not yet been published on any of the services mentioned above.",
-          "course": "Please only enter hobby information that has not yet been published on any of the services mentioned above.",
-          "volunteering": "Please only enter event information that has not yet been published on any of the services mentioned above."
+          "general": "Vänligen ange endast evenemangs som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
+          "course": "Vänligen ange endast hobbyinformation som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
+          "volunteering": "Vänligen ange endast evenemangs som ännu inte har publicerats på någon av de tjänster som nämns ovan."
         },
-        "paragraph5": "The event to be moderated must be announced at least one week before the event."
+        "paragraph5": "Det evenemang som ska modereras måste tillkännages minst en vecka före evenemanget."
       },
       "infoTextPublisher": {
         "course": "Välj den organisation som ska visas som kurssutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
@@ -882,8 +882,8 @@
         "volunteering": "Video för volontärarbetet"
       },
       "notificationNotAuthenticated": {
-        "paragraph1": "The City of Helsinki publishes information about events in the Helsinki Metropolitan Area free of charge, for example on the services <a href=\"https://tapahtumat.hel.fi\" target=\"_blank\" rel=\"noreferrer\">tapahtumat.hel.fi</a> and <a href=\"https://harrastukset.hel.fi\" target=\"_blank\" rel=\"noreferrer\">harrastukset.hel.fi</a>. Event information will also be visible on other digital platforms that use the city's Linked Events interface.",
-        "paragraph2": "You can continue to explore the service, but you will need to log in if you want to save changes."
+        "paragraph1": "Helsingfors stad publicerar avgiftsfritt information om evenemang i huvudstadsregionen, till exempel på tjänsterna <a href=\"https://tapahtumat.hel.fi/sv\" target=\"_blank\" rel=\"noreferrer\">Evenemangskalender</a> och <a href=\"https://harrastukset.hel.fi/sv\" target=\"_blank\" rel=\"noreferrer\">Hobbyer</a>. Evenemangsinformation kommer också att synas på andra digitala plattformar som använder stadens Linked Events-gränssnitt.",
+        "paragraph2": "Du kan fortsätta att utforska tjänsten, men du måste logga in om du vill spara ändringar."
       },
       "placeholderAudienceMaxAge": {
         "course": "Ange högsta ålder för kursen",

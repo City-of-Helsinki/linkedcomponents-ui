@@ -882,7 +882,7 @@
         "volunteering": "Vapaaehtoistehtävän video"
       },
       "notificationNotAuthenticated": {
-        "paragraph1": "Helsingin kaupunki julkaisee maksutta pääkaupunkiseudulla toteutettavien tapahtumien tietoja muun muassa <a href=\"https://tapahtumat.hel.fi\" target=\"_blank\" rel=\"noreferrer\">tapahtumat.hel.fi</a>- ja <a href=\"https://harrastukset.hel.fi\" target=\"_blank\" rel=\"noreferrer\">harrastukset.hel.fi</a>-palveluissa. Tilaisuudet tiedot tulevat näkyviin lisäksi muihin digitaalisiin alustoihin, jotka hyödyntävät kaupungin Linked Events -rajapintaa.",
+        "paragraph1": "Helsingin kaupunki julkaisee maksutta pääkaupunkiseudulla toteutettavien tapahtumien tietoja muun muassa <a href=\"https://tapahtumat.hel.fi\" target=\"_blank\" rel=\"noreferrer\">tapahtumat.hel.fi</a>- ja <a href=\"https://harrastukset.hel.fi\" target=\"_blank\" rel=\"noreferrer\">harrastukset.hel.fi</a>-palveluissa. Tilaisuuden tiedot tulevat näkyviin lisäksi muihin digitaalisiin alustoihin, jotka hyödyntävät kaupungin Linked Events -rajapintaa.",
         "paragraph2": "Voit jatkaa palveluun tutustumista, mutta sinun täytyy kirjautua sisään, jos haluat tallentaa muutoksia."
       },
       "placeholderAudienceMaxAge": {
