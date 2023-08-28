@@ -1415,7 +1415,7 @@ export const copyEventInfoToRegistrationSessionStorage = async (
       enrolmentEndTimeTime,
       enrolmentStartTimeDate,
       enrolmentStartTimeTime,
-      event: event.id,
+      event: event.atId,
       maximumAttendeeCapacity,
       minimumAttendeeCapacity,
     },
