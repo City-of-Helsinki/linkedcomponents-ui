@@ -1339,7 +1339,7 @@
     "pageDescriptionInstructions": "Help and instructions how to use the service and the API.",
     "pageDescriptionSourceCode": "Get a deeper look for Linked Events source code in Github.",
     "pageDescriptionTechnology": "More information about the technology behind Linked Events.",
-    "pageDescriptionTermsOfUse": "Linked Events service terms and restrictions.",
+    "pageDescriptionTermsOfUse": "Linked Events service data protection and terms of use.",
     "pageTitle": "Support",
     "pageTitleApi": "API",
     "pageTitleControlPanel": "Control panel",
@@ -1350,7 +1350,7 @@
     "pageTitleInstructions": "Support",
     "pageTitleSourceCode": "Source code",
     "pageTitleTechnology": "Technology",
-    "pageTitleTermsOfUse": "Terms of use",
+    "pageTitleTermsOfUse": "Data protection and terms of use",
     "platformPage": {
       "imageAlt": "Linked Events use in tablet",
       "pageDescription": "Introduction to Linked Events platform and control panel.",

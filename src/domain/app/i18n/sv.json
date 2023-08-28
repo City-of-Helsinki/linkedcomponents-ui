@@ -1339,7 +1339,7 @@
     "pageDescriptionInstructions": "Hjälp och instruktioner om hur du använder tjänsten och API: et.",
     "pageDescriptionSourceCode": "Få en djupare titt på källkoden för Linked Events i Github.",
     "pageDescriptionTechnology": "Mer information om tekniken bakom Linked Events.",
-    "pageDescriptionTermsOfUse": "Servicevillkor och begränsningar för Linked Events.",
+    "pageDescriptionTermsOfUse": "Dataskydd och användarvillkor för Linked Events.",
     "pageTitle": "Hjälp",
     "pageTitleApi": "API",
     "pageTitleControlPanel": "Kontrollpanel",
@@ -1350,7 +1350,7 @@
     "pageTitleInstructions": "Stöd",
     "pageTitleSourceCode": "Källkod",
     "pageTitleTechnology": "Teknologi",
-    "pageTitleTermsOfUse": "Villkor",
+    "pageTitleTermsOfUse": "Dataskydd och användarvillkor",
     "platformPage": {
       "imageAlt": "Linked Events användning i surfplatta",
       "pageDescription": "Introduktion till Linked Events-plattformen och kontrollpanelen.",

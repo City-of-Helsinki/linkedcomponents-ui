@@ -1339,7 +1339,7 @@
     "pageDescriptionInstructions": "Ohjeet sovelluksen ja Linked Events -rajapinnan käyttöön",
     "pageDescriptionSourceCode": "Tutustu Linked Eventsin lähdekoodiin Githubissa.",
     "pageDescriptionTechnology": "Lisätietoja Linked Eventsin taustalla olevasta tekniikasta.",
-    "pageDescriptionTermsOfUse": "Linked Eventsin palvelusehdot ja rajoitukset.",
+    "pageDescriptionTermsOfUse": "Linked Eventsin tietosuoja ja käyttöehdot.",
     "pageTitle": "Tuki",
     "pageTitleApi": "Rajapinta",
     "pageTitleControlPanel": "Hallintapaneeli",
@@ -1350,7 +1350,7 @@
     "pageTitleInstructions": "Tuki",
     "pageTitleSourceCode": "Lähdekoodi",
     "pageTitleTechnology": "Teknologia",
-    "pageTitleTermsOfUse": "Käyttöehdot",
+    "pageTitleTermsOfUse": "Tietosuoja ja käyttöehdot",
     "platformPage": {
       "imageAlt": "Linked Eventsin käyttö tabletilla",
       "pageDescription": "Johdatus Linked Events -alustaan ja ohjauspaneeliin.",

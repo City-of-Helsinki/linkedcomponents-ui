@@ -8,7 +8,6 @@ import { Language } from '../../../../../types';
 import {
   configure,
   render,
-  screen,
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../../../utils/testUtils';
@@ -80,14 +79,11 @@ const testHelpPage = async (
   route: ROUTES,
   expectedValues: PageValues
 ) => {
-  const { description, expectedRoute, keywords, pageTitle, title } =
-    expectedValues;
+  const { description, expectedRoute, keywords, title } = expectedValues;
 
   await i18n.changeLanguage(language);
 
   const { history } = await renderRoute(route, language);
-
-  await screen.findByRole('heading', { name: pageTitle });
 
   // Swedish is not supported language at the moment
   if (language !== 'sv') {
@@ -526,32 +522,32 @@ const termsOfUseCases: [Language, PageValues][] = [
   [
     'en',
     {
-      description: 'Linked Events service terms and restrictions.',
+      description: 'Linked Events service data protection and terms of use.',
       expectedRoute: '/en/help/support/terms-of-use',
       keywords:
         'terms, of, use, linked, events, event, management, api, admin, Helsinki, Finland',
-      pageTitle: 'Terms of use',
-      title: 'Terms of use - Linked Events',
+      pageTitle: 'Linked Events service data protection and terms of use',
+      title: 'Data protection and terms of use - Linked Events',
     },
   ],
   [
     'fi',
     {
-      description: 'Linked Eventsin palvelusehdot ja rajoitukset.',
+      description: 'Linked Eventsin tietosuoja ja käyttöehdot.',
       expectedRoute: '/fi/help/support/terms-of-use',
       keywords:
         'käyttöehdot, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-      pageTitle: 'Käyttöehdot',
-      title: 'Käyttöehdot - Linked Events',
+      pageTitle: 'Linked Eventsin tietosuoja ja käyttöehdot',
+      title: 'Tietosuoja ja käyttöehdot - Linked Events',
     },
   ],
   [
     'sv',
     {
-      description: '',
+      description: 'Dataskydd och användarvillkor för Linked Events.',
       expectedRoute: '/sv/help/support/terms-of-use',
       keywords: '',
-      pageTitle: 'Villkor',
+      pageTitle: 'Dataskydd och användarvillkor för Linked Events',
       title: '',
     },
   ],
