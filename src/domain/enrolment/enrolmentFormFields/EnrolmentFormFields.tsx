@@ -29,7 +29,9 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
   const { t } = useTranslation();
   const notificationOptions = useNotificationOptions();
   const languageOptions = useLanguageOptions();
-  const serviceLanguageOptions = useLanguageOptions({ serviceLanguage: true });
+  const serviceLanguageOptions = useLanguageOptions({
+    variables: { serviceLanguage: true },
+  });
   const [{ value: notifications }] = useField<NOTIFICATIONS>({
     name: ENROLMENT_FIELDS.NOTIFICATIONS,
   });
