@@ -73,7 +73,7 @@ const TermsOfUsePage: React.FC = () => {
               {/*eslint-disable*/}
               <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf" className={styles.listLink}>
                 City of Helsinki Access Rights Privacy Policy (in Finnish)
-              </ExternalLink>
+              </ExternalLink>.
             </p>
             <h1>Cookies</h1>
             <p>
@@ -208,11 +208,11 @@ const TermsOfUsePage: React.FC = () => {
               poistetaan nopeammin.
             </p>
             <p>
-              Helsingin kaupungin käyttöoikeuksien tietosuojaseloste
+              Helsingin kaupungin käyttöoikeuksien
               {/*eslint-disable*/}
               <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf"  className={styles.listLink}>
                 Tietosuojaseloste
-              </ExternalLink>
+              </ExternalLink>.
             </p>
             <h1>Evästeet</h1>
             <p>
@@ -345,7 +345,7 @@ const TermsOfUsePage: React.FC = () => {
               {/*eslint-disable*/}
               <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf"  className={styles.listLink}>
                 City of Helsinki Access Rights Privacy Policy (in Finnish)
-              </ExternalLink>
+              </ExternalLink>.
             </p>
             <h1>Kakor</h1>
             <p>

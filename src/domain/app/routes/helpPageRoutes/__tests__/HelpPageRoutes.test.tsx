@@ -8,7 +8,6 @@ import { Language } from '../../../../../types';
 import {
   configure,
   render,
-  /*screen,*/
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../../../utils/testUtils';
@@ -86,8 +85,6 @@ const testHelpPage = async (
   await i18n.changeLanguage(language);
 
   const { history } = await renderRoute(route, language);
-
-  //await screen.findByRole('heading', { name: pageTitle });
 
   // Swedish is not supported language at the moment
   if (language !== 'sv') {
