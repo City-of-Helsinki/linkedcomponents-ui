@@ -50,19 +50,34 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
 
 const getElement = (
   key:
+    | 'adminUsersInput'
     | 'classificationInput'
     | 'classificationToggleButton'
+    | 'dissolutionDateInput'
+    | 'foundingDateInput'
+    | 'internalTypeToggleButton'
     | 'nameInput'
     | 'originIdInput'
     | 'parentInput'
     | 'parentToggleButton'
+    | 'registrationAdminUsersInput'
+    | 'regularUsersInput'
+    | 'replacedByInput'
     | 'saveButton'
 ) => {
   switch (key) {
+    case 'adminUsersInput':
+      return screen.getByRole('combobox', { name: /Pääkäyttäjät/ });
     case 'classificationInput':
       return screen.getByRole('combobox', { name: /luokittelu/i });
     case 'classificationToggleButton':
       return screen.getByRole('button', { name: /luokittelu: valikko/i });
+    case 'dissolutionDateInput':
+      return screen.getByLabelText(/Lakkautuspäivä/i);
+    case 'foundingDateInput':
+      return screen.getByLabelText(/Perustuspäivä/i);
+    case 'internalTypeToggleButton':
+      return screen.getByRole('button', { name: /sisäinen tyyppi/i });
     case 'nameInput':
       return screen.getByLabelText(/nimi/i);
     case 'originIdInput':
@@ -71,6 +86,16 @@ const getElement = (
       return screen.getByRole('combobox', { name: /pääorganisaatio/i });
     case 'parentToggleButton':
       return screen.getByRole('button', { name: /pääorganisaatio: valikko/i });
+    case 'registrationAdminUsersInput':
+      return screen.getByRole('combobox', {
+        name: /Ilmoittautumisen pääkäyttäjät/,
+      });
+    case 'regularUsersInput':
+      return screen.getByRole('combobox', {
+        name: /Peruskäyttäjät/,
+      });
+    case 'replacedByInput':
+      return screen.getByRole('combobox', { name: /Korvaava organisaatio/i });
     case 'saveButton':
       return screen.getByRole('button', { name: /tallenna/i });
   }
@@ -103,6 +128,23 @@ const fillInputValues = async () => {
   await fillClassificationField();
   await fillParentField();
 };
+
+test('shows all fields', async () => {
+  renderComponent(defaultMocks);
+  await loadingSpinnerIsNotInDocument();
+
+  getElement('originIdInput');
+  getElement('nameInput');
+  getElement('adminUsersInput');
+  getElement('registrationAdminUsersInput');
+  getElement('regularUsersInput');
+  getElement('internalTypeToggleButton');
+  getElement('classificationInput');
+  getElement('foundingDateInput');
+  getElement('dissolutionDateInput');
+  getElement('parentInput');
+  getElement('replacedByInput');
+});
 
 test('applies expected metadata', async () => {
   const pageTitle = 'Lisää organisaatio - Linked Events';

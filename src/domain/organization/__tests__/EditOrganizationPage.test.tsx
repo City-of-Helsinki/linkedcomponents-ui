@@ -75,7 +75,7 @@ const getElement = (
 ) => {
   switch (key) {
     case 'adminUsersToggleButton':
-      return screen.getByRole('button', { name: /pääkäyttäjät/i });
+      return screen.getByRole('button', { name: /Pääkäyttäjät/ });
     case 'replacedByToggleButton':
       return screen.getByRole('button', { name: /Korvaava organisaatio/i });
   }

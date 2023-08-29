@@ -330,6 +330,10 @@ export const getOrganizationInitialValues = (
     name: getValue(organization.name, ''),
     originId: getValue(id.split(':')[1], ''),
     parentOrganization: getValue(organization.parentOrganization, ''),
+    registrationAdminUsers: getValue(
+      organization.registrationAdminUsers,
+      []
+    ).map((o) => getValue(o?.username, '')),
     regularUsers: getValue(organization.regularUsers, []).map((o) =>
       getValue(o?.username, '')
     ),

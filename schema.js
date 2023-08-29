@@ -435,6 +435,7 @@ module.exports = buildSchema(/* GraphQL */ `
     name: String
     originId: String
     parentOrganization: String
+    registrationAdminUsers: [String]
     regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
@@ -451,6 +452,7 @@ module.exports = buildSchema(/* GraphQL */ `
     internalType: String
     name: String
     parentOrganization: String
+    registrationAdminUsers: [String]
     regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
@@ -798,6 +800,7 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedTime: String
     name: String
     parentOrganization: String
+    registrationAdminUsers: [User]
     regularUsers: [User]
     replacedBy: String
     subOrganizations: [String]

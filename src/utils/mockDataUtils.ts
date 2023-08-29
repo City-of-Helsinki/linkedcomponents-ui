@@ -338,6 +338,7 @@ export const fakeOrganization = (
       name: faker.random.words(),
       parentOrganization: null,
       replacedBy: null,
+      registrationAdminUsers: [],
       regularUsers: [],
       subOrganizations: [],
       __typename: 'Organization',

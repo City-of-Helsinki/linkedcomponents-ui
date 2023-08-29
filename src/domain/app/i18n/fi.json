@@ -1559,6 +1559,7 @@
       "labelName": "Nimi",
       "labelOriginId": "Lähdetunniste",
       "labelParentOrganization": "Pääorganisaatio",
+      "labelRegistrationAdminUsers": "Ilmoittautumisen pääkäyttäjät",
       "labelRegularUsers": "Peruskäyttäjät",
       "labelReplacedBy": "Korvaava organisaatio",
       "notificationTitleCannotEdit": "Organisaatiota ei voi muokata"

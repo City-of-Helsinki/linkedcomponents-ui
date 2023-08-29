@@ -31,6 +31,7 @@ const payload = {
   internalType: 'normal',
   name: organizationName,
   parentOrganization: undefined,
+  registrationAdminUsers: [],
   regularUsers: [],
   replacedBy: organizations.data[0]?.atId,
   subOrganizations: [],

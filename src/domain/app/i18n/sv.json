@@ -1559,6 +1559,7 @@
       "labelName": "Namn",
       "labelOriginId": "Ursprungs-ID",
       "labelParentOrganization": "Föräldraorganisation",
+      "labelRegistrationAdminUsers": "Registrering admin användare",
       "labelRegularUsers": "Regelbundna användare",
       "labelReplacedBy": "Ersatt av",
       "notificationTitleCannotEdit": "Organisation kan inte redigeras"

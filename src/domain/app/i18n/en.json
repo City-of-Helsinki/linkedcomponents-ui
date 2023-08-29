@@ -1558,6 +1558,7 @@
       "labelName": "Name",
       "labelOriginId": "Origin ID",
       "labelParentOrganization": "Parent organization",
+      "labelRegistrationAdminUsers": "Registration admin users",
       "labelRegularUsers": "Regular users",
       "labelReplacedBy": "Replaced by",
       "notificationTitleCannotEdit": "The organization set cannot be edited"
