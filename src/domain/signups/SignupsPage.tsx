@@ -20,7 +20,6 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
-import useSignupActions from '../enrolment/hooks/useSignupActions';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import {
@@ -31,6 +30,7 @@ import { REGISTRATION_ACTIONS } from '../registrations/constants';
 import { clearSeatsReservationData } from '../seatsReservation/utils';
 import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../signup/constants';
 import useRegistrationAndEventData from '../signup/hooks/useRegistrationAndEventData';
+import useSignupActions from '../signup/hooks/useSignupActions';
 import SendMessageModal from '../signup/modals/sendMessageModal/SendMessageModal';
 import { getSignupActionButtonProps } from '../signup/permissions';
 import SignupAuthenticationNotification from '../signup/signupAuthenticationNotification/SignupAuthenticationNotification';

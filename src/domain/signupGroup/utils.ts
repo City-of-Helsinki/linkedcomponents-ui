@@ -3,25 +3,22 @@ import snakeCase from 'lodash/snakeCase';
 
 import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
 import {
-  AttendeeStatus,
   CreateSignupGroupMutationInput,
   RegistrationFieldsFragment,
   SeatsReservationFieldsFragment,
   SignupFieldsFragment,
   SignupGroupFieldsFragment,
   SignupInput,
-  SignupQueryVariables,
   UpdateSignupGroupMutationInput,
 } from '../../generated/graphql';
-import { PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
-import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
 import skipFalsyType from '../../utils/skipFalsyType';
 import {
   getSeatsReservationData,
   isSeatsReservationExpired,
 } from '../seatsReservation/utils';
+import { getSignupInitialValues } from '../signup/utils';
 import {
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
@@ -30,7 +27,7 @@ import {
   SIGNUP_GROUP_INITIAL_VALUES,
   SIGNUP_INITIAL_VALUES,
 } from './constants';
-import { SignupFields, SignupGroupFormFields } from './types';
+import { SignupFormFields, SignupGroupFormFields } from './types';
 
 export const getSignupNotificationTypes = (
   notifications: string
@@ -62,7 +59,7 @@ export const getSignupNotificationsCode = (notifications: string[]): string => {
   }
 };
 
-export const getSignupDefaultInitialValues = (): SignupFields => ({
+export const getSignupDefaultInitialValues = (): SignupFormFields => ({
   ...SIGNUP_INITIAL_VALUES,
 });
 
@@ -75,7 +72,9 @@ export const getSignupGroupDefaultInitialValues =
 export const getSignupGroupInitialValues = (
   signupGroup: SignupGroupFieldsFragment
 ): SignupGroupFormFields => {
-  const signups: SignupFieldsFragment[] = (signupGroup.signups ?? [])
+  const signups: SignupFieldsFragment[] = (
+    signupGroup.signups ?? /* istanbul ignore next */ []
+  )
     .filter(skipFalsyType)
     .sort((a: SignupFieldsFragment, b: SignupFieldsFragment) => {
       if (a.responsibleForGroup === b.responsibleForGroup) {
@@ -95,18 +94,7 @@ export const getSignupGroupInitialValues = (
     notifications: [NOTIFICATIONS.EMAIL],
     phoneNumber: getValue(responsibleSignup?.phoneNumber, ''),
     serviceLanguage: getValue(responsibleSignup?.serviceLanguage, ''),
-    signups: signups.map((su, index) => ({
-      city: getValue(su.city, ''),
-      dateOfBirth: getDateFromString(su.dateOfBirth),
-      extraInfo: getValue(su.extraInfo, ''),
-      firstName: getValue(su.firstName, ''),
-      id: getValue(su.id, null),
-      inWaitingList: su.attendeeStatus === AttendeeStatus.Waitlisted,
-      lastName: getValue(su.lastName, ''),
-      responsibleForGroup: !!su.responsibleForGroup,
-      streetAddress: getValue(su.streetAddress, ''),
-      zipcode: getValue(su.zipcode, ''),
-    })),
+    signups: signups.map((su) => getSignupInitialValues(su)),
   };
 };
 
@@ -213,7 +201,7 @@ export const getUpdateSignupGroupPayload = ({
       nativeLanguage: getValue(nativeLanguage, null),
       notifications: getSignupNotificationsCode(notifications),
       phoneNumber: getValue(phoneNumber, null),
-      responsibleForGroup: index === 0 || responsibleForGroup,
+      responsibleForGroup: !!responsibleForGroup,
       serviceLanguage: getValue(serviceLanguage, null),
       streetAddress: getValue(streetAddress, null),
       zipcode: getValue(zipcode, null),
@@ -232,8 +220,8 @@ export const getNewSignups = ({
   signups,
 }: {
   seatsReservation: SeatsReservationFieldsFragment;
-  signups: SignupFields[];
-}): SignupFields[] => {
+  signups: SignupFormFields[];
+}): SignupFormFields[] => {
   const { seats, inWaitlist } = seatsReservation;
   const signupInitialValues = getSignupDefaultInitialValues();
   const filledSignups = signups.filter((a) => !isEqual(a, signupInitialValues));
@@ -271,25 +259,19 @@ export const clearCreateSignupGroupFormData = (
 
 export const isRestoringSignupGroupFormDataDisabled = ({
   registrationId,
+  signup,
   signupGroup,
 }: {
   registrationId: string;
+  signup?: SignupFieldsFragment;
   signupGroup?: SignupGroupFieldsFragment;
 }) => {
   const data = getSeatsReservationData(registrationId);
 
-  return !!signupGroup || !data || isSeatsReservationExpired(data);
+  return !!signup || !!signupGroup || !data || isSeatsReservationExpired(data);
 };
 
 export const getResponsiblePerson = (
   signupGroup: SignupGroupFieldsFragment
 ): SignupFieldsFragment | undefined =>
   signupGroup?.signups?.find((su) => su?.responsibleForGroup) ?? undefined;
-
-export const signupPathBuilder = ({
-  args,
-}: PathBuilderProps<SignupQueryVariables>): string => {
-  const { id } = args;
-
-  return `/signup/${id}/`;
-};

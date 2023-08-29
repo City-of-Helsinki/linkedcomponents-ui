@@ -6,7 +6,7 @@ import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
 import { NOTIFICATIONS } from '../constants';
-import { SignupFields, SignupGroupFormFields } from '../types';
+import { SignupFormFields, SignupGroupFormFields } from '../types';
 import {
   getSignupGroupSchema,
   getSignupSchema,
@@ -58,7 +58,7 @@ const testBelowMaxAge = async (maxAge: number, date: Date | null) => {
 
 const testSignupSchema = async (
   registration: RegistrationFieldsFragment,
-  signup: SignupFields
+  signup: SignupFormFields
 ) => {
   try {
     await getSignupSchema(registration).validate(signup);
@@ -134,13 +134,15 @@ describe('isBelowMaxAge function', () => {
 
 describe('signupSchema function', () => {
   const registration = fakeRegistration();
-  const validSignup: SignupFields = {
+  const validSignup: SignupFormFields = {
     city: 'City',
     dateOfBirth: new Date('2000-01-01'),
     extraInfo: '',
     firstName: 'first name',
+    id: null,
     inWaitingList: true,
     lastName: 'last name',
+    responsibleForGroup: true,
     streetAddress: 'Street address',
     zipcode: '00100',
   };

@@ -7,6 +7,7 @@ import {
   SendMessageDocument,
   SignupDocument,
   SignupFieldsFragment,
+  UpdateSignupDocument,
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import {
@@ -14,6 +15,7 @@ import {
   fakeSignup,
 } from '../../../utils/mockDataUtils';
 import { registrationId } from '../../registration/__mocks__/registration';
+import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import {
   NOTIFICATION_TYPE,
   TEST_SIGNUP_GROUP_ID,
@@ -69,6 +71,36 @@ const mockedDeleteSignupResponse: MockedResponse = {
   result: deleteSignupResponse,
 };
 
+const updateSignupVariables = {
+  id: signupId,
+  input: {
+    ...signupValues,
+    dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
+    registration: TEST_REGISTRATION_ID,
+  },
+};
+
+const updateSignupResponse = { data: { updateSignup: signup } };
+
+const mockedUpdateSignupResponse: MockedResponse = {
+  request: {
+    query: UpdateSignupDocument,
+    variables: updateSignupVariables,
+  },
+  result: updateSignupResponse,
+};
+
+const mockedInvalidUpdateSignupResponse: MockedResponse = {
+  request: {
+    query: UpdateSignupDocument,
+    variables: updateSignupVariables,
+  },
+  error: {
+    ...new Error(),
+    result: { first_name: ['The name must be specified.'] },
+  } as Error,
+};
+
 const sendMessageValues = {
   body: '<p>Message</p>',
   subject: 'Subject',
@@ -99,8 +131,10 @@ const mockedSendMessageResponse: MockedResponse = {
 export {
   dateOfBirth,
   mockedDeleteSignupResponse,
+  mockedInvalidUpdateSignupResponse,
   mockedSendMessageResponse,
   mockedSignupResponse,
+  mockedUpdateSignupResponse,
   sendMessageValues,
   signup,
   signupId,

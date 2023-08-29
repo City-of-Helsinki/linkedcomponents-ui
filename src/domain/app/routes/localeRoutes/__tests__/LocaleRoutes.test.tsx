@@ -94,7 +94,10 @@ import {
 } from '../../../../registration/__mocks__/editRegistrationPage';
 import { mockedRegistrationsResponse } from '../../../../registrations/__mocks__/registrationsPage';
 import { mockedCreateSeatsReservationResponse } from '../../../../seatsReservation/__mocks__/createSeatsReservation';
-import { mockedSignupResponse } from '../../../../signup/__mocks__/editSignupPage';
+import {
+  mockedSignupResponse,
+  signupId,
+} from '../../../../signup/__mocks__/editSignupPage';
 import {
   mockedSignupGroupResponse,
   signupGroupId,
@@ -344,6 +347,21 @@ it('should render edit signup group page', async () => {
     history,
     pageTitle: 'Muokkaa osallistujia - Linked Events',
     pathname: `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`,
+  });
+});
+
+it('should render edit signup page', async () => {
+  const { history } = await renderRoute(
+    `${ROUTES.EDIT_SIGNUP.replace(':registrationId', registrationId).replace(
+      ':signupId',
+      signupId
+    )}`
+  );
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Muokkaa osallistujaa - Linked Events',
+    pathname: `/fi/registrations/${registrationId}/signup/edit/${signupId}`,
   });
 });
 

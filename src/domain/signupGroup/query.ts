@@ -20,7 +20,7 @@ export const QUERY_SIGNUP_GROUP = gql`
     }
   }
 
-  query SignupGroup($id: ID!, $createPath: Any) {
+  query SignupGroup($id: ID!) {
     signupGroup(id: $id)
       @rest(
         type: "SignupGroup"

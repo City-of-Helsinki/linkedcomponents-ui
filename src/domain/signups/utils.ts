@@ -61,6 +61,10 @@ export const getSignupFields = ({
           registrationId
         ).replace(':signupGroupId', signupGroup)}`
       : null,
+    signupUrl: `/${language}${ROUTES.EDIT_SIGNUP.replace(
+      ':registrationId',
+      registrationId
+    ).replace(':signupId', id)}`,
   };
 };
 

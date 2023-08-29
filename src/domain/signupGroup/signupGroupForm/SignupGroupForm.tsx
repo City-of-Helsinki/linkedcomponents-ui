@@ -13,29 +13,29 @@ import { FORM_NAMES, ROUTES } from '../../../constants';
 import {
   EventFieldsFragment,
   RegistrationFieldsFragment,
+  SignupFieldsFragment,
   SignupGroupFieldsFragment,
   SignupGroupQuery,
   SignupGroupQueryVariables,
+  SignupQuery,
+  SignupQueryVariables,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
-import useSignupActions from '../../enrolment/hooks/useSignupActions';
 import { isRegistrationPossible } from '../../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { clearSeatsReservationData } from '../../seatsReservation/utils';
 import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../../signup/constants';
+import EditSignupButtonPanel from '../../signup/editSignupButtonPanel/EditSignupButtonPanel';
+import useSignupActions from '../../signup/hooks/useSignupActions';
 import ConfirmDeleteSignupOrSignupGroupModal from '../../signup/modals/confirmDeleteSignupOrSignupGroupModal/ConfirmDeleteSignupOrSignupGroupModal';
 import SendMessageModal from '../../signup/modals/sendMessageModal/SendMessageModal';
 import SignupAuthenticationNotification from '../../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
-import {
-  SIGNUP_GROUP_ACTIONS,
-  SIGNUP_GROUP_FIELDS,
-  SIGNUP_GROUP_MODALS,
-} from '../constants';
+import { SIGNUP_GROUP_ACTIONS, SIGNUP_GROUP_FIELDS } from '../constants';
 import CreateSignupGroupButtonPanel from '../createButtonPanel/CreateSignupGroupButtonPanel';
 import Divider from '../divider/Divider';
 import EditSignupGroupButtonPanel from '../editButtonPanel/EditSignupGroupButtonPanel';
@@ -48,7 +48,7 @@ import ReservationTimer from '../reservationTimer/ReservationTimer';
 import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import SignupGroupFormFields from '../signupGroupFormFields/SignupGroupFormFields';
 import {
-  SignupFields,
+  SignupFormFields,
   SignupGroupFormFields as SignupGroupFormFieldsType,
 } from '../types';
 import {
@@ -59,15 +59,40 @@ import { getSignupGroupSchema, scrollToFirstError } from '../validation';
 import AvailableSeatsText from './availableSeatsText/AvailableSeatsText';
 import styles from './signupGroupForm.module.scss';
 
-type SignupGroupFormWrapperProps = {
+type CreateSignupGroupFormProps = {
+  refetchSignup?: undefined;
+  refetchSignupGroup?: undefined;
+  signup?: undefined;
+  signupGroup?: undefined;
+};
+
+type UpdateSignupFormProps = {
+  refetchSignup: (
+    variables?: Partial<SignupQueryVariables>
+  ) => Promise<ApolloQueryResult<SignupQuery>>;
+  refetchSignupGroup?: undefined;
+  signup: SignupFieldsFragment;
+  signupGroup?: undefined;
+};
+
+type UpdateSignupGroupFormProps = {
+  refetchSignup?: undefined;
+  refetchSignupGroup: (
+    variables?: Partial<SignupGroupQueryVariables>
+  ) => Promise<ApolloQueryResult<SignupGroupQuery>>;
+  signup?: undefined;
+  signupGroup: SignupGroupFieldsFragment;
+};
+
+type SignupGroupFormWrapperProps = (
+  | CreateSignupGroupFormProps
+  | UpdateSignupFormProps
+  | UpdateSignupGroupFormProps
+) & {
   disabled: boolean;
   event: EventFieldsFragment;
   initialValues: SignupGroupFormFieldsType;
-  refetchSignupGroup?: (
-    variables?: Partial<SignupGroupQueryVariables>
-  ) => Promise<ApolloQueryResult<SignupGroupQuery>>;
   registration: RegistrationFieldsFragment;
-  signupGroup?: SignupGroupFieldsFragment;
 };
 
 type SignupGroupFormProps = Omit<
@@ -89,13 +114,14 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   registration,
   setErrors,
   setTouched,
+  signup,
   signupGroup,
   values,
 }) => {
   const { t } = useTranslation();
 
   const [{ value: signups }, , { setValue: setSignups }] = useField<
-    SignupFields[]
+    SignupFormFields[]
   >(SIGNUP_GROUP_FIELDS.SIGNUPS);
   const locale = useLocale();
   const navigate = useNavigate();
@@ -109,22 +135,26 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 
   const responsiblePerson = useMemo(
     () =>
-      signupGroup?.signups?.find((su) => su?.responsibleForGroup) ?? undefined,
-    [signupGroup]
+      signup ??
+      signupGroup?.signups?.find((su) => su?.responsibleForGroup) ??
+      undefined,
+    [signup, signupGroup]
   );
 
-  const { saving: savingResponsiblePerson, sendMessage } = useSignupActions({
+  const {
+    deleteSignup,
+    saving: savingSignup,
+    sendMessage,
+    updateSignup,
+  } = useSignupActions({
     registration,
-    signup: responsiblePerson,
+    signup,
   });
 
   const {
-    closeModal: closeSignupGroupModal,
     createSignupGroup,
     deleteSignupGroup,
-    openModal: openSignupGroupModal,
     saving: savingSignupGroup,
-    setOpenModal: setOpenSignupGroupModal,
     updateSignupGroup,
   } = useSignupGroupActions({
     registration,
@@ -134,7 +164,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useSignupServerErrorsContext();
 
-  const formSavingDisabled = React.useRef(!!signupGroup);
+  const formSavingDisabled = React.useRef(!!signup || !!signupGroup);
 
   const { closeModal, openModal, setOpenModal, setOpenParticipant } =
     useSignupGroupFormContext();
@@ -156,7 +186,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
           waitingPage: null,
         }),
       },
-      { state: { enrolmentId: responsiblePerson?.id } }
+      { state: { signupId: signup?.id ?? responsiblePerson?.id } }
     );
   };
 
@@ -188,17 +218,31 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   };
 
   const handleDelete = () => {
-    deleteSignupGroup({ onSuccess: goToSignupsPage });
+    if (signupGroup) {
+      deleteSignupGroup({ onSuccess: goToSignupsPage });
+    } else {
+      deleteSignup({ onSuccess: goToSignupsPage });
+    }
   };
 
   const handleUpdate = (values: SignupGroupFormFieldsType) => {
-    updateSignupGroup(values, {
-      onError: (error: any) => showServerErrors({ error }, 'signup'),
-      onSuccess: async () => {
-        refetchSignupGroup && (await refetchSignupGroup());
-        window.scrollTo(0, 0);
-      },
-    });
+    if (signupGroup) {
+      updateSignupGroup(values, {
+        onError: (error: any) => showServerErrors({ error }, 'signup'),
+        onSuccess: async () => {
+          refetchSignupGroup && (await refetchSignupGroup());
+          window.scrollTo(0, 0);
+        },
+      });
+    } else {
+      updateSignup(values, {
+        onError: (error: any) => showServerErrors({ error }, 'signup'),
+        onSuccess: async () => {
+          refetchSignupGroup && (await refetchSignupGroup());
+          window.scrollTo(0, 0);
+        },
+      });
+    }
   };
 
   const handleSubmit = async () => {
@@ -210,7 +254,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
         abortEarly: false,
       });
 
-      if (signupGroup) {
+      if (signup || signupGroup) {
         handleUpdate(values);
       } else {
         handleCreate(values);
@@ -231,20 +275,21 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 
   return (
     <>
-      {openSignupGroupModal === SIGNUP_GROUP_MODALS.DELETE && (
+      {openModal === SIGNUP_MODALS.DELETE && (
         <ConfirmDeleteSignupOrSignupGroupModal
           isSaving={savingSignupGroup === SIGNUP_GROUP_ACTIONS.DELETE}
-          isOpen={openSignupGroupModal === SIGNUP_GROUP_MODALS.DELETE}
-          onClose={closeSignupGroupModal}
+          isOpen={openModal === SIGNUP_MODALS.DELETE}
+          onClose={closeModal}
           onConfirm={handleDelete}
           registration={registration}
-          signupGroup={signupGroup}
+          signup={signup}
+          signupGroup={signupGroup as any}
         />
       )}
       {responsiblePerson && (
         <SendMessageModal
           isOpen={openModal === SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP}
-          isSaving={savingResponsiblePerson === SIGNUP_ACTIONS.SEND_MESSAGE}
+          isSaving={savingSignup === SIGNUP_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
           onSendMessage={sendMessage}
           signup={responsiblePerson}
@@ -256,6 +301,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
           isSessionStorage={true}
           name={`${FORM_NAMES.CREATE_SIGNUP_GROUP_FORM}-${registration.id}`}
           restoringDisabled={isRestoringSignupGroupFormDataDisabled({
+            signup,
             signupGroup,
             registrationId: getValue(registration.id, ''),
           })}
@@ -275,7 +321,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
               <ServerErrorSummary errors={serverErrorItems} />
               <EventInfo event={event} />
 
-              {!signupGroup && (
+              {!signup && !signupGroup ? (
                 <>
                   <Divider />
                   <RegistrationWarning registration={registration} />
@@ -300,6 +346,8 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
                     registration={registration}
                   />
                 </>
+              ) : (
+                <h2>{t('signup.form.titleSignups')}</h2>
               )}
 
               <SignupGroupFormFields
@@ -309,20 +357,32 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
               />
             </FormContainer>
           </Container>
-          {signupGroup ? (
+
+          {signupGroup && (
             <EditSignupGroupButtonPanel
-              onDelete={() =>
-                setOpenSignupGroupModal(SIGNUP_GROUP_MODALS.DELETE)
-              }
+              onDelete={() => setOpenModal(SIGNUP_MODALS.DELETE)}
               onSendMessage={() =>
                 setOpenModal(SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP)
               }
+              onUpdate={handleSubmit}
               registration={registration}
               saving={savingSignupGroup}
               signupGroup={signupGroup}
-              onUpdate={handleSubmit}
             />
-          ) : (
+          )}
+          {signup && (
+            <EditSignupButtonPanel
+              onDelete={() => setOpenModal(SIGNUP_MODALS.DELETE)}
+              onSendMessage={() =>
+                setOpenModal(SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP)
+              }
+              onUpdate={handleSubmit}
+              registration={registration}
+              saving={savingSignup}
+              signup={signup}
+            />
+          )}
+          {!signup && !signupGroup && (
             <CreateSignupGroupButtonPanel
               disabled={disabled}
               onCreate={handleSubmit}

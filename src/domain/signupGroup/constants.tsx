@@ -1,6 +1,6 @@
 import { IconCrossCircle, IconEye, IconPen } from 'hds-react';
 
-import { SignupFields, SignupGroupFormFields } from './types';
+import { SignupFormFields, SignupGroupFormFields } from './types';
 
 export enum NOTIFICATIONS {
   EMAIL = 'email',
@@ -38,7 +38,7 @@ export enum SIGNUP_GROUP_FIELDS {
   SIGNUPS = 'signups',
 }
 
-export const SIGNUP_INITIAL_VALUES: SignupFields = {
+export const SIGNUP_INITIAL_VALUES: SignupFormFields = {
   [SIGNUP_FIELDS.CITY]: '',
   [SIGNUP_FIELDS.DATE_OF_BIRTH]: null,
   [SIGNUP_FIELDS.EXTRA_INFO]: '',
@@ -92,7 +92,3 @@ export const SIGNUP_GROUP_LABEL_KEYS = {
 };
 
 export const TEST_SIGNUP_GROUP_ID = 'signupgroup:1';
-
-export enum SIGNUP_GROUP_MODALS {
-  DELETE = 'delete',
-}

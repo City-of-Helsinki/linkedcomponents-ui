@@ -1853,7 +1853,8 @@
       "titleContactInfo": "Contact information",
       "titleInformantInfo": "Information of the informant",
       "titleNotifications": "Event notifications",
-      "titleRegistration": "Registration"
+      "titleRegistration": "Registration",
+      "titleSignups": "Registered persons"
     },
     "inWaitingList": {
       "text": "In waiting list",

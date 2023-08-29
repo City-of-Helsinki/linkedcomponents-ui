@@ -36,6 +36,9 @@ const EditRegistrationPage = React.lazy(
 const EditSignupGroupPage = React.lazy(
   () => import('../../../signupGroup/EditSignupGroupPage')
 );
+const EditSignupPage = React.lazy(
+  () => import('../../../signup/EditSignupPage')
+);
 const SignupsPage = React.lazy(() => import('../../../signups/SignupsPage'));
 const EventsPage = React.lazy(() => import('../../../events/EventsPage'));
 const EventSearchPage = React.lazy(
@@ -144,6 +147,7 @@ const LocaleRoutes: React.FC = () => {
                 path={ROUTES.EDIT_SIGNUP_GROUP}
                 element={<EditSignupGroupPage />}
               />
+              <Route path={ROUTES.EDIT_SIGNUP} element={<EditSignupPage />} />
             </>
           )}
           <Route path={ROUTES.LOGOUT} element={<LogoutPage />} />

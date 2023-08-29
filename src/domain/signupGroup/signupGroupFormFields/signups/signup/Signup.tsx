@@ -12,7 +12,7 @@ import getValue from '../../../../../utils/getValue';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
 import { SIGNUP_FIELDS } from '../../../constants';
 import { useSignupGroupFormContext } from '../../../signupGroupFormContext/hooks/useSignupGroupFormContext';
-import { SignupFields } from '../../../types';
+import { SignupFormFields } from '../../../types';
 import {
   isDateOfBirthFieldRequired,
   isSignupFieldRequired,
@@ -26,7 +26,7 @@ type Props = {
   onDelete: () => void;
   registration: RegistrationFieldsFragment;
   showDelete: boolean;
-  signup: SignupFields;
+  signup: SignupFormFields;
   signupPath: string;
 };
 

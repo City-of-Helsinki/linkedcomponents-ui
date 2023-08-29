@@ -1854,7 +1854,8 @@
       "titleContactInfo": "Kontaktinformation",
       "titleInformantInfo": "Information om uppgiftslämnaren",
       "titleNotifications": "Evenemangmeddelanden",
-      "titleRegistration": "Registrering"
+      "titleRegistration": "Registrering",
+      "titleSignups": "Registrerade personer"
     },
     "inWaitingList": {
       "text": "På väntelista",

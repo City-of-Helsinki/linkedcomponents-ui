@@ -1798,7 +1798,6 @@ export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __t
 
 export type SignupQueryVariables = Exact<{
   id: Scalars['ID'];
-  createPath?: InputMaybe<Scalars['Any']>;
 }>;
 
 
@@ -1834,7 +1833,6 @@ export type SignupGroupFieldsFragment = { __typename?: 'SignupGroup', extraInfo?
 
 export type SignupGroupQueryVariables = Exact<{
   id: Scalars['ID'];
-  createPath?: InputMaybe<Scalars['Any']>;
 }>;
 
 
@@ -4140,7 +4138,7 @@ export type DeleteSignupMutationResult = Apollo.MutationResult<DeleteSignupMutat
 export type DeleteSignupMutationOptions = Apollo.BaseMutationOptions<DeleteSignupMutation, DeleteSignupMutationVariables>;
 export const UpdateSignupDocument = gql`
     mutation UpdateSignup($input: UpdateSignupMutationInput!, $id: ID!) {
-  updateSignup(input: $input, id: $id) @rest(type: "Signup", path: "/signup/{args.signup}/", method: "PUT", bodyKey: "input") {
+  updateSignup(input: $input, id: $id) @rest(type: "Signup", path: "/signup/{args.id}/", method: "PUT", bodyKey: "input") {
     ...signupFields
   }
 }
@@ -4174,7 +4172,7 @@ export type UpdateSignupMutationResult = Apollo.MutationResult<UpdateSignupMutat
 export type UpdateSignupMutationOptions = Apollo.BaseMutationOptions<UpdateSignupMutation, UpdateSignupMutationVariables>;
 export const PatchSignupDocument = gql`
     mutation PatchSignup($input: UpdateSignupMutationInput!, $id: ID!) {
-  updateSignup(input: $input, id: $id) @rest(type: "Signup", path: "/signup/{args.signup}/", method: "PATCH", bodyKey: "input") {
+  updateSignup(input: $input, id: $id) @rest(type: "Signup", path: "/signup/{args.id}/", method: "PATCH", bodyKey: "input") {
     ...signupFields
   }
 }
@@ -4244,8 +4242,8 @@ export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMuta
 export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutation>;
 export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutation, SendMessageMutationVariables>;
 export const SignupDocument = gql`
-    query Signup($id: ID!, $createPath: Any) {
-  signup(id: $id) @rest(type: "Signup", pathBuilder: $createPath) {
+    query Signup($id: ID!) {
+  signup(id: $id) @rest(type: "Signup", path: "/signup/{args.id}/", method: "GET") {
     ...signupFields
   }
 }
@@ -4264,7 +4262,6 @@ export const SignupDocument = gql`
  * const { data, loading, error } = useSignupQuery({
  *   variables: {
  *      id: // value for 'id'
- *      createPath: // value for 'createPath'
  *   },
  * });
  */
@@ -4380,7 +4377,7 @@ export type UpdateSignupGroupMutationHookResult = ReturnType<typeof useUpdateSig
 export type UpdateSignupGroupMutationResult = Apollo.MutationResult<UpdateSignupGroupMutation>;
 export type UpdateSignupGroupMutationOptions = Apollo.BaseMutationOptions<UpdateSignupGroupMutation, UpdateSignupGroupMutationVariables>;
 export const SignupGroupDocument = gql`
-    query SignupGroup($id: ID!, $createPath: Any) {
+    query SignupGroup($id: ID!) {
   signupGroup(id: $id) @rest(type: "SignupGroup", path: "/signup_group/{args.id}/", method: "GET") {
     ...signupGroupFields
   }
@@ -4400,7 +4397,6 @@ export const SignupGroupDocument = gql`
  * const { data, loading, error } = useSignupGroupQuery({
  *   variables: {
  *      id: // value for 'id'
- *      createPath: // value for 'createPath'
  *   },
  * });
  */

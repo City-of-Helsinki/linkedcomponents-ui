@@ -20,7 +20,7 @@ import { useSignupServerErrorsContext } from '../../../signup/signupServerErrors
 import useUser from '../../../user/hooks/useUser';
 import { SIGNUP_GROUP_FIELDS } from '../../constants';
 import ConfirmDeleteSignupFromFormModal from '../../modals/confirmDeleteSignupFromFormModal/ConfirmDeleteSignupFromFormModal';
-import { SignupFields } from '../../types';
+import { SignupFormFields } from '../../types';
 import { getNewSignups } from '../../utils';
 import Signup from './signup/Signup';
 import styles from './signups.module.scss';
@@ -47,7 +47,7 @@ const Signups: React.FC<Props> = ({ disabled, registration, signupGroup }) => {
   const registrationId = getValue(registration.id, '');
 
   const [{ value: signups }, , { setValue: setSignups }] = useField<
-    SignupFields[]
+    SignupFormFields[]
   >({ name: SIGNUP_GROUP_FIELDS.SIGNUPS });
 
   const [updateSeatsReservationMutation] = useUpdateSeatsReservationMutation();
