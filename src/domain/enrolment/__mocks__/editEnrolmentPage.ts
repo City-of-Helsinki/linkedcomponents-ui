@@ -4,19 +4,19 @@ import subYears from 'date-fns/subYears';
 import { DATE_FORMAT_API } from '../../../constants';
 import {
   DeleteEnrolmentDocument,
-  EnrolmentDocument,
   SendMessageDocument,
+  SignupDocument,
   UpdateEnrolmentDocument,
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import {
-  fakeEnrolment,
   fakeSendMessageResponse,
+  fakeSignup,
 } from '../../../utils/mockDataUtils';
 import { registrationId } from '../../registration/__mocks__/registration';
-import { NOTIFICATION_TYPE } from '../constants';
+import { NOTIFICATION_TYPE, TEST_ENROLMENT_ID } from '../constants';
 
-const enrolmentId = 'enrolment:1';
+const signupId = TEST_ENROLMENT_ID;
 const dateOfBirth = subYears(new Date(), 13);
 const enrolmentValues = {
   city: 'City',
@@ -36,24 +36,24 @@ const enrolmentValues = {
   zipcode: '00100',
 };
 
-const enrolment = fakeEnrolment({
+const signup = fakeSignup({
   ...enrolmentValues,
   dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
-  id: enrolmentId,
+  id: signupId,
 });
 
 const enrolmentVariables = {
   createPath: undefined,
-  id: enrolmentId,
+  id: signupId,
 };
-const enrolmentResponse = { data: { enrolment } };
+const enrolmentResponse = { data: { signup } };
 const mockedEnrolmentResponse: MockedResponse = {
-  request: { query: EnrolmentDocument, variables: enrolmentVariables },
+  request: { query: SignupDocument, variables: enrolmentVariables },
   result: enrolmentResponse,
 };
 
 const cancelEnrolmentVariables = {
-  signup: enrolmentId,
+  signup: signupId,
 };
 const cancelEnrolmentResponse = { data: { deleteEnrolment: null } };
 const mockedCancelEnrolmentResponse: MockedResponse = {
@@ -65,7 +65,7 @@ const mockedCancelEnrolmentResponse: MockedResponse = {
 };
 
 const payload = {
-  id: enrolmentId,
+  id: signupId,
   city: enrolmentValues.city,
   dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
   email: enrolmentValues.email,
@@ -84,10 +84,10 @@ const payload = {
 
 const updateEnrolmentVariables = {
   input: payload,
-  signup: enrolmentId,
+  signup: signupId,
 };
 
-const updateEnrolmentResponse = { data: { updateEnrolment: enrolment } };
+const updateEnrolmentResponse = { data: { updateEnrolment: signup } };
 
 const mockedUpdateEnrolmentResponse: MockedResponse = {
   request: {
@@ -117,7 +117,7 @@ const sendMessageVariables = {
   input: {
     ...sendMessageValues,
     body: '<p>Message</p>',
-    signups: [enrolmentId],
+    signups: [signupId],
     subject: 'Subject',
   },
   registration: registrationId,
@@ -136,12 +136,12 @@ const mockedSendMessageResponse: MockedResponse = {
 };
 
 export {
-  enrolment,
-  enrolmentId,
   mockedCancelEnrolmentResponse,
   mockedEnrolmentResponse,
   mockedInvalidUpdateEnrolmentResponse,
   mockedSendMessageResponse,
   mockedUpdateEnrolmentResponse,
   sendMessageValues,
+  signup,
+  signupId,
 };

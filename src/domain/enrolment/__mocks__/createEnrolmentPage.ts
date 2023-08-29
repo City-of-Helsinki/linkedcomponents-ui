@@ -3,13 +3,13 @@ import subYears from 'date-fns/subYears';
 
 import { DATE_FORMAT_API } from '../../../constants';
 import {
-  CreateEnrolmentDocument,
-  CreateEnrolmentMutationInput,
+  CreateSignupGroupDocument,
+  CreateSignupGroupMutationInput,
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import {
-  fakeCreateEnrolmentResponse,
-  fakeEnrolmentPeopleResponse,
+  fakeCreateSignupGroupResponse,
+  fakeSignups,
 } from '../../../utils/mockDataUtils';
 import { registrationId } from '../../registration/__mocks__/registration';
 import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
@@ -28,7 +28,8 @@ const enrolmentValues = {
   zip: '00100',
 };
 
-const payload: CreateEnrolmentMutationInput = {
+const payload: CreateSignupGroupMutationInput = {
+  extraInfo: '',
   registration: registrationId,
   reservationCode: TEST_SEATS_RESERVATION_CODE,
   signups: [
@@ -43,6 +44,7 @@ const payload: CreateEnrolmentMutationInput = {
       nativeLanguage: 'fi',
       notifications: NOTIFICATION_TYPE.EMAIL,
       phoneNumber: enrolmentValues.phone,
+      responsibleForGroup: true,
       serviceLanguage: 'fi',
       streetAddress: enrolmentValues.streetAddress,
       zipcode: enrolmentValues.zip,
@@ -50,35 +52,33 @@ const payload: CreateEnrolmentMutationInput = {
   ],
 };
 
-const createEnrolmentVariables = {
-  input: payload,
-};
+const createSignupGroupVariables = { input: payload };
 
-const createEnrolmentResponse = {
+const createSignupGroupResponse = {
   data: {
-    createEnrolment: fakeCreateEnrolmentResponse({
-      attending: fakeEnrolmentPeopleResponse(1, [
+    createSignupGroup: fakeCreateSignupGroupResponse({
+      signups: fakeSignups(1, [
         {
           firstName: enrolmentValues.firstName,
           lastName: enrolmentValues.lastName,
         },
-      ]),
+      ]).data,
     }),
   },
 };
 
 const mockedCreateEnrolmentResponse: MockedResponse = {
   request: {
-    query: CreateEnrolmentDocument,
-    variables: createEnrolmentVariables,
+    query: CreateSignupGroupDocument,
+    variables: createSignupGroupVariables,
   },
-  result: createEnrolmentResponse,
+  result: createSignupGroupResponse,
 };
 
 const mockedInvalidCreateEnrolmentResponse: MockedResponse = {
   request: {
-    query: CreateEnrolmentDocument,
-    variables: createEnrolmentVariables,
+    query: CreateSignupGroupDocument,
+    variables: createSignupGroupVariables,
   },
   error: {
     ...new Error(),

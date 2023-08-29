@@ -2,15 +2,15 @@
 import gql from 'graphql-tag';
 
 export const MUTATION_ENROLMENT = gql`
-  mutation CreateEnrolment($input: CreateEnrolmentMutationInput!) {
-    createEnrolment(input: $input)
+  mutation CreateSignupGroup($input: CreateSignupGroupMutationInput!) {
+    createSignupGroup(input: $input)
       @rest(
-        type: "CreateEnrolmentResponse"
-        path: "/signup/"
+        type: "CreateSignupGroupResponse"
+        path: "/signup_group/"
         method: "POST"
         bodyKey: "input"
       ) {
-      ...createEnrolmentFields
+      ...createSignupGroupFields
     }
   }
 
@@ -31,12 +31,12 @@ export const MUTATION_ENROLMENT = gql`
   ) {
     updateEnrolment(input: $input, signup: $signup)
       @rest(
-        type: "Enrolment"
+        type: "Signup"
         path: "/signup/{args.signup}/"
         method: "PUT"
         bodyKey: "input"
       ) {
-      ...enrolmentFields
+      ...signupFields
     }
   }
 
@@ -46,19 +46,16 @@ export const MUTATION_ENROLMENT = gql`
   ) {
     updateEnrolment(input: $input, signup: $signup)
       @rest(
-        type: "Enrolment"
+        type: "Signup"
         path: "/signup/{args.signup}/"
         method: "PATCH"
         bodyKey: "input"
       ) {
-      ...enrolmentFields
+      ...signupFields
     }
   }
 
-  mutation SendMessage(
-    $input: SendMessageMutationInput!
-    $registration: String!
-  ) {
+  mutation SendMessage($input: SendMessageMutationInput!, $registration: ID!) {
     sendMessage(input: $input, registration: $registration)
       @rest(
         type: "SendMessageResponse"

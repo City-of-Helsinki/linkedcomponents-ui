@@ -3,11 +3,11 @@ import addSeconds from 'date-fns/addSeconds';
 import subSeconds from 'date-fns/subSeconds';
 import i18n from 'i18next';
 
-import { EnrolmentQueryVariables } from '../../../generated/graphql';
+import { SignupQueryVariables } from '../../../generated/graphql';
 import {
-  fakeEnrolment,
   fakeRegistration,
   fakeSeatsReservation,
+  fakeSignup,
 } from '../../../utils/mockDataUtils';
 import { enrolment } from '../../enrolment/__mocks__/enrolment';
 import {
@@ -33,7 +33,7 @@ import {
   getEnrolmentInitialValues,
   getEnrolmentNotificationsCode,
   getEnrolmentNotificationTypes,
-  getEnrolmentPayload,
+  getSignupGroupPayload,
   getUpdateEnrolmentPayload,
   isEnrolmentFieldRequired,
   isRestoringFormDataDisabled,
@@ -87,7 +87,7 @@ describe('getEnrolmentInitialValues function', () => {
       phoneNumber,
       serviceLanguage,
     } = getEnrolmentInitialValues(
-      fakeEnrolment({
+      fakeSignup({
         city: null,
         dateOfBirth: null,
         email: null,
@@ -151,7 +151,7 @@ describe('getEnrolmentInitialValues function', () => {
       phoneNumber,
       serviceLanguage,
     } = getEnrolmentInitialValues(
-      fakeEnrolment({
+      fakeSignup({
         city: expectedCity,
         dateOfBirth: '2021-10-10',
         email: expectedEmail,
@@ -227,10 +227,10 @@ describe('getEnrolmentNotificationsCode function', () => {
   });
 });
 
-describe('getEnrolmentPayload function', () => {
-  it('should return single enrolment as payload', () => {
+describe('getSignupGroupPayload function', () => {
+  it('should return signup group payload', () => {
     expect(
-      getEnrolmentPayload({
+      getSignupGroupPayload({
         formValues: {
           ...ENROLMENT_INITIAL_VALUES,
           attendees: [ATTENDEE_INITIAL_VALUES],
@@ -239,6 +239,7 @@ describe('getEnrolmentPayload function', () => {
         reservationCode: TEST_SEATS_RESERVATION_CODE,
       })
     ).toEqual({
+      extraInfo: '',
       registration: registrationId,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
       signups: [
@@ -253,6 +254,7 @@ describe('getEnrolmentPayload function', () => {
           nativeLanguage: null,
           notifications: NOTIFICATION_TYPE.EMAIL,
           phoneNumber: null,
+          responsibleForGroup: true,
           serviceLanguage: null,
           streetAddress: null,
           zipcode: null,
@@ -265,6 +267,7 @@ describe('getEnrolmentPayload function', () => {
       email = 'Email',
       extraInfo = 'Extra info',
       firstName = 'First name',
+      groupExtraInfo = 'Group extra info',
       lastName = 'Last name',
       membershipNumber = 'XXX-123',
       nativeLanguage = 'fi',
@@ -273,14 +276,14 @@ describe('getEnrolmentPayload function', () => {
       serviceLanguage = 'sv',
       streetAddress = 'Street address',
       zipcode = '00100';
-    const payload = getEnrolmentPayload({
+    const payload = getSignupGroupPayload({
       formValues: {
         ...ENROLMENT_INITIAL_VALUES,
         attendees: [
           {
             city,
             dateOfBirth,
-            extraInfo: '',
+            extraInfo,
             firstName,
             lastName,
             inWaitingList: false,
@@ -289,7 +292,7 @@ describe('getEnrolmentPayload function', () => {
           },
         ],
         email,
-        extraInfo,
+        extraInfo: groupExtraInfo,
         membershipNumber,
         nativeLanguage,
         notifications,
@@ -301,6 +304,7 @@ describe('getEnrolmentPayload function', () => {
     });
 
     expect(payload).toEqual({
+      extraInfo: groupExtraInfo,
       registration: registrationId,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
       signups: [
@@ -315,6 +319,7 @@ describe('getEnrolmentPayload function', () => {
           nativeLanguage,
           notifications: NOTIFICATION_TYPE.EMAIL,
           phoneNumber,
+          responsibleForGroup: true,
           serviceLanguage,
           streetAddress,
           zipcode,
@@ -412,7 +417,7 @@ describe('getUpdateEnrolmentPayload function', () => {
 });
 
 describe('enrolmentPathBuilder function', () => {
-  const cases: [EnrolmentQueryVariables, string][] = [
+  const cases: [SignupQueryVariables, string][] = [
     [{ id: 'hel:123' }, `/signup/hel:123/`],
   ];
 

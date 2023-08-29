@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { AttendeeStatus } from '../../../../generated/graphql';
-import { fakeEnrolments } from '../../../../utils/mockDataUtils';
+import { fakeSignups } from '../../../../utils/mockDataUtils';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -66,7 +66,7 @@ const getElement = (key: 'page1' | 'page2') => {
 test('should render enrolments table', async () => {
   renderComponent([
     ...defaultMocks,
-    getMockedAttendeesResponse(fakeEnrolments(0)),
+    getMockedAttendeesResponse(fakeSignups(0)),
   ]);
 
   screen.getByRole('heading', { name: 'Enrolments table' });

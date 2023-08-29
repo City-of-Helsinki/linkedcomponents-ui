@@ -15,7 +15,7 @@ import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../../types';
 import getValue from '../../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
-import { fakeEnrolments } from '../../../../../utils/mockDataUtils';
+import { fakeSignups } from '../../../../../utils/mockDataUtils';
 import {
   act,
   actWait,
@@ -32,8 +32,8 @@ import {
   mockedDataSourcesResponse,
 } from '../../../../dataSource/__mocks__/dataSource';
 import {
-  enrolmentId,
   mockedEnrolmentResponse,
+  signupId,
 } from '../../../../enrolment/__mocks__/editEnrolmentPage';
 import { getMockedAttendeesResponse } from '../../../../enrolments/__mocks__/enrolmentsPage';
 import {
@@ -151,8 +151,8 @@ const mocks = [
   mockedEventResponse,
   mockedUserResponse,
   mockedUsersResponse,
-  getMockedAttendeesResponse(fakeEnrolments(0)),
-  getMockedAttendeesResponse(fakeEnrolments(0), {
+  getMockedAttendeesResponse(fakeSignups(0)),
+  getMockedAttendeesResponse(fakeSignups(0), {
     attendeeStatus: AttendeeStatus.Waitlisted,
   }),
 ];
@@ -338,13 +338,13 @@ it('should render edit enrolment page', async () => {
     `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
       ':registrationId',
       registrationId
-    ).replace(':enrolmentId', enrolmentId)}`
+    ).replace(':enrolmentId', signupId)}`
   );
 
   await isPageRendered({
     history,
     pageTitle: 'Muokkaa osallistujaa - Linked Events',
-    pathname: `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`,
+    pathname: `/fi/registrations/${registrationId}/enrolments/edit/${signupId}`,
   });
 });
 

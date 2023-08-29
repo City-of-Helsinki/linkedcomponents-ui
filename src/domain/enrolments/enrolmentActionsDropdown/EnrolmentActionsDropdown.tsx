@@ -7,8 +7,8 @@ import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsD
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
 import {
-  EnrolmentFieldsFragment,
   RegistrationFieldsFragment,
+  SignupFieldsFragment,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
@@ -28,7 +28,7 @@ import { getEnrolmentFields } from '../utils';
 
 export interface EnrolmentActionsDropdownProps {
   className?: string;
-  enrolment: EnrolmentFieldsFragment;
+  enrolment: SignupFieldsFragment;
   registration: RegistrationFieldsFragment;
 }
 

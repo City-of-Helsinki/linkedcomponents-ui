@@ -6,12 +6,12 @@ import { useLocation } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
-  EnrolmentFieldsFragment,
-  EnrolmentQuery,
-  EnrolmentQueryVariables,
   EventFieldsFragment,
   RegistrationFieldsFragment,
-  useEnrolmentQuery,
+  SignupFieldsFragment,
+  SignupQuery,
+  SignupQueryVariables,
+  useSignupQuery,
 } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
@@ -35,11 +35,11 @@ import {
 } from './utils';
 
 type Props = {
-  enrolment: EnrolmentFieldsFragment;
+  enrolment: SignupFieldsFragment;
   event: EventFieldsFragment;
   refetch: (
-    variables?: Partial<EnrolmentQueryVariables>
-  ) => Promise<ApolloQueryResult<EnrolmentQuery>>;
+    variables?: Partial<SignupQueryVariables>
+  ) => Promise<ApolloQueryResult<SignupQuery>>;
   registration: RegistrationFieldsFragment;
 };
 
@@ -111,7 +111,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
     data: enrolmentData,
     loading: loadingEnrolment,
     refetch,
-  } = useEnrolmentQuery({
+  } = useSignupQuery({
     skip: !enrolmentId || !user,
     variables: {
       id: getValue(enrolmentId, ''),
@@ -119,7 +119,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
     },
   });
 
-  const enrolment = enrolmentData?.enrolment;
+  const enrolment = enrolmentData?.signup;
   const loading = loadingRegistrationAndEvent || loadingEnrolment;
 
   return (

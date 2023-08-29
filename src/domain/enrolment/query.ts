@@ -1,30 +1,14 @@
 // eslint-disable-next-line import/no-named-as-default
 import gql from 'graphql-tag';
 
-export const QUERY_ENROLMENT = gql`
-  fragment enrolmentPeopleResponseFields on EnrolmentPeopleResponse {
-    count
-    people {
-      ...enrolmentFields
+export const QUERY_SIGNUP = gql`
+  query Signup($id: ID!, $createPath: Any) {
+    signup(id: $id) @rest(type: "Signup", pathBuilder: $createPath) {
+      ...signupFields
     }
   }
 
-  fragment createEnrolmentFields on CreateEnrolmentResponse {
-    attending {
-      ...enrolmentPeopleResponseFields
-    }
-    waitlisted {
-      ...enrolmentPeopleResponseFields
-    }
-  }
-
-  query Enrolment($id: ID!, $createPath: Any) {
-    enrolment(id: $id) @rest(type: "Enrolment", pathBuilder: $createPath) {
-      ...enrolmentFields
-    }
-  }
-
-  fragment enrolmentFields on Enrolment {
+  fragment signupFields on Signup {
     id
     attendeeStatus
     cancellationCode
@@ -39,6 +23,7 @@ export const QUERY_ENROLMENT = gql`
     notifications
     phoneNumber
     presenceStatus
+    responsibleForGroup
     serviceLanguage
     streetAddress
     zipcode

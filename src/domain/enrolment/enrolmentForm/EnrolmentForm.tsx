@@ -11,11 +11,11 @@ import FormikPersist from '../../../common/components/formikPersist/FormikPersis
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { FORM_NAMES, ROUTES } from '../../../constants';
 import {
-  EnrolmentFieldsFragment,
-  EnrolmentQuery,
-  EnrolmentQueryVariables,
   EventFieldsFragment,
   RegistrationFieldsFragment,
+  SignupFieldsFragment,
+  SignupQuery,
+  SignupQueryVariables,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
@@ -59,12 +59,12 @@ import styles from './enrolmentForm.module.scss';
 
 type EnrolmentFormWrapperProps = {
   disabled: boolean;
-  enrolment?: EnrolmentFieldsFragment;
+  enrolment?: SignupFieldsFragment;
   event: EventFieldsFragment;
   initialValues: EnrolmentFormFieldsType;
   refetchEnrolment?: (
-    variables?: Partial<EnrolmentQueryVariables>
-  ) => Promise<ApolloQueryResult<EnrolmentQuery>>;
+    variables?: Partial<SignupQueryVariables>
+  ) => Promise<ApolloQueryResult<SignupQuery>>;
   registration: RegistrationFieldsFragment;
 };
 
@@ -104,7 +104,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
 
   const {
     cancelEnrolment,
-    createEnrolment,
+    createSignupGroup,
     saving,
     sendMessage,
     updateEnrolment,
@@ -167,7 +167,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
   const clearErrors = () => setErrors({});
 
   const handleCreate = (values: EnrolmentFormFieldsType) => {
-    createEnrolment(values, {
+    createSignupGroup(values, {
       onError: (error) => showServerErrors({ error }, 'enrolment'),
       onSuccess: goToEnrolmentsPageAfterCreate,
     });

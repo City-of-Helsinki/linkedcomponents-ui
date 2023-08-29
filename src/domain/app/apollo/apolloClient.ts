@@ -18,8 +18,6 @@ import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../../constants';
 import {
   DataSource,
   DataSourcesResponse,
-  Enrolment,
-  EnrolmentsResponse,
   Event,
   EventsResponse,
   Image,
@@ -37,6 +35,8 @@ import {
   PlacesResponse,
   Registration,
   RegistrationsResponse,
+  Signup,
+  SignupsResponse,
   UploadImageMutationInput,
   User,
   UsersResponse,
@@ -49,7 +49,6 @@ import { getApiTokenFromStorage } from '../../auth/utils';
 import i18n from '../i18n/i18nInit';
 import {
   addTypenameDataSource,
-  addTypenameEnrolment,
   addTypenameEvent,
   addTypenameImage,
   addTypenameKeyword,
@@ -60,6 +59,7 @@ import {
   addTypenameOrganizationClass,
   addTypenamePlace,
   addTypenameRegistration,
+  addTypenameSignup,
   addTypenameUser,
 } from './utils';
 
@@ -300,16 +300,7 @@ const linkedEventsLink = new RestLink({
 
       return data;
     },
-    Enrolment: (enrolment: Enrolment): Enrolment | null =>
-      addTypenameEnrolment(enrolment),
-    EnrolmentsResponse: (data: EnrolmentsResponse): EnrolmentsResponse => {
-      return {
-        meta: addTypenameMeta(data.meta),
-        data: data.data.map(
-          (enrolment) => addTypenameEnrolment(enrolment) as Enrolment
-        ),
-      };
-    },
+
     Event: (event: Event): Event | null => addTypenameEvent(event),
     EventsResponse: (data: EventsResponse): EventsResponse => {
       data.meta = addTypenameMeta(data.meta);
@@ -391,6 +382,13 @@ const linkedEventsLink = new RestLink({
       );
 
       return data;
+    },
+    Signup: (enrolment: Signup): Signup | null => addTypenameSignup(enrolment),
+    SignupsResponse: (data: SignupsResponse): SignupsResponse => {
+      return {
+        meta: addTypenameMeta(data.meta),
+        data: data.data.map((signup) => addTypenameSignup(signup) as Signup),
+      };
     },
     User: (user: User): User | null => addTypenameUser(user),
     UsersResponse: (data: UsersResponse): UsersResponse => {

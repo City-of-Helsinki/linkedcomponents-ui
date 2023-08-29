@@ -6,13 +6,13 @@ import { MenuItemOptionProps } from '../../common/components/menuDropdown/types'
 import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
 import {
   AttendeeStatus,
-  CreateEnrolmentMutationInput,
-  EnrolmentFieldsFragment,
-  EnrolmentQueryVariables,
+  CreateSignupGroupMutationInput,
   OrganizationFieldsFragment,
   RegistrationFieldsFragment,
   SeatsReservationFieldsFragment,
+  SignupFieldsFragment,
   SignupInput,
+  SignupQueryVariables,
   UpdateEnrolmentMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
@@ -68,7 +68,7 @@ export const getEnrolmentDefaultInitialValues = (
 });
 
 export const getEnrolmentInitialValues = (
-  enrolment: EnrolmentFieldsFragment,
+  enrolment: SignupFieldsFragment,
   registration: RegistrationFieldsFragment
 ): EnrolmentFormFields => {
   return {
@@ -116,7 +116,7 @@ export const getEnrolmentNotificationsCode = (
   }
 };
 
-export const getEnrolmentPayload = ({
+export const getSignupGroupPayload = ({
   formValues,
   registration,
   reservationCode,
@@ -124,11 +124,11 @@ export const getEnrolmentPayload = ({
   formValues: EnrolmentFormFields;
   registration: RegistrationFieldsFragment;
   reservationCode: string;
-}): CreateEnrolmentMutationInput => {
+}): CreateSignupGroupMutationInput => {
   const {
     attendees,
     email,
-    extraInfo,
+    extraInfo: groupExtraInfo,
     membershipNumber,
     nativeLanguage,
     notifications,
@@ -136,22 +136,30 @@ export const getEnrolmentPayload = ({
     serviceLanguage,
   } = formValues;
 
-  const signups: SignupInput[] = attendees.map((attendee) => {
-    const { city, dateOfBirth, firstName, lastName, streetAddress, zipcode } =
-      attendee;
+  const signups: SignupInput[] = attendees.map((attendee, index) => {
+    const {
+      city,
+      dateOfBirth,
+      extraInfo,
+      firstName,
+      lastName,
+      streetAddress,
+      zipcode,
+    } = attendee;
     return {
       city: getValue(city, ''),
       dateOfBirth: dateOfBirth
         ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
         : null,
       email: getValue(email, null),
-      extraInfo: extraInfo,
+      extraInfo,
       firstName: getValue(firstName, ''),
       lastName: getValue(lastName, ''),
       membershipNumber: membershipNumber,
       nativeLanguage: getValue(nativeLanguage, null),
       notifications: getEnrolmentNotificationsCode(notifications),
       phoneNumber: getValue(phoneNumber, null),
+      responsibleForGroup: index === 0,
       serviceLanguage: getValue(serviceLanguage, null),
       streetAddress: getValue(streetAddress, null),
       zipcode: getValue(zipcode, null),
@@ -159,6 +167,7 @@ export const getEnrolmentPayload = ({
   });
 
   return {
+    extraInfo: groupExtraInfo,
     registration: registration.id,
     reservationCode,
     signups,
@@ -209,7 +218,7 @@ export const getUpdateEnrolmentPayload = ({
 
 export const enrolmentPathBuilder = ({
   args,
-}: PathBuilderProps<EnrolmentQueryVariables>): string => {
+}: PathBuilderProps<SignupQueryVariables>): string => {
   const { id } = args;
 
   return `/signup/${id}/`;
@@ -354,7 +363,7 @@ export const isRestoringFormDataDisabled = ({
   enrolment,
   registrationId,
 }: {
-  enrolment?: EnrolmentFieldsFragment;
+  enrolment?: SignupFieldsFragment;
   registrationId: string;
 }) => {
   const data = getSeatsReservationData(registrationId);

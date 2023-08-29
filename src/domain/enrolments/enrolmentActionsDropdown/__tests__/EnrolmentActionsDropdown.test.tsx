@@ -17,10 +17,10 @@ import {
 } from '../../../../utils/testUtils';
 import { AuthContextProps } from '../../../auth/types';
 import {
-  enrolment,
   mockedCancelEnrolmentResponse,
   mockedSendMessageResponse,
   sendMessageValues,
+  signup,
 } from '../../../enrolment/__mocks__/editEnrolmentPage';
 import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
@@ -34,7 +34,7 @@ import EnrolmentActionsDropdown, {
 configure({ defaultHidden: true });
 
 const defaultProps: EnrolmentActionsDropdownProps = {
-  enrolment,
+  enrolment: signup,
   registration,
 };
 
@@ -130,7 +130,7 @@ test('should route to edit enrolment page when clicking edit button', async () =
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registration.id}/enrolments/edit/${enrolment.id}`
+      `/fi/registrations/${registration.id}/enrolments/edit/${signup.id}`
     )
   );
 

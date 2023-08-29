@@ -3,14 +3,14 @@ import range from 'lodash/range';
 
 import {
   AttendeeStatus,
-  EnrolmentsDocument,
-  EnrolmentsQueryVariables,
-  EnrolmentsResponse,
   SendMessageDocument,
+  SignupsDocument,
+  SignupsQueryVariables,
+  SignupsResponse,
 } from '../../../generated/graphql';
 import {
-  fakeEnrolments,
   fakeSendMessageResponse,
+  fakeSignups,
 } from '../../../utils/mockDataUtils';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
@@ -21,7 +21,7 @@ const attendeeNames = range(1, 2 * ENROLMENTS_PAGE_SIZE + 1).map((n) => ({
   lastName: `User ${n}`,
 }));
 
-const attendees = fakeEnrolments(
+const attendees = fakeSignups(
   attendeeNames.length,
   attendeeNames.map(({ firstName, lastName }, index) => ({
     attendeeStatus: AttendeeStatus.Attending,
@@ -32,8 +32,8 @@ const attendees = fakeEnrolments(
 );
 
 const getMockedAttendeesResponse = (
-  enrolmentsResponse: EnrolmentsResponse,
-  overrideVariables?: Partial<EnrolmentsQueryVariables>
+  enrolmentsResponse: SignupsResponse,
+  overrideVariables?: Partial<SignupsQueryVariables>
 ): MockedResponse => {
   const defaultVariables = {
     createPath: undefined,
@@ -41,10 +41,10 @@ const getMockedAttendeesResponse = (
     text: '',
     attendeeStatus: AttendeeStatus.Attending,
   };
-  const attendeesResponse = { data: { enrolments: enrolmentsResponse } };
+  const attendeesResponse = { data: { signups: enrolmentsResponse } };
   return {
     request: {
-      query: EnrolmentsDocument,
+      query: SignupsDocument,
       variables: { ...defaultVariables, ...overrideVariables },
     },
     result: attendeesResponse,
@@ -60,7 +60,7 @@ const waitingAttendeeNames = range(1, 2).map((n) => ({
   lastName: `User ${n}`,
 }));
 
-const waitingAttendees = fakeEnrolments(
+const waitingAttendees = fakeSignups(
   waitingAttendeeNames.length,
   waitingAttendeeNames.map(({ firstName, lastName }, index) => ({
     attendeeStatus: AttendeeStatus.Waitlisted,

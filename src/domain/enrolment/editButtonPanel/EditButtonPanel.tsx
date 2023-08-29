@@ -8,8 +8,8 @@ import LoadingButton from '../../../common/components/loadingButton/LoadingButto
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
 import { ROUTES } from '../../../constants';
 import {
-  EnrolmentFieldsFragment,
   RegistrationFieldsFragment,
+  SignupFieldsFragment,
 } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import getValue from '../../../utils/getValue';
@@ -23,7 +23,7 @@ import { getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export interface EditButtonPanelProps {
-  enrolment: EnrolmentFieldsFragment;
+  enrolment: SignupFieldsFragment;
   onCancel: () => void;
   onSave: () => void;
   onSendMessage: () => void;
