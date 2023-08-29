@@ -1631,9 +1631,9 @@
   "maintenance": {
     "header": {
       "label": "Maintenance",
-      "text": "On Wednesday 23 August, the Linked Events service will be updated. No content creation or login will be possible on that day."
+      "text": "On Wednesday 30 August, the Linked Events service will be updated. No content creation or login will be possible on that day."
     },
-    "toast": "On Wednesday 23.8. the Linked Events service will be updated, which means that login will not be possible."
+    "toast": "On Wednesday 30.8. the Linked Events service will be updated, which means that login will not be possible."
   },
   "navigation": {
     "languages": {
