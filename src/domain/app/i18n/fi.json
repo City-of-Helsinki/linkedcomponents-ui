@@ -1631,9 +1631,9 @@
   "maintenance": {
     "header": {
       "label": "Palvelua päivitetään",
-      "text": "Keskiviikkona 23.8. Linked Events -palvelua päivitetään. Kyseisenä päivänä sisällöntuotanto tai kirjautuminen ei ole mahdollista."
+      "text": "Keskiviikkona 30.8. Linked Events -palvelua päivitetään. Kyseisenä päivänä sisällöntuotanto tai kirjautuminen ei ole mahdollista."
     },
-    "toast": "Keskiviikkona 23.8. päivitetään Linked Events -palvelu, mistä johtuen kirjautuminen ei ole mahdollista."
+    "toast": "Keskiviikkona 30.8. päivitetään Linked Events -palvelu, mistä johtuen kirjautuminen ei ole mahdollista."
   },
   "navigation": {
     "languages": {
