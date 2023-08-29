@@ -1798,13 +1798,7 @@
       "attending": "Deltar",
       "waitlisted": "På väntelista"
     },
-    "cancelSignupModal": {
-      "buttonCancel": "Avbryt registreringen",
-      "text1": "Denna operation kan inte ångras.",
-      "text2": "Följande registreringar kommer att raderas",
-      "title": "Är du säker på att du vill avbryta registreringen?"
-    },
-    "deleteParticipantModal": {
+    "deleteSignupFromFormModal": {
       "buttonDelete": "Ta bort deltagare",
       "buttonDelete_other": "Ta bort deltagare",
       "text1": "Är du säker på att du vill ta bort deltagaren? Deltagarens reservationer tas också bort.",
@@ -1812,6 +1806,12 @@
       "text2": "Denna operation kan inte ångras.",
       "title": "Bekräfta borttagning av deltagare",
       "title_other": "Bekräfta borttagning av deltagare"
+    },
+    "deleteSignupModal": {
+      "buttonCancel": "Avbryt registreringen",
+      "text1": "Denna operation kan inte ångras.",
+      "text2": "Följande registreringar kommer att raderas",
+      "title": "Är du säker på att du vill avbryta registreringen?"
     },
     "form": {
       "buttonDeleteSignup": "Ta bort deltagare",
@@ -1893,6 +1893,7 @@
   },
   "signupGroup": {
     "actionButtons": {
+      "delete": "Avbryt deltagande",
       "edit": "Redigera information"
     },
     "form": {
@@ -1907,7 +1908,7 @@
   },
   "signupsPage": {
     "actionButtons": {
-      "cancel": "Avbryt deltagande",
+      "delete": "Avbryt deltagande",
       "edit": "Redigera information",
       "sendMessage": "Skicka ett meddelande"
     },

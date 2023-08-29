@@ -11,10 +11,10 @@ import { getMaxSeatsAmount } from '../../registration/utils';
 import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsReservationActions';
 import { getSeatsReservationData } from '../../seatsReservation/utils';
 import { SIGNUP_MODALS } from '../../signup/constants';
-import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { SIGNUP_GROUP_FIELDS } from '../constants';
-import ConfirmDeleteParticipantModal from '../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
+import ConfirmDeleteSignupFromFormModal from '../modals/confirmDeleteSignupFromFormModal/ConfirmDeleteSignupFromFormModal';
+import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFields } from '../types';
 import styles from './participantAmountSelector.module.scss';
 
@@ -29,7 +29,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { closeModal, openModal, setOpenModal } = useSignupPageContext();
+  const { closeModal, openModal, setOpenModal } = useSignupGroupFormContext();
 
   const [{ value: signups }, , { setValue: setSignups }] = useField<
     SignupFields[]
@@ -75,14 +75,14 @@ const ParticipantAmountSelector: React.FC<Props> = ({
     }
   };
 
-  const openDeleteParticipantModal = () => {
-    setOpenModal(SIGNUP_MODALS.DELETE);
+  const openDeleteSignupFromFormModal = () => {
+    setOpenModal(SIGNUP_MODALS.DELETE_SIGNUP_FROM_FORM);
   };
 
   const handleUpdateClick = () => {
     if (participantAmount < signups.length) {
       setParticipantsToDelete(signups.length - participantAmount);
-      openDeleteParticipantModal();
+      openDeleteSignupFromFormModal();
     } else {
       updateParticipantAmount();
     }
@@ -95,8 +95,8 @@ const ParticipantAmountSelector: React.FC<Props> = ({
 
   return (
     <>
-      <ConfirmDeleteParticipantModal
-        isOpen={openModal === SIGNUP_MODALS.DELETE}
+      <ConfirmDeleteSignupFromFormModal
+        isOpen={openModal === SIGNUP_MODALS.DELETE_SIGNUP_FROM_FORM}
         isSaving={saving}
         onClose={closeModal}
         onConfirm={updateParticipantAmount}

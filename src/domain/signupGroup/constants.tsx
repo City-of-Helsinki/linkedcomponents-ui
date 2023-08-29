@@ -1,4 +1,4 @@
-import { IconEye, IconPen } from 'hds-react';
+import { IconCrossCircle, IconEye, IconPen } from 'hds-react';
 
 import { SignupFields, SignupGroupFormFields } from './types';
 
@@ -69,6 +69,7 @@ export const SIGNUP_FORM_SELECT_FIELDS = [
 
 export enum SIGNUP_GROUP_ACTIONS {
   CREATE = 'create',
+  DELETE = 'delete',
   EDIT = 'edit',
   UPDATE = 'update',
   VIEW = 'view',
@@ -76,6 +77,7 @@ export enum SIGNUP_GROUP_ACTIONS {
 
 export const SIGNUP_GROUP_ICONS = {
   [SIGNUP_GROUP_ACTIONS.CREATE]: <IconPen aria-hidden={true} />,
+  [SIGNUP_GROUP_ACTIONS.DELETE]: <IconCrossCircle aria-hidden={true} />,
   [SIGNUP_GROUP_ACTIONS.EDIT]: <IconPen aria-hidden={true} />,
   [SIGNUP_GROUP_ACTIONS.UPDATE]: <IconPen aria-hidden={true} />,
   [SIGNUP_GROUP_ACTIONS.VIEW]: <IconEye aria-hidden={true} />,
@@ -83,9 +85,14 @@ export const SIGNUP_GROUP_ICONS = {
 
 export const SIGNUP_GROUP_LABEL_KEYS = {
   [SIGNUP_GROUP_ACTIONS.CREATE]: 'signupGroup.form.buttonCreate',
+  [SIGNUP_GROUP_ACTIONS.DELETE]: 'signupGroup.actionButtons.delete',
   [SIGNUP_GROUP_ACTIONS.EDIT]: 'signupGroup.actionButtons.edit',
   [SIGNUP_GROUP_ACTIONS.UPDATE]: 'signupGroup.form.buttonUpdate',
   [SIGNUP_GROUP_ACTIONS.VIEW]: '',
 };
 
 export const TEST_SIGNUP_GROUP_ID = 'signupgroup:1';
+
+export enum SIGNUP_GROUP_MODALS {
+  DELETE = 'delete',
+}

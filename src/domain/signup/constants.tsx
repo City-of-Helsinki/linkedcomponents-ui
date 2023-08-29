@@ -1,8 +1,8 @@
 import { IconCrossCircle, IconEnvelope, IconEye, IconPen } from 'hds-react';
 
 export enum SIGNUP_ACTIONS {
-  CANCEL = 'cancel',
   CREATE = 'create',
+  DELETE = 'delete',
   EDIT = 'edit',
   SEND_MESSAGE = 'sendMessage',
   UPDATE = 'update',
@@ -10,8 +10,8 @@ export enum SIGNUP_ACTIONS {
 }
 
 export const SIGNUP_ICONS = {
-  [SIGNUP_ACTIONS.CANCEL]: <IconCrossCircle aria-hidden={true} />,
   [SIGNUP_ACTIONS.CREATE]: <IconPen aria-hidden={true} />,
+  [SIGNUP_ACTIONS.DELETE]: <IconCrossCircle aria-hidden={true} />,
   [SIGNUP_ACTIONS.EDIT]: <IconPen aria-hidden={true} />,
   [SIGNUP_ACTIONS.SEND_MESSAGE]: <IconEnvelope aria-hidden={true} />,
   [SIGNUP_ACTIONS.UPDATE]: <IconPen aria-hidden={true} />,
@@ -19,8 +19,8 @@ export const SIGNUP_ICONS = {
 };
 
 export const SIGNUP_LABEL_KEYS = {
-  [SIGNUP_ACTIONS.CANCEL]: 'signupsPage.actionButtons.cancel',
   [SIGNUP_ACTIONS.CREATE]: 'signup.form.buttonSave',
+  [SIGNUP_ACTIONS.DELETE]: 'signupsPage.actionButtons.delete',
   [SIGNUP_ACTIONS.EDIT]: 'signupsPage.actionButtons.edit',
   [SIGNUP_ACTIONS.SEND_MESSAGE]: 'signupsPage.actionButtons.sendMessage',
   [SIGNUP_ACTIONS.UPDATE]: 'signup.form.buttonSave',
@@ -32,8 +32,8 @@ export const AUTHENTICATION_NOT_NEEDED = [SIGNUP_ACTIONS.EDIT];
 export const TEST_SIGNUP_ID = 'signup:0';
 
 export enum SIGNUP_MODALS {
-  CANCEL = 'cancel',
   DELETE = 'delete',
+  DELETE_SIGNUP_FROM_FORM = 'deleteSignupFromForm',
   PERSONS_ADDED_TO_WAITLIST = 'personsAddedToWaitList',
   RESERVATION_TIME_EXPIRED = 'reservationTimeExpired',
   SEND_MESSAGE = 'sendMessage',

@@ -12,7 +12,7 @@ import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import { reportError } from '../../app/sentry/utils';
 import { SIGNUP_MODALS } from '../../signup/constants';
-import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
+import { useSignupGroupFormContext } from '../../signupGroup/signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFields } from '../../signupGroup/types';
 import { getNewSignups } from '../../signupGroup/utils';
 import useUser from '../../user/hooks/useUser';
@@ -42,7 +42,7 @@ const useSeatsReservationActions = ({
   const { user } = useUser();
   const [saving, setSaving] = useMountedState(false);
 
-  const { closeModal, setOpenModal } = useSignupPageContext();
+  const { closeModal, setOpenModal } = useSignupGroupFormContext();
 
   const registrationId = registration.id as string;
 

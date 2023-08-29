@@ -6,27 +6,27 @@ import ConfirmModal, {
   CommonConfirmModalProps,
 } from '../../../../common/components/dialog/confirmModal/ConfirmModal';
 
-export type ConfirmDeleteParticipantModalProps = {
+export type ConfirmDeleteSignupFromFormModalProps = {
   participantCount: number;
 } & CommonConfirmModalProps;
 
-const ConfirmDeleteParticipantModal: React.FC<
-  ConfirmDeleteParticipantModalProps
+const ConfirmDeleteSignupFromFormModal: React.FC<
+  ConfirmDeleteSignupFromFormModalProps
 > = ({ participantCount, ...props }) => {
   const { t } = useTranslation();
 
   return (
     <ConfirmModal
       {...props}
-      bodyContent={<p>{t('signup.deleteParticipantModal.text2')}</p>}
+      bodyContent={<p>{t('signup.deleteSignupFromFormModal.text2')}</p>}
       confirmButtonIcon={<IconCross aria-hidden={true} />}
-      confirmButtonText={t('signup.deleteParticipantModal.buttonDelete', {
+      confirmButtonText={t('signup.deleteSignupFromFormModal.buttonDelete', {
         count: participantCount,
       })}
-      description={t('signup.deleteParticipantModal.text1', {
+      description={t('signup.deleteSignupFromFormModal.text1', {
         count: participantCount,
       })}
-      heading={t('signup.deleteParticipantModal.title', {
+      heading={t('signup.deleteSignupFromFormModal.title', {
         count: participantCount,
       })}
       id="confirm-participant-delete-modal"
@@ -35,4 +35,4 @@ const ConfirmDeleteParticipantModal: React.FC<
   );
 };
 
-export default ConfirmDeleteParticipantModal;
+export default ConfirmDeleteSignupFromFormModal;

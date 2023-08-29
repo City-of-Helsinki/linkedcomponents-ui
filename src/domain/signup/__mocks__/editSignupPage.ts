@@ -59,14 +59,14 @@ const mockedSignupResponse: MockedResponse = {
   result: signupResponse,
 };
 
-const cancelSignupVariables = { id: signupId };
-const cancelSignupResponse = { data: { deleteSignup: null } };
-const mockedCancelSignupResponse: MockedResponse = {
+const deleteSignupVariables = { id: signupId };
+const deleteSignupResponse = { data: { deleteSignup: null } };
+const mockedDeleteSignupResponse: MockedResponse = {
   request: {
     query: DeleteSignupDocument,
-    variables: cancelSignupVariables,
+    variables: deleteSignupVariables,
   },
-  result: cancelSignupResponse,
+  result: deleteSignupResponse,
 };
 
 const sendMessageValues = {
@@ -98,7 +98,7 @@ const mockedSendMessageResponse: MockedResponse = {
 
 export {
   dateOfBirth,
-  mockedCancelSignupResponse,
+  mockedDeleteSignupResponse,
   mockedSendMessageResponse,
   mockedSignupResponse,
   sendMessageValues,

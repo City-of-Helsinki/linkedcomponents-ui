@@ -7,11 +7,11 @@ import React, {
 } from 'react';
 
 import useMountedState from '../../../hooks/useMountedState';
+import { SIGNUP_MODALS } from '../../signup/constants';
 // eslint-disable-next-line max-len
-import PersonsAddedToWaitingListModal from '../../signupGroup/modals/personsAddedToWaitingListModal/PersonsAddedToWaitingListModal';
-import { SIGNUP_MODALS } from '../constants';
+import PersonsAddedToWaitingListModal from '../modals/personsAddedToWaitingListModal/PersonsAddedToWaitingListModal';
 
-export type SignupPageContextProps = {
+export type SignupGroupFormContextProps = {
   closeModal: () => void;
   openModal: SIGNUP_MODALS | null;
   openModalId: string | null;
@@ -22,17 +22,19 @@ export type SignupPageContextProps = {
   toggleOpenParticipant: (index: number) => void;
 };
 
-export const SignupPageContext = createContext<
-  SignupPageContextProps | undefined
+export const SignupGroupFormContext = createContext<
+  SignupGroupFormContextProps | undefined
 >(undefined);
 
-export const SignupPageProvider: FC<PropsWithChildren> = ({ children }) => {
+export const SignupGroupFormProvider: FC<PropsWithChildren> = ({
+  children,
+}) => {
   const [openParticipant, setOpenParticipant] = useState<number | null>(0);
 
   const [openModal, setOpenModal] = useMountedState<SIGNUP_MODALS | null>(null);
   const [openModalId, setOpenModalId] = useMountedState<string | null>(null);
 
-  const value: SignupPageContextProps = useMemo(
+  const value: SignupGroupFormContextProps = useMemo(
     () => ({
       closeModal: () => {
         setOpenModalId(null);
@@ -52,12 +54,12 @@ export const SignupPageProvider: FC<PropsWithChildren> = ({ children }) => {
   );
 
   return (
-    <SignupPageContext.Provider value={value}>
+    <SignupGroupFormContext.Provider value={value}>
       <PersonsAddedToWaitingListModal
         isOpen={openModal === SIGNUP_MODALS.PERSONS_ADDED_TO_WAITLIST}
         onClose={value.closeModal}
       />
       {children}
-    </SignupPageContext.Provider>
+    </SignupGroupFormContext.Provider>
   );
 };

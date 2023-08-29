@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { DATE_FORMAT_API } from '../../../constants';
 import {
+  DeleteSignupGroupDocument,
   SignupGroupDocument,
   UpdateSignupGroupDocument,
 } from '../../../generated/graphql';
@@ -72,7 +73,18 @@ const mockedInvalidUpdateSignupGroupResponse: MockedResponse = {
   } as Error,
 };
 
+const deleteSignupGroupVariables = { id: signupGroupId };
+const deleteSignupGroupResponse = { data: { deleteSignupGroup: null } };
+const mockedDeleteSignupGroupResponse: MockedResponse = {
+  request: {
+    query: DeleteSignupGroupDocument,
+    variables: deleteSignupGroupVariables,
+  },
+  result: deleteSignupGroupResponse,
+};
+
 export {
+  mockedDeleteSignupGroupResponse,
   mockedInvalidUpdateSignupGroupResponse,
   mockedSendMessageResponse,
   mockedSignupGroupResponse,

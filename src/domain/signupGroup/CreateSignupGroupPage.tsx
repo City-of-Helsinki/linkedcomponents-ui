@@ -20,12 +20,12 @@ import {
 } from '../seatsReservation/utils';
 import useRegistrationAndEventData from '../signup/hooks/useRegistrationAndEventData';
 import SignupPageBreadcrumb from '../signup/signupPageBreadbrumb/SignupPageBreadcrumb';
-import { SignupPageProvider } from '../signup/signupPageContext/SignupPageContext';
 import { SignupServerErrorsProvider } from '../signup/signupServerErrorsContext/SignupServerErrorsContext';
 import useUser from '../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS } from './constants';
 import { checkCanUserDoSignupGroupAction } from './permissions';
 import SignupGroupForm from './signupGroupForm/SignupGroupForm';
+import { SignupGroupFormProvider } from './signupGroupFormContext/SignupGroupFormContext';
 import styles from './signupGroupPage.module.scss';
 import { getSignupGroupDefaultInitialValues } from './utils';
 
@@ -88,11 +88,11 @@ const CreateSignupGroupPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {event && registration ? (
-        <SignupPageProvider>
+        <SignupGroupFormProvider>
           <SignupServerErrorsProvider>
             <CreateSignupGroupPage event={event} registration={registration} />
           </SignupServerErrorsProvider>
-        </SignupPageProvider>
+        </SignupGroupFormProvider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

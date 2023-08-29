@@ -424,6 +424,7 @@ export type Mutation = {
   deletePlace?: Maybe<NoContent>;
   deleteRegistration?: Maybe<NoContent>;
   deleteSignup?: Maybe<NoContent>;
+  deleteSignupGroup?: Maybe<NoContent>;
   postFeedback?: Maybe<Feedback>;
   postGuestFeedback?: Maybe<Feedback>;
   sendMessage?: Maybe<SendMessageResponse>;
@@ -524,6 +525,11 @@ export type MutationDeleteRegistrationArgs = {
 
 
 export type MutationDeleteSignupArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteSignupGroupArgs = {
   id: Scalars['ID'];
 };
 
@@ -1806,6 +1812,13 @@ export type CreateSignupGroupMutationVariables = Exact<{
 
 
 export type CreateSignupGroupMutation = { __typename?: 'Mutation', createSignupGroup: { __typename?: 'CreateSignupGroupResponse', extraInfo?: string | null, id?: string | null, registration?: string | null, signups?: Array<{ __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null }> | null } };
+
+export type DeleteSignupGroupMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteSignupGroupMutation = { __typename?: 'Mutation', deleteSignupGroup?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
 
 export type UpdateSignupGroupMutationVariables = Exact<{
   input: UpdateSignupGroupMutationInput;
@@ -4299,6 +4312,39 @@ export function useCreateSignupGroupMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateSignupGroupMutationHookResult = ReturnType<typeof useCreateSignupGroupMutation>;
 export type CreateSignupGroupMutationResult = Apollo.MutationResult<CreateSignupGroupMutation>;
 export type CreateSignupGroupMutationOptions = Apollo.BaseMutationOptions<CreateSignupGroupMutation, CreateSignupGroupMutationVariables>;
+export const DeleteSignupGroupDocument = gql`
+    mutation DeleteSignupGroup($id: ID!) {
+  deleteSignupGroup(id: $id) @rest(type: "NoContent", path: "/signup_group/{args.id}/", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeleteSignupGroupMutationFn = Apollo.MutationFunction<DeleteSignupGroupMutation, DeleteSignupGroupMutationVariables>;
+
+/**
+ * __useDeleteSignupGroupMutation__
+ *
+ * To run a mutation, you first call `useDeleteSignupGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSignupGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSignupGroupMutation, { data, loading, error }] = useDeleteSignupGroupMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteSignupGroupMutation(baseOptions?: Apollo.MutationHookOptions<DeleteSignupGroupMutation, DeleteSignupGroupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteSignupGroupMutation, DeleteSignupGroupMutationVariables>(DeleteSignupGroupDocument, options);
+      }
+export type DeleteSignupGroupMutationHookResult = ReturnType<typeof useDeleteSignupGroupMutation>;
+export type DeleteSignupGroupMutationResult = Apollo.MutationResult<DeleteSignupGroupMutation>;
+export type DeleteSignupGroupMutationOptions = Apollo.BaseMutationOptions<DeleteSignupGroupMutation, DeleteSignupGroupMutationVariables>;
 export const UpdateSignupGroupDocument = gql`
     mutation UpdateSignupGroup($input: UpdateSignupGroupMutationInput!, $id: ID!) {
   updateSignupGroup(input: $input, id: $id) @rest(type: "SignupGroup", path: "/signup_group/{args.id}/", method: "PUT", bodyKey: "input") {

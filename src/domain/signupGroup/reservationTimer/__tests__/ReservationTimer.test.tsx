@@ -19,11 +19,11 @@ import {
   within,
 } from '../../../../utils/testUtils';
 import { registration } from '../../../registration/__mocks__/registration';
-import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
 import {
   SignupServerErrorsContext,
   SignupServerErrorsContextProps,
 } from '../../../signup/signupServerErrorsContext/SignupServerErrorsContext';
+import { SignupGroupFormProvider } from '../../signupGroupFormContext/SignupGroupFormContext';
 import ReservationTimer from '../ReservationTimer';
 
 const mockedUseNavigate = jest.fn();
@@ -51,7 +51,7 @@ const renderComponent = (
   mocks: MockedResponse[] = []
 ) =>
   render(
-    <SignupPageProvider>
+    <SignupGroupFormProvider>
       <SignupServerErrorsContext.Provider
         value={{ ...defaultServerErrorsProps, ...serverErrorProps }}
       >
@@ -64,7 +64,7 @@ const renderComponent = (
           signups={[]}
         />
       </SignupServerErrorsContext.Provider>
-    </SignupPageProvider>,
+    </SignupGroupFormProvider>,
     { mocks }
   );
 

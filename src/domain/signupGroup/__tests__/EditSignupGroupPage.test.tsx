@@ -26,6 +26,7 @@ import {
 } from '../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
+  mockedDeleteSignupGroupResponse,
   mockedInvalidUpdateSignupGroupResponse,
   mockedSendMessageResponse,
   mockedSignupGroupResponse,
@@ -232,4 +233,35 @@ test('should show server errors', async () => {
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);
+});
+
+test('should delete signup group', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedDeleteSignupGroupResponse,
+  ]);
+
+  await findElement('firstNameInput');
+  const { menu } = await openMenu();
+
+  const cancelButton = await within(menu).findByRole('button', {
+    name: 'Peruuta osallistuminen',
+  });
+  await user.click(cancelButton);
+
+  const dialog = screen.getByRole('dialog', {
+    name: 'Haluatko varmasti poistaa ilmoittautumisen?',
+  });
+
+  const confirmCancelButton = within(dialog).getByRole('button', {
+    name: 'Peruuta ilmoittautuminen',
+  });
+  await user.click(confirmCancelButton);
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/registrations/${registrationId}/signups`
+    )
+  );
 });

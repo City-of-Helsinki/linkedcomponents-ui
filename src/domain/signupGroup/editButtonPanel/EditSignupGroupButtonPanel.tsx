@@ -26,6 +26,7 @@ import { getResponsiblePerson } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export interface EditSignupGroupButtonPanelProps {
+  onDelete: () => void;
   onSendMessage: () => void;
   onUpdate: () => void;
   registration: RegistrationFieldsFragment;
@@ -34,6 +35,7 @@ export interface EditSignupGroupButtonPanelProps {
 }
 
 const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
+  onDelete,
   onSendMessage,
   onUpdate,
   registration,
@@ -59,7 +61,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
     state: { signupId: responsiblePerson?.id },
   });
 
-  const getSignupActionItemProps = ({
+  const getSingupActionItemProps = ({
     action,
     onClick,
   }: {
@@ -77,7 +79,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
     });
   };
 
-  const getSignupGroupActionItemProps = ({
+  const getSingupGroupActionItemProps = ({
     action,
     onClick,
   }: {
@@ -96,7 +98,11 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
   };
 
   const actionItems: MenuItemOptionProps[] = [
-    getSignupActionItemProps({
+    getSingupGroupActionItemProps({
+      action: SIGNUP_GROUP_ACTIONS.DELETE,
+      onClick: onDelete,
+    }),
+    getSingupActionItemProps({
       action: SIGNUP_ACTIONS.SEND_MESSAGE,
       onClick: onSendMessage,
     }),
@@ -112,7 +118,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
           key="update"
           className={buttonPanelStyles.fullWidthOnMobile}
           icon={<IconPen aria-hidden={true} />}
-          {...getSignupGroupActionItemProps({
+          {...getSingupGroupActionItemProps({
             action: SIGNUP_GROUP_ACTIONS.UPDATE,
             onClick: onUpdate,
           })}

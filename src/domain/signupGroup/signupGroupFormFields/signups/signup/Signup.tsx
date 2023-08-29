@@ -10,8 +10,8 @@ import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { RegistrationFieldsFragment } from '../../../../../generated/graphql';
 import getValue from '../../../../../utils/getValue';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
-import { useSignupPageContext } from '../../../../signup/signupPageContext/hooks/useSignupPageContext';
 import { SIGNUP_FIELDS } from '../../../constants';
+import { useSignupGroupFormContext } from '../../../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFields } from '../../../types';
 import {
   isDateOfBirthFieldRequired,
@@ -43,7 +43,8 @@ const Signup: React.FC<Props> = ({
   signupPath,
 }) => {
   const { t } = useTranslation();
-  const { openParticipant, toggleOpenParticipant } = useSignupPageContext();
+  const { openParticipant, toggleOpenParticipant } =
+    useSignupGroupFormContext();
   const labelText =
     [signup.firstName, signup.lastName].filter(skipFalsyType).join(' ') ||
     t('signup.form.signupDefaultTitle', { index: index + 1 });

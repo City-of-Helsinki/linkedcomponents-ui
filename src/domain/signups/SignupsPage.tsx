@@ -34,8 +34,8 @@ import useRegistrationAndEventData from '../signup/hooks/useRegistrationAndEvent
 import SendMessageModal from '../signup/modals/sendMessageModal/SendMessageModal';
 import { getSignupActionButtonProps } from '../signup/permissions';
 import SignupAuthenticationNotification from '../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
-import { useSignupPageContext } from '../signup/signupPageContext/hooks/useSignupPageContext';
-import { SignupPageProvider } from '../signup/signupPageContext/SignupPageContext';
+import { useSignupGroupFormContext } from '../signupGroup/signupGroupFormContext/hooks/useSignupGroupFormContext';
+import { SignupGroupFormProvider } from '../signupGroup/signupGroupFormContext/SignupGroupFormContext';
 import { clearCreateSignupGroupFormData } from '../signupGroup/utils';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
@@ -67,7 +67,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
     locale
   );
 
-  const { closeModal, openModal, setOpenModal } = useSignupPageContext();
+  const { closeModal, openModal, setOpenModal } = useSignupGroupFormContext();
   const { saving, sendMessage } = useSignupActions({
     registration,
   });
@@ -218,9 +218,9 @@ const SignupsPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {registration ? (
-        <SignupPageProvider>
+        <SignupGroupFormProvider>
           <SignupsPage registration={registration} />
-        </SignupPageProvider>
+        </SignupGroupFormProvider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

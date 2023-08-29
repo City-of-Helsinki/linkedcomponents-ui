@@ -6,35 +6,33 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import { registration } from '../../../../registration/__mocks__/registration';
-import { signup } from '../../../__mocks__/signup';
-import ConfirmCancelSignupModal, {
-  ConfirmCancelSignupModalProps,
-} from '../ConfirmCancelSignupModal';
+import ConfirmDeleteSignupFromFormModal, {
+  ConfirmDeleteSignupFromFormModalProps,
+} from '../ConfirmDeleteSignupFromFormModal';
 
 configure({ defaultHidden: true });
 
-const defaultProps: ConfirmCancelSignupModalProps = {
+const defaultProps: ConfirmDeleteSignupFromFormModalProps = {
   isOpen: true,
   isSaving: false,
   onClose: jest.fn(),
   onConfirm: jest.fn(),
-  registration,
-  signup,
+  participantCount: 1,
 };
 
-const renderComponent = (props: Partial<ConfirmCancelSignupModalProps>) =>
-  render(<ConfirmCancelSignupModal {...defaultProps} {...props} />);
+const renderComponent = (
+  props: Partial<ConfirmDeleteSignupFromFormModalProps>
+) => render(<ConfirmDeleteSignupFromFormModal {...defaultProps} {...props} />);
 
-test('should call onCancel', async () => {
+test('should call onConfirm', async () => {
   const onConfirm = jest.fn();
   const user = userEvent.setup();
   renderComponent({ onConfirm });
 
-  const cancelEventButton = screen.getByRole('button', {
-    name: 'Peruuta ilmoittautuminen',
+  const deleteParticipantButton = screen.getByRole('button', {
+    name: 'Poista osallistuja',
   });
-  await user.click(cancelEventButton);
+  await user.click(deleteParticipantButton);
   expect(onConfirm).toBeCalled();
 });
 

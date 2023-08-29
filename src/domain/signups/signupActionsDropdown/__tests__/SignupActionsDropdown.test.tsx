@@ -21,13 +21,13 @@ import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { registration } from '../../../registration/__mocks__/registration';
 import {
-  mockedCancelSignupResponse,
+  mockedDeleteSignupResponse,
   mockedSendMessageResponse,
   sendMessageValues,
   signup,
   signupWithGroup,
 } from '../../../signup/__mocks__/editSignupPage';
-import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
+import { SignupGroupFormProvider } from '../../../signupGroup/signupGroupFormContext/SignupGroupFormContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import SignupActionsDropdown, {
   SignupActionsDropdownProps,
@@ -41,7 +41,7 @@ const defaultProps: SignupActionsDropdownProps = {
 };
 
 const defaultMocks = [
-  mockedCancelSignupResponse,
+  mockedDeleteSignupResponse,
   mockedEventResponse,
   mockedSendMessageResponse,
   mockedOrganizationAncestorsResponse,
@@ -65,9 +65,9 @@ const renderComponent = ({
   props?: Partial<SignupActionsDropdownProps>;
 } = {}) =>
   render(
-    <SignupPageProvider>
+    <SignupGroupFormProvider>
       <SignupActionsDropdown {...defaultProps} {...props} />
-    </SignupPageProvider>,
+    </SignupGroupFormProvider>,
     {
       authContextValue,
       mocks,

@@ -4,7 +4,7 @@ import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik, FormikErrors, FormikTouched, useField } from 'formik';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import FormikPersist from '../../../common/components/formikPersist/FormikPersist';
@@ -18,18 +18,24 @@ import {
   SignupGroupQueryVariables,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
 import useSignupActions from '../../enrolment/hooks/useSignupActions';
 import { isRegistrationPossible } from '../../registration/utils';
+import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { clearSeatsReservationData } from '../../seatsReservation/utils';
 import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../../signup/constants';
+import ConfirmDeleteSignupOrSignupGroupModal from '../../signup/modals/confirmDeleteSignupOrSignupGroupModal/ConfirmDeleteSignupOrSignupGroupModal';
 import SendMessageModal from '../../signup/modals/sendMessageModal/SendMessageModal';
 import SignupAuthenticationNotification from '../../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
-import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
-import { SIGNUP_GROUP_FIELDS } from '../constants';
+import {
+  SIGNUP_GROUP_ACTIONS,
+  SIGNUP_GROUP_FIELDS,
+  SIGNUP_GROUP_MODALS,
+} from '../constants';
 import CreateSignupGroupButtonPanel from '../createButtonPanel/CreateSignupGroupButtonPanel';
 import Divider from '../divider/Divider';
 import EditSignupGroupButtonPanel from '../editButtonPanel/EditSignupGroupButtonPanel';
@@ -39,6 +45,7 @@ import useSignupGroupActions from '../hooks/useSignupGroupActions';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
 import RegistrationWarning from '../registrationWarning/RegistrationWarning';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
+import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import SignupGroupFormFields from '../signupGroupFormFields/SignupGroupFormFields';
 import {
   SignupFields,
@@ -77,7 +84,6 @@ type SignupGroupFormProps = Omit<
 
 const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   disabled,
-
   event,
   refetchSignupGroup,
   registration,
@@ -93,6 +99,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   >(SIGNUP_GROUP_FIELDS.SIGNUPS);
   const locale = useLocale();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const timerCallbacksDisabled = useRef(false);
 
@@ -112,8 +119,12 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   });
 
   const {
+    closeModal: closeSignupGroupModal,
     createSignupGroup,
+    deleteSignupGroup,
+    openModal: openSignupGroupModal,
     saving: savingSignupGroup,
+    setOpenModal: setOpenSignupGroupModal,
     updateSignupGroup,
   } = useSignupGroupActions({
     registration,
@@ -126,7 +137,28 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   const formSavingDisabled = React.useRef(!!signupGroup);
 
   const { closeModal, openModal, setOpenModal, setOpenParticipant } =
-    useSignupPageContext();
+    useSignupGroupFormContext();
+
+  const goToSignupsPage = () => {
+    const { returnPath, remainingQueryString } = extractLatestReturnPath(
+      location.search,
+      ROUTES.REGISTRATION_SIGNUPS.replace(
+        ':registrationId',
+        getValue(registration.id, '')
+      )
+    );
+
+    navigate(
+      {
+        pathname: `/${locale}${returnPath}`,
+        search: replaceParamsToRegistrationQueryString(remainingQueryString, {
+          attendeePage: null,
+          waitingPage: null,
+        }),
+      },
+      { state: { enrolmentId: responsiblePerson?.id } }
+    );
+  };
 
   const goToSignupsPageAfterCreate = () => {
     const registrationId = getValue(registration.id, '');
@@ -153,6 +185,10 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
       onError: (error) => showServerErrors({ error }, 'signup'),
       onSuccess: goToSignupsPageAfterCreate,
     });
+  };
+
+  const handleDelete = () => {
+    deleteSignupGroup({ onSuccess: goToSignupsPage });
   };
 
   const handleUpdate = (values: SignupGroupFormFieldsType) => {
@@ -195,6 +231,16 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 
   return (
     <>
+      {openSignupGroupModal === SIGNUP_GROUP_MODALS.DELETE && (
+        <ConfirmDeleteSignupOrSignupGroupModal
+          isSaving={savingSignupGroup === SIGNUP_GROUP_ACTIONS.DELETE}
+          isOpen={openSignupGroupModal === SIGNUP_GROUP_MODALS.DELETE}
+          onClose={closeSignupGroupModal}
+          onConfirm={handleDelete}
+          registration={registration}
+          signupGroup={signupGroup}
+        />
+      )}
       {responsiblePerson && (
         <SendMessageModal
           isOpen={openModal === SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP}
@@ -265,6 +311,9 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
           </Container>
           {signupGroup ? (
             <EditSignupGroupButtonPanel
+              onDelete={() =>
+                setOpenSignupGroupModal(SIGNUP_GROUP_MODALS.DELETE)
+              }
               onSendMessage={() =>
                 setOpenModal(SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP)
               }

@@ -12,9 +12,9 @@ import {
   isSeatsReservationExpired,
 } from '../../seatsReservation/utils';
 import { SIGNUP_MODALS } from '../../signup/constants';
-import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
+import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFields } from '../types';
 import { clearCreateSignupGroupFormData } from '../utils';
 
@@ -65,7 +65,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
     setSignups,
     signups,
   });
-  const { openModal, setOpenModal } = useSignupPageContext();
+  const { openModal, setOpenModal } = useSignupGroupFormContext();
   const { setServerErrorItems, showServerErrors } =
     useSignupServerErrorsContext();
 

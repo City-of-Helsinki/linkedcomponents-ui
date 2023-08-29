@@ -33,6 +33,7 @@ export const checkCanUserDoSignupGroupAction = ({
   switch (action) {
     case SIGNUP_GROUP_ACTIONS.EDIT:
     case SIGNUP_GROUP_ACTIONS.CREATE:
+    case SIGNUP_GROUP_ACTIONS.DELETE:
     case SIGNUP_GROUP_ACTIONS.UPDATE:
     case SIGNUP_GROUP_ACTIONS.VIEW:
       return isAdminUser;

@@ -19,7 +19,7 @@ import {
 import { useSignupServerErrorsContext } from '../../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import useUser from '../../../user/hooks/useUser';
 import { SIGNUP_GROUP_FIELDS } from '../../constants';
-import ConfirmDeleteParticipantModal from '../../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
+import ConfirmDeleteSignupFromFormModal from '../../modals/confirmDeleteSignupFromFormModal/ConfirmDeleteSignupFromFormModal';
 import { SignupFields } from '../../types';
 import { getNewSignups } from '../../utils';
 import Signup from './signup/Signup';
@@ -128,7 +128,7 @@ const Signups: React.FC<Props> = ({ disabled, registration, signupGroup }) => {
 
               return (
                 <React.Fragment key={index}>
-                  <ConfirmDeleteParticipantModal
+                  <ConfirmDeleteSignupFromFormModal
                     isOpen={openModalIndex === index}
                     isSaving={saving}
                     onClose={closeModal}
