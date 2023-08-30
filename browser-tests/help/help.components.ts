@@ -212,7 +212,9 @@ export const findHelpPages = async (t: TestController) => {
         return withinHelpPage().findByRole('heading', { name: /yleistä/i });
       },
       termsOfUseTitle() {
-        return withinHelpPage().findByRole('heading', { name: /käyttöehdot/i });
+        return withinHelpPage().findByRole('heading', {
+          name: /tietosuoja ja käyttöehdot/i,
+        });
       },
     };
 
