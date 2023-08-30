@@ -18,21 +18,21 @@ import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
 import { setSeatsReservationData } from '../../reserveSeats/utils';
 import {
-  ATTENDEE_INITIAL_VALUES,
   ENROLMENT_ACTIONS,
   ENROLMENT_FIELDS,
   ENROLMENT_INITIAL_VALUES,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
+  SIGNUP_INITIAL_VALUES,
   TEST_ENROLMENT_ID,
 } from '../constants';
 import {
   enrolmentPathBuilder,
-  getAttendeeDefaultInitialValues,
   getEditEnrolmentWarning,
   getEnrolmentInitialValues,
   getEnrolmentNotificationsCode,
   getEnrolmentNotificationTypes,
+  getSignupDefaultInitialValues,
   getSignupGroupPayload,
   getUpdateEnrolmentPayload,
   isEnrolmentFieldRequired,
@@ -60,9 +60,9 @@ const generateSeatsReservationData = (expirationOffset: number) => {
   return reservation;
 };
 
-describe('getAttendeeDefaultInitialValues function', () => {
-  it('should return attendee initial values', () => {
-    expect(getAttendeeDefaultInitialValues(fakeRegistration())).toEqual({
+describe('getSignupDefaultInitialValues function', () => {
+  it('should return signup initial values', () => {
+    expect(getSignupDefaultInitialValues(fakeRegistration())).toEqual({
       city: '',
       dateOfBirth: null,
       extraInfo: '',
@@ -78,7 +78,6 @@ describe('getAttendeeDefaultInitialValues function', () => {
 describe('getEnrolmentInitialValues function', () => {
   it('should return default values if value is not set', () => {
     const {
-      attendees,
       email,
       extraInfo,
       membershipNumber,
@@ -86,6 +85,7 @@ describe('getEnrolmentInitialValues function', () => {
       notifications,
       phoneNumber,
       serviceLanguage,
+      signups,
     } = getEnrolmentInitialValues(
       fakeSignup({
         city: null,
@@ -105,7 +105,7 @@ describe('getEnrolmentInitialValues function', () => {
       fakeRegistration()
     );
 
-    expect(attendees).toEqual([
+    expect(signups).toEqual([
       {
         city: '',
         dateOfBirth: null,
@@ -142,7 +142,6 @@ describe('getEnrolmentInitialValues function', () => {
     const expectedZip = '12345';
 
     const {
-      attendees,
       email,
       extraInfo,
       membershipNumber,
@@ -150,6 +149,7 @@ describe('getEnrolmentInitialValues function', () => {
       notifications,
       phoneNumber,
       serviceLanguage,
+      signups,
     } = getEnrolmentInitialValues(
       fakeSignup({
         city: expectedCity,
@@ -169,7 +169,7 @@ describe('getEnrolmentInitialValues function', () => {
       registration
     );
 
-    expect(attendees).toEqual([
+    expect(signups).toEqual([
       {
         city: expectedCity,
         dateOfBirth: expectedDateOfBirth,
@@ -233,7 +233,7 @@ describe('getSignupGroupPayload function', () => {
       getSignupGroupPayload({
         formValues: {
           ...ENROLMENT_INITIAL_VALUES,
-          attendees: [ATTENDEE_INITIAL_VALUES],
+          signups: [SIGNUP_INITIAL_VALUES],
         },
         registration,
         reservationCode: TEST_SEATS_RESERVATION_CODE,
@@ -279,7 +279,14 @@ describe('getSignupGroupPayload function', () => {
     const payload = getSignupGroupPayload({
       formValues: {
         ...ENROLMENT_INITIAL_VALUES,
-        attendees: [
+        email,
+        extraInfo: groupExtraInfo,
+        membershipNumber,
+        nativeLanguage,
+        notifications,
+        phoneNumber,
+        serviceLanguage,
+        signups: [
           {
             city,
             dateOfBirth,
@@ -291,13 +298,6 @@ describe('getSignupGroupPayload function', () => {
             zipcode,
           },
         ],
-        email,
-        extraInfo: groupExtraInfo,
-        membershipNumber,
-        nativeLanguage,
-        notifications,
-        phoneNumber,
-        serviceLanguage,
       },
       registration,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
@@ -368,7 +368,7 @@ describe('getUpdateEnrolmentPayload function', () => {
       serviceLanguage = 'sv',
       streetAddress = 'Street address',
       zipcode = '00100';
-    const attendees = [
+    const signups = [
       {
         city,
         dateOfBirth,
@@ -383,7 +383,6 @@ describe('getUpdateEnrolmentPayload function', () => {
     const payload = getUpdateEnrolmentPayload({
       formValues: {
         ...ENROLMENT_INITIAL_VALUES,
-        attendees,
         email,
         extraInfo,
         membershipNumber,
@@ -391,6 +390,7 @@ describe('getUpdateEnrolmentPayload function', () => {
         notifications,
         phoneNumber,
         serviceLanguage,
+        signups,
       },
       id: TEST_ENROLMENT_ID,
       registration,

@@ -14,8 +14,8 @@ import { reportError } from '../../../app/sentry/utils';
 import { ENROLMENT_FIELDS } from '../../../enrolment/constants';
 import { useEnrolmentServerErrorsContext } from '../../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import ConfirmDeleteParticipantModal from '../../../enrolment/modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
-import { AttendeeFields } from '../../../enrolment/types';
-import { getNewAttendees } from '../../../enrolment/utils';
+import { SignupFields } from '../../../enrolment/types';
+import { getNewSignups } from '../../../enrolment/utils';
 import {
   getSeatsReservationData,
   setSeatsReservationData,
@@ -25,7 +25,7 @@ import Signup from './signup/Signup';
 import styles from './signups.module.scss';
 
 const getSignupPath = (index: number) =>
-  `${ENROLMENT_FIELDS.ATTENDEES}[${index}]`;
+  `${ENROLMENT_FIELDS.SIGNUPS}[${index}]`;
 
 interface Props {
   disabled?: boolean;
@@ -45,8 +45,8 @@ const Signups: React.FC<Props> = ({ disabled, registration }) => {
   const registrationId = getValue(registration.id, '');
 
   const [{ value: signups }, , { setValue: setSignups }] = useField<
-    AttendeeFields[]
-  >({ name: ENROLMENT_FIELDS.ATTENDEES });
+    SignupFields[]
+  >({ name: ENROLMENT_FIELDS.SIGNUPS });
 
   const [updateSeatsReservationMutation] = useUpdateSeatsReservationMutation();
 
@@ -75,13 +75,13 @@ const Signups: React.FC<Props> = ({ disabled, registration }) => {
         variables: { id: reservationData.id, input: payload },
       });
       const seatsReservation = data?.updateSeatsReservation as SeatsReservation;
-      const newAttendees = getNewAttendees({
-        attendees: signups.filter((_, index) => index !== indexToRemove),
+      const newSignups = getNewSignups({
         registration,
         seatsReservation,
+        signups: signups.filter((_, index) => index !== indexToRemove),
       });
 
-      setSignups(newAttendees);
+      setSignups(newSignups);
 
       setSeatsReservationData(registrationId, seatsReservation);
 
@@ -109,7 +109,7 @@ const Signups: React.FC<Props> = ({ disabled, registration }) => {
   return (
     <div className={styles.accordions}>
       <FieldArray
-        name={ENROLMENT_FIELDS.ATTENDEES}
+        name={ENROLMENT_FIELDS.SIGNUPS}
         render={() => (
           <div>
             {signups.map((signup, index) => {

@@ -21,7 +21,7 @@ import {
 } from '../../../../utils/testUtils';
 import { registration } from '../../../registration/__mocks__/registration';
 import { TEST_SEATS_RESERVATION_CODE } from '../../../reserveSeats/constants';
-import { ATTENDEE_INITIAL_VALUES } from '../../constants';
+import { SIGNUP_INITIAL_VALUES } from '../../constants';
 import { EnrolmentPageProvider } from '../../enrolmentPageContext/EnrolmentPageContext';
 import { EnrolmentServerErrorsProvider } from '../../enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import ParticipantAmountSelector from '../ParticipantAmountSelector';
@@ -31,7 +31,7 @@ const renderComponent = (mocks: MockedResponse[] = []) =>
     <EnrolmentPageProvider>
       <EnrolmentServerErrorsProvider>
         <Formik
-          initialValues={{ attendees: [{ ...ATTENDEE_INITIAL_VALUES }] }}
+          initialValues={{ signups: [{ ...SIGNUP_INITIAL_VALUES }] }}
           onSubmit={() => undefined}
         >
           <ParticipantAmountSelector

@@ -26,8 +26,6 @@ import {
   isSeatsReservationExpired,
 } from '../reserveSeats/utils';
 import {
-  ATTENDEE_FIELDS,
-  ATTENDEE_INITIAL_VALUES,
   AUTHENTICATION_NOT_NEEDED,
   ENROLMENT_ACTIONS,
   ENROLMENT_FIELDS,
@@ -36,8 +34,10 @@ import {
   ENROLMENT_LABEL_KEYS,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
+  SIGNUP_FIELDS,
+  SIGNUP_INITIAL_VALUES,
 } from './constants';
-import { AttendeeFields, EnrolmentFormFields } from './types';
+import { EnrolmentFormFields, SignupFields } from './types';
 
 export const getEnrolmentNotificationTypes = (
   notifications: string
@@ -54,17 +54,17 @@ export const getEnrolmentNotificationTypes = (
   }
 };
 
-export const getAttendeeDefaultInitialValues = (
+export const getSignupDefaultInitialValues = (
   registration: RegistrationFieldsFragment
-): AttendeeFields => ({
-  ...ATTENDEE_INITIAL_VALUES,
+): SignupFields => ({
+  ...SIGNUP_INITIAL_VALUES,
 });
 
 export const getEnrolmentDefaultInitialValues = (
   registration: RegistrationFieldsFragment
 ): EnrolmentFormFields => ({
   ...ENROLMENT_INITIAL_VALUES,
-  attendees: [getAttendeeDefaultInitialValues(registration)],
+  signups: [getSignupDefaultInitialValues(registration)],
 });
 
 export const getEnrolmentInitialValues = (
@@ -73,18 +73,6 @@ export const getEnrolmentInitialValues = (
 ): EnrolmentFormFields => {
   return {
     ...getEnrolmentDefaultInitialValues(registration),
-    attendees: [
-      {
-        city: getValue(enrolment.city, ''),
-        dateOfBirth: getDateFromString(enrolment.dateOfBirth),
-        extraInfo: '',
-        firstName: getValue(enrolment.firstName, ''),
-        inWaitingList: enrolment.attendeeStatus === AttendeeStatus.Waitlisted,
-        lastName: getValue(enrolment.lastName, ''),
-        streetAddress: getValue(enrolment.streetAddress, ''),
-        zipcode: getValue(enrolment.zipcode, ''),
-      },
-    ],
     email: getValue(enrolment.email, ''),
     extraInfo: getValue(enrolment.extraInfo, ''),
     membershipNumber: getValue(enrolment.membershipNumber, ''),
@@ -96,6 +84,18 @@ export const getEnrolmentInitialValues = (
     // ),
     phoneNumber: getValue(enrolment.phoneNumber, ''),
     serviceLanguage: getValue(enrolment.serviceLanguage, ''),
+    signups: [
+      {
+        city: getValue(enrolment.city, ''),
+        dateOfBirth: getDateFromString(enrolment.dateOfBirth),
+        extraInfo: '',
+        firstName: getValue(enrolment.firstName, ''),
+        inWaitingList: enrolment.attendeeStatus === AttendeeStatus.Waitlisted,
+        lastName: getValue(enrolment.lastName, ''),
+        streetAddress: getValue(enrolment.streetAddress, ''),
+        zipcode: getValue(enrolment.zipcode, ''),
+      },
+    ],
   };
 };
 
@@ -126,7 +126,6 @@ export const getSignupGroupPayload = ({
   reservationCode: string;
 }): CreateSignupGroupMutationInput => {
   const {
-    attendees,
     email,
     extraInfo: groupExtraInfo,
     membershipNumber,
@@ -134,9 +133,10 @@ export const getSignupGroupPayload = ({
     notifications,
     phoneNumber,
     serviceLanguage,
+    signups: signupsValues,
   } = formValues;
 
-  const signups: SignupInput[] = attendees.map((attendee, index) => {
+  const signups: SignupInput[] = signupsValues.map((signup, index) => {
     const {
       city,
       dateOfBirth,
@@ -145,7 +145,7 @@ export const getSignupGroupPayload = ({
       lastName,
       streetAddress,
       zipcode,
-    } = attendee;
+    } = signup;
     return {
       city: getValue(city, ''),
       dateOfBirth: dateOfBirth
@@ -184,16 +184,16 @@ export const getUpdateEnrolmentPayload = ({
   registration: RegistrationFieldsFragment;
 }): UpdateEnrolmentMutationInput => {
   const {
-    attendees,
     email,
     extraInfo,
     membershipNumber,
     nativeLanguage,
     phoneNumber,
     serviceLanguage,
+    signups,
   } = formValues;
   const { city, dateOfBirth, firstName, lastName, streetAddress, zipcode } =
-    attendees[0] || {};
+    signups[0] || {};
 
   return {
     id,
@@ -373,33 +373,31 @@ export const isRestoringFormDataDisabled = ({
   return !!enrolment || !data || isSeatsReservationExpired(data);
 };
 
-export const getNewAttendees = ({
-  attendees,
+export const getNewSignups = ({
   registration,
   seatsReservation,
+  signups,
 }: {
-  attendees: AttendeeFields[];
   registration: RegistrationFieldsFragment;
   seatsReservation: SeatsReservationFieldsFragment;
-}): AttendeeFields[] => {
+  signups: SignupFields[];
+}): SignupFields[] => {
   const { seats, inWaitlist } = seatsReservation;
-  const attendeeInitialValues = getAttendeeDefaultInitialValues(registration);
-  const filledAttendees = attendees.filter(
-    (a) => !isEqual(a, attendeeInitialValues)
-  );
+  const signupInitialValues = getSignupDefaultInitialValues(registration);
+  const filledSignups = signups.filter((a) => !isEqual(a, signupInitialValues));
   return [
-    ...filledAttendees,
-    ...Array(Math.max(seats - filledAttendees.length, 0)).fill(
-      attendeeInitialValues
+    ...filledSignups,
+    ...Array(Math.max(seats - filledSignups.length, 0)).fill(
+      signupInitialValues
     ),
   ]
     .slice(0, seats)
-    .map((attendee, index) => ({ ...attendee, inWaitingList: inWaitlist }));
+    .map((signup, index) => ({ ...signup, inWaitingList: inWaitlist }));
 };
 
 export const isEnrolmentFieldRequired = (
   registration: RegistrationFieldsFragment,
-  fieldId: ENROLMENT_FIELDS | ATTENDEE_FIELDS
+  fieldId: ENROLMENT_FIELDS | SIGNUP_FIELDS
 ): boolean =>
   Boolean(registration.mandatoryFields?.includes(snakeCase(fieldId)));
 

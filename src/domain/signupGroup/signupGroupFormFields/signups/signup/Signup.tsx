@@ -10,9 +10,9 @@ import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { RegistrationFieldsFragment } from '../../../../../generated/graphql';
 import getValue from '../../../../../utils/getValue';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
-import { ATTENDEE_FIELDS } from '../../../../enrolment/constants';
+import { SIGNUP_FIELDS } from '../../../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { AttendeeFields } from '../../../../enrolment/types';
+import { SignupFields } from '../../../../enrolment/types';
 import {
   isDateOfBirthFieldRequired,
   isEnrolmentFieldRequired,
@@ -26,12 +26,12 @@ type Props = {
   onDelete: () => void;
   registration: RegistrationFieldsFragment;
   showDelete: boolean;
-  signup: AttendeeFields;
+  signup: SignupFields;
   signupPath: string;
 };
 
-const getFieldName = (attendeePath: string, field: string) =>
-  `${attendeePath}.${field}`;
+const getFieldName = (signupPath: string, field: string) =>
+  `${signupPath}.${field}`;
 
 const Signup: React.FC<Props> = ({
   disabled,
@@ -46,14 +46,14 @@ const Signup: React.FC<Props> = ({
   const { openParticipant, toggleOpenParticipant } = useEnrolmentPageContext();
   const labelText =
     [signup.firstName, signup.lastName].filter(skipFalsyType).join(' ') ||
-    t('enrolment.form.attendeeDefaultTitle', { index: index + 1 });
+    t('enrolment.form.signupDefaultTitle', { index: index + 1 });
 
   return (
     <SignupAccordion
       deleteButton={
         showDelete && !disabled ? (
           <button
-            aria-label={getValue(t('enrolment.form.buttonDeleteAttendee'), '')}
+            aria-label={getValue(t('enrolment.form.buttonDeleteSignup'), '')}
             className={styles.deleteButton}
             onClick={onDelete}
             type="button"
@@ -71,25 +71,25 @@ const Signup: React.FC<Props> = ({
         <FormGroup>
           <div className={styles.nameRow}>
             <Field
-              name={getFieldName(signupPath, ATTENDEE_FIELDS.FIRST_NAME)}
+              name={getFieldName(signupPath, SIGNUP_FIELDS.FIRST_NAME)}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelFirstName`)}
               placeholder={t(`enrolment.form.placeholderFirstName`)}
               required={isEnrolmentFieldRequired(
                 registration,
-                ATTENDEE_FIELDS.FIRST_NAME
+                SIGNUP_FIELDS.FIRST_NAME
               )}
             />
             <Field
-              name={getFieldName(signupPath, ATTENDEE_FIELDS.LAST_NAME)}
+              name={getFieldName(signupPath, SIGNUP_FIELDS.LAST_NAME)}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelLastName`)}
               placeholder={t(`enrolment.form.placeholderLastName`)}
               required={isEnrolmentFieldRequired(
                 registration,
-                ATTENDEE_FIELDS.LAST_NAME
+                SIGNUP_FIELDS.LAST_NAME
               )}
             />
           </div>
@@ -97,18 +97,18 @@ const Signup: React.FC<Props> = ({
         <FormGroup>
           <div className={styles.streetAddressRow}>
             <Field
-              name={getFieldName(signupPath, ATTENDEE_FIELDS.STREET_ADDRESS)}
+              name={getFieldName(signupPath, SIGNUP_FIELDS.STREET_ADDRESS)}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelStreetAddress`)}
               placeholder={t(`enrolment.form.placeholderStreetAddress`)}
               required={isEnrolmentFieldRequired(
                 registration,
-                ATTENDEE_FIELDS.STREET_ADDRESS
+                SIGNUP_FIELDS.STREET_ADDRESS
               )}
             />
             <Field
-              name={getFieldName(signupPath, ATTENDEE_FIELDS.DATE_OF_BIRTH)}
+              name={getFieldName(signupPath, SIGNUP_FIELDS.DATE_OF_BIRTH)}
               component={DateInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelDateOfBirth`)}
@@ -120,39 +120,39 @@ const Signup: React.FC<Props> = ({
         <FormGroup>
           <div className={styles.zipRow}>
             <Field
-              name={getFieldName(signupPath, ATTENDEE_FIELDS.ZIPCODE)}
+              name={getFieldName(signupPath, SIGNUP_FIELDS.ZIPCODE)}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelZipcode`)}
               placeholder={t(`enrolment.form.placeholderZipcode`)}
               required={isEnrolmentFieldRequired(
                 registration,
-                ATTENDEE_FIELDS.ZIPCODE
+                SIGNUP_FIELDS.ZIPCODE
               )}
             />
             <Field
-              name={getFieldName(signupPath, ATTENDEE_FIELDS.CITY)}
+              name={getFieldName(signupPath, SIGNUP_FIELDS.CITY)}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelCity`)}
               placeholder={t(`enrolment.form.placeholderCity`)}
               required={isEnrolmentFieldRequired(
                 registration,
-                ATTENDEE_FIELDS.CITY
+                SIGNUP_FIELDS.CITY
               )}
             />
           </div>
         </FormGroup>
         <Field
-          name={getFieldName(signupPath, ATTENDEE_FIELDS.EXTRA_INFO)}
+          name={getFieldName(signupPath, SIGNUP_FIELDS.EXTRA_INFO)}
           className={styles.extraInfoField}
           component={TextAreaField}
           disabled={disabled}
-          label={t(`enrolment.form.labelAttendeeExtraInfo`)}
-          placeholder={t(`enrolment.form.placeholderAttendeeExtraInfo`)}
+          label={t(`enrolment.form.labelSignupExtraInfo`)}
+          placeholder={t(`enrolment.form.placeholderSignupExtraInfo`)}
           required={isEnrolmentFieldRequired(
             registration,
-            ATTENDEE_FIELDS.EXTRA_INFO
+            SIGNUP_FIELDS.EXTRA_INFO
           )}
         />
       </Fieldset>

@@ -41,13 +41,13 @@ test('should show content if accordion is open', async () => {
   screen.getByRole('region', { hidden: false });
 });
 
-test('should not show in waiting list text if attendee is not in waiting list', async () => {
+test('should not show in waiting list text if signup is not in waiting list', async () => {
   renderComponent({ inWaitingList: false, open: true });
 
   expect(screen.queryByText('Varasija')).not.toBeInTheDocument();
 });
 
-test('should show in waiting list text if attendee is in waiting list', async () => {
+test('should show in waiting list text if signup is in waiting list', async () => {
   renderComponent({ inWaitingList: true, open: true });
 
   screen.getByText('Varasija');

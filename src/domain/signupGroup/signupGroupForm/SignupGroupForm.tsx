@@ -42,8 +42,8 @@ import ParticipantAmountSelector from '../../enrolment/participantAmountSelector
 import RegistrationWarning from '../../enrolment/registrationWarning/RegistrationWarning';
 import ReservationTimer from '../../enrolment/reservationTimer/ReservationTimer';
 import {
-  AttendeeFields,
   EnrolmentFormFields as EnrolmentFormFieldsType,
+  SignupFields,
 } from '../../enrolment/types';
 import {
   clearCreateSignupGroupFormData,
@@ -95,9 +95,9 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const [{ value: attendees }, , { setValue: setAttendees }] = useField<
-    AttendeeFields[]
-  >(ENROLMENT_FIELDS.ATTENDEES);
+  const [{ value: signups }, , { setValue: setSignups }] = useField<
+    SignupFields[]
+  >(ENROLMENT_FIELDS.SIGNUPS);
   const locale = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
@@ -269,12 +269,12 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
               {isRegistrationPossible(registration) && !enrolment && (
                 <>
                   <ReservationTimer
-                    attendees={attendees}
                     callbacksDisabled={timerCallbacksDisabled.current}
                     disableCallbacks={disableTimerCallbacks}
                     initReservationData={true}
                     registration={registration}
-                    setAttendees={setAttendees}
+                    setSignups={setSignups}
+                    signups={signups}
                   />
                   <Divider />
                 </>
