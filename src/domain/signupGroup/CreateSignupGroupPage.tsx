@@ -11,25 +11,23 @@ import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import { ENROLMENT_ACTIONS } from '../enrolment/constants';
 import EnrolmentPageBreadcrumb from '../enrolment/enrolmentPageBreadbrumb/EnrolmentPageBreadcrumb';
 import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { EnrolmentServerErrorsProvider } from '../enrolment/enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
-import {
-  checkCanUserDoAction,
-  getSignupGroupDefaultInitialValues,
-} from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import { isRegistrationPossible } from '../registration/utils';
 import {
   getSeatsReservationData,
   isSeatsReservationExpired,
-} from '../reserveSeats/utils';
+} from '../seatsReservation/utils';
 import useUser from '../user/hooks/useUser';
+import { SIGNUP_GROUP_ACTIONS } from './constants';
+import { checkCanUserDoSignupGroupAction } from './permissions';
 import SignupGroupForm from './signupGroupForm/SignupGroupForm';
 import styles from './signupGroupPage.module.scss';
+import { getSignupGroupDefaultInitialValues } from './utils';
 
 type Props = {
   event: EventFieldsFragment;
@@ -42,7 +40,7 @@ const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
   const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const initialValues = getSignupGroupDefaultInitialValues(registration);
+  const initialValues = getSignupGroupDefaultInitialValues();
 
   const formDisabled = useMemo(() => {
     const data = getSeatsReservationData(registration.id as string);
@@ -52,8 +50,8 @@ const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
 
     return (
       !isRegistrationPossible(registration) ||
-      !checkCanUserDoAction({
-        action: ENROLMENT_ACTIONS.CREATE,
+      !checkCanUserDoSignupGroupAction({
+        action: SIGNUP_GROUP_ACTIONS.CREATE,
         organizationAncestors,
         publisher,
         user,
@@ -66,7 +64,7 @@ const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
       <MainContent>
         <Container contentWrapperClassName={styles.createContainer} withOffset>
           <EnrolmentPageBreadcrumb
-            activeLabel={t(`createEnrolmentPage.pageTitle`)}
+            activeLabel={t(`createSignupGroupPage.pageTitle`)}
             registration={registration}
           />
         </Container>

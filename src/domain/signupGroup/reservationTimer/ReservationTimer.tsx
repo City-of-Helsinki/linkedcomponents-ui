@@ -1,18 +1,19 @@
+/* eslint-disable max-len */
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
+import { ENROLMENT_MODALS } from '../../enrolment/constants';
+import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
+import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsReservationActions';
 import {
   clearSeatsReservationData,
   getRegistrationTimeLeft,
   getSeatsReservationData,
   isSeatsReservationExpired,
-} from '../../reserveSeats/utils';
-import { ENROLMENT_MODALS } from '../constants';
-import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
-import useSeatsReservationActions from '../hooks/useSeatsReservationActions';
+} from '../../seatsReservation/utils';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
 import { SignupFields } from '../types';
 import { clearCreateSignupGroupFormData } from '../utils';

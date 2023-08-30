@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { AttendeeStatus } from '../../../../generated/graphql';
 import { fakeSignups } from '../../../../utils/mockDataUtils';
@@ -22,7 +23,9 @@ import {
 import {
   attendeeNames,
   attendees,
+  attendeesWithGroup,
   getMockedAttendeesResponse,
+  signupGroupId,
 } from '../../__mocks__/enrolmentsPage';
 import { ENROLMENTS_PAGE_SIZE } from '../../constants';
 import EnrolmentsTable, { EnrolmentsTableProps } from '../EnrolmentsTable';
@@ -128,11 +131,26 @@ test('should navigate between pages', async () => {
   ).not.toBeInTheDocument();
 });
 
-test('should open enrolment page by clicking event', async () => {
+test('should show toast message by clicking a signup without group', async () => {
+  toast.error = jest.fn();
+  const user = userEvent.setup();
+  renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
+
+  const enrolmentButton = await screen.findByRole('button', {
+    name: enrolmentName,
+  });
+  await user.click(enrolmentButton);
+
+  expect(toast.error).toBeCalledWith(
+    'TODO: Editing a single signup is not supported yet'
+  );
+});
+
+test('should open edit signup group page by clicking a signup with group', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
-    getMockedAttendeesResponse(attendees),
+    getMockedAttendeesResponse(attendeesWithGroup),
   ]);
 
   const enrolmentButton = await screen.findByRole('button', {
@@ -141,15 +159,31 @@ test('should open enrolment page by clicking event', async () => {
   await user.click(enrolmentButton);
 
   expect(history.location.pathname).toBe(
-    `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
+    `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
   );
 });
 
-test('should open enrolment page by pressing enter on row', async () => {
+test('should show toast message by pressing enter on a signup without group', async () => {
+  toast.error = jest.fn();
+  const user = userEvent.setup();
+  renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
+
+  await loadingSpinnerIsNotInDocument();
+  const enrolmentButton = await screen.findByRole('button', {
+    name: enrolmentName,
+  });
+  await user.type(enrolmentButton, '{enter}');
+
+  expect(toast.error).toBeCalledWith(
+    'TODO: Editing a single signup is not supported yet'
+  );
+});
+
+test('should open edit signup group page by pressing enter on a signup with group', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
-    getMockedAttendeesResponse(attendees),
+    getMockedAttendeesResponse(attendeesWithGroup),
   ]);
 
   await loadingSpinnerIsNotInDocument();
@@ -159,7 +193,7 @@ test('should open enrolment page by pressing enter on row', async () => {
   await user.type(enrolmentButton, '{enter}');
 
   expect(history.location.pathname).toBe(
-    `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
+    `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
   );
 });
 
@@ -168,7 +202,7 @@ test('should open actions dropdown', async () => {
 
   const { history } = renderComponent([
     ...defaultMocks,
-    getMockedAttendeesResponse(attendees),
+    getMockedAttendeesResponse(attendeesWithGroup),
   ]);
 
   const withinRow = within(
@@ -185,7 +219,7 @@ test('should open actions dropdown', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`
+      `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
     )
   );
 });

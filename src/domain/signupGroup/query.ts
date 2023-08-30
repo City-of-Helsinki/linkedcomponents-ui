@@ -10,4 +10,24 @@ export const QUERY_SIGNUP_GROUP = gql`
       ...signupFields
     }
   }
+
+  fragment signupGroupFields on SignupGroup {
+    extraInfo
+    id
+    registration
+    signups {
+      ...signupFields
+    }
+  }
+
+  query SignupGroup($id: ID!, $createPath: Any) {
+    signupGroup(id: $id)
+      @rest(
+        type: "SignupGroup"
+        path: "/signup_group/{args.id}/"
+        method: "GET"
+      ) {
+      ...signupGroupFields
+    }
+  }
 `;

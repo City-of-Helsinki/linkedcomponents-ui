@@ -7,8 +7,9 @@ import React, {
 } from 'react';
 
 import useMountedState from '../../../hooks/useMountedState';
+// eslint-disable-next-line max-len
+import PersonsAddedToWaitingListModal from '../../signupGroup/modals/personsAddedToWaitingListModal/PersonsAddedToWaitingListModal';
 import { ENROLMENT_MODALS } from '../constants';
-import PersonsAddedToWaitingListModal from '../modals/personsAddedToWaitingListModal/PersonsAddedToWaitingListModal';
 
 export type EnrolmentPageContextProps = {
   closeModal: () => void;

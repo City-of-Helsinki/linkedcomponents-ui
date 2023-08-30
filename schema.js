@@ -51,6 +51,10 @@ module.exports = buildSchema(/* GraphQL */ `
       id: ID!
       input: UpdateSeatsReservationMutationInput!
     ): SeatsReservation!
+    updateSignupGroup(
+      id: ID!
+      input: UpdateSignupGroupMutationInput!
+    ): SignupGroup!
   }
 
   type NoContent {
@@ -159,6 +163,7 @@ module.exports = buildSchema(/* GraphQL */ `
       registration: [ID]
       text: String
     ): SignupsResponse!
+    signupGroup(id: ID!): SignupGroup!
     user(id: ID!): User!
     users(page: Int, pageSize: Int): UsersResponse!
   }
@@ -241,6 +246,7 @@ module.exports = buildSchema(/* GraphQL */ `
     email: String
     extraInfo: String
     firstName: String
+    id: ID
     lastName: String
     membershipNumber: String
     nativeLanguage: String
@@ -257,6 +263,12 @@ module.exports = buildSchema(/* GraphQL */ `
     extraInfo: String
     registration: ID
     reservationCode: String
+    signups: [SignupInput!]
+  }
+
+  input UpdateSignupGroupMutationInput {
+    extraInfo: String
+    registration: ID
     signups: [SignupInput!]
   }
 
@@ -964,6 +976,7 @@ module.exports = buildSchema(/* GraphQL */ `
     registration: ID
     responsibleForGroup: Boolean
     serviceLanguage: String
+    signupGroup: ID
     streetAddress: String
     zipcode: String
   }

@@ -17,9 +17,11 @@ import {
 import wait from '../../utils/wait';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
-  NOTIFICATIONS,
   SEND_MESSAGE_FIELDS,
   SEND_MESSAGE_FORM_NAME,
+} from '../enrolment/constants';
+import {
+  NOTIFICATIONS,
   SIGNUP_FIELDS,
   SIGNUP_FORM_SELECT_FIELDS,
   SIGNUP_GROUP_FIELDS,

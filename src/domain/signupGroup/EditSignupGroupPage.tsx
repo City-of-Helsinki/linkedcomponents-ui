@@ -8,68 +8,64 @@ import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinne
 import {
   EventFieldsFragment,
   RegistrationFieldsFragment,
-  SignupFieldsFragment,
-  SignupQuery,
-  SignupQueryVariables,
-  useSignupQuery,
+  SignupGroupFieldsFragment,
+  SignupGroupQuery,
+  SignupGroupQueryVariables,
+  useSignupGroupQuery,
 } from '../../generated/graphql';
-import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import EnrolmentPageBreadcrumb from '../enrolment/enrolmentPageBreadbrumb/EnrolmentPageBreadcrumb';
+import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
+import { EnrolmentServerErrorsProvider } from '../enrolment/enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
+import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
-import EnrolmentForm from '../signupGroup/signupGroupForm/SignupGroupForm';
 import useUser from '../user/hooks/useUser';
-import { ENROLMENT_ACTIONS } from './constants';
-import styles from './enrolmentPage.module.scss';
-import EnrolmentPageBreadcrumb from './enrolmentPageBreadbrumb/EnrolmentPageBreadcrumb';
-import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';
-import { EnrolmentServerErrorsProvider } from './enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
-import useRegistrationAndEventData from './hooks/useRegistrationAndEventData';
-import {
-  checkCanUserDoAction,
-  enrolmentPathBuilder,
-  getSignupGroupInitialValues,
-} from './utils';
+import { SIGNUP_GROUP_ACTIONS } from './constants';
+import { checkCanUserDoSignupGroupAction } from './permissions';
+import SignupGroupForm from './signupGroupForm/SignupGroupForm';
+import styles from './signupGroupPage.module.scss';
+import { getSignupGroupInitialValues } from './utils';
 
 type Props = {
-  enrolment: SignupFieldsFragment;
   event: EventFieldsFragment;
   refetch: (
-    variables?: Partial<SignupQueryVariables>
-  ) => Promise<ApolloQueryResult<SignupQuery>>;
+    variables?: Partial<SignupGroupQueryVariables>
+  ) => Promise<ApolloQueryResult<SignupGroupQuery>>;
   registration: RegistrationFieldsFragment;
+  signupGroup: SignupGroupFieldsFragment;
 };
 
-const EditEnrolmentPage: React.FC<Props> = ({
-  enrolment,
+const EditSignupGroupPage: React.FC<Props> = ({
   event,
   refetch,
   registration,
+  signupGroup,
 }) => {
   const { t } = useTranslation();
   const { user } = useUser();
   const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
-  const isEditingAllowed = checkCanUserDoAction({
-    action: ENROLMENT_ACTIONS.EDIT,
+  const isEditingAllowed = checkCanUserDoSignupGroupAction({
+    action: SIGNUP_GROUP_ACTIONS.UPDATE,
     organizationAncestors,
     publisher,
     user,
   });
 
   const initialValues = React.useMemo(
-    () => getSignupGroupInitialValues(enrolment, registration),
-    [enrolment, registration]
+    () => getSignupGroupInitialValues(signupGroup),
+    [signupGroup]
   );
 
   return (
     <PageWrapper
       backgroundColor="coatOfArms"
       noFooter
-      title={`editEnrolmentPage.pageTitle`}
+      title={`editSignupGroupPage.pageTitle`}
     >
       <MainContent>
         <Container
@@ -77,27 +73,27 @@ const EditEnrolmentPage: React.FC<Props> = ({
           withOffset
         >
           <EnrolmentPageBreadcrumb
-            activeLabel={t(`editEnrolmentPage.pageTitle`)}
+            activeLabel={t(`editSignupGroupPage.pageTitle`)}
             registration={registration}
           />
         </Container>
-        <EnrolmentForm
+        <SignupGroupForm
           disabled={!isEditingAllowed}
-          enrolment={enrolment}
           event={event}
           initialValues={initialValues}
-          refetchEnrolment={refetch}
+          refetchSignupGroup={refetch}
           registration={registration}
+          signupGroup={signupGroup}
         />
       </MainContent>
     </PageWrapper>
   );
 };
 
-const EditEnrolmentPageWrapper: React.FC = () => {
+const EditSignupGroupPageWrapper: React.FC = () => {
   const location = useLocation();
-  const { enrolmentId } = useParams<{
-    enrolmentId: string;
+  const { signupGroupId } = useParams<{
+    signupGroupId: string;
   }>();
   const { user } = useUser();
 
@@ -108,30 +104,27 @@ const EditEnrolmentPageWrapper: React.FC = () => {
   } = useRegistrationAndEventData({ shouldFetchEvent: true });
 
   const {
-    data: enrolmentData,
-    loading: loadingEnrolment,
+    data: signupGroupData,
+    loading: loadingSignupGroup,
     refetch,
-  } = useSignupQuery({
-    skip: !enrolmentId || !user,
-    variables: {
-      id: getValue(enrolmentId, ''),
-      createPath: getPathBuilder(enrolmentPathBuilder),
-    },
+  } = useSignupGroupQuery({
+    skip: !signupGroupId || !user,
+    variables: { id: getValue(signupGroupId, '') },
   });
 
-  const enrolment = enrolmentData?.signup;
-  const loading = loadingRegistrationAndEvent || loadingEnrolment;
+  const signupGroup = signupGroupData?.signupGroup;
+  const loading = loadingRegistrationAndEvent || loadingSignupGroup;
 
   return (
     <LoadingSpinner isLoading={loading}>
-      {event && registration && enrolment ? (
+      {event && registration && signupGroup ? (
         <EnrolmentPageProvider>
           <EnrolmentServerErrorsProvider>
-            <EditEnrolmentPage
-              enrolment={enrolment}
+            <EditSignupGroupPage
               event={event}
               refetch={refetch}
               registration={registration}
+              signupGroup={signupGroup}
             />
           </EnrolmentServerErrorsProvider>
         </EnrolmentPageProvider>
@@ -142,4 +135,4 @@ const EditEnrolmentPageWrapper: React.FC = () => {
   );
 };
 
-export default EditEnrolmentPageWrapper;
+export default EditSignupGroupPageWrapper;

@@ -10,13 +10,13 @@ import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { RegistrationFieldsFragment } from '../../../../../generated/graphql';
 import getValue from '../../../../../utils/getValue';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
-import { SIGNUP_FIELDS } from '../../../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { SignupFields } from '../../../../enrolment/types';
+import { SIGNUP_FIELDS } from '../../../constants';
+import { SignupFields } from '../../../types';
 import {
   isDateOfBirthFieldRequired,
   isSignupFieldRequired,
-} from '../../../../enrolment/utils';
+} from '../../../utils';
 import styles from './signup.module.scss';
 import SignupAccordion from './signupAccordion/SignupAccordion';
 

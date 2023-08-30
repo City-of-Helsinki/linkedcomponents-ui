@@ -13,4 +13,19 @@ export const MUTATION_SIGNUP_GROUP = gql`
       ...createSignupGroupFields
     }
   }
+
+  mutation UpdateSignupGroup(
+    $input: UpdateSignupGroupMutationInput!
+    $id: ID!
+  ) {
+    updateSignupGroup(input: $input, id: $id)
+      @rest(
+        type: "SignupGroup"
+        path: "/signup_group/{args.id}/"
+        method: "PUT"
+        bodyKey: "input"
+      ) {
+      ...signupGroupFields
+    }
+  }
 `;

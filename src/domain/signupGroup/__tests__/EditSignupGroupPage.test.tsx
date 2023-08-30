@@ -26,16 +26,15 @@ import {
 } from '../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
-  mockedCancelEnrolmentResponse,
-  mockedEnrolmentResponse,
-  mockedInvalidUpdateEnrolmentResponse,
+  mockedInvalidUpdateSignupGroupResponse,
   mockedSendMessageResponse,
-  mockedUpdateEnrolmentResponse,
+  mockedSignupGroupResponse,
+  mockedUpdateSignupGroupResponse,
   sendMessageValues,
   signup,
-  signupId,
-} from '../__mocks__/editEnrolmentPage';
-import EditEnrolmentPage from '../EditEnrolmentPage';
+  signupGroupId,
+} from '../__mocks__/editSignupGroupPage';
+import EditSignupGroupPage from '../EditSignupGroupPage';
 
 configure({ defaultHidden: true });
 
@@ -112,7 +111,7 @@ const openMenu = async () => {
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
-  mockedEnrolmentResponse,
+  mockedSignupGroupResponse,
   mockedLanguagesResponse,
   mockedServiceLanguagesResponse,
   mockedOrganizationAncestorsResponse,
@@ -121,17 +120,17 @@ const defaultMocks = [
   mockedUserResponse,
 ];
 
-const route = ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
+const route = ROUTES.EDIT_SIGNUP_GROUP.replace(
   ':registrationId',
   registrationId
-).replace(':enrolmentId', signupId);
+).replace(':signupGroupId', signupGroupId);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
-  renderWithRoute(<EditEnrolmentPage />, {
+  renderWithRoute(<EditSignupGroupPage />, {
     authContextValue,
     mocks,
     routes: [route],
-    path: ROUTES.EDIT_REGISTRATION_ENROLMENT,
+    path: ROUTES.EDIT_SIGNUP_GROUP,
   });
 
 test('should scroll to first validation error input field', async () => {
@@ -165,38 +164,7 @@ test('should initialize input fields', async () => {
   expect(emailCheckbox).toBeChecked();
 });
 
-test('should cancel enrolment', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent([
-    ...defaultMocks,
-    mockedCancelEnrolmentResponse,
-  ]);
-
-  await findElement('firstNameInput');
-  const { menu } = await openMenu();
-
-  const cancelButton = await within(menu).findByRole('button', {
-    name: 'Peruuta osallistuminen',
-  });
-  await user.click(cancelButton);
-
-  const dialog = screen.getByRole('dialog', {
-    name: 'Haluatko varmasti poistaa ilmoittautumisen?',
-  });
-
-  const confirmCancelButton = within(dialog).getByRole('button', {
-    name: 'Peruuta ilmoittautuminen',
-  });
-  await user.click(confirmCancelButton);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(
-      `/fi/registrations/${registrationId}/enrolments`
-    )
-  );
-});
-
-test('should send message to participant', async () => {
+test('should send message to responsible person', async () => {
   // Mock getClientRects for ckeditor
   global.Range.prototype.getClientRects = jest
     .fn()
@@ -235,13 +203,13 @@ test('should send message to participant', async () => {
   );
 });
 
-test('should update enrolment', async () => {
+test('should update signup group', async () => {
   global.scrollTo = jest.fn();
   const user = userEvent.setup();
   renderComponent([
     ...defaultMocks,
-    mockedUpdateEnrolmentResponse,
-    mockedEnrolmentResponse,
+    mockedUpdateSignupGroupResponse,
+    mockedSignupGroupResponse,
   ]);
 
   await findElement('firstNameInput');
@@ -254,7 +222,7 @@ test('should update enrolment', async () => {
 
 test('should show server errors', async () => {
   const user = userEvent.setup();
-  const mocks = [...defaultMocks, mockedInvalidUpdateEnrolmentResponse];
+  const mocks = [...defaultMocks, mockedInvalidUpdateSignupGroupResponse];
   renderComponent(mocks);
 
   await findElement('firstNameInput');

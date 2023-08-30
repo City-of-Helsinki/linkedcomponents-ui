@@ -12,7 +12,7 @@ import {
   getMockedSeatsReservationData,
   setSessionStorageValues,
 } from '../../../utils/mockDataUtils';
-import { TEST_ENROLMENT_ID } from '../../enrolment/constants';
+import { TEST_SIGNUP_ID } from '../../enrolment/constants';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import {
   REGISTRATION_INITIAL_VALUES,
@@ -568,10 +568,10 @@ describe('isAttendeeCapacityUsed', () => {
 describe('getSignupLink', () => {
   it('should get correct signup link', () => {
     expect(
-      getSignupLink(fakeRegistration({ id: TEST_ENROLMENT_ID }), 'fi')
+      getSignupLink(fakeRegistration({ id: TEST_SIGNUP_ID }), 'fi')
     ).toEqual(
       expect.stringContaining(
-        `/fi/registration/${TEST_ENROLMENT_ID}/signup-group/create`
+        `/fi/registration/${TEST_SIGNUP_ID}/signup-group/create`
       )
     );
   });

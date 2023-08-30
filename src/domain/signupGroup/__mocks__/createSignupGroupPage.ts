@@ -11,9 +11,9 @@ import {
   fakeCreateSignupGroupResponse,
   fakeSignups,
 } from '../../../utils/mockDataUtils';
-import { NOTIFICATION_TYPE } from '../../enrolment/constants';
 import { registrationId } from '../../registration/__mocks__/registration';
-import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
+import { TEST_SEATS_RESERVATION_CODE } from '../../seatsReservation/constants';
+import { NOTIFICATION_TYPE } from '../constants';
 
 const dateOfBirth = subYears(new Date(), 13);
 

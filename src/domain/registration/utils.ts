@@ -38,7 +38,7 @@ import {
 import {
   getSeatsReservationData,
   isSeatsReservationExpired,
-} from '../reserveSeats/utils';
+} from '../seatsReservation/utils';
 import { REGISTRATION_FIELDS } from './constants';
 import {
   RegistrationFields,

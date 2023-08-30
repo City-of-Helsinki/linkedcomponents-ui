@@ -18,12 +18,12 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
-import { registration } from '../../../registration/__mocks__/registration';
-import { EnrolmentPageProvider } from '../../enrolmentPageContext/EnrolmentPageContext';
+import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import {
   EnrolmentServerErrorsContext,
   EnrolmentServerErrorsContextProps,
-} from '../../enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
+} from '../../../enrolment/enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
+import { registration } from '../../../registration/__mocks__/registration';
 import ReservationTimer from '../ReservationTimer';
 
 const mockedUseNavigate = jest.fn();

@@ -7,7 +7,7 @@ import { getRegistrationWarning } from '../../registration/utils';
 import {
   getSeatsReservationData,
   isSeatsReservationExpired,
-} from '../../reserveSeats/utils';
+} from '../../seatsReservation/utils';
 import styles from './registrationWarning.module.scss';
 
 type Props = {

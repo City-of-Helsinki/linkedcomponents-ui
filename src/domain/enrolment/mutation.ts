@@ -2,18 +2,6 @@
 import gql from 'graphql-tag';
 
 export const MUTATION_ENROLMENT = gql`
-  mutation CreateSignupGroup($input: CreateSignupGroupMutationInput!) {
-    createSignupGroup(input: $input)
-      @rest(
-        type: "CreateSignupGroupResponse"
-        path: "/signup_group/"
-        method: "POST"
-        bodyKey: "input"
-      ) {
-      ...createSignupGroupFields
-    }
-  }
-
   mutation DeleteEnrolment($signup: String!) {
     deleteEnrolment(signup: $signup)
       @rest(

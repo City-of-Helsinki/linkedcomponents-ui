@@ -31,10 +31,6 @@ import {
   mockedDataSourceResponse,
   mockedDataSourcesResponse,
 } from '../../../../dataSource/__mocks__/dataSource';
-import {
-  mockedEnrolmentResponse,
-  signupId,
-} from '../../../../enrolment/__mocks__/editEnrolmentPage';
 import { getMockedAttendeesResponse } from '../../../../enrolments/__mocks__/enrolmentsPage';
 import {
   eventName,
@@ -98,7 +94,12 @@ import {
   registrationId,
 } from '../../../../registration/__mocks__/editRegistrationPage';
 import { mockedRegistrationsResponse } from '../../../../registrations/__mocks__/registrationsPage';
-import { mockedCreateSeatsReservationResponse } from '../../../../reserveSeats/__mocks__/createSeatsReservation';
+import { mockedCreateSeatsReservationResponse } from '../../../../seatsReservation/__mocks__/createSeatsReservation';
+import { mockedSignupResponse } from '../../../../signup/__mocks__/editSignupPage';
+import {
+  mockedSignupGroupResponse,
+  signupGroupId,
+} from '../../../../signupGroup/__mocks__/editSignupGroupPage';
 import {
   mockedUserResponse,
   mockedUsersResponse,
@@ -113,7 +114,6 @@ const mocks = [
   mockedAttendanceListRegistrationResponse,
   mockedDataSourceResponse,
   mockedDataSourcesResponse,
-  mockedEnrolmentResponse,
   mockedEventResponse,
   mockedBaseDraftEventsResponse,
   mockedBaseWaitingApprovalEventsResponse,
@@ -149,6 +149,8 @@ const mocks = [
   mockedCreateSeatsReservationResponse,
   mockedRegistrationsResponse,
   mockedEventResponse,
+  mockedSignupResponse,
+  mockedSignupGroupResponse,
   mockedUserResponse,
   mockedUsersResponse,
   getMockedAttendeesResponse(fakeSignups(0)),
@@ -328,23 +330,23 @@ it('should render create signup group page', async () => {
 
   await isPageRendered({
     history,
-    pageTitle: 'Lisää osallistuja - Linked Events',
+    pageTitle: 'Lisää osallistujia - Linked Events',
     pathname: `/fi/registrations/${registrationId}/signup-group/create`,
   });
 });
 
-it('should render edit enrolment page', async () => {
+it('should render edit signup group page', async () => {
   const { history } = await renderRoute(
-    `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
+    `${ROUTES.EDIT_SIGNUP_GROUP.replace(
       ':registrationId',
       registrationId
-    ).replace(':enrolmentId', signupId)}`
+    ).replace(':signupGroupId', signupGroupId)}`
   );
 
   await isPageRendered({
     history,
-    pageTitle: 'Muokkaa osallistujaa - Linked Events',
-    pathname: `/fi/registrations/${registrationId}/enrolments/edit/${signupId}`,
+    pageTitle: 'Muokkaa osallistujia - Linked Events',
+    pathname: `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`,
   });
 });
 

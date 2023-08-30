@@ -31,7 +31,7 @@ import {
   registration,
   registrationId,
 } from '../../registration/__mocks__/registration';
-import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
+import { TEST_SEATS_RESERVATION_CODE } from '../../seatsReservation/constants';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedCreateSignupGroupResponse,

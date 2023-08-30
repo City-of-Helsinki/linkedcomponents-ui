@@ -10,7 +10,7 @@ import {
 import {
   getSeatsReservationData,
   isSeatsReservationExpired,
-} from '../../../reserveSeats/utils';
+} from '../../../seatsReservation/utils';
 
 type Props = {
   registration: RegistrationFieldsFragment;

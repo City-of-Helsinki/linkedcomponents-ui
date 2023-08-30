@@ -39,6 +39,7 @@ export const getEnrolmentFields = ({
   registration: RegistrationFieldsFragment;
 }): EnrolmentFields => {
   const id = getValue(enrolment.id, '');
+  const signupGroup = enrolment.signupGroup ?? null;
   /* istanbul ignore next */
   const registrationId = getValue(registration.id, '');
   const firstName = getValue(enrolment.firstName, '');
@@ -49,14 +50,21 @@ export const getEnrolmentFields = ({
     id,
     attendeeStatus: enrolment.attendeeStatus as AttendeeStatus,
     email: getValue(enrolment.email, ''),
-    enrolmentUrl: `/${language}${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
+    enrolmentUrl: `/${language}${ROUTES.EDIT_SIGNUP_GROUP.replace(
       ':registrationId',
       registrationId
-    ).replace(':enrolmentId', id)}`,
+    ).replace(':signupGroupId', id)}`,
     firstName,
     fullName,
     lastName,
     phoneNumber: getValue(enrolment.phoneNumber, ''),
+    signupGroup,
+    signupGroupUrl: signupGroup
+      ? `/${language}${ROUTES.EDIT_SIGNUP_GROUP.replace(
+          ':registrationId',
+          registrationId
+        ).replace(':signupGroupId', signupGroup)}`
+      : null,
   };
 };
 

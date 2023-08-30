@@ -36,6 +36,7 @@ import {
   Registration,
   RegistrationsResponse,
   Signup,
+  SignupGroup,
   SignupsResponse,
   UploadImageMutationInput,
   User,
@@ -60,6 +61,7 @@ import {
   addTypenamePlace,
   addTypenameRegistration,
   addTypenameSignup,
+  addTypenameSignupGroup,
   addTypenameUser,
 } from './utils';
 
@@ -200,6 +202,7 @@ export const createCache = (): InMemoryCache =>
             },
           },
           place: fieldFunction('Place', 'place'),
+          signupGroup: fieldFunction('SignupGroup', 'signupGroup'),
           users: {
             keyArgs: (args) =>
               args ? Object.keys(args).filter((arg) => arg !== 'page') : [],
@@ -390,6 +393,8 @@ const linkedEventsLink = new RestLink({
         data: data.data.map((signup) => addTypenameSignup(signup) as Signup),
       };
     },
+    SignupGroup: (signupGroup: SignupGroup): SignupGroup | null =>
+      addTypenameSignupGroup(signupGroup),
     User: (user: User): User | null => addTypenameUser(user),
     UsersResponse: (data: UsersResponse): UsersResponse => {
       data.meta = addTypenameMeta(data.meta);

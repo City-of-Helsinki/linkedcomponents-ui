@@ -11,23 +11,20 @@ import getValue from '../../../utils/getValue';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import { ENROLMENT_ACTIONS } from '../constants';
-import { getEditButtonProps } from '../utils';
+import { SIGNUP_GROUP_ACTIONS } from '../constants';
+import { getSignupGroupActionButtonProps } from '../permissions';
 import styles from './createButtonPanel.module.scss';
 
-export interface CreateButtonPanelProps {
+export interface CreateSignupGroupButtonPanelProps {
   disabled: boolean;
-  onSave: () => void;
+  onCreate: () => void;
   registration: RegistrationFieldsFragment;
-  saving: ENROLMENT_ACTIONS | false;
+  saving: SIGNUP_GROUP_ACTIONS | null;
 }
 
-const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
-  disabled,
-  onSave,
-  registration,
-  saving,
-}) => {
+const CreateSignupGroupButtonPanel: React.FC<
+  CreateSignupGroupButtonPanelProps
+> = ({ disabled, onCreate, registration, saving }) => {
   const { t } = useTranslation();
 
   const { isAuthenticated: authenticated } = useAuth();
@@ -42,10 +39,10 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
     ),
   });
 
-  const buttonProps = getEditButtonProps({
-    action: ENROLMENT_ACTIONS.CREATE,
+  const buttonProps = getSignupGroupActionButtonProps({
+    action: SIGNUP_GROUP_ACTIONS.CREATE,
     authenticated,
-    onClick: onSave,
+    onClick: onCreate,
     organizationAncestors,
     publisher,
     t,
@@ -62,7 +59,7 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
           {...buttonProps}
           className={buttonPanelStyles.fullWidthOnMobile}
           disabled={buttonProps.disabled || disabled}
-          loading={saving === ENROLMENT_ACTIONS.CREATE}
+          loading={saving === SIGNUP_GROUP_ACTIONS.CREATE}
           type="submit"
         >
           {buttonProps.label}
@@ -72,4 +69,4 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
   );
 };
 
-export default CreateButtonPanel;
+export default CreateSignupGroupButtonPanel;
