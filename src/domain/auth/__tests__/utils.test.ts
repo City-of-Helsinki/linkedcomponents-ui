@@ -38,9 +38,11 @@ import {
 
 const OLD_ENV = process.env;
 
+const apiTokenUrl = 'https://tunnistamo.test.fi/api-tokens/';
+
 beforeEach(() => {
   jest.resetModules();
-  process.env = { ...OLD_ENV }; // Make a copy of env
+  process.env = { ...OLD_ENV, REACT_APP_OIDC_API_TOKENS_URL: apiTokenUrl }; // Make a copy of env
 });
 
 afterEach(() => {
@@ -75,10 +77,9 @@ const axiousCalled = async ({
   axiosFn: jest.SpyInstance;
 }) => {
   expect(axiosFn).toHaveBeenCalledTimes(1);
-  expect(axiosFn).toHaveBeenCalledWith(
-    `${process.env.REACT_APP_OIDC_AUTHORITY}/api-tokens/`,
-    { headers: { Authorization: `bearer ${accessToken}` } }
-  );
+  expect(axiosFn).toHaveBeenCalledWith(apiTokenUrl, {
+    headers: { Authorization: `bearer ${accessToken}` },
+  });
 };
 
 const apiTokenFetchSucceeded = async ({
@@ -340,6 +341,25 @@ describe('signIn function', () => {
     expect(toastError).toBeCalledWith(
       'Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan'
     );
+  });
+
+  it('should show toast error message when maintenance mode', async () => {
+    const originalEnv = process.env;
+
+    process.env = {
+      ...originalEnv,
+      REACT_APP_MAINTENANCE_DISABLE_LOGIN: 'true',
+    };
+
+    const toastError = jest.spyOn(toast, 'error');
+
+    const path = '/fi/events';
+
+    await signIn({ locale: 'fi', path, t: i18n.t.bind(i18n), userManager });
+
+    expect(toastError).toHaveBeenCalledTimes(1);
+
+    process.env = originalEnv;
   });
 });
 

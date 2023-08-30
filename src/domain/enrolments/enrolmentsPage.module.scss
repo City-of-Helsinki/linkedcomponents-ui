@@ -17,7 +17,11 @@
 }
 
 .titleButtonWrapper {
-  align-self: center !important;
+  align-self: flex-start !important;
+
+  @include medium-up {
+    margin: var(--spacing-m) 0;
+  }
 }
 
 .pageContentContainer {
@@ -34,10 +38,4 @@
 .attendeeList,
 .waitingList {
   margin-top: var(--spacing-l);
-}
-
-.createButton {
-  @include medium-up {
-    margin-top: calc(0px - var(--spacing-l));
-  }
 }

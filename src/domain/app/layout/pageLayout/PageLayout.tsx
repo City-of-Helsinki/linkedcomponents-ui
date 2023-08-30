@@ -8,6 +8,7 @@ import useLocale from '../../../../hooks/useLocale';
 import Footer from '../../footer/Footer';
 import Header from '../../header/Header';
 import { useTheme } from '../../theme/Theme';
+import MaintenanceNotification from '../maintenanceNotification/MaintenanceNotification';
 import ResetFocus from '../resetFocus/ResetFocus';
 import ScrollToTop from '../scrollToTop/ScrollToTop';
 import styles from './pageLayout.module.scss';
@@ -43,6 +44,9 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
   const noKoro = isMatch(NO_KORO_PATHS);
   const canonicalUrl = host + pathname;
 
+  const MAINTENANCE_SHOW_NOTIFICATION =
+    process.env.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION === 'true';
+
   return (
     <ClassNames>
       {({ css, cx }) => (
@@ -53,7 +57,8 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
             className={cx(
               styles.pageLayout,
               css(theme.layout),
-              css(theme.root)
+              css(theme.root),
+              MAINTENANCE_SHOW_NOTIFICATION && styles.hasMaintenanceNotification
             )}
           >
             {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
@@ -79,6 +84,7 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
             </Helmet>
 
             <Header />
+            {MAINTENANCE_SHOW_NOTIFICATION && <MaintenanceNotification />}
             <div className={cx(styles.pageBody, { [styles.noKoro]: noKoro })}>
               {children}
             </div>

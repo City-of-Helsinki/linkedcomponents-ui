@@ -5,10 +5,14 @@ import { DATE_FORMAT_API } from '../../../constants';
 import {
   DeleteEnrolmentDocument,
   EnrolmentDocument,
+  SendMessageDocument,
   UpdateEnrolmentDocument,
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
-import { fakeEnrolment } from '../../../utils/mockDataUtils';
+import {
+  fakeEnrolment,
+  fakeSendMessageResponse,
+} from '../../../utils/mockDataUtils';
 import { registrationId } from '../../registration/__mocks__/registration';
 import { NOTIFICATION_TYPE } from '../constants';
 
@@ -19,11 +23,12 @@ const enrolmentValues = {
   dateOfBirth: formatDate(dateOfBirth),
   email: 'participant@email.com',
   extraInfo: null,
+  firstName: 'First name',
+  lastName: 'Last name',
   membershipNumber: null,
-  name: 'Participant name',
   nativeLanguage: 'fi',
   notificationLanguage: 'fi',
-  notifications: NOTIFICATION_TYPE.SMS_EMAIL,
+  notifications: NOTIFICATION_TYPE.EMAIL,
   phoneNumber: '+358 44 123 4567',
   serviceLanguage: 'fi',
   streetAddress: 'Street address',
@@ -37,7 +42,10 @@ const enrolment = fakeEnrolment({
   id: enrolmentId,
 });
 
-const enrolmentVariables = { createPath: undefined, id: enrolmentId };
+const enrolmentVariables = {
+  createPath: undefined,
+  id: enrolmentId,
+};
 const enrolmentResponse = { data: { enrolment } };
 const mockedEnrolmentResponse: MockedResponse = {
   request: { query: EnrolmentDocument, variables: enrolmentVariables },
@@ -45,7 +53,7 @@ const mockedEnrolmentResponse: MockedResponse = {
 };
 
 const cancelEnrolmentVariables = {
-  cancellationCode: enrolment.cancellationCode,
+  signup: enrolmentId,
 };
 const cancelEnrolmentResponse = { data: { deleteEnrolment: null } };
 const mockedCancelEnrolmentResponse: MockedResponse = {
@@ -62,8 +70,9 @@ const payload = {
   dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
   email: enrolmentValues.email,
   extraInfo: '',
+  firstName: enrolmentValues.firstName,
+  lastName: enrolmentValues.lastName,
   membershipNumber: '',
-  name: enrolmentValues.name,
   nativeLanguage: enrolmentValues.nativeLanguage,
   notifications: enrolmentValues.notifications,
   phoneNumber: enrolmentValues.phoneNumber,
@@ -73,7 +82,10 @@ const payload = {
   zipcode: enrolmentValues.zipcode,
 };
 
-const updateEnrolmentVariables = { input: payload };
+const updateEnrolmentVariables = {
+  input: payload,
+  signup: enrolmentId,
+};
 
 const updateEnrolmentResponse = { data: { updateEnrolment: enrolment } };
 
@@ -92,8 +104,35 @@ const mockedInvalidUpdateEnrolmentResponse: MockedResponse = {
   },
   error: {
     ...new Error(),
-    result: { name: ['The name must be specified.'] },
+    result: { first_name: ['The name must be specified.'] },
   } as Error,
+};
+
+const sendMessageValues = {
+  body: '<p>Message</p>',
+  subject: 'Subject',
+};
+
+const sendMessageVariables = {
+  input: {
+    ...sendMessageValues,
+    body: '<p>Message</p>',
+    signups: [enrolmentId],
+    subject: 'Subject',
+  },
+  registration: registrationId,
+};
+
+const sendMessageResponse = {
+  data: { sendMessage: fakeSendMessageResponse() },
+};
+
+const mockedSendMessageResponse: MockedResponse = {
+  request: {
+    query: SendMessageDocument,
+    variables: sendMessageVariables,
+  },
+  result: sendMessageResponse,
 };
 
 export {
@@ -102,5 +141,7 @@ export {
   mockedCancelEnrolmentResponse,
   mockedEnrolmentResponse,
   mockedInvalidUpdateEnrolmentResponse,
+  mockedSendMessageResponse,
   mockedUpdateEnrolmentResponse,
+  sendMessageValues,
 };

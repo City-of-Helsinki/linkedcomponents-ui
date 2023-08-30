@@ -42,6 +42,8 @@ export const QUERY_EVENT = gql`
     endTime
     enrolmentEndTime
     enrolmentStartTime
+    environment
+    environmentalCertificate
     externalLinks {
       ...externalLinkFields
     }
@@ -87,6 +89,11 @@ export const QUERY_EVENT = gql`
     startTime
     superEventType
     typeId
+    userConsent
+    userEmail
+    userName
+    userOrganization
+    userPhoneNumber
     videos {
       ...videoFields
     }

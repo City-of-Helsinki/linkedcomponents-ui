@@ -60,7 +60,15 @@ const renderComponent = ({
   });
 
 const getElement = (
-  key: 'cancel' | 'copy' | 'delete' | 'edit' | 'menu' | 'postpone' | 'toggle'
+  key:
+    | 'cancel'
+    | 'copy'
+    | 'delete'
+    | 'edit'
+    | 'menu'
+    | 'postpone'
+    | 'toggle'
+    | 'email'
 ) => {
   switch (key) {
     case 'cancel':
@@ -77,6 +85,8 @@ const getElement = (
       return screen.getByRole('button', { name: 'Lykkää tapahtumaa' });
     case 'toggle':
       return screen.getByRole('button', { name: /valinnat/i });
+    case 'email':
+      return screen.getByRole('button', { name: 'Lähetä sähköposti' });
   }
 };
 
@@ -284,4 +294,61 @@ test('should postpone event', async () => {
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   );
+});
+
+test('should call the mailto function when clicking Send Email button', async () => {
+  const mocks: MockedResponse[] = [...defaultMocks];
+
+  const originalLocation = window.location;
+
+  delete window.location;
+
+  window.location = { href: '' };
+  const specialEvent = { ...event };
+  specialEvent.createdBy = 'Jaska Jokunen - testisähköposti@testidomaini.fi';
+
+  const user = userEvent.setup();
+  renderComponent({ authContextValue, props: { event: specialEvent }, mocks });
+
+  await openMenu();
+
+  const sendMailButton = getElement('email');
+  await user.click(sendMailButton);
+
+  await waitFor(() =>
+    expect(window.location.href).toBe(
+      'mailto:testisähköposti@testidomaini.fi?subject=Name fi'
+    )
+  );
+
+  window.location = originalLocation;
+});
+
+test('should find the email address even when the createdBy field has extra dashes in the name or email', async () => {
+  const mocks: MockedResponse[] = [...defaultMocks];
+
+  const originalLocation = window.location;
+
+  delete window.location;
+
+  window.location = { href: '' };
+  const specialEvent = { ...event };
+  specialEvent.createdBy =
+    'Jaska Joki-Niemi - jaska_joki-niemi@testi-domaini.fi';
+
+  const user = userEvent.setup();
+  renderComponent({ authContextValue, props: { event: specialEvent }, mocks });
+
+  await openMenu();
+
+  const sendMailButton = getElement('email');
+  await user.click(sendMailButton);
+
+  await waitFor(() =>
+    expect(window.location.href).toBe(
+      'mailto:jaska_joki-niemi@testi-domaini.fi?subject=Name fi'
+    )
+  );
+
+  window.location = originalLocation;
 });

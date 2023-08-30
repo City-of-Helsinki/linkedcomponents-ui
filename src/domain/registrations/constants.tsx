@@ -1,4 +1,5 @@
 import {
+  IconCheck,
   IconCogwheel,
   IconCopy,
   IconCross,
@@ -13,6 +14,7 @@ export enum REGISTRATION_ACTIONS {
   CREATE = 'create',
   DELETE = 'delete',
   EDIT = 'edit',
+  EDIT_ATTENDANCE_LIST = 'editAttendanceList',
   SHOW_ENROLMENTS = 'showEnrolments',
   UPDATE = 'update',
 }
@@ -45,6 +47,7 @@ export const REGISTRATION_ICONS = {
   [REGISTRATION_ACTIONS.CREATE]: <IconPen aria-hidden={true} />,
   [REGISTRATION_ACTIONS.DELETE]: <IconCross aria-hidden={true} />,
   [REGISTRATION_ACTIONS.EDIT]: <IconCogwheel aria-hidden={true} />,
+  [REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST]: <IconCheck aria-hidden={true} />,
   [REGISTRATION_ACTIONS.SHOW_ENROLMENTS]: <IconEye aria-hidden={true} />,
   [REGISTRATION_ACTIONS.UPDATE]: <IconPen aria-hidden={true} />,
 };
@@ -55,6 +58,8 @@ export const REGISTRATION_LABEL_KEYS = {
   [REGISTRATION_ACTIONS.CREATE]: 'registration.form.buttonCreate',
   [REGISTRATION_ACTIONS.DELETE]: 'registrationsPage.actionButtons.delete',
   [REGISTRATION_ACTIONS.EDIT]: 'registrationsPage.actionButtons.edit',
+  [REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST]:
+    'registrationsPage.actionButtons.editAttendanceList',
   [REGISTRATION_ACTIONS.SHOW_ENROLMENTS]:
     'registrationsPage.actionButtons.showEnrolments',
   [REGISTRATION_ACTIONS.UPDATE]: 'registrationsPage.actionButtons.update',

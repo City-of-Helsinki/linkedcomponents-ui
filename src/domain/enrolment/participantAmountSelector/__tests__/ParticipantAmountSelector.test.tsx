@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { MockedResponse } from '@apollo/client/testing';
-import addSeconds from 'date-fns/addSeconds';
-import subSeconds from 'date-fns/subSeconds';
 import { Formik } from 'formik';
 import React from 'react';
 
-import { RESERVATION_NAMES } from '../../../../constants';
 import {
   SeatsReservation,
   UpdateSeatsReservationDocument,
 } from '../../../../generated/graphql';
-import { fakeSeatsReservation } from '../../../../utils/mockDataUtils';
+import {
+  fakeSeatsReservation,
+  getMockedSeatsReservationData,
+  setSessionStorageValues,
+} from '../../../../utils/mockDataUtils';
 import {
   render,
   screen,
@@ -62,46 +63,18 @@ const getElement = (
   }
 };
 
-const setSessionStorageValues = (reservation: SeatsReservation) => {
-  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
-    switch (key) {
-      case `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registration.id}`:
-        return reservation ? JSON.stringify(reservation) : '';
-      default:
-        return '';
-    }
-  });
-};
-
 const code = TEST_SEATS_RESERVATION_CODE;
-
-const getReservationData = (expirationOffset: number) => {
-  const now = new Date();
-  let expiration = '';
-
-  if (expirationOffset) {
-    expiration = addSeconds(now, expirationOffset).toISOString();
-  } else {
-    expiration = subSeconds(now, expirationOffset).toISOString();
-  }
-
-  const reservation = fakeSeatsReservation({ code, expiration });
-
-  return reservation;
-};
-
-const updateSeatsReservationPayload = {
-  code,
-  registration: registration.id,
-  seats: 1,
-  waitlist: true,
-};
 
 const getUpdateSeatsReservationMock = (
   seatsReservation: SeatsReservation
 ): MockedResponse => {
   const updateSeatsReservationVariables = {
-    input: { ...updateSeatsReservationPayload, seats: seatsReservation.seats },
+    id: seatsReservation.id,
+    input: {
+      code,
+      registration: registration.id,
+      seats: seatsReservation.seats,
+    },
   };
 
   const updateEnrolmentResponse = {
@@ -117,18 +90,15 @@ const getUpdateSeatsReservationMock = (
   };
 };
 
-test('should show modal if any of the reserved seats is in waiting list', async () => {
+test('should show modal if the reserved seats are in waiting list', async () => {
   const user = userEvent.setup();
 
-  setSessionStorageValues(getReservationData(1000));
+  const reservation = getMockedSeatsReservationData(1000);
+  setSessionStorageValues(reservation, registration);
 
   const mocks = [
     getUpdateSeatsReservationMock(
-      fakeSeatsReservation({
-        seats: 2,
-        waitlistSpots: 1,
-        seatsAtEvent: 1,
-      })
+      fakeSeatsReservation({ id: reservation.id, seats: 2, inWaitlist: true })
     ),
   ];
   renderComponent(mocks);

@@ -10,7 +10,10 @@ const userName = 'Test user';
 
 const getMockedUserResponse = (userSettings: Partial<User>): MockedResponse => {
   const user = fakeUser(userSettings);
-  const userVariables = { createPath: undefined, id: TEST_USER_ID };
+  const userVariables = {
+    createPath: undefined,
+    id: TEST_USER_ID,
+  };
   const userResponse = { data: { user } };
 
   return {
@@ -29,6 +32,7 @@ const mockedUserWithoutOrganizationsResponse = getMockedUserResponse({
   organization: '',
   adminOrganizations: [],
   organizationMemberships: [],
+  isExternal: true,
 });
 
 const PAGE_SIZE = 10;

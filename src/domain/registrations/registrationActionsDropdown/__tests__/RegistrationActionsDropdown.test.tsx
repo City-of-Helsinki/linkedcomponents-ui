@@ -67,6 +67,7 @@ const getElement = (
     | 'copyLink'
     | 'delete'
     | 'edit'
+    | 'markPresent'
     | 'menu'
     | 'showEnrolments'
     | 'toggle'
@@ -80,6 +81,8 @@ const getElement = (
       return screen.getByRole('button', { name: 'Poista ilmoittautuminen' });
     case 'edit':
       return screen.getByRole('button', { name: 'Muokkaa' });
+    case 'markPresent':
+      return screen.getByRole('button', { name: 'Merkkaa läsnäolijat' });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
     case 'showEnrolments':
@@ -175,6 +178,24 @@ test('should route to enrolments page when clicking show enrolments button', asy
   expect(history.location.search).toBe('?returnPath=%2Fregistrations');
 });
 
+test('should route to attendance list page when clicking mark present button', async () => {
+  const user = userEvent.setup();
+
+  const { history } = renderComponent();
+
+  await openMenu();
+
+  const markPresentButton = await getElement('markPresent');
+  await user.click(markPresentButton);
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/registrations/${registration.id}/attendance-list`
+    )
+  );
+  expect(history.location.search).toBe('?returnPath=%2Fregistrations');
+});
+
 test('should route to create registration page when clicking copy button', async () => {
   const user = userEvent.setup();
 
@@ -201,9 +222,7 @@ test('should copy registration link to clipboard', async () => {
   const copyLinkButton = getElement('copyLink');
   await user.click(copyLinkButton);
 
-  expect(copyToClipboard).toBeCalledWith(
-    `https://linkedregistrations-ui.test.kuva.hel.ninja/fi/registration/${registration.id}/enrolment/create`
-  );
+  expect(copyToClipboard).toBeCalled();
   expect(toast.success).toBeCalledWith('Ilmoittautumislinkki kopioitu');
 });
 

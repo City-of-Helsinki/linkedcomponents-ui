@@ -20,7 +20,6 @@ import { Editability, PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
-import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   getSeatsReservationData,
@@ -79,8 +78,9 @@ export const getEnrolmentInitialValues = (
         city: getValue(enrolment.city, ''),
         dateOfBirth: getDateFromString(enrolment.dateOfBirth),
         extraInfo: '',
+        firstName: getValue(enrolment.firstName, ''),
         inWaitingList: enrolment.attendeeStatus === AttendeeStatus.Waitlisted,
-        name: getValue(enrolment.name, ''),
+        lastName: getValue(enrolment.lastName, ''),
         streetAddress: getValue(enrolment.streetAddress, ''),
         zipcode: getValue(enrolment.zipcode, ''),
       },
@@ -89,9 +89,11 @@ export const getEnrolmentInitialValues = (
     extraInfo: getValue(enrolment.extraInfo, ''),
     membershipNumber: getValue(enrolment.membershipNumber, ''),
     nativeLanguage: getValue(enrolment.nativeLanguage, ''),
-    notifications: getEnrolmentNotificationTypes(
-      getValue(enrolment.notifications, '')
-    ),
+    // TODO: At the moment only email notifications are supported
+    notifications: [NOTIFICATIONS.EMAIL],
+    // notifications: getEnrolmentNotificationTypes(
+    //   getValue(enrolment.notifications, '')
+    // ),
     phoneNumber: getValue(enrolment.phoneNumber, ''),
     serviceLanguage: getValue(enrolment.serviceLanguage, ''),
   };
@@ -116,9 +118,11 @@ export const getEnrolmentNotificationsCode = (
 
 export const getEnrolmentPayload = ({
   formValues,
+  registration,
   reservationCode,
 }: {
   formValues: EnrolmentFormFields;
+  registration: RegistrationFieldsFragment;
   reservationCode: string;
 }): CreateEnrolmentMutationInput => {
   const {
@@ -133,7 +137,8 @@ export const getEnrolmentPayload = ({
   } = formValues;
 
   const signups: SignupInput[] = attendees.map((attendee) => {
-    const { city, dateOfBirth, name, streetAddress, zipcode } = attendee;
+    const { city, dateOfBirth, firstName, lastName, streetAddress, zipcode } =
+      attendee;
     return {
       city: getValue(city, ''),
       dateOfBirth: dateOfBirth
@@ -141,8 +146,9 @@ export const getEnrolmentPayload = ({
         : null,
       email: getValue(email, null),
       extraInfo: extraInfo,
+      firstName: getValue(firstName, ''),
+      lastName: getValue(lastName, ''),
       membershipNumber: membershipNumber,
-      name: getValue(name, ''),
       nativeLanguage: getValue(nativeLanguage, null),
       notifications: getEnrolmentNotificationsCode(notifications),
       phoneNumber: getValue(phoneNumber, null),
@@ -153,6 +159,7 @@ export const getEnrolmentPayload = ({
   });
 
   return {
+    registration: registration.id,
     reservationCode,
     signups,
   };
@@ -173,11 +180,10 @@ export const getUpdateEnrolmentPayload = ({
     extraInfo,
     membershipNumber,
     nativeLanguage,
-    notifications,
     phoneNumber,
     serviceLanguage,
   } = formValues;
-  const { city, dateOfBirth, name, streetAddress, zipcode } =
+  const { city, dateOfBirth, firstName, lastName, streetAddress, zipcode } =
     attendees[0] || {};
 
   return {
@@ -186,10 +192,13 @@ export const getUpdateEnrolmentPayload = ({
     dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
     email: getValue(email, null),
     extraInfo: extraInfo,
+    firstName: getValue(firstName, ''),
+    lastName: getValue(lastName, ''),
     membershipNumber: membershipNumber,
-    name: getValue(name, ''),
     nativeLanguage: getValue(nativeLanguage, null),
-    notifications: getEnrolmentNotificationsCode(notifications),
+    // TODO: At the moment only email notifications are supported
+    notifications: NOTIFICATION_TYPE.EMAIL,
+    // notifications: getEnrolmentNotificationsCode(notifications),
     phoneNumber: getValue(phoneNumber, null),
     registration: getValue(registration.id, ''),
     serviceLanguage: getValue(serviceLanguage, null),
@@ -203,70 +212,7 @@ export const enrolmentPathBuilder = ({
 }: PathBuilderProps<EnrolmentQueryVariables>): string => {
   const { id } = args;
 
-  return `/signup_edit/${id}/`;
-};
-
-export const getTotalAttendeeCapacity = (
-  registration: RegistrationFieldsFragment
-): number | undefined => {
-  const attendeeCapacity = getFreeAttendeeCapacity(registration);
-  // If there are seats in the event
-  if (attendeeCapacity === undefined) {
-    return undefined;
-  }
-  return attendeeCapacity + getFreeWaitlistCapacity(registration);
-};
-
-export const getFreeAttendeeCapacity = (
-  registration: RegistrationFieldsFragment
-): number | undefined => {
-  // If there are seats in the event
-  if (!registration.maximumAttendeeCapacity) {
-    return undefined;
-  }
-  return Math.max(
-    registration.maximumAttendeeCapacity -
-      (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0),
-    0
-  );
-};
-
-export const getFreeWaitlistCapacity = (
-  registration: RegistrationFieldsFragment
-): number => {
-  // If there are seats in the event
-  if (!registration.waitingListCapacity) {
-    return 0;
-  }
-
-  return Math.max(
-    registration.waitingListCapacity -
-      (registration.currentWaitingListCount ?? /* istanbul ignore next */ 0),
-    0
-  );
-};
-
-export const getAttendeeCapacityError = (
-  registration: RegistrationFieldsFragment,
-  participantAmount: number,
-  t: TFunction
-): string | undefined => {
-  if (participantAmount < 1) {
-    return getValue(t(VALIDATION_MESSAGE_KEYS.CAPACITY_MIN, { min: 1 }), '');
-  }
-
-  const freeCapacity = getTotalAttendeeCapacity(registration);
-
-  if (freeCapacity && participantAmount > freeCapacity) {
-    return getValue(
-      t(VALIDATION_MESSAGE_KEYS.CAPACITY_MAX, {
-        max: freeCapacity,
-      }),
-      ''
-    );
-  }
-
-  return undefined;
+  return `/signup/${id}/`;
 };
 
 export const checkCanUserDoAction = ({
@@ -425,22 +371,19 @@ export const getNewAttendees = ({
   registration: RegistrationFieldsFragment;
   seatsReservation: SeatsReservationFieldsFragment;
 }): AttendeeFields[] => {
-  const { seats, seatsAtEvent } = seatsReservation;
+  const { seats, inWaitlist } = seatsReservation;
   const attendeeInitialValues = getAttendeeDefaultInitialValues(registration);
   const filledAttendees = attendees.filter(
     (a) => !isEqual(a, attendeeInitialValues)
   );
   return [
     ...filledAttendees,
-    ...Array(Math.max((seats as number) - filledAttendees.length, 0)).fill(
+    ...Array(Math.max(seats - filledAttendees.length, 0)).fill(
       attendeeInitialValues
     ),
   ]
-    .slice(0, seats as number)
-    .map((attendee, index) => ({
-      ...attendee,
-      inWaitingList: index + 1 > (seatsAtEvent as number),
-    }));
+    .slice(0, seats)
+    .map((attendee, index) => ({ ...attendee, inWaitingList: inWaitlist }));
 };
 
 export const isEnrolmentFieldRequired = (

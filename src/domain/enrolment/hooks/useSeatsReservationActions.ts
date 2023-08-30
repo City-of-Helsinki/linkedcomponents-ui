@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router';
 
 import {
+  CreateSeatsReservationMutationInput,
   RegistrationFieldsFragment,
   SeatsReservation,
   UpdateSeatsReservationMutationInput,
@@ -65,7 +66,9 @@ const useSeatsReservationActions = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: UpdateSeatsReservationMutationInput;
+    payload?:
+      | CreateSeatsReservationMutationInput
+      | UpdateSeatsReservationMutationInput;
   }) => {
     savingFinished();
     closeModal();
@@ -87,7 +90,10 @@ const useSeatsReservationActions = ({
   };
 
   const createSeatsReservation = async (callbacks?: MutationCallbacks) => {
-    const payload = { registration: registrationId, seats: 1, waitlist: true };
+    const payload: CreateSeatsReservationMutationInput = {
+      registration: registrationId,
+      seats: 1,
+    };
 
     try {
       const { data } = await createSeatsReservationMutation({
@@ -108,7 +114,7 @@ const useSeatsReservationActions = ({
         setAttendees(newAttendees);
       }
 
-      if (data?.createSeatsReservation.waitlistSpots) {
+      if (data?.createSeatsReservation.inWaitlist) {
         setOpenModal(ENROLMENT_MODALS.PERSONS_ADDED_TO_WAITLIST);
       }
       callbacks?.onSuccess?.();
@@ -129,16 +135,20 @@ const useSeatsReservationActions = ({
     setSaving(true);
     const reservationData = getSeatsReservationData(registrationId);
 
-    const payload = {
+    /* istanbul ignore next */
+    if (!reservationData) {
+      throw new Error('Reservation data is not stored to session storage');
+    }
+
+    const payload: UpdateSeatsReservationMutationInput = {
       code: reservationData?.code as string,
       registration: registrationId,
       seats,
-      waitlist: true,
     };
 
     try {
       const { data } = await updateSeatsReservationMutation({
-        variables: { input: payload },
+        variables: { id: reservationData.id, input: payload },
       });
       const seatsReservation = data?.updateSeatsReservation as SeatsReservation;
 
@@ -153,7 +163,7 @@ const useSeatsReservationActions = ({
 
       setSaving(false);
       // Show modal to inform that some of the persons will be added to the waiting list
-      if (data?.updateSeatsReservation.waitlistSpots) {
+      if (data?.updateSeatsReservation.inWaitlist) {
         setOpenModal(ENROLMENT_MODALS.PERSONS_ADDED_TO_WAITLIST);
       } else {
         closeModal();

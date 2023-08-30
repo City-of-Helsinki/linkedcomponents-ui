@@ -151,6 +151,7 @@ export const getEventsQueryBaseVariables = ({
         adminUser: true,
         publisher: adminOrganizations,
         publicationStatus: PublicationStatus.Draft,
+        start: 'now',
       };
   }
 };
@@ -194,13 +195,21 @@ export const getEventSearchInitialValues = (
 };
 
 export const getEventsQueryVariables = (
-  search: string
+  search: string,
+  baseVariables?: EventsQueryVariables
 ): EventsQueryVariables => {
   const searchParams = new URLSearchParams(search);
 
+  let start = null;
+
+  if (searchParams.get(EVENT_SEARCH_PARAMS.START)) {
+    start = searchParams.get(EVENT_SEARCH_PARAMS.START);
+  } else if (baseVariables?.start) {
+    start = baseVariables.start;
+  }
+
   const end = searchParams.get(EVENT_SEARCH_PARAMS.END);
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
-  const start = searchParams.get(EVENT_SEARCH_PARAMS.START);
 
   const { page, sort, text, types } = getEventSearchInitialValues(search);
 

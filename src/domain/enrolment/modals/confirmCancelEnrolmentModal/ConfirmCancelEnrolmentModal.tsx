@@ -23,7 +23,7 @@ const ConfirmCancelEnrolmentModal: React.FC<
 > = ({ enrolment, registration, ...props }) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const { name } = getEnrolmentFields({
+  const { fullName } = getEnrolmentFields({
     enrolment,
     language: locale,
     registration,
@@ -37,7 +37,7 @@ const ConfirmCancelEnrolmentModal: React.FC<
           <p>{t('enrolment.cancelEnrolmentModal.text2')}</p>
           <ul className={styles.list}>
             <li>
-              <strong>{name}</strong>
+              <strong>{fullName}</strong>
             </li>
           </ul>
         </>

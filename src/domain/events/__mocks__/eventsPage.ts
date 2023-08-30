@@ -32,6 +32,7 @@ const baseWaitingApprovalEventsVariables = {
   adminUser: true,
   publisher: [organizationId],
   publicationStatus: 'draft',
+  start: 'now',
 };
 const waitingApprovalEventsResponse = {
   data: { events: waitingApprovalEvents },
@@ -45,8 +46,8 @@ const mockedBaseWaitingApprovalEventsResponse: MockedResponse = {
 };
 
 const waitingApprovalEventsVariables = {
-  ...baseWaitingApprovalEventsVariables,
   ...commonSearchVariables,
+  ...baseWaitingApprovalEventsVariables,
 };
 
 const mockedWaitingApprovalEventsResponse: MockedResponse = {

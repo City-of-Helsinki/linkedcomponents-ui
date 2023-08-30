@@ -8,7 +8,6 @@ module.exports = buildSchema(/* GraphQL */ `
   type Mutation {
     createEnrolment(
       input: CreateEnrolmentMutationInput!
-      registration: String
     ): CreateEnrolmentResponse!
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
@@ -20,7 +19,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createSeatsReservation(
       input: CreateSeatsReservationMutationInput!
     ): SeatsReservation!
-    deleteEnrolment(cancellationCode: String!): NoContent
+    deleteEnrolment(signup: String!): NoContent
     deleteEvent(id: ID!): NoContent
     deleteImage(id: ID!): NoContent
     deleteKeyword(id: ID!): NoContent
@@ -30,7 +29,15 @@ module.exports = buildSchema(/* GraphQL */ `
     deleteRegistration(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
-    updateEnrolment(input: UpdateEnrolmentMutationInput!): Enrolment!
+    sendMessage(
+      input: SendMessageMutationInput!
+      registration: String
+    ): SendMessageResponse
+    sendRegistrationUserAccessInvitation(id: Int): NoContent
+    updateEnrolment(
+      input: UpdateEnrolmentMutationInput!
+      signup: String!
+    ): Enrolment!
     updateEvent(input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
@@ -41,6 +48,7 @@ module.exports = buildSchema(/* GraphQL */ `
     updatePlace(input: UpdatePlaceMutationInput!): Place!
     updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
     updateSeatsReservation(
+      id: ID!
       input: UpdateSeatsReservationMutationInput!
     ): SeatsReservation!
   }
@@ -52,13 +60,12 @@ module.exports = buildSchema(/* GraphQL */ `
   type Query {
     dataSource(id: ID!): DataSource!
     dataSources(page: Int, pageSize: Int): DataSourcesResponse!
-    enrolment(id: ID): Enrolment!
+    enrolment(id: ID!): Enrolment!
     enrolments(
       attendeeStatus: AttendeeStatus
-      events: [ID]
-      registrations: [ID]
+      registration: [ID]
       text: String
-    ): [Enrolment]!
+    ): EnrolmentsResponse!
     event(id: ID, include: [String]): Event!
     events(
       adminUser: Boolean
@@ -94,6 +101,7 @@ module.exports = buildSchema(/* GraphQL */ `
     ): EventsResponse!
     image(id: ID): Image!
     images(
+      createdBy: String
       dataSource: String
       mergePages: Boolean
       page: Int
@@ -121,7 +129,7 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): KeywordSetsResponse!
-    languages: LanguagesResponse!
+    languages(serviceLanguage: Boolean): LanguagesResponse!
     organization(id: ID!): Organization!
     organizations(
       child: ID
@@ -151,7 +159,6 @@ module.exports = buildSchema(/* GraphQL */ `
       pageSize: Int
       text: String
     ): RegistrationsResponse!
-
     user(id: ID!): User!
     users(page: Int, pageSize: Int): UsersResponse!
   }
@@ -166,6 +173,11 @@ module.exports = buildSchema(/* GraphQL */ `
     EventPostponed
     EventRescheduled
     EventScheduled
+  }
+
+  enum PresenceStatus {
+    not_present
+    present
   }
 
   enum PublicationStatus {
@@ -228,10 +240,12 @@ module.exports = buildSchema(/* GraphQL */ `
     dateOfBirth: String
     email: String
     extraInfo: String
+    firstName: String
+    lastName: String
     membershipNumber: String
-    name: String
     nativeLanguage: String
     notifications: String
+    presenceStatus: PresenceStatus
     phoneNumber: String
     serviceLanguage: String
     streetAddress: String
@@ -239,6 +253,7 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input CreateEnrolmentMutationInput {
+    registration: String
     reservationCode: String
     signups: [SignupInput!]
   }
@@ -249,11 +264,13 @@ module.exports = buildSchema(/* GraphQL */ `
     dateOfBirth: String
     email: String
     extraInfo: String
+    firstName: String
+    lastName: String
     membershipNumber: String
-    name: String
     nativeLanguage: String
     notifications: String
     phoneNumber: String
+    presenceStatus: PresenceStatus
     registration: ID
     serviceLanguage: String
     streetAddress: String
@@ -268,6 +285,8 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
+    environment: String
+    environmentalCertificate: String
     eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
     images: [IdObjectInput!]
@@ -289,6 +308,11 @@ module.exports = buildSchema(/* GraphQL */ `
     superEvent: IdObjectInput
     superEventType: SuperEventType
     typeId: EventTypeId
+    userConsent: Boolean
+    userEmail: String
+    userName: String
+    userOrganization: String
+    userPhoneNumber: String
     videos: [VideoInput]
   }
 
@@ -301,6 +325,8 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
+    environment: String
+    environmentalCertificate: String
     eventStatus: EventStatus
     externalLinks: [ExternalLinkInput]
     images: [IdObjectInput!]
@@ -321,6 +347,11 @@ module.exports = buildSchema(/* GraphQL */ `
     superEvent: IdObjectInput
     superEventType: SuperEventType
     typeId: EventTypeId
+    userConsent: Boolean
+    userEmail: String
+    userName: String
+    userOrganization: String
+    userPhoneNumber: String
     videos: [VideoInput]
   }
 
@@ -379,12 +410,8 @@ module.exports = buildSchema(/* GraphQL */ `
     usage: String
   }
 
-  input OrganizationUsersInput {
-    username: [String]
-  }
-
   input CreateOrganizationMutationInput {
-    adminUsers: OrganizationUsersInput
+    adminUsers: [String]
     affiliatedOrganizations: [String]
     classification: String
     dataSource: String
@@ -395,13 +422,13 @@ module.exports = buildSchema(/* GraphQL */ `
     name: String
     originId: String
     parentOrganization: String
-    regularUsers: OrganizationUsersInput
+    regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
   }
 
   input UpdateOrganizationMutationInput {
-    adminUsers: OrganizationUsersInput
+    adminUsers: [String]
     affiliatedOrganizations: [String]
     classification: String
     dataSource: String
@@ -411,7 +438,7 @@ module.exports = buildSchema(/* GraphQL */ `
     internalType: String
     name: String
     parentOrganization: String
-    regularUsers: OrganizationUsersInput
+    regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
   }
@@ -458,17 +485,25 @@ module.exports = buildSchema(/* GraphQL */ `
     type: String
   }
 
+  input RegistrationUserAccessInput {
+    email: String
+    id: Int
+    language: String
+  }
+
   input CreateRegistrationMutationInput {
     audienceMaxAge: Int
     audienceMinAge: Int
-    confirmationMessage: String
+    confirmationMessage: LocalisedObjectInput
     enrolmentEndTime: String
     enrolmentStartTime: String
     event: IdObjectInput!
-    instructions: String
+    instructions: LocalisedObjectInput
     mandatoryFields: [String]
     maximumAttendeeCapacity: Int
+    maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    registrationUserAccesses: [RegistrationUserAccessInput]
     waitingListCapacity: Int
   }
 
@@ -476,28 +511,34 @@ module.exports = buildSchema(/* GraphQL */ `
     id: ID!
     audienceMaxAge: Int
     audienceMinAge: Int
-    confirmationMessage: String
+    confirmationMessage: LocalisedObjectInput
     enrolmentEndTime: String
     enrolmentStartTime: String
     event: IdObjectInput!
-    instructions: String
+    instructions: LocalisedObjectInput
     mandatoryFields: [String]
     maximumAttendeeCapacity: Int
+    maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    registrationUserAccesses: [RegistrationUserAccessInput]
     waitingListCapacity: Int
   }
 
   input CreateSeatsReservationMutationInput {
-    registration: String
-    seats: Int
-    waitlist: Boolean
+    registration: ID!
+    seats: Int!
   }
 
   input UpdateSeatsReservationMutationInput {
-    code: String
-    registration: String
-    seats: Int
-    waitlist: Boolean
+    code: String!
+    registration: ID!
+    seats: Int!
+  }
+
+  input SendMessageMutationInput {
+    body: String!
+    signups: [String!]
+    subject: String!
   }
 
   type DataSource {
@@ -594,6 +635,8 @@ module.exports = buildSchema(/* GraphQL */ `
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String
+    environment: String
+    environmentalCertificate: String
     extensionCourse: ExtensionCourse
     externalLinks: [ExternalLink]!
     eventStatus: EventStatus
@@ -619,6 +662,11 @@ module.exports = buildSchema(/* GraphQL */ `
     superEvent: Event
     superEventType: SuperEventType
     typeId: EventTypeId
+    userConsent: Boolean
+    userEmail: String
+    userName: String
+    userOrganization: String
+    userPhoneNumber: String
     videos: [Video]!
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!
@@ -645,6 +693,7 @@ module.exports = buildSchema(/* GraphQL */ `
   type Image {
     id: ID
     altText: LocalisedObject
+    createdBy: String
     createdTime: String
     cropping: String
     dataSource: String
@@ -704,6 +753,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Language {
     id: ID
+    serviceLanguage: Boolean
     translationAvailable: Boolean
     name: LocalisedObject
     # @id is renamed as atId so it's usable on GraphQl
@@ -820,6 +870,7 @@ module.exports = buildSchema(/* GraphQL */ `
     displayName: String
     email: String
     firstName: String
+    isExternal: Boolean
     isStaff: Boolean
     lastLogin: String
     lastName: String
@@ -835,6 +886,12 @@ module.exports = buildSchema(/* GraphQL */ `
     url: String
   }
 
+  type RegistrationUserAccess {
+    email: String
+    id: Int
+    language: String
+  }
+
   type RegistrationsResponse {
     meta: Meta!
     data: [Registration]!
@@ -845,7 +902,7 @@ module.exports = buildSchema(/* GraphQL */ `
     attendeeRegistration: Boolean
     audienceMaxAge: Int
     audienceMinAge: Int
-    confirmationMessage: String
+    confirmationMessage: LocalisedObject
     createdAt: String
     createdBy: String
     currentAttendeeCount: Int
@@ -854,13 +911,17 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentEndTime: String
     enrolmentStartTime: String
     event: Event
-    instructions: String
+    instructions: LocalisedObject
     lastModifiedAt: String
     lastModifiedBy: String
     mandatoryFields: [String]
     maximumAttendeeCapacity: Int
+    maximumGroupSize: Int
     minimumAttendeeCapacity: Int
     publisher: String
+    registrationUserAccesses: [RegistrationUserAccess]
+    remainingAttendeeCapacity: Int
+    remainingWaitingListCapacity: Int
     signups: [Enrolment]
     waitingListCapacity: Int
     # @id is renamed as atId so it's usable on GraphQl
@@ -872,23 +933,18 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type SeatsReservation {
-    code: String
-    expiration: String
-    registration: String
-    seats: Int
-    timestamp: String
-    seatsAtEvent: Int
-    waitlistSpots: Int
-  }
-
-  type EnrolmentPerson {
-    id: Int
-    name: String
+    id: ID!
+    code: String!
+    expiration: String!
+    inWaitlist: Boolean!
+    registration: ID!
+    seats: Int!
+    timestamp: String!
   }
 
   type EnrolmentPeopleResponse {
     count: Int
-    people: [EnrolmentPerson!]
+    people: [Enrolment!]
   }
 
   type CreateEnrolmentResponse {
@@ -904,14 +960,28 @@ module.exports = buildSchema(/* GraphQL */ `
     dateOfBirth: String
     email: String
     extraInfo: String
+    firstName: String
+    lastName: String
     membershipNumber: String
-    name: String
     nativeLanguage: String
     notifications: String
     phoneNumber: String
+    presenceStatus: PresenceStatus
     registration: ID
     serviceLanguage: String
     streetAddress: String
     zipcode: String
+  }
+
+  type EnrolmentsResponse {
+    meta: Meta!
+    data: [Enrolment!]!
+  }
+
+  type SendMessageResponse {
+    htmlMessage: String!
+    message: String!
+    signups: [String!]
+    subject: String!
   }
 `);

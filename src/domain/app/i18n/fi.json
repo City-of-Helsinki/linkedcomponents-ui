@@ -8,6 +8,16 @@
   },
   "appDescription": "Linked Events on ohjelmistokomponenttien ja API-päätepisteiden kokoelma, joka mahdollistaa tapahtumien hallinnan ja jakelun eri tapahtumapalvelujen tarjoajille Suomessa.",
   "appName": "Linked Events",
+  "attendanceListPage": {
+    "count": "{{count}} osallistuja",
+    "count_other": "{{count}} osallistujaa",
+    "errors": {
+      "presenceStatusUpdateFails": "Läsnäolotiedon päivittäminen epäonnistui"
+    },
+    "labelSearch": "Hae osallistujia",
+    "pageTitle": "Osallistujalista: {{name}}",
+    "title": "Osallistujalista"
+  },
   "authentication": {
     "errorMessage": "Tapahtui virhe. Yritä uudestaan",
     "networkError": {
@@ -282,7 +292,7 @@
   "editEventPage": {
     "title": {
       "course": "Muokkaa kurssia",
-      "general": "Muokka tapahtumaa",
+      "general": "Muokkaa tapahtumaa",
       "volunteering": "Muokkaa vapaaehtoistehtävää"
     }
   },
@@ -335,17 +345,20 @@
       "buttonDeleteAttendee": "Poista osallistuja",
       "buttonSave": "Tallenna osallistuja",
       "buttonUpdateParticipantAmount": "Päivitä",
-      "freeCapacity": "Saatavilla olevia paikkoja",
+      "freeAttendeeCapacity": "Saatavilla olevia paikkoja",
+      "freeWaitingListCapacity": "Saatavilla olevia jonopaikkoja",
       "labelAttendeeExtraInfo": "Lisätietoa (valinnainen)",
       "labelCity": "Kaupunki",
       "labelDateOfBirth": "Syntymäaika",
       "labelEmail": "Sähköpostiosoite",
       "labelExtraInfo": "Lisätietoa ilmoittautumisesta (valinnainen)",
+      "labelFirstName": "Etunimi",
+      "labelLastName": "Sukunimi",
       "labelMembershipNumber": "Jäsenkortin numero (valinnainen)",
-      "labelName": "Nimi",
       "labelNativeLanguage": "Äidinkieli",
       "labelParticipantAmount": "Ilmoittautujien määrä",
       "labelPhoneNumber": "Puhelinnumero",
+      "labelRegistration": "Ilmoittautuminen",
       "labelServiceLanguage": "Asiointikieli",
       "labelStreetAddress": "Katuosoite",
       "labelZipcode": "Postinumero",
@@ -354,8 +367,9 @@
       "placeholderCity": "Syötä kaupunki",
       "placeholderEmail": "Syötä sähköpostiosoite",
       "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
+      "placeholderFirstName": "Syötä ilmoittautujan etunimi",
+      "placeholderLastName": "Syötä ilmoittautujan sukunimi",
       "placeholderMembershipNumber": "Syötä jäsenkortin numero",
-      "placeholderName": "Syötä ilmoittautujan etu- ja sukunimi",
       "placeholderNativeLanguage": "Valitse äidinkieli",
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Valitse asiointikieli",
@@ -387,9 +401,20 @@
       "text": "Valitettavasti varausaika on umpeutunut.",
       "title": "Varausaika on täynnä."
     },
+    "sendMessageModal": {
+      "buttonSendMessage": "Lähetä viesti",
+      "labelBody": "Viesti",
+      "labelSubject": "Otsikko",
+      "placeholderBody": "Syötä viesti",
+      "placeholderSubject": "Syötä otsikko",
+      "title": "Lähetä viesti osallistujille",
+      "titleSingle": "Lähetä viesti osallistujalle"
+    },
     "warnings": {
+      "allSeatsReserved": "Tapahtuman kaikki paikat ovat tällä hetkellä varatut. Kokeile myöhemmin uudelleen.",
       "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
       "capacityInWaitingList_other": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
+      "capacityInWaitingListNoLimit": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta vain jonopaikkoja on jäljellä.",
       "closed": "Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen."
     }
   },
@@ -517,6 +542,7 @@
         "warningNotAuthenticated": "Jos haluat julkaista tapahtuman, kirjaudu ensin sisään."
       },
       "buttonPostpone": "Lykkää tapahtumaa",
+      "buttonSendEmail": "Lähetä sähköposti",
       "buttonPublish": {
         "course": "Julkaise kurssi",
         "general": "Julkaise tapahtuma",
@@ -531,6 +557,7 @@
       "buttonUpdateDraft": "Tallenna luonnos",
       "buttonUpdatePublic": "Tallenna muutokset",
       "checkboxIsVerified": "Vakuutan, että antamani tiedot ovat oikein ja sitoudun noudattamaan kaikkia Helsingin kaupungin kursseja ja tapahtumia <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"koskevia ohjeita ja säädöksiä {{openInNewTab}}\">koskevia ohjeita ja säädöksiä</a>.",
+      "eventDraftStateInfo": "Tallennetut tiedot tulevat automaattisesti näkyville myös moderoijalle. Tietoja voi kuitenkin muokata, kunnes moderaattori julkaisee tapahtuman. Jälkimmäisen voi välttää kirjoittamalla muokkauksen ajaksi tapahtuman otsikon alkuun \"KESKENERÄINEN\".",
       "editButtonPanel": {
         "warningCancelledEvent": "Peruttuja tapahtumia ei voi muokata.",
         "warningCannotCancelDraft": "Tapahtumaluonnosta ei voi perua.",
@@ -538,7 +565,8 @@
         "warningCannotPublishSubEvent": "Sarjan alatapahtumia ei voi julkaista.",
         "warningDeletedEvent": "Poistettuja tapahtumia ei voi muokata.",
         "warningEventInPast": "Menneisyydessä olevia tapahtumia ei voi muokata.",
-        "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa."
+        "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä tapahtumaa.",
+        "warningNoEmailFound": "Tähän tapahtumaan ei liity sähköpostiosoitetta."
       },
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
       "infoTextAttendeeCapacity": {
@@ -546,6 +574,7 @@
         "general": "Jos tapahtuman osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä.",
         "volunteering": "Jos vapaaehtoistehtävän osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä."
       },
+      "infoTextAttendeeCapacityUserUnknown": "Jos tapahtuman osallistujien määrä ei ole rajoitettu, ilmoita karkea arvio vähintään enimmäisosallistujamäärästä. (Tätä tietoa käytetään tilastointitarkoituksiin).",
       "infoTextAudience": {
         "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
         "general": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",
@@ -556,20 +585,34 @@
         "general": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua tapahtumaan, määritä ikärajat tässä.",
         "volunteering": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua vapaaehtoistehtävään, määritä ikärajat tässä."
       },
-      "infoTextDescription1": {
-        "course": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo kurssista olennaisimmat asiat ytimekkäästi.",
-        "general": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo tapahtumasta olennaisimmat asiat ytimekkäästi.",
-        "volunteering": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo vapaaehtoistehtävästä olennaisimmat asiat ytimekkäästi."
-      },
-      "infoTextDescription2": {
-        "course": "Kuvaus on pidempi ja tarkempi selostus kurssin sisällöstä.",
-        "general": "Kuvaus on pidempi ja tarkempi selostus tapahtuman sisällöstä.",
-        "volunteering": "Kuvaus on pidempi ja tarkempi selostus vapaaehtoistehtävän sisällöstä."
-      },
-      "infoTextDescription3": {
-        "course": "Kirjaa myös kurssin <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja.",
-        "general": "Kirjaa myös tapahtuman <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja.",
-        "volunteering": "Kirjaa myös vapaaehtoistehtävän <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja."
+      "infoTextDescription": {
+        "course": {
+          "paragraph1": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo kurssista olennaisimmat asiat ytimekkäästi.",
+          "paragraph2": "Kuvaus on pidempi ja tarkempi selostus kurssin sisällöstä.",
+          "paragraph3": "Kirjaa myös kurssin <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja."
+        },
+        "general": {
+          "paragraph1": "Kuvausteksti sisältää kieliversiot: suomi ja englanti, mahdollisesti myös ruotsi. <strong>Erityisesti vierailijoille suunnattu sisältö pitää olla vähintään suomeksi ja englanniksi.</strong>",
+          "paragraph2": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo tapahtumasta olennaisimmat asiat ytimekkäästi.",
+          "paragraph3": "Kuvaus on pidempi ja tarkempi selostus tapahtuman sisällöstä.",
+          "paragraph4": "Teksti ei sisällä kirjoitusvirheitä, ylisanoja, korulauseita ja superlatiiveja tai me-muotoa, sillä silloin se viittaa Helsingin kaupunkiin, ei tapahtumaan itseensä. ",
+          "paragraph5": "Lisäksi tapahtuman sisällön pitää noudattaa Helsingin kaupungin linjauksia eli kaupunki ei julkaise:",
+          "exclusions": [
+            "poliittisia tapahtumia (mielenosoitukset, vaaleihin tai sotiin liittyvät tms. radikaalit tapahtumat)",
+            "uskonnollisia tapahtumia (jumalanpalvelukset, rukoushetket, tosin konsertit käyvät kalenteriin)",
+            "verkkotapahtumia, jotka eivät liity Helsinkiin tai pääkaupunkiseutuun",
+            "yksityisasunnossa tapahtuvia tilaisuuksia",
+            "ei kaikille avoimia, esim.  ammattilais- tai sijoittajatapahtumia",
+            "ruokailua ilman ohjelmaa; pelkkä syöminen ei ole tapahtuma sinänsä",
+            "rahan ym. asioiden keräystapahtumia (poikkeuksena hyväntekeväisyystapahtuma, jossa on ohjelmaa)",
+            "työ- tai opiskelijahakuilmoituksia"
+          ]
+        },
+        "volunteering": {
+          "paragraph1": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo vapaaehtoistehtävästä olennaisimmat asiat ytimekkäästi.",
+          "paragraph2": "Kuvaus on pidempi ja tarkempi selostus vapaaehtoistehtävän sisällöstä.",
+          "paragraph3": "Kirjaa myös vapaaehtoistehtävän <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja."
+        }
       },
       "infoTextEnrolmentTime": {
         "course": "Jos kurssille on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",
@@ -607,7 +650,7 @@
       "infoTextImage4": "Alt-teksti parantaa saavutettavuutta, sillä ruudunlukuohjelmat välittävät alt-tekstin sisällön käyttäjälle. Kuvaa tähän kohtaan siis kuvan sisältö ymmärrettävästi.",
       "infoTextInfoLanguages": {
         "course": "Valitse kielet, joilla kuvaat kurssin tiedot Linked Events -palvelussa.",
-        "general": "Valitse kielet, joilla kuvaat tapahtuman tiedot Linked Events -palvelussa.",
+        "general": "Valitse kielet, joilla kuvaat tapahtuman tiedot Linked Events -palvelussa. <strong>Erityisesti vierailijoille suunnattu sisältö pitää olla vähintään suomeksi ja englanniksi.</strong",
         "volunteering": "Valitse kielet, joilla kuvaat vapaaehtoistehtävän tiedot Linked Events -palvelussa."
       },
       "infoTextInLanguages": {
@@ -629,6 +672,7 @@
       "infoTextLocation3": "Jos tapahtumapaikka löytyy listasta, sen sijaintia ei tarvitse kuvailla erikseen. Voit kuitenkin antaa lisätietoja tapahtumapaikan löytämiseksi, esimerkiksi kerrosnumeron tai luokkahuoneen nimen.",
       "infoTextLocation4": "Jos tarkkaa tapahtumapaikkaa ei löydy listasta, valitse tapahtumapaikaksi lähin katuosoite ja kirjoita paikan nimi tai muut tarkemmat saapumisohjeet tiiviisti lisätietokenttään.",
       "infoTextLocation5": "Jos paikan tiedot ovat muuttuneet, päivitä ne toimipisterekisterissä. Muiden kuin kaupungin palvelujen osalta, lisää tai päivitä tiedot <a href=\"https://kaupunkialustana.hel.fi/\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Kaupunki alustana {{openInNewTab}}\">Kaupunki alustana</a> -palvelussa.",
+      "infoTextLocation6": "Valitse tapahtuman pääasiallinen tapahtumapaikka Sisällä/Ulkona-vaihtoehdoista.",
       "infoTextMainCategories": {
         "course": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa kurssin löytämistä.",
         "general": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa tapahtuman löytämistä.",
@@ -649,7 +693,21 @@
         "general": "Kirjoita tähän tapahtuman järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija.",
         "volunteering": "Kirjoita tähän vapaaehtoistehtävän järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija."
       },
-      "infoTextPublication": "Valitsemasi tapahtumatyyppi julkaistaan seuraavissa kanavissa:",
+      "infoTextPublication": {
+        "paragraph1": {
+          "general": "Julkaistavien tapahtumatietojen tulee olla kaupunkilaisia ja/tai vierailijoita kiinnostavia ja sijaita pääkaupunkiseudulla.",
+          "course": "Julkaistavien harrastustietojen tulee olla kaupunkilaisia ja/tai vierailijoita kiinnostavia ja sijaita pääkaupunkiseudulla.",
+          "volunteering": "Julkaistavien tapahtumatietojen tulee olla kaupunkilaisia ja/tai vierailijoita kiinnostavia ja sijaita pääkaupunkiseudulla."
+        },
+        "paragraph2": "Valitsemasi tapahtumatyyppi voidaan julkaista seuraavissa kanavissa:",
+        "paragraph3": "tai rajapinnan kautta muissa palveluissa.",
+        "paragraph4": {
+          "general": "Ilmoitathan vain tapahtumatietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista.",
+          "course": "Ilmoitathan vain harrastustietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista.",
+          "volunteering": "Ilmoitathan vain tapahtumatietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista."
+        },
+        "paragraph5": "Moderoitava tapahtuma pitää ilmoittaa vähintään viikkoa ennen tapahtumaa."
+      },
       "infoTextPublisher": {
         "course": "Valitse organisaatio, joka näytetään kurssin julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet.",
         "general": "Valitse organisaatio, joka näytetään tapahtuman julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet.",
@@ -679,6 +737,10 @@
         "general": "Tapahtuman kuvaus {{langText}}",
         "volunteering": "Vapaaehtoistehtävän kuvaus {{langText}}"
       },
+      "labelHasEnvironmentalCertificate": "Tapahtumalla on ekokompassi tai muu vastaava sertifikaatti",
+      "labelEmail": "Sähköpostiosoite",
+      "labelEnvironment": "Tapahtuma järjestetään",
+      "labelEnvironmentalCertificate": "Sertifikaatin nimi",
       "labelEndDate": {
         "course": "Kurssi päättyy",
         "general": "Tapahtuma päättyy",
@@ -736,10 +798,13 @@
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
+      "labelOrganization": "Organisaatio",
+      "labelPhoneNumber": "Puhelinnumero",
       "labelProvider": {
         "course": "Kurssin järjestäjä {{langText}} (jos eri kuin julkaisija)",
         "general": "Tapahtuman järjestäjä {{langText}} (jos eri kuin julkaisija)",
-        "volunteering": "Vapaaehtoistehtävän järjestäjä {{langText}} (jos eri kuin julkaisija)"
+        "volunteering": "Vapaaehtoistehtävän järjestäjä {{langText}} (jos eri kuin julkaisija)",
+        "other": "Tapahtuman järjestäjä {{langText}}"
       },
       "labelPublisher": {
         "course": "Kurssin julkaisija",
@@ -759,6 +824,8 @@
       "labelStartTime": "Alkamisaika",
       "labelTime": "Ajankohta",
       "labelUmbrellaEvent": "Kattotapahtuma",
+      "labelUserConsent": "Olen lukenut <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Yritystoiminnan%20tukeminen%20ja%20neuvonta%20seka%20matkailuneuvontapalvelut.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"tietosuojaselosteen {{openInNewTab}}\">tietosuojaselosteen</a> ja annan luvan tietojeni käyttöön.",
+      "labelUserName": "Nimi",
       "labelVideoAltText": "Videon alt-teksti",
       "labelVideoName": "Videon nimi",
       "labelVideoUrl": "Videon URL-osoite",
@@ -814,6 +881,10 @@
         "general": "Tapahtuman video",
         "volunteering": "Vapaaehtoistehtävän video"
       },
+      "notificationNotAuthenticated": {
+        "paragraph1": "Helsingin kaupunki julkaisee maksutta pääkaupunkiseudulla toteutettavien tapahtumien tietoja muun muassa <a href=\"https://tapahtumat.hel.fi\" target=\"_blank\" rel=\"noreferrer\">tapahtumat.hel.fi</a>- ja <a href=\"https://harrastukset.hel.fi\" target=\"_blank\" rel=\"noreferrer\">harrastukset.hel.fi</a>-palveluissa. Tilaisuuden tiedot tulevat näkyviin lisäksi muihin digitaalisiin alustoihin, jotka hyödyntävät kaupungin Linked Events -rajapintaa.",
+        "paragraph2": "Voit jatkaa palveluun tutustumista, mutta sinun täytyy kirjautua sisään, jos haluat tallentaa muutoksia."
+      },
       "placeholderAudienceMaxAge": {
         "course": "Syötä kurssin yläikäraja",
         "general": "Syötä tapahtuman yläikäraja",
@@ -829,6 +900,7 @@
         "general": "Syötä tapahtuman kuvaus",
         "volunteering": "Syötä vapaaehtoistehtävän kuvaus"
       },
+      "placeholderEmail": "Syötä sähköpostiosoite",
       "placeholderExternalLinkLink": {
         "course": "Syötä kurssin {{name}} URL",
         "general": "Syötä tapahtuman {{name}} URL",
@@ -860,6 +932,8 @@
         "general": "Syötä tapahtuman hinta {{langText}}",
         "volunteering": "Syötä vapaaehtoistehtävän hinta {{langText}}"
       },
+      "placeholderOrganization": "Organisaation nimi",
+      "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderProvider": {
         "course": "Syötä kurssin järjestäjän nimi",
         "general": "Syötä tapahtuman järjestäjän nimi",
@@ -870,6 +944,7 @@
         "general": "Syötä tapahtuman lyhyt kuvaus",
         "volunteering": "Syötä vapaaehtoistehtävän lyhyt kuvaus"
       },
+      "placeholderUserName": "Syötä etu- ja sukunimi tai nimimerkki",
       "placeholderVideoAltText": "Syötä videon alt-teksti ruudunlukijoita varten",
       "placeholderVideoName": "Syötä videon nimi",
       "placeholderVideoUrl": "Syötä videon URL-osoite",
@@ -905,6 +980,7 @@
           "volunteering": "Vapaaehtoistehtävän kanavat"
         },
         "classification": "Luokittelu",
+        "contact": "Yhteystiedot",
         "description": "Kuvaus",
         "image": "Kuva",
         "languages": "Kielet",
@@ -981,7 +1057,11 @@
         "general": "Tapahtuman video",
         "volunteering": "Vapaaehtoistehtävän video"
       },
-      "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma."
+      "tooltipEventIsUmbrella": "Alatapahtuma ei voi olla kattotapahtuma.",
+      "placeOptions": {
+        "in": "Sisällä",
+        "out": "Ulkona"
+      }
     },
     "freeEvent": "Maksuton",
     "postponeEventModal": {
@@ -1259,7 +1339,7 @@
     "pageDescriptionInstructions": "Ohjeet sovelluksen ja Linked Events -rajapinnan käyttöön",
     "pageDescriptionSourceCode": "Tutustu Linked Eventsin lähdekoodiin Githubissa.",
     "pageDescriptionTechnology": "Lisätietoja Linked Eventsin taustalla olevasta tekniikasta.",
-    "pageDescriptionTermsOfUse": "Linked Eventsin palvelusehdot ja rajoitukset.",
+    "pageDescriptionTermsOfUse": "Linked Eventsin tietosuoja ja käyttöehdot.",
     "pageTitle": "Tuki",
     "pageTitleApi": "Rajapinta",
     "pageTitleControlPanel": "Hallintapaneeli",
@@ -1270,7 +1350,7 @@
     "pageTitleInstructions": "Tuki",
     "pageTitleSourceCode": "Lähdekoodi",
     "pageTitleTechnology": "Teknologia",
-    "pageTitleTermsOfUse": "Käyttöehdot",
+    "pageTitleTermsOfUse": "Tietosuoja ja käyttöehdot",
     "platformPage": {
       "imageAlt": "Linked Eventsin käyttö tabletilla",
       "pageDescription": "Johdatus Linked Events -alustaan ja ohjauspaneeliin.",
@@ -1548,6 +1628,13 @@
     "pageTitle": "Uloskirjaus",
     "text": "Olet kirjautunut ulos palvelusta. Kirjaudu takaisin sisään tai palaa etusivulle."
   },
+  "maintenance": {
+    "header": {
+      "label": "Palvelua päivitetään",
+      "text": "Keskiviikkona 30.8. Linked Events -palvelua päivitetään. Kyseisenä päivänä sisällöntuotanto tai kirjautuminen ei ole mahdollista."
+    },
+    "toast": "Keskiviikkona 30.8. päivitetään Linked Events -palvelu, mistä johtuen kirjautuminen ei ole mahdollista."
+  },
   "navigation": {
     "languages": {
       "en": "In English",
@@ -1704,7 +1791,9 @@
       "title": "Varmista ilmoittautumisen poistaminen"
     },
     "form": {
+      "buttonAddRegistrationUserAccess": "Lisää käyttäjä",
       "buttonCreate": "Tallenna ilmoittautuminen",
+      "buttonDeleteRegistrationUserAccess": "Poista käyttäjä",
       "buttonPanel": {
         "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
       },
@@ -1715,32 +1804,45 @@
       },
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
-      "labelConfirmationMessage": "Lähetettävä vahvistusviesti (valinnainen)",
+      "labelConfirmationMessage": "Vahvistusviesti {{langText}} (valinnainen)",
       "labelEnrolmentEndTimeDate": "Ilmoittautuminen päättyy",
       "labelEnrolmentEndTimeTime": "Ilmoittautuminen päättyy klo",
       "labelEnrolmentStartTimeDate": "Ilmoittautuminen alkaa",
       "labelEnrolmentStartTimeTime": "Ilmoittautuminen alkaa klo",
       "labelEvent": "Tapahtuma",
-      "labelInstructions": "Ilmoittautumisohjeet (valinnainen)",
+      "labelInstructions": "Ilmoittautumisohjeet {{langText}} (valinnainen)",
       "labelMaximumAttendeeCapacity": "Paikkojen enimmäismäärä",
+      "labelMaximumGroupSize": "Ryhmän enimmäiskoko",
       "labelMinimumAttendeeCapacity": "Paikkojen vähimmäismäärä",
       "labelName": "Nimi",
+      "labelRegistrationUserAccessEmail": "Käyttäjän sähköpostiosoite",
+      "labelRegistrationUserAccessLanguage": "Kieli",
       "labelWaitingListCapacity": "Varasijapaikkojen lukumäärä",
+      "messages": {
+        "failedToSendInvitation": "Kutsun lähettäminen epäonnistui",
+        "succeededToSendInvitation": "Kutsu osallistujalistaan on lähetetty osoitteeseen {{email}}."
+      },
       "notificationTitleCannotEdit": "Ilmoittautumista ei voi muokata",
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
       "placeholderEvent": "Valitse tai hae tapahtuma",
       "placeholderInstructions": "Syötä ilmoittautumisohjeet",
+      "placeholderRegistrationUserAccessEmail": "Syötä käyttäjän sähköpostiosoite",
+      "placeholderRegistrationUserAccessLanguage": "Valitse kieli",
       "sections": {
         "attendeeCount": "Paikat",
         "audienceAge": "Ikäraja",
-        "confirmationMessage": "Vahvistusviestin lisätiedot",
         "enrolmentTime": "Ilmoittautumisaika",
         "event": "Tapahtuma",
-        "instructions": "Ilmoittautumisen lisätiedot",
+        "groupSize": "Ryhmän koko",
+        "instructions": "Ilmoittautumisohjeet ja vahvistusviesti",
+        "languages": "Kielet",
         "mandatoryFields": "Pakolliset kentät",
+        "registrationUserAccesses": "Osallistujalistan lukuoikeudet",
         "waitingList": "Jonopaikat"
       },
+      "sendInvitation": "Lähetä kutsu uudelleen",
       "titleContactInfo": "Yhteystiedot",
+      "titleInfoLanguages": "Syöttökielet",
       "titleParticipantBasicInfo": "Ilmoittautujan perustiedot"
     },
     "registrationLinkCopied": "Ilmoittautumislinkki kopioitu"
@@ -1751,6 +1853,7 @@
       "copyLink": "Kopioi linkki",
       "delete": "Poista ilmoittautuminen",
       "edit": "Muokkaa",
+      "editAttendanceList": "Merkkaa läsnäolijat",
       "showEnrolments": "Näytä ilmoittautuneet",
       "update": "Tallenna muutokset"
     },
@@ -1790,6 +1893,7 @@
     "emailMustBeUnique": "Sähköpostiosoitteella on jo ilmoittautuminen.",
     "endTimeInPast": "Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.",
     "invalidUrl": "Syötä oikea URL-osoite.",
+    "maxGroupSize": "Ryhmän enimmäiskoko on {{maxGroupSize}}.",
     "maxLength255": "Arvo saa olla enintään 255 merkkiä pitkä.",
     "methodDeleteNotAllowed": "Metodi \"DELETE\" ei ole sallittu.",
     "methodPostNotAllowed": "Metodi \"POST\" ei ole sallittu.",
@@ -1797,7 +1901,8 @@
     "min0": "Tämän luvun on oltava vähintään 0.",
     "mustBeUnique": "Arvon tulee olla uniikki.",
     "nameIsRequired": "Nimi on pakollinen.",
-    "notEnoughSeats": "Paikkoja ei ole riittävästi jäljellä.",
+    "notEnoughSeats": "Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: {{seatsLeft}}.",
+    "notEnoughWaitingListSeats": "Jonopaikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: {{seatsLeft}}.",
     "notFoundAllObjects": "Kaikkia päivitettäviä objekteja ei löytynyt.",
     "notNull": "Tämän kentän arvo ei voi olla \"null\".",
     "offersIsRequired": "Hintatiedot on määritettävä ennen tapahtuman julkaisemista.",

@@ -8,6 +8,7 @@ import {
   KeywordSetQueryVariables,
   OrganizationQueryVariables,
   PlaceQueryVariables,
+  RegistrationQueryVariables,
 } from '../../../generated/graphql';
 
 export const clearEnrolmentQueries = (
@@ -116,6 +117,16 @@ export const clearPlacesQueries = (
   apolloClient.cache.evict({
     id: 'ROOT_QUERY',
     fieldName: 'places',
+  });
+
+export const clearRegistrationQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>,
+  args?: RegistrationQueryVariables
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'registration',
+    args,
   });
 
 export const clearRegistrationsQueries = (

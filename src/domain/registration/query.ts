@@ -2,12 +2,20 @@
 import gql from 'graphql-tag';
 
 export const QUERY_REGISTRATION = gql`
+  fragment registrationUserAccessFields on RegistrationUserAccess {
+    email
+    id
+    language
+  }
+
   fragment registrationFields on Registration {
     id
     atId
     audienceMaxAge
     audienceMinAge
-    confirmationMessage
+    confirmationMessage {
+      ...localisedFields
+    }
     createdBy
     currentAttendeeCount
     currentWaitingListCount
@@ -17,12 +25,20 @@ export const QUERY_REGISTRATION = gql`
     event {
       ...eventFields
     }
-    instructions
+    instructions {
+      ...localisedFields
+    }
     lastModifiedAt
     mandatoryFields
     maximumAttendeeCapacity
+    maximumGroupSize
     minimumAttendeeCapacity
+    remainingAttendeeCapacity
+    remainingWaitingListCapacity
     publisher
+    registrationUserAccesses {
+      ...registrationUserAccessFields
+    }
     signups {
       ...enrolmentFields
     }

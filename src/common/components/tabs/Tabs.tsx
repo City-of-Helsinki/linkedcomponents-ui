@@ -6,7 +6,7 @@ import { OptionType } from '../../../types';
 import Tab from './tab/Tab';
 import styles from './tabs.module.scss';
 
-type TabOptionType = {
+export type TabOptionType = {
   isCompleted?: boolean;
 } & OptionType;
 

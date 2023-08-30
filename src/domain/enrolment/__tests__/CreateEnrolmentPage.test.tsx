@@ -20,7 +20,10 @@ import {
   waitFor,
   within,
 } from '../../../utils/testUtils';
-import { mockedLanguagesResponse } from '../../language/__mocks__/language';
+import {
+  mockedLanguagesResponse,
+  mockedServiceLanguagesResponse,
+} from '../../language/__mocks__/language';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedPlaceResponse } from '../../place/__mocks__/place';
 import {
@@ -45,10 +48,10 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-const findElement = (key: 'nameInput' | 'submitButton') => {
+const findElement = (key: 'firstNameInput' | 'submitButton') => {
   switch (key) {
-    case 'nameInput':
-      return screen.findByLabelText(/nimi/i);
+    case 'firstNameInput':
+      return screen.findByLabelText(/etunimi/i);
     case 'submitButton':
       return screen.findByRole('button', { name: /tallenna osallistuja/i });
   }
@@ -61,7 +64,8 @@ const getElement = (
     | 'dateOfBirthInput'
     | 'emailCheckbox'
     | 'emailInput'
-    | 'nameInput'
+    | 'firstNameInput'
+    | 'lastNameInput'
     | 'nativeLanguageButton'
     | 'participantAmountInput'
     | 'phoneCheckbox'
@@ -85,8 +89,10 @@ const getElement = (
       return screen.getByLabelText(/sähköpostilla/i);
     case 'emailInput':
       return screen.getByLabelText(/sähköpostiosoite/i);
-    case 'nameInput':
-      return screen.getByLabelText(/nimi/i);
+    case 'firstNameInput':
+      return screen.getByLabelText(/etunimi/i);
+    case 'lastNameInput':
+      return screen.getByLabelText(/sukunimi/i);
     case 'nativeLanguageButton':
       return screen.getByRole('button', { name: /äidinkieli/i });
     case 'participantAmountInput':
@@ -120,13 +126,12 @@ const getCreateSeatsReservationMock = (seats: number): MockedResponse => {
   const createSeatsReservationPayload = {
     registration: registration.id,
     seats,
-    waitlist: true,
   };
   const createSeatsReservationVariables = {
     input: createSeatsReservationPayload,
   };
 
-  const createEnrolmentResponse = {
+  const createSeatsReservationResponse = {
     data: {
       createSeatsReservation: {
         ...seatsReservation,
@@ -141,28 +146,30 @@ const getCreateSeatsReservationMock = (seats: number): MockedResponse => {
       query: CreateSeatsReservationDocument,
       variables: createSeatsReservationVariables,
     },
-    result: createEnrolmentResponse,
+    result: createSeatsReservationResponse,
   };
 };
 
-const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
+const getUpdateSeatsReservationMock = (
+  id: string,
+  seats: number
+): MockedResponse => {
   const updateSeatsReservationPayload = {
     code,
     registration: registration.id,
     seats,
-    waitlist: true,
   };
 
   const updateSeatsReservationVariables = {
+    id,
     input: updateSeatsReservationPayload,
   };
 
-  const updateEnrolmentResponse = {
+  const updateSeatsReservationResponse = {
     data: {
       updateSeatsReservation: {
         ...seatsReservation,
         seats,
-        seatsAtEvent: seats,
       },
     },
   };
@@ -172,23 +179,28 @@ const getUpdateSeatsReservationMock = (seats: number): MockedResponse => {
       query: UpdateSeatsReservationDocument,
       variables: updateSeatsReservationVariables,
     },
-    result: updateEnrolmentResponse,
+    result: updateSeatsReservationResponse,
   };
 };
 
-const getUpdateSeatsReservationErrorMock = (seats: number): MockedResponse => {
+const getUpdateSeatsReservationErrorMock = (
+  id: string,
+  seats: number
+): MockedResponse => {
   const updateSeatsReservationPayload = {
     code,
     registration: registration.id,
     seats,
-    waitlist: true,
   };
   const updateSeatsReservationVariables = {
+    id,
     input: updateSeatsReservationPayload,
   };
 
   const error = new ApolloError({
-    networkError: { result: 'Not enough seats available.' } as any,
+    networkError: {
+      result: 'Not enough seats available. Capacity left: 0.',
+    } as any,
   });
 
   return {
@@ -200,13 +212,18 @@ const getUpdateSeatsReservationErrorMock = (seats: number): MockedResponse => {
   };
 };
 
+const mockedCreateSeatsReservation = getCreateSeatsReservationMock(1);
+const reservationId = (mockedCreateSeatsReservation?.result as any).data
+  ?.createSeatsReservation.id;
+
 const defaultMocks = [
   mockedLanguagesResponse,
+  mockedServiceLanguagesResponse,
   mockedOrganizationAncestorsResponse,
   mockedPlaceResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
-  getCreateSeatsReservationMock(1),
+  mockedCreateSeatsReservation,
 ];
 
 const route = ROUTES.CREATE_ENROLMENT.replace(
@@ -224,33 +241,31 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
 
 const waitLoadingAndFindNameInput = async () => {
   await loadingSpinnerIsNotInDocument();
-  const nameInput = await findElement('nameInput');
+  const nameInput = await findElement('firstNameInput');
   return nameInput;
 };
 
 const enterFormValues = async () => {
   const user = userEvent.setup();
 
-  const nameInput = await waitLoadingAndFindNameInput();
+  const firstNameInput = await waitLoadingAndFindNameInput();
+  const lastNameInput = getElement('lastNameInput');
   const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
   const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
-  const emailCheckbox = getElement('emailCheckbox');
-  const phoneCheckbox = getElement('phoneCheckbox');
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
 
-  await user.type(nameInput, enrolmentValues.name);
+  await user.type(firstNameInput, enrolmentValues.firstName);
+  await user.type(lastNameInput, enrolmentValues.lastName);
   await user.type(streetAddressInput, enrolmentValues.streetAddress);
   await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
   await user.type(zipInput, enrolmentValues.zip);
   await user.type(cityInput, enrolmentValues.city);
-  await user.click(emailCheckbox);
   await user.type(emailInput, enrolmentValues.email);
-  await user.click(phoneCheckbox);
   await user.type(phoneInput, enrolmentValues.phone);
   await user.click(nativeLanguageButton);
   const nativeLanguageOption = await screen.findByRole('option', {
@@ -272,20 +287,20 @@ test('should validate enrolment form and focus to invalid field and finally crea
     mockedCreateEnrolmentResponse,
   ]);
 
-  const nameInput = await waitLoadingAndFindNameInput();
+  const firstNameInput = await waitLoadingAndFindNameInput();
+  const lastNameInput = getElement('lastNameInput');
   const streetAddressInput = getElement('streetAddressInput');
   const dateOfBirthInput = getElement('dateOfBirthInput');
   const zipInput = getElement('zipInput');
   const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
   const phoneInput = getElement('phoneInput');
-  const emailCheckbox = getElement('emailCheckbox');
-  const phoneCheckbox = getElement('phoneCheckbox');
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
   const submitButton = await findElement('submitButton');
 
-  await user.type(nameInput, enrolmentValues.name);
+  await user.type(firstNameInput, enrolmentValues.firstName);
+  await user.type(lastNameInput, enrolmentValues.lastName);
   await user.type(streetAddressInput, enrolmentValues.streetAddress);
   await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
   await user.type(zipInput, enrolmentValues.zip);
@@ -297,16 +312,6 @@ test('should validate enrolment form and focus to invalid field and finally crea
   expect(phoneInput).not.toBeRequired();
 
   await user.type(emailInput, enrolmentValues.email);
-  await user.click(submitButton);
-  await waitFor(() => expect(emailCheckbox).toHaveFocus());
-
-  await user.click(emailCheckbox);
-  await user.click(phoneCheckbox);
-  await user.click(submitButton);
-
-  await waitFor(() => expect(phoneInput).toHaveFocus());
-  expect(phoneInput).toBeRequired();
-
   await user.type(phoneInput, enrolmentValues.phone);
   await user.click(submitButton);
 
@@ -349,8 +354,8 @@ test('should add and delete participants', async () => {
 
   renderComponent([
     ...defaultMocks,
-    getUpdateSeatsReservationMock(1),
-    getUpdateSeatsReservationMock(2),
+    getUpdateSeatsReservationMock(reservationId, 1),
+    getUpdateSeatsReservationMock(reservationId, 2),
   ]);
 
   await waitLoadingAndFindNameInput();
@@ -390,7 +395,10 @@ test('should add and delete participants', async () => {
 test('should show server errors when updating seats reservation fails', async () => {
   const user = userEvent.setup();
 
-  renderComponent([...defaultMocks, getUpdateSeatsReservationErrorMock(2)]);
+  renderComponent([
+    ...defaultMocks,
+    getUpdateSeatsReservationErrorMock(reservationId, 2),
+  ]);
 
   await waitLoadingAndFindNameInput();
 
@@ -409,7 +417,9 @@ test('should show server errors when updating seats reservation fails', async ()
   await user.type(participantAmountInput, '2');
   await user.click(updateParticipantAmountButton);
 
-  await screen.findByText('Paikkoja ei ole riittävästi jäljellä.');
+  await screen.findByText(
+    'Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: 0.'
+  );
 });
 
 test('should show and hide participant specific fields', async () => {
@@ -426,7 +436,7 @@ test('should show and hide participant specific fields', async () => {
   expect(nameInput).not.toBeInTheDocument();
 
   await user.click(toggleButton);
-  getElement('nameInput');
+  getElement('firstNameInput');
 });
 
 test('should delete participants by clicking delete participant button', async () => {
@@ -434,8 +444,8 @@ test('should delete participants by clicking delete participant button', async (
 
   renderComponent([
     ...defaultMocks,
-    getUpdateSeatsReservationMock(1),
-    getUpdateSeatsReservationMock(2),
+    getUpdateSeatsReservationMock(reservationId, 1),
+    getUpdateSeatsReservationMock(reservationId, 2),
   ]);
 
   await waitLoadingAndFindNameInput();
@@ -478,8 +488,8 @@ test('should show server errors when updating seats reservation fails', async ()
 
   renderComponent([
     ...defaultMocks,
-    getUpdateSeatsReservationMock(3),
-    getUpdateSeatsReservationErrorMock(2),
+    getUpdateSeatsReservationMock(reservationId, 3),
+    getUpdateSeatsReservationErrorMock(reservationId, 2),
   ]);
 
   await waitLoadingAndFindNameInput();
@@ -508,5 +518,7 @@ test('should show server errors when updating seats reservation fails', async ()
   });
   await user.click(deleteParticipantButton);
 
-  await screen.findByText('Paikkoja ei ole riittävästi jäljellä.');
+  await screen.findByText(
+    'Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: 0.'
+  );
 });

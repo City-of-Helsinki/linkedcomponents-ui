@@ -8,6 +8,7 @@ import {
 import { Language, PathBuilderProps } from '../../types';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import skipFalsyType from '../../utils/skipFalsyType';
 import { REGISTRATION_SEARCH_PARAMS } from '../registrations/constants';
 import { EnrolmentFields, EnrolmentSearchInitialValues } from './types';
 
@@ -40,6 +41,9 @@ export const getEnrolmentFields = ({
   const id = getValue(enrolment.id, '');
   /* istanbul ignore next */
   const registrationId = getValue(registration.id, '');
+  const firstName = getValue(enrolment.firstName, '');
+  const lastName = getValue(enrolment.lastName, '');
+  const fullName = [firstName, lastName].filter(skipFalsyType).join(' ');
 
   return {
     id,
@@ -49,7 +53,9 @@ export const getEnrolmentFields = ({
       ':registrationId',
       registrationId
     ).replace(':enrolmentId', id)}`,
-    name: getValue(enrolment.name, ''),
+    firstName,
+    fullName,
+    lastName,
     phoneNumber: getValue(enrolment.phoneNumber, ''),
   };
 };
@@ -60,42 +66,15 @@ export const getEnrolmentItemId = (id: string): string =>
 export const enrolmentsPathBuilder = ({
   args,
 }: PathBuilderProps<EnrolmentsQueryVariables>): string => {
-  const { attendeeStatus, events, registrations, text } = args;
+  const { attendeeStatus, registration, text } = args;
 
   const variableToKeyItems = [
     { key: 'attendee_status', value: attendeeStatus },
-    { key: 'events', value: events },
-    { key: 'registrations', value: registrations },
+    { key: 'registration', value: registration },
     { key: 'text', value: text },
   ];
 
   const query = queryBuilder(variableToKeyItems);
 
   return `/signup/${query}`;
-};
-
-export const filterEnrolments = ({
-  enrolments,
-  query,
-}: {
-  enrolments: EnrolmentFieldsFragment[];
-  query: EnrolmentsQueryVariables;
-}): EnrolmentFieldsFragment[] => {
-  const { attendeeStatus, text } = query;
-  let filteredEnrolments = [...enrolments];
-
-  if (attendeeStatus) {
-    filteredEnrolments = filteredEnrolments.filter(
-      (enrolment) => enrolment.attendeeStatus === attendeeStatus
-    );
-  }
-  if (text) {
-    filteredEnrolments = filteredEnrolments.filter(
-      (enrolment) =>
-        enrolment.name?.toLowerCase().includes(text.toLowerCase()) ||
-        enrolment.email?.toLowerCase().includes(text.toLowerCase()) ||
-        enrolment.phoneNumber?.toLowerCase().includes(text.toLowerCase())
-    );
-  }
-  return filteredEnrolments;
 };

@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { SUPPORTED_LANGUAGES } from '../../../../../constants';
-import { actWait, render } from '../../../../../utils/testUtils';
+import { actWait, render, screen } from '../../../../../utils/testUtils';
 import PageLayout from '../PageLayout';
 
 const renderComponent = () => render(<PageLayout />);
@@ -53,4 +53,21 @@ test('common meta data should be added', async () => {
 
     expect(link).not.toBeNull();
   });
+});
+
+test('should show maintenance warging', async () => {
+  const originalEnv = process.env;
+
+  process.env = {
+    ...originalEnv,
+    REACT_APP_MAINTENANCE_SHOW_NOTIFICATION: 'true',
+  };
+
+  renderComponent();
+
+  expect(
+    await screen.findByTestId('maintenance-notification')
+  ).toBeInTheDocument();
+
+  process.env = originalEnv;
 });

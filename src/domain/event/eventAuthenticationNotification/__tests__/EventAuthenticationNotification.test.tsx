@@ -6,13 +6,17 @@ import { fakeEvent } from '../../../../utils/mockDataUtils';
 import {
   configure,
   CustomRenderOptions,
+  loadingSpinnerIsNotInDocument,
   render,
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
-import { getMockedUserResponse } from '../../../user/__mocks__/user';
+import {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../../user/__mocks__/user';
 import EventAuthenticationNotification, {
   EventAuthenticationNotificationProps,
 } from '../EventAuthenticationNotification';
@@ -25,33 +29,30 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 const renderComponent = (
   renderOptions?: CustomRenderOptions,
   props?: EventAuthenticationNotificationProps
-) => render(<EventAuthenticationNotification {...props} />, renderOptions);
+) => {
+  render(<EventAuthenticationNotification {...props} />, renderOptions);
+};
 
-test('should not show notification if user is signed in and has organizations', async () => {
-  const mockedUserResponse = getMockedUserResponse({
-    adminOrganizations: [TEST_PUBLISHER_ID],
-    organizationMemberships: [],
-  });
-  const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
+test('should not show notification if user is signed in', async () => {
+  const originalEnv = process.env;
+
+  process.env = {
+    ...originalEnv,
+    REACT_APP_ENABLE_EXTERNAL_USER_EVENTS: 'false',
+  };
+
+  const mocks = [
+    mockedOrganizationAncestorsResponse,
+    mockedUserWithoutOrganizationsResponse,
+  ];
 
   renderComponent({ authContextValue, mocks });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
   );
-});
 
-test("should show notification if user is signed in but doesn't have any organizations", () => {
-  const mockedUserResponse = getMockedUserResponse({
-    adminOrganizations: [],
-    organizationMemberships: [],
-  });
-  const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
-
-  renderComponent({ authContextValue, mocks });
-
-  screen.getByRole('region');
-  screen.getByRole('heading', { name: 'Ei oikeuksia muokata tapahtumia.' });
+  process.env = originalEnv;
 });
 
 test('should show notification if event is in the past', async () => {
@@ -62,14 +63,11 @@ test('should show notification if event is in the past', async () => {
     startTime: '2019-11-08T12:27:34+00:00',
   });
 
-  const mockedUserResponse = getMockedUserResponse({
-    adminOrganizations: [publisher],
-    organization: publisher,
-    organizationMemberships: [],
-  });
   const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
   renderComponent({ authContextValue, mocks }, { event });
+
+  await loadingSpinnerIsNotInDocument();
 
   screen.getByRole('region');
   await screen.findByRole('heading', { name: 'Tapahtumaa ei voi muokata' });

@@ -37,7 +37,6 @@ import EventLink from '../eventLink/EventLink';
 import RegistrationAuthenticationNotification from '../registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import AttendeeCapacitySection from '../formSections/attendeeCapacitySection/AttendeeCapacitySection';
 import AudienceAgeSection from '../formSections/audienceAgeSection/AudienceAgeSection';
-import ConfirmationMessageSection from '../formSections/confirmationMessageSection/ConfirmationMessageSection';
 import EnrolmentTimeSection from '../formSections/enrolmentTimeSection/EnrolmentTimeSection';
 import EventSection from '../formSections/eventSection/EventSection';
 import InstructionsSection from '../formSections/instructionsSection/InstructionsSection';
@@ -52,6 +51,9 @@ import { RegistrationFormFields } from '../types';
 import { checkCanUserDoAction, getRegistrationInitialValues } from '../utils';
 import { getFocusableFieldId, registrationSchema } from '../validation';
 import getValue from '../../../utils/getValue';
+import GroupSizeSection from '../formSections/groupSizeSection/GroupSizeSection';
+import LanguagesSection from '../formSections/languageSection/LanguageSection';
+import RegistrationUserAccessesSection from '../formSections/registrationUserAccessesSection/RegistrationUserAccessesSection';
 
 export type CreateRegistrationFormProps = {
   event?: null;
@@ -260,7 +262,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                     {registration && (
                       <RegistrationInfo registration={registration} />
                     )}
-                    <Section title={t('registration.form.sections.event')}>
+                    <Section
+                      className={styles.section}
+                      title={t('registration.form.sections.event')}
+                    >
                       {registration ? (
                         <EventLink registration={registration} />
                       ) : (
@@ -268,6 +273,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                       )}
                     </Section>
                     <Section
+                      className={styles.section}
                       title={t('registration.form.sections.enrolmentTime')}
                     >
                       <EnrolmentTimeSection
@@ -275,6 +281,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                       />
                     </Section>
                     <Section
+                      className={styles.section}
                       title={t('registration.form.sections.attendeeCount')}
                     >
                       <AttendeeCapacitySection
@@ -282,11 +289,22 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                       />
                     </Section>
                     <Section
+                      className={styles.section}
                       title={t('registration.form.sections.waitingList')}
                     >
                       <WaitingListSection isEditingAllowed={isEditingAllowed} />
                     </Section>
+                    <Section title={t('registration.form.sections.groupSize')}>
+                      <GroupSizeSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
                     <Section
+                      className={styles.section}
+                      title={t('registration.form.sections.languages')}
+                    >
+                      <LanguagesSection isEditingAllowed={isEditingAllowed} />
+                    </Section>
+                    <Section
+                      className={styles.section}
                       title={t('registration.form.sections.instructions')}
                     >
                       <InstructionsSection
@@ -294,23 +312,26 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                       />
                     </Section>
                     <Section
-                      title={t(
-                        'registration.form.sections.confirmationMessage'
-                      )}
-                    >
-                      <ConfirmationMessageSection
-                        isEditingAllowed={isEditingAllowed}
-                      />
-                    </Section>
-                    <Section
+                      className={styles.section}
                       title={t('registration.form.sections.audienceAge')}
                     >
                       <AudienceAgeSection isEditingAllowed={isEditingAllowed} />
                     </Section>
                     <Section
+                      className={styles.section}
                       title={t('registration.form.sections.mandatoryFields')}
                     >
                       <MandatoryFieldsSection
+                        isEditingAllowed={isEditingAllowed}
+                      />
+                    </Section>
+                    <Section
+                      className={styles.section}
+                      title={t(
+                        'registration.form.sections.registrationUserAccesses'
+                      )}
+                    >
+                      <RegistrationUserAccessesSection
                         isEditingAllowed={isEditingAllowed}
                       />
                     </Section>

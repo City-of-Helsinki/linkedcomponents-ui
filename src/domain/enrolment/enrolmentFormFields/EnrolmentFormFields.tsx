@@ -29,6 +29,9 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
   const { t } = useTranslation();
   const notificationOptions = useNotificationOptions();
   const languageOptions = useLanguageOptions();
+  const serviceLanguageOptions = useLanguageOptions({
+    variables: { serviceLanguage: true },
+  });
   const [{ value: notifications }] = useField<NOTIFICATIONS>({
     name: ENROLMENT_FIELDS.NOTIFICATIONS,
   });
@@ -74,7 +77,9 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
             name={ENROLMENT_FIELDS.NOTIFICATIONS}
             className={styles.notifications}
             component={CheckboxGroupField}
-            disabled={disabled}
+            // TODO: At the moment only email notifications are supported
+            disabled={true}
+            // disabled={disabled}
             label={t(`enrolment.form.titleNotifications`)}
             options={notificationOptions}
             required
@@ -114,7 +119,7 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
               component={SingleSelectField}
               disabled={disabled}
               label={t(`enrolment.form.labelServiceLanguage`)}
-              options={languageOptions}
+              options={serviceLanguageOptions}
               placeholder={t(`enrolment.form.placeholderServiceLanguage`)}
               required
             />

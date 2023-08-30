@@ -8,6 +8,16 @@
   },
   "appDescription": "Linked Events är en samling mjukvarukomponenter och API-slutpunkter som möjliggör evenemnaghantering och distribution för olika evenemangsleverantörer i Finland.",
   "appName": "Linked Events",
+  "attendanceListPage": {
+    "count": "{{count}} deltagare",
+    "count_other": "{{count}} deltagare",
+    "errors": {
+      "presenceStatusUpdateFails": "Det gick inte att uppdatera närvaroinformation"
+    },
+    "labelSearch": "Sök deltagare",
+    "pageTitle": "Märk de närvarande: {{name}}",
+    "title": "Märk de närvarande"
+  },
   "authentication": {
     "errorMessage": "Ett fel har uppstått. Vänligen försök igen.",
     "networkError": {
@@ -335,17 +345,20 @@
       "buttonDeleteAttendee": "Ta bort deltagare",
       "buttonSave": "Spara deltagare",
       "buttonUpdateParticipantAmount": "Uppdatera",
-      "freeCapacity": "Tillgängliga platser",
+      "freeAttendeeCapacity": "Tillgängliga platser",
+      "freeWaitingListCapacity": "Tillgängliga väntelistplatser",
       "labelAttendeeExtraInfo": "Ytterligare information (valfritt)",
       "labelCity": "Staden",
       "labelDateOfBirth": "Födelsedatum",
       "labelEmail": "E-postadress",
       "labelExtraInfo": "Ytterligare registreringsinformation (valfritt)",
+      "labelFirstName": "Förnamn",
+      "labelLastName": "Efternamn",
       "labelMembershipNumber": "Medlemskortnummer (valfritt)",
-      "labelName": "Namn",
       "labelNativeLanguage": "Modersmål",
       "labelParticipantAmount": "Antal registrerade",
       "labelPhoneNumber": "Telefonnummer",
+      "labelRegistration": "Registrering",
       "labelServiceLanguage": "Transaktionsspråk",
       "labelStreetAddress": "Gatuadress",
       "labelZipcode": "Postnummer",
@@ -354,8 +367,9 @@
       "placeholderCity": "Ange staden",
       "placeholderEmail": "Skriv in din mailadress",
       "placeholderExtraInfo": "Ange ytterligare information eller begäran",
+      "placeholderFirstName": "Ange registrantens förnamn",
+      "placeholderLastName": "Ange registrantens efternamn",
       "placeholderMembershipNumber": "Ange medlemskortets nummer",
-      "placeholderName": "Ange registrantens för- och efternamn",
       "placeholderNativeLanguage": "Välj modersmål",
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Välj transaktionsspråk",
@@ -387,9 +401,20 @@
       "text": "Tyvärr har bokningstiden gått ut.",
       "title": "Tiden är ute."
     },
+    "sendMessageModal": {
+      "buttonSendMessage": "Skicka meddelande",
+      "labelBody": "Meddelande",
+      "labelSubject": "Ämne",
+      "placeholderBody": "Ange meddelande",
+      "placeholderSubject": "Ange ämne",
+      "title": "Skicka ett meddelande till deltagarna",
+      "titleSingle": "Skicka ett meddelande till deltagaren"
+    },
     "warnings": {
+      "allSeatsReserved": "Alla platser i evenemanget är för närvarande bokade. Vänligen försök igen senare.",
       "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
       "capacityInWaitingList_other": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",
+      "capacityInWaitingListNoLimit": "Registrering till detta evenemang är fortfarande möjlig, men det finns endast platser kvar i kön.",
       "closed": "Registreringen för detta evenemang är för närvarande stängd. Vänligen försök igen senare."
     }
   },
@@ -517,6 +542,7 @@
         "warningNotAuthenticated": "Om du vill publicera evenemanget måste du först logga in."
       },
       "buttonPostpone": "Skjut upp",
+      "buttonSendEmail": "Skicka epost",
       "buttonPublish": {
         "course": "Publicera kursen",
         "general": "Publicera evenemanget",
@@ -531,6 +557,7 @@
       "buttonUpdateDraft": "Spara utkast",
       "buttonUpdatePublic": "Spara ändringar",
       "checkboxIsVerified": "Jag verifierar att informationen jag har gett är korrekt och jag förbinder mig att följa <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"alla instruktioner och föreskrifter {{openInNewTab}}\">alla instruktioner och föreskrifter</a> som gäller Helsingfors stads kurser och evenemang.",
+      "eventDraftStateInfo": "Den sparade informationen kommer automatiskt att vara synlig även för moderatorn. Informationen kan dock redigeras fram till dess att moderatorn publicerar evenemanget. Det senare kan undvikas genom att skriva \"OFULLBORDAD\" i början av evenemangets titel medan redigeringen pågår.",
       "editButtonPanel": {
         "warningCancelledEvent": "Avbrutna evenemang kan inte redigeras.",
         "warningCannotCancelDraft": "Evenemangs utkast kan inte avbrytas.",
@@ -538,7 +565,8 @@
         "warningCannotPublishSubEvent": "Ett underevenemang i en serie kan inte publiceras.",
         "warningDeletedEvent": "Raderade evenemang kan inte redigeras.",
         "warningEventInPast": "Tidigare evenemnag kan inte redigeras.",
-        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta evenemang."
+        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta evenemang.",
+        "warningNoEmailFound": "E-postadressen som är kopplad till denna evenemang kunde inte hittas"
       },
       "helperUmbrellaEvent": "Notera. Ett huvudevenemang måste skapas innan du kan lägga till underevenemangen till det.",
       "infoTextAttendeeCapacity": {
@@ -546,6 +574,7 @@
         "general": "Om antalet deltagare i evenemanget är begränsat, ange lägsta och högsta antal deltagare här.",
         "volunteering": "Om antalet deltagare i volontärarbetet är begränsat, ange lägsta och högsta antal deltagare här."
       },
+      "infoTextAttendeeCapacityUserUnknown": "Om evenemangets deltagarantal inte är begränsat på något sätt, ange en grov uppskattning av det maximala antalet deltagare. (Denna information kommer att användas för statistiska ändamål).",
       "infoTextAudience": {
         "course": "Om kursen inte har en specifik målgrupp lämnar du valet tomt.",
         "general": "Om evenemanget inte har en specifik målgrupp lämnar du valet tomt.",
@@ -556,20 +585,34 @@
         "general": "Om åldersbegränsningar gäller för evenemanget, ställ in lägsta och högsta åldersgräns här.",
         "volunteering": "Om åldersbegränsningar gäller för volontärarbetet, ställ in lägsta och högsta åldersgräns här."
       },
-      "infoTextDescription1": {
-        "course": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om kursen kortfattat.",
-        "general": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om evenemanget kortfattat.",
-        "volunteering": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om volontärarbetet kortfattat."
-      },
-      "infoTextDescription2": {
-        "course": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i kursen.",
-        "general": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i evenemanget.",
-        "volunteering": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i volontärarbetet."
-      },
-      "infoTextDescription3": {
-        "course": "Anteckna även kursens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär.",
-        "general": "Anteckna även evenemangets <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär.",
-        "volunteering": "Anteckna även volontärens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär."
+      "infoTextDescription": {
+        "course": {
+          "paragraph1": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om kursen kortfattat.",
+          "paragraph2": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i kursen.",
+          "paragraph3": "Anteckna även kursens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär."
+        },
+        "general": {
+          "paragraph1": "Beskrivningstexten innehåller språkversioner: finska och engelska, eventuellt även svenska. <strong>Innehåll som specifikt riktar sig till besökare måste vara på minst finska och engelska.</strong>",
+          "paragraph2": "En kort beskrivning visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den förklarar det viktigaste om händelsen på ett kortfattat sätt.",
+          "paragraph3": "Beskrivningen är en längre och mer detaljerad förklaring av innehållet i evenemanget.",
+          "paragraph4": "Texten innehåller inte felstavningar, omljud, superlativ eller \"vi\"-formen, eftersom den då hänvisar till staden Helsingfors, inte till själva evenemanget.",
+          "paragraph5": "Dessutom måste evenemangets innehåll följa Helsingfors stads riktlinjer, dvs. staden publicerar inte:",
+          "exclusions": [
+            "Politiska händelser (demonstrationer, radikala händelser i samband med val eller krig etc.)",
+            "religiösa evenemang (gudstjänster, böner, även om konserter ingår i kalendern)",
+            "online-evenemang som inte är relaterade till Helsingfors eller huvudstadsregionen",
+            "evenemang i en privatbostad",
+            "inte öppna för alla, t.ex. evenemang för yrkesverksamma eller investerare",
+            "middag utan program; att bara äta är inte ett evenemang i sig",
+            "Insamlingsevenemang (med undantag för välgörenhetsevenemang, där det finns ett program)",
+            "rekryteringsannonser för jobb eller studenter"
+          ]
+        },
+        "volunteering": {
+          "paragraph1": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om volontärarbetet kortfattat.",
+          "paragraph2": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i volontärarbetet.",
+          "paragraph3": "Anteckna även volontärens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär."
+        }
       },
       "infoTextEnrolmentTime": {
         "course": "Om det är möjligt att registrera sig för kursen, ange start- och sluttiderna för registreringen här.",
@@ -607,7 +650,7 @@
       "infoTextImage4": "Alt-text förbättrar tillgängligheten eftersom skärmläsare skickar alt-text till användaren. Så beskriv innehållet i bilden på ett förståeligt sätt.",
       "infoTextInfoLanguages": {
         "course": "Välj de språk som kursinformationen matas in på.",
-        "general": "Välj de språk som evenemangsinformationen matas in på.",
+        "general": "Välj vilka språk du vill använda för att beskriva evenemangsinformationen i Linked Events. <strong>Innehåll som riktar sig specifikt till besökare måste finnas på minst finska och engelska.</strong>",
         "volunteering": "Välj de språk som volontärarbetesinformation matas in på."
       },
       "infoTextInLanguages": {
@@ -629,6 +672,7 @@
       "infoTextLocation3": "Om platsen finns i listan behöver dess plats inte beskrivas separat. Du kan dock ge ytterligare information för att hitta platsen, till exempel våningsnummer eller klassrumsnamn.",
       "infoTextLocation4": "Om den exakta platsen inte finns i listan, välj närmaste gatuadress som plats och ange platsens namn eller andra detaljerade ankomstinstruktioner i fältet för ytterligare information.",
       "infoTextLocation5": "Om platsinformationen har ändrats, uppdatera den i platsregistret. För tjänster utanför staden, lägg till eller uppdatera information i tjänsten <a href=\"https://kaupunkialustana.hel.fi/sv/\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Stadsplattform {{openInNewTab}}\">Stadsplattform</a>.",
+      "infoTextLocation6": "Välj var evenemanget huvudsakligen kommer att äga rum från alternativen Inomhus/Utomhus.",
       "infoTextMainCategories": {
         "course": "Välj minst en huvudkategori. Rätt huvudkategori gör det lättare att hitta kursen.",
         "general": "Välj minst en huvudkategori. Rätt huvudkategori gör det lättare att hitta evenemanget.",
@@ -649,7 +693,21 @@
         "general": "Ange namnet på organisationen som är värd för evenemanget om arrangören inte är densamma som utgivaren.",
         "volunteering": "Ange namnet på organisationen som är värd för volontärarbetet om arrangören inte är densamma som utgivaren."
       },
-      "infoTextPublication": "Evenemangtypen du valde kommer att publiceras på följande kanaler:",
+      "infoTextPublication": {
+        "paragraph1": {
+          "general": "Publicerad information måste vara intressant för invånare och/eller besökare och vara lokaliserad i storstadsområdet. ",
+          "course": "Publicerad information måste vara intressant för invånare och/eller besökare och vara lokaliserad i storstadsområdet. ",
+          "volunteering": "Publicerad information måste vara intressant för invånare och/eller besökare och vara lokaliserad i storstadsområdet. "
+        },
+        "paragraph2": "Vilken typ av evenemang du väljer kan publiceras i följande kanaler:",
+        "paragraph3": "eller via gränssnittet för andra tjänster",
+        "paragraph4": {
+          "general": "Vänligen ange endast evenemangs som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
+          "course": "Vänligen ange endast hobbyinformation som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
+          "volunteering": "Vänligen ange endast evenemangs som ännu inte har publicerats på någon av de tjänster som nämns ovan."
+        },
+        "paragraph5": "Det evenemang som ska modereras måste tillkännages minst en vecka före evenemanget."
+      },
       "infoTextPublisher": {
         "course": "Välj den organisation som ska visas som kurssutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
         "general": "Välj den organisation som ska visas som evenemangsutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
@@ -679,6 +737,10 @@
         "general": "Evenemangsbeskrivning {{langText}}",
         "volunteering": "Volontärarbetetsbeskrivning {{langText}}"
       },
+      "labelHasEnvironmentalCertificate": "Evenemanget ett Ekokompassi-certifikat eller en liknande miljöcertifiering",
+      "labelEmail": "E-postadress",
+      "labelEnvironment": "Evenemanget hålls",
+      "labelEnvironmentalCertificate": "Certifikatets namn",
       "labelEndDate": {
         "course": "Kursen avslutas",
         "general": "Evenemanget avslutas",
@@ -736,10 +798,13 @@
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
+      "labelOrganization": "Organisation",
+      "labelPhoneNumber": "Telefonnummer",
       "labelProvider": {
         "course": "Arrangör av kurs {{langText}} (om det skiljer sig från utgivaren)",
         "general": "Arrangör av evenemang {{langText}} (om det skiljer sig från utgivaren)",
-        "volunteering": "Arrangör av volontärarbete {{langText}} (om det skiljer sig från utgivaren)"
+        "volunteering": "Arrangör av volontärarbete {{langText}} (om det skiljer sig från utgivaren)",
+        "other": "Arrangör av evenemang {{langText}}"
       },
       "labelPublisher": {
         "course": "Kursutgivare",
@@ -759,6 +824,8 @@
       "labelStartTime": "Starttid",
       "labelTime": "Tid",
       "labelUmbrellaEvent": "Huvudevenemang",
+      "labelUserConsent": "Jag har läst <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Stod-%20och%20radgivningstjanster%20till%20foretag%20samt%20turistradgivning.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Registerutdrag {{openInNewTab}}\">Registerutdrag</a> och ger mitt samtycke till användningen av mina uppgifter.",
+      "labelUserName": "Namn",
       "labelVideoAltText": "Videons alt-text",
       "labelVideoName": "Namn på videon",
       "labelVideoUrl": "Videons URL-webaddress",
@@ -814,6 +881,10 @@
         "general": "Video för evenemanget",
         "volunteering": "Video för volontärarbetet"
       },
+      "notificationNotAuthenticated": {
+        "paragraph1": "Helsingfors stad publicerar avgiftsfritt information om evenemang i huvudstadsregionen, till exempel på tjänsterna <a href=\"https://tapahtumat.hel.fi/sv\" target=\"_blank\" rel=\"noreferrer\">Evenemangskalender</a> och <a href=\"https://harrastukset.hel.fi/sv\" target=\"_blank\" rel=\"noreferrer\">Hobbyer</a>. Evenemangsinformation kommer också att synas på andra digitala plattformar som använder stadens Linked Events-gränssnitt.",
+        "paragraph2": "Du kan fortsätta att utforska tjänsten, men du måste logga in om du vill spara ändringar."
+      },
       "placeholderAudienceMaxAge": {
         "course": "Ange högsta ålder för kursen",
         "general": "Ange högsta ålder för evenemanget",
@@ -829,6 +900,7 @@
         "general": "Ange evenemangetsbeskrivning",
         "volunteering": "Ange volontärarbetetsbeskrivning"
       },
+      "placeholderEmail": "Skriv in din mailadress",
       "placeholderExternalLinkLink": {
         "course": "Ange kursens Facebook-URL",
         "general": "Ange evenemangets Facebook-URL",
@@ -860,6 +932,8 @@
         "general": "Ange priset för evenemanget {{langText}}",
         "volunteering": "Ange priset för volontärarbetet {{langText}}"
       },
+      "placeholderOrganization": "Organisation namn",
+      "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderProvider": {
         "course": "Ange namnet på arrangören",
         "general": "Ange namnet på arrangören",
@@ -870,6 +944,7 @@
         "general": "Ange en kort beskrivning av evenemanget",
         "volunteering": "Ange en kort beskrivning av volontärarbetet"
       },
+      "placeholderUserName": "Ange ditt för- och efternamn eller smeknamn",
       "placeholderVideoAltText": "Ange videons alt-text för skärmläsare",
       "placeholderVideoName": "Ange videon namn",
       "placeholderVideoUrl": "Ange videons URL-webbaddress",
@@ -905,6 +980,7 @@
           "volunteering": "Volontärarbetets medier"
         },
         "classification": "Klassificering",
+        "contact": "Kontakt",
         "description": "Beskrivning",
         "image": "Bild",
         "languages": "Språk",
@@ -981,7 +1057,11 @@
         "general": "Video för evenemanget",
         "volunteering": "Video för volontärarbetet"
       },
-      "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett huvudevenemang."
+      "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett huvudevenemang.",
+      "placeOptions": {
+        "in": "Inomhus",
+        "out": "Utomhus"
+      }
     },
     "freeEvent": "Fri",
     "postponeEventModal": {
@@ -1259,7 +1339,7 @@
     "pageDescriptionInstructions": "Hjälp och instruktioner om hur du använder tjänsten och API: et.",
     "pageDescriptionSourceCode": "Få en djupare titt på källkoden för Linked Events i Github.",
     "pageDescriptionTechnology": "Mer information om tekniken bakom Linked Events.",
-    "pageDescriptionTermsOfUse": "Servicevillkor och begränsningar för Linked Events.",
+    "pageDescriptionTermsOfUse": "Dataskydd och användarvillkor för Linked Events.",
     "pageTitle": "Hjälp",
     "pageTitleApi": "API",
     "pageTitleControlPanel": "Kontrollpanel",
@@ -1270,7 +1350,7 @@
     "pageTitleInstructions": "Stöd",
     "pageTitleSourceCode": "Källkod",
     "pageTitleTechnology": "Teknologi",
-    "pageTitleTermsOfUse": "Villkor",
+    "pageTitleTermsOfUse": "Dataskydd och användarvillkor",
     "platformPage": {
       "imageAlt": "Linked Events användning i surfplatta",
       "pageDescription": "Introduktion till Linked Events-plattformen och kontrollpanelen.",
@@ -1548,6 +1628,13 @@
     "pageTitle": "Logga ut",
     "text": "Du har loggat ut från tjänsten. Logga in igen eller återvänd till hemsidan."
   },
+  "maintenance": {
+    "header": {
+      "label": "Underhåll",
+      "text": "Onsdagen den 30 augusti kommer tjänsten Linked Events att uppdateras. Det kommer inte att vara möjligt att skapa innehåll eller logga in den dagen."
+    },
+    "toast": "På onsdag 30.8. kommer Linked Events-tjänsten att uppdateras, vilket innebär att inloggning inte kommer att vara möjlig."
+  },
   "navigation": {
     "languages": {
       "en": "In English",
@@ -1704,7 +1791,9 @@
       "title": "Bekräfta raderingen av registeringen"
     },
     "form": {
+      "buttonAddRegistrationUserAccess": "Lägg till användare",
       "buttonCreate": "Spara registrering",
+      "buttonDeleteRegistrationUserAccess": "Ta bort användare",
       "buttonPanel": {
         "warningNotAuthenticated": "För att skapa en registrering, logga in först."
       },
@@ -1715,32 +1804,45 @@
       },
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
-      "labelConfirmationMessage": "Bekräftelsemeddelande att skicka (valfritt)",
+      "labelConfirmationMessage": "Bekräftelsemeddelande {{langText}}(valfritt)",
       "labelEnrolmentEndTimeDate": "Registreringen avslutas",
       "labelEnrolmentEndTimeTime": "Registreringen avslutas kl",
       "labelEnrolmentStartTimeDate": "Registreringen börjar",
       "labelEnrolmentStartTimeTime": "Registreringen börjar kl",
       "labelEvent": "Evenemang",
-      "labelInstructions": "Anvisningar för registrering (valfritt)",
+      "labelInstructions": "Anvisningar för registrering {{langText}} (valfritt)",
       "labelMaximumAttendeeCapacity": "Max antal platser",
+      "labelMaximumGroupSize": "Maximal gruppstorlek",
       "labelMinimumAttendeeCapacity": "Minsta antal platser",
       "labelName": "Namn",
+      "labelRegistrationUserAccessEmail": "Användarens e-postadress",
+      "labelRegistrationUserAccessLanguage": "Språk",
       "labelWaitingListCapacity": "Antal reservplatser",
+      "messages": {
+        "failedToSendInvitation": "Det gick inte att skicka inbjudan",
+        "succeededToSendInvitation": "En inbjudan till deltagarlista har skickats till {{email}}."
+      },
       "notificationTitleCannotEdit": "Registreringet kan inte redigeras",
       "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
       "placeholderEvent": "Välj eller sök efter evenemanget",
       "placeholderInstructions": "Ange registreringsinstruktioner",
+      "placeholderRegistrationUserAccessEmail": "Ange användarens e-postadress",
+      "placeholderRegistrationUserAccessLanguage": "Välj språk",
       "sections": {
         "attendeeCount": "Sittplatser",
         "audienceAge": "Åldersgräns",
-        "confirmationMessage": "Bekräftelsemeddelande",
         "enrolmentTime": "Registreringstid",
         "event": "Evenemang",
-        "instructions": "Ytterligare registreringsinformation",
+        "groupSize": "Gruppstorlek",
+        "instructions": "Instruktioner och bekräftelsemeddelande",
+        "languages": "Språk",
         "mandatoryFields": "Obligatoriska fält",
+        "registrationUserAccesses": "Läsbehörigheter för deltagarlistan",
         "waitingList": "Väntelista"
       },
+      "sendInvitation": "Skicka inbjudan igen",
       "titleContactInfo": "Kontaktinformation",
+      "titleInfoLanguages": "Inmatningsspråk",
       "titleParticipantBasicInfo": "Grundläggande information om deltagaren"
     },
     "registrationLinkCopied": "Registreringslänk kopierad"
@@ -1751,6 +1853,7 @@
       "copyLink": "Kopiera länken",
       "delete": "Radera registrering",
       "edit": "Redigera",
+      "editAttendanceList": "Märk de närvarande",
       "showEnrolments": "Visa deltagare",
       "update": "Spara ändringar"
     },
@@ -1790,6 +1893,7 @@
     "emailMustBeUnique": "E-post har redan registrering.",
     "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
     "invalidUrl": "Ange rätt URL.",
+    "maxGroupSize": "Den maximala gruppstorleken är {{maxGroupSize}}.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
     "methodDeleteNotAllowed": "\"DELETE\"-metoden är inte tillåten.",
     "methodPostNotAllowed": "\"POST\"-metoden är inte tillåten.",
@@ -1797,7 +1901,8 @@
     "mustBeUnique": "Värdet måste vara unikt.",
     "min0": "Detta nummer måste vara minst 0.",
     "nameIsRequired": "Namnet krävs.",
-    "notEnoughSeats": "Inte tillräckligt med platser tillgängliga.",
+    "notEnoughSeats": "Det finns inte tillräckligt med platser kvar. Platser kvar: {{seatsLeft}}.",
+    "notEnoughWaitingListSeats": "Det finns inte tillräckligt med köer kvar. Platser kvar: {{seatsLeft}}.",
     "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
     "notNull": "Värdet på detta fält kan inte vara \"null\".",
     "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",

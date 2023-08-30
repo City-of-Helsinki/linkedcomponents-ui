@@ -25,7 +25,8 @@ test('should show correct checkboxes', async () => {
   const withinBasicInfo = within(
     await screen.findByRole('group', { name: 'Ilmoittautujan perustiedot' })
   );
-  withinBasicInfo.getByLabelText('Nimi');
+  withinBasicInfo.getByLabelText('Etunimi');
+  withinBasicInfo.getByLabelText('Sukunimi');
   withinBasicInfo.getByLabelText('Kaupunki');
   withinBasicInfo.getByLabelText('Postinumero');
   withinBasicInfo.getByLabelText('Katuosoite');

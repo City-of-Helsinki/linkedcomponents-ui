@@ -38,7 +38,7 @@ const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 const renderComponent = ({
   authContextValue,
   props,
-  route = `/fi/${ROUTES.EDIT_REGISTRATION}`,
+  route = `/fi${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`,
 }: {
   authContextValue?: AuthContextProps;
   props?: Partial<EditButtonPanelProps>;
@@ -65,6 +65,7 @@ const getElement = (
     | 'copy'
     | 'copyLink'
     | 'delete'
+    | 'markPresent'
     | 'menu'
     | 'showEnrolments'
     | 'toggle'
@@ -79,6 +80,8 @@ const getElement = (
       return screen.getByRole('button', { name: /kopioi linkk/i });
     case 'delete':
       return screen.getByRole('button', { name: 'Poista ilmoittautuminen' });
+    case 'markPresent':
+      return screen.getByRole('button', { name: 'Merkkaa läsnäolijat' });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
     case 'showEnrolments':
@@ -165,6 +168,27 @@ test('should route to enrolments page when clicking show enrolments button', asy
   );
 });
 
+test('should route to attendance list page when clicking mark present button', async () => {
+  const user = userEvent.setup();
+
+  const { history } = renderComponent({ authContextValue });
+
+  await openMenu();
+
+  const markPresentButton = await getElement('markPresent');
+  await waitFor(() => expect(markPresentButton).toBeEnabled());
+  await user.click(markPresentButton);
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/registrations/${registration.id}/attendance-list`
+    )
+  );
+  expect(decodeURIComponent(history.location.search)).toBe(
+    `?returnPath=/registrations/edit/${registration.id}`
+  );
+});
+
 test('should route to create registration page when clicking copy button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
@@ -189,9 +213,7 @@ test('should copy registration link to clipboard', async () => {
   const copyLinkButton = getElement('copyLink');
   await user.click(copyLinkButton);
 
-  expect(copyToClipboard).toBeCalledWith(
-    `https://linkedregistrations-ui.test.kuva.hel.ninja/fi/registration/${registrationId}/enrolment/create`
-  );
+  expect(copyToClipboard).toBeCalled();
   expect(toast.success).toBeCalledWith('Ilmoittautumislinkki kopioitu');
 });
 

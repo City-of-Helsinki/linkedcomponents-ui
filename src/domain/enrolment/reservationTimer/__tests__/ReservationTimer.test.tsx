@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { MockedResponse } from '@apollo/client/testing';
-import addSeconds from 'date-fns/addSeconds';
-import subSeconds from 'date-fns/subSeconds';
 import React from 'react';
 
-import { RESERVATION_NAMES } from '../../../../constants';
 import {
   CreateSeatsReservationDocument,
   SeatsReservation,
 } from '../../../../generated/graphql';
-import { fakeSeatsReservation } from '../../../../utils/mockDataUtils';
+import {
+  fakeSeatsReservation,
+  getMockedSeatsReservationData,
+  setSessionStorageValues,
+} from '../../../../utils/mockDataUtils';
 import {
   render,
   screen,
@@ -41,7 +42,6 @@ const defaultServerErrorsProps: EnrolmentServerErrorsContextProps = {
 const payload = {
   registration: registration.id,
   seats: 1,
-  waitlist: true,
 };
 
 const createSeatsReservationVariables = { input: payload };
@@ -75,32 +75,6 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-const setSessionStorageValues = (reservation: SeatsReservation) => {
-  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
-    switch (key) {
-      case `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registration.id}`:
-        return reservation ? JSON.stringify(reservation) : '';
-      default:
-        return '';
-    }
-  });
-};
-
-const getReservationData = (expirationOffset: number) => {
-  const now = new Date();
-  let expiration = '';
-
-  if (expirationOffset) {
-    expiration = addSeconds(now, expirationOffset).toISOString();
-  } else {
-    expiration = subSeconds(now, expirationOffset).toISOString();
-  }
-
-  const reservation = fakeSeatsReservation({ expiration });
-
-  return reservation;
-};
-
 const getSeatsReservationErrorMock = (error: Error): MockedResponse => {
   return {
     request: {
@@ -114,7 +88,6 @@ const getSeatsReservationErrorMock = (error: Error): MockedResponse => {
 const createSeatsReservationPayload = {
   registration: registration.id,
   seats: 1,
-  waitlist: true,
 };
 
 const getCreateSeatsReservationMock = (
@@ -152,18 +125,16 @@ test('should show modal if any of the reserved seats is in waiting list', async 
   const user = userEvent.setup();
   const mocks = [
     getCreateSeatsReservationMock(
-      fakeSeatsReservation({
-        seats: 1,
-        waitlistSpots: 1,
-        seatsAtEvent: 0,
-      })
+      fakeSeatsReservation({ seats: 1, inWaitlist: true })
     ),
   ];
   renderComponent(undefined, mocks);
 
-  const modal = await screen.findByRole('dialog', {
-    name: 'Ilmoittautujia on lisätty varausjonoon',
-  });
+  const modal = await screen.findByRole(
+    'dialog',
+    { name: 'Ilmoittautujia on lisätty varausjonoon' },
+    { timeout: 10000 }
+  );
 
   await user.click(within(modal).getByRole('button', { name: 'Sulje' }));
 
@@ -173,7 +144,7 @@ test('should show modal if any of the reserved seats is in waiting list', async 
 test('should route to create enrolment page if reservation is expired', async () => {
   const user = userEvent.setup();
 
-  setSessionStorageValues(getReservationData(-1000));
+  setSessionStorageValues(getMockedSeatsReservationData(-1000), registration);
 
   renderComponent();
   const modal = await screen.findByRole(

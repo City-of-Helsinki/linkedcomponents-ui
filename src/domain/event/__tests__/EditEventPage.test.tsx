@@ -40,7 +40,10 @@ import {
   mockedPlaceResponse,
   mockedPlacesResponse,
 } from '../../place/__mocks__/place';
-import { mockedUserResponse } from '../../user/__mocks__/user';
+import {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../user/__mocks__/user';
 import {
   eventId,
   expectedValues,
@@ -144,16 +147,12 @@ const getAddEventTimeElements = () => {
   const addButton = withinAddEventTime.getByRole('button', {
     name: /lisää ajankohta/i,
   });
-  const endDateInput = withinAddEventTime.getByRole('textbox', {
-    name: 'Tapahtuma päättyy *',
-  });
+  const endDateInput = withinAddEventTime.getByLabelText(/Tapahtuma päättyy/i);
   const endTimeGroup = withinAddEventTime.getByRole('group', {
     name: /päättymisaika/i,
   });
   const endTimeInput = within(endTimeGroup).getByLabelText('tunnit');
-  const startDateInput = withinAddEventTime.getByRole('textbox', {
-    name: 'Tapahtuma alkaa *',
-  });
+  const startDateInput = withinAddEventTime.getByLabelText(/Tapahtuma alkaa/i);
   const startTimeGroup = withinAddEventTime.getByRole('group', {
     name: /alkamisaika/i,
   });
@@ -429,4 +428,65 @@ test('should show server errors', async () => {
   await loadingSpinnerIsNotInDocument(10000);
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/lopetusaika ei voi olla menneisyydessä./i);
+});
+
+test('should render fields for external user', async () => {
+  const mocks = [
+    mockedEventResponse,
+    mockedEventTimeResponse,
+    mockedImageResponse,
+    mockedKeywordSelectorKeywordsResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedTopicsKeywordSetResponse,
+    mockedLanguagesResponse,
+    mockedPlaceResponse,
+    mockedPlacesResponse,
+    mockedFilteredPlacesResponse,
+    mockedUserWithoutOrganizationsResponse,
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+  ];
+
+  renderComponent(mocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const externalUserFieldLabels = [
+    /tapahtumalla on ekokompassi tai muu vastaava sertifikaatti/i,
+    /sertifikaatin nimi/i,
+    /sisällä/i,
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /organisaatio/i,
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
+  ];
+
+  externalUserFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeInTheDocument()
+  );
+
+  const disabledFieldLabels = [
+    /tapahtuma/i,
+    /sertifikaatin nimi/i,
+    /tapahtuman julkaisija/i,
+  ];
+
+  disabledFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeDisabled()
+  );
+
+  const requiredFieldLabels = [
+    /tapahtuman järjestäjä suomeksi/i,
+    /sertifikaatin nimi/i,
+    /enimmäisosallistujamäärä/i,
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
+  ];
+
+  requiredFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeRequired()
+  );
 });

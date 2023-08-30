@@ -1,6 +1,7 @@
 import { FieldProps } from 'formik';
 import { SingleSelectProps } from 'hds-react';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../../types';
 import SingleSelect from '../../singleSelect/SingleSelect';
@@ -16,6 +17,7 @@ const SingleSelectField: React.FC<Props> = ({
   disabled,
   ...rest
 }) => {
+  const { t } = useTranslation();
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
     disabled,
     name,
@@ -26,6 +28,10 @@ const SingleSelectField: React.FC<Props> = ({
 
   return (
     <SingleSelect
+      clearButtonAriaLabel={
+        /* istanbul ignore next */
+        t('common.clear') ?? undefined
+      }
       {...rest}
       {...field}
       disabled={disabled}

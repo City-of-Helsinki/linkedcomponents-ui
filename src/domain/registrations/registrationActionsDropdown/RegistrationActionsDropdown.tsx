@@ -61,6 +61,15 @@ const RegistrationActionsDropdown: React.FC<
       search: queryStringWithReturnPath,
     });
   };
+  const goToAttendenceListPage = () => {
+    navigate({
+      pathname: `/${locale}${ROUTES.ATTENDANCE_LIST.replace(
+        ':registrationId',
+        id
+      )}`,
+      search: queryStringWithReturnPath,
+    });
+  };
 
   const copyRegistration = async () => {
     await copyRegistrationToSessionStorage(registration);
@@ -93,6 +102,10 @@ const RegistrationActionsDropdown: React.FC<
     getActionItemProps({
       action: REGISTRATION_ACTIONS.SHOW_ENROLMENTS,
       onClick: goToRegistrationEnrolmentsPage,
+    }),
+    getActionItemProps({
+      action: REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST,
+      onClick: goToAttendenceListPage,
     }),
     getActionItemProps({
       action: REGISTRATION_ACTIONS.COPY,

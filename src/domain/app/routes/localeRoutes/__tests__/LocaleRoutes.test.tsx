@@ -10,10 +10,12 @@ import {
   mockedPlacesResponse as mockedPlaceSelectorPlacesReponse,
 } from '../../../../../common/components/placeSelector/__mocks__/placeSelector';
 import { DEPRECATED_ROUTES, ROUTES } from '../../../../../constants';
+import { AttendeeStatus } from '../../../../../generated/graphql';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../../types';
 import getValue from '../../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
+import { fakeEnrolments } from '../../../../../utils/mockDataUtils';
 import {
   act,
   actWait,
@@ -24,6 +26,7 @@ import {
   screen,
   waitFor,
 } from '../../../../../utils/testUtils';
+import { mockedRegistrationResponse as mockedAttendanceListRegistrationResponse } from '../../../../attendanceList/__mocks__/attendanceListPage';
 import {
   mockedDataSourceResponse,
   mockedDataSourcesResponse,
@@ -32,6 +35,7 @@ import {
   enrolmentId,
   mockedEnrolmentResponse,
 } from '../../../../enrolment/__mocks__/editEnrolmentPage';
+import { getMockedAttendeesResponse } from '../../../../enrolments/__mocks__/enrolmentsPage';
 import {
   eventName,
   mockedEventResponse,
@@ -70,7 +74,10 @@ import {
   mockedTopicsKeywordSetResponse,
 } from '../../../../keywordSet/__mocks__/keywordSets';
 import { mockedKeywordSetsResponse } from '../../../../keywordSets/__mocks__/keywordSetsPage';
-import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
+import {
+  mockedLanguagesResponse,
+  mockedServiceLanguagesResponse,
+} from '../../../../language/__mocks__/language';
 import {
   mockedOrganizationResponse,
   organizationId,
@@ -103,6 +110,7 @@ configure({ defaultHidden: true });
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const mocks = [
+  mockedAttendanceListRegistrationResponse,
   mockedDataSourceResponse,
   mockedDataSourcesResponse,
   mockedEnrolmentResponse,
@@ -125,6 +133,7 @@ const mocks = [
   mockedAudienceKeywordSetResponse,
   mockedKeywordSetsResponse,
   mockedLanguagesResponse,
+  mockedServiceLanguagesResponse,
   mockedOrganizationResponse,
   mockedOrganizationsResponse,
   mockedOrganizationAncestorsResponse,
@@ -142,6 +151,10 @@ const mocks = [
   mockedEventResponse,
   mockedUserResponse,
   mockedUsersResponse,
+  getMockedAttendeesResponse(fakeEnrolments(0)),
+  getMockedAttendeesResponse(fakeEnrolments(0), {
+    attendeeStatus: AttendeeStatus.Waitlisted,
+  }),
 ];
 
 const renderRoute = async (route: string, locale: Language = 'fi') => {
@@ -190,7 +203,7 @@ it('should redirect to terms of use page from deprecated terms page', async () =
 
   await isPageRendered({
     history,
-    pageTitle: `Käyttöehdot - Linked Events`,
+    pageTitle: `Tietosuoja ja käyttöehdot - Linked Events`,
     pathname: '/fi/help/support/terms-of-use',
   });
 });
@@ -278,6 +291,18 @@ it('should render edit registration page', async () => {
     history,
     pageTitle: `Muokkaa ilmoittautumista - Linked Events`,
     pathname: `/fi/registrations/edit/${registrationId}`,
+  });
+});
+
+it('should render attendance list page', async () => {
+  const { history } = await renderRoute(
+    `${ROUTES.ATTENDANCE_LIST.replace(':registrationId', registrationId)}`
+  );
+
+  await isPageRendered({
+    history,
+    pageTitle: `Osallistujalista: ${eventName} - Linked Events`,
+    pathname: `/fi/registrations/${registrationId}/attendance-list`,
   });
 });
 

@@ -2,15 +2,8 @@ import { MockedResponse } from '@apollo/client/testing';
 import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
 
-import { Registration, RegistrationDocument } from '../../../generated/graphql';
-import {
-  fakeRegistration,
-  fakeRegistrations,
-} from '../../../utils/mockDataUtils';
-import {
-  attendees,
-  waitingAttendees,
-} from '../../enrolments/__mocks__/enrolmentsPage';
+import { RegistrationDocument } from '../../../generated/graphql';
+import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { event } from '../../event/__mocks__/event';
 import {
   REGISTRATION_INCLUDES,
@@ -28,16 +21,23 @@ const registrationOverrides = {
   id: registrationId,
   audienceMaxAge: 18,
   audienceMinAge: 12,
-  confirmationMessage: 'Confirmation message',
+  confirmationMessage: { fi: 'Confirmation message' },
+  currentAttendeeCount: 0,
+  currentWaitingListCount: 0,
   enrolmentEndTime,
   enrolmentStartTime,
   event,
-  instructions: 'Instructions',
-  mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.NAME],
+  instructions: { fi: 'Instructions' },
+  mandatoryFields: [
+    REGISTRATION_MANDATORY_FIELDS.FIRST_NAME,
+    REGISTRATION_MANDATORY_FIELDS.LAST_NAME,
+  ],
   maximumAttendeeCapacity: 100,
   minimumAttendeeCapacity: 10,
   publisher: event.publisher,
-  signups: [...attendees, ...waitingAttendees],
+  remainingAttendeeCapacity: 100,
+  remainingWaitingListCapacity: 10,
+  signups: [],
   waitingListCapacity: 5,
 };
 
@@ -53,54 +53,4 @@ const mockedRegistrationResponse: MockedResponse = {
   result: registrationResponse,
 };
 
-const singleRegistrationOverrides = {
-  enrolmentEndTime,
-  enrolmentStartTime,
-  maximumAttendeeCapacity: 10,
-  waitingListCapacity: 10,
-};
-
-const registrationsOverrides: Partial<Registration>[] = [
-  {
-    id: '1',
-    currentAttendeeCount: 0,
-    ...singleRegistrationOverrides,
-  },
-  {
-    id: '2',
-    ...singleRegistrationOverrides,
-    currentAttendeeCount: singleRegistrationOverrides.maximumAttendeeCapacity,
-    currentWaitingListCount: 0,
-  },
-  {
-    id: '3',
-    ...singleRegistrationOverrides,
-    currentAttendeeCount: singleRegistrationOverrides.maximumAttendeeCapacity,
-    currentWaitingListCount: 0,
-    waitingListCapacity: null,
-  },
-  {
-    id: '4',
-    ...singleRegistrationOverrides,
-    currentAttendeeCount: singleRegistrationOverrides.maximumAttendeeCapacity,
-    currentWaitingListCount: singleRegistrationOverrides.waitingListCapacity,
-  },
-  {
-    id: '5',
-    ...singleRegistrationOverrides,
-    currentAttendeeCount: 1000,
-    maximumAttendeeCapacity: 0,
-  },
-];
-
-const registrationsResponse = fakeRegistrations(
-  registrationsOverrides.length,
-  registrationsOverrides
-);
-
-export {
-  mockedRegistrationResponse,
-  registration,
-  registrationId,
-  registrationsResponse,
-};
+export { mockedRegistrationResponse, registration, registrationId };

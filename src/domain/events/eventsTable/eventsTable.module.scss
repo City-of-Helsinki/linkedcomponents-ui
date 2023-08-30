@@ -62,6 +62,13 @@
   }
 }
 
+.externalPublisher {
+  background: var(--color-info);
+  color: var(--color-white);
+  padding: 0.25em 1em;
+  border-radius: 1em;
+}
+
 .clickableRow {
   composes: clickableRow from '../../../common/components/table/table.module.scss';
 }

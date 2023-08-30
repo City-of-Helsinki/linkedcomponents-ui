@@ -15,7 +15,6 @@ import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import isNumber from 'lodash/isNumber';
-import keys from 'lodash/keys';
 import sortBy from 'lodash/sortBy';
 import { MouseEvent } from 'react';
 import { scroller } from 'react-scroll';
@@ -26,7 +25,6 @@ import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   FORM_NAMES,
   LE_DATA_LANGUAGES,
-  ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
   TIME_FORMAT_DATA,
   VALIDATION_ERROR_SCROLLER_OPTIONS,
@@ -43,7 +41,6 @@ import {
   EventStatus,
   EventTypeId,
   Language as LELanguage,
-  LocalisedObject,
   OrganizationFieldsFragment,
   PublicationStatus,
   SuperEventType,
@@ -56,9 +53,11 @@ import {
   MultiLanguageObject,
   PathBuilderProps,
 } from '../../types';
+import { filterUnselectedLanguages } from '../../utils/filterUnselectedLanguages';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import getDateFromString from '../../utils/getDateFromString';
+import { getInfoLanguages } from '../../utils/getInfoLanguages';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getNextPage from '../../utils/getNextPage';
@@ -74,6 +73,7 @@ import wait from '../../utils/wait';
 import { getImageAltText } from '../image/utils';
 import {
   isAdminUserInOrganization,
+  isExternalUserWithoutOrganization,
   isReqularUserInOrganization,
 } from '../organization/utils';
 import { REGISTRATION_INITIAL_VALUES } from '../registration/constants';
@@ -83,6 +83,8 @@ import {
   DAY_CODES,
   DESCRIPTION_SECTION_FIELDS,
   EVENT_ACTIONS,
+  EVENT_ENVIRONMENT_VALUE,
+  EVENT_EXTERNAL_USER_INITIAL_VALUES,
   EVENT_FIELD_ARRAYS,
   EVENT_FIELDS,
   EVENT_ICONS,
@@ -379,18 +381,6 @@ export const getEventTimes = (formValues: EventFormFields): EventTime[] => {
   return sortBy(allEventTimes, 'startTime');
 };
 
-export const filterUnselectedLanguages = (
-  obj: LocalisedObject,
-  eventInfoLanguages: string[]
-): LocalisedObject =>
-  Object.entries(obj).reduce(
-    (acc, [k, v]) => ({
-      ...acc,
-      [k]: eventInfoLanguages.includes(k) ? v : null,
-    }),
-    {}
-  );
-
 export const formatSingleDescription = ({
   audience = [],
   description,
@@ -477,6 +467,9 @@ export const getEventBasePayload = (
   formValues: EventFormFields,
   publicationStatus: PublicationStatus
 ): Omit<CreateEventMutationInput, 'endTime' | 'startTime'> => {
+  const ENABLE_EXTERNAL_USER_EVENTS =
+    process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
   const {
     audience,
     audienceMaxAge,
@@ -486,6 +479,8 @@ export const getEventBasePayload = (
     enrolmentStartTimeDate,
     enrolmentStartTimeTime,
     eventInfoLanguages,
+    environment,
+    environmentalCertificate,
     externalLinks,
     hasPrice,
     hasUmbrella,
@@ -505,10 +500,15 @@ export const getEventBasePayload = (
     shortDescription,
     superEvent,
     type,
+    userConsent,
+    userEmail,
+    userOrganization,
+    userPhoneNumber,
+    userName,
     videos,
   } = formValues;
 
-  return {
+  const basePayload = {
     publicationStatus,
     audience: audience.map((atId) => ({ atId })),
     audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
@@ -578,6 +578,21 @@ export const getEventBasePayload = (
     typeId: capitalize(type) as EventTypeId,
     videos: videos.filter((video) => video.altText || video.name || video.url),
   };
+
+  if (ENABLE_EXTERNAL_USER_EVENTS) {
+    return {
+      ...basePayload,
+      environment,
+      environmentalCertificate,
+      userConsent,
+      userEmail,
+      userName,
+      userOrganization,
+      userPhoneNumber,
+    };
+  }
+
+  return basePayload;
 };
 
 export const getEventPayload = (
@@ -648,34 +663,9 @@ const SKIP_FIELDS = new Set([
   'superEvent',
 ]);
 
-// Enumerate all the property names of an object recursively.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function* propertyNames(obj: Record<string, unknown>): any {
-  for (const name of keys(obj)) {
-    const val = obj[name];
-    if (val instanceof Object && !SKIP_FIELDS.has(name)) {
-      yield* propertyNames(val as Record<string, unknown>);
-    }
-    if (val && val !== '') {
-      yield name;
-    }
-  }
-}
+export const getEventInfoLanguages = (event: EventFieldsFragment): string[] =>
+  getInfoLanguages(event, SKIP_FIELDS);
 
-export const getEventInfoLanguages = (event: EventFieldsFragment): string[] => {
-  const languages = new Set(ORDERED_LE_DATA_LANGUAGES);
-  const foundLanguages = new Set<string>();
-
-  for (const name of propertyNames(event)) {
-    if (foundLanguages.size === languages.size) {
-      break;
-    }
-    if (languages.has(name)) {
-      foundLanguages.add(name);
-    }
-  }
-  return Array.from(foundLanguages);
-};
 const getSanitizedDescription = (event: EventFieldsFragment) => {
   const description = getLocalisedObject(event.description);
 
@@ -808,8 +798,13 @@ export const getEventInitialValues = (
 
   const offers = getEventOffers(event);
 
-  return {
-    ...EVENT_INITIAL_VALUES,
+  const ENABLE_EXTERNAL_USER_EVENTS =
+    process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
+  const baseInitialValues: EventFormFields = {
+    ...(ENABLE_EXTERNAL_USER_EVENTS
+      ? EVENT_EXTERNAL_USER_INITIAL_VALUES
+      : EVENT_INITIAL_VALUES),
     audience: event.audience
       .map((keyword) => keyword?.atId)
       .filter(skipFalsyType),
@@ -862,6 +857,25 @@ export const getEventInitialValues = (
     type: getValue(event.typeId?.toLowerCase(), EVENT_TYPE.General),
     videos: getEventVideos(event),
   };
+
+  if (ENABLE_EXTERNAL_USER_EVENTS) {
+    return {
+      ...baseInitialValues,
+      environment: getValue(
+        event.environment?.toLowerCase(),
+        EVENT_ENVIRONMENT_VALUE.In
+      ),
+      environmentalCertificate: getValue(event.environmentalCertificate, ''),
+      hasEnvironmentalCertificate: Boolean(event.environmentalCertificate),
+      userConsent: Boolean(event.userConsent),
+      userEmail: getValue(event.userEmail, ''),
+      userName: getValue(event.userName, ''),
+      userOrganization: getValue(event.userOrganization, ''),
+      userPhoneNumber: getValue(event.userPhoneNumber, ''),
+    };
+  }
+
+  return baseInitialValues;
 };
 
 type EventErrorFieldType =
@@ -1085,8 +1099,17 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
+
+  const ENABLE_EXTERNAL_USER_EVENTS =
+    process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+  const isExternalUser =
+    ENABLE_EXTERNAL_USER_EVENTS && isExternalUserWithoutOrganization({ user });
+
   const canCreateDraft =
-    (!publisher && !!user?.organization) || isRegularUser || isAdminUser;
+    (!publisher && !!user?.organization) ||
+    isRegularUser ||
+    isAdminUser ||
+    isExternalUser;
 
   switch (action) {
     case EVENT_ACTIONS.COPY:
@@ -1097,13 +1120,16 @@ export const checkCanUserDoAction = ({
     case EVENT_ACTIONS.CANCEL:
     case EVENT_ACTIONS.DELETE:
     case EVENT_ACTIONS.POSTPONE:
-      return isDraft ? isRegularUser || isAdminUser : isAdminUser;
+      return isDraft
+        ? isRegularUser || isAdminUser || isExternalUser
+        : isAdminUser;
     case EVENT_ACTIONS.ACCEPT_AND_PUBLISH:
     case EVENT_ACTIONS.PUBLISH:
     case EVENT_ACTIONS.UPDATE_PUBLIC:
+    case EVENT_ACTIONS.SEND_EMAIL:
       return isAdminUser;
     case EVENT_ACTIONS.UPDATE_DRAFT:
-      return isRegularUser || isAdminUser;
+      return isRegularUser || isAdminUser || isExternalUser;
   }
 };
 
@@ -1127,6 +1153,7 @@ export const getIsButtonVisible = ({
     case EVENT_ACTIONS.ACCEPT_AND_PUBLISH:
       return isDraft && userCanDoAction;
     case EVENT_ACTIONS.CREATE_DRAFT:
+    case EVENT_ACTIONS.SEND_EMAIL:
       return userCanDoAction;
     case EVENT_ACTIONS.PUBLISH:
       return !authenticated || userCanDoAction;
@@ -1135,6 +1162,10 @@ export const getIsButtonVisible = ({
     case EVENT_ACTIONS.UPDATE_PUBLIC:
       return isPublic;
   }
+};
+
+const validateCreatedBy = (createdBy: string | null | undefined): boolean => {
+  return !!createdBy && createdBy !== ' - ';
 };
 
 const getCreateEventActionWarning = ({
@@ -1206,8 +1237,13 @@ const getUpdateEventActionWarning = (
   }
 ) => {
   const { action, authenticated, event, t, userCanDoAction } = props;
-  const { deleted, eventStatus, isDraft } = getEventFields(event, 'fi');
+  const { deleted, eventStatus, isDraft, createdBy } = getEventFields(
+    event,
+    'fi'
+  );
   const isCancelled = eventStatus === EventStatus.EventCancelled;
+
+  const noEmailFound = !validateCreatedBy(createdBy);
 
   const isInThePast = isEventInThePast(event);
 
@@ -1233,6 +1269,10 @@ const getUpdateEventActionWarning = (
 
   if (isInThePast && NOT_ALLOWED_WHEN_IN_PAST.includes(action)) {
     return t('event.form.editButtonPanel.warningEventInPast');
+  }
+
+  if (noEmailFound && action === EVENT_ACTIONS.SEND_EMAIL) {
+    return t('event.form.editButtonPanel.warningNoEmailFound');
   }
 
   if (isDraft) {
@@ -1375,7 +1415,7 @@ export const copyEventInfoToRegistrationSessionStorage = async (
       enrolmentEndTimeTime,
       enrolmentStartTimeDate,
       enrolmentStartTimeTime,
-      event: event.id,
+      event: event.atId,
       maximumAttendeeCapacity,
       minimumAttendeeCapacity,
     },

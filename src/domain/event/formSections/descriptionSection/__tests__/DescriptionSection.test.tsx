@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Formik } from 'formik';
 import React from 'react';
+import { ObjectSchema } from 'yup';
 
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   LE_DATA_LANGUAGES,
 } from '../../../../../constants';
+import { PublicationStatus } from '../../../../../generated/graphql';
 import { MultiLanguageObject } from '../../../../../types';
 import {
   configure,
@@ -15,7 +17,10 @@ import {
   userEvent,
 } from '../../../../../utils/testUtils';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
-import { publicEventSchema } from '../../../validation';
+import {
+  getExternalUserEventSchema,
+  publicEventSchema,
+} from '../../../validation';
 import DescriptionSection, {
   DescriptionSectionProps,
 } from '../DescriptionSection';
@@ -34,6 +39,8 @@ type InitialValues = {
   [EVENT_FIELDS.NAME]: MultiLanguageObject;
   [EVENT_FIELDS.SHORT_DESCRIPTION]: MultiLanguageObject;
   [EVENT_FIELDS.TYPE]: string;
+  [EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE]?: boolean;
+  [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]?: string;
 };
 
 const defaultInitialValues: InitialValues = {
@@ -46,20 +53,22 @@ const defaultInitialValues: InitialValues = {
 
 const defaultProps: DescriptionSectionProps = {
   isEditingAllowed: true,
+  isExternalUser: false,
   selectedLanguage: languages[0],
   setSelectedLanguage: jest.fn(),
 };
 
 const renderComponent = (
   initialValues?: Partial<InitialValues>,
-  props?: Partial<DescriptionSectionProps>
+  props?: Partial<DescriptionSectionProps>,
+  schema: ObjectSchema<any> = publicEventSchema
 ) => {
   const { rerender, ...rest } = render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
       onSubmit={jest.fn()}
       enableReinitialize={true}
-      validationSchema={publicEventSchema}
+      validationSchema={schema}
     >
       <DescriptionSection {...defaultProps} {...props} />
     </Formik>
@@ -76,7 +85,7 @@ const renderComponent = (
           }}
           onSubmit={jest.fn()}
           enableReinitialize={true}
-          validationSchema={publicEventSchema}
+          validationSchema={schema}
         >
           <DescriptionSection {...defaultProps} {...props} />
         </Formik>
@@ -273,4 +282,50 @@ test('should show validation error if description is too long', async () => {
   await screen.findByText(
     'Tämä kenttä voi olla korkeintaan 5000 merkkiä pitkä'
   );
+});
+
+test('environmental cerfiticate should be required if hasEnvironmentalCerfiticate is checked', async () => {
+  const user = userEvent.setup();
+  const schema = getExternalUserEventSchema(PublicationStatus.Draft);
+
+  renderComponent(
+    {
+      [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [LE_DATA_LANGUAGES.FI],
+      [EVENT_FIELDS.DESCRIPTION]: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+        fi: 'Description',
+      },
+      [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Name' },
+      [EVENT_FIELDS.SHORT_DESCRIPTION]: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+        fi: 'Short description',
+      },
+      [EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE]: false,
+      [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: '',
+    },
+    { isExternalUser: true },
+    schema
+  );
+
+  const hasEnvironmentalCertificateInput = await screen.findByLabelText(
+    /tapahtumalla on ekokompassi tai muu vastaava sertifikaatti/i
+  );
+  const environmentalCertificateInput = await screen.findByLabelText(
+    /sertifikaatin nimi/i
+  );
+  const nameInput = getElement('nameFi');
+
+  expect(hasEnvironmentalCertificateInput).not.toBeChecked();
+
+  await user.click(hasEnvironmentalCertificateInput);
+
+  expect(hasEnvironmentalCertificateInput).toBeChecked();
+  expect(environmentalCertificateInput).not.toBeDisabled();
+
+  await user.click(environmentalCertificateInput);
+  await user.click(nameInput);
+
+  expect(
+    await screen.findByText('Tämä kenttä on pakollinen')
+  ).toBeInTheDocument();
 });

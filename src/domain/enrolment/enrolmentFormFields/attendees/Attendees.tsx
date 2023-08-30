@@ -6,6 +6,7 @@ import { useLocation } from 'react-router';
 import {
   RegistrationFieldsFragment,
   SeatsReservation,
+  UpdateSeatsReservationMutationInput,
   useUpdateSeatsReservationMutation,
 } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
@@ -58,16 +59,20 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
     indexToRemove: number
   ) => {
     const reservationData = getSeatsReservationData(registrationId);
-    const payload = {
-      code: getValue(reservationData?.code, ''),
+
+    /* istanbul ignore next */
+    if (!reservationData) {
+      throw new Error('Reservation data is not stored to session storage');
+    }
+
+    const payload: UpdateSeatsReservationMutationInput = {
+      code: reservationData.code,
       registration: registrationId,
       seats: participantAmount,
-      waitlist: true,
     };
-
     try {
       const { data } = await updateSeatsReservationMutation({
-        variables: { input: payload },
+        variables: { id: reservationData.id, input: payload },
       });
       const seatsReservation = data?.updateSeatsReservation as SeatsReservation;
       const newAttendees = getNewAttendees({

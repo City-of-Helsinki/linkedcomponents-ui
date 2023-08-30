@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { faker } from '@faker-js/faker';
 import addMinutes from 'date-fns/addMinutes';
+import addSeconds from 'date-fns/addSeconds';
 import merge from 'lodash/merge';
 
-import { EXTLINK } from '../constants';
+import { EXTLINK, RESERVATION_NAMES } from '../constants';
 import { TEST_DATA_SOURCE_ID } from '../domain/dataSource/constants';
 import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
 import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
@@ -17,7 +18,7 @@ import {
   DataSourcesResponse,
   Enrolment,
   EnrolmentPeopleResponse,
-  EnrolmentPerson,
+  EnrolmentsResponse,
   Event,
   EventsResponse,
   EventStatus,
@@ -41,10 +42,14 @@ import {
   OrganizationsResponse,
   Place,
   PlacesResponse,
+  PresenceStatus,
   PublicationStatus,
   Registration,
+  RegistrationFieldsFragment,
   RegistrationsResponse,
+  RegistrationUserAccess,
   SeatsReservation,
+  SendMessageResponse,
   User,
   UsersResponse,
   Video,
@@ -82,9 +87,12 @@ export const fakeDataSource = (overrides?: Partial<DataSource>): DataSource => {
 
 export const fakeEnrolments = (
   count = 1,
-  enrolments: Partial<Enrolment>[]
-): Enrolment[] =>
-  generateNodeArray((i) => fakeEnrolment(enrolments?.[i]), count);
+  enrolments?: Partial<Enrolment>[]
+): EnrolmentsResponse => ({
+  data: generateNodeArray((i) => fakeEnrolment(enrolments?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'EnrolmentsResponse',
+});
 
 export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
   const id = overrides?.id || faker.datatype.uuid();
@@ -98,11 +106,13 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
       dateOfBirth: '1990-10-10',
       email: faker.internet.email(),
       extraInfo: faker.lorem.paragraph(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
       membershipNumber: faker.datatype.uuid(),
-      name: faker.name.firstName(),
       nativeLanguage: 'fi',
       notifications: NOTIFICATION_TYPE.SMS_EMAIL,
       phoneNumber: faker.phone.number(),
+      presenceStatus: PresenceStatus.NotPresent,
       serviceLanguage: 'fi',
       streetAddress: faker.address.streetAddress(),
       zipcode: faker.address.zipCode('#####'),
@@ -112,28 +122,13 @@ export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
   );
 };
 
-export const fakeEnrolmentPerson = (
-  overrides?: Partial<EnrolmentPerson>
-): EnrolmentPerson => {
-  const id = overrides?.id || faker.datatype.number();
-
-  return merge<EnrolmentPerson, typeof overrides>(
-    {
-      id,
-      name: faker.name.firstName(),
-      __typename: 'EnrolmentPerson',
-    },
-    overrides
-  );
-};
-
 export const fakeEnrolmentPeopleResponse = (
   count = 1,
-  people: Partial<EnrolmentPerson>[] = []
+  people: Partial<Enrolment>[] = []
 ): EnrolmentPeopleResponse => {
   return {
     count,
-    people: generateNodeArray((i) => fakeEnrolmentPerson(people?.[i]), count),
+    people: generateNodeArray((i) => fakeEnrolment(people?.[i]), count),
   };
 };
 
@@ -177,6 +172,8 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       endTime: null,
       enrolmentEndTime: null,
       enrolmentStartTime: null,
+      environment: 'in',
+      environmentalCertificate: '',
       eventStatus: EventStatus.EventScheduled,
       externalLinks: [],
       images: [],
@@ -199,6 +196,11 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       subEvents: [],
       superEvent: null,
       superEventType: null,
+      userConsent: false,
+      userEmail: '',
+      userName: '',
+      userOrganization: '',
+      userPhoneNumber: '',
       typeId: EventTypeId.General,
       videos: [],
       __typename: 'Event',
@@ -334,6 +336,7 @@ export const fakeLanguage = (overrides?: Partial<Language>): Language => {
     {
       id,
       atId: generateAtId(id, 'language'),
+      serviceLanguage: false,
       translationAvailable: false,
       name: fakeLocalisedObject(),
       __typename: 'Language',
@@ -484,7 +487,7 @@ export const fakeRegistration = (
       atId: generateAtId(id, 'registration'),
       audienceMaxAge: null,
       audienceMinAge: null,
-      confirmationMessage: faker.lorem.paragraph(),
+      confirmationMessage: fakeLocalisedObject(faker.lorem.paragraph()),
       createdAt: null,
       createdBy: faker.name.firstName(),
       currentAttendeeCount: 0,
@@ -493,12 +496,16 @@ export const fakeRegistration = (
       enrolmentEndTime: '2020-09-30T16:00:00.000000Z',
       enrolmentStartTime: '2020-09-27T15:00:00.000000Z',
       event: null,
-      instructions: faker.lorem.paragraph(),
+      instructions: fakeLocalisedObject(faker.lorem.paragraph()),
       lastModifiedAt: '2020-09-12T15:00:00.000000Z',
       lastModifiedBy: faker.name.firstName(),
       mandatoryFields: [],
       maximumAttendeeCapacity: 0,
+      maximumGroupSize: null,
       minimumAttendeeCapacity: 0,
+      registrationUserAccesses: [],
+      remainingAttendeeCapacity: 0,
+      remainingWaitingListCapacity: 0,
       publisher: TEST_PUBLISHER_ID,
       signups: [],
       waitingListCapacity: 0,
@@ -508,24 +515,54 @@ export const fakeRegistration = (
   );
 };
 
-export const fakeSeatsReservation = (
-  overrides?: Partial<SeatsReservation>
-): SeatsReservation => {
-  const timestamp = new Date().toISOString();
+export const fakeRegistrationUserAccess = (
+  overrides?: Partial<RegistrationUserAccess>
+): RegistrationUserAccess => {
+  const id = overrides?.id || faker.datatype.number();
 
-  return merge<SeatsReservation, typeof overrides>(
+  return merge<RegistrationUserAccess, typeof overrides>(
     {
-      code: TEST_SEATS_RESERVATION_CODE,
-      expiration: addMinutes(new Date(timestamp), 30).toISOString(),
-      registration: TEST_REGISTRATION_ID,
-      seats: 1,
-      timestamp,
-      seatsAtEvent: 1,
-      waitlistSpots: 0,
+      id,
+      email: faker.internet.email(),
+      __typename: 'RegistrationUserAccess',
     },
     overrides
   );
 };
+
+export const fakeSeatsReservation = (
+  overrides?: Partial<SeatsReservation>
+): SeatsReservation => {
+  const id = overrides?.id || faker.datatype.uuid();
+  const timestamp = new Date().toISOString();
+
+  return merge<SeatsReservation, typeof overrides>(
+    {
+      id,
+      code: TEST_SEATS_RESERVATION_CODE,
+      expiration: addMinutes(new Date(timestamp), 30).toISOString(),
+      inWaitlist: false,
+      registration: TEST_REGISTRATION_ID,
+      seats: 1,
+      timestamp,
+    },
+    overrides
+  );
+};
+
+export const fakeSendMessageResponse = (
+  overrides?: Partial<SendMessageResponse>
+): SendMessageResponse =>
+  merge<SendMessageResponse, typeof overrides>(
+    {
+      htmlMessage: faker.lorem.sentence(),
+      message: faker.lorem.sentence(),
+      signups: [],
+      subject: faker.lorem.sentence(),
+      __typename: 'SendMessageResponse',
+    },
+    overrides
+  );
 
 export const fakeUsers = (
   count = 1,
@@ -546,6 +583,7 @@ export const fakeUser = (overrides?: Partial<User>): User => {
       email: faker.internet.email(),
       firstName: faker.name.firstName(),
       isStaff: false,
+      isExternal: false,
       lastLogin: '',
       lastName: faker.name.lastName(),
       organization: faker.random.words(),
@@ -595,4 +633,25 @@ const generateNodeArray = <T extends (...args: any) => any>(
   length: number
 ): ReturnType<T>[] => {
   return Array.from({ length }).map((_, i) => fakeFunc(i));
+};
+
+export const getMockedSeatsReservationData = (expirationOffset: number) => {
+  const now = new Date();
+  const expiration = addSeconds(now, expirationOffset).toISOString();
+
+  return fakeSeatsReservation({ expiration });
+};
+
+export const setSessionStorageValues = (
+  reservation: SeatsReservation,
+  registration: RegistrationFieldsFragment
+) => {
+  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
+    const reservationKey = `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registration.id}`;
+
+    if (key === reservationKey) {
+      return reservation ? JSON.stringify(reservation) : '';
+    }
+    return '';
+  });
 };

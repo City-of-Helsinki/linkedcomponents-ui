@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { NotificationType } from 'hds-react';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ export const hiddenStyles = {
 
 type CommonProps = {
   className?: string;
-  requiredOrganizationType?: 'admin' | 'any';
+  requiredOrganizationType?: 'admin' | 'any' | 'external';
 };
 
 type OnlyNotAuthenticatedErrorProps = {
@@ -29,6 +29,7 @@ type OnlyNotAuthenticatedErrorProps = {
   noRequiredOrganizationLabel?: null;
   noRequiredOrganizationText?: null;
   showOnlyNotAuthenticatedError: true;
+  notAuthenticatedCustomMessage?: ReactNode;
 } & CommonProps;
 
 type AllErrorsProps = {
@@ -37,6 +38,7 @@ type AllErrorsProps = {
   noRequiredOrganizationLabel: string;
   noRequiredOrganizationText: string;
   showOnlyNotAuthenticatedError?: false;
+  notAuthenticatedCustomMessage?: ReactNode;
 } & CommonProps;
 
 export type AuthenticationNotificationProps =
@@ -51,6 +53,7 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   noRequiredOrganizationText,
   requiredOrganizationType = 'admin',
   showOnlyNotAuthenticatedError,
+  notAuthenticatedCustomMessage,
 }) => {
   const location = useLocation();
   const { t } = useTranslation();
@@ -67,6 +70,10 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
     /* istanbul ignore else */
     if (authenticated) {
       const hasRequiredOrganization = () => {
+        if (requiredOrganizationType === 'external') {
+          return true;
+        }
+
         if (requiredOrganizationType === 'admin') {
           return adminOrganizations.length;
         }
@@ -111,19 +118,21 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   };
 
   if (!authenticated) {
+    const message = notAuthenticatedCustomMessage ? (
+      notAuthenticatedCustomMessage
+    ) : (
+      <p>
+        {t('authenticationNotification.part1')}{' '}
+        <button className={styles.button} onClick={handleSignIn} type="button">
+          {t('authenticationNotification.button')}
+        </button>
+        {t('authenticationNotification.part2')}
+      </p>
+    );
+
     return (
       <Notification {...notificationProps} label={t('common.signIn')}>
-        <p>
-          {t('authenticationNotification.part1')}{' '}
-          <button
-            className={styles.button}
-            onClick={handleSignIn}
-            type="button"
-          >
-            {t('authenticationNotification.button')}
-          </button>
-          {t('authenticationNotification.part2')}
-        </p>
+        {message}
       </Notification>
     );
   }

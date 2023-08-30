@@ -157,6 +157,14 @@ export const isReqularUserInOrganization = ({
   return Boolean(id && organizationMemberships.includes(id));
 };
 
+export const isExternalUserWithoutOrganization = ({
+  user,
+}: {
+  user?: UserFieldsFragment;
+}): boolean => {
+  return Boolean(user?.isExternal);
+};
+
 export const getOrganizationAncestorsQueryResult = async (
   id: string,
   apolloClient: ApolloClient<NormalizedCacheObject>
@@ -351,7 +359,7 @@ export const getOrganizationPayload = (
 
   return {
     ...restFormValues,
-    adminUsers: { username: adminUsers },
+    adminUsers,
     dataSource,
     dissolutionDate: dissolutionDate
       ? formatDate(dissolutionDate, DATE_FORMAT_API)
@@ -362,6 +370,6 @@ export const getOrganizationPayload = (
     id: id || (originId ? `${dataSource}:${originId}` : undefined),
     originId,
     parentOrganization: parentOrganization || undefined,
-    regularUsers: { username: regularUsers },
+    regularUsers,
   };
 };

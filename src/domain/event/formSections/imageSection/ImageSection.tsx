@@ -32,6 +32,7 @@ import useImageUpdateActions, {
 } from '../../../image/hooks/useImageUpdateActions';
 import { AddImageSettings } from '../../../image/types';
 import { imagePathBuilder } from '../../../image/utils';
+import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS } from '../../constants';
 import eventPageStyles from '../../eventPage.module.scss';
 import ImageDetailsFields from './imageDetailsFields/ImageDetailsFields';
@@ -44,6 +45,7 @@ interface Props {
 const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
+  const { loading: loadingUser, externalUser } = useUser();
 
   const { closeModal, openModal, setOpenModal, uploadImage } =
     useImageUpdateActions({});
@@ -59,10 +61,11 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: publisher }] = useField({ name: EVENT_FIELDS.PUBLISHER });
-
   const [{ value: images }, , { setValue: setImagesValue }] = useField({
     name: EVENT_FIELDS.IMAGES,
   });
+
+  const imagePublisherValue = !loadingUser && externalUser ? '' : publisher;
 
   const imageAtId = images[0];
   const imageId = getValue(parseIdFromAtId(imageAtId), '');
@@ -83,7 +86,13 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
       setImagesValue(values.selectedImage);
       closeModal();
     } else if (values.url) {
-      uploadImage({ publisher, url: values.url }, setImageFields);
+      uploadImage(
+        {
+          publisher: imagePublisherValue,
+          url: values.url,
+        },
+        setImageFields
+      );
     }
   };
 
@@ -114,7 +123,13 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
           <AddImageForm
             onCancel={closeModal}
             onAddImageByFile={(image) =>
-              uploadImage({ publisher, image }, setImageFields)
+              uploadImage(
+                {
+                  publisher: imagePublisherValue,
+                  image,
+                },
+                setImageFields
+              )
             }
             onSubmit={handleAddImageFormSubmit}
             publisher={publisher}

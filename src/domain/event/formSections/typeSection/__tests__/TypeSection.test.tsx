@@ -42,7 +42,7 @@ const renderComponent = (
       initialValues={initialValues || defaultInitialValues}
       onSubmit={jest.fn()}
     >
-      <TypeSection {...props} isEditingAllowed={true} />
+      <TypeSection {...props} isEditingAllowed={true} isExternalUser={false} />
     </Formik>,
     { mocks }
   );

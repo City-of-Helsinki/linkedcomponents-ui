@@ -1,8 +1,10 @@
+/* eslint-disable max-len */
 import copyToClipboard from 'copy-to-clipboard';
 import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';
 import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
+import isNil from 'lodash/isNil';
 import isNumber from 'lodash/isNumber';
 import { toast } from 'react-toastify';
 
@@ -16,13 +18,15 @@ import {
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
+import { filterUnselectedLanguages } from '../../utils/filterUnselectedLanguages';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import getDateFromString from '../../utils/getDateFromString';
+import { getInfoLanguages } from '../../utils/getInfoLanguages';
+import getLocalisedObject from '../../utils/getLocalisedObject';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
-import { getFreeWaitlistCapacity } from '../enrolment/utils';
 import { getEventFields } from '../event/utils';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
@@ -31,8 +35,16 @@ import {
   REGISTRATION_ICONS,
   REGISTRATION_LABEL_KEYS,
 } from '../registrations/constants';
+import {
+  getSeatsReservationData,
+  isSeatsReservationExpired,
+} from '../reserveSeats/utils';
 import { REGISTRATION_FIELDS } from './constants';
-import { RegistrationFields, RegistrationFormFields } from './types';
+import {
+  RegistrationFields,
+  RegistrationFormFields,
+  RegistrationUserAccessFormFields,
+} from './types';
 
 export const clearRegistrationFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.REGISTRATION_FORM);
@@ -65,6 +77,7 @@ export const checkCanUserDoAction = ({
       return publisher ? isAdminUser : !!adminOrganizations.length;
     case REGISTRATION_ACTIONS.DELETE:
     case REGISTRATION_ACTIONS.SHOW_ENROLMENTS:
+    case REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST:
     case REGISTRATION_ACTIONS.UPDATE:
       return isAdminUser;
   }
@@ -211,9 +224,18 @@ export const getRegistrationFields = (
   };
 };
 
+export const getEmptyRegistrationUserAccess =
+  (): RegistrationUserAccessFormFields => ({
+    email: '',
+    id: null,
+    language: '',
+  });
+
 export const getRegistrationInitialValues = (
   registration: RegistrationFieldsFragment
 ): RegistrationFormFields => {
+  const infoLanguages = getInfoLanguages(registration, new Set(['event']));
+
   return {
     [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: getValue(
       registration.audienceMaxAge,
@@ -223,9 +245,8 @@ export const getRegistrationInitialValues = (
       registration.audienceMinAge,
       ''
     ),
-    [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]: getValue(
-      registration.confirmationMessage,
-      ''
+    [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]: getLocalisedObject(
+      registration.confirmationMessage
     ),
     [REGISTRATION_FIELDS.ENROLMENT_END_TIME_DATE]: getDateFromString(
       registration.enrolmentEndTime
@@ -244,7 +265,12 @@ export const getRegistrationInitialValues = (
           )
         : '',
     [REGISTRATION_FIELDS.EVENT]: getValue(registration.event?.atId, ''),
-    [REGISTRATION_FIELDS.INSTRUCTIONS]: getValue(registration.instructions, ''),
+    [REGISTRATION_FIELDS.INFO_LANGUAGES]: infoLanguages.length
+      ? infoLanguages
+      : ['fi'],
+    [REGISTRATION_FIELDS.INSTRUCTIONS]: getLocalisedObject(
+      registration.instructions
+    ),
     [REGISTRATION_FIELDS.MANDATORY_FIELDS]: getValue(
       registration.mandatoryFields?.filter(skipFalsyType),
       []
@@ -253,9 +279,21 @@ export const getRegistrationInitialValues = (
       registration.maximumAttendeeCapacity,
       ''
     ),
+    [REGISTRATION_FIELDS.MAXIMUM_GROUP_SIZE]: getValue(
+      registration.maximumGroupSize,
+      ''
+    ),
     [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: getValue(
       registration.minimumAttendeeCapacity,
       ''
+    ),
+    [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: getValue(
+      registration.registrationUserAccesses?.map((ru) => ({
+        email: getValue(ru?.email, ''),
+        id: getValue(ru?.id, null),
+        language: getValue(ru?.language, ''),
+      })),
+      []
     ),
     [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: getValue(
       registration.waitingListCapacity,
@@ -299,14 +337,19 @@ export const getRegistrationPayload = (
     instructions,
     mandatoryFields,
     maximumAttendeeCapacity,
+    maximumGroupSize,
     minimumAttendeeCapacity,
+    registrationUserAccesses,
     waitingListCapacity,
   } = formValues;
-
+  const infoLanguages = ['fi'];
   return {
     audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
     audienceMinAge: isNumber(audienceMinAge) ? audienceMinAge : null,
-    confirmationMessage: confirmationMessage ? confirmationMessage : null,
+    confirmationMessage: filterUnselectedLanguages(
+      confirmationMessage,
+      infoLanguages
+    ),
     enrolmentEndTime:
       enrolmentEndTimeDate && enrolmentEndTimeTime
         ? formatDateAndTimeForApi(enrolmentEndTimeDate, enrolmentEndTimeTime)
@@ -319,14 +362,20 @@ export const getRegistrationPayload = (
           )
         : null,
     event: { atId: event },
-    instructions: instructions ? instructions : null,
+    instructions: filterUnselectedLanguages(instructions, infoLanguages),
     mandatoryFields,
     maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
       ? maximumAttendeeCapacity
       : null,
+    maximumGroupSize: isNumber(maximumGroupSize) ? maximumGroupSize : null,
     minimumAttendeeCapacity: isNumber(minimumAttendeeCapacity)
       ? minimumAttendeeCapacity
       : null,
+    registrationUserAccesses: registrationUserAccesses.map((ru) => ({
+      email: ru.email,
+      id: getValue(ru.id, null),
+      language: getValue(ru.language, null),
+    })),
     waitingListCapacity: isNumber(waitingListCapacity)
       ? waitingListCapacity
       : null,
@@ -348,44 +397,82 @@ export const registrationPathBuilder = ({
 export const isRegistrationOpen = (
   registration: RegistrationFieldsFragment
 ): boolean => {
-  return (
-    !!registration.enrolmentStartTime &&
-    isPast(new Date(registration.enrolmentStartTime)) &&
-    (!registration.enrolmentEndTime ||
-      isFuture(new Date(registration.enrolmentEndTime)))
-  );
+  const enrolmentStartTime = registration.enrolmentStartTime;
+  const enrolmentEndTime = registration.enrolmentEndTime;
+
+  // Registration is not open if enrolment start time is defined and in the future
+  if (enrolmentStartTime && isFuture(new Date(enrolmentStartTime))) {
+    return false;
+  }
+  // Registration is not open if enrolment end time is defined and in the past
+  if (enrolmentEndTime && isPast(new Date(enrolmentEndTime))) {
+    return false;
+  }
+
+  return true;
 };
 
 export const isAttendeeCapacityUsed = (
   registration: RegistrationFieldsFragment
-): boolean => {
-  const maxCapacityDefined = !!registration.maximumAttendeeCapacity;
-  const maxCapacityUsed =
-    registration.maximumAttendeeCapacity &&
-    (registration.currentAttendeeCount ?? /* istanbul ignore next */ 0) >=
-      registration.maximumAttendeeCapacity;
+): boolean =>
+  !isNil(registration.maximumAttendeeCapacity) &&
+  registration.maximumAttendeeCapacity <=
+    (registration.currentAttendeeCount as number);
 
-  // If there are seats in the event
-  if (!maxCapacityDefined || !maxCapacityUsed) {
-    return false;
-  } else {
-    return true;
+export const isWaitingListCapacityUsed = (
+  registration: RegistrationFieldsFragment
+): boolean =>
+  !isNil(registration.waitingListCapacity) &&
+  registration.waitingListCapacity <=
+    (registration.currentWaitingListCount as number);
+
+export const getFreeAttendeeCapacity = (
+  registration: RegistrationFieldsFragment
+): number | undefined =>
+  isNil(registration.maximumAttendeeCapacity)
+    ? undefined
+    : (registration.remainingAttendeeCapacity as number);
+
+export const getFreeWaitingListCapacity = (
+  registration: RegistrationFieldsFragment
+): number | undefined =>
+  isNil(registration.waitingListCapacity)
+    ? undefined
+    : (registration.remainingWaitingListCapacity as number);
+
+export const getFreeAttendeeOrWaitingListCapacity = (
+  registration: RegistrationFieldsFragment
+): number | undefined => {
+  const freeAttendeeCapacity = getFreeAttendeeCapacity(registration);
+  // Return the amount of free capacity if there are still capacity left
+  // Seat reservations are not counted
+  if (!isAttendeeCapacityUsed(registration)) {
+    return freeAttendeeCapacity;
   }
+
+  return getFreeWaitingListCapacity(registration);
 };
 
-export const isWaitingCapacityUsed = (
+const getReservedSeats = (registration: RegistrationFieldsFragment): number => {
+  const data = getSeatsReservationData(registration.id as string);
+  return data && !isSeatsReservationExpired(data) ? data.seats : 0;
+};
+
+export const getMaxSeatsAmount = (
   registration: RegistrationFieldsFragment
-): boolean => {
-  // If there are seats in the event
-  if (
-    ((registration.waitingListCapacity &&
-      registration.currentWaitingListCount) ??
-      0) < (registration.waitingListCapacity ?? 0)
-  ) {
-    return false;
-  } else {
-    return true;
-  }
+): number | undefined => {
+  const reservedSeats = getReservedSeats(registration);
+  const maximumGroupSize = registration.maximumGroupSize;
+  const freeCapacity = getFreeAttendeeOrWaitingListCapacity(registration);
+  const maxSeatsAmount =
+    freeCapacity !== undefined
+      ? freeCapacity + reservedSeats
+      : /* istanbul ignore next */ undefined;
+  const maxValues = [maximumGroupSize, maxSeatsAmount].filter(
+    (v) => !isNil(v)
+  ) as number[];
+
+  return maxValues.length ? Math.min(...maxValues) : undefined;
 };
 
 export const hasEnrolments = (
@@ -399,26 +486,53 @@ export const hasEnrolments = (
 export const isRegistrationPossible = (
   registration: RegistrationFieldsFragment
 ): boolean => {
-  return (
-    isRegistrationOpen(registration) &&
-    (!isAttendeeCapacityUsed(registration) ||
-      !isWaitingCapacityUsed(registration))
-  );
+  const registrationOpen = isRegistrationOpen(registration);
+  const attendeeCapacityUsed = isAttendeeCapacityUsed(registration);
+  const freeAttendeeCapacity = getFreeAttendeeCapacity(registration);
+  const waitingListCapacityUsed = isWaitingListCapacityUsed(registration);
+  const freeWaitingListCapacity = getFreeWaitingListCapacity(registration);
+
+  // Enrolment is not opened or is already closed
+  if (!registrationOpen) {
+    return false;
+  }
+  // Attendee capacity and waiting list capacity is used
+  if (attendeeCapacityUsed && waitingListCapacityUsed) {
+    return false;
+  }
+  // Attendee capacity is not used
+  if (!attendeeCapacityUsed) {
+    return freeAttendeeCapacity !== 0;
+  }
+
+  // Waiting list capacity is not used
+  return freeWaitingListCapacity !== 0;
 };
 
 export const getRegistrationWarning = (
   registration: RegistrationFieldsFragment,
   t: TFunction
 ): string => {
-  if (!isRegistrationPossible(registration)) {
+  const registrationOpen = isRegistrationOpen(registration);
+  const registrationPossible = isRegistrationPossible(registration);
+  const attendeeCapacityUsed = isAttendeeCapacityUsed(registration);
+  const waitingListCapacityUsed = isWaitingListCapacityUsed(registration);
+  const freeWaitlistCapacity = getFreeWaitingListCapacity(registration);
+
+  if (!registrationOpen) {
     return t('enrolment.warnings.closed');
-  } else if (
-    isAttendeeCapacityUsed(registration) &&
-    !isWaitingCapacityUsed(registration)
-  ) {
-    return t('enrolment.warnings.capacityInWaitingList', {
-      count: getFreeWaitlistCapacity(registration),
-    });
+  }
+
+  if (!registrationPossible) {
+    return t('enrolment.warnings.allSeatsReserved');
+  }
+
+  if (attendeeCapacityUsed && !waitingListCapacityUsed) {
+    return isNil(freeWaitlistCapacity)
+      ? t('enrolment.warnings.capacityInWaitingListNoLimit')
+      : t('enrolment.warnings.capacityInWaitingList', {
+          count: freeWaitlistCapacity,
+        });
   }
   return '';
 };

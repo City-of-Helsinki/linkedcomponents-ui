@@ -134,7 +134,13 @@ const EventTableRow: React.FC<Props> = ({
           </div>
         </td>
         <td className={styles.publisherColumn}>
-          <OrganizationName id={publisher} />
+          {publisher !== 'others' ? (
+            <OrganizationName id={publisher} />
+          ) : (
+            <span className={styles.externalPublisher}>
+              <OrganizationName id={publisher} />
+            </span>
+          )}
         </td>
         <td className={styles.timeColumn}>
           {startTime

@@ -1,4 +1,5 @@
 @import '../../../../assets/styles/breakpoints';
+@import '../../../../assets/styles/mixins';
 @import '../../../../assets/styles/widths';
 
 .titleRowWrapper {
@@ -13,46 +14,58 @@
   .titleRow {
     display: grid;
     grid-gap: var(--spacing-m);
-  
+
     .title {
       *:not(:last-child) {
         margin-right: var(--spacing-xs);
       }
-  
+
       h1 {
         margin: 0;
 
         @include medium-up {
           margin: var(--spacing-m) 0 0;
         }
-        
       }
     }
-  
-    .buttonWrapper {
-      margin-bottom: var(--spacing-m);
+
+    .actionsDropdown {
+      justify-self: flex-end;
+
+      @include medium-up {
+        @include min-width-column(2);
+      }
     }
-  
+
+    .toggleButton {
+      height: var(--spacing-3-xl);
+      padding: var(--spacing-3-xs);
+
+      @include focus-outline(0px);
+
+      svg {
+        transform: rotate(90deg);
+      }
+    }
+
     @include medium-up {
       order: 1;
       display: flex;
-  
+
       .title {
         flex: 1 1 0%;
       }
-  
+
       .buttonWrapper {
         align-self: flex-end;
         margin-bottom: unset;
       }
-  
+
       button {
         @include min-width-column(2);
-  
+
         white-space: nowrap;
       }
     }
   }
 }
-
-

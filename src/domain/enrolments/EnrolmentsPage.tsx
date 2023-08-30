@@ -9,6 +9,7 @@ import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
 import EditingInfo from '../../common/components/editingInfo/EditingInfo';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
+import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { ROUTES } from '../../constants';
 import { RegistrationFieldsFragment } from '../../generated/graphql';
 import useLocale from '../../hooks/useLocale';
@@ -19,17 +20,24 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
-import { ENROLMENT_ACTIONS } from '../enrolment/constants';
+import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
+import { useEnrolmentPageContext } from '../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import useEnrolmentActions from '../enrolment/hooks/useEnrolmentActions';
 import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
+import SendMessageModal from '../enrolment/modals/sendMessageModal/SendMessageModal';
 import {
   clearCreateEnrolmentFormData,
-  getEditButtonProps,
+  getEditButtonProps as getEnrolmentEditButtonProps,
 } from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
-import { getRegistrationFields } from '../registration/utils';
+import {
+  getEditButtonProps as getRegistrationEditButtonProps,
+  getRegistrationFields,
+} from '../registration/utils';
+import { REGISTRATION_ACTIONS } from '../registrations/constants';
 import { clearSeatsReservationData } from '../reserveSeats/utils';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
@@ -61,6 +69,11 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
     locale
   );
 
+  const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
+  const { saving, sendMessage } = useEnrolmentActions({
+    registration,
+  });
+
   const handleCreate = () => {
     const registrationId = getValue(registration.id, '');
     clearCreateEnrolmentFormData(registrationId);
@@ -75,7 +88,40 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
     });
   };
 
-  const buttonProps = getEditButtonProps({
+  const goToAttendanceListPage = () => {
+    navigate({
+      pathname: `/${locale}${ROUTES.ATTENDANCE_LIST.replace(
+        ':registrationId',
+        getValue(registration.id, '')
+      )}`,
+      search: queryStringWithReturnPath,
+    });
+  };
+
+  const actionItems: MenuItemOptionProps[] = [
+    getEnrolmentEditButtonProps({
+      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
+      authenticated,
+      onClick: () => {
+        setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE);
+      },
+      organizationAncestors,
+      publisher,
+      t,
+      user,
+    }),
+    getRegistrationEditButtonProps({
+      action: REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST,
+      authenticated,
+      onClick: goToAttendanceListPage,
+      organizationAncestors,
+      registration,
+      t,
+      user,
+    }),
+  ];
+
+  const buttonProps = getEnrolmentEditButtonProps({
     action: ENROLMENT_ACTIONS.CREATE,
     authenticated,
     onClick: handleCreate,
@@ -87,13 +133,21 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   return (
     <PageWrapper
       backgroundColor="coatOfArms"
-      className={styles.enrolmentsPage}
+      className={styles.attendanceListPage}
       noFooter
       titleText={getValue(
         t('enrolmentsPage.pageTitle', { name: event?.name }),
         ''
       )}
     >
+      {openModal === ENROLMENT_MODALS.SEND_MESSAGE && (
+        <SendMessageModal
+          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE}
+          isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
+          onClose={closeModal}
+          onSendMessage={sendMessage}
+        />
+      )}
       <MainContent>
         <Container
           contentWrapperClassName={styles.pageContentContainer}
@@ -104,6 +158,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
             registration={registration}
           />
           <TitleRow
+            actionItems={actionItems}
             breadcrumb={
               <Breadcrumb
                 items={[
@@ -127,7 +182,6 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
             button={
               <Button
                 {...buttonProps}
-                className={styles.createButton}
                 fullWidth={true}
                 iconLeft={<IconPlus aria-hidden={true} />}
                 variant="primary"

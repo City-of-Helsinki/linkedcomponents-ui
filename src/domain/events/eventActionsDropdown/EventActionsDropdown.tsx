@@ -8,7 +8,12 @@ import { ROUTES } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
+import getLocalisedString from '../../../utils/getLocalisedString';
 import getValue from '../../../utils/getValue';
+import {
+  openMailtoLink,
+  parseEmailFromCreatedBy,
+} from '../../../utils/openMailtoLinkUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { EVENT_ACTIONS, EVENT_MODALS } from '../../event/constants';
@@ -64,6 +69,11 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
     navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
+  const sendEmail = () => {
+    const targetEmail = parseEmailFromCreatedBy(event.createdBy);
+    openMailtoLink(targetEmail, getLocalisedString(event.name, locale));
+  };
+
   const getActionItemProps = ({
     action,
     onClick,
@@ -90,6 +100,10 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
     getActionItemProps({
       action: EVENT_ACTIONS.COPY,
       onClick: copyEvent,
+    }),
+    getActionItemProps({
+      action: EVENT_ACTIONS.SEND_EMAIL,
+      onClick: sendEmail,
     }),
     getActionItemProps({
       action: EVENT_ACTIONS.POSTPONE,

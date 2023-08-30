@@ -1,0 +1,28 @@
+@import '../../assets/styles/breakpoints';
+
+.attendanceListPage {
+  h1 {
+    font-size: var(--fontsize-heading-l);
+    font-weight: 500;
+    margin: var(--spacing-l) 0 0;
+  }
+  h2,
+  h3 {
+    font-size: var(--fontsize-heading-s);
+    font-weight: normal;
+  }
+  p {
+    margin-top: 0;
+  }
+}
+
+.pageContentContainer {
+  background-color: var(--color-white);
+  margin: var(--spacing-m) calc(0px - var(--spacing-s));
+  padding: var(--spacing-s);
+
+  @include medium-up {
+    margin: var(--spacing-m) calc(0px - var(--spacing-m));
+    padding: var(--spacing-m);
+  }
+}

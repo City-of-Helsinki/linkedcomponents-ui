@@ -161,6 +161,15 @@ export const signIn = async ({
   t: TFunction;
   userManager: UserManager;
 }): Promise<void> => {
+  const MAINTENANCE_DISABLE_LOGIN =
+    process.env.REACT_APP_MAINTENANCE_DISABLE_LOGIN === 'true';
+
+  if (MAINTENANCE_DISABLE_LOGIN) {
+    toast.error(getValue(t('maintenance.toast'), ''));
+
+    return Promise.resolve();
+  }
+
   await userManager
     .signinRedirect({
       data: { path: path || '/' },

@@ -22,6 +22,7 @@ import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
+import { isRegistrationPossible } from '../../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { clearSeatsReservationData } from '../../reserveSeats/utils';
 import {
@@ -38,8 +39,9 @@ import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolm
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import EventInfo from '../eventInfo/EventInfo';
 import FormContainer from '../formContainer/FormContainer';
-import useEnrolmentUpdateActions from '../hooks/useEnrolmentActions';
+import useEnrolmentActions from '../hooks/useEnrolmentActions';
 import ConfirmCancelEnrolmentModal from '../modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
+import SendMessageModal from '../modals/sendMessageModal/SendMessageModal';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
 import RegistrationWarning from '../registrationWarning/RegistrationWarning';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
@@ -49,10 +51,10 @@ import {
 } from '../types';
 import {
   clearCreateEnrolmentFormData,
-  getFreeAttendeeCapacity,
   isRestoringFormDataDisabled,
 } from '../utils';
 import { getEnrolmentSchema, scrollToFirstError } from '../validation';
+import AvailableSeatsText from './availableSeatsText/AvailableSeatsText';
 import styles from './enrolmentForm.module.scss';
 
 type EnrolmentFormWrapperProps = {
@@ -100,11 +102,16 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
     timerCallbacksDisabled.current = true;
   }, []);
 
-  const { cancelEnrolment, createEnrolment, saving, updateEnrolment } =
-    useEnrolmentUpdateActions({
-      enrolment,
-      registration,
-    });
+  const {
+    cancelEnrolment,
+    createEnrolment,
+    saving,
+    sendMessage,
+    updateEnrolment,
+  } = useEnrolmentActions({
+    enrolment,
+    registration,
+  });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
@@ -204,8 +211,6 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
     }
   };
 
-  const freeCapacity = getFreeAttendeeCapacity(registration);
-
   return (
     <>
       {enrolment && (
@@ -216,6 +221,15 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
           onClose={closeModal}
           onConfirm={handleCancel}
           registration={registration}
+        />
+      )}
+      {enrolment && (
+        <SendMessageModal
+          enrolment={enrolment}
+          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT}
+          isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
+          onClose={closeModal}
+          onSendMessage={sendMessage}
         />
       )}
 
@@ -246,13 +260,13 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
               {!enrolment && (
                 <RegistrationWarning registration={registration} />
               )}
-              {!enrolment && (
+              {isRegistrationPossible(registration) && !enrolment && (
                 <>
                   <ReservationTimer
                     attendees={attendees}
                     callbacksDisabled={timerCallbacksDisabled.current}
                     disableCallbacks={disableTimerCallbacks}
-                    initReservationData={!enrolment}
+                    initReservationData={true}
                     registration={registration}
                     setAttendees={setAttendees}
                   />
@@ -260,12 +274,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
                 </>
               )}
               <h2>{t('enrolment.form.titleRegistration')}</h2>
-              {typeof freeCapacity === 'number' && (
-                <p>
-                  {t('enrolment.form.freeCapacity')}{' '}
-                  <strong>{freeCapacity}</strong>
-                </p>
-              )}
+              <AvailableSeatsText registration={registration} />
 
               <ParticipantAmountSelector
                 disabled={disabled || !!enrolment}
@@ -283,6 +292,9 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
               enrolment={enrolment}
               onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
               onSave={handleSubmit}
+              onSendMessage={() =>
+                setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT)
+              }
               registration={registration}
               saving={saving}
             />

@@ -5,8 +5,14 @@ import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
-import { AttendeeFields } from '../types';
-import { getAttendeeSchema, isAboveMinAge, isBelowMaxAge } from '../validation';
+import { NOTIFICATIONS } from '../constants';
+import { AttendeeFields, EnrolmentFormFields } from '../types';
+import {
+  getAttendeeSchema,
+  getEnrolmentSchema,
+  isAboveMinAge,
+  isBelowMaxAge,
+} from '../validation';
 
 afterEach(() => {
   clear();
@@ -56,6 +62,18 @@ const testAttendeeSchema = async (
 ) => {
   try {
     await getAttendeeSchema(registration).validate(attendee);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const testEnrolmentSchema = async (
+  registration: RegistrationFieldsFragment,
+  enrolment: EnrolmentFormFields
+) => {
+  try {
+    await getEnrolmentSchema(registration).validate(enrolment);
     return true;
   } catch (e) {
     return false;
@@ -120,8 +138,9 @@ describe('attendeeSchema function', () => {
     city: 'City',
     dateOfBirth: new Date('2000-01-01'),
     extraInfo: '',
+    firstName: 'first name',
     inWaitingList: true,
-    name: 'name',
+    lastName: 'last name',
     streetAddress: 'Street address',
     zipcode: '00100',
   };
@@ -130,13 +149,24 @@ describe('attendeeSchema function', () => {
     expect(await testAttendeeSchema(registration, validAttendee)).toBe(true);
   });
 
-  test('should return false if name is missing', async () => {
+  test('should return false if first name is missing', async () => {
     expect(
       await testAttendeeSchema(
         fakeRegistration({
-          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.NAME],
+          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.FIRST_NAME],
         }),
-        { ...validAttendee, name: '' }
+        { ...validAttendee, firstName: '' }
+      )
+    ).toBe(false);
+  });
+
+  test('should return false if last name is missing', async () => {
+    expect(
+      await testAttendeeSchema(
+        fakeRegistration({
+          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.LAST_NAME],
+        }),
+        { ...validAttendee, lastName: '' }
       )
     ).toBe(false);
   });
@@ -234,6 +264,124 @@ describe('attendeeSchema function', () => {
         ...validAttendee,
         zipcode: '123456',
       })
+    ).toBe(false);
+  });
+});
+
+describe('testEnrolmentSchema function', () => {
+  const registration = fakeRegistration();
+  const validEnrolment: EnrolmentFormFields = {
+    attendees: [],
+    email: 'user@email.com',
+    extraInfo: '',
+    membershipNumber: '',
+    nativeLanguage: 'fi',
+    notifications: [NOTIFICATIONS.EMAIL],
+    phoneNumber: '',
+    serviceLanguage: 'fi',
+  };
+
+  test('should return true if enrolment data is valid', async () => {
+    expect(await testEnrolmentSchema(registration, validEnrolment)).toBe(true);
+  });
+
+  test('should return false if email is missing', async () => {
+    expect(
+      await testEnrolmentSchema(registration, {
+        ...validEnrolment,
+        email: '',
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if email is invalid', async () => {
+    expect(
+      await testEnrolmentSchema(registration, {
+        ...validEnrolment,
+        email: 'user@email.',
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if phone number is missing', async () => {
+    expect(
+      await testEnrolmentSchema(registration, {
+        ...validEnrolment,
+        phoneNumber: '',
+        notifications: [NOTIFICATIONS.SMS],
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if phone number is invalid', async () => {
+    expect(
+      await testEnrolmentSchema(registration, {
+        ...validEnrolment,
+        phoneNumber: 'xxx',
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if notifications is empty array', async () => {
+    expect(
+      await testEnrolmentSchema(registration, {
+        ...validEnrolment,
+        notifications: [],
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if native language is empty', async () => {
+    expect(
+      await testEnrolmentSchema(registration, {
+        ...validEnrolment,
+        nativeLanguage: '',
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if service language is empty', async () => {
+    expect(
+      await testEnrolmentSchema(registration, {
+        ...validEnrolment,
+        serviceLanguage: '',
+      })
+    ).toBe(false);
+  });
+
+  test('should return false if membership number is set as mandatory field but value is empty', async () => {
+    expect(
+      await testEnrolmentSchema(
+        fakeRegistration({ mandatoryFields: ['membership_number'] }),
+        {
+          ...validEnrolment,
+          membershipNumber: '',
+        }
+      )
+    ).toBe(false);
+  });
+
+  test('should return false if extra info is set as mandatory field but value is empty', async () => {
+    expect(
+      await testEnrolmentSchema(
+        fakeRegistration({ mandatoryFields: ['extra_info'] }),
+        {
+          ...validEnrolment,
+          extraInfo: '',
+        }
+      )
+    ).toBe(false);
+  });
+
+  test('should return false if phone number is set as mandatory field but value is empty', async () => {
+    expect(
+      await testEnrolmentSchema(
+        fakeRegistration({ mandatoryFields: ['phone_number'] }),
+        {
+          ...validEnrolment,
+          phoneNumber: '',
+        }
+      )
     ).toBe(false);
   });
 });

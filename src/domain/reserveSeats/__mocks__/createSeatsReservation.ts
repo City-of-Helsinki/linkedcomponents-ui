@@ -10,7 +10,6 @@ const seats = 1;
 const createSeatsReservationPayload = {
   registration: TEST_REGISTRATION_ID,
   seats,
-  waitlist: true,
 };
 const createSeatsReservationVariables = {
   input: createSeatsReservationPayload,

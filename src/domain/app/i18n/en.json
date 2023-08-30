@@ -8,6 +8,16 @@
   },
   "appDescription": "Linked Events is a collection of software components and API endpoints that enables event management and distribution for different event providers in Finland.",
   "appName": "Linked Events",
+  "attendanceListPage": {
+    "count": "{{count}} attendee",
+    "count_other": "{{count}} attendees",
+    "errors": {
+      "presenceStatusUpdateFails": "Failed to update presence information"
+    },
+    "labelSearch": "Search attendees",
+    "pageTitle": "Mark attendees: {{name}}",
+    "title": "Mark attendees"
+  },
   "authentication": {
     "errorMessage": "An error has occurred. Please try again later.",
     "networkError": {
@@ -334,17 +344,20 @@
       "buttonDeleteAttendee": "Delete participant",
       "buttonSave": "Save participant",
       "buttonUpdateParticipantAmount": "Update",
-      "freeCapacity": "Available seats",
+      "freeAttendeeCapacity": "Available seats",
+      "freeWaitingListCapacity": "Available waiting list seats",
       "labelAttendeeExtraInfo": "Additional information (optional)",
       "labelCity": "City",
       "labelDateOfBirth": "Date of birth",
       "labelEmail": "Email address",
       "labelExtraInfo": "Additional registration information (optional)",
+      "labelFirstName": "First name",
+      "labelLastName": "Last name",
       "labelMembershipNumber": "Membership card number (optional)",
-      "labelName": "Name",
       "labelNativeLanguage": "Native language",
       "labelParticipantAmount": "Number of registrants",
       "labelPhoneNumber": "Telephone number",
+      "labelRegistration": "Registration",
       "labelServiceLanguage": "Language of communication",
       "labelStreetAddress": "Street address",
       "labelZipcode": "Postcode",
@@ -353,8 +366,9 @@
       "placeholderCity": "Enter city",
       "placeholderEmail": "Enter your email address",
       "placeholderExtraInfo": "Enter any additional information or request",
+      "placeholderFirstName": "Enter the registrant's first name",
+      "placeholderLastName": "Enter the registrant's last name",
       "placeholderMembershipNumber": "Enter membership card number",
-      "placeholderName": "Enter the registrant's first and last name",
       "placeholderNativeLanguage": "Select language",
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Select language",
@@ -386,9 +400,20 @@
       "text": "Unfortunately, the Reservation time has expired.",
       "title": "Time’s Up."
     },
+    "sendMessageModal": {
+      "buttonSendMessage": "Send message",
+      "labelBody": "Message",
+      "labelSubject": "Subject",
+      "placeholderBody": "Enter message",
+      "placeholderSubject": "Enter subject",
+      "title": "Send message to participants",
+      "titleSingle": "Send message to the participant"
+    },
     "warnings": {
+      "allSeatsReserved": "All seats in the event are currently booked. Please try again later.",
       "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
       "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
+      "capacityInWaitingListNoLimit": "Registration for this event is still possible, but there are only seats left in the queue.",
       "closed": "Registration for this event is currently closed. Please try again later."
     }
   },
@@ -396,7 +421,7 @@
     "actionButtons": {
       "cancel": "Cancel participation",
       "edit": "Edit information",
-      "sendMessage": "End message"
+      "sendMessage": "Send message"
     },
     "attendeeTableCaption": "Participants",
     "attendeeTableHeading": "Participants",
@@ -517,6 +542,7 @@
         "warningNotAuthenticated": "If you want to publish this event, you must first login."
       },
       "buttonPostpone": "Postpone event",
+      "buttonSendEmail": "Send email",
       "buttonPublish": {
         "course": "Publish course",
         "general": "Publish event",
@@ -531,6 +557,7 @@
       "buttonUpdateDraft": "Save draft",
       "buttonUpdatePublic": "Save changes",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
+      "eventDraftStateInfo": "The saved information will automatically be visible to the moderator as well. However, the information can be edited until the moderator publishes the event. The latter can be avoided by writing \"UNFINISHED\" at the beginning of the event title while editing is in progress.",
       "editButtonPanel": {
         "warningCancelledEvent": "Cancelled events can't be edited.",
         "warningCannotCancelDraft": "Event drafts can't be cancelled.",
@@ -538,7 +565,8 @@
         "warningCannotPublishSubEvent": "A sub event of a series cannot be published.",
         "warningDeletedEvent": "Deleted events can't be edited.",
         "warningEventInPast": "Past events can't be edited.",
-        "warningNoRightsToEdit": "You have insufficient rights to edit this event."
+        "warningNoRightsToEdit": "You have insufficient rights to edit this event.",
+        "warningNoEmailFound": "Could not find email address linked to this event"
       },
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextAttendeeCapacity": {
@@ -546,6 +574,7 @@
         "general": "If the number of participants in the event is limited, specify the minimum and maximum number of participants here.",
         "volunteering": "If the number of participants in the volunteering is limited, specify the minimum and maximum number of participants here."
       },
+      "infoTextAttendeeCapacityUserUnknown": "If the number of event participants is not limited in any way, write a rough estimate of the maximum number of participants. (This information will be used for statistical purposes).",
       "infoTextAudience": {
         "course": "If the course does not have a specific target group, you must leave the selection unchecked.",
         "general": "If the event does not have a specific target group, you must leave the selection unchecked.",
@@ -556,20 +585,34 @@
         "general": "If age restrictions apply to the event, set the age minimum and maximum age limit here.",
         "volunteering": "If age restrictions apply to the volunteering, set the age minimum and maximum age limit here."
       },
-      "infoTextDescription1": {
-        "course": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the course concisely.",
-        "general": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the event concisely.",
-        "volunteering": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the volunteering concisely."
-      },
-      "infoTextDescription2": {
-        "course": "The description is a longer and more detailed description of the content of the course.",
-        "general": "The description is a longer and more detailed description of the content of the event.",
-        "volunteering": "The description is a longer and more detailed description of the content of the volunteering."
-      },
-      "infoTextDescription3": {
-        "course": "Also record the course's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.",
-        "general": "Also record the event's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form.",
-        "volunteering": "Also record the volunteering's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form."
+      "infoTextDescription": {
+        "course": {
+          "paragraph1": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the course concisely.",
+          "paragraph2": "The description is a longer and more detailed description of the content of the course.",
+          "paragraph3": "Also record the course's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form."
+        },
+        "general": {
+          "paragraph1": "The description text includes language versions: Finnish and English, possibly also Swedish. <strong>Content specifically aimed at visitors must be at least in Finnish and English.</strong>",
+          "paragraph2": "A short description is shown in some services when there is no room for a long description. It explains the most important things about the event in a concise way.",
+          "paragraph3": "A description is a longer and more detailed explanation of the content of the event.",
+          "paragraph4": "The text must not contain misspellings, umlauts, superlatives and superlatives, or the 'we' form, because then it refers to the city of Helsinki, not to the event itself.",
+          "paragraph5": "In addition, the content of the event must comply with the City of Helsinki's guidelines, i.e. the City does not publish:",
+          "exclusions": [
+            "political events (demonstrations, radical events related to elections or wars, etc.)",
+            "religious events (church services, prayers, although concerts are included in the calendar)",
+            "online events not related to Helsinki or the Metropolitan area",
+            "events taking place in a private dwelling",
+            "not open to all, e.g. professional or investor events",
+            "dining without a programme; simply eating is not an event in itself",
+            "fund-raising events (except for charity events, where there is a programme)",
+            "job or student recruitment advertisements"
+          ]
+        },
+        "volunteering": {
+          "paragraph1": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the volunteering concisely.",
+          "paragraph2": "The description is a longer and more detailed description of the content of the volunteering.",
+          "paragraph3": "Also record the volunteering's <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"responsibility information {{openInNewTab}}\">responsibility information</a>. Filling out the form only takes about 2 minutes and it opens in a new window. You will not lose the information filled in this form."
+        }
       },
       "infoTextEnrolmentTime": {
         "course": "If it is possible to register for the course, specify the start and end times of the registration here.",
@@ -607,7 +650,7 @@
       "infoTextImage4": "Alt text improves accessibility because screen readers pass alt text to the user. So describe the content of the picture in an understandable way.",
       "infoTextInfoLanguages": {
         "course": "Select the languages to be used to input course information for this service.",
-        "general": "Select the languages to be used to input event information for this service.",
+        "general": "Select the languages you want to use to describe the event information in Linked Events. <strong>Content specifically aimed at visitors has to be at least in Finnish and English.</strong>",
         "volunteering": "Select the languages to be used to input volunteering information for this service."
       },
       "infoTextInLanguages": {
@@ -629,6 +672,7 @@
       "infoTextLocation3": "If the venue is found on the list, its location does not need to be described separately. However, you can provide additional information for finding the venue, such as the floor number or classroom name.",
       "infoTextLocation4": "If the exact venue is not found on the list, select the nearest street address as the venue, enter the name of the venue or other brief arrival instructions in the additional information field.",
       "infoTextLocation5": "If the location information has changed, update it in the location register. For services other than the city, add or update the information in the <a href=\"https://kaupunkialustana.hel.fi/en/\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"City Platform {{openInNewTab}}\">City Platform</a> service.",
+      "infoTextLocation6": "Select where the event will mainly take place from the Indoors/Outdoors options.",
       "infoTextMainCategories": {
         "course": "Select at least one main category. Using the correct main categories makes it easier to find the course.",
         "general": "Select at least one main category. Using the correct main categories makes it easier to find the event.",
@@ -649,7 +693,21 @@
         "general": "Enter the name of the organization hosting the event if the organizer is not the same as the publisher.",
         "volunteering": "Enter the name of the organization hosting the volunteering if the organizer is not the same as the publisher."
       },
-      "infoTextPublication": "The event type you selected will be published on the following channels:",
+      "infoTextPublication": {
+        "paragraph1": {
+          "general": "Published information must be interesting to residents and/or visitors and be located in the Metropolitan area.",
+          "course": "Published information must be interesting to residents and/or visitors and be located in the Metropolitan area.",
+          "volunteering": "Published information must be interesting to residents and/or visitors and be located in the Metropolitan area."
+        },
+        "paragraph2": "The type of event you choose can be published in the following channels:",
+        "paragraph3": "or via the interface on other services.",
+        "paragraph4": {
+          "general": "Please only enter event information that has not yet been published on any of the services mentioned above.",
+          "course": "Please only enter hobby information that has not yet been published on any of the services mentioned above.",
+          "volunteering": "Please only enter event information that has not yet been published on any of the services mentioned above."
+        },
+        "paragraph5": "The event to be moderated must be announced at least one week before the event."
+      },
       "infoTextPublisher": {
         "course": "Select the organization to be displayed as the course publisher. You do not need to make a selection if you only have rights to publish under one organization.",
         "general": "Select the organization to be displayed as the event publisher. You do not need to make a selection if you only have rights to publish under one organization.",
@@ -679,6 +737,10 @@
         "general": "Event description {{langText}}",
         "volunteering": "Volunteering description {{langText}}"
       },
+      "labelHasEnvironmentalCertificate": "Event has received an EcoCompass or similar environmental certification",
+      "labelEmail": "Email address",
+      "labelEnvironment": "Event is held",
+      "labelEnvironmentalCertificate": "Certificate name",
       "labelEndDate": {
         "course": "Course ends",
         "general": "Event ends",
@@ -736,10 +798,13 @@
       "labelOfferDescription": "{{langText}}",
       "labelOfferInfoUrl": "{{langText}}",
       "labelOfferPrice": "{{langText}}",
+      "labelOrganization": "Organization",
+      "labelPhoneNumber": "Telephone number",
       "labelProvider": {
         "course": "Course organizer {{langText}} (if different from publisher)",
         "general": "Event organizer {{langText}} (if different from publisher)",
-        "volunteering": "Volunteering organizer {{langText}} (if different from publisher)"
+        "volunteering": "Volunteering organizer {{langText}} (if different from publisher)",
+        "other": "Event organizer {{langText}}"
       },
       "labelPublisher": {
         "course": "Course publisher",
@@ -759,6 +824,8 @@
       "labelStartTime": "Start time",
       "labelTime": "Time",
       "labelUmbrellaEvent": "Umbrella event",
+      "labelUserConsent": "I have read the <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Enterprise%20Support%20and%20Advisory%20Services%20Tourist%20Information%20Services.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Data protection description {{openInNewTab}}\">Data protection description</a> and give my consent to the use of my data.",
+      "labelUserName": "Name",
       "labelVideoAltText": "Video alt text",
       "labelVideoName": "Name for video",
       "labelVideoUrl": "Video URL",
@@ -814,6 +881,10 @@
         "general": "Event video",
         "volunteering": "Volunteering video"
       },
+      "notificationNotAuthenticated": {
+        "paragraph1": "The City of Helsinki publishes information about events in the Helsinki Metropolitan Area free of charge, for example on the services <a href=\"https://tapahtumat.hel.fi\" target=\"_blank\" rel=\"noreferrer\">tapahtumat.hel.fi</a> and <a href=\"https://harrastukset.hel.fi\" target=\"_blank\" rel=\"noreferrer\">harrastukset.hel.fi</a>. Event information will also be visible on other digital platforms that use the city's Linked Events interface.",
+        "paragraph2": "You can continue to explore the service, but you will need to log in if you want to save changes."
+      },
       "placeholderAudienceMaxAge": {
         "course": "Enter the maximum age for the course",
         "general": "Enter the maximum age for the event",
@@ -829,6 +900,7 @@
         "general": "Enter a description of the event",
         "volunteering": "Enter a description of the volunteering"
       },
+      "placeholderEmail": "Enter your email address",
       "placeholderExternalLinkLink": {
         "course": "Enter the course's {{name}} URL",
         "general": "Enter the event's {{name}} URL",
@@ -860,6 +932,8 @@
         "general": "Enter the price of the event {{langText}}",
         "volunteering": "Enter the price of the volunteering {{langText}}"
       },
+      "placeholderOrganization": "Organization name",
+      "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderProvider": {
         "course": "Enter the name of the course organizer",
         "general": "Enter the name of the event organizer",
@@ -870,6 +944,7 @@
         "general": "Enter a short description of the event",
         "volunteering": "Enter a short description of the volunteering"
       },
+      "placeholderUserName": "Enter your first and last name or nickname",
       "placeholderVideoAltText": "Enter video alt text for screen readers",
       "placeholderVideoName": "Enter video name",
       "placeholderVideoUrl": "Enter video URL",
@@ -905,6 +980,7 @@
           "volunteering": "Volunteering channels"
         },
         "classification": "Classification",
+        "contact": "Contact",
         "description": "Description",
         "image": "Image",
         "languages": "Languages",
@@ -981,7 +1057,11 @@
         "general": "Event video",
         "volunteering": "Volunteering video"
       },
-      "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event."
+      "tooltipEventIsUmbrella": "A sub event cannot be an umbrella event.",
+      "placeOptions": {
+        "in": "Indoors",
+        "out": "Outdoors"
+      }
     },
     "freeEvent": "Free",
     "postponeEventModal": {
@@ -1259,7 +1339,7 @@
     "pageDescriptionInstructions": "Help and instructions how to use the service and the API.",
     "pageDescriptionSourceCode": "Get a deeper look for Linked Events source code in Github.",
     "pageDescriptionTechnology": "More information about the technology behind Linked Events.",
-    "pageDescriptionTermsOfUse": "Linked Events service terms and restrictions.",
+    "pageDescriptionTermsOfUse": "Linked Events service data protection and terms of use.",
     "pageTitle": "Support",
     "pageTitleApi": "API",
     "pageTitleControlPanel": "Control panel",
@@ -1270,7 +1350,7 @@
     "pageTitleInstructions": "Support",
     "pageTitleSourceCode": "Source code",
     "pageTitleTechnology": "Technology",
-    "pageTitleTermsOfUse": "Terms of use",
+    "pageTitleTermsOfUse": "Data protection and terms of use",
     "platformPage": {
       "imageAlt": "Linked Events use in tablet",
       "pageDescription": "Introduction to Linked Events platform and control panel.",
@@ -1548,6 +1628,13 @@
     "pageTitle": "Logout",
     "text": "You have been logged out of the service. Log back in or return to the home page."
   },
+  "maintenance": {
+    "header": {
+      "label": "Maintenance",
+      "text": "On Wednesday 30 August, the Linked Events service will be updated. No content creation or login will be possible on that day."
+    },
+    "toast": "On Wednesday 30.8. the Linked Events service will be updated, which means that login will not be possible."
+  },
   "navigation": {
     "languages": {
       "en": "In English",
@@ -1704,7 +1791,9 @@
       "title": "Confirm registration deletion"
     },
     "form": {
+      "buttonAddRegistrationUserAccess": "Add user",
       "buttonCreate": "Save",
+      "buttonDeleteRegistrationUserAccess": "Remove user",
       "buttonPanel": {
         "warningNotAuthenticated": "To create a registration, log in first."
       },
@@ -1715,32 +1804,45 @@
       },
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
-      "labelConfirmationMessage": "Confirmation message to send (optional)",
+      "labelConfirmationMessage": "Confirmation message {{langText}} (optional)",
       "labelEnrolmentEndTimeDate": "Registration ends",
       "labelEnrolmentEndTimeTime": "Registration ends at",
       "labelEnrolmentStartTimeDate": "Registration begins",
       "labelEnrolmentStartTimeTime": "Registration begins at",
       "labelEvent": "Event",
-      "labelInstructions": "Registration instructions (optional)",
+      "labelInstructions": "Registration instructions {{langText}} (optional)",
       "labelMaximumAttendeeCapacity": "Maximum number of seats",
+      "labelMaximumGroupSize": "Maximum group size",
       "labelMinimumAttendeeCapacity": "Minimum number of seats",
       "labelName": "Name",
+      "labelRegistrationUserAccessEmail": "User's email address",
+      "labelRegistrationUserAccessLanguage": "Language",
       "labelWaitingListCapacity": "Number of spare seats",
+      "messages": {
+        "failedToSendInvitation": "Failed to send invitation",
+        "succeededToSendInvitation": "An invitation to the participant list has been sent to {{email}}."
+      },
       "notificationTitleCannotEdit": "The registration cannot be edited",
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
       "placeholderEvent": "Select or search for an event",
       "placeholderInstructions": "Enter registration instructions",
+      "placeholderRegistrationUserAccessEmail": "Enter user's email address",
+      "placeholderRegistrationUserAccessLanguage": "Select language",
       "sections": {
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
-        "confirmationMessage": "Confirmation message details",
         "enrolmentTime": "Registration time",
         "event": "Event",
-        "instructions": "Additional registration information",
+        "groupSize": "Group size",
+        "instructions": "Instructions and confirmation message",
+        "languages": "Languages",
         "mandatoryFields": "Required fields",
+        "registrationUserAccesses": "Participant list read permissions",
         "waitingList": "Waiting list"
       },
+      "sendInvitation": "Resend invitation",
       "titleContactInfo": "Contact information",
+      "titleInfoLanguages": "Input languages",
       "titleParticipantBasicInfo": "Basic information of the participant"
     },
     "registrationLinkCopied": "Registration link copied"
@@ -1751,6 +1853,7 @@
       "copyLink": "Copy link",
       "delete": "Delete registration",
       "edit": "Edit",
+      "editAttendanceList": "Mark attendees",
       "showEnrolments": "Show participants",
       "update": "Save changes"
     },
@@ -1790,6 +1893,7 @@
     "emailMustBeUnique": "Email already has registration.",
     "endTimeInPast": "End time cannot be in the past. Please set a future end time.",
     "invalidUrl": "Enter a valid URL.",
+    "maxGroupSize": "The maximum group size is {{maxGroupSize}}.",
     "maxLength255": "The value can be up to 255 characters long.",
     "methodDeleteNotAllowed": "\"DELETE\" method is not allowed.",
     "methodPostNotAllowed": "\"POST\" method is not allowed.",
@@ -1797,7 +1901,8 @@
     "min0": "This number must be at least 0.",
     "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",
-    "notEnoughSeats": "Not enough seats available.",
+    "notEnoughSeats": "Not enough seats available. Capacity left: {{seatsLeft}}.",
+    "notEnoughWaitingListSeats": "Not enough capacity in the waiting list. Capacity left: {{seatsLeft}}.",
     "notFoundAllObjects": "Could not find all objects to update.",
     "notNull": "The value of this field cannot be \"null\".",
     "offersIsRequired": "Price info must be specified before an event is published.",

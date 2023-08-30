@@ -19,6 +19,7 @@ import {
   DataSource,
   DataSourcesResponse,
   Enrolment,
+  EnrolmentsResponse,
   Event,
   EventsResponse,
   Image,
@@ -258,13 +259,6 @@ const linkedEventsLink = new RestLink({
 
       if (config.method === 'GET') {
         return fetch(addNocacheToUrl(request), config);
-      } else if (config.method === 'DELETE' && requestParts[0] === 'signup') {
-        // Apollo cleans body from delete request so parse cancellation code
-        // from the request to make this to work with LE API
-        return fetch(request.replace(requestParts[1], ''), {
-          ...config,
-          body: JSON.stringify({ cancellation_code: requestParts[1] }),
-        });
       } else if (config.method === 'PUT' && requestParts[0] === 'image') {
         // TODO: Remove LOCALIZED_IMAGE feature flag when localized image alt text
         // is deployed to production of API
@@ -308,6 +302,14 @@ const linkedEventsLink = new RestLink({
     },
     Enrolment: (enrolment: Enrolment): Enrolment | null =>
       addTypenameEnrolment(enrolment),
+    EnrolmentsResponse: (data: EnrolmentsResponse): EnrolmentsResponse => {
+      return {
+        meta: addTypenameMeta(data.meta),
+        data: data.data.map(
+          (enrolment) => addTypenameEnrolment(enrolment) as Enrolment
+        ),
+      };
+    },
     Event: (event: Event): Event | null => addTypenameEvent(event),
     EventsResponse: (data: EventsResponse): EventsResponse => {
       data.meta = addTypenameMeta(data.meta);
@@ -402,6 +404,9 @@ const linkedEventsLink = new RestLink({
 });
 
 const QUERIES_TO_SHOW_ERROR = ['User'];
+const MUTATIONS_NOT_TO_SHOW_SERVER_ERROR = [
+  'SendRegistrationUserAccessInvitation',
+];
 const MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR = [
   'CreateEvent',
   'CreateEvents',
@@ -436,7 +441,6 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         definition.operation === 'mutation'
     )
   );
-
   if (graphQLErrors) {
     graphQLErrors.forEach(({ message, locations, path }) => {
       const errorMessage = `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`;
@@ -477,7 +481,11 @@ const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
         toast.error(getValue(i18n.t('errors.deleted'), ''));
         break;
       default:
-        toast.error(getValue(i18n.t('errors.serverError'), ''));
+        if (
+          !MUTATIONS_NOT_TO_SHOW_SERVER_ERROR.includes(operation.operationName)
+        ) {
+          toast.error(getValue(i18n.t('errors.serverError'), ''));
+        }
     }
   }
 });

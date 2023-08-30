@@ -10,7 +10,10 @@ import {
   fakeSeatsReservation,
 } from '../../../utils/mockDataUtils';
 import { enrolment } from '../../enrolment/__mocks__/enrolment';
-import { registration } from '../../registration/__mocks__/registration';
+import {
+  registration,
+  registrationId,
+} from '../../registration/__mocks__/registration';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
 import { setSeatsReservationData } from '../../reserveSeats/utils';
@@ -25,14 +28,12 @@ import {
 } from '../constants';
 import {
   enrolmentPathBuilder,
-  getAttendeeCapacityError,
   getAttendeeDefaultInitialValues,
   getEditEnrolmentWarning,
   getEnrolmentInitialValues,
   getEnrolmentNotificationsCode,
   getEnrolmentNotificationTypes,
   getEnrolmentPayload,
-  getFreeAttendeeCapacity,
   getUpdateEnrolmentPayload,
   isEnrolmentFieldRequired,
   isRestoringFormDataDisabled,
@@ -65,8 +66,9 @@ describe('getAttendeeDefaultInitialValues function', () => {
       city: '',
       dateOfBirth: null,
       extraInfo: '',
+      firstName: '',
       inWaitingList: false,
-      name: '',
+      lastName: '',
       streetAddress: '',
       zipcode: '',
     });
@@ -90,8 +92,9 @@ describe('getEnrolmentInitialValues function', () => {
         dateOfBirth: null,
         email: null,
         extraInfo: null,
+        firstName: null,
+        lastName: null,
         membershipNumber: null,
-        name: null,
         nativeLanguage: null,
         notifications: null,
         phoneNumber: null,
@@ -107,8 +110,9 @@ describe('getEnrolmentInitialValues function', () => {
         city: '',
         dateOfBirth: null,
         extraInfo: '',
+        firstName: '',
         inWaitingList: false,
-        name: '',
+        lastName: '',
         streetAddress: '',
         zipcode: '',
       },
@@ -117,7 +121,7 @@ describe('getEnrolmentInitialValues function', () => {
     expect(extraInfo).toBe('');
     expect(membershipNumber).toBe('');
     expect(nativeLanguage).toBe('');
-    expect(notifications).toEqual([]);
+    expect(notifications).toEqual([NOTIFICATIONS.EMAIL]);
     expect(phoneNumber).toBe('');
     expect(serviceLanguage).toBe('');
   });
@@ -127,10 +131,11 @@ describe('getEnrolmentInitialValues function', () => {
     const expectedDateOfBirth = new Date('2021-10-10');
     const expectedEmail = 'user@email.com';
     const expectedExtraInfo = 'Extra info';
+    const expectedFirstName = 'First name';
+    const expectedLastName = 'Last name';
     const expectedMembershipNumber = 'XXX-XXX-XXX';
-    const expectedName = 'Name';
     const expectedNativeLanguage = 'fi';
-    const expectedNotifications = [NOTIFICATIONS.EMAIL, NOTIFICATIONS.SMS];
+    const expectedNotifications = [NOTIFICATIONS.EMAIL];
     const expectedPhoneNumber = '+358 44 123 4567';
     const expectedServiceLanguage = 'sv';
     const expectedStreetAddress = 'Test address';
@@ -151,10 +156,11 @@ describe('getEnrolmentInitialValues function', () => {
         dateOfBirth: '2021-10-10',
         email: expectedEmail,
         extraInfo: expectedExtraInfo,
+        firstName: expectedFirstName,
+        lastName: expectedLastName,
         membershipNumber: expectedMembershipNumber,
-        name: expectedName,
         nativeLanguage: expectedNativeLanguage,
-        notifications: NOTIFICATION_TYPE.SMS_EMAIL,
+        notifications: NOTIFICATION_TYPE.EMAIL,
         phoneNumber: expectedPhoneNumber,
         serviceLanguage: expectedServiceLanguage,
         streetAddress: expectedStreetAddress,
@@ -168,8 +174,9 @@ describe('getEnrolmentInitialValues function', () => {
         city: expectedCity,
         dateOfBirth: expectedDateOfBirth,
         extraInfo: '',
+        firstName: expectedFirstName,
+        lastName: expectedLastName,
         inWaitingList: false,
-        name: expectedName,
         streetAddress: expectedStreetAddress,
         zipcode: expectedZip,
       },
@@ -228,9 +235,11 @@ describe('getEnrolmentPayload function', () => {
           ...ENROLMENT_INITIAL_VALUES,
           attendees: [ATTENDEE_INITIAL_VALUES],
         },
+        registration,
         reservationCode: TEST_SEATS_RESERVATION_CODE,
       })
     ).toEqual({
+      registration: registrationId,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
       signups: [
         {
@@ -238,10 +247,11 @@ describe('getEnrolmentPayload function', () => {
           dateOfBirth: null,
           email: null,
           extraInfo: '',
+          firstName: '',
+          lastName: '',
           membershipNumber: '',
-          name: '',
           nativeLanguage: null,
-          notifications: 'none',
+          notifications: NOTIFICATION_TYPE.EMAIL,
           phoneNumber: null,
           serviceLanguage: null,
           streetAddress: null,
@@ -254,8 +264,9 @@ describe('getEnrolmentPayload function', () => {
       dateOfBirth = new Date('1999-10-10'),
       email = 'Email',
       extraInfo = 'Extra info',
+      firstName = 'First name',
+      lastName = 'Last name',
       membershipNumber = 'XXX-123',
-      name = 'Name',
       nativeLanguage = 'fi',
       notifications = [NOTIFICATIONS.EMAIL],
       phoneNumber = '0441234567',
@@ -270,8 +281,9 @@ describe('getEnrolmentPayload function', () => {
             city,
             dateOfBirth,
             extraInfo: '',
+            firstName,
+            lastName,
             inWaitingList: false,
-            name,
             streetAddress,
             zipcode,
           },
@@ -284,10 +296,12 @@ describe('getEnrolmentPayload function', () => {
         phoneNumber,
         serviceLanguage,
       },
+      registration,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
     });
 
     expect(payload).toEqual({
+      registration: registrationId,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
       signups: [
         {
@@ -295,8 +309,9 @@ describe('getEnrolmentPayload function', () => {
           dateOfBirth: '1999-10-10',
           email,
           extraInfo,
+          firstName,
+          lastName,
           membershipNumber,
-          name,
           nativeLanguage,
           notifications: NOTIFICATION_TYPE.EMAIL,
           phoneNumber,
@@ -322,11 +337,12 @@ describe('getUpdateEnrolmentPayload function', () => {
       dateOfBirth: null,
       email: null,
       extraInfo: '',
+      firstName: '',
       id: TEST_ENROLMENT_ID,
+      lastName: '',
       membershipNumber: '',
-      name: '',
       nativeLanguage: null,
-      notifications: NOTIFICATION_TYPE.NO_NOTIFICATION,
+      notifications: NOTIFICATION_TYPE.EMAIL,
       phoneNumber: null,
       registration: registration.id,
       serviceLanguage: null,
@@ -338,8 +354,9 @@ describe('getUpdateEnrolmentPayload function', () => {
       dateOfBirth = new Date('1999-10-10'),
       email = 'Email',
       extraInfo = 'Extra info',
+      firstName = 'First name',
+      lastName = 'Last name',
       membershipNumber = 'XXX-123',
-      name = 'Name',
       nativeLanguage = 'fi',
       notifications = [NOTIFICATIONS.EMAIL],
       phoneNumber = '0441234567',
@@ -351,8 +368,9 @@ describe('getUpdateEnrolmentPayload function', () => {
         city,
         dateOfBirth,
         extraInfo: '',
+        firstName,
         inWaitingList: false,
-        name,
+        lastName,
         streetAddress,
         zipcode,
       },
@@ -378,9 +396,10 @@ describe('getUpdateEnrolmentPayload function', () => {
       dateOfBirth: '1999-10-10',
       email,
       extraInfo,
+      firstName,
       id: TEST_ENROLMENT_ID,
+      lastName,
       membershipNumber,
-      name,
       nativeLanguage,
       notifications: NOTIFICATION_TYPE.EMAIL,
       phoneNumber,
@@ -394,7 +413,7 @@ describe('getUpdateEnrolmentPayload function', () => {
 
 describe('enrolmentPathBuilder function', () => {
   const cases: [EnrolmentQueryVariables, string][] = [
-    [{ id: 'hel:123' }, '/signup_edit/hel:123/'],
+    [{ id: 'hel:123' }, `/signup/hel:123/`],
   ];
 
   it.each(cases)('should build correct path', (variables, expectedPath) =>
@@ -452,59 +471,6 @@ describe('getEditEnrolmentWarning function', () => {
     actions.forEach(([action, error]) =>
       expect(getEditEnrolmentWarning({ ...commonProps, action })).toBe(error)
     );
-  });
-});
-
-describe('getAttendeeCapacityError', () => {
-  it('should return undefined if maximum_attendee_capacity is not defined', () => {
-    expect(
-      getAttendeeCapacityError(
-        fakeRegistration({ maximumAttendeeCapacity: null }),
-        4,
-        i18n.t.bind(i18n)
-      )
-    ).toBeUndefined();
-  });
-
-  it('should return correct error if participantAmount is less than 1', () => {
-    expect(
-      getAttendeeCapacityError(
-        fakeRegistration({ maximumAttendeeCapacity: null }),
-        0,
-        i18n.t.bind(i18n)
-      )
-    ).toBe('Osallistujien vähimmäismäärä on 1.');
-  });
-
-  it('should return correct error if participantAmount is greater than maximum_attendee_capacity', () => {
-    expect(
-      getAttendeeCapacityError(
-        fakeRegistration({ maximumAttendeeCapacity: 3 }),
-        4,
-        i18n.t.bind(i18n)
-      )
-    ).toBe('Osallistujien enimmäismäärä on 3.');
-  });
-});
-
-describe('getFreeAttendeeCapacity', () => {
-  it('should return undefined if maximum_attendee_capacity is not defined', () => {
-    expect(
-      getFreeAttendeeCapacity(
-        fakeRegistration({ maximumAttendeeCapacity: null })
-      )
-    ).toBeUndefined();
-  });
-
-  it('should return correct amount if maximum_attendee_capacity is defined', () => {
-    expect(
-      getFreeAttendeeCapacity(
-        fakeRegistration({
-          currentAttendeeCount: 4,
-          maximumAttendeeCapacity: 40,
-        })
-      )
-    ).toBe(36);
   });
 });
 

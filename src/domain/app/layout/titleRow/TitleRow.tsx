@@ -1,9 +1,13 @@
 import classNames from 'classnames';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
+import MenuDropdown from '../../../../common/components/menuDropdown/MenuDropdown';
+import { MenuItemOptionProps } from '../../../../common/components/menuDropdown/types';
 import styles from './titleRow.module.scss';
 
 type TitleRowProps = {
+  actionItems?: MenuItemOptionProps[];
   breadcrumb?: React.ReactElement;
   button?: React.ReactElement;
   buttonWrapperClassName?: string;
@@ -12,12 +16,14 @@ type TitleRowProps = {
 };
 
 const TitleRow = ({
+  actionItems,
   breadcrumb,
   button,
   buttonWrapperClassName,
   editingInfo,
   title,
 }: TitleRowProps): React.ReactElement => {
+  const { t } = useTranslation();
   return (
     <div className={styles.titleRowWrapper}>
       {breadcrumb && <div className={styles.breadcrumb}>{breadcrumb}</div>}
@@ -25,6 +31,20 @@ const TitleRow = ({
         <div className={styles.title}>
           <h1>{title}</h1>
           {editingInfo}
+        </div>
+        <div
+          className={classNames(styles.buttonWrapper, buttonWrapperClassName)}
+        >
+          <div className={styles.actionsDropdown}>
+            {!!actionItems?.length && (
+              <MenuDropdown
+                buttonLabel={t('common.buttonActions')}
+                closeOnItemClick={true}
+                items={actionItems}
+                menuPosition="bottom"
+              />
+            )}
+          </div>
         </div>
         {button && (
           <div

@@ -3,6 +3,7 @@ import { IconCogwheel, IconCrossCircle, IconPen } from 'hds-react';
 import { OrganizationFormFields } from './types';
 
 export const TEST_PUBLISHER_ID = 'publisher:1';
+export const EXTERNAL_PUBLISHER_ID = 'others';
 
 export const MAX_OGRANIZATIONS_PAGE_SIZE = 1000;
 

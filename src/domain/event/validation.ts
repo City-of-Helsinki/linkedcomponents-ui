@@ -3,6 +3,7 @@ import isFuture from 'date-fns/isFuture';
 import * as Yup from 'yup';
 
 import { CHARACTER_LIMITS } from '../../constants';
+import { PublicationStatus } from '../../generated/graphql';
 import { Maybe } from '../../types';
 import getValue from '../../utils/getValue';
 import skipFalsyType from '../../utils/skipFalsyType';
@@ -16,6 +17,7 @@ import {
   isAfterStartDateAndTime,
   isAfterTime,
   isFutureDateAndTime,
+  isValidPhoneNumber,
   isValidTime,
   isValidUrl,
   transformNumber,
@@ -305,6 +307,11 @@ const CYCLIC_DEPENDENCIES: [string, string][] = [
   [EVENT_FIELDS.ENROLMENT_END_TIME_DATE, EVENT_FIELDS.ENROLMENT_END_TIME_TIME],
 ];
 
+const EXTERNAL_USER_CYCLIC_DEPENDENCIES: [string, string][] = [
+  ...CYCLIC_DEPENDENCIES,
+  [EVENT_FIELDS.USER_EMAIL, EVENT_FIELDS.USER_PHONE_NUMBER],
+];
+
 export const publicEventSchema = Yup.object().shape(
   {
     [EVENT_FIELDS.TYPE]: Yup.string().required(
@@ -425,6 +432,86 @@ export const draftEventSchema = Yup.object().shape(
   },
   CYCLIC_DEPENDENCIES
 );
+
+export const getExternalUserEventSchema = (
+  publicationStatus?: PublicationStatus
+) => {
+  const baseSchema =
+    publicationStatus && publicationStatus === PublicationStatus.Draft
+      ? draftEventSchema
+      : publicEventSchema;
+
+  return Yup.object().shape(
+    {
+      [EVENT_FIELDS.PROVIDER]: createMultiLanguageValidationByInfoLanguages(
+        Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      ),
+      ...baseSchema.fields,
+      [EVENT_FIELDS.PUBLISHER]: Yup.string().nullable().optional(),
+      [EVENT_FIELDS.SHORT_DESCRIPTION]:
+        createMultiLanguageValidationByInfoLanguages(
+          Yup.string()
+            .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+            .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
+        ),
+      [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: Yup.string().when(
+        [EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE],
+        {
+          is: (hasCertificate: boolean) => hasCertificate,
+          then: (schema) =>
+            schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+        }
+      ),
+      [EVENT_FIELDS.ENVIRONMENT]: Yup.string().required(
+        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+      ),
+      [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
+        [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
+        ([minimumAttendeeCapacity], schema) => {
+          if (Boolean(minimumAttendeeCapacity)) {
+            return Yup.number()
+              .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+              .min(minimumAttendeeCapacity || 1, createNumberMinErrorMessage)
+              .nullable()
+              .transform(transformNumber);
+          }
+
+          return schema
+            .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+            .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+            .min(1, createNumberMinErrorMessage)
+            .nullable();
+        }
+      ),
+      [EVENT_FIELDS.USER_NAME]: Yup.string().required(
+        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+      ),
+      [EVENT_FIELDS.USER_EMAIL]: Yup.string()
+        .when([EVENT_FIELDS.USER_PHONE_NUMBER], {
+          is: (phoneNumber: string) => !phoneNumber || phoneNumber.length === 0,
+          then: (schema) =>
+            schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+        })
+        .email(VALIDATION_MESSAGE_KEYS.EMAIL),
+      [EVENT_FIELDS.USER_PHONE_NUMBER]: Yup.string()
+        .when([EVENT_FIELDS.USER_EMAIL], {
+          is: (email: string) => !email || email.length === 0,
+          then: (schema) =>
+            schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+        })
+        .test(
+          'is-valid-phone-number',
+          VALIDATION_MESSAGE_KEYS.PHONE,
+          (value) => !value || isValidPhoneNumber(value)
+        ),
+      [EVENT_FIELDS.USER_CONSENT]: Yup.bool().oneOf(
+        [true],
+        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+      ),
+    },
+    EXTERNAL_USER_CYCLIC_DEPENDENCIES
+  );
+};
 
 export const eventTimeSchema = Yup.object().shape({
   [EVENT_TIME_FIELDS.START_DATE]: Yup.date()

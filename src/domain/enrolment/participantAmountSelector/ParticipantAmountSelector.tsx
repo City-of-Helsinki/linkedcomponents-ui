@@ -1,11 +1,12 @@
 import { useField } from 'formik';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '../../../common/components/button/Button';
 import NumberInput from '../../../common/components/numberInput/NumberInput';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
+import { getMaxSeatsAmount } from '../../registration/utils';
 import { getSeatsReservationData } from '../../reserveSeats/utils';
 import { ENROLMENT_FIELDS, ENROLMENT_MODALS } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
@@ -13,7 +14,6 @@ import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext
 import useSeatsReservationActions from '../hooks/useSeatsReservationActions';
 import ConfirmDeleteParticipantModal from '../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { AttendeeFields } from '../types';
-import { getAttendeeCapacityError, getTotalAttendeeCapacity } from '../utils';
 import styles from './participantAmountSelector.module.scss';
 
 interface Props {
@@ -55,19 +55,12 @@ const ParticipantAmountSelector: React.FC<Props> = ({
           1
         )
   );
-  const freeCapacity = getTotalAttendeeCapacity(registration);
 
   const handleParticipantAmountChange: React.ChangeEventHandler<
     HTMLInputElement
   > = (event) => {
     setParticipantAmount(Number(event.target.value));
   };
-
-  const attendeeCapacityError = getAttendeeCapacityError(
-    registration,
-    participantAmount,
-    t
-  );
 
   const updateParticipantAmount = () => {
     /* istanbul ignore else */
@@ -93,6 +86,11 @@ const ParticipantAmountSelector: React.FC<Props> = ({
     }
   };
 
+  const maxSeatAmount = useMemo(
+    () => getMaxSeatsAmount(registration),
+    [registration]
+  );
+
   return (
     <>
       <ConfirmDeleteParticipantModal
@@ -106,11 +104,9 @@ const ParticipantAmountSelector: React.FC<Props> = ({
         <NumberInput
           id="participant-amount-field"
           disabled={disabled}
-          errorText={attendeeCapacityError}
-          invalid={!!attendeeCapacityError}
           label={t(`enrolment.form.labelParticipantAmount`)}
           min={1}
-          max={freeCapacity}
+          max={maxSeatAmount}
           onChange={handleParticipantAmountChange}
           required
           step={1}
@@ -118,7 +114,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
         />
         <div className={styles.buttonWrapper}>
           <Button
-            disabled={disabled || !!attendeeCapacityError}
+            disabled={disabled}
             onClick={handleUpdateClick}
             type="button"
             variant="secondary"

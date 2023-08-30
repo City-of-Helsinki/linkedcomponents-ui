@@ -12,6 +12,7 @@ import { useTheme } from '../theme/Theme';
 import styles from './footer.module.scss';
 
 const NO_FOOTER_PATHS: PathPattern[] = [
+  { path: ROUTES.ATTENDANCE_LIST },
   { path: ROUTES.EDIT_EVENT },
   { path: ROUTES.EDIT_REGISTRATION },
   { path: ROUTES.EDIT_REGISTRATION_ENROLMENT },

@@ -6,6 +6,7 @@ import {
 } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import { keywordSetPathBuilder } from '../../keywordSet/utils';
+import { languagesPathBuilder } from '../../language/utils';
 import { EVENT_TYPE } from '../constants';
 
 type EventFieldOptionsDataState = {
@@ -18,7 +19,9 @@ type EventFieldOptionsDataState = {
 const useEventFieldOptionsData = (
   eventType?: EVENT_TYPE
 ): EventFieldOptionsDataState => {
-  const { loading: loadingLanguages } = useLanguagesQuery();
+  const { loading: loadingLanguages } = useLanguagesQuery({
+    variables: { createPath: getPathBuilder(languagesPathBuilder) },
+  });
 
   const { data: topicsData, loading: loadingKeywords } = useKeywordSetQuery({
     variables: {

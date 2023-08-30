@@ -1,11 +1,17 @@
-import { ATTENDEE_FIELDS, ENROLMENT_FIELDS } from './constants';
+import {
+  ATTENDEE_FIELDS,
+  ENROLMENT_FIELDS,
+  SEND_MESSAGE_FIELDS,
+  SEND_MESSAGE_FORM_NAME,
+} from './constants';
 
 export type AttendeeFields = {
   [ATTENDEE_FIELDS.CITY]: string;
   [ATTENDEE_FIELDS.DATE_OF_BIRTH]: Date | null;
   [ATTENDEE_FIELDS.EXTRA_INFO]: string;
+  [ATTENDEE_FIELDS.FIRST_NAME]: string;
   [ATTENDEE_FIELDS.IN_WAITING_LIST]: boolean;
-  [ATTENDEE_FIELDS.NAME]: string;
+  [ATTENDEE_FIELDS.LAST_NAME]: string;
   [ATTENDEE_FIELDS.STREET_ADDRESS]: string;
   [ATTENDEE_FIELDS.ZIPCODE]: string;
 };
@@ -26,4 +32,11 @@ export type EnrolmentReservation = {
   participants: number;
   started: number;
   session: string;
+};
+
+export type SendMessageFormFields = {
+  [SEND_MESSAGE_FORM_NAME]: {
+    [SEND_MESSAGE_FIELDS.BODY]: string;
+    [SEND_MESSAGE_FIELDS.SUBJECT]: string;
+  };
 };

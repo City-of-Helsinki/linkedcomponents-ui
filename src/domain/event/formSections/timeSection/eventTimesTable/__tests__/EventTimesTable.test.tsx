@@ -111,9 +111,7 @@ test('should call setEventTimes when updating an event time', async () => {
   const withinDialog = within(
     screen.getByRole('dialog', { name: 'Muokkaa ajankohtaa' })
   );
-  const startDateInput = withinDialog.getByRole('textbox', {
-    name: 'Tapahtuma alkaa *',
-  });
+  const startDateInput = withinDialog.getByLabelText(/Tapahtuma alkaa/i);
   await user.clear(startDateInput);
   await user.type(startDateInput, '2.5.2021');
 

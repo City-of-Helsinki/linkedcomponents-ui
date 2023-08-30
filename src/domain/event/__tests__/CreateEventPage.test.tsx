@@ -45,7 +45,10 @@ import {
   mockedPlacesResponse,
   placeAtId,
 } from '../../place/__mocks__/place';
-import { mockedUserResponse } from '../../user/__mocks__/user';
+import {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../user/__mocks__/user';
 import {
   eventValues,
   keywordAtId,
@@ -56,7 +59,7 @@ import {
   mockedInvalidCreateDraftEventResponse,
   mockedUmbrellaEventsResponse,
 } from '../__mocks__/createEventPage';
-import { EVENT_FIELDS, EVENT_INITIAL_VALUES } from '../constants';
+import { EVENT_EXTERNAL_USER_INITIAL_VALUES, EVENT_FIELDS } from '../constants';
 import CreateEventPage from '../CreateEventPage';
 import { EventFormFields } from '../types';
 
@@ -83,7 +86,10 @@ const defaultMocks = [
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
-  render(<CreateEventPage />, { authContextValue, mocks });
+  render(<CreateEventPage />, {
+    authContextValue,
+    mocks,
+  });
 
 beforeEach(() => {
   // values stored in tests will also be available in other tests unless you run
@@ -104,7 +110,7 @@ const setFormValues = (values: Partial<EventFormFields>) => {
     submitCount: 0,
     touched: {},
     values: {
-      ...EVENT_INITIAL_VALUES,
+      ...EVENT_EXTERNAL_USER_INITIAL_VALUES,
       [EVENT_FIELDS.PUBLISHER]: organizationId,
       [EVENT_FIELDS.MAIN_CATEGORIES]: topicAtIds,
       ...values,
@@ -142,7 +148,9 @@ const getElement = (
   }
 };
 
-const findElement = (key: 'description' | 'name' | 'nameSv' | 'superEvent') => {
+const findElement = (
+  key: 'description' | 'name' | 'nameSv' | 'saveDraft' | 'superEvent'
+) => {
   switch (key) {
     case 'description':
       return screen.findByLabelText(/editorin muokkausalue: main/i);
@@ -150,6 +158,10 @@ const findElement = (key: 'description' | 'name' | 'nameSv' | 'superEvent') => {
       return screen.findByLabelText(/tapahtuman otsikko suomeksi/i);
     case 'nameSv':
       return screen.findByLabelText(/tapahtuman otsikko ruotsiksi/i);
+    case 'saveDraft':
+      return screen.findByRole('button', {
+        name: 'Tallenna luonnos',
+      });
     case 'superEvent':
       return screen.findByRole(
         'combobox',
@@ -174,6 +186,41 @@ test('should focus to first validation error when trying to save draft event', a
   await user.click(saveDraftButton);
 
   await waitFor(() => expect(nameTextbox).toHaveFocus());
+});
+
+test('should focus to first validation error when trying to save draft event as external user', async () => {
+  const user = userEvent.setup();
+
+  const mocks = [
+    mockedImagesResponse,
+    mockedImageResponse,
+    mockedUmbrellaEventsResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedTopicsKeywordSetResponse,
+    mockedKeywordSelectorKeywordsResponse,
+    mockedLanguagesResponse,
+    mockedPlaceResponse,
+    mockedPlacesResponse,
+    // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
+    mockedFilteredPlacesResponse,
+    mockedFilteredPlacesResponse,
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedUserWithoutOrganizationsResponse,
+  ];
+
+  renderComponent(mocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const saveDraftButton = await findElement('saveDraft');
+  const providerField = await screen.findByLabelText(
+    /tapahtuman järjestäjä suomeksi/i
+  );
+
+  await user.click(saveDraftButton);
+
+  await waitFor(() => expect(providerField).toHaveFocus());
 });
 
 test('should focus to validation error of swedish name when trying to save draft event', async () => {
@@ -415,5 +462,68 @@ test('should route to event completed page after publishing event', async () => 
         `/fi/events/completed/${eventValues.id}`
       ),
     { timeout: 20000 }
+  );
+});
+
+test('should render fields for external user', async () => {
+  const mocks = [
+    mockedImagesResponse,
+    mockedImageResponse,
+    mockedUmbrellaEventsResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedTopicsKeywordSetResponse,
+    mockedKeywordSelectorKeywordsResponse,
+    mockedLanguagesResponse,
+    mockedPlaceResponse,
+    mockedPlacesResponse,
+    // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
+    mockedFilteredPlacesResponse,
+    mockedFilteredPlacesResponse,
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedUserWithoutOrganizationsResponse,
+  ];
+
+  renderComponent(mocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const externalUserFieldLabels = [
+    /tapahtumalla on ekokompassi tai muu vastaava sertifikaatti/i,
+    /sertifikaatin nimi/i,
+    /sisällä/i,
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /organisaatio/i,
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
+  ];
+
+  externalUserFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeInTheDocument()
+  );
+
+  const disabledFieldLabels = [
+    /tapahtuma/i,
+    /sertifikaatin nimi/i,
+    /tapahtuman julkaisija/i,
+  ];
+
+  disabledFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeDisabled()
+  );
+
+  const requiredFieldLabels = [
+    /tapahtuman järjestäjä suomeksi/i,
+    /sertifikaatin nimi/i,
+    /enimmäisosallistujamäärä/i,
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
+  ];
+
+  requiredFieldLabels.forEach(async (label) =>
+    expect(await screen.findByLabelText(label)).toBeRequired()
   );
 });

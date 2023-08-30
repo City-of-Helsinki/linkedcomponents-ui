@@ -20,6 +20,7 @@ export enum DEPRECATED_ROUTES {
 
 export enum ROUTES {
   ADMIN = '/administration',
+  ATTENDANCE_LIST = '/registrations/:registrationId/attendance-list',
   CALLBACK = '/callback',
   CREATE_ENROLMENT = '/registrations/:registrationId/enrolments/create',
   CREATE_EVENT = '/events/create',

@@ -1,6 +1,16 @@
 @import '../../../../../assets//styles/breakpoints.scss';
 @import '../../../../../assets//styles/mixins.scss';
 
+.nameRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  grid-template-columns: 1fr;
+
+  @include medium-up {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .streetAddressRow {
   display: grid;
   grid-gap: var(--spacing-m);

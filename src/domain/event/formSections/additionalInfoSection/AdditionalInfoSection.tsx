@@ -15,11 +15,15 @@ import SplittedRow from '../../../app/layout/splittedRow/SplittedRow';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 
-interface Props {
+export interface AdditionalInfoSectionProps {
   isEditingAllowed: boolean;
+  isExternalUser: boolean;
 }
 
-const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
+const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
+  isEditingAllowed,
+  isExternalUser,
+}) => {
   const { t } = useTranslation();
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: enrolmentStartTime }] = useField({
@@ -138,6 +142,9 @@ const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
             type="info"
           >
             <p>{t(`event.form.infoTextAttendeeCapacity.${type}`)}</p>
+            {isExternalUser && (
+              <p>{t('event.form.infoTextAttendeeCapacityUserUnknown')}</p>
+            )}
           </Notification>
         }
       >
@@ -161,6 +168,7 @@ const AdditionalInfoSection: React.FC<Props> = ({ isEditingAllowed }) => {
                 min={0}
                 name={EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
                 placeholder={0}
+                required={isExternalUser}
               />
             </FormGroup>
           </div>

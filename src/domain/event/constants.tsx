@@ -5,6 +5,7 @@ import {
   IconCheck,
   IconCogwheel,
   IconCross,
+  IconEnvelope,
   IconPen,
 } from 'hds-react';
 import React from 'react';
@@ -26,6 +27,11 @@ export enum EVENT_TYPE {
   General = 'general',
   Course = 'course',
   Volunteering = 'volunteering',
+}
+
+export enum EVENT_ENVIRONMENT_VALUE {
+  In = 'in',
+  Out = 'out',
 }
 
 export enum RECURRING_EVENT_FIELDS {
@@ -69,8 +75,11 @@ export enum EVENT_FIELDS {
   EVENT_INFO_LANGUAGES = 'eventInfoLanguages',
   EVENT_TIMES = 'eventTimes',
   EVENTS = 'events',
+  ENVIRONMENT = 'environment',
+  ENVIRONMENTAL_CERTIFICATE = 'environmentalCertificate',
   EXTENSION_COURSE = 'extensionCourse',
   EXTERNAL_LINKS = 'externalLinks',
+  HAS_ENVIRONMENTAL_CERTIFICATE = 'hasEnvironmentalCertificate',
   HAS_PRICE = 'hasPrice',
   HAS_UMBRELLA = 'hasUmbrella',
   IMAGES = 'images',
@@ -100,6 +109,11 @@ export enum EVENT_FIELDS {
   SHORT_DESCRIPTION = 'shortDescription',
   SUPER_EVENT = 'superEvent',
   TYPE = 'type',
+  USER_CONSENT = 'userConsent',
+  USER_EMAIL = 'userEmail',
+  USER_NAME = 'userName',
+  USER_ORGANIZATION = 'userOrganization',
+  USER_PHONE_NUMBER = 'userPhoneNumber',
   VIDEOS = 'videos',
 }
 
@@ -172,6 +186,17 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   ],
 };
 
+export const EVENT_EXTERNAL_USER_INITIAL_VALUES: EventFormFields = {
+  ...EVENT_INITIAL_VALUES,
+  [EVENT_FIELDS.ENVIRONMENT]: EVENT_ENVIRONMENT_VALUE.In,
+  [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: '',
+  [EVENT_FIELDS.USER_CONSENT]: false,
+  [EVENT_FIELDS.USER_EMAIL]: '',
+  [EVENT_FIELDS.USER_NAME]: '',
+  [EVENT_FIELDS.USER_ORGANIZATION]: '',
+  [EVENT_FIELDS.USER_PHONE_NUMBER]: '',
+};
+
 export enum URL_PARAMS {
   TAB = 'tab',
 }
@@ -234,6 +259,7 @@ export enum EVENT_ACTIONS {
   PUBLISH = 'publish',
   UPDATE_DRAFT = 'updateDraft',
   UPDATE_PUBLIC = 'updatePublic',
+  SEND_EMAIL = 'sendEmail',
 }
 
 export const SUB_EVENTS_VARIABLES: EventsQueryVariables = {
@@ -282,6 +308,7 @@ export const EVENT_ICONS = {
   [EVENT_ACTIONS.PUBLISH]: <IconCheck aria-hidden={true} />,
   [EVENT_ACTIONS.UPDATE_DRAFT]: <IconPen aria-hidden={true} />,
   [EVENT_ACTIONS.UPDATE_PUBLIC]: <IconPen aria-hidden={true} />,
+  [EVENT_ACTIONS.SEND_EMAIL]: <IconEnvelope aria-hidden={true} />,
 };
 
 export const EVENT_LABEL_KEYS = {
@@ -295,29 +322,11 @@ export const EVENT_LABEL_KEYS = {
   [EVENT_ACTIONS.PUBLISH]: 'event.form.buttonPublish',
   [EVENT_ACTIONS.UPDATE_DRAFT]: 'event.form.buttonUpdateDraft',
   [EVENT_ACTIONS.UPDATE_PUBLIC]: 'event.form.buttonUpdatePublic',
+  [EVENT_ACTIONS.SEND_EMAIL]: 'event.form.buttonSendEmail',
 };
 
 export const ADD_EVENT_TIME_FORM_NAME = 'add-event-time';
 export const EDIT_EVENT_TIME_FORM_NAME = 'edit-event-time';
-
-export const AUDIENCE_ORDER = [
-  'yso:p7179', // Vammaiset
-  'yso:p4354', // Lapset
-  'yso:p13050', // Lapsiperheet
-  'yso:p6165', // Maahanmuuttajat
-  'yso:p11617', // Nuoret
-  'yso:p3128', // Yritykset
-  'yso:p1393', // Järjestöt
-  'yso:p12297', // Mielenterveyskuntoutujat
-  'yso:p23886', // Päihdekuntoutujat
-  'helsinki:aflfbatkwe', // Omaishoitoperheet
-  'helsinki:aflfbat76e', // Palvelukeskuskortti
-  'yso:p16485', // Koululaiset
-  'yso:p20513', // Vauvaperheet
-  'yso:p5590', // Aikuiset
-  'yso:p16486', // Opiskelijat
-  'yso:p2433', // Ikääntyneet
-];
 
 export enum EVENT_MODALS {
   CANCEL = 'cancel',
@@ -333,6 +342,8 @@ export const PUBLICATION_LIST_LINKS: Record<EVENT_TYPE, PublicationListLink[]> =
     [EVENT_TYPE.Course]: [],
     [EVENT_TYPE.General]: [
       { href: 'https://tapahtumat.hel.fi', text: 'tapahtumat.hel.fi' },
+      { href: 'https://harrastukset.hel.fi', text: 'harrastukset.hel.fi' },
+      { href: 'https://www.myhelsinki.fi', text: 'myhelsinki.fi' },
     ],
     [EVENT_TYPE.Volunteering]: [
       {
