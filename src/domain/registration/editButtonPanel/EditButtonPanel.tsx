@@ -21,8 +21,8 @@ import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { RegistrationsLocationState } from '../../registrations/types';
 import useUser from '../../user/hooks/useUser';
 import {
-  copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,
+  copySignupLinkToClipboard,
   getEditButtonProps,
   getRegistrationFields,
 } from '../utils';
@@ -134,7 +134,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionItemProps({
       action: REGISTRATION_ACTIONS.COPY_LINK,
       onClick: () => {
-        copyEnrolmentLinkToClipboard({ locale, registration, t });
+        copySignupLinkToClipboard({ locale, registration, t });
       },
     }),
     getActionItemProps({

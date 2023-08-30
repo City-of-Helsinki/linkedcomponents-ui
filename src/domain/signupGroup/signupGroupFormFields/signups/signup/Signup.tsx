@@ -15,7 +15,7 @@ import { useEnrolmentPageContext } from '../../../../enrolment/enrolmentPageCont
 import { SignupFields } from '../../../../enrolment/types';
 import {
   isDateOfBirthFieldRequired,
-  isEnrolmentFieldRequired,
+  isSignupFieldRequired,
 } from '../../../../enrolment/utils';
 import styles from './signup.module.scss';
 import SignupAccordion from './signupAccordion/SignupAccordion';
@@ -76,7 +76,7 @@ const Signup: React.FC<Props> = ({
               disabled={disabled}
               label={t(`enrolment.form.labelFirstName`)}
               placeholder={t(`enrolment.form.placeholderFirstName`)}
-              required={isEnrolmentFieldRequired(
+              required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.FIRST_NAME
               )}
@@ -87,7 +87,7 @@ const Signup: React.FC<Props> = ({
               disabled={disabled}
               label={t(`enrolment.form.labelLastName`)}
               placeholder={t(`enrolment.form.placeholderLastName`)}
-              required={isEnrolmentFieldRequired(
+              required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.LAST_NAME
               )}
@@ -102,7 +102,7 @@ const Signup: React.FC<Props> = ({
               disabled={disabled}
               label={t(`enrolment.form.labelStreetAddress`)}
               placeholder={t(`enrolment.form.placeholderStreetAddress`)}
-              required={isEnrolmentFieldRequired(
+              required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.STREET_ADDRESS
               )}
@@ -125,7 +125,7 @@ const Signup: React.FC<Props> = ({
               disabled={disabled}
               label={t(`enrolment.form.labelZipcode`)}
               placeholder={t(`enrolment.form.placeholderZipcode`)}
-              required={isEnrolmentFieldRequired(
+              required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.ZIPCODE
               )}
@@ -136,10 +136,7 @@ const Signup: React.FC<Props> = ({
               disabled={disabled}
               label={t(`enrolment.form.labelCity`)}
               placeholder={t(`enrolment.form.placeholderCity`)}
-              required={isEnrolmentFieldRequired(
-                registration,
-                SIGNUP_FIELDS.CITY
-              )}
+              required={isSignupFieldRequired(registration, SIGNUP_FIELDS.CITY)}
             />
           </div>
         </FormGroup>
@@ -150,7 +147,7 @@ const Signup: React.FC<Props> = ({
           disabled={disabled}
           label={t(`enrolment.form.labelSignupExtraInfo`)}
           placeholder={t(`enrolment.form.placeholderSignupExtraInfo`)}
-          required={isEnrolmentFieldRequired(
+          required={isSignupFieldRequired(
             registration,
             SIGNUP_FIELDS.EXTRA_INFO
           )}

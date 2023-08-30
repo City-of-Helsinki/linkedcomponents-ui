@@ -6,9 +6,9 @@ import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
 import { NOTIFICATIONS } from '../constants';
-import { EnrolmentFormFields, SignupFields } from '../types';
+import { SignupFields, SignupGroupFormFields } from '../types';
 import {
-  getEnrolmentSchema,
+  getSignupGroupSchema,
   getSignupSchema,
   isAboveMinAge,
   isBelowMaxAge,
@@ -68,12 +68,12 @@ const testSignupSchema = async (
   }
 };
 
-const testEnrolmentSchema = async (
+const testSignupGroupSchema = async (
   registration: RegistrationFieldsFragment,
-  enrolment: EnrolmentFormFields
+  signupGroup: SignupGroupFormFields
 ) => {
   try {
-    await getEnrolmentSchema(registration).validate(enrolment);
+    await getSignupGroupSchema(registration).validate(signupGroup);
     return true;
   } catch (e) {
     return false;
@@ -268,9 +268,9 @@ describe('signupSchema function', () => {
   });
 });
 
-describe('testEnrolmentSchema function', () => {
+describe('signupGroupSchema function', () => {
   const registration = fakeRegistration();
-  const validEnrolment: EnrolmentFormFields = {
+  const validSignupGroup: SignupGroupFormFields = {
     email: 'user@email.com',
     extraInfo: '',
     membershipNumber: '',
@@ -281,14 +281,16 @@ describe('testEnrolmentSchema function', () => {
     signups: [],
   };
 
-  test('should return true if enrolment data is valid', async () => {
-    expect(await testEnrolmentSchema(registration, validEnrolment)).toBe(true);
+  test('should return true if signup group data is valid', async () => {
+    expect(await testSignupGroupSchema(registration, validSignupGroup)).toBe(
+      true
+    );
   });
 
   test('should return false if email is missing', async () => {
     expect(
-      await testEnrolmentSchema(registration, {
-        ...validEnrolment,
+      await testSignupGroupSchema(registration, {
+        ...validSignupGroup,
         email: '',
       })
     ).toBe(false);
@@ -296,8 +298,8 @@ describe('testEnrolmentSchema function', () => {
 
   test('should return false if email is invalid', async () => {
     expect(
-      await testEnrolmentSchema(registration, {
-        ...validEnrolment,
+      await testSignupGroupSchema(registration, {
+        ...validSignupGroup,
         email: 'user@email.',
       })
     ).toBe(false);
@@ -305,8 +307,8 @@ describe('testEnrolmentSchema function', () => {
 
   test('should return false if phone number is missing', async () => {
     expect(
-      await testEnrolmentSchema(registration, {
-        ...validEnrolment,
+      await testSignupGroupSchema(registration, {
+        ...validSignupGroup,
         phoneNumber: '',
         notifications: [NOTIFICATIONS.SMS],
       })
@@ -315,8 +317,8 @@ describe('testEnrolmentSchema function', () => {
 
   test('should return false if phone number is invalid', async () => {
     expect(
-      await testEnrolmentSchema(registration, {
-        ...validEnrolment,
+      await testSignupGroupSchema(registration, {
+        ...validSignupGroup,
         phoneNumber: 'xxx',
       })
     ).toBe(false);
@@ -324,8 +326,8 @@ describe('testEnrolmentSchema function', () => {
 
   test('should return false if notifications is empty array', async () => {
     expect(
-      await testEnrolmentSchema(registration, {
-        ...validEnrolment,
+      await testSignupGroupSchema(registration, {
+        ...validSignupGroup,
         notifications: [],
       })
     ).toBe(false);
@@ -333,8 +335,8 @@ describe('testEnrolmentSchema function', () => {
 
   test('should return false if native language is empty', async () => {
     expect(
-      await testEnrolmentSchema(registration, {
-        ...validEnrolment,
+      await testSignupGroupSchema(registration, {
+        ...validSignupGroup,
         nativeLanguage: '',
       })
     ).toBe(false);
@@ -342,8 +344,8 @@ describe('testEnrolmentSchema function', () => {
 
   test('should return false if service language is empty', async () => {
     expect(
-      await testEnrolmentSchema(registration, {
-        ...validEnrolment,
+      await testSignupGroupSchema(registration, {
+        ...validSignupGroup,
         serviceLanguage: '',
       })
     ).toBe(false);
@@ -351,10 +353,10 @@ describe('testEnrolmentSchema function', () => {
 
   test('should return false if membership number is set as mandatory field but value is empty', async () => {
     expect(
-      await testEnrolmentSchema(
+      await testSignupGroupSchema(
         fakeRegistration({ mandatoryFields: ['membership_number'] }),
         {
-          ...validEnrolment,
+          ...validSignupGroup,
           membershipNumber: '',
         }
       )
@@ -363,10 +365,10 @@ describe('testEnrolmentSchema function', () => {
 
   test('should return false if extra info is set as mandatory field but value is empty', async () => {
     expect(
-      await testEnrolmentSchema(
+      await testSignupGroupSchema(
         fakeRegistration({ mandatoryFields: ['extra_info'] }),
         {
-          ...validEnrolment,
+          ...validSignupGroup,
           extraInfo: '',
         }
       )
@@ -375,10 +377,10 @@ describe('testEnrolmentSchema function', () => {
 
   test('should return false if phone number is set as mandatory field but value is empty', async () => {
     expect(
-      await testEnrolmentSchema(
+      await testSignupGroupSchema(
         fakeRegistration({ mandatoryFields: ['phone_number'] }),
         {
-          ...validEnrolment,
+          ...validSignupGroup,
           phoneNumber: '',
         }
       )

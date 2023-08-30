@@ -20,13 +20,13 @@ import {
 } from '../constants';
 import {
   getEditRegistrationWarning,
-  getEnrolmentLink,
   getFreeAttendeeOrWaitingListCapacity,
   getMaxSeatsAmount,
   getRegistrationFields,
   getRegistrationInitialValues,
   getRegistrationPayload,
   getRegistrationWarning,
+  getSignupLink,
   isAttendeeCapacityUsed,
   isRegistrationOpen,
   isRegistrationPossible,
@@ -565,13 +565,13 @@ describe('isAttendeeCapacityUsed', () => {
   });
 });
 
-describe('getEnrolmentLink', () => {
-  it('should get correct enrolment link', () => {
+describe('getSignupLink', () => {
+  it('should get correct signup link', () => {
     expect(
-      getEnrolmentLink(fakeRegistration({ id: TEST_ENROLMENT_ID }), 'fi')
+      getSignupLink(fakeRegistration({ id: TEST_ENROLMENT_ID }), 'fi')
     ).toEqual(
       expect.stringContaining(
-        `/fi/registration/${TEST_ENROLMENT_ID}/enrolment/create`
+        `/fi/registration/${TEST_ENROLMENT_ID}/signup-group/create`
       )
     );
   });

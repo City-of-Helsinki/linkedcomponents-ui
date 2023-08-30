@@ -20,9 +20,9 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
+import EnrolmentForm from '../signupGroup/signupGroupForm/SignupGroupForm';
 import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
-import EnrolmentForm from '../signupGroup/signupGroupForm/SignupGroupForm';
 import styles from './enrolmentPage.module.scss';
 import EnrolmentPageBreadcrumb from './enrolmentPageBreadbrumb/EnrolmentPageBreadcrumb';
 import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';
@@ -31,7 +31,7 @@ import useRegistrationAndEventData from './hooks/useRegistrationAndEventData';
 import {
   checkCanUserDoAction,
   enrolmentPathBuilder,
-  getEnrolmentInitialValues,
+  getSignupGroupInitialValues,
 } from './utils';
 
 type Props = {
@@ -61,7 +61,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
   });
 
   const initialValues = React.useMemo(
-    () => getEnrolmentInitialValues(enrolment, registration),
+    () => getSignupGroupInitialValues(enrolment, registration),
     [enrolment, registration]
   );
 

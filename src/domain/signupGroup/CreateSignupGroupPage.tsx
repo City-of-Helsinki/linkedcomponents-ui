@@ -18,7 +18,7 @@ import { EnrolmentServerErrorsProvider } from '../enrolment/enrolmentServerError
 import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import {
   checkCanUserDoAction,
-  getEnrolmentDefaultInitialValues,
+  getSignupGroupDefaultInitialValues,
 } from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
@@ -42,7 +42,7 @@ const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
   const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const initialValues = getEnrolmentDefaultInitialValues(registration);
+  const initialValues = getSignupGroupDefaultInitialValues(registration);
 
   const formDisabled = useMemo(() => {
     const data = getSeatsReservationData(registration.id as string);

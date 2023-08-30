@@ -19,24 +19,24 @@ import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
 import { setSeatsReservationData } from '../../reserveSeats/utils';
 import {
   ENROLMENT_ACTIONS,
-  ENROLMENT_FIELDS,
-  ENROLMENT_INITIAL_VALUES,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
+  SIGNUP_GROUP_FIELDS,
+  SIGNUP_GROUP_INITIAL_VALUES,
   SIGNUP_INITIAL_VALUES,
   TEST_ENROLMENT_ID,
 } from '../constants';
 import {
   enrolmentPathBuilder,
   getEditEnrolmentWarning,
-  getEnrolmentInitialValues,
-  getEnrolmentNotificationsCode,
   getEnrolmentNotificationTypes,
   getSignupDefaultInitialValues,
+  getSignupGroupInitialValues,
   getSignupGroupPayload,
+  getSignupNotificationsCode,
   getUpdateEnrolmentPayload,
-  isEnrolmentFieldRequired,
   isRestoringFormDataDisabled,
+  isSignupFieldRequired,
 } from '../utils';
 
 beforeEach(() => {
@@ -75,7 +75,7 @@ describe('getSignupDefaultInitialValues function', () => {
   });
 });
 
-describe('getEnrolmentInitialValues function', () => {
+describe('getSignupGroupInitialValues function', () => {
   it('should return default values if value is not set', () => {
     const {
       email,
@@ -86,7 +86,7 @@ describe('getEnrolmentInitialValues function', () => {
       phoneNumber,
       serviceLanguage,
       signups,
-    } = getEnrolmentInitialValues(
+    } = getSignupGroupInitialValues(
       fakeSignup({
         city: null,
         dateOfBirth: null,
@@ -150,7 +150,7 @@ describe('getEnrolmentInitialValues function', () => {
       phoneNumber,
       serviceLanguage,
       signups,
-    } = getEnrolmentInitialValues(
+    } = getSignupGroupInitialValues(
       fakeSignup({
         city: expectedCity,
         dateOfBirth: '2021-10-10',
@@ -210,19 +210,19 @@ describe('getEnrolmentNotificationTypes function', () => {
   });
 });
 
-describe('getEnrolmentNotificationsCode function', () => {
+describe('getSignupNotificationsCode function', () => {
   it('should return correct notification core', () => {
-    expect(getEnrolmentNotificationsCode([])).toBe(
+    expect(getSignupNotificationsCode([])).toBe(
       NOTIFICATION_TYPE.NO_NOTIFICATION
     );
-    expect(getEnrolmentNotificationsCode([NOTIFICATIONS.SMS])).toBe(
+    expect(getSignupNotificationsCode([NOTIFICATIONS.SMS])).toBe(
       NOTIFICATION_TYPE.SMS
     );
-    expect(getEnrolmentNotificationsCode([NOTIFICATIONS.EMAIL])).toBe(
+    expect(getSignupNotificationsCode([NOTIFICATIONS.EMAIL])).toBe(
       NOTIFICATION_TYPE.EMAIL
     );
     expect(
-      getEnrolmentNotificationsCode([NOTIFICATIONS.EMAIL, NOTIFICATIONS.SMS])
+      getSignupNotificationsCode([NOTIFICATIONS.EMAIL, NOTIFICATIONS.SMS])
     ).toBe(NOTIFICATION_TYPE.SMS_EMAIL);
   });
 });
@@ -232,7 +232,7 @@ describe('getSignupGroupPayload function', () => {
     expect(
       getSignupGroupPayload({
         formValues: {
-          ...ENROLMENT_INITIAL_VALUES,
+          ...SIGNUP_GROUP_INITIAL_VALUES,
           signups: [SIGNUP_INITIAL_VALUES],
         },
         registration,
@@ -278,7 +278,7 @@ describe('getSignupGroupPayload function', () => {
       zipcode = '00100';
     const payload = getSignupGroupPayload({
       formValues: {
-        ...ENROLMENT_INITIAL_VALUES,
+        ...SIGNUP_GROUP_INITIAL_VALUES,
         email,
         extraInfo: groupExtraInfo,
         membershipNumber,
@@ -333,7 +333,7 @@ describe('getUpdateEnrolmentPayload function', () => {
   it('should return single enrolment as payload', () => {
     expect(
       getUpdateEnrolmentPayload({
-        formValues: ENROLMENT_INITIAL_VALUES,
+        formValues: SIGNUP_GROUP_INITIAL_VALUES,
         id: TEST_ENROLMENT_ID,
         registration,
       })
@@ -382,7 +382,7 @@ describe('getUpdateEnrolmentPayload function', () => {
     ];
     const payload = getUpdateEnrolmentPayload({
       formValues: {
-        ...ENROLMENT_INITIAL_VALUES,
+        ...SIGNUP_GROUP_INITIAL_VALUES,
         email,
         extraInfo,
         membershipNumber,
@@ -522,32 +522,32 @@ describe('isRestoringFormDataDisabled', () => {
   });
 });
 
-describe('isEnrolmentFieldRequired', () => {
-  const falseCases: [string[], ENROLMENT_FIELDS][] = [
-    [['phone_number'], ENROLMENT_FIELDS.EMAIL],
-    [['phone_number'], ENROLMENT_FIELDS.EXTRA_INFO],
-    [['phone_number'], ENROLMENT_FIELDS.MEMBERSHIP_NUMBER],
-    [['phone_number'], ENROLMENT_FIELDS.NATIVE_LANGUAGE],
-    [['phone_number'], ENROLMENT_FIELDS.SERVICE_LANGUAGE],
+describe('isSignupFieldRequired', () => {
+  const falseCases: [string[], SIGNUP_GROUP_FIELDS][] = [
+    [['phone_number'], SIGNUP_GROUP_FIELDS.EMAIL],
+    [['phone_number'], SIGNUP_GROUP_FIELDS.EXTRA_INFO],
+    [['phone_number'], SIGNUP_GROUP_FIELDS.MEMBERSHIP_NUMBER],
+    [['phone_number'], SIGNUP_GROUP_FIELDS.NATIVE_LANGUAGE],
+    [['phone_number'], SIGNUP_GROUP_FIELDS.SERVICE_LANGUAGE],
   ];
 
   it.each(falseCases)(
     'should return false if field is not mandatory with args %p, result %p',
     (mandatoryFields, field) =>
       expect(
-        isEnrolmentFieldRequired(fakeRegistration({ mandatoryFields }), field)
+        isSignupFieldRequired(fakeRegistration({ mandatoryFields }), field)
       ).toBe(false)
   );
 
-  const trueCases: [string[], ENROLMENT_FIELDS][] = [
-    [['phone_number'], ENROLMENT_FIELDS.PHONE_NUMBER],
+  const trueCases: [string[], SIGNUP_GROUP_FIELDS][] = [
+    [['phone_number'], SIGNUP_GROUP_FIELDS.PHONE_NUMBER],
   ];
 
   it.each(trueCases)(
     'should return false if field is not mandatory with args %p, result %p',
     (mandatoryFields, field) =>
       expect(
-        isEnrolmentFieldRequired(fakeRegistration({ mandatoryFields }), field)
+        isSignupFieldRequired(fakeRegistration({ mandatoryFields }), field)
       ).toBe(true)
   );
 });

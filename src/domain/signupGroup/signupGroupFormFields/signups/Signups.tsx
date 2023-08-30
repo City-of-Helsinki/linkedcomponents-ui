@@ -11,7 +11,7 @@ import {
 } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
 import { reportError } from '../../../app/sentry/utils';
-import { ENROLMENT_FIELDS } from '../../../enrolment/constants';
+import { SIGNUP_GROUP_FIELDS } from '../../../enrolment/constants';
 import { useEnrolmentServerErrorsContext } from '../../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import ConfirmDeleteParticipantModal from '../../../enrolment/modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { SignupFields } from '../../../enrolment/types';
@@ -25,7 +25,7 @@ import Signup from './signup/Signup';
 import styles from './signups.module.scss';
 
 const getSignupPath = (index: number) =>
-  `${ENROLMENT_FIELDS.SIGNUPS}[${index}]`;
+  `${SIGNUP_GROUP_FIELDS.SIGNUPS}[${index}]`;
 
 interface Props {
   disabled?: boolean;
@@ -46,7 +46,7 @@ const Signups: React.FC<Props> = ({ disabled, registration }) => {
 
   const [{ value: signups }, , { setValue: setSignups }] = useField<
     SignupFields[]
-  >({ name: ENROLMENT_FIELDS.SIGNUPS });
+  >({ name: SIGNUP_GROUP_FIELDS.SIGNUPS });
 
   const [updateSeatsReservationMutation] = useUpdateSeatsReservationMutation();
 
@@ -109,7 +109,7 @@ const Signups: React.FC<Props> = ({ disabled, registration }) => {
   return (
     <div className={styles.accordions}>
       <FieldArray
-        name={ENROLMENT_FIELDS.SIGNUPS}
+        name={SIGNUP_GROUP_FIELDS.SIGNUPS}
         render={() => (
           <div>
             {signups.map((signup, index) => {

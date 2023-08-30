@@ -383,7 +383,7 @@ const linkedEventsLink = new RestLink({
 
       return data;
     },
-    Signup: (enrolment: Signup): Signup | null => addTypenameSignup(enrolment),
+    Signup: (signup: Signup): Signup | null => addTypenameSignup(signup),
     SignupsResponse: (data: SignupsResponse): SignupsResponse => {
       return {
         meta: addTypenameMeta(data.meta),

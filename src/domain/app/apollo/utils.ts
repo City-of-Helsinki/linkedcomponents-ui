@@ -221,18 +221,16 @@ export const addTypenameRegistration = (
           (ru) => addTypenameRegistrationUserAccess(ru)
         ),
         signups: Array.isArray(registration.signups)
-          ? registration.signups.map((enrolment) =>
-              addTypenameSignup(enrolment)
-            )
+          ? registration.signups.map((signup) => addTypenameSignup(signup))
           : [],
         __typename: 'Registration',
       }
     : null;
 
-export const addTypenameSignup = (enrolment?: Signup | null): Signup | null =>
-  enrolment
+export const addTypenameSignup = (signup?: Signup | null): Signup | null =>
+  signup
     ? {
-        ...enrolment,
+        ...signup,
         __typename: 'Signup',
       }
     : null;

@@ -12,11 +12,11 @@ import TextAreaField from '../../../common/components/formFields/textAreaField/T
 import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../common/components/formGroup/FormGroup';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
-import { ENROLMENT_FIELDS, NOTIFICATIONS } from '../../enrolment/constants';
+import { NOTIFICATIONS, SIGNUP_GROUP_FIELDS } from '../../enrolment/constants';
 import Divider from '../../enrolment/divider/Divider';
 import useLanguageOptions from '../../enrolment/hooks/useLanguageOptions';
 import useNotificationOptions from '../../enrolment/hooks/useNotificationOptions';
-import { isEnrolmentFieldRequired } from '../../enrolment/utils';
+import { isSignupFieldRequired } from '../../enrolment/utils';
 import styles from './signupGroupFormFields.module.scss';
 import Signups from './signups/Signups';
 
@@ -33,7 +33,7 @@ const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
     variables: { serviceLanguage: true },
   });
   const [{ value: notifications }] = useField<NOTIFICATIONS>({
-    name: ENROLMENT_FIELDS.NOTIFICATIONS,
+    name: SIGNUP_GROUP_FIELDS.NOTIFICATIONS,
   });
 
   return (
@@ -45,7 +45,7 @@ const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
         <FormGroup>
           <div className={styles.emailRow}>
             <Field
-              name={ENROLMENT_FIELDS.EMAIL}
+              name={SIGNUP_GROUP_FIELDS.EMAIL}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelEmail`)}
@@ -53,7 +53,7 @@ const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
               required
             />
             <Field
-              name={ENROLMENT_FIELDS.PHONE_NUMBER}
+              name={SIGNUP_GROUP_FIELDS.PHONE_NUMBER}
               component={PhoneInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelPhoneNumber`)}
@@ -61,9 +61,9 @@ const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
               type="tel"
               required={
                 notifications.includes(NOTIFICATIONS.SMS) ||
-                isEnrolmentFieldRequired(
+                isSignupFieldRequired(
                   registration,
-                  ENROLMENT_FIELDS.PHONE_NUMBER
+                  SIGNUP_GROUP_FIELDS.PHONE_NUMBER
                 )
               }
             />
@@ -74,7 +74,7 @@ const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
       <Fieldset heading={t(`enrolment.form.titleNotifications`)}>
         <FormGroup>
           <Field
-            name={ENROLMENT_FIELDS.NOTIFICATIONS}
+            name={SIGNUP_GROUP_FIELDS.NOTIFICATIONS}
             className={styles.notifications}
             component={CheckboxGroupField}
             // TODO: At the moment only email notifications are supported
@@ -91,14 +91,14 @@ const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
         <FormGroup>
           <div className={styles.membershipNumberRow}>
             <Field
-              name={ENROLMENT_FIELDS.MEMBERSHIP_NUMBER}
+              name={SIGNUP_GROUP_FIELDS.MEMBERSHIP_NUMBER}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelMembershipNumber`)}
               placeholder={t(`enrolment.form.placeholderMembershipNumber`)}
-              required={isEnrolmentFieldRequired(
+              required={isSignupFieldRequired(
                 registration,
-                ENROLMENT_FIELDS.MEMBERSHIP_NUMBER
+                SIGNUP_GROUP_FIELDS.MEMBERSHIP_NUMBER
               )}
             />
           </div>
@@ -106,7 +106,7 @@ const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
         <FormGroup>
           <div className={styles.nativeLanguageRow}>
             <Field
-              name={ENROLMENT_FIELDS.NATIVE_LANGUAGE}
+              name={SIGNUP_GROUP_FIELDS.NATIVE_LANGUAGE}
               component={SingleSelectField}
               disabled={disabled}
               label={t(`enrolment.form.labelNativeLanguage`)}
@@ -115,7 +115,7 @@ const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
               required
             />
             <Field
-              name={ENROLMENT_FIELDS.SERVICE_LANGUAGE}
+              name={SIGNUP_GROUP_FIELDS.SERVICE_LANGUAGE}
               component={SingleSelectField}
               disabled={disabled}
               label={t(`enrolment.form.labelServiceLanguage`)}
@@ -127,14 +127,14 @@ const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
         </FormGroup>
         <FormGroup>
           <Field
-            name={ENROLMENT_FIELDS.EXTRA_INFO}
+            name={SIGNUP_GROUP_FIELDS.EXTRA_INFO}
             component={TextAreaField}
             disabled={disabled}
             label={t(`enrolment.form.labelExtraInfo`)}
             placeholder={t(`enrolment.form.placeholderExtraInfo`)}
-            required={isEnrolmentFieldRequired(
+            required={isSignupFieldRequired(
               registration,
-              ENROLMENT_FIELDS.EXTRA_INFO
+              SIGNUP_GROUP_FIELDS.EXTRA_INFO
             )}
           />
         </FormGroup>

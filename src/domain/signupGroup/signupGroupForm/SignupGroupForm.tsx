@@ -24,8 +24,8 @@ import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
 import {
   ENROLMENT_ACTIONS,
-  ENROLMENT_FIELDS,
   ENROLMENT_MODALS,
+  SIGNUP_GROUP_FIELDS,
 } from '../../enrolment/constants';
 import CreateButtonPanel from '../../enrolment/createButtonPanel/CreateButtonPanel';
 import Divider from '../../enrolment/divider/Divider';
@@ -42,15 +42,15 @@ import ParticipantAmountSelector from '../../enrolment/participantAmountSelector
 import RegistrationWarning from '../../enrolment/registrationWarning/RegistrationWarning';
 import ReservationTimer from '../../enrolment/reservationTimer/ReservationTimer';
 import {
-  EnrolmentFormFields as EnrolmentFormFieldsType,
   SignupFields,
+  SignupGroupFormFields as SignupGroupFormFieldsType,
 } from '../../enrolment/types';
 import {
   clearCreateSignupGroupFormData,
   isRestoringFormDataDisabled,
 } from '../../enrolment/utils';
 import {
-  getEnrolmentSchema,
+  getSignupGroupSchema,
   scrollToFirstError,
 } from '../../enrolment/validation';
 import { isRegistrationPossible } from '../../registration/utils';
@@ -64,7 +64,7 @@ type SignupGroupFormWrapperProps = {
   disabled: boolean;
   enrolment?: SignupFieldsFragment;
   event: EventFieldsFragment;
-  initialValues: EnrolmentFormFieldsType;
+  initialValues: SignupGroupFormFieldsType;
   refetchEnrolment?: (
     variables?: Partial<SignupQueryVariables>
   ) => Promise<ApolloQueryResult<SignupQuery>>;
@@ -75,12 +75,12 @@ type SignupGroupFormProps = Omit<
   SignupGroupFormWrapperProps,
   'initialValues'
 > & {
-  setErrors: (errors: FormikErrors<EnrolmentFormFieldsType>) => void;
+  setErrors: (errors: FormikErrors<SignupGroupFormFieldsType>) => void;
   setTouched: (
-    touched: FormikTouched<EnrolmentFormFieldsType>,
+    touched: FormikTouched<SignupGroupFormFieldsType>,
     shouldValidate?: boolean
   ) => void;
-  values: EnrolmentFormFieldsType;
+  values: SignupGroupFormFieldsType;
 };
 
 const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
@@ -97,7 +97,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 
   const [{ value: signups }, , { setValue: setSignups }] = useField<
     SignupFields[]
-  >(ENROLMENT_FIELDS.SIGNUPS);
+  >(SIGNUP_GROUP_FIELDS.SIGNUPS);
   const locale = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
@@ -172,14 +172,14 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 
   const clearErrors = () => setErrors({});
 
-  const handleCreate = (values: EnrolmentFormFieldsType) => {
+  const handleCreate = (values: SignupGroupFormFieldsType) => {
     createSignupGroup(values, {
       onError: (error) => showServerErrors({ error }, 'enrolment'),
       onSuccess: goToEnrolmentsPageAfterCreate,
     });
   };
 
-  const handleUpdate = (values: EnrolmentFormFieldsType) => {
+  const handleUpdate = (values: SignupGroupFormFieldsType) => {
     updateEnrolment(values, {
       onError: (error: any) => showServerErrors({ error }, 'enrolment'),
       onSuccess: async () => {
@@ -194,7 +194,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
       setServerErrorItems([]);
       clearErrors();
 
-      await getEnrolmentSchema(registration).validate(values, {
+      await getSignupGroupSchema(registration).validate(values, {
         abortEarly: false,
       });
 
@@ -328,7 +328,7 @@ const SignupGroupFormWrapper: React.FC<SignupGroupFormWrapperProps> = ({
     <Formik
       initialValues={initialValues}
       onSubmit={/* istanbul ignore next */ () => undefined}
-      validationSchema={() => getEnrolmentSchema(registration)}
+      validationSchema={() => getSignupGroupSchema(registration)}
     >
       {({ setErrors, setTouched, values }) => {
         return (

@@ -29,7 +29,7 @@ import { getSeatsReservationData } from '../../reserveSeats/utils';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS, SEND_MESSAGE_FORM_NAME } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { EnrolmentFormFields, SendMessageFormFields } from '../types';
+import { SendMessageFormFields, SignupGroupFormFields } from '../types';
 import { getSignupGroupPayload, getUpdateEnrolmentPayload } from '../utils';
 
 interface Props {
@@ -40,7 +40,7 @@ interface Props {
 type UseEnrolmentActionsState = {
   cancelEnrolment: (callbacks?: MutationCallbacks) => Promise<void>;
   createSignupGroup: (
-    values: EnrolmentFormFields,
+    values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
   ) => Promise<void>;
   saving: ENROLMENT_ACTIONS | false;
@@ -50,7 +50,7 @@ type UseEnrolmentActionsState = {
     callbacks?: MutationCallbacks
   ) => Promise<void>;
   updateEnrolment: (
-    values: EnrolmentFormFields,
+    values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
@@ -141,7 +141,7 @@ const useEnrolmentActions = ({
   };
 
   const createSignupGroup = async (
-    values: EnrolmentFormFields,
+    values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
   ) => {
     setSaving(ENROLMENT_ACTIONS.CREATE);
@@ -176,7 +176,7 @@ const useEnrolmentActions = ({
   };
 
   const updateEnrolment = async (
-    values: EnrolmentFormFields,
+    values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
   ) => {
     const payload: UpdateEnrolmentMutationInput = getUpdateEnrolmentPayload({

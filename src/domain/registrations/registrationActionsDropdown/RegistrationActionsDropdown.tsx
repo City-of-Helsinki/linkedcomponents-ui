@@ -17,8 +17,8 @@ import { REGISTRATION_MODALS } from '../../registration/constants';
 import useRegistrationActions from '../../registration/hooks/useRegistrationActions';
 import ConfirmDeleteRegistrationModal from '../../registration/modals/confirmDeleteRegistrationModal/ConfirmDeleteRegistrationModal';
 import {
-  copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,
+  copySignupLinkToClipboard,
   getEditButtonProps,
   getRegistrationFields,
 } from '../../registration/utils';
@@ -114,7 +114,7 @@ const RegistrationActionsDropdown: React.FC<
     getActionItemProps({
       action: REGISTRATION_ACTIONS.COPY_LINK,
       onClick: () => {
-        copyEnrolmentLinkToClipboard({ locale, registration, t });
+        copySignupLinkToClipboard({ locale, registration, t });
       },
     }),
     getActionItemProps({

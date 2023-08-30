@@ -28,16 +28,16 @@ import {
 import {
   AUTHENTICATION_NOT_NEEDED,
   ENROLMENT_ACTIONS,
-  ENROLMENT_FIELDS,
   ENROLMENT_ICONS,
-  ENROLMENT_INITIAL_VALUES,
   ENROLMENT_LABEL_KEYS,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
   SIGNUP_FIELDS,
+  SIGNUP_GROUP_FIELDS,
+  SIGNUP_GROUP_INITIAL_VALUES,
   SIGNUP_INITIAL_VALUES,
 } from './constants';
-import { EnrolmentFormFields, SignupFields } from './types';
+import { SignupFields, SignupGroupFormFields } from './types';
 
 export const getEnrolmentNotificationTypes = (
   notifications: string
@@ -60,19 +60,18 @@ export const getSignupDefaultInitialValues = (
   ...SIGNUP_INITIAL_VALUES,
 });
 
-export const getEnrolmentDefaultInitialValues = (
+export const getSignupGroupDefaultInitialValues = (
   registration: RegistrationFieldsFragment
-): EnrolmentFormFields => ({
-  ...ENROLMENT_INITIAL_VALUES,
+): SignupGroupFormFields => ({
+  ...SIGNUP_GROUP_INITIAL_VALUES,
   signups: [getSignupDefaultInitialValues(registration)],
 });
 
-export const getEnrolmentInitialValues = (
+export const getSignupGroupInitialValues = (
   enrolment: SignupFieldsFragment,
   registration: RegistrationFieldsFragment
-): EnrolmentFormFields => {
+): SignupGroupFormFields => {
   return {
-    ...getEnrolmentDefaultInitialValues(registration),
     email: getValue(enrolment.email, ''),
     extraInfo: getValue(enrolment.extraInfo, ''),
     membershipNumber: getValue(enrolment.membershipNumber, ''),
@@ -99,9 +98,7 @@ export const getEnrolmentInitialValues = (
   };
 };
 
-export const getEnrolmentNotificationsCode = (
-  notifications: string[]
-): string => {
+export const getSignupNotificationsCode = (notifications: string[]): string => {
   if (
     notifications.includes(NOTIFICATIONS.EMAIL) &&
     notifications.includes(NOTIFICATIONS.SMS)
@@ -121,7 +118,7 @@ export const getSignupGroupPayload = ({
   registration,
   reservationCode,
 }: {
-  formValues: EnrolmentFormFields;
+  formValues: SignupGroupFormFields;
   registration: RegistrationFieldsFragment;
   reservationCode: string;
 }): CreateSignupGroupMutationInput => {
@@ -157,7 +154,7 @@ export const getSignupGroupPayload = ({
       lastName: getValue(lastName, ''),
       membershipNumber: membershipNumber,
       nativeLanguage: getValue(nativeLanguage, null),
-      notifications: getEnrolmentNotificationsCode(notifications),
+      notifications: getSignupNotificationsCode(notifications),
       phoneNumber: getValue(phoneNumber, null),
       responsibleForGroup: index === 0,
       serviceLanguage: getValue(serviceLanguage, null),
@@ -179,7 +176,7 @@ export const getUpdateEnrolmentPayload = ({
   id,
   registration,
 }: {
-  formValues: EnrolmentFormFields;
+  formValues: SignupGroupFormFields;
   id: string;
   registration: RegistrationFieldsFragment;
 }): UpdateEnrolmentMutationInput => {
@@ -395,9 +392,9 @@ export const getNewSignups = ({
     .map((signup, index) => ({ ...signup, inWaitingList: inWaitlist }));
 };
 
-export const isEnrolmentFieldRequired = (
+export const isSignupFieldRequired = (
   registration: RegistrationFieldsFragment,
-  fieldId: ENROLMENT_FIELDS | SIGNUP_FIELDS
+  fieldId: SIGNUP_GROUP_FIELDS | SIGNUP_FIELDS
 ): boolean =>
   Boolean(registration.mandatoryFields?.includes(snakeCase(fieldId)));
 
