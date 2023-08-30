@@ -6,27 +6,25 @@ import {
   screen,
   userEvent,
 } from '../../../../../../../utils/testUtils';
-import AttendeeAccordion, {
-  AttendeeAccordionProps,
-} from '../AttendeeAccordion';
+import SignupAccordion, { SignupAccordionProps } from '../SignupAccordion';
 
 configure({ defaultHidden: true });
 
 const content = 'Accordion content';
 const toggleButtonLabel = 'Toggle';
 
-const defaultProps: AttendeeAccordionProps = {
+const defaultProps: SignupAccordionProps = {
   inWaitingList: false,
   onClick: jest.fn(),
   open: true,
   toggleButtonLabel,
 };
 
-const renderComponent = (props?: Partial<AttendeeAccordionProps>) =>
+const renderComponent = (props?: Partial<SignupAccordionProps>) =>
   render(
-    <AttendeeAccordion {...defaultProps} {...props}>
+    <SignupAccordion {...defaultProps} {...props}>
       {content}
-    </AttendeeAccordion>
+    </SignupAccordion>
   );
 
 test('should not show content if accordion is not open', async () => {

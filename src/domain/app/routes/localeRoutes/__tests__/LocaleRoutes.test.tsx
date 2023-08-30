@@ -321,15 +321,15 @@ it('should render registration enrolments page', async () => {
   });
 });
 
-it('should render create enrolment page', async () => {
+it('should render create signup group page', async () => {
   const { history } = await renderRoute(
-    `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', registrationId)}`
+    `${ROUTES.CREATE_SIGNUP_GROUP.replace(':registrationId', registrationId)}`
   );
 
   await isPageRendered({
     history,
     pageTitle: 'Lisää osallistuja - Linked Events',
-    pathname: `/fi/registrations/${registrationId}/enrolments/create`,
+    pathname: `/fi/registrations/${registrationId}/signup-group/create`,
   });
 });
 

@@ -22,7 +22,6 @@ export enum ROUTES {
   ADMIN = '/administration',
   ATTENDANCE_LIST = '/registrations/:registrationId/attendance-list',
   CALLBACK = '/callback',
-  CREATE_ENROLMENT = '/registrations/:registrationId/enrolments/create',
   CREATE_EVENT = '/events/create',
   CREATE_IMAGE = '/administration/images/create',
   CREATE_KEYWORD = '/administration/keywords/create',
@@ -30,6 +29,7 @@ export enum ROUTES {
   CREATE_ORGANIZATION = '/administration/organizations/create',
   CREATE_PLACE = '/administration/places/create',
   CREATE_REGISTRATION = '/registrations/create',
+  CREATE_SIGNUP_GROUP = '/registrations/:registrationId/signup-group/create',
   EDIT_EVENT = '/events/edit/:id',
   EDIT_IMAGE = '/administration/images/edit/:id',
   EDIT_KEYWORD = '/administration/keywords/edit/:id',
@@ -135,7 +135,7 @@ export enum EXTLINK {
 }
 
 export enum FORM_NAMES {
-  CREATE_ENROLMENT_FORM = 'create-enrolment-form',
+  CREATE_SIGNUP_GROUP_FORM = 'create-signup-group-form',
   EVENT_FORM = 'event-form',
   REGISTRATION_FORM = 'registration-form',
 }

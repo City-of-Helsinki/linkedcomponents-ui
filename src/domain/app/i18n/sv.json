@@ -77,10 +77,6 @@
       "toggleButtonAriaLabel": "Menyn"
     },
     "cookieConsent": {
-      "enrolmentForm": {
-        "description": "Cookien som krävs för att spara deltagande formulär data",
-        "name": "Cookie för deltagande formulär"
-      },
       "eventForm": {
         "description": "Cookien som krävs för att spara evenemang formulär data",
         "name": "Cookie för evenemang formulär"
@@ -91,6 +87,10 @@
       "registrationForm": {
         "description": "Cookien som krävs för att spara registrering formulär data",
         "name": "Cookie för registrering formulär"
+      },
+      "signupForm": {
+        "description": "Cookien som krävs för att spara deltagande formulär data",
+        "name": "Cookie för deltagande formulär"
       },
       "siteName": "Linked Events"
     },
@@ -242,9 +242,6 @@
     },
     "warning": "Varning!"
   },
-  "createEnrolmentPage": {
-    "pageTitle": "Lägg till deltagare"
-  },
   "createEventPage": {
     "pageTitle": {
       "course": "Nytt kurs",
@@ -285,6 +282,9 @@
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"
+  },
+  "createSignupGroupPage": {
+    "pageTitle": "Lägg till deltagare"
   },
   "editEnrolmentPage": {
     "pageTitle": "Redigera deltagare"

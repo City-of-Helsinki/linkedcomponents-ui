@@ -15,7 +15,7 @@ import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext
 import useSeatsReservationActions from '../hooks/useSeatsReservationActions';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
 import { AttendeeFields } from '../types';
-import { clearCreateEnrolmentFormData } from '../utils';
+import { clearCreateSignupGroupFormData } from '../utils';
 
 const getTimeStr = (timeLeft: number) => {
   const hours = Math.floor(timeLeft / 3600);
@@ -116,7 +116,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
           if (!data || isSeatsReservationExpired(data)) {
             disableCallbacks();
 
-            clearCreateEnrolmentFormData(registrationId);
+            clearCreateSignupGroupFormData(registrationId);
             clearSeatsReservationData(registrationId);
 
             setOpenModal(ENROLMENT_MODALS.RESERVATION_TIME_EXPIRED);

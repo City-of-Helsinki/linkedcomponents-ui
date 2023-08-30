@@ -11,20 +11,20 @@ import {
 } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
 import { reportError } from '../../../app/sentry/utils';
+import { ENROLMENT_FIELDS } from '../../../enrolment/constants';
+import { useEnrolmentServerErrorsContext } from '../../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
+import ConfirmDeleteParticipantModal from '../../../enrolment/modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
+import { AttendeeFields } from '../../../enrolment/types';
+import { getNewAttendees } from '../../../enrolment/utils';
 import {
   getSeatsReservationData,
   setSeatsReservationData,
 } from '../../../reserveSeats/utils';
 import useUser from '../../../user/hooks/useUser';
-import { ENROLMENT_FIELDS } from '../../constants';
-import { useEnrolmentServerErrorsContext } from '../../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
-import ConfirmDeleteParticipantModal from '../../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
-import { AttendeeFields } from '../../types';
-import { getNewAttendees } from '../../utils';
-import Attendee from './attendee/Attendee';
-import styles from './attendees.module.scss';
+import Signup from './signup/Signup';
+import styles from './signups.module.scss';
 
-const getAttendeePath = (index: number) =>
+const getSignupPath = (index: number) =>
   `${ENROLMENT_FIELDS.ATTENDEES}[${index}]`;
 
 interface Props {
@@ -32,7 +32,7 @@ interface Props {
   registration: RegistrationFieldsFragment;
 }
 
-const Attendees: React.FC<Props> = ({ disabled, registration }) => {
+const Signups: React.FC<Props> = ({ disabled, registration }) => {
   const [openModalIndex, setOpenModalIndex] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -44,7 +44,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
 
   const registrationId = getValue(registration.id, '');
 
-  const [{ value: attendees }, , { setValue: setAttendees }] = useField<
+  const [{ value: signups }, , { setValue: setSignups }] = useField<
     AttendeeFields[]
   >({ name: ENROLMENT_FIELDS.ATTENDEES });
 
@@ -76,12 +76,12 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
       });
       const seatsReservation = data?.updateSeatsReservation as SeatsReservation;
       const newAttendees = getNewAttendees({
-        attendees: attendees.filter((_, index) => index !== indexToRemove),
+        attendees: signups.filter((_, index) => index !== indexToRemove),
         registration,
         seatsReservation,
       });
 
-      setAttendees(newAttendees);
+      setSignups(newAttendees);
 
       setSeatsReservationData(registrationId, seatsReservation);
 
@@ -112,7 +112,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
         name={ENROLMENT_FIELDS.ATTENDEES}
         render={() => (
           <div>
-            {attendees.map((attendee, index) => {
+            {signups.map((signup, index) => {
               const openModal = () => {
                 setOpenModalIndex(index);
               };
@@ -122,7 +122,7 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
                 // Clear server errors
                 setServerErrorItems([]);
 
-                await updateSeatsReservation(attendees.length - 1, index);
+                await updateSeatsReservation(signups.length - 1, index);
               };
 
               return (
@@ -134,14 +134,14 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
                     onConfirm={deleteParticipant}
                     participantCount={1}
                   />
-                  <Attendee
-                    attendee={attendee}
-                    attendeePath={getAttendeePath(index)}
+                  <Signup
                     disabled={disabled}
                     index={index}
                     onDelete={openModal}
                     registration={registration}
-                    showDelete={attendees.length > 1}
+                    showDelete={signups.length > 1}
+                    signup={signup}
+                    signupPath={getSignupPath(index)}
                   />
                 </React.Fragment>
               );
@@ -153,4 +153,4 @@ const Attendees: React.FC<Props> = ({ disabled, registration }) => {
   );
 };
 
-export default Attendees;
+export default Signups;

@@ -353,9 +353,11 @@ export const getEditButtonProps = ({
   };
 };
 
-export const clearCreateEnrolmentFormData = (registrationId: string): void => {
+export const clearCreateSignupGroupFormData = (
+  registrationId: string
+): void => {
   sessionStorage?.removeItem(
-    `${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registrationId}`
+    `${FORM_NAMES.CREATE_SIGNUP_GROUP_FORM}-${registrationId}`
   );
 };
 

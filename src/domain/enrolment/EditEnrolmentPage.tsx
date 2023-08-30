@@ -22,7 +22,7 @@ import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
-import EnrolmentForm from './enrolmentForm/EnrolmentForm';
+import EnrolmentForm from '../signupGroup/signupGroupForm/SignupGroupForm';
 import styles from './enrolmentPage.module.scss';
 import EnrolmentPageBreadcrumb from './enrolmentPageBreadbrumb/EnrolmentPageBreadcrumb';
 import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';

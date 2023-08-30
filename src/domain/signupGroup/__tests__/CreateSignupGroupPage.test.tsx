@@ -34,11 +34,11 @@ import {
 import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
-  enrolmentValues,
-  mockedCreateEnrolmentResponse,
-  mockedInvalidCreateEnrolmentResponse,
-} from '../__mocks__/createEnrolmentPage';
-import CreateEnrolmentPage from '../CreateEnrolmentPage';
+  mockedCreateSignupGroupResponse,
+  mockedInvalidCreateSignupGroupResponse,
+  signupValues,
+} from '../__mocks__/createSignupGroupPage';
+import CreateSignupGroupPage from '../CreateSignupGroupPage';
 
 configure({ defaultHidden: true });
 
@@ -226,17 +226,17 @@ const defaultMocks = [
   mockedCreateSeatsReservation,
 ];
 
-const route = ROUTES.CREATE_ENROLMENT.replace(
+const route = ROUTES.CREATE_SIGNUP_GROUP.replace(
   ':registrationId',
   registrationId
 );
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
-  renderWithRoute(<CreateEnrolmentPage />, {
+  renderWithRoute(<CreateSignupGroupPage />, {
     authContextValue,
     mocks,
     routes: [route],
-    path: ROUTES.CREATE_ENROLMENT,
+    path: ROUTES.CREATE_SIGNUP_GROUP,
   });
 
 const waitLoadingAndFindNameInput = async () => {
@@ -259,14 +259,14 @@ const enterFormValues = async () => {
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
 
-  await user.type(firstNameInput, enrolmentValues.firstName);
-  await user.type(lastNameInput, enrolmentValues.lastName);
-  await user.type(streetAddressInput, enrolmentValues.streetAddress);
-  await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
-  await user.type(zipInput, enrolmentValues.zip);
-  await user.type(cityInput, enrolmentValues.city);
-  await user.type(emailInput, enrolmentValues.email);
-  await user.type(phoneInput, enrolmentValues.phone);
+  await user.type(firstNameInput, signupValues.firstName);
+  await user.type(lastNameInput, signupValues.lastName);
+  await user.type(streetAddressInput, signupValues.streetAddress);
+  await user.type(dateOfBirthInput, signupValues.dateOfBirth);
+  await user.type(zipInput, signupValues.zip);
+  await user.type(cityInput, signupValues.city);
+  await user.type(emailInput, signupValues.email);
+  await user.type(phoneInput, signupValues.phone);
   await user.click(nativeLanguageButton);
   const nativeLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,
@@ -279,12 +279,12 @@ const enterFormValues = async () => {
   await user.click(serviceLanguageOption);
 };
 
-test('should validate enrolment form and focus to invalid field and finally create enrolment', async () => {
+test('should validate signup group form and focus to invalid field and finally create signup group', async () => {
   const user = userEvent.setup();
 
   const { history } = renderComponent([
     ...defaultMocks,
-    mockedCreateEnrolmentResponse,
+    mockedCreateSignupGroupResponse,
   ]);
 
   const firstNameInput = await waitLoadingAndFindNameInput();
@@ -299,20 +299,20 @@ test('should validate enrolment form and focus to invalid field and finally crea
   const serviceLanguageButton = getElement('serviceLanguageButton');
   const submitButton = await findElement('submitButton');
 
-  await user.type(firstNameInput, enrolmentValues.firstName);
-  await user.type(lastNameInput, enrolmentValues.lastName);
-  await user.type(streetAddressInput, enrolmentValues.streetAddress);
-  await user.type(dateOfBirthInput, enrolmentValues.dateOfBirth);
-  await user.type(zipInput, enrolmentValues.zip);
-  await user.type(cityInput, enrolmentValues.city);
+  await user.type(firstNameInput, signupValues.firstName);
+  await user.type(lastNameInput, signupValues.lastName);
+  await user.type(streetAddressInput, signupValues.streetAddress);
+  await user.type(dateOfBirthInput, signupValues.dateOfBirth);
+  await user.type(zipInput, signupValues.zip);
+  await user.type(cityInput, signupValues.city);
   await user.click(submitButton);
 
   await waitFor(() => expect(emailInput).toHaveFocus());
   expect(emailInput).toBeRequired();
   expect(phoneInput).not.toBeRequired();
 
-  await user.type(emailInput, enrolmentValues.email);
-  await user.type(phoneInput, enrolmentValues.phone);
+  await user.type(emailInput, signupValues.email);
+  await user.type(phoneInput, signupValues.phone);
   await user.click(submitButton);
 
   await waitFor(() => expect(nativeLanguageButton).toHaveFocus());
@@ -338,7 +338,7 @@ test('should validate enrolment form and focus to invalid field and finally crea
 
 test('should show server errors', async () => {
   const user = userEvent.setup();
-  renderComponent([...defaultMocks, mockedInvalidCreateEnrolmentResponse]);
+  renderComponent([...defaultMocks, mockedInvalidCreateSignupGroupResponse]);
 
   const submitButton = await findElement('submitButton');
 

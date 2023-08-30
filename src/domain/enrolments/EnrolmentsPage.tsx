@@ -28,7 +28,7 @@ import useEnrolmentActions from '../enrolment/hooks/useEnrolmentActions';
 import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import SendMessageModal from '../enrolment/modals/sendMessageModal/SendMessageModal';
 import {
-  clearCreateEnrolmentFormData,
+  clearCreateSignupGroupFormData,
   getEditButtonProps as getEnrolmentEditButtonProps,
 } from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
@@ -76,11 +76,11 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
 
   const handleCreate = () => {
     const registrationId = getValue(registration.id, '');
-    clearCreateEnrolmentFormData(registrationId);
+    clearCreateSignupGroupFormData(registrationId);
     clearSeatsReservationData(registrationId);
 
     navigate({
-      pathname: ROUTES.CREATE_ENROLMENT.replace(
+      pathname: ROUTES.CREATE_SIGNUP_GROUP.replace(
         ':registrationId',
         registrationId
       ),

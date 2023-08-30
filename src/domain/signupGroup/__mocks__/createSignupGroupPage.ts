@@ -11,13 +11,13 @@ import {
   fakeCreateSignupGroupResponse,
   fakeSignups,
 } from '../../../utils/mockDataUtils';
+import { NOTIFICATION_TYPE } from '../../enrolment/constants';
 import { registrationId } from '../../registration/__mocks__/registration';
 import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
-import { NOTIFICATION_TYPE } from '../constants';
 
 const dateOfBirth = subYears(new Date(), 13);
 
-const enrolmentValues = {
+const signupValues = {
   city: 'City',
   dateOfBirth: formatDate(dateOfBirth),
   email: 'participant@email.com',
@@ -34,20 +34,20 @@ const payload: CreateSignupGroupMutationInput = {
   reservationCode: TEST_SEATS_RESERVATION_CODE,
   signups: [
     {
-      city: enrolmentValues.city,
+      city: signupValues.city,
       dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
-      email: enrolmentValues.email,
+      email: signupValues.email,
       extraInfo: '',
-      firstName: enrolmentValues.firstName,
-      lastName: enrolmentValues.lastName,
+      firstName: signupValues.firstName,
+      lastName: signupValues.lastName,
       membershipNumber: '',
       nativeLanguage: 'fi',
       notifications: NOTIFICATION_TYPE.EMAIL,
-      phoneNumber: enrolmentValues.phone,
+      phoneNumber: signupValues.phone,
       responsibleForGroup: true,
       serviceLanguage: 'fi',
-      streetAddress: enrolmentValues.streetAddress,
-      zipcode: enrolmentValues.zip,
+      streetAddress: signupValues.streetAddress,
+      zipcode: signupValues.zip,
     },
   ],
 };
@@ -59,15 +59,15 @@ const createSignupGroupResponse = {
     createSignupGroup: fakeCreateSignupGroupResponse({
       signups: fakeSignups(1, [
         {
-          firstName: enrolmentValues.firstName,
-          lastName: enrolmentValues.lastName,
+          firstName: signupValues.firstName,
+          lastName: signupValues.lastName,
         },
       ]).data,
     }),
   },
 };
 
-const mockedCreateEnrolmentResponse: MockedResponse = {
+const mockedCreateSignupGroupResponse: MockedResponse = {
   request: {
     query: CreateSignupGroupDocument,
     variables: createSignupGroupVariables,
@@ -75,7 +75,7 @@ const mockedCreateEnrolmentResponse: MockedResponse = {
   result: createSignupGroupResponse,
 };
 
-const mockedInvalidCreateEnrolmentResponse: MockedResponse = {
+const mockedInvalidCreateSignupGroupResponse: MockedResponse = {
   request: {
     query: CreateSignupGroupDocument,
     variables: createSignupGroupVariables,
@@ -87,7 +87,7 @@ const mockedInvalidCreateEnrolmentResponse: MockedResponse = {
 };
 
 export {
-  enrolmentValues,
-  mockedCreateEnrolmentResponse,
-  mockedInvalidCreateEnrolmentResponse,
+  mockedCreateSignupGroupResponse,
+  mockedInvalidCreateSignupGroupResponse,
+  signupValues,
 };

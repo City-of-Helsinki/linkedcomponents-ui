@@ -76,10 +76,6 @@
       "toggleButtonAriaLabel": "Menu"
     },
     "cookieConsent": {
-      "enrolmentForm": {
-        "description": "The cookie required to save the enrolment form data",
-        "name": "Enrolment form cookie"
-      },
       "eventForm": {
         "description": "The cookie required to save the event form data",
         "name": "Event form cookie"
@@ -90,6 +86,10 @@
       "registrationForm": {
         "description": "The cookie required to save the registration form data",
         "name": "Registration form cookie"
+      },
+      "signupForm": {
+        "description": "The cookie required to save the enrolment form data",
+        "name": "Enrolment form cookie"
       },
       "siteName": "Linked Events"
     },
@@ -241,9 +241,6 @@
     },
     "warning": "Warning!"
   },
-  "createEnrolmentPage": {
-    "pageTitle": "Add participant"
-  },
   "createEventPage": {
     "pageTitle": {
       "course": "New course",
@@ -284,6 +281,9 @@
   "createRegistrationPage": {
     "pageTitle": "New registration",
     "title": "New registration"
+  },
+  "createSignupGroupPage": {
+    "pageTitle": "Add participant"
   },
   "editEnrolmentPage": {
     "pageTitle": "Edit participant"

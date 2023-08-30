@@ -12,20 +12,20 @@ import TextAreaField from '../../../common/components/formFields/textAreaField/T
 import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../common/components/formGroup/FormGroup';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
-import { ENROLMENT_FIELDS, NOTIFICATIONS } from '../constants';
-import Divider from '../divider/Divider';
-import useLanguageOptions from '../hooks/useLanguageOptions';
-import useNotificationOptions from '../hooks/useNotificationOptions';
-import { isEnrolmentFieldRequired } from '../utils';
-import Attendees from './attendees/Attendees';
-import styles from './enrolmentFormFields.module.scss';
+import { ENROLMENT_FIELDS, NOTIFICATIONS } from '../../enrolment/constants';
+import Divider from '../../enrolment/divider/Divider';
+import useLanguageOptions from '../../enrolment/hooks/useLanguageOptions';
+import useNotificationOptions from '../../enrolment/hooks/useNotificationOptions';
+import { isEnrolmentFieldRequired } from '../../enrolment/utils';
+import styles from './signupGroupFormFields.module.scss';
+import Signups from './signups/Signups';
 
 interface Props {
   disabled?: boolean;
   registration: RegistrationFieldsFragment;
 }
 
-const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
+const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
   const { t } = useTranslation();
   const notificationOptions = useNotificationOptions();
   const languageOptions = useLanguageOptions();
@@ -37,8 +37,8 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
   });
 
   return (
-    <div className={styles.enrolmentFormFields}>
-      <Attendees disabled={disabled} registration={registration} />
+    <div className={styles.signupGroupFormFieldsFields}>
+      <Signups disabled={disabled} registration={registration} />
       <h2>{t('enrolment.form.titleInformantInfo')}</h2>
       <Divider />
       <Fieldset heading={t(`enrolment.form.titleContactInfo`)}>
@@ -143,4 +143,4 @@ const EnrolmentForm: React.FC<Props> = ({ disabled, registration }) => {
   );
 };
 
-export default EnrolmentForm;
+export default SignupGroupFormFields;

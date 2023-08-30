@@ -77,10 +77,6 @@
       "toggleButtonAriaLabel": "Valikko"
     },
     "cookieConsent": {
-      "enrolmentForm": {
-        "description": "Osallistumislomakkeen tietojen säilymiseksi vaadittu eväste",
-        "name": "Osallistumislomakkeen eväste"
-      },
       "eventForm": {
         "description": "Tapahtumalomakkeen tietojen säilymiseksi vaadittu eväste",
         "name": "Tapahtumalomakkeen eväste"
@@ -91,6 +87,10 @@
       "registrationForm": {
         "description": "Ilmoittautumislomakkeen tietojen säilymiseksi vaadittu eväste",
         "name": "Ilmoittautumislomakkeen eväste"
+      },
+      "signupForm": {
+        "description": "Osallistumislomakkeen tietojen säilymiseksi vaadittu eväste",
+        "name": "Osallistumislomakkeen eväste"
       },
       "siteName": "Linked Events"
     },
@@ -242,9 +242,6 @@
     },
     "warning": "Varoitus!"
   },
-  "createEnrolmentPage": {
-    "pageTitle": "Lisää osallistuja"
-  },
   "createEventPage": {
     "pageTitle": {
       "course": "Uusi kurssi",
@@ -285,6 +282,9 @@
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
     "title": "Uusi ilmoittautuminen"
+  },
+  "createSignupGroupPage": {
+    "pageTitle": "Lisää osallistuja"
   },
   "editEnrolmentPage": {
     "pageTitle": "Muokkaa osallistujaa"

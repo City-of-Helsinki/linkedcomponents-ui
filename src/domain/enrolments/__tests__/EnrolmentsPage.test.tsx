@@ -166,7 +166,7 @@ test('should move to create enrolment page', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/registrations/${registrationId}/enrolments/create`
+      `/registrations/${registrationId}/signup-group/create`
     )
   );
 });

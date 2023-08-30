@@ -22,42 +22,45 @@ import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
-import { isRegistrationPossible } from '../../registration/utils';
-import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
-import { clearSeatsReservationData } from '../../reserveSeats/utils';
 import {
   ENROLMENT_ACTIONS,
   ENROLMENT_FIELDS,
   ENROLMENT_MODALS,
-} from '../constants';
-import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
-import Divider from '../divider/Divider';
-import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
-import EnrolmentAuthenticationNotification from '../enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
-import EnrolmentFormFields from '../enrolmentFormFields/EnrolmentFormFields';
-import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
-import EventInfo from '../eventInfo/EventInfo';
-import FormContainer from '../formContainer/FormContainer';
-import useEnrolmentActions from '../hooks/useEnrolmentActions';
-import ConfirmCancelEnrolmentModal from '../modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
-import SendMessageModal from '../modals/sendMessageModal/SendMessageModal';
-import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
-import RegistrationWarning from '../registrationWarning/RegistrationWarning';
-import ReservationTimer from '../reservationTimer/ReservationTimer';
+} from '../../enrolment/constants';
+import CreateButtonPanel from '../../enrolment/createButtonPanel/CreateButtonPanel';
+import Divider from '../../enrolment/divider/Divider';
+import EditButtonPanel from '../../enrolment/editButtonPanel/EditButtonPanel';
+import EnrolmentAuthenticationNotification from '../../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
+import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
+import EventInfo from '../../enrolment/eventInfo/EventInfo';
+import FormContainer from '../../enrolment/formContainer/FormContainer';
+import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
+import ConfirmCancelEnrolmentModal from '../../enrolment/modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
+import SendMessageModal from '../../enrolment/modals/sendMessageModal/SendMessageModal';
+import ParticipantAmountSelector from '../../enrolment/participantAmountSelector/ParticipantAmountSelector';
+import RegistrationWarning from '../../enrolment/registrationWarning/RegistrationWarning';
+import ReservationTimer from '../../enrolment/reservationTimer/ReservationTimer';
 import {
   AttendeeFields,
   EnrolmentFormFields as EnrolmentFormFieldsType,
-} from '../types';
+} from '../../enrolment/types';
 import {
-  clearCreateEnrolmentFormData,
+  clearCreateSignupGroupFormData,
   isRestoringFormDataDisabled,
-} from '../utils';
-import { getEnrolmentSchema, scrollToFirstError } from '../validation';
+} from '../../enrolment/utils';
+import {
+  getEnrolmentSchema,
+  scrollToFirstError,
+} from '../../enrolment/validation';
+import { isRegistrationPossible } from '../../registration/utils';
+import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
+import { clearSeatsReservationData } from '../../reserveSeats/utils';
+import EnrolmentFormFields from '../signupGroupFormFields/SignupGroupFormFields';
 import AvailableSeatsText from './availableSeatsText/AvailableSeatsText';
-import styles from './enrolmentForm.module.scss';
+import styles from './signupGroupForm.module.scss';
 
-type EnrolmentFormWrapperProps = {
+type SignupGroupFormWrapperProps = {
   disabled: boolean;
   enrolment?: SignupFieldsFragment;
   event: EventFieldsFragment;
@@ -68,7 +71,10 @@ type EnrolmentFormWrapperProps = {
   registration: RegistrationFieldsFragment;
 };
 
-type EnrolmentFormProps = Omit<EnrolmentFormWrapperProps, 'initialValues'> & {
+type SignupGroupFormProps = Omit<
+  SignupGroupFormWrapperProps,
+  'initialValues'
+> & {
   setErrors: (errors: FormikErrors<EnrolmentFormFieldsType>) => void;
   setTouched: (
     touched: FormikTouched<EnrolmentFormFieldsType>,
@@ -77,7 +83,7 @@ type EnrolmentFormProps = Omit<EnrolmentFormWrapperProps, 'initialValues'> & {
   values: EnrolmentFormFieldsType;
 };
 
-const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
+const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   disabled,
   enrolment,
   event,
@@ -149,7 +155,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
     disableTimerCallbacks();
 
     formSavingDisabled.current = true;
-    clearCreateEnrolmentFormData(registrationId);
+    clearCreateSignupGroupFormData(registrationId);
     clearSeatsReservationData(registrationId);
 
     navigate(
@@ -236,7 +242,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
       <Form noValidate>
         <FormikPersist
           isSessionStorage={true}
-          name={`${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registration.id}`}
+          name={`${FORM_NAMES.CREATE_SIGNUP_GROUP_FORM}-${registration.id}`}
           restoringDisabled={isRestoringFormDataDisabled({
             enrolment,
             registrationId: getValue(registration.id, ''),
@@ -312,7 +318,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
   );
 };
 
-const EnrolmentFormWrapper: React.FC<EnrolmentFormWrapperProps> = ({
+const SignupGroupFormWrapper: React.FC<SignupGroupFormWrapperProps> = ({
   enrolment,
   initialValues,
   registration,
@@ -326,7 +332,7 @@ const EnrolmentFormWrapper: React.FC<EnrolmentFormWrapperProps> = ({
     >
       {({ setErrors, setTouched, values }) => {
         return (
-          <EnrolmentForm
+          <SignupGroupForm
             enrolment={enrolment}
             registration={registration}
             {...rest}
@@ -340,4 +346,4 @@ const EnrolmentFormWrapper: React.FC<EnrolmentFormWrapperProps> = ({
   );
 };
 
-export default EnrolmentFormWrapper;
+export default SignupGroupFormWrapper;

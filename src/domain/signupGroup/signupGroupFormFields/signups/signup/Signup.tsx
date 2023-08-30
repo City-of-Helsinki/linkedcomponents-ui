@@ -10,46 +10,46 @@ import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { RegistrationFieldsFragment } from '../../../../../generated/graphql';
 import getValue from '../../../../../utils/getValue';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
-import { ATTENDEE_FIELDS } from '../../../constants';
-import { useEnrolmentPageContext } from '../../../enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { AttendeeFields } from '../../../types';
+import { ATTENDEE_FIELDS } from '../../../../enrolment/constants';
+import { useEnrolmentPageContext } from '../../../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import { AttendeeFields } from '../../../../enrolment/types';
 import {
   isDateOfBirthFieldRequired,
   isEnrolmentFieldRequired,
-} from '../../../utils';
-import styles from './attendee.module.scss';
-import AttendeeAccordion from './attendeeAccordion/AttendeeAccordion';
+} from '../../../../enrolment/utils';
+import styles from './signup.module.scss';
+import SignupAccordion from './signupAccordion/SignupAccordion';
 
 type Props = {
-  attendee: AttendeeFields;
-  attendeePath: string;
   disabled?: boolean;
   index: number;
   onDelete: () => void;
   registration: RegistrationFieldsFragment;
   showDelete: boolean;
+  signup: AttendeeFields;
+  signupPath: string;
 };
 
 const getFieldName = (attendeePath: string, field: string) =>
   `${attendeePath}.${field}`;
 
-const Attendee: React.FC<Props> = ({
-  attendee,
-  attendeePath,
+const Signup: React.FC<Props> = ({
   disabled,
   index,
   onDelete,
   registration,
   showDelete,
+  signup,
+  signupPath,
 }) => {
   const { t } = useTranslation();
   const { openParticipant, toggleOpenParticipant } = useEnrolmentPageContext();
   const labelText =
-    [attendee.firstName, attendee.lastName].filter(skipFalsyType).join(' ') ||
+    [signup.firstName, signup.lastName].filter(skipFalsyType).join(' ') ||
     t('enrolment.form.attendeeDefaultTitle', { index: index + 1 });
 
   return (
-    <AttendeeAccordion
+    <SignupAccordion
       deleteButton={
         showDelete && !disabled ? (
           <button
@@ -62,7 +62,7 @@ const Attendee: React.FC<Props> = ({
           </button>
         ) : undefined
       }
-      inWaitingList={attendee.inWaitingList}
+      inWaitingList={signup.inWaitingList}
       onClick={() => toggleOpenParticipant(index)}
       open={openParticipant === index}
       toggleButtonLabel={labelText}
@@ -71,7 +71,7 @@ const Attendee: React.FC<Props> = ({
         <FormGroup>
           <div className={styles.nameRow}>
             <Field
-              name={getFieldName(attendeePath, ATTENDEE_FIELDS.FIRST_NAME)}
+              name={getFieldName(signupPath, ATTENDEE_FIELDS.FIRST_NAME)}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelFirstName`)}
@@ -82,7 +82,7 @@ const Attendee: React.FC<Props> = ({
               )}
             />
             <Field
-              name={getFieldName(attendeePath, ATTENDEE_FIELDS.LAST_NAME)}
+              name={getFieldName(signupPath, ATTENDEE_FIELDS.LAST_NAME)}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelLastName`)}
@@ -97,7 +97,7 @@ const Attendee: React.FC<Props> = ({
         <FormGroup>
           <div className={styles.streetAddressRow}>
             <Field
-              name={getFieldName(attendeePath, ATTENDEE_FIELDS.STREET_ADDRESS)}
+              name={getFieldName(signupPath, ATTENDEE_FIELDS.STREET_ADDRESS)}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelStreetAddress`)}
@@ -108,7 +108,7 @@ const Attendee: React.FC<Props> = ({
               )}
             />
             <Field
-              name={getFieldName(attendeePath, ATTENDEE_FIELDS.DATE_OF_BIRTH)}
+              name={getFieldName(signupPath, ATTENDEE_FIELDS.DATE_OF_BIRTH)}
               component={DateInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelDateOfBirth`)}
@@ -120,7 +120,7 @@ const Attendee: React.FC<Props> = ({
         <FormGroup>
           <div className={styles.zipRow}>
             <Field
-              name={getFieldName(attendeePath, ATTENDEE_FIELDS.ZIPCODE)}
+              name={getFieldName(signupPath, ATTENDEE_FIELDS.ZIPCODE)}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelZipcode`)}
@@ -131,7 +131,7 @@ const Attendee: React.FC<Props> = ({
               )}
             />
             <Field
-              name={getFieldName(attendeePath, ATTENDEE_FIELDS.CITY)}
+              name={getFieldName(signupPath, ATTENDEE_FIELDS.CITY)}
               component={TextInputField}
               disabled={disabled}
               label={t(`enrolment.form.labelCity`)}
@@ -144,7 +144,7 @@ const Attendee: React.FC<Props> = ({
           </div>
         </FormGroup>
         <Field
-          name={getFieldName(attendeePath, ATTENDEE_FIELDS.EXTRA_INFO)}
+          name={getFieldName(signupPath, ATTENDEE_FIELDS.EXTRA_INFO)}
           className={styles.extraInfoField}
           component={TextAreaField}
           disabled={disabled}
@@ -156,8 +156,8 @@ const Attendee: React.FC<Props> = ({
           )}
         />
       </Fieldset>
-    </AttendeeAccordion>
+    </SignupAccordion>
   );
 };
 
-export default Attendee;
+export default Signup;

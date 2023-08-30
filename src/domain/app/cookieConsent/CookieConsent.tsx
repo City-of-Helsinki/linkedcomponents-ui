@@ -74,14 +74,11 @@ const CookieConsent: FC = () => {
                   ),
                 },
                 {
-                  id: 'enrolmentForm',
+                  id: 'signupForm',
                   hostName: hostname,
-                  name: getValue(
-                    t('common.cookieConsent.enrolmentForm.name'),
-                    ''
-                  ),
+                  name: getValue(t('common.cookieConsent.signupForm.name'), ''),
                   description: getValue(
-                    t('common.cookieConsent.enrolmentForm.description'),
+                    t('common.cookieConsent.signupForm.description'),
                     ''
                   ),
                   expiration: getValue(
