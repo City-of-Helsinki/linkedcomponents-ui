@@ -15,7 +15,7 @@ const createSeatsReservationVariables = {
   input: createSeatsReservationPayload,
 };
 
-const createEnrolmentResponse = {
+const createSeatsReservationResponse = {
   data: {
     createSeatsReservation: {
       ...seatsReservation,
@@ -30,7 +30,7 @@ const mockedCreateSeatsReservationResponse = {
     query: CreateSeatsReservationDocument,
     variables: createSeatsReservationVariables,
   },
-  result: createEnrolmentResponse,
+  result: createSeatsReservationResponse,
 };
 
 export { mockedCreateSeatsReservationResponse };

@@ -13,7 +13,7 @@ import {
 } from '../../seatsReservation/utils';
 import { SIGNUP_MODALS } from '../../signup/constants';
 import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
-import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
+import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
 import { SignupFields } from '../types';
 import { clearCreateSignupGroupFormData } from '../utils';

@@ -15,7 +15,7 @@ import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
+import useSignupActions from '../../enrolment/hooks/useSignupActions';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { getRegistrationFields } from '../../registration/utils';
 import { addParamsToRegistrationQueryString } from '../../registrations/utils';
@@ -56,9 +56,9 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
   const { closeModal, openModal, openModalId, setOpenModalId, setOpenModal } =
     useSignupPageContext();
 
-  const { cancelEnrolment, saving, sendMessage } = useEnrolmentActions({
-    enrolment: signup,
+  const { cancelSignup, saving, sendMessage } = useSignupActions({
     registration,
+    signup,
   });
 
   const goToEditPage = () => {
@@ -127,7 +127,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
         <ConfirmCancelSignupModal
           isOpen={openModal === SIGNUP_MODALS.CANCEL}
           isSaving={saving === SIGNUP_ACTIONS.CANCEL}
-          onConfirm={cancelEnrolment}
+          onConfirm={cancelSignup}
           onClose={closeModal}
           registration={registration}
           signup={signup}

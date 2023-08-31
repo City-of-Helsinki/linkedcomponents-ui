@@ -6,12 +6,12 @@ import {
   NOTIFICATIONS,
   SIGNUP_GROUP_INITIAL_VALUES,
 } from '../../signupGroup/constants';
-import { getUpdateEnrolmentPayload } from '../utils';
+import { getUpdateSignupPayload } from '../utils';
 
-describe('getUpdateEnrolmentPayload function', () => {
+describe('getUpdateSignupPayload function', () => {
   it('should return single enrolment as payload', () => {
     expect(
-      getUpdateEnrolmentPayload({
+      getUpdateSignupPayload({
         formValues: SIGNUP_GROUP_INITIAL_VALUES,
         id: TEST_SIGNUP_ID,
         registration,
@@ -61,7 +61,7 @@ describe('getUpdateEnrolmentPayload function', () => {
         zipcode,
       },
     ];
-    const payload = getUpdateEnrolmentPayload({
+    const payload = getUpdateSignupPayload({
       formValues: {
         ...SIGNUP_GROUP_INITIAL_VALUES,
         email,

@@ -3,7 +3,7 @@ import subYears from 'date-fns/subYears';
 
 import { DATE_FORMAT_API } from '../../../constants';
 import {
-  DeleteEnrolmentDocument,
+  DeleteSignupDocument,
   SendMessageDocument,
   SignupDocument,
   SignupFieldsFragment,
@@ -59,14 +59,14 @@ const mockedSignupResponse: MockedResponse = {
   result: signupResponse,
 };
 
-const cancelEnrolmentVariables = { signup: signupId };
-const cancelEnrolmentResponse = { data: { deleteEnrolment: null } };
+const cancelSignupVariables = { id: signupId };
+const cancelSignupResponse = { data: { deleteSignup: null } };
 const mockedCancelSignupResponse: MockedResponse = {
   request: {
-    query: DeleteEnrolmentDocument,
-    variables: cancelEnrolmentVariables,
+    query: DeleteSignupDocument,
+    variables: cancelSignupVariables,
   },
-  result: cancelEnrolmentResponse,
+  result: cancelSignupResponse,
 };
 
 const sendMessageValues = {

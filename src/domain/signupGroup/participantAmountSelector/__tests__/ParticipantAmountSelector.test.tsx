@@ -78,7 +78,7 @@ const getUpdateSeatsReservationMock = (
     },
   };
 
-  const updateEnrolmentResponse = {
+  const updateSeatsReservationResponse = {
     data: { updateSeatsReservation: seatsReservation },
   };
 
@@ -87,7 +87,7 @@ const getUpdateSeatsReservationMock = (
       query: UpdateSeatsReservationDocument,
       variables: updateSeatsReservationVariables,
     },
-    result: updateEnrolmentResponse,
+    result: updateSeatsReservationResponse,
   };
 };
 

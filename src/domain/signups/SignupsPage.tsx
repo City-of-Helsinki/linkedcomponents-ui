@@ -20,7 +20,7 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
-import useEnrolmentActions from '../enrolment/hooks/useEnrolmentActions';
+import useSignupActions from '../enrolment/hooks/useSignupActions';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import {
@@ -68,7 +68,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
   );
 
   const { closeModal, openModal, setOpenModal } = useSignupPageContext();
-  const { saving, sendMessage } = useEnrolmentActions({
+  const { saving, sendMessage } = useSignupActions({
     registration,
   });
 

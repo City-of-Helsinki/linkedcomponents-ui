@@ -36,7 +36,7 @@ interface Props {
   registration: RegistrationFieldsFragment;
 }
 
-type UseEnrolmentActionsState = {
+type UseSignupGroupActionsState = {
   createSignupGroup: (
     values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
@@ -50,7 +50,7 @@ type UseEnrolmentActionsState = {
 const useSignupGroupActions = ({
   registration,
   signupGroup,
-}: Props): UseEnrolmentActionsState => {
+}: Props): UseSignupGroupActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
   const [saving, setSaving] = useMountedState<SIGNUP_GROUP_ACTIONS | null>(

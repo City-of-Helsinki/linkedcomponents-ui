@@ -9,10 +9,10 @@ import {
   RegistrationFieldsFragment,
   SendMessageMutationInput,
   SignupFieldsFragment,
-  UpdateEnrolmentMutationInput,
-  useDeleteEnrolmentMutation,
+  UpdateSignupMutationInput,
+  useDeleteSignupMutation,
   useSendMessageMutation,
-  useUpdateEnrolmentMutation,
+  useUpdateSignupMutation,
 } from '../../../generated/graphql';
 import useHandleError from '../../../hooks/useHandleError';
 import useMountedState from '../../../hooks/useMountedState';
@@ -27,39 +27,39 @@ import { SEND_MESSAGE_FORM_NAME, SIGNUP_ACTIONS } from '../../signup/constants';
 import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
 import { SendMessageFormFields } from '../../signup/types';
 import { SignupGroupFormFields } from '../../signupGroup/types';
-import { getUpdateEnrolmentPayload } from '../utils';
+import { getUpdateSignupPayload } from '../utils';
 
 interface Props {
-  enrolment?: SignupFieldsFragment;
   registration: RegistrationFieldsFragment;
+  signup?: SignupFieldsFragment;
 }
 
-type UseEnrolmentActionsState = {
-  cancelEnrolment: (callbacks?: MutationCallbacks) => Promise<void>;
+type UseSignupActionsState = {
+  cancelSignup: (callbacks?: MutationCallbacks) => Promise<void>;
   saving: SIGNUP_ACTIONS | false;
   sendMessage: (
     values: SendMessageFormFields,
     signups?: string[],
     callbacks?: MutationCallbacks
   ) => Promise<void>;
-  updateEnrolment: (
+  updateSignup: (
     values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
-const useEnrolmentActions = ({
-  enrolment,
+const useSignupActions = ({
   registration,
-}: Props): UseEnrolmentActionsState => {
+  signup,
+}: Props): UseSignupActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
   const { closeModal } = useSignupPageContext();
 
   const [saving, setSaving] = useMountedState<SIGNUP_ACTIONS | false>(false);
 
-  const [deleteEnrolmentMutation] = useDeleteEnrolmentMutation();
+  const [deleteSignupMutation] = useDeleteSignupMutation();
   const [sendMessageMutation] = useSendMessageMutation();
-  const [updateEnrolmentMutation] = useUpdateEnrolmentMutation();
+  const [updateSignupMutation] = useUpdateSignupMutation();
 
   const savingFinished = () => {
     setSaving(false);
@@ -68,7 +68,7 @@ const useEnrolmentActions = ({
   const { handleError } = useHandleError<
     | CreateSignupGroupMutationInput
     | SendMessageMutationInput
-    | UpdateEnrolmentMutationInput,
+    | UpdateSignupMutationInput,
     SignupFieldsFragment
   >();
 
@@ -84,14 +84,12 @@ const useEnrolmentActions = ({
     await (callbacks?.onSuccess && callbacks.onSuccess());
   };
 
-  const cancelEnrolment = async (callbacks?: MutationCallbacks) => {
+  const cancelSignup = async (callbacks?: MutationCallbacks) => {
     try {
       setSaving(SIGNUP_ACTIONS.CANCEL);
 
-      await deleteEnrolmentMutation({
-        variables: {
-          signup: getValue(enrolment?.id, ''),
-        },
+      await deleteSignupMutation({
+        variables: { id: getValue(signup?.id, '') },
       });
 
       await cleanAfterUpdate(callbacks);
@@ -105,23 +103,23 @@ const useEnrolmentActions = ({
     }
   };
 
-  const updateEnrolment = async (
+  const updateSignup = async (
     values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
   ) => {
-    const payload: UpdateEnrolmentMutationInput = getUpdateEnrolmentPayload({
+    const payload: UpdateSignupMutationInput = getUpdateSignupPayload({
       formValues: values,
-      id: getValue(enrolment?.id, ''),
+      id: getValue(signup?.id, ''),
       registration,
     });
 
     try {
       setSaving(SIGNUP_ACTIONS.UPDATE);
 
-      await updateEnrolmentMutation({
+      await updateSignupMutation({
         variables: {
           input: payload,
-          signup: getValue(enrolment?.id, ''),
+          id: getValue(signup?.id, ''),
         },
       });
 
@@ -130,7 +128,7 @@ const useEnrolmentActions = ({
       handleError({
         callbacks,
         error,
-        message: 'Failed to update enrolment',
+        message: 'Failed to update signup',
         payload,
         savingFinished,
       });
@@ -174,11 +172,11 @@ const useEnrolmentActions = ({
   };
 
   return {
-    cancelEnrolment,
+    cancelSignup,
     saving,
     sendMessage,
-    updateEnrolment,
+    updateSignup,
   };
 };
 
-export default useEnrolmentActions;
+export default useSignupActions;

@@ -1,23 +1,16 @@
 // eslint-disable-next-line import/no-named-as-default
 import gql from 'graphql-tag';
 
-export const MUTATION_ENROLMENT = gql`
-  mutation DeleteEnrolment($signup: String!) {
-    deleteEnrolment(signup: $signup)
-      @rest(
-        type: "NoContent"
-        path: "/signup/{args.signup}/"
-        method: "DELETE"
-      ) {
+export const MUTATION_SIGNUP = gql`
+  mutation DeleteSignup($id: ID!) {
+    deleteSignup(id: $id)
+      @rest(type: "NoContent", path: "/signup/{args.id}/", method: "DELETE") {
       noContent
     }
   }
 
-  mutation UpdateEnrolment(
-    $input: UpdateEnrolmentMutationInput!
-    $signup: String!
-  ) {
-    updateEnrolment(input: $input, signup: $signup)
+  mutation UpdateSignup($input: UpdateSignupMutationInput!, $id: ID!) {
+    updateSignup(input: $input, id: $id)
       @rest(
         type: "Signup"
         path: "/signup/{args.signup}/"
@@ -28,11 +21,8 @@ export const MUTATION_ENROLMENT = gql`
     }
   }
 
-  mutation PatchEnrolment(
-    $input: UpdateEnrolmentMutationInput!
-    $signup: String!
-  ) {
-    updateEnrolment(input: $input, signup: $signup)
+  mutation PatchSignup($input: UpdateSignupMutationInput!, $id: ID!) {
+    updateSignup(input: $input, id: $id)
       @rest(
         type: "Signup"
         path: "/signup/{args.signup}/"

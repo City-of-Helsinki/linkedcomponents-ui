@@ -19,7 +19,6 @@ module.exports = buildSchema(/* GraphQL */ `
     createSignupGroup(
       input: CreateSignupGroupMutationInput!
     ): CreateSignupGroupResponse!
-    deleteEnrolment(signup: String!): NoContent
     deleteEvent(id: ID!): NoContent
     deleteImage(id: ID!): NoContent
     deleteKeyword(id: ID!): NoContent
@@ -27,6 +26,7 @@ module.exports = buildSchema(/* GraphQL */ `
     deleteOrganization(id: ID!): NoContent
     deletePlace(id: ID!): NoContent
     deleteRegistration(id: ID!): NoContent
+    deleteSignup(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
     sendMessage(
@@ -34,10 +34,6 @@ module.exports = buildSchema(/* GraphQL */ `
       registration: ID
     ): SendMessageResponse
     sendRegistrationUserAccessInvitation(id: Int): NoContent
-    updateEnrolment(
-      input: UpdateEnrolmentMutationInput!
-      signup: String!
-    ): Signup!
     updateEvent(input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
@@ -51,6 +47,7 @@ module.exports = buildSchema(/* GraphQL */ `
       id: ID!
       input: UpdateSeatsReservationMutationInput!
     ): SeatsReservation!
+    updateSignup(input: UpdateSignupMutationInput!, id: ID!): Signup!
     updateSignupGroup(
       id: ID!
       input: UpdateSignupGroupMutationInput!
@@ -251,8 +248,8 @@ module.exports = buildSchema(/* GraphQL */ `
     membershipNumber: String
     nativeLanguage: String
     notifications: String
-    presenceStatus: PresenceStatus
     phoneNumber: String
+    presenceStatus: PresenceStatus
     responsibleForGroup: Boolean
     serviceLanguage: String
     streetAddress: String
@@ -272,7 +269,7 @@ module.exports = buildSchema(/* GraphQL */ `
     signups: [SignupInput!]
   }
 
-  input UpdateEnrolmentMutationInput {
+  input UpdateSignupMutationInput {
     id: ID!
     city: String
     dateOfBirth: String
@@ -286,6 +283,7 @@ module.exports = buildSchema(/* GraphQL */ `
     phoneNumber: String
     presenceStatus: PresenceStatus
     registration: ID
+    responsibleForGroup: Boolean
     serviceLanguage: String
     streetAddress: String
     zipcode: String

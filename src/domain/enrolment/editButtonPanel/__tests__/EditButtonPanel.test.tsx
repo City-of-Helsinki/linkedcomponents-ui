@@ -15,9 +15,9 @@ import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
+import { signup } from '../../../signup/__mocks__/signup';
 import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import { signup } from '../../__mocks__/signup';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
@@ -42,7 +42,7 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 const defaultRoute = `/fi/${ROUTES.EDIT_SIGNUP_GROUP.replace(
   ':registrationId',
   registrationId
-).replace(':enrolmentId', signup.id)}`;
+).replace(':signupId', signup.id)}`;
 
 const renderComponent = ({
   props,

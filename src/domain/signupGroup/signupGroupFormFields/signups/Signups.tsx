@@ -16,7 +16,7 @@ import {
   getSeatsReservationData,
   setSeatsReservationData,
 } from '../../../seatsReservation/utils';
-import { useSignupServerErrorsContext } from '../../../signup/signupServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
+import { useSignupServerErrorsContext } from '../../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import useUser from '../../../user/hooks/useUser';
 import { SIGNUP_GROUP_FIELDS } from '../../constants';
 import ConfirmDeleteParticipantModal from '../../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';

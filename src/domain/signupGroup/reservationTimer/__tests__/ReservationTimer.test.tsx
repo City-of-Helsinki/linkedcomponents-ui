@@ -97,7 +97,7 @@ const getCreateSeatsReservationMock = (
     input: { ...createSeatsReservationPayload, seats: seatsReservation.seats },
   };
 
-  const createEnrolmentResponse = {
+  const createSeatsReservationResponse = {
     data: { createSeatsReservation: seatsReservation },
   };
 
@@ -106,7 +106,7 @@ const getCreateSeatsReservationMock = (
       query: CreateSeatsReservationDocument,
       variables: createSeatsReservationVariables,
     },
-    result: createEnrolmentResponse,
+    result: createSeatsReservationResponse,
   };
 };
 
@@ -141,7 +141,7 @@ test('should show modal if any of the reserved seats is in waiting list', async 
   await waitFor(() => expect(modal).not.toBeInTheDocument());
 });
 
-test('should route to create enrolment page if reservation is expired', async () => {
+test('should route to create signup page if reservation is expired', async () => {
   const user = userEvent.setup();
 
   setSessionStorageValues(getMockedSeatsReservationData(-1000), registration);

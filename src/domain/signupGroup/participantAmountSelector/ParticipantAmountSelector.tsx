@@ -12,7 +12,7 @@ import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsRes
 import { getSeatsReservationData } from '../../seatsReservation/utils';
 import { SIGNUP_MODALS } from '../../signup/constants';
 import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
-import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
+import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { SIGNUP_GROUP_FIELDS } from '../constants';
 import ConfirmDeleteParticipantModal from '../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { SignupFields } from '../types';

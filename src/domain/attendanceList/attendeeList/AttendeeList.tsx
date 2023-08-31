@@ -10,8 +10,8 @@ import {
   PresenceStatus,
   RegistrationFieldsFragment,
   SignupFieldsFragment,
-  UpdateEnrolmentMutationInput,
-  usePatchEnrolmentMutation,
+  UpdateSignupMutationInput,
+  usePatchSignupMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
@@ -54,7 +54,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     );
   });
 
-  const [patchEnrolmentMutation] = usePatchEnrolmentMutation();
+  const [patchSignupMutation] = usePatchSignupMutation();
 
   const savingFinished = () => {
     setSaving(false);
@@ -69,7 +69,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: UpdateEnrolmentMutationInput;
+    payload?: UpdateSignupMutationInput;
     signup: SignupFieldsFragment;
   }) => {
     savingFinished();
@@ -87,11 +87,11 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     });
   };
 
-  const patchEnrolment = async (
+  const patchSignup = async (
     checked: boolean,
     signup: SignupFieldsFragment
   ) => {
-    const payload: UpdateEnrolmentMutationInput = {
+    const payload: UpdateSignupMutationInput = {
       id: signup.id,
       presenceStatus: checked
         ? PresenceStatus.Present
@@ -100,11 +100,8 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     try {
       setSaving(true);
 
-      await patchEnrolmentMutation({
-        variables: {
-          input: payload,
-          signup: signup.id,
-        },
+      await patchSignupMutation({
+        variables: { input: payload, id: signup.id },
       });
 
       savingFinished();
@@ -147,7 +144,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
             label={fullName}
             checked={signup.presenceStatus === PresenceStatus.Present}
             onChange={(e) => {
-              patchEnrolment(e.target.checked, signup);
+              patchSignup(e.target.checked, signup);
             }}
           />
         );

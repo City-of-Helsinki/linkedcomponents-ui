@@ -416,7 +416,6 @@ export type Mutation = {
   createRegistration: Registration;
   createSeatsReservation: SeatsReservation;
   createSignupGroup: CreateSignupGroupResponse;
-  deleteEnrolment?: Maybe<NoContent>;
   deleteEvent?: Maybe<NoContent>;
   deleteImage?: Maybe<NoContent>;
   deleteKeyword?: Maybe<NoContent>;
@@ -424,11 +423,11 @@ export type Mutation = {
   deleteOrganization?: Maybe<NoContent>;
   deletePlace?: Maybe<NoContent>;
   deleteRegistration?: Maybe<NoContent>;
+  deleteSignup?: Maybe<NoContent>;
   postFeedback?: Maybe<Feedback>;
   postGuestFeedback?: Maybe<Feedback>;
   sendMessage?: Maybe<SendMessageResponse>;
   sendRegistrationUserAccessInvitation?: Maybe<NoContent>;
-  updateEnrolment: Signup;
   updateEvent: Event;
   updateEvents: Array<Event>;
   updateImage: Image;
@@ -438,6 +437,7 @@ export type Mutation = {
   updatePlace: Place;
   updateRegistration: Registration;
   updateSeatsReservation: SeatsReservation;
+  updateSignup: Signup;
   updateSignupGroup: SignupGroup;
   uploadImage: Image;
 };
@@ -488,11 +488,6 @@ export type MutationCreateSignupGroupArgs = {
 };
 
 
-export type MutationDeleteEnrolmentArgs = {
-  signup: Scalars['String'];
-};
-
-
 export type MutationDeleteEventArgs = {
   id: Scalars['ID'];
 };
@@ -528,6 +523,11 @@ export type MutationDeleteRegistrationArgs = {
 };
 
 
+export type MutationDeleteSignupArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationPostFeedbackArgs = {
   input: FeedbackInput;
 };
@@ -546,12 +546,6 @@ export type MutationSendMessageArgs = {
 
 export type MutationSendRegistrationUserAccessInvitationArgs = {
   id?: InputMaybe<Scalars['Int']>;
-};
-
-
-export type MutationUpdateEnrolmentArgs = {
-  input: UpdateEnrolmentMutationInput;
-  signup: Scalars['String'];
 };
 
 
@@ -598,6 +592,12 @@ export type MutationUpdateRegistrationArgs = {
 export type MutationUpdateSeatsReservationArgs = {
   id: Scalars['ID'];
   input: UpdateSeatsReservationMutationInput;
+};
+
+
+export type MutationUpdateSignupArgs = {
+  id: Scalars['ID'];
+  input: UpdateSignupMutationInput;
 };
 
 
@@ -1103,25 +1103,6 @@ export enum SuperEventType {
   Umbrella = 'umbrella'
 }
 
-export type UpdateEnrolmentMutationInput = {
-  city?: InputMaybe<Scalars['String']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
-  extraInfo?: InputMaybe<Scalars['String']>;
-  firstName?: InputMaybe<Scalars['String']>;
-  id: Scalars['ID'];
-  lastName?: InputMaybe<Scalars['String']>;
-  membershipNumber?: InputMaybe<Scalars['String']>;
-  nativeLanguage?: InputMaybe<Scalars['String']>;
-  notifications?: InputMaybe<Scalars['String']>;
-  phoneNumber?: InputMaybe<Scalars['String']>;
-  presenceStatus?: InputMaybe<PresenceStatus>;
-  registration?: InputMaybe<Scalars['ID']>;
-  serviceLanguage?: InputMaybe<Scalars['String']>;
-  streetAddress?: InputMaybe<Scalars['String']>;
-  zipcode?: InputMaybe<Scalars['String']>;
-};
-
 export type UpdateEventMutationInput = {
   audience?: InputMaybe<Array<IdObjectInput>>;
   audienceMaxAge?: InputMaybe<Scalars['Int']>;
@@ -1251,6 +1232,26 @@ export type UpdateSignupGroupMutationInput = {
   signups?: InputMaybe<Array<SignupInput>>;
 };
 
+export type UpdateSignupMutationInput = {
+  city?: InputMaybe<Scalars['String']>;
+  dateOfBirth?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  extraInfo?: InputMaybe<Scalars['String']>;
+  firstName?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  lastName?: InputMaybe<Scalars['String']>;
+  membershipNumber?: InputMaybe<Scalars['String']>;
+  nativeLanguage?: InputMaybe<Scalars['String']>;
+  notifications?: InputMaybe<Scalars['String']>;
+  phoneNumber?: InputMaybe<Scalars['String']>;
+  presenceStatus?: InputMaybe<PresenceStatus>;
+  registration?: InputMaybe<Scalars['ID']>;
+  responsibleForGroup?: InputMaybe<Scalars['Boolean']>;
+  serviceLanguage?: InputMaybe<Scalars['String']>;
+  streetAddress?: InputMaybe<Scalars['String']>;
+  zipcode?: InputMaybe<Scalars['String']>;
+};
+
 export type UploadImageMutationInput = {
   altText?: InputMaybe<LocalisedObjectInput>;
   image?: InputMaybe<Scalars['Any']>;
@@ -1316,57 +1317,6 @@ export type DataSourcesQueryVariables = Exact<{
 
 
 export type DataSourcesQuery = { __typename?: 'Query', dataSources: { __typename?: 'DataSourcesResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'DataSource', apiKey?: string | null, createPastEvents?: boolean | null, editPastEvents?: boolean | null, id?: string | null, name?: string | null, owner?: string | null, private?: boolean | null, userEditable?: boolean | null } | null> } };
-
-export type DeleteEnrolmentMutationVariables = Exact<{
-  signup: Scalars['String'];
-}>;
-
-
-export type DeleteEnrolmentMutation = { __typename?: 'Mutation', deleteEnrolment?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
-
-export type UpdateEnrolmentMutationVariables = Exact<{
-  input: UpdateEnrolmentMutationInput;
-  signup: Scalars['String'];
-}>;
-
-
-export type UpdateEnrolmentMutation = { __typename?: 'Mutation', updateEnrolment: { __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null } };
-
-export type PatchEnrolmentMutationVariables = Exact<{
-  input: UpdateEnrolmentMutationInput;
-  signup: Scalars['String'];
-}>;
-
-
-export type PatchEnrolmentMutation = { __typename?: 'Mutation', updateEnrolment: { __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null } };
-
-export type SendMessageMutationVariables = Exact<{
-  input: SendMessageMutationInput;
-  registration: Scalars['ID'];
-}>;
-
-
-export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __typename?: 'SendMessageResponse', htmlMessage: string, message: string, signups?: Array<string> | null, subject: string } | null };
-
-export type SignupQueryVariables = Exact<{
-  id: Scalars['ID'];
-  createPath?: InputMaybe<Scalars['Any']>;
-}>;
-
-
-export type SignupQuery = { __typename?: 'Query', signup: { __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null } };
-
-export type SignupFieldsFragment = { __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null };
-
-export type SignupsQueryVariables = Exact<{
-  attendeeStatus?: InputMaybe<AttendeeStatus>;
-  registration?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
-  text?: InputMaybe<Scalars['String']>;
-  createPath?: InputMaybe<Scalars['Any']>;
-}>;
-
-
-export type SignupsQuery = { __typename?: 'Query', signups: { __typename?: 'SignupsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null }> } };
 
 export type CreateEventMutationVariables = Exact<{
   input: CreateEventMutationInput;
@@ -1809,6 +1759,47 @@ export type UpdateSeatsReservationMutation = { __typename?: 'Mutation', updateSe
 
 export type SeatsReservationFieldsFragment = { __typename?: 'SeatsReservation', id: string, code: string, expiration: string, inWaitlist: boolean, registration: string, seats: number, timestamp: string };
 
+export type DeleteSignupMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteSignupMutation = { __typename?: 'Mutation', deleteSignup?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
+
+export type UpdateSignupMutationVariables = Exact<{
+  input: UpdateSignupMutationInput;
+  id: Scalars['ID'];
+}>;
+
+
+export type UpdateSignupMutation = { __typename?: 'Mutation', updateSignup: { __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null } };
+
+export type PatchSignupMutationVariables = Exact<{
+  input: UpdateSignupMutationInput;
+  id: Scalars['ID'];
+}>;
+
+
+export type PatchSignupMutation = { __typename?: 'Mutation', updateSignup: { __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null } };
+
+export type SendMessageMutationVariables = Exact<{
+  input: SendMessageMutationInput;
+  registration: Scalars['ID'];
+}>;
+
+
+export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __typename?: 'SendMessageResponse', htmlMessage: string, message: string, signups?: Array<string> | null, subject: string } | null };
+
+export type SignupQueryVariables = Exact<{
+  id: Scalars['ID'];
+  createPath?: InputMaybe<Scalars['Any']>;
+}>;
+
+
+export type SignupQuery = { __typename?: 'Query', signup: { __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null } };
+
+export type SignupFieldsFragment = { __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null };
+
 export type CreateSignupGroupMutationVariables = Exact<{
   input: CreateSignupGroupMutationInput;
 }>;
@@ -1835,6 +1826,16 @@ export type SignupGroupQueryVariables = Exact<{
 
 
 export type SignupGroupQuery = { __typename?: 'Query', signupGroup: { __typename?: 'SignupGroup', extraInfo?: string | null, id?: string | null, registration?: string | null, signups?: Array<{ __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } };
+
+export type SignupsQueryVariables = Exact<{
+  attendeeStatus?: InputMaybe<AttendeeStatus>;
+  registration?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
+  text?: InputMaybe<Scalars['String']>;
+  createPath?: InputMaybe<Scalars['Any']>;
+}>;
+
+
+export type SignupsQuery = { __typename?: 'Query', signups: { __typename?: 'SignupsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null }> } };
 
 export type UserFieldsFragment = { __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, username?: string | null, uuid?: string | null };
 
@@ -2363,228 +2364,6 @@ export function useDataSourcesLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type DataSourcesQueryHookResult = ReturnType<typeof useDataSourcesQuery>;
 export type DataSourcesLazyQueryHookResult = ReturnType<typeof useDataSourcesLazyQuery>;
 export type DataSourcesQueryResult = Apollo.QueryResult<DataSourcesQuery, DataSourcesQueryVariables>;
-export const DeleteEnrolmentDocument = gql`
-    mutation DeleteEnrolment($signup: String!) {
-  deleteEnrolment(signup: $signup) @rest(type: "NoContent", path: "/signup/{args.signup}/", method: "DELETE") {
-    noContent
-  }
-}
-    `;
-export type DeleteEnrolmentMutationFn = Apollo.MutationFunction<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>;
-
-/**
- * __useDeleteEnrolmentMutation__
- *
- * To run a mutation, you first call `useDeleteEnrolmentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteEnrolmentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [deleteEnrolmentMutation, { data, loading, error }] = useDeleteEnrolmentMutation({
- *   variables: {
- *      signup: // value for 'signup'
- *   },
- * });
- */
-export function useDeleteEnrolmentMutation(baseOptions?: Apollo.MutationHookOptions<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>(DeleteEnrolmentDocument, options);
-      }
-export type DeleteEnrolmentMutationHookResult = ReturnType<typeof useDeleteEnrolmentMutation>;
-export type DeleteEnrolmentMutationResult = Apollo.MutationResult<DeleteEnrolmentMutation>;
-export type DeleteEnrolmentMutationOptions = Apollo.BaseMutationOptions<DeleteEnrolmentMutation, DeleteEnrolmentMutationVariables>;
-export const UpdateEnrolmentDocument = gql`
-    mutation UpdateEnrolment($input: UpdateEnrolmentMutationInput!, $signup: String!) {
-  updateEnrolment(input: $input, signup: $signup) @rest(type: "Signup", path: "/signup/{args.signup}/", method: "PUT", bodyKey: "input") {
-    ...signupFields
-  }
-}
-    ${SignupFieldsFragmentDoc}`;
-export type UpdateEnrolmentMutationFn = Apollo.MutationFunction<UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables>;
-
-/**
- * __useUpdateEnrolmentMutation__
- *
- * To run a mutation, you first call `useUpdateEnrolmentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpdateEnrolmentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [updateEnrolmentMutation, { data, loading, error }] = useUpdateEnrolmentMutation({
- *   variables: {
- *      input: // value for 'input'
- *      signup: // value for 'signup'
- *   },
- * });
- */
-export function useUpdateEnrolmentMutation(baseOptions?: Apollo.MutationHookOptions<UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables>(UpdateEnrolmentDocument, options);
-      }
-export type UpdateEnrolmentMutationHookResult = ReturnType<typeof useUpdateEnrolmentMutation>;
-export type UpdateEnrolmentMutationResult = Apollo.MutationResult<UpdateEnrolmentMutation>;
-export type UpdateEnrolmentMutationOptions = Apollo.BaseMutationOptions<UpdateEnrolmentMutation, UpdateEnrolmentMutationVariables>;
-export const PatchEnrolmentDocument = gql`
-    mutation PatchEnrolment($input: UpdateEnrolmentMutationInput!, $signup: String!) {
-  updateEnrolment(input: $input, signup: $signup) @rest(type: "Signup", path: "/signup/{args.signup}/", method: "PATCH", bodyKey: "input") {
-    ...signupFields
-  }
-}
-    ${SignupFieldsFragmentDoc}`;
-export type PatchEnrolmentMutationFn = Apollo.MutationFunction<PatchEnrolmentMutation, PatchEnrolmentMutationVariables>;
-
-/**
- * __usePatchEnrolmentMutation__
- *
- * To run a mutation, you first call `usePatchEnrolmentMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `usePatchEnrolmentMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [patchEnrolmentMutation, { data, loading, error }] = usePatchEnrolmentMutation({
- *   variables: {
- *      input: // value for 'input'
- *      signup: // value for 'signup'
- *   },
- * });
- */
-export function usePatchEnrolmentMutation(baseOptions?: Apollo.MutationHookOptions<PatchEnrolmentMutation, PatchEnrolmentMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<PatchEnrolmentMutation, PatchEnrolmentMutationVariables>(PatchEnrolmentDocument, options);
-      }
-export type PatchEnrolmentMutationHookResult = ReturnType<typeof usePatchEnrolmentMutation>;
-export type PatchEnrolmentMutationResult = Apollo.MutationResult<PatchEnrolmentMutation>;
-export type PatchEnrolmentMutationOptions = Apollo.BaseMutationOptions<PatchEnrolmentMutation, PatchEnrolmentMutationVariables>;
-export const SendMessageDocument = gql`
-    mutation SendMessage($input: SendMessageMutationInput!, $registration: ID!) {
-  sendMessage(input: $input, registration: $registration) @rest(type: "SendMessageResponse", path: "/registration/{args.registration}/send_message/", method: "POST", bodyKey: "input") {
-    htmlMessage
-    message
-    signups
-    subject
-  }
-}
-    `;
-export type SendMessageMutationFn = Apollo.MutationFunction<SendMessageMutation, SendMessageMutationVariables>;
-
-/**
- * __useSendMessageMutation__
- *
- * To run a mutation, you first call `useSendMessageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSendMessageMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [sendMessageMutation, { data, loading, error }] = useSendMessageMutation({
- *   variables: {
- *      input: // value for 'input'
- *      registration: // value for 'registration'
- *   },
- * });
- */
-export function useSendMessageMutation(baseOptions?: Apollo.MutationHookOptions<SendMessageMutation, SendMessageMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<SendMessageMutation, SendMessageMutationVariables>(SendMessageDocument, options);
-      }
-export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMutation>;
-export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutation>;
-export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutation, SendMessageMutationVariables>;
-export const SignupDocument = gql`
-    query Signup($id: ID!, $createPath: Any) {
-  signup(id: $id) @rest(type: "Signup", pathBuilder: $createPath) {
-    ...signupFields
-  }
-}
-    ${SignupFieldsFragmentDoc}`;
-
-/**
- * __useSignupQuery__
- *
- * To run a query within a React component, call `useSignupQuery` and pass it any options that fit your needs.
- * When your component renders, `useSignupQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSignupQuery({
- *   variables: {
- *      id: // value for 'id'
- *      createPath: // value for 'createPath'
- *   },
- * });
- */
-export function useSignupQuery(baseOptions: Apollo.QueryHookOptions<SignupQuery, SignupQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SignupQuery, SignupQueryVariables>(SignupDocument, options);
-      }
-export function useSignupLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SignupQuery, SignupQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SignupQuery, SignupQueryVariables>(SignupDocument, options);
-        }
-export type SignupQueryHookResult = ReturnType<typeof useSignupQuery>;
-export type SignupLazyQueryHookResult = ReturnType<typeof useSignupLazyQuery>;
-export type SignupQueryResult = Apollo.QueryResult<SignupQuery, SignupQueryVariables>;
-export const SignupsDocument = gql`
-    query Signups($attendeeStatus: AttendeeStatus, $registration: [ID], $text: String, $createPath: Any) {
-  signups(
-    attendeeStatus: $attendeeStatus
-    registration: $registration
-    text: $text
-  ) @rest(type: "SignupsResponse", pathBuilder: $createPath) {
-    meta {
-      ...metaFields
-    }
-    data {
-      ...signupFields
-    }
-  }
-}
-    ${MetaFieldsFragmentDoc}
-${SignupFieldsFragmentDoc}`;
-
-/**
- * __useSignupsQuery__
- *
- * To run a query within a React component, call `useSignupsQuery` and pass it any options that fit your needs.
- * When your component renders, `useSignupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useSignupsQuery({
- *   variables: {
- *      attendeeStatus: // value for 'attendeeStatus'
- *      registration: // value for 'registration'
- *      text: // value for 'text'
- *      createPath: // value for 'createPath'
- *   },
- * });
- */
-export function useSignupsQuery(baseOptions?: Apollo.QueryHookOptions<SignupsQuery, SignupsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<SignupsQuery, SignupsQueryVariables>(SignupsDocument, options);
-      }
-export function useSignupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SignupsQuery, SignupsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<SignupsQuery, SignupsQueryVariables>(SignupsDocument, options);
-        }
-export type SignupsQueryHookResult = ReturnType<typeof useSignupsQuery>;
-export type SignupsLazyQueryHookResult = ReturnType<typeof useSignupsLazyQuery>;
-export type SignupsQueryResult = Apollo.QueryResult<SignupsQuery, SignupsQueryVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($input: CreateEventMutationInput!) {
   createEvent(input: $input) @rest(type: "Event", path: "/event/", method: "POST", bodyKey: "input") {
@@ -4313,6 +4092,180 @@ export function useUpdateSeatsReservationMutation(baseOptions?: Apollo.MutationH
 export type UpdateSeatsReservationMutationHookResult = ReturnType<typeof useUpdateSeatsReservationMutation>;
 export type UpdateSeatsReservationMutationResult = Apollo.MutationResult<UpdateSeatsReservationMutation>;
 export type UpdateSeatsReservationMutationOptions = Apollo.BaseMutationOptions<UpdateSeatsReservationMutation, UpdateSeatsReservationMutationVariables>;
+export const DeleteSignupDocument = gql`
+    mutation DeleteSignup($id: ID!) {
+  deleteSignup(id: $id) @rest(type: "NoContent", path: "/signup/{args.id}/", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeleteSignupMutationFn = Apollo.MutationFunction<DeleteSignupMutation, DeleteSignupMutationVariables>;
+
+/**
+ * __useDeleteSignupMutation__
+ *
+ * To run a mutation, you first call `useDeleteSignupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSignupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSignupMutation, { data, loading, error }] = useDeleteSignupMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteSignupMutation(baseOptions?: Apollo.MutationHookOptions<DeleteSignupMutation, DeleteSignupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteSignupMutation, DeleteSignupMutationVariables>(DeleteSignupDocument, options);
+      }
+export type DeleteSignupMutationHookResult = ReturnType<typeof useDeleteSignupMutation>;
+export type DeleteSignupMutationResult = Apollo.MutationResult<DeleteSignupMutation>;
+export type DeleteSignupMutationOptions = Apollo.BaseMutationOptions<DeleteSignupMutation, DeleteSignupMutationVariables>;
+export const UpdateSignupDocument = gql`
+    mutation UpdateSignup($input: UpdateSignupMutationInput!, $id: ID!) {
+  updateSignup(input: $input, id: $id) @rest(type: "Signup", path: "/signup/{args.signup}/", method: "PUT", bodyKey: "input") {
+    ...signupFields
+  }
+}
+    ${SignupFieldsFragmentDoc}`;
+export type UpdateSignupMutationFn = Apollo.MutationFunction<UpdateSignupMutation, UpdateSignupMutationVariables>;
+
+/**
+ * __useUpdateSignupMutation__
+ *
+ * To run a mutation, you first call `useUpdateSignupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSignupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSignupMutation, { data, loading, error }] = useUpdateSignupMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUpdateSignupMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSignupMutation, UpdateSignupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateSignupMutation, UpdateSignupMutationVariables>(UpdateSignupDocument, options);
+      }
+export type UpdateSignupMutationHookResult = ReturnType<typeof useUpdateSignupMutation>;
+export type UpdateSignupMutationResult = Apollo.MutationResult<UpdateSignupMutation>;
+export type UpdateSignupMutationOptions = Apollo.BaseMutationOptions<UpdateSignupMutation, UpdateSignupMutationVariables>;
+export const PatchSignupDocument = gql`
+    mutation PatchSignup($input: UpdateSignupMutationInput!, $id: ID!) {
+  updateSignup(input: $input, id: $id) @rest(type: "Signup", path: "/signup/{args.signup}/", method: "PATCH", bodyKey: "input") {
+    ...signupFields
+  }
+}
+    ${SignupFieldsFragmentDoc}`;
+export type PatchSignupMutationFn = Apollo.MutationFunction<PatchSignupMutation, PatchSignupMutationVariables>;
+
+/**
+ * __usePatchSignupMutation__
+ *
+ * To run a mutation, you first call `usePatchSignupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePatchSignupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [patchSignupMutation, { data, loading, error }] = usePatchSignupMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePatchSignupMutation(baseOptions?: Apollo.MutationHookOptions<PatchSignupMutation, PatchSignupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PatchSignupMutation, PatchSignupMutationVariables>(PatchSignupDocument, options);
+      }
+export type PatchSignupMutationHookResult = ReturnType<typeof usePatchSignupMutation>;
+export type PatchSignupMutationResult = Apollo.MutationResult<PatchSignupMutation>;
+export type PatchSignupMutationOptions = Apollo.BaseMutationOptions<PatchSignupMutation, PatchSignupMutationVariables>;
+export const SendMessageDocument = gql`
+    mutation SendMessage($input: SendMessageMutationInput!, $registration: ID!) {
+  sendMessage(input: $input, registration: $registration) @rest(type: "SendMessageResponse", path: "/registration/{args.registration}/send_message/", method: "POST", bodyKey: "input") {
+    htmlMessage
+    message
+    signups
+    subject
+  }
+}
+    `;
+export type SendMessageMutationFn = Apollo.MutationFunction<SendMessageMutation, SendMessageMutationVariables>;
+
+/**
+ * __useSendMessageMutation__
+ *
+ * To run a mutation, you first call `useSendMessageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendMessageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendMessageMutation, { data, loading, error }] = useSendMessageMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      registration: // value for 'registration'
+ *   },
+ * });
+ */
+export function useSendMessageMutation(baseOptions?: Apollo.MutationHookOptions<SendMessageMutation, SendMessageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<SendMessageMutation, SendMessageMutationVariables>(SendMessageDocument, options);
+      }
+export type SendMessageMutationHookResult = ReturnType<typeof useSendMessageMutation>;
+export type SendMessageMutationResult = Apollo.MutationResult<SendMessageMutation>;
+export type SendMessageMutationOptions = Apollo.BaseMutationOptions<SendMessageMutation, SendMessageMutationVariables>;
+export const SignupDocument = gql`
+    query Signup($id: ID!, $createPath: Any) {
+  signup(id: $id) @rest(type: "Signup", pathBuilder: $createPath) {
+    ...signupFields
+  }
+}
+    ${SignupFieldsFragmentDoc}`;
+
+/**
+ * __useSignupQuery__
+ *
+ * To run a query within a React component, call `useSignupQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSignupQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSignupQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useSignupQuery(baseOptions: Apollo.QueryHookOptions<SignupQuery, SignupQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SignupQuery, SignupQueryVariables>(SignupDocument, options);
+      }
+export function useSignupLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SignupQuery, SignupQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SignupQuery, SignupQueryVariables>(SignupDocument, options);
+        }
+export type SignupQueryHookResult = ReturnType<typeof useSignupQuery>;
+export type SignupLazyQueryHookResult = ReturnType<typeof useSignupLazyQuery>;
+export type SignupQueryResult = Apollo.QueryResult<SignupQuery, SignupQueryVariables>;
 export const CreateSignupGroupDocument = gql`
     mutation CreateSignupGroup($input: CreateSignupGroupMutationInput!) {
   createSignupGroup(input: $input) @rest(type: "CreateSignupGroupResponse", path: "/signup_group/", method: "POST", bodyKey: "input") {
@@ -4416,6 +4369,54 @@ export function useSignupGroupLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type SignupGroupQueryHookResult = ReturnType<typeof useSignupGroupQuery>;
 export type SignupGroupLazyQueryHookResult = ReturnType<typeof useSignupGroupLazyQuery>;
 export type SignupGroupQueryResult = Apollo.QueryResult<SignupGroupQuery, SignupGroupQueryVariables>;
+export const SignupsDocument = gql`
+    query Signups($attendeeStatus: AttendeeStatus, $registration: [ID], $text: String, $createPath: Any) {
+  signups(
+    attendeeStatus: $attendeeStatus
+    registration: $registration
+    text: $text
+  ) @rest(type: "SignupsResponse", pathBuilder: $createPath) {
+    meta {
+      ...metaFields
+    }
+    data {
+      ...signupFields
+    }
+  }
+}
+    ${MetaFieldsFragmentDoc}
+${SignupFieldsFragmentDoc}`;
+
+/**
+ * __useSignupsQuery__
+ *
+ * To run a query within a React component, call `useSignupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSignupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSignupsQuery({
+ *   variables: {
+ *      attendeeStatus: // value for 'attendeeStatus'
+ *      registration: // value for 'registration'
+ *      text: // value for 'text'
+ *      createPath: // value for 'createPath'
+ *   },
+ * });
+ */
+export function useSignupsQuery(baseOptions?: Apollo.QueryHookOptions<SignupsQuery, SignupsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SignupsQuery, SignupsQueryVariables>(SignupsDocument, options);
+      }
+export function useSignupsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SignupsQuery, SignupsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SignupsQuery, SignupsQueryVariables>(SignupsDocument, options);
+        }
+export type SignupsQueryHookResult = ReturnType<typeof useSignupsQuery>;
+export type SignupsLazyQueryHookResult = ReturnType<typeof useSignupsLazyQuery>;
+export type SignupsQueryResult = Apollo.QueryResult<SignupsQuery, SignupsQueryVariables>;
 export const UserDocument = gql`
     query User($id: ID!, $createPath: Any) {
   user(id: $id) @rest(type: "User", pathBuilder: $createPath) {

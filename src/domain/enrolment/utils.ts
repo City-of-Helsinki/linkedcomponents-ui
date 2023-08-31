@@ -1,14 +1,14 @@
 import { DATE_FORMAT_API } from '../../constants';
 import {
   RegistrationFieldsFragment,
-  UpdateEnrolmentMutationInput,
+  UpdateSignupMutationInput,
 } from '../../generated/graphql';
 import formatDate from '../../utils/formatDate';
 import getValue from '../../utils/getValue';
 import { NOTIFICATION_TYPE } from '../signupGroup/constants';
 import { SignupGroupFormFields } from '../signupGroup/types';
 
-export const getUpdateEnrolmentPayload = ({
+export const getUpdateSignupPayload = ({
   formValues,
   id,
   registration,
@@ -16,7 +16,7 @@ export const getUpdateEnrolmentPayload = ({
   formValues: SignupGroupFormFields;
   id: string;
   registration: RegistrationFieldsFragment;
-}): UpdateEnrolmentMutationInput => {
+}): UpdateSignupMutationInput => {
   const {
     email,
     extraInfo,
@@ -41,7 +41,7 @@ export const getUpdateEnrolmentPayload = ({
     nativeLanguage: getValue(nativeLanguage, null),
     // TODO: At the moment only email notifications are supported
     notifications: NOTIFICATION_TYPE.EMAIL,
-    // notifications: getEnrolmentNotificationsCode(notifications),
+    // notifications: getSignupNotificationsCode(notifications),
     phoneNumber: getValue(phoneNumber, null),
     registration: getValue(registration.id, ''),
     serviceLanguage: getValue(serviceLanguage, null),
