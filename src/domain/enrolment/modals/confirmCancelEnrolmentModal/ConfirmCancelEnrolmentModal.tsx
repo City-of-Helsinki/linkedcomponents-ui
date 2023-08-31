@@ -11,7 +11,7 @@ import {
   SignupFieldsFragment,
 } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
-import { getEnrolmentFields } from '../../../enrolments/utils';
+import { getEnrolmentFields } from '../../../signups/utils';
 
 export type ConfirmCancelEnrolmentModalProps = {
   enrolment: SignupFieldsFragment;

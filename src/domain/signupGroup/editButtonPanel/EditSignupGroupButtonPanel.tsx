@@ -17,7 +17,7 @@ import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { ENROLMENT_ACTIONS } from '../../enrolment/constants';
 import { getEditButtonProps } from '../../enrolment/utils';
-import { EnrolmentsLocationState } from '../../enrolments/types';
+import { EnrolmentsLocationState } from '../../signups/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';

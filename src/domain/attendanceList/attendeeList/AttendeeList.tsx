@@ -18,7 +18,7 @@ import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
 import { reportError } from '../../app/sentry/utils';
-import { getEnrolmentFields } from '../../enrolments/utils';
+import { getEnrolmentFields } from '../../signups/utils';
 import useUser from '../../user/hooks/useUser';
 
 type Props = {

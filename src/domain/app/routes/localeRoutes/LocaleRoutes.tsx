@@ -37,7 +37,7 @@ const EditSignupGroupPage = React.lazy(
   () => import('../../../signupGroup/EditSignupGroupPage')
 );
 const EnrolmentsPage = React.lazy(
-  () => import('../../../enrolments/EnrolmentsPage')
+  () => import('../../../signups/EnrolmentsPage')
 );
 const EventsPage = React.lazy(() => import('../../../events/EventsPage'));
 const EventSearchPage = React.lazy(

@@ -15,7 +15,7 @@ import useGoBack from '../../../hooks/useGoBack';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { EnrolmentsLocationState } from '../../enrolments/types';
+import { EnrolmentsLocationState } from '../../signups/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
