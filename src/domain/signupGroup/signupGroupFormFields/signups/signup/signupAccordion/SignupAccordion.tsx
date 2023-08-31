@@ -97,10 +97,10 @@ const SignupAccordion: React.FC<
             {inWaitingList && (
               <div className={styles.waitingListIndicator}>
                 {<div className={styles.separator}>–</div>}
-                {t('enrolment.inWaitingList.text')}
+                {t('signup.inWaitingList.text')}
                 <div ref={tooltipRef}>
                   <Tooltip className={styles.tooltip}>
-                    {t('enrolment.inWaitingList.tooltip')}
+                    {t('signup.inWaitingList.tooltip')}
                   </Tooltip>
                 </div>
               </div>

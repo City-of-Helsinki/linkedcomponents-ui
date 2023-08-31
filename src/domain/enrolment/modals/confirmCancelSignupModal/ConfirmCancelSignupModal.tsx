@@ -36,7 +36,7 @@ const ConfirmCancelSignupModal: React.FC<ConfirmCancelSignupModalProps> = ({
       {...props}
       bodyContent={
         <>
-          <p>{t('enrolment.cancelEnrolmentModal.text2')}</p>
+          <p>{t('signup.cancelSignupModal.text2')}</p>
           <ul className={styles.list}>
             <li>
               <strong>{fullName}</strong>
@@ -45,9 +45,9 @@ const ConfirmCancelSignupModal: React.FC<ConfirmCancelSignupModalProps> = ({
         </>
       }
       confirmButtonIcon={<IconCross aria-hidden={true} />}
-      confirmButtonText={t('enrolment.cancelEnrolmentModal.buttonCancel')}
-      description={t('enrolment.cancelEnrolmentModal.text1')}
-      heading={t('enrolment.cancelEnrolmentModal.title')}
+      confirmButtonText={t('signup.cancelSignupModal.buttonCancel')}
+      description={t('signup.cancelSignupModal.text1')}
+      heading={t('signup.cancelSignupModal.title')}
       id="confirm-signup-cancel-modal"
       variant="danger"
     />

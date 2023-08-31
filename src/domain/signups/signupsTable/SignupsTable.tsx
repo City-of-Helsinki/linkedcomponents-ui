@@ -82,7 +82,7 @@ const AttendeeStatusColumn: FC<ColumnProps> = ({ registration, signup }) => {
     signup,
   });
 
-  return <>{t(`enrolment.attendeeStatus.${attendeeStatus}`)}</>;
+  return <>{t(`signup.attendeeStatus.${attendeeStatus}`)}</>;
 };
 
 export interface SignupsTableProps {

@@ -327,104 +327,6 @@
     "pageTitle": "Muokkaa osallistujia",
     "title": "Muokkaa osallistujia"
   },
-  "enrolment": {
-    "attendeeStatus": {
-      "attending": "Osallistuu",
-      "waitlisted": "Jonossa"
-    },
-    "cancelEnrolmentModal": {
-      "buttonCancel": "Peruuta ilmoittautuminen",
-      "text1": "Tätä toimintoa ei voi perua.",
-      "text2": "Seuraavat ilmoittautumiset poistetaan:",
-      "title": "Haluatko varmasti poistaa ilmoittautumisen?"
-    },
-    "deleteParticipantModal": {
-      "buttonDelete": "Poista osallistuja",
-      "buttonDelete_other": "Poista osallistujat",
-      "text1": "Haluatko varmasti poistaa osallistujan? Myös osallistujan varaus poistetaan.",
-      "text1_other": "Haluatko varmasti poistaa osallistujat? Myös osallistujien varaukset poistetaan.",
-      "text2": "Tätä toimintoa ei voi perua.",
-      "title": "Vahvista osallistujan poistaminen",
-      "title_other": "Vahvista osallistujien poistaminen"
-    },
-    "form": {
-      "buttonDeleteSignup": "Poista osallistuja",
-      "buttonSave": "Tallenna osallistuja",
-      "buttonUpdateParticipantAmount": "Päivitä",
-      "freeAttendeeCapacity": "Saatavilla olevia paikkoja",
-      "freeWaitingListCapacity": "Saatavilla olevia jonopaikkoja",
-      "labelCity": "Kaupunki",
-      "labelDateOfBirth": "Syntymäaika",
-      "labelEmail": "Sähköpostiosoite",
-      "labelExtraInfo": "Lisätietoa ilmoittautumisesta (valinnainen)",
-      "labelFirstName": "Etunimi",
-      "labelLastName": "Sukunimi",
-      "labelMembershipNumber": "Jäsenkortin numero (valinnainen)",
-      "labelNativeLanguage": "Äidinkieli",
-      "labelParticipantAmount": "Ilmoittautujien määrä",
-      "labelPhoneNumber": "Puhelinnumero",
-      "labelRegistration": "Ilmoittautuminen",
-      "labelServiceLanguage": "Asiointikieli",
-      "labelSignupExtraInfo": "Lisätietoa (valinnainen)",
-      "labelStreetAddress": "Katuosoite",
-      "labelZipcode": "Postinumero",
-      "notificationTitleCannotEdit": "Osallistujia ei voi muokata",
-      "placeholderCity": "Syötä kaupunki",
-      "placeholderEmail": "Syötä sähköpostiosoite",
-      "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
-      "placeholderFirstName": "Syötä ilmoittautujan etunimi",
-      "placeholderLastName": "Syötä ilmoittautujan sukunimi",
-      "placeholderMembershipNumber": "Syötä jäsenkortin numero",
-      "placeholderNativeLanguage": "Valitse äidinkieli",
-      "placeholderPhoneNumber": "+358 44 1234 567",
-      "placeholderServiceLanguage": "Valitse asiointikieli",
-      "placeholderSignupExtraInfo": "Syötä mahdollinen lisätieto tai toive",
-      "placeholderStreetAddress": "Syötä katuosoite",
-      "placeholderZipcode": "Syötä postinumero",
-      "signupDefaultTitle": "Osallistuja {{index}}",
-      "timeLeft": "Aikaa jäljellä ilmoittautumisen tekoon",
-      "titleAdditionalInfo": "Lisätiedot",
-      "titleBasicInfo": "Ilmoittautujan perustiedot",
-      "titleContactInfo": "Yhteystiedot",
-      "titleInformantInfo": "Ilmoittajan tiedot",
-      "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
-      "titleRegistration": "Ilmoittautuminen"
-    },
-    "inWaitingList": {
-      "text": "Varasija",
-      "tooltip": "Ilmoittautuja on lisätty ilmoittautujien jonoon varasijalla. Ilmoittautuminen varmistuu vasta, kun paikka jonossa vapautuu. Saat paikan varmistumisesta ilmoituksen sähköpostitse."
-    },
-    "notifications": {
-      "email": "Sähköpostilla",
-      "sms": "Tekstiviestillä"
-    },
-    "personsAddedToWaitingListModal": {
-      "buttonClose": "Sulje",
-      "text": "Huomioi, että kaikki ilmoittautujien paikat eivät ole varmistettuja. Varasijalla olevat ilmoittautujat varmistuvat vain, jos jonosta vapautuu lisää paikkoja. Varmistuneesta ilmoittautumisesta saat erillisen sähköpostin.",
-      "title": "Ilmoittautujia on lisätty varausjonoon"
-    },
-    "reservationTimeExpiredModal": {
-      "buttonTryAgain": "Yritä uudelleen",
-      "text": "Valitettavasti varausaika on umpeutunut.",
-      "title": "Varausaika on täynnä."
-    },
-    "sendMessageModal": {
-      "buttonSendMessage": "Lähetä viesti",
-      "labelBody": "Viesti",
-      "labelSubject": "Otsikko",
-      "placeholderBody": "Syötä viesti",
-      "placeholderSubject": "Syötä otsikko",
-      "title": "Lähetä viesti osallistujille",
-      "titleSingle": "Lähetä viesti osallistujalle"
-    },
-    "warnings": {
-      "allSeatsReserved": "Tapahtuman kaikki paikat ovat tällä hetkellä varatut. Kokeile myöhemmin uudelleen.",
-      "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
-      "capacityInWaitingList_other": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
-      "capacityInWaitingListNoLimit": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta vain jonopaikkoja on jäljellä.",
-      "closed": "Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen."
-    }
-  },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",
     "deleted": "Sisältö on poistettu",
@@ -1890,6 +1792,104 @@
     "required": "Tämä kenttä ei voi olla tyhjä.",
     "requiredWhenPublishing": "Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.",
     "shortDescriptionTooLong": "Lyhyen kuvauksen pituus saa olla enintään 160 merkkiä."
+  },
+  "signup": {
+    "attendeeStatus": {
+      "attending": "Osallistuu",
+      "waitlisted": "Jonossa"
+    },
+    "cancelSignupModal": {
+      "buttonCancel": "Peruuta ilmoittautuminen",
+      "text1": "Tätä toimintoa ei voi perua.",
+      "text2": "Seuraavat ilmoittautumiset poistetaan:",
+      "title": "Haluatko varmasti poistaa ilmoittautumisen?"
+    },
+    "deleteParticipantModal": {
+      "buttonDelete": "Poista osallistuja",
+      "buttonDelete_other": "Poista osallistujat",
+      "text1": "Haluatko varmasti poistaa osallistujan? Myös osallistujan varaus poistetaan.",
+      "text1_other": "Haluatko varmasti poistaa osallistujat? Myös osallistujien varaukset poistetaan.",
+      "text2": "Tätä toimintoa ei voi perua.",
+      "title": "Vahvista osallistujan poistaminen",
+      "title_other": "Vahvista osallistujien poistaminen"
+    },
+    "form": {
+      "buttonDeleteSignup": "Poista osallistuja",
+      "buttonSave": "Tallenna osallistuja",
+      "buttonUpdateParticipantAmount": "Päivitä",
+      "freeAttendeeCapacity": "Saatavilla olevia paikkoja",
+      "freeWaitingListCapacity": "Saatavilla olevia jonopaikkoja",
+      "labelCity": "Kaupunki",
+      "labelDateOfBirth": "Syntymäaika",
+      "labelEmail": "Sähköpostiosoite",
+      "labelExtraInfo": "Lisätietoa ilmoittautumisesta (valinnainen)",
+      "labelFirstName": "Etunimi",
+      "labelLastName": "Sukunimi",
+      "labelMembershipNumber": "Jäsenkortin numero (valinnainen)",
+      "labelNativeLanguage": "Äidinkieli",
+      "labelParticipantAmount": "Ilmoittautujien määrä",
+      "labelPhoneNumber": "Puhelinnumero",
+      "labelRegistration": "Ilmoittautuminen",
+      "labelServiceLanguage": "Asiointikieli",
+      "labelSignupExtraInfo": "Lisätietoa (valinnainen)",
+      "labelStreetAddress": "Katuosoite",
+      "labelZipcode": "Postinumero",
+      "notificationTitleCannotEdit": "Osallistujia ei voi muokata",
+      "placeholderCity": "Syötä kaupunki",
+      "placeholderEmail": "Syötä sähköpostiosoite",
+      "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
+      "placeholderFirstName": "Syötä ilmoittautujan etunimi",
+      "placeholderLastName": "Syötä ilmoittautujan sukunimi",
+      "placeholderMembershipNumber": "Syötä jäsenkortin numero",
+      "placeholderNativeLanguage": "Valitse äidinkieli",
+      "placeholderPhoneNumber": "+358 44 1234 567",
+      "placeholderServiceLanguage": "Valitse asiointikieli",
+      "placeholderSignupExtraInfo": "Syötä mahdollinen lisätieto tai toive",
+      "placeholderStreetAddress": "Syötä katuosoite",
+      "placeholderZipcode": "Syötä postinumero",
+      "signupDefaultTitle": "Osallistuja {{index}}",
+      "timeLeft": "Aikaa jäljellä ilmoittautumisen tekoon",
+      "titleAdditionalInfo": "Lisätiedot",
+      "titleBasicInfo": "Ilmoittautujan perustiedot",
+      "titleContactInfo": "Yhteystiedot",
+      "titleInformantInfo": "Ilmoittajan tiedot",
+      "titleNotifications": "Tapahtumaa koskevat ilmoitukset",
+      "titleRegistration": "Ilmoittautuminen"
+    },
+    "inWaitingList": {
+      "text": "Varasija",
+      "tooltip": "Ilmoittautuja on lisätty ilmoittautujien jonoon varasijalla. Ilmoittautuminen varmistuu vasta, kun paikka jonossa vapautuu. Saat paikan varmistumisesta ilmoituksen sähköpostitse."
+    },
+    "notifications": {
+      "email": "Sähköpostilla",
+      "sms": "Tekstiviestillä"
+    },
+    "personsAddedToWaitingListModal": {
+      "buttonClose": "Sulje",
+      "text": "Huomioi, että kaikki ilmoittautujien paikat eivät ole varmistettuja. Varasijalla olevat ilmoittautujat varmistuvat vain, jos jonosta vapautuu lisää paikkoja. Varmistuneesta ilmoittautumisesta saat erillisen sähköpostin.",
+      "title": "Ilmoittautujia on lisätty varausjonoon"
+    },
+    "reservationTimeExpiredModal": {
+      "buttonTryAgain": "Yritä uudelleen",
+      "text": "Valitettavasti varausaika on umpeutunut.",
+      "title": "Varausaika on täynnä."
+    },
+    "sendMessageModal": {
+      "buttonSendMessage": "Lähetä viesti",
+      "labelBody": "Viesti",
+      "labelSubject": "Otsikko",
+      "placeholderBody": "Syötä viesti",
+      "placeholderSubject": "Syötä otsikko",
+      "title": "Lähetä viesti osallistujille",
+      "titleSingle": "Lähetä viesti osallistujalle"
+    },
+    "warnings": {
+      "allSeatsReserved": "Tapahtuman kaikki paikat ovat tällä hetkellä varatut. Kokeile myöhemmin uudelleen.",
+      "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
+      "capacityInWaitingList_other": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",
+      "capacityInWaitingListNoLimit": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta vain jonopaikkoja on jäljellä.",
+      "closed": "Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen."
+    }
   },
   "signupGroup": {
     "actionButtons": {

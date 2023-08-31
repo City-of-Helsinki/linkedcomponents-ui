@@ -106,7 +106,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
         <NumberInput
           id="participant-amount-field"
           disabled={disabled}
-          label={t(`enrolment.form.labelParticipantAmount`)}
+          label={t(`signup.form.labelParticipantAmount`)}
           min={1}
           max={maxSeatAmount}
           onChange={handleParticipantAmountChange}
@@ -121,7 +121,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
             type="button"
             variant="secondary"
           >
-            {t(`enrolment.form.buttonUpdateParticipantAmount`)}
+            {t(`signup.form.buttonUpdateParticipantAmount`)}
           </Button>
         </div>
       </div>

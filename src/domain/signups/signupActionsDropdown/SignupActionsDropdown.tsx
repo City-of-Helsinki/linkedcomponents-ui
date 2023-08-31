@@ -18,7 +18,7 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
-import ConfirmCancelEnrolmentModal from '../../enrolment/modals/confirmCancelSignupModal/ConfirmCancelSignupModal';
+import ConfirmCancelSignupModal from '../../enrolment/modals/confirmCancelSignupModal/ConfirmCancelSignupModal';
 import SendMessageModal from '../../enrolment/modals/sendMessageModal/SendMessageModal';
 import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -124,7 +124,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
   return (
     <>
       {isModalOpen(ENROLMENT_MODALS.CANCEL) && (
-        <ConfirmCancelEnrolmentModal
+        <ConfirmCancelSignupModal
           isOpen={openModal === ENROLMENT_MODALS.CANCEL}
           isSaving={saving === ENROLMENT_ACTIONS.CANCEL}
           onConfirm={cancelEnrolment}

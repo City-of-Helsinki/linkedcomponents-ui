@@ -521,17 +521,17 @@ export const getRegistrationWarning = (
   const freeWaitlistCapacity = getFreeWaitingListCapacity(registration);
 
   if (!registrationOpen) {
-    return t('enrolment.warnings.closed');
+    return t('signup.warnings.closed');
   }
 
   if (!registrationPossible) {
-    return t('enrolment.warnings.allSeatsReserved');
+    return t('signup.warnings.allSeatsReserved');
   }
 
   if (attendeeCapacityUsed && !waitingListCapacityUsed) {
     return isNil(freeWaitlistCapacity)
-      ? t('enrolment.warnings.capacityInWaitingListNoLimit')
-      : t('enrolment.warnings.capacityInWaitingList', {
+      ? t('signup.warnings.capacityInWaitingListNoLimit')
+      : t('signup.warnings.capacityInWaitingList', {
           count: freeWaitlistCapacity,
         });
   }

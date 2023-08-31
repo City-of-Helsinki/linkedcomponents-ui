@@ -29,7 +29,7 @@ const useMandatoryFieldOptions = (): UseMandatoryFieldOptionsState => {
             )
           )
           .map((o) => ({
-            label: t(`enrolment.form.label${pascalCase(o)}`),
+            label: t(`signup.form.label${pascalCase(o)}`),
             value: o,
           })),
         []
@@ -40,7 +40,7 @@ const useMandatoryFieldOptions = (): UseMandatoryFieldOptionsState => {
             (Object.values(SIGNUP_FIELDS) as string[]).includes(camelCase(o))
           )
           .map((o) => ({
-            label: t(`enrolment.form.label${pascalCase(o)}`),
+            label: t(`signup.form.label${pascalCase(o)}`),
             value: o,
           })),
         []

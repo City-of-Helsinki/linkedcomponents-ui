@@ -83,8 +83,8 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
         iconLeft={<IconInfoCircle aria-hidden={true} />}
         title={
           signup
-            ? t('enrolment.sendMessageModal.titleSingle')
-            : t('enrolment.sendMessageModal.title')
+            ? t('signup.sendMessageModal.titleSingle')
+            : t('signup.sendMessageModal.title')
         }
       />
       <Formik
@@ -123,10 +123,10 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
                 <FormGroup>
                   <Field
                     component={TextInputField}
-                    label={t(`enrolment.sendMessageModal.labelSubject`)}
+                    label={t(`signup.sendMessageModal.labelSubject`)}
                     name={`${SEND_MESSAGE_FORM_NAME}.${SEND_MESSAGE_FIELDS.SUBJECT}`}
                     placeholder={t(
-                      `enrolment.sendMessageModal.placeholderSubject`
+                      `signup.sendMessageModal.placeholderSubject`
                     )}
                     required={true}
                   />
@@ -134,11 +134,9 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
                 <FormGroup>
                   <Field
                     component={TextEditorField}
-                    label={t(`enrolment.sendMessageModal.labelBody`)}
+                    label={t(`signup.sendMessageModal.labelBody`)}
                     name={`${SEND_MESSAGE_FORM_NAME}.${SEND_MESSAGE_FIELDS.BODY}`}
-                    placeholder={t(
-                      `enrolment.sendMessageModal.placeholderBody`
-                    )}
+                    placeholder={t(`signup.sendMessageModal.placeholderBody`)}
                     required={true}
                   />
                 </FormGroup>
@@ -151,7 +149,7 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
                   type="button"
                   variant="primary"
                 >
-                  {t('enrolment.sendMessageModal.buttonSendMessage')}
+                  {t('signup.sendMessageModal.buttonSendMessage')}
                 </LoadingButton>
                 <Button onClick={onClose} type="button" variant="secondary">
                   {t('common.cancel')}

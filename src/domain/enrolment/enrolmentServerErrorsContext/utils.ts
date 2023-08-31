@@ -63,7 +63,7 @@ export const parseEnrolmentServerErrors = ({
       return '';
     }
 
-    return t(`enrolment.form.label${pascalCase(key)}`);
+    return t(`signup.form.label${pascalCase(key)}`);
   }
 };
 

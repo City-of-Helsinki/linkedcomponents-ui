@@ -326,104 +326,6 @@
     "pageTitle": "Edit participants",
     "title": "Edit participants"
   },
-  "enrolment": {
-    "attendeeStatus": {
-      "attending": "Attending",
-      "waitlisted": "In wait list"
-    },
-    "cancelEnrolmentModal": {
-      "buttonCancel": "Cancel registration",
-      "text1": "This operation cannot be undone.",
-      "text2": "Following registrations will be deleted:",
-      "title": "Are you sure you want to cancel the registration?"
-    },
-    "deleteParticipantModal": {
-      "buttonDelete": "Delete participant",
-      "buttonDelete_other": "Delete participants",
-      "text1": "Are you sure you want to delete the participant? Participant's reservations will also be removed.",
-      "text1_other": "Are you sure you want to delete participants? Participants' reservations will also be removed.",
-      "text2": "This operation cannot be undone.",
-      "title": "Confirm deleting participant",
-      "title_other": "Confirm deleting participants"
-    },
-    "form": {
-      "buttonDeleteSignup": "Delete participant",
-      "buttonSave": "Save participant",
-      "buttonUpdateParticipantAmount": "Update",
-      "freeAttendeeCapacity": "Available seats",
-      "freeWaitingListCapacity": "Available waiting list seats",
-      "labelCity": "City",
-      "labelDateOfBirth": "Date of birth",
-      "labelEmail": "Email address",
-      "labelExtraInfo": "Additional registration information (optional)",
-      "labelFirstName": "First name",
-      "labelLastName": "Last name",
-      "labelMembershipNumber": "Membership card number (optional)",
-      "labelNativeLanguage": "Native language",
-      "labelParticipantAmount": "Number of registrants",
-      "labelPhoneNumber": "Telephone number",
-      "labelRegistration": "Registration",
-      "labelServiceLanguage": "Language of communication",
-      "labelSignupExtraInfo": "Additional information (optional)",
-      "labelStreetAddress": "Street address",
-      "labelZipcode": "Postcode",
-      "notificationTitleCannotEdit": "Participants cannot be edited",
-      "placeholderCity": "Enter city",
-      "placeholderEmail": "Enter your email address",
-      "placeholderExtraInfo": "Enter any additional information or request",
-      "placeholderFirstName": "Enter the registrant's first name",
-      "placeholderLastName": "Enter the registrant's last name",
-      "placeholderMembershipNumber": "Enter membership card number",
-      "placeholderNativeLanguage": "Select language",
-      "placeholderPhoneNumber": "+358 44 1234 567",
-      "placeholderServiceLanguage": "Select language",
-      "placeholderSignupExtraInfo": "Enter any additional information or request",
-      "placeholderStreetAddress": "Enter a street address",
-      "placeholderZipcode": "Enter postcode",
-      "signupDefaultTitle": "Participant {{index}}",
-      "timeLeft": "Time left to register",
-      "titleAdditionalInfo": "Additional information",
-      "titleBasicInfo": "Basic information of the registrant",
-      "titleContactInfo": "Contact information",
-      "titleInformantInfo": "Information of the informant",
-      "titleNotifications": "Event notifications",
-      "titleRegistration": "Registration"
-    },
-    "inWaitingList": {
-      "text": "In waiting list",
-      "tooltip": "Entrants have been added to the queue of registrants with a reserve place. Registration is confirmed only when a place in the queue becomes available. You will receive a notification by e-mail that the place has been confirmed."
-    },
-    "notifications": {
-      "email": "By email",
-      "sms": "By text message"
-    },
-    "personsAddedToWaitingListModal": {
-      "buttonClose": "Close",
-      "text": "Please note that not all registrants' places are guaranteed. Entrants in the reserve position will only be confirmed if more places become available in the queue. You will receive a separate email from confirmed registration.",
-      "title": "Entrants have been added to the reservation queue"
-    },
-    "reservationTimeExpiredModal": {
-      "buttonTryAgain": "Try Again",
-      "text": "Unfortunately, the Reservation time has expired.",
-      "title": "Time’s Up."
-    },
-    "sendMessageModal": {
-      "buttonSendMessage": "Send message",
-      "labelBody": "Message",
-      "labelSubject": "Subject",
-      "placeholderBody": "Enter message",
-      "placeholderSubject": "Enter subject",
-      "title": "Send message to participants",
-      "titleSingle": "Send message to the participant"
-    },
-    "warnings": {
-      "allSeatsReserved": "All seats in the event are currently booked. Please try again later.",
-      "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
-      "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
-      "capacityInWaitingListNoLimit": "Registration for this event is still possible, but there are only seats left in the queue.",
-      "closed": "Registration for this event is currently closed. Please try again later."
-    }
-  },
   "errors": {
     "authorizationRequired": "Sign in to use this feature",
     "deleted": "Content removed",
@@ -1890,6 +1792,104 @@
     "requiredWhenPublishing": "This field must be specified before an event is published.",
     "shortDescriptionTooLong": "Short description length must be 160 characters or less."
   },
+  "signup": {
+    "attendeeStatus": {
+      "attending": "Attending",
+      "waitlisted": "In wait list"
+    },
+    "cancelSignupModal": {
+      "buttonCancel": "Cancel registration",
+      "text1": "This operation cannot be undone.",
+      "text2": "Following registrations will be deleted:",
+      "title": "Are you sure you want to cancel the registration?"
+    },
+    "deleteParticipantModal": {
+      "buttonDelete": "Delete participant",
+      "buttonDelete_other": "Delete participants",
+      "text1": "Are you sure you want to delete the participant? Participant's reservations will also be removed.",
+      "text1_other": "Are you sure you want to delete participants? Participants' reservations will also be removed.",
+      "text2": "This operation cannot be undone.",
+      "title": "Confirm deleting participant",
+      "title_other": "Confirm deleting participants"
+    },
+    "form": {
+      "buttonDeleteSignup": "Delete participant",
+      "buttonSave": "Save participant",
+      "buttonUpdateParticipantAmount": "Update",
+      "freeAttendeeCapacity": "Available seats",
+      "freeWaitingListCapacity": "Available waiting list seats",
+      "labelCity": "City",
+      "labelDateOfBirth": "Date of birth",
+      "labelEmail": "Email address",
+      "labelExtraInfo": "Additional registration information (optional)",
+      "labelFirstName": "First name",
+      "labelLastName": "Last name",
+      "labelMembershipNumber": "Membership card number (optional)",
+      "labelNativeLanguage": "Native language",
+      "labelParticipantAmount": "Number of registrants",
+      "labelPhoneNumber": "Telephone number",
+      "labelRegistration": "Registration",
+      "labelServiceLanguage": "Language of communication",
+      "labelSignupExtraInfo": "Additional information (optional)",
+      "labelStreetAddress": "Street address",
+      "labelZipcode": "Postcode",
+      "notificationTitleCannotEdit": "Participants cannot be edited",
+      "placeholderCity": "Enter city",
+      "placeholderEmail": "Enter your email address",
+      "placeholderExtraInfo": "Enter any additional information or request",
+      "placeholderFirstName": "Enter the registrant's first name",
+      "placeholderLastName": "Enter the registrant's last name",
+      "placeholderMembershipNumber": "Enter membership card number",
+      "placeholderNativeLanguage": "Select language",
+      "placeholderPhoneNumber": "+358 44 1234 567",
+      "placeholderServiceLanguage": "Select language",
+      "placeholderSignupExtraInfo": "Enter any additional information or request",
+      "placeholderStreetAddress": "Enter a street address",
+      "placeholderZipcode": "Enter postcode",
+      "signupDefaultTitle": "Participant {{index}}",
+      "timeLeft": "Time left to register",
+      "titleAdditionalInfo": "Additional information",
+      "titleBasicInfo": "Basic information of the registrant",
+      "titleContactInfo": "Contact information",
+      "titleInformantInfo": "Information of the informant",
+      "titleNotifications": "Event notifications",
+      "titleRegistration": "Registration"
+    },
+    "inWaitingList": {
+      "text": "In waiting list",
+      "tooltip": "Entrants have been added to the queue of registrants with a reserve place. Registration is confirmed only when a place in the queue becomes available. You will receive a notification by e-mail that the place has been confirmed."
+    },
+    "notifications": {
+      "email": "By email",
+      "sms": "By text message"
+    },
+    "personsAddedToWaitingListModal": {
+      "buttonClose": "Close",
+      "text": "Please note that not all registrants' places are guaranteed. Entrants in the reserve position will only be confirmed if more places become available in the queue. You will receive a separate email from confirmed registration.",
+      "title": "Entrants have been added to the reservation queue"
+    },
+    "reservationTimeExpiredModal": {
+      "buttonTryAgain": "Try Again",
+      "text": "Unfortunately, the Reservation time has expired.",
+      "title": "Time’s Up."
+    },
+    "sendMessageModal": {
+      "buttonSendMessage": "Send message",
+      "labelBody": "Message",
+      "labelSubject": "Subject",
+      "placeholderBody": "Enter message",
+      "placeholderSubject": "Enter subject",
+      "title": "Send message to participants",
+      "titleSingle": "Send message to the participant"
+    },
+    "warnings": {
+      "allSeatsReserved": "All seats in the event are currently booked. Please try again later.",
+      "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
+      "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
+      "capacityInWaitingListNoLimit": "Registration for this event is still possible, but there are only seats left in the queue.",
+      "closed": "Registration for this event is currently closed. Please try again later."
+    }
+  },
   "signupGroup": {
     "actionButtons": {
       "edit": "Edit information"
@@ -1931,7 +1931,7 @@
     "waitingListTableCaption": "Waiting list",
     "waitingListTableHeading": "Waiting list",
     "warningNoRightsToCreate": "You have insufficient rights to create participants to this registration.",
-    "warningNoRightsToEdit": "You have insufficient rights to edit this enrolment.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this participant.",
     "warningNoRightsToView": "You have insufficient rights to view participants of this registration."
   }
 }

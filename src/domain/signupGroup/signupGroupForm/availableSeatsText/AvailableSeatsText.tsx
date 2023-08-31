@@ -31,13 +31,13 @@ const AvailableSeatsText: FC<Props> = ({ registration }) => {
     <>
       {typeof freeAttendeeCapacity === 'number' && !attendeeCapacityUsed && (
         <p>
-          {t('enrolment.form.freeAttendeeCapacity')}{' '}
+          {t('signup.form.freeAttendeeCapacity')}{' '}
           <strong>{freeAttendeeCapacity + reservedSeats}</strong>
         </p>
       )}
       {attendeeCapacityUsed && typeof freeWaitingListCapacity === 'number' && (
         <p>
-          {t('enrolment.form.freeWaitingListCapacity')}{' '}
+          {t('signup.form.freeWaitingListCapacity')}{' '}
           <strong>{freeWaitingListCapacity + reservedSeats}</strong>
         </p>
       )}

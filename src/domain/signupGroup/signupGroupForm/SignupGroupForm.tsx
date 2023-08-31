@@ -246,7 +246,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
                       <Divider />
                     </>
                   )}
-                  <h2>{t('enrolment.form.titleRegistration')}</h2>
+                  <h2>{t('signup.form.titleRegistration')}</h2>
                   <AvailableSeatsText registration={registration} />
 
                   <ParticipantAmountSelector

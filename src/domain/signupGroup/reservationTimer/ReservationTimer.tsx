@@ -144,7 +144,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
       />
 
       <div>
-        {t('enrolment.form.timeLeft')}{' '}
+        {t('signup.form.timeLeft')}{' '}
         <strong>{timeLeft !== null && getTimeStr(timeLeft)}</strong>
       </div>
     </>

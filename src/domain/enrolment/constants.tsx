@@ -27,10 +27,10 @@ export const ENROLMENT_ICONS = {
 
 export const ENROLMENT_LABEL_KEYS = {
   [ENROLMENT_ACTIONS.CANCEL]: 'signupsPage.actionButtons.cancel',
-  [ENROLMENT_ACTIONS.CREATE]: 'enrolment.form.buttonSave',
+  [ENROLMENT_ACTIONS.CREATE]: 'signup.form.buttonSave',
   [ENROLMENT_ACTIONS.EDIT]: 'signupsPage.actionButtons.edit',
   [ENROLMENT_ACTIONS.SEND_MESSAGE]: 'signupsPage.actionButtons.sendMessage',
-  [ENROLMENT_ACTIONS.UPDATE]: 'enrolment.form.buttonSave',
+  [ENROLMENT_ACTIONS.UPDATE]: 'signup.form.buttonSave',
   [ENROLMENT_ACTIONS.VIEW]: '',
 };
 

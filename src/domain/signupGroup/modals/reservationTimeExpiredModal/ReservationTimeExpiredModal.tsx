@@ -15,11 +15,9 @@ const ReservationTimeExpiredModal: React.FC<
   return (
     <InfoModal
       {...props}
-      closeButtonText={t(
-        'enrolment.reservationTimeExpiredModal.buttonTryAgain'
-      )}
-      description={t('enrolment.reservationTimeExpiredModal.text')}
-      heading={t('enrolment.reservationTimeExpiredModal.title')}
+      closeButtonText={t('signup.reservationTimeExpiredModal.buttonTryAgain')}
+      description={t('signup.reservationTimeExpiredModal.text')}
+      heading={t('signup.reservationTimeExpiredModal.title')}
       id="reservation-time-expired-modal"
     />
   );

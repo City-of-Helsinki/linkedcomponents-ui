@@ -27,9 +27,7 @@ const EnrolmentAuthenticationNotification: React.FC<
 
   return (
     <AuthenticationNotification
-      authorizationWarningLabel={t(
-        'enrolment.form.notificationTitleCannotEdit'
-      )}
+      authorizationWarningLabel={t('signup.form.notificationTitleCannotEdit')}
       getAuthorizationWarning={() =>
         checkIsEditActionAllowed({
           action,
