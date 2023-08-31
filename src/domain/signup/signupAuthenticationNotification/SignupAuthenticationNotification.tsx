@@ -5,18 +5,18 @@ import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
+import { SIGNUP_ACTIONS } from '../../enrolment/constants';
+import { checkIsEditActionAllowed } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import { SIGNUP_ACTIONS } from '../constants';
-import { checkIsEditActionAllowed } from '../utils';
 
-export type EnrolmentAuthenticationNotificationProps = {
+export type SignupAuthenticationNotificationProps = {
   action: SIGNUP_ACTIONS;
   registration: RegistrationFieldsFragment;
 };
 
-const EnrolmentAuthenticationNotification: React.FC<
-  EnrolmentAuthenticationNotificationProps
+const SignupAuthenticationNotification: React.FC<
+  SignupAuthenticationNotificationProps
 > = ({ action, registration }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
@@ -46,4 +46,4 @@ const EnrolmentAuthenticationNotification: React.FC<
   );
 };
 
-export default EnrolmentAuthenticationNotification;
+export default SignupAuthenticationNotification;

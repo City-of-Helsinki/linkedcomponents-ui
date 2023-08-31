@@ -8,6 +8,7 @@ import {
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
+import { SIGNUP_ACTIONS } from '../../../enrolment/constants';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { registration } from '../../../registration/__mocks__/registration';
@@ -15,14 +16,13 @@ import {
   getMockedUserResponse,
   mockedUserResponse,
 } from '../../../user/__mocks__/user';
-import { SIGNUP_ACTIONS } from '../../constants';
-import EnrolmentAuthenticationNotification from '../EnrolmentAuthenticationNotification';
+import SignupAuthenticationNotification from '../SignupAuthenticationNotification';
 
 configure({ defaultHidden: true });
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
   render(
-    <EnrolmentAuthenticationNotification
+    <SignupAuthenticationNotification
       action={SIGNUP_ACTIONS.UPDATE}
       registration={registration}
     />,

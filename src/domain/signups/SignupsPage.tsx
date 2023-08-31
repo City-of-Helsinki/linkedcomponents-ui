@@ -21,7 +21,6 @@ import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
 import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../enrolment/constants';
-import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { useEnrolmentPageContext } from '../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import useEnrolmentActions from '../enrolment/hooks/useEnrolmentActions';
@@ -36,6 +35,7 @@ import {
 } from '../registration/utils';
 import { REGISTRATION_ACTIONS } from '../registrations/constants';
 import { clearSeatsReservationData } from '../seatsReservation/utils';
+import SignupAuthenticationNotification from '../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
 import { clearCreateSignupGroupFormData } from '../signupGroup/utils';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
@@ -151,7 +151,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
           contentWrapperClassName={styles.pageContentContainer}
           withOffset={true}
         >
-          <EnrolmentAuthenticationNotification
+          <SignupAuthenticationNotification
             action={SIGNUP_ACTIONS.VIEW}
             registration={registration}
           />

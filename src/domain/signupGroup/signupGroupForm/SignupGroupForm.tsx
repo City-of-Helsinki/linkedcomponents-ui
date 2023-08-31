@@ -22,7 +22,6 @@ import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
 import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../../enrolment/constants';
-import EnrolmentAuthenticationNotification from '../../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
@@ -30,6 +29,7 @@ import SendMessageModal from '../../enrolment/modals/sendMessageModal/SendMessag
 import RegistrationWarning from '../../enrolment/registrationWarning/RegistrationWarning';
 import { isRegistrationPossible } from '../../registration/utils';
 import { clearSeatsReservationData } from '../../seatsReservation/utils';
+import SignupAuthenticationNotification from '../../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
 import { SIGNUP_GROUP_FIELDS } from '../constants';
 import CreateSignupGroupButtonPanel from '../createButtonPanel/CreateSignupGroupButtonPanel';
 import Divider from '../divider/Divider';
@@ -222,7 +222,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
             withOffset
           >
             <FormContainer>
-              <EnrolmentAuthenticationNotification
+              <SignupAuthenticationNotification
                 action={SIGNUP_ACTIONS.UPDATE}
                 registration={registration}
               />
