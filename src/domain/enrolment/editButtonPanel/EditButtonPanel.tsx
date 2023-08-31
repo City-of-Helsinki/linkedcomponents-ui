@@ -18,7 +18,7 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { SignupsLocationState } from '../../signups/types';
 import useUser from '../../user/hooks/useUser';
-import { ENROLMENT_ACTIONS } from '../constants';
+import { SIGNUP_ACTIONS } from '../constants';
 import { getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
@@ -27,7 +27,7 @@ export interface EditButtonPanelProps {
   onSave: () => void;
   onSendMessage: () => void;
   registration: RegistrationFieldsFragment;
-  saving: ENROLMENT_ACTIONS | false;
+  saving: SIGNUP_ACTIONS | false;
   signup: SignupFieldsFragment;
 }
 
@@ -57,7 +57,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     action,
     onClick,
   }: {
-    action: ENROLMENT_ACTIONS;
+    action: SIGNUP_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
     return getEditButtonProps({
@@ -73,11 +73,11 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: ENROLMENT_ACTIONS.CANCEL,
+      action: SIGNUP_ACTIONS.CANCEL,
       onClick: onCancel,
     }),
     getActionItemProps({
-      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
+      action: SIGNUP_ACTIONS.SEND_MESSAGE,
       onClick: onSendMessage,
     }),
   ].filter(skipFalsyType);
@@ -92,7 +92,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
           key="save"
           className={buttonPanelStyles.fullWidthOnMobile}
           icon={<IconPen aria-hidden={true} />}
-          loading={saving === ENROLMENT_ACTIONS.UPDATE}
+          loading={saving === SIGNUP_ACTIONS.UPDATE}
           onClick={onSave}
           type="submit"
         >

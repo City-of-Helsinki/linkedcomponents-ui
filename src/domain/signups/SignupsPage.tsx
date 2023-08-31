@@ -20,7 +20,7 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
-import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../enrolment/constants';
+import { ENROLMENT_MODALS, SIGNUP_ACTIONS } from '../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { useEnrolmentPageContext } from '../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
@@ -98,7 +98,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
 
   const actionItems: MenuItemOptionProps[] = [
     getEnrolmentEditButtonProps({
-      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
+      action: SIGNUP_ACTIONS.SEND_MESSAGE,
       authenticated,
       onClick: () => {
         setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE);
@@ -120,7 +120,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
   ];
 
   const buttonProps = getEnrolmentEditButtonProps({
-    action: ENROLMENT_ACTIONS.CREATE,
+    action: SIGNUP_ACTIONS.CREATE,
     authenticated,
     onClick: handleCreate,
     organizationAncestors,
@@ -141,7 +141,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
       {openModal === ENROLMENT_MODALS.SEND_MESSAGE && (
         <SendMessageModal
           isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE}
-          isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
+          isSaving={saving === SIGNUP_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
           onSendMessage={sendMessage}
         />
@@ -152,7 +152,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
           withOffset={true}
         >
           <EnrolmentAuthenticationNotification
-            action={ENROLMENT_ACTIONS.VIEW}
+            action={SIGNUP_ACTIONS.VIEW}
             registration={registration}
           />
           <TitleRow

@@ -13,7 +13,7 @@ import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import { ENROLMENT_ACTIONS } from '../enrolment/constants';
+import { SIGNUP_ACTIONS } from '../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import NotFound from '../notFound/NotFound';
@@ -68,7 +68,7 @@ const AttendanceListPage: React.FC<AttendanceListPageProps> = ({
             ]}
           />
           <EnrolmentAuthenticationNotification
-            action={ENROLMENT_ACTIONS.VIEW}
+            action={SIGNUP_ACTIONS.VIEW}
             registration={registration}
           />
           {<RegistrationInfo registration={registration} />}

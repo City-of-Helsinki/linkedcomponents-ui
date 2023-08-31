@@ -17,9 +17,9 @@ import { NOTIFICATION_TYPE } from '../signupGroup/constants';
 import { SignupGroupFormFields } from '../signupGroup/types';
 import {
   AUTHENTICATION_NOT_NEEDED,
-  ENROLMENT_ACTIONS,
-  ENROLMENT_ICONS,
-  ENROLMENT_LABEL_KEYS,
+  SIGNUP_ACTIONS,
+  SIGNUP_ICONS,
+  SIGNUP_LABEL_KEYS,
 } from './constants';
 
 export const getUpdateEnrolmentPayload = ({
@@ -78,7 +78,7 @@ export const checkCanUserDoAction = ({
   publisher,
   user,
 }: {
-  action: ENROLMENT_ACTIONS;
+  action: SIGNUP_ACTIONS;
   organizationAncestors: OrganizationFieldsFragment[];
   publisher: string;
   user?: UserFieldsFragment;
@@ -90,13 +90,13 @@ export const checkCanUserDoAction = ({
   });
 
   switch (action) {
-    case ENROLMENT_ACTIONS.EDIT:
+    case SIGNUP_ACTIONS.EDIT:
       return true;
-    case ENROLMENT_ACTIONS.CANCEL:
-    case ENROLMENT_ACTIONS.CREATE:
-    case ENROLMENT_ACTIONS.SEND_MESSAGE:
-    case ENROLMENT_ACTIONS.UPDATE:
-    case ENROLMENT_ACTIONS.VIEW:
+    case SIGNUP_ACTIONS.CANCEL:
+    case SIGNUP_ACTIONS.CREATE:
+    case SIGNUP_ACTIONS.SEND_MESSAGE:
+    case SIGNUP_ACTIONS.UPDATE:
+    case SIGNUP_ACTIONS.VIEW:
       return isAdminUser;
   }
 };
@@ -107,7 +107,7 @@ export const getEditEnrolmentWarning = ({
   t,
   userCanDoAction,
 }: {
-  action: ENROLMENT_ACTIONS;
+  action: SIGNUP_ACTIONS;
   authenticated: boolean;
   t: TFunction;
   userCanDoAction: boolean;
@@ -122,9 +122,9 @@ export const getEditEnrolmentWarning = ({
 
   if (!userCanDoAction) {
     switch (action) {
-      case ENROLMENT_ACTIONS.CREATE:
+      case SIGNUP_ACTIONS.CREATE:
         return t('signupsPage.warningNoRightsToCreate');
-      case ENROLMENT_ACTIONS.VIEW:
+      case SIGNUP_ACTIONS.VIEW:
         return t('signupsPage.warningNoRightsToView');
       default:
         return t('signupsPage.warningNoRightsToEdit');
@@ -142,7 +142,7 @@ export const checkIsEditActionAllowed = ({
   t,
   user,
 }: {
-  action: ENROLMENT_ACTIONS;
+  action: SIGNUP_ACTIONS;
   authenticated: boolean;
   organizationAncestors: OrganizationFieldsFragment[];
   publisher: string;
@@ -175,7 +175,7 @@ export const getEditButtonProps = ({
   t,
   user,
 }: {
-  action: ENROLMENT_ACTIONS;
+  action: SIGNUP_ACTIONS;
   authenticated: boolean;
   onClick: () => void;
   organizationAncestors: OrganizationFieldsFragment[];
@@ -194,8 +194,8 @@ export const getEditButtonProps = ({
 
   return {
     disabled: !editable,
-    icon: ENROLMENT_ICONS[action],
-    label: t(ENROLMENT_LABEL_KEYS[action]),
+    icon: SIGNUP_ICONS[action],
+    label: t(SIGNUP_LABEL_KEYS[action]),
     onClick,
     title: warning,
   };

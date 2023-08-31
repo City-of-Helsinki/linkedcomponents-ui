@@ -15,7 +15,7 @@ import useGoBack from '../../../hooks/useGoBack';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { ENROLMENT_ACTIONS } from '../../enrolment/constants';
+import { SIGNUP_ACTIONS } from '../../enrolment/constants';
 import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { SignupsLocationState } from '../../signups/types';
@@ -63,7 +63,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
     action,
     onClick,
   }: {
-    action: ENROLMENT_ACTIONS;
+    action: SIGNUP_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
     return getEditButtonProps({
@@ -97,7 +97,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getSignupActionItemProps({
-      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
+      action: SIGNUP_ACTIONS.SEND_MESSAGE,
       onClick: onSendMessage,
     }),
   ].filter(skipFalsyType);

@@ -15,7 +15,7 @@ import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../../enrolment/constants';
+import { ENROLMENT_MODALS, SIGNUP_ACTIONS } from '../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
 import ConfirmCancelSignupModal from '../../enrolment/modals/confirmCancelSignupModal/ConfirmCancelSignupModal';
@@ -83,7 +83,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
     action,
     onClick,
   }: {
-    action: ENROLMENT_ACTIONS;
+    action: SIGNUP_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
     return getEditButtonProps({
@@ -99,18 +99,18 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: ENROLMENT_ACTIONS.EDIT,
+      action: SIGNUP_ACTIONS.EDIT,
       onClick: goToEditPage,
     }),
     getActionItemProps({
-      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
+      action: SIGNUP_ACTIONS.SEND_MESSAGE,
       onClick: () => {
         setOpenModalId(signup.id);
         setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP);
       },
     }),
     getActionItemProps({
-      action: ENROLMENT_ACTIONS.CANCEL,
+      action: SIGNUP_ACTIONS.CANCEL,
       onClick: () => {
         setOpenModalId(signup.id);
         setOpenModal(ENROLMENT_MODALS.CANCEL);
@@ -126,7 +126,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
       {isModalOpen(ENROLMENT_MODALS.CANCEL) && (
         <ConfirmCancelSignupModal
           isOpen={openModal === ENROLMENT_MODALS.CANCEL}
-          isSaving={saving === ENROLMENT_ACTIONS.CANCEL}
+          isSaving={saving === SIGNUP_ACTIONS.CANCEL}
           onConfirm={cancelEnrolment}
           onClose={closeModal}
           registration={registration}
@@ -136,7 +136,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
       {isModalOpen(ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP) && (
         <SendMessageModal
           isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP}
-          isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
+          isSaving={saving === SIGNUP_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
           onSendMessage={sendMessage}
           signup={signup}

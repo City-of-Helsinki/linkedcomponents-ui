@@ -7,11 +7,11 @@ import AuthenticationNotification from '../../app/authenticationNotification/Aut
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import { ENROLMENT_ACTIONS } from '../constants';
+import { SIGNUP_ACTIONS } from '../constants';
 import { checkIsEditActionAllowed } from '../utils';
 
 export type EnrolmentAuthenticationNotificationProps = {
-  action: ENROLMENT_ACTIONS;
+  action: SIGNUP_ACTIONS;
   registration: RegistrationFieldsFragment;
 };
 

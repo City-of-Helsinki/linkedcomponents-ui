@@ -21,7 +21,7 @@ import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
-import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../../enrolment/constants';
+import { ENROLMENT_MODALS, SIGNUP_ACTIONS } from '../../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
@@ -198,7 +198,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
       {responsiblePerson && (
         <SendMessageModal
           isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP}
-          isSaving={savingResponsiblePerson === ENROLMENT_ACTIONS.SEND_MESSAGE}
+          isSaving={savingResponsiblePerson === SIGNUP_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
           onSendMessage={sendMessage}
           signup={responsiblePerson}
@@ -223,7 +223,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
           >
             <FormContainer>
               <EnrolmentAuthenticationNotification
-                action={ENROLMENT_ACTIONS.UPDATE}
+                action={SIGNUP_ACTIONS.UPDATE}
                 registration={registration}
               />
               <ServerErrorSummary errors={serverErrorItems} />

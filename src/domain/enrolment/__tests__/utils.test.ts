@@ -8,7 +8,7 @@ import {
   NOTIFICATIONS,
   SIGNUP_GROUP_INITIAL_VALUES,
 } from '../../signupGroup/constants';
-import { ENROLMENT_ACTIONS, TEST_SIGNUP_ID } from '../constants';
+import { SIGNUP_ACTIONS, TEST_SIGNUP_ID } from '../constants';
 import {
   enrolmentPathBuilder,
   getEditEnrolmentWarning,
@@ -116,7 +116,7 @@ describe('enrolmentPathBuilder function', () => {
 
 describe('getEditEnrolmentWarning function', () => {
   it('should return correct warning if user is not authenticated', () => {
-    const allowedActions = [ENROLMENT_ACTIONS.EDIT];
+    const allowedActions = [SIGNUP_ACTIONS.EDIT];
 
     const commonProps = {
       authenticated: false,
@@ -128,10 +128,7 @@ describe('getEditEnrolmentWarning function', () => {
       expect(getEditEnrolmentWarning({ action, ...commonProps })).toBe('');
     });
 
-    const deniedActions = [
-      ENROLMENT_ACTIONS.CANCEL,
-      ENROLMENT_ACTIONS.SEND_MESSAGE,
-    ];
+    const deniedActions = [SIGNUP_ACTIONS.CANCEL, SIGNUP_ACTIONS.SEND_MESSAGE];
 
     deniedActions.forEach((action) => {
       expect(getEditEnrolmentWarning({ action, ...commonProps })).toBe(
@@ -146,17 +143,17 @@ describe('getEditEnrolmentWarning function', () => {
       t: i18n.t.bind(i18n),
       userCanDoAction: false,
     };
-    const actions: [ENROLMENT_ACTIONS, string][] = [
+    const actions: [SIGNUP_ACTIONS, string][] = [
       [
-        ENROLMENT_ACTIONS.CANCEL,
+        SIGNUP_ACTIONS.CANCEL,
         'Sinulla ei ole oikeuksia muokata tätä osallistujaa.',
       ],
       [
-        ENROLMENT_ACTIONS.CREATE,
+        SIGNUP_ACTIONS.CREATE,
         'Sinulla ei ole oikeuksia luoda osallistujia tähän ilmoittautumiseen.',
       ],
       [
-        ENROLMENT_ACTIONS.VIEW,
+        SIGNUP_ACTIONS.VIEW,
         'Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia.',
       ],
     ];

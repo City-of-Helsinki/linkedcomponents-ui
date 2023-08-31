@@ -24,7 +24,7 @@ import {
   clearSignupsQueries,
 } from '../../app/apollo/clearCacheUtils';
 import { SignupGroupFormFields } from '../../signupGroup/types';
-import { ENROLMENT_ACTIONS, SEND_MESSAGE_FORM_NAME } from '../constants';
+import { SEND_MESSAGE_FORM_NAME, SIGNUP_ACTIONS } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { SendMessageFormFields } from '../types';
 import { getUpdateEnrolmentPayload } from '../utils';
@@ -36,7 +36,7 @@ interface Props {
 
 type UseEnrolmentActionsState = {
   cancelEnrolment: (callbacks?: MutationCallbacks) => Promise<void>;
-  saving: ENROLMENT_ACTIONS | false;
+  saving: SIGNUP_ACTIONS | false;
   sendMessage: (
     values: SendMessageFormFields,
     signups?: string[],
@@ -55,7 +55,7 @@ const useEnrolmentActions = ({
 
   const { closeModal } = useEnrolmentPageContext();
 
-  const [saving, setSaving] = useMountedState<ENROLMENT_ACTIONS | false>(false);
+  const [saving, setSaving] = useMountedState<SIGNUP_ACTIONS | false>(false);
 
   const [deleteEnrolmentMutation] = useDeleteEnrolmentMutation();
   const [sendMessageMutation] = useSendMessageMutation();
@@ -86,7 +86,7 @@ const useEnrolmentActions = ({
 
   const cancelEnrolment = async (callbacks?: MutationCallbacks) => {
     try {
-      setSaving(ENROLMENT_ACTIONS.CANCEL);
+      setSaving(SIGNUP_ACTIONS.CANCEL);
 
       await deleteEnrolmentMutation({
         variables: {
@@ -99,7 +99,7 @@ const useEnrolmentActions = ({
       handleError({
         callbacks,
         error,
-        message: 'Failed to cancel enrolment',
+        message: 'Failed to cancel signup',
         savingFinished,
       });
     }
@@ -116,7 +116,7 @@ const useEnrolmentActions = ({
     });
 
     try {
-      setSaving(ENROLMENT_ACTIONS.UPDATE);
+      setSaving(SIGNUP_ACTIONS.UPDATE);
 
       await updateEnrolmentMutation({
         variables: {
@@ -149,7 +149,7 @@ const useEnrolmentActions = ({
     };
 
     try {
-      setSaving(ENROLMENT_ACTIONS.SEND_MESSAGE);
+      setSaving(SIGNUP_ACTIONS.SEND_MESSAGE);
 
       await sendMessageMutation({
         variables: {

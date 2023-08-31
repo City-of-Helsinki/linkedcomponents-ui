@@ -15,7 +15,7 @@ import {
   getMockedUserResponse,
   mockedUserResponse,
 } from '../../../user/__mocks__/user';
-import { ENROLMENT_ACTIONS } from '../../constants';
+import { SIGNUP_ACTIONS } from '../../constants';
 import EnrolmentAuthenticationNotification from '../EnrolmentAuthenticationNotification';
 
 configure({ defaultHidden: true });
@@ -23,7 +23,7 @@ configure({ defaultHidden: true });
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
   render(
     <EnrolmentAuthenticationNotification
-      action={ENROLMENT_ACTIONS.UPDATE}
+      action={SIGNUP_ACTIONS.UPDATE}
       registration={registration}
     />,
     renderOptions
