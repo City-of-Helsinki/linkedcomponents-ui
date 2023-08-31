@@ -289,9 +289,6 @@
     "pageTitle": "Lisää osallistujia",
     "title": "Lisää osallistujia"
   },
-  "editEnrolmentPage": {
-    "pageTitle": "Muokkaa osallistujaa"
-  },
   "editEventPage": {
     "title": {
       "course": "Muokkaa kurssia",
@@ -322,6 +319,9 @@
   "editRegistrationPage": {
     "pageTitle": "Muokkaa ilmoittautumista",
     "title": "Muokkaa ilmoittautumista"
+  },
+  "editSignupPage": {
+    "pageTitle": "Muokkaa osallistujaa"
   },
   "editSignupGroupPage": {
     "pageTitle": "Muokkaa osallistujia",

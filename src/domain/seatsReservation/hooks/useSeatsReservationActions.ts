@@ -11,7 +11,7 @@ import {
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import { reportError } from '../../app/sentry/utils';
-import { ENROLMENT_MODALS } from '../../enrolment/constants';
+import { SIGNUP_MODALS } from '../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { SignupFields } from '../../signupGroup/types';
 import { getNewSignups } from '../../signupGroup/utils';
@@ -111,7 +111,7 @@ const useSeatsReservationActions = ({
       }
 
       if (data?.createSeatsReservation.inWaitlist) {
-        setOpenModal(ENROLMENT_MODALS.PERSONS_ADDED_TO_WAITLIST);
+        setOpenModal(SIGNUP_MODALS.PERSONS_ADDED_TO_WAITLIST);
       }
       callbacks?.onSuccess?.();
     } catch (error) {
@@ -159,7 +159,7 @@ const useSeatsReservationActions = ({
       setSaving(false);
       // Show modal to inform that some of the persons will be added to the waiting list
       if (data?.updateSeatsReservation.inWaitlist) {
-        setOpenModal(ENROLMENT_MODALS.PERSONS_ADDED_TO_WAITLIST);
+        setOpenModal(SIGNUP_MODALS.PERSONS_ADDED_TO_WAITLIST);
       } else {
         closeModal();
       }

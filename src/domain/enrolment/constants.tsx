@@ -41,7 +41,7 @@ export const TEST_SIGNUP_ID = 'signup:0';
 export const ENROLMENT_TIME_IN_MINUTES = 30;
 export const ENROLMENT_TIME_PER_PARTICIPANT_IN_MINUTES = 1;
 
-export enum ENROLMENT_MODALS {
+export enum SIGNUP_MODALS {
   CANCEL = 'cancel',
   DELETE = 'delete',
   PERSONS_ADDED_TO_WAITLIST = 'personsAddedToWaitList',

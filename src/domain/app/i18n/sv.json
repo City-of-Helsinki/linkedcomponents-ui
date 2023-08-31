@@ -289,9 +289,6 @@
     "pageTitle": "Lägg till deltagare",
     "title": "Lägg till deltagare"
   },
-  "editEnrolmentPage": {
-    "pageTitle": "Redigera deltagare"
-  },
   "editEventPage": {
     "title": {
       "course": "Redigera kurs",
@@ -322,6 +319,9 @@
   "editRegistrationPage": {
     "pageTitle": "Redigera registrering",
     "title": "Redigera registrering"
+  },
+  "editSignupPage": {
+    "pageTitle": "Redigera deltagare"
   },
   "editSignupGroupPage": {
     "pageTitle": "Redigera deltagare",

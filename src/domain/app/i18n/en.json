@@ -288,9 +288,6 @@
     "pageTitle": "Add participants",
     "title": "Add participants"
   },
-  "editEnrolmentPage": {
-    "pageTitle": "Edit participant"
-  },
   "editEventPage": {
     "title": {
       "course": "Edit course",
@@ -321,6 +318,9 @@
   "editRegistrationPage": {
     "pageTitle": "Edit registration",
     "title": "Edit registration"
+  },
+  "editSignupPage": {
+    "pageTitle": "Edit participant"
   },
   "editSignupGroupPage": {
     "pageTitle": "Edit participants",

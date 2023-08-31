@@ -15,7 +15,7 @@ import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { ENROLMENT_MODALS, SIGNUP_ACTIONS } from '../../enrolment/constants';
+import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
 import ConfirmCancelSignupModal from '../../enrolment/modals/confirmCancelSignupModal/ConfirmCancelSignupModal';
@@ -106,26 +106,26 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
       action: SIGNUP_ACTIONS.SEND_MESSAGE,
       onClick: () => {
         setOpenModalId(signup.id);
-        setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP);
+        setOpenModal(SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP);
       },
     }),
     getActionItemProps({
       action: SIGNUP_ACTIONS.CANCEL,
       onClick: () => {
         setOpenModalId(signup.id);
-        setOpenModal(ENROLMENT_MODALS.CANCEL);
+        setOpenModal(SIGNUP_MODALS.CANCEL);
       },
     }),
   ].filter(skipFalsyType);
 
-  const isModalOpen = (modal: ENROLMENT_MODALS) =>
+  const isModalOpen = (modal: SIGNUP_MODALS) =>
     openModalId === signup.id && openModal === modal;
 
   return (
     <>
-      {isModalOpen(ENROLMENT_MODALS.CANCEL) && (
+      {isModalOpen(SIGNUP_MODALS.CANCEL) && (
         <ConfirmCancelSignupModal
-          isOpen={openModal === ENROLMENT_MODALS.CANCEL}
+          isOpen={openModal === SIGNUP_MODALS.CANCEL}
           isSaving={saving === SIGNUP_ACTIONS.CANCEL}
           onConfirm={cancelEnrolment}
           onClose={closeModal}
@@ -133,9 +133,9 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
           signup={signup}
         />
       )}
-      {isModalOpen(ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP) && (
+      {isModalOpen(SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP) && (
         <SendMessageModal
-          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP}
+          isOpen={openModal === SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP}
           isSaving={saving === SIGNUP_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
           onSendMessage={sendMessage}

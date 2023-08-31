@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
-import { ENROLMENT_MODALS } from '../../enrolment/constants';
+import { SIGNUP_MODALS } from '../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsReservationActions';
@@ -120,7 +120,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
             clearCreateSignupGroupFormData(registrationId);
             clearSeatsReservationData(registrationId);
 
-            setOpenModal(ENROLMENT_MODALS.RESERVATION_TIME_EXPIRED);
+            setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRED);
           }
         }
       }
@@ -139,7 +139,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
   return (
     <>
       <ReservationTimeExpiredModal
-        isOpen={openModal === ENROLMENT_MODALS.RESERVATION_TIME_EXPIRED}
+        isOpen={openModal === SIGNUP_MODALS.RESERVATION_TIME_EXPIRED}
         onClose={handleTryAgain}
       />
 

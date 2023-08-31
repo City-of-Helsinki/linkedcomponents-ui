@@ -7,7 +7,7 @@ import Button from '../../../common/components/button/Button';
 import NumberInput from '../../../common/components/numberInput/NumberInput';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
-import { ENROLMENT_MODALS } from '../../enrolment/constants';
+import { SIGNUP_MODALS } from '../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import { getMaxSeatsAmount } from '../../registration/utils';
@@ -76,7 +76,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   };
 
   const openDeleteParticipantModal = () => {
-    setOpenModal(ENROLMENT_MODALS.DELETE);
+    setOpenModal(SIGNUP_MODALS.DELETE);
   };
 
   const handleUpdateClick = () => {
@@ -96,7 +96,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   return (
     <>
       <ConfirmDeleteParticipantModal
-        isOpen={openModal === ENROLMENT_MODALS.DELETE}
+        isOpen={openModal === SIGNUP_MODALS.DELETE}
         isSaving={saving}
         onClose={closeModal}
         onConfirm={updateParticipantAmount}

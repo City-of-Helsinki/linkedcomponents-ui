@@ -21,7 +21,7 @@ import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
-import { ENROLMENT_MODALS, SIGNUP_ACTIONS } from '../../enrolment/constants';
+import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
@@ -197,7 +197,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
     <>
       {responsiblePerson && (
         <SendMessageModal
-          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP}
+          isOpen={openModal === SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP}
           isSaving={savingResponsiblePerson === SIGNUP_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
           onSendMessage={sendMessage}
@@ -266,7 +266,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
           {signupGroup ? (
             <EditSignupGroupButtonPanel
               onSendMessage={() =>
-                setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP)
+                setOpenModal(SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP)
               }
               registration={registration}
               saving={savingSignupGroup}
