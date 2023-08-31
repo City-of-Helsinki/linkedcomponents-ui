@@ -90,8 +90,8 @@
         "name": "Registration form cookie"
       },
       "signupForm": {
-        "description": "The cookie required to save the enrolment form data",
-        "name": "Enrolment form cookie"
+        "description": "The cookie required to save the signup form data",
+        "name": "Signup form cookie"
       },
       "siteName": "Linked Events"
     },

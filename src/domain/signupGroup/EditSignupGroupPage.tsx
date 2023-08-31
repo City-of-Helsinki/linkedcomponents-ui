@@ -17,12 +17,12 @@ import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { EnrolmentServerErrorsProvider } from '../enrolment/enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import SignupPageBreadcrumb from '../signup/signupPageBreadbrumb/SignupPageBreadcrumb';
+import { SignupPageProvider } from '../signup/signupPageContext/SignupPageContext';
 import useUser from '../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS } from './constants';
 import { checkCanUserDoSignupGroupAction } from './permissions';
@@ -118,7 +118,7 @@ const EditSignupGroupPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {event && registration && signupGroup ? (
-        <EnrolmentPageProvider>
+        <SignupPageProvider>
           <EnrolmentServerErrorsProvider>
             <EditSignupGroupPage
               event={event}
@@ -127,7 +127,7 @@ const EditSignupGroupPageWrapper: React.FC = () => {
               signupGroup={signupGroup}
             />
           </EnrolmentServerErrorsProvider>
-        </EnrolmentPageProvider>
+        </SignupPageProvider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

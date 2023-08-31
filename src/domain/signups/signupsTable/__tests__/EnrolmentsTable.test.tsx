@@ -13,13 +13,13 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
-import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
+import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
 import {
   attendeeNames,
   attendees,
@@ -48,9 +48,9 @@ const signupName = [attendeeNames[0].firstName, attendeeNames[0].lastName].join(
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) => {
   return render(
-    <EnrolmentPageProvider>
+    <SignupPageProvider>
       <SignupsTable {...defaultProps} />
-    </EnrolmentPageProvider>,
+    </SignupPageProvider>,
     { mocks }
   );
 };

@@ -17,7 +17,6 @@ import {
   within,
 } from '../../../../utils/testUtils';
 import { AuthContextProps } from '../../../auth/types';
-import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { registration } from '../../../registration/__mocks__/registration';
@@ -28,6 +27,7 @@ import {
   signup,
   signupWithGroup,
 } from '../../../signup/__mocks__/editSignupPage';
+import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import SignupActionsDropdown, {
   SignupActionsDropdownProps,
@@ -65,9 +65,9 @@ const renderComponent = ({
   props?: Partial<SignupActionsDropdownProps>;
 } = {}) =>
   render(
-    <EnrolmentPageProvider>
+    <SignupPageProvider>
       <SignupActionsDropdown {...defaultProps} {...props} />
-    </EnrolmentPageProvider>,
+    </SignupPageProvider>,
     {
       authContextValue,
       mocks,

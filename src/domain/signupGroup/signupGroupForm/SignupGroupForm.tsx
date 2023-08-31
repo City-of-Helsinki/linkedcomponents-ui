@@ -21,15 +21,16 @@ import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
-import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../../enrolment/constants';
-import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import { SIGNUP_ACTIONS } from '../../enrolment/constants';
 import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
 import SendMessageModal from '../../enrolment/modals/sendMessageModal/SendMessageModal';
 import RegistrationWarning from '../../enrolment/registrationWarning/RegistrationWarning';
 import { isRegistrationPossible } from '../../registration/utils';
 import { clearSeatsReservationData } from '../../seatsReservation/utils';
+import { SIGNUP_MODALS } from '../../signup/constants';
 import SignupAuthenticationNotification from '../../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
+import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
 import { SIGNUP_GROUP_FIELDS } from '../constants';
 import CreateSignupGroupButtonPanel from '../createButtonPanel/CreateSignupGroupButtonPanel';
 import Divider from '../divider/Divider';
@@ -126,7 +127,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   const formSavingDisabled = React.useRef(!!signupGroup);
 
   const { closeModal, openModal, setOpenModal, setOpenParticipant } =
-    useEnrolmentPageContext();
+    useSignupPageContext();
 
   const goToSignupsPageAfterCreate = () => {
     const registrationId = getValue(registration.id, '');

@@ -20,9 +20,7 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
-import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../enrolment/constants';
-import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
-import { useEnrolmentPageContext } from '../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import { SIGNUP_ACTIONS } from '../enrolment/constants';
 import useEnrolmentActions from '../enrolment/hooks/useEnrolmentActions';
 import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import SendMessageModal from '../enrolment/modals/sendMessageModal/SendMessageModal';
@@ -35,7 +33,10 @@ import {
 } from '../registration/utils';
 import { REGISTRATION_ACTIONS } from '../registrations/constants';
 import { clearSeatsReservationData } from '../seatsReservation/utils';
+import { SIGNUP_MODALS } from '../signup/constants';
 import SignupAuthenticationNotification from '../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
+import { useSignupPageContext } from '../signup/signupPageContext/hooks/useSignupPageContext';
+import { SignupPageProvider } from '../signup/signupPageContext/SignupPageContext';
 import { clearCreateSignupGroupFormData } from '../signupGroup/utils';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
@@ -67,7 +68,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
     locale
   );
 
-  const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
+  const { closeModal, openModal, setOpenModal } = useSignupPageContext();
   const { saving, sendMessage } = useEnrolmentActions({
     registration,
   });
@@ -218,9 +219,9 @@ const SignupsPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {registration ? (
-        <EnrolmentPageProvider>
+        <SignupPageProvider>
           <SignupsPage registration={registration} />
-        </EnrolmentPageProvider>
+        </SignupPageProvider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}

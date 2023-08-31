@@ -125,8 +125,8 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
 
   const signups = getValue(signupsData?.signups.data, []).filter(skipFalsyType);
 
-  const enrolmentCount = signups.length;
-  const pageCount = getPageCount(enrolmentCount, SIGNUPS_PAGE_SIZE);
+  const signupsCount = signups.length;
+  const pageCount = getPageCount(signupsCount, SIGNUPS_PAGE_SIZE);
 
   const paginatedSignups = signups.slice(
     (page - 1) * SIGNUPS_PAGE_SIZE,

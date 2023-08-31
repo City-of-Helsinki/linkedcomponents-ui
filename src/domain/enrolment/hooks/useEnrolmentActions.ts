@@ -23,9 +23,9 @@ import {
   clearSignupQueries,
   clearSignupsQueries,
 } from '../../app/apollo/clearCacheUtils';
+import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
 import { SignupGroupFormFields } from '../../signupGroup/types';
 import { SEND_MESSAGE_FORM_NAME, SIGNUP_ACTIONS } from '../constants';
-import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { SendMessageFormFields } from '../types';
 import { getUpdateEnrolmentPayload } from '../utils';
 
@@ -53,7 +53,7 @@ const useEnrolmentActions = ({
 }: Props): UseEnrolmentActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
-  const { closeModal } = useEnrolmentPageContext();
+  const { closeModal } = useSignupPageContext();
 
   const [saving, setSaving] = useMountedState<SIGNUP_ACTIONS | false>(false);
 

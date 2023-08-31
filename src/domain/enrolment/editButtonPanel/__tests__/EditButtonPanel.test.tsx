@@ -15,9 +15,9 @@ import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
+import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { signup } from '../../__mocks__/signup';
-import { EnrolmentPageProvider } from '../../enrolmentPageContext/EnrolmentPageContext';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
@@ -52,9 +52,9 @@ const renderComponent = ({
   route?: string;
 } = {}) =>
   render(
-    <EnrolmentPageProvider>
+    <SignupPageProvider>
       <EditButtonPanel {...defaultProps} {...props} />
-    </EnrolmentPageProvider>,
+    </SignupPageProvider>,
     {
       authContextValue,
       mocks,

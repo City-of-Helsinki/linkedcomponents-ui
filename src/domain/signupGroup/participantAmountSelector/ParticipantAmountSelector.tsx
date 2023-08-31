@@ -7,12 +7,12 @@ import Button from '../../../common/components/button/Button';
 import NumberInput from '../../../common/components/numberInput/NumberInput';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
-import { SIGNUP_MODALS } from '../../enrolment/constants';
-import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import { getMaxSeatsAmount } from '../../registration/utils';
 import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsReservationActions';
 import { getSeatsReservationData } from '../../seatsReservation/utils';
+import { SIGNUP_MODALS } from '../../signup/constants';
+import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
 import { SIGNUP_GROUP_FIELDS } from '../constants';
 import ConfirmDeleteParticipantModal from '../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { SignupFields } from '../types';
@@ -29,7 +29,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
+  const { closeModal, openModal, setOpenModal } = useSignupPageContext();
 
   const [{ value: signups }, , { setValue: setSignups }] = useField<
     SignupFields[]

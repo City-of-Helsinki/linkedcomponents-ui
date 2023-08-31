@@ -10,7 +10,7 @@ import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { RegistrationFieldsFragment } from '../../../../../generated/graphql';
 import getValue from '../../../../../utils/getValue';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
-import { useEnrolmentPageContext } from '../../../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import { useSignupPageContext } from '../../../../signup/signupPageContext/hooks/useSignupPageContext';
 import { SIGNUP_FIELDS } from '../../../constants';
 import { SignupFields } from '../../../types';
 import {
@@ -43,7 +43,7 @@ const Signup: React.FC<Props> = ({
   signupPath,
 }) => {
   const { t } = useTranslation();
-  const { openParticipant, toggleOpenParticipant } = useEnrolmentPageContext();
+  const { openParticipant, toggleOpenParticipant } = useSignupPageContext();
   const labelText =
     [signup.firstName, signup.lastName].filter(skipFalsyType).join(' ') ||
     t('signup.form.signupDefaultTitle', { index: index + 1 });

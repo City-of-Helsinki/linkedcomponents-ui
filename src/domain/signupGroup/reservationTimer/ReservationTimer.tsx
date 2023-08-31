@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
-import { SIGNUP_MODALS } from '../../enrolment/constants';
-import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsReservationActions';
 import {
@@ -14,6 +12,8 @@ import {
   getSeatsReservationData,
   isSeatsReservationExpired,
 } from '../../seatsReservation/utils';
+import { SIGNUP_MODALS } from '../../signup/constants';
+import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
 import { SignupFields } from '../types';
 import { clearCreateSignupGroupFormData } from '../utils';
@@ -65,7 +65,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
     setSignups,
     signups,
   });
-  const { openModal, setOpenModal } = useEnrolmentPageContext();
+  const { openModal, setOpenModal } = useSignupPageContext();
   const { setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
 

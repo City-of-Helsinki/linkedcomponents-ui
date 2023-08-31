@@ -37,15 +37,3 @@ export const SIGNUP_LABEL_KEYS = {
 export const AUTHENTICATION_NOT_NEEDED = [SIGNUP_ACTIONS.EDIT];
 
 export const TEST_SIGNUP_ID = 'signup:0';
-
-export const ENROLMENT_TIME_IN_MINUTES = 30;
-export const ENROLMENT_TIME_PER_PARTICIPANT_IN_MINUTES = 1;
-
-export enum SIGNUP_MODALS {
-  CANCEL = 'cancel',
-  DELETE = 'delete',
-  PERSONS_ADDED_TO_WAITLIST = 'personsAddedToWaitList',
-  RESERVATION_TIME_EXPIRED = 'reservationTimeExpired',
-  SEND_MESSAGE = 'sendMessage',
-  SEND_MESSAGE_TO_SIGNUP = 'sendMessageToSignup',
-}
