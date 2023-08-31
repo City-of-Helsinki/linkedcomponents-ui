@@ -18,12 +18,12 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
-import {
-  EnrolmentServerErrorsContext,
-  EnrolmentServerErrorsContextProps,
-} from '../../../enrolment/enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import { registration } from '../../../registration/__mocks__/registration';
 import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
+import {
+  SignupServerErrorsContext,
+  SignupServerErrorsContextProps,
+} from '../../../signup/signupServerErrorsContext/SignupServerErrorsContext';
 import ReservationTimer from '../ReservationTimer';
 
 const mockedUseNavigate = jest.fn();
@@ -33,7 +33,7 @@ jest.mock('react-router', () => ({
   useNavigate: () => mockedUseNavigate,
 }));
 
-const defaultServerErrorsProps: EnrolmentServerErrorsContextProps = {
+const defaultServerErrorsProps: SignupServerErrorsContextProps = {
   serverErrorItems: [],
   setServerErrorItems: jest.fn(),
   showServerErrors: jest.fn(),
@@ -47,12 +47,12 @@ const payload = {
 const createSeatsReservationVariables = { input: payload };
 
 const renderComponent = (
-  serverErrorProps?: Partial<EnrolmentServerErrorsContextProps>,
+  serverErrorProps?: Partial<SignupServerErrorsContextProps>,
   mocks: MockedResponse[] = []
 ) =>
   render(
     <SignupPageProvider>
-      <EnrolmentServerErrorsContext.Provider
+      <SignupServerErrorsContext.Provider
         value={{ ...defaultServerErrorsProps, ...serverErrorProps }}
       >
         <ReservationTimer
@@ -63,7 +63,7 @@ const renderComponent = (
           setSignups={jest.fn()}
           signups={[]}
         />
-      </EnrolmentServerErrorsContext.Provider>
+      </SignupServerErrorsContext.Provider>
     </SignupPageProvider>,
     { mocks }
   );

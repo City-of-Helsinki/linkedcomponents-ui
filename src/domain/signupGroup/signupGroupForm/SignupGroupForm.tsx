@@ -21,15 +21,14 @@ import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
-import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
-import SendMessageModal from '../../enrolment/modals/sendMessageModal/SendMessageModal';
-import RegistrationWarning from '../../enrolment/registrationWarning/RegistrationWarning';
 import { isRegistrationPossible } from '../../registration/utils';
 import { clearSeatsReservationData } from '../../seatsReservation/utils';
 import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../../signup/constants';
+import SendMessageModal from '../../signup/modals/sendMessageModal/SendMessageModal';
 import SignupAuthenticationNotification from '../../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
 import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
+import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import { SIGNUP_GROUP_FIELDS } from '../constants';
 import CreateSignupGroupButtonPanel from '../createButtonPanel/CreateSignupGroupButtonPanel';
 import Divider from '../divider/Divider';
@@ -38,6 +37,7 @@ import EventInfo from '../eventInfo/EventInfo';
 import FormContainer from '../formContainer/FormContainer';
 import useSignupGroupActions from '../hooks/useSignupGroupActions';
 import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
+import RegistrationWarning from '../registrationWarning/RegistrationWarning';
 import ReservationTimer from '../reservationTimer/ReservationTimer';
 import EnrolmentFormFields from '../signupGroupFormFields/SignupGroupFormFields';
 import {
@@ -121,7 +121,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
-    useEnrolmentServerErrorsContext();
+    useSignupServerErrorsContext();
 
   const formSavingDisabled = React.useRef(!!signupGroup);
 
@@ -150,14 +150,14 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 
   const handleCreate = (values: SignupGroupFormFieldsType) => {
     createSignupGroup(values, {
-      onError: (error) => showServerErrors({ error }, 'enrolment'),
+      onError: (error) => showServerErrors({ error }, 'signup'),
       onSuccess: goToSignupsPageAfterCreate,
     });
   };
 
   const handleUpdate = (values: SignupGroupFormFieldsType) => {
     updateSignupGroup(values, {
-      onError: (error: any) => showServerErrors({ error }, 'enrolment'),
+      onError: (error: any) => showServerErrors({ error }, 'signup'),
       onSuccess: async () => {
         refetchSignupGroup && (await refetchSignupGroup());
         window.scrollTo(0, 0);

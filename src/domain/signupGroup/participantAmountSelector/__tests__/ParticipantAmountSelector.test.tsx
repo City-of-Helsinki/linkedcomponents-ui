@@ -20,17 +20,17 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
-import { EnrolmentServerErrorsProvider } from '../../../enrolment/enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import { registration } from '../../../registration/__mocks__/registration';
 import { TEST_SEATS_RESERVATION_CODE } from '../../../seatsReservation/constants';
 import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
+import { SignupServerErrorsProvider } from '../../../signup/signupServerErrorsContext/SignupServerErrorsContext';
 import { SIGNUP_INITIAL_VALUES } from '../../constants';
 import ParticipantAmountSelector from '../ParticipantAmountSelector';
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
   render(
     <SignupPageProvider>
-      <EnrolmentServerErrorsProvider>
+      <SignupServerErrorsProvider>
         <Formik
           initialValues={{ signups: [{ ...SIGNUP_INITIAL_VALUES }] }}
           onSubmit={() => undefined}
@@ -40,7 +40,7 @@ const renderComponent = (mocks: MockedResponse[] = []) =>
             registration={registration}
           />
         </Formik>
-      </EnrolmentServerErrorsProvider>
+      </SignupServerErrorsProvider>
     </SignupPageProvider>,
     { mocks }
   );

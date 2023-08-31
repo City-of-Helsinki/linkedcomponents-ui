@@ -2,11 +2,11 @@
 import i18n from 'i18next';
 
 import {
-  parseEnrolmentServerErrors,
   parseSeatsReservationServerErrors,
+  parseSignupGroupServerErrors,
 } from '../utils';
 
-describe('parseEnrolmentServerErrors', () => {
+describe('parseSignupGroupServerErrors', () => {
   it('should set server error items', async () => {
     const result = {
       registration: ['The name must be specified.'],
@@ -24,7 +24,7 @@ describe('parseEnrolmentServerErrors', () => {
     };
 
     expect(
-      parseEnrolmentServerErrors({ result, t: i18n.t.bind(i18n) })
+      parseSignupGroupServerErrors({ result, t: i18n.t.bind(i18n) })
     ).toEqual([
       { label: 'Ilmoittautuminen', message: 'Nimi on pakollinen.' },
       { label: 'Kaupunki', message: 'Tämän kentän arvo ei voi olla "null".' },
@@ -41,7 +41,7 @@ describe('parseEnrolmentServerErrors', () => {
     ];
 
     expect(
-      parseEnrolmentServerErrors({ result, t: i18n.t.bind(i18n) })
+      parseSignupGroupServerErrors({ result, t: i18n.t.bind(i18n) })
     ).toEqual([
       { label: 'Etunimi', message: 'Nimi on pakollinen.' },
       { label: 'Sukunimi', message: 'Nimi on pakollinen.' },
@@ -52,7 +52,7 @@ describe('parseEnrolmentServerErrors', () => {
     const result = ['Could not find all objects to update.'];
 
     expect(
-      parseEnrolmentServerErrors({ result, t: i18n.t.bind(i18n) })
+      parseSignupGroupServerErrors({ result, t: i18n.t.bind(i18n) })
     ).toEqual([
       { label: '', message: 'Kaikkia päivitettäviä objekteja ei löytynyt.' },
     ]);

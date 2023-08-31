@@ -17,12 +17,12 @@ import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import { EnrolmentServerErrorsProvider } from '../enrolment/enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
-import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
+import useRegistrationAndEventData from '../signup/hooks/useRegistrationAndEventData';
 import SignupPageBreadcrumb from '../signup/signupPageBreadbrumb/SignupPageBreadcrumb';
 import { SignupPageProvider } from '../signup/signupPageContext/SignupPageContext';
+import { SignupServerErrorsProvider } from '../signup/signupServerErrorsContext/SignupServerErrorsContext';
 import useUser from '../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS } from './constants';
 import { checkCanUserDoSignupGroupAction } from './permissions';
@@ -119,14 +119,14 @@ const EditSignupGroupPageWrapper: React.FC = () => {
     <LoadingSpinner isLoading={loading}>
       {event && registration && signupGroup ? (
         <SignupPageProvider>
-          <EnrolmentServerErrorsProvider>
+          <SignupServerErrorsProvider>
             <EditSignupGroupPage
               event={event}
               refetch={refetch}
               registration={registration}
               signupGroup={signupGroup}
             />
-          </EnrolmentServerErrorsProvider>
+          </SignupServerErrorsProvider>
         </SignupPageProvider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />

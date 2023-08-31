@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
-import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsReservationActions';
 import {
   clearSeatsReservationData,
@@ -14,6 +13,7 @@ import {
 } from '../../seatsReservation/utils';
 import { SIGNUP_MODALS } from '../../signup/constants';
 import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
+import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
 import { SignupFields } from '../types';
 import { clearCreateSignupGroupFormData } from '../utils';
@@ -67,7 +67,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
   });
   const { openModal, setOpenModal } = useSignupPageContext();
   const { setServerErrorItems, showServerErrors } =
-    useEnrolmentServerErrorsContext();
+    useSignupServerErrorsContext();
 
   const enableTimer = useCallback(() => {
     timerEnabled.current = true;

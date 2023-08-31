@@ -111,7 +111,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     } catch (error) /* istanbul ignore next */ {
       handleError({
         error,
-        message: 'Failed to patch enrolment presence status',
+        message: 'Failed to patch signup presence status',
         payload,
         signup,
       });

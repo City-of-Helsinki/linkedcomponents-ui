@@ -6,8 +6,8 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
+import { signup } from '../../../../enrolment/__mocks__/signup';
 import { registration } from '../../../../registration/__mocks__/registration';
-import { signup } from '../../../__mocks__/signup';
 import ConfirmCancelSignupModal, {
   ConfirmCancelSignupModalProps,
 } from '../ConfirmCancelSignupModal';

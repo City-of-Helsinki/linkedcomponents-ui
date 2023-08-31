@@ -6,7 +6,7 @@ import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
 
-export const parseEnrolmentServerErrors = ({
+export const parseSignupGroupServerErrors = ({
   result,
   t,
 }: {
@@ -14,13 +14,13 @@ export const parseEnrolmentServerErrors = ({
   t: TFunction;
 }): ServerErrorItem[] => {
   return parseServerErrors({
-    parseServerError: parseEnrolmentServerError,
+    parseServerError: parseSignupGroupServerError,
     result,
     t,
   });
 
   // Get error item for an single error.
-  function parseEnrolmentServerError({
+  function parseSignupGroupServerError({
     error,
     key,
   }: {
@@ -28,26 +28,26 @@ export const parseEnrolmentServerErrors = ({
     key: string;
   }) {
     if (key === 'signups') {
-      return parseSignupServerError(error);
+      return parseSignupsServerError(error);
     }
 
     return [
       {
-        label: parseEnrolmentServerErrorLabel({ key }),
+        label: parseSignupServerErrorLabel({ key }),
         message: parseServerErrorMessage({ error, t }),
       },
     ];
   }
 
   // Get error items for video fields
-  function parseSignupServerError(error: LEServerError): ServerErrorItem[] {
+  function parseSignupsServerError(error: LEServerError): ServerErrorItem[] {
     /* istanbul ignore else */
     if (Array.isArray(error)) {
       return Object.entries(error[0]).reduce(
         (previous: ServerErrorItem[], [key, e]) => [
           ...previous,
           {
-            label: parseEnrolmentServerErrorLabel({ key }),
+            label: parseSignupServerErrorLabel({ key }),
             message: parseServerErrorMessage({ error: e as string[], t }),
           },
         ],
@@ -58,7 +58,7 @@ export const parseEnrolmentServerErrors = ({
     }
   }
   // Get correct field name for an error item
-  function parseEnrolmentServerErrorLabel({ key }: { key: string }): string {
+  function parseSignupServerErrorLabel({ key }: { key: string }): string {
     if (isGenericServerError(key)) {
       return '';
     }
