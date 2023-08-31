@@ -17,12 +17,12 @@ import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import EnrolmentPageBreadcrumb from '../enrolment/enrolmentPageBreadbrumb/EnrolmentPageBreadcrumb';
 import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { EnrolmentServerErrorsProvider } from '../enrolment/enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
+import SignupPageBreadcrumb from '../signup/signupPageBreadbrumb/SignupPageBreadcrumb';
 import useUser from '../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS } from './constants';
 import { checkCanUserDoSignupGroupAction } from './permissions';
@@ -72,7 +72,7 @@ const EditSignupGroupPage: React.FC<Props> = ({
           contentWrapperClassName={styles.breadcrumbContainer}
           withOffset
         >
-          <EnrolmentPageBreadcrumb
+          <SignupPageBreadcrumb
             activeLabel={t(`editSignupGroupPage.pageTitle`)}
             registration={registration}
           />

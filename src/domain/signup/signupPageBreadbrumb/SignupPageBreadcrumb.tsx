@@ -5,14 +5,14 @@ import Breadcrumb from '../../../common/components/breadcrumb/Breadcrumb';
 import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
-import styles from './enrolmentPageBreadcrumb.module.scss';
+import styles from './signupPageBreadcrumb.module.scss';
 
 type Props = {
   activeLabel: string;
   registration: RegistrationFieldsFragment;
 };
 
-const EnrolmentPageBreadcrumb: FC<Props> = ({ activeLabel, registration }) => {
+const SignupPageBreadcrumb: FC<Props> = ({ activeLabel, registration }) => {
   const { t } = useTranslation();
   const registrationId = getValue(registration.id, '');
 
@@ -39,4 +39,4 @@ const EnrolmentPageBreadcrumb: FC<Props> = ({ activeLabel, registration }) => {
   );
 };
 
-export default EnrolmentPageBreadcrumb;
+export default SignupPageBreadcrumb;
