@@ -11,22 +11,24 @@ import {
   SignupFieldsFragment,
 } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
-import { getEnrolmentFields } from '../../../signups/utils';
+import { getSignupFields } from '../../../signups/utils';
 
-export type ConfirmCancelEnrolmentModalProps = {
-  enrolment: SignupFieldsFragment;
+export type ConfirmCancelSignupModalProps = {
   registration: RegistrationFieldsFragment;
+  signup: SignupFieldsFragment;
 } & CommonConfirmModalProps;
 
-const ConfirmCancelEnrolmentModal: React.FC<
-  ConfirmCancelEnrolmentModalProps
-> = ({ enrolment, registration, ...props }) => {
+const ConfirmCancelSignupModal: React.FC<ConfirmCancelSignupModalProps> = ({
+  registration,
+  signup,
+  ...props
+}) => {
   const { t } = useTranslation();
   const locale = useLocale();
-  const { fullName } = getEnrolmentFields({
-    enrolment,
+  const { fullName } = getSignupFields({
     language: locale,
     registration,
+    signup,
   });
 
   return (
@@ -46,10 +48,10 @@ const ConfirmCancelEnrolmentModal: React.FC<
       confirmButtonText={t('enrolment.cancelEnrolmentModal.buttonCancel')}
       description={t('enrolment.cancelEnrolmentModal.text1')}
       heading={t('enrolment.cancelEnrolmentModal.title')}
-      id="confirm-enrolment-cancel-modal"
+      id="confirm-signup-cancel-modal"
       variant="danger"
     />
   );
 };
 
-export default ConfirmCancelEnrolmentModal;
+export default ConfirmCancelSignupModal;

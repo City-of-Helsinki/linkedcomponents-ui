@@ -128,7 +128,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   const { closeModal, openModal, setOpenModal, setOpenParticipant } =
     useEnrolmentPageContext();
 
-  const goToEnrolmentsPageAfterCreate = () => {
+  const goToSignupsPageAfterCreate = () => {
     const registrationId = getValue(registration.id, '');
     // Disable reservation timer callbacks
     // so user is not redirected to create enrolment page
@@ -139,7 +139,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
     clearSeatsReservationData(registrationId);
 
     navigate(
-      `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
+      `/${locale}${ROUTES.REGISTRATION_SIGNUPS.replace(
         ':registrationId',
         registrationId
       )}`
@@ -151,7 +151,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   const handleCreate = (values: SignupGroupFormFieldsType) => {
     createSignupGroup(values, {
       onError: (error) => showServerErrors({ error }, 'enrolment'),
-      onSuccess: goToEnrolmentsPageAfterCreate,
+      onSuccess: goToSignupsPageAfterCreate,
     });
   };
 
@@ -197,11 +197,11 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
     <>
       {responsiblePerson && (
         <SendMessageModal
-          enrolment={responsiblePerson}
-          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT}
+          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP}
           isSaving={savingResponsiblePerson === ENROLMENT_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
           onSendMessage={sendMessage}
+          signup={responsiblePerson}
         />
       )}
 
@@ -266,7 +266,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
           {signupGroup ? (
             <EditSignupGroupButtonPanel
               onSendMessage={() =>
-                setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT)
+                setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP)
               }
               registration={registration}
               saving={savingSignupGroup}

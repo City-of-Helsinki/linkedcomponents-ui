@@ -17,8 +17,8 @@ import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { ENROLMENT_ACTIONS } from '../../enrolment/constants';
 import { getEditButtonProps } from '../../enrolment/utils';
-import { EnrolmentsLocationState } from '../../signups/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { SignupsLocationState } from '../../signups/types';
 import useUser from '../../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';
 import { getSignupGroupActionButtonProps } from '../permissions';
@@ -51,12 +51,12 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
     [signupGroup]
   );
 
-  const goBack = useGoBack<EnrolmentsLocationState>({
-    defaultReturnPath: ROUTES.REGISTRATION_ENROLMENTS.replace(
+  const goBack = useGoBack<SignupsLocationState>({
+    defaultReturnPath: ROUTES.REGISTRATION_SIGNUPS.replace(
       ':registrationId',
       getValue(registration.id, '')
     ),
-    state: { enrolmentId: responsiblePerson?.id },
+    state: { signupId: responsiblePerson?.id },
   });
 
   const getSignupActionItemProps = ({

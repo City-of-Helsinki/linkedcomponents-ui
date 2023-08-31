@@ -31,7 +31,6 @@ import {
   mockedDataSourceResponse,
   mockedDataSourcesResponse,
 } from '../../../../dataSource/__mocks__/dataSource';
-import { getMockedAttendeesResponse } from '../../../../enrolments/__mocks__/enrolmentsPage';
 import {
   eventName,
   mockedEventResponse,
@@ -100,6 +99,7 @@ import {
   mockedSignupGroupResponse,
   signupGroupId,
 } from '../../../../signupGroup/__mocks__/editSignupGroupPage';
+import { getMockedAttendeesResponse } from '../../../../signups/__mocks__/signupsPage';
 import {
   mockedUserResponse,
   mockedUsersResponse,
@@ -308,18 +308,15 @@ it('should render attendance list page', async () => {
   });
 });
 
-it('should render registration enrolments page', async () => {
+it('should render registration signups page', async () => {
   const { history } = await renderRoute(
-    `${ROUTES.REGISTRATION_ENROLMENTS.replace(
-      ':registrationId',
-      registrationId
-    )}`
+    `${ROUTES.REGISTRATION_SIGNUPS.replace(':registrationId', registrationId)}`
   );
 
   await isPageRendered({
     history,
     pageTitle: `Ilmoittautuneet: ${eventName} - Linked Events`,
-    pathname: `/fi/registrations/${registrationId}/enrolments`,
+    pathname: `/fi/registrations/${registrationId}/signups`,
   });
 });
 

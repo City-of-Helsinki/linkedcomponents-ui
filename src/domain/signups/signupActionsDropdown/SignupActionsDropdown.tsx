@@ -18,25 +18,25 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../../enrolment/constants';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
-import ConfirmCancelEnrolmentModal from '../../enrolment/modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
+import ConfirmCancelEnrolmentModal from '../../enrolment/modals/confirmCancelSignupModal/ConfirmCancelSignupModal';
 import SendMessageModal from '../../enrolment/modals/sendMessageModal/SendMessageModal';
 import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { getRegistrationFields } from '../../registration/utils';
 import { addParamsToRegistrationQueryString } from '../../registrations/utils';
 import useUser from '../../user/hooks/useUser';
-import { getEnrolmentFields } from '../utils';
+import { getSignupFields } from '../utils';
 
-export interface EnrolmentActionsDropdownProps {
+export interface SignupActionsDropdownProps {
   className?: string;
-  enrolment: SignupFieldsFragment;
   registration: RegistrationFieldsFragment;
+  signup: SignupFieldsFragment;
 }
 
-const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
+const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
   className,
-  enrolment,
   registration,
+  signup,
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
@@ -47,17 +47,17 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { pathname, search } = useLocation();
   const { id: registrationId } = getRegistrationFields(registration, locale);
-  const { signupGroup } = getEnrolmentFields({
-    enrolment,
+  const { signupGroup } = getSignupFields({
     language: locale,
     registration,
+    signup,
   });
 
   const { closeModal, openModal, openModalId, setOpenModalId, setOpenModal } =
     useEnrolmentPageContext();
 
   const { cancelEnrolment, saving, sendMessage } = useEnrolmentActions({
-    enrolment,
+    enrolment: signup,
     registration,
   });
 
@@ -105,41 +105,41 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
     getActionItemProps({
       action: ENROLMENT_ACTIONS.SEND_MESSAGE,
       onClick: () => {
-        setOpenModalId(enrolment.id);
-        setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT);
+        setOpenModalId(signup.id);
+        setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP);
       },
     }),
     getActionItemProps({
       action: ENROLMENT_ACTIONS.CANCEL,
       onClick: () => {
-        setOpenModalId(enrolment.id);
+        setOpenModalId(signup.id);
         setOpenModal(ENROLMENT_MODALS.CANCEL);
       },
     }),
   ].filter(skipFalsyType);
 
   const isModalOpen = (modal: ENROLMENT_MODALS) =>
-    openModalId === enrolment.id && openModal === modal;
+    openModalId === signup.id && openModal === modal;
 
   return (
     <>
       {isModalOpen(ENROLMENT_MODALS.CANCEL) && (
         <ConfirmCancelEnrolmentModal
-          enrolment={enrolment}
           isOpen={openModal === ENROLMENT_MODALS.CANCEL}
           isSaving={saving === ENROLMENT_ACTIONS.CANCEL}
           onConfirm={cancelEnrolment}
           onClose={closeModal}
           registration={registration}
+          signup={signup}
         />
       )}
-      {isModalOpen(ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT) && (
+      {isModalOpen(ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP) && (
         <SendMessageModal
-          enrolment={enrolment}
-          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT}
+          isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_SIGNUP}
           isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
           onSendMessage={sendMessage}
+          signup={signup}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />
@@ -147,4 +147,4 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
   );
 };
 
-export default EnrolmentActionsDropdown;
+export default SignupActionsDropdown;

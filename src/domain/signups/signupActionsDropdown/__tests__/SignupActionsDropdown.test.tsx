@@ -29,15 +29,15 @@ import {
   signupWithGroup,
 } from '../../../signup/__mocks__/editSignupPage';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import EnrolmentActionsDropdown, {
-  EnrolmentActionsDropdownProps,
-} from '../EnrolmentActionsDropdown';
+import SignupActionsDropdown, {
+  SignupActionsDropdownProps,
+} from '../SignupActionsDropdown';
 
 configure({ defaultHidden: true });
 
-const defaultProps: EnrolmentActionsDropdownProps = {
-  enrolment: signup,
+const defaultProps: SignupActionsDropdownProps = {
   registration,
+  signup,
 };
 
 const defaultMocks = [
@@ -50,7 +50,7 @@ const defaultMocks = [
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const route = `/fi${ROUTES.REGISTRATION_ENROLMENTS.replace(
+const route = `/fi${ROUTES.REGISTRATION_SIGNUPS.replace(
   ':registrationId',
   getValue(registration.id, '')
 )}`;
@@ -62,11 +62,11 @@ const renderComponent = ({
 }: {
   authContextValue?: AuthContextProps;
   mocks?: MockedResponse[];
-  props?: Partial<EnrolmentActionsDropdownProps>;
+  props?: Partial<SignupActionsDropdownProps>;
 } = {}) =>
   render(
     <EnrolmentPageProvider>
-      <EnrolmentActionsDropdown {...defaultProps} {...props} />
+      <SignupActionsDropdown {...defaultProps} {...props} />
     </EnrolmentPageProvider>,
     {
       authContextValue,
@@ -124,7 +124,7 @@ test('should render correct buttons', async () => {
 test("should show toast message when clicking edit button and signup doesn't have a group", async () => {
   toast.error = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ props: { enrolment: signup } });
+  renderComponent({ props: { signup } });
 
   await openMenu();
 
@@ -139,7 +139,7 @@ test("should show toast message when clicking edit button and signup doesn't hav
 test('should route to edit signup group page when clicking edit button and signup has a group', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({
-    props: { enrolment: signupWithGroup },
+    props: { signup: signupWithGroup },
   });
 
   await openMenu();
@@ -194,7 +194,7 @@ test('should send message to participant when clicking send message button', asy
   );
 });
 
-test('should try to cancel enrolment when clicking cancel button', async () => {
+test('should try to cancel signup when clicking cancel button', async () => {
   const user = userEvent.setup();
   renderComponent({ authContextValue });
 

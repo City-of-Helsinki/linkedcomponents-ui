@@ -18,7 +18,7 @@ import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
 import { reportError } from '../../app/sentry/utils';
-import { getEnrolmentFields } from '../../signups/utils';
+import { getSignupFields } from '../../signups/utils';
 import useUser from '../../user/hooks/useUser';
 
 type Props = {
@@ -40,10 +40,10 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
   ).filter((signup) => signup.attendeeStatus === AttendeeStatus.Attending);
 
   const filteredAttendees = attendees.filter((signup) => {
-    const { firstName, lastName } = getEnrolmentFields({
-      enrolment: signup,
-      registration,
+    const { firstName, lastName } = getSignupFields({
       language: locale,
+      registration,
+      signup,
     });
     const firstLastName = [firstName, lastName].filter(skipFalsyType).join(' ');
     const lastFirstName = [lastName, firstName].filter(skipFalsyType).join(' ');
@@ -133,10 +133,10 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
         searchValue={search}
       />
       {filteredAttendees.map((signup) => {
-        const { fullName } = getEnrolmentFields({
-          enrolment: signup,
+        const { fullName } = getSignupFields({
           registration,
           language: locale,
+          signup,
         });
 
         return (

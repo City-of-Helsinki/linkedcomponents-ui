@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 
 import FilterTag from '../../../common/components/filterTag/FilterTag';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
-import { getEnrolmentSearchInitialValues } from '../utils';
+import { getSignupSearchInitialValues } from '../utils';
 import styles from './filterSummary.module.scss';
 
 interface Props {
@@ -16,14 +16,14 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
-  const { enrolmentText: text } = getEnrolmentSearchInitialValues(search);
+  const { signupText: text } = getSignupSearchInitialValues(search);
 
   const clearFilters = () => {
     navigate({
       pathname,
       search: replaceParamsToRegistrationQueryString(search, {
-        enrolmentText: '',
         attendeePage: null,
+        signupText: '',
         waitingPage: null,
       }),
     });
@@ -51,7 +51,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
         onClick={clearFilters}
         type="button"
       >
-        {t('enrolmentsPage.buttonClearFilters')}
+        {t('signupsPage.buttonClearFilters')}
       </button>
     </div>
   );

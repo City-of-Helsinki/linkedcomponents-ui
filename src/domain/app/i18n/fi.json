@@ -23,8 +23,6 @@
     "networkError": {
       "message": "Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan"
     },
-    "noRightsUpdateEnrolment": "Sinulla ei ole oikeuksia muokata osallistujia.",
-    "noRightsUpdateEnrolmentLabel": "Ei oikeuksia muokata osallistujia.",
     "noRightsUpdateEvent": "Sinulla ei ole oikeuksia muokata tapahtumia.",
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
     "noRightsUpdateImage": "Sinulla ei ole oikeuksia muokata kuvia.",
@@ -39,6 +37,8 @@
     "noRightsUpdatePlaceLabel": "Ei oikeuksia muokata paikkoja.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
     "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia.",
+    "noRightsUpdateSignup": "Sinulla ei ole oikeuksia muokata osallistujia.",
+    "noRightsUpdateSignupLabel": "Ei oikeuksia muokata osallistujia.",
     "noRightsUpdateSignupGroup": "Sinulla ei ole oikeuksia muokata osallistujia.",
     "noRightsUpdateSignupGroupLabel": "Ei oikeuksia muokata osallistujia."
   },
@@ -424,35 +424,6 @@
       "capacityInWaitingListNoLimit": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta vain jonopaikkoja on jäljellä.",
       "closed": "Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen."
     }
-  },
-  "enrolmentsPage": {
-    "actionButtons": {
-      "cancel": "Peruuta osallistuminen",
-      "edit": "Muokkaa tietoja",
-      "sendMessage": "Lähetä viesti"
-    },
-    "attendeeTableCaption": "Osallistujat",
-    "attendeeTableHeading": "Osallistujat",
-    "buttonClearFilters": "Tyhjennä hakuehdot",
-    "enrolmentsTableColumns": {
-      "email": "Sähköposti",
-      "name": "Nimi",
-      "phone": "Puhelinnumero",
-      "status": "Status"
-    },
-    "pageTitle": "Ilmoittautuneet: {{name}}",
-    "searchPanel": {
-      "buttonCreate": "Lisää osallistuja",
-      "buttonSearch": "Etsi osallistujia",
-      "labelSearch": "Hae osallistujia",
-      "placeholderSearch": "Hae osallistujia"
-    },
-    "title": "Ilmoittautuneet",
-    "waitingListTableCaption": "Jonopaikat",
-    "waitingListTableHeading": "Jonopaikat",
-    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda osallistujia tähän ilmoittautumiseen.",
-    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa.",
-    "warningNoRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."
   },
   "errors": {
     "authorizationRequired": "Kirjaudu sisään suorittaaksesi tämän toiminnon.",
@@ -1805,7 +1776,7 @@
         "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
       },
       "editButtonPanel": {
-        "warningHasEnrolments": "Ilmoittautumisia joilla on osallistujia ei voi poistaa.",
+        "warningHasSignups": "Ilmoittautumisia joilla on osallistujia ei voi poistaa.",
         "warningNoRightsToCreate": "Sinulla ei ole oikeuksia lisätä ilmoittautumisia.",
         "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä ilmoittautumista."
       },
@@ -1861,7 +1832,7 @@
       "delete": "Poista ilmoittautuminen",
       "edit": "Muokkaa",
       "editAttendanceList": "Merkkaa läsnäolijat",
-      "showEnrolments": "Näytä ilmoittautuneet",
+      "showSignups": "Näytä ilmoittautuneet",
       "update": "Tallenna muutokset"
     },
     "buttonClearFilters": "Tyhjennä hakuehdot",
@@ -1871,11 +1842,11 @@
     "pageTitle": "Ilmoittautuminen",
     "registrationsTableCaption": "Ilmoittautumiset, järjestys {{sort}}",
     "registrationsTableColumns": {
-      "enrolments": "Osallistujia",
       "enrolmentEndTime": "Loppuu",
       "enrolmentStartTime": "Alkaa",
       "name": "Nimi",
       "publisher": "Julkaisija",
+      "signups": "Osallistujia",
       "waitingList": "Jono"
     },
     "searchPanel": {
@@ -1933,5 +1904,34 @@
       "noRightsToEdit": "Sinulla ei ole oikeuksia muokata osallistujia.",
       "noRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."
     }
+  },
+  "signupsPage": {
+    "actionButtons": {
+      "cancel": "Peruuta osallistuminen",
+      "edit": "Muokkaa tietoja",
+      "sendMessage": "Lähetä viesti"
+    },
+    "attendeeTableCaption": "Osallistujat",
+    "attendeeTableHeading": "Osallistujat",
+    "buttonClearFilters": "Tyhjennä hakuehdot",
+    "pageTitle": "Ilmoittautuneet: {{name}}",
+    "searchPanel": {
+      "buttonCreate": "Lisää osallistuja",
+      "buttonSearch": "Etsi osallistujia",
+      "labelSearch": "Hae osallistujia",
+      "placeholderSearch": "Hae osallistujia"
+    },
+    "signupsTableColumns": {
+      "email": "Sähköposti",
+      "name": "Nimi",
+      "phone": "Puhelinnumero",
+      "status": "Status"
+    },
+    "title": "Ilmoittautuneet",
+    "waitingListTableCaption": "Jonopaikat",
+    "waitingListTableHeading": "Jonopaikat",
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda osallistujia tähän ilmoittautumiseen.",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa.",
+    "warningNoRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."
   }
 }

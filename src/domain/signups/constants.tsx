@@ -1,1 +1,1 @@
-export const ENROLMENTS_PAGE_SIZE = 10;
+export const SIGNUPS_PAGE_SIZE = 10;

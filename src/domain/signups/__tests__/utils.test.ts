@@ -4,20 +4,20 @@ import {
 } from '../../../generated/graphql';
 import { fakeRegistration, fakeSignup } from '../../../utils/mockDataUtils';
 import { registrationId } from '../../registration/__mocks__/registration';
-import { enrolmentsPathBuilder, getEnrolmentFields } from '../utils';
+import { getSignupFields, signupsPathBuilder } from '../utils';
 
-describe('getEnrolmentFields function', () => {
+describe('getSignupFields function', () => {
   it('should return default values if value is not set', () => {
-    const { email, firstName, id, lastName, phoneNumber } = getEnrolmentFields({
-      enrolment: fakeSignup({
+    const { email, firstName, id, lastName, phoneNumber } = getSignupFields({
+      language: 'fi',
+      registration: fakeRegistration(),
+      signup: fakeSignup({
         email: null,
         firstName: null,
         id: '',
         lastName: null,
         phoneNumber: null,
       }),
-      language: 'fi',
-      registration: fakeRegistration(),
     });
 
     expect(email).toBe('');
@@ -28,7 +28,7 @@ describe('getEnrolmentFields function', () => {
   });
 });
 
-describe('enrolmentsPathBuilder function', () => {
+describe('signupsPathBuilder function', () => {
   const cases: [SignupsQueryVariables, string][] = [
     [
       { attendeeStatus: AttendeeStatus.Attending },
@@ -42,8 +42,8 @@ describe('enrolmentsPathBuilder function', () => {
   ];
 
   it.each(cases)(
-    'should create enrolments request path with args %p, result %p',
+    'should create signups request path with args %p, result %p',
     (variables, expectedPath) =>
-      expect(enrolmentsPathBuilder({ args: variables })).toBe(expectedPath)
+      expect(signupsPathBuilder({ args: variables })).toBe(expectedPath)
   );
 });

@@ -41,9 +41,9 @@ const EnrolmentAuthenticationNotification: React.FC<
         })
       }
       noRequiredOrganizationLabel={t(
-        'authentication.noRightsUpdateEnrolmentLabel'
+        'authentication.noRightsUpdateSignupLabel'
       )}
-      noRequiredOrganizationText={t('authentication.noRightsUpdateEnrolment')}
+      noRequiredOrganizationText={t('authentication.noRightsUpdateSignup')}
     />
   );
 };

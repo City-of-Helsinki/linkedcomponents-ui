@@ -26,7 +26,7 @@ const getElement = (key: 'searchInput') => {
   }
 };
 
-const defaultRoute = `${ROUTES.REGISTRATION_ENROLMENTS.replace(
+const defaultRoute = `${ROUTES.REGISTRATION_SIGNUPS.replace(
   ':registrationId',
   registrationId
 )}`;
@@ -44,13 +44,13 @@ const renderComponent = (route: string = defaultRoute) =>
 
 test('should initialize search panel input', async () => {
   const searchValue = 'search';
-  renderComponent(`${defaultRoute}?enrolmentText=${searchValue}`);
+  renderComponent(`${defaultRoute}?signupText=${searchValue}`);
 
   const searchInput = getElement('searchInput');
   await waitFor(() => expect(searchInput).toHaveValue(searchValue));
 });
 
-test('should search enrolments with correct search params', async () => {
+test('should search signups with correct search params', async () => {
   const values = { text: 'search' };
   const user = userEvent.setup();
   const { history } = renderComponent();
@@ -66,7 +66,7 @@ test('should search enrolments with correct search params', async () => {
   await user.click(searchButton);
 
   expect(history.location.pathname).toBe(
-    `/registrations/${registrationId}/enrolments`
+    `/registrations/${registrationId}/signups`
   );
-  expect(history.location.search).toBe('?enrolmentText=search');
+  expect(history.location.search).toBe('?signupText=search');
 });

@@ -15,29 +15,29 @@ import useGoBack from '../../../hooks/useGoBack';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { EnrolmentsLocationState } from '../../signups/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { SignupsLocationState } from '../../signups/types';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from '../constants';
 import { getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export interface EditButtonPanelProps {
-  enrolment: SignupFieldsFragment;
   onCancel: () => void;
   onSave: () => void;
   onSendMessage: () => void;
   registration: RegistrationFieldsFragment;
   saving: ENROLMENT_ACTIONS | false;
+  signup: SignupFieldsFragment;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
-  enrolment,
   onCancel,
   onSave,
   onSendMessage,
   registration,
   saving,
+  signup,
 }) => {
   const { t } = useTranslation();
   const { isAuthenticated: authenticated } = useAuth();
@@ -45,12 +45,12 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const goBack = useGoBack<EnrolmentsLocationState>({
-    defaultReturnPath: ROUTES.REGISTRATION_ENROLMENTS.replace(
+  const goBack = useGoBack<SignupsLocationState>({
+    defaultReturnPath: ROUTES.REGISTRATION_SIGNUPS.replace(
       ':registrationId',
       getValue(registration.id, '')
     ),
-    state: { enrolmentId: enrolment.id },
+    state: { signupId: signup.id },
   });
 
   const getActionItemProps = ({

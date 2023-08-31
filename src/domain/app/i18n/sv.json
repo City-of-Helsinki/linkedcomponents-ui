@@ -23,8 +23,6 @@
     "networkError": {
       "message": "Ett fel har uppstått vid inloggningen: Kontrollera din nätförbindelse och försök igen."
     },
-    "noRightsUpdateEnrolment": "Du har inte behörighet att redigera deltagare.",
-    "noRightsUpdateEnrolmentLabel": "Inga rättigheter att redigera deltagare",
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
     "noRightsUpdateImage": "Du har inte behörighet att redigera bilder.",
@@ -39,6 +37,8 @@
     "noRightsUpdatePlaceLabel": "Inga rättigheter att redigera platser",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
     "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar",
+    "noRightsUpdateSignup": "Du har inte behörighet att redigera deltagare.",
+    "noRightsUpdateSignupLabel": "Inga rättigheter att redigera deltagare",
     "noRightsUpdateSignupGroup": "Du har inte behörighet att redigera deltagare.",
     "noRightsUpdateSignupGroupLabel": "Inga rättigheter att redigera deltagare"
   },
@@ -424,35 +424,6 @@
       "capacityInWaitingListNoLimit": "Registrering till detta evenemang är fortfarande möjlig, men det finns endast platser kvar i kön.",
       "closed": "Registreringen för detta evenemang är för närvarande stängd. Vänligen försök igen senare."
     }
-  },
-  "enrolmentsPage": {
-    "actionButtons": {
-      "cancel": "Avbryt deltagande",
-      "edit": "Redigera information",
-      "sendMessage": "Skicka ett meddelande"
-    },
-    "attendeeTableCaption": "Deltagarna",
-    "attendeeTableHeading": "Deltagarna",
-    "buttonClearFilters": "Töm sökfilter",
-    "enrolmentsTableColumns": {
-      "email": "E-post",
-      "name": "Name",
-      "phone": "Telefonnummer",
-      "status": "Status"
-    },
-    "pageTitle": "Anmälningar: {{name}}",
-    "searchPanel": {
-      "buttonCreate": "Lägg till deltagare",
-      "buttonSearch": "Filtrera",
-      "labelSearch": "Filtrera registreringar",
-      "placeholderSearch": "Filtrera registreringar"
-    },
-    "title": "Anmälningar",
-    "waitingListTableCaption": "Väntelista",
-    "waitingListTableHeading": "Väntelista",
-    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta deltagare.",
-    "warningNoRightsToView": "Du har inte tillräckliga rättigheter att se deltagare i denna registrering."
   },
   "errors": {
     "authorizationRequired": "Logga in för att använda den här funktionen",
@@ -1805,7 +1776,7 @@
         "warningNotAuthenticated": "För att skapa en registrering, logga in först."
       },
       "editButtonPanel": {
-        "warningHasEnrolments": "Registreringar med deltagare kan inte raderas.",
+        "warningHasSignups": "Registreringar med deltagare kan inte raderas.",
         "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa registreringar.",
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
       },
@@ -1861,7 +1832,7 @@
       "delete": "Radera registrering",
       "edit": "Redigera",
       "editAttendanceList": "Märk de närvarande",
-      "showEnrolments": "Visa deltagare",
+      "showSignups": "Visa deltagare",
       "update": "Spara ändringar"
     },
     "buttonClearFilters": "Töm sökfilter",
@@ -1871,11 +1842,11 @@
     "pageTitle": "Registrering",
     "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
     "registrationsTableColumns": {
-      "enrolments": "Deltagarna",
       "enrolmentEndTime": "Slutar",
       "enrolmentStartTime": "Börjar",
       "name": "Namn",
       "publisher": "Utgivare",
+      "signups": "Deltagarna",
       "waitingList": "Väntelista"
     },
     "searchPanel": {
@@ -1933,5 +1904,34 @@
       "noRightsToEdit": "Du har otillräckliga rättigheter att redigera deltagare.",
       "noRightsToView": "Du har inte tillräckliga rättigheter att se deltagare i denna registrering."
     }
+  },
+  "signupsPage": {
+    "actionButtons": {
+      "cancel": "Avbryt deltagande",
+      "edit": "Redigera information",
+      "sendMessage": "Skicka ett meddelande"
+    },
+    "attendeeTableCaption": "Deltagarna",
+    "attendeeTableHeading": "Deltagarna",
+    "buttonClearFilters": "Töm sökfilter",
+    "pageTitle": "Anmälningar: {{name}}",
+    "searchPanel": {
+      "buttonCreate": "Lägg till deltagare",
+      "buttonSearch": "Filtrera",
+      "labelSearch": "Filtrera registreringar",
+      "placeholderSearch": "Filtrera registreringar"
+    },
+    "signupsTableColumns": {
+      "email": "E-post",
+      "name": "Name",
+      "phone": "Telefonnummer",
+      "status": "Status"
+    },
+    "title": "Anmälningar",
+    "waitingListTableCaption": "Väntelista",
+    "waitingListTableHeading": "Väntelista",
+    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta deltagare.",
+    "warningNoRightsToView": "Du har inte tillräckliga rättigheter att se deltagare i denna registrering."
   }
 }

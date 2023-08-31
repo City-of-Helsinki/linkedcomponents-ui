@@ -23,8 +23,6 @@
     "networkError": {
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
-    "noRightsUpdateEnrolment": "You do not have permission to edit participants.",
-    "noRightsUpdateEnrolmentLabel": "No permissions to edit participants.",
     "noRightsUpdateEvent": "You do not have permission to edit events.",
     "noRightsUpdateEventLabel": "No permissions to edit events",
     "noRightsUpdateImage": "You do not have permission to edit images.",
@@ -39,6 +37,8 @@
     "noRightsUpdatePlaceLabel": "No permissions to edit places.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations",
+    "noRightsUpdateSignup": "You do not have permission to edit participants.",
+    "noRightsUpdateSignupLabel": "No permissions to edit participants.",
     "noRightsUpdateSignupGroup": "You do not have permission to edit participants.",
     "noRightsUpdateSignupGroupLabel": "No permissions to edit participants."
   },
@@ -423,36 +423,6 @@
       "capacityInWaitingListNoLimit": "Registration for this event is still possible, but there are only seats left in the queue.",
       "closed": "Registration for this event is currently closed. Please try again later."
     }
-  },
-  "enrolmentsPage": {
-    "actionButtons": {
-      "cancel": "Cancel participation",
-      "edit": "Edit information",
-      "sendMessage": "Send message"
-    },
-    "attendeeTableCaption": "Participants",
-    "attendeeTableHeading": "Participants",
-    "buttonClearFilters": "Clear filters",
-    "enrolmentsTableColumns": {
-      "email": "Email",
-      "name": "Name",
-      "phone": "Phone number",
-      "status": "Status"
-    },
-    "pageTitle": "Enrolments: {{name}}",
-    "searchPanel": {
-      "buttonCreate": "Add participant",
-      "buttonRemoveFilter": "Remove filter: {{name}}",
-      "buttonSearch": "Filter",
-      "labelSearch": "Filter participants",
-      "placeholderSearch": "Filter participants"
-    },
-    "title": "Enrolments",
-    "waitingListTableCaption": "Waiting list",
-    "waitingListTableHeading": "Waiting list",
-    "warningNoRightsToCreate": "You have insufficient rights to create participants to this registration.",
-    "warningNoRightsToEdit": "You have insufficient rights to edit this enrolment.",
-    "warningNoRightsToView": "You have insufficient rights to view participants of this registration."
   },
   "errors": {
     "authorizationRequired": "Sign in to use this feature",
@@ -1805,7 +1775,7 @@
         "warningNotAuthenticated": "To create a registration, log in first."
       },
       "editButtonPanel": {
-        "warningHasEnrolments": "Registrations with participants cannot be deleted.",
+        "warningHasSignups": "Registrations with participants cannot be deleted.",
         "warningNoRightsToCreate": "You have insufficient rights to create registrations.",
         "warningNoRightsToEdit": "You have insufficient rights to edit this registration."
       },
@@ -1861,7 +1831,7 @@
       "delete": "Delete registration",
       "edit": "Edit",
       "editAttendanceList": "Mark attendees",
-      "showEnrolments": "Show participants",
+      "showSignups": "Show participants",
       "update": "Save changes"
     },
     "buttonClearFilters": "Clear filters",
@@ -1871,11 +1841,11 @@
     "pageTitle": "Registration",
     "registrationsTableCaption": "Registrations, sorted by {{sort}}",
     "registrationsTableColumns": {
-      "enrolments": "Participants",
       "enrolmentEndTime": "Ends",
       "enrolmentStartTime": "Starts",
       "name": "Name",
       "publisher": "Publisher",
+      "signups": "Participants",
       "waitingList": "Waiting list"
     },
     "searchPanel": {
@@ -1933,5 +1903,35 @@
       "noRightsToEdit": "You have insufficient rights to edit participants.",
       "noRightsToView": "You have insufficient rights to view participants of this registration."
     }
+  },
+  "signupsPage": {
+    "actionButtons": {
+      "cancel": "Cancel participation",
+      "edit": "Edit information",
+      "sendMessage": "Send message"
+    },
+    "attendeeTableCaption": "Participants",
+    "attendeeTableHeading": "Participants",
+    "buttonClearFilters": "Clear filters",
+    "pageTitle": "Signups: {{name}}",
+    "searchPanel": {
+      "buttonCreate": "Add participant",
+      "buttonRemoveFilter": "Remove filter: {{name}}",
+      "buttonSearch": "Filter",
+      "labelSearch": "Filter participants",
+      "placeholderSearch": "Filter participants"
+    },
+    "signupsTableColumns": {
+      "email": "Email",
+      "name": "Name",
+      "phone": "Phone number",
+      "status": "Status"
+    },
+    "title": "Signups",
+    "waitingListTableCaption": "Waiting list",
+    "waitingListTableHeading": "Waiting list",
+    "warningNoRightsToCreate": "You have insufficient rights to create participants to this registration.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this enrolment.",
+    "warningNoRightsToView": "You have insufficient rights to view participants of this registration."
   }
 }

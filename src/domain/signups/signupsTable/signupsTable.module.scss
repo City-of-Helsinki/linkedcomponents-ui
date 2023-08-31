@@ -1,4 +1,4 @@
-.enrolmentsTable {
+.signupsTable {
   --table-head-background: var(--color-white);
 }
 
@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
 
-  .enrolmentName {
+  .sgnupName {
     overflow: hidden;
     text-overflow: ellipsis;
   }

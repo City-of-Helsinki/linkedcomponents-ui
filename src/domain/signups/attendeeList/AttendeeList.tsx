@@ -5,8 +5,8 @@ import {
   AttendeeStatus,
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
-import styles from '../enrolmentsPage.module.scss';
-import EnrolmentsTable from '../enrolmentsTable/EnrolmentsTable';
+import styles from '../signupsPage.module.scss';
+import SignupsTable from '../signupsTable/SignupsTable';
 
 interface Props {
   registration: RegistrationFieldsFragment;
@@ -17,12 +17,12 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
 
   return (
     <div className={styles.attendeeList}>
-      <EnrolmentsTable
-        caption={t('enrolmentsPage.attendeeTableCaption')}
-        enrolmentsVariables={{ attendeeStatus: AttendeeStatus.Attending }}
-        heading={t('enrolmentsPage.attendeeTableHeading')}
+      <SignupsTable
+        caption={t('signupsPage.attendeeTableCaption')}
+        heading={t('signupsPage.attendeeTableHeading')}
         pagePath="attendeePage"
         registration={registration}
+        signupsVariables={{ attendeeStatus: AttendeeStatus.Attending }}
       />
     </div>
   );

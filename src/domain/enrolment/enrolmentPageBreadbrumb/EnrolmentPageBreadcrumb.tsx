@@ -27,8 +27,8 @@ const EnrolmentPageBreadcrumb: FC<Props> = ({ activeLabel, registration }) => {
           to: ROUTES.EDIT_REGISTRATION.replace(':id', registrationId),
         },
         {
-          label: t(`enrolmentsPage.title`),
-          to: ROUTES.REGISTRATION_ENROLMENTS.replace(
+          label: t(`signupsPage.title`),
+          to: ROUTES.REGISTRATION_SIGNUPS.replace(
             ':registrationId',
             registrationId
           ),

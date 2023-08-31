@@ -40,16 +40,16 @@ import { clearCreateSignupGroupFormData } from '../signupGroup/utils';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
 import ButtonPanel from './buttonPanel/ButtonPanel';
-import styles from './enrolmentsPage.module.scss';
 import FilterSummary from './filterSummary/FilterSummary';
 import SearchPanel from './searchPanel/SearchPanel';
+import styles from './signupsPage.module.scss';
 import WaitingList from './waitingList/WaitingList';
 
-interface EnrolmentsPageProps {
+interface SignupsPageProps {
   registration: RegistrationFieldsFragment;
 }
 
-const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
+const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const locale = useLocale();
@@ -134,7 +134,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
       className={styles.attendanceListPage}
       noFooter
       titleText={getValue(
-        t('enrolmentsPage.pageTitle', { name: event?.name }),
+        t('signupsPage.pageTitle', { name: event?.name }),
         ''
       )}
     >
@@ -172,7 +172,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
                       getValue(registration.id, '')
                     ),
                   },
-                  { active: true, label: t(`enrolmentsPage.title`) },
+                  { active: true, label: t(`signupsPage.title`) },
                 ]}
               />
             }
@@ -184,7 +184,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
                 iconLeft={<IconPlus aria-hidden={true} />}
                 variant="primary"
               >
-                {t('enrolmentsPage.searchPanel.buttonCreate')}
+                {t('signupsPage.searchPanel.buttonCreate')}
               </Button>
             }
             editingInfo={
@@ -208,7 +208,7 @@ const EnrolmentsPage: React.FC<EnrolmentsPageProps> = ({ registration }) => {
   );
 };
 
-const EnrolmentsPageWrapper: React.FC = () => {
+const SignupsPageWrapper: React.FC = () => {
   const location = useLocation();
 
   const { loading, registration } = useRegistrationAndEventData({
@@ -219,7 +219,7 @@ const EnrolmentsPageWrapper: React.FC = () => {
     <LoadingSpinner isLoading={loading}>
       {registration ? (
         <EnrolmentPageProvider>
-          <EnrolmentsPage registration={registration} />
+          <SignupsPage registration={registration} />
         </EnrolmentPageProvider>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
@@ -228,4 +228,4 @@ const EnrolmentsPageWrapper: React.FC = () => {
   );
 };
 
-export default EnrolmentsPageWrapper;
+export default SignupsPageWrapper;

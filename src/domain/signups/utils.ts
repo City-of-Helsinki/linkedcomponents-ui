@@ -10,54 +10,50 @@ import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
 import { REGISTRATION_SEARCH_PARAMS } from '../registrations/constants';
-import { EnrolmentFields, EnrolmentSearchInitialValues } from './types';
+import { SignupFields, SignupSearchInitialValues } from './types';
 
-export const getEnrolmentSearchInitialValues = (
+export const getSignupSearchInitialValues = (
   search: string
-): EnrolmentSearchInitialValues => {
+): SignupSearchInitialValues => {
   const searchParams = new URLSearchParams(search);
   const attendeePage = searchParams.get(
     REGISTRATION_SEARCH_PARAMS.ATTENDEE_PAGE
   );
   const waitingPage = searchParams.get(REGISTRATION_SEARCH_PARAMS.WAITING_PAGE);
-  const text = searchParams.get(REGISTRATION_SEARCH_PARAMS.ENROLMENT_TEXT);
+  const text = searchParams.get(REGISTRATION_SEARCH_PARAMS.SIGNUP_TEXT);
 
   return {
     attendeePage: Number(attendeePage) || 1,
-    enrolmentText: getValue(text, ''),
+    signupText: getValue(text, ''),
     waitingPage: Number(waitingPage) || 1,
   };
 };
 
-export const getEnrolmentFields = ({
-  enrolment,
+export const getSignupFields = ({
   language,
   registration,
+  signup,
 }: {
-  enrolment: SignupFieldsFragment;
   language: Language;
   registration: RegistrationFieldsFragment;
-}): EnrolmentFields => {
-  const id = getValue(enrolment.id, '');
-  const signupGroup = enrolment.signupGroup ?? null;
+  signup: SignupFieldsFragment;
+}): SignupFields => {
+  const id = getValue(signup.id, '');
+  const signupGroup = signup.signupGroup ?? null;
   /* istanbul ignore next */
   const registrationId = getValue(registration.id, '');
-  const firstName = getValue(enrolment.firstName, '');
-  const lastName = getValue(enrolment.lastName, '');
+  const firstName = getValue(signup.firstName, '');
+  const lastName = getValue(signup.lastName, '');
   const fullName = [firstName, lastName].filter(skipFalsyType).join(' ');
 
   return {
     id,
-    attendeeStatus: enrolment.attendeeStatus as AttendeeStatus,
-    email: getValue(enrolment.email, ''),
-    enrolmentUrl: `/${language}${ROUTES.EDIT_SIGNUP_GROUP.replace(
-      ':registrationId',
-      registrationId
-    ).replace(':signupGroupId', id)}`,
+    attendeeStatus: signup.attendeeStatus as AttendeeStatus,
+    email: getValue(signup.email, ''),
     firstName,
     fullName,
     lastName,
-    phoneNumber: getValue(enrolment.phoneNumber, ''),
+    phoneNumber: getValue(signup.phoneNumber, ''),
     signupGroup,
     signupGroupUrl: signupGroup
       ? `/${language}${ROUTES.EDIT_SIGNUP_GROUP.replace(
@@ -68,10 +64,9 @@ export const getEnrolmentFields = ({
   };
 };
 
-export const getEnrolmentItemId = (id: string): string =>
-  `enrolment-item-${id}`;
+export const getSignupItemId = (id: string): string => `signup-item-${id}`;
 
-export const enrolmentsPathBuilder = ({
+export const signupsPathBuilder = ({
   args,
 }: PathBuilderProps<SignupsQueryVariables>): string => {
   const { attendeeStatus, registration, text } = args;

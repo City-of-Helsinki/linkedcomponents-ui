@@ -18,12 +18,12 @@ import { SEND_MESSAGE_FIELDS, SEND_MESSAGE_FORM_NAME } from '../../constants';
 import { SendMessageFormFields } from '../../types';
 
 export interface SendMessageModalProps {
-  enrolment?: SignupFieldsFragment;
   focusAfterCloseElement?: HTMLElement;
   isOpen: boolean;
   isSaving: boolean;
   onClose: () => void;
   onSendMessage: (input: SendMessageFormFields, signups?: string[]) => void;
+  signup?: SignupFieldsFragment;
 }
 
 const TEXT_EDITOR_FIELDS = [SEND_MESSAGE_FIELDS.BODY];
@@ -52,17 +52,17 @@ export const scrollToFirstError = async (
 };
 
 const SendMessageModal: React.FC<SendMessageModalProps> = ({
-  enrolment,
   focusAfterCloseElement,
   isOpen,
   isSaving,
   onClose,
   onSendMessage,
+  signup,
 }) => {
   const { t } = useTranslation();
 
   const submitSendMessage = (values: SendMessageFormFields) => {
-    enrolment ? onSendMessage(values, [enrolment.id]) : onSendMessage(values);
+    signup ? onSendMessage(values, [signup.id]) : onSendMessage(values);
   };
 
   const id = 'send-message-modal';
@@ -82,7 +82,7 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
         id={titleId}
         iconLeft={<IconInfoCircle aria-hidden={true} />}
         title={
-          enrolment
+          signup
             ? t('enrolment.sendMessageModal.titleSingle')
             : t('enrolment.sendMessageModal.title')
         }

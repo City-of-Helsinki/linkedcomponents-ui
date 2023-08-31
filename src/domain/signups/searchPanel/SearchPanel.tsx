@@ -6,11 +6,11 @@ import { useLocation, useNavigate } from 'react-router';
 import { SearchRow } from '../../../common/components/searchPanel/SearchPanel';
 import useSearchState from '../../../hooks/useSearchState';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
-import { getEnrolmentSearchInitialValues } from '../utils';
+import { getSignupSearchInitialValues } from '../utils';
 import styles from './searchPanel.module.scss';
 
 type SearchState = {
-  enrolmentText: string;
+  signupText: string;
 };
 
 const SearchPanel: React.FC = () => {
@@ -19,11 +19,11 @@ const SearchPanel: React.FC = () => {
   const location = useLocation();
 
   const [searchState, setSearchState] = useSearchState<SearchState>({
-    enrolmentText: '',
+    signupText: '',
   });
 
   const handleChangeText = (text: string) => {
-    setSearchState({ enrolmentText: text });
+    setSearchState({ signupText: text });
   };
 
   const handleSearch = () => {
@@ -38,8 +38,8 @@ const SearchPanel: React.FC = () => {
   };
 
   React.useEffect(() => {
-    const { enrolmentText } = getEnrolmentSearchInitialValues(location.search);
-    setSearchState({ enrolmentText });
+    const { signupText } = getSignupSearchInitialValues(location.search);
+    setSearchState({ signupText });
   }, [location.search, setSearchState]);
 
   return (
@@ -47,14 +47,12 @@ const SearchPanel: React.FC = () => {
       <SearchRow
         onSearch={handleSearch}
         onSearchValueChange={handleChangeText}
-        searchButtonAriaLabel={t('enrolmentsPage.searchPanel.buttonSearch')}
-        searchButtonText={t('enrolmentsPage.searchPanel.buttonSearch')}
+        searchButtonAriaLabel={t('signupsPage.searchPanel.buttonSearch')}
+        searchButtonText={t('signupsPage.searchPanel.buttonSearch')}
         searchInputClassName={styles.searchInput}
-        searchInputLabel={t('enrolmentsPage.searchPanel.labelSearch')}
-        searchInputPlaceholder={t(
-          'enrolmentsPage.searchPanel.placeholderSearch'
-        )}
-        searchInputValue={searchState.enrolmentText}
+        searchInputLabel={t('signupsPage.searchPanel.labelSearch')}
+        searchInputPlaceholder={t('signupsPage.searchPanel.placeholderSearch')}
+        searchInputValue={searchState.signupText}
       />
     </div>
   );

@@ -1,16 +1,15 @@
 import { AttendeeStatus } from '../../generated/graphql';
 import { REGISTRATION_SEARCH_PARAMS } from '../registrations/constants';
 
-export type EnrolmentSearchInitialValues = {
+export type SignupSearchInitialValues = {
   [REGISTRATION_SEARCH_PARAMS.ATTENDEE_PAGE]: number;
-  [REGISTRATION_SEARCH_PARAMS.ENROLMENT_TEXT]: string;
+  [REGISTRATION_SEARCH_PARAMS.SIGNUP_TEXT]: string;
   [REGISTRATION_SEARCH_PARAMS.WAITING_PAGE]: number;
 };
 
-export type EnrolmentFields = {
+export type SignupFields = {
   attendeeStatus: AttendeeStatus;
   email: string;
-  enrolmentUrl: string;
   firstName: string;
   fullName: string;
   lastName: string;
@@ -20,6 +19,6 @@ export type EnrolmentFields = {
   signupGroupUrl: string | null;
 };
 
-export type EnrolmentsLocationState = {
-  enrolmentId: string | undefined;
+export type SignupsLocationState = {
+  signupId: string | undefined;
 };

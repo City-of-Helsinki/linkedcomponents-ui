@@ -31,14 +31,14 @@ import {
   getMockedAttendeesResponse,
   mockedSendMessageResponse,
   sendMessageValues,
-} from '../__mocks__/enrolmentsPage';
-import EnrolmentsPage from '../EnrolmentsPage';
+} from '../__mocks__/signupsPage';
+import SignupsPage from '../SignupsPage';
 
 configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const route = ROUTES.REGISTRATION_ENROLMENTS.replace(
+const route = ROUTES.REGISTRATION_SIGNUPS.replace(
   ':registrationId',
   registrationId
 );
@@ -56,16 +56,13 @@ const defaultMocks = [
 
 beforeEach(() => jest.clearAllMocks());
 
-const findElement = (key: 'createEnrolmentButton') => {
-  switch (key) {
-    case 'createEnrolmentButton':
-      return screen.findByRole('button', { name: /lisää osallistuja/i });
-  }
-};
+const findCreateSignupButton = () =>
+  screen.findByRole('button', { name: /lisää osallistuja/i });
+
 const getElement = (
   key:
     | 'attendeeTable'
-    | 'createEnrolmentButton'
+    | 'createSignupButton'
     | 'menu'
     | 'toggle'
     | 'waitingListTable'
@@ -73,7 +70,7 @@ const getElement = (
   switch (key) {
     case 'attendeeTable':
       return screen.getByRole('table', { name: /osallistujat/i });
-    case 'createEnrolmentButton':
+    case 'createSignupButton':
       return screen.getByRole('button', { name: /lisää osallistuja/i });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
@@ -97,27 +94,27 @@ const renderComponent = (
   mocks: MockedResponse[] = defaultMocks,
   renderOptions?: CustomRenderOptions
 ) =>
-  renderWithRoute(<EnrolmentsPage />, {
+  renderWithRoute(<SignupsPage />, {
     authContextValue,
     mocks,
     routes: [route],
-    path: ROUTES.REGISTRATION_ENROLMENTS,
+    path: ROUTES.REGISTRATION_SIGNUPS,
     ...renderOptions,
   });
 
-test('should render enrolments page', async () => {
+test('should render signups page', async () => {
   renderComponent();
 
   await loadingSpinnerIsNotInDocument(10000);
 
-  await findElement('createEnrolmentButton');
+  await findCreateSignupButton();
   getElement('attendeeTable');
   getElement('waitingListTable');
 });
 
-test('scrolls to enrolment table row and calls history.replace correctly (deletes enrolmentId from state)', async () => {
+test('scrolls to signup table row and calls history.replace correctly (deletes signupId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { enrolmentId: attendees.data[0].id });
+  history.push(route, { signupId: attendees.data[0].id });
 
   const replaceSpy = jest.spyOn(history, 'replace');
 
@@ -137,16 +134,16 @@ test('scrolls to enrolment table row and calls history.replace correctly (delete
     attendees.data[0].firstName,
     attendees.data[0].lastName,
   ].join(' ');
-  const enrolmentRowButton = screen.getAllByRole('button', {
+  const signupRowButton = screen.getAllByRole('button', {
     name: attendeeName,
   })[0];
-  await waitFor(() => expect(enrolmentRowButton).toHaveFocus());
+  await waitFor(() => expect(signupRowButton).toHaveFocus());
 });
 
 test("should show not found page if registration doesn't exist", async () => {
   renderComponent(undefined, {
     routes: [
-      ROUTES.REGISTRATION_ENROLMENTS.replace(':registrationId', 'not-exist'),
+      ROUTES.REGISTRATION_SIGNUPS.replace(':registrationId', 'not-exist'),
     ],
   });
 
@@ -155,12 +152,12 @@ test("should show not found page if registration doesn't exist", async () => {
   );
 });
 
-test('should move to create enrolment page', async () => {
+test('should move to create signup page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
   await loadingSpinnerIsNotInDocument(10000);
 
-  const createButton = await findElement('createEnrolmentButton');
+  const createButton = await findCreateSignupButton();
   await waitFor(() => expect(createButton).toBeEnabled(), { timeout: 5000 });
   await user.click(createButton);
 

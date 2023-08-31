@@ -117,17 +117,17 @@ export const getEditEnrolmentWarning = ({
   }
 
   if (!authenticated) {
-    return t('authentication.noRightsUpdateEnrolment');
+    return t('authentication.noRightsUpdateSignup');
   }
 
   if (!userCanDoAction) {
     switch (action) {
       case ENROLMENT_ACTIONS.CREATE:
-        return t('enrolmentsPage.warningNoRightsToCreate');
+        return t('signupsPage.warningNoRightsToCreate');
       case ENROLMENT_ACTIONS.VIEW:
-        return t('enrolmentsPage.warningNoRightsToView');
+        return t('signupsPage.warningNoRightsToView');
       default:
-        return t('enrolmentsPage.warningNoRightsToEdit');
+        return t('signupsPage.warningNoRightsToEdit');
     }
   }
 

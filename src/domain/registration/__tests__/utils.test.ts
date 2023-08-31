@@ -62,7 +62,7 @@ describe('getEditRegistrationWarning function', () => {
 
     const deniedActions = [
       REGISTRATION_ACTIONS.DELETE,
-      REGISTRATION_ACTIONS.SHOW_ENROLMENTS,
+      REGISTRATION_ACTIONS.SHOW_SIGNUPS,
       REGISTRATION_ACTIONS.UPDATE,
     ];
 
@@ -87,7 +87,7 @@ describe('getEditRegistrationWarning function', () => {
     ).toBe('Sinulla ei ole oikeuksia muokata tätä ilmoittautumista.');
   });
 
-  it('should return warning if registration has enrolments', () => {
+  it('should return warning if registration has signups', () => {
     expect(
       getEditRegistrationWarning({
         authenticated: true,

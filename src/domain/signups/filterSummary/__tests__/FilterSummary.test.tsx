@@ -14,7 +14,7 @@ configure({ defaultHidden: true });
 
 const text = 'Search word';
 
-const defaultRoute = `/fi${ROUTES.REGISTRATION_ENROLMENTS.replace(
+const defaultRoute = `/fi${ROUTES.REGISTRATION_SIGNUPS.replace(
   ':registrationId',
   registrationId
 )}`;
@@ -24,7 +24,7 @@ const renderComponent = (route = defaultRoute) =>
 
 test('should render and remove text filter', async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent(`${defaultRoute}?enrolmentText=${text}`);
+  const { history } = renderComponent(`${defaultRoute}?signupText=${text}`);
 
   const deleteFilterButton = screen.getByRole('button', {
     name: `Poista suodatusehto: ${text}`,
@@ -37,7 +37,7 @@ test('should render and remove text filter', async () => {
 
 test('should remove all filters with clear button', async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent(`${defaultRoute}?enrolmentText=${text}`);
+  const { history } = renderComponent(`${defaultRoute}?signupText=${text}`);
 
   screen.getByRole('button', { name: `Poista suodatusehto: ${text}` });
 

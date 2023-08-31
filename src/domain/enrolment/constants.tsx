@@ -26,10 +26,10 @@ export const ENROLMENT_ICONS = {
 };
 
 export const ENROLMENT_LABEL_KEYS = {
-  [ENROLMENT_ACTIONS.CANCEL]: 'enrolmentsPage.actionButtons.cancel',
+  [ENROLMENT_ACTIONS.CANCEL]: 'signupsPage.actionButtons.cancel',
   [ENROLMENT_ACTIONS.CREATE]: 'enrolment.form.buttonSave',
-  [ENROLMENT_ACTIONS.EDIT]: 'enrolmentsPage.actionButtons.edit',
-  [ENROLMENT_ACTIONS.SEND_MESSAGE]: 'enrolmentsPage.actionButtons.sendMessage',
+  [ENROLMENT_ACTIONS.EDIT]: 'signupsPage.actionButtons.edit',
+  [ENROLMENT_ACTIONS.SEND_MESSAGE]: 'signupsPage.actionButtons.sendMessage',
   [ENROLMENT_ACTIONS.UPDATE]: 'enrolment.form.buttonSave',
   [ENROLMENT_ACTIONS.VIEW]: '',
 };
@@ -47,5 +47,5 @@ export enum ENROLMENT_MODALS {
   PERSONS_ADDED_TO_WAITLIST = 'personsAddedToWaitList',
   RESERVATION_TIME_EXPIRED = 'reservationTimeExpired',
   SEND_MESSAGE = 'sendMessage',
-  SEND_MESSAGE_TO_ENROLMENT = 'sendMessageToEnrolment',
+  SEND_MESSAGE_TO_SIGNUP = 'sendMessageToSignup',
 }

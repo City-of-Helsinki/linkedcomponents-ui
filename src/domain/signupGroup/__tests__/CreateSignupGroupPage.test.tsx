@@ -331,7 +331,7 @@ test('should validate signup group form and focus to invalid field and finally c
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registration.id}/enrolments`
+      `/fi/registrations/${registration.id}/signups`
     )
   );
 });

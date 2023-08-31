@@ -5,8 +5,8 @@ import {
   AttendeeStatus,
   RegistrationFieldsFragment,
 } from '../../../generated/graphql';
-import styles from '../enrolmentsPage.module.scss';
-import EnrolmentsTable from '../enrolmentsTable/EnrolmentsTable';
+import styles from '../signupsPage.module.scss';
+import SignupsTable from '../signupsTable/SignupsTable';
 
 interface Props {
   registration: RegistrationFieldsFragment;
@@ -17,12 +17,12 @@ const WaitingList: React.FC<Props> = ({ registration }) => {
 
   return (
     <div className={styles.waitingList}>
-      <EnrolmentsTable
-        caption={t('enrolmentsPage.waitingListTableCaption')}
-        enrolmentsVariables={{ attendeeStatus: AttendeeStatus.Waitlisted }}
-        heading={t('enrolmentsPage.waitingListTableHeading')}
+      <SignupsTable
+        caption={t('signupsPage.waitingListTableCaption')}
+        heading={t('signupsPage.waitingListTableHeading')}
         pagePath="waitingPage"
         registration={registration}
+        signupsVariables={{ attendeeStatus: AttendeeStatus.Waitlisted }}
       />
     </div>
   );

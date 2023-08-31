@@ -14,12 +14,12 @@ import {
 } from '../../../utils/mockDataUtils';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { TEST_SIGNUP_GROUP_ID } from '../../signupGroup/constants';
-import { ENROLMENTS_PAGE_SIZE } from '../constants';
+import { SIGNUPS_PAGE_SIZE } from '../constants';
 
 const registrationId = TEST_REGISTRATION_ID;
 const signupGroupId = TEST_SIGNUP_GROUP_ID;
 
-const attendeeNames = range(1, 2 * ENROLMENTS_PAGE_SIZE + 1).map((n) => ({
+const attendeeNames = range(1, 2 * SIGNUPS_PAGE_SIZE + 1).map((n) => ({
   firstName: `Attendee`,
   lastName: `User ${n}`,
 }));
@@ -44,7 +44,7 @@ const attendeesWithGroup = fakeSignups(
 );
 
 const getMockedAttendeesResponse = (
-  enrolmentsResponse: SignupsResponse,
+  signupsResponse: SignupsResponse,
   overrideVariables?: Partial<SignupsQueryVariables>
 ): MockedResponse => {
   const defaultVariables = {
@@ -53,7 +53,7 @@ const getMockedAttendeesResponse = (
     text: '',
     attendeeStatus: AttendeeStatus.Attending,
   };
-  const attendeesResponse = { data: { signups: enrolmentsResponse } };
+  const attendeesResponse = { data: { signups: signupsResponse } };
   return {
     request: {
       query: SignupsDocument,

@@ -8,17 +8,17 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
-import { enrolment } from '../../../__mocks__/enrolment';
+import { signup } from '../../../__mocks__/signup';
 import SendMessageModal, { SendMessageModalProps } from '../SendMessageModal';
 
 configure({ defaultHidden: true });
 
 const defaultProps: SendMessageModalProps = {
-  enrolment,
   isOpen: true,
   isSaving: false,
   onClose: jest.fn(),
   onSendMessage: jest.fn(),
+  signup,
 };
 
 const renderComponent = (props: Partial<SendMessageModalProps>) =>
@@ -32,7 +32,7 @@ test('should validate fields and call onSendMessage', async () => {
 
   const onSendMessage = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ enrolment: undefined, onSendMessage });
+  renderComponent({ signup: undefined, onSendMessage });
 
   screen.getByRole('heading', { name: 'Lähetä viesti osallistujille' });
   const cancelEventButton = screen.getByRole('button', {
@@ -59,7 +59,7 @@ test('should validate fields and call onSendMessage', async () => {
   });
 });
 
-test('should call onSendMessage when sending message to a single enrolment', async () => {
+test('should call onSendMessage when sending message to a single signup', async () => {
   // Mock getClientRects for ckeditor
   global.Range.prototype.getClientRects = jest
     .fn()
@@ -88,7 +88,7 @@ test('should call onSendMessage when sending message to a single enrolment', asy
         subject: 'Subject',
       },
     },
-    [enrolment.id]
+    [signup.id]
   );
 });
 

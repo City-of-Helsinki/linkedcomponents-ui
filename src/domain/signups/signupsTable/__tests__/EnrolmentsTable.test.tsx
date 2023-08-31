@@ -26,32 +26,30 @@ import {
   attendeesWithGroup,
   getMockedAttendeesResponse,
   signupGroupId,
-} from '../../__mocks__/enrolmentsPage';
-import { ENROLMENTS_PAGE_SIZE } from '../../constants';
-import EnrolmentsTable, { EnrolmentsTableProps } from '../EnrolmentsTable';
+} from '../../__mocks__/signupsPage';
+import { SIGNUPS_PAGE_SIZE } from '../../constants';
+import SignupsTable, { SignupsTableProps } from '../SignupsTable';
 
 configure({ defaultHidden: true });
 
 const defaultMocks = [mockedEventResponse, mockedOrganizationAncestorsResponse];
 
-const defaultProps: EnrolmentsTableProps = {
-  caption: 'Enrolments table',
-  enrolmentsVariables: { attendeeStatus: AttendeeStatus.Attending },
-  heading: 'Enrolments table',
+const defaultProps: SignupsTableProps = {
+  caption: 'Signups table',
+  heading: 'Signups table',
   pagePath: 'attendeePage',
   registration: registration,
+  signupsVariables: { attendeeStatus: AttendeeStatus.Attending },
 };
 
-const enrolmentName = [
-  attendeeNames[0].firstName,
-  attendeeNames[0].lastName,
-].join(' ');
-const enrolmentId = attendees.data[0].id;
+const signupName = [attendeeNames[0].firstName, attendeeNames[0].lastName].join(
+  ' '
+);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) => {
   return render(
     <EnrolmentPageProvider>
-      <EnrolmentsTable {...defaultProps} />
+      <SignupsTable {...defaultProps} />
     </EnrolmentPageProvider>,
     { mocks }
   );
@@ -66,13 +64,13 @@ const getElement = (key: 'page1' | 'page2') => {
   }
 };
 
-test('should render enrolments table', async () => {
+test('should render signups table', async () => {
   renderComponent([
     ...defaultMocks,
     getMockedAttendeesResponse(fakeSignups(0)),
   ]);
 
-  screen.getByRole('heading', { name: 'Enrolments table' });
+  screen.getByRole('heading', { name: 'Signups table' });
 
   const columnHeaders = ['Nimi', 'Sähköposti', 'Puhelinnumero', 'Status'];
 
@@ -91,13 +89,13 @@ test('should navigate between pages', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  // Page 1 enrolment should be visible.
-  screen.getByRole('button', { name: enrolmentName });
+  // Page 1 signup should be visible.
+  screen.getByRole('button', { name: signupName });
   expect(
     screen.queryByRole('button', {
       name: [
-        attendeeNames[ENROLMENTS_PAGE_SIZE].firstName,
-        attendeeNames[ENROLMENTS_PAGE_SIZE].lastName,
+        attendeeNames[SIGNUPS_PAGE_SIZE].firstName,
+        attendeeNames[SIGNUPS_PAGE_SIZE].lastName,
       ].join(' '),
     })
   ).not.toBeInTheDocument();
@@ -105,27 +103,27 @@ test('should navigate between pages', async () => {
   const page2Button = getElement('page2');
   await user.click(page2Button);
 
-  // Page 2 enrolment should be visible.
+  // Page 2 signup should be visible.
   await screen.findByRole('button', {
     name: [
-      attendeeNames[ENROLMENTS_PAGE_SIZE].firstName,
-      attendeeNames[ENROLMENTS_PAGE_SIZE].lastName,
+      attendeeNames[SIGNUPS_PAGE_SIZE].firstName,
+      attendeeNames[SIGNUPS_PAGE_SIZE].lastName,
     ].join(' '),
   });
   expect(
-    screen.queryByRole('button', { name: enrolmentName })
+    screen.queryByRole('button', { name: signupName })
   ).not.toBeInTheDocument();
 
   const page1Button = getElement('page1');
   await user.click(page1Button);
 
-  // Page 1 enrolment should be visible.
-  screen.getByRole('button', { name: enrolmentName });
+  // Page 1 signup should be visible.
+  screen.getByRole('button', { name: signupName });
   expect(
     screen.queryByRole('button', {
       name: [
-        attendeeNames[ENROLMENTS_PAGE_SIZE].firstName,
-        attendeeNames[ENROLMENTS_PAGE_SIZE].lastName,
+        attendeeNames[SIGNUPS_PAGE_SIZE].firstName,
+        attendeeNames[SIGNUPS_PAGE_SIZE].lastName,
       ].join(' '),
     })
   ).not.toBeInTheDocument();
@@ -136,10 +134,10 @@ test('should show toast message by clicking a signup without group', async () =>
   const user = userEvent.setup();
   renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
 
-  const enrolmentButton = await screen.findByRole('button', {
-    name: enrolmentName,
+  const signupButton = await screen.findByRole('button', {
+    name: signupName,
   });
-  await user.click(enrolmentButton);
+  await user.click(signupButton);
 
   expect(toast.error).toBeCalledWith(
     'TODO: Editing a single signup is not supported yet'
@@ -153,10 +151,10 @@ test('should open edit signup group page by clicking a signup with group', async
     getMockedAttendeesResponse(attendeesWithGroup),
   ]);
 
-  const enrolmentButton = await screen.findByRole('button', {
-    name: enrolmentName,
+  const signupButton = await screen.findByRole('button', {
+    name: signupName,
   });
-  await user.click(enrolmentButton);
+  await user.click(signupButton);
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
@@ -169,10 +167,10 @@ test('should show toast message by pressing enter on a signup without group', as
   renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
 
   await loadingSpinnerIsNotInDocument();
-  const enrolmentButton = await screen.findByRole('button', {
-    name: enrolmentName,
+  const signupButton = await screen.findByRole('button', {
+    name: signupName,
   });
-  await user.type(enrolmentButton, '{enter}');
+  await user.type(signupButton, '{enter}');
 
   expect(toast.error).toBeCalledWith(
     'TODO: Editing a single signup is not supported yet'
@@ -187,10 +185,10 @@ test('should open edit signup group page by pressing enter on a signup with grou
   ]);
 
   await loadingSpinnerIsNotInDocument();
-  const enrolmentButton = await screen.findByRole('button', {
-    name: enrolmentName,
+  const signupButton = await screen.findByRole('button', {
+    name: signupName,
   });
-  await user.type(enrolmentButton, '{enter}');
+  await user.type(signupButton, '{enter}');
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
@@ -206,7 +204,7 @@ test('should open actions dropdown', async () => {
   ]);
 
   const withinRow = within(
-    await screen.findByRole('button', { name: enrolmentName })
+    await screen.findByRole('button', { name: signupName })
   );
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
   await user.click(menuButton);
