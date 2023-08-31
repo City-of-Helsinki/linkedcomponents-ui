@@ -5,10 +5,10 @@ import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { SIGNUP_ACTIONS } from '../../enrolment/constants';
-import { checkIsEditActionAllowed } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
+import { SIGNUP_ACTIONS } from '../constants';
+import { checkIsSignupActionAllowed } from '../permissions';
 
 export type SignupAuthenticationNotificationProps = {
   action: SIGNUP_ACTIONS;
@@ -29,7 +29,7 @@ const SignupAuthenticationNotification: React.FC<
     <AuthenticationNotification
       authorizationWarningLabel={t('signup.form.notificationTitleCannotEdit')}
       getAuthorizationWarning={() =>
-        checkIsEditActionAllowed({
+        checkIsSignupActionAllowed({
           action,
           authenticated,
           organizationAncestors,

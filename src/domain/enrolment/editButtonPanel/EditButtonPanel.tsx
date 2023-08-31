@@ -16,10 +16,10 @@ import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { SIGNUP_ACTIONS } from '../../signup/constants';
+import { getSignupActionButtonProps } from '../../signup/permissions';
 import { SignupsLocationState } from '../../signups/types';
 import useUser from '../../user/hooks/useUser';
-import { SIGNUP_ACTIONS } from '../constants';
-import { getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export interface EditButtonPanelProps {
@@ -60,7 +60,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     action: SIGNUP_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getEditButtonProps({
+    return getSignupActionButtonProps({
       action,
       authenticated,
       onClick,

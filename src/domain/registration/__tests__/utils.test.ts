@@ -12,8 +12,8 @@ import {
   getMockedSeatsReservationData,
   setSessionStorageValues,
 } from '../../../utils/mockDataUtils';
-import { TEST_SIGNUP_ID } from '../../enrolment/constants';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
+import { TEST_SIGNUP_ID } from '../../signup/constants';
 import {
   REGISTRATION_INITIAL_VALUES,
   TEST_REGISTRATION_ID,

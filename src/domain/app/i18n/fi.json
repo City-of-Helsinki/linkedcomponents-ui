@@ -1930,7 +1930,7 @@
     "title": "Ilmoittautuneet",
     "waitingListTableCaption": "Jonopaikat",
     "waitingListTableHeading": "Jonopaikat",
-    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda osallistujia tähän ilmoittautumiseen.",
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia lisätä osallistujia tähän ilmoittautumiseen.",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa.",
     "warningNoRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."
   }

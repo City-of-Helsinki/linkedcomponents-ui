@@ -13,12 +13,12 @@ import {
   fakeSendMessageResponse,
   fakeSignup,
 } from '../../../utils/mockDataUtils';
-import { TEST_SIGNUP_ID } from '../../enrolment/constants';
 import { registrationId } from '../../registration/__mocks__/registration';
 import {
   NOTIFICATION_TYPE,
   TEST_SIGNUP_GROUP_ID,
 } from '../../signupGroup/constants';
+import { TEST_SIGNUP_ID } from '../constants';
 
 const signupId = TEST_SIGNUP_ID;
 

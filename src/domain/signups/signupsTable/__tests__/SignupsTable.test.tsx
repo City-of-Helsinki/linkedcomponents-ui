@@ -3,6 +3,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 
 import { AttendeeStatus } from '../../../../generated/graphql';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeSignups } from '../../../../utils/mockDataUtils';
 import {
   configure,
@@ -20,6 +21,7 @@ import {
   registrationId,
 } from '../../../registration/__mocks__/registration';
 import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
   attendeeNames,
   attendees,
@@ -32,7 +34,11 @@ import SignupsTable, { SignupsTableProps } from '../SignupsTable';
 
 configure({ defaultHidden: true });
 
-const defaultMocks = [mockedEventResponse, mockedOrganizationAncestorsResponse];
+const defaultMocks = [
+  mockedEventResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const defaultProps: SignupsTableProps = {
   caption: 'Signups table',
@@ -46,12 +52,13 @@ const signupName = [attendeeNames[0].firstName, attendeeNames[0].lastName].join(
   ' '
 );
 
+const authContextValue = fakeAuthenticatedAuthContextValue();
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) => {
   return render(
     <SignupPageProvider>
       <SignupsTable {...defaultProps} />
     </SignupPageProvider>,
-    { mocks }
+    { mocks, authContextValue }
   );
 };
 

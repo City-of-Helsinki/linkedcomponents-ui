@@ -13,9 +13,12 @@ import { VALIDATION_ERROR_SCROLLER_OPTIONS } from '../../../../constants';
 import { SignupFieldsFragment } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
 import { showFormErrors } from '../../../../utils/validationUtils';
+import {
+  SEND_MESSAGE_FIELDS,
+  SEND_MESSAGE_FORM_NAME,
+} from '../../../signup/constants';
+import { SendMessageFormFields } from '../../../signup/types';
 import { sendMessageSchema } from '../../../signupGroup/validation';
-import { SEND_MESSAGE_FIELDS, SEND_MESSAGE_FORM_NAME } from '../../constants';
-import { SendMessageFormFields } from '../../types';
 
 export interface SendMessageModalProps {
   focusAfterCloseElement?: HTMLElement;

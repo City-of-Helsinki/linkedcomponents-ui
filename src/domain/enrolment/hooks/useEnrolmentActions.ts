@@ -23,10 +23,10 @@ import {
   clearSignupQueries,
   clearSignupsQueries,
 } from '../../app/apollo/clearCacheUtils';
+import { SEND_MESSAGE_FORM_NAME, SIGNUP_ACTIONS } from '../../signup/constants';
 import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
+import { SendMessageFormFields } from '../../signup/types';
 import { SignupGroupFormFields } from '../../signupGroup/types';
-import { SEND_MESSAGE_FORM_NAME, SIGNUP_ACTIONS } from '../constants';
-import { SendMessageFormFields } from '../types';
 import { getUpdateEnrolmentPayload } from '../utils';
 
 interface Props {

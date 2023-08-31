@@ -10,8 +10,10 @@ import {
   SignupFieldsFragment,
   SignupGroupFieldsFragment,
   SignupInput,
+  SignupQueryVariables,
   UpdateSignupGroupMutationInput,
 } from '../../generated/graphql';
+import { PathBuilderProps } from '../../types';
 import formatDate from '../../utils/formatDate';
 import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
@@ -283,3 +285,11 @@ export const getResponsiblePerson = (
   signupGroup: SignupGroupFieldsFragment
 ): SignupFieldsFragment | undefined =>
   signupGroup?.signups?.find((su) => su?.responsibleForGroup) ?? undefined;
+
+export const signupPathBuilder = ({
+  args,
+}: PathBuilderProps<SignupQueryVariables>): string => {
+  const { id } = args;
+
+  return `/signup/${id}/`;
+};

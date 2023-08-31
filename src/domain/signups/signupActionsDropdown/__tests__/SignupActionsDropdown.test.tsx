@@ -124,7 +124,7 @@ test('should render correct buttons', async () => {
 test("should show toast message when clicking edit button and signup doesn't have a group", async () => {
   toast.error = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ props: { signup } });
+  renderComponent({ authContextValue, props: { signup } });
 
   await openMenu();
 
@@ -139,6 +139,7 @@ test("should show toast message when clicking edit button and signup doesn't hav
 test('should route to edit signup group page when clicking edit button and signup has a group', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({
+    authContextValue,
     props: { signup: signupWithGroup },
   });
 

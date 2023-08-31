@@ -1,12 +1,5 @@
 import { IconCrossCircle, IconEnvelope, IconEye, IconPen } from 'hds-react';
 
-export const SEND_MESSAGE_FORM_NAME = 'send-message';
-
-export enum SEND_MESSAGE_FIELDS {
-  BODY = 'body',
-  SUBJECT = 'subject',
-}
-
 export enum SIGNUP_ACTIONS {
   CANCEL = 'cancel',
   CREATE = 'create',
@@ -37,3 +30,19 @@ export const SIGNUP_LABEL_KEYS = {
 export const AUTHENTICATION_NOT_NEEDED = [SIGNUP_ACTIONS.EDIT];
 
 export const TEST_SIGNUP_ID = 'signup:0';
+
+export enum SIGNUP_MODALS {
+  CANCEL = 'cancel',
+  DELETE = 'delete',
+  PERSONS_ADDED_TO_WAITLIST = 'personsAddedToWaitList',
+  RESERVATION_TIME_EXPIRED = 'reservationTimeExpired',
+  SEND_MESSAGE = 'sendMessage',
+  SEND_MESSAGE_TO_SIGNUP = 'sendMessageToSignup',
+}
+
+export const SEND_MESSAGE_FORM_NAME = 'send-message';
+
+export enum SEND_MESSAGE_FIELDS {
+  BODY = 'body',
+  SUBJECT = 'subject',
+}

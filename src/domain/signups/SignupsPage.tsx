@@ -20,11 +20,9 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
-import { SIGNUP_ACTIONS } from '../enrolment/constants';
 import useEnrolmentActions from '../enrolment/hooks/useEnrolmentActions';
 import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import SendMessageModal from '../enrolment/modals/sendMessageModal/SendMessageModal';
-import { getEditButtonProps as getEnrolmentEditButtonProps } from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import {
@@ -33,7 +31,8 @@ import {
 } from '../registration/utils';
 import { REGISTRATION_ACTIONS } from '../registrations/constants';
 import { clearSeatsReservationData } from '../seatsReservation/utils';
-import { SIGNUP_MODALS } from '../signup/constants';
+import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../signup/constants';
+import { getSignupActionButtonProps } from '../signup/permissions';
 import SignupAuthenticationNotification from '../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
 import { useSignupPageContext } from '../signup/signupPageContext/hooks/useSignupPageContext';
 import { SignupPageProvider } from '../signup/signupPageContext/SignupPageContext';
@@ -98,7 +97,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
   };
 
   const actionItems: MenuItemOptionProps[] = [
-    getEnrolmentEditButtonProps({
+    getSignupActionButtonProps({
       action: SIGNUP_ACTIONS.SEND_MESSAGE,
       authenticated,
       onClick: () => {
@@ -120,7 +119,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
     }),
   ];
 
-  const buttonProps = getEnrolmentEditButtonProps({
+  const buttonProps = getSignupActionButtonProps({
     action: SIGNUP_ACTIONS.CREATE,
     authenticated,
     onClick: handleCreate,

@@ -15,9 +15,9 @@ import useGoBack from '../../../hooks/useGoBack';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { SIGNUP_ACTIONS } from '../../enrolment/constants';
-import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { SIGNUP_ACTIONS } from '../../signup/constants';
+import { getSignupActionButtonProps } from '../../signup/permissions';
 import { SignupsLocationState } from '../../signups/types';
 import useUser from '../../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';
@@ -66,7 +66,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
     action: SIGNUP_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getEditButtonProps({
+    return getSignupActionButtonProps({
       action,
       authenticated,
       onClick,

@@ -15,15 +15,14 @@ import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { SIGNUP_ACTIONS } from '../../enrolment/constants';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
 import ConfirmCancelSignupModal from '../../enrolment/modals/confirmCancelSignupModal/ConfirmCancelSignupModal';
 import SendMessageModal from '../../enrolment/modals/sendMessageModal/SendMessageModal';
-import { getEditButtonProps } from '../../enrolment/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { getRegistrationFields } from '../../registration/utils';
 import { addParamsToRegistrationQueryString } from '../../registrations/utils';
-import { SIGNUP_MODALS } from '../../signup/constants';
+import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../../signup/constants';
+import { getSignupActionButtonProps } from '../../signup/permissions';
 import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
 import useUser from '../../user/hooks/useUser';
 import { getSignupFields } from '../utils';
@@ -87,7 +86,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
     action: SIGNUP_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getEditButtonProps({
+    return getSignupActionButtonProps({
       action,
       authenticated,
       onClick,
