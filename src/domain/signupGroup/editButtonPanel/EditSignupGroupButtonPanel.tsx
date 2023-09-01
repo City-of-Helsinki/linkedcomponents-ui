@@ -59,7 +59,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
     state: { enrolmentId: responsiblePerson?.id },
   });
 
-  const getSingupActionItemProps = ({
+  const getSignupActionItemProps = ({
     action,
     onClick,
   }: {
@@ -77,7 +77,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
     });
   };
 
-  const getSingupGroupActionItemProps = ({
+  const getSignupGroupActionItemProps = ({
     action,
     onClick,
   }: {
@@ -96,7 +96,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
   };
 
   const actionItems: MenuItemOptionProps[] = [
-    getSingupActionItemProps({
+    getSignupActionItemProps({
       action: ENROLMENT_ACTIONS.SEND_MESSAGE,
       onClick: onSendMessage,
     }),
@@ -112,7 +112,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
           key="update"
           className={buttonPanelStyles.fullWidthOnMobile}
           icon={<IconPen aria-hidden={true} />}
-          {...getSingupGroupActionItemProps({
+          {...getSignupGroupActionItemProps({
             action: SIGNUP_GROUP_ACTIONS.UPDATE,
             onClick: onUpdate,
           })}
