@@ -7,7 +7,7 @@ import LoadingButton from '../../../common/components/loadingButton/LoadingButto
 import { useAuth } from '../../auth/hooks/useAuth';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useUser from '../../user/hooks/useUser';
-import { getEditButtonProps } from '../utils';
+import { getRegistrationActionButtonProps } from '../utils';
 
 interface Props {
   onSave: () => void;
@@ -19,7 +19,7 @@ const CreateButtonPanel: React.FC<Props> = ({ onSave, saving }) => {
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
 
-  const buttonProps = getEditButtonProps({
+  const buttonProps = getRegistrationActionButtonProps({
     action: REGISTRATION_ACTIONS.CREATE,
     authenticated,
     onClick: onSave,

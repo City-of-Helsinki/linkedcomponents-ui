@@ -121,6 +121,30 @@ export const getOrganizationQueryResult = async (
     return null;
   }
 };
+export const hasAdminOrganization = (user?: UserFieldsFragment): boolean =>
+  !!user?.adminOrganizations.length;
+
+export const hasRegistrationAdminOrganization = (
+  user?: UserFieldsFragment
+): boolean => !!user?.registrationAdminOrganizations.length;
+
+const _isAdminUserInOrganization = ({
+  adminOrganizations,
+  id,
+  organizationAncestors,
+}: {
+  adminOrganizations: string[];
+  id: string | null;
+  organizationAncestors: OrganizationFieldsFragment[];
+}) => {
+  return Boolean(
+    id &&
+      (adminOrganizations.includes(id) ||
+        adminOrganizations.some((adminOrgId) =>
+          organizationAncestors.map((org) => org.id).includes(adminOrgId)
+        ))
+  );
+};
 
 export const isAdminUserInOrganization = ({
   id,
@@ -130,17 +154,27 @@ export const isAdminUserInOrganization = ({
   id: string | null;
   organizationAncestors: OrganizationFieldsFragment[];
   user?: UserFieldsFragment;
-}): boolean => {
-  const adminOrganizations: string[] = getValue(user?.adminOrganizations, []);
+}): boolean =>
+  _isAdminUserInOrganization({
+    adminOrganizations: getValue(user?.adminOrganizations, []),
+    id,
+    organizationAncestors,
+  });
 
-  return Boolean(
-    id &&
-      (adminOrganizations.includes(id) ||
-        adminOrganizations.some((adminOrgId) =>
-          organizationAncestors.map((org) => org.id).includes(adminOrgId)
-        ))
-  );
-};
+export const isRegistrationAdminUserInOrganization = ({
+  id,
+  organizationAncestors,
+  user,
+}: {
+  id: string | null;
+  organizationAncestors: OrganizationFieldsFragment[];
+  user?: UserFieldsFragment;
+}): boolean =>
+  _isAdminUserInOrganization({
+    adminOrganizations: getValue(user?.registrationAdminOrganizations, []),
+    id,
+    organizationAncestors,
+  });
 
 export const isReqularUserInOrganization = ({
   id,

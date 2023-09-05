@@ -68,7 +68,7 @@ const AttendanceListPage: React.FC<AttendanceListPageProps> = ({
             ]}
           />
           <SignupAuthenticationNotification
-            action={SIGNUP_ACTIONS.VIEW}
+            action={SIGNUP_ACTIONS.UPDATE}
             registration={registration}
           />
           {<RegistrationInfo registration={registration} />}

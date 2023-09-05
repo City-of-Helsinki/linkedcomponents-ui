@@ -609,6 +609,7 @@ export const fakeUser = (overrides?: Partial<User>): User => {
       lastName: faker.name.lastName(),
       organization: faker.random.words(),
       organizationMemberships: [],
+      registrationAdminOrganizations: [],
       username: faker.datatype.uuid(),
       uuid: faker.datatype.uuid(),
       __typename: 'User',

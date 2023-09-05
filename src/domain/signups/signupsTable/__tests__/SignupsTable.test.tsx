@@ -20,7 +20,7 @@ import {
   registrationId,
 } from '../../../registration/__mocks__/registration';
 import { SignupGroupFormProvider } from '../../../signupGroup/signupGroupFormContext/SignupGroupFormContext';
-import { mockedUserResponse } from '../../../user/__mocks__/user';
+import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import {
   attendeeNames,
   attendees,
@@ -36,7 +36,7 @@ configure({ defaultHidden: true });
 const defaultMocks = [
   mockedEventResponse,
   mockedOrganizationAncestorsResponse,
-  mockedUserResponse,
+  mockedRegistrationUserResponse,
 ];
 
 const defaultProps: SignupsTableProps = {

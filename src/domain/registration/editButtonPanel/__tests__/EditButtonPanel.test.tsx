@@ -13,7 +13,7 @@ import {
 } from '../../../../utils/testUtils';
 import { AuthContextProps } from '../../../auth/types';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
-import { mockedUserResponse } from '../../../user/__mocks__/user';
+import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import {
   publisher,
   registration,
@@ -33,7 +33,10 @@ const defaultProps: EditButtonPanelProps = {
 };
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
-const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
+const mocks = [
+  mockedOrganizationAncestorsResponse,
+  mockedRegistrationUserResponse,
+];
 
 const renderComponent = ({
   authContextValue,
@@ -135,20 +138,20 @@ test('should render all buttons when user is authenticated', async () => {
   expect(onUpdate).toBeCalled();
 });
 
-test('only copy and copy link buttons should be enabled when user is not logged in', async () => {
+test('all buttons should be disabled when user is not logged in', async () => {
   renderComponent();
 
   await openMenu();
 
-  getElement('copy');
-  getElement('copyLink');
-
   const disabledButtons = [
+    getElement('copy'),
+    getElement('copyLink'),
+    getElement('markPresent'),
     getElement('showSignups'),
     getElement('delete'),
     getElement('update'),
   ];
-  expect(disabledButtons).toHaveLength(3);
+  expect(disabledButtons).toHaveLength(6);
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
@@ -191,7 +194,7 @@ test('should route to attendance list page when clicking mark present button', a
 
 test('should route to create registration page when clicking copy button', async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent();
+  const { history } = renderComponent({ authContextValue });
 
   await openMenu();
 
@@ -206,7 +209,7 @@ test('should route to create registration page when clicking copy button', async
 test('should copy registration link to clipboard', async () => {
   toast.success = jest.fn();
   const user = userEvent.setup();
-  renderComponent();
+  renderComponent({ authContextValue });
 
   await openMenu();
 

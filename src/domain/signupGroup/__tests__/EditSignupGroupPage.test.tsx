@@ -24,7 +24,7 @@ import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../registration/__mocks__/registration';
-import { mockedUserResponse } from '../../user/__mocks__/user';
+import { mockedRegistrationUserResponse } from '../../user/__mocks__/user';
 import {
   mockedDeleteSignupGroupResponse,
   mockedInvalidUpdateSignupGroupResponse,
@@ -118,7 +118,7 @@ const defaultMocks = [
   mockedOrganizationAncestorsResponse,
   mockedPlaceResponse,
   mockedRegistrationResponse,
-  mockedUserResponse,
+  mockedRegistrationUserResponse,
 ];
 
 const route = ROUTES.EDIT_SIGNUP_GROUP.replace(

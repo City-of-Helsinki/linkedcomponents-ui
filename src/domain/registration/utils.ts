@@ -28,9 +28,13 @@ import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
 import { getEventFields } from '../event/utils';
-import { isAdminUserInOrganization } from '../organization/utils';
 import {
-  AUTHENTICATION_NOT_NEEDED,
+  hasAdminOrganization,
+  hasRegistrationAdminOrganization,
+  isAdminUserInOrganization,
+  isRegistrationAdminUserInOrganization,
+} from '../organization/utils';
+import {
   REGISTRATION_ACTIONS,
   REGISTRATION_ICONS,
   REGISTRATION_LABEL_KEYS,
@@ -50,7 +54,7 @@ export const clearRegistrationFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.REGISTRATION_FORM);
 };
 
-export const checkCanUserDoAction = ({
+export const checkCanUserDoRegistrationAction = ({
   action,
   organizationAncestors,
   publisher,
@@ -66,24 +70,31 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
-  const adminOrganizations = [...getValue(user?.adminOrganizations, [])];
+  const isRegistrationAdminUser = isRegistrationAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
+
+  const hasAdminOrg =
+    hasAdminOrganization(user) || hasRegistrationAdminOrganization(user);
 
   switch (action) {
+    case REGISTRATION_ACTIONS.CREATE:
+      return publisher ? isAdminUser || isRegistrationAdminUser : hasAdminOrg;
     case REGISTRATION_ACTIONS.COPY:
     case REGISTRATION_ACTIONS.COPY_LINK:
     case REGISTRATION_ACTIONS.EDIT:
-      return true;
-    case REGISTRATION_ACTIONS.CREATE:
-      return publisher ? isAdminUser : !!adminOrganizations.length;
     case REGISTRATION_ACTIONS.DELETE:
+    case REGISTRATION_ACTIONS.UPDATE:
+      return isAdminUser || isRegistrationAdminUser;
     case REGISTRATION_ACTIONS.SHOW_SIGNUPS:
     case REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST:
-    case REGISTRATION_ACTIONS.UPDATE:
-      return isAdminUser;
+      return isRegistrationAdminUser;
   }
 };
 
-export const getEditRegistrationWarning = ({
+export const getRegistrationActionWarning = ({
   action,
   authenticated,
   registration,
@@ -96,10 +107,6 @@ export const getEditRegistrationWarning = ({
   t: TFunction;
   userCanDoAction: boolean;
 }): string => {
-  if (AUTHENTICATION_NOT_NEEDED.includes(action)) {
-    return '';
-  }
-
   if (!authenticated) {
     return t('authentication.noRightsUpdateRegistration');
   }
@@ -121,7 +128,7 @@ export const getEditRegistrationWarning = ({
   return '';
 };
 
-export const checkIsEditActionAllowed = ({
+export const checkIsRegistrationActionAllowed = ({
   action,
   authenticated,
   organizationAncestors,
@@ -138,14 +145,14 @@ export const checkIsEditActionAllowed = ({
   t: TFunction;
   user?: UserFieldsFragment;
 }): Editability => {
-  const userCanDoAction = checkCanUserDoAction({
+  const userCanDoAction = checkCanUserDoRegistrationAction({
     action,
     organizationAncestors,
     publisher,
     user,
   });
 
-  const warning = getEditRegistrationWarning({
+  const warning = getRegistrationActionWarning({
     action,
     authenticated,
     registration,
@@ -156,7 +163,7 @@ export const checkIsEditActionAllowed = ({
   return { editable: !warning, warning };
 };
 
-export const getEditButtonProps = ({
+export const getRegistrationActionButtonProps = ({
   action,
   authenticated,
   onClick,
@@ -174,7 +181,7 @@ export const getEditButtonProps = ({
   user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
   const publisher = getValue(registration?.publisher, '');
-  const { editable, warning } = checkIsEditActionAllowed({
+  const { editable, warning } = checkIsRegistrationActionAllowed({
     action,
     authenticated,
     organizationAncestors,

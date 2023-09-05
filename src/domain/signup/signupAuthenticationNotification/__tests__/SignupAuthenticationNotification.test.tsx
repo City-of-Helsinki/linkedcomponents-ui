@@ -13,7 +13,7 @@ import { mockedOrganizationAncestorsResponse } from '../../../organization/__moc
 import { registration } from '../../../registration/__mocks__/registration';
 import {
   getMockedUserResponse,
-  mockedUserResponse,
+  mockedRegistrationUserResponse,
 } from '../../../user/__mocks__/user';
 import { SIGNUP_ACTIONS } from '../../constants';
 import SignupAuthenticationNotification from '../SignupAuthenticationNotification';
@@ -48,11 +48,11 @@ test("should show notification if user is signed in but doesn't have any organiz
   screen.getByRole('heading', { name: 'Ei oikeuksia muokata osallistujia.' });
 });
 
-test('should not show notification if user is signed in and has an admin organization', async () => {
+test('should not show notification if user is signed in and has an registration admin organization', async () => {
   const mocks = [
     mockedEventResponse,
     mockedOrganizationAncestorsResponse,
-    mockedUserResponse,
+    mockedRegistrationUserResponse,
   ];
 
   const authContextValue = fakeAuthenticatedAuthContextValue();

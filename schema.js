@@ -883,6 +883,7 @@ module.exports = buildSchema(/* GraphQL */ `
     lastName: String
     organization: String
     organizationMemberships: [String!]!
+    registrationAdminOrganizations: [String!]!
     username: String
     uuid: String
   }

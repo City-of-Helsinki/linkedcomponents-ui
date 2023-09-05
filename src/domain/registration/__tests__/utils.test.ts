@@ -9,9 +9,11 @@ import {
 import { RegistrationQueryVariables } from '../../../generated/graphql';
 import {
   fakeRegistration,
+  fakeUser,
   getMockedSeatsReservationData,
   setSessionStorageValues,
 } from '../../../utils/mockDataUtils';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { TEST_SIGNUP_ID } from '../../signup/constants';
 import {
@@ -19,9 +21,10 @@ import {
   TEST_REGISTRATION_ID,
 } from '../constants';
 import {
-  getEditRegistrationWarning,
+  checkCanUserDoRegistrationAction,
   getFreeAttendeeOrWaitingListCapacity,
   getMaxSeatsAmount,
+  getRegistrationActionWarning,
   getRegistrationFields,
   getRegistrationInitialValues,
   getRegistrationPayload,
@@ -37,38 +40,27 @@ afterEach(() => {
   clear();
 });
 
-describe('getEditRegistrationWarning function', () => {
+describe('getRegistrationActionWarning function', () => {
   it('should return correct warning if user is not authenticated', () => {
-    const allowedActions = [
-      REGISTRATION_ACTIONS.COPY,
-      REGISTRATION_ACTIONS.COPY_LINK,
-      REGISTRATION_ACTIONS.EDIT,
-    ];
-
     const commonProps = {
       authenticated: false,
       t: i18n.t.bind(i18n),
       userCanDoAction: false,
     };
 
-    allowedActions.forEach((action) => {
-      expect(
-        getEditRegistrationWarning({
-          action,
-          ...commonProps,
-        })
-      ).toBe('');
-    });
-
     const deniedActions = [
+      REGISTRATION_ACTIONS.COPY,
+      REGISTRATION_ACTIONS.COPY_LINK,
       REGISTRATION_ACTIONS.DELETE,
+      REGISTRATION_ACTIONS.EDIT,
+
       REGISTRATION_ACTIONS.SHOW_SIGNUPS,
       REGISTRATION_ACTIONS.UPDATE,
     ];
 
     deniedActions.forEach((action) => {
       expect(
-        getEditRegistrationWarning({
+        getRegistrationActionWarning({
           action,
           ...commonProps,
         })
@@ -78,7 +70,7 @@ describe('getEditRegistrationWarning function', () => {
 
   it('should return correct warning if user cannot do action', () => {
     expect(
-      getEditRegistrationWarning({
+      getRegistrationActionWarning({
         authenticated: true,
         t: i18n.t.bind(i18n),
         userCanDoAction: false,
@@ -89,7 +81,7 @@ describe('getEditRegistrationWarning function', () => {
 
   it('should return warning if registration has signups', () => {
     expect(
-      getEditRegistrationWarning({
+      getRegistrationActionWarning({
         authenticated: true,
         registration: fakeRegistration({ currentAttendeeCount: 1 }),
         t: i18n.t.bind(i18n),
@@ -818,4 +810,86 @@ describe('getMaxSeatsAmount function', () => {
 
     expect(getMaxSeatsAmount(registration)).toBe(12);
   });
+});
+
+describe('checkCanUserDoRegistrationAction function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
+  const testAdminOrgCases: [REGISTRATION_ACTIONS, boolean][] = [
+    [REGISTRATION_ACTIONS.COPY, true],
+    [REGISTRATION_ACTIONS.COPY_LINK, true],
+    [REGISTRATION_ACTIONS.CREATE, true],
+    [REGISTRATION_ACTIONS.DELETE, true],
+    [REGISTRATION_ACTIONS.EDIT, true],
+    [REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST, false],
+    [REGISTRATION_ACTIONS.SHOW_SIGNUPS, false],
+    [REGISTRATION_ACTIONS.UPDATE, true],
+  ];
+  it.each(testAdminOrgCases)(
+    'should allow/deny correct actions if adminArganizations contains event publisher, %p returns %p',
+    (action, isAllowed) => {
+      const user = fakeUser({ adminOrganizations: [publisher] });
+
+      expect(
+        checkCanUserDoRegistrationAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(isAllowed);
+    }
+  );
+
+  const testRegistrationAdminOrgCases: [REGISTRATION_ACTIONS, boolean][] = [
+    [REGISTRATION_ACTIONS.COPY, true],
+    [REGISTRATION_ACTIONS.COPY_LINK, true],
+    [REGISTRATION_ACTIONS.CREATE, true],
+    [REGISTRATION_ACTIONS.DELETE, true],
+    [REGISTRATION_ACTIONS.EDIT, true],
+    [REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST, true],
+    [REGISTRATION_ACTIONS.SHOW_SIGNUPS, true],
+    [REGISTRATION_ACTIONS.UPDATE, true],
+  ];
+  it.each(testRegistrationAdminOrgCases)(
+    'should allow/deny correct actions if registrationAdminArganizations contains event publisher, %p returns %p',
+    (action, isAllowed) => {
+      const user = fakeUser({ registrationAdminOrganizations: [publisher] });
+
+      expect(
+        checkCanUserDoRegistrationAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(isAllowed);
+    }
+  );
+
+  const testOrgMemberCases: [REGISTRATION_ACTIONS, boolean][] = [
+    [REGISTRATION_ACTIONS.COPY, false],
+    [REGISTRATION_ACTIONS.COPY_LINK, false],
+    [REGISTRATION_ACTIONS.CREATE, false],
+    [REGISTRATION_ACTIONS.DELETE, false],
+    [REGISTRATION_ACTIONS.EDIT, false],
+    [REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST, false],
+    [REGISTRATION_ACTIONS.SHOW_SIGNUPS, false],
+    [REGISTRATION_ACTIONS.UPDATE, false],
+  ];
+  it.each(testOrgMemberCases)(
+    'should allow/deny correct actions if organizationMembers contains publisher, %p returns %p',
+    (action, isAllowed) => {
+      const user = fakeUser({ organizationMemberships: [publisher] });
+
+      expect(
+        checkCanUserDoRegistrationAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(isAllowed);
+    }
+  );
 });

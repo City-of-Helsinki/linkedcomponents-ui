@@ -18,7 +18,7 @@ import NotSigned from '../notSigned/NotSigned';
 import RegistrationAuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import {
   clearRegistrationFormData,
-  getEditButtonProps,
+  getRegistrationActionButtonProps,
 } from '../registration/utils';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_ACTIONS } from './constants';
@@ -43,7 +43,7 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
     navigate(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
   };
 
-  const buttonProps = getEditButtonProps({
+  const buttonProps = getRegistrationActionButtonProps({
     action: REGISTRATION_ACTIONS.CREATE,
     authenticated,
     onClick: goToCreateRegistrationPage,

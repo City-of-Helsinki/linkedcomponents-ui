@@ -8,7 +8,7 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useUser from '../../user/hooks/useUser';
-import { checkIsEditActionAllowed } from '../utils';
+import { checkIsRegistrationActionAllowed } from '../utils';
 
 export type RegistrationAuthenticationNotificationProps = {
   action: REGISTRATION_ACTIONS;
@@ -34,7 +34,7 @@ const RegistrationAuthenticationNotification: React.FC<
       )}
       className={className}
       getAuthorizationWarning={() =>
-        checkIsEditActionAllowed({
+        checkIsRegistrationActionAllowed({
           action,
           authenticated,
           organizationAncestors,
