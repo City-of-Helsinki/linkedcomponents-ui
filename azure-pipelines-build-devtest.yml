@@ -1,3 +1,12 @@
+parameters:
+  - name: buildenv
+    displayName: Build environment
+    type: string
+    default: "dev"
+    values:
+      - "test"
+      - "dev"
+
 # Continuous integration (CI) triggers cause a pipeline to run whenever you push
 # an update to the specified branches or you push specified tags.
 trigger:
@@ -43,5 +52,5 @@ extends:
   # Django example: azure-pipelines-PROJECTNAME-api-release.yml
   # Drupal example: azure-pipelines-drupal-release.yml
   template: azure-pipelines-build-linkedcomponents-ui-devtest.yml@linkedevents-pipelines
-  #parameters:
-  #imagetag: ${{ parameters.imagetag }}
+  parameters:
+    buildenv: ${{ parameters.buildenv }}
