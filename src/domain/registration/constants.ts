@@ -1,5 +1,8 @@
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../constants';
-import { RegistrationFormFields } from './types';
+import {
+  CommonRegistrationAndEventFields,
+  RegistrationFormFields,
+} from './types';
 
 export enum REGISTRATION_MANDATORY_FIELDS {
   FIRST_NAME = 'first_name',
@@ -58,6 +61,20 @@ export const REGISTRATION_INITIAL_VALUES: RegistrationFormFields = {
   [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: [],
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: '',
 };
+
+export const DEFAULT_COMMON_REGISTRATION_AND_EVENT_FIELD_VALUES: CommonRegistrationAndEventFields =
+  {
+    audienceMaxAge: REGISTRATION_INITIAL_VALUES.audienceMaxAge,
+    audienceMinAge: REGISTRATION_INITIAL_VALUES.audienceMinAge,
+    enrolmentEndTimeDate: REGISTRATION_INITIAL_VALUES.enrolmentEndTimeDate,
+    enrolmentEndTimeTime: REGISTRATION_INITIAL_VALUES.enrolmentEndTimeTime,
+    enrolmentStartTimeDate: REGISTRATION_INITIAL_VALUES.enrolmentStartTimeDate,
+    enrolmentStartTimeTime: REGISTRATION_INITIAL_VALUES.enrolmentStartTimeTime,
+    maximumAttendeeCapacity:
+      REGISTRATION_INITIAL_VALUES.maximumAttendeeCapacity,
+    minimumAttendeeCapacity:
+      REGISTRATION_INITIAL_VALUES.minimumAttendeeCapacity,
+  };
 
 export const REGISTRATION_SELECT_FIELDS = [REGISTRATION_FIELDS.EVENT];
 
