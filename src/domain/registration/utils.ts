@@ -334,6 +334,7 @@ export const getRegistrationPayload = (
     enrolmentStartTimeDate,
     enrolmentStartTimeTime,
     event,
+    infoLanguages,
     instructions,
     mandatoryFields,
     maximumAttendeeCapacity,
@@ -342,7 +343,7 @@ export const getRegistrationPayload = (
     registrationUserAccesses,
     waitingListCapacity,
   } = formValues;
-  const infoLanguages = ['fi'];
+
   return {
     audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
     audienceMinAge: isNumber(audienceMinAge) ? audienceMinAge : null,
