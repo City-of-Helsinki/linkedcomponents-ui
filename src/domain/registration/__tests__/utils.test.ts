@@ -2,7 +2,10 @@
 import i18n from 'i18next';
 import { advanceTo, clear } from 'jest-date-mock';
 
-import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
+import {
+  EMPTY_MULTI_LANGUAGE_OBJECT,
+  LE_DATA_LANGUAGES,
+} from '../../../constants';
 import { RegistrationQueryVariables } from '../../../generated/graphql';
 import {
   fakeRegistration,
@@ -289,11 +292,13 @@ describe('getRegistrationPayload function', () => {
 
     const audienceMaxAge = 18,
       audienceMinAge = 12,
-      confirmationMessage = 'Confirmation message',
+      confirmationMessageFi = 'Confirmation message fi',
+      confirmationMessageEn = 'Confirmation message en',
       enrolmentEndTime = '2020-01-01T15:15:00.000Z',
       enrolmentStartTime = '2020-01-01T09:15:00.000Z',
       event = 'event:1',
-      instructions = 'Instructions',
+      instructionsFi = 'Instructions fi',
+      instructionsEn = 'Instructions en',
       maximumAttendeeCapacity = 10,
       maximumGroupSize = 2,
       minimumAttendeeCapacity = 5,
@@ -307,7 +312,8 @@ describe('getRegistrationPayload function', () => {
       audienceMinAge,
       confirmationMessage: {
         ...EMPTY_MULTI_LANGUAGE_OBJECT,
-        fi: confirmationMessage,
+        fi: confirmationMessageFi,
+        en: confirmationMessageEn,
       },
       enrolmentEndTimeDate: new Date(enrolmentEndTime),
       enrolmentEndTimeTime: '15:15',
@@ -316,8 +322,10 @@ describe('getRegistrationPayload function', () => {
       event,
       instructions: {
         ...EMPTY_MULTI_LANGUAGE_OBJECT,
-        fi: instructions,
+        fi: instructionsFi,
+        en: instructionsEn,
       },
+      infoLanguages: [LE_DATA_LANGUAGES.FI, LE_DATA_LANGUAGES.EN],
       maximumAttendeeCapacity,
       maximumGroupSize,
       minimumAttendeeCapacity,
@@ -330,8 +338,8 @@ describe('getRegistrationPayload function', () => {
       audienceMinAge,
       confirmationMessage: {
         ar: null,
-        en: null,
-        fi: confirmationMessage,
+        en: confirmationMessageEn,
+        fi: confirmationMessageFi,
         ru: null,
         sv: null,
         zhHans: null,
@@ -341,8 +349,8 @@ describe('getRegistrationPayload function', () => {
       event: { atId: event },
       instructions: {
         ar: null,
-        en: null,
-        fi: instructions,
+        en: instructionsEn,
+        fi: instructionsFi,
         ru: null,
         sv: null,
         zhHans: null,
