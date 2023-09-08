@@ -77,7 +77,10 @@ import {
   isReqularUserInOrganization,
 } from '../organization/utils';
 import { REGISTRATION_INITIAL_VALUES } from '../registration/constants';
-import { RegistrationFormFields } from '../registration/types';
+import {
+  CommonRegistrationAndEventFields,
+  RegistrationFormFields,
+} from '../registration/types';
 import {
   AUTHENTICATION_NOT_NEEDED,
   DAY_CODES,
@@ -1387,9 +1390,9 @@ export const copyEventToSessionStorage = async (
   sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
 };
 
-export const copyEventInfoToRegistrationSessionStorage = async (
+export const getEventInfoToRegistrationForm = (
   event: EventFieldsFragment
-): Promise<void> => {
+): CommonRegistrationAndEventFields => {
   const {
     audienceMaxAge,
     audienceMinAge,
@@ -1401,6 +1404,21 @@ export const copyEventInfoToRegistrationSessionStorage = async (
     minimumAttendeeCapacity,
   } = getEventInitialValues(event);
 
+  return {
+    audienceMaxAge,
+    audienceMinAge,
+    enrolmentEndTimeDate,
+    enrolmentEndTimeTime,
+    enrolmentStartTimeDate,
+    enrolmentStartTimeTime,
+    maximumAttendeeCapacity,
+    minimumAttendeeCapacity,
+  };
+};
+
+export const copyEventInfoToRegistrationSessionStorage = async (
+  event: EventFieldsFragment
+): Promise<void> => {
   const state: FormikState<RegistrationFormFields> = {
     errors: {},
     isSubmitting: false,
@@ -1409,15 +1427,8 @@ export const copyEventInfoToRegistrationSessionStorage = async (
     touched: {},
     values: {
       ...REGISTRATION_INITIAL_VALUES,
-      audienceMaxAge,
-      audienceMinAge,
-      enrolmentEndTimeDate,
-      enrolmentEndTimeTime,
-      enrolmentStartTimeDate,
-      enrolmentStartTimeTime,
+      ...getEventInfoToRegistrationForm(event),
       event: event.atId,
-      maximumAttendeeCapacity,
-      minimumAttendeeCapacity,
     },
   };
 

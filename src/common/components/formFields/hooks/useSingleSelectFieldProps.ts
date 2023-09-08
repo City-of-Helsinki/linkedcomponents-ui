@@ -16,6 +16,7 @@ export type UseSingleSelectFieldPropsProps = {
   name: string;
   onBlur: FormikHandlers['handleBlur'];
   onChange: FormikHandlers['handleChange'];
+  onChangeCb?: (val: string | null) => void;
   value: string;
 };
 const useSingleSelectFieldProps = ({
@@ -23,6 +24,7 @@ const useSingleSelectFieldProps = ({
   name,
   onBlur,
   onChange,
+  onChangeCb,
   value,
 }: UseSingleSelectFieldPropsProps): UseSingleSelectFieldPropsState => {
   const { t } = useTranslation();
@@ -38,9 +40,14 @@ const useSingleSelectFieldProps = ({
     // TODO: HDS Combobox component allowes to remove value even if component
     // is disabled. Remove if statement when that behaviour is fixed to HDS
     if (!disabled) {
+      const newValue = getValue(selected?.value, null);
       onChange({
-        target: { id: name, value: getValue(selected?.value, null) },
+        target: { id: name, value: newValue },
       });
+
+      if (onChangeCb) {
+        onChangeCb(newValue);
+      }
     }
   };
 
