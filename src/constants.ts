@@ -21,7 +21,7 @@ export enum DEPRECATED_ROUTES {
 export enum ROUTES {
   ADMIN = '/administration',
   ATTENDANCE_LIST = '/registrations/:registrationId/attendance-list',
-  CALLBACK = '/callback',
+  CALLBACK = '/silent-callback',
   CREATE_ENROLMENT = '/registrations/:registrationId/enrolments/create',
   CREATE_EVENT = '/events/create',
   CREATE_IMAGE = '/administration/images/create',
@@ -58,7 +58,7 @@ export enum ROUTES {
   REGISTRATION_ENROLMENTS = '/registrations/:registrationId/enrolments',
   REGISTRATION_SAVED = '/registrations/completed/:id',
   SEARCH = '/search',
-  SILENT_CALLBACK = '/silent-callback',
+  SILENT_CALLBACK = '/silent-callback-original',
   SUPPORT = '/help/support',
   SUPPORT_ASK_PERMISSION = '/help/support/ask-permission',
   SUPPORT_CONTACT = '/help/support/contact',
