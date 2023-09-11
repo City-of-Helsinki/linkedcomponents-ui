@@ -9,7 +9,7 @@ import getValue from '../../../utils/getValue';
 
 type SupportedLanguage = 'en' | 'fi' | 'sv';
 
-const origin = window.location.origin;
+const hostname = window.location.hostname;
 
 const CookieConsent: FC = () => {
   const { t } = useTranslation();
@@ -31,6 +31,7 @@ const CookieConsent: FC = () => {
 
   return (
     <CookieModal
+      cookieDomain={hostname}
       contentSource={{
         siteName: getValue(t('common.cookieConsent.siteName'), ''),
         currentLanguage: language,
@@ -45,7 +46,7 @@ const CookieConsent: FC = () => {
               cookies: [
                 {
                   id: 'eventForm',
-                  hostName: origin,
+                  hostName: hostname,
                   name: getValue(t('common.cookieConsent.eventForm.name'), ''),
                   description: getValue(
                     t('common.cookieConsent.eventForm.description'),
@@ -58,7 +59,7 @@ const CookieConsent: FC = () => {
                 },
                 {
                   id: 'registrationForm',
-                  hostName: origin,
+                  hostName: hostname,
                   name: getValue(
                     t('common.cookieConsent.registrationForm.name'),
                     ''
@@ -74,7 +75,7 @@ const CookieConsent: FC = () => {
                 },
                 {
                   id: 'enrolmentForm',
-                  hostName: origin,
+                  hostName: hostname,
                   name: getValue(
                     t('common.cookieConsent.enrolmentForm.name'),
                     ''
