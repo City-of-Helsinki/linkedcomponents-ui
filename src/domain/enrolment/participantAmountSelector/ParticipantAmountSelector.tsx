@@ -8,12 +8,12 @@ import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
 import { getMaxSeatsAmount } from '../../registration/utils';
 import { getSeatsReservationData } from '../../reserveSeats/utils';
-import { ENROLMENT_FIELDS, ENROLMENT_MODALS } from '../constants';
+import { ENROLMENT_MODALS, SIGNUP_GROUP_FIELDS } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import useSeatsReservationActions from '../hooks/useSeatsReservationActions';
 import ConfirmDeleteParticipantModal from '../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
-import { AttendeeFields } from '../types';
+import { SignupFields } from '../types';
 import styles from './participantAmountSelector.module.scss';
 
 interface Props {
@@ -29,14 +29,14 @@ const ParticipantAmountSelector: React.FC<Props> = ({
 
   const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
 
-  const [{ value: attendees }, , { setValue: setAttendees }] = useField<
-    AttendeeFields[]
-  >({ name: ENROLMENT_FIELDS.ATTENDEES });
+  const [{ value: signups }, , { setValue: setSignups }] = useField<
+    SignupFields[]
+  >({ name: SIGNUP_GROUP_FIELDS.SIGNUPS });
 
   const { saving, updateSeatsReservation } = useSeatsReservationActions({
-    attendees,
     registration,
-    setAttendees,
+    setSignups,
+    signups,
   });
 
   const { setServerErrorItems, showServerErrors } =
@@ -64,7 +64,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
 
   const updateParticipantAmount = () => {
     /* istanbul ignore else */
-    if (participantAmount !== attendees.length) {
+    if (participantAmount !== signups.length) {
       setServerErrorItems([]);
 
       updateSeatsReservation(participantAmount, {
@@ -78,8 +78,8 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   };
 
   const handleUpdateClick = () => {
-    if (participantAmount < attendees.length) {
-      setParticipantsToDelete(attendees.length - participantAmount);
+    if (participantAmount < signups.length) {
+      setParticipantsToDelete(signups.length - participantAmount);
       openDeleteParticipantModal();
     } else {
       updateParticipantAmount();

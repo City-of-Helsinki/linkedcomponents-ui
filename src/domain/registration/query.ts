@@ -40,7 +40,7 @@ export const QUERY_REGISTRATION = gql`
       ...registrationUserAccessFields
     }
     signups {
-      ...enrolmentFields
+      ...signupFields
     }
     waitingListCapacity
   }

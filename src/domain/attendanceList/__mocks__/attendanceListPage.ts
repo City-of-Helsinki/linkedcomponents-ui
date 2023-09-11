@@ -6,7 +6,7 @@ import {
   PresenceStatus,
   RegistrationDocument,
 } from '../../../generated/graphql';
-import { fakeEnrolments, fakeRegistration } from '../../../utils/mockDataUtils';
+import { fakeRegistration, fakeSignups } from '../../../utils/mockDataUtils';
 import { event } from '../../event/__mocks__/event';
 import {
   REGISTRATION_INCLUDES,
@@ -19,7 +19,7 @@ const signupNames = range(1, 4).map((i) => ({
   firstName: 'First',
   lastName: `last ${i}`,
 }));
-const signups = fakeEnrolments(
+const signups = fakeSignups(
   signupNames.length,
   signupNames.map(({ firstName, lastName }) => ({ firstName, lastName }))
 ).data;

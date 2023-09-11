@@ -68,9 +68,9 @@ export type UseServerErrorsState = {
   showServerErrors: (params: ShowServerErrorsFnParams) => void;
 };
 
-export type MutationCallbacks = {
+export type MutationCallbacks<ResponseDataType = string> = {
   onError?: (error: any) => void;
-  onSuccess?: (id?: string) => void;
+  onSuccess?: (id?: ResponseDataType) => void;
 };
 
 export type ButtonType = 'button' | 'reset' | 'submit' | undefined;

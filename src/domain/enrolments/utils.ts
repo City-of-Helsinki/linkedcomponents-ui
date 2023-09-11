@@ -1,9 +1,9 @@
 import { ROUTES } from '../../constants';
 import {
   AttendeeStatus,
-  EnrolmentFieldsFragment,
-  EnrolmentsQueryVariables,
   RegistrationFieldsFragment,
+  SignupFieldsFragment,
+  SignupsQueryVariables,
 } from '../../generated/graphql';
 import { Language, PathBuilderProps } from '../../types';
 import getValue from '../../utils/getValue';
@@ -34,7 +34,7 @@ export const getEnrolmentFields = ({
   language,
   registration,
 }: {
-  enrolment: EnrolmentFieldsFragment;
+  enrolment: SignupFieldsFragment;
   language: Language;
   registration: RegistrationFieldsFragment;
 }): EnrolmentFields => {
@@ -65,7 +65,7 @@ export const getEnrolmentItemId = (id: string): string =>
 
 export const enrolmentsPathBuilder = ({
   args,
-}: PathBuilderProps<EnrolmentsQueryVariables>): string => {
+}: PathBuilderProps<SignupsQueryVariables>): string => {
   const { attendeeStatus, registration, text } = args;
 
   const variableToKeyItems = [

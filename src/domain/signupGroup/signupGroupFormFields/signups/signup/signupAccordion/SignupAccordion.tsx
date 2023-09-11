@@ -3,9 +3,9 @@ import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useIdWithPrefix from '../../../../../../hooks/useIdWithPrefix';
-import styles from './attendeeAccordion.module.scss';
+import styles from './signupAccordion.module.scss';
 
-export interface AttendeeAccordionProps {
+export interface SignupAccordionProps {
   deleteButton?: React.ReactElement;
   id?: string;
   inWaitingList: boolean;
@@ -29,8 +29,8 @@ type ContentProps = {
   style?: React.CSSProperties;
 };
 
-const AttendeeAccordion: React.FC<
-  React.PropsWithChildren<AttendeeAccordionProps>
+const SignupAccordion: React.FC<
+  React.PropsWithChildren<SignupAccordionProps>
 > = ({
   children,
   deleteButton,
@@ -117,4 +117,4 @@ const AttendeeAccordion: React.FC<
   );
 };
 
-export default AttendeeAccordion;
+export default SignupAccordion;

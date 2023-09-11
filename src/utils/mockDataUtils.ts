@@ -13,12 +13,9 @@ import { TEST_REGISTRATION_ID } from '../domain/registration/constants';
 import { TEST_SEATS_RESERVATION_CODE } from '../domain/reserveSeats/constants';
 import {
   AttendeeStatus,
-  CreateEnrolmentResponse,
+  CreateSignupGroupResponse,
   DataSource,
   DataSourcesResponse,
-  Enrolment,
-  EnrolmentPeopleResponse,
-  EnrolmentsResponse,
   Event,
   EventsResponse,
   EventStatus,
@@ -50,6 +47,9 @@ import {
   RegistrationUserAccess,
   SeatsReservation,
   SendMessageResponse,
+  Signup,
+  SignupGroup,
+  SignupsResponse,
   User,
   UsersResponse,
   Video,
@@ -85,62 +85,19 @@ export const fakeDataSource = (overrides?: Partial<DataSource>): DataSource => {
   );
 };
 
-export const fakeEnrolments = (
-  count = 1,
-  enrolments?: Partial<Enrolment>[]
-): EnrolmentsResponse => ({
-  data: generateNodeArray((i) => fakeEnrolment(enrolments?.[i]), count),
-  meta: fakeMeta(count),
-  __typename: 'EnrolmentsResponse',
-});
-
-export const fakeEnrolment = (overrides?: Partial<Enrolment>): Enrolment => {
+export const fakeCreateSignupGroupResponse = (
+  overrides?: Partial<CreateSignupGroupResponse>
+): CreateSignupGroupResponse => {
   const id = overrides?.id || faker.datatype.uuid();
 
-  return merge<Enrolment, typeof overrides>(
+  return merge<CreateSignupGroupResponse, typeof overrides>(
     {
       id,
-      attendeeStatus: AttendeeStatus.Attending,
-      cancellationCode: '',
-      city: faker.address.city(),
-      dateOfBirth: '1990-10-10',
-      email: faker.internet.email(),
-      extraInfo: faker.lorem.paragraph(),
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      membershipNumber: faker.datatype.uuid(),
-      nativeLanguage: 'fi',
-      notifications: NOTIFICATION_TYPE.SMS_EMAIL,
-      phoneNumber: faker.phone.number(),
-      presenceStatus: PresenceStatus.NotPresent,
-      serviceLanguage: 'fi',
-      streetAddress: faker.address.streetAddress(),
-      zipcode: faker.address.zipCode('#####'),
-      __typename: 'Enrolment',
+      extraInfo: '',
+      registration: TEST_REGISTRATION_ID,
+      signups: [],
     },
-    overrides
-  );
-};
 
-export const fakeEnrolmentPeopleResponse = (
-  count = 1,
-  people: Partial<Enrolment>[] = []
-): EnrolmentPeopleResponse => {
-  return {
-    count,
-    people: generateNodeArray((i) => fakeEnrolment(people?.[i]), count),
-  };
-};
-
-export const fakeCreateEnrolmentResponse = (
-  overrides?: Partial<CreateEnrolmentResponse>
-): CreateEnrolmentResponse => {
-  return merge<CreateEnrolmentResponse, typeof overrides>(
-    {
-      attending: fakeEnrolmentPeopleResponse(0),
-      waitlisted: fakeEnrolmentPeopleResponse(0),
-      __typename: 'CreateEnrolmentResponse',
-    },
     overrides
   );
 };
@@ -563,6 +520,68 @@ export const fakeSendMessageResponse = (
     },
     overrides
   );
+
+export const fakeSignups = (
+  count = 1,
+  signups?: Partial<Signup>[]
+): SignupsResponse => ({
+  data: generateNodeArray((i) => fakeSignup(signups?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'SignupsResponse',
+});
+
+export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
+  const id = overrides?.id || faker.datatype.uuid();
+
+  return merge<Signup, typeof overrides>(
+    {
+      id,
+      attendeeStatus: AttendeeStatus.Attending,
+      cancellationCode: '',
+      city: faker.address.city(),
+      createdAt: null,
+      createdBy: null,
+      dateOfBirth: '1990-10-10',
+      email: faker.internet.email(),
+      extraInfo: faker.lorem.paragraph(),
+      firstName: faker.name.firstName(),
+      lastModifiedAt: null,
+      lastModifiedBy: null,
+      lastName: faker.name.lastName(),
+      membershipNumber: faker.datatype.uuid(),
+      nativeLanguage: 'fi',
+      notifications: NOTIFICATION_TYPE.SMS_EMAIL,
+      phoneNumber: faker.phone.number(),
+      presenceStatus: PresenceStatus.NotPresent,
+      responsibleForGroup: false,
+      serviceLanguage: 'fi',
+      streetAddress: faker.address.streetAddress(),
+      zipcode: faker.address.zipCode('#####'),
+      __typename: 'Signup',
+    },
+    overrides
+  );
+};
+
+export const fakeSignupGroup = (
+  overrides?: Partial<SignupGroup>
+): SignupGroup => {
+  const id = overrides?.id || faker.datatype.uuid();
+
+  return merge<SignupGroup, typeof overrides>(
+    {
+      id,
+      createdAt: null,
+      createdBy: null,
+      extraInfo: '',
+      lastModifiedAt: null,
+      lastModifiedBy: null,
+      registration: TEST_REGISTRATION_ID,
+      signups: [],
+    },
+    overrides
+  );
+};
 
 export const fakeUsers = (
   count = 1,

@@ -11,6 +11,15 @@ import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import { ENROLMENT_ACTIONS } from '../enrolment/constants';
+import EnrolmentPageBreadcrumb from '../enrolment/enrolmentPageBreadbrumb/EnrolmentPageBreadcrumb';
+import { EnrolmentPageProvider } from '../enrolment/enrolmentPageContext/EnrolmentPageContext';
+import { EnrolmentServerErrorsProvider } from '../enrolment/enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
+import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
+import {
+  checkCanUserDoAction,
+  getSignupGroupDefaultInitialValues,
+} from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import { isRegistrationPossible } from '../registration/utils';
@@ -19,30 +28,21 @@ import {
   isSeatsReservationExpired,
 } from '../reserveSeats/utils';
 import useUser from '../user/hooks/useUser';
-import { ENROLMENT_ACTIONS } from './constants';
-import EnrolmentForm from './enrolmentForm/EnrolmentForm';
-import styles from './enrolmentPage.module.scss';
-import EnrolmentPageBreadcrumb from './enrolmentPageBreadbrumb/EnrolmentPageBreadcrumb';
-import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';
-import { EnrolmentServerErrorsProvider } from './enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
-import useRegistrationAndEventData from './hooks/useRegistrationAndEventData';
-import {
-  checkCanUserDoAction,
-  getEnrolmentDefaultInitialValues,
-} from './utils';
+import SignupGroupForm from './signupGroupForm/SignupGroupForm';
+import styles from './signupGroupPage.module.scss';
 
 type Props = {
   event: EventFieldsFragment;
   registration: RegistrationFieldsFragment;
 };
 
-const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
+const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
   const { t } = useTranslation();
   const { user } = useUser();
   const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const initialValues = getEnrolmentDefaultInitialValues(registration);
+  const initialValues = getSignupGroupDefaultInitialValues(registration);
 
   const formDisabled = useMemo(() => {
     const data = getSeatsReservationData(registration.id as string);
@@ -62,7 +62,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
   }, [organizationAncestors, publisher, registration, user]);
 
   return (
-    <PageWrapper title={`createEnrolmentPage.pageTitle`}>
+    <PageWrapper title={`createSignupGroupPage.pageTitle`}>
       <MainContent>
         <Container contentWrapperClassName={styles.createContainer} withOffset>
           <EnrolmentPageBreadcrumb
@@ -70,7 +70,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
             registration={registration}
           />
         </Container>
-        <EnrolmentForm
+        <SignupGroupForm
           disabled={formDisabled}
           event={event}
           initialValues={initialValues}
@@ -81,7 +81,7 @@ const CreateEnrolmentPage: React.FC<Props> = ({ event, registration }) => {
   );
 };
 
-const CreateEnrolmentPageWrapper: React.FC = () => {
+const CreateSignupGroupPageWrapper: React.FC = () => {
   const location = useLocation();
   const { event, loading, registration } = useRegistrationAndEventData({
     shouldFetchEvent: true,
@@ -92,7 +92,7 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
       {event && registration ? (
         <EnrolmentPageProvider>
           <EnrolmentServerErrorsProvider>
-            <CreateEnrolmentPage event={event} registration={registration} />
+            <CreateSignupGroupPage event={event} registration={registration} />
           </EnrolmentServerErrorsProvider>
         </EnrolmentPageProvider>
       ) : (
@@ -102,4 +102,4 @@ const CreateEnrolmentPageWrapper: React.FC = () => {
   );
 };
 
-export default CreateEnrolmentPageWrapper;
+export default CreateSignupGroupPageWrapper;

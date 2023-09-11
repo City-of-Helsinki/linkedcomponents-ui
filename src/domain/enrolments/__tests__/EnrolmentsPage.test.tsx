@@ -6,7 +6,7 @@ import React from 'react';
 import { ROUTES } from '../../../constants';
 import { AttendeeStatus } from '../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
-import { fakeEnrolments } from '../../../utils/mockDataUtils';
+import { fakeSignups } from '../../../utils/mockDataUtils';
 import {
   configure,
   CustomRenderOptions,
@@ -49,7 +49,7 @@ const defaultMocks = [
   mockedRegistrationResponse,
   mockedUserResponse,
   getMockedAttendeesResponse(attendees),
-  getMockedAttendeesResponse(fakeEnrolments(0), {
+  getMockedAttendeesResponse(fakeSignups(0), {
     attendeeStatus: AttendeeStatus.Waitlisted,
   }),
 ];
@@ -166,7 +166,7 @@ test('should move to create enrolment page', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/registrations/${registrationId}/enrolments/create`
+      `/registrations/${registrationId}/signup-group/create`
     )
   );
 });

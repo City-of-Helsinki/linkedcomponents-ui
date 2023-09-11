@@ -538,13 +538,13 @@ export const getRegistrationWarning = (
   return '';
 };
 
-export const getEnrolmentLink = (
+export const getSignupLink = (
   registration: RegistrationFieldsFragment,
   locale: Language
 ): string =>
-  `${process.env.REACT_APP_LINKED_REGISTRATIONS_UI_URL}/${locale}/registration/${registration.id}/enrolment/create`;
+  `${process.env.REACT_APP_LINKED_REGISTRATIONS_UI_URL}/${locale}/registration/${registration.id}/signup-group/create`;
 
-export const copyEnrolmentLinkToClipboard = ({
+export const copySignupLinkToClipboard = ({
   locale,
   registration,
   t,
@@ -553,6 +553,6 @@ export const copyEnrolmentLinkToClipboard = ({
   registration: RegistrationFieldsFragment;
   t: TFunction;
 }): void => {
-  copyToClipboard(getEnrolmentLink(registration, locale));
+  copyToClipboard(getSignupLink(registration, locale));
   toast.success(getValue(t('registration.registrationLinkCopied'), ''));
 };

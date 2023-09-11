@@ -3,21 +3,21 @@ import subYears from 'date-fns/subYears';
 
 import { DATE_FORMAT_API } from '../../../constants';
 import {
-  CreateEnrolmentDocument,
-  CreateEnrolmentMutationInput,
+  CreateSignupGroupDocument,
+  CreateSignupGroupMutationInput,
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import {
-  fakeCreateEnrolmentResponse,
-  fakeEnrolmentPeopleResponse,
+  fakeCreateSignupGroupResponse,
+  fakeSignups,
 } from '../../../utils/mockDataUtils';
+import { NOTIFICATION_TYPE } from '../../enrolment/constants';
 import { registrationId } from '../../registration/__mocks__/registration';
 import { TEST_SEATS_RESERVATION_CODE } from '../../reserveSeats/constants';
-import { NOTIFICATION_TYPE } from '../constants';
 
 const dateOfBirth = subYears(new Date(), 13);
 
-const enrolmentValues = {
+const signupValues = {
   city: 'City',
   dateOfBirth: formatDate(dateOfBirth),
   email: 'participant@email.com',
@@ -28,57 +28,57 @@ const enrolmentValues = {
   zip: '00100',
 };
 
-const payload: CreateEnrolmentMutationInput = {
+const payload: CreateSignupGroupMutationInput = {
+  extraInfo: '',
   registration: registrationId,
   reservationCode: TEST_SEATS_RESERVATION_CODE,
   signups: [
     {
-      city: enrolmentValues.city,
+      city: signupValues.city,
       dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
-      email: enrolmentValues.email,
+      email: signupValues.email,
       extraInfo: '',
-      firstName: enrolmentValues.firstName,
-      lastName: enrolmentValues.lastName,
+      firstName: signupValues.firstName,
+      lastName: signupValues.lastName,
       membershipNumber: '',
       nativeLanguage: 'fi',
       notifications: NOTIFICATION_TYPE.EMAIL,
-      phoneNumber: enrolmentValues.phone,
+      phoneNumber: signupValues.phone,
+      responsibleForGroup: true,
       serviceLanguage: 'fi',
-      streetAddress: enrolmentValues.streetAddress,
-      zipcode: enrolmentValues.zip,
+      streetAddress: signupValues.streetAddress,
+      zipcode: signupValues.zip,
     },
   ],
 };
 
-const createEnrolmentVariables = {
-  input: payload,
-};
+const createSignupGroupVariables = { input: payload };
 
-const createEnrolmentResponse = {
+const createSignupGroupResponse = {
   data: {
-    createEnrolment: fakeCreateEnrolmentResponse({
-      attending: fakeEnrolmentPeopleResponse(1, [
+    createSignupGroup: fakeCreateSignupGroupResponse({
+      signups: fakeSignups(1, [
         {
-          firstName: enrolmentValues.firstName,
-          lastName: enrolmentValues.lastName,
+          firstName: signupValues.firstName,
+          lastName: signupValues.lastName,
         },
-      ]),
+      ]).data,
     }),
   },
 };
 
-const mockedCreateEnrolmentResponse: MockedResponse = {
+const mockedCreateSignupGroupResponse: MockedResponse = {
   request: {
-    query: CreateEnrolmentDocument,
-    variables: createEnrolmentVariables,
+    query: CreateSignupGroupDocument,
+    variables: createSignupGroupVariables,
   },
-  result: createEnrolmentResponse,
+  result: createSignupGroupResponse,
 };
 
-const mockedInvalidCreateEnrolmentResponse: MockedResponse = {
+const mockedInvalidCreateSignupGroupResponse: MockedResponse = {
   request: {
-    query: CreateEnrolmentDocument,
-    variables: createEnrolmentVariables,
+    query: CreateSignupGroupDocument,
+    variables: createSignupGroupVariables,
   },
   error: {
     ...new Error(),
@@ -87,7 +87,7 @@ const mockedInvalidCreateEnrolmentResponse: MockedResponse = {
 };
 
 export {
-  enrolmentValues,
-  mockedCreateEnrolmentResponse,
-  mockedInvalidCreateEnrolmentResponse,
+  mockedCreateSignupGroupResponse,
+  mockedInvalidCreateSignupGroupResponse,
+  signupValues,
 };

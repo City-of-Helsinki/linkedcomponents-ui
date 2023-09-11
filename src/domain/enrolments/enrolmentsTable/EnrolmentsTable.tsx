@@ -7,10 +7,10 @@ import Pagination from '../../../common/components/pagination/Pagination';
 import Table from '../../../common/components/table/Table';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import {
-  EnrolmentFieldsFragment,
-  EnrolmentsQueryVariables,
   RegistrationFieldsFragment,
-  useEnrolmentsQuery,
+  SignupFieldsFragment,
+  SignupsQueryVariables,
+  useSignupsQuery,
 } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
@@ -33,7 +33,7 @@ import {
 import styles from './enrolmentsTable.module.scss';
 
 type ColumnProps = {
-  enrolment: EnrolmentFieldsFragment;
+  enrolment: SignupFieldsFragment;
   registration: RegistrationFieldsFragment;
 };
 
@@ -86,7 +86,7 @@ const AttendeeStatusColumn: FC<ColumnProps> = ({ enrolment, registration }) => {
 
 export interface EnrolmentsTableProps {
   caption: string;
-  enrolmentsVariables: Partial<EnrolmentsQueryVariables>;
+  enrolmentsVariables: Partial<SignupsQueryVariables>;
   heading: string;
   pagePath: 'attendeePage' | 'waitingPage';
   registration: RegistrationFieldsFragment;
@@ -113,7 +113,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     location.search
   );
 
-  const { data: enrolmentsData, loading } = useEnrolmentsQuery({
+  const { data: enrolmentsData, loading } = useSignupsQuery({
     variables: {
       ...enrolmentsVariables,
       registration: [getValue(registration.id, '')],
@@ -122,7 +122,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
     },
   });
 
-  const enrolments = getValue(enrolmentsData?.enrolments.data, []).filter(
+  const enrolments = getValue(enrolmentsData?.signups.data, []).filter(
     skipFalsyType
   );
 
@@ -143,7 +143,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
 
   const handleRowClick = (enrolment: object) => {
     const { enrolmentUrl } = getEnrolmentFields({
-      enrolment: enrolment as EnrolmentFieldsFragment,
+      enrolment: enrolment as SignupFieldsFragment,
       language: locale,
       registration,
     });
@@ -166,35 +166,35 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
   }, [enrolmentsData]);
 
   const MemoizedNameColumn = React.useCallback(
-    (enrolment: EnrolmentFieldsFragment) => (
+    (enrolment: SignupFieldsFragment) => (
       <NameColumn enrolment={enrolment} registration={registration} />
     ),
     [registration]
   );
 
   const MemoizedEmailColumn = React.useCallback(
-    (enrolment: EnrolmentFieldsFragment) => (
+    (enrolment: SignupFieldsFragment) => (
       <EmailColumn enrolment={enrolment} registration={registration} />
     ),
     [registration]
   );
 
   const MemoizedPhoneColumn = React.useCallback(
-    (enrolment: EnrolmentFieldsFragment) => (
+    (enrolment: SignupFieldsFragment) => (
       <PhoneColumn enrolment={enrolment} registration={registration} />
     ),
     [registration]
   );
 
   const MemoizedAttendeeStatueColumn = React.useCallback(
-    (enrolment: EnrolmentFieldsFragment) => (
+    (enrolment: SignupFieldsFragment) => (
       <AttendeeStatusColumn enrolment={enrolment} registration={registration} />
     ),
     [registration]
   );
 
   const MemoizedEnrolmentActionsDropdown = React.useCallback(
-    (enrolment: EnrolmentFieldsFragment) => (
+    (enrolment: SignupFieldsFragment) => (
       <EnrolmentActionsDropdown
         enrolment={enrolment}
         registration={registration}
@@ -249,7 +249,7 @@ const EnrolmentsTable: React.FC<EnrolmentsTableProps> = ({
           ]}
           getRowProps={(enrolment) => {
             const { id, fullName } = getEnrolmentFields({
-              enrolment: enrolment as EnrolmentFieldsFragment,
+              enrolment: enrolment as SignupFieldsFragment,
               language: locale,
               registration,
             });

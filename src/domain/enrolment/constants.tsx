@@ -1,6 +1,6 @@
 import { IconCrossCircle, IconEnvelope, IconEye, IconPen } from 'hds-react';
 
-import { AttendeeFields, EnrolmentFormFields } from './types';
+import { SignupFields, SignupGroupFormFields } from './types';
 
 export enum NOTIFICATIONS {
   EMAIL = 'email',
@@ -14,7 +14,7 @@ export enum NOTIFICATION_TYPE {
   SMS_EMAIL = 'sms and email',
 }
 
-export enum ATTENDEE_FIELDS {
+export enum SIGNUP_FIELDS {
   CITY = 'city',
   DATE_OF_BIRTH = 'dateOfBirth',
   EXTRA_INFO = 'extraInfo',
@@ -25,8 +25,7 @@ export enum ATTENDEE_FIELDS {
   ZIPCODE = 'zipcode',
 }
 
-export enum ENROLMENT_FIELDS {
-  ATTENDEES = 'attendees',
+export enum SIGNUP_GROUP_FIELDS {
   EMAIL = 'email',
   EXTRA_INFO = 'extraInfo',
   MEMBERSHIP_NUMBER = 'membershipNumber',
@@ -34,6 +33,7 @@ export enum ENROLMENT_FIELDS {
   NOTIFICATIONS = 'notifications',
   PHONE_NUMBER = 'phoneNumber',
   SERVICE_LANGUAGE = 'serviceLanguage',
+  SIGNUPS = 'signups',
 }
 
 export const SEND_MESSAGE_FORM_NAME = 'send-message';
@@ -43,31 +43,31 @@ export enum SEND_MESSAGE_FIELDS {
   SUBJECT = 'subject',
 }
 
-export const ATTENDEE_INITIAL_VALUES: AttendeeFields = {
-  [ATTENDEE_FIELDS.CITY]: '',
-  [ATTENDEE_FIELDS.DATE_OF_BIRTH]: null,
-  [ATTENDEE_FIELDS.EXTRA_INFO]: '',
-  [ATTENDEE_FIELDS.FIRST_NAME]: '',
-  [ATTENDEE_FIELDS.IN_WAITING_LIST]: false,
-  [ATTENDEE_FIELDS.LAST_NAME]: '',
-  [ATTENDEE_FIELDS.STREET_ADDRESS]: '',
-  [ATTENDEE_FIELDS.ZIPCODE]: '',
+export const SIGNUP_INITIAL_VALUES: SignupFields = {
+  [SIGNUP_FIELDS.CITY]: '',
+  [SIGNUP_FIELDS.DATE_OF_BIRTH]: null,
+  [SIGNUP_FIELDS.EXTRA_INFO]: '',
+  [SIGNUP_FIELDS.FIRST_NAME]: '',
+  [SIGNUP_FIELDS.IN_WAITING_LIST]: false,
+  [SIGNUP_FIELDS.LAST_NAME]: '',
+  [SIGNUP_FIELDS.STREET_ADDRESS]: '',
+  [SIGNUP_FIELDS.ZIPCODE]: '',
 };
 
-export const ENROLMENT_INITIAL_VALUES: EnrolmentFormFields = {
-  [ENROLMENT_FIELDS.ATTENDEES]: [],
-  [ENROLMENT_FIELDS.EMAIL]: '',
-  [ENROLMENT_FIELDS.EXTRA_INFO]: '',
-  [ENROLMENT_FIELDS.MEMBERSHIP_NUMBER]: '',
-  [ENROLMENT_FIELDS.NATIVE_LANGUAGE]: '',
-  [ENROLMENT_FIELDS.NOTIFICATIONS]: [NOTIFICATIONS.EMAIL],
-  [ENROLMENT_FIELDS.PHONE_NUMBER]: '',
-  [ENROLMENT_FIELDS.SERVICE_LANGUAGE]: '',
+export const SIGNUP_GROUP_INITIAL_VALUES: SignupGroupFormFields = {
+  [SIGNUP_GROUP_FIELDS.EMAIL]: '',
+  [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: '',
+  [SIGNUP_GROUP_FIELDS.MEMBERSHIP_NUMBER]: '',
+  [SIGNUP_GROUP_FIELDS.NATIVE_LANGUAGE]: '',
+  [SIGNUP_GROUP_FIELDS.NOTIFICATIONS]: [NOTIFICATIONS.EMAIL],
+  [SIGNUP_GROUP_FIELDS.PHONE_NUMBER]: '',
+  [SIGNUP_GROUP_FIELDS.SERVICE_LANGUAGE]: '',
+  [SIGNUP_GROUP_FIELDS.SIGNUPS]: [],
 };
 
-export const ENROLMENT_FORM_SELECT_FIELDS = [
-  ENROLMENT_FIELDS.NATIVE_LANGUAGE,
-  ENROLMENT_FIELDS.SERVICE_LANGUAGE,
+export const SIGNUP_FORM_SELECT_FIELDS = [
+  SIGNUP_GROUP_FIELDS.NATIVE_LANGUAGE,
+  SIGNUP_GROUP_FIELDS.SERVICE_LANGUAGE,
 ];
 
 export enum ENROLMENT_ACTIONS {

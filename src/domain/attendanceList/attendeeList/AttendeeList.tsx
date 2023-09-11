@@ -7,9 +7,9 @@ import { toast } from 'react-toastify';
 import Checkbox from '../../../common/components/checkbox/Checkbox';
 import {
   AttendeeStatus,
-  EnrolmentFieldsFragment,
   PresenceStatus,
   RegistrationFieldsFragment,
+  SignupFieldsFragment,
   UpdateEnrolmentMutationInput,
   usePatchEnrolmentMutation,
 } from '../../../generated/graphql';
@@ -34,7 +34,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
   const [search, setSearch] = useState('');
 
   const attendees = orderBy(
-    getValue(registration.signups, []) as EnrolmentFieldsFragment[],
+    getValue(registration.signups, []) as SignupFieldsFragment[],
     ['firstName', 'lastName'],
     ['asc', 'desc']
   ).filter((signup) => signup.attendeeStatus === AttendeeStatus.Attending);
@@ -70,7 +70,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     error: any;
     message: string;
     payload?: UpdateEnrolmentMutationInput;
-    signup: EnrolmentFieldsFragment;
+    signup: SignupFieldsFragment;
   }) => {
     savingFinished();
 
@@ -89,7 +89,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
 
   const patchEnrolment = async (
     checked: boolean,
-    signup: EnrolmentFieldsFragment
+    signup: SignupFieldsFragment
   ) => {
     const payload: UpdateEnrolmentMutationInput = {
       id: signup.id,

@@ -11,73 +11,79 @@ import FormikPersist from '../../../common/components/formikPersist/FormikPersis
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { FORM_NAMES, ROUTES } from '../../../constants';
 import {
-  EnrolmentFieldsFragment,
-  EnrolmentQuery,
-  EnrolmentQueryVariables,
   EventFieldsFragment,
   RegistrationFieldsFragment,
+  SignupFieldsFragment,
+  SignupQuery,
+  SignupQueryVariables,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
+import {
+  ENROLMENT_ACTIONS,
+  ENROLMENT_MODALS,
+  SIGNUP_GROUP_FIELDS,
+} from '../../enrolment/constants';
+import CreateButtonPanel from '../../enrolment/createButtonPanel/CreateButtonPanel';
+import Divider from '../../enrolment/divider/Divider';
+import EditButtonPanel from '../../enrolment/editButtonPanel/EditButtonPanel';
+import EnrolmentAuthenticationNotification from '../../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
+import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
+import EventInfo from '../../enrolment/eventInfo/EventInfo';
+import FormContainer from '../../enrolment/formContainer/FormContainer';
+import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
+import ConfirmCancelEnrolmentModal from '../../enrolment/modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
+import SendMessageModal from '../../enrolment/modals/sendMessageModal/SendMessageModal';
+import ParticipantAmountSelector from '../../enrolment/participantAmountSelector/ParticipantAmountSelector';
+import RegistrationWarning from '../../enrolment/registrationWarning/RegistrationWarning';
+import ReservationTimer from '../../enrolment/reservationTimer/ReservationTimer';
+import {
+  SignupFields,
+  SignupGroupFormFields as SignupGroupFormFieldsType,
+} from '../../enrolment/types';
+import {
+  clearCreateSignupGroupFormData,
+  isRestoringFormDataDisabled,
+} from '../../enrolment/utils';
+import {
+  getSignupGroupSchema,
+  scrollToFirstError,
+} from '../../enrolment/validation';
 import { isRegistrationPossible } from '../../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { clearSeatsReservationData } from '../../reserveSeats/utils';
-import {
-  ENROLMENT_ACTIONS,
-  ENROLMENT_FIELDS,
-  ENROLMENT_MODALS,
-} from '../constants';
-import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
-import Divider from '../divider/Divider';
-import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
-import EnrolmentAuthenticationNotification from '../enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
-import EnrolmentFormFields from '../enrolmentFormFields/EnrolmentFormFields';
-import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
-import EventInfo from '../eventInfo/EventInfo';
-import FormContainer from '../formContainer/FormContainer';
-import useEnrolmentActions from '../hooks/useEnrolmentActions';
-import ConfirmCancelEnrolmentModal from '../modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
-import SendMessageModal from '../modals/sendMessageModal/SendMessageModal';
-import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
-import RegistrationWarning from '../registrationWarning/RegistrationWarning';
-import ReservationTimer from '../reservationTimer/ReservationTimer';
-import {
-  AttendeeFields,
-  EnrolmentFormFields as EnrolmentFormFieldsType,
-} from '../types';
-import {
-  clearCreateEnrolmentFormData,
-  isRestoringFormDataDisabled,
-} from '../utils';
-import { getEnrolmentSchema, scrollToFirstError } from '../validation';
+import EnrolmentFormFields from '../signupGroupFormFields/SignupGroupFormFields';
 import AvailableSeatsText from './availableSeatsText/AvailableSeatsText';
-import styles from './enrolmentForm.module.scss';
+import styles from './signupGroupForm.module.scss';
 
-type EnrolmentFormWrapperProps = {
+type SignupGroupFormWrapperProps = {
   disabled: boolean;
-  enrolment?: EnrolmentFieldsFragment;
+  enrolment?: SignupFieldsFragment;
   event: EventFieldsFragment;
-  initialValues: EnrolmentFormFieldsType;
+  initialValues: SignupGroupFormFieldsType;
   refetchEnrolment?: (
-    variables?: Partial<EnrolmentQueryVariables>
-  ) => Promise<ApolloQueryResult<EnrolmentQuery>>;
+    variables?: Partial<SignupQueryVariables>
+  ) => Promise<ApolloQueryResult<SignupQuery>>;
   registration: RegistrationFieldsFragment;
 };
 
-type EnrolmentFormProps = Omit<EnrolmentFormWrapperProps, 'initialValues'> & {
-  setErrors: (errors: FormikErrors<EnrolmentFormFieldsType>) => void;
+type SignupGroupFormProps = Omit<
+  SignupGroupFormWrapperProps,
+  'initialValues'
+> & {
+  setErrors: (errors: FormikErrors<SignupGroupFormFieldsType>) => void;
   setTouched: (
-    touched: FormikTouched<EnrolmentFormFieldsType>,
+    touched: FormikTouched<SignupGroupFormFieldsType>,
     shouldValidate?: boolean
   ) => void;
-  values: EnrolmentFormFieldsType;
+  values: SignupGroupFormFieldsType;
 };
 
-const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
+const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   disabled,
   enrolment,
   event,
@@ -89,9 +95,9 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const [{ value: attendees }, , { setValue: setAttendees }] = useField<
-    AttendeeFields[]
-  >(ENROLMENT_FIELDS.ATTENDEES);
+  const [{ value: signups }, , { setValue: setSignups }] = useField<
+    SignupFields[]
+  >(SIGNUP_GROUP_FIELDS.SIGNUPS);
   const locale = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
@@ -104,7 +110,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
 
   const {
     cancelEnrolment,
-    createEnrolment,
+    createSignupGroup,
     saving,
     sendMessage,
     updateEnrolment,
@@ -149,7 +155,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
     disableTimerCallbacks();
 
     formSavingDisabled.current = true;
-    clearCreateEnrolmentFormData(registrationId);
+    clearCreateSignupGroupFormData(registrationId);
     clearSeatsReservationData(registrationId);
 
     navigate(
@@ -166,14 +172,14 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
 
   const clearErrors = () => setErrors({});
 
-  const handleCreate = (values: EnrolmentFormFieldsType) => {
-    createEnrolment(values, {
+  const handleCreate = (values: SignupGroupFormFieldsType) => {
+    createSignupGroup(values, {
       onError: (error) => showServerErrors({ error }, 'enrolment'),
       onSuccess: goToEnrolmentsPageAfterCreate,
     });
   };
 
-  const handleUpdate = (values: EnrolmentFormFieldsType) => {
+  const handleUpdate = (values: SignupGroupFormFieldsType) => {
     updateEnrolment(values, {
       onError: (error: any) => showServerErrors({ error }, 'enrolment'),
       onSuccess: async () => {
@@ -188,7 +194,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
       setServerErrorItems([]);
       clearErrors();
 
-      await getEnrolmentSchema(registration).validate(values, {
+      await getSignupGroupSchema(registration).validate(values, {
         abortEarly: false,
       });
 
@@ -236,7 +242,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
       <Form noValidate>
         <FormikPersist
           isSessionStorage={true}
-          name={`${FORM_NAMES.CREATE_ENROLMENT_FORM}-${registration.id}`}
+          name={`${FORM_NAMES.CREATE_SIGNUP_GROUP_FORM}-${registration.id}`}
           restoringDisabled={isRestoringFormDataDisabled({
             enrolment,
             registrationId: getValue(registration.id, ''),
@@ -263,12 +269,12 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
               {isRegistrationPossible(registration) && !enrolment && (
                 <>
                   <ReservationTimer
-                    attendees={attendees}
                     callbacksDisabled={timerCallbacksDisabled.current}
                     disableCallbacks={disableTimerCallbacks}
                     initReservationData={true}
                     registration={registration}
-                    setAttendees={setAttendees}
+                    setSignups={setSignups}
+                    signups={signups}
                   />
                   <Divider />
                 </>
@@ -312,7 +318,7 @@ const EnrolmentForm: React.FC<EnrolmentFormProps> = ({
   );
 };
 
-const EnrolmentFormWrapper: React.FC<EnrolmentFormWrapperProps> = ({
+const SignupGroupFormWrapper: React.FC<SignupGroupFormWrapperProps> = ({
   enrolment,
   initialValues,
   registration,
@@ -322,11 +328,11 @@ const EnrolmentFormWrapper: React.FC<EnrolmentFormWrapperProps> = ({
     <Formik
       initialValues={initialValues}
       onSubmit={/* istanbul ignore next */ () => undefined}
-      validationSchema={() => getEnrolmentSchema(registration)}
+      validationSchema={() => getSignupGroupSchema(registration)}
     >
       {({ setErrors, setTouched, values }) => {
         return (
-          <EnrolmentForm
+          <SignupGroupForm
             enrolment={enrolment}
             registration={registration}
             {...rest}
@@ -340,4 +346,4 @@ const EnrolmentFormWrapper: React.FC<EnrolmentFormWrapperProps> = ({
   );
 };
 
-export default EnrolmentFormWrapper;
+export default SignupGroupFormWrapper;

@@ -6,27 +6,25 @@ import {
   screen,
   userEvent,
 } from '../../../../../../../utils/testUtils';
-import AttendeeAccordion, {
-  AttendeeAccordionProps,
-} from '../AttendeeAccordion';
+import SignupAccordion, { SignupAccordionProps } from '../SignupAccordion';
 
 configure({ defaultHidden: true });
 
 const content = 'Accordion content';
 const toggleButtonLabel = 'Toggle';
 
-const defaultProps: AttendeeAccordionProps = {
+const defaultProps: SignupAccordionProps = {
   inWaitingList: false,
   onClick: jest.fn(),
   open: true,
   toggleButtonLabel,
 };
 
-const renderComponent = (props?: Partial<AttendeeAccordionProps>) =>
+const renderComponent = (props?: Partial<SignupAccordionProps>) =>
   render(
-    <AttendeeAccordion {...defaultProps} {...props}>
+    <SignupAccordion {...defaultProps} {...props}>
       {content}
-    </AttendeeAccordion>
+    </SignupAccordion>
   );
 
 test('should not show content if accordion is not open', async () => {
@@ -43,13 +41,13 @@ test('should show content if accordion is open', async () => {
   screen.getByRole('region', { hidden: false });
 });
 
-test('should not show in waiting list text if attendee is not in waiting list', async () => {
+test('should not show in waiting list text if signup is not in waiting list', async () => {
   renderComponent({ inWaitingList: false, open: true });
 
   expect(screen.queryByText('Varasija')).not.toBeInTheDocument();
 });
 
-test('should show in waiting list text if attendee is in waiting list', async () => {
+test('should show in waiting list text if signup is in waiting list', async () => {
   renderComponent({ inWaitingList: true, open: true });
 
   screen.getByText('Varasija');

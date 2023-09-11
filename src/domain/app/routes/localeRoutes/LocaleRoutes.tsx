@@ -19,8 +19,8 @@ import AdminPageRoutes from '../adminRoutes/AdminRoutes';
 const AttendanceListPage = React.lazy(
   () => import('../../../attendanceList/AttendanceListPage')
 );
-const CreateEnrolmentPage = React.lazy(
-  () => import('../../../enrolment/CreateEnrolmentPage')
+const CreateSignupGroupPage = React.lazy(
+  () => import('../../../signupGroup/CreateSignupGroupPage')
 );
 const CreateEventPage = React.lazy(
   () => import('../../../event/CreateEventPage')
@@ -138,8 +138,8 @@ const LocaleRoutes: React.FC = () => {
                 element={<AttendanceListPage />}
               />
               <Route
-                path={ROUTES.CREATE_ENROLMENT}
-                element={<CreateEnrolmentPage />}
+                path={ROUTES.CREATE_SIGNUP_GROUP}
+                element={<CreateSignupGroupPage />}
               />
               <Route
                 path={ROUTES.EDIT_REGISTRATION_ENROLMENT}

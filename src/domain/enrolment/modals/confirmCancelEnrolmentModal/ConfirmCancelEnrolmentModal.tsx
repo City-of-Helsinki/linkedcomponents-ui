@@ -7,14 +7,14 @@ import ConfirmModal, {
 } from '../../../../common/components/dialog/confirmModal/ConfirmModal';
 import styles from '../../../../common/components/dialog/dialog.module.scss';
 import {
-  EnrolmentFieldsFragment,
   RegistrationFieldsFragment,
+  SignupFieldsFragment,
 } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import { getEnrolmentFields } from '../../../enrolments/utils';
 
 export type ConfirmCancelEnrolmentModalProps = {
-  enrolment: EnrolmentFieldsFragment;
+  enrolment: SignupFieldsFragment;
   registration: RegistrationFieldsFragment;
 } & CommonConfirmModalProps;
 

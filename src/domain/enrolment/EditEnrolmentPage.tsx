@@ -6,12 +6,12 @@ import { useLocation } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
-  EnrolmentFieldsFragment,
-  EnrolmentQuery,
-  EnrolmentQueryVariables,
   EventFieldsFragment,
   RegistrationFieldsFragment,
-  useEnrolmentQuery,
+  SignupFieldsFragment,
+  SignupQuery,
+  SignupQueryVariables,
+  useSignupQuery,
 } from '../../generated/graphql';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
@@ -20,9 +20,9 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
+import EnrolmentForm from '../signupGroup/signupGroupForm/SignupGroupForm';
 import useUser from '../user/hooks/useUser';
 import { ENROLMENT_ACTIONS } from './constants';
-import EnrolmentForm from './enrolmentForm/EnrolmentForm';
 import styles from './enrolmentPage.module.scss';
 import EnrolmentPageBreadcrumb from './enrolmentPageBreadbrumb/EnrolmentPageBreadcrumb';
 import { EnrolmentPageProvider } from './enrolmentPageContext/EnrolmentPageContext';
@@ -31,15 +31,15 @@ import useRegistrationAndEventData from './hooks/useRegistrationAndEventData';
 import {
   checkCanUserDoAction,
   enrolmentPathBuilder,
-  getEnrolmentInitialValues,
+  getSignupGroupInitialValues,
 } from './utils';
 
 type Props = {
-  enrolment: EnrolmentFieldsFragment;
+  enrolment: SignupFieldsFragment;
   event: EventFieldsFragment;
   refetch: (
-    variables?: Partial<EnrolmentQueryVariables>
-  ) => Promise<ApolloQueryResult<EnrolmentQuery>>;
+    variables?: Partial<SignupQueryVariables>
+  ) => Promise<ApolloQueryResult<SignupQuery>>;
   registration: RegistrationFieldsFragment;
 };
 
@@ -61,7 +61,7 @@ const EditEnrolmentPage: React.FC<Props> = ({
   });
 
   const initialValues = React.useMemo(
-    () => getEnrolmentInitialValues(enrolment, registration),
+    () => getSignupGroupInitialValues(enrolment, registration),
     [enrolment, registration]
   );
 
@@ -111,7 +111,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
     data: enrolmentData,
     loading: loadingEnrolment,
     refetch,
-  } = useEnrolmentQuery({
+  } = useSignupQuery({
     skip: !enrolmentId || !user,
     variables: {
       id: getValue(enrolmentId, ''),
@@ -119,7 +119,7 @@ const EditEnrolmentPageWrapper: React.FC = () => {
     },
   });
 
-  const enrolment = enrolmentData?.enrolment;
+  const enrolment = enrolmentData?.signup;
   const loading = loadingRegistrationAndEvent || loadingEnrolment;
 
   return (

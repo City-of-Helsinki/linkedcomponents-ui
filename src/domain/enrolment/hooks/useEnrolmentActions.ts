@@ -6,12 +6,12 @@ import {
 import { useLocation } from 'react-router';
 
 import {
-  CreateEnrolmentMutationInput,
-  EnrolmentFieldsFragment,
+  CreateSignupGroupMutationInput,
   RegistrationFieldsFragment,
   SendMessageMutationInput,
+  SignupFieldsFragment,
   UpdateEnrolmentMutationInput,
-  useCreateEnrolmentMutation,
+  useCreateSignupGroupMutation,
   useDeleteEnrolmentMutation,
   useSendMessageMutation,
   useUpdateEnrolmentMutation,
@@ -21,26 +21,26 @@ import { MutationCallbacks } from '../../../types';
 import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import {
-  clearEnrolmentQueries,
-  clearEnrolmentsQueries,
+  clearSignupQueries,
+  clearSignupsQueries,
 } from '../../app/apollo/clearCacheUtils';
 import { reportError } from '../../app/sentry/utils';
 import { getSeatsReservationData } from '../../reserveSeats/utils';
 import useUser from '../../user/hooks/useUser';
 import { ENROLMENT_ACTIONS, SEND_MESSAGE_FORM_NAME } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { EnrolmentFormFields, SendMessageFormFields } from '../types';
-import { getEnrolmentPayload, getUpdateEnrolmentPayload } from '../utils';
+import { SendMessageFormFields, SignupGroupFormFields } from '../types';
+import { getSignupGroupPayload, getUpdateEnrolmentPayload } from '../utils';
 
 interface Props {
-  enrolment?: EnrolmentFieldsFragment;
+  enrolment?: SignupFieldsFragment;
   registration: RegistrationFieldsFragment;
 }
 
 type UseEnrolmentActionsState = {
   cancelEnrolment: (callbacks?: MutationCallbacks) => Promise<void>;
-  createEnrolment: (
-    values: EnrolmentFormFields,
+  createSignupGroup: (
+    values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
   ) => Promise<void>;
   saving: ENROLMENT_ACTIONS | false;
@@ -50,7 +50,7 @@ type UseEnrolmentActionsState = {
     callbacks?: MutationCallbacks
   ) => Promise<void>;
   updateEnrolment: (
-    values: EnrolmentFormFields,
+    values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
@@ -66,7 +66,7 @@ const useEnrolmentActions = ({
 
   const [saving, setSaving] = useMountedState<ENROLMENT_ACTIONS | false>(false);
 
-  const [createEnrolmentMutation] = useCreateEnrolmentMutation();
+  const [createSignupGroupMutation] = useCreateSignupGroupMutation();
   const [deleteEnrolmentMutation] = useDeleteEnrolmentMutation();
   const [sendMessageMutation] = useSendMessageMutation();
   const [updateEnrolmentMutation] = useUpdateEnrolmentMutation();
@@ -77,9 +77,9 @@ const useEnrolmentActions = ({
 
   const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
-    !isTestEnv && clearEnrolmentQueries(apolloClient);
+    !isTestEnv && clearSignupQueries(apolloClient);
     /* istanbul ignore next */
-    !isTestEnv && clearEnrolmentsQueries(apolloClient);
+    !isTestEnv && clearSignupsQueries(apolloClient);
 
     savingFinished();
     closeModal();
@@ -98,7 +98,7 @@ const useEnrolmentActions = ({
     error: any;
     message: string;
     payload?:
-      | CreateEnrolmentMutationInput
+      | CreateSignupGroupMutationInput
       | SendMessageMutationInput
       | UpdateEnrolmentMutationInput;
   }) => {
@@ -140,8 +140,8 @@ const useEnrolmentActions = ({
     }
   };
 
-  const createEnrolment = async (
-    values: EnrolmentFormFields,
+  const createSignupGroup = async (
+    values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
   ) => {
     setSaving(ENROLMENT_ACTIONS.CREATE);
@@ -149,21 +149,19 @@ const useEnrolmentActions = ({
     const reservationData = getSeatsReservationData(
       getValue(registration.id, '')
     );
-    const payload: CreateEnrolmentMutationInput = getEnrolmentPayload({
+    const payload: CreateSignupGroupMutationInput = getSignupGroupPayload({
       formValues: values,
       registration,
       reservationCode: getValue(reservationData?.code, ''),
     });
 
     try {
-      const { data } = await createEnrolmentMutation({
-        variables: {
-          input: payload,
-        },
+      const { data } = await createSignupGroupMutation({
+        variables: { input: payload },
       });
 
       /* istanbul ignore else */
-      if (data?.createEnrolment) {
+      if (data?.createSignupGroup) {
         await cleanAfterUpdate(callbacks);
       }
     } catch (error) /* istanbul ignore next */ {
@@ -178,7 +176,7 @@ const useEnrolmentActions = ({
   };
 
   const updateEnrolment = async (
-    values: EnrolmentFormFields,
+    values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
   ) => {
     const payload: UpdateEnrolmentMutationInput = getUpdateEnrolmentPayload({
@@ -245,7 +243,7 @@ const useEnrolmentActions = ({
 
   return {
     cancelEnrolment,
-    createEnrolment,
+    createSignupGroup,
     saving,
     sendMessage,
     updateEnrolment,

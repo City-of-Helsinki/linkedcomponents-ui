@@ -1,7 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 
 import {
-  EnrolmentQueryVariables,
   ImageQueryVariables,
   ImagesQueryVariables,
   KeywordQueryVariables,
@@ -9,22 +8,8 @@ import {
   OrganizationQueryVariables,
   PlaceQueryVariables,
   RegistrationQueryVariables,
+  SignupQueryVariables,
 } from '../../../generated/graphql';
-
-export const clearEnrolmentQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>,
-  args?: EnrolmentQueryVariables
-): boolean =>
-  apolloClient.cache.evict({
-    id: 'ROOT_QUERY',
-    fieldName: 'enrolment',
-    args,
-  });
-
-export const clearEnrolmentsQueries = (
-  apolloClient: ApolloClient<NormalizedCacheObject>
-): boolean =>
-  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'enrolments' });
 
 export const clearEventsQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>
@@ -136,3 +121,18 @@ export const clearRegistrationsQueries = (
     id: 'ROOT_QUERY',
     fieldName: 'registrations',
   });
+
+export const clearSignupQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>,
+  args?: SignupQueryVariables
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'signup',
+    args,
+  });
+
+export const clearSignupsQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>
+): boolean =>
+  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'signups' });

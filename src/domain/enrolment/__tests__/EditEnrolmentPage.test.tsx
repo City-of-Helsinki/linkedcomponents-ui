@@ -26,14 +26,14 @@ import {
 } from '../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
-  enrolment,
-  enrolmentId,
   mockedCancelEnrolmentResponse,
   mockedEnrolmentResponse,
   mockedInvalidUpdateEnrolmentResponse,
   mockedSendMessageResponse,
   mockedUpdateEnrolmentResponse,
   sendMessageValues,
+  signup,
+  signupId,
 } from '../__mocks__/editEnrolmentPage';
 import EditEnrolmentPage from '../EditEnrolmentPage';
 
@@ -124,7 +124,7 @@ const defaultMocks = [
 const route = ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
   ':registrationId',
   registrationId
-).replace(':enrolmentId', enrolmentId);
+).replace(':enrolmentId', signupId);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditEnrolmentPage />, {
@@ -157,11 +157,11 @@ test('should initialize input fields', async () => {
   const phoneInput = getElement('phoneInput');
   const emailCheckbox = getElement('emailCheckbox');
 
-  await waitFor(() => expect(firstNameInput).toHaveValue(enrolment.firstName));
-  expect(lastNameInput).toHaveValue(enrolment.lastName);
-  expect(cityInput).toHaveValue(enrolment.city);
-  expect(emailInput).toHaveValue(enrolment.email);
-  expect(phoneInput).toHaveValue(enrolment.phoneNumber);
+  await waitFor(() => expect(firstNameInput).toHaveValue(signup.firstName));
+  expect(lastNameInput).toHaveValue(signup.lastName);
+  expect(cityInput).toHaveValue(signup.city);
+  expect(emailInput).toHaveValue(signup.email);
+  expect(phoneInput).toHaveValue(signup.phoneNumber);
   expect(emailCheckbox).toBeChecked();
 });
 

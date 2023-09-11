@@ -2,7 +2,6 @@ import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import {
   DataSource,
   Division,
-  Enrolment,
   Event,
   ExternalLink,
   Image,
@@ -18,6 +17,7 @@ import {
   Position,
   Registration,
   RegistrationUserAccess,
+  Signup,
   User,
 } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
@@ -40,16 +40,6 @@ export const addTypenameDivision = (
         ...division,
         name: addTypenameLocalisedObject(division.name),
         __typename: 'Division',
-      }
-    : null;
-
-export const addTypenameEnrolment = (
-  enrolment?: Enrolment | null
-): Enrolment | null =>
-  enrolment
-    ? {
-        ...enrolment,
-        __typename: 'Enrolment',
       }
     : null;
 
@@ -231,11 +221,17 @@ export const addTypenameRegistration = (
           (ru) => addTypenameRegistrationUserAccess(ru)
         ),
         signups: Array.isArray(registration.signups)
-          ? registration.signups.map((enrolment) =>
-              addTypenameEnrolment(enrolment)
-            )
+          ? registration.signups.map((signup) => addTypenameSignup(signup))
           : [],
         __typename: 'Registration',
+      }
+    : null;
+
+export const addTypenameSignup = (signup?: Signup | null): Signup | null =>
+  signup
+    ? {
+        ...signup,
+        __typename: 'Signup',
       }
     : null;
 

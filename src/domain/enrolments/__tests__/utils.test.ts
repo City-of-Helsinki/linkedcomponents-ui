@@ -1,15 +1,15 @@
 import {
   AttendeeStatus,
-  EnrolmentsQueryVariables,
+  SignupsQueryVariables,
 } from '../../../generated/graphql';
-import { fakeEnrolment, fakeRegistration } from '../../../utils/mockDataUtils';
+import { fakeRegistration, fakeSignup } from '../../../utils/mockDataUtils';
 import { registrationId } from '../../registration/__mocks__/registration';
 import { enrolmentsPathBuilder, getEnrolmentFields } from '../utils';
 
 describe('getEnrolmentFields function', () => {
   it('should return default values if value is not set', () => {
     const { email, firstName, id, lastName, phoneNumber } = getEnrolmentFields({
-      enrolment: fakeEnrolment({
+      enrolment: fakeSignup({
         email: null,
         firstName: null,
         id: '',
@@ -29,7 +29,7 @@ describe('getEnrolmentFields function', () => {
 });
 
 describe('enrolmentsPathBuilder function', () => {
-  const cases: [EnrolmentsQueryVariables, string][] = [
+  const cases: [SignupsQueryVariables, string][] = [
     [
       { attendeeStatus: AttendeeStatus.Attending },
       `/signup/?attendee_status=attending`,

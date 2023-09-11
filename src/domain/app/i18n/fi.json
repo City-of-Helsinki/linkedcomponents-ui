@@ -77,10 +77,6 @@
       "toggleButtonAriaLabel": "Valikko"
     },
     "cookieConsent": {
-      "enrolmentForm": {
-        "description": "Osallistumislomakkeen tietojen säilymiseksi vaadittu eväste",
-        "name": "Osallistumislomakkeen eväste"
-      },
       "eventForm": {
         "description": "Tapahtumalomakkeen tietojen säilymiseksi vaadittu eväste",
         "name": "Tapahtumalomakkeen eväste"
@@ -91,6 +87,10 @@
       "registrationForm": {
         "description": "Ilmoittautumislomakkeen tietojen säilymiseksi vaadittu eväste",
         "name": "Ilmoittautumislomakkeen eväste"
+      },
+      "signupForm": {
+        "description": "Osallistumislomakkeen tietojen säilymiseksi vaadittu eväste",
+        "name": "Osallistumislomakkeen eväste"
       },
       "siteName": "Linked Events"
     },
@@ -242,9 +242,6 @@
     },
     "warning": "Varoitus!"
   },
-  "createEnrolmentPage": {
-    "pageTitle": "Lisää osallistuja"
-  },
   "createEventPage": {
     "pageTitle": {
       "course": "Uusi kurssi",
@@ -285,6 +282,9 @@
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
     "title": "Uusi ilmoittautuminen"
+  },
+  "createSignupGroupPage": {
+    "pageTitle": "Lisää osallistuja"
   },
   "editEnrolmentPage": {
     "pageTitle": "Muokkaa osallistujaa"
@@ -341,13 +341,11 @@
       "title_other": "Vahvista osallistujien poistaminen"
     },
     "form": {
-      "attendeeDefaultTitle": "Osallistuja {{index}}",
-      "buttonDeleteAttendee": "Poista osallistuja",
+      "buttonDeleteSignup": "Poista osallistuja",
       "buttonSave": "Tallenna osallistuja",
       "buttonUpdateParticipantAmount": "Päivitä",
       "freeAttendeeCapacity": "Saatavilla olevia paikkoja",
       "freeWaitingListCapacity": "Saatavilla olevia jonopaikkoja",
-      "labelAttendeeExtraInfo": "Lisätietoa (valinnainen)",
       "labelCity": "Kaupunki",
       "labelDateOfBirth": "Syntymäaika",
       "labelEmail": "Sähköpostiosoite",
@@ -360,10 +358,10 @@
       "labelPhoneNumber": "Puhelinnumero",
       "labelRegistration": "Ilmoittautuminen",
       "labelServiceLanguage": "Asiointikieli",
+      "labelSignupExtraInfo": "Lisätietoa (valinnainen)",
       "labelStreetAddress": "Katuosoite",
       "labelZipcode": "Postinumero",
       "notificationTitleCannotEdit": "Osallistujia ei voi muokata",
-      "placeholderAttendeeExtraInfo": "Syötä mahdollinen lisätieto tai toive",
       "placeholderCity": "Syötä kaupunki",
       "placeholderEmail": "Syötä sähköpostiosoite",
       "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
@@ -373,8 +371,10 @@
       "placeholderNativeLanguage": "Valitse äidinkieli",
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderServiceLanguage": "Valitse asiointikieli",
+      "placeholderSignupExtraInfo": "Syötä mahdollinen lisätieto tai toive",
       "placeholderStreetAddress": "Syötä katuosoite",
       "placeholderZipcode": "Syötä postinumero",
+      "signupDefaultTitle": "Osallistuja {{index}}",
       "timeLeft": "Aikaa jäljellä ilmoittautumisen tekoon",
       "titleAdditionalInfo": "Lisätiedot",
       "titleBasicInfo": "Ilmoittautujan perustiedot",

@@ -10,7 +10,7 @@ import TextInputField from '../../../../common/components/formFields/textInputFi
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import LoadingButton from '../../../../common/components/loadingButton/LoadingButton';
 import { VALIDATION_ERROR_SCROLLER_OPTIONS } from '../../../../constants';
-import { EnrolmentFieldsFragment } from '../../../../generated/graphql';
+import { SignupFieldsFragment } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
 import { showFormErrors } from '../../../../utils/validationUtils';
 import { SEND_MESSAGE_FIELDS, SEND_MESSAGE_FORM_NAME } from '../../constants';
@@ -18,7 +18,7 @@ import { SendMessageFormFields } from '../../types';
 import { sendMessageSchema } from '../../validation';
 
 export interface SendMessageModalProps {
-  enrolment?: EnrolmentFieldsFragment;
+  enrolment?: SignupFieldsFragment;
   focusAfterCloseElement?: HTMLElement;
   isOpen: boolean;
   isSaving: boolean;
