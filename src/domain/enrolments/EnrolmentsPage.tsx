@@ -27,10 +27,7 @@ import { useEnrolmentPageContext } from '../enrolment/enrolmentPageContext/hooks
 import useEnrolmentActions from '../enrolment/hooks/useEnrolmentActions';
 import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import SendMessageModal from '../enrolment/modals/sendMessageModal/SendMessageModal';
-import {
-  clearCreateSignupGroupFormData,
-  getEditButtonProps as getEnrolmentEditButtonProps,
-} from '../enrolment/utils';
+import { getEditButtonProps as getEnrolmentEditButtonProps } from '../enrolment/utils';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import {
@@ -38,7 +35,8 @@ import {
   getRegistrationFields,
 } from '../registration/utils';
 import { REGISTRATION_ACTIONS } from '../registrations/constants';
-import { clearSeatsReservationData } from '../reserveSeats/utils';
+import { clearSeatsReservationData } from '../seatsReservation/utils';
+import { clearCreateSignupGroupFormData } from '../signupGroup/utils';
 import useUser from '../user/hooks/useUser';
 import AttendeeList from './attendeeList/AttendeeList';
 import ButtonPanel from './buttonPanel/ButtonPanel';

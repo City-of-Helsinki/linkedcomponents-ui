@@ -30,7 +30,7 @@ interface NavigationItem {
 const NO_NAV_ROW_PATHS = [
   { pathname: ROUTES.EDIT_EVENT },
   { pathname: ROUTES.EDIT_REGISTRATION },
-  { pathname: ROUTES.EDIT_REGISTRATION_ENROLMENT },
+  { pathname: ROUTES.EDIT_SIGNUP_GROUP },
   { pathname: ROUTES.REGISTRATION_ENROLMENTS },
 ];
 

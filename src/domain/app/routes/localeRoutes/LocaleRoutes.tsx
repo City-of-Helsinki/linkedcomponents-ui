@@ -19,21 +19,22 @@ import AdminPageRoutes from '../adminRoutes/AdminRoutes';
 const AttendanceListPage = React.lazy(
   () => import('../../../attendanceList/AttendanceListPage')
 );
-const CreateSignupGroupPage = React.lazy(
-  () => import('../../../signupGroup/CreateSignupGroupPage')
-);
 const CreateEventPage = React.lazy(
   () => import('../../../event/CreateEventPage')
 );
 const CreateRegistrationPage = React.lazy(
   () => import('../../../registration/CreateRegistrationPage')
 );
-const EditEnrolmentPage = React.lazy(
-  () => import('../../../enrolment/EditEnrolmentPage')
+const CreateSignupGroupPage = React.lazy(
+  () => import('../../../signupGroup/CreateSignupGroupPage')
 );
+
 const EditEventPage = React.lazy(() => import('../../../event/EditEventPage'));
 const EditRegistrationPage = React.lazy(
   () => import('../../../registration/EditRegistrationPage')
+);
+const EditSignupGroupPage = React.lazy(
+  () => import('../../../signupGroup/EditSignupGroupPage')
 );
 const EnrolmentsPage = React.lazy(
   () => import('../../../enrolments/EnrolmentsPage')
@@ -142,8 +143,8 @@ const LocaleRoutes: React.FC = () => {
                 element={<CreateSignupGroupPage />}
               />
               <Route
-                path={ROUTES.EDIT_REGISTRATION_ENROLMENT}
-                element={<EditEnrolmentPage />}
+                path={ROUTES.EDIT_SIGNUP_GROUP}
+                element={<EditSignupGroupPage />}
               />
             </>
           )}

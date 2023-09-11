@@ -13,7 +13,7 @@ import {
   getLanguageOption,
   languagesPathBuilder,
   sortLanguageOptions,
-} from '../../language/utils';
+} from '../utils';
 
 const useLanguageOptions = ({
   variables,

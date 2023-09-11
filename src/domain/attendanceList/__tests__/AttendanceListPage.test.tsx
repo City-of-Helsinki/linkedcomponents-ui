@@ -23,7 +23,7 @@ import {
   registrationId,
   signupNames,
 } from '../__mocks__/attendanceListPage';
-import EditRegistrationPage from '../AttendanceListPage';
+import AttendanceListPage from '../AttendanceListPage';
 
 configure({ defaultHidden: true });
 
@@ -43,7 +43,7 @@ const renderComponent = (
   mocks: MockedResponse[] = baseMocks,
   renderOptions?: CustomRenderOptions
 ) =>
-  renderWithRoute(<EditRegistrationPage />, {
+  renderWithRoute(<AttendanceListPage />, {
     authContextValue,
     mocks,
     routes: [route],

@@ -11,8 +11,8 @@ import MenuDropdown from '../../../../../common/components/menuDropdown/MenuDrop
 import { MenuItemOptionProps } from '../../../../../common/components/menuDropdown/types';
 import useIdWithPrefix from '../../../../../hooks/useIdWithPrefix';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
-import useLanguageOptions from '../../../../enrolment/hooks/useLanguageOptions';
 import FieldWithButton from '../../../../event/layout/FieldWithButton';
+import useLanguageOptions from '../../../../language/hooks/useLanguageOptions';
 import { REGISTRATION_USER_ACCESS_ACTIONS } from '../../../../registrationUserAccess/constants';
 // eslint-disable-next-line max-len
 import useRegistrationUserAccessActions from '../../../../registrationUserAccess/hooks/useRegistrationUserAccessActions';

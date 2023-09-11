@@ -3,7 +3,6 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { useLocation } from 'react-router';
 
 import {
   CreateSignupGroupMutationInput,
@@ -11,11 +10,11 @@ import {
   SendMessageMutationInput,
   SignupFieldsFragment,
   UpdateEnrolmentMutationInput,
-  useCreateSignupGroupMutation,
   useDeleteEnrolmentMutation,
   useSendMessageMutation,
   useUpdateEnrolmentMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import getValue from '../../../utils/getValue';
@@ -24,13 +23,11 @@ import {
   clearSignupQueries,
   clearSignupsQueries,
 } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
-import { getSeatsReservationData } from '../../reserveSeats/utils';
-import useUser from '../../user/hooks/useUser';
+import { SignupGroupFormFields } from '../../signupGroup/types';
 import { ENROLMENT_ACTIONS, SEND_MESSAGE_FORM_NAME } from '../constants';
 import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { SendMessageFormFields, SignupGroupFormFields } from '../types';
-import { getSignupGroupPayload, getUpdateEnrolmentPayload } from '../utils';
+import { SendMessageFormFields } from '../types';
+import { getUpdateEnrolmentPayload } from '../utils';
 
 interface Props {
   enrolment?: SignupFieldsFragment;
@@ -39,10 +36,6 @@ interface Props {
 
 type UseEnrolmentActionsState = {
   cancelEnrolment: (callbacks?: MutationCallbacks) => Promise<void>;
-  createSignupGroup: (
-    values: SignupGroupFormFields,
-    callbacks?: MutationCallbacks
-  ) => Promise<void>;
   saving: ENROLMENT_ACTIONS | false;
   sendMessage: (
     values: SendMessageFormFields,
@@ -59,14 +52,11 @@ const useEnrolmentActions = ({
   registration,
 }: Props): UseEnrolmentActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { user } = useUser();
-  const location = useLocation();
 
   const { closeModal } = useEnrolmentPageContext();
 
   const [saving, setSaving] = useMountedState<ENROLMENT_ACTIONS | false>(false);
 
-  const [createSignupGroupMutation] = useCreateSignupGroupMutation();
   const [deleteEnrolmentMutation] = useDeleteEnrolmentMutation();
   const [sendMessageMutation] = useSendMessageMutation();
   const [updateEnrolmentMutation] = useUpdateEnrolmentMutation();
@@ -74,6 +64,13 @@ const useEnrolmentActions = ({
   const savingFinished = () => {
     setSaving(false);
   };
+
+  const { handleError } = useHandleError<
+    | CreateSignupGroupMutationInput
+    | SendMessageMutationInput
+    | UpdateEnrolmentMutationInput,
+    SignupFieldsFragment
+  >();
 
   const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
@@ -85,39 +82,6 @@ const useEnrolmentActions = ({
     closeModal();
     // Call callback function if defined
     await (callbacks?.onSuccess && callbacks.onSuccess());
-  };
-
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?:
-      | CreateSignupGroupMutationInput
-      | SendMessageMutationInput
-      | UpdateEnrolmentMutationInput;
-  }) => {
-    savingFinished();
-
-    // Report error to Sentry
-    reportError({
-      data: {
-        error,
-        payloadAsString: payload && JSON.stringify(payload),
-        enrolment,
-      },
-      location,
-      message,
-      user,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
   };
 
   const cancelEnrolment = async (callbacks?: MutationCallbacks) => {
@@ -136,41 +100,7 @@ const useEnrolmentActions = ({
         callbacks,
         error,
         message: 'Failed to cancel enrolment',
-      });
-    }
-  };
-
-  const createSignupGroup = async (
-    values: SignupGroupFormFields,
-    callbacks?: MutationCallbacks
-  ) => {
-    setSaving(ENROLMENT_ACTIONS.CREATE);
-
-    const reservationData = getSeatsReservationData(
-      getValue(registration.id, '')
-    );
-    const payload: CreateSignupGroupMutationInput = getSignupGroupPayload({
-      formValues: values,
-      registration,
-      reservationCode: getValue(reservationData?.code, ''),
-    });
-
-    try {
-      const { data } = await createSignupGroupMutation({
-        variables: { input: payload },
-      });
-
-      /* istanbul ignore else */
-      if (data?.createSignupGroup) {
-        await cleanAfterUpdate(callbacks);
-      }
-    } catch (error) /* istanbul ignore next */ {
-      // Report error to Sentry
-      handleError({
-        callbacks,
-        error,
-        message: 'Failed to create enrolment',
-        payload,
+        savingFinished,
       });
     }
   };
@@ -202,6 +132,7 @@ const useEnrolmentActions = ({
         error,
         message: 'Failed to update enrolment',
         payload,
+        savingFinished,
       });
     }
   };
@@ -237,13 +168,13 @@ const useEnrolmentActions = ({
         error,
         message: 'Failed to send message',
         payload,
+        savingFinished,
       });
     }
   };
 
   return {
     cancelEnrolment,
-    createSignupGroup,
     saving,
     sendMessage,
     updateEnrolment,

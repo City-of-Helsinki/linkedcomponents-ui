@@ -38,7 +38,9 @@
     "noRightsUpdatePlace": "You do not have permission to edit places.",
     "noRightsUpdatePlaceLabel": "No permissions to edit places.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
-    "noRightsUpdateRegistrationLabel": "No permissions to edit registrations"
+    "noRightsUpdateRegistrationLabel": "No permissions to edit registrations",
+    "noRightsUpdateSignupGroup": "You do not have permission to edit participants.",
+    "noRightsUpdateSignupGroupLabel": "No permissions to edit participants."
   },
   "authenticationNotification": {
     "button": "sign in",
@@ -283,7 +285,8 @@
     "title": "New registration"
   },
   "createSignupGroupPage": {
-    "pageTitle": "Add participant"
+    "pageTitle": "Add participants",
+    "title": "Add participants"
   },
   "editEnrolmentPage": {
     "pageTitle": "Edit participant"
@@ -318,6 +321,10 @@
   "editRegistrationPage": {
     "pageTitle": "Edit registration",
     "title": "Edit registration"
+  },
+  "editSignupGroupPage": {
+    "pageTitle": "Edit participants",
+    "title": "Edit participants"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1912,5 +1919,19 @@
     "required": "This field cannot be left blank.",
     "requiredWhenPublishing": "This field must be specified before an event is published.",
     "shortDescriptionTooLong": "Short description length must be 160 characters or less."
+  },
+  "signupGroup": {
+    "actionButtons": {
+      "edit": "Edit information"
+    },
+    "form": {
+      "buttonCreate": "Save participants",
+      "buttonUpdate": "Save participants"
+    },
+    "warnings": {
+      "noRightsToCreate": "You have insufficient rights to create participants to this registration.",
+      "noRightsToEdit": "You have insufficient rights to edit participants.",
+      "noRightsToView": "You have insufficient rights to view participants of this registration."
+    }
   }
 }

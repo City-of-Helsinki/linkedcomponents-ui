@@ -13,14 +13,16 @@ import {
   fakeSignups,
 } from '../../../utils/mockDataUtils';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
+import { TEST_SIGNUP_GROUP_ID } from '../../signupGroup/constants';
 import { ENROLMENTS_PAGE_SIZE } from '../constants';
 
 const registrationId = TEST_REGISTRATION_ID;
+const signupGroupId = TEST_SIGNUP_GROUP_ID;
+
 const attendeeNames = range(1, 2 * ENROLMENTS_PAGE_SIZE + 1).map((n) => ({
   firstName: `Attendee`,
   lastName: `User ${n}`,
 }));
-
 const attendees = fakeSignups(
   attendeeNames.length,
   attendeeNames.map(({ firstName, lastName }, index) => ({
@@ -28,6 +30,16 @@ const attendees = fakeSignups(
     id: `attending:${index}`,
     firstName,
     lastName,
+  }))
+);
+const attendeesWithGroup = fakeSignups(
+  attendeeNames.length,
+  attendeeNames.map(({ firstName, lastName }, index) => ({
+    attendeeStatus: AttendeeStatus.Attending,
+    id: `attending:${index}`,
+    firstName,
+    lastName,
+    signupGroup: signupGroupId,
   }))
 );
 
@@ -72,9 +84,7 @@ const waitingAttendees = fakeSignups(
 
 const mockedWaitingAttendeesResponse = getMockedAttendeesResponse(
   waitingAttendees,
-  {
-    attendeeStatus: AttendeeStatus.Waitlisted,
-  }
+  { attendeeStatus: AttendeeStatus.Waitlisted }
 );
 
 const sendMessageValues = {
@@ -96,21 +106,20 @@ const sendMessageResponse = {
 };
 
 const mockedSendMessageResponse: MockedResponse = {
-  request: {
-    query: SendMessageDocument,
-    variables: sendMessageVariables,
-  },
+  request: { query: SendMessageDocument, variables: sendMessageVariables },
   result: sendMessageResponse,
 };
 
 export {
   attendeeNames,
   attendees,
+  attendeesWithGroup,
   getMockedAttendeesResponse,
   mockedAttendeesResponse,
   mockedSendMessageResponse,
   mockedWaitingAttendeesResponse,
   sendMessageValues,
+  signupGroupId,
   waitingAttendeeNames,
   waitingAttendees,
 };

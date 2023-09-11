@@ -38,7 +38,9 @@
     "noRightsUpdatePlace": "Du har inte behörighet att redigera platser.",
     "noRightsUpdatePlaceLabel": "Inga rättigheter att redigera platser",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
-    "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar"
+    "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar",
+    "noRightsUpdateSignupGroup": "Du har inte behörighet att redigera deltagare.",
+    "noRightsUpdateSignupGroupLabel": "Inga rättigheter att redigera deltagare"
   },
   "authenticationMethod": {
     "espooEmployee": "Stad Esbo anställd ID",
@@ -284,7 +286,8 @@
     "title": "Ny registrering"
   },
   "createSignupGroupPage": {
-    "pageTitle": "Lägg till deltagare"
+    "pageTitle": "Lägg till deltagare",
+    "title": "Lägg till deltagare"
   },
   "editEnrolmentPage": {
     "pageTitle": "Redigera deltagare"
@@ -319,6 +322,10 @@
   "editRegistrationPage": {
     "pageTitle": "Redigera registrering",
     "title": "Redigera registrering"
+  },
+  "editSignupGroupPage": {
+    "pageTitle": "Redigera deltagare",
+    "title": "Redigera deltagare"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1912,5 +1919,19 @@
     "required": "Det här fältet kan inte lämnas tomt.",
     "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",
     "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre."
+  },
+  "signupGroup": {
+    "actionButtons": {
+      "edit": "Redigera information"
+    },
+    "form": {
+      "buttonCreate": "Rädda deltagare",
+      "buttonUpdate": "Rädda deltagare"
+    },
+    "warnings": {
+      "noRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
+      "noRightsToEdit": "Du har otillräckliga rättigheter att redigera deltagare.",
+      "noRightsToView": "Du har inte tillräckliga rättigheter att se deltagare i denna registrering."
+    }
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
@@ -19,11 +20,11 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
+import { EnrolmentServerErrorsProvider } from '../../../enrolment/enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import { registration } from '../../../registration/__mocks__/registration';
-import { TEST_SEATS_RESERVATION_CODE } from '../../../reserveSeats/constants';
+import { TEST_SEATS_RESERVATION_CODE } from '../../../seatsReservation/constants';
 import { SIGNUP_INITIAL_VALUES } from '../../constants';
-import { EnrolmentPageProvider } from '../../enrolmentPageContext/EnrolmentPageContext';
-import { EnrolmentServerErrorsProvider } from '../../enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import ParticipantAmountSelector from '../ParticipantAmountSelector';
 
 const renderComponent = (mocks: MockedResponse[] = []) =>

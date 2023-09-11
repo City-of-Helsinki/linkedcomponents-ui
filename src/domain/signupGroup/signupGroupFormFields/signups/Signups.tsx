@@ -6,21 +6,22 @@ import { useLocation } from 'react-router';
 import {
   RegistrationFieldsFragment,
   SeatsReservation,
+  SignupGroupFieldsFragment,
   UpdateSeatsReservationMutationInput,
   useUpdateSeatsReservationMutation,
 } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
 import { reportError } from '../../../app/sentry/utils';
-import { SIGNUP_GROUP_FIELDS } from '../../../enrolment/constants';
 import { useEnrolmentServerErrorsContext } from '../../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
-import ConfirmDeleteParticipantModal from '../../../enrolment/modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
-import { SignupFields } from '../../../enrolment/types';
-import { getNewSignups } from '../../../enrolment/utils';
 import {
   getSeatsReservationData,
   setSeatsReservationData,
-} from '../../../reserveSeats/utils';
+} from '../../../seatsReservation/utils';
 import useUser from '../../../user/hooks/useUser';
+import { SIGNUP_GROUP_FIELDS } from '../../constants';
+import ConfirmDeleteParticipantModal from '../../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
+import { SignupFields } from '../../types';
+import { getNewSignups } from '../../utils';
 import Signup from './signup/Signup';
 import styles from './signups.module.scss';
 
@@ -30,9 +31,10 @@ const getSignupPath = (index: number) =>
 interface Props {
   disabled?: boolean;
   registration: RegistrationFieldsFragment;
+  signupGroup?: SignupGroupFieldsFragment;
 }
 
-const Signups: React.FC<Props> = ({ disabled, registration }) => {
+const Signups: React.FC<Props> = ({ disabled, registration, signupGroup }) => {
   const [openModalIndex, setOpenModalIndex] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -76,7 +78,6 @@ const Signups: React.FC<Props> = ({ disabled, registration }) => {
       });
       const seatsReservation = data?.updateSeatsReservation as SeatsReservation;
       const newSignups = getNewSignups({
-        registration,
         seatsReservation,
         signups: signups.filter((_, index) => index !== indexToRemove),
       });
@@ -139,7 +140,7 @@ const Signups: React.FC<Props> = ({ disabled, registration }) => {
                     index={index}
                     onDelete={openModal}
                     registration={registration}
-                    showDelete={signups.length > 1}
+                    showDelete={!signupGroup && signups.length > 1}
                     signup={signup}
                     signupPath={getSignupPath(index)}
                   />

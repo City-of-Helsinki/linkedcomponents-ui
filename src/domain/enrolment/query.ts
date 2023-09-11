@@ -25,6 +25,7 @@ export const QUERY_SIGNUP = gql`
     presenceStatus
     responsibleForGroup
     serviceLanguage
+    signupGroup
     streetAddress
     zipcode
   }

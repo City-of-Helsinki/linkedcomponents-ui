@@ -38,7 +38,9 @@
     "noRightsUpdatePlace": "Sinulla ei ole oikeuksia muokata paikkoja.",
     "noRightsUpdatePlaceLabel": "Ei oikeuksia muokata paikkoja.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
-    "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia."
+    "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia.",
+    "noRightsUpdateSignupGroup": "Sinulla ei ole oikeuksia muokata osallistujia.",
+    "noRightsUpdateSignupGroupLabel": "Ei oikeuksia muokata osallistujia."
   },
   "authenticationMethod": {
     "espooEmployee": "Espoon kaupungin työntekijä -tunnus",
@@ -284,7 +286,8 @@
     "title": "Uusi ilmoittautuminen"
   },
   "createSignupGroupPage": {
-    "pageTitle": "Lisää osallistuja"
+    "pageTitle": "Lisää osallistujia",
+    "title": "Lisää osallistujia"
   },
   "editEnrolmentPage": {
     "pageTitle": "Muokkaa osallistujaa"
@@ -319,6 +322,10 @@
   "editRegistrationPage": {
     "pageTitle": "Muokkaa ilmoittautumista",
     "title": "Muokkaa ilmoittautumista"
+  },
+  "editSignupGroupPage": {
+    "pageTitle": "Muokkaa osallistujia",
+    "title": "Muokkaa osallistujia"
   },
   "enrolment": {
     "attendeeStatus": {
@@ -1912,5 +1919,19 @@
     "required": "Tämä kenttä ei voi olla tyhjä.",
     "requiredWhenPublishing": "Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.",
     "shortDescriptionTooLong": "Lyhyen kuvauksen pituus saa olla enintään 160 merkkiä."
+  },
+  "signupGroup": {
+    "actionButtons": {
+      "edit": "Muokkaa tietoja"
+    },
+    "form": {
+      "buttonCreate": "Tallenna osallistujat",
+      "buttonUpdate": "Tallenna osallistujat"
+    },
+    "warnings": {
+      "noRightsToCreate": "Sinulla ei ole oikeuksia lisätä osallistujia tähän ilmoittautumiseen.",
+      "noRightsToEdit": "Sinulla ei ole oikeuksia muokata osallistujia.",
+      "noRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."
+    }
   }
 }

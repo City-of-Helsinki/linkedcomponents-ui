@@ -38,7 +38,7 @@ const mocks = [
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultRoute = `/fi/${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
+const defaultRoute = `/fi/${ROUTES.EDIT_SIGNUP_GROUP.replace(
   ':registrationId',
   registrationId
 ).replace(':enrolmentId', enrolment.id)}`;
@@ -133,7 +133,7 @@ test('should route to enrolments page when clicking back button', async () => {
 test('should route to page defined in returnPath when clicking back button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({
-    route: `/fi${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
+    route: `/fi${ROUTES.EDIT_SIGNUP_GROUP.replace(
       ':registrationId',
       registrationId
     )}?returnPath=${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`,

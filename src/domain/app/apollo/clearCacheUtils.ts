@@ -136,3 +136,18 @@ export const clearSignupsQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>
 ): boolean =>
   apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'signups' });
+
+export const clearSignupGroupQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>,
+  args?: SignupQueryVariables
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'signupGroup',
+    args,
+  });
+
+export const clearSignupGroupsQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>
+): boolean =>
+  apolloClient.cache.evict({ id: 'ROOT_QUERY', fieldName: 'signupGroups' });

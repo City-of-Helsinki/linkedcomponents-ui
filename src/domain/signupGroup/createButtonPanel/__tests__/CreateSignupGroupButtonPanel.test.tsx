@@ -16,18 +16,17 @@ import {
   registrationId,
 } from '../../../registration/__mocks__/registration';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import { EnrolmentPageProvider } from '../../enrolmentPageContext/EnrolmentPageContext';
-import CreateButtonPanel, {
-  CreateButtonPanelProps,
-} from '../CreateButtonPanel';
+import CreateSignupGroupButtonPanel, {
+  CreateSignupGroupButtonPanelProps,
+} from '../CreateSignupGroupButtonPanel';
 
 configure({ defaultHidden: true });
 
-const defaultProps: CreateButtonPanelProps = {
+const defaultProps: CreateSignupGroupButtonPanelProps = {
   disabled: false,
-  onSave: jest.fn(),
+  onCreate: jest.fn(),
   registration,
-  saving: false,
+  saving: null,
 };
 
 const mocks = [
@@ -45,37 +44,28 @@ const renderComponent = ({
     registrationId
   )}`,
 }: {
-  props?: Partial<CreateButtonPanelProps>;
+  props?: Partial<CreateSignupGroupButtonPanelProps>;
   route?: string;
 } = {}) =>
-  render(
-    <EnrolmentPageProvider>
-      <CreateButtonPanel {...defaultProps} {...props} />
-    </EnrolmentPageProvider>,
-    {
-      authContextValue,
-      mocks,
-      routes: [route],
-    }
-  );
+  render(<CreateSignupGroupButtonPanel {...defaultProps} {...props} />, {
+    authContextValue,
+    mocks,
+    routes: [route],
+  });
 
-const findElement = (key: 'saveButton') => {
-  switch (key) {
-    case 'saveButton':
-      return screen.findByRole('button', { name: 'Tallenna osallistuja' });
-  }
-};
+const findSaveButton = () =>
+  screen.findByRole('button', { name: 'Tallenna osallistujat' });
 
 const getElement = (key: 'back' | 'saveButton') => {
   switch (key) {
     case 'back':
       return screen.getByRole('button', { name: 'Takaisin' });
     case 'saveButton':
-      return screen.getByRole('button', { name: 'Tallenna osallistuja' });
+      return screen.getByRole('button', { name: 'Tallenna osallistujat' });
   }
 };
 
-test('should route to enrolments page when clicking back button', async () => {
+test('should route to signups page when clicking back button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
@@ -108,14 +98,14 @@ test('should route to page defined in returnPath when clicking back button', asy
   );
 });
 
-test('should call onSave', async () => {
-  const onSave = jest.fn();
+test('should call onCreate', async () => {
+  const onCreate = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ props: { onSave } });
+  renderComponent({ props: { onCreate } });
 
-  const saveButton = await findElement('saveButton');
+  const saveButton = await findSaveButton();
   await waitFor(() => expect(saveButton).toBeEnabled());
   await user.click(saveButton);
 
-  expect(onSave).toBeCalled();
+  expect(onCreate).toBeCalled();
 });

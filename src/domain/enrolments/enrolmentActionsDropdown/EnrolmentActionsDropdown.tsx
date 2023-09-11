@@ -2,6 +2,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
@@ -46,7 +47,7 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { pathname, search } = useLocation();
   const { id: registrationId } = getRegistrationFields(registration, locale);
-  const { id } = getEnrolmentFields({
+  const { signupGroup } = getEnrolmentFields({
     enrolment,
     language: locale,
     registration,
@@ -60,18 +61,22 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
     registration,
   });
 
-  const goToEditEnrolmentPage = () => {
+  const goToEditPage = () => {
     const queryString = addParamsToRegistrationQueryString(search, {
       returnPath: pathname,
     });
 
-    navigate({
-      pathname: `/${locale}${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
-        ':registrationId',
-        registrationId
-      ).replace(':enrolmentId', id)}`,
-      search: queryString,
-    });
+    if (signupGroup) {
+      navigate({
+        pathname: `/${locale}${ROUTES.EDIT_SIGNUP_GROUP.replace(
+          ':registrationId',
+          registrationId
+        ).replace(':signupGroupId', signupGroup)}`,
+        search: queryString,
+      });
+    } else {
+      toast.error('TODO: Editing a single signup is not supported yet');
+    }
   };
 
   const getActionItemProps = ({
@@ -95,7 +100,7 @@ const EnrolmentActionsDropdown: React.FC<EnrolmentActionsDropdownProps> = ({
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
       action: ENROLMENT_ACTIONS.EDIT,
-      onClick: goToEditEnrolmentPage,
+      onClick: goToEditPage,
     }),
     getActionItemProps({
       action: ENROLMENT_ACTIONS.SEND_MESSAGE,

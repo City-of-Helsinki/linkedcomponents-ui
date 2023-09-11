@@ -18,6 +18,7 @@ import {
   Registration,
   RegistrationUserAccess,
   Signup,
+  SignupGroup,
   User,
 } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
@@ -232,6 +233,19 @@ export const addTypenameSignup = (signup?: Signup | null): Signup | null =>
     ? {
         ...signup,
         __typename: 'Signup',
+      }
+    : null;
+
+export const addTypenameSignupGroup = (
+  signupGroup?: SignupGroup | null
+): SignupGroup | null =>
+  signupGroup
+    ? {
+        ...signupGroup,
+        signups: Array.isArray(signupGroup.signups)
+          ? signupGroup.signups.map((signup) => addTypenameSignup(signup))
+          : [],
+        __typename: 'SignupGroup',
       }
     : null;
 

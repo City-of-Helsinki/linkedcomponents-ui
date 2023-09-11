@@ -2,9 +2,9 @@
 /* eslint-disable max-len */
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik, FormikErrors, FormikTouched, useField } from 'formik';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import FormikPersist from '../../../common/components/formikPersist/FormikPersist';
@@ -13,62 +13,54 @@ import { FORM_NAMES, ROUTES } from '../../../constants';
 import {
   EventFieldsFragment,
   RegistrationFieldsFragment,
-  SignupFieldsFragment,
-  SignupQuery,
-  SignupQueryVariables,
+  SignupGroupFieldsFragment,
+  SignupGroupQuery,
+  SignupGroupQueryVariables,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
-import {
-  ENROLMENT_ACTIONS,
-  ENROLMENT_MODALS,
-  SIGNUP_GROUP_FIELDS,
-} from '../../enrolment/constants';
-import CreateButtonPanel from '../../enrolment/createButtonPanel/CreateButtonPanel';
-import Divider from '../../enrolment/divider/Divider';
-import EditButtonPanel from '../../enrolment/editButtonPanel/EditButtonPanel';
+import { ENROLMENT_ACTIONS, ENROLMENT_MODALS } from '../../enrolment/constants';
 import EnrolmentAuthenticationNotification from '../../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
 import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
 import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
-import EventInfo from '../../enrolment/eventInfo/EventInfo';
-import FormContainer from '../../enrolment/formContainer/FormContainer';
 import useEnrolmentActions from '../../enrolment/hooks/useEnrolmentActions';
-import ConfirmCancelEnrolmentModal from '../../enrolment/modals/confirmCancelEnrolmentModal/ConfirmCancelEnrolmentModal';
 import SendMessageModal from '../../enrolment/modals/sendMessageModal/SendMessageModal';
-import ParticipantAmountSelector from '../../enrolment/participantAmountSelector/ParticipantAmountSelector';
 import RegistrationWarning from '../../enrolment/registrationWarning/RegistrationWarning';
-import ReservationTimer from '../../enrolment/reservationTimer/ReservationTimer';
+import { isRegistrationPossible } from '../../registration/utils';
+import { clearSeatsReservationData } from '../../seatsReservation/utils';
+import { SIGNUP_GROUP_FIELDS } from '../constants';
+import CreateSignupGroupButtonPanel from '../createButtonPanel/CreateSignupGroupButtonPanel';
+import Divider from '../divider/Divider';
+import EditSignupGroupButtonPanel from '../editButtonPanel/EditSignupGroupButtonPanel';
+import EventInfo from '../eventInfo/EventInfo';
+import FormContainer from '../formContainer/FormContainer';
+import useSignupGroupActions from '../hooks/useSignupGroupActions';
+import ParticipantAmountSelector from '../participantAmountSelector/ParticipantAmountSelector';
+import ReservationTimer from '../reservationTimer/ReservationTimer';
+import EnrolmentFormFields from '../signupGroupFormFields/SignupGroupFormFields';
 import {
   SignupFields,
   SignupGroupFormFields as SignupGroupFormFieldsType,
-} from '../../enrolment/types';
+} from '../types';
 import {
   clearCreateSignupGroupFormData,
-  isRestoringFormDataDisabled,
-} from '../../enrolment/utils';
-import {
-  getSignupGroupSchema,
-  scrollToFirstError,
-} from '../../enrolment/validation';
-import { isRegistrationPossible } from '../../registration/utils';
-import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
-import { clearSeatsReservationData } from '../../reserveSeats/utils';
-import EnrolmentFormFields from '../signupGroupFormFields/SignupGroupFormFields';
+  isRestoringSignupGroupFormDataDisabled,
+} from '../utils';
+import { getSignupGroupSchema, scrollToFirstError } from '../validation';
 import AvailableSeatsText from './availableSeatsText/AvailableSeatsText';
 import styles from './signupGroupForm.module.scss';
 
 type SignupGroupFormWrapperProps = {
   disabled: boolean;
-  enrolment?: SignupFieldsFragment;
   event: EventFieldsFragment;
   initialValues: SignupGroupFormFieldsType;
-  refetchEnrolment?: (
-    variables?: Partial<SignupQueryVariables>
-  ) => Promise<ApolloQueryResult<SignupQuery>>;
+  refetchSignupGroup?: (
+    variables?: Partial<SignupGroupQueryVariables>
+  ) => Promise<ApolloQueryResult<SignupGroupQuery>>;
   registration: RegistrationFieldsFragment;
+  signupGroup?: SignupGroupFieldsFragment;
 };
 
 type SignupGroupFormProps = Omit<
@@ -85,12 +77,13 @@ type SignupGroupFormProps = Omit<
 
 const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   disabled,
-  enrolment,
+
   event,
-  refetchEnrolment,
+  refetchSignupGroup,
   registration,
   setErrors,
   setTouched,
+  signupGroup,
   values,
 }) => {
   const { t } = useTranslation();
@@ -100,7 +93,6 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   >(SIGNUP_GROUP_FIELDS.SIGNUPS);
   const locale = useLocale();
   const navigate = useNavigate();
-  const location = useLocation();
 
   const timerCallbacksDisabled = useRef(false);
 
@@ -108,45 +100,33 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
     timerCallbacksDisabled.current = true;
   }, []);
 
-  const {
-    cancelEnrolment,
-    createSignupGroup,
-    saving,
-    sendMessage,
-    updateEnrolment,
-  } = useEnrolmentActions({
-    enrolment,
+  const responsiblePerson = useMemo(
+    () =>
+      signupGroup?.signups?.find((su) => su?.responsibleForGroup) ?? undefined,
+    [signupGroup]
+  );
+
+  const { saving: savingResponsiblePerson, sendMessage } = useEnrolmentActions({
+    enrolment: responsiblePerson,
     registration,
+  });
+
+  const {
+    createSignupGroup,
+    saving: savingSignupGroup,
+    updateSignupGroup,
+  } = useSignupGroupActions({
+    registration,
+    signupGroup,
   });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEnrolmentServerErrorsContext();
 
-  const formSavingDisabled = React.useRef(!!enrolment);
+  const formSavingDisabled = React.useRef(!!signupGroup);
 
   const { closeModal, openModal, setOpenModal, setOpenParticipant } =
     useEnrolmentPageContext();
-
-  const goToEnrolmentsPage = () => {
-    const { returnPath, remainingQueryString } = extractLatestReturnPath(
-      location.search,
-      ROUTES.REGISTRATION_ENROLMENTS.replace(
-        ':registrationId',
-        getValue(registration.id, '')
-      )
-    );
-
-    navigate(
-      {
-        pathname: `/${locale}${returnPath}`,
-        search: replaceParamsToRegistrationQueryString(remainingQueryString, {
-          attendeePage: null,
-          waitingPage: null,
-        }),
-      },
-      { state: { enrolmentId: enrolment?.id } }
-    );
-  };
 
   const goToEnrolmentsPageAfterCreate = () => {
     const registrationId = getValue(registration.id, '');
@@ -166,10 +146,6 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
     );
   };
 
-  const handleCancel = () => {
-    cancelEnrolment({ onSuccess: goToEnrolmentsPage });
-  };
-
   const clearErrors = () => setErrors({});
 
   const handleCreate = (values: SignupGroupFormFieldsType) => {
@@ -180,10 +156,10 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   };
 
   const handleUpdate = (values: SignupGroupFormFieldsType) => {
-    updateEnrolment(values, {
+    updateSignupGroup(values, {
       onError: (error: any) => showServerErrors({ error }, 'enrolment'),
       onSuccess: async () => {
-        refetchEnrolment && (await refetchEnrolment());
+        refetchSignupGroup && (await refetchSignupGroup());
         window.scrollTo(0, 0);
       },
     });
@@ -198,7 +174,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
         abortEarly: false,
       });
 
-      if (enrolment) {
+      if (signupGroup) {
         handleUpdate(values);
       } else {
         handleCreate(values);
@@ -219,21 +195,11 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 
   return (
     <>
-      {enrolment && (
-        <ConfirmCancelEnrolmentModal
-          enrolment={enrolment}
-          isOpen={openModal === ENROLMENT_MODALS.CANCEL}
-          isSaving={saving === ENROLMENT_ACTIONS.CANCEL}
-          onClose={closeModal}
-          onConfirm={handleCancel}
-          registration={registration}
-        />
-      )}
-      {enrolment && (
+      {responsiblePerson && (
         <SendMessageModal
-          enrolment={enrolment}
+          enrolment={responsiblePerson}
           isOpen={openModal === ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT}
-          isSaving={saving === ENROLMENT_ACTIONS.SEND_MESSAGE}
+          isSaving={savingResponsiblePerson === ENROLMENT_ACTIONS.SEND_MESSAGE}
           onClose={closeModal}
           onSendMessage={sendMessage}
         />
@@ -243,8 +209,8 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
         <FormikPersist
           isSessionStorage={true}
           name={`${FORM_NAMES.CREATE_SIGNUP_GROUP_FORM}-${registration.id}`}
-          restoringDisabled={isRestoringFormDataDisabled({
-            enrolment,
+          restoringDisabled={isRestoringSignupGroupFormDataDisabled({
+            signupGroup,
             registrationId: getValue(registration.id, ''),
           })}
           savingDisabled={
@@ -262,54 +228,57 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
               />
               <ServerErrorSummary errors={serverErrorItems} />
               <EventInfo event={event} />
-              <Divider />
-              {!enrolment && (
-                <RegistrationWarning registration={registration} />
-              )}
-              {isRegistrationPossible(registration) && !enrolment && (
+
+              {!signupGroup && (
                 <>
-                  <ReservationTimer
-                    callbacksDisabled={timerCallbacksDisabled.current}
-                    disableCallbacks={disableTimerCallbacks}
-                    initReservationData={true}
-                    registration={registration}
-                    setSignups={setSignups}
-                    signups={signups}
-                  />
                   <Divider />
+                  <RegistrationWarning registration={registration} />
+                  {isRegistrationPossible(registration) && (
+                    <>
+                      <ReservationTimer
+                        callbacksDisabled={timerCallbacksDisabled.current}
+                        disableCallbacks={disableTimerCallbacks}
+                        initReservationData={true}
+                        registration={registration}
+                        setSignups={setSignups}
+                        signups={signups}
+                      />
+                      <Divider />
+                    </>
+                  )}
+                  <h2>{t('enrolment.form.titleRegistration')}</h2>
+                  <AvailableSeatsText registration={registration} />
+
+                  <ParticipantAmountSelector
+                    disabled={disabled || !!signupGroup}
+                    registration={registration}
+                  />
                 </>
               )}
-              <h2>{t('enrolment.form.titleRegistration')}</h2>
-              <AvailableSeatsText registration={registration} />
-
-              <ParticipantAmountSelector
-                disabled={disabled || !!enrolment}
-                registration={registration}
-              />
 
               <EnrolmentFormFields
                 disabled={disabled}
                 registration={registration}
+                signupGroup={signupGroup}
               />
             </FormContainer>
           </Container>
-          {enrolment ? (
-            <EditButtonPanel
-              enrolment={enrolment}
-              onCancel={() => setOpenModal(ENROLMENT_MODALS.CANCEL)}
-              onSave={handleSubmit}
+          {signupGroup ? (
+            <EditSignupGroupButtonPanel
               onSendMessage={() =>
                 setOpenModal(ENROLMENT_MODALS.SEND_MESSAGE_TO_ENROLMENT)
               }
               registration={registration}
-              saving={saving}
+              saving={savingSignupGroup}
+              signupGroup={signupGroup}
+              onUpdate={handleSubmit}
             />
           ) : (
-            <CreateButtonPanel
+            <CreateSignupGroupButtonPanel
               disabled={disabled}
-              onSave={handleSubmit}
+              onCreate={handleSubmit}
               registration={registration}
-              saving={saving}
+              saving={savingSignupGroup}
             />
           )}
         </FormikPersist>
@@ -319,9 +288,9 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 };
 
 const SignupGroupFormWrapper: React.FC<SignupGroupFormWrapperProps> = ({
-  enrolment,
   initialValues,
   registration,
+  signupGroup,
   ...rest
 }) => {
   return (
@@ -333,8 +302,8 @@ const SignupGroupFormWrapper: React.FC<SignupGroupFormWrapperProps> = ({
       {({ setErrors, setTouched, values }) => {
         return (
           <SignupGroupForm
-            enrolment={enrolment}
             registration={registration}
+            signupGroup={signupGroup}
             {...rest}
             setErrors={setErrors}
             setTouched={setTouched}

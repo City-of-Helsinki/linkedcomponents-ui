@@ -6,11 +6,11 @@ import merge from 'lodash/merge';
 
 import { EXTLINK, RESERVATION_NAMES } from '../constants';
 import { TEST_DATA_SOURCE_ID } from '../domain/dataSource/constants';
-import { NOTIFICATION_TYPE } from '../domain/enrolment/constants';
 import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
 import { TEST_ORGANIZATION_CLASS_ID } from '../domain/organizationClass/constants';
 import { TEST_REGISTRATION_ID } from '../domain/registration/constants';
-import { TEST_SEATS_RESERVATION_CODE } from '../domain/reserveSeats/constants';
+import { TEST_SEATS_RESERVATION_CODE } from '../domain/seatsReservation/constants';
+import { NOTIFICATION_TYPE } from '../domain/signupGroup/constants';
 import {
   AttendeeStatus,
   CreateSignupGroupResponse,
@@ -555,6 +555,7 @@ export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
       presenceStatus: PresenceStatus.NotPresent,
       responsibleForGroup: false,
       serviceLanguage: 'fi',
+      signupGroup: null,
       streetAddress: faker.address.streetAddress(),
       zipcode: faker.address.zipCode('#####'),
       __typename: 'Signup',

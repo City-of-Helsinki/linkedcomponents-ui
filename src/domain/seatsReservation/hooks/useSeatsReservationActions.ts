@@ -11,15 +11,12 @@ import {
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import { reportError } from '../../app/sentry/utils';
-import {
-  getSeatsReservationData,
-  setSeatsReservationData,
-} from '../../reserveSeats/utils';
+import { ENROLMENT_MODALS } from '../../enrolment/constants';
+import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import { SignupFields } from '../../signupGroup/types';
+import { getNewSignups } from '../../signupGroup/utils';
 import useUser from '../../user/hooks/useUser';
-import { ENROLMENT_MODALS } from '../constants';
-import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { SignupFields } from '../types';
-import { getNewSignups } from '../utils';
+import { getSeatsReservationData, setSeatsReservationData } from '../utils';
 
 type UseSeatsReservationActionsProps = {
   registration: RegistrationFieldsFragment;
@@ -106,7 +103,6 @@ const useSeatsReservationActions = ({
       /* istanbul ignore else */
       if (setSignups) {
         const newSignups = getNewSignups({
-          registration,
           seatsReservation,
           signups: signups || /* istanbul ignore next */ [],
         });
@@ -153,7 +149,6 @@ const useSeatsReservationActions = ({
       const seatsReservation = data?.updateSeatsReservation as SeatsReservation;
 
       const newSignups = getNewSignups({
-        registration,
         seatsReservation,
         signups,
       });

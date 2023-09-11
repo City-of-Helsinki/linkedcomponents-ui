@@ -16,8 +16,10 @@ export type EnrolmentFields = {
   lastName: string;
   id: string;
   phoneNumber: string;
+  signupGroup: string | null;
+  signupGroupUrl: string | null;
 };
 
 export type EnrolmentsLocationState = {
-  enrolmentId: string;
+  enrolmentId: string | undefined;
 };

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { useField } from 'formik';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -6,12 +7,13 @@ import Button from '../../../common/components/button/Button';
 import NumberInput from '../../../common/components/numberInput/NumberInput';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
+import { ENROLMENT_MODALS } from '../../enrolment/constants';
+import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
+import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import { getMaxSeatsAmount } from '../../registration/utils';
-import { getSeatsReservationData } from '../../reserveSeats/utils';
-import { ENROLMENT_MODALS, SIGNUP_GROUP_FIELDS } from '../constants';
-import { useEnrolmentPageContext } from '../enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { useEnrolmentServerErrorsContext } from '../enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
-import useSeatsReservationActions from '../hooks/useSeatsReservationActions';
+import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsReservationActions';
+import { getSeatsReservationData } from '../../seatsReservation/utils';
+import { SIGNUP_GROUP_FIELDS } from '../constants';
 import ConfirmDeleteParticipantModal from '../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { SignupFields } from '../types';
 import styles from './participantAmountSelector.module.scss';

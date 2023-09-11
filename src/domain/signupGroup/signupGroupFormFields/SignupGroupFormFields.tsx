@@ -11,21 +11,29 @@ import SingleSelectField from '../../../common/components/formFields/singleSelec
 import TextAreaField from '../../../common/components/formFields/textAreaField/TextAreaField';
 import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../common/components/formGroup/FormGroup';
-import { RegistrationFieldsFragment } from '../../../generated/graphql';
-import { NOTIFICATIONS, SIGNUP_GROUP_FIELDS } from '../../enrolment/constants';
-import Divider from '../../enrolment/divider/Divider';
-import useLanguageOptions from '../../enrolment/hooks/useLanguageOptions';
-import useNotificationOptions from '../../enrolment/hooks/useNotificationOptions';
-import { isSignupFieldRequired } from '../../enrolment/utils';
+import {
+  RegistrationFieldsFragment,
+  SignupGroupFieldsFragment,
+} from '../../../generated/graphql';
+import useLanguageOptions from '../../language/hooks/useLanguageOptions';
+import { NOTIFICATIONS, SIGNUP_GROUP_FIELDS } from '../constants';
+import Divider from '../divider/Divider';
+import useNotificationOptions from '../hooks/useNotificationOptions';
+import { isSignupFieldRequired } from '../utils';
 import styles from './signupGroupFormFields.module.scss';
 import Signups from './signups/Signups';
 
 interface Props {
   disabled?: boolean;
   registration: RegistrationFieldsFragment;
+  signupGroup?: SignupGroupFieldsFragment;
 }
 
-const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
+const SignupGroupFormFields: React.FC<Props> = ({
+  disabled,
+  registration,
+  signupGroup,
+}) => {
   const { t } = useTranslation();
   const notificationOptions = useNotificationOptions();
   const languageOptions = useLanguageOptions();
@@ -38,7 +46,11 @@ const SignupGroupFormFields: React.FC<Props> = ({ disabled, registration }) => {
 
   return (
     <div className={styles.signupGroupFormFieldsFields}>
-      <Signups disabled={disabled} registration={registration} />
+      <Signups
+        disabled={disabled}
+        registration={registration}
+        signupGroup={signupGroup}
+      />
       <h2>{t('enrolment.form.titleInformantInfo')}</h2>
       <Divider />
       <Fieldset heading={t(`enrolment.form.titleContactInfo`)}>

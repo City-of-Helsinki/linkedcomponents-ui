@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import pascalCase from '../../../utils/pascalCase';
-import { SIGNUP_FIELDS, SIGNUP_GROUP_FIELDS } from '../../enrolment/constants';
+import {
+  SIGNUP_FIELDS,
+  SIGNUP_GROUP_FIELDS,
+} from '../../signupGroup/constants';
 import { REGISTRATION_MANDATORY_FIELDS } from '../constants';
 
 type UseMandatoryFieldOptionsState = {

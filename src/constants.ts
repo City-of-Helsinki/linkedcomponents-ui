@@ -37,7 +37,7 @@ export enum ROUTES {
   EDIT_ORGANIZATION = '/administration/organizations/edit/:id',
   EDIT_PLACE = '/administration/places/edit/:id',
   EDIT_REGISTRATION = '/registrations/edit/:id',
-  EDIT_REGISTRATION_ENROLMENT = '/registrations/:registrationId/enrolments/edit/:enrolmentId',
+  EDIT_SIGNUP_GROUP = '/registrations/:registrationId/signup-group/edit/:signupGroupId',
   EVENT_SAVED = '/events/completed/:id',
   EVENTS = '/events',
   FEATURES = '/help/features',

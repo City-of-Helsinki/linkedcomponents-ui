@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
+import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
 import getValue from '../../../../utils/getValue';
@@ -16,16 +17,17 @@ import {
   within,
 } from '../../../../utils/testUtils';
 import { AuthContextProps } from '../../../auth/types';
-import {
-  mockedCancelEnrolmentResponse,
-  mockedSendMessageResponse,
-  sendMessageValues,
-  signup,
-} from '../../../enrolment/__mocks__/editEnrolmentPage';
 import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { registration } from '../../../registration/__mocks__/registration';
+import {
+  mockedCancelSignupResponse,
+  mockedSendMessageResponse,
+  sendMessageValues,
+  signup,
+  signupWithGroup,
+} from '../../../signup/__mocks__/editSignupPage';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import EnrolmentActionsDropdown, {
   EnrolmentActionsDropdownProps,
@@ -39,7 +41,7 @@ const defaultProps: EnrolmentActionsDropdownProps = {
 };
 
 const defaultMocks = [
-  mockedCancelEnrolmentResponse,
+  mockedCancelSignupResponse,
   mockedEventResponse,
   mockedSendMessageResponse,
   mockedOrganizationAncestorsResponse,
@@ -119,9 +121,26 @@ test('should render correct buttons', async () => {
   enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
-test('should route to edit enrolment page when clicking edit button', async () => {
+test("should show toast message when clicking edit button and signup doesn't have a group", async () => {
+  toast.error = jest.fn();
   const user = userEvent.setup();
-  const { history } = renderComponent();
+  renderComponent({ props: { enrolment: signup } });
+
+  await openMenu();
+
+  const editButton = getElement('edit');
+  await user.click(editButton);
+
+  expect(toast.error).toBeCalledWith(
+    'TODO: Editing a single signup is not supported yet'
+  );
+});
+
+test('should route to edit signup group page when clicking edit button and signup has a group', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent({
+    props: { enrolment: signupWithGroup },
+  });
 
   await openMenu();
 
@@ -130,7 +149,7 @@ test('should route to edit enrolment page when clicking edit button', async () =
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registration.id}/enrolments/edit/${signup.id}`
+      `/fi/registrations/${registration.id}/signup-group/edit/${signupWithGroup.signupGroup}`
     )
   );
 
