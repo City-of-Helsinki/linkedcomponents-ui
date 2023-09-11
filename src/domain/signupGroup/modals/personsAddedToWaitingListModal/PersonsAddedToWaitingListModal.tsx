@@ -15,11 +15,9 @@ const PersonsAddedToWaitingListModal: React.FC<
   return (
     <InfoModal
       {...props}
-      closeButtonText={t(
-        'enrolment.personsAddedToWaitingListModal.buttonClose'
-      )}
-      description={t('enrolment.personsAddedToWaitingListModal.text')}
-      heading={t('enrolment.personsAddedToWaitingListModal.title')}
+      closeButtonText={t('signup.personsAddedToWaitingListModal.buttonClose')}
+      description={t('signup.personsAddedToWaitingListModal.text')}
+      heading={t('signup.personsAddedToWaitingListModal.title')}
       id="persons-added-to-waiting-list-modal"
     />
   );

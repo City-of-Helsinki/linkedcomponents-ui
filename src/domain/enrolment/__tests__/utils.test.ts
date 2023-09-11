@@ -1,24 +1,17 @@
 /* eslint-disable import/no-named-as-default-member */
-import i18n from 'i18next';
-
-import { SignupQueryVariables } from '../../../generated/graphql';
 import { registration } from '../../registration/__mocks__/registration';
+import { TEST_SIGNUP_ID } from '../../signup/constants';
 import {
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
   SIGNUP_GROUP_INITIAL_VALUES,
 } from '../../signupGroup/constants';
-import { ENROLMENT_ACTIONS, TEST_SIGNUP_ID } from '../constants';
-import {
-  enrolmentPathBuilder,
-  getEditEnrolmentWarning,
-  getUpdateEnrolmentPayload,
-} from '../utils';
+import { getUpdateSignupPayload } from '../utils';
 
-describe('getUpdateEnrolmentPayload function', () => {
+describe('getUpdateSignupPayload function', () => {
   it('should return single enrolment as payload', () => {
     expect(
-      getUpdateEnrolmentPayload({
+      getUpdateSignupPayload({
         formValues: SIGNUP_GROUP_INITIAL_VALUES,
         id: TEST_SIGNUP_ID,
         registration,
@@ -68,7 +61,7 @@ describe('getUpdateEnrolmentPayload function', () => {
         zipcode,
       },
     ];
-    const payload = getUpdateEnrolmentPayload({
+    const payload = getUpdateSignupPayload({
       formValues: {
         ...SIGNUP_GROUP_INITIAL_VALUES,
         email,
@@ -101,68 +94,5 @@ describe('getUpdateEnrolmentPayload function', () => {
       streetAddress,
       zipcode,
     });
-  });
-});
-
-describe('enrolmentPathBuilder function', () => {
-  const cases: [SignupQueryVariables, string][] = [
-    [{ id: 'hel:123' }, `/signup/hel:123/`],
-  ];
-
-  it.each(cases)('should build correct path', (variables, expectedPath) =>
-    expect(enrolmentPathBuilder({ args: variables })).toBe(expectedPath)
-  );
-});
-
-describe('getEditEnrolmentWarning function', () => {
-  it('should return correct warning if user is not authenticated', () => {
-    const allowedActions = [ENROLMENT_ACTIONS.EDIT];
-
-    const commonProps = {
-      authenticated: false,
-      t: i18n.t.bind(i18n),
-      userCanDoAction: false,
-    };
-
-    allowedActions.forEach((action) => {
-      expect(getEditEnrolmentWarning({ action, ...commonProps })).toBe('');
-    });
-
-    const deniedActions = [
-      ENROLMENT_ACTIONS.CANCEL,
-      ENROLMENT_ACTIONS.SEND_MESSAGE,
-    ];
-
-    deniedActions.forEach((action) => {
-      expect(getEditEnrolmentWarning({ action, ...commonProps })).toBe(
-        'Sinulla ei ole oikeuksia muokata osallistujia.'
-      );
-    });
-  });
-
-  it('should return correct warning if user cannot do action', () => {
-    const commonProps = {
-      authenticated: true,
-      t: i18n.t.bind(i18n),
-      userCanDoAction: false,
-    };
-    const actions: [ENROLMENT_ACTIONS, string][] = [
-      [
-        ENROLMENT_ACTIONS.CANCEL,
-        'Sinulla ei ole oikeuksia muokata tätä osallistujaa.',
-      ],
-      [
-        ENROLMENT_ACTIONS.CREATE,
-        'Sinulla ei ole oikeuksia luoda osallistujia tähän ilmoittautumiseen.',
-      ],
-      [
-        ENROLMENT_ACTIONS.VIEW,
-        'Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia.',
-      ],
-    ];
-
-    actions.forEach(([action, error]) =>
-      expect(getEditEnrolmentWarning({ ...commonProps, action })).toBe(error)
-    );
   });
 });

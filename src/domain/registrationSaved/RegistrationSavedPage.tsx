@@ -11,9 +11,9 @@ import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import NotFound from '../notFound/NotFound';
 import { clearRegistrationFormData } from '../registration/utils';
+import useRegistrationAndEventData from '../signup/hooks/useRegistrationAndEventData';
 import styles from './registrationSavedPage.module.scss';
 
 const RegistrationSavedPage: React.FC = () => {

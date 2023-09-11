@@ -12,11 +12,11 @@ import {
 } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
 import { reportError } from '../../../app/sentry/utils';
-import { useEnrolmentServerErrorsContext } from '../../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import {
   getSeatsReservationData,
   setSeatsReservationData,
 } from '../../../seatsReservation/utils';
+import { useSignupServerErrorsContext } from '../../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import useUser from '../../../user/hooks/useUser';
 import { SIGNUP_GROUP_FIELDS } from '../../constants';
 import ConfirmDeleteParticipantModal from '../../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
@@ -42,7 +42,7 @@ const Signups: React.FC<Props> = ({ disabled, registration, signupGroup }) => {
   const { user } = useUser();
 
   const { setServerErrorItems, showServerErrors } =
-    useEnrolmentServerErrorsContext();
+    useSignupServerErrorsContext();
 
   const registrationId = getValue(registration.id, '');
 

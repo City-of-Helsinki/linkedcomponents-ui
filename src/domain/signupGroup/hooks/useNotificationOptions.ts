@@ -10,7 +10,7 @@ const useNotificationOptions = (): OptionType[] => {
   const options: OptionType[] = React.useMemo(
     () =>
       Object.values(NOTIFICATIONS).map((type) => ({
-        label: t(`enrolment.notifications.${type}`),
+        label: t(`signup.notifications.${type}`),
         value: type,
       })),
     [t]

@@ -76,7 +76,7 @@ export const checkCanUserDoAction = ({
     case REGISTRATION_ACTIONS.CREATE:
       return publisher ? isAdminUser : !!adminOrganizations.length;
     case REGISTRATION_ACTIONS.DELETE:
-    case REGISTRATION_ACTIONS.SHOW_ENROLMENTS:
+    case REGISTRATION_ACTIONS.SHOW_SIGNUPS:
     case REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST:
     case REGISTRATION_ACTIONS.UPDATE:
       return isAdminUser;
@@ -113,10 +113,10 @@ export const getEditRegistrationWarning = ({
 
   if (
     registration &&
-    hasEnrolments(registration) &&
+    hasSignups(registration) &&
     action === REGISTRATION_ACTIONS.DELETE
   )
-    return t('registration.form.editButtonPanel.warningHasEnrolments');
+    return t('registration.form.editButtonPanel.warningHasSignups');
 
   return '';
 };
@@ -476,7 +476,7 @@ export const getMaxSeatsAmount = (
   return maxValues.length ? Math.min(...maxValues) : undefined;
 };
 
-export const hasEnrolments = (
+export const hasSignups = (
   registration: RegistrationFieldsFragment
 ): boolean => {
   return Boolean(
@@ -521,17 +521,17 @@ export const getRegistrationWarning = (
   const freeWaitlistCapacity = getFreeWaitingListCapacity(registration);
 
   if (!registrationOpen) {
-    return t('enrolment.warnings.closed');
+    return t('signup.warnings.closed');
   }
 
   if (!registrationPossible) {
-    return t('enrolment.warnings.allSeatsReserved');
+    return t('signup.warnings.allSeatsReserved');
   }
 
   if (attendeeCapacityUsed && !waitingListCapacityUsed) {
     return isNil(freeWaitlistCapacity)
-      ? t('enrolment.warnings.capacityInWaitingListNoLimit')
-      : t('enrolment.warnings.capacityInWaitingList', {
+      ? t('signup.warnings.capacityInWaitingListNoLimit')
+      : t('signup.warnings.capacityInWaitingList', {
           count: freeWaitlistCapacity,
         });
   }

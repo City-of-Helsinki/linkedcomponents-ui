@@ -15,19 +15,20 @@ import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
+import { signup } from '../../../signup/__mocks__/signup';
+import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import { enrolment } from '../../__mocks__/enrolment';
-import { EnrolmentPageProvider } from '../../enrolmentPageContext/EnrolmentPageContext';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
 
 const defaultProps: EditButtonPanelProps = {
-  enrolment,
   onCancel: jest.fn(),
   onSave: jest.fn(),
+  onSendMessage: jest.fn(),
   registration,
   saving: false,
+  signup,
 };
 
 const mocks = [
@@ -41,7 +42,7 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 const defaultRoute = `/fi/${ROUTES.EDIT_SIGNUP_GROUP.replace(
   ':registrationId',
   registrationId
-).replace(':enrolmentId', enrolment.id)}`;
+).replace(':signupId', signup.id)}`;
 
 const renderComponent = ({
   props,
@@ -51,9 +52,9 @@ const renderComponent = ({
   route?: string;
 } = {}) =>
   render(
-    <EnrolmentPageProvider>
+    <SignupPageProvider>
       <EditButtonPanel {...defaultProps} {...props} />
-    </EnrolmentPageProvider>,
+    </SignupPageProvider>,
     {
       authContextValue,
       mocks,
@@ -117,7 +118,7 @@ test('should call onCancel clicking cancel button', async () => {
   expect(onCancel).toBeCalled();
 });
 
-test('should route to enrolments page when clicking back button', async () => {
+test('should route to signups page when clicking back button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
@@ -125,7 +126,7 @@ test('should route to enrolments page when clicking back button', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registrationId}/enrolments`
+      `/fi/registrations/${registrationId}/signups`
     )
   );
 });

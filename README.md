@@ -176,7 +176,7 @@ Features enabled:
 - Link to the registrations in the header.
 - Link to the registrations in the footer.
 - Registration search, creation and update pages routes.
-- Enrolment search, creation and update pages routes.
+- Signup search, creation and update pages routes.
 
 `REACT_APP_LOCALIZED_IMAGE`:
 

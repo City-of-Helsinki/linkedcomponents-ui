@@ -43,7 +43,7 @@ const PublisherColumn = (registration: RegistrationFieldsFragment) => {
   return <OrganizationName id={getValue(registration.publisher, '')} />;
 };
 
-const EnrolmentsColumn = (registration: RegistrationFieldsFragment) => {
+const SignupsColumn = (registration: RegistrationFieldsFragment) => {
   const locale = useLocale();
   const { currentAttendeeCount, maximumAttendeeCapacity } =
     getRegistrationFields(registration, locale);
@@ -149,12 +149,10 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
           transform: PublisherColumn,
         },
         {
-          className: styles.enrolmentsColumn,
-          key: 'enrolments',
-          headerName: t(
-            'registrationsPage.registrationsTableColumns.enrolments'
-          ),
-          transform: EnrolmentsColumn,
+          className: styles.signupsColumn,
+          key: 'signups',
+          headerName: t('registrationsPage.registrationsTableColumns.signups'),
+          transform: SignupsColumn,
         },
         {
           className: styles.waitingListColumn,

@@ -74,7 +74,7 @@ test('should route to signups page when clicking back button', async () => {
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registrationId}/enrolments`
+      `/fi/registrations/${registrationId}/signups`
     )
   );
 });

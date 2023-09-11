@@ -15,29 +15,29 @@ import useGoBack from '../../../hooks/useGoBack';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { EnrolmentsLocationState } from '../../enrolments/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { SIGNUP_ACTIONS } from '../../signup/constants';
+import { getSignupActionButtonProps } from '../../signup/permissions';
+import { SignupsLocationState } from '../../signups/types';
 import useUser from '../../user/hooks/useUser';
-import { ENROLMENT_ACTIONS } from '../constants';
-import { getEditButtonProps } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export interface EditButtonPanelProps {
-  enrolment: SignupFieldsFragment;
   onCancel: () => void;
   onSave: () => void;
   onSendMessage: () => void;
   registration: RegistrationFieldsFragment;
-  saving: ENROLMENT_ACTIONS | false;
+  saving: SIGNUP_ACTIONS | false;
+  signup: SignupFieldsFragment;
 }
 
 const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
-  enrolment,
   onCancel,
   onSave,
   onSendMessage,
   registration,
   saving,
+  signup,
 }) => {
   const { t } = useTranslation();
   const { isAuthenticated: authenticated } = useAuth();
@@ -45,22 +45,22 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const goBack = useGoBack<EnrolmentsLocationState>({
-    defaultReturnPath: ROUTES.REGISTRATION_ENROLMENTS.replace(
+  const goBack = useGoBack<SignupsLocationState>({
+    defaultReturnPath: ROUTES.REGISTRATION_SIGNUPS.replace(
       ':registrationId',
       getValue(registration.id, '')
     ),
-    state: { enrolmentId: enrolment.id },
+    state: { signupId: signup.id },
   });
 
   const getActionItemProps = ({
     action,
     onClick,
   }: {
-    action: ENROLMENT_ACTIONS;
+    action: SIGNUP_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getEditButtonProps({
+    return getSignupActionButtonProps({
       action,
       authenticated,
       onClick,
@@ -73,11 +73,11 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: ENROLMENT_ACTIONS.CANCEL,
+      action: SIGNUP_ACTIONS.CANCEL,
       onClick: onCancel,
     }),
     getActionItemProps({
-      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
+      action: SIGNUP_ACTIONS.SEND_MESSAGE,
       onClick: onSendMessage,
     }),
   ].filter(skipFalsyType);
@@ -92,11 +92,11 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
           key="save"
           className={buttonPanelStyles.fullWidthOnMobile}
           icon={<IconPen aria-hidden={true} />}
-          loading={saving === ENROLMENT_ACTIONS.UPDATE}
+          loading={saving === SIGNUP_ACTIONS.UPDATE}
           onClick={onSave}
           type="submit"
         >
-          {t('enrolment.form.buttonSave')}
+          {t('signup.form.buttonSave')}
         </LoadingButton>,
       ]}
     />

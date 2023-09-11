@@ -19,7 +19,7 @@ import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
   SEND_MESSAGE_FIELDS,
   SEND_MESSAGE_FORM_NAME,
-} from '../enrolment/constants';
+} from '../signup/constants';
 import {
   NOTIFICATIONS,
   SIGNUP_FIELDS,

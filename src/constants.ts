@@ -55,8 +55,8 @@ export enum ROUTES {
   ORGANIZATIONS = '/administration/organizations',
   PLACES = '/administration/places',
   REGISTRATIONS = '/registrations',
-  REGISTRATION_ENROLMENTS = '/registrations/:registrationId/enrolments',
   REGISTRATION_SAVED = '/registrations/completed/:id',
+  REGISTRATION_SIGNUPS = '/registrations/:registrationId/signups',
   SEARCH = '/search',
   SILENT_CALLBACK = '/silent-callback',
   SUPPORT = '/help/support',
@@ -205,7 +205,7 @@ export const VALIDATION_ERROR_SCROLLER_OPTIONS = {
 };
 
 export enum RESERVATION_NAMES {
-  ENROLMENT_RESERVATION = 'enrolment-reservation',
+  SEATS_RESERVATION = 'seats-reservation',
 }
 
 export const COMBOBOX_DEBOUNCE_TIME_MS = 300;

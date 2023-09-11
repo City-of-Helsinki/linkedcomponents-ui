@@ -52,9 +52,9 @@ const RegistrationActionsDropdown: React.FC<
     navigate(registrationUrlWithReturnPath);
   };
 
-  const goToRegistrationEnrolmentsPage = () => {
+  const goToRegistrationSignupsPage = () => {
     navigate({
-      pathname: `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
+      pathname: `/${locale}${ROUTES.REGISTRATION_SIGNUPS.replace(
         ':registrationId',
         id
       )}`,
@@ -100,8 +100,8 @@ const RegistrationActionsDropdown: React.FC<
       onClick: goToEditRegistrationPage,
     }),
     getActionItemProps({
-      action: REGISTRATION_ACTIONS.SHOW_ENROLMENTS,
-      onClick: goToRegistrationEnrolmentsPage,
+      action: REGISTRATION_ACTIONS.SHOW_SIGNUPS,
+      onClick: goToRegistrationSignupsPage,
     }),
     getActionItemProps({
       action: REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST,

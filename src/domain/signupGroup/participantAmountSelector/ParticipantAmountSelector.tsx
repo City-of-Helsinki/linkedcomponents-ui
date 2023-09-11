@@ -7,12 +7,12 @@ import Button from '../../../common/components/button/Button';
 import NumberInput from '../../../common/components/numberInput/NumberInput';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
-import { ENROLMENT_MODALS } from '../../enrolment/constants';
-import { useEnrolmentPageContext } from '../../enrolment/enrolmentPageContext/hooks/useEnrolmentPageContext';
-import { useEnrolmentServerErrorsContext } from '../../enrolment/enrolmentServerErrorsContext/hooks/useEnrolmentServerErrorsContext';
 import { getMaxSeatsAmount } from '../../registration/utils';
 import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsReservationActions';
 import { getSeatsReservationData } from '../../seatsReservation/utils';
+import { SIGNUP_MODALS } from '../../signup/constants';
+import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
+import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { SIGNUP_GROUP_FIELDS } from '../constants';
 import ConfirmDeleteParticipantModal from '../modals/confirmDeleteParticipantModal/ConfirmDeleteParticipantModal';
 import { SignupFields } from '../types';
@@ -29,7 +29,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { closeModal, openModal, setOpenModal } = useEnrolmentPageContext();
+  const { closeModal, openModal, setOpenModal } = useSignupPageContext();
 
   const [{ value: signups }, , { setValue: setSignups }] = useField<
     SignupFields[]
@@ -42,7 +42,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   });
 
   const { setServerErrorItems, showServerErrors } =
-    useEnrolmentServerErrorsContext();
+    useSignupServerErrorsContext();
 
   const [participantsToDelete, setParticipantsToDelete] = useState(0);
 
@@ -76,7 +76,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   };
 
   const openDeleteParticipantModal = () => {
-    setOpenModal(ENROLMENT_MODALS.DELETE);
+    setOpenModal(SIGNUP_MODALS.DELETE);
   };
 
   const handleUpdateClick = () => {
@@ -96,7 +96,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   return (
     <>
       <ConfirmDeleteParticipantModal
-        isOpen={openModal === ENROLMENT_MODALS.DELETE}
+        isOpen={openModal === SIGNUP_MODALS.DELETE}
         isSaving={saving}
         onClose={closeModal}
         onConfirm={updateParticipantAmount}
@@ -106,7 +106,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
         <NumberInput
           id="participant-amount-field"
           disabled={disabled}
-          label={t(`enrolment.form.labelParticipantAmount`)}
+          label={t(`signup.form.labelParticipantAmount`)}
           min={1}
           max={maxSeatAmount}
           onChange={handleParticipantAmountChange}
@@ -121,7 +121,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
             type="button"
             variant="secondary"
           >
-            {t(`enrolment.form.buttonUpdateParticipantAmount`)}
+            {t(`signup.form.buttonUpdateParticipantAmount`)}
           </Button>
         </div>
       </div>

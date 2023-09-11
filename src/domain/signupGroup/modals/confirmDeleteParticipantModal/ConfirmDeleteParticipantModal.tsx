@@ -18,15 +18,15 @@ const ConfirmDeleteParticipantModal: React.FC<
   return (
     <ConfirmModal
       {...props}
-      bodyContent={<p>{t('enrolment.deleteParticipantModal.text2')}</p>}
+      bodyContent={<p>{t('signup.deleteParticipantModal.text2')}</p>}
       confirmButtonIcon={<IconCross aria-hidden={true} />}
-      confirmButtonText={t('enrolment.deleteParticipantModal.buttonDelete', {
+      confirmButtonText={t('signup.deleteParticipantModal.buttonDelete', {
         count: participantCount,
       })}
-      description={t('enrolment.deleteParticipantModal.text1', {
+      description={t('signup.deleteParticipantModal.text1', {
         count: participantCount,
       })}
-      heading={t('enrolment.deleteParticipantModal.title', {
+      heading={t('signup.deleteParticipantModal.title', {
         count: participantCount,
       })}
       id="confirm-participant-delete-modal"

@@ -33,7 +33,7 @@ const CreateSignupGroupButtonPanel: React.FC<
   const { user } = useUser();
 
   const goBack = useGoBack({
-    defaultReturnPath: ROUTES.REGISTRATION_ENROLMENTS.replace(
+    defaultReturnPath: ROUTES.REGISTRATION_SIGNUPS.replace(
       ':registrationId',
       getValue(registration.id, '')
     ),

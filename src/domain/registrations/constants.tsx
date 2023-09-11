@@ -15,7 +15,7 @@ export enum REGISTRATION_ACTIONS {
   DELETE = 'delete',
   EDIT = 'edit',
   EDIT_ATTENDANCE_LIST = 'editAttendanceList',
-  SHOW_ENROLMENTS = 'showEnrolments',
+  SHOW_SIGNUPS = 'showSignups',
   UPDATE = 'update',
 }
 
@@ -27,10 +27,10 @@ export const AUTHENTICATION_NOT_NEEDED = [
 
 export enum REGISTRATION_SEARCH_PARAMS {
   ATTENDEE_PAGE = 'attendeePage',
-  ENROLMENT_TEXT = 'enrolmentText',
   EVENT_TYPE = 'eventType',
   PAGE = 'page',
   RETURN_PATH = 'returnPath',
+  SIGNUP_TEXT = 'signupText',
   SORT = 'sort',
   TEXT = 'text',
   WAITING_PAGE = 'waitingPage',
@@ -48,7 +48,7 @@ export const REGISTRATION_ICONS = {
   [REGISTRATION_ACTIONS.DELETE]: <IconCross aria-hidden={true} />,
   [REGISTRATION_ACTIONS.EDIT]: <IconCogwheel aria-hidden={true} />,
   [REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST]: <IconCheck aria-hidden={true} />,
-  [REGISTRATION_ACTIONS.SHOW_ENROLMENTS]: <IconEye aria-hidden={true} />,
+  [REGISTRATION_ACTIONS.SHOW_SIGNUPS]: <IconEye aria-hidden={true} />,
   [REGISTRATION_ACTIONS.UPDATE]: <IconPen aria-hidden={true} />,
 };
 
@@ -60,8 +60,8 @@ export const REGISTRATION_LABEL_KEYS = {
   [REGISTRATION_ACTIONS.EDIT]: 'registrationsPage.actionButtons.edit',
   [REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST]:
     'registrationsPage.actionButtons.editAttendanceList',
-  [REGISTRATION_ACTIONS.SHOW_ENROLMENTS]:
-    'registrationsPage.actionButtons.showEnrolments',
+  [REGISTRATION_ACTIONS.SHOW_SIGNUPS]:
+    'registrationsPage.actionButtons.showSignups',
   [REGISTRATION_ACTIONS.UPDATE]: 'registrationsPage.actionButtons.update',
 };
 

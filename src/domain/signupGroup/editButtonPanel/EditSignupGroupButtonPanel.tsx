@@ -15,10 +15,10 @@ import useGoBack from '../../../hooks/useGoBack';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { ENROLMENT_ACTIONS } from '../../enrolment/constants';
-import { getEditButtonProps } from '../../enrolment/utils';
-import { EnrolmentsLocationState } from '../../enrolments/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { SIGNUP_ACTIONS } from '../../signup/constants';
+import { getSignupActionButtonProps } from '../../signup/permissions';
+import { SignupsLocationState } from '../../signups/types';
 import useUser from '../../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';
 import { getSignupGroupActionButtonProps } from '../permissions';
@@ -51,22 +51,22 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
     [signupGroup]
   );
 
-  const goBack = useGoBack<EnrolmentsLocationState>({
-    defaultReturnPath: ROUTES.REGISTRATION_ENROLMENTS.replace(
+  const goBack = useGoBack<SignupsLocationState>({
+    defaultReturnPath: ROUTES.REGISTRATION_SIGNUPS.replace(
       ':registrationId',
       getValue(registration.id, '')
     ),
-    state: { enrolmentId: responsiblePerson?.id },
+    state: { signupId: responsiblePerson?.id },
   });
 
   const getSignupActionItemProps = ({
     action,
     onClick,
   }: {
-    action: ENROLMENT_ACTIONS;
+    action: SIGNUP_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getEditButtonProps({
+    return getSignupActionButtonProps({
       action,
       authenticated,
       onClick,
@@ -97,7 +97,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getSignupActionItemProps({
-      action: ENROLMENT_ACTIONS.SEND_MESSAGE,
+      action: SIGNUP_ACTIONS.SEND_MESSAGE,
       onClick: onSendMessage,
     }),
   ].filter(skipFalsyType);

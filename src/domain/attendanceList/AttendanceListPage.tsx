@@ -13,13 +13,13 @@ import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import { ENROLMENT_ACTIONS } from '../enrolment/constants';
-import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
-import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import NotFound from '../notFound/NotFound';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import RegistrationInfo from '../registration/registrationInfo/RegistrationInfo';
 import { getRegistrationFields } from '../registration/utils';
+import { SIGNUP_ACTIONS } from '../signup/constants';
+import useRegistrationAndEventData from '../signup/hooks/useRegistrationAndEventData';
+import SignupAuthenticationNotification from '../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
 import styles from './attendanceListPage.module.scss';
 import AttendeeList from './attendeeList/AttendeeList';
 
@@ -67,8 +67,8 @@ const AttendanceListPage: React.FC<AttendanceListPageProps> = ({
               { active: true, label: t(`attendanceListPage.title`) },
             ]}
           />
-          <EnrolmentAuthenticationNotification
-            action={ENROLMENT_ACTIONS.VIEW}
+          <SignupAuthenticationNotification
+            action={SIGNUP_ACTIONS.VIEW}
             registration={registration}
           />
           {<RegistrationInfo registration={registration} />}

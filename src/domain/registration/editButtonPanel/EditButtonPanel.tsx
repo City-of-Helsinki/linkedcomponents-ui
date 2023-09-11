@@ -62,9 +62,9 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     navigate(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
   };
 
-  const goToRegistrationEnrolmentsPage = () => {
+  const goToRegistrationSignupsPage = () => {
     navigate({
-      pathname: `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
+      pathname: `/${locale}${ROUTES.REGISTRATION_SIGNUPS.replace(
         ':registrationId',
         id
       )}`,
@@ -120,8 +120,8 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: REGISTRATION_ACTIONS.SHOW_ENROLMENTS,
-      onClick: goToRegistrationEnrolmentsPage,
+      action: REGISTRATION_ACTIONS.SHOW_SIGNUPS,
+      onClick: goToRegistrationSignupsPage,
     }),
     getActionItemProps({
       action: REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST,

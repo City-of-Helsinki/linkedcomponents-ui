@@ -20,17 +20,17 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
-import { EnrolmentPageProvider } from '../../../enrolment/enrolmentPageContext/EnrolmentPageContext';
-import { EnrolmentServerErrorsProvider } from '../../../enrolment/enrolmentServerErrorsContext/EnrolmentServerErrorsContext';
 import { registration } from '../../../registration/__mocks__/registration';
 import { TEST_SEATS_RESERVATION_CODE } from '../../../seatsReservation/constants';
+import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
+import { SignupServerErrorsProvider } from '../../../signup/signupServerErrorsContext/SignupServerErrorsContext';
 import { SIGNUP_INITIAL_VALUES } from '../../constants';
 import ParticipantAmountSelector from '../ParticipantAmountSelector';
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
   render(
-    <EnrolmentPageProvider>
-      <EnrolmentServerErrorsProvider>
+    <SignupPageProvider>
+      <SignupServerErrorsProvider>
         <Formik
           initialValues={{ signups: [{ ...SIGNUP_INITIAL_VALUES }] }}
           onSubmit={() => undefined}
@@ -40,8 +40,8 @@ const renderComponent = (mocks: MockedResponse[] = []) =>
             registration={registration}
           />
         </Formik>
-      </EnrolmentServerErrorsProvider>
-    </EnrolmentPageProvider>,
+      </SignupServerErrorsProvider>
+    </SignupPageProvider>,
     { mocks }
   );
 
@@ -78,7 +78,7 @@ const getUpdateSeatsReservationMock = (
     },
   };
 
-  const updateEnrolmentResponse = {
+  const updateSeatsReservationResponse = {
     data: { updateSeatsReservation: seatsReservation },
   };
 
@@ -87,7 +87,7 @@ const getUpdateSeatsReservationMock = (
       query: UpdateSeatsReservationDocument,
       variables: updateSeatsReservationVariables,
     },
-    result: updateEnrolmentResponse,
+    result: updateSeatsReservationResponse,
   };
 };
 

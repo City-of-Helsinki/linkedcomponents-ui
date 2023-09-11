@@ -8,7 +8,7 @@ export const getSeatsReservationData = (
   registrationId: string
 ): SeatsReservation | null => {
   const data = sessionStorage?.getItem(
-    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`
+    `${RESERVATION_NAMES.SEATS_RESERVATION}-${registrationId}`
   );
 
   return data ? JSON.parse(data) : null;
@@ -19,14 +19,14 @@ export const setSeatsReservationData = (
   seatsReservation: SeatsReservation
 ): void => {
   sessionStorage?.setItem(
-    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`,
+    `${RESERVATION_NAMES.SEATS_RESERVATION}-${registrationId}`,
     JSON.stringify(seatsReservation)
   );
 };
 
 export const clearSeatsReservationData = (registrationId: string): void => {
   sessionStorage?.removeItem(
-    `${RESERVATION_NAMES.ENROLMENT_RESERVATION}-${registrationId}`
+    `${RESERVATION_NAMES.SEATS_RESERVATION}-${registrationId}`
   );
 };
 

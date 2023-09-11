@@ -50,11 +50,11 @@ const renderComponent = ({
     routes: [route],
   });
 
-const findElement = (key: 'delete' | 'showEnrolments') => {
+const findElement = (key: 'delete' | 'showSignups') => {
   switch (key) {
     case 'delete':
       return screen.findByRole('button', { name: 'Poista ilmoittautuminen' });
-    case 'showEnrolments':
+    case 'showSignups':
       return screen.findByRole('button', { name: /näytä ilmoittautuneet/i });
   }
 };
@@ -67,7 +67,7 @@ const getElement = (
     | 'delete'
     | 'markPresent'
     | 'menu'
-    | 'showEnrolments'
+    | 'showSignups'
     | 'toggle'
     | 'update'
 ) => {
@@ -84,7 +84,7 @@ const getElement = (
       return screen.getByRole('button', { name: 'Merkkaa läsnäolijat' });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
-    case 'showEnrolments':
+    case 'showSignups':
       return screen.getByRole('button', { name: /näytä ilmoittautuneet/i });
     case 'toggle':
       return screen.getByRole('button', { name: /valinnat/i });
@@ -122,7 +122,7 @@ test('should render all buttons when user is authenticated', async () => {
 
   await openMenu();
 
-  await findElement('showEnrolments');
+  await findElement('showSignups');
   getElement('copy');
   getElement('copyLink');
 
@@ -144,7 +144,7 @@ test('only copy and copy link buttons should be enabled when user is not logged 
   getElement('copyLink');
 
   const disabledButtons = [
-    getElement('showEnrolments'),
+    getElement('showSignups'),
     getElement('delete'),
     getElement('update'),
   ];
@@ -152,18 +152,18 @@ test('only copy and copy link buttons should be enabled when user is not logged 
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
-test('should route to enrolments page when clicking show enrolments button', async () => {
+test('should route to signups page when clicking show signups button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({ authContextValue });
 
   await openMenu();
 
-  const showEnrolmentsButton = await findElement('showEnrolments');
-  await user.click(showEnrolmentsButton);
+  const showSignupsButton = await findElement('showSignups');
+  await user.click(showSignupsButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registration.id}/enrolments`
+      `/fi/registrations/${registration.id}/signups`
     )
   );
 });

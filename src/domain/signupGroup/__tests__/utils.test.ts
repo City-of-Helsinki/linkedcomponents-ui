@@ -4,7 +4,6 @@ import {
   fakeSignupGroup,
   getMockedSeatsReservationData,
 } from '../../../utils/mockDataUtils';
-import { TEST_SIGNUP_ID } from '../../enrolment/constants';
 import {
   registration,
   registrationId,
@@ -12,6 +11,7 @@ import {
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import { TEST_SEATS_RESERVATION_CODE } from '../../seatsReservation/constants';
 import { setSeatsReservationData } from '../../seatsReservation/utils';
+import { TEST_SIGNUP_ID } from '../../signup/constants';
 import {
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
