@@ -20,10 +20,10 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import { getRegistrationFields } from '../../registration/utils';
 import { addParamsToRegistrationQueryString } from '../../registrations/utils';
 import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../../signup/constants';
-import ConfirmCancelSignupModal from '../../signup/modals/confirmCancelSignupModal/ConfirmCancelSignupModal';
+import ConfirmDeleteSignupOrSignupGroupModal from '../../signup/modals/confirmDeleteSignupOrSignupGroupModal/ConfirmDeleteSignupOrSignupGroupModal';
 import SendMessageModal from '../../signup/modals/sendMessageModal/SendMessageModal';
 import { getSignupActionButtonProps } from '../../signup/permissions';
-import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
+import { useSignupGroupFormContext } from '../../signupGroup/signupGroupFormContext/hooks/useSignupGroupFormContext';
 import useUser from '../../user/hooks/useUser';
 import { getSignupFields } from '../utils';
 
@@ -54,9 +54,9 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
   });
 
   const { closeModal, openModal, openModalId, setOpenModalId, setOpenModal } =
-    useSignupPageContext();
+    useSignupGroupFormContext();
 
-  const { cancelSignup, saving, sendMessage } = useSignupActions({
+  const { deleteSignup, saving, sendMessage } = useSignupActions({
     registration,
     signup,
   });
@@ -110,10 +110,10 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
       },
     }),
     getActionItemProps({
-      action: SIGNUP_ACTIONS.CANCEL,
+      action: SIGNUP_ACTIONS.DELETE,
       onClick: () => {
         setOpenModalId(signup.id);
-        setOpenModal(SIGNUP_MODALS.CANCEL);
+        setOpenModal(SIGNUP_MODALS.DELETE);
       },
     }),
   ].filter(skipFalsyType);
@@ -123,11 +123,11 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
 
   return (
     <>
-      {isModalOpen(SIGNUP_MODALS.CANCEL) && (
-        <ConfirmCancelSignupModal
-          isOpen={openModal === SIGNUP_MODALS.CANCEL}
-          isSaving={saving === SIGNUP_ACTIONS.CANCEL}
-          onConfirm={cancelSignup}
+      {isModalOpen(SIGNUP_MODALS.DELETE) && (
+        <ConfirmDeleteSignupOrSignupGroupModal
+          isOpen={openModal === SIGNUP_MODALS.DELETE}
+          isSaving={saving === SIGNUP_ACTIONS.DELETE}
+          onConfirm={deleteSignup}
           onClose={closeModal}
           registration={registration}
           signup={signup}

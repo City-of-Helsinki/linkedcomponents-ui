@@ -28,8 +28,8 @@ export const checkCanUserDoSignupAction = ({
 
   switch (action) {
     case SIGNUP_ACTIONS.EDIT:
-    case SIGNUP_ACTIONS.CANCEL:
     case SIGNUP_ACTIONS.CREATE:
+    case SIGNUP_ACTIONS.DELETE:
     case SIGNUP_ACTIONS.SEND_MESSAGE:
     case SIGNUP_ACTIONS.UPDATE:
     case SIGNUP_ACTIONS.VIEW:

@@ -22,14 +22,14 @@ import {
 } from '../../../../utils/testUtils';
 import { registration } from '../../../registration/__mocks__/registration';
 import { TEST_SEATS_RESERVATION_CODE } from '../../../seatsReservation/constants';
-import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
 import { SignupServerErrorsProvider } from '../../../signup/signupServerErrorsContext/SignupServerErrorsContext';
 import { SIGNUP_INITIAL_VALUES } from '../../constants';
+import { SignupGroupFormProvider } from '../../signupGroupFormContext/SignupGroupFormContext';
 import ParticipantAmountSelector from '../ParticipantAmountSelector';
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
   render(
-    <SignupPageProvider>
+    <SignupGroupFormProvider>
       <SignupServerErrorsProvider>
         <Formik
           initialValues={{ signups: [{ ...SIGNUP_INITIAL_VALUES }] }}
@@ -41,7 +41,7 @@ const renderComponent = (mocks: MockedResponse[] = []) =>
           />
         </Formik>
       </SignupServerErrorsProvider>
-    </SignupPageProvider>,
+    </SignupGroupFormProvider>,
     { mocks }
   );
 

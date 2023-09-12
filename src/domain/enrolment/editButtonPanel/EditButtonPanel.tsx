@@ -73,7 +73,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: SIGNUP_ACTIONS.CANCEL,
+      action: SIGNUP_ACTIONS.DELETE,
       onClick: onCancel,
     }),
     getActionItemProps({

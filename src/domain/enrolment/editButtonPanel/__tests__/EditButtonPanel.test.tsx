@@ -16,7 +16,7 @@ import {
   registrationId,
 } from '../../../registration/__mocks__/registration';
 import { signup } from '../../../signup/__mocks__/signup';
-import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
+import { SignupGroupFormProvider } from '../../../signupGroup/signupGroupFormContext/SignupGroupFormContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
@@ -52,9 +52,9 @@ const renderComponent = ({
   route?: string;
 } = {}) =>
   render(
-    <SignupPageProvider>
+    <SignupGroupFormProvider>
       <EditButtonPanel {...defaultProps} {...props} />
-    </SignupPageProvider>,
+    </SignupGroupFormProvider>,
     {
       authContextValue,
       mocks,

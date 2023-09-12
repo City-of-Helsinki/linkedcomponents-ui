@@ -1798,13 +1798,7 @@
       "attending": "Osallistuu",
       "waitlisted": "Jonossa"
     },
-    "cancelSignupModal": {
-      "buttonCancel": "Peruuta ilmoittautuminen",
-      "text1": "Tätä toimintoa ei voi perua.",
-      "text2": "Seuraavat ilmoittautumiset poistetaan:",
-      "title": "Haluatko varmasti poistaa ilmoittautumisen?"
-    },
-    "deleteParticipantModal": {
+    "deleteSignupFromFormModal": {
       "buttonDelete": "Poista osallistuja",
       "buttonDelete_other": "Poista osallistujat",
       "text1": "Haluatko varmasti poistaa osallistujan? Myös osallistujan varaus poistetaan.",
@@ -1812,6 +1806,12 @@
       "text2": "Tätä toimintoa ei voi perua.",
       "title": "Vahvista osallistujan poistaminen",
       "title_other": "Vahvista osallistujien poistaminen"
+    },
+    "deleteSignupModal": {
+      "buttonCancel": "Peruuta ilmoittautuminen",
+      "text1": "Tätä toimintoa ei voi perua.",
+      "text2": "Seuraavat ilmoittautumiset poistetaan:",
+      "title": "Haluatko varmasti poistaa ilmoittautumisen?"
     },
     "form": {
       "buttonDeleteSignup": "Poista osallistuja",
@@ -1893,6 +1893,7 @@
   },
   "signupGroup": {
     "actionButtons": {
+      "delete": "Peruuta osallistuminen",
       "edit": "Muokkaa tietoja"
     },
     "form": {
@@ -1907,7 +1908,7 @@
   },
   "signupsPage": {
     "actionButtons": {
-      "cancel": "Peruuta osallistuminen",
+      "delete": "Peruuta osallistuminen",
       "edit": "Muokkaa tietoja",
       "sendMessage": "Lähetä viesti"
     },

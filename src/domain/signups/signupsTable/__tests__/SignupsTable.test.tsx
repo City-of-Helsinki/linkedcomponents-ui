@@ -20,7 +20,7 @@ import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
-import { SignupPageProvider } from '../../../signup/signupPageContext/SignupPageContext';
+import { SignupGroupFormProvider } from '../../../signupGroup/signupGroupFormContext/SignupGroupFormContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
   attendeeNames,
@@ -55,9 +55,9 @@ const signupName = [attendeeNames[0].firstName, attendeeNames[0].lastName].join(
 const authContextValue = fakeAuthenticatedAuthContextValue();
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) => {
   return render(
-    <SignupPageProvider>
+    <SignupGroupFormProvider>
       <SignupsTable {...defaultProps} />
-    </SignupPageProvider>,
+    </SignupGroupFormProvider>,
     { mocks, authContextValue }
   );
 };

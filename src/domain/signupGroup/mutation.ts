@@ -14,6 +14,17 @@ export const MUTATION_SIGNUP_GROUP = gql`
     }
   }
 
+  mutation DeleteSignupGroup($id: ID!) {
+    deleteSignupGroup(id: $id)
+      @rest(
+        type: "NoContent"
+        path: "/signup_group/{args.id}/"
+        method: "DELETE"
+      ) {
+      noContent
+    }
+  }
+
   mutation UpdateSignupGroup(
     $input: UpdateSignupGroupMutationInput!
     $id: ID!

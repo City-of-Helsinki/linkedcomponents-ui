@@ -11,8 +11,8 @@ import {
 
 describe('getSignupActionWarning function', () => {
   it.each([
-    SIGNUP_ACTIONS.CANCEL,
     SIGNUP_ACTIONS.CREATE,
+    SIGNUP_ACTIONS.DELETE,
     SIGNUP_ACTIONS.EDIT,
     SIGNUP_ACTIONS.SEND_MESSAGE,
     SIGNUP_ACTIONS.UPDATE,
@@ -34,12 +34,12 @@ describe('getSignupActionWarning function', () => {
 
   const testCases: [SIGNUP_ACTIONS, string][] = [
     [
-      SIGNUP_ACTIONS.CANCEL,
-      'Sinulla ei ole oikeuksia muokata tätä osallistujaa.',
-    ],
-    [
       SIGNUP_ACTIONS.CREATE,
       'Sinulla ei ole oikeuksia lisätä osallistujia tähän ilmoittautumiseen.',
+    ],
+    [
+      SIGNUP_ACTIONS.DELETE,
+      'Sinulla ei ole oikeuksia muokata tätä osallistujaa.',
     ],
     [
       SIGNUP_ACTIONS.EDIT,
@@ -78,8 +78,8 @@ describe('checkCanUserDoSignupAction function', () => {
   const publisher = TEST_PUBLISHER_ID;
 
   const testAdminOrgCases: [SIGNUP_ACTIONS, boolean][] = [
-    [SIGNUP_ACTIONS.CANCEL, true],
     [SIGNUP_ACTIONS.CREATE, true],
+    [SIGNUP_ACTIONS.DELETE, true],
     [SIGNUP_ACTIONS.EDIT, true],
     [SIGNUP_ACTIONS.SEND_MESSAGE, true],
     [SIGNUP_ACTIONS.UPDATE, true],
@@ -102,8 +102,8 @@ describe('checkCanUserDoSignupAction function', () => {
   );
 
   const testOrgMemberCases: [SIGNUP_ACTIONS, boolean][] = [
-    [SIGNUP_ACTIONS.CANCEL, false],
     [SIGNUP_ACTIONS.CREATE, false],
+    [SIGNUP_ACTIONS.DELETE, false],
     [SIGNUP_ACTIONS.EDIT, false],
     [SIGNUP_ACTIONS.SEND_MESSAGE, false],
     [SIGNUP_ACTIONS.UPDATE, false],

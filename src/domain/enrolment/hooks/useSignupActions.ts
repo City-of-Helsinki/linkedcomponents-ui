@@ -24,8 +24,8 @@ import {
   clearSignupsQueries,
 } from '../../app/apollo/clearCacheUtils';
 import { SEND_MESSAGE_FORM_NAME, SIGNUP_ACTIONS } from '../../signup/constants';
-import { useSignupPageContext } from '../../signup/signupPageContext/hooks/useSignupPageContext';
 import { SendMessageFormFields } from '../../signup/types';
+import { useSignupGroupFormContext } from '../../signupGroup/signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupGroupFormFields } from '../../signupGroup/types';
 import { getUpdateSignupPayload } from '../utils';
 
@@ -35,7 +35,7 @@ interface Props {
 }
 
 type UseSignupActionsState = {
-  cancelSignup: (callbacks?: MutationCallbacks) => Promise<void>;
+  deleteSignup: (callbacks?: MutationCallbacks) => Promise<void>;
   saving: SIGNUP_ACTIONS | false;
   sendMessage: (
     values: SendMessageFormFields,
@@ -53,7 +53,7 @@ const useSignupActions = ({
 }: Props): UseSignupActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
-  const { closeModal } = useSignupPageContext();
+  const { closeModal } = useSignupGroupFormContext();
 
   const [saving, setSaving] = useMountedState<SIGNUP_ACTIONS | false>(false);
 
@@ -84,9 +84,9 @@ const useSignupActions = ({
     await (callbacks?.onSuccess && callbacks.onSuccess());
   };
 
-  const cancelSignup = async (callbacks?: MutationCallbacks) => {
+  const deleteSignup = async (callbacks?: MutationCallbacks) => {
     try {
-      setSaving(SIGNUP_ACTIONS.CANCEL);
+      setSaving(SIGNUP_ACTIONS.DELETE);
 
       await deleteSignupMutation({
         variables: { id: getValue(signup?.id, '') },
@@ -172,7 +172,7 @@ const useSignupActions = ({
   };
 
   return {
-    cancelSignup,
+    deleteSignup,
     saving,
     sendMessage,
     updateSignup,
