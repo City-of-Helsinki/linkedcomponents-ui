@@ -50,6 +50,7 @@ type UseSignupGroupActionsState = {
     callbacks?: MutationCallbacks
   ) => Promise<void>;
 };
+
 const useSignupGroupActions = ({
   registration,
   signupGroup,

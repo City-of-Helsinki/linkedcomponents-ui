@@ -32,7 +32,7 @@ import {
   registrationId,
 } from '../../registration/__mocks__/registration';
 import { TEST_SEATS_RESERVATION_CODE } from '../../seatsReservation/constants';
-import { mockedUserResponse } from '../../user/__mocks__/user';
+import { mockedRegistrationUserResponse } from '../../user/__mocks__/user';
 import {
   mockedCreateSignupGroupResponse,
   mockedInvalidCreateSignupGroupResponse,
@@ -222,7 +222,7 @@ const defaultMocks = [
   mockedOrganizationAncestorsResponse,
   mockedPlaceResponse,
   mockedRegistrationResponse,
-  mockedUserResponse,
+  mockedRegistrationUserResponse,
   mockedCreateSeatsReservation,
 ];
 

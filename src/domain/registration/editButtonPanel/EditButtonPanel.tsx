@@ -23,7 +23,7 @@ import useUser from '../../user/hooks/useUser';
 import {
   copyRegistrationToSessionStorage,
   copySignupLinkToClipboard,
-  getEditButtonProps,
+  getRegistrationActionButtonProps,
   getRegistrationFields,
 } from '../utils';
 
@@ -89,7 +89,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     action: REGISTRATION_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps => {
-    return getEditButtonProps({
+    return getRegistrationActionButtonProps({
       action,
       authenticated,
       onClick,

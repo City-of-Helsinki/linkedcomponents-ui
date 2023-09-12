@@ -20,7 +20,7 @@ export const hiddenStyles = {
 
 type CommonProps = {
   className?: string;
-  requiredOrganizationType?: 'admin' | 'any' | 'external';
+  requiredOrganizationType?: 'admin' | 'any' | 'external' | 'registrationAdmin';
 };
 
 type OnlyNotAuthenticatedErrorProps = {
@@ -63,8 +63,16 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const adminOrganizations = getValue(user?.adminOrganizations, []);
+  const registrationAdminOrganizations = getValue(
+    user?.registrationAdminOrganizations,
+    []
+  );
   const organizationMemberships = getValue(user?.organizationMemberships, []);
-  const userOrganizations = [...adminOrganizations, ...organizationMemberships];
+  const userOrganizations = [
+    ...adminOrganizations,
+    ...registrationAdminOrganizations,
+    ...organizationMemberships,
+  ];
 
   const getAuthenticationWarnings = () => {
     /* istanbul ignore else */
@@ -77,6 +85,11 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
         if (requiredOrganizationType === 'admin') {
           return adminOrganizations.length;
         }
+
+        if (requiredOrganizationType === 'registrationAdmin') {
+          return registrationAdminOrganizations.length;
+        }
+
         return userOrganizations.length;
       };
 

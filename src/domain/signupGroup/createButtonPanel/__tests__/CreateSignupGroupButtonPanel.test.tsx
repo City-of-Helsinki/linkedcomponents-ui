@@ -15,7 +15,7 @@ import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
-import { mockedUserResponse } from '../../../user/__mocks__/user';
+import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import CreateSignupGroupButtonPanel, {
   CreateSignupGroupButtonPanelProps,
 } from '../CreateSignupGroupButtonPanel';
@@ -32,7 +32,7 @@ const defaultProps: CreateSignupGroupButtonPanelProps = {
 const mocks = [
   mockedEventResponse,
   mockedOrganizationAncestorsResponse,
-  mockedUserResponse,
+  mockedRegistrationUserResponse,
 ];
 
 const authContextValue = fakeAuthenticatedAuthContextValue();

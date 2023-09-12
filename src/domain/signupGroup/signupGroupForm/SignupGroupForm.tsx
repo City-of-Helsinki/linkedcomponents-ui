@@ -315,7 +315,11 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
           >
             <FormContainer>
               <SignupAuthenticationNotification
-                action={SIGNUP_ACTIONS.UPDATE}
+                action={
+                  signup || savingSignup
+                    ? SIGNUP_ACTIONS.UPDATE
+                    : SIGNUP_ACTIONS.CREATE
+                }
                 registration={registration}
               />
               <ServerErrorSummary errors={serverErrorItems} />

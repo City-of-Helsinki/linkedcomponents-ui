@@ -78,6 +78,30 @@ describe('checkCanUserDoSignupAction function', () => {
   const publisher = TEST_PUBLISHER_ID;
 
   const testAdminOrgCases: [SIGNUP_ACTIONS, boolean][] = [
+    [SIGNUP_ACTIONS.CREATE, false],
+    [SIGNUP_ACTIONS.DELETE, false],
+    [SIGNUP_ACTIONS.EDIT, false],
+    [SIGNUP_ACTIONS.SEND_MESSAGE, false],
+    [SIGNUP_ACTIONS.UPDATE, false],
+    [SIGNUP_ACTIONS.VIEW, false],
+  ];
+  it.each(testAdminOrgCases)(
+    'should allow/deny correct actions if adminArganizations contains event publisher, %p returns %p',
+    (action, isAllowed) => {
+      const user = fakeUser({ adminOrganizations: [publisher] });
+
+      expect(
+        checkCanUserDoSignupAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(isAllowed);
+    }
+  );
+
+  const testRegistrationAdminOrgCases: [SIGNUP_ACTIONS, boolean][] = [
     [SIGNUP_ACTIONS.CREATE, true],
     [SIGNUP_ACTIONS.DELETE, true],
     [SIGNUP_ACTIONS.EDIT, true],
@@ -85,10 +109,10 @@ describe('checkCanUserDoSignupAction function', () => {
     [SIGNUP_ACTIONS.UPDATE, true],
     [SIGNUP_ACTIONS.VIEW, true],
   ];
-  it.each(testAdminOrgCases)(
-    'should allow/deny correct actions if adminArganizations contains event publisher, %p returns %p',
+  it.each(testRegistrationAdminOrgCases)(
+    'should allow/deny correct actions if registrationAdminArganizations contains event publisher, %p returns %p',
     (action, isAllowed) => {
-      const user = fakeUser({ adminOrganizations: [publisher] });
+      const user = fakeUser({ registrationAdminOrganizations: [publisher] });
 
       expect(
         checkCanUserDoSignupAction({

@@ -21,7 +21,7 @@ import {
   mockedDeleteRegistrationResponse,
   registration,
 } from '../../../registration/__mocks__/editRegistrationPage';
-import { mockedUserResponse } from '../../../user/__mocks__/user';
+import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import RegistrationActionsDropdown, {
   RegistrationActionsDropdownProps,
 } from '../RegistrationActionsDropdown';
@@ -35,7 +35,10 @@ const defaultProps: RegistrationActionsDropdownProps = {
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedOrganizationAncestorsResponse,
+  mockedRegistrationUserResponse,
+];
 
 const routes = [`/fi${ROUTES.REGISTRATIONS}`];
 

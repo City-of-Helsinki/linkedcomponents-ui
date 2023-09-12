@@ -23,7 +23,7 @@ import { useAuth } from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import {
-  getEditButtonProps as getRegistrationEditButtonProps,
+  getRegistrationActionButtonProps,
   getRegistrationFields,
 } from '../registration/utils';
 import { REGISTRATION_ACTIONS } from '../registrations/constants';
@@ -108,7 +108,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
       t,
       user,
     }),
-    getRegistrationEditButtonProps({
+    getRegistrationActionButtonProps({
       action: REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST,
       authenticated,
       onClick: goToAttendanceListPage,
@@ -128,6 +128,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
     t,
     user,
   });
+
   return (
     <PageWrapper
       backgroundColor="coatOfArms"

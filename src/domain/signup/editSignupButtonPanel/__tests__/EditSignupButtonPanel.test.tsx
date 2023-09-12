@@ -16,7 +16,7 @@ import {
   registrationId,
 } from '../../../registration/__mocks__/registration';
 import { SignupGroupFormProvider } from '../../../signupGroup/signupGroupFormContext/SignupGroupFormContext';
-import { mockedUserResponse } from '../../../user/__mocks__/user';
+import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import { signup } from '../../__mocks__/signup';
 import EditSignupButtonPanel, {
   EditSignupButtonPanelProps,
@@ -36,7 +36,7 @@ const defaultProps: EditSignupButtonPanelProps = {
 const mocks = [
   mockedEventResponse,
   mockedOrganizationAncestorsResponse,
-  mockedUserResponse,
+  mockedRegistrationUserResponse,
 ];
 
 const authContextValue = fakeAuthenticatedAuthContextValue();

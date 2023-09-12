@@ -27,7 +27,7 @@ import {
   signupWithGroup,
 } from '../../../signup/__mocks__/editSignupPage';
 import { SignupGroupFormProvider } from '../../../signupGroup/signupGroupFormContext/SignupGroupFormContext';
-import { mockedUserResponse } from '../../../user/__mocks__/user';
+import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import SignupActionsDropdown, {
   SignupActionsDropdownProps,
 } from '../SignupActionsDropdown';
@@ -44,7 +44,7 @@ const defaultMocks = [
   mockedEventResponse,
   mockedSendMessageResponse,
   mockedOrganizationAncestorsResponse,
-  mockedUserResponse,
+  mockedRegistrationUserResponse,
 ];
 
 const authContextValue = fakeAuthenticatedAuthContextValue();

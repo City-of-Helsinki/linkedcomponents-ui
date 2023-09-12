@@ -25,7 +25,7 @@ import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../registration/__mocks__/registration';
-import { mockedUserResponse } from '../../user/__mocks__/user';
+import { mockedRegistrationUserResponse } from '../../user/__mocks__/user';
 import {
   attendees,
   getMockedAttendeesResponse,
@@ -47,7 +47,7 @@ const defaultMocks = [
   mockedNotFoundRegistrationResponse,
   mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
-  mockedUserResponse,
+  mockedRegistrationUserResponse,
   getMockedAttendeesResponse(attendees),
   getMockedAttendeesResponse(fakeSignups(0), {
     attendeeStatus: AttendeeStatus.Waitlisted,

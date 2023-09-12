@@ -250,7 +250,7 @@ test('only copy and delete button should be enabled when event is cancelled', as
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
 });
 
-test('all buttons should be enabled when user is not logged in (public)', async () => {
+test('all buttons should be disabled when user is not logged in (public)', async () => {
   renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });

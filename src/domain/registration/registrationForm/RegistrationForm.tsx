@@ -48,7 +48,10 @@ import ConfirmDeleteRegistrationModal from '../modals/confirmDeleteRegistrationM
 import RegistrationInfo from '../registrationInfo/RegistrationInfo';
 import styles from '../registrationPage.module.scss';
 import { RegistrationFormFields } from '../types';
-import { checkCanUserDoAction, getRegistrationInitialValues } from '../utils';
+import {
+  checkCanUserDoRegistrationAction,
+  getRegistrationInitialValues,
+} from '../utils';
 import { getFocusableFieldId, registrationSchema } from '../validation';
 import getValue from '../../../utils/getValue';
 import GroupSizeSection from '../formSections/groupSizeSection/GroupSizeSection';
@@ -92,7 +95,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const publisher = getValue(registration?.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const isEditingAllowed = checkCanUserDoAction({
+  const isEditingAllowed = checkCanUserDoRegistrationAction({
     action,
     organizationAncestors,
     publisher,

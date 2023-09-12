@@ -69,10 +69,11 @@ describe('checkCanUserDoSignupGroupAction function', () => {
   const publisher = TEST_PUBLISHER_ID;
 
   const testAdminOrgCases: [SIGNUP_GROUP_ACTIONS, boolean][] = [
-    [SIGNUP_GROUP_ACTIONS.CREATE, true],
-    [SIGNUP_GROUP_ACTIONS.EDIT, true],
-    [SIGNUP_GROUP_ACTIONS.UPDATE, true],
-    [SIGNUP_GROUP_ACTIONS.VIEW, true],
+    [SIGNUP_GROUP_ACTIONS.CREATE, false],
+    [SIGNUP_GROUP_ACTIONS.DELETE, false],
+    [SIGNUP_GROUP_ACTIONS.EDIT, false],
+    [SIGNUP_GROUP_ACTIONS.UPDATE, false],
+    [SIGNUP_GROUP_ACTIONS.VIEW, false],
   ];
   it.each(testAdminOrgCases)(
     'should allow/deny correct actions if adminArganizations contains event publisher, %p returns %p',
@@ -90,8 +91,32 @@ describe('checkCanUserDoSignupGroupAction function', () => {
     }
   );
 
+  const testRegistrationAdminOrgCases: [SIGNUP_GROUP_ACTIONS, boolean][] = [
+    [SIGNUP_GROUP_ACTIONS.CREATE, true],
+    [SIGNUP_GROUP_ACTIONS.DELETE, true],
+    [SIGNUP_GROUP_ACTIONS.EDIT, true],
+    [SIGNUP_GROUP_ACTIONS.UPDATE, true],
+    [SIGNUP_GROUP_ACTIONS.VIEW, true],
+  ];
+  it.each(testRegistrationAdminOrgCases)(
+    'should allow/deny correct actions if registrationAdminArganizations contains event publisher, %p returns %p',
+    (action, isAllowed) => {
+      const user = fakeUser({ registrationAdminOrganizations: [publisher] });
+
+      expect(
+        checkCanUserDoSignupGroupAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(isAllowed);
+    }
+  );
+
   const testOrgMemberCases: [SIGNUP_GROUP_ACTIONS, boolean][] = [
     [SIGNUP_GROUP_ACTIONS.CREATE, false],
+    [SIGNUP_GROUP_ACTIONS.DELETE, false],
     [SIGNUP_GROUP_ACTIONS.EDIT, false],
     [SIGNUP_GROUP_ACTIONS.UPDATE, false],
     [SIGNUP_GROUP_ACTIONS.VIEW, false],

@@ -6,7 +6,7 @@ import {
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability } from '../../types';
-import { isAdminUserInOrganization } from '../organization/utils';
+import { isRegistrationAdminUserInOrganization } from '../organization/utils';
 import { SIGNUP_ACTIONS, SIGNUP_ICONS, SIGNUP_LABEL_KEYS } from './constants';
 
 export const checkCanUserDoSignupAction = ({
@@ -20,7 +20,7 @@ export const checkCanUserDoSignupAction = ({
   publisher: string;
   user?: UserFieldsFragment;
 }): boolean => {
-  const isAdminUser = isAdminUserInOrganization({
+  const isAdminUser = isRegistrationAdminUserInOrganization({
     id: publisher,
     organizationAncestors,
     user,

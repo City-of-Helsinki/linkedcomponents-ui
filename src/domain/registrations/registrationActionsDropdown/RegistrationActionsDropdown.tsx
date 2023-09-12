@@ -19,7 +19,7 @@ import ConfirmDeleteRegistrationModal from '../../registration/modals/confirmDel
 import {
   copyRegistrationToSessionStorage,
   copySignupLinkToClipboard,
-  getEditButtonProps,
+  getRegistrationActionButtonProps,
   getRegistrationFields,
 } from '../../registration/utils';
 import useUser from '../../user/hooks/useUser';
@@ -83,7 +83,7 @@ const RegistrationActionsDropdown: React.FC<
     action: REGISTRATION_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getEditButtonProps({
+    return getRegistrationActionButtonProps({
       action,
       authenticated,
       onClick,
