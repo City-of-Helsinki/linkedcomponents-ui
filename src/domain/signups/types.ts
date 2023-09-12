@@ -17,6 +17,7 @@ export type SignupFields = {
   phoneNumber: string;
   signupGroup: string | null;
   signupGroupUrl: string | null;
+  signupUrl: string;
 };
 
 export type SignupsLocationState = {

@@ -2,11 +2,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
-import { ROUTES } from '../../../constants';
 import {
   RegistrationFieldsFragment,
   SignupFieldsFragment,
@@ -15,11 +13,10 @@ import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
-import useSignupActions from '../../enrolment/hooks/useSignupActions';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
-import { getRegistrationFields } from '../../registration/utils';
 import { addParamsToRegistrationQueryString } from '../../registrations/utils';
 import { SIGNUP_ACTIONS, SIGNUP_MODALS } from '../../signup/constants';
+import useSignupActions from '../../signup/hooks/useSignupActions';
 import ConfirmDeleteSignupOrSignupGroupModal from '../../signup/modals/confirmDeleteSignupOrSignupGroupModal/ConfirmDeleteSignupOrSignupGroupModal';
 import SendMessageModal from '../../signup/modals/sendMessageModal/SendMessageModal';
 import { getSignupActionButtonProps } from '../../signup/permissions';
@@ -46,8 +43,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
   const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { pathname, search } = useLocation();
-  const { id: registrationId } = getRegistrationFields(registration, locale);
-  const { signupGroup } = getSignupFields({
+  const { signupGroupUrl, signupUrl } = getSignupFields({
     language: locale,
     registration,
     signup,
@@ -66,17 +62,10 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
       returnPath: pathname,
     });
 
-    if (signupGroup) {
-      navigate({
-        pathname: `/${locale}${ROUTES.EDIT_SIGNUP_GROUP.replace(
-          ':registrationId',
-          registrationId
-        ).replace(':signupGroupId', signupGroup)}`,
-        search: queryString,
-      });
-    } else {
-      toast.error('TODO: Editing a single signup is not supported yet');
-    }
+    navigate({
+      pathname: signupGroupUrl || signupUrl,
+      search: queryString,
+    });
   };
 
   const getActionItemProps = ({

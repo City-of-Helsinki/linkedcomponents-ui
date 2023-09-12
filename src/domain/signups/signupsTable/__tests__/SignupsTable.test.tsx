@@ -1,6 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { AttendeeStatus } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
@@ -136,18 +135,20 @@ test('should navigate between pages', async () => {
   ).not.toBeInTheDocument();
 });
 
-test('should show toast message by clicking a signup without group', async () => {
-  toast.error = jest.fn();
+test('should open edit signup page by clicking a signup without group', async () => {
   const user = userEvent.setup();
-  renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
+  const { history } = renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse(attendees),
+  ]);
 
   const signupButton = await screen.findByRole('button', {
     name: signupName,
   });
   await user.click(signupButton);
 
-  expect(toast.error).toBeCalledWith(
-    'TODO: Editing a single signup is not supported yet'
+  expect(history.location.pathname).toBe(
+    `/fi/registrations/${registrationId}/signup/edit/${attendees.data[0].id}`
   );
 });
 
@@ -168,10 +169,12 @@ test('should open edit signup group page by clicking a signup with group', async
   );
 });
 
-test('should show toast message by pressing enter on a signup without group', async () => {
-  toast.error = jest.fn();
+test('should open edit signup page by pressing enter on a signup without group', async () => {
   const user = userEvent.setup();
-  renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
+  const { history } = renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse(attendees),
+  ]);
 
   await loadingSpinnerIsNotInDocument();
   const signupButton = await screen.findByRole('button', {
@@ -179,8 +182,8 @@ test('should show toast message by pressing enter on a signup without group', as
   });
   await user.type(signupButton, '{enter}');
 
-  expect(toast.error).toBeCalledWith(
-    'TODO: Editing a single signup is not supported yet'
+  expect(history.location.pathname).toBe(
+    `/fi/registrations/${registrationId}/signup/edit/${attendees.data[0].id}`
   );
 });
 

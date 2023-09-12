@@ -15,17 +15,19 @@ import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
-import { signup } from '../../../signup/__mocks__/signup';
 import { SignupGroupFormProvider } from '../../../signupGroup/signupGroupFormContext/SignupGroupFormContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
+import { signup } from '../../__mocks__/signup';
+import EditSignupButtonPanel, {
+  EditSignupButtonPanelProps,
+} from '../EditSignupButtonPanel';
 
 configure({ defaultHidden: true });
 
-const defaultProps: EditButtonPanelProps = {
-  onCancel: jest.fn(),
-  onSave: jest.fn(),
+const defaultProps: EditSignupButtonPanelProps = {
+  onDelete: jest.fn(),
   onSendMessage: jest.fn(),
+  onUpdate: jest.fn(),
   registration,
   saving: false,
   signup,
@@ -48,12 +50,12 @@ const renderComponent = ({
   props,
   route = defaultRoute,
 }: {
-  props?: Partial<EditButtonPanelProps>;
+  props?: Partial<EditSignupButtonPanelProps>;
   route?: string;
 } = {}) =>
   render(
     <SignupGroupFormProvider>
-      <EditButtonPanel {...defaultProps} {...props} />
+      <EditSignupButtonPanel {...defaultProps} {...props} />
     </SignupGroupFormProvider>,
     {
       authContextValue,
@@ -107,15 +109,15 @@ test('should toggle menu by clicking actions button', async () => {
   ).not.toBeInTheDocument();
 });
 
-test('should call onCancel clicking cancel button', async () => {
-  const onCancel = jest.fn();
+test('should call onDelete clicking cancel button', async () => {
+  const onDelete = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ props: { onCancel } });
+  renderComponent({ props: { onDelete } });
 
   await openMenu();
   const cancelButton = await findElement('cancelButton');
   await user.click(cancelButton);
-  expect(onCancel).toBeCalled();
+  expect(onDelete).toBeCalled();
 });
 
 test('should route to signups page when clicking back button', async () => {
@@ -149,16 +151,16 @@ test('should route to page defined in returnPath when clicking back button', asy
   );
 });
 
-test('should call onSave', async () => {
-  const onSave = jest.fn();
+test('should call onUpdate', async () => {
+  const onUpdate = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ props: { onSave } });
+  renderComponent({ props: { onUpdate } });
 
   const saveButton = getElement('saveButton');
   await waitFor(() => expect(saveButton).toBeEnabled());
   await user.click(saveButton);
 
-  expect(onSave).toBeCalled();
+  expect(onUpdate).toBeCalled();
 });
 
 test('menu toggle button should be visible and accessible for mobile devices', async () => {

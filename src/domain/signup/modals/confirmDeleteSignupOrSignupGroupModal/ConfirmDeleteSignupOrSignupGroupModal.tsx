@@ -23,7 +23,7 @@ type ConfirmDeleteSignupModalProps = {
 
 type ConfirmDeleteSignupGroupModalProps = {
   registration: RegistrationFieldsFragment;
-  signupGroup?: SignupGroupFieldsFragment;
+  signupGroup: SignupGroupFieldsFragment;
   signup?: undefined;
 };
 

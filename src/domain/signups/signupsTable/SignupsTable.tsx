@@ -2,7 +2,6 @@ import omit from 'lodash/omit';
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
-import { toast } from 'react-toastify';
 
 import Pagination from '../../../common/components/pagination/Pagination';
 import Table from '../../../common/components/table/Table';
@@ -141,16 +140,15 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
   });
 
   const handleRowClick = (signup: object) => {
-    const { signupGroupUrl } = getSignupFields({
+    const { signupUrl, signupGroupUrl } = getSignupFields({
       language: locale,
       registration,
       signup: signup as SignupFieldsFragment,
     });
-    if (signupGroupUrl) {
-      navigate({ pathname: signupGroupUrl, search: queryStringWithReturnPath });
-    } else {
-      toast.error('TODO: Editing a single signup is not supported yet');
-    }
+    navigate({
+      pathname: signupGroupUrl || signupUrl,
+      search: queryStringWithReturnPath,
+    });
   };
 
   React.useEffect(() => {

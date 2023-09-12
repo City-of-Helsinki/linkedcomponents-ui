@@ -1,6 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
 import getValue from '../../../../utils/getValue';
@@ -121,18 +120,19 @@ test('should render correct buttons', async () => {
   enabledButtons.forEach((button) => expect(button).toBeEnabled());
 });
 
-test("should show toast message when clicking edit button and signup doesn't have a group", async () => {
-  toast.error = jest.fn();
+test("should route to edit signup page when clicking edit button and signup doesn't have a group", async () => {
   const user = userEvent.setup();
-  renderComponent({ authContextValue, props: { signup } });
+  const { history } = renderComponent({ authContextValue, props: { signup } });
 
   await openMenu();
 
   const editButton = getElement('edit');
   await user.click(editButton);
 
-  expect(toast.error).toBeCalledWith(
-    'TODO: Editing a single signup is not supported yet'
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/registrations/${registration.id}/signup/edit/${signup.id}`
+    )
   );
 });
 

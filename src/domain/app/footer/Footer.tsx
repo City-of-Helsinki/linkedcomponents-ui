@@ -15,6 +15,7 @@ const NO_FOOTER_PATHS: PathPattern[] = [
   { path: ROUTES.ATTENDANCE_LIST },
   { path: ROUTES.EDIT_EVENT },
   { path: ROUTES.EDIT_REGISTRATION },
+  { path: ROUTES.EDIT_SIGNUP },
   { path: ROUTES.EDIT_SIGNUP_GROUP },
   { path: ROUTES.REGISTRATION_SIGNUPS },
 ];

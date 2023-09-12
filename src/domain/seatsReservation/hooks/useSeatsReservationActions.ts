@@ -13,15 +13,15 @@ import { MutationCallbacks } from '../../../types';
 import { reportError } from '../../app/sentry/utils';
 import { SIGNUP_MODALS } from '../../signup/constants';
 import { useSignupGroupFormContext } from '../../signupGroup/signupGroupFormContext/hooks/useSignupGroupFormContext';
-import { SignupFields } from '../../signupGroup/types';
+import { SignupFormFields } from '../../signupGroup/types';
 import { getNewSignups } from '../../signupGroup/utils';
 import useUser from '../../user/hooks/useUser';
 import { getSeatsReservationData, setSeatsReservationData } from '../utils';
 
 type UseSeatsReservationActionsProps = {
   registration: RegistrationFieldsFragment;
-  setSignups: (value: SignupFields[]) => void;
-  signups: SignupFields[];
+  setSignups: (value: SignupFormFields[]) => void;
+  signups: SignupFormFields[];
 };
 
 type UseSeatsReservationActionsState = {

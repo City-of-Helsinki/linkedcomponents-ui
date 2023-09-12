@@ -15,7 +15,7 @@ import { SIGNUP_MODALS } from '../../signup/constants';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
 import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
-import { SignupFields } from '../types';
+import { SignupFormFields } from '../types';
 import { clearCreateSignupGroupFormData } from '../utils';
 
 const getTimeStr = (timeLeft: number) => {
@@ -36,8 +36,8 @@ interface ReservationTimerProps {
   disableCallbacks: () => void;
   initReservationData: boolean;
   registration: RegistrationFieldsFragment;
-  setSignups: (value: SignupFields[]) => void;
-  signups: SignupFields[];
+  setSignups: (value: SignupFormFields[]) => void;
+  signups: SignupFormFields[];
 }
 
 const ReservationTimer: React.FC<ReservationTimerProps> = ({

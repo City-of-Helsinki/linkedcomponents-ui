@@ -15,7 +15,7 @@ import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsCon
 import { SIGNUP_GROUP_FIELDS } from '../constants';
 import ConfirmDeleteSignupFromFormModal from '../modals/confirmDeleteSignupFromFormModal/ConfirmDeleteSignupFromFormModal';
 import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
-import { SignupFields } from '../types';
+import { SignupFormFields } from '../types';
 import styles from './participantAmountSelector.module.scss';
 
 interface Props {
@@ -32,7 +32,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
   const { closeModal, openModal, setOpenModal } = useSignupGroupFormContext();
 
   const [{ value: signups }, , { setValue: setSignups }] = useField<
-    SignupFields[]
+    SignupFormFields[]
   >({ name: SIGNUP_GROUP_FIELDS.SIGNUPS });
 
   const { saving, updateSeatsReservation } = useSeatsReservationActions({

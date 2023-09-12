@@ -16,25 +16,25 @@ import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
-import { SIGNUP_ACTIONS } from '../../signup/constants';
-import { getSignupActionButtonProps } from '../../signup/permissions';
 import { SignupsLocationState } from '../../signups/types';
 import useUser from '../../user/hooks/useUser';
+import { SIGNUP_ACTIONS } from '../constants';
+import { getSignupActionButtonProps } from '../permissions';
 import styles from './editButtonPanel.module.scss';
 
-export interface EditButtonPanelProps {
-  onCancel: () => void;
-  onSave: () => void;
+export interface EditSignupButtonPanelProps {
+  onDelete: () => void;
   onSendMessage: () => void;
+  onUpdate: () => void;
   registration: RegistrationFieldsFragment;
   saving: SIGNUP_ACTIONS | false;
   signup: SignupFieldsFragment;
 }
 
-const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
-  onCancel,
-  onSave,
+const EditSignupButtonPanel: React.FC<EditSignupButtonPanelProps> = ({
+  onDelete,
   onSendMessage,
+  onUpdate,
   registration,
   saving,
   signup,
@@ -74,7 +74,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
       action: SIGNUP_ACTIONS.DELETE,
-      onClick: onCancel,
+      onClick: onDelete,
     }),
     getActionItemProps({
       action: SIGNUP_ACTIONS.SEND_MESSAGE,
@@ -93,7 +93,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
           className={buttonPanelStyles.fullWidthOnMobile}
           icon={<IconPen aria-hidden={true} />}
           loading={saving === SIGNUP_ACTIONS.UPDATE}
-          onClick={onSave}
+          onClick={onUpdate}
           type="submit"
         >
           {t('signup.form.buttonSave')}
@@ -103,4 +103,4 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   );
 };
 
-export default EditButtonPanel;
+export default EditSignupButtonPanel;

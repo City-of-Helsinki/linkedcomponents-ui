@@ -13,7 +13,7 @@ export const MUTATION_SIGNUP = gql`
     updateSignup(input: $input, id: $id)
       @rest(
         type: "Signup"
-        path: "/signup/{args.signup}/"
+        path: "/signup/{args.id}/"
         method: "PUT"
         bodyKey: "input"
       ) {
@@ -25,7 +25,7 @@ export const MUTATION_SIGNUP = gql`
     updateSignup(input: $input, id: $id)
       @rest(
         type: "Signup"
-        path: "/signup/{args.signup}/"
+        path: "/signup/{args.id}/"
         method: "PATCH"
         bodyKey: "input"
       ) {

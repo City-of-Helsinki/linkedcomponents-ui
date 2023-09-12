@@ -30,7 +30,8 @@ import {
   getSignupGroupPayload,
   getUpdateSignupGroupPayload,
 } from '../../signupGroup/utils';
-import { SIGNUP_GROUP_ACTIONS, SIGNUP_GROUP_MODALS } from '../constants';
+import { SIGNUP_GROUP_ACTIONS } from '../constants';
+import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
 
 interface Props {
   signupGroup?: SignupGroupFieldsFragment;
@@ -38,15 +39,12 @@ interface Props {
 }
 
 type UseSignupGroupActionsState = {
-  closeModal: () => void;
   createSignupGroup: (
     values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
   ) => Promise<void>;
   deleteSignupGroup: (callbacks?: MutationCallbacks) => Promise<void>;
-  openModal: SIGNUP_GROUP_MODALS | null;
   saving: SIGNUP_GROUP_ACTIONS | null;
-  setOpenModal: (state: SIGNUP_GROUP_MODALS | null) => void;
   updateSignupGroup: (
     values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
@@ -58,16 +56,11 @@ const useSignupGroupActions = ({
 }: Props): UseSignupGroupActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
-  const [openModal, setOpenModal] = useMountedState<SIGNUP_GROUP_MODALS | null>(
-    null
-  );
   const [saving, setSaving] = useMountedState<SIGNUP_GROUP_ACTIONS | null>(
     null
   );
 
-  const closeModal = () => {
-    setOpenModal(null);
-  };
+  const { closeModal } = useSignupGroupFormContext();
 
   const { handleError } = useHandleError<
     CreateSignupGroupMutationInput,
@@ -187,12 +180,9 @@ const useSignupGroupActions = ({
   };
 
   return {
-    closeModal,
     createSignupGroup,
     deleteSignupGroup,
-    openModal,
     saving,
-    setOpenModal,
     updateSignupGroup,
   };
 };
