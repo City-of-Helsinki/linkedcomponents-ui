@@ -108,7 +108,7 @@ export const isAfterStartDateAndTime = (
   const [startDate, startTimeStr, endTimeStr] = values as [
     Date | null,
     string,
-    string
+    string,
   ];
 
   /* istanbul ignore else */

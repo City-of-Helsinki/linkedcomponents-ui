@@ -55,7 +55,7 @@ const findElement = (key: 'isUmbrellaCheckbox' | 'umbrellaSelector') => {
       });
     case 'umbrellaSelector':
       return screen.findByRole('combobox', {
-        name: new RegExp('Kattotapahtuma'),
+        name: /Kattotapahtuma/,
       });
   }
 };

@@ -50,7 +50,7 @@ const validateEventTimes = (
 ) => {
   const [recurringEvents, events] = values as [
     RecurringEventSettings[] | null,
-    EventTime[] | null
+    EventTime[] | null,
   ];
 
   return schema.test(

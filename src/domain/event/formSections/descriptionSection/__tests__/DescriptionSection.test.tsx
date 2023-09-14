@@ -310,9 +310,8 @@ test('environmental cerfiticate should be required if hasEnvironmentalCerfiticat
   const hasEnvironmentalCertificateInput = await screen.findByLabelText(
     /tapahtumalla on ekokompassi tai muu vastaava sertifikaatti/i
   );
-  const environmentalCertificateInput = await screen.findByLabelText(
-    /sertifikaatin nimi/i
-  );
+  const environmentalCertificateInput =
+    await screen.findByLabelText(/sertifikaatin nimi/i);
   const nameInput = getElement('nameFi');
 
   expect(hasEnvironmentalCertificateInput).not.toBeChecked();

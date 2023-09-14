@@ -1,5 +1,5 @@
 export default function addParamsToQueryString<
-  U extends Record<string, unknown>
+  U extends Record<string, unknown>,
 >(
   queryString: string,
   queryParams: Partial<U>,
