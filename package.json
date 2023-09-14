@@ -38,7 +38,7 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-testcafe": "^0.2.1",
     "focus-visible": "^5.2.0",
-    "formik": "2.2.9",
+    "formik": "2.4.4",
     "graphql": "16.6.0",
     "graphql-anywhere": "^4.2.8",
     "graphql-tag": "^2.12.6",
@@ -79,7 +79,7 @@
     "use-deep-compare-effect": "^1.8.1",
     "waait": "^1.0.5",
     "xml-js": "^1.6.11",
-    "yup": "^1.0.2"
+    "yup": "^1.2.0"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
