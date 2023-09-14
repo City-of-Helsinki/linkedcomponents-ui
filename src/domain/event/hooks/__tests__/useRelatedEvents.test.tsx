@@ -1,4 +1,4 @@
-import { MockedProvider } from '@apollo/client/testing';
+import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import React from 'react';
@@ -25,7 +25,7 @@ const mocks = [
   mockedSubSubSubEventsResponse,
 ];
 
-const getHookWrapper = (mocks = []) => {
+const getHookWrapper = (mocks: MockedResponse[] = []) => {
   const wrapper = ({ children }) => (
     <MockedProvider cache={createCache()} mocks={mocks}>
       {children}
