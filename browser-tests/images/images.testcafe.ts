@@ -38,7 +38,6 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     const imagesPage = await getImagesPage(t);
 
     await imagesPage.actions.clickCreateImageButton();
-    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToCreateImagePage();
   });
 
@@ -57,7 +56,6 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
       const imageRow = await searchResults.imageRow(image);
 
       await imageRow.actions.clickImageRow();
-      await urlUtils.actions.forceReload();
       await urlUtils.expectations.urlChangedToImagePage(image);
     }
   );
