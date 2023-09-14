@@ -5,15 +5,17 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  Any: any;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  Any: { input: any; output: any; }
 };
 
 export enum AttendeeStatus {
@@ -23,14 +25,14 @@ export enum AttendeeStatus {
 
 export type CreateEventMutationInput = {
   audience?: InputMaybe<Array<IdObjectInput>>;
-  audienceMaxAge?: InputMaybe<Scalars['Int']>;
-  audienceMinAge?: InputMaybe<Scalars['Int']>;
+  audienceMaxAge?: InputMaybe<Scalars['Int']['input']>;
+  audienceMinAge?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<LocalisedObjectInput>;
-  endTime?: InputMaybe<Scalars['String']>;
-  enrolmentEndTime?: InputMaybe<Scalars['String']>;
-  enrolmentStartTime?: InputMaybe<Scalars['String']>;
-  environment?: InputMaybe<Scalars['String']>;
-  environmentalCertificate?: InputMaybe<Scalars['String']>;
+  endTime?: InputMaybe<Scalars['String']['input']>;
+  enrolmentEndTime?: InputMaybe<Scalars['String']['input']>;
+  enrolmentStartTime?: InputMaybe<Scalars['String']['input']>;
+  environment?: InputMaybe<Scalars['String']['input']>;
+  environmentalCertificate?: InputMaybe<Scalars['String']['input']>;
   eventStatus?: InputMaybe<EventStatus>;
   externalLinks?: InputMaybe<Array<InputMaybe<ExternalLinkInput>>>;
   images?: InputMaybe<Array<IdObjectInput>>;
@@ -39,131 +41,131 @@ export type CreateEventMutationInput = {
   keywords?: InputMaybe<Array<IdObjectInput>>;
   location?: InputMaybe<IdObjectInput>;
   locationExtraInfo?: InputMaybe<LocalisedObjectInput>;
-  maximumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
-  minimumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
+  maximumAttendeeCapacity?: InputMaybe<Scalars['Int']['input']>;
+  minimumAttendeeCapacity?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<LocalisedObjectInput>;
   offers?: InputMaybe<Array<OfferInput>>;
   provider?: InputMaybe<LocalisedObjectInput>;
   publicationStatus?: InputMaybe<PublicationStatus>;
-  publisher?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
   shortDescription?: InputMaybe<LocalisedObjectInput>;
-  startTime?: InputMaybe<Scalars['String']>;
+  startTime?: InputMaybe<Scalars['String']['input']>;
   subEvents?: InputMaybe<Array<IdObjectInput>>;
   superEvent?: InputMaybe<IdObjectInput>;
   superEventType?: InputMaybe<SuperEventType>;
   typeId?: InputMaybe<EventTypeId>;
-  userConsent?: InputMaybe<Scalars['Boolean']>;
-  userEmail?: InputMaybe<Scalars['String']>;
-  userName?: InputMaybe<Scalars['String']>;
-  userOrganization?: InputMaybe<Scalars['String']>;
-  userPhoneNumber?: InputMaybe<Scalars['String']>;
+  userConsent?: InputMaybe<Scalars['Boolean']['input']>;
+  userEmail?: InputMaybe<Scalars['String']['input']>;
+  userName?: InputMaybe<Scalars['String']['input']>;
+  userOrganization?: InputMaybe<Scalars['String']['input']>;
+  userPhoneNumber?: InputMaybe<Scalars['String']['input']>;
   videos?: InputMaybe<Array<InputMaybe<VideoInput>>>;
 };
 
 export type CreateKeywordMutationInput = {
-  dataSource?: InputMaybe<Scalars['String']>;
-  deprecated?: InputMaybe<Scalars['Boolean']>;
-  id?: InputMaybe<Scalars['String']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
+  deprecated?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<LocalisedObjectInput>;
-  publisher?: InputMaybe<Scalars['String']>;
-  replacedBy?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
+  replacedBy?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateKeywordSetMutationInput = {
-  dataSource?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   keywords?: InputMaybe<Array<IdObjectInput>>;
   name?: InputMaybe<LocalisedObjectInput>;
-  organization?: InputMaybe<Scalars['String']>;
-  usage?: InputMaybe<Scalars['String']>;
+  organization?: InputMaybe<Scalars['String']['input']>;
+  usage?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateOrganizationMutationInput = {
-  adminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  affiliatedOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  classification?: InputMaybe<Scalars['String']>;
-  dataSource?: InputMaybe<Scalars['String']>;
-  dissolutionDate?: InputMaybe<Scalars['String']>;
-  foundingDate?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  internalType?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  originId?: InputMaybe<Scalars['String']>;
-  parentOrganization?: InputMaybe<Scalars['String']>;
-  registrationAdminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  regularUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  replacedBy?: InputMaybe<Scalars['String']>;
-  subOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  adminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  affiliatedOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  classification?: InputMaybe<Scalars['String']['input']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
+  dissolutionDate?: InputMaybe<Scalars['String']['input']>;
+  foundingDate?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  internalType?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  originId?: InputMaybe<Scalars['String']['input']>;
+  parentOrganization?: InputMaybe<Scalars['String']['input']>;
+  registrationAdminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  regularUsers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  replacedBy?: InputMaybe<Scalars['String']['input']>;
+  subOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type CreatePlaceMutationInput = {
   addressLocality?: InputMaybe<LocalisedObjectInput>;
-  addressRegion?: InputMaybe<Scalars['String']>;
-  contactType?: InputMaybe<Scalars['String']>;
-  dataSource?: InputMaybe<Scalars['String']>;
+  addressRegion?: InputMaybe<Scalars['String']['input']>;
+  contactType?: InputMaybe<Scalars['String']['input']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<LocalisedObjectInput>;
-  email?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   infoUrl?: InputMaybe<LocalisedObjectInput>;
   name?: InputMaybe<LocalisedObjectInput>;
-  originId?: InputMaybe<Scalars['String']>;
+  originId?: InputMaybe<Scalars['String']['input']>;
   position?: InputMaybe<PositionInput>;
-  postOfficeBoxNum?: InputMaybe<Scalars['String']>;
-  postalCode?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
+  postOfficeBoxNum?: InputMaybe<Scalars['String']['input']>;
+  postalCode?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
   streetAddress?: InputMaybe<LocalisedObjectInput>;
   telephone?: InputMaybe<LocalisedObjectInput>;
 };
 
 export type CreateRegistrationMutationInput = {
-  audienceMaxAge?: InputMaybe<Scalars['Int']>;
-  audienceMinAge?: InputMaybe<Scalars['Int']>;
+  audienceMaxAge?: InputMaybe<Scalars['Int']['input']>;
+  audienceMinAge?: InputMaybe<Scalars['Int']['input']>;
   confirmationMessage?: InputMaybe<LocalisedObjectInput>;
-  enrolmentEndTime?: InputMaybe<Scalars['String']>;
-  enrolmentStartTime?: InputMaybe<Scalars['String']>;
+  enrolmentEndTime?: InputMaybe<Scalars['String']['input']>;
+  enrolmentStartTime?: InputMaybe<Scalars['String']['input']>;
   event: IdObjectInput;
   instructions?: InputMaybe<LocalisedObjectInput>;
-  mandatoryFields?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  maximumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
-  maximumGroupSize?: InputMaybe<Scalars['Int']>;
-  minimumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
+  mandatoryFields?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  maximumAttendeeCapacity?: InputMaybe<Scalars['Int']['input']>;
+  maximumGroupSize?: InputMaybe<Scalars['Int']['input']>;
+  minimumAttendeeCapacity?: InputMaybe<Scalars['Int']['input']>;
   registrationUserAccesses?: InputMaybe<Array<InputMaybe<RegistrationUserAccessInput>>>;
-  waitingListCapacity?: InputMaybe<Scalars['Int']>;
+  waitingListCapacity?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type CreateSeatsReservationMutationInput = {
-  registration: Scalars['ID'];
-  seats: Scalars['Int'];
+  registration: Scalars['ID']['input'];
+  seats: Scalars['Int']['input'];
 };
 
 export type CreateSignupGroupMutationInput = {
-  extraInfo?: InputMaybe<Scalars['String']>;
-  registration?: InputMaybe<Scalars['ID']>;
-  reservationCode?: InputMaybe<Scalars['String']>;
+  extraInfo?: InputMaybe<Scalars['String']['input']>;
+  registration?: InputMaybe<Scalars['ID']['input']>;
+  reservationCode?: InputMaybe<Scalars['String']['input']>;
   signups?: InputMaybe<Array<SignupInput>>;
 };
 
 export type CreateSignupGroupResponse = {
   __typename?: 'CreateSignupGroupResponse';
-  extraInfo?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  registration?: Maybe<Scalars['ID']>;
+  extraInfo?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  registration?: Maybe<Scalars['ID']['output']>;
   signups?: Maybe<Array<Signup>>;
 };
 
 export type DataSource = {
   __typename?: 'DataSource';
-  apiKey?: Maybe<Scalars['String']>;
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
-  createPastEvents?: Maybe<Scalars['Boolean']>;
-  editPastEvents?: Maybe<Scalars['Boolean']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  owner?: Maybe<Scalars['String']>;
-  private?: Maybe<Scalars['Boolean']>;
-  userEditable?: Maybe<Scalars['Boolean']>;
+  apiKey?: Maybe<Scalars['String']['output']>;
+  atContext?: Maybe<Scalars['String']['output']>;
+  atId: Scalars['String']['output'];
+  atType?: Maybe<Scalars['String']['output']>;
+  createPastEvents?: Maybe<Scalars['Boolean']['output']>;
+  editPastEvents?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  owner?: Maybe<Scalars['String']['output']>;
+  private?: Maybe<Scalars['Boolean']['output']>;
+  userEditable?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type DataSourcesResponse = {
@@ -174,62 +176,62 @@ export type DataSourcesResponse = {
 
 export type Division = {
   __typename?: 'Division';
-  municipality?: Maybe<Scalars['String']>;
+  municipality?: Maybe<Scalars['String']['output']>;
   name?: Maybe<LocalisedObject>;
-  ocdId?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
+  ocdId?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type Event = {
   __typename?: 'Event';
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']['output']>;
+  atId: Scalars['String']['output'];
+  atType?: Maybe<Scalars['String']['output']>;
   audience: Array<Maybe<Keyword>>;
-  audienceMaxAge?: Maybe<Scalars['Int']>;
-  audienceMinAge?: Maybe<Scalars['Int']>;
-  createdBy?: Maybe<Scalars['String']>;
-  createdTime?: Maybe<Scalars['String']>;
-  customData?: Maybe<Scalars['String']>;
-  dataSource?: Maybe<Scalars['String']>;
-  datePublished?: Maybe<Scalars['String']>;
-  deleted?: Maybe<Scalars['String']>;
+  audienceMaxAge?: Maybe<Scalars['Int']['output']>;
+  audienceMinAge?: Maybe<Scalars['Int']['output']>;
+  createdBy?: Maybe<Scalars['String']['output']>;
+  createdTime?: Maybe<Scalars['String']['output']>;
+  customData?: Maybe<Scalars['String']['output']>;
+  dataSource?: Maybe<Scalars['String']['output']>;
+  datePublished?: Maybe<Scalars['String']['output']>;
+  deleted?: Maybe<Scalars['String']['output']>;
   description?: Maybe<LocalisedObject>;
-  endTime?: Maybe<Scalars['String']>;
-  enrolmentEndTime?: Maybe<Scalars['String']>;
-  enrolmentStartTime?: Maybe<Scalars['String']>;
-  environment?: Maybe<Scalars['String']>;
-  environmentalCertificate?: Maybe<Scalars['String']>;
+  endTime?: Maybe<Scalars['String']['output']>;
+  enrolmentEndTime?: Maybe<Scalars['String']['output']>;
+  enrolmentStartTime?: Maybe<Scalars['String']['output']>;
+  environment?: Maybe<Scalars['String']['output']>;
+  environmentalCertificate?: Maybe<Scalars['String']['output']>;
   eventStatus?: Maybe<EventStatus>;
   externalLinks: Array<Maybe<ExternalLink>>;
-  id: Scalars['ID'];
+  id: Scalars['ID']['output'];
   images: Array<Maybe<Image>>;
   inLanguage: Array<Maybe<Language>>;
   infoUrl?: Maybe<LocalisedObject>;
   keywords: Array<Maybe<Keyword>>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
+  lastModifiedTime?: Maybe<Scalars['String']['output']>;
   location?: Maybe<Place>;
   locationExtraInfo?: Maybe<LocalisedObject>;
-  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
-  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']['output']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<LocalisedObject>;
   offers: Array<Maybe<Offer>>;
   provider?: Maybe<LocalisedObject>;
-  providerContactInfo?: Maybe<Scalars['String']>;
+  providerContactInfo?: Maybe<Scalars['String']['output']>;
   publicationStatus?: Maybe<PublicationStatus>;
-  publisher?: Maybe<Scalars['ID']>;
+  publisher?: Maybe<Scalars['ID']['output']>;
   registration?: Maybe<IdObject>;
   shortDescription?: Maybe<LocalisedObject>;
-  startTime?: Maybe<Scalars['String']>;
+  startTime?: Maybe<Scalars['String']['output']>;
   subEvents: Array<Maybe<Event>>;
   superEvent?: Maybe<Event>;
   superEventType?: Maybe<SuperEventType>;
   typeId?: Maybe<EventTypeId>;
-  userConsent?: Maybe<Scalars['Boolean']>;
-  userEmail?: Maybe<Scalars['String']>;
-  userName?: Maybe<Scalars['String']>;
-  userOrganization?: Maybe<Scalars['String']>;
-  userPhoneNumber?: Maybe<Scalars['String']>;
+  userConsent?: Maybe<Scalars['Boolean']['output']>;
+  userEmail?: Maybe<Scalars['String']['output']>;
+  userName?: Maybe<Scalars['String']['output']>;
+  userOrganization?: Maybe<Scalars['String']['output']>;
+  userPhoneNumber?: Maybe<Scalars['String']['output']>;
   videos: Array<Maybe<Video>>;
 };
 
@@ -254,59 +256,59 @@ export type EventsResponse = {
 
 export type ExternalLink = {
   __typename?: 'ExternalLink';
-  language?: Maybe<Scalars['String']>;
-  link?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  language?: Maybe<Scalars['String']['output']>;
+  link?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type ExternalLinkInput = {
-  language?: InputMaybe<Scalars['String']>;
-  link?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  link?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Feedback = {
   __typename?: 'Feedback';
-  body?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  name?: Maybe<Scalars['String']>;
-  subject?: Maybe<Scalars['String']>;
+  body?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  subject?: Maybe<Scalars['String']['output']>;
 };
 
 export type FeedbackInput = {
-  body?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  subject?: InputMaybe<Scalars['String']>;
+  body?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  subject?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type IdObject = {
   __typename?: 'IdObject';
-  atId?: Maybe<Scalars['String']>;
+  atId?: Maybe<Scalars['String']['output']>;
 };
 
 export type IdObjectInput = {
-  atId: Scalars['String'];
+  atId: Scalars['String']['input'];
 };
 
 export type Image = {
   __typename?: 'Image';
   altText?: Maybe<LocalisedObject>;
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
-  createdBy?: Maybe<Scalars['String']>;
-  createdTime?: Maybe<Scalars['String']>;
-  cropping?: Maybe<Scalars['String']>;
-  dataSource?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
-  license?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  photographerName?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']['output']>;
+  atId: Scalars['String']['output'];
+  atType?: Maybe<Scalars['String']['output']>;
+  createdBy?: Maybe<Scalars['String']['output']>;
+  createdTime?: Maybe<Scalars['String']['output']>;
+  cropping?: Maybe<Scalars['String']['output']>;
+  dataSource?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  lastModifiedTime?: Maybe<Scalars['String']['output']>;
+  license?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  photographerName?: Maybe<Scalars['String']['output']>;
+  publisher?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 export type ImagesResponse = {
@@ -317,38 +319,38 @@ export type ImagesResponse = {
 
 export type Keyword = {
   __typename?: 'Keyword';
-  aggregate?: Maybe<Scalars['Boolean']>;
-  altLabels?: Maybe<Array<Maybe<Scalars['String']>>>;
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
-  createdTime?: Maybe<Scalars['String']>;
-  dataSource?: Maybe<Scalars['String']>;
-  deprecated?: Maybe<Scalars['Boolean']>;
-  hasUpcomingEvents?: Maybe<Scalars['Boolean']>;
-  id?: Maybe<Scalars['ID']>;
+  aggregate?: Maybe<Scalars['Boolean']['output']>;
+  altLabels?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  atContext?: Maybe<Scalars['String']['output']>;
+  atId: Scalars['String']['output'];
+  atType?: Maybe<Scalars['String']['output']>;
+  createdTime?: Maybe<Scalars['String']['output']>;
+  dataSource?: Maybe<Scalars['String']['output']>;
+  deprecated?: Maybe<Scalars['Boolean']['output']>;
+  hasUpcomingEvents?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   image?: Maybe<Image>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
-  nEvents?: Maybe<Scalars['Int']>;
+  lastModifiedTime?: Maybe<Scalars['String']['output']>;
+  nEvents?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<LocalisedObject>;
-  publisher?: Maybe<Scalars['ID']>;
-  replacedBy?: Maybe<Scalars['String']>;
+  publisher?: Maybe<Scalars['ID']['output']>;
+  replacedBy?: Maybe<Scalars['String']['output']>;
 };
 
 export type KeywordSet = {
   __typename?: 'KeywordSet';
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
-  createdTime?: Maybe<Scalars['String']>;
-  dataSource?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
+  atContext?: Maybe<Scalars['String']['output']>;
+  atId: Scalars['String']['output'];
+  atType?: Maybe<Scalars['String']['output']>;
+  createdTime?: Maybe<Scalars['String']['output']>;
+  dataSource?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   image?: Maybe<Image>;
   keywords?: Maybe<Array<Maybe<Keyword>>>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
+  lastModifiedTime?: Maybe<Scalars['String']['output']>;
   name?: Maybe<LocalisedObject>;
-  organization?: Maybe<Scalars['String']>;
-  usage?: Maybe<Scalars['String']>;
+  organization?: Maybe<Scalars['String']['output']>;
+  usage?: Maybe<Scalars['String']['output']>;
 };
 
 export type KeywordSetsResponse = {
@@ -365,13 +367,13 @@ export type KeywordsResponse = {
 
 export type Language = {
   __typename?: 'Language';
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
+  atContext?: Maybe<Scalars['String']['output']>;
+  atId: Scalars['String']['output'];
+  atType?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   name?: Maybe<LocalisedObject>;
-  serviceLanguage?: Maybe<Scalars['Boolean']>;
-  translationAvailable?: Maybe<Scalars['Boolean']>;
+  serviceLanguage?: Maybe<Scalars['Boolean']['output']>;
+  translationAvailable?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type LanguagesResponse = {
@@ -382,28 +384,28 @@ export type LanguagesResponse = {
 
 export type LocalisedObject = {
   __typename?: 'LocalisedObject';
-  ar?: Maybe<Scalars['String']>;
-  en?: Maybe<Scalars['String']>;
-  fi?: Maybe<Scalars['String']>;
-  ru?: Maybe<Scalars['String']>;
-  sv?: Maybe<Scalars['String']>;
-  zhHans?: Maybe<Scalars['String']>;
+  ar?: Maybe<Scalars['String']['output']>;
+  en?: Maybe<Scalars['String']['output']>;
+  fi?: Maybe<Scalars['String']['output']>;
+  ru?: Maybe<Scalars['String']['output']>;
+  sv?: Maybe<Scalars['String']['output']>;
+  zhHans?: Maybe<Scalars['String']['output']>;
 };
 
 export type LocalisedObjectInput = {
-  ar?: InputMaybe<Scalars['String']>;
-  en?: InputMaybe<Scalars['String']>;
-  fi?: InputMaybe<Scalars['String']>;
-  ru?: InputMaybe<Scalars['String']>;
-  sv?: InputMaybe<Scalars['String']>;
-  zhHans?: InputMaybe<Scalars['String']>;
+  ar?: InputMaybe<Scalars['String']['input']>;
+  en?: InputMaybe<Scalars['String']['input']>;
+  fi?: InputMaybe<Scalars['String']['input']>;
+  ru?: InputMaybe<Scalars['String']['input']>;
+  sv?: InputMaybe<Scalars['String']['input']>;
+  zhHans?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Meta = {
   __typename?: 'Meta';
-  count: Scalars['Int'];
-  next?: Maybe<Scalars['String']>;
-  previous?: Maybe<Scalars['String']>;
+  count: Scalars['Int']['output'];
+  next?: Maybe<Scalars['String']['output']>;
+  previous?: Maybe<Scalars['String']['output']>;
 };
 
 export type Mutation = {
@@ -491,47 +493,47 @@ export type MutationCreateSignupGroupArgs = {
 
 
 export type MutationDeleteEventArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteImageArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteKeywordArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteKeywordSetArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteOrganizationArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeletePlaceArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteRegistrationArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteSignupArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type MutationDeleteSignupGroupArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
@@ -547,12 +549,12 @@ export type MutationPostGuestFeedbackArgs = {
 
 export type MutationSendMessageArgs = {
   input: SendMessageMutationInput;
-  registration?: InputMaybe<Scalars['ID']>;
+  registration?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
 export type MutationSendRegistrationUserAccessInvitationArgs = {
-  id?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -597,19 +599,19 @@ export type MutationUpdateRegistrationArgs = {
 
 
 export type MutationUpdateSeatsReservationArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   input: UpdateSeatsReservationMutationInput;
 };
 
 
 export type MutationUpdateSignupArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   input: UpdateSignupMutationInput;
 };
 
 
 export type MutationUpdateSignupGroupArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   input: UpdateSignupGroupMutationInput;
 };
 
@@ -620,58 +622,58 @@ export type MutationUploadImageArgs = {
 
 export type NoContent = {
   __typename?: 'NoContent';
-  noContent?: Maybe<Scalars['Boolean']>;
+  noContent?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type Offer = {
   __typename?: 'Offer';
   description?: Maybe<LocalisedObject>;
   infoUrl?: Maybe<LocalisedObject>;
-  isFree?: Maybe<Scalars['Boolean']>;
+  isFree?: Maybe<Scalars['Boolean']['output']>;
   price?: Maybe<LocalisedObject>;
 };
 
 export type OfferInput = {
   description?: InputMaybe<LocalisedObjectInput>;
   infoUrl?: InputMaybe<LocalisedObjectInput>;
-  isFree?: InputMaybe<Scalars['Boolean']>;
+  isFree?: InputMaybe<Scalars['Boolean']['input']>;
   price?: InputMaybe<LocalisedObjectInput>;
 };
 
 export type Organization = {
   __typename?: 'Organization';
   adminUsers?: Maybe<Array<Maybe<User>>>;
-  affiliatedOrganizations?: Maybe<Array<Maybe<Scalars['String']>>>;
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
-  classification?: Maybe<Scalars['String']>;
-  createdTime?: Maybe<Scalars['String']>;
-  dataSource?: Maybe<Scalars['String']>;
-  dissolutionDate?: Maybe<Scalars['String']>;
-  foundingDate?: Maybe<Scalars['String']>;
-  hasRegularUsers?: Maybe<Scalars['Boolean']>;
-  id?: Maybe<Scalars['String']>;
-  isAffiliated?: Maybe<Scalars['Boolean']>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  parentOrganization?: Maybe<Scalars['String']>;
+  affiliatedOrganizations?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  atContext?: Maybe<Scalars['String']['output']>;
+  atId: Scalars['String']['output'];
+  atType?: Maybe<Scalars['String']['output']>;
+  classification?: Maybe<Scalars['String']['output']>;
+  createdTime?: Maybe<Scalars['String']['output']>;
+  dataSource?: Maybe<Scalars['String']['output']>;
+  dissolutionDate?: Maybe<Scalars['String']['output']>;
+  foundingDate?: Maybe<Scalars['String']['output']>;
+  hasRegularUsers?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  isAffiliated?: Maybe<Scalars['Boolean']['output']>;
+  lastModifiedTime?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  parentOrganization?: Maybe<Scalars['String']['output']>;
   registrationAdminUsers?: Maybe<Array<Maybe<User>>>;
   regularUsers?: Maybe<Array<Maybe<User>>>;
-  replacedBy?: Maybe<Scalars['String']>;
-  subOrganizations?: Maybe<Array<Maybe<Scalars['String']>>>;
+  replacedBy?: Maybe<Scalars['String']['output']>;
+  subOrganizations?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
 
 export type OrganizationClass = {
   __typename?: 'OrganizationClass';
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
-  createdTime?: Maybe<Scalars['String']>;
-  dataSource?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['String']>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
+  atContext?: Maybe<Scalars['String']['output']>;
+  atId: Scalars['String']['output'];
+  atType?: Maybe<Scalars['String']['output']>;
+  createdTime?: Maybe<Scalars['String']['output']>;
+  dataSource?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  lastModifiedTime?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export type OrganizationClassesResponse = {
@@ -688,33 +690,33 @@ export type OrganizationsResponse = {
 
 export type Place = {
   __typename?: 'Place';
-  addressCountry?: Maybe<Scalars['String']>;
+  addressCountry?: Maybe<Scalars['String']['output']>;
   addressLocality?: Maybe<LocalisedObject>;
-  addressRegion?: Maybe<Scalars['String']>;
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
-  contactType?: Maybe<Scalars['String']>;
-  createdTime?: Maybe<Scalars['String']>;
-  customData?: Maybe<Scalars['String']>;
-  dataSource?: Maybe<Scalars['String']>;
-  deleted?: Maybe<Scalars['Boolean']>;
+  addressRegion?: Maybe<Scalars['String']['output']>;
+  atContext?: Maybe<Scalars['String']['output']>;
+  atId: Scalars['String']['output'];
+  atType?: Maybe<Scalars['String']['output']>;
+  contactType?: Maybe<Scalars['String']['output']>;
+  createdTime?: Maybe<Scalars['String']['output']>;
+  customData?: Maybe<Scalars['String']['output']>;
+  dataSource?: Maybe<Scalars['String']['output']>;
+  deleted?: Maybe<Scalars['Boolean']['output']>;
   description?: Maybe<LocalisedObject>;
   divisions: Array<Maybe<Division>>;
-  email?: Maybe<Scalars['String']>;
-  hasUpcomingEvents?: Maybe<Scalars['Boolean']>;
-  id?: Maybe<Scalars['ID']>;
+  email?: Maybe<Scalars['String']['output']>;
+  hasUpcomingEvents?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
   image?: Maybe<Image>;
   infoUrl?: Maybe<LocalisedObject>;
-  lastModifiedTime?: Maybe<Scalars['String']>;
-  nEvents?: Maybe<Scalars['Int']>;
+  lastModifiedTime?: Maybe<Scalars['String']['output']>;
+  nEvents?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<LocalisedObject>;
-  parent?: Maybe<Scalars['ID']>;
+  parent?: Maybe<Scalars['ID']['output']>;
   position?: Maybe<Position>;
-  postOfficeBoxNum?: Maybe<Scalars['String']>;
-  postalCode?: Maybe<Scalars['String']>;
-  publisher?: Maybe<Scalars['ID']>;
-  replacedBy?: Maybe<Scalars['String']>;
+  postOfficeBoxNum?: Maybe<Scalars['String']['output']>;
+  postalCode?: Maybe<Scalars['String']['output']>;
+  publisher?: Maybe<Scalars['ID']['output']>;
+  replacedBy?: Maybe<Scalars['String']['output']>;
   streetAddress?: Maybe<LocalisedObject>;
   telephone?: Maybe<LocalisedObject>;
 };
@@ -727,13 +729,13 @@ export type PlacesResponse = {
 
 export type Position = {
   __typename?: 'Position';
-  coordinates: Array<Maybe<Scalars['Float']>>;
-  type?: Maybe<Scalars['String']>;
+  coordinates: Array<Maybe<Scalars['Float']['output']>>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type PositionInput = {
-  coordinates: Array<InputMaybe<Scalars['Float']>>;
-  type?: InputMaybe<Scalars['String']>;
+  coordinates: Array<InputMaybe<Scalars['Float']['input']>>;
+  type?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum PresenceStatus {
@@ -776,238 +778,238 @@ export type Query = {
 
 
 export type QueryDataSourceArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryDataSourcesArgs = {
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type QueryEventArgs = {
-  id?: InputMaybe<Scalars['ID']>;
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
 export type QueryEventsArgs = {
-  adminUser?: InputMaybe<Scalars['Boolean']>;
-  combinedText?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  createdBy?: InputMaybe<Scalars['String']>;
-  division?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  end?: InputMaybe<Scalars['String']>;
-  endsAfter?: InputMaybe<Scalars['String']>;
-  endsBefore?: InputMaybe<Scalars['String']>;
+  adminUser?: InputMaybe<Scalars['Boolean']['input']>;
+  combinedText?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  createdBy?: InputMaybe<Scalars['String']['input']>;
+  division?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  end?: InputMaybe<Scalars['String']['input']>;
+  endsAfter?: InputMaybe<Scalars['String']['input']>;
+  endsBefore?: InputMaybe<Scalars['String']['input']>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>>>;
-  inLanguage?: InputMaybe<Scalars['String']>;
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  isFree?: InputMaybe<Scalars['Boolean']>;
-  keyword?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  keywordAnd?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  keywordNot?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  language?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
+  inLanguage?: InputMaybe<Scalars['String']['input']>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  isFree?: InputMaybe<Scalars['Boolean']['input']>;
+  keyword?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  keywordAnd?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  keywordNot?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
   publicationStatus?: InputMaybe<PublicationStatus>;
-  publisher?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  registration?: InputMaybe<Scalars['Boolean']>;
-  showAll?: InputMaybe<Scalars['Boolean']>;
-  sort?: InputMaybe<Scalars['String']>;
-  start?: InputMaybe<Scalars['String']>;
-  startsAfter?: InputMaybe<Scalars['String']>;
-  startsBefore?: InputMaybe<Scalars['String']>;
-  superEvent?: InputMaybe<Scalars['ID']>;
-  superEventType?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  text?: InputMaybe<Scalars['String']>;
-  translation?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  registration?: InputMaybe<Scalars['Boolean']['input']>;
+  showAll?: InputMaybe<Scalars['Boolean']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  start?: InputMaybe<Scalars['String']['input']>;
+  startsAfter?: InputMaybe<Scalars['String']['input']>;
+  startsBefore?: InputMaybe<Scalars['String']['input']>;
+  superEvent?: InputMaybe<Scalars['ID']['input']>;
+  superEventType?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  text?: InputMaybe<Scalars['String']['input']>;
+  translation?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QueryImageArgs = {
-  id?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 
 export type QueryImagesArgs = {
-  createdBy?: InputMaybe<Scalars['String']>;
-  dataSource?: InputMaybe<Scalars['String']>;
-  mergePages?: InputMaybe<Scalars['Boolean']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  publisher?: InputMaybe<Scalars['ID']>;
-  sort?: InputMaybe<Scalars['String']>;
-  text?: InputMaybe<Scalars['String']>;
+  createdBy?: InputMaybe<Scalars['String']['input']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
+  mergePages?: InputMaybe<Scalars['Boolean']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  publisher?: InputMaybe<Scalars['ID']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QueryKeywordArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryKeywordSetArgs = {
-  id: Scalars['ID'];
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id: Scalars['ID']['input'];
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
 export type QueryKeywordSetsArgs = {
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<Scalars['String']>;
-  text?: InputMaybe<Scalars['String']>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QueryKeywordsArgs = {
-  dataSource?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  freeText?: InputMaybe<Scalars['String']>;
-  hasUpcomingEvents?: InputMaybe<Scalars['Boolean']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  showAllKeywords?: InputMaybe<Scalars['Boolean']>;
-  sort?: InputMaybe<Scalars['String']>;
-  text?: InputMaybe<Scalars['String']>;
+  dataSource?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  freeText?: InputMaybe<Scalars['String']['input']>;
+  hasUpcomingEvents?: InputMaybe<Scalars['Boolean']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  showAllKeywords?: InputMaybe<Scalars['Boolean']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QueryLanguagesArgs = {
-  serviceLanguage?: InputMaybe<Scalars['Boolean']>;
+  serviceLanguage?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type QueryOrganizationArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryOrganizationClassArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryOrganizationClassesArgs = {
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type QueryOrganizationsArgs = {
-  child?: InputMaybe<Scalars['ID']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  text?: InputMaybe<Scalars['String']>;
+  child?: InputMaybe<Scalars['ID']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QueryPlaceArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryPlacesArgs = {
-  dataSource?: InputMaybe<Scalars['String']>;
-  division?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  hasUpcomingEvents?: InputMaybe<Scalars['Boolean']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  showAllPlaces?: InputMaybe<Scalars['Boolean']>;
-  sort?: InputMaybe<Scalars['String']>;
-  text?: InputMaybe<Scalars['String']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
+  division?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  hasUpcomingEvents?: InputMaybe<Scalars['Boolean']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  showAllPlaces?: InputMaybe<Scalars['Boolean']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QueryRegistrationArgs = {
-  id?: InputMaybe<Scalars['ID']>;
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 
 export type QueryRegistrationsArgs = {
-  adminUser?: InputMaybe<Scalars['Boolean']>;
+  adminUser?: InputMaybe<Scalars['Boolean']['input']>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>>>;
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  text?: InputMaybe<Scalars['String']>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QuerySignupArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QuerySignupGroupArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QuerySignupsArgs = {
   attendeeStatus?: InputMaybe<AttendeeStatus>;
-  registration?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  text?: InputMaybe<Scalars['String']>;
+  registration?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  text?: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type QueryUserArgs = {
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 };
 
 
 export type QueryUsersArgs = {
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Registration = {
   __typename?: 'Registration';
-  atContext?: Maybe<Scalars['String']>;
-  atId: Scalars['String'];
-  atType?: Maybe<Scalars['String']>;
-  attendeeRegistration?: Maybe<Scalars['Boolean']>;
-  audienceMaxAge?: Maybe<Scalars['Int']>;
-  audienceMinAge?: Maybe<Scalars['Int']>;
+  atContext?: Maybe<Scalars['String']['output']>;
+  atId: Scalars['String']['output'];
+  atType?: Maybe<Scalars['String']['output']>;
+  attendeeRegistration?: Maybe<Scalars['Boolean']['output']>;
+  audienceMaxAge?: Maybe<Scalars['Int']['output']>;
+  audienceMinAge?: Maybe<Scalars['Int']['output']>;
   confirmationMessage?: Maybe<LocalisedObject>;
-  createdAt?: Maybe<Scalars['String']>;
-  createdBy?: Maybe<Scalars['String']>;
-  currentAttendeeCount?: Maybe<Scalars['Int']>;
-  currentWaitingListCount?: Maybe<Scalars['Int']>;
-  dataSource?: Maybe<Scalars['String']>;
-  enrolmentEndTime?: Maybe<Scalars['String']>;
-  enrolmentStartTime?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  createdBy?: Maybe<Scalars['String']['output']>;
+  currentAttendeeCount?: Maybe<Scalars['Int']['output']>;
+  currentWaitingListCount?: Maybe<Scalars['Int']['output']>;
+  dataSource?: Maybe<Scalars['String']['output']>;
+  enrolmentEndTime?: Maybe<Scalars['String']['output']>;
+  enrolmentStartTime?: Maybe<Scalars['String']['output']>;
   event?: Maybe<Event>;
-  id?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['ID']['output']>;
   instructions?: Maybe<LocalisedObject>;
-  lastModifiedAt?: Maybe<Scalars['String']>;
-  lastModifiedBy?: Maybe<Scalars['String']>;
-  mandatoryFields?: Maybe<Array<Maybe<Scalars['String']>>>;
-  maximumAttendeeCapacity?: Maybe<Scalars['Int']>;
-  maximumGroupSize?: Maybe<Scalars['Int']>;
-  minimumAttendeeCapacity?: Maybe<Scalars['Int']>;
-  publisher?: Maybe<Scalars['String']>;
+  lastModifiedAt?: Maybe<Scalars['String']['output']>;
+  lastModifiedBy?: Maybe<Scalars['String']['output']>;
+  mandatoryFields?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  maximumAttendeeCapacity?: Maybe<Scalars['Int']['output']>;
+  maximumGroupSize?: Maybe<Scalars['Int']['output']>;
+  minimumAttendeeCapacity?: Maybe<Scalars['Int']['output']>;
+  publisher?: Maybe<Scalars['String']['output']>;
   registrationUserAccesses?: Maybe<Array<Maybe<RegistrationUserAccess>>>;
-  remainingAttendeeCapacity?: Maybe<Scalars['Int']>;
-  remainingWaitingListCapacity?: Maybe<Scalars['Int']>;
+  remainingAttendeeCapacity?: Maybe<Scalars['Int']['output']>;
+  remainingWaitingListCapacity?: Maybe<Scalars['Int']['output']>;
   signups?: Maybe<Array<Maybe<Signup>>>;
-  waitingListCapacity?: Maybe<Scalars['Int']>;
+  waitingListCapacity?: Maybe<Scalars['Int']['output']>;
 };
 
 export type RegistrationUserAccess = {
   __typename?: 'RegistrationUserAccess';
-  email?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
-  language?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['Int']['output']>;
+  language?: Maybe<Scalars['String']['output']>;
 };
 
 export type RegistrationUserAccessInput = {
-  email?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['Int']>;
-  language?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  language?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type RegistrationsResponse = {
@@ -1018,86 +1020,86 @@ export type RegistrationsResponse = {
 
 export type SeatsReservation = {
   __typename?: 'SeatsReservation';
-  code: Scalars['String'];
-  expiration: Scalars['String'];
-  id: Scalars['ID'];
-  inWaitlist: Scalars['Boolean'];
-  registration: Scalars['ID'];
-  seats: Scalars['Int'];
-  timestamp: Scalars['String'];
+  code: Scalars['String']['output'];
+  expiration: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  inWaitlist: Scalars['Boolean']['output'];
+  registration: Scalars['ID']['output'];
+  seats: Scalars['Int']['output'];
+  timestamp: Scalars['String']['output'];
 };
 
 export type SendMessageMutationInput = {
-  body: Scalars['String'];
-  signups?: InputMaybe<Array<Scalars['String']>>;
-  subject: Scalars['String'];
+  body: Scalars['String']['input'];
+  signups?: InputMaybe<Array<Scalars['String']['input']>>;
+  subject: Scalars['String']['input'];
 };
 
 export type SendMessageResponse = {
   __typename?: 'SendMessageResponse';
-  htmlMessage: Scalars['String'];
-  message: Scalars['String'];
-  signups?: Maybe<Array<Scalars['String']>>;
-  subject: Scalars['String'];
+  htmlMessage: Scalars['String']['output'];
+  message: Scalars['String']['output'];
+  signups?: Maybe<Array<Scalars['String']['output']>>;
+  subject: Scalars['String']['output'];
 };
 
 export type Signup = {
   __typename?: 'Signup';
   attendeeStatus?: Maybe<AttendeeStatus>;
-  cancellationCode?: Maybe<Scalars['String']>;
-  city?: Maybe<Scalars['String']>;
-  createdAt?: Maybe<Scalars['String']>;
-  createdBy?: Maybe<Scalars['String']>;
-  dateOfBirth?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  extraInfo?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  lastModifiedAt?: Maybe<Scalars['String']>;
-  lastModifiedBy?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  membershipNumber?: Maybe<Scalars['String']>;
-  nativeLanguage?: Maybe<Scalars['String']>;
-  notifications?: Maybe<Scalars['String']>;
-  phoneNumber?: Maybe<Scalars['String']>;
+  cancellationCode?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  createdBy?: Maybe<Scalars['String']['output']>;
+  dateOfBirth?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  extraInfo?: Maybe<Scalars['String']['output']>;
+  firstName?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  lastModifiedAt?: Maybe<Scalars['String']['output']>;
+  lastModifiedBy?: Maybe<Scalars['String']['output']>;
+  lastName?: Maybe<Scalars['String']['output']>;
+  membershipNumber?: Maybe<Scalars['String']['output']>;
+  nativeLanguage?: Maybe<Scalars['String']['output']>;
+  notifications?: Maybe<Scalars['String']['output']>;
+  phoneNumber?: Maybe<Scalars['String']['output']>;
   presenceStatus?: Maybe<PresenceStatus>;
-  registration?: Maybe<Scalars['ID']>;
-  responsibleForGroup?: Maybe<Scalars['Boolean']>;
-  serviceLanguage?: Maybe<Scalars['String']>;
-  signupGroup?: Maybe<Scalars['ID']>;
-  streetAddress?: Maybe<Scalars['String']>;
-  zipcode?: Maybe<Scalars['String']>;
+  registration?: Maybe<Scalars['ID']['output']>;
+  responsibleForGroup?: Maybe<Scalars['Boolean']['output']>;
+  serviceLanguage?: Maybe<Scalars['String']['output']>;
+  signupGroup?: Maybe<Scalars['ID']['output']>;
+  streetAddress?: Maybe<Scalars['String']['output']>;
+  zipcode?: Maybe<Scalars['String']['output']>;
 };
 
 export type SignupGroup = {
   __typename?: 'SignupGroup';
-  createdAt?: Maybe<Scalars['String']>;
-  createdBy?: Maybe<Scalars['String']>;
-  extraInfo?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['ID']>;
-  lastModifiedAt?: Maybe<Scalars['String']>;
-  lastModifiedBy?: Maybe<Scalars['String']>;
-  registration?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  createdBy?: Maybe<Scalars['String']['output']>;
+  extraInfo?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  lastModifiedAt?: Maybe<Scalars['String']['output']>;
+  lastModifiedBy?: Maybe<Scalars['String']['output']>;
+  registration?: Maybe<Scalars['ID']['output']>;
   signups?: Maybe<Array<Maybe<Signup>>>;
 };
 
 export type SignupInput = {
-  city?: InputMaybe<Scalars['String']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
-  extraInfo?: InputMaybe<Scalars['String']>;
-  firstName?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['ID']>;
-  lastName?: InputMaybe<Scalars['String']>;
-  membershipNumber?: InputMaybe<Scalars['String']>;
-  nativeLanguage?: InputMaybe<Scalars['String']>;
-  notifications?: InputMaybe<Scalars['String']>;
-  phoneNumber?: InputMaybe<Scalars['String']>;
+  city?: InputMaybe<Scalars['String']['input']>;
+  dateOfBirth?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  extraInfo?: InputMaybe<Scalars['String']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  membershipNumber?: InputMaybe<Scalars['String']['input']>;
+  nativeLanguage?: InputMaybe<Scalars['String']['input']>;
+  notifications?: InputMaybe<Scalars['String']['input']>;
+  phoneNumber?: InputMaybe<Scalars['String']['input']>;
   presenceStatus?: InputMaybe<PresenceStatus>;
-  responsibleForGroup?: InputMaybe<Scalars['Boolean']>;
-  serviceLanguage?: InputMaybe<Scalars['String']>;
-  streetAddress?: InputMaybe<Scalars['String']>;
-  zipcode?: InputMaybe<Scalars['String']>;
+  responsibleForGroup?: InputMaybe<Scalars['Boolean']['input']>;
+  serviceLanguage?: InputMaybe<Scalars['String']['input']>;
+  streetAddress?: InputMaybe<Scalars['String']['input']>;
+  zipcode?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SignupsResponse = {
@@ -1113,181 +1115,181 @@ export enum SuperEventType {
 
 export type UpdateEventMutationInput = {
   audience?: InputMaybe<Array<IdObjectInput>>;
-  audienceMaxAge?: InputMaybe<Scalars['Int']>;
-  audienceMinAge?: InputMaybe<Scalars['Int']>;
+  audienceMaxAge?: InputMaybe<Scalars['Int']['input']>;
+  audienceMinAge?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<LocalisedObjectInput>;
-  endTime?: InputMaybe<Scalars['String']>;
-  enrolmentEndTime?: InputMaybe<Scalars['String']>;
-  enrolmentStartTime?: InputMaybe<Scalars['String']>;
-  environment?: InputMaybe<Scalars['String']>;
-  environmentalCertificate?: InputMaybe<Scalars['String']>;
+  endTime?: InputMaybe<Scalars['String']['input']>;
+  enrolmentEndTime?: InputMaybe<Scalars['String']['input']>;
+  enrolmentStartTime?: InputMaybe<Scalars['String']['input']>;
+  environment?: InputMaybe<Scalars['String']['input']>;
+  environmentalCertificate?: InputMaybe<Scalars['String']['input']>;
   eventStatus?: InputMaybe<EventStatus>;
   externalLinks?: InputMaybe<Array<InputMaybe<ExternalLinkInput>>>;
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   images?: InputMaybe<Array<IdObjectInput>>;
   inLanguage?: InputMaybe<Array<IdObjectInput>>;
   infoUrl?: InputMaybe<LocalisedObjectInput>;
   keywords?: InputMaybe<Array<IdObjectInput>>;
   location?: InputMaybe<IdObjectInput>;
   locationExtraInfo?: InputMaybe<LocalisedObjectInput>;
-  maximumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
-  minimumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
+  maximumAttendeeCapacity?: InputMaybe<Scalars['Int']['input']>;
+  minimumAttendeeCapacity?: InputMaybe<Scalars['Int']['input']>;
   name?: InputMaybe<LocalisedObjectInput>;
   offers?: InputMaybe<Array<OfferInput>>;
   provider?: InputMaybe<LocalisedObjectInput>;
   publicationStatus?: InputMaybe<PublicationStatus>;
   shortDescription?: InputMaybe<LocalisedObjectInput>;
-  startTime?: InputMaybe<Scalars['String']>;
+  startTime?: InputMaybe<Scalars['String']['input']>;
   subEvents?: InputMaybe<Array<IdObjectInput>>;
   superEvent?: InputMaybe<IdObjectInput>;
   superEventType?: InputMaybe<SuperEventType>;
   typeId?: InputMaybe<EventTypeId>;
-  userConsent?: InputMaybe<Scalars['Boolean']>;
-  userEmail?: InputMaybe<Scalars['String']>;
-  userName?: InputMaybe<Scalars['String']>;
-  userOrganization?: InputMaybe<Scalars['String']>;
-  userPhoneNumber?: InputMaybe<Scalars['String']>;
+  userConsent?: InputMaybe<Scalars['Boolean']['input']>;
+  userEmail?: InputMaybe<Scalars['String']['input']>;
+  userName?: InputMaybe<Scalars['String']['input']>;
+  userOrganization?: InputMaybe<Scalars['String']['input']>;
+  userPhoneNumber?: InputMaybe<Scalars['String']['input']>;
   videos?: InputMaybe<Array<InputMaybe<VideoInput>>>;
 };
 
 export type UpdateImageMutationInput = {
   altText?: InputMaybe<LocalisedObjectInput>;
-  id: Scalars['ID'];
-  license?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
-  photographerName?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID']['input'];
+  license?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  photographerName?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateKeywordMutationInput = {
-  dataSource?: InputMaybe<Scalars['String']>;
-  deprecated?: InputMaybe<Scalars['Boolean']>;
-  id?: InputMaybe<Scalars['String']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
+  deprecated?: InputMaybe<Scalars['Boolean']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<LocalisedObjectInput>;
-  publisher?: InputMaybe<Scalars['String']>;
-  replacedBy?: InputMaybe<Scalars['String']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
+  replacedBy?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateKeywordSetMutationInput = {
-  dataSource?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   keywords?: InputMaybe<Array<IdObjectInput>>;
   name?: InputMaybe<LocalisedObjectInput>;
-  organization?: InputMaybe<Scalars['String']>;
-  usage?: InputMaybe<Scalars['String']>;
+  organization?: InputMaybe<Scalars['String']['input']>;
+  usage?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateOrganizationMutationInput = {
-  adminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  affiliatedOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  classification?: InputMaybe<Scalars['String']>;
-  dataSource?: InputMaybe<Scalars['String']>;
-  dissolutionDate?: InputMaybe<Scalars['String']>;
-  foundingDate?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
-  internalType?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  parentOrganization?: InputMaybe<Scalars['String']>;
-  registrationAdminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  regularUsers?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  replacedBy?: InputMaybe<Scalars['String']>;
-  subOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  adminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  affiliatedOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  classification?: InputMaybe<Scalars['String']['input']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
+  dissolutionDate?: InputMaybe<Scalars['String']['input']>;
+  foundingDate?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
+  internalType?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  parentOrganization?: InputMaybe<Scalars['String']['input']>;
+  registrationAdminUsers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  regularUsers?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  replacedBy?: InputMaybe<Scalars['String']['input']>;
+  subOrganizations?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type UpdatePlaceMutationInput = {
   addressLocality?: InputMaybe<LocalisedObjectInput>;
-  addressRegion?: InputMaybe<Scalars['String']>;
-  contactType?: InputMaybe<Scalars['String']>;
-  dataSource?: InputMaybe<Scalars['String']>;
+  addressRegion?: InputMaybe<Scalars['String']['input']>;
+  contactType?: InputMaybe<Scalars['String']['input']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<LocalisedObjectInput>;
-  email?: InputMaybe<Scalars['String']>;
-  id?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['String']['input']>;
   infoUrl?: InputMaybe<LocalisedObjectInput>;
   name?: InputMaybe<LocalisedObjectInput>;
   position?: InputMaybe<PositionInput>;
-  postOfficeBoxNum?: InputMaybe<Scalars['String']>;
-  postalCode?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
+  postOfficeBoxNum?: InputMaybe<Scalars['String']['input']>;
+  postalCode?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
   streetAddress?: InputMaybe<LocalisedObjectInput>;
   telephone?: InputMaybe<LocalisedObjectInput>;
 };
 
 export type UpdateRegistrationMutationInput = {
-  audienceMaxAge?: InputMaybe<Scalars['Int']>;
-  audienceMinAge?: InputMaybe<Scalars['Int']>;
+  audienceMaxAge?: InputMaybe<Scalars['Int']['input']>;
+  audienceMinAge?: InputMaybe<Scalars['Int']['input']>;
   confirmationMessage?: InputMaybe<LocalisedObjectInput>;
-  enrolmentEndTime?: InputMaybe<Scalars['String']>;
-  enrolmentStartTime?: InputMaybe<Scalars['String']>;
+  enrolmentEndTime?: InputMaybe<Scalars['String']['input']>;
+  enrolmentStartTime?: InputMaybe<Scalars['String']['input']>;
   event: IdObjectInput;
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   instructions?: InputMaybe<LocalisedObjectInput>;
-  mandatoryFields?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  maximumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
-  maximumGroupSize?: InputMaybe<Scalars['Int']>;
-  minimumAttendeeCapacity?: InputMaybe<Scalars['Int']>;
+  mandatoryFields?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  maximumAttendeeCapacity?: InputMaybe<Scalars['Int']['input']>;
+  maximumGroupSize?: InputMaybe<Scalars['Int']['input']>;
+  minimumAttendeeCapacity?: InputMaybe<Scalars['Int']['input']>;
   registrationUserAccesses?: InputMaybe<Array<InputMaybe<RegistrationUserAccessInput>>>;
-  waitingListCapacity?: InputMaybe<Scalars['Int']>;
+  waitingListCapacity?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type UpdateSeatsReservationMutationInput = {
-  code: Scalars['String'];
-  registration: Scalars['ID'];
-  seats: Scalars['Int'];
+  code: Scalars['String']['input'];
+  registration: Scalars['ID']['input'];
+  seats: Scalars['Int']['input'];
 };
 
 export type UpdateSignupGroupMutationInput = {
-  extraInfo?: InputMaybe<Scalars['String']>;
-  registration?: InputMaybe<Scalars['ID']>;
+  extraInfo?: InputMaybe<Scalars['String']['input']>;
+  registration?: InputMaybe<Scalars['ID']['input']>;
   signups?: InputMaybe<Array<SignupInput>>;
 };
 
 export type UpdateSignupMutationInput = {
-  city?: InputMaybe<Scalars['String']>;
-  dateOfBirth?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
-  extraInfo?: InputMaybe<Scalars['String']>;
-  firstName?: InputMaybe<Scalars['String']>;
-  id: Scalars['ID'];
-  lastName?: InputMaybe<Scalars['String']>;
-  membershipNumber?: InputMaybe<Scalars['String']>;
-  nativeLanguage?: InputMaybe<Scalars['String']>;
-  notifications?: InputMaybe<Scalars['String']>;
-  phoneNumber?: InputMaybe<Scalars['String']>;
+  city?: InputMaybe<Scalars['String']['input']>;
+  dateOfBirth?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  extraInfo?: InputMaybe<Scalars['String']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['ID']['input'];
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  membershipNumber?: InputMaybe<Scalars['String']['input']>;
+  nativeLanguage?: InputMaybe<Scalars['String']['input']>;
+  notifications?: InputMaybe<Scalars['String']['input']>;
+  phoneNumber?: InputMaybe<Scalars['String']['input']>;
   presenceStatus?: InputMaybe<PresenceStatus>;
-  registration?: InputMaybe<Scalars['ID']>;
-  responsibleForGroup?: InputMaybe<Scalars['Boolean']>;
-  serviceLanguage?: InputMaybe<Scalars['String']>;
-  streetAddress?: InputMaybe<Scalars['String']>;
-  zipcode?: InputMaybe<Scalars['String']>;
+  registration?: InputMaybe<Scalars['ID']['input']>;
+  responsibleForGroup?: InputMaybe<Scalars['Boolean']['input']>;
+  serviceLanguage?: InputMaybe<Scalars['String']['input']>;
+  streetAddress?: InputMaybe<Scalars['String']['input']>;
+  zipcode?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UploadImageMutationInput = {
   altText?: InputMaybe<LocalisedObjectInput>;
-  image?: InputMaybe<Scalars['Any']>;
-  license?: InputMaybe<Scalars['String']>;
-  name: Scalars['String'];
-  photographerName?: InputMaybe<Scalars['String']>;
-  publisher?: InputMaybe<Scalars['String']>;
-  url?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['Any']['input']>;
+  license?: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  photographerName?: InputMaybe<Scalars['String']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type User = {
   __typename?: 'User';
-  adminOrganizations: Array<Scalars['String']>;
-  dateJoined?: Maybe<Scalars['String']>;
-  departmentName?: Maybe<Scalars['String']>;
-  displayName?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  firstName?: Maybe<Scalars['String']>;
-  isExternal?: Maybe<Scalars['Boolean']>;
-  isStaff?: Maybe<Scalars['Boolean']>;
-  lastLogin?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-  organization?: Maybe<Scalars['String']>;
-  organizationMemberships: Array<Scalars['String']>;
-  registrationAdminOrganizations: Array<Scalars['String']>;
-  username?: Maybe<Scalars['String']>;
-  uuid?: Maybe<Scalars['String']>;
+  adminOrganizations: Array<Scalars['String']['output']>;
+  dateJoined?: Maybe<Scalars['String']['output']>;
+  departmentName?: Maybe<Scalars['String']['output']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  firstName?: Maybe<Scalars['String']['output']>;
+  isExternal?: Maybe<Scalars['Boolean']['output']>;
+  isStaff?: Maybe<Scalars['Boolean']['output']>;
+  lastLogin?: Maybe<Scalars['String']['output']>;
+  lastName?: Maybe<Scalars['String']['output']>;
+  organization?: Maybe<Scalars['String']['output']>;
+  organizationMemberships: Array<Scalars['String']['output']>;
+  registrationAdminOrganizations: Array<Scalars['String']['output']>;
+  username?: Maybe<Scalars['String']['output']>;
+  uuid?: Maybe<Scalars['String']['output']>;
 };
 
 export type UsersResponse = {
@@ -1298,31 +1300,31 @@ export type UsersResponse = {
 
 export type Video = {
   __typename?: 'Video';
-  altText?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  url?: Maybe<Scalars['String']>;
+  altText?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 export type VideoInput = {
-  altText?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  url?: InputMaybe<Scalars['String']>;
+  altText?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  url?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DataSourceFieldsFragment = { __typename?: 'DataSource', apiKey?: string | null, createPastEvents?: boolean | null, editPastEvents?: boolean | null, id?: string | null, name?: string | null, owner?: string | null, private?: boolean | null, userEditable?: boolean | null };
 
 export type DataSourceQueryVariables = Exact<{
-  id: Scalars['ID'];
-  createPath?: InputMaybe<Scalars['Any']>;
+  id: Scalars['ID']['input'];
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
 export type DataSourceQuery = { __typename?: 'Query', dataSource: { __typename?: 'DataSource', apiKey?: string | null, createPastEvents?: boolean | null, editPastEvents?: boolean | null, id?: string | null, name?: string | null, owner?: string | null, private?: boolean | null, userEditable?: boolean | null } };
 
 export type DataSourcesQueryVariables = Exact<{
-  createPath?: InputMaybe<Scalars['Any']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -1336,7 +1338,7 @@ export type CreateEventMutationVariables = Exact<{
 export type CreateEventMutation = { __typename?: 'Mutation', createEvent: { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, superEvent?: { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } };
 
 export type DeleteEventMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1374,46 +1376,46 @@ export type BaseEventFieldsFragment = { __typename?: 'Event', id: string, atId: 
 export type EventFieldsFragment = { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, superEvent?: { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> };
 
 export type EventQueryVariables = Exact<{
-  id: Scalars['ID'];
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  createPath?: InputMaybe<Scalars['Any']>;
+  id: Scalars['ID']['input'];
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
 export type EventQuery = { __typename?: 'Query', event: { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, superEvent?: { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } };
 
 export type EventsQueryVariables = Exact<{
-  adminUser?: InputMaybe<Scalars['Boolean']>;
-  createdBy?: InputMaybe<Scalars['String']>;
-  combinedText?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  division?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  end?: InputMaybe<Scalars['String']>;
-  endsAfter?: InputMaybe<Scalars['String']>;
-  endsBefore?: InputMaybe<Scalars['String']>;
+  adminUser?: InputMaybe<Scalars['Boolean']['input']>;
+  createdBy?: InputMaybe<Scalars['String']['input']>;
+  combinedText?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  division?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  end?: InputMaybe<Scalars['String']['input']>;
+  endsAfter?: InputMaybe<Scalars['String']['input']>;
+  endsBefore?: InputMaybe<Scalars['String']['input']>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>> | InputMaybe<EventTypeId>>;
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  inLanguage?: InputMaybe<Scalars['String']>;
-  isFree?: InputMaybe<Scalars['Boolean']>;
-  keyword?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  keywordAnd?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  keywordNot?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  language?: InputMaybe<Scalars['String']>;
-  location?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  inLanguage?: InputMaybe<Scalars['String']['input']>;
+  isFree?: InputMaybe<Scalars['Boolean']['input']>;
+  keyword?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  keywordAnd?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  keywordNot?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  language?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
   publicationStatus?: InputMaybe<PublicationStatus>;
-  publisher?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  registration?: InputMaybe<Scalars['Boolean']>;
-  showAll?: InputMaybe<Scalars['Boolean']>;
-  sort?: InputMaybe<Scalars['String']>;
-  start?: InputMaybe<Scalars['String']>;
-  startsAfter?: InputMaybe<Scalars['String']>;
-  startsBefore?: InputMaybe<Scalars['String']>;
-  superEvent?: InputMaybe<Scalars['ID']>;
-  superEventType?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  text?: InputMaybe<Scalars['String']>;
-  translation?: InputMaybe<Scalars['String']>;
-  createPath?: InputMaybe<Scalars['Any']>;
+  publisher?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  registration?: InputMaybe<Scalars['Boolean']['input']>;
+  showAll?: InputMaybe<Scalars['Boolean']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  start?: InputMaybe<Scalars['String']['input']>;
+  startsAfter?: InputMaybe<Scalars['String']['input']>;
+  startsBefore?: InputMaybe<Scalars['String']['input']>;
+  superEvent?: InputMaybe<Scalars['ID']['input']>;
+  superEventType?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  text?: InputMaybe<Scalars['String']['input']>;
+  translation?: InputMaybe<Scalars['String']['input']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
@@ -1442,7 +1444,7 @@ export type IdObjectFieldsFragment = { __typename?: 'IdObject', atId?: string | 
 export type MetaFieldsFragment = { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null };
 
 export type DeleteImageMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1465,23 +1467,23 @@ export type UploadImageMutation = { __typename?: 'Mutation', uploadImage: { __ty
 export type ImageFieldsFragment = { __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null };
 
 export type ImageQueryVariables = Exact<{
-  id: Scalars['ID'];
-  createPath?: InputMaybe<Scalars['Any']>;
+  id: Scalars['ID']['input'];
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
 export type ImageQuery = { __typename?: 'Query', image: { __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } };
 
 export type ImagesQueryVariables = Exact<{
-  createdBy?: InputMaybe<Scalars['String']>;
-  dataSource?: InputMaybe<Scalars['String']>;
-  mergePages?: InputMaybe<Scalars['Boolean']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  publisher?: InputMaybe<Scalars['ID']>;
-  sort?: InputMaybe<Scalars['String']>;
-  text?: InputMaybe<Scalars['String']>;
-  createPath?: InputMaybe<Scalars['Any']>;
+  createdBy?: InputMaybe<Scalars['String']['input']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
+  mergePages?: InputMaybe<Scalars['Boolean']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  publisher?: InputMaybe<Scalars['ID']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
@@ -1495,7 +1497,7 @@ export type CreateKeywordMutationVariables = Exact<{
 export type CreateKeywordMutation = { __typename?: 'Mutation', createKeyword: { __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } };
 
 export type DeleteKeywordMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1511,23 +1513,23 @@ export type UpdateKeywordMutation = { __typename?: 'Mutation', updateKeyword: { 
 export type KeywordFieldsFragment = { __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null };
 
 export type KeywordQueryVariables = Exact<{
-  id: Scalars['ID'];
-  createPath?: InputMaybe<Scalars['Any']>;
+  id: Scalars['ID']['input'];
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
 export type KeywordQuery = { __typename?: 'Query', keyword: { __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } };
 
 export type KeywordsQueryVariables = Exact<{
-  dataSource?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  freeText?: InputMaybe<Scalars['String']>;
-  hasUpcomingEvents?: InputMaybe<Scalars['Boolean']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  showAllKeywords?: InputMaybe<Scalars['Boolean']>;
-  sort?: InputMaybe<Scalars['String']>;
-  text?: InputMaybe<Scalars['String']>;
-  createPath?: InputMaybe<Scalars['Any']>;
+  dataSource?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  freeText?: InputMaybe<Scalars['String']['input']>;
+  hasUpcomingEvents?: InputMaybe<Scalars['Boolean']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  showAllKeywords?: InputMaybe<Scalars['Boolean']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
@@ -1541,7 +1543,7 @@ export type CreateKeywordSetMutationVariables = Exact<{
 export type CreateKeywordSetMutation = { __typename?: 'Mutation', createKeywordSet: { __typename?: 'KeywordSet', id?: string | null, atId: string, dataSource?: string | null, organization?: string | null, usage?: string | null, keywords?: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null> | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } };
 
 export type DeleteKeywordSetMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1557,21 +1559,21 @@ export type UpdateKeywordSetMutation = { __typename?: 'Mutation', updateKeywordS
 export type KeywordSetFieldsFragment = { __typename?: 'KeywordSet', id?: string | null, atId: string, dataSource?: string | null, organization?: string | null, usage?: string | null, keywords?: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null> | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null };
 
 export type KeywordSetQueryVariables = Exact<{
-  id: Scalars['ID'];
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  createPath?: InputMaybe<Scalars['Any']>;
+  id: Scalars['ID']['input'];
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
 export type KeywordSetQuery = { __typename?: 'Query', keywordSet?: { __typename?: 'KeywordSet', id?: string | null, atId: string, dataSource?: string | null, organization?: string | null, usage?: string | null, keywords?: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null> | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null };
 
 export type KeywordSetsQueryVariables = Exact<{
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<Scalars['String']>;
-  text?: InputMaybe<Scalars['String']>;
-  createPath?: InputMaybe<Scalars['Any']>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
@@ -1580,8 +1582,8 @@ export type KeywordSetsQuery = { __typename?: 'Query', keywordSets: { __typename
 export type LanguageFieldsFragment = { __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null };
 
 export type LanguagesQueryVariables = Exact<{
-  serviceLanguage?: InputMaybe<Scalars['Boolean']>;
-  createPath?: InputMaybe<Scalars['Any']>;
+  serviceLanguage?: InputMaybe<Scalars['Boolean']['input']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
@@ -1595,7 +1597,7 @@ export type CreateOrganizationMutationVariables = Exact<{
 export type CreateOrganizationMutation = { __typename?: 'Mutation', createOrganization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null, adminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, registrationAdminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, regularUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null } };
 
 export type DeleteOrganizationMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1611,19 +1613,19 @@ export type UpdateOrganizationMutation = { __typename?: 'Mutation', updateOrgani
 export type OrganizationFieldsFragment = { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null, adminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, registrationAdminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, regularUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null };
 
 export type OrganizationQueryVariables = Exact<{
-  id: Scalars['ID'];
-  createPath?: InputMaybe<Scalars['Any']>;
+  id: Scalars['ID']['input'];
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
 export type OrganizationQuery = { __typename?: 'Query', organization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null, adminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, registrationAdminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, regularUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null } };
 
 export type OrganizationsQueryVariables = Exact<{
-  child?: InputMaybe<Scalars['ID']>;
-  createPath?: InputMaybe<Scalars['Any']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  text?: InputMaybe<Scalars['String']>;
+  child?: InputMaybe<Scalars['ID']['input']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -1632,17 +1634,17 @@ export type OrganizationsQuery = { __typename?: 'Query', organizations: { __type
 export type OrganizationClassFieldsFragment = { __typename?: 'OrganizationClass', createdTime?: string | null, dataSource?: string | null, id?: string | null, lastModifiedTime?: string | null, name?: string | null };
 
 export type OrganizationClassQueryVariables = Exact<{
-  id: Scalars['ID'];
-  createPath?: InputMaybe<Scalars['Any']>;
+  id: Scalars['ID']['input'];
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
 export type OrganizationClassQuery = { __typename?: 'Query', organizationClass: { __typename?: 'OrganizationClass', createdTime?: string | null, dataSource?: string | null, id?: string | null, lastModifiedTime?: string | null, name?: string | null } };
 
 export type OrganizationClassesQueryVariables = Exact<{
-  createPath?: InputMaybe<Scalars['Any']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
@@ -1656,7 +1658,7 @@ export type CreatePlaceMutationVariables = Exact<{
 export type CreatePlaceMutation = { __typename?: 'Mutation', createPlace: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } };
 
 export type DeletePlaceMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1676,23 +1678,23 @@ export type PositionFieldsFragment = { __typename?: 'Position', coordinates: Arr
 export type PlaceFieldsFragment = { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null };
 
 export type PlaceQueryVariables = Exact<{
-  id: Scalars['ID'];
-  createPath?: InputMaybe<Scalars['Any']>;
+  id: Scalars['ID']['input'];
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
 export type PlaceQuery = { __typename?: 'Query', place: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } };
 
 export type PlacesQueryVariables = Exact<{
-  dataSource?: InputMaybe<Scalars['String']>;
-  division?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  hasUpcomingEvents?: InputMaybe<Scalars['Boolean']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  showAllPlaces?: InputMaybe<Scalars['Boolean']>;
-  sort?: InputMaybe<Scalars['String']>;
-  text?: InputMaybe<Scalars['String']>;
-  createPath?: InputMaybe<Scalars['Any']>;
+  dataSource?: InputMaybe<Scalars['String']['input']>;
+  division?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  hasUpcomingEvents?: InputMaybe<Scalars['Boolean']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  showAllPlaces?: InputMaybe<Scalars['Boolean']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
@@ -1706,7 +1708,7 @@ export type CreateRegistrationMutationVariables = Exact<{
 export type CreateRegistrationMutation = { __typename?: 'Mutation', createRegistration: { __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, dataSource?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, lastModifiedAt?: string | null, mandatoryFields?: Array<string | null> | null, maximumAttendeeCapacity?: number | null, maximumGroupSize?: number | null, minimumAttendeeCapacity?: number | null, remainingAttendeeCapacity?: number | null, remainingWaitingListCapacity?: number | null, publisher?: string | null, waitingListCapacity?: number | null, confirmationMessage?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, event?: { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, superEvent?: { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null, instructions?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registrationUserAccesses?: Array<{ __typename?: 'RegistrationUserAccess', email?: string | null, id?: number | null, language?: string | null } | null> | null, signups?: Array<{ __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } };
 
 export type DeleteRegistrationMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1724,29 +1726,29 @@ export type RegistrationUserAccessFieldsFragment = { __typename?: 'RegistrationU
 export type RegistrationFieldsFragment = { __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, dataSource?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, lastModifiedAt?: string | null, mandatoryFields?: Array<string | null> | null, maximumAttendeeCapacity?: number | null, maximumGroupSize?: number | null, minimumAttendeeCapacity?: number | null, remainingAttendeeCapacity?: number | null, remainingWaitingListCapacity?: number | null, publisher?: string | null, waitingListCapacity?: number | null, confirmationMessage?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, event?: { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, superEvent?: { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null, instructions?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registrationUserAccesses?: Array<{ __typename?: 'RegistrationUserAccess', email?: string | null, id?: number | null, language?: string | null } | null> | null, signups?: Array<{ __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null };
 
 export type RegistrationQueryVariables = Exact<{
-  id: Scalars['ID'];
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  createPath?: InputMaybe<Scalars['Any']>;
+  id: Scalars['ID']['input'];
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
 export type RegistrationQuery = { __typename?: 'Query', registration: { __typename?: 'Registration', id?: string | null, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, currentAttendeeCount?: number | null, currentWaitingListCount?: number | null, dataSource?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, lastModifiedAt?: string | null, mandatoryFields?: Array<string | null> | null, maximumAttendeeCapacity?: number | null, maximumGroupSize?: number | null, minimumAttendeeCapacity?: number | null, remainingAttendeeCapacity?: number | null, remainingWaitingListCapacity?: number | null, publisher?: string | null, waitingListCapacity?: number | null, confirmationMessage?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, event?: { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, superEvent?: { __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, subEvents: Array<{ __typename?: 'Event', id: string, atId: string, audienceMaxAge?: number | null, audienceMinAge?: number | null, createdBy?: string | null, deleted?: string | null, endTime?: string | null, enrolmentEndTime?: string | null, enrolmentStartTime?: string | null, environment?: string | null, environmentalCertificate?: string | null, eventStatus?: EventStatus | null, lastModifiedTime?: string | null, maximumAttendeeCapacity?: number | null, minimumAttendeeCapacity?: number | null, publicationStatus?: PublicationStatus | null, publisher?: string | null, startTime?: string | null, superEventType?: SuperEventType | null, typeId?: EventTypeId | null, userConsent?: boolean | null, userEmail?: string | null, userName?: string | null, userOrganization?: string | null, userPhoneNumber?: string | null, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null>, audience: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, externalLinks: Array<{ __typename?: 'ExternalLink', name?: string | null, link?: string | null } | null>, images: Array<{ __typename?: 'Image', id?: string | null, atId: string, lastModifiedTime?: string | null, license?: string | null, name?: string | null, photographerName?: string | null, publisher?: string | null, url?: string | null, altText?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, inLanguage: Array<{ __typename?: 'Language', id?: string | null, atId: string, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, keywords: Array<{ __typename?: 'Keyword', id?: string | null, atId: string, dataSource?: string | null, deprecated?: boolean | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, replacedBy?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, location?: { __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null, locationExtraInfo?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, offers: Array<{ __typename?: 'Offer', isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, price?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, provider?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registration?: { __typename?: 'IdObject', atId?: string | null } | null, shortDescription?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, videos: Array<{ __typename?: 'Video', altText?: string | null, name?: string | null, url?: string | null } | null> } | null, instructions?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, registrationUserAccesses?: Array<{ __typename?: 'RegistrationUserAccess', email?: string | null, id?: number | null, language?: string | null } | null> | null, signups?: Array<{ __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null } };
 
 export type SendRegistrationUserAccessInvitationMutationVariables = Exact<{
-  id: Scalars['Int'];
+  id: Scalars['Int']['input'];
 }>;
 
 
 export type SendRegistrationUserAccessInvitationMutation = { __typename?: 'Mutation', sendRegistrationUserAccessInvitation?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
 
 export type RegistrationsQueryVariables = Exact<{
-  adminUser?: InputMaybe<Scalars['Boolean']>;
+  adminUser?: InputMaybe<Scalars['Boolean']['input']>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>> | InputMaybe<EventTypeId>>;
-  include?: InputMaybe<Array<InputMaybe<Scalars['String']>> | InputMaybe<Scalars['String']>>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
-  text?: InputMaybe<Scalars['String']>;
-  createPath?: InputMaybe<Scalars['Any']>;
+  include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
@@ -1760,7 +1762,7 @@ export type CreateSeatsReservationMutationVariables = Exact<{
 export type CreateSeatsReservationMutation = { __typename?: 'Mutation', createSeatsReservation: { __typename?: 'SeatsReservation', id: string, code: string, expiration: string, inWaitlist: boolean, registration: string, seats: number, timestamp: string } };
 
 export type UpdateSeatsReservationMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
   input: UpdateSeatsReservationMutationInput;
 }>;
 
@@ -1770,7 +1772,7 @@ export type UpdateSeatsReservationMutation = { __typename?: 'Mutation', updateSe
 export type SeatsReservationFieldsFragment = { __typename?: 'SeatsReservation', id: string, code: string, expiration: string, inWaitlist: boolean, registration: string, seats: number, timestamp: string };
 
 export type DeleteSignupMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1778,7 +1780,7 @@ export type DeleteSignupMutation = { __typename?: 'Mutation', deleteSignup?: { _
 
 export type UpdateSignupMutationVariables = Exact<{
   input: UpdateSignupMutationInput;
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1786,7 +1788,7 @@ export type UpdateSignupMutation = { __typename?: 'Mutation', updateSignup: { __
 
 export type PatchSignupMutationVariables = Exact<{
   input: UpdateSignupMutationInput;
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1794,14 +1796,14 @@ export type PatchSignupMutation = { __typename?: 'Mutation', updateSignup: { __t
 
 export type SendMessageMutationVariables = Exact<{
   input: SendMessageMutationInput;
-  registration: Scalars['ID'];
+  registration: Scalars['ID']['input'];
 }>;
 
 
 export type SendMessageMutation = { __typename?: 'Mutation', sendMessage?: { __typename?: 'SendMessageResponse', htmlMessage: string, message: string, signups?: Array<string> | null, subject: string } | null };
 
 export type SignupQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1817,7 +1819,7 @@ export type CreateSignupGroupMutationVariables = Exact<{
 export type CreateSignupGroupMutation = { __typename?: 'Mutation', createSignupGroup: { __typename?: 'CreateSignupGroupResponse', extraInfo?: string | null, id?: string | null, registration?: string | null, signups?: Array<{ __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null }> | null } };
 
 export type DeleteSignupGroupMutationVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1825,7 +1827,7 @@ export type DeleteSignupGroupMutation = { __typename?: 'Mutation', deleteSignupG
 
 export type UpdateSignupGroupMutationVariables = Exact<{
   input: UpdateSignupGroupMutationInput;
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1836,7 +1838,7 @@ export type CreateSignupGroupFieldsFragment = { __typename?: 'CreateSignupGroupR
 export type SignupGroupFieldsFragment = { __typename?: 'SignupGroup', extraInfo?: string | null, id?: string | null, registration?: string | null, signups?: Array<{ __typename?: 'Signup', id: string, attendeeStatus?: AttendeeStatus | null, cancellationCode?: string | null, city?: string | null, dateOfBirth?: string | null, email?: string | null, extraInfo?: string | null, firstName?: string | null, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, responsibleForGroup?: boolean | null, serviceLanguage?: string | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null } | null> | null };
 
 export type SignupGroupQueryVariables = Exact<{
-  id: Scalars['ID'];
+  id: Scalars['ID']['input'];
 }>;
 
 
@@ -1844,9 +1846,9 @@ export type SignupGroupQuery = { __typename?: 'Query', signupGroup: { __typename
 
 export type SignupsQueryVariables = Exact<{
   attendeeStatus?: InputMaybe<AttendeeStatus>;
-  registration?: InputMaybe<Array<InputMaybe<Scalars['ID']>> | InputMaybe<Scalars['ID']>>;
-  text?: InputMaybe<Scalars['String']>;
-  createPath?: InputMaybe<Scalars['Any']>;
+  registration?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>> | InputMaybe<Scalars['ID']['input']>>;
+  text?: InputMaybe<Scalars['String']['input']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
@@ -1855,17 +1857,17 @@ export type SignupsQuery = { __typename?: 'Query', signups: { __typename?: 'Sign
 export type UserFieldsFragment = { __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null };
 
 export type UserQueryVariables = Exact<{
-  id: Scalars['ID'];
-  createPath?: InputMaybe<Scalars['Any']>;
+  id: Scalars['ID']['input'];
+  createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } };
 
 export type UsersQueryVariables = Exact<{
-  createPath?: InputMaybe<Scalars['Any']>;
-  page?: InputMaybe<Scalars['Int']>;
-  pageSize?: InputMaybe<Scalars['Int']>;
+  createPath?: InputMaybe<Scalars['Any']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 
