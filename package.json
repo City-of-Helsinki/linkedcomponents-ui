@@ -9,7 +9,6 @@
     "@craco/craco": "^7.1.0",
     "@datapunt/matomo-tracker-react": "^0.5.1",
     "@emotion/react": "^11.10.6",
-    "@faker-js/faker": "^7.6.0",
     "@sentry/react": "^7.57.0",
     "@swc/helpers": "^0.5.2",
     "@types/ckeditor__ckeditor5-build-classic": "^29.0.1",
@@ -169,6 +168,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
