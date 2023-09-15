@@ -152,7 +152,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                               }
                             )
                           ).map((exlusion, index) => (
-                            <li key={index}>{exlusion}</li>
+                            <li key={index}>{exlusion as string}</li>
                           ))}
                         </ul>
                       </>
