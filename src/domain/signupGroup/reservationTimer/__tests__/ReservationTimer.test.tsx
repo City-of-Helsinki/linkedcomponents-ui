@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
+import { ApolloError } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
@@ -112,7 +113,7 @@ const getCreateSeatsReservationMock = (
 
 test('should show server errors when creating seats reservation fails', async () => {
   const showServerErrors = jest.fn();
-  const error = new Error();
+  const error = new ApolloError({ errorMessage: 'Error' });
   const mocks = [getSeatsReservationErrorMock(error)];
   renderComponent({ showServerErrors }, mocks);
 
