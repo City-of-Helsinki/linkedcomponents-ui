@@ -17,11 +17,11 @@ const CreateKeywordPage: React.FC = () => {
       <TitleRow
         breadcrumb={
           <Breadcrumb
-            items={[
-              { label: t('common.home'), to: ROUTES.HOME },
-              { label: t('adminPage.title'), to: ROUTES.ADMIN },
-              { label: t('keywordsPage.title'), to: ROUTES.KEYWORDS },
-              { active: true, label: t('createKeywordPage.title') },
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('adminPage.title'), path: ROUTES.ADMIN },
+              { title: t('keywordsPage.title'), path: ROUTES.KEYWORDS },
+              { title: t('createKeywordPage.title'), path: null },
             ]}
           />
         }

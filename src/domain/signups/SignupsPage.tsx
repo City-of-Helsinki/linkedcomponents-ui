@@ -160,23 +160,24 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
             actionItems={actionItems}
             breadcrumb={
               <Breadcrumb
-                items={[
-                  { label: t('common.home'), to: ROUTES.HOME },
+                list={[
+                  { title: t('common.home'), path: ROUTES.HOME },
                   {
-                    label: t('registrationsPage.title'),
-                    to: ROUTES.REGISTRATIONS,
+                    title: t('registrationsPage.title'),
+                    path: ROUTES.REGISTRATIONS,
                   },
                   {
-                    label: t(`editRegistrationPage.title`),
-                    to: ROUTES.EDIT_REGISTRATION.replace(
+                    title: t(`editRegistrationPage.title`),
+                    path: ROUTES.EDIT_REGISTRATION.replace(
                       ':id',
                       getValue(registration.id, '')
                     ),
                   },
-                  { active: true, label: t(`signupsPage.title`) },
+                  { title: t(`signupsPage.title`), path: null },
                 ]}
               />
             }
+            breadcrumbClassName={styles.breadcrumbWrapper}
             buttonWrapperClassName={styles.titleButtonWrapper}
             button={
               <Button

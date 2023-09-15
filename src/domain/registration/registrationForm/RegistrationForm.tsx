@@ -240,22 +240,23 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                     }
                     withOffset={true}
                   >
-                    <Breadcrumb
-                      className={styles.breadcrumb}
-                      items={[
-                        { label: t('common.home'), to: ROUTES.HOME },
-                        {
-                          label: t('registrationsPage.title'),
-                          to: ROUTES.REGISTRATIONS,
-                        },
-                        {
-                          active: true,
-                          label: registration
-                            ? t('editRegistrationPage.title')
-                            : t('createRegistrationPage.title'),
-                        },
-                      ]}
-                    />
+                    <div className={styles.breadcrumb}>
+                      <Breadcrumb
+                        list={[
+                          { title: t('common.home'), path: ROUTES.HOME },
+                          {
+                            title: t('registrationsPage.title'),
+                            path: ROUTES.REGISTRATIONS,
+                          },
+                          {
+                            title: registration
+                              ? t('editRegistrationPage.title')
+                              : t('createRegistrationPage.title'),
+                            path: null,
+                          },
+                        ]}
+                      />
+                    </div>
                     <RegistrationAuthenticationNotification
                       action={action}
                       registration={registration}

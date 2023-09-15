@@ -30,10 +30,10 @@ const OrganizationsPage: React.FC = () => {
       <TitleRow
         breadcrumb={
           <Breadcrumb
-            items={[
-              { label: t('common.home'), to: ROUTES.HOME },
-              { label: t('adminPage.title'), to: ROUTES.ADMIN },
-              { active: true, label: t('organizationsPage.title') },
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('adminPage.title'), path: ROUTES.ADMIN },
+              { title: t('organizationsPage.title'), path: null },
             ]}
           />
         }

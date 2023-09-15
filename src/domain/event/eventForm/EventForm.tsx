@@ -384,19 +384,20 @@ const EventForm: React.FC<EventFormProps> = ({
               }
               withOffset={true}
             >
-              <Breadcrumb
-                className={styles.breadcrumb}
-                items={[
-                  { label: t('common.home'), to: ROUTES.HOME },
-                  { label: t('eventsPage.title'), to: ROUTES.EVENTS },
-                  {
-                    active: true,
-                    label: event
-                      ? t(`editEventPage.title.${values.type}`)
-                      : t(`createEventPage.title.${values.type}`),
-                  },
-                ]}
-              />
+              <div className={styles.breadcrumb}>
+                <Breadcrumb
+                  list={[
+                    { title: t('common.home'), path: ROUTES.HOME },
+                    { title: t('eventsPage.title'), path: ROUTES.EVENTS },
+                    {
+                      title: event
+                        ? t(`editEventPage.title.${values.type}`)
+                        : t(`createEventPage.title.${values.type}`),
+                      path: null,
+                    },
+                  ]}
+                />
+              </div>
 
               <EventAuthenticationNotification event={event} />
               {event && <EventInfo event={event} />}

@@ -229,7 +229,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
         const disabledIfPlace = !isEditingAllowed || !!place;
 
         return (
-          <Form className={styles.form} noValidate={true}>
+          <Form noValidate={true}>
             <PlaceAuthenticationNotification
               action={action}
               publisher={publisher}

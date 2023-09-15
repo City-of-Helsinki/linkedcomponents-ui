@@ -16,6 +16,10 @@
   }
 }
 
+.breadcrumbWrapper {
+  margin: calc(0px - var(--spacing-s)) 0;
+}
+
 .titleButtonWrapper {
   align-self: flex-start !important;
 

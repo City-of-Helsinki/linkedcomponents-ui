@@ -168,7 +168,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
         const disabledIfKeywordSet = !isEditingAllowed || !!keywordSet;
 
         return (
-          <Form className={styles.form} noValidate={true}>
+          <Form noValidate={true}>
             <KeywordSetAuthenticationNotification
               action={action}
               organization={organization}

@@ -51,20 +51,20 @@ const AttendanceListPage: React.FC<AttendanceListPageProps> = ({
           withOffset={true}
         >
           <Breadcrumb
-            items={[
-              { label: t('common.home'), to: ROUTES.HOME },
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
               {
-                label: t('registrationsPage.title'),
-                to: ROUTES.REGISTRATIONS,
+                title: t('registrationsPage.title'),
+                path: ROUTES.REGISTRATIONS,
               },
               {
-                label: t(`editRegistrationPage.title`),
-                to: ROUTES.EDIT_REGISTRATION.replace(
+                title: t(`editRegistrationPage.title`),
+                path: ROUTES.EDIT_REGISTRATION.replace(
                   ':id',
                   getValue(registration.id, '')
                 ),
               },
-              { active: true, label: t(`attendanceListPage.title`) },
+              { title: t(`attendanceListPage.title`), path: null },
             ]}
           />
           <SignupAuthenticationNotification

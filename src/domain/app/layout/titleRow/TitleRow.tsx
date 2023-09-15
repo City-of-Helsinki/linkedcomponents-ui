@@ -9,6 +9,7 @@ import styles from './titleRow.module.scss';
 type TitleRowProps = {
   actionItems?: MenuItemOptionProps[];
   breadcrumb?: React.ReactElement;
+  breadcrumbClassName?: string;
   button?: React.ReactElement;
   buttonWrapperClassName?: string;
   editingInfo?: React.ReactElement;
@@ -18,6 +19,7 @@ type TitleRowProps = {
 const TitleRow = ({
   actionItems,
   breadcrumb,
+  breadcrumbClassName,
   button,
   buttonWrapperClassName,
   editingInfo,
@@ -26,7 +28,11 @@ const TitleRow = ({
   const { t } = useTranslation();
   return (
     <div className={styles.titleRowWrapper}>
-      {breadcrumb && <div className={styles.breadcrumb}>{breadcrumb}</div>}
+      {breadcrumb && (
+        <div className={classNames(styles.breadcrumb, breadcrumbClassName)}>
+          {breadcrumb}
+        </div>
+      )}
       <div className={styles.titleRow}>
         <div className={styles.title}>
           <h1>{title}</h1>

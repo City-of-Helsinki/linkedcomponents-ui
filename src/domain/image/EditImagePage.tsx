@@ -73,11 +73,11 @@ const EditImagePage: React.FC<Props> = ({ image }) => {
       <TitleRow
         breadcrumb={
           <Breadcrumb
-            items={[
-              { label: t('common.home'), to: ROUTES.HOME },
-              { label: t('adminPage.title'), to: ROUTES.ADMIN },
-              { label: t('imagesPage.title'), to: ROUTES.IMAGES },
-              { active: true, label: t('editImagePage.title') },
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('adminPage.title'), path: ROUTES.ADMIN },
+              { title: t('imagesPage.title'), path: ROUTES.IMAGES },
+              { title: t('editImagePage.title'), path: null },
             ]}
           />
         }
