@@ -25,7 +25,6 @@
   ],
   "exclude": [
     "**/__mocks__/*",
-    "**/__tests__/*",
     "src/test/*",
     "src/utils/testUtils.tsx",
     "src/utils/mockDataUtils.ts",
