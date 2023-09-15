@@ -154,7 +154,7 @@
     ],
     "resetMocks": false,
     "transformIgnorePatterns": [
-      "/node_modules/(?!react-leaflet|@react-leaflet|leaflet-draw|leaflet|react-toastify|swagger-ui-react|swagger-client|react-syntax-highlighter|react-image-crop|axios|hds-core)"
+      "/node_modules/(?!react-leaflet|@react-leaflet|leaflet-draw|leaflet|react-toastify|react-syntax-highlighter|react-image-crop|axios|hds-core)"
     ]
   },
   "jest-junit": {
