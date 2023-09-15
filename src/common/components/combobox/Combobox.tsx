@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import classNames from 'classnames';
 import {
   Combobox as BaseCombobox,
@@ -64,7 +65,7 @@ const Combobox: React.FC<Props> = ({
   return (
     <ComboboxLoadingSpinner alignedLabel={alignedLabel} isLoading={isLoading}>
       <BaseCombobox
-        {...rest}
+        {...(rest as any)}
         className={classNames(className, styles.combobox)}
         getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}
         getA11ySelectionMessage={

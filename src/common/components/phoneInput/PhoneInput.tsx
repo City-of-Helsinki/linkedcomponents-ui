@@ -11,6 +11,7 @@ const PhoneInput: React.FC<PhoneInputProps> = ({ className, ...rest }) => {
     <ClassNames>
       {({ css, cx }) => (
         <BasePhoneInput
+          crossOrigin={undefined}
           {...rest}
           className={cx(className, css(theme.textInput))}
         />
