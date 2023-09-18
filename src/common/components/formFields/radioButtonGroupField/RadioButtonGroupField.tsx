@@ -1,60 +1,45 @@
-import classNames from 'classnames';
-import { FieldProps } from 'formik';
+import { FieldProps, useField } from 'formik';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../../types';
+import { getErrorText } from '../../../../utils/validationUtils';
 import RadioButton from '../../radioButton/RadioButton';
-import { RequiredIndicator } from '../../requiredIndicator/RequiredIndicator';
-import styles from './radioButtonGroupField.module.scss';
-
-type Columns = 1 | 2 | 3 | 4;
+import SelectionGroup, {
+  SelectionGroupProps,
+} from '../../selectionGroup/SelectionGroup';
 
 type Props = {
-  className?: string;
-  columns: Columns;
-  label?: string;
   options: OptionType[];
-  required?: boolean;
 } & FieldProps &
-  React.HTMLProps<HTMLFieldSetElement>;
+  SelectionGroupProps;
 
 const RadioButtonGroupField: React.FC<Props> = ({
-  className,
   columns = 2,
   field: { name, value, ...field },
   label,
   form,
   options,
-  required,
   ...rest
 }) => {
+  const { t } = useTranslation();
+  const [, { error, touched }] = useField(name);
+  const errorText = getErrorText(error, touched, t);
+
   return (
-    <fieldset
-      className={classNames(styles.radioButtonGroup, className)}
-      {...rest}
-    >
-      <legend className={styles.label}>
-        {label} {required && <RequiredIndicator />}
-      </legend>
-      <div
-        className={classNames(
-          styles.radioButtonsWrapper,
-          styles[`columns${columns}`]
-        )}
-      >
-        {options.map((option) => (
-          <RadioButton
-            key={option.value}
-            {...field}
-            id={`${name}-${option.value}`}
-            name={name}
-            checked={value === option.value}
-            value={option.value}
-            label={option.label}
-          />
-        ))}
-      </div>
-    </fieldset>
+    <SelectionGroup {...rest} columns={columns} errorText={errorText}>
+      {options.map((option) => (
+        <RadioButton
+          key={option.value}
+          {...field}
+          id={`${name}-${option.value}`}
+          name={name}
+          checked={value === option.value}
+          value={option.value}
+          label={option.label}
+        />
+      ))}
+    </SelectionGroup>
   );
 };
 
