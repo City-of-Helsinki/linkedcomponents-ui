@@ -67,7 +67,6 @@
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "react-scroll": "^1.8.9",
-    "react-toastify": "^9.1.1",
     "sass": "^1.57.1",
     "swagger-ui-react": "^4.18.1",
     "swc-loader": "^0.2.3",
@@ -159,7 +158,7 @@
     ],
     "resetMocks": false,
     "transformIgnorePatterns": [
-      "/node_modules/(?!react-leaflet|@react-leaflet|leaflet-draw|leaflet|react-toastify|swagger-ui-react|swagger-client|react-syntax-highlighter|react-image-crop|axios|hds-core)"
+      "/node_modules/(?!react-leaflet|@react-leaflet|leaflet-draw|leaflet|swagger-ui-react|swagger-client|react-syntax-highlighter|react-image-crop|axios|hds-core)"
     ]
   },
   "jest-junit": {

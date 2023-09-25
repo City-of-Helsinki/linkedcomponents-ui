@@ -330,7 +330,7 @@ describe('signIn function', () => {
     });
   });
 
-  it('should show toast error message when login fails with NetworkError', async () => {
+  it('should show error message when login fails with NetworkError', async () => {
     const addNotification = jest.fn();
     const error = { message: 'Network Error' };
     const signinRedirect = jest
@@ -479,7 +479,7 @@ describe('getApiToken function', () => {
     );
   });
 
-  it('should show toast error message when failing to get api token', async () => {
+  it('should show error message when failing to get api token', async () => {
     const dispatchApiTokenState = jest.fn();
     const addNotification = jest.fn();
     const accessToken = 'access-token';
@@ -531,7 +531,7 @@ describe('renewApiToken function', () => {
     });
   });
 
-  it('should show toast error message when failing to renew api token', async () => {
+  it('should show error message when failing to renew api token', async () => {
     const dispatchApiTokenState = jest.fn();
     const addNotification = jest.fn();
     const accessToken = 'access-token';

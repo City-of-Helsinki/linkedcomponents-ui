@@ -2,8 +2,6 @@ import classNames from 'classnames';
 import { IconDownload } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { toast } from 'react-toastify';
 
 import {
   ACCEPTED_IMAGE_TYPES,

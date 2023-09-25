@@ -8,7 +8,6 @@ import {
   render,
   screen,
   userEvent,
-  waitFor,
 } from '../../../../../utils/testUtils';
 import { mockedServiceLanguagesResponse } from '../../../../language/__mocks__/language';
 import {
