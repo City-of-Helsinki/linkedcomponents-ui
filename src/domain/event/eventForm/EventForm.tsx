@@ -26,6 +26,7 @@ import Container from '../../app/layout/container/Container';
 import MainContent from '../../app/layout/mainContent/MainContent';
 import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 import Section from '../../app/layout/section/Section';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { replaceParamsToEventQueryString } from '../../events/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -116,6 +117,7 @@ const EventForm: React.FC<EventFormProps> = ({
   isExternalUser,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const location = useLocation();
   const navigate = useNavigate();
@@ -150,7 +152,7 @@ const EventForm: React.FC<EventFormProps> = ({
     navigate(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
   };
 
-  const goToEventsPage = (): void => {
+  const goToEventsPage = async () => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
       location.search,
       ROUTES.SEARCH
@@ -178,6 +180,10 @@ const EventForm: React.FC<EventFormProps> = ({
       onSuccess: async () => {
         refetch && (await refetch());
         window.scrollTo(0, 0);
+        addNotification({
+          label: t('event.form.notificationEventCancelled'),
+          type: 'success',
+        });
       },
     });
   };
@@ -188,13 +194,19 @@ const EventForm: React.FC<EventFormProps> = ({
   ) => {
     createEvent(values, publicationStatus, {
       onError: (error) => showServerErrors({ error, eventType: values.type }),
-      onSuccess: (id) => goToEventSavedPage(getValue(id, '')),
+      onSuccess: async (id) => goToEventSavedPage(getValue(id, '')),
     });
   };
 
   const handleDelete = () => {
     deleteEvent({
-      onSuccess: () => goToEventsPage(),
+      onSuccess: async () => {
+        goToEventsPage();
+        addNotification({
+          label: t('event.form.notificationEventDeleted'),
+          type: 'success',
+        });
+      },
     });
   };
 
@@ -209,6 +221,10 @@ const EventForm: React.FC<EventFormProps> = ({
       onSuccess: async () => {
         refetch && (await refetch());
         window.scrollTo(0, 0);
+        addNotification({
+          label: t('event.form.notificationEventPostponed'),
+          type: 'success',
+        });
       },
     });
   };
@@ -227,6 +243,10 @@ const EventForm: React.FC<EventFormProps> = ({
       onSuccess: async () => {
         refetch && (await refetch());
         window.scrollTo(0, 0);
+        addNotification({
+          label: t('event.form.notificationEventUpdated'),
+          type: 'success',
+        });
       },
     });
   };

@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { IconDownload } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { toast } from 'react-toastify';
 
 import {
@@ -11,6 +12,7 @@ import {
   MIN_IMAGE_WIDTH,
   testIds,
 } from '../../../../constants';
+import { useNotificationsContext } from '../../../../domain/app/notificationsContext/hooks/useNotificationsContext';
 import isTestEnv from '../../../../utils/isTestEnv';
 import { getImageDimensions } from '../utils';
 import styles from './imageDropzone.module.scss';
@@ -27,26 +29,34 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({
   title,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const fileInput = React.useRef<HTMLInputElement | null>(null);
   const [hovered, setHovered] = React.useState(false);
 
   const handleFile = async (file: File) => {
     if (!validateImageFileType(file)) {
-      toast.error(t('common.imageUploader.notAllowedFileFormat'));
+      addNotification({
+        label: t('common.imageUploader.notAllowedFileFormat'),
+        type: 'error',
+      });
       return;
     }
 
     if (!validateImageFileNameLength(file)) {
-      toast.error(
-        t('common.imageUploader.tooLongFileName', {
+      addNotification({
+        label: t('common.imageUploader.tooLongFileName', {
           maxLength: MAX_IMAGE_FILE_NAME_LENGTH,
-        })
-      );
+        }),
+        type: 'error',
+      });
       return;
     }
     /* istanbul ignore next */
     if (!isTestEnv && !(await validateImageMinDimensions(file))) {
-      toast.error(t('common.imageUploader.belowMinDimensions'));
+      addNotification({
+        label: t('common.imageUploader.belowMinDimensions'),
+        type: 'error',
+      });
       return;
     }
 

@@ -106,6 +106,7 @@ test('should delete keyword', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keyword-sets`)
   );
+  await screen.findByRole('alert', { name: 'Avainsanaryhmä on poistettu' });
 });
 
 test('should update keyword set', async () => {
@@ -125,6 +126,7 @@ test('should update keyword set', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keyword-sets`)
   );
+  await screen.findByRole('alert', { name: 'Avainsanaryhmä on tallennettu' });
 });
 
 test('should show server errors', async () => {

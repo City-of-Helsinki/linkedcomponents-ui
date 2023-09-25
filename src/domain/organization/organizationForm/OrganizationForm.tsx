@@ -33,6 +33,7 @@ import {
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
 import { clearOrganizationsQueries } from '../../app/apollo/clearCacheUtils';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 import {
@@ -63,6 +64,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
   organization,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
@@ -81,7 +83,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
     user,
   });
 
-  const goToOrganizationsPage = () => {
+  const goToOrganizationsPage = async () => {
     navigate(`/${locale}${ROUTES.ORGANIZATIONS}`);
   };
 
@@ -100,6 +102,10 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
       onError: (error: ServerError) => showServerErrors({ error }),
       onSuccess: async () => {
         goToOrganizationsPage();
+        addNotification({
+          label: t('organization.form.notificationOrganizationUpdated'),
+          type: 'success',
+        });
       },
     });
   };

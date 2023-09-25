@@ -2,8 +2,9 @@
 /* eslint @typescript-eslint/no-explicit-any: 0 */
 /* eslint @typescript-eslint/explicit-function-return-type: 0 */
 import { render, waitFor } from '@testing-library/react';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
+import { NotificationsProvider } from '../../app/notificationsContext/NotificationsContext';
 import { AuthContext, AuthProvider } from '../AuthContext';
 import { OidcActionTypes } from '../constants';
 import { reducers } from '../reducers';
@@ -39,6 +40,10 @@ jest.mock('oidc-client', () => {
   };
 });
 
+const Wrapper: React.FC<PropsWithChildren> = ({ children }) => {
+  return <NotificationsProvider>{children}</NotificationsProvider>;
+};
+
 describe('AuthContext', () => {
   it('should sign in', async () => {
     const u = {
@@ -48,14 +53,16 @@ describe('AuthContext', () => {
     } as any;
 
     render(
-      <AuthProvider userManager={u}>
-        <AuthContext.Consumer>
-          {(value) => {
-            value?.signIn();
-            return <div />;
-          }}
-        </AuthContext.Consumer>
-      </AuthProvider>
+      <Wrapper>
+        <AuthProvider userManager={u}>
+          <AuthContext.Consumer>
+            {(value) => {
+              value?.signIn();
+              return <div />;
+            }}
+          </AuthContext.Consumer>
+        </AuthProvider>
+      </Wrapper>
     );
 
     await waitFor(() => expect(u.getUser).toHaveBeenCalled());
@@ -71,7 +78,11 @@ describe('AuthContext', () => {
       events,
     } as any;
 
-    render(<AuthProvider userManager={userManager} />);
+    render(
+      <Wrapper>
+        <AuthProvider userManager={userManager} />
+      </Wrapper>
+    );
 
     await waitFor(() =>
       expect(oidcReducerSpy).toBeCalledWith(expect.objectContaining({}), {
@@ -94,7 +105,11 @@ describe('AuthContext', () => {
       },
     } as any;
 
-    render(<AuthProvider userManager={userManager} />);
+    render(
+      <Wrapper>
+        <AuthProvider userManager={userManager} />
+      </Wrapper>
+    );
 
     await waitFor(() =>
       expect(oidcReducerSpy).toBeCalledWith(expect.objectContaining({}), {
@@ -117,7 +132,11 @@ describe('AuthContext', () => {
       events,
     } as any;
 
-    render(<AuthProvider userManager={userManager} />);
+    render(
+      <Wrapper>
+        <AuthProvider userManager={userManager} />
+      </Wrapper>
+    );
 
     await waitFor(() =>
       expect(oidcReducerSpy).toBeCalledWith(expect.objectContaining({}), {
@@ -138,7 +157,11 @@ describe('AuthContext', () => {
       events,
     } as any;
 
-    render(<AuthProvider userManager={userManager} />);
+    render(
+      <Wrapper>
+        <AuthProvider userManager={userManager} />
+      </Wrapper>
+    );
 
     await waitFor(() =>
       expect(oidcReducerSpy).toBeCalledWith(expect.objectContaining({}), {
@@ -162,14 +185,16 @@ describe('AuthContext', () => {
     } as any;
 
     render(
-      <AuthProvider userManager={u}>
-        <AuthContext.Consumer>
-          {(value) => {
-            value?.signOut();
-            return <div />;
-          }}
-        </AuthContext.Consumer>
-      </AuthProvider>
+      <Wrapper>
+        <AuthProvider userManager={u}>
+          <AuthContext.Consumer>
+            {(value) => {
+              value?.signOut();
+              return <div />;
+            }}
+          </AuthContext.Consumer>
+        </AuthProvider>
+      </Wrapper>
     );
 
     await waitFor(() => expect(u.signoutRedirect).toHaveBeenCalled());

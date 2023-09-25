@@ -9,6 +9,7 @@ import { ROUTES } from '../../../constants';
 import { KeywordSetFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { KEYWORD_SET_ACTIONS } from '../../keywordSet/constants';
 import useKeywordSetUpdateActions, {
@@ -33,6 +34,7 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
   keywordSet,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { isAuthenticated: authenticated } = useAuth();
@@ -94,7 +96,16 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
           isOpen={openModal === KEYWORD_SET_MODALS.DELETE}
           isSaving={saving === KEYWORD_SET_ACTIONS.DELETE}
           onClose={closeModal}
-          onConfirm={deleteKeywordSet}
+          onConfirm={() => {
+            deleteKeywordSet({
+              onSuccess: async () => {
+                addNotification({
+                  label: t('keywordSet.form.notificationKeywordSetDeleted'),
+                  type: 'success',
+                });
+              },
+            });
+          }}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

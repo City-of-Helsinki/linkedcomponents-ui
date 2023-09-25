@@ -1,5 +1,4 @@
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { testIds } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
@@ -177,7 +176,6 @@ test('should move to images page after creating new image', async () => {
 });
 
 test('should prevent upload on a file name that is too long', async () => {
-  toast.error = jest.fn();
   const user = userEvent.setup();
   renderComponent();
 
@@ -197,7 +195,7 @@ test('should prevent upload on a file name that is too long', async () => {
   const fileWithLongName = mockFile({ name: fileName });
   Object.defineProperty(fileInput, 'files', { value: [fileWithLongName] });
   fireEvent.change(fileInput);
-  expect(toast.error).toBeCalledWith(
-    'Tiedoston nimi on liian pitkä. Nimi voi olla enintään 200 merkkiä.'
-  );
+  screen.findByRole('alert', {
+    name: 'Tiedoston nimi on liian pitkä. Nimi voi olla enintään 200 merkkiä.',
+  });
 });

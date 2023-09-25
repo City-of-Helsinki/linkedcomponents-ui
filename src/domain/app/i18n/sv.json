@@ -720,6 +720,10 @@
         "general": "Ange återkommande evenemang",
         "volunteering": "Ange återkommande volontärarbete"
       },
+      "notificationEventCancelled": "Evenemanget har ställts in",
+      "notificationEventDeleted": "Evenemanget har tagits bort",
+      "notificationEventPostponed": "Evenemanget har skjutits upp",
+      "notificationEventUpdated": "Evenemanget har sparats",
       "notificationTitleCannotEdit": "Evenemanget kan inte redigeras",
       "notificationTitleDescription": {
         "course": "Kursbeskrivning",
@@ -1290,6 +1294,8 @@
       "labelPhotographerName": "Författarens namn",
       "labelPublisher": "Utgivare",
       "labelUrl": "Bildens URL-webbaddress",
+      "notificationImageDeleted": "Bilden har tagits bort",
+      "notificationImageUpdated": "Bilden har sparats",
       "notificationTitleCannotEdit": "Bilden kan inte redigeras",
       "placeholderAltText": "Ange bildens alt-text för skärmläsare",
       "placeholderName": "Ange bildtext",
@@ -1359,6 +1365,8 @@
       "labelOriginId": "Ursprungs-ID",
       "labelPublisher": "Utgivare",
       "labelReplacedBy": "Ersatt av",
+      "notificationKeywordDeleted": "Nyckelordet har tagits bort",
+      "notificationKeywordUpdated": "Nyckelordet har sparats",
       "notificationTitleCannotEdit": "Nyckelord kan inte redigeras"
     }
   },
@@ -1452,6 +1460,8 @@
       "labelOrganization": "Utgivare",
       "labelOriginId": "Ursprungs-ID",
       "labelUsage": "Användande",
+      "notificationKeywordSetDeleted": "Nyckelordsuppsättning har tagits bort",
+      "notificationKeywordSetUpdated": "Nyckelordsuppsättning har sparats",
       "notificationTitleCannotEdit": "Nyckelordsuppsättning kan inte redigeras"
     }
   },
@@ -1562,6 +1572,8 @@
       "labelRegistrationAdminUsers": "Registrering admin användare",
       "labelRegularUsers": "Regelbundna användare",
       "labelReplacedBy": "Ersatt av",
+      "notificationOrganisationDeleted": "Organisation har tagits bort",
+      "notificationOrganisationUpdated": "Organisation har sparats",
       "notificationTitleCannotEdit": "Organisation kan inte redigeras"
     },
     "internalType": {
@@ -1630,6 +1642,8 @@
       "labelPublisher": "Utgivare",
       "labelStreetAddress": "Gatuadress ({{langText}})",
       "labelTelephone": "Telefonnummer ({{langText}})",
+      "notificationPlaceDeleted": "Platsen har tagits bort",
+      "notificationPlaceUpdated": "Platsen har sparats",
       "notificationTitleCannotEdit": "Platsen kan inte redigeras",
       "titleContactInfo": "Kontaktinformation",
       "titleLocation": "Position"
@@ -1703,6 +1717,8 @@
         "failedToSendInvitation": "Det gick inte att skicka inbjudan",
         "succeededToSendInvitation": "En inbjudan till deltagarlista har skickats till {{email}}."
       },
+      "notificationRegistrationDeleted": "Registreringen har raderats",
+      "notificationRegistrationUpdated": "Registreringen har sparad",
       "notificationTitleCannotEdit": "Registreringet kan inte redigeras",
       "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
       "placeholderEvent": "Välj eller sök efter evenemanget",
@@ -1835,6 +1851,10 @@
       "labelSignupExtraInfo": "Ytterligare information (valfritt)",
       "labelStreetAddress": "Gatuadress",
       "labelZipcode": "Postnummer",
+      "notificationSignupDeleted": "Registreringen har raderats",
+      "notificationSignupUpdated": "Deltagarinformation har sparad",
+      "notificationSignupGroupDeleted": "Registreringen har raderats",
+      "notificationSignupGroupUpdated": "Deltagarinformation har sparad",
       "notificationTitleCannotEdit": "Deltagaren kan inte redigeras",
       "placeholderCity": "Ange staden",
       "placeholderEmail": "Skriv in din mailadress",

@@ -57,6 +57,7 @@ import getValue from '../../../utils/getValue';
 import GroupSizeSection from '../formSections/groupSizeSection/GroupSizeSection';
 import LanguagesSection from '../formSections/languageSection/LanguageSection';
 import RegistrationUserAccessesSection from '../formSections/registrationUserAccessesSection/RegistrationUserAccessesSection';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 
 export type CreateRegistrationFormProps = {
   event?: null;
@@ -81,6 +82,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   refetch,
   registration,
 }) => {
+  const { addNotification } = useNotificationsContext();
   const { t } = useTranslation();
   const locale = useLocale();
   const location = useLocation();
@@ -105,7 +107,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useRegistrationServerErrors();
 
-  const goToRegistrationsPage = () => {
+  const goToRegistrationsPage = async () => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
       location.search,
       ROUTES.REGISTRATIONS
@@ -141,13 +143,19 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const handleCreate = async (values: RegistrationFormFields) => {
     await createRegistration(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
-      onSuccess: (id) => goToRegistrationSavedPage(getValue(id, '')),
+      onSuccess: async (id) => goToRegistrationSavedPage(getValue(id, '')),
     });
   };
 
   const handleDelete = () => {
     deleteRegistration({
-      onSuccess: goToRegistrationsPage,
+      onSuccess: async () => {
+        goToRegistrationsPage();
+        addNotification({
+          label: t('registration.form.notificationRegistrationDeleted'),
+          type: 'success',
+        });
+      },
     });
   };
 
@@ -157,6 +165,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
       onSuccess: async () => {
         refetch && (await refetch());
         window.scrollTo(0, 0);
+        addNotification({
+          label: t('registration.form.notificationRegistrationUpdated'),
+          type: 'success',
+        });
       },
     });
   };

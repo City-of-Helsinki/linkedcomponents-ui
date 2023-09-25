@@ -8,6 +8,7 @@ import { ROUTES } from '../../../constants';
 import { KeywordFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { KEYWORD_ACTIONS } from '../../keyword/constants';
 import useKeywordUpdateActions, {
@@ -29,6 +30,7 @@ const KeywordActionsDropdown: React.FC<KeywordActionsDropdownProps> = ({
   keyword,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { isAuthenticated: authenticated } = useAuth();
@@ -89,7 +91,16 @@ const KeywordActionsDropdown: React.FC<KeywordActionsDropdownProps> = ({
           isOpen={openModal === KEYWORD_MODALS.DELETE}
           isSaving={saving === KEYWORD_ACTIONS.DELETE}
           onClose={closeModal}
-          onConfirm={deleteKeyword}
+          onConfirm={() =>
+            deleteKeyword({
+              onSuccess: async () => {
+                addNotification({
+                  label: t('keyword.form.notificationKeywordDeleted'),
+                  type: 'success',
+                });
+              },
+            })
+          }
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

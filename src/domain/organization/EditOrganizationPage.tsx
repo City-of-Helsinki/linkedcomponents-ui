@@ -15,6 +15,7 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
+import { useNotificationsContext } from '../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
@@ -36,6 +37,7 @@ type Props = {
 
 const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { id } = getOrganizationFields(organization, locale, t);
@@ -47,13 +49,19 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
       organization,
     });
 
-  const goToOrganizationsPage = () => {
+  const goToOrganizationsPage = async () => {
     navigate(`/${locale}${ROUTES.ORGANIZATIONS}`);
   };
 
   const handleDelete = () => {
     deleteOrganization({
-      onSuccess: () => goToOrganizationsPage(),
+      onSuccess: async () => {
+        goToOrganizationsPage();
+        addNotification({
+          label: t('organization.form.notificationOrganizationDeleted'),
+          type: 'success',
+        });
+      },
     });
   };
 

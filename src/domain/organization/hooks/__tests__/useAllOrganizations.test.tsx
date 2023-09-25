@@ -2,10 +2,12 @@ import { MockedProvider } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import range from 'lodash/range';
+import React from 'react';
 
 import { Meta, OrganizationsDocument } from '../../../../generated/graphql';
 import { fakeOrganizations } from '../../../../utils/mockDataUtils';
 import { createCache } from '../../../app/apollo/apolloClient';
+import { NotificationsProvider } from '../../../app/notificationsContext/NotificationsContext';
 import { MAX_OGRANIZATIONS_PAGE_SIZE } from '../../constants';
 import useAllOrganizations from '../useAllOrganizations';
 
@@ -66,9 +68,11 @@ const mocks = [mockedOrganizationsResponse, mockedPage2OrganizationsResponse];
 
 const getHookWrapper = () => {
   const wrapper = ({ children }) => (
-    <MockedProvider cache={createCache()} mocks={mocks}>
-      {children}
-    </MockedProvider>
+    <NotificationsProvider>
+      <MockedProvider cache={createCache()} mocks={mocks}>
+        {children}
+      </MockedProvider>
+    </NotificationsProvider>
   );
 
   const { result } = renderHook(() => useAllOrganizations(), {

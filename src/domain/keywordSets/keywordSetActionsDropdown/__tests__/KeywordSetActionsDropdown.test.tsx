@@ -130,4 +130,5 @@ test('should delete keyword set', async () => {
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   );
+  await screen.findByRole('alert', { name: 'Avainsanaryhmä on poistettu' });
 });

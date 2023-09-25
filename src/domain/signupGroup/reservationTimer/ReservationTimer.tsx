@@ -90,7 +90,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
       // only if creatingReservationStarted is false
       createSeatsReservation({
         onError: (error) => showServerErrors({ error }, 'seatsReservation'),
-        onSuccess: () => {
+        onSuccess: async () => {
           const seatsReservation = getSeatsReservationData(registrationId);
 
           enableTimer();

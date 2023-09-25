@@ -69,8 +69,8 @@ export type UseServerErrorsState = {
 };
 
 export type MutationCallbacks<ResponseDataType = string> = {
-  onError?: (error: any) => void;
-  onSuccess?: (id?: ResponseDataType) => void;
+  onError?: (error: any) => Promise<void> | void;
+  onSuccess?: (id?: ResponseDataType) => Promise<void>;
 };
 
 export type ButtonType = 'button' | 'reset' | 'submit' | undefined;

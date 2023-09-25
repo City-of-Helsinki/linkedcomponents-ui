@@ -13,6 +13,7 @@ import { AuthProvider } from '../auth/AuthContext';
 import userManager from '../auth/userManager';
 import apolloClient from './apollo/apolloClient';
 import CookieConsent from './cookieConsent/CookieConsent';
+import { NotificationsProvider } from './notificationsContext/NotificationsContext';
 import { PageSettingsProvider } from './pageSettingsContext/PageSettingsContext';
 import AppRoutes from './routes/appRoutes/AppRoutes';
 import { ThemeProvider } from './theme/Theme';
@@ -34,22 +35,24 @@ const instance = createInstance({
 
 const App: React.FC = () => {
   return (
-    <AuthProvider userManager={userManager}>
-      <PageSettingsProvider>
-        <ThemeProvider initTheme={theme}>
-          <ToastContainer hideProgressBar={true} theme="colored" />
-          <BrowserRouter>
-            {/* @ts-ignore */}
-            <MatomoProvider value={instance}>
-              <ApolloProvider client={apolloClient}>
-                <CookieConsent />
-                <AppRoutes />
-              </ApolloProvider>
-            </MatomoProvider>
-          </BrowserRouter>
-        </ThemeProvider>
-      </PageSettingsProvider>
-    </AuthProvider>
+    <ThemeProvider initTheme={theme}>
+      <NotificationsProvider>
+        <AuthProvider userManager={userManager}>
+          <PageSettingsProvider>
+            <ToastContainer hideProgressBar={true} theme="colored" />
+            <BrowserRouter>
+              {/* @ts-ignore */}
+              <MatomoProvider value={instance}>
+                <ApolloProvider client={apolloClient}>
+                  <CookieConsent />
+                  <AppRoutes />
+                </ApolloProvider>
+              </MatomoProvider>
+            </BrowserRouter>
+          </PageSettingsProvider>
+        </AuthProvider>
+      </NotificationsProvider>
+    </ThemeProvider>
   );
 };
 

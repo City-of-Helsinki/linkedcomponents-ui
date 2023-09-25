@@ -5,11 +5,10 @@ import axios, { AxiosResponse } from 'axios';
 import { TFunction } from 'i18next';
 import { User, UserManager, UserManagerSettings } from 'oidc-client';
 import React from 'react';
-import { toast } from 'react-toastify';
 
+import { NotificationProps } from '../../common/components/notification/Notification';
 import { Language } from '../../types';
 import getUnixTime from '../../utils/getUnixTime';
-import getValue from '../../utils/getValue';
 import {
   API_SCOPE,
   API_TOKEN_EXPIRATION_TIME,
@@ -151,11 +150,13 @@ export const loadUser = async ({
 };
 
 export const signIn = async ({
+  addNotification,
   locale,
   path,
   t,
   userManager,
 }: {
+  addNotification: (props: NotificationProps) => void;
   locale: Language;
   path?: string;
   t: TFunction;
@@ -165,7 +166,7 @@ export const signIn = async ({
     process.env.REACT_APP_MAINTENANCE_DISABLE_LOGIN === 'true';
 
   if (MAINTENANCE_DISABLE_LOGIN) {
-    toast.error(getValue(t('maintenance.toast'), ''));
+    addNotification({ label: t('maintenance.toast'), type: 'error' });
 
     return Promise.resolve();
   }
@@ -177,9 +178,16 @@ export const signIn = async ({
     })
     .catch((error) => {
       if (error.message === 'Network Error') {
-        toast.error(getValue(t('authentication.networkError.message'), ''));
+        addNotification({
+          label: t('authentication.networkError.message'),
+          type: 'error',
+        });
       } else {
-        toast.error(getValue(t('authentication.errorMessage'), ''));
+        addNotification({
+          label: t('authentication.errorMessage'),
+          type: 'error',
+        });
+
         Sentry.captureException(error);
       }
     });
@@ -253,10 +261,12 @@ export const fetchTokenError = ({
 
 export const renewApiToken = async ({
   accessToken,
+  addNotification,
   dispatchApiTokenState,
   t,
 }: {
   accessToken: string;
+  addNotification: (props: NotificationProps) => void;
   dispatchApiTokenState: React.Dispatch<ApiTokenAction>;
   t: TFunction;
 }) => {
@@ -277,21 +287,28 @@ export const renewApiToken = async ({
     fetchTokenSuccess({ apiToken, dispatchApiTokenState });
   } catch (error: any) {
     fetchTokenError({ error, dispatchApiTokenState });
-    toast.error(getValue(t('authentication.errorMessage'), ''));
+    addNotification({ label: t('authentication.errorMessage'), type: 'error' });
   }
 };
 
 export const getApiToken = async ({
   accessToken,
+  addNotification,
   dispatchApiTokenState,
   t,
 }: {
   accessToken: string;
+  addNotification: (props: NotificationProps) => void;
   dispatchApiTokenState: React.Dispatch<ApiTokenAction>;
   t: TFunction;
 }) => {
   startFetchingToken({ dispatchApiTokenState });
-  await renewApiToken({ accessToken, dispatchApiTokenState, t });
+  await renewApiToken({
+    accessToken,
+    addNotification,
+    dispatchApiTokenState,
+    t,
+  });
 };
 
 export const resetApiTokenData = ({
