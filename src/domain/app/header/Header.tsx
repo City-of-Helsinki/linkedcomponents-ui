@@ -12,6 +12,10 @@ import getValue from '../../../utils/getValue';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { getEventSearchQuery } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
+import {
+  areAdminRoutesAllowed,
+  areRegistrationRoutesAllowed,
+} from '../../user/permissions';
 import { useTheme } from '../theme/Theme';
 import styles from './header.module.scss';
 
@@ -46,7 +50,7 @@ const Header: React.FC = () => {
   const { isAuthenticated: authenticated, signIn, signOut } = useAuth();
 
   const { t } = useTranslation();
-  const user = useUser();
+  const { user } = useUser();
   const [menuOpen, setMenuOpen] = React.useState(false);
 
   const isTabActive = (pathname: string): boolean => {
@@ -68,14 +72,16 @@ const Header: React.FC = () => {
 
   const NAVIGATION_ITEMS = [
     { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
-    featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') && {
-      labelKey: 'navigation.tabs.registrations',
-      url: ROUTES.REGISTRATIONS,
-    },
-    featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') && {
-      labelKey: 'navigation.tabs.admin',
-      url: ROUTES.ADMIN,
-    },
+    featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') &&
+      areRegistrationRoutesAllowed(user) && {
+        labelKey: 'navigation.tabs.registrations',
+        url: ROUTES.REGISTRATIONS,
+      },
+    featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') &&
+      areAdminRoutesAllowed(user) && {
+        labelKey: 'navigation.tabs.admin',
+        url: ROUTES.ADMIN,
+      },
     {
       className: styles.navigationItemLast,
       icon: <IconInfoCircle aria-hidden={true} />,
@@ -193,11 +199,11 @@ const Header: React.FC = () => {
             />
             {/* USER */}
             <Navigation.User
-              authenticated={Boolean(authenticated && user.user)}
+              authenticated={Boolean(authenticated && user)}
               className={cx(styles.userDropdown, css(theme.navigationDropdown))}
               label={t('common.signIn')}
               onSignIn={handleSignIn}
-              userName={user?.user?.displayName || user?.user?.email}
+              userName={user?.displayName || user?.email}
             >
               <Navigation.Item
                 label={t('common.signOut')}

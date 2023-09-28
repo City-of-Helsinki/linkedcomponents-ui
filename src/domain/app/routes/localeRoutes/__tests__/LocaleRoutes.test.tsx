@@ -92,6 +92,7 @@ import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../../../registration/__mocks__/editRegistrationPage';
+import { TEST_REGISTRATION_ID } from '../../../../registration/constants';
 import { mockedRegistrationsResponse } from '../../../../registrations/__mocks__/registrationsPage';
 import { mockedCreateSeatsReservationResponse } from '../../../../seatsReservation/__mocks__/createSeatsReservation';
 import {
@@ -284,6 +285,18 @@ it('should render create registration page', async () => {
     history,
     pageTitle: `Uusi ilmoittautuminen - Linked Events`,
     pathname: '/fi/registrations/create',
+  });
+});
+
+it('should render registration saved page', async () => {
+  const { history } = await renderRoute(
+    `${ROUTES.REGISTRATION_SAVED.replace(':id', TEST_REGISTRATION_ID)}`
+  );
+
+  await isPageRendered({
+    history,
+    pageTitle: `Ilmoittautuminen tallennettu - Linked Events`,
+    pathname: `/fi/registrations/completed/${registrationId}`,
   });
 });
 

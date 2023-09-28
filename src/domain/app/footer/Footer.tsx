@@ -8,6 +8,11 @@ import { DATA_PROTECTION_URL, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import { featureFlagUtils } from '../../../utils/featureFlags';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import useUser from '../../user/hooks/useUser';
+import {
+  areAdminRoutesAllowed,
+  areRegistrationRoutesAllowed,
+} from '../../user/permissions';
 import { useTheme } from '../theme/Theme';
 import styles from './footer.module.scss';
 
@@ -22,6 +27,7 @@ const NO_FOOTER_PATHS: PathPattern[] = [
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
+  const { user } = useUser();
   const { theme } = useTheme();
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -35,14 +41,16 @@ const Footer: React.FC = () => {
       labelKey: 'navigation.searchEvents',
       url: ROUTES.SEARCH,
     },
-    featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') && {
-      labelKey: 'navigation.tabs.registrations',
-      url: ROUTES.REGISTRATIONS,
-    },
-    featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') && {
-      labelKey: 'navigation.tabs.admin',
-      url: ROUTES.ADMIN,
-    },
+    featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') &&
+      areRegistrationRoutesAllowed(user) && {
+        labelKey: 'navigation.tabs.registrations',
+        url: ROUTES.REGISTRATIONS,
+      },
+    featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') &&
+      areAdminRoutesAllowed(user) && {
+        labelKey: 'navigation.tabs.admin',
+        url: ROUTES.ADMIN,
+      },
     { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
     {
       labelKey: 'navigation.tabs.dataProtection',

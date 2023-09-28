@@ -1,9 +1,13 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 
+import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
+import AdminPageLayout from '../../../admin/layout/AdminPageLayout';
 import NotFoundPage from '../../../notFound/NotFound';
+import useUser from '../../../user/hooks/useUser';
+import { areAdminRoutesAllowed } from '../../../user/permissions';
 
 const CreateImagePage = React.lazy(
   () => import('../../../image/CreateImagePage')
@@ -43,77 +47,92 @@ const PlacesPage = React.lazy(() => import('../../../places/PlacesPage'));
 
 const AdminPageRoutes: React.FC = () => {
   const locale = useLocale();
+  const { loading, user } = useUser();
   const getAdminRoutePath = (path: string) => path.replace(ROUTES.ADMIN, '');
   const getLocalePath = (path: string) => `/${locale}${path}`;
 
   return (
-    <Routes>
-      <Route
-        path={getAdminRoutePath(ROUTES.ADMIN)}
-        element={<Navigate replace to={getLocalePath(ROUTES.KEYWORDS)} />}
-      />
+    <LoadingSpinner isLoading={loading}>
+      {areAdminRoutesAllowed(user) ? (
+        <AdminPageLayout>
+          <Routes>
+            <Route
+              path={getAdminRoutePath(ROUTES.ADMIN)}
+              element={<Navigate replace to={getLocalePath(ROUTES.KEYWORDS)} />}
+            />
 
-      <Route
-        path={getAdminRoutePath(ROUTES.CREATE_IMAGE)}
-        element={<CreateImagePage />}
-      />
-      <Route
-        path={getAdminRoutePath(ROUTES.EDIT_IMAGE)}
-        element={<EditImagePage />}
-      />
-      <Route path={getAdminRoutePath(ROUTES.IMAGES)} element={<ImagesPage />} />
+            <Route
+              path={getAdminRoutePath(ROUTES.CREATE_IMAGE)}
+              element={<CreateImagePage />}
+            />
+            <Route
+              path={getAdminRoutePath(ROUTES.EDIT_IMAGE)}
+              element={<EditImagePage />}
+            />
+            <Route
+              path={getAdminRoutePath(ROUTES.IMAGES)}
+              element={<ImagesPage />}
+            />
 
-      <Route
-        path={getAdminRoutePath(ROUTES.CREATE_KEYWORD)}
-        element={<CreateKeywordPage />}
-      />
-      <Route
-        path={getAdminRoutePath(ROUTES.EDIT_KEYWORD)}
-        element={<EditKeywordPage />}
-      />
-      <Route
-        path={getAdminRoutePath(ROUTES.KEYWORDS)}
-        element={<KeywordsPage />}
-      />
+            <Route
+              path={getAdminRoutePath(ROUTES.CREATE_KEYWORD)}
+              element={<CreateKeywordPage />}
+            />
+            <Route
+              path={getAdminRoutePath(ROUTES.EDIT_KEYWORD)}
+              element={<EditKeywordPage />}
+            />
+            <Route
+              path={getAdminRoutePath(ROUTES.KEYWORDS)}
+              element={<KeywordsPage />}
+            />
 
-      <Route
-        path={getAdminRoutePath(ROUTES.CREATE_KEYWORD_SET)}
-        element={<CreateKeywordSetPage />}
-      />
-      <Route
-        path={getAdminRoutePath(ROUTES.EDIT_KEYWORD_SET)}
-        element={<EditKeywordSetPage />}
-      />
-      <Route
-        path={getAdminRoutePath(ROUTES.KEYWORD_SETS)}
-        element={<KeywordSetsPage />}
-      />
+            <Route
+              path={getAdminRoutePath(ROUTES.CREATE_KEYWORD_SET)}
+              element={<CreateKeywordSetPage />}
+            />
+            <Route
+              path={getAdminRoutePath(ROUTES.EDIT_KEYWORD_SET)}
+              element={<EditKeywordSetPage />}
+            />
+            <Route
+              path={getAdminRoutePath(ROUTES.KEYWORD_SETS)}
+              element={<KeywordSetsPage />}
+            />
 
-      <Route
-        path={getAdminRoutePath(ROUTES.CREATE_ORGANIZATION)}
-        element={<CreateOrganizationPage />}
-      />
-      <Route
-        path={getAdminRoutePath(ROUTES.EDIT_ORGANIZATION)}
-        element={<EditOrganizationPage />}
-      />
-      <Route
-        path={getAdminRoutePath(ROUTES.ORGANIZATIONS)}
-        element={<OrganizationsPage />}
-      />
+            <Route
+              path={getAdminRoutePath(ROUTES.CREATE_ORGANIZATION)}
+              element={<CreateOrganizationPage />}
+            />
+            <Route
+              path={getAdminRoutePath(ROUTES.EDIT_ORGANIZATION)}
+              element={<EditOrganizationPage />}
+            />
+            <Route
+              path={getAdminRoutePath(ROUTES.ORGANIZATIONS)}
+              element={<OrganizationsPage />}
+            />
 
-      <Route
-        path={getAdminRoutePath(ROUTES.CREATE_PLACE)}
-        element={<CreatePlacePage />}
-      />
-      <Route
-        path={getAdminRoutePath(ROUTES.EDIT_PLACE)}
-        element={<EditPlacePage />}
-      />
-      <Route path={getAdminRoutePath(ROUTES.PLACES)} element={<PlacesPage />} />
+            <Route
+              path={getAdminRoutePath(ROUTES.CREATE_PLACE)}
+              element={<CreatePlacePage />}
+            />
+            <Route
+              path={getAdminRoutePath(ROUTES.EDIT_PLACE)}
+              element={<EditPlacePage />}
+            />
+            <Route
+              path={getAdminRoutePath(ROUTES.PLACES)}
+              element={<PlacesPage />}
+            />
 
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </AdminPageLayout>
+      ) : (
+        <NotFoundPage />
+      )}
+    </LoadingSpinner>
   );
 };
 
