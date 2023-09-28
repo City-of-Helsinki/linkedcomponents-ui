@@ -7,7 +7,9 @@ import {
   PublicationStatus,
 } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
-import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
+import AuthenticationNotification, {
+  AdminType,
+} from '../../app/authenticationNotification/AuthenticationNotification';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -31,9 +33,9 @@ const EventAuthenticationNotification: React.FC<
 
   const ENABLE_EXTERNAL_USER_EVENTS =
     process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
-  const requiredOrganizationType = ENABLE_EXTERNAL_USER_EVENTS
-    ? 'external'
-    : 'any';
+  const requiredOrganizationType: AdminType[] = ENABLE_EXTERNAL_USER_EVENTS
+    ? ['external']
+    : ['any'];
 
   return (
     <LoadingSpinner isLoading={loading}>
