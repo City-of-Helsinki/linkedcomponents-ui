@@ -9,10 +9,13 @@ const useNotificationOptions = (): OptionType[] => {
 
   const options: OptionType[] = React.useMemo(
     () =>
-      Object.values(NOTIFICATIONS).map((type) => ({
-        label: t(`signup.notifications.${type}`),
-        value: type,
-      })),
+      Object.values(NOTIFICATIONS)
+        // TODO: At the moment only email messages are supported in API. So hide SMS option
+        .filter((t) => t === NOTIFICATIONS.EMAIL)
+        .map((type) => ({
+          label: t(`signup.notifications.${type}`),
+          value: type,
+        })),
     [t]
   );
 
