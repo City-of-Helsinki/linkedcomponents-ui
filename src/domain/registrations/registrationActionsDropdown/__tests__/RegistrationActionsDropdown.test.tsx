@@ -248,4 +248,5 @@ test('should delete registration', async () => {
     () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
     { timeout: 10000 }
   );
+  await screen.findByRole('alert', { name: 'Ilmoittautuminen on poistettu' });
 });

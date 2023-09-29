@@ -719,6 +719,10 @@
         "general": "Specify recurring event",
         "volunteering": "Specify recurring volunteering"
       },
+      "notificationEventCancelled": "The event has been cancelled",
+      "notificationEventDeleted": "The event has been deleted",
+      "notificationEventPostponed": "The event has been postponed",
+      "notificationEventUpdated": "The event has been saved",
       "notificationTitleCannotEdit": "The event cannot be edited",
       "notificationTitleDescription": {
         "course": "Course description",
@@ -1289,6 +1293,8 @@
       "labelPhotographerName": "Author name",
       "labelPublisher": "Publisher",
       "labelUrl": "Image URL",
+      "notificationImageDeleted": "The image has been deleted",
+      "notificationImageUpdated": "The image has been saved",
       "notificationTitleCannotEdit": "The image cannot be edited",
       "placeholderAltText": "Enter image alt text for screen readers",
       "placeholderName": "Enter image caption",
@@ -1358,6 +1364,8 @@
       "labelOriginId": "Origin ID",
       "labelPublisher": "Publisher",
       "labelReplacedBy": "Replaced by",
+      "notificationKeywordDeleted": "The keyword has been deleted",
+      "notificationKeywordUpdated": "The keyword has been saved",
       "notificationTitleCannotEdit": "The keyword cannot be edited"
     }
   },
@@ -1451,6 +1459,8 @@
       "labelOrganization": "Publisher",
       "labelOriginId": "Origin ID",
       "labelUsage": "Usage",
+      "notificationKeywordSetDeleted": "The keyword set has been deleted",
+      "notificationKeywordSetUpdated": "The keyword set has been saved",
       "notificationTitleCannotEdit": "The keyword set cannot be edited"
     }
   },
@@ -1561,7 +1571,9 @@
       "labelRegistrationAdminUsers": "Registration admin users",
       "labelRegularUsers": "Regular users",
       "labelReplacedBy": "Replaced by",
-      "notificationTitleCannotEdit": "The organization set cannot be edited"
+      "notificationOrganizationDeleted": "The organization has been deleted",
+      "notificationOrganizationUpdated": "The organization has been saved",
+      "notificationTitleCannotEdit": "The organization cannot be edited"
     },
     "internalType": {
       "affiliated": "Affiliated organization",
@@ -1629,6 +1641,8 @@
       "labelPublisher": "Publisher",
       "labelStreetAddress": "Street address ({{langText}})",
       "labelTelephone": "Telephone number ({{langText}})",
+      "notificationPlaceDeleted": "The place has been deleted",
+      "notificationPlaceUpdated": "The place has been saved",
       "notificationTitleCannotEdit": "The place cannot be edited",
       "titleContactInfo": "Contact information",
       "titleLocation": "Position"
@@ -1702,6 +1716,8 @@
         "failedToSendInvitation": "Failed to send invitation",
         "succeededToSendInvitation": "An invitation to the participant list has been sent to {{email}}."
       },
+      "notificationRegistrationDeleted": "The registration has been deleted",
+      "notificationRegistrationUpdated": "The registration has been saved",
       "notificationTitleCannotEdit": "The registration cannot be edited",
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
       "placeholderEvent": "Select or search for an event",
@@ -1834,6 +1850,10 @@
       "labelSignupExtraInfo": "Additional information (optional)",
       "labelStreetAddress": "Street address",
       "labelZipcode": "Postcode",
+      "notificationSignupDeleted": "The signup has been deleted",
+      "notificationSignupUpdated": "The signup has been saved",
+      "notificationSignupGroupDeleted": "The signup group has been deleted",
+      "notificationSignupGroupUpdated": "The signup group has been saved",
       "notificationTitleCannotEdit": "Participants cannot be edited",
       "placeholderCity": "Enter city",
       "placeholderEmail": "Enter your email address",

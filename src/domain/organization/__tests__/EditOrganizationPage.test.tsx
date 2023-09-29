@@ -131,6 +131,7 @@ test('should delete organization', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/organizations`)
   );
+  await screen.findByRole('alert', { name: 'Organisaatio on poistettu' });
 });
 
 test('should update organization', async () => {
@@ -149,6 +150,7 @@ test('should update organization', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/organizations`)
   );
+  await screen.findByRole('alert', { name: 'Organisaatio on tallennettu' });
 });
 
 test('should show server errors', async () => {

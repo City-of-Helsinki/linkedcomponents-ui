@@ -94,6 +94,7 @@ test('should delete keyword', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keywords`)
   );
+  await screen.findByRole('alert', { name: 'Avainsana on poistettu' });
 });
 
 test('should update keyword', async () => {
@@ -111,6 +112,7 @@ test('should update keyword', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keywords`)
   );
+  await screen.findByRole('alert', { name: 'Avainsana on tallennettu' });
 });
 
 test('should show server errors', async () => {

@@ -30,6 +30,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import {
@@ -60,6 +61,7 @@ type ImageFormProps = {
 
 const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { user } = useUser();
@@ -111,6 +113,10 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
       onError: (error: ServerError) => showServerErrors({ error }),
       onSuccess: async () => {
         goToImagesPage();
+        addNotification({
+          label: t('image.form.notificationImageUpdated'),
+          type: 'success',
+        });
       },
     });
   };
