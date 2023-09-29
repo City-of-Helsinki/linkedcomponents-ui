@@ -4,7 +4,7 @@ UI for Linked Events. Linked Events is a collection of software components and A
 
 ## Prerequisites
 
-1. Node 16 (`nvm use`)
+1. Node 18 (`nvm use`)
 1. Yarn
 
 ## Development with Docker
