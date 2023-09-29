@@ -9,6 +9,7 @@ import { DataSourcesDocument, Meta } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeDataSources } from '../../../../utils/mockDataUtils';
 import { createCache } from '../../../app/apollo/apolloClient';
+import { NotificationsProvider } from '../../../app/notificationsContext/NotificationsContext';
 import { AuthContext } from '../../../auth/AuthContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { MAX_DATA_SOURCES_PAGE_SIZE } from '../../constants';
@@ -77,11 +78,13 @@ const mocks = [
 
 const getHookWrapper = async () => {
   const wrapper = ({ children }) => (
-    <AuthContext.Provider value={authContextValue}>
-      <MockedProvider cache={createCache()} mocks={mocks}>
-        {children}
-      </MockedProvider>
-    </AuthContext.Provider>
+    <NotificationsProvider>
+      <AuthContext.Provider value={authContextValue}>
+        <MockedProvider cache={createCache()} mocks={mocks}>
+          {children}
+        </MockedProvider>
+      </AuthContext.Provider>
+    </NotificationsProvider>
   );
 
   const { result } = renderHook(() => useAllDataSources(), {

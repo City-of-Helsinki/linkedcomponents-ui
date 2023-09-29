@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import 'react-toastify/dist/ReactToastify.css';
 
 import { ApolloProvider } from '@apollo/client';
 import { createInstance, MatomoProvider } from '@datapunt/matomo-tracker-react';
 import React, { PropsWithChildren, useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
 
 import theme from '../../assets/theme/theme';
 import getValue from '../../utils/getValue';
@@ -51,7 +49,6 @@ const App: React.FC = () => {
       <NotificationsProvider>
         <AuthProvider userManager={userManager}>
           <PageSettingsProvider>
-            <ToastContainer hideProgressBar={true} theme="colored" />
             <BrowserRouter>
               {/* @ts-ignore */}
               <MatomoProvider value={instance}>

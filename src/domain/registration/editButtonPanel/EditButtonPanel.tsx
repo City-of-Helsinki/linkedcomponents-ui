@@ -15,6 +15,7 @@ import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithRetur
 import { ActionButtonProps, ButtonType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
@@ -49,6 +50,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   const { id } = getRegistrationFields(registration, locale);
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const { user } = useUser();
+  const { addNotification } = useNotificationsContext();
 
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
@@ -134,7 +136,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionItemProps({
       action: REGISTRATION_ACTIONS.COPY_LINK,
       onClick: () => {
-        copySignupLinkToClipboard({ locale, registration, t });
+        copySignupLinkToClipboard({ addNotification, locale, registration, t });
       },
     }),
     getActionItemProps({
