@@ -92,6 +92,7 @@ test('should delete keyword', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/images`)
   );
+  await screen.findByRole('alert', { name: 'Kuva on poistettu' });
 });
 
 test('should update image', async () => {
@@ -109,6 +110,7 @@ test('should update image', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/images`)
   );
+  await screen.findByRole('alert', { name: 'Kuva on tallennettu' });
 });
 
 test('should show server errors', async () => {

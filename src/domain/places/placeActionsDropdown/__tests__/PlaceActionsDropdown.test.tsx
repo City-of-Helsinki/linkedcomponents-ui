@@ -107,7 +107,7 @@ test('should route to edit place page', async () => {
   );
 });
 
-test('should delete keyword', async () => {
+test('should delete place', async () => {
   const user = userEvent.setup();
   renderComponent(undefined, { authContextValue });
 
@@ -125,4 +125,5 @@ test('should delete keyword', async () => {
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   );
+  await screen.findByRole('alert', { name: 'Paikka on poistettu' });
 });

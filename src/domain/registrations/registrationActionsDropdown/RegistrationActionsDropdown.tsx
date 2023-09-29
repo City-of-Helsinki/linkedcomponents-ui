@@ -132,7 +132,16 @@ const RegistrationActionsDropdown: React.FC<
           isOpen={openModal === REGISTRATION_MODALS.DELETE}
           isSaving={saving === REGISTRATION_ACTIONS.DELETE}
           onClose={closeModal}
-          onConfirm={deleteRegistration}
+          onConfirm={() =>
+            deleteRegistration({
+              onSuccess: () => {
+                addNotification({
+                  label: t('registration.form.notificationRegistrationDeleted'),
+                  type: 'success',
+                });
+              },
+            })
+          }
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

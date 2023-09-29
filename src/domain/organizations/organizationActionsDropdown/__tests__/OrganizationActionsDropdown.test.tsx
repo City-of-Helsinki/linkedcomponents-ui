@@ -127,4 +127,5 @@ test('should delete organization', async () => {
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   );
+  await screen.findByRole('alert', { name: 'Organisaatio on poistettu' });
 });

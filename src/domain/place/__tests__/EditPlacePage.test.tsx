@@ -97,6 +97,7 @@ test('should delete place', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/places`)
   );
+  await screen.findByRole('alert', { name: 'Paikka on poistettu' });
 });
 
 test('should update place', async () => {
@@ -114,6 +115,7 @@ test('should update place', async () => {
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/places`)
   );
+  await screen.findByRole('alert', { name: 'Paikka on tallennettu' });
 });
 
 test('should show server errors', async () => {
