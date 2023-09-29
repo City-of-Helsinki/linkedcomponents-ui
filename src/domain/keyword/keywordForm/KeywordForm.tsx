@@ -26,6 +26,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import {
@@ -48,6 +49,7 @@ type KeywordFormProps = {
 
 const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { user } = useUser();
@@ -87,7 +89,13 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
   const onUpdate = async (values: KeywordFormFields) => {
     await updateKeyword(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
-      onSuccess: goToKeywordsPage,
+      onSuccess: () => {
+        goToKeywordsPage();
+        addNotification({
+          label: t('keyword.form.notificationKeywordUpdated'),
+          type: 'success',
+        });
+      },
     });
   };
 

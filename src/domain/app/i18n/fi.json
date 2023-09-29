@@ -720,6 +720,10 @@
         "general": "Määritä toistuva tapahtuma",
         "volunteering": "Määritä toistuva vapaaehtoistehtävä"
       },
+      "notificationEventCancelled": "Tapahtuma on peruttu",
+      "notificationEventDeleted": "Tapahtuma on poistettu",
+      "notificationEventPostponed": "Tapahtuma on lykätty",
+      "notificationEventUpdated": "Tapahtuma on tallennettu",
       "notificationTitleCannotEdit": "Tapahtumaa ei voi muokata",
       "notificationTitleDescription": {
         "course": "Kurssin kuvaus",
@@ -1290,6 +1294,8 @@
       "labelPhotographerName": "Kuvaajan nimi",
       "labelPublisher": "Julkaisija",
       "labelUrl": "Kuvan URL-osoite",
+      "notificationImageDeleted": "Kuva on poistettu",
+      "notificationImageUpdated": "Kuva on tallennettu",
       "notificationTitleCannotEdit": "Kuvaa ei voi muokata",
       "placeholderAltText": "Syötä kuvan alt-teksti",
       "placeholderName": "Syötä kuvateksti",
@@ -1359,6 +1365,8 @@
       "labelOriginId": "Lähdetunniste",
       "labelPublisher": "Julkaisija",
       "labelReplacedBy": "Korvaus",
+      "notificationKeywordDeleted": "Avainsana on poistettu",
+      "notificationKeywordUpdated": "Avainsana on tallennettu",
       "notificationTitleCannotEdit": "Avainsanaa ei voi muokata"
     }
   },
@@ -1452,6 +1460,8 @@
       "labelOrganization": "Julkaisija",
       "labelOriginId": "Lähdetunniste",
       "labelUsage": "Käyttötarkoitus",
+      "notificationKeywordSetDeleted": "Avainsanaryhmä on poistettu",
+      "notificationKeywordSetUpdated": "Avainsanaryhmä on tallennettu",
       "notificationTitleCannotEdit": "Avainsanaryhmää ei voi muokata"
     }
   },
@@ -1562,6 +1572,8 @@
       "labelRegistrationAdminUsers": "Ilmoittautumisen pääkäyttäjät",
       "labelRegularUsers": "Peruskäyttäjät",
       "labelReplacedBy": "Korvaava organisaatio",
+      "notificationOrganizationDeleted": "Organisaatio on poistettu",
+      "notificationOrganizationUpdated": "Organisaatio on tallennettu",
       "notificationTitleCannotEdit": "Organisaatiota ei voi muokata"
     },
     "internalType": {
@@ -1630,6 +1642,8 @@
       "labelPublisher": "Julkaisija",
       "labelStreetAddress": "Katuosoite ({{langText}})",
       "labelTelephone": "Puhelinnumero ({{langText}})",
+      "notificationPlaceDeleted": "Paikka on poistettu",
+      "notificationPlaceUpdated": "Paikka on tallennettu",
       "notificationTitleCannotEdit": "Paikkaa ei voi muokata",
       "titleContactInfo": "Yhteystiedot",
       "titleLocation": "Sijainti"
@@ -1703,6 +1717,8 @@
         "failedToSendInvitation": "Kutsun lähettäminen epäonnistui",
         "succeededToSendInvitation": "Kutsu osallistujalistaan on lähetetty osoitteeseen {{email}}."
       },
+      "notificationRegistrationDeleted": "Ilmoittautuminen on poistettu",
+      "notificationRegistrationUpdated": "Ilmoittautuminen on tallennettu",
       "notificationTitleCannotEdit": "Ilmoittautumista ei voi muokata",
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
       "placeholderEvent": "Valitse tai hae tapahtuma",
@@ -1835,6 +1851,10 @@
       "labelSignupExtraInfo": "Lisätietoa (valinnainen)",
       "labelStreetAddress": "Katuosoite",
       "labelZipcode": "Postinumero",
+      "notificationSignupDeleted": "Osallistujan tiedot on poistettu",
+      "notificationSignupUpdated": "Osallistujan tiedot on tallennettu",
+      "notificationSignupGroupDeleted": "Osallistujien tiedot on poistettu",
+      "notificationSignupGroupUpdated": "Osallistujien tiedot on tallennettu",
       "notificationTitleCannotEdit": "Osallistujia ei voi muokata",
       "placeholderCity": "Syötä kaupunki",
       "placeholderEmail": "Syötä sähköpostiosoite",

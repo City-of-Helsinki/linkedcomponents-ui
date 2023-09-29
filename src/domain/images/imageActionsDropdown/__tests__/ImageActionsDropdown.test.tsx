@@ -120,4 +120,5 @@ test('should delete image', async () => {
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   );
+  await screen.findByRole('alert', { name: 'Kuva on poistettu' });
 });

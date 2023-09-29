@@ -8,6 +8,7 @@ import { ROUTES } from '../../../constants';
 import { PlaceFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { PLACE_ACTIONS } from '../../place/constants';
@@ -29,6 +30,7 @@ const PlaceActionsDropdown: React.FC<PlaceActionsDropdownProps> = ({
   place,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { isAuthenticated: authenticated } = useAuth();
@@ -89,7 +91,16 @@ const PlaceActionsDropdown: React.FC<PlaceActionsDropdownProps> = ({
           isOpen={openModal === PLACE_MODALS.DELETE}
           isSaving={saving === PLACE_ACTIONS.DELETE}
           onClose={closeModal}
-          onConfirm={deletePlace}
+          onConfirm={() => {
+            deletePlace({
+              onSuccess: () => {
+                addNotification({
+                  label: t('place.form.notificationPlaceDeleted'),
+                  type: 'success',
+                });
+              },
+            });
+          }}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

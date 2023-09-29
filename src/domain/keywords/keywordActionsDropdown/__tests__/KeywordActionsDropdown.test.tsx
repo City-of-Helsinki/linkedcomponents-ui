@@ -132,4 +132,5 @@ test('should delete keyword', async () => {
   await waitFor(() =>
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   );
+  await screen.findByRole('alert', { name: 'Avainsana on poistettu' });
 });

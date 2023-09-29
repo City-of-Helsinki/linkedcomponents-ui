@@ -38,6 +38,7 @@ import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
 import { clearPlacesQueries } from '../../app/apollo/clearCacheUtils';
 import Section from '../../app/layout/section/Section';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { reportError } from '../../app/sentry/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -66,6 +67,7 @@ type PlaceFormProps = {
 
 const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const location = useLocation();
   const navigate = useNavigate();
@@ -101,8 +103,12 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
   const onUpdate = async (values: PlaceFormFields) => {
     await updatePlace(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
-      onSuccess: async () => {
+      onSuccess: () => {
         goToPlacesPage();
+        addNotification({
+          label: t('place.form.notificationPlaceUpdated'),
+          type: 'success',
+        });
       },
     });
   };

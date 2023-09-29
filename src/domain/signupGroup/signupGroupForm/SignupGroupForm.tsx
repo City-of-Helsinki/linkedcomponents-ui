@@ -25,6 +25,7 @@ import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { isRegistrationPossible } from '../../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { clearSeatsReservationData } from '../../seatsReservation/utils';
@@ -110,6 +111,7 @@ type SignupGroupFormProps = Omit<
 const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   disabled,
   event,
+  refetchSignup,
   refetchSignupGroup,
   registration,
   setErrors,
@@ -120,6 +122,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const { addNotification } = useNotificationsContext();
   const [{ value: signups }, , { setValue: setSignups }] = useField<
     SignupFormFields[]
   >(SIGNUP_GROUP_FIELDS.SIGNUPS);
@@ -219,9 +222,25 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 
   const handleDelete = () => {
     if (signupGroup) {
-      deleteSignupGroup({ onSuccess: goToSignupsPage });
+      deleteSignupGroup({
+        onSuccess: () => {
+          goToSignupsPage();
+          addNotification({
+            label: t('signup.form.notificationSignupGroupDeleted'),
+            type: 'success',
+          });
+        },
+      });
     } else {
-      deleteSignup({ onSuccess: goToSignupsPage });
+      deleteSignup({
+        onSuccess: () => {
+          goToSignupsPage();
+          addNotification({
+            label: t('signup.form.notificationSignupDeleted'),
+            type: 'success',
+          });
+        },
+      });
     }
   };
 
@@ -232,14 +251,22 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
         onSuccess: async () => {
           refetchSignupGroup && (await refetchSignupGroup());
           window.scrollTo(0, 0);
+          addNotification({
+            label: t('signup.form.notificationSignupGroupUpdated'),
+            type: 'success',
+          });
         },
       });
     } else {
       updateSignup(values, {
         onError: (error: any) => showServerErrors({ error }, 'signup'),
         onSuccess: async () => {
-          refetchSignupGroup && (await refetchSignupGroup());
+          refetchSignup && (await refetchSignup());
           window.scrollTo(0, 0);
+          addNotification({
+            label: t('signup.form.notificationSignupUpdated'),
+            type: 'success',
+          });
         },
       });
     }

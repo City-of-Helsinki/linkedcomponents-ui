@@ -15,6 +15,7 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
+import { useNotificationsContext } from '../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
@@ -37,6 +38,7 @@ type Props = {
 
 const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { publisher } = getKeywordFields(keyword, locale);
@@ -55,7 +57,13 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
 
   const handleDelete = () => {
     deleteKeyword({
-      onSuccess: () => goToKeywordsPage(),
+      onSuccess: () => {
+        goToKeywordsPage();
+        addNotification({
+          label: t('keyword.form.notificationKeywordDeleted'),
+          type: 'success',
+        });
+      },
     });
   };
 

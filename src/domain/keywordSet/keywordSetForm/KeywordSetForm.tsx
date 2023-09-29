@@ -26,6 +26,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useKeywordSetUsageOptions from '../../keywordSets/hooks/useKeywordSetUsageOptions';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -49,6 +50,7 @@ type KeywordSetFormProps = {
 
 const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const navigate = useNavigate();
   const locale = useLocale();
   const { user } = useUser();
@@ -87,7 +89,13 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const onUpdate = async (values: KeywordSetFormFields) => {
     await updateKeywordSet(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
-      onSuccess: goToKeywordSetsPage,
+      onSuccess: () => {
+        goToKeywordSetsPage();
+        addNotification({
+          label: t('keywordSet.form.notificationKeywordSetUpdated'),
+          type: 'success',
+        });
+      },
     });
   };
 
