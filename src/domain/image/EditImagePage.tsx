@@ -12,6 +12,7 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
+import { useNotificationsContext } from '../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
@@ -30,6 +31,7 @@ type Props = {
 
 const EditImagePage: React.FC<Props> = ({ image }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { publisher } = getImageFields(image, locale);
@@ -48,7 +50,13 @@ const EditImagePage: React.FC<Props> = ({ image }) => {
 
   const handleDelete = () => {
     deleteImage({
-      onSuccess: () => goToImagesPage(),
+      onSuccess: () => {
+        goToImagesPage();
+        addNotification({
+          label: t('image.form.notificationImageDeleted'),
+          type: 'success',
+        });
+      },
     });
   };
 

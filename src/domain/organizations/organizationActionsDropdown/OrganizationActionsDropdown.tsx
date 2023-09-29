@@ -9,6 +9,7 @@ import { ROUTES } from '../../../constants';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { ORGANIZATION_ACTIONS } from '../../organization/constants';
 import useOrganizationUpdateActions, {
@@ -32,6 +33,7 @@ const OrganizationActionsDropdown: FC<OrganizationActionsDropdownProps> = ({
   organization,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { isAuthenticated: authenticated } = useAuth();
@@ -90,7 +92,16 @@ const OrganizationActionsDropdown: FC<OrganizationActionsDropdownProps> = ({
           isOpen={openModal === ORGANIZATION_MODALS.DELETE}
           isSaving={saving === ORGANIZATION_ACTIONS.DELETE}
           onClose={closeModal}
-          onConfirm={deleteOrganization}
+          onConfirm={() => {
+            deleteOrganization({
+              onSuccess: () => {
+                addNotification({
+                  label: t('organization.form.notificationOrganizationDeleted'),
+                  type: 'success',
+                });
+              },
+            });
+          }}
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />

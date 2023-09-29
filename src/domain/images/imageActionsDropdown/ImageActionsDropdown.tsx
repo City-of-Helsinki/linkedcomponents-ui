@@ -8,6 +8,7 @@ import { ROUTES } from '../../../constants';
 import { ImageFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { IMAGE_ACTIONS } from '../../image/constants';
 import useImageUpdateActions, {
@@ -29,6 +30,7 @@ const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = (
   ref
 ) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { isAuthenticated: authenticated } = useAuth();
@@ -89,7 +91,16 @@ const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = (
           isOpen={openModal === IMAGE_MODALS.DELETE}
           isSaving={saving === IMAGE_ACTIONS.DELETE}
           onClose={closeModal}
-          onConfirm={deleteImage}
+          onConfirm={() =>
+            deleteImage({
+              onSuccess: () => {
+                addNotification({
+                  label: t('image.form.notificationImageDeleted'),
+                  type: 'success',
+                });
+              },
+            })
+          }
         />
       )}
       <ActionsDropdown className={className} items={actionItems} />
