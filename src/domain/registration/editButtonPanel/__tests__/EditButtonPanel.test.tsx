@@ -1,6 +1,5 @@
 import copyToClipboard from 'copy-to-clipboard';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
@@ -207,7 +206,6 @@ test('should route to create registration page when clicking copy button', async
 });
 
 test('should copy registration link to clipboard', async () => {
-  toast.success = vi.fn();
   const user = userEvent.setup();
   renderComponent({ authContextValue });
 
@@ -217,7 +215,7 @@ test('should copy registration link to clipboard', async () => {
   await user.click(copyLinkButton);
 
   expect(copyToClipboard).toBeCalled();
-  expect(toast.success).toBeCalledWith('Ilmoittautumislinkki kopioitu');
+  await screen.findByRole('alert', { name: 'Ilmoittautumislinkki kopioitu' });
 });
 
 test('should route to search page when clicking back button', async () => {

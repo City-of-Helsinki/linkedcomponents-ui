@@ -1,6 +1,4 @@
-import { userEvent } from '@testing-library/user-event';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { testIds } from '../../../../constants';
 import translations from '../../../../domain/app/i18n/fi.json';
@@ -10,6 +8,7 @@ import {
   mockFile,
   render,
   screen,
+  userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
 import { TEST_PIXEL_CROP } from '../contants';
@@ -41,7 +40,6 @@ const findElement = (key: 'removeImageButton') => {
 };
 
 test('should show error message if trying to enter file with invalid type', async () => {
-  toast.error = vi.fn();
   renderComponent();
 
   const fileInput = screen.getByTestId(testIds.imageUploader.input);
@@ -52,11 +50,9 @@ test('should show error message if trying to enter file with invalid type', asyn
 
   fireEvent.change(fileInput);
 
-  await waitFor(() =>
-    expect(toast.error).toBeCalledWith(
-      translations.common.imageUploader.notAllowedFileFormat
-    )
-  );
+  await screen.findByRole('alert', {
+    name: translations.common.imageUploader.notAllowedFileFormat,
+  });
 });
 
 test('should call onChange', async () => {

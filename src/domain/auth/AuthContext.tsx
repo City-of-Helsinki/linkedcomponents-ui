@@ -12,6 +12,7 @@ import React, {
 import { useTranslation } from 'react-i18next';
 
 import useLocale from '../../hooks/useLocale';
+import { useNotificationsContext } from '../app/notificationsContext/hooks/useNotificationsContext';
 import { oidcInitialState } from './constants';
 import useApiToken from './hooks/useApiToken';
 import { reducers } from './reducers';
@@ -45,6 +46,7 @@ export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const [userManager] = useState<UserManager>(() => initUserManager(props));
+  const { addNotification } = useNotificationsContext();
 
   const [oidcState, dispatchOidcState] = useReducer(
     reducers.oidcReducer,
@@ -100,7 +102,7 @@ export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({
   const value = useMemo<AuthContextProps>(() => {
     return {
       signIn: async (path?: string) =>
-        signInFn({ userManager, locale, t, path }),
+        signInFn({ addNotification, userManager, locale, t, path }),
       signOut: async () => signOutFn({ resetApiTokenData, userManager }),
       userManager,
       ...oidcState,
@@ -108,7 +110,15 @@ export const AuthProvider: FC<PropsWithChildren<AuthProviderProps>> = ({
       isAuthenticated: getIsAuthenticated({ apiTokenState, oidcState }),
       isLoading: getIsLoading({ apiTokenState, oidcState }),
     };
-  }, [apiTokenState, locale, oidcState, resetApiTokenData, t, userManager]);
+  }, [
+    addNotification,
+    apiTokenState,
+    locale,
+    oidcState,
+    resetApiTokenData,
+    t,
+    userManager,
+  ]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

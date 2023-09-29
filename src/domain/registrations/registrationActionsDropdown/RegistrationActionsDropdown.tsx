@@ -11,6 +11,7 @@ import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_MODALS } from '../../registration/constants';
@@ -41,6 +42,7 @@ const RegistrationActionsDropdown: React.FC<
   const publisher = getValue(registration.publisher, '');
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const { user } = useUser();
+  const { addNotification } = useNotificationsContext();
 
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
@@ -114,7 +116,7 @@ const RegistrationActionsDropdown: React.FC<
     getActionItemProps({
       action: REGISTRATION_ACTIONS.COPY_LINK,
       onClick: () => {
-        copySignupLinkToClipboard({ locale, registration, t });
+        copySignupLinkToClipboard({ addNotification, locale, registration, t });
       },
     }),
     getActionItemProps({

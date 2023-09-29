@@ -7,6 +7,7 @@ import React, { PropsWithChildren } from 'react';
 import { Meta, OrganizationsDocument } from '../../../../generated/graphql';
 import { fakeOrganizations } from '../../../../utils/mockDataUtils';
 import { createCache } from '../../../app/apollo/apolloClient';
+import { NotificationsProvider } from '../../../app/notificationsContext/NotificationsContext';
 import { MAX_OGRANIZATIONS_PAGE_SIZE } from '../../constants';
 import useAllOrganizations from '../useAllOrganizations';
 
@@ -67,9 +68,11 @@ const mocks = [mockedOrganizationsResponse, mockedPage2OrganizationsResponse];
 
 const getHookWrapper = () => {
   const wrapper = ({ children }: PropsWithChildren) => (
-    <MockedProvider cache={createCache()} mocks={mocks}>
-      {children}
-    </MockedProvider>
+    <NotificationsProvider>
+      <MockedProvider cache={createCache()} mocks={mocks}>
+        {children}
+      </MockedProvider>
+    </NotificationsProvider>
   );
 
   const { result } = renderHook(() => useAllOrganizations(), {

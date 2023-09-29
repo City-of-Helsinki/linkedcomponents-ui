@@ -1,6 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
@@ -11,7 +10,6 @@ import {
   renderWithRoute,
   screen,
   userEvent,
-  waitFor,
 } from '../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
@@ -103,15 +101,14 @@ test('should mark signup as present', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const signupCheckbox = screen.getByRole('checkbox', { name: signUpName });
-  user.click(signupCheckbox);
-  await waitFor(() => expect(signupCheckbox).toBeChecked());
+  await user.click(signupCheckbox);
+  expect(signupCheckbox).toBeChecked();
 
-  user.click(signupCheckbox);
-  await waitFor(() => expect(signupCheckbox).not.toBeChecked());
+  await user.click(signupCheckbox);
+  expect(signupCheckbox).not.toBeChecked();
 });
 
-test('should show toast message if updating presence status fails', async () => {
-  toast.error = vi.fn();
+test('should show notification if updating presence status fails', async () => {
   const user = userEvent.setup();
 
   renderComponent([...baseMocks, mockedInvalidUpdateSignupResponse]);
@@ -119,9 +116,7 @@ test('should show toast message if updating presence status fails', async () => 
 
   const signupCheckbox = screen.getByRole('checkbox', { name: signUpName });
   user.click(signupCheckbox);
-  await waitFor(() =>
-    expect(toast.error).toBeCalledWith(
-      'Läsnäolotiedon päivittäminen epäonnistui'
-    )
-  );
+  await screen.findByRole('alert', {
+    name: 'Läsnäolotiedon päivittäminen epäonnistui',
+  });
 });

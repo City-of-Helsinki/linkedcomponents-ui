@@ -12,6 +12,7 @@ import {
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeOrganizationClasses } from '../../../../utils/mockDataUtils';
 import { createCache } from '../../../app/apollo/apolloClient';
+import { NotificationsProvider } from '../../../app/notificationsContext/NotificationsContext';
 import { AuthContext } from '../../../auth/AuthContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { MAX_OGRANIZATION_CLASSES_PAGE_SIZE } from '../../constants';
@@ -93,11 +94,13 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const getHookWrapper = async () => {
   const wrapper = ({ children }: PropsWithChildren) => (
-    <AuthContext.Provider value={authContextValue}>
-      <MockedProvider cache={createCache()} mocks={mocks}>
-        {children}
-      </MockedProvider>
-    </AuthContext.Provider>
+    <NotificationsProvider>
+      <AuthContext.Provider value={authContextValue}>
+        <MockedProvider cache={createCache()} mocks={mocks}>
+          {children}
+        </MockedProvider>
+      </AuthContext.Provider>
+    </NotificationsProvider>
   );
 
   const { result } = renderHook(() => useAllOrganizationClasses(), {

@@ -28,7 +28,7 @@ import {
   organizationsPathBuilder,
 } from '../utils';
 
-const apolloClient = createApolloClient({ addNotification: jest.fn() });
+const apolloClient = createApolloClient({ addNotification: vi.fn() });
 
 describe('organizationPathBuilder function', () => {
   it('should create correct path for organization class request', () => {
