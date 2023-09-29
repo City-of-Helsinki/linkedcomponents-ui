@@ -139,7 +139,6 @@ const useKeywordActions = ({
         payload,
       });
     }
-    setSaving(KEYWORD_ACTIONS.CREATE);
   };
 
   const deleteKeyword = async (callbacks?: MutationCallbacks) => {
