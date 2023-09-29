@@ -8,6 +8,7 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
+import { signupGroup } from '../../../../signupGroup/__mocks__/editSignupGroupPage';
 import { signup } from '../../../__mocks__/signup';
 import SendMessageModal, { SendMessageModalProps } from '../SendMessageModal';
 
@@ -18,11 +19,35 @@ const defaultProps: SendMessageModalProps = {
   isSaving: false,
   onClose: jest.fn(),
   onSendMessage: jest.fn(),
-  signup,
 };
 
 const renderComponent = (props: Partial<SendMessageModalProps>) =>
   render(<SendMessageModal {...defaultProps} {...props} />);
+
+const getModalElements = async () => {
+  const sendMessageButton = screen.getByRole('button', {
+    name: 'Lähetä viesti',
+  });
+  const subjectInput = screen.getByLabelText(/Otsikko/i);
+  const messageInput = await screen.findByLabelText(
+    /editorin muokkausalue: main/i
+  );
+  return {
+    messageInput,
+    sendMessageButton,
+    subjectInput,
+  };
+};
+
+const sendMessage = async () => {
+  const user = userEvent.setup();
+  const { messageInput, sendMessageButton, subjectInput } =
+    await getModalElements();
+
+  fireEvent.change(subjectInput, { target: { value: 'Subject' } });
+  pasteToTextEditor(messageInput, 'Message');
+  await user.click(sendMessageButton);
+};
 
 test('should validate fields and call onSendMessage', async () => {
   // Mock getClientRects for ckeditor
@@ -32,64 +57,76 @@ test('should validate fields and call onSendMessage', async () => {
 
   const onSendMessage = jest.fn();
   const user = userEvent.setup();
-  renderComponent({ signup: undefined, onSendMessage });
+  renderComponent({ onSendMessage });
 
   screen.getByRole('heading', { name: 'Lähetä viesti osallistujille' });
-  const cancelEventButton = screen.getByRole('button', {
-    name: 'Lähetä viesti',
-  });
-  const subjectInput = screen.getByLabelText(/Otsikko/i);
-  const messageInput = await screen.findByLabelText(
-    /editorin muokkausalue: main/i
-  );
-  await user.click(cancelEventButton);
+  const { messageInput, sendMessageButton, subjectInput } =
+    await getModalElements();
+  await user.click(sendMessageButton);
   expect(subjectInput).toHaveFocus();
 
   fireEvent.change(subjectInput, { target: { value: 'Subject' } });
-  await user.click(cancelEventButton);
+  await user.click(sendMessageButton);
   expect(messageInput).toHaveFocus();
 
   pasteToTextEditor(messageInput, 'Message');
-  await user.click(cancelEventButton);
+  await user.click(sendMessageButton);
   expect(onSendMessage).toBeCalledWith({
-    'send-message': {
-      body: '<p>Message</p>',
-      subject: 'Subject',
+    signupGroups: undefined,
+    signups: undefined,
+    values: {
+      'send-message': {
+        body: '<p>Message</p>',
+        subject: 'Subject',
+      },
     },
   });
 });
 
-test('should call onSendMessage when sending message to a single signup', async () => {
+test('should call onSendMessage when sending message to a signup', async () => {
   // Mock getClientRects for ckeditor
   global.Range.prototype.getClientRects = jest
     .fn()
     .mockImplementation(() => []);
 
   const onSendMessage = jest.fn();
-  const user = userEvent.setup();
-  renderComponent({ onSendMessage });
+  renderComponent({ onSendMessage, signup });
 
   screen.getByRole('heading', { name: 'Lähetä viesti osallistujalle' });
-  const subjectInput = screen.getByLabelText(/Otsikko/i);
-  const messageInput = await screen.findByLabelText(
-    /editorin muokkausalue: main/i
-  );
-  fireEvent.change(subjectInput, { target: { value: 'Subject' } });
-  pasteToTextEditor(messageInput, 'Message');
-
-  const cancelEventButton = screen.getByRole('button', {
-    name: 'Lähetä viesti',
-  });
-  await user.click(cancelEventButton);
-  expect(onSendMessage).toBeCalledWith(
-    {
+  await sendMessage();
+  expect(onSendMessage).toBeCalledWith({
+    signupGroups: undefined,
+    signups: [signup.id],
+    values: {
       'send-message': {
         body: '<p>Message</p>',
         subject: 'Subject',
       },
     },
-    [signup.id]
-  );
+  });
+});
+
+test('should call onSendMessage when sending message to a signup group', async () => {
+  // Mock getClientRects for ckeditor
+  global.Range.prototype.getClientRects = jest
+    .fn()
+    .mockImplementation(() => []);
+
+  const onSendMessage = jest.fn();
+  renderComponent({ onSendMessage, signupGroup });
+
+  screen.getByRole('heading', { name: 'Lähetä viesti osallistujalle' });
+  await sendMessage();
+  expect(onSendMessage).toBeCalledWith({
+    signupGroups: [signupGroup.id],
+    signups: undefined,
+    values: {
+      'send-message': {
+        body: '<p>Message</p>',
+        subject: 'Subject',
+      },
+    },
+  });
 });
 
 test('should call onClose', async () => {

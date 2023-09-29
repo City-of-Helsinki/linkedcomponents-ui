@@ -37,11 +37,12 @@ interface Props {
 type UseSignupActionsState = {
   deleteSignup: (callbacks?: MutationCallbacks) => Promise<void>;
   saving: SIGNUP_ACTIONS | false;
-  sendMessage: (
-    values: SendMessageFormFields,
-    signups?: string[],
-    callbacks?: MutationCallbacks
-  ) => Promise<void>;
+  sendMessage: (options: {
+    callbacks?: MutationCallbacks;
+    signupGroups?: string[];
+    signups?: string[];
+    values: SendMessageFormFields;
+  }) => Promise<void>;
   updateSignup: (
     values: SignupGroupFormFields,
     callbacks?: MutationCallbacks
@@ -135,13 +136,20 @@ const useSignupActions = ({
     }
   };
 
-  const sendMessage = async (
-    values: SendMessageFormFields,
-    signups?: string[],
-    callbacks?: MutationCallbacks
-  ) => {
+  const sendMessage = async ({
+    callbacks,
+    signupGroups,
+    signups,
+    values,
+  }: {
+    callbacks?: MutationCallbacks;
+    signupGroups?: string[];
+    signups?: string[];
+    values: SendMessageFormFields;
+  }) => {
     const payload: SendMessageMutationInput = {
       body: values[SEND_MESSAGE_FORM_NAME].body,
+      signupGroups,
       signups,
       subject: values[SEND_MESSAGE_FORM_NAME].subject,
     };

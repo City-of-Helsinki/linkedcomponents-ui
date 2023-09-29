@@ -1031,6 +1031,7 @@ export type SeatsReservation = {
 
 export type SendMessageMutationInput = {
   body: Scalars['String']['input'];
+  signupGroups?: InputMaybe<Array<Scalars['String']['input']>>;
   signups?: InputMaybe<Array<Scalars['String']['input']>>;
   subject: Scalars['String']['input'];
 };

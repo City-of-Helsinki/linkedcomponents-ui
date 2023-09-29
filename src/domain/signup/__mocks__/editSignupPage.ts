@@ -110,6 +110,7 @@ const sendMessageVariables = {
   input: {
     ...sendMessageValues,
     body: '<p>Message</p>',
+    signupGroups: undefined,
     signups: [signupId],
     subject: 'Subject',
   },

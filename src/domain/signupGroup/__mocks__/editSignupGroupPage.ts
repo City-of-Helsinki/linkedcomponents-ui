@@ -3,15 +3,18 @@ import { MockedResponse } from '@apollo/client/testing';
 import { DATE_FORMAT_API } from '../../../constants';
 import {
   DeleteSignupGroupDocument,
+  SendMessageDocument,
   SignupGroupDocument,
   UpdateSignupGroupDocument,
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
-import { fakeSignupGroup } from '../../../utils/mockDataUtils';
+import {
+  fakeSendMessageResponse,
+  fakeSignupGroup,
+} from '../../../utils/mockDataUtils';
 import { TEST_REGISTRATION_ID } from '../../registration/constants';
 import {
   dateOfBirth,
-  mockedSendMessageResponse,
   sendMessageValues,
   signup,
   signupValues,
@@ -83,13 +86,34 @@ const mockedDeleteSignupGroupResponse: MockedResponse = {
   result: deleteSignupGroupResponse,
 };
 
+const sendMessageVariables = {
+  input: {
+    ...sendMessageValues,
+    body: sendMessageValues.body,
+    signupGroups: [signupGroupId],
+    signups: undefined,
+    subject: sendMessageValues.subject,
+  },
+  registration: TEST_REGISTRATION_ID,
+};
+
+const sendMessageResponse = {
+  data: { sendMessage: fakeSendMessageResponse() },
+};
+
+const mockedSendMessageToSignupGroupResponse: MockedResponse = {
+  request: { query: SendMessageDocument, variables: sendMessageVariables },
+  result: sendMessageResponse,
+};
+
 export {
   mockedDeleteSignupGroupResponse,
   mockedInvalidUpdateSignupGroupResponse,
-  mockedSendMessageResponse,
+  mockedSendMessageToSignupGroupResponse,
   mockedSignupGroupResponse,
   mockedUpdateSignupGroupResponse,
   sendMessageValues,
   signup,
+  signupGroup,
   signupGroupId,
 };
