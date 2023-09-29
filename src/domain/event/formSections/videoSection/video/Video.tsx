@@ -1,4 +1,4 @@
-import { FastField, useField } from 'formik';
+import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -87,7 +87,7 @@ const Video: React.FC<Props> = ({
         >
           <>
             <FormGroup>
-              <FastField
+              <Field
                 component={TextInputField}
                 disabled={!isEditingAllowed}
                 label={t(`event.form.labelVideoUrl`)}
@@ -97,7 +97,7 @@ const Video: React.FC<Props> = ({
               />
             </FormGroup>
             <FormGroup>
-              <FastField
+              <Field
                 component={TextInputField}
                 disabled={!isEditingAllowed}
                 label={t(`event.form.labelVideoName`)}
@@ -106,7 +106,7 @@ const Video: React.FC<Props> = ({
                 required={isRequired}
               />
             </FormGroup>
-            <FastField
+            <Field
               component={TextInputField}
               disabled={!isEditingAllowed}
               label={t(`event.form.labelVideoAltText`)}

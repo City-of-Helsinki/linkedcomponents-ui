@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 import React from 'react';
@@ -15,6 +16,8 @@ import { mockedOrganizationAncestorsResponse } from '../../../../organization/__
 import { mockedOrganizationsResponse } from '../../../../organizations/__mocks__/organizationsPage';
 import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import HelpPageRoutes from '../HelpPageRoutes';
+
+jest.mock('swagger-ui-react', () => require('../../../../../test/MockSwagger'));
 
 configure({ defaultHidden: true });
 

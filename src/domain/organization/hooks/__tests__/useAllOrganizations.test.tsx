@@ -2,6 +2,7 @@ import { MockedProvider } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import range from 'lodash/range';
+import React from 'react';
 
 import { Meta, OrganizationsDocument } from '../../../../generated/graphql';
 import { fakeOrganizations } from '../../../../utils/mockDataUtils';

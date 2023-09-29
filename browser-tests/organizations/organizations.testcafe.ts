@@ -37,7 +37,6 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     const organizationsPage = await getOrganizationsPage(t);
 
     await organizationsPage.actions.clickCreateOrganizationButton();
-    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToCreateOrganizationPage();
   });
 
@@ -57,7 +56,6 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     const organizationRow = await searchResults.organizationRow(organization);
 
     await organizationRow.actions.clickOrganizationRow();
-    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToOrganizationPage(organization);
   });
 }

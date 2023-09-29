@@ -1,5 +1,5 @@
 import { configure, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 
 import { enterKeyPressHelper } from '../../../../utils/testUtils';
@@ -29,7 +29,7 @@ test('should call onClick', async () => {
   expect(onClick).toBeCalled();
 });
 
-test('should call onClick when clicking enter', () => {
+test('should call onClick when clicking enter', async () => {
   const onClick = jest.fn();
   renderComponent({ onClick });
 

@@ -1,4 +1,4 @@
-import userEvent from '@testing-library/user-event';
+import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 
 import { configure, render, screen } from '../../../../utils/testUtils';
@@ -25,7 +25,7 @@ const getElement = (key: 'next' | 'previous') => {
 const renderComponent = (props?: Partial<PaginationProps>) =>
   render(<Pagination {...defaultProps} {...props} />);
 
-test('previous button should be disabled', () => {
+test('previous button should be disabled', async () => {
   renderComponent({ pageIndex: 0 });
   const previousButton = getElement('previous');
 
@@ -43,7 +43,7 @@ test('should call onChange when clicking previous button', async () => {
   expect(onChange).toBeCalledWith(expect.objectContaining({}), 0);
 });
 
-test('next button should be disabled', () => {
+test('next button should be disabled', async () => {
   renderComponent({ pageIndex: 9 });
   const nextButton = getElement('next');
 

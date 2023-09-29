@@ -50,7 +50,7 @@ const validateEventTimes = (
 ) => {
   const [recurringEvents, events] = values as [
     RecurringEventSettings[] | null,
-    EventTime[] | null
+    EventTime[] | null,
   ];
 
   return schema.test(
@@ -468,7 +468,7 @@ export const getExternalUserEventSchema = (
       [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
         [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
         ([minimumAttendeeCapacity], schema) => {
-          if (Boolean(minimumAttendeeCapacity)) {
+          if (minimumAttendeeCapacity) {
             return Yup.number()
               .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
               .min(minimumAttendeeCapacity || 1, createNumberMinErrorMessage)

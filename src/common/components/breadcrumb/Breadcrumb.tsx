@@ -16,7 +16,7 @@ type BreadcrumbProps = {
   items: [
     BreadcrumbLinkItemProps,
     ...BreadcrumbLinkItemProps[],
-    BreadcrumbCurrentItemProps
+    BreadcrumbCurrentItemProps,
   ];
 };
 

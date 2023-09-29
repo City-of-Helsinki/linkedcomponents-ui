@@ -66,7 +66,7 @@ export const fakeDataSources = (
 });
 
 export const fakeDataSource = (overrides?: Partial<DataSource>): DataSource => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
 
   return merge<DataSource, typeof overrides>(
     {
@@ -75,7 +75,7 @@ export const fakeDataSource = (overrides?: Partial<DataSource>): DataSource => {
       apiKey: '',
       createPastEvents: false,
       editPastEvents: false,
-      name: faker.random.words(),
+      name: faker.lorem.words(),
       owner: null,
       private: false,
       userEditable: false,
@@ -88,7 +88,7 @@ export const fakeDataSource = (overrides?: Partial<DataSource>): DataSource => {
 export const fakeCreateSignupGroupResponse = (
   overrides?: Partial<CreateSignupGroupResponse>
 ): CreateSignupGroupResponse => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
 
   return merge<CreateSignupGroupResponse, typeof overrides>(
     {
@@ -112,7 +112,7 @@ export const fakeEvents = (
 });
 
 export const fakeEvent = (overrides?: Partial<Event>): Event => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
 
   return merge<Event, typeof overrides>(
     {
@@ -139,7 +139,7 @@ export const fakeEvent = (overrides?: Partial<Event>): Event => {
       keywords: [],
       lastModifiedTime: '2020-07-13T05:51:05.761000Z',
       location: fakePlace(),
-      locationExtraInfo: fakeLocalisedObject(faker.address.streetAddress()),
+      locationExtraInfo: fakeLocalisedObject(faker.location.streetAddress()),
       maximumAttendeeCapacity: null,
       minimumAttendeeCapacity: null,
       name: fakeLocalisedObject(faker.lorem.text()),
@@ -181,8 +181,8 @@ export const fakeExternalLink = (
 export const fakeFeedback = (overrides?: Partial<Feedback>): Feedback =>
   merge<Feedback, typeof overrides>(
     {
-      id: faker.datatype.uuid(),
-      name: faker.name.firstName(),
+      id: faker.string.uuid(),
+      name: faker.person.firstName(),
       email: faker.internet.email(),
       subject: faker.lorem.text(),
       body: faker.internet.exampleEmail(),
@@ -201,19 +201,19 @@ export const fakeImages = (
 });
 
 export const fakeImage = (overrides?: Partial<Image>): Image => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
 
   return merge<Image, typeof overrides>(
     {
       id,
       atId: generateAtId(id, 'image'),
-      altText: fakeLocalisedObject(faker.image.cats()),
+      altText: fakeLocalisedObject(faker.lorem.words()),
       lastModifiedTime: null,
       license: 'cc_by',
-      name: faker.random.words(),
+      name: faker.lorem.words(),
       url: faker.internet.url(),
       cropping: '59,0,503,444',
-      photographerName: faker.name.firstName(),
+      photographerName: faker.person.firstName(),
       publisher: TEST_PUBLISHER_ID,
       __typename: 'Image',
     },
@@ -231,7 +231,7 @@ export const fakeKeywords = (
 });
 
 export const fakeKeyword = (overrides?: Partial<Keyword>): Keyword => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
 
   return merge<Keyword, typeof overrides>(
     {
@@ -260,7 +260,7 @@ export const fakeKeywordSets = (
 });
 
 export const fakeKeywordSet = (overrides?: Partial<KeywordSet>): KeywordSet => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
 
   return merge<KeywordSet, typeof overrides>(
     {
@@ -287,7 +287,7 @@ export const fakeLanguages = (
 });
 
 export const fakeLanguage = (overrides?: Partial<Language>): Language => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
 
   return merge<Language, typeof overrides>(
     {
@@ -320,7 +320,7 @@ export const fakeOffers = (count = 1, offers?: Partial<Offer>[]): Offer[] =>
 export const fakeOrganization = (
   overrides?: Partial<Organization>
 ): Organization => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
   return merge<Organization, typeof overrides>(
     {
       adminUsers: [],
@@ -335,7 +335,7 @@ export const fakeOrganization = (
       hasRegularUsers: false,
       isAffiliated: false,
       lastModifiedTime: null,
-      name: faker.random.words(),
+      name: faker.lorem.words(),
       parentOrganization: null,
       replacedBy: null,
       registrationAdminUsers: [],
@@ -371,7 +371,7 @@ export const fakeOrganizationClasses = (
 export const fakeOrganizationClass = (
   overrides?: Partial<OrganizationClass>
 ): OrganizationClass => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
   return merge<OrganizationClass, typeof overrides>(
     {
       id,
@@ -379,7 +379,7 @@ export const fakeOrganizationClass = (
       createdTime: null,
       dataSource: TEST_DATA_SOURCE_ID,
       lastModifiedTime: null,
-      name: faker.random.words(),
+      name: faker.lorem.words(),
       __typename: 'OrganizationClass',
     },
     overrides
@@ -396,7 +396,7 @@ export const fakePlaces = (
 });
 
 export const fakePlace = (overrides?: Partial<Place>): Place => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
 
   return merge<Place, typeof overrides>(
     {
@@ -414,7 +414,7 @@ export const fakePlace = (overrides?: Partial<Place>): Place => {
       name: fakeLocalisedObject(),
       nEvents: 0,
       position: null,
-      postalCode: faker.address.zipCode(),
+      postalCode: faker.location.zipCode(),
       postOfficeBoxNum: '',
       publisher: TEST_PUBLISHER_ID,
       streetAddress: fakeLocalisedObject(),
@@ -437,7 +437,7 @@ export const fakeRegistrations = (
 export const fakeRegistration = (
   overrides?: Partial<Registration>
 ): Registration => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
 
   return merge<Registration, typeof overrides>(
     {
@@ -447,7 +447,7 @@ export const fakeRegistration = (
       audienceMinAge: null,
       confirmationMessage: fakeLocalisedObject(faker.lorem.paragraph()),
       createdAt: null,
-      createdBy: faker.name.firstName(),
+      createdBy: faker.person.firstName(),
       currentAttendeeCount: 0,
       currentWaitingListCount: 0,
       dataSource: TEST_DATA_SOURCE_ID,
@@ -456,7 +456,7 @@ export const fakeRegistration = (
       event: null,
       instructions: fakeLocalisedObject(faker.lorem.paragraph()),
       lastModifiedAt: '2020-09-12T15:00:00.000000Z',
-      lastModifiedBy: faker.name.firstName(),
+      lastModifiedBy: faker.person.firstName(),
       mandatoryFields: [],
       maximumAttendeeCapacity: 0,
       maximumGroupSize: null,
@@ -476,7 +476,7 @@ export const fakeRegistration = (
 export const fakeRegistrationUserAccess = (
   overrides?: Partial<RegistrationUserAccess>
 ): RegistrationUserAccess => {
-  const id = overrides?.id || faker.datatype.number();
+  const id = overrides?.id || faker.number.int();
 
   return merge<RegistrationUserAccess, typeof overrides>(
     {
@@ -491,7 +491,7 @@ export const fakeRegistrationUserAccess = (
 export const fakeSeatsReservation = (
   overrides?: Partial<SeatsReservation>
 ): SeatsReservation => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
   const timestamp = new Date().toISOString();
 
   return merge<SeatsReservation, typeof overrides>(
@@ -532,24 +532,24 @@ export const fakeSignups = (
 });
 
 export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
 
   return merge<Signup, typeof overrides>(
     {
       id,
       attendeeStatus: AttendeeStatus.Attending,
       cancellationCode: '',
-      city: faker.address.city(),
+      city: faker.location.city(),
       createdAt: null,
       createdBy: null,
       dateOfBirth: '1990-10-10',
       email: faker.internet.email(),
       extraInfo: faker.lorem.paragraph(),
-      firstName: faker.name.firstName(),
+      firstName: faker.person.firstName(),
       lastModifiedAt: null,
       lastModifiedBy: null,
-      lastName: faker.name.lastName(),
-      membershipNumber: faker.datatype.uuid(),
+      lastName: faker.person.lastName(),
+      membershipNumber: faker.string.uuid(),
       nativeLanguage: 'fi',
       notifications: NOTIFICATION_TYPE.SMS_EMAIL,
       phoneNumber: faker.phone.number(),
@@ -557,8 +557,8 @@ export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
       responsibleForGroup: false,
       serviceLanguage: 'fi',
       signupGroup: null,
-      streetAddress: faker.address.streetAddress(),
-      zipcode: faker.address.zipCode('#####'),
+      streetAddress: faker.location.streetAddress(),
+      zipcode: faker.location.zipCode('#####'),
       __typename: 'Signup',
     },
     overrides
@@ -568,7 +568,7 @@ export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
 export const fakeSignupGroup = (
   overrides?: Partial<SignupGroup>
 ): SignupGroup => {
-  const id = overrides?.id || faker.datatype.uuid();
+  const id = overrides?.id || faker.string.uuid();
 
   return merge<SignupGroup, typeof overrides>(
     {
@@ -599,19 +599,19 @@ export const fakeUser = (overrides?: Partial<User>): User => {
     {
       adminOrganizations: [],
       dateJoined: null,
-      departmentName: faker.random.words(),
-      displayName: faker.random.words(),
+      departmentName: faker.lorem.words(),
+      displayName: faker.lorem.words(),
       email: faker.internet.email(),
-      firstName: faker.name.firstName(),
+      firstName: faker.person.firstName(),
       isStaff: false,
       isExternal: false,
       lastLogin: '',
-      lastName: faker.name.lastName(),
-      organization: faker.random.words(),
+      lastName: faker.person.lastName(),
+      organization: faker.lorem.words(),
       organizationMemberships: [],
       registrationAdminOrganizations: [],
-      username: faker.datatype.uuid(),
-      uuid: faker.datatype.uuid(),
+      username: faker.string.uuid(),
+      uuid: faker.string.uuid(),
       __typename: 'User',
     },
     overrides
@@ -621,9 +621,9 @@ export const fakeUser = (overrides?: Partial<User>): User => {
 export const fakeVideo = (overrides?: Partial<Video>): Video =>
   merge<Video, typeof overrides>(
     {
-      altText: faker.image.cats(),
-      name: faker.image.image(),
-      url: faker.image.imageUrl(),
+      altText: faker.lorem.words(),
+      name: faker.lorem.word(),
+      url: faker.image.url(),
       __typename: 'Video',
     },
     overrides
@@ -631,12 +631,12 @@ export const fakeVideo = (overrides?: Partial<Video>): Video =>
 
 export const fakeLocalisedObject = (text?: string): LocalisedObject => ({
   __typename: 'LocalisedObject',
-  ar: faker.random.words(),
-  en: faker.random.words(),
-  fi: text || faker.random.words(),
-  ru: faker.random.words(),
-  sv: faker.random.words(),
-  zhHans: faker.random.words(),
+  ar: faker.lorem.words(),
+  en: faker.lorem.words(),
+  fi: text || faker.lorem.words(),
+  ru: faker.lorem.words(),
+  sv: faker.lorem.words(),
+  zhHans: faker.lorem.words(),
 });
 
 export const fakeMeta = (count = 1, overrides?: Partial<Meta>): Meta =>

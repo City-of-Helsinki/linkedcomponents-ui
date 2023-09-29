@@ -10,7 +10,7 @@ export const parseFeedbackServerErrors = ({
   t,
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  result: Record<string, any>;
+  result: Record<string, any> | string;
   t: TFunction;
 }): ServerErrorItem[] => {
   return Object.entries(result).reduce(

@@ -63,13 +63,15 @@ const ConfirmDeleteSignupOrSignupGroupModal: React.FC<
         <>
           <p>{t('signup.deleteSignupModal.text2')}</p>
           <ul className={styles.list}>
-            {signupGroup?.signups?.filter(skipFalsyType).map((signup) => (
-              <SignupName
-                key={signup.id}
-                registration={registration}
-                signup={signup}
-              />
-            ))}
+            {signupGroup?.signups
+              ?.filter(skipFalsyType)
+              .map((signup) => (
+                <SignupName
+                  key={signup.id}
+                  registration={registration}
+                  signup={signup}
+                />
+              ))}
             {signup && (
               <SignupName registration={registration} signup={signup} />
             )}

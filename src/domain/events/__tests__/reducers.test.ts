@@ -19,7 +19,7 @@ describe('eventListOptionsReducer function', () => {
   const cases: [
     EventListOptionsAction,
     EventListOptionsState,
-    EventListOptionsState
+    EventListOptionsState,
   ][] = [
     [
       {
@@ -90,7 +90,7 @@ describe('expandedEventsReducer function', () => {
   const cases: [
     ExpandedEventsAction,
     ExpandedEventsState,
-    ExpandedEventsState
+    ExpandedEventsState,
   ][] = [
     [
       {
