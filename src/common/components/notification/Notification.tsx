@@ -1,12 +1,18 @@
 import { ClassNames } from '@emotion/react';
-import { Notification as BaseNotification, NotificationProps } from 'hds-react';
+import {
+  Notification as HdsNotification,
+  NotificationProps as HdsNotificationProps,
+} from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import styles from './notification.module.scss';
 
+export type NotificationProps = { id?: string } & HdsNotificationProps;
+
 const Notification: React.FC<NotificationProps> = ({
   className,
+  id,
   type = 'success',
   ...rest
 }) => {
@@ -15,15 +21,17 @@ const Notification: React.FC<NotificationProps> = ({
   return (
     <ClassNames>
       {({ css, cx }) => (
-        <BaseNotification
-          {...rest}
-          className={cx(
-            styles.notification,
-            className,
-            css(theme.notification.type?.[type])
-          )}
-          type={type}
-        />
+        <div id={id}>
+          <HdsNotification
+            {...rest}
+            className={cx(
+              styles.notification,
+              className,
+              css(theme.notification.type?.[type])
+            )}
+            type={type}
+          />
+        </div>
       )}
     </ClassNames>
   );
