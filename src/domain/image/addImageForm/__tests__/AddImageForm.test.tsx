@@ -1,6 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { testIds } from '../../../../constants';
 import getValue from '../../../../utils/getValue';
@@ -131,7 +130,6 @@ test('should call onSubmit by double clicking image', async () => {
 });
 
 test('should show error message if trying to enter too large image file', async () => {
-  toast.error = jest.fn();
   const user = userEvent.setup();
 
   renderComponent({});
@@ -148,10 +146,8 @@ test('should show error message if trying to enter too large image file', async 
   await waitFor(() => expect(addButton).toBeEnabled());
   await user.click(addButton);
 
-  await waitFor(() => {
-    expect(toast.error).toBeCalledWith(
-      'Tiedostokoko on liian suuri. Tiedoston maksimikoko on 2 Mt'
-    );
+  await screen.findByRole('alert', {
+    name: 'Tiedostokoko on liian suuri. Tiedoston maksimikoko on 2 Mt',
   });
 });
 

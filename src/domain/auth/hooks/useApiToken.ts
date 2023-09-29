@@ -2,6 +2,7 @@
 import React, { useMemo, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { API_TOKEN_CHECK_INTERVAL, apiTokenInitialState } from '../constants';
 import { reducers } from '../reducers';
 import { ApiTokenReducerState, OidcReducerState } from '../types';
@@ -20,6 +21,7 @@ export type UseApiTokenState = {
 
 const useApiToken = (oidcState: OidcReducerState): UseApiTokenState => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   // eslint-disable-next-line no-undef
   const apiTokenTimer = React.useRef<NodeJS.Timeout>();
   const expirationTime = React.useRef<number | null>(null);
@@ -33,13 +35,23 @@ const useApiToken = (oidcState: OidcReducerState): UseApiTokenState => {
   const { getApiToken, renewApiToken, resetApiTokenData } = useMemo(() => {
     return {
       getApiToken: async (accessToken: string) =>
-        getApiTokenFn({ accessToken, dispatchApiTokenState, t }),
+        getApiTokenFn({
+          accessToken,
+          addNotification,
+          dispatchApiTokenState,
+          t,
+        }),
       renewApiToken: async (accessToken: string) =>
-        renewApiTokenFn({ accessToken, dispatchApiTokenState, t }),
+        renewApiTokenFn({
+          accessToken,
+          addNotification,
+          dispatchApiTokenState,
+          t,
+        }),
       resetApiTokenData: async () =>
         resetApiTokenDataFn({ dispatchApiTokenState }),
     };
-  }, [t]);
+  }, [addNotification, t]);
 
   const startApiTimer = () => {
     stopApiTimer();

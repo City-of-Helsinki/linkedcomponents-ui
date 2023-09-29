@@ -1,7 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { SendRegistrationUserAccessInvitationDocument } from '../../../../../generated/graphql';
 import {
@@ -9,7 +8,6 @@ import {
   render,
   screen,
   userEvent,
-  waitFor,
 } from '../../../../../utils/testUtils';
 import { mockedServiceLanguagesResponse } from '../../../../language/__mocks__/language';
 import {
@@ -92,7 +90,6 @@ test('should add and remove registration user assess', async () => {
 });
 
 test('should send invitation to registration user access', async () => {
-  toast.success = jest.fn();
   const user = userEvent.setup();
   const email = 'user@email.com';
   renderRegistrationUserAccessesSection(
@@ -107,15 +104,12 @@ test('should send invitation to registration user access', async () => {
   });
   await user.click(sendInvitationButton);
 
-  await waitFor(() =>
-    expect(toast.success).toBeCalledWith(
-      `Kutsu osallistujalistaan on lähetetty osoitteeseen ${email}.`
-    )
-  );
+  await screen.findByRole('alert', {
+    name: `Kutsu osallistujalistaan on lähetetty osoitteeseen ${email}.`,
+  });
 });
 
-test('should show error message is sending invitation fails', async () => {
-  toast.error = jest.fn();
+test('should notification is sending invitation fails', async () => {
   const user = userEvent.setup();
   const email = 'user@email.com';
   renderRegistrationUserAccessesSection(
@@ -130,7 +124,7 @@ test('should show error message is sending invitation fails', async () => {
   });
   await user.click(sendInvitationButton);
 
-  await waitFor(() =>
-    expect(toast.error).toBeCalledWith('Kutsun lähettäminen epäonnistui')
-  );
+  await screen.findByRole('alert', {
+    name: 'Kutsun lähettäminen epäonnistui',
+  });
 });

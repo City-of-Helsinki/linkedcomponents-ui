@@ -2,7 +2,6 @@ import { Field, Form, Formik } from 'formik';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PixelCrop } from 'react-image-crop';
-import { toast } from 'react-toastify';
 
 import Button from '../../../common/components/button/Button';
 import ImageSelectorField from '../../../common/components/formFields/imageSelectorField/ImageSelectorField';
@@ -15,6 +14,7 @@ import {
 } from '../../../common/components/imageUploader/utils';
 import { MAX_IMAGE_SIZE_MB } from '../../../constants';
 import { Image } from '../../../generated/graphql';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { ADD_IMAGE_FIELDS, ADD_IMAGE_INITIAL_VALUES } from '../constants';
 import useIsImageUploadAllowed from '../hooks/useIsImageUploadAllowed';
 import { AddImageSettings } from '../types';
@@ -38,6 +38,7 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
 }) => {
   const [imageEl, setImageEl] = useState<HTMLImageElement | null>(null);
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const { allowed, warning } = useIsImageUploadAllowed({ publisher });
 
   const validateFileSize = (file: File): boolean => {
@@ -61,11 +62,12 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
           const compressedFile = await getCompressedImageFile(upscaledImage);
 
           if (!validateFileSize(compressedFile)) {
-            toast.error(
-              t('common.imageUploader.tooLargeFileSize', {
+            addNotification({
+              label: t('common.imageUploader.tooLargeFileSize', {
                 maxSize: MAX_IMAGE_SIZE_MB,
-              })
-            );
+              }),
+              type: 'error',
+            });
           } else {
             onAddImageByFile(compressedFile);
           }

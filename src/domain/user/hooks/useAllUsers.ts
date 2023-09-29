@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import { useDebounce } from 'use-debounce';
 
 import { MAX_PAGE_SIZE } from '../../../constants';
@@ -9,6 +8,7 @@ import getNextPage from '../../../utils/getNextPage';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { usersPathBuilder } from '../utils';
 import useUser from './useUser';
 
@@ -20,6 +20,7 @@ type UseAllOrganizationsState = {
 
 const useAllUsers = (): UseAllOrganizationsState => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const { user } = useUser();
 
   const {
@@ -42,10 +43,10 @@ const useAllUsers = (): UseAllOrganizationsState => {
       try {
         await fetchMore({ variables: { page } });
       } catch (e) /* istanbul ignore next */ {
-        toast.error(t('common.errorLoadMore'));
+        addNotification({ label: t('common.errorLoadMore'), type: 'error' });
       }
     },
-    [fetchMore, t]
+    [addNotification, fetchMore, t]
   );
 
   React.useEffect(() => {

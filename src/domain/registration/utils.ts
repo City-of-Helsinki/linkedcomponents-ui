@@ -6,9 +6,9 @@ import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import isNil from 'lodash/isNil';
 import isNumber from 'lodash/isNumber';
-import { toast } from 'react-toastify';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
+import { NotificationProps } from '../../common/components/notification/Notification';
 import { FORM_NAMES, ROUTES, TIME_FORMAT_DATA } from '../../constants';
 import {
   CreateRegistrationMutationInput,
@@ -552,14 +552,19 @@ export const getSignupLink = (
   `${process.env.REACT_APP_LINKED_REGISTRATIONS_UI_URL}/${locale}/registration/${registration.id}/signup-group/create`;
 
 export const copySignupLinkToClipboard = ({
+  addNotification,
   locale,
   registration,
   t,
 }: {
+  addNotification: (props: NotificationProps) => void;
   locale: Language;
   registration: RegistrationFieldsFragment;
   t: TFunction;
 }): void => {
   copyToClipboard(getSignupLink(registration, locale));
-  toast.success(getValue(t('registration.registrationLinkCopied'), ''));
+  addNotification({
+    label: t('registration.registrationLinkCopied'),
+    type: 'success',
+  });
 };
