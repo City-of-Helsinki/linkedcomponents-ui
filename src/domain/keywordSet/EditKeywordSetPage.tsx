@@ -83,11 +83,11 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
       <TitleRow
         breadcrumb={
           <Breadcrumb
-            items={[
-              { label: t('common.home'), to: ROUTES.HOME },
-              { label: t('adminPage.title'), to: ROUTES.ADMIN },
-              { label: t('keywordSetsPage.title'), to: ROUTES.KEYWORD_SETS },
-              { active: true, label: t('editKeywordSetPage.title') },
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('adminPage.title'), path: ROUTES.ADMIN },
+              { title: t('keywordSetsPage.title'), path: ROUTES.KEYWORD_SETS },
+              { title: t('editKeywordSetPage.title'), path: null },
             ]}
           />
         }

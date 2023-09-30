@@ -9,9 +9,10 @@ import {
 import React, { useContext, useMemo, useState } from 'react';
 
 type BreadcrumbCSSProperties = {
-  '--breadcrumb-color'?: string;
-  '--breadcrumb-color-link'?: string;
-  '--breadcrumb-color-separator'?: string;
+  '--horizontal-margin-small'?: string;
+  '--horizontal-margin-medium'?: string;
+  '--horizontal-margin-large'?: string;
+  '--horizontal-margin-x-large'?: string;
 };
 
 export type ButtonCSSProperties = {

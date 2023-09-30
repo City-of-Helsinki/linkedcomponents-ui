@@ -227,7 +227,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
         const disabledIfOrganization = !isEditingAllowed || !!organization;
 
         return (
-          <Form className={styles.form} noValidate={true}>
+          <Form noValidate={true}>
             <OrganizationAuthenticationNotification action={action} id={id} />
 
             <ServerErrorSummary errors={serverErrorItems} />

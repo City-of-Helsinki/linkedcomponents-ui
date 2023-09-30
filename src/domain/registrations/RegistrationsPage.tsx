@@ -62,9 +62,9 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
         <TitleRow
           breadcrumb={
             <Breadcrumb
-              items={[
-                { label: t('common.home'), to: ROUTES.HOME },
-                { active: true, label: t('registrationsPage.title') },
+              list={[
+                { title: t('common.home'), path: ROUTES.HOME },
+                { title: t('registrationsPage.title'), path: null },
               ]}
             />
           }

@@ -17,25 +17,26 @@ const SignupPageBreadcrumb: FC<Props> = ({ activeLabel, registration }) => {
   const registrationId = getValue(registration.id, '');
 
   return (
-    <Breadcrumb
-      className={styles.breadcrumb}
-      items={[
-        { label: t('common.home'), to: ROUTES.HOME },
-        { label: t('registrationsPage.title'), to: ROUTES.REGISTRATIONS },
-        {
-          label: t(`editRegistrationPage.title`),
-          to: ROUTES.EDIT_REGISTRATION.replace(':id', registrationId),
-        },
-        {
-          label: t(`signupsPage.title`),
-          to: ROUTES.REGISTRATION_SIGNUPS.replace(
-            ':registrationId',
-            registrationId
-          ),
-        },
-        { active: true, label: activeLabel },
-      ]}
-    />
+    <div className={styles.breadcrumb}>
+      <Breadcrumb
+        list={[
+          { title: t('common.home'), path: ROUTES.HOME },
+          { title: t('registrationsPage.title'), path: ROUTES.REGISTRATIONS },
+          {
+            title: t(`editRegistrationPage.title`),
+            path: ROUTES.EDIT_REGISTRATION.replace(':id', registrationId),
+          },
+          {
+            title: t(`signupsPage.title`),
+            path: ROUTES.REGISTRATION_SIGNUPS.replace(
+              ':registrationId',
+              registrationId
+            ),
+          },
+          { title: activeLabel, path: null },
+        ]}
+      />
+    </div>
   );
 };
 
