@@ -107,71 +107,59 @@ test('should show navigation links and should route to correct page after clicki
   expect(history.location.pathname).toBe(`/fi${ROUTES.HOME}`);
 });
 
-test('should show admin and registration links to admin user', async () => {
-  setFeatureFlags({
-    LOCALIZED_IMAGE: true,
-    SHOW_ADMIN: true,
-    SHOW_REGISTRATION: true,
-  });
+const registrationAndAdminTabTestCases: {
+  role: string;
+  showRegistrationTab: boolean;
+  showAdminTab: boolean;
+}[] = [
+  { role: 'admin', showAdminTab: true, showRegistrationTab: true },
+  {
+    role: 'registrationAdmin',
+    showAdminTab: false,
+    showRegistrationTab: true,
+  },
+  { role: 'regularUser', showAdminTab: false, showRegistrationTab: false },
+  { role: 'noOrganization', showAdminTab: false, showRegistrationTab: false },
+];
 
-  renderComponent({ mocks: [mockedUserResponse] });
-  await findUserMenuButton();
+test.each(registrationAndAdminTabTestCases)(
+  'should show admin and registration links if user has sufficient permissions, %p',
+  async ({ role, showAdminTab, showRegistrationTab }) => {
+    setFeatureFlags({
+      LOCALIZED_IMAGE: true,
+      SHOW_ADMIN: true,
+      SHOW_REGISTRATION: true,
+    });
+    const userMocks = {
+      admin: mockedUserResponse,
+      noOrganization: mockedUserWithoutOrganizationsResponse,
+      registrationAdmin: mockedRegistrationUserResponse,
+      regularUser: mockedRegularUserResponse,
+    };
 
-  await screen.findByRole('link', { name: /hallinta/i });
-  screen.getByRole('link', { name: /ilmoittautuminen/i });
-});
+    renderComponent({ mocks: [userMocks[role]] });
+    await findUserMenuButton();
 
-test('should show registration link to registration admin user', async () => {
-  setFeatureFlags({
-    LOCALIZED_IMAGE: true,
-    SHOW_ADMIN: true,
-    SHOW_REGISTRATION: true,
-  });
-
-  renderComponent({ mocks: [mockedRegistrationUserResponse] });
-  await findUserMenuButton();
-
-  await screen.findByRole('link', { name: /ilmoittautuminen/i });
-  expect(
-    screen.queryByRole('link', { name: /hallinta/i })
-  ).not.toBeInTheDocument();
-});
-
-test('should not show admin or registration link to regular user', async () => {
-  setFeatureFlags({
-    LOCALIZED_IMAGE: true,
-    SHOW_ADMIN: true,
-    SHOW_REGISTRATION: true,
-  });
-
-  renderComponent({ mocks: [mockedRegularUserResponse] });
-  await findUserMenuButton();
-
-  expect(
-    screen.queryByRole('link', { name: /ilmoittautuminen/i })
-  ).not.toBeInTheDocument();
-  expect(
-    screen.queryByRole('link', { name: /hallinta/i })
-  ).not.toBeInTheDocument();
-});
-
-test('should not show admin or registration link to user without organization', async () => {
-  setFeatureFlags({
-    LOCALIZED_IMAGE: true,
-    SHOW_ADMIN: true,
-    SHOW_REGISTRATION: true,
-  });
-
-  renderComponent({ mocks: [mockedUserWithoutOrganizationsResponse] });
-  await findUserMenuButton();
-
-  expect(
-    screen.queryByRole('link', { name: /ilmoittautuminen/i })
-  ).not.toBeInTheDocument();
-  expect(
-    screen.queryByRole('link', { name: /hallinta/i })
-  ).not.toBeInTheDocument();
-});
+    if (showAdminTab) {
+      expect(
+        await screen.findByRole('link', { name: /hallinta/i })
+      ).toBeInTheDocument();
+    } else {
+      expect(
+        screen.queryByRole('link', { name: /hallinta/i })
+      ).not.toBeInTheDocument();
+    }
+    if (showRegistrationTab) {
+      expect(
+        await screen.findByRole('link', { name: /ilmoittautuminen/i })
+      ).toBeInTheDocument();
+    } else {
+      expect(
+        screen.queryByRole('link', { name: /ilmoittautuminen/i })
+      ).not.toBeInTheDocument();
+    }
+  }
+);
 
 test('should not show admin and registrations link when those features are disabled', async () => {
   setFeatureFlags({
