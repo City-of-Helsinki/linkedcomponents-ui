@@ -54,7 +54,7 @@ const renderComponent = ({
   route?: string;
 } = {}) =>
   render(
-    <SignupGroupFormProvider>
+    <SignupGroupFormProvider registration={registration}>
       <EditSignupButtonPanel {...defaultProps} {...props} />
     </SignupGroupFormProvider>,
     {

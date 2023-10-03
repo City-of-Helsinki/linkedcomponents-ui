@@ -52,7 +52,7 @@ const renderComponent = (
   mocks: MockedResponse[] = []
 ) =>
   render(
-    <SignupGroupFormProvider>
+    <SignupGroupFormProvider registration={registration}>
       <SignupServerErrorsContext.Provider
         value={{ ...defaultServerErrorsProps, ...serverErrorProps }}
       >

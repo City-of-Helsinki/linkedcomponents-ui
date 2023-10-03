@@ -20,6 +20,7 @@ import { useSignupServerErrorsContext } from '../../../signup/signupServerErrors
 import useUser from '../../../user/hooks/useUser';
 import { SIGNUP_GROUP_FIELDS } from '../../constants';
 import ConfirmDeleteSignupFromFormModal from '../../modals/confirmDeleteSignupFromFormModal/ConfirmDeleteSignupFromFormModal';
+import { useSignupGroupFormContext } from '../../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFormFields } from '../../types';
 import { getNewSignups } from '../../utils';
 import Signup from './signup/Signup';
@@ -41,6 +42,7 @@ const Signups: React.FC<Props> = ({ disabled, registration, signupGroup }) => {
   const location = useLocation();
   const { user } = useUser();
 
+  const { setParticipantAmount } = useSignupGroupFormContext();
   const { setServerErrorItems, showServerErrors } =
     useSignupServerErrorsContext();
 
@@ -83,7 +85,7 @@ const Signups: React.FC<Props> = ({ disabled, registration, signupGroup }) => {
       });
 
       setSignups(newSignups);
-
+      setParticipantAmount(newSignups.length);
       setSeatsReservationData(registrationId, seatsReservation);
 
       setSaving(false);

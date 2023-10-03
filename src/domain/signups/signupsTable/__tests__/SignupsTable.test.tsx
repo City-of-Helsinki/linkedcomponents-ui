@@ -54,7 +54,7 @@ const signupName = [attendeeNames[0].firstName, attendeeNames[0].lastName].join(
 const authContextValue = fakeAuthenticatedAuthContextValue();
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) => {
   return render(
-    <SignupGroupFormProvider>
+    <SignupGroupFormProvider registration={registration}>
       <SignupsTable {...defaultProps} />
     </SignupGroupFormProvider>,
     { mocks, authContextValue }

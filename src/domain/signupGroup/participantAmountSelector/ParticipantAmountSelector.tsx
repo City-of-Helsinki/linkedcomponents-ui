@@ -6,10 +6,8 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../../common/components/button/Button';
 import NumberInput from '../../../common/components/numberInput/NumberInput';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
-import getValue from '../../../utils/getValue';
 import { getMaxSeatsAmount } from '../../registration/utils';
 import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsReservationActions';
-import { getSeatsReservationData } from '../../seatsReservation/utils';
 import { SIGNUP_MODALS } from '../../signup/constants';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import { SIGNUP_GROUP_FIELDS } from '../constants';
@@ -35,6 +33,8 @@ const ParticipantAmountSelector: React.FC<Props> = ({
     SignupFormFields[]
   >({ name: SIGNUP_GROUP_FIELDS.SIGNUPS });
 
+  const { participantAmount, setParticipantAmount } =
+    useSignupGroupFormContext();
   const { saving, updateSeatsReservation } = useSeatsReservationActions({
     registration,
     setSignups,
@@ -45,18 +45,6 @@ const ParticipantAmountSelector: React.FC<Props> = ({
     useSignupServerErrorsContext();
 
   const [participantsToDelete, setParticipantsToDelete] = useState(0);
-
-  const registrationId = getValue(registration.id, '');
-
-  const [participantAmount, setParticipantAmount] = useState(
-    disabled
-      ? 1
-      : Math.max(
-          getSeatsReservationData(registrationId)?.seats ??
-            /* istanbul ignore next */ 0,
-          1
-        )
-  );
 
   const handleParticipantAmountChange: React.ChangeEventHandler<
     HTMLInputElement
