@@ -265,3 +265,14 @@ test('should show server errors', async () => {
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);
 });
+
+test('signup group extra info field should not be visible', async () => {
+  renderComponent();
+
+  await findElement('firstNameInput');
+  expect(
+    screen.queryByRole('textbox', {
+      name: 'Lisätietoa ilmoittautumisesta (valinnainen)',
+    })
+  ).not.toBeInTheDocument();
+});
