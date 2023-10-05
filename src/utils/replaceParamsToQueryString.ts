@@ -1,5 +1,5 @@
 export default function replaceParamsToQueryString<
-  U extends Record<string, unknown>
+  U extends Record<string, unknown>,
 >(
   queryString: string,
   queryParams: Partial<U>,

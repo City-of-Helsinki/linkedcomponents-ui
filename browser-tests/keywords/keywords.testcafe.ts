@@ -41,7 +41,6 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
     const keywordsPage = await getKeywordsPage(t);
 
     await keywordsPage.actions.clickCreateKeywordButton();
-    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToCreateKeywordPage();
   });
 
@@ -65,7 +64,6 @@ if (isFeatureEnabled('SHOW_ADMIN')) {
       const keywordRow = await searchResults.keywordRow(keyword);
 
       await keywordRow.actions.clickKeywordRow();
-      await urlUtils.actions.forceReload();
       await urlUtils.expectations.urlChangedToKeywordPage(keyword);
     }
   );

@@ -77,7 +77,6 @@ export enum EVENT_FIELDS {
   EVENTS = 'events',
   ENVIRONMENT = 'environment',
   ENVIRONMENTAL_CERTIFICATE = 'environmentalCertificate',
-  EXTENSION_COURSE = 'extensionCourse',
   EXTERNAL_LINKS = 'externalLinks',
   HAS_ENVIRONMENTAL_CERTIFICATE = 'hasEnvironmentalCertificate',
   HAS_PRICE = 'hasPrice',

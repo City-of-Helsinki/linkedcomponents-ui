@@ -22,7 +22,6 @@ export enum ROUTES {
   ADMIN = '/administration',
   ATTENDANCE_LIST = '/registrations/:registrationId/attendance-list',
   CALLBACK = '/callback',
-  CREATE_ENROLMENT = '/registrations/:registrationId/enrolments/create',
   CREATE_EVENT = '/events/create',
   CREATE_IMAGE = '/administration/images/create',
   CREATE_KEYWORD = '/administration/keywords/create',
@@ -30,6 +29,7 @@ export enum ROUTES {
   CREATE_ORGANIZATION = '/administration/organizations/create',
   CREATE_PLACE = '/administration/places/create',
   CREATE_REGISTRATION = '/registrations/create',
+  CREATE_SIGNUP_GROUP = '/registrations/:registrationId/signup-group/create',
   EDIT_EVENT = '/events/edit/:id',
   EDIT_IMAGE = '/administration/images/edit/:id',
   EDIT_KEYWORD = '/administration/keywords/edit/:id',
@@ -37,7 +37,8 @@ export enum ROUTES {
   EDIT_ORGANIZATION = '/administration/organizations/edit/:id',
   EDIT_PLACE = '/administration/places/edit/:id',
   EDIT_REGISTRATION = '/registrations/edit/:id',
-  EDIT_REGISTRATION_ENROLMENT = '/registrations/:registrationId/enrolments/edit/:enrolmentId',
+  EDIT_SIGNUP = '/registrations/:registrationId/signup/edit/:signupId',
+  EDIT_SIGNUP_GROUP = '/registrations/:registrationId/signup-group/edit/:signupGroupId',
   EVENT_SAVED = '/events/completed/:id',
   EVENTS = '/events',
   FEATURES = '/help/features',
@@ -55,8 +56,8 @@ export enum ROUTES {
   ORGANIZATIONS = '/administration/organizations',
   PLACES = '/administration/places',
   REGISTRATIONS = '/registrations',
-  REGISTRATION_ENROLMENTS = '/registrations/:registrationId/enrolments',
   REGISTRATION_SAVED = '/registrations/completed/:id',
+  REGISTRATION_SIGNUPS = '/registrations/:registrationId/signups',
   SEARCH = '/search',
   SILENT_CALLBACK = '/silent-callback',
   SUPPORT = '/help/support',
@@ -135,7 +136,7 @@ export enum EXTLINK {
 }
 
 export enum FORM_NAMES {
-  CREATE_ENROLMENT_FORM = 'create-enrolment-form',
+  CREATE_SIGNUP_GROUP_FORM = 'create-signup-group-form',
   EVENT_FORM = 'event-form',
   REGISTRATION_FORM = 'registration-form',
 }
@@ -205,7 +206,7 @@ export const VALIDATION_ERROR_SCROLLER_OPTIONS = {
 };
 
 export enum RESERVATION_NAMES {
-  ENROLMENT_RESERVATION = 'enrolment-reservation',
+  SEATS_RESERVATION = 'seats-reservation',
 }
 
 export const COMBOBOX_DEBOUNCE_TIME_MS = 300;

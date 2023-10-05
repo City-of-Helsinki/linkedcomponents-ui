@@ -207,6 +207,8 @@ const waitPageMetaDataToBeSet = async ({
   expect(ogDescription).toHaveAttribute('content', pageDescription);
 };
 
+export type { CustomRenderOptions, CustomRenderResult };
+
 export {
   actWait,
   arrowDownKeyPressHelper,
@@ -214,8 +216,6 @@ export {
   arrowRightKeyPressHelper,
   arrowUpKeyPressHelper,
   createPasteEvent,
-  CustomRenderOptions,
-  CustomRenderResult,
   enterKeyPressHelper,
   escKeyPressHelper,
   loadingSpinnerIsNotInDocument,

@@ -72,11 +72,7 @@ describe('getRegistrationSearchQuery function', () => {
   const cases: [string, RegistrationSearchParams, string][] = [
     ['', defaultParams, 'text=text'],
     ['', { ...defaultParams, attendeePage: 2 }, 'text=text&attendeePage=2'],
-    [
-      '',
-      { ...defaultParams, enrolmentText: 'text' },
-      'text=text&enrolmentText=text',
-    ],
+    ['', { ...defaultParams, signupText: 'text' }, 'text=text&signupText=text'],
     [
       '',
       { ...defaultParams, eventType: [EVENT_TYPE.Volunteering] },
@@ -108,11 +104,7 @@ describe('getRegistrationSearchQuery function', () => {
 describe('replaceParamsToRegistrationQueryString', () => {
   const cases: [Partial<RegistrationSearchParams>, string, string][] = [
     [{ attendeePage: 1 }, '?attendeePage=2', '?attendeePage=1'],
-    [
-      { enrolmentText: 'newText' },
-      '?enrolmentText=text',
-      '?enrolmentText=newText',
-    ],
+    [{ signupText: 'newText' }, '?signupText=text', '?signupText=newText'],
     [
       { eventType: [EVENT_TYPE.Volunteering, EVENT_TYPE.Course] },
       '?eventType=volunteering',

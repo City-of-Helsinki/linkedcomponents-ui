@@ -6,9 +6,6 @@ module.exports = buildSchema(/* GraphQL */ `
   scalar Any
 
   type Mutation {
-    createEnrolment(
-      input: CreateEnrolmentMutationInput!
-    ): CreateEnrolmentResponse!
     createEvent(input: CreateEventMutationInput!): Event!
     createEvents(input: [CreateEventMutationInput!]!): [Event!]!
     createKeyword(input: CreateKeywordMutationInput!): Keyword!
@@ -19,7 +16,9 @@ module.exports = buildSchema(/* GraphQL */ `
     createSeatsReservation(
       input: CreateSeatsReservationMutationInput!
     ): SeatsReservation!
-    deleteEnrolment(signup: String!): NoContent
+    createSignupGroup(
+      input: CreateSignupGroupMutationInput!
+    ): CreateSignupGroupResponse!
     deleteEvent(id: ID!): NoContent
     deleteImage(id: ID!): NoContent
     deleteKeyword(id: ID!): NoContent
@@ -27,17 +26,15 @@ module.exports = buildSchema(/* GraphQL */ `
     deleteOrganization(id: ID!): NoContent
     deletePlace(id: ID!): NoContent
     deleteRegistration(id: ID!): NoContent
+    deleteSignup(id: ID!): NoContent
+    deleteSignupGroup(id: ID!): NoContent
     postFeedback(input: FeedbackInput!): Feedback
     postGuestFeedback(input: FeedbackInput!): Feedback
     sendMessage(
       input: SendMessageMutationInput!
-      registration: String
+      registration: ID
     ): SendMessageResponse
     sendRegistrationUserAccessInvitation(id: Int): NoContent
-    updateEnrolment(
-      input: UpdateEnrolmentMutationInput!
-      signup: String!
-    ): Enrolment!
     updateEvent(input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
     updateImage(input: UpdateImageMutationInput!): Image!
@@ -51,6 +48,11 @@ module.exports = buildSchema(/* GraphQL */ `
       id: ID!
       input: UpdateSeatsReservationMutationInput!
     ): SeatsReservation!
+    updateSignup(input: UpdateSignupMutationInput!, id: ID!): Signup!
+    updateSignupGroup(
+      id: ID!
+      input: UpdateSignupGroupMutationInput!
+    ): SignupGroup!
   }
 
   type NoContent {
@@ -60,12 +62,6 @@ module.exports = buildSchema(/* GraphQL */ `
   type Query {
     dataSource(id: ID!): DataSource!
     dataSources(page: Int, pageSize: Int): DataSourcesResponse!
-    enrolment(id: ID!): Enrolment!
-    enrolments(
-      attendeeStatus: AttendeeStatus
-      registration: [ID]
-      text: String
-    ): EnrolmentsResponse!
     event(id: ID, include: [String]): Event!
     events(
       adminUser: Boolean
@@ -159,6 +155,13 @@ module.exports = buildSchema(/* GraphQL */ `
       pageSize: Int
       text: String
     ): RegistrationsResponse!
+    signup(id: ID!): Signup!
+    signups(
+      attendeeStatus: AttendeeStatus
+      registration: [ID]
+      text: String
+    ): SignupsResponse!
+    signupGroup(id: ID!): SignupGroup!
     user(id: ID!): User!
     users(page: Int, pageSize: Int): UsersResponse!
   }
@@ -241,24 +244,33 @@ module.exports = buildSchema(/* GraphQL */ `
     email: String
     extraInfo: String
     firstName: String
+    id: ID
     lastName: String
     membershipNumber: String
     nativeLanguage: String
     notifications: String
-    presenceStatus: PresenceStatus
     phoneNumber: String
+    presenceStatus: PresenceStatus
+    responsibleForGroup: Boolean
     serviceLanguage: String
     streetAddress: String
     zipcode: String
   }
 
-  input CreateEnrolmentMutationInput {
-    registration: String
+  input CreateSignupGroupMutationInput {
+    extraInfo: String
+    registration: ID
     reservationCode: String
     signups: [SignupInput!]
   }
 
-  input UpdateEnrolmentMutationInput {
+  input UpdateSignupGroupMutationInput {
+    extraInfo: String
+    registration: ID
+    signups: [SignupInput!]
+  }
+
+  input UpdateSignupMutationInput {
     id: ID!
     city: String
     dateOfBirth: String
@@ -272,6 +284,7 @@ module.exports = buildSchema(/* GraphQL */ `
     phoneNumber: String
     presenceStatus: PresenceStatus
     registration: ID
+    responsibleForGroup: Boolean
     serviceLanguage: String
     streetAddress: String
     zipcode: String
@@ -422,6 +435,7 @@ module.exports = buildSchema(/* GraphQL */ `
     name: String
     originId: String
     parentOrganization: String
+    registrationAdminUsers: [String]
     regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
@@ -438,6 +452,7 @@ module.exports = buildSchema(/* GraphQL */ `
     internalType: String
     name: String
     parentOrganization: String
+    registrationAdminUsers: [String]
     regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
@@ -637,7 +652,6 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentStartTime: String
     environment: String
     environmentalCertificate: String
-    extensionCourse: ExtensionCourse
     externalLinks: [ExternalLink]!
     eventStatus: EventStatus
     images: [Image]!
@@ -680,14 +694,6 @@ module.exports = buildSchema(/* GraphQL */ `
     name: String
     link: String
     language: String
-  }
-
-  type ExtensionCourse {
-    enrolmentStartTime: String
-    enrolmentEndTime: String
-    maximumAttendeeCapacity: Int
-    minimumAttendeeCapacity: Int
-    remainingAttendeeCapacity: Int
   }
 
   type Image {
@@ -794,6 +800,7 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedTime: String
     name: String
     parentOrganization: String
+    registrationAdminUsers: [User]
     regularUsers: [User]
     replacedBy: String
     subOrganizations: [String]
@@ -876,6 +883,7 @@ module.exports = buildSchema(/* GraphQL */ `
     lastName: String
     organization: String
     organizationMemberships: [String!]!
+    registrationAdminOrganizations: [String!]!
     username: String
     uuid: String
   }
@@ -922,7 +930,7 @@ module.exports = buildSchema(/* GraphQL */ `
     registrationUserAccesses: [RegistrationUserAccess]
     remainingAttendeeCapacity: Int
     remainingWaitingListCapacity: Int
-    signups: [Enrolment]
+    signups: [Signup]
     waitingListCapacity: Int
     # @id is renamed as atId so it's usable on GraphQl
     atId: String!
@@ -942,25 +950,26 @@ module.exports = buildSchema(/* GraphQL */ `
     timestamp: String!
   }
 
-  type EnrolmentPeopleResponse {
-    count: Int
-    people: [Enrolment!]
+  type CreateSignupGroupResponse {
+    extraInfo: String
+    id: ID
+    registration: ID
+    signups: [Signup!]
   }
 
-  type CreateEnrolmentResponse {
-    attending: EnrolmentPeopleResponse
-    waitlisted: EnrolmentPeopleResponse
-  }
-
-  type Enrolment {
+  type Signup {
     id: ID!
     attendeeStatus: AttendeeStatus
     cancellationCode: String
     city: String
+    createdAt: String
+    createdBy: String
     dateOfBirth: String
     email: String
     extraInfo: String
     firstName: String
+    lastModifiedAt: String
+    lastModifiedBy: String
     lastName: String
     membershipNumber: String
     nativeLanguage: String
@@ -968,14 +977,27 @@ module.exports = buildSchema(/* GraphQL */ `
     phoneNumber: String
     presenceStatus: PresenceStatus
     registration: ID
+    responsibleForGroup: Boolean
     serviceLanguage: String
+    signupGroup: ID
     streetAddress: String
     zipcode: String
   }
 
-  type EnrolmentsResponse {
+  type SignupGroup {
+    createdAt: String
+    createdBy: String
+    extraInfo: String
+    id: ID
+    lastModifiedAt: String
+    lastModifiedBy: String
+    registration: ID
+    signups: [Signup]
+  }
+
+  type SignupsResponse {
     meta: Meta!
-    data: [Enrolment!]!
+    data: [Signup!]!
   }
 
   type SendMessageResponse {

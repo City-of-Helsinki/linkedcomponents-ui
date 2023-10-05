@@ -15,7 +15,7 @@ import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../../types';
 import getValue from '../../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
-import { fakeEnrolments } from '../../../../../utils/mockDataUtils';
+import { fakeSignups } from '../../../../../utils/mockDataUtils';
 import {
   act,
   actWait,
@@ -31,11 +31,6 @@ import {
   mockedDataSourceResponse,
   mockedDataSourcesResponse,
 } from '../../../../dataSource/__mocks__/dataSource';
-import {
-  enrolmentId,
-  mockedEnrolmentResponse,
-} from '../../../../enrolment/__mocks__/editEnrolmentPage';
-import { getMockedAttendeesResponse } from '../../../../enrolments/__mocks__/enrolmentsPage';
 import {
   eventName,
   mockedEventResponse,
@@ -98,7 +93,16 @@ import {
   registrationId,
 } from '../../../../registration/__mocks__/editRegistrationPage';
 import { mockedRegistrationsResponse } from '../../../../registrations/__mocks__/registrationsPage';
-import { mockedCreateSeatsReservationResponse } from '../../../../reserveSeats/__mocks__/createSeatsReservation';
+import { mockedCreateSeatsReservationResponse } from '../../../../seatsReservation/__mocks__/createSeatsReservation';
+import {
+  mockedSignupResponse,
+  signupId,
+} from '../../../../signup/__mocks__/editSignupPage';
+import {
+  mockedSignupGroupResponse,
+  signupGroupId,
+} from '../../../../signupGroup/__mocks__/editSignupGroupPage';
+import { getMockedAttendeesResponse } from '../../../../signups/__mocks__/signupsPage';
 import {
   mockedUserResponse,
   mockedUsersResponse,
@@ -113,7 +117,6 @@ const mocks = [
   mockedAttendanceListRegistrationResponse,
   mockedDataSourceResponse,
   mockedDataSourcesResponse,
-  mockedEnrolmentResponse,
   mockedEventResponse,
   mockedBaseDraftEventsResponse,
   mockedBaseWaitingApprovalEventsResponse,
@@ -149,10 +152,12 @@ const mocks = [
   mockedCreateSeatsReservationResponse,
   mockedRegistrationsResponse,
   mockedEventResponse,
+  mockedSignupResponse,
+  mockedSignupGroupResponse,
   mockedUserResponse,
   mockedUsersResponse,
-  getMockedAttendeesResponse(fakeEnrolments(0)),
-  getMockedAttendeesResponse(fakeEnrolments(0), {
+  getMockedAttendeesResponse(fakeSignups(0)),
+  getMockedAttendeesResponse(fakeSignups(0), {
     attendeeStatus: AttendeeStatus.Waitlisted,
   }),
 ];
@@ -306,45 +311,57 @@ it('should render attendance list page', async () => {
   });
 });
 
-it('should render registration enrolments page', async () => {
+it('should render registration signups page', async () => {
   const { history } = await renderRoute(
-    `${ROUTES.REGISTRATION_ENROLMENTS.replace(
-      ':registrationId',
-      registrationId
-    )}`
+    `${ROUTES.REGISTRATION_SIGNUPS.replace(':registrationId', registrationId)}`
   );
 
   await isPageRendered({
     history,
     pageTitle: `Ilmoittautuneet: ${eventName} - Linked Events`,
-    pathname: `/fi/registrations/${registrationId}/enrolments`,
+    pathname: `/fi/registrations/${registrationId}/signups`,
   });
 });
 
-it('should render create enrolment page', async () => {
+it('should render create signup group page', async () => {
   const { history } = await renderRoute(
-    `${ROUTES.CREATE_ENROLMENT.replace(':registrationId', registrationId)}`
+    `${ROUTES.CREATE_SIGNUP_GROUP.replace(':registrationId', registrationId)}`
   );
 
   await isPageRendered({
     history,
-    pageTitle: 'Lisää osallistuja - Linked Events',
-    pathname: `/fi/registrations/${registrationId}/enrolments/create`,
+    pageTitle: 'Lisää osallistujia - Linked Events',
+    pathname: `/fi/registrations/${registrationId}/signup-group/create`,
   });
 });
 
-it('should render edit enrolment page', async () => {
+it('should render edit signup group page', async () => {
   const { history } = await renderRoute(
-    `${ROUTES.EDIT_REGISTRATION_ENROLMENT.replace(
+    `${ROUTES.EDIT_SIGNUP_GROUP.replace(
       ':registrationId',
       registrationId
-    ).replace(':enrolmentId', enrolmentId)}`
+    ).replace(':signupGroupId', signupGroupId)}`
+  );
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Muokkaa osallistujia - Linked Events',
+    pathname: `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`,
+  });
+});
+
+it('should render edit signup page', async () => {
+  const { history } = await renderRoute(
+    `${ROUTES.EDIT_SIGNUP.replace(':registrationId', registrationId).replace(
+      ':signupId',
+      signupId
+    )}`
   );
 
   await isPageRendered({
     history,
     pageTitle: 'Muokkaa osallistujaa - Linked Events',
-    pathname: `/fi/registrations/${registrationId}/enrolments/edit/${enrolmentId}`,
+    pathname: `/fi/registrations/${registrationId}/signup/edit/${signupId}`,
   });
 });
 

@@ -104,7 +104,7 @@ describe('getOption function', () => {
 
   const testCases: [
     Pick<GetOptionArgs, 'place' | 'showEventAmount'>,
-    OptionType
+    OptionType,
   ][] = [
     [
       {

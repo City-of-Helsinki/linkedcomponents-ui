@@ -13,13 +13,13 @@ import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import { ENROLMENT_ACTIONS } from '../enrolment/constants';
-import EnrolmentAuthenticationNotification from '../enrolment/enrolmentAuthenticationNotification/EnrolmentAuthenticationNotification';
-import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import NotFound from '../notFound/NotFound';
 import { REGISTRATION_INCLUDES } from '../registration/constants';
 import RegistrationInfo from '../registration/registrationInfo/RegistrationInfo';
 import { getRegistrationFields } from '../registration/utils';
+import { SIGNUP_ACTIONS } from '../signup/constants';
+import useRegistrationAndEventData from '../signup/hooks/useRegistrationAndEventData';
+import SignupAuthenticationNotification from '../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
 import styles from './attendanceListPage.module.scss';
 import AttendeeList from './attendeeList/AttendeeList';
 
@@ -51,24 +51,24 @@ const AttendanceListPage: React.FC<AttendanceListPageProps> = ({
           withOffset={true}
         >
           <Breadcrumb
-            items={[
-              { label: t('common.home'), to: ROUTES.HOME },
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
               {
-                label: t('registrationsPage.title'),
-                to: ROUTES.REGISTRATIONS,
+                title: t('registrationsPage.title'),
+                path: ROUTES.REGISTRATIONS,
               },
               {
-                label: t(`editRegistrationPage.title`),
-                to: ROUTES.EDIT_REGISTRATION.replace(
+                title: t(`editRegistrationPage.title`),
+                path: ROUTES.EDIT_REGISTRATION.replace(
                   ':id',
                   getValue(registration.id, '')
                 ),
               },
-              { active: true, label: t(`attendanceListPage.title`) },
+              { title: t(`attendanceListPage.title`), path: null },
             ]}
           />
-          <EnrolmentAuthenticationNotification
-            action={ENROLMENT_ACTIONS.VIEW}
+          <SignupAuthenticationNotification
+            action={SIGNUP_ACTIONS.UPDATE}
             registration={registration}
           />
           {<RegistrationInfo registration={registration} />}

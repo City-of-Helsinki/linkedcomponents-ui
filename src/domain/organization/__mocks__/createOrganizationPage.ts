@@ -22,6 +22,7 @@ const payload = {
   internalType: ORGANIZATION_INTERNAL_TYPE.NORMAL,
   name: organizationValues.name,
   parentOrganization: organizations.data[0]?.atId,
+  registrationAdminUsers: [],
   regularUsers: [],
   replacedBy: '',
   subOrganizations: [],

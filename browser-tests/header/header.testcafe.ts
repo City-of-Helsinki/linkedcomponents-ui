@@ -48,27 +48,22 @@ test('Header tabs and search input field work', async (t) => {
   await headerSearch.actions.clickSearchInput();
 
   await t.pressKey('enter');
-  await urlUtils.actions.forceReload();
   await urlUtils.expectations.urlChangedToEventSearchPage();
 
   // Events page
   await headerTabs.actions.clickEventsPageTab();
-  await urlUtils.actions.forceReload();
   await urlUtils.expectations.urlChangedToEventsPage();
   // Registrations page
   if (isFeatureEnabled('SHOW_REGISTRATION')) {
     await headerTabs.actions.clickRegistrationsPageTab();
-    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToRegistrationsPage();
   }
   // Admin page
   if (isFeatureEnabled('SHOW_ADMIN')) {
     await headerTabs.actions.clickAdminPageTab();
-    await urlUtils.actions.forceReload();
     await urlUtils.expectations.urlChangedToKeywordsPage();
   }
   // Support page
   await headerTabs.actions.clickSupportPageTab();
-  await urlUtils.actions.forceReload();
   await urlUtils.expectations.urlChangedToSupportPage();
 });

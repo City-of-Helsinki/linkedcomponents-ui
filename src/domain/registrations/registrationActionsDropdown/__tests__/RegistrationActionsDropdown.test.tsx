@@ -21,7 +21,7 @@ import {
   mockedDeleteRegistrationResponse,
   registration,
 } from '../../../registration/__mocks__/editRegistrationPage';
-import { mockedUserResponse } from '../../../user/__mocks__/user';
+import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import RegistrationActionsDropdown, {
   RegistrationActionsDropdownProps,
 } from '../RegistrationActionsDropdown';
@@ -35,7 +35,10 @@ const defaultProps: RegistrationActionsDropdownProps = {
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-const defaultMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
+const defaultMocks = [
+  mockedOrganizationAncestorsResponse,
+  mockedRegistrationUserResponse,
+];
 
 const routes = [`/fi${ROUTES.REGISTRATIONS}`];
 
@@ -50,13 +53,13 @@ const renderComponent = ({
     ...restRenderOptions,
   });
 
-const findElement = (key: 'delete' | 'edit' | 'showEnrolments') => {
+const findElement = (key: 'delete' | 'edit' | 'showSignups') => {
   switch (key) {
     case 'delete':
       return screen.findByRole('button', { name: 'Poista ilmoittautuminen' });
     case 'edit':
       return screen.findByRole('button', { name: 'Muokkaa' });
-    case 'showEnrolments':
+    case 'showSignups':
       return screen.findByRole('button', { name: /näytä ilmoittautuneet/i });
   }
 };
@@ -69,7 +72,7 @@ const getElement = (
     | 'edit'
     | 'markPresent'
     | 'menu'
-    | 'showEnrolments'
+    | 'showSignups'
     | 'toggle'
 ) => {
   switch (key) {
@@ -85,7 +88,7 @@ const getElement = (
       return screen.getByRole('button', { name: 'Merkkaa läsnäolijat' });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
-    case 'showEnrolments':
+    case 'showSignups':
       return screen.getByRole('button', { name: /näytä ilmoittautuneet/i });
     case 'toggle':
       return screen.getByRole('button', { name: /valinnat/i });
@@ -124,7 +127,7 @@ test('should render correct buttons', async () => {
   getElement('copyLink');
   await findElement('delete');
   getElement('edit');
-  getElement('showEnrolments');
+  getElement('showSignups');
 });
 
 test('only copy, copy link and edit buttons should be enabled when user is not logged in', async () => {
@@ -136,8 +139,8 @@ test('only copy, copy link and edit buttons should be enabled when user is not l
   getElement('copy');
   getElement('copyLink');
   getElement('edit');
-  const showEnrolmentsButton = getElement('showEnrolments');
-  expect(showEnrolmentsButton.title).toBe(titleDisabled);
+  const showSignupsButton = getElement('showSignups');
+  expect(showSignupsButton.title).toBe(titleDisabled);
   const deleteButton = getElement('delete');
   expect(deleteButton.title).toBe(titleDisabled);
 });
@@ -160,19 +163,19 @@ test('should route to edit registration page when clicking edit button', async (
   expect(history.location.search).toBe('?returnPath=%2Fregistrations');
 });
 
-test('should route to enrolments page when clicking show enrolments button', async () => {
+test('should route to signups page when clicking show signups button', async () => {
   const user = userEvent.setup();
 
   const { history } = renderComponent();
 
   await openMenu();
 
-  const editButton = await findElement('showEnrolments');
+  const editButton = await findElement('showSignups');
   await user.click(editButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
-      `/fi/registrations/${registration.id}/enrolments`
+      `/fi/registrations/${registration.id}/signups`
     )
   );
   expect(history.location.search).toBe('?returnPath=%2Fregistrations');

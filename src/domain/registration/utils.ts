@@ -28,9 +28,13 @@ import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
 import { getEventFields } from '../event/utils';
-import { isAdminUserInOrganization } from '../organization/utils';
 import {
-  AUTHENTICATION_NOT_NEEDED,
+  hasAdminOrganization,
+  hasRegistrationAdminOrganization,
+  isAdminUserInOrganization,
+  isRegistrationAdminUserInOrganization,
+} from '../organization/utils';
+import {
   REGISTRATION_ACTIONS,
   REGISTRATION_ICONS,
   REGISTRATION_LABEL_KEYS,
@@ -38,7 +42,7 @@ import {
 import {
   getSeatsReservationData,
   isSeatsReservationExpired,
-} from '../reserveSeats/utils';
+} from '../seatsReservation/utils';
 import { REGISTRATION_FIELDS } from './constants';
 import {
   RegistrationFields,
@@ -50,7 +54,7 @@ export const clearRegistrationFormData = (): void => {
   sessionStorage.removeItem(FORM_NAMES.REGISTRATION_FORM);
 };
 
-export const checkCanUserDoAction = ({
+export const checkCanUserDoRegistrationAction = ({
   action,
   organizationAncestors,
   publisher,
@@ -66,24 +70,31 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
-  const adminOrganizations = [...getValue(user?.adminOrganizations, [])];
+  const isRegistrationAdminUser = isRegistrationAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
+
+  const hasAdminOrg =
+    hasAdminOrganization(user) || hasRegistrationAdminOrganization(user);
 
   switch (action) {
+    case REGISTRATION_ACTIONS.CREATE:
+      return publisher ? isAdminUser || isRegistrationAdminUser : hasAdminOrg;
     case REGISTRATION_ACTIONS.COPY:
     case REGISTRATION_ACTIONS.COPY_LINK:
     case REGISTRATION_ACTIONS.EDIT:
-      return true;
-    case REGISTRATION_ACTIONS.CREATE:
-      return publisher ? isAdminUser : !!adminOrganizations.length;
     case REGISTRATION_ACTIONS.DELETE:
-    case REGISTRATION_ACTIONS.SHOW_ENROLMENTS:
-    case REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST:
     case REGISTRATION_ACTIONS.UPDATE:
-      return isAdminUser;
+      return isAdminUser || isRegistrationAdminUser;
+    case REGISTRATION_ACTIONS.SHOW_SIGNUPS:
+    case REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST:
+      return isRegistrationAdminUser;
   }
 };
 
-export const getEditRegistrationWarning = ({
+export const getRegistrationActionWarning = ({
   action,
   authenticated,
   registration,
@@ -96,10 +107,6 @@ export const getEditRegistrationWarning = ({
   t: TFunction;
   userCanDoAction: boolean;
 }): string => {
-  if (AUTHENTICATION_NOT_NEEDED.includes(action)) {
-    return '';
-  }
-
   if (!authenticated) {
     return t('authentication.noRightsUpdateRegistration');
   }
@@ -113,15 +120,15 @@ export const getEditRegistrationWarning = ({
 
   if (
     registration &&
-    hasEnrolments(registration) &&
+    hasSignups(registration) &&
     action === REGISTRATION_ACTIONS.DELETE
   )
-    return t('registration.form.editButtonPanel.warningHasEnrolments');
+    return t('registration.form.editButtonPanel.warningHasSignups');
 
   return '';
 };
 
-export const checkIsEditActionAllowed = ({
+export const checkIsRegistrationActionAllowed = ({
   action,
   authenticated,
   organizationAncestors,
@@ -138,14 +145,14 @@ export const checkIsEditActionAllowed = ({
   t: TFunction;
   user?: UserFieldsFragment;
 }): Editability => {
-  const userCanDoAction = checkCanUserDoAction({
+  const userCanDoAction = checkCanUserDoRegistrationAction({
     action,
     organizationAncestors,
     publisher,
     user,
   });
 
-  const warning = getEditRegistrationWarning({
+  const warning = getRegistrationActionWarning({
     action,
     authenticated,
     registration,
@@ -156,7 +163,7 @@ export const checkIsEditActionAllowed = ({
   return { editable: !warning, warning };
 };
 
-export const getEditButtonProps = ({
+export const getRegistrationActionButtonProps = ({
   action,
   authenticated,
   onClick,
@@ -174,7 +181,7 @@ export const getEditButtonProps = ({
   user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
   const publisher = getValue(registration?.publisher, '');
-  const { editable, warning } = checkIsEditActionAllowed({
+  const { editable, warning } = checkIsRegistrationActionAllowed({
     action,
     authenticated,
     organizationAncestors,
@@ -334,6 +341,7 @@ export const getRegistrationPayload = (
     enrolmentStartTimeDate,
     enrolmentStartTimeTime,
     event,
+    infoLanguages,
     instructions,
     mandatoryFields,
     maximumAttendeeCapacity,
@@ -342,7 +350,7 @@ export const getRegistrationPayload = (
     registrationUserAccesses,
     waitingListCapacity,
   } = formValues;
-  const infoLanguages = ['fi'];
+
   return {
     audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
     audienceMinAge: isNumber(audienceMinAge) ? audienceMinAge : null,
@@ -475,7 +483,7 @@ export const getMaxSeatsAmount = (
   return maxValues.length ? Math.min(...maxValues) : undefined;
 };
 
-export const hasEnrolments = (
+export const hasSignups = (
   registration: RegistrationFieldsFragment
 ): boolean => {
   return Boolean(
@@ -520,30 +528,30 @@ export const getRegistrationWarning = (
   const freeWaitlistCapacity = getFreeWaitingListCapacity(registration);
 
   if (!registrationOpen) {
-    return t('enrolment.warnings.closed');
+    return t('signup.warnings.closed');
   }
 
   if (!registrationPossible) {
-    return t('enrolment.warnings.allSeatsReserved');
+    return t('signup.warnings.allSeatsReserved');
   }
 
   if (attendeeCapacityUsed && !waitingListCapacityUsed) {
     return isNil(freeWaitlistCapacity)
-      ? t('enrolment.warnings.capacityInWaitingListNoLimit')
-      : t('enrolment.warnings.capacityInWaitingList', {
+      ? t('signup.warnings.capacityInWaitingListNoLimit')
+      : t('signup.warnings.capacityInWaitingList', {
           count: freeWaitlistCapacity,
         });
   }
   return '';
 };
 
-export const getEnrolmentLink = (
+export const getSignupLink = (
   registration: RegistrationFieldsFragment,
   locale: Language
 ): string =>
-  `${process.env.REACT_APP_LINKED_REGISTRATIONS_UI_URL}/${locale}/registration/${registration.id}/enrolment/create`;
+  `${process.env.REACT_APP_LINKED_REGISTRATIONS_UI_URL}/${locale}/registration/${registration.id}/signup-group/create`;
 
-export const copyEnrolmentLinkToClipboard = ({
+export const copySignupLinkToClipboard = ({
   locale,
   registration,
   t,
@@ -552,6 +560,6 @@ export const copyEnrolmentLinkToClipboard = ({
   registration: RegistrationFieldsFragment;
   t: TFunction;
 }): void => {
-  copyToClipboard(getEnrolmentLink(registration, locale));
+  copyToClipboard(getSignupLink(registration, locale));
   toast.success(getValue(t('registration.registrationLinkCopied'), ''));
 };

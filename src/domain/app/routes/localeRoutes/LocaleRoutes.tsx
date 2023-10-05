@@ -19,25 +19,27 @@ import AdminPageRoutes from '../adminRoutes/AdminRoutes';
 const AttendanceListPage = React.lazy(
   () => import('../../../attendanceList/AttendanceListPage')
 );
-const CreateEnrolmentPage = React.lazy(
-  () => import('../../../enrolment/CreateEnrolmentPage')
-);
 const CreateEventPage = React.lazy(
   () => import('../../../event/CreateEventPage')
 );
 const CreateRegistrationPage = React.lazy(
   () => import('../../../registration/CreateRegistrationPage')
 );
-const EditEnrolmentPage = React.lazy(
-  () => import('../../../enrolment/EditEnrolmentPage')
+const CreateSignupGroupPage = React.lazy(
+  () => import('../../../signupGroup/CreateSignupGroupPage')
 );
+
 const EditEventPage = React.lazy(() => import('../../../event/EditEventPage'));
 const EditRegistrationPage = React.lazy(
   () => import('../../../registration/EditRegistrationPage')
 );
-const EnrolmentsPage = React.lazy(
-  () => import('../../../enrolments/EnrolmentsPage')
+const EditSignupGroupPage = React.lazy(
+  () => import('../../../signupGroup/EditSignupGroupPage')
 );
+const EditSignupPage = React.lazy(
+  () => import('../../../signup/EditSignupPage')
+);
+const SignupsPage = React.lazy(() => import('../../../signups/SignupsPage'));
 const EventsPage = React.lazy(() => import('../../../events/EventsPage'));
 const EventSearchPage = React.lazy(
   () => import('../../../eventSearch/EventSearchPage')
@@ -130,21 +132,22 @@ const LocaleRoutes: React.FC = () => {
                 element={<RegistrationsPage />}
               />
               <Route
-                path={ROUTES.REGISTRATION_ENROLMENTS}
-                element={<EnrolmentsPage />}
+                path={ROUTES.REGISTRATION_SIGNUPS}
+                element={<SignupsPage />}
               />
               <Route
                 path={ROUTES.ATTENDANCE_LIST}
                 element={<AttendanceListPage />}
               />
               <Route
-                path={ROUTES.CREATE_ENROLMENT}
-                element={<CreateEnrolmentPage />}
+                path={ROUTES.CREATE_SIGNUP_GROUP}
+                element={<CreateSignupGroupPage />}
               />
               <Route
-                path={ROUTES.EDIT_REGISTRATION_ENROLMENT}
-                element={<EditEnrolmentPage />}
+                path={ROUTES.EDIT_SIGNUP_GROUP}
+                element={<EditSignupGroupPage />}
               />
+              <Route path={ROUTES.EDIT_SIGNUP} element={<EditSignupPage />} />
             </>
           )}
           <Route path={ROUTES.LOGOUT} element={<LogoutPage />} />

@@ -73,11 +73,11 @@ const EditPlacePage: React.FC<Props> = ({ place }) => {
       <TitleRow
         breadcrumb={
           <Breadcrumb
-            items={[
-              { label: t('common.home'), to: ROUTES.HOME },
-              { label: t('adminPage.title'), to: ROUTES.ADMIN },
-              { label: t('placesPage.title'), to: ROUTES.PLACES },
-              { active: true, label: t('editPlacePage.title') },
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('adminPage.title'), path: ROUTES.ADMIN },
+              { title: t('placesPage.title'), path: ROUTES.PLACES },
+              { title: t('editPlacePage.title'), path: null },
             ]}
           />
         }

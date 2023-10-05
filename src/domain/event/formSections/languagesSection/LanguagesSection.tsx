@@ -9,7 +9,7 @@ import { ORDERED_LE_DATA_LANGUAGES } from '../../../../constants';
 import { OptionType } from '../../../../types';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
-import useLanguageOptions from '../../../enrolment/hooks/useLanguageOptions';
+import useLanguageOptions from '../../../language/hooks/useLanguageOptions';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 

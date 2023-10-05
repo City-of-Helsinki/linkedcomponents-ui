@@ -21,9 +21,9 @@ import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { RegistrationsLocationState } from '../../registrations/types';
 import useUser from '../../user/hooks/useUser';
 import {
-  copyEnrolmentLinkToClipboard,
   copyRegistrationToSessionStorage,
-  getEditButtonProps,
+  copySignupLinkToClipboard,
+  getRegistrationActionButtonProps,
   getRegistrationFields,
 } from '../utils';
 
@@ -62,9 +62,9 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     navigate(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
   };
 
-  const goToRegistrationEnrolmentsPage = () => {
+  const goToRegistrationSignupsPage = () => {
     navigate({
-      pathname: `/${locale}${ROUTES.REGISTRATION_ENROLMENTS.replace(
+      pathname: `/${locale}${ROUTES.REGISTRATION_SIGNUPS.replace(
         ':registrationId',
         id
       )}`,
@@ -89,7 +89,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     action: REGISTRATION_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps => {
-    return getEditButtonProps({
+    return getRegistrationActionButtonProps({
       action,
       authenticated,
       onClick,
@@ -120,8 +120,8 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const actionItems: MenuItemOptionProps[] = [
     getActionItemProps({
-      action: REGISTRATION_ACTIONS.SHOW_ENROLMENTS,
-      onClick: goToRegistrationEnrolmentsPage,
+      action: REGISTRATION_ACTIONS.SHOW_SIGNUPS,
+      onClick: goToRegistrationSignupsPage,
     }),
     getActionItemProps({
       action: REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST,
@@ -134,7 +134,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionItemProps({
       action: REGISTRATION_ACTIONS.COPY_LINK,
       onClick: () => {
-        copyEnrolmentLinkToClipboard({ locale, registration, t });
+        copySignupLinkToClipboard({ locale, registration, t });
       },
     }),
     getActionItemProps({

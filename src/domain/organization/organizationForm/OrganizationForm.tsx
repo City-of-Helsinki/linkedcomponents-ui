@@ -227,7 +227,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
         const disabledIfOrganization = !isEditingAllowed || !!organization;
 
         return (
-          <Form className={styles.form} noValidate={true}>
+          <Form noValidate={true}>
             <OrganizationAuthenticationNotification action={action} id={id} />
 
             <ServerErrorSummary errors={serverErrorItems} />
@@ -278,6 +278,17 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 disabled={!isEditingAllowed}
                 label={t(`organization.form.labelAdminUsers`)}
                 name={ORGANIZATION_FIELDS.ADMIN_USERS}
+              />
+            </FormRow>
+            <FormRow>
+              <Field
+                alignedLabel
+                className={styles.alignedSelect}
+                clearable
+                component={UserSelectorField}
+                disabled={!isEditingAllowed}
+                label={t(`organization.form.labelRegistrationAdminUsers`)}
+                name={ORGANIZATION_FIELDS.REGISTRATION_ADMIN_USERS}
               />
             </FormRow>
             <FormRow>

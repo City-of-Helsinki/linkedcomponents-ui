@@ -3,8 +3,8 @@ import { useLocation, useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
-import useRegistrationAndEventData from '../enrolment/hooks/useRegistrationAndEventData';
 import NotFound from '../notFound/NotFound';
+import useRegistrationAndEventData from '../signup/hooks/useRegistrationAndEventData';
 import RegistrationForm from './registrationForm/RegistrationForm';
 import styles from './registrationPage.module.scss';
 

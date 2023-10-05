@@ -25,6 +25,7 @@ const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       <ClassNames>
         {({ css, cx }) => (
           <HdsNumberInput
+            crossOrigin={undefined}
             {...props}
             ref={ref}
             className={cx(className, styles.numberInput, css(theme.textEditor))}

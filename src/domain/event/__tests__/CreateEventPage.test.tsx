@@ -143,7 +143,7 @@ const getElement = (
       });
     case 'superEvent':
       return screen.getByRole('combobox', {
-        name: new RegExp('Kattotapahtuma'),
+        name: /Kattotapahtuma/,
       });
   }
 };
@@ -165,7 +165,7 @@ const findElement = (
     case 'superEvent':
       return screen.findByRole(
         'combobox',
-        { name: new RegExp('Kattotapahtuma') },
+        { name: /Kattotapahtuma/ },
         { timeout: 10000 }
       );
   }
@@ -354,9 +354,8 @@ test('should focus to first main category checkbox if none main category is sele
   await waitLoadingAndFindNameInput();
 
   const withinMainCategories = within(getElement('mainCategories'));
-  const keywordCheckbox = await withinMainCategories.findByLabelText(
-    keywordName
-  );
+  const keywordCheckbox =
+    await withinMainCategories.findByLabelText(keywordName);
 
   const publishButton = getElement('publish');
   await user.click(publishButton);

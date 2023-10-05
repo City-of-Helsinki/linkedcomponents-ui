@@ -18,7 +18,7 @@ import NotSigned from '../notSigned/NotSigned';
 import RegistrationAuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import {
   clearRegistrationFormData,
-  getEditButtonProps,
+  getRegistrationActionButtonProps,
 } from '../registration/utils';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_ACTIONS } from './constants';
@@ -43,7 +43,7 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
     navigate(`/${locale}${ROUTES.CREATE_REGISTRATION}`);
   };
 
-  const buttonProps = getEditButtonProps({
+  const buttonProps = getRegistrationActionButtonProps({
     action: REGISTRATION_ACTIONS.CREATE,
     authenticated,
     onClick: goToCreateRegistrationPage,
@@ -62,9 +62,9 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
         <TitleRow
           breadcrumb={
             <Breadcrumb
-              items={[
-                { label: t('common.home'), to: ROUTES.HOME },
-                { active: true, label: t('registrationsPage.title') },
+              list={[
+                { title: t('common.home'), path: ROUTES.HOME },
+                { title: t('registrationsPage.title'), path: null },
               ]}
             />
           }

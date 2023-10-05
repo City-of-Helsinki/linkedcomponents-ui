@@ -202,7 +202,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
               publisher={values.publisher}
               showImageSelector={false}
             />
-            <Form className={styles.form} noValidate={true}>
+            <Form noValidate={true}>
               <ImageAuthenticationNotification
                 action={action}
                 publisher={publisher}

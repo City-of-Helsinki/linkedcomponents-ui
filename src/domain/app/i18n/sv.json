@@ -23,8 +23,6 @@
     "networkError": {
       "message": "Ett fel har uppstått vid inloggningen: Kontrollera din nätförbindelse och försök igen."
     },
-    "noRightsUpdateEnrolment": "Du har inte behörighet att redigera deltagare.",
-    "noRightsUpdateEnrolmentLabel": "Inga rättigheter att redigera deltagare",
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
     "noRightsUpdateImage": "Du har inte behörighet att redigera bilder.",
@@ -38,7 +36,11 @@
     "noRightsUpdatePlace": "Du har inte behörighet att redigera platser.",
     "noRightsUpdatePlaceLabel": "Inga rättigheter att redigera platser",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
-    "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar"
+    "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar",
+    "noRightsUpdateSignup": "Du har inte behörighet att redigera deltagare.",
+    "noRightsUpdateSignupLabel": "Inga rättigheter att redigera deltagare",
+    "noRightsUpdateSignupGroup": "Du har inte behörighet att redigera deltagare.",
+    "noRightsUpdateSignupGroupLabel": "Inga rättigheter att redigera deltagare"
   },
   "authenticationMethod": {
     "espooEmployee": "Stad Esbo anställd ID",
@@ -77,10 +79,6 @@
       "toggleButtonAriaLabel": "Menyn"
     },
     "cookieConsent": {
-      "enrolmentForm": {
-        "description": "Cookien som krävs för att spara deltagande formulär data",
-        "name": "Cookie för deltagande formulär"
-      },
       "eventForm": {
         "description": "Cookien som krävs för att spara evenemang formulär data",
         "name": "Cookie för evenemang formulär"
@@ -91,6 +89,10 @@
       "registrationForm": {
         "description": "Cookien som krävs för att spara registrering formulär data",
         "name": "Cookie för registrering formulär"
+      },
+      "signupForm": {
+        "description": "Cookien som krävs för att spara deltagande formulär data",
+        "name": "Cookie för deltagande formulär"
       },
       "siteName": "Linked Events"
     },
@@ -242,9 +244,6 @@
     },
     "warning": "Varning!"
   },
-  "createEnrolmentPage": {
-    "pageTitle": "Lägg till deltagare"
-  },
   "createEventPage": {
     "pageTitle": {
       "course": "Nytt kurs",
@@ -286,8 +285,9 @@
     "pageTitle": "Ny registrering",
     "title": "Ny registrering"
   },
-  "editEnrolmentPage": {
-    "pageTitle": "Redigera deltagare"
+  "createSignupGroupPage": {
+    "pageTitle": "Lägg till deltagare",
+    "title": "Lägg till deltagare"
   },
   "editEventPage": {
     "title": {
@@ -320,132 +320,12 @@
     "pageTitle": "Redigera registrering",
     "title": "Redigera registrering"
   },
-  "enrolment": {
-    "attendeeStatus": {
-      "attending": "Deltar",
-      "waitlisted": "På väntelista"
-    },
-    "cancelEnrolmentModal": {
-      "buttonCancel": "Avbryt registreringen",
-      "text1": "Denna operation kan inte ångras.",
-      "text2": "Följande registreringar kommer att raderas",
-      "title": "Är du säker på att du vill avbryta registreringen?"
-    },
-    "deleteParticipantModal": {
-      "buttonDelete": "Ta bort deltagare",
-      "buttonDelete_other": "Ta bort deltagare",
-      "text1": "Är du säker på att du vill ta bort deltagaren? Deltagarens reservationer tas också bort.",
-      "text1_other": "Är du säker på att du vill ta bort deltagare? Deltagarnas reservationer tas också bort.",
-      "text2": "Denna operation kan inte ångras.",
-      "title": "Bekräfta borttagning av deltagare",
-      "title_other": "Bekräfta borttagning av deltagare"
-    },
-    "form": {
-      "attendeeDefaultTitle": "Deltagare {{index}}",
-      "buttonDeleteAttendee": "Ta bort deltagare",
-      "buttonSave": "Spara deltagare",
-      "buttonUpdateParticipantAmount": "Uppdatera",
-      "freeAttendeeCapacity": "Tillgängliga platser",
-      "freeWaitingListCapacity": "Tillgängliga väntelistplatser",
-      "labelAttendeeExtraInfo": "Ytterligare information (valfritt)",
-      "labelCity": "Staden",
-      "labelDateOfBirth": "Födelsedatum",
-      "labelEmail": "E-postadress",
-      "labelExtraInfo": "Ytterligare registreringsinformation (valfritt)",
-      "labelFirstName": "Förnamn",
-      "labelLastName": "Efternamn",
-      "labelMembershipNumber": "Medlemskortnummer (valfritt)",
-      "labelNativeLanguage": "Modersmål",
-      "labelParticipantAmount": "Antal registrerade",
-      "labelPhoneNumber": "Telefonnummer",
-      "labelRegistration": "Registrering",
-      "labelServiceLanguage": "Transaktionsspråk",
-      "labelStreetAddress": "Gatuadress",
-      "labelZipcode": "Postnummer",
-      "notificationTitleCannotEdit": "Deltagaren kan inte redigeras",
-      "placeholderAttendeeExtraInfo": "Ange ytterligare information eller begäran",
-      "placeholderCity": "Ange staden",
-      "placeholderEmail": "Skriv in din mailadress",
-      "placeholderExtraInfo": "Ange ytterligare information eller begäran",
-      "placeholderFirstName": "Ange registrantens förnamn",
-      "placeholderLastName": "Ange registrantens efternamn",
-      "placeholderMembershipNumber": "Ange medlemskortets nummer",
-      "placeholderNativeLanguage": "Välj modersmål",
-      "placeholderPhoneNumber": "+358 44 1234 567",
-      "placeholderServiceLanguage": "Välj transaktionsspråk",
-      "placeholderStreetAddress": "Ange en gatuadress",
-      "placeholderZipcode": "Ange postnummer",
-      "timeLeft": "Tid kvar att registrera sig",
-      "titleAdditionalInfo": "Ytterligare information",
-      "titleBasicInfo": "Grundläggande information om registranten",
-      "titleContactInfo": "Kontaktinformation",
-      "titleInformantInfo": "Information om uppgiftslämnaren",
-      "titleNotifications": "Evenemangmeddelanden",
-      "titleRegistration": "Registrering"
-    },
-    "inWaitingList": {
-      "text": "På väntelista",
-      "tooltip": "Deltagare har lagts till i kön av anmälda med reservplats. Anmälan bekräftas först när en plats i kön blir ledig. Du får ett meddelande via e-post om att platsen är bekräftad."
-    },
-    "notifications": {
-      "email": "Via e-post",
-      "sms": "Med sms"
-    },
-    "personsAddedToWaitingListModal": {
-      "buttonClose": "Stänga",
-      "text": "Observera att inte alla anmäldas platser är garanterade. Deltagare på reservplatsen bekräftas endast om fler platser blir lediga i kön. Du kommer att få ett separat e-postmeddelande från bekräftad registrering.",
-      "title": "Deltagare har lagts till i bokningskön"
-    },
-    "reservationTimeExpiredModal": {
-      "buttonTryAgain": "Försök igen",
-      "text": "Tyvärr har bokningstiden gått ut.",
-      "title": "Tiden är ute."
-    },
-    "sendMessageModal": {
-      "buttonSendMessage": "Skicka meddelande",
-      "labelBody": "Meddelande",
-      "labelSubject": "Ämne",
-      "placeholderBody": "Ange meddelande",
-      "placeholderSubject": "Ange ämne",
-      "title": "Skicka ett meddelande till deltagarna",
-      "titleSingle": "Skicka ett meddelande till deltagaren"
-    },
-    "warnings": {
-      "allSeatsReserved": "Alla platser i evenemanget är för närvarande bokade. Vänligen försök igen senare.",
-      "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
-      "capacityInWaitingList_other": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",
-      "capacityInWaitingListNoLimit": "Registrering till detta evenemang är fortfarande möjlig, men det finns endast platser kvar i kön.",
-      "closed": "Registreringen för detta evenemang är för närvarande stängd. Vänligen försök igen senare."
-    }
+  "editSignupPage": {
+    "pageTitle": "Redigera deltagare"
   },
-  "enrolmentsPage": {
-    "actionButtons": {
-      "cancel": "Avbryt deltagande",
-      "edit": "Redigera information",
-      "sendMessage": "Skicka ett meddelande"
-    },
-    "attendeeTableCaption": "Deltagarna",
-    "attendeeTableHeading": "Deltagarna",
-    "buttonClearFilters": "Töm sökfilter",
-    "enrolmentsTableColumns": {
-      "email": "E-post",
-      "name": "Name",
-      "phone": "Telefonnummer",
-      "status": "Status"
-    },
-    "pageTitle": "Anmälningar: {{name}}",
-    "searchPanel": {
-      "buttonCreate": "Lägg till deltagare",
-      "buttonSearch": "Filtrera",
-      "labelSearch": "Filtrera registreringar",
-      "placeholderSearch": "Filtrera registreringar"
-    },
-    "title": "Anmälningar",
-    "waitingListTableCaption": "Väntelista",
-    "waitingListTableHeading": "Väntelista",
-    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta deltagare.",
-    "warningNoRightsToView": "Du har inte tillräckliga rättigheter att se deltagare i denna registrering."
+  "editSignupGroupPage": {
+    "pageTitle": "Redigera deltagare",
+    "title": "Redigera deltagare"
   },
   "errors": {
     "authorizationRequired": "Logga in för att använda den här funktionen",
@@ -1679,6 +1559,7 @@
       "labelName": "Namn",
       "labelOriginId": "Ursprungs-ID",
       "labelParentOrganization": "Föräldraorganisation",
+      "labelRegistrationAdminUsers": "Registrering admin användare",
       "labelRegularUsers": "Regelbundna användare",
       "labelReplacedBy": "Ersatt av",
       "notificationTitleCannotEdit": "Organisation kan inte redigeras"
@@ -1798,7 +1679,7 @@
         "warningNotAuthenticated": "För att skapa en registrering, logga in först."
       },
       "editButtonPanel": {
-        "warningHasEnrolments": "Registreringar med deltagare kan inte raderas.",
+        "warningHasSignups": "Registreringar med deltagare kan inte raderas.",
         "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa registreringar.",
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
       },
@@ -1854,7 +1735,7 @@
       "delete": "Radera registrering",
       "edit": "Redigera",
       "editAttendanceList": "Märk de närvarande",
-      "showEnrolments": "Visa deltagare",
+      "showSignups": "Visa deltagare",
       "update": "Spara ändringar"
     },
     "buttonClearFilters": "Töm sökfilter",
@@ -1864,11 +1745,11 @@
     "pageTitle": "Registrering",
     "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
     "registrationsTableColumns": {
-      "enrolments": "Deltagarna",
       "enrolmentEndTime": "Slutar",
       "enrolmentStartTime": "Börjar",
       "name": "Namn",
       "publisher": "Utgivare",
+      "signups": "Deltagarna",
       "waitingList": "Väntelista"
     },
     "searchPanel": {
@@ -1912,5 +1793,148 @@
     "required": "Det här fältet kan inte lämnas tomt.",
     "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",
     "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre."
+  },
+  "signup": {
+    "attendeeStatus": {
+      "attending": "Deltar",
+      "waitlisted": "På väntelista"
+    },
+    "deleteSignupFromFormModal": {
+      "buttonDelete": "Ta bort deltagare",
+      "buttonDelete_other": "Ta bort deltagare",
+      "text1": "Är du säker på att du vill ta bort deltagaren? Deltagarens reservationer tas också bort.",
+      "text1_other": "Är du säker på att du vill ta bort deltagare? Deltagarnas reservationer tas också bort.",
+      "text2": "Denna operation kan inte ångras.",
+      "title": "Bekräfta borttagning av deltagare",
+      "title_other": "Bekräfta borttagning av deltagare"
+    },
+    "deleteSignupModal": {
+      "buttonCancel": "Avbryt registreringen",
+      "text1": "Denna operation kan inte ångras.",
+      "text2": "Följande registreringar kommer att raderas",
+      "title": "Är du säker på att du vill avbryta registreringen?"
+    },
+    "form": {
+      "buttonDeleteSignup": "Ta bort deltagare",
+      "buttonSave": "Spara deltagare",
+      "buttonUpdateParticipantAmount": "Uppdatera",
+      "freeAttendeeCapacity": "Tillgängliga platser",
+      "freeWaitingListCapacity": "Tillgängliga väntelistplatser",
+      "labelCity": "Staden",
+      "labelDateOfBirth": "Födelsedatum",
+      "labelEmail": "E-postadress",
+      "labelExtraInfo": "Ytterligare registreringsinformation (valfritt)",
+      "labelFirstName": "Förnamn",
+      "labelLastName": "Efternamn",
+      "labelMembershipNumber": "Medlemskortnummer (valfritt)",
+      "labelNativeLanguage": "Modersmål",
+      "labelParticipantAmount": "Antal registrerade",
+      "labelPhoneNumber": "Telefonnummer",
+      "labelRegistration": "Registrering",
+      "labelServiceLanguage": "Transaktionsspråk",
+      "labelSignupExtraInfo": "Ytterligare information (valfritt)",
+      "labelStreetAddress": "Gatuadress",
+      "labelZipcode": "Postnummer",
+      "notificationTitleCannotEdit": "Deltagaren kan inte redigeras",
+      "placeholderCity": "Ange staden",
+      "placeholderEmail": "Skriv in din mailadress",
+      "placeholderExtraInfo": "Ange ytterligare information eller begäran",
+      "placeholderFirstName": "Ange registrantens förnamn",
+      "placeholderLastName": "Ange registrantens efternamn",
+      "placeholderMembershipNumber": "Ange medlemskortets nummer",
+      "placeholderNativeLanguage": "Välj modersmål",
+      "placeholderPhoneNumber": "+358 44 1234 567",
+      "placeholderServiceLanguage": "Välj transaktionsspråk",
+      "placeholderSignupExtraInfo": "Ange ytterligare information eller begäran",
+      "placeholderStreetAddress": "Ange en gatuadress",
+      "placeholderZipcode": "Ange postnummer",
+      "signupDefaultTitle": "Deltagare {{index}}",
+      "timeLeft": "Tid kvar att registrera sig",
+      "titleAdditionalInfo": "Ytterligare information",
+      "titleBasicInfo": "Grundläggande information om registranten",
+      "titleContactInfo": "Kontaktinformation",
+      "titleInformantInfo": "Information om uppgiftslämnaren",
+      "titleNotifications": "Evenemangmeddelanden",
+      "titleRegistration": "Registrering",
+      "titleSignups": "Registrerade personer"
+    },
+    "inWaitingList": {
+      "text": "På väntelista",
+      "tooltip": "Deltagare har lagts till i kön av anmälda med reservplats. Anmälan bekräftas först när en plats i kön blir ledig. Du får ett meddelande via e-post om att platsen är bekräftad."
+    },
+    "notifications": {
+      "email": "Via e-post",
+      "sms": "Med sms"
+    },
+    "personsAddedToWaitingListModal": {
+      "buttonClose": "Stänga",
+      "text": "Observera att inte alla anmäldas platser är garanterade. Deltagare på reservplatsen bekräftas endast om fler platser blir lediga i kön. Du kommer att få ett separat e-postmeddelande från bekräftad registrering.",
+      "title": "Deltagare har lagts till i bokningskön"
+    },
+    "reservationTimeExpiredModal": {
+      "buttonTryAgain": "Försök igen",
+      "text": "Tyvärr har bokningstiden gått ut.",
+      "title": "Tiden är ute."
+    },
+    "sendMessageModal": {
+      "buttonSendMessage": "Skicka meddelande",
+      "labelBody": "Meddelande",
+      "labelSubject": "Ämne",
+      "placeholderBody": "Ange meddelande",
+      "placeholderSubject": "Ange ämne",
+      "title": "Skicka ett meddelande till deltagarna",
+      "titleSingle": "Skicka ett meddelande till deltagaren"
+    },
+    "warnings": {
+      "allSeatsReserved": "Alla platser i evenemanget är för närvarande bokade. Vänligen försök igen senare.",
+      "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
+      "capacityInWaitingList_other": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",
+      "capacityInWaitingListNoLimit": "Registrering till detta evenemang är fortfarande möjlig, men det finns endast platser kvar i kön.",
+      "closed": "Registreringen för detta evenemang är för närvarande stängd. Vänligen försök igen senare."
+    }
+  },
+  "signupGroup": {
+    "actionButtons": {
+      "delete": "Avbryt deltagande",
+      "edit": "Redigera information"
+    },
+    "form": {
+      "buttonCreate": "Rädda deltagare",
+      "buttonUpdate": "Rädda deltagare"
+    },
+    "warnings": {
+      "noRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
+      "noRightsToEdit": "Du har otillräckliga rättigheter att redigera deltagare.",
+      "noRightsToView": "Du har inte tillräckliga rättigheter att se deltagare i denna registrering."
+    }
+  },
+  "signupsPage": {
+    "actionButtons": {
+      "delete": "Avbryt deltagande",
+      "edit": "Redigera information",
+      "sendMessage": "Skicka ett meddelande"
+    },
+    "attendeeTableCaption": "Deltagarna",
+    "attendeeTableHeading": "Deltagarna",
+    "buttonClearFilters": "Töm sökfilter",
+    "pageTitle": "Anmälningar: {{name}}",
+    "searchPanel": {
+      "buttonCreate": "Lägg till deltagare",
+      "buttonSearch": "Filtrera",
+      "labelSearch": "Filtrera registreringar",
+      "placeholderSearch": "Filtrera registreringar"
+    },
+    "signupsTableColumns": {
+      "email": "E-post",
+      "name": "Name",
+      "phone": "Telefonnummer",
+      "status": "Status"
+    },
+    "title": "Anmälningar",
+    "waitingListTableCaption": "Väntelista",
+    "waitingListTableHeading": "Väntelista",
+    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta deltagare.",
+    "warningNoRightsToView": "Du har inte tillräckliga rättigheter att se deltagare i denna registrering."
   }
 }

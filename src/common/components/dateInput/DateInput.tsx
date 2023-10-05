@@ -30,7 +30,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
     const handleBlur: React.FocusEventHandler<HTMLInputElement> = (event) => {
       const dateStr = value ? formatDate(value, DATE_FORMAT) : '';
 
-      onBlur && onBlur(event);
+      onBlur?.(event);
       setInputValue(dateStr);
     };
 
@@ -64,6 +64,7 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
             }}
           >
             <BaseDateInput
+              crossOrigin={undefined}
               {...rest}
               onBlur={handleBlur}
               onChange={handleChange}

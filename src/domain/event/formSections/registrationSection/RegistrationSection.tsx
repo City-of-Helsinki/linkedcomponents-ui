@@ -17,7 +17,7 @@ import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import Section from '../../../app/layout/section/Section';
 import useOrganizationAncestors from '../../../organization/hooks/useOrganizationAncestors';
-import { checkCanUserDoAction } from '../../../registration/utils';
+import { checkCanUserDoRegistrationAction } from '../../../registration/utils';
 import { REGISTRATION_ACTIONS } from '../../../registrations/constants';
 import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS } from '../../constants';
@@ -66,7 +66,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({ event }) => {
   if (
     event.superEventType === null &&
     event.publicationStatus === PublicationStatus.Public &&
-    checkCanUserDoAction({
+    checkCanUserDoRegistrationAction({
       action: REGISTRATION_ACTIONS.CREATE,
       organizationAncestors,
       publisher: getValue(publisher, ''),

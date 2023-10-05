@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import pascalCase from '../../../utils/pascalCase';
-import { ATTENDEE_FIELDS, ENROLMENT_FIELDS } from '../../enrolment/constants';
+import {
+  SIGNUP_FIELDS,
+  SIGNUP_GROUP_FIELDS,
+} from '../../signupGroup/constants';
 import { REGISTRATION_MANDATORY_FIELDS } from '../constants';
 
 type UseMandatoryFieldOptionsState = {
@@ -21,10 +24,12 @@ const useMandatoryFieldOptions = (): UseMandatoryFieldOptionsState => {
       contactMandatoryFieldOptions: getValue(
         (Object.values(REGISTRATION_MANDATORY_FIELDS) as string[])
           .filter((o) =>
-            (Object.values(ENROLMENT_FIELDS) as string[]).includes(camelCase(o))
+            (Object.values(SIGNUP_GROUP_FIELDS) as string[]).includes(
+              camelCase(o)
+            )
           )
           .map((o) => ({
-            label: t(`enrolment.form.label${pascalCase(o)}`),
+            label: t(`signup.form.label${pascalCase(o)}`),
             value: o,
           })),
         []
@@ -32,10 +37,10 @@ const useMandatoryFieldOptions = (): UseMandatoryFieldOptionsState => {
       personMandatoryFieldOptions: getValue(
         (Object.values(REGISTRATION_MANDATORY_FIELDS) as string[])
           .filter((o) =>
-            (Object.values(ATTENDEE_FIELDS) as string[]).includes(camelCase(o))
+            (Object.values(SIGNUP_FIELDS) as string[]).includes(camelCase(o))
           )
           .map((o) => ({
-            label: t(`enrolment.form.label${pascalCase(o)}`),
+            label: t(`signup.form.label${pascalCase(o)}`),
             value: o,
           })),
         []

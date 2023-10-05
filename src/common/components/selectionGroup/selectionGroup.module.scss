@@ -1,0 +1,45 @@
+@import '../../../assets/styles/breakpoints.scss';
+@import '../../../assets/styles/mixins.scss';
+
+.selectionGroup {
+  > legend {
+    @include hidden-from-screen;
+  }
+
+  > div {
+    display: grid;
+    align-items: flex-start;
+    grid-gap: var(--spacing-s);
+  }
+
+  &.columns2 {
+    > div {
+      @include medium_up {
+        grid-gap: var(--spacing-m);
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+
+  &.columns3 {
+    > div {
+      display: grid;
+      align-items: flex-start;
+      grid-gap: var(--spacing-s);
+
+      @include medium_up {
+        grid-gap: var(--spacing-m);
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+
+  &.columns4 {
+    > div {
+      @include medium_up {
+        grid-gap: var(--spacing-m);
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  }
+}

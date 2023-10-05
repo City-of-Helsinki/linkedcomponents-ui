@@ -2,11 +2,11 @@ import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 
 import {
-  PatchEnrolmentDocument,
+  PatchSignupDocument,
   PresenceStatus,
   RegistrationDocument,
 } from '../../../generated/graphql';
-import { fakeEnrolments, fakeRegistration } from '../../../utils/mockDataUtils';
+import { fakeRegistration, fakeSignups } from '../../../utils/mockDataUtils';
 import { event } from '../../event/__mocks__/event';
 import {
   REGISTRATION_INCLUDES,
@@ -19,7 +19,7 @@ const signupNames = range(1, 4).map((i) => ({
   firstName: 'First',
   lastName: `last ${i}`,
 }));
-const signups = fakeEnrolments(
+const signups = fakeSignups(
   signupNames.length,
   signupNames.map(({ firstName, lastName }) => ({ firstName, lastName }))
 ).data;
@@ -43,16 +43,16 @@ const mockedRegistrationResponse: MockedResponse = {
 
 const updatePresentSignupVariables = {
   input: { id: signups[0].id, presenceStatus: PresenceStatus.Present },
-  signup: signups[0].id,
+  id: signups[0].id,
 };
 const updatePresentSignupResponse = {
   data: {
-    updateEnrolment: { ...signups[0], presenceStatus: PresenceStatus.Present },
+    updateSignup: { ...signups[0], presenceStatus: PresenceStatus.Present },
   },
 };
 const mockedUpdatePresentSignupResponse: MockedResponse = {
   request: {
-    query: PatchEnrolmentDocument,
+    query: PatchSignupDocument,
     variables: updatePresentSignupVariables,
   },
   result: updatePresentSignupResponse,
@@ -60,11 +60,11 @@ const mockedUpdatePresentSignupResponse: MockedResponse = {
 
 const updateNotPresentSignupVariables = {
   input: { id: signups[0].id, presenceStatus: PresenceStatus.NotPresent },
-  signup: signups[0].id,
+  id: signups[0].id,
 };
 const updateNotPresentSignupResponse = {
   data: {
-    updateEnrolment: {
+    updateSignup: {
       ...signups[0],
       presenceStatus: PresenceStatus.NotPresent,
     },
@@ -72,7 +72,7 @@ const updateNotPresentSignupResponse = {
 };
 const mockedUpdateNotPresentSignupResponse: MockedResponse = {
   request: {
-    query: PatchEnrolmentDocument,
+    query: PatchSignupDocument,
     variables: updateNotPresentSignupVariables,
   },
   result: updateNotPresentSignupResponse,
@@ -80,7 +80,7 @@ const mockedUpdateNotPresentSignupResponse: MockedResponse = {
 
 const mockedInvalidUpdateSignupResponse: MockedResponse = {
   request: {
-    query: PatchEnrolmentDocument,
+    query: PatchSignupDocument,
     variables: updatePresentSignupVariables,
   },
   error: {

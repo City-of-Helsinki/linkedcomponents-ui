@@ -75,7 +75,7 @@ export const transformNumber = (
 ): number | null => (String(originalValue).trim() === '' ? null : value);
 
 export const isValidPhoneNumber = (phone: string): boolean =>
-  /^\+?\(?\d{1,3}\)? ?-?\d{1,3} ?-?\d{3,5} ?-?\d{4}( ?-?\d{3})?/.test(phone);
+  /^\+?\(?\d{1,3}\)? ?-?\d{1,3} ?-?\d{3,5} ?-?\d{3,4}( ?-?\d{3})?/.test(phone);
 
 export const isValidDateText = (date?: string): boolean => {
   return date
@@ -108,7 +108,7 @@ export const isAfterStartDateAndTime = (
   const [startDate, startTimeStr, endTimeStr] = values as [
     Date | null,
     string,
-    string
+    string,
   ];
 
   /* istanbul ignore else */

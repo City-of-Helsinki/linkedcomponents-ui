@@ -28,6 +28,12 @@ const mockedUserResponse = getMockedUserResponse({
   organization: TEST_PUBLISHER_ID,
 });
 
+const mockedRegistrationUserResponse = getMockedUserResponse({
+  displayName: userName,
+  organization: TEST_PUBLISHER_ID,
+  registrationAdminOrganizations: [TEST_PUBLISHER_ID],
+});
+
 const mockedUserWithoutOrganizationsResponse = getMockedUserResponse({
   organization: '',
   adminOrganizations: [],
@@ -52,6 +58,7 @@ const mockedUsersResponse = {
 
 export {
   getMockedUserResponse,
+  mockedRegistrationUserResponse,
   mockedUserResponse,
   mockedUsersResponse,
   mockedUserWithoutOrganizationsResponse,

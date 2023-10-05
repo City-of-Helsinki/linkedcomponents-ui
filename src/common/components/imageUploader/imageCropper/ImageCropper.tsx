@@ -2,7 +2,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ReactCrop, {
+import ImageCrop, {
   centerCrop,
   Crop,
   makeAspectCrop,
@@ -38,7 +38,7 @@ const ImageCropper: React.FC<Props> = ({ imgUrl, onChange }) => {
   };
 
   return (
-    <ReactCrop
+    <ImageCrop
       style={{ minWidth: '100%' }}
       ariaLabels={{
         cropArea: t('common.imageUploader.cropArea'),
@@ -66,7 +66,7 @@ const ImageCropper: React.FC<Props> = ({ imgUrl, onChange }) => {
         src={imgUrl}
         onLoad={onImageLoad}
       />
-    </ReactCrop>
+    </ImageCrop>
   );
 };
 export default ImageCropper;

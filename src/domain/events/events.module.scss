@@ -1,15 +1,9 @@
-@import "../../assets/styles/breakpoints.scss";
+@import '../../assets/styles/breakpoints.scss';
 
 .eventsPage {
   display: flex;
   height: 100%;
   flex-direction: column;
-}
-
-.breadcrumb {
-  @include medium-up {
-    margin-bottom: var(--spacing-s) !important;
-  }
 }
 
 .tabPanel {

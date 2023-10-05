@@ -81,8 +81,9 @@ const TextEditor: React.FC<TextEditorProps> = ({
   useEffect(() => {
     if (!debouncedIsFocused) {
       const sanitizedValue = sanitizeAfterBlur
-        ? sanitizeAfterBlur(value)
+        ? sanitizeAfterBlur(value).replaceAll('<br />', '<br>')
         : value;
+
       if (sanitizedValue !== value) {
         onChange(sanitizedValue);
       }

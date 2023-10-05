@@ -1,0 +1,24 @@
+@import '../../../assets/styles/breakpoints';
+
+.emailRow,
+.membershipNumberRow,
+.nativeLanguageRow,
+.notificationLanguageRow {
+  display: grid;
+  grid-gap: var(--spacing-m);
+  grid-template-columns: 1fr;
+
+  @include medium-up {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.signupGroupFormFields {
+  h2 {
+    margin-bottom: calc(0px - var(--spacing-xs));
+  }
+}
+
+.notifications {
+  margin-top: var(--spacing-m);
+}

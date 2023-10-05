@@ -48,7 +48,10 @@ import ConfirmDeleteRegistrationModal from '../modals/confirmDeleteRegistrationM
 import RegistrationInfo from '../registrationInfo/RegistrationInfo';
 import styles from '../registrationPage.module.scss';
 import { RegistrationFormFields } from '../types';
-import { checkCanUserDoAction, getRegistrationInitialValues } from '../utils';
+import {
+  checkCanUserDoRegistrationAction,
+  getRegistrationInitialValues,
+} from '../utils';
 import { getFocusableFieldId, registrationSchema } from '../validation';
 import getValue from '../../../utils/getValue';
 import GroupSizeSection from '../formSections/groupSizeSection/GroupSizeSection';
@@ -92,7 +95,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
   const publisher = getValue(registration?.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const isEditingAllowed = checkCanUserDoAction({
+  const isEditingAllowed = checkCanUserDoRegistrationAction({
     action,
     organizationAncestors,
     publisher,
@@ -237,22 +240,23 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                     }
                     withOffset={true}
                   >
-                    <Breadcrumb
-                      className={styles.breadcrumb}
-                      items={[
-                        { label: t('common.home'), to: ROUTES.HOME },
-                        {
-                          label: t('registrationsPage.title'),
-                          to: ROUTES.REGISTRATIONS,
-                        },
-                        {
-                          active: true,
-                          label: registration
-                            ? t('editRegistrationPage.title')
-                            : t('createRegistrationPage.title'),
-                        },
-                      ]}
-                    />
+                    <div className={styles.breadcrumb}>
+                      <Breadcrumb
+                        list={[
+                          { title: t('common.home'), path: ROUTES.HOME },
+                          {
+                            title: t('registrationsPage.title'),
+                            path: ROUTES.REGISTRATIONS,
+                          },
+                          {
+                            title: registration
+                              ? t('editRegistrationPage.title')
+                              : t('createRegistrationPage.title'),
+                            path: null,
+                          },
+                        ]}
+                      />
+                    </div>
                     <RegistrationAuthenticationNotification
                       action={action}
                       registration={registration}

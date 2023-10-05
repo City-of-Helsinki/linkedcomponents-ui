@@ -18,8 +18,6 @@ import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../../constants';
 import {
   DataSource,
   DataSourcesResponse,
-  Enrolment,
-  EnrolmentsResponse,
   Event,
   EventsResponse,
   Image,
@@ -37,6 +35,9 @@ import {
   PlacesResponse,
   Registration,
   RegistrationsResponse,
+  Signup,
+  SignupGroup,
+  SignupsResponse,
   UploadImageMutationInput,
   User,
   UsersResponse,
@@ -49,7 +50,6 @@ import { getApiTokenFromStorage } from '../../auth/utils';
 import i18n from '../i18n/i18nInit';
 import {
   addTypenameDataSource,
-  addTypenameEnrolment,
   addTypenameEvent,
   addTypenameImage,
   addTypenameKeyword,
@@ -60,6 +60,8 @@ import {
   addTypenameOrganizationClass,
   addTypenamePlace,
   addTypenameRegistration,
+  addTypenameSignup,
+  addTypenameSignupGroup,
   addTypenameUser,
 } from './utils';
 
@@ -200,6 +202,7 @@ export const createCache = (): InMemoryCache =>
             },
           },
           place: fieldFunction('Place', 'place'),
+          signupGroup: fieldFunction('SignupGroup', 'signupGroup'),
           users: {
             keyArgs: (args) =>
               args ? Object.keys(args).filter((arg) => arg !== 'page') : [],
@@ -300,16 +303,7 @@ const linkedEventsLink = new RestLink({
 
       return data;
     },
-    Enrolment: (enrolment: Enrolment): Enrolment | null =>
-      addTypenameEnrolment(enrolment),
-    EnrolmentsResponse: (data: EnrolmentsResponse): EnrolmentsResponse => {
-      return {
-        meta: addTypenameMeta(data.meta),
-        data: data.data.map(
-          (enrolment) => addTypenameEnrolment(enrolment) as Enrolment
-        ),
-      };
-    },
+
     Event: (event: Event): Event | null => addTypenameEvent(event),
     EventsResponse: (data: EventsResponse): EventsResponse => {
       data.meta = addTypenameMeta(data.meta);
@@ -392,6 +386,15 @@ const linkedEventsLink = new RestLink({
 
       return data;
     },
+    Signup: (signup: Signup): Signup | null => addTypenameSignup(signup),
+    SignupsResponse: (data: SignupsResponse): SignupsResponse => {
+      return {
+        meta: addTypenameMeta(data.meta),
+        data: data.data.map((signup) => addTypenameSignup(signup) as Signup),
+      };
+    },
+    SignupGroup: (signupGroup: SignupGroup): SignupGroup | null =>
+      addTypenameSignupGroup(signupGroup),
     User: (user: User): User | null => addTypenameUser(user),
     UsersResponse: (data: UsersResponse): UsersResponse => {
       data.meta = addTypenameMeta(data.meta);

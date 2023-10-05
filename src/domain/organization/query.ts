@@ -19,6 +19,9 @@ export const QUERY_ORGANIZATION = gql`
     lastModifiedTime
     name
     parentOrganization
+    registrationAdminUsers {
+      ...userFields
+    }
     regularUsers {
       ...userFields
     }

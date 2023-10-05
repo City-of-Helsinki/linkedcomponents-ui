@@ -15,6 +15,7 @@ export const QUERY_USER = gql`
     lastName
     organization
     organizationMemberships
+    registrationAdminOrganizations
     username
     uuid
   }

@@ -14,7 +14,10 @@ import EventSelector, {
 } from '../../eventSelector/EventSelector';
 import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
-type Props = EventSelectorProps & FieldProps<string>;
+type Props = {
+  onChangeCb?: (val: string | null) => void;
+} & EventSelectorProps &
+  FieldProps<string>;
 
 const getEventOption = (
   event: EventFieldsFragment,
@@ -32,6 +35,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
   form,
   helper,
   disabled,
+  onChangeCb,
   ...rest
 }) => {
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
@@ -39,6 +43,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
     name,
     onBlur,
     onChange,
+    onChangeCb,
     value,
   });
 

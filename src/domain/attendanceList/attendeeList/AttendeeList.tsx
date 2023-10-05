@@ -7,18 +7,18 @@ import { toast } from 'react-toastify';
 import Checkbox from '../../../common/components/checkbox/Checkbox';
 import {
   AttendeeStatus,
-  EnrolmentFieldsFragment,
   PresenceStatus,
   RegistrationFieldsFragment,
-  UpdateEnrolmentMutationInput,
-  usePatchEnrolmentMutation,
+  SignupFieldsFragment,
+  UpdateSignupMutationInput,
+  usePatchSignupMutation,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
 import { reportError } from '../../app/sentry/utils';
-import { getEnrolmentFields } from '../../enrolments/utils';
+import { getSignupFields } from '../../signups/utils';
 import useUser from '../../user/hooks/useUser';
 
 type Props = {
@@ -34,16 +34,16 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
   const [search, setSearch] = useState('');
 
   const attendees = orderBy(
-    getValue(registration.signups, []) as EnrolmentFieldsFragment[],
+    getValue(registration.signups, []) as SignupFieldsFragment[],
     ['firstName', 'lastName'],
     ['asc', 'desc']
   ).filter((signup) => signup.attendeeStatus === AttendeeStatus.Attending);
 
   const filteredAttendees = attendees.filter((signup) => {
-    const { firstName, lastName } = getEnrolmentFields({
-      enrolment: signup,
-      registration,
+    const { firstName, lastName } = getSignupFields({
       language: locale,
+      registration,
+      signup,
     });
     const firstLastName = [firstName, lastName].filter(skipFalsyType).join(' ');
     const lastFirstName = [lastName, firstName].filter(skipFalsyType).join(' ');
@@ -54,7 +54,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     );
   });
 
-  const [patchEnrolmentMutation] = usePatchEnrolmentMutation();
+  const [patchSignupMutation] = usePatchSignupMutation();
 
   const savingFinished = () => {
     setSaving(false);
@@ -69,8 +69,8 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
-    payload?: UpdateEnrolmentMutationInput;
-    signup: EnrolmentFieldsFragment;
+    payload?: UpdateSignupMutationInput;
+    signup: SignupFieldsFragment;
   }) => {
     savingFinished();
 
@@ -87,11 +87,11 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     });
   };
 
-  const patchEnrolment = async (
+  const patchSignup = async (
     checked: boolean,
-    signup: EnrolmentFieldsFragment
+    signup: SignupFieldsFragment
   ) => {
-    const payload: UpdateEnrolmentMutationInput = {
+    const payload: UpdateSignupMutationInput = {
       id: signup.id,
       presenceStatus: checked
         ? PresenceStatus.Present
@@ -100,18 +100,15 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     try {
       setSaving(true);
 
-      await patchEnrolmentMutation({
-        variables: {
-          input: payload,
-          signup: signup.id,
-        },
+      await patchSignupMutation({
+        variables: { input: payload, id: signup.id },
       });
 
       savingFinished();
     } catch (error) /* istanbul ignore next */ {
       handleError({
         error,
-        message: 'Failed to patch enrolment presence status',
+        message: 'Failed to patch signup presence status',
         payload,
         signup,
       });
@@ -133,10 +130,10 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
         searchValue={search}
       />
       {filteredAttendees.map((signup) => {
-        const { fullName } = getEnrolmentFields({
-          enrolment: signup,
+        const { fullName } = getSignupFields({
           registration,
           language: locale,
+          signup,
         });
 
         return (
@@ -147,7 +144,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
             label={fullName}
             checked={signup.presenceStatus === PresenceStatus.Present}
             onChange={(e) => {
-              patchEnrolment(e.target.checked, signup);
+              patchSignup(e.target.checked, signup);
             }}
           />
         );

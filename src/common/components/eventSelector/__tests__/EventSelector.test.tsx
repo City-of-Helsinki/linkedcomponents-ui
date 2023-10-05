@@ -62,7 +62,7 @@ const getElement = (key: 'inputField' | 'toggleButton') => {
   }
 };
 
-test('should combobox input value to be selected event', async () => {
+test('combobox input value to should be selected event name', async () => {
   renderComponent();
 
   const inputField = getElement('inputField');

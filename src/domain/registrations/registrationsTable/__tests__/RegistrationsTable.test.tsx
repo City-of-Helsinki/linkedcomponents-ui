@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Registration } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   configure,
   render,
@@ -12,6 +13,7 @@ import {
 } from '../../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import { registrations } from '../../__mocks__/registrationsPage';
 import RegistrationsTable, {
   RegistrationsTableProps,
@@ -22,15 +24,24 @@ configure({ defaultHidden: true });
 const registrationId = getValue(registrations.data[0]?.id, '');
 const registration = registrations.data[0] as Registration;
 
-const mocks = [mockedOrganizationResponse, mockedOrganizationAncestorsResponse];
+const mocks = [
+  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedRegistrationUserResponse,
+];
 
 const defaultProps: RegistrationsTableProps = {
   caption: 'Registrations table',
   registrations: [],
 };
 
+const authContextValue = fakeAuthenticatedAuthContextValue();
+
 const renderComponent = (props?: Partial<RegistrationsTableProps>) =>
-  render(<RegistrationsTable {...defaultProps} {...props} />, { mocks });
+  render(<RegistrationsTable {...defaultProps} {...props} />, {
+    authContextValue,
+    mocks,
+  });
 
 test('should render registrations table', async () => {
   renderComponent();

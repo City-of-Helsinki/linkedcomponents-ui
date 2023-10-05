@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { FieldProps, useField } from 'formik';
 import { IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
@@ -8,38 +7,31 @@ import { OptionType } from '../../../../types';
 import { getErrorText } from '../../../../utils/validationUtils';
 import Button from '../../button/Button';
 import Checkbox from '../../checkbox/Checkbox';
-import { RequiredIndicator } from '../../requiredIndicator/RequiredIndicator';
+import SelectionGroup, {
+  SelectionGroupProps,
+} from '../../selectionGroup/SelectionGroup';
 import styles from './checkboxGroupField.module.scss';
-
-type Columns = 1 | 2 | 3 | 4;
 
 type Props = React.PropsWithChildren<
   {
-    className?: string;
-    columns: Columns;
     disabledOptions: string[];
     errorName?: string;
-    label?: string;
     min: number;
     options: OptionType[];
-    required?: boolean;
     visibleOptionAmount?: number;
   } & FieldProps &
-    React.HTMLProps<HTMLFieldSetElement>
+    SelectionGroupProps
 >;
 
 const CheckboxGroupField: React.FC<Props> = ({
-  className,
   columns = 2,
   disabled,
   disabledOptions,
   field: { name, onBlur, value, ...field },
   form,
   errorName,
-  label,
   min = 0,
   options,
-  required,
   visibleOptionAmount,
   ...rest
 }) => {
@@ -65,44 +57,34 @@ const CheckboxGroupField: React.FC<Props> = ({
 
   return (
     <>
-      <fieldset
-        className={classNames(styles.checkboxGroup, className)}
+      <SelectionGroup
         {...rest}
+        columns={columns}
+        errorText={errorText}
+        id={errorName || name}
       >
-        <legend className={styles.label}>
-          {label} {required && <RequiredIndicator />}
-        </legend>
-        <div
-          id={errorName || name}
-          className={classNames(
-            styles.checkboxsWrapper,
-            styles[`columns${columns}`]
-          )}
-        >
-          {visibleOptions.map((option) => {
-            const checked = Boolean(value?.includes(option.value));
+        {visibleOptions.map((option) => {
+          const checked = Boolean(value?.includes(option.value));
 
-            return (
-              <Checkbox
-                key={option.value}
-                {...field}
-                id={`${name}-${option.value}`}
-                name={name}
-                checked={checked}
-                disabled={
-                  disabled ||
-                  (checked && value.length <= min) ||
-                  disabledOptions?.includes(option.value)
-                }
-                onBlur={handleBlur}
-                value={option.value}
-                label={option.label}
-              />
-            );
-          })}
-        </div>
-        {errorText && <div className={styles.errorText}>{errorText}</div>}
-      </fieldset>
+          return (
+            <Checkbox
+              key={option.value}
+              {...field}
+              id={`${name}-${option.value}`}
+              name={name}
+              checked={checked}
+              disabled={
+                disabled ||
+                (checked && value.length <= min) ||
+                disabledOptions?.includes(option.value)
+              }
+              onBlur={handleBlur}
+              value={option.value}
+              label={option.label}
+            />
+          );
+        })}
+      </SelectionGroup>
       {visibleOptionAmount && options.length > visibleOptionAmount && (
         <div className={styles.buttonWrapper}>
           <Button

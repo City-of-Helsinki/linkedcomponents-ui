@@ -162,7 +162,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
         const disabledIfKeyword = !isEditingAllowed || !!keyword;
 
         return (
-          <Form className={styles.form} noValidate={true}>
+          <Form noValidate={true}>
             <KeywordAuthenticationNotification
               action={action}
               publisher={publisher}

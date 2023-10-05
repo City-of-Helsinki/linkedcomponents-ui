@@ -4,7 +4,7 @@ UI for Linked Events. Linked Events is a collection of software components and A
 
 ## Prerequisites
 
-1. Node 16 (`nvm use`)
+1. Node 18 (`nvm use`)
 1. Yarn
 
 ## Development with Docker
@@ -176,7 +176,7 @@ Features enabled:
 - Link to the registrations in the header.
 - Link to the registrations in the footer.
 - Registration search, creation and update pages routes.
-- Enrolment search, creation and update pages routes.
+- Signup search, creation and update pages routes.
 
 `REACT_APP_LOCALIZED_IMAGE`:
 

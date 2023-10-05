@@ -115,10 +115,9 @@ const EventsPage: React.FC<Props> = ({ user }) => {
         <TitleRow
           breadcrumb={
             <Breadcrumb
-              className={styles.breadcrumb}
-              items={[
-                { label: t('common.home'), to: ROUTES.HOME },
-                { active: true, label: t(`eventsPage.title`) },
+              list={[
+                { title: t('common.home'), path: ROUTES.HOME },
+                { title: t(`eventsPage.title`), path: null },
               ]}
             />
           }

@@ -13,7 +13,7 @@ describe('expandedOrganizationsReducer function', () => {
   const cases: [
     ExpandedOrganizationsAction,
     ExpandedOrganizationsState,
-    ExpandedOrganizationsState
+    ExpandedOrganizationsState,
   ][] = [
     [
       {

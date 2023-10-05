@@ -39,9 +39,9 @@ const renderApp = async () =>
   });
 
 const acceptAllCookieText =
-  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22eventForm%22%3Atrue%2C%22registrationForm%22%3Atrue%2C%22enrolmentForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22matomo%22%3Atrue%7D';
+  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22eventForm%22%3Atrue%2C%22registrationForm%22%3Atrue%2C%22signupForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22matomo%22%3Atrue%7D';
 const acceptOnlyNecessaryCookieText =
-  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22eventForm%22%3Atrue%2C%22registrationForm%22%3Atrue%2C%22enrolmentForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22matomo%22%3Afalse%7D';
+  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22eventForm%22%3Atrue%2C%22registrationForm%22%3Atrue%2C%22signupForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22matomo%22%3Afalse%7D';
 
 const findElement = (key: 'cookieConsentModal') => {
   switch (key) {
