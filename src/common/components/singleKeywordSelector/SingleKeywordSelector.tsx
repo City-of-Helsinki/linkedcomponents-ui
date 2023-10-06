@@ -42,7 +42,7 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
   value,
   ...rest
 }) => {
-  const timer = React.useRef<NodeJS.Timeout>();
+  const timer = React.useRef<number>();
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');

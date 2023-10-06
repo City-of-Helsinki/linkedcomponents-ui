@@ -33,7 +33,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
   variables,
   ...rest
 }) => {
-  const timer = React.useRef<NodeJS.Timeout>();
+  const timer = React.useRef<number>();
   const { t } = useTranslation();
   const locale = useLocale();
   const [search, setSearch] = useMountedState('');

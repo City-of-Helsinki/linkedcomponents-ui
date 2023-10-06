@@ -52,7 +52,7 @@ const FormikPersist: React.FC<React.PropsWithChildren<PersistProps>> = ({
   }, [formik, saveForm]);
 
   React.useEffect(() => {
-    let timeout: NodeJS.Timeout;
+    let timeout: number;
 
     const maybeState = isSessionStorage
       ? window.sessionStorage.getItem(name)
