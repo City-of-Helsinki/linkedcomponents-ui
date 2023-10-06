@@ -18,9 +18,11 @@ export const hiddenStyles = {
   padding: 0,
 };
 
+export type AdminType = 'admin' | 'any' | 'external' | 'registrationAdmin';
+
 type CommonProps = {
   className?: string;
-  requiredOrganizationType?: 'admin' | 'any' | 'external' | 'registrationAdmin';
+  requiredOrganizationType?: AdminType[];
 };
 
 type OnlyNotAuthenticatedErrorProps = {
@@ -51,7 +53,7 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   getAuthorizationWarning,
   noRequiredOrganizationLabel,
   noRequiredOrganizationText,
-  requiredOrganizationType = 'admin',
+  requiredOrganizationType = ['admin'],
   showOnlyNotAuthenticatedError,
   notAuthenticatedCustomMessage,
 }) => {
@@ -78,19 +80,27 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
     /* istanbul ignore else */
     if (authenticated) {
       const hasRequiredOrganization = () => {
-        if (requiredOrganizationType === 'external') {
+        if (requiredOrganizationType.includes('external')) {
           return true;
         }
 
-        if (requiredOrganizationType === 'admin') {
-          return adminOrganizations.length;
+        if (
+          requiredOrganizationType.includes('admin') &&
+          adminOrganizations.length
+        ) {
+          return true;
         }
 
-        if (requiredOrganizationType === 'registrationAdmin') {
-          return registrationAdminOrganizations.length;
+        if (
+          requiredOrganizationType.includes('registrationAdmin') &&
+          registrationAdminOrganizations.length
+        ) {
+          return true;
         }
 
-        return userOrganizations.length;
+        return (
+          requiredOrganizationType.includes('any') && userOrganizations.length
+        );
       };
 
       if (!hasRequiredOrganization()) {

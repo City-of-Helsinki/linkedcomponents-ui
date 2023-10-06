@@ -4,6 +4,7 @@ import React from 'react';
 
 import { DATA_PROTECTION_URL, ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
+import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   configure,
   render,
@@ -11,6 +12,12 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import {
+  mockedRegistrationUserResponse,
+  mockedRegularUserResponse,
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../../user/__mocks__/user';
 import Footer from '../Footer';
 
 configure({ defaultHidden: true });
@@ -19,13 +26,16 @@ beforeEach(() => {
   i18n.changeLanguage('fi');
 });
 
-const renderComponent = (route = '/fi') =>
-  render(<Footer />, { routes: [route] });
+const renderComponent = ({
+  authContextValue = fakeAuthenticatedAuthContextValue(),
+  mocks = [mockedUserResponse],
+  route = '/fi',
+} = {}) => render(<Footer />, { authContextValue, mocks, routes: [route] });
 
 // TODO: Swedish language is disabled at the moment, so skip this test
 test.skip('matches snapshot', async () => {
   i18n.changeLanguage('sv');
-  const { container } = renderComponent('/sv');
+  const { container } = renderComponent({ route: '/sv' });
 
   screen.getByRole('link', { name: 'Evenemang' });
   expect(container.firstChild).toMatchSnapshot();
@@ -72,7 +82,60 @@ test('should show navigation links and should route to correct page after clicki
   spyWindowOpen.mockRestore();
 });
 
-test('should not show keywords and registrations link when those features are disabled', async () => {
+const registrationAndAdminTabTestCases: {
+  role: string;
+  showRegistrationTab: boolean;
+  showAdminTab: boolean;
+}[] = [
+  { role: 'admin', showAdminTab: true, showRegistrationTab: true },
+  {
+    role: 'registrationAdmin',
+    showAdminTab: false,
+    showRegistrationTab: true,
+  },
+  { role: 'regularUser', showAdminTab: false, showRegistrationTab: false },
+  { role: 'noOrganization', showAdminTab: false, showRegistrationTab: false },
+];
+
+test.each(registrationAndAdminTabTestCases)(
+  'should show admin and registration links if user has sufficient permissions, %p',
+  async ({ role, showAdminTab, showRegistrationTab }) => {
+    setFeatureFlags({
+      LOCALIZED_IMAGE: true,
+      SHOW_ADMIN: true,
+      SHOW_REGISTRATION: true,
+    });
+    const userMocks = {
+      admin: mockedUserResponse,
+      noOrganization: mockedUserWithoutOrganizationsResponse,
+      registrationAdmin: mockedRegistrationUserResponse,
+      regularUser: mockedRegularUserResponse,
+    };
+
+    renderComponent({ mocks: [userMocks[role]] });
+
+    if (showAdminTab) {
+      expect(
+        await screen.findByRole('link', { name: /hallinta/i })
+      ).toBeInTheDocument();
+    } else {
+      expect(
+        screen.queryByRole('link', { name: /hallinta/i })
+      ).not.toBeInTheDocument();
+    }
+    if (showRegistrationTab) {
+      expect(
+        await screen.findByRole('link', { name: /ilmoittautuminen/i })
+      ).toBeInTheDocument();
+    } else {
+      expect(
+        screen.queryByRole('link', { name: /ilmoittautuminen/i })
+      ).not.toBeInTheDocument();
+    }
+  }
+);
+
+test('should not show admin and registration links when those features are disabled', async () => {
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: false,

@@ -1,4 +1,5 @@
 /* eslint-disable import/no-named-as-default-member */
+import { MockedResponse } from '@apollo/client/testing';
 import i18n from 'i18next';
 import React from 'react';
 
@@ -16,15 +17,28 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { AuthContextProps } from '../../../auth/types';
-import { mockedUserResponse, userName } from '../../../user/__mocks__/user';
+import {
+  mockedRegistrationUserResponse,
+  mockedRegularUserResponse,
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+  userName,
+} from '../../../user/__mocks__/user';
 import Header from '../Header';
 
 configure({ defaultHidden: true });
 
-const mocks = [mockedUserResponse];
+const defaultMocks = [mockedUserResponse];
 
-const renderComponent = (authContextValue?: AuthContextProps, route = '/fi') =>
-  render(<Header />, { authContextValue, mocks, routes: [route] });
+const renderComponent = ({
+  authContextValue = fakeAuthenticatedAuthContextValue(),
+  mocks = defaultMocks,
+  route = '/fi',
+}: {
+  authContextValue?: AuthContextProps;
+  mocks?: MockedResponse[];
+  route?: string;
+} = {}) => render(<Header />, { authContextValue, mocks, routes: [route] });
 
 const getElement = (key: 'enOption' | 'menuButton') => {
   switch (key) {
@@ -53,10 +67,13 @@ beforeEach(() => {
   i18n.changeLanguage('fi');
 });
 
+const findUserMenuButton = () =>
+  screen.findByRole('button', { name: userName }, { timeout: 10000 });
+
 // TODO: Skip this test because SV UI language is temporarily disabled
 test.skip('matches snapshot', async () => {
   i18n.changeLanguage('sv');
-  const { container } = renderComponent(undefined, '/sv');
+  const { container } = renderComponent({ route: '/sv' });
 
   expect(container.firstChild).toMatchSnapshot();
 });
@@ -90,7 +107,61 @@ test('should show navigation links and should route to correct page after clicki
   expect(history.location.pathname).toBe(`/fi${ROUTES.HOME}`);
 });
 
-test('should not show keywords and registrations link when those features are disabled', async () => {
+const registrationAndAdminTabTestCases: {
+  role: string;
+  showRegistrationTab: boolean;
+  showAdminTab: boolean;
+}[] = [
+  { role: 'admin', showAdminTab: true, showRegistrationTab: true },
+  {
+    role: 'registrationAdmin',
+    showAdminTab: false,
+    showRegistrationTab: true,
+  },
+  { role: 'regularUser', showAdminTab: false, showRegistrationTab: false },
+  { role: 'noOrganization', showAdminTab: false, showRegistrationTab: false },
+];
+
+test.each(registrationAndAdminTabTestCases)(
+  'should show admin and registration links if user has sufficient permissions, %p',
+  async ({ role, showAdminTab, showRegistrationTab }) => {
+    setFeatureFlags({
+      LOCALIZED_IMAGE: true,
+      SHOW_ADMIN: true,
+      SHOW_REGISTRATION: true,
+    });
+    const userMocks = {
+      admin: mockedUserResponse,
+      noOrganization: mockedUserWithoutOrganizationsResponse,
+      registrationAdmin: mockedRegistrationUserResponse,
+      regularUser: mockedRegularUserResponse,
+    };
+
+    renderComponent({ mocks: [userMocks[role]] });
+    await findUserMenuButton();
+
+    if (showAdminTab) {
+      expect(
+        await screen.findByRole('link', { name: /hallinta/i })
+      ).toBeInTheDocument();
+    } else {
+      expect(
+        screen.queryByRole('link', { name: /hallinta/i })
+      ).not.toBeInTheDocument();
+    }
+    if (showRegistrationTab) {
+      expect(
+        await screen.findByRole('link', { name: /ilmoittautuminen/i })
+      ).toBeInTheDocument();
+    } else {
+      expect(
+        screen.queryByRole('link', { name: /ilmoittautuminen/i })
+      ).not.toBeInTheDocument();
+    }
+  }
+);
+
+test('should not show admin and registrations link when those features are disabled', async () => {
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: false,
@@ -155,7 +226,7 @@ test('should start login process', async () => {
 
   const signIn = jest.fn();
   const authContextValue = fakeAuthContextValue({ signIn });
-  renderComponent(authContextValue);
+  renderComponent({ authContextValue });
 
   const signInButtons = getElements('signInButton');
   await user.click(signInButtons[0]);
@@ -167,13 +238,9 @@ test('should start logout process', async () => {
 
   const signOut = jest.fn();
   const authContextValue = fakeAuthenticatedAuthContextValue({ signOut });
-  renderComponent(authContextValue);
+  renderComponent({ authContextValue });
 
-  const userMenuButton = await screen.findByRole(
-    'button',
-    { name: userName },
-    { timeout: 10000 }
-  );
+  const userMenuButton = await findUserMenuButton();
   await user.click(userMenuButton);
 
   const signOutLinks = getElements('signOutLink');

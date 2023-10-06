@@ -29,6 +29,7 @@ import Section from '../../app/layout/section/Section';
 import { replaceParamsToEventQueryString } from '../../events/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
+import { areRegistrationRoutesAllowed } from '../../user/permissions';
 import {
   EVENT_ACTIONS,
   EVENT_EXTERNAL_USER_INITIAL_VALUES,
@@ -471,9 +472,10 @@ const EventForm: React.FC<EventFormProps> = ({
               )}
               {event ? (
                 <>
-                  {featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') && (
-                    <RegistrationSection event={event} />
-                  )}
+                  {featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') &&
+                    areRegistrationRoutesAllowed(user) && (
+                      <RegistrationSection event={event} />
+                    )}
                   <Section title={t('event.form.sections.linksToEvents')}>
                     <LinksToEventsSection event={event} />
                   </Section>

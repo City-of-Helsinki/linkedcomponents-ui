@@ -49,6 +49,7 @@ const RegistrationAuthenticationNotification: React.FC<
       noRequiredOrganizationText={t(
         'authentication.noRightsUpdateRegistration'
       )}
+      requiredOrganizationType={['admin', 'registrationAdmin']}
     />
   );
 };

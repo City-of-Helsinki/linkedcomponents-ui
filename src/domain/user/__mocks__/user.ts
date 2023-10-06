@@ -26,18 +26,32 @@ const mockedUserResponse = getMockedUserResponse({
   adminOrganizations: [TEST_PUBLISHER_ID],
   displayName: userName,
   organization: TEST_PUBLISHER_ID,
+  organizationMemberships: [],
+  registrationAdminOrganizations: [],
 });
 
 const mockedRegistrationUserResponse = getMockedUserResponse({
+  adminOrganizations: [],
   displayName: userName,
   organization: TEST_PUBLISHER_ID,
+  organizationMemberships: [],
   registrationAdminOrganizations: [TEST_PUBLISHER_ID],
 });
 
-const mockedUserWithoutOrganizationsResponse = getMockedUserResponse({
-  organization: '',
+const mockedRegularUserResponse = getMockedUserResponse({
   adminOrganizations: [],
+  displayName: userName,
+  organization: TEST_PUBLISHER_ID,
+  organizationMemberships: [TEST_PUBLISHER_ID],
+  registrationAdminOrganizations: [],
+});
+
+const mockedUserWithoutOrganizationsResponse = getMockedUserResponse({
+  adminOrganizations: [],
+  displayName: userName,
+  organization: '',
   organizationMemberships: [],
+  registrationAdminOrganizations: [],
   isExternal: true,
 });
 
@@ -59,6 +73,7 @@ const mockedUsersResponse = {
 export {
   getMockedUserResponse,
   mockedRegistrationUserResponse,
+  mockedRegularUserResponse,
   mockedUserResponse,
   mockedUsersResponse,
   mockedUserWithoutOrganizationsResponse,

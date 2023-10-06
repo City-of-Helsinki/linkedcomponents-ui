@@ -1,15 +1,11 @@
-import { useDebounce } from 'use-debounce';
-
 import { UserFieldsFragment, useUserQuery } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
-import isTestEnv from '../../../utils/isTestEnv';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { isExternalUserWithoutOrganization } from '../../organization/utils';
 import { userPathBuilder } from '../utils';
 
 /* istanbul ignore next */
-const LOADING_USER_DEBOUNCE_TIME = isTestEnv ? 0 : 50;
 
 export type UserState = {
   loading: boolean;
@@ -29,10 +25,7 @@ const useUser = (): UserState => {
     },
   });
 
-  const [loading] = useDebounce(
-    loadingUser || loadingTokens,
-    LOADING_USER_DEBOUNCE_TIME
-  );
+  const loading = loadingUser || loadingTokens;
 
   const ENABLE_EXTERNAL_USER_EVENTS =
     process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
