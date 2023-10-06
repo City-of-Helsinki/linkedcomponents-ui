@@ -10,7 +10,10 @@ import TextInputField from '../../../../common/components/formFields/textInputFi
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import LoadingButton from '../../../../common/components/loadingButton/LoadingButton';
 import { VALIDATION_ERROR_SCROLLER_OPTIONS } from '../../../../constants';
-import { SignupFieldsFragment } from '../../../../generated/graphql';
+import {
+  SignupFieldsFragment,
+  SignupGroupFieldsFragment,
+} from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
 import { showFormErrors } from '../../../../utils/validationUtils';
 import { sendMessageSchema } from '../../../signupGroup/validation';
@@ -22,8 +25,13 @@ export interface SendMessageModalProps {
   isOpen: boolean;
   isSaving: boolean;
   onClose: () => void;
-  onSendMessage: (input: SendMessageFormFields, signups?: string[]) => void;
+  onSendMessage: (options: {
+    signupGroups?: string[];
+    signups?: string[];
+    values: SendMessageFormFields;
+  }) => Promise<void>;
   signup?: SignupFieldsFragment;
+  signupGroup?: SignupGroupFieldsFragment;
 }
 
 const TEXT_EDITOR_FIELDS = [SEND_MESSAGE_FIELDS.BODY];
@@ -58,11 +66,16 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
   onClose,
   onSendMessage,
   signup,
+  signupGroup,
 }) => {
   const { t } = useTranslation();
 
   const submitSendMessage = (values: SendMessageFormFields) => {
-    signup ? onSendMessage(values, [signup.id]) : onSendMessage(values);
+    onSendMessage({
+      signupGroups: signupGroup ? [signupGroup.id as string] : undefined,
+      signups: signup ? [signup.id] : undefined,
+      values,
+    });
   };
 
   const id = 'send-message-modal';
@@ -82,7 +95,7 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
         id={titleId}
         iconLeft={<IconInfoCircle aria-hidden={true} />}
         title={
-          signup
+          signup || signupGroup
             ? t('signup.sendMessageModal.titleSingle')
             : t('signup.sendMessageModal.title')
         }

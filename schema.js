@@ -552,6 +552,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   input SendMessageMutationInput {
     body: String!
+    signupGroups: [String!]
     signups: [String!]
     subject: String!
   }

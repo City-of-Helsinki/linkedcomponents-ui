@@ -28,7 +28,7 @@ import { mockedRegistrationUserResponse } from '../../user/__mocks__/user';
 import {
   mockedDeleteSignupGroupResponse,
   mockedInvalidUpdateSignupGroupResponse,
-  mockedSendMessageResponse,
+  mockedSendMessageToSignupGroupResponse,
   mockedSignupGroupResponse,
   mockedUpdateSignupGroupResponse,
   sendMessageValues,
@@ -165,14 +165,14 @@ test('should initialize input fields', async () => {
   expect(emailCheckbox).toBeChecked();
 });
 
-test('should send message to responsible person', async () => {
+test('should send message to signup group', async () => {
   // Mock getClientRects for ckeditor
   global.Range.prototype.getClientRects = jest
     .fn()
     .mockImplementation(() => []);
 
   const user = userEvent.setup();
-  renderComponent([...defaultMocks, mockedSendMessageResponse]);
+  renderComponent([...defaultMocks, mockedSendMessageToSignupGroupResponse]);
 
   await findElement('firstNameInput');
   const { menu } = await openMenu();

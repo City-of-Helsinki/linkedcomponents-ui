@@ -286,15 +286,14 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
           signupGroup={signupGroup as any}
         />
       )}
-      {responsiblePerson && (
-        <SendMessageModal
-          isOpen={openModal === SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP}
-          isSaving={savingSignup === SIGNUP_ACTIONS.SEND_MESSAGE}
-          onClose={closeModal}
-          onSendMessage={sendMessage}
-          signup={responsiblePerson}
-        />
-      )}
+      <SendMessageModal
+        isOpen={openModal === SIGNUP_MODALS.SEND_MESSAGE_TO_SIGNUP}
+        isSaving={savingSignup === SIGNUP_ACTIONS.SEND_MESSAGE}
+        onClose={closeModal}
+        onSendMessage={sendMessage}
+        signup={signup}
+        signupGroup={signupGroup}
+      />
 
       <Form noValidate>
         <FormikPersist
