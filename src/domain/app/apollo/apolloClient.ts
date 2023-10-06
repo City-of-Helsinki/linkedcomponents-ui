@@ -256,7 +256,7 @@ const linkedEventsLink = new RestLink({
   customFetch: (request: Request | string, config) => {
     if (typeof request === 'string') {
       const requestParts = request
-        .replace(process.env.REACT_APP_LINKED_EVENTS_URL || '', '')
+        .replace(import.meta.env.VITE_LINKED_EVENTS_URL || '', '')
         .split('/')
         .filter((t) => t);
 
@@ -403,7 +403,7 @@ const linkedEventsLink = new RestLink({
       return data;
     },
   },
-  uri: process.env.REACT_APP_LINKED_EVENTS_URL,
+  uri: import.meta.env.VITE_LINKED_EVENTS_URL,
 });
 
 const QUERIES_TO_SHOW_ERROR = ['User'];

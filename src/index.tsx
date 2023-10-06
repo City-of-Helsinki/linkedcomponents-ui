@@ -9,10 +9,10 @@ import { createRoot } from 'react-dom/client';
 
 import App from './domain/app/App';
 
-if (process.env.REACT_APP_SENTRY_ENVIRONMENT) {
+if (import.meta.env.VITE_SENTRY_ENVIRONMENT) {
   Sentry.init({
-    dsn: process.env.REACT_APP_SENTRY_DSN,
-    environment: process.env.REACT_APP_SENTRY_ENVIRONMENT,
+    dsn: import.meta.env.VITE_SENTRY_DSN,
+    environment: import.meta.env.VITE_SENTRY_ENVIRONMENT,
     ignoreErrors: [
       'ResizeObserver loop completed with undelivered notifications',
       'ResizeObserver loop limit exceeded',

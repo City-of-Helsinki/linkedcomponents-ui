@@ -38,7 +38,7 @@ test('should not show notification if user is signed in', async () => {
 
   process.env = {
     ...originalEnv,
-    REACT_APP_ENABLE_EXTERNAL_USER_EVENTS: 'false',
+    VITE_ENABLE_EXTERNAL_USER_EVENTS: 'false',
   };
 
   const mocks = [

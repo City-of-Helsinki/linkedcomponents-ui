@@ -8,10 +8,6 @@ import './test/testI18nInit';
 import '@testing-library/jest-dom';
 import 'jest-localstorage-mock';
 
-import { TextEncoder } from 'util';
-
-global.TextEncoder = TextEncoder;
-
 // Mock scrollTo function
 window.scrollTo = jest.fn();
 
@@ -40,6 +36,6 @@ console.warn = (msg: any, ...optionalParams: any[]) => {
 
 jest.setTimeout(1000000);
 
-process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS = 'true';
-process.env.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION = 'false';
-process.env.REACT_APP_MAINTENANCE_DISABLE_LOGIN = 'false';
+import.meta.env.VITE_ENABLE_EXTERNAL_USER_EVENTS = 'true';
+import.meta.env.VITE_MAINTENANCE_SHOW_NOTIFICATION = 'false';
+import.meta.env.VITE_MAINTENANCE_DISABLE_LOGIN = 'false';

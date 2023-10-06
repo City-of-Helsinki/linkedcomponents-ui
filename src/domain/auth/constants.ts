@@ -1,8 +1,7 @@
 import { ApiTokenReducerState, OidcReducerState } from './types';
 
 export const API_SCOPE =
-  process.env.REACT_APP_OIDC_API_SCOPE ||
-  'https://api.hel.fi/auth/linkedevents';
+  import.meta.env.VITE_OIDC_API_SCOPE || 'https://api.hel.fi/auth/linkedevents';
 
 export enum OidcActionTypes {
   USER_EXPIRED = 'USER_EXPIRED',
