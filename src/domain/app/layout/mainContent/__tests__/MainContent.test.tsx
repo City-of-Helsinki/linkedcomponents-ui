@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { scroller } from 'react-scroll';
+import { vi } from 'vitest';
 
 import { MAIN_CONTENT_ID } from '../../../../../constants';
 import {
@@ -29,14 +30,14 @@ const renderComponent = (
   );
 
 test('should call default scrollTo function', () => {
-  scroller.scrollTo = jest.fn();
+  scroller.scrollTo = vi.fn();
   renderComponent();
 
   expect(scroller.scrollTo).toBeCalledTimes(1);
 });
 
 test('onScrollFn should be called and input should be focused', async () => {
-  const onScrollFn = jest.fn();
+  const onScrollFn = vi.fn();
   renderComponent(onScrollFn);
 
   expect(onScrollFn).toBeCalledTimes(1);
@@ -46,7 +47,7 @@ test('onScrollFn should be called and input should be focused', async () => {
 });
 
 test('onScrollFn should not be called', async () => {
-  const onScrollFn = jest.fn();
+  const onScrollFn = vi.fn();
   renderComponent(onScrollFn, '/fi/test');
 
   expect(onScrollFn).toBeCalledTimes(0);

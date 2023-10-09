@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { render, screen } from '../../../../../utils/testUtils';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
@@ -14,7 +15,7 @@ const initialValues = {
 
 const renderComponent = () =>
   render(
-    <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+    <Formik initialValues={initialValues} onSubmit={vi.fn()}>
       <SummarySection isEditingAllowed={true} />
     </Formik>
   );

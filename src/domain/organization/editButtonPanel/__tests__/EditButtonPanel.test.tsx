@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
@@ -27,7 +28,7 @@ const routes = [route];
 
 const defaultProps: EditButtonPanelProps = {
   id: organizationId,
-  onSave: jest.fn(),
+  onSave: vi.fn(),
   saving: null,
 };
 
@@ -66,7 +67,7 @@ test('should route to organizations page when clicking back button', async () =>
 });
 
 test('should call onSave', async () => {
-  const onSave = jest.fn();
+  const onSave = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onSave });
 

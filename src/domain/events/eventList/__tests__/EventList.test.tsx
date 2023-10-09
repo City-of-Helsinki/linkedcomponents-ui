@@ -1,5 +1,6 @@
 import range from 'lodash/range';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { EventsDocument, Meta } from '../../../../generated/graphql';
 import { fakeEvents } from '../../../../utils/mockDataUtils';
@@ -102,7 +103,7 @@ const defaultProps: EventListContainerProps = {
   activeTab: EVENTS_PAGE_TABS.PUBLISHED,
   baseVariables: variables,
   listType: EVENT_LIST_TYPES.TABLE,
-  setListType: jest.fn(),
+  setListType: vi.fn(),
   showListTypeSelector: true,
   skip: false,
 };

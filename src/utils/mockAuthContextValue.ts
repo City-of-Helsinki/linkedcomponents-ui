@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import merge from 'lodash/merge';
 import { Profile, User } from 'oidc-client';
+import { vi } from 'vitest';
 
 import { TEST_USER_ID } from '../constants';
 import {
@@ -19,8 +20,8 @@ export const authContextDefaultValue: AuthContextProps = {
   ...oidcInitialState,
   isAuthenticated: false,
   isLoading: false,
-  signIn: jest.fn(),
-  signOut: jest.fn(),
+  signIn: vi.fn(),
+  signOut: vi.fn(),
   userManager,
 };
 
@@ -74,7 +75,7 @@ export const fakeOidcUserState = (overrides?: Partial<User>): User =>
       expired: false,
       id_token: '',
       profile: fakeOidcUserProfileState(),
-      toStorageString: jest.fn(),
+      toStorageString: vi.fn(),
       scope: '',
       scopes: [],
       state: null,

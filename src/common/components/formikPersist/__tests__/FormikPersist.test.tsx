@@ -2,6 +2,7 @@
 import { act, render, waitFor } from '@testing-library/react';
 import { Formik, FormikProps } from 'formik';
 import * as React from 'react';
+import { vi } from 'vitest';
 
 import Persist from '../FormikPersist';
 
@@ -9,6 +10,7 @@ beforeEach(() => {
   // values stored in tests will also be available in other tests unless you run
   localStorage.clear();
   sessionStorage.clear();
+  vi.clearAllMocks();
 });
 
 const formName = 'form-name';
@@ -33,15 +35,16 @@ const defaultState = {
 test('attempts to rehydrate on mount', async () => {
   let injected: Partial<FormikProps<{ name: string }>> = {};
 
-  (localStorage.getItem as jest.Mock).mockReturnValueOnce(
+  Storage.prototype.getItem = vi.fn().mockReturnValueOnce(
     JSON.stringify({
       ...defaultState,
       values: { name: 'Name from local storage' },
     })
   );
+  const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
 
   render(
-    <Formik initialValues={{ name: 'Test name' }} onSubmit={jest.fn()}>
+    <Formik initialValues={{ name: 'Test name' }} onSubmit={vi.fn()}>
       {(props: FormikProps<{ name: string }>) => {
         injected = props;
 
@@ -56,7 +59,7 @@ test('attempts to rehydrate on mount', async () => {
     </Formik>
   );
 
-  expect(localStorage.getItem).toHaveBeenCalled();
+  expect(Storage.prototype.getItem).toHaveBeenCalled();
 
   expect(injected.values?.name).toEqual('Name from local storage');
 
@@ -67,7 +70,7 @@ test('attempts to rehydrate on mount', async () => {
   expect(injected.values?.name).toEqual('changed value');
 
   await waitFor(() => {
-    expect(localStorage.setItem).toHaveBeenCalledWith(
+    expect(setItemSpy).toHaveBeenCalledWith(
       formName,
       JSON.stringify({ ...defaultState, values: { name: 'changed value' } })
     );
@@ -77,15 +80,16 @@ test('attempts to rehydrate on mount', async () => {
 test('attempts to rehydrate on mount if session storage is true on props', async () => {
   let injected: Partial<FormikProps<{ name: string }>> = {};
 
-  (sessionStorage.getItem as jest.Mock).mockReturnValueOnce(
+  Storage.prototype.getItem = vi.fn().mockReturnValueOnce(
     JSON.stringify({
       ...defaultState,
       values: { name: 'Name from session storage' },
     })
   );
+  const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
 
   render(
-    <Formik initialValues={{ name: 'Test name' }} onSubmit={jest.fn()}>
+    <Formik initialValues={{ name: 'Test name' }} onSubmit={vi.fn()}>
       {(props: FormikProps<{ name: string }>) => {
         injected = props;
 
@@ -111,7 +115,7 @@ test('attempts to rehydrate on mount if session storage is true on props', async
   expect(injected.values?.name).toEqual('changed value');
 
   await waitFor(() => {
-    expect(sessionStorage.setItem).toHaveBeenCalledWith(
+    expect(setItemSpy).toHaveBeenCalledWith(
       formName,
       JSON.stringify({ ...defaultState, values: { name: 'changed value' } })
     );

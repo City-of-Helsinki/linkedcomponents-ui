@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT, testIds } from '../../../../../constants';
 import { ImageDocument } from '../../../../../generated/graphql';
@@ -100,7 +101,7 @@ const renderComponent = (
         ...defaultInitialValues,
         ...initialValues,
       }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <ImageSection isEditingAllowed={true} />

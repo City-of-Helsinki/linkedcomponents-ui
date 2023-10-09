@@ -3,12 +3,13 @@
 /* eslint @typescript-eslint/explicit-function-return-type: 0 */
 import { render, waitFor } from '@testing-library/react';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { AuthContext, AuthProvider } from '../AuthContext';
 import { OidcActionTypes } from '../constants';
 import { reducers } from '../reducers';
 
-function oidcEvent(fn) {
+function oidcEvent(fn: any) {
   fn();
 }
 
@@ -27,12 +28,12 @@ const events = {
   removeUserUnloaded: () => undefined,
 };
 
-jest.mock('oidc-client', () => {
+vi.mock('oidc-client', () => {
   return {
-    UserManager: jest.fn().mockImplementation(() => {
+    UserManager: vi.fn().mockImplementation(() => {
       return {
-        getUser: jest.fn(),
-        signinRedirect: jest.fn(),
+        getUser: vi.fn(),
+        signinRedirect: vi.fn(),
         events,
       };
     }),
@@ -42,8 +43,8 @@ jest.mock('oidc-client', () => {
 describe('AuthContext', () => {
   it('should sign in', async () => {
     const u = {
-      getUser: jest.fn(async () => undefined),
-      signinRedirect: jest.fn(async () => undefined),
+      getUser: vi.fn(async () => undefined),
+      signinRedirect: vi.fn(async () => undefined),
       events,
     } as any;
 
@@ -63,11 +64,11 @@ describe('AuthContext', () => {
   });
 
   it('should get user', async () => {
-    const oidcReducerSpy = jest.spyOn(reducers, 'oidcReducer');
+    const oidcReducerSpy = vi.spyOn(reducers, 'oidcReducer');
     const user = { access_token: 'token', expired: false };
     const userManager = {
       getUser: async () => user,
-      signinCallback: jest.fn(),
+      signinCallback: vi.fn(),
       events,
     } as any;
 
@@ -82,11 +83,11 @@ describe('AuthContext', () => {
   });
 
   it('should refresh user when new data is available', async () => {
-    const oidcReducerSpy = jest.spyOn(reducers, 'oidcReducer');
+    const oidcReducerSpy = vi.spyOn(reducers, 'oidcReducer');
     const user = { access_token: 'token', expired: false };
     const userManager = {
       getUser: async () => user,
-      signinCallback: jest.fn(),
+      signinCallback: vi.fn(),
       events: {
         ...events,
         addUserLoaded: oidcEvent,
@@ -109,11 +110,11 @@ describe('AuthContext', () => {
   });
 
   it('should show console error message when loading user fails', async () => {
-    const oidcReducerSpy = jest.spyOn(reducers, 'oidcReducer');
-    console.error = jest.fn();
+    const oidcReducerSpy = vi.spyOn(reducers, 'oidcReducer');
+    console.error = vi.fn();
     const userManager = {
-      getUser: jest.fn().mockRejectedValue({ message: 'error' }),
-      signinCallback: jest.fn(),
+      getUser: vi.fn().mockRejectedValue({ message: 'error' }),
+      signinCallback: vi.fn(),
       events,
     } as any;
 
@@ -131,10 +132,10 @@ describe('AuthContext', () => {
   });
 
   it('should clear user when user is expired', async () => {
-    const oidcReducerSpy = jest.spyOn(reducers, 'oidcReducer');
+    const oidcReducerSpy = vi.spyOn(reducers, 'oidcReducer');
     const userManager = {
       getUser: async () => ({ access_token: 'token', expired: true }),
-      signinCallback: jest.fn(),
+      signinCallback: vi.fn(),
       events,
     } as any;
 
@@ -149,12 +150,12 @@ describe('AuthContext', () => {
   });
 
   it('should logout the user', async () => {
-    const oidcReducerSpy = jest.spyOn(reducers, 'oidcReducer');
+    const oidcReducerSpy = vi.spyOn(reducers, 'oidcReducer');
 
     const u = {
       getUser: async () => ({ access_token: 'token', expired: false }),
-      removeUser: jest.fn(),
-      signoutRedirect: jest.fn(),
+      removeUser: vi.fn(),
+      signoutRedirect: vi.fn(),
       events: {
         ...events,
         addUserSignedOut: oidcEvent,

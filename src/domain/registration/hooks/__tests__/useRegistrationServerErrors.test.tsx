@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloError } from '@apollo/client';
 import { act, renderHook } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import useRegistrationServerErrors from '../useRegistrationServerErrors';
 
@@ -28,7 +29,7 @@ it('should set generic server error items', async () => {
 });
 
 it('should set server error items', async () => {
-  const callbackFn = jest.fn();
+  const callbackFn = vi.fn();
   const { result } = getHookWrapper();
 
   const error = new ApolloError({

@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import getValue from '../../../../utils/getValue';
 import {
@@ -23,7 +24,7 @@ const keywordSetId = getValue(keywordSets.data[0]?.id, '');
 const defaultProps: KeywordSetsTableProps = {
   caption: 'Keyword set table',
   keywordSets: [],
-  setSort: jest.fn(),
+  setSort: vi.fn(),
   sort: KEYWORD_SET_SORT_OPTIONS.NAME,
 };
 
@@ -88,7 +89,7 @@ test('should open edit keyword set page by pressing enter on row', async () => {
 });
 
 test('should call setSort when clicking sortable column header', async () => {
-  const setSort = jest.fn();
+  const setSort = vi.fn();
 
   const user = userEvent.setup();
   renderComponent({ setSort });

@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   configure,
@@ -14,7 +15,7 @@ configure({ defaultHidden: true });
 
 const renderComponent = () =>
   render(
-    <Formik initialValues={REGISTRATION_INITIAL_VALUES} onSubmit={jest.fn()}>
+    <Formik initialValues={REGISTRATION_INITIAL_VALUES} onSubmit={vi.fn()}>
       <MandatoryFieldsSection isEditingAllowed={true} />
     </Formik>
   );

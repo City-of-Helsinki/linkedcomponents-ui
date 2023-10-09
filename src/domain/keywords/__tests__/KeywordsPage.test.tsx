@@ -1,5 +1,6 @@
 import { createMemoryHistory } from 'history';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
@@ -132,7 +133,7 @@ it('scrolls to keyword row and calls history.replace correctly (deletes keywordI
   const history = createMemoryHistory();
   history.push(route, { keywordId: keywords.data[0]?.id });
 
-  const replaceSpy = jest.spyOn(history, 'replace');
+  const replaceSpy = vi.spyOn(history, 'replace');
 
   renderComponent({ history });
 

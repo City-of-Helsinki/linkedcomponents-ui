@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
-import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   configure,
@@ -23,7 +23,9 @@ import EventTimeTab from '../EventTimeTab';
 
 configure({ defaultHidden: true });
 
-beforeEach(() => clear());
+beforeEach(() => {
+  vi.useRealTimers();
+});
 
 const type = EVENT_TYPE.General;
 
@@ -54,7 +56,7 @@ const renderComponent = (initialValues?: Partial<typeof defaultInitialValue>) =>
   render(
     <Formik
       initialValues={{ ...defaultInitialValue, ...initialValues }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <TimeSectionProvider isEditingAllowed>
@@ -130,7 +132,7 @@ const enterFormValues = async ({
 };
 
 test('should add/delete event time', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
   const user = userEvent.setup();
 
   const initialValues = { [EVENT_FIELDS.EVENT_TIMES]: eventTimes };
@@ -174,7 +176,7 @@ test('should add/delete event time', async () => {
 });
 
 test('should edit event time', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
   const user = userEvent.setup();
 
   const initialValues = { [EVENT_FIELDS.EVENT_TIMES]: eventTimes };
@@ -210,7 +212,7 @@ test('should edit event time', async () => {
 });
 
 test('should show validation error when end time is before start time in new event time', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
   const user = userEvent.setup();
 
   renderComponent();
@@ -238,9 +240,9 @@ test('should show validation error when end time is before start time in new eve
 });
 
 test('should set isUmbrella to false when adding more than 1 event time', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
   const user = userEvent.setup();
-  const setIsUmbrella = jest.fn();
+  const setIsUmbrella = vi.fn();
 
   render(
     <Formik
@@ -249,7 +251,7 @@ test('should set isUmbrella to false when adding more than 1 event time', async 
         isUmbrella: true,
         [EVENT_FIELDS.EVENT_TIMES]: eventTimes,
       }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <TimeSectionContext.Provider

@@ -18,6 +18,7 @@ import {
   Routes,
   unstable_HistoryRouter as Router,
 } from 'react-router-dom';
+import { SpyInstance } from 'vitest';
 import wait from 'waait';
 
 import { testIds } from '../constants';
@@ -180,7 +181,7 @@ const loadingSpinnerIsNotInDocument = async (timeout = 5000): Promise<void> =>
   );
 
 const waitReducerToBeCalled = async (
-  dispatch: jest.SpyInstance,
+  dispatch: SpyInstance,
   action: ReducerAction<any>
 ) => await waitFor(() => expect(dispatch).toBeCalledWith(action));
 

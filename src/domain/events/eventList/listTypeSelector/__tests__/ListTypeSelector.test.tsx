@@ -1,5 +1,6 @@
 import { IconInfoCircle } from 'hds-react';
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   configure,
@@ -25,7 +26,7 @@ const options = [
   },
 ];
 
-const renderComponent = (onChange = jest.fn()) =>
+const renderComponent = (onChange = vi.fn()) =>
   render(
     <ListTypeSelector
       caption={caption}
@@ -56,7 +57,7 @@ test('should render component', () => {
 });
 
 test('should call onChange', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   const user = userEvent.setup();
 
   renderComponent(onChange);

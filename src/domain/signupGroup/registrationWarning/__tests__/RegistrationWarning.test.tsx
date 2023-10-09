@@ -28,10 +28,15 @@ const registration = fakeRegistration({
   waitingListCapacity: 5,
 });
 
+afterAll(() => {
+  localStorage.clear();
+  sessionStorage.clear();
+});
+
 test('should show warning if registration is full', async () => {
   renderComponent(registration);
 
-  await screen.getByText(
+  screen.getByText(
     'Tapahtuman kaikki paikat ovat tällä hetkellä varatut. Kokeile myöhemmin uudelleen.'
   );
 });

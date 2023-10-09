@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   configure,
@@ -35,7 +36,7 @@ const renderComponent = () =>
         [EVENT_FIELDS.AUDIENCE]: [],
         [EVENT_FIELDS.TYPE]: type,
       }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       enableReinitialize={true}
     >
       <AudienceSection isEditingAllowed={true} />

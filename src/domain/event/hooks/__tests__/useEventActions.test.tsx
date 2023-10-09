@@ -2,8 +2,9 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { unstable_HistoryRouter as Router } from 'react-router-dom';
+import { vi } from 'vitest';
 
 import {
   EventFieldsFragment,
@@ -57,7 +58,7 @@ const getHookWrapper = (
   event: EventFieldsFragment,
   mocks: MockedResponse[] = []
 ) => {
-  const wrapper = ({ children }) => (
+  const wrapper = ({ children }: PropsWithChildren) => (
     <AuthContext.Provider value={authContextValue}>
       <MockedProvider cache={createCache()} mocks={[...commonMocks, ...mocks]}>
         <Router
@@ -76,7 +77,7 @@ const getHookWrapper = (
 };
 
 test('should cancel single event', async () => {
-  const onSuccess = jest.fn();
+  const onSuccess = vi.fn();
   const { result } = getHookWrapper(event, [mockedCancelEventResponse]);
 
   await waitFor(() => expect(result.current.user).toBeDefined());
@@ -86,7 +87,7 @@ test('should cancel single event', async () => {
 });
 
 test('should postpone single event with recurring super event', async () => {
-  const onSuccess = jest.fn();
+  const onSuccess = vi.fn();
   const { result } = getHookWrapper(eventWithRecurringSuperEvent1, [
     mockedPostponeEventWithRecurringSuperEventResponse,
     mockedRecurringEventWithDeletedSubEventResponse,
@@ -99,7 +100,7 @@ test('should postpone single event with recurring super event', async () => {
 });
 
 test('should postpone single event', async () => {
-  const onSuccess = jest.fn();
+  const onSuccess = vi.fn();
   const { result } = getHookWrapper(event, [mockedPostponeEventResponse]);
   await waitFor(() => expect(result.current.user).toBeDefined());
   await act(() => result.current.postponeEvent({ onSuccess }));
@@ -108,7 +109,7 @@ test('should postpone single event', async () => {
 });
 
 test('should delete single event', async () => {
-  const onSuccess = jest.fn();
+  const onSuccess = vi.fn();
   const { result } = getHookWrapper(event, [mockedDeleteEventResponse]);
   await waitFor(() => expect(result.current.user).toBeDefined());
   await act(() => result.current.deleteEvent({ onSuccess }));
@@ -117,7 +118,7 @@ test('should delete single event', async () => {
 });
 
 test('should delete single event with recurring super event', async () => {
-  const onSuccess = jest.fn();
+  const onSuccess = vi.fn();
   const { result } = getHookWrapper(eventWithRecurringSuperEvent1, [
     mockedDeleteEventWithRecurringSuperEventResponse,
     mockedRecurringEventWithDeletedSubEventResponse,
@@ -130,7 +131,7 @@ test('should delete single event with recurring super event', async () => {
 });
 
 test('should update single event', async () => {
-  const onSuccess = jest.fn();
+  const onSuccess = vi.fn();
   const { result } = getHookWrapper(event, [mockedUpdateEventResponse]);
   await waitFor(() => expect(result.current.user).toBeDefined());
   await act(() =>
@@ -154,7 +155,7 @@ test('should update single event', async () => {
 });
 
 test('should update single event with recurring super event', async () => {
-  const onSuccess = jest.fn();
+  const onSuccess = vi.fn();
   const { result } = getHookWrapper(eventWithRecurringSuperEvent2, [
     mockedUpdateEventResponse,
     mockedUpdateEventWithRecurringSuperEventResponse,
@@ -185,7 +186,7 @@ test('should update single event with recurring super event', async () => {
 });
 
 test('should update recurring event', async () => {
-  const onSuccess = jest.fn();
+  const onSuccess = vi.fn();
   const { result } = getHookWrapper(recurringSuperEvent, [
     mockedDeleteSubEvent1Response,
     mockedUpdateSubEventsResponse,

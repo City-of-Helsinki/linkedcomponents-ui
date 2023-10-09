@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { SuperEventType } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
@@ -40,7 +41,7 @@ const renderComponent = (
   render(
     <Formik
       initialValues={initialValues || defaultInitialValues}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
     >
       <TypeSection {...props} isEditingAllowed={true} isExternalUser={false} />
     </Formik>,

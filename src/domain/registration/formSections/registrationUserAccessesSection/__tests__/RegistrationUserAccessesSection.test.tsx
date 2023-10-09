@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
 import { toast } from 'react-toastify';
+import { vi } from 'vitest';
 
 import { SendRegistrationUserAccessInvitationDocument } from '../../../../../generated/graphql';
 import {
@@ -53,7 +54,7 @@ const renderRegistrationUserAccessesSection = (
         ...defaultInitialValue,
         ...initialValues,
       }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={registrationSchema}
     >
       <RegistrationUsersSection isEditingAllowed={true} />
@@ -92,7 +93,7 @@ test('should add and remove registration user assess', async () => {
 });
 
 test('should send invitation to registration user access', async () => {
-  toast.success = jest.fn();
+  toast.success = vi.fn();
   const user = userEvent.setup();
   const email = 'user@email.com';
   renderRegistrationUserAccessesSection(
@@ -115,7 +116,7 @@ test('should send invitation to registration user access', async () => {
 });
 
 test('should show error message is sending invitation fails', async () => {
-  toast.error = jest.fn();
+  toast.error = vi.fn();
   const user = userEvent.setup();
   const email = 'user@email.com';
   renderRegistrationUserAccessesSection(

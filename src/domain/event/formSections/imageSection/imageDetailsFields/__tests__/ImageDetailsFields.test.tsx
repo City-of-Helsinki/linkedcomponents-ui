@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../../constants';
 import { setFeatureFlags } from '../../../../../../test/featureFlags/featureFlags';
@@ -85,7 +86,7 @@ const renderComponent = ({
   act(async () => {
     await render(
       <Formik
-        onSubmit={jest.fn()}
+        onSubmit={vi.fn()}
         initialValues={initialValues || defaultInitialValus}
         validationSchema={publicEventSchema}
       >

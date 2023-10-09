@@ -1,5 +1,9 @@
-import { axe } from 'jest-axe';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import 'vitest-axe/extend-expect';
+
 import React from 'react';
+import { vi } from 'vitest';
+import { axe } from 'vitest-axe';
 
 import {
   configure,
@@ -8,15 +12,16 @@ import {
   userEvent,
 } from '../../../../utils/testUtils';
 import Table from '../Table';
+import { Header } from '../types';
 
 configure({ defaultHidden: true });
 
 describe('<Table /> spec', () => {
-  let cols;
-  let rows;
-  let caption;
-  let indexKey;
-  let renderIndexCol;
+  let cols: Header[];
+  let rows: object[];
+  let caption: React.ReactElement;
+  let indexKey: string;
+  let renderIndexCol: boolean;
 
   beforeEach(() => {
     cols = [
@@ -128,7 +133,7 @@ describe('<Table /> spec', () => {
       {
         key: 'age',
         headerName: 'Age',
-        transform: ({ age }) => {
+        transform: ({ age }: any) => {
           return <div style={{ textAlign: 'right' }}>{age}</div>;
         },
         isSortable: true,
@@ -164,7 +169,7 @@ describe('<Table /> spec', () => {
       {
         key: 'age',
         headerName: 'Age',
-        transform: ({ age }) => {
+        transform: ({ age }: any) => {
           return <div style={{ textAlign: 'right' }}>{age}</div>;
         },
         isSortable: true,
@@ -172,7 +177,7 @@ describe('<Table /> spec', () => {
       { key: 'profession', headerName: 'Profession', isSortable: true },
     ];
 
-    const mockOnSort = jest.fn();
+    const mockOnSort = vi.fn();
 
     render(
       <Table

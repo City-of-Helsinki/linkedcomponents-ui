@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   arrowDownKeyPressHelper,
@@ -29,7 +30,7 @@ const toggleButtonLabel = 'Toggle';
 
 const defaultProps: MultiselectDropdownProps = {
   clearButtonLabel,
-  onChange: jest.fn(),
+  onChange: vi.fn(),
   options,
   searchPlaceholder,
   showSearch: true,
@@ -147,7 +148,7 @@ test('should filter options', async () => {
 });
 
 test('should call onChange', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   const user = userEvent.setup();
   await renderComponentWithOpenMenu({ onChange });
 
@@ -160,7 +161,7 @@ test('should call onChange', async () => {
 });
 
 test('should uncheck option', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   const user = userEvent.setup();
   await renderComponentWithOpenMenu({ onChange, value: [options[0]] });
 
@@ -171,7 +172,7 @@ test('should uncheck option', async () => {
 });
 
 test('should call onChange when pressing enter', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   await renderComponentWithClosedMenu({ onChange });
 
   arrowDownKeyPressHelper();
@@ -182,7 +183,7 @@ test('should call onChange when pressing enter', async () => {
 });
 
 test('should clear value', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   const user = userEvent.setup();
   await renderComponentWithOpenMenu({ onChange, value: [options[0]] });
 

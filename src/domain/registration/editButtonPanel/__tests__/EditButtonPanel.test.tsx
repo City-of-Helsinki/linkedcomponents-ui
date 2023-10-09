@@ -1,6 +1,7 @@
 import copyToClipboard from 'copy-to-clipboard';
 import React from 'react';
 import { toast } from 'react-toastify';
+import { vi } from 'vitest';
 
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
@@ -22,11 +23,11 @@ import {
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
-jest.mock('copy-to-clipboard');
+vi.mock('copy-to-clipboard');
 
 const defaultProps: EditButtonPanelProps = {
-  onDelete: jest.fn(),
-  onUpdate: jest.fn(),
+  onDelete: vi.fn(),
+  onUpdate: vi.fn(),
   publisher,
   registration,
   saving: null,
@@ -117,8 +118,8 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should render all buttons when user is authenticated', async () => {
-  const onDelete = jest.fn();
-  const onUpdate = jest.fn();
+  const onDelete = vi.fn();
+  const onUpdate = vi.fn();
 
   const user = userEvent.setup();
   renderComponent({ props: { onDelete, onUpdate }, authContextValue });
@@ -207,7 +208,7 @@ test('should route to create registration page when clicking copy button', async
 });
 
 test('should copy registration link to clipboard', async () => {
-  toast.success = jest.fn();
+  toast.success = vi.fn();
   const user = userEvent.setup();
   renderComponent({ authContextValue });
 

@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
@@ -89,7 +90,7 @@ test('applies expected metadata', async () => {
 });
 
 test('should focus to first validation error when trying to save new place', async () => {
-  global.HTMLFormElement.prototype.submit = () => jest.fn();
+  global.HTMLFormElement.prototype.submit = () => vi.fn();
   const user = userEvent.setup();
   renderComponent(defaultMocks);
 

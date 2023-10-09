@@ -1,4 +1,4 @@
-import { advanceTo, clear } from 'jest-date-mock';
+import { vi } from 'vitest';
 
 import { TEST_EVENT_ID } from '../../event/constants';
 import { REGISTRATION_INITIAL_VALUES } from '../constants';
@@ -15,7 +15,7 @@ const testRegistrationSchema = async (registration: RegistrationFormFields) => {
 };
 
 afterEach(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 describe('registrationSchema', () => {
@@ -29,7 +29,7 @@ describe('registrationSchema', () => {
   };
 
   beforeEach(() => {
-    advanceTo('2022-11-07');
+    vi.setSystemTime('2022-11-07');
   });
 
   it('should return true if registration is valid', async () => {

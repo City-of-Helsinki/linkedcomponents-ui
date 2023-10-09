@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
-import { clear } from 'jest-date-mock';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { PublicationStatus } from '../../../../../generated/graphql';
 import {
@@ -44,17 +44,13 @@ const renderComponent = (
   render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       enableReinitialize={true}
       validationSchema={getExternalUserEventSchema(PublicationStatus.Draft)}
     >
       <ExternalUserContact {...defaultProps} {...props} />
     </Formik>
   );
-
-afterAll(() => {
-  clear();
-});
 
 test('should render fields', async () => {
   renderComponent();

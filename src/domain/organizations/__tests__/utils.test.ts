@@ -1,3 +1,5 @@
+import { vi } from 'vitest';
+
 import { ROUTES } from '../../../constants';
 import { waitReducerToBeCalled } from '../../../utils/testUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
@@ -53,7 +55,7 @@ describe('getOrganizationParamValue function', () => {
 
 describe('addExpandedOrganization function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchExpandedOrganizationsState = jest.fn();
+    const dispatchExpandedOrganizationsState = vi.fn();
     const id = TEST_PUBLISHER_ID;
 
     addExpandedOrganization({ dispatchExpandedOrganizationsState, id });
@@ -67,7 +69,7 @@ describe('addExpandedOrganization function', () => {
 
 describe('removeExpandedOrganization function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchExpandedOrganizationsState = jest.fn();
+    const dispatchExpandedOrganizationsState = vi.fn();
     const id = TEST_PUBLISHER_ID;
 
     removeExpandedOrganization({ dispatchExpandedOrganizationsState, id });

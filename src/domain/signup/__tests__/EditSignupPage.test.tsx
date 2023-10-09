@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
@@ -198,9 +199,7 @@ test('should delete signup', async () => {
 
 test('should send message to participant', async () => {
   // Mock getClientRects for ckeditor
-  global.Range.prototype.getClientRects = jest
-    .fn()
-    .mockImplementation(() => []);
+  global.Range.prototype.getClientRects = vi.fn().mockImplementation(() => []);
 
   const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedSendMessageResponse]);
@@ -236,7 +235,7 @@ test('should send message to participant', async () => {
 });
 
 test('should update signup', async () => {
-  global.scrollTo = jest.fn();
+  global.scrollTo = vi.fn<any>();
   const user = userEvent.setup();
   renderComponent([
     ...defaultMocks,
