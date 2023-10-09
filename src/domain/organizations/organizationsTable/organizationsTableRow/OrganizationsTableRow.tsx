@@ -150,7 +150,10 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
             )}
             <span className={styles.organizationName} title={fullName}>
               <Link
-                onClick={/* istanbul ignore next */ (e) => e.preventDefault()}
+                onClick={
+                  /* istanbul ignore next */
+                  (e) => e.preventDefault()
+                }
                 to={organizationUrl}
               >
                 {fullName}

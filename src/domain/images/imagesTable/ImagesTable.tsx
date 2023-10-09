@@ -53,7 +53,10 @@ const IdColumn = (image: ImageFieldsFragment) => {
 
   return (
     <Link
-      onClick={/* istanbul ignore next */ (e) => e.preventDefault()}
+      onClick={
+        /* istanbul ignore next */
+        (e) => e.preventDefault()
+      }
       to={imageUrl}
     >
       {id}

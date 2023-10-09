@@ -126,7 +126,10 @@ const AskPermissionPage: React.FC = () => {
 
       <Formik
         initialValues={initialValues}
-        onSubmit={/* istanbul ignore next */ () => undefined}
+        onSubmit={
+          /* istanbul ignore next */
+          () => undefined
+        }
         validationSchema={askPermissionFormSchema}
         validateOnMount
         validateOnBlur
