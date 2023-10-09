@@ -1,15 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import 'jest-axe/extend-expect';
+
 import './test/testI18nInit';
 // jest-dom adds custom jest matchers for asserting on DOM nodes.
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
-import 'jest-localstorage-mock';
+import '@testing-library/jest-dom/vitest';
+import 'vitest-axe/extend-expect';
+
+import { expect, vi } from 'vitest';
+import * as matchers from 'vitest-axe/matchers';
+expect.extend(matchers);
 
 // Mock scrollTo function
-window.scrollTo = jest.fn();
+window.scrollTo = vi.fn<any>();
 
 const originalWarn = console.warn.bind(console.warn);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,8 +38,6 @@ console.warn = (msg: any, ...optionalParams: any[]) => {
     originalWarn(msg, ...optionalParams)
   );
 };
-
-jest.setTimeout(1000000);
 
 import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS = 'true';
 import.meta.env.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION = 'false';
