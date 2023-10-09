@@ -140,7 +140,10 @@ const ContactPage: React.FC = () => {
 
       <Formik
         initialValues={initialValues}
-        onSubmit={/* istanbul ignore next */ () => undefined}
+        onSubmit={
+          /* istanbul ignore next */
+          () => undefined
+        }
         validationSchema={contactFormSchema}
         validateOnMount
         validateOnBlur

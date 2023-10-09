@@ -183,7 +183,10 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
       // to silent TypeScript error. The reason for custom onSubmit is that
       // we want to scroll to first invalid field if error occurs
 
-      onSubmit={/* istanbul ignore next */ () => undefined}
+      onSubmit={
+        /* istanbul ignore next */
+        () => undefined
+      }
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
