@@ -3,7 +3,7 @@ import { MockedProvider } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import range from 'lodash/range';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { MAX_PAGE_SIZE } from '../../../../constants';
 import { Meta, UsersDocument } from '../../../../generated/graphql';
@@ -73,7 +73,7 @@ const mocks = [
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const getHookWrapper = async () => {
-  const wrapper = ({ children }) => (
+  const wrapper = ({ children }: PropsWithChildren) => (
     <AuthContext.Provider value={authContextValue}>
       <MockedProvider cache={createCache()} mocks={mocks}>
         {children}

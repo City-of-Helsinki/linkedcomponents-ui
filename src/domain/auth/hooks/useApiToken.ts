@@ -21,7 +21,7 @@ export type UseApiTokenState = {
 const useApiToken = (oidcState: OidcReducerState): UseApiTokenState => {
   const { t } = useTranslation();
   // eslint-disable-next-line no-undef
-  const apiTokenTimer = React.useRef<number>();
+  const apiTokenTimer = React.useRef<NodeJS.Timeout>();
   const expirationTime = React.useRef<number | null>(null);
   const previousAccessToken = React.useRef<string | undefined>();
 

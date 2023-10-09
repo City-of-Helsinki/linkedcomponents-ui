@@ -1,12 +1,8 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import styles from './splittedRow.module.scss';
 
-type Props = {
-  children: React.ReactNode;
-};
-
-const SplittedRow: React.FC<Props> = ({ children }) => {
+const SplittedRow: React.FC<PropsWithChildren> = ({ children }) => {
   return <div className={styles.splittedRow}>{children}</div>;
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
@@ -300,10 +301,10 @@ test('should call the mailto function when clicking Send Email button', async ()
   const mocks: MockedResponse[] = [...defaultMocks];
 
   const originalLocation = window.location;
-
+  /* @ts-ignore */
   delete window.location;
 
-  window.location = { href: '' };
+  window.location = { href: '' } as Location;
   const specialEvent = { ...event };
   specialEvent.createdBy = 'Jaska Jokunen - testisähköposti@testidomaini.fi';
 
@@ -328,10 +329,10 @@ test('should find the email address even when the createdBy field has extra dash
   const mocks: MockedResponse[] = [...defaultMocks];
 
   const originalLocation = window.location;
-
+  /* @ts-ignore */
   delete window.location;
 
-  window.location = { href: '' };
+  window.location = { href: '' } as Location;
   const specialEvent = { ...event };
   specialEvent.createdBy =
     'Jaska Joki-Niemi - jaska_joki-niemi@testi-domaini.fi';
