@@ -1,6 +1,7 @@
 /* eslint-disable import/no-named-as-default-member */
 import { NetworkStatus } from '@apollo/client';
 import i18n from 'i18next';
+import { vi } from 'vitest';
 
 import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../constants';
 import {
@@ -198,7 +199,7 @@ describe('getOrganizationAncestorsQueryResult function', () => {
 
   it('should return organization ancestors', async () => {
     const organizationsData = fakeOrganizations(2);
-    jest.spyOn(apolloClient, 'query').mockResolvedValue({
+    vi.spyOn(apolloClient, 'query').mockResolvedValue({
       data: { organizations: organizationsData },
       loading: false,
       networkStatus: NetworkStatus.ready,
@@ -211,7 +212,7 @@ describe('getOrganizationAncestorsQueryResult function', () => {
   });
 
   it('should return empty array if fetching organizations fails', async () => {
-    jest.spyOn(apolloClient, 'query').mockRejectedValue(new Error());
+    vi.spyOn(apolloClient, 'query').mockRejectedValue(new Error());
     const organizations = await getOrganizationAncestorsQueryResult(
       TEST_PUBLISHER_ID,
       apolloClient

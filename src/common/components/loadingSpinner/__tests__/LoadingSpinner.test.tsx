@@ -5,9 +5,9 @@ import LoadingSpinner from '../LoadingSpinner';
 
 it('render spinner if isLoading is true', () => {
   const { container } = render(<LoadingSpinner isLoading={true} />);
-  expect((container.firstChild?.firstChild as HTMLElement).classList).toContain(
-    'loadingSpinner'
-  );
+  expect(
+    (container.firstChild?.firstChild as HTMLElement).className
+  ).toStrictEqual(expect.stringContaining('loadingSpinner'));
 });
 
 it('render child component if isLoading is false', () => {
@@ -16,7 +16,7 @@ it('render child component if isLoading is false', () => {
       <div className="component"></div>
     </LoadingSpinner>
   );
-  expect((container.firstChild as HTMLElement).classList).toContain(
-    'component'
+  expect((container.firstChild as HTMLElement).className).toStrictEqual(
+    expect.stringContaining('component')
   );
 });

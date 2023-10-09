@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import { createMemoryHistory } from 'history';
 import React from 'react';
+import { vi } from 'vitest';
 
 import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
@@ -33,7 +34,9 @@ const mocks = [
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-beforeEach(() => jest.clearAllMocks());
+beforeEach(() => {
+  vi.clearAllMocks();
+});
 
 const findElement = (key: 'createRegistrationButton') => {
   switch (key) {
@@ -99,7 +102,7 @@ it('scrolls to registration table row and calls history.replace correctly (delet
   const history = createMemoryHistory();
   history.push(route, { registrationId: registrations.data[0]?.id });
 
-  const replaceSpy = jest.spyOn(history, 'replace');
+  const replaceSpy = vi.spyOn(history, 'replace');
 
   render(<RegistrationsPage />, {
     authContextValue,

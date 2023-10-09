@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { Organization } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
@@ -25,7 +26,7 @@ const organizationId = getValue(organizations.data[0]?.id, '');
 const defaultProps: OrganizationsTableProps = {
   caption: 'Organizations table',
   organizations: [],
-  setSort: jest.fn(),
+  setSort: vi.fn(),
   showSubOrganizations: true,
   sort: ORGANIZATION_SORT_OPTIONS.NAME,
   sortedOrganizations: organizations.data as Organization[],
@@ -94,7 +95,7 @@ test('should open edit organization page by pressing enter on row', async () => 
 });
 
 test('should call setSort when clicking sortable column header', async () => {
-  const setSort = jest.fn();
+  const setSort = vi.fn();
   const user = userEvent.setup();
   renderComponent({ setSort });
 

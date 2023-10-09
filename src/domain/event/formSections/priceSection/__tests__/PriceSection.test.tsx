@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { LE_DATA_LANGUAGES } from '../../../../../constants';
 import {
@@ -27,7 +28,7 @@ const renderPriceSection = () =>
         [EVENT_FIELDS.OFFERS]: [getEmptyOffer()],
         [EVENT_FIELDS.TYPE]: type,
       }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <PriceSection isEditingAllowed={true} />

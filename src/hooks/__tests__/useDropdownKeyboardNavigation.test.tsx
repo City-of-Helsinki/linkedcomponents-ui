@@ -1,4 +1,5 @@
 import { fireEvent, renderHook } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import useDropdownKeyboardNavigation, {
   KeyboardNavigationProps,
@@ -145,7 +146,7 @@ describe('useDropdownKeyboardNavigation', () => {
   });
 
   it('should call onKeyDown', () => {
-    const onKeyDown = jest.fn();
+    const onKeyDown = vi.fn();
     const { arrowDown } = renderNavigationHook({
       initialFocusedIndex: 0,
       onKeyDown,

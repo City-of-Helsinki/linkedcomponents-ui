@@ -1,6 +1,6 @@
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
-import { advanceTo, clear } from 'jest-date-mock';
+import { vi } from 'vitest';
 
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -37,7 +37,7 @@ import {
 } from '../utils';
 
 afterEach(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 describe('getRegistrationActionWarning function', () => {
@@ -375,7 +375,7 @@ describe('registrationPathBuilder function', () => {
 
 describe('isRegistrationOpen', () => {
   beforeEach(() => {
-    advanceTo('2022-11-07');
+    vi.setSystemTime('2022-11-07');
   });
 
   it('should return true if enrolment_start_time is not defined', () => {
@@ -422,7 +422,7 @@ describe('isRegistrationOpen', () => {
 
 describe('isRegistrationPossible', () => {
   it('should return false if registration is not open', () => {
-    advanceTo('2022-11-07');
+    vi.setSystemTime('2022-11-07');
 
     expect(
       isRegistrationPossible(
@@ -571,7 +571,7 @@ describe('getSignupLink', () => {
 
 describe('getRegistrationWarning', () => {
   beforeEach(() => {
-    advanceTo('2022-11-07');
+    vi.setSystemTime('2022-11-07');
   });
 
   const singleRegistrationOverrides = {

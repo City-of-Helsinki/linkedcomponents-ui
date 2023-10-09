@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react';
 import { Formik } from 'formik';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
+import { vi } from 'vitest';
 
 import useSingleSelectFieldProps, {
   UseSingleSelectFieldPropsProps,
@@ -9,16 +10,16 @@ import useSingleSelectFieldProps, {
 const defaultProps: UseSingleSelectFieldPropsProps = {
   disabled: false,
   name: 'name',
-  onBlur: jest.fn(),
-  onChange: jest.fn(),
+  onBlur: vi.fn(),
+  onChange: vi.fn(),
   value: '',
 };
 
 const renderSingleSelectFieldPropsHook = (
   props?: Partial<UseSingleSelectFieldPropsProps>
 ) => {
-  const wrapper = ({ children }) => (
-    <Formik initialValues={{ name: '' }} onSubmit={jest.fn()}>
+  const wrapper = ({ children }: PropsWithChildren) => (
+    <Formik initialValues={{ name: '' }} onSubmit={vi.fn()}>
       {children}
     </Formik>
   );
@@ -35,7 +36,7 @@ const renderSingleSelectFieldPropsHook = (
 
 describe('useSingleSelectFieldProps', () => {
   it('should call onChange if hook is not disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { result } = renderSingleSelectFieldPropsHook({
       disabled: false,
       onChange,
@@ -47,7 +48,7 @@ describe('useSingleSelectFieldProps', () => {
   });
 
   it('should not call onChange if hook is disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { result } = renderSingleSelectFieldPropsHook({
       disabled: true,
       onChange,

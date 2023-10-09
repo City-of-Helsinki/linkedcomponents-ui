@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   configure,
@@ -33,7 +34,7 @@ const renderVideoSection = (initialValues?: Partial<EventFormFields>) =>
         ...defaultInitialValue,
         ...initialValues,
       }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <VideoSection isEditingAllowed={true} />

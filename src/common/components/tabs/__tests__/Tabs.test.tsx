@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   arrowLeftKeyPressHelper,
@@ -50,7 +51,7 @@ const getElement = (
   }
 };
 
-const renderComponent = (onChange = jest.fn()) =>
+const renderComponent = (onChange = vi.fn()) =>
   render(
     <Tabs activeTab="tab1" name="tabs" onChange={onChange} options={options}>
       <TabPanel>Panel 1</TabPanel>
@@ -96,7 +97,7 @@ test('should call onKeyDown and change focused tab', async () => {
 });
 
 test('should call onChange', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   const user = userEvent.setup();
   renderComponent(onChange);
 

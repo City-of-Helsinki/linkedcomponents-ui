@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
@@ -24,7 +25,7 @@ configure({ defaultHidden: true });
 
 const defaultProps: CreateSignupGroupButtonPanelProps = {
   disabled: false,
-  onCreate: jest.fn(),
+  onCreate: vi.fn(),
   registration,
   saving: null,
 };
@@ -99,7 +100,7 @@ test('should route to page defined in returnPath when clicking back button', asy
 });
 
 test('should call onCreate', async () => {
-  const onCreate = jest.fn();
+  const onCreate = vi.fn();
   const user = userEvent.setup();
   renderComponent({ props: { onCreate } });
 

@@ -3,8 +3,8 @@
 
 import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';
-import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import {
@@ -97,9 +97,9 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-afterAll(() => {
-  // Clear system time
-  clear();
+afterEach(() => {
+  // restoring date after each test run
+  vi.useRealTimers();
 });
 
 const setFormValues = (values: Partial<EventFormFields>) => {
@@ -117,14 +117,7 @@ const setFormValues = (values: Partial<EventFormFields>) => {
     },
   };
 
-  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
-    switch (key) {
-      case FORM_NAMES.EVENT_FORM:
-        return JSON.stringify(state);
-      default:
-        return '';
-    }
-  });
+  sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
 };
 
 const getElement = (
@@ -318,7 +311,7 @@ test('should focus to event times error if none event time exists', async () => 
 });
 
 test('should focus to first main category checkbox if none main category is selected', async () => {
-  advanceTo('2020-12-20');
+  vi.setSystemTime('2020-12-20');
 
   setFormValues({
     [EVENT_FIELDS.DESCRIPTION]: {
@@ -417,7 +410,7 @@ test('should route to event completed page after saving draft event', async () =
 });
 
 test('should route to event completed page after publishing event', async () => {
-  advanceTo('2020-12-20');
+  vi.setSystemTime('2020-12-20');
 
   setFormValues({
     [EVENT_FIELDS.DESCRIPTION]: {

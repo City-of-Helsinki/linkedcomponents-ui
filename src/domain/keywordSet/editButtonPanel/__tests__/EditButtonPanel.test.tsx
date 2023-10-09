@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { ROUTES } from '../../../../constants';
 import getValue from '../../../../utils/getValue';
@@ -24,7 +25,7 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: EditButtonPanelProps = {
   id: getValue(keywordSet.id, ''),
-  onSave: jest.fn(),
+  onSave: vi.fn(),
   organization: TEST_PUBLISHER_ID,
   saving: null,
 };
@@ -63,7 +64,7 @@ test('should route to keyword sets page when clicking back button', async () => 
 });
 
 test('should call onSave', async () => {
-  const onSave = jest.fn();
+  const onSave = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onSave });
 

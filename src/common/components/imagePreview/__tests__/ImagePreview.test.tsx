@@ -1,6 +1,7 @@
 import { configure, render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { enterKeyPressHelper } from '../../../../utils/testUtils';
 import ImagePreview, { ImagePreviewProps } from '../ImagePreview';
@@ -12,7 +13,7 @@ const label = 'Label text';
 const defaultProps: ImagePreviewProps = {
   imageUrl: 'http://testurl.org',
   label,
-  onClick: jest.fn(),
+  onClick: vi.fn(),
 };
 
 const renderComponent = (props?: Partial<ImagePreviewProps>) =>
@@ -20,7 +21,7 @@ const renderComponent = (props?: Partial<ImagePreviewProps>) =>
 
 test('should call onClick', async () => {
   const user = userEvent.setup();
-  const onClick = jest.fn();
+  const onClick = vi.fn();
   renderComponent({ onClick });
 
   const button = screen.getByRole('button', { name: label });
@@ -30,7 +31,7 @@ test('should call onClick', async () => {
 });
 
 test('should call onClick when clicking enter', async () => {
-  const onClick = jest.fn();
+  const onClick = vi.fn();
   renderComponent({ onClick });
 
   const button = screen.getByRole('button', { name: label });

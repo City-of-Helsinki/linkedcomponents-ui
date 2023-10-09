@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   configure,
@@ -14,8 +15,8 @@ const label = 'Enter search value';
 
 const defaultProps: SearchInputProps = {
   label,
-  onChange: jest.fn(),
-  onSubmit: jest.fn(),
+  onChange: vi.fn(),
+  onSubmit: vi.fn(),
   value: '',
 };
 
@@ -46,7 +47,7 @@ test('should render component with default texts', async () => {
 test('should clear search value', async () => {
   const user = userEvent.setup();
   const searchValue = 'test';
-  const onChange = jest.fn();
+  const onChange = vi.fn();
 
   renderComponent({ onChange, value: searchValue });
 
@@ -61,7 +62,7 @@ test('should clear search value', async () => {
 
 test('should call onSearch when clicking search button', async () => {
   const searchValue = 'test';
-  const onSubmit = jest.fn();
+  const onSubmit = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onSubmit, value: searchValue });
 
@@ -73,7 +74,7 @@ test('should call onSearch when clicking search button', async () => {
 
 test('should call onSearch when pressing enter', async () => {
   const searchValue = 'test';
-  const onSubmit = jest.fn();
+  const onSubmit = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onSubmit, value: searchValue });
 

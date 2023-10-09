@@ -1,4 +1,5 @@
 import { renderHook, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import useShowPlaceholderImage from '../useShowPlaceholderImage';
 
@@ -11,7 +12,7 @@ describe('useShowPlaceholderImage', () => {
       onload: () => void;
 
       constructor() {
-        this.onload = jest.fn();
+        this.onload = vi.fn();
         setTimeout(() => {
           this.onload();
           cbCalled = true;
@@ -31,7 +32,7 @@ describe('useShowPlaceholderImage', () => {
       onerror: () => void;
 
       constructor() {
-        this.onerror = jest.fn();
+        this.onerror = vi.fn();
         setTimeout(() => {
           this.onerror();
           cbCalled = true;

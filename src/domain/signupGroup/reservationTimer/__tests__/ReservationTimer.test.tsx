@@ -2,6 +2,7 @@
 import { ApolloError } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   CreateSeatsReservationDocument,
@@ -27,17 +28,19 @@ import {
 import { SignupGroupFormProvider } from '../../signupGroupFormContext/SignupGroupFormContext';
 import ReservationTimer from '../ReservationTimer';
 
-const mockedUseNavigate = jest.fn();
+const mockedUseNavigate = vi.fn();
 
-jest.mock('react-router', () => ({
-  ...jest.requireActual('react-router'),
-  useNavigate: () => mockedUseNavigate,
-}));
+vi.mock('react-router', async () => {
+  return {
+    ...((await vi.importActual('react-router')) as any),
+    useNavigate: () => mockedUseNavigate,
+  };
+});
 
 const defaultServerErrorsProps: SignupServerErrorsContextProps = {
   serverErrorItems: [],
-  setServerErrorItems: jest.fn(),
-  showServerErrors: jest.fn(),
+  setServerErrorItems: vi.fn(),
+  showServerErrors: vi.fn(),
 };
 
 const payload = {
@@ -58,10 +61,10 @@ const renderComponent = (
       >
         <ReservationTimer
           callbacksDisabled={false}
-          disableCallbacks={jest.fn()}
+          disableCallbacks={vi.fn()}
           initReservationData={true}
           registration={registration}
-          setSignups={jest.fn()}
+          setSignups={vi.fn()}
           signups={[]}
         />
       </SignupServerErrorsContext.Provider>
@@ -70,7 +73,7 @@ const renderComponent = (
   );
 
 beforeEach(() => {
-  jest.resetAllMocks();
+  vi.resetAllMocks();
   // values stored in tests will also be available in other tests unless you run
   localStorage.clear();
   sessionStorage.clear();
@@ -112,7 +115,7 @@ const getCreateSeatsReservationMock = (
 };
 
 test('should show server errors when creating seats reservation fails', async () => {
-  const showServerErrors = jest.fn();
+  const showServerErrors = vi.fn();
   const error = new ApolloError({ errorMessage: 'Error' });
   const mocks = [getSeatsReservationErrorMock(error)];
   renderComponent({ showServerErrors }, mocks);

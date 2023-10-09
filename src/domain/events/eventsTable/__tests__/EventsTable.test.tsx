@@ -1,5 +1,6 @@
 import range from 'lodash/range';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { fakeEvents } from '../../../../utils/mockDataUtils';
 import {
@@ -23,7 +24,7 @@ const eventId = 'event:1';
 const defaultProps: EventsTableProps = {
   caption: 'Events table',
   events: [],
-  setSort: jest.fn(),
+  setSort: vi.fn(),
   sort: EVENT_SORT_OPTIONS.NAME,
 };
 
@@ -88,7 +89,7 @@ test('should open event page by pressing enter on row', async () => {
 });
 
 test('should call setSort when clicking sortable column header', async () => {
-  const setSort = jest.fn();
+  const setSort = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ setSort });

@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
@@ -16,7 +17,7 @@ configure({ defaultHidden: true });
 const mocks = [mockedUserResponse];
 
 const renderComponent = (authContextValue?: AuthContextProps) =>
-  render(<CreateButtonPanel onSave={jest.fn()} saving={false} />, {
+  render(<CreateButtonPanel onSave={vi.fn()} saving={null} />, {
     authContextValue,
     mocks,
   });

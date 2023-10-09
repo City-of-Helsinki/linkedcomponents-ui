@@ -3,6 +3,7 @@
 import i18n from 'i18next';
 import React from 'react';
 import { Route, Routes } from 'react-router';
+import { vi } from 'vitest';
 
 import { ROUTES } from '../../../../../constants';
 import { Language } from '../../../../../types';
@@ -17,7 +18,7 @@ import { mockedOrganizationsResponse } from '../../../../organizations/__mocks__
 import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import HelpPageRoutes from '../HelpPageRoutes';
 
-jest.mock('swagger-ui-react', () => require('../../../../../test/MockSwagger'));
+vi.mock('swagger-ui-react');
 
 configure({ defaultHidden: true });
 

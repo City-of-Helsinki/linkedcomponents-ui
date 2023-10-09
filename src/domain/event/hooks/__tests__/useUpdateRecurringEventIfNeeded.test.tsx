@@ -3,10 +3,10 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import { advanceTo, clear } from 'jest-date-mock';
 import omit from 'lodash/omit';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { unstable_HistoryRouter as Router } from 'react-router-dom';
+import { vi } from 'vitest';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../constants';
 import {
@@ -28,7 +28,9 @@ import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { EVENT_INCLUDES } from '../../constants';
 import useUpdateRecurringEventIfNeeded from '../useUpdateRecurringEventIfNeeded';
 
-afterEach(() => clear());
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 const commonMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
@@ -85,7 +87,7 @@ const basePayload = {
 };
 
 const getHookWrapper = (mocks: MockedResponse[] = commonMocks) => {
-  const wrapper = ({ children }) => (
+  const wrapper = ({ children }: PropsWithChildren) => (
     <AuthContext.Provider value={authContextValue}>
       <Router history={createMemoryHistory() as any}>
         <MockedProvider mocks={mocks} addTypename={false}>
@@ -176,7 +178,7 @@ test('should return null if event is not editable', async () => {
 });
 
 test('should return null if recurring event start/end time is not changed', async () => {
-  advanceTo('2021-05-05');
+  vi.setSystemTime('2021-05-05');
   const superEvent = fakeEvent({
     id: superEventId,
     publisher,
@@ -206,7 +208,7 @@ test('should return null if recurring event start/end time is not changed', asyn
 });
 
 test('should return null if new end date would be in past', async () => {
-  advanceTo('2021-05-05');
+  vi.setSystemTime('2021-05-05');
   const superEvent = fakeEvent({
     id: superEventId,
     publisher,
@@ -236,7 +238,7 @@ test('should return null if new end date would be in past', async () => {
 });
 
 test('should update only start time if new end time would be in past but start time is changed', async () => {
-  advanceTo('2021-05-05');
+  vi.setSystemTime('2021-05-05');
   const superEvent = fakeEvent({
     id: superEventId,
     publisher,
@@ -309,7 +311,7 @@ test('should update only start time if new end time would be in past but start t
 });
 
 test('should return new super event if recurring event is updated', async () => {
-  advanceTo('2021-05-05');
+  vi.setSystemTime('2021-05-05');
 
   const superEvent = fakeEvent({
     id: superEventId,

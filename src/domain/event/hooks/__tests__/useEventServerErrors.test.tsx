@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloError } from '@apollo/client';
 import { act, renderHook } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import { EVENT_TYPE } from '../../constants';
 import useEventServerErrors from '../useEventServerErrors';
@@ -150,7 +151,7 @@ it('should set server error items', async () => {
 
 it('should return server error items when result is array', () => {
   const { result } = getHookWrapper();
-  const callbackFn = jest.fn();
+  const callbackFn = vi.fn();
   const error = new ApolloError({
     networkError: {
       result: [
@@ -181,7 +182,7 @@ it('should return server error items when result is array', () => {
 
 it('should return server error items when result is array of string', () => {
   const { result } = getHookWrapper();
-  const callbackFn = jest.fn();
+  const callbackFn = vi.fn();
   const error = new ApolloError({
     networkError: { result: ['Could not find all objects to update.'] } as any,
   });

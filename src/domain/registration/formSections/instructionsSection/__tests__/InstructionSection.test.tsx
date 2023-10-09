@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -45,7 +46,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) => {
   const { rerender, ...rest } = render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       enableReinitialize={true}
     >
       <InstructionsSection {...defaultProps} />
@@ -61,7 +62,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) => {
             ...initialValues,
             ...newInitialValues,
           }}
-          onSubmit={jest.fn()}
+          onSubmit={vi.fn()}
           enableReinitialize={true}
         >
           <InstructionsSection {...defaultProps} />

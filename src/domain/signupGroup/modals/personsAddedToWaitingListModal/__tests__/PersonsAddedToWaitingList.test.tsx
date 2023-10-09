@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   configure,
@@ -14,14 +15,14 @@ configure({ defaultHidden: true });
 
 const defaultProps: PersonsAddedToWaitingListModalProps = {
   isOpen: true,
-  onClose: jest.fn(),
+  onClose: vi.fn(),
 };
 
 const renderComponent = (props: Partial<PersonsAddedToWaitingListModalProps>) =>
   render(<PersonsAddedToWaitingListModal {...defaultProps} {...props} />);
 
 test('should call onClose', async () => {
-  const onClose = jest.fn();
+  const onClose = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onClose });
 

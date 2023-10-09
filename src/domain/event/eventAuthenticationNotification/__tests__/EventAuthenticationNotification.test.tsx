@@ -1,5 +1,5 @@
-import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeEvent } from '../../../../utils/mockDataUtils';
@@ -22,7 +22,9 @@ import EventAuthenticationNotification, {
 } from '../EventAuthenticationNotification';
 
 configure({ defaultHidden: true });
-beforeEach(() => clear());
+beforeEach(() => {
+  vi.useRealTimers();
+});
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
@@ -56,7 +58,7 @@ test('should not show notification if user is signed in', async () => {
 });
 
 test('should show notification if event is in the past', async () => {
-  advanceTo('2021-07-09');
+  vi.setSystemTime('2021-07-09');
   const publisher = TEST_PUBLISHER_ID;
   const event = fakeEvent({
     publisher,

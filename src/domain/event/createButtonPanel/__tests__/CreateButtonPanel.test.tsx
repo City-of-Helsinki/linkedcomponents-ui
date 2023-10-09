@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { configure, render, screen } from '../../../../utils/testUtils';
@@ -22,10 +23,10 @@ const renderComponent = (
   render(
     <Formik
       initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.General }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
     >
       <ButtonPanel
-        onSubmit={jest.fn()}
+        onSubmit={vi.fn()}
         publisher={organizationId}
         saving={null}
       />

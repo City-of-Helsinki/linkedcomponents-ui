@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   configure,
@@ -16,8 +18,8 @@ const label = 'Text editor label';
 const defaultProps: TextEditorProps = {
   id: 'text-editor-1',
   label,
-  onBlur: jest.fn(),
-  onChange: jest.fn(),
+  onBlur: vi.fn<any>(),
+  onChange: vi.fn(),
   value: '',
 };
 
@@ -25,11 +27,9 @@ const renderComponent = (props?: Partial<TextEditorProps>) =>
   render(<TextEditor {...defaultProps} {...props} />);
 
 test('should call onChange', async () => {
-  global.Range.prototype.getClientRects = jest
-    .fn()
-    .mockImplementation(() => []);
+  global.Range.prototype.getClientRects = vi.fn().mockImplementation(() => []);
 
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   renderComponent({ onChange });
 
   const editor = await screen.findByLabelText(/editorin muokkausalue: main/i);

@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -33,7 +34,7 @@ const renderComponent = () =>
         [EVENT_FIELDS.EXTERNAL_LINKS]: [],
         [EVENT_FIELDS.TYPE]: type,
       }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <ChannelsSection isEditingAllowed={true} />

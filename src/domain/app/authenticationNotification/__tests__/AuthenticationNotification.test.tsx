@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { fakeAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
@@ -32,7 +33,7 @@ const renderComponent = (renderOptions?: CustomRenderOptions) =>
 test('should start sign in process', async () => {
   const user = userEvent.setup();
 
-  const signIn = jest.fn();
+  const signIn = vi.fn();
   const authContextValue = fakeAuthContextValue({ signIn });
   renderComponent({ authContextValue });
 

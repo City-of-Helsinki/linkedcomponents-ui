@@ -1,5 +1,6 @@
 import { createMemoryHistory } from 'history';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { ROUTES } from '../../../constants';
 import getValue from '../../../utils/getValue';
@@ -132,7 +133,7 @@ it('scrolls to organization row and calls history.replace correctly (deletes org
   const history = createMemoryHistory();
   history.push(route, { organizationId: organizations.data[0]?.id });
 
-  const replaceSpy = jest.spyOn(history, 'replace');
+  const replaceSpy = vi.spyOn(history, 'replace');
 
   renderComponent({ history });
 

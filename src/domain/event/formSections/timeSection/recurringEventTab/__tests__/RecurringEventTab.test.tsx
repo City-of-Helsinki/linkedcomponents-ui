@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
-import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   configure,
@@ -23,7 +23,15 @@ import RecurringEventTab from '../RecurringEventTab';
 
 configure({ defaultHidden: true });
 
-beforeEach(() => clear());
+beforeEach(() => {
+  // tell vitest we use mocked time
+  vi.setSystemTime('2021-04-12');
+});
+
+afterEach(() => {
+  // restoring date after each test run
+  vi.useRealTimers();
+});
 
 const type = EVENT_TYPE.General;
 
@@ -69,7 +77,7 @@ const renderComponent = (initialValues?: Partial<typeof defaultInitialValue>) =>
   render(
     <Formik
       initialValues={{ ...defaultInitialValue, ...initialValues }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <TimeSectionProvider isEditingAllowed>
@@ -147,7 +155,6 @@ const enterFormValues = async () => {
 };
 
 test('should add/delete recurring event', async () => {
-  advanceTo('2021-04-12');
   const user = userEvent.setup();
 
   const initialValues = { [EVENT_FIELDS.RECURRING_EVENTS]: recurringEvents };
@@ -184,7 +191,6 @@ test('should add/delete recurring event', async () => {
 });
 
 test('should show validation error when repeat interval in invalid', async () => {
-  advanceTo('2021-04-12');
   const user = userEvent.setup();
 
   renderComponent();
@@ -205,7 +211,6 @@ test('should show validation error when repeat interval in invalid', async () =>
 });
 
 test('should show validation error when end date is before start date', async () => {
-  advanceTo('2021-04-12');
   const user = userEvent.setup();
 
   renderComponent();
@@ -228,7 +233,6 @@ test('should show validation error when end date is before start date', async ()
 });
 
 test('should show validation error when end time is before start time in recurring event form', async () => {
-  advanceTo('2021-04-12');
   const user = userEvent.setup();
 
   await renderComponent();
@@ -251,14 +255,13 @@ test('should show validation error when end time is before start time in recurri
 });
 
 test('should set isUmbrella to false when adding more than 1 event time', async () => {
-  advanceTo('2021-04-12');
   const user = userEvent.setup();
-  const setIsUmbrella = jest.fn();
+  const setIsUmbrella = vi.fn();
 
   render(
     <Formik
       initialValues={{ ...defaultInitialValue, isUmbrella: true }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
     >
       <TimeSectionContext.Provider
         value={{

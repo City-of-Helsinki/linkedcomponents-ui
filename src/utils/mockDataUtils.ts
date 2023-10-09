@@ -668,12 +668,6 @@ export const setSessionStorageValues = (
   reservation: SeatsReservation,
   registration: RegistrationFieldsFragment
 ) => {
-  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
-    const reservationKey = `${RESERVATION_NAMES.SEATS_RESERVATION}-${registration.id}`;
-
-    if (key === reservationKey) {
-      return reservation ? JSON.stringify(reservation) : '';
-    }
-    return '';
-  });
+  const reservationKey = `${RESERVATION_NAMES.SEATS_RESERVATION}-${registration.id}`;
+  sessionStorage.setItem(reservationKey, JSON.stringify(reservation));
 };

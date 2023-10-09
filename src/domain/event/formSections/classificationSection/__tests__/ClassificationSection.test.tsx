@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import getValue from '../../../../../utils/getValue';
 import {
@@ -57,7 +58,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
   render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       enableReinitialize={true}
       validationSchema={publicEventSchema}
     >

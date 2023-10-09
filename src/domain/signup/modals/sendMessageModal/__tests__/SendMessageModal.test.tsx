@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   configure,
@@ -17,8 +18,8 @@ configure({ defaultHidden: true });
 const defaultProps: SendMessageModalProps = {
   isOpen: true,
   isSaving: false,
-  onClose: jest.fn(),
-  onSendMessage: jest.fn(),
+  onClose: vi.fn(),
+  onSendMessage: vi.fn(),
 };
 
 const renderComponent = (props: Partial<SendMessageModalProps>) =>
@@ -51,11 +52,9 @@ const sendMessage = async () => {
 
 test('should validate fields and call onSendMessage', async () => {
   // Mock getClientRects for ckeditor
-  global.Range.prototype.getClientRects = jest
-    .fn()
-    .mockImplementation(() => []);
+  global.Range.prototype.getClientRects = vi.fn().mockImplementation(() => []);
 
-  const onSendMessage = jest.fn();
+  const onSendMessage = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onSendMessage });
 
@@ -85,11 +84,9 @@ test('should validate fields and call onSendMessage', async () => {
 
 test('should call onSendMessage when sending message to a signup', async () => {
   // Mock getClientRects for ckeditor
-  global.Range.prototype.getClientRects = jest
-    .fn()
-    .mockImplementation(() => []);
+  global.Range.prototype.getClientRects = vi.fn().mockImplementation(() => []);
 
-  const onSendMessage = jest.fn();
+  const onSendMessage = vi.fn();
   renderComponent({ onSendMessage, signup });
 
   screen.getByRole('heading', { name: 'Lähetä viesti osallistujalle' });
@@ -108,11 +105,9 @@ test('should call onSendMessage when sending message to a signup', async () => {
 
 test('should call onSendMessage when sending message to a signup group', async () => {
   // Mock getClientRects for ckeditor
-  global.Range.prototype.getClientRects = jest
-    .fn()
-    .mockImplementation(() => []);
+  global.Range.prototype.getClientRects = vi.fn().mockImplementation(() => []);
 
-  const onSendMessage = jest.fn();
+  const onSendMessage = vi.fn();
   renderComponent({ onSendMessage, signupGroup });
 
   screen.getByRole('heading', { name: 'Lähetä viesti osallistujalle' });
@@ -130,7 +125,7 @@ test('should call onSendMessage when sending message to a signup group', async (
 });
 
 test('should call onClose', async () => {
-  const onClose = jest.fn();
+  const onClose = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onClose });
 

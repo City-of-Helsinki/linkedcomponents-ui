@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { fakeKeywords } from '../../../../utils/mockDataUtils';
 import {
@@ -23,7 +24,7 @@ const keywordId = TEST_KEYWORD_ID;
 const defaultProps: KeywordsTableProps = {
   caption: 'Keywords table',
   keywords: [],
-  setSort: jest.fn(),
+  setSort: vi.fn(),
   sort: KEYWORD_SORT_OPTIONS.NAME,
 };
 
@@ -86,7 +87,7 @@ test('should open edit keyword page by pressing enter on row', async () => {
 });
 
 test('should call setSort when clicking sortable column header', async () => {
-  const setSort = jest.fn();
+  const setSort = vi.fn();
   const user = userEvent.setup();
   renderComponent({ setSort });
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import {
   configure,
@@ -105,7 +106,7 @@ test('should render component', async () => {
 
 test('should call setRecurringEvents when deleting a single event time', async () => {
   const recurringEvents = [recurringEvent1, recurringEvent2];
-  const setRecurringEvents = jest.fn();
+  const setRecurringEvents = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ recurringEvents, setRecurringEvents });

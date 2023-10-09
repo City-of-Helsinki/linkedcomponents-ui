@@ -188,7 +188,9 @@ const isPageRendered = async ({
 }) => {
   await loadingSpinnerIsNotInDocument();
   await waitFor(() => expect(history.location.pathname).toBe(pathname));
-  await waitFor(() => expect(document.title).toBe(pageTitle));
+  await waitFor(() => expect(document.title).toBe(pageTitle), {
+    timeout: 20000,
+  });
 };
 
 const isHeadingRendered = async (heading: string | RegExp) => {

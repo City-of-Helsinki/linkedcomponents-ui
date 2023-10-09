@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
+import { vi } from 'vitest';
 
 import { ROUTES } from '../../../../../constants';
 import {
@@ -35,7 +36,7 @@ const renderComponent = (props: RegistrationSectionProps) =>
   render(
     <Formik
       initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.General }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
     >
       <RegistrationSection {...props} />
     </Formik>,
