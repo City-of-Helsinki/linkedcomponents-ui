@@ -18,18 +18,18 @@ import AppRoutes from './routes/appRoutes/AppRoutes';
 import { ThemeProvider } from './theme/Theme';
 
 const getMatomoUrlPath = (path: string) =>
-  `${import.meta.env.VITE_MATOMO_URL_BASE}${path}`;
+  `${import.meta.env.REACT_APP_MATOMO_URL_BASE}${path}`;
 
 const instance = createInstance({
-  disabled: import.meta.env.VITE_MATOMO_ENABLED !== 'true',
-  urlBase: getValue(import.meta.env.VITE_MATOMO_URL_BASE, ''),
+  disabled: import.meta.env.REACT_APP_MATOMO_ENABLED !== 'true',
+  urlBase: getValue(import.meta.env.REACT_APP_MATOMO_URL_BASE, ''),
   srcUrl:
-    import.meta.env.VITE_MATOMO_SRC_URL &&
-    getMatomoUrlPath(import.meta.env.VITE_MATOMO_SRC_URL),
+    import.meta.env.REACT_APP_MATOMO_SRC_URL &&
+    getMatomoUrlPath(import.meta.env.REACT_APP_MATOMO_SRC_URL),
   trackerUrl:
-    import.meta.env.VITE_MATOMO_TRACKER_URL &&
-    getMatomoUrlPath(import.meta.env.VITE_MATOMO_TRACKER_URL),
-  siteId: Number(import.meta.env.VITE_MATOMO_SITE_ID),
+    import.meta.env.REACT_APP_MATOMO_TRACKER_URL &&
+    getMatomoUrlPath(import.meta.env.REACT_APP_MATOMO_TRACKER_URL),
+  siteId: Number(import.meta.env.REACT_APP_MATOMO_SITE_ID),
 });
 
 const App: React.FC = () => {

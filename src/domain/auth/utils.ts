@@ -162,7 +162,7 @@ export const signIn = async ({
   userManager: UserManager;
 }): Promise<void> => {
   const MAINTENANCE_DISABLE_LOGIN =
-    import.meta.env.VITE_MAINTENANCE_DISABLE_LOGIN === 'true';
+    import.meta.env.REACT_APP_MAINTENANCE_DISABLE_LOGIN === 'true';
 
   if (MAINTENANCE_DISABLE_LOGIN) {
     toast.error(getValue(t('maintenance.toast'), ''));
@@ -260,7 +260,7 @@ export const renewApiToken = async ({
   dispatchApiTokenState: React.Dispatch<ApiTokenAction>;
   t: TFunction;
 }) => {
-  const apiTokensUrl = import.meta.env.VITE_OIDC_API_TOKENS_URL;
+  const apiTokensUrl = import.meta.env.REACT_APP_OIDC_API_TOKENS_URL;
 
   if (!apiTokensUrl) {
     throw new Error(

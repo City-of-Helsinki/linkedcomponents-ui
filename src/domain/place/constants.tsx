@@ -12,7 +12,7 @@ export enum PLACES_SORT_ORDER {
 export const TEST_PLACE_ID = 'tprek:15321';
 
 export const INTERNET_PLACE_ID =
-  import.meta.env.VITE_INTERNET_PLACE_ID || 'helsinki:internet';
+  import.meta.env.REACT_APP_INTERNET_PLACE_ID || 'helsinki:internet';
 
 export enum PLACE_FIELDS {
   ADDRESS_LOCALITY = 'addressLocality',

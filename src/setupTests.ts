@@ -36,6 +36,6 @@ console.warn = (msg: any, ...optionalParams: any[]) => {
 
 jest.setTimeout(1000000);
 
-import.meta.env.VITE_ENABLE_EXTERNAL_USER_EVENTS = 'true';
-import.meta.env.VITE_MAINTENANCE_SHOW_NOTIFICATION = 'false';
-import.meta.env.VITE_MAINTENANCE_DISABLE_LOGIN = 'false';
+import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS = 'true';
+import.meta.env.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION = 'false';
+import.meta.env.REACT_APP_MAINTENANCE_DISABLE_LOGIN = 'false';

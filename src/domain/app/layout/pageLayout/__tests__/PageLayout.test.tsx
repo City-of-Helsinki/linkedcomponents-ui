@@ -60,7 +60,7 @@ test('should show maintenance warging', async () => {
 
   process.env = {
     ...originalEnv,
-    VITE_MAINTENANCE_SHOW_NOTIFICATION: 'true',
+    REACT_APP_MAINTENANCE_SHOW_NOTIFICATION: 'true',
   };
 
   renderComponent();

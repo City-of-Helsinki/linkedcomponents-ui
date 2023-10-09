@@ -158,14 +158,15 @@ export const PAGE_HEADER_ID = 'page-header';
 export const MAIN_CONTENT_ID = 'maincontent';
 
 export const SWAGGER_URL =
-  import.meta.env.VITE_SWAGGER_URL ?? 'https://dev.hel.fi/apis/linkedevents';
+  import.meta.env.REACT_APP_SWAGGER_URL ??
+  'https://dev.hel.fi/apis/linkedevents';
 
 export const SWAGGER_SCHEMA_URL =
-  import.meta.env.VITE_SWAGGER_SCHEMA_URL ||
+  import.meta.env.REACT_APP_SWAGGER_SCHEMA_URL ||
   'https://raw.githubusercontent.com/City-of-Helsinki/api-linked-events/master/linked-events.swagger.yaml';
 
 export const LINKED_EVENTS_SYSTEM_DATA_SOURCE =
-  import.meta.env.VITE_LINKED_EVENTS_SYSTEM_DATA_SOURCE || 'helsinki';
+  import.meta.env.REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE || 'helsinki';
 
 export const TEST_USER_ID = 'user:1';
 

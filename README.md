@@ -100,13 +100,13 @@ Clone the repository (https://github.com/City-of-Helsinki/linkedevents). Follow 
 
 Set the following settings in `.env.local`:
 
-- VITE_OIDC_AUTHORITY=http://tunnistamo-backend:8000/openid
-- VITE_OIDC_API_TOKENS_URL=http://tunnistamo-backend:8000/api-tokens/
-- VITE_OIDC_CLIENT_ID=https://api.hel.fi/auth/linkedevents-ui
-- VITE_OIDC_API_SCOPE=https://api.hel.fi/auth/linkedevents
-- VITE_OIDC_RESPONSE_TYPE=code
-- VITE_LINKED_EVENTS_URL=http://linkedevents-backend:8080/v1
-- VITE_LINKED_REGISTRATIONS_UI_URL=http://localhost:3001
+- REACT_APP_OIDC_AUTHORITY=http://tunnistamo-backend:8000/openid
+- REACT_APP_OIDC_API_TOKENS_URL=http://tunnistamo-backend:8000/api-tokens/
+- REACT_APP_OIDC_CLIENT_ID=https://api.hel.fi/auth/linkedevents-ui
+- REACT_APP_OIDC_API_SCOPE=https://api.hel.fi/auth/linkedevents
+- REACT_APP_OIDC_RESPONSE_TYPE=code
+- REACT_APP_LINKED_EVENTS_URL=http://linkedevents-backend:8080/v1
+- REACT_APP_LINKED_REGISTRATIONS_UI_URL=http://localhost:3001
 
 Run `docker-compose up`, now the app should be running at `http://localhost:3000/`
 
@@ -124,42 +124,42 @@ Run `yarn && yarn start`
 
 Use .env.development.local for development.
 
-| Name                                  | Description                                                                                            |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| GENERATE_ROBOTS                       | Set to true to generate robots.txt file                                                                |
-| GENERATE_SITEMAP                      | Set to true to generate sitemap for the site                                                           |
-| PUBLIC_URL                            | Public url of the application url                                                                      |
-| VITE_LINKED_EVENTS_URL                | linkedevents api base url                                                                              |
-| VITE_LINKED_REGISTRATIONS_UI_URL      | Linked registration UI url. Used to get signup form url                                                |
-| VITE_OIDC_AUTHORITY                   | Tunnistamo SSO service url. Default is https://tunnistamo.test.hel.ninja/openid                        |
-| VITE_OIDC_API_TOKENS_URL              | Tunnistamo api tokens endpoint url. Default is https://tunnistamo.test.hel.ninja/api-tokens/           |
-| VITE_OIDC_CLIENT_ID                   | Oidc client. Default is linkedcomponents-ui-dev                                                        |
-| VITE_OIDC_API_SCOPE                   | Linked Events API scope. Default is https://api.hel.fi/auth/linkedeventsapidev                         |
-| VITE_OIDC_RESPONSE_TYPE               | Response type of oidc client. Default is 'code'                                                        |
-| VITE_SENTRY_DSN                       | Sentry DSN. Both VITE_SENTRY_DSN and VITE_SENTRY_ENVIRONMENT has to be set to send error reports.      |
-| VITE_SENTRY_ENVIRONMENT               | Setry environment.                                                                                     |
-| VITE_MATOMO_URL_BASE                  | https://analytics.hel.ninja/                                                                           |
-| VITE_MATOMO_SITE_ID                   | 69                                                                                                     |
-| VITE_MATOMO_SRC_URL                   | matomo.js                                                                                              |
-| VITE_MATOMO_TRACKER_URL               | matomo.php                                                                                             |
-| VITE_MATOMO_ENABLED                   | Flag to enable matomo. Default false.                                                                  |
-| VITE_SWAGGER_URL                      | https://dev.hel.fi/apis/linkedevents                                                                   |
-| VITE_SWAGGER_SCHEMA_URL               | https://raw.githubusercontent.com/City-of-Helsinki/api-linked-events/master/linked-events.swagger.yaml |
-| VITE_INTERNET_PLACE_ID                | Id of the internet place. system:internet in development server, helsinki:internet in production       |
-| VITE_REMOTE_PARTICIPATION_KEYWORD_ID  | yso:p26626                                                                                             |
-| VITE_LINKED_EVENTS_SYSTEM_DATA_SOURCE | helsinki                                                                                               |
-| VITE_SHOW_ADMIN                       | Flag to show admin, Default true. pages                                                                |
-| VITE_SHOW_REGISTRATION                | Flag to show registration related pages, Default true.                                                 |
-| VITE_LOCALIZED_IMAGE                  | Flag to disabled localized image alt texts, Default true.                                              |
-| VITE_ENABLE_EXTERNAL_USER_EVENTS      | Flag to enable events for users without an organization, Default true.                                 |
-| VITE_MAINTENANCE_SHOW_NOTIFICATION    | Flag to show maintenance notification in each page. Default is false.                                  |
-| VITE_MAINTENANCE_DISABLE_LOGIN        | Flag to disable login and to show toast message instead. Default is false                              |
+| Name                                       | Description                                                                                                 |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| GENERATE_ROBOTS                            | Set to true to generate robots.txt file                                                                     |
+| GENERATE_SITEMAP                           | Set to true to generate sitemap for the site                                                                |
+| PUBLIC_URL                                 | Public url of the application url                                                                           |
+| REACT_APP_LINKED_EVENTS_URL                | linkedevents api base url                                                                                   |
+| REACT_APP_LINKED_REGISTRATIONS_UI_URL      | Linked registration UI url. Used to get signup form url                                                     |
+| REACT_APP_OIDC_AUTHORITY                   | Tunnistamo SSO service url. Default is https://tunnistamo.test.hel.ninja/openid                             |
+| REACT_APP_OIDC_API_TOKENS_URL              | Tunnistamo api tokens endpoint url. Default is https://tunnistamo.test.hel.ninja/api-tokens/                |
+| REACT_APP_OIDC_CLIENT_ID                   | Oidc client. Default is linkedcomponents-ui-dev                                                             |
+| REACT_APP_OIDC_API_SCOPE                   | Linked Events API scope. Default is https://api.hel.fi/auth/linkedeventsapidev                              |
+| REACT_APP_OIDC_RESPONSE_TYPE               | Response type of oidc client. Default is 'code'                                                             |
+| REACT_APP_SENTRY_DSN                       | Sentry DSN. Both REACT_APP_SENTRY_DSN and REACT_APP_SENTRY_ENVIRONMENT has to be set to send error reports. |
+| REACT_APP_SENTRY_ENVIRONMENT               | Setry environment.                                                                                          |
+| REACT_APP_MATOMO_URL_BASE                  | https://analytics.hel.ninja/                                                                                |
+| REACT_APP_MATOMO_SITE_ID                   | 69                                                                                                          |
+| REACT_APP_MATOMO_SRC_URL                   | matomo.js                                                                                                   |
+| REACT_APP_MATOMO_TRACKER_URL               | matomo.php                                                                                                  |
+| REACT_APP_MATOMO_ENABLED                   | Flag to enable matomo. Default false.                                                                       |
+| REACT_APP_SWAGGER_URL                      | https://dev.hel.fi/apis/linkedevents                                                                        |
+| REACT_APP_SWAGGER_SCHEMA_URL               | https://raw.githubusercontent.com/City-of-Helsinki/api-linked-events/master/linked-events.swagger.yaml      |
+| REACT_APP_INTERNET_PLACE_ID                | Id of the internet place. system:internet in development server, helsinki:internet in production            |
+| REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID  | yso:p26626                                                                                                  |
+| REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE | helsinki                                                                                                    |
+| REACT_APP_SHOW_ADMIN                       | Flag to show admin, Default true. pages                                                                     |
+| REACT_APP_SHOW_REGISTRATION                | Flag to show registration related pages, Default true.                                                      |
+| REACT_APP_LOCALIZED_IMAGE                  | Flag to disabled localized image alt texts, Default true.                                                   |
+| REACT_APP_ENABLE_EXTERNAL_USER_EVENTS      | Flag to enable events for users without an organization, Default true.                                      |
+| REACT_APP_MAINTENANCE_SHOW_NOTIFICATION    | Flag to show maintenance notification in each page. Default is false.                                       |
+| REACT_APP_MAINTENANCE_DISABLE_LOGIN        | Flag to disable login and to show toast message instead. Default is false                                   |
 
 ## Feature flags
 
 There are a feature flags which can be enabled in `.env.development.local`:
 
-`VITE_SHOW_ADMIN`:
+`REACT_APP_SHOW_ADMIN`:
 
 Features enabled:
 
@@ -169,7 +169,7 @@ Features enabled:
 - Editing organizations.
 - Editing places.
 
-`VITE_SHOW_REGISTRATION`:
+`REACT_APP_SHOW_REGISTRATION`:
 
 Features enabled:
 
@@ -178,7 +178,7 @@ Features enabled:
 - Registration search, creation and update pages routes.
 - Signup search, creation and update pages routes.
 
-`VITE_LOCALIZED_IMAGE`:
+`REACT_APP_LOCALIZED_IMAGE`:
 
 Features enabled:
 

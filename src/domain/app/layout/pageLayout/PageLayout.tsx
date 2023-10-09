@@ -46,7 +46,7 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
   const canonicalUrl = host + pathname;
 
   const MAINTENANCE_SHOW_NOTIFICATION =
-    import.meta.env.VITE_MAINTENANCE_SHOW_NOTIFICATION === 'true';
+    import.meta.env.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION === 'true';
 
   return (
     <ClassNames>

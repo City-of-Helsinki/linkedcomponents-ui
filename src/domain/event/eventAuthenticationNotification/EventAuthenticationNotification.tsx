@@ -32,7 +32,7 @@ const EventAuthenticationNotification: React.FC<
   );
 
   const ENABLE_EXTERNAL_USER_EVENTS =
-    import.meta.env.VITE_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+    import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
   const requiredOrganizationType: AdminType[] = ENABLE_EXTERNAL_USER_EVENTS
     ? ['external']
     : ['any'];

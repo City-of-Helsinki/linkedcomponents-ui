@@ -42,7 +42,7 @@ const apiTokenUrl = 'https://tunnistamo.test.fi/api-tokens/';
 
 beforeEach(() => {
   jest.resetModules();
-  process.env = { ...OLD_ENV, VITE_OIDC_API_TOKENS_URL: apiTokenUrl }; // Make a copy of env
+  process.env = { ...OLD_ENV, REACT_APP_OIDC_API_TOKENS_URL: apiTokenUrl }; // Make a copy of env
 });
 
 afterEach(() => {
@@ -348,7 +348,7 @@ describe('signIn function', () => {
 
     process.env = {
       ...originalEnv,
-      VITE_MAINTENANCE_DISABLE_LOGIN: 'true',
+      REACT_APP_MAINTENANCE_DISABLE_LOGIN: 'true',
     };
 
     const toastError = jest.spyOn(toast, 'error');
@@ -436,8 +436,8 @@ describe('getApiToken function', () => {
     });
   });
 
-  it('should throw an error if VITE_OIDC_API_TOKENS_URL is not set', async () => {
-    process.env.VITE_OIDC_API_TOKENS_URL = '';
+  it('should throw an error if REACT_APP_OIDC_API_TOKENS_URL is not set', async () => {
+    process.env.REACT_APP_OIDC_API_TOKENS_URL = '';
 
     const dispatchApiTokenState = jest.fn();
 

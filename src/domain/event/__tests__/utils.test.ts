@@ -682,7 +682,7 @@ describe('getEventPayload function', () => {
 
     process.env = {
       ...originalEnv,
-      VITE_ENABLE_EXTERNAL_USER_EVENTS: 'false',
+      REACT_APP_ENABLE_EXTERNAL_USER_EVENTS: 'false',
     };
 
     expect(
@@ -1121,7 +1121,7 @@ describe('getEventInitialValues function', () => {
 
     process.env = {
       ...originalEnv,
-      VITE_ENABLE_EXTERNAL_USER_EVENTS: 'false',
+      REACT_APP_ENABLE_EXTERNAL_USER_EVENTS: 'false',
     };
 
     const expectedName = {

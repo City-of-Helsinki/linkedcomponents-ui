@@ -549,9 +549,9 @@ export const getSignupLink = (
   registration: RegistrationFieldsFragment,
   locale: Language
 ): string =>
-  `${import.meta.env.VITE_LINKED_REGISTRATIONS_UI_URL}/${locale}/registration/${
-    registration.id
-  }/signup-group/create`;
+  `${
+    import.meta.env.REACT_APP_LINKED_REGISTRATIONS_UI_URL
+  }/${locale}/registration/${registration.id}/signup-group/create`;
 
 export const copySignupLinkToClipboard = ({
   locale,

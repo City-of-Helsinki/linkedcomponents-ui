@@ -4,6 +4,7 @@ import eslint from 'vite-plugin-eslint';
 
 export default defineConfig({
   base: '/',
+  envPrefix: 'REACT_APP_',
   plugins: [react(), eslint()],
   build: {
     outDir: '../build',
