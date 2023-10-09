@@ -2,7 +2,7 @@ import { MockedProvider } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
 import range from 'lodash/range';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { Meta, OrganizationsDocument } from '../../../../generated/graphql';
 import { fakeOrganizations } from '../../../../utils/mockDataUtils';
@@ -66,7 +66,7 @@ const mockedPage2OrganizationsResponse = {
 const mocks = [mockedOrganizationsResponse, mockedPage2OrganizationsResponse];
 
 const getHookWrapper = () => {
-  const wrapper = ({ children }) => (
+  const wrapper = ({ children }: PropsWithChildren) => (
     <MockedProvider cache={createCache()} mocks={mocks}>
       {children}
     </MockedProvider>
