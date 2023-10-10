@@ -14,5 +14,4 @@
 !tsconfig.json
 !yarn.lock
 !plugins
-!craco.config.js
 src/utils/testUtils.tsx

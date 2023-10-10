@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import dotenv from 'dotenv';
 import * as fs from 'fs';
 import { promisify } from 'util';
 import * as convert from 'xml-js';
@@ -5,6 +7,9 @@ import * as convert from 'xml-js';
 import { ROUTES, SUPPORTED_LANGUAGES } from '../src/constants';
 import { featureFlagUtils } from '../src/utils/featureFlags';
 import { HOST, PATH_TO_BUILD_FOLDER, SITEMAP_FILENAME } from './constants';
+/* @ts-ignore */
+import.meta.env = {};
+dotenv.config({ processEnv: import.meta.env });
 
 const LANGUAGES = Object.values(SUPPORTED_LANGUAGES);
 const STATIC_URLS_BLACK_LIST = [
@@ -164,6 +169,6 @@ const generateSitemap = async () => {
 };
 
 // Generate sitemap only if GENERATE_SITEMAP flag is true and PUBLIC_URL is set
-if (HOST && process.env.GENERATE_SITEMAP === 'true') {
+if (HOST && import.meta.env.GENERATE_SITEMAP === 'true') {
   generateSitemap();
 }
