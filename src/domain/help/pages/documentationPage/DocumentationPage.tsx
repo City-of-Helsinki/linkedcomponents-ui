@@ -5,7 +5,7 @@ import 'swagger-ui-react/swagger-ui.css';
 import React from 'react';
 import SwaggerUI from 'swagger-ui-react';
 
-import { SWAGGER_SCHEMA_URL } from '../../../../constants';
+import { SWAGGER_SCHEMA_URL } from '../../../../envVariables';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
