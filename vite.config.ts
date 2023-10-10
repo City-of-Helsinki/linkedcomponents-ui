@@ -8,9 +8,11 @@ export default defineConfig({
   envPrefix: 'REACT_APP_',
   plugins: [react(), eslint()],
   build: {
-    outDir: '../build',
+    outDir: './build',
+    emptyOutDir: true,
   },
   server: {
+    host: true,
     port: 3000,
   },
   preview: {
