@@ -3,7 +3,8 @@ import { TFunction } from 'i18next';
 import { LatLng } from 'leaflet';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
-import { LINKED_EVENTS_SYSTEM_DATA_SOURCE, ROUTES } from '../../constants';
+import { ROUTES } from '../../constants';
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../envVariables';
 import {
   CreatePlaceMutationInput,
   OrganizationFieldsFragment,

@@ -2,7 +2,7 @@
 import { NetworkStatus } from '@apollo/client';
 import i18n from 'i18next';
 
-import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../constants';
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../envVariables';
 import {
   fakeOrganization,
   fakeOrganizations,

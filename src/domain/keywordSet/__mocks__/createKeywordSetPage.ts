@@ -1,7 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 
 import { keyword } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
-import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../constants';
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../envVariables';
 import { CreateKeywordSetDocument } from '../../../generated/graphql';
 import { fakeKeywordSet } from '../../../utils/mockDataUtils';
 
