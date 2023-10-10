@@ -1,7 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 
-import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../constants';
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../envVariables';
 import {
   CreateKeywordDocument,
   KeywordFieldsFragment,
