@@ -28,8 +28,7 @@ USER default
 RUN yarn && yarn cache clean --force
 
 # Copy all necessary files
-COPY craco.config.js tsconfig.json .eslintignore .eslintrc.json .prettierrc.json .env /app/
-COPY /plugins/ /app/plugins
+COPY tsconfig.json .eslintignore .eslintrc.json .prettierrc.json .env /app/
 COPY /public/ /app/public
 COPY /scripts/ /app/scripts
 COPY /src/ /app/src
