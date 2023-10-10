@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import dotenv from 'dotenv';
 import * as fs from 'fs';
 
 import { DEPRECATED_ROUTES, ROUTES } from '../src/constants';
@@ -8,6 +10,9 @@ import {
   ROBOTS_FILENAME,
   SITEMAP_FILENAME,
 } from './constants';
+/* @ts-ignore */
+import.meta.env = {};
+dotenv.config({ processEnv: import.meta.env });
 
 const DISALLOWED_URLS = [
   `/*${ROUTES.CREATE_EVENT}`,
@@ -44,7 +49,7 @@ const generateRobotsTxt = async () => {
     writeStream.write(`Disallow: ${url}\n`);
   });
 
-  if (process.env.GENERATE_SITEMAP === 'true') {
+  if (import.meta.env.GENERATE_SITEMAP === 'true') {
     writeStream.write('\n');
     writeStream.write(`Sitemap: ${HOST}/${SITEMAP_FILENAME}\n`);
   }
@@ -54,6 +59,6 @@ const generateRobotsTxt = async () => {
 };
 
 // Generate robots.txt only if GENERATE_ROBOTS flag is true and PUBLIC_URL is set
-if (HOST && process.env.GENERATE_ROBOTS === 'true') {
+if (HOST && import.meta.env.GENERATE_ROBOTS === 'true') {
   generateRobotsTxt();
 }
