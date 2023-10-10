@@ -62,6 +62,7 @@ import {
 import { EVENT_EXTERNAL_USER_INITIAL_VALUES, EVENT_FIELDS } from '../constants';
 import CreateEventPage from '../CreateEventPage';
 import { EventFormFields } from '../types';
+import { testExternalUserFields } from './eventTestUtils';
 
 configure({ defaultHidden: true });
 
@@ -480,42 +481,5 @@ test('should render fields for external user', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const externalUserFieldLabels = [
-    /tapahtumalla on ekokompassi tai muu vastaava sertifikaatti/i,
-    /sertifikaatin nimi/i,
-    /sisällä/i,
-    /nimi/i,
-    /sähköpostiosoite/i,
-    /puhelinnumero/i,
-    /organisaatio/i,
-    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
-  ];
-
-  externalUserFieldLabels.forEach(async (label) =>
-    expect(await screen.findByLabelText(label)).toBeInTheDocument()
-  );
-
-  const disabledFieldLabels = [
-    /tapahtuma/i,
-    /sertifikaatin nimi/i,
-    /tapahtuman julkaisija/i,
-  ];
-
-  disabledFieldLabels.forEach(async (label) =>
-    expect(await screen.findByLabelText(label)).toBeDisabled()
-  );
-
-  const requiredFieldLabels = [
-    /tapahtuman järjestäjä suomeksi/i,
-    /sertifikaatin nimi/i,
-    /enimmäisosallistujamäärä/i,
-    /nimi/i,
-    /sähköpostiosoite/i,
-    /puhelinnumero/i,
-    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
-  ];
-
-  requiredFieldLabels.forEach(async (label) =>
-    expect(await screen.findByLabelText(label)).toBeRequired()
-  );
+  await testExternalUserFields();
 });
