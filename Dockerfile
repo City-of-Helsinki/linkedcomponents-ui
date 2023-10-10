@@ -28,7 +28,7 @@ USER default
 RUN yarn && yarn cache clean --force
 
 # Copy all necessary files
-COPY tsconfig.json .eslintignore .eslintrc.json .prettierrc.json .env /app/
+COPY index.html vite.config.ts tsconfig.json .eslintignore .eslintrc.json .prettierrc.json .env* /app/
 COPY /public/ /app/public
 COPY /scripts/ /app/scripts
 COPY /src/ /app/src
@@ -44,7 +44,7 @@ ENV NODE_ENV $NODE_ENV
 ENV PORT 8000
 
 # Bake package.json start command into the image
-CMD ["yarn", "start"]
+CMD yarn start --port ${PORT}
 
 EXPOSE 8000
 
