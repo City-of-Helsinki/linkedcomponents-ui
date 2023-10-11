@@ -2,7 +2,6 @@
 import { act, render, waitFor } from '@testing-library/react';
 import { Formik, FormikProps } from 'formik';
 import * as React from 'react';
-import { vi } from 'vitest';
 
 import Persist from '../FormikPersist';
 

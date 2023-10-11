@@ -2,7 +2,6 @@ import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { vi } from 'vitest';
 
 import { SendRegistrationUserAccessInvitationDocument } from '../../../../../generated/graphql';
 import {

@@ -1,5 +1,3 @@
-import { vi } from 'vitest';
-
 import { ROUTES } from '../../../constants';
 import { waitReducerToBeCalled } from '../../../utils/testUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';

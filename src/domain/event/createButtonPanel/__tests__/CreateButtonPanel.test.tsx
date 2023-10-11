@@ -1,7 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { configure, render, screen } from '../../../../utils/testUtils';

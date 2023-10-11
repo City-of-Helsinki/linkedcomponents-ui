@@ -7,8 +7,12 @@
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:vitest-globals/recommended"
   ],
+  "env": {
+    "vitest-globals/env": true
+  },
   "plugins": ["simple-import-sort", "testcafe"],
   "rules": {
     "@typescript-eslint/brace-style": [

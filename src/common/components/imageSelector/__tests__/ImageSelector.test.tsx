@@ -1,6 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { testIds } from '../../../../constants';
 import { mockedOrganizationAncestorsResponse } from '../../../../domain/organization/__mocks__/organizationAncestors';

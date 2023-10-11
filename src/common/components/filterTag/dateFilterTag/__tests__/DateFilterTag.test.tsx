@@ -1,5 +1,4 @@
 import React from 'react';
-import { vi } from 'vitest';
 
 import { render, screen } from '../../../../../utils/testUtils';
 import DateFilterTag, { DateFilterTagProps } from '../DateFilterTag';

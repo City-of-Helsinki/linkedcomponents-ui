@@ -1,6 +1,5 @@
 import { createMemoryHistory } from 'history';
 import React from 'react';
-import { vi } from 'vitest';
 
 import getValue from '../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';

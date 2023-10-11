@@ -1,5 +1,4 @@
 import React from 'react';
-import { vi } from 'vitest';
 
 import { fakeKeywords } from '../../../../utils/mockDataUtils';
 import {

@@ -2,7 +2,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { ROUTES } from '../../../constants';
 import { AttendeeStatus } from '../../../generated/graphql';

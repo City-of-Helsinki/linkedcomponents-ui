@@ -1,7 +1,6 @@
 /* eslint-disable import/no-named-as-default-member */
 import { NetworkStatus } from '@apollo/client';
 import i18n from 'i18next';
-import { vi } from 'vitest';
 
 import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../constants';
 import {

@@ -1,5 +1,3 @@
-import { vi } from 'vitest';
-
 import { TEST_EVENT_ID } from '../../event/constants';
 import { REGISTRATION_INITIAL_VALUES } from '../constants';
 import { RegistrationFormFields } from '../types';

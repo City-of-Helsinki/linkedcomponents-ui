@@ -2,7 +2,6 @@
 import { Formik } from 'formik';
 import * as formik from 'formik';
 import React from 'react';
-import { vi } from 'vitest';
 
 import {
   configure,

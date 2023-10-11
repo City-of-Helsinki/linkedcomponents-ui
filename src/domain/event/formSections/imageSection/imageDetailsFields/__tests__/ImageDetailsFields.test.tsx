@@ -1,7 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../../constants';
 import { setFeatureFlags } from '../../../../../../test/featureFlags/featureFlags';

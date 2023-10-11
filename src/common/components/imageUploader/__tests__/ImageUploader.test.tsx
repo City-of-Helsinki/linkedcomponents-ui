@@ -1,7 +1,6 @@
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { vi } from 'vitest';
 
 import { testIds } from '../../../../constants';
 import translations from '../../../../domain/app/i18n/fi.json';

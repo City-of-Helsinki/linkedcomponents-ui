@@ -1,7 +1,6 @@
 import { configure, render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { enterKeyPressHelper } from '../../../../utils/testUtils';
 import ImagePreview, { ImagePreviewProps } from '../ImagePreview';

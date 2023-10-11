@@ -1,7 +1,6 @@
 import copyToClipboard from 'copy-to-clipboard';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { vi } from 'vitest';
 
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';

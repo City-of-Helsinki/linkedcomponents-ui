@@ -14,7 +14,6 @@ import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   actWait,
-  ByRoleMatcher,
   configure,
   fireEvent,
   loadingSpinnerIsNotInDocument,

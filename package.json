@@ -40,6 +40,7 @@
     "eslint-plugin-prettier": "5.0.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-testcafe": "^0.2.1",
+    "eslint-plugin-vitest-globals": "^1.4.0",
     "focus-visible": "^5.2.0",
     "formik": "2.4.4",
     "gzipper": "^7.2.0",

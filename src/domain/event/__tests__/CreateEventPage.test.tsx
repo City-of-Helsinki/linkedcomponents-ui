@@ -4,7 +4,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import {

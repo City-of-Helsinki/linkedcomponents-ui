@@ -6,7 +6,6 @@ import { createMemoryHistory } from 'history';
 import omit from 'lodash/omit';
 import React, { PropsWithChildren } from 'react';
 import { unstable_HistoryRouter as Router } from 'react-router-dom';
-import { vi } from 'vitest';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../constants';
 import {

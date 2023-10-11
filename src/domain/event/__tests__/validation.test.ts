@@ -1,5 +1,4 @@
 import { yupToFormErrors } from 'formik';
-import { vi } from 'vitest';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';

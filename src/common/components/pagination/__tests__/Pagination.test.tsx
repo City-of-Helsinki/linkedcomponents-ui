@@ -1,6 +1,5 @@
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { configure, render, screen } from '../../../../utils/testUtils';
 import Pagination, { PaginationProps } from '../Pagination';

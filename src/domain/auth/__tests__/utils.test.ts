@@ -4,7 +4,7 @@
 import mockAxios from 'axios';
 import i18n from 'i18next';
 import { toast } from 'react-toastify';
-import { SpyInstance, vi } from 'vitest';
+import { SpyInstance } from 'vitest';
 
 import { fakeOidcUserState } from '../../../utils/mockAuthContextValue';
 import { waitFor, waitReducerToBeCalled } from '../../../utils/testUtils';

@@ -1,6 +1,5 @@
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
-import { vi } from 'vitest';
 
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,

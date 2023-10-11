@@ -1,6 +1,5 @@
 import { IconInfoCircle } from 'hds-react';
 import React from 'react';
-import { vi } from 'vitest';
 
 import {
   configure,

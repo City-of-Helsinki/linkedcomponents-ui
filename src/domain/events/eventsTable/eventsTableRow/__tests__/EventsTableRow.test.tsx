@@ -1,7 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 import React from 'react';
-import { vi } from 'vitest';
 
 import {
   EventFieldsFragment,

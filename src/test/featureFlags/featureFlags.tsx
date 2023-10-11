@@ -1,5 +1,3 @@
-import { vi } from 'vitest';
-
 import { FeatureFlags, featureFlagUtils } from '../../utils/featureFlags';
 
 export const setFeatureFlags = (override: FeatureFlags): void => {
