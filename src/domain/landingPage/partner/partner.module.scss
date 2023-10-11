@@ -5,7 +5,7 @@
   display: flex;
   justify-content: center;
 
-  img {
+  :is(img) {
     max-height: var(--partner-image-max-height);
     max-width: var(--partner-image-max-width);
 
