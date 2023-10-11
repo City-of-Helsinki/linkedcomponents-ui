@@ -18,9 +18,7 @@ import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
 import { PLACE_ACTIONS } from './constants';
-import usePlaceUpdateActions, {
-  PLACE_MODALS,
-} from './hooks/usePlaceUpdateActions';
+import usePlaceUpdateActions, { PLACE_MODALS } from './hooks/usePlaceActions';
 import ConfirmDeletePlaceModal from './modals/confirmDeletePlaceModal/ConfirmDeletePlaceModal';
 import PlaceForm from './placeForm/PlaceForm';
 import { getEditButtonProps, getPlaceFields, placePathBuilder } from './utils';

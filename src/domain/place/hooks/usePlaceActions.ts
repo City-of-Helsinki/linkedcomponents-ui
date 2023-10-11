@@ -7,6 +7,7 @@ import {
 import {
   PlaceFieldsFragment,
   UpdatePlaceMutationInput,
+  useCreatePlaceMutation,
   useDeletePlaceMutation,
   useUpdatePlaceMutation,
 } from '../../../generated/graphql';
@@ -33,6 +34,10 @@ interface Props {
 
 type UsePlaceUpdateActionsState = {
   closeModal: () => void;
+  createPlace: (
+    values: PlaceFormFields,
+    callbacks?: MutationCallbacks
+  ) => Promise<void>;
   deletePlace: (callbacks?: MutationCallbacks) => Promise<void>;
   openModal: PLACE_MODALS | null;
   saving: PLACE_ACTIONS | null;
@@ -50,6 +55,7 @@ const usePlaceUpdateActions = ({
   const [openModal, setOpenModal] = useMountedState<PLACE_MODALS | null>(null);
   const [saving, setSaving] = useMountedState<PLACE_ACTIONS | null>(null);
 
+  const [createPlaceMutation] = useCreatePlaceMutation();
   const [deletePlaceMutation] = useDeletePlaceMutation();
   const [updatePlaceMutation] = useUpdatePlaceMutation();
 
@@ -61,7 +67,10 @@ const usePlaceUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
+  const cleanAfterUpdate = async (
+    id: string,
+    callbacks?: MutationCallbacks
+  ) => {
     /* istanbul ignore next */
     !isTestEnv && clearPlaceQueries(apolloClient);
     /* istanbul ignore next */
@@ -70,20 +79,45 @@ const usePlaceUpdateActions = ({
     savingFinished();
     closeModal();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess());
+    await (callbacks?.onSuccess && callbacks.onSuccess(id));
   };
 
   const { handleError } = useHandleError();
 
+  const createPlace = async (
+    values: PlaceFormFields,
+    callbacks?: MutationCallbacks<string>
+  ) => {
+    setSaving(PLACE_ACTIONS.CREATE);
+    const payload = getPlacePayload(values);
+
+    try {
+      const { data } = await createPlaceMutation({
+        variables: { input: payload },
+      });
+
+      await cleanAfterUpdate(data?.createPlace.id as string, callbacks);
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to create place',
+        payload,
+        savingFinished,
+      });
+    }
+  };
+
   const deletePlace = async (callbacks?: MutationCallbacks) => {
     try {
+      const id = getValue(place.id, '');
       setSaving(PLACE_ACTIONS.DELETE);
 
       await deletePlaceMutation({
-        variables: { id: getValue(place.id, '') },
+        variables: { id },
       });
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterUpdate(id, callbacks);
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
@@ -105,7 +139,7 @@ const usePlaceUpdateActions = ({
 
       await updatePlaceMutation({ variables: { input: payload } });
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterUpdate(values.id, callbacks);
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
@@ -119,6 +153,7 @@ const usePlaceUpdateActions = ({
 
   return {
     closeModal,
+    createPlace,
     deletePlace,
     openModal,
     saving,

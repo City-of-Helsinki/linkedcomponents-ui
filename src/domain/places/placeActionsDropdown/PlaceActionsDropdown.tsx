@@ -14,7 +14,7 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import { PLACE_ACTIONS } from '../../place/constants';
 import usePlaceUpdateActions, {
   PLACE_MODALS,
-} from '../../place/hooks/usePlaceUpdateActions';
+} from '../../place/hooks/usePlaceActions';
 import ConfirmDeletePlaceModal from '../../place/modals/confirmDeletePlaceModal/ConfirmDeletePlaceModal';
 import { getEditButtonProps, getPlaceFields } from '../../place/utils';
 import useUser from '../../user/hooks/useUser';
