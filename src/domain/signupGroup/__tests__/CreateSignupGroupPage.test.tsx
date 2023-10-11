@@ -480,7 +480,7 @@ test('should delete participants by clicking delete participant button', async (
       screen.queryByRole('button', { name: 'Osallistuja 2' })
     ).not.toBeInTheDocument()
   );
-  await actWait(100);
+  expect(participantAmountInput).toHaveValue(1);
 });
 
 test('should show server errors when updating seats reservation fails', async () => {

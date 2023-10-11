@@ -64,7 +64,7 @@ const renderComponent = ({
   props?: Partial<SignupActionsDropdownProps>;
 } = {}) =>
   render(
-    <SignupGroupFormProvider>
+    <SignupGroupFormProvider registration={registration}>
       <SignupActionsDropdown {...defaultProps} {...props} />
     </SignupGroupFormProvider>,
     {

@@ -29,7 +29,7 @@ import ParticipantAmountSelector from '../ParticipantAmountSelector';
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
   render(
-    <SignupGroupFormProvider>
+    <SignupGroupFormProvider registration={registration}>
       <SignupServerErrorsProvider>
         <Formik
           initialValues={{ signups: [{ ...SIGNUP_INITIAL_VALUES }] }}

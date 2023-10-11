@@ -220,7 +220,7 @@ const SignupsPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {registration ? (
-        <SignupGroupFormProvider>
+        <SignupGroupFormProvider registration={registration}>
           <SignupsPage registration={registration} />
         </SignupGroupFormProvider>
       ) : (
