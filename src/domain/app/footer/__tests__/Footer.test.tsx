@@ -2,7 +2,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import i18n from 'i18next';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { DATA_PROTECTION_URL, ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';

@@ -4,7 +4,6 @@ import { act, renderHook, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import React, { PropsWithChildren } from 'react';
 import { unstable_HistoryRouter as Router } from 'react-router-dom';
-import { vi } from 'vitest';
 
 import {
   EventFieldsFragment,

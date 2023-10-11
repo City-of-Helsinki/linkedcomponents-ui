@@ -1,7 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { vi } from 'vitest';
 
 import { ROUTES } from '../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';

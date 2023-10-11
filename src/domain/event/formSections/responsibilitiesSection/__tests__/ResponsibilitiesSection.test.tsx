@@ -1,6 +1,5 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { LE_DATA_LANGUAGES } from '../../../../../constants';
 import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';

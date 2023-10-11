@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { vi } from 'vitest';
-
 import {
   getA11ySelectionMessage,
   getA11yStatusMessage,

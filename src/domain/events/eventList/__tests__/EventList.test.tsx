@@ -1,6 +1,5 @@
 import range from 'lodash/range';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { EventsDocument, Meta } from '../../../../generated/graphql';
 import { fakeEvents } from '../../../../utils/mockDataUtils';

@@ -2,7 +2,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { mockedEventResponse } from '../../../common/components/eventSelector/__mocks__/eventSelector';
 import { mockedRegistrationEventSelectorEventsResponse } from '../../../common/components/formFields/registrationEventSelectorField/__mocks__/registrationEventSelectorField';

@@ -2,7 +2,6 @@
 import 'vitest-axe/extend-expect';
 
 import React from 'react';
-import { vi } from 'vitest';
 import { axe } from 'vitest-axe';
 
 import {

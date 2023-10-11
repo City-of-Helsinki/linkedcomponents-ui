@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
-import { vi } from 'vitest';
 
 import {
   getErrorText,

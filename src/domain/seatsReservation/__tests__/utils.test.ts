@@ -1,5 +1,4 @@
 import addMinutes from 'date-fns/addMinutes';
-import { vi } from 'vitest';
 
 import { SeatsReservation } from '../../../generated/graphql';
 import { fakeSeatsReservation } from '../../../utils/mockDataUtils';

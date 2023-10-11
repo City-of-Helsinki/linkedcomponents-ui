@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
 import i18n from 'i18next';
-import { vi } from 'vitest';
 
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,

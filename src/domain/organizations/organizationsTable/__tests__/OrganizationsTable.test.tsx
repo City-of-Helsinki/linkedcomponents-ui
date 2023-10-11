@@ -1,5 +1,4 @@
 import React from 'react';
-import { vi } from 'vitest';
 
 import { Organization } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';

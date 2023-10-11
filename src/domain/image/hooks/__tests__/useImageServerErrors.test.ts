@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloError } from '@apollo/client';
 import { act, renderHook } from '@testing-library/react';
-import { vi } from 'vitest';
 
 import useImageServerErrors from '../useImageServerErrors';
 

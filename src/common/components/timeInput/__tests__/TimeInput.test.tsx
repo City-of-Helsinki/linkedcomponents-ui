@@ -2,7 +2,6 @@
 /* eslint-disable no-console */
 import { TimeInputProps } from 'hds-react';
 import React from 'react';
-import { vi } from 'vitest';
 import { axe } from 'vitest-axe';
 
 import {

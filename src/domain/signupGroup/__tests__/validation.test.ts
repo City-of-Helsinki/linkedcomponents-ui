@@ -1,4 +1,3 @@
-import { vi } from 'vitest';
 import * as Yup from 'yup';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';

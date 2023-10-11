@@ -1,7 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { Formik } from 'formik';
 import React, { PropsWithChildren } from 'react';
-import { vi } from 'vitest';
 
 import useSingleSelectFieldProps, {
   UseSingleSelectFieldPropsProps,

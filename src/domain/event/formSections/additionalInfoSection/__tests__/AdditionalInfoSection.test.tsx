@@ -1,6 +1,5 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { vi } from 'vitest';
 import { ObjectSchema } from 'yup';
 
 import { PublicationStatus } from '../../../../../generated/graphql';

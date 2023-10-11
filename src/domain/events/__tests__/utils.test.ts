@@ -1,5 +1,3 @@
-import { vi } from 'vitest';
-
 import { ROUTES } from '../../../constants';
 import {
   EventsQueryVariables,

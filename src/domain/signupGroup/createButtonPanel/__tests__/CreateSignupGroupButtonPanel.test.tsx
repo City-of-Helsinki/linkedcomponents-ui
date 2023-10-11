@@ -1,5 +1,4 @@
 import React from 'react';
-import { vi } from 'vitest';
 
 import { ROUTES } from '../../../../constants';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';

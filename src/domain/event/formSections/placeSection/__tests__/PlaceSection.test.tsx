@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import { Formik } from 'formik';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { mockedPlacesResponse as mockedPlaceSelectorPlacesResponse } from '../../../../../common/components/placeSelector/__mocks__/placeSelector';
 import {

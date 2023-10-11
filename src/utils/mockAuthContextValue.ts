@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import merge from 'lodash/merge';
 import { Profile, User } from 'oidc-client';
-import { vi } from 'vitest';
 
 import { TEST_USER_ID } from '../constants';
 import {

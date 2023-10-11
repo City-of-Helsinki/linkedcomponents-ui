@@ -2,7 +2,6 @@
 import { ApolloError } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
-import { vi } from 'vitest';
 
 import {
   CreateSeatsReservationDocument,
@@ -32,7 +31,7 @@ const mockedUseNavigate = vi.fn();
 
 vi.mock('react-router', async () => {
   return {
-    ...((await vi.importActual('react-router')) as any),
+    ...((await vi.importActual('react-router')) as object),
     useNavigate: () => mockedUseNavigate,
   };
 });

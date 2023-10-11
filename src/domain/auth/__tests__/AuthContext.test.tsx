@@ -3,7 +3,6 @@
 /* eslint @typescript-eslint/explicit-function-return-type: 0 */
 import { render, waitFor } from '@testing-library/react';
 import React from 'react';
-import { vi } from 'vitest';
 
 import { AuthContext, AuthProvider } from '../AuthContext';
 import { OidcActionTypes } from '../constants';
