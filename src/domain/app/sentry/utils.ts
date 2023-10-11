@@ -22,7 +22,7 @@ const reportError = ({
         currentUrl: window.location.href,
         location,
         timestamp: new Date(),
-        user,
+        user: user?.username,
         userAgent: navigator.userAgent,
         errorAsString: JSON.stringify(error),
       },
