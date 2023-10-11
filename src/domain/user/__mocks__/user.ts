@@ -9,7 +9,7 @@ import { TEST_PUBLISHER_ID } from '../../organization/constants';
 const userName = 'Test user';
 
 const getMockedUserResponse = (userSettings: Partial<User>): MockedResponse => {
-  const user = fakeUser(userSettings);
+  const user = fakeUser({ ...userSettings, username: TEST_USER_ID });
   const userVariables = {
     createPath: undefined,
     id: TEST_USER_ID,

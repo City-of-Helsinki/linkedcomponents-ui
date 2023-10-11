@@ -7,7 +7,6 @@ import isEqual from 'date-fns/isEqual';
 import isFuture from 'date-fns/isFuture';
 import isNull from 'lodash/isNull';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
 
 import {
   EventFieldsFragment,
@@ -16,11 +15,11 @@ import {
   UserFieldsFragment,
   useUpdateEventMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import getDateFromString from '../../../utils/getDateFromString';
 import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { reportError } from '../../app/sentry/utils';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
@@ -45,12 +44,13 @@ const useUpdateRecurringEventIfNeeded =
   (): UpdateRecurringEventIfNeededState => {
     const apolloClient =
       useApolloClient() as ApolloClient<NormalizedCacheObject>;
-    const location = useLocation();
     const { t } = useTranslation();
     const { isAuthenticated: authenticated } = useAuth();
 
     const { user } = useUser();
     const [updateEvent] = useUpdateEventMutation();
+
+    const { handleError } = useHandleError<null, EventFieldsFragment>();
 
     const shouldUpdateTime = (time: Date | null, newTime: Date | null) =>
       ((isNull(time) || isNull(newTime)) && time !== newTime) ||
@@ -149,15 +149,15 @@ const useUpdateRecurringEventIfNeeded =
 
         return getValue(data.data?.updateEvent, null);
       } catch (error) {
-        reportError({
-          data: {
-            error: error as Record<string, unknown>,
-            event,
-          },
-          location,
+        handleError({
+          error,
           message: 'Failed to update recurring event',
-          user,
+          object: event,
+          savingFinished:
+            /* istanbul ignore next */
+            () => undefined,
         });
+
         throw error;
       }
     };

@@ -17,6 +17,7 @@ import {
 import generateAtId from '../../../../utils/generateAtId';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeEvent, fakeOrganizations } from '../../../../utils/mockDataUtils';
+import { createCache } from '../../../app/apollo/apolloClient';
 import { AuthContext } from '../../../auth/AuthContext';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
@@ -89,7 +90,7 @@ const getHookWrapper = (mocks: MockedResponse[] = commonMocks) => {
   const wrapper = ({ children }: PropsWithChildren) => (
     <AuthContext.Provider value={authContextValue}>
       <Router history={createMemoryHistory() as any}>
-        <MockedProvider mocks={mocks} addTypename={false}>
+        <MockedProvider cache={createCache()} mocks={mocks}>
           {children}
         </MockedProvider>
       </Router>
@@ -375,7 +376,6 @@ test('should return new super event if recurring event is updated', async () => 
     mockedUpdateEventResponse,
   ]);
   const event = fakeEvent({ superEvent });
-
   await waitFor(() => expect(result.current.user).toBeDefined());
   await act(async () => {
     const response = await result.current.updateRecurringEventIfNeeded(event);

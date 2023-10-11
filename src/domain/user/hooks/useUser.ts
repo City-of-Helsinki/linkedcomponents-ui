@@ -18,7 +18,7 @@ const useUser = (): UserState => {
   const userId = user?.profile.sub;
 
   const { data: userData, loading: loadingUser } = useUserQuery({
-    skip: !apiToken || !user,
+    skip: !apiToken || !userId,
     variables: {
       id: getValue(userId, ''),
       createPath: getPathBuilder(userPathBuilder),

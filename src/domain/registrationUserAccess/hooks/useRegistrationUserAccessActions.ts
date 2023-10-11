@@ -1,10 +1,7 @@
-import { useLocation } from 'react-router';
-
 import { useSendRegistrationUserAccessInvitationMutation } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
-import { reportError } from '../../app/sentry/utils';
-import useUser from '../../user/hooks/useUser';
 import { REGISTRATION_USER_ACCESS_ACTIONS } from '../constants';
 
 interface UseRegistrationUserAccessActionsProps {
@@ -18,8 +15,6 @@ type UseRegistrationUserAccessActionsState = {
 const useRegistrationUserAccessActions = ({
   id,
 }: UseRegistrationUserAccessActionsProps): UseRegistrationUserAccessActionsState => {
-  const { user } = useUser();
-  const location = useLocation();
   const [saving, setSaving] =
     useMountedState<REGISTRATION_USER_ACCESS_ACTIONS | null>(null);
 
@@ -39,29 +34,7 @@ const useRegistrationUserAccessActions = ({
     await (callbacks?.onSuccess && callbacks.onSuccess(id));
   };
 
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-  }) => {
-    savingFinished();
-
-    // Report error to Sentry
-    reportError({
-      data: { error, id },
-      location,
-      message,
-      user,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
+  const { handleError } = useHandleError<null, null>();
 
   const sendInvitation = async (callbacks?: MutationCallbacks) => {
     try {
@@ -74,6 +47,7 @@ const useRegistrationUserAccessActions = ({
         callbacks,
         error,
         message: 'Failed to send invitation to registration user access',
+        savingFinished,
       });
     }
   };

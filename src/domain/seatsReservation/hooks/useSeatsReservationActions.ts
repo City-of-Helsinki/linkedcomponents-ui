@@ -1,5 +1,3 @@
-import { useLocation } from 'react-router';
-
 import {
   CreateSeatsReservationMutationInput,
   RegistrationFieldsFragment,
@@ -8,14 +6,13 @@ import {
   useCreateSeatsReservationMutation,
   useUpdateSeatsReservationMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
-import { reportError } from '../../app/sentry/utils';
 import { SIGNUP_MODALS } from '../../signup/constants';
 import { useSignupGroupFormContext } from '../../signupGroup/signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFormFields } from '../../signupGroup/types';
 import { getNewSignups } from '../../signupGroup/utils';
-import useUser from '../../user/hooks/useUser';
 import { getSeatsReservationData, setSeatsReservationData } from '../utils';
 
 type UseSeatsReservationActionsProps = {
@@ -38,8 +35,6 @@ const useSeatsReservationActions = ({
   setSignups,
   signups,
 }: UseSeatsReservationActionsProps): UseSeatsReservationActionsState => {
-  const location = useLocation();
-  const { user } = useUser();
   const [saving, setSaving] = useMountedState(false);
 
   const { closeModal, setOpenModal } = useSignupGroupFormContext();
@@ -52,39 +47,10 @@ const useSeatsReservationActions = ({
   const savingFinished = () => {
     setSaving(false);
   };
-
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?:
-      | CreateSeatsReservationMutationInput
-      | UpdateSeatsReservationMutationInput;
-  }) => {
-    savingFinished();
-    closeModal();
-
-    // Report error to Sentry
-    reportError({
-      data: {
-        error,
-        payload,
-        payloadAsString: JSON.stringify(payload),
-      },
-      location,
-      message,
-      user,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
+  const { handleError } = useHandleError<
+    CreateSeatsReservationMutationInput | UpdateSeatsReservationMutationInput,
+    null
+  >();
 
   const createSeatsReservation = async (callbacks?: MutationCallbacks) => {
     const payload: CreateSeatsReservationMutationInput = {
@@ -120,6 +86,7 @@ const useSeatsReservationActions = ({
         error,
         message: 'Failed to reserve seats',
         payload,
+        savingFinished,
       });
     }
   };
@@ -137,7 +104,7 @@ const useSeatsReservationActions = ({
     }
 
     const payload: UpdateSeatsReservationMutationInput = {
-      code: reservationData?.code as string,
+      code: reservationData.code,
       registration: registrationId,
       seats,
     };
@@ -169,6 +136,7 @@ const useSeatsReservationActions = ({
         error,
         message: 'Failed to update seats reservation',
         payload,
+        savingFinished,
       });
     }
   };

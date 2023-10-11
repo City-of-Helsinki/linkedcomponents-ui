@@ -3,7 +3,6 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { useLocation } from 'react-router';
 
 import {
   PlaceFieldsFragment,
@@ -11,6 +10,7 @@ import {
   useDeletePlaceMutation,
   useUpdatePlaceMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import getValue from '../../../utils/getValue';
@@ -19,8 +19,6 @@ import {
   clearPlaceQueries,
   clearPlacesQueries,
 } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
-import useUser from '../../user/hooks/useUser';
 import { PLACE_ACTIONS } from '../constants';
 import { PlaceFormFields } from '../types';
 import { getPlacePayload } from '../utils';
@@ -49,8 +47,6 @@ const usePlaceUpdateActions = ({
   place,
 }: Props): UsePlaceUpdateActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { user } = useUser();
-  const location = useLocation();
   const [openModal, setOpenModal] = useMountedState<PLACE_MODALS | null>(null);
   const [saving, setSaving] = useMountedState<PLACE_ACTIONS | null>(null);
 
@@ -77,35 +73,7 @@ const usePlaceUpdateActions = ({
     await (callbacks?.onSuccess && callbacks.onSuccess());
   };
 
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?: UpdatePlaceMutationInput;
-  }) => {
-    savingFinished();
-
-    // Report error to Sentry
-    reportError({
-      data: {
-        error,
-        payloadAsString: payload && JSON.stringify(payload),
-        place,
-      },
-      location,
-      message,
-      user,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
+  const { handleError } = useHandleError();
 
   const deletePlace = async (callbacks?: MutationCallbacks) => {
     try {
@@ -121,6 +89,7 @@ const usePlaceUpdateActions = ({
         callbacks,
         error,
         message: 'Failed to delete place',
+        savingFinished,
       });
     }
   };
@@ -143,6 +112,7 @@ const usePlaceUpdateActions = ({
         error,
         message: 'Failed to update keyword',
         payload,
+        savingFinished,
       });
     }
   };

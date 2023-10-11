@@ -3,7 +3,6 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { useLocation } from 'react-router';
 
 import {
   OrganizationFieldsFragment,
@@ -11,6 +10,7 @@ import {
   useDeleteOrganizationMutation,
   useUpdateOrganizationMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import getValue from '../../../utils/getValue';
@@ -19,8 +19,6 @@ import {
   clearOrganizationQueries,
   clearOrganizationsQueries,
 } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
-import useUser from '../../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from '../constants';
 import { OrganizationFormFields } from '../types';
 import { getOrganizationPayload } from '../utils';
@@ -50,8 +48,6 @@ const useOrganizationUpdateActions = ({
   organization,
 }: Props): UseKeywordUpdateActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { user } = useUser();
-  const location = useLocation();
   const [openModal, setOpenModal] = useMountedState<ORGANIZATION_MODALS | null>(
     null
   );
@@ -82,35 +78,10 @@ const useOrganizationUpdateActions = ({
     await (callbacks?.onSuccess && callbacks.onSuccess());
   };
 
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?: UpdateOrganizationMutationInput;
-  }) => {
-    savingFinished();
-
-    // Report error to Sentry
-    reportError({
-      data: {
-        error,
-        payloadAsString: payload && JSON.stringify(payload),
-        organization,
-      },
-      location,
-      message,
-      user,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
+  const { handleError } = useHandleError<
+    UpdateOrganizationMutationInput,
+    null
+  >();
 
   const deleteOrganization = async (callbacks?: MutationCallbacks) => {
     try {
@@ -126,6 +97,7 @@ const useOrganizationUpdateActions = ({
         callbacks,
         error,
         message: 'Failed to delete organization',
+        savingFinished,
       });
     }
   };
@@ -149,6 +121,7 @@ const useOrganizationUpdateActions = ({
         error,
         message: 'Failed to update organization',
         payload,
+        savingFinished,
       });
     }
   };
