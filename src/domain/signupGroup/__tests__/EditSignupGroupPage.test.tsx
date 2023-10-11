@@ -61,6 +61,7 @@ const getElement = (
     | 'phoneCheckbox'
     | 'phoneInput'
     | 'serviceLanguageButton'
+    | 'signupGroupExtraInfoField'
     | 'streetAddressInput'
     | 'submitButton'
     | 'toggle'
@@ -89,6 +90,10 @@ const getElement = (
       return screen.getByLabelText(/puhelinnumero/i);
     case 'serviceLanguageButton':
       return screen.getByRole('button', { name: /asiointikieli/i });
+    case 'signupGroupExtraInfoField':
+      return screen.getByRole('textbox', {
+        name: 'Lisätietoa ilmoittautumisesta (valinnainen)',
+      });
     case 'streetAddressInput':
       return screen.getByLabelText(/katuosoite/i);
     case 'submitButton':
@@ -264,4 +269,11 @@ test('should delete signup group', async () => {
       `/fi/registrations/${registrationId}/signups`
     )
   );
+});
+
+test('signup group extra info field should be visible', async () => {
+  renderComponent();
+
+  await findElement('firstNameInput');
+  expect(getElement('signupGroupExtraInfoField')).toBeInTheDocument();
 });

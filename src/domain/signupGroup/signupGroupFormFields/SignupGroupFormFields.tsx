@@ -13,6 +13,7 @@ import TextInputField from '../../../common/components/formFields/textInputField
 import FormGroup from '../../../common/components/formGroup/FormGroup';
 import {
   RegistrationFieldsFragment,
+  SignupFieldsFragment,
   SignupGroupFieldsFragment,
 } from '../../../generated/graphql';
 import useLanguageOptions from '../../language/hooks/useLanguageOptions';
@@ -26,12 +27,14 @@ import Signups from './signups/Signups';
 interface Props {
   disabled?: boolean;
   registration: RegistrationFieldsFragment;
+  signup?: SignupFieldsFragment;
   signupGroup?: SignupGroupFieldsFragment;
 }
 
 const SignupGroupFormFields: React.FC<Props> = ({
   disabled,
   registration,
+  signup,
   signupGroup,
 }) => {
   const { t } = useTranslation();
@@ -137,19 +140,22 @@ const SignupGroupFormFields: React.FC<Props> = ({
             />
           </div>
         </FormGroup>
-        <FormGroup>
-          <Field
-            name={SIGNUP_GROUP_FIELDS.EXTRA_INFO}
-            component={TextAreaField}
-            disabled={disabled}
-            label={t(`signup.form.labelExtraInfo`)}
-            placeholder={t(`signup.form.placeholderExtraInfo`)}
-            required={isSignupFieldRequired(
-              registration,
-              SIGNUP_GROUP_FIELDS.EXTRA_INFO
-            )}
-          />
-        </FormGroup>
+        {/* Don't show signup group extra info field when editing a single signup */}
+        {!signup && (
+          <FormGroup>
+            <Field
+              name={SIGNUP_GROUP_FIELDS.EXTRA_INFO}
+              component={TextAreaField}
+              disabled={disabled}
+              label={t(`signup.form.labelExtraInfo`)}
+              placeholder={t(`signup.form.placeholderExtraInfo`)}
+              required={isSignupFieldRequired(
+                registration,
+                SIGNUP_GROUP_FIELDS.EXTRA_INFO
+              )}
+            />
+          </FormGroup>
+        )}
       </Fieldset>
     </div>
   );
