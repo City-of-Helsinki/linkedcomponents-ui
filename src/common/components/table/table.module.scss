@@ -138,7 +138,7 @@
     max-width: 80vw;
     margin: var(--spacing-m) 0;
 
-    img {
+    :is(img) {
       width: 210px;
       max-width: 100%;
       display: block;
