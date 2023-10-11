@@ -14,7 +14,7 @@
   margin-bottom: var(--spacing-5-xl);
   min-height: var(--platform-page-image-min-height);
 
-  img {
+  :is(img) {
     width: 100%;
   }
 }
