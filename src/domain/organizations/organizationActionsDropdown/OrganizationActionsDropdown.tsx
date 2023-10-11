@@ -14,7 +14,7 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import { ORGANIZATION_ACTIONS } from '../../organization/constants';
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
-} from '../../organization/hooks/useOrganizationUpdateActions';
+} from '../../organization/hooks/useOrganizationActions';
 import ConfirmDeleteOrganizationModal from '../../organization/modals/confirmDeleteOrganizationModal/ConfirmDeleteOrganizationModal';
 import {
   getEditButtonProps,

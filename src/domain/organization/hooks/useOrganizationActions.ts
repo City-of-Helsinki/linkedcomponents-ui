@@ -7,6 +7,7 @@ import {
 import {
   OrganizationFieldsFragment,
   UpdateOrganizationMutationInput,
+  useCreateOrganizationMutation,
   useDeleteOrganizationMutation,
   useUpdateOrganizationMutation,
 } from '../../../generated/graphql';
@@ -33,14 +34,18 @@ interface Props {
 
 type UseKeywordUpdateActionsState = {
   closeModal: () => void;
-  deleteOrganization: (callbacks?: MutationCallbacks) => Promise<void>;
+  createOrganization: (
+    values: OrganizationFormFields,
+    callbacks?: MutationCallbacks<string>
+  ) => Promise<void>;
+  deleteOrganization: (callbacks?: MutationCallbacks<string>) => Promise<void>;
   openModal: ORGANIZATION_MODALS | null;
   saving: ORGANIZATION_ACTIONS | null;
   setOpenModal: (modal: ORGANIZATION_MODALS | null) => void;
   setSaving: (action: ORGANIZATION_ACTIONS | null) => void;
   updateOrganization: (
     values: OrganizationFormFields,
-    callbacks?: MutationCallbacks
+    callbacks?: MutationCallbacks<string>
   ) => Promise<void>;
 };
 
@@ -55,6 +60,7 @@ const useOrganizationUpdateActions = ({
     null
   );
 
+  const [createOrganizationMutation] = useCreateOrganizationMutation();
   const [deleteOrganizationMutation] = useDeleteOrganizationMutation();
   const [updateOrganizationMutation] = useUpdateOrganizationMutation();
 
@@ -66,7 +72,10 @@ const useOrganizationUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
+  const cleanAfterUpdate = async (
+    id: string,
+    callbacks?: MutationCallbacks<string>
+  ) => {
     /* istanbul ignore next */
     !isTestEnv && clearOrganizationQueries(apolloClient);
     /* istanbul ignore next */
@@ -75,7 +84,7 @@ const useOrganizationUpdateActions = ({
     savingFinished();
     closeModal();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess());
+    await (callbacks?.onSuccess && callbacks.onSuccess(id));
   };
 
   const { handleError } = useHandleError<
@@ -83,15 +92,40 @@ const useOrganizationUpdateActions = ({
     null
   >();
 
-  const deleteOrganization = async (callbacks?: MutationCallbacks) => {
+  const createOrganization = async (
+    values: OrganizationFormFields,
+    callbacks?: MutationCallbacks<string>
+  ) => {
+    setSaving(ORGANIZATION_ACTIONS.CREATE);
+    const payload = getOrganizationPayload(values);
+
     try {
+      const { data } = await createOrganizationMutation({
+        variables: { input: payload },
+      });
+
+      await cleanAfterUpdate(data?.createOrganization.id as string, callbacks);
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to create organization',
+        payload,
+        savingFinished,
+      });
+    }
+  };
+
+  const deleteOrganization = async (callbacks?: MutationCallbacks<string>) => {
+    try {
+      const id = getValue(organization?.id, '');
       setSaving(ORGANIZATION_ACTIONS.DELETE);
 
       await deleteOrganizationMutation({
         variables: { id: getValue(organization?.id, '') },
       });
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterUpdate(id, callbacks);
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
@@ -104,7 +138,7 @@ const useOrganizationUpdateActions = ({
 
   const updateOrganization = async (
     values: OrganizationFormFields,
-    callbacks?: MutationCallbacks
+    callbacks?: MutationCallbacks<string>
   ) => {
     const payload: UpdateOrganizationMutationInput =
       getOrganizationPayload(values);
@@ -114,7 +148,7 @@ const useOrganizationUpdateActions = ({
 
       await updateOrganizationMutation({ variables: { input: payload } });
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterUpdate(values.id, callbacks);
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
@@ -128,6 +162,7 @@ const useOrganizationUpdateActions = ({
 
   return {
     closeModal,
+    createOrganization,
     deleteOrganization,
     openModal,
     saving,
