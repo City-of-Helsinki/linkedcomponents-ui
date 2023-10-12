@@ -3,6 +3,7 @@ import { NetworkStatus } from '@apollo/client';
 import i18n from 'i18next';
 
 import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../envVariables';
+import { CreateOrganizationMutationInput } from '../../../generated/graphql';
 import {
   fakeOrganization,
   fakeOrganizations,
@@ -10,6 +11,7 @@ import {
   fakeUsers,
 } from '../../../utils/mockDataUtils';
 import { createApolloClient } from '../../app/apollo/apolloClient';
+import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
 import {
   ORGANIZATION_ACTIONS,
   ORGANIZATION_INITIAL_VALUES,
@@ -24,6 +26,7 @@ import {
   getOrganizationFullName,
   getOrganizationInitialValues,
   getOrganizationPayload,
+  omitSensitiveDataFromOrganizationPayload,
   organizationPathBuilder,
   organizationsPathBuilder,
 } from '../utils';
@@ -357,5 +360,48 @@ describe('getOrganizationPayload function', () => {
       replacedBy: 'organization:replaced',
       subOrganizations: ['organization:sub'],
     });
+  });
+});
+
+describe('omitSensitiveDataFromOrganizationPayload', () => {
+  it('should omit sensitive data from payload', () => {
+    const payload: CreateOrganizationMutationInput = {
+      adminUsers: ['admin'],
+      affiliatedOrganizations: ['affiliatedOrganization'],
+      classification: 'classification',
+      dataSource: TEST_DATA_SOURCE_ID,
+      dissolutionDate: '2021-10-10',
+      foundingDate: '2011-10-10',
+      id: TEST_PUBLISHER_ID,
+      internalType: 'internalType',
+      name: 'name',
+      originId: `${TEST_DATA_SOURCE_ID}:${TEST_PUBLISHER_ID}`,
+      parentOrganization: 'parent',
+      registrationAdminUsers: ['registrationAdmin'],
+      regularUsers: ['regularUser'],
+      replacedBy: 'replacedBy',
+      subOrganizations: ['subOrganization'],
+    };
+
+    const filteredPayload = omitSensitiveDataFromOrganizationPayload(
+      payload
+    ) as CreateOrganizationMutationInput;
+    expect(filteredPayload).toEqual({
+      affiliatedOrganizations: ['affiliatedOrganization'],
+      classification: 'classification',
+      dataSource: TEST_DATA_SOURCE_ID,
+      dissolutionDate: '2021-10-10',
+      foundingDate: '2011-10-10',
+      id: TEST_PUBLISHER_ID,
+      internalType: 'internalType',
+      name: 'name',
+      originId: `${TEST_DATA_SOURCE_ID}:${TEST_PUBLISHER_ID}`,
+      parentOrganization: 'parent',
+      replacedBy: 'replacedBy',
+      subOrganizations: ['subOrganization'],
+    });
+    expect(filteredPayload.adminUsers).toBeUndefined();
+    expect(filteredPayload.registrationAdminUsers).toBeUndefined();
+    expect(filteredPayload.regularUsers).toBeUndefined();
   });
 });

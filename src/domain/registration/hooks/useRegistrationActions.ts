@@ -21,7 +21,11 @@ import { clearRegistrationsQueries } from '../../app/apollo/clearCacheUtils';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { REGISTRATION_MODALS } from '../constants';
 import { RegistrationFormFields } from '../types';
-import { getRegistrationFields, getRegistrationPayload } from '../utils';
+import {
+  getRegistrationFields,
+  getRegistrationPayload,
+  omitSensitiveDataFromRegistrationPayload,
+} from '../utils';
 
 interface UseRegistrationActionsProps {
   registration?: RegistrationFieldsFragment | null;
@@ -79,7 +83,7 @@ const useRegistrationActions = ({
     await (callbacks?.onSuccess && callbacks.onSuccess(id));
   };
   const { handleError } = useHandleError<
-    CreateRegistrationMutationInput | UpdateRegistrationMutationInput,
+    Partial<CreateRegistrationMutationInput | UpdateRegistrationMutationInput>,
     null
   >();
 
@@ -105,7 +109,7 @@ const useRegistrationActions = ({
         callbacks,
         error,
         message: 'Failed to create registration',
-        payload,
+        payload: omitSensitiveDataFromRegistrationPayload(payload),
         savingFinished,
       });
     }
@@ -162,7 +166,7 @@ const useRegistrationActions = ({
         callbacks,
         error,
         message: 'Failed to update registration',
-        payload,
+        payload: omitSensitiveDataFromRegistrationPayload(payload),
         savingFinished,
       });
     }

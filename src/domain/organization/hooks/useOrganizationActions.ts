@@ -22,7 +22,10 @@ import {
 } from '../../app/apollo/clearCacheUtils';
 import { ORGANIZATION_ACTIONS } from '../constants';
 import { OrganizationFormFields } from '../types';
-import { getOrganizationPayload } from '../utils';
+import {
+  getOrganizationPayload,
+  omitSensitiveDataFromOrganizationPayload,
+} from '../utils';
 
 export enum ORGANIZATION_MODALS {
   DELETE = 'delete',
@@ -110,7 +113,7 @@ const useOrganizationUpdateActions = ({
         callbacks,
         error,
         message: 'Failed to create organization',
-        payload,
+        payload: omitSensitiveDataFromOrganizationPayload(payload),
         savingFinished,
       });
     }
@@ -154,7 +157,7 @@ const useOrganizationUpdateActions = ({
         callbacks,
         error,
         message: 'Failed to update organization',
-        payload,
+        payload: omitSensitiveDataFromOrganizationPayload(payload),
         savingFinished,
       });
     }

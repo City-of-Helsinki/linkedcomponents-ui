@@ -6,6 +6,7 @@ import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import isNil from 'lodash/isNil';
 import isNumber from 'lodash/isNumber';
+import omit from 'lodash/omit';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { NotificationProps } from '../../common/components/notification/Notification';
@@ -15,6 +16,7 @@ import {
   OrganizationFieldsFragment,
   RegistrationFieldsFragment,
   RegistrationQueryVariables,
+  UpdateRegistrationMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
@@ -570,3 +572,8 @@ export const copySignupLinkToClipboard = ({
     type: 'success',
   });
 };
+
+export const omitSensitiveDataFromRegistrationPayload = (
+  payload: CreateRegistrationMutationInput | UpdateRegistrationMutationInput
+): Partial<CreateRegistrationMutationInput | UpdateRegistrationMutationInput> =>
+  omit(payload, ['registrationUserAccesses']);

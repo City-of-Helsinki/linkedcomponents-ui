@@ -1,3 +1,4 @@
+import { SignupInput } from '../../../generated/graphql';
 import { fakeSignup } from '../../../utils/mockDataUtils';
 import { registration } from '../../registration/__mocks__/registration';
 import {
@@ -9,6 +10,7 @@ import { TEST_SIGNUP_ID } from '../constants';
 import {
   getSignupGroupInitialValuesFromSignup,
   getUpdateSignupPayload,
+  omitSensitiveDataFromSignupPayload,
 } from '../utils';
 
 describe('getUpdateSignupPayload function', () => {
@@ -221,5 +223,48 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
     expect(notifications).toEqual(expectedNotifications);
     expect(phoneNumber).toBe(expectedPhoneNumber);
     expect(serviceLanguage).toBe(expectedServiceLanguage);
+  });
+});
+
+describe('omitSensitiveDataFromSignupPayload', () => {
+  it('should omit sensitive data from payload', () => {
+    const payload: SignupInput = {
+      city: 'Helsinki',
+      dateOfBirth: '1999-10-10',
+      email: 'test@email.com',
+      extraInfo: 'Signup entra info',
+      firstName: 'First name',
+      id: '1',
+      lastName: 'Last name',
+      membershipNumber: 'XYZ',
+      nativeLanguage: 'fi',
+      notifications: NOTIFICATION_TYPE.EMAIL,
+      phoneNumber: '0441234567',
+      responsibleForGroup: true,
+      serviceLanguage: 'fi',
+      streetAddress: 'Address',
+      zipcode: '123456',
+    };
+
+    const filteredPayload = omitSensitiveDataFromSignupPayload(
+      payload
+    ) as SignupInput;
+    expect(filteredPayload).toEqual({
+      id: '1',
+      notifications: NOTIFICATION_TYPE.EMAIL,
+      responsibleForGroup: true,
+    });
+    expect(filteredPayload.city).toBeUndefined();
+    expect(filteredPayload.extraInfo).toBeUndefined();
+    expect(filteredPayload.email).toBeUndefined();
+    expect(filteredPayload.extraInfo).toBeUndefined();
+    expect(filteredPayload.firstName).toBeUndefined();
+    expect(filteredPayload.lastName).toBeUndefined();
+    expect(filteredPayload.membershipNumber).toBeUndefined();
+    expect(filteredPayload.nativeLanguage).toBeUndefined();
+    expect(filteredPayload.phoneNumber).toBeUndefined();
+    expect(filteredPayload.serviceLanguage).toBeUndefined();
+    expect(filteredPayload.streetAddress).toBeUndefined();
+    expect(filteredPayload.zipcode).toBeUndefined();
   });
 });

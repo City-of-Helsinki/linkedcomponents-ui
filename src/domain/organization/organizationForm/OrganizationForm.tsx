@@ -83,7 +83,6 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
       onError: (error: ServerError) => showServerErrors({ error }),
       onSuccess: goToOrganizationsPage,
     });
-    // await createOrganization(values, {
   };
   const onUpdate = async (values: OrganizationFormFields) => {
     await updateOrganization(values, {

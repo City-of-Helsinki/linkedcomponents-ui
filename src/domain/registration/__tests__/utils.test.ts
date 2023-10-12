@@ -5,7 +5,10 @@ import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   LE_DATA_LANGUAGES,
 } from '../../../constants';
-import { RegistrationQueryVariables } from '../../../generated/graphql';
+import {
+  CreateRegistrationMutationInput,
+  RegistrationQueryVariables,
+} from '../../../generated/graphql';
 import {
   fakeRegistration,
   fakeUser,
@@ -32,6 +35,7 @@ import {
   isAttendeeCapacityUsed,
   isRegistrationOpen,
   isRegistrationPossible,
+  omitSensitiveDataFromRegistrationPayload,
   registrationPathBuilder,
 } from '../utils';
 
@@ -891,4 +895,90 @@ describe('checkCanUserDoRegistrationAction function', () => {
       ).toBe(isAllowed);
     }
   );
+});
+
+describe('omitSensitiveDataFromRegistrationPayload function', () => {
+  it('should omit sensitive data from payload', () => {
+    const audienceMaxAge = 18,
+      audienceMinAge = 12,
+      confirmationMessageFi = 'Confirmation message fi',
+      confirmationMessageEn = 'Confirmation message en',
+      enrolmentEndTime = '2020-01-01T15:15:00.000Z',
+      enrolmentStartTime = '2020-01-01T09:15:00.000Z',
+      event = 'event:1',
+      instructionsFi = 'Instructions fi',
+      instructionsEn = 'Instructions en',
+      mandatoryFields = ['first_name', 'last_name'],
+      maximumAttendeeCapacity = 10,
+      maximumGroupSize = 2,
+      minimumAttendeeCapacity = 5,
+      registrationUserAccesses = [
+        { email: 'user@email.com', id: null, language: null },
+      ],
+      waitingListCapacity = 3;
+
+    const payload = {
+      audienceMaxAge,
+      audienceMinAge,
+      confirmationMessage: {
+        ar: null,
+        en: confirmationMessageEn,
+        fi: confirmationMessageFi,
+        ru: null,
+        sv: null,
+        zhHans: null,
+      },
+      enrolmentEndTime,
+      enrolmentStartTime,
+      event: { atId: event },
+      instructions: {
+        ar: null,
+        en: instructionsEn,
+        fi: instructionsFi,
+        ru: null,
+        sv: null,
+        zhHans: null,
+      },
+      mandatoryFields,
+      maximumAttendeeCapacity,
+      maximumGroupSize,
+      minimumAttendeeCapacity,
+      registrationUserAccesses,
+      waitingListCapacity,
+    };
+
+    const filteredPayload = omitSensitiveDataFromRegistrationPayload(
+      payload
+    ) as CreateRegistrationMutationInput;
+
+    expect(filteredPayload).toEqual({
+      audienceMaxAge,
+      audienceMinAge,
+      confirmationMessage: {
+        ar: null,
+        en: confirmationMessageEn,
+        fi: confirmationMessageFi,
+        ru: null,
+        sv: null,
+        zhHans: null,
+      },
+      enrolmentEndTime,
+      enrolmentStartTime,
+      event: { atId: event },
+      instructions: {
+        ar: null,
+        en: instructionsEn,
+        fi: instructionsFi,
+        ru: null,
+        sv: null,
+        zhHans: null,
+      },
+      mandatoryFields,
+      maximumAttendeeCapacity,
+      maximumGroupSize,
+      minimumAttendeeCapacity,
+      waitingListCapacity,
+    });
+    expect(filteredPayload.registrationUserAccesses).toBeUndefined();
+  });
 });

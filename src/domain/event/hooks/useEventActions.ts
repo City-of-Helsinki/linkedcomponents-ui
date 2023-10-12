@@ -44,6 +44,7 @@ import {
   getNewEventTimes,
   getRecurringEventPayload,
   getRelatedEvents,
+  omitSensitiveDataFromEventPayload,
 } from '../utils';
 import useUpdateImageIfNeeded from './useUpdateImageIfNeeded';
 import useUpdateRecurringEventIfNeeded from './useUpdateRecurringEventIfNeeded';
@@ -193,7 +194,7 @@ const useEventActions = (
       handleError({
         callbacks,
         error,
-        payload,
+        payload: payload.map((data) => omitSensitiveDataFromEventPayload(data)),
         message: 'Failed to cancel event',
         savingFinished,
       });
@@ -246,7 +247,7 @@ const useEventActions = (
       handleError({
         callbacks,
         error,
-        payload: recurringEventPayload,
+        payload: omitSensitiveDataFromEventPayload(recurringEventPayload),
         message: 'Failed to create recurring event',
         savingFinished,
       });
@@ -267,7 +268,7 @@ const useEventActions = (
       handleError({
         callbacks,
         error,
-        payload,
+        payload: omitSensitiveDataFromEventPayload(payload),
         message: 'Failed to create event',
         savingFinished,
       });
@@ -381,7 +382,7 @@ const useEventActions = (
         callbacks,
         error,
         message: 'Failed to postpone event',
-        payload,
+        payload: payload.map((data) => omitSensitiveDataFromEventPayload(data)),
         savingFinished,
       });
     }
@@ -506,7 +507,7 @@ const useEventActions = (
         callbacks,
         error,
         message: 'Failed to update recurring event',
-        payload,
+        payload: payload.map((data) => omitSensitiveDataFromEventPayload(data)),
         savingFinished,
       });
     }
@@ -579,7 +580,7 @@ const useEventActions = (
         callbacks,
         error,
         message: 'Failed to update event',
-        payload,
+        payload: payload.map((data) => omitSensitiveDataFromEventPayload(data)),
         savingFinished,
       });
     }

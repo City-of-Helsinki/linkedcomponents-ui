@@ -9,6 +9,7 @@ import {
 import useHandleError from '../../../hooks/useHandleError';
 import { MutationCallbacks } from '../../../types';
 import { useAuth } from '../../auth/hooks/useAuth';
+import { omitSensitiveDataFromFeedbackPayload } from '../utils';
 
 type UseFeedbackActionsProps = { successId: string };
 
@@ -64,7 +65,7 @@ const useFeedbackActions = ({
         callbacks,
         error,
         message: 'Failed to send feedback',
-        payload,
+        payload: omitSensitiveDataFromFeedbackPayload(payload),
         savingFinished:
           /* istanbul ignore next */
           () => undefined,
