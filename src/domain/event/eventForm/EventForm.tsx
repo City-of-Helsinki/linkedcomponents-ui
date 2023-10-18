@@ -14,6 +14,7 @@ import {
   EventFieldsFragment,
   EventQuery,
   EventQueryVariables,
+  OrganizationFieldsFragment,
   PublicationStatus,
   SuperEventType,
 } from '../../../generated/graphql';
@@ -29,6 +30,7 @@ import Section from '../../app/layout/section/Section';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { replaceParamsToEventQueryString } from '../../events/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { isAdminUserInOrganization } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
 import { areRegistrationRoutesAllowed } from '../../user/permissions';
 import {
@@ -106,6 +108,8 @@ type EventFormProps = EventFormWrapperProps & {
   ) => void;
   values: EventFormFields;
   isExternalUser: boolean;
+  isAdminUser: boolean;
+  organizationAncestors: OrganizationFieldsFragment[];
 };
 
 const EventForm: React.FC<EventFormProps> = ({
@@ -116,6 +120,8 @@ const EventForm: React.FC<EventFormProps> = ({
   setTouched,
   values,
   isExternalUser,
+  isAdminUser,
+  organizationAncestors,
 }) => {
   const { t } = useTranslation();
   const { addNotification } = useNotificationsContext();
@@ -124,9 +130,6 @@ const EventForm: React.FC<EventFormProps> = ({
   const navigate = useNavigate();
 
   const { user } = useUser();
-  const { organizationAncestors } = useOrganizationAncestors(
-    getValue(event?.publisher, '')
-  );
 
   const mainCategories = useMainCategories(values.type as EVENT_TYPE);
 
@@ -485,9 +488,11 @@ const EventForm: React.FC<EventFormProps> = ({
                   isExternalUser={isExternalUser}
                 />
               </Section>
-              {isExternalUser && (
+              {(isExternalUser || isAdminUser) && (
                 <Section title={t('event.form.sections.contact')}>
-                  <ExternalUserContact isEditingAllowed={isEditingAllowed} />
+                  <ExternalUserContact
+                    isEditingAllowed={isEditingAllowed && !isAdminUser}
+                  />
                 </Section>
               )}
               {event ? (
@@ -537,6 +542,16 @@ const EventForm: React.FC<EventFormProps> = ({
 const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
   const { event } = props;
   const { user, externalUser } = useUser();
+
+  const { organizationAncestors } = useOrganizationAncestors(
+    getValue(event?.publisher, '')
+  );
+
+  const isAdminUser = isAdminUserInOrganization({
+    id: getValue(event?.publisher, ''),
+    organizationAncestors,
+    user,
+  });
 
   const eventInitialValues = externalUser
     ? EVENT_EXTERNAL_USER_INITIAL_VALUES
@@ -588,6 +603,8 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
               setTouched={setTouched}
               values={values}
               isExternalUser={externalUser}
+              isAdminUser={isAdminUser}
+              organizationAncestors={organizationAncestors}
             />
           </FormikPersist>
         );
