@@ -161,9 +161,7 @@ test('should route to edit signup group page when clicking edit button and signu
 
 test('should send message to participant when clicking send message button', async () => {
   // Mock getClientRects for ckeditor
-  global.Range.prototype.getClientRects = jest
-    .fn()
-    .mockImplementation(() => []);
+  global.Range.prototype.getClientRects = vi.fn().mockImplementation(() => []);
 
   const user = userEvent.setup();
   renderComponent({ authContextValue });

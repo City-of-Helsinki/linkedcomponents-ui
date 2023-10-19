@@ -1,4 +1,5 @@
 /* eslint-disable import/no-named-as-default-member */
+import { MockedResponse } from '@apollo/client/testing';
 import i18n from 'i18next';
 import React from 'react';
 
@@ -71,15 +72,11 @@ test('should show navigation links and should route to correct page after clicki
     DATA_PROTECTION_URL['fi']
   );
 
-  const spyWindowOpen = jest
-    .spyOn(window, 'open')
-    .mockImplementation(jest.fn());
+  window.open = vi.fn();
 
   await user.click(dataProtectionLink);
 
-  expect(spyWindowOpen).toHaveBeenCalled();
-
-  spyWindowOpen.mockRestore();
+  expect(window.open).toHaveBeenCalled();
 });
 
 const registrationAndAdminTabTestCases: {
@@ -105,7 +102,7 @@ test.each(registrationAndAdminTabTestCases)(
       SHOW_ADMIN: true,
       SHOW_REGISTRATION: true,
     });
-    const userMocks = {
+    const userMocks: Record<typeof role, MockedResponse> = {
       admin: mockedUserResponse,
       noOrganization: mockedUserWithoutOrganizationsResponse,
       registrationAdmin: mockedRegistrationUserResponse,

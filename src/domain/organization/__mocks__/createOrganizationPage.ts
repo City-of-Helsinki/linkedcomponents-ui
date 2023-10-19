@@ -1,6 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 
-import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../constants';
+import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../envVariables';
 import { CreateOrganizationDocument } from '../../../generated/graphql';
 import { fakeOrganization } from '../../../utils/mockDataUtils';
 import { TEST_ORGANIZATION_CLASS_ID } from '../../organizationClass/constants';

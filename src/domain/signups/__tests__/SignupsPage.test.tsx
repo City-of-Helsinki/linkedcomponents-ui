@@ -54,7 +54,9 @@ const defaultMocks = [
   }),
 ];
 
-beforeEach(() => jest.clearAllMocks());
+beforeEach(() => {
+  vi.clearAllMocks();
+});
 
 const findCreateSignupButton = () =>
   screen.findByRole('button', { name: /lisää osallistuja/i });
@@ -116,7 +118,7 @@ test('scrolls to signup table row and calls history.replace correctly (deletes s
   const history = createMemoryHistory();
   history.push(route, { signupId: attendees.data[0].id });
 
-  const replaceSpy = jest.spyOn(history, 'replace');
+  const replaceSpy = vi.spyOn(history, 'replace');
 
   renderComponent(undefined, { history });
 
@@ -170,9 +172,7 @@ test('should move to create signup page', async () => {
 
 test('should send message to participants', async () => {
   // Mock getClientRects for ckeditor
-  global.Range.prototype.getClientRects = jest
-    .fn()
-    .mockImplementation(() => []);
+  global.Range.prototype.getClientRects = vi.fn().mockImplementation(() => []);
 
   const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedSendMessageResponse]);

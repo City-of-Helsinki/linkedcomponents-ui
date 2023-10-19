@@ -172,9 +172,7 @@ test('should initialize input fields', async () => {
 
 test('should send message to signup group', async () => {
   // Mock getClientRects for ckeditor
-  global.Range.prototype.getClientRects = jest
-    .fn()
-    .mockImplementation(() => []);
+  global.Range.prototype.getClientRects = vi.fn().mockImplementation(() => []);
 
   const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedSendMessageToSignupGroupResponse]);
@@ -210,7 +208,7 @@ test('should send message to signup group', async () => {
 });
 
 test('should update signup group', async () => {
-  global.scrollTo = jest.fn();
+  global.scrollTo = vi.fn<any>();
   const user = userEvent.setup();
   renderComponent([
     ...defaultMocks,

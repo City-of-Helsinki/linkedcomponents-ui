@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';
-import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import { mockedEventResponse } from '../../../common/components/eventSelector/__mocks__/eventSelector';
@@ -32,7 +31,9 @@ configure({ defaultHidden: true });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
-beforeEach(() => clear());
+beforeEach(() => {
+  vi.useRealTimers();
+});
 
 const commonMocks = [
   mockedEventResponse,
@@ -58,15 +59,7 @@ const setFormValues = (values: RegistrationFormFields) => {
     touched: {},
     values,
   };
-
-  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
-    switch (key) {
-      case FORM_NAMES.REGISTRATION_FORM:
-        return JSON.stringify(state);
-      default:
-        return '';
-    }
-  });
+  sessionStorage.setItem(FORM_NAMES.REGISTRATION_FORM, JSON.stringify(state));
 };
 
 const findElement = (key: 'saveButton') => {
@@ -98,7 +91,7 @@ const waitLoadingAndGetSaveButton = async () => {
 };
 
 test('should focus to first validation error when trying to save new registration', async () => {
-  global.HTMLFormElement.prototype.submit = () => jest.fn();
+  global.HTMLFormElement.prototype.submit = () => vi.fn();
   const user = userEvent.setup();
   renderComponent();
 
@@ -111,7 +104,7 @@ test('should focus to first validation error when trying to save new registratio
 });
 
 test('should move to registration completed page after creating new registration', async () => {
-  advanceTo('2020-07-05');
+  vi.setSystemTime('2020-07-05');
   setFormValues({
     ...REGISTRATION_INITIAL_VALUES,
     ...registrationValues,
@@ -143,7 +136,7 @@ test('should move to registration completed page after creating new registration
 });
 
 test('should show server errors', async () => {
-  advanceTo('2020-07-05');
+  vi.setSystemTime('2020-07-05');
   setFormValues({
     ...REGISTRATION_INITIAL_VALUES,
     ...registrationValues,

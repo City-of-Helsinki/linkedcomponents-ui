@@ -1,5 +1,4 @@
 import { Formik } from 'formik';
-import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
@@ -18,11 +17,11 @@ configure({ defaultHidden: true });
 
 const defaultProps: EventTimesTableProps = {
   eventTimes: [],
-  setEventTimes: jest.fn(),
+  setEventTimes: vi.fn(),
 };
 
 beforeEach(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 const eventTime1 = {
@@ -47,7 +46,7 @@ const defaultInitialValue: InitialValues = {
 
 const renderComponent = (props?: Partial<EventTimesTableProps>) =>
   render(
-    <Formik initialValues={defaultInitialValue} onSubmit={jest.fn()}>
+    <Formik initialValues={defaultInitialValue} onSubmit={vi.fn()}>
       <TimeSectionProvider isEditingAllowed={true}>
         <EventTimesTable {...defaultProps} {...props} />
       </TimeSectionProvider>
@@ -61,7 +60,7 @@ test('should not show event times table if eventTimes is empty', async () => {
 });
 
 test('should render event times table', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
   const eventTimes = [eventTime1, eventTime2];
 
   renderComponent({ eventTimes });
@@ -72,10 +71,10 @@ test('should render event times table', async () => {
 });
 
 test('should call setEventTimes when deleting an event time', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
 
   const eventTimes = [eventTime1, eventTime2];
-  const setEventTimes = jest.fn();
+  const setEventTimes = vi.fn();
 
   const user = userEvent.setup();
   renderComponent({ eventTimes, setEventTimes });
@@ -92,10 +91,10 @@ test('should call setEventTimes when deleting an event time', async () => {
 });
 
 test('should call setEventTimes when updating an event time', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
 
   const eventTimes = [eventTime1, eventTime2];
-  const setEventTimes = jest.fn();
+  const setEventTimes = vi.fn();
 
   const user = userEvent.setup();
   renderComponent({ eventTimes, setEventTimes });

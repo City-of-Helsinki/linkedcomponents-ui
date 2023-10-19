@@ -35,7 +35,7 @@ const renderComponent = () =>
         [EVENT_FIELDS.AUDIENCE]: [],
         [EVENT_FIELDS.TYPE]: type,
       }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       enableReinitialize={true}
     >
       <AudienceSection isEditingAllowed={true} />

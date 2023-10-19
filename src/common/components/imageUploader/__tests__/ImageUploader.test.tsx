@@ -18,7 +18,7 @@ import ImageUploader, { ImageUploaderProps } from '../ImageUploader';
 configure({ defaultHidden: true });
 
 const defaultProps: ImageUploaderProps = {
-  onChange: jest.fn(),
+  onChange: vi.fn(),
 };
 
 const renderComponent = (props?: Partial<ImageUploaderProps>) =>
@@ -41,7 +41,7 @@ const findElement = (key: 'removeImageButton') => {
 };
 
 test('should show error message if trying to enter file with invalid type', async () => {
-  toast.error = jest.fn();
+  toast.error = vi.fn();
   renderComponent();
 
   const fileInput = screen.getByTestId(testIds.imageUploader.input);
@@ -60,7 +60,7 @@ test('should show error message if trying to enter file with invalid type', asyn
 });
 
 test('should call onChange', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   renderComponent({ onChange });
 
   const fileInput = screen.getByTestId(testIds.imageUploader.input);
@@ -78,14 +78,14 @@ test('should call onChange', async () => {
 
 test('should open file selection dialog by clicking button', async () => {
   const user = userEvent.setup();
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   renderComponent({ onChange });
 
   const fileInput = screen.getByTestId(testIds.imageUploader.input);
   const button = screen.getByRole('button', {
     name: translations.common.imageUploader.buttonDropImage,
   });
-  const spy = jest.spyOn(fileInput, 'click');
+  const spy = vi.spyOn(fileInput, 'click');
 
   await user.click(button);
 
@@ -93,7 +93,7 @@ test('should open file selection dialog by clicking button', async () => {
 });
 
 test('should call onChange with empty values when unselecting an image file', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   renderComponent({ onChange });
 
   const addImageButton = getElement('addImageButton');
@@ -111,7 +111,7 @@ test('should call onChange with empty values when unselecting an image file', as
 });
 
 test('should call onChange when droping file', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   renderComponent({ onChange });
 
   const addImageButton = getElement('addImageButton');
@@ -125,7 +125,7 @@ test('should call onChange when droping file', async () => {
 });
 
 test('should not call onChange when droping file if component is disabled', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   renderComponent({ disabled: true, onChange });
 
   const addImageButton = getElement('addImageButton');

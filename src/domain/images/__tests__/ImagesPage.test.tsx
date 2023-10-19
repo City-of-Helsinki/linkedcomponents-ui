@@ -132,7 +132,7 @@ it('scrolls to image row and calls history.replace correctly (deletes imageId fr
   const history = createMemoryHistory();
   history.push(route, { imageId: images.data[0]?.id });
 
-  const replaceSpy = jest.spyOn(history, 'replace');
+  const replaceSpy = vi.spyOn(history, 'replace');
 
   renderComponent({ history });
 

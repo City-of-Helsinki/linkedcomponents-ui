@@ -3,8 +3,8 @@
 /* eslint-disable import/no-named-as-default-member */
 import mockAxios from 'axios';
 import i18n from 'i18next';
-import { advanceTo, clear } from 'jest-date-mock';
 import { toast } from 'react-toastify';
+import { SpyInstance } from 'vitest';
 
 import { fakeOidcUserState } from '../../../utils/mockAuthContextValue';
 import { waitFor, waitReducerToBeCalled } from '../../../utils/testUtils';
@@ -41,13 +41,14 @@ const OLD_ENV = process.env;
 const apiTokenUrl = 'https://tunnistamo.test.fi/api-tokens/';
 
 beforeEach(() => {
-  jest.resetModules();
+  vi.resetModules();
   process.env = { ...OLD_ENV, REACT_APP_OIDC_API_TOKENS_URL: apiTokenUrl }; // Make a copy of env
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
-  clear();
+  vi.clearAllMocks();
+  // restoring date after each test run
+  vi.useRealTimers();
 });
 
 afterAll(() => {
@@ -74,7 +75,7 @@ const axiousCalled = async ({
   axiosFn,
 }: {
   accessToken: string;
-  axiosFn: jest.SpyInstance;
+  axiosFn: SpyInstance;
 }) => {
   expect(axiosFn).toHaveBeenCalledTimes(1);
   expect(axiosFn).toHaveBeenCalledWith(apiTokenUrl, {
@@ -88,8 +89,8 @@ const apiTokenFetchSucceeded = async ({
   dispatch,
 }: {
   accessToken: string;
-  axiosFn: jest.SpyInstance;
-  dispatch: jest.SpyInstance;
+  axiosFn: SpyInstance;
+  dispatch: SpyInstance;
 }) => {
   axiousCalled({ accessToken, axiosFn });
 
@@ -105,8 +106,8 @@ const apiTokenFetchFailed = async ({
   dispatch,
 }: {
   accessToken: string;
-  axiosFn: jest.SpyInstance;
-  dispatch: jest.SpyInstance;
+  axiosFn: SpyInstance;
+  dispatch: SpyInstance;
 }) => {
   axiousCalled({ accessToken, axiosFn });
 
@@ -132,7 +133,7 @@ describe('getApiTokenFromStorage function', () => {
 
 describe('onAccessTokenExpired function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchOidcState = jest.fn();
+    const dispatchOidcState = vi.fn();
 
     onAccessTokenExpired({ dispatchOidcState });
 
@@ -145,7 +146,7 @@ describe('onAccessTokenExpired function', () => {
 
 describe('onAccessTokenExpiring function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchOidcState = jest.fn();
+    const dispatchOidcState = vi.fn();
 
     onAccessTokenExpiring({ dispatchOidcState });
 
@@ -158,7 +159,7 @@ describe('onAccessTokenExpiring function', () => {
 
 describe('onSilentRenewError function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchOidcState = jest.fn();
+    const dispatchOidcState = vi.fn();
 
     onSilentRenewError({ dispatchOidcState });
 
@@ -172,7 +173,7 @@ describe('onSilentRenewError function', () => {
 describe('onUserLoaded function', () => {
   it('should call reducer correcly', async () => {
     const user = fakeOidcUserState({ expired: true });
-    const dispatchOidcState = jest.fn();
+    const dispatchOidcState = vi.fn();
 
     onUserLoaded({ dispatchOidcState, user });
 
@@ -185,7 +186,7 @@ describe('onUserLoaded function', () => {
 
 describe('onUserSignedOut function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchOidcState = jest.fn();
+    const dispatchOidcState = vi.fn();
 
     onUserSignedOut({ dispatchOidcState });
 
@@ -198,7 +199,7 @@ describe('onUserSignedOut function', () => {
 
 describe('onUserUnloaded function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchOidcState = jest.fn();
+    const dispatchOidcState = vi.fn();
 
     onUserUnloaded({ dispatchOidcState });
 
@@ -211,7 +212,7 @@ describe('onUserUnloaded function', () => {
 
 describe('getUserCallback function', () => {
   it('should clear user when user is null ', async () => {
-    const dispatchOidcState = jest.fn();
+    const dispatchOidcState = vi.fn();
 
     getUserCallback({ dispatchOidcState, user: null });
 
@@ -222,7 +223,7 @@ describe('getUserCallback function', () => {
   });
 
   it('should clear user when user is expired ', async () => {
-    const dispatchOidcState = jest.fn();
+    const dispatchOidcState = vi.fn();
     const user = fakeOidcUserState({ expired: true });
 
     getUserCallback({ dispatchOidcState, user });
@@ -234,7 +235,7 @@ describe('getUserCallback function', () => {
   });
 
   it('should set user when user is not expired ', async () => {
-    const dispatchOidcState = jest.fn();
+    const dispatchOidcState = vi.fn();
     const user = fakeOidcUserState({ expired: false });
 
     getUserCallback({ dispatchOidcState, user });
@@ -248,8 +249,8 @@ describe('getUserCallback function', () => {
 
 describe('errorCallback function', () => {
   it('should call error callback', async () => {
-    console.error = jest.fn();
-    const dispatchOidcState = jest.fn();
+    console.error = vi.fn();
+    const dispatchOidcState = vi.fn();
 
     errorCallback({ dispatchOidcState, error: new Error('error') });
 
@@ -269,11 +270,11 @@ describe('loadUser function', () => {
     const user = { access_token: 'token', expired: false };
     const userManager = {
       getUser: async () => user,
-      removeUser: jest.fn(),
-      signoutRedirect: jest.fn(),
+      removeUser: vi.fn(),
+      signoutRedirect: vi.fn(),
       events,
     } as any;
-    const dispatchOidcState = jest.fn();
+    const dispatchOidcState = vi.fn();
 
     loadUser({ dispatchOidcState, userManager });
 
@@ -285,12 +286,12 @@ describe('loadUser function', () => {
 
   it('should load user successfully', async () => {
     const userManager = {
-      getUser: jest.fn().mockRejectedValue({ message: 'error' }),
-      removeUser: jest.fn(),
-      signoutRedirect: jest.fn(),
+      getUser: vi.fn().mockRejectedValue({ message: 'error' }),
+      removeUser: vi.fn(),
+      signoutRedirect: vi.fn(),
       events,
     } as any;
-    const dispatchOidcState = jest.fn();
+    const dispatchOidcState = vi.fn();
 
     loadUser({ dispatchOidcState, userManager });
 
@@ -307,9 +308,9 @@ describe('loadUser function', () => {
 
 describe('signIn function', () => {
   it('should show toast error message when login fails', async () => {
-    const toastError = jest.spyOn(toast, 'error');
+    const toastError = vi.spyOn(toast, 'error');
     const error = { message: 'General error' };
-    const signinRedirect = jest
+    const signinRedirect = vi
       .spyOn(userManager, 'signinRedirect')
       .mockRejectedValue(error);
 
@@ -324,9 +325,9 @@ describe('signIn function', () => {
   });
 
   it('should show toast error message when login fails with NetworkError', async () => {
-    const toastError = jest.spyOn(toast, 'error');
+    const toastError = vi.spyOn(toast, 'error');
     const error = { message: 'Network Error' };
-    const signinRedirect = jest
+    const signinRedirect = vi
       .spyOn(userManager, 'signinRedirect')
       .mockRejectedValue(error);
     const path = '/fi/events';
@@ -351,7 +352,7 @@ describe('signIn function', () => {
       REACT_APP_MAINTENANCE_DISABLE_LOGIN: 'true',
     };
 
-    const toastError = jest.spyOn(toast, 'error');
+    const toastError = vi.spyOn(toast, 'error');
 
     const path = '/fi/events';
 
@@ -365,29 +366,31 @@ describe('signIn function', () => {
 
 describe('signOut function', () => {
   it('should clear user after signing out', async () => {
-    const resetApiTokenData = jest.fn();
+    const clearSpy = vi.spyOn(Storage.prototype, 'clear');
+    const resetApiTokenData = vi.fn();
 
     await signOut({ resetApiTokenData, userManager });
 
     expect(resetApiTokenData).toBeCalled();
-    expect(sessionStorage.clear).toHaveBeenCalled();
+    expect(clearSpy).toHaveBeenCalled();
   });
 });
 
 describe('clearAllState function', () => {
   it('should clear user data', async () => {
-    const resetApiTokenData = jest.fn();
+    const clearSpy = vi.spyOn(Storage.prototype, 'clear');
+    const resetApiTokenData = vi.fn();
 
     clearAllState(resetApiTokenData);
 
     await waitFor(() => expect(resetApiTokenData).toBeCalled());
-    expect(sessionStorage.clear).toHaveBeenCalled();
+    expect(clearSpy).toHaveBeenCalled();
   });
 });
 
 describe('fetchTokenError function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchApiTokenState = jest.fn();
+    const dispatchApiTokenState = vi.fn();
     const error = new Error('error');
 
     fetchTokenError({ dispatchApiTokenState, error });
@@ -401,7 +404,7 @@ describe('fetchTokenError function', () => {
 
 describe('fetchTokenSuccess function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchApiTokenState = jest.fn();
+    const dispatchApiTokenState = vi.fn();
     const apiToken = 'token';
 
     fetchTokenSuccess({ apiToken, dispatchApiTokenState });
@@ -415,11 +418,11 @@ describe('fetchTokenSuccess function', () => {
 
 describe('getApiToken function', () => {
   it('should get api token', async () => {
-    const dispatchApiTokenState = jest.fn();
+    const dispatchApiTokenState = vi.fn();
     const accessToken = 'access-token';
     const apiToken = 'api-token';
 
-    const axiosGet = jest
+    const axiosGet = vi
       .spyOn(mockAxios, 'get')
       .mockResolvedValue({ data: { [API_SCOPE]: apiToken } });
 
@@ -439,7 +442,7 @@ describe('getApiToken function', () => {
   it('should throw an error if REACT_APP_OIDC_API_TOKENS_URL is not set', async () => {
     process.env.REACT_APP_OIDC_API_TOKENS_URL = '';
 
-    const dispatchApiTokenState = jest.fn();
+    const dispatchApiTokenState = vi.fn();
 
     await expect(
       async () =>
@@ -454,12 +457,12 @@ describe('getApiToken function', () => {
   });
 
   it('should show toast error message when failing to get api token', async () => {
-    const dispatchApiTokenState = jest.fn();
-    const toastError = jest.spyOn(toast, 'error');
+    const dispatchApiTokenState = vi.fn();
+    const toastError = vi.spyOn(toast, 'error');
     const accessToken = 'access-token';
     const error = new Error('error');
 
-    const axiosGet = jest.spyOn(mockAxios, 'get').mockRejectedValue(error);
+    const axiosGet = vi.spyOn(mockAxios, 'get').mockRejectedValue(error);
 
     await getApiToken({
       accessToken,
@@ -479,11 +482,11 @@ describe('getApiToken function', () => {
 
 describe('renewApiToken function', () => {
   it('should renew api token', async () => {
-    const dispatchApiTokenState = jest.fn();
+    const dispatchApiTokenState = vi.fn();
     const accessToken = 'access-token';
     const apiToken = 'api-token';
 
-    const axiosGet = jest
+    const axiosGet = vi
       .spyOn(mockAxios, 'get')
       .mockResolvedValue({ data: { [API_SCOPE]: apiToken } });
 
@@ -501,12 +504,12 @@ describe('renewApiToken function', () => {
   });
 
   it('should show toast error message when failing to renew api token', async () => {
-    const dispatchApiTokenState = jest.fn();
-    const toastError = jest.spyOn(toast, 'error');
+    const dispatchApiTokenState = vi.fn();
+    const toastError = vi.spyOn(toast, 'error');
     const accessToken = 'access-token';
     const error = new Error('error');
 
-    const axiosGet = jest.spyOn(mockAxios, 'get').mockRejectedValue(error);
+    const axiosGet = vi.spyOn(mockAxios, 'get').mockRejectedValue(error);
 
     await renewApiToken({
       accessToken,
@@ -526,7 +529,7 @@ describe('renewApiToken function', () => {
 
 describe('resetApiTokenData function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchApiTokenState = jest.fn();
+    const dispatchApiTokenState = vi.fn();
 
     resetApiTokenData({ dispatchApiTokenState });
 
@@ -539,7 +542,7 @@ describe('resetApiTokenData function', () => {
 
 describe('startFetchingToken function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchApiTokenState = jest.fn();
+    const dispatchApiTokenState = vi.fn();
 
     startFetchingToken({ dispatchApiTokenState });
 
@@ -552,7 +555,7 @@ describe('startFetchingToken function', () => {
 
 describe('getApiTokenExpirationTime function', () => {
   it('should get expiration time', async () => {
-    advanceTo('2022-09-08');
+    vi.setSystemTime('2022-09-08');
     expect(getApiTokenExpirationTime()).toBe(1662595260);
   });
 });
@@ -561,12 +564,12 @@ describe('isApiTokenExpiring', () => {
   const expirationTime = 1662595260;
 
   it('should return true', async () => {
-    advanceTo('2022-09-08');
+    vi.setSystemTime('2022-09-08');
     expect(isApiTokenExpiring(expirationTime - 60)).toBe(true);
   });
 
   it('should return true', async () => {
-    advanceTo('2022-09-08');
+    vi.setSystemTime('2022-09-08');
 
     expect(isApiTokenExpiring(null)).toBe(false);
     expect(isApiTokenExpiring(expirationTime - 59)).toBe(false);

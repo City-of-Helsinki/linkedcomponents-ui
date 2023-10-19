@@ -1,4 +1,3 @@
-import { advanceTo, clear } from 'jest-date-mock';
 import * as Yup from 'yup';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
@@ -15,7 +14,7 @@ import {
 } from '../validation';
 
 afterEach(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 const testAboveMinAge = async (minAge: number, date: Date | null) => {
@@ -81,25 +80,22 @@ const testSignupGroupSchema = async (
 };
 
 describe('isAboveMinAge function', () => {
+  beforeEach(() => {
+    vi.setSystemTime('2022-10-10');
+  });
   test('should return true value is null', async () => {
-    advanceTo('2022-10-10');
-
     const result = await testAboveMinAge(9, null);
 
     expect(result).toBe(true);
   });
 
   test('should return false if age is less than min age', async () => {
-    advanceTo('2022-10-10');
-
     const result = await testAboveMinAge(9, new Date('2022-01-01'));
 
     expect(result).toBe(false);
   });
 
   test('should return true if age is greater than min age', async () => {
-    advanceTo('2022-10-10');
-
     const result = await testAboveMinAge(9, new Date('2012-01-01'));
 
     expect(result).toBe(true);
@@ -108,24 +104,18 @@ describe('isAboveMinAge function', () => {
 
 describe('isBelowMaxAge function', () => {
   test('should return true if value is null', async () => {
-    advanceTo('2022-10-10');
-
     const result = await testBelowMaxAge(9, null);
 
     expect(result).toBe(true);
   });
 
   test('should return false if age is greater than max age', async () => {
-    advanceTo('2022-10-10');
-
     const result = await testBelowMaxAge(9, new Date('2012-01-01'));
 
     expect(result).toBe(false);
   });
 
   test('should return true if age is less than max age', async () => {
-    advanceTo('2022-10-10');
-
     const result = await testBelowMaxAge(9, new Date('2015-01-01'));
 
     expect(result).toBe(true);
@@ -217,7 +207,7 @@ describe('signupSchema function', () => {
   });
 
   test('should return false if age is greater than max age', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime('2022-10-10');
 
     expect(
       await testSignupSchema(fakeRegistration({ audienceMaxAge: 8 }), {
@@ -228,7 +218,7 @@ describe('signupSchema function', () => {
   });
 
   test('should return false if age is less than min age', async () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime('2022-10-10');
 
     expect(
       await testSignupSchema(fakeRegistration({ audienceMinAge: 5 }), {

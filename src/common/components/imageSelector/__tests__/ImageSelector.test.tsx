@@ -35,7 +35,7 @@ import ImageSelector, {
 configure({ defaultHidden: true });
 
 const defaultImageSelectorProps: ImageSelectorProps = {
-  onChange: jest.fn(),
+  onChange: vi.fn(),
   publisher,
   value: [],
 };
@@ -44,8 +44,8 @@ const defaultImageItemProps: ImageItemProps = {
   checked: false,
   disabled: false,
   image: images.data[0] as ImageFieldsFragment,
-  onClick: jest.fn(),
-  onDoubleClick: jest.fn(),
+  onClick: vi.fn(),
+  onDoubleClick: vi.fn(),
 };
 
 const defaultMocks = [
@@ -100,7 +100,7 @@ describe('ImageSelector', () => {
   });
 
   test('should call onChange', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const user = userEvent.setup();
     renderImageSelector({ onChange });
 
@@ -115,7 +115,7 @@ describe('ImageSelector', () => {
   });
 
   test('should clear value when clicking selected image', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { name, atId } = images.data[0] as Image;
     const user = userEvent.setup();
     renderImageSelector({ onChange, value: [atId] });
@@ -129,7 +129,7 @@ describe('ImageSelector', () => {
   });
 
   test('should call onChange with multiple image ids', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { atId } = images.data[0] as Image;
     const user = userEvent.setup();
     renderImageSelector({ multiple: true, onChange, value: [atId] });
@@ -152,7 +152,7 @@ describe('ImageSelector', () => {
       mockedUserWithoutOrganizationsResponse,
     ];
 
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const user = userEvent.setup();
 
     renderImageSelector({ onChange }, mocks);

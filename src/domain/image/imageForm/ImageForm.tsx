@@ -125,7 +125,10 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
       // to silent TypeScript error. The reason for custom onSubmit is that
       // we want to scroll to first invalid field if error occurs
 
-      onSubmit={/* istanbul ignore next */ () => undefined}
+      onSubmit={
+        /* istanbul ignore next */
+        () => undefined
+      }
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
@@ -229,7 +232,10 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                       disabled={true}
                       imageUrl={values.url}
                       label={t(`event.form.buttonAddImage.general`)}
-                      onClick={/* istanbul ignore next */ () => undefined}
+                      onClick={
+                        /* istanbul ignore next */
+                        () => undefined
+                      }
                     />
                     {!values.url && (
                       <Button

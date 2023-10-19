@@ -21,10 +21,10 @@ configure({ defaultHidden: true });
 
 const defaultProps: EditButtonPanelProps = {
   event: event,
-  onCancel: jest.fn(),
-  onDelete: jest.fn(),
-  onPostpone: jest.fn(),
-  onUpdate: jest.fn(),
+  onCancel: vi.fn(),
+  onDelete: vi.fn(),
+  onPostpone: vi.fn(),
+  onUpdate: vi.fn(),
   saving: null,
 };
 
@@ -107,9 +107,9 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should show correct buttons for draft event', async () => {
-  const onCancel = jest.fn();
-  const onDelete = jest.fn();
-  const onUpdate = jest.fn();
+  const onCancel = vi.fn();
+  const onDelete = vi.fn();
+  const onUpdate = vi.fn();
 
   const user = userEvent.setup();
   renderComponent({
@@ -170,10 +170,10 @@ test('all buttons should be disabled when user is not logged in (draft)', async 
 });
 
 test('should render correct buttons for public event', async () => {
-  const onCancel = jest.fn();
-  const onDelete = jest.fn();
-  const onPostpone = jest.fn();
-  const onUpdate = jest.fn();
+  const onCancel = vi.fn();
+  const onDelete = vi.fn();
+  const onPostpone = vi.fn();
+  const onUpdate = vi.fn();
 
   const user = userEvent.setup();
   renderComponent({

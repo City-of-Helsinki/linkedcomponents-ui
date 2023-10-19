@@ -1,5 +1,4 @@
 import { Formik } from 'formik';
-import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
@@ -21,7 +20,9 @@ import TimeSection from '../TimeSection';
 
 configure({ defaultHidden: true });
 
-beforeEach(() => clear());
+beforeEach(() => {
+  vi.useRealTimers();
+});
 
 const type = EVENT_TYPE.General;
 
@@ -84,7 +85,7 @@ const renderComponent = (
   render(
     <Formik
       initialValues={{ ...defaultInitialValue, ...initialValues }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <TimeSection isEditingAllowed={true} savedEvent={savedEvent} />
@@ -113,7 +114,7 @@ const getRecurringEventElement = (key: 'startDate') => {
 };
 
 test('should render all event times', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
 
   const initialValues = {
     [EVENT_FIELDS.EVENTS]: events,
@@ -139,7 +140,7 @@ test('should render all event times', async () => {
 });
 
 test('should change to recurring event tab', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
   const user = userEvent.setup();
 
   renderComponent();
@@ -153,7 +154,7 @@ test('should change to recurring event tab', async () => {
 });
 
 test('should not be able to add new event times when editing single event', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
   const user = userEvent.setup();
 
   const initialValues = { [EVENT_FIELDS.EVENTS]: events };
@@ -176,7 +177,7 @@ test('should not be able to add new event times when editing single event', asyn
 });
 
 test('should be able to add new event times when editing recurring event', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
   const user = userEvent.setup();
 
   const initialValues = { [EVENT_FIELDS.EVENTS]: events };

@@ -61,7 +61,7 @@ const menuShouldBeClosed = async () =>
 
 const items: MenuItemOptionProps[] = [1, 2, 3, 4].map((item) => ({
   icon: <IconPen />,
-  onClick: jest.fn(),
+  onClick: vi.fn(),
   label: `Label ${item}`,
 }));
 
@@ -79,20 +79,30 @@ test('changes focused item correctly', async () => {
   await openMenu();
 
   arrowDownKeyPressHelper();
-  expect(getItemAtIndex(0)).toHaveClass('highlighted');
+  expect(getItemAtIndex(0).className).toStrictEqual(
+    expect.stringContaining('highlighted')
+  );
 
   arrowDownKeyPressHelper();
   arrowDownKeyPressHelper();
-  expect(getItemAtIndex(2)).toHaveClass('highlighted');
+  expect(getItemAtIndex(2).className).toStrictEqual(
+    expect.stringContaining('highlighted')
+  );
 
   arrowDownKeyPressHelper();
-  expect(getItemAtIndex(3)).toHaveClass('highlighted');
+  expect(getItemAtIndex(3).className).toStrictEqual(
+    expect.stringContaining('highlighted')
+  );
 
   arrowDownKeyPressHelper();
-  expect(getItemAtIndex(0)).toHaveClass('highlighted');
+  expect(getItemAtIndex(0).className).toStrictEqual(
+    expect.stringContaining('highlighted')
+  );
 
   arrowUpKeyPressHelper();
-  expect(getItemAtIndex(3)).toHaveClass('highlighted');
+  expect(getItemAtIndex(3).className).toStrictEqual(
+    expect.stringContaining('highlighted')
+  );
 });
 
 test('should call onClick when pressing enter key', async () => {

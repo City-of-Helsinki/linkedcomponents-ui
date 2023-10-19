@@ -1,6 +1,7 @@
 
 *
 !.env
+!.env.local
 !.env.development
 !.env.development.local
 !.prod
@@ -12,7 +13,7 @@
 !.eslintrc.json
 !.prettierrc.json
 !tsconfig.json
+!vite.config.ts
 !yarn.lock
-!plugins
-!craco.config.js
-src/utils/testUtils.tsx
+!index.html
+**/__tests__/**

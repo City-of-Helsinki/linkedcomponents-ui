@@ -41,7 +41,7 @@ test('should route to home page', async () => {
 test('should start login process', async () => {
   const user = userEvent.setup();
 
-  const signIn = jest.fn();
+  const signIn = vi.fn();
   const authContextValue = fakeAuthContextValue({ signIn });
   renderComponent(authContextValue);
 

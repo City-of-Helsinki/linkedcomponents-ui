@@ -63,7 +63,7 @@ const getElements = (
 };
 
 beforeEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
   i18n.changeLanguage('fi');
 });
 
@@ -130,7 +130,7 @@ test.each(registrationAndAdminTabTestCases)(
       SHOW_ADMIN: true,
       SHOW_REGISTRATION: true,
     });
-    const userMocks = {
+    const userMocks: Record<typeof role, MockedResponse> = {
       admin: mockedUserResponse,
       noOrganization: mockedUserWithoutOrganizationsResponse,
       registrationAdmin: mockedRegistrationUserResponse,
@@ -224,7 +224,7 @@ test('should change language', async () => {
 test('should start login process', async () => {
   const user = userEvent.setup();
 
-  const signIn = jest.fn();
+  const signIn = vi.fn();
   const authContextValue = fakeAuthContextValue({ signIn });
   renderComponent({ authContextValue });
 
@@ -236,7 +236,7 @@ test('should start login process', async () => {
 test('should start logout process', async () => {
   const user = userEvent.setup();
 
-  const signOut = jest.fn();
+  const signOut = vi.fn();
   const authContextValue = fakeAuthenticatedAuthContextValue({ signOut });
   renderComponent({ authContextValue });
 

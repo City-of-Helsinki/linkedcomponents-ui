@@ -23,7 +23,7 @@ const imageId = TEST_IMAGE_ID;
 const defaultProps: ImagesTableProps = {
   caption: 'Images table',
   images: [],
-  setSort: jest.fn(),
+  setSort: vi.fn(),
   sort: IMAGE_SORT_OPTIONS.LAST_MODIFIED_TIME_DESC,
 };
 
@@ -85,7 +85,7 @@ test('should open edit keyword page by pressing enter on row', async () => {
 });
 
 test('should call setSort when clicking sortable column header', async () => {
-  const setSort = jest.fn();
+  const setSort = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ setSort });

@@ -1,7 +1,7 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
 import map from 'lodash/map';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import { createCache } from '../../../app/apollo/apolloClient';
 import {
@@ -26,7 +26,7 @@ const mocks = [
 ];
 
 const getHookWrapper = (mocks: MockedResponse[] = []) => {
-  const wrapper = ({ children }) => (
+  const wrapper = ({ children }: PropsWithChildren) => (
     <MockedProvider cache={createCache()} mocks={mocks}>
       {children}
     </MockedProvider>

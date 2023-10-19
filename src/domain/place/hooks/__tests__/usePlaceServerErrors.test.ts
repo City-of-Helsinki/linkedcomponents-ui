@@ -28,7 +28,7 @@ it('should set generic server error items', async () => {
 });
 
 it('should set server error items', async () => {
-  const callbackFn = jest.fn();
+  const callbackFn = vi.fn();
   const { result } = getHookWrapper();
 
   const error = new ApolloError({

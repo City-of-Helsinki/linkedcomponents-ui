@@ -10,7 +10,7 @@ const defaultProps: PaginationProps = {
   pageCount: 10,
   pageHref: () => '',
   pageIndex: 0,
-  onChange: jest.fn(),
+  onChange: vi.fn(),
 };
 
 const getElement = (key: 'next' | 'previous') => {
@@ -33,7 +33,7 @@ test('previous button should be disabled', async () => {
 });
 
 test('should call onChange when clicking previous button', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   const user = userEvent.setup();
   renderComponent({ pageIndex: 1, onChange });
 
@@ -51,7 +51,7 @@ test('next button should be disabled', async () => {
 });
 
 test('should call onChange when clicking next button', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ pageIndex: 8, onChange });
@@ -63,7 +63,7 @@ test('should call onChange when clicking next button', async () => {
 });
 
 test('should call onChange when clicking page link', async () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   const user = userEvent.setup();
   renderComponent({ pageIndex: 0, onChange });
 

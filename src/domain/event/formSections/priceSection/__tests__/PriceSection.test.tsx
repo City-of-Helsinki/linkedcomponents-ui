@@ -27,7 +27,7 @@ const renderPriceSection = () =>
         [EVENT_FIELDS.OFFERS]: [getEmptyOffer()],
         [EVENT_FIELDS.TYPE]: type,
       }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <PriceSection isEditingAllowed={true} />

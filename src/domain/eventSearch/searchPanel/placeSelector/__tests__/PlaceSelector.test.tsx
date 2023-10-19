@@ -22,7 +22,7 @@ const mocks = [mockedPlacesResponse, mockedPlaceResponse];
 const toggleButtonLabel = 'Select place';
 
 const defaultProps: PlaceSelectorProps = {
-  onChange: jest.fn(),
+  onChange: vi.fn(),
   toggleButtonLabel,
   value: [],
 };

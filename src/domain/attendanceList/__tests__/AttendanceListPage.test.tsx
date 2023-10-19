@@ -111,7 +111,7 @@ test('should mark signup as present', async () => {
 });
 
 test('should show toast message if updating presence status fails', async () => {
-  toast.error = jest.fn();
+  toast.error = vi.fn();
   const user = userEvent.setup();
 
   renderComponent([...baseMocks, mockedInvalidUpdateSignupResponse]);

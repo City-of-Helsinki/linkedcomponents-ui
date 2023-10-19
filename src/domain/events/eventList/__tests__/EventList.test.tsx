@@ -102,7 +102,7 @@ const defaultProps: EventListContainerProps = {
   activeTab: EVENTS_PAGE_TABS.PUBLISHED,
   baseVariables: variables,
   listType: EVENT_LIST_TYPES.TABLE,
-  setListType: jest.fn(),
+  setListType: vi.fn(),
   showListTypeSelector: true,
   skip: false,
 };

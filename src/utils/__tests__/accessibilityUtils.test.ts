@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   getA11ySelectionMessage,
   getA11yStatusMessage,
@@ -8,7 +9,7 @@ const defaultOptions = {
   highlightedItem: null,
   inputValue: '',
   isOpen: false,
-  itemToString: (s) => s,
+  itemToString: (s: string) => s,
   previousResultCount: 0,
   resultCount: 0,
   selectedItem: null,
@@ -17,7 +18,7 @@ const defaultOptions = {
 describe('getA11ySelectionMessage', () => {
   it('should get selection message', () => {
     const selectedItem = 'Selected item';
-    const t = jest.fn();
+    const t = vi.fn() as any;
     getA11ySelectionMessage({ ...defaultOptions, selectedItem }, t);
 
     expect(t).toBeCalledWith(
@@ -31,7 +32,7 @@ describe('getA11ySelectionMessage', () => {
 
 describe('getA11yStatusMessage', () => {
   it('should get status message', () => {
-    const t = jest.fn();
+    const t = vi.fn() as any;
 
     expect(getA11yStatusMessage({ ...defaultOptions, isOpen: false }, t)).toBe(
       ''

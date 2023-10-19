@@ -100,7 +100,7 @@ const renderComponent = (
         ...defaultInitialValues,
         ...initialValues,
       }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <ImageSection isEditingAllowed={true} />

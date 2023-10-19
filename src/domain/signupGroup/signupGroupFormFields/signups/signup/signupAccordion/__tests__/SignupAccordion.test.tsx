@@ -15,7 +15,7 @@ const toggleButtonLabel = 'Toggle';
 
 const defaultProps: SignupAccordionProps = {
   inWaitingList: false,
-  onClick: jest.fn(),
+  onClick: vi.fn(),
   open: true,
   toggleButtonLabel,
 };
@@ -55,7 +55,7 @@ test('should show in waiting list text if signup is in waiting list', async () =
 
 test('should call onClick when clicking', async () => {
   const user = userEvent.setup();
-  const onClick = jest.fn();
+  const onClick = vi.fn();
 
   renderComponent({ open: true, onClick });
 
@@ -66,7 +66,7 @@ test('should call onClick when clicking', async () => {
 
 test('should call onClick by pressing enter', async () => {
   const user = userEvent.setup();
-  const onClick = jest.fn();
+  const onClick = vi.fn();
 
   renderComponent({ open: true, onClick });
 

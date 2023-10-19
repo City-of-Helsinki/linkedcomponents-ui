@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ExternalLink from '../../../../common/components/externalLink/ExternalLink';
-import { SWAGGER_URL } from '../../../../constants';
+import { SWAGGER_URL } from '../../../../envVariables';
 import removeProtocolFromUrl from '../../../../utils/removeProtocolFromUrl';
 
 type Props = {

@@ -11,7 +11,7 @@ import DateSelectorDropdown, {
 } from '../DateSelectorDropdown';
 
 const defaultProps: DateSelectorProps = {
-  onChangeDate: jest.fn(),
+  onChangeDate: vi.fn(),
   value: {
     endDate: new Date('2021-10-15'),
     startDate: new Date('2021-10-08'),
@@ -37,7 +37,7 @@ const getElement = (
 };
 
 test('should open menu by clicking toggle button', async () => {
-  const onChangeDate = jest.fn();
+  const onChangeDate = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ onChangeDate });
@@ -52,7 +52,7 @@ test('should open menu by clicking toggle button', async () => {
 });
 
 test('should close menu with esc button', async () => {
-  const onChangeDate = jest.fn();
+  const onChangeDate = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ onChangeDate });
@@ -70,7 +70,7 @@ test('should close menu with esc button', async () => {
 });
 
 test('should clear start and end date by clicking clear button', async () => {
-  const onChangeDate = jest.fn();
+  const onChangeDate = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ onChangeDate });

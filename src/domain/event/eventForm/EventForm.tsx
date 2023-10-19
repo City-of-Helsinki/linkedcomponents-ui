@@ -544,7 +544,10 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
       // to silent TypeScript error. The reason for custom onSubmit is that
       // we want to scroll to first invalid field if error occurs
       enableReinitialize={true}
-      onSubmit={/* istanbul ignore next */ () => undefined}
+      onSubmit={
+        /* istanbul ignore next */
+        () => undefined
+      }
       validationSchema={validationSchema}
       validateOnMount
       validateOnBlur={true}

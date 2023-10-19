@@ -27,7 +27,7 @@ import RegistrationActionsDropdown, {
 } from '../RegistrationActionsDropdown';
 
 configure({ defaultHidden: true });
-jest.mock('copy-to-clipboard');
+vi.mock('copy-to-clipboard');
 
 const defaultProps: RegistrationActionsDropdownProps = {
   registration,
@@ -188,7 +188,7 @@ test('should route to attendance list page when clicking mark present button', a
 
   await openMenu();
 
-  const markPresentButton = await getElement('markPresent');
+  const markPresentButton = getElement('markPresent');
   await user.click(markPresentButton);
 
   await waitFor(() =>
@@ -215,7 +215,7 @@ test('should route to create registration page when clicking copy button', async
 });
 
 test('should copy registration link to clipboard', async () => {
-  toast.success = jest.fn();
+  toast.success = vi.fn();
   const user = userEvent.setup();
 
   renderComponent();

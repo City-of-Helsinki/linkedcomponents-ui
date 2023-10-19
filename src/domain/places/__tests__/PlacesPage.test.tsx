@@ -136,7 +136,7 @@ it('scrolls to place row and calls history.replace correctly (deletes placeId fr
   const history = createMemoryHistory();
   history.push(route, { placeId: places.data[0]?.id });
 
-  const replaceSpy = jest.spyOn(history, 'replace');
+  const replaceSpy = vi.spyOn(history, 'replace');
 
   renderComponent({ history });
 

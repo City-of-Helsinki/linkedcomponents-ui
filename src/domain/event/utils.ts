@@ -471,7 +471,7 @@ export const getEventBasePayload = (
   publicationStatus: PublicationStatus
 ): Omit<CreateEventMutationInput, 'endTime' | 'startTime'> => {
   const ENABLE_EXTERNAL_USER_EVENTS =
-    process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+    import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
 
   const {
     audience,
@@ -802,7 +802,7 @@ export const getEventInitialValues = (
   const offers = getEventOffers(event);
 
   const ENABLE_EXTERNAL_USER_EVENTS =
-    process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+    import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
 
   const baseInitialValues: EventFormFields = {
     ...(ENABLE_EXTERNAL_USER_EVENTS
@@ -1104,7 +1104,7 @@ export const checkCanUserDoAction = ({
   });
 
   const ENABLE_EXTERNAL_USER_EVENTS =
-    process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+    import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
   const isExternalUser =
     ENABLE_EXTERNAL_USER_EVENTS && isExternalUserWithoutOrganization({ user });
 

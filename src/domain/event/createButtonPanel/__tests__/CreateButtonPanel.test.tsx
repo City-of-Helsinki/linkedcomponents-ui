@@ -22,10 +22,10 @@ const renderComponent = (
   render(
     <Formik
       initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.General }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
     >
       <ButtonPanel
-        onSubmit={jest.fn()}
+        onSubmit={vi.fn()}
         publisher={organizationId}
         saving={null}
       />

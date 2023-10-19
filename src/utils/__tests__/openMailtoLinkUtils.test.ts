@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   openMailtoLink,
   parseEmailFromCreatedBy,
@@ -24,10 +26,10 @@ it.each(cases)(
 
 it('should have correct window.location set after calling the function', async () => {
   const originalLocation = window.location;
-
+  /* @ts-ignore */
   delete window.location;
 
-  window.location = { href: '' };
+  window.location = { href: '' } as any;
 
   openMailtoLink('ukko.kapiainen@testiosoite.fi', 'testiotsikko');
 

@@ -28,7 +28,7 @@ const useUser = (): UserState => {
   const loading = loadingUser || loadingTokens;
 
   const ENABLE_EXTERNAL_USER_EVENTS =
-    process.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+    import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
 
   const isExternalUser =
     ENABLE_EXTERNAL_USER_EVENTS &&

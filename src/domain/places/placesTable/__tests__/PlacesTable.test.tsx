@@ -23,7 +23,7 @@ const placeId = TEST_PLACE_ID;
 const defaultProps: PlacesTableProps = {
   caption: 'Keywords table',
   places: [],
-  setSort: jest.fn(),
+  setSort: vi.fn(),
   sort: PLACE_SORT_OPTIONS.NAME,
 };
 
@@ -85,7 +85,7 @@ test('should open edit keyword page by pressing enter on row', async () => {
 });
 
 test('should call setSort when clicking sortable column header', async () => {
-  const setSort = jest.fn();
+  const setSort = vi.fn();
   const user = userEvent.setup();
   renderComponent({ setSort });
 

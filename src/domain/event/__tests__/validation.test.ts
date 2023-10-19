@@ -1,5 +1,4 @@
 import { yupToFormErrors } from 'formik';
-import { advanceTo, clear } from 'jest-date-mock';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
@@ -21,7 +20,7 @@ const testEventTimeSchema = async (eventTime: EventTimeFormFields) => {
 };
 
 afterEach(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 describe('publiEventSchema', () => {
@@ -106,41 +105,39 @@ describe('event time validation', () => {
     startTime: '12:00',
   };
 
+  beforeEach(() => {
+    vi.setSystemTime('2022-11-07');
+  });
+
   test('should return true if event time is valid', async () => {
-    advanceTo('2022-11-07');
     expect(await testEventTimeSchema(validEventTime)).toBe(true);
   });
 
   test('should return false if start date is missing', async () => {
-    advanceTo('2022-11-07');
     expect(
       await testEventTimeSchema({ ...validEventTime, startDate: null })
     ).toBe(false);
   });
 
   test('should return false if start time is missing', async () => {
-    advanceTo('2022-11-07');
     expect(
       await testEventTimeSchema({ ...validEventTime, startTime: '' })
     ).toBe(false);
   });
 
   test('should return false if end date is missing', async () => {
-    advanceTo('2022-11-07');
     expect(
       await testEventTimeSchema({ ...validEventTime, endDate: null })
     ).toBe(false);
   });
 
   test('should return false if end time is missing', async () => {
-    advanceTo('2022-11-07');
     expect(await testEventTimeSchema({ ...validEventTime, endTime: '' })).toBe(
       false
     );
   });
 
   test('should return false if end time is not in the future', async () => {
-    advanceTo('2022-11-07');
     expect(
       await testEventTimeSchema({
         endDate: new Date('2022-11-05'),
@@ -152,7 +149,6 @@ describe('event time validation', () => {
   });
 
   test('should return false if end time is before start time', async () => {
-    advanceTo('2022-11-07');
     expect(
       await testEventTimeSchema({
         endDate: new Date('2022-11-11'),

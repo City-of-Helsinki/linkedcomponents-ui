@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 /* eslint-disable no-console */
 import { TimeInputProps } from 'hds-react';
-import { axe } from 'jest-axe';
 import React from 'react';
+import { axe } from 'vitest-axe';
 
 import {
   arrowDownKeyPressHelper,
@@ -183,7 +183,7 @@ describe('<TimeInput /> spec', () => {
   });
 
   it('should console.warn if both value and default value is defined', async () => {
-    console.warn = jest.fn();
+    console.warn = vi.fn();
     renderComponent({
       defaultValue: '12:00',
       value: '12:00',

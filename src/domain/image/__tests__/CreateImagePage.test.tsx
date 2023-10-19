@@ -177,7 +177,7 @@ test('should move to images page after creating new image', async () => {
 });
 
 test('should prevent upload on a file name that is too long', async () => {
-  toast.error = jest.fn();
+  toast.error = vi.fn();
   const user = userEvent.setup();
   renderComponent();
 

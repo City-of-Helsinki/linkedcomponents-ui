@@ -19,8 +19,8 @@ export const authContextDefaultValue: AuthContextProps = {
   ...oidcInitialState,
   isAuthenticated: false,
   isLoading: false,
-  signIn: jest.fn(),
-  signOut: jest.fn(),
+  signIn: vi.fn(),
+  signOut: vi.fn(),
   userManager,
 };
 
@@ -74,7 +74,7 @@ export const fakeOidcUserState = (overrides?: Partial<User>): User =>
       expired: false,
       id_token: '',
       profile: fakeOidcUserProfileState(),
-      toStorageString: jest.fn(),
+      toStorageString: vi.fn(),
       scope: '',
       scopes: [],
       state: null,

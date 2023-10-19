@@ -40,7 +40,7 @@ const renderComponent = (
   render(
     <Formik
       initialValues={initialValues || defaultInitialValues}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
     >
       <TypeSection {...props} isEditingAllowed={true} isExternalUser={false} />
     </Formik>,

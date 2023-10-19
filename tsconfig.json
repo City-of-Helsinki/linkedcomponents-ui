@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -13,13 +13,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
     "jsx": "react-jsx",
-    "noFallthroughCasesInSwitch": true
+    "types": ["vite/client", "vite-plugin-svgr/client", "vitest/globals"]
   },
-  "include": ["src"],
+  "include": ["src", "src/setupTests.ts"],
   "exclude": [
     "**/__mocks__/*",
-    "**/__tests__/*",
     "src/test/*",
     "src/utils/testUtils.tsx",
     "src/utils/mockDataUtils.ts",

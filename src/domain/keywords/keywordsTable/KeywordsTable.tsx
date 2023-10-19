@@ -31,7 +31,10 @@ const IdColumn = (keyword: KeywordFieldsFragment) => {
 
   return (
     <Link
-      onClick={/* istanbul ignore next */ (e) => e.preventDefault()}
+      onClick={
+        /* istanbul ignore next */
+        (e) => e.preventDefault()
+      }
       to={keywordUrl}
     >
       {id}

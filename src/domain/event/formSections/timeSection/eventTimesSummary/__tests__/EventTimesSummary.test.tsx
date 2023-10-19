@@ -1,4 +1,3 @@
-import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import {
@@ -18,7 +17,7 @@ import EventTimesSummary from '../EventTimesSummary';
 configure({ defaultHidden: true });
 
 beforeEach(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 const renderComponent = (context?: Partial<TimeSectionContextProps>) =>
@@ -31,7 +30,7 @@ const renderComponent = (context?: Partial<TimeSectionContextProps>) =>
   );
 
 test('should render event times summary', async () => {
-  advanceTo('2021-04-12');
+  vi.setSystemTime('2021-04-12');
   const eventTimes: EventTime[] = [
     {
       endTime: new Date('2021-05-02T15:00:00.000Z'),

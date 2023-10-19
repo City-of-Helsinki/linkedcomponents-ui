@@ -35,7 +35,7 @@ const renderComponent = (props: RegistrationSectionProps) =>
   render(
     <Formik
       initialValues={{ [EVENT_FIELDS.TYPE]: EVENT_TYPE.General }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
     >
       <RegistrationSection {...props} />
     </Formik>,

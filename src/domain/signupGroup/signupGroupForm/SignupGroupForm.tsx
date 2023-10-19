@@ -409,7 +409,10 @@ const SignupGroupFormWrapper: React.FC<SignupGroupFormWrapperProps> = ({
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={/* istanbul ignore next */ () => undefined}
+      onSubmit={
+        /* istanbul ignore next */
+        () => undefined
+      }
       validationSchema={() => getSignupGroupSchema(registration)}
     >
       {({ setErrors, setTouched, values }) => {

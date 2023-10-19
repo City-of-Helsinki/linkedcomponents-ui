@@ -54,8 +54,8 @@ test('should render events in the event list', async () => {
   renderComponent();
   await loadingSpinnerIsNotInDocument();
 
-  await screen.getByRole('heading', { name: eventNames[0] });
-  await screen.getByRole('heading', { name: eventNames[1] });
+  screen.getByRole('heading', { name: eventNames[0] });
+  screen.getByRole('heading', { name: eventNames[1] });
 });
 
 it('scrolls to event card and calls history.replace correctly (deletes eventId from state)', async () => {
@@ -65,7 +65,7 @@ it('scrolls to event card and calls history.replace correctly (deletes eventId f
 
   history.push({ search, pathname: route }, { eventId: events.data[0]?.id });
 
-  const replaceSpy = jest.spyOn(history, 'replace');
+  const replaceSpy = vi.spyOn(history, 'replace');
 
   render(<EventSearchPage />, {
     history,

@@ -1,20 +1,22 @@
 import addMinutes from 'date-fns/addMinutes';
-import { advanceTo, clear } from 'jest-date-mock';
 
+import { SeatsReservation } from '../../../generated/graphql';
 import { fakeSeatsReservation } from '../../../utils/mockDataUtils';
 import { getRegistrationTimeLeft, isSeatsReservationExpired } from '../utils';
 
 afterEach(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 describe('isSeatsReservationExpired function', () => {
   it('should return true if expiration is not defined', () => {
-    expect(isSeatsReservationExpired({ expiration: '' })).toEqual(true);
+    expect(
+      isSeatsReservationExpired({ expiration: '' } as SeatsReservation)
+    ).toEqual(true);
   });
 
   it('should return true is expiration is in the pase', () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime('2022-10-10');
 
     const timestamp = new Date('2022-10-09').toISOString();
     expect(
@@ -28,7 +30,7 @@ describe('isSeatsReservationExpired function', () => {
   });
 
   it('should return false is expiration is in the future', () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime('2022-10-10');
 
     const timestamp = new Date('2022-10-10').toISOString();
     expect(
@@ -48,7 +50,7 @@ describe('getRegistrationTimeLeft function', () => {
   });
 
   it('should return correct registration time left value', () => {
-    advanceTo('2022-10-10');
+    vi.setSystemTime('2022-10-10');
 
     const timestamp = new Date('2022-10-10').toISOString();
     expect(

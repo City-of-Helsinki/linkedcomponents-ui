@@ -51,7 +51,9 @@ const mocks = [
 const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
   render(<EventsPage />, { authContextValue, mocks, ...renderOptions });
 
-beforeEach(() => jest.clearAllMocks());
+beforeEach(() => {
+  vi.clearAllMocks();
+});
 
 const getElement = (
   key:
@@ -205,7 +207,7 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
     { eventId: waitingApprovalEvents.data[0]?.id }
   );
 
-  const replaceSpy = jest.spyOn(history, 'replace');
+  const replaceSpy = vi.spyOn(history, 'replace');
 
   renderComponent({ history, routes: [route] });
 

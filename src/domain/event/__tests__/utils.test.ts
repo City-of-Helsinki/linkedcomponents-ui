@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
 import i18n from 'i18next';
-import { advanceTo, clear } from 'jest-date-mock';
 
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -155,7 +154,7 @@ const defaultEventExternalUserPayload = {
 };
 
 beforeEach(() => {
-  clear();
+  vi.useRealTimers();
 });
 
 describe('eventPathBuilder function', () => {
@@ -1719,7 +1718,7 @@ describe('getEventActionWarning function', () => {
   });
 
   it('should return correct warning if event is in the past', () => {
-    advanceTo('2021-01-01');
+    vi.setSystemTime('2021-01-01');
     const event = fakeEvent({ endTime: '2020-12-12', startTime: '2020-12-10' });
 
     const allowedActions = [
@@ -1762,7 +1761,7 @@ describe('getEventActionWarning function', () => {
   });
 
   it('should return correct warning if trying to cancel draft event', () => {
-    advanceTo('2020-10-12');
+    vi.setSystemTime('2020-10-12');
     const event = fakeEvent({
       endTime: '2021-02-01',
       startTime: '2021-01-01',
@@ -1781,7 +1780,7 @@ describe('getEventActionWarning function', () => {
   });
 
   it('should return correct warning if trying to postpone draft event', () => {
-    advanceTo('2020-10-12');
+    vi.setSystemTime('2020-10-12');
     const event = fakeEvent({
       endTime: '2021-02-01',
       startTime: '2021-01-01',
@@ -1800,7 +1799,7 @@ describe('getEventActionWarning function', () => {
   });
 
   it('should return correct warning if trying to publish sub-event', () => {
-    advanceTo('2020-10-12');
+    vi.setSystemTime('2020-10-12');
     const event = fakeEvent({
       endTime: '2021-02-01',
       startTime: '2021-01-01',
@@ -1820,7 +1819,7 @@ describe('getEventActionWarning function', () => {
   });
 
   it('should return correct warning if user cannot do action', () => {
-    advanceTo('2020-10-12');
+    vi.setSystemTime('2020-10-12');
     const event = fakeEvent({
       endTime: '2021-02-01',
       startTime: '2021-01-01',
@@ -1847,9 +1846,10 @@ describe('copyEventToSessionStorage function', () => {
   });
 
   it('should remove image and publisher is user is undefined', async () => {
+    const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
     copyEventToSessionStorage(event);
 
-    expect(sessionStorage.setItem).toHaveBeenCalledWith(
+    expect(setItemSpy).toHaveBeenCalledWith(
       FORM_NAMES.EVENT_FORM,
       expect.stringContaining('"images":[],"publisher":""')
     );
@@ -1868,9 +1868,10 @@ describe('copyEventInfoToRegistrationSessionStorage function', () => {
   });
 
   it('should copy registration info from event to new event', async () => {
+    const setItemSpy = vi.spyOn(Storage.prototype, 'setItem');
     copyEventInfoToRegistrationSessionStorage(event);
 
-    expect(sessionStorage.setItem).toHaveBeenCalledWith(
+    expect(setItemSpy).toHaveBeenCalledWith(
       FORM_NAMES.REGISTRATION_FORM,
       expect.stringContaining(
         `"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"${event.atId}","infoLanguages":["fi"],"instructions":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"mandatoryFields":["first_name","last_name"],"maximumAttendeeCapacity":10,"maximumGroupSize":"","minimumAttendeeCapacity":5,"registrationUserAccesses":[],"waitingListCapacity":""`

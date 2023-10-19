@@ -3,7 +3,6 @@
 
 import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';
-import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 
 import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
@@ -62,6 +61,7 @@ import {
 import { EVENT_EXTERNAL_USER_INITIAL_VALUES, EVENT_FIELDS } from '../constants';
 import CreateEventPage from '../CreateEventPage';
 import { EventFormFields } from '../types';
+import { testExternalUserFields } from './eventTestUtils';
 
 configure({ defaultHidden: true });
 
@@ -97,9 +97,9 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-afterAll(() => {
-  // Clear system time
-  clear();
+afterEach(() => {
+  // restoring date after each test run
+  vi.useRealTimers();
 });
 
 const setFormValues = (values: Partial<EventFormFields>) => {
@@ -117,14 +117,7 @@ const setFormValues = (values: Partial<EventFormFields>) => {
     },
   };
 
-  jest.spyOn(sessionStorage, 'getItem').mockImplementation((key: string) => {
-    switch (key) {
-      case FORM_NAMES.EVENT_FORM:
-        return JSON.stringify(state);
-      default:
-        return '';
-    }
-  });
+  sessionStorage.setItem(FORM_NAMES.EVENT_FORM, JSON.stringify(state));
 };
 
 const getElement = (
@@ -318,7 +311,7 @@ test('should focus to event times error if none event time exists', async () => 
 });
 
 test('should focus to first main category checkbox if none main category is selected', async () => {
-  advanceTo('2020-12-20');
+  vi.setSystemTime('2020-12-20');
 
   setFormValues({
     [EVENT_FIELDS.DESCRIPTION]: {
@@ -417,7 +410,7 @@ test('should route to event completed page after saving draft event', async () =
 });
 
 test('should route to event completed page after publishing event', async () => {
-  advanceTo('2020-12-20');
+  vi.setSystemTime('2020-12-20');
 
   setFormValues({
     [EVENT_FIELDS.DESCRIPTION]: {
@@ -487,42 +480,5 @@ test('should render fields for external user', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const externalUserFieldLabels = [
-    /tapahtumalla on ekokompassi tai muu vastaava sertifikaatti/i,
-    /sertifikaatin nimi/i,
-    /sisällä/i,
-    /nimi/i,
-    /sähköpostiosoite/i,
-    /puhelinnumero/i,
-    /organisaatio/i,
-    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
-  ];
-
-  externalUserFieldLabels.forEach(async (label) =>
-    expect(await screen.findByLabelText(label)).toBeInTheDocument()
-  );
-
-  const disabledFieldLabels = [
-    /tapahtuma/i,
-    /sertifikaatin nimi/i,
-    /tapahtuman julkaisija/i,
-  ];
-
-  disabledFieldLabels.forEach(async (label) =>
-    expect(await screen.findByLabelText(label)).toBeDisabled()
-  );
-
-  const requiredFieldLabels = [
-    /tapahtuman järjestäjä suomeksi/i,
-    /sertifikaatin nimi/i,
-    /enimmäisosallistujamäärä/i,
-    /nimi/i,
-    /sähköpostiosoite/i,
-    /puhelinnumero/i,
-    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
-  ];
-
-  requiredFieldLabels.forEach(async (label) =>
-    expect(await screen.findByLabelText(label)).toBeRequired()
-  );
+  await testExternalUserFields();
 });

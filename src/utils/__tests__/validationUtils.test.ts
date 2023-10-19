@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
+
 import {
   getErrorText,
   isValidDateText,
@@ -8,7 +10,7 @@ import {
 
 describe('getErrorText', () => {
   it('should return error text', () => {
-    const t = jest.fn();
+    const t = vi.fn() as any;
     const errorKey = 'errorkey';
     const error = { value: 10, key: errorKey };
 

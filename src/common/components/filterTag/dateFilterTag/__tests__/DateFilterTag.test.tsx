@@ -8,7 +8,7 @@ const start = new Date('2021-10-05');
 
 const defaultProps: DateFilterTagProps = {
   end,
-  onDelete: jest.fn(),
+  onDelete: vi.fn(),
   start,
 };
 

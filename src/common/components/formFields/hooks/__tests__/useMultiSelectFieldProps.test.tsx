@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react';
 import { Formik } from 'formik';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
 import useMultiSelectFieldProps, {
   UseMultiSelectFieldPropsProps,
@@ -9,16 +9,16 @@ import useMultiSelectFieldProps, {
 const defaultProps: UseMultiSelectFieldPropsProps = {
   disabled: false,
   name: 'name',
-  onBlur: jest.fn(),
-  onChange: jest.fn(),
+  onBlur: vi.fn(),
+  onChange: vi.fn(),
   value: [],
 };
 
 const renderMultiSelectFieldPropsHook = (
   props?: Partial<UseMultiSelectFieldPropsProps>
 ) => {
-  const wrapper = ({ children }) => (
-    <Formik initialValues={{ name: '' }} onSubmit={jest.fn()}>
+  const wrapper = ({ children }: PropsWithChildren) => (
+    <Formik initialValues={{ name: '' }} onSubmit={vi.fn()}>
       {children}
     </Formik>
   );
@@ -35,7 +35,7 @@ const renderMultiSelectFieldPropsHook = (
 
 describe('useMultiSelectFieldProps', () => {
   it('should call onChange if hook is not disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { result } = renderMultiSelectFieldPropsHook({
       disabled: false,
       onChange,
@@ -47,7 +47,7 @@ describe('useMultiSelectFieldProps', () => {
   });
 
   it('should not call onChange if hook is disabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
     const { result } = renderMultiSelectFieldPropsHook({
       disabled: true,
       onChange,

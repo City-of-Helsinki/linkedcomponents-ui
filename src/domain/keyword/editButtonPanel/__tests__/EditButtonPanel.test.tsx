@@ -30,7 +30,7 @@ const routes = [route];
 
 const defaultProps: EditButtonPanelProps = {
   id: getValue(keyword.id, ''),
-  onSave: jest.fn(),
+  onSave: vi.fn(),
   publisher: TEST_PUBLISHER_ID,
   saving: null,
 };
@@ -63,7 +63,7 @@ test('should route to keywords page when clicking back button', async () => {
 });
 
 test('should call onSave', async () => {
-  const onSave = jest.fn();
+  const onSave = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ onSave });

@@ -17,7 +17,7 @@ import { mockedOrganizationsResponse } from '../../../../organizations/__mocks__
 import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import HelpPageRoutes from '../HelpPageRoutes';
 
-jest.mock('swagger-ui-react', () => require('../../../../../test/MockSwagger'));
+vi.mock('swagger-ui-react');
 
 configure({ defaultHidden: true });
 

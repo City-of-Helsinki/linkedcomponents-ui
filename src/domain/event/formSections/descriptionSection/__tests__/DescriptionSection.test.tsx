@@ -55,7 +55,7 @@ const defaultProps: DescriptionSectionProps = {
   isEditingAllowed: true,
   isExternalUser: false,
   selectedLanguage: languages[0],
-  setSelectedLanguage: jest.fn(),
+  setSelectedLanguage: vi.fn(),
 };
 
 const renderComponent = (
@@ -66,7 +66,7 @@ const renderComponent = (
   const { rerender, ...rest } = render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       enableReinitialize={true}
       validationSchema={schema}
     >
@@ -83,7 +83,7 @@ const renderComponent = (
             ...initialValues,
             ...newInitialValues,
           }}
-          onSubmit={jest.fn()}
+          onSubmit={vi.fn()}
           enableReinitialize={true}
           validationSchema={schema}
         >
@@ -117,7 +117,7 @@ const getElement = (
 };
 
 test('should change form section language', async () => {
-  const setSelectedLanguage = jest.fn();
+  const setSelectedLanguage = vi.fn();
   const user = userEvent.setup();
   renderComponent(undefined, { setSelectedLanguage });
 
@@ -129,7 +129,7 @@ test('should change form section language', async () => {
 
 // eslint-disable-next-line max-len
 test('should change selected language when current selected language is removed from event info languages', async () => {
-  const setSelectedLanguage = jest.fn();
+  const setSelectedLanguage = vi.fn();
 
   const { rerender } = await renderComponent(
     {
@@ -228,7 +228,7 @@ test('should show validation error if short description is too long', async () =
 });
 
 test('should show validation error if description is missing', async () => {
-  const setSelectedLanguage = jest.fn();
+  const setSelectedLanguage = vi.fn();
   const user = userEvent.setup();
   renderComponent(
     {
@@ -255,7 +255,7 @@ test('should show validation error if description is missing', async () => {
 });
 
 test('should show validation error if description is too long', async () => {
-  const setSelectedLanguage = jest.fn();
+  const setSelectedLanguage = vi.fn();
   const user = userEvent.setup();
   renderComponent(
     {

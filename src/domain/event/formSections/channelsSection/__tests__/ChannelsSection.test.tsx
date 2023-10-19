@@ -33,7 +33,7 @@ const renderComponent = () =>
         [EVENT_FIELDS.EXTERNAL_LINKS]: [],
         [EVENT_FIELDS.TYPE]: type,
       }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <ChannelsSection isEditingAllowed={true} />

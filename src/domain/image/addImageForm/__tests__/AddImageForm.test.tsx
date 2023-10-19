@@ -36,9 +36,9 @@ const defaultMocks = [
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: AddImageFormProps = {
-  onAddImageByFile: jest.fn(),
-  onCancel: jest.fn(),
-  onSubmit: jest.fn(),
+  onAddImageByFile: vi.fn(),
+  onCancel: vi.fn(),
+  onSubmit: vi.fn(),
   publisher,
 };
 
@@ -73,7 +73,7 @@ const getElement = (key: 'addButton' | 'cancelButton' | 'urlInput') => {
 };
 
 test('should call onCancel', async () => {
-  const onCancel = jest.fn();
+  const onCancel = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ props: { onCancel } });
@@ -86,7 +86,7 @@ test('should call onCancel', async () => {
 });
 
 test('should call onSubmit with existing image', async () => {
-  const onSubmit = jest.fn();
+  const onSubmit = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ props: { onSubmit } });
@@ -111,7 +111,7 @@ test('should call onSubmit with existing image', async () => {
 });
 
 test('should call onSubmit by double clicking image', async () => {
-  const onSubmit = jest.fn();
+  const onSubmit = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ props: { onSubmit } });
@@ -131,7 +131,7 @@ test('should call onSubmit by double clicking image', async () => {
 });
 
 test('should show error message if trying to enter too large image file', async () => {
-  toast.error = jest.fn();
+  toast.error = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({});
@@ -175,7 +175,7 @@ test('should validate url', async () => {
 });
 
 test('should call onSubmit with image url', async () => {
-  const onSubmit = jest.fn();
+  const onSubmit = vi.fn();
   const user = userEvent.setup();
 
   renderComponent({ props: { onSubmit } });

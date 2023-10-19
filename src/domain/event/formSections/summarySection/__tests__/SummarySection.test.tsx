@@ -14,7 +14,7 @@ const initialValues = {
 
 const renderComponent = () =>
   render(
-    <Formik initialValues={initialValues} onSubmit={jest.fn()}>
+    <Formik initialValues={initialValues} onSubmit={vi.fn()}>
       <SummarySection isEditingAllowed={true} />
     </Formik>
   );

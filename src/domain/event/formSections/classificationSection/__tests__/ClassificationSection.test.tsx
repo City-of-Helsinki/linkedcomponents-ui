@@ -57,7 +57,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
   render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       enableReinitialize={true}
       validationSchema={publicEventSchema}
     >

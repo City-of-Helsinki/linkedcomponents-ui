@@ -25,9 +25,9 @@ import EditSignupButtonPanel, {
 configure({ defaultHidden: true });
 
 const defaultProps: EditSignupButtonPanelProps = {
-  onDelete: jest.fn(),
-  onSendMessage: jest.fn(),
-  onUpdate: jest.fn(),
+  onDelete: vi.fn(),
+  onSendMessage: vi.fn(),
+  onUpdate: vi.fn(),
   registration,
   saving: false,
   signup,
@@ -110,7 +110,7 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should call onDelete clicking cancel button', async () => {
-  const onDelete = jest.fn();
+  const onDelete = vi.fn();
   const user = userEvent.setup();
   renderComponent({ props: { onDelete } });
 
@@ -152,7 +152,7 @@ test('should route to page defined in returnPath when clicking back button', asy
 });
 
 test('should call onUpdate', async () => {
-  const onUpdate = jest.fn();
+  const onUpdate = vi.fn();
   const user = userEvent.setup();
   renderComponent({ props: { onUpdate } });
 

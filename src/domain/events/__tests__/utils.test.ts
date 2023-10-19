@@ -321,7 +321,7 @@ describe('replaceParamsToEventQueryString', () => {
 
 describe('addExpandedEvent function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchExpandedEventsState = jest.fn();
+    const dispatchExpandedEventsState = vi.fn();
     const id = TEST_EVENT_ID;
 
     addExpandedEvent({ dispatchExpandedEventsState, id });
@@ -335,7 +335,7 @@ describe('addExpandedEvent function', () => {
 
 describe('removeExpandedEvent function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchExpandedEventsState = jest.fn();
+    const dispatchExpandedEventsState = vi.fn();
     const id = TEST_EVENT_ID;
 
     removeExpandedEvent({ dispatchExpandedEventsState, id });
@@ -349,7 +349,7 @@ describe('removeExpandedEvent function', () => {
 
 describe('setEventListOptions function', () => {
   it('should call reducer correcly', async () => {
-    const dispatchListOptionsState = jest.fn();
+    const dispatchListOptionsState = vi.fn();
     const listOptions = {
       listType: EVENT_LIST_TYPES.TABLE,
       tab: EVENTS_PAGE_TABS.PUBLISHED,

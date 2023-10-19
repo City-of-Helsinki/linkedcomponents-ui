@@ -40,7 +40,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) => {
   return render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       enableReinitialize={true}
     >
       <EventSection isEditingAllowed={true} />
@@ -59,10 +59,11 @@ const getElement = (key: 'inputField' | 'toggleButton') => {
 };
 
 test('should copy values from event to registration form when event is selected', async () => {
-  const setValues = jest.fn();
-  jest
-    .spyOn(formik, 'useFormikContext')
-    .mockReturnValue({ setValues, values: {} } as any);
+  const setValues = vi.fn();
+  vi.spyOn(formik, 'useFormikContext').mockReturnValue({
+    setValues,
+    values: {},
+  } as any);
   const user = userEvent.setup();
   renderComponent();
 
@@ -87,10 +88,11 @@ test('should copy values from event to registration form when event is selected'
 });
 
 test('should clear values from registration form when event is unselected', async () => {
-  const setValues = jest.fn();
-  jest
-    .spyOn(formik, 'useFormikContext')
-    .mockReturnValue({ setValues, values: { event: event.atId } } as any);
+  const setValues = vi.fn();
+  vi.spyOn(formik, 'useFormikContext').mockReturnValue({
+    setValues,
+    values: { event: event.atId },
+  } as any);
   const user = userEvent.setup();
   renderComponent({ event: event.atId });
 

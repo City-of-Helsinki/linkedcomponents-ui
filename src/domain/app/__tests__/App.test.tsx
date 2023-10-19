@@ -22,11 +22,11 @@ const clearAllCookies = () =>
   });
 
 beforeEach(() => {
-  jest.clearAllMocks();
-  global.ResizeObserver = jest.fn().mockImplementation(() => ({
-    observe: jest.fn(),
-    unobserve: jest.fn(),
-    disconnect: jest.fn(),
+  vi.clearAllMocks();
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
   }));
   clearAllCookies();
 

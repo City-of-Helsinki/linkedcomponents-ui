@@ -38,7 +38,7 @@ const renderComponent = (
   render(
     <Formik
       initialValues={initialValues || defaultInitialValues}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
     >
       <ResponsibilitiesSection
         {...props}

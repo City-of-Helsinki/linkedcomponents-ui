@@ -85,7 +85,7 @@ const renderComponent = ({
   act(async () => {
     await render(
       <Formik
-        onSubmit={jest.fn()}
+        onSubmit={vi.fn()}
         initialValues={initialValues || defaultInitialValus}
         validationSchema={publicEventSchema}
       >

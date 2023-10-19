@@ -11,6 +11,7 @@ import {
 import { fakeEvent, fakeEvents } from '../../../../../utils/mockDataUtils';
 import {
   configure,
+  loadingSpinnerIsNotInDocument,
   render,
   screen,
   userEvent,
@@ -34,7 +35,7 @@ const renderComponent = (event: EventFieldsFragment, mocks: MockedResponse[]) =>
   render(
     <table>
       <tbody>
-        <EventsTableRow event={event} onRowClick={jest.fn()} />
+        <EventsTableRow event={event} onRowClick={vi.fn()} />
       </tbody>
     </table>,
     { mocks }
@@ -180,6 +181,7 @@ test('should have an icon highlighting that the event was created by external us
   ];
 
   renderComponent(event, mocks);
+  await loadingSpinnerIsNotInDocument();
   expect(
     document.getElementsByClassName('externalPublisher').length > 0
   ).toBeTruthy();

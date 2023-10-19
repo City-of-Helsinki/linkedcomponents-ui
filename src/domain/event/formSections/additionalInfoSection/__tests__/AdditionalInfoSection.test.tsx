@@ -1,5 +1,4 @@
 import { Formik } from 'formik';
-import { advanceTo, clear } from 'jest-date-mock';
 import React from 'react';
 import { ObjectSchema } from 'yup';
 
@@ -63,7 +62,7 @@ const renderComponent = (
   const { rerender, ...rest } = render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
-      onSubmit={jest.fn()}
+      onSubmit={vi.fn()}
       enableReinitialize={true}
       validationSchema={schema}
     >
@@ -80,7 +79,7 @@ const renderComponent = (
             ...initialValues,
             ...newInitialValues,
           }}
-          onSubmit={jest.fn()}
+          onSubmit={vi.fn()}
           enableReinitialize={true}
           validationSchema={schema}
         >
@@ -91,8 +90,9 @@ const renderComponent = (
   };
 };
 
-afterAll(() => {
-  clear();
+afterEach(() => {
+  // restoring date after each test run
+  vi.useRealTimers();
 });
 
 const getElement = (
@@ -193,7 +193,7 @@ test('should show validation error if min age is less than 0', async () => {
 });
 
 test('should validate enrolment start and end dates', async () => {
-  advanceTo('2020-11-10');
+  vi.setSystemTime('2020-11-10');
   const user = userEvent.setup();
   renderComponent();
 

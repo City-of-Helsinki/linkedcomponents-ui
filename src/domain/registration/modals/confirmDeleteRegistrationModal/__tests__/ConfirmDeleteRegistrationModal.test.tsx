@@ -15,8 +15,8 @@ configure({ defaultHidden: true });
 const defaultProps: ConfirmDeleteRegistrationModalProps = {
   isOpen: true,
   isSaving: false,
-  onClose: jest.fn(),
-  onConfirm: jest.fn(),
+  onClose: vi.fn(),
+  onConfirm: vi.fn(),
 };
 
 const renderComponent = (
@@ -36,7 +36,7 @@ test('should render component', async () => {
 });
 
 test('should call onConfirm', async () => {
-  const onConfirm = jest.fn();
+  const onConfirm = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onConfirm });
 
@@ -48,7 +48,7 @@ test('should call onConfirm', async () => {
 });
 
 test('should call onClose', async () => {
-  const onClose = jest.fn();
+  const onClose = vi.fn();
   const user = userEvent.setup();
   renderComponent({ onClose });
 
