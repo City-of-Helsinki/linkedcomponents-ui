@@ -431,22 +431,30 @@ test('should show server errors', async () => {
   screen.getByText(/lopetusaika ei voi olla menneisyydessä./i);
 });
 
-test('should render fields for external user', async () => {
-  const mocks = [
-    mockedEventResponse,
-    mockedEventTimeResponse,
-    mockedImageResponse,
-    mockedKeywordSelectorKeywordsResponse,
-    mockedAudienceKeywordSetResponse,
-    mockedTopicsKeywordSetResponse,
-    mockedLanguagesResponse,
-    mockedPlaceResponse,
-    mockedPlacesResponse,
-    mockedFilteredPlacesResponse,
-    mockedUserWithoutOrganizationsResponse,
-    mockedOrganizationResponse,
-    mockedOrganizationAncestorsResponse,
+test('should render external user contact fields for admin', async () => {
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const externalUserContactFields = [
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /organisaatio/i,
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
   ];
+
+  const fieldset = await screen.findByTestId('fields-external-user-contact');
+
+  externalUserContactFields.forEach(async (label) =>
+    expect(await within(fieldset).findByLabelText(label)).toBeInTheDocument()
+  );
+
+  await actWait(100);
+});
+
+test('should render fields for external user', async () => {
+  const mocks = [...baseMocks, mockedUserWithoutOrganizationsResponse];
 
   renderComponent(mocks);
 

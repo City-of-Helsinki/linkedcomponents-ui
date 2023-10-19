@@ -21,7 +21,11 @@ const ExternalUserContact: FC<ExternalUserContactProps> = ({
   const { t } = useTranslation();
 
   return (
-    <Fieldset heading={t('event.form.sections.contact')} hideLegend>
+    <Fieldset
+      heading={t('event.form.sections.contact')}
+      hideLegend
+      data-testid="fields-external-user-contact"
+    >
       <FieldRow>
         <FieldColumn>
           <FormGroup>
