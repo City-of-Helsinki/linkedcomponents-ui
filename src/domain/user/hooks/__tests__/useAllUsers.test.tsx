@@ -10,6 +10,7 @@ import { Meta, UsersDocument } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeUsers } from '../../../../utils/mockDataUtils';
 import { createCache } from '../../../app/apollo/apolloClient';
+import { NotificationsProvider } from '../../../app/notificationsContext/NotificationsContext';
 import { AuthContext } from '../../../auth/AuthContext';
 import { mockedUserResponse } from '../../__mocks__/user';
 import useAllUsers from '../useAllUsers';
@@ -74,11 +75,13 @@ const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const getHookWrapper = async () => {
   const wrapper = ({ children }: PropsWithChildren) => (
-    <AuthContext.Provider value={authContextValue}>
-      <MockedProvider cache={createCache()} mocks={mocks}>
-        {children}
-      </MockedProvider>
-    </AuthContext.Provider>
+    <NotificationsProvider>
+      <AuthContext.Provider value={authContextValue}>
+        <MockedProvider cache={createCache()} mocks={mocks}>
+          {children}
+        </MockedProvider>
+      </AuthContext.Provider>
+    </NotificationsProvider>
   );
 
   const { result } = renderHook(() => useAllUsers(), {

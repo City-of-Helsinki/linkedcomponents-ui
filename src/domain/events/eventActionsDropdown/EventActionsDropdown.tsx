@@ -15,6 +15,7 @@ import {
   parseEmailFromCreatedBy,
 } from '../../../utils/openMailtoLinkUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { EVENT_ACTIONS, EVENT_MODALS } from '../../event/constants';
 import useEventActions from '../../event/hooks/useEventActions';
@@ -39,6 +40,7 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
   event,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const { isAuthenticated: authenticated } = useAuth();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -127,7 +129,16 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
           isOpen={openModal === EVENT_MODALS.CANCEL}
           isSaving={saving === EVENT_ACTIONS.CANCEL}
           onClose={closeModal}
-          onConfirm={cancelEvent}
+          onConfirm={() =>
+            cancelEvent({
+              onSuccess: () => {
+                addNotification({
+                  label: t('event.form.notificationEventCancelled'),
+                  type: 'success',
+                });
+              },
+            })
+          }
         />
       )}
       {openModal === EVENT_MODALS.DELETE && (
@@ -136,7 +147,16 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
           isOpen={openModal === EVENT_MODALS.DELETE}
           isSaving={saving === EVENT_ACTIONS.DELETE}
           onClose={closeModal}
-          onConfirm={deleteEvent}
+          onConfirm={() =>
+            deleteEvent({
+              onSuccess: () => {
+                addNotification({
+                  label: t('event.form.notificationEventDeleted'),
+                  type: 'success',
+                });
+              },
+            })
+          }
         />
       )}
       {openModal === EVENT_MODALS.POSTPONE && (
@@ -145,7 +165,16 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
           isOpen={openModal === EVENT_MODALS.POSTPONE}
           isSaving={saving === EVENT_ACTIONS.POSTPONE}
           onClose={closeModal}
-          onConfirm={postponeEvent}
+          onConfirm={() =>
+            postponeEvent({
+              onSuccess: () => {
+                addNotification({
+                  label: t('event.form.notificationEventPostponed'),
+                  type: 'success',
+                });
+              },
+            })
+          }
         />
       )}
 

@@ -2,7 +2,6 @@ import { Field, useField } from 'formik';
 import { IconCrossCircle, IconEnvelope, IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 
 import SingleSelectField from '../../../../../common/components/formFields/singleSelectField/SingleSelectField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
@@ -11,6 +10,7 @@ import MenuDropdown from '../../../../../common/components/menuDropdown/MenuDrop
 import { MenuItemOptionProps } from '../../../../../common/components/menuDropdown/types';
 import useIdWithPrefix from '../../../../../hooks/useIdWithPrefix';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
+import { useNotificationsContext } from '../../../../app/notificationsContext/hooks/useNotificationsContext';
 import FieldWithButton from '../../../../event/layout/FieldWithButton';
 import useLanguageOptions from '../../../../language/hooks/useLanguageOptions';
 import { REGISTRATION_USER_ACCESS_ACTIONS } from '../../../../registrationUserAccess/constants';
@@ -34,6 +34,7 @@ const RegistrationUserAccess: React.FC<Props> = ({
   registrationUserAccessPath,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
 
   const serviceLanguageOptions = useLanguageOptions({
     variables: { serviceLanguage: true },
@@ -93,14 +94,20 @@ const RegistrationUserAccess: React.FC<Props> = ({
       action: REGISTRATION_USER_ACCESS_ACTIONS.SEND_INVITATION,
       onClick: () => {
         sendInvitation({
-          onError: () =>
-            toast.error(t('registration.form.messages.failedToSendInvitation')),
-          onSuccess: () =>
-            toast.success(
-              t('registration.form.messages.succeededToSendInvitation', {
+          onError: () => {
+            addNotification({
+              label: t('registration.form.messages.failedToSendInvitation'),
+              type: 'error',
+            });
+          },
+          onSuccess: async () => {
+            addNotification({
+              label: t('registration.form.messages.succeededToSendInvitation', {
                 email,
-              })
-            ),
+              }),
+              type: 'success',
+            });
+          },
         });
       },
     }),

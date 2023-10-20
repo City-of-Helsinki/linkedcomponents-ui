@@ -3,7 +3,6 @@
 /* eslint-disable import/no-named-as-default-member */
 import mockAxios from 'axios';
 import i18n from 'i18next';
-import { toast } from 'react-toastify';
 import { SpyInstance } from 'vitest';
 
 import { fakeOidcUserState } from '../../../utils/mockAuthContextValue';
@@ -307,44 +306,60 @@ describe('loadUser function', () => {
 });
 
 describe('signIn function', () => {
-  it('should show toast error message when login fails', async () => {
-    const toastError = vi.spyOn(toast, 'error');
+  it('should show call addNotification when login fails', async () => {
+    const addNotification = vi.fn();
     const error = { message: 'General error' };
     const signinRedirect = vi
       .spyOn(userManager, 'signinRedirect')
       .mockRejectedValue(error);
 
-    await signIn({ locale: 'fi', t: i18n.t.bind(i18n), userManager });
+    await signIn({
+      addNotification,
+      locale: 'fi',
+      t: i18n.t.bind(i18n),
+      userManager,
+    });
 
     expect(signinRedirect).toHaveBeenCalledTimes(1);
     expect(signinRedirect).toHaveBeenCalledWith({
       data: { path: '/' },
       ui_locales: 'fi',
     });
-    expect(toastError).toBeCalledWith('Tapahtui virhe. Yritä uudestaan');
+    expect(addNotification).toBeCalledWith({
+      label: 'Tapahtui virhe. Yritä uudestaan',
+      type: 'error',
+    });
   });
 
-  it('should show toast error message when login fails with NetworkError', async () => {
-    const toastError = vi.spyOn(toast, 'error');
+  it('should show error message when login fails with NetworkError', async () => {
+    const addNotification = vi.fn();
     const error = { message: 'Network Error' };
     const signinRedirect = vi
       .spyOn(userManager, 'signinRedirect')
       .mockRejectedValue(error);
     const path = '/fi/events';
 
-    await signIn({ locale: 'fi', path, t: i18n.t.bind(i18n), userManager });
+    await signIn({
+      addNotification,
+      locale: 'fi',
+      path,
+      t: i18n.t.bind(i18n),
+      userManager,
+    });
 
     expect(signinRedirect).toHaveBeenCalledTimes(1);
     expect(signinRedirect).toHaveBeenCalledWith({
       data: { path },
       ui_locales: 'fi',
     });
-    expect(toastError).toBeCalledWith(
-      'Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan'
-    );
+    expect(addNotification).toBeCalledWith({
+      label:
+        'Virhe kirjautumisessa: Tarkista verkkoyhteytesi ja yritä uudestaan',
+      type: 'error',
+    });
   });
 
-  it('should show toast error message when maintenance mode', async () => {
+  it('should show notification error message when maintenance mode', async () => {
     const originalEnv = process.env;
 
     process.env = {
@@ -352,14 +367,23 @@ describe('signIn function', () => {
       REACT_APP_MAINTENANCE_DISABLE_LOGIN: 'true',
     };
 
-    const toastError = vi.spyOn(toast, 'error');
+    const addNotification = vi.fn();
 
     const path = '/fi/events';
 
-    await signIn({ locale: 'fi', path, t: i18n.t.bind(i18n), userManager });
+    await signIn({
+      addNotification,
+      locale: 'fi',
+      path,
+      t: i18n.t.bind(i18n),
+      userManager,
+    });
 
-    expect(toastError).toHaveBeenCalledTimes(1);
-
+    expect(addNotification).toBeCalledWith({
+      label:
+        'Keskiviikkona 30.8. päivitetään Linked Events -palvelu, mistä johtuen kirjautuminen ei ole mahdollista.',
+      type: 'error',
+    });
     process.env = originalEnv;
   });
 });
@@ -428,6 +452,7 @@ describe('getApiToken function', () => {
 
     await getApiToken({
       accessToken,
+      addNotification: vi.fn(),
       dispatchApiTokenState,
       t: i18n.t.bind(i18n),
     });
@@ -448,6 +473,7 @@ describe('getApiToken function', () => {
       async () =>
         await renewApiToken({
           accessToken: '',
+          addNotification: vi.fn(),
           dispatchApiTokenState,
           t: i18n.t.bind(i18n),
         })
@@ -456,9 +482,9 @@ describe('getApiToken function', () => {
     );
   });
 
-  it('should show toast error message when failing to get api token', async () => {
+  it('should show error message when failing to get api token', async () => {
     const dispatchApiTokenState = vi.fn();
-    const toastError = vi.spyOn(toast, 'error');
+    const addNotification = vi.fn();
     const accessToken = 'access-token';
     const error = new Error('error');
 
@@ -466,6 +492,7 @@ describe('getApiToken function', () => {
 
     await getApiToken({
       accessToken,
+      addNotification,
       dispatchApiTokenState,
       t: i18n.t.bind(i18n),
     });
@@ -476,7 +503,10 @@ describe('getApiToken function', () => {
       dispatch: dispatchApiTokenState,
     });
 
-    expect(toastError).toBeCalledWith('Tapahtui virhe. Yritä uudestaan');
+    expect(addNotification).toBeCalledWith({
+      label: 'Tapahtui virhe. Yritä uudestaan',
+      type: 'error',
+    });
   });
 });
 
@@ -492,6 +522,7 @@ describe('renewApiToken function', () => {
 
     await renewApiToken({
       accessToken,
+      addNotification: vi.fn(),
       dispatchApiTokenState,
       t: i18n.t.bind(i18n),
     });
@@ -503,9 +534,9 @@ describe('renewApiToken function', () => {
     });
   });
 
-  it('should show toast error message when failing to renew api token', async () => {
+  it('should show error message when failing to renew api token', async () => {
     const dispatchApiTokenState = vi.fn();
-    const toastError = vi.spyOn(toast, 'error');
+    const addNotification = vi.fn();
     const accessToken = 'access-token';
     const error = new Error('error');
 
@@ -513,6 +544,7 @@ describe('renewApiToken function', () => {
 
     await renewApiToken({
       accessToken,
+      addNotification,
       dispatchApiTokenState,
       t: i18n.t.bind(i18n),
     });
@@ -523,7 +555,10 @@ describe('renewApiToken function', () => {
       dispatch: dispatchApiTokenState,
     });
 
-    expect(toastError).toBeCalledWith('Tapahtui virhe. Yritä uudestaan');
+    expect(addNotification).toBeCalledWith({
+      label: 'Tapahtui virhe. Yritä uudestaan',
+      type: 'error',
+    });
   });
 });
 

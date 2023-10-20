@@ -12,8 +12,8 @@ import * as Sentry from '@sentry/react';
 import { RestLink } from 'apollo-link-rest';
 import { SentryLink } from 'apollo-link-sentry';
 import snakeCase from 'lodash/snakeCase';
-import { toast } from 'react-toastify';
 
+import { NotificationProps } from '../../../common/components/notification/Notification';
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../../constants';
 import {
   DataSource,
@@ -436,62 +436,82 @@ const MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR = [
   'UpdatePlace',
 ];
 
-const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
-  const isMutation = Boolean(
-    operation.query.definitions.find(
-      (definition) =>
-        definition.kind === 'OperationDefinition' &&
-        definition.operation === 'mutation'
-    )
-  );
-  if (graphQLErrors) {
-    graphQLErrors.forEach(({ message, locations, path }) => {
-      const errorMessage = `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`;
-      Sentry.captureMessage(errorMessage);
-    });
+const getNetworkErrorKey = (
+  statusCode: number,
+  operationName: string
+): string => {
+  switch (statusCode) {
+    case 400:
+      if (!MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR.includes(operationName)) {
+        return 'errors.validationError';
+      }
+      break;
+    case 401:
+      return 'errors.authorizationRequired';
+    case 403:
+      if (!MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR.includes(operationName)) {
+        return 'errors.forbidden';
+      }
+      break;
+    case 404:
+      return 'errors.notFound';
+    case 410:
+      return 'errors.deleted';
+    default:
+      if (!MUTATIONS_NOT_TO_SHOW_SERVER_ERROR.includes(operationName)) {
+        return 'errors.serverError';
+      }
   }
 
-  if (
-    (isMutation || QUERIES_TO_SHOW_ERROR.includes(operation.operationName)) &&
-    networkError
-  ) {
-    switch ((networkError as ServerError).statusCode) {
-      case 400:
-        if (
-          !MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR.includes(
-            operation.operationName
-          )
-        ) {
-          toast.error(getValue(i18n.t('errors.validationError'), ''));
-        }
-        break;
-      case 401:
-        toast.error(getValue(i18n.t('errors.authorizationRequired'), ''));
-        break;
-      case 403:
-        if (
-          !MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR.includes(
-            operation.operationName
-          )
-        ) {
-          toast.error(getValue(i18n.t('errors.forbidden'), ''));
-        }
-        break;
-      case 404:
-        toast.error(getValue(i18n.t('errors.notFound'), ''));
-        break;
-      case 410:
-        toast.error(getValue(i18n.t('errors.deleted'), ''));
-        break;
-      default:
-        if (
-          !MUTATIONS_NOT_TO_SHOW_SERVER_ERROR.includes(operation.operationName)
-        ) {
-          toast.error(getValue(i18n.t('errors.serverError'), ''));
-        }
-    }
+  return '';
+};
+
+const showNetwordErrorNotification = (
+  statusCode: number,
+  operationName: string,
+  addNotification: (props: NotificationProps) => void
+) => {
+  const errorKey = getNetworkErrorKey(statusCode, operationName);
+
+  if (errorKey) {
+    addNotification({
+      label: i18n.t(errorKey),
+      type: 'error',
+    });
   }
-});
+};
+
+const createErrorLink = ({
+  addNotification,
+}: {
+  addNotification: (props: NotificationProps) => void;
+}) =>
+  onError(({ graphQLErrors, networkError, operation }) => {
+    const isMutation = Boolean(
+      operation.query.definitions.find(
+        (definition) =>
+          definition.kind === 'OperationDefinition' &&
+          definition.operation === 'mutation'
+      )
+    );
+    if (graphQLErrors) {
+      graphQLErrors.forEach(({ message, locations, path }) => {
+        const errorMessage = `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`;
+        Sentry.captureMessage(errorMessage);
+      });
+    }
+
+    if (
+      (isMutation || QUERIES_TO_SHOW_ERROR.includes(operation.operationName)) &&
+      networkError
+    ) {
+      showNetwordErrorNotification(
+        (networkError as ServerError).statusCode,
+        operation.operationName,
+        addNotification
+      );
+    }
+  });
 
 const sentryLink = new SentryLink({
   attachBreadcrumbs: {
@@ -509,9 +529,17 @@ const sentryLink = new SentryLink({
     ),
 });
 
-const apolloClient = new ApolloClient({
-  cache: createCache(),
-  link: ApolloLink.from([errorLink, sentryLink, authLink, linkedEventsLink]),
-});
-
-export default apolloClient;
+export const createApolloClient = ({
+  addNotification,
+}: {
+  addNotification: (props: NotificationProps) => void;
+}) =>
+  new ApolloClient({
+    cache: createCache(),
+    link: ApolloLink.from([
+      createErrorLink({ addNotification }),
+      sentryLink,
+      authLink,
+      linkedEventsLink,
+    ]),
+  });

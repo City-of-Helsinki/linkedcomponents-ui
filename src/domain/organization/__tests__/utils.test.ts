@@ -9,7 +9,7 @@ import {
   fakeUser,
   fakeUsers,
 } from '../../../utils/mockDataUtils';
-import apolloClient from '../../app/apollo/apolloClient';
+import { createApolloClient } from '../../app/apollo/apolloClient';
 import {
   ORGANIZATION_ACTIONS,
   ORGANIZATION_INITIAL_VALUES,
@@ -27,6 +27,8 @@ import {
   organizationPathBuilder,
   organizationsPathBuilder,
 } from '../utils';
+
+const apolloClient = createApolloClient({ addNotification: vi.fn() });
 
 describe('organizationPathBuilder function', () => {
   it('should create correct path for organization class request', () => {

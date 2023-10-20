@@ -1,6 +1,5 @@
 import copyToClipboard from 'copy-to-clipboard';
 import React from 'react';
-import { toast } from 'react-toastify';
 
 import { ROUTES } from '../../../../constants';
 import {
@@ -215,7 +214,6 @@ test('should route to create registration page when clicking copy button', async
 });
 
 test('should copy registration link to clipboard', async () => {
-  toast.success = vi.fn();
   const user = userEvent.setup();
 
   renderComponent();
@@ -226,7 +224,7 @@ test('should copy registration link to clipboard', async () => {
   await user.click(copyLinkButton);
 
   expect(copyToClipboard).toBeCalled();
-  expect(toast.success).toBeCalledWith('Ilmoittautumislinkki kopioitu');
+  await screen.findByRole('alert', { name: 'Ilmoittautumislinkki kopioitu' });
 });
 
 test('should delete registration', async () => {
@@ -250,4 +248,5 @@ test('should delete registration', async () => {
     () => expect(screen.queryByRole('dialog')).not.toBeInTheDocument(),
     { timeout: 10000 }
   );
+  await screen.findByRole('alert', { name: 'Ilmoittautuminen on poistettu' });
 });

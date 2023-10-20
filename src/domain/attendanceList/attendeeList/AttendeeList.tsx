@@ -2,7 +2,6 @@ import orderBy from 'lodash/orderBy';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
-import { toast } from 'react-toastify';
 
 import Checkbox from '../../../common/components/checkbox/Checkbox';
 import {
@@ -17,6 +16,7 @@ import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { reportError } from '../../app/sentry/utils';
 import { getSignupFields } from '../../signups/utils';
 import useUser from '../../user/hooks/useUser';
@@ -29,6 +29,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
   const location = useLocation();
   const locale = useLocale();
   const { user } = useUser();
+  const { addNotification } = useNotificationsContext();
 
   const [saving, setSaving] = useState(false);
   const [search, setSearch] = useState('');
@@ -112,7 +113,10 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
         payload,
         signup,
       });
-      toast.error(t('attendanceListPage.errors.presenceStatusUpdateFails'));
+      addNotification({
+        label: t('attendanceListPage.errors.presenceStatusUpdateFails'),
+        type: 'error',
+      });
     }
   };
   return (

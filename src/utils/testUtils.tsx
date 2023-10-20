@@ -23,6 +23,7 @@ import wait from 'waait';
 
 import { testIds } from '../constants';
 import { createCache } from '../domain/app/apollo/apolloClient';
+import { NotificationsProvider } from '../domain/app/notificationsContext/NotificationsContext';
 import { PageSettingsProvider } from '../domain/app/pageSettingsContext/PageSettingsContext';
 import { ThemeProvider } from '../domain/app/theme/Theme';
 import { AuthContext } from '../domain/auth/AuthContext';
@@ -76,15 +77,17 @@ const customRender: CustomRender = (
   const Wrapper: React.FC<React.PropsWithChildren<unknown>> = ({
     children,
   }) => (
-    <AuthContext.Provider value={authContextValue}>
-      <PageSettingsProvider>
-        <ThemeProvider>
-          <MockedProvider cache={createCache()} mocks={mocks}>
-            <Router history={history as any}>{children}</Router>
-          </MockedProvider>
-        </ThemeProvider>
-      </PageSettingsProvider>
-    </AuthContext.Provider>
+    <ThemeProvider>
+      <NotificationsProvider>
+        <AuthContext.Provider value={authContextValue}>
+          <PageSettingsProvider>
+            <MockedProvider cache={createCache()} mocks={mocks}>
+              <Router history={history as any}>{children}</Router>
+            </MockedProvider>
+          </PageSettingsProvider>
+        </AuthContext.Provider>
+      </NotificationsProvider>
+    </ThemeProvider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper as any });
@@ -127,19 +130,21 @@ const renderWithRoute: CustomRender = (
   const Wrapper: React.FC<React.PropsWithChildren<unknown>> = ({
     children,
   }) => (
-    <AuthContext.Provider value={authContextValue}>
-      <PageSettingsProvider>
-        <ThemeProvider>
-          <MockedProvider cache={createCache()} mocks={mocks}>
-            <Router history={history as any}>
-              <Routes>
-                <Route path={path} element={children} />
-              </Routes>
-            </Router>
-          </MockedProvider>
-        </ThemeProvider>
-      </PageSettingsProvider>
-    </AuthContext.Provider>
+    <ThemeProvider>
+      <NotificationsProvider>
+        <AuthContext.Provider value={authContextValue}>
+          <PageSettingsProvider>
+            <MockedProvider cache={createCache()} mocks={mocks}>
+              <Router history={history as any}>
+                <Routes>
+                  <Route path={path} element={children} />
+                </Routes>
+              </Router>
+            </MockedProvider>
+          </PageSettingsProvider>
+        </AuthContext.Provider>
+      </NotificationsProvider>
+    </ThemeProvider>
   );
 
   const renderResult = render(ui, { wrapper: Wrapper as any });

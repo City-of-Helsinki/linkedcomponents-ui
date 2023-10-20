@@ -12,6 +12,7 @@ import {
 import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { addParamsToRegistrationQueryString } from '../../registrations/utils';
@@ -36,6 +37,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
   signup,
 }) => {
   const { t } = useTranslation();
+  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { isAuthenticated: authenticated } = useAuth();
@@ -116,7 +118,16 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
         <ConfirmDeleteSignupOrSignupGroupModal
           isOpen={openModal === SIGNUP_MODALS.DELETE}
           isSaving={saving === SIGNUP_ACTIONS.DELETE}
-          onConfirm={deleteSignup}
+          onConfirm={() =>
+            deleteSignup({
+              onSuccess: () => {
+                addNotification({
+                  label: t('signup.form.notificationSignupDeleted'),
+                  type: 'success',
+                });
+              },
+            })
+          }
           onClose={closeModal}
           registration={registration}
           signup={signup}
