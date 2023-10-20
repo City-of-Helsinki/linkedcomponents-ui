@@ -98,8 +98,8 @@
     "browser-test": "BROWSER_TESTS_SHOW_ADMIN=true BROWSER_TESTS_SHOW_REGISTRATION=true BROWSER_TESTS_LINKED_EVENTS_URL=https://linkedevents.api.dev.hel.ninja/v1 BROWSER_TESTS_ENV_URL=https://linkedevents.dev.hel.ninja testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
     "browser-test:local": "BROWSER_TESTS_SHOW_ADMIN=true BROWSER_TESTS_SHOW_REGISTRATION=true BROWSER_TESTS_ENV_URL=http://localhost:3000 testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
     "browser-test:prod": "BROWSER_TESTS_LINKED_EVENTS_URL=https://api.hel.fi/linkedevents/v1 BROWSER_TESTS_ENV_URL=https://linkedevents.hel.fi testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
-    "browser-test:azure": " testcafe \"chrome:headless --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video report --reporter spec,custom,xunit:report.xml browser-tests/",
-    "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video report --reporter spec,custom,html:report/index.html browser-tests/",
+    "browser-test:azure": " testcafe \"chrome:headless --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video report --reporter spec,xunit:report.xml browser-tests/",
+    "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video report --reporter spec,html:report/index.html browser-tests/",
     "lint": "eslint --ext js,ts,tsx src",
     "lint:fix": "eslint --ext js,ts,tsx src --fix"
   },
@@ -115,7 +115,6 @@
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
-    "@slack/webhook": "^6.1.0",
     "@testing-library/testcafe": "^5.0.0",
     "@vitest/coverage-istanbul": "^0.34.6",
     "eslint": "^8.50.0",
@@ -125,7 +124,6 @@
     "snyk": "^1.1220.0",
     "source-map-explorer": "^2.5.3",
     "testcafe": "3.3.0",
-    "testcafe-reporter-custom": "^1.2.1",
     "testcafe-reporter-html": "^1.4.6",
     "testcafe-reporter-xunit": "^2.2.3"
   },
