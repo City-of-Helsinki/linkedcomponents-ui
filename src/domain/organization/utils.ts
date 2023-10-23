@@ -123,7 +123,7 @@ export const hasAdminOrganization = (user?: UserFieldsFragment): boolean =>
 
 export const hasRegistrationAdminOrganization = (
   user?: UserFieldsFragment
-): boolean => !!user?.registrationAdminOrganizations.length;
+): boolean => !!user?.registrationAdminOrganizations?.length;
 
 const _isAdminUserInOrganization = ({
   adminOrganizations,

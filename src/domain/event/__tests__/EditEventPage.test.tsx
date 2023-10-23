@@ -431,6 +431,26 @@ test('should show server errors', async () => {
   screen.getByText(/lopetusaika ei voi olla menneisyydessä./i);
 });
 
+test('should render external user contact fields for admin', async () => {
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const externalUserContactFields = [
+    /nimi/i,
+    /sähköpostiosoite/i,
+    /puhelinnumero/i,
+    /organisaatio/i,
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
+  ];
+
+  const fieldset = await screen.findByRole('group', { name: /yhteystiedot/i });
+
+  for (const label of externalUserContactFields) {
+    expect(await within(fieldset).findByLabelText(label)).toBeInTheDocument();
+  }
+});
+
 test('should render fields for external user', async () => {
   const mocks = [
     mockedEventResponse,

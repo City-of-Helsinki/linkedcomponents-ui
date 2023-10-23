@@ -29,6 +29,7 @@ import Section from '../../app/layout/section/Section';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { replaceParamsToEventQueryString } from '../../events/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { isAdminUserInOrganization } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
 import { areRegistrationRoutesAllowed } from '../../user/permissions';
 import {
@@ -127,6 +128,12 @@ const EventForm: React.FC<EventFormProps> = ({
   const { organizationAncestors } = useOrganizationAncestors(
     getValue(event?.publisher, '')
   );
+
+  const isAdminUser = isAdminUserInOrganization({
+    id: getValue(event?.publisher, ''),
+    organizationAncestors,
+    user,
+  });
 
   const mainCategories = useMainCategories(values.type as EVENT_TYPE);
 
@@ -485,9 +492,11 @@ const EventForm: React.FC<EventFormProps> = ({
                   isExternalUser={isExternalUser}
                 />
               </Section>
-              {isExternalUser && (
+              {(isExternalUser || isAdminUser) && (
                 <Section title={t('event.form.sections.contact')}>
-                  <ExternalUserContact isEditingAllowed={isEditingAllowed} />
+                  <ExternalUserContact
+                    isEditingAllowed={isEditingAllowed && !isAdminUser}
+                  />
                 </Section>
               )}
               {event ? (
