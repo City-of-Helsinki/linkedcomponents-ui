@@ -148,14 +148,5 @@
 }
 
 .clickableRow {
-  cursor: pointer;
-
-  &:focus {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: calc(0px - var(--focus-outline-width));
-
-    &:not(:global(.focus-visible)) {
-      outline: none;
-    }
-  }
+  composes: clickableRow from '../../../common/components/table/clickableRow.module.scss';
 }
