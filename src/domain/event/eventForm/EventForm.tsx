@@ -14,7 +14,6 @@ import {
   EventFieldsFragment,
   EventQuery,
   EventQueryVariables,
-  OrganizationFieldsFragment,
   PublicationStatus,
   SuperEventType,
 } from '../../../generated/graphql';
@@ -108,8 +107,6 @@ type EventFormProps = EventFormWrapperProps & {
   ) => void;
   values: EventFormFields;
   isExternalUser: boolean;
-  isAdminUser: boolean;
-  organizationAncestors: OrganizationFieldsFragment[];
 };
 
 const EventForm: React.FC<EventFormProps> = ({
@@ -120,8 +117,6 @@ const EventForm: React.FC<EventFormProps> = ({
   setTouched,
   values,
   isExternalUser,
-  isAdminUser,
-  organizationAncestors,
 }) => {
   const { t } = useTranslation();
   const { addNotification } = useNotificationsContext();
@@ -130,6 +125,15 @@ const EventForm: React.FC<EventFormProps> = ({
   const navigate = useNavigate();
 
   const { user } = useUser();
+  const { organizationAncestors } = useOrganizationAncestors(
+    getValue(event?.publisher, '')
+  );
+
+  const isAdminUser = isAdminUserInOrganization({
+    id: getValue(event?.publisher, ''),
+    organizationAncestors,
+    user,
+  });
 
   const mainCategories = useMainCategories(values.type as EVENT_TYPE);
 
@@ -543,16 +547,6 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
   const { event } = props;
   const { user, externalUser } = useUser();
 
-  const { organizationAncestors } = useOrganizationAncestors(
-    getValue(event?.publisher, '')
-  );
-
-  const isAdminUser = isAdminUserInOrganization({
-    id: getValue(event?.publisher, ''),
-    organizationAncestors,
-    user,
-  });
-
   const eventInitialValues = externalUser
     ? EVENT_EXTERNAL_USER_INITIAL_VALUES
     : EVENT_INITIAL_VALUES;
@@ -603,8 +597,6 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
               setTouched={setTouched}
               values={values}
               isExternalUser={externalUser}
-              isAdminUser={isAdminUser}
-              organizationAncestors={organizationAncestors}
             />
           </FormikPersist>
         );

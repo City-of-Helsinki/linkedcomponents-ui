@@ -444,13 +444,11 @@ test('should render external user contact fields for admin', async () => {
     /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
   ];
 
-  const fieldset = await screen.findByTestId('fields-external-user-contact');
+  const fieldset = await screen.findByRole('group', { name: /yhteystiedot/i });
 
-  externalUserContactFields.forEach(async (label) =>
-    expect(await within(fieldset).findByLabelText(label)).toBeInTheDocument()
-  );
-
-  await actWait(100);
+  for (const label of externalUserContactFields) {
+    expect(await within(fieldset).findByLabelText(label)).toBeInTheDocument();
+  }
 });
 
 test('should render fields for external user', async () => {
