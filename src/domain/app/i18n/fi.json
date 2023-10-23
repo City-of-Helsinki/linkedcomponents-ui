@@ -1712,7 +1712,7 @@
       "labelName": "Nimi",
       "labelRegistrationUserAccessEmail": "Käyttäjän sähköpostiosoite",
       "labelRegistrationUserAccessLanguage": "Kieli",
-      "labelWaitingListCapacity": "Varasijapaikkojen lukumäärä",
+      "labelWaitingListCapacity": "Jonopaikkojen lukumäärä",
       "messages": {
         "failedToSendInvitation": "Kutsun lähettäminen epäonnistui",
         "succeededToSendInvitation": "Kutsu osallistujalistaan on lähetetty osoitteeseen {{email}}."
@@ -1879,8 +1879,8 @@
       "titleSignups": "Ilmoittautuneet"
     },
     "inWaitingList": {
-      "text": "Varasija",
-      "tooltip": "Ilmoittautuja on lisätty ilmoittautujien jonoon varasijalla. Ilmoittautuminen varmistuu vasta, kun paikka jonossa vapautuu. Saat paikan varmistumisesta ilmoituksen sähköpostitse."
+      "text": "Jonopaikka",
+      "tooltip": "Ilmoittautuja on lisätty ilmoittautujien jonoon. Ilmoittautuminen varmistuu vasta, kun paikka jonossa vapautuu. Saat paikan varmistumisesta ilmoituksen sähköpostitse."
     },
     "notifications": {
       "email": "Sähköpostilla",
@@ -1888,8 +1888,8 @@
     },
     "personsAddedToWaitingListModal": {
       "buttonClose": "Sulje",
-      "text": "Huomioi, että kaikki ilmoittautujien paikat eivät ole varmistettuja. Varasijalla olevat ilmoittautujat varmistuvat vain, jos jonosta vapautuu lisää paikkoja. Varmistuneesta ilmoittautumisesta saat erillisen sähköpostin.",
-      "title": "Ilmoittautujia on lisätty varausjonoon"
+      "text": "Mikäli sinulle vapautuu paikka, saat ilmoittautumisestasi erillisen vahvistusviestin sähköpostiisi.",
+      "title": "Olet ilmoittautumassa tapahtuman jonoon"
     },
     "reservationTimeExpiredModal": {
       "buttonTryAgain": "Yritä uudelleen",

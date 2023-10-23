@@ -1888,8 +1888,8 @@
     },
     "personsAddedToWaitingListModal": {
       "buttonClose": "Stänga",
-      "text": "Observera att inte alla anmäldas platser är garanterade. Deltagare på reservplatsen bekräftas endast om fler platser blir lediga i kön. Du kommer att få ett separat e-postmeddelande från bekräftad registrering.",
-      "title": "Deltagare har lagts till i bokningskön"
+      "text": "Du kommer att få ett separat bekräftelsemeddelande om din anmälan till din e-post, om en plats blir ledig för dig.",
+      "title": "Du anmäler dig till evenemanget till bokningskön"
     },
     "reservationTimeExpiredModal": {
       "buttonTryAgain": "Försök igen",
