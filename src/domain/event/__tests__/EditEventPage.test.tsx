@@ -452,7 +452,21 @@ test('should render external user contact fields for admin', async () => {
 });
 
 test('should render fields for external user', async () => {
-  const mocks = [...baseMocks, mockedUserWithoutOrganizationsResponse];
+  const mocks = [
+    mockedEventResponse,
+    mockedEventTimeResponse,
+    mockedImageResponse,
+    mockedKeywordSelectorKeywordsResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedTopicsKeywordSetResponse,
+    mockedLanguagesResponse,
+    mockedPlaceResponse,
+    mockedPlacesResponse,
+    mockedFilteredPlacesResponse,
+    mockedUserWithoutOrganizationsResponse,
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+  ];
 
   renderComponent(mocks);
 
