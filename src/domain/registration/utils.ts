@@ -421,6 +421,15 @@ export const isRegistrationOpen = (
   return true;
 };
 
+export const isSignupEnded = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  const enrolmentEndTime = registration.enrolmentEndTime;
+
+  // Signup is ended if enrolment end time is defined and in the past
+  return Boolean(enrolmentEndTime && isPast(new Date(enrolmentEndTime)));
+};
+
 export const isAttendeeCapacityUsed = (
   registration: RegistrationFieldsFragment
 ): boolean =>

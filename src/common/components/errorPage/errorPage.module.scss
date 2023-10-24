@@ -1,43 +1,9 @@
-@import '../../../assets/styles/widths';
-
-.errorPage {
-  --error-page-icon-color: var(--color-bus);
-  --error-page-icon-size: 112px;
-
+.buttons {
   display: grid;
+  grid-template-columns: 1fr 1fr;
   grid-gap: var(--spacing-m);
-  padding-top: var(--spacing-5-xl);
 
-  .content {
-    text-align: center;
-
-    @include max-width-column(4);
-    margin: 0 auto;
-
-    p {
-      font-size: var(--fontsize-body-l);
-      line-height: var(--lineheight-l);
-      margin: var(--spacing-m) 0 var(--spacing-l);
-    }
-  }
-
-  .buttonsWrapper {
-    margin: var(--spacing-l) 0 var(--spacing-m);
-  }
-
-  .buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: var(--spacing-m);
-
-    button {
-      white-space: nowrap;
-    }
-  }
-
-  .icon {
-    color: var(--error-page-icon-color);
-    height: var(--error-page-icon-size);
-    width: var(--error-page-icon-size);
+  button {
+    white-space: nowrap;
   }
 }

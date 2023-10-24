@@ -10,7 +10,7 @@ exports[`should render component 1`] = `
       class="container css-0"
     >
       <div
-        class="contentWrapper errorPage"
+        class="contentWrapper errorTemplate"
       >
         <div
           class="content"

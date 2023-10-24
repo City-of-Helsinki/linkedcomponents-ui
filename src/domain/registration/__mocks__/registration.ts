@@ -53,4 +53,22 @@ const mockedRegistrationResponse: MockedResponse = {
   result: registrationResponse,
 };
 
-export { mockedRegistrationResponse, registration, registrationId };
+const pastRegistrationResponse = {
+  data: {
+    registration: {
+      ...registration,
+      enrolmentEndTime: subDays(new Date(), 2).toISOString(),
+    },
+  },
+};
+const mockedPastRegistrationResponse: MockedResponse = {
+  request: { query: RegistrationDocument, variables: registrationVariables },
+  result: pastRegistrationResponse,
+};
+
+export {
+  mockedPastRegistrationResponse,
+  mockedRegistrationResponse,
+  registration,
+  registrationId,
+};
