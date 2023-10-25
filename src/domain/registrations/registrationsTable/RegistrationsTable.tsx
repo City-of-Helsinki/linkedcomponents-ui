@@ -1,3 +1,4 @@
+import isNumber from 'lodash/isNumber';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -48,11 +49,9 @@ const SignupsColumn = (registration: RegistrationFieldsFragment) => {
   const { currentAttendeeCount, maximumAttendeeCapacity } =
     getRegistrationFields(registration, locale);
 
-  return (
-    <>
-      {currentAttendeeCount} / {maximumAttendeeCapacity}
-    </>
-  );
+  return isNumber(maximumAttendeeCapacity)
+    ? `${currentAttendeeCount} / ${maximumAttendeeCapacity}`
+    : `${currentAttendeeCount}`;
 };
 
 const WaitingListColumn = (registration: RegistrationFieldsFragment) => {
@@ -60,11 +59,9 @@ const WaitingListColumn = (registration: RegistrationFieldsFragment) => {
   const { currentWaitingListCount, waitingListCapacity } =
     getRegistrationFields(registration, locale);
 
-  return (
-    <>
-      {currentWaitingListCount} / {waitingListCapacity}
-    </>
-  );
+  return isNumber(waitingListCapacity)
+    ? `${currentWaitingListCount} / ${waitingListCapacity}`
+    : `${currentWaitingListCount}`;
 };
 
 const StartTimeColumn = (registration: RegistrationFieldsFragment) => {

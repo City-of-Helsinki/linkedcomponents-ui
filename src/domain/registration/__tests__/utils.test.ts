@@ -129,8 +129,8 @@ describe('getRegistrationFields function', () => {
     expect(enrolmentStartTime).toBe(null);
     expect(id).toBe('');
     expect(lastModifiedAt).toBe(null);
-    expect(maximumAttendeeCapacity).toBe(0);
-    expect(waitingListCapacity).toBe(0);
+    expect(maximumAttendeeCapacity).toBe(null);
+    expect(waitingListCapacity).toBe(null);
   });
 });
 
