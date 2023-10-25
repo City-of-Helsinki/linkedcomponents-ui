@@ -104,14 +104,11 @@ const Footer: React.FC = () => {
 
   return (
     <ClassNames>
-      {({ css, cx }) => (
+      {({ cx }) => (
         <HdsFooter
-          className={cx(
-            styles.footer,
-            css(theme.footer),
-            getFooterThemeClassName()
-          )}
+          className={cx(styles.footer, getFooterThemeClassName())}
           title={t('appName')}
+          theme={theme.footer}
         >
           <HdsFooter.Navigation>
             {navigationItems.map((item) => (
