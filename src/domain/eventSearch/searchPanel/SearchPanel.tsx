@@ -175,7 +175,7 @@ const SearchPanel: React.FC = () => {
               <FilterSummary />
             </Container>
           </section>
-          <Koros flipHorizontal={true} className={styles.koros} type="basic" />
+          <Koros flipVertical className={styles.koros} type="basic" />
         </div>
       )}
     </ClassNames>

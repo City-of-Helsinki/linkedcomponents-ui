@@ -1054,6 +1054,9 @@
     "copyrightHolder": "City of Helsinki",
     "copyrightText": "All rights reserved."
   },
+  "header": {
+    "logo": "City of Helsinki - logo"
+  },
   "form": {
     "inLanguage": {
       "ar": "In Arabic",

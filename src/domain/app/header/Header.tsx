@@ -12,7 +12,7 @@ import {
   logoSvDark,
   SearchInput,
 } from 'hds-react';
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
@@ -65,6 +65,11 @@ const Header: React.FC = () => {
 
   const isTabActive = (pathname: string): boolean => {
     return location.pathname.startsWith(pathname);
+  };
+
+  const goToHomePage = (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    navigate({ pathname: `/${locale}${ROUTES.HOME}` });
   };
 
   const goToPage =
@@ -175,21 +180,21 @@ const Header: React.FC = () => {
           ></HDSHeader.SkipLink>
           <HDSHeader.ActionBar
             title={t('appName')}
-            titleAriaLabel={t('appName')}
             titleHref={`/${locale}${ROUTES.HOME}`}
-            frontPageLabel=""
+            onTitleClick={(event) => goToHomePage(event)}
+            frontPageLabel={t('common.home')}
             logoHref={`/${locale}${ROUTES.HOME}`}
             logo={
               <Logo
                 src={locale === 'sv' ? logoSvDark : logoFiDark}
                 size="medium"
-                alt={t('appName')}
+                alt={t('header.logo')}
               />
             }
+            menuButtonAriaLabel={t('navigation.menuToggleAriaLabel')}
           >
             <HDSHeader.LanguageSelector
               ariaLabel={t(`navigation.languages.${locale}`)}
-              className={cx(styles.languageSelector)}
             />
             <HDSHeader.ActionBarItem
               icon={<IconSearch />}

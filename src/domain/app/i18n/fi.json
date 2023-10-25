@@ -1145,6 +1145,9 @@
     "copyrightHolder": "Helsingin kaupunki",
     "copyrightText": "Kaikki oikeudet pidätetään."
   },
+  "header": {
+    "logo": "Helsingin kaupunki - logo"
+  },
   "helpPage": {
     "askPermissionPage": {
       "buttonSend": "Lähetä",

@@ -227,12 +227,13 @@ const theme: Theme = {
     '--modal-heading-color-info': 'var(--color-white)',
   },
   navigation: {
+    '--header-focus-outline-color': 'var(--color-white)',
     '--actionbar-background-color': 'var(--color-coat-of-arms)',
     '--header-background-color': 'var(--color-white)',
     '--header-color': 'var(--color-white)',
     '--nav-background-color': 'var(--color-white)',
-    '--header-focus-outline-color': 'var(--color-white)',
     '--color-focus-outline': 'var(--color-coat-of-arms)',
+    '--nav-link-hover-color': 'var(--color-coat-of-arms)',
   },
   notification: {
     type: {

@@ -1,6 +1,11 @@
 @import '../../../assets/styles/breakpoints';
 
 .navigation {
+  @include medium-down {
+    --lang-selector-item-font-color: var(--color-black-90) !important;
+    --nav-link-font-color: var(--color-black-90) !important;
+  }
+
   z-index: var(--header-z-index);
   left: 0;
   position: sticky !important;
@@ -19,7 +24,7 @@
   }
 
   .navigationItem {
-    color: var(--color-black) !important;
+    --nav-link-font-color: var(--color-black-90) !important;
 
     &:focus-visible {
       outline-color: var(--color-coat-of-arms) !important;

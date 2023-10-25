@@ -17,24 +17,19 @@ exports[`renders the component 1`] = `
         type="button"
       >
         <svg
+          aria-hidden="true"
+          aria-label="check"
           class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik icon"
           role="img"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g
-            fill="none"
+          <path
+            clip-rule="evenodd"
+            d="M21 7L10 18L4.5 12.5L6 11L10 15L19.5 5.5L21 7Z"
+            fill="currentColor"
             fill-rule="evenodd"
-          >
-            <rect
-              height="24"
-              width="24"
-            />
-            <polygon
-              fill="currentColor"
-              points="21 7 10 18 4.5 12.5 6 11 10 15 19.5 5.5"
-            />
-          </g>
+          />
         </svg>
         Tab 1
       </button>

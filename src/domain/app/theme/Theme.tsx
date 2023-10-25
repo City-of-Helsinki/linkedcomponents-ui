@@ -155,7 +155,7 @@ type DropdownCSSProperties = {
   '--dropdown-menu-color'?: string;
 };
 
-type NavigationCSSProperties = {
+type NavigationCustomTheme = {
   '--actionbar-background-color'?: string;
   '--color-focus-outline'?: string;
   '--header-background-color'?: string;
@@ -169,8 +169,11 @@ type NavigationCSSProperties = {
   '--nav-button-hover-background-color'?: string;
   '--nav-drop-down-icon-color'?: string;
   '--universal-bar-background-color'?: string;
-  '--header-focus-outline-color'?: string;
 };
+
+type NavigationCSSProperties = {
+  '--header-focus-outline-color'?: string;
+} & Partial<NavigationCustomTheme>;
 
 export type NotificationCSSProperties = {
   '--notification-background-color'?: string;

@@ -1145,6 +1145,9 @@
     "copyrightHolder": "Helsingfors stad",
     "copyrightText": "Alla rättigheter förbehållna."
   },
+  "header": {
+    "logo": "Helsingfors stad - logo"
+  },
   "helpPage": {
     "askPermissionPage": {
       "buttonSend": "Skicka",
