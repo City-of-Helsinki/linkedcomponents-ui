@@ -4,6 +4,7 @@
 }
 
 .tableWrapper {
+  display: grid;
   margin-top: calc(0px - var(--spacing-2-xl) - 2px);
 }
 
