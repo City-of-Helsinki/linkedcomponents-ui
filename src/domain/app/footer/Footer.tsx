@@ -1,5 +1,5 @@
 import { ClassNames } from '@emotion/react';
-import { Footer as HdsFooter } from 'hds-react';
+import { Footer as HdsFooter, Logo, logoFi, logoSv } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
@@ -111,12 +111,11 @@ const Footer: React.FC = () => {
             css(theme.footer),
             getFooterThemeClassName()
           )}
-          logoLanguage={logoLanguage}
           title={t('appName')}
         >
           <HdsFooter.Navigation>
             {navigationItems.map((item) => (
-              <HdsFooter.Item
+              <HdsFooter.Link
                 key={item.url}
                 href={item.url}
                 label={item.label}
@@ -126,8 +125,8 @@ const Footer: React.FC = () => {
             ))}
           </HdsFooter.Navigation>
 
-          <HdsFooter.Utilities backToTopLabel={t('footer.backToTopLabel')}>
-            <HdsFooter.Item
+          <HdsFooter.Utilities>
+            <HdsFooter.Link
               href={`/${locale}${ROUTES.SUPPORT_CONTACT}`}
               onClick={goToPage(`/${locale}${ROUTES.SUPPORT_CONTACT}`)}
               label={t('common.feedback.text')}
@@ -136,6 +135,14 @@ const Footer: React.FC = () => {
           <HdsFooter.Base
             copyrightHolder={t('footer.copyrightHolder')}
             copyrightText={t('footer.copyrightText')}
+            backToTopLabel={t('footer.backToTopLabel')}
+            logo={
+              <Logo
+                src={logoLanguage === 'sv' ? logoSv : logoFi}
+                size="medium"
+                alt={t('appName')}
+              />
+            }
           />
         </HdsFooter>
       )}

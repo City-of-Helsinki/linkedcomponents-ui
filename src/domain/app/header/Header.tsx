@@ -1,5 +1,5 @@
 import { ClassNames } from '@emotion/react';
-import { IconInfoCircle, IconSignout, Navigation } from 'hds-react';
+import { Header as HDSHeader, IconInfoCircle, IconSignout } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
@@ -162,7 +162,7 @@ const Header: React.FC = () => {
   return (
     <ClassNames>
       {({ css, cx }) => (
-        <Navigation
+        <HDSHeader
           id={PAGE_HEADER_ID}
           menuOpen={menuOpen}
           onMenuToggle={toggleMenu}
@@ -179,9 +179,9 @@ const Header: React.FC = () => {
             locale === 'sv' ? /* istanbul ignore next */ 'sv' : 'fi'
           }
         >
-          <Navigation.Row>
+          <HDSHeader.Row>
             {navigationItems.map((item) => (
-              <Navigation.Item
+              <HDSHeader.Item
                 key={item.url}
                 active={isTabActive(item.url)}
                 className={cx(styles.navigationItem, item.className)}
@@ -191,29 +191,29 @@ const Header: React.FC = () => {
                 onClick={goToPage(item.url)}
               />
             ))}
-          </Navigation.Row>
-          <Navigation.Actions>
-            <Navigation.Search
+          </HDSHeader.Row>
+          <HDSHeader.Actions>
+            <HDSHeader.Search
               onSearch={handleSearch}
               searchLabel={t('navigation.searchEvents')}
             />
             {/* USER */}
-            <Navigation.User
+            <HDSHeader.User
               authenticated={Boolean(authenticated && user)}
               className={cx(styles.userDropdown, css(theme.navigationDropdown))}
               label={t('common.signIn')}
               onSignIn={handleSignIn}
               userName={user?.displayName || user?.email}
             >
-              <Navigation.Item
+              <HDSHeader.Item
                 label={t('common.signOut')}
                 href="#"
                 icon={<IconSignout aria-hidden />}
                 variant="supplementary"
                 onClick={handleSignOut}
               />
-            </Navigation.User>
-            <Navigation.LanguageSelector
+            </HDSHeader.User>
+            <HDSHeader.LanguageSelector
               buttonAriaLabel={getValue(
                 t('navigation.languageSelectorAriaLabel'),
                 ''
@@ -225,7 +225,7 @@ const Header: React.FC = () => {
               label={t(`navigation.languages.${locale}`)}
             >
               {languageOptions.map((option) => (
-                <Navigation.Item
+                <HDSHeader.Item
                   key={option.value}
                   href="#"
                   lang={option.value}
@@ -233,9 +233,9 @@ const Header: React.FC = () => {
                   onClick={(event) => changeLanguage(option, event)}
                 />
               ))}
-            </Navigation.LanguageSelector>
-          </Navigation.Actions>
-        </Navigation>
+            </HDSHeader.LanguageSelector>
+          </HDSHeader.Actions>
+        </HDSHeader>
       )}
     </ClassNames>
   );
