@@ -1761,8 +1761,8 @@
     "pageTitle": "Ilmoittautuminen",
     "registrationsTableCaption": "Ilmoittautumiset, järjestys {{sort}}",
     "registrationsTableColumns": {
-      "enrolmentEndTime": "Loppuu",
-      "enrolmentStartTime": "Alkaa",
+      "enrolmentTime": "Ilmoittautumisaika",
+      "eventTime": "Tapahtuman ajankohta",
       "name": "Nimi",
       "publisher": "Julkaisija",
       "signups": "Osallistujia",

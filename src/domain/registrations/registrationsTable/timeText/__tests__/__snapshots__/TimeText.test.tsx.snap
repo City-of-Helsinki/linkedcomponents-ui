@@ -1,0 +1,71 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`should render correct text when only endTime is defined 1`] = `
+<div>
+  <div
+    aria-label="– 15.8.2021 klo 12.15"
+  >
+    <div
+      class="timeText"
+    >
+      <span>
+         – 
+      </span>
+    </div>
+    <div
+      class="timeText"
+    >
+      15.8.2021 klo 12.15
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render correct text when only startTime is defined 1`] = `
+<div>
+  <div
+    aria-label="13.7.2021 klo 05.00 –"
+  >
+    <div
+      class="timeText"
+    >
+      <span>
+        13.7.2021 klo 05.00
+      </span>
+      <span>
+         – 
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render correct text when startTime and endTime are defined 1`] = `
+<div>
+  <div
+    aria-label="13.7.2021 klo 05.00 – 15.8.2021 klo 12.15"
+  >
+    <div
+      class="timeText"
+    >
+      <span>
+        13.7.2021 klo 05.00
+      </span>
+      <span>
+         – 
+      </span>
+    </div>
+    <div
+      class="timeText"
+    >
+      15.8.2021 klo 12.15
+    </div>
+  </div>
+</div>
+`;
+
+exports[`should render correct text when startTime and endTime are not defined 1`] = `
+<div>
+  -
+</div>
+`;
