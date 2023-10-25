@@ -6,21 +6,6 @@
   position: sticky !important;
   top: 0;
 
-  a,
-  button,
-  input,
-  * {
-    border-radius: 0px;
-  }
-
-  a,
-  button {
-    &:focus:not(:global(.focus-visible)) {
-      box-shadow: none;
-      --header-focus-outline-color: transparent;
-    }
-  }
-
   &.hideNavRow {
     @include medium-up {
       > div:first-of-type {
@@ -33,76 +18,11 @@
     }
   }
 
-  div[role='search'] {
-    @include medium-up {
-      & > div:not(:first-child) {
-        min-width: 16rem;
-      }
-    }
-  }
-
   .navigationItem {
-    color: var(--navigation-item-color) !important;
+    color: var(--color-black) !important;
 
-    &:before {
-      border-radius: 0px;
-    }
-
-    &:focus:not(:global(.focus-visible)) {
-      --item-focus-outline-color: transparent;
-    }
-  }
-
-  .navigationItemLast {
-    @include medium-up {
-      margin-left: auto !important;
-    }
-  }
-
-  .navigationItemLabel {
-    display: flex;
-    align-items: center;
-  }
-
-  .userDropdown,
-  .languageSelector {
-    --menu-border-width: 0px;
-    --menu-border-color: transparent;
-    --menu-button-focus-outline-color: var(--color-white);
-    --menu-item-background-color: var(--color-white);
-    --menu-item-background-color-highlighted: var(--color-black-10);
-    --menu-item-color: var(--color-black-90);
-    --menu-item-color-highlighted: var(--color-black);
-
-    &:focus-within {
-      box-shadow: none;
-
-      button:global(.focus-visible) {
-        box-shadow: 0 0 0 3px var(--menu-button-focus-outline-color);
-      }
-    }
-
-    & > div {
-      box-shadow: var(--shadow-m);
-    }
-  }
-
-  .userDropdown {
-    & > div {
-      left: 50%;
-      transform: translateX(-50%);
-    }
-  }
-
-  .languageSelector {
-    @include small-down {
-      position: absolute;
-      right: var(--spacing-5-xl);
-    }
-
-    & > div {
-      left: unset;
-      right: 0;
+    &:focus-visible {
+      outline-color: var(--color-coat-of-arms) !important;
     }
   }
 }

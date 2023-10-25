@@ -1,5 +1,17 @@
 import { ClassNames } from '@emotion/react';
-import { Header as HDSHeader, IconInfoCircle, IconSignout } from 'hds-react';
+import {
+  Header as HDSHeader,
+  IconInfoCircle,
+  IconSearch,
+  IconSignin,
+  IconSignout,
+  IconUser,
+  Link,
+  Logo,
+  logoFiDark,
+  logoSvDark,
+  SearchInput,
+} from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
@@ -8,7 +20,6 @@ import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { featureFlagUtils } from '../../../utils/featureFlags';
-import getValue from '../../../utils/getValue';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { getEventSearchQuery } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
@@ -51,23 +62,15 @@ const Header: React.FC = () => {
 
   const { t } = useTranslation();
   const { user } = useUser();
-  const [menuOpen, setMenuOpen] = React.useState(false);
 
   const isTabActive = (pathname: string): boolean => {
     return location.pathname.startsWith(pathname);
-  };
-
-  const goToHomePage = (e?: Event) => {
-    e?.preventDefault();
-    navigate({ pathname: `/${locale}${ROUTES.HOME}` });
-    setMenuOpen(false);
   };
 
   const goToPage =
     (pathname: string) => (e?: React.MouseEvent<HTMLAnchorElement>) => {
       e?.preventDefault();
       navigate({ pathname });
-      toggleMenu();
     };
 
   const NAVIGATION_ITEMS = [
@@ -117,16 +120,11 @@ const Header: React.FC = () => {
 
   const noNavRow = isMatch(NO_NAV_ROW_PATHS);
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
   const handleSearch = (text: string) => {
     navigate({
       pathname: `/${locale}${ROUTES.SEARCH}`,
       search: getEventSearchQuery({ text }),
     });
-    toggleMenu();
   };
 
   /* istanbul ignore next */
@@ -161,80 +159,83 @@ const Header: React.FC = () => {
 
   return (
     <ClassNames>
-      {({ css, cx }) => (
+      {({ cx }) => (
         <HDSHeader
-          id={PAGE_HEADER_ID}
-          menuOpen={menuOpen}
-          onMenuToggle={toggleMenu}
-          menuToggleAriaLabel={t('navigation.menuToggleAriaLabel')}
-          skipTo={`#${MAIN_CONTENT_ID}`}
-          skipToContentLabel={t('navigation.skipToContentLabel')}
-          className={cx(styles.navigation, css(theme.navigation), {
+          className={cx(styles.navigation, {
             [styles.hideNavRow]: noNavRow,
           })}
-          onTitleClick={goToHomePage}
-          title={t('appName')}
-          titleUrl={`/${locale}${ROUTES.HOME}`}
-          logoLanguage={
-            locale === 'sv' ? /* istanbul ignore next */ 'sv' : 'fi'
-          }
+          id={PAGE_HEADER_ID}
+          theme={theme.navigation}
+          languages={languageOptions}
+          onDidChangeLanguage={(language) => changeLanguage(language)}
         >
-          <HDSHeader.Row>
+          <HDSHeader.SkipLink
+            skipTo={`#${MAIN_CONTENT_ID}`}
+            label={t('navigation.skipToContentLabel')}
+          ></HDSHeader.SkipLink>
+          <HDSHeader.ActionBar
+            title={t('appName')}
+            titleAriaLabel={t('appName')}
+            titleHref={`/${locale}${ROUTES.HOME}`}
+            frontPageLabel=""
+            logoHref={`/${locale}${ROUTES.HOME}`}
+            logo={
+              <Logo
+                src={locale === 'sv' ? logoSvDark : logoFiDark}
+                size="medium"
+                alt={t('appName')}
+              />
+            }
+          >
+            <HDSHeader.LanguageSelector
+              ariaLabel={t(`navigation.languages.${locale}`)}
+              className={cx(styles.languageSelector)}
+            />
+            <HDSHeader.ActionBarItem
+              icon={<IconSearch />}
+              label={t('navigation.searchEvents')}
+              id="action-bar-search"
+            >
+              <SearchInput
+                label={t('navigation.searchEvents')}
+                placeholder={t('navigation.searchEvents')}
+                searchButtonAriaLabel={t('navigation.searchEvents')}
+                onSubmit={handleSearch}
+                style={{ width: '290px' }}
+              />
+            </HDSHeader.ActionBarItem>
+            {Boolean(authenticated && user) ? (
+              <HDSHeader.ActionBarItem
+                icon={<IconUser />}
+                id="action-bar-user"
+                label={user?.displayName || user?.email || ''}
+              >
+                <Link href="#" onClick={handleSignOut}>
+                  <IconSignout aria-hidden />
+                  {t('common.signOut')}
+                </Link>
+              </HDSHeader.ActionBarItem>
+            ) : (
+              <HDSHeader.ActionBarItem
+                icon={<IconSignin />}
+                label={t('common.signIn')}
+                id="action-bar-sign-in"
+                onClick={handleSignIn}
+              />
+            )}
+          </HDSHeader.ActionBar>
+          <HDSHeader.NavigationMenu>
             {navigationItems.map((item) => (
-              <HDSHeader.Item
+              <HDSHeader.Link
                 key={item.url}
                 active={isTabActive(item.url)}
                 className={cx(styles.navigationItem, item.className)}
-                icon={item.icon}
                 href={item.url}
                 label={item.label}
                 onClick={goToPage(item.url)}
               />
             ))}
-          </HDSHeader.Row>
-          <HDSHeader.Actions>
-            <HDSHeader.Search
-              onSearch={handleSearch}
-              searchLabel={t('navigation.searchEvents')}
-            />
-            {/* USER */}
-            <HDSHeader.User
-              authenticated={Boolean(authenticated && user)}
-              className={cx(styles.userDropdown, css(theme.navigationDropdown))}
-              label={t('common.signIn')}
-              onSignIn={handleSignIn}
-              userName={user?.displayName || user?.email}
-            >
-              <HDSHeader.Item
-                label={t('common.signOut')}
-                href="#"
-                icon={<IconSignout aria-hidden />}
-                variant="supplementary"
-                onClick={handleSignOut}
-              />
-            </HDSHeader.User>
-            <HDSHeader.LanguageSelector
-              buttonAriaLabel={getValue(
-                t('navigation.languageSelectorAriaLabel'),
-                ''
-              )}
-              className={cx(
-                styles.languageSelector,
-                css(theme.navigationDropdown)
-              )}
-              label={t(`navigation.languages.${locale}`)}
-            >
-              {languageOptions.map((option) => (
-                <HDSHeader.Item
-                  key={option.value}
-                  href="#"
-                  lang={option.value}
-                  label={option.label}
-                  onClick={(event) => changeLanguage(option, event)}
-                />
-              ))}
-            </HDSHeader.LanguageSelector>
-          </HDSHeader.Actions>
+          </HDSHeader.NavigationMenu>
         </HDSHeader>
       )}
     </ClassNames>
