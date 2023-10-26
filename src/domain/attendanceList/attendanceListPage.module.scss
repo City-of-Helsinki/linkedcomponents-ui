@@ -1,6 +1,8 @@
 @import '../../assets/styles/breakpoints';
 
 .attendanceListPage {
+  display: grid;
+
   h1 {
     font-size: var(--fontsize-heading-l);
     font-weight: 500;
@@ -14,6 +16,12 @@
   p {
     margin-top: 0;
   }
+}
+
+.mainContent {
+  display: grid;
+  grid-template-rows: 0 1fr auto;
+  align-items: baseline;
 }
 
 .pageContentContainer {

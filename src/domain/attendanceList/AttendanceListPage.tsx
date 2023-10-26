@@ -20,6 +20,7 @@ import { getRegistrationFields } from '../registration/utils';
 import { SIGNUP_ACTIONS } from '../signup/constants';
 import useRegistrationAndEventData from '../signup/hooks/useRegistrationAndEventData';
 import SignupAuthenticationNotification from '../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
+import ButtonPanel from '../signups/buttonPanel/ButtonPanel';
 import styles from './attendanceListPage.module.scss';
 import AttendeeList from './attendeeList/AttendeeList';
 
@@ -45,7 +46,7 @@ const AttendanceListPage: React.FC<AttendanceListPageProps> = ({
         ''
       )}
     >
-      <MainContent>
+      <MainContent className={styles.mainContent}>
         <Container
           contentWrapperClassName={styles.pageContentContainer}
           withOffset={true}
@@ -75,6 +76,7 @@ const AttendanceListPage: React.FC<AttendanceListPageProps> = ({
 
           <AttendeeList registration={registration} />
         </Container>
+        <ButtonPanel registration={registration} />
       </MainContent>
     </PageWrapper>
   );

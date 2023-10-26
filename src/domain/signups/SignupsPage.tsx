@@ -147,7 +147,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
           onSendMessage={sendMessage}
         />
       )}
-      <MainContent>
+      <MainContent className={styles.mainContent}>
         <Container
           contentWrapperClassName={styles.pageContentContainer}
           withOffset={true}
