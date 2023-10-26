@@ -12,7 +12,7 @@ import {
   logoSvDark,
   SearchInput,
 } from 'hds-react';
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
@@ -211,17 +211,23 @@ const Header: React.FC = () => {
             </HDSHeader.ActionBarItem>
             {Boolean(authenticated && user) ? (
               <HDSHeader.ActionBarItem
+                fixedRightPosition
                 icon={<IconUser />}
                 id="action-bar-user"
                 label={user?.displayName || user?.email || ''}
               >
-                <Link href="#" onClick={handleSignOut}>
+                <Link
+                  href="#"
+                  onClick={handleSignOut}
+                  className={styles.signoutLink}
+                >
                   <IconSignout aria-hidden />
                   {t('common.signOut')}
                 </Link>
               </HDSHeader.ActionBarItem>
             ) : (
               <HDSHeader.ActionBarItem
+                fixedRightPosition
                 icon={<IconSignin />}
                 label={t('common.signIn')}
                 id="action-bar-sign-in"

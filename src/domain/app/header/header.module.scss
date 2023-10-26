@@ -1,18 +1,18 @@
 @import '../../../assets/styles/breakpoints';
 
 .navigation {
-  @include medium-down {
-    --lang-selector-item-font-color: var(--color-black-90) !important;
-    --nav-link-font-color: var(--color-black-90) !important;
-  }
-
   z-index: var(--header-z-index);
   left: 0;
   position: sticky !important;
   top: 0;
 
+  @include medium-down {
+    --lang-selector-item-font-color: var(--color-black-90) !important;
+    --nav-link-font-color: var(--color-black-90) !important;
+  }
+
   &.hideNavRow {
-    @include medium-up {
+    @include large-up {
       > div:first-of-type {
         border: none;
       }
@@ -21,6 +21,12 @@
         display: none;
       }
     }
+  }
+
+  .signoutLink {
+    display: flex;
+    align-items: center;
+    color: var(--color-black-90);
   }
 
   .navigationItem {
