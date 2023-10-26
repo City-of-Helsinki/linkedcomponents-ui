@@ -1054,9 +1054,6 @@
     "copyrightHolder": "City of Helsinki",
     "copyrightText": "All rights reserved."
   },
-  "header": {
-    "logo": "City of Helsinki - logo"
-  },
   "form": {
     "inLanguage": {
       "ar": "In Arabic",
@@ -1534,6 +1531,7 @@
       "sv": "På svenska"
     },
     "languageSelectorAriaLabel": "English - language selection",
+    "logo": "City of Helsinki - logo",
     "menuToggleAriaLabel": "Menu",
     "searchEvents": "Search events",
     "skipToContentLabel": "Skip to content",

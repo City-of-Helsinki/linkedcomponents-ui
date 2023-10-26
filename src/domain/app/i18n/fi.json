@@ -1145,9 +1145,6 @@
     "copyrightHolder": "Helsingin kaupunki",
     "copyrightText": "Kaikki oikeudet pidätetään."
   },
-  "header": {
-    "logo": "Helsingin kaupunki - logo"
-  },
   "helpPage": {
     "askPermissionPage": {
       "buttonSend": "Lähetä",
@@ -1535,6 +1532,7 @@
       "sv": "På svenska"
     },
     "languageSelectorAriaLabel": "Suomi - kielivalikko",
+    "logo": "Helsingin kaupunki - logo",
     "menuToggleAriaLabel": "Valikko",
     "searchEvents": "Etsi tapahtumia",
     "skipToContentLabel": "Siirry sisältöön",

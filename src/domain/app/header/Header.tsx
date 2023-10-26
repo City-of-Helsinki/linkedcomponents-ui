@@ -1,7 +1,6 @@
 import { ClassNames } from '@emotion/react';
 import {
   Header as HDSHeader,
-  IconInfoCircle,
   IconSearch,
   IconSignin,
   IconSignout,
@@ -91,8 +90,6 @@ const Header: React.FC = () => {
         url: ROUTES.ADMIN,
       },
     {
-      className: styles.navigationItemLast,
-      icon: <IconInfoCircle aria-hidden={true} />,
       labelKey: 'navigation.tabs.help',
       url: ROUTES.HELP,
     },
@@ -188,7 +185,7 @@ const Header: React.FC = () => {
               <Logo
                 src={locale === 'sv' ? logoSvDark : logoFiDark}
                 size="medium"
-                alt={t('header.logo')}
+                alt={t('navigation.logo')}
               />
             }
             menuButtonAriaLabel={t('navigation.menuToggleAriaLabel')}
