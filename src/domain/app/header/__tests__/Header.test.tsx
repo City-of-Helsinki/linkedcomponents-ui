@@ -89,6 +89,7 @@ test('should show navigation links and should route to correct page after clicki
     { name: /ilmoittautuminen/i, url: `/fi${ROUTES.REGISTRATIONS}` },
     { name: /hallinta/i, url: `/fi${ROUTES.ADMIN}` },
     { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
+    { name: /etsi tapahtumia/i, url: `/fi${ROUTES.SEARCH}` },
   ];
 
   for (const { name, url } of links) {
@@ -248,23 +249,4 @@ test('should start logout process', async () => {
   await user.click(signOutLinks[0]);
 
   await waitFor(() => expect(signOut).toBeCalled());
-});
-
-test('should route to search page', async () => {
-  const searchValue = 'search';
-  const user = userEvent.setup();
-  const { history } = renderComponent();
-
-  const openSearchButton = screen.getAllByRole('button', {
-    name: 'Etsi tapahtumia',
-  })[0];
-
-  await user.click(openSearchButton);
-
-  const searchInput = screen.getByPlaceholderText('Etsi tapahtumia');
-  await user.type(searchInput, searchValue);
-  await user.type(searchInput, '{enter}');
-
-  expect(history.location.pathname).toBe('/fi/search');
-  expect(history.location.search).toBe(`?text=${searchValue}`);
 });

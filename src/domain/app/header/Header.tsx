@@ -1,7 +1,7 @@
 import { ClassNames } from '@emotion/react';
 import {
   Header as HDSHeader,
-  IconSearch,
+  IconCross,
   IconSignin,
   IconSignout,
   IconUser,
@@ -9,7 +9,6 @@ import {
   Logo,
   logoFiDark,
   logoSvDark,
-  SearchInput,
 } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +19,6 @@ import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { featureFlagUtils } from '../../../utils/featureFlags';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { getEventSearchQuery } from '../../events/utils';
 import useUser from '../../user/hooks/useUser';
 import {
   areAdminRoutesAllowed,
@@ -93,6 +91,10 @@ const Header: React.FC = () => {
       labelKey: 'navigation.tabs.help',
       url: ROUTES.HELP,
     },
+    {
+      labelKey: 'navigation.searchEvents',
+      url: ROUTES.SEARCH,
+    },
   ].filter((i) => i) as NavigationItem[];
 
   const navigationItems = NAVIGATION_ITEMS.map(
@@ -121,13 +123,6 @@ const Header: React.FC = () => {
     );
 
   const noNavRow = isMatch(NO_NAV_ROW_PATHS);
-
-  const handleSearch = (text: string) => {
-    navigate({
-      pathname: `/${locale}${ROUTES.SEARCH}`,
-      search: getEventSearchQuery({ text }),
-    });
-  };
 
   /* istanbul ignore next */
   const onDocumentFocusin = (event: FocusEvent) => {
@@ -193,23 +188,10 @@ const Header: React.FC = () => {
             <HDSHeader.LanguageSelector
               ariaLabel={t(`navigation.languages.${locale}`)}
             />
-            <HDSHeader.ActionBarItem
-              icon={<IconSearch />}
-              label={t('navigation.searchEvents')}
-              id="action-bar-search"
-            >
-              <SearchInput
-                label={t('navigation.searchEvents')}
-                placeholder={t('navigation.searchEvents')}
-                searchButtonAriaLabel={t('navigation.searchEvents')}
-                onSubmit={handleSearch}
-                style={{ width: '290px' }}
-              />
-            </HDSHeader.ActionBarItem>
             {Boolean(authenticated && user) ? (
               <HDSHeader.ActionBarItem
-                fixedRightPosition
                 icon={<IconUser />}
+                closeIcon={<IconCross />}
                 id="action-bar-user"
                 label={user?.displayName || user?.email || ''}
               >
@@ -224,7 +206,6 @@ const Header: React.FC = () => {
               </HDSHeader.ActionBarItem>
             ) : (
               <HDSHeader.ActionBarItem
-                fixedRightPosition
                 icon={<IconSignin />}
                 label={t('common.signIn')}
                 id="action-bar-sign-in"
