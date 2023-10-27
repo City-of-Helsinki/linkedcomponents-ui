@@ -1533,14 +1533,14 @@
     "languageSelectorAriaLabel": "English - language selection",
     "logo": "City of Helsinki - logo",
     "menuToggleAriaLabel": "Menu",
-    "searchEvents": "Search events",
     "skipToContentLabel": "Skip to content",
     "tabs": {
       "admin": "Admin",
       "events": "Events",
       "help": "Support",
       "registrations": "Registration",
-      "dataProtection": "Data Protection"
+      "dataProtection": "Data Protection",
+      "searchEvents": "Search"
     }
   },
   "notFound": {

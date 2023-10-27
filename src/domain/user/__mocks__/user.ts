@@ -7,6 +7,7 @@ import { fakeUser, fakeUsers } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 
 const userName = 'Test user';
+const userFirstName = 'Test';
 
 const getMockedUserResponse = (userSettings: Partial<User>): MockedResponse => {
   const user = fakeUser(userSettings);
@@ -25,6 +26,7 @@ const getMockedUserResponse = (userSettings: Partial<User>): MockedResponse => {
 const mockedUserResponse = getMockedUserResponse({
   adminOrganizations: [TEST_PUBLISHER_ID],
   displayName: userName,
+  firstName: userFirstName,
   organization: TEST_PUBLISHER_ID,
   organizationMemberships: [],
   registrationAdminOrganizations: [],
@@ -33,6 +35,7 @@ const mockedUserResponse = getMockedUserResponse({
 const mockedRegistrationUserResponse = getMockedUserResponse({
   adminOrganizations: [],
   displayName: userName,
+  firstName: userFirstName,
   organization: TEST_PUBLISHER_ID,
   organizationMemberships: [],
   registrationAdminOrganizations: [TEST_PUBLISHER_ID],
@@ -41,6 +44,7 @@ const mockedRegistrationUserResponse = getMockedUserResponse({
 const mockedRegularUserResponse = getMockedUserResponse({
   adminOrganizations: [],
   displayName: userName,
+  firstName: userFirstName,
   organization: TEST_PUBLISHER_ID,
   organizationMemberships: [TEST_PUBLISHER_ID],
   registrationAdminOrganizations: [],
@@ -49,6 +53,7 @@ const mockedRegularUserResponse = getMockedUserResponse({
 const mockedUserWithoutOrganizationsResponse = getMockedUserResponse({
   adminOrganizations: [],
   displayName: userName,
+  firstName: userFirstName,
   organization: '',
   organizationMemberships: [],
   registrationAdminOrganizations: [],
@@ -77,6 +82,7 @@ export {
   mockedUserResponse,
   mockedUsersResponse,
   mockedUserWithoutOrganizationsResponse,
+  userFirstName,
   userName,
   userNames,
   users,

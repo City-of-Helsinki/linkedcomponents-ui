@@ -22,7 +22,7 @@ import {
   mockedRegularUserResponse,
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
-  userName,
+  userFirstName,
 } from '../../../user/__mocks__/user';
 import Header from '../Header';
 
@@ -66,7 +66,7 @@ beforeEach(() => {
 });
 
 const findUserMenuButton = () =>
-  screen.findByRole('button', { name: userName }, { timeout: 10000 });
+  screen.findByRole('button', { name: userFirstName }, { timeout: 10000 });
 
 // TODO: Skip this test because SV UI language is temporarily disabled
 test.skip('matches snapshot', async () => {
@@ -89,7 +89,6 @@ test('should show navigation links and should route to correct page after clicki
     { name: /ilmoittautuminen/i, url: `/fi${ROUTES.REGISTRATIONS}` },
     { name: /hallinta/i, url: `/fi${ROUTES.ADMIN}` },
     { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
-    { name: /etsi tapahtumia/i, url: `/fi${ROUTES.SEARCH}` },
   ];
 
   for (const { name, url } of links) {
@@ -249,4 +248,17 @@ test('should start logout process', async () => {
   await user.click(signOutLinks[0]);
 
   await waitFor(() => expect(signOut).toBeCalled());
+});
+
+test('should route to search page', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent();
+
+  const searchLink = screen.getAllByRole('button', {
+    name: 'Hae',
+  })[0];
+
+  await user.click(searchLink);
+
+  expect(history.location.pathname).toBe('/fi/search');
 });

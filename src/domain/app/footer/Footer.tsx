@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
   const FOOTER_NAVIGATION_ITEMS = [
     { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
     {
-      labelKey: 'navigation.searchEvents',
+      labelKey: 'navigation.tabs.searchEvents',
       url: ROUTES.SEARCH,
     },
     featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') &&

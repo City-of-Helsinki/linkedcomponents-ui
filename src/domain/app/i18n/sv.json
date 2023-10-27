@@ -1534,14 +1534,14 @@
     "languageSelectorAriaLabel": "Svenska - språkval",
     "logo": "Helsingfors stad - logo",
     "menuToggleAriaLabel": "Menyn",
-    "searchEvents": "Sök efter evenemang",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
       "admin": "Admin",
       "events": "Evenemang",
       "help": "Stöd",
       "registrations": "Registrering",
-      "dataProtection": "Dataskydd"
+      "dataProtection": "Dataskydd",
+      "searchEvents": "Sök"
     }
   },
   "notFound": {

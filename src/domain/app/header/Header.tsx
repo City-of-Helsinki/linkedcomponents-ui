@@ -2,6 +2,7 @@ import { ClassNames } from '@emotion/react';
 import {
   Header as HDSHeader,
   IconCross,
+  IconSearch,
   IconSignin,
   IconSignout,
   IconUser,
@@ -15,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
 import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
+import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { featureFlagUtils } from '../../../utils/featureFlags';
@@ -56,6 +58,7 @@ const Header: React.FC = () => {
   const location = useLocation();
   const { changeLanguage, languageOptions } = useSelectLanguage();
   const { isAuthenticated: authenticated, signIn, signOut } = useAuth();
+  const isMobile = useIsMobile();
 
   const { t } = useTranslation();
   const { user } = useUser();
@@ -91,8 +94,8 @@ const Header: React.FC = () => {
       labelKey: 'navigation.tabs.help',
       url: ROUTES.HELP,
     },
-    {
-      labelKey: 'navigation.searchEvents',
+    isMobile && {
+      labelKey: 'navigation.tabs.searchEvents',
       url: ROUTES.SEARCH,
     },
   ].filter((i) => i) as NavigationItem[];
@@ -113,6 +116,11 @@ const Header: React.FC = () => {
     e.preventDefault();
     signOut();
   };
+
+  const handleSearch = () =>
+    navigate({
+      pathname: `/${locale}${ROUTES.SEARCH}`,
+    });
 
   const isMatch = (paths: NoNavRowProps[]) =>
     paths.some((path) =>
@@ -188,12 +196,21 @@ const Header: React.FC = () => {
             <HDSHeader.LanguageSelector
               ariaLabel={t(`navigation.languages.${locale}`)}
             />
+            {!isMobile && (
+              <HDSHeader.ActionBarItem
+                icon={<IconSearch />}
+                label={t('navigation.tabs.searchEvents')}
+                id="action-bar-search-events"
+                onClick={handleSearch}
+              />
+            )}
             {Boolean(authenticated && user) ? (
               <HDSHeader.ActionBarItem
-                icon={<IconUser />}
-                closeIcon={<IconCross />}
+                fixedRightPosition
+                icon={<IconUser ariaHidden />}
+                closeIcon={<IconCross ariaHidden />}
                 id="action-bar-user"
-                label={user?.displayName || user?.email || ''}
+                label={user?.firstName || ''}
               >
                 <Link
                   href="#"
@@ -206,7 +223,8 @@ const Header: React.FC = () => {
               </HDSHeader.ActionBarItem>
             ) : (
               <HDSHeader.ActionBarItem
-                icon={<IconSignin />}
+                fixedRightPosition
+                icon={<IconSignin ariaHidden />}
                 label={t('common.signIn')}
                 id="action-bar-sign-in"
                 onClick={handleSignIn}
