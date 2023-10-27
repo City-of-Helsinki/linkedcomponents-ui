@@ -78,6 +78,13 @@ const Header: React.FC = () => {
       navigate({ pathname });
     };
 
+  const MOBILE_NAVIGATION_ITEMS = [
+    {
+      labelKey: 'navigation.tabs.searchEvents',
+      url: ROUTES.SEARCH,
+    },
+  ];
+
   const NAVIGATION_ITEMS = [
     { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
     featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') &&
@@ -94,10 +101,7 @@ const Header: React.FC = () => {
       labelKey: 'navigation.tabs.help',
       url: ROUTES.HELP,
     },
-    isMobile && {
-      labelKey: 'navigation.tabs.searchEvents',
-      url: ROUTES.SEARCH,
-    },
+    ...(isMobile ? MOBILE_NAVIGATION_ITEMS : []),
   ].filter((i) => i) as NavigationItem[];
 
   const navigationItems = NAVIGATION_ITEMS.map(
