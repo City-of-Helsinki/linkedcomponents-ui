@@ -176,7 +176,7 @@ const Header: React.FC = () => {
           id={PAGE_HEADER_ID}
           theme={theme.navigation}
           languages={languageOptions}
-          onDidChangeLanguage={(language) => changeLanguage(language)}
+          onDidChangeLanguage={changeLanguage}
         >
           <HDSHeader.SkipLink
             skipTo={`#${MAIN_CONTENT_ID}`}
@@ -185,7 +185,7 @@ const Header: React.FC = () => {
           <HDSHeader.ActionBar
             title={t('appName')}
             titleHref={`/${locale}${ROUTES.HOME}`}
-            onTitleClick={(event) => goToHomePage(event)}
+            onTitleClick={goToHomePage}
             frontPageLabel={t('common.home')}
             logoHref={`/${locale}${ROUTES.HOME}`}
             logo={
