@@ -29,6 +29,7 @@ import { SignupGroupFormFields } from '../../signupGroup/types';
 import {
   getSignupGroupPayload,
   getUpdateSignupGroupPayload,
+  omitSensitiveDataFromSignupGroupPayload,
 } from '../../signupGroup/utils';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';
 import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
@@ -122,7 +123,7 @@ const useSignupGroupActions = ({
         callbacks,
         error,
         message: 'Failed to create signup group',
-        payload,
+        payload: omitSensitiveDataFromSignupGroupPayload(payload),
         savingFinished,
       });
     }
@@ -174,7 +175,7 @@ const useSignupGroupActions = ({
         callbacks,
         error,
         message: 'Failed to update signup group',
-        payload,
+        payload: omitSensitiveDataFromSignupGroupPayload(payload),
         savingFinished,
       });
     }

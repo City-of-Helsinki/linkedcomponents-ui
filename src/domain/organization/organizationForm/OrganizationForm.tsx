@@ -1,14 +1,9 @@
 /* eslint-disable max-len */
-import {
-  ApolloClient,
-  NormalizedCacheObject,
-  ServerError,
-  useApolloClient,
-} from '@apollo/client';
+import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import DateInputField from '../../../common/components/formFields/dateInputField/DateInputField';
@@ -19,11 +14,7 @@ import TextInputField from '../../../common/components/formFields/textInputField
 import UserSelectorField from '../../../common/components/formFields/userSelectorField/UserSelectorField';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { ROUTES } from '../../../constants';
-import {
-  CreateOrganizationMutationInput,
-  OrganizationFieldsFragment,
-  useCreateOrganizationMutation,
-} from '../../../generated/graphql';
+import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import {
@@ -32,9 +23,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
-import { clearOrganizationsQueries } from '../../app/apollo/clearCacheUtils';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
-import { reportError } from '../../app/sentry/utils';
 import useUser from '../../user/hooks/useUser';
 import {
   ORGANIZATION_ACTIONS,
@@ -43,16 +32,12 @@ import {
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
+import useOrganizationUpdateActions from '../hooks/useOrganizationActions';
 import useOrganizationInternalTypeOptions from '../hooks/useOrganizationInternalTypeOptions';
 import useOrganizationServerErrors from '../hooks/useOrganizationServerErrors';
-import useOrganizationUpdateActions from '../hooks/useOrganizationUpdateActions';
 import OrganizationAuthenticationNotification from '../organizationAuthenticationNotification/OrganizationAuthenticationNotification';
 import { OrganizationFormFields } from '../types';
-import {
-  checkCanUserDoAction,
-  getOrganizationInitialValues,
-  getOrganizationPayload,
-} from '../utils';
+import { checkCanUserDoAction, getOrganizationInitialValues } from '../utils';
 import { getFocusableFieldId, organizationSchema } from '../validation';
 import SubOrganizationTable from './subOrganizationTable/SubOrganizationTable';
 
@@ -65,12 +50,10 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
 }) => {
   const { t } = useTranslation();
   const { addNotification } = useNotificationsContext();
+  const { user } = useUser();
   const navigate = useNavigate();
-  const location = useLocation();
   const locale = useLocale();
   const internalTypeOptions = useOrganizationInternalTypeOptions();
-  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { user } = useUser();
 
   const action = organization
     ? ORGANIZATION_ACTIONS.UPDATE
@@ -87,7 +70,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
     navigate(`/${locale}${ROUTES.ORGANIZATIONS}`);
   };
 
-  const { saving, setSaving, updateOrganization } =
+  const { createOrganization, saving, updateOrganization } =
     useOrganizationUpdateActions({
       organization,
     });
@@ -95,8 +78,12 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useOrganizationServerErrors();
 
-  const [createOrganizationMutation] = useCreateOrganizationMutation();
-
+  const onCreate = async (values: OrganizationFormFields) => {
+    await createOrganization(values, {
+      onError: (error: ServerError) => showServerErrors({ error }),
+      onSuccess: goToOrganizationsPage,
+    });
+  };
   const onUpdate = async (values: OrganizationFormFields) => {
     await updateOrganization(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
@@ -108,46 +95,6 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
         });
       },
     });
-  };
-
-  const createSingleOrganization = async (
-    payload: CreateOrganizationMutationInput
-  ) => {
-    try {
-      const data = await createOrganizationMutation({
-        variables: { input: payload },
-      });
-
-      return getValue(data.data?.createOrganization.id, '');
-    } catch (error) /* istanbul ignore next */ {
-      showServerErrors({ error });
-      // // Report error to Sentry
-      reportError({
-        data: {
-          error: error as Record<string, unknown>,
-          payload,
-          payloadAsString: JSON.stringify(payload),
-        },
-        location,
-        message: 'Failed to create keyword',
-        user,
-      });
-    }
-  };
-
-  const createOrganization = async (values: OrganizationFormFields) => {
-    setSaving(ORGANIZATION_ACTIONS.CREATE);
-    const payload = getOrganizationPayload(values);
-    const createdKeywordId = await createSingleOrganization(payload);
-
-    if (createdKeywordId) {
-      // Clear all keywords queries from apollo cache to show added registrations
-      // in registration list
-      clearOrganizationsQueries(apolloClient);
-      goToOrganizationsPage();
-    }
-
-    setSaving(null);
   };
 
   const inputRowBorderStyle = useMemo(
@@ -217,7 +164,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             if (organization) {
               await onUpdate(values);
             } else {
-              await createOrganization(values);
+              await onCreate(values);
             }
           } catch (error) {
             showFormErrors({

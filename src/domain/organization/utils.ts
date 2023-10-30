@@ -1,5 +1,6 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { TFunction } from 'i18next';
+import omit from 'lodash/omit';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import { DATE_FORMAT_API, ROUTES } from '../../constants';
@@ -13,6 +14,7 @@ import {
   OrganizationsDocument,
   OrganizationsQuery,
   OrganizationsQueryVariables,
+  UpdateOrganizationMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
@@ -408,3 +410,8 @@ export const getOrganizationPayload = (
     regularUsers,
   };
 };
+
+export const omitSensitiveDataFromOrganizationPayload = (
+  payload: CreateOrganizationMutationInput | UpdateOrganizationMutationInput
+): Partial<CreateOrganizationMutationInput | UpdateOrganizationMutationInput> =>
+  omit(payload, ['adminUsers', 'registrationAdminUsers', 'regularUsers']);

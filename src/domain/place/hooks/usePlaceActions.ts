@@ -3,14 +3,15 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { useLocation } from 'react-router';
 
 import {
   PlaceFieldsFragment,
   UpdatePlaceMutationInput,
+  useCreatePlaceMutation,
   useDeletePlaceMutation,
   useUpdatePlaceMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import getValue from '../../../utils/getValue';
@@ -19,8 +20,6 @@ import {
   clearPlaceQueries,
   clearPlacesQueries,
 } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
-import useUser from '../../user/hooks/useUser';
 import { PLACE_ACTIONS } from '../constants';
 import { PlaceFormFields } from '../types';
 import { getPlacePayload } from '../utils';
@@ -35,6 +34,10 @@ interface Props {
 
 type UsePlaceUpdateActionsState = {
   closeModal: () => void;
+  createPlace: (
+    values: PlaceFormFields,
+    callbacks?: MutationCallbacks
+  ) => Promise<void>;
   deletePlace: (callbacks?: MutationCallbacks) => Promise<void>;
   openModal: PLACE_MODALS | null;
   saving: PLACE_ACTIONS | null;
@@ -49,11 +52,10 @@ const usePlaceUpdateActions = ({
   place,
 }: Props): UsePlaceUpdateActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { user } = useUser();
-  const location = useLocation();
   const [openModal, setOpenModal] = useMountedState<PLACE_MODALS | null>(null);
   const [saving, setSaving] = useMountedState<PLACE_ACTIONS | null>(null);
 
+  const [createPlaceMutation] = useCreatePlaceMutation();
   const [deletePlaceMutation] = useDeletePlaceMutation();
   const [updatePlaceMutation] = useUpdatePlaceMutation();
 
@@ -65,7 +67,10 @@ const usePlaceUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
+  const cleanAfterUpdate = async (
+    id: string,
+    callbacks?: MutationCallbacks
+  ) => {
     /* istanbul ignore next */
     !isTestEnv && clearPlaceQueries(apolloClient);
     /* istanbul ignore next */
@@ -74,53 +79,51 @@ const usePlaceUpdateActions = ({
     savingFinished();
     closeModal();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess());
+    await (callbacks?.onSuccess && callbacks.onSuccess(id));
   };
 
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?: UpdatePlaceMutationInput;
-  }) => {
-    savingFinished();
+  const { handleError } = useHandleError();
 
-    // Report error to Sentry
-    reportError({
-      data: {
+  const createPlace = async (
+    values: PlaceFormFields,
+    callbacks?: MutationCallbacks<string>
+  ) => {
+    setSaving(PLACE_ACTIONS.CREATE);
+    const payload = getPlacePayload(values);
+
+    try {
+      const { data } = await createPlaceMutation({
+        variables: { input: payload },
+      });
+
+      await cleanAfterUpdate(data?.createPlace.id as string, callbacks);
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
         error,
-        payloadAsString: payload && JSON.stringify(payload),
-        place,
-      },
-      location,
-      message,
-      user,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
+        message: 'Failed to create place',
+        payload,
+        savingFinished,
+      });
+    }
   };
 
   const deletePlace = async (callbacks?: MutationCallbacks) => {
     try {
+      const id = getValue(place.id, '');
       setSaving(PLACE_ACTIONS.DELETE);
 
       await deletePlaceMutation({
-        variables: { id: getValue(place.id, '') },
+        variables: { id },
       });
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterUpdate(id, callbacks);
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
         error,
         message: 'Failed to delete place',
+        savingFinished,
       });
     }
   };
@@ -136,19 +139,21 @@ const usePlaceUpdateActions = ({
 
       await updatePlaceMutation({ variables: { input: payload } });
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterUpdate(values.id, callbacks);
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
         error,
         message: 'Failed to update keyword',
         payload,
+        savingFinished,
       });
     }
   };
 
   return {
     closeModal,
+    createPlace,
     deletePlace,
     openModal,
     saving,

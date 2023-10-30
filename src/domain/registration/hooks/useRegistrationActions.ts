@@ -3,7 +3,6 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { useLocation } from 'react-router';
 
 import {
   CreateRegistrationMutationInput,
@@ -13,17 +12,20 @@ import {
   useDeleteRegistrationMutation,
   useUpdateRegistrationMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import isTestEnv from '../../../utils/isTestEnv';
 import { clearRegistrationsQueries } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
-import useUser from '../../user/hooks/useUser';
 import { REGISTRATION_MODALS } from '../constants';
 import { RegistrationFormFields } from '../types';
-import { getRegistrationFields, getRegistrationPayload } from '../utils';
+import {
+  getRegistrationFields,
+  getRegistrationPayload,
+  omitSensitiveDataFromRegistrationPayload,
+} from '../utils';
 
 interface UseRegistrationActionsProps {
   registration?: RegistrationFieldsFragment | null;
@@ -49,8 +51,6 @@ const useRegistrationActions = ({
 }: UseRegistrationActionsProps): UseRegistrationActionsState => {
   const locale = useLocale();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { user } = useUser();
-  const location = useLocation();
   const [saving, setSaving] = useMountedState<REGISTRATION_ACTIONS | null>(
     null
   );
@@ -82,36 +82,10 @@ const useRegistrationActions = ({
     // Call callback function if defined
     await (callbacks?.onSuccess && callbacks.onSuccess(id));
   };
-
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?: CreateRegistrationMutationInput | UpdateRegistrationMutationInput;
-  }) => {
-    savingFinished();
-
-    // Report error to Sentry
-    reportError({
-      data: {
-        error,
-        payloadAsString: payload && JSON.stringify(payload),
-        registration,
-      },
-      location,
-      message,
-      user,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
+  const { handleError } = useHandleError<
+    Partial<CreateRegistrationMutationInput | UpdateRegistrationMutationInput>,
+    null
+  >();
 
   const createRegistration = async (
     values: RegistrationFormFields,
@@ -135,7 +109,8 @@ const useRegistrationActions = ({
         callbacks,
         error,
         message: 'Failed to create registration',
-        payload,
+        payload: omitSensitiveDataFromRegistrationPayload(payload),
+        savingFinished,
       });
     }
   };
@@ -156,6 +131,7 @@ const useRegistrationActions = ({
         callbacks,
         error,
         message: 'Failed to delete registration',
+        savingFinished,
       });
     }
   };
@@ -190,7 +166,8 @@ const useRegistrationActions = ({
         callbacks,
         error,
         message: 'Failed to update registration',
-        payload,
+        payload: omitSensitiveDataFromRegistrationPayload(payload),
+        savingFinished,
       });
     }
   };

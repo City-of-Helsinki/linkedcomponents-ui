@@ -3,16 +3,15 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { useLocation } from 'react-router';
 
 import {
   CreateKeywordMutationInput,
   KeywordFieldsFragment,
-  UpdateKeywordMutationInput,
   useCreateKeywordMutation,
   useDeleteKeywordMutation,
   useUpdateKeywordMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import getValue from '../../../utils/getValue';
@@ -21,8 +20,6 @@ import {
   clearKeywordQueries,
   clearKeywordsQueries,
 } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
-import useUser from '../../user/hooks/useUser';
 import { KEYWORD_ACTIONS } from '../constants';
 import { KeywordFormFields } from '../types';
 import { getKeywordPayload } from '../utils';
@@ -54,8 +51,6 @@ const useKeywordActions = ({
   keyword,
 }: UseKeywordActionsProps): UseKeywordActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { user } = useUser();
-  const location = useLocation();
   const [openModal, setOpenModal] = useMountedState<KEYWORD_MODALS | null>(
     null
   );
@@ -85,35 +80,7 @@ const useKeywordActions = ({
     await (callbacks?.onSuccess && callbacks.onSuccess());
   };
 
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?: CreateKeywordMutationInput | UpdateKeywordMutationInput;
-  }) => {
-    savingFinished();
-
-    // Report error to Sentry
-    reportError({
-      data: {
-        error,
-        payloadAsString: payload && JSON.stringify(payload),
-        keyword,
-      },
-      location,
-      message,
-      user,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
+  const { handleError } = useHandleError<CreateKeywordMutationInput, null>();
 
   const createKeyword = async (
     values: KeywordFormFields,
@@ -137,6 +104,7 @@ const useKeywordActions = ({
         error,
         message: 'Failed to create keyword',
         payload,
+        savingFinished,
       });
     }
   };
@@ -155,6 +123,7 @@ const useKeywordActions = ({
         callbacks,
         error,
         message: 'Failed to delete keyword',
+        savingFinished,
       });
     }
   };
@@ -177,6 +146,7 @@ const useKeywordActions = ({
         error,
         message: 'Failed to update keyword',
         payload,
+        savingFinished,
       });
     }
   };

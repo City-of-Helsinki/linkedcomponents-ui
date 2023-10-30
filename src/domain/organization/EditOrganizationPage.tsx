@@ -22,7 +22,7 @@ import useUser from '../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from './constants';
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
-} from './hooks/useOrganizationUpdateActions';
+} from './hooks/useOrganizationActions';
 import ConfirmDeleteOrganizationModal from './modals/confirmDeleteOrganizationModal/ConfirmDeleteOrganizationModal';
 import OrganizationForm from './organizationForm/OrganizationForm';
 import {

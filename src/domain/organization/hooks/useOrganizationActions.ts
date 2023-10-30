@@ -3,14 +3,15 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { useLocation } from 'react-router';
 
 import {
   OrganizationFieldsFragment,
   UpdateOrganizationMutationInput,
+  useCreateOrganizationMutation,
   useDeleteOrganizationMutation,
   useUpdateOrganizationMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import getValue from '../../../utils/getValue';
@@ -19,11 +20,12 @@ import {
   clearOrganizationQueries,
   clearOrganizationsQueries,
 } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
-import useUser from '../../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from '../constants';
 import { OrganizationFormFields } from '../types';
-import { getOrganizationPayload } from '../utils';
+import {
+  getOrganizationPayload,
+  omitSensitiveDataFromOrganizationPayload,
+} from '../utils';
 
 export enum ORGANIZATION_MODALS {
   DELETE = 'delete',
@@ -35,14 +37,18 @@ interface Props {
 
 type UseKeywordUpdateActionsState = {
   closeModal: () => void;
-  deleteOrganization: (callbacks?: MutationCallbacks) => Promise<void>;
+  createOrganization: (
+    values: OrganizationFormFields,
+    callbacks?: MutationCallbacks<string>
+  ) => Promise<void>;
+  deleteOrganization: (callbacks?: MutationCallbacks<string>) => Promise<void>;
   openModal: ORGANIZATION_MODALS | null;
   saving: ORGANIZATION_ACTIONS | null;
   setOpenModal: (modal: ORGANIZATION_MODALS | null) => void;
   setSaving: (action: ORGANIZATION_ACTIONS | null) => void;
   updateOrganization: (
     values: OrganizationFormFields,
-    callbacks?: MutationCallbacks
+    callbacks?: MutationCallbacks<string>
   ) => Promise<void>;
 };
 
@@ -50,8 +56,6 @@ const useOrganizationUpdateActions = ({
   organization,
 }: Props): UseKeywordUpdateActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { user } = useUser();
-  const location = useLocation();
   const [openModal, setOpenModal] = useMountedState<ORGANIZATION_MODALS | null>(
     null
   );
@@ -59,6 +63,7 @@ const useOrganizationUpdateActions = ({
     null
   );
 
+  const [createOrganizationMutation] = useCreateOrganizationMutation();
   const [deleteOrganizationMutation] = useDeleteOrganizationMutation();
   const [updateOrganizationMutation] = useUpdateOrganizationMutation();
 
@@ -70,7 +75,10 @@ const useOrganizationUpdateActions = ({
     setSaving(null);
   };
 
-  const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
+  const cleanAfterUpdate = async (
+    id: string,
+    callbacks?: MutationCallbacks<string>
+  ) => {
     /* istanbul ignore next */
     !isTestEnv && clearOrganizationQueries(apolloClient);
     /* istanbul ignore next */
@@ -79,60 +87,61 @@ const useOrganizationUpdateActions = ({
     savingFinished();
     closeModal();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess());
+    await (callbacks?.onSuccess && callbacks.onSuccess(id));
   };
 
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?: UpdateOrganizationMutationInput;
-  }) => {
-    savingFinished();
+  const { handleError } = useHandleError<
+    UpdateOrganizationMutationInput,
+    null
+  >();
 
-    // Report error to Sentry
-    reportError({
-      data: {
-        error,
-        payloadAsString: payload && JSON.stringify(payload),
-        organization,
-      },
-      location,
-      message,
-      user,
-    });
+  const createOrganization = async (
+    values: OrganizationFormFields,
+    callbacks?: MutationCallbacks<string>
+  ) => {
+    setSaving(ORGANIZATION_ACTIONS.CREATE);
+    const payload = getOrganizationPayload(values);
 
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
-
-  const deleteOrganization = async (callbacks?: MutationCallbacks) => {
     try {
+      const { data } = await createOrganizationMutation({
+        variables: { input: payload },
+      });
+
+      await cleanAfterUpdate(data?.createOrganization.id as string, callbacks);
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to create organization',
+        payload: omitSensitiveDataFromOrganizationPayload(payload),
+        savingFinished,
+      });
+    }
+  };
+
+  const deleteOrganization = async (callbacks?: MutationCallbacks<string>) => {
+    try {
+      const id = getValue(organization?.id, '');
       setSaving(ORGANIZATION_ACTIONS.DELETE);
 
       await deleteOrganizationMutation({
         variables: { id: getValue(organization?.id, '') },
       });
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterUpdate(id, callbacks);
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
         error,
         message: 'Failed to delete organization',
+        savingFinished,
       });
     }
   };
 
   const updateOrganization = async (
     values: OrganizationFormFields,
-    callbacks?: MutationCallbacks
+    callbacks?: MutationCallbacks<string>
   ) => {
     const payload: UpdateOrganizationMutationInput =
       getOrganizationPayload(values);
@@ -142,19 +151,21 @@ const useOrganizationUpdateActions = ({
 
       await updateOrganizationMutation({ variables: { input: payload } });
 
-      await cleanAfterUpdate(callbacks);
+      await cleanAfterUpdate(values.id, callbacks);
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
         error,
         message: 'Failed to update organization',
-        payload,
+        payload: omitSensitiveDataFromOrganizationPayload(payload),
+        savingFinished,
       });
     }
   };
 
   return {
     closeModal,
+    createOrganization,
     deleteOrganization,
     openModal,
     saving,

@@ -5,10 +5,10 @@ import {
 } from '@apollo/client';
 
 import {
-  CreateSignupGroupMutationInput,
   RegistrationFieldsFragment,
   SendMessageMutationInput,
   SignupFieldsFragment,
+  SignupInput,
   UpdateSignupMutationInput,
   useDeleteSignupMutation,
   useSendMessageMutation,
@@ -27,7 +27,10 @@ import { useSignupGroupFormContext } from '../../signupGroup/signupGroupFormCont
 import { SignupGroupFormFields } from '../../signupGroup/types';
 import { SEND_MESSAGE_FORM_NAME, SIGNUP_ACTIONS } from '../constants';
 import { SendMessageFormFields } from '../types';
-import { getUpdateSignupPayload } from '../utils';
+import {
+  getUpdateSignupPayload,
+  omitSensitiveDataFromSignupPayload,
+} from '../utils';
 
 interface Props {
   registration: RegistrationFieldsFragment;
@@ -67,9 +70,7 @@ const useSignupActions = ({
   };
 
   const { handleError } = useHandleError<
-    | CreateSignupGroupMutationInput
-    | SendMessageMutationInput
-    | UpdateSignupMutationInput,
+    SendMessageMutationInput | Partial<SignupInput | UpdateSignupMutationInput>,
     SignupFieldsFragment
   >();
 
@@ -130,7 +131,7 @@ const useSignupActions = ({
         callbacks,
         error,
         message: 'Failed to update signup',
-        payload,
+        payload: omitSensitiveDataFromSignupPayload(payload),
         savingFinished,
       });
     }

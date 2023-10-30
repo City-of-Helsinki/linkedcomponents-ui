@@ -1,7 +1,6 @@
 import orderBy from 'lodash/orderBy';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
 
 import Checkbox from '../../../common/components/checkbox/Checkbox';
 import {
@@ -12,23 +11,20 @@ import {
   UpdateSignupMutationInput,
   usePatchSignupMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
-import { reportError } from '../../app/sentry/utils';
 import { getSignupFields } from '../../signups/utils';
-import useUser from '../../user/hooks/useUser';
 
 type Props = {
   registration: RegistrationFieldsFragment;
 };
 const AttendeeList: React.FC<Props> = ({ registration }) => {
   const { t } = useTranslation();
-  const location = useLocation();
   const locale = useLocale();
-  const { user } = useUser();
   const { addNotification } = useNotificationsContext();
 
   const [saving, setSaving] = useState(false);
@@ -61,32 +57,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     setSaving(false);
   };
 
-  const handleError = ({
-    error,
-    message,
-    payload,
-    signup,
-  }: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?: UpdateSignupMutationInput;
-    signup: SignupFieldsFragment;
-  }) => {
-    savingFinished();
-
-    // Report error to Sentry
-    reportError({
-      data: {
-        error,
-        payloadAsString: payload && JSON.stringify(payload),
-        signup,
-      },
-      location,
-      message,
-      user,
-    });
-  };
+  const { handleError } = useHandleError<UpdateSignupMutationInput, null>();
 
   const patchSignup = async (
     checked: boolean,
@@ -111,7 +82,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
         error,
         message: 'Failed to patch signup presence status',
         payload,
-        signup,
+        savingFinished,
       });
       addNotification({
         label: t('attendanceListPage.errors.presenceStatusUpdateFails'),

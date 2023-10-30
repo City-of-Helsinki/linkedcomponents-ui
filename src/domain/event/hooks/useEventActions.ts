@@ -7,7 +7,6 @@ import {
 } from '@apollo/client';
 import map from 'lodash/map';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
 
 import {
   CreateEventMutationInput,
@@ -23,13 +22,13 @@ import {
   UserFieldsFragment,
   useUpdateEventsMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import { clearEventsQueries } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
 import { useAuth } from '../../auth/hooks/useAuth';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
@@ -45,6 +44,7 @@ import {
   getNewEventTimes,
   getRecurringEventPayload,
   getRelatedEvents,
+  omitSensitiveDataFromEventPayload,
 } from '../utils';
 import useUpdateImageIfNeeded from './useUpdateImageIfNeeded';
 import useUpdateRecurringEventIfNeeded from './useUpdateRecurringEventIfNeeded';
@@ -79,7 +79,6 @@ const useEventActions = (
   const { isAuthenticated: authenticated } = useAuth();
   const { user } = useUser();
   const locale = useLocale();
-  const location = useLocation();
   const [openModal, setOpenModal] = useMountedState<EVENT_MODALS | null>(null);
   const [saving, setSaving] = useMountedState<EVENT_ACTIONS | null>(null);
 
@@ -146,41 +145,13 @@ const useEventActions = (
     await (callbacks?.onSuccess && callbacks.onSuccess(id));
   };
 
-  const handleError = ({
-    callbacks,
-    data,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    data?: Record<string, unknown>;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?:
-      | CreateEventMutationInput
-      | CreateEventMutationInput[]
-      | UpdateEventMutationInput[];
-  }) => {
-    savingFinished();
-
-    // Report error to Sentry
-    reportError({
-      data: {
-        ...data,
-        error,
-        event,
-        payloadAsString: payload && JSON.stringify(payload),
-      },
-      location,
-      message,
-      user,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
+  const { handleError } = useHandleError<
+    | CreateEventMutationInput
+    | CreateEventMutationInput[]
+    | UpdateEventMutationInput[]
+    | Record<string, unknown>,
+    null
+  >();
 
   const cancelEvent = async (callbacks?: MutationCallbacks) => {
     let payload: UpdateEventMutationInput[] = [];
@@ -223,8 +194,9 @@ const useEventActions = (
       handleError({
         callbacks,
         error,
-        payload,
+        payload: payload.map((data) => omitSensitiveDataFromEventPayload(data)),
         message: 'Failed to cancel event',
+        savingFinished,
       });
     }
   };
@@ -247,6 +219,7 @@ const useEventActions = (
         error,
         payload,
         message: 'Failed to create sub-events in recurring event creation',
+        savingFinished,
       });
 
       // Don't save recurring event if sub-event creation fails
@@ -274,8 +247,9 @@ const useEventActions = (
       handleError({
         callbacks,
         error,
-        payload: recurringEventPayload,
+        payload: omitSensitiveDataFromEventPayload(recurringEventPayload),
         message: 'Failed to create recurring event',
+        savingFinished,
       });
     }
   };
@@ -294,8 +268,9 @@ const useEventActions = (
       handleError({
         callbacks,
         error,
-        payload,
+        payload: omitSensitiveDataFromEventPayload(payload),
         message: 'Failed to create event',
+        savingFinished,
       });
     }
   };
@@ -310,9 +285,10 @@ const useEventActions = (
       await updateImageIfNeeded(values);
     } catch (error) /* istanbul ignore next */ {
       handleError({
-        data: { images: values.images, imageDetails: values.imageDetails },
         error,
         message: 'Failed to update image',
+        payload: { images: values.images, imageDetails: values.imageDetails },
+        savingFinished,
       });
     }
 
@@ -355,11 +331,11 @@ const useEventActions = (
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
-        data: {
-          eventIds: deletableEventIds,
-        },
+
         error,
         message: 'Failed to delete event',
+        payload: { eventIds: deletableEventIds },
+        savingFinished,
       });
     }
   };
@@ -406,7 +382,8 @@ const useEventActions = (
         callbacks,
         error,
         message: 'Failed to postpone event',
-        payload,
+        payload: payload.map((data) => omitSensitiveDataFromEventPayload(data)),
+        savingFinished,
       });
     }
   };
@@ -530,7 +507,8 @@ const useEventActions = (
         callbacks,
         error,
         message: 'Failed to update recurring event',
-        payload,
+        payload: payload.map((data) => omitSensitiveDataFromEventPayload(data)),
+        savingFinished,
       });
     }
   };
@@ -546,15 +524,14 @@ const useEventActions = (
       await updateImageIfNeeded(values);
     } catch (error: any) /* istanbul ignore next */ {
       // Report error to Sentry
-      reportError({
-        data: {
-          error,
-          images: values.images,
-          imageDetails: values.imageDetails,
-        },
-        location,
-        message: 'Failed to update image',
-        user,
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to update event',
+        payload,
+        savingFinished:
+          /* istanbul ignore next */
+          () => undefined,
       });
     }
 
@@ -603,7 +580,8 @@ const useEventActions = (
         callbacks,
         error,
         message: 'Failed to update event',
-        payload,
+        payload: payload.map((data) => omitSensitiveDataFromEventPayload(data)),
+        savingFinished,
       });
     }
   };

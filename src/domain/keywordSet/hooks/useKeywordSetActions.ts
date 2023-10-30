@@ -3,7 +3,6 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { useLocation } from 'react-router';
 
 import {
   CreateKeywordSetMutationInput,
@@ -13,6 +12,7 @@ import {
   useDeleteKeywordSetMutation,
   useUpdateKeywordSetMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import getValue from '../../../utils/getValue';
@@ -21,8 +21,6 @@ import {
   clearKeywordSetQueries,
   clearKeywordSetsQueries,
 } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
-import useUser from '../../user/hooks/useUser';
 import { KEYWORD_SET_ACTIONS } from '../constants';
 import { KeywordSetFormFields } from '../types';
 import { getKeywordSetPayload } from '../utils';
@@ -55,8 +53,6 @@ const useKeywordSetActions = ({
   keywordSet,
 }: UseKeywordActionsProps): UseKeywordActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { user } = useUser();
-  const location = useLocation();
   const [openModal, setOpenModal] = useMountedState<KEYWORD_SET_MODALS | null>(
     null
   );
@@ -86,35 +82,10 @@ const useKeywordSetActions = ({
     await (callbacks?.onSuccess && callbacks.onSuccess());
   };
 
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?: CreateKeywordSetMutationInput | UpdateKeywordSetMutationInput;
-  }) => {
-    savingFinished();
-
-    // Report error to Sentry
-    reportError({
-      data: {
-        error,
-        payloadAsString: payload && JSON.stringify(payload),
-        keywordSet,
-      },
-      location,
-      message,
-      user,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
+  const { handleError } = useHandleError<
+    CreateKeywordSetMutationInput | UpdateKeywordSetMutationInput,
+    null
+  >();
 
   const createKeywordSet = async (
     values: KeywordSetFormFields,
@@ -138,6 +109,7 @@ const useKeywordSetActions = ({
         error,
         message: 'Failed to create keyword set',
         payload,
+        savingFinished,
       });
     }
   };
@@ -156,6 +128,7 @@ const useKeywordSetActions = ({
         callbacks,
         error,
         message: 'Failed to delete keyword set',
+        savingFinished,
       });
     }
   };
@@ -178,6 +151,7 @@ const useKeywordSetActions = ({
         error,
         message: 'Failed to update keyword set',
         payload,
+        savingFinished,
       });
     }
   };

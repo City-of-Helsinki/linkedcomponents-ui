@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import { FieldArray, useField } from 'formik';
 import React, { useState } from 'react';
-import { useLocation } from 'react-router';
 
 import {
   RegistrationFieldsFragment,
@@ -10,14 +9,13 @@ import {
   UpdateSeatsReservationMutationInput,
   useUpdateSeatsReservationMutation,
 } from '../../../../generated/graphql';
+import useHandleError from '../../../../hooks/useHandleError';
 import getValue from '../../../../utils/getValue';
-import { reportError } from '../../../app/sentry/utils';
 import {
   getSeatsReservationData,
   setSeatsReservationData,
 } from '../../../seatsReservation/utils';
 import { useSignupServerErrorsContext } from '../../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
-import useUser from '../../../user/hooks/useUser';
 import { SIGNUP_GROUP_FIELDS } from '../../constants';
 import ConfirmDeleteSignupFromFormModal from '../../modals/confirmDeleteSignupFromFormModal/ConfirmDeleteSignupFromFormModal';
 import { useSignupGroupFormContext } from '../../signupGroupFormContext/hooks/useSignupGroupFormContext';
@@ -39,9 +37,6 @@ const Signups: React.FC<Props> = ({ disabled, registration, signupGroup }) => {
   const [openModalIndex, setOpenModalIndex] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
 
-  const location = useLocation();
-  const { user } = useUser();
-
   const { setParticipantAmount } = useSignupGroupFormContext();
   const { setServerErrorItems, showServerErrors } =
     useSignupServerErrorsContext();
@@ -57,6 +52,8 @@ const Signups: React.FC<Props> = ({ disabled, registration, signupGroup }) => {
   const closeModal = () => {
     setOpenModalIndex(null);
   };
+
+  const { handleError } = useHandleError();
 
   const updateSeatsReservation = async (
     participantAmount: number,
@@ -93,19 +90,15 @@ const Signups: React.FC<Props> = ({ disabled, registration, signupGroup }) => {
     } catch (error) {
       showServerErrors({ error }, 'seatsReservation');
 
-      reportError({
-        data: {
-          error: error as Record<string, unknown>,
-          payload,
-          payloadAsString: JSON.stringify(payload),
-        },
-        location,
+      handleError({
+        error,
         message: 'Failed to update reserve seats',
-        user,
+        payload,
+        savingFinished: () => {
+          setSaving(false);
+          closeModal();
+        },
       });
-
-      setSaving(false);
-      closeModal();
     }
   };
 

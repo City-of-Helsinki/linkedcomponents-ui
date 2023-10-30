@@ -3,7 +3,6 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { useLocation } from 'react-router';
 
 import {
   ImageFieldsFragment,
@@ -12,6 +11,7 @@ import {
   useUpdateImageMutation,
   useUploadImageMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import useMountedState from '../../../hooks/useMountedState';
 import { MutationCallbacks } from '../../../types';
 import getValue from '../../../utils/getValue';
@@ -20,8 +20,6 @@ import {
   clearImageQueries,
   clearImagesQueries,
 } from '../../app/apollo/clearCacheUtils';
-import { reportError } from '../../app/sentry/utils';
-import useUser from '../../user/hooks/useUser';
 import { IMAGE_ACTIONS } from '../constants';
 import { ImageFormFields } from '../types';
 import { getImagePayload } from '../utils';
@@ -55,14 +53,12 @@ type UseImageUpdateActionsState = {
   uploadImage: (
     { image, publisher, url }: UploadImageValues,
     setValues: (image: ImageFieldsFragment) => void
-  ) => void;
+  ) => Promise<void>;
 };
 const useImageUpdateActions = ({
   image,
 }: Props): UseImageUpdateActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { user } = useUser();
-  const location = useLocation();
   const [openModal, setOpenModal] = useMountedState<IMAGE_MODALS | null>(null);
   const [saving, setSaving] = useMountedState<IMAGE_ACTIONS | null>(null);
 
@@ -90,35 +86,7 @@ const useImageUpdateActions = ({
     await (callbacks?.onSuccess && callbacks.onSuccess());
   };
 
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload?: UpdateImageMutationInput;
-  }) => {
-    savingFinished();
-
-    // Report error to Sentry
-    reportError({
-      data: {
-        error,
-        payloadAsString: payload && JSON.stringify(payload),
-        image,
-      },
-      location,
-      message,
-      user,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
+  const { handleError } = useHandleError<UpdateImageMutationInput, null>();
 
   const deleteImage = async (callbacks?: MutationCallbacks) => {
     try {
@@ -134,6 +102,7 @@ const useImageUpdateActions = ({
         callbacks,
         error,
         message: 'Failed to delete image',
+        savingFinished,
       });
     }
   };
@@ -156,6 +125,7 @@ const useImageUpdateActions = ({
         error,
         message: 'Failed to update image',
         payload,
+        savingFinished,
       });
     }
   };
@@ -176,6 +146,7 @@ const useImageUpdateActions = ({
       handleError({
         error,
         message: 'Failed to upload image',
+        savingFinished,
       });
     }
   };

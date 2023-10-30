@@ -1,14 +1,9 @@
 /* eslint-disable max-len */
-import {
-  ApolloClient,
-  NormalizedCacheObject,
-  ServerError,
-  useApolloClient,
-} from '@apollo/client';
+import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
 
 import PublisherSelectorField from '../../../common/components/formFields/publisherSelectorField/PublisherSelectorField';
@@ -21,11 +16,7 @@ import {
   ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
 } from '../../../constants';
-import {
-  CreatePlaceMutationInput,
-  PlaceFieldsFragment,
-  useCreatePlaceMutation,
-} from '../../../generated/graphql';
+import { PlaceFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
@@ -36,10 +27,8 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
-import { clearPlacesQueries } from '../../app/apollo/clearCacheUtils';
 import Section from '../../app/layout/section/Section';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
-import { reportError } from '../../app/sentry/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import {
@@ -49,15 +38,14 @@ import {
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
+import usePlaceUpdateActions from '../hooks/usePlaceActions';
 import usePlaceServerErrors from '../hooks/usePlaceServerErrors';
-import usePlaceUpdateActions from '../hooks/usePlaceUpdateActions';
 import PlaceAuthenticationNotification from '../placeAuthenticationNotification/PlaceAuthenticationNotification';
 import { PlaceFormFields } from '../types';
 import {
   checkCanUserDoAction,
   getFocusableFieldId,
   getPlaceInitialValues,
-  getPlacePayload,
 } from '../utils';
 import { placeSchema } from '../validation';
 
@@ -69,10 +57,8 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
   const { t } = useTranslation();
   const { addNotification } = useNotificationsContext();
   const locale = useLocale();
-  const location = useLocation();
   const navigate = useNavigate();
   const { user } = useUser();
-  const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
 
   const action = place ? PLACE_ACTIONS.UPDATE : PLACE_ACTIONS.CREATE;
   const savedPlacePublisher = getValue(place?.publisher, '');
@@ -87,17 +73,22 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
     user,
   });
 
-  const { saving, setSaving, updatePlace } = usePlaceUpdateActions({
+  const { createPlace, saving, updatePlace } = usePlaceUpdateActions({
     place: place as PlaceFieldsFragment,
   });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     usePlaceServerErrors();
 
-  const [createPlaceMutation] = useCreatePlaceMutation();
-
   const goToPlacesPage = () => {
     navigate(`/${locale}${ROUTES.PLACES}`);
+  };
+
+  const onCreate = async (values: PlaceFormFields) => {
+    await createPlace(values, {
+      onError: (error: ServerError) => showServerErrors({ error }),
+      onSuccess: goToPlacesPage,
+    });
   };
 
   const onUpdate = async (values: PlaceFormFields) => {
@@ -111,43 +102,6 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
         });
       },
     });
-  };
-
-  const createSinglePlace = async (payload: CreatePlaceMutationInput) => {
-    try {
-      const data = await createPlaceMutation({ variables: { input: payload } });
-
-      return getValue(data.data?.createPlace.id, '');
-    } catch (error) /* istanbul ignore next */ {
-      showServerErrors({ error });
-      // // Report error to Sentry
-      reportError({
-        data: {
-          error: error as Record<string, unknown>,
-          payload,
-          payloadAsString: JSON.stringify(payload),
-        },
-        location,
-        message: 'Failed to create place',
-        user,
-      });
-    }
-  };
-
-  const createPlace = async (values: PlaceFormFields) => {
-    setSaving(PLACE_ACTIONS.CREATE);
-    const payload = getPlacePayload(values);
-
-    const createdPlaceId = await createSinglePlace(payload);
-
-    if (createdPlaceId) {
-      // Clear all place queries from apollo cache to show added place
-      // in place list
-      clearPlacesQueries(apolloClient);
-      goToPlacesPage();
-    }
-
-    setSaving(null);
   };
 
   const inputRowBorderStyle = useMemo(
@@ -215,7 +169,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
             if (place) {
               await onUpdate(values);
             } else {
-              await createPlace(values);
+              await onCreate(values);
             }
           } catch (error) {
             showFormErrors({

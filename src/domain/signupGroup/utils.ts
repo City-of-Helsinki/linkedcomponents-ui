@@ -1,4 +1,5 @@
 import isEqual from 'lodash/isEqual';
+import omit from 'lodash/omit';
 import snakeCase from 'lodash/snakeCase';
 
 import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
@@ -18,7 +19,10 @@ import {
   getSeatsReservationData,
   isSeatsReservationExpired,
 } from '../seatsReservation/utils';
-import { getSignupInitialValues } from '../signup/utils';
+import {
+  getSignupInitialValues,
+  omitSensitiveDataFromSignupPayload,
+} from '../signup/utils';
 import {
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
@@ -275,3 +279,14 @@ export const getResponsiblePerson = (
   signupGroup: SignupGroupFieldsFragment
 ): SignupFieldsFragment | undefined =>
   signupGroup?.signups?.find((su) => su?.responsibleForGroup) ?? undefined;
+
+export const omitSensitiveDataFromSignupGroupPayload = (
+  payload: CreateSignupGroupMutationInput | UpdateSignupGroupMutationInput
+): Partial<
+  CreateSignupGroupMutationInput | UpdateSignupGroupMutationInput
+> => ({
+  ...omit(payload, ['extraInfo']),
+  signups: payload.signups
+    ?.filter(skipFalsyType)
+    .map((s) => omitSensitiveDataFromSignupPayload(s)),
+});

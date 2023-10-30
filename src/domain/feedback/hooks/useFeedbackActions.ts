@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import { useLocation } from 'react-router';
 import { scroller } from 'react-scroll';
 
 import {
@@ -7,9 +6,10 @@ import {
   usePostFeedbackMutation,
   usePostGuestFeedbackMutation,
 } from '../../../generated/graphql';
+import useHandleError from '../../../hooks/useHandleError';
 import { MutationCallbacks } from '../../../types';
-import { reportError } from '../../app/sentry/utils';
 import { useAuth } from '../../auth/hooks/useAuth';
+import { omitSensitiveDataFromFeedbackPayload } from '../utils';
 
 type UseFeedbackActionsProps = { successId: string };
 
@@ -24,7 +24,6 @@ type UseFeedbackActionsState = {
 const useFeedbackActions = ({
   successId,
 }: UseFeedbackActionsProps): UseFeedbackActionsState => {
-  const location = useLocation();
   const { isAuthenticated: authenticated } = useAuth();
 
   const [success, setSuccess] = useState(false);
@@ -44,33 +43,7 @@ const useFeedbackActions = ({
     await (callbacks?.onSuccess && callbacks?.onSuccess());
   };
 
-  const handleError = ({
-    callbacks,
-    error,
-    message,
-    payload,
-  }: {
-    callbacks?: MutationCallbacks;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    error: any;
-    message: string;
-    payload: FeedbackInput;
-  }) => {
-    setSuccess(false);
-    // Report error to Sentry
-    reportError({
-      data: {
-        error: error as Record<string, unknown>,
-        payload,
-        payloadAsString: JSON.stringify(payload),
-      },
-      location,
-      message,
-    });
-
-    // Call callback function if defined
-    callbacks?.onError?.(error);
-  };
+  const { handleError } = useHandleError<FeedbackInput, null>();
 
   const submitFeedback = async (
     payload: FeedbackInput,
@@ -92,7 +65,10 @@ const useFeedbackActions = ({
         callbacks,
         error,
         message: 'Failed to send feedback',
-        payload,
+        payload: omitSensitiveDataFromFeedbackPayload(payload),
+        savingFinished:
+          /* istanbul ignore next */
+          () => undefined,
       });
     }
   };

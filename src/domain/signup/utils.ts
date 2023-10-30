@@ -1,8 +1,11 @@
+import omit from 'lodash/omit';
+
 import { DATE_FORMAT_API } from '../../constants';
 import {
   AttendeeStatus,
   RegistrationFieldsFragment,
   SignupFieldsFragment,
+  SignupInput,
   UpdateSignupMutationInput,
 } from '../../generated/graphql';
 import formatDate from '../../utils/formatDate';
@@ -88,3 +91,21 @@ export const getSignupGroupInitialValuesFromSignup = (
     signups: [getSignupInitialValues(signup)],
   };
 };
+
+export const omitSensitiveDataFromSignupPayload = (
+  payload: SignupInput | UpdateSignupMutationInput
+): Partial<SignupInput | UpdateSignupMutationInput> =>
+  omit(payload, [
+    'city',
+    'dateOfBirth',
+    'email',
+    'extraInfo',
+    'firstName',
+    'lastName',
+    'membershipNumber',
+    'nativeLanguage',
+    'phoneNumber',
+    'serviceLanguage',
+    'streetAddress',
+    'zipcode',
+  ]);

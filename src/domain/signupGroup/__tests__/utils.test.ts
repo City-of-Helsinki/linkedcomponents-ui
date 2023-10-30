@@ -1,4 +1,8 @@
 import {
+  CreateSignupGroupMutationInput,
+  SignupInput,
+} from '../../../generated/graphql';
+import {
   fakeRegistration,
   fakeSignup,
   fakeSignupGroup,
@@ -28,6 +32,7 @@ import {
   getUpdateSignupGroupPayload,
   isRestoringSignupGroupFormDataDisabled,
   isSignupFieldRequired,
+  omitSensitiveDataFromSignupGroupPayload,
 } from '../utils';
 
 beforeEach(() => {
@@ -518,5 +523,62 @@ describe('getUpdateSignupGroupPayload function', () => {
         },
       ],
     });
+  });
+});
+
+describe('omitSensitiveDataFromSignupGroupPayload', () => {
+  it('should omit sensitive data from payload', () => {
+    const payload: CreateSignupGroupMutationInput = {
+      extraInfo: 'Extra info',
+      registration: registration.id,
+      reservationCode: 'xxx',
+      signups: [
+        {
+          city: 'Helsinki',
+          dateOfBirth: '1999-10-10',
+          email: 'test@email.com',
+          extraInfo: 'Signup entra info',
+          firstName: 'First name',
+          id: '1',
+          lastName: 'Last name',
+          membershipNumber: 'XYZ',
+          nativeLanguage: 'fi',
+          notifications: NOTIFICATION_TYPE.EMAIL,
+          phoneNumber: '0441234567',
+          responsibleForGroup: true,
+          serviceLanguage: 'fi',
+          streetAddress: 'Address',
+          zipcode: '123456',
+        },
+      ],
+    };
+
+    const filteredPayload = omitSensitiveDataFromSignupGroupPayload(
+      payload
+    ) as CreateSignupGroupMutationInput;
+    expect(filteredPayload).toEqual({
+      registration: registration.id,
+      reservationCode: 'xxx',
+      signups: [
+        {
+          id: '1',
+          notifications: NOTIFICATION_TYPE.EMAIL,
+          responsibleForGroup: true,
+        },
+      ],
+    });
+    const signup = filteredPayload.signups?.[0] as SignupInput;
+    expect(filteredPayload.extraInfo).toBeUndefined();
+    expect(signup.city).toBeUndefined();
+    expect(signup.email).toBeUndefined();
+    expect(signup.extraInfo).toBeUndefined();
+    expect(signup.firstName).toBeUndefined();
+    expect(signup.lastName).toBeUndefined();
+    expect(signup.membershipNumber).toBeUndefined();
+    expect(signup.nativeLanguage).toBeUndefined();
+    expect(signup.phoneNumber).toBeUndefined();
+    expect(signup.serviceLanguage).toBeUndefined();
+    expect(signup.streetAddress).toBeUndefined();
+    expect(signup.zipcode).toBeUndefined();
   });
 });

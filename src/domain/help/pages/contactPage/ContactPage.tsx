@@ -19,6 +19,7 @@ import {
 } from '../../../../utils/validationUtils';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
 import { useAuth } from '../../../auth/hooks/useAuth';
+import useFeedbackActions from '../../../feedback/hooks/useFeedbackActions';
 import useFeedbackServerErrors from '../../../feedback/hooks/useFeedbackServerErrors';
 import {
   CONTACT_FORM_BODY_MAX_LENGTH,
@@ -31,7 +32,6 @@ import EventFormNotWorkingFaq from '../../faq/eventFormNotWorkingFaq/EventFormNo
 import EventNotShownFaq from '../../faq/eventNotShownFaq/EventNotShownFaq';
 import ImageRightsFaq from '../../faq/imageRightsFaq/ImageRightsFaq';
 import PublishingPermissionsFaq from '../../faq/publishingPermissionsFaq/PublishingPermissionsFaq';
-import useFeedbackActions from '../../hooks/useFeedbackActions';
 import { ContactFormFields } from '../../types';
 import {
   getContactFormFocusableFieldId,

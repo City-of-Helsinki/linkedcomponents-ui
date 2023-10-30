@@ -15,6 +15,7 @@ import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import isNumber from 'lodash/isNumber';
+import omit from 'lodash/omit';
 import sortBy from 'lodash/sortBy';
 import { MouseEvent } from 'react';
 import { scroller } from 'react-scroll';
@@ -44,6 +45,7 @@ import {
   OrganizationFieldsFragment,
   PublicationStatus,
   SuperEventType,
+  UpdateEventMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import {
@@ -1460,3 +1462,8 @@ export const isRecurringEvent = (
   eventTimes: EventTime[],
   recurringEvents: RecurringEventSettings[]
 ): boolean => getNewEventTimes(eventTimes, recurringEvents).length > 1;
+
+export const omitSensitiveDataFromEventPayload = (
+  payload: CreateEventMutationInput | UpdateEventMutationInput
+): Partial<CreateEventMutationInput | UpdateEventMutationInput> =>
+  omit(payload, ['userEmail', 'userName', 'userPhoneNumber']);

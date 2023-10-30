@@ -21,6 +21,7 @@ import {
 import AuthenticationNotification from '../../../app/authenticationNotification/AuthenticationNotification';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
 import { useAuth } from '../../../auth/hooks/useAuth';
+import useFeedbackActions from '../../../feedback/hooks/useFeedbackActions';
 import useFeedbackServerErrors from '../../../feedback/hooks/useFeedbackServerErrors';
 import useAllOrganizations from '../../../organization/hooks/useAllOrganizations';
 import { getOrganizationFields } from '../../../organization/utils';
@@ -28,7 +29,6 @@ import {
   ASK_PERMISSION_FORM_FIELD,
   CONTACT_FORM_BODY_MAX_LENGTH,
 } from '../../constants';
-import useFeedbackActions from '../../hooks/useFeedbackActions';
 import { AskPermissionFormFields } from '../../types';
 import {
   getAskPermissionFormFocusableFieldId,

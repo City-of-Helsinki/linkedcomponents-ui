@@ -10,6 +10,7 @@ import {
   WEEK_DAY,
 } from '../../../constants';
 import {
+  CreateEventMutationInput,
   EventQueryVariables,
   EventStatus,
   EventTypeId,
@@ -58,6 +59,7 @@ import {
   getIsButtonVisible,
   getNewEventTimes,
   getRecurringEventPayload,
+  omitSensitiveDataFromEventPayload,
   sortLanguage,
   sortWeekDays,
 } from '../utils';
@@ -1877,5 +1879,17 @@ describe('copyEventInfoToRegistrationSessionStorage function', () => {
         `"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"${event.atId}","infoLanguages":["fi"],"instructions":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"mandatoryFields":["first_name","last_name"],"maximumAttendeeCapacity":10,"maximumGroupSize":"","minimumAttendeeCapacity":5,"registrationUserAccesses":[],"waitingListCapacity":""`
       )
     );
+  });
+});
+
+describe('omitSensitiveDataFromEventPayload function', () => {
+  it('should omit sensitive data from payload', () => {
+    const filteredPayload = omitSensitiveDataFromEventPayload(
+      defaultEventExternalUserPayload
+    ) as CreateEventMutationInput;
+
+    expect(filteredPayload.userEmail).toBeUndefined();
+    expect(filteredPayload.userName).toBeUndefined();
+    expect(filteredPayload.userPhoneNumber).toBeUndefined();
   });
 });
