@@ -33,9 +33,9 @@ const mockedEventResponse = {
 
 const eventsVariables = {
   createPath: undefined,
-  adminUser: true,
   publicationStatus: PublicationStatus.Public,
   registration: false,
+  registrationAdminUser: true,
   start: 'now',
   sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['none'],
