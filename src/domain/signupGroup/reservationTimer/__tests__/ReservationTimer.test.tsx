@@ -135,7 +135,7 @@ test('should show modal if any of the reserved seats is in waiting list', async 
 
   const modal = await screen.findByRole(
     'dialog',
-    { name: 'Ilmoittautujia on lisätty varausjonoon' },
+    { name: 'Olet ilmoittautumassa tapahtuman jonoon' },
     { timeout: 10000 }
   );
 

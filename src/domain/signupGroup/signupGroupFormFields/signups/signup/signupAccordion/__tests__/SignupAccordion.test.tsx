@@ -44,13 +44,13 @@ test('should show content if accordion is open', async () => {
 test('should not show in waiting list text if signup is not in waiting list', async () => {
   renderComponent({ inWaitingList: false, open: true });
 
-  expect(screen.queryByText('Varasija')).not.toBeInTheDocument();
+  expect(screen.queryByText('Jonopaikka')).not.toBeInTheDocument();
 });
 
 test('should show in waiting list text if signup is in waiting list', async () => {
   renderComponent({ inWaitingList: true, open: true });
 
-  screen.getByText('Varasija');
+  screen.getByText('Jonopaikka');
 });
 
 test('should call onClick when clicking', async () => {

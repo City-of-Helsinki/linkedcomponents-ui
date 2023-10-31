@@ -70,7 +70,7 @@ it('should set server error items', async () => {
       message: 'Tämän luvun on oltava vähintään 0.',
     },
     {
-      label: 'Varasijapaikkojen lukumäärä',
+      label: 'Jonopaikkojen lukumäärä',
       message: 'Tämän luvun on oltava vähintään 0.',
     },
   ]);
