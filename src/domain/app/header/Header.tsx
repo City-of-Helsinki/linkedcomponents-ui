@@ -208,13 +208,14 @@ const Header: React.FC = () => {
                 onClick={handleSearch}
               />
             )}
-            {Boolean(authenticated && user) ? (
+            {authenticated && user ? (
               <HDSHeader.ActionBarItem
                 fixedRightPosition
                 icon={<IconUser ariaHidden />}
                 closeIcon={<IconCross ariaHidden />}
+                closeLabel={t('common.close')}
                 id="action-bar-user"
-                label={user?.firstName || ''}
+                label={user?.firstName || user?.email || ''}
               >
                 <Link
                   href="#"
@@ -230,6 +231,8 @@ const Header: React.FC = () => {
                 fixedRightPosition
                 icon={<IconSignin ariaHidden />}
                 label={t('common.signIn')}
+                closeIcon={<IconCross ariaHidden />}
+                closeLabel={t('common.close')}
                 id="action-bar-sign-in"
                 onClick={handleSignIn}
               />

@@ -254,9 +254,9 @@ test('should route to search page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  const searchLink = screen.getAllByRole('button', {
+  const searchLink = screen.getByRole('button', {
     name: 'Hae',
-  })[0];
+  });
 
   await user.click(searchLink);
 
