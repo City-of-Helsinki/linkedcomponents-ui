@@ -16,6 +16,7 @@ import styles from './pageLayout.module.scss';
 const RESET_IGNORED_PATHS: PathPattern[] = [{ end: false, path: ROUTES.HELP }];
 
 const NO_KORO_PATHS: PathPattern[] = [
+  { path: ROUTES.ATTENDANCE_LIST },
   { path: ROUTES.HELP, end: false },
   { path: ROUTES.EDIT_EVENT },
   { path: ROUTES.EDIT_REGISTRATION },
