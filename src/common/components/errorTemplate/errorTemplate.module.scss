@@ -1,0 +1,33 @@
+@import '../../../assets/styles/widths';
+
+.errorTemplate {
+  --error-template-icon-color: var(--color-bus);
+  --error-template-icon-size: 112px;
+
+  display: grid;
+  grid-gap: var(--spacing-m);
+  padding-top: var(--spacing-5-xl);
+
+  .content {
+    text-align: center;
+    margin: 0 auto;
+
+    @include max-width-column(4);
+
+    p {
+      font-size: var(--fontsize-body-l);
+      line-height: var(--lineheight-l);
+      margin: var(--spacing-m) auto var(--spacing-l);
+    }
+  }
+
+  .icon {
+    color: var(--error-template-icon-color);
+    height: var(--error-template-icon-size);
+    width: var(--error-template-icon-size);
+  }
+
+  .buttonsWrapper {
+    margin: var(--spacing-l) 0 var(--spacing-m);
+  }
+}

@@ -35,6 +35,7 @@ import {
   isAttendeeCapacityUsed,
   isRegistrationOpen,
   isRegistrationPossible,
+  isSignupEnded,
   omitSensitiveDataFromRegistrationPayload,
   registrationPathBuilder,
 } from '../utils';
@@ -420,6 +421,38 @@ describe('isRegistrationOpen', () => {
         })
       )
     ).toBe(false);
+  });
+});
+
+describe('isSignupEnded', () => {
+  beforeEach(() => {
+    vi.setSystemTime('2022-11-07');
+  });
+
+  it('should return false if enrolment_start_time is not defined', () => {
+    expect(isSignupEnded(fakeRegistration({ enrolmentEndTime: '' }))).toBe(
+      false
+    );
+  });
+
+  it('should return false if enrolment_start_time is in the future', () => {
+    expect(
+      isSignupEnded(
+        fakeRegistration({
+          enrolmentEndTime: new Date('2022-11-08').toISOString(),
+        })
+      )
+    ).toBe(false);
+  });
+
+  it('should return true if enrolment_end_time is in the past', () => {
+    expect(
+      isSignupEnded(
+        fakeRegistration({
+          enrolmentEndTime: new Date('2022-11-06').toISOString(),
+        })
+      )
+    ).toBe(true);
   });
 });
 

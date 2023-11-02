@@ -1905,6 +1905,7 @@
       "title": "Lähetä viesti osallistujille",
       "titleSingle": "Lähetä viesti osallistujalle"
     },
+    "signupIsEnded": "Ilmoittautuminen tapahtumaan on päättynyt",
     "warnings": {
       "allSeatsReserved": "Tapahtuman kaikki paikat ovat tällä hetkellä varatut. Kokeile myöhemmin uudelleen.",
       "capacityInWaitingList": "Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain {{count}} kpl.",

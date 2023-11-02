@@ -169,8 +169,8 @@ const theme: Theme = {
     '--dropdown-menu-background': 'var(--color-white)',
     '--dropdown-menu-color': 'var(--color-black)',
   },
-  errorPage: {
-    '--error-page-icon-color': 'var(--color-bus)',
+  errorTemplate: {
+    '--error-template-icon-color': 'var(--color-bus)',
   },
   eventCard: {
     '--event-card-background-color': 'var(--color-white)',

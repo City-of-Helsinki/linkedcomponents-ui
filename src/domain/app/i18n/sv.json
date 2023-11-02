@@ -1905,6 +1905,7 @@
       "title": "Skicka ett meddelande till deltagarna",
       "titleSingle": "Skicka ett meddelande till deltagaren"
     },
+    "signupIsEnded": "Anmälan till evenemanget är avslutad",
     "warnings": {
       "allSeatsReserved": "Alla platser i evenemanget är för närvarande bokade. Vänligen försök igen senare.",
       "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",

@@ -1,16 +1,15 @@
 import { ClassNames } from '@emotion/react';
-import { IconAlertCircle, IconArrowLeft } from 'hds-react';
+import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { ROUTES } from '../../../constants';
-import Container from '../../../domain/app/layout/container/Container';
 import MainContent from '../../../domain/app/layout/mainContent/MainContent';
-import { useTheme } from '../../../domain/app/theme/Theme';
 import { useAuth } from '../../../domain/auth/hooks/useAuth';
 import useLocale from '../../../hooks/useLocale';
 import Button from '../button/Button';
+import ErrorTemplate from '../errorTemplate/ErrorTemplate';
 import FeedbackButton from '../feedbackButton/FeedbackButton';
 import styles from './errorPage.module.scss';
 
@@ -29,7 +28,6 @@ const ErrorPage: React.FC<Props> = ({
   const navigate = useNavigate();
   const { signIn } = useAuth();
   const { t } = useTranslation();
-  const { theme } = useTheme();
 
   const goToHome = () => {
     navigate(`/${locale}${ROUTES.HOME}`);
@@ -43,37 +41,32 @@ const ErrorPage: React.FC<Props> = ({
     <ClassNames>
       {({ css }) => (
         <MainContent>
-          <Container
-            className={css(theme.errorPage)}
-            contentWrapperClassName={styles.errorPage}
-          >
-            <div className={styles.content}>
-              <IconAlertCircle className={styles.icon} />
-              <p>{text}</p>
-              <div className={styles.buttonsWrapper}>
-                <div className={styles.buttons}>
-                  <Button
-                    fullWidth={true}
-                    iconLeft={<IconArrowLeft aria-hidden />}
-                    onClick={goToHome}
-                    type="button"
-                    variant="secondary"
-                  >
-                    {homePageButtonText || t('common.goToHome')}
-                  </Button>
-                  <Button
-                    fullWidth={true}
-                    onClick={handleSignIn}
-                    type="button"
-                    variant="primary"
-                  >
-                    {t('common.signIn')}
-                  </Button>
-                </div>
+          <ErrorTemplate
+            buttons={
+              <div className={styles.buttons}>
+                <Button
+                  fullWidth={true}
+                  iconLeft={<IconArrowLeft aria-hidden />}
+                  onClick={goToHome}
+                  type="button"
+                  variant="secondary"
+                >
+                  {homePageButtonText || t('common.goToHome')}
+                </Button>
+                <Button
+                  fullWidth={true}
+                  onClick={handleSignIn}
+                  type="button"
+                  variant="primary"
+                >
+                  {t('common.signIn')}
+                </Button>
               </div>
-              <FeedbackButton />
-            </div>
-          </Container>
+            }
+            text={text}
+          >
+            <FeedbackButton />
+          </ErrorTemplate>
         </MainContent>
       )}
     </ClassNames>

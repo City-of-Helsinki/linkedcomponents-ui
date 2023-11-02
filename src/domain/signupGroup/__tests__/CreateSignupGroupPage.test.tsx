@@ -27,6 +27,7 @@ import {
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedPlaceResponse } from '../../place/__mocks__/place';
 import {
+  mockedPastRegistrationResponse,
   mockedRegistrationResponse,
   registration,
   registrationId,
@@ -216,15 +217,16 @@ const mockedCreateSeatsReservation = getCreateSeatsReservationMock(1);
 const reservationId = (mockedCreateSeatsReservation?.result as any).data
   ?.createSeatsReservation.id;
 
-const defaultMocks = [
+const baseMocks = [
   mockedLanguagesResponse,
   mockedServiceLanguagesResponse,
   mockedOrganizationAncestorsResponse,
   mockedPlaceResponse,
-  mockedRegistrationResponse,
   mockedRegistrationUserResponse,
   mockedCreateSeatsReservation,
 ];
+
+const defaultMocks = [...baseMocks, mockedRegistrationResponse];
 
 const route = ROUTES.CREATE_SIGNUP_GROUP.replace(
   ':registrationId',
@@ -347,6 +349,14 @@ test('should show server errors', async () => {
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
+});
+
+test('should show sign up is closed text if enrolment end date is in the past', async () => {
+  renderComponent([...baseMocks, mockedPastRegistrationResponse]);
+
+  await loadingSpinnerIsNotInDocument();
+
+  await screen.findByText(/ilmoittautuminen tapahtumaan on päättynyt/i);
 });
 
 test('should add and delete participants', async () => {

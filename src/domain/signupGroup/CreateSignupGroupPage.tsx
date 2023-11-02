@@ -13,7 +13,7 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
-import { isRegistrationPossible } from '../registration/utils';
+import { isRegistrationPossible, isSignupEnded } from '../registration/utils';
 import {
   getSeatsReservationData,
   isSeatsReservationExpired,
@@ -27,6 +27,7 @@ import { checkCanUserDoSignupGroupAction } from './permissions';
 import SignupGroupForm from './signupGroupForm/SignupGroupForm';
 import { SignupGroupFormProvider } from './signupGroupFormContext/SignupGroupFormContext';
 import styles from './signupGroupPage.module.scss';
+import SignupIsEnded from './signupIsEnded/SignupIsEnded';
 import { getSignupGroupDefaultInitialValues } from './utils';
 
 type Props = {
@@ -88,11 +89,20 @@ const CreateSignupGroupPageWrapper: React.FC = () => {
   return (
     <LoadingSpinner isLoading={loading}>
       {event && registration ? (
-        <SignupGroupFormProvider registration={registration}>
-          <SignupServerErrorsProvider>
-            <CreateSignupGroupPage event={event} registration={registration} />
-          </SignupServerErrorsProvider>
-        </SignupGroupFormProvider>
+        <>
+          {isSignupEnded(registration) ? (
+            <SignupIsEnded registration={registration} />
+          ) : (
+            <SignupGroupFormProvider registration={registration}>
+              <SignupServerErrorsProvider>
+                <CreateSignupGroupPage
+                  event={event}
+                  registration={registration}
+                />
+              </SignupServerErrorsProvider>
+            </SignupGroupFormProvider>
+          )}
+        </>
       ) : (
         <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
       )}
