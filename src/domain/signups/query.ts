@@ -4,12 +4,16 @@ import gql from 'graphql-tag';
 export const QUERY_SIGNUPS = gql`
   query Signups(
     $attendeeStatus: AttendeeStatus
+    $page: Int
+    $pageSize: Int
     $registration: [ID]
     $text: String
     $createPath: Any
   ) {
     signups(
       attendeeStatus: $attendeeStatus
+      page: $page
+      pageSize: $pageSize
       registration: $registration
       text: $text
     ) @rest(type: "SignupsResponse", pathBuilder: $createPath) {

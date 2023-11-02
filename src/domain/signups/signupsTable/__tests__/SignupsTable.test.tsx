@@ -10,7 +10,6 @@ import {
   render,
   screen,
   userEvent,
-  waitFor,
   within,
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
@@ -23,12 +22,14 @@ import { SignupGroupFormProvider } from '../../../signupGroup/signupGroupFormCon
 import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import {
   attendeeNames,
+  attendeeNamesPage2,
   attendees,
   attendeesWithGroup,
   getMockedAttendeesResponse,
+  mockedAttendeesPage2Response,
+  mockedAttendeesResponse,
   signupGroupId,
 } from '../../__mocks__/signupsPage';
-import { SIGNUPS_PAGE_SIZE } from '../../constants';
 import SignupsTable, { SignupsTableProps } from '../SignupsTable';
 
 configure({ defaultHidden: true });
@@ -91,31 +92,31 @@ test('should render signups table', async () => {
 test('should navigate between pages', async () => {
   const user = userEvent.setup();
 
-  renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
+  renderComponent([
+    ...defaultMocks,
+    mockedAttendeesResponse,
+    mockedAttendeesPage2Response,
+  ]);
 
   await loadingSpinnerIsNotInDocument();
+  const attendeePage2Name = [
+    attendeeNamesPage2[0].firstName,
+    attendeeNamesPage2[0].lastName,
+  ].join(' ');
 
   // Page 1 signup should be visible.
   screen.getByRole('button', { name: signupName });
   expect(
-    screen.queryByRole('button', {
-      name: [
-        attendeeNames[SIGNUPS_PAGE_SIZE].firstName,
-        attendeeNames[SIGNUPS_PAGE_SIZE].lastName,
-      ].join(' '),
-    })
+    screen.queryByRole('button', { name: attendeePage2Name })
   ).not.toBeInTheDocument();
 
   const page2Button = getElement('page2');
   await user.click(page2Button);
 
   // Page 2 signup should be visible.
-  await screen.findByRole('button', {
-    name: [
-      attendeeNames[SIGNUPS_PAGE_SIZE].firstName,
-      attendeeNames[SIGNUPS_PAGE_SIZE].lastName,
-    ].join(' '),
-  });
+  expect(
+    await screen.findByRole('button', { name: attendeePage2Name })
+  ).toBeInTheDocument();
   expect(
     screen.queryByRole('button', { name: signupName })
   ).not.toBeInTheDocument();
@@ -124,14 +125,9 @@ test('should navigate between pages', async () => {
   await user.click(page1Button);
 
   // Page 1 signup should be visible.
-  screen.getByRole('button', { name: signupName });
+  expect(screen.getByRole('button', { name: signupName })).toBeInTheDocument();
   expect(
-    screen.queryByRole('button', {
-      name: [
-        attendeeNames[SIGNUPS_PAGE_SIZE].firstName,
-        attendeeNames[SIGNUPS_PAGE_SIZE].lastName,
-      ].join(' '),
-    })
+    screen.queryByRole('button', { name: attendeePage2Name })
   ).not.toBeInTheDocument();
 });
 
@@ -139,7 +135,7 @@ test('should open edit signup page by clicking a signup without group', async ()
   const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
-    getMockedAttendeesResponse(attendees),
+    mockedAttendeesResponse,
   ]);
 
   const signupButton = await screen.findByRole('button', {
@@ -173,7 +169,7 @@ test('should open edit signup page by pressing enter on a signup without group',
   const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
-    getMockedAttendeesResponse(attendees),
+    mockedAttendeesResponse,
   ]);
 
   await loadingSpinnerIsNotInDocument();
@@ -225,9 +221,7 @@ test('should open actions dropdown', async () => {
 
   await user.click(editButton);
 
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(
-      `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
-    )
+  expect(history.location.pathname).toBe(
+    `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
   );
 });
