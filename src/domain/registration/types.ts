@@ -52,8 +52,8 @@ export type RegistrationFields = {
   event: EventFields | null;
   lastModifiedAt: Date | null;
   mandatoryFields: string[];
-  maximumAttendeeCapacity: number;
+  maximumAttendeeCapacity: number | null;
   publisher: string | null;
   registrationUrl: string;
-  waitingListCapacity: number;
+  waitingListCapacity: number | null;
 };

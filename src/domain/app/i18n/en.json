@@ -1760,8 +1760,8 @@
     "pageTitle": "Registration",
     "registrationsTableCaption": "Registrations, sorted by {{sort}}",
     "registrationsTableColumns": {
-      "enrolmentEndTime": "Ends",
-      "enrolmentStartTime": "Starts",
+      "enrolmentTime": "Enrolment time",
+      "eventTime": "Event time",
       "name": "Name",
       "publisher": "Publisher",
       "signups": "Participants",

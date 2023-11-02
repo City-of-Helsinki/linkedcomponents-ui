@@ -1,3 +1,4 @@
+import isNumber from 'lodash/isNumber';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -9,8 +10,6 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import useTimeFormat from '../../../hooks/useTimeFormat';
-import formatDate from '../../../utils/formatDate';
 import getValue from '../../../utils/getValue';
 import OrganizationName from '../../organization/organizationName/OrganizationName';
 import {
@@ -19,6 +18,7 @@ import {
 } from '../../registration/utils';
 import RegistrationActionsDropdown from '../registrationActionsDropdown/RegistrationActionsDropdown';
 import styles from './registrationsTable.module.scss';
+import TimeText from './timeText/TimeText';
 
 export interface RegistrationsTableProps {
   caption: string;
@@ -43,64 +43,41 @@ const PublisherColumn = (registration: RegistrationFieldsFragment) => {
   return <OrganizationName id={getValue(registration.publisher, '')} />;
 };
 
-const SignupsColumn = (registration: RegistrationFieldsFragment) => {
+export const SignupsColumn = (registration: RegistrationFieldsFragment) => {
   const locale = useLocale();
   const { currentAttendeeCount, maximumAttendeeCapacity } =
     getRegistrationFields(registration, locale);
 
-  return (
-    <>
-      {currentAttendeeCount} / {maximumAttendeeCapacity}
-    </>
-  );
+  return isNumber(maximumAttendeeCapacity)
+    ? `${currentAttendeeCount} / ${maximumAttendeeCapacity}`
+    : `${currentAttendeeCount}`;
 };
 
-const WaitingListColumn = (registration: RegistrationFieldsFragment) => {
+export const WaitingListColumn = (registration: RegistrationFieldsFragment) => {
   const locale = useLocale();
   const { currentWaitingListCount, waitingListCapacity } =
     getRegistrationFields(registration, locale);
 
-  return (
-    <>
-      {currentWaitingListCount} / {waitingListCapacity}
-    </>
-  );
+  return isNumber(waitingListCapacity)
+    ? `${currentWaitingListCount} / ${waitingListCapacity}`
+    : `${currentWaitingListCount}`;
 };
 
-const StartTimeColumn = (registration: RegistrationFieldsFragment) => {
-  const timeFormat = useTimeFormat();
+const EnrolmentTimeColumn = (registration: RegistrationFieldsFragment) => {
   const locale = useLocale();
-  const { t } = useTranslation();
-  const { enrolmentStartTime } = getRegistrationFields(registration, locale);
-
-  return (
-    <>
-      {enrolmentStartTime
-        ? t('eventsPage.datetime', {
-            date: formatDate(enrolmentStartTime),
-            time: formatDate(enrolmentStartTime, timeFormat, locale),
-          })
-        : /* istanbul ignore next */ '-'}
-    </>
+  const { enrolmentStartTime, enrolmentEndTime } = getRegistrationFields(
+    registration,
+    locale
   );
+
+  return <TimeText startTime={enrolmentStartTime} endTime={enrolmentEndTime} />;
 };
 
-const EndTimeColumn = (registration: RegistrationFieldsFragment) => {
-  const timeFormat = useTimeFormat();
+const EventTimeColumn = (registration: RegistrationFieldsFragment) => {
   const locale = useLocale();
-  const { t } = useTranslation();
-  const { enrolmentEndTime } = getRegistrationFields(registration, locale);
+  const { event } = getRegistrationFields(registration, locale);
 
-  return (
-    <>
-      {enrolmentEndTime
-        ? t('eventsPage.datetime', {
-            date: formatDate(enrolmentEndTime),
-            time: formatDate(enrolmentEndTime, timeFormat, locale),
-          })
-        : /* istanbul ignore next */ '-'}
-    </>
-  );
+  return <TimeText startTime={event?.startTime} endTime={event?.endTime} />;
 };
 
 const ActionsColumn = (registration: RegistrationFieldsFragment) => {
@@ -163,20 +140,20 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
           transform: WaitingListColumn,
         },
         {
-          className: styles.enrolmentStartTimeColumn,
-          key: 'startTime',
+          className: styles.enrolmentTimeColumn,
+          key: 'enrolmentTime',
           headerName: t(
-            'registrationsPage.registrationsTableColumns.enrolmentStartTime'
+            'registrationsPage.registrationsTableColumns.enrolmentTime'
           ),
-          transform: StartTimeColumn,
+          transform: EnrolmentTimeColumn,
         },
         {
-          className: styles.enrolmentEndTimeColumn,
-          key: 'endTime',
+          className: styles.eventTime,
+          key: 'eventTime',
           headerName: t(
-            'registrationsPage.registrationsTableColumns.enrolmentEndTime'
+            'registrationsPage.registrationsTableColumns.eventTime'
           ),
-          transform: EndTimeColumn,
+          transform: EventTimeColumn,
         },
 
         {

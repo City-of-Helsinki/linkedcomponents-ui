@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
-import { Registration } from '../../../../generated/graphql';
+import {
+  Registration,
+  RegistrationFieldsFragment,
+} from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import {
   configure,
   render,
+  renderHook,
   screen,
   userEvent,
   waitFor,
@@ -17,6 +21,8 @@ import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import { registrations } from '../../__mocks__/registrationsPage';
 import RegistrationsTable, {
   RegistrationsTableProps,
+  SignupsColumn,
+  WaitingListColumn,
 } from '../RegistrationsTable';
 
 configure({ defaultHidden: true });
@@ -51,8 +57,8 @@ test('should render registrations table', async () => {
     'Julkaisija',
     'Osallistujia',
     'Jono',
-    'Alkaa',
-    'Loppuu',
+    'Ilmoittautumisaika',
+    'Tapahtuman ajankohta',
   ];
 
   for (const name of columnHeaders) {
@@ -63,10 +69,75 @@ test('should render registrations table', async () => {
   );
 });
 
+describe('SignupsColumn', () => {
+  const renderSignupsColumn = (registration: RegistrationFieldsFragment) => {
+    const wrapper = ({ children }: PropsWithChildren) => <div>{children}</div>;
+
+    return renderHook(() => SignupsColumn(registration), { wrapper });
+  };
+
+  test('should show correct signup numbers', async () => {
+    expect(
+      renderSignupsColumn({
+        ...registration,
+        currentAttendeeCount: 10,
+        maximumAttendeeCapacity: 15,
+      }).result.current
+    ).toBe('10 / 15');
+    expect(
+      renderSignupsColumn({
+        ...registration,
+        currentAttendeeCount: 0,
+        maximumAttendeeCapacity: 0,
+      }).result.current
+    ).toBe('0 / 0');
+    expect(
+      renderSignupsColumn({
+        ...registration,
+        currentAttendeeCount: 10,
+        maximumAttendeeCapacity: null,
+      }).result.current
+    ).toBe('10');
+  });
+});
+
+describe('WaitingListColumn', () => {
+  const renderWaitingListColumn = (
+    registration: RegistrationFieldsFragment
+  ) => {
+    const wrapper = ({ children }: PropsWithChildren) => <div>{children}</div>;
+
+    return renderHook(() => WaitingListColumn(registration), { wrapper });
+  };
+  test('should show correct waiting list numbers', async () => {
+    expect(
+      renderWaitingListColumn({
+        ...registration,
+        currentWaitingListCount: 10,
+        waitingListCapacity: 15,
+      }).result.current
+    ).toBe('10 / 15');
+    expect(
+      renderWaitingListColumn({
+        ...registration,
+        currentWaitingListCount: 0,
+        waitingListCapacity: 0,
+      }).result.current
+    ).toBe('0 / 0');
+    expect(
+      renderWaitingListColumn({
+        ...registration,
+        currentWaitingListCount: 10,
+        waitingListCapacity: null,
+      }).result.current
+    ).toBe('10');
+  });
+});
+
 test('should open registration page by clicking event name', async () => {
   const user = userEvent.setup();
 
-  const { history } = await renderComponent({ registrations: [registration] });
+  const { history } = renderComponent({ registrations: [registration] });
 
   const button = await screen.findByRole(
     'button',

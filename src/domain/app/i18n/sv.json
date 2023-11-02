@@ -1761,8 +1761,8 @@
     "pageTitle": "Registrering",
     "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
     "registrationsTableColumns": {
-      "enrolmentEndTime": "Slutar",
-      "enrolmentStartTime": "Börjar",
+      "enrolmentTime": "Anmälantid",
+      "eventTime": "Eventtid",
       "name": "Namn",
       "publisher": "Utgivare",
       "signups": "Deltagarna",

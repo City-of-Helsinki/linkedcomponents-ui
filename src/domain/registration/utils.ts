@@ -26,6 +26,7 @@ import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
 import getDateFromString from '../../utils/getDateFromString';
 import { getInfoLanguages } from '../../utils/getInfoLanguages';
 import getLocalisedObject from '../../utils/getLocalisedObject';
+import getNumberFieldValue from '../../utils/getNumberFieldValue';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
@@ -223,13 +224,17 @@ export const getRegistrationFields = (
       registration.mandatoryFields?.filter(skipFalsyType),
       []
     ),
-    maximumAttendeeCapacity: registration.maximumAttendeeCapacity ?? 0,
+    maximumAttendeeCapacity: isNumber(registration.maximumAttendeeCapacity)
+      ? registration.maximumAttendeeCapacity
+      : null,
     publisher: getValue(registration.publisher, null),
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
       ':id',
       id
     )}`,
-    waitingListCapacity: registration.waitingListCapacity ?? 0,
+    waitingListCapacity: isNumber(registration.waitingListCapacity)
+      ? registration.waitingListCapacity
+      : null,
   };
 };
 
@@ -246,13 +251,11 @@ export const getRegistrationInitialValues = (
   const infoLanguages = getInfoLanguages(registration, new Set(['event']));
 
   return {
-    [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: getValue(
-      registration.audienceMaxAge,
-      ''
+    [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: getNumberFieldValue(
+      registration.audienceMaxAge
     ),
-    [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE]: getValue(
-      registration.audienceMinAge,
-      ''
+    [REGISTRATION_FIELDS.AUDIENCE_MIN_AGE]: getNumberFieldValue(
+      registration.audienceMinAge
     ),
     [REGISTRATION_FIELDS.CONFIRMATION_MESSAGE]: getLocalisedObject(
       registration.confirmationMessage
@@ -284,17 +287,14 @@ export const getRegistrationInitialValues = (
       registration.mandatoryFields?.filter(skipFalsyType),
       []
     ),
-    [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: getValue(
-      registration.maximumAttendeeCapacity,
-      ''
+    [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: getNumberFieldValue(
+      registration.maximumAttendeeCapacity
     ),
-    [REGISTRATION_FIELDS.MAXIMUM_GROUP_SIZE]: getValue(
-      registration.maximumGroupSize,
-      ''
+    [REGISTRATION_FIELDS.MAXIMUM_GROUP_SIZE]: getNumberFieldValue(
+      registration.maximumGroupSize
     ),
-    [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: getValue(
-      registration.minimumAttendeeCapacity,
-      ''
+    [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: getNumberFieldValue(
+      registration.minimumAttendeeCapacity
     ),
     [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: getValue(
       registration.registrationUserAccesses?.map((ru) => ({
@@ -304,9 +304,8 @@ export const getRegistrationInitialValues = (
       })),
       []
     ),
-    [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: getValue(
-      registration.waitingListCapacity,
-      ''
+    [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: getNumberFieldValue(
+      registration.waitingListCapacity
     ),
   };
 };
