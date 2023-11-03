@@ -34,6 +34,8 @@ describe('signupsPathBuilder function', () => {
       { attendeeStatus: AttendeeStatus.Attending },
       `/signup/?attendee_status=attending`,
     ],
+    [{ page: 2 }, `/signup/?page=2`],
+    [{ pageSize: 10 }, `/signup/?page_size=10`],
     [
       { registration: [registrationId] },
       `/signup/?registration=${registrationId}`,

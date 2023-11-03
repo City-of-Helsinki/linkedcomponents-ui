@@ -158,6 +158,8 @@ module.exports = buildSchema(/* GraphQL */ `
     signup(id: ID!): Signup!
     signups(
       attendeeStatus: AttendeeStatus
+      page: Int
+      pageSize: Int
       registration: [ID]
       text: String
     ): SignupsResponse!

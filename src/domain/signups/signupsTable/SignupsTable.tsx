@@ -16,7 +16,6 @@ import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
-import getPageCount from '../../../utils/getPageCount';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
@@ -116,6 +115,8 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
   const { data: signupsData, loading } = useSignupsQuery({
     variables: {
       ...signupsVariables,
+      page,
+      pageSize: SIGNUPS_PAGE_SIZE,
       registration: [getValue(registration.id, '')],
       text: signupText,
       createPath: getPathBuilder(signupsPathBuilder),
@@ -124,17 +125,10 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
 
   const signups = getValue(signupsData?.signups.data, []).filter(skipFalsyType);
 
-  const signupsCount = signups.length;
-  const pageCount = getPageCount(signupsCount, SIGNUPS_PAGE_SIZE);
-
-  const paginatedSignups = signups.slice(
-    (page - 1) * SIGNUPS_PAGE_SIZE,
-    page * SIGNUPS_PAGE_SIZE
-  );
-  const { onPageChange, pageHref } = useCommonListProps({
+  const { onPageChange, pageCount, pageHref } = useCommonListProps({
     defaultSort: '',
     listId: signupListId,
-    meta: undefined,
+    meta: signupsData?.signups.meta,
     pagePath,
     pageSize: SIGNUPS_PAGE_SIZE,
   });
@@ -155,7 +149,7 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
     const locationState = location.state as SignupsLocationState;
     if (
       locationState?.signupId &&
-      paginatedSignups.find((item) => item?.id === locationState.signupId)
+      signups.find((item) => item?.id === locationState.signupId)
     ) {
       scrollToItem(getSignupItemId(locationState.signupId));
       // Clear registrationId value to keep scroll position correctly
@@ -261,7 +255,7 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
           indexKey="id"
           loading={loading}
           onRowClick={handleRowClick}
-          rows={paginatedSignups}
+          rows={signups}
           variant="light"
         />
 

@@ -951,6 +951,8 @@ export type QuerySignupGroupArgs = {
 
 export type QuerySignupsArgs = {
   attendeeStatus?: InputMaybe<AttendeeStatus>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
   registration?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
   text?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1847,6 +1849,8 @@ export type SignupGroupQuery = { __typename?: 'Query', signupGroup: { __typename
 
 export type SignupsQueryVariables = Exact<{
   attendeeStatus?: InputMaybe<AttendeeStatus>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
   registration?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>> | InputMaybe<Scalars['ID']['input']>>;
   text?: InputMaybe<Scalars['String']['input']>;
   createPath?: InputMaybe<Scalars['Any']['input']>;
@@ -4423,9 +4427,11 @@ export type SignupGroupQueryHookResult = ReturnType<typeof useSignupGroupQuery>;
 export type SignupGroupLazyQueryHookResult = ReturnType<typeof useSignupGroupLazyQuery>;
 export type SignupGroupQueryResult = Apollo.QueryResult<SignupGroupQuery, SignupGroupQueryVariables>;
 export const SignupsDocument = gql`
-    query Signups($attendeeStatus: AttendeeStatus, $registration: [ID], $text: String, $createPath: Any) {
+    query Signups($attendeeStatus: AttendeeStatus, $page: Int, $pageSize: Int, $registration: [ID], $text: String, $createPath: Any) {
   signups(
     attendeeStatus: $attendeeStatus
+    page: $page
+    pageSize: $pageSize
     registration: $registration
     text: $text
   ) @rest(type: "SignupsResponse", pathBuilder: $createPath) {
@@ -4453,6 +4459,8 @@ ${SignupFieldsFragmentDoc}`;
  * const { data, loading, error } = useSignupsQuery({
  *   variables: {
  *      attendeeStatus: // value for 'attendeeStatus'
+ *      page: // value for 'page'
+ *      pageSize: // value for 'pageSize'
  *      registration: // value for 'registration'
  *      text: // value for 'text'
  *      createPath: // value for 'createPath'

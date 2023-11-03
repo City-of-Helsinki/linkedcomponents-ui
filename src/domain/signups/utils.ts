@@ -73,10 +73,12 @@ export const getSignupItemId = (id: string): string => `signup-item-${id}`;
 export const signupsPathBuilder = ({
   args,
 }: PathBuilderProps<SignupsQueryVariables>): string => {
-  const { attendeeStatus, registration, text } = args;
+  const { attendeeStatus, page, pageSize, registration, text } = args;
 
   const variableToKeyItems = [
     { key: 'attendee_status', value: attendeeStatus },
+    { key: 'page', value: page },
+    { key: 'page_size', value: pageSize },
     { key: 'registration', value: registration },
     { key: 'text', value: text },
   ];
