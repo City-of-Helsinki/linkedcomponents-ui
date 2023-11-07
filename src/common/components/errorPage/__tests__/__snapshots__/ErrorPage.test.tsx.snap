@@ -16,23 +16,19 @@ exports[`should render component 1`] = `
           class="content"
         >
           <svg
+            aria-hidden="true"
+            aria-label="alert-circle"
             class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik icon"
             role="img"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <g
-              fill="none"
+            <path
+              clip-rule="evenodd"
+              d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2ZM12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4ZM13 16V18H11V16H13ZM13 6V14H11V6H13Z"
+              fill="currentColor"
               fill-rule="evenodd"
-            >
-              <path
-                d="M0 0h24v24H0z"
-              />
-              <path
-                d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zm1 12v2h-2v-2h2zm0-10v8h-2V6h2z"
-                fill="currentColor"
-              />
-            </g>
+            />
           </svg>
           <p>
             Lorem ipsum
@@ -53,24 +49,18 @@ exports[`should render component 1`] = `
                 >
                   <svg
                     aria-hidden="true"
+                    aria-label="arrow-left"
                     class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g
-                      fill="none"
+                    <path
+                      clip-rule="evenodd"
+                      d="M10 5.5L11.5 7L7.5 11H20V13H7.5L11.5 17L10 18.5L3.5 12L10 5.5Z"
+                      fill="currentColor"
                       fill-rule="evenodd"
-                    >
-                      <rect
-                        height="24"
-                        width="24"
-                      />
-                      <polygon
-                        fill="currentColor"
-                        points="10 5.5 11.5 7 7.5 11 20 11 20 13 7.5 13 11.5 17 10 18.5 3.5 12"
-                      />
-                    </g>
+                    />
                   </svg>
                 </div>
                 <span
@@ -100,23 +90,19 @@ exports[`should render component 1`] = `
               class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
             >
               <svg
+                aria-hidden="true"
+                aria-label="speechbubble-text"
                 class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <g
-                  fill="none"
+                <path
+                  clip-rule="evenodd"
+                  d="M19 4C21.1422 4 22.8911 5.68397 22.9951 7.80036L23 8V16C23 18.1422 21.316 19.8911 19.1996 19.9951L19 20H18C17.0124 20 16.1539 20.3377 15.3834 21.0388L15.2071 21.2071L14.5 21.9142L13.7929 21.2071C13.0357 20.4499 12.1936 20.0581 11.2256 20.006L11 20H5C2.8578 20 1.10892 18.316 1.0049 16.1996L1 16V8C1 5.8578 2.68397 4.10892 4.80036 4.0049L5 4H19ZM19 6H5C3.94564 6 3.08183 6.81588 3.00549 7.85074L3 8V16C3 17.0544 3.81588 17.9182 4.85074 17.9945L5 18H11C12.2948 18 13.4698 18.3969 14.4995 19.175C15.4057 18.4909 16.4233 18.1015 17.5358 18.0174L17.8158 18.0027L18 18H19C20.0544 18 20.9182 17.1841 20.9945 16.1493L21 16V8C21 6.94564 20.1841 6.08183 19.1493 6.00549L19 6ZM18 13V15H6V13H18ZM18 9V11H6V9H18Z"
+                  fill="currentColor"
                   fill-rule="evenodd"
-                >
-                  <path
-                    d="M0 0h24v24H0z"
-                  />
-                  <path
-                    d="M19 4a4 4 0 013.995 3.8L23 8v8a4 4 0 01-3.8 3.995L19 20h-1c-.988 0-1.846.338-2.617 1.039l-.176.168-.707.707-.707-.707c-.757-.757-1.6-1.149-2.567-1.201L11 20H5a4 4 0 01-3.995-3.8L1 16V8a4 4 0 013.8-3.995L5 4h14zm0 2H5a2 2 0 00-1.995 1.85L3 8v8a2 2 0 001.85 1.995L5 18h6a5.68 5.68 0 013.5 1.175 5.67 5.67 0 013.036-1.158l.28-.014L18 18h1a2 2 0 001.995-1.85L21 16V8a2 2 0 00-1.85-1.995L19 6zm-1 7v2H6v-2h12zm0-4v2H6V9h12z"
-                    fill="currentColor"
-                  />
-                </g>
+                />
               </svg>
             </div>
             <span
@@ -129,23 +115,19 @@ exports[`should render component 1`] = `
               class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
             >
               <svg
+                aria-hidden="true"
+                aria-label="angle-right"
                 class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <g
-                  fill="none"
+                <path
+                  clip-rule="evenodd"
+                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
+                  fill="currentColor"
                   fill-rule="evenodd"
-                >
-                  <polygon
-                    points="0 24 0 0 24 0 24 24"
-                  />
-                  <polygon
-                    fill="currentColor"
-                    points="13.5 12 8.5 7 10 5.5 16.5 12 10 18.5 8.5 17"
-                  />
-                </g>
+                />
               </svg>
             </div>
           </button>

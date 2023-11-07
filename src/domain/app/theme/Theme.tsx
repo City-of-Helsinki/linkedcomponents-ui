@@ -107,15 +107,6 @@ type ImageSelectorCSSProperties = {
   '--image-selector-focus-outline-color'?: string;
 };
 
-type NavigationDropdownCSSProperties = {
-  '--menu-border-color'?: string;
-  '--menu-button-focus-outline-color'?: string;
-  '--menu-item-background-color'?: string;
-  '--menu-item-background-color-highlighted'?: string;
-  '--menu-item-color'?: string;
-  '--menu-item-color-highlighted'?: string;
-};
-
 type LandingPageCSSProperties = {
   '--cta-button-background-color'?: string;
   '--cta-button-background-color-hover'?: string;
@@ -164,19 +155,25 @@ type DropdownCSSProperties = {
   '--dropdown-menu-color'?: string;
 };
 
-type NavigationCSSProperties = {
+type NavigationCustomTheme = {
+  '--actionbar-background-color'?: string;
+  '--color-focus-outline'?: string;
   '--header-background-color'?: string;
   '--header-color'?: string;
-  '--header-divider-color'?: string;
-  '--navigation-row-background-color'?: string;
-  '--header-focus-outline-color'?: string;
-  '--header-focus-outline-border-radius'?: string;
-  '--navigation-row-color'?: string;
-  '--navigation-row-focus-outline-color'?: string;
-  '--navigation-item-color'?: string;
-  '--mobile-menu-background-color'?: string;
-  '--mobile-menu-color'?: string;
+  '--lang-selector-dropdown-background-color'?: string;
+  '--nav-background-color'?: string;
+  '--nav-border-color'?: string;
+  '--nav-link-hover-color'?: string;
+  '--nav-button-background-color'?: string;
+  '--nav-link-dropdown-background-color'?: string;
+  '--nav-button-hover-background-color'?: string;
+  '--nav-drop-down-icon-color'?: string;
+  '--universal-bar-background-color'?: string;
 };
+
+type NavigationCSSProperties = {
+  '--header-focus-outline-color'?: string;
+} & Partial<NavigationCustomTheme>;
 
 export type NotificationCSSProperties = {
   '--notification-background-color'?: string;
@@ -313,7 +310,6 @@ export type Theme = {
   menuDropdown: MenuDropdownCSSProperties;
   modal: ModalCSSProperties;
   navigation: NavigationCSSProperties;
-  navigationDropdown: NavigationDropdownCSSProperties;
   notification: {
     type?: {
       alert?: NotificationCSSProperties;
@@ -361,7 +357,6 @@ const defaultTheme: Theme = {
   menuDropdown: {},
   modal: {},
   navigation: {},
-  navigationDropdown: {},
   notification: {},
   pagination: {},
   publicationStatus: {},

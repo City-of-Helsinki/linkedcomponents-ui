@@ -35,12 +35,7 @@ const renderComponent = (props?: Partial<ImagesTableProps>) =>
 test('should render images table', () => {
   renderComponent();
 
-  const columnHeaders = [
-    'Kuva',
-    'ID',
-    'Nimi',
-    'Viimeksi muokattu Järjestetty laskevaan järjestykseen',
-  ];
+  const columnHeaders = ['Kuva', 'ID', 'Nimi', 'Viimeksi muokattu'];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
@@ -91,7 +86,7 @@ test('should call setSort when clicking sortable column header', async () => {
   renderComponent({ setSort });
 
   const lastModifiedButton = screen.getByRole('button', {
-    name: 'Viimeksi muokattu Järjestetty laskevaan järjestykseen',
+    name: 'Viimeksi muokattu',
   });
   await user.click(lastModifiedButton);
   expect(setSort).toBeCalledWith('last_modified_time');

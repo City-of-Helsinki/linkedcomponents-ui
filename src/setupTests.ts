@@ -39,6 +39,17 @@ console.warn = (msg: any, ...optionalParams: any[]) => {
   );
 };
 
+const originalError = console.error.bind(console.error);
+
+console.error = (msg: any, ...optionalParams: any[]) => {
+  const msgStr = msg.toString();
+
+  return (
+    !msgStr.includes('Could not parse CSS stylesheet') &&
+    originalError(msg, ...optionalParams)
+  );
+};
+
 import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS = 'true';
 import.meta.env.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION = 'false';
 import.meta.env.REACT_APP_MAINTENANCE_DISABLE_LOGIN = 'false';

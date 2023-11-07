@@ -35,11 +35,7 @@ const renderComponent = (props?: Partial<KeywordsTableProps>) =>
 test('should render keywords table', async () => {
   renderComponent();
 
-  const columnHeaders = [
-    'ID',
-    'Nimi Järjestetty nousevaan järjestykseen',
-    'Tapahtumien lkm',
-  ];
+  const columnHeaders = ['ID', 'Nimi', 'Tapahtumien lkm'];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
@@ -91,7 +87,7 @@ test('should call setSort when clicking sortable column header', async () => {
   renderComponent({ setSort });
 
   const nameButton = screen.getByRole('button', {
-    name: 'Nimi Järjestetty nousevaan järjestykseen',
+    name: 'Nimi',
   });
   await user.click(nameButton);
   expect(setSort).toBeCalledWith('-name');

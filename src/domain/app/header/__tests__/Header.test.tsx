@@ -22,7 +22,7 @@ import {
   mockedRegularUserResponse,
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
-  userName,
+  userFirstName,
 } from '../../../user/__mocks__/user';
 import Header from '../Header';
 
@@ -40,21 +40,19 @@ const renderComponent = ({
   route?: string;
 } = {}) => render(<Header />, { authContextValue, mocks, routes: [route] });
 
-const getElement = (key: 'enOption' | 'menuButton') => {
+const getElement = (key: 'fiOption' | 'enOption' | 'menuButton') => {
   switch (key) {
+    case 'fiOption':
+      return screen.getByRole('button', { hidden: false, name: /suomeksi/i });
     case 'enOption':
-      return screen.getByRole('link', { hidden: false, name: /in english/i });
+      return screen.getByRole('button', { hidden: false, name: /in english/i });
     case 'menuButton':
       return screen.getByRole('button', { name: 'Valikko' });
   }
 };
 
-const getElements = (
-  key: 'languageSelector' | 'signInButton' | 'signOutLink'
-) => {
+const getElements = (key: 'signInButton' | 'signOutLink') => {
   switch (key) {
-    case 'languageSelector':
-      return screen.getAllByRole('button', { name: /suomi - kielivalikko/i });
     case 'signInButton':
       return screen.getAllByRole('button', { name: /kirjaudu sisään/i });
     case 'signOutLink':
@@ -68,7 +66,7 @@ beforeEach(() => {
 });
 
 const findUserMenuButton = () =>
-  screen.findByRole('button', { name: userName }, { timeout: 10000 });
+  screen.findByRole('button', { name: userFirstName }, { timeout: 10000 });
 
 // TODO: Skip this test because SV UI language is temporarily disabled
 test.skip('matches snapshot', async () => {
@@ -104,7 +102,10 @@ test('should show navigation links and should route to correct page after clicki
   const homeLink = screen.getAllByRole('link', { name: /linked events/i })[0];
 
   await user.click(homeLink);
-  expect(history.location.pathname).toBe(`/fi${ROUTES.HOME}`);
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi${ROUTES.HOME}`)
+  );
 });
 
 const registrationAndAdminTabTestCases: {
@@ -195,7 +196,7 @@ test('should show mobile menu', async () => {
   const user = userEvent.setup();
   renderComponent();
 
-  expect(screen.getAllByRole('navigation')).toHaveLength(1);
+  expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
 
   const menuButton = getElement('menuButton');
   await user.click(menuButton);
@@ -212,8 +213,8 @@ test('should change language', async () => {
 
   expect(history.location.pathname).toBe('/fi');
 
-  const languageSelectors = getElements('languageSelector');
-  await user.click(languageSelectors[0]);
+  const fiOption = getElement('fiOption');
+  await user.click(fiOption);
 
   const enOption = getElement('enOption');
   await user.click(enOption);
@@ -250,19 +251,14 @@ test('should start logout process', async () => {
 });
 
 test('should route to search page', async () => {
-  const searchValue = 'search';
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  const openSearchButton = screen.getByRole('button', {
-    name: 'Etsi tapahtumia',
+  const searchLink = screen.getByRole('button', {
+    name: 'Hae',
   });
-  await user.click(openSearchButton);
 
-  const searchInput = screen.getByPlaceholderText('Etsi tapahtumia');
-  await user.type(searchInput, searchValue);
-  await user.type(searchInput, '{enter}');
+  await user.click(searchLink);
 
   expect(history.location.pathname).toBe('/fi/search');
-  expect(history.location.search).toBe(`?text=${searchValue}`);
 });

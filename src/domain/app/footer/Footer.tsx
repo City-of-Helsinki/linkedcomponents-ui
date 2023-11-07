@@ -1,5 +1,5 @@
 import { ClassNames } from '@emotion/react';
-import { Footer as HdsFooter } from 'hds-react';
+import { Footer as HdsFooter, Logo, logoFi, logoSv } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
   const FOOTER_NAVIGATION_ITEMS = [
     { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
     {
-      labelKey: 'navigation.searchEvents',
+      labelKey: 'navigation.tabs.searchEvents',
       url: ROUTES.SEARCH,
     },
     featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') &&
@@ -104,19 +104,15 @@ const Footer: React.FC = () => {
 
   return (
     <ClassNames>
-      {({ css, cx }) => (
+      {({ cx }) => (
         <HdsFooter
-          className={cx(
-            styles.footer,
-            css(theme.footer),
-            getFooterThemeClassName()
-          )}
-          logoLanguage={logoLanguage}
+          className={cx(styles.footer, getFooterThemeClassName())}
           title={t('appName')}
+          theme={theme.footer}
         >
           <HdsFooter.Navigation>
             {navigationItems.map((item) => (
-              <HdsFooter.Item
+              <HdsFooter.Link
                 key={item.url}
                 href={item.url}
                 label={item.label}
@@ -126,8 +122,8 @@ const Footer: React.FC = () => {
             ))}
           </HdsFooter.Navigation>
 
-          <HdsFooter.Utilities backToTopLabel={t('footer.backToTopLabel')}>
-            <HdsFooter.Item
+          <HdsFooter.Utilities>
+            <HdsFooter.Link
               href={`/${locale}${ROUTES.SUPPORT_CONTACT}`}
               onClick={goToPage(`/${locale}${ROUTES.SUPPORT_CONTACT}`)}
               label={t('common.feedback.text')}
@@ -136,6 +132,14 @@ const Footer: React.FC = () => {
           <HdsFooter.Base
             copyrightHolder={t('footer.copyrightHolder')}
             copyrightText={t('footer.copyrightText')}
+            backToTopLabel={t('footer.backToTopLabel')}
+            logo={
+              <Logo
+                src={logoLanguage === 'sv' ? logoSv : logoFi}
+                size="medium"
+                alt={t('appName')}
+              />
+            }
           />
         </HdsFooter>
       )}

@@ -35,12 +35,7 @@ const renderComponent = (props?: Partial<PlacesTableProps>) =>
 test('should render places table', () => {
   renderComponent();
 
-  const columnHeaders = [
-    'ID',
-    'Nimi Järjestetty nousevaan järjestykseen',
-    'Tapahtumien lkm',
-    'Katuosoite',
-  ];
+  const columnHeaders = ['ID', 'Nimi', 'Tapahtumien lkm', 'Katuosoite'];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
@@ -90,7 +85,7 @@ test('should call setSort when clicking sortable column header', async () => {
   renderComponent({ setSort });
 
   const nameButton = screen.getByRole('button', {
-    name: 'Nimi Järjestetty nousevaan järjestykseen',
+    name: 'Nimi',
   });
   await user.click(nameButton);
   await waitFor(() => expect(setSort).toBeCalledWith('-name'));

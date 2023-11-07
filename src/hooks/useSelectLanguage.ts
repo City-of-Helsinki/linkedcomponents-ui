@@ -10,7 +10,7 @@ import useLocale from './useLocale';
 type UseSelectLanguageState = {
   languageOptions: OptionType[];
   changeLanguage: (
-    language: OptionType,
+    language: string,
     event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => void;
 };
@@ -29,15 +29,15 @@ const useSelectLanguage = (): UseSelectLanguageState => {
   }, [t]);
 
   const changeLanguage = async (
-    newLanguage: OptionType,
+    newLanguage: string,
     event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     event?.preventDefault();
     await navigate({
-      pathname: updateLocaleParam(location.pathname, locale, newLanguage.value),
+      pathname: updateLocaleParam(location.pathname, locale, newLanguage),
       search: location.search,
     });
-    i18n.changeLanguage(newLanguage.value);
+    i18n.changeLanguage(newLanguage);
   };
   return { changeLanguage, languageOptions };
 };

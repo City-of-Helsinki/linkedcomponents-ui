@@ -40,7 +40,7 @@ test('should render organizations table', () => {
   renderComponent();
 
   const columnHeaders = [
-    'Nimi Järjestetty nousevaan järjestykseen',
+    'Nimi',
     'ID',
     'Datalähde',
     'Luokittelu',
@@ -99,7 +99,7 @@ test('should call setSort when clicking sortable column header', async () => {
   renderComponent({ setSort });
 
   const nameButton = screen.getByRole('button', {
-    name: 'Nimi Järjestetty nousevaan järjestykseen',
+    name: 'Nimi',
   });
   await user.click(nameButton);
   expect(setSort).toBeCalledWith('-name');

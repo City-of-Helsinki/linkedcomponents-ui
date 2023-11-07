@@ -1532,15 +1532,16 @@
       "sv": "På svenska"
     },
     "languageSelectorAriaLabel": "Suomi - kielivalikko",
+    "logo": "Helsingin kaupunki - logo",
     "menuToggleAriaLabel": "Valikko",
-    "searchEvents": "Etsi tapahtumia",
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
       "admin": "Hallinta",
       "events": "Tapahtumat",
       "help": "Tuki",
       "registrations": "Ilmoittautuminen",
-      "dataProtection": "Tietosuoja"
+      "dataProtection": "Tietosuoja",
+      "searchEvents": "Hae"
     }
   },
   "notFound": {

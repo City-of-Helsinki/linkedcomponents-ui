@@ -24,7 +24,7 @@ const CookieConsent: FC = () => {
     );
 
     if (langOption) {
-      changeLanguage(langOption);
+      changeLanguage(langOption.value);
     }
     setLanguage(lang as SupportedLanguage);
   };
