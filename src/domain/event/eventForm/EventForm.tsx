@@ -28,6 +28,7 @@ import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 import Section from '../../app/layout/section/Section';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { replaceParamsToEventQueryString } from '../../events/utils';
+import { EXTERNAL_PUBLISHER_ID } from '../../organization/constants';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { isAdminUserInOrganization } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
@@ -350,7 +351,6 @@ const EventForm: React.FC<EventFormProps> = ({
   }, [mainCategories]);
 
   const { name } = event ? getEventFields(event, locale) : { name: '' };
-
   return (
     <>
       {event && (
@@ -492,7 +492,9 @@ const EventForm: React.FC<EventFormProps> = ({
                   isExternalUser={isExternalUser}
                 />
               </Section>
-              {(isExternalUser || isAdminUser) && (
+              {(isExternalUser ||
+                (isAdminUser &&
+                  event?.publisher === EXTERNAL_PUBLISHER_ID)) && (
                 <Section title={t('event.form.sections.contact')}>
                   <ExternalUserContact
                     isEditingAllowed={isEditingAllowed && !isAdminUser}
