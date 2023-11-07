@@ -4,7 +4,10 @@ import range from 'lodash/range';
 import { MAX_PAGE_SIZE, TEST_USER_ID } from '../../../constants';
 import { User, UserDocument, UsersDocument } from '../../../generated/graphql';
 import { fakeUser, fakeUsers } from '../../../utils/mockDataUtils';
-import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import {
+  EXTERNAL_PUBLISHER_ID,
+  TEST_PUBLISHER_ID,
+} from '../../organization/constants';
 
 const userName = 'Test user';
 const userFirstName = 'Test';
@@ -27,6 +30,14 @@ const mockedUserResponse = getMockedUserResponse({
   adminOrganizations: [TEST_PUBLISHER_ID],
   displayName: userName,
   firstName: userFirstName,
+  organization: TEST_PUBLISHER_ID,
+  organizationMemberships: [],
+  registrationAdminOrganizations: [],
+});
+
+const mockedExternalAdminUserResponse = getMockedUserResponse({
+  adminOrganizations: [TEST_PUBLISHER_ID, EXTERNAL_PUBLISHER_ID],
+  displayName: userName,
   organization: TEST_PUBLISHER_ID,
   organizationMemberships: [],
   registrationAdminOrganizations: [],
@@ -77,6 +88,7 @@ const mockedUsersResponse = {
 
 export {
   getMockedUserResponse,
+  mockedExternalAdminUserResponse,
   mockedRegistrationUserResponse,
   mockedRegularUserResponse,
   mockedUserResponse,

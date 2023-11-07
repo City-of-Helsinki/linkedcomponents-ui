@@ -9,7 +9,10 @@ import {
   ROUTES,
   TIME_FORMAT_DATA,
 } from '../../../constants';
-import { EventDocument } from '../../../generated/graphql';
+import {
+  EventDocument,
+  OrganizationDocument,
+} from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
@@ -33,14 +36,21 @@ import {
   topicName,
 } from '../../keywordSet/__mocks__/keywordSets';
 import { mockedLanguagesResponse } from '../../language/__mocks__/language';
-import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
-import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
+import {
+  mockedExternalOrganizationResponse,
+  mockedOrganizationResponse,
+} from '../../organization/__mocks__/organization';
+import {
+  mockedExternalOrganizationAncestorsResponse,
+  mockedOrganizationAncestorsResponse,
+} from '../../organization/__mocks__/organizationAncestors';
 import {
   mockedFilteredPlacesResponse,
   mockedPlaceResponse,
   mockedPlacesResponse,
 } from '../../place/__mocks__/place';
 import {
+  mockedExternalAdminUserResponse,
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
 } from '../../user/__mocks__/user';
@@ -55,6 +65,7 @@ import {
   mockedEventResponse,
   mockedEventTimeResponse,
   mockedEventWithSubEventResponse,
+  mockedExternalEventResponse,
   mockedInvalidEventResponse,
   mockedInvalidUpdateEventResponse,
   mockedPostponedEventResponse,
@@ -432,7 +443,15 @@ test('should show server errors', async () => {
 });
 
 test('should render external user contact fields for admin', async () => {
-  renderComponent();
+  renderComponent([
+    ...baseMocks.filter(
+      (item) => ![mockedEventResponse, mockedUserResponse].includes(item)
+    ),
+    mockedExternalEventResponse,
+    mockedExternalOrganizationResponse,
+    mockedExternalOrganizationAncestorsResponse,
+    mockedExternalAdminUserResponse,
+  ]);
 
   await loadingSpinnerIsNotInDocument();
 
@@ -444,11 +463,30 @@ test('should render external user contact fields for admin', async () => {
     /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
   ];
 
-  const fieldset = await screen.findByRole('group', { name: /yhteystiedot/i });
+  const fieldset = screen.getByRole('group', {
+    name: /yhteystiedot/i,
+  });
 
   for (const label of externalUserContactFields) {
-    expect(await within(fieldset).findByLabelText(label)).toBeInTheDocument();
+    expect(within(fieldset).getByLabelText(label)).toBeInTheDocument();
   }
+});
+
+test('should not render external user contact fields for admin if event is not external', async () => {
+  renderComponent([
+    ...baseMocks.filter((item) => ![mockedUserResponse].includes(item)),
+    mockedExternalAdminUserResponse,
+    mockedExternalOrganizationResponse,
+    mockedExternalOrganizationAncestorsResponse,
+  ]);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const fieldset = screen.queryByRole('group', {
+    name: /yhteystiedot/i,
+  });
+
+  expect(fieldset).toBeNull();
 });
 
 test('should render fields for external user', async () => {

@@ -42,7 +42,10 @@ import {
   topicAtIds,
   topics,
 } from '../../keywordSet/__mocks__/keywordSets';
-import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import {
+  EXTERNAL_PUBLISHER_ID,
+  TEST_PUBLISHER_ID,
+} from '../../organization/constants';
 import { locationText, place, placeAtId } from '../../place/__mocks__/place';
 import { EventFormFields } from '../types';
 
@@ -363,6 +366,16 @@ const mockedPostponedEventResponse: MockedResponse = {
   result: postponedEventResponse,
 };
 
+const externalEvent = {
+  ...event,
+  publisher: EXTERNAL_PUBLISHER_ID,
+};
+const externalEventResponse = { data: { event: externalEvent } };
+const mockedExternalEventResponse: MockedResponse = {
+  request: { query: EventDocument, variables: eventVariables },
+  result: externalEventResponse,
+};
+
 const deleteEventVariables = { id: eventId };
 const deleteEventResponse = { data: { deleteEvent: null } };
 const mockedDeleteEventResponse: MockedResponse = {
@@ -572,6 +585,7 @@ export {
   mockedEventResponse,
   mockedEventTimeResponse,
   mockedEventWithSubEventResponse,
+  mockedExternalEventResponse,
   mockedInvalidEventResponse,
   mockedInvalidUpdateEventResponse,
   mockedPostponedEventResponse,
