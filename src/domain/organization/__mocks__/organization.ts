@@ -31,7 +31,10 @@ const externalOrganization = fakeOrganization({
   id: EXTERNAL_PUBLISHER_ID,
   name: 'Muu',
 });
-const externalOrganizationVariables = { createPath: undefined, id: 'others' };
+const externalOrganizationVariables = {
+  createPath: undefined,
+  id: EXTERNAL_PUBLISHER_ID,
+};
 const externalOrganizationResponse = { data: { externalOrganization } };
 const mockedExternalOrganizationResponse: MockedResponse = {
   request: {
