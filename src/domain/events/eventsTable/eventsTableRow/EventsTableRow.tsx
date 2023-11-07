@@ -12,6 +12,7 @@ import { usePageSettings } from '../../../app/hooks/usePageSettings';
 import StatusTag from '../../../event/tags/statusTag/StatusTag';
 import SuperEventTypeTag from '../../../event/tags/superEventTypeTag/SuperEventTypeTag';
 import { getEventFields } from '../../../event/utils';
+import { EXTERNAL_PUBLISHER_ID } from '../../../organization/constants';
 import OrganizationName from '../../../organization/organizationName/OrganizationName';
 import EventActionsDropdown from '../../eventActionsDropdown/EventActionsDropdown';
 import { getEventItemId } from '../../utils';
@@ -134,7 +135,7 @@ const EventTableRow: React.FC<Props> = ({
           </div>
         </td>
         <td className={styles.publisherColumn}>
-          {publisher !== 'others' ? (
+          {publisher !== EXTERNAL_PUBLISHER_ID ? (
             <OrganizationName id={publisher} />
           ) : (
             <span className={styles.externalPublisher}>

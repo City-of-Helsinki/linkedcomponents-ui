@@ -27,6 +27,7 @@ import {
   mockedExternalOrganizationAncestorsResponse,
   mockedOrganizationAncestorsResponse,
 } from '../../../../organization/__mocks__/organizationAncestors';
+import { EXTERNAL_PUBLISHER_ID } from '../../../../organization/constants';
 import EventsTableRow from '../EventsTableRow';
 
 configure({ defaultHidden: true });
@@ -164,7 +165,7 @@ test('should have an icon highlighting that the event was created by external us
   const commonEventInfo = {
     id: eventValues.id,
     publicationStatus: eventValues.publicationStatus,
-    publisher: 'others',
+    publisher: EXTERNAL_PUBLISHER_ID,
   };
   const event = fakeEvent({
     ...commonEventInfo,
