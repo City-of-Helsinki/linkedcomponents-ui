@@ -31,7 +31,7 @@ export const findFooter = async (t: TestController) => {
         return withinFooter().findByRole('link', { name: /tapahtumat/i });
       },
       eventSearchLink() {
-        return withinFooter().findByRole('link', { name: /etsi tapahtumia/i });
+        return withinFooter().findByRole('link', { name: /hae/i });
       },
       registrationsLink() {
         return withinFooter().findByRole('link', { name: /ilmoittautuminen/i });

@@ -44,10 +44,8 @@ test('Header tabs and search input field work', async (t) => {
   // Search input field
   await urlUtils.actions.navigateToLandingPage();
   const headerSearch = header.headerSearch();
-  await headerSearch.actions.clickSearchButton();
-  await headerSearch.actions.clickSearchInput();
+  await headerSearch.actions.clickSearchLink();
 
-  await t.pressKey('enter');
   await urlUtils.expectations.urlChangedToEventSearchPage();
 
   // Events page

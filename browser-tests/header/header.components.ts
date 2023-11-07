@@ -39,14 +39,8 @@ export const findHeader = async (
 
   const languageSelector = () => {
     const selectors = {
-      languageSelector() {
+      languageSelectorButton(lang: SUPPORTED_LANGUAGES) {
         return withinHeader().findByRole('button', {
-          name: getTranslations(currentLang).navigation
-            .languageSelectorAriaLabel,
-        });
-      },
-      languageSelectorItem(lang: SUPPORTED_LANGUAGES) {
-        return withinHeader().findByRole('link', {
           name: getTranslations(currentLang).navigation.languages[lang],
         });
       },
@@ -54,18 +48,15 @@ export const findHeader = async (
 
     const actions = {
       async changeLanguage(lang: SUPPORTED_LANGUAGES) {
-        const result = await t
-          .click(selectors.languageSelector())
-          .click(selectors.languageSelectorItem(lang));
+        const result = await t.click(selectors.languageSelectorButton(lang));
+
         currentLang = lang;
         setDataToPrintOnFailure(t, 'expectedLanguage', lang);
         return result;
       },
     };
 
-    return {
-      actions,
-    };
+    return { actions };
   };
 
   const headerTabs = () => {
@@ -138,27 +129,16 @@ export const findHeader = async (
 
   const headerSearch = () => {
     const selectors = {
-      searchButton() {
+      searchLink() {
         return withinHeader().findByRole('button', {
-          name: getTranslations(currentLang).navigation.searchEvents,
+          name: getTranslations(currentLang).navigation.tabs.searchEvents,
         });
-      },
-      searchInput() {
-        return withinHeader().findAllByPlaceholderText(
-          getTranslations(currentLang).navigation.searchEvents
-        );
       },
     };
 
     const actions = {
-      async clickSearchButton() {
-        await t.click(selectors.searchButton());
-      },
-      async clickSearchInput() {
-        await t.click(selectors.searchInput());
-      },
-      async pressEnterInSearchInput() {
-        await t.pressKey('enter');
+      async clickSearchLink() {
+        await t.click(selectors.searchLink());
       },
     };
 
