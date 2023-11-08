@@ -12,7 +12,6 @@ export const QUERY_SIGNUP = gql`
   fragment signupFields on Signup {
     id
     attendeeStatus
-    cancellationCode
     city
     dateOfBirth
     email

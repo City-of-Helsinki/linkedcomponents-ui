@@ -538,7 +538,6 @@ export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
     {
       id,
       attendeeStatus: AttendeeStatus.Attending,
-      cancellationCode: '',
       city: faker.location.city(),
       createdBy: null,
       createdTime: null,

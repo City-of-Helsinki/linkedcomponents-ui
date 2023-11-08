@@ -963,7 +963,6 @@ module.exports = buildSchema(/* GraphQL */ `
   type Signup {
     id: ID!
     attendeeStatus: AttendeeStatus
-    cancellationCode: String
     city: String
     createdBy: String
     createdTime: String
