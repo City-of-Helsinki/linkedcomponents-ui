@@ -131,6 +131,21 @@ test('should navigate between pages', async () => {
   ).not.toBeInTheDocument();
 });
 
+test('signup name should work as a link to edit signup page', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedAttendeesResponse,
+  ]);
+
+  const signupLink = await screen.findByRole('link', { name: signupName });
+  await user.click(signupLink);
+
+  expect(history.location.pathname).toBe(
+    `/fi/registrations/${registrationId}/signup/edit/${attendees.data[0].id}`
+  );
+});
+
 test('should open edit signup page by clicking a signup without group', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent([
@@ -138,13 +153,26 @@ test('should open edit signup page by clicking a signup without group', async ()
     mockedAttendeesResponse,
   ]);
 
-  const signupButton = await screen.findByRole('button', {
-    name: signupName,
-  });
+  const signupButton = await screen.findByRole('button', { name: signupName });
   await user.click(signupButton);
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/signup/edit/${attendees.data[0].id}`
+  );
+});
+
+test('signup group name should work as a link to edit signup group page', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse(attendeesWithGroup),
+  ]);
+
+  const signupLink = await screen.findByRole('link', { name: signupName });
+  await user.click(signupLink);
+
+  expect(history.location.pathname).toBe(
+    `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
   );
 });
 
