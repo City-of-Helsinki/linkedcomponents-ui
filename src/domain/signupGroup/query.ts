@@ -12,6 +12,9 @@ export const QUERY_SIGNUP_GROUP = gql`
   }
 
   fragment signupGroupFields on SignupGroup {
+    contactPerson {
+      ...contactPersonFields
+    }
     extraInfo
     id
     registration

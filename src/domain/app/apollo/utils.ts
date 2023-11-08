@@ -1,5 +1,6 @@
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import {
+  ContactPerson,
   DataSource,
   Division,
   Event,
@@ -22,6 +23,16 @@ import {
   User,
 } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
+
+export const addTypenameContactPerson = (
+  contacPerson?: ContactPerson | null
+): ContactPerson | null =>
+  contacPerson
+    ? {
+        ...contacPerson,
+        __typename: 'ContactPerson',
+      }
+    : null;
 
 export const addTypenameDataSource = (
   dataSource?: DataSource | null
@@ -232,6 +243,7 @@ export const addTypenameSignup = (signup?: Signup | null): Signup | null =>
   signup
     ? {
         ...signup,
+        contactPerson: addTypenameContactPerson(signup.contactPerson),
         __typename: 'Signup',
       }
     : null;
@@ -242,6 +254,7 @@ export const addTypenameSignupGroup = (
   signupGroup
     ? {
         ...signupGroup,
+        contactPerson: addTypenameContactPerson(signupGroup.contactPerson),
         signups: Array.isArray(signupGroup.signups)
           ? signupGroup.signups.map((signup) => addTypenameSignup(signup))
           : [],

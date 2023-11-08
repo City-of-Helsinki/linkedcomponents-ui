@@ -9,22 +9,31 @@ export const QUERY_SIGNUP = gql`
     }
   }
 
-  fragment signupFields on Signup {
-    id
-    attendeeStatus
-    city
-    dateOfBirth
+  fragment contactPersonFields on ContactPerson {
     email
-    extraInfo
     firstName
+    id
     lastName
     membershipNumber
     nativeLanguage
     notifications
     phoneNumber
+    serviceLanguage
+  }
+
+  fragment signupFields on Signup {
+    attendeeStatus
+    city
+    contactPerson {
+      ...contactPersonFields
+    }
+    dateOfBirth
+    extraInfo
+    firstName
+    id
+    lastName
     presenceStatus
     responsibleForGroup
-    serviceLanguage
     signupGroup
     streetAddress
     zipcode

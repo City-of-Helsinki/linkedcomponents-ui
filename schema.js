@@ -960,33 +960,41 @@ module.exports = buildSchema(/* GraphQL */ `
     signups: [Signup!]
   }
 
-  type Signup {
-    id: ID!
-    attendeeStatus: AttendeeStatus
-    city: String
-    createdBy: String
-    createdTime: String
-    dateOfBirth: String
+  type ContactPerson {
     email: String
-    extraInfo: String
     firstName: String
-    lastModifiedBy: String
-    lastModifiedTime: String
+    id: ID!
     lastName: String
     membershipNumber: String
     nativeLanguage: String
     notifications: String
     phoneNumber: String
+    serviceLanguage: String
+  }
+
+  type Signup {
+    attendeeStatus: AttendeeStatus
+    city: String
+    contactPerson: ContactPerson
+    createdBy: String
+    createdTime: String
+    dateOfBirth: String
+    extraInfo: String
+    firstName: String
+    id: ID!
+    lastModifiedBy: String
+    lastModifiedTime: String
+    lastName: String
     presenceStatus: PresenceStatus
     registration: ID
     responsibleForGroup: Boolean
-    serviceLanguage: String
     signupGroup: ID
     streetAddress: String
     zipcode: String
   }
 
   type SignupGroup {
+    contactPerson: ContactPerson
     createdBy: String
     createdTime: String
     extraInfo: String
