@@ -37,7 +37,7 @@ const EventInfo: React.FC<Props> = ({ event }) => {
         <SuperEventTypeTag superEventType={superEventType} />
       </div>
 
-      <EditingInfo createdBy={createdBy} lastModifiedAt={lastModifiedTime} />
+      <EditingInfo createdBy={createdBy} lastModifiedTime={lastModifiedTime} />
     </div>
   );
 };

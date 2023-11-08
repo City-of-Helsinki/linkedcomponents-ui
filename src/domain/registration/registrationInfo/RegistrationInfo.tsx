@@ -12,7 +12,7 @@ interface Props {
 
 const RegistrationInfo: React.FC<Props> = ({ registration }) => {
   const locale = useLocale();
-  const { createdBy, lastModifiedAt } = getRegistrationFields(
+  const { createdBy, lastModifiedTime } = getRegistrationFields(
     registration,
     locale
   );
@@ -25,7 +25,7 @@ const RegistrationInfo: React.FC<Props> = ({ registration }) => {
         <h1>{event?.name}</h1>
       </div>
 
-      <EditingInfo createdBy={createdBy} lastModifiedAt={lastModifiedAt} />
+      <EditingInfo createdBy={createdBy} lastModifiedTime={lastModifiedTime} />
     </div>
   );
 };

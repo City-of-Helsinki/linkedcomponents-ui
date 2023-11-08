@@ -62,7 +62,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
   const { event } = getRegistrationFields(registration, locale);
 
-  const { createdBy, lastModifiedAt } = getRegistrationFields(
+  const { createdBy, lastModifiedTime } = getRegistrationFields(
     registration,
     locale
   );
@@ -192,7 +192,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
             editingInfo={
               <EditingInfo
                 createdBy={createdBy}
-                lastModifiedAt={lastModifiedAt}
+                lastModifiedTime={lastModifiedTime}
               />
             }
             title={getValue(event?.name, '')}

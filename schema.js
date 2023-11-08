@@ -914,8 +914,8 @@ module.exports = buildSchema(/* GraphQL */ `
     audienceMaxAge: Int
     audienceMinAge: Int
     confirmationMessage: LocalisedObject
-    createdAt: String
     createdBy: String
+    createdTime: String
     currentAttendeeCount: Int
     currentWaitingListCount: Int
     dataSource: String
@@ -923,8 +923,8 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentStartTime: String
     event: Event
     instructions: LocalisedObject
-    lastModifiedAt: String
     lastModifiedBy: String
+    lastModifiedTime: String
     mandatoryFields: [String]
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
@@ -965,14 +965,14 @@ module.exports = buildSchema(/* GraphQL */ `
     attendeeStatus: AttendeeStatus
     cancellationCode: String
     city: String
-    createdAt: String
     createdBy: String
+    createdTime: String
     dateOfBirth: String
     email: String
     extraInfo: String
     firstName: String
-    lastModifiedAt: String
     lastModifiedBy: String
+    lastModifiedTime: String
     lastName: String
     membershipNumber: String
     nativeLanguage: String
@@ -988,12 +988,12 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   type SignupGroup {
-    createdAt: String
     createdBy: String
+    createdTime: String
     extraInfo: String
     id: ID
-    lastModifiedAt: String
     lastModifiedBy: String
+    lastModifiedTime: String
     registration: ID
     signups: [Signup]
   }

@@ -83,7 +83,7 @@ const updateRegistrationVariables = {
 };
 const updatedRegistration = {
   ...registration,
-  lastModifiedAt: updatedLastModifiedTime,
+  lastModifiedTime: updatedLastModifiedTime,
 };
 const updateRegistrationResponse = {
   data: { updateRegistration: updatedRegistration },

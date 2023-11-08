@@ -50,7 +50,7 @@ export type RegistrationFields = {
   enrolmentEndTime: Date | null;
   enrolmentStartTime: Date | null;
   event: EventFields | null;
-  lastModifiedAt: Date | null;
+  lastModifiedTime: Date | null;
   mandatoryFields: string[];
   maximumAttendeeCapacity: number | null;
   publisher: string | null;

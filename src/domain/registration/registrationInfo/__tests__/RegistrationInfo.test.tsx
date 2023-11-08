@@ -19,7 +19,7 @@ test('should render event info with creator info', async () => {
   const registration = fakeRegistration({
     createdBy: "Creator's name - organization",
     event,
-    lastModifiedAt: '2021-01-04T12:00:00+00:00',
+    lastModifiedTime: '2021-01-04T12:00:00+00:00',
   });
 
   renderComponent(registration);
