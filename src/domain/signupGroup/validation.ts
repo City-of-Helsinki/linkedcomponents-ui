@@ -21,6 +21,7 @@ import {
   SEND_MESSAGE_FORM_NAME,
 } from '../signup/constants';
 import {
+  CONTACT_PERSON_FIELDS,
   NOTIFICATIONS,
   SIGNUP_FIELDS,
   SIGNUP_FORM_SELECT_FIELDS,
@@ -105,18 +106,15 @@ export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
   });
 };
 
-export const getSignupGroupSchema = (
+export const getContactPersonSchema = (
   registration: RegistrationFieldsFragment
 ) => {
   return Yup.object().shape({
-    [SIGNUP_GROUP_FIELDS.SIGNUPS]: Yup.array().of(
-      getSignupSchema(registration)
-    ),
-    [SIGNUP_GROUP_FIELDS.EMAIL]: Yup.string()
+    [CONTACT_PERSON_FIELDS.EMAIL]: Yup.string()
       .email(VALIDATION_MESSAGE_KEYS.EMAIL)
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    [SIGNUP_GROUP_FIELDS.PHONE_NUMBER]: getStringSchema(
-      isSignupFieldRequired(registration, SIGNUP_GROUP_FIELDS.PHONE_NUMBER)
+    [CONTACT_PERSON_FIELDS.PHONE_NUMBER]: getStringSchema(
+      isSignupFieldRequired(registration, CONTACT_PERSON_FIELDS.PHONE_NUMBER)
     )
       .test(
         'isValidPhoneNumber',
@@ -124,24 +122,41 @@ export const getSignupGroupSchema = (
         (value) => !value || isValidPhoneNumber(value)
       )
       .when(
-        [SIGNUP_GROUP_FIELDS.NOTIFICATIONS],
+        [CONTACT_PERSON_FIELDS.NOTIFICATIONS],
         ([notifications]: string[][], schema) =>
           notifications.includes(NOTIFICATIONS.SMS)
             ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
             : schema
       ),
-    [SIGNUP_GROUP_FIELDS.NOTIFICATIONS]: Yup.array()
+    [CONTACT_PERSON_FIELDS.NOTIFICATIONS]: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
       .min(1, createArrayMinErrorMessage),
-    [SIGNUP_GROUP_FIELDS.MEMBERSHIP_NUMBER]: getStringSchema(
-      isSignupFieldRequired(registration, SIGNUP_GROUP_FIELDS.MEMBERSHIP_NUMBER)
+    [CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER]: getStringSchema(
+      isSignupFieldRequired(
+        registration,
+        CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER
+      )
     ),
-    [SIGNUP_GROUP_FIELDS.NATIVE_LANGUAGE]: Yup.string().required(
+    [CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE]: Yup.string().required(
       VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
     ),
-    [SIGNUP_GROUP_FIELDS.SERVICE_LANGUAGE]: Yup.string().required(
+    [CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE]: Yup.string().required(
       VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
     ),
+    [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: getStringSchema(
+      isSignupFieldRequired(registration, SIGNUP_GROUP_FIELDS.EXTRA_INFO)
+    ),
+  });
+};
+
+export const getSignupGroupSchema = (
+  registration: RegistrationFieldsFragment
+) => {
+  return Yup.object().shape({
+    [SIGNUP_GROUP_FIELDS.SIGNUPS]: Yup.array().of(
+      getSignupSchema(registration)
+    ),
+    [SIGNUP_GROUP_FIELDS.CONTACT_PERSON]: getContactPersonSchema(registration),
     [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_GROUP_FIELDS.EXTRA_INFO)
     ),
@@ -168,7 +183,10 @@ const getFocusableFieldId = (
   // For the select elements, focus the toggle button
   if (SIGNUP_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
     return { fieldId: `${fieldName}-toggle-button`, fieldType: 'select' };
-  } else if (fieldName === SIGNUP_GROUP_FIELDS.NOTIFICATIONS) {
+  } else if (
+    fieldName ===
+    `${SIGNUP_GROUP_FIELDS.CONTACT_PERSON}.${CONTACT_PERSON_FIELDS.NOTIFICATIONS}`
+  ) {
     return { fieldId: fieldName, fieldType: 'checkboxGroup' };
   }
   return { fieldId: fieldName, fieldType: 'default' };

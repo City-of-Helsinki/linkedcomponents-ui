@@ -8,7 +8,6 @@ import TextAreaField from '../../../../../common/components/formFields/textAreaF
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { RegistrationFieldsFragment } from '../../../../../generated/graphql';
-import getValue from '../../../../../utils/getValue';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
 import { SIGNUP_FIELDS } from '../../../constants';
 import { useSignupGroupFormContext } from '../../../signupGroupFormContext/hooks/useSignupGroupFormContext';
@@ -45,16 +44,19 @@ const Signup: React.FC<Props> = ({
   const { t } = useTranslation();
   const { openParticipant, toggleOpenParticipant } =
     useSignupGroupFormContext();
+
+  const translateSignupText = (key: string) => t(`signup.form.signup.${key}`);
+
   const labelText =
     [signup.firstName, signup.lastName].filter(skipFalsyType).join(' ') ||
-    t('signup.form.signupDefaultTitle', { index: index + 1 });
+    t('signup.form.signup.signupDefaultTitle', { index: index + 1 });
 
   return (
     <SignupAccordion
       deleteButton={
         showDelete && !disabled ? (
           <button
-            aria-label={getValue(t('signup.form.buttonDeleteSignup'), '')}
+            aria-label={translateSignupText('buttonDeleteSignup')}
             className={styles.deleteButton}
             onClick={onDelete}
             type="button"
@@ -68,15 +70,15 @@ const Signup: React.FC<Props> = ({
       open={openParticipant === index}
       toggleButtonLabel={labelText}
     >
-      <Fieldset heading={t(`signup.form.titleBasicInfo`)}>
+      <Fieldset heading={translateSignupText('titleBasicInfo')}>
         <FormGroup>
           <div className={styles.nameRow}>
             <Field
               name={getFieldName(signupPath, SIGNUP_FIELDS.FIRST_NAME)}
               component={TextInputField}
               disabled={disabled}
-              label={t(`signup.form.labelFirstName`)}
-              placeholder={t(`signup.form.placeholderFirstName`)}
+              label={translateSignupText('labelFirstName')}
+              placeholder={translateSignupText('placeholderFirstName')}
               required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.FIRST_NAME
@@ -86,8 +88,8 @@ const Signup: React.FC<Props> = ({
               name={getFieldName(signupPath, SIGNUP_FIELDS.LAST_NAME)}
               component={TextInputField}
               disabled={disabled}
-              label={t(`signup.form.labelLastName`)}
-              placeholder={t(`signup.form.placeholderLastName`)}
+              label={translateSignupText('labelLastName')}
+              placeholder={translateSignupText('placeholderLastName')}
               required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.LAST_NAME
@@ -101,8 +103,8 @@ const Signup: React.FC<Props> = ({
               name={getFieldName(signupPath, SIGNUP_FIELDS.STREET_ADDRESS)}
               component={TextInputField}
               disabled={disabled}
-              label={t(`signup.form.labelStreetAddress`)}
-              placeholder={t(`signup.form.placeholderStreetAddress`)}
+              label={translateSignupText('labelStreetAddress')}
+              placeholder={translateSignupText('placeholderStreetAddress')}
               required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.STREET_ADDRESS
@@ -112,7 +114,7 @@ const Signup: React.FC<Props> = ({
               name={getFieldName(signupPath, SIGNUP_FIELDS.DATE_OF_BIRTH)}
               component={DateInputField}
               disabled={disabled}
-              label={t(`signup.form.labelDateOfBirth`)}
+              label={translateSignupText('labelDateOfBirth')}
               placeholder={t('common.placeholderDate')}
               required={isDateOfBirthFieldRequired(registration)}
             />
@@ -124,8 +126,8 @@ const Signup: React.FC<Props> = ({
               name={getFieldName(signupPath, SIGNUP_FIELDS.ZIPCODE)}
               component={TextInputField}
               disabled={disabled}
-              label={t(`signup.form.labelZipcode`)}
-              placeholder={t(`signup.form.placeholderZipcode`)}
+              label={translateSignupText('labelZipcode')}
+              placeholder={translateSignupText('placeholderZipcode')}
               required={isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.ZIPCODE
@@ -135,8 +137,8 @@ const Signup: React.FC<Props> = ({
               name={getFieldName(signupPath, SIGNUP_FIELDS.CITY)}
               component={TextInputField}
               disabled={disabled}
-              label={t(`signup.form.labelCity`)}
-              placeholder={t(`signup.form.placeholderCity`)}
+              label={translateSignupText('labelCity')}
+              placeholder={translateSignupText('placeholderCity')}
               required={isSignupFieldRequired(registration, SIGNUP_FIELDS.CITY)}
             />
           </div>
@@ -146,8 +148,8 @@ const Signup: React.FC<Props> = ({
           className={styles.extraInfoField}
           component={TextAreaField}
           disabled={disabled}
-          label={t(`signup.form.labelSignupExtraInfo`)}
-          placeholder={t(`signup.form.placeholderSignupExtraInfo`)}
+          label={translateSignupText('labelExtraInfo')}
+          placeholder={translateSignupText('placeholderExtraInfo')}
           required={isSignupFieldRequired(
             registration,
             SIGNUP_FIELDS.EXTRA_INFO

@@ -6,14 +6,14 @@ import { OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import pascalCase from '../../../utils/pascalCase';
 import {
+  CONTACT_PERSON_FIELDS,
   SIGNUP_FIELDS,
-  SIGNUP_GROUP_FIELDS,
 } from '../../signupGroup/constants';
 import { REGISTRATION_MANDATORY_FIELDS } from '../constants';
 
 type UseMandatoryFieldOptionsState = {
-  contactMandatoryFieldOptions: OptionType[];
-  personMandatoryFieldOptions: OptionType[];
+  contactPersonMandatoryFieldOptions: OptionType[];
+  signupMandatoryFieldOptions: OptionType[];
 };
 
 const useMandatoryFieldOptions = (): UseMandatoryFieldOptionsState => {
@@ -21,26 +21,26 @@ const useMandatoryFieldOptions = (): UseMandatoryFieldOptionsState => {
 
   const state: UseMandatoryFieldOptionsState = useMemo(
     () => ({
-      contactMandatoryFieldOptions: getValue(
+      contactPersonMandatoryFieldOptions: getValue(
         (Object.values(REGISTRATION_MANDATORY_FIELDS) as string[])
           .filter((o) =>
-            (Object.values(SIGNUP_GROUP_FIELDS) as string[]).includes(
+            (Object.values(CONTACT_PERSON_FIELDS) as string[]).includes(
               camelCase(o)
             )
           )
           .map((o) => ({
-            label: t(`signup.form.label${pascalCase(o)}`),
+            label: t(`signup.form.contactPerson.label${pascalCase(o)}`),
             value: o,
           })),
         []
       ),
-      personMandatoryFieldOptions: getValue(
+      signupMandatoryFieldOptions: getValue(
         (Object.values(REGISTRATION_MANDATORY_FIELDS) as string[])
           .filter((o) =>
             (Object.values(SIGNUP_FIELDS) as string[]).includes(camelCase(o))
           )
           .map((o) => ({
-            label: t(`signup.form.label${pascalCase(o)}`),
+            label: t(`signup.form.signup.label${pascalCase(o)}`),
             value: o,
           })),
         []

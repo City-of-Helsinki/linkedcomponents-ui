@@ -20,25 +20,28 @@ import {
   NOTIFICATION_TYPE,
   TEST_SIGNUP_GROUP_ID,
 } from '../../signupGroup/constants';
-import { TEST_SIGNUP_ID } from '../constants';
+import { TEST_CONTACT_PERSON_ID, TEST_SIGNUP_ID } from '../constants';
 
 const signupId = TEST_SIGNUP_ID;
 
 const dateOfBirth = subYears(new Date(), 13);
 const signupValues: SignupFieldsFragment = {
   city: 'City',
+  contactPerson: {
+    email: 'participant@email.com',
+    id: TEST_CONTACT_PERSON_ID,
+    membershipNumber: '',
+    nativeLanguage: 'fi',
+    notifications: NOTIFICATION_TYPE.EMAIL,
+    phoneNumber: '+358 44 123 4567',
+    serviceLanguage: 'fi',
+  },
   dateOfBirth: formatDate(dateOfBirth),
-  email: 'participant@email.com',
   extraInfo: '',
   firstName: 'First name',
   id: signupId,
   lastName: 'Last name',
-  membershipNumber: '',
-  nativeLanguage: 'fi',
-  notifications: NOTIFICATION_TYPE.EMAIL,
-  phoneNumber: '+358 44 123 4567',
   responsibleForGroup: true,
-  serviceLanguage: 'fi',
   streetAddress: 'Street address',
   zipcode: '00100',
 };
@@ -74,7 +77,20 @@ const mockedDeleteSignupResponse: MockedResponse = {
 const updateSignupVariables = {
   id: signupId,
   input: {
-    ...signupValues,
+    id: signupValues.id,
+    city: signupValues.city,
+    email: signupValues.contactPerson?.email,
+    extraInfo: signupValues.extraInfo,
+    firstName: signupValues.firstName,
+    lastName: signupValues.lastName,
+    membershipNumber: signupValues.contactPerson?.membershipNumber,
+    nativeLanguage: signupValues.contactPerson?.nativeLanguage,
+    notifications: signupValues.contactPerson?.notifications,
+    phoneNumber: signupValues.contactPerson?.phoneNumber,
+    responsibleForGroup: true,
+    serviceLanguage: signupValues.contactPerson?.serviceLanguage,
+    streetAddress: signupValues.streetAddress,
+    zipcode: signupValues.zipcode,
     dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
     registration: TEST_REGISTRATION_ID,
   },

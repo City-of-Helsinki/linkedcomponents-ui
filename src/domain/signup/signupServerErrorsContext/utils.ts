@@ -27,6 +27,9 @@ export const parseSignupGroupServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
+    if (key === 'contact_person') {
+      return parseContactPersonServerError(error);
+    }
     if (key === 'signups') {
       return parseSignupsServerError(error);
     }
@@ -39,7 +42,28 @@ export const parseSignupGroupServerErrors = ({
     ];
   }
 
-  // Get error items for video fields
+  // Get error items for contact person fields
+  function parseContactPersonServerError(
+    error: LEServerError
+  ): ServerErrorItem[] {
+    /* istanbul ignore else */
+    if (Array.isArray(error)) {
+      return Object.entries(error[0]).reduce(
+        (previous: ServerErrorItem[], [key, e]) => [
+          ...previous,
+          {
+            label: parseContactPersonServerErrorLabel({ key }),
+            message: parseServerErrorMessage({ error: e as string[], t }),
+          },
+        ],
+        []
+      );
+    } else {
+      return [];
+    }
+  }
+
+  // Get error items for signup fields
   function parseSignupsServerError(error: LEServerError): ServerErrorItem[] {
     /* istanbul ignore else */
     if (Array.isArray(error)) {
@@ -57,13 +81,29 @@ export const parseSignupGroupServerErrors = ({
       return [];
     }
   }
+
+  function parseContactPersonServerErrorLabel({
+    key,
+  }: {
+    key: string;
+  }): string {
+    if (isGenericServerError(key)) {
+      return '';
+    }
+
+    return t(`signup.form.contactPerson.label${pascalCase(key)}`);
+  }
   // Get correct field name for an error item
   function parseSignupServerErrorLabel({ key }: { key: string }): string {
     if (isGenericServerError(key)) {
       return '';
     }
 
-    return t(`signup.form.label${pascalCase(key)}`);
+    if (key === 'registration') {
+      return t(`signup.form.label${pascalCase(key)}`);
+    }
+
+    return t(`signup.form.signup.label${pascalCase(key)}`);
   }
 };
 

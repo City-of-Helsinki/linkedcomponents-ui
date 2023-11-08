@@ -15,7 +15,11 @@ import {
   SignupGroupFieldsFragment,
 } from '../../../generated/graphql';
 import useLanguageOptions from '../../language/hooks/useLanguageOptions';
-import { NOTIFICATIONS, SIGNUP_GROUP_FIELDS } from '../constants';
+import {
+  CONTACT_PERSON_FIELDS,
+  NOTIFICATIONS,
+  SIGNUP_GROUP_FIELDS,
+} from '../constants';
 import Divider from '../divider/Divider';
 import useNotificationOptions from '../hooks/useNotificationOptions';
 import { isSignupFieldRequired } from '../utils';
@@ -41,8 +45,15 @@ const SignupGroupFormFields: React.FC<Props> = ({
   const serviceLanguageOptions = useLanguageOptions({
     variables: { serviceLanguage: true },
   });
+
+  const getContactPersonFieldName = (name: string) =>
+    `${SIGNUP_GROUP_FIELDS.CONTACT_PERSON}.${name}`;
+
+  const getContactPersonTranslation = (key: string) =>
+    t(`signup.form.contactPerson.${key}`);
+
   const [{ value: notifications }] = useField<NOTIFICATIONS>({
-    name: SIGNUP_GROUP_FIELDS.NOTIFICATIONS,
+    name: getContactPersonFieldName(CONTACT_PERSON_FIELDS.NOTIFICATIONS),
   });
 
   return (
@@ -52,66 +63,100 @@ const SignupGroupFormFields: React.FC<Props> = ({
         registration={registration}
         signupGroup={signupGroup}
       />
-      <h2>{t('signup.form.titleInformantInfo')}</h2>
+      <h2>{getContactPersonTranslation('titleContactPersonInfo')}</h2>
       <Divider />
-      <Fieldset heading={t(`signup.form.titleContactInfo`)}>
+      <Fieldset heading={getContactPersonTranslation(`titleContactInfo`)}>
         <FormGroup>
           <div className={styles.emailRow}>
             <Field
-              name={SIGNUP_GROUP_FIELDS.EMAIL}
+              name={getContactPersonFieldName(CONTACT_PERSON_FIELDS.EMAIL)}
               component={TextInputField}
               disabled={disabled}
-              label={t(`signup.form.labelEmail`)}
-              placeholder={t(`signup.form.placeholderEmail`)}
+              label={getContactPersonTranslation('labelEmail')}
+              placeholder={getContactPersonTranslation('placeholderEmail')}
               required
             />
             <Field
-              name={SIGNUP_GROUP_FIELDS.PHONE_NUMBER}
+              name={getContactPersonFieldName(
+                CONTACT_PERSON_FIELDS.PHONE_NUMBER
+              )}
               component={PhoneInputField}
               disabled={disabled}
-              label={t(`signup.form.labelPhoneNumber`)}
-              placeholder={t(`signup.form.placeholderPhoneNumber`)}
+              label={getContactPersonTranslation('labelPhoneNumber')}
+              placeholder={getContactPersonTranslation(
+                'placeholderPhoneNumber'
+              )}
               type="tel"
               required={
                 notifications.includes(NOTIFICATIONS.SMS) ||
                 isSignupFieldRequired(
                   registration,
-                  SIGNUP_GROUP_FIELDS.PHONE_NUMBER
+                  CONTACT_PERSON_FIELDS.PHONE_NUMBER
                 )
               }
             />
           </div>
         </FormGroup>
+        <FormGroup>
+          <div className={styles.nameRow}>
+            <Field
+              name={getContactPersonFieldName(CONTACT_PERSON_FIELDS.FIRST_NAME)}
+              component={TextInputField}
+              disabled={disabled}
+              label={getContactPersonTranslation('labelFirstName')}
+              placeholder={getContactPersonTranslation('placeholderFirstName')}
+              required={isSignupFieldRequired(
+                registration,
+                CONTACT_PERSON_FIELDS.FIRST_NAME
+              )}
+            />
+            <Field
+              name={getContactPersonFieldName(CONTACT_PERSON_FIELDS.LAST_NAME)}
+              component={TextInputField}
+              disabled={disabled}
+              label={getContactPersonTranslation('labelLastName')}
+              placeholder={getContactPersonTranslation('placeholderLastName')}
+              required={isSignupFieldRequired(
+                registration,
+                CONTACT_PERSON_FIELDS.LAST_NAME
+              )}
+            />
+          </div>
+        </FormGroup>
       </Fieldset>
 
-      <Fieldset heading={t(`signup.form.titleNotifications`)}>
+      <Fieldset heading={getContactPersonTranslation(`titleNotifications`)}>
         <FormGroup>
           <Field
-            name={SIGNUP_GROUP_FIELDS.NOTIFICATIONS}
+            name={getContactPersonFieldName(
+              CONTACT_PERSON_FIELDS.NOTIFICATIONS
+            )}
             className={styles.notifications}
             component={CheckboxGroupField}
-            // TODO: At the moment only email notifications are supported
             disabled={true}
-            // disabled={disabled}
-            label={t(`signup.form.titleNotifications`)}
+            label={getContactPersonTranslation(`titleNotifications`)}
             options={notificationOptions}
             required
           />
         </FormGroup>
       </Fieldset>
 
-      <Fieldset heading={t(`signup.form.titleAdditionalInfo`)}>
+      <Fieldset heading={getContactPersonTranslation(`titleAdditionalInfo`)}>
         <FormGroup>
           <div className={styles.membershipNumberRow}>
             <Field
-              name={SIGNUP_GROUP_FIELDS.MEMBERSHIP_NUMBER}
+              name={getContactPersonFieldName(
+                CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER
+              )}
               component={TextInputField}
               disabled={disabled}
-              label={t(`signup.form.labelMembershipNumber`)}
-              placeholder={t(`signup.form.placeholderMembershipNumber`)}
+              label={getContactPersonTranslation('labelMembershipNumber')}
+              placeholder={getContactPersonTranslation(
+                'placeholderMembershipNumber'
+              )}
               required={isSignupFieldRequired(
                 registration,
-                SIGNUP_GROUP_FIELDS.MEMBERSHIP_NUMBER
+                CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER
               )}
             />
           </div>
@@ -119,21 +164,29 @@ const SignupGroupFormFields: React.FC<Props> = ({
         <FormGroup>
           <div className={styles.nativeLanguageRow}>
             <Field
-              name={SIGNUP_GROUP_FIELDS.NATIVE_LANGUAGE}
+              name={getContactPersonFieldName(
+                CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE
+              )}
               component={SingleSelectField}
               disabled={disabled}
-              label={t(`signup.form.labelNativeLanguage`)}
+              label={getContactPersonTranslation('labelNativeLanguage')}
               options={languageOptions}
-              placeholder={t(`signup.form.placeholderNativeLanguage`)}
+              placeholder={getContactPersonTranslation(
+                'placeholderNativeLanguage'
+              )}
               required
             />
             <Field
-              name={SIGNUP_GROUP_FIELDS.SERVICE_LANGUAGE}
+              name={getContactPersonFieldName(
+                CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE
+              )}
               component={SingleSelectField}
               disabled={disabled}
-              label={t(`signup.form.labelServiceLanguage`)}
+              label={getContactPersonTranslation('labelServiceLanguage')}
               options={serviceLanguageOptions}
-              placeholder={t(`signup.form.placeholderServiceLanguage`)}
+              placeholder={getContactPersonTranslation(
+                'placeholderServiceLanguage'
+              )}
               required
             />
           </div>
@@ -145,8 +198,8 @@ const SignupGroupFormFields: React.FC<Props> = ({
               name={SIGNUP_GROUP_FIELDS.EXTRA_INFO}
               component={TextAreaField}
               disabled={disabled}
-              label={t(`signup.form.labelExtraInfo`)}
-              placeholder={t(`signup.form.placeholderExtraInfo`)}
+              label={t('signup.form.labelExtraInfo')}
+              placeholder={t('signup.form.placeholderExtraInfo')}
               required={isSignupFieldRequired(
                 registration,
                 SIGNUP_GROUP_FIELDS.EXTRA_INFO

@@ -6,7 +6,7 @@ import {
   NOTIFICATIONS,
   SIGNUP_GROUP_INITIAL_VALUES,
 } from '../../signupGroup/constants';
-import { TEST_SIGNUP_ID } from '../constants';
+import { TEST_CONTACT_PERSON_ID, TEST_SIGNUP_ID } from '../constants';
 import {
   getSignupGroupInitialValuesFromSignup,
   getUpdateSignupPayload,
@@ -41,6 +41,8 @@ describe('getUpdateSignupPayload function', () => {
     });
 
     const city = 'City',
+      contactPersonFirstName = 'Contact first name',
+      contactPersonLastName = 'Contact last name',
       dateOfBirth = new Date('1999-10-10'),
       email = 'Email',
       extraInfo = 'Extra info',
@@ -70,13 +72,20 @@ describe('getUpdateSignupPayload function', () => {
     const payload = getUpdateSignupPayload({
       formValues: {
         ...SIGNUP_GROUP_INITIAL_VALUES,
-        email,
+        contactPerson: {
+          email,
+          firstName: contactPersonFirstName,
+          id: TEST_CONTACT_PERSON_ID,
+          lastName: contactPersonLastName,
+          membershipNumber,
+          nativeLanguage,
+          notifications,
+          phoneNumber,
+          serviceLanguage,
+        },
+
         extraInfo: '',
-        membershipNumber,
-        nativeLanguage,
-        notifications,
-        phoneNumber,
-        serviceLanguage,
+
         signups,
       },
       id: TEST_SIGNUP_ID,
@@ -107,29 +116,35 @@ describe('getUpdateSignupPayload function', () => {
 describe('getSignupGroupInitialValuesFromSignup function', () => {
   it('should return default values if value is not set', () => {
     const {
-      email,
+      contactPerson: {
+        email,
+        membershipNumber,
+        nativeLanguage,
+        notifications,
+        phoneNumber,
+        serviceLanguage,
+      },
       extraInfo,
-      membershipNumber,
-      nativeLanguage,
-      notifications,
-      phoneNumber,
-      serviceLanguage,
       signups,
     } = getSignupGroupInitialValuesFromSignup(
       fakeSignup({
         city: null,
+        contactPerson: {
+          email: null,
+          firstName: null,
+          id: TEST_CONTACT_PERSON_ID,
+          membershipNumber: null,
+          nativeLanguage: null,
+          notifications: NOTIFICATION_TYPE.EMAIL,
+          phoneNumber: null,
+          serviceLanguage: null,
+        },
         dateOfBirth: null,
-        email: null,
         extraInfo: null,
         firstName: null,
         id: TEST_SIGNUP_ID,
         lastName: null,
-        membershipNumber: null,
-        nativeLanguage: null,
-        notifications: NOTIFICATION_TYPE.EMAIL,
-        phoneNumber: null,
         responsibleForGroup: true,
-        serviceLanguage: null,
         streetAddress: null,
         zipcode: null,
       })
@@ -174,29 +189,36 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
     const expectedZip = '12345';
 
     const {
-      email,
+      contactPerson: {
+        email,
+        membershipNumber,
+        nativeLanguage,
+        notifications,
+        phoneNumber,
+        serviceLanguage,
+      },
+
       extraInfo,
-      membershipNumber,
-      nativeLanguage,
-      notifications,
-      phoneNumber,
-      serviceLanguage,
+
       signups,
     } = getSignupGroupInitialValuesFromSignup(
       fakeSignup({
         city: expectedCity,
+        contactPerson: {
+          email: expectedEmail,
+          id: TEST_CONTACT_PERSON_ID,
+          membershipNumber: expectedMembershipNumber,
+          nativeLanguage: expectedNativeLanguage,
+          notifications: NOTIFICATION_TYPE.EMAIL,
+          phoneNumber: expectedPhoneNumber,
+          serviceLanguage: expectedServiceLanguage,
+        },
         dateOfBirth: '2021-10-10',
-        email: expectedEmail,
         extraInfo: expectedExtraInfo,
         firstName: expectedFirstName,
         id: TEST_SIGNUP_ID,
         lastName: expectedLastName,
-        membershipNumber: expectedMembershipNumber,
-        nativeLanguage: expectedNativeLanguage,
-        notifications: NOTIFICATION_TYPE.EMAIL,
-        phoneNumber: expectedPhoneNumber,
         responsibleForGroup: true,
-        serviceLanguage: expectedServiceLanguage,
         streetAddress: expectedStreetAddress,
         zipcode: expectedZip,
       })

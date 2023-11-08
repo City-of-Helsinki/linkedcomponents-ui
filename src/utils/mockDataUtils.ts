@@ -13,6 +13,7 @@ import { TEST_SEATS_RESERVATION_CODE } from '../domain/seatsReservation/constant
 import { NOTIFICATION_TYPE } from '../domain/signupGroup/constants';
 import {
   AttendeeStatus,
+  ContactPerson,
   CreateSignupGroupResponse,
   DataSource,
   DataSourcesResponse,
@@ -55,6 +56,28 @@ import {
   Video,
 } from '../generated/graphql';
 import generateAtId from './generateAtId';
+
+export const fakeContactPerson = (
+  overrides?: Partial<ContactPerson>
+): ContactPerson => {
+  const id = overrides?.id || faker.string.uuid();
+
+  return merge<ContactPerson, typeof overrides>(
+    {
+      id,
+      email: faker.internet.email(),
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      membershipNumber: faker.string.uuid(),
+      nativeLanguage: 'fi',
+      notifications: NOTIFICATION_TYPE.SMS_EMAIL,
+      phoneNumber: faker.phone.number(),
+      serviceLanguage: 'fi',
+      __typename: 'ContactPerson',
+    },
+    overrides
+  );
+};
 
 export const fakeDataSources = (
   count = 1,
@@ -539,22 +562,17 @@ export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
       id,
       attendeeStatus: AttendeeStatus.Attending,
       city: faker.location.city(),
+      contactPerson: fakeContactPerson(),
       createdBy: null,
       createdTime: null,
       dateOfBirth: '1990-10-10',
-      email: faker.internet.email(),
       extraInfo: faker.lorem.paragraph(),
       firstName: faker.person.firstName(),
       lastModifiedBy: null,
       lastModifiedTime: null,
       lastName: faker.person.lastName(),
-      membershipNumber: faker.string.uuid(),
-      nativeLanguage: 'fi',
-      notifications: NOTIFICATION_TYPE.SMS_EMAIL,
-      phoneNumber: faker.phone.number(),
       presenceStatus: PresenceStatus.NotPresent,
       responsibleForGroup: false,
-      serviceLanguage: 'fi',
       signupGroup: null,
       streetAddress: faker.location.streetAddress(),
       zipcode: faker.location.zipCode('#####'),
@@ -572,6 +590,7 @@ export const fakeSignupGroup = (
   return merge<SignupGroup, typeof overrides>(
     {
       id,
+      contactPerson: fakeContactPerson(),
       createdBy: null,
       createdTime: null,
       extraInfo: '',

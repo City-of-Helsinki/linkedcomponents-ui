@@ -39,14 +39,7 @@ import EditSignupPage from '../EditSignupPage';
 
 configure({ defaultHidden: true });
 
-const findElement = (key: 'cancelButton' | 'firstNameInput') => {
-  switch (key) {
-    case 'cancelButton':
-      return screen.findByRole('button', { name: 'Peruuta osallistuminen' });
-    case 'firstNameInput':
-      return screen.findByLabelText(/etunimi/i);
-  }
-};
+const findFirstNameInputs = () => screen.findAllByLabelText(/etunimi/i);
 
 const getElement = (
   key:
@@ -76,9 +69,9 @@ const getElement = (
     case 'emailInput':
       return screen.getByLabelText(/sähköpostiosoite/i);
     case 'firstNameInput':
-      return screen.getByLabelText(/etunimi/i);
+      return screen.getAllByLabelText(/etunimi/i)[0];
     case 'lastNameInput':
-      return screen.getByLabelText(/sukunimi/i);
+      return screen.getAllByLabelText(/sukunimi/i)[0];
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
     case 'nativeLanguageButton':
@@ -138,7 +131,7 @@ test('should scroll to first validation error input field', async () => {
   const user = userEvent.setup();
   renderComponent();
 
-  const firstNameInput = await findElement('firstNameInput');
+  const firstNameInput = (await findFirstNameInputs())[0];
   const submitButton = getElement('submitButton');
 
   await user.clear(firstNameInput);
@@ -150,7 +143,7 @@ test('should scroll to first validation error input field', async () => {
 test('should initialize input fields', async () => {
   renderComponent();
 
-  const firstNameInput = await findElement('firstNameInput');
+  const firstNameInput = (await findFirstNameInputs())[0];
   const lastNameInput = await getElement('lastNameInput');
   const cityInput = getElement('cityInput');
   const emailInput = getElement('emailInput');
@@ -160,8 +153,8 @@ test('should initialize input fields', async () => {
   await waitFor(() => expect(firstNameInput).toHaveValue(signup.firstName));
   expect(lastNameInput).toHaveValue(signup.lastName);
   expect(cityInput).toHaveValue(signup.city);
-  expect(emailInput).toHaveValue(signup.email);
-  expect(phoneInput).toHaveValue(signup.phoneNumber);
+  expect(emailInput).toHaveValue(signup.contactPerson?.email);
+  expect(phoneInput).toHaveValue(signup.contactPerson?.phoneNumber);
   expect(emailCheckbox).toBeChecked();
 });
 
@@ -172,7 +165,7 @@ test('should delete signup', async () => {
     mockedDeleteSignupResponse,
   ]);
 
-  await findElement('firstNameInput');
+  await findFirstNameInputs();
   const { menu } = await openMenu();
 
   const cancelButton = await within(menu).findByRole('button', {
@@ -203,7 +196,7 @@ test('should send message to participant', async () => {
   const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedSendMessageResponse]);
 
-  await findElement('firstNameInput');
+  await findFirstNameInputs();
   const { menu } = await openMenu();
 
   const sendMessageButton = await within(menu).findByRole('button', {
@@ -242,7 +235,7 @@ test('should update signup', async () => {
     mockedSignupResponse,
   ]);
 
-  await findElement('firstNameInput');
+  await findFirstNameInputs();
 
   const submitButton = getElement('submitButton');
   await user.click(submitButton);
@@ -255,7 +248,7 @@ test('should show server errors', async () => {
   const mocks = [...defaultMocks, mockedInvalidUpdateSignupResponse];
   renderComponent(mocks);
 
-  await findElement('firstNameInput');
+  await findFirstNameInputs();
 
   const submitButton = getElement('submitButton');
   await user.click(submitButton);
@@ -267,7 +260,7 @@ test('should show server errors', async () => {
 test('signup group extra info field should not be visible', async () => {
   renderComponent();
 
-  await findElement('firstNameInput');
+  await findFirstNameInputs();
   expect(
     screen.queryByRole('textbox', {
       name: 'Lisätietoa ilmoittautumisesta (valinnainen)',

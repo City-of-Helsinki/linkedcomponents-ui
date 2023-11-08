@@ -4,6 +4,7 @@ import snakeCase from 'lodash/snakeCase';
 
 import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
 import {
+  ContactPersonFieldsFragment,
   CreateSignupGroupMutationInput,
   RegistrationFieldsFragment,
   SeatsReservationFieldsFragment,
@@ -24,6 +25,7 @@ import {
   omitSensitiveDataFromSignupPayload,
 } from '../signup/utils';
 import {
+  CONTACT_PERSON_FIELDS,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
   SIGNUP_FIELDS,
@@ -31,7 +33,11 @@ import {
   SIGNUP_GROUP_INITIAL_VALUES,
   SIGNUP_INITIAL_VALUES,
 } from './constants';
-import { SignupFormFields, SignupGroupFormFields } from './types';
+import {
+  ContactPersonFormFields,
+  SignupFormFields,
+  SignupGroupFormFields,
+} from './types';
 
 export const getSignupNotificationTypes = (
   notifications: string
@@ -73,6 +79,20 @@ export const getSignupGroupDefaultInitialValues =
     signups: [getSignupDefaultInitialValues()],
   });
 
+export const getContactPersonInitialValues = (
+  contactPerson: Partial<ContactPersonFieldsFragment>
+): ContactPersonFormFields => ({
+  email: getValue(contactPerson.email, ''),
+  firstName: getValue(contactPerson.firstName, ''),
+  id: getValue(contactPerson.id, null),
+  lastName: getValue(contactPerson.lastName, ''),
+  membershipNumber: getValue(contactPerson.membershipNumber, ''),
+  nativeLanguage: getValue(contactPerson.nativeLanguage, ''),
+  notifications: [NOTIFICATIONS.EMAIL],
+  phoneNumber: getValue(contactPerson.phoneNumber, ''),
+  serviceLanguage: getValue(contactPerson.serviceLanguage, ''),
+});
+
 export const getSignupGroupInitialValues = (
   signupGroup: SignupGroupFieldsFragment
 ): SignupGroupFormFields => {
@@ -87,17 +107,11 @@ export const getSignupGroupInitialValues = (
       return a.responsibleForGroup === true ? -1 : 1;
     });
 
-  const responsibleSignup =
-    signups.find((su) => su.responsibleForGroup) ?? signups[0];
-
   return {
-    email: getValue(responsibleSignup?.email, ''),
+    contactPerson: getContactPersonInitialValues(
+      signupGroup.contactPerson ?? {}
+    ),
     extraInfo: getValue(signupGroup.extraInfo, ''),
-    membershipNumber: getValue(responsibleSignup?.membershipNumber, ''),
-    nativeLanguage: getValue(responsibleSignup?.nativeLanguage, ''),
-    notifications: [NOTIFICATIONS.EMAIL],
-    phoneNumber: getValue(responsibleSignup?.phoneNumber, ''),
-    serviceLanguage: getValue(responsibleSignup?.serviceLanguage, ''),
     signups: signups.map((su) => getSignupInitialValues(su)),
   };
 };
@@ -112,13 +126,15 @@ export const getSignupGroupPayload = ({
   reservationCode: string;
 }): CreateSignupGroupMutationInput => {
   const {
-    email,
+    contactPerson: {
+      email,
+      membershipNumber,
+      nativeLanguage,
+      notifications,
+      phoneNumber,
+      serviceLanguage,
+    },
     extraInfo: groupExtraInfo,
-    membershipNumber,
-    nativeLanguage,
-    notifications,
-    phoneNumber,
-    serviceLanguage,
     signups: signupsValues,
   } = formValues;
 
@@ -168,13 +184,17 @@ export const getUpdateSignupGroupPayload = ({
   registration: RegistrationFieldsFragment;
 }): UpdateSignupGroupMutationInput => {
   const {
-    email,
+    contactPerson: {
+      email,
+      membershipNumber,
+      nativeLanguage,
+      notifications,
+      phoneNumber,
+      serviceLanguage,
+    },
+
     extraInfo: groupExtraInfo,
-    membershipNumber,
-    nativeLanguage,
-    notifications,
-    phoneNumber,
-    serviceLanguage,
+
     signups: signupsValues,
   } = formValues;
 
@@ -241,7 +261,7 @@ export const getNewSignups = ({
 
 export const isSignupFieldRequired = (
   registration: RegistrationFieldsFragment,
-  fieldId: SIGNUP_GROUP_FIELDS | SIGNUP_FIELDS
+  fieldId: SIGNUP_GROUP_FIELDS | SIGNUP_FIELDS | CONTACT_PERSON_FIELDS
 ): boolean =>
   Boolean(registration.mandatoryFields?.includes(snakeCase(fieldId)));
 

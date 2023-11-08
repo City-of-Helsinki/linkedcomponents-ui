@@ -9,6 +9,9 @@ import {
 describe('parseSignupGroupServerErrors', () => {
   it('should set server error items', async () => {
     const result = {
+      contact_person: {
+        email: ['Tämän kentän arvo ei voi olla "null".'],
+      },
       registration: ['The name must be specified.'],
       signups: [
         {

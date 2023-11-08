@@ -11,8 +11,9 @@ import {
 import formatDate from '../../utils/formatDate';
 import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
-import { NOTIFICATION_TYPE, NOTIFICATIONS } from '../signupGroup/constants';
+import { NOTIFICATION_TYPE } from '../signupGroup/constants';
 import { SignupFormFields, SignupGroupFormFields } from '../signupGroup/types';
+import { getContactPersonInitialValues } from '../signupGroup/utils';
 
 export const getUpdateSignupPayload = ({
   formValues,
@@ -24,11 +25,13 @@ export const getUpdateSignupPayload = ({
   registration: RegistrationFieldsFragment;
 }): UpdateSignupMutationInput => {
   const {
-    email,
-    membershipNumber,
-    nativeLanguage,
-    phoneNumber,
-    serviceLanguage,
+    contactPerson: {
+      email,
+      membershipNumber,
+      nativeLanguage,
+      phoneNumber,
+      serviceLanguage,
+    },
     signups,
   } = formValues;
   const {
@@ -81,13 +84,8 @@ export const getSignupGroupInitialValuesFromSignup = (
   signup: SignupFieldsFragment
 ): SignupGroupFormFields => {
   return {
-    email: getValue(signup.email, ''),
+    contactPerson: getContactPersonInitialValues(signup.contactPerson ?? {}),
     extraInfo: '',
-    membershipNumber: getValue(signup.membershipNumber, ''),
-    nativeLanguage: getValue(signup.nativeLanguage, ''),
-    notifications: [NOTIFICATIONS.EMAIL],
-    phoneNumber: getValue(signup.phoneNumber, ''),
-    serviceLanguage: getValue(signup.serviceLanguage, ''),
     signups: [getSignupInitialValues(signup)],
   };
 };

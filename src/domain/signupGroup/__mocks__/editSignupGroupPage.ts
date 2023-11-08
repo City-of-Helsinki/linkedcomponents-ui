@@ -24,6 +24,7 @@ import { TEST_SIGNUP_GROUP_ID } from '../constants';
 const signupGroupId = TEST_SIGNUP_GROUP_ID;
 
 const signupGroupValues = {
+  contactPerson: signupValues.contactPerson,
   extraInfo: '',
   registration: TEST_REGISTRATION_ID,
 };
@@ -44,9 +45,26 @@ const mockedSignupGroupResponse: MockedResponse = {
 };
 
 const payload = {
-  ...signupGroupValues,
+  extraInfo: signupGroupValues.extraInfo,
+  registration: signupGroupValues.registration,
   signups: [
-    { ...signupValues, dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API) },
+    {
+      city: signupValues.city,
+      dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
+      email: signupGroupValues.contactPerson?.email,
+      extraInfo: signupValues.extraInfo,
+      firstName: signupValues.firstName,
+      id: signupValues.id,
+      lastName: signupValues.lastName,
+      membershipNumber: signupGroupValues.contactPerson?.membershipNumber,
+      nativeLanguage: signupGroupValues.contactPerson?.nativeLanguage,
+      notifications: signupGroupValues.contactPerson?.notifications,
+      phoneNumber: signupGroupValues.contactPerson?.phoneNumber,
+      responsibleForGroup: true,
+      serviceLanguage: signupGroupValues.contactPerson?.serviceLanguage,
+      streetAddress: signupValues.streetAddress,
+      zipcode: signupValues.zipcode,
+    },
   ],
 };
 
