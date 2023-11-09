@@ -1,7 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
-import { AttendeeStatus } from '../../../../generated/graphql';
+import { AttendeeStatus, ContactPerson } from '../../../../generated/graphql';
 import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeSignups } from '../../../../utils/mockDataUtils';
 import {
@@ -18,6 +18,10 @@ import {
   registration,
   registrationId,
 } from '../../../registration/__mocks__/registration';
+import {
+  mockedSignupGroupResponse,
+  signupGroup,
+} from '../../../signupGroup/__mocks__/editSignupGroupPage';
 import { SignupGroupFormProvider } from '../../../signupGroup/signupGroupFormContext/SignupGroupFormContext';
 import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import {
@@ -38,6 +42,7 @@ const defaultMocks = [
   mockedEventResponse,
   mockedOrganizationAncestorsResponse,
   mockedRegistrationUserResponse,
+  mockedSignupGroupResponse,
 ];
 
 const defaultProps: SignupsTableProps = {
@@ -227,6 +232,42 @@ test('should open edit signup group page by pressing enter on a signup with grou
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
   );
+});
+
+test('should display email and phone number for a signup', async () => {
+  renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
+
+  await loadingSpinnerIsNotInDocument();
+  const signupButton = await screen.findByRole('button', {
+    name: signupName,
+  });
+  const { email, phoneNumber } = attendees.data[0]
+    .contactPerson as ContactPerson;
+  expect(
+    await within(signupButton).findByText(email as string)
+  ).toBeInTheDocument();
+  expect(
+    await within(signupButton).findByText(phoneNumber as string)
+  ).toBeInTheDocument();
+});
+
+test('should display email and phone number for a signup group', async () => {
+  renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse(attendeesWithGroup),
+  ]);
+
+  await loadingSpinnerIsNotInDocument();
+  const signupButton = await screen.findByRole('button', {
+    name: signupName,
+  });
+  const { email, phoneNumber } = signupGroup.contactPerson as ContactPerson;
+  expect(
+    await within(signupButton).findByText(email as string)
+  ).toBeInTheDocument();
+  expect(
+    await within(signupButton).findByText(phoneNumber as string)
+  ).toBeInTheDocument();
 });
 
 test('should open actions dropdown', async () => {
