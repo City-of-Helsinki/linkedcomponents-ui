@@ -1855,6 +1855,7 @@
       },
       "freeAttendeeCapacity": "Available seats",
       "freeWaitingListCapacity": "Available waiting list seats",
+      "labelContactPerson": "Contact person",
       "labelExtraInfo": "Additional registration information (optional)",
       "labelParticipantAmount": "Number of registrants",
       "labelRegistration": "Registration",

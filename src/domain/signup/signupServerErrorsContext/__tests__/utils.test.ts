@@ -29,6 +29,10 @@ describe('parseSignupGroupServerErrors', () => {
     expect(
       parseSignupGroupServerErrors({ result, t: i18n.t.bind(i18n) })
     ).toEqual([
+      {
+        label: 'Sähköpostiosoite',
+        message: 'Tämän kentän arvo ei voi olla "null".',
+      },
       { label: 'Ilmoittautuminen', message: 'Nimi on pakollinen.' },
       { label: 'Kaupunki', message: 'Tämän kentän arvo ei voi olla "null".' },
       { label: '', message: 'Osallistuja on liian vanha.' },

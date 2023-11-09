@@ -1856,6 +1856,7 @@
       },
       "freeAttendeeCapacity": "Saatavilla olevia paikkoja",
       "freeWaitingListCapacity": "Saatavilla olevia jonopaikkoja",
+      "labelContactPerson": "Yhteyshenkilö",
       "labelExtraInfo": "Lisätietoa ilmoittautumisesta (valinnainen)",
       "labelParticipantAmount": "Ilmoittautujien määrä",
       "labelRegistration": "Ilmoittautuminen",

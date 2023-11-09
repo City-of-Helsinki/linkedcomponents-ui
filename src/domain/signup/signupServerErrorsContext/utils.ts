@@ -27,7 +27,13 @@ export const parseSignupGroupServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
-    if (key === 'contact_person') {
+    if (
+      key === 'contact_person' &&
+      // API returns '{contact_person: ["Tämän kentän arvo ei voi olla "null"."]}' error when
+      // trying to set null value for contact_person. Use parseContactPersonServerError only
+      // when error type is object
+      !(Array.isArray(error) && typeof error[0] == 'string')
+    ) {
       return parseContactPersonServerError(error);
     }
     if (key === 'signups') {
@@ -47,20 +53,17 @@ export const parseSignupGroupServerErrors = ({
     error: LEServerError
   ): ServerErrorItem[] {
     /* istanbul ignore else */
-    if (Array.isArray(error)) {
-      return Object.entries(error[0]).reduce(
-        (previous: ServerErrorItem[], [key, e]) => [
-          ...previous,
-          {
-            label: parseContactPersonServerErrorLabel({ key }),
-            message: parseServerErrorMessage({ error: e as string[], t }),
-          },
-        ],
-        []
-      );
-    } else {
-      return [];
-    }
+
+    return Object.entries(error).reduce(
+      (previous: ServerErrorItem[], [key, e]) => [
+        ...previous,
+        {
+          label: parseContactPersonServerErrorLabel({ key }),
+          message: parseServerErrorMessage({ error: e as string[], t }),
+        },
+      ],
+      []
+    );
   }
 
   // Get error items for signup fields
@@ -99,7 +102,7 @@ export const parseSignupGroupServerErrors = ({
       return '';
     }
 
-    if (key === 'registration') {
+    if (['contact_person', 'registration'].includes(key)) {
       return t(`signup.form.label${pascalCase(key)}`);
     }
 

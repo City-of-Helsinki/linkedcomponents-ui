@@ -1856,6 +1856,7 @@
       },
       "freeAttendeeCapacity": "Tillgängliga platser",
       "freeWaitingListCapacity": "Tillgängliga väntelistplatser",
+      "labelContactPerson": "Kontaktperson",
       "labelExtraInfo": "Ytterligare registreringsinformation (valfritt)",
       "labelParticipantAmount": "Antal registrerade",
       "labelRegistration": "Registrering",
