@@ -35,12 +35,11 @@ The web application is running at http://localhost:3000
 
 ## Setting up complete development environment locally with docker
 
-### Set tunnistamo and linkedevents hostname
+### Set tunnistamo hostname
 
 Add the following lines to your hosts file (`/etc/hosts` on mac and linux):
 
     127.0.0.1 tunnistamo-backend
-    127.0.0.1 linkedevents-backend
 
 ### Create a new OAuth app on GitHub
 
@@ -69,7 +68,7 @@ and execute the following four commands inside your docker container:
 
 ```bash
 ./manage.py add_oidc_client -n linkedevents-ui -t "code" -u "http://localhost:3000/callback" "http://localhost:3000/silent-callback" -i https://api.hel.fi/auth/linkedevents-ui -m github -s dev
-./manage.py add_oidc_client -n linkedevents -t "code" -u http://linkedevents-backend:8080/accounts/helsinki/login/callback -i https://api.hel.fi/auth/linkedevents -m github -s dev -c
+./manage.py add_oidc_client -n linkedevents-api -t "code" -u http://localhost:8080/pysocial/complete/tunnistamo/ -i https://api.hel.fi/auth/linkedevents -m github -s dev -c
 ./manage.py add_oidc_api -n linkedevents -d https://api.hel.fi/auth -s email,profile -c https://api.hel.fi/auth/linkedevents
 ./manage.py add_oidc_api_scope -an linkedevents -c https://api.hel.fi/auth/linkedevents -n "Linked events" -d"Lorem ipsum"
 ./manage.py add_oidc_client_to_api_scope -asi https://api.hel.fi/auth/linkedevents -c https://api.hel.fi/auth/linkedevents-ui
@@ -77,24 +76,12 @@ and execute the following four commands inside your docker container:
 
 ### Install local Linked Events API
 
-Clone the repository (https://github.com/City-of-Helsinki/linkedevents). Follow the instructions for running linkedevents with docker. Before running `docker-compose up` set the following settings in `/docker/django/.env`:
+Clone the repository (https://github.com/City-of-Helsinki/linkedevents). Follow the instructions for running linkedevents with docker. Before running `docker compose up` use the `env.example` template as base for `/docker/django/.env` and also set the following settings there:
 
-- ALLOWED_HOSTS=\*
-- APPLY_MIGRATIONS=false
-- CREATE_SUPERUSER=true
-- DATABASE_URL=postgres://linkedevents:linkedevents@linkedevents-db/linkedevents
-- DEBUG=true
-- DEV_SERVER=true
-- MEMCACHED_URL=linkedevents-memcached:11211
-- RUNSERVER_ADDRESS=0.0.0.0:8080
-- SEAT_RESERVATION_DURATION=15
-- WAIT_FOR_IT_ADDRESS=linkedevents-db:5432
 - TOKEN_AUTH_AUTHSERVER_URL=http://tunnistamo-backend:8000/openid
-- TOKEN_AUTH_ACCEPTED_AUDIENCE=https://api.hel.fi/auth/linkedevents
-- TOKEN_AUTH_REQUIRE_SCOPE_PREFIX=False
 - SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT=http://tunnistamo-backend:8000/openid
-- SOCIAL_AUTH_TUNNISTAMO_KEY=linkedevents
-- SOCIAL_AUTH_TUNNISTAMO_SECRET<linkedevents client secret>
+- SOCIAL_AUTH_TUNNISTAMO_KEY=https://api.hel.fi/auth/linkedevents
+- SOCIAL_AUTH_TUNNISTAMO_SECRET<linkedevents-api client secret from tunnistamo>
 
 ### Linked Events UI
 
@@ -105,7 +92,7 @@ Set the following settings in `.env.local`:
 - REACT_APP_OIDC_CLIENT_ID=https://api.hel.fi/auth/linkedevents-ui
 - REACT_APP_OIDC_API_SCOPE=https://api.hel.fi/auth/linkedevents
 - REACT_APP_OIDC_RESPONSE_TYPE=code
-- REACT_APP_LINKED_EVENTS_URL=http://linkedevents-backend:8080/v1
+- REACT_APP_LINKED_EVENTS_URL=http://localhost:8080/v1
 - REACT_APP_LINKED_REGISTRATIONS_UI_URL=http://localhost:3001
 
 Run `docker-compose up`, now the app should be running at `http://localhost:3000/`
