@@ -66,6 +66,12 @@ const mockedSignupResponse: MockedResponse = {
   result: signupResponse,
 };
 
+const signupWithGroupResponse = { data: { signup: signupWithGroup } };
+const mockedSignupWithGroupResponse: MockedResponse = {
+  request: { query: SignupDocument, variables: signupVariables },
+  result: signupWithGroupResponse,
+};
+
 const deleteSignupVariables = { id: signupId };
 const deleteSignupResponse = { data: { deleteSignup: null } };
 const mockedDeleteSignupResponse: MockedResponse = {
@@ -140,6 +146,7 @@ export {
   mockedInvalidUpdateSignupResponse,
   mockedSendMessageResponse,
   mockedSignupResponse,
+  mockedSignupWithGroupResponse,
   mockedUpdateSignupResponse,
   sendMessageValues,
   signup,

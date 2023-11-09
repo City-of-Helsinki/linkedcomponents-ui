@@ -150,13 +150,17 @@ export const getContactPersonSchema = (
 };
 
 export const getSignupGroupSchema = (
-  registration: RegistrationFieldsFragment
+  registration: RegistrationFieldsFragment,
+  validateContactPerson = true
 ) => {
   return Yup.object().shape({
     [SIGNUP_GROUP_FIELDS.SIGNUPS]: Yup.array().of(
       getSignupSchema(registration)
     ),
-    [SIGNUP_GROUP_FIELDS.CONTACT_PERSON]: getContactPersonSchema(registration),
+    ...(validateContactPerson && {
+      [SIGNUP_GROUP_FIELDS.CONTACT_PERSON]:
+        getContactPersonSchema(registration),
+    }),
     [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_GROUP_FIELDS.EXTRA_INFO)
     ),

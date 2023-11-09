@@ -1834,6 +1834,11 @@
       "buttonSave": "Save participant",
       "buttonUpdateParticipantAmount": "Update",
       "contactPerson": {
+        "cannotEditContactPersonNotification": {
+          "linkText": "Edit the signup group",
+          "text": "The signup group's contact person information cannot be edited from this page. Contact information can be edited from the signup group's editing page.",
+          "title": "Contact person information cannot be edited"
+        },
         "labelEmail": "Email address",
         "labelFirstName": "First name",
         "labelLastName": "Last name",
@@ -1849,6 +1854,7 @@
         "placeholderPhoneNumber": "+358 44 1234 567",
         "placeholderServiceLanguage": "Select language",
         "titleAdditionalInfo": "Additional information",
+        "titleCannotEditContactPerson": "The signup group's contact person information cannot be edited from this page.",
         "titleContactInfo": "Contact information",
         "titleContactPersonInfo": "Information of the contact person",
         "titleNotifications": "Event notifications"

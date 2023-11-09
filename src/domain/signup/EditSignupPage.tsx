@@ -9,8 +9,10 @@ import {
   EventFieldsFragment,
   RegistrationFieldsFragment,
   SignupFieldsFragment,
+  SignupGroupFieldsFragment,
   SignupQuery,
   SignupQueryVariables,
+  useSignupGroupQuery,
   useSignupQuery,
 } from '../../generated/graphql';
 import getValue from '../../utils/getValue';
@@ -37,6 +39,7 @@ type Props = {
   ) => Promise<ApolloQueryResult<SignupQuery>>;
   registration: RegistrationFieldsFragment;
   signup: SignupFieldsFragment;
+  signupGroup?: SignupGroupFieldsFragment;
 };
 
 const EditSignupPage: React.FC<Props> = ({
@@ -44,6 +47,7 @@ const EditSignupPage: React.FC<Props> = ({
   refetch,
   registration,
   signup,
+  signupGroup,
 }) => {
   const { t } = useTranslation();
   const { user } = useUser();
@@ -57,8 +61,8 @@ const EditSignupPage: React.FC<Props> = ({
   });
 
   const initialValues = React.useMemo(
-    () => getSignupGroupInitialValuesFromSignup(signup),
-    [signup]
+    () => getSignupGroupInitialValuesFromSignup(signup, signupGroup),
+    [signup, signupGroup]
   );
 
   return (
@@ -78,6 +82,7 @@ const EditSignupPage: React.FC<Props> = ({
           />
         </Container>
         <SignupGroupForm
+          contactPersonFieldsDisabled={!!signup.signupGroup}
           disabled={!isEditingAllowed}
           event={event}
           initialValues={initialValues}
@@ -110,8 +115,16 @@ const EditSignupPageWrapper: React.FC = () => {
     variables: { id: getValue(signupId, '') },
   });
 
+  const { data: signupGroupData, loading: loadingSignupGroup } =
+    useSignupGroupQuery({
+      skip: !signupData?.signup.signupGroup,
+      variables: { id: signupData?.signup.signupGroup as string },
+    });
+
   const signup = signupData?.signup;
-  const loading = loadingRegistrationAndEvent || loadingSignup;
+  const signupGroup = signupGroupData?.signupGroup;
+  const loading =
+    loadingRegistrationAndEvent || loadingSignup || loadingSignupGroup;
 
   return (
     <LoadingSpinner isLoading={loading}>
@@ -123,6 +136,7 @@ const EditSignupPageWrapper: React.FC = () => {
               refetch={refetch}
               registration={registration}
               signup={signup}
+              signupGroup={signupGroup}
             />
           </SignupServerErrorsProvider>
         </SignupGroupFormProvider>

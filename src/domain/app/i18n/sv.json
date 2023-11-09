@@ -1835,6 +1835,11 @@
       "buttonSave": "Spara deltagare",
       "buttonUpdateParticipantAmount": "Uppdatera",
       "contactPerson": {
+        "cannotEditContactPersonNotification": {
+          "linkText": "Redigera deltagargruppen",
+          "text": "Deltagargruppens kontaktpersonsuppgifter kan inte redigeras från denna sida. Kontaktinformation kan redigeras från redigeringssidan för deltagargruppen.",
+          "title": "Kontaktinformation kan inte redigeras"
+        },
         "labelEmail": "E-postadress",
         "labelFirstName": "Förnamn",
         "labelLastName": "Efternamn",
@@ -1850,6 +1855,7 @@
         "placeholderPhoneNumber": "+358 44 1234 567",
         "placeholderServiceLanguage": "Välj transaktionsspråk",
         "titleAdditionalInfo": "Ytterligare information",
+        "titleCannotEditContactPerson": "Deltagargruppens kontaktpersonsuppgifter kan inte redigeras från denna sida.",
         "titleContactInfo": "Kontaktinformation",
         "titleContacPersonInfo": "Information om kontaktperson",
         "titleNotifications": "Evenemangmeddelanden"

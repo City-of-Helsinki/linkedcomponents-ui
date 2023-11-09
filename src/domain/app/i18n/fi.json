@@ -1835,6 +1835,11 @@
       "buttonSave": "Tallenna osallistuja",
       "buttonUpdateParticipantAmount": "Päivitä",
       "contactPerson": {
+        "cannotEditContactPersonNotification": {
+          "linkText": "Muokkaa osallistuharyhmää",
+          "text": "Osallistujaryhmän yhteyshenkilön tietoja ei voi muokata tältä sivulta. Yhteystietoja voi muokata osallistujaryhmän muokkaussivulta.",
+          "title": "Yhteyshenkilön tietoja ei voi muokata"
+        },
         "labelEmail": "Sähköpostiosoite",
         "labelFirstName": "Etunimi",
         "labelLastName": "Sukunimi",
@@ -1850,6 +1855,7 @@
         "placeholderPhoneNumber": "+358 44 1234 567",
         "placeholderServiceLanguage": "Valitse asiointikieli",
         "titleAdditionalInfo": "Lisätiedot",
+        "titleCannotEditContactPerson": "Osallistujaryhmän yhteyshenkilön tietoja ei voi muokata tältä sivulta.",
         "titleContactInfo": "Yhteystiedot",
         "titleContactPersonInfo": "Yhteyshenkilön tiedot",
         "titleNotifications": "Tapahtumaa koskevat ilmoitukset"

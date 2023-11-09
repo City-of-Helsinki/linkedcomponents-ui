@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
@@ -24,12 +25,14 @@ import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../registration/__mocks__/registration';
+import { mockedSignupGroupResponse } from '../../signupGroup/__mocks__/editSignupGroupPage';
 import { mockedRegistrationUserResponse } from '../../user/__mocks__/user';
 import {
   mockedDeleteSignupResponse,
   mockedInvalidUpdateSignupResponse,
   mockedSendMessageResponse,
   mockedSignupResponse,
+  mockedSignupWithGroupResponse,
   mockedUpdateSignupResponse,
   sendMessageValues,
   signup,
@@ -49,6 +52,7 @@ const getElement = (
     | 'emailInput'
     | 'firstNameInput'
     | 'lastNameInput'
+    | 'membershipNumberInput'
     | 'menu'
     | 'nativeLanguageButton'
     | 'phoneCheckbox'
@@ -72,6 +76,8 @@ const getElement = (
       return screen.getAllByLabelText(/etunimi/i)[0];
     case 'lastNameInput':
       return screen.getAllByLabelText(/sukunimi/i)[0];
+    case 'membershipNumberInput':
+      return screen.getByLabelText(/jäsenkortin numero/i);
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
     case 'nativeLanguageButton':
@@ -156,6 +162,49 @@ test('should initialize input fields', async () => {
   expect(emailInput).toHaveValue(signup.contactPerson?.email);
   expect(phoneInput).toHaveValue(signup.contactPerson?.phoneNumber);
   expect(emailCheckbox).toBeChecked();
+});
+
+test('contact person fields should be disabled if signup has a signup group', async () => {
+  renderComponent([
+    mockedSignupGroupResponse,
+    mockedSignupWithGroupResponse,
+    mockedLanguagesResponse,
+    mockedServiceLanguagesResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedPlaceResponse,
+    mockedRegistrationResponse,
+    mockedRegistrationUserResponse,
+  ]);
+
+  const firstNameInput = (await findFirstNameInputs())[1];
+  const emailInput = getElement('emailInput');
+  const phoneInput = getElement('phoneInput');
+  const lastNameInput = screen.getAllByLabelText(/sukunimi/i)[1];
+  const membershipNumberInput = getElement('membershipNumberInput');
+  const nativeLanguageButton = getElement('nativeLanguageButton');
+  const serviceLanguageButton = getElement('serviceLanguageButton');
+
+  expect(
+    screen.getByRole('heading', {
+      name: /yhteyshenkilön tietoja ei voi muokata/i,
+    })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByText(
+      'Osallistujaryhmän yhteyshenkilön tietoja ei voi muokata tältä sivulta. Yhteystietoja voi muokata osallistujaryhmän muokkaussivulta.'
+    )
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole('link', { name: /muokkaa osallistuharyhmää/i })
+  ).toBeInTheDocument();
+
+  expect(emailInput).toBeDisabled();
+  expect(phoneInput).toBeDisabled();
+  expect(firstNameInput).toBeDisabled();
+  expect(lastNameInput).toBeDisabled();
+  expect(membershipNumberInput).toBeDisabled();
+  expect(nativeLanguageButton).toBeDisabled();
+  expect(serviceLanguageButton).toBeDisabled();
 });
 
 test('should delete signup', async () => {

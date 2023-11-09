@@ -6,6 +6,7 @@ import {
   ContactPersonInput,
   RegistrationFieldsFragment,
   SignupFieldsFragment,
+  SignupGroupFieldsFragment,
   SignupInput,
   UpdateSignupMutationInput,
 } from '../../generated/graphql';
@@ -74,10 +75,13 @@ export const getSignupInitialValues = (
 });
 
 export const getSignupGroupInitialValuesFromSignup = (
-  signup: SignupFieldsFragment
+  signup: SignupFieldsFragment,
+  signupGroup?: SignupGroupFieldsFragment
 ): SignupGroupFormFields => {
+  const contactPerson =
+    signupGroup?.contactPerson ?? signup?.contactPerson ?? {};
   return {
-    contactPerson: getContactPersonInitialValues(signup.contactPerson ?? {}),
+    contactPerson: getContactPersonInitialValues(contactPerson),
     extraInfo: '',
     signups: [getSignupInitialValues(signup)],
   };
