@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { DATE_FORMAT_API } from '../../../constants';
 import {
+  ContactPerson,
   DeleteSignupGroupDocument,
   SendMessageDocument,
   SignupGroupDocument,
@@ -19,12 +20,24 @@ import {
   signup,
   signupValues,
 } from '../../signup/__mocks__/editSignupPage';
-import { TEST_SIGNUP_GROUP_ID } from '../constants';
+import { TEST_CONTACT_PERSON_ID } from '../../signup/constants';
+import { NOTIFICATION_TYPE, TEST_SIGNUP_GROUP_ID } from '../constants';
 
 const signupGroupId = TEST_SIGNUP_GROUP_ID;
+const contactPersonValues: ContactPerson = {
+  email: 'participant@email.com',
+  firstName: 'Contact first name',
+  id: TEST_CONTACT_PERSON_ID,
+  lastName: 'Contact last name',
+  membershipNumber: '',
+  nativeLanguage: 'fi',
+  notifications: NOTIFICATION_TYPE.EMAIL,
+  phoneNumber: '+358 44 123 4567',
+  serviceLanguage: 'fi',
+};
 
 const signupGroupValues = {
-  contactPerson: signupValues.contactPerson,
+  contactPerson: contactPersonValues,
   extraInfo: '',
   registration: TEST_REGISTRATION_ID,
 };
@@ -45,23 +58,18 @@ const mockedSignupGroupResponse: MockedResponse = {
 };
 
 const payload = {
+  contactPerson: contactPersonValues,
   extraInfo: signupGroupValues.extraInfo,
   registration: signupGroupValues.registration,
   signups: [
     {
       city: signupValues.city,
       dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
-      email: signupGroupValues.contactPerson?.email,
       extraInfo: signupValues.extraInfo,
       firstName: signupValues.firstName,
       id: signupValues.id,
       lastName: signupValues.lastName,
-      membershipNumber: signupGroupValues.contactPerson?.membershipNumber,
-      nativeLanguage: signupGroupValues.contactPerson?.nativeLanguage,
-      notifications: signupGroupValues.contactPerson?.notifications,
-      phoneNumber: signupGroupValues.contactPerson?.phoneNumber,
       responsibleForGroup: true,
-      serviceLanguage: signupGroupValues.contactPerson?.serviceLanguage,
       streetAddress: signupValues.streetAddress,
       zipcode: signupValues.zipcode,
     },

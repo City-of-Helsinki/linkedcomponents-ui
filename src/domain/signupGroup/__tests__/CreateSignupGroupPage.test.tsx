@@ -35,6 +35,7 @@ import {
 import { TEST_SEATS_RESERVATION_CODE } from '../../seatsReservation/constants';
 import { mockedRegistrationUserResponse } from '../../user/__mocks__/user';
 import {
+  contactPersonValues,
   mockedCreateSignupGroupResponse,
   mockedInvalidCreateSignupGroupResponse,
   signupValues,
@@ -263,8 +264,8 @@ const enterFormValues = async () => {
   await user.type(dateOfBirthInput, signupValues.dateOfBirth);
   await user.type(zipInput, signupValues.zip);
   await user.type(cityInput, signupValues.city);
-  await user.type(emailInput, signupValues.email);
-  await user.type(phoneInput, signupValues.phone);
+  await user.type(emailInput, contactPersonValues.email);
+  await user.type(phoneInput, contactPersonValues.phone);
   await user.click(nativeLanguageButton);
   const nativeLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,
@@ -309,8 +310,8 @@ test('should validate signup group form and focus to invalid field and finally c
   expect(emailInput).toBeRequired();
   expect(phoneInput).not.toBeRequired();
 
-  await user.type(emailInput, signupValues.email);
-  await user.type(phoneInput, signupValues.phone);
+  await user.type(emailInput, contactPersonValues.email);
+  await user.type(phoneInput, contactPersonValues.phone);
   await user.click(submitButton);
 
   await waitFor(() => expect(nativeLanguageButton).toHaveFocus());

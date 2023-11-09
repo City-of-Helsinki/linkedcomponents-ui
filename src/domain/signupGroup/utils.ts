@@ -5,6 +5,7 @@ import snakeCase from 'lodash/snakeCase';
 import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
 import {
   ContactPersonFieldsFragment,
+  ContactPersonInput,
   CreateSignupGroupMutationInput,
   RegistrationFieldsFragment,
   SeatsReservationFieldsFragment,
@@ -22,8 +23,10 @@ import {
 } from '../seatsReservation/utils';
 import {
   getSignupInitialValues,
+  omitSensitiveDataFromContactPerson,
   omitSensitiveDataFromSignupPayload,
 } from '../signup/utils';
+import { signupGroup } from './__mocks__/editSignupGroupPage';
 import {
   CONTACT_PERSON_FIELDS,
   NOTIFICATION_TYPE,
@@ -116,6 +119,28 @@ export const getSignupGroupInitialValues = (
   };
 };
 
+export const getContactPersonPayload = (
+  formValues: ContactPersonFormFields
+): ContactPersonInput => {
+  const {
+    email,
+    nativeLanguage,
+    notifications,
+    phoneNumber,
+    serviceLanguage,
+    ...rest
+  } = formValues;
+
+  return {
+    ...rest,
+    email: getValue(email, null),
+    nativeLanguage: getValue(nativeLanguage, null),
+    notifications: getSignupNotificationsCode(notifications),
+    phoneNumber: getValue(phoneNumber, null),
+    serviceLanguage: getValue(serviceLanguage, null),
+  };
+};
+
 export const getSignupGroupPayload = ({
   formValues,
   registration,
@@ -126,14 +151,7 @@ export const getSignupGroupPayload = ({
   reservationCode: string;
 }): CreateSignupGroupMutationInput => {
   const {
-    contactPerson: {
-      email,
-      membershipNumber,
-      nativeLanguage,
-      notifications,
-      phoneNumber,
-      serviceLanguage,
-    },
+    contactPerson,
     extraInfo: groupExtraInfo,
     signups: signupsValues,
   } = formValues;
@@ -153,22 +171,17 @@ export const getSignupGroupPayload = ({
       dateOfBirth: dateOfBirth
         ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
         : null,
-      email: getValue(email, null),
       extraInfo,
       firstName: getValue(firstName, ''),
       lastName: getValue(lastName, ''),
-      membershipNumber: membershipNumber,
-      nativeLanguage: getValue(nativeLanguage, null),
-      notifications: getSignupNotificationsCode(notifications),
-      phoneNumber: getValue(phoneNumber, null),
       responsibleForGroup: index === 0,
-      serviceLanguage: getValue(serviceLanguage, null),
       streetAddress: getValue(streetAddress, null),
       zipcode: getValue(zipcode, null),
     };
   });
 
   return {
+    contactPerson: getContactPersonPayload(contactPerson),
     extraInfo: groupExtraInfo,
     registration: registration.id,
     reservationCode,
@@ -184,17 +197,8 @@ export const getUpdateSignupGroupPayload = ({
   registration: RegistrationFieldsFragment;
 }): UpdateSignupGroupMutationInput => {
   const {
-    contactPerson: {
-      email,
-      membershipNumber,
-      nativeLanguage,
-      notifications,
-      phoneNumber,
-      serviceLanguage,
-    },
-
+    contactPerson,
     extraInfo: groupExtraInfo,
-
     signups: signupsValues,
   } = formValues;
 
@@ -216,23 +220,18 @@ export const getUpdateSignupGroupPayload = ({
       dateOfBirth: dateOfBirth
         ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
         : null,
-      email: getValue(email, null),
       extraInfo,
       firstName: getValue(firstName, ''),
       id,
       lastName: getValue(lastName, ''),
-      membershipNumber: membershipNumber,
-      nativeLanguage: getValue(nativeLanguage, null),
-      notifications: getSignupNotificationsCode(notifications),
-      phoneNumber: getValue(phoneNumber, null),
       responsibleForGroup: !!responsibleForGroup,
-      serviceLanguage: getValue(serviceLanguage, null),
       streetAddress: getValue(streetAddress, null),
       zipcode: getValue(zipcode, null),
     };
   });
 
   return {
+    contactPerson: getContactPersonPayload(contactPerson),
     extraInfo: groupExtraInfo,
     registration: registration.id,
     signups,
@@ -306,6 +305,9 @@ export const omitSensitiveDataFromSignupGroupPayload = (
   CreateSignupGroupMutationInput | UpdateSignupGroupMutationInput
 > => ({
   ...omit(payload, ['extraInfo']),
+  contactPerson: signupGroup.contactPerson
+    ? omitSensitiveDataFromContactPerson(signupGroup.contactPerson)
+    : signupGroup.contactPerson,
   signups: payload.signups
     ?.filter(skipFalsyType)
     .map((s) => omitSensitiveDataFromSignupPayload(s)),

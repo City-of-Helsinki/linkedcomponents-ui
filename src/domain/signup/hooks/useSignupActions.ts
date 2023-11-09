@@ -111,6 +111,7 @@ const useSignupActions = ({
   ) => {
     const payload: UpdateSignupMutationInput = getUpdateSignupPayload({
       formValues: values,
+      hasSignupGroup: Boolean(signup?.signupGroup),
       id: getValue(signup?.id, ''),
       registration,
     });

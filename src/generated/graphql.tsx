@@ -36,6 +36,18 @@ export type ContactPerson = {
   serviceLanguage?: Maybe<Scalars['String']['output']>;
 };
 
+export type ContactPersonInput = {
+  email?: InputMaybe<Scalars['String']['input']>;
+  firstName?: InputMaybe<Scalars['String']['input']>;
+  id?: InputMaybe<Scalars['ID']['input']>;
+  lastName?: InputMaybe<Scalars['String']['input']>;
+  membershipNumber?: InputMaybe<Scalars['String']['input']>;
+  nativeLanguage?: InputMaybe<Scalars['String']['input']>;
+  notifications?: InputMaybe<Scalars['String']['input']>;
+  phoneNumber?: InputMaybe<Scalars['String']['input']>;
+  serviceLanguage?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type CreateEventMutationInput = {
   audience?: InputMaybe<Array<IdObjectInput>>;
   audienceMaxAge?: InputMaybe<Scalars['Int']['input']>;
@@ -152,6 +164,7 @@ export type CreateSeatsReservationMutationInput = {
 };
 
 export type CreateSignupGroupMutationInput = {
+  contactPerson?: InputMaybe<ContactPersonInput>;
   extraInfo?: InputMaybe<Scalars['String']['input']>;
   registration?: InputMaybe<Scalars['ID']['input']>;
   reservationCode?: InputMaybe<Scalars['String']['input']>;
@@ -1096,19 +1109,14 @@ export type SignupGroup = {
 
 export type SignupInput = {
   city?: InputMaybe<Scalars['String']['input']>;
+  contactPerson?: InputMaybe<ContactPersonInput>;
   dateOfBirth?: InputMaybe<Scalars['String']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
   extraInfo?: InputMaybe<Scalars['String']['input']>;
   firstName?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   lastName?: InputMaybe<Scalars['String']['input']>;
-  membershipNumber?: InputMaybe<Scalars['String']['input']>;
-  nativeLanguage?: InputMaybe<Scalars['String']['input']>;
-  notifications?: InputMaybe<Scalars['String']['input']>;
-  phoneNumber?: InputMaybe<Scalars['String']['input']>;
   presenceStatus?: InputMaybe<PresenceStatus>;
   responsibleForGroup?: InputMaybe<Scalars['Boolean']['input']>;
-  serviceLanguage?: InputMaybe<Scalars['String']['input']>;
   streetAddress?: InputMaybe<Scalars['String']['input']>;
   zipcode?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1249,6 +1257,7 @@ export type UpdateSeatsReservationMutationInput = {
 };
 
 export type UpdateSignupGroupMutationInput = {
+  contactPerson?: InputMaybe<ContactPersonInput>;
   extraInfo?: InputMaybe<Scalars['String']['input']>;
   registration?: InputMaybe<Scalars['ID']['input']>;
   signups?: InputMaybe<Array<SignupInput>>;
@@ -1256,20 +1265,15 @@ export type UpdateSignupGroupMutationInput = {
 
 export type UpdateSignupMutationInput = {
   city?: InputMaybe<Scalars['String']['input']>;
+  contactPerson?: InputMaybe<ContactPersonInput>;
   dateOfBirth?: InputMaybe<Scalars['String']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
   extraInfo?: InputMaybe<Scalars['String']['input']>;
   firstName?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['ID']['input'];
   lastName?: InputMaybe<Scalars['String']['input']>;
-  membershipNumber?: InputMaybe<Scalars['String']['input']>;
-  nativeLanguage?: InputMaybe<Scalars['String']['input']>;
-  notifications?: InputMaybe<Scalars['String']['input']>;
-  phoneNumber?: InputMaybe<Scalars['String']['input']>;
   presenceStatus?: InputMaybe<PresenceStatus>;
   registration?: InputMaybe<Scalars['ID']['input']>;
   responsibleForGroup?: InputMaybe<Scalars['Boolean']['input']>;
-  serviceLanguage?: InputMaybe<Scalars['String']['input']>;
   streetAddress?: InputMaybe<Scalars['String']['input']>;
   zipcode?: InputMaybe<Scalars['String']['input']>;
 };

@@ -3,6 +3,7 @@ import omit from 'lodash/omit';
 import { DATE_FORMAT_API } from '../../constants';
 import {
   AttendeeStatus,
+  ContactPersonInput,
   RegistrationFieldsFragment,
   SignupFieldsFragment,
   SignupInput,
@@ -11,29 +12,24 @@ import {
 import formatDate from '../../utils/formatDate';
 import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
-import { NOTIFICATION_TYPE } from '../signupGroup/constants';
 import { SignupFormFields, SignupGroupFormFields } from '../signupGroup/types';
-import { getContactPersonInitialValues } from '../signupGroup/utils';
+import {
+  getContactPersonInitialValues,
+  getContactPersonPayload,
+} from '../signupGroup/utils';
 
 export const getUpdateSignupPayload = ({
   formValues,
+  hasSignupGroup,
   id,
   registration,
 }: {
   formValues: SignupGroupFormFields;
+  hasSignupGroup: boolean;
   id: string;
   registration: RegistrationFieldsFragment;
 }): UpdateSignupMutationInput => {
-  const {
-    contactPerson: {
-      email,
-      membershipNumber,
-      nativeLanguage,
-      phoneNumber,
-      serviceLanguage,
-    },
-    signups,
-  } = formValues;
+  const { contactPerson, signups } = formValues;
   const {
     city,
     dateOfBirth,
@@ -48,18 +44,15 @@ export const getUpdateSignupPayload = ({
   return {
     id,
     city: getValue(city, ''),
+    contactPerson: !hasSignupGroup
+      ? getContactPersonPayload(contactPerson)
+      : undefined,
     dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
-    email: getValue(email, null),
     extraInfo: getValue(extraInfo, ''),
     firstName: getValue(firstName, ''),
     lastName: getValue(lastName, ''),
-    membershipNumber: membershipNumber,
-    nativeLanguage: getValue(nativeLanguage, null),
-    notifications: NOTIFICATION_TYPE.EMAIL,
-    phoneNumber: getValue(phoneNumber, null),
     registration: getValue(registration.id, ''),
     responsibleForGroup: !!responsibleForGroup,
-    serviceLanguage: getValue(serviceLanguage, null),
     streetAddress: getValue(streetAddress, null),
     zipcode: getValue(zipcode, null),
   };
@@ -90,20 +83,38 @@ export const getSignupGroupInitialValuesFromSignup = (
   };
 };
 
-export const omitSensitiveDataFromSignupPayload = (
-  payload: SignupInput | UpdateSignupMutationInput
-): Partial<SignupInput | UpdateSignupMutationInput> =>
+export const omitSensitiveDataFromContactPerson = (
+  payload: ContactPersonInput
+): Partial<ContactPersonInput> =>
   omit(payload, [
-    'city',
-    'dateOfBirth',
+    '__typename',
     'email',
-    'extraInfo',
     'firstName',
     'lastName',
     'membershipNumber',
     'nativeLanguage',
     'phoneNumber',
     'serviceLanguage',
-    'streetAddress',
-    'zipcode',
   ]);
+
+export const omitSensitiveDataFromSignupPayload = (
+  payload: SignupInput | UpdateSignupMutationInput
+): Partial<SignupInput | UpdateSignupMutationInput> =>
+  omit(
+    {
+      ...payload,
+      contactPerson: payload.contactPerson
+        ? omitSensitiveDataFromContactPerson(payload.contactPerson)
+        : payload.contactPerson,
+    },
+    [
+      '__typename',
+      'city',
+      'dateOfBirth',
+      'extraInfo',
+      'firstName',
+      'lastName',
+      'streetAddress',
+      'zipcode',
+    ]
+  );

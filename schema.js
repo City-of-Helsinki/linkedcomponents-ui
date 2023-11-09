@@ -240,11 +240,8 @@ module.exports = buildSchema(/* GraphQL */ `
     url: String
   }
 
-  input SignupInput {
-    city: String
-    dateOfBirth: String
+  input ContactPersonInput {
     email: String
-    extraInfo: String
     firstName: String
     id: ID
     lastName: String
@@ -252,14 +249,25 @@ module.exports = buildSchema(/* GraphQL */ `
     nativeLanguage: String
     notifications: String
     phoneNumber: String
+    serviceLanguage: String
+  }
+
+  input SignupInput {
+    city: String
+    contactPerson: ContactPersonInput
+    dateOfBirth: String
+    extraInfo: String
+    firstName: String
+    id: ID
+    lastName: String
     presenceStatus: PresenceStatus
     responsibleForGroup: Boolean
-    serviceLanguage: String
     streetAddress: String
     zipcode: String
   }
 
   input CreateSignupGroupMutationInput {
+    contactPerson: ContactPersonInput
     extraInfo: String
     registration: ID
     reservationCode: String
@@ -267,6 +275,7 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input UpdateSignupGroupMutationInput {
+    contactPerson: ContactPersonInput
     extraInfo: String
     registration: ID
     signups: [SignupInput!]
@@ -275,19 +284,14 @@ module.exports = buildSchema(/* GraphQL */ `
   input UpdateSignupMutationInput {
     id: ID!
     city: String
+    contactPerson: ContactPersonInput
     dateOfBirth: String
-    email: String
     extraInfo: String
     firstName: String
     lastName: String
-    membershipNumber: String
-    nativeLanguage: String
-    notifications: String
-    phoneNumber: String
     presenceStatus: PresenceStatus
     registration: ID
     responsibleForGroup: Boolean
-    serviceLanguage: String
     streetAddress: String
     zipcode: String
   }
