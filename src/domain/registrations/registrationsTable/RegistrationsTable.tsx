@@ -2,6 +2,7 @@ import isNumber from 'lodash/isNumber';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import Table from '../../../common/components/table/Table';
 import {
@@ -28,13 +29,21 @@ export interface RegistrationsTableProps {
 
 const NameColumn = (registration: RegistrationFieldsFragment) => {
   const locale = useLocale();
-  const { event } = getRegistrationFields(registration, locale);
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
+  const { event, registrationUrl } = getRegistrationFields(
+    registration,
+    locale
+  );
 
   return (
     <div className={styles.nameWrapper}>
-      <span className={styles.registrationName} title={event?.name}>
+      <Link
+        className={styles.registrationName}
+        title={event?.name}
+        to={{ pathname: registrationUrl, search: queryStringWithReturnPath }}
+      >
         {event?.name}
-      </span>
+      </Link>
     </div>
   );
 };
@@ -115,6 +124,10 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
           className: styles.nameColumn,
           key: 'name',
           headerName: t('registrationsPage.registrationsTableColumns.name'),
+          onClick: (ev) => {
+            ev.stopPropagation();
+            ev.preventDefault();
+          },
           transform: NameColumn,
         },
         {

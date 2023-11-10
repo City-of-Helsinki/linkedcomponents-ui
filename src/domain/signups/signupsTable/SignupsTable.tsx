@@ -2,6 +2,7 @@ import omit from 'lodash/omit';
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import Pagination from '../../../common/components/pagination/Pagination';
 import Table from '../../../common/components/table/Table';
@@ -38,7 +39,8 @@ type ColumnProps = {
 
 const NameColumn: FC<ColumnProps> = ({ registration, signup }) => {
   const language = useLocale();
-  const { fullName } = getSignupFields({
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
+  const { fullName, signupGroupUrl, signupUrl } = getSignupFields({
     language,
     registration,
     signup,
@@ -46,9 +48,16 @@ const NameColumn: FC<ColumnProps> = ({ registration, signup }) => {
 
   return (
     <div className={styles.nameWrapper}>
-      <span className={styles.sgnupName} title={fullName}>
+      <Link
+        className={styles.signupName}
+        title={fullName}
+        to={{
+          pathname: signupGroupUrl ?? signupUrl,
+          search: queryStringWithReturnPath,
+        }}
+      >
         {fullName}
-      </span>
+      </Link>
     </div>
   );
 };
@@ -208,6 +217,10 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
               className: styles.nameColumn,
               key: 'name',
               headerName: t('signupsPage.signupsTableColumns.name'),
+              onClick: (ev) => {
+                ev.stopPropagation();
+                ev.preventDefault();
+              },
               transform: MemoizedNameColumn,
             },
             {

@@ -28,6 +28,7 @@ import RegistrationsTable, {
 configure({ defaultHidden: true });
 
 const registrationId = getValue(registrations.data[0]?.id, '');
+const eventName = getValue(registrations.data[0]?.event?.name?.fi, '');
 const registration = registrations.data[0] as Registration;
 
 const mocks = [
@@ -42,6 +43,8 @@ const defaultProps: RegistrationsTableProps = {
 };
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
+
+const FIND_LINK_TIMEOUT = 5000;
 
 const renderComponent = (props?: Partial<RegistrationsTableProps>) =>
   render(<RegistrationsTable {...defaultProps} {...props} />, {
@@ -142,9 +145,25 @@ test('should open registration page by clicking event name', async () => {
   const button = await screen.findByRole(
     'button',
     { name: registrationId },
-    { timeout: 20000 }
+    { timeout: FIND_LINK_TIMEOUT }
   );
   await user.click(button);
+  expect(history.location.pathname).toBe(
+    `/fi/registrations/edit/${registrationId}`
+  );
+});
+
+test('event name should work as a link to edit registration page', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent({ registrations: [registration] });
+
+  const registrationLink = await screen.findByRole(
+    'link',
+    { name: eventName },
+    { timeout: FIND_LINK_TIMEOUT }
+  );
+  await user.click(registrationLink);
+
   expect(history.location.pathname).toBe(
     `/fi/registrations/edit/${registrationId}`
   );
@@ -158,7 +177,7 @@ test('should open registration page by pressing enter on row', async () => {
   const button = await screen.findByRole(
     'button',
     { name: registrationId },
-    { timeout: 20000 }
+    { timeout: FIND_LINK_TIMEOUT }
   );
   await user.click(button);
   await user.type(button, '{enter}');
