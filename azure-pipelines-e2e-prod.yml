@@ -7,7 +7,7 @@ schedules:
 - cron: '0 5-22 * * *'
   branches: 
     include: 
-    - develop 
+    - main 
   always: true
 
 # Pull request (PR) triggers cause a pipeline to run whenever a pull request is
