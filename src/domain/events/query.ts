@@ -24,6 +24,7 @@ export const QUERY_EVENTS = gql`
     $publicationStatus: PublicationStatus
     $publisher: [String]
     $registration: Boolean
+    $registrationAdminUser: Boolean
     $showAll: Boolean
     $sort: String
     $start: String
@@ -57,6 +58,7 @@ export const QUERY_EVENTS = gql`
       publicationStatus: $publicationStatus
       publisher: $publisher
       registration: $registration
+      registrationAdminUser: $registrationAdminUser
       showAll: $showAll
       sort: $sort
       start: $start
