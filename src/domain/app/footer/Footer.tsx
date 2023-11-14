@@ -150,7 +150,7 @@ const Footer: React.FC = () => {
             copyrightHolder={t('footer.copyrightHolder')}
             copyrightText={t('footer.copyrightText')}
             backToTopLabel={t('footer.backToTopLabel')}
-            logo={<Logo src={logo} size="medium" alt={t('appName')} />}
+            logo={<Logo src={logo} size="medium" alt={t('navigation.logo')} />}
           />
         </HdsFooter>
       )}
