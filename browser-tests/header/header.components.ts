@@ -71,6 +71,11 @@ export const findHeader = async (
           name: getTranslations(currentLang).navigation.tabs.events,
         });
       },
+      searchEventsTab() {
+        return withinHeader().findByRole('link', {
+          name: getTranslations(currentLang).navigation.tabs.searchEvents,
+        });
+      },
       registrationsTab() {
         return withinHeader().findByRole('link', {
           name: getTranslations(currentLang).navigation.tabs.registrations,
@@ -94,6 +99,11 @@ export const findHeader = async (
           .expect(selectors.eventsTab().exists)
           .ok(await getErrorMessage(t));
       },
+      async searchEventsPageTabIsVisible() {
+        await t
+          .expect(selectors.searchEventsTab().exists)
+          .ok(await getErrorMessage(t));
+      },
       async registrationsPageTabIsVisible() {
         await t
           .expect(selectors.registrationsTab().exists)
@@ -113,6 +123,9 @@ export const findHeader = async (
       async clickEventsPageTab() {
         await t.click(selectors.eventsTab());
       },
+      async clickSearchEventsPageTab() {
+        await t.click(selectors.searchEventsTab());
+      },
       async clickRegistrationsPageTab() {
         await t.click(selectors.registrationsTab());
       },
@@ -127,29 +140,8 @@ export const findHeader = async (
     };
   };
 
-  const headerSearch = () => {
-    const selectors = {
-      searchLink() {
-        return withinHeader().findByRole('button', {
-          name: getTranslations(currentLang).navigation.tabs.searchEvents,
-        });
-      },
-    };
-
-    const actions = {
-      async clickSearchLink() {
-        await t.click(selectors.searchLink());
-      },
-    };
-
-    return {
-      actions,
-    };
-  };
-
   return {
     languageSelector,
-    headerSearch,
     headerTabs,
   };
 };

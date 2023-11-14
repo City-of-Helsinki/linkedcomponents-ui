@@ -36,16 +36,16 @@ test('Changing language on landing page', async (t) => {
   await headerTabs.expectations.supportPageTabIsVisible();
 });
 
-test('Header tabs and search input field work', async (t) => {
+test('Header tabs field work', async (t) => {
   const cookieConsentModal = await findCookieConsentModal(t);
   await cookieConsentModal.actions.acceptAllCookies();
   const header = await findHeader(t);
   const headerTabs = header.headerTabs();
-  // Search input field
-  await urlUtils.actions.navigateToLandingPage();
-  const headerSearch = header.headerSearch();
-  await headerSearch.actions.clickSearchLink();
 
+  await urlUtils.actions.navigateToLandingPage();
+
+  // Search events page
+  await headerTabs.actions.clickSearchEventsPageTab();
   await urlUtils.expectations.urlChangedToEventSearchPage();
 
   // Events page

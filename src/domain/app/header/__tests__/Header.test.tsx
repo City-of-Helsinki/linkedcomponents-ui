@@ -86,6 +86,7 @@ test('should show navigation links and should route to correct page after clicki
   const { history } = renderComponent();
   const links = [
     { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
+    { name: /etsi tapahtumia/i, url: `/fi${ROUTES.SEARCH}` },
     { name: /ilmoittautuminen/i, url: `/fi${ROUTES.REGISTRATIONS}` },
     { name: /hallinta/i, url: `/fi${ROUTES.ADMIN}` },
     { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
@@ -248,17 +249,4 @@ test('should start logout process', async () => {
   await user.click(signOutLinks[0]);
 
   await waitFor(() => expect(signOut).toBeCalled());
-});
-
-test('should route to search page', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent();
-
-  const searchLink = screen.getByRole('button', {
-    name: 'Hae',
-  });
-
-  await user.click(searchLink);
-
-  expect(history.location.pathname).toBe('/fi/search');
 });

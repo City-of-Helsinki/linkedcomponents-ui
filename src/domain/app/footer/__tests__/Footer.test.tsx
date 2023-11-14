@@ -52,7 +52,7 @@ test('should show navigation links and should route to correct page after clicki
   const { history } = renderComponent();
   const links = [
     { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
-    { name: /hae/i, url: `/fi${ROUTES.SEARCH}` },
+    { name: /etsi tapahtumia/i, url: `/fi${ROUTES.SEARCH}` },
     { name: /ilmoittautuminen/i, url: `/fi${ROUTES.REGISTRATIONS}` },
     { name: /hallinta/i, url: `/fi${ROUTES.ADMIN}` },
     { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
@@ -143,7 +143,7 @@ test('should not show admin and registration links when those features are disab
   const { history } = renderComponent();
   const links = [
     { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
-    { name: /hae/i, url: `/fi${ROUTES.SEARCH}` },
+    { name: /etsi tapahtumia/i, url: `/fi${ROUTES.SEARCH}` },
     { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
   ];
 

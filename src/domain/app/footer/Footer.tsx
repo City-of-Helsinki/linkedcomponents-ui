@@ -1,6 +1,13 @@
 import { ClassNames } from '@emotion/react';
-import { Footer as HdsFooter, Logo, logoFi, logoSv } from 'hds-react';
-import React from 'react';
+import {
+  Footer as HdsFooter,
+  Logo,
+  logoFi,
+  logoFiDark,
+  logoSv,
+  logoSvDark,
+} from 'hds-react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
@@ -68,6 +75,16 @@ const Footer: React.FC = () => {
     })
   );
 
+  const isHelpPage = pathname.startsWith(`/${locale}${ROUTES.HELP}`);
+
+  const logo = useMemo(() => {
+    if (!isHelpPage) {
+      return logoLanguage === 'sv' ? logoSv : logoFi;
+    }
+
+    return logoLanguage === 'sv' ? logoSvDark : logoFiDark;
+  }, [isHelpPage, logoLanguage]);
+
   const goToPage =
     (pathname: string, external?: boolean) =>
     (event?: React.MouseEvent<HTMLAnchorElement>) => {
@@ -81,7 +98,7 @@ const Footer: React.FC = () => {
     };
 
   const getFooterThemeClassName = () => {
-    if (pathname.startsWith(`/${locale}${ROUTES.HELP}`)) {
+    if (isHelpPage) {
       return styles.themeSupport;
     } else {
       return '';
@@ -133,13 +150,7 @@ const Footer: React.FC = () => {
             copyrightHolder={t('footer.copyrightHolder')}
             copyrightText={t('footer.copyrightText')}
             backToTopLabel={t('footer.backToTopLabel')}
-            logo={
-              <Logo
-                src={logoLanguage === 'sv' ? logoSv : logoFi}
-                size="medium"
-                alt={t('appName')}
-              />
-            }
+            logo={<Logo src={logo} size="medium" alt={t('appName')} />}
           />
         </HdsFooter>
       )}
