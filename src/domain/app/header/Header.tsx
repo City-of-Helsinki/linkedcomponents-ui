@@ -2,7 +2,6 @@ import { ClassNames } from '@emotion/react';
 import {
   Header as HDSHeader,
   IconCross,
-  IconSearch,
   IconSignin,
   IconSignout,
   IconUser,
@@ -16,7 +15,6 @@ import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
 import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
-import useIsMobile from '../../../hooks/useIsMobile';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { featureFlagUtils } from '../../../utils/featureFlags';
@@ -59,7 +57,6 @@ const Header: React.FC = () => {
   const location = useLocation();
   const { changeLanguage, languageOptions } = useSelectLanguage();
   const { isAuthenticated: authenticated, signIn, signOut } = useAuth();
-  const isMobile = useIsMobile();
 
   const { t } = useTranslation();
   const { user } = useUser();
@@ -79,15 +76,12 @@ const Header: React.FC = () => {
       navigate({ pathname });
     };
 
-  const MOBILE_NAVIGATION_ITEMS = [
+  const NAVIGATION_ITEMS = [
+    { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
     {
       labelKey: 'navigation.tabs.searchEvents',
       url: ROUTES.SEARCH,
     },
-  ];
-
-  const NAVIGATION_ITEMS = [
-    { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
     featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') &&
       areRegistrationRoutesAllowed(user) && {
         labelKey: 'navigation.tabs.registrations',
@@ -102,7 +96,6 @@ const Header: React.FC = () => {
       labelKey: 'navigation.tabs.help',
       url: ROUTES.HELP,
     },
-    ...(isMobile ? MOBILE_NAVIGATION_ITEMS : []),
   ].filter((i) => i) as NavigationItem[];
 
   const navigationItems = NAVIGATION_ITEMS.map(
@@ -121,11 +114,6 @@ const Header: React.FC = () => {
     e.preventDefault();
     signOut();
   };
-
-  const handleSearch = () =>
-    navigate({
-      pathname: `/${locale}${ROUTES.SEARCH}`,
-    });
 
   const isMatch = (paths: NoNavRowProps[]) =>
     paths.some((path) =>
@@ -201,14 +189,6 @@ const Header: React.FC = () => {
             <HDSHeader.LanguageSelector
               ariaLabel={t(`navigation.languages.${locale}`)}
             />
-            {!isMobile && (
-              <HDSHeader.ActionBarItem
-                icon={<IconSearch />}
-                label={t('navigation.tabs.searchEvents')}
-                id="action-bar-search-events"
-                onClick={handleSearch}
-              />
-            )}
             {authenticated && user ? (
               <HDSHeader.ActionBarItem
                 fixedRightPosition
