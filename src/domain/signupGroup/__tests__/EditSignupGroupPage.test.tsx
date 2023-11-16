@@ -36,76 +36,15 @@ import {
   signupGroupId,
 } from '../__mocks__/editSignupGroupPage';
 import EditSignupGroupPage from '../EditSignupGroupPage';
+import {
+  findFirstNameInputs,
+  getSignupFormElement,
+  openMenu,
+  tryToCancel,
+  tryToUpdate,
+} from './testUtils';
 
 configure({ defaultHidden: true });
-
-const findFirstNameInputs = () => screen.findAllByLabelText(/etunimi/i);
-
-const getElement = (
-  key:
-    | 'cityInput'
-    | 'dateOfBirthInput'
-    | 'emailCheckbox'
-    | 'emailInput'
-    | 'firstNameInput'
-    | 'lastNameInput'
-    | 'menu'
-    | 'nativeLanguageButton'
-    | 'phoneCheckbox'
-    | 'phoneInput'
-    | 'serviceLanguageButton'
-    | 'signupGroupExtraInfoField'
-    | 'streetAddressInput'
-    | 'submitButton'
-    | 'toggle'
-    | 'zipInput'
-) => {
-  switch (key) {
-    case 'cityInput':
-      return screen.getByLabelText(/kaupunki/i);
-    case 'dateOfBirthInput':
-      return screen.getByLabelText(/syntymäaika/i);
-    case 'emailCheckbox':
-      return screen.getByLabelText(/sähköpostilla/i);
-    case 'emailInput':
-      return screen.getByLabelText(/sähköpostiosoite/i);
-    case 'firstNameInput':
-      return screen.getAllByLabelText(/etunimi/i)[0];
-    case 'lastNameInput':
-      return screen.getAllByLabelText(/sukunimi/i)[0];
-    case 'menu':
-      return screen.getByRole('region', { name: /valinnat/i });
-    case 'nativeLanguageButton':
-      return screen.getByRole('button', { name: /äidinkieli/i });
-    case 'phoneCheckbox':
-      return screen.getByLabelText(/tekstiviestillä/i);
-    case 'phoneInput':
-      return screen.getByLabelText(/puhelinnumero/i);
-    case 'serviceLanguageButton':
-      return screen.getByRole('button', { name: /asiointikieli/i });
-    case 'signupGroupExtraInfoField':
-      return screen.getByRole('textbox', {
-        name: 'Lisätietoa ilmoittautumisesta (valinnainen)',
-      });
-    case 'streetAddressInput':
-      return screen.getByLabelText(/katuosoite/i);
-    case 'submitButton':
-      return screen.getByRole('button', { name: /tallenna osallistuja/i });
-    case 'toggle':
-      return screen.getByRole('button', { name: /valinnat/i });
-    case 'zipInput':
-      return screen.getByLabelText(/postinumero/i);
-  }
-};
-
-const openMenu = async () => {
-  const user = userEvent.setup();
-  const toggleButton = getElement('toggle');
-  await user.click(toggleButton);
-  const menu = getElement('menu');
-
-  return { menu, toggleButton };
-};
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
@@ -137,7 +76,7 @@ test('should scroll to first validation error input field', async () => {
   renderComponent();
 
   const firstNameInput = (await findFirstNameInputs())[0];
-  const submitButton = getElement('submitButton');
+  const submitButton = getSignupFormElement('submitButton');
 
   await user.clear(firstNameInput);
   await user.click(submitButton);
@@ -149,11 +88,11 @@ test('should initialize input fields', async () => {
   renderComponent();
 
   const firstNameInput = (await findFirstNameInputs())[0];
-  const lastNameInput = await getElement('lastNameInput');
-  const cityInput = getElement('cityInput');
-  const emailInput = getElement('emailInput');
-  const phoneInput = getElement('phoneInput');
-  const emailCheckbox = getElement('emailCheckbox');
+  const lastNameInput = getSignupFormElement('lastNameInput');
+  const cityInput = getSignupFormElement('cityInput');
+  const emailInput = getSignupFormElement('emailInput');
+  const phoneInput = getSignupFormElement('phoneInput');
+  const emailCheckbox = getSignupFormElement('emailCheckbox');
 
   await waitFor(() => expect(firstNameInput).toHaveValue(signup.firstName));
   expect(lastNameInput).toHaveValue(signup.lastName);
@@ -202,7 +141,6 @@ test('should send message to signup group', async () => {
 
 test('should update signup group', async () => {
   global.scrollTo = vi.fn<any>();
-  const user = userEvent.setup();
   renderComponent([
     ...defaultMocks,
     mockedUpdateSignupGroupResponse,
@@ -210,50 +148,30 @@ test('should update signup group', async () => {
   ]);
 
   await findFirstNameInputs();
-
-  const submitButton = getElement('submitButton');
-  await user.click(submitButton);
+  await tryToUpdate();
 
   await waitFor(() => expect(global.scrollTo).toHaveBeenCalled());
 });
 
 test('should show server errors', async () => {
-  const user = userEvent.setup();
   const mocks = [...defaultMocks, mockedInvalidUpdateSignupGroupResponse];
   renderComponent(mocks);
 
   await findFirstNameInputs();
-
-  const submitButton = getElement('submitButton');
-  await user.click(submitButton);
+  await tryToUpdate();
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);
 });
 
 test('should delete signup group', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedDeleteSignupGroupResponse,
   ]);
 
   await findFirstNameInputs();
-  const { menu } = await openMenu();
-
-  const cancelButton = await within(menu).findByRole('button', {
-    name: 'Peruuta osallistuminen',
-  });
-  await user.click(cancelButton);
-
-  const dialog = screen.getByRole('dialog', {
-    name: 'Haluatko varmasti poistaa ilmoittautumisen?',
-  });
-
-  const confirmCancelButton = within(dialog).getByRole('button', {
-    name: 'Peruuta ilmoittautuminen',
-  });
-  await user.click(confirmCancelButton);
+  await tryToCancel();
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -266,5 +184,5 @@ test('signup group extra info field should be visible', async () => {
   renderComponent();
 
   await findFirstNameInputs();
-  expect(getElement('signupGroupExtraInfoField')).toBeInTheDocument();
+  expect(getSignupFormElement('signupGroupExtraInfoField')).toBeInTheDocument();
 });

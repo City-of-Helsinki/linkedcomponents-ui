@@ -139,6 +139,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   }, []);
 
   const {
+    createSignups,
     deleteSignup,
     saving: savingSignup,
     sendMessage,
@@ -208,10 +209,17 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   const clearErrors = () => setErrors({});
 
   const handleCreate = (values: SignupGroupFormFieldsType) => {
-    createSignupGroup(values, {
-      onError: (error) => showServerErrors({ error }, 'signup'),
-      onSuccess: goToSignupsPageAfterCreate,
-    });
+    if (values.signups.length > 1) {
+      createSignupGroup(values, {
+        onError: (error) => showServerErrors({ error }, 'signup'),
+        onSuccess: goToSignupsPageAfterCreate,
+      });
+    } else {
+      createSignups(values, {
+        onError: (error) => showServerErrors({ error }, 'signup'),
+        onSuccess: goToSignupsPage,
+      });
+    }
   };
 
   const handleDelete = () => {
@@ -413,7 +421,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
               disabled={disabled}
               onCreate={handleSubmit}
               registration={registration}
-              saving={savingSignupGroup}
+              saving={savingSignup || savingSignupGroup}
             />
           )}
         </FormikPersist>

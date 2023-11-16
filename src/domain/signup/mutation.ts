@@ -2,6 +2,17 @@
 import gql from 'graphql-tag';
 
 export const MUTATION_SIGNUP = gql`
+  mutation CreateSignups($input: CreateSignupsMutationInput!) {
+    createSignups(input: $input)
+      @rest(
+        type: "[Signup!]!"
+        path: "/signup/"
+        method: "POST"
+        bodyKey: "input"
+      ) {
+      ...signupFields
+    }
+  }
   mutation DeleteSignup($id: ID!) {
     deleteSignup(id: $id)
       @rest(type: "NoContent", path: "/signup/{args.id}/", method: "DELETE") {

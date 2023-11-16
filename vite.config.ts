@@ -39,7 +39,7 @@ export default defineConfig({
         '**/__mocks__/**',
         '**/__snapshots__/**',
         'build/**',
-        '**/constants.ts',
+        '**/constants.(ts|tsx)',
         '**/types.ts',
         '**/mutation.ts',
         '**/query.ts',

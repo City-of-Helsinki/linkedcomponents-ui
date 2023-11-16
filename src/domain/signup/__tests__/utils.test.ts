@@ -1,4 +1,7 @@
-import { SignupInput } from '../../../generated/graphql';
+import {
+  CreateSignupsMutationInput,
+  SignupInput,
+} from '../../../generated/graphql';
 import { fakeSignup } from '../../../utils/mockDataUtils';
 import { registration } from '../../registration/__mocks__/registration';
 import {
@@ -11,7 +14,29 @@ import {
   getSignupGroupInitialValuesFromSignup,
   getUpdateSignupPayload,
   omitSensitiveDataFromSignupPayload,
+  omitSensitiveDataFromSignupsPayload,
 } from '../utils';
+
+const signupPayload: SignupInput = {
+  city: 'Helsinki',
+  contactPerson: {
+    email: 'test@email.com',
+    firstName: 'First name',
+    lastName: 'Last name',
+    membershipNumber: 'XYZ',
+    nativeLanguage: 'fi',
+    notifications: NOTIFICATION_TYPE.EMAIL,
+    phoneNumber: '0441234567',
+    serviceLanguage: 'fi',
+  },
+  dateOfBirth: '1999-10-10',
+  extraInfo: 'Signup entra info',
+  firstName: 'First name',
+  id: '1',
+  lastName: 'Last name',
+  streetAddress: 'Address',
+  zipcode: '123456',
+};
 
 describe('getUpdateSignupPayload function', () => {
   it('should return update signup payload for initial values', () => {
@@ -296,20 +321,6 @@ describe('omitSensitiveDataFromSignupPayload', () => {
       },
       id: '1',
     });
-    expect(filteredPayload.contactPerson?.email).toBeUndefined();
-    expect(filteredPayload.contactPerson?.firstName).toBeUndefined();
-    expect(filteredPayload.contactPerson?.lastName).toBeUndefined();
-    expect(filteredPayload.contactPerson?.membershipNumber).toBeUndefined();
-    expect(filteredPayload.contactPerson?.nativeLanguage).toBeUndefined();
-    expect(filteredPayload.contactPerson?.phoneNumber).toBeUndefined();
-    expect(filteredPayload.contactPerson?.serviceLanguage).toBeUndefined();
-    expect(filteredPayload.city).toBeUndefined();
-    expect(filteredPayload.extraInfo).toBeUndefined();
-    expect(filteredPayload.extraInfo).toBeUndefined();
-    expect(filteredPayload.firstName).toBeUndefined();
-    expect(filteredPayload.lastName).toBeUndefined();
-    expect(filteredPayload.streetAddress).toBeUndefined();
-    expect(filteredPayload.zipcode).toBeUndefined();
   });
 
   it('contact person should be null if its not defined', () => {
@@ -320,5 +331,32 @@ describe('omitSensitiveDataFromSignupPayload', () => {
 
     const { contactPerson } = omitSensitiveDataFromSignupPayload(payload);
     expect(contactPerson).toBe(null);
+  });
+});
+
+describe('omitSensitiveDataFromSignupGroupPayload', () => {
+  it('should omit sensitive data from payload', () => {
+    const payload: CreateSignupsMutationInput = {
+      registration: registration.id,
+      reservationCode: 'xxx',
+      signups: [signupPayload, { ...signupPayload, id: '2' }],
+    };
+
+    const filteredPayload = omitSensitiveDataFromSignupsPayload(payload);
+
+    expect(filteredPayload).toEqual({
+      registration: registration.id,
+      reservationCode: 'xxx',
+      signups: [
+        {
+          contactPerson: { notifications: NOTIFICATION_TYPE.EMAIL },
+          id: '1',
+        },
+        {
+          contactPerson: { notifications: NOTIFICATION_TYPE.EMAIL },
+          id: '2',
+        },
+      ],
+    });
   });
 });

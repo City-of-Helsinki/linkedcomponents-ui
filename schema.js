@@ -19,6 +19,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createSignupGroup(
       input: CreateSignupGroupMutationInput!
     ): CreateSignupGroupResponse!
+    createSignups(input: CreateSignupsMutationInput!): [Signup!]!
     deleteEvent(id: ID!): NoContent
     deleteImage(id: ID!): NoContent
     deleteKeyword(id: ID!): NoContent
@@ -264,6 +265,12 @@ module.exports = buildSchema(/* GraphQL */ `
     presenceStatus: PresenceStatus
     streetAddress: String
     zipcode: String
+  }
+
+  input CreateSignupsMutationInput {
+    registration: ID
+    reservationCode: String
+    signups: [SignupInput!]
   }
 
   input CreateSignupGroupMutationInput {

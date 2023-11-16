@@ -32,7 +32,7 @@ export const parseSignupGroupServerErrors = ({
       // API returns '{contact_person: ["Tämän kentän arvo ei voi olla "null"."]}' error when
       // trying to set null value for contact_person. Use parseContactPersonServerError only
       // when error type is object
-      !(Array.isArray(error) && typeof error[0] == 'string')
+      !(Array.isArray(error) && typeof error[0] === 'string')
     ) {
       return parseContactPersonServerError(error);
     }

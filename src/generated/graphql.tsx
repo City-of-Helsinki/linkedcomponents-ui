@@ -179,6 +179,12 @@ export type CreateSignupGroupResponse = {
   signups?: Maybe<Array<Signup>>;
 };
 
+export type CreateSignupsMutationInput = {
+  registration?: InputMaybe<Scalars['ID']['input']>;
+  reservationCode?: InputMaybe<Scalars['String']['input']>;
+  signups?: InputMaybe<Array<SignupInput>>;
+};
+
 export type DataSource = {
   __typename?: 'DataSource';
   apiKey?: Maybe<Scalars['String']['output']>;
@@ -445,6 +451,7 @@ export type Mutation = {
   createRegistration: Registration;
   createSeatsReservation: SeatsReservation;
   createSignupGroup: CreateSignupGroupResponse;
+  createSignups: Array<Signup>;
   deleteEvent?: Maybe<NoContent>;
   deleteImage?: Maybe<NoContent>;
   deleteKeyword?: Maybe<NoContent>;
@@ -515,6 +522,11 @@ export type MutationCreateSeatsReservationArgs = {
 
 export type MutationCreateSignupGroupArgs = {
   input: CreateSignupGroupMutationInput;
+};
+
+
+export type MutationCreateSignupsArgs = {
+  input: CreateSignupsMutationInput;
 };
 
 
@@ -1784,6 +1796,13 @@ export type UpdateSeatsReservationMutationVariables = Exact<{
 export type UpdateSeatsReservationMutation = { __typename?: 'Mutation', updateSeatsReservation: { __typename?: 'SeatsReservation', id: string, code: string, expiration: string, inWaitlist: boolean, registration: string, seats: number, timestamp: string } };
 
 export type SeatsReservationFieldsFragment = { __typename?: 'SeatsReservation', id: string, code: string, expiration: string, inWaitlist: boolean, registration: string, seats: number, timestamp: string };
+
+export type CreateSignupsMutationVariables = Exact<{
+  input: CreateSignupsMutationInput;
+}>;
+
+
+export type CreateSignupsMutation = { __typename?: 'Mutation', createSignups: Array<{ __typename?: 'Signup', attendeeStatus?: AttendeeStatus | null, city?: string | null, dateOfBirth?: string | null, extraInfo?: string | null, firstName?: string | null, id: string, lastName?: string | null, presenceStatus?: PresenceStatus | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null, contactPerson?: { __typename?: 'ContactPerson', email?: string | null, firstName?: string | null, id: string, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null } | null }> };
 
 export type DeleteSignupMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -4145,6 +4164,39 @@ export function useUpdateSeatsReservationMutation(baseOptions?: Apollo.MutationH
 export type UpdateSeatsReservationMutationHookResult = ReturnType<typeof useUpdateSeatsReservationMutation>;
 export type UpdateSeatsReservationMutationResult = Apollo.MutationResult<UpdateSeatsReservationMutation>;
 export type UpdateSeatsReservationMutationOptions = Apollo.BaseMutationOptions<UpdateSeatsReservationMutation, UpdateSeatsReservationMutationVariables>;
+export const CreateSignupsDocument = gql`
+    mutation CreateSignups($input: CreateSignupsMutationInput!) {
+  createSignups(input: $input) @rest(type: "[Signup!]!", path: "/signup/", method: "POST", bodyKey: "input") {
+    ...signupFields
+  }
+}
+    ${SignupFieldsFragmentDoc}`;
+export type CreateSignupsMutationFn = Apollo.MutationFunction<CreateSignupsMutation, CreateSignupsMutationVariables>;
+
+/**
+ * __useCreateSignupsMutation__
+ *
+ * To run a mutation, you first call `useCreateSignupsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateSignupsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createSignupsMutation, { data, loading, error }] = useCreateSignupsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateSignupsMutation(baseOptions?: Apollo.MutationHookOptions<CreateSignupsMutation, CreateSignupsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateSignupsMutation, CreateSignupsMutationVariables>(CreateSignupsDocument, options);
+      }
+export type CreateSignupsMutationHookResult = ReturnType<typeof useCreateSignupsMutation>;
+export type CreateSignupsMutationResult = Apollo.MutationResult<CreateSignupsMutation>;
+export type CreateSignupsMutationOptions = Apollo.BaseMutationOptions<CreateSignupsMutation, CreateSignupsMutationVariables>;
 export const DeleteSignupDocument = gql`
     mutation DeleteSignup($id: ID!) {
   deleteSignup(id: $id) @rest(type: "NoContent", path: "/signup/{args.id}/", method: "DELETE") {

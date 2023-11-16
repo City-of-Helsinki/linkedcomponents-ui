@@ -8,8 +8,13 @@ import {
   CreateSeatsReservationDocument,
   UpdateSeatsReservationDocument,
 } from '../../../generated/graphql';
+import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
-import { fakeSeatsReservation } from '../../../utils/mockDataUtils';
+import {
+  fakeSeatsReservation,
+  getMockedSeatsReservationData,
+  setSignupGroupFormSessionStorageValues,
+} from '../../../utils/mockDataUtils';
 import {
   actWait,
   configure,
@@ -37,10 +42,15 @@ import { mockedRegistrationUserResponse } from '../../user/__mocks__/user';
 import {
   contactPersonValues,
   mockedCreateSignupGroupResponse,
+  mockedCreateSignupResponse,
   mockedInvalidCreateSignupGroupResponse,
+  mockedInvalidCreateSignupResponse,
+  signupGroupValues,
+  signupGroupWithSingleSignupValues,
   signupValues,
 } from '../__mocks__/createSignupGroupPage';
 import CreateSignupGroupPage from '../CreateSignupGroupPage';
+import { findFirstNameInputs, getSignupFormElement } from './testUtils';
 
 configure({ defaultHidden: true });
 
@@ -52,67 +62,6 @@ beforeEach(() => {
 
 const findSubmitButton = () =>
   screen.findByRole('button', { name: /tallenna osallistuja/i });
-
-const findFirstNameInputs = () => screen.findAllByLabelText(/etunimi/i);
-
-const getElement = (
-  key:
-    | 'cityInput'
-    | 'confirmDeleteModal'
-    | 'dateOfBirthInput'
-    | 'emailCheckbox'
-    | 'emailInput'
-    | 'firstNameInput'
-    | 'lastNameInput'
-    | 'nativeLanguageButton'
-    | 'participantAmountInput'
-    | 'phoneCheckbox'
-    | 'phoneInput'
-    | 'serviceLanguageButton'
-    | 'streetAddressInput'
-    | 'submitButton'
-    | 'updateParticipantAmountButton'
-    | 'zipInput'
-) => {
-  switch (key) {
-    case 'cityInput':
-      return screen.getByLabelText(/kaupunki/i);
-    case 'confirmDeleteModal':
-      return screen.getByRole('dialog', {
-        name: 'Vahvista osallistujan poistaminen',
-      });
-    case 'dateOfBirthInput':
-      return screen.getByLabelText(/syntymäaika/i);
-    case 'emailCheckbox':
-      return screen.getByLabelText(/sähköpostilla/i);
-    case 'emailInput':
-      return screen.getByLabelText(/sähköpostiosoite/i);
-    case 'firstNameInput':
-      return screen.getAllByLabelText(/etunimi/i)[0];
-    case 'lastNameInput':
-      return screen.getAllByLabelText(/sukunimi/i)[0];
-    case 'nativeLanguageButton':
-      return screen.getByRole('button', { name: /äidinkieli/i });
-    case 'participantAmountInput':
-      return screen.getByRole('spinbutton', {
-        name: /ilmoittautujien määrä \*/i,
-      });
-    case 'phoneCheckbox':
-      return screen.getByLabelText(/tekstiviestillä/i);
-    case 'phoneInput':
-      return screen.getByLabelText(/puhelinnumero/i);
-    case 'serviceLanguageButton':
-      return screen.getByRole('button', { name: /asiointikieli/i });
-    case 'streetAddressInput':
-      return screen.getByLabelText(/katuosoite/i);
-    case 'submitButton':
-      return screen.getByRole('button', { name: /tallenna osallistuja/i });
-    case 'updateParticipantAmountButton':
-      return screen.getByRole('button', { name: /päivitä/i });
-    case 'zipInput':
-      return screen.getByLabelText(/postinumero/i);
-  }
-};
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
@@ -244,65 +193,27 @@ const waitLoadingAndFindNameInput = async () => {
   return nameInput;
 };
 
-const enterFormValues = async () => {
+test('should validate signup group form fields', async () => {
   const user = userEvent.setup();
 
-  const firstNameInput = await waitLoadingAndFindNameInput();
-  const lastNameInput = getElement('lastNameInput');
-  const streetAddressInput = getElement('streetAddressInput');
-  const dateOfBirthInput = getElement('dateOfBirthInput');
-  const zipInput = getElement('zipInput');
-  const cityInput = getElement('cityInput');
-  const emailInput = getElement('emailInput');
-  const phoneInput = getElement('phoneInput');
-  const nativeLanguageButton = getElement('nativeLanguageButton');
-  const serviceLanguageButton = getElement('serviceLanguageButton');
-
-  await user.type(firstNameInput, signupValues.firstName);
-  await user.type(lastNameInput, signupValues.lastName);
-  await user.type(streetAddressInput, signupValues.streetAddress);
-  await user.type(dateOfBirthInput, signupValues.dateOfBirth);
-  await user.type(zipInput, signupValues.zip);
-  await user.type(cityInput, signupValues.city);
-  await user.type(emailInput, contactPersonValues.email);
-  await user.type(phoneInput, contactPersonValues.phone);
-  await user.click(nativeLanguageButton);
-  const nativeLanguageOption = await screen.findByRole('option', {
-    name: /suomi/i,
-  });
-  await user.click(nativeLanguageOption);
-  await user.click(serviceLanguageButton);
-  const serviceLanguageOption = await screen.findByRole('option', {
-    name: /suomi/i,
-  });
-  await user.click(serviceLanguageOption);
-};
-
-test('should validate signup group form and focus to invalid field and finally create signup group', async () => {
-  const user = userEvent.setup();
-
-  const { history } = renderComponent([
-    ...defaultMocks,
-    mockedCreateSignupGroupResponse,
-  ]);
+  renderComponent();
 
   const firstNameInput = await waitLoadingAndFindNameInput();
-  const lastNameInput = getElement('lastNameInput');
-  const streetAddressInput = getElement('streetAddressInput');
-  const dateOfBirthInput = getElement('dateOfBirthInput');
-  const zipInput = getElement('zipInput');
-  const cityInput = getElement('cityInput');
-  const emailInput = getElement('emailInput');
-  const phoneInput = getElement('phoneInput');
-  const nativeLanguageButton = getElement('nativeLanguageButton');
-  const serviceLanguageButton = getElement('serviceLanguageButton');
+  const lastNameInput = getSignupFormElement('lastNameInput');
+  const streetAddressInput = getSignupFormElement('streetAddressInput');
+  const dateOfBirthInput = getSignupFormElement('dateOfBirthInput');
+  const zipInput = getSignupFormElement('zipInput');
+  const cityInput = getSignupFormElement('cityInput');
+  const emailInput = getSignupFormElement('emailInput');
+  const phoneInput = getSignupFormElement('phoneInput');
+  const nativeLanguageButton = getSignupFormElement('nativeLanguageButton');
   const submitButton = await findSubmitButton();
 
   await user.type(firstNameInput, signupValues.firstName);
   await user.type(lastNameInput, signupValues.lastName);
   await user.type(streetAddressInput, signupValues.streetAddress);
-  await user.type(dateOfBirthInput, signupValues.dateOfBirth);
-  await user.type(zipInput, signupValues.zip);
+  await user.type(dateOfBirthInput, formatDate(signupValues.dateOfBirth));
+  await user.type(zipInput, signupValues.zipcode);
   await user.type(cityInput, signupValues.city);
   await user.click(submitButton);
 
@@ -311,21 +222,28 @@ test('should validate signup group form and focus to invalid field and finally c
   expect(phoneInput).not.toBeRequired();
 
   await user.type(emailInput, contactPersonValues.email);
-  await user.type(phoneInput, contactPersonValues.phone);
+  await user.type(phoneInput, contactPersonValues.phoneNumber);
   await user.click(submitButton);
 
   await waitFor(() => expect(nativeLanguageButton).toHaveFocus());
+});
 
-  await user.click(nativeLanguageButton);
-  const nativeLanguageOption = await screen.findByRole('option', {
-    name: /suomi/i,
+test('should route to signup list page after creating a signup', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedCreateSignupResponse,
+  ]);
+
+  setSignupGroupFormSessionStorageValues({
+    registrationId: registration.id as string,
+    seatsReservation: getMockedSeatsReservationData(1000),
+    signupGroupFormValues: signupGroupWithSingleSignupValues,
   });
-  await user.click(nativeLanguageOption);
-  await user.click(serviceLanguageButton);
-  const serviceLanguageOption = await screen.findByRole('option', {
-    name: /suomi/i,
-  });
-  await user.click(serviceLanguageOption);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const submitButton = await findSubmitButton();
   await user.click(submitButton);
 
   await waitFor(() =>
@@ -335,20 +253,74 @@ test('should validate signup group form and focus to invalid field and finally c
   );
 });
 
-test('should show server errors', async () => {
+test('should route to signup list page after creating a signup group', async () => {
   const user = userEvent.setup();
-  renderComponent([...defaultMocks, mockedInvalidCreateSignupGroupResponse]);
+  const { history } = renderComponent([
+    ...defaultMocks,
+    mockedCreateSignupGroupResponse,
+  ]);
+
+  setSignupGroupFormSessionStorageValues({
+    registrationId: registration.id as string,
+    seatsReservation: getMockedSeatsReservationData(1000),
+    signupGroupFormValues: signupGroupValues,
+  });
+
+  await loadingSpinnerIsNotInDocument();
 
   const submitButton = await findSubmitButton();
+  await user.click(submitButton);
 
-  await enterFormValues();
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(
+      `/fi/registrations/${registration.id}/signups`
+    )
+  );
+});
+
+test('should show server errors if creating signup fails', async () => {
+  const user = userEvent.setup();
+  renderComponent([...defaultMocks, mockedInvalidCreateSignupResponse]);
+
+  setSignupGroupFormSessionStorageValues({
+    registrationId: registration.id as string,
+    seatsReservation: getMockedSeatsReservationData(1000),
+    signupGroupFormValues: signupGroupWithSingleSignupValues,
+  });
+
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const submitButton = await findSubmitButton();
   await user.click(submitButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
 });
 
-test('should show sign up is closed text if enrolment end date is in the past', async () => {
+test('should show server errors if creating signup fails', async () => {
+  const user = userEvent.setup();
+  renderComponent([...defaultMocks, mockedInvalidCreateSignupGroupResponse]);
+
+  setSignupGroupFormSessionStorageValues({
+    registrationId: registration.id as string,
+    seatsReservation: getMockedSeatsReservationData(1000),
+    signupGroupFormValues: signupGroupValues,
+  });
+
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument();
+
+  const submitButton = await findSubmitButton();
+  await user.click(submitButton);
+
+  await screen.findByText(/lomakkeella on seuraavat virheet/i);
+  screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
+});
+
+test('should show signup is closed text if enrolment end date is in the past', async () => {
   renderComponent([...baseMocks, mockedPastRegistrationResponse]);
 
   await loadingSpinnerIsNotInDocument();
@@ -367,8 +339,8 @@ test('should add and delete participants', async () => {
 
   await waitLoadingAndFindNameInput();
 
-  const participantAmountInput = getElement('participantAmountInput');
-  const updateParticipantAmountButton = getElement(
+  const participantAmountInput = getSignupFormElement('participantAmountInput');
+  const updateParticipantAmountButton = getSignupFormElement(
     'updateParticipantAmountButton'
   );
 
@@ -387,7 +359,7 @@ test('should add and delete participants', async () => {
   await user.click(updateParticipantAmountButton);
 
   const confirmDeleteButton = within(
-    getElement('confirmDeleteModal')
+    getSignupFormElement('confirmDeleteModal')
   ).getByRole('button', { name: 'Poista osallistuja' });
   await user.click(confirmDeleteButton);
 
@@ -409,8 +381,8 @@ test('should show server errors when updating seats reservation fails', async ()
 
   await waitLoadingAndFindNameInput();
 
-  const participantAmountInput = getElement('participantAmountInput');
-  const updateParticipantAmountButton = getElement(
+  const participantAmountInput = getSignupFormElement('participantAmountInput');
+  const updateParticipantAmountButton = getSignupFormElement(
     'updateParticipantAmountButton'
   );
 
@@ -461,8 +433,8 @@ test('should delete participants by clicking delete participant button', async (
 
   await waitLoadingAndFindNameInput();
 
-  const participantAmountInput = getElement('participantAmountInput');
-  const updateParticipantAmountButton = getElement(
+  const participantAmountInput = getSignupFormElement('participantAmountInput');
+  const updateParticipantAmountButton = getSignupFormElement(
     'updateParticipantAmountButton'
   );
 
@@ -482,7 +454,7 @@ test('should delete participants by clicking delete participant button', async (
   await user.click(deleteButton);
 
   const deleteParticipantButton = within(
-    getElement('confirmDeleteModal')
+    getSignupFormElement('confirmDeleteModal')
   ).getByRole('button', { name: 'Poista osallistuja' });
   await user.click(deleteParticipantButton);
 
@@ -505,8 +477,8 @@ test('should show server errors when updating seats reservation fails', async ()
 
   await waitLoadingAndFindNameInput();
 
-  const participantAmountInput = getElement('participantAmountInput');
-  const updateParticipantAmountButton = getElement(
+  const participantAmountInput = getSignupFormElement('participantAmountInput');
+  const updateParticipantAmountButton = getSignupFormElement(
     'updateParticipantAmountButton'
   );
 

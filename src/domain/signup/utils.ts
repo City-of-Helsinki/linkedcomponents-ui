@@ -4,6 +4,7 @@ import { DATE_FORMAT_API } from '../../constants';
 import {
   AttendeeStatus,
   ContactPersonInput,
+  CreateSignupsMutationInput,
   RegistrationFieldsFragment,
   SignupFieldsFragment,
   SignupGroupFieldsFragment,
@@ -19,6 +20,33 @@ import {
   getContactPersonPayload,
 } from '../signupGroup/utils';
 
+export const getSignupPayload = ({
+  signupData,
+}: {
+  signupData: SignupFormFields;
+}): SignupInput => {
+  const {
+    city,
+    dateOfBirth,
+    extraInfo,
+    firstName,
+    id,
+    lastName,
+    streetAddress,
+    zipcode,
+  } = signupData;
+  return {
+    city: getValue(city, ''),
+    dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
+    extraInfo: getValue(extraInfo, ''),
+    id: id ?? undefined,
+    firstName: getValue(firstName, ''),
+    lastName: getValue(lastName, ''),
+    streetAddress: getValue(streetAddress, null),
+    zipcode: getValue(zipcode, null),
+  };
+};
+
 export const getUpdateSignupPayload = ({
   formValues,
   hasSignupGroup,
@@ -31,29 +59,37 @@ export const getUpdateSignupPayload = ({
   registration: RegistrationFieldsFragment;
 }): UpdateSignupMutationInput => {
   const { contactPerson, signups } = formValues;
-  const {
-    city,
-    dateOfBirth,
-    extraInfo,
-    firstName,
-    lastName,
-    streetAddress,
-    zipcode,
-  } = signups[0] || {};
-
+  const signupData = signups[0] ?? {};
   return {
-    id,
-    city: getValue(city, ''),
+    ...getSignupPayload({ signupData }),
     contactPerson: !hasSignupGroup
       ? getContactPersonPayload(contactPerson)
       : undefined,
-    dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
-    extraInfo: getValue(extraInfo, ''),
-    firstName: getValue(firstName, ''),
-    lastName: getValue(lastName, ''),
-    registration: getValue(registration.id, ''),
-    streetAddress: getValue(streetAddress, null),
-    zipcode: getValue(zipcode, null),
+    id,
+    registration: registration.id,
+  };
+};
+
+export const getCreateSignupsPayload = ({
+  formValues,
+  registration,
+  reservationCode,
+}: {
+  formValues: SignupGroupFormFields;
+  registration: RegistrationFieldsFragment;
+  reservationCode: string;
+}): CreateSignupsMutationInput => {
+  const { contactPerson, signups: signupsValues } = formValues;
+
+  const signups: SignupInput[] = signupsValues.map((signupData, index) => ({
+    ...getSignupPayload({ signupData }),
+    contactPerson: getContactPersonPayload(contactPerson),
+  }));
+
+  return {
+    registration: registration.id,
+    reservationCode,
+    signups,
   };
 };
 
@@ -119,3 +155,10 @@ export const omitSensitiveDataFromSignupPayload = (
       'zipcode',
     ]
   );
+
+export const omitSensitiveDataFromSignupsPayload = (
+  payload: CreateSignupsMutationInput
+) => ({
+  ...payload,
+  signups: payload.signups?.map((s) => omitSensitiveDataFromSignupPayload(s)),
+});

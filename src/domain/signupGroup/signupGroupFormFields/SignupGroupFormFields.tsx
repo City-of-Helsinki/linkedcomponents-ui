@@ -27,6 +27,7 @@ import {
 } from '../constants';
 import Divider from '../divider/Divider';
 import useNotificationOptions from '../hooks/useNotificationOptions';
+import { SignupFormFields } from '../types';
 import { isSignupFieldRequired } from '../utils';
 import styles from './signupGroupFormFields.module.scss';
 import Signups from './signups/Signups';
@@ -90,6 +91,10 @@ const SignupGroupFormFields: React.FC<Props> = ({
   const languageOptions = useLanguageOptions();
   const serviceLanguageOptions = useLanguageOptions({
     variables: { serviceLanguage: true },
+  });
+
+  const [{ value: signups }] = useField<SignupFormFields[]>({
+    name: SIGNUP_GROUP_FIELDS.SIGNUPS,
   });
 
   const getContactPersonFieldName = (name: string) =>
@@ -254,8 +259,9 @@ const SignupGroupFormFields: React.FC<Props> = ({
             />
           </div>
         </FormGroup>
-        {/* Don't show signup group extra info field when editing a single signup */}
-        {!signup && (
+        {/* Don't show signup group extra info field when editing a single signup or 
+        creating a new signup and amount of signups is 1 */}
+        {(!!signupGroup || (!signup && !signupGroup && signups.length > 1)) && (
           <FormGroup>
             <Field
               name={SIGNUP_GROUP_FIELDS.EXTRA_INFO}
