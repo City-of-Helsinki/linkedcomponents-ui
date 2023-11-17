@@ -1751,6 +1751,7 @@
       "delete": "Delete registration",
       "edit": "Edit",
       "editAttendanceList": "Mark attendees",
+      "exportSignupsAsExcel": "Export particpants (Excel)",
       "showSignups": "Show participants",
       "update": "Save changes"
     },

@@ -30,6 +30,9 @@ import getNumberFieldValue from '../../utils/getNumberFieldValue';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
+import stripTrailingSlash from '../../utils/stripTrailingSlash';
+import i18n from '../app/i18n/i18nInit';
+import { getApiTokenFromStorage } from '../auth/utils';
 import { getEventFields } from '../event/utils';
 import {
   hasAdminOrganization,
@@ -93,6 +96,7 @@ export const checkCanUserDoRegistrationAction = ({
       return isAdminUser || isRegistrationAdminUser;
     case REGISTRATION_ACTIONS.SHOW_SIGNUPS:
     case REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST:
+    case REGISTRATION_ACTIONS.EXPORT_SIGNUPS_AS_EXCEL:
       return isRegistrationAdminUser;
   }
 };
@@ -585,3 +589,68 @@ export const omitSensitiveDataFromRegistrationPayload = (
   payload: CreateRegistrationMutationInput | UpdateRegistrationMutationInput
 ): Partial<CreateRegistrationMutationInput | UpdateRegistrationMutationInput> =>
   omit(payload, ['registrationUserAccesses']);
+
+const getExportSignupsExcelUrl = ({
+  registration,
+  uiLanguage,
+}: {
+  registration: RegistrationFieldsFragment;
+  uiLanguage: Language;
+}) => {
+  const { REACT_APP_LINKED_EVENTS_URL } = import.meta.env;
+  // Remove trailing dash from Linked Events API url if needed
+  const linkedEventsUrl = stripTrailingSlash(REACT_APP_LINKED_EVENTS_URL);
+
+  return `${linkedEventsUrl}/registration/${registration.id}/signups/export/xlsx/?ui_language=${uiLanguage}`;
+};
+
+const downloadBlob = (blob: Blob, filename: string) => {
+  const blobUrl = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = blobUrl;
+  link.download = filename;
+  link.click();
+
+  // Release the object URL and remove the link
+  window.URL.revokeObjectURL(blobUrl);
+  link.remove();
+};
+
+export const exportSignupsAsExcel = ({
+  addNotification,
+  registration,
+  uiLanguage,
+}: {
+  addNotification: (props: NotificationProps) => void;
+  registration: RegistrationFieldsFragment;
+  uiLanguage: Language;
+}) => {
+  const url = getExportSignupsExcelUrl({ registration, uiLanguage });
+  const token = getApiTokenFromStorage();
+  const { t } = i18n;
+
+  fetch(url, {
+    headers: {
+      ...(token ? { authorization: `Bearer ${token}` } : undefined),
+      'Accept-language': i18n.language,
+    },
+  })
+    .then((response) => {
+      switch (response.status) {
+        case 200:
+          response.blob().then((blob) => {
+            downloadBlob(blob, `registered_persons_${registration.id}`);
+          });
+          break;
+        case 401:
+          throw Error(t('errors.authorizationRequired'));
+        case 403:
+          throw Error(t('errors.forbidden'));
+        default:
+          throw Error(t('errors.serverError'));
+      }
+    })
+    .catch((error) => {
+      addNotification({ type: 'error', label: error.message });
+    });
+};

@@ -19,10 +19,12 @@ import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
+import { useNotificationsContext } from '../app/notificationsContext/hooks/useNotificationsContext';
 import { useAuth } from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import {
+  exportSignupsAsExcel,
   getRegistrationActionButtonProps,
   getRegistrationFields,
 } from '../registration/utils';
@@ -56,6 +58,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
 
   const { isAuthenticated: authenticated } = useAuth();
   const publisher = getValue(registration.publisher, '');
+  const { addNotification } = useNotificationsContext();
 
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { user } = useUser();
@@ -112,6 +115,20 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
       action: REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST,
       authenticated,
       onClick: goToAttendanceListPage,
+      organizationAncestors,
+      registration,
+      t,
+      user,
+    }),
+    getRegistrationActionButtonProps({
+      action: REGISTRATION_ACTIONS.EXPORT_SIGNUPS_AS_EXCEL,
+      authenticated,
+      onClick: () =>
+        exportSignupsAsExcel({
+          addNotification,
+          registration,
+          uiLanguage: locale,
+        }),
       organizationAncestors,
       registration,
       t,

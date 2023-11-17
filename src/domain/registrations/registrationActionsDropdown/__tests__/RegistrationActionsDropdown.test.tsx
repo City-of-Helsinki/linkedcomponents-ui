@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import copyToClipboard from 'copy-to-clipboard';
 import React from 'react';
 
@@ -20,6 +21,7 @@ import {
   mockedDeleteRegistrationResponse,
   registration,
 } from '../../../registration/__mocks__/editRegistrationPage';
+import { shouldExportSignupsAsExcel } from '../../../signups/__tests__/testUtils';
 import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import RegistrationActionsDropdown, {
   RegistrationActionsDropdownProps,
@@ -27,6 +29,12 @@ import RegistrationActionsDropdown, {
 
 configure({ defaultHidden: true });
 vi.mock('copy-to-clipboard');
+
+beforeEach(() => {
+  vi.clearAllMocks();
+  localStorage.clear();
+  sessionStorage.clear();
+});
 
 const defaultProps: RegistrationActionsDropdownProps = {
   registration,
@@ -69,6 +77,7 @@ const getElement = (
     | 'copyLink'
     | 'delete'
     | 'edit'
+    | 'exportAsExcel'
     | 'markPresent'
     | 'menu'
     | 'showSignups'
@@ -83,6 +92,10 @@ const getElement = (
       return screen.getByRole('button', { name: 'Poista ilmoittautuminen' });
     case 'edit':
       return screen.getByRole('button', { name: 'Muokkaa' });
+    case 'exportAsExcel':
+      return screen.getByRole('button', {
+        name: 'Lataa osallistujalista (Excel)',
+      });
     case 'markPresent':
       return screen.getByRole('button', { name: 'Merkkaa läsnäolijat' });
     case 'menu':
@@ -196,6 +209,14 @@ test('should route to attendance list page when clicking mark present button', a
     )
   );
   expect(history.location.search).toBe('?returnPath=%2Fregistrations');
+});
+
+test('should export signups as an excel after clicking export as excel button', async () => {
+  renderComponent({ authContextValue });
+  await openMenu();
+  const exportAsExcelButton = getElement('exportAsExcel');
+
+  await shouldExportSignupsAsExcel({ exportAsExcelButton, registration });
 });
 
 test('should route to create registration page when clicking copy button', async () => {

@@ -20,6 +20,7 @@ import ConfirmDeleteRegistrationModal from '../../registration/modals/confirmDel
 import {
   copyRegistrationToSessionStorage,
   copySignupLinkToClipboard,
+  exportSignupsAsExcel,
   getRegistrationActionButtonProps,
   getRegistrationFields,
 } from '../../registration/utils';
@@ -108,6 +109,15 @@ const RegistrationActionsDropdown: React.FC<
     getActionItemProps({
       action: REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST,
       onClick: goToAttendenceListPage,
+    }),
+    getActionItemProps({
+      action: REGISTRATION_ACTIONS.EXPORT_SIGNUPS_AS_EXCEL,
+      onClick: () =>
+        exportSignupsAsExcel({
+          addNotification,
+          registration,
+          uiLanguage: locale,
+        }),
     }),
     getActionItemProps({
       action: REGISTRATION_ACTIONS.COPY,
