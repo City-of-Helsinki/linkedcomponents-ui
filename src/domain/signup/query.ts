@@ -33,7 +33,6 @@ export const QUERY_SIGNUP = gql`
     id
     lastName
     presenceStatus
-    responsibleForGroup
     signupGroup
     streetAddress
     zipcode

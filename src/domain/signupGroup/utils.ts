@@ -101,15 +101,7 @@ export const getSignupGroupInitialValues = (
 ): SignupGroupFormFields => {
   const signups: SignupFieldsFragment[] = (
     signupGroup.signups ?? /* istanbul ignore next */ []
-  )
-    .filter(skipFalsyType)
-    .sort((a: SignupFieldsFragment, b: SignupFieldsFragment) => {
-      if (a.responsibleForGroup === b.responsibleForGroup) {
-        return 0;
-      }
-      return a.responsibleForGroup === true ? -1 : 1;
-    });
-
+  ).filter(skipFalsyType);
   return {
     contactPerson: getContactPersonInitialValues(
       signupGroup.contactPerson ?? {}
@@ -174,7 +166,6 @@ export const getSignupGroupPayload = ({
       extraInfo,
       firstName: getValue(firstName, ''),
       lastName: getValue(lastName, ''),
-      responsibleForGroup: index === 0,
       streetAddress: getValue(streetAddress, null),
       zipcode: getValue(zipcode, null),
     };
@@ -210,7 +201,6 @@ export const getUpdateSignupGroupPayload = ({
       firstName,
       id,
       lastName,
-      responsibleForGroup,
       streetAddress,
       zipcode,
     } = signup;
@@ -224,7 +214,6 @@ export const getUpdateSignupGroupPayload = ({
       firstName: getValue(firstName, ''),
       id,
       lastName: getValue(lastName, ''),
-      responsibleForGroup: !!responsibleForGroup,
       streetAddress: getValue(streetAddress, null),
       zipcode: getValue(zipcode, null),
     };
@@ -293,11 +282,6 @@ export const isRestoringSignupGroupFormDataDisabled = ({
 
   return !!signup || !!signupGroup || !data || isSeatsReservationExpired(data);
 };
-
-export const getResponsiblePerson = (
-  signupGroup: SignupGroupFieldsFragment
-): SignupFieldsFragment | undefined =>
-  signupGroup?.signups?.find((su) => su?.responsibleForGroup) ?? undefined;
 
 export const omitSensitiveDataFromSignupGroupPayload = (
   payload: CreateSignupGroupMutationInput | UpdateSignupGroupMutationInput

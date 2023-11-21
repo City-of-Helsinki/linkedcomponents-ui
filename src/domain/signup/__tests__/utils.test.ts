@@ -41,7 +41,6 @@ describe('getUpdateSignupPayload function', () => {
       id: TEST_SIGNUP_ID,
       lastName: '',
       registration: registration.id,
-      responsibleForGroup: false,
       streetAddress: null,
       zipcode: null,
     });
@@ -82,7 +81,6 @@ describe('getUpdateSignupPayload function', () => {
         id: null,
         inWaitingList: false,
         lastName,
-        responsibleForGroup: true,
         streetAddress,
         zipcode,
       },
@@ -129,7 +127,6 @@ describe('getUpdateSignupPayload function', () => {
       id: TEST_SIGNUP_ID,
       lastName,
       registration: registration.id,
-      responsibleForGroup: true,
       streetAddress,
       zipcode,
     });
@@ -167,7 +164,6 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
         firstName: null,
         id: TEST_SIGNUP_ID,
         lastName: null,
-        responsibleForGroup: true,
         streetAddress: null,
         zipcode: null,
       })
@@ -182,7 +178,6 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
         id: TEST_SIGNUP_ID,
         inWaitingList: false,
         lastName: '',
-        responsibleForGroup: true,
         streetAddress: '',
         zipcode: '',
       },
@@ -241,7 +236,6 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
         firstName: expectedFirstName,
         id: TEST_SIGNUP_ID,
         lastName: expectedLastName,
-        responsibleForGroup: true,
         streetAddress: expectedStreetAddress,
         zipcode: expectedZip,
       })
@@ -256,7 +250,6 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
         id: TEST_SIGNUP_ID,
         inWaitingList: false,
         lastName: expectedLastName,
-        responsibleForGroup: true,
         streetAddress: expectedStreetAddress,
         zipcode: expectedZip,
       },
@@ -289,7 +282,6 @@ describe('omitSensitiveDataFromSignupPayload', () => {
     firstName: 'First name',
     id: '1',
     lastName: 'Last name',
-    responsibleForGroup: true,
     streetAddress: 'Address',
     zipcode: '123456',
   };
@@ -303,7 +295,6 @@ describe('omitSensitiveDataFromSignupPayload', () => {
         notifications: NOTIFICATION_TYPE.EMAIL,
       },
       id: '1',
-      responsibleForGroup: true,
     });
     expect(filteredPayload.contactPerson?.email).toBeUndefined();
     expect(filteredPayload.contactPerson?.firstName).toBeUndefined();

@@ -53,7 +53,6 @@ describe('getSignupDefaultInitialValues function', () => {
       id: null,
       inWaitingList: false,
       lastName: '',
-      responsibleForGroup: false,
       streetAddress: '',
       zipcode: '',
     });
@@ -109,7 +108,6 @@ describe('getSignupGroupInitialValues function', () => {
         inWaitingList: false,
         id: TEST_SIGNUP_ID,
         lastName: '',
-        responsibleForGroup: false,
         streetAddress: '',
         zipcode: '',
       },
@@ -171,7 +169,6 @@ describe('getSignupGroupInitialValues function', () => {
             firstName: expectedFirstName,
             id: TEST_SIGNUP_ID,
             lastName: expectedLastName,
-            responsibleForGroup: false,
             streetAddress: expectedStreetAddress,
             zipcode: expectedZip,
           }),
@@ -188,7 +185,6 @@ describe('getSignupGroupInitialValues function', () => {
         id: TEST_SIGNUP_ID,
         lastName: expectedLastName,
         inWaitingList: false,
-        responsibleForGroup: false,
         streetAddress: expectedStreetAddress,
         zipcode: expectedZip,
       },
@@ -272,7 +268,6 @@ describe('getSignupGroupPayload function', () => {
           extraInfo: '',
           firstName: '',
           lastName: '',
-          responsibleForGroup: true,
           streetAddress: null,
           zipcode: null,
         },
@@ -319,7 +314,6 @@ describe('getSignupGroupPayload function', () => {
             id: TEST_SIGNUP_ID,
             lastName,
             inWaitingList: false,
-            responsibleForGroup: false,
             streetAddress,
             zipcode,
           },
@@ -351,7 +345,6 @@ describe('getSignupGroupPayload function', () => {
           extraInfo,
           firstName,
           lastName,
-          responsibleForGroup: true,
           streetAddress,
           zipcode,
         },
@@ -434,24 +427,6 @@ describe('isSignupFieldRequired', () => {
   );
 });
 
-describe('getSignupGroupInitialValues', () => {
-  it('should sort singnups so that items where responsibleForGroup is true are at the start', () => {
-    const signup1 = fakeSignup({ id: 'signup:1', responsibleForGroup: false });
-    const signup2 = fakeSignup({ id: 'signup:2', responsibleForGroup: true });
-    const signup3 = fakeSignup({ id: 'signup:3', responsibleForGroup: true });
-    const signup4 = fakeSignup({ id: 'signup:4', responsibleForGroup: false });
-    const signupGroup = fakeSignupGroup({
-      signups: [signup1, signup2, signup3, signup4],
-    });
-
-    const initialValues = getSignupGroupInitialValues(signupGroup);
-    expect(initialValues.signups[0].id).toEqual(signup2.id);
-    expect(initialValues.signups[1].id).toEqual(signup3.id);
-    expect(initialValues.signups[2].id).toEqual(signup1.id);
-    expect(initialValues.signups[3].id).toEqual(signup4.id);
-  });
-});
-
 describe('getUpdateSignupGroupPayload function', () => {
   it('should return signup group payload default values', () => {
     expect(
@@ -484,7 +459,6 @@ describe('getUpdateSignupGroupPayload function', () => {
           firstName: '',
           id: null,
           lastName: '',
-          responsibleForGroup: false,
           streetAddress: null,
           zipcode: null,
         },
@@ -518,7 +492,6 @@ describe('getUpdateSignupGroupPayload function', () => {
         id: TEST_SIGNUP_ID,
         inWaitingList: false,
         lastName,
-        responsibleForGroup: true,
         streetAddress,
         zipcode,
       },
@@ -566,7 +539,6 @@ describe('getUpdateSignupGroupPayload function', () => {
           firstName,
           id: TEST_SIGNUP_ID,
           lastName,
-          responsibleForGroup: true,
           streetAddress,
           zipcode,
         },
@@ -601,7 +573,6 @@ describe('omitSensitiveDataFromSignupGroupPayload', () => {
           firstName: 'First name',
           id: '1',
           lastName: 'Last name',
-          responsibleForGroup: true,
           streetAddress: 'Address',
           zipcode: '123456',
         },
@@ -622,7 +593,6 @@ describe('omitSensitiveDataFromSignupGroupPayload', () => {
         {
           contactPerson: undefined,
           id: '1',
-          responsibleForGroup: true,
         },
       ],
     });

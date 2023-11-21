@@ -52,7 +52,6 @@ const payload: CreateSignupGroupMutationInput = {
       extraInfo: '',
       firstName: signupValues.firstName,
       lastName: signupValues.lastName,
-      responsibleForGroup: true,
       streetAddress: signupValues.streetAddress,
       zipcode: signupValues.zip,
     },

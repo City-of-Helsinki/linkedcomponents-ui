@@ -37,7 +37,6 @@ export const getUpdateSignupPayload = ({
     extraInfo,
     firstName,
     lastName,
-    responsibleForGroup,
     streetAddress,
     zipcode,
   } = signups[0] || {};
@@ -53,7 +52,6 @@ export const getUpdateSignupPayload = ({
     firstName: getValue(firstName, ''),
     lastName: getValue(lastName, ''),
     registration: getValue(registration.id, ''),
-    responsibleForGroup: !!responsibleForGroup,
     streetAddress: getValue(streetAddress, null),
     zipcode: getValue(zipcode, null),
   };
@@ -69,7 +67,6 @@ export const getSignupInitialValues = (
   id: getValue(signup.id, null),
   inWaitingList: signup.attendeeStatus === AttendeeStatus.Waitlisted,
   lastName: getValue(signup.lastName, ''),
-  responsibleForGroup: !!signup.responsibleForGroup,
   streetAddress: getValue(signup.streetAddress, ''),
   zipcode: getValue(signup.zipcode, ''),
 });

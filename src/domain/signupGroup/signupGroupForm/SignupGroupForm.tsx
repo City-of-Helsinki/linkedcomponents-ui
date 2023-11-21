@@ -138,14 +138,6 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
     timerCallbacksDisabled.current = true;
   }, []);
 
-  const responsiblePerson = useMemo(
-    () =>
-      signup ??
-      signupGroup?.signups?.find((su) => su?.responsibleForGroup) ??
-      undefined,
-    [signup, signupGroup]
-  );
-
   const {
     deleteSignup,
     saving: savingSignup,
@@ -191,7 +183,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
           waitingPage: null,
         }),
       },
-      { state: { signupId: signup?.id ?? responsiblePerson?.id } }
+      { state: { signupId: signup?.id ?? signupGroup?.signups?.[0]?.id } }
     );
   };
 

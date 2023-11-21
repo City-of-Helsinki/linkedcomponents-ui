@@ -132,7 +132,6 @@ describe('signupSchema function', () => {
     id: null,
     inWaitingList: true,
     lastName: 'last name',
-    responsibleForGroup: true,
     streetAddress: 'Street address',
     zipcode: '00100',
   };

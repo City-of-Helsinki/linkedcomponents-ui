@@ -43,7 +43,6 @@ const signupValues: SignupFieldsFragment = {
   firstName: 'First name',
   id: signupId,
   lastName: 'Last name',
-  responsibleForGroup: true,
   streetAddress: 'Street address',
   zipcode: '00100',
 };
