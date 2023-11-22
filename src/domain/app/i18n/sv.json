@@ -1752,6 +1752,7 @@
       "delete": "Radera registrering",
       "edit": "Redigera",
       "editAttendanceList": "Märk de närvarande",
+      "exportSignupsAsExcel": "Exportera deltagare (Excel)",
       "showSignups": "Visa deltagare",
       "update": "Spara ändringar"
     },

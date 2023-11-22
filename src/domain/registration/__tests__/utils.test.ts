@@ -1,4 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/no-named-as-default-member */
+import { waitFor } from '@testing-library/react';
 import i18n from 'i18next';
 
 import {
@@ -15,6 +18,7 @@ import {
   getMockedSeatsReservationData,
   setSessionStorageValues,
 } from '../../../utils/mockDataUtils';
+import { setApiTokenToStorage } from '../../auth/utils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { TEST_SIGNUP_ID } from '../../signup/constants';
@@ -24,6 +28,7 @@ import {
 } from '../constants';
 import {
   checkCanUserDoRegistrationAction,
+  exportSignupsAsExcel,
   getFreeAttendeeOrWaitingListCapacity,
   getMaxSeatsAmount,
   getRegistrationActionWarning,
@@ -44,6 +49,11 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
+beforeEach(() => {
+  localStorage.clear();
+  sessionStorage.clear();
+});
+
 describe('getRegistrationActionWarning function', () => {
   it('should return correct warning if user is not authenticated', () => {
     const commonProps = {
@@ -57,7 +67,7 @@ describe('getRegistrationActionWarning function', () => {
       REGISTRATION_ACTIONS.COPY_LINK,
       REGISTRATION_ACTIONS.DELETE,
       REGISTRATION_ACTIONS.EDIT,
-
+      REGISTRATION_ACTIONS.EXPORT_SIGNUPS_AS_EXCEL,
       REGISTRATION_ACTIONS.SHOW_SIGNUPS,
       REGISTRATION_ACTIONS.UPDATE,
     ];
@@ -858,6 +868,7 @@ describe('checkCanUserDoRegistrationAction function', () => {
     [REGISTRATION_ACTIONS.DELETE, true],
     [REGISTRATION_ACTIONS.EDIT, true],
     [REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST, false],
+    [REGISTRATION_ACTIONS.EXPORT_SIGNUPS_AS_EXCEL, false],
     [REGISTRATION_ACTIONS.SHOW_SIGNUPS, false],
     [REGISTRATION_ACTIONS.UPDATE, true],
   ];
@@ -1014,4 +1025,57 @@ describe('omitSensitiveDataFromRegistrationPayload function', () => {
     });
     expect(filteredPayload.registrationUserAccesses).toBeUndefined();
   });
+});
+
+describe('exportSignupsAsExcel function', () => {
+  const registration = fakeRegistration({ id: TEST_REGISTRATION_ID });
+
+  it('should download signups as excel', async () => {
+    setApiTokenToStorage('api-token');
+    global.fetch = vi.fn(() =>
+      Promise.resolve({ blob: () => Promise.resolve({}), status: 200 })
+    ) as any;
+    const link: any = { click: vi.fn(), remove: vi.fn() };
+    global.URL.createObjectURL = vi.fn(() => 'https://test.com');
+    global.URL.revokeObjectURL = vi.fn();
+    const createElement = document.createElement;
+    document.createElement = vi.fn().mockImplementation(() => link);
+
+    exportSignupsAsExcel({
+      addNotification: vi.fn(),
+      registration,
+      uiLanguage: 'fi',
+    });
+    await waitFor(() =>
+      expect(link.download).toBe(`registered_persons_${TEST_REGISTRATION_ID}`)
+    );
+    expect(link.href).toBe('https://test.com');
+    expect(link.click).toHaveBeenCalledTimes(1);
+    // Restore original createElement to avoid unexpected side effects
+    document.createElement = createElement;
+  });
+
+  const errorsCases: [number, string][] = [
+    [401, 'Kirjaudu sisään suorittaaksesi tämän toiminnon.'],
+    [403, 'Sinulla ei ole lupaa suorittaa tätä toimintoa.'],
+    [500, 'Virhe palvelimella.'],
+  ];
+
+  it.each(errorsCases)(
+    'should show correct correct error, %p returns %p',
+    async (status, error) => {
+      const addNotification = vi.fn();
+      global.fetch = vi.fn(() =>
+        Promise.resolve({
+          blob: () => Promise.resolve({}),
+          status: status,
+        })
+      ) as any;
+      exportSignupsAsExcel({ addNotification, registration, uiLanguage: 'fi' });
+
+      await waitFor(() =>
+        expect(addNotification).toBeCalledWith({ label: error, type: 'error' })
+      );
+    }
+  );
 });

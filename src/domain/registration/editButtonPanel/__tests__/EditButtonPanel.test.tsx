@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import copyToClipboard from 'copy-to-clipboard';
 import React from 'react';
 
@@ -12,6 +13,7 @@ import {
 } from '../../../../utils/testUtils';
 import { AuthContextProps } from '../../../auth/types';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import { shouldExportSignupsAsExcel } from '../../../signups/__tests__/testUtils';
 import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
 import {
   publisher,
@@ -67,6 +69,7 @@ const getElement = (
     | 'copy'
     | 'copyLink'
     | 'delete'
+    | 'exportAsExcel'
     | 'markPresent'
     | 'menu'
     | 'showSignups'
@@ -82,6 +85,10 @@ const getElement = (
       return screen.getByRole('button', { name: /kopioi linkk/i });
     case 'delete':
       return screen.getByRole('button', { name: 'Poista ilmoittautuminen' });
+    case 'exportAsExcel':
+      return screen.getByRole('button', {
+        name: 'Lataa osallistujalista (Excel)',
+      });
     case 'markPresent':
       return screen.getByRole('button', { name: 'Merkkaa läsnäolijat' });
     case 'menu':
@@ -177,7 +184,7 @@ test('should route to attendance list page when clicking mark present button', a
 
   await openMenu();
 
-  const markPresentButton = await getElement('markPresent');
+  const markPresentButton = getElement('markPresent');
   await waitFor(() => expect(markPresentButton).toBeEnabled());
   await user.click(markPresentButton);
 
@@ -189,6 +196,13 @@ test('should route to attendance list page when clicking mark present button', a
   expect(decodeURIComponent(history.location.search)).toBe(
     `?returnPath=/registrations/edit/${registration.id}`
   );
+});
+
+test('should export signups as an excel after clicking export as excel button', async () => {
+  renderComponent({ authContextValue });
+  await openMenu();
+  const exportAsExcelButton = getElement('exportAsExcel');
+  await shouldExportSignupsAsExcel({ exportAsExcelButton, registration });
 });
 
 test('should route to create registration page when clicking copy button', async () => {
@@ -233,7 +247,7 @@ test('should route to search page when clicking back button', async () => {
 test('should route to page defined in returnPath when clicking back button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({
-    route: `/fi${ROUTES}?returnPath=${ROUTES.SEARCH}&returnPath=${ROUTES.REGISTRATIONS}`,
+    route: `/fi${ROUTES.REGISTRATION_SIGNUPS}?returnPath=${ROUTES.SEARCH}&returnPath=${ROUTES.REGISTRATIONS}`,
   });
 
   const backButton = getElement('back');

@@ -1752,6 +1752,7 @@
       "delete": "Poista ilmoittautuminen",
       "edit": "Muokkaa",
       "editAttendanceList": "Merkkaa läsnäolijat",
+      "exportSignupsAsExcel": "Lataa osallistujalista (Excel)",
       "showSignups": "Näytä ilmoittautuneet",
       "update": "Tallenna muutokset"
     },

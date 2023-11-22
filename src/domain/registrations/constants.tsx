@@ -6,6 +6,7 @@ import {
   IconEye,
   IconLink,
   IconPen,
+  IconSaveDiskette,
 } from 'hds-react';
 
 export enum REGISTRATION_ACTIONS {
@@ -15,6 +16,7 @@ export enum REGISTRATION_ACTIONS {
   DELETE = 'delete',
   EDIT = 'edit',
   EDIT_ATTENDANCE_LIST = 'editAttendanceList',
+  EXPORT_SIGNUPS_AS_EXCEL = 'exportSignupsAsExcel',
   SHOW_SIGNUPS = 'showSignups',
   UPDATE = 'update',
 }
@@ -42,6 +44,9 @@ export const REGISTRATION_ICONS = {
   [REGISTRATION_ACTIONS.DELETE]: <IconCross aria-hidden={true} />,
   [REGISTRATION_ACTIONS.EDIT]: <IconCogwheel aria-hidden={true} />,
   [REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST]: <IconCheck aria-hidden={true} />,
+  [REGISTRATION_ACTIONS.EXPORT_SIGNUPS_AS_EXCEL]: (
+    <IconSaveDiskette aria-hidden={true} />
+  ),
   [REGISTRATION_ACTIONS.SHOW_SIGNUPS]: <IconEye aria-hidden={true} />,
   [REGISTRATION_ACTIONS.UPDATE]: <IconPen aria-hidden={true} />,
 };
@@ -54,6 +59,8 @@ export const REGISTRATION_LABEL_KEYS = {
   [REGISTRATION_ACTIONS.EDIT]: 'registrationsPage.actionButtons.edit',
   [REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST]:
     'registrationsPage.actionButtons.editAttendanceList',
+  [REGISTRATION_ACTIONS.EXPORT_SIGNUPS_AS_EXCEL]:
+    'registrationsPage.actionButtons.exportSignupsAsExcel',
   [REGISTRATION_ACTIONS.SHOW_SIGNUPS]:
     'registrationsPage.actionButtons.showSignups',
   [REGISTRATION_ACTIONS.UPDATE]: 'registrationsPage.actionButtons.update',

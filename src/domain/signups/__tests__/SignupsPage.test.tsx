@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
@@ -23,6 +24,7 @@ import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks_
 import { mockedNotFoundRegistrationResponse } from '../../registration/__mocks__/editRegistrationPage';
 import {
   mockedRegistrationResponse,
+  registration,
   registrationId,
 } from '../../registration/__mocks__/registration';
 import { mockedRegistrationUserResponse } from '../../user/__mocks__/user';
@@ -33,6 +35,7 @@ import {
   sendMessageValues,
 } from '../__mocks__/signupsPage';
 import SignupsPage from '../SignupsPage';
+import { shouldExportSignupsAsExcel } from './testUtils';
 
 configure({ defaultHidden: true });
 
@@ -56,6 +59,8 @@ const defaultMocks = [
 
 beforeEach(() => {
   vi.clearAllMocks();
+  localStorage.clear();
+  sessionStorage.clear();
 });
 
 const findCreateSignupButton = () =>
@@ -65,6 +70,7 @@ const getElement = (
   key:
     | 'attendeeTable'
     | 'createSignupButton'
+    | 'exportAsExcel'
     | 'menu'
     | 'toggle'
     | 'waitingListTable'
@@ -74,6 +80,10 @@ const getElement = (
       return screen.getByRole('table', { name: /osallistujat/i });
     case 'createSignupButton':
       return screen.getByRole('button', { name: /lisää osallistuja/i });
+    case 'exportAsExcel':
+      return screen.getByRole('button', {
+        name: 'Lataa osallistujalista (Excel)',
+      });
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
     case 'toggle':
@@ -227,4 +237,13 @@ test('should route to attendance list page when clicking mark present button', a
       `/fi/registrations/${registrationId}/attendance-list`
     )
   );
+});
+
+test('should export signups as an excel after clicking export as excel button', async () => {
+  const user = userEvent.setup();
+  renderComponent();
+  await loadingSpinnerIsNotInDocument(10000);
+  await openMenu();
+  const exportAsExcelButton = getElement('exportAsExcel');
+  await shouldExportSignupsAsExcel({ exportAsExcelButton, registration });
 });

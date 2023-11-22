@@ -24,6 +24,7 @@ import useUser from '../../user/hooks/useUser';
 import {
   copyRegistrationToSessionStorage,
   copySignupLinkToClipboard,
+  exportSignupsAsExcel,
   getRegistrationActionButtonProps,
   getRegistrationFields,
 } from '../utils';
@@ -128,6 +129,15 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionItemProps({
       action: REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST,
       onClick: goToAttendanceListPage,
+    }),
+    getActionItemProps({
+      action: REGISTRATION_ACTIONS.EXPORT_SIGNUPS_AS_EXCEL,
+      onClick: () =>
+        exportSignupsAsExcel({
+          addNotification,
+          registration,
+          uiLanguage: locale,
+        }),
     }),
     getActionItemProps({
       action: REGISTRATION_ACTIONS.COPY,
