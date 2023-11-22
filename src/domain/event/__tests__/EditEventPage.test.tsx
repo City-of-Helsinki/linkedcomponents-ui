@@ -9,10 +9,7 @@ import {
   ROUTES,
   TIME_FORMAT_DATA,
 } from '../../../constants';
-import {
-  EventDocument,
-  OrganizationDocument,
-} from '../../../generated/graphql';
+import { EventDocument } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {

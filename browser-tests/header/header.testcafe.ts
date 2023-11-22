@@ -52,10 +52,9 @@ test('Header tabs field work', async (t) => {
   await headerTabs.actions.clickEventsPageTab();
   await urlUtils.expectations.urlChangedToEventsPage();
   // Registrations page
-  if (isFeatureEnabled('SHOW_REGISTRATION')) {
-    await headerTabs.actions.clickRegistrationsPageTab();
-    await urlUtils.expectations.urlChangedToRegistrationsPage();
-  }
+  await headerTabs.actions.clickRegistrationsPageTab();
+  await urlUtils.expectations.urlChangedToRegistrationsPage();
+
   // Admin page
   if (isFeatureEnabled('SHOW_ADMIN')) {
     await headerTabs.actions.clickAdminPageTab();

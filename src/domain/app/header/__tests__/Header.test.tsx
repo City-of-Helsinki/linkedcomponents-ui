@@ -80,7 +80,6 @@ test('should show navigation links and should route to correct page after clicki
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
-    SHOW_REGISTRATION: true,
   });
   const user = userEvent.setup();
   const { history } = renderComponent();
@@ -130,7 +129,6 @@ test.each(registrationAndAdminTabTestCases)(
     setFeatureFlags({
       LOCALIZED_IMAGE: true,
       SHOW_ADMIN: true,
-      SHOW_REGISTRATION: true,
     });
     const userMocks: Record<typeof role, MockedResponse> = {
       admin: mockedUserResponse,
@@ -167,12 +165,12 @@ test('should not show admin and registrations link when those features are disab
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: false,
-    SHOW_REGISTRATION: false,
   });
   const user = userEvent.setup();
   const { history } = renderComponent();
   const links = [
     { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
+    { name: /ilmoittautuminen/i, url: `/fi${ROUTES.REGISTRATIONS}` },
     { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
   ];
 
@@ -186,9 +184,6 @@ test('should not show admin and registrations link when those features are disab
 
   expect(
     screen.queryByRole('link', { name: /hallinta/i })
-  ).not.toBeInTheDocument();
-  expect(
-    screen.queryByRole('link', { name: /ilmoittautuminen/i })
   ).not.toBeInTheDocument();
 });
 

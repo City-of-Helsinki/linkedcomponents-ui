@@ -33,10 +33,9 @@ test('Footer links work', async (t) => {
 
   await urlUtils.expectations.urlChangedToEventSearchPage();
   // Registrations page
-  if (isFeatureEnabled('SHOW_REGISTRATION')) {
-    await footerLinks.actions.clickRegistrationsPageLink();
-    await urlUtils.expectations.urlChangedToRegistrationsPage();
-  }
+  await footerLinks.actions.clickRegistrationsPageLink();
+  await urlUtils.expectations.urlChangedToRegistrationsPage();
+
   // Admin page
   if (isFeatureEnabled('SHOW_ADMIN')) {
     await footerLinks.actions.clickAdminPageLink();

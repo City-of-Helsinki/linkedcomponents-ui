@@ -91,12 +91,10 @@ const LocaleRoutes: React.FC = () => {
           <Route path={ROUTES.EVENT_SAVED} element={<EventSavedPage />} />
           <Route path={ROUTES.EDIT_EVENT} element={<EditEventPage />} />
           <Route path={ROUTES.EVENTS} element={<EventsPage />} />
-          {featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') && (
-            <Route
-              path={`${ROUTES.REGISTRATIONS}/*`}
-              element={<RegistrationRoutes />}
-            ></Route>
-          )}
+          <Route
+            path={`${ROUTES.REGISTRATIONS}/*`}
+            element={<RegistrationRoutes />}
+          ></Route>
           <Route path={ROUTES.LOGOUT} element={<LogoutPage />} />
           <Route path={ROUTES.SEARCH} element={<EventSearchPage />} />
           {featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') && (

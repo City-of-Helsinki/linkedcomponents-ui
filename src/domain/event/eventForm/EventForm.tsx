@@ -19,7 +19,6 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import extractLatestReturnPath from '../../../utils/extractLatestReturnPath';
-import { featureFlagUtils } from '../../../utils/featureFlags';
 import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
@@ -503,10 +502,9 @@ const EventForm: React.FC<EventFormProps> = ({
               )}
               {event ? (
                 <>
-                  {featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') &&
-                    areRegistrationRoutesAllowed(user) && (
-                      <RegistrationSection event={event} />
-                    )}
+                  {areRegistrationRoutesAllowed(user) && (
+                    <RegistrationSection event={event} />
+                  )}
                   <Section title={t('event.form.sections.linksToEvents')}>
                     <LinksToEventsSection event={event} />
                   </Section>

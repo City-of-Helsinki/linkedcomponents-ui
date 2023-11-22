@@ -240,7 +240,6 @@ test('should route to attendance list page when clicking mark present button', a
 });
 
 test('should export signups as an excel after clicking export as excel button', async () => {
-  const user = userEvent.setup();
   renderComponent();
   await loadingSpinnerIsNotInDocument(10000);
   await openMenu();

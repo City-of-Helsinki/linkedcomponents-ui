@@ -129,7 +129,6 @@ const setLocalizedImageFeatureFlag = (localizedImage: boolean) => {
   setFeatureFlags({
     LOCALIZED_IMAGE: localizedImage,
     SHOW_ADMIN: true,
-    SHOW_REGISTRATION: true,
   });
 };
 

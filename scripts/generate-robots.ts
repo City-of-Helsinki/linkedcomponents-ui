@@ -32,11 +32,7 @@ const DISALLOWED_URLS = [
         ]
       : []
   )
-  .concat(
-    featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION')
-      ? [`/*${ROUTES.REGISTRATIONS}`, `/*${ROUTES.REGISTRATIONS}/*`]
-      : []
-  );
+  .concat([`/*${ROUTES.REGISTRATIONS}`, `/*${ROUTES.REGISTRATIONS}/*`]);
 
 const generateRobotsTxt = async () => {
   const writeStream = fs.createWriteStream(
