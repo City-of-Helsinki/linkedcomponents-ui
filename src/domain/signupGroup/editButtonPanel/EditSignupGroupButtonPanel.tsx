@@ -1,5 +1,5 @@
 import { IconPen } from 'hds-react';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
@@ -22,7 +22,6 @@ import { SignupsLocationState } from '../../signups/types';
 import useUser from '../../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';
 import { getSignupGroupActionButtonProps } from '../permissions';
-import { getResponsiblePerson } from '../utils';
 import styles from './editButtonPanel.module.scss';
 
 export interface EditSignupGroupButtonPanelProps {
@@ -48,17 +47,12 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
   const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const responsiblePerson = useMemo(
-    () => getResponsiblePerson(signupGroup),
-    [signupGroup]
-  );
-
   const goBack = useGoBack<SignupsLocationState>({
     defaultReturnPath: ROUTES.REGISTRATION_SIGNUPS.replace(
       ':registrationId',
       getValue(registration.id, '')
     ),
-    state: { signupId: responsiblePerson?.id },
+    state: { signupId: signupGroup.signups?.[0]?.id },
   });
 
   const getSingupActionItemProps = ({

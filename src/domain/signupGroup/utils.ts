@@ -4,6 +4,8 @@ import snakeCase from 'lodash/snakeCase';
 
 import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
 import {
+  ContactPersonFieldsFragment,
+  ContactPersonInput,
   CreateSignupGroupMutationInput,
   RegistrationFieldsFragment,
   SeatsReservationFieldsFragment,
@@ -21,9 +23,12 @@ import {
 } from '../seatsReservation/utils';
 import {
   getSignupInitialValues,
+  omitSensitiveDataFromContactPerson,
   omitSensitiveDataFromSignupPayload,
 } from '../signup/utils';
+import { signupGroup } from './__mocks__/editSignupGroupPage';
 import {
+  CONTACT_PERSON_FIELDS,
   NOTIFICATION_TYPE,
   NOTIFICATIONS,
   SIGNUP_FIELDS,
@@ -31,7 +36,11 @@ import {
   SIGNUP_GROUP_INITIAL_VALUES,
   SIGNUP_INITIAL_VALUES,
 } from './constants';
-import { SignupFormFields, SignupGroupFormFields } from './types';
+import {
+  ContactPersonFormFields,
+  SignupFormFields,
+  SignupGroupFormFields,
+} from './types';
 
 export const getSignupNotificationTypes = (
   notifications: string
@@ -73,32 +82,54 @@ export const getSignupGroupDefaultInitialValues =
     signups: [getSignupDefaultInitialValues()],
   });
 
+export const getContactPersonInitialValues = (
+  contactPerson: Partial<ContactPersonFieldsFragment>
+): ContactPersonFormFields => ({
+  email: getValue(contactPerson.email, ''),
+  firstName: getValue(contactPerson.firstName, ''),
+  id: getValue(contactPerson.id, null),
+  lastName: getValue(contactPerson.lastName, ''),
+  membershipNumber: getValue(contactPerson.membershipNumber, ''),
+  nativeLanguage: getValue(contactPerson.nativeLanguage, ''),
+  notifications: [NOTIFICATIONS.EMAIL],
+  phoneNumber: getValue(contactPerson.phoneNumber, ''),
+  serviceLanguage: getValue(contactPerson.serviceLanguage, ''),
+});
+
 export const getSignupGroupInitialValues = (
   signupGroup: SignupGroupFieldsFragment
 ): SignupGroupFormFields => {
   const signups: SignupFieldsFragment[] = (
     signupGroup.signups ?? /* istanbul ignore next */ []
-  )
-    .filter(skipFalsyType)
-    .sort((a: SignupFieldsFragment, b: SignupFieldsFragment) => {
-      if (a.responsibleForGroup === b.responsibleForGroup) {
-        return 0;
-      }
-      return a.responsibleForGroup === true ? -1 : 1;
-    });
+  ).filter(skipFalsyType);
+  return {
+    contactPerson: getContactPersonInitialValues(
+      signupGroup.contactPerson ?? {}
+    ),
+    extraInfo: getValue(signupGroup.extraInfo, ''),
+    signups: signups.map((su) => getSignupInitialValues(su)),
+  };
+};
 
-  const responsibleSignup =
-    signups.find((su) => su.responsibleForGroup) ?? signups[0];
+export const getContactPersonPayload = (
+  formValues: ContactPersonFormFields
+): ContactPersonInput => {
+  const {
+    email,
+    nativeLanguage,
+    notifications,
+    phoneNumber,
+    serviceLanguage,
+    ...rest
+  } = formValues;
 
   return {
-    email: getValue(responsibleSignup?.email, ''),
-    extraInfo: getValue(signupGroup.extraInfo, ''),
-    membershipNumber: getValue(responsibleSignup?.membershipNumber, ''),
-    nativeLanguage: getValue(responsibleSignup?.nativeLanguage, ''),
-    notifications: [NOTIFICATIONS.EMAIL],
-    phoneNumber: getValue(responsibleSignup?.phoneNumber, ''),
-    serviceLanguage: getValue(responsibleSignup?.serviceLanguage, ''),
-    signups: signups.map((su) => getSignupInitialValues(su)),
+    ...rest,
+    email: getValue(email, null),
+    nativeLanguage: getValue(nativeLanguage, null),
+    notifications: getSignupNotificationsCode(notifications),
+    phoneNumber: getValue(phoneNumber, null),
+    serviceLanguage: getValue(serviceLanguage, null),
   };
 };
 
@@ -112,13 +143,8 @@ export const getSignupGroupPayload = ({
   reservationCode: string;
 }): CreateSignupGroupMutationInput => {
   const {
-    email,
+    contactPerson,
     extraInfo: groupExtraInfo,
-    membershipNumber,
-    nativeLanguage,
-    notifications,
-    phoneNumber,
-    serviceLanguage,
     signups: signupsValues,
   } = formValues;
 
@@ -137,22 +163,16 @@ export const getSignupGroupPayload = ({
       dateOfBirth: dateOfBirth
         ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
         : null,
-      email: getValue(email, null),
       extraInfo,
       firstName: getValue(firstName, ''),
       lastName: getValue(lastName, ''),
-      membershipNumber: membershipNumber,
-      nativeLanguage: getValue(nativeLanguage, null),
-      notifications: getSignupNotificationsCode(notifications),
-      phoneNumber: getValue(phoneNumber, null),
-      responsibleForGroup: index === 0,
-      serviceLanguage: getValue(serviceLanguage, null),
       streetAddress: getValue(streetAddress, null),
       zipcode: getValue(zipcode, null),
     };
   });
 
   return {
+    contactPerson: getContactPersonPayload(contactPerson),
     extraInfo: groupExtraInfo,
     registration: registration.id,
     reservationCode,
@@ -168,13 +188,8 @@ export const getUpdateSignupGroupPayload = ({
   registration: RegistrationFieldsFragment;
 }): UpdateSignupGroupMutationInput => {
   const {
-    email,
+    contactPerson,
     extraInfo: groupExtraInfo,
-    membershipNumber,
-    nativeLanguage,
-    notifications,
-    phoneNumber,
-    serviceLanguage,
     signups: signupsValues,
   } = formValues;
 
@@ -186,7 +201,6 @@ export const getUpdateSignupGroupPayload = ({
       firstName,
       id,
       lastName,
-      responsibleForGroup,
       streetAddress,
       zipcode,
     } = signup;
@@ -196,23 +210,17 @@ export const getUpdateSignupGroupPayload = ({
       dateOfBirth: dateOfBirth
         ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
         : null,
-      email: getValue(email, null),
       extraInfo,
       firstName: getValue(firstName, ''),
       id,
       lastName: getValue(lastName, ''),
-      membershipNumber: membershipNumber,
-      nativeLanguage: getValue(nativeLanguage, null),
-      notifications: getSignupNotificationsCode(notifications),
-      phoneNumber: getValue(phoneNumber, null),
-      responsibleForGroup: !!responsibleForGroup,
-      serviceLanguage: getValue(serviceLanguage, null),
       streetAddress: getValue(streetAddress, null),
       zipcode: getValue(zipcode, null),
     };
   });
 
   return {
+    contactPerson: getContactPersonPayload(contactPerson),
     extraInfo: groupExtraInfo,
     registration: registration.id,
     signups,
@@ -241,7 +249,7 @@ export const getNewSignups = ({
 
 export const isSignupFieldRequired = (
   registration: RegistrationFieldsFragment,
-  fieldId: SIGNUP_GROUP_FIELDS | SIGNUP_FIELDS
+  fieldId: SIGNUP_GROUP_FIELDS | SIGNUP_FIELDS | CONTACT_PERSON_FIELDS
 ): boolean =>
   Boolean(registration.mandatoryFields?.includes(snakeCase(fieldId)));
 
@@ -275,17 +283,15 @@ export const isRestoringSignupGroupFormDataDisabled = ({
   return !!signup || !!signupGroup || !data || isSeatsReservationExpired(data);
 };
 
-export const getResponsiblePerson = (
-  signupGroup: SignupGroupFieldsFragment
-): SignupFieldsFragment | undefined =>
-  signupGroup?.signups?.find((su) => su?.responsibleForGroup) ?? undefined;
-
 export const omitSensitiveDataFromSignupGroupPayload = (
   payload: CreateSignupGroupMutationInput | UpdateSignupGroupMutationInput
 ): Partial<
   CreateSignupGroupMutationInput | UpdateSignupGroupMutationInput
 > => ({
   ...omit(payload, ['extraInfo']),
+  contactPerson: signupGroup.contactPerson
+    ? omitSensitiveDataFromContactPerson(signupGroup.contactPerson)
+    : signupGroup.contactPerson,
   signups: payload.signups
     ?.filter(skipFalsyType)
     .map((s) => omitSensitiveDataFromSignupPayload(s)),

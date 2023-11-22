@@ -17,7 +17,7 @@ interface Props {
 const MandatoryFieldsSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
-  const { contactMandatoryFieldOptions, personMandatoryFieldOptions } =
+  const { contactPersonMandatoryFieldOptions, signupMandatoryFieldOptions } =
     useMandatoryFieldOptions();
 
   return (
@@ -35,7 +35,7 @@ const MandatoryFieldsSection: React.FC<Props> = ({ isEditingAllowed }) => {
             columns={1}
             disabled={!isEditingAllowed}
             label={t('registration.form.titleParticipantBasicInfo')}
-            options={personMandatoryFieldOptions}
+            options={signupMandatoryFieldOptions}
             name={REGISTRATION_FIELDS.MANDATORY_FIELDS}
           />
 
@@ -45,7 +45,7 @@ const MandatoryFieldsSection: React.FC<Props> = ({ isEditingAllowed }) => {
             columns={1}
             disabled={!isEditingAllowed}
             label={t('registration.form.titleContactInfo')}
-            options={contactMandatoryFieldOptions}
+            options={contactPersonMandatoryFieldOptions}
             name={REGISTRATION_FIELDS.MANDATORY_FIELDS}
           />
         </FieldColumn>

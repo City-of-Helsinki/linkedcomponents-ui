@@ -132,7 +132,6 @@ describe('signupSchema function', () => {
     id: null,
     inWaitingList: true,
     lastName: 'last name',
-    responsibleForGroup: true,
     streetAddress: 'Street address',
     zipcode: '00100',
   };
@@ -263,13 +262,18 @@ describe('signupSchema function', () => {
 describe('signupGroupSchema function', () => {
   const registration = fakeRegistration();
   const validSignupGroup: SignupGroupFormFields = {
-    email: 'user@email.com',
+    contactPerson: {
+      email: 'user@email.com',
+      firstName: 'First name',
+      id: null,
+      lastName: 'Last name',
+      membershipNumber: '',
+      nativeLanguage: 'fi',
+      notifications: [NOTIFICATIONS.EMAIL],
+      phoneNumber: '',
+      serviceLanguage: 'fi',
+    },
     extraInfo: '',
-    membershipNumber: '',
-    nativeLanguage: 'fi',
-    notifications: [NOTIFICATIONS.EMAIL],
-    phoneNumber: '',
-    serviceLanguage: 'fi',
     signups: [],
   };
 
@@ -283,7 +287,10 @@ describe('signupGroupSchema function', () => {
     expect(
       await testSignupGroupSchema(registration, {
         ...validSignupGroup,
-        email: '',
+        contactPerson: {
+          ...validSignupGroup.contactPerson,
+          email: '',
+        },
       })
     ).toBe(false);
   });
@@ -292,7 +299,10 @@ describe('signupGroupSchema function', () => {
     expect(
       await testSignupGroupSchema(registration, {
         ...validSignupGroup,
-        email: 'user@email.',
+        contactPerson: {
+          ...validSignupGroup.contactPerson,
+          email: 'user@email.',
+        },
       })
     ).toBe(false);
   });
@@ -301,8 +311,11 @@ describe('signupGroupSchema function', () => {
     expect(
       await testSignupGroupSchema(registration, {
         ...validSignupGroup,
-        phoneNumber: '',
-        notifications: [NOTIFICATIONS.SMS],
+        contactPerson: {
+          ...validSignupGroup.contactPerson,
+          phoneNumber: '',
+          notifications: [NOTIFICATIONS.SMS],
+        },
       })
     ).toBe(false);
   });
@@ -311,7 +324,10 @@ describe('signupGroupSchema function', () => {
     expect(
       await testSignupGroupSchema(registration, {
         ...validSignupGroup,
-        phoneNumber: 'xxx',
+        contactPerson: {
+          ...validSignupGroup.contactPerson,
+          phoneNumber: 'xxx',
+        },
       })
     ).toBe(false);
   });
@@ -320,7 +336,10 @@ describe('signupGroupSchema function', () => {
     expect(
       await testSignupGroupSchema(registration, {
         ...validSignupGroup,
-        notifications: [],
+        contactPerson: {
+          ...validSignupGroup.contactPerson,
+          notifications: [],
+        },
       })
     ).toBe(false);
   });
@@ -329,7 +348,10 @@ describe('signupGroupSchema function', () => {
     expect(
       await testSignupGroupSchema(registration, {
         ...validSignupGroup,
-        nativeLanguage: '',
+        contactPerson: {
+          ...validSignupGroup.contactPerson,
+          nativeLanguage: '',
+        },
       })
     ).toBe(false);
   });
@@ -338,7 +360,10 @@ describe('signupGroupSchema function', () => {
     expect(
       await testSignupGroupSchema(registration, {
         ...validSignupGroup,
-        serviceLanguage: '',
+        contactPerson: {
+          ...validSignupGroup.contactPerson,
+          serviceLanguage: '',
+        },
       })
     ).toBe(false);
   });
@@ -349,7 +374,10 @@ describe('signupGroupSchema function', () => {
         fakeRegistration({ mandatoryFields: ['membership_number'] }),
         {
           ...validSignupGroup,
-          membershipNumber: '',
+          contactPerson: {
+            ...validSignupGroup.contactPerson,
+            membershipNumber: '',
+          },
         }
       )
     ).toBe(false);
@@ -373,7 +401,10 @@ describe('signupGroupSchema function', () => {
         fakeRegistration({ mandatoryFields: ['phone_number'] }),
         {
           ...validSignupGroup,
-          phoneNumber: '',
+          contactPerson: {
+            ...validSignupGroup.contactPerson,
+            phoneNumber: '',
+          },
         }
       )
     ).toBe(false);

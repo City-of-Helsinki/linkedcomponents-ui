@@ -9,6 +9,10 @@ import {
 describe('parseSignupGroupServerErrors', () => {
   it('should set server error items', async () => {
     const result = {
+      contact_person: {
+        email: ['Tämän kentän arvo ei voi olla "null".'],
+        non_field_errors: ['Contact person non field error'],
+      },
       registration: ['The name must be specified.'],
       signups: [
         {
@@ -26,6 +30,11 @@ describe('parseSignupGroupServerErrors', () => {
     expect(
       parseSignupGroupServerErrors({ result, t: i18n.t.bind(i18n) })
     ).toEqual([
+      {
+        label: 'Sähköpostiosoite',
+        message: 'Tämän kentän arvo ei voi olla "null".',
+      },
+      { label: '', message: 'Contact person non field error' },
       { label: 'Ilmoittautuminen', message: 'Nimi on pakollinen.' },
       { label: 'Kaupunki', message: 'Tämän kentän arvo ei voi olla "null".' },
       { label: '', message: 'Osallistuja on liian vanha.' },

@@ -90,6 +90,7 @@ type SignupGroupFormWrapperProps = (
   | UpdateSignupFormProps
   | UpdateSignupGroupFormProps
 ) & {
+  contactPersonFieldsDisabled?: boolean;
   disabled: boolean;
   event: EventFieldsFragment;
   initialValues: SignupGroupFormFieldsType;
@@ -109,6 +110,7 @@ type SignupGroupFormProps = Omit<
 };
 
 const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
+  contactPersonFieldsDisabled,
   disabled,
   event,
   refetchSignup,
@@ -135,14 +137,6 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   const disableTimerCallbacks = useCallback(() => {
     timerCallbacksDisabled.current = true;
   }, []);
-
-  const responsiblePerson = useMemo(
-    () =>
-      signup ??
-      signupGroup?.signups?.find((su) => su?.responsibleForGroup) ??
-      undefined,
-    [signup, signupGroup]
-  );
 
   const {
     deleteSignup,
@@ -189,7 +183,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
           waitingPage: null,
         }),
       },
-      { state: { signupId: signup?.id ?? responsiblePerson?.id } }
+      { state: { signupId: signup?.id ?? signupGroup?.signups?.[0]?.id } }
     );
   };
 
@@ -381,6 +375,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
               )}
 
               <SignupGroupFormFields
+                contactPersonFieldsDisabled={contactPersonFieldsDisabled}
                 disabled={disabled}
                 registration={registration}
                 signup={signup}
@@ -428,6 +423,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 };
 
 const SignupGroupFormWrapper: React.FC<SignupGroupFormWrapperProps> = ({
+  contactPersonFieldsDisabled,
   initialValues,
   registration,
   signupGroup,
@@ -440,11 +436,14 @@ const SignupGroupFormWrapper: React.FC<SignupGroupFormWrapperProps> = ({
         /* istanbul ignore next */
         () => undefined
       }
-      validationSchema={() => getSignupGroupSchema(registration)}
+      validationSchema={() =>
+        getSignupGroupSchema(registration, !contactPersonFieldsDisabled)
+      }
     >
       {({ setErrors, setTouched, values }) => {
         return (
           <SignupGroupForm
+            contactPersonFieldsDisabled={contactPersonFieldsDisabled}
             registration={registration}
             signupGroup={signupGroup}
             {...rest}

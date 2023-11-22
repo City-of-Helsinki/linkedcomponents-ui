@@ -35,6 +35,7 @@ import {
 import { TEST_SEATS_RESERVATION_CODE } from '../../seatsReservation/constants';
 import { mockedRegistrationUserResponse } from '../../user/__mocks__/user';
 import {
+  contactPersonValues,
   mockedCreateSignupGroupResponse,
   mockedInvalidCreateSignupGroupResponse,
   signupValues,
@@ -49,14 +50,10 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-const findElement = (key: 'firstNameInput' | 'submitButton') => {
-  switch (key) {
-    case 'firstNameInput':
-      return screen.findByLabelText(/etunimi/i);
-    case 'submitButton':
-      return screen.findByRole('button', { name: /tallenna osallistuja/i });
-  }
-};
+const findSubmitButton = () =>
+  screen.findByRole('button', { name: /tallenna osallistuja/i });
+
+const findFirstNameInputs = () => screen.findAllByLabelText(/etunimi/i);
 
 const getElement = (
   key:
@@ -91,9 +88,9 @@ const getElement = (
     case 'emailInput':
       return screen.getByLabelText(/sähköpostiosoite/i);
     case 'firstNameInput':
-      return screen.getByLabelText(/etunimi/i);
+      return screen.getAllByLabelText(/etunimi/i)[0];
     case 'lastNameInput':
-      return screen.getByLabelText(/sukunimi/i);
+      return screen.getAllByLabelText(/sukunimi/i)[0];
     case 'nativeLanguageButton':
       return screen.getByRole('button', { name: /äidinkieli/i });
     case 'participantAmountInput':
@@ -243,7 +240,7 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
 
 const waitLoadingAndFindNameInput = async () => {
   await loadingSpinnerIsNotInDocument();
-  const nameInput = await findElement('firstNameInput');
+  const nameInput = (await findFirstNameInputs())[0];
   return nameInput;
 };
 
@@ -267,8 +264,8 @@ const enterFormValues = async () => {
   await user.type(dateOfBirthInput, signupValues.dateOfBirth);
   await user.type(zipInput, signupValues.zip);
   await user.type(cityInput, signupValues.city);
-  await user.type(emailInput, signupValues.email);
-  await user.type(phoneInput, signupValues.phone);
+  await user.type(emailInput, contactPersonValues.email);
+  await user.type(phoneInput, contactPersonValues.phone);
   await user.click(nativeLanguageButton);
   const nativeLanguageOption = await screen.findByRole('option', {
     name: /suomi/i,
@@ -299,7 +296,7 @@ test('should validate signup group form and focus to invalid field and finally c
   const phoneInput = getElement('phoneInput');
   const nativeLanguageButton = getElement('nativeLanguageButton');
   const serviceLanguageButton = getElement('serviceLanguageButton');
-  const submitButton = await findElement('submitButton');
+  const submitButton = await findSubmitButton();
 
   await user.type(firstNameInput, signupValues.firstName);
   await user.type(lastNameInput, signupValues.lastName);
@@ -313,8 +310,8 @@ test('should validate signup group form and focus to invalid field and finally c
   expect(emailInput).toBeRequired();
   expect(phoneInput).not.toBeRequired();
 
-  await user.type(emailInput, signupValues.email);
-  await user.type(phoneInput, signupValues.phone);
+  await user.type(emailInput, contactPersonValues.email);
+  await user.type(phoneInput, contactPersonValues.phone);
   await user.click(submitButton);
 
   await waitFor(() => expect(nativeLanguageButton).toHaveFocus());
@@ -342,7 +339,7 @@ test('should show server errors', async () => {
   const user = userEvent.setup();
   renderComponent([...defaultMocks, mockedInvalidCreateSignupGroupResponse]);
 
-  const submitButton = await findElement('submitButton');
+  const submitButton = await findSubmitButton();
 
   await enterFormValues();
   await user.click(submitButton);
@@ -437,16 +434,20 @@ test('should show and hide participant specific fields', async () => {
 
   renderComponent();
 
-  const nameInput = await waitLoadingAndFindNameInput();
+  await waitLoadingAndFindNameInput();
   const toggleButton = screen.getByRole('button', {
     name: 'Osallistuja 1',
   });
 
   await user.click(toggleButton);
-  expect(nameInput).not.toBeInTheDocument();
+  expect(
+    screen.queryByRole('group', { name: /ilmoittautujan perustiedot/i })
+  ).not.toBeInTheDocument();
 
   await user.click(toggleButton);
-  getElement('firstNameInput');
+  expect(
+    screen.getByRole('group', { name: /ilmoittautujan perustiedot/i })
+  ).toBeInTheDocument();
 });
 
 test('should delete participants by clicking delete participant button', async () => {

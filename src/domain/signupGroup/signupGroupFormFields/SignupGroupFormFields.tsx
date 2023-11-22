@@ -1,6 +1,7 @@
 import { Field, useField } from 'formik';
-import React from 'react';
+import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 import Fieldset from '../../../common/components/fieldset/Fieldset';
 import CheckboxGroupField from '../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
@@ -9,20 +10,68 @@ import SingleSelectField from '../../../common/components/formFields/singleSelec
 import TextAreaField from '../../../common/components/formFields/textAreaField/TextAreaField';
 import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../common/components/formGroup/FormGroup';
+import Notification from '../../../common/components/notification/Notification';
 import {
   RegistrationFieldsFragment,
   SignupFieldsFragment,
   SignupGroupFieldsFragment,
 } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
+import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useLanguageOptions from '../../language/hooks/useLanguageOptions';
-import { NOTIFICATIONS, SIGNUP_GROUP_FIELDS } from '../constants';
+import { getSignupFields } from '../../signups/utils';
+import {
+  CONTACT_PERSON_FIELDS,
+  NOTIFICATIONS,
+  SIGNUP_GROUP_FIELDS,
+} from '../constants';
 import Divider from '../divider/Divider';
 import useNotificationOptions from '../hooks/useNotificationOptions';
 import { isSignupFieldRequired } from '../utils';
 import styles from './signupGroupFormFields.module.scss';
 import Signups from './signups/Signups';
 
+const CannotEditContactPersonNotification: FC<{
+  registration: RegistrationFieldsFragment;
+  signup: SignupFieldsFragment;
+}> = ({ registration, signup }) => {
+  const language = useLocale();
+  const { t } = useTranslation();
+  const queryStringWithReturnPath = useQueryStringWithReturnPath();
+  const { signupGroupUrl } = getSignupFields({
+    language,
+    registration,
+    signup,
+  });
+
+  return (
+    <Notification
+      className={styles.cannotEditNotification}
+      label={t(
+        'signup.form.contactPerson.cannotEditContactPersonNotification.title'
+      )}
+      type="info"
+    >
+      <p>
+        {t(
+          'signup.form.contactPerson.cannotEditContactPersonNotification.text'
+        )}
+      </p>
+      {signupGroupUrl && (
+        <Link
+          to={{ pathname: signupGroupUrl, search: queryStringWithReturnPath }}
+        >
+          {t(
+            'signup.form.contactPerson.cannotEditContactPersonNotification.linkText'
+          )}
+        </Link>
+      )}
+    </Notification>
+  );
+};
+
 interface Props {
+  contactPersonFieldsDisabled?: boolean;
   disabled?: boolean;
   registration: RegistrationFieldsFragment;
   signup?: SignupFieldsFragment;
@@ -30,6 +79,7 @@ interface Props {
 }
 
 const SignupGroupFormFields: React.FC<Props> = ({
+  contactPersonFieldsDisabled,
   disabled,
   registration,
   signup,
@@ -41,8 +91,18 @@ const SignupGroupFormFields: React.FC<Props> = ({
   const serviceLanguageOptions = useLanguageOptions({
     variables: { serviceLanguage: true },
   });
+
+  const getContactPersonFieldName = (name: string) =>
+    `${SIGNUP_GROUP_FIELDS.CONTACT_PERSON}.${name}`;
+
+  const getContactPersonTranslation = (key: string) =>
+    t(`signup.form.contactPerson.${key}`);
+
+  const titleCannotEditContactPerson = contactPersonFieldsDisabled
+    ? getContactPersonTranslation('titleCannotEditContactPerson')
+    : undefined;
   const [{ value: notifications }] = useField<NOTIFICATIONS>({
-    name: SIGNUP_GROUP_FIELDS.NOTIFICATIONS,
+    name: getContactPersonFieldName(CONTACT_PERSON_FIELDS.NOTIFICATIONS),
   });
 
   return (
@@ -52,89 +112,145 @@ const SignupGroupFormFields: React.FC<Props> = ({
         registration={registration}
         signupGroup={signupGroup}
       />
-      <h2>{t('signup.form.titleInformantInfo')}</h2>
+      <h2>{getContactPersonTranslation('titleContactPersonInfo')}</h2>
       <Divider />
-      <Fieldset heading={t(`signup.form.titleContactInfo`)}>
+      {contactPersonFieldsDisabled && signup && (
+        <CannotEditContactPersonNotification
+          registration={registration}
+          signup={signup}
+        />
+      )}
+
+      <Fieldset heading={getContactPersonTranslation(`titleContactInfo`)}>
         <FormGroup>
           <div className={styles.emailRow}>
             <Field
-              name={SIGNUP_GROUP_FIELDS.EMAIL}
+              name={getContactPersonFieldName(CONTACT_PERSON_FIELDS.EMAIL)}
               component={TextInputField}
-              disabled={disabled}
-              label={t(`signup.form.labelEmail`)}
-              placeholder={t(`signup.form.placeholderEmail`)}
+              disabled={disabled || contactPersonFieldsDisabled}
+              label={getContactPersonTranslation('labelEmail')}
+              placeholder={getContactPersonTranslation('placeholderEmail')}
               required
+              title={titleCannotEditContactPerson}
             />
             <Field
-              name={SIGNUP_GROUP_FIELDS.PHONE_NUMBER}
+              name={getContactPersonFieldName(
+                CONTACT_PERSON_FIELDS.PHONE_NUMBER
+              )}
               component={PhoneInputField}
-              disabled={disabled}
-              label={t(`signup.form.labelPhoneNumber`)}
-              placeholder={t(`signup.form.placeholderPhoneNumber`)}
+              disabled={disabled || contactPersonFieldsDisabled}
+              label={getContactPersonTranslation('labelPhoneNumber')}
+              placeholder={getContactPersonTranslation(
+                'placeholderPhoneNumber'
+              )}
               type="tel"
               required={
                 notifications.includes(NOTIFICATIONS.SMS) ||
                 isSignupFieldRequired(
                   registration,
-                  SIGNUP_GROUP_FIELDS.PHONE_NUMBER
+                  CONTACT_PERSON_FIELDS.PHONE_NUMBER
                 )
               }
+              title={titleCannotEditContactPerson}
+            />
+          </div>
+        </FormGroup>
+        <FormGroup>
+          <div className={styles.nameRow}>
+            <Field
+              name={getContactPersonFieldName(CONTACT_PERSON_FIELDS.FIRST_NAME)}
+              component={TextInputField}
+              disabled={disabled || contactPersonFieldsDisabled}
+              label={getContactPersonTranslation('labelFirstName')}
+              placeholder={getContactPersonTranslation('placeholderFirstName')}
+              required={isSignupFieldRequired(
+                registration,
+                CONTACT_PERSON_FIELDS.FIRST_NAME
+              )}
+              title={titleCannotEditContactPerson}
+            />
+            <Field
+              name={getContactPersonFieldName(CONTACT_PERSON_FIELDS.LAST_NAME)}
+              component={TextInputField}
+              disabled={disabled || contactPersonFieldsDisabled}
+              label={getContactPersonTranslation('labelLastName')}
+              placeholder={getContactPersonTranslation('placeholderLastName')}
+              required={isSignupFieldRequired(
+                registration,
+                CONTACT_PERSON_FIELDS.LAST_NAME
+              )}
+              title={titleCannotEditContactPerson}
             />
           </div>
         </FormGroup>
       </Fieldset>
 
-      <Fieldset heading={t(`signup.form.titleNotifications`)}>
+      <Fieldset heading={getContactPersonTranslation(`titleNotifications`)}>
         <FormGroup>
           <Field
-            name={SIGNUP_GROUP_FIELDS.NOTIFICATIONS}
+            name={getContactPersonFieldName(
+              CONTACT_PERSON_FIELDS.NOTIFICATIONS
+            )}
             className={styles.notifications}
             component={CheckboxGroupField}
-            // TODO: At the moment only email notifications are supported
             disabled={true}
-            // disabled={disabled}
-            label={t(`signup.form.titleNotifications`)}
+            label={getContactPersonTranslation(`titleNotifications`)}
             options={notificationOptions}
             required
           />
         </FormGroup>
       </Fieldset>
 
-      <Fieldset heading={t(`signup.form.titleAdditionalInfo`)}>
+      <Fieldset heading={getContactPersonTranslation(`titleAdditionalInfo`)}>
         <FormGroup>
           <div className={styles.membershipNumberRow}>
             <Field
-              name={SIGNUP_GROUP_FIELDS.MEMBERSHIP_NUMBER}
+              name={getContactPersonFieldName(
+                CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER
+              )}
               component={TextInputField}
-              disabled={disabled}
-              label={t(`signup.form.labelMembershipNumber`)}
-              placeholder={t(`signup.form.placeholderMembershipNumber`)}
+              disabled={disabled || contactPersonFieldsDisabled}
+              label={getContactPersonTranslation('labelMembershipNumber')}
+              placeholder={getContactPersonTranslation(
+                'placeholderMembershipNumber'
+              )}
               required={isSignupFieldRequired(
                 registration,
-                SIGNUP_GROUP_FIELDS.MEMBERSHIP_NUMBER
+                CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER
               )}
+              title={titleCannotEditContactPerson}
             />
           </div>
         </FormGroup>
         <FormGroup>
           <div className={styles.nativeLanguageRow}>
             <Field
-              name={SIGNUP_GROUP_FIELDS.NATIVE_LANGUAGE}
+              name={getContactPersonFieldName(
+                CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE
+              )}
               component={SingleSelectField}
-              disabled={disabled}
-              label={t(`signup.form.labelNativeLanguage`)}
+              disabled={disabled || contactPersonFieldsDisabled}
+              label={getContactPersonTranslation('labelNativeLanguage')}
               options={languageOptions}
-              placeholder={t(`signup.form.placeholderNativeLanguage`)}
+              placeholder={getContactPersonTranslation(
+                'placeholderNativeLanguage'
+              )}
               required
+              title={titleCannotEditContactPerson}
             />
             <Field
-              name={SIGNUP_GROUP_FIELDS.SERVICE_LANGUAGE}
+              name={getContactPersonFieldName(
+                CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE
+              )}
               component={SingleSelectField}
-              disabled={disabled}
-              label={t(`signup.form.labelServiceLanguage`)}
+              disabled={disabled || contactPersonFieldsDisabled}
+              label={getContactPersonTranslation('labelServiceLanguage')}
               options={serviceLanguageOptions}
-              placeholder={t(`signup.form.placeholderServiceLanguage`)}
+              placeholder={getContactPersonTranslation(
+                'placeholderServiceLanguage'
+              )}
               required
+              title={titleCannotEditContactPerson}
             />
           </div>
         </FormGroup>
@@ -145,8 +261,8 @@ const SignupGroupFormFields: React.FC<Props> = ({
               name={SIGNUP_GROUP_FIELDS.EXTRA_INFO}
               component={TextAreaField}
               disabled={disabled}
-              label={t(`signup.form.labelExtraInfo`)}
-              placeholder={t(`signup.form.placeholderExtraInfo`)}
+              label={t('signup.form.labelExtraInfo')}
+              placeholder={t('signup.form.placeholderExtraInfo')}
               required={isSignupFieldRequired(
                 registration,
                 SIGNUP_GROUP_FIELDS.EXTRA_INFO

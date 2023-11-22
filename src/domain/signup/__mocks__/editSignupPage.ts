@@ -20,25 +20,29 @@ import {
   NOTIFICATION_TYPE,
   TEST_SIGNUP_GROUP_ID,
 } from '../../signupGroup/constants';
-import { TEST_SIGNUP_ID } from '../constants';
+import { TEST_CONTACT_PERSON_ID, TEST_SIGNUP_ID } from '../constants';
 
 const signupId = TEST_SIGNUP_ID;
 
 const dateOfBirth = subYears(new Date(), 13);
 const signupValues: SignupFieldsFragment = {
   city: 'City',
+  contactPerson: {
+    email: 'participant@email.com',
+    firstName: 'Contact first name',
+    id: TEST_CONTACT_PERSON_ID,
+    lastName: 'Contact last name',
+    membershipNumber: '',
+    nativeLanguage: 'fi',
+    notifications: NOTIFICATION_TYPE.EMAIL,
+    phoneNumber: '+358 44 123 4567',
+    serviceLanguage: 'fi',
+  },
   dateOfBirth: formatDate(dateOfBirth),
-  email: 'participant@email.com',
   extraInfo: '',
   firstName: 'First name',
   id: signupId,
   lastName: 'Last name',
-  membershipNumber: '',
-  nativeLanguage: 'fi',
-  notifications: NOTIFICATION_TYPE.EMAIL,
-  phoneNumber: '+358 44 123 4567',
-  responsibleForGroup: true,
-  serviceLanguage: 'fi',
   streetAddress: 'Street address',
   zipcode: '00100',
 };
@@ -59,6 +63,12 @@ const signupResponse = { data: { signup } };
 const mockedSignupResponse: MockedResponse = {
   request: { query: SignupDocument, variables: signupVariables },
   result: signupResponse,
+};
+
+const signupWithGroupResponse = { data: { signup: signupWithGroup } };
+const mockedSignupWithGroupResponse: MockedResponse = {
+  request: { query: SignupDocument, variables: signupVariables },
+  result: signupWithGroupResponse,
 };
 
 const deleteSignupVariables = { id: signupId };
@@ -135,6 +145,7 @@ export {
   mockedInvalidUpdateSignupResponse,
   mockedSendMessageResponse,
   mockedSignupResponse,
+  mockedSignupWithGroupResponse,
   mockedUpdateSignupResponse,
   sendMessageValues,
   signup,

@@ -223,7 +223,7 @@ export const getRegistrationFields = (
     enrolmentEndTime: getDateFromString(registration.enrolmentEndTime),
     enrolmentStartTime: getDateFromString(registration.enrolmentStartTime),
     event: event?.id ? getEventFields(event, language) : null,
-    lastModifiedAt: getDateFromString(registration.lastModifiedAt),
+    lastModifiedTime: getDateFromString(registration.lastModifiedTime),
     mandatoryFields: getValue(
       registration.mandatoryFields?.filter(skipFalsyType),
       []

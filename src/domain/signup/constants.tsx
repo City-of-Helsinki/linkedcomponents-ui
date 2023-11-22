@@ -29,6 +29,8 @@ export const SIGNUP_LABEL_KEYS = {
 
 export const AUTHENTICATION_NOT_NEEDED = [SIGNUP_ACTIONS.EDIT];
 
+export const TEST_CONTACT_PERSON_ID = 'contact:0';
+
 export const TEST_SIGNUP_ID = 'signup:0';
 
 export enum SIGNUP_MODALS {

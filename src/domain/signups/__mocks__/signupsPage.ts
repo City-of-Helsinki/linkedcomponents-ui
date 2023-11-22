@@ -39,9 +39,6 @@ const count = 30;
 const meta: Meta = { ...attendees.meta, count };
 attendees.meta = meta;
 
-const page2PlaceNames = range(1, TEST_PAGE_SIZE + 1).map(
-  (n) => `Page 2 place ${n}`
-);
 const attendeeNamesPage2 = range(1, TEST_PAGE_SIZE + 1).map((n) => ({
   firstName: `Attendee`,
   lastName: `Page 2 user ${n}`,

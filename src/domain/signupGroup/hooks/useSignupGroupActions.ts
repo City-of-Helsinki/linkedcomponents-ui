@@ -153,12 +153,8 @@ const useSignupGroupActions = ({
     callbacks?: MutationCallbacks
   ) => {
     const payload: UpdateSignupGroupMutationInput = getUpdateSignupGroupPayload(
-      {
-        formValues: values,
-        registration,
-      }
+      { formValues: values, registration }
     );
-
     try {
       setSaving(SIGNUP_GROUP_ACTIONS.UPDATE);
 

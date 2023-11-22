@@ -3,41 +3,40 @@ import omit from 'lodash/omit';
 import { DATE_FORMAT_API } from '../../constants';
 import {
   AttendeeStatus,
+  ContactPersonInput,
   RegistrationFieldsFragment,
   SignupFieldsFragment,
+  SignupGroupFieldsFragment,
   SignupInput,
   UpdateSignupMutationInput,
 } from '../../generated/graphql';
 import formatDate from '../../utils/formatDate';
 import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
-import { NOTIFICATION_TYPE, NOTIFICATIONS } from '../signupGroup/constants';
 import { SignupFormFields, SignupGroupFormFields } from '../signupGroup/types';
+import {
+  getContactPersonInitialValues,
+  getContactPersonPayload,
+} from '../signupGroup/utils';
 
 export const getUpdateSignupPayload = ({
   formValues,
+  hasSignupGroup,
   id,
   registration,
 }: {
   formValues: SignupGroupFormFields;
+  hasSignupGroup: boolean;
   id: string;
   registration: RegistrationFieldsFragment;
 }): UpdateSignupMutationInput => {
-  const {
-    email,
-    membershipNumber,
-    nativeLanguage,
-    phoneNumber,
-    serviceLanguage,
-    signups,
-  } = formValues;
+  const { contactPerson, signups } = formValues;
   const {
     city,
     dateOfBirth,
     extraInfo,
     firstName,
     lastName,
-    responsibleForGroup,
     streetAddress,
     zipcode,
   } = signups[0] || {};
@@ -45,18 +44,14 @@ export const getUpdateSignupPayload = ({
   return {
     id,
     city: getValue(city, ''),
+    contactPerson: !hasSignupGroup
+      ? getContactPersonPayload(contactPerson)
+      : undefined,
     dateOfBirth: dateOfBirth ? formatDate(dateOfBirth, DATE_FORMAT_API) : null,
-    email: getValue(email, null),
     extraInfo: getValue(extraInfo, ''),
     firstName: getValue(firstName, ''),
     lastName: getValue(lastName, ''),
-    membershipNumber: membershipNumber,
-    nativeLanguage: getValue(nativeLanguage, null),
-    notifications: NOTIFICATION_TYPE.EMAIL,
-    phoneNumber: getValue(phoneNumber, null),
     registration: getValue(registration.id, ''),
-    responsibleForGroup: !!responsibleForGroup,
-    serviceLanguage: getValue(serviceLanguage, null),
     streetAddress: getValue(streetAddress, null),
     zipcode: getValue(zipcode, null),
   };
@@ -72,40 +67,55 @@ export const getSignupInitialValues = (
   id: getValue(signup.id, null),
   inWaitingList: signup.attendeeStatus === AttendeeStatus.Waitlisted,
   lastName: getValue(signup.lastName, ''),
-  responsibleForGroup: !!signup.responsibleForGroup,
   streetAddress: getValue(signup.streetAddress, ''),
   zipcode: getValue(signup.zipcode, ''),
 });
 
 export const getSignupGroupInitialValuesFromSignup = (
-  signup: SignupFieldsFragment
+  signup: SignupFieldsFragment,
+  signupGroup?: SignupGroupFieldsFragment
 ): SignupGroupFormFields => {
+  const contactPerson =
+    signupGroup?.contactPerson ?? signup?.contactPerson ?? {};
   return {
-    email: getValue(signup.email, ''),
+    contactPerson: getContactPersonInitialValues(contactPerson),
     extraInfo: '',
-    membershipNumber: getValue(signup.membershipNumber, ''),
-    nativeLanguage: getValue(signup.nativeLanguage, ''),
-    notifications: [NOTIFICATIONS.EMAIL],
-    phoneNumber: getValue(signup.phoneNumber, ''),
-    serviceLanguage: getValue(signup.serviceLanguage, ''),
     signups: [getSignupInitialValues(signup)],
   };
 };
 
-export const omitSensitiveDataFromSignupPayload = (
-  payload: SignupInput | UpdateSignupMutationInput
-): Partial<SignupInput | UpdateSignupMutationInput> =>
+export const omitSensitiveDataFromContactPerson = (
+  payload: ContactPersonInput
+): Partial<ContactPersonInput> =>
   omit(payload, [
-    'city',
-    'dateOfBirth',
+    '__typename',
     'email',
-    'extraInfo',
     'firstName',
     'lastName',
     'membershipNumber',
     'nativeLanguage',
     'phoneNumber',
     'serviceLanguage',
-    'streetAddress',
-    'zipcode',
   ]);
+
+export const omitSensitiveDataFromSignupPayload = (
+  payload: SignupInput | UpdateSignupMutationInput
+): Partial<SignupInput | UpdateSignupMutationInput> =>
+  omit(
+    {
+      ...payload,
+      contactPerson: payload.contactPerson
+        ? omitSensitiveDataFromContactPerson(payload.contactPerson)
+        : payload.contactPerson,
+    },
+    [
+      '__typename',
+      'city',
+      'dateOfBirth',
+      'extraInfo',
+      'firstName',
+      'lastName',
+      'streetAddress',
+      'zipcode',
+    ]
+  );

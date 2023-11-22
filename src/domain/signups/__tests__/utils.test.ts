@@ -12,11 +12,16 @@ describe('getSignupFields function', () => {
       language: 'fi',
       registration: fakeRegistration(),
       signup: fakeSignup({
-        email: null,
+        contactPerson: {
+          email: null,
+          firstName: null,
+          lastName: null,
+          id: '',
+          phoneNumber: null,
+        },
         firstName: null,
         id: '',
         lastName: null,
-        phoneNumber: null,
       }),
     });
 

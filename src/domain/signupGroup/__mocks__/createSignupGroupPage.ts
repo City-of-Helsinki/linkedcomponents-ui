@@ -17,18 +17,31 @@ import { NOTIFICATION_TYPE } from '../constants';
 
 const dateOfBirth = subYears(new Date(), 13);
 
+const contactPersonValues = {
+  email: 'participant@email.com',
+  phone: '+358 44 123 4567',
+};
 const signupValues = {
   city: 'City',
   dateOfBirth: formatDate(dateOfBirth),
-  email: 'participant@email.com',
   firstName: 'First name',
   lastName: 'Last name',
-  phone: '+358 44 123 4567',
   streetAddress: 'Street address',
   zip: '00100',
 };
 
 const payload: CreateSignupGroupMutationInput = {
+  contactPerson: {
+    email: contactPersonValues.email,
+    firstName: '',
+    id: null,
+    lastName: '',
+    membershipNumber: '',
+    nativeLanguage: 'fi',
+    notifications: NOTIFICATION_TYPE.EMAIL,
+    phoneNumber: contactPersonValues.phone,
+    serviceLanguage: 'fi',
+  },
   extraInfo: '',
   registration: registrationId,
   reservationCode: TEST_SEATS_RESERVATION_CODE,
@@ -36,16 +49,9 @@ const payload: CreateSignupGroupMutationInput = {
     {
       city: signupValues.city,
       dateOfBirth: formatDate(dateOfBirth, DATE_FORMAT_API),
-      email: signupValues.email,
       extraInfo: '',
       firstName: signupValues.firstName,
       lastName: signupValues.lastName,
-      membershipNumber: '',
-      nativeLanguage: 'fi',
-      notifications: NOTIFICATION_TYPE.EMAIL,
-      phoneNumber: signupValues.phone,
-      responsibleForGroup: true,
-      serviceLanguage: 'fi',
       streetAddress: signupValues.streetAddress,
       zipcode: signupValues.zip,
     },
@@ -87,6 +93,7 @@ const mockedInvalidCreateSignupGroupResponse: MockedResponse = {
 };
 
 export {
+  contactPersonValues,
   mockedCreateSignupGroupResponse,
   mockedInvalidCreateSignupGroupResponse,
   signupValues,

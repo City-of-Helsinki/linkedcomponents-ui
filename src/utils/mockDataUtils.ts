@@ -13,6 +13,7 @@ import { TEST_SEATS_RESERVATION_CODE } from '../domain/seatsReservation/constant
 import { NOTIFICATION_TYPE } from '../domain/signupGroup/constants';
 import {
   AttendeeStatus,
+  ContactPerson,
   CreateSignupGroupResponse,
   DataSource,
   DataSourcesResponse,
@@ -55,6 +56,28 @@ import {
   Video,
 } from '../generated/graphql';
 import generateAtId from './generateAtId';
+
+export const fakeContactPerson = (
+  overrides?: Partial<ContactPerson>
+): ContactPerson => {
+  const id = overrides?.id || faker.string.uuid();
+
+  return merge<ContactPerson, typeof overrides>(
+    {
+      id,
+      email: faker.internet.email(),
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      membershipNumber: faker.string.uuid(),
+      nativeLanguage: 'fi',
+      notifications: NOTIFICATION_TYPE.SMS_EMAIL,
+      phoneNumber: faker.phone.number(),
+      serviceLanguage: 'fi',
+      __typename: 'ContactPerson',
+    },
+    overrides
+  );
+};
 
 export const fakeDataSources = (
   count = 1,
@@ -446,8 +469,8 @@ export const fakeRegistration = (
       audienceMaxAge: null,
       audienceMinAge: null,
       confirmationMessage: fakeLocalisedObject(faker.lorem.paragraph()),
-      createdAt: null,
       createdBy: faker.person.firstName(),
+      createdTime: null,
       currentAttendeeCount: 0,
       currentWaitingListCount: 0,
       dataSource: TEST_DATA_SOURCE_ID,
@@ -455,8 +478,8 @@ export const fakeRegistration = (
       enrolmentStartTime: '2020-09-27T15:00:00.000000Z',
       event: null,
       instructions: fakeLocalisedObject(faker.lorem.paragraph()),
-      lastModifiedAt: '2020-09-12T15:00:00.000000Z',
       lastModifiedBy: faker.person.firstName(),
+      lastModifiedTime: '2020-09-12T15:00:00.000000Z',
       mandatoryFields: [],
       maximumAttendeeCapacity: 0,
       maximumGroupSize: null,
@@ -538,24 +561,17 @@ export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
     {
       id,
       attendeeStatus: AttendeeStatus.Attending,
-      cancellationCode: '',
       city: faker.location.city(),
-      createdAt: null,
+      contactPerson: fakeContactPerson(),
       createdBy: null,
+      createdTime: null,
       dateOfBirth: '1990-10-10',
-      email: faker.internet.email(),
       extraInfo: faker.lorem.paragraph(),
       firstName: faker.person.firstName(),
-      lastModifiedAt: null,
       lastModifiedBy: null,
+      lastModifiedTime: null,
       lastName: faker.person.lastName(),
-      membershipNumber: faker.string.uuid(),
-      nativeLanguage: 'fi',
-      notifications: NOTIFICATION_TYPE.SMS_EMAIL,
-      phoneNumber: faker.phone.number(),
       presenceStatus: PresenceStatus.NotPresent,
-      responsibleForGroup: false,
-      serviceLanguage: 'fi',
       signupGroup: null,
       streetAddress: faker.location.streetAddress(),
       zipcode: faker.location.zipCode('#####'),
@@ -573,11 +589,12 @@ export const fakeSignupGroup = (
   return merge<SignupGroup, typeof overrides>(
     {
       id,
-      createdAt: null,
+      contactPerson: fakeContactPerson(),
       createdBy: null,
+      createdTime: null,
       extraInfo: '',
-      lastModifiedAt: null,
       lastModifiedBy: null,
+      lastModifiedTime: null,
       registration: TEST_REGISTRATION_ID,
       signups: [],
     },

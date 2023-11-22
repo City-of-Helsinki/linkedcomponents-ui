@@ -7,13 +7,13 @@ import styles from './editingInfo.module.scss';
 
 interface Props {
   createdBy: string;
-  lastModifiedAt: Date | null;
+  lastModifiedTime: Date | null;
 }
 
-const EditingInfo: React.FC<Props> = ({ createdBy, lastModifiedAt }) => {
+const EditingInfo: React.FC<Props> = ({ createdBy, lastModifiedTime }) => {
   return (
     <p className={styles.editingInfo}>
-      <span>{formatDate(lastModifiedAt, DATETIME_FORMAT)}</span>
+      <span>{formatDate(lastModifiedTime, DATETIME_FORMAT)}</span>
       {createdBy && (
         <>
           <CreatorBadge createdBy={createdBy} />

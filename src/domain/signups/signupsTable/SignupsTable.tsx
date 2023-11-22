@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
 import Table from '../../../common/components/table/Table';
 import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
@@ -11,6 +12,7 @@ import {
   RegistrationFieldsFragment,
   SignupFieldsFragment,
   SignupsQueryVariables,
+  useSignupGroupQuery,
   useSignupsQuery,
 } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
@@ -64,20 +66,55 @@ const NameColumn: FC<ColumnProps> = ({ registration, signup }) => {
 
 const EmailColumn: FC<ColumnProps> = ({ registration, signup }) => {
   const language = useLocale();
-  const { email } = getSignupFields({ language, registration, signup });
-
-  return <>{getValue(email, '-')}</>;
-};
-
-const PhoneColumn: FC<ColumnProps> = ({ registration, signup }) => {
-  const language = useLocale();
-  const { phoneNumber } = getSignupFields({
+  const { email, signupGroup } = getSignupFields({
     language,
     registration,
     signup,
   });
 
-  return <>{getValue(phoneNumber, '-')}</>;
+  const { data: signupGroupData, loading } = useSignupGroupQuery({
+    skip: !signupGroup,
+    variables: { id: signupGroup as string },
+  });
+
+  return (
+    <LoadingSpinner
+      className={styles.columnLoadingSpinner}
+      isLoading={loading}
+      small
+    >
+      {getValue(
+        signupGroupData?.signupGroup.contactPerson?.email ?? email,
+        '-'
+      )}
+    </LoadingSpinner>
+  );
+};
+
+const PhoneColumn: FC<ColumnProps> = ({ registration, signup }) => {
+  const language = useLocale();
+  const { phoneNumber, signupGroup } = getSignupFields({
+    language,
+    registration,
+    signup,
+  });
+  const { data: signupGroupData, loading } = useSignupGroupQuery({
+    skip: !signupGroup,
+    variables: { id: signupGroup as string },
+  });
+
+  return (
+    <LoadingSpinner
+      className={styles.columnLoadingSpinner}
+      isLoading={loading}
+      small
+    >
+      {getValue(
+        signupGroupData?.signupGroup.contactPerson?.phoneNumber ?? phoneNumber,
+        '-'
+      )}
+    </LoadingSpinner>
+  );
 };
 
 const AttendeeStatusColumn: FC<ColumnProps> = ({ registration, signup }) => {
