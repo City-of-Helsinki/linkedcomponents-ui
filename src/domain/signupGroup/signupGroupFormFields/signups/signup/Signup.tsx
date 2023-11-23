@@ -148,6 +148,7 @@ const Signup: React.FC<Props> = ({
           className={styles.extraInfoField}
           component={TextAreaField}
           disabled={disabled}
+          helperText={translateSignupText('helperExtraInfo')}
           label={translateSignupText('labelExtraInfo')}
           placeholder={translateSignupText('placeholderExtraInfo')}
           required={isSignupFieldRequired(

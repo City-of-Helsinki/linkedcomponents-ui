@@ -1848,6 +1848,7 @@
         "labelNativeLanguage": "Modersmål",
         "labelPhoneNumber": "Telefonnummer",
         "labelServiceLanguage": "Transaktionsspråk",
+        "notificationTextContactPersonInfo": "Ange din vårdnadshavares kontaktuppgifter här om du är minderårig.",
         "placeholderEmail": "Skriv in din mailadress",
         "placeholderFirstName": "Ange kontaktens förnamn",
         "placeholderLastName": "Ange kontaktens efternamn",
@@ -1858,7 +1859,7 @@
         "titleAdditionalInfo": "Ytterligare information",
         "titleCannotEditContactPerson": "Deltagargruppens kontaktpersonsuppgifter kan inte redigeras från denna sida.",
         "titleContactInfo": "Kontaktinformation",
-        "titleContacPersonInfo": "Information om kontaktperson",
+        "titleContactPersonInfo": "Information om kontaktperson",
         "titleNotifications": "Evenemangmeddelanden"
       },
       "freeAttendeeCapacity": "Tillgängliga platser",
@@ -1875,6 +1876,7 @@
       "placeholderExtraInfo": "Ange ytterligare information eller begäran",
       "signup": {
         "buttonDeleteSignup": "Ta bort deltagare",
+        "helperExtraInfo": "Ange här information om eventuella allergier, specialkost, tillgänglighet eller andra särskilda behov, om det är information som behövs för att delta i evenemanget. Vi vidarebefordrar informationen till arrangören för att evenemangets säkerhet och tillgänglighet kan säkerställas. Genom att ange uppgifterna ger du ditt samtycke till behandlingen av uppgifterna. Du kan återkalla ditt samtycke genom att radera uppgifterna.",
         "labelCity": "Staden",
         "labelDateOfBirth": "Födelsedatum",
         "labelExtraInfo": "Ytterligare information (valfritt)",

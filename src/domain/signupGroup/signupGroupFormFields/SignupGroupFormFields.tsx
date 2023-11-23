@@ -117,7 +117,14 @@ const SignupGroupFormFields: React.FC<Props> = ({
         registration={registration}
         signupGroup={signupGroup}
       />
-      <h2>{getContactPersonTranslation('titleContactPersonInfo')}</h2>
+      <FormGroup>
+        <h2>{getContactPersonTranslation('titleContactPersonInfo')}</h2>
+      </FormGroup>
+      <Notification type="info">
+        <p style={{ margin: 0 }}>
+          {getContactPersonTranslation('notificationTextContactPersonInfo')}
+        </p>
+      </Notification>
       <Divider />
       {contactPersonFieldsDisabled && signup && (
         <CannotEditContactPersonNotification

@@ -1847,6 +1847,7 @@
         "labelNativeLanguage": "Native language",
         "labelPhoneNumber": "Telephone number",
         "labelServiceLanguage": "Language of communication",
+        "notificationTextContactPersonInfo": "Enter your guardian's contact information here if you are a minor.",
         "placeholderEmail": "Enter your email address",
         "placeholderFirstName": "Enter the contact person's first name",
         "placeholderLastName": "Enter the contact person's last name",
@@ -1874,6 +1875,7 @@
       "placeholderExtraInfo": "Enter any additional information or request",
       "signup": {
         "buttonDeleteSignup": "Delete participant",
+        "helperExtraInfo": "Enter here the information about possible allergies, special diets, accessibility or other special needs, if they are information necessary for participating in the event. We forward the information to the event organizer so that the safety and accessibility of the event can be ensured. By entering the data, you give your consent to the processing of the data. You can withdraw your consent by deleting the data.",
         "labelCity": "City",
         "labelDateOfBirth": "Date of birth",
         "labelExtraInfo": "Additional information (optional)",
