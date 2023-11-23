@@ -1848,6 +1848,7 @@
         "labelNativeLanguage": "Äidinkieli",
         "labelPhoneNumber": "Puhelinnumero",
         "labelServiceLanguage": "Asiointikieli",
+        "notificationTextContactPersonInfo": "Jos olet alaikäinen, syötä tähän huoltajasi yhteystiedot.",
         "placeholderEmail": "Syötä sähköpostiosoite",
         "placeholderFirstName": "Syötä yhteyshenkilön etunimi",
         "placeholderLastName": "Syötä yhteyshenkilön sukunimi",
@@ -1875,6 +1876,7 @@
       "placeholderExtraInfo": "Syötä mahdollinen lisätieto tai toive",
       "signup": {
         "buttonDeleteSignup": "Poista osallistuja",
+        "helperExtraInfo": "Syötä tähän tiedot mahdollisista allergioista, erityisruokavalioista, esteettömyys- tai muista erityistarpeista, mikäli ne on tapahtumaan osallistumisen kannalta tarpeellisia tietoja. Välitämme tiedot tapahtumajärjestäjälle, jotta tapahtuman turvallisuus ja esteettömyys voidaan varmistaa. Syöttämällä tiedot annat suostumuksesi tietojen käsittelyyn. Antamasi suostumuksen voit peruuttaa poistamalla tiedot.",
         "labelCity": "Kaupunki",
         "labelDateOfBirth": "Syntymäaika",
         "labelExtraInfo": "Lisätietoa (valinnainen)",
