@@ -82,11 +82,10 @@ const Header: React.FC = () => {
       labelKey: 'navigation.tabs.searchEvents',
       url: ROUTES.SEARCH,
     },
-    featureFlagUtils.isFeatureEnabled('SHOW_REGISTRATION') &&
-      areRegistrationRoutesAllowed(user) && {
-        labelKey: 'navigation.tabs.registrations',
-        url: ROUTES.REGISTRATIONS,
-      },
+    areRegistrationRoutesAllowed(user) && {
+      labelKey: 'navigation.tabs.registrations',
+      url: ROUTES.REGISTRATIONS,
+    },
     featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') &&
       areAdminRoutesAllowed(user) && {
         labelKey: 'navigation.tabs.admin',

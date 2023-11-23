@@ -136,7 +136,6 @@ Use .env.development.local for development.
 | REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID  | yso:p26626                                                                                                  |
 | REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE | helsinki                                                                                                    |
 | REACT_APP_SHOW_ADMIN                       | Flag to show admin, Default true. pages                                                                     |
-| REACT_APP_SHOW_REGISTRATION                | Flag to show registration related pages, Default true.                                                      |
 | REACT_APP_LOCALIZED_IMAGE                  | Flag to disabled localized image alt texts, Default true.                                                   |
 | REACT_APP_ENABLE_EXTERNAL_USER_EVENTS      | Flag to enable events for users without an organization, Default true.                                      |
 | REACT_APP_MAINTENANCE_SHOW_NOTIFICATION    | Flag to show maintenance notification in each page. Default is false.                                       |
@@ -155,15 +154,6 @@ Features enabled:
 - Editing image.
 - Editing organizations.
 - Editing places.
-
-`REACT_APP_SHOW_REGISTRATION`:
-
-Features enabled:
-
-- Link to the registrations in the header.
-- Link to the registrations in the footer.
-- Registration search, creation and update pages routes.
-- Signup search, creation and update pages routes.
 
 `REACT_APP_LOCALIZED_IMAGE`:
 

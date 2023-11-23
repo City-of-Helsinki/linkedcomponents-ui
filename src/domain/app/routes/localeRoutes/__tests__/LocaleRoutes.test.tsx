@@ -202,7 +202,6 @@ beforeEach(() => {
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
-    SHOW_REGISTRATION: true,
   });
 });
 
