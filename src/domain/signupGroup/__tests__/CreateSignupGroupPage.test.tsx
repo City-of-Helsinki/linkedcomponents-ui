@@ -60,8 +60,8 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-const findSubmitButton = () =>
-  screen.findByRole('button', { name: /tallenna osallistuja/i });
+const findCreateButton = () =>
+  screen.findByRole('button', { name: /lähetä ilmoittautuminen/i });
 
 const authContextValue = fakeAuthenticatedAuthContextValue();
 
@@ -207,7 +207,7 @@ test('should validate signup group form fields', async () => {
   const emailInput = getSignupFormElement('emailInput');
   const phoneInput = getSignupFormElement('phoneInput');
   const nativeLanguageButton = getSignupFormElement('nativeLanguageButton');
-  const submitButton = await findSubmitButton();
+  const createButton = await findCreateButton();
 
   await user.type(firstNameInput, signupValues.firstName);
   await user.type(lastNameInput, signupValues.lastName);
@@ -215,7 +215,7 @@ test('should validate signup group form fields', async () => {
   await user.type(dateOfBirthInput, formatDate(signupValues.dateOfBirth));
   await user.type(zipInput, signupValues.zipcode);
   await user.type(cityInput, signupValues.city);
-  await user.click(submitButton);
+  await user.click(createButton);
 
   await waitFor(() => expect(emailInput).toHaveFocus());
   expect(emailInput).toBeRequired();
@@ -223,7 +223,7 @@ test('should validate signup group form fields', async () => {
 
   await user.type(emailInput, contactPersonValues.email);
   await user.type(phoneInput, contactPersonValues.phoneNumber);
-  await user.click(submitButton);
+  await user.click(createButton);
 
   await waitFor(() => expect(nativeLanguageButton).toHaveFocus());
 });
@@ -243,8 +243,8 @@ test('should route to signup list page after creating a signup', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const submitButton = await findSubmitButton();
-  await user.click(submitButton);
+  const createButton = await findCreateButton();
+  await user.click(createButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -268,8 +268,8 @@ test('should route to signup list page after creating a signup group', async () 
 
   await loadingSpinnerIsNotInDocument();
 
-  const submitButton = await findSubmitButton();
-  await user.click(submitButton);
+  const createButton = await findCreateButton();
+  await user.click(createButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(
@@ -292,8 +292,8 @@ test('should show server errors if creating signup fails', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const submitButton = await findSubmitButton();
-  await user.click(submitButton);
+  const createButton = await findCreateButton();
+  await user.click(createButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
@@ -313,8 +313,8 @@ test('should show server errors if creating signup fails', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const submitButton = await findSubmitButton();
-  await user.click(submitButton);
+  const createButton = await findCreateButton();
+  await user.click(createButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);

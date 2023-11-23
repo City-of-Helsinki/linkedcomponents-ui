@@ -2,7 +2,7 @@
 /* eslint-disable max-len */
 import { ApolloQueryResult } from '@apollo/client';
 import { Form, Formik, FormikErrors, FormikTouched, useField } from 'formik';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
