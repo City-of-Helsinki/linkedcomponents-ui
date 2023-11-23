@@ -40,7 +40,9 @@ const DateInputField: React.FC<Props> = ({
       invalid={Boolean(errorText)}
       onBlur={handleBlur}
       onChange={handleChange}
-      value={value}
+      // Value can be string if it's restored from the session storage in FormikPersist
+      // Convert value to date in such case
+      value={typeof value === 'string' ? new Date(value) : value}
     />
   );
 };

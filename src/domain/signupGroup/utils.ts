@@ -2,7 +2,7 @@ import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 import snakeCase from 'lodash/snakeCase';
 
-import { DATE_FORMAT_API, FORM_NAMES } from '../../constants';
+import { FORM_NAMES } from '../../constants';
 import {
   ContactPersonFieldsFragment,
   ContactPersonInput,
@@ -14,7 +14,6 @@ import {
   SignupInput,
   UpdateSignupGroupMutationInput,
 } from '../../generated/graphql';
-import formatDate from '../../utils/formatDate';
 import getValue from '../../utils/getValue';
 import skipFalsyType from '../../utils/skipFalsyType';
 import {
@@ -23,6 +22,7 @@ import {
 } from '../seatsReservation/utils';
 import {
   getSignupInitialValues,
+  getSignupPayload,
   omitSensitiveDataFromContactPerson,
   omitSensitiveDataFromSignupPayload,
 } from '../signup/utils';
@@ -148,28 +148,9 @@ export const getSignupGroupPayload = ({
     signups: signupsValues,
   } = formValues;
 
-  const signups: SignupInput[] = signupsValues.map((signup, index) => {
-    const {
-      city,
-      dateOfBirth,
-      extraInfo,
-      firstName,
-      lastName,
-      streetAddress,
-      zipcode,
-    } = signup;
-    return {
-      city: getValue(city, ''),
-      dateOfBirth: dateOfBirth
-        ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
-        : null,
-      extraInfo,
-      firstName: getValue(firstName, ''),
-      lastName: getValue(lastName, ''),
-      streetAddress: getValue(streetAddress, null),
-      zipcode: getValue(zipcode, null),
-    };
-  });
+  const signups: SignupInput[] = signupsValues.map((signupData) =>
+    getSignupPayload({ signupData })
+  );
 
   return {
     contactPerson: getContactPersonPayload(contactPerson),
@@ -193,31 +174,9 @@ export const getUpdateSignupGroupPayload = ({
     signups: signupsValues,
   } = formValues;
 
-  const signups: SignupInput[] = signupsValues.map((signup, index) => {
-    const {
-      city,
-      dateOfBirth,
-      extraInfo,
-      firstName,
-      id,
-      lastName,
-      streetAddress,
-      zipcode,
-    } = signup;
-
-    return {
-      city: getValue(city, ''),
-      dateOfBirth: dateOfBirth
-        ? formatDate(new Date(dateOfBirth), DATE_FORMAT_API)
-        : null,
-      extraInfo,
-      firstName: getValue(firstName, ''),
-      id,
-      lastName: getValue(lastName, ''),
-      streetAddress: getValue(streetAddress, null),
-      zipcode: getValue(zipcode, null),
-    };
-  });
+  const signups: SignupInput[] = signupsValues.map((signupData) =>
+    getSignupPayload({ signupData })
+  );
 
   return {
     contactPerson: getContactPersonPayload(contactPerson),

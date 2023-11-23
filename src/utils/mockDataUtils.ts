@@ -2,15 +2,20 @@
 import { faker } from '@faker-js/faker';
 import addMinutes from 'date-fns/addMinutes';
 import addSeconds from 'date-fns/addSeconds';
+import { FormikState } from 'formik';
 import merge from 'lodash/merge';
 
-import { EXTLINK, RESERVATION_NAMES } from '../constants';
+import { EXTLINK, FORM_NAMES, RESERVATION_NAMES } from '../constants';
 import { TEST_DATA_SOURCE_ID } from '../domain/dataSource/constants';
 import { TEST_PUBLISHER_ID } from '../domain/organization/constants';
 import { TEST_ORGANIZATION_CLASS_ID } from '../domain/organizationClass/constants';
 import { TEST_REGISTRATION_ID } from '../domain/registration/constants';
 import { TEST_SEATS_RESERVATION_CODE } from '../domain/seatsReservation/constants';
-import { NOTIFICATION_TYPE } from '../domain/signupGroup/constants';
+import {
+  NOTIFICATION_TYPE,
+  SIGNUP_GROUP_INITIAL_VALUES,
+} from '../domain/signupGroup/constants';
+import { SignupGroupFormFields } from '../domain/signupGroup/types';
 import {
   AttendeeStatus,
   ContactPerson,
@@ -672,6 +677,38 @@ const generateNodeArray = <T extends (...args: any) => any>(
   length: number
 ): ReturnType<T>[] => {
   return Array.from({ length }).map((_, i) => fakeFunc(i));
+};
+
+export const setSignupGroupFormSessionStorageValues = ({
+  registrationId,
+  seatsReservation,
+  signupGroupFormValues,
+}: {
+  registrationId: string;
+  seatsReservation?: SeatsReservation;
+  signupGroupFormValues?: Partial<SignupGroupFormFields>;
+}) => {
+  if (seatsReservation) {
+    const reservationKey = `${RESERVATION_NAMES.SEATS_RESERVATION}-${registrationId}`;
+    sessionStorage.setItem(reservationKey, JSON.stringify(seatsReservation));
+  }
+  if (signupGroupFormValues) {
+    const key = `${FORM_NAMES.CREATE_SIGNUP_GROUP_FORM}-${registrationId}`;
+    sessionStorage.setItem(
+      key,
+      JSON.stringify({
+        errors: {},
+        isSubmitting: false,
+        isValidating: false,
+        submitCount: 0,
+        touched: {},
+        values: {
+          ...SIGNUP_GROUP_INITIAL_VALUES,
+          ...signupGroupFormValues,
+        },
+      } as FormikState<SignupGroupFormFields>)
+    );
+  }
 };
 
 export const getMockedSeatsReservationData = (expirationOffset: number) => {

@@ -10,6 +10,7 @@ import useGoBack from '../../../hooks/useGoBack';
 import getValue from '../../../utils/getValue';
 import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
+import { SIGNUP_ACTIONS } from '../../signup/constants';
 import useUser from '../../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';
 import { getSignupGroupActionButtonProps } from '../permissions';
@@ -19,7 +20,7 @@ export interface CreateSignupGroupButtonPanelProps {
   disabled: boolean;
   onCreate: () => void;
   registration: RegistrationFieldsFragment;
-  saving: SIGNUP_GROUP_ACTIONS | null;
+  saving: SIGNUP_ACTIONS | SIGNUP_GROUP_ACTIONS | null;
 }
 
 const CreateSignupGroupButtonPanel: React.FC<
