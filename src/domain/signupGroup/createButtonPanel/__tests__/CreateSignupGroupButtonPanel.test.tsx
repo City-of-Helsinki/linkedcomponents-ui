@@ -54,22 +54,17 @@ const renderComponent = ({
   });
 
 const findSaveButton = () =>
-  screen.findByRole('button', { name: 'Tallenna osallistujat' });
+  screen.findByRole('button', { name: 'Lähetä ilmoittautuminen' });
 
-const getElement = (key: 'back' | 'saveButton') => {
-  switch (key) {
-    case 'back':
-      return screen.getByRole('button', { name: 'Takaisin' });
-    case 'saveButton':
-      return screen.getByRole('button', { name: 'Tallenna osallistujat' });
-  }
+const getBackButton = () => {
+  return screen.getByRole('button', { name: 'Takaisin' });
 };
 
 test('should route to signups page when clicking back button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  const backButton = getElement('back');
+  const backButton = getBackButton();
   await user.click(backButton);
 
   await waitFor(() =>
@@ -88,7 +83,7 @@ test('should route to page defined in returnPath when clicking back button', asy
     )}?returnPath=${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`,
   });
 
-  const backButton = getElement('back');
+  const backButton = getBackButton();
   await user.click(backButton);
 
   await waitFor(() =>
