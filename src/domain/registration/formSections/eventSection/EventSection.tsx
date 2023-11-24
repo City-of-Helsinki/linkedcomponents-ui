@@ -83,6 +83,7 @@ const EventSection: React.FC<Props> = ({ isEditingAllowed }) => {
             name={REGISTRATION_FIELDS.EVENT}
             onChangeCb={onChangeEventCallback}
             placeholder={t(`registration.form.placeholderEvent`)}
+            required={true}
           />
         </FieldColumn>
       </FieldRow>
