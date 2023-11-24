@@ -26,7 +26,6 @@ import {
   omitSensitiveDataFromContactPerson,
   omitSensitiveDataFromSignupPayload,
 } from '../signup/utils';
-import { signupGroup } from './__mocks__/editSignupGroupPage';
 import {
   CONTACT_PERSON_FIELDS,
   NOTIFICATION_TYPE,
@@ -248,9 +247,9 @@ export const omitSensitiveDataFromSignupGroupPayload = (
   CreateSignupGroupMutationInput | UpdateSignupGroupMutationInput
 > => ({
   ...omit(payload, ['extraInfo']),
-  contactPerson: signupGroup.contactPerson
-    ? omitSensitiveDataFromContactPerson(signupGroup.contactPerson)
-    : signupGroup.contactPerson,
+  contactPerson: payload.contactPerson
+    ? omitSensitiveDataFromContactPerson(payload.contactPerson)
+    : payload.contactPerson,
   signups: payload.signups
     ?.filter(skipFalsyType)
     .map((s) => omitSensitiveDataFromSignupPayload(s)),
