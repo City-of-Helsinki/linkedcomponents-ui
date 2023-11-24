@@ -52,7 +52,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) => {
 const getElement = (key: 'inputField' | 'toggleButton') => {
   switch (key) {
     case 'inputField':
-      return screen.getByRole('combobox', { name: 'Tapahtuma' });
+      return screen.getByRole('combobox', { name: 'Tapahtuma *' });
     case 'toggleButton':
       return screen.getByRole('button', { name: 'Tapahtuma: Valikko' });
   }
