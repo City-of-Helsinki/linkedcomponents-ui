@@ -483,6 +483,7 @@ export const fakeRegistration = (
       enrolmentStartTime: '2020-09-27T15:00:00.000000Z',
       event: null,
       instructions: fakeLocalisedObject(faker.lorem.paragraph()),
+      isCreatedByCurrentUser: false,
       lastModifiedBy: faker.person.firstName(),
       lastModifiedTime: '2020-09-12T15:00:00.000000Z',
       mandatoryFields: [],

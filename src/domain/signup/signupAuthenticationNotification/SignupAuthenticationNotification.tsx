@@ -33,7 +33,7 @@ const SignupAuthenticationNotification: React.FC<
           action,
           authenticated,
           organizationAncestors,
-          publisher,
+          registration,
           t,
           user,
         })

@@ -70,20 +70,12 @@ const queryConfirmDeleteModal = () =>
     name: 'Varmista ilmoittautumisen poistaminen',
   });
 
-const findButton = (key: 'update') => {
-  switch (key) {
-    case 'update':
-      return screen.findByRole('button', { name: 'Tallenna muutokset' });
-  }
+const findUpdateButton = () => {
+  return screen.findByRole('button', { name: 'Tallenna muutokset' });
 };
 
-const findInput = (key: 'minimumAttendeeCapacity') => {
-  switch (key) {
-    case 'minimumAttendeeCapacity':
-      return screen.findByRole('spinbutton', {
-        name: /paikkojen vähimmäismäärä/i,
-      });
-  }
+const findMinimumAttendeeCapacityInput = () => {
+  return screen.findByRole('spinbutton', { name: /paikkojen vähimmäismäärä/i });
 };
 
 test('should show link to event page', async () => {
@@ -139,7 +131,7 @@ test('should update registration', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const updateButton = await findButton('update');
+  const updateButton = await findUpdateButton();
   await user.click(updateButton);
 
   await loadingSpinnerIsNotInDocument(30000);
@@ -152,13 +144,11 @@ test('should scroll to first error when validation error is thrown', async () =>
 
   await loadingSpinnerIsNotInDocument();
 
-  const minimumAttendeeCapacityInput = await findInput(
-    'minimumAttendeeCapacity'
-  );
+  const minimumAttendeeCapacityInput = await findMinimumAttendeeCapacityInput();
   await user.clear(minimumAttendeeCapacityInput);
   await user.type(minimumAttendeeCapacityInput, '-1');
 
-  const updateButton = await findButton('update');
+  const updateButton = await findUpdateButton();
   await user.click(updateButton);
 
   await waitFor(() => expect(minimumAttendeeCapacityInput).toHaveFocus());
@@ -181,7 +171,7 @@ test('should show server errors', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const updateButton = await findButton('update');
+  const updateButton = await findUpdateButton();
   await user.click(updateButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);

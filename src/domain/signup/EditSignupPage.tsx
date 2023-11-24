@@ -56,7 +56,7 @@ const EditSignupPage: React.FC<Props> = ({
   const isEditingAllowed = checkCanUserDoSignupAction({
     action: SIGNUP_ACTIONS.UPDATE,
     organizationAncestors,
-    publisher,
+    registration,
     user,
   });
 

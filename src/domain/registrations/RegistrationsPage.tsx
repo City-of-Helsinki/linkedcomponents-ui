@@ -15,11 +15,9 @@ import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useAuth } from '../auth/hooks/useAuth';
 import NotSigned from '../notSigned/NotSigned';
+import { getRegistrationActionButtonProps } from '../registration/permissions';
 import RegistrationAuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
-import {
-  clearRegistrationFormData,
-  getRegistrationActionButtonProps,
-} from '../registration/utils';
+import { clearRegistrationFormData } from '../registration/utils';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_ACTIONS } from './constants';
 import FilterSummary from './filterSummary/FilterSummary';

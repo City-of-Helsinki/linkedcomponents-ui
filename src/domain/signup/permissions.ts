@@ -3,24 +3,35 @@ import { TFunction } from 'i18next';
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
 import {
   OrganizationFieldsFragment,
+  RegistrationFieldsFragment,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability } from '../../types';
-import { isRegistrationAdminUserInOrganization } from '../organization/utils';
+import getValue from '../../utils/getValue';
+import {
+  isAdminUserInOrganization,
+  isRegistrationAdminUserInOrganization,
+} from '../organization/utils';
 import { SIGNUP_ACTIONS, SIGNUP_ICONS, SIGNUP_LABEL_KEYS } from './constants';
 
 export const checkCanUserDoSignupAction = ({
   action,
   organizationAncestors,
-  publisher,
+  registration,
   user,
 }: {
   action: SIGNUP_ACTIONS;
   organizationAncestors: OrganizationFieldsFragment[];
-  publisher: string;
+  registration: RegistrationFieldsFragment;
   user?: UserFieldsFragment;
 }): boolean => {
-  const isAdminUser = isRegistrationAdminUserInOrganization({
+  const publisher = getValue(registration.publisher, '');
+  const isAdminUser = isAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
+  const isRegistrationAdminUser = isRegistrationAdminUserInOrganization({
     id: publisher,
     organizationAncestors,
     user,
@@ -33,7 +44,10 @@ export const checkCanUserDoSignupAction = ({
     case SIGNUP_ACTIONS.SEND_MESSAGE:
     case SIGNUP_ACTIONS.UPDATE:
     case SIGNUP_ACTIONS.VIEW:
-      return isAdminUser;
+      return Boolean(
+        isRegistrationAdminUser ||
+          (isAdminUser && registration.isCreatedByCurrentUser)
+      );
   }
 };
 
@@ -70,21 +84,21 @@ export const checkIsSignupActionAllowed = ({
   action,
   authenticated,
   organizationAncestors,
-  publisher,
+  registration,
   t,
   user,
 }: {
   action: SIGNUP_ACTIONS;
   authenticated: boolean;
   organizationAncestors: OrganizationFieldsFragment[];
-  publisher: string;
+  registration: RegistrationFieldsFragment;
   t: TFunction;
   user?: UserFieldsFragment;
 }): Editability => {
   const userCanDoAction = checkCanUserDoSignupAction({
     action,
     organizationAncestors,
-    publisher,
+    registration,
     user,
   });
 
@@ -103,7 +117,7 @@ export const getSignupActionButtonProps = ({
   authenticated,
   onClick,
   organizationAncestors,
-  publisher,
+  registration,
   t,
   user,
 }: {
@@ -111,7 +125,7 @@ export const getSignupActionButtonProps = ({
   authenticated: boolean;
   onClick: () => void;
   organizationAncestors: OrganizationFieldsFragment[];
-  publisher: string;
+  registration: RegistrationFieldsFragment;
   t: TFunction;
   user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
@@ -119,7 +133,7 @@ export const getSignupActionButtonProps = ({
     action,
     authenticated,
     organizationAncestors,
-    publisher,
+    registration,
     t,
     user,
   });

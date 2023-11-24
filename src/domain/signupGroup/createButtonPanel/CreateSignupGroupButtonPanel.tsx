@@ -45,7 +45,7 @@ const CreateSignupGroupButtonPanel: React.FC<
     authenticated,
     onClick: onCreate,
     organizationAncestors,
-    publisher,
+    registration,
     t,
     user,
   });

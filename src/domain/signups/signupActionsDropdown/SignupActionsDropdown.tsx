@@ -82,7 +82,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
       authenticated,
       onClick,
       organizationAncestors,
-      publisher,
+      registration,
       t,
       user,
     });

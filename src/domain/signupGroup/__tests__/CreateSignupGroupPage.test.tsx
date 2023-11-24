@@ -280,7 +280,6 @@ test('should route to signup list page after creating a signup group', async () 
 
 test('should show server errors if creating signup fails', async () => {
   const user = userEvent.setup();
-  renderComponent([...defaultMocks, mockedInvalidCreateSignupResponse]);
 
   setSignupGroupFormSessionStorageValues({
     registrationId: registration.id as string,
@@ -288,7 +287,7 @@ test('should show server errors if creating signup fails', async () => {
     signupGroupFormValues: signupGroupWithSingleSignupValues,
   });
 
-  renderComponent();
+  renderComponent([...defaultMocks, mockedInvalidCreateSignupResponse]);
 
   await loadingSpinnerIsNotInDocument();
 
@@ -299,9 +298,8 @@ test('should show server errors if creating signup fails', async () => {
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
 });
 
-test('should show server errors if creating signup fails', async () => {
+test('should show server errors if creating signup group fails', async () => {
   const user = userEvent.setup();
-  renderComponent([...defaultMocks, mockedInvalidCreateSignupGroupResponse]);
 
   setSignupGroupFormSessionStorageValues({
     registrationId: registration.id as string,
@@ -309,7 +307,7 @@ test('should show server errors if creating signup fails', async () => {
     signupGroupFormValues: signupGroupValues,
   });
 
-  renderComponent();
+  renderComponent([...defaultMocks, mockedInvalidCreateSignupGroupResponse]);
 
   await loadingSpinnerIsNotInDocument();
 
