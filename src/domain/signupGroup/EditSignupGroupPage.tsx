@@ -52,7 +52,7 @@ const EditSignupGroupPage: React.FC<Props> = ({
   const isEditingAllowed = checkCanUserDoSignupGroupAction({
     action: SIGNUP_GROUP_ACTIONS.UPDATE,
     organizationAncestors,
-    publisher,
+    registration,
     user,
   });
 

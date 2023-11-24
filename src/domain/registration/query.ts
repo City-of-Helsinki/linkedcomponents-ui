@@ -28,6 +28,7 @@ export const QUERY_REGISTRATION = gql`
     instructions {
       ...localisedFields
     }
+    isCreatedByCurrentUser
     lastModifiedTime
     mandatoryFields
     maximumAttendeeCapacity

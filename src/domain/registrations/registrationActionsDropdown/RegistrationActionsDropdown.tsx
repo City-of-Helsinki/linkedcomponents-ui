@@ -17,11 +17,11 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import { REGISTRATION_MODALS } from '../../registration/constants';
 import useRegistrationActions from '../../registration/hooks/useRegistrationActions';
 import ConfirmDeleteRegistrationModal from '../../registration/modals/confirmDeleteRegistrationModal/ConfirmDeleteRegistrationModal';
+import { getRegistrationActionButtonProps } from '../../registration/permissions';
 import {
   copyRegistrationToSessionStorage,
   copySignupLinkToClipboard,
   exportSignupsAsExcel,
-  getRegistrationActionButtonProps,
   getRegistrationFields,
 } from '../../registration/utils';
 import useUser from '../../user/hooks/useUser';

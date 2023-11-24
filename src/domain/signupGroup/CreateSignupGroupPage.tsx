@@ -54,11 +54,11 @@ const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
       !checkCanUserDoSignupGroupAction({
         action: SIGNUP_GROUP_ACTIONS.CREATE,
         organizationAncestors,
-        publisher,
+        registration,
         user,
       })
     );
-  }, [organizationAncestors, publisher, registration, user]);
+  }, [organizationAncestors, registration, user]);
 
   return (
     <PageWrapper title={`createSignupGroupPage.pageTitle`}>

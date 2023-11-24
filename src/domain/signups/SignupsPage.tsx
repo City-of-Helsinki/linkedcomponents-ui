@@ -23,9 +23,9 @@ import { useNotificationsContext } from '../app/notificationsContext/hooks/useNo
 import { useAuth } from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
+import { getRegistrationActionButtonProps } from '../registration/permissions';
 import {
   exportSignupsAsExcel,
-  getRegistrationActionButtonProps,
   getRegistrationFields,
 } from '../registration/utils';
 import { REGISTRATION_ACTIONS } from '../registrations/constants';
@@ -107,7 +107,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
         setOpenModal(SIGNUP_MODALS.SEND_MESSAGE);
       },
       organizationAncestors,
-      publisher,
+      registration,
       t,
       user,
     }),
@@ -141,7 +141,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
     authenticated,
     onClick: handleCreate,
     organizationAncestors,
-    publisher,
+    registration,
     t,
     user,
   });

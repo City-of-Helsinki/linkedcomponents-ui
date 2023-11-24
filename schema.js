@@ -933,6 +933,7 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentStartTime: String
     event: Event
     instructions: LocalisedObject
+    isCreatedByCurrentUser: Boolean
     lastModifiedBy: String
     lastModifiedTime: String
     mandatoryFields: [String]

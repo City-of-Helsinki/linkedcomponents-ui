@@ -8,7 +8,7 @@ import { useAuth } from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useUser from '../../user/hooks/useUser';
-import { checkIsRegistrationActionAllowed } from '../utils';
+import { checkIsRegistrationActionAllowed } from '../permissions';
 
 export type RegistrationAuthenticationNotificationProps = {
   action: REGISTRATION_ACTIONS;
@@ -38,7 +38,7 @@ const RegistrationAuthenticationNotification: React.FC<
           action,
           authenticated,
           organizationAncestors,
-          publisher,
+          registration: registration ?? undefined,
           t,
           user,
         })

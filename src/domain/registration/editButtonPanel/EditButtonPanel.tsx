@@ -21,11 +21,11 @@ import useOrganizationAncestors from '../../organization/hooks/useOrganizationAn
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { RegistrationsLocationState } from '../../registrations/types';
 import useUser from '../../user/hooks/useUser';
+import { getRegistrationActionButtonProps } from '../permissions';
 import {
   copyRegistrationToSessionStorage,
   copySignupLinkToClipboard,
   exportSignupsAsExcel,
-  getRegistrationActionButtonProps,
   getRegistrationFields,
 } from '../utils';
 

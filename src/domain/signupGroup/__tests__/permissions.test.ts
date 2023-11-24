@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 
-import { fakeUser } from '../../../utils/mockDataUtils';
+import { fakeRegistration, fakeUser } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';
 import {
@@ -84,7 +84,33 @@ describe('checkCanUserDoSignupGroupAction function', () => {
         checkCanUserDoSignupGroupAction({
           action,
           organizationAncestors: [],
-          publisher,
+          registration: fakeRegistration({ publisher }),
+          user,
+        })
+      ).toBe(isAllowed);
+    }
+  );
+
+  const testAdminCreatedCases: [SIGNUP_GROUP_ACTIONS, boolean][] = [
+    [SIGNUP_GROUP_ACTIONS.CREATE, true],
+    [SIGNUP_GROUP_ACTIONS.DELETE, true],
+    [SIGNUP_GROUP_ACTIONS.EDIT, true],
+    [SIGNUP_GROUP_ACTIONS.UPDATE, true],
+    [SIGNUP_GROUP_ACTIONS.VIEW, true],
+  ];
+  it.each(testAdminCreatedCases)(
+    'should allow/deny correct actions for admin who created the registration, %p returns %p',
+    (action, isAllowed) => {
+      const user = fakeUser({ adminOrganizations: [publisher] });
+
+      expect(
+        checkCanUserDoSignupGroupAction({
+          action,
+          organizationAncestors: [],
+          registration: fakeRegistration({
+            isCreatedByCurrentUser: true,
+            publisher,
+          }),
           user,
         })
       ).toBe(isAllowed);
@@ -107,7 +133,7 @@ describe('checkCanUserDoSignupGroupAction function', () => {
         checkCanUserDoSignupGroupAction({
           action,
           organizationAncestors: [],
-          publisher,
+          registration: fakeRegistration({ publisher }),
           user,
         })
       ).toBe(isAllowed);
@@ -130,7 +156,7 @@ describe('checkCanUserDoSignupGroupAction function', () => {
         checkCanUserDoSignupGroupAction({
           action,
           organizationAncestors: [],
-          publisher,
+          registration: fakeRegistration({ publisher }),
           user,
         })
       ).toBe(isAllowed);

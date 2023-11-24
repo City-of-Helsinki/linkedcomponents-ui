@@ -7,7 +7,7 @@ import LoadingButton from '../../../common/components/loadingButton/LoadingButto
 import { useAuth } from '../../auth/hooks/useAuth';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useUser from '../../user/hooks/useUser';
-import { getRegistrationActionButtonProps } from '../utils';
+import { getRegistrationActionButtonProps } from '../permissions';
 
 interface Props {
   onSave: () => void;

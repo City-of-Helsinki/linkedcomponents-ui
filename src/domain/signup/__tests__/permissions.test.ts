@@ -1,7 +1,7 @@
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 
-import { fakeUser } from '../../../utils/mockDataUtils';
+import { fakeRegistration, fakeUser } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { SIGNUP_ACTIONS } from '../constants';
 import {
@@ -94,7 +94,34 @@ describe('checkCanUserDoSignupAction function', () => {
         checkCanUserDoSignupAction({
           action,
           organizationAncestors: [],
-          publisher,
+          registration: fakeRegistration({ publisher }),
+          user,
+        })
+      ).toBe(isAllowed);
+    }
+  );
+
+  const testAdminCreatedCases: [SIGNUP_ACTIONS, boolean][] = [
+    [SIGNUP_ACTIONS.CREATE, true],
+    [SIGNUP_ACTIONS.DELETE, true],
+    [SIGNUP_ACTIONS.EDIT, true],
+    [SIGNUP_ACTIONS.SEND_MESSAGE, true],
+    [SIGNUP_ACTIONS.UPDATE, true],
+    [SIGNUP_ACTIONS.VIEW, true],
+  ];
+  it.each(testAdminCreatedCases)(
+    'should allow/deny correct actions for admin who created the registration, %p returns %p',
+    (action, isAllowed) => {
+      const user = fakeUser({ adminOrganizations: [publisher] });
+
+      expect(
+        checkCanUserDoSignupAction({
+          action,
+          organizationAncestors: [],
+          registration: fakeRegistration({
+            isCreatedByCurrentUser: true,
+            publisher,
+          }),
           user,
         })
       ).toBe(isAllowed);
@@ -118,7 +145,7 @@ describe('checkCanUserDoSignupAction function', () => {
         checkCanUserDoSignupAction({
           action,
           organizationAncestors: [],
-          publisher,
+          registration: fakeRegistration({ publisher }),
           user,
         })
       ).toBe(isAllowed);
@@ -142,7 +169,7 @@ describe('checkCanUserDoSignupAction function', () => {
         checkCanUserDoSignupAction({
           action,
           organizationAncestors: [],
-          publisher,
+          registration: fakeRegistration({ publisher }),
           user,
         })
       ).toBe(isAllowed);
