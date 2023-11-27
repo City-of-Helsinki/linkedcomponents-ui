@@ -69,7 +69,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({ event }) => {
     checkCanUserDoRegistrationAction({
       action: REGISTRATION_ACTIONS.CREATE,
       organizationAncestors,
-      publisher: getValue(publisher, ''),
+      registration: { atId: event.registration?.atId as string, publisher },
       user,
     })
   ) {
