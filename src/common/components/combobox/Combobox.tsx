@@ -65,6 +65,7 @@ const Combobox: React.FC<Props> = ({
   return (
     <ComboboxLoadingSpinner alignedLabel={alignedLabel} isLoading={isLoading}>
       <BaseCombobox
+        clearButtonAriaLabel={t('common.clear')}
         {...(rest as any)}
         className={classNames(className, styles.combobox)}
         getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}

@@ -98,10 +98,8 @@ const EventSelector: React.FC<EventSelectorProps> = ({
       isLoading={loading}
       label={label}
       options={options}
-      toggleButtonAriaLabel={getValue(
-        t('common.combobox.toggleButtonAriaLabel'),
-        ''
-      )}
+      clearButtonAriaLabel={t('common.combobox.clearEvents')}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
       value={selectedEvent as OptionType | undefined}

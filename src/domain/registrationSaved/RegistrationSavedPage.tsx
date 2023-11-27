@@ -7,7 +7,6 @@ import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
-import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
@@ -31,7 +30,7 @@ const RegistrationSavedPage: React.FC = () => {
   };
 
   return (
-    <PageWrapper title={getValue(t('registrationSavedPage.pageTitle'), '')}>
+    <PageWrapper title={t('registrationSavedPage.pageTitle')}>
       <Container withOffset={true}>
         <h1>{t('registrationSavedPage.title')}</h1>
 

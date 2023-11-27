@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import imageUrl from '../../../../assets/images/png/platform-page.png';
 import Highlight from '../../../../common/components/highlight/Highlight';
 import IconCloud from '../../../../icons/IconCloud';
-import getValue from '../../../../utils/getValue';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
 import styles from './platformPage.module.scss';
 
@@ -21,10 +20,7 @@ const PlatformPage: React.FC = () => {
     >
       <h1>{t('helpPage.platformPage.titlePlatform')}</h1>
       <div className={styles.mainContent}>
-        <img
-          src={imageUrl}
-          alt={getValue(t('helpPage.platformPage.imageAlt'), undefined)}
-        />
+        <img src={imageUrl} alt={t('helpPage.platformPage.imageAlt')} />
         <div>
           <p>{t('helpPage.platformPage.textMainContent1')}</p>
           <p>{t('helpPage.platformPage.textMainContent2')}</p>

@@ -49,15 +49,15 @@ const EventSavedPage: React.FC<EventSavedPageProps> = ({ event }) => {
     <PageWrapper
       title={
         publicationStatus === PublicationStatus.Draft
-          ? getValue(t('eventSavedPage.pageTitleDraftSaved'), undefined)
-          : getValue(t(`eventSavedPage.pageTitlePublished`), undefined)
+          ? t('eventSavedPage.pageTitleDraftSaved')
+          : t(`eventSavedPage.pageTitlePublished`)
       }
     >
       <Container withOffset={true}>
         <h1>
           {publicationStatus === PublicationStatus.Draft
-            ? getValue(t('eventSavedPage.titleDraftSaved'), undefined)
-            : getValue(t(`eventSavedPage.titlePublished`), undefined)}
+            ? t('eventSavedPage.titleDraftSaved')
+            : t(`eventSavedPage.titlePublished`)}
         </h1>
 
         <div className={styles.buttonPanel}>

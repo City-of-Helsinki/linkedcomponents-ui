@@ -33,7 +33,7 @@ const CookieConsent: FC = () => {
     <CookieModal
       cookieDomain={hostname}
       contentSource={{
-        siteName: getValue(t('common.cookieConsent.siteName'), ''),
+        siteName: t('common.cookieConsent.siteName'),
         currentLanguage: language,
         requiredCookies: {
           groups: [
@@ -47,15 +47,9 @@ const CookieConsent: FC = () => {
                 {
                   id: 'eventForm',
                   hostName: hostname,
-                  name: getValue(t('common.cookieConsent.eventForm.name'), ''),
-                  description: getValue(
-                    t('common.cookieConsent.eventForm.description'),
-                    ''
-                  ),
-                  expiration: getValue(
-                    t('common.cookieConsent.expiration.session'),
-                    ''
-                  ),
+                  name: t('common.cookieConsent.eventForm.name'),
+                  description: t('common.cookieConsent.eventForm.description'),
+                  expiration: t('common.cookieConsent.expiration.session'),
                 },
                 {
                   id: 'registrationForm',
@@ -76,15 +70,9 @@ const CookieConsent: FC = () => {
                 {
                   id: 'signupForm',
                   hostName: hostname,
-                  name: getValue(t('common.cookieConsent.signupForm.name'), ''),
-                  description: getValue(
-                    t('common.cookieConsent.signupForm.description'),
-                    ''
-                  ),
-                  expiration: getValue(
-                    t('common.cookieConsent.expiration.session'),
-                    ''
-                  ),
+                  name: t('common.cookieConsent.signupForm.name'),
+                  description: t('common.cookieConsent.signupForm.description'),
+                  expiration: t('common.cookieConsent.expiration.session'),
                 },
               ],
             },

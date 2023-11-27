@@ -69,7 +69,7 @@ const LandingPage: React.FC = () => {
                   undefined
                 )}
                 href={myHelsinkiRoute}
-                title={getValue(t('landingPage.myHelsinkiTitle'), '')}
+                title={t('landingPage.myHelsinkiTitle')}
               />
               <ServiceCard
                 backgroundColor="suomenlinna"

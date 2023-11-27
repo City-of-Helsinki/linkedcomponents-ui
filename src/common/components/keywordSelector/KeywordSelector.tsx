@@ -129,6 +129,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
       isLoading={loading}
       label={label}
       options={options}
+      clearButtonAriaLabel={t('common.combobox.clearKeywords')}
       toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       value={selectedKeywords}
     />

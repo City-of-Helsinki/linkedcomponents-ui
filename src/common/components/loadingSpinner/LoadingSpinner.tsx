@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 
 import { testIds } from '../../../constants';
 import { useTheme } from '../../../domain/app/theme/Theme';
-import getValue from '../../../utils/getValue';
 import styles from './loadingSpinner.module.scss';
 
 type Props = {
@@ -39,12 +38,9 @@ const LoadingSpinner: React.FC<Props> = ({
             className={classNames(styles.loadingSpinner, {
               [styles.large]: !small,
             })}
-            loadingText={
-              loadingText || getValue(t('common.loading'), undefined)
-            }
+            loadingText={loadingText || t('common.loading')}
             loadingFinishedText={
-              loadingFinishedText ||
-              getValue(t('common.loadingFinished'), undefined)
+              loadingFinishedText || t('common.loadingFinished')
             }
             theme={theme.loadingSpinner}
             small={small}

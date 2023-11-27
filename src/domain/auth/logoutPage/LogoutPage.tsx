@@ -6,7 +6,6 @@ import ErrorPage from '../../../common/components/errorPage/ErrorPage';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
-import getValue from '../../../utils/getValue';
 import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
 import { useAuth } from '../hooks/useAuth';
 import styles from './logoutPage.module.scss';
@@ -31,7 +30,7 @@ const LogoutPage: React.FC = () => {
   }
 
   return (
-    <PageWrapper title={getValue(t('logoutPage.pageTitle'), '')}>
+    <PageWrapper title={t('logoutPage.pageTitle')}>
       <ErrorPage
         homePageButtonText={t('logoutPage.buttonBackToHome')}
         signInPath={`/${locale}${ROUTES.HOME}`}
