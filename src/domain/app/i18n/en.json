@@ -1519,8 +1519,8 @@
   },
   "maintenance": {
     "header": {
-      "label": "Maintenance",
-      "text": "On Wednesday 30 August, the Linked Events service will be updated. No content creation or login will be possible on that day."
+      "label": "Linked Registration published",
+      "text": "Linked Registration has been published and it's now possible to add registrations to events. Instructions for using registration can be found <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Linked Registration instructions {{openInNewTab}}\">here</a>."
     },
     "toast": "On Wednesday 30.8. the Linked Events service will be updated, which means that login will not be possible."
   },

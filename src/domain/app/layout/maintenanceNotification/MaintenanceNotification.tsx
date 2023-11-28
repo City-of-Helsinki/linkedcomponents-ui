@@ -14,7 +14,14 @@ const MaintenanceNotification: FC = () => {
         className={styles.notification}
         label={t('maintenance.header.label')}
       >
-        {t('maintenance.header.text')}
+        <div
+          dangerouslySetInnerHTML={{
+            __html: t('maintenance.header.text', {
+              openInNewTab: t('common.openInNewTab'),
+              url: '/Linked%20Registration%20-ohje.pdf',
+            }),
+          }}
+        ></div>
       </Notification>
     </div>
   );

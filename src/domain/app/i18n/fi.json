@@ -1520,8 +1520,8 @@
   },
   "maintenance": {
     "header": {
-      "label": "Palvelua päivitetään",
-      "text": "Keskiviikkona 30.8. Linked Events -palvelua päivitetään. Kyseisenä päivänä sisällöntuotanto tai kirjautuminen ei ole mahdollista."
+      "label": "Linked Registration julkaistu",
+      "text": "Linked Registration -ilmoittautuminen on otettu käyttöön ja on nyt mahdollista lisätä tapahtumille. Ohjeet ilmoittautumisen käyttöön löytyvät <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Linked Registration ohjeet {{openInNewTab}}\">täältä</a>."
     },
     "toast": "Keskiviikkona 30.8. päivitetään Linked Events -palvelu, mistä johtuen kirjautuminen ei ole mahdollista."
   },
