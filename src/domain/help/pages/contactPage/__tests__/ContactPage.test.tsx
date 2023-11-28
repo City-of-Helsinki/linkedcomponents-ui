@@ -20,6 +20,8 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
+import { isContactInfoSentSuccessfully } from '../../testUtils';
 import ContactPage from '../ContactPage';
 
 configure({ defaultHidden: true });
@@ -59,13 +61,6 @@ const mockedPostGuestFeedbackResponse: MockedResponse = {
     variables: postFeedbackVariables,
   },
   result: postGuestFeedbackResponse,
-};
-
-const findElement = (key: 'success') => {
-  switch (key) {
-    case 'success':
-      return screen.findByRole('heading', { name: /kiitos yhteydenotostasi/i });
-  }
 };
 
 type GetElementKey =
@@ -280,29 +275,30 @@ test('should succesfully send feedback when user is not signed in', async () => 
   await enterCommonValues();
   await user.click(sendButton);
 
-  await waitFor(() => expect(nameInput).toHaveFocus());
-  await findElement('success');
+  await isContactInfoSentSuccessfully();
 });
 
 test('should succesfully send feedback when user is signed in', async () => {
   const user = userEvent.setup();
 
-  renderComponent({ mocks: [mockedPostFeedbackResponse], authContextValue });
+  renderComponent({
+    mocks: [mockedUserResponse, mockedPostFeedbackResponse],
+    authContextValue,
+  });
 
   const sendButton = getElement('sendButton');
 
-  const { topicToggleButton } = await enterCommonValues();
+  await enterCommonValues();
   await user.click(sendButton);
 
-  await waitFor(() => expect(topicToggleButton).toHaveFocus());
-  await findElement('success');
+  await isContactInfoSentSuccessfully();
 });
 
 test('should show server errors', async () => {
   const user = userEvent.setup();
 
   renderComponent({
-    mocks: [mockedInvalidPostFeedbackResponse],
+    mocks: [mockedUserResponse, mockedInvalidPostFeedbackResponse],
     authContextValue,
   });
 

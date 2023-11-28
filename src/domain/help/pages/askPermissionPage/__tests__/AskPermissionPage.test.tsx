@@ -24,6 +24,7 @@ import {
   organizations,
 } from '../../../../organizations/__mocks__/organizationsPage';
 import { mockedUserResponse } from '../../../../user/__mocks__/user';
+import { isContactInfoSentSuccessfully } from '../../testUtils';
 import AskPermissionPage from '../AskPermissionPage';
 
 configure({ defaultHidden: true });
@@ -72,13 +73,6 @@ type GetElementKey =
   | 'organizationOption'
   | 'organizationToggleButton'
   | 'sendButton';
-
-const findElement = (key: 'success') => {
-  switch (key) {
-    case 'success':
-      return screen.findByRole('heading', { name: /kiitos yhteydenotostasi/i });
-  }
-};
 
 const getElement = (key: GetElementKey) => {
   switch (key) {
@@ -194,13 +188,12 @@ test('should succesfully send access request when user is signed in', async () =
 
   renderComponent({ mocks: [mockedPostFeedbackResponse], authContextValue });
 
-  const { organizationToggleButton } = await enterCommonValues();
+  await enterCommonValues();
 
   const sendButton = getElement('sendButton');
   await user.click(sendButton);
 
-  await waitFor(() => expect(organizationToggleButton).toHaveFocus());
-  await findElement('success');
+  await isContactInfoSentSuccessfully();
 });
 
 test('should show server errors', async () => {

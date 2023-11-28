@@ -9,7 +9,6 @@ import SingleSelectField from '../../../../common/components/formFields/singleSe
 import TextAreaField from '../../../../common/components/formFields/textAreaField/TextAreaField';
 import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import Notification from '../../../../common/components/notification/Notification';
 import ServerErrorSummary from '../../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { FeedbackInput } from '../../../../generated/graphql';
 import useIdWithPrefix from '../../../../hooks/useIdWithPrefix';
@@ -21,6 +20,7 @@ import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
 import { useAuth } from '../../../auth/hooks/useAuth';
 import useFeedbackActions from '../../../feedback/hooks/useFeedbackActions';
 import useFeedbackServerErrors from '../../../feedback/hooks/useFeedbackServerErrors';
+import SuccessNotification from '../../../feedback/successNotification/SuccessNotification';
 import {
   CONTACT_FORM_BODY_MAX_LENGTH,
   CONTACT_FORM_FIELD,
@@ -84,6 +84,7 @@ const ContactPage: React.FC = () => {
       body: `${getPayloadStart(values)}${values.body}`,
     };
 
+    setSuccess(true);
     submitFeedback(payload, {
       onError: (error) => showServerErrors({ error }),
       onSuccess: async () => {
@@ -91,14 +92,6 @@ const ContactPage: React.FC = () => {
 
         resetForm();
         await validateForm();
-
-        document
-          .getElementById(
-            getContactFormFocusableFieldId(
-              authenticated ? CONTACT_FORM_FIELD.TOPIC : CONTACT_FORM_FIELD.NAME
-            )
-          )
-          ?.focus();
       },
     });
   };
@@ -181,12 +174,10 @@ const ContactPage: React.FC = () => {
             <Form className={styles.contactForm} noValidate>
               <div id={successId}>
                 {success && (
-                  <Notification
+                  <SuccessNotification
                     label={t('helpPage.contactPage.titleSuccess')}
-                    type="success"
-                  >
-                    {t('helpPage.contactPage.textSuccess')}
-                  </Notification>
+                    text={t('helpPage.contactPage.textSuccess')}
+                  />
                 )}
               </div>
               <ServerErrorSummary errors={serverErrorItems} />
