@@ -6,6 +6,7 @@ import { DEPRECATED_ROUTES, ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { featureFlagUtils } from '../../../../utils/featureFlags';
 import getValue from '../../../../utils/getValue';
+import AccessibilityStatementPage from '../../../accessibilityStatement/AccessibilityStatement';
 import LogoutPage from '../../../auth/logoutPage/LogoutPage';
 import EventSavedPage from '../../../eventSaved/EventSavedPage';
 import HelpPageLayout from '../../../help/layout/HelpPageLayout';
@@ -87,6 +88,10 @@ const LocaleRoutes: React.FC = () => {
           />
           {/* Locale routes */}
           <Route path={ROUTES.HOME} element={<LandingPage />} />
+          <Route
+            path={ROUTES.ACCESSIBILITY_STATEMENT}
+            element={<AccessibilityStatementPage />}
+          />
           <Route path={ROUTES.CREATE_EVENT} element={<CreateEventPage />} />
           <Route path={ROUTES.EVENT_SAVED} element={<EventSavedPage />} />
           <Route path={ROUTES.EDIT_EVENT} element={<EditEventPage />} />

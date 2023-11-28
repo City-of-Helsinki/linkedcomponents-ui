@@ -269,6 +269,16 @@ it.each([
   await actWait(100);
 });
 
+it('should render accessibility statement page', async () => {
+  const { history } = await renderRoute(`${ROUTES.ACCESSIBILITY_STATEMENT}`);
+
+  await isPageRendered({
+    history,
+    pageTitle: `Saavutettavuusseloste - Linked Events`,
+    pathname: '/fi/accessibility-statement',
+  });
+});
+
 it('should render registrations page', async () => {
   const { history } = await renderRoute(`${ROUTES.REGISTRATIONS}`);
 
