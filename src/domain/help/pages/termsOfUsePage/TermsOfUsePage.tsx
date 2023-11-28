@@ -14,8 +14,7 @@ const TermsOfUsePage: React.FC = () => {
       case 'en':
         return (
           <>
-            {/*eslint-disable*/}
-            <h1 role="heading">Data protection and terms of use</h1>
+            <h1>Data protection and terms of use</h1>
             <p>
               The registration for Linked Events uses the City of Helsinki's
               Tunnistamo application, where the registration options can be
@@ -69,13 +68,16 @@ const TermsOfUsePage: React.FC = () => {
             </p>
             <p>
               As a rule, data is kept for 5 years, but may be deleted earlier
-              upon request.{' '}
-              {/*eslint-disable*/}
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf" className={styles.listLink}>
+              upon request. {/*eslint-disable*/}
+              <ExternalLink
+                href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf"
+                className={styles.listLink}
+              >
                 City of Helsinki Access Rights Privacy Policy (in Finnish)
-              </ExternalLink>.
+              </ExternalLink>
+              .
             </p>
-            <h1>Cookies</h1>
+            <h2>Cookies</h2>
             <p>
               The Linked Events service uses the City of Helsinki's own Matomo
               visitor tracking installation, which is also hosted on Azure's
@@ -91,11 +93,14 @@ const TermsOfUsePage: React.FC = () => {
               <li>Browser used</li>
               <li className={styles.noListStyle}>will be collected.</li>
             </ul>
-            <h1>Terms of use for event information</h1>
+            <h2>Terms of use for event information</h2>
             <p>
               Event information, images and other material added to the Linked
               Events interface (further the Material) are published under a{' '}
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
+              <ExternalLink
+                href="https://creativecommons.org/licenses/by/4.0/deed.fi"
+                className={styles.listLink}
+              >
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
               , unless otherwise stated.
@@ -103,7 +108,10 @@ const TermsOfUsePage: React.FC = () => {
             <p>
               By using the interface, the user of the service who added the
               material agrees to the publication of the Material under a{' '}
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
+              <ExternalLink
+                href="https://creativecommons.org/licenses/by/4.0/deed.fi"
+                className={styles.listLink}
+              >
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
               , except in cases where the person who added the image through the
@@ -149,8 +157,7 @@ const TermsOfUsePage: React.FC = () => {
       case 'fi':
         return (
           <>
-            {/*eslint-disable*/}
-            <h1 role="heading">Tietosuoja ja käyttöehdot</h1>
+            <h1>Tietosuoja ja käyttöehdot</h1>
             <p>
               Linked Events -palveluun kirjaudutaan Helsingin kaupungin
               Tunnistamo-sovelluksella, jossa kirjautumisvaihtoehtoina ovat:
@@ -208,13 +215,16 @@ const TermsOfUsePage: React.FC = () => {
               poistetaan nopeammin.
             </p>
             <p>
-              Helsingin kaupungin käyttöoikeuksien{' '}
-              {/*eslint-disable*/}
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf"  className={styles.listLink}>
+              Helsingin kaupungin käyttöoikeuksien {/*eslint-disable*/}
+              <ExternalLink
+                href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf"
+                className={styles.listLink}
+              >
                 tietosuojaseloste
-              </ExternalLink>.
+              </ExternalLink>
+              .
             </p>
-            <h1>Evästeet</h1>
+            <h2>Evästeet</h2>
             <p>
               Linked Events -palvelu hyödyntää Helsingin kaupungin omaa
               Matomo-kävijäseurannan asennusta, joka sijaitsee myös Azuren
@@ -229,11 +239,14 @@ const TermsOfUsePage: React.FC = () => {
               <li>Ruudun resoluutio</li>
               <li>Käytetty selain</li>
             </ul>
-            <h1>Tapahtumatietoihin liittyvät käyttöehdot</h1>
+            <h2>Tapahtumatietoihin liittyvät käyttöehdot</h2>
             <p>
               Linked Events –tapahtumarajapintaan lisätyt tapahtumatiedot, kuvat
               ja muu materiaali (yhdessä Materiaali) julkaistaan{' '}
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
+              <ExternalLink
+                href="https://creativecommons.org/licenses/by/4.0/deed.fi"
+                className={styles.listLink}
+              >
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
               , ellei toisin mainita.
@@ -241,7 +254,10 @@ const TermsOfUsePage: React.FC = () => {
             <p>
               Käyttämällä rajapintaa Materiaalia lisännyt palvelun käyttäjä
               hyväksyy Materiaalin julkaisemisen{' '}
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
+              <ExternalLink
+                href="https://creativecommons.org/licenses/by/4.0/deed.fi"
+                className={styles.listLink}
+              >
                 Creative Commons BY 4.0 -lisenssillä
               </ExternalLink>
               , lukuun ottamatta tilanteita, joissa kuvan rajapinnan kautta
@@ -286,8 +302,7 @@ const TermsOfUsePage: React.FC = () => {
       case 'sv':
         return (
           <>
-            {/*eslint-disable*/}
-            <h1 role="heading">Dataskydd och användarvillkor</h1>
+            <h1>Dataskydd och användarvillkor</h1>
             <p>
               Anmälan till länkade evenemang sker via Helsingfors stads
               applikation Tunnistamo, där anmälningsalternativen finns:
@@ -341,13 +356,16 @@ const TermsOfUsePage: React.FC = () => {
             </p>
             <p>
               Uppgifterna sparas i regel i 5 år, men kan raderas tidigare på
-              begäran{' '}
-              {/*eslint-disable*/}
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf"  className={styles.listLink}>
+              begäran {/*eslint-disable*/}
+              <ExternalLink
+                href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf"
+                className={styles.listLink}
+              >
                 City of Helsinki Access Rights Privacy Policy (in Finnish)
-              </ExternalLink>.
+              </ExternalLink>
+              .
             </p>
-            <h1>Kakor</h1>
+            <h2>Kakor</h2>
             <p>
               Linked Events-tjänsten använder Helsingfors stads egen
               Matomo-installation för spårning av besökare, som också finns på
@@ -362,12 +380,15 @@ const TermsOfUsePage: React.FC = () => {
               <li>Upplösning på skärmen</li>
               <li>Webbläsare som används</li>
             </ul>
-            <h1>Användarvillkor för evenemangsinformation</h1>
+            <h2>Användarvillkor för evenemangsinformation</h2>
             <p>
               Evenemangsinformation, bilder och annat material som läggs till i
               gränssnittet för Linked Events (vidare Materialet) publiceras
               under en{' '}
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
+              <ExternalLink
+                href="https://creativecommons.org/licenses/by/4.0/deed.fi"
+                className={styles.listLink}
+              >
                 Creative Commons BY 4.0 -licens
               </ExternalLink>
               , om inte annat anges.
@@ -375,7 +396,10 @@ const TermsOfUsePage: React.FC = () => {
             <p>
               Genom att använda gränssnittet samtycker den användare av tjänsten
               som lagt till materialet till publicering av materialet under en{' '}
-              <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi"  className={styles.listLink}>
+              <ExternalLink
+                href="https://creativecommons.org/licenses/by/4.0/deed.fi"
+                className={styles.listLink}
+              >
                 Creative Commons BY 4.0 -licens
               </ExternalLink>
               , utom i de fall där den person som lagt till bilden via
