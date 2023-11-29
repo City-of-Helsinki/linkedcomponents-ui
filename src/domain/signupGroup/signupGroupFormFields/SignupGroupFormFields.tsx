@@ -28,7 +28,6 @@ import {
 import Divider from '../divider/Divider';
 import useNotificationOptions from '../hooks/useNotificationOptions';
 import { SignupFormFields } from '../types';
-import { isSignupFieldRequired } from '../utils';
 import styles from './signupGroupFormFields.module.scss';
 import Signups from './signups/Signups';
 
@@ -156,13 +155,7 @@ const SignupGroupFormFields: React.FC<Props> = ({
                 'placeholderPhoneNumber'
               )}
               type="tel"
-              required={
-                notifications.includes(NOTIFICATIONS.SMS) ||
-                isSignupFieldRequired(
-                  registration,
-                  CONTACT_PERSON_FIELDS.PHONE_NUMBER
-                )
-              }
+              required={notifications.includes(NOTIFICATIONS.SMS)}
               title={titleCannotEditContactPerson}
             />
           </div>
@@ -218,10 +211,6 @@ const SignupGroupFormFields: React.FC<Props> = ({
               placeholder={getContactPersonTranslation(
                 'placeholderMembershipNumber'
               )}
-              required={isSignupFieldRequired(
-                registration,
-                CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER
-              )}
               title={titleCannotEditContactPerson}
             />
           </div>
@@ -268,10 +257,6 @@ const SignupGroupFormFields: React.FC<Props> = ({
               disabled={disabled}
               label={t('signup.form.labelExtraInfo')}
               placeholder={t('signup.form.placeholderExtraInfo')}
-              required={isSignupFieldRequired(
-                registration,
-                SIGNUP_GROUP_FIELDS.EXTRA_INFO
-              )}
             />
           </FormGroup>
         )}
