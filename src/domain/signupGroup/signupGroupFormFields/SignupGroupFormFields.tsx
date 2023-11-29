@@ -175,10 +175,6 @@ const SignupGroupFormFields: React.FC<Props> = ({
               disabled={disabled || contactPersonFieldsDisabled}
               label={getContactPersonTranslation('labelFirstName')}
               placeholder={getContactPersonTranslation('placeholderFirstName')}
-              required={isSignupFieldRequired(
-                registration,
-                CONTACT_PERSON_FIELDS.FIRST_NAME
-              )}
               title={titleCannotEditContactPerson}
             />
             <Field
@@ -187,10 +183,6 @@ const SignupGroupFormFields: React.FC<Props> = ({
               disabled={disabled || contactPersonFieldsDisabled}
               label={getContactPersonTranslation('labelLastName')}
               placeholder={getContactPersonTranslation('placeholderLastName')}
-              required={isSignupFieldRequired(
-                registration,
-                CONTACT_PERSON_FIELDS.LAST_NAME
-              )}
               title={titleCannotEditContactPerson}
             />
           </div>
