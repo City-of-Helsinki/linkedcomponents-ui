@@ -1520,8 +1520,8 @@
   },
   "maintenance": {
     "header": {
-      "label": "Underhåll",
-      "text": "Onsdagen den 30 augusti kommer tjänsten Linked Events att uppdateras. Det kommer inte att vara möjligt att skapa innehåll eller logga in den dagen."
+      "label": "Linked Registration publiceras",
+      "text": "Linked Registration -registrering har genomförts och är nu möjlig att lägga till evenemang. Instruktioner för användning av registrering finns <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Linked Registration instruktioner {{openInNewTab}}\">här</a>"
     },
     "toast": "På onsdag 30.8. kommer Linked Events-tjänsten att uppdateras, vilket innebär att inloggning inte kommer att vara möjlig."
   },
