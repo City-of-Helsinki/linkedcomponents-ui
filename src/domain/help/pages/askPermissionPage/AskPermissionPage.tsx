@@ -9,7 +9,6 @@ import SingleOrganizationSelectorField from '../../../../common/components/formF
 import TextAreaField from '../../../../common/components/formFields/textAreaField/TextAreaField';
 import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
-import Notification from '../../../../common/components/notification/Notification';
 import ServerErrorSummary from '../../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { FeedbackInput } from '../../../../generated/graphql';
 import useIdWithPrefix from '../../../../hooks/useIdWithPrefix';
@@ -23,6 +22,7 @@ import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
 import { useAuth } from '../../../auth/hooks/useAuth';
 import useFeedbackActions from '../../../feedback/hooks/useFeedbackActions';
 import useFeedbackServerErrors from '../../../feedback/hooks/useFeedbackServerErrors';
+import SuccessNotification from '../../../feedback/successNotification/SuccessNotification';
 import useAllOrganizations from '../../../organization/hooks/useAllOrganizations';
 import { getOrganizationFields } from '../../../organization/utils';
 import {
@@ -100,14 +100,6 @@ const AskPermissionPage: React.FC = () => {
 
         resetForm();
         await validateForm();
-
-        document
-          .getElementById(
-            getAskPermissionFormFocusableFieldId(
-              ASK_PERMISSION_FORM_FIELD.ORGANIZATION
-            )
-          )
-          ?.focus();
       },
     });
   };
@@ -167,12 +159,10 @@ const AskPermissionPage: React.FC = () => {
             <Form className={styles.contactForm} noValidate>
               <div id={successId}>
                 {success && (
-                  <Notification
+                  <SuccessNotification
                     label={t('helpPage.askPermissionPage.titleSuccess')}
-                    type="success"
-                  >
-                    {t('helpPage.askPermissionPage.textSuccess')}
-                  </Notification>
+                    text={t('helpPage.askPermissionPage.textSuccess')}
+                  />
                 )}
               </div>
               <ServerErrorSummary errors={serverErrorItems} />
