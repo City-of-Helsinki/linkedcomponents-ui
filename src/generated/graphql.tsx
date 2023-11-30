@@ -939,6 +939,7 @@ export type QueryOrganizationClassesArgs = {
 
 export type QueryOrganizationsArgs = {
   child?: InputMaybe<Scalars['ID']['input']>;
+  dissolved?: InputMaybe<Scalars['Boolean']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   text?: InputMaybe<Scalars['String']['input']>;
@@ -1652,6 +1653,7 @@ export type OrganizationsQueryVariables = Exact<{
   createPath?: InputMaybe<Scalars['Any']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
+  dissolved?: InputMaybe<Scalars['Boolean']['input']>;
   text?: InputMaybe<Scalars['String']['input']>;
 }>;
 
@@ -3560,8 +3562,14 @@ export type OrganizationQueryHookResult = ReturnType<typeof useOrganizationQuery
 export type OrganizationLazyQueryHookResult = ReturnType<typeof useOrganizationLazyQuery>;
 export type OrganizationQueryResult = Apollo.QueryResult<OrganizationQuery, OrganizationQueryVariables>;
 export const OrganizationsDocument = gql`
-    query Organizations($child: ID, $createPath: Any, $page: Int, $pageSize: Int, $text: String) {
-  organizations(child: $child, page: $page, pageSize: $pageSize, text: $text) @rest(type: "OrganizationsResponse", pathBuilder: $createPath) {
+    query Organizations($child: ID, $createPath: Any, $page: Int, $pageSize: Int, $dissolved: Boolean, $text: String) {
+  organizations(
+    child: $child
+    page: $page
+    pageSize: $pageSize
+    dissolved: $dissolved
+    text: $text
+  ) @rest(type: "OrganizationsResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
     }
@@ -3589,6 +3597,7 @@ ${OrganizationFieldsFragmentDoc}`;
  *      createPath: // value for 'createPath'
  *      page: // value for 'page'
  *      pageSize: // value for 'pageSize'
+ *      dissolved: // value for 'dissolved'
  *      text: // value for 'text'
  *   },
  * });
