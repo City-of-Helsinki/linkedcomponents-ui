@@ -35,6 +35,7 @@
       color: var(--hero-heading-color);
       margin: 0 0 var(--spacing-m);
       line-height: var(--lineheight-m);
+      text-shadow: 0 0 2px var(--color-black);
 
       @include max-width-column(8);
 
