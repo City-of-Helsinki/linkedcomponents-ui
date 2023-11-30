@@ -150,3 +150,15 @@
 .clickableRow {
   composes: clickableRow from '../../../common/components/table/clickableRow.module.scss';
 }
+
+.tableWrapper {
+  display: grid;
+
+  &.inlineWithBackground {
+    margin-top: calc(0px - var(--spacing-2-xl) + 4px);
+
+    @include medium-up {
+      margin-top: calc(0px - var(--spacing-2-xl) - 2px);
+    }
+  }
+}

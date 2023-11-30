@@ -14,15 +14,10 @@
   margin-top: var(--spacing-2-xl);
 }
 
-.eventCards,
-.tableWrapper {
+.eventCards {
   display: grid;
   grid-gap: var(--spacing-m);
   margin: var(--spacing-m) 0 0;
-}
-
-.tableWrapper {
-  margin-top: calc(0px - var(--spacing-2-xl) - 2px);
 }
 
 .listTypeRow {
