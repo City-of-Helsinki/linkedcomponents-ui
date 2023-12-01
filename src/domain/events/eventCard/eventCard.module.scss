@@ -140,7 +140,6 @@
 
     .row {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
       grid-gap: var(--spacing-s);
 
       @include small-only {

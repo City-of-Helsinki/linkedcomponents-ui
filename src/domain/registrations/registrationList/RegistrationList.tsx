@@ -78,7 +78,7 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
   return (
     <div className={styles.contentWrapperTable}>
       <Container withOffset={true}>
-        <TableWrapper className={styles.tableWrapper}>
+        <TableWrapper inlineWithBackground>
           <RegistrationsTable
             caption={getTableCaption()}
             registrations={registrations}

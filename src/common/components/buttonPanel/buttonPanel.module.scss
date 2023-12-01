@@ -31,11 +31,11 @@
   .otherButtons {
     display: grid;
     grid-gap: var(--spacing-s);
-    grid-template-columns: repeat(2, 1fr);
 
     @include medium-up {
       display: flex;
       grid-gap: unset;
+      grid-template-columns: repeat(2, 1fr);
 
       > button:not(:last-child) {
         margin-right: var(--spacing-m);
@@ -60,6 +60,7 @@
 
   .otherButtons {
     order: 1;
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .hideOnMobile {
