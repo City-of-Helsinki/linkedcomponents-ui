@@ -17,8 +17,7 @@ interface Props {
 const MandatoryFieldsSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
-  const { contactPersonMandatoryFieldOptions, signupMandatoryFieldOptions } =
-    useMandatoryFieldOptions();
+  const { signupMandatoryFieldOptions } = useMandatoryFieldOptions();
 
   return (
     <Fieldset
@@ -39,7 +38,10 @@ const MandatoryFieldsSection: React.FC<Props> = ({ isEditingAllowed }) => {
             name={REGISTRATION_FIELDS.MANDATORY_FIELDS}
           />
 
-          <h3>{t('registration.form.titleContactInfo')}</h3>
+          {/* TODO: At the moment API doesn't support mandatory fields validation for contact person
+            Hide this section until the validation is supported
+          */}
+          {/* <h3>{t('registration.form.titleContactInfo')}</h3>
           <Field
             component={CheckboxGroupField}
             columns={1}
@@ -47,7 +49,7 @@ const MandatoryFieldsSection: React.FC<Props> = ({ isEditingAllowed }) => {
             label={t('registration.form.titleContactInfo')}
             options={contactPersonMandatoryFieldOptions}
             name={REGISTRATION_FIELDS.MANDATORY_FIELDS}
-          />
+          /> */}
         </FieldColumn>
       </FieldRow>
     </Fieldset>

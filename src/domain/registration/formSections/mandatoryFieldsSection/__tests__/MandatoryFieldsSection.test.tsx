@@ -30,9 +30,4 @@ test('should show correct checkboxes', async () => {
   withinBasicInfo.getByLabelText('Kaupunki');
   withinBasicInfo.getByLabelText('Postinumero');
   withinBasicInfo.getByLabelText('Katuosoite');
-
-  const withinContactInfo = within(
-    await screen.findByRole('group', { name: 'Yhteystiedot' })
-  );
-  withinContactInfo.getByLabelText('Puhelinnumero');
 });

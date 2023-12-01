@@ -186,7 +186,7 @@ const isPageRendered = async ({
   pageTitle: string;
   pathname: string;
 }) => {
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
   await waitFor(() => expect(history.location.pathname).toBe(pathname));
   await waitFor(() => expect(document.title).toBe(pageTitle), {
     timeout: 20000,

@@ -327,6 +327,7 @@ describe('signupGroupSchema function', () => {
         contactPerson: {
           ...validSignupGroup.contactPerson,
           phoneNumber: 'xxx',
+          notifications: [NOTIFICATIONS.SMS],
         },
       })
     ).toBe(false);
@@ -368,21 +369,6 @@ describe('signupGroupSchema function', () => {
     ).toBe(false);
   });
 
-  test('should return false if membership number is set as mandatory field but value is empty', async () => {
-    expect(
-      await testSignupGroupSchema(
-        fakeRegistration({ mandatoryFields: ['membership_number'] }),
-        {
-          ...validSignupGroup,
-          contactPerson: {
-            ...validSignupGroup.contactPerson,
-            membershipNumber: '',
-          },
-        }
-      )
-    ).toBe(false);
-  });
-
   test('should return false if extra info is set as mandatory field but value is empty', async () => {
     expect(
       await testSignupGroupSchema(
@@ -390,21 +376,6 @@ describe('signupGroupSchema function', () => {
         {
           ...validSignupGroup,
           extraInfo: '',
-        }
-      )
-    ).toBe(false);
-  });
-
-  test('should return false if phone number is set as mandatory field but value is empty', async () => {
-    expect(
-      await testSignupGroupSchema(
-        fakeRegistration({ mandatoryFields: ['phone_number'] }),
-        {
-          ...validSignupGroup,
-          contactPerson: {
-            ...validSignupGroup.contactPerson,
-            phoneNumber: '',
-          },
         }
       )
     ).toBe(false);

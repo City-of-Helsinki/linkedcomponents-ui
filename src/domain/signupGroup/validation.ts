@@ -113,9 +113,7 @@ export const getContactPersonSchema = (
     [CONTACT_PERSON_FIELDS.EMAIL]: Yup.string()
       .email(VALIDATION_MESSAGE_KEYS.EMAIL)
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    [CONTACT_PERSON_FIELDS.PHONE_NUMBER]: getStringSchema(
-      isSignupFieldRequired(registration, CONTACT_PERSON_FIELDS.PHONE_NUMBER)
-    )
+    [CONTACT_PERSON_FIELDS.PHONE_NUMBER]: getStringSchema(false)
       .test(
         'isValidPhoneNumber',
         VALIDATION_MESSAGE_KEYS.PHONE,
@@ -131,21 +129,10 @@ export const getContactPersonSchema = (
     [CONTACT_PERSON_FIELDS.NOTIFICATIONS]: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
       .min(1, createArrayMinErrorMessage),
-    [CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER]: getStringSchema(
-      isSignupFieldRequired(
-        registration,
-        CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER
-      )
-    ),
-    [CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE]: Yup.string().required(
-      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-    ),
-    [CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE]: Yup.string().required(
-      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-    ),
-    [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: getStringSchema(
-      isSignupFieldRequired(registration, SIGNUP_GROUP_FIELDS.EXTRA_INFO)
-    ),
+    [CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER]: getStringSchema(false),
+    [CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE]: getStringSchema(true),
+    [CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE]: getStringSchema(true),
+    [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: getStringSchema(false),
   });
 };
 
