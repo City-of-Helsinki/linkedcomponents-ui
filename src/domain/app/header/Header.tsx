@@ -161,6 +161,7 @@ const Header: React.FC = () => {
           className={cx(styles.navigation, {
             [styles.hideNavRow]: noNavRow,
           })}
+          defaultLanguage={locale}
           id={PAGE_HEADER_ID}
           theme={theme.navigation}
           languages={languageOptions}
