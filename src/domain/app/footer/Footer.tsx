@@ -63,6 +63,10 @@ const Footer: React.FC = () => {
       url: DATA_PROTECTION_URL[locale],
       externalUrl: true,
     },
+    {
+      labelKey: 'navigation.tabs.accessibilityStatement',
+      url: ROUTES.ACCESSIBILITY_STATEMENT,
+    },
   ].filter(skipFalsyType);
 
   const navigationItems = FOOTER_NAVIGATION_ITEMS.map(

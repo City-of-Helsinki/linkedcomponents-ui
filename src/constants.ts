@@ -20,6 +20,7 @@ export enum DEPRECATED_ROUTES {
 
 export enum ROUTES {
   ADMIN = '/administration',
+  ACCESSIBILITY_STATEMENT = '/accessibility-statement',
   ATTENDANCE_LIST = '/registrations/:registrationId/attendance-list',
   CALLBACK = '/callback',
   CREATE_EVENT = '/events/create',
@@ -226,3 +227,5 @@ export const DATA_PROTECTION_URL: { [key in Language]: string } = {
   // eslint-disable-next-line max-len
   en: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf',
 };
+
+export const SUPPORT_EMAIL = 'linkedevents@hel.fi';

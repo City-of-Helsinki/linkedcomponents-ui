@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ExternalLink from '../../../../common/components/externalLink/ExternalLink';
+import { SUPPORT_EMAIL } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
@@ -97,7 +98,7 @@ const ControlPanelPage: React.FC = () => {
               city's office register. Address information among other
               information is retrieved automatically when the correct location
               is found. If you want to add a new location, contact{' '}
-              <a href="mailto:linkedevents@hel.fi">linkedevents@hel.fi</a>.
+              <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
             </p>
             <p>
               Categorizing an event with keywords is important so that users
@@ -258,8 +259,7 @@ const ControlPanelPage: React.FC = () => {
               Tapahtuman paikka valitaan kaupungin toimipisterekisterin
               paikoista. Osoite- ja muut tiedot haetaan siis automaattisesti,
               kun oikea paikka löytyy. Jos haluat lisätä uuden toimipisteen, ota
-              yhteyttä{' '}
-              <a href="mailto:linkedevents@hel.fi">linkedevents@hel.fi</a>.
+              yhteyttä <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
             </p>
             <p>
               Tapahtuman luokittelu asiasanoilla on tärkeää, jotta eri
@@ -420,7 +420,7 @@ const ControlPanelPage: React.FC = () => {
               kontoregister. Således hämtas adress och annan information
               automatiskt när rätt plats hittas. Om du vill lägga till ett nytt
               plats, kontakta{' '}
-              <a href="mailto:linkedevents@hel.fi">linkedevents@hel.fi</a>.
+              <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
             </p>
             <p>
               Att kategorisera ett evenemang med nyckelord är viktigt så att

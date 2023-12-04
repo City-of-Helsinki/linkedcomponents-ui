@@ -1,4 +1,7 @@
 {
+  "accessibilityStatementPage": {
+    "pageTitle": "Saavutettavuusseloste"
+  },
   "adminPage": {
     "sideNavigation": {
       "labelAdmin": "Hallinta",
@@ -1541,6 +1544,7 @@
     "menuToggleAriaLabel": "Valikko",
     "skipToContentLabel": "Siirry sisältöön",
     "tabs": {
+      "accessibilityStatement": "Saavutettavuusseloste",
       "admin": "Hallinta",
       "events": "Tapahtumat",
       "help": "Tuki",

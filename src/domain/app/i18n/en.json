@@ -1,4 +1,7 @@
 {
+  "accessibilityStatementPage": {
+    "pageTitle": "Accessibility Statement"
+  },
   "adminPage": {
     "sideNavigation": {
       "labelAdmin": "Admin",
@@ -1540,6 +1543,7 @@
     "menuToggleAriaLabel": "Menu",
     "skipToContentLabel": "Skip to content",
     "tabs": {
+      "accessibilityStatement": "Accessibility Statement",
       "admin": "Admin",
       "events": "Events",
       "help": "Support",

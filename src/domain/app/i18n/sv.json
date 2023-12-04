@@ -1,4 +1,7 @@
 {
+  "accessibilityStatementPage": {
+    "pageTitle": "Tillgänglighets­utlåtande"
+  },
   "adminPage": {
     "sideNavigation": {
       "labelAdmin": "Admin",
@@ -1541,6 +1544,7 @@
     "menuToggleAriaLabel": "Menyn",
     "skipToContentLabel": "Gå till innehållet",
     "tabs": {
+      "accessibilityStatement": "Tillgänglighets­utlåtande",
       "admin": "Admin",
       "events": "Evenemang",
       "help": "Stöd",
