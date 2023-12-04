@@ -32,6 +32,10 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
       to: ROUTES.INSTRUCTIONS_CONTROL_PANEL,
     },
     {
+      label: t('helpPage.sideNavigation.labelRegistrationInstructions'),
+      to: ROUTES.INSTRUCTIONS_REGISTRATION,
+    },
+    {
       label: t('helpPage.sideNavigation.labelFaq'),
       to: ROUTES.INSTRUCTIONS_FAQ,
     },

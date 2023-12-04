@@ -1,0 +1,7 @@
+@import '../../../../assets/styles/breakpoints';
+
+.registrationInstructions {
+  :is(img) {
+    width: 100%;
+  }
+}

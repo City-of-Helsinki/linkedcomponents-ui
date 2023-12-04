@@ -76,6 +76,11 @@ export const findHelpPages = async (t: TestController) => {
       platformLink() {
         return withinSideNavigation().findByRole('link', { name: /alusta/i });
       },
+      registrationInstructionsLink() {
+        return withinSideNavigation().findByRole('link', {
+          name: /Linked Registration -ohje/i,
+        });
+      },
       sourceCodeLink() {
         return withinSideNavigation().findByRole('link', {
           name: /lähdekoodi/i,
@@ -134,6 +139,9 @@ export const findHelpPages = async (t: TestController) => {
       },
       async clickPlatformLink() {
         return await t.click(selectors.platformLink());
+      },
+      async clickRegistrationInstructionsLink() {
+        return await t.click(selectors.registrationInstructionsLink());
       },
       async clickSourceCodeLink() {
         return await t.click(selectors.sourceCodeLink());
@@ -205,6 +213,11 @@ export const findHelpPages = async (t: TestController) => {
       platformTitle() {
         return withinHelpPage().findByRole('heading', { name: /alusta/i });
       },
+      registrationInstructionsTitle() {
+        return withinHelpPage().findByRole('heading', {
+          name: /Linked Registration -ohje/i,
+        });
+      },
       sourceCodeTitle() {
         return withinHelpPage().findByRole('heading', { name: /lähdekoodi/i });
       },
@@ -267,6 +280,11 @@ export const findHelpPages = async (t: TestController) => {
       async platformTitleIsVisible() {
         await t
           .expect(selectors.platformTitle().exists)
+          .ok(await getErrorMessage(t));
+      },
+      async registrationInstructionsTitleIsVisible() {
+        await t
+          .expect(selectors.registrationInstructionsTitle().exists)
           .ok(await getErrorMessage(t));
       },
       async sourceCodeTitleIsVisible() {

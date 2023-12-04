@@ -261,6 +261,11 @@ export const getUrlUtils = (t: TestController) => {
         .expect(getPathname())
         .eql(`/fi/help/instructions/platform`, await getErrorMessage(t));
     },
+    async urlChangedToRegistrationInstructionsPage() {
+      await t
+        .expect(getPathname())
+        .eql(`/fi/help/instructions/registration`, await getErrorMessage(t));
+    },
     async urlChangedToRegistrationsPage() {
       await t
         .expect(getPathname())

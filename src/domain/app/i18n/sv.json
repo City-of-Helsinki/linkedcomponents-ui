@@ -1253,6 +1253,15 @@
       "titleServiceHighlights": "Servicehöjdpunkter",
       "titleSupport": "Stöd och vidareutveckling"
     },
+    "registrationInstructionsPage": {
+      "imageAltText1": "Efter att ha publicerat ett evenemang: kom till avsnittet Registrering i länkade evenemang. Tryck på knappen Lägg till ny.",
+      "imageAltText2": "Välj det evenemang som du vill skapa en anmälan till; du kan också skriva i fältet.",
+      "imageAltText3": "Välj de inmatningsspråk du vill använda och ange eventuella registreringsinstruktioner och ytterligare text för bekräftelsemeddelandet på de språk du har valt.",
+      "imageAltText4": "Vänligen välj de obligatoriska personuppgifterna på registreringsformuläret.",
+      "imageAltText5": "På förstasidan av anmälningssektionen ser du en lista över evenemang för vilka anmälan har skapats.",
+      "imageAltText6": "Du kan se deltagarna på startsidan för registreringssektionen genom att välja evenemanget från trepunktsmenyn Visa deltagare.",
+      "pageTitle": "Linked Registration instruktioner"
+    },
     "sideNavigation": {
       "labelApi": "API",
       "labelAskPermission": "Begära tillgång",
@@ -1265,6 +1274,7 @@
       "labelImageRights": "Bildrättigheter",
       "labelInstructions": "Instruktioner",
       "labelPlatform": "Plattform",
+      "labelRegistrationInstructions": "Linked Registration instruktioner",
       "labelSourceCode": "Källkod",
       "labelSupport": "Stöd",
       "labelTechnology": "Teknologi",
