@@ -4,7 +4,6 @@ import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import getValue from '../../../utils/getValue';
 import styles from './serviceCard.module.scss';
 
 type ServiceCardProps = {
@@ -43,11 +42,8 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         openInNewTab={true}
         linkAriaLabel={title}
         linkboxAriaLabel={title}
-        openInExternalDomainAriaLabel={getValue(
-          t('common.openInExternalDomain'),
-          undefined
-        )}
-        openInNewTabAriaLabel={getValue(t('common.openInNewTab'), undefined)}
+        openInExternalDomainAriaLabel={t('common.openInExternalDomain')}
+        openInNewTabAriaLabel={t('common.openInNewTab')}
         size="large"
       >
         <p>{description}</p>

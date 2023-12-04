@@ -47,6 +47,7 @@ const UserSelector: React.FC<UserSelectorProps> = ({
       id={name}
       label={label}
       options={options}
+      clearButtonAriaLabel={t('common.combobox.clearUsers')}
       toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       value={selectedUsers}
     />

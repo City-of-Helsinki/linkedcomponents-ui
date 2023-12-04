@@ -76,6 +76,11 @@
     "clear": "Klar",
     "close": "Stäng",
     "combobox": {
+      "clearEvents": "Rensa valda evenemang",
+      "clearPlaces": "Rensa valda platser",
+      "clearKeywords": "Rensa valda sökord",
+      "clearOrganizations": "Rensa valda organisationer",
+      "clearUsers": "Rensa valda användare",
       "toggleButtonAriaLabel": "Menyn"
     },
     "cookieConsent": {

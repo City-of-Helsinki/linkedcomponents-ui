@@ -75,6 +75,11 @@
     "clear": "Clear",
     "close": "Close",
     "combobox": {
+      "clearEvents": "Clear selected events",
+      "clearKeywords": "Clear selected keywords",
+      "clearOrganizations": "Clear selected organizations",
+      "clearPlaces": "Clear selected places",
+      "clearUsers": "Clear selected users",
       "toggleButtonAriaLabel": "Menu"
     },
     "cookieConsent": {

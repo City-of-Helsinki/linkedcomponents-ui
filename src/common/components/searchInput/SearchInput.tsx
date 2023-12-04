@@ -6,7 +6,6 @@ import {
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import getValue from '../../../utils/getValue';
 import styles from './searchInput.module.scss';
 
 export type SearchInputProps = {
@@ -28,12 +27,8 @@ const SearchInput: React.FC<SearchInputProps> = ({
       className={classNames(className, {
         [styles.hideLabel]: hideLabel,
       })}
-      clearButtonAriaLabel={
-        clearButtonAriaLabel || getValue(t('common.clear'), undefined)
-      }
-      searchButtonAriaLabel={
-        searchButtonAriaLabel || getValue(t('common.search'), undefined)
-      }
+      clearButtonAriaLabel={clearButtonAriaLabel || t('common.clear')}
+      searchButtonAriaLabel={searchButtonAriaLabel || t('common.search')}
     />
   );
 };

@@ -76,6 +76,11 @@
     "clear": "Tyhjennä",
     "close": "Sulje",
     "combobox": {
+      "clearEvents": "Tyhjennä valitut tapahtumat",
+      "clearPlaces": "Tyhjennä valitut paikat",
+      "clearKeywords": "Tyhjennä valitut avainsanat",
+      "clearOrganizations": "Tyhjennä valitut organisaatiot",
+      "clearUsers": "Tyhjennä valitut käyttäjät",
       "toggleButtonAriaLabel": "Valikko"
     },
     "cookieConsent": {

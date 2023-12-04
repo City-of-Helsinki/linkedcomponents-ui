@@ -514,7 +514,7 @@ const EventForm: React.FC<EventFormProps> = ({
                   <SummarySection isEditingAllowed={isEditingAllowed} />
                   {isExternalUser && (
                     <EventStateInfoSection
-                      text={getValue(t('event.form.eventDraftStateInfo'), '')}
+                      text={t('event.form.eventDraftStateInfo')}
                     />
                   )}
                 </>

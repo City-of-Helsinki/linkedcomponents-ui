@@ -143,6 +143,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
       isLoading={loading}
       label={label}
       options={options}
+      clearButtonAriaLabel={t('common.combobox.clearPlaces')}
       toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning

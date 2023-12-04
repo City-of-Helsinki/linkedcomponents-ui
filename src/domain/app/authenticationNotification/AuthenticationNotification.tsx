@@ -129,7 +129,7 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   const notificationProps = {
     className: classNames(styles.authenticationNotification, className),
     closeAnimationDuration: 300,
-    closeButtonLabelText: getValue(t('common.close'), ''),
+    closeButtonLabelText: t('common.close'),
     dismissible: true,
     onClose: () => setHidden(true),
     style: hidden ? hiddenStyles : undefined,

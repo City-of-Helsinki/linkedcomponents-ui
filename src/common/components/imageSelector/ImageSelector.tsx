@@ -183,7 +183,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
               label={t('common.imageSelector.labelSearch')}
               onChange={setSearch}
               onSubmit={setSearch}
-              placeholder={getValue(t('common.imageSelector.labelSearch'), '')}
+              placeholder={t('common.imageSelector.labelSearch')}
               value={search}
             />
           </div>
