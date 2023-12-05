@@ -1714,6 +1714,7 @@
       "labelEnrolmentStartTimeDate": "Registration begins",
       "labelEnrolmentStartTimeTime": "Registration begins at",
       "labelEvent": "Event",
+      "labelFilterByDates": "Event time",
       "labelInstructions": "Registration instructions {{langText}} (optional)",
       "labelMaximumAttendeeCapacity": "Maximum number of seats",
       "labelMaximumGroupSize": "Maximum group size",

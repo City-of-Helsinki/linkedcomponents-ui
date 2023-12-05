@@ -5,7 +5,7 @@ import {
   render,
   screen,
   userEvent,
-} from '../../../../../utils/testUtils';
+} from '../../../../utils/testUtils';
 import DateSelectorDropdown, {
   DateSelectorProps,
 } from '../DateSelectorDropdown';

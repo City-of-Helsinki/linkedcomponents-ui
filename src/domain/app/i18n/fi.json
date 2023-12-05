@@ -1715,6 +1715,7 @@
       "labelEnrolmentStartTimeDate": "Ilmoittautuminen alkaa",
       "labelEnrolmentStartTimeTime": "Ilmoittautuminen alkaa klo",
       "labelEvent": "Tapahtuma",
+      "labelFilterByDates": "Tapahtuman ajankohta",
       "labelInstructions": "Ilmoittautumisohjeet {{langText}} (valinnainen)",
       "labelMaximumAttendeeCapacity": "Paikkojen enimmäismäärä",
       "labelMaximumGroupSize": "Ryhmän enimmäiskoko",

@@ -16,6 +16,8 @@ import {
   eventName,
   mockedEventResponse,
   mockedEventsResponse,
+  mockedFilteredByDatesEventsResponse,
+  mockedFilteredByStartDateEventsResponse,
   mockedFilteredEventsResponse,
 } from '../__mocks__/eventSection';
 import EventSection from '../EventSection';
@@ -33,6 +35,8 @@ const defaultInitialValues: InitialValues = {
 const mocks = [
   mockedEventResponse,
   mockedEventsResponse,
+  mockedFilteredByDatesEventsResponse,
+  mockedFilteredByStartDateEventsResponse,
   mockedFilteredEventsResponse,
 ];
 
@@ -49,10 +53,23 @@ const renderComponent = (initialValues?: Partial<InitialValues>) => {
   );
 };
 
-const getElement = (key: 'inputField' | 'toggleButton') => {
+const getElement = (
+  key:
+    | 'dateSelectorButton'
+    | 'endDateInput'
+    | 'inputField'
+    | 'startDateInput'
+    | 'toggleButton'
+) => {
   switch (key) {
+    case 'dateSelectorButton':
+      return screen.getByRole('button', { name: 'Valitse päivämäärät' });
+    case 'endDateInput':
+      return screen.getByPlaceholderText('Loppuu p.k.vvvv');
     case 'inputField':
       return screen.getByRole('combobox', { name: 'Tapahtuma *' });
+    case 'startDateInput':
+      return screen.getByPlaceholderText('Alkaa p.k.vvvv');
     case 'toggleButton':
       return screen.getByRole('button', { name: 'Tapahtuma: Valikko' });
   }
@@ -113,4 +130,32 @@ test('should clear values from registration form when event is unselected', asyn
       minimumAttendeeCapacity: '',
     })
   );
+});
+
+test('should filter events by start and end date', async () => {
+  const values = { endDate: '20.7.2020', startDate: '5.7.2020' };
+  const user = userEvent.setup();
+
+  renderComponent();
+
+  const dateSelectorButton = getElement('dateSelectorButton');
+  await user.click(dateSelectorButton);
+
+  const startDateInput = getElement('startDateInput');
+  await user.type(startDateInput, values.startDate);
+  await waitFor(() => expect(startDateInput).toHaveValue(values.startDate));
+
+  const endDateInput = getElement('endDateInput');
+  await user.type(endDateInput, values.endDate);
+  await waitFor(() => expect(endDateInput).toHaveValue(values.endDate));
+
+  const toggleButton = getElement('toggleButton');
+  await user.click(toggleButton);
+
+  const eventOption = await screen.findByRole('option', {
+    name: new RegExp(eventName),
+  });
+  await user.click(eventOption);
+  const inputField = getElement('inputField');
+  await waitFor(() => expect(inputField).toHaveValue('Event name 13.7.2020 –'));
 });

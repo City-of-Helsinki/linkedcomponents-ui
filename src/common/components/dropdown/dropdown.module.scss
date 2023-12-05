@@ -36,6 +36,7 @@
     display: flex;
     align-items: center;
     outline: none;
+    position: relative;
 
     .icon {
       color: var(--dropdown-color);
