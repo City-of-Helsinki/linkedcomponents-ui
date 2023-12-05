@@ -9,6 +9,7 @@ import { Language } from '../../../../../types';
 import {
   configure,
   render,
+  screen,
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../../../utils/testUtils';
@@ -82,7 +83,8 @@ const testHelpPage = async (
   route: ROUTES,
   expectedValues: PageValues
 ) => {
-  const { description, expectedRoute, keywords, title } = expectedValues;
+  const { description, expectedRoute, keywords, pageTitle, title } =
+    expectedValues;
 
   await i18n.changeLanguage(language);
 
@@ -96,6 +98,7 @@ const testHelpPage = async (
       title,
     });
   }
+  await screen.findByRole('heading', { name: pageTitle });
   expect(history.location.pathname).toBe(expectedRoute);
 };
 
@@ -246,6 +249,54 @@ it.each(controlPanelCases)(
     await testHelpPage(
       language,
       ROUTES.INSTRUCTIONS_CONTROL_PANEL,
+      expectedValues
+    );
+  }
+);
+
+const registrationInstructionsCases: [Language, PageValues][] = [
+  [
+    'en',
+    {
+      description:
+        'Linked Events is a collection of software components and API endpoints that enables event management and distribution for different event providers in Finland.',
+      expectedRoute: '/en/help/instructions/registration',
+      keywords:
+        'linked, events, event, management, api, admin, Helsinki, Finland',
+      pageTitle: 'Linked Registration instructions',
+      title: 'Linked Registration instructions - Linked Events',
+    },
+  ],
+  [
+    'fi',
+    {
+      description:
+        'Linked Events on ohjelmistokomponenttien ja API-päätepisteiden kokoelma, joka mahdollistaa tapahtumien hallinnan ja jakelun eri tapahtumapalvelujen tarjoajille Suomessa.',
+      expectedRoute: '/fi/help/instructions/registration',
+      keywords:
+        'linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+      pageTitle: 'Linked Registration -ohje',
+      title: 'Linked Registration -ohje - Linked Events',
+    },
+  ],
+  [
+    'sv',
+    {
+      description: '',
+      expectedRoute: '/sv/help/instructions/registration',
+      keywords: '',
+      pageTitle: 'Linked Registration instruktioner',
+      title: '',
+    },
+  ],
+];
+
+it.each(registrationInstructionsCases)(
+  'should render Registration instructions help page, language %p',
+  async (language, expectedValues) => {
+    await testHelpPage(
+      language,
+      ROUTES.INSTRUCTIONS_REGISTRATION,
       expectedValues
     );
   }
@@ -529,7 +580,7 @@ const termsOfUseCases: [Language, PageValues][] = [
       expectedRoute: '/en/help/support/terms-of-use',
       keywords:
         'terms, of, use, linked, events, event, management, api, admin, Helsinki, Finland',
-      pageTitle: 'Linked Events service data protection and terms of use',
+      pageTitle: 'Data protection and terms of use',
       title: 'Data protection and terms of use - Linked Events',
     },
   ],
@@ -540,7 +591,7 @@ const termsOfUseCases: [Language, PageValues][] = [
       expectedRoute: '/fi/help/support/terms-of-use',
       keywords:
         'käyttöehdot, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-      pageTitle: 'Linked Eventsin tietosuoja ja käyttöehdot',
+      pageTitle: 'Tietosuoja ja käyttöehdot',
       title: 'Tietosuoja ja käyttöehdot - Linked Events',
     },
   ],
@@ -550,7 +601,7 @@ const termsOfUseCases: [Language, PageValues][] = [
       description: 'Dataskydd och användarvillkor för Linked Events.',
       expectedRoute: '/sv/help/support/terms-of-use',
       keywords: '',
-      pageTitle: 'Dataskydd och användarvillkor för Linked Events',
+      pageTitle: 'Dataskydd och användarvillkor',
       title: '',
     },
   ],

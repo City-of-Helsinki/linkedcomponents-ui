@@ -1261,6 +1261,15 @@
       "titleServiceHighlights": "Palvelun kohokohdat",
       "titleSupport": "Tuki ja jatkokehitys"
     },
+    "registrationInstructionsPage": {
+      "imageAltText1": "Julkaistuasi tapahtuman: Siirry Linked Eventsissä Ilmoittautuminen-osioon. Paina Lisää uusi -painiketta.",
+      "imageAltText2": "Valitse tapahtuma, jolle haluat luoda ilmoittautumisen; kenttään voi myös kirjoittaa.",
+      "imageAltText3": "Valitse haluamasi syöttökielet ja anna mahdolliset ilmoittautumisohjeet ja vahvistusviestin lisäteksti valitsemillasi kielillä.",
+      "imageAltText4": "Valitse ilmoittautumislomakkeelle pakolliset henkilötietokentät.",
+      "imageAltText5": "Ilmoittautuminen-osion etusivulla näet listan tapahtumista, joille on luotu ilmoittautuminen.",
+      "imageAltText6": "Ilmoittautuneita pääsee tarkastelemaan ilmoittautuminen-osion etusivulla valitsemalla tapahtuman kolmen pisteen valikosta Näytä ilmoittautuneet.",
+      "pageTitle": "Linked Registration -ohje"
+    },
     "sideNavigation": {
       "labelApi": "Rajapinta",
       "labelAskPermission": "Pyydä käyttöoikeutta",
@@ -1273,6 +1282,7 @@
       "labelImageRights": "Kuvaoikeudet",
       "labelInstructions": "Ohjeet",
       "labelPlatform": "Alusta",
+      "labelRegistrationInstructions": "Linked Registration -ohje",
       "labelSourceCode": "Lähdekoodi",
       "labelSupport": "Tuki",
       "labelTechnology": "Teknologia",

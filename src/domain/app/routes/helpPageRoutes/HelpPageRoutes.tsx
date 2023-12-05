@@ -14,6 +14,7 @@ import GeneralInstructionsPage from '../../../help/pages/generalInstructionsPage
 import GeneralTechnologyPage from '../../../help/pages/generalTechologyPage/GeneralTechnologyPage';
 import ImageRightsPage from '../../../help/pages/imageRightsPage/ImageRightsPage';
 import PlatformPage from '../../../help/pages/platformPage/PlatformPage';
+import RegistrationInstructions from '../../../help/pages/registrationInstructions/RegistrationInstructions';
 import SourceCodePage from '../../../help/pages/sourceCodePage/SourceCodePage';
 import TermsOfUsePage from '../../../help/pages/termsOfUsePage/TermsOfUsePage';
 import NotFound from '.././../../notFound/NotFound';
@@ -54,6 +55,10 @@ const InstructionsRoutes: React.FC<Props> = ({ locale }) => {
       <Route
         path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_PLATFORM)}
         element={<PlatformPage />}
+      />
+      <Route
+        path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_REGISTRATION)}
+        element={<RegistrationInstructions />}
       />
       <Route element={<NotFound />} />
     </Routes>

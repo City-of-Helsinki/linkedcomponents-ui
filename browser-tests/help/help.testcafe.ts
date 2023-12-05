@@ -81,6 +81,10 @@ test('Side navigation tabs work', async (t) => {
   await sideNavigation.actions.clickFaqLink();
   await urlUtils.expectations.urlChangedToFaqPage();
   await helpPageTitles.expectations.faqTitleIsVisible();
+  // Registration instructions link
+  await sideNavigation.actions.clickRegistrationInstructionsLink();
+  await urlUtils.expectations.urlChangedToRegistrationInstructionsPage();
+  await helpPageTitles.expectations.registrationInstructionsTitleIsVisible();
   // Control panel link
   await sideNavigation.actions.clickControlPanelLink();
   await urlUtils.expectations.urlChangedToControlPanelPage();

@@ -51,6 +51,7 @@ export enum ROUTES {
   INSTRUCTIONS_FAQ = '/help/instructions/faq',
   INSTRUCTIONS_GENERAL = '/help/instructions/general',
   INSTRUCTIONS_PLATFORM = '/help/instructions/platform',
+  INSTRUCTIONS_REGISTRATION = '/help/instructions/registration',
   KEYWORDS = '/administration/keywords',
   KEYWORD_SETS = '/administration/keyword-sets',
   LOGOUT = '/logout',
