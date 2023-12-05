@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import DateInput from '../../../../../common/components/dateInput/DateInput';
-import DropdownMenu from '../../../../../common/components/dropdown/dropdownMenu/DropdownMenu';
-import getDatePickerInitialMonth from '../../../../../utils/getDatePickerInitialMonth';
-import getValue from '../../../../../utils/getValue';
+import getDatePickerInitialMonth from '../../../../utils/getDatePickerInitialMonth';
+import getValue from '../../../../utils/getValue';
+import DateInput from '../../dateInput/DateInput';
+import DropdownMenu from '../../dropdown/dropdownMenu/DropdownMenu';
 import styles from '../dateSelector.module.scss';
 import { DATE_FIELDS } from '../DateSelectorDropdown';
 

@@ -59,10 +59,36 @@ const mockedFilteredEventsResponse = {
   result: eventsResponse,
 };
 
+const filteredByStartDateEventsVariables = {
+  ...eventsVariables,
+  start: '2020-07-05',
+};
+
+const mockedFilteredByStartDateEventsResponse = {
+  request: {
+    query: EventsDocument,
+    variables: filteredByStartDateEventsVariables,
+  },
+  result: eventsResponse,
+};
+
+const filteredByDatesEventsVariables = {
+  ...eventsVariables,
+  end: '2020-07-20',
+  start: '2020-07-05',
+};
+
+const mockedFilteredByDatesEventsResponse = {
+  request: { query: EventsDocument, variables: filteredByDatesEventsVariables },
+  result: eventsResponse,
+};
+
 export {
   event,
   eventName,
   mockedEventResponse,
   mockedEventsResponse,
+  mockedFilteredByDatesEventsResponse,
+  mockedFilteredByStartDateEventsResponse,
   mockedFilteredEventsResponse,
 };

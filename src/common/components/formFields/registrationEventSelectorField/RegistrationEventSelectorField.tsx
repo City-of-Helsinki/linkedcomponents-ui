@@ -36,6 +36,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
   helper,
   disabled,
   onChangeCb,
+  variables,
   ...rest
 }) => {
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
@@ -60,6 +61,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
         start: 'now',
         sort: EVENT_SORT_OPTIONS.NAME,
         superEventType: ['none'],
+        ...variables,
       }}
       onBlur={handleBlur}
       onChange={handleChange}

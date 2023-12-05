@@ -1,12 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Dropdown from '../../../../common/components/dropdown/Dropdown';
-import ToggleButton from '../../../../common/components/dropdown/toggleButton/ToggleButton';
-import useDropdownCloseEvents from '../../../../hooks/useDropdownCloseEvents';
-import useIdWithPrefix from '../../../../hooks/useIdWithPrefix';
-import useIsComponentFocused from '../../../../hooks/useIsComponentFocused';
-import formatDate from '../../../../utils/formatDate';
+import useDropdownCloseEvents from '../../../hooks/useDropdownCloseEvents';
+import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
+import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
+import formatDate from '../../../utils/formatDate';
+import Dropdown from '../dropdown/Dropdown';
+import ToggleButton from '../dropdown/toggleButton/ToggleButton';
+import FieldLabel from '../fieldLabel/FieldLabel';
 import DateSelectorDropdownMenu from './dateSelectorDropdownMenu/DateSelectorDropdownMenu';
 
 export enum DATE_FIELDS {
@@ -15,8 +16,10 @@ export enum DATE_FIELDS {
 }
 
 export interface DateSelectorProps {
+  className?: string;
   icon?: React.ReactElement;
   id?: string;
+  label?: string;
   onChangeDate: (field: DATE_FIELDS, value: Date | null) => void;
   toggleButtonLabel?: string;
   value: {
@@ -26,14 +29,17 @@ export interface DateSelectorProps {
 }
 
 const DateSelectorDropdown: React.FC<DateSelectorProps> = ({
+  className,
   icon,
   id: _id,
+  label,
   onChangeDate,
   toggleButtonLabel: _toggleButtonLabel,
   value,
 }) => {
   const { endDate, startDate } = value;
   const id = useIdWithPrefix({ id: _id, prefix: 'date-selector-' });
+  const labelId = `${id}-label`;
   const menuId = `${id}-menu`;
   const toggleButtonId = `${id}-toggle-button`;
   const { t } = useTranslation();
@@ -89,7 +95,10 @@ const DateSelectorDropdown: React.FC<DateSelectorProps> = ({
   });
 
   return (
-    <Dropdown ref={dropdownRef}>
+    <Dropdown className={className} ref={dropdownRef}>
+      {label && (
+        <FieldLabel id={labelId} inputId={toggleButtonId} label={label} />
+      )}
       <ToggleButton
         ref={toggleButtonRef}
         icon={icon}

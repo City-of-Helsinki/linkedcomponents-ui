@@ -5,6 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
 import Button from '../../../common/components/button/Button';
+import DateSelectorDropdown, {
+  DATE_FIELDS,
+} from '../../../common/components/dateSelectorDropdown/DateSelectorDropdown';
 import MultiSelectDropdown from '../../../common/components/multiSelectDropdown/MultiSelectDropdown';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import { ROUTES, testIds } from '../../../constants';
@@ -22,9 +25,6 @@ import {
   getEventSearchInitialValues,
   getEventSearchQuery,
 } from '../../events/utils';
-import DateSelectorDropdown, {
-  DATE_FIELDS,
-} from './dateSelectorDropdown/DateSelectorDropdown';
 import PlaceSelector from './placeSelector/PlaceSelector';
 import styles from './searchPanel.module.scss';
 
