@@ -20,6 +20,7 @@ const useOrganizationAncestors = (publisher: string): OrganizationState => {
       child: publisher,
       createPath: getPathBuilder(organizationsPathBuilder),
       pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
+      dissolved: false,
     },
   });
 

@@ -32,6 +32,7 @@ const useAllOrganizations = (): UseAllOrganizationsState => {
     variables: {
       createPath: getPathBuilder(organizationsPathBuilder),
       pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
+      dissolved: false,
     },
   });
 

@@ -139,6 +139,7 @@ test('should return null if event is not editable', async () => {
     child: publisher,
     createPath: undefined,
     pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
+    dissolved: false,
   };
 
   const organizationAncestorsResponse = {

@@ -37,6 +37,7 @@ const organizationsResponse = {
 const organizationsVariables = {
   createPath: undefined,
   pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
+  dissolved: false,
 };
 const mockedOrganizationsResponse = {
   request: { query: OrganizationsDocument, variables: organizationsVariables },

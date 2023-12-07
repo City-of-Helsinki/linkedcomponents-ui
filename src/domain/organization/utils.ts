@@ -45,12 +45,13 @@ export const organizationPathBuilder = ({
 export const organizationsPathBuilder = ({
   args,
 }: PathBuilderProps<OrganizationsQueryVariables>): string => {
-  const { child, page, pageSize } = args;
+  const { child, page, pageSize, dissolved } = args;
 
   const variableToKeyItems = [
     { key: 'child', value: child },
     { key: 'page', value: page },
     { key: 'page_size', value: pageSize },
+    { key: 'dissolved', value: dissolved },
   ];
 
   const query = queryBuilder(variableToKeyItems);
@@ -214,6 +215,7 @@ export const getOrganizationAncestorsQueryResult = async (
           child: id,
           createPath: getPathBuilder(organizationsPathBuilder),
           pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
+          dissolved: false,
         },
       });
 

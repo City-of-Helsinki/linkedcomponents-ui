@@ -12,6 +12,7 @@ const organizationAncestorsVariables = {
   child: TEST_PUBLISHER_ID,
   createPath: undefined,
   pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
+  dissolved: false,
 };
 
 const organizationAncestorsResponse = {
@@ -31,6 +32,7 @@ const externalOrganizationAncestorsVariables = {
   child: EXTERNAL_PUBLISHER_ID,
   createPath: undefined,
   pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
+  dissolved: false,
 };
 
 const externalOrganizationAncestorsResponse = {

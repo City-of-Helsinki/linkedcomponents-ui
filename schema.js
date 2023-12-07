@@ -133,6 +133,7 @@ module.exports = buildSchema(/* GraphQL */ `
       child: ID
       page: Int
       pageSize: Int
+      dissolved: Boolean
       text: String
     ): OrganizationsResponse!
     organizationClass(id: ID!): OrganizationClass!

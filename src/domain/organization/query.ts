@@ -41,10 +41,16 @@ export const QUERY_ORGANIZATION = gql`
     $createPath: Any
     $page: Int
     $pageSize: Int
+    $dissolved: Boolean
     $text: String
   ) {
-    organizations(child: $child, page: $page, pageSize: $pageSize, text: $text)
-      @rest(type: "OrganizationsResponse", pathBuilder: $createPath) {
+    organizations(
+      child: $child
+      page: $page
+      pageSize: $pageSize
+      dissolved: $dissolved
+      text: $text
+    ) @rest(type: "OrganizationsResponse", pathBuilder: $createPath) {
       meta {
         ...metaFields
       }
