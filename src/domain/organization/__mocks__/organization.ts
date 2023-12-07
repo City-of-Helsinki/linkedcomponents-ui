@@ -17,7 +17,11 @@ const organization = fakeOrganization({
   id: organizationId,
   name: organizationName,
 });
-const organizationVariables = { createPath: undefined, id: organizationId };
+const organizationVariables = {
+  createPath: undefined,
+  id: organizationId,
+  dissolved: false,
+};
 const organizationResponse = { data: { organization } };
 const mockedOrganizationResponse: MockedResponse = {
   request: { query: OrganizationDocument, variables: organizationVariables },
@@ -34,6 +38,7 @@ const externalOrganization = fakeOrganization({
 const externalOrganizationVariables = {
   createPath: undefined,
   id: EXTERNAL_PUBLISHER_ID,
+  dissolved: false,
 };
 const externalOrganizationResponse = { data: { externalOrganization } };
 const mockedExternalOrganizationResponse: MockedResponse = {

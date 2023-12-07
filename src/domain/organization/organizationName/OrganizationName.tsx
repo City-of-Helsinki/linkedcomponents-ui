@@ -54,6 +54,7 @@ const OrganizationNameContainer: React.FC<OrganizationNameContainerProps> = ({
     variables: {
       id: getValue(id, ''),
       createPath: getPathBuilder(organizationPathBuilder),
+      dissolved: false,
     },
   });
 
