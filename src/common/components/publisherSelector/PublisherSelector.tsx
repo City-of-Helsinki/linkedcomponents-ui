@@ -41,6 +41,7 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
     variables: {
       id: getValue(value, ''),
       createPath: getPathBuilder(organizationPathBuilder),
+      dissolved: false,
     },
   });
 

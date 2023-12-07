@@ -126,6 +126,7 @@ const EditOrganizationPageWrapper: React.FC = () => {
       variables: {
         id: getValue(id, ''),
         createPath: getPathBuilder(organizationPathBuilder),
+        dissolved: false,
       },
     });
 

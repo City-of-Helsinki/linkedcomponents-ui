@@ -37,9 +37,13 @@ import { OrganizationFields, OrganizationFormFields } from './types';
 export const organizationPathBuilder = ({
   args,
 }: PathBuilderProps<OrganizationQueryVariables>): string => {
-  const { id } = args;
+  const { id, dissolved } = args;
 
-  return `/organization/${id}/`;
+  const variableToKeyItems = [{ key: 'dissolved', value: dissolved }];
+
+  const query = queryBuilder(variableToKeyItems);
+
+  return `/organization/${id}/${query}`;
 };
 
 export const organizationsPathBuilder = ({
@@ -113,6 +117,7 @@ export const getOrganizationQueryResult = async (
         variables: {
           id,
           createPath: getPathBuilder(organizationPathBuilder),
+          dissolved: false,
         },
       });
 

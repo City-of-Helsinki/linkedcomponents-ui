@@ -29,8 +29,8 @@ export const QUERY_ORGANIZATION = gql`
     subOrganizations
   }
 
-  query Organization($id: ID!, $createPath: Any) {
-    organization(id: $id)
+  query Organization($id: ID!, $createPath: Any, $dissolved: Boolean) {
+    organization(id: $id, dissolved: $dissolved)
       @rest(type: "Organization", pathBuilder: $createPath) {
       ...organizationFields
     }

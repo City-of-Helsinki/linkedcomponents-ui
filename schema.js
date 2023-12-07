@@ -128,7 +128,7 @@ module.exports = buildSchema(/* GraphQL */ `
       text: String
     ): KeywordSetsResponse!
     languages(serviceLanguage: Boolean): LanguagesResponse!
-    organization(id: ID!): Organization!
+    organization(id: ID!, dissolved: Boolean): Organization!
     organizations(
       child: ID
       page: Int

@@ -922,6 +922,7 @@ export type QueryLanguagesArgs = {
 
 
 export type QueryOrganizationArgs = {
+  dissolved?: InputMaybe<Scalars['Boolean']['input']>;
   id: Scalars['ID']['input'];
 };
 
@@ -1643,6 +1644,7 @@ export type OrganizationFieldsFragment = { __typename?: 'Organization', affiliat
 export type OrganizationQueryVariables = Exact<{
   id: Scalars['ID']['input'];
   createPath?: InputMaybe<Scalars['Any']['input']>;
+  dissolved?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 
@@ -3526,8 +3528,8 @@ export type UpdateOrganizationMutationHookResult = ReturnType<typeof useUpdateOr
 export type UpdateOrganizationMutationResult = Apollo.MutationResult<UpdateOrganizationMutation>;
 export type UpdateOrganizationMutationOptions = Apollo.BaseMutationOptions<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>;
 export const OrganizationDocument = gql`
-    query Organization($id: ID!, $createPath: Any) {
-  organization(id: $id) @rest(type: "Organization", pathBuilder: $createPath) {
+    query Organization($id: ID!, $createPath: Any, $dissolved: Boolean) {
+  organization(id: $id, dissolved: $dissolved) @rest(type: "Organization", pathBuilder: $createPath) {
     ...organizationFields
   }
 }
@@ -3547,6 +3549,7 @@ export const OrganizationDocument = gql`
  *   variables: {
  *      id: // value for 'id'
  *      createPath: // value for 'createPath'
+ *      dissolved: // value for 'dissolved'
  *   },
  * });
  */

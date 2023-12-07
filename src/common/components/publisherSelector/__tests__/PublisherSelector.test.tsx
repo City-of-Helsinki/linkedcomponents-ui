@@ -23,7 +23,11 @@ const label = 'Select publisher';
 const publisherId = TEST_PUBLISHER_ID;
 const publisherName = 'Publisher name';
 const publisher = fakeOrganization({ id: publisherId, name: publisherName });
-const publisherVariables = { createPath: undefined, id: publisherId };
+const publisherVariables = {
+  createPath: undefined,
+  id: publisherId,
+  dissolved: false,
+};
 const publisherResponse = { data: { organization: publisher } };
 const mockedPublisherResponse: MockedResponse = {
   request: { query: OrganizationDocument, variables: publisherVariables },
@@ -36,7 +40,11 @@ const organization = fakeOrganization({
   id: organizationId,
   name: organizationName,
 });
-const organizationVariables = { createPath: undefined, id: organizationId };
+const organizationVariables = {
+  createPath: undefined,
+  id: organizationId,
+  dissolved: false,
+};
 const organizationResponse = { data: { organization } };
 const mockedOrganizationResponse: MockedResponse = {
   request: { query: OrganizationDocument, variables: organizationVariables },
@@ -52,6 +60,7 @@ const adminOrganization = fakeOrganization({
 const adminOrganizationVariables = {
   createPath: undefined,
   id: adminOrganizationId,
+  dissolved: false,
 };
 const adminOrganizationResponse = { data: { organization: adminOrganization } };
 const mockedAdminOrganizationResponse: MockedResponse = {
