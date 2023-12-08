@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { User } from 'oidc-client';
+import { User } from 'oidc-client-ts';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
 import CallbackComponent from '../callbackComponent/CallbackComponent';
+import { OidcUserState } from '../types';
 import userManager from '../userManager';
 
 const OidcCallback: React.FC = () => {
@@ -11,7 +12,8 @@ const OidcCallback: React.FC = () => {
   const navigate = useNavigate();
 
   const onSuccess = (user: User) => {
-    if (user.state.path) navigate(user.state.path);
+    const path = (user.state as OidcUserState).path;
+    if (path) navigate(path);
     else navigate('/', { replace: true });
   };
 

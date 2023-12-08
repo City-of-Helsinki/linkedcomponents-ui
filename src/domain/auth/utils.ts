@@ -3,7 +3,7 @@
 import * as Sentry from '@sentry/react';
 import axios, { AxiosResponse } from 'axios';
 import { TFunction } from 'i18next';
-import { User, UserManager, UserManagerSettings } from 'oidc-client';
+import { User, UserManager, UserManagerSettings } from 'oidc-client-ts';
 import React from 'react';
 
 import { NotificationProps } from '../../common/components/notification/Notification';
@@ -21,6 +21,7 @@ import {
   ApiTokenReducerState,
   OidcAction,
   OidcReducerState,
+  OidcUserState,
 } from './types';
 
 const apiAccessTokenStorage = sessionStorage;
@@ -114,7 +115,7 @@ export const getUserCallback = ({
   /* istanbul ignore else */
   if (user && !user.expired) {
     onUserLoaded({ dispatchOidcState, user });
-  } else if (!user || (user && user.expired)) {
+  } else if (!user || user?.expired) {
     onAccessTokenExpired({ dispatchOidcState });
   }
   return user;
@@ -170,10 +171,10 @@ export const signIn = async ({
 
     return Promise.resolve();
   }
-
+  const state: OidcUserState = { path: path ?? '/' };
   await userManager
     .signinRedirect({
-      data: { path: path || '/' },
+      state,
       ui_locales: locale,
     })
     .catch((error) => {

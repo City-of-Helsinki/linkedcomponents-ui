@@ -322,7 +322,7 @@ describe('signIn function', () => {
 
     expect(signinRedirect).toHaveBeenCalledTimes(1);
     expect(signinRedirect).toHaveBeenCalledWith({
-      data: { path: '/' },
+      state: { path: '/' },
       ui_locales: 'fi',
     });
     expect(addNotification).toBeCalledWith({
@@ -349,7 +349,7 @@ describe('signIn function', () => {
 
     expect(signinRedirect).toHaveBeenCalledTimes(1);
     expect(signinRedirect).toHaveBeenCalledWith({
-      data: { path },
+      state: { path },
       ui_locales: 'fi',
     });
     expect(addNotification).toBeCalledWith({
@@ -367,6 +367,7 @@ describe('signIn function', () => {
       REACT_APP_MAINTENANCE_DISABLE_LOGIN: 'true',
     };
 
+    userManager.signinRedirect = vi.fn();
     const addNotification = vi.fn();
 
     const path = '/fi/events';
@@ -392,6 +393,7 @@ describe('signOut function', () => {
   it('should clear user after signing out', async () => {
     const clearSpy = vi.spyOn(Storage.prototype, 'clear');
     const resetApiTokenData = vi.fn();
+    userManager.signoutRedirect = vi.fn();
 
     await signOut({ resetApiTokenData, userManager });
 

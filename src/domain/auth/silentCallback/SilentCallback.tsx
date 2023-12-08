@@ -1,7 +1,8 @@
+import { settings } from '../userManager';
 import { createUserManager } from '../utils';
 
 const SilentCallback = (): null => {
-  const mgr = createUserManager({});
+  const mgr = createUserManager(settings);
   mgr.signinSilentCallback();
 
   return null;

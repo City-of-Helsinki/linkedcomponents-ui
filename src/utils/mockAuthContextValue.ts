@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import merge from 'lodash/merge';
-import { Profile, User } from 'oidc-client';
+import { User, UserProfile } from 'oidc-client-ts';
 
 import { TEST_USER_ID } from '../constants';
 import {
@@ -77,6 +77,7 @@ export const fakeOidcUserState = (overrides?: Partial<User>): User =>
       toStorageString: vi.fn(),
       scope: '',
       scopes: [],
+      session_state: null,
       state: null,
       token_type: '',
     },
@@ -84,9 +85,9 @@ export const fakeOidcUserState = (overrides?: Partial<User>): User =>
   );
 
 export const fakeOidcUserProfileState = (
-  overrides?: Partial<Profile>
-): Profile =>
-  merge<Profile, typeof overrides>(
+  overrides?: Partial<UserProfile>
+): UserProfile =>
+  merge<UserProfile, typeof overrides>(
     {
       aud: '',
       exp: 0,

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { User, UserManager } from 'oidc-client';
+import { User, UserManager } from 'oidc-client-ts';
 
 import { ApiTokenActionTypes, OidcActionTypes } from '../auth/constants';
 
@@ -24,6 +24,10 @@ export interface AuthContextActions {
 export interface OidcAction {
   type: OidcActionTypes;
   payload: User | null;
+}
+
+export interface OidcUserState {
+  path: string;
 }
 
 export interface OidcReducerState {
