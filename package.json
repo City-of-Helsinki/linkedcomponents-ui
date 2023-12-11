@@ -128,6 +128,7 @@
     "testcafe-reporter-xunit": "^2.2.3"
   },
   "resolutions": {
+    "@babel/traverse": "7.23.2",
     "@svgr/webpack": "8.1.0",
     "@testing-library/dom": "9.3.3",
     "axios": "1.6.0",
