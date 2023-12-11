@@ -26,7 +26,7 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-scroll": "^1.8.7",
-    "@types/swagger-ui-react": "^4.18.0",
+    "@types/swagger-ui-react": "^4.18.3",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "apollo-link-rest": "^0.9.0",
     "apollo-link-sentry": "^3.2.3",
@@ -70,7 +70,7 @@
     "react-router-dom": "^6.16.0",
     "react-scroll": "^1.8.9",
     "sass": "^1.69.5",
-    "swagger-ui-react": "^5.7.1",
+    "swagger-ui-react": "^5.10.3",
     "typescript": "~5.2.2",
     "use-debounce": "^9.0.4",
     "use-deep-compare-effect": "^1.8.1",
@@ -130,8 +130,10 @@
   "resolutions": {
     "@svgr/webpack": "8.1.0",
     "@testing-library/dom": "9.3.3",
+    "axios": "1.6.0",
     "semver": "7.5.4",
     "tough-cookie": "4.1.3",
+    "undici": "5.26.2",
     "word-wrap": "1.2.5"
   }
 }
