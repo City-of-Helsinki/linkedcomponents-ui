@@ -27,47 +27,8 @@ export const getUrlUtils = (t: TestController) => {
     async navigateToEventsPage() {
       await t.navigateTo(getEnvUrl(`/fi/events`));
     },
-    async navigateToImagesUrl(searchString: string) {
-      const url = getEnvUrl(
-        `/fi/administration/images?text=${encodeURIComponent(searchString)}`
-      );
-      setDataToPrintOnFailure(t, 'url', url);
-      await t.navigateTo(url);
-    },
     async navigateToLandingPage() {
       await t.navigateTo(getEnvUrl(`/fi`));
-    },
-    async navigateToKeywordsUrl(searchString: string) {
-      const url = getEnvUrl(
-        `/fi/administration/keywords?text=${encodeURIComponent(searchString)}`
-      );
-      setDataToPrintOnFailure(t, 'url', url);
-      await t.navigateTo(url);
-    },
-    async navigateToKeywordSetsUrl(searchString: string) {
-      const url = getEnvUrl(
-        `/fi/administration/keyword-sets?text=${encodeURIComponent(
-          searchString
-        )}`
-      );
-      setDataToPrintOnFailure(t, 'url', url);
-      await t.navigateTo(url);
-    },
-    async navigateToOrganizationsUrl(searchString: string) {
-      const url = getEnvUrl(
-        `/fi/administration/organizations?text=${encodeURIComponent(
-          searchString
-        )}`
-      );
-      setDataToPrintOnFailure(t, 'url', url);
-      await t.navigateTo(url);
-    },
-    async navigateToPlacesUrl(searchString: string) {
-      const url = getEnvUrl(
-        `/fi/administration/places?text=${encodeURIComponent(searchString)}`
-      );
-      setDataToPrintOnFailure(t, 'url', url);
-      await t.navigateTo(url);
     },
     async navigateToSearchUrl(searchString: string) {
       const query = searchString
@@ -108,37 +69,6 @@ export const getUrlUtils = (t: TestController) => {
         .expect(getPathname())
         .eql(`/fi/events/create`, await getErrorMessage(t));
     },
-    async urlChangedToCreateImagePage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/administration/images/create`, await getErrorMessage(t));
-    },
-    async urlChangedToCreateKeywordPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/administration/keywords/create`, await getErrorMessage(t));
-    },
-    async urlChangedToCreateKeywordSetPage() {
-      await t
-        .expect(getPathname())
-        .eql(
-          `/fi/administration/keyword-sets/create`,
-          await getErrorMessage(t)
-        );
-    },
-    async urlChangedToCreateOrganizationPage() {
-      await t
-        .expect(getPathname())
-        .eql(
-          `/fi/administration/organizations/create`,
-          await getErrorMessage(t)
-        );
-    },
-    async urlChangedToCreatePlacePage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/administration/places/create`, await getErrorMessage(t));
-    },
     async urlChangedToDocumentationPage() {
       await t
         .expect(getPathname())
@@ -170,91 +100,13 @@ export const getUrlUtils = (t: TestController) => {
         .expect(getPathname())
         .eql(`/fi/help/features`, await getErrorMessage(t));
     },
-    async urlChangedToImagePage(image: ImageFieldsFragment) {
-      setDataToPrintOnFailure(t, 'expectedImage', image);
-      await t
-        .expect(getPathname())
-        .eql(
-          `/fi/administration/images/edit/${image.id}`,
-          await getErrorMessage(t)
-        );
-      await pageIsLoaded();
-      await t
-        .expect(getPageTitle())
-        .eql(`Muokkaa kuvaa - Linked Events`, await getErrorMessage(t));
-    },
     async urlChangedToImageRightsPage() {
       await t
         .expect(getPathname())
         .eql(`/fi/help/technology/image-rights`, await getErrorMessage(t));
     },
-    async urlChangedToKeywordPage(keyword: KeywordFieldsFragment) {
-      setDataToPrintOnFailure(t, 'expectedKeyword', keyword);
-      await t
-        .expect(getPathname())
-        .eql(
-          `/fi/administration/keywords/edit/${keyword.id}`,
-          await getErrorMessage(t)
-        );
-      await pageIsLoaded();
-      await t
-        .expect(getPageTitle())
-        .eql(`Muokkaa avainsanaa - Linked Events`, await getErrorMessage(t));
-    },
-    async urlChangedToKeywordSetPage(keywordSet: KeywordSetFieldsFragment) {
-      setDataToPrintOnFailure(t, 'expectedKeywordSet', keywordSet);
-      await t
-        .expect(getPathname())
-        .eql(
-          `/fi/administration/keyword-sets/edit/${keywordSet.id}`,
-          await getErrorMessage(t)
-        );
-      await pageIsLoaded();
-      await t
-        .expect(getPageTitle())
-        .eql(
-          `Muokkaa avainsanaryhmää - Linked Events`,
-          await getErrorMessage(t)
-        );
-    },
-    async urlChangedToKeywordsPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/administration/keywords`, await getErrorMessage(t));
-    },
     async urlChangedToLandingPage() {
       await t.expect(getPathname()).eql(`/fi`, await getErrorMessage(t));
-    },
-    async urlChangedToOrganizationPage(
-      organization: OrganizationFieldsFragment
-    ) {
-      setDataToPrintOnFailure(t, 'expectedOrganization', organization);
-      await t
-        .expect(getPathname())
-        .eql(
-          `/fi/administration/organizations/edit/${organization.id}`,
-          await getErrorMessage(t)
-        );
-      await pageIsLoaded();
-      await t
-        .expect(getPageTitle())
-        .eql(
-          `Muokkaa organisaatiota - Linked Events`,
-          await getErrorMessage(t)
-        );
-    },
-    async urlChangedToPlacePage(place: PlaceFieldsFragment) {
-      setDataToPrintOnFailure(t, 'expectedPlace', place);
-      await t
-        .expect(getPathname())
-        .eql(
-          `/fi/administration/places/edit/${place.id}`,
-          await getErrorMessage(t)
-        );
-      await pageIsLoaded();
-      await t
-        .expect(getPageTitle())
-        .eql(`Muokkaa paikkaa - Linked Events`, await getErrorMessage(t));
     },
     async urlChangedToPlatformPage() {
       await t
@@ -265,11 +117,6 @@ export const getUrlUtils = (t: TestController) => {
       await t
         .expect(getPathname())
         .eql(`/fi/help/instructions/registration`, await getErrorMessage(t));
-    },
-    async urlChangedToRegistrationsPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/registrations`, await getErrorMessage(t));
     },
     async urlChangedToSourceCodePage() {
       await t
