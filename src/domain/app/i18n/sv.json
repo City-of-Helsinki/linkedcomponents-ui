@@ -285,7 +285,7 @@
     "title": "Lägg till organisation"
   },
   "createPlacePage": {
-    "pageDescription": "Lägg till ny plats till länkade evenemang.",
+    "pageDescription": "Lägg till ny plats till Linked Events.",
     "pageTitle": "Lägg till plats",
     "title": "Lägg till plats"
   },
@@ -1262,7 +1262,7 @@
       "titleSupport": "Stöd och vidareutveckling"
     },
     "registrationInstructionsPage": {
-      "imageAltText1": "Efter att ha publicerat ett evenemang: kom till avsnittet Registrering i länkade evenemang. Tryck på knappen Lägg till ny.",
+      "imageAltText1": "Efter att ha publicerat ett evenemang: kom till avsnittet Registrering i Linked Events. Tryck på knappen Lägg till ny.",
       "imageAltText2": "Välj det evenemang som du vill skapa en anmälan till; du kan också skriva i fältet.",
       "imageAltText3": "Välj de inmatningsspråk du vill använda och ange eventuella registreringsinstruktioner och ytterligare text för bekräftelsemeddelandet på de språk du har valt.",
       "imageAltText4": "Vänligen välj de obligatoriska personuppgifterna på registreringsformuläret.",
