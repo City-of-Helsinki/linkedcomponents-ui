@@ -1,9 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { testIds } from '../../../../constants';
 import getValue from '../../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   fireEvent,
@@ -26,13 +25,19 @@ import AddImageForm, { AddImageFormProps } from '../AddImageForm';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const defaultMocks = [
   mockedImagesResponse,
   mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
-
-const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultProps: AddImageFormProps = {
   onAddImageByFile: vi.fn(),
@@ -47,11 +52,7 @@ const renderComponent = ({
 }: {
   mocks?: MockedResponse[];
   props?: Partial<AddImageFormProps>;
-}) =>
-  render(<AddImageForm {...defaultProps} {...props} />, {
-    authContextValue,
-    mocks,
-  });
+}) => render(<AddImageForm {...defaultProps} {...props} />, { mocks });
 
 const findElement = (key: 'imageCheckbox') => {
   switch (key) {

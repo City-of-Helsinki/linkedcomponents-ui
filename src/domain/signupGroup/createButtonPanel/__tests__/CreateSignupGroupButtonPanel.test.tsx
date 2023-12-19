@@ -1,7 +1,5 @@
-import React from 'react';
-
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -22,6 +20,14 @@ import CreateSignupGroupButtonPanel, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const defaultProps: CreateSignupGroupButtonPanelProps = {
   disabled: false,
   onCreate: vi.fn(),
@@ -35,8 +41,6 @@ const mocks = [
   mockedRegistrationUserResponse,
 ];
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const renderComponent = ({
   props,
   route = `/fi/${ROUTES.CREATE_REGISTRATION.replace(
@@ -48,7 +52,6 @@ const renderComponent = ({
   route?: string;
 } = {}) =>
   render(<CreateSignupGroupButtonPanel {...defaultProps} {...props} />, {
-    authContextValue,
     mocks,
     routes: [route],
   });

@@ -1,15 +1,22 @@
-import React from 'react';
-
-import { fakeAuthContextValue } from '../../../utils/mockAuthContextValue';
+import {
+  mockAuthenticatedLoginState,
+  mockUnauthenticatedLoginState,
+} from '../../../utils/mockLoginHooks';
 import { configure, render, screen, userEvent } from '../../../utils/testUtils';
 import translations from '../../app/i18n/fi.json';
-import { AuthContextProps } from '../../auth/types';
 import NotFound from '../NotFound';
 
 configure({ defaultHidden: true });
 
-const renderComponent = (authContextValue?: AuthContextProps) =>
-  render(<NotFound />, { routes: ['/fi/events'], authContextValue });
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
+const renderComponent = () => render(<NotFound />, { routes: ['/fi/events'] });
 
 const getElement = (key: 'buttonHome' | 'buttonSignIn') => {
   switch (key) {
@@ -41,11 +48,12 @@ test('should route to home page', async () => {
 test('should start login process', async () => {
   const user = userEvent.setup();
 
-  const signIn = vi.fn();
-  const authContextValue = fakeAuthContextValue({ signIn });
-  renderComponent(authContextValue);
+  const login = vi.fn();
+  mockUnauthenticatedLoginState({ login });
+
+  renderComponent();
 
   await user.click(getElement('buttonSignIn'));
 
-  expect(signIn).toBeCalled();
+  expect(login).toBeCalled();
 });

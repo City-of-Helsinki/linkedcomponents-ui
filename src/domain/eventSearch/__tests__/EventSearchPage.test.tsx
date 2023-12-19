@@ -1,14 +1,16 @@
 import { createMemoryHistory } from 'history';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
+  configure,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   waitFor,
   waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
+import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   eventNames,
   events,
@@ -18,24 +20,28 @@ import {
 } from '../__mocks__/eventSearchPage';
 import EventSearchPage from '../EventSearchPage';
 
-const route = `${ROUTES.SEARCH}?text=${searchText}`;
-const mocks = [mockedEventsResponse, mockedPlacesResponse];
-
-const renderComponent = () =>
-  render(<EventSearchPage />, { mocks, routes: [route] });
-
 let initialHeadInnerHTML: string | null = null;
+
+configure({ defaultHidden: true });
+
+afterEach(() => {
+  document.head.innerHTML = initialHeadInnerHTML || '';
+  vi.resetAllMocks();
+});
 
 beforeEach(() => {
   const head: HTMLHeadElement | null = document.querySelector('head');
   initialHeadInnerHTML = head?.innerHTML || null;
 
   document.head.innerHTML = '';
+  mockAuthenticatedLoginState();
 });
 
-afterEach(() => {
-  document.head.innerHTML = initialHeadInnerHTML || '';
-});
+const route = `${ROUTES.SEARCH}?text=${searchText}`;
+const mocks = [mockedEventsResponse, mockedPlacesResponse, mockedUserResponse];
+
+const renderComponent = () =>
+  render(<EventSearchPage />, { mocks, routes: [route] });
 
 test('applies expected metadata', async () => {
   const pageTitle = 'Etsi tapahtumia - Linked Events';

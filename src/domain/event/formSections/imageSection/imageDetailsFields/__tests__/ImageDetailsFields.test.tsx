@@ -5,7 +5,7 @@ import React from 'react';
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../../constants';
 import { setFeatureFlags } from '../../../../../../test/featureFlags/featureFlags';
 import { MultiLanguageObject } from '../../../../../../types';
-import { fakeAuthenticatedAuthContextValue } from '../../../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../../../utils/mockLoginHooks';
 import {
   act,
   configure,
@@ -35,6 +35,14 @@ import ImageDetailsFields, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const defaultProps: ImageDetailsFieldsProps = {
   field: EVENT_FIELDS.IMAGE_DETAILS,
   imageAtId: '',
@@ -46,8 +54,6 @@ const defaultMocks = [
   mockedUserResponse,
   mockedImageNotFoundResponse,
 ];
-
-const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const eventType = EVENT_TYPE.General;
 
@@ -91,7 +97,7 @@ const renderComponent = ({
       >
         <ImageDetailsFields {...defaultProps} {...props} />
       </Formik>,
-      { mocks, authContextValue }
+      { mocks }
     );
   });
 

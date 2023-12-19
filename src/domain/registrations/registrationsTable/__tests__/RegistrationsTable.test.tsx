@@ -1,11 +1,11 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 
 import {
   Registration,
   RegistrationFieldsFragment,
 } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -27,6 +27,14 @@ import RegistrationsTable, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const registrationId = getValue(registrations.data[0]?.id, '');
 const eventName = getValue(registrations.data[0]?.event?.name?.fi, '');
 const registration = registrations.data[0] as Registration;
@@ -42,13 +50,10 @@ const defaultProps: RegistrationsTableProps = {
   registrations: [],
 };
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const FIND_LINK_TIMEOUT = 5000;
 
 const renderComponent = (props?: Partial<RegistrationsTableProps>) =>
   render(<RegistrationsTable {...defaultProps} {...props} />, {
-    authContextValue,
     mocks,
   });
 

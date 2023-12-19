@@ -6,8 +6,8 @@ import { EMPTY_MULTI_LANGUAGE_OBJECT, testIds } from '../../../../../constants';
 import { ImageDocument } from '../../../../../generated/graphql';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import getValue from '../../../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import { fakeImage } from '../../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   actWait,
   configure,
@@ -51,10 +51,15 @@ import ImageSection from '../ImageSection';
 configure({ defaultHidden: true });
 
 beforeEach(() => {
+  mockAuthenticatedLoginState();
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
   });
+});
+
+afterEach(() => {
+  vi.resetAllMocks();
 });
 
 const defaultMocks = [
@@ -65,8 +70,6 @@ const defaultMocks = [
   mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
-
-const authContextValue = fakeAuthenticatedAuthContextValue();
 
 type InitialValues = {
   [EVENT_FIELDS.TYPE]: string;
@@ -104,7 +107,7 @@ const renderComponent = (
     >
       <ImageSection isEditingAllowed={true} />
     </Formik>,
-    { authContextValue, mocks }
+    { mocks }
   );
 
 const getElement = (

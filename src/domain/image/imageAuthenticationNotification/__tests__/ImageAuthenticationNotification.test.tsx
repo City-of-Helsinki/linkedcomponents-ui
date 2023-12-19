@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -18,6 +16,14 @@ import ImageAuthenticationNotification, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const props: ImageAuthenticationNotificationProps = {
   action: IMAGE_ACTIONS.UPDATE,
   publisher: TEST_PUBLISHER_ID,
@@ -26,8 +32,6 @@ const props: ImageAuthenticationNotificationProps = {
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
   render(<ImageAuthenticationNotification {...props} />, renderOptions);
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 test("should show notification if user is signed in but doesn't have any organizations", async () => {
   const mockedUserResponse = getMockedUserResponse({
     adminOrganizations: [],
@@ -35,7 +39,7 @@ test("should show notification if user is signed in but doesn't have any organiz
   });
   const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   screen.getByRole('heading', { name: 'Ei oikeuksia muokata kuvia.' });
 });
@@ -47,7 +51,7 @@ test('should not show notification if user is signed in and has an admin organiz
   });
   const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
@@ -61,7 +65,7 @@ test('should show notification if user has an admin organization but it is diffe
   });
   const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   await screen.findByRole('heading', { name: 'Kuvaa ei voi muokata' });
   screen.getByText('Sinulla ei ole oikeuksia muokata tätä kuvaa.');

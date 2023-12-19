@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   fireEvent,
@@ -10,6 +11,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
   mockedFilteredSortedPlacesResponse,
   mockedPage2PlacesResponse,
@@ -23,12 +25,21 @@ import PlaceList from '../PlaceList';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const mocks = [
   mockedFilteredSortedPlacesResponse,
   mockedOrganizationAncestorsResponse,
   mockedPlacesResponse,
   mockedPage2PlacesResponse,
   mockedSortedPlacesResponse,
+  mockedUserResponse,
 ];
 
 const renderComponent = () => render(<PlaceList />, { mocks });

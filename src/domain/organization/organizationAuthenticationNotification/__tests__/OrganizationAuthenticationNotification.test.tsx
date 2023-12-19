@@ -1,9 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { OrganizationDocument } from '../../../../generated/graphql';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeOrganization } from '../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -23,6 +22,10 @@ import OrganizationAuthenticationNotification, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
 const defaultProps: OrganizationAuthenticationNotificationProps = {
   action: ORGANIZATION_ACTIONS.UPDATE,
   id: TEST_PUBLISHER_ID,
@@ -37,15 +40,14 @@ const renderComponent = (
     renderOptions
   );
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 test("should show notification if user is signed in but doesn't have any organizations", async () => {
   const mocks = [
     mockedOrganizationResponse,
     mockedUserWithoutOrganizationsResponse,
   ];
 
-  renderComponent({ authContextValue, mocks });
+  mockAuthenticatedLoginState();
+  renderComponent({ mocks });
 
   await screen.findByRole('heading', {
     name: 'Ei oikeuksia muokata organisaatioita.',
@@ -55,7 +57,8 @@ test("should show notification if user is signed in but doesn't have any organiz
 test('should not show notification if user is signed in and has an admin organization', async () => {
   const mocks = [mockedOrganizationResponse, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  mockAuthenticatedLoginState();
+  renderComponent({ mocks });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
@@ -75,7 +78,8 @@ test('should show notification if user has an admin organization but the id is d
 
   const mocks = [mockedOrganizationResponse, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks }, { id: organizationId });
+  mockAuthenticatedLoginState();
+  renderComponent({ mocks }, { id: organizationId });
 
   await screen.findByRole('heading', { name: 'Organisaatiota ei voi muokata' });
   screen.getByText('Sinulla ei ole oikeuksia muokata tätä organisaatiota.');

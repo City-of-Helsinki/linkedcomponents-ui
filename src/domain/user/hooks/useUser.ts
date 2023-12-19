@@ -1,4 +1,4 @@
-import { useApiTokens, useApiTokensClientTracking } from 'hds-react';
+import { useApiTokens } from 'hds-react';
 
 import { UserFieldsFragment, useUserQuery } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';

@@ -1,9 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import getValue from '../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   renderWithRoute,
@@ -38,7 +37,13 @@ import EditOrganizationPage from '../EditOrganizationPage';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const defaultMocks = [
   mockedOrganizationResponse,
@@ -53,7 +58,6 @@ const route = ROUTES.EDIT_ORGANIZATION.replace(':id', organizationId);
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditOrganizationPage />, {
-    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_ORGANIZATION,

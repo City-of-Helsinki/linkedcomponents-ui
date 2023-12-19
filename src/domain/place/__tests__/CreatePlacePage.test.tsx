@@ -1,7 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   actWait,
   configure,
@@ -27,7 +26,13 @@ import CreatePlacePage from '../CreatePlacePage';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const defaultMocks = [
   mockedOrganizationResponse,
@@ -36,7 +41,7 @@ const defaultMocks = [
 ];
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
-  render(<CreatePlacePage />, { authContextValue, mocks });
+  render(<CreatePlacePage />, { mocks });
 
 const getElement = (
   key:

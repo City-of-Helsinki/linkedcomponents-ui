@@ -26,12 +26,8 @@ import { createCache } from '../domain/app/apollo/apolloClient';
 import { NotificationsProvider } from '../domain/app/notificationsContext/NotificationsContext';
 import { PageSettingsProvider } from '../domain/app/pageSettingsContext/PageSettingsContext';
 import { ThemeProvider } from '../domain/app/theme/Theme';
-import { AuthContext } from '../domain/auth/AuthContext';
-import { AuthContextProps } from '../domain/auth/types';
-import { authContextDefaultValue } from '../utils/mockAuthContextValue';
 
 type CustomRenderOptions = {
-  authContextValue?: AuthContextProps;
   history?: History;
   mocks?: MockedResponse[];
   path?: string;
@@ -68,7 +64,6 @@ const tabKeyPressHelper = (el?: HTMLElement): boolean =>
 const customRender: CustomRender = (
   ui,
   {
-    authContextValue = authContextDefaultValue,
     mocks,
     routes = ['/'],
     history = createMemoryHistory({ initialEntries: routes }),
@@ -79,13 +74,11 @@ const customRender: CustomRender = (
   }) => (
     <ThemeProvider>
       <NotificationsProvider>
-        <AuthContext.Provider value={authContextValue}>
-          <PageSettingsProvider>
-            <MockedProvider cache={createCache()} mocks={mocks}>
-              <Router history={history as any}>{children}</Router>
-            </MockedProvider>
-          </PageSettingsProvider>
-        </AuthContext.Provider>
+        <PageSettingsProvider>
+          <MockedProvider cache={createCache()} mocks={mocks}>
+            <Router history={history as any}>{children}</Router>
+          </MockedProvider>
+        </PageSettingsProvider>
       </NotificationsProvider>
     </ThemeProvider>
   );
@@ -120,7 +113,6 @@ const mockFile = ({
 const renderWithRoute: CustomRender = (
   ui,
   {
-    authContextValue = authContextDefaultValue,
     mocks = [],
     path = '/',
     routes = ['/'],
@@ -132,17 +124,15 @@ const renderWithRoute: CustomRender = (
   }) => (
     <ThemeProvider>
       <NotificationsProvider>
-        <AuthContext.Provider value={authContextValue}>
-          <PageSettingsProvider>
-            <MockedProvider cache={createCache()} mocks={mocks}>
-              <Router history={history as any}>
-                <Routes>
-                  <Route path={path} element={children} />
-                </Routes>
-              </Router>
-            </MockedProvider>
-          </PageSettingsProvider>
-        </AuthContext.Provider>
+        <PageSettingsProvider>
+          <MockedProvider cache={createCache()} mocks={mocks}>
+            <Router history={history as any}>
+              <Routes>
+                <Route path={path} element={children} />
+              </Routes>
+            </Router>
+          </MockedProvider>
+        </PageSettingsProvider>
       </NotificationsProvider>
     </ThemeProvider>
   );

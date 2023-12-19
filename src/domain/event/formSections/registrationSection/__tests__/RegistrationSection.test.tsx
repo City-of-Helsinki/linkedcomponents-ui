@@ -1,5 +1,4 @@
 import { Formik } from 'formik';
-import React from 'react';
 
 import { ROUTES } from '../../../../../constants';
 import {
@@ -7,8 +6,8 @@ import {
   SuperEventType,
 } from '../../../../../generated/graphql';
 import generateAtId from '../../../../../utils/generateAtId';
-import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -27,9 +26,15 @@ import RegistrationSection, {
 
 configure({ defaultHidden: true });
 
-const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
+afterEach(() => {
+  vi.resetAllMocks();
+});
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const renderComponent = (props: RegistrationSectionProps) =>
   render(
@@ -39,7 +44,7 @@ const renderComponent = (props: RegistrationSectionProps) =>
     >
       <RegistrationSection {...props} />
     </Formik>,
-    { authContextValue, mocks }
+    { mocks }
   );
 
 test('should show registration link if event has registration', async () => {

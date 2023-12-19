@@ -1,5 +1,4 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { testIds } from '../../../../constants';
 import { mockedOrganizationAncestorsResponse } from '../../../../domain/organization/__mocks__/organizationAncestors';
@@ -9,8 +8,8 @@ import {
 } from '../../../../domain/user/__mocks__/user';
 import { Image, ImageFieldsFragment } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeImage } from '../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -34,6 +33,14 @@ import ImageSelector, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const defaultImageSelectorProps: ImageSelectorProps = {
   onChange: vi.fn(),
   publisher,
@@ -55,15 +62,12 @@ const defaultMocks = [
   mockedUserResponse,
 ];
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const renderImageSelector = (
   props?: Partial<ImageSelectorProps>,
   mocks: MockedResponse[] = defaultMocks
 ) =>
   render(<ImageSelector {...defaultImageSelectorProps} {...props} />, {
     mocks,
-    authContextValue,
   });
 
 const renderImageItem = (props?: Partial<ImageItemProps>) =>

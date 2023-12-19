@@ -1,8 +1,7 @@
 import { createMemoryHistory } from 'history';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -25,7 +24,13 @@ import PlacesPage from '../PlacesPage';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const defaultMocks = [
   mockedOrganizationAncestorsResponse,
@@ -41,7 +46,6 @@ const renderComponent = ({
   ...restRenderOptions
 }: CustomRenderOptions = {}) =>
   render(<PlacesPage />, {
-    authContextValue,
     mocks,
     routes,
     ...restRenderOptions,

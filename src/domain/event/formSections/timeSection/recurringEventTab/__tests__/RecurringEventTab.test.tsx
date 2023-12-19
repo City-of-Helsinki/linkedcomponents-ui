@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
-import React from 'react';
 
+import { mockUnauthenticatedLoginState } from '../../../../../../utils/mockLoginHooks';
 import {
   configure,
   fireEvent,
@@ -22,14 +22,14 @@ import RecurringEventTab from '../RecurringEventTab';
 
 configure({ defaultHidden: true });
 
-beforeEach(() => {
-  // tell vitest we use mocked time
-  vi.setSystemTime('2021-04-12');
+afterEach(() => {
+  vi.useRealTimers();
+  vi.resetAllMocks();
 });
 
-afterEach(() => {
-  // restoring date after each test run
-  vi.useRealTimers();
+beforeEach(() => {
+  vi.setSystemTime('2021-04-12');
+  mockUnauthenticatedLoginState();
 });
 
 const type = EVENT_TYPE.General;

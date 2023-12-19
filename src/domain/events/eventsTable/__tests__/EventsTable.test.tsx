@@ -2,6 +2,7 @@ import range from 'lodash/range';
 import React from 'react';
 
 import { fakeEvents } from '../../../../utils/mockDataUtils';
+import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -16,6 +17,14 @@ import { EVENT_SORT_OPTIONS } from '../../constants';
 import EventsTable, { EventsTableProps } from '../EventsTable';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 const eventName = 'Event name';
 const eventId = 'event:1';

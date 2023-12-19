@@ -1,9 +1,8 @@
-import React from 'react';
-
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
+  configure,
   CustomRenderOptions,
   render,
   screen,
@@ -21,7 +20,15 @@ import PlaceActionsDropdown, {
   PlaceActionsDropdownProps,
 } from '../PlaceActionsDropdown';
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const defaultProps: PlaceActionsDropdownProps = {
   place,
@@ -37,10 +44,9 @@ const defaultMocks = [
 
 const renderComponent = (
   props?: Partial<PlaceActionsDropdownProps>,
-  { authContextValue, mocks = defaultMocks }: CustomRenderOptions = {}
+  { mocks = defaultMocks }: CustomRenderOptions = {}
 ) =>
   render(<PlaceActionsDropdown {...defaultProps} {...props} />, {
-    authContextValue,
     mocks,
     routes: [route],
   });
@@ -69,7 +75,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { authContextValue });
+  renderComponent();
 
   const toggleButton = await openMenu();
   await user.click(toggleButton);
@@ -79,7 +85,7 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should render correct buttons', async () => {
-  renderComponent(undefined, { authContextValue });
+  renderComponent();
 
   await openMenu();
 
@@ -109,7 +115,7 @@ test('should route to edit place page', async () => {
 
 test('should delete place', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { authContextValue });
+  renderComponent();
 
   await openMenu();
 

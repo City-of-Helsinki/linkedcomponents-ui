@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { fakePlaces } from '../../../../utils/mockDataUtils';
+import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -16,6 +15,14 @@ import { PLACE_SORT_OPTIONS } from '../../constants';
 import PlacesTable, { PlacesTableProps } from '../PlacesTable';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 const placeName = 'Place name';
 const placeId = TEST_PLACE_ID;

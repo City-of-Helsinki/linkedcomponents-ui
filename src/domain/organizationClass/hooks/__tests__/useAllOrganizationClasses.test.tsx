@@ -1,22 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
+import { createMemoryHistory } from 'history';
 import map from 'lodash/map';
 import range from 'lodash/range';
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
+import { unstable_HistoryRouter as Router } from 'react-router-dom';
 
 import {
   Meta,
   OrganizationClassesDocument,
 } from '../../../../generated/graphql';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeOrganizationClasses } from '../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import { createCache } from '../../../app/apollo/apolloClient';
 import { NotificationsProvider } from '../../../app/notificationsContext/NotificationsContext';
-import { AuthContext } from '../../../auth/AuthContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { MAX_OGRANIZATION_CLASSES_PAGE_SIZE } from '../../constants';
 import useAllOrganizationClasses from '../useAllOrganizationClasses';
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const PAGE_SIZE = 10;
 
@@ -90,17 +100,15 @@ const mocks = [
   mockedUserResponse,
 ];
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const getHookWrapper = async () => {
   const wrapper = ({ children }: PropsWithChildren) => (
-    <NotificationsProvider>
-      <AuthContext.Provider value={authContextValue}>
+    <Router history={createMemoryHistory() as any}>
+      <NotificationsProvider>
         <MockedProvider cache={createCache()} mocks={mocks}>
           {children}
         </MockedProvider>
-      </AuthContext.Provider>
-    </NotificationsProvider>
+      </NotificationsProvider>
+    </Router>
   );
 
   const { result } = renderHook(() => useAllOrganizationClasses(), {

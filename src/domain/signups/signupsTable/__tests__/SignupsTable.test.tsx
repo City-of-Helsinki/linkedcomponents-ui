@@ -1,9 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { AttendeeStatus, ContactPerson } from '../../../../generated/graphql';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeSignups } from '../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -38,6 +37,14 @@ import SignupsTable, { SignupsTableProps } from '../SignupsTable';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const defaultMocks = [
   mockedEventResponse,
   mockedOrganizationAncestorsResponse,
@@ -57,13 +64,12 @@ const signupName = [attendeeNames[0].firstName, attendeeNames[0].lastName].join(
   ' '
 );
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) => {
   return render(
     <SignupGroupFormProvider registration={registration}>
       <SignupsTable {...defaultProps} />
     </SignupGroupFormProvider>,
-    { mocks, authContextValue }
+    { mocks }
   );
 };
 

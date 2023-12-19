@@ -18,7 +18,6 @@ const OrganizationAuthenticationNotification: React.FC<
 > = ({ action, className, id }) => {
   const { authenticated } = useAuth();
   const { user } = useUser();
-
   const { t } = useTranslation();
 
   return (

@@ -56,8 +56,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { changeLanguage, languageOptions } = useSelectLanguage();
-  const { authenticated } = useAuth();
-  const { login, logout } = useAuth();
+  const { authenticated, login, logout } = useAuth();
 
   const { t } = useTranslation();
   const { user } = useUser();

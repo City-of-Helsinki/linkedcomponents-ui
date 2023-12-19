@@ -1,13 +1,12 @@
 /* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import {
   mockedKeywordResponse as mockedKeywordSelectorKeywordResponse,
   mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse,
 } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import getValue from '../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -29,7 +28,13 @@ import CreateKeywordSetPage from '../CreateKeywordSetPage';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const defaultMocks = [
   mockedKeywordSelectorKeywordResponse,
@@ -40,7 +45,7 @@ const defaultMocks = [
 ];
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
-  render(<CreateKeywordSetPage />, { authContextValue, mocks });
+  render(<CreateKeywordSetPage />, { mocks });
 
 const findElement = (key: 'saveButton') => {
   switch (key) {

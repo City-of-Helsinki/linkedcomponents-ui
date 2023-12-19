@@ -1,17 +1,18 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import {
   PostFeedbackDocument,
   PostGuestFeedbackDocument,
 } from '../../../../../generated/graphql';
 import {
-  fakeAuthenticatedAuthContextValue,
-  fakeOidcReducerState,
   fakeOidcUserProfileState,
   fakeOidcUserState,
 } from '../../../../../utils/mockAuthContextValue';
 import { fakeFeedback } from '../../../../../utils/mockDataUtils';
+import {
+  mockAuthenticatedLoginState,
+  mockUnauthenticatedLoginState,
+} from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -25,6 +26,21 @@ import { isContactInfoSentSuccessfully } from '../../testUtils';
 import ContactPage from '../ContactPage';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState({
+    user: fakeOidcUserState({
+      profile: fakeOidcUserProfileState({
+        name: values.name,
+        email: values.email,
+      }),
+    }),
+  });
+});
 
 const values = {
   body: 'Feedback message',
@@ -119,21 +135,11 @@ const enterCommonValues = async () => {
   return { bodyInput, subjectInput, topicToggleButton };
 };
 
-const authContextValue = fakeAuthenticatedAuthContextValue(
-  fakeOidcReducerState({
-    user: fakeOidcUserState({
-      profile: fakeOidcUserProfileState({
-        name: values.name,
-        email: values.email,
-      }),
-    }),
-  })
-);
-
 const renderComponent = (options?: CustomRenderOptions) =>
   render(<ContactPage />, options);
 
 test('should scroll to first error', async () => {
+  mockUnauthenticatedLoginState();
   const user = userEvent.setup();
 
   renderComponent();
@@ -151,6 +157,7 @@ test('should scroll to first error', async () => {
 test('should scroll to topic selector when topic is not selected', async () => {
   const user = userEvent.setup();
 
+  mockUnauthenticatedLoginState();
   renderComponent();
 
   const nameInput = getElement('name');
@@ -168,6 +175,7 @@ test('should scroll to topic selector when topic is not selected', async () => {
 test('should show correct faq items when "event_form" topic is selected', async () => {
   const user = userEvent.setup();
 
+  mockUnauthenticatedLoginState();
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
   const nameInput = getElement('name');
@@ -193,6 +201,7 @@ test('should show correct faq items when "event_form" topic is selected', async 
 test('should show correct faq items when "permissions" topic is selected', async () => {
   const user = userEvent.setup();
 
+  mockUnauthenticatedLoginState();
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
   const nameInput = getElement('name');
@@ -222,6 +231,7 @@ test.each([
 ] as [string, GetElementKey][])(
   'should not show any faq item when %p topic is selected',
   async (topic, topicOption) => {
+    mockUnauthenticatedLoginState();
     const user = userEvent.setup();
 
     renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
@@ -262,6 +272,7 @@ test.each([
 );
 
 test('should succesfully send feedback when user is not signed in', async () => {
+  mockUnauthenticatedLoginState();
   const user = userEvent.setup();
 
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
@@ -283,7 +294,6 @@ test('should succesfully send feedback when user is signed in', async () => {
 
   renderComponent({
     mocks: [mockedUserResponse, mockedPostFeedbackResponse],
-    authContextValue,
   });
 
   const sendButton = getElement('sendButton');
@@ -299,7 +309,6 @@ test('should show server errors', async () => {
 
   renderComponent({
     mocks: [mockedUserResponse, mockedInvalidPostFeedbackResponse],
-    authContextValue,
   });
 
   await enterCommonValues();

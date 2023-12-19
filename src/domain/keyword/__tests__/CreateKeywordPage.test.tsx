@@ -1,8 +1,10 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import getValue from '../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import {
+  mockAuthenticatedLoginState,
+  mockUnauthenticatedLoginState,
+} from '../../../utils/mockLoginHooks';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -26,7 +28,13 @@ import CreateKeywordPage from '../CreateKeywordPage';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const defaultMocks = [
   mockedKeywordsResponse,
@@ -36,7 +44,7 @@ const defaultMocks = [
 ];
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
-  render(<CreateKeywordPage />, { authContextValue, mocks });
+  render(<CreateKeywordPage />, { mocks });
 
 const getElement = (
   key: 'nameInput' | 'replacedByInput' | 'replacedByToggleButton' | 'saveButton'
@@ -69,6 +77,7 @@ const fillInputValues = async () => {
 };
 
 test('form should be disabled if user is not authenticated', async () => {
+  mockUnauthenticatedLoginState();
   render(<CreateKeywordPage />, { mocks: defaultMocks });
 
   await loadingSpinnerIsNotInDocument();

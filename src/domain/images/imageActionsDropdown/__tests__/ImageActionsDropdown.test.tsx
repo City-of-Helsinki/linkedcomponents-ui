@@ -1,9 +1,8 @@
-import React from 'react';
-
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
+  configure,
   render,
   screen,
   userEvent,
@@ -20,7 +19,15 @@ import ImageActionsDropdown, {
   ImageActionsDropdownProps,
 } from '../ImageActionsDropdown';
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const mocks = [
   mockedDeleteImageResponse,
@@ -35,7 +42,6 @@ const props: ImageActionsDropdownProps = { image };
 
 const renderComponent = () =>
   render(<ImageActionsDropdown {...props} />, {
-    authContextValue,
     mocks,
     routes,
   });

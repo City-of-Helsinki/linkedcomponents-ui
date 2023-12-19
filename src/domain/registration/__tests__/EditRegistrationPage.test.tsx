@@ -1,9 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import getValue from '../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -30,13 +29,19 @@ import EditRegistrationPage from '../EditRegistrationPage';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const baseMocks = [
   mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
 ];
-
-const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const route = ROUTES.EDIT_REGISTRATION.replace(':id', registrationId);
 
@@ -45,7 +50,6 @@ const renderComponent = (
   renderOptions?: CustomRenderOptions
 ) =>
   renderWithRoute(<EditRegistrationPage />, {
-    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_REGISTRATION,

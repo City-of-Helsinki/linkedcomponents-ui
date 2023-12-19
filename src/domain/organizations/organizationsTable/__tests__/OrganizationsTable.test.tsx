@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { Organization } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -11,6 +10,7 @@ import {
 } from '../../../../utils/testUtils';
 import { mockedDataSourceResponse } from '../../../dataSource/__mocks__/dataSource';
 import { mockedOrganizationClassResponse } from '../../../organizationClass/__mocks__/organizationClass';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { organizations } from '../../__mocks__/organizationsPage';
 import { ORGANIZATION_SORT_OPTIONS } from '../../constants';
 import OrganizationsTable, {
@@ -18,6 +18,14 @@ import OrganizationsTable, {
 } from '../OrganizationsTable';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const organizationName = getValue(organizations.data[0]?.name, '');
 const organizationId = getValue(organizations.data[0]?.id, '');
@@ -31,7 +39,11 @@ const defaultProps: OrganizationsTableProps = {
   sortedOrganizations: organizations.data as Organization[],
 };
 
-const mocks = [mockedDataSourceResponse, mockedOrganizationClassResponse];
+const mocks = [
+  mockedDataSourceResponse,
+  mockedOrganizationClassResponse,
+  mockedUserResponse,
+];
 
 const renderComponent = (props?: Partial<OrganizationsTableProps>) =>
   render(<OrganizationsTable {...defaultProps} {...props} />, { mocks });

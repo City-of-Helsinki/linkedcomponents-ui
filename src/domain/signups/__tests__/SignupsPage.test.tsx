@@ -2,12 +2,11 @@
 /* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import { AttendeeStatus } from '../../../generated/graphql';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import { fakeSignups } from '../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -39,7 +38,13 @@ import { shouldExportSignupsAsExcel } from './testUtils';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const route = ROUTES.REGISTRATION_SIGNUPS.replace(
   ':registrationId',
@@ -107,7 +112,6 @@ const renderComponent = (
   renderOptions?: CustomRenderOptions
 ) =>
   renderWithRoute(<SignupsPage />, {
-    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.REGISTRATION_SIGNUPS,

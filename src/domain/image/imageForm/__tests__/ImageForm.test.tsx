@@ -1,13 +1,27 @@
-import React from 'react';
-
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
-import { act, render, screen } from '../../../../utils/testUtils';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
+import { act, configure, render, screen } from '../../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { image } from '../../__mocks__/image';
 import ImageForm from '../ImageForm';
 
-const mocks = [mockedOrganizationResponse, mockedOrganizationAncestorsResponse];
+configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
+const mocks = [
+  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const renderComponent = () => render(<ImageForm image={image} />, { mocks });
 

@@ -1,13 +1,12 @@
 /* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';
-import React from 'react';
 
 import { mockedEventResponse } from '../../../common/components/eventSelector/__mocks__/eventSelector';
 import { mockedRegistrationEventSelectorEventsResponse } from '../../../common/components/formFields/registrationEventSelectorField/__mocks__/registrationEventSelectorField';
 import { DATE_FORMAT, FORM_NAMES } from '../../../constants';
 import formatDate from '../../../utils/formatDate';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -29,10 +28,15 @@ import { RegistrationFormFields } from '../types';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
 
 beforeEach(() => {
   vi.useRealTimers();
+  localStorage.clear();
+  sessionStorage.clear();
+  mockAuthenticatedLoginState();
 });
 
 const commonMocks = [
@@ -42,13 +46,7 @@ const commonMocks = [
 ];
 
 const renderComponent = (mocks: MockedResponse[] = commonMocks) =>
-  render(<CreateRegistrationPage />, { authContextValue, mocks });
-
-beforeEach(() => {
-  // values stored in tests will also be available in other tests unless you run
-  localStorage.clear();
-  sessionStorage.clear();
-});
+  render(<CreateRegistrationPage />, { mocks });
 
 const setFormValues = (values: RegistrationFormFields) => {
   const state: FormikState<RegistrationFormFields> = {
@@ -62,14 +60,10 @@ const setFormValues = (values: RegistrationFormFields) => {
   sessionStorage.setItem(FORM_NAMES.REGISTRATION_FORM, JSON.stringify(state));
 };
 
-const findElement = (key: 'saveButton') => {
-  switch (key) {
-    case 'saveButton':
-      return screen.findByRole('button', {
-        name: /tallenna ilmoittautuminen/i,
-      });
-  }
-};
+const findSaveButton = () =>
+  screen.findByRole('button', {
+    name: /tallenna ilmoittautuminen/i,
+  });
 
 const getElement = (
   key: 'eventCombobox' | 'enrolmentStartTime' | 'saveButton'
@@ -87,7 +81,7 @@ const getElement = (
 const waitLoadingAndGetSaveButton = async () => {
   await loadingSpinnerIsNotInDocument();
 
-  return await findElement('saveButton');
+  return await findSaveButton();
 };
 
 test('should focus to first validation error when trying to save new registration', async () => {

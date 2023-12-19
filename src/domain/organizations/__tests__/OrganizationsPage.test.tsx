@@ -1,9 +1,8 @@
 import { createMemoryHistory } from 'history';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import getValue from '../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -25,7 +24,13 @@ import OrganizationsPage from '../OrganizationsPage';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const mocks = [
   mockedDataSourceResponse,
@@ -39,7 +44,6 @@ const routes = [route];
 
 const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
   render(<OrganizationsPage />, {
-    authContextValue,
     mocks,
     routes,
     ...renderOptions,

@@ -1,8 +1,7 @@
 import { createMemoryHistory } from 'history';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -25,7 +24,13 @@ import KeywordsPage from '../KeywordsPage';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const mocks = [
   mockedKeywordsResponse,
@@ -39,7 +44,6 @@ const routes = [route];
 
 const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
   render(<KeywordsPage />, {
-    authContextValue,
     mocks,
     routes,
     ...renderOptions,

@@ -3,6 +3,7 @@ import React from 'react';
 
 import { LE_DATA_LANGUAGES } from '../../../../../constants';
 import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
+import { mockUnauthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import { configure, render, screen } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
@@ -11,6 +12,14 @@ import ResponsibilitiesSection, {
 } from '../ResponsibilitiesSection';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 const type = EVENT_TYPE.General;
 

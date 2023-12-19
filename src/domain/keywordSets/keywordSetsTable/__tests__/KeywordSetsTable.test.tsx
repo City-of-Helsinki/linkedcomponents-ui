@@ -1,6 +1,5 @@
-import React from 'react';
-
 import getValue from '../../../../utils/getValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -16,6 +15,14 @@ import { KEYWORD_SET_SORT_OPTIONS } from '../../constants';
 import KeywordSetsTable, { KeywordSetsTableProps } from '../KeywordSetsTable';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const keywordSetName = getValue(keywordSets.data[0]?.name?.fi, '');
 const keywordSetId = getValue(keywordSets.data[0]?.id, '');

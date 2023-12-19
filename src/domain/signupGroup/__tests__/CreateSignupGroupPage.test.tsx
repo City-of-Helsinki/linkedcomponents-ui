@@ -9,12 +9,12 @@ import {
   UpdateSeatsReservationDocument,
 } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import {
   fakeSeatsReservation,
   getMockedSeatsReservationData,
   setSignupGroupFormSessionStorageValues,
 } from '../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   actWait,
   configure,
@@ -55,15 +55,18 @@ import { findFirstNameInputs, getSignupFormElement } from './testUtils';
 configure({ defaultHidden: true });
 
 beforeEach(() => {
+  mockAuthenticatedLoginState();
   // values stored in tests will also be available in other tests unless you run
   localStorage.clear();
   sessionStorage.clear();
 });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
 const findCreateButton = () =>
   screen.findByRole('button', { name: /lähetä ilmoittautuminen/i });
-
-const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const code = TEST_SEATS_RESERVATION_CODE;
 
@@ -181,7 +184,6 @@ const route = ROUTES.CREATE_SIGNUP_GROUP.replace(
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<CreateSignupGroupPage />, {
-    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.CREATE_SIGNUP_GROUP,

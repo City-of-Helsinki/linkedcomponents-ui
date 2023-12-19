@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
-import React from 'react';
 
+import { mockUnauthenticatedLoginState } from '../../../../../../utils/mockLoginHooks';
 import {
   configure,
   fireEvent,
@@ -22,8 +22,13 @@ import EventTimeTab from '../EventTimeTab';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
 beforeEach(() => {
   vi.useRealTimers();
+  mockUnauthenticatedLoginState();
 });
 
 const type = EVENT_TYPE.General;

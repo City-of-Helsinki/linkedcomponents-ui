@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -25,6 +25,14 @@ import AttendanceListPage from '../AttendanceListPage';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const baseMocks = [
   mockedRegistrationResponse,
   mockedUserResponse,
@@ -33,8 +41,6 @@ const baseMocks = [
 
 const signUpName = `${signupNames[0].firstName} ${signupNames[0].lastName}`;
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const route = ROUTES.ATTENDANCE_LIST.replace(':registrationId', registrationId);
 
 const renderComponent = (
@@ -42,7 +48,6 @@ const renderComponent = (
   renderOptions?: CustomRenderOptions
 ) =>
   renderWithRoute(<AttendanceListPage />, {
-    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.ATTENDANCE_LIST,

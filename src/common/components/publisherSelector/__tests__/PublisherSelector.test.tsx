@@ -4,8 +4,8 @@ import React from 'react';
 import { TEST_PUBLISHER_ID } from '../../../../domain/organization/constants';
 import { getMockedUserResponse } from '../../../../domain/user/__mocks__/user';
 import { OrganizationDocument } from '../../../../generated/graphql';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeOrganization } from '../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -16,7 +16,16 @@ import {
 import PublisherSelector, {
   PublisherSelectorProps,
 } from '../PublisherSelector';
+
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const label = 'Select publisher';
 
@@ -77,8 +86,6 @@ const mockedUserResponse: MockedResponse = getMockedUserResponse({
   organizationMemberships: [organizationId],
 });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const mocks = [
   mockedAdminOrganizationResponse,
   mockedOrganizationResponse,
@@ -94,7 +101,6 @@ const defaultProps: PublisherSelectorProps = {
 
 const renderComponent = (props?: Partial<PublisherSelectorProps>) =>
   render(<PublisherSelector {...defaultProps} {...props} />, {
-    authContextValue,
     mocks,
   });
 

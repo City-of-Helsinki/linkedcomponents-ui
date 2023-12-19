@@ -1,9 +1,7 @@
-import React from 'react';
-
 import { ROUTES } from '../../../constants';
 import { RegistrationDocument } from '../../../generated/graphql';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -17,6 +15,14 @@ import { mockedUserResponse } from '../../user/__mocks__/user';
 import RegistrationSavedPage from '../RegistrationSavedPage';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const registrationId = '1';
 const route = ROUTES.REGISTRATION_SAVED.replace(':id', registrationId);
@@ -36,7 +42,6 @@ const mockedRegistrationResponse = {
 };
 
 const mocks = [mockedRegistrationResponse, mockedUserResponse];
-const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const getElement = (
   key:
@@ -58,7 +63,6 @@ const getElement = (
 
 const renderComponent = () =>
   renderWithRoute(<RegistrationSavedPage />, {
-    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.REGISTRATION_SAVED,

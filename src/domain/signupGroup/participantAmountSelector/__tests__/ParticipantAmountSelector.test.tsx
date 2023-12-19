@@ -13,6 +13,7 @@ import {
   getMockedSeatsReservationData,
   setSessionStorageValues,
 } from '../../../../utils/mockDataUtils';
+import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   render,
   screen,
@@ -26,6 +27,17 @@ import { SignupServerErrorsProvider } from '../../../signup/signupServerErrorsCo
 import { SIGNUP_INITIAL_VALUES } from '../../constants';
 import { SignupGroupFormProvider } from '../../signupGroupFormContext/SignupGroupFormContext';
 import ParticipantAmountSelector from '../ParticipantAmountSelector';
+
+afterEach(() => {
+  vi.resetAllMocks();
+  // values stored in tests will also be available in other tests unless you run
+  localStorage.clear();
+  sessionStorage.clear();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
   render(
@@ -44,12 +56,6 @@ const renderComponent = (mocks: MockedResponse[] = []) =>
     </SignupGroupFormProvider>,
     { mocks }
   );
-
-beforeEach(() => {
-  // values stored in tests will also be available in other tests unless you run
-  localStorage.clear();
-  sessionStorage.clear();
-});
 
 const getElement = (
   key: 'participantAmountInput' | 'updateParticipantAmountButton'

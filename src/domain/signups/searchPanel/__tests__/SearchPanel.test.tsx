@@ -1,7 +1,5 @@
-import React from 'react';
-
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   fireEvent,
@@ -16,6 +14,14 @@ import { mockedUserResponse } from '../../../user/__mocks__/user';
 import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const getElement = (key: 'searchInput') => {
   switch (key) {
@@ -33,11 +39,8 @@ const defaultRoute = `${ROUTES.REGISTRATION_SIGNUPS.replace(
 
 const mocks = [mockedEventResponse, mockedUserResponse];
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const renderComponent = (route: string = defaultRoute) =>
   render(<SearchPanel />, {
-    authContextValue,
     mocks,
     routes: [route],
   });

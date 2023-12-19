@@ -37,8 +37,11 @@ export const getApiTokenFromStorage = (): string | null => {
   return null;
 };
 
-export const setApiTokenToStorage = (accessToken: string): void =>
-  apiAccessTokenStorage.setItem(storageKey, accessToken);
+export const setApiTokenToStorage = (apiToken: string): void =>
+  apiAccessTokenStorage.setItem(
+    storageKey,
+    JSON.stringify({ [import.meta.env.REACT_APP_OIDC_API_SCOPE]: apiToken })
+  );
 
 export const clearApiTokenFromStorage = (): void =>
   apiAccessTokenStorage.removeItem(storageKey);

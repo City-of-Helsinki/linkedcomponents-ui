@@ -11,7 +11,7 @@ import {
 } from '../../../constants';
 import { EventDocument } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   actWait,
   configure,
@@ -82,6 +82,14 @@ import { testExternalUserFields } from './eventTestUtils';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const baseMocks = [
   mockedEventResponse,
   mockedEventTimeResponse,
@@ -98,13 +106,10 @@ const baseMocks = [
   mockedOrganizationAncestorsResponse,
 ];
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const route = ROUTES.EDIT_EVENT.replace(':id', eventId);
 
 const renderComponent = (mocks: MockedResponse[] = baseMocks) =>
   renderWithRoute(<EditEventPage />, {
-    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_EVENT,

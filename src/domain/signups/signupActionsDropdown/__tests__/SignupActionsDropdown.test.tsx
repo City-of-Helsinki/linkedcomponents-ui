@@ -1,9 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import getValue from '../../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   configure,
@@ -15,7 +14,6 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
-import { AuthContextProps } from '../../../auth/types';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { registration } from '../../../registration/__mocks__/registration';
@@ -34,6 +32,14 @@ import SignupActionsDropdown, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const defaultProps: SignupActionsDropdownProps = {
   registration,
   signup,
@@ -47,19 +53,15 @@ const defaultMocks = [
   mockedRegistrationUserResponse,
 ];
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const route = `/fi${ROUTES.REGISTRATION_SIGNUPS.replace(
   ':registrationId',
   getValue(registration.id, '')
 )}`;
 
 const renderComponent = ({
-  authContextValue,
   mocks = defaultMocks,
   props,
 }: {
-  authContextValue?: AuthContextProps;
   mocks?: MockedResponse[];
   props?: Partial<SignupActionsDropdownProps>;
 } = {}) =>
@@ -68,7 +70,6 @@ const renderComponent = ({
       <SignupActionsDropdown {...defaultProps} {...props} />
     </SignupGroupFormProvider>,
     {
-      authContextValue,
       mocks,
       routes: [route],
     }
@@ -102,7 +103,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent({ authContextValue });
+  renderComponent();
 
   const toggleButton = await openMenu();
   await user.click(toggleButton);
@@ -112,7 +113,7 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should render correct buttons', async () => {
-  renderComponent({ authContextValue });
+  renderComponent();
 
   await openMenu();
 
@@ -122,7 +123,7 @@ test('should render correct buttons', async () => {
 
 test("should route to edit signup page when clicking edit button and signup doesn't have a group", async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent({ authContextValue, props: { signup } });
+  const { history } = renderComponent({ props: { signup } });
 
   await openMenu();
 
@@ -139,7 +140,6 @@ test("should route to edit signup page when clicking edit button and signup does
 test('should route to edit signup group page when clicking edit button and signup has a group', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({
-    authContextValue,
     props: { signup: signupWithGroup },
   });
 
@@ -164,7 +164,7 @@ test('should send message to participant when clicking send message button', asy
   global.Range.prototype.getClientRects = vi.fn().mockImplementation(() => []);
 
   const user = userEvent.setup();
-  renderComponent({ authContextValue });
+  renderComponent();
 
   await openMenu();
 
@@ -195,7 +195,7 @@ test('should send message to participant when clicking send message button', asy
 
 test('should try to cancel signup when clicking cancel button', async () => {
   const user = userEvent.setup();
-  renderComponent({ authContextValue });
+  renderComponent();
 
   await openMenu();
 

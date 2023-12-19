@@ -1,23 +1,27 @@
-import React from 'react';
-
-import { testIds } from '../../../../constants';
 import {
-  fakeAuthContextValue,
-  fakeAuthenticatedAuthContextValue,
-} from '../../../../utils/mockAuthContextValue';
+  mockAuthenticatedLoginState,
+  mockUnauthenticatedLoginState,
+} from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
   screen,
   userEvent,
 } from '../../../../utils/testUtils';
-import { AuthContextProps } from '../../types';
 import LogoutPage from '../LogoutPage';
 
 configure({ defaultHidden: true });
 
-const renderComponent = (authContextValue?: AuthContextProps) =>
-  render(<LogoutPage />, { routes: ['/fi/events'], authContextValue });
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
+
+const renderComponent = () =>
+  render(<LogoutPage />, { routes: ['/fi/events'] });
 
 const getElement = (key: 'buttonHome' | 'buttonSignIn' | 'text') => {
   switch (key) {
@@ -52,27 +56,18 @@ test('should route to home page', async () => {
 test('should start login process', async () => {
   const user = userEvent.setup();
 
-  const signIn = vi.fn();
-  const authContextValue = fakeAuthContextValue({ signIn });
-  renderComponent(authContextValue);
+  const login = vi.fn();
+  mockUnauthenticatedLoginState({ login });
+  renderComponent();
 
   await user.click(getElement('buttonSignIn'));
 
-  expect(signIn).toBeCalled();
+  expect(login).toBeCalled();
 });
 
 test('should redirect to home page when user is authenticated', () => {
-  const authContextValue = fakeAuthenticatedAuthContextValue();
-
-  const { history } = renderComponent(authContextValue);
+  mockAuthenticatedLoginState();
+  const { history } = renderComponent();
 
   expect(history.location.pathname).toBe('/fi/');
-});
-
-test('should render loading spinner when loading authenticion state', () => {
-  const authContextValue = fakeAuthContextValue({ isLoading: true });
-
-  renderComponent(authContextValue);
-
-  expect(screen.getByTestId(testIds.loadingSpinner)).toBeInTheDocument();
 });

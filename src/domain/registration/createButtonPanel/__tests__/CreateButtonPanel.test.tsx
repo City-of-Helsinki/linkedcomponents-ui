@@ -1,45 +1,44 @@
-import React from 'react';
-
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import {
+  mockAuthenticatedLoginState,
+  mockUnauthenticatedLoginState,
+} from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
-import { AuthContextProps } from '../../../auth/types';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import CreateButtonPanel from '../CreateButtonPanel';
 
 configure({ defaultHidden: true });
 
+beforeEach(() => {
+  vi.resetAllMocks();
+});
+
 const mocks = [mockedUserResponse];
 
-const renderComponent = (authContextValue?: AuthContextProps) =>
+const renderComponent = () =>
   render(<CreateButtonPanel onSave={vi.fn()} saving={null} />, {
-    authContextValue,
     mocks,
   });
 
-const getElement = (key: 'saveButton') => {
-  switch (key) {
-    case 'saveButton':
-      return screen.getByRole('button', { name: 'Tallenna ilmoittautuminen' });
-  }
-};
+const getSaveButton = () =>
+  screen.getByRole('button', { name: 'Tallenna ilmoittautuminen' });
 
 test('button should be disabled when user is not authenticated', () => {
+  mockUnauthenticatedLoginState();
   renderComponent();
 
-  const saveButton = getElement('saveButton');
+  const saveButton = getSaveButton();
   expect(saveButton).toBeDisabled();
 });
 
 test('button should be enabled when user is authenticated', async () => {
-  const authContextValue = fakeAuthenticatedAuthContextValue();
+  mockAuthenticatedLoginState();
+  renderComponent();
 
-  renderComponent(authContextValue);
-
-  const saveButton = await getElement('saveButton');
+  const saveButton = await getSaveButton();
   await waitFor(() => expect(saveButton).toBeEnabled());
 });

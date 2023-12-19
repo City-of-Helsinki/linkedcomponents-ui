@@ -1,5 +1,4 @@
-import React from 'react';
-
+import { mockUnauthenticatedLoginState } from '../../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -16,8 +15,13 @@ import EventTimesSummary from '../EventTimesSummary';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
 beforeEach(() => {
   vi.useRealTimers();
+  mockUnauthenticatedLoginState();
 });
 
 const renderComponent = (context?: Partial<TimeSectionContextProps>) =>
