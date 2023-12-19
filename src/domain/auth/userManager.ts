@@ -1,4 +1,4 @@
-import Oidc, { UserManagerSettings } from 'oidc-client';
+import Oidc, { UserManagerSettings } from 'oidc-client-ts';
 
 import { ROUTES } from '../../constants';
 import { createUserManager } from './utils';
@@ -6,7 +6,7 @@ import { createUserManager } from './utils';
 const origin = window.location.origin;
 
 const enableOidcLogging = () => {
-  Oidc.Log.logger = console;
+  Oidc.Log.setLogger(console);
 };
 
 if (import.meta.env.NODE_ENV === 'development') {

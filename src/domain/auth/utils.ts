@@ -3,7 +3,7 @@
 import * as Sentry from '@sentry/react';
 import axios, { AxiosResponse } from 'axios';
 import { TFunction } from 'i18next';
-import { User, UserManager, UserManagerSettings } from 'oidc-client';
+import { User, UserManager, UserManagerSettings } from 'oidc-client-ts';
 import React from 'react';
 
 import { NotificationProps } from '../../common/components/notification/Notification';
@@ -25,10 +25,17 @@ import {
 
 const apiAccessTokenStorage = sessionStorage;
 
-const storageKey = `oidc.apiToken.${API_SCOPE}`;
+const storageKey = 'hds_login_api_token_storage_key';
 
-export const getApiTokenFromStorage = (): string | null =>
-  apiAccessTokenStorage.getItem(storageKey);
+export const getApiTokenFromStorage = (): string | null => {
+  const apiTokensStr = apiAccessTokenStorage.getItem(storageKey);
+
+  if (apiTokensStr) {
+    return JSON.parse(apiTokensStr)[import.meta.env.REACT_APP_OIDC_API_SCOPE];
+  }
+
+  return null;
+};
 
 export const setApiTokenToStorage = (accessToken: string): void =>
   apiAccessTokenStorage.setItem(storageKey, accessToken);
@@ -173,7 +180,7 @@ export const signIn = async ({
 
   await userManager
     .signinRedirect({
-      data: { path: path || '/' },
+      state: { path: path || '/' },
       ui_locales: locale,
     })
     .catch((error) => {

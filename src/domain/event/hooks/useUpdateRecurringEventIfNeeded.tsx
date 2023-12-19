@@ -20,7 +20,7 @@ import getDateFromString from '../../../utils/getDateFromString';
 import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_ACTIONS } from '../constants';
@@ -45,7 +45,7 @@ const useUpdateRecurringEventIfNeeded =
     const apolloClient =
       useApolloClient() as ApolloClient<NormalizedCacheObject>;
     const { t } = useTranslation();
-    const { isAuthenticated: authenticated } = useAuth();
+    const { authenticated } = useAuth();
 
     const { user } = useUser();
     const [updateEvent] = useUpdateEventMutation();

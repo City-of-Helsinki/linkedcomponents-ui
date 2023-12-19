@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { User } from 'oidc-client';
+import { LoginCallbackHandler, LoginProvider } from 'hds-react';
+import { User } from 'oidc-client-ts';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import CallbackComponent from '../callbackComponent/CallbackComponent';
-import userManager from '../userManager';
+import { loginProviderProps } from '../constants';
+import { OidcLoginState } from '../types';
 
 const OidcCallback: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const onSuccess = (user: User) => {
-    if (user.state.path) navigate(user.state.path);
+    const path = (user.state as OidcLoginState)?.path;
+    if (path) navigate(path);
     else navigate('/', { replace: true });
   };
 
@@ -23,11 +25,11 @@ const OidcCallback: React.FC = () => {
   };
 
   return (
-    <CallbackComponent
-      successCallback={onSuccess}
-      errorCallback={onError}
-      userManager={userManager}
-    />
+    <LoginProvider {...loginProviderProps}>
+      <LoginCallbackHandler onSuccess={onSuccess} onError={onError}>
+        <div>Logging in...</div>
+      </LoginCallbackHandler>
+    </LoginProvider>
   );
 };
 

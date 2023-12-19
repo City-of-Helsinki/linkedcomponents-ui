@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { User, UserManager } from 'oidc-client';
+import { User, UserManager } from 'oidc-client-ts';
 import React, {
   FC,
   PropsWithChildren,

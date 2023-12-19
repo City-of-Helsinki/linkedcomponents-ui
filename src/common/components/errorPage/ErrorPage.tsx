@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 
 import { ROUTES } from '../../../constants';
 import MainContent from '../../../domain/app/layout/mainContent/MainContent';
-import { useAuth } from '../../../domain/auth/hooks/useAuth';
+import useAuth from '../../../domain/auth/hooks/useAuth';
 import useLocale from '../../../hooks/useLocale';
 import Button from '../button/Button';
 import ErrorTemplate from '../errorTemplate/ErrorTemplate';
@@ -26,7 +26,7 @@ const ErrorPage: React.FC<Props> = ({
 }) => {
   const locale = useLocale();
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { login } = useAuth();
   const { t } = useTranslation();
 
   const goToHome = () => {
@@ -34,7 +34,7 @@ const ErrorPage: React.FC<Props> = ({
   };
 
   const handleSignIn = () => {
-    signIn(signInPath);
+    login(signInPath);
   };
 
   return (

@@ -1,3 +1,6 @@
+import { LoginProviderProps } from 'hds-react';
+
+import { ROUTES } from '../../constants';
 import { ApiTokenReducerState, OidcReducerState } from './types';
 
 export const API_SCOPE =
@@ -40,3 +43,25 @@ export const API_TOKEN_EXPIRATION_TIME = 60;
 export const API_TOKEN_NOTIFICATION_TIME = 1;
 // Interval to check is api token expired (ms)
 export const API_TOKEN_CHECK_INTERVAL = 5000;
+
+const origin = window.location.origin;
+
+export const loginProviderProps: LoginProviderProps = {
+  userManagerSettings: {
+    authority: import.meta.env.REACT_APP_OIDC_AUTHORITY,
+    client_id: import.meta.env.REACT_APP_OIDC_CLIENT_ID,
+    scope: 'openid profile',
+    redirect_uri: `${origin}${ROUTES.CALLBACK}`,
+    silent_redirect_uri: `${origin}${ROUTES.SILENT_CALLBACK}`,
+    post_logout_redirect_uri: `${origin}${ROUTES.LOGOUT}`,
+  },
+  apiTokensClientSettings: {
+    url: import.meta.env.REACT_APP_OIDC_API_TOKENS_URL,
+    queryProps: {
+      grantType: 'urn:ietf:params:oauth:grant-type:uma-ticket',
+      permission: '#access',
+    },
+    audiences: [import.meta.env.REACT_APP_OIDC_API_SCOPE],
+  },
+  sessionPollerSettings: { pollIntervalInMs: 10000 },
+};

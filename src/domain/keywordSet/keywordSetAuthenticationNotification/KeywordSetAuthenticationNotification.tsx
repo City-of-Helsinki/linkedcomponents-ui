@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { KEYWORD_SET_ACTIONS } from '../constants';
@@ -17,7 +17,7 @@ export type KeywordSetAuthenticationNotificationProps = {
 const KeywordSetAuthenticationNotification: React.FC<
   KeywordSetAuthenticationNotificationProps
 > = ({ action, className, organization }) => {
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
   const { organizationAncestors } = useOrganizationAncestors(organization);
 

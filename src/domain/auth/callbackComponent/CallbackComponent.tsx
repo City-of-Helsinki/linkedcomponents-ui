@@ -1,4 +1,4 @@
-import { User, UserManager } from 'oidc-client';
+import { User, UserManager } from 'oidc-client-ts';
 import { FC, PropsWithChildren, useEffect } from 'react';
 
 interface CallbackComponentProps {

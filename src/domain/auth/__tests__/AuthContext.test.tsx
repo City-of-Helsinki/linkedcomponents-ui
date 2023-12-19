@@ -29,7 +29,7 @@ const events = {
   removeUserUnloaded: () => undefined,
 };
 
-vi.mock('oidc-client', () => {
+vi.mock('oidc-client-ts', () => {
   return {
     UserManager: vi.fn().mockImplementation(() => {
       return {

@@ -1,18 +1,38 @@
-/* eslint @typescript-eslint/explicit-function-return-type: 0 */
-import { useContext } from 'react';
+import { useOidcClient } from 'hds-react';
+import { User } from 'oidc-client-ts';
+import { useLocation } from 'react-router';
 
-import { AuthContext } from '../AuthContext';
-import { AuthContextProps } from '../types';
+import { OidcLoginState } from '../types';
 
-export const useAuth = (): AuthContextProps => {
-  const context = useContext<AuthContextProps | undefined>(AuthContext);
-
-  if (!context) {
-    throw new Error(
-      // eslint-disable-next-line max-len
-      'AuthProvider context is undefined, please verify you are calling useAuth() as child of a <AuthProvider> component.'
-    );
-  }
-
-  return context;
+type UseAuthState = {
+  authenticated: boolean;
+  login: (signInPath?: string) => Promise<void>;
+  logout: (signInPath?: string) => Promise<void>;
+  user: User | null;
 };
+
+const useAuth = (): UseAuthState => {
+  const { isAuthenticated, getUser, login, logout } = useOidcClient();
+  const location = useLocation();
+
+  const handleLogin = async (signInPath?: string) => {
+    const state: OidcLoginState = {
+      path: signInPath ?? `${location.pathname}${location.search}`,
+    };
+    login({ state });
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    sessionStorage.clear();
+  };
+
+  return {
+    authenticated: isAuthenticated(),
+    login: handleLogin,
+    logout: handleLogout,
+    user: getUser(),
+  };
+};
+
+export default useAuth;

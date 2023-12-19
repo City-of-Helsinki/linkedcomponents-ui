@@ -22,7 +22,7 @@ import {
   parseEmailFromCreatedBy,
 } from '../../../utils/openMailtoLinkUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { EventsLocationState } from '../../events/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -47,7 +47,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   saving,
 }) => {
   const { t } = useTranslation();
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const locale = useLocale();
   const navigate = useNavigate();
 

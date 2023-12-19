@@ -18,7 +18,7 @@ import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { featureFlagUtils } from '../../../utils/featureFlags';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import {
   areAdminRoutesAllowed,
@@ -56,7 +56,8 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { changeLanguage, languageOptions } = useSelectLanguage();
-  const { isAuthenticated: authenticated, signIn, signOut } = useAuth();
+  const { authenticated } = useAuth();
+  const { login, logout } = useAuth();
 
   const { t } = useTranslation();
   const { user } = useUser();
@@ -106,12 +107,12 @@ const Header: React.FC = () => {
   );
 
   const handleSignIn = () => {
-    signIn(`${location.pathname}${location.search}`);
+    login();
   };
 
   const handleSignOut = (e: React.MouseEvent) => {
     e.preventDefault();
-    signOut();
+    logout();
   };
 
   const isMatch = (paths: NoNavRowProps[]) =>

@@ -8,7 +8,7 @@ import LoadingButton from '../../../common/components/loadingButton/LoadingButto
 import { PublicationStatus } from '../../../generated/graphql';
 import { ActionButtonProps } from '../../../types';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_ACTIONS, EVENT_FIELDS, EVENT_TYPE } from '../constants';
 import { getEventButtonProps } from '../utils';
@@ -29,7 +29,7 @@ const CreateButtonPanel: React.FC<Props> = ({
   const [{ value: eventType }] = useField<EVENT_TYPE>({
     name: EVENT_FIELDS.TYPE,
   });
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
 
   const getActionButtonProps = ({
     action,

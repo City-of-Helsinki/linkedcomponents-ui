@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';

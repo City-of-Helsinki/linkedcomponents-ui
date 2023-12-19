@@ -2,12 +2,11 @@ import classNames from 'classnames';
 import { NotificationType } from 'hds-react';
 import React, { ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 
 import Notification from '../../../common/components/notification/Notification';
 import { Editability } from '../../../types';
 import getValue from '../../../utils/getValue';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import styles from './authenticationNotification.module.scss';
 
@@ -57,12 +56,11 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   showOnlyNotAuthenticatedError,
   notAuthenticatedCustomMessage,
 }) => {
-  const location = useLocation();
   const { t } = useTranslation();
   const [hidden, setHidden] = useState(false);
-  const { signIn } = useAuth();
+  const { login } = useAuth();
 
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
   const adminOrganizations = getValue(user?.adminOrganizations, []);
   const registrationAdminOrganizations = getValue(
@@ -137,7 +135,7 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   };
 
   const handleSignIn = () => {
-    signIn(`${location.pathname}${location.search}`);
+    login();
   };
 
   if (!authenticated) {

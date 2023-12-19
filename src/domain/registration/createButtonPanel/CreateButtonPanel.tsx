@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import ButtonPanel from '../../../common/components/buttonPanel/ButtonPanel';
 import styles from '../../../common/components/buttonPanel/buttonPanel.module.scss';
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useUser from '../../user/hooks/useUser';
 import { getRegistrationActionButtonProps } from '../permissions';
@@ -16,7 +16,7 @@ interface Props {
 
 const CreateButtonPanel: React.FC<Props> = ({ onSave, saving }) => {
   const { t } = useTranslation();
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
 
   const buttonProps = getRegistrationActionButtonProps({

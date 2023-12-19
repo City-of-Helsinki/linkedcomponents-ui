@@ -20,7 +20,7 @@ import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useNotificationsContext } from '../app/notificationsContext/hooks/useNotificationsContext';
-import { useAuth } from '../auth/hooks/useAuth';
+import useAuth from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import { getRegistrationActionButtonProps } from '../registration/permissions';
@@ -56,7 +56,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
   const navigate = useNavigate();
   const locale = useLocale();
 
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const publisher = getValue(registration.publisher, '');
   const { addNotification } = useNotificationsContext();
 

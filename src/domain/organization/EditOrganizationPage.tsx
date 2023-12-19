@@ -16,7 +16,7 @@ import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useNotificationsContext } from '../app/notificationsContext/hooks/useNotificationsContext';
-import { useAuth } from '../auth/hooks/useAuth';
+import useAuth from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useUser from '../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from './constants';
@@ -41,7 +41,7 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
   const locale = useLocale();
   const navigate = useNavigate();
   const { id } = getOrganizationFields(organization, locale, t);
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
 
   const { closeModal, deleteOrganization, openModal, setOpenModal, saving } =
