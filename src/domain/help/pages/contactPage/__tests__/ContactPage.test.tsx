@@ -4,12 +4,10 @@ import {
   PostFeedbackDocument,
   PostGuestFeedbackDocument,
 } from '../../../../../generated/graphql';
+import { fakeFeedback } from '../../../../../utils/mockDataUtils';
 import {
   fakeOidcUserProfileState,
   fakeOidcUserState,
-} from '../../../../../utils/mockAuthContextValue';
-import { fakeFeedback } from '../../../../../utils/mockDataUtils';
-import {
   mockAuthenticatedLoginState,
   mockUnauthenticatedLoginState,
 } from '../../../../../utils/mockLoginHooks';
