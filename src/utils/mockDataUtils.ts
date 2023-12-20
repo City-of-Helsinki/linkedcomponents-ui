@@ -577,6 +577,7 @@ export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
       lastModifiedBy: null,
       lastModifiedTime: null,
       lastName: faker.person.lastName(),
+      phoneNumber: faker.phone.number(),
       presenceStatus: PresenceStatus.NotPresent,
       signupGroup: null,
       streetAddress: faker.location.streetAddress(),

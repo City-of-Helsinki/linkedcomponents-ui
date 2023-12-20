@@ -1,7 +1,8 @@
 @import '../../../../../assets//styles/breakpoints.scss';
 @import '../../../../../assets//styles/mixins.scss';
 
-.nameRow {
+.nameRow,
+.phoneNumberRow {
   display: grid;
   grid-gap: var(--spacing-m);
   grid-template-columns: 1fr;

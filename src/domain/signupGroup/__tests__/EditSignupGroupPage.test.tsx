@@ -91,14 +91,18 @@ test('should initialize input fields', async () => {
   const lastNameInput = getSignupFormElement('lastNameInput');
   const cityInput = getSignupFormElement('cityInput');
   const emailInput = getSignupFormElement('emailInput');
-  const phoneInput = getSignupFormElement('phoneInput');
+  const contactPersonPhoneInput = getSignupFormElement(
+    'contactPersonPhoneInput'
+  );
   const emailCheckbox = getSignupFormElement('emailCheckbox');
 
   await waitFor(() => expect(firstNameInput).toHaveValue(signup.firstName));
   expect(lastNameInput).toHaveValue(signup.lastName);
   expect(cityInput).toHaveValue(signup.city);
   expect(emailInput).toHaveValue(signup.contactPerson?.email);
-  expect(phoneInput).toHaveValue(signup.contactPerson?.phoneNumber);
+  expect(contactPersonPhoneInput).toHaveValue(
+    signup.contactPerson?.phoneNumber
+  );
   expect(emailCheckbox).toBeChecked();
 });
 

@@ -263,6 +263,7 @@ module.exports = buildSchema(/* GraphQL */ `
     firstName: String
     id: ID
     lastName: String
+    phoneNumber: String
     presenceStatus: PresenceStatus
     streetAddress: String
     zipcode: String
@@ -297,6 +298,7 @@ module.exports = buildSchema(/* GraphQL */ `
     extraInfo: String
     firstName: String
     lastName: String
+    phoneNumber: String
     presenceStatus: PresenceStatus
     registration: ID
     streetAddress: String
@@ -997,6 +999,7 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedBy: String
     lastModifiedTime: String
     lastName: String
+    phoneNumber: String
     presenceStatus: PresenceStatus
     registration: ID
     signupGroup: ID

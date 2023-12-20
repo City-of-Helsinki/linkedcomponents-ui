@@ -43,6 +43,7 @@ const signupValues: SignupFieldsFragment = {
   firstName: 'First name',
   id: signupId,
   lastName: 'Last name',
+  phoneNumber: '+358 44 123 4567',
   streetAddress: 'Street address',
   zipcode: '00100',
 };

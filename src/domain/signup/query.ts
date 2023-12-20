@@ -32,6 +32,7 @@ export const QUERY_SIGNUP = gql`
     firstName
     id
     lastName
+    phoneNumber
     presenceStatus
     signupGroup
     streetAddress

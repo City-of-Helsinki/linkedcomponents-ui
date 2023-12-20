@@ -24,6 +24,7 @@ export type SignupFormFields = {
   [SIGNUP_FIELDS.ID]: string | null;
   [SIGNUP_FIELDS.IN_WAITING_LIST]: boolean;
   [SIGNUP_FIELDS.LAST_NAME]: string;
+  [SIGNUP_FIELDS.PHONE_NUMBER]: string;
   [SIGNUP_FIELDS.STREET_ADDRESS]: string;
   [SIGNUP_FIELDS.ZIPCODE]: string;
 };

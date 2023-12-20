@@ -132,6 +132,7 @@ describe('signupSchema function', () => {
     id: null,
     inWaitingList: true,
     lastName: 'last name',
+    phoneNumber: '0441234567',
     streetAddress: 'Street address',
     zipcode: '00100',
   };
@@ -158,6 +159,34 @@ describe('signupSchema function', () => {
           mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.LAST_NAME],
         }),
         { ...validSignup, lastName: '' }
+      )
+    ).toBe(false);
+  });
+
+  test('should return false if phone number is missing', async () => {
+    expect(
+      await testSignupSchema(
+        fakeRegistration({
+          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
+        }),
+        {
+          ...validSignup,
+          phoneNumber: '',
+        }
+      )
+    ).toBe(false);
+  });
+
+  test('should return false if phone number is invalid', async () => {
+    expect(
+      await testSignupSchema(
+        fakeRegistration({
+          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
+        }),
+        {
+          ...validSignup,
+          phoneNumber: 'xxx',
+        }
       )
     ).toBe(false);
   });

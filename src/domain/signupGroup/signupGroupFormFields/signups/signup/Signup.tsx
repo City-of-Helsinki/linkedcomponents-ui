@@ -98,6 +98,21 @@ const Signup: React.FC<Props> = ({
           </div>
         </FormGroup>
         <FormGroup>
+          <div className={styles.phoneNumberRow}>
+            <Field
+              name={getFieldName(signupPath, SIGNUP_FIELDS.PHONE_NUMBER)}
+              component={TextInputField}
+              disabled={disabled}
+              label={translateSignupText('labelPhoneNumber')}
+              placeholder={translateSignupText('placeholderPhoneNumber')}
+              required={isSignupFieldRequired(
+                registration,
+                SIGNUP_FIELDS.PHONE_NUMBER
+              )}
+            />
+          </div>
+        </FormGroup>
+        <FormGroup>
           <div className={styles.streetAddressRow}>
             <Field
               name={getFieldName(signupPath, SIGNUP_FIELDS.STREET_ADDRESS)}
