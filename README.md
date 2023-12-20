@@ -93,7 +93,6 @@ Set the following settings in `.env.local`:
 - REACT_APP_OIDC_API_TOKENS_URL=http://tunnistamo-backend:8000/api-tokens/
 - REACT_APP_OIDC_CLIENT_ID=https://api.hel.fi/auth/linkedevents-ui
 - REACT_APP_OIDC_API_SCOPE=https://api.hel.fi/auth/linkedevents
-- REACT_APP_OIDC_RESPONSE_TYPE=code
 - REACT_APP_LINKED_EVENTS_URL=http://localhost:8080/v1
 - REACT_APP_LINKED_REGISTRATIONS_UI_URL=http://localhost:3001
 
@@ -124,7 +123,6 @@ Use .env.development.local for development.
 | REACT_APP_OIDC_API_TOKENS_URL              | Tunnistamo api tokens endpoint url. Default is https://tunnistamo.test.hel.ninja/api-tokens/                |
 | REACT_APP_OIDC_CLIENT_ID                   | Oidc client. Default is linkedcomponents-ui-dev                                                             |
 | REACT_APP_OIDC_API_SCOPE                   | Linked Events API scope. Default is https://api.hel.fi/auth/linkedeventsapidev                              |
-| REACT_APP_OIDC_RESPONSE_TYPE               | Response type of oidc client. Default is 'code'                                                             |
 | REACT_APP_SENTRY_DSN                       | Sentry DSN. Both REACT_APP_SENTRY_DSN and REACT_APP_SENTRY_ENVIRONMENT has to be set to send error reports. |
 | REACT_APP_SENTRY_ENVIRONMENT               | Setry environment.                                                                                          |
 | REACT_APP_MATOMO_URL_BASE                  | https://analytics.hel.ninja/                                                                                |
