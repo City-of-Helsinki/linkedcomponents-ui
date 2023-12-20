@@ -23,8 +23,7 @@ const useAuth = (): UseAuthState => {
   };
 
   const handleLogout = async () => {
-    await logout();
-    sessionStorage.clear();
+    logout();
   };
 
   return {
