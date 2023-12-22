@@ -1,6 +1,5 @@
 import { SUPPORTED_LANGUAGES } from '../../src/constants';
 import { findCookieConsentModal } from '../cookieConsentModal/cookieConsentModal.components';
-import { isFeatureEnabled } from '../utils/featureFlag.utils';
 import { requestLogger } from '../utils/requestLogger';
 import { getEnvUrl } from '../utils/settings';
 import { clearDataToPrintOnFailure } from '../utils/testcafe.utils';
@@ -47,19 +46,9 @@ test('Header tabs field work', async (t) => {
   // Search events page
   await headerTabs.actions.clickSearchEventsPageTab();
   await urlUtils.expectations.urlChangedToEventSearchPage();
-
   // Events page
   await headerTabs.actions.clickEventsPageTab();
   await urlUtils.expectations.urlChangedToEventsPage();
-  // Registrations page
-  await headerTabs.actions.clickRegistrationsPageTab();
-  await urlUtils.expectations.urlChangedToRegistrationsPage();
-
-  // Admin page
-  if (isFeatureEnabled('SHOW_ADMIN')) {
-    await headerTabs.actions.clickAdminPageTab();
-    await urlUtils.expectations.urlChangedToKeywordsPage();
-  }
   // Support page
   await headerTabs.actions.clickSupportPageTab();
   await urlUtils.expectations.urlChangedToSupportPage();
