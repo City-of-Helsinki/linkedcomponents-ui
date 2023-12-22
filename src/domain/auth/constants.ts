@@ -2,10 +2,6 @@ import { LoginProviderProps } from 'hds-react';
 
 import { ROUTES } from '../../constants';
 
-export const API_SCOPE =
-  import.meta.env.REACT_APP_OIDC_API_SCOPE ||
-  'https://api.hel.fi/auth/linkedevents';
-
 const origin = window.location.origin;
 
 export const loginProviderProps: LoginProviderProps = {
@@ -16,6 +12,7 @@ export const loginProviderProps: LoginProviderProps = {
     redirect_uri: `${origin}${ROUTES.CALLBACK}`,
     silent_redirect_uri: `${origin}${ROUTES.SILENT_CALLBACK}`,
     post_logout_redirect_uri: `${origin}${ROUTES.LOGOUT}`,
+    response_type: 'code',
   },
   apiTokensClientSettings: {
     url: import.meta.env.REACT_APP_OIDC_API_TOKENS_URL,
@@ -23,7 +20,7 @@ export const loginProviderProps: LoginProviderProps = {
       grantType: 'urn:ietf:params:oauth:grant-type:uma-ticket',
       permission: '#access',
     },
-    audiences: [import.meta.env.REACT_APP_OIDC_API_SCOPE],
+    audiences: ['linkedcomponents-ui-dev', 'profile-api-dev'],
   },
   sessionPollerSettings: { pollIntervalInMs: 10000 },
 };

@@ -17,7 +17,6 @@ const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path={ROUTES.CALLBACK} element={<OidcCallback />} />
-      <Route path={ROUTES.SILENT_CALLBACK} element={<SilentCallback />} />
       <Route path="/" element={<Navigate replace to={`/${currentLocale}`} />} />
       {Object.values(SUPPORTED_LANGUAGES).map((locale) => {
         if (isMatch(locale)) {
