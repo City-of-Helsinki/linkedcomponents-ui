@@ -576,12 +576,12 @@ const termsOfUseCases: [Language, PageValues][] = [
   [
     'en',
     {
-      description: 'Linked Events service data protection and terms of use.',
+      description: 'Linked Events service Data Privacy and Terms of Use.',
       expectedRoute: '/en/help/support/terms-of-use',
       keywords:
         'terms, of, use, linked, events, event, management, api, admin, Helsinki, Finland',
-      pageTitle: 'Data protection and terms of use',
-      title: 'Data protection and terms of use - Linked Events',
+      pageTitle: 'Data Privacy and Terms of Use',
+      title: 'Data Privacy and Terms of Use - Linked Events',
     },
   ],
   [
