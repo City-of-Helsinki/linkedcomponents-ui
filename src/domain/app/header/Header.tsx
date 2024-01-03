@@ -10,7 +10,7 @@ import {
   logoFiDark,
   logoSvDark,
 } from 'hds-react';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
@@ -18,6 +18,7 @@ import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { featureFlagUtils } from '../../../utils/featureFlags';
+import skipFalsyType from '../../../utils/skipFalsyType';
 import useAuth from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import {
@@ -60,19 +61,19 @@ const Header: React.FC = () => {
 
   const { t } = useTranslation();
   const { user } = useUser();
-  const [displayName, setDisplayName] = useState('');
 
-  useEffect(() => {
+  const displayName = useMemo(() => {
     if (authenticated) {
       if (authUser?.profile) {
         const { name, family_name, given_name } = authUser?.profile;
-        if (name) setDisplayName(name);
-        else if (given_name && family_name) {
-          setDisplayName(`${given_name} ${family_name}`);
-        } else if (given_name) setDisplayName(given_name);
-        else setDisplayName('');
-      } else setDisplayName('');
+        if (name) {
+          return name;
+        } else if (given_name && family_name) {
+          return [given_name, family_name].filter(skipFalsyType).join(' ');
+        }
+      }
     }
+    return '';
   }, [authUser, authenticated]);
 
   const isTabActive = (pathname: string): boolean => {

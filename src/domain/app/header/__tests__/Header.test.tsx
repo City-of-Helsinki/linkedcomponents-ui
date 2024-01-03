@@ -20,7 +20,7 @@ import {
   mockedRegularUserResponse,
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
-  userFirstName,
+  userName,
 } from '../../../user/__mocks__/user';
 import Header from '../Header';
 
@@ -66,7 +66,7 @@ const getElements = (key: 'signInButton' | 'signOutLink') => {
 };
 
 const findUserMenuButton = () =>
-  screen.findByRole('button', { name: userFirstName }, { timeout: 10000 });
+  screen.findByRole('button', { name: userName }, { timeout: 10000 });
 
 // TODO: Skip this test because SV UI language is temporarily disabled
 test.skip('matches snapshot', async () => {

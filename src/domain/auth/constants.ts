@@ -20,7 +20,7 @@ export const loginProviderProps: LoginProviderProps = {
       grantType: 'urn:ietf:params:oauth:grant-type:uma-ticket',
       permission: '#access',
     },
-    audiences: ['linkedcomponents-ui-dev', 'profile-api-dev'],
+    audiences: [import.meta.env.REACT_APP_OIDC_API_SCOPE],
   },
   sessionPollerSettings: { pollIntervalInMs: 10000 },
 };

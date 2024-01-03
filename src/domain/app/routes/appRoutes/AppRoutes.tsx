@@ -4,7 +4,6 @@ import { matchPath, Navigate, Route, Routes, useLocation } from 'react-router';
 import { ROUTES, SUPPORTED_LANGUAGES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import OidcCallback from '../../../auth/oidcCallback/OidcCallback';
-import SilentCallback from '../../../auth/silentCallback/SilentCallback';
 import LocaleRoutes from '../localeRoutes/LocaleRoutes';
 
 const AppRoutes: React.FC = () => {

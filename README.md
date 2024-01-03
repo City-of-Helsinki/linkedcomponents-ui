@@ -119,10 +119,10 @@ Use .env.development.local for development.
 | PUBLIC_URL                                 | Public url of the application url                                                                           |
 | REACT_APP_LINKED_EVENTS_URL                | linkedevents api base url                                                                                   |
 | REACT_APP_LINKED_REGISTRATIONS_UI_URL      | Linked registration UI url. Used to get signup form url                                                     |
-| REACT_APP_OIDC_AUTHORITY                   | Tunnistamo SSO service url. Default is https://tunnistamo.test.hel.ninja/openid                             |
-| REACT_APP_OIDC_API_TOKENS_URL              | Tunnistamo api tokens endpoint url. Default is https://tunnistamo.test.hel.ninja/api-tokens/                |
-| REACT_APP_OIDC_CLIENT_ID                   | Oidc client. Default is linkedcomponents-ui-dev                                                             |
-| REACT_APP_OIDC_API_SCOPE                   | Linked Events API scope. Default is https://api.hel.fi/auth/linkedeventsapidev                              |
+| REACT_APP_OIDC_AUTHORITY                   | Keycloak SSO service url. Default in .env.local is https://tunnistus.test.hel.ninja/auth/realms/helsinki-tunnistus                                       |
+| REACT_APP_OIDC_API_TOKENS_URL              | Keycloak api tokens endpoint url. Default in .env.local is https://tunnistus.test.hel.ninja/auth/realms/helsinki-tunnistus/protocol/openid-connect/token |
+| REACT_APP_OIDC_CLIENT_ID                   | Oidc client. Default in .env.local is linkedcomponents-ui-dev                                                                                            |
+| REACT_APP_OIDC_API_SCOPE                   | Linked Events API scope. Default in .env.local is linkedevents-api-dev                                                                                   |
 | REACT_APP_SENTRY_DSN                       | Sentry DSN. Both REACT_APP_SENTRY_DSN and REACT_APP_SENTRY_ENVIRONMENT has to be set to send error reports. |
 | REACT_APP_SENTRY_ENVIRONMENT               | Setry environment.                                                                                          |
 | REACT_APP_MATOMO_URL_BASE                  | https://analytics.hel.ninja/                                                                                |
