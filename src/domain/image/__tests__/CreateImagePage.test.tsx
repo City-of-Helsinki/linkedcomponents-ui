@@ -1,7 +1,5 @@
-import React from 'react';
-
 import { testIds } from '../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   actWait,
   configure,
@@ -32,6 +30,14 @@ import CreateImagePage from '../CreateImagePage';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const mocks = [
   mockedOrganizationAncestorsResponse,
   mockedOrganizationResponse,
@@ -41,10 +47,7 @@ const mocks = [
   mockedUserResponse,
 ];
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
-const renderComponent = () =>
-  render(<CreateImagePage />, { authContextValue, mocks });
+const renderComponent = () => render(<CreateImagePage />, { mocks });
 
 const getElement = (
   key: 'addButton' | 'publisherInput' | 'publisherToggleButton' | 'saveButton'

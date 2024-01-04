@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import React from 'react';
 
 import { SendRegistrationUserAccessInvitationDocument } from '../../../../../generated/graphql';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -10,6 +11,7 @@ import {
   userEvent,
 } from '../../../../../utils/testUtils';
 import { mockedServiceLanguagesResponse } from '../../../../language/__mocks__/language';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import {
   REGISTRATION_FIELDS,
   TEST_REGISTRATION_USER_ID,
@@ -20,7 +22,15 @@ import RegistrationUsersSection from '../RegistrationUserAccessesSection';
 
 configure({ defaultHidden: true });
 
-const defaultMocks = [mockedServiceLanguagesResponse];
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
+const defaultMocks = [mockedServiceLanguagesResponse, mockedUserResponse];
 
 const defaultInitialValue = {
   [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: [],

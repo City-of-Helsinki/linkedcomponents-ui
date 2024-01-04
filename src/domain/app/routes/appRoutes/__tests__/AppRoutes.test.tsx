@@ -2,14 +2,20 @@
 import i18n from 'i18next';
 import React from 'react';
 
+import { mockUnauthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import { render } from '../../../../../utils/testUtils';
 import AppRoutes from '../AppRoutes';
 
 const getWrapper = (route: string) =>
   render(<AppRoutes />, { routes: [route] });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
 beforeEach(() => {
   i18n.changeLanguage('fi');
+  mockUnauthenticatedLoginState();
 });
 
 it('user from supported locale will be redirect to App with that locale', async () => {

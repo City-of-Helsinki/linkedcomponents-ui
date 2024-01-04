@@ -9,6 +9,7 @@ import {
   SuperEventType,
 } from '../../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../../utils/mockDataUtils';
+import { mockUnauthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -31,6 +32,14 @@ import { EXTERNAL_PUBLISHER_ID } from '../../../../organization/constants';
 import EventsTableRow from '../EventsTableRow';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 const renderComponent = (event: EventFieldsFragment, mocks: MockedResponse[]) =>
   render(

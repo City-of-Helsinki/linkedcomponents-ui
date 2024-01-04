@@ -3,31 +3,22 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import ErrorPage from '../../../common/components/errorPage/ErrorPage';
-import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import PageWrapper from '../../app/layout/pageWrapper/PageWrapper';
-import { useAuth } from '../hooks/useAuth';
-import styles from './logoutPage.module.scss';
+import useAuth from '../hooks/useAuth';
 
 const LogoutPage: React.FC = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { authenticated } = useAuth();
   const { t } = useTranslation();
   const locale = useLocale();
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (isAuthenticated) {
+    if (authenticated) {
       navigate(`/${locale}${ROUTES.HOME}`, { replace: true });
     }
-  }, [isAuthenticated, locale, navigate]);
-
-  // Show loading spinner while checking if user is authenticated. This is useful when user manually opens logout page
-  if (isLoading) {
-    return (
-      <LoadingSpinner className={styles.loadingSpinner} isLoading={isLoading} />
-    );
-  }
+  }, [authenticated, locale, navigate]);
 
   return (
     <PageWrapper title={t('logoutPage.pageTitle')}>

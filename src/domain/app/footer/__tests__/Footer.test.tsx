@@ -1,11 +1,10 @@
 /* eslint-disable import/no-named-as-default-member */
 import { MockedResponse } from '@apollo/client/testing';
 import i18n from 'i18next';
-import React from 'react';
 
 import { DATA_PROTECTION_URL, ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -24,18 +23,24 @@ import Footer from '../Footer';
 configure({ defaultHidden: true });
 
 beforeEach(() => {
+  mockAuthenticatedLoginState();
   i18n.changeLanguage('fi');
 });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
 const renderComponent = ({
-  authContextValue = fakeAuthenticatedAuthContextValue(),
   mocks = [mockedUserResponse],
   route = '/fi',
-} = {}) => render(<Footer />, { authContextValue, mocks, routes: [route] });
+} = {}) => render(<Footer />, { mocks, routes: [route] });
 
 // TODO: Swedish language is disabled at the moment, so skip this test
 test.skip('matches snapshot', async () => {
+  mockAuthenticatedLoginState();
   i18n.changeLanguage('sv');
+
   const { container } = renderComponent({ route: '/sv' });
 
   screen.getByRole('link', { name: 'Evenemang' });
@@ -47,6 +52,7 @@ test('should show navigation links and should route to correct page after clicki
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
   });
+
   const user = userEvent.setup();
   const { history } = renderComponent();
   const links = [
@@ -100,6 +106,7 @@ test.each(registrationAndAdminTabTestCases)(
       LOCALIZED_IMAGE: true,
       SHOW_ADMIN: true,
     });
+
     const userMocks: Record<typeof role, MockedResponse> = {
       admin: mockedUserResponse,
       noOrganization: mockedUserWithoutOrganizationsResponse,
@@ -130,11 +137,12 @@ test.each(registrationAndAdminTabTestCases)(
   }
 );
 
-test('should not show admin and registration links when those features are disabled', async () => {
+test('should not show admin links when those features are disabled', async () => {
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: false,
   });
+
   const user = userEvent.setup();
 
   const { history } = renderComponent();

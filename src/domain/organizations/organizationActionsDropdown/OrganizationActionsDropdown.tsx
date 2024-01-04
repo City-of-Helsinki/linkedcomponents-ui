@@ -10,7 +10,7 @@ import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { ORGANIZATION_ACTIONS } from '../../organization/constants';
 import useOrganizationUpdateActions, {
   ORGANIZATION_MODALS,
@@ -36,7 +36,7 @@ const OrganizationActionsDropdown: FC<OrganizationActionsDropdownProps> = ({
   const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
   const { id } = getOrganizationFields(organization, locale, t);
   const { pathname, search } = useLocation();

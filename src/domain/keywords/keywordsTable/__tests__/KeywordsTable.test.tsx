@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { fakeKeywords } from '../../../../utils/mockDataUtils';
+import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -16,6 +15,14 @@ import { KEYWORD_SORT_OPTIONS } from '../../constants';
 import KeywordsTable, { KeywordsTableProps } from '../KeywordsTable';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 const keywordName = 'Keyword name';
 const keywordId = TEST_KEYWORD_ID;

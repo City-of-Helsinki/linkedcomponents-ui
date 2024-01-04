@@ -1,5 +1,4 @@
-import React from 'react';
-
+import { mockUnauthenticatedLoginState } from '../../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -16,6 +15,14 @@ import {
 import RecurringEvents from '../RecurringEvents';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 const renderComponent = (context?: Partial<TimeSectionContextProps>) =>
   render(

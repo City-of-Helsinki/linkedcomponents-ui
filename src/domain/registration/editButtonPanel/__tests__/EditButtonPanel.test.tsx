@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import copyToClipboard from 'copy-to-clipboard';
-import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import {
+  mockAuthenticatedLoginState,
+  mockUnauthenticatedLoginState,
+} from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -11,7 +13,6 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { AuthContextProps } from '../../../auth/types';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { shouldExportSignupsAsExcel } from '../../../signups/__tests__/testUtils';
 import { mockedRegistrationUserResponse } from '../../../user/__mocks__/user';
@@ -25,6 +26,14 @@ import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 configure({ defaultHidden: true });
 vi.mock('copy-to-clipboard');
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const defaultProps: EditButtonPanelProps = {
   onDelete: vi.fn(),
   onUpdate: vi.fn(),
@@ -33,23 +42,19 @@ const defaultProps: EditButtonPanelProps = {
   saving: null,
 };
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
 const mocks = [
   mockedOrganizationAncestorsResponse,
   mockedRegistrationUserResponse,
 ];
 
 const renderComponent = ({
-  authContextValue,
   props,
   route = `/fi${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`,
 }: {
-  authContextValue?: AuthContextProps;
   props?: Partial<EditButtonPanelProps>;
   route?: string;
 } = {}) =>
   render(<EditButtonPanel {...defaultProps} {...props} />, {
-    authContextValue,
     mocks,
     routes: [route],
   });
@@ -113,7 +118,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent({ authContextValue });
+  renderComponent();
 
   const toggleButton = await openMenu();
   await user.click(toggleButton);
@@ -127,7 +132,7 @@ test('should render all buttons when user is authenticated', async () => {
   const onUpdate = vi.fn();
 
   const user = userEvent.setup();
-  renderComponent({ props: { onDelete, onUpdate }, authContextValue });
+  renderComponent({ props: { onDelete, onUpdate } });
 
   await openMenu();
 
@@ -145,6 +150,7 @@ test('should render all buttons when user is authenticated', async () => {
 });
 
 test('all buttons should be disabled when user is not logged in', async () => {
+  mockUnauthenticatedLoginState();
   renderComponent();
 
   await openMenu();
@@ -163,7 +169,7 @@ test('all buttons should be disabled when user is not logged in', async () => {
 
 test('should route to signups page when clicking show signups button', async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent({ authContextValue });
+  const { history } = renderComponent();
 
   await openMenu();
 
@@ -180,7 +186,7 @@ test('should route to signups page when clicking show signups button', async () 
 test('should route to attendance list page when clicking mark present button', async () => {
   const user = userEvent.setup();
 
-  const { history } = renderComponent({ authContextValue });
+  const { history } = renderComponent();
 
   await openMenu();
 
@@ -199,7 +205,7 @@ test('should route to attendance list page when clicking mark present button', a
 });
 
 test('should export signups as an excel after clicking export as excel button', async () => {
-  renderComponent({ authContextValue });
+  renderComponent();
   await openMenu();
   const exportAsExcelButton = getElement('exportAsExcel');
   await shouldExportSignupsAsExcel({ exportAsExcelButton, registration });
@@ -207,7 +213,7 @@ test('should export signups as an excel after clicking export as excel button', 
 
 test('should route to create registration page when clicking copy button', async () => {
   const user = userEvent.setup();
-  const { history } = renderComponent({ authContextValue });
+  const { history } = renderComponent();
 
   await openMenu();
 
@@ -221,7 +227,7 @@ test('should route to create registration page when clicking copy button', async
 
 test('should copy registration link to clipboard', async () => {
   const user = userEvent.setup();
-  renderComponent({ authContextValue });
+  renderComponent();
 
   await openMenu();
 

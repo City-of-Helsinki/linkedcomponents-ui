@@ -1,4 +1,4 @@
-import { User } from 'oidc-client';
+import { User } from 'oidc-client-ts';
 
 import getValue from '../../utils/getValue';
 import {

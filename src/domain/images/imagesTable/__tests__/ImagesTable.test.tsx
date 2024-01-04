@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { fakeImages } from '../../../../utils/mockDataUtils';
+import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -16,6 +15,14 @@ import { IMAGE_SORT_OPTIONS } from '../../constants';
 import ImagesTable, { ImagesTableProps } from '../ImagesTable';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 const imageName = 'Image name';
 const imageId = TEST_IMAGE_ID;

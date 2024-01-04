@@ -10,7 +10,7 @@ import getValue from '../../../utils/getValue';
 import AuthenticationNotification, {
   AdminType,
 } from '../../app/authenticationNotification/AuthenticationNotification';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_ACTIONS } from '../constants';
@@ -23,7 +23,7 @@ export type EventAuthenticationNotificationProps = {
 const EventAuthenticationNotification: React.FC<
   EventAuthenticationNotificationProps
 > = ({ event }) => {
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user, loading } = useUser();
 
   const { t } = useTranslation();

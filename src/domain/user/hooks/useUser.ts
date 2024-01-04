@@ -1,7 +1,9 @@
+import { useApiTokens } from 'hds-react';
+
 import { UserFieldsFragment, useUserQuery } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { isExternalUserWithoutOrganization } from '../../organization/utils';
 import { userPathBuilder } from '../utils';
 
@@ -14,18 +16,20 @@ export type UserState = {
 };
 
 const useUser = (): UserState => {
-  const { apiToken, isLoading: loadingTokens, user } = useAuth();
+  const { user } = useAuth();
+  const { getStoredApiTokens } = useApiTokens();
   const userId = user?.profile.sub;
+  const [, apiTokens] = getStoredApiTokens();
 
   const { data: userData, loading: loadingUser } = useUserQuery({
-    skip: !apiToken || !userId,
+    skip: !apiTokens || !userId,
     variables: {
       id: getValue(userId, ''),
       createPath: getPathBuilder(userPathBuilder),
     },
   });
 
-  const loading = loadingUser || loadingTokens;
+  const loading = loadingUser;
 
   const ENABLE_EXTERNAL_USER_EVENTS =
     import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';

@@ -1,8 +1,7 @@
 import { createMemoryHistory } from 'history';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -25,7 +24,13 @@ import ImagesPage from '../ImagesPage';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const mocks = [
   mockedImagesResponse,
@@ -39,7 +44,6 @@ const routes = [route];
 
 const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
   render(<ImagesPage />, {
-    authContextValue,
     mocks,
     routes,
     ...renderOptions,

@@ -3,7 +3,6 @@
 
 import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';
-import React from 'react';
 
 import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import {
@@ -11,7 +10,7 @@ import {
   FORM_NAMES,
   LE_DATA_LANGUAGES,
 } from '../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -65,6 +64,19 @@ import { testExternalUserFields } from './eventTestUtils';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+  // restoring date after each test run
+  vi.useRealTimers();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+  // values stored in tests will also be available in other tests unless you run
+  localStorage.clear();
+  sessionStorage.clear();
+});
+
 const defaultMocks = [
   mockedImagesResponse,
   mockedImageResponse,
@@ -83,24 +95,10 @@ const defaultMocks = [
   mockedUserResponse,
 ];
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   render(<CreateEventPage />, {
-    authContextValue,
     mocks,
   });
-
-beforeEach(() => {
-  // values stored in tests will also be available in other tests unless you run
-  localStorage.clear();
-  sessionStorage.clear();
-});
-
-afterEach(() => {
-  // restoring date after each test run
-  vi.useRealTimers();
-});
 
 const setFormValues = (values: Partial<EventFormFields>) => {
   const state: FormikState<EventFormFields> = {

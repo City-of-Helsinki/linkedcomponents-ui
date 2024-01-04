@@ -2,7 +2,7 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { unstable_HistoryRouter as Router } from 'react-router-dom';
 
 import {
@@ -10,9 +10,8 @@ import {
   PublicationStatus,
 } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import { createCache } from '../../../app/apollo/apolloClient';
-import { AuthContext } from '../../../auth/AuthContext';
 import { mockedImageResponse } from '../../../image/__mocks__/image';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
@@ -43,7 +42,13 @@ import {
 } from '../__mocks__/useEventUpdateActions';
 import useEventActions from '../useEventActions';
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const history = createMemoryHistory();
 const commonMocks = [
@@ -58,16 +63,14 @@ const getHookWrapper = (
   mocks: MockedResponse[] = []
 ) => {
   const wrapper = ({ children }: PropsWithChildren) => (
-    <AuthContext.Provider value={authContextValue}>
-      <MockedProvider cache={createCache()} mocks={[...commonMocks, ...mocks]}>
-        <Router
-          /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-          history={history as any}
-        >
-          {children}
-        </Router>
-      </MockedProvider>
-    </AuthContext.Provider>
+    <MockedProvider cache={createCache()} mocks={[...commonMocks, ...mocks]}>
+      <Router
+        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+        history={history as any}
+      >
+        {children}
+      </Router>
+    </MockedProvider>
   );
   const { result } = renderHook(() => useEventActions(event), {
     wrapper,

@@ -16,7 +16,7 @@ import {
 } from '../../../utils/openMailtoLinkUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { EVENT_ACTIONS, EVENT_MODALS } from '../../event/constants';
 import useEventActions from '../../event/hooks/useEventActions';
 import ConfirmCancelEventModal from '../../event/modals/confirmCancelEventModal/ConfirmCancelEventModal';
@@ -41,7 +41,7 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
 }) => {
   const { t } = useTranslation();
   const { addNotification } = useNotificationsContext();
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const locale = useLocale();
   const navigate = useNavigate();
   const { eventUrl } = getEventFields(event, locale);

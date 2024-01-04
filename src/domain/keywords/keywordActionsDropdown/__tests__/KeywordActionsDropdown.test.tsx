@@ -1,7 +1,5 @@
-import React from 'react';
-
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   configure,
@@ -23,7 +21,13 @@ import KeywordActionsDropdown, {
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const mocks = [
   mockedDeleteKeywordResponse,
@@ -40,7 +44,6 @@ const defaultProps: KeywordActionsDropdownProps = {
 
 const renderComponent = (props?: Partial<KeywordActionsDropdownProps>) =>
   render(<KeywordActionsDropdown {...defaultProps} {...props} />, {
-    authContextValue,
     mocks,
     routes,
   });

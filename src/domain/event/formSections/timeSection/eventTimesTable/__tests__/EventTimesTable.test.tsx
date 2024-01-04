@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
-import React from 'react';
 
+import { mockUnauthenticatedLoginState } from '../../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -20,8 +20,13 @@ const defaultProps: EventTimesTableProps = {
   setEventTimes: vi.fn(),
 };
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
 beforeEach(() => {
   vi.useRealTimers();
+  mockUnauthenticatedLoginState();
 });
 
 const eventTime1 = {

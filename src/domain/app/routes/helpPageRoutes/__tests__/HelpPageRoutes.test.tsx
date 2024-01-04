@@ -1,11 +1,12 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
-import React from 'react';
 import { Route, Routes } from 'react-router';
 
 import { ROUTES } from '../../../../../constants';
 import { Language } from '../../../../../types';
+import { mockUnauthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -21,6 +22,14 @@ import HelpPageRoutes from '../HelpPageRoutes';
 vi.mock('swagger-ui-react');
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 let initialHeadInnerHTML: string | null = null;
 

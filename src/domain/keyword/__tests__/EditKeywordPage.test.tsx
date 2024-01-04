@@ -1,9 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import getValue from '../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   renderWithRoute,
@@ -27,7 +26,13 @@ import EditKeywordPage from '../EditKeywordPage';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const defaultMocks = [
   mockedKeywordResponse,
@@ -41,7 +46,6 @@ const route = ROUTES.EDIT_KEYWORD.replace(':id', getValue(keyword.id, ''));
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditKeywordPage />, {
-    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_KEYWORD,

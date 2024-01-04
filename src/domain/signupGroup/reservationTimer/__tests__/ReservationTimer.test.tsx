@@ -12,6 +12,7 @@ import {
   getMockedSeatsReservationData,
   setSessionStorageValues,
 } from '../../../../utils/mockDataUtils';
+import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   render,
   screen,
@@ -34,6 +35,17 @@ vi.mock('react-router', async () => {
     ...((await vi.importActual('react-router')) as object),
     useNavigate: () => mockedUseNavigate,
   };
+});
+
+afterEach(() => {
+  vi.resetAllMocks();
+  // values stored in tests will also be available in other tests unless you run
+  localStorage.clear();
+  sessionStorage.clear();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
 });
 
 const defaultServerErrorsProps: SignupServerErrorsContextProps = {
@@ -70,13 +82,6 @@ const renderComponent = (
     </SignupGroupFormProvider>,
     { mocks }
   );
-
-beforeEach(() => {
-  vi.resetAllMocks();
-  // values stored in tests will also be available in other tests unless you run
-  localStorage.clear();
-  sessionStorage.clear();
-});
 
 const getSeatsReservationErrorMock = (error: Error): MockedResponse => {
   return {

@@ -1,14 +1,13 @@
 /* eslint-disable import/no-named-as-default-member */
 import { MockedResponse } from '@apollo/client/testing';
 import i18n from 'i18next';
-import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import {
-  fakeAuthContextValue,
-  fakeAuthenticatedAuthContextValue,
-} from '../../../../utils/mockAuthContextValue';
+  mockAuthenticatedLoginState,
+  mockUnauthenticatedLoginState,
+} from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -16,29 +15,35 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
-import { AuthContextProps } from '../../../auth/types';
 import {
   mockedRegistrationUserResponse,
   mockedRegularUserResponse,
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
-  userFirstName,
+  userName,
 } from '../../../user/__mocks__/user';
 import Header from '../Header';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+  i18n.changeLanguage('fi');
+});
+
 const defaultMocks = [mockedUserResponse];
 
 const renderComponent = ({
-  authContextValue = fakeAuthenticatedAuthContextValue(),
   mocks = defaultMocks,
   route = '/fi',
 }: {
-  authContextValue?: AuthContextProps;
   mocks?: MockedResponse[];
   route?: string;
-} = {}) => render(<Header />, { authContextValue, mocks, routes: [route] });
+} = {}) => render(<Header />, { mocks, routes: [route] });
 
 const getElement = (key: 'fiOption' | 'enOption' | 'menuButton') => {
   switch (key) {
@@ -60,13 +65,8 @@ const getElements = (key: 'signInButton' | 'signOutLink') => {
   }
 };
 
-beforeEach(() => {
-  vi.restoreAllMocks();
-  i18n.changeLanguage('fi');
-});
-
 const findUserMenuButton = () =>
-  screen.findByRole('button', { name: userFirstName }, { timeout: 10000 });
+  screen.findByRole('button', { name: userName }, { timeout: 10000 });
 
 // TODO: Skip this test because SV UI language is temporarily disabled
 test.skip('matches snapshot', async () => {
@@ -221,21 +221,21 @@ test('should change language', async () => {
 test('should start login process', async () => {
   const user = userEvent.setup();
 
-  const signIn = vi.fn();
-  const authContextValue = fakeAuthContextValue({ signIn });
-  renderComponent({ authContextValue });
+  const login = vi.fn();
+  mockUnauthenticatedLoginState({ login });
+  renderComponent();
 
   const signInButtons = getElements('signInButton');
   await user.click(signInButtons[0]);
-  expect(signIn).toBeCalled();
+  expect(login).toBeCalled();
 });
 
 test('should start logout process', async () => {
   const user = userEvent.setup();
 
-  const signOut = vi.fn();
-  const authContextValue = fakeAuthenticatedAuthContextValue({ signOut });
-  renderComponent({ authContextValue });
+  const logout = vi.fn();
+  mockAuthenticatedLoginState({ logout });
+  renderComponent();
 
   const userMenuButton = await findUserMenuButton();
   await user.click(userMenuButton);
@@ -243,5 +243,5 @@ test('should start logout process', async () => {
   const signOutLinks = getElements('signOutLink');
   await user.click(signOutLinks[0]);
 
-  await waitFor(() => expect(signOut).toBeCalled());
+  await waitFor(() => expect(logout).toBeCalled());
 });

@@ -1,11 +1,8 @@
 /* eslint-disable no-undef */
-import React from 'react';
-
 import { SUPPORTED_LANGUAGES } from '../../../../../constants';
+import { mockUnauthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import { actWait, render, screen } from '../../../../../utils/testUtils';
 import PageLayout from '../PageLayout';
-
-const renderComponent = () => render(<PageLayout />);
 
 // Rendering PageLayout creates a side effect--the document head will be
 // mutated. This mutation will persist between tests. This can be problematic:
@@ -17,16 +14,21 @@ const renderComponent = () => render(<PageLayout />);
 // teardown.
 let initialHeadInnerHTML: string | null = null;
 
+afterEach(() => {
+  document.head.innerHTML = initialHeadInnerHTML || '';
+  vi.resetAllMocks();
+});
+
 beforeEach(() => {
+  mockUnauthenticatedLoginState();
+
   const head: HTMLHeadElement | null = document.querySelector('head');
   initialHeadInnerHTML = head?.innerHTML || null;
 
   document.head.innerHTML = '';
 });
 
-afterEach(() => {
-  document.head.innerHTML = initialHeadInnerHTML || '';
-});
+const renderComponent = () => render(<PageLayout />);
 
 test('common meta data should be added', async () => {
   // This function is usually used for the helpers it returns. However, the

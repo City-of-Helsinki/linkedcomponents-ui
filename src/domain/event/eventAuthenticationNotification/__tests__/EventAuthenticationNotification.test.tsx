@@ -1,7 +1,5 @@
-import React from 'react';
-
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeEvent } from '../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -21,11 +19,15 @@ import EventAuthenticationNotification, {
 } from '../EventAuthenticationNotification';
 
 configure({ defaultHidden: true });
-beforeEach(() => {
-  vi.useRealTimers();
+
+afterEach(() => {
+  vi.resetAllMocks();
 });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+beforeEach(() => {
+  vi.useRealTimers();
+  mockAuthenticatedLoginState();
+});
 
 const renderComponent = (
   renderOptions?: CustomRenderOptions,
@@ -47,7 +49,7 @@ test('should not show notification if user is signed in', async () => {
     mockedUserWithoutOrganizationsResponse,
   ];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
@@ -66,7 +68,7 @@ test('should show notification if event is in the past', async () => {
 
   const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks }, { event });
+  renderComponent({ mocks }, { event });
 
   await loadingSpinnerIsNotInDocument();
 

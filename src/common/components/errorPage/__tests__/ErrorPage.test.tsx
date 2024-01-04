@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -9,6 +10,14 @@ import {
 import ErrorPage from '../ErrorPage';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 const renderComponent = () =>
   render(<ErrorPage signInPath="" text={'Lorem ipsum'} />, {

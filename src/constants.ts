@@ -61,7 +61,7 @@ export enum ROUTES {
   REGISTRATION_SAVED = '/registrations/completed/:id',
   REGISTRATION_SIGNUPS = '/registrations/:registrationId/signups',
   SEARCH = '/search',
-  SILENT_CALLBACK = '/silent-callback',
+  SILENT_CALLBACK = '/silent_renew.html',
   SUPPORT = '/help/support',
   SUPPORT_ASK_PERMISSION = '/help/support/ask-permission',
   SUPPORT_CONTACT = '/help/support/contact',

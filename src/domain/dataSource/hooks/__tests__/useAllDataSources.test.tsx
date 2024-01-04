@@ -1,19 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
+import { createMemoryHistory } from 'history';
 import map from 'lodash/map';
 import range from 'lodash/range';
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
+import { unstable_HistoryRouter as Router } from 'react-router-dom';
 
 import { DataSourcesDocument, Meta } from '../../../../generated/graphql';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
 import { fakeDataSources } from '../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import { createCache } from '../../../app/apollo/apolloClient';
 import { NotificationsProvider } from '../../../app/notificationsContext/NotificationsContext';
-import { AuthContext } from '../../../auth/AuthContext';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { MAX_DATA_SOURCES_PAGE_SIZE } from '../../constants';
 import useAllDataSources from '../useAllDataSources';
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const PAGE_SIZE = 10;
 
@@ -68,8 +78,6 @@ const mockedPage2DataSourcesResponse = {
   result: page2DataSourcesResponse,
 };
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const mocks = [
   mockedDataSourcesResponse,
   mockedPage2DataSourcesResponse,
@@ -78,13 +86,13 @@ const mocks = [
 
 const getHookWrapper = async () => {
   const wrapper = ({ children }: PropsWithChildren) => (
-    <NotificationsProvider>
-      <AuthContext.Provider value={authContextValue}>
+    <Router history={createMemoryHistory() as any}>
+      <NotificationsProvider>
         <MockedProvider cache={createCache()} mocks={mocks}>
           {children}
         </MockedProvider>
-      </AuthContext.Provider>
-    </NotificationsProvider>
+      </NotificationsProvider>
+    </Router>
   );
 
   const { result } = renderHook(() => useAllDataSources(), {

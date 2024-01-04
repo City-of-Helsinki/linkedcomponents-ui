@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import {
+  mockAuthenticatedLoginState,
+  mockUnauthenticatedLoginState,
+} from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -13,7 +15,6 @@ import {
   waitFor,
   within,
 } from '../../../../utils/testUtils';
-import { AuthContextProps } from '../../../auth/types';
 import {
   event,
   eventId,
@@ -29,13 +30,19 @@ import EventActionsDropdown, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const defaultProps: EventActionsDropdownProps = {
   event,
 };
 
 const defaultMocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
-
-const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const cancelledEvent = {
   ...event,
@@ -46,16 +53,13 @@ const draftEvent = { ...event, publicationStatus: PublicationStatus.Draft };
 const publicEvent = { ...event, publicationStatus: PublicationStatus.Public };
 
 const renderComponent = ({
-  authContextValue,
   mocks = defaultMocks,
   props,
 }: {
-  authContextValue?: AuthContextProps;
   mocks?: MockedResponse[];
   props?: Partial<EventActionsDropdownProps>;
-}) =>
+} = {}) =>
   render(<EventActionsDropdown {...defaultProps} {...props} />, {
-    authContextValue,
     mocks,
     routes: [`/fi${ROUTES.SEARCH}`],
   });
@@ -102,7 +106,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent({ authContextValue });
+  renderComponent();
 
   const toggleButton = await openMenu();
   await user.click(toggleButton);
@@ -112,7 +116,7 @@ test('should toggle menu by clicking actions button', async () => {
 });
 
 test('should render correct buttons for draft event', async () => {
-  renderComponent({ props: { event: draftEvent }, authContextValue });
+  renderComponent({ props: { event: draftEvent } });
 
   await openMenu();
 
@@ -128,6 +132,7 @@ test('should render correct buttons for draft event', async () => {
 });
 
 test('only edit button should be enabled when user is not logged in (draft)', async () => {
+  mockUnauthenticatedLoginState();
   renderComponent({ props: { event: draftEvent } });
 
   await openMenu();
@@ -146,7 +151,6 @@ test('only edit button should be enabled when user is not logged in (draft)', as
 
 test('should render correct buttons for public event', async () => {
   renderComponent({
-    authContextValue,
     props: { event: publicEvent },
   });
 
@@ -163,7 +167,7 @@ test('should render correct buttons for public event', async () => {
 });
 
 test('only copy, edit and delete button should be enabled when event is cancelled', async () => {
-  renderComponent({ authContextValue, props: { event: cancelledEvent } });
+  renderComponent({ props: { event: cancelledEvent } });
 
   await openMenu();
 
@@ -179,6 +183,7 @@ test('only copy, edit and delete button should be enabled when event is cancelle
 });
 
 test('only edit button should be enabled when user is not logged in (public)', async () => {
+  mockUnauthenticatedLoginState();
   renderComponent({ props: { event: publicEvent } });
 
   await openMenu();
@@ -198,7 +203,6 @@ test('only edit button should be enabled when user is not logged in (public)', a
 test('should route to create event page when clicking copy button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({
-    authContextValue,
     props: { event: publicEvent },
   });
 
@@ -232,7 +236,7 @@ test('should cancel event', async () => {
   const mocks: MockedResponse[] = [...defaultMocks, mockedCancelEventResponse];
   const user = userEvent.setup();
 
-  renderComponent({ authContextValue, props: { event }, mocks });
+  renderComponent({ props: { event }, mocks });
 
   await openMenu();
 
@@ -254,7 +258,7 @@ test('should delete event', async () => {
   const mocks: MockedResponse[] = [...defaultMocks, mockedDeleteEventResponse];
   const user = userEvent.setup();
 
-  renderComponent({ authContextValue, props: { event }, mocks });
+  renderComponent({ props: { event }, mocks });
 
   await openMenu();
 
@@ -279,7 +283,7 @@ test('should postpone event', async () => {
   ];
   const user = userEvent.setup();
 
-  renderComponent({ authContextValue, props: { event }, mocks });
+  renderComponent({ props: { event }, mocks });
 
   await openMenu();
 
@@ -309,7 +313,7 @@ test('should call the mailto function when clicking Send Email button', async ()
   specialEvent.createdBy = 'Jaska Jokunen - testisähköposti@testidomaini.fi';
 
   const user = userEvent.setup();
-  renderComponent({ authContextValue, props: { event: specialEvent }, mocks });
+  renderComponent({ props: { event: specialEvent }, mocks });
 
   await openMenu();
 
@@ -338,7 +342,7 @@ test('should find the email address even when the createdBy field has extra dash
     'Jaska Joki-Niemi - jaska_joki-niemi@testi-domaini.fi';
 
   const user = userEvent.setup();
-  renderComponent({ authContextValue, props: { event: specialEvent }, mocks });
+  renderComponent({ props: { event: specialEvent }, mocks });
 
   await openMenu();
 

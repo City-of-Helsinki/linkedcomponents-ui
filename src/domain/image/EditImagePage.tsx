@@ -13,7 +13,7 @@ import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useNotificationsContext } from '../app/notificationsContext/hooks/useNotificationsContext';
-import { useAuth } from '../auth/hooks/useAuth';
+import useAuth from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
 import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
@@ -35,7 +35,7 @@ const EditImagePage: React.FC<Props> = ({ image }) => {
   const locale = useLocale();
   const navigate = useNavigate();
   const { publisher } = getImageFields(image, locale);
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 

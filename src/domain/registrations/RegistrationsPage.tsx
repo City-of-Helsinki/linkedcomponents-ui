@@ -13,7 +13,7 @@ import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
-import { useAuth } from '../auth/hooks/useAuth';
+import useAuth from '../auth/hooks/useAuth';
 import NotSigned from '../notSigned/NotSigned';
 import { getRegistrationActionButtonProps } from '../registration/permissions';
 import RegistrationAuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
@@ -34,7 +34,7 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
   const navigate = useNavigate();
   const locale = useLocale();
 
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
 
   const goToCreateRegistrationPage = () => {
     clearRegistrationFormData();

@@ -3,15 +3,14 @@ import React from 'react';
 
 import { PostFeedbackDocument } from '../../../../../generated/graphql';
 import getValue from '../../../../../utils/getValue';
-import {
-  fakeAuthenticatedAuthContextValue,
-  fakeOidcReducerState,
-  fakeOidcUserProfileState,
-  fakeOidcUserState,
-} from '../../../../../utils/mockAuthContextValue';
 import { fakeFeedback } from '../../../../../utils/mockDataUtils';
 import {
-  act,
+  fakeOidcUserProfileState,
+  fakeOidcUserState,
+  mockAuthenticatedLoginState,
+  mockUnauthenticatedLoginState,
+} from '../../../../../utils/mockLoginHooks';
+import {
   configure,
   CustomRenderOptions,
   render,
@@ -28,6 +27,21 @@ import { isContactInfoSentSuccessfully } from '../../testUtils';
 import AskPermissionPage from '../AskPermissionPage';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState({
+    user: fakeOidcUserState({
+      profile: fakeOidcUserProfileState({
+        name: values.name,
+        email: values.email,
+      }),
+    }),
+  });
+});
 
 const values = {
   body: 'Feedback message',
@@ -125,21 +139,9 @@ const enterCommonValues = async () => {
   return { organizationToggleButton, jobDescriptionInput, bodyInput };
 };
 
-const authContextValue = fakeAuthenticatedAuthContextValue(
-  fakeOidcReducerState({
-    user: fakeOidcUserState({
-      profile: fakeOidcUserProfileState({
-        name: values.name,
-        email: values.email,
-      }),
-    }),
-  })
-);
-
 test('should disable all fields if user is not authenticated', async () => {
-  await act(async () => {
-    await renderComponent();
-  });
+  mockUnauthenticatedLoginState();
+  await renderComponent();
 
   const nameInput = getElement('name');
   const emailInput = getElement('email');
@@ -159,7 +161,7 @@ test('should disable all fields if user is not authenticated', async () => {
 test('should scroll to organization selector when organization is not selected', async () => {
   const user = userEvent.setup();
 
-  renderComponent({ mocks: [mockedPostFeedbackResponse], authContextValue });
+  renderComponent({ mocks: [mockedPostFeedbackResponse] });
 
   const organizationToggleButton = getElement('organizationToggleButton');
   const sendButton = getElement('sendButton');
@@ -172,7 +174,7 @@ test('should scroll to organization selector when organization is not selected',
 test('should scroll to job description when it is empty', async () => {
   const user = userEvent.setup();
 
-  renderComponent({ authContextValue });
+  renderComponent();
 
   const jobDescriptionInput = getElement('jobDescription');
   const sendButton = getElement('sendButton');
@@ -186,7 +188,7 @@ test('should scroll to job description when it is empty', async () => {
 test('should succesfully send access request when user is signed in', async () => {
   const user = userEvent.setup();
 
-  renderComponent({ mocks: [mockedPostFeedbackResponse], authContextValue });
+  renderComponent({ mocks: [mockedPostFeedbackResponse] });
 
   await enterCommonValues();
 
@@ -201,7 +203,6 @@ test('should show server errors', async () => {
 
   renderComponent({
     mocks: [mockedInvalidPostFeedbackResponse],
-    authContextValue,
   });
 
   await enterCommonValues();

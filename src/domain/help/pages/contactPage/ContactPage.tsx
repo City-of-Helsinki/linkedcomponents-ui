@@ -17,7 +17,7 @@ import {
   showFormErrors,
 } from '../../../../utils/validationUtils';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
-import { useAuth } from '../../../auth/hooks/useAuth';
+import useAuth from '../../../auth/hooks/useAuth';
 import useFeedbackActions from '../../../feedback/hooks/useFeedbackActions';
 import useFeedbackServerErrors from '../../../feedback/hooks/useFeedbackServerErrors';
 import SuccessNotification from '../../../feedback/successNotification/SuccessNotification';
@@ -46,7 +46,7 @@ const ContactPage: React.FC = () => {
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useFeedbackServerErrors();
 
-  const { isAuthenticated: authenticated, user } = useAuth();
+  const { authenticated, user } = useAuth();
   const initialValues = React.useMemo(
     () => getContactFormInitialValues(user),
     [user]

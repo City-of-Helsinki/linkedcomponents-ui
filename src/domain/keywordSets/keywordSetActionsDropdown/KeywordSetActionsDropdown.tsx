@@ -10,7 +10,7 @@ import { KeywordSetFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { KEYWORD_SET_ACTIONS } from '../../keywordSet/constants';
 import useKeywordSetUpdateActions, {
   KEYWORD_SET_MODALS,
@@ -37,7 +37,7 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
   const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
   const { id, organization } = getKeywordSetFields(keywordSet, locale);
   const { organizationAncestors } = useOrganizationAncestors(organization);

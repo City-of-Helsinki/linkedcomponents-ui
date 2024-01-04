@@ -1,4 +1,9 @@
-import { IconCrossCircle, IconMenuDots, IconPen } from 'hds-react';
+import {
+  IconCrossCircle,
+  IconMenuDots,
+  IconPen,
+  useOidcClient,
+} from 'hds-react';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -17,7 +22,6 @@ import formatDate from '../../../../../utils/formatDate';
 import getDateFromString from '../../../../../utils/getDateFromString';
 import getValue from '../../../../../utils/getValue';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
-import { useAuth } from '../../../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../../../user/hooks/useUser';
 import { EVENT_ACTIONS } from '../../../constants';
@@ -47,7 +51,8 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
 }) => {
   const { t } = useTranslation();
   const { isEditingAllowed, savedEvent } = useTimeSectionContext();
-  const { isAuthenticated: authenticated } = useAuth();
+  const { isAuthenticated } = useOidcClient();
+  const authenticated = isAuthenticated();
   const { user } = useUser();
   const [isEditModalOpen, setIsEditModalOpen] = React.useState(false);
   // Get the event by event time id. This variable is used to check

@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from '../constants';
 import { checkIsEditActionAllowed } from '../utils';
@@ -16,9 +16,8 @@ export type OrganizationAuthenticationNotificationProps = {
 const OrganizationAuthenticationNotification: React.FC<
   OrganizationAuthenticationNotificationProps
 > = ({ action, className, id }) => {
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
-
   const { t } = useTranslation();
 
   return (

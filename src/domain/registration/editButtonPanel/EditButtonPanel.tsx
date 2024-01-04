@@ -16,7 +16,7 @@ import { ActionButtonProps, ButtonType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import { RegistrationsLocationState } from '../../registrations/types';
@@ -45,7 +45,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   saving,
 }) => {
   const { t } = useTranslation();
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const locale = useLocale();
   const navigate = useNavigate();
   const { id } = getRegistrationFields(registration, locale);

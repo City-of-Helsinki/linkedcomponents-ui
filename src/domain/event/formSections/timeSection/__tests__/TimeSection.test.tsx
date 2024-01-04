@@ -1,11 +1,11 @@
 import { Formik } from 'formik';
-import React from 'react';
 
 import {
   EventFieldsFragment,
   SuperEventType,
 } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
+import { mockUnauthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   act,
   configure,
@@ -20,8 +20,13 @@ import TimeSection from '../TimeSection';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
 beforeEach(() => {
   vi.useRealTimers();
+  mockUnauthenticatedLoginState();
 });
 
 const type = EVENT_TYPE.General;

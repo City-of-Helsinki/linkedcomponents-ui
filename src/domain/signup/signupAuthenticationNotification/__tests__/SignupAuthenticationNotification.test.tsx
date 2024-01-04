@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -19,6 +17,14 @@ import { SIGNUP_ACTIONS } from '../../constants';
 import SignupAuthenticationNotification from '../SignupAuthenticationNotification';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
   render(
@@ -40,9 +46,7 @@ test("should show notification if user is signed in but doesn't have any organiz
     mockedUserResponse,
   ];
 
-  const authContextValue = fakeAuthenticatedAuthContextValue();
-
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   screen.getByRole('region');
   screen.getByRole('heading', { name: 'Ei oikeuksia muokata osallistujia.' });
@@ -55,9 +59,7 @@ test('should not show notification if user is signed in and has an registration 
     mockedRegistrationUserResponse,
   ];
 
-  const authContextValue = fakeAuthenticatedAuthContextValue();
-
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()

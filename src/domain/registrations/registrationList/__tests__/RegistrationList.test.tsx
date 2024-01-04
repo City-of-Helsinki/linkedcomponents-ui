@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -10,6 +11,7 @@ import {
 } from '../../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
   mockedPage2RegistrationsResponse,
   mockedRegistrationsResponse,
@@ -18,11 +20,20 @@ import RegistrationList from '../RegistrationList';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const mocks = [
   mockedOrganizationResponse,
   mockedOrganizationAncestorsResponse,
   mockedPage2RegistrationsResponse,
   mockedRegistrationsResponse,
+  mockedUserResponse,
 ];
 
 const getElement = (key: 'page1' | 'page2') => {

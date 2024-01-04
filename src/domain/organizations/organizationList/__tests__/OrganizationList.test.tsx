@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { ROUTES } from '../../../../constants';
 import getValue from '../../../../utils/getValue';
+import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   fireEvent,
@@ -20,6 +19,14 @@ import {
 import OrganizationList from '../OrganizationList';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 const mocks = [
   mockedDataSourceResponse,

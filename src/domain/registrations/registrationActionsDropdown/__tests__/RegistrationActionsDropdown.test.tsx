@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import copyToClipboard from 'copy-to-clipboard';
-import React from 'react';
 
 import { ROUTES } from '../../../../constants';
 import {
-  fakeAuthContextValue,
-  fakeAuthenticatedAuthContextValue,
-} from '../../../../utils/mockAuthContextValue';
+  mockAuthenticatedLoginState,
+  mockUnauthenticatedLoginState,
+} from '../../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -30,8 +29,12 @@ import RegistrationActionsDropdown, {
 configure({ defaultHidden: true });
 vi.mock('copy-to-clipboard');
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
 beforeEach(() => {
-  vi.clearAllMocks();
+  mockAuthenticatedLoginState();
   localStorage.clear();
   sessionStorage.clear();
 });
@@ -39,8 +42,6 @@ beforeEach(() => {
 const defaultProps: RegistrationActionsDropdownProps = {
   registration,
 };
-
-const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
   mockedOrganizationAncestorsResponse,
@@ -54,7 +55,6 @@ const renderComponent = ({
   ...restRenderOptions
 }: CustomRenderOptions = {}) =>
   render(<RegistrationActionsDropdown {...defaultProps} />, {
-    authContextValue,
     mocks,
     routes,
     ...restRenderOptions,
@@ -143,8 +143,8 @@ test('should render correct buttons', async () => {
 });
 
 test('only copy, copy link and edit buttons should be enabled when user is not logged in', async () => {
-  const authContextValue = fakeAuthContextValue();
-  renderComponent({ authContextValue });
+  mockUnauthenticatedLoginState();
+  renderComponent();
 
   await openMenu();
 
@@ -212,7 +212,7 @@ test('should route to attendance list page when clicking mark present button', a
 });
 
 test('should export signups as an excel after clicking export as excel button', async () => {
-  renderComponent({ authContextValue });
+  renderComponent();
   await openMenu();
   const exportAsExcelButton = getElement('exportAsExcel');
 

@@ -1,10 +1,9 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   fireEvent,
@@ -48,6 +47,14 @@ import EditSignupPage from '../EditSignupPage';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const openMenu = async () => {
   const user = userEvent.setup();
   const toggleButton = getSignupFormElement('toggle');
@@ -56,8 +63,6 @@ const openMenu = async () => {
 
   return { menu, toggleButton };
 };
-
-const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultMocks = [
   mockedSignupResponse,
@@ -76,7 +81,6 @@ const route = ROUTES.EDIT_SIGNUP.replace(
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditSignupPage />, {
-    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_SIGNUP,

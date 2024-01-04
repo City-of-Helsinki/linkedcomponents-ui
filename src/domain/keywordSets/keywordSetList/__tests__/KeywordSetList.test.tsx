@@ -1,5 +1,4 @@
-import React from 'react';
-
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   fireEvent,
@@ -10,6 +9,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
   keywordSetNames,
   mockedFilteredKeywordSetsResponse,
@@ -23,12 +23,21 @@ import KeywordSetList from '../KeywordSetList';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const mocks = [
   mockedOrganizationAncestorsResponse,
   mockedFilteredKeywordSetsResponse,
   mockedKeywordSetsResponse,
   mockedPage2KeywordSetsResponse,
   mockedSortedKeywordSetsResponse,
+  mockedUserResponse,
 ];
 
 const renderComponent = () => render(<KeywordSetList />, { mocks });

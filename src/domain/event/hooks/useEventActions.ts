@@ -29,7 +29,7 @@ import { MutationCallbacks } from '../../../types';
 import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import { clearEventsQueries } from '../../app/apollo/clearCacheUtils';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { getOrganizationAncestorsQueryResult } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
 import { EVENT_ACTIONS, EVENT_MODALS } from '../constants';
@@ -76,7 +76,7 @@ const useEventActions = (
 ): UseEventActionsState => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
   const locale = useLocale();
   const [openModal, setOpenModal] = useMountedState<EVENT_MODALS | null>(null);

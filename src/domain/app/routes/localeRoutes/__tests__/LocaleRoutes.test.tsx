@@ -14,8 +14,8 @@ import { AttendeeStatus } from '../../../../../generated/graphql';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import { Language } from '../../../../../types';
 import getValue from '../../../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
 import { fakeSignups } from '../../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   act,
   actWait,
@@ -112,7 +112,13 @@ import LocaleRoutes from '../LocaleRoutes';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const mocks = [
   mockedAttendanceListRegistrationResponse,
@@ -171,7 +177,7 @@ const renderRoute = async (route: string, locale: Language = 'fi') => {
       <Routes>
         <Route path={`/:locale/*`} element={<LocaleRoutes />} />
       </Routes>,
-      { authContextValue, mocks, routes: [`/${locale}${route}`] }
+      { mocks, routes: [`/${locale}${route}`] }
     );
   });
 

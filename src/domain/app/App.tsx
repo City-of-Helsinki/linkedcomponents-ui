@@ -2,13 +2,13 @@
 
 import { ApolloProvider } from '@apollo/client';
 import { createInstance, MatomoProvider } from '@datapunt/matomo-tracker-react';
+import { LoginProvider } from 'hds-react';
 import React, { PropsWithChildren, useMemo } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import theme from '../../assets/theme/theme';
 import getValue from '../../utils/getValue';
-import { AuthProvider } from '../auth/AuthContext';
-import userManager from '../auth/userManager';
+import { loginProviderProps } from '../auth/constants';
 import { createApolloClient } from './apollo/apolloClient';
 import CookieConsent from './cookieConsent/CookieConsent';
 import { useNotificationsContext } from './notificationsContext/hooks/useNotificationsContext';
@@ -47,7 +47,7 @@ const App: React.FC = () => {
   return (
     <ThemeProvider initTheme={theme}>
       <NotificationsProvider>
-        <AuthProvider userManager={userManager}>
+        <LoginProvider {...loginProviderProps}>
           <PageSettingsProvider>
             <BrowserRouter>
               {/* @ts-ignore */}
@@ -59,7 +59,7 @@ const App: React.FC = () => {
               </MatomoProvider>
             </BrowserRouter>
           </PageSettingsProvider>
-        </AuthProvider>
+        </LoginProvider>
       </NotificationsProvider>
     </ThemeProvider>
   );

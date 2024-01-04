@@ -1,9 +1,8 @@
 /* eslint-disable max-len */
 import { createMemoryHistory } from 'history';
-import React from 'react';
 
 import getValue from '../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -24,18 +23,20 @@ import RegistrationsPage from '../RegistrationsPage';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const mocks = [
   mockedOrganizationResponse,
   mockedOrganizationAncestorsResponse,
   mockedRegistrationsResponse,
   mockedUserResponse,
 ];
-
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
-beforeEach(() => {
-  vi.clearAllMocks();
-});
 
 const findElement = (key: 'createRegistrationButton') => {
   switch (key) {
@@ -63,13 +64,13 @@ test('should show correct title, description and keywords', async () => {
   const pageKeywords =
     'ilmoittautuminen, lista, muokkaa, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
 
-  render(<RegistrationsPage />);
+  render(<RegistrationsPage />, { mocks });
 
   await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
 });
 
 test('should render registrations page', async () => {
-  render(<RegistrationsPage />, { authContextValue, mocks });
+  render(<RegistrationsPage />, { mocks });
 
   await loadingSpinnerIsNotInDocument(10000);
 
@@ -80,7 +81,6 @@ test('should render registrations page', async () => {
 test('should open create registration page', async () => {
   const user = userEvent.setup();
   const { history } = render(<RegistrationsPage />, {
-    authContextValue,
     mocks,
   });
 
@@ -104,7 +104,6 @@ it('scrolls to registration table row and calls history.replace correctly (delet
   const replaceSpy = vi.spyOn(history, 'replace');
 
   render(<RegistrationsPage />, {
-    authContextValue,
     history,
     mocks,
     routes: [route],

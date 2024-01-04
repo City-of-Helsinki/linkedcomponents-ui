@@ -8,7 +8,7 @@ import {
 } from '../../../generated/graphql';
 import useHandleError from '../../../hooks/useHandleError';
 import { MutationCallbacks } from '../../../types';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { omitSensitiveDataFromFeedbackPayload } from '../utils';
 
 type UseFeedbackActionsProps = { successId: string };
@@ -24,7 +24,7 @@ type UseFeedbackActionsState = {
 const useFeedbackActions = ({
   successId,
 }: UseFeedbackActionsProps): UseFeedbackActionsState => {
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
 
   const [success, setSuccess] = useState(false);
 

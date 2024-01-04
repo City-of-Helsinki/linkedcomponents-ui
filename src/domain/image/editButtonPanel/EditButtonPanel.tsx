@@ -6,7 +6,7 @@ import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPane
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { ROUTES } from '../../../constants';
 import useGoBack from '../../../hooks/useGoBack';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { ImagesLocationState } from '../../images/types';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -28,7 +28,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
 
   const { organizationAncestors } = useOrganizationAncestors(publisher);

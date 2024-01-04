@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
 import AuthenticationNotification from '../../app/authenticationNotification/AuthenticationNotification';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { REGISTRATION_ACTIONS } from '../../registrations/constants';
 import useUser from '../../user/hooks/useUser';
@@ -19,7 +19,7 @@ export type RegistrationAuthenticationNotificationProps = {
 const RegistrationAuthenticationNotification: React.FC<
   RegistrationAuthenticationNotificationProps
 > = ({ action, className, registration }) => {
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
 
   const publisher = getValue(registration?.publisher, '');

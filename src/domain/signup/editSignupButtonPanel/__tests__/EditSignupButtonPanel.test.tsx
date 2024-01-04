@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -24,6 +24,14 @@ import EditSignupButtonPanel, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const defaultProps: EditSignupButtonPanelProps = {
   onDelete: vi.fn(),
   onSendMessage: vi.fn(),
@@ -38,8 +46,6 @@ const mocks = [
   mockedOrganizationAncestorsResponse,
   mockedRegistrationUserResponse,
 ];
-
-const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const defaultRoute = `/fi/${ROUTES.EDIT_SIGNUP_GROUP.replace(
   ':registrationId',
@@ -58,7 +64,6 @@ const renderComponent = ({
       <EditSignupButtonPanel {...defaultProps} {...props} />
     </SignupGroupFormProvider>,
     {
-      authContextValue,
       mocks,
       routes: [route],
     }

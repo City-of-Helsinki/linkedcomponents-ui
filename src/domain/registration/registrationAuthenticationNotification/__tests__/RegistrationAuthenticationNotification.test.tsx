@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -20,7 +18,13 @@ import RegistrationAuthenticationNotification from '../RegistrationAuthenticatio
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const defaultMocks = [mockedEventResponse, mockedOrganizationAncestorsResponse];
 
@@ -40,7 +44,7 @@ test("should show notification if user is signed in but doesn't have any organiz
   });
   const mocks = [...defaultMocks, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   screen.getByRole('region');
   screen.getByRole('heading', {
@@ -55,7 +59,7 @@ test('should show notification if user has an admin organization but the id is d
   });
   const mocks = [...defaultMocks, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   await screen.findByRole('heading', {
     name: 'Ilmoittautumista ei voi muokata',
@@ -66,7 +70,7 @@ test('should show notification if user has an admin organization but the id is d
 test('should not show notification if user is signed in and has an admin organization', async () => {
   const mocks = [...defaultMocks, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()

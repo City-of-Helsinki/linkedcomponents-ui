@@ -10,7 +10,7 @@ import {
   logoFiDark,
   logoSvDark,
 } from 'hds-react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { matchPath, PathPattern, useLocation, useNavigate } from 'react-router';
 
@@ -18,7 +18,8 @@ import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { featureFlagUtils } from '../../../utils/featureFlags';
-import { useAuth } from '../../auth/hooks/useAuth';
+import skipFalsyType from '../../../utils/skipFalsyType';
+import useAuth from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import {
   areAdminRoutesAllowed,
@@ -56,10 +57,24 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { changeLanguage, languageOptions } = useSelectLanguage();
-  const { isAuthenticated: authenticated, signIn, signOut } = useAuth();
+  const { authenticated, login, logout, user: authUser } = useAuth();
 
   const { t } = useTranslation();
   const { user } = useUser();
+
+  const displayName = useMemo(() => {
+    if (authenticated) {
+      if (authUser?.profile) {
+        const { name, family_name, given_name } = authUser?.profile;
+        if (name) {
+          return name;
+        } else if (given_name && family_name) {
+          return [given_name, family_name].filter(skipFalsyType).join(' ');
+        }
+      }
+    }
+    return '';
+  }, [authUser, authenticated]);
 
   const isTabActive = (pathname: string): boolean => {
     return location.pathname.startsWith(pathname);
@@ -105,13 +120,14 @@ const Header: React.FC = () => {
     })
   );
 
-  const handleSignIn = () => {
-    signIn(`${location.pathname}${location.search}`);
+  const handleSignIn = (e: React.MouseEvent) => {
+    e.preventDefault();
+    login();
   };
 
   const handleSignOut = (e: React.MouseEvent) => {
     e.preventDefault();
-    signOut();
+    logout();
   };
 
   const isMatch = (paths: NoNavRowProps[]) =>
@@ -189,14 +205,14 @@ const Header: React.FC = () => {
             <HDSHeader.LanguageSelector
               ariaLabel={t(`navigation.languages.${locale}`)}
             />
-            {authenticated && user ? (
+            {authenticated && authUser ? (
               <HDSHeader.ActionBarItem
                 fixedRightPosition
                 icon={<IconUser ariaHidden />}
                 closeIcon={<IconCross ariaHidden />}
                 closeLabel={t('common.close')}
                 id="action-bar-user"
-                label={user?.firstName || user?.email || ''}
+                label={displayName}
               >
                 <Link
                   href="#"

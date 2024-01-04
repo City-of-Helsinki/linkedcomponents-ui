@@ -1,8 +1,8 @@
 import range from 'lodash/range';
-import React from 'react';
 
 import { EventsDocument, Meta } from '../../../../generated/graphql';
 import { fakeEvents } from '../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   loadingSpinnerIsNotInDocument,
@@ -11,6 +11,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
   DEFAULT_EVENT_SORT,
   EVENT_LIST_INCLUDES,
@@ -22,6 +23,14 @@ import {
 import EventList, { EventListContainerProps } from '../EventList';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const TEST_PAGE_SIZE = 2;
 const variables = {
@@ -96,6 +105,7 @@ const mocks = [
   mockedEventsResponse,
   mockedPage2EventsResponse,
   mockedSortedEventsResponse,
+  mockedUserResponse,
 ];
 
 const defaultProps: EventListContainerProps = {

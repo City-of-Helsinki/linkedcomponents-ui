@@ -8,7 +8,7 @@ import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import getValue from '../../../utils/getValue';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { SIGNUP_ACTIONS } from '../../signup/constants';
 import useUser from '../../user/hooks/useUser';
@@ -28,7 +28,7 @@ const CreateSignupGroupButtonPanel: React.FC<
 > = ({ disabled, onCreate, registration, saving }) => {
   const { t } = useTranslation();
 
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { user } = useUser();

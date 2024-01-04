@@ -1,7 +1,5 @@
-import React from 'react';
-
 import getValue from '../../../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import { configure, render, screen } from '../../../../../utils/testUtils';
 import {
   dataSourceName,
@@ -19,11 +17,17 @@ import OrganizationsTableRow, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const defaultProps: OrganizationsTableRowProps = {
   organization,
 };
-
-const authContextValue = fakeAuthenticatedAuthContextValue();
 
 const mocks = [
   mockedDataSourceResponse,
@@ -38,7 +42,7 @@ const renderComponent = () =>
         <OrganizationsTableRow {...defaultProps} />
       </tbody>
     </table>,
-    { authContextValue, mocks }
+    { mocks }
   );
 
 test('should render organizations table row', async () => {

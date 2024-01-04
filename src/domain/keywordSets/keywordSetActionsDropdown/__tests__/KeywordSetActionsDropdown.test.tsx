@@ -1,7 +1,5 @@
-import React from 'react';
-
 import { ROUTES } from '../../../../constants';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   configure,
@@ -24,7 +22,13 @@ import KeywordSetActionsDropdown, {
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const defaultProps: KeywordSetActionsDropdownProps = { keywordSet };
 
@@ -38,10 +42,9 @@ const defaultMocks = [
 
 const renderComponent = (
   props?: Partial<KeywordSetActionsDropdownProps>,
-  { authContextValue, mocks = defaultMocks }: CustomRenderOptions = {}
+  { mocks = defaultMocks }: CustomRenderOptions = {}
 ) =>
   render(<KeywordSetActionsDropdown {...defaultProps} {...props} />, {
-    authContextValue,
     mocks,
     routes: [route],
   });
@@ -75,7 +78,7 @@ const openMenu = async () => {
 
 test('should toggle menu by clicking actions button', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { authContextValue });
+  renderComponent();
 
   const toggleButton = await openMenu();
   getElement('editButton');
@@ -109,7 +112,7 @@ test('should route to edit keyword set page', async () => {
 
 test('should delete keyword set', async () => {
   const user = userEvent.setup();
-  renderComponent(undefined, { authContextValue });
+  renderComponent();
 
   await openMenu();
 

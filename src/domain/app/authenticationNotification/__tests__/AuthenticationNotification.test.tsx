@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { fakeAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -15,6 +15,10 @@ import AuthenticationNotification, {
 } from '../AuthenticationNotification';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
 
 const props: AuthenticationNotificationProps = {
   authorizationWarningLabel: 'Sinulla ei ole oikeutta muokata sisältöä',
@@ -32,18 +36,19 @@ const renderComponent = (renderOptions?: CustomRenderOptions) =>
 test('should start sign in process', async () => {
   const user = userEvent.setup();
 
-  const signIn = vi.fn();
-  const authContextValue = fakeAuthContextValue({ signIn });
-  renderComponent({ authContextValue });
+  const login = vi.fn();
+  mockUnauthenticatedLoginState({ login });
+  renderComponent();
 
   const signInButton = screen.getByRole('button', { name: 'kirjautua sisään' });
   await user.click(signInButton);
 
-  expect(signIn).toBeCalled();
+  expect(login).toBeCalled();
 });
 
 test('should hide notification when clicking close button', async () => {
   const user = userEvent.setup();
+  mockUnauthenticatedLoginState();
   renderComponent();
 
   const notification = screen.getByRole('region');
@@ -54,6 +59,7 @@ test('should hide notification when clicking close button', async () => {
 });
 
 test('should show custom message', async () => {
+  mockUnauthenticatedLoginState();
   render(
     <AuthenticationNotification
       {...props}

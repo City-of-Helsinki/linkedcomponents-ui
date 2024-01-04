@@ -1,11 +1,9 @@
-import React from 'react';
-
 import {
   getMockedUserResponse,
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
 } from '../../../../domain/user/__mocks__/user';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -23,6 +21,14 @@ import KeywordSetAuthenticationNotification, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const props: KeywordSetAuthenticationNotificationProps = {
   action: KEYWORD_SET_ACTIONS.UPDATE,
   organization: TEST_PUBLISHER_ID,
@@ -31,14 +37,12 @@ const props: KeywordSetAuthenticationNotificationProps = {
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
   render(<KeywordSetAuthenticationNotification {...props} />, renderOptions);
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 const defaultMocks = [mockedEventResponse, mockedOrganizationAncestorsResponse];
 
 test("should show notification if user is signed in but doesn't have any organizations", async () => {
   const mocks = [...defaultMocks, mockedUserWithoutOrganizationsResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   await screen.findByRole('heading', {
     name: 'Ei oikeuksia muokata avainsanaryhmiä.',
@@ -48,7 +52,7 @@ test("should show notification if user is signed in but doesn't have any organiz
 test('should not show notification if user is signed in and has an admin organization', async () => {
   const mocks = [...defaultMocks, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
@@ -66,7 +70,7 @@ test('should show notification if user has an admin organization but to differen
 
   const mocks = [...defaultMocks, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   await screen.findByRole('heading', {
     name: 'Avainsanaryhmää ei voi muokata',

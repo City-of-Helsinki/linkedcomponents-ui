@@ -14,6 +14,7 @@ import {
   fakeLanguages,
   fakeOffers,
 } from '../../../../utils/mockDataUtils';
+import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -37,6 +38,14 @@ import {
 import EventCard from '../EventCard';
 
 configure({ defaultHidden: true });
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockUnauthenticatedLoginState();
+});
 
 const imageUrl = 'http://imageurl.com';
 const locationText = [placeName, streetAddress, addressLocality].join(', ');

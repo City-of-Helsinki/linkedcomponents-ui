@@ -1,8 +1,6 @@
-import React from 'react';
-
 import { ROUTES } from '../../../../constants';
 import getValue from '../../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -18,9 +16,15 @@ import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
 
-const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
+afterEach(() => {
+  vi.resetAllMocks();
+});
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 
 const defaultProps: EditButtonPanelProps = {
   id: getValue(keywordSet.id, ''),
@@ -37,7 +41,6 @@ const routes = [route];
 
 const renderComponent = (props?: Partial<EditButtonPanelProps>) =>
   render(<EditButtonPanel {...defaultProps} {...props} />, {
-    authContextValue,
     mocks,
     routes,
   });

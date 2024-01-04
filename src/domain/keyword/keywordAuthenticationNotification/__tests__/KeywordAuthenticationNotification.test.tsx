@@ -1,6 +1,4 @@
-import React from 'react';
-
-import { fakeAuthenticatedAuthContextValue } from '../../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -18,6 +16,14 @@ import KeywordAuthenticationNotification, {
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const defaultMocks = [mockedOrganizationAncestorsResponse];
 
 const props: KeywordAuthenticationNotificationProps = {
@@ -28,8 +34,6 @@ const props: KeywordAuthenticationNotificationProps = {
 const renderComponent = (renderOptions?: CustomRenderOptions) =>
   render(<KeywordAuthenticationNotification {...props} />, renderOptions);
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
-
 test("should show notification if user is signed in but doesn't have any organizations", async () => {
   const mockedUserResponse = getMockedUserResponse({
     adminOrganizations: [],
@@ -37,7 +41,7 @@ test("should show notification if user is signed in but doesn't have any organiz
   });
   const mocks = [...defaultMocks, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   screen.getByRole('heading', { name: 'Ei oikeuksia muokata avainsanoja.' });
 });
@@ -49,7 +53,7 @@ test('should not show notification if user is signed in and has an admin organiz
   });
   const mocks = [...defaultMocks, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()
@@ -63,7 +67,7 @@ test('should show notification if user has an admin organization but it is diffe
   });
   const mocks = [...defaultMocks, mockedUserResponse];
 
-  renderComponent({ authContextValue, mocks });
+  renderComponent({ mocks });
 
   await screen.findByRole('heading', { name: 'Avainsanaa ei voi muokata' });
   screen.getByText('Sinulla ei ole oikeuksia muokata tätä avainsanaa.');

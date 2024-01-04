@@ -1,8 +1,7 @@
 import { createMemoryHistory } from 'history';
-import React from 'react';
 
 import getValue from '../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
@@ -33,7 +32,13 @@ import EventsPage from '../EventsPage';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const mocks = [
   mockedBaseWaitingApprovalEventsResponse,
@@ -49,7 +54,7 @@ const mocks = [
 ];
 
 const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
-  render(<EventsPage />, { authContextValue, mocks, ...renderOptions });
+  render(<EventsPage />, { mocks, ...renderOptions });
 
 beforeEach(() => {
   vi.clearAllMocks();

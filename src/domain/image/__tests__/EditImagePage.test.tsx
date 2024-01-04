@@ -1,9 +1,8 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import getValue from '../../../utils/getValue';
-import { fakeAuthenticatedAuthContextValue } from '../../../utils/mockAuthContextValue';
+import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   renderWithRoute,
@@ -26,7 +25,13 @@ import EditImagePage from '../EditImagePage';
 
 configure({ defaultHidden: true });
 
-const authContextValue = fakeAuthenticatedAuthContextValue();
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const defaultMocks = [
   mockedImageResponse,
@@ -39,7 +44,6 @@ const route = ROUTES.EDIT_IMAGE.replace(':id', getValue(image.id, ''));
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   renderWithRoute(<EditImagePage />, {
-    authContextValue,
     mocks,
     routes: [route],
     path: ROUTES.EDIT_IMAGE,

@@ -22,7 +22,6 @@
     "**/__mocks__/*",
     "src/test/*",
     "src/utils/testUtils.tsx",
-    "src/utils/mockDataUtils.ts",
-    "src/utils/mockAuthContextValue.ts"
+    "src/utils/mockDataUtils.ts"
   ]
 }

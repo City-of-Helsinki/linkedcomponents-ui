@@ -1,17 +1,28 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { User } from 'oidc-client';
+import { LoginCallbackHandler, useApiTokensClient } from 'hds-react';
+import { User } from 'oidc-client-ts';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
-import CallbackComponent from '../callbackComponent/CallbackComponent';
-import userManager from '../userManager';
+import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import { OidcLoginState } from '../types';
 
 const OidcCallback: React.FC = () => {
   const location = useLocation();
+  const { fetch } = useApiTokensClient();
+
   const navigate = useNavigate();
 
-  const onSuccess = (user: User) => {
-    if (user.state.path) navigate(user.state.path);
+  const onSuccess = async (user: User) => {
+    try {
+      await fetch(user);
+    } catch {
+      // eslint-disable-next-line no-console
+      console.error('Failed to fetch api tokens');
+    }
+
+    const path = (user.state as OidcLoginState)?.path;
+    if (path) navigate(path);
     else navigate('/', { replace: true });
   };
 
@@ -23,11 +34,9 @@ const OidcCallback: React.FC = () => {
   };
 
   return (
-    <CallbackComponent
-      successCallback={onSuccess}
-      errorCallback={onError}
-      userManager={userManager}
-    />
+    <LoginCallbackHandler onSuccess={onSuccess} onError={onError}>
+      <LoadingSpinner isLoading />
+    </LoginCallbackHandler>
   );
 };
 

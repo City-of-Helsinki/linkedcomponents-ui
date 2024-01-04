@@ -13,7 +13,7 @@ import {
   clearImageQueries,
   clearImagesQueries,
 } from '../../app/apollo/clearCacheUtils';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { IMAGE_ACTIONS } from '../../image/constants';
 import { ImageFormFields } from '../../image/types';
 import {
@@ -32,7 +32,7 @@ type UpdateImageIfNeededState = {
 const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
   const [updateImage] = useUpdateImageMutation();
 

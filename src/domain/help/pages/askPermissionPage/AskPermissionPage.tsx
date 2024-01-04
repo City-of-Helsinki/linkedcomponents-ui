@@ -19,7 +19,7 @@ import {
 } from '../../../../utils/validationUtils';
 import AuthenticationNotification from '../../../app/authenticationNotification/AuthenticationNotification';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
-import { useAuth } from '../../../auth/hooks/useAuth';
+import useAuth from '../../../auth/hooks/useAuth';
 import useFeedbackActions from '../../../feedback/hooks/useFeedbackActions';
 import useFeedbackServerErrors from '../../../feedback/hooks/useFeedbackServerErrors';
 import SuccessNotification from '../../../feedback/successNotification/SuccessNotification';
@@ -45,7 +45,7 @@ const AskPermissionPage: React.FC = () => {
     useFeedbackServerErrors();
 
   const { organizations } = useAllOrganizations();
-  const { isAuthenticated: authenticated, user } = useAuth();
+  const { authenticated, user } = useAuth();
 
   const initialValues = React.useMemo(
     () => getAskPermissionFormInitialValues(user),

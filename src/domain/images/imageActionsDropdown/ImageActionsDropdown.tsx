@@ -9,7 +9,7 @@ import { ImageFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
-import { useAuth } from '../../auth/hooks/useAuth';
+import useAuth from '../../auth/hooks/useAuth';
 import { IMAGE_ACTIONS } from '../../image/constants';
 import useImageUpdateActions, {
   IMAGE_MODALS,
@@ -33,7 +33,7 @@ const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = (
   const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
-  const { isAuthenticated: authenticated } = useAuth();
+  const { authenticated } = useAuth();
   const { user } = useUser();
   const { id, publisher } = getImageFields(image, locale);
   const { organizationAncestors } = useOrganizationAncestors(publisher);
