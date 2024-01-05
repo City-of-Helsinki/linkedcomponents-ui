@@ -21,6 +21,18 @@ export const QUERY_SIGNUP = gql`
     serviceLanguage
   }
 
+  fragment signupPriceGroupFields on SignupPriceGroup {
+    id
+    priceGroup {
+      ...densePriceGroupFields
+    }
+    price
+    priceWithoutVat
+    registrationPriceGroup
+    vat
+    vatPercentage
+  }
+
   fragment signupFields on Signup {
     attendeeStatus
     city
@@ -33,6 +45,9 @@ export const QUERY_SIGNUP = gql`
     id
     lastName
     phoneNumber
+    priceGroup {
+      ...signupPriceGroupFields
+    }
     presenceStatus
     signupGroup
     streetAddress

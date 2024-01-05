@@ -95,6 +95,7 @@ describe('getUpdateSignupPayload function', () => {
       nativeLanguage = 'fi',
       notifications = [NOTIFICATIONS.EMAIL],
       phoneNumber = '0441234567',
+      priceGroup = 'pricegroup:1',
       serviceLanguage = 'sv',
       streetAddress = 'Street address',
       zipcode = '00100';
@@ -108,6 +109,7 @@ describe('getUpdateSignupPayload function', () => {
         inWaitingList: false,
         lastName,
         phoneNumber,
+        priceGroup,
         streetAddress,
         zipcode,
       },
@@ -154,6 +156,9 @@ describe('getUpdateSignupPayload function', () => {
       id: TEST_SIGNUP_ID,
       lastName,
       phoneNumber,
+      priceGroup: {
+        registrationPriceGroup: priceGroup,
+      },
       registration: registration.id,
       streetAddress,
       zipcode,
@@ -208,6 +213,7 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
         inWaitingList: false,
         lastName: '',
         phoneNumber: '',
+        priceGroup: '',
         streetAddress: '',
         zipcode: '',
       },
@@ -232,6 +238,7 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
     const expectedNativeLanguage = 'fi';
     const expectedNotifications = [NOTIFICATIONS.EMAIL];
     const expectedPhoneNumber = '+358 44 123 4567';
+    const expectedPriceGroup = '1';
     const expectedServiceLanguage = 'sv';
     const expectedStreetAddress = 'Test address';
     const expectedZip = '12345';
@@ -247,7 +254,6 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
       },
 
       extraInfo,
-
       signups,
     } = getSignupGroupInitialValuesFromSignup(
       fakeSignup({
@@ -267,6 +273,7 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
         id: TEST_SIGNUP_ID,
         lastName: expectedLastName,
         phoneNumber: expectedPhoneNumber,
+        priceGroup: { registrationPriceGroup: 1 },
         streetAddress: expectedStreetAddress,
         zipcode: expectedZip,
       })
@@ -282,6 +289,7 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
         inWaitingList: false,
         lastName: expectedLastName,
         phoneNumber: expectedPhoneNumber,
+        priceGroup: expectedPriceGroup,
         streetAddress: expectedStreetAddress,
         zipcode: expectedZip,
       },

@@ -1,15 +1,18 @@
 import { Field } from 'formik';
 import { Fieldset, IconTrash } from 'hds-react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DateInputField from '../../../../../common/components/formFields/dateInputField/DateInputField';
+import SingleSelectField from '../../../../../common/components/formFields/singleSelectField/SingleSelectField';
 import TextAreaField from '../../../../../common/components/formFields/textAreaField/TextAreaField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import { RegistrationFieldsFragment } from '../../../../../generated/graphql';
+import { featureFlagUtils } from '../../../../../utils/featureFlags';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
 import { SIGNUP_FIELDS } from '../../../constants';
+import useSignupPriceGroupOptions from '../../../hooks/useSignupPriceGroupOptions';
 import { useSignupGroupFormContext } from '../../../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFormFields } from '../../../types';
 import {
@@ -19,9 +22,10 @@ import {
 import styles from './signup.module.scss';
 import SignupAccordion from './signupAccordion/SignupAccordion';
 
-type Props = {
+export type SignupProps = {
   disabled?: boolean;
   index: number;
+  isEditingMode: boolean;
   onDelete: () => void;
   registration: RegistrationFieldsFragment;
   showDelete: boolean;
@@ -32,9 +36,10 @@ type Props = {
 const getFieldName = (signupPath: string, field: string) =>
   `${signupPath}.${field}`;
 
-const Signup: React.FC<Props> = ({
+const Signup: React.FC<SignupProps> = ({
   disabled,
   index,
+  isEditingMode,
   onDelete,
   registration,
   showDelete,
@@ -46,10 +51,25 @@ const Signup: React.FC<Props> = ({
     useSignupGroupFormContext();
 
   const translateSignupText = (key: string) => t(`signup.form.signup.${key}`);
+  const priceGroupOptions = useSignupPriceGroupOptions(registration);
 
-  const labelText =
-    [signup.firstName, signup.lastName].filter(skipFalsyType).join(' ') ||
-    t('signup.form.signup.signupDefaultTitle', { index: index + 1 });
+  const accordionLabel = useMemo(() => {
+    const nameText =
+      [signup.firstName, signup.lastName].filter(skipFalsyType).join(' ') ||
+      t('signup.form.signup.signupDefaultTitle', { index: index + 1 });
+    const signupGroupText =
+      featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
+      priceGroupOptions?.find((o) => o.value === signup.priceGroup)?.label;
+
+    return signupGroupText ? [nameText, signupGroupText].join(' — ') : nameText;
+  }, [
+    index,
+    priceGroupOptions,
+    signup.firstName,
+    signup.lastName,
+    signup.priceGroup,
+    t,
+  ]);
 
   return (
     <SignupAccordion
@@ -68,9 +88,27 @@ const Signup: React.FC<Props> = ({
       inWaitingList={signup.inWaitingList}
       onClick={() => toggleOpenParticipant(index)}
       open={openParticipant === index}
-      toggleButtonLabel={labelText}
+      toggleButtonLabel={accordionLabel}
     >
       <Fieldset heading={translateSignupText('titleBasicInfo')}>
+        {!!registration.registrationPriceGroups?.length && (
+          <FormGroup>
+            {featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') && (
+              <div className={styles.priceGroupRow}>
+                <Field
+                  name={getFieldName(signupPath, SIGNUP_FIELDS.PRICE_GROUP)}
+                  component={SingleSelectField}
+                  disabled={disabled || isEditingMode}
+                  label={translateSignupText('labelPriceGroup')}
+                  options={priceGroupOptions}
+                  placeholder={translateSignupText('placeholderPriceGroup')}
+                  required={!!priceGroupOptions?.length}
+                />
+              </div>
+            )}
+          </FormGroup>
+        )}
+
         <FormGroup>
           <div className={styles.nameRow}>
             <Field

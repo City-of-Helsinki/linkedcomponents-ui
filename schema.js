@@ -262,6 +262,10 @@ module.exports = buildSchema(/* GraphQL */ `
     serviceLanguage: String
   }
 
+  input SignupPriceGroupInput {
+    registrationPriceGroup: ID
+  }
+
   input SignupInput {
     city: String
     contactPerson: ContactPersonInput
@@ -271,6 +275,7 @@ module.exports = buildSchema(/* GraphQL */ `
     id: ID
     lastName: String
     phoneNumber: String
+    priceGroup: SignupPriceGroupInput
     presenceStatus: PresenceStatus
     streetAddress: String
     zipcode: String
@@ -1038,6 +1043,16 @@ module.exports = buildSchema(/* GraphQL */ `
     serviceLanguage: String
   }
 
+  type SignupPriceGroup {
+    id: Int
+    priceGroup: PriceGroupDense
+    price: String
+    registrationPriceGroup: Int
+    vatPercentage: String
+    priceWithoutVat: String
+    vat: String
+  }
+
   type Signup {
     attendeeStatus: AttendeeStatus
     city: String
@@ -1052,6 +1067,7 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedTime: String
     lastName: String
     phoneNumber: String
+    priceGroup: SignupPriceGroup
     presenceStatus: PresenceStatus
     registration: ID
     signupGroup: ID

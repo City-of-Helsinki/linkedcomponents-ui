@@ -23,6 +23,7 @@ import {
   RegistrationUserAccess,
   Signup,
   SignupGroup,
+  SignupPriceGroup,
   User,
 } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
@@ -280,11 +281,23 @@ export const addTypenameRegistration = (
       }
     : null;
 
+export const addTypenameSignupPriceGroup = (
+  signupPriceGroup?: SignupPriceGroup | null
+): SignupPriceGroup | null =>
+  signupPriceGroup
+    ? {
+        ...signupPriceGroup,
+        priceGroup: addTypenamePriceGroupDense(signupPriceGroup.priceGroup),
+        __typename: 'SignupPriceGroup',
+      }
+    : null;
+
 export const addTypenameSignup = (signup?: Signup | null): Signup | null =>
   signup
     ? {
         ...signup,
         contactPerson: addTypenameContactPerson(signup.contactPerson),
+        priceGroup: addTypenameSignupPriceGroup(signup.priceGroup),
         __typename: 'Signup',
       }
     : null;

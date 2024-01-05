@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 
 import { RegistrationFieldsFragment } from '../../generated/graphql';
 import { Maybe } from '../../types';
+import { featureFlagUtils } from '../../utils/featureFlags';
 import getValue from '../../utils/getValue';
 import {
   createArrayMinErrorMessage,
@@ -74,6 +75,10 @@ export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
   const startTime = registration.event?.startTime;
 
   return Yup.object().shape({
+    [SIGNUP_FIELDS.PRICE_GROUP]: getStringSchema(
+      featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
+        !!registration.registrationPriceGroups?.length
+    ),
     [SIGNUP_FIELDS.FIRST_NAME]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_FIELDS.FIRST_NAME)
     ),
@@ -125,9 +130,7 @@ export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
   });
 };
 
-export const getContactPersonSchema = (
-  registration: RegistrationFieldsFragment
-) => {
+export const getContactPersonSchema = () => {
   return Yup.object().shape({
     [CONTACT_PERSON_FIELDS.EMAIL]: Yup.string()
       .email(VALIDATION_MESSAGE_KEYS.EMAIL)
@@ -164,8 +167,7 @@ export const getSignupGroupSchema = (
       getSignupSchema(registration)
     ),
     ...(validateContactPerson && {
-      [SIGNUP_GROUP_FIELDS.CONTACT_PERSON]:
-        getContactPersonSchema(registration),
+      [SIGNUP_GROUP_FIELDS.CONTACT_PERSON]: getContactPersonSchema(),
     }),
     [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_GROUP_FIELDS.EXTRA_INFO)
@@ -191,7 +193,9 @@ const getFocusableFieldId = (
   fieldType: 'default' | 'checkboxGroup' | 'select';
 } => {
   // For the select elements, focus the toggle button
-  if (SIGNUP_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
+  if (
+    SIGNUP_FORM_SELECT_FIELDS.find((item) => new RegExp(item).test(fieldName))
+  ) {
     return { fieldId: `${fieldName}-toggle-button`, fieldType: 'select' };
   } else if (
     fieldName ===

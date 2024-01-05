@@ -250,6 +250,7 @@
       "hoursLabel": "timmar",
       "minutsLabel": "minuter"
     },
+    "total": "Totalt",
     "warning": "Varning!"
   },
   "createEventPage": {
@@ -1928,6 +1929,7 @@
         "labelFirstName": "Förnamn",
         "labelLastName": "Efternamn",
         "labelPhoneNumber": "Telefonnummer",
+        "labelPriceGroup": "Prisgrupp",
         "labelStreetAddress": "Gatuadress",
         "labelZipcode": "Postnummer",
         "placeholderCity": "Ange staden",
@@ -1935,6 +1937,7 @@
         "placeholderLastName": "Ange registrantens efternamn",
         "placeholderExtraInfo": "Ange ytterligare information eller begäran",
         "placeholderPhoneNumber": "+358 44 1234 567",
+        "placeholderPriceGroup": "Välj prisgrupp",
         "placeholderStreetAddress": "Ange en gatuadress",
         "placeholderZipcode": "Ange postnummer",
         "signupDefaultTitle": "Deltagare {{index}}",

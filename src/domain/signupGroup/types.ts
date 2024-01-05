@@ -1,3 +1,4 @@
+import { OptionType } from '../../types';
 import {
   CONTACT_PERSON_FIELDS,
   SIGNUP_FIELDS,
@@ -25,6 +26,7 @@ export type SignupFormFields = {
   [SIGNUP_FIELDS.IN_WAITING_LIST]: boolean;
   [SIGNUP_FIELDS.LAST_NAME]: string;
   [SIGNUP_FIELDS.PHONE_NUMBER]: string;
+  [SIGNUP_FIELDS.PRICE_GROUP]: string;
   [SIGNUP_FIELDS.STREET_ADDRESS]: string;
   [SIGNUP_FIELDS.ZIPCODE]: string;
 };
@@ -34,3 +36,5 @@ export type SignupGroupFormFields = {
   [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: string;
   [SIGNUP_GROUP_FIELDS.SIGNUPS]: SignupFormFields[];
 };
+
+export type SignupPriceGroupOption = OptionType & { price: number };

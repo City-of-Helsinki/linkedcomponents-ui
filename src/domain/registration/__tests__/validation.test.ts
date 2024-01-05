@@ -265,7 +265,7 @@ describe('registrationSchema', () => {
     ).toBe(false);
   });
 
-  it('should validate price or vatPercentage of free registration price group', async () => {
+  it('should not validate price or vatPercentage of free registration price group', async () => {
     expect(
       await testRegistrationSchema({
         ...validRegistrationValues,
