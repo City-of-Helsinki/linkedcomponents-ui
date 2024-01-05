@@ -2,6 +2,24 @@
 import gql from 'graphql-tag';
 
 export const QUERY_REGISTRATION = gql`
+  fragment densePriceGroupFields on PriceGroupDense {
+    id
+    description {
+      ...localisedFields
+    }
+  }
+
+  fragment registrationPriceGroupFields on RegistrationPriceGroup {
+    id
+    priceGroup {
+      ...densePriceGroupFields
+    }
+    price
+    vatPercentage
+    priceWithoutVat
+    vat
+  }
+
   fragment registrationUserAccessFields on RegistrationUserAccess {
     email
     id
@@ -40,6 +58,9 @@ export const QUERY_REGISTRATION = gql`
     remainingAttendeeCapacity
     remainingWaitingListCapacity
     publisher
+    registrationPriceGroups {
+      ...registrationPriceGroupFields
+    }
     registrationUserAccesses {
       ...registrationUserAccessFields
     }

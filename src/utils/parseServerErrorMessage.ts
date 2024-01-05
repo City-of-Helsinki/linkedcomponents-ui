@@ -56,6 +56,8 @@ const parseServerErrorMessage = ({
       return t(`serverError.notFoundAllObjects`);
     case 'End time cannot be in the past. Please set a future end time.':
       return t(`serverError.endTimeInPast`);
+    case 'Kelvollinen luku vaaditaan.':
+      return t(`serverError.validValueRequired`);
     case 'Kenttien email, registration tulee muodostaa uniikki joukko.':
       return t(`serverError.emailMustBeUnique`);
     case 'Kenttien phone_number, registration tulee muodostaa uniikki joukko.':

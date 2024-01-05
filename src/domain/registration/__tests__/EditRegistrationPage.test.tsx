@@ -14,6 +14,10 @@ import {
   within,
 } from '../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
+import {
+  mockedDefaultPriceGroupsResponse,
+  mockedPublisherPriceGroupsResponse,
+} from '../../priceGroup/__mocks__/priceGroups';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   event,
@@ -38,6 +42,8 @@ beforeEach(() => {
 });
 
 const baseMocks = [
+  mockedDefaultPriceGroupsResponse,
+  mockedPublisherPriceGroupsResponse,
   mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
   mockedUserResponse,

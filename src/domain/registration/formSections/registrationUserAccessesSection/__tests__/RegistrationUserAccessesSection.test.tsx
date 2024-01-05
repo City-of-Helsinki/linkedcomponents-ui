@@ -1,6 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
-import React from 'react';
 
 import { SendRegistrationUserAccessInvitationDocument } from '../../../../../generated/graphql';
 import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
@@ -69,12 +68,8 @@ const renderRegistrationUserAccessesSection = (
     { mocks }
   );
 
-const getElement = (key: 'addButton') => {
-  switch (key) {
-    case 'addButton':
-      return screen.getByRole('button', { name: 'Lisää käyttäjä' });
-  }
-};
+const getAddButton = () =>
+  screen.getByRole('button', { name: 'Lisää uusi käyttäjä' });
 
 test('should add and remove registration user assess', async () => {
   const user = userEvent.setup();
@@ -86,7 +81,7 @@ test('should add and remove registration user assess', async () => {
     expect(screen.queryByLabelText(name)).not.toBeInTheDocument();
   });
 
-  const addButton = getElement('addButton');
+  const addButton = getAddButton();
   await user.click(addButton);
 
   await screen.findByLabelText(fields[0]);

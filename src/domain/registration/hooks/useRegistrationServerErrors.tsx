@@ -28,7 +28,9 @@ const useRegistrationServerErrors = (): UseServerErrorsState => {
       /* istanbul ignore else */
       if (result) {
         setServerErrorItems(parseRegistrationServerErrors({ result, t }));
-        callbackFn && callbackFn();
+        if (callbackFn) {
+          callbackFn();
+        }
       }
     }
   };

@@ -1,7 +1,6 @@
 import { TFunction } from 'i18next';
 
 import { LEServerError, ServerErrorItem } from '../../../types';
-import isGenericServerError from '../../../utils/isGenericServerError';
 import parseServerErrorArray from '../../../utils/parseServerErrorArray';
 import parseServerErrorLabel from '../../../utils/parseServerErrorLabel';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
@@ -50,20 +49,56 @@ export const parseRegistrationServerErrors = ({
         t,
       });
     }
+    if (key === 'registration_price_groups') {
+      return parseRegistrationPriceGroupServerErrors({ error });
+    }
+
     return [
       {
-        label: parseRegistrationServerErrorLabel({ key }),
+        label: parseServerErrorLabel({
+          key,
+          parseFn: parseRegistrationServerErrorLabel,
+        }),
         message: parseServerErrorMessage({ error, t }),
       },
     ];
   }
 
+  // Get error items for video fields
+  function parseRegistrationPriceGroupServerErrors({
+    error,
+  }: {
+    error: LEServerError;
+  }): ServerErrorItem[] {
+    return Array.isArray(error)
+      ? Object.entries(error[0]).reduce(
+          (previous: ServerErrorItem[], [key, e]) => [
+            ...previous,
+            {
+              label: parseServerErrorLabel({
+                key,
+                parseFn: parseRegistrationPriceGroupServerErrorLabel,
+              }),
+              message: parseServerErrorMessage({ error: e as string[], t }),
+            },
+          ],
+          []
+        )
+      : /* istanbul ignore next */ [];
+  }
+
+  function parseRegistrationPriceGroupServerErrorLabel({
+    key,
+  }: {
+    key: string;
+  }): string {
+    return t(
+      `registration.form.registrationPriceGroup.label${pascalCase(key)}`
+    );
+  }
+
   // Get correct field name for an error item
   function parseRegistrationServerErrorLabel({ key }: { key: string }): string {
-    if (isGenericServerError(key)) {
-      return '';
-    }
-
     switch (key) {
       case 'enrolment_end_time':
       case 'enrolment_start_time':

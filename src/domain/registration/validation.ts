@@ -1,5 +1,7 @@
 import * as Yup from 'yup';
 
+import { PriceGroup } from '../../generated/graphql';
+import { featureFlagUtils } from '../../utils/featureFlags';
 import {
   createNumberMinErrorMessage,
   isAfterStartDateAndTime,
@@ -8,11 +10,50 @@ import {
   transformNumber,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
+import { PriceGroupOption } from '../priceGroup/types';
 import {
+  REGISTRATION_FIELD_ARRAYS,
   REGISTRATION_FIELDS,
+  REGISTRATION_PRICE_GROUP_FIELDS,
   REGISTRATION_SELECT_FIELDS,
   REGISTRATION_USER_ACCESS_FIELDS,
 } from './constants';
+
+const priceGroupsSchema = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  values: any[],
+  schema: Yup.ArraySchema<PriceGroup[] | undefined, Yup.AnyObject>
+) => {
+  const [hasPrice, priceGroupOptions] = values as [
+    boolean[],
+    PriceGroupOption[],
+  ];
+  return hasPrice
+    ? schema.min(1, VALIDATION_MESSAGE_KEYS.PRICE_GROUPS_REQUIRED).of(
+        Yup.object().shape({
+          [REGISTRATION_PRICE_GROUP_FIELDS.PRICE_GROUP]: Yup.string().required(
+            VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+          ),
+          [REGISTRATION_PRICE_GROUP_FIELDS.PRICE]: Yup.number().when(
+            [REGISTRATION_PRICE_GROUP_FIELDS.PRICE_GROUP],
+            ([priceGroup]: string[], schema) =>
+              priceGroupOptions?.find((pg) => pg.value === priceGroup)?.isFree
+                ? schema.nullable().transform(transformNumber)
+                : schema
+                    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+                    .min(0, createNumberMinErrorMessage)
+                    .test(
+                      'maxDigitsAfterDecimal',
+                      VALIDATION_MESSAGE_KEYS.PRICE_INVALID,
+                      (number) => Number.isInteger(number * 10 ** 2)
+                    )
+          ),
+          [REGISTRATION_PRICE_GROUP_FIELDS.VAT_PERCENTAGE]:
+            Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+        })
+      )
+    : schema;
+};
 
 const registrationUserAccessSchema = Yup.object().shape({
   [REGISTRATION_USER_ACCESS_FIELDS.EMAIL]: Yup.string()
@@ -99,6 +140,17 @@ export const registrationSchema = Yup.object().shape({
     )
     .nullable()
     .transform(transformNumber),
+  ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
+    ? {
+        [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS]: Yup.array().when(
+          [
+            REGISTRATION_FIELDS.HAS_PRICE,
+            REGISTRATION_FIELDS.PRICE_GROUP_OPTIONS,
+          ],
+          priceGroupsSchema
+        ),
+      }
+    : {}),
   [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: Yup.array().of(
     registrationUserAccessSchema
   ),
@@ -107,6 +159,8 @@ export const registrationSchema = Yup.object().shape({
 export const getFocusableFieldId = (fieldName: string): string => {
   if (REGISTRATION_SELECT_FIELDS.find((item) => item === fieldName)) {
     return `${fieldName}-input`;
+  } else if (REGISTRATION_FIELD_ARRAYS.includes(fieldName)) {
+    return `${fieldName}-error`;
   }
   return fieldName;
 };

@@ -1,9 +1,18 @@
 import { MultiLanguageObject } from '../../types';
 import { EventFields } from '../event/types';
+import { PriceGroupOption } from '../priceGroup/types';
 import {
   REGISTRATION_FIELDS,
+  REGISTRATION_PRICE_GROUP_FIELDS,
   REGISTRATION_USER_ACCESS_FIELDS,
 } from './constants';
+
+export type RegistrationPriceGroupFormFields = {
+  [REGISTRATION_PRICE_GROUP_FIELDS.ID]: number | null;
+  [REGISTRATION_PRICE_GROUP_FIELDS.PRICE]: string;
+  [REGISTRATION_PRICE_GROUP_FIELDS.PRICE_GROUP]: string;
+  [REGISTRATION_PRICE_GROUP_FIELDS.VAT_PERCENTAGE]: string;
+};
 
 export type RegistrationUserAccessFormFields = {
   [REGISTRATION_USER_ACCESS_FIELDS.EMAIL]: string;
@@ -21,12 +30,15 @@ export type RegistrationFormFields = {
   [REGISTRATION_FIELDS.ENROLMENT_START_TIME_DATE]: Date | null;
   [REGISTRATION_FIELDS.ENROLMENT_START_TIME_TIME]: string;
   [REGISTRATION_FIELDS.EVENT]: string;
+  [REGISTRATION_FIELDS.HAS_PRICE]: boolean;
   [REGISTRATION_FIELDS.INFO_LANGUAGES]: string[];
   [REGISTRATION_FIELDS.INSTRUCTIONS]: MultiLanguageObject;
   [REGISTRATION_FIELDS.MANDATORY_FIELDS]: string[];
   [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: number | '';
   [REGISTRATION_FIELDS.MAXIMUM_GROUP_SIZE]: number | '';
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
+  [REGISTRATION_FIELDS.PRICE_GROUP_OPTIONS]: PriceGroupOption[];
+  [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS]: RegistrationPriceGroupFormFields[];
   [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: RegistrationUserAccessFormFields[];
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: number | '';
 };

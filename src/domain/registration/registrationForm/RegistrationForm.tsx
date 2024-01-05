@@ -56,6 +56,9 @@ import LanguagesSection from '../formSections/languageSection/LanguageSection';
 import RegistrationUserAccessesSection from '../formSections/registrationUserAccessesSection/RegistrationUserAccessesSection';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { checkCanUserDoRegistrationAction } from '../permissions';
+import PriceGroupsSection from '../formSections/priceGroups/PriceGroupsSection';
+import wait from 'waait';
+import { featureFlagUtils } from '../../../utils/featureFlags';
 
 export type CreateRegistrationFormProps = {
   event?: null;
@@ -208,7 +211,9 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
             setServerErrorItems([]);
             clearErrors();
 
-            await registrationSchema.validate(values, { abortEarly: false });
+            await registrationSchema.validate(values, {
+              abortEarly: false,
+            });
 
             if (registration) {
               await handleUpdate(values);
@@ -221,7 +226,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
               setErrors,
               setTouched,
             });
-
+            // Price group errors takes some time to render so wait 100 ms
+            await wait(100);
             scrollToFirstError({
               error: error as ValidationError,
               getFocusableFieldId,
@@ -334,6 +340,18 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                     >
                       <AudienceAgeSection isEditingAllowed={isEditingAllowed} />
                     </Section>
+                    {featureFlagUtils.isFeatureEnabled(
+                      'WEB_STORE_INTEGRATION'
+                    ) && (
+                      <Section
+                        className={styles.section}
+                        title={t('registration.form.sections.priceGroups')}
+                      >
+                        <PriceGroupsSection
+                          isEditingAllowed={isEditingAllowed}
+                        />
+                      </Section>
+                    )}
                     <Section
                       className={styles.section}
                       title={t('registration.form.sections.mandatoryFields')}

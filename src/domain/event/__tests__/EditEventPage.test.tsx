@@ -390,7 +390,7 @@ test('should update recurring event', async () => {
     name: 'Varmista tapahtuman tallentaminen',
   });
   // Update event button inside modal
-  const confirmUpdateButton = await within(modal).getByRole('button', {
+  const confirmUpdateButton = within(modal).getByRole('button', {
     name: 'Tallenna',
   });
   await user.click(confirmUpdateButton);
@@ -465,7 +465,7 @@ test('should render external user contact fields for admin', async () => {
     /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i,
   ];
 
-  const fieldset = screen.getByRole('group', {
+  const fieldset = await screen.findByRole('group', {
     name: /yhteystiedot/i,
   });
 

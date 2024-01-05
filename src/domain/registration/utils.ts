@@ -22,6 +22,7 @@ import {
   UpdateRegistrationMutationInput,
 } from '../../generated/graphql';
 import { Language, PathBuilderProps } from '../../types';
+import { featureFlagUtils } from '../../utils/featureFlags';
 import { filterUnselectedLanguages } from '../../utils/filterUnselectedLanguages';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
@@ -44,6 +45,7 @@ import { REGISTRATION_FIELDS } from './constants';
 import {
   RegistrationFields,
   RegistrationFormFields,
+  RegistrationPriceGroupFormFields,
   RegistrationUserAccessFormFields,
 } from './types';
 
@@ -86,6 +88,14 @@ export const getRegistrationFields = (
   };
 };
 
+export const getEmptyRegistrationPriceGroup =
+  (): RegistrationPriceGroupFormFields => ({
+    id: null,
+    price: '',
+    priceGroup: '',
+    vatPercentage: '',
+  });
+
 export const getEmptyRegistrationUserAccess =
   (): RegistrationUserAccessFormFields => ({
     email: '',
@@ -97,7 +107,10 @@ export const getEmptyRegistrationUserAccess =
 export const getRegistrationInitialValues = (
   registration: RegistrationFieldsFragment
 ): RegistrationFormFields => {
-  const infoLanguages = getInfoLanguages(registration, new Set(['event']));
+  const infoLanguages = getInfoLanguages(
+    registration,
+    new Set(['event', 'registrationPriceGroups'])
+  );
 
   return {
     [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: getNumberFieldValue(
@@ -126,6 +139,8 @@ export const getRegistrationInitialValues = (
           )
         : '',
     [REGISTRATION_FIELDS.EVENT]: getValue(registration.event?.atId, ''),
+    [REGISTRATION_FIELDS.HAS_PRICE]:
+      !!registration.registrationPriceGroups?.length,
     [REGISTRATION_FIELDS.INFO_LANGUAGES]: infoLanguages.length
       ? infoLanguages
       : ['fi'],
@@ -145,6 +160,16 @@ export const getRegistrationInitialValues = (
     [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: getNumberFieldValue(
       registration.minimumAttendeeCapacity
     ),
+    [REGISTRATION_FIELDS.PRICE_GROUP_OPTIONS]: [],
+    [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS]: getValue(
+      registration.registrationPriceGroups?.map((pg) => ({
+        id: getValue(pg?.id, null),
+        price: getValue(pg?.price, ''),
+        priceGroup: getValue(pg?.priceGroup?.id.toString(), ''),
+        vatPercentage: getValue(pg?.vatPercentage, ''),
+      })),
+      []
+    ),
     [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: getValue(
       registration.registrationUserAccesses?.map((ru) => ({
         email: getValue(ru?.email, ''),
@@ -163,6 +188,7 @@ export const getRegistrationInitialValues = (
 export const copyRegistrationToSessionStorage = async (
   registration: RegistrationFieldsFragment
 ): Promise<void> => {
+  const values = getRegistrationInitialValues(registration);
   const state: FormikState<RegistrationFormFields> = {
     errors: {},
     isSubmitting: false,
@@ -170,7 +196,11 @@ export const copyRegistrationToSessionStorage = async (
     submitCount: 0,
     touched: {},
     values: {
-      ...getRegistrationInitialValues(omit(registration)),
+      ...values,
+      registrationPriceGroups: values.registrationPriceGroups.map((pg) => ({
+        ...pg,
+        id: null,
+      })),
       registrationUserAccesses: [],
     },
   };
@@ -199,6 +229,7 @@ export const getRegistrationPayload = (
     maximumAttendeeCapacity,
     maximumGroupSize,
     minimumAttendeeCapacity,
+    registrationPriceGroups,
     registrationUserAccesses,
     waitingListCapacity,
   } = formValues;
@@ -231,6 +262,15 @@ export const getRegistrationPayload = (
     minimumAttendeeCapacity: isNumber(minimumAttendeeCapacity)
       ? minimumAttendeeCapacity
       : null,
+    ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
+      ? {
+          registrationPriceGroups: registrationPriceGroups.map((pg) => ({
+            ...pg,
+            id: pg.id ?? undefined,
+            priceGroup: Number(pg.priceGroup),
+          })),
+        }
+      : {}),
     registrationUserAccesses: registrationUserAccesses.map((ru) => ({
       email: ru.email,
       id: getValue(ru.id, null),

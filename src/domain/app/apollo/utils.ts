@@ -16,7 +16,10 @@ import {
   OrganizationClass,
   Place,
   Position,
+  PriceGroup,
+  PriceGroupDense,
   Registration,
+  RegistrationPriceGroup,
   RegistrationUserAccess,
   Signup,
   SignupGroup,
@@ -211,6 +214,41 @@ export const addTypenamePosition = (
 ): Position | null =>
   position ? { ...position, __typename: 'Position' } : null;
 
+export const addTypenamePriceGroup = (
+  priceGroup?: PriceGroup | null
+): PriceGroup | null =>
+  priceGroup
+    ? {
+        ...priceGroup,
+        description: addTypenameLocalisedObject(priceGroup.description),
+        __typename: 'PriceGroup',
+      }
+    : null;
+
+export const addTypenamePriceGroupDense = (
+  priceGroup?: PriceGroupDense | null
+): PriceGroupDense | null =>
+  priceGroup
+    ? {
+        ...priceGroup,
+        description: addTypenameLocalisedObject(priceGroup.description),
+        __typename: 'PriceGroupDense',
+      }
+    : null;
+
+export const addTypenameRegistrationPriceGroup = (
+  registrationPriceGroup?: RegistrationPriceGroup | null
+): RegistrationPriceGroup | null =>
+  registrationPriceGroup
+    ? {
+        ...registrationPriceGroup,
+        priceGroup: addTypenamePriceGroupDense(
+          registrationPriceGroup.priceGroup
+        ),
+        __typename: 'RegistrationPriceGroup',
+      }
+    : null;
+
 export const addTypenameRegistrationUserAccess = (
   registrationUserAccess?: RegistrationUserAccess | null
 ): RegistrationUserAccess | null =>
@@ -229,6 +267,9 @@ export const addTypenameRegistration = (
         ),
         event: addTypenameEvent(registration?.event),
         instructions: addTypenameLocalisedObject(registration?.instructions),
+        registrationPriceGroups: registration.registrationPriceGroups?.map(
+          (pg) => addTypenameRegistrationPriceGroup(pg)
+        ),
         registrationUserAccesses: registration.registrationUserAccesses?.map(
           (ru) => addTypenameRegistrationUserAccess(ru)
         ),

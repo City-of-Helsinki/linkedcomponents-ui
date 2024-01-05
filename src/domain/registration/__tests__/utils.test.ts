@@ -6,6 +6,7 @@ import i18n from 'i18next';
 
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
+  FORM_NAMES,
   LE_DATA_LANGUAGES,
 } from '../../../constants';
 import {
@@ -13,7 +14,10 @@ import {
   RegistrationQueryVariables,
 } from '../../../generated/graphql';
 import {
+  fakePriceGroupDense,
   fakeRegistration,
+  fakeRegistrationPriceGroup,
+  fakeRegistrationUserAccess,
   getMockedSeatsReservationData,
   setSessionStorageValues,
 } from '../../../utils/mockDataUtils';
@@ -24,6 +28,7 @@ import {
   TEST_REGISTRATION_ID,
 } from '../constants';
 import {
+  copyRegistrationToSessionStorage,
   exportSignupsAsExcel,
   getFreeAttendeeOrWaitingListCapacity,
   getMaxSeatsAmount,
@@ -47,6 +52,47 @@ afterEach(() => {
 beforeEach(() => {
   localStorage.clear();
   sessionStorage.clear();
+});
+
+describe('copyRegistrationToSessionStorage function', () => {
+  it('should set price group ids to null ', () => {
+    copyRegistrationToSessionStorage(
+      fakeRegistration({
+        registrationPriceGroups: [
+          fakeRegistrationPriceGroup({
+            id: 1,
+            price: '10.00',
+            priceGroup: fakePriceGroupDense({ id: 2 }),
+          }),
+        ],
+      })
+    );
+
+    expect(
+      JSON.parse(sessionStorage.getItem(FORM_NAMES.REGISTRATION_FORM) as string)
+        .values.registrationPriceGroups
+    ).toEqual([
+      {
+        id: null,
+        price: '10.00',
+        priceGroup: '2',
+        vatPercentage: '24.00',
+      },
+    ]);
+  });
+
+  it('should set registration user accesses to an empty array ', () => {
+    copyRegistrationToSessionStorage(
+      fakeRegistration({
+        registrationUserAccesses: [fakeRegistrationUserAccess()],
+      })
+    );
+
+    expect(
+      JSON.parse(sessionStorage.getItem(FORM_NAMES.REGISTRATION_FORM) as string)
+        .values.registrationUserAccesses
+    ).toEqual([]);
+  });
 });
 
 describe('getRegistrationFields function', () => {
@@ -168,6 +214,14 @@ describe('getRegistrationInitialValues function', () => {
           mandatoryFields: ['city'],
           maximumAttendeeCapacity: 15,
           minimumAttendeeCapacity: 5,
+          registrationPriceGroups: [
+            {
+              id: 1,
+              priceGroup: fakePriceGroupDense({ id: 123 }),
+              price: '12.00',
+              vatPercentage: '24.00',
+            },
+          ],
           registrationUserAccesses: [
             {
               email: 'user@email.com',
@@ -191,6 +245,7 @@ describe('getRegistrationInitialValues function', () => {
       enrolmentStartTimeDate: new Date('2021-06-13T12:00:00.000Z'),
       enrolmentStartTimeTime: '12:00',
       event: '',
+      hasPrice: true,
       infoLanguages: ['fi'],
       instructions: {
         ...EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -200,6 +255,15 @@ describe('getRegistrationInitialValues function', () => {
       maximumAttendeeCapacity: 15,
       maximumGroupSize: '',
       minimumAttendeeCapacity: 5,
+      priceGroupOptions: [],
+      registrationPriceGroups: [
+        {
+          id: 1,
+          priceGroup: '123',
+          price: '12.00',
+          vatPercentage: '24.00',
+        },
+      ],
       registrationUserAccesses: [
         {
           email: 'user@email.com',
@@ -245,6 +309,7 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity: null,
       maximumGroupSize: null,
       minimumAttendeeCapacity: null,
+      registrationPriceGroups: [],
       registrationUserAccesses: [],
       waitingListCapacity: null,
     });
@@ -261,6 +326,20 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity = 10,
       maximumGroupSize = 2,
       minimumAttendeeCapacity = 5,
+      registrationPriceGroups = [
+        {
+          id: 1,
+          priceGroup: '123',
+          price: '12.00',
+          vatPercentage: '24.00',
+        },
+        {
+          id: null,
+          priceGroup: '123',
+          price: '10.00',
+          vatPercentage: '0.00',
+        },
+      ],
       registrationUserAccesses = [
         {
           email: 'user@email.com',
@@ -293,6 +372,7 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity,
       maximumGroupSize,
       minimumAttendeeCapacity,
+      registrationPriceGroups,
       registrationUserAccesses,
       waitingListCapacity,
     });
@@ -323,6 +403,20 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity,
       maximumGroupSize,
       minimumAttendeeCapacity,
+      registrationPriceGroups: [
+        {
+          id: 1,
+          price: '12.00',
+          priceGroup: 123,
+          vatPercentage: '24.00',
+        },
+        {
+          id: undefined,
+          price: '10.00',
+          priceGroup: 123,
+          vatPercentage: '0.00',
+        },
+      ],
       registrationUserAccesses: [
         {
           email: 'user@email.com',

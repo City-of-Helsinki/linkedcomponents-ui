@@ -23,6 +23,8 @@ export enum VALIDATION_MESSAGE_KEYS {
   NUMBER_MIN = 'form.validation.number.min',
   NUMBER_REQUIRED = 'form.validation.number.required',
   OFFERS_REQUIRED = 'form.validation.offersRequired',
+  PRICE_INVALID = 'form.validation.priceInvalid',
+  PRICE_GROUPS_REQUIRED = 'form.validation.priceGroupsRequired',
   PHONE = 'form.validation.string.phone',
   STRING_MAX = 'form.validation.string.max',
   STRING_MIN = 'form.validation.string.min',

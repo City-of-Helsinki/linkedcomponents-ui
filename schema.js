@@ -149,6 +149,13 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): PlacesResponse!
+    priceGroups(
+      description: String
+      isFree: Boolean
+      page: Int
+      pageSize: Int
+      publisher: [String]
+    ): PriceGroupsResponse!
     registration(id: ID, include: [String]): Registration!
     registrations(
       adminUser: Boolean
@@ -515,6 +522,13 @@ module.exports = buildSchema(/* GraphQL */ `
     type: String
   }
 
+  input RegistrationPriceGroupInput {
+    id: Int
+    price: String
+    priceGroup: Int
+    vatPercentage: String
+  }
+
   input RegistrationUserAccessInput {
     email: String
     id: Int
@@ -534,6 +548,7 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    registrationPriceGroups: [RegistrationPriceGroupInput]
     registrationUserAccesses: [RegistrationUserAccessInput]
     waitingListCapacity: Int
   }
@@ -551,6 +566,7 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    registrationPriceGroups: [RegistrationPriceGroupInput]
     registrationUserAccesses: [RegistrationUserAccessInput]
     waitingListCapacity: Int
   }
@@ -912,6 +928,36 @@ module.exports = buildSchema(/* GraphQL */ `
     url: String
   }
 
+  type PriceGroup {
+    id: Int!
+    createdBy: String
+    createdTime: String
+    description: LocalisedObject
+    isFree: Boolean
+    lastModifiedBy: String
+    lastModifiedTime: String
+    publisher: String
+  }
+
+  type PriceGroupsResponse {
+    meta: Meta!
+    data: [PriceGroup]!
+  }
+
+  type PriceGroupDense {
+    id: Int!
+    description: LocalisedObject
+  }
+
+  type RegistrationPriceGroup {
+    id: Int
+    priceGroup: PriceGroupDense
+    price: String
+    vatPercentage: String
+    priceWithoutVat: String
+    vat: String
+  }
+
   type RegistrationUserAccess {
     email: String
     id: Int
@@ -949,6 +995,7 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
     publisher: String
+    registrationPriceGroups: [RegistrationPriceGroup]
     registrationUserAccesses: [RegistrationUserAccess]
     remainingAttendeeCapacity: Int
     remainingWaitingListCapacity: Int
