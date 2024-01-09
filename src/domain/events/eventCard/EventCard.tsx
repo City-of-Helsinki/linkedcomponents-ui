@@ -1,5 +1,7 @@
 import { ClassNames } from '@emotion/react';
 import {
+  Button,
+  Card,
   IconAngleDown,
   IconAngleUp,
   IconClock,
@@ -10,7 +12,7 @@ import {
 } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 import TextWithIcon from '../../../common/components/textWithIcon/TextWithIcon';
 import { testIds } from '../../../constants';
@@ -44,6 +46,7 @@ interface Props {
 
 const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { theme } = useTheme();
   const locale = useLocale();
   const isMobile = useIsMobile();
@@ -106,7 +109,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
     <ClassNames>
       {({ css, cx }) => (
         <>
-          <div
+          <Card
             className={styles.eventCardWrapper}
             id={getEventItemId(id)}
             data-testid={event.id}
@@ -115,11 +118,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
               marginRight: `calc(0px - ${level} * var(--spacing-l))`,
             }}
           >
-            <Link
-              aria-label={name}
-              className={cx(styles.eventCard, css(theme.eventCard))}
-              to={eventUrlWithReturnPath}
-            >
+            <div className={cx(styles.eventCard, css(theme.eventCard))}>
               <div className={styles.imageWrapper}>
                 {/* Placeholder image */}
                 <div className={styles.placeholderImage}>
@@ -140,10 +139,6 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                 />
               </div>
               <div className={styles.eventInfoWrapper}>
-                <EventActionsDropdown
-                  className={styles.actionButtons}
-                  event={event}
-                />
                 <div className={styles.nameRow}>
                   <h2>{name}</h2>
                 </div>
@@ -202,6 +197,27 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                     />
                   </div>
                 </div>
+                <EventActionsDropdown
+                  className={styles.actionButtons}
+                  event={event}
+                />
+                <div className={cx(styles.row, styles.ctaRow)}>
+                  <Button
+                    className={styles.cta}
+                    role="link"
+                    aria-label={t(
+                      'eventsPage.eventCard.goToEventPageAriaLabel',
+                      { name }
+                    )}
+                    onClick={(e?: React.MouseEvent) => {
+                      e?.preventDefault();
+
+                      navigate(eventUrlWithReturnPath);
+                    }}
+                  >
+                    {t('eventsPage.eventCard.goToEventPage')}
+                  </Button>
+                </div>
                 <div className={cx(styles.row, styles.priceRow)}>
                   <div className={styles.priceColumn}>
                     <TextWithIcon
@@ -243,7 +259,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                   </div>
                 </div>
               </div>
-            </Link>
+            </div>
             {!!subEventAtIds.length && (
               <button className={styles.toggleButton} onClick={toggle}>
                 {open ? (
@@ -260,7 +276,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                 </span>
               </button>
             )}
-          </div>
+          </Card>
           {!!subEventAtIds.length && open && (
             <SubEventCards eventId={id} level={level + 1} />
           )}

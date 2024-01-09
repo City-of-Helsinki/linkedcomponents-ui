@@ -999,7 +999,9 @@
     "datetime": "{{date}} at {{time}}",
     "eventCard": {
       "hideSubEvents": "Hide sub-events",
-      "showSubEvents": "Show sub-events ({{count}})"
+      "showSubEvents": "Show sub-events ({{count}})",
+      "goToEventPage": "Go to event page",
+      "goToEventPageAriaLabel": "Go to event page: {{name}}"
     },
     "eventsTable": {
       "hideSubEvents": "Hide sub-events: {{name}}",

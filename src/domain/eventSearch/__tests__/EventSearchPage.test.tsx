@@ -89,6 +89,9 @@ it('scrolls to event card and calls history.replace correctly (deletes eventId f
     )
   );
 
-  const eventCard = screen.getByRole('link', { name: eventNames[0] });
-  await waitFor(() => expect(eventCard).toHaveFocus());
+  const eventCardCTA = screen.getByRole('link', {
+    name: `Siirry tapahtumasivulle: ${eventNames[0]}`,
+  });
+
+  await waitFor(() => expect(eventCardCTA).toHaveFocus());
 });

@@ -241,8 +241,22 @@
       }
     }
 
-    .priceRow {
+    .ctaRow {
       order: 4;
+      grid-template-columns: none;
+
+      @include large-up {
+        grid-template-columns: max-content;
+        justify-content: flex-end;
+      }
+
+      .cta {
+        margin: var(--spacing-s) 0;
+      }
+    }
+
+    .priceRow {
+      order: 5;
 
       .priceColumn {
         @include small-up {
