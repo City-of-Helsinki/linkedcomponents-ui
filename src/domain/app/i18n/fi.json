@@ -1140,7 +1140,7 @@
     "pageDescription": "Hae tapahtumia Linked Eventsistä. Voit suodattaa tuloksia päivämäärän, paikan ja tyypin mukaan.",
     "pageTitle": "Etsi tapahtumia",
     "searchPanel": {
-      "buttonCreateNew": "Lisää tekemistä",
+      "buttonCreateNew": "Lisää uusi tapahtuma",
       "buttonSearch": "Etsi tapahtumia",
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikkaa",

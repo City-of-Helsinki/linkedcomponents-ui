@@ -1140,7 +1140,7 @@
     "pageDescription": "Sök efter evenemang från Linked Events. Du kan filtrera resultat efter datum, plats och typ.",
     "pageTitle": "Sök efter evenemang",
     "searchPanel": {
-      "buttonCreateNew": "Lägg till nytt evenemang",
+      "buttonCreateNew": "Lägg till evenemang",
       "buttonSearch": "Sök efter evenemang",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",

@@ -20,7 +20,7 @@ export const findLandingPage = async (t: TestController) => {
   const selectors = {
     createEventButton() {
       return withinLandingPage().findByRole('button', {
-        name: /lisää tekemistä/i,
+        name: /lisää uusi tapahtuma/i,
       });
     },
     searchEventsButton() {
