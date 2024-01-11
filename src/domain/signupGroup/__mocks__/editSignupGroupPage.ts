@@ -69,6 +69,7 @@ const payload = {
       firstName: signupValues.firstName,
       id: signupValues.id,
       lastName: signupValues.lastName,
+      phoneNumber: signupValues.phoneNumber,
       streetAddress: signupValues.streetAddress,
       zipcode: signupValues.zipcode,
     },

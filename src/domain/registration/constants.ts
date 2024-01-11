@@ -7,9 +7,10 @@ import {
 export enum REGISTRATION_MANDATORY_FIELDS {
   FIRST_NAME = 'first_name',
   LAST_NAME = 'last_name',
-  CITY = 'city',
+  PHONE_NUMBER = 'phone_number',
   STREET_ADDRESS = 'street_address',
   ZIPCODE = 'zipcode',
+  CITY = 'city',
 }
 
 export enum REGISTRATION_FIELDS {

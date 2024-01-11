@@ -32,6 +32,7 @@ export const getSignupPayload = ({
     firstName,
     id,
     lastName,
+    phoneNumber,
     streetAddress,
     zipcode,
   } = signupData;
@@ -42,6 +43,7 @@ export const getSignupPayload = ({
     id: id ?? undefined,
     firstName: getValue(firstName, ''),
     lastName: getValue(lastName, ''),
+    phoneNumber: getValue(phoneNumber, ''),
     streetAddress: getValue(streetAddress, null),
     zipcode: getValue(zipcode, null),
   };
@@ -103,6 +105,7 @@ export const getSignupInitialValues = (
   id: getValue(signup.id, null),
   inWaitingList: signup.attendeeStatus === AttendeeStatus.Waitlisted,
   lastName: getValue(signup.lastName, ''),
+  phoneNumber: getValue(signup.phoneNumber, ''),
   streetAddress: getValue(signup.streetAddress, ''),
   zipcode: getValue(signup.zipcode, ''),
 });
@@ -151,6 +154,7 @@ export const omitSensitiveDataFromSignupPayload = (
       'extraInfo',
       'firstName',
       'lastName',
+      'phoneNumber',
       'streetAddress',
       'zipcode',
     ]

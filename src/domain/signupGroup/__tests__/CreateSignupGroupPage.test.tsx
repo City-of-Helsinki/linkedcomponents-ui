@@ -207,7 +207,9 @@ test('should validate signup group form fields', async () => {
   const zipInput = getSignupFormElement('zipInput');
   const cityInput = getSignupFormElement('cityInput');
   const emailInput = getSignupFormElement('emailInput');
-  const phoneInput = getSignupFormElement('phoneInput');
+  const contactPersonPhoneInput = getSignupFormElement(
+    'contactPersonPhoneInput'
+  );
   const nativeLanguageButton = getSignupFormElement('nativeLanguageButton');
   const createButton = await findCreateButton();
 
@@ -221,10 +223,10 @@ test('should validate signup group form fields', async () => {
 
   await waitFor(() => expect(emailInput).toHaveFocus());
   expect(emailInput).toBeRequired();
-  expect(phoneInput).not.toBeRequired();
+  expect(contactPersonPhoneInput).not.toBeRequired();
 
   await user.type(emailInput, contactPersonValues.email);
-  await user.type(phoneInput, contactPersonValues.phoneNumber);
+  await user.type(contactPersonPhoneInput, contactPersonValues.phoneNumber);
   await user.click(createButton);
 
   await waitFor(() => expect(nativeLanguageButton).toHaveFocus());

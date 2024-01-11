@@ -106,14 +106,18 @@ test('should initialize input fields', async () => {
   const lastNameInput = getSignupFormElement('lastNameInput');
   const cityInput = getSignupFormElement('cityInput');
   const emailInput = getSignupFormElement('emailInput');
-  const phoneInput = getSignupFormElement('phoneInput');
+  const contactPersonPhoneInput = getSignupFormElement(
+    'contactPersonPhoneInput'
+  );
   const emailCheckbox = getSignupFormElement('emailCheckbox');
 
   await waitFor(() => expect(firstNameInput).toHaveValue(signup.firstName));
   expect(lastNameInput).toHaveValue(signup.lastName);
   expect(cityInput).toHaveValue(signup.city);
   expect(emailInput).toHaveValue(signup.contactPerson?.email);
-  expect(phoneInput).toHaveValue(signup.contactPerson?.phoneNumber);
+  expect(contactPersonPhoneInput).toHaveValue(
+    signup.contactPerson?.phoneNumber
+  );
   expect(emailCheckbox).toBeChecked();
 });
 
@@ -131,7 +135,9 @@ test('contact person fields should be disabled if signup has a signup group', as
 
   const firstNameInput = (await findFirstNameInputs())[1];
   const emailInput = getSignupFormElement('emailInput');
-  const phoneInput = getSignupFormElement('phoneInput');
+  const contactPersonPhoneInput = getSignupFormElement(
+    'contactPersonPhoneInput'
+  );
   const lastNameInput = screen.getAllByLabelText(/sukunimi/i)[1];
   const membershipNumberInput = getSignupFormElement('membershipNumberInput');
   const nativeLanguageButton = getSignupFormElement('nativeLanguageButton');
@@ -152,7 +158,7 @@ test('contact person fields should be disabled if signup has a signup group', as
   ).toBeInTheDocument();
 
   expect(emailInput).toBeDisabled();
-  expect(phoneInput).toBeDisabled();
+  expect(contactPersonPhoneInput).toBeDisabled();
   expect(firstNameInput).toBeDisabled();
   expect(lastNameInput).toBeDisabled();
   expect(membershipNumberInput).toBeDisabled();

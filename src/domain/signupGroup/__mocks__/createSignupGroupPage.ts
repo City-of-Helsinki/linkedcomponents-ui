@@ -29,6 +29,7 @@ const signupValues = {
   id: null,
   inWaitingList: false,
   lastName: 'Last name',
+  phoneNumber: '+358 44 123 4567',
   streetAddress: 'Street address',
   zipcode: '00100',
 };
@@ -97,6 +98,7 @@ const signupGroupPayload: CreateSignupGroupMutationInput = {
       extraInfo: '',
       firstName: signupValues.firstName,
       lastName: signupValues.lastName,
+      phoneNumber: signupValues.phoneNumber,
       streetAddress: signupValues.streetAddress,
       zipcode: signupValues.zipcode,
     },

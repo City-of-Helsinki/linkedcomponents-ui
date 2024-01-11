@@ -6,6 +6,7 @@ export const getSignupFormElement = (
   key:
     | 'cityInput'
     | 'confirmDeleteModal'
+    | 'contactPersonPhoneInput'
     | 'dateOfBirthInput'
     | 'emailCheckbox'
     | 'emailInput'
@@ -16,7 +17,6 @@ export const getSignupFormElement = (
     | 'nativeLanguageButton'
     | 'participantAmountInput'
     | 'phoneCheckbox'
-    | 'phoneInput'
     | 'serviceLanguageButton'
     | 'signupGroupExtraInfoField'
     | 'streetAddressInput'
@@ -32,6 +32,8 @@ export const getSignupFormElement = (
       return screen.getByRole('dialog', {
         name: 'Vahvista osallistujan poistaminen',
       });
+    case 'contactPersonPhoneInput':
+      return screen.getAllByLabelText(/puhelinnumero/i)[1];
     case 'dateOfBirthInput':
       return screen.getByLabelText(/syntymäaika/i);
     case 'emailCheckbox':
@@ -54,8 +56,6 @@ export const getSignupFormElement = (
       });
     case 'phoneCheckbox':
       return screen.getByLabelText(/tekstiviestillä/i);
-    case 'phoneInput':
-      return screen.getByLabelText(/puhelinnumero/i);
     case 'serviceLanguageButton':
       return screen.getByRole('button', { name: /asiointikieli/i });
     case 'signupGroupExtraInfoField':
