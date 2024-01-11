@@ -163,7 +163,8 @@ export const copyRegistrationToSessionStorage = async (
     submitCount: 0,
     touched: {},
     values: {
-      ...getRegistrationInitialValues(registration),
+      ...getRegistrationInitialValues(omit(registration)),
+      registrationUserAccesses: [],
     },
   };
 
