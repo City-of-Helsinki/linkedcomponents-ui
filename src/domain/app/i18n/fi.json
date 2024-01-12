@@ -1538,8 +1538,8 @@
   },
   "maintenance": {
     "header": {
-      "label": "Linked Registration julkaistu",
-      "text": "Linked Registration -ilmoittautuminen on otettu käyttöön ja on nyt mahdollista lisätä tapahtumille. Ohjeet ilmoittautumisen käyttöön löytyvät <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Linked Registration ohjeet {{openInNewTab}}\">täältä</a>."
+      "label": "Uusi kirjautumistapa Helsinki profiili otetaan käyttöön tammikuun puolivälissä 2024.",
+      "text": "<p>Google-, YLE-, Facebook-tunnistautumistavat poistuvat. Samalla työntekijöiden AD-tunnistautuminen muuttuu.</p><p>Muutoksen jälkeen kirjautumiseen käytetään Helsinki profiili -palvelua, jossa käyttäjät voivat jatkossa hallinnoida omia tietojaan kaupungin eri digipalveluissa.</p><p>Helsinki profiilin käyttöönoton myötä pääsy aiempiin sisältöihin katkeaa.</p><p>Muutoksen myötä myös sisällöntuotanto-oikeudet poistuvat. Sisällöntuotannon osalta kannattaa varata aikaa sisällöntuotanto-oikeuksien uusimiseen.</p>"
     },
     "toast": "Keskiviikkona 30.8. päivitetään Linked Events -palvelu, mistä johtuen kirjautuminen ei ole mahdollista."
   },
