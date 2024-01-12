@@ -20,6 +20,15 @@ import {
 } from '../../../user/__mocks__/user';
 import Footer from '../Footer';
 
+const mockedUseNavigate = vi.fn();
+
+vi.mock('react-router', async () => {
+  return {
+    ...((await vi.importActual('react-router')) as object),
+    useNavigate: () => mockedUseNavigate,
+  };
+});
+
 configure({ defaultHidden: true });
 
 beforeEach(() => {
@@ -54,34 +63,30 @@ test('should show navigation links and should route to correct page after clicki
   });
 
   const user = userEvent.setup();
-  const { history } = renderComponent();
+  renderComponent();
   const links = [
-    { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
+    { name: /etusivu/i, url: `/fi${ROUTES.HOME}` },
     { name: /etsi tapahtumia/i, url: `/fi${ROUTES.SEARCH}` },
-    { name: /ilmoittautuminen/i, url: `/fi${ROUTES.REGISTRATIONS}` },
-    { name: /hallinta/i, url: `/fi${ROUTES.ADMIN}` },
-    { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
+    { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
+    { name: 'Ilmoittautuminen', url: `/fi${ROUTES.REGISTRATIONS}` },
+    { name: 'Hallinta', url: `/fi${ROUTES.ADMIN}` },
+    { name: /ohjeet/i, url: `/fi${ROUTES.INSTRUCTIONS}` },
+    { name: /teknologia/i, url: `/fi${ROUTES.TECHNOLOGY}` },
+    { name: /tuki/i, url: `/fi${ROUTES.SUPPORT}` },
+    { name: /palvelun ominaisuudet/i, url: `/fi${ROUTES.FEATURES}` },
   ];
 
   for (const { name, url } of links) {
-    const link = screen.getByRole('link', { name });
+    const link = screen.getAllByRole('link', { name })[0];
 
     await user.click(link);
 
-    await waitFor(() => expect(history.location.pathname).toBe(url));
+    await waitFor(() =>
+      expect(mockedUseNavigate).toBeCalledWith({
+        pathname: url,
+      })
+    );
   }
-
-  const dataProtectionLink = screen.getByRole('link', { name: /tietosuoja/i });
-
-  expect(dataProtectionLink.getAttribute('href')).toEqual(
-    DATA_PROTECTION_URL['fi']
-  );
-
-  window.open = vi.fn();
-
-  await user.click(dataProtectionLink);
-
-  expect(window.open).toHaveBeenCalled();
 });
 
 const registrationAndAdminTabTestCases: {
@@ -118,20 +123,20 @@ test.each(registrationAndAdminTabTestCases)(
 
     if (showAdminTab) {
       expect(
-        await screen.findByRole('link', { name: /hallinta/i })
+        await screen.findByRole('link', { name: 'Hallinta' })
       ).toBeInTheDocument();
     } else {
       expect(
-        screen.queryByRole('link', { name: /hallinta/i })
+        screen.queryByRole('link', { name: 'Hallinta' })
       ).not.toBeInTheDocument();
     }
     if (showRegistrationTab) {
       expect(
-        await screen.findByRole('link', { name: /ilmoittautuminen/i })
+        await screen.findByRole('link', { name: 'Ilmoittautuminen' })
       ).toBeInTheDocument();
     } else {
       expect(
-        screen.queryByRole('link', { name: /ilmoittautuminen/i })
+        screen.queryByRole('link', { name: 'Ilmoittautuminen' })
       ).not.toBeInTheDocument();
     }
   }
@@ -143,35 +148,43 @@ test('should not show admin links when those features are disabled', async () =>
     SHOW_ADMIN: false,
   });
 
-  const user = userEvent.setup();
-
-  const { history } = renderComponent();
-  const links = [
-    { name: /tapahtumat/i, url: `/fi${ROUTES.EVENTS}` },
-    { name: /etsi tapahtumia/i, url: `/fi${ROUTES.SEARCH}` },
-    { name: /ilmoittautuminen/i, url: `/fi${ROUTES.REGISTRATIONS}` },
-    { name: /tuki/i, url: `/fi${ROUTES.HELP}` },
-  ];
-
-  for (const { name, url } of links) {
-    const link = screen.getAllByRole('link', { name })[0];
-
-    await user.click(link);
-
-    await waitFor(() => expect(history.location.pathname).toBe(url));
-  }
+  renderComponent();
 
   expect(
-    screen.queryByRole('link', { name: /hallinta/i })
+    screen.queryByRole('link', { name: 'Hallinta' })
   ).not.toBeInTheDocument();
 });
 
-test('should show feedback link and link should have correct href', async () => {
+test('should show and open utility links', async () => {
+  setFeatureFlags({
+    LOCALIZED_IMAGE: true,
+    SHOW_ADMIN: true,
+  });
+
   const user = userEvent.setup();
-  const { history } = renderComponent();
+  renderComponent();
 
-  const feedbackLink = screen.getByRole('link', { name: /anna palautetta/i });
-  await user.click(feedbackLink);
+  const accessibilityStatementLink = screen.getByRole('link', {
+    name: /saavutettavuusseloste/i,
+  });
 
-  expect(history.location.pathname).toBe('/fi/help/support/contact');
+  await user.click(accessibilityStatementLink);
+
+  await waitFor(() =>
+    expect(mockedUseNavigate).toBeCalledWith({
+      pathname: `/fi${ROUTES.ACCESSIBILITY_STATEMENT}`,
+    })
+  );
+
+  const dataProtectionLink = screen.getByRole('link', { name: /tietosuoja/i });
+
+  expect(dataProtectionLink.getAttribute('href')).toEqual(
+    DATA_PROTECTION_URL['fi']
+  );
+
+  window.open = vi.fn();
+
+  await user.click(dataProtectionLink);
+
+  expect(window.open).toHaveBeenCalled();
 });
