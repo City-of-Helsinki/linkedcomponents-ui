@@ -1538,8 +1538,8 @@
   },
   "maintenance": {
     "header": {
-      "label": "Linked Registration publiceras",
-      "text": "Linked Registration -registrering har genomförts och är nu möjlig att lägga till evenemang. Instruktioner för användning av registrering finns <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Linked Registration instruktioner {{openInNewTab}}\">här</a>"
+      "label": "Den nya inloggningen av Helsingfors profil kommer att införas i mitten av januari 2024.",
+      "text": "<p>Inloggningsmetoderna för Google, YLE och Facebook kommer att tas bort. Samtidigt kommer de anställdas AD-autentisering att ändras.</p><p>Efter ändringen kommer tjänsten Helsinki Profile att användas för inloggning, och användarna kommer att kunna hantera sina egna uppgifter i stadens olika digitala tjänster.</p><p>I och med införandet av Helsingfors profilen kommer åtkomsten till tidigare innehåll som gjorts under inloggning att inaktiveras.</p><p>Förändringen kommer också att ta bort innehållsproduktionsrättigheter. För att kunna producera innehåll bör du ta dig tid att förnya dina innehållsproduktionsrättigheter.</p>"
     },
     "toast": "På onsdag 30.8. kommer Linked Events-tjänsten att uppdateras, vilket innebär att inloggning inte kommer att vara möjlig."
   },
