@@ -21,7 +21,7 @@ const getElement = (
 ) => {
   switch (key) {
     case 'buttonCreate':
-      return screen.getByRole('button', { name: /lisää tekemistä/i });
+      return screen.getByRole('button', { name: /lisää uusi tapahtuma/i });
     case 'buttonSearch1':
       return screen.getAllByRole('button', { name: /etsi tapahtumia/i })[0];
     case 'buttonSearch2':
