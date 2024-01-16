@@ -9,7 +9,12 @@ import isNumber from 'lodash/isNumber';
 import omit from 'lodash/omit';
 
 import { NotificationProps } from '../../common/components/notification/Notification';
-import { FORM_NAMES, ROUTES, TIME_FORMAT_DATA } from '../../constants';
+import {
+  FORM_NAMES,
+  ROUTES,
+  TIME_FORMAT,
+  TIME_FORMAT_DATA,
+} from '../../constants';
 import {
   CreateRegistrationMutationInput,
   RegistrationFieldsFragment,
@@ -382,6 +387,13 @@ export const getRegistrationWarning = (
   const freeWaitlistCapacity = getFreeWaitingListCapacity(registration);
 
   if (!registrationOpen) {
+    if (registration.enrolmentStartTime) {
+      const enrolmentStartTime = new Date(registration.enrolmentStartTime);
+      return t('signup.warnings.closedWithEnrolmentTime', {
+        openingDate: formatDate(enrolmentStartTime),
+        openingTime: formatDate(enrolmentStartTime, TIME_FORMAT),
+      });
+    }
     return t('signup.warnings.closed');
   }
 
