@@ -1,6 +1,7 @@
 import endOfDay from 'date-fns/endOfDay';
 import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
+import max from 'date-fns/max';
 import startOfDay from 'date-fns/startOfDay';
 import subYears from 'date-fns/subYears';
 import { scroller } from 'react-scroll';
@@ -31,19 +32,29 @@ import { isDateOfBirthFieldRequired, isSignupFieldRequired } from './utils';
 
 export const isAboveMinAge = (
   date: Maybe<Date>,
+  startTime: Maybe<string>,
   minAge: Maybe<number>
-): boolean =>
-  minAge && date
-    ? isBefore(date, subYears(endOfDay(new Date()), minAge))
+): boolean => {
+  const now = new Date();
+  const dateToCompare = startTime ? max([new Date(startTime), now]) : now;
+
+  return minAge && date
+    ? isBefore(date, subYears(endOfDay(dateToCompare), minAge))
     : true;
+};
 
 export const isBelowMaxAge = (
   date: Maybe<Date>,
+  startTime: Maybe<string>,
   maxAge: Maybe<number>
-): boolean =>
-  maxAge && date
-    ? isAfter(date, subYears(startOfDay(new Date()), maxAge + 1))
+): boolean => {
+  const now = new Date();
+  const dateToCompare = startTime ? max([new Date(startTime), now]) : now;
+
+  return maxAge && date
+    ? isAfter(date, subYears(startOfDay(dateToCompare), maxAge + 1))
     : true;
+};
 
 const getStringSchema = (required: boolean) =>
   required
@@ -60,6 +71,7 @@ const getDateSchema = (required: boolean) =>
 
 export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
   const { audienceMaxAge, audienceMinAge } = registration;
+  const startTime = registration.event?.startTime;
 
   return Yup.object().shape({
     [SIGNUP_FIELDS.FIRST_NAME]: getStringSchema(
@@ -87,7 +99,7 @@ export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
           key: VALIDATION_MESSAGE_KEYS.AGE_MIN,
           min: audienceMinAge,
         }),
-        (date) => isAboveMinAge(date, audienceMinAge)
+        (date) => isAboveMinAge(date, startTime, audienceMinAge)
       )
       .test(
         'isBelowMaxAge',
@@ -95,7 +107,7 @@ export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
           key: VALIDATION_MESSAGE_KEYS.AGE_MAX,
           max: audienceMaxAge,
         }),
-        (date) => isBelowMaxAge(date, audienceMaxAge)
+        (date) => isBelowMaxAge(date, startTime, audienceMaxAge)
       ),
     [SIGNUP_FIELDS.ZIPCODE]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_FIELDS.ZIPCODE)
