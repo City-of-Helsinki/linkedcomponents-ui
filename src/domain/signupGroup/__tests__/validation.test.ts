@@ -17,7 +17,11 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-const testAboveMinAge = async (minAge: number, date: Date | null) => {
+const testAboveMinAge = async (
+  minAge: number,
+  date: Date | null,
+  startTime: string | null = null
+) => {
   try {
     await Yup.date()
       .nullable()
@@ -27,7 +31,7 @@ const testAboveMinAge = async (minAge: number, date: Date | null) => {
           key: VALIDATION_MESSAGE_KEYS.AGE_MIN,
           min: minAge,
         }),
-        (date) => isAboveMinAge(date, minAge)
+        (date) => isAboveMinAge(date, startTime, minAge)
       )
       .validate(date);
     return true;
@@ -36,7 +40,11 @@ const testAboveMinAge = async (minAge: number, date: Date | null) => {
   }
 };
 
-const testBelowMaxAge = async (maxAge: number, date: Date | null) => {
+const testBelowMaxAge = async (
+  maxAge: number,
+  date: Date | null,
+  startTime: string | null = null
+) => {
   try {
     await Yup.date()
       .nullable()
@@ -46,7 +54,7 @@ const testBelowMaxAge = async (maxAge: number, date: Date | null) => {
           key: VALIDATION_MESSAGE_KEYS.AGE_MAX,
           max: maxAge,
         }),
-        (date) => isBelowMaxAge(date, maxAge)
+        (date) => isBelowMaxAge(date, startTime, maxAge)
       )
       .validate(date);
     return true;
@@ -83,10 +91,21 @@ describe('isAboveMinAge function', () => {
   beforeEach(() => {
     vi.setSystemTime('2022-10-10');
   });
-  test('should return true value is null', async () => {
+
+  test('should return true if value is null', async () => {
     const result = await testAboveMinAge(9, null);
 
     expect(result).toBe(true);
+  });
+
+  test('should return false if age is less than min age in start time', async () => {
+    const result = await testAboveMinAge(
+      9,
+      new Date('2022-01-01'),
+      '2022-12-12'
+    );
+
+    expect(result).toBe(false);
   });
 
   test('should return false if age is less than min age', async () => {
@@ -100,13 +119,37 @@ describe('isAboveMinAge function', () => {
 
     expect(result).toBe(true);
   });
+
+  test('should return true if age is greater than min age in start time', async () => {
+    const result = await testAboveMinAge(
+      9,
+      new Date('2012-12-11'),
+      '2022-12-12'
+    );
+
+    expect(result).toBe(true);
+  });
 });
 
 describe('isBelowMaxAge function', () => {
+  beforeEach(() => {
+    vi.setSystemTime('2022-10-10');
+  });
+
   test('should return true if value is null', async () => {
     const result = await testBelowMaxAge(9, null);
 
     expect(result).toBe(true);
+  });
+
+  test('should return false if age is greater than max age in start time', async () => {
+    const result = await testBelowMaxAge(
+      9,
+      new Date('2015-01-01'),
+      '2025-10-10'
+    );
+
+    expect(result).toBe(false);
   });
 
   test('should return false if age is greater than max age', async () => {
