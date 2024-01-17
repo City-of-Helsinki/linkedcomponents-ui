@@ -1953,7 +1953,8 @@
       "capacityInWaitingList": "Registration for this event is still possible, but there are only {{count}} seat left in the queue.",
       "capacityInWaitingList_other": "Registration for this event is still possible, but there are only {{count}} seats left in the queue.",
       "capacityInWaitingListNoLimit": "Registration for this event is still possible, but there are only seats left in the queue.",
-      "closed": "Registration for this event is currently closed. Please try again later."
+      "closed": "Registration for this event is currently closed. Please try again later.",
+      "closedWithEnrolmentTime": "Registration for this event opens on {{openingDate}} at {{openingTime}}."
     }
   },
   "signupGroup": {
