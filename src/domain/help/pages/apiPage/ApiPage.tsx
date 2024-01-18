@@ -1,13 +1,17 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
+import Breadcrumb from '../../../../common/components/breadcrumb/Breadcrumb';
 import ExternalLink from '../../../../common/components/externalLink/ExternalLink';
 import { ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../../../app/layout/titleRow/TitleRow';
 
 const ApiPage: React.FC = () => {
+  const { t } = useTranslation();
   const locale = useLocale();
 
   const getContent = (locale: Language) => {
@@ -15,7 +19,6 @@ const ApiPage: React.FC = () => {
       case 'en':
         return (
           <>
-            <h1>API</h1>
             <p>
               The Linked Events API contains event information about the City of
               Helsinki's events, courses and volunteer assignments. Some of the
@@ -52,7 +55,6 @@ const ApiPage: React.FC = () => {
       case 'fi':
         return (
           <>
-            <h1>Rajapinta</h1>
             <p>
               Linked Events -rajapinta pitää sisällään tapahtumatietoja
               Helsingin kaupungin tapahtumista, kursseista ja
@@ -92,7 +94,6 @@ const ApiPage: React.FC = () => {
       case 'sv':
         return (
           <>
-            <h1>API</h1>
             <p>
               Linked Events API innehåller evenemangsinformation om Helsingfors
               stads evenemang, kurser och volontäruppdrag. En del av API's
@@ -136,6 +137,25 @@ const ApiPage: React.FC = () => {
       keywords={['keywords.help', 'keywords.documentation']}
       title="helpPage.pageTitleApi"
     >
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('helpPage.pageTitle'), path: ROUTES.HELP },
+              {
+                title: t('helpPage.pageTitleTechnology'),
+                path: ROUTES.TECHNOLOGY,
+              },
+              {
+                title: t('helpPage.pageTitleApi'),
+                path: null,
+              },
+            ]}
+          />
+        }
+        title={t('helpPage.pageTitleApi')}
+      />
       {getContent(locale)}
     </PageWrapper>
   );

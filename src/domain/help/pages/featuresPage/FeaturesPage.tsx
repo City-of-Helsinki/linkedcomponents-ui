@@ -1,12 +1,16 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
+import Breadcrumb from '../../../../common/components/breadcrumb/Breadcrumb';
 import { ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../../../app/layout/titleRow/TitleRow';
 
 const FeaturesPage: React.FC = () => {
+  const { t } = useTranslation();
   const locale = useLocale();
 
   const getContent = (locale: Language) => {
@@ -14,7 +18,6 @@ const FeaturesPage: React.FC = () => {
       case 'en':
         return (
           <>
-            <h1>Service features</h1>
             <h2>Event management</h2>
             <p>
               The Linked Events dashboard lets you enter new events, courses,
@@ -42,7 +45,6 @@ const FeaturesPage: React.FC = () => {
       case 'fi':
         return (
           <>
-            <h1>Palvelun ominaisuudet</h1>
             <h2>Tapahtumien hallinta</h2>
             <p>
               Linked Eventsin hallintapaneelin avulla voit syöttää uusia
@@ -70,7 +72,6 @@ const FeaturesPage: React.FC = () => {
       case 'sv':
         return (
           <>
-            <h1>Tjänstens egenskaper</h1>
             <h2>Evenemanghantering</h2>
             <p>
               Med instrumentpanelen för Linked Events kan du ange nya evenemang,
@@ -104,6 +105,21 @@ const FeaturesPage: React.FC = () => {
       keywords={['keywords.features']}
       title="helpPage.pageTitleFeatures"
     >
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('helpPage.pageTitle'), path: ROUTES.HELP },
+              {
+                title: t('helpPage.pageTitleFeatures'),
+                path: null,
+              },
+            ]}
+          />
+        }
+        title={t('helpPage.pageTitleFeatures')}
+      />
       {getContent(locale)}
     </PageWrapper>
   );

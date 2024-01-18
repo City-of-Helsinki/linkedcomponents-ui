@@ -13,9 +13,12 @@ import imageEn5 from '../../../../assets/images/png/registration_instructions_5_
 import imageFi5 from '../../../../assets/images/png/registration_instructions_5_FI.png';
 import imageEn6 from '../../../../assets/images/png/registration_instructions_6_EN.png';
 import imageFi6 from '../../../../assets/images/png/registration_instructions_6_FI.png';
+import Breadcrumb from '../../../../common/components/breadcrumb/Breadcrumb';
+import { ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../../../app/layout/titleRow/TitleRow';
 import styles from './registrationInstructions.module.scss';
 
 const DocumentationPage: React.FC = () => {
@@ -61,7 +64,6 @@ const DocumentationPage: React.FC = () => {
       case 'en':
         return (
           <>
-            <h1>Linked Registration instructions</h1>
             <h2>Creating a registration</h2>
             <p>
               After publishing an event: go to the Registration section in
@@ -182,7 +184,6 @@ const DocumentationPage: React.FC = () => {
       case 'fi':
         return (
           <>
-            <h1>Linked Registration -ohje</h1>
             <h2>Creating a registration</h2>
             <p>
               Julkaistuasi tapahtuman: Siirry Linked Eventsissä
@@ -295,7 +296,7 @@ const DocumentationPage: React.FC = () => {
           </>
         );
       case 'sv':
-        return <h1>Linked Registration instruktioner</h1>;
+        return <></>;
     }
   };
 
@@ -304,6 +305,27 @@ const DocumentationPage: React.FC = () => {
       className={styles.registrationInstructions}
       title="helpPage.registrationInstructionsPage.pageTitle"
     >
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('helpPage.pageTitle'), path: ROUTES.HELP },
+              {
+                title: t('helpPage.sideNavigation.labelInstructions'),
+                path: ROUTES.INSTRUCTIONS,
+              },
+              {
+                title: t(
+                  'helpPage.sideNavigation.labelRegistrationInstructions'
+                ),
+                path: null,
+              },
+            ]}
+          />
+        }
+        title={t('helpPage.sideNavigation.labelRegistrationInstructions')}
+      />
       {getContent(locale)}
     </PageWrapper>
   );

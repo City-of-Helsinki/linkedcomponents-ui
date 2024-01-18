@@ -2,7 +2,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Breadcrumb from '../../../../common/components/breadcrumb/Breadcrumb';
+import { ROUTES } from '../../../../constants';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../../../app/layout/titleRow/TitleRow';
 import AddingEventsFaq from '../../faq/addingEventsFaq/AddingEventsFaq';
 import AddingToOwnProjectsFaq from '../../faq/addingToOwnProjectsFaq/AddingToOwnProjectsFaq';
 import EventFormNotWorkingFaq from '../../faq/eventFormNotWorkingFaq/EventFormNotWorkingFaq';
@@ -22,7 +25,25 @@ const FaqPage: React.FC = () => {
       keywords={['keywords.faq', 'keywords.asked', 'keywords.questions']}
       title="helpPage.pageTitleFaq"
     >
-      <h1>{t('helpPage.pageTitleFaq')}</h1>
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('helpPage.pageTitle'), path: ROUTES.HELP },
+              {
+                title: t('helpPage.sideNavigation.labelInstructions'),
+                path: ROUTES.INSTRUCTIONS,
+              },
+              {
+                title: t('helpPage.pageTitleFaq'),
+                path: null,
+              },
+            ]}
+          />
+        }
+        title={t('helpPage.pageTitleFaq')}
+      />
       <div className={styles.accordions}>
         <AddingEventsFaq />
         <ImageRightsFaq />

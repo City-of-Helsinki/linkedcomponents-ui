@@ -4,12 +4,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ValidationError } from 'yup';
 
+import Breadcrumb from '../../../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../../../common/components/button/Button';
 import SingleSelectField from '../../../../common/components/formFields/singleSelectField/SingleSelectField';
 import TextAreaField from '../../../../common/components/formFields/textAreaField/TextAreaField';
 import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import ServerErrorSummary from '../../../../common/components/serverErrorSummary/ServerErrorSummary';
+import { ROUTES } from '../../../../constants';
 import { FeedbackInput } from '../../../../generated/graphql';
 import useIdWithPrefix from '../../../../hooks/useIdWithPrefix';
 import {
@@ -17,6 +19,7 @@ import {
   showFormErrors,
 } from '../../../../utils/validationUtils';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../../../app/layout/titleRow/TitleRow';
 import useAuth from '../../../auth/hooks/useAuth';
 import useFeedbackActions from '../../../feedback/hooks/useFeedbackActions';
 import useFeedbackServerErrors from '../../../feedback/hooks/useFeedbackServerErrors';
@@ -129,7 +132,25 @@ const ContactPage: React.FC = () => {
       ]}
       title="helpPage.contactPage.pageTitle"
     >
-      <h1>{t('helpPage.contactPage.pageTitle')}</h1>
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('helpPage.pageTitle'), path: ROUTES.HELP },
+              {
+                title: t('helpPage.pageTitle'),
+                path: ROUTES.SUPPORT,
+              },
+              {
+                title: t('helpPage.contactPage.pageTitle'),
+                path: null,
+              },
+            ]}
+          />
+        }
+        title={t('helpPage.contactPage.pageTitle')}
+      />
 
       <Formik
         initialValues={initialValues}

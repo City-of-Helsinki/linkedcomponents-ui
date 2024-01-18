@@ -14,6 +14,7 @@ type TitleRowProps = {
   buttonWrapperClassName?: string;
   editingInfo?: React.ReactElement;
   title: string;
+  titleClassName?: string;
 };
 
 const TitleRow = ({
@@ -24,6 +25,7 @@ const TitleRow = ({
   buttonWrapperClassName,
   editingInfo,
   title,
+  titleClassName,
 }: TitleRowProps): React.ReactElement => {
   const { t } = useTranslation();
   return (
@@ -34,7 +36,7 @@ const TitleRow = ({
         </div>
       )}
       <div className={styles.titleRow}>
-        <div className={styles.title}>
+        <div className={classNames(styles.title, titleClassName)}>
           <h1>{title}</h1>
           {editingInfo}
         </div>

@@ -3,15 +3,20 @@
 import 'swagger-ui-react/swagger-ui.css';
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import SwaggerUI from 'swagger-ui-react';
 
+import Breadcrumb from '../../../../common/components/breadcrumb/Breadcrumb';
+import { ROUTES } from '../../../../constants';
 import { SWAGGER_SCHEMA_URL } from '../../../../envVariables';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../../../app/layout/titleRow/TitleRow';
 import SwaggerLink from '../swaggerLink/SwaggerLink';
 
 const DocumentationPage: React.FC = () => {
+  const { t } = useTranslation();
   const locale = useLocale();
 
   const getContent = (locale: Language) => {
@@ -19,7 +24,6 @@ const DocumentationPage: React.FC = () => {
       case 'en':
         return (
           <>
-            <h1>Documentation</h1>
             <p>
               The latest documentation for the API in the Open API 2.0 markup
               language can be found at:
@@ -34,7 +38,6 @@ const DocumentationPage: React.FC = () => {
       case 'fi':
         return (
           <>
-            <h1>Dokumentaatio</h1>
             <p>
               Rajapinnan tuorein dokumentaatio Open API 2.0-kuvauskielellä
               löytyy osoitteesta:
@@ -48,7 +51,6 @@ const DocumentationPage: React.FC = () => {
       case 'sv':
         return (
           <>
-            <h1>Dokumentation</h1>
             <p>
               Den senaste dokumentationen för gränssnittet i Open API
               2.0-märkningsspråket finns på:
@@ -69,6 +71,25 @@ const DocumentationPage: React.FC = () => {
       keywords={['keywords.documentation', 'keywords.help']}
       title="helpPage.pageTitleDocumentation"
     >
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('helpPage.pageTitle'), path: ROUTES.HELP },
+              {
+                title: t('helpPage.pageTitleTechnology'),
+                path: ROUTES.TECHNOLOGY,
+              },
+              {
+                title: t('helpPage.pageTitleDocumentation'),
+                path: null,
+              },
+            ]}
+          />
+        }
+        title={t('helpPage.pageTitleDocumentation')}
+      />
       {getContent(locale)}
       {/* @ts-ignore */}
       <SwaggerUI url={SWAGGER_SCHEMA_URL} />
