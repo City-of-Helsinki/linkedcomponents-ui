@@ -2,6 +2,7 @@ import { useOidcClient } from 'hds-react';
 import { User } from 'oidc-client-ts';
 import { useLocation } from 'react-router';
 
+import useLocale from '../../../hooks/useLocale';
 import { OidcLoginState } from '../types';
 
 type UseAuthState = {
@@ -12,6 +13,7 @@ type UseAuthState = {
 };
 
 const useAuth = (): UseAuthState => {
+  const locale = useLocale();
   const { isAuthenticated, getUser, login, logout } = useOidcClient();
   const location = useLocation();
 
@@ -19,7 +21,7 @@ const useAuth = (): UseAuthState => {
     const state: OidcLoginState = {
       path: signInPath ?? `${location.pathname}${location.search}`,
     };
-    login({ state });
+    login({ language: locale, state });
   };
 
   const handleLogout = async () => {
