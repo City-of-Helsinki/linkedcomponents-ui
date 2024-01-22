@@ -18,8 +18,6 @@ export interface ButtonPanelProps {
   withOffset?: boolean;
 }
 
-const SCROLL_OFFSET = 40;
-
 const ButtonPanel: React.FC<ButtonPanelProps> = ({
   actionItems,
   contentWrapperClassName,
@@ -49,7 +47,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
       ) {
         window.scrollBy(
           0,
-          targetRect.bottom - buttonPanelRect.top + SCROLL_OFFSET
+          targetRect.bottom - buttonPanelRect.top + buttonPanelRect.height
         );
       }
     }
