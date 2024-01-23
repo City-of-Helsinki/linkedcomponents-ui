@@ -5,6 +5,7 @@ export const QUERY_REGISTRATION = gql`
   fragment registrationUserAccessFields on RegistrationUserAccess {
     email
     id
+    isSubstituteUser
     language
   }
 
@@ -25,6 +26,8 @@ export const QUERY_REGISTRATION = gql`
     event {
       ...eventFields
     }
+    hasRegistrationUserAccess
+    hasSubstituteUserAccess
     instructions {
       ...localisedFields
     }

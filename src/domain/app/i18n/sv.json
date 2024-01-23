@@ -1100,6 +1100,7 @@
         "charsLeft_other": "{{count}} tecken kvar",
         "date": "This field must be valid date",
         "email": "Detta fält måste vara en giltig e-postmeddelande",
+        "emailAllowedDomain": "Endast användare med en \"hel.fi\"-e-postadress får vara ersättningsanvändare.",
         "max": "Detta fält kan vara upp till {{max}} tecken långt",
         "min": "Detta fält måste vara minst {{min}} tecken långt",
         "phone": "Detta fält måste vara en giltig telefonnummer",
@@ -1731,8 +1732,6 @@
       "labelMaximumGroupSize": "Maximal gruppstorlek",
       "labelMinimumAttendeeCapacity": "Minsta antal platser",
       "labelName": "Namn",
-      "labelRegistrationUserAccessEmail": "Användarens e-postadress",
-      "labelRegistrationUserAccessLanguage": "Språk",
       "labelWaitingListCapacity": "Antal reservplatser",
       "messages": {
         "failedToSendInvitation": "Det gick inte att skicka inbjudan",
@@ -1744,8 +1743,17 @@
       "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
       "placeholderEvent": "Välj eller sök efter evenemanget",
       "placeholderInstructions": "Ange registreringsinstruktioner",
-      "placeholderRegistrationUserAccessEmail": "Ange användarens e-postadress",
-      "placeholderRegistrationUserAccessLanguage": "Välj språk",
+      "registrationUserAccess": {
+        "labelEmail": "Användarens e-postadress",
+        "labelIsSubstituteUser": "Ersättande användare",
+        "labelLanguage": "Språk",
+        "notificationTextAccessRights": "Här kan du ge läsrätt för denna registrering till en annan stadsanställd eller en extern evenemangsarrangör, eller tilldela dig själv en vikarie med samma behörighet som du.",
+        "notificationTitleAccessRights": "Användningsrättigheter",
+        "notificationTextSubstituteUser": "Lägg till dig själv en ersättare för eventuell frånvaro. Utifrån detta ges vikarien samma åtkomsträttigheter till denna registrering som du har. Om du inte har en tydlig ersättare, sätt då din föregångare som ersättare.",
+        "notificationTitleSubstituteUser": "Ersättande användare",
+        "placeholderEmail": "Ange användarens e-postadress",
+        "placeholderLanguage": "Välj språk"
+      },
       "sections": {
         "attendeeCount": "Sittplatser",
         "audienceAge": "Åldersgräns",
@@ -1755,7 +1763,7 @@
         "instructions": "Instruktioner och bekräftelsemeddelande",
         "languages": "Språk",
         "mandatoryFields": "Obligatoriska fält",
-        "registrationUserAccesses": "Läsbehörigheter för deltagarlistan",
+        "registrationUserAccesses": "Användningsrättigheter",
         "waitingList": "Väntelista"
       },
       "sendInvitation": "Skicka inbjudan igen",
@@ -1820,6 +1828,7 @@
     "mustBeUnique": "Värdet måste vara unikt.",
     "min0": "Detta nummer måste vara minst 0.",
     "nameIsRequired": "Namnet krävs.",
+    "notAllowedEmailDomain": "Användarens e-postdomän är inte en av de tillåtna domänerna för ersättningsanvändare.",
     "notEnoughSeats": "Det finns inte tillräckligt med platser kvar. Platser kvar: {{seatsLeft}}.",
     "notEnoughWaitingListSeats": "Det finns inte tillräckligt med köer kvar. Platser kvar: {{seatsLeft}}.",
     "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",

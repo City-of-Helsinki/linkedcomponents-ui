@@ -46,7 +46,8 @@ export const checkCanUserDoSignupAction = ({
     case SIGNUP_ACTIONS.VIEW:
       return Boolean(
         isRegistrationAdminUser ||
-          (isAdminUser && registration.isCreatedByCurrentUser)
+          (isAdminUser && registration.isCreatedByCurrentUser) ||
+          registration.hasSubstituteUserAccess
       );
   }
 };

@@ -169,7 +169,12 @@ describe('getRegistrationInitialValues function', () => {
           maximumAttendeeCapacity: 15,
           minimumAttendeeCapacity: 5,
           registrationUserAccesses: [
-            { email: 'user@email.com', id: 1, language: 'fi' },
+            {
+              email: 'user@email.com',
+              id: 1,
+              isSubstituteUser: true,
+              language: 'fi',
+            },
           ],
           waitingListCapacity: 5,
         })
@@ -196,7 +201,12 @@ describe('getRegistrationInitialValues function', () => {
       maximumGroupSize: '',
       minimumAttendeeCapacity: 5,
       registrationUserAccesses: [
-        { email: 'user@email.com', id: 1, language: 'fi' },
+        {
+          email: 'user@email.com',
+          id: 1,
+          isSubstituteUser: true,
+          language: 'fi',
+        },
       ],
       waitingListCapacity: 5,
     });
@@ -252,7 +262,12 @@ describe('getRegistrationPayload function', () => {
       maximumGroupSize = 2,
       minimumAttendeeCapacity = 5,
       registrationUserAccesses = [
-        { email: 'user@email.com', id: null, language: '' },
+        {
+          email: 'user@email.com',
+          id: null,
+          isSubstituteUser: false,
+          language: '',
+        },
       ],
       waitingListCapacity = 3;
     const payload = getRegistrationPayload({
@@ -309,7 +324,12 @@ describe('getRegistrationPayload function', () => {
       maximumGroupSize,
       minimumAttendeeCapacity,
       registrationUserAccesses: [
-        { email: 'user@email.com', id: null, language: null },
+        {
+          email: 'user@email.com',
+          id: null,
+          isSubstituteUser: false,
+          language: null,
+        },
       ],
       waitingListCapacity,
     });

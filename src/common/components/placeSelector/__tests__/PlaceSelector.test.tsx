@@ -1,6 +1,5 @@
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
-import React from 'react';
 
 import { OptionType } from '../../../../types';
 import generateAtId from '../../../../utils/generateAtId';

@@ -167,30 +167,54 @@ describe('registrationSchema', () => {
     ).toBe(true);
   });
 
-  it('should return false if registration user access email is invalid or missing', async () => {
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        registrationUserAccesses: [{ email: '', id: null, language: '' }],
-      })
-    ).toBe(false);
+  it.each([
+    [{ email: '', id: null, isSubstituteUser: false, language: '' }, false],
+    [
+      {
+        email: 'invalid@',
+        id: null,
+        isSubstituteUser: false,
+        language: '',
+      },
+      false,
+    ],
+    [
+      {
+        email: 'user@email.com',
+        id: null,
+        isSubstituteUser: false,
+        language: '',
+      },
+      true,
+    ],
+    [
+      {
+        email: 'invalid@email.com',
+        id: null,
+        isSubstituteUser: true,
+        language: '',
+      },
+      false,
+    ],
+    [
+      {
+        email: 'user@hel.fi',
+        id: null,
+        isSubstituteUser: true,
+        language: '',
+      },
+      true,
+    ],
+  ])(
+    'should validate registration user access email, %s returns %s',
 
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        registrationUserAccesses: [
-          { email: 'invalid@', id: null, language: '' },
-        ],
-      })
-    ).toBe(false);
-
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        registrationUserAccesses: [
-          { email: 'invalid@email.com', id: null, language: '' },
-        ],
-      })
-    ).toBe(true);
-  });
+    async (registrationUserAccess, isValid) => {
+      expect(
+        await testRegistrationSchema({
+          ...validRegistrationValues,
+          registrationUserAccesses: [registrationUserAccess],
+        })
+      ).toBe(isValid);
+    }
+  );
 });

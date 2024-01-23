@@ -13,6 +13,7 @@ export enum VALIDATION_MESSAGE_KEYS {
   DATE_MIN = 'form.validation.date.min',
   DATE_REQUIRED = 'form.validation.date.required',
   EMAIL = 'form.validation.string.email',
+  EMAIL_ALLOWED_DOMAIN = 'form.validation.string.emailAllowedDomain',
   EVENT_INFO_VERIFIED = 'form.validation.eventInfoVerified',
   EVENT_TIMES_REQUIRED = 'form.validation.eventTimesRequired',
   KEYWORD_REQUIRED = 'form.validation.keywordRequired',

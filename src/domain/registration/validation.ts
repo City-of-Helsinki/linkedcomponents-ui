@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import {
   createNumberMinErrorMessage,
   isAfterStartDateAndTime,
+  isEmailInAllowedDomain,
   isValidTime,
   transformNumber,
 } from '../../utils/validationUtils';
@@ -16,7 +17,18 @@ import {
 const registrationUserAccessSchema = Yup.object().shape({
   [REGISTRATION_USER_ACCESS_FIELDS.EMAIL]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .email(VALIDATION_MESSAGE_KEYS.EMAIL),
+    .email(VALIDATION_MESSAGE_KEYS.EMAIL)
+    .when(
+      [REGISTRATION_USER_ACCESS_FIELDS.IS_SUBSTITUTE_USER],
+      ([IsSubstituteUser]: boolean[], schema: Yup.StringSchema<string>) =>
+        IsSubstituteUser
+          ? schema.test(
+              'isAllowedEmailDomain',
+              VALIDATION_MESSAGE_KEYS.EMAIL_ALLOWED_DOMAIN,
+              (value) => isEmailInAllowedDomain(value)
+            )
+          : schema
+    ),
 });
 
 export const registrationSchema = Yup.object().shape({

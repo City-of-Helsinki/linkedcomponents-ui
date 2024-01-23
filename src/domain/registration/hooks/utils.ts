@@ -2,6 +2,8 @@ import { TFunction } from 'i18next';
 
 import { LEServerError, ServerErrorItem } from '../../../types';
 import isGenericServerError from '../../../utils/isGenericServerError';
+import parseServerErrorArray from '../../../utils/parseServerErrorArray';
+import parseServerErrorLabel from '../../../utils/parseServerErrorLabel';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
@@ -19,6 +21,16 @@ export const parseRegistrationServerErrors = ({
     t,
   });
 
+  function parseRegistrationUserAccessesServerErrorLabel({
+    key,
+  }: {
+    key: string;
+  }): string {
+    return t(
+      `registration.form.registrationUserAccess.label${pascalCase(key)}`
+    );
+  }
+
   // Get error item for an single error.
   function parseRegistrationServerError({
     error,
@@ -27,6 +39,17 @@ export const parseRegistrationServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
+    if (key === 'registration_user_accesses') {
+      return parseServerErrorArray({
+        error,
+        parseLabelFn: ({ key }) =>
+          parseServerErrorLabel({
+            key,
+            parseFn: parseRegistrationUserAccessesServerErrorLabel,
+          }),
+        t,
+      });
+    }
     return [
       {
         label: parseRegistrationServerErrorLabel({ key }),

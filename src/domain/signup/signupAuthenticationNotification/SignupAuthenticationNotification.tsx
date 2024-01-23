@@ -42,7 +42,11 @@ const SignupAuthenticationNotification: React.FC<
         'authentication.noRightsUpdateSignupLabel'
       )}
       noRequiredOrganizationText={t('authentication.noRightsUpdateSignup')}
-      requiredOrganizationType={['admin', 'registrationAdmin']}
+      requiredOrganizationType={[
+        'admin',
+        'registrationAdmin',
+        'substituteUser',
+      ]}
     />
   );
 };

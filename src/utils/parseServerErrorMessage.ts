@@ -78,6 +78,8 @@ const parseServerErrorMessage = ({
       return t(`serverError.participantTooOld`);
     case 'The participant is too young.':
       return t(`serverError.participantTooYoung`);
+    case "The user's email domain is not one of the allowed domains for substitute users.":
+      return t(`serverError.notAllowedEmailDomain`);
     case 'This field must be specified before an event is published.':
       return t(`serverError.requiredWhenPublishing`);
     case 'Tämä kenttä ei voi olla tyhjä.':

@@ -42,6 +42,13 @@ it('should set server error items', async () => {
         event: ['Tämän kentän arvo ei voi olla "null".'],
         maximum_attendee_capacity: ['Tämän luvun on oltava vähintään 0.'],
         minimum_attendee_capacity: ['Tämän luvun on oltava vähintään 0.'],
+        registration_user_accesses: [
+          {
+            is_substitute_user: [
+              "The user's email domain is not one of the allowed domains for substitute users.",
+            ],
+          },
+        ],
         waiting_list_capacity: ['Tämän luvun on oltava vähintään 0.'],
       },
     } as any,
@@ -68,6 +75,10 @@ it('should set server error items', async () => {
     {
       label: 'Paikkojen vähimmäismäärä',
       message: 'Tämän luvun on oltava vähintään 0.',
+    },
+    {
+      label: 'Sijainen',
+      message: 'Käyttäjän sähköpostin verkkotunnus ei ole sallittu sijaiselle.',
     },
     {
       label: 'Jonopaikkojen lukumäärä',

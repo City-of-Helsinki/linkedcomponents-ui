@@ -16,7 +16,6 @@ import TitleRow from '../app/layout/titleRow/TitleRow';
 import useAuth from '../auth/hooks/useAuth';
 import NotSigned from '../notSigned/NotSigned';
 import { getRegistrationActionButtonProps } from '../registration/permissions';
-import RegistrationAuthenticationNotification from '../registration/registrationAuthenticationNotification/RegistrationAuthenticationNotification';
 import { clearRegistrationFormData } from '../registration/utils';
 import useUser from '../user/hooks/useUser';
 import { REGISTRATION_ACTIONS } from './constants';
@@ -53,10 +52,6 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
   return (
     <div className={styles.registrationsPage}>
       <Container withOffset={true}>
-        <RegistrationAuthenticationNotification
-          action={REGISTRATION_ACTIONS.CREATE}
-          className={styles.notification}
-        />
         <TitleRow
           breadcrumb={
             <Breadcrumb

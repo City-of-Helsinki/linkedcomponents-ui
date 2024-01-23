@@ -3,6 +3,7 @@
 
 import {
   getErrorText,
+  isEmailInAllowedDomain,
   isValidDateText,
   isValidPhoneNumber,
   isValidUrl,
@@ -19,6 +20,21 @@ describe('getErrorText', () => {
 
     getErrorText(error, true, t);
     expect(t).toBeCalledWith(error.key, error);
+  });
+});
+
+describe('isEmailInAllowedDomain', () => {
+  it('should return false if email is invalid', () => {
+    expect(isEmailInAllowedDomain('user')).toBe(false);
+    expect(isEmailInAllowedDomain('user1@email.com')).toBe(false);
+    expect(isEmailInAllowedDomain('user2@hel.com')).toBe(false);
+    expect(isEmailInAllowedDomain('user3@hel.fii')).toBe(false);
+  });
+
+  it('should return true if email is valid or empty', () => {
+    expect(isEmailInAllowedDomain('')).toBe(true);
+    expect(isEmailInAllowedDomain('user1@hel.fi')).toBe(true);
+    expect(isEmailInAllowedDomain('user2@hel.fi')).toBe(true);
   });
 });
 

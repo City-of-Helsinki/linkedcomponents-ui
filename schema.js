@@ -518,6 +518,7 @@ module.exports = buildSchema(/* GraphQL */ `
   input RegistrationUserAccessInput {
     email: String
     id: Int
+    isSubstituteUser: Boolean
     language: String
   }
 
@@ -895,6 +896,7 @@ module.exports = buildSchema(/* GraphQL */ `
     firstName: String
     isExternal: Boolean
     isStaff: Boolean
+    isSubstituteUser: Boolean
     lastLogin: String
     lastName: String
     organization: String
@@ -913,6 +915,7 @@ module.exports = buildSchema(/* GraphQL */ `
   type RegistrationUserAccess {
     email: String
     id: Int
+    isSubstituteUser: Boolean
     language: String
   }
 
@@ -935,6 +938,8 @@ module.exports = buildSchema(/* GraphQL */ `
     enrolmentEndTime: String
     enrolmentStartTime: String
     event: Event
+    hasRegistrationUserAccess: Boolean
+    hasSubstituteUserAccess: Boolean
     instructions: LocalisedObject
     isCreatedByCurrentUser: Boolean
     lastModifiedBy: String

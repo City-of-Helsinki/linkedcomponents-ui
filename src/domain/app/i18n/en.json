@@ -1117,6 +1117,7 @@
         "charsLeft_other": "{{count}} characters left",
         "date": "This field must be a valid date",
         "email": "This field must be a valid email",
+        "emailAllowedDomain": "Only users with a \"hel.fi\" email address are allowed to be substitute users.",
         "max": "This field can be up to {{max}} characters long",
         "min": "This field must be at least {{min}} characters long",
         "phone": "This field must be a valid phone number",
@@ -1730,8 +1731,6 @@
       "labelMaximumGroupSize": "Maximum group size",
       "labelMinimumAttendeeCapacity": "Minimum number of seats",
       "labelName": "Name",
-      "labelRegistrationUserAccessEmail": "User's email address",
-      "labelRegistrationUserAccessLanguage": "Language",
       "labelWaitingListCapacity": "Number of spare seats",
       "messages": {
         "failedToSendInvitation": "Failed to send invitation",
@@ -1743,8 +1742,17 @@
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
       "placeholderEvent": "Select or search for an event",
       "placeholderInstructions": "Enter registration instructions",
-      "placeholderRegistrationUserAccessEmail": "Enter user's email address",
-      "placeholderRegistrationUserAccessLanguage": "Select language",
+      "registrationUserAccess": {
+        "labelEmail": "User's email address",
+        "labelIsSubstituteUser": "Substitute user",
+        "labelLanguage": "Language",
+        "notificationTextAccessRights": "Here you can give reading rights for this registration to another city employee or an external event organizer, or assign yourself a substitute with the same access rights as you.",
+        "notificationTitleAccessRights": "Access rights",
+        "notificationTextSubstituteUser": "Add yourself a substitute for possible absences. Based on this, the substitute is given the same access rights to this registration as you have. If you don't have a clear substitute, then put your predecessor as the substitute.",
+        "notificationTitleSubstituteUser": "Substitute user",
+        "placeholderEmail": "Enter user's email address",
+        "placeholderLanguage": "Select language"
+      },
       "sections": {
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
@@ -1754,7 +1762,7 @@
         "instructions": "Instructions and confirmation message",
         "languages": "Languages",
         "mandatoryFields": "Required fields",
-        "registrationUserAccesses": "Participant list read permissions",
+        "registrationUserAccesses": "Access rights",
         "waitingList": "Waiting list"
       },
       "sendInvitation": "Resend invitation",
@@ -1819,6 +1827,7 @@
     "min0": "This number must be at least 0.",
     "mustBeUnique": "The value must be unique.",
     "nameIsRequired": "The name must be specified.",
+    "notAllowedEmailDomain": "The user's email domain is not one of the allowed domains for substitute users.",
     "notEnoughSeats": "Not enough seats available. Capacity left: {{seatsLeft}}.",
     "notEnoughWaitingListSeats": "Not enough capacity in the waiting list. Capacity left: {{seatsLeft}}.",
     "notFoundAllObjects": "Could not find all objects to update.",
