@@ -1538,7 +1538,7 @@
   },
   "maintenance": {
     "header": {
-      "label": "Uusi kirjautumistapa Helsinki profiili otetaan käyttöön tammikuun puolivälissä 2024.",
+      "label": "Uusi kirjautumistapa Helsinki profiili otetaan käyttöön 25.1. klo 10.30 alkaen. Päivitys alkaa klo 9.30, jolloin palvelu ei ole käytössä.",
       "text": "Google-, YLE-, Facebook-tunnistautumistavat poistuvat. Samalla työntekijöiden AD-tunnistautuminen muuttuu.<br/>Muutoksen jälkeen kirjautumiseen käytetään Helsinki profiili -palvelua, jossa käyttäjät voivat jatkossa hallinnoida omia tietojaan kaupungin eri digipalveluissa.<br/>Helsinki profiilin käyttöönoton myötä pääsy aiempiin sisältöihin katkeaa.<br/>Muutoksen myötä myös sisällöntuotanto-oikeudet poistuvat. Sisällöntuotannon osalta kannattaa varata aikaa sisällöntuotanto-oikeuksien uusimiseen.<br/>"
     },
     "toast": "Keskiviikkona 30.8. päivitetään Linked Events -palvelu, mistä johtuen kirjautuminen ei ole mahdollista."

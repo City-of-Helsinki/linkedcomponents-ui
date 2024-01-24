@@ -1538,7 +1538,7 @@
   },
   "maintenance": {
     "header": {
-      "label": "Den nya inloggningen av Helsingfors profil kommer att införas i mitten av januari 2024.",
+      "label": "Den nya inloggningen av Helsingfors profil kommer att införas i januari 25 kl. 10.30. Uppdateringen börjar kl. 9.30. Under uppdateringen kommer tjänsten inte att vara tillgänglig.",
       "text": "Inloggningsmetoderna för Google, YLE och Facebook kommer att tas bort. Samtidigt kommer de anställdas AD-autentisering att ändras.<br/>Efter ändringen kommer tjänsten Helsinki Profile att användas för inloggning, och användarna kommer att kunna hantera sina egna uppgifter i stadens olika digitala tjänster.<br/>I och med införandet av Helsingfors profilen kommer åtkomsten till tidigare innehåll som gjorts under inloggning att inaktiveras.<br/>Förändringen kommer också att ta bort innehållsproduktionsrättigheter. För att kunna producera innehåll bör du ta dig tid att förnya dina innehållsproduktionsrättigheter.<br/>"
     },
     "toast": "På onsdag 30.8. kommer Linked Events-tjänsten att uppdateras, vilket innebär att inloggning inte kommer att vara möjlig."
