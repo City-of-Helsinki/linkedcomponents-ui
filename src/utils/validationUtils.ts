@@ -18,6 +18,7 @@ import {
   VALIDATION_ERROR_SCROLLER_OPTIONS,
 } from '../constants';
 import { VALIDATION_MESSAGE_KEYS } from '../domain/app/i18n/constants';
+import { ALLOWED_SUBSTITUTE_USER_DOMAINS } from '../envVariables';
 import { Error, Maybe } from '../types';
 import formatDate from './formatDate';
 import getValue from './getValue';
@@ -87,6 +88,12 @@ export const isValidDateText = (date?: string): boolean => {
 
 export const isValidTime = (time?: string): boolean =>
   time ? /^(([01]\d)|(2[0-3]))[:.][0-5]\d$/.test(time) : true;
+
+export const isEmailInAllowedDomain = (email?: string): boolean => {
+  return email
+    ? ALLOWED_SUBSTITUTE_USER_DOMAINS.includes(email.split('@')[1])
+    : true;
+};
 
 export const isValidUrl = (url?: string): boolean => {
   if (!url) return true;

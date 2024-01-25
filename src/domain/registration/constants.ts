@@ -35,6 +35,7 @@ export enum REGISTRATION_FIELDS {
 export enum REGISTRATION_USER_ACCESS_FIELDS {
   EMAIL = 'email',
   ID = 'id',
+  IS_SUBSTITUTE_USER = 'isSubstituteUser',
   LANGUAGE = 'language',
 }
 

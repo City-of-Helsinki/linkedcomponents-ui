@@ -12,6 +12,7 @@ import {
 } from '../../../types';
 import isGenericServerError from '../../../utils/isGenericServerError';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
+import parseServerErrorArray from '../../../utils/parseServerErrorArray';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
@@ -78,7 +79,11 @@ export const parseEventServerErrors = ({
       case 'external_links':
         return parseExternalLinkServerError({ error, key });
       case 'videos':
-        return parseVideoServerError(error);
+        return parseServerErrorArray({
+          error,
+          parseLabelFn: parseVideoServerErrorLabel,
+          t,
+        });
       default:
         return [
           {
@@ -143,22 +148,8 @@ export const parseEventServerErrors = ({
   }
 
   // Get error items for video fields
-  function parseVideoServerError(error: LEServerError): ServerErrorItem[] {
-    /* istanbul ignore else */
-    if (Array.isArray(error)) {
-      return Object.entries(error[0]).reduce(
-        (previous: ServerErrorItem[], [key, e]) => [
-          ...previous,
-          {
-            label: t(`event.form.labelVideo${pascalCase(key)}`),
-            message: parseServerErrorMessage({ error: e as string[], t }),
-          },
-        ],
-        []
-      );
-    } else {
-      return [];
-    }
+  function parseVideoServerErrorLabel({ key }: { key: string }): string {
+    return t(`event.form.labelVideo${pascalCase(key)}`);
   }
 
   // Get correct field name for an error item

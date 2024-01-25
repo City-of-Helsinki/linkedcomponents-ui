@@ -59,34 +59,35 @@ Run `yarn && yarn start`
 
 Use .env.development.local for development.
 
-| Name                                       | Description                                                                                                 |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| GENERATE_ROBOTS                            | Set to true to generate robots.txt file                                                                     |
-| GENERATE_SITEMAP                           | Set to true to generate sitemap for the site                                                                |
-| PUBLIC_URL                                 | Public url of the application url                                                                           |
-| REACT_APP_LINKED_EVENTS_URL                | linkedevents api base url                                                                                   |
-| REACT_APP_LINKED_REGISTRATIONS_UI_URL      | Linked registration UI url. Used to get signup form url                                                     |
+| Name                                       | Description                                                                                                                                              |
+| ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GENERATE_ROBOTS                            | Set to true to generate robots.txt file                                                                                                                  |
+| GENERATE_SITEMAP                           | Set to true to generate sitemap for the site                                                                                                             |
+| PUBLIC_URL                                 | Public url of the application url                                                                                                                        |
+| REACT_APP_LINKED_EVENTS_URL                | linkedevents api base url                                                                                                                                |
+| REACT_APP_LINKED_REGISTRATIONS_UI_URL      | Linked registration UI url. Used to get signup form url                                                                                                  |
 | REACT_APP_OIDC_AUTHORITY                   | Keycloak SSO service url. Default in .env.local is https://tunnistus.test.hel.ninja/auth/realms/helsinki-tunnistus                                       |
 | REACT_APP_OIDC_API_TOKENS_URL              | Keycloak api tokens endpoint url. Default in .env.local is https://tunnistus.test.hel.ninja/auth/realms/helsinki-tunnistus/protocol/openid-connect/token |
 | REACT_APP_OIDC_CLIENT_ID                   | Oidc client. Default in .env.local is linkedcomponents-ui-dev                                                                                            |
 | REACT_APP_OIDC_API_SCOPE                   | Linked Events API scope. Default in .env.local is linkedevents-api-dev                                                                                   |
-| REACT_APP_SENTRY_DSN                       | Sentry DSN. Both REACT_APP_SENTRY_DSN and REACT_APP_SENTRY_ENVIRONMENT has to be set to send error reports. |
-| REACT_APP_SENTRY_ENVIRONMENT               | Setry environment.                                                                                          |
-| REACT_APP_MATOMO_URL_BASE                  | https://analytics.hel.ninja/                                                                                |
-| REACT_APP_MATOMO_SITE_ID                   | 69                                                                                                          |
-| REACT_APP_MATOMO_SRC_URL                   | matomo.js                                                                                                   |
-| REACT_APP_MATOMO_TRACKER_URL               | matomo.php                                                                                                  |
-| REACT_APP_MATOMO_ENABLED                   | Flag to enable matomo. Default false.                                                                       |
-| REACT_APP_SWAGGER_URL                      | https://dev.hel.fi/apis/linkedevents                                                                        |
-| REACT_APP_SWAGGER_SCHEMA_URL               | https://raw.githubusercontent.com/City-of-Helsinki/api-linked-events/master/linked-events.swagger.yaml      |
-| REACT_APP_INTERNET_PLACE_ID                | Id of the internet place. system:internet in development server, helsinki:internet in production            |
-| REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID  | yso:p26626                                                                                                  |
-| REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE | helsinki                                                                                                    |
-| REACT_APP_SHOW_ADMIN                       | Flag to show admin, Default true. pages                                                                     |
-| REACT_APP_LOCALIZED_IMAGE                  | Flag to disabled localized image alt texts, Default true.                                                   |
-| REACT_APP_ENABLE_EXTERNAL_USER_EVENTS      | Flag to enable events for users without an organization, Default true.                                      |
-| REACT_APP_MAINTENANCE_SHOW_NOTIFICATION    | Flag to show maintenance notification in each page. Default is false.                                       |
-| REACT_APP_MAINTENANCE_DISABLE_LOGIN        | Flag to disable login and to show toast message instead. Default is false                                   |
+| REACT_APP_SENTRY_DSN                       | Sentry DSN. Both REACT_APP_SENTRY_DSN and REACT_APP_SENTRY_ENVIRONMENT has to be set to send error reports.                                              |
+| REACT_APP_SENTRY_ENVIRONMENT               | Setry environment.                                                                                                                                       |
+| REACT_APP_MATOMO_URL_BASE                  | https://analytics.hel.ninja/                                                                                                                             |
+| REACT_APP_MATOMO_SITE_ID                   | 69                                                                                                                                                       |
+| REACT_APP_MATOMO_SRC_URL                   | matomo.js                                                                                                                                                |
+| REACT_APP_MATOMO_TRACKER_URL               | matomo.php                                                                                                                                               |
+| REACT_APP_MATOMO_ENABLED                   | Flag to enable matomo. Default false.                                                                                                                    |
+| REACT_APP_SWAGGER_URL                      | https://dev.hel.fi/apis/linkedevents                                                                                                                     |
+| REACT_APP_SWAGGER_SCHEMA_URL               | https://raw.githubusercontent.com/City-of-Helsinki/api-linked-events/master/linked-events.swagger.yaml                                                   |
+| REACT_APP_INTERNET_PLACE_ID                | Id of the internet place. system:internet in development server, helsinki:internet in production                                                         |
+| REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID  | yso:p26626                                                                                                                                               |
+| REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE | helsinki                                                                                                                                                 |
+| REACT_APP_SHOW_ADMIN                       | Flag to show admin, Default true. pages                                                                                                                  |
+| REACT_APP_LOCALIZED_IMAGE                  | Flag to disabled localized image alt texts, Default true.                                                                                                |
+| REACT_APP_ENABLE_EXTERNAL_USER_EVENTS      | Flag to enable events for users without an organization, Default true.                                                                                   |
+| REACT_APP_MAINTENANCE_SHOW_NOTIFICATION    | Flag to show maintenance notification in each page. Default is false.                                                                                    |
+| REACT_APP_MAINTENANCE_DISABLE_LOGIN        | Flag to disable login and to show toast message instead. Default is false                                                                                |
+| REACT_APP_ALLOWED_SUBSTITUTE_USER_DOMAINS  | Allowed domains for the substitute user email. Defaul is hel.fi                                                                                          |
 
 ## Feature flags
 

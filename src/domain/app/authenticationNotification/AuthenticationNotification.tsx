@@ -17,7 +17,12 @@ export const hiddenStyles = {
   padding: 0,
 };
 
-export type AdminType = 'admin' | 'any' | 'external' | 'registrationAdmin';
+export type AdminType =
+  | 'admin'
+  | 'any'
+  | 'external'
+  | 'registrationAdmin'
+  | 'substituteUser';
 
 type CommonProps = {
   className?: string;
@@ -74,33 +79,38 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
     ...organizationMemberships,
   ];
 
+  const hasRequiredOrganization = () => {
+    if (requiredOrganizationType.includes('external')) {
+      return true;
+    }
+
+    if (
+      requiredOrganizationType.includes('admin') &&
+      adminOrganizations.length
+    ) {
+      return true;
+    }
+
+    if (
+      requiredOrganizationType.includes('registrationAdmin') &&
+      registrationAdminOrganizations.length
+    ) {
+      return true;
+    }
+
+    if (
+      requiredOrganizationType.includes('substituteUser') &&
+      user?.isSubstituteUser
+    ) {
+      return true;
+    }
+
+    return requiredOrganizationType.includes('any') && userOrganizations.length;
+  };
+
   const getAuthenticationWarnings = () => {
     /* istanbul ignore else */
     if (authenticated) {
-      const hasRequiredOrganization = () => {
-        if (requiredOrganizationType.includes('external')) {
-          return true;
-        }
-
-        if (
-          requiredOrganizationType.includes('admin') &&
-          adminOrganizations.length
-        ) {
-          return true;
-        }
-
-        if (
-          requiredOrganizationType.includes('registrationAdmin') &&
-          registrationAdminOrganizations.length
-        ) {
-          return true;
-        }
-
-        return (
-          requiredOrganizationType.includes('any') && userOrganizations.length
-        );
-      };
-
       if (!hasRequiredOrganization()) {
         return {
           children: <p>{noRequiredOrganizationText}</p>,
@@ -139,9 +149,7 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   };
 
   if (!authenticated) {
-    const message = notAuthenticatedCustomMessage ? (
-      notAuthenticatedCustomMessage
-    ) : (
+    const message = notAuthenticatedCustomMessage || (
       <p>
         {t('authenticationNotification.part1')}{' '}
         <button className={styles.button} onClick={handleSignIn} type="button">

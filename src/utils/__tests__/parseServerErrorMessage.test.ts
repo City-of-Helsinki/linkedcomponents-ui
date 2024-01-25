@@ -78,6 +78,10 @@ const testCases: [LEServerError, string][] = [
   ['The participant is too old.', 'Osallistuja on liian vanha.'],
   ['The participant is too young.', 'Osallistuja on liian nuori.'],
   [
+    "The user's email domain is not one of the allowed domains for substitute users.",
+    'Käyttäjän sähköpostin verkkotunnus ei ole sallittu sijaiselle.',
+  ],
+  [
     'This field must be specified before an event is published.',
     'Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.',
   ],

@@ -55,13 +55,18 @@ export const checkCanUserDoRegistrationAction = ({
     case REGISTRATION_ACTIONS.EDIT:
     case REGISTRATION_ACTIONS.DELETE:
     case REGISTRATION_ACTIONS.UPDATE:
-      return isAdminUser || isRegistrationAdminUser;
+      return Boolean(
+        isAdminUser ||
+          isRegistrationAdminUser ||
+          registration?.hasSubstituteUserAccess
+      );
     case REGISTRATION_ACTIONS.SHOW_SIGNUPS:
     case REGISTRATION_ACTIONS.EDIT_ATTENDANCE_LIST:
     case REGISTRATION_ACTIONS.EXPORT_SIGNUPS_AS_EXCEL:
       return Boolean(
         isRegistrationAdminUser ||
-          (isAdminUser && registration?.isCreatedByCurrentUser)
+          (isAdminUser && registration?.isCreatedByCurrentUser) ||
+          registration?.hasSubstituteUserAccess
       );
   }
 };

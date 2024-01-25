@@ -90,6 +90,7 @@ export const getEmptyRegistrationUserAccess =
   (): RegistrationUserAccessFormFields => ({
     email: '',
     id: null,
+    isSubstituteUser: false,
     language: '',
   });
 
@@ -148,6 +149,7 @@ export const getRegistrationInitialValues = (
       registration.registrationUserAccesses?.map((ru) => ({
         email: getValue(ru?.email, ''),
         id: getValue(ru?.id, null),
+        isSubstituteUser: !!ru?.isSubstituteUser,
         language: getValue(ru?.language, ''),
       })),
       []
@@ -232,6 +234,7 @@ export const getRegistrationPayload = (
     registrationUserAccesses: registrationUserAccesses.map((ru) => ({
       email: ru.email,
       id: getValue(ru.id, null),
+      isSubstituteUser: ru.isSubstituteUser,
       language: getValue(ru.language, null),
     })),
     waitingListCapacity: isNumber(waitingListCapacity)

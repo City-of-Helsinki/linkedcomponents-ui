@@ -1,5 +1,4 @@
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';

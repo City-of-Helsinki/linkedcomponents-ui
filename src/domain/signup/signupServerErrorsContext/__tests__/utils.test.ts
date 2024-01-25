@@ -80,11 +80,15 @@ describe('parseSeatsReservationServerErrors', () => {
   it('should set server error items', async () => {
     const result = {
       name: ['The name must be specified.'],
+      seats: ['The event is full.'],
     };
 
     expect(
       parseSeatsReservationServerErrors({ result, t: i18n.t.bind(i18n) })
-    ).toEqual([{ label: 'name', message: 'Nimi on pakollinen.' }]);
+    ).toEqual([
+      { label: 'name', message: 'Nimi on pakollinen.' },
+      { label: '', message: 'The event is full.' },
+    ]);
   });
 
   it('should return server error items when result is array', () => {

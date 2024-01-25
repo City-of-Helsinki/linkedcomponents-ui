@@ -7,5 +7,11 @@ import {
 export const areAdminRoutesAllowed = (user?: UserFieldsFragment) =>
   hasAdminOrganization(user);
 
-export const areRegistrationRoutesAllowed = (user?: UserFieldsFragment) =>
-  hasAdminOrganization(user) || hasRegistrationAdminOrganization(user);
+export const areRegistrationRoutesAllowed = (
+  user?: UserFieldsFragment
+): boolean =>
+  Boolean(
+    hasAdminOrganization(user) ||
+      hasRegistrationAdminOrganization(user) ||
+      user?.isSubstituteUser
+  );

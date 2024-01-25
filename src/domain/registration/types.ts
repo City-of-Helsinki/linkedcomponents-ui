@@ -8,6 +8,7 @@ import {
 export type RegistrationUserAccessFormFields = {
   [REGISTRATION_USER_ACCESS_FIELDS.EMAIL]: string;
   [REGISTRATION_USER_ACCESS_FIELDS.ID]: number | null;
+  [REGISTRATION_USER_ACCESS_FIELDS.IS_SUBSTITUTE_USER]: boolean;
   [REGISTRATION_USER_ACCESS_FIELDS.LANGUAGE]: string;
 };
 

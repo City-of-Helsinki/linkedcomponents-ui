@@ -2,6 +2,8 @@ import { TFunction } from 'i18next';
 
 import { LEServerError, ServerErrorItem } from '../../../types';
 import isGenericServerError from '../../../utils/isGenericServerError';
+import parseServerErrorArray from '../../../utils/parseServerErrorArray';
+import parseServerErrorLabel from '../../../utils/parseServerErrorLabel';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
@@ -37,7 +39,12 @@ export const parseSignupGroupServerErrors = ({
       return parseContactPersonServerError(error);
     }
     if (key === 'signups') {
-      return parseSignupsServerError(error);
+      return parseServerErrorArray({
+        error,
+        parseLabelFn: ({ key }) =>
+          parseServerErrorLabel({ key, parseFn: parseSignupServerErrorLabel }),
+        t,
+      });
     }
 
     return [
@@ -66,25 +73,6 @@ export const parseSignupGroupServerErrors = ({
     );
   }
 
-  // Get error items for signup fields
-  function parseSignupsServerError(error: LEServerError): ServerErrorItem[] {
-    /* istanbul ignore else */
-    if (Array.isArray(error)) {
-      return Object.entries(error[0]).reduce(
-        (previous: ServerErrorItem[], [key, e]) => [
-          ...previous,
-          {
-            label: parseSignupServerErrorLabel({ key }),
-            message: parseServerErrorMessage({ error: e as string[], t }),
-          },
-        ],
-        []
-      );
-    } else {
-      return [];
-    }
-  }
-
   function parseContactPersonServerErrorLabel({
     key,
   }: {
@@ -98,10 +86,6 @@ export const parseSignupGroupServerErrors = ({
   }
   // Get correct field name for an error item
   function parseSignupServerErrorLabel({ key }: { key: string }): string {
-    if (isGenericServerError(key)) {
-      return '';
-    }
-
     if (['contact_person', 'registration'].includes(key)) {
       return t(`signup.form.label${pascalCase(key)}`);
     }
@@ -133,7 +117,10 @@ export const parseSeatsReservationServerErrors = ({
   }) {
     return [
       {
-        label: parseSeatsReservationServerErrorLabel({ key }),
+        label: parseServerErrorLabel({
+          key,
+          parseFn: parseSeatsReservationServerErrorLabel,
+        }),
         message: parseServerErrorMessage({ error, t }),
       },
     ];
@@ -145,7 +132,7 @@ export const parseSeatsReservationServerErrors = ({
   }: {
     key: string;
   }): string {
-    if (isGenericServerError(key) || key === 'seats') {
+    if (key === 'seats') {
       return '';
     }
 

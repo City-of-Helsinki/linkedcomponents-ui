@@ -3,12 +3,15 @@ import { IconCrossCircle, IconEnvelope, IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import CheckboxField from '../../../../../common/components/formFields/checkboxField/CheckboxField';
 import SingleSelectField from '../../../../../common/components/formFields/singleSelectField/SingleSelectField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
 import MenuDropdown from '../../../../../common/components/menuDropdown/MenuDropdown';
 import { MenuItemOptionProps } from '../../../../../common/components/menuDropdown/types';
+import Notification from '../../../../../common/components/notification/Notification';
 import useIdWithPrefix from '../../../../../hooks/useIdWithPrefix';
+import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
 import { useNotificationsContext } from '../../../../app/notificationsContext/hooks/useNotificationsContext';
 import FieldWithButton from '../../../../event/layout/FieldWithButton';
@@ -51,6 +54,10 @@ const RegistrationUserAccess: React.FC<Props> = ({
       id: getFieldName(
         registrationUserAccessPath,
         REGISTRATION_USER_ACCESS_FIELDS.ID
+      ),
+      isSubstituteUser: getFieldName(
+        registrationUserAccessPath,
+        REGISTRATION_USER_ACCESS_FIELDS.IS_SUBSTITUTE_USER
       ),
       language: getFieldName(
         registrationUserAccessPath,
@@ -119,7 +126,22 @@ const RegistrationUserAccess: React.FC<Props> = ({
 
   return (
     <>
-      <FieldRow>
+      <FieldRow
+        notification={
+          <Notification
+            label={t(
+              `registration.form.registrationUserAccess.notificationTitleAccessRights`
+            )}
+            type="info"
+          >
+            <p>
+              {t(
+                `registration.form.registrationUserAccess.notificationTextAccessRights`
+              )}
+            </p>
+          </Notification>
+        }
+      >
         <FieldWithButton
           button={
             <MenuDropdown
@@ -145,10 +167,10 @@ const RegistrationUserAccess: React.FC<Props> = ({
               <Field
                 component={TextInputField}
                 disabled={!isEditingAllowed}
-                label={t(`registration.form.labelRegistrationUserAccessEmail`)}
+                label={t(`registration.form.registrationUserAccess.labelEmail`)}
                 name={fieldNames.email}
                 placeholder={t(
-                  `registration.form.placeholderRegistrationUserAccessEmail`
+                  `registration.form.registrationUserAccess.placeholderEmail`
                 )}
                 required={true}
               />
@@ -158,19 +180,47 @@ const RegistrationUserAccess: React.FC<Props> = ({
                 name={fieldNames.language}
                 component={SingleSelectField}
                 clearable={true}
-                language
                 disabled={!isEditingAllowed}
                 label={t(
-                  `registration.form.labelRegistrationUserAccessLanguage`
+                  `registration.form.registrationUserAccess.labelLanguage`
                 )}
                 options={serviceLanguageOptions}
                 placeholder={t(
-                  `registration.form.placeholderRegistrationUserAccessLanguage`
+                  `registration.form.registrationUserAccess.placeholderLanguage`
                 )}
               />
             </FormGroup>
           </>
         </FieldWithButton>
+      </FieldRow>
+      <FieldRow
+        notification={
+          <Notification
+            label={t(
+              'registration.form.registrationUserAccess.notificationTitleSubstituteUser'
+            )}
+            type="info"
+          >
+            <p>
+              {t(
+                'registration.form.registrationUserAccess.notificationTextSubstituteUser'
+              )}
+            </p>
+          </Notification>
+        }
+      >
+        <FieldColumn>
+          <FormGroup>
+            <Field
+              name={fieldNames.isSubstituteUser}
+              component={CheckboxField}
+              disabled={!isEditingAllowed}
+              label={t(
+                `registration.form.registrationUserAccess.labelIsSubstituteUser`
+              )}
+            />
+          </FormGroup>
+        </FieldColumn>
       </FieldRow>
     </>
   );

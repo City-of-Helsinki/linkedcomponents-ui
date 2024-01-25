@@ -1100,6 +1100,7 @@
         "charsLeft_other": "{{count}} merkkiä jäljellä",
         "date": "Tämän kentän on oltava kelvollinen päivämäärä",
         "email": "Tämän kentän on oltava kelvollinen sähköpostiosoite",
+        "emailAllowedDomain": "Vain käyttäjät, joilla on \"hel.fi\" sähköpostiosoite, voivat olla sijaisia.",
         "max": "Tämä kenttä voi olla korkeintaan {{max}} merkkiä pitkä",
         "min": "Tämä kenttä tulee olla vähintään {{min}} merkkiä pitkä",
         "phone": "Tämän kentän on oltava kelvollinen puhelinnumero",
@@ -1731,8 +1732,6 @@
       "labelMaximumGroupSize": "Ryhmän enimmäiskoko",
       "labelMinimumAttendeeCapacity": "Paikkojen vähimmäismäärä",
       "labelName": "Nimi",
-      "labelRegistrationUserAccessEmail": "Käyttäjän sähköpostiosoite",
-      "labelRegistrationUserAccessLanguage": "Kieli",
       "labelWaitingListCapacity": "Jonopaikkojen lukumäärä",
       "messages": {
         "failedToSendInvitation": "Kutsun lähettäminen epäonnistui",
@@ -1744,8 +1743,17 @@
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
       "placeholderEvent": "Valitse tai hae tapahtuma",
       "placeholderInstructions": "Syötä ilmoittautumisohjeet",
-      "placeholderRegistrationUserAccessEmail": "Syötä käyttäjän sähköpostiosoite",
-      "placeholderRegistrationUserAccessLanguage": "Valitse kieli",
+      "registrationUserAccess": {
+        "labelEmail": "Käyttäjän sähköpostiosoite",
+        "labelIsSubstituteUser": "Sijainen",
+        "labelLanguage": "Kieli",
+        "notificationTextAccessRights": "Tässä voit antaa lukuoikeudet tätä ilmoittautumista koskien toiselle kaupungin työntekijälle tai ulkopuoliselle tapahtumanjärjestäjälle tai määrittää itsellesi sijainen samoin käyttöoikeuksin kuin sinulla.",
+        "notificationTitleAccessRights": "Käyttöoikeudet",
+        "notificationTextSubstituteUser": "Lisää itsellesi sijainen mahdollisia poissaoloja varten. Tämän perusteella sijaiselle annetaan samat käyttöoikeudet tähän ilmoittautumiseen kuin sinulla on. Jos sinulla ei ole selvää sijaista, niin laita sijaiseksi esihenkilösi.",
+        "notificationTitleSubstituteUser": "Sijainen",
+        "placeholderEmail": "Syötä käyttäjän sähköpostiosoite",
+        "placeholderLanguage": "Valitse kieli"
+      },
       "sections": {
         "attendeeCount": "Paikat",
         "audienceAge": "Ikäraja",
@@ -1755,7 +1763,7 @@
         "instructions": "Ilmoittautumisohjeet ja vahvistusviesti",
         "languages": "Kielet",
         "mandatoryFields": "Pakolliset kentät",
-        "registrationUserAccesses": "Osallistujalistan lukuoikeudet",
+        "registrationUserAccesses": "Käyttöoikeudet",
         "waitingList": "Jonopaikat"
       },
       "sendInvitation": "Lähetä kutsu uudelleen",
@@ -1820,6 +1828,7 @@
     "min0": "Tämän luvun on oltava vähintään 0.",
     "mustBeUnique": "Arvon tulee olla uniikki.",
     "nameIsRequired": "Nimi on pakollinen.",
+    "notAllowedEmailDomain": "Käyttäjän sähköpostin verkkotunnus ei ole sallittu sijaiselle.",
     "notEnoughSeats": "Paikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: {{seatsLeft}}.",
     "notEnoughWaitingListSeats": "Jonopaikkoja ei ole riittävästi jäljellä. Paikkoja jäljellä: {{seatsLeft}}.",
     "notFoundAllObjects": "Kaikkia päivitettäviä objekteja ei löytynyt.",
