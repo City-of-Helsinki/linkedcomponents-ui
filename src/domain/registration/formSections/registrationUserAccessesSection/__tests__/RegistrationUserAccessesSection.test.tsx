@@ -103,7 +103,11 @@ test('should send invitation to registration user access', async () => {
   const user = userEvent.setup();
   const email = 'user@email.com';
   renderRegistrationUserAccessesSection(
-    { registrationUserAccesses: [{ email, id: 1, language: '' }] },
+    {
+      registrationUserAccesses: [
+        { email, id: 1, isSubstituteUser: false, language: '' },
+      ],
+    },
     [...defaultMocks, mockedSendInvitationResponse]
   );
 
@@ -123,7 +127,11 @@ test('should notification is sending invitation fails', async () => {
   const user = userEvent.setup();
   const email = 'user@email.com';
   renderRegistrationUserAccessesSection(
-    { registrationUserAccesses: [{ email, id: 1, language: '' }] },
+    {
+      registrationUserAccesses: [
+        { email, id: 1, isSubstituteUser: false, language: '' },
+      ],
+    },
     [...defaultMocks, mockedInvalidSendInvitationResponse]
   );
 
