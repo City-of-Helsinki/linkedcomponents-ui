@@ -57,14 +57,21 @@ export const isBelowMaxAge = (
     : true;
 };
 
-const getStringSchema = (required: boolean) =>
+const getStringSchema = (
+  required: boolean,
+  schema?: Yup.StringSchema<string | undefined>
+): Yup.StringSchema<string | undefined> =>
   required
-    ? Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    ? schema ?? Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     : Yup.string();
 
-const getDateSchema = (required: boolean) =>
+const getDateSchema = (
+  required: boolean,
+  schema?: Yup.DateSchema<Date | null | undefined>
+): Yup.DateSchema<Date | null | undefined> =>
   required
-    ? Yup.date()
+    ? schema ??
+      Yup.date()
         .nullable()
         .typeError(VALIDATION_MESSAGE_KEYS.DATE)
         .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
@@ -86,40 +93,50 @@ export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
       isSignupFieldRequired(registration, SIGNUP_FIELDS.LAST_NAME)
     ),
     [SIGNUP_FIELDS.PHONE_NUMBER]: getStringSchema(
-      isSignupFieldRequired(registration, SIGNUP_FIELDS.PHONE_NUMBER)
-    ).test(
-      'isValidPhoneNumber',
-      VALIDATION_MESSAGE_KEYS.PHONE,
-      (value) => !value || isValidPhoneNumber(value)
+      isSignupFieldRequired(registration, SIGNUP_FIELDS.PHONE_NUMBER),
+      Yup.string()
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .test(
+          'isValidPhoneNumber',
+          VALIDATION_MESSAGE_KEYS.PHONE,
+          (value) => !value || isValidPhoneNumber(value)
+        )
     ),
     [SIGNUP_FIELDS.STREET_ADDRESS]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_FIELDS.STREET_ADDRESS)
     ),
     [SIGNUP_FIELDS.DATE_OF_BIRTH]: getDateSchema(
-      isDateOfBirthFieldRequired(registration)
-    )
-      .test(
-        'isAboveMinAge',
-        () => ({
-          key: VALIDATION_MESSAGE_KEYS.AGE_MIN,
-          min: audienceMinAge,
-        }),
-        (date) => isAboveMinAge(date, startTime, audienceMinAge)
-      )
-      .test(
-        'isBelowMaxAge',
-        () => ({
-          key: VALIDATION_MESSAGE_KEYS.AGE_MAX,
-          max: audienceMaxAge,
-        }),
-        (date) => isBelowMaxAge(date, startTime, audienceMaxAge)
-      ),
+      isDateOfBirthFieldRequired(registration),
+      Yup.date()
+        .nullable()
+        .typeError(VALIDATION_MESSAGE_KEYS.DATE)
+        .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+        .test(
+          'isAboveMinAge',
+          () => ({
+            key: VALIDATION_MESSAGE_KEYS.AGE_MIN,
+            min: audienceMinAge,
+          }),
+          (date) => isAboveMinAge(date, startTime, audienceMinAge)
+        )
+        .test(
+          'isBelowMaxAge',
+          () => ({
+            key: VALIDATION_MESSAGE_KEYS.AGE_MAX,
+            max: audienceMaxAge,
+          }),
+          (date) => isBelowMaxAge(date, startTime, audienceMaxAge)
+        )
+    ),
     [SIGNUP_FIELDS.ZIPCODE]: getStringSchema(
-      isSignupFieldRequired(registration, SIGNUP_FIELDS.ZIPCODE)
-    ).test(
-      'isValidZip',
-      VALIDATION_MESSAGE_KEYS.ZIP,
-      (value) => !value || isValidZip(value)
+      isSignupFieldRequired(registration, SIGNUP_FIELDS.ZIPCODE),
+      Yup.string()
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .test(
+          'isValidZip',
+          VALIDATION_MESSAGE_KEYS.ZIP,
+          (value) => !value || isValidZip(value)
+        )
     ),
     [SIGNUP_FIELDS.CITY]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_FIELDS.CITY)
@@ -133,9 +150,9 @@ export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
 export const getContactPersonSchema = () => {
   return Yup.object().shape({
     [CONTACT_PERSON_FIELDS.EMAIL]: Yup.string()
-      .email(VALIDATION_MESSAGE_KEYS.EMAIL)
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-    [CONTACT_PERSON_FIELDS.PHONE_NUMBER]: getStringSchema(false)
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      .email(VALIDATION_MESSAGE_KEYS.EMAIL),
+    [CONTACT_PERSON_FIELDS.PHONE_NUMBER]: Yup.string()
       .test(
         'isValidPhoneNumber',
         VALIDATION_MESSAGE_KEYS.PHONE,

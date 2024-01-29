@@ -230,3 +230,11 @@ export const DATA_PROTECTION_URL: { [key in Language]: string } = {
 };
 
 export const SUPPORT_EMAIL = 'linkedevents@hel.fi';
+
+export enum SPLITTED_ROW_TYPE {
+  MEDIUM_MEDIUM = 'medium-medium',
+  LARGE_SMALL = 'large-small',
+  SMALL_LARGE = 'small-large',
+}
+
+export const DEFAULT_SPLITTED_ROW_TYPE = SPLITTED_ROW_TYPE.MEDIUM_MEDIUM;

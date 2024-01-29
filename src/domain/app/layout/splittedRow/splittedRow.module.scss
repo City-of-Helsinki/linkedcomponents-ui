@@ -1,13 +1,35 @@
-@import "../../../../assets//styles//breakpoints.scss";
+@import '../../../../assets/styles/breakpoints.scss';
 
 .splittedRow {
   display: grid;
   grid-gap: var(--spacing-s);
-  
+}
+
+.medium-medium {
   @include small-up {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
+  @include medium-up {
+    grid-gap: var(--spacing-m);
+  }
+}
+
+.large-small {
+  @include small-up {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  @include medium-up {
+    grid-gap: var(--spacing-m);
+  }
+}
+
+.small-large {
+  @include small-up {
+    grid-template-columns: 1fr 2fr;
+  }
+
   @include medium-up {
     grid-gap: var(--spacing-m);
   }

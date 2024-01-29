@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloError } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import { ROUTES } from '../../../constants';
 import {
@@ -202,6 +201,7 @@ test('should validate signup group form fields', async () => {
 
   const firstNameInput = await waitLoadingAndFindNameInput();
   const lastNameInput = getSignupFormElement('lastNameInput');
+  const phoneInput = getSignupFormElement('phoneInput');
   const streetAddressInput = getSignupFormElement('streetAddressInput');
   const dateOfBirthInput = getSignupFormElement('dateOfBirthInput');
   const zipInput = getSignupFormElement('zipInput');
@@ -215,6 +215,7 @@ test('should validate signup group form fields', async () => {
 
   await user.type(firstNameInput, signupValues.firstName);
   await user.type(lastNameInput, signupValues.lastName);
+  await user.type(phoneInput, signupValues.phoneNumber);
   await user.type(streetAddressInput, signupValues.streetAddress);
   await user.type(dateOfBirthInput, formatDate(signupValues.dateOfBirth));
   await user.type(zipInput, signupValues.zipcode);
