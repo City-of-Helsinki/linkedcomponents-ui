@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Formik } from 'formik';
-import React from 'react';
 
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -71,12 +69,8 @@ const renderComponent = (initialValues?: Partial<InitialValues>) => {
   };
 };
 
-const findElement = (key: 'instructionsSv') => {
-  switch (key) {
-    case 'instructionsSv':
-      return screen.findByLabelText(/ilmoittautumisohjeet ruotsiksi/i);
-  }
-};
+const findInstructionsSvInput = () =>
+  screen.findByLabelText(/ilmoittautumisohjeet ruotsiksi/i);
 
 const getElement = (
   key: 'confirmationMessageFi' | 'fiButton' | 'instructionsFi' | 'svButton'
@@ -99,7 +93,7 @@ test('should change form section language', async () => {
 
   const svButton = getElement('svButton');
   await user.click(svButton);
-  await findElement('instructionsSv');
+  await findInstructionsSvInput();
 });
 
 // eslint-disable-next-line max-len
@@ -116,6 +110,6 @@ test('should change selected language when current selected language is removed 
     [REGISTRATION_FIELDS.INFO_LANGUAGES]: [LE_DATA_LANGUAGES.SV],
   });
 
-  await findElement('instructionsSv');
+  await findInstructionsSvInput();
   expect(svButton.getAttribute('aria-selected')).toBe('true');
 });

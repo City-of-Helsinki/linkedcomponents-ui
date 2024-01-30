@@ -3,6 +3,7 @@ import {
   CommonRegistrationAndEventFields,
   RegistrationFormFields,
 } from './types';
+import { formatInstructions } from './utils';
 
 export enum REGISTRATION_MANDATORY_FIELDS {
   FIRST_NAME = 'first_name',
@@ -62,7 +63,9 @@ export const REGISTRATION_INITIAL_VALUES: RegistrationFormFields = {
   [REGISTRATION_FIELDS.EVENT]: '',
   [REGISTRATION_FIELDS.HAS_PRICE]: false,
   [REGISTRATION_FIELDS.INFO_LANGUAGES]: ['fi'],
-  [REGISTRATION_FIELDS.INSTRUCTIONS]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+  [REGISTRATION_FIELDS.INSTRUCTIONS]: formatInstructions(
+    EMPTY_MULTI_LANGUAGE_OBJECT
+  ),
   [REGISTRATION_FIELDS.MANDATORY_FIELDS]: [
     REGISTRATION_MANDATORY_FIELDS.FIRST_NAME,
     REGISTRATION_MANDATORY_FIELDS.LAST_NAME,
