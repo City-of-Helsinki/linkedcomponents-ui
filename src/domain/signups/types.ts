@@ -9,7 +9,8 @@ export type SignupSearchInitialValues = {
 
 export type SignupFields = {
   attendeeStatus: AttendeeStatus;
-  email: string;
+  contactPersonEmail: string;
+  contactPersonPhoneNumber: string;
   firstName: string;
   fullName: string;
   lastName: string;

@@ -90,7 +90,13 @@ test('should render signups table', async () => {
 
   screen.getByRole('heading', { name: 'Signups table' });
 
-  const columnHeaders = ['Nimi', 'Sähköposti', 'Puhelinnumero', 'Status'];
+  const columnHeaders = [
+    'Nimi',
+    'Puhelinnumero',
+    'Yhteyshenkilön sähköposti',
+    'Yhteyshenkilön puhelinnumero',
+    'Status',
+  ];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });
@@ -240,7 +246,7 @@ test('should open edit signup group page by pressing enter on a signup with grou
   );
 });
 
-test('should display email and phone number for a signup', async () => {
+test("should display contact person's email and phone number for a signup", async () => {
   renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
 
   await loadingSpinnerIsNotInDocument();
@@ -257,7 +263,7 @@ test('should display email and phone number for a signup', async () => {
   ).toBeInTheDocument();
 });
 
-test('should display email and phone number for a signup group', async () => {
+test("should display contact person's email and phone number for a signup group", async () => {
   renderComponent([
     ...defaultMocks,
     getMockedAttendeesResponse(attendeesWithGroup),
