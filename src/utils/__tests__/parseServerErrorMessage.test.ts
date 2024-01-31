@@ -47,6 +47,7 @@ const testCases: [LEServerError, string][] = [
     'End time cannot be in the past. Please set a future end time.',
     'Lopetusaika ei voi olla menneisyydessä. Määritä tuleva päättymisaika.',
   ],
+  ['Kelvollinen luku vaaditaan.', 'Kelvollinen luku vaaditaan.'],
   [
     'Kenttien email, registration tulee muodostaa uniikki joukko.',
     'Sähköpostiosoitteella on jo ilmoittautuminen.',

@@ -15,6 +15,10 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import {
+  mockedDefaultPriceGroupsResponse,
+  mockedPublisherPriceGroupsResponse,
+} from '../../priceGroup/__mocks__/priceGroups';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   mockedCreateRegistrationResponse,
@@ -40,6 +44,8 @@ beforeEach(() => {
 });
 
 const commonMocks = [
+  mockedDefaultPriceGroupsResponse,
+  mockedPublisherPriceGroupsResponse,
   mockedEventResponse,
   mockedRegistrationEventSelectorEventsResponse,
   mockedUserResponse,

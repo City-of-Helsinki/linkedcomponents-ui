@@ -46,9 +46,13 @@ import {
   Place,
   PlacesResponse,
   PresenceStatus,
+  PriceGroup,
+  PriceGroupDense,
+  PriceGroupsResponse,
   PublicationStatus,
   Registration,
   RegistrationFieldsFragment,
+  RegistrationPriceGroup,
   RegistrationsResponse,
   RegistrationUserAccess,
   SeatsReservation,
@@ -453,6 +457,68 @@ export const fakePlace = (overrides?: Partial<Place>): Place => {
   );
 };
 
+export const fakePriceGroups = (
+  count = 1,
+  priceGroups?: Partial<PriceGroup>[]
+): PriceGroupsResponse => ({
+  data: generateNodeArray((i) => fakePriceGroup(priceGroups?.[i]), count),
+  meta: fakeMeta(count),
+  __typename: 'PriceGroupsResponse',
+});
+
+export const fakePriceGroup = (overrides?: Partial<PriceGroup>): PriceGroup => {
+  const id = overrides?.id || faker.number.int();
+
+  return merge<PriceGroup, typeof overrides>(
+    {
+      id,
+      createdBy: faker.person.firstName(),
+      createdTime: null,
+      description: fakeLocalisedObject(),
+      isFree: false,
+      lastModifiedBy: faker.person.firstName(),
+      lastModifiedTime: '2020-09-12T15:00:00.000000Z',
+      publisher: TEST_PUBLISHER_ID,
+      __typename: 'PriceGroup',
+    },
+    overrides
+  );
+};
+
+export const fakePriceGroupDense = (
+  overrides?: Partial<PriceGroupDense>
+): PriceGroupDense => {
+  const id = overrides?.id || faker.number.int();
+
+  return merge<PriceGroupDense, typeof overrides>(
+    {
+      id,
+      description: fakeLocalisedObject(),
+      __typename: 'PriceGroupDense',
+    },
+    overrides
+  );
+};
+
+export const fakeRegistrationPriceGroup = (
+  overrides?: Partial<RegistrationPriceGroup>
+): RegistrationPriceGroup => {
+  const id = overrides?.id || faker.number.int();
+
+  return merge<RegistrationPriceGroup, typeof overrides>(
+    {
+      id,
+      price: faker.string.numeric(),
+      priceGroup: fakePriceGroupDense(),
+      priceWithoutVat: faker.string.numeric(),
+      vat: faker.string.numeric(),
+      vatPercentage: '24.00',
+      __typename: 'RegistrationPriceGroup',
+    },
+    overrides
+  );
+};
+
 export const fakeRegistrations = (
   count = 1,
   registrations?: Partial<Registration>[]
@@ -492,6 +558,7 @@ export const fakeRegistration = (
       maximumAttendeeCapacity: 0,
       maximumGroupSize: null,
       minimumAttendeeCapacity: 0,
+      registrationPriceGroups: [],
       registrationUserAccesses: [],
       remainingAttendeeCapacity: 0,
       remainingWaitingListCapacity: 0,

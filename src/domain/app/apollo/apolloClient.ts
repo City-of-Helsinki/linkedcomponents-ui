@@ -33,6 +33,8 @@ import {
   OrganizationsResponse,
   Place,
   PlacesResponse,
+  PriceGroup,
+  PriceGroupsResponse,
   Registration,
   RegistrationsResponse,
   Signup,
@@ -59,6 +61,7 @@ import {
   addTypenameOrganization,
   addTypenameOrganizationClass,
   addTypenamePlace,
+  addTypenamePriceGroup,
   addTypenameRegistration,
   addTypenameSignup,
   addTypenameSignupGroup,
@@ -374,6 +377,12 @@ const linkedEventsLink = new RestLink({
 
       return data;
     },
+    PriceGroup: (priceGroup: PriceGroup): PriceGroup | null =>
+      addTypenamePriceGroup(priceGroup),
+    PriceGroupsResponse: (data: PriceGroupsResponse): PriceGroupsResponse => ({
+      meta: addTypenameMeta(data.meta),
+      data: data.data.map((priceGroup) => addTypenamePriceGroup(priceGroup)),
+    }),
     Registration: (registration: Registration): Registration | null =>
       addTypenameRegistration(registration),
     RegistrationsResponse: (

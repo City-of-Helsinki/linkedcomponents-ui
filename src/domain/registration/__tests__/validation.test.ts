@@ -26,6 +26,13 @@ describe('registrationSchema', () => {
     event: TEST_EVENT_ID,
   };
 
+  const validPriceGroup = {
+    id: 1,
+    priceGroup: '1',
+    price: '10.00',
+    vatPercentage: '24.00',
+  };
+
   beforeEach(() => {
     vi.setSystemTime('2022-11-07');
   });
@@ -217,4 +224,65 @@ describe('registrationSchema', () => {
       ).toBe(isValid);
     }
   );
+
+  it('should return true if registration price group is valid', async () => {
+    expect(
+      await testRegistrationSchema({
+        ...validRegistrationValues,
+        hasPrice: true,
+        registrationPriceGroups: [validPriceGroup],
+      })
+    ).toBe(true);
+  });
+
+  it('should return false if price of registration price group is empty', async () => {
+    expect(
+      await testRegistrationSchema({
+        ...validRegistrationValues,
+        hasPrice: true,
+        registrationPriceGroups: [{ ...validPriceGroup, price: '' }],
+      })
+    ).toBe(false);
+  });
+
+  it('should return false if priceGroup of registration price group is empty', async () => {
+    expect(
+      await testRegistrationSchema({
+        ...validRegistrationValues,
+        hasPrice: true,
+        registrationPriceGroups: [{ ...validPriceGroup, priceGroup: '' }],
+      })
+    ).toBe(false);
+  });
+
+  it('should return false if priceGroup of registration price group is empty', async () => {
+    expect(
+      await testRegistrationSchema({
+        ...validRegistrationValues,
+        hasPrice: true,
+        registrationPriceGroups: [{ ...validPriceGroup, priceGroup: '' }],
+      })
+    ).toBe(false);
+  });
+
+  it('should return false if vatPercentage of registration price group is empty', async () => {
+    expect(
+      await testRegistrationSchema({
+        ...validRegistrationValues,
+        hasPrice: true,
+        registrationPriceGroups: [{ ...validPriceGroup, vatPercentage: '' }],
+      })
+    ).toBe(false);
+  });
+
+  it('should validate price or vatPercentage of free registration price group', async () => {
+    expect(
+      await testRegistrationSchema({
+        ...validRegistrationValues,
+        priceGroupOptions: [{ isFree: true, label: 'Price group', value: '1' }],
+        hasPrice: true,
+        registrationPriceGroups: [{ ...validPriceGroup, vatPercentage: '' }],
+      })
+    ).toBe(false);
+  });
 });

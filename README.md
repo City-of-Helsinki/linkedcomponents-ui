@@ -88,6 +88,7 @@ Use .env.development.local for development.
 | REACT_APP_MAINTENANCE_SHOW_NOTIFICATION    | Flag to show maintenance notification in each page. Default is false.                                                                                    |
 | REACT_APP_MAINTENANCE_DISABLE_LOGIN        | Flag to disable login and to show toast message instead. Default is false                                                                                |
 | REACT_APP_ALLOWED_SUBSTITUTE_USER_DOMAINS  | Allowed domains for the substitute user email. Defaul is hel.fi                                                                                          |
+| REACT_APP_WEB_STORE_INTEGRATION_ENABLED    | Flag to enable Tapla integration. Default is false                                                                                                       |
 
 ## Feature flags
 
@@ -108,6 +109,13 @@ Features enabled:
 Features enabled:
 
 - Localized alt-text of image.
+
+`REACT_APP_WEB_STORE_INTEGRATION_ENABLED`:
+
+Features enabled:
+
+- Editing price groups of a registration
+- Selecting price group for a signup or a signup group
 
 ## Snyk
 

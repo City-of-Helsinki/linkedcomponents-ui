@@ -1095,6 +1095,8 @@
         "required": "Detta fält krävs"
       },
       "offersRequired": "Minst 1 prisinformation måste läggas till",
+      "priceInvalid": "Högst två decimaler är tillåtna",
+      "priceGroupsRequired": "Minst 1 kundgrupp måste läggas till",
       "string": {
         "charsLeft": "{{count}} tecken kvar",
         "charsLeft_other": "{{count}} tecken kvar",
@@ -1707,8 +1709,10 @@
       "title": "Bekräfta raderingen av registeringen"
     },
     "form": {
-      "buttonAddRegistrationUserAccess": "Lägg till användare",
+      "buttonAddPriceGroup": "Lägg till ny kundgrupp",
+      "buttonAddRegistrationUserAccess": "Lägg till ny användare",
       "buttonCreate": "Spara registrering",
+      "buttonDeletePriceGroup": "Ta bort kundgrupp",
       "buttonDeleteRegistrationUserAccess": "Ta bort användare",
       "buttonPanel": {
         "warningNotAuthenticated": "För att skapa en registrering, logga in först."
@@ -1754,6 +1758,15 @@
         "placeholderEmail": "Ange användarens e-postadress",
         "placeholderLanguage": "Välj språk"
       },
+      "registrationPriceGroup": {
+        "labelHasPrice": "Evenemanget kräver betalning",
+        "labelPrice": "Pris (€)",
+        "labelPriceGroup": "Kundgrupp",
+        "labelVatPercentage": "MOMS %",
+        "placeholderPrice": "Ange priset",
+        "placeholderPriceGroup": "Välj kundgrupp",
+        "placeholderVatPercentage": "Välj MOMS %"
+      },
       "sections": {
         "attendeeCount": "Sittplatser",
         "audienceAge": "Åldersgräns",
@@ -1763,13 +1776,15 @@
         "instructions": "Instruktioner och bekräftelsemeddelande",
         "languages": "Språk",
         "mandatoryFields": "Obligatoriska fält",
+        "priceGroups": "Kundgrupper",
         "registrationUserAccesses": "Användningsrättigheter",
         "waitingList": "Väntelista"
       },
       "sendInvitation": "Skicka inbjudan igen",
       "titleContactInfo": "Kontaktinformation",
       "titleInfoLanguages": "Inmatningsspråk",
-      "titleParticipantBasicInfo": "Grundläggande information om deltagaren"
+      "titleParticipantBasicInfo": "Grundläggande information om deltagaren",
+      "titlePriceGroup": "Kundgrupp"
     },
     "registrationLinkCopied": "Registreringslänk kopierad"
   },
@@ -1839,7 +1854,8 @@
     "phoneNumberMustBeUnique": "Telefonnumret har redan registrering.",
     "required": "Det här fältet kan inte lämnas tomt.",
     "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",
-    "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre."
+    "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre.",
+    "validValueRequired": "Ett giltigt nummer krävs"
   },
   "signup": {
     "attendeeStatus": {

@@ -49,6 +49,7 @@ it('should set server error items', async () => {
             ],
           },
         ],
+        registration_price_groups: [{ price: 'Kelvollinen luku vaaditaan.' }],
         waiting_list_capacity: ['Tämän luvun on oltava vähintään 0.'],
       },
     } as any,
@@ -79,6 +80,10 @@ it('should set server error items', async () => {
     {
       label: 'Sijainen',
       message: 'Käyttäjän sähköpostin verkkotunnus ei ole sallittu sijaiselle.',
+    },
+    {
+      label: 'Hinta (€)',
+      message: 'Kelvollinen luku vaaditaan.',
     },
     {
       label: 'Jonopaikkojen lukumäärä',

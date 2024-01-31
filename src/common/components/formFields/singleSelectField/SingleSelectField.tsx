@@ -1,18 +1,20 @@
 import { FieldProps } from 'formik';
-import { SingleSelectProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { OptionType } from '../../../../types';
-import SingleSelect from '../../singleSelect/SingleSelect';
+import SingleSelect, {
+  SingleSelectProps,
+} from '../../singleSelect/SingleSelect';
 import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
-type Props = SingleSelectProps<OptionType> & FieldProps;
+type Props = SingleSelectProps &
+  FieldProps & { onChangeCb?: (val: string | null) => void };
 
 const SingleSelectField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
   helper,
+  onChangeCb,
   options,
   disabled,
   ...rest
@@ -23,6 +25,7 @@ const SingleSelectField: React.FC<Props> = ({
     name,
     onBlur,
     onChange,
+    onChangeCb,
     value,
   });
 

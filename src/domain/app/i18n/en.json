@@ -1112,6 +1112,8 @@
         "required": "This field is required"
       },
       "offersRequired": "At least 1 price information must be added",
+      "priceInvalid": "Maximum of two decimal places is allowed",
+      "priceGroupsRequired": "At least 1 customer group must be added",
       "string": {
         "charsLeft": "{{count}} character left",
         "charsLeft_other": "{{count}} characters left",
@@ -1706,8 +1708,10 @@
       "title": "Confirm registration deletion"
     },
     "form": {
-      "buttonAddRegistrationUserAccess": "Add user",
+      "buttonAddPriceGroup": "Add new customer group",
+      "buttonAddRegistrationUserAccess": "Add new user",
       "buttonCreate": "Save",
+      "buttonDeletePriceGroup": "Remove customer group",
       "buttonDeleteRegistrationUserAccess": "Remove user",
       "buttonPanel": {
         "warningNotAuthenticated": "To create a registration, log in first."
@@ -1753,6 +1757,15 @@
         "placeholderEmail": "Enter user's email address",
         "placeholderLanguage": "Select language"
       },
+      "registrationPriceGroup": {
+        "labelHasPrice": "Event requires payment",
+        "labelPrice": "Price (€)",
+        "labelPriceGroup": "Customer group",
+        "labelVatPercentage": "VAT %",
+        "placeholderPrice": "Enter price",
+        "placeholderPriceGroup": "Select customer group",
+        "placeholderVatPercentage": "Select VAT %"
+      },
       "sections": {
         "attendeeCount": "Seating",
         "audienceAge": "Age limit",
@@ -1762,13 +1775,15 @@
         "instructions": "Instructions and confirmation message",
         "languages": "Languages",
         "mandatoryFields": "Required fields",
+        "priceGroups": "Customer groups",
         "registrationUserAccesses": "Access rights",
         "waitingList": "Waiting list"
       },
       "sendInvitation": "Resend invitation",
       "titleContactInfo": "Contact information",
       "titleInfoLanguages": "Input languages",
-      "titleParticipantBasicInfo": "Basic information of the participant"
+      "titleParticipantBasicInfo": "Basic information of the participant",
+      "titlePriceGroup": "Customer group"
     },
     "registrationLinkCopied": "Registration link copied"
   },
@@ -1838,7 +1853,8 @@
     "phoneNumberMustBeUnique": "Phone number already has registration.",
     "required": "This field cannot be left blank.",
     "requiredWhenPublishing": "This field must be specified before an event is published.",
-    "shortDescriptionTooLong": "Short description length must be 160 characters or less."
+    "shortDescriptionTooLong": "Short description length must be 160 characters or less.",
+    "validValueRequired": "A valid number is required"
   },
   "signup": {
     "attendeeStatus": {

@@ -1095,6 +1095,8 @@
         "required": "Tämä kenttä on pakollinen"
       },
       "offersRequired": "Vähintään 1 hintatieto vaaditaan",
+      "priceInvalid": "Enintään kaksi desimaalia on sallittu",
+      "priceGroupsRequired": "Vähintään 1 asiakasryhmä vaaditaan",
       "string": {
         "charsLeft": "{{count}} merkki jäljellä",
         "charsLeft_other": "{{count}} merkkiä jäljellä",
@@ -1707,8 +1709,10 @@
       "title": "Varmista ilmoittautumisen poistaminen"
     },
     "form": {
-      "buttonAddRegistrationUserAccess": "Lisää käyttäjä",
+      "buttonAddPriceGroup": "Lisää uusi asiakasryhmä",
+      "buttonAddRegistrationUserAccess": "Lisää uusi käyttäjä",
       "buttonCreate": "Tallenna ilmoittautuminen",
+      "buttonDeletePriceGroup": "Poista asiakasryhmä",
       "buttonDeleteRegistrationUserAccess": "Poista käyttäjä",
       "buttonPanel": {
         "warningNotAuthenticated": "Jos haluat luoda ilmoittautumisen, kirjaudu ensin sisään."
@@ -1754,6 +1758,15 @@
         "placeholderEmail": "Syötä käyttäjän sähköpostiosoite",
         "placeholderLanguage": "Valitse kieli"
       },
+      "registrationPriceGroup": {
+        "labelHasPrice": "Tapahtuma on maksullinen",
+        "labelPrice": "Hinta (€)",
+        "labelPriceGroup": "Asiakasryhmä",
+        "labelVatPercentage": "ALV %",
+        "placeholderPrice": "Syötä hinta",
+        "placeholderPriceGroup": "Valitse asiakasryhmä",
+        "placeholderVatPercentage": "Valitse ALV %"
+      },
       "sections": {
         "attendeeCount": "Paikat",
         "audienceAge": "Ikäraja",
@@ -1763,13 +1776,15 @@
         "instructions": "Ilmoittautumisohjeet ja vahvistusviesti",
         "languages": "Kielet",
         "mandatoryFields": "Pakolliset kentät",
+        "priceGroups": "Asiakasryhmät",
         "registrationUserAccesses": "Käyttöoikeudet",
         "waitingList": "Jonopaikat"
       },
       "sendInvitation": "Lähetä kutsu uudelleen",
       "titleContactInfo": "Yhteystiedot",
       "titleInfoLanguages": "Syöttökielet",
-      "titleParticipantBasicInfo": "Ilmoittautujan perustiedot"
+      "titleParticipantBasicInfo": "Ilmoittautujan perustiedot",
+      "titlePriceGroup": "Asiakasryhmä"
     },
     "registrationLinkCopied": "Ilmoittautumislinkki kopioitu"
   },
@@ -1839,7 +1854,8 @@
     "phoneNumberMustBeUnique": "Puhelinnumerolla on jo ilmoittautuminen.",
     "required": "Tämä kenttä ei voi olla tyhjä.",
     "requiredWhenPublishing": "Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.",
-    "shortDescriptionTooLong": "Lyhyen kuvauksen pituus saa olla enintään 160 merkkiä."
+    "shortDescriptionTooLong": "Lyhyen kuvauksen pituus saa olla enintään 160 merkkiä.",
+    "validValueRequired": "Kelvollinen luku vaaditaan."
   },
   "signup": {
     "attendeeStatus": {
