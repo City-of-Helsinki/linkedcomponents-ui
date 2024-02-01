@@ -49,11 +49,12 @@ export const getSignupFields = ({
   return {
     id,
     attendeeStatus: signup.attendeeStatus as AttendeeStatus,
-    email: getValue(signup.contactPerson?.email, ''),
+    contactPersonEmail: getValue(signup.contactPerson?.email, ''),
+    contactPersonPhoneNumber: getValue(signup.contactPerson?.phoneNumber, ''),
     firstName,
     fullName,
     lastName,
-    phoneNumber: getValue(signup.contactPerson?.phoneNumber, ''),
+    phoneNumber: getValue(signup.phoneNumber, ''),
     signupGroup,
     signupGroupUrl: signupGroup
       ? `/${language}${ROUTES.EDIT_SIGNUP_GROUP.replace(

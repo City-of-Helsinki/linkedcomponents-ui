@@ -64,9 +64,23 @@ const NameColumn: FC<ColumnProps> = ({ registration, signup }) => {
   );
 };
 
-const EmailColumn: FC<ColumnProps> = ({ registration, signup }) => {
+const PhoneColumn: FC<ColumnProps> = ({ registration, signup }) => {
   const language = useLocale();
-  const { email, signupGroup } = getSignupFields({
+  const { phoneNumber } = getSignupFields({
+    language,
+    registration,
+    signup,
+  });
+
+  return getValue(phoneNumber, '-');
+};
+
+const ContactPersonEmailColumn: FC<ColumnProps> = ({
+  registration,
+  signup,
+}) => {
+  const language = useLocale();
+  const { contactPersonEmail, signupGroup } = getSignupFields({
     language,
     registration,
     signup,
@@ -84,16 +98,19 @@ const EmailColumn: FC<ColumnProps> = ({ registration, signup }) => {
       small
     >
       {getValue(
-        signupGroupData?.signupGroup.contactPerson?.email ?? email,
+        signupGroupData?.signupGroup.contactPerson?.email ?? contactPersonEmail,
         '-'
       )}
     </LoadingSpinner>
   );
 };
 
-const PhoneColumn: FC<ColumnProps> = ({ registration, signup }) => {
+const ContactPersonPhoneColumn: FC<ColumnProps> = ({
+  registration,
+  signup,
+}) => {
   const language = useLocale();
-  const { phoneNumber, signupGroup } = getSignupFields({
+  const { contactPersonPhoneNumber, signupGroup } = getSignupFields({
     language,
     registration,
     signup,
@@ -110,7 +127,8 @@ const PhoneColumn: FC<ColumnProps> = ({ registration, signup }) => {
       small
     >
       {getValue(
-        signupGroupData?.signupGroup.contactPerson?.phoneNumber ?? phoneNumber,
+        signupGroupData?.signupGroup.contactPerson?.phoneNumber ??
+          contactPersonPhoneNumber,
         '-'
       )}
     </LoadingSpinner>
@@ -213,16 +231,23 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
     [registration]
   );
 
-  const MemoizedEmailColumn = React.useCallback(
+  const MemoizedPhoneColumn = React.useCallback(
     (signup: SignupFieldsFragment) => (
-      <EmailColumn signup={signup} registration={registration} />
+      <PhoneColumn signup={signup} registration={registration} />
     ),
     [registration]
   );
 
-  const MemoizedPhoneColumn = React.useCallback(
+  const MemoizedContactPersonEmailColumn = React.useCallback(
     (signup: SignupFieldsFragment) => (
-      <PhoneColumn signup={signup} registration={registration} />
+      <ContactPersonEmailColumn signup={signup} registration={registration} />
+    ),
+    [registration]
+  );
+
+  const MemoizedContactPersonPhoneColumn = React.useCallback(
+    (signup: SignupFieldsFragment) => (
+      <ContactPersonPhoneColumn signup={signup} registration={registration} />
     ),
     [registration]
   );
@@ -261,16 +286,26 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
               transform: MemoizedNameColumn,
             },
             {
+              className: styles.phoneColumn,
+              key: 'phone',
+              headerName: t('signupsPage.signupsTableColumns.phoneNumber'),
+              transform: MemoizedPhoneColumn,
+            },
+            {
               className: styles.emailColumn,
-              key: 'email',
-              headerName: t('signupsPage.signupsTableColumns.email'),
-              transform: MemoizedEmailColumn,
+              key: 'contactPersonEmail',
+              headerName: t(
+                'signupsPage.signupsTableColumns.contactPersonEmail'
+              ),
+              transform: MemoizedContactPersonEmailColumn,
             },
             {
               className: styles.phoneColumn,
-              key: 'phone',
-              headerName: t('signupsPage.signupsTableColumns.phone'),
-              transform: MemoizedPhoneColumn,
+              key: 'contactPersonPhone',
+              headerName: t(
+                'signupsPage.signupsTableColumns.contactPersonPhoneNumber'
+              ),
+              transform: MemoizedContactPersonPhoneColumn,
             },
             {
               className: styles.statusColumn,
