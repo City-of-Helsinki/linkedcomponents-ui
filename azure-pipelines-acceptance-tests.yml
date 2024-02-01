@@ -11,10 +11,10 @@ trigger: none
 # of the pull request.
 #
 # Opt out of pull request validation
-pr:
-  branches:
-    include:
-    - main
+# pr:
+#   branches:
+#     include:
+#     - main
 
 # By default, use self-hosted agents
 pool: Default
