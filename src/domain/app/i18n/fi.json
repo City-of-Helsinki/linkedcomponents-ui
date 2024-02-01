@@ -250,6 +250,7 @@
       "hoursLabel": "tunnit",
       "minutsLabel": "minuutit"
     },
+    "total": "Yhteensä",
     "warning": "Varoitus!"
   },
   "createEventPage": {
@@ -1928,6 +1929,7 @@
         "labelFirstName": "Etunimi",
         "labelLastName": "Sukunimi",
         "labelPhoneNumber": "Puhelinnumero",
+        "labelPriceGroup": "Hintaryhmä",
         "labelStreetAddress": "Katuosoite",
         "labelZipcode": "Postinumero",
         "placeholderCity": "Syötä kaupunki",
@@ -1935,6 +1937,7 @@
         "placeholderFirstName": "Syötä ilmoittautujan etunimi",
         "placeholderLastName": "Syötä ilmoittautujan sukunimi",
         "placeholderPhoneNumber": "+358 44 1234 567",
+        "placeholderPriceGroup": "Valitse hintaryhmä",
         "placeholderStreetAddress": "Syötä katuosoite",
         "placeholderZipcode": "Syötä postinumero",
         "signupDefaultTitle": "Osallistuja {{index}}",

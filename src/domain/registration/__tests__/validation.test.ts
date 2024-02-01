@@ -255,16 +255,6 @@ describe('registrationSchema', () => {
     ).toBe(false);
   });
 
-  it('should return false if priceGroup of registration price group is empty', async () => {
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        hasPrice: true,
-        registrationPriceGroups: [{ ...validPriceGroup, priceGroup: '' }],
-      })
-    ).toBe(false);
-  });
-
   it('should return false if vatPercentage of registration price group is empty', async () => {
     expect(
       await testRegistrationSchema({
@@ -275,7 +265,7 @@ describe('registrationSchema', () => {
     ).toBe(false);
   });
 
-  it('should validate price or vatPercentage of free registration price group', async () => {
+  it('should not validate price or vatPercentage of free registration price group', async () => {
     expect(
       await testRegistrationSchema({
         ...validRegistrationValues,

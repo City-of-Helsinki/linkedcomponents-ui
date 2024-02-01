@@ -59,6 +59,7 @@ import {
   SendMessageResponse,
   Signup,
   SignupGroup,
+  SignupPriceGroup,
   SignupsResponse,
   User,
   UsersResponse,
@@ -622,6 +623,26 @@ export const fakeSendMessageResponse = (
     overrides
   );
 
+export const fakeSignupPriceGroup = (
+  overrides?: Partial<SignupPriceGroup>
+): SignupPriceGroup => {
+  const id = overrides?.id || faker.number.int();
+
+  return merge<SignupPriceGroup, typeof overrides>(
+    {
+      id,
+      price: faker.string.numeric(),
+      priceGroup: fakePriceGroupDense(),
+      priceWithoutVat: faker.string.numeric(),
+      registrationPriceGroup: faker.number.int(),
+      vat: faker.string.numeric(),
+      vatPercentage: '24.00',
+      __typename: 'SignupPriceGroup',
+    },
+    overrides
+  );
+};
+
 export const fakeSignups = (
   count = 1,
   signups?: Partial<Signup>[]
@@ -649,6 +670,7 @@ export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
       lastModifiedTime: null,
       lastName: faker.person.lastName(),
       phoneNumber: faker.phone.number(),
+      priceGroup: null,
       presenceStatus: PresenceStatus.NotPresent,
       signupGroup: null,
       streetAddress: faker.location.streetAddress(),

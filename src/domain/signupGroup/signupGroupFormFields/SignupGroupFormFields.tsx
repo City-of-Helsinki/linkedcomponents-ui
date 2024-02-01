@@ -114,6 +114,7 @@ const SignupGroupFormFields: React.FC<Props> = ({
       <Signups
         disabled={disabled}
         registration={registration}
+        signup={signup}
         signupGroup={signupGroup}
       />
       <FormGroup>

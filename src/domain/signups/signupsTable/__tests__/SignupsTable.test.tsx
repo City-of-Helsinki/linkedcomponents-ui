@@ -136,7 +136,9 @@ test('should navigate between pages', async () => {
   await user.click(page1Button);
 
   // Page 1 signup should be visible.
-  expect(screen.getByRole('button', { name: signupName })).toBeInTheDocument();
+  expect(
+    await screen.findByRole('button', { name: signupName })
+  ).toBeInTheDocument();
   expect(
     screen.queryByRole('button', { name: attendeePage2Name })
   ).not.toBeInTheDocument();

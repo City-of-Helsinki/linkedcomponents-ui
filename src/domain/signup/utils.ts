@@ -11,6 +11,7 @@ import {
   SignupInput,
   UpdateSignupMutationInput,
 } from '../../generated/graphql';
+import { featureFlagUtils } from '../../utils/featureFlags';
 import formatDate from '../../utils/formatDate';
 import getDateFromString from '../../utils/getDateFromString';
 import getValue from '../../utils/getValue';
@@ -33,6 +34,7 @@ export const getSignupPayload = ({
     id,
     lastName,
     phoneNumber,
+    priceGroup,
     streetAddress,
     zipcode,
   } = signupData;
@@ -44,6 +46,13 @@ export const getSignupPayload = ({
     firstName: getValue(firstName, ''),
     lastName: getValue(lastName, ''),
     phoneNumber: getValue(phoneNumber, ''),
+    ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
+      ? {
+          priceGroup: priceGroup
+            ? { registrationPriceGroup: priceGroup }
+            : undefined,
+        }
+      : {}),
     streetAddress: getValue(streetAddress, null),
     zipcode: getValue(zipcode, null),
   };
@@ -106,6 +115,10 @@ export const getSignupInitialValues = (
   inWaitingList: signup.attendeeStatus === AttendeeStatus.Waitlisted,
   lastName: getValue(signup.lastName, ''),
   phoneNumber: getValue(signup.phoneNumber, ''),
+  priceGroup: getValue(
+    signup.priceGroup?.registrationPriceGroup?.toString(),
+    ''
+  ),
   streetAddress: getValue(signup.streetAddress, ''),
   zipcode: getValue(signup.zipcode, ''),
 });

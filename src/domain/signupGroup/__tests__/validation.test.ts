@@ -1,8 +1,12 @@
 import * as Yup from 'yup';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
-import { fakeRegistration } from '../../../utils/mockDataUtils';
+import {
+  fakeRegistration,
+  fakeRegistrationPriceGroup,
+} from '../../../utils/mockDataUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
+import { TEST_PRICE_GROUP_ID } from '../../priceGroup/constants';
 import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
 import { NOTIFICATIONS } from '../constants';
 import { SignupFormFields, SignupGroupFormFields } from '../types';
@@ -166,7 +170,11 @@ describe('isBelowMaxAge function', () => {
 });
 
 describe('signupSchema function', () => {
-  const registration = fakeRegistration();
+  const registration = fakeRegistration({
+    registrationPriceGroups: [
+      fakeRegistrationPriceGroup({ id: TEST_PRICE_GROUP_ID }),
+    ],
+  });
   const validSignup: SignupFormFields = {
     city: 'City',
     dateOfBirth: new Date('2000-01-01'),
@@ -176,12 +184,28 @@ describe('signupSchema function', () => {
     inWaitingList: true,
     lastName: 'last name',
     phoneNumber: '0441234567',
+    priceGroup: TEST_PRICE_GROUP_ID.toString(),
     streetAddress: 'Street address',
     zipcode: '00100',
   };
 
   test('should return true if signup is valid', async () => {
     expect(await testSignupSchema(registration, validSignup)).toBe(true);
+  });
+
+  test('should return true if price group is missing', async () => {
+    expect(
+      await testSignupSchema(registration, { ...validSignup, priceGroup: '' })
+    ).toBe(false);
+  });
+
+  test("should return false if price group is missing but registration doesn't have any price group", async () => {
+    expect(
+      await testSignupSchema(
+        fakeRegistration({ registrationPriceGroups: [] }),
+        { ...validSignup, priceGroup: '' }
+      )
+    ).toBe(true);
   });
 
   test('should return false if first name is missing', async () => {

@@ -5,11 +5,13 @@ import React, { useState } from 'react';
 import {
   RegistrationFieldsFragment,
   SeatsReservation,
+  SignupFieldsFragment,
   SignupGroupFieldsFragment,
   UpdateSeatsReservationMutationInput,
   useUpdateSeatsReservationMutation,
 } from '../../../../generated/graphql';
 import useHandleError from '../../../../hooks/useHandleError';
+import { featureFlagUtils } from '../../../../utils/featureFlags';
 import getValue from '../../../../utils/getValue';
 import {
   getSeatsReservationData,
@@ -19,6 +21,7 @@ import { useSignupServerErrorsContext } from '../../../signup/signupServerErrors
 import { SIGNUP_GROUP_FIELDS } from '../../constants';
 import ConfirmDeleteSignupFromFormModal from '../../modals/confirmDeleteSignupFromFormModal/ConfirmDeleteSignupFromFormModal';
 import { useSignupGroupFormContext } from '../../signupGroupFormContext/hooks/useSignupGroupFormContext';
+import TotalPrice from '../../totalPrice/TotalPrice';
 import { SignupFormFields } from '../../types';
 import { getNewSignups } from '../../utils';
 import Signup from './signup/Signup';
@@ -30,10 +33,16 @@ const getSignupPath = (index: number) =>
 interface Props {
   disabled?: boolean;
   registration: RegistrationFieldsFragment;
+  signup?: SignupFieldsFragment;
   signupGroup?: SignupGroupFieldsFragment;
 }
 
-const Signups: React.FC<Props> = ({ disabled, registration, signupGroup }) => {
+const Signups: React.FC<Props> = ({
+  disabled,
+  registration,
+  signup,
+  signupGroup,
+}) => {
   const [openModalIndex, setOpenModalIndex] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -101,51 +110,58 @@ const Signups: React.FC<Props> = ({ disabled, registration, signupGroup }) => {
       });
     }
   };
+  const isEditingMode = Boolean(signup || signupGroup);
 
   return (
-    <div className={styles.accordions}>
-      <FieldArray
-        name={SIGNUP_GROUP_FIELDS.SIGNUPS}
-        render={() => (
-          <div>
-            {signups.map((signup, index) => {
-              const openModal = () => {
-                setOpenModalIndex(index);
-              };
+    <>
+      <div className={styles.accordions}>
+        <FieldArray
+          name={SIGNUP_GROUP_FIELDS.SIGNUPS}
+          render={() => (
+            <div>
+              {signups.map((signupValues, index) => {
+                const openModal = () => {
+                  setOpenModalIndex(index);
+                };
 
-              const deleteParticipant = async () => {
-                setSaving(true);
-                // Clear server errors
-                setServerErrorItems([]);
+                const deleteParticipant = async () => {
+                  setSaving(true);
+                  // Clear server errors
+                  setServerErrorItems([]);
 
-                await updateSeatsReservation(signups.length - 1, index);
-              };
+                  await updateSeatsReservation(signups.length - 1, index);
+                };
 
-              return (
-                <React.Fragment key={index}>
-                  <ConfirmDeleteSignupFromFormModal
-                    isOpen={openModalIndex === index}
-                    isSaving={saving}
-                    onClose={closeModal}
-                    onConfirm={deleteParticipant}
-                    participantCount={1}
-                  />
-                  <Signup
-                    disabled={disabled}
-                    index={index}
-                    onDelete={openModal}
-                    registration={registration}
-                    showDelete={!signupGroup && signups.length > 1}
-                    signup={signup}
-                    signupPath={getSignupPath(index)}
-                  />
-                </React.Fragment>
-              );
-            })}
-          </div>
-        )}
-      />
-    </div>
+                return (
+                  <React.Fragment key={index}>
+                    <ConfirmDeleteSignupFromFormModal
+                      isOpen={openModalIndex === index}
+                      isSaving={saving}
+                      onClose={closeModal}
+                      onConfirm={deleteParticipant}
+                      participantCount={1}
+                    />
+                    <Signup
+                      disabled={disabled}
+                      index={index}
+                      isEditingMode={isEditingMode}
+                      onDelete={openModal}
+                      registration={registration}
+                      showDelete={!signupGroup && signups.length > 1}
+                      signup={signupValues}
+                      signupPath={getSignupPath(index)}
+                    />
+                  </React.Fragment>
+                );
+              })}
+            </div>
+          )}
+        />
+      </div>
+      {featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') && (
+        <TotalPrice registration={registration} signups={signups} />
+      )}
+    </>
   );
 };
 

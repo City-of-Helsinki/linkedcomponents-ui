@@ -249,6 +249,7 @@
       "hoursLabel": "hours",
       "minutsLabel": "minutes"
     },
+    "total": "In total",
     "warning": "Warning!"
   },
   "createEventPage": {
@@ -1927,6 +1928,7 @@
         "labelFirstName": "First name",
         "labelLastName": "Last name",
         "labelPhoneNumber": "Telephone number",
+        "labelPriceGroup": "Price group",
         "labelStreetAddress": "Street address",
         "labelZipcode": "Postcode",
         "placeholderCity": "Enter city",
@@ -1934,6 +1936,7 @@
         "placeholderFirstName": "Enter the registrant's first name",
         "placeholderLastName": "Enter the registrant's last name",
         "placeholderPhoneNumber": "+358 44 1234 567",
+        "placeholderPriceGroup": "Select price group",
         "placeholderStreetAddress": "Enter a street address",
         "placeholderZipcode": "Enter postcode",
         "signupDefaultTitle": "Participant {{index}}",

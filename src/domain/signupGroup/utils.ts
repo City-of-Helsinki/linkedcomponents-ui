@@ -39,6 +39,7 @@ import {
   ContactPersonFormFields,
   SignupFormFields,
   SignupGroupFormFields,
+  SignupPriceGroupOption,
 } from './types';
 
 export const getSignupNotificationTypes = (
@@ -254,3 +255,14 @@ export const omitSensitiveDataFromSignupGroupPayload = (
     ?.filter(skipFalsyType)
     .map((s) => omitSensitiveDataFromSignupPayload(s)),
 });
+
+export const calculateTotalPrice = (
+  priceGroupOptions: SignupPriceGroupOption[],
+  signups: SignupFormFields[]
+) =>
+  signups.reduce(
+    (prev, curr) =>
+      prev +
+      (priceGroupOptions.find((o) => o.value === curr.priceGroup)?.price ?? 0),
+    0
+  );
