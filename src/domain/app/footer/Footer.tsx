@@ -21,16 +21,18 @@ import {
   areRegistrationRoutesAllowed,
 } from '../../user/permissions';
 import { useTheme } from '../theme/Theme';
+import {
+  navigationGroupAdmin,
+  navigationGroupEvents,
+  navigationGroupFeatures,
+  navigationGroupHome,
+  navigationGroupInstructions,
+  navigationGroupRegistrations,
+  navigationGroupSupport,
+  navigationGroupTechnology,
+  NO_FOOTER_PATHS,
+} from './constants';
 import styles from './footer.module.scss';
-
-const NO_FOOTER_PATHS: PathPattern[] = [
-  { path: ROUTES.ATTENDANCE_LIST },
-  { path: ROUTES.EDIT_EVENT },
-  { path: ROUTES.EDIT_REGISTRATION },
-  { path: ROUTES.EDIT_SIGNUP },
-  { path: ROUTES.EDIT_SIGNUP_GROUP },
-  { path: ROUTES.REGISTRATION_SIGNUPS },
-];
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
@@ -41,43 +43,6 @@ const Footer: React.FC = () => {
   const locale = useLocale();
   /* istanbul ignore next */
   const logoLanguage = locale === 'sv' ? 'sv' : 'fi';
-
-  const FOOTER_NAVIGATION_ITEMS = [
-    { labelKey: 'navigation.tabs.events', url: ROUTES.EVENTS },
-    {
-      labelKey: 'navigation.tabs.searchEvents',
-      url: ROUTES.SEARCH,
-    },
-    areRegistrationRoutesAllowed(user) && {
-      labelKey: 'navigation.tabs.registrations',
-      url: ROUTES.REGISTRATIONS,
-    },
-    featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') &&
-      areAdminRoutesAllowed(user) && {
-        labelKey: 'navigation.tabs.admin',
-        url: ROUTES.ADMIN,
-      },
-    { labelKey: 'navigation.tabs.help', url: ROUTES.HELP },
-    {
-      labelKey: 'navigation.tabs.dataProtection',
-      url: DATA_PROTECTION_URL[locale],
-      externalUrl: true,
-    },
-    {
-      labelKey: 'navigation.tabs.accessibilityStatement',
-      url: ROUTES.ACCESSIBILITY_STATEMENT,
-    },
-  ].filter(skipFalsyType);
-
-  const navigationItems = FOOTER_NAVIGATION_ITEMS.map(
-    ({ labelKey, url, externalUrl }) => ({
-      label: t(labelKey),
-      url: !externalUrl ? `/${locale}${url}` : url,
-      externalUrl,
-      target: externalUrl ? '_blank' : '_self',
-    })
-  );
-
   const isHelpPage = pathname.startsWith(`/${locale}${ROUTES.HELP}`);
 
   const logo = useMemo(() => {
@@ -87,6 +52,8 @@ const Footer: React.FC = () => {
 
     return logoLanguage === 'sv' ? logoSvDark : logoFiDark;
   }, [isHelpPage, logoLanguage]);
+
+  const getLocalePath = (path: string) => `/${locale}${path}`;
 
   const goToPage =
     (pathname: string, external?: boolean) =>
@@ -131,22 +98,55 @@ const Footer: React.FC = () => {
           theme={theme.footer}
         >
           <HdsFooter.Navigation>
-            {navigationItems.map((item) => (
-              <HdsFooter.Link
-                key={item.url}
-                href={item.url}
-                label={item.label}
-                target={item.target}
-                onClick={goToPage(item.url, item.externalUrl)}
-              />
-            ))}
+            {[
+              navigationGroupHome,
+              navigationGroupEvents,
+              areRegistrationRoutesAllowed(user) &&
+                navigationGroupRegistrations,
+              featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') &&
+                areAdminRoutesAllowed(user) &&
+                navigationGroupAdmin,
+              navigationGroupInstructions,
+              navigationGroupTechnology,
+              navigationGroupSupport,
+              navigationGroupFeatures,
+            ]
+              .filter(skipFalsyType)
+              .map((group) => (
+                <HdsFooter.NavigationGroup
+                  key={group.headingLink}
+                  headingLink={
+                    <HdsFooter.GroupHeading
+                      label={t(group.heading)}
+                      href={getLocalePath(group.headingLink)}
+                      onClick={goToPage(getLocalePath(group.headingLink))}
+                    />
+                  }
+                >
+                  {group.items?.map((item) => (
+                    <HdsFooter.Link
+                      key={getLocalePath(item.url)}
+                      href={getLocalePath(item.url)}
+                      label={t(item.label)}
+                      onClick={goToPage(getLocalePath(item.url))}
+                    />
+                  ))}
+                </HdsFooter.NavigationGroup>
+              ))}
           </HdsFooter.Navigation>
 
           <HdsFooter.Utilities>
             <HdsFooter.Link
-              href={`/${locale}${ROUTES.SUPPORT_CONTACT}`}
-              onClick={goToPage(`/${locale}${ROUTES.SUPPORT_CONTACT}`)}
-              label={t('common.feedback.text')}
+              href={DATA_PROTECTION_URL[locale]}
+              onClick={goToPage(DATA_PROTECTION_URL[locale], true)}
+              label={t('navigation.tabs.dataProtection')}
+              external
+              target="_blank"
+            />
+            <HdsFooter.Link
+              href={getLocalePath(ROUTES.ACCESSIBILITY_STATEMENT)}
+              onClick={goToPage(getLocalePath(ROUTES.ACCESSIBILITY_STATEMENT))}
+              label={t('navigation.tabs.accessibilityStatement')}
             />
           </HdsFooter.Utilities>
           <HdsFooter.Base
