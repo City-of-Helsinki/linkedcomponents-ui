@@ -1,4 +1,5 @@
 import capitalize from 'lodash/capitalize';
+import get from 'lodash/get';
 
 import {
   LanguageFieldsFragment,
@@ -18,8 +19,20 @@ export const getLanguageOption = (
   value: getValue(language[idKey], ''),
 });
 
-export const sortLanguageOptions = (a: OptionType, b: OptionType): number =>
-  a.label > b.label ? 1 : -1;
+export const sortLanguageOptions = (a: OptionType, b: OptionType): number => {
+  const languagePriorities = {
+    fi: 3,
+    sv: 2,
+    en: 1,
+  };
+  const aPriority = get(languagePriorities, a.value, 0);
+  const bPriority = get(languagePriorities, b.value, 0);
+
+  if (aPriority !== bPriority) {
+    return bPriority - aPriority;
+  }
+  return a.label > b.label ? 1 : -1;
+};
 
 export const languagesPathBuilder = ({
   args,

@@ -15,13 +15,15 @@ import {
   sortLanguageOptions,
 } from '../utils';
 
+export type UseLanguageOptionsProps = {
+  variables?: LanguagesQueryVariables;
+  idKey?: 'atId' | 'id';
+};
+
 const useLanguageOptions = ({
   variables,
   idKey,
-}: {
-  variables?: LanguagesQueryVariables;
-  idKey?: 'atId' | 'id';
-} = {}): OptionType[] => {
+}: UseLanguageOptionsProps = {}): OptionType[] => {
   const locale = useLocale();
 
   const { data } = useLanguagesQuery({
