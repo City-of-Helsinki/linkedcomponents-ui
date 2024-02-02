@@ -201,23 +201,6 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                   className={styles.actionButtons}
                   event={event}
                 />
-                <div className={cx(styles.row, styles.ctaRow)}>
-                  <Button
-                    className={styles.cta}
-                    role="link"
-                    aria-label={t(
-                      'eventsPage.eventCard.goToEventPageAriaLabel',
-                      { name }
-                    )}
-                    onClick={(e?: React.MouseEvent) => {
-                      e?.preventDefault();
-
-                      navigate(eventUrlWithReturnPath);
-                    }}
-                  >
-                    {t('eventsPage.eventCard.goToEventPage')}
-                  </Button>
-                </div>
                 <div className={cx(styles.row, styles.priceRow)}>
                   <div className={styles.priceColumn}>
                     <TextWithIcon
@@ -257,6 +240,24 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                       publicationStatus={publicationStatus}
                     />
                   </div>
+                </div>
+                <div className={cx(styles.row, styles.ctaRow)}>
+                  <Button
+                    fullWidth
+                    className={styles.cta}
+                    role="link"
+                    aria-label={t(
+                      'eventsPage.eventCard.goToEventPageAriaLabel',
+                      { name }
+                    )}
+                    onClick={(e?: React.MouseEvent) => {
+                      e?.preventDefault();
+
+                      navigate(eventUrlWithReturnPath);
+                    }}
+                  >
+                    {t('eventsPage.eventCard.goToEventPage')}
+                  </Button>
                 </div>
               </div>
             </div>
