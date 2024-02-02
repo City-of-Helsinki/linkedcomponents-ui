@@ -1589,6 +1589,7 @@
       "labelClassification": "Luokittelu",
       "labelDataSource": "Datan lähde",
       "labelDissolutionDate": "Lakkautuspäivä",
+      "labelFinancialAdminUsers": "Taloushallinnon pääkäyttäjät",
       "labelFoundingDate": "Perustuspäivä",
       "labelId": "ID",
       "labelInternalType": "Sisäinen tyyppi",

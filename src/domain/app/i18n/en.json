@@ -1588,6 +1588,7 @@
       "labelClassification": "Classification",
       "labelDataSource": "Data source",
       "labelDissolutionDate": "Dissolution date",
+      "labelFinancialAdminUsers": "Financial admin users",
       "labelFoundingDate": "Founding date",
       "labelId": "ID",
       "labelInternalType": "Internal type",

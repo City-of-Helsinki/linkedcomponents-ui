@@ -254,6 +254,17 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 clearable
                 component={UserSelectorField}
                 disabled={!isEditingAllowed}
+                label={t(`organization.form.labelFinancialAdminUsers`)}
+                name={ORGANIZATION_FIELDS.FINANCIAL_ADMIN_USERS}
+              />
+            </FormRow>
+            <FormRow>
+              <Field
+                alignedLabel
+                className={styles.alignedSelect}
+                clearable
+                component={UserSelectorField}
+                disabled={!isEditingAllowed}
                 label={t(`organization.form.labelRegularUsers`)}
                 name={ORGANIZATION_FIELDS.REGULAR_USERS}
               />

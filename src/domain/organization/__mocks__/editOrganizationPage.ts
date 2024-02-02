@@ -28,6 +28,7 @@ const payload = {
   adminUsers: [users.data[0]?.username],
   affiliatedOrganizations: [],
   classification: organizationClassification,
+  financialAdminUsers: [],
   internalType: 'normal',
   name: organizationName,
   parentOrganization: undefined,
