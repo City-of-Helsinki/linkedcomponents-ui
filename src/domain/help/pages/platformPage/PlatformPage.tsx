@@ -3,9 +3,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import imageUrl from '../../../../assets/images/png/platform-page.png';
+import Breadcrumb from '../../../../common/components/breadcrumb/Breadcrumb';
 import Highlight from '../../../../common/components/highlight/Highlight';
+import { ROUTES } from '../../../../constants';
 import IconCloud from '../../../../icons/IconCloud';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../../../app/layout/titleRow/TitleRow';
 import styles from './platformPage.module.scss';
 
 const PlatformPage: React.FC = () => {
@@ -18,7 +21,22 @@ const PlatformPage: React.FC = () => {
       keywords={['keywords.platform', 'keywords.help', 'keywords.instructions']}
       title="helpPage.platformPage.pageTitle"
     >
-      <h1>{t('helpPage.platformPage.titlePlatform')}</h1>
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('helpPage.pageTitle'), path: ROUTES.HELP },
+              {
+                title: t('helpPage.sideNavigation.labelInstructions'),
+                path: ROUTES.INSTRUCTIONS,
+              },
+              { title: t('helpPage.platformPage.titlePlatform'), path: null },
+            ]}
+          />
+        }
+        title={t('helpPage.platformPage.titlePlatform')}
+      />
       <div className={styles.mainContent}>
         <img src={imageUrl} alt={t('helpPage.platformPage.imageAlt')} />
         <div>

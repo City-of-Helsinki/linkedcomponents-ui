@@ -14,7 +14,7 @@
     position: relative;
     z-index: 2;
     background-color: var(--search-panel-background-color);
-    padding: var(--spacing-4-xl) 0;
+    padding: 0 0 var(--spacing-4-xl);
   }
 
   .button {
@@ -35,9 +35,14 @@
     --focus-outline-color: var(--search-panel-button-color);
   }
 
+  .titleRow {
+    color: var(--color-white);
+  }
+
   .searchRow {
     display: grid;
     grid-gap: var(--spacing-m);
+    margin-top: var(--spacing-s);
 
     @include medium-up {
       display: flex;

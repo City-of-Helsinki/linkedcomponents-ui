@@ -1,12 +1,16 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
+import Breadcrumb from '../../../../common/components/breadcrumb/Breadcrumb';
 import ExternalLink from '../../../../common/components/externalLink/ExternalLink';
-import { SUPPORT_EMAIL } from '../../../../constants';
+import { ROUTES, SUPPORT_EMAIL } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../../../app/layout/titleRow/TitleRow';
 
 const ControlPanelPage: React.FC = () => {
+  const { t } = useTranslation();
   const locale = useLocale();
 
   const getContent = (locale: Language) => {
@@ -14,7 +18,6 @@ const ControlPanelPage: React.FC = () => {
       case 'en':
         return (
           <>
-            <h1>Control panel</h1>
             <h2>General</h2>
             <p>
               Linked Events is an event interface for the City of Helsinki. The
@@ -176,7 +179,6 @@ const ControlPanelPage: React.FC = () => {
       case 'fi':
         return (
           <>
-            <h1>Hallintapaneeli</h1>
             <h2>Yleistä</h2>
             <p>
               Linked Events on Helsingin kaupungin tapahtumarajapinta.
@@ -334,7 +336,6 @@ const ControlPanelPage: React.FC = () => {
       case 'sv':
         return (
           <>
-            <h1>Kontrollpanel</h1>
             <h2>Allmänt</h2>
             <p>
               Linked Events är evenemangsgränssnittet för Helsingfors stad. De
@@ -500,6 +501,25 @@ const ControlPanelPage: React.FC = () => {
       keywords={['keywords.controlPanel', 'keywords.help']}
       title="helpPage.pageTitleControlPanel"
     >
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('helpPage.pageTitle'), path: ROUTES.HELP },
+              {
+                title: t('helpPage.sideNavigation.labelInstructions'),
+                path: ROUTES.INSTRUCTIONS,
+              },
+              {
+                title: t('helpPage.sideNavigation.labelControlPanel'),
+                path: null,
+              },
+            ]}
+          />
+        }
+        title={t('helpPage.sideNavigation.labelControlPanel')}
+      />
       {getContent(locale)}
     </PageWrapper>
   );

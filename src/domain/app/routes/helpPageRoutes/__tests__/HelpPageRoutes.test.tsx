@@ -153,16 +153,7 @@ const generalInstructionCases: [Language, PageValues][] = [
       title: 'Tuki - Linked Events',
     },
   ],
-  [
-    'sv',
-    {
-      description: '',
-      expectedRoute: '/sv/help/instructions/general',
-      keywords: '',
-      pageTitle: 'Allmänt',
-      title: '',
-    },
-  ],
+  // TODO: Add this when Swedish is added to supported languages
 ];
 
 it.each(generalInstructionCases)(
@@ -197,16 +188,6 @@ const platformCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is supported
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/instructions/platform',
-  //     keywords: '',
-  //     pageTitle: 'Plattform',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(platformCases)(
@@ -240,16 +221,7 @@ const controlPanelCases: [Language, PageValues][] = [
       title: 'Hallintapaneeli - Linked Events',
     },
   ],
-  [
-    'sv',
-    {
-      description: '',
-      expectedRoute: '/sv/help/instructions/control-panel',
-      keywords: '',
-      pageTitle: 'Kontrollpanel',
-      title: '',
-    },
-  ],
+  // TODO: Add this when Swedish is added to supported languages
 ];
 
 it.each(controlPanelCases)(
@@ -288,16 +260,7 @@ const registrationInstructionsCases: [Language, PageValues][] = [
       title: 'Linked Registration -ohje - Linked Events',
     },
   ],
-  [
-    'sv',
-    {
-      description: '',
-      expectedRoute: '/sv/help/instructions/registration',
-      keywords: '',
-      pageTitle: 'Linked Registration instruktioner',
-      title: '',
-    },
-  ],
+  // TODO: Add this when Swedish is added to supported languages
 ];
 
 it.each(registrationInstructionsCases)(
@@ -335,16 +298,6 @@ const faqCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is supported
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/instructions/faq',
-  //     keywords: '',
-  //     pageTitle: 'Vanliga frågor',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(faqCases)(
@@ -379,16 +332,7 @@ const generalTechnologyCases: [Language, PageValues][] = [
       title: 'Teknologia - Linked Events',
     },
   ],
-  [
-    'sv',
-    {
-      description: '',
-      expectedRoute: '/sv/help/technology/general',
-      keywords: '',
-      pageTitle: 'Allmänt',
-      title: '',
-    },
-  ],
+  // TODO: Add this when Swedish is added to supported languages
 ];
 
 it.each(generalTechnologyCases)(
@@ -423,16 +367,7 @@ const apiCases: [Language, PageValues][] = [
       title: 'Rajapinta - Linked Events',
     },
   ],
-  [
-    'sv',
-    {
-      description: '',
-      expectedRoute: '/sv/help/technology/api',
-      keywords: '',
-      pageTitle: 'API',
-      title: '',
-    },
-  ],
+  // TODO: Add this when Swedish is added to supported languages
 ];
 
 it.each(apiCases)(
@@ -451,7 +386,7 @@ const imageRightsCases: [Language, PageValues][] = [
       expectedRoute: '/en/help/technology/image-rights',
       keywords:
         'image, rights, license, linked, events, event, management, api, admin, Helsinki, Finland',
-      pageTitle: 'Image rights',
+      pageTitle: 'Image Rights',
       title: 'Image Rights - Linked Events',
     },
   ],
@@ -467,16 +402,7 @@ const imageRightsCases: [Language, PageValues][] = [
       title: 'Kuvaoikeudet - Linked Events',
     },
   ],
-  [
-    'sv',
-    {
-      description: '',
-      expectedRoute: '/sv/help/technology/image-rights',
-      keywords: '',
-      pageTitle: 'Bildrättigheter',
-      title: '',
-    },
-  ],
+  // TODO: Add this when Swedish is added to supported languages
 ];
 
 it.each(imageRightsCases)(
@@ -513,16 +439,7 @@ const sourceCodeCases: [Language, PageValues][] = [
       title: 'Lähdekoodi - Linked Events',
     },
   ],
-  [
-    'sv',
-    {
-      description: '',
-      expectedRoute: '/sv/help/technology/source-code',
-      keywords: '',
-      pageTitle: 'Källkod',
-      title: '',
-    },
-  ],
+  // TODO: Add this when Swedish is added to supported languages
 ];
 
 it.each(sourceCodeCases)(
@@ -558,16 +475,7 @@ const documentationCases: [Language, PageValues][] = [
       title: 'Dokumentaatio - Linked Events',
     },
   ],
-  [
-    'sv',
-    {
-      description: '',
-      expectedRoute: '/sv/help/technology/documentation',
-      keywords: '',
-      pageTitle: 'Dokumentation',
-      title: '',
-    },
-  ],
+  // TODO: Add this when Swedish is added to supported languages
 ];
 
 it.each(documentationCases)(
@@ -604,16 +512,7 @@ const termsOfUseCases: [Language, PageValues][] = [
       title: 'Tietosuoja ja käyttöehdot - Linked Events',
     },
   ],
-  [
-    'sv',
-    {
-      description: 'Dataskydd och användarvillkor för Linked Events.',
-      expectedRoute: '/sv/help/support/terms-of-use',
-      keywords: '',
-      pageTitle: 'Dataskydd och användarvillkor',
-      title: '',
-    },
-  ],
+  // TODO: Add this when Swedish is added to supported languages
 ];
 
 it.each(termsOfUseCases)(
@@ -649,16 +548,6 @@ const contactCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is supported
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/support/contact',
-  //     keywords: '',
-  //     pageTitle: 'Ta kontakt',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(contactCases)(
@@ -692,16 +581,6 @@ const askPermissionCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/support/ask-permission',
-  //     keywords: '',
-  //     pageTitle: 'Begära tillgång',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(askPermissionCases)(
@@ -736,16 +615,7 @@ const featuresCases: [Language, PageValues][] = [
       title: 'Palvelun ominaisuudet - Linked Events',
     },
   ],
-  [
-    'sv',
-    {
-      description: '',
-      expectedRoute: '/sv/help/features',
-      keywords: '',
-      pageTitle: 'Tjänstens egenskaper',
-      title: '',
-    },
-  ],
+  // TODO: Add this when Swedish is added to supported languages
 ];
 
 it.each(featuresCases)(

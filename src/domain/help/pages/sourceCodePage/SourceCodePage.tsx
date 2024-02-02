@@ -1,11 +1,16 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
+import Breadcrumb from '../../../../common/components/breadcrumb/Breadcrumb';
+import { ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
+import TitleRow from '../../../app/layout/titleRow/TitleRow';
 import SourceCodeLinks from '../../sourceCodeLinks/SourceCodeLinks';
 
 const SourceCodePage: React.FC = () => {
+  const { t } = useTranslation();
   const locale = useLocale();
 
   const getContent = (locale: Language) => {
@@ -13,7 +18,6 @@ const SourceCodePage: React.FC = () => {
       case 'en':
         return (
           <>
-            <h1>Source code</h1>
             <p>
               The complete code base of Linked Events can be found in the City
               of Helsinki's Github:
@@ -28,7 +32,6 @@ const SourceCodePage: React.FC = () => {
       case 'fi':
         return (
           <>
-            <h1>Lähdekoodi</h1>
             <p>
               Linked Eventsin koodikanta löytyy kokonaisuudessaan Helsingin
               kaupungin Githubista:
@@ -43,7 +46,6 @@ const SourceCodePage: React.FC = () => {
       case 'sv':
         return (
           <>
-            <h1>Källkod</h1>
             <p>
               Den kompletta kodbasen för Linked Events finns i Helsingfors stads
               Github:
@@ -63,6 +65,25 @@ const SourceCodePage: React.FC = () => {
       keywords={['keywords.sourceCode', 'keywords.help']}
       title="helpPage.pageTitleSourceCode"
     >
+      <TitleRow
+        breadcrumb={
+          <Breadcrumb
+            list={[
+              { title: t('common.home'), path: ROUTES.HOME },
+              { title: t('helpPage.pageTitle'), path: ROUTES.HELP },
+              {
+                title: t('helpPage.pageTitleTechnology'),
+                path: ROUTES.TECHNOLOGY,
+              },
+              {
+                title: t('helpPage.pageTitleSourceCode'),
+                path: null,
+              },
+            ]}
+          />
+        }
+        title={t('helpPage.pageTitleSourceCode')}
+      />
       {getContent(locale)}
     </PageWrapper>
   );

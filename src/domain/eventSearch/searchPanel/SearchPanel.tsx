@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
+import Breadcrumb from '../../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../../common/components/button/Button';
 import DateSelectorDropdown, {
   DATE_FIELDS,
@@ -17,6 +18,7 @@ import { OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import Container from '../../app/layout/container/Container';
+import TitleRow from '../../app/layout/titleRow/TitleRow';
 import { useTheme } from '../../app/theme/Theme';
 import { EVENT_TYPE } from '../../event/constants';
 import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
@@ -101,6 +103,19 @@ const SearchPanel: React.FC = () => {
         >
           <section className={styles.searchPanelWrapper}>
             <Container withOffset={true}>
+              <TitleRow
+                breadcrumbClassName={styles.titleRow}
+                breadcrumb={
+                  <Breadcrumb
+                    list={[
+                      { title: t('common.home'), path: ROUTES.HOME },
+                      { title: t(`eventSearchPage.pageTitle`), path: null },
+                    ]}
+                  />
+                }
+                title={t('eventSearchPage.pageTitle')}
+                titleClassName={styles.titleRow}
+              />
               <div className={styles.searchRow}>
                 <div className={styles.inputWrapper}>
                   <SearchInput
