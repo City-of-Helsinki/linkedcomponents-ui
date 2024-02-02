@@ -154,16 +154,6 @@ const generalInstructionCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/instructions/general',
-  //     keywords: '',
-  //     pageTitle: 'Allmänt',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(generalInstructionCases)(
@@ -198,16 +188,6 @@ const platformCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is supported
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/instructions/platform',
-  //     keywords: '',
-  //     pageTitle: 'Plattform',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(platformCases)(
@@ -242,16 +222,6 @@ const controlPanelCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/instructions/control-panel',
-  //     keywords: '',
-  //     pageTitle: 'Kontrollpanel',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(controlPanelCases)(
@@ -291,16 +261,6 @@ const registrationInstructionsCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/instructions/registration',
-  //     keywords: '',
-  //     pageTitle: 'Linked Registration instruktioner',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(registrationInstructionsCases)(
@@ -338,16 +298,6 @@ const faqCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is supported
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/instructions/faq',
-  //     keywords: '',
-  //     pageTitle: 'Vanliga frågor',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(faqCases)(
@@ -383,16 +333,6 @@ const generalTechnologyCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/technology/general',
-  //     keywords: '',
-  //     pageTitle: 'Allmänt',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(generalTechnologyCases)(
@@ -428,16 +368,6 @@ const apiCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/technology/api',
-  //     keywords: '',
-  //     pageTitle: 'API',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(apiCases)(
@@ -473,16 +403,6 @@ const imageRightsCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/technology/image-rights',
-  //     keywords: '',
-  //     pageTitle: 'Bildrättigheter',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(imageRightsCases)(
@@ -520,16 +440,6 @@ const sourceCodeCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/technology/source-code',
-  //     keywords: '',
-  //     pageTitle: 'Källkod',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(sourceCodeCases)(
@@ -566,16 +476,6 @@ const documentationCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/technology/documentation',
-  //     keywords: '',
-  //     pageTitle: 'Dokumentation',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(documentationCases)(
@@ -613,16 +513,6 @@ const termsOfUseCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: 'Dataskydd och användarvillkor för Linked Events.',
-  //     expectedRoute: '/sv/help/support/terms-of-use',
-  //     keywords: '',
-  //     pageTitle: 'Dataskydd och användarvillkor',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(termsOfUseCases)(
@@ -658,16 +548,6 @@ const contactCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is supported
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/support/contact',
-  //     keywords: '',
-  //     pageTitle: 'Ta kontakt',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(contactCases)(
@@ -701,16 +581,6 @@ const askPermissionCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/support/ask-permission',
-  //     keywords: '',
-  //     pageTitle: 'Begära tillgång',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(askPermissionCases)(
@@ -746,16 +616,6 @@ const featuresCases: [Language, PageValues][] = [
     },
   ],
   // TODO: Add this when Swedish is added to supported languages
-  // [
-  //   'sv',
-  //   {
-  //     description: '',
-  //     expectedRoute: '/sv/help/features',
-  //     keywords: '',
-  //     pageTitle: 'Tjänstens egenskaper',
-  //     title: '',
-  //   },
-  // ],
 ];
 
 it.each(featuresCases)(
