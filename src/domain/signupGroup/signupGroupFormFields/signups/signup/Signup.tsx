@@ -8,9 +8,11 @@ import SingleSelectField from '../../../../../common/components/formFields/singl
 import TextAreaField from '../../../../../common/components/formFields/textAreaField/TextAreaField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
+import { SPLITTED_ROW_TYPE } from '../../../../../constants';
 import { RegistrationFieldsFragment } from '../../../../../generated/graphql';
 import { featureFlagUtils } from '../../../../../utils/featureFlags';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
+import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
 import { SIGNUP_FIELDS } from '../../../constants';
 import useSignupPriceGroupOptions from '../../../hooks/useSignupPriceGroupOptions';
 import { useSignupGroupFormContext } from '../../../signupGroupFormContext/hooks/useSignupGroupFormContext';
@@ -109,93 +111,125 @@ const Signup: React.FC<SignupProps> = ({
           </FormGroup>
         )}
 
-        <FormGroup>
-          <div className={styles.nameRow}>
-            <Field
-              name={getFieldName(signupPath, SIGNUP_FIELDS.FIRST_NAME)}
-              component={TextInputField}
-              disabled={disabled}
-              label={translateSignupText('labelFirstName')}
-              placeholder={translateSignupText('placeholderFirstName')}
-              required={isSignupFieldRequired(
+        {(isSignupFieldRequired(registration, SIGNUP_FIELDS.FIRST_NAME) ||
+          isSignupFieldRequired(registration, SIGNUP_FIELDS.LAST_NAME)) && (
+          <FormGroup>
+            <SplittedRow>
+              {isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.FIRST_NAME
+              ) && (
+                <Field
+                  name={getFieldName(signupPath, SIGNUP_FIELDS.FIRST_NAME)}
+                  component={TextInputField}
+                  disabled={disabled}
+                  label={translateSignupText('labelFirstName')}
+                  placeholder={translateSignupText('placeholderFirstName')}
+                  required={true}
+                />
               )}
-            />
-            <Field
-              name={getFieldName(signupPath, SIGNUP_FIELDS.LAST_NAME)}
-              component={TextInputField}
-              disabled={disabled}
-              label={translateSignupText('labelLastName')}
-              placeholder={translateSignupText('placeholderLastName')}
-              required={isSignupFieldRequired(
-                registration,
-                SIGNUP_FIELDS.LAST_NAME
+              {isSignupFieldRequired(registration, SIGNUP_FIELDS.LAST_NAME) && (
+                <Field
+                  name={getFieldName(signupPath, SIGNUP_FIELDS.LAST_NAME)}
+                  component={TextInputField}
+                  disabled={disabled}
+                  label={translateSignupText('labelLastName')}
+                  placeholder={translateSignupText('placeholderLastName')}
+                  required={true}
+                />
               )}
-            />
-          </div>
-        </FormGroup>
-        <FormGroup>
-          <div className={styles.phoneNumberRow}>
-            <Field
-              name={getFieldName(signupPath, SIGNUP_FIELDS.PHONE_NUMBER)}
-              component={TextInputField}
-              disabled={disabled}
-              label={translateSignupText('labelPhoneNumber')}
-              placeholder={translateSignupText('placeholderPhoneNumber')}
-              required={isSignupFieldRequired(
-                registration,
-                SIGNUP_FIELDS.PHONE_NUMBER
-              )}
-            />
-          </div>
-        </FormGroup>
-        <FormGroup>
-          <div className={styles.streetAddressRow}>
-            <Field
-              name={getFieldName(signupPath, SIGNUP_FIELDS.STREET_ADDRESS)}
-              component={TextInputField}
-              disabled={disabled}
-              label={translateSignupText('labelStreetAddress')}
-              placeholder={translateSignupText('placeholderStreetAddress')}
-              required={isSignupFieldRequired(
+            </SplittedRow>
+          </FormGroup>
+        )}
+
+        {isSignupFieldRequired(registration, SIGNUP_FIELDS.PHONE_NUMBER) && (
+          <FormGroup>
+            <SplittedRow>
+              <Field
+                name={getFieldName(signupPath, SIGNUP_FIELDS.PHONE_NUMBER)}
+                component={TextInputField}
+                disabled={disabled}
+                label={translateSignupText('labelPhoneNumber')}
+                placeholder={translateSignupText('placeholderPhoneNumber')}
+                required={true}
+              />
+            </SplittedRow>
+          </FormGroup>
+        )}
+        {(isSignupFieldRequired(registration, SIGNUP_FIELDS.STREET_ADDRESS) ||
+          isDateOfBirthFieldRequired(registration)) && (
+          <FormGroup>
+            <SplittedRow
+              className={styles.streetAddressRow}
+              type={
+                isSignupFieldRequired(
+                  registration,
+                  SIGNUP_FIELDS.STREET_ADDRESS
+                )
+                  ? SPLITTED_ROW_TYPE.LARGE_SMALL
+                  : SPLITTED_ROW_TYPE.SMALL_LARGE
+              }
+            >
+              {isSignupFieldRequired(
                 registration,
                 SIGNUP_FIELDS.STREET_ADDRESS
+              ) && (
+                <Field
+                  name={getFieldName(signupPath, SIGNUP_FIELDS.STREET_ADDRESS)}
+                  component={TextInputField}
+                  disabled={disabled}
+                  label={translateSignupText('labelStreetAddress')}
+                  placeholder={translateSignupText('placeholderStreetAddress')}
+                  required={true}
+                />
               )}
-            />
-            <Field
-              name={getFieldName(signupPath, SIGNUP_FIELDS.DATE_OF_BIRTH)}
-              component={DateInputField}
-              disabled={disabled}
-              label={translateSignupText('labelDateOfBirth')}
-              placeholder={t('common.placeholderDate')}
-              required={isDateOfBirthFieldRequired(registration)}
-            />
-          </div>
-        </FormGroup>
-        <FormGroup>
-          <div className={styles.zipRow}>
-            <Field
-              name={getFieldName(signupPath, SIGNUP_FIELDS.ZIPCODE)}
-              component={TextInputField}
-              disabled={disabled}
-              label={translateSignupText('labelZipcode')}
-              placeholder={translateSignupText('placeholderZipcode')}
-              required={isSignupFieldRequired(
-                registration,
-                SIGNUP_FIELDS.ZIPCODE
+              {isDateOfBirthFieldRequired(registration) && (
+                <Field
+                  name={getFieldName(signupPath, SIGNUP_FIELDS.DATE_OF_BIRTH)}
+                  component={DateInputField}
+                  disabled={disabled}
+                  label={translateSignupText('labelDateOfBirth')}
+                  placeholder={t('common.placeholderDate')}
+                  required={isDateOfBirthFieldRequired(registration)}
+                />
               )}
-            />
-            <Field
-              name={getFieldName(signupPath, SIGNUP_FIELDS.CITY)}
-              component={TextInputField}
-              disabled={disabled}
-              label={translateSignupText('labelCity')}
-              placeholder={translateSignupText('placeholderCity')}
-              required={isSignupFieldRequired(registration, SIGNUP_FIELDS.CITY)}
-            />
-          </div>
-        </FormGroup>
+            </SplittedRow>
+          </FormGroup>
+        )}
+        {(isSignupFieldRequired(registration, SIGNUP_FIELDS.ZIPCODE) ||
+          isSignupFieldRequired(registration, SIGNUP_FIELDS.CITY)) && (
+          <FormGroup>
+            <SplittedRow
+              type={
+                isSignupFieldRequired(registration, SIGNUP_FIELDS.ZIPCODE)
+                  ? SPLITTED_ROW_TYPE.SMALL_LARGE
+                  : SPLITTED_ROW_TYPE.LARGE_SMALL
+              }
+            >
+              {isSignupFieldRequired(registration, SIGNUP_FIELDS.ZIPCODE) && (
+                <Field
+                  name={getFieldName(signupPath, SIGNUP_FIELDS.ZIPCODE)}
+                  component={TextInputField}
+                  disabled={disabled}
+                  label={translateSignupText('labelZipcode')}
+                  placeholder={translateSignupText('placeholderZipcode')}
+                  required={true}
+                />
+              )}
+              {isSignupFieldRequired(registration, SIGNUP_FIELDS.CITY) && (
+                <Field
+                  name={getFieldName(signupPath, SIGNUP_FIELDS.CITY)}
+                  component={TextInputField}
+                  disabled={disabled}
+                  label={translateSignupText('labelCity')}
+                  placeholder={translateSignupText('placeholderCity')}
+                  required={true}
+                />
+              )}
+            </SplittedRow>
+          </FormGroup>
+        )}
+
         <Field
           name={getFieldName(signupPath, SIGNUP_FIELDS.EXTRA_INFO)}
           className={styles.extraInfoField}

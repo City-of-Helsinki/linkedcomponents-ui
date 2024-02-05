@@ -31,6 +31,10 @@ const registrationOverrides = {
   mandatoryFields: [
     REGISTRATION_MANDATORY_FIELDS.FIRST_NAME,
     REGISTRATION_MANDATORY_FIELDS.LAST_NAME,
+    REGISTRATION_MANDATORY_FIELDS.STREET_ADDRESS,
+    REGISTRATION_MANDATORY_FIELDS.ZIPCODE,
+    REGISTRATION_MANDATORY_FIELDS.CITY,
+    REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER,
   ],
   maximumAttendeeCapacity: 100,
   minimumAttendeeCapacity: 10,
@@ -71,4 +75,5 @@ export {
   mockedRegistrationResponse,
   registration,
   registrationId,
+  registrationOverrides,
 };

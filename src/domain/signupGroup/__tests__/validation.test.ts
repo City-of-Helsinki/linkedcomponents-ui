@@ -347,10 +347,15 @@ describe('signupSchema function', () => {
 
   test('should return false if zip is invalid', async () => {
     expect(
-      await testSignupSchema(registration, {
-        ...validSignup,
-        zipcode: '123456',
-      })
+      await testSignupSchema(
+        fakeRegistration({
+          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.ZIPCODE],
+        }),
+        {
+          ...validSignup,
+          zipcode: '123456',
+        }
+      )
     ).toBe(false);
   });
 });
