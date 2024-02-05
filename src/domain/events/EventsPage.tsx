@@ -53,7 +53,6 @@ const EventsPage: React.FC<Props> = ({ user }) => {
 
   const { skip: waitingApprovalSkip, variables: waitingApprovalVariables } =
     useEventsQueryVariables(EVENTS_PAGE_TABS.WAITING_APPROVAL, user);
-
   const { data: waitingApprovalEventsData } = useEventsQuery({
     skip: waitingApprovalSkip,
     variables: waitingApprovalVariables,
@@ -61,15 +60,20 @@ const EventsPage: React.FC<Props> = ({ user }) => {
 
   const { skip: publishedSkip, variables: publishedVariables } =
     useEventsQueryVariables(EVENTS_PAGE_TABS.PUBLISHED, user);
-
   const { data: publishedEventsData } = useEventsQuery({
     skip: publishedSkip,
     variables: publishedVariables,
   });
 
+  const { skip: ownPublishedSkip, variables: ownPublishedVariables } =
+    useEventsQueryVariables(EVENTS_PAGE_TABS.OWN_PUBLISHED, user);
+  const { data: ownPublishedEventsData } = useEventsQuery({
+    skip: ownPublishedSkip,
+    variables: ownPublishedVariables,
+  });
+
   const { skip: draftsSkip, variables: draftsVariables } =
     useEventsQueryVariables(EVENTS_PAGE_TABS.DRAFTS, user);
-
   const { data: draftEventsData } = useEventsQuery({
     skip: draftsSkip,
     variables: draftsVariables,
@@ -78,19 +82,25 @@ const EventsPage: React.FC<Props> = ({ user }) => {
   const tabOptions = [
     {
       label: t('eventsPage.tabs.waitingApproval', {
-        count: waitingApprovalEventsData?.events?.meta.count || 0,
+        count: waitingApprovalEventsData?.events?.meta.count ?? 0,
       }),
       value: EVENTS_PAGE_TABS.WAITING_APPROVAL,
     },
     {
       label: t('eventsPage.tabs.published', {
-        count: publishedEventsData?.events?.meta.count || 0,
+        count: publishedEventsData?.events?.meta.count ?? 0,
       }),
       value: EVENTS_PAGE_TABS.PUBLISHED,
     },
     {
+      label: t('eventsPage.tabs.ownPublished', {
+        count: ownPublishedEventsData?.events?.meta.count ?? 0,
+      }),
+      value: EVENTS_PAGE_TABS.OWN_PUBLISHED,
+    },
+    {
       label: t('eventsPage.tabs.drafts', {
-        count: draftEventsData?.events?.meta.count || 0,
+        count: draftEventsData?.events?.meta.count ?? 0,
       }),
       value: EVENTS_PAGE_TABS.DRAFTS,
     },
@@ -147,11 +157,13 @@ const EventsPage: React.FC<Props> = ({ user }) => {
       {tabOptions.map(({ value: tab }, index) => {
         const skip = {
           [EVENTS_PAGE_TABS.DRAFTS]: draftsSkip,
+          [EVENTS_PAGE_TABS.OWN_PUBLISHED]: ownPublishedSkip,
           [EVENTS_PAGE_TABS.PUBLISHED]: publishedSkip,
           [EVENTS_PAGE_TABS.WAITING_APPROVAL]: waitingApprovalSkip,
         };
         const variables = {
           [EVENTS_PAGE_TABS.DRAFTS]: draftsVariables,
+          [EVENTS_PAGE_TABS.OWN_PUBLISHED]: ownPublishedVariables,
           [EVENTS_PAGE_TABS.PUBLISHED]: publishedVariables,
           [EVENTS_PAGE_TABS.WAITING_APPROVAL]: waitingApprovalVariables,
         };

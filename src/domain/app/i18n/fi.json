@@ -1011,6 +1011,7 @@
     },
     "eventsTableCaption": {
       "drafts": "Luonnokset, järjestys {{sort}}",
+      "ownPublished": "Omat julkaistut tapahtumat, järjestys {{sort}}",
       "published": "Julkaistut tapahtumat, järjestys {{sort}}",
       "waitingApproval": "Hyväksyntää odottavat tapahtumat, järjestys {{sort}}"
     },
@@ -1043,6 +1044,7 @@
     },
     "tabs": {
       "drafts": "Luonnokset ({{count}})",
+      "ownPublished": "Omat julkaistut ({{count}})",
       "published": "Julkaistut ({{count}})",
       "waitingApproval": "Odottaa ({{count}})"
     },

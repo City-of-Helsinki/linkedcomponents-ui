@@ -1010,6 +1010,7 @@
     },
     "eventsTableCaption": {
       "drafts": "Draft events, sorted by {{sort}}",
+      "ownPublished": "Own published events, sorted by {{sort}}",
       "published": "Published events, sorted by {{sort}}",
       "waitingApproval": "Events awaiting approval, sorted by {{sort}}"
     },
@@ -1042,6 +1043,7 @@
     },
     "tabs": {
       "drafts": "Drafts ({{count}})",
+      "ownPublished": "Own published ({{count}})",
       "published": "Published ({{count}})",
       "waitingApproval": "Waiting ({{count}})"
     },
