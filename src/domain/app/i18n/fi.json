@@ -1001,7 +1001,9 @@
     "datetime": "{{date}} klo {{time}}",
     "eventCard": {
       "hideSubEvents": "Piilota alatapahtumat",
-      "showSubEvents": "Näytä alatapahtumat ({{count}})"
+      "showSubEvents": "Näytä alatapahtumat ({{count}})",
+      "goToEventPage": "Siirry tapahtumasivulle",
+      "goToEventPageAriaLabel": "Siirry tapahtumasivulle: {{name}}"
     },
     "eventsTable": {
       "hideSubEvents": "Piilota alatapahtumat: {{name}}",

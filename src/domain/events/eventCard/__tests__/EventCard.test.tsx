@@ -20,6 +20,7 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
 } from '../../../../utils/testUtils';
 import { SUB_EVENTS_VARIABLES } from '../../../event/constants';
 import {
@@ -115,6 +116,15 @@ const mocks = [
   mockedPlaceResponse,
 ];
 
+const mockedUseNavigate = vi.fn();
+
+vi.mock('react-router', async () => {
+  return {
+    ...((await vi.importActual('react-router')) as object),
+    useNavigate: () => mockedUseNavigate,
+  };
+});
+
 test('should render event card fields', async () => {
   const user = userEvent.setup();
   render(<EventCard event={event} />, { mocks });
@@ -151,4 +161,20 @@ test('should render event card fields', async () => {
   for (const { name } of subEventFields) {
     expect(screen.queryByRole('heading', { name })).not.toBeInTheDocument();
   }
+});
+
+test('should navigate to event page when button is clicked', async () => {
+  render(<EventCard event={event} />, { mocks });
+
+  const cta = screen.getByRole('link', {
+    name: `Siirry tapahtumasivulle: ${eventValues.name}`,
+  });
+
+  userEvent.click(cta);
+
+  await waitFor(() =>
+    expect(mockedUseNavigate).toBeCalledWith(
+      `/fi/events/edit/${eventValues.id}?returnPath=%2F`
+    )
+  );
 });

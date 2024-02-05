@@ -1,9 +1,15 @@
 import { scroller } from 'react-scroll';
 
 import getPageHeaderHeight from './getPageHeaderHeight';
-import setFocusToFirstFocusable from './setFocusToFirstFocusable';
+import {
+  setFocusToFirstFocusable,
+  setFocusToLastFocusable,
+} from './setFocusToElement';
 
-export const scrollToItem = (id: string): void => {
+export const scrollToItem = (
+  id: string,
+  options?: { last?: boolean }
+): void => {
   const offset = 24;
   const duration = 300;
 
@@ -14,5 +20,11 @@ export const scrollToItem = (id: string): void => {
     smooth: true,
   });
 
-  setTimeout(() => setFocusToFirstFocusable(id), duration);
+  setTimeout(
+    () =>
+      options?.last
+        ? setFocusToLastFocusable(id)
+        : setFocusToFirstFocusable(id),
+    duration
+  );
 };

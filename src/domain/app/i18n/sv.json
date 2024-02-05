@@ -1001,7 +1001,9 @@
     "datetime": "{{date}} på {{time}}",
     "eventCard": {
       "hideSubEvents": "Dölj underevenemangen",
-      "showSubEvents": "Visa underevenemangen ({{count}})"
+      "showSubEvents": "Visa underevenemangen ({{count}})",
+      "goToEventPage": "Gå till evenemangssidan",
+      "goToEventPageAriaLabel": "Gå till evenemangssidan: {{name}}"
     },
     "eventsTable": {
       "hideSubEvents": "Dölj underevenemangen: {{name}}",

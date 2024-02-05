@@ -97,7 +97,7 @@ const EventList: React.FC<EventListProps> = ({
   React.useEffect(() => {
     const locationState = location.state as EventsLocationState;
     if (locationState?.eventId) {
-      scrollToItem(getEventItemId(locationState.eventId));
+      scrollToItem(getEventItemId(locationState.eventId), { last: true });
       // Clear eventId value to keep scroll position correctly
       const state = omit(locationState, 'eventId');
       // location.search seems to reset if not added here (...location)
