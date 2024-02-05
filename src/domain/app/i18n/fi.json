@@ -62,6 +62,9 @@
     "affiliate": "Liittyvä",
     "and": "ja",
     "at": "klo {{time}}",
+    "authError": {
+      "accessDenied": "Pääsy evätty"
+    },
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "breadcrumb": "Murupolku",

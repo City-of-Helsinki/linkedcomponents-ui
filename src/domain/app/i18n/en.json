@@ -62,6 +62,9 @@
     "affiliate": "Affiliate",
     "and": "and",
     "at": "at {{time}}",
+    "authError": {
+      "accessDenied": "Access denied"
+    },
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "breadcrumb": "Breadcrumb",
