@@ -21,7 +21,7 @@ import {
   RegistrationQueryVariables,
   UpdateRegistrationMutationInput,
 } from '../../generated/graphql';
-import { Language, PathBuilderProps } from '../../types';
+import { Language, MultiLanguageObject, PathBuilderProps } from '../../types';
 import { featureFlagUtils } from '../../utils/featureFlags';
 import { filterUnselectedLanguages } from '../../utils/filterUnselectedLanguages';
 import formatDate from '../../utils/formatDate';
@@ -210,6 +210,60 @@ export const copyRegistrationToSessionStorage = async (
 
 export const getRegistrationItemId = (id: string): string =>
   `registration-item-${id}`;
+
+export const formatSingleInstructions = ({
+  instructions,
+  lang,
+}: {
+  instructions: string;
+  lang: string;
+}): string => {
+  const serviceCenterName = 'Palvelukeskus Helsinki';
+  const dataMapping = {
+    fi: {
+      text1: 'Ilmoittautumisen teknisissä ongelmissa ole yhteydessä:',
+      text2: '09 310 25280, palveluaika klo 8-18',
+    },
+    sv: {
+      text1: 'För tekniska problem med registreringen, vänligen kontakta:',
+      text2: '09 310 25280, servicetid 08.00 till 18.00',
+    },
+    en: {
+      text1: 'For technical problems with registration, please contact:',
+      text2: '09 310 25280, service hours 8 a.m. to 6 p.m',
+    },
+  };
+
+  const trimmedText = instructions.trim();
+
+  const appendData = dataMapping[lang as keyof typeof dataMapping];
+  if (
+    dataMapping.hasOwnProperty(lang) &&
+    !trimmedText.toLowerCase().includes(serviceCenterName.toLowerCase())
+  ) {
+    const appendText = `${appendData.text1}\n${serviceCenterName}\n${appendData.text2}`;
+    return [trimmedText, appendText].filter(skipFalsyType).join('\n');
+  } else {
+    return trimmedText;
+  }
+};
+
+export const formatInstructions = (instructions: MultiLanguageObject) => {
+  const formattedInstructions = { ...instructions };
+
+  Object.entries(formattedInstructions).forEach(([lang, instructions]) => {
+    const singleFormattedInstructions = formatSingleInstructions({
+      instructions,
+      lang,
+    });
+    if (singleFormattedInstructions) {
+      formattedInstructions[lang as keyof MultiLanguageObject] =
+        singleFormattedInstructions;
+    }
+  });
+
+  return formattedInstructions;
+};
 
 export const getRegistrationPayload = (
   formValues: RegistrationFormFields

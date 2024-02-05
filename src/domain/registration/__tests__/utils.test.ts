@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable import/no-named-as-default-member */
@@ -30,6 +31,7 @@ import {
 import {
   copyRegistrationToSessionStorage,
   exportSignupsAsExcel,
+  formatInstructions,
   getFreeAttendeeOrWaitingListCapacity,
   getMaxSeatsAmount,
   getRegistrationFields,
@@ -92,6 +94,48 @@ describe('copyRegistrationToSessionStorage function', () => {
       JSON.parse(sessionStorage.getItem(FORM_NAMES.REGISTRATION_FORM) as string)
         .values.registrationUserAccesses
     ).toEqual([]);
+  });
+});
+
+describe('getRegistrationFields function', () => {
+  it('should add Palvelukeskus info to description', () => {
+    expect(
+      formatInstructions({
+        ar: 'Description ar',
+        en: 'Description en',
+        fi: 'Description fi',
+        ru: 'Description ru',
+        sv: 'Description sv',
+        zhHans: 'Description zh hans',
+      })
+    ).toEqual({
+      ar: 'Description ar',
+      en: 'Description en\nFor technical problems with registration, please contact:\nPalvelukeskus Helsinki\n09 310 25280, service hours 8 a.m. to 6 p.m',
+      fi: 'Description fi\nIlmoittautumisen teknisissä ongelmissa ole yhteydessä:\nPalvelukeskus Helsinki\n09 310 25280, palveluaika klo 8-18',
+      ru: 'Description ru',
+      sv: 'Description sv\nFör tekniska problem med registreringen, vänligen kontakta:\nPalvelukeskus Helsinki\n09 310 25280, servicetid 08.00 till 18.00',
+      zhHans: 'Description zh hans',
+    });
+  });
+
+  it('should add Palvelukeskus info to description if it already exists', () => {
+    expect(
+      formatInstructions({
+        ar: 'Description ar',
+        en: 'Palvelukeskus Helsinki',
+        fi: 'Palvelukeskus Helsinki',
+        ru: 'Description ru',
+        sv: 'Palvelukeskus Helsinki',
+        zhHans: 'Description zh hans',
+      })
+    ).toEqual({
+      ar: 'Description ar',
+      en: 'Palvelukeskus Helsinki',
+      fi: 'Palvelukeskus Helsinki',
+      ru: 'Description ru',
+      sv: 'Palvelukeskus Helsinki',
+      zhHans: 'Description zh hans',
+    });
   });
 });
 
@@ -300,7 +344,7 @@ describe('getRegistrationPayload function', () => {
       instructions: {
         ar: null,
         en: null,
-        fi: '',
+        fi: 'Ilmoittautumisen teknisissä ongelmissa ole yhteydessä:\nPalvelukeskus Helsinki\n09 310 25280, palveluaika klo 8-18',
         ru: null,
         sv: null,
         zhHans: null,
@@ -393,8 +437,8 @@ describe('getRegistrationPayload function', () => {
       event: { atId: event },
       instructions: {
         ar: null,
-        en: instructionsEn,
-        fi: instructionsFi,
+        en: 'Instructions en',
+        fi: 'Instructions fi',
         ru: null,
         sv: null,
         zhHans: null,

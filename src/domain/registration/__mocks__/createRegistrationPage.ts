@@ -5,6 +5,7 @@ import generateAtId from '../../../utils/generateAtId';
 import { fakeRegistration } from '../../../utils/mockDataUtils';
 import { TEST_EVENT_ID } from '../../event/constants';
 import { TEST_REGISTRATION_ID } from '../constants';
+import { formatSingleInstructions } from '../utils';
 
 const registrationValues = {
   event: generateAtId(TEST_EVENT_ID, 'event'),
@@ -30,7 +31,7 @@ const payload = {
   enrolmentStartTime: '2020-12-31T18:00:00.000Z',
   event: { atId: generateAtId(TEST_EVENT_ID, 'event') },
   instructions: {
-    fi: '',
+    fi: formatSingleInstructions({ instructions: '', lang: 'fi' }),
     sv: null,
     en: null,
     ru: null,
