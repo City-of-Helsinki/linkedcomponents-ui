@@ -51,5 +51,5 @@ test('Header tabs field work', async (t) => {
   await urlUtils.expectations.urlChangedToEventsPage();
   // Support page
   await headerTabs.actions.clickSupportPageTab();
-  await urlUtils.expectations.urlChangedToSupportPage();
+  await urlUtils.expectations.urlChangedToInstructionsPage();
 });

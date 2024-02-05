@@ -123,7 +123,7 @@ export const getUrlUtils = (t: TestController) => {
         .expect(getPathname())
         .eql(`/fi/help/technology/source-code`, await getErrorMessage(t));
     },
-    async urlChangedToSupportPage() {
+    async urlChangedToInstructionsPage() {
       await t
         .expect(getPathname())
         .eql(`/fi/help/instructions/general`, await getErrorMessage(t));

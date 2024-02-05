@@ -31,8 +31,8 @@ test('Footer links work', async (t) => {
   await footerLinks.actions.clickEventSearchPageLink();
   await urlUtils.expectations.urlChangedToEventSearchPage();
   // Support page
-  await footerLinks.actions.clickSupportPageLink();
-  await urlUtils.expectations.urlChangedToSupportPage();
+  await footerLinks.actions.clickInstructionsPageLink();
+  await urlUtils.expectations.urlChangedToInstructionsPage();
   // Contact page
   await footerLinks.actions.clickContactPageLink();
   await urlUtils.expectations.urlChangedToContactPage();

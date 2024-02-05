@@ -25,10 +25,10 @@ export const findFooter = async (t: TestController) => {
         return withinFooter().findByRole('link', { name: /hallinta/i });
       },
       contactLink() {
-        return withinFooter().findByRole('link', { name: /anna palautetta/i });
+        return withinFooter().findByRole('link', { name: /ota yhteyttä/i });
       },
       eventsLink() {
-        return withinFooter().findByRole('link', { name: /tapahtumat/i });
+        return withinFooter().findByRole('link', { name: /omat tapahtumat/i });
       },
       eventSearchLink() {
         return withinFooter().findByRole('link', { name: /etsi tapahtumia/i });
@@ -36,8 +36,8 @@ export const findFooter = async (t: TestController) => {
       registrationsLink() {
         return withinFooter().findByRole('link', { name: /ilmoittautuminen/i });
       },
-      supportLink() {
-        return withinFooter().findByRole('link', { name: /tuki/i });
+      instructionsLink() {
+        return withinFooter().findByRole('link', { name: /ohjeet/i });
       },
     };
 
@@ -67,9 +67,9 @@ export const findFooter = async (t: TestController) => {
           .expect(selectors.registrationsLink().exists)
           .ok(await getErrorMessage(t));
       },
-      async supportPageLinkIsVisible() {
+      async instructionsPageLinkIsVisible() {
         await t
-          .expect(selectors.supportLink().exists)
+          .expect(selectors.instructionsLink().exists)
           .ok(await getErrorMessage(t));
       },
     };
@@ -90,8 +90,8 @@ export const findFooter = async (t: TestController) => {
       async clickRegistrationsPageLink() {
         await t.click(selectors.registrationsLink());
       },
-      async clickSupportPageLink() {
-        await t.click(selectors.supportLink());
+      async clickInstructionsPageLink() {
+        await t.click(selectors.instructionsLink());
       },
     };
 
