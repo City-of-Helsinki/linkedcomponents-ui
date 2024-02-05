@@ -80,6 +80,7 @@ test('should show navigation links and should route to correct page after clicki
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    WEB_STORE_INTEGRATION: true,
   });
   const user = userEvent.setup();
   const { history } = renderComponent();
@@ -129,6 +130,7 @@ test.each(registrationAndAdminTabTestCases)(
     setFeatureFlags({
       LOCALIZED_IMAGE: true,
       SHOW_ADMIN: true,
+      WEB_STORE_INTEGRATION: true,
     });
     const userMocks: Record<typeof role, MockedResponse> = {
       admin: mockedUserResponse,
@@ -165,6 +167,7 @@ test('should not show admin and registrations link when those features are disab
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: false,
+    WEB_STORE_INTEGRATION: true,
   });
   const user = userEvent.setup();
   const { history } = renderComponent();

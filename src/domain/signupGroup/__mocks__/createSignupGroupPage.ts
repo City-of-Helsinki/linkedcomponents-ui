@@ -54,13 +54,17 @@ const commonSignupGroupValues = {
 
 const signupGroupWithSingleSignupValues: SignupGroupFormFields = {
   ...commonSignupGroupValues,
-  signups: [{ ...signupValues }],
+
+  signups: [{ ...signupValues, priceGroup: '' }],
 };
 
 const signupGroupValues: SignupGroupFormFields = {
   ...commonSignupGroupValues,
   contactPerson: contactPersonValues,
-  signups: [signupValues, signupValues],
+  signups: [
+    { ...signupValues, priceGroup: '' },
+    { ...signupValues, priceGroup: '' },
+  ],
 };
 
 const signup = fakeSignup({

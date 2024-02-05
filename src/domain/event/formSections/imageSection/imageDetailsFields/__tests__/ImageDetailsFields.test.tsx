@@ -135,6 +135,7 @@ const setLocalizedImageFeatureFlag = (localizedImage: boolean) => {
   setFeatureFlags({
     LOCALIZED_IMAGE: localizedImage,
     SHOW_ADMIN: true,
+    WEB_STORE_INTEGRATION: true,
   });
 };
 

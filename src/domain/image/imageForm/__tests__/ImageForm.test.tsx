@@ -29,6 +29,7 @@ test('should show localized alt-text fields', async () => {
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    WEB_STORE_INTEGRATION: true,
   });
 
   await act(async () => {
@@ -59,6 +60,7 @@ test('should show only Finnish alt-text field', async () => {
   setFeatureFlags({
     LOCALIZED_IMAGE: false,
     SHOW_ADMIN: true,
+    WEB_STORE_INTEGRATION: true,
   });
 
   await act(async () => {
