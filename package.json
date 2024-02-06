@@ -115,7 +115,7 @@
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
-    "@testing-library/testcafe": "^5.0.0",
+    "@testing-library/testcafe": "^5.0.1",
     "@vitest/coverage-istanbul": "^0.34.6",
     "eslint": "^8.50.0",
     "graphql": "16.8.0",
@@ -123,7 +123,7 @@
     "prettier": "^3.0.3",
     "snyk": "^1.1220.0",
     "source-map-explorer": "^2.5.3",
-    "testcafe": "3.3.0",
+    "testcafe": "3.5.0",
     "testcafe-reporter-html": "^1.4.6",
     "testcafe-reporter-xunit": "^2.2.3"
   },
