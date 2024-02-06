@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import TestController from 'testcafe';
-
+/* eslint-disable no-undef */
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '../../src/constants';
 import translationsEn from '../../src/domain/app/i18n/en.json';
 import translationsFi from '../../src/domain/app/i18n/fi.json';
@@ -12,12 +10,10 @@ import {
 } from '../utils/testcafe.utils';
 
 const getTranslations = (locale: SUPPORTED_LANGUAGES) => {
-  switch (locale) {
-    case SUPPORTED_LANGUAGES.EN:
-      return translationsEn;
-    default:
-      return translationsFi;
+  if (locale === SUPPORTED_LANGUAGES.EN) {
+    return translationsEn;
   }
+  return translationsFi;
 };
 
 export const findHeader = async (
@@ -66,7 +62,7 @@ export const findHeader = async (
           name: getTranslations(currentLang).navigation.tabs.admin,
         });
       },
-      eventsTab() {
+      ownEventsTab() {
         return withinHeader().findByRole('link', {
           name: getTranslations(currentLang).navigation.tabs.events,
         });
@@ -84,25 +80,20 @@ export const findHeader = async (
     };
 
     const expectations = {
-      async adminPageTabIsVisible() {
-        await t
-          .expect(selectors.adminTab().exists)
-          .ok(await getErrorMessage(t));
+      async tabIsVisible(selector: SelectorPromise) {
+        await t.expect(selector.exists).ok(await getErrorMessage(t));
       },
-      async eventsPageTabIsVisible() {
-        await t
-          .expect(selectors.eventsTab().exists)
-          .ok(await getErrorMessage(t));
+      async adminPageTabIsVisible() {
+        await expectations.tabIsVisible(selectors.adminTab());
+      },
+      async ownEventsPageTabIsVisible() {
+        await expectations.tabIsVisible(selectors.ownEventsTab());
       },
       async searchEventsPageTabIsVisible() {
-        await t
-          .expect(selectors.searchEventsTab().exists)
-          .ok(await getErrorMessage(t));
+        await expectations.tabIsVisible(selectors.searchEventsTab());
       },
       async supportPageTabIsVisible() {
-        await t
-          .expect(selectors.supportTab().exists)
-          .ok(await getErrorMessage(t));
+        await expectations.tabIsVisible(selectors.supportTab());
       },
     };
 
@@ -110,8 +101,8 @@ export const findHeader = async (
       async clickAdminPageTab() {
         await t.click(selectors.adminTab());
       },
-      async clickEventsPageTab() {
-        await t.click(selectors.eventsTab());
+      async clickOwnEventsPageTab() {
+        await t.click(selectors.ownEventsTab());
       },
       async clickSearchEventsPageTab() {
         await t.click(selectors.searchEventsTab());

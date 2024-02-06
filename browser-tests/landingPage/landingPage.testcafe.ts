@@ -29,5 +29,5 @@ test('Landing page buttons work', async (t) => {
 
   await urlUtils.actions.navigateToLandingPage();
   await landingPage.actions.clickSearchEventsButton();
-  await urlUtils.expectations.urlChangedToEventSearchPage();
+  await urlUtils.expectations.urlChangedToSearchEventsPage();
 });
