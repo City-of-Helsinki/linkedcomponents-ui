@@ -138,6 +138,11 @@ export const getEventSearchPage = (t: TestController) => {
               .join(', ')
           );
         },
+        eventLink() {
+          return withinEventCard().findByRole('link', {
+            name: /siirry tapahtumasivulle/i,
+          });
+        },
         publisherText(publisher: OrganizationFieldsFragment) {
           return withinEventCard().findByText(getValue(publisher.name, ''));
         },
@@ -161,7 +166,7 @@ export const getEventSearchPage = (t: TestController) => {
 
       const actions = {
         async clickEventLink() {
-          await t.click(eventCard());
+          await t.click(selectors.eventLink());
         },
       };
 

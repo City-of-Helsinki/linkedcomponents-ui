@@ -26,7 +26,7 @@ test('Side navigation tabs work', async (t) => {
   const sideNavigation = helpPage.sideNavigation();
   const helpPageTitles = helpPage.helpPageTitles();
 
-  await urlUtils.expectations.urlChangedToSupportPage();
+  await urlUtils.expectations.urlChangedToInstructionsPage();
   // Close instructions main level
   await sideNavigation.actions.clickInstructionsButton();
   // Fearures link
@@ -95,6 +95,6 @@ test('Side navigation tabs work', async (t) => {
   await helpPageTitles.expectations.platformTitleIsVisible();
   // Instructions general link
   await sideNavigation.actions.clickInstructionsGeneralLink();
-  await urlUtils.expectations.urlChangedToSupportPage();
+  await urlUtils.expectations.urlChangedToInstructionsPage();
   await helpPageTitles.expectations.instructionsGeneralTitleIsVisible();
 });

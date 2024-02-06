@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import TestController, { ClientFunction } from 'testcafe';
 
-import {
-  EventFieldsFragment,
-  ImageFieldsFragment,
-  KeywordFieldsFragment,
-  KeywordSetFieldsFragment,
-  OrganizationFieldsFragment,
-  PlaceFieldsFragment,
-} from '../../src/generated/graphql';
+import { EventFieldsFragment } from '../../src/generated/graphql';
 import { getCommonComponents } from '../common.components';
 import { getEnvUrl } from './settings';
 import { getErrorMessage, setDataToPrintOnFailure } from './testcafe.utils';
@@ -44,99 +37,77 @@ export const getUrlUtils = (t: TestController) => {
   };
 
   const expectations = {
+    async pathnameEquals(url: string) {
+      await t.expect(getPathname()).eql(url, await getErrorMessage(t));
+    },
+    async pageTitleEquals(title: string) {
+      await t.expect(getPageTitle()).eql(title, await getErrorMessage(t));
+    },
+    async urlChangedToAccessibilityPage() {
+      await expectations.pathnameEquals('/fi/accessibility-statement');
+    },
     async urlChangedToApiPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/technology/api`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/technology/api');
     },
     async urlChangedToAskPermissionPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/support/ask-permission`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/support/ask-permission');
     },
     async urlChangedToContactPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/support/contact`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/support/contact');
     },
     async urlChangedToControlPanelPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/instructions/control-panel`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/instructions/control-panel');
     },
     async urlChangedToCreateEventPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/events/create`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/events/create');
     },
     async urlChangedToDocumentationPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/technology/documentation`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/technology/documentation');
     },
     async urlChangedToEventPage(event: EventFieldsFragment) {
       setDataToPrintOnFailure(t, 'expectedEvent', event);
-      await t
-        .expect(getPathname())
-        .eql(`/fi/events/edit/${event.id}`, await getErrorMessage(t));
+      await expectations.pathnameEquals(`/fi/events/edit/${event.id}`);
       await pageIsLoaded();
-      await t
-        .expect(getPageTitle())
-        .eql(`${event.name?.fi} - Linked Events`, await getErrorMessage(t));
-    },
-    async urlChangedToEventsPage() {
-      await t.expect(getPathname()).eql(`/fi/events`, await getErrorMessage(t));
-    },
-    async urlChangedToEventSearchPage() {
-      await t.expect(getPathname()).eql(`/fi/search`, await getErrorMessage(t));
+      await expectations.pageTitleEquals(`${event.name?.fi} - Linked Events`);
     },
     async urlChangedToFaqPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/instructions/faq`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/instructions/faq');
     },
     async urlChangedToFeaturesPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/features`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/features');
     },
     async urlChangedToImageRightsPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/technology/image-rights`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/technology/image-rights');
+    },
+    async urlChangedToInstructionsPage() {
+      await expectations.pathnameEquals('/fi/help/instructions/general');
     },
     async urlChangedToLandingPage() {
-      await t.expect(getPathname()).eql(`/fi`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi');
+    },
+    async urlChangedToOwnEventsPage() {
+      await expectations.pathnameEquals('/fi/events');
     },
     async urlChangedToPlatformPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/instructions/platform`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/instructions/platform');
     },
     async urlChangedToRegistrationInstructionsPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/instructions/registration`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/instructions/registration');
+    },
+    async urlChangedToSearchEventsPage() {
+      await expectations.pathnameEquals('/fi/search');
     },
     async urlChangedToSourceCodePage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/technology/source-code`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/technology/source-code');
     },
     async urlChangedToSupportPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/instructions/general`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/support/terms-of-use');
     },
     async urlChangedToTechnologyGeneralPage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/technology/general`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/technology/general');
     },
     async urlChangedToTermsOfUsePage() {
-      await t
-        .expect(getPathname())
-        .eql(`/fi/help/support/terms-of-use`, await getErrorMessage(t));
+      await expectations.pathnameEquals('/fi/help/support/terms-of-use');
     },
   };
 

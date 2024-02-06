@@ -26,12 +26,12 @@ test('Changing language on landing page', async (t) => {
   const header = await findHeader(t);
   const headerTabs = header.headerTabs();
   const languageSelector = header.languageSelector();
-  await headerTabs.expectations.eventsPageTabIsVisible();
+  await headerTabs.expectations.ownEventsPageTabIsVisible();
   await headerTabs.expectations.supportPageTabIsVisible();
 
   await languageSelector.actions.changeLanguage(SUPPORTED_LANGUAGES.EN);
 
-  await headerTabs.expectations.eventsPageTabIsVisible();
+  await headerTabs.expectations.ownEventsPageTabIsVisible();
   await headerTabs.expectations.supportPageTabIsVisible();
 });
 
@@ -45,11 +45,11 @@ test('Header tabs field work', async (t) => {
 
   // Search events page
   await headerTabs.actions.clickSearchEventsPageTab();
-  await urlUtils.expectations.urlChangedToEventSearchPage();
+  await urlUtils.expectations.urlChangedToSearchEventsPage();
   // Events page
-  await headerTabs.actions.clickEventsPageTab();
-  await urlUtils.expectations.urlChangedToEventsPage();
+  await headerTabs.actions.clickOwnEventsPageTab();
+  await urlUtils.expectations.urlChangedToOwnEventsPage();
   // Support page
   await headerTabs.actions.clickSupportPageTab();
-  await urlUtils.expectations.urlChangedToSupportPage();
+  await urlUtils.expectations.urlChangedToInstructionsPage();
 });
