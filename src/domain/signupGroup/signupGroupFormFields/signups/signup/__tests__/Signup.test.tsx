@@ -12,6 +12,11 @@ import {
   render,
   screen,
 } from '../../../../../../utils/testUtils';
+import {
+  registration,
+  registrationOverrides,
+} from '../../../../../registration/__mocks__/registration';
+import { REGISTRATION_MANDATORY_FIELDS } from '../../../../../registration/constants';
 import { SIGNUP_INITIAL_VALUES } from '../../../../constants';
 import { SignupGroupFormProvider } from '../../../../signupGroupFormContext/SignupGroupFormContext';
 import Signup, { SignupProps } from '../Signup';
@@ -19,7 +24,6 @@ import Signup, { SignupProps } from '../Signup';
 configure({ defaultHidden: true });
 
 const TEST_REGISTRATION_PRICE_GROUP_ID = 1;
-const registration = fakeRegistration();
 const registrationWithSignupGroup = fakeRegistration({
   registrationPriceGroups: [
     fakeRegistrationPriceGroup({
@@ -102,3 +106,35 @@ test('price group button should be disabled in editing mode', async () => {
 
   expect(screen.getByRole('button', { name: 'Hintaryhmä *' })).toBeDisabled();
 });
+
+test('should display all mandatory fields', () => {
+  renderComponent();
+  screen.getByLabelText(/etunimi/i);
+  screen.getByLabelText(/sukunimi/i);
+  screen.getByLabelText(/puhelinnumero/i);
+  screen.getByLabelText(/katuosoite/i);
+  screen.getByLabelText(/postinumero/i);
+  screen.getByLabelText(/kaupunki/i);
+});
+
+test.each([
+  [REGISTRATION_MANDATORY_FIELDS.FIRST_NAME, /etunimi/i],
+  [REGISTRATION_MANDATORY_FIELDS.LAST_NAME, /sukunimi/i],
+  [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER, /puhelinnumero/i],
+  [REGISTRATION_MANDATORY_FIELDS.STREET_ADDRESS, /katuosoite/i],
+  [REGISTRATION_MANDATORY_FIELDS.ZIPCODE, /postinumero/i],
+  [REGISTRATION_MANDATORY_FIELDS.CITY, /kaupunki/i],
+])(
+  'should hide not mandatory field, %s',
+  (mandatoryField, hiddenFieldLabel) => {
+    renderComponent({
+      registration: fakeRegistration({
+        ...registrationOverrides,
+        mandatoryFields: registrationOverrides.mandatoryFields.filter(
+          (i) => i !== mandatoryField
+        ),
+      }),
+    });
+    expect(screen.queryByLabelText(hiddenFieldLabel)).not.toBeInTheDocument();
+  }
+);
