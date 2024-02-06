@@ -2,13 +2,13 @@
 # an update to the specified branches or you push specified tags.
 trigger: none
 
-schedules: 
-# Every hour from 7 - 24 (finnish time winter time)
-- cron: '0 5-22 * * *'
-  branches: 
-    include: 
-    - main 
-  always: true
+# schedules: 
+# # Every hour from 7 - 24 (finnish time winter time)
+# - cron: '0 5-22 * * *'
+#   branches: 
+#     include: 
+#     - main 
+#   always: true
 
 # Pull request (PR) triggers cause a pipeline to run whenever a pull request is
 # opened with one of the specified target branches, or when updates are made to
