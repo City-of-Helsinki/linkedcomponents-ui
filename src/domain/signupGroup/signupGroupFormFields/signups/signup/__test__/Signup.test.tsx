@@ -15,6 +15,7 @@ configure({ defaultHidden: true });
 
 const defaultProps: SignupProps = {
   index: 0,
+  isEditingMode: false,
   onDelete: vi.fn(),
   registration: registration,
   signup: SIGNUP_INITIAL_VALUES,
