@@ -32,6 +32,7 @@ import {
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
+import useExistingUserOptions from '../hooks/useExistingUserOptions';
 import useOrganizationUpdateActions from '../hooks/useOrganizationActions';
 import useOrganizationInternalTypeOptions from '../hooks/useOrganizationInternalTypeOptions';
 import useOrganizationServerErrors from '../hooks/useOrganizationServerErrors';
@@ -59,6 +60,8 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
     ? ORGANIZATION_ACTIONS.UPDATE
     : ORGANIZATION_ACTIONS.CREATE;
   const id = getValue(organization?.id, '');
+
+  const existingUserOptions = useExistingUserOptions({ organization });
 
   const isEditingAllowed = checkCanUserDoAction({
     action,
@@ -232,6 +235,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 clearable
                 component={UserSelectorField}
                 disabled={!isEditingAllowed}
+                extraOptions={existingUserOptions}
                 label={t(`organization.form.labelAdminUsers`)}
                 name={ORGANIZATION_FIELDS.ADMIN_USERS}
               />
@@ -243,6 +247,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 clearable
                 component={UserSelectorField}
                 disabled={!isEditingAllowed}
+                extraOptions={existingUserOptions}
                 label={t(`organization.form.labelRegistrationAdminUsers`)}
                 name={ORGANIZATION_FIELDS.REGISTRATION_ADMIN_USERS}
               />
@@ -254,6 +259,19 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 clearable
                 component={UserSelectorField}
                 disabled={!isEditingAllowed}
+                extraOptions={existingUserOptions}
+                label={t(`organization.form.labelFinancialAdminUsers`)}
+                name={ORGANIZATION_FIELDS.FINANCIAL_ADMIN_USERS}
+              />
+            </FormRow>
+            <FormRow>
+              <Field
+                alignedLabel
+                className={styles.alignedSelect}
+                clearable
+                component={UserSelectorField}
+                disabled={!isEditingAllowed}
+                extraOptions={existingUserOptions}
                 label={t(`organization.form.labelRegularUsers`)}
                 name={ORGANIZATION_FIELDS.REGULAR_USERS}
               />

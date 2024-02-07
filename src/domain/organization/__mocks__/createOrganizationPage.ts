@@ -19,6 +19,7 @@ const payload = {
   affiliatedOrganizations: [],
   classification: organizationValues.classification,
   dataSource: organizationValues.dataSource,
+  financialAdminUsers: [],
   internalType: ORGANIZATION_INTERNAL_TYPE.NORMAL,
   name: organizationValues.name,
   parentOrganization: organizations.data[0]?.atId,

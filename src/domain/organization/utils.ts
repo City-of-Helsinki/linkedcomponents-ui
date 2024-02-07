@@ -362,6 +362,9 @@ export const getOrganizationInitialValues = (
     classification: getValue(organization.classification, ''),
     dataSource: getValue(organization.dataSource, ''),
     dissolutionDate: getDateFromString(dissolutionDate),
+    financialAdminUsers: getValue(organization.financialAdminUsers, []).map(
+      (o) => getValue(o?.username, '')
+    ),
     foundingDate: getDateFromString(foundingDate),
     id,
     internalType: organization.isAffiliated
@@ -391,6 +394,7 @@ export const getOrganizationPayload = (
   const {
     adminUsers,
     dissolutionDate,
+    financialAdminUsers,
     foundingDate,
     id,
     originId,
@@ -408,6 +412,7 @@ export const getOrganizationPayload = (
     dissolutionDate: dissolutionDate
       ? formatDate(dissolutionDate, DATE_FORMAT_API)
       : null,
+    financialAdminUsers,
     foundingDate: foundingDate
       ? formatDate(foundingDate, DATE_FORMAT_API)
       : null,
@@ -421,4 +426,9 @@ export const getOrganizationPayload = (
 export const omitSensitiveDataFromOrganizationPayload = (
   payload: CreateOrganizationMutationInput | UpdateOrganizationMutationInput
 ): Partial<CreateOrganizationMutationInput | UpdateOrganizationMutationInput> =>
-  omit(payload, ['adminUsers', 'registrationAdminUsers', 'regularUsers']);
+  omit(payload, [
+    'adminUsers',
+    'financialAdminUsers',
+    'registrationAdminUsers',
+    'regularUsers',
+  ]);

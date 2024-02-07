@@ -8,6 +8,7 @@ export const QUERY_USER = gql`
     departmentName
     displayName
     email
+    financialAdminOrganizations
     firstName
     isExternal
     isStaff

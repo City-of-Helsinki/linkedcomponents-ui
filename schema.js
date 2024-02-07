@@ -456,6 +456,7 @@ module.exports = buildSchema(/* GraphQL */ `
     classification: String
     dataSource: String
     dissolutionDate: String
+    financialAdminUsers: [String]
     foundingDate: String
     id: String
     internalType: String
@@ -474,6 +475,7 @@ module.exports = buildSchema(/* GraphQL */ `
     classification: String
     dataSource: String
     dissolutionDate: String
+    financialAdminUsers: [String]
     foundingDate: String
     id: String
     internalType: String
@@ -831,6 +833,7 @@ module.exports = buildSchema(/* GraphQL */ `
     createdTime: String
     dataSource: String
     dissolutionDate: String
+    financialAdminUsers: [User]
     foundingDate: String
     hasRegularUsers: Boolean
     id: String
@@ -914,6 +917,7 @@ module.exports = buildSchema(/* GraphQL */ `
     departmentName: String
     displayName: String
     email: String
+    financialAdminOrganizations: [String!]!
     firstName: String
     isExternal: Boolean
     isStaff: Boolean

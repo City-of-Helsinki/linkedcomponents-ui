@@ -3,7 +3,7 @@ import {
   UserQueryVariables,
   UsersQueryVariables,
 } from '../../generated/graphql';
-import { PathBuilderProps } from '../../types';
+import { OptionType, PathBuilderProps } from '../../types';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import { UserFields } from './types';
@@ -39,3 +39,16 @@ export const getUserFields = (user: UserFieldsFragment): UserFields => ({
   organizationMemberships: user.organizationMemberships,
   username: getValue(user.username, ''),
 });
+
+export const getUserOption = ({
+  user,
+}: {
+  user: UserFieldsFragment;
+}): OptionType => {
+  const { username: value, displayName, email } = getUserFields(user);
+
+  return {
+    label: `${displayName} - ${email}`,
+    value,
+  };
+};

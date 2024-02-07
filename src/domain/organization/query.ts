@@ -12,6 +12,9 @@ export const QUERY_ORGANIZATION = gql`
     createdTime
     dataSource
     dissolutionDate
+    financialAdminUsers {
+      ...userFields
+    }
     foundingDate
     hasRegularUsers
     id

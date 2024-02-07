@@ -1,25 +1,20 @@
+import sortBy from 'lodash/sortBy';
+import uniqBy from 'lodash/uniqBy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useAllUsers from '../../../domain/user/hooks/useAllUsers';
-import { getUserFields } from '../../../domain/user/utils';
-import { UserFieldsFragment } from '../../../generated/graphql';
+import { getUserOption } from '../../../domain/user/utils';
 import { OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import Combobox, { MultiComboboxProps } from '../combobox/Combobox';
 
-const getOption = ({ user }: { user: UserFieldsFragment }): OptionType => {
-  const { username: value, displayName, email } = getUserFields(user);
-
-  return {
-    label: `${displayName} - ${email}`,
-    value,
-  };
-};
-
-export type UserSelectorProps = MultiComboboxProps<string>;
+export type UserSelectorProps = {
+  extraOptions?: OptionType[];
+} & MultiComboboxProps<string>;
 
 const UserSelector: React.FC<UserSelectorProps> = ({
+  extraOptions = [],
   label,
   name,
   value,
@@ -31,11 +26,20 @@ const UserSelector: React.FC<UserSelectorProps> = ({
 
   const options: OptionType[] = React.useMemo(
     () =>
-      getValue(
-        users.map((user) => getOption({ user })),
-        []
+      sortBy(
+        uniqBy(
+          [
+            ...getValue(
+              users.map((user) => getUserOption({ user })),
+              []
+            ),
+            ...extraOptions,
+          ],
+          'value'
+        ),
+        'label'
       ),
-    [users]
+    [extraOptions, users]
   );
 
   const selectedUsers = options.filter(({ value: val }) => value.includes(val));
