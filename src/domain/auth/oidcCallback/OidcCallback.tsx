@@ -2,14 +2,18 @@
 import { LoginCallbackHandler, useApiTokensClient } from 'hds-react';
 import { User } from 'oidc-client-ts';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { OidcLoginState } from '../types';
 
 const OidcCallback: React.FC = () => {
   const location = useLocation();
   const { fetch } = useApiTokensClient();
+  const { addNotification } = useNotificationsContext();
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -29,6 +33,14 @@ const OidcCallback: React.FC = () => {
   const onError = () => {
     // In case used denies the access
     if (new URLSearchParams(location.hash.replace('#', '?')).get('error')) {
+      navigate('/', { replace: true });
+    } else if (
+      new URLSearchParams(location.search).get('error') === 'access_denied'
+    ) {
+      addNotification({
+        type: 'error',
+        label: t('common.authError.accessDenied'),
+      });
       navigate('/', { replace: true });
     }
   };

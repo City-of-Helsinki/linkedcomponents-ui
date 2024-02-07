@@ -62,6 +62,9 @@
     "affiliate": "Dotterbolag",
     "and": "och",
     "at": "kl {{time}}",
+    "authError": {
+      "accessDenied": "Tillträde beviljas ej"
+    },
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "breadcrumb": "Brödsmula",
