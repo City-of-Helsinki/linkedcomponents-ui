@@ -116,15 +116,48 @@ const mockedDraftEventsResponse: MockedResponse = {
   result: draftEventsResponse,
 };
 
+const ownPublishedEventsCount = 1;
+const ownPublishedEvents = fakeEvents(
+  ownPublishedEventsCount,
+  Array(ownPublishedEventsCount).fill({ publisher: organizationId })
+);
+const baseOwnPublishedEventsVariables = {
+  ...baseEventsVariables,
+  createdBy: 'me',
+  publicationStatus: 'public',
+  showAll: true,
+};
+const ownPublishedEventsResponse = {
+  data: { events: ownPublishedEvents },
+};
+const mockedBaseOwnPublishedEventsResponse: MockedResponse = {
+  request: {
+    query: EventsDocument,
+    variables: baseOwnPublishedEventsVariables,
+  },
+  result: ownPublishedEventsResponse,
+};
+const ownPublishedEventsVariables = {
+  ...baseOwnPublishedEventsVariables,
+  ...commonSearchVariables,
+};
+const mockedOwnPublishedEventsResponse: MockedResponse = {
+  request: { query: EventsDocument, variables: ownPublishedEventsVariables },
+  result: ownPublishedEventsResponse,
+};
+
 export {
   draftEventsCount,
   mockedBaseDraftEventsResponse,
+  mockedBaseOwnPublishedEventsResponse,
   mockedBasePublicEventsResponse,
   mockedBaseWaitingApprovalEventsResponse,
   mockedDraftEventsResponse,
+  mockedOwnPublishedEventsResponse,
   mockedPublicEventsResponse,
   mockedSortedWaitingApprovalEventsResponse,
   mockedWaitingApprovalEventsResponse,
+  ownPublishedEventsCount,
   publicEventsCount,
   waitingApprovalEvents,
   waitingApprovalEventsCount,

@@ -140,6 +140,13 @@ export const getEventsQueryBaseVariables = ({
         publicationStatus: PublicationStatus.Draft,
         showAll: true,
       };
+    case EVENTS_PAGE_TABS.OWN_PUBLISHED:
+      return {
+        ...baseVariables,
+        createdBy: 'me',
+        publicationStatus: PublicationStatus.Public,
+        showAll: true,
+      };
     case EVENTS_PAGE_TABS.PUBLISHED:
       return {
         ...baseVariables,
@@ -164,6 +171,7 @@ export const getEventsQuerySkip = (
 ): boolean => {
   switch (tab) {
     case EVENTS_PAGE_TABS.DRAFTS:
+    case EVENTS_PAGE_TABS.OWN_PUBLISHED:
       return false;
     case EVENTS_PAGE_TABS.PUBLISHED:
     case EVENTS_PAGE_TABS.WAITING_APPROVAL:

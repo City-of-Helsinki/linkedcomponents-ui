@@ -1014,6 +1014,7 @@
     },
     "eventsTableCaption": {
       "drafts": "Utkasta evenemangen, sorterade efter {{sort}}",
+      "ownPublished": "Egna publicerade evenemangen, sorterade efter {{sort}}",
       "published": "Publicerade evenemangen, sorterade efter {{sort}}",
       "waitingApproval": "Evenemangen som väntar på godkännande, sorterade efter {{sort}}"
     },
@@ -1046,6 +1047,7 @@
     },
     "tabs": {
       "drafts": "Utkast ({{count}})",
+      "ownPublished": "Egna publicerade ({{count}})",
       "published": "Publicerat ({{count}})",
       "waitingApproval": "Väntar ({{count}})"
     },

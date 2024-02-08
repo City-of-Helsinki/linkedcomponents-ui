@@ -18,12 +18,15 @@ import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   draftEventsCount,
   mockedBaseDraftEventsResponse,
+  mockedBaseOwnPublishedEventsResponse,
   mockedBasePublicEventsResponse,
   mockedBaseWaitingApprovalEventsResponse,
   mockedDraftEventsResponse,
+  mockedOwnPublishedEventsResponse,
   mockedPublicEventsResponse,
   mockedSortedWaitingApprovalEventsResponse,
   mockedWaitingApprovalEventsResponse,
+  ownPublishedEventsCount,
   publicEventsCount,
   waitingApprovalEvents,
   waitingApprovalEventsCount,
@@ -46,6 +49,8 @@ const mocks = [
   mockedSortedWaitingApprovalEventsResponse,
   mockedBasePublicEventsResponse,
   mockedPublicEventsResponse,
+  mockedBaseOwnPublishedEventsResponse,
+  mockedOwnPublishedEventsResponse,
   mockedBaseDraftEventsResponse,
   mockedDraftEventsResponse,
   mockedOrganizationResponse,
@@ -65,6 +70,7 @@ const getElement = (
     | 'createEventButton'
     | 'draftsTab'
     | 'eventCardType'
+    | 'ownPublishedTab'
     | 'publishedTab'
     | 'sortName'
     | 'waitingApprovalTab'
@@ -79,6 +85,10 @@ const getElement = (
       });
     case 'eventCardType':
       return screen.getByRole('radio', { name: /korttinäkymä/i });
+    case 'ownPublishedTab':
+      return screen.getByRole('tab', {
+        name: `Omat julkaistut (${ownPublishedEventsCount})`,
+      });
     case 'publishedTab':
       return screen.getByRole('tab', {
         name: `Julkaistut (${publicEventsCount})`,
@@ -97,12 +107,20 @@ const getElement = (
 };
 
 const findElement = (
-  key: 'draftsTable' | 'publishedTable' | 'sortOrderButton'
+  key:
+    | 'draftsTable'
+    | 'ownPublishedTable'
+    | 'publishedTable'
+    | 'sortOrderButton'
 ) => {
   switch (key) {
     case 'draftsTable':
       return screen.findByRole('table', {
         name: /luonnokset, järjestys viimeksi muokattu, laskeva/i,
+      });
+    case 'ownPublishedTable':
+      return screen.findByRole('table', {
+        name: /omat julkaistut tapahtumat, järjestys viimeksi muokattu, laskeva/i,
       });
     case 'publishedTable':
       return screen.findByRole('table', {
@@ -175,6 +193,19 @@ test('should change active tab to published', async () => {
   await user.click(publishedTab);
 
   await findElement('publishedTable');
+});
+
+test('should change active tab to own published', async () => {
+  const user = userEvent.setup();
+
+  renderComponent();
+
+  await loadingSpinnerIsNotInDocument(10000);
+
+  const ownPublishedTab = getElement('ownPublishedTab');
+  await user.click(ownPublishedTab);
+
+  await findElement('ownPublishedTable');
 });
 
 test('should change active tab to drafts', async () => {
