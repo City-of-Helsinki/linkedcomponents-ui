@@ -100,6 +100,10 @@
     "browser-test:prod": "BROWSER_TESTS_LINKED_EVENTS_URL=https://api.hel.fi/linkedevents/v1 BROWSER_TESTS_ENV_URL=https://linkedevents.hel.fi testcafe \"chrome --window-size='1920,1080'\" browser-tests/",
     "browser-test:azure": " testcafe \"chrome:headless --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video report --reporter spec,xunit:report.xml browser-tests/",
     "browser-test:ci": "testcafe \"chrome:headless --disable-gpu --window-size='1920,1080'\" --screenshots takeOnFails=true,path=report,fullPage=true --video report --reporter spec,html:report/index.html browser-tests/",
+    "test:e2e:install": "npx playwright install",
+    "test:e2e:ci": "npx playwright test",
+    "test:e2e:start": "npx playwright test",
+    "test:e2e:record": "npx playwright codegen https://linkedevents.dev.hel.ninja/",
     "lint": "eslint --ext js,ts,tsx src",
     "lint:fix": "eslint --ext js,ts,tsx src --fix"
   },
@@ -115,6 +119,7 @@
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@playwright/test": "^1.40.1",
     "@testing-library/testcafe": "^5.0.1",
     "@vitest/coverage-istanbul": "^0.34.6",
     "eslint": "^8.50.0",
