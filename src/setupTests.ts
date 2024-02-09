@@ -56,3 +56,7 @@ import.meta.env.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION = 'false';
 import.meta.env.REACT_APP_MAINTENANCE_DISABLE_LOGIN = 'false';
 import.meta.env.REACT_APP_ALLOWED_SUBSTITUTE_USER_DOMAINS = 'hel.fi';
 import.meta.env.REACT_APP_WEB_STORE_INTEGRATION_ENABLED = 'true';
+import.meta.env.REACT_APP_MATOMO_URL_BASE = 'https://www.test.fi/';
+import.meta.env.REACT_APP_MATOMO_SITE_ID = 'test123';
+import.meta.env.REACT_APP_MATOMO_SRC_URL = 'test.js';
+import.meta.env.REACT_APP_MATOMO_ENABLED = 'false';

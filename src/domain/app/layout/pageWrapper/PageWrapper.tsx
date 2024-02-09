@@ -1,4 +1,3 @@
-import { useMatomo } from '@datapunt/matomo-tracker-react';
 import classNames from 'classnames';
 import { useCookies } from 'hds-react';
 import React, { useMemo } from 'react';
@@ -6,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router';
 
+import useMatomo from '../../../../common/components/matomoTracker/hooks/useMatomo';
 import upperCaseFirstLetter from '../../../../utils/upperCaseFirstLetter';
 import styles from './pageWrapper.module.scss';
 
