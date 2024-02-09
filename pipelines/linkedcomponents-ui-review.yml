@@ -39,6 +39,7 @@ resources:
     - repository: linkedevents-pipelines
       type: git
       ref: refs/heads/playwright_e2e
+      
       # Azure DevOps project/repository
       name: linkedevents/linkedevents-pipelines
 
