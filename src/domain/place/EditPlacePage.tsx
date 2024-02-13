@@ -1,7 +1,7 @@
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -106,7 +106,6 @@ const EditPlacePage: React.FC<Props> = ({ place }) => {
 };
 
 const EditPlacePageWrapper: React.FC = () => {
-  const location = useLocation();
   const { loading: loadingUser } = useUser();
   const { id } = useParams<{ id: string }>();
 
@@ -125,13 +124,7 @@ const EditPlacePageWrapper: React.FC = () => {
   return (
     <PageWrapper title="editPlacePage.pageTitle">
       <LoadingSpinner isLoading={loading}>
-        {place ? (
-          <EditPlacePage place={place} />
-        ) : (
-          <NotFound
-            pathAfterSignIn={`${location.pathname}${location.search}`}
-          />
-        )}
+        {place ? <EditPlacePage place={place} /> : <NotFound />}
       </LoadingSpinner>
     </PageWrapper>
   );

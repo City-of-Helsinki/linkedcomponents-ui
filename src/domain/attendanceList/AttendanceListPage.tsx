@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -83,8 +82,6 @@ const AttendanceListPage: React.FC<AttendanceListPageProps> = ({
 };
 
 const AttendanceListPageWrapper: React.FC = () => {
-  const location = useLocation();
-
   const { loading, registration } = useRegistrationAndEventData({
     overrideRegistrationsVariables: {
       include: [...REGISTRATION_INCLUDES, 'signups'],
@@ -97,7 +94,7 @@ const AttendanceListPageWrapper: React.FC = () => {
       {registration ? (
         <AttendanceListPage registration={registration} />
       ) : (
-        <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
+        <NotFound />
       )}
     </LoadingSpinner>
   );

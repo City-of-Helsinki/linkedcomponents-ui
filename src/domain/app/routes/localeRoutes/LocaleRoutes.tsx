@@ -116,7 +116,10 @@ const LocaleRoutes: React.FC = () => {
               </HelpPageLayout>
             }
           />
-          <Route path="*" element={<NotFound />} />
+          <Route
+            path="*"
+            element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}
+          />
         </Routes>
       </React.Suspense>
     </PageLayout>

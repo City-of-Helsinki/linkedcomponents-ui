@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
@@ -115,7 +115,6 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
 };
 
 const EditOrganizationPageWrapper: React.FC = () => {
-  const location = useLocation();
   const { loading: loadingUser } = useUser();
   const { id } = useParams<{ id: string }>();
 
@@ -140,9 +139,7 @@ const EditOrganizationPageWrapper: React.FC = () => {
         {organization ? (
           <EditOrganizationPage organization={organization} />
         ) : (
-          <NotFound
-            pathAfterSignIn={`${location.pathname}${location.search}`}
-          />
+          <NotFound />
         )}
       </LoadingSpinner>
     </PageWrapper>

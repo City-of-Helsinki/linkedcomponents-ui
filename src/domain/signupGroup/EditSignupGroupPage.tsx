@@ -2,7 +2,6 @@ import { ApolloQueryResult } from '@apollo/client';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { useLocation } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
@@ -91,7 +90,6 @@ const EditSignupGroupPage: React.FC<Props> = ({
 };
 
 const EditSignupGroupPageWrapper: React.FC = () => {
-  const location = useLocation();
   const { signupGroupId } = useParams<{
     signupGroupId: string;
   }>();
@@ -129,7 +127,7 @@ const EditSignupGroupPageWrapper: React.FC = () => {
           </SignupServerErrorsProvider>
         </SignupGroupFormProvider>
       ) : (
-        <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
+        <NotFound />
       )}
     </LoadingSpinner>
   );

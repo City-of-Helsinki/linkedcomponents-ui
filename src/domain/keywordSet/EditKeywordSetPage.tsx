@@ -3,7 +3,7 @@
 import { Button } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
@@ -118,7 +118,6 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
 };
 
 const EditKeywordSetPageWrapper: React.FC = () => {
-  const location = useLocation();
   const { loading: loadingUser } = useUser();
   const { id } = useParams<{ id: string }>();
 
@@ -141,9 +140,7 @@ const EditKeywordSetPageWrapper: React.FC = () => {
         {keywordSet ? (
           <EditKeywordSetPage keywordSet={keywordSet} />
         ) : (
-          <NotFound
-            pathAfterSignIn={`${location.pathname}${location.search}`}
-          />
+          <NotFound />
         )}
       </LoadingSpinner>
     </PageWrapper>
