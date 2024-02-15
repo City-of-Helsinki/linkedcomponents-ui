@@ -236,7 +236,7 @@ const EventTimesTable: React.FC<EventTimesTableProps> = ({
         <HeaderRow>
           <th className={styles.indexColumn}>#</th>
           <th>{t('event.form.labelTime')}</th>
-          <th className={styles.buttonColumn}></th>
+          <th>{t('common.actions')}</th>
         </HeaderRow>
       </thead>
       <TableBody>

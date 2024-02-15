@@ -71,6 +71,7 @@ test('should render registrations table', async () => {
     'Jono',
     'Ilmoittautumisaika',
     'Tapahtuman ajankohta',
+    'Toiminnot',
   ];
 
   for (const name of columnHeaders) {

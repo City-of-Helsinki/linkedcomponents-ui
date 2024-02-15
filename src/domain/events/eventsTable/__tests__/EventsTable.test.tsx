@@ -54,6 +54,7 @@ test('should render events table', () => {
     'Alkuaika',
     'Loppuaika',
     'Status',
+    'Toiminnot',
   ];
 
   for (const name of columnHeaders) {

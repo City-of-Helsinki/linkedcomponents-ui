@@ -15,7 +15,6 @@ import {
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
-  keywordNames,
   keywords,
   mockedKeywordsResponse,
   mockedSortedKeywordsResponse,

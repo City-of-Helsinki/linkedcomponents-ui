@@ -115,7 +115,7 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
               setSortingAndOrder={setSortingAndOrder}
               sortIconType={'other'}
             />
-            <th></th>
+            <th>{t('common.actions')}</th>
           </HeaderRow>
         </thead>
         <TableBody>

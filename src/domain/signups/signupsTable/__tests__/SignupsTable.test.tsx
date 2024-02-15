@@ -100,6 +100,7 @@ test('should render signups table', async () => {
     'Yhteyshenkilön sähköposti',
     'Yhteyshenkilön puhelinnumero',
     'Status',
+    'Toiminnot',
   ];
 
   for (const name of columnHeaders) {

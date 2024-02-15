@@ -24,7 +24,6 @@ beforeEach(() => {
   mockAuthenticatedLoginState();
 });
 
-const keywordSetName = getValue(keywordSets.data[0]?.name?.fi, '');
 const keywordSetId = getValue(keywordSets.data[0]?.id, '');
 
 const defaultProps: KeywordSetsTableProps = {
@@ -46,7 +45,7 @@ const findKeywordSetRow = async (id: string) =>
 test('should render keywords table', () => {
   renderComponent();
 
-  const columnHeaders = ['ID', 'Nimi', 'Käyttötarkoitus'];
+  const columnHeaders = ['ID', 'Nimi', 'Käyttötarkoitus', 'Toiminnot'];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });

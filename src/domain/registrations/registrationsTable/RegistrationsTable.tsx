@@ -189,7 +189,7 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
 
         {
           key: '',
-          headerName: '',
+          headerName: t('common.actions'),
           transform: ActionsColumn,
         },
       ]}

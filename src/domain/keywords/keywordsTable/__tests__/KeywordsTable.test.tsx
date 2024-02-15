@@ -47,7 +47,7 @@ const findKeywordRow = async (id: string) =>
 test('should render keywords table', async () => {
   renderComponent();
 
-  const columnHeaders = ['ID', 'Nimi', 'Tapahtumien lkm'];
+  const columnHeaders = ['ID', 'Nimi', 'Tapahtumien lkm', 'Toiminnot'];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });

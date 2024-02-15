@@ -61,6 +61,7 @@ test('should render organizations table', () => {
     'Datalähde',
     'Luokittelu',
     'Pääorganisaatio',
+    'Toiminnot',
   ];
 
   for (const name of columnHeaders) {

@@ -288,7 +288,7 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
           },
           {
             key: 'actionButtons',
-            headerName: '',
+            headerName: t('common.actions'),
             transform: MemoizedSignupActionsDropdown,
           },
         ]}

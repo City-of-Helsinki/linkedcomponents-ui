@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { IconPhoto } from 'hds-react';
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -24,7 +24,11 @@ export interface ImagesTableProps {
   sort: IMAGE_SORT_OPTIONS;
 }
 
-const ImageColumn = (image: ImageFieldsFragment) => {
+type ColumnProps = {
+  image: ImageFieldsFragment;
+};
+
+const ImageColumn: FC<ColumnProps> = ({ image }) => {
   const locale = useLocale();
   const { url } = getImageFields(image, locale);
   const showPlaceholder = useShowPlaceholderImage(url);
@@ -46,7 +50,7 @@ const ImageColumn = (image: ImageFieldsFragment) => {
   );
 };
 
-const IdColumn = (image: ImageFieldsFragment) => {
+const IdColumn: FC<ColumnProps> = ({ image }) => {
   const locale = useLocale();
   const { imageUrl, id } = getImageFields(image, locale);
 
@@ -57,21 +61,21 @@ const IdColumn = (image: ImageFieldsFragment) => {
   );
 };
 
-const NameColumn = (image: ImageFieldsFragment) => {
+const NameColumn: FC<ColumnProps> = ({ image }) => {
   const locale = useLocale();
   const { name } = getImageFields(image, locale);
 
   return <>{name}</>;
 };
 
-const LastModifiedTimeColumn = (image: ImageFieldsFragment) => {
+const LastModifiedTimeColumn: FC<ColumnProps> = ({ image }) => {
   const locale = useLocale();
   const { lastModifiedTime } = getImageFields(image, locale);
 
   return <>{formatDate(lastModifiedTime)}</>;
 };
 
-const ActionColumn = (image: ImageFieldsFragment) => {
+const ActionsColumn: FC<ColumnProps> = ({ image }) => {
   return <ImageActionsDropdown image={image} />;
 };
 
@@ -97,6 +101,27 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
     };
   }, [sort]);
 
+  const MemoizedImageColumn = React.useCallback(
+    (image: ImageFieldsFragment) => <ImageColumn image={image} />,
+    []
+  );
+  const MemoizedIdColumn = React.useCallback(
+    (image: ImageFieldsFragment) => <IdColumn image={image} />,
+    []
+  );
+  const MemoizeNameColumn = React.useCallback(
+    (image: ImageFieldsFragment) => <NameColumn image={image} />,
+    []
+  );
+  const MemoizeLastModifiedTimeColumn = React.useCallback(
+    (image: ImageFieldsFragment) => <LastModifiedTimeColumn image={image} />,
+    []
+  );
+  const MemoizeActionsColumn = React.useCallback(
+    (image: ImageFieldsFragment) => <ActionsColumn image={image} />,
+    []
+  );
+
   return (
     <Table
       caption={caption}
@@ -104,33 +129,33 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
         {
           key: 'image',
           headerName: t('imagesPage.imagesTableColumns.image'),
-          transform: ImageColumn,
+          transform: MemoizedImageColumn,
         },
         {
           isSortable: true,
           key: IMAGE_SORT_OPTIONS.ID,
           headerName: t('imagesPage.imagesTableColumns.id'),
           sortIconType: 'string',
-          transform: IdColumn,
+          transform: MemoizedIdColumn,
         },
         {
           isSortable: true,
           key: IMAGE_SORT_OPTIONS.NAME,
           headerName: t('imagesPage.imagesTableColumns.name'),
           sortIconType: 'string',
-          transform: NameColumn,
+          transform: MemoizeNameColumn,
         },
         {
           isSortable: true,
           key: IMAGE_SORT_OPTIONS.LAST_MODIFIED_TIME,
           headerName: t('imagesPage.imagesTableColumns.lastModifiedTime'),
           sortIconType: 'other',
-          transform: LastModifiedTimeColumn,
+          transform: MemoizeLastModifiedTimeColumn,
         },
         {
           key: 'actionButtons',
-          headerName: '',
-          transform: ActionColumn,
+          headerName: t('common.actions'),
+          transform: MemoizeActionsColumn,
         },
       ]}
       hasActionButtons

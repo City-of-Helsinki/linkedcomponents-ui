@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -22,7 +22,11 @@ export interface KeywordsTableProps {
   sort: KEYWORD_SORT_OPTIONS;
 }
 
-const IdColumn = (keyword: KeywordFieldsFragment) => {
+type ColumnProps = {
+  keyword: KeywordFieldsFragment;
+};
+
+const IdColumn: FC<ColumnProps> = ({ keyword }) => {
   const locale = useLocale();
   const { keywordUrl, id } = getKeywordFields(keyword, locale);
 
@@ -33,21 +37,21 @@ const IdColumn = (keyword: KeywordFieldsFragment) => {
   );
 };
 
-const NameColumn = (keyword: KeywordFieldsFragment) => {
+const NameColumn: FC<ColumnProps> = ({ keyword }) => {
   const locale = useLocale();
   const { name } = getKeywordFields(keyword, locale);
 
   return <>{name}</>;
 };
 
-const EventsAmountColumn = (keyword: KeywordFieldsFragment) => {
+const EventsAmountColumn: FC<ColumnProps> = ({ keyword }) => {
   const locale = useLocale();
   const { nEvents } = getKeywordFields(keyword, locale);
 
   return <>{nEvents}</>;
 };
 
-const ActionsColumn = (keyword: KeywordFieldsFragment) => {
+const ActionsColumn: FC<ColumnProps> = ({ keyword }) => {
   return <KeywordActionsDropdown keyword={keyword} />;
 };
 
@@ -73,6 +77,25 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
     };
   }, [sort]);
 
+  const MemoizedIdColumn = React.useCallback(
+    (keyword: KeywordFieldsFragment) => <IdColumn keyword={keyword} />,
+    []
+  );
+  const MemoizedNameColumn = React.useCallback(
+    (keyword: KeywordFieldsFragment) => <NameColumn keyword={keyword} />,
+    []
+  );
+  const MemoizedEventsAmountColumn = React.useCallback(
+    (keyword: KeywordFieldsFragment) => (
+      <EventsAmountColumn keyword={keyword} />
+    ),
+    []
+  );
+  const MemoizedActionsColumn = React.useCallback(
+    (keyword: KeywordFieldsFragment) => <ActionsColumn keyword={keyword} />,
+    []
+  );
+
   return (
     <Table
       caption={caption}
@@ -82,26 +105,26 @@ const KeywordsTable: React.FC<KeywordsTableProps> = ({
           key: KEYWORD_SORT_OPTIONS.ID,
           headerName: t('keywordsPage.keywordsTableColumns.id'),
           sortIconType: 'string',
-          transform: IdColumn,
+          transform: MemoizedIdColumn,
         },
         {
           isSortable: true,
           key: KEYWORD_SORT_OPTIONS.NAME,
           headerName: t('keywordsPage.keywordsTableColumns.name'),
           sortIconType: 'string',
-          transform: NameColumn,
+          transform: MemoizedNameColumn,
         },
         {
           isSortable: true,
           key: KEYWORD_SORT_OPTIONS.N_EVENTS,
           headerName: t('keywordsPage.keywordsTableColumns.nEvents'),
           sortIconType: 'string',
-          transform: EventsAmountColumn,
+          transform: MemoizedEventsAmountColumn,
         },
         {
           key: 'actionButtons',
-          headerName: '',
-          transform: ActionsColumn,
+          headerName: t('common.actions'),
+          transform: MemoizedActionsColumn,
         },
       ]}
       hasActionButtons

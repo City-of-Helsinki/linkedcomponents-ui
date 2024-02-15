@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import { createMemoryHistory } from 'history';
 
-import getValue from '../../../utils/getValue';
 import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,

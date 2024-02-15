@@ -47,7 +47,13 @@ const findPlaceRow = async (id: string) =>
 test('should render places table', () => {
   renderComponent();
 
-  const columnHeaders = ['ID', 'Nimi', 'Tapahtumien lkm', 'Katuosoite'];
+  const columnHeaders = [
+    'ID',
+    'Nimi',
+    'Tapahtumien lkm',
+    'Katuosoite',
+    'Toiminnot',
+  ];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });

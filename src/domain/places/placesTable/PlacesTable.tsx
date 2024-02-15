@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -20,7 +20,11 @@ export interface PlacesTableProps {
   sort: PLACE_SORT_OPTIONS;
 }
 
-const IdColumn = (place: PlaceFieldsFragment) => {
+type ColumnProps = {
+  place: PlaceFieldsFragment;
+};
+
+const IdColumn: FC<ColumnProps> = ({ place }) => {
   const locale = useLocale();
   const { id, placeUrl } = getPlaceFields(place, locale);
 
@@ -31,28 +35,28 @@ const IdColumn = (place: PlaceFieldsFragment) => {
   );
 };
 
-const NameColumn = (place: PlaceFieldsFragment) => {
+const NameColumn: FC<ColumnProps> = ({ place }) => {
   const locale = useLocale();
   const { name } = getPlaceFields(place, locale);
 
   return <>{name}</>;
 };
 
-const EventsAmountColumn = (place: PlaceFieldsFragment) => {
+const EventsAmountColumn: FC<ColumnProps> = ({ place }) => {
   const locale = useLocale();
   const { nEvents } = getPlaceFields(place, locale);
 
   return <>{nEvents}</>;
 };
 
-const StreetAddressColumn = (place: PlaceFieldsFragment) => {
+const StreetAddressColumn: FC<ColumnProps> = ({ place }) => {
   const locale = useLocale();
   const { streetAddress } = getPlaceFields(place, locale);
 
   return <>{streetAddress}</>;
 };
 
-const ActionsColumn = (place: PlaceFieldsFragment) => {
+const ActionsColumn: FC<ColumnProps> = ({ place }) => {
   return <PlaceActionsDropdown place={place} />;
 };
 
@@ -78,6 +82,27 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
     };
   }, [sort]);
 
+  const MemoizedIdColumn = React.useCallback(
+    (place: PlaceFieldsFragment) => <IdColumn place={place} />,
+    []
+  );
+  const MemoizedNameColumn = React.useCallback(
+    (place: PlaceFieldsFragment) => <NameColumn place={place} />,
+    []
+  );
+  const MemoizedEventsAmountColumn = React.useCallback(
+    (place: PlaceFieldsFragment) => <EventsAmountColumn place={place} />,
+    []
+  );
+  const MemoizedStreetAddressColumn = React.useCallback(
+    (place: PlaceFieldsFragment) => <StreetAddressColumn place={place} />,
+    []
+  );
+  const MemoizedActionsColumn = React.useCallback(
+    (place: PlaceFieldsFragment) => <ActionsColumn place={place} />,
+    []
+  );
+
   return (
     <Table
       caption={caption}
@@ -88,33 +113,33 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           key: PLACE_SORT_OPTIONS.ID,
           headerName: t('placesPage.placesTableColumns.id'),
           sortIconType: 'string',
-          transform: IdColumn,
+          transform: MemoizedIdColumn,
         },
         {
           isSortable: true,
           key: PLACE_SORT_OPTIONS.NAME,
           headerName: t('placesPage.placesTableColumns.name'),
           sortIconType: 'string',
-          transform: NameColumn,
+          transform: MemoizedNameColumn,
         },
         {
           isSortable: true,
           key: PLACE_SORT_OPTIONS.N_EVENTS,
           headerName: t('placesPage.placesTableColumns.nEvents'),
           sortIconType: 'other',
-          transform: EventsAmountColumn,
+          transform: MemoizedEventsAmountColumn,
         },
         {
           isSortable: true,
           key: PLACE_SORT_OPTIONS.STREET_ADDRESS,
           headerName: t('placesPage.placesTableColumns.streetAddress'),
           sortIconType: 'other',
-          transform: StreetAddressColumn,
+          transform: MemoizedStreetAddressColumn,
         },
         {
           key: '',
-          headerName: '',
-          transform: ActionsColumn,
+          headerName: t('common.actions'),
+          transform: MemoizedActionsColumn,
         },
       ]}
       hasActionButtons

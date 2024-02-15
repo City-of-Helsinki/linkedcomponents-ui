@@ -46,7 +46,13 @@ const findImageRow = async (id: string) =>
 test('should render images table', () => {
   renderComponent();
 
-  const columnHeaders = ['Kuva', 'ID', 'Nimi', 'Viimeksi muokattu'];
+  const columnHeaders = [
+    'Kuva',
+    'ID',
+    'Nimi',
+    'Viimeksi muokattu',
+    'Toiminnot',
+  ];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });

@@ -98,7 +98,7 @@ const EventsTable: React.FC<EventsTableProps> = ({
           <th className={styles.statusColumn}>
             {t('eventsPage.eventsTableColumns.status')}
           </th>
-          <th></th>
+          <th>{t('common.actions')}</th>
         </HeaderRow>
       </thead>
       <TableBody>

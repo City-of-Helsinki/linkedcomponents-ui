@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -27,7 +27,11 @@ export interface KeywordSetsTableProps {
   sort: KEYWORD_SET_SORT_OPTIONS;
 }
 
-const IdColumn = (keywordSet: KeywordSetFieldsFragment) => {
+type ColumnProps = {
+  keywordSet: KeywordSetFieldsFragment;
+};
+
+const IdColumn: FC<ColumnProps> = ({ keywordSet }) => {
   const locale = useLocale();
   const { keywordSetUrl, id } = getKeywordSetFields(keywordSet, locale);
 
@@ -38,14 +42,14 @@ const IdColumn = (keywordSet: KeywordSetFieldsFragment) => {
   );
 };
 
-const NameColumn = (keywordSet: KeywordSetFieldsFragment) => {
+const NameColumn: FC<ColumnProps> = ({ keywordSet }) => {
   const locale = useLocale();
   const { name } = getKeywordSetFields(keywordSet, locale);
 
   return <>{name}</>;
 };
 
-const UsageColumn = (keywordSet: KeywordSetFieldsFragment) => {
+const UsageColumn: FC<ColumnProps> = ({ keywordSet }) => {
   const locale = useLocale();
   const { usage } = getKeywordSetFields(keywordSet, locale);
 
@@ -61,7 +65,7 @@ const UsageColumn = (keywordSet: KeywordSetFieldsFragment) => {
   return <>{getUsageText(usage)}</>;
 };
 
-const ActionsColumn = (keywordSet: KeywordSetFieldsFragment) => {
+const ActionsColumn: FC<ColumnProps> = ({ keywordSet }) => {
   return <KeywordSetActionsDropdown keywordSet={keywordSet} />;
 };
 
@@ -87,6 +91,31 @@ const KeywordSetsTable: React.FC<KeywordSetsTableProps> = ({
     };
   }, [sort]);
 
+  const MemoizedIdColumn = React.useCallback(
+    (keywordSet: KeywordSetFieldsFragment) => (
+      <IdColumn keywordSet={keywordSet} />
+    ),
+    []
+  );
+  const MemoizedNameColumn = React.useCallback(
+    (keywordSet: KeywordSetFieldsFragment) => (
+      <NameColumn keywordSet={keywordSet} />
+    ),
+    []
+  );
+  const MemoizedUsageColumn = React.useCallback(
+    (keywordSet: KeywordSetFieldsFragment) => (
+      <UsageColumn keywordSet={keywordSet} />
+    ),
+    []
+  );
+  const MemoizedActionsColumn = React.useCallback(
+    (keywordSet: KeywordSetFieldsFragment) => (
+      <ActionsColumn keywordSet={keywordSet} />
+    ),
+    []
+  );
+
   return (
     <Table
       caption={caption}
@@ -96,26 +125,26 @@ const KeywordSetsTable: React.FC<KeywordSetsTableProps> = ({
           key: KEYWORD_SET_SORT_OPTIONS.ID,
           headerName: t('keywordSetsPage.keywordSetsTableColumns.id'),
           sortIconType: 'string',
-          transform: IdColumn,
+          transform: MemoizedIdColumn,
         },
         {
           isSortable: true,
           key: KEYWORD_SET_SORT_OPTIONS.NAME,
           headerName: t('keywordSetsPage.keywordSetsTableColumns.name'),
           sortIconType: 'string',
-          transform: NameColumn,
+          transform: MemoizedNameColumn,
         },
         {
           isSortable: true,
           key: KEYWORD_SET_SORT_OPTIONS.USAGE,
           headerName: t('keywordSetsPage.keywordSetsTableColumns.usage'),
           sortIconType: 'string',
-          transform: UsageColumn,
+          transform: MemoizedUsageColumn,
         },
         {
           key: 'actionButtons',
-          headerName: '',
-          transform: ActionsColumn,
+          headerName: t('common.actions'),
+          transform: MemoizedActionsColumn,
         },
       ]}
       hasActionButtons
