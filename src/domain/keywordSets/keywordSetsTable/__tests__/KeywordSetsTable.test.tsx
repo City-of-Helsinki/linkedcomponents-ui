@@ -39,6 +39,10 @@ const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
 const renderComponent = (props?: Partial<KeywordSetsTableProps>) =>
   render(<KeywordSetsTable {...defaultProps} {...props} />, { mocks });
 
+const findKeywordSetRow = async (id: string) =>
+  (await screen.findByRole('link', { name: id })).parentElement
+    ?.parentElement as HTMLElement;
+
 test('should render keywords table', () => {
   renderComponent();
 
@@ -57,30 +61,16 @@ test('should render all keyword sets', async () => {
 
   // Test only first 2 to keep this test performant
   for (const name of keywordSetNames.slice(0, 2)) {
-    await screen.findByRole('button', { name });
+    await screen.findByText(name);
   }
 });
 
-test('should open edit keyword set page by clicking keyword set row', async () => {
+test('should open edit keyword set page by clicking keyword set id', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({ keywordSets: [keywordSets.data[0]] });
 
-  await user.click(screen.getByRole('button', { name: keywordSetName }));
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(
-      `/fi/administration/keyword-sets/edit/${keywordSetId}`
-    )
-  );
-});
-
-test('should open edit keyword set page by pressing enter on row', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent({ keywordSets: [keywordSets.data[0]] });
-
-  await user.type(
-    screen.getByRole('button', { name: keywordSetName }),
-    '{enter}'
+  await user.click(
+    screen.getByRole('link', { name: keywordSets.data[0]?.id as string })
   );
 
   await waitFor(() =>
@@ -119,7 +109,7 @@ test('should open actions dropdown', async () => {
   const { history } = renderComponent({ keywordSets: [keywordSets.data[0]] });
 
   const withinRow = within(
-    screen.getByRole('button', { name: keywordSetName })
+    await findKeywordSetRow(keywordSets.data[0]?.id as string)
   );
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
   await user.click(menuButton);

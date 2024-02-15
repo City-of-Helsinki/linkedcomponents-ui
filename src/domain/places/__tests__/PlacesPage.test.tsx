@@ -94,7 +94,7 @@ test('should render keywords page', async () => {
   getElement('createPlaceButton');
   getElement('searchInput');
   getElement('table');
-  screen.getByRole('button', { name: placeNames[0] });
+  screen.getByText(placeNames[0]);
 });
 
 test('applies expected metadata', async () => {
@@ -138,14 +138,15 @@ test('should add sort parameter to search query', async () => {
 
 it('scrolls to place row and calls history.replace correctly (deletes placeId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { placeId: places.data[0]?.id });
+  const placeId = places.data[0]?.id as string;
+  history.push(route, { placeId });
 
   const replaceSpy = vi.spyOn(history, 'replace');
 
   renderComponent({ history });
 
   await loadingSpinnerIsNotInDocument();
-  const keywordButton = screen.getByRole('button', { name: placeNames[0] });
+  const placeLink = screen.getByRole('link', { name: placeId });
 
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
@@ -155,5 +156,5 @@ it('scrolls to place row and calls history.replace correctly (deletes placeId fr
     )
   );
 
-  await waitFor(() => expect(keywordButton).toHaveFocus());
+  await waitFor(() => expect(placeLink).toHaveFocus());
 });

@@ -172,7 +172,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
       <tr>
         <td className={styles.indexColumn}>{startIndex + index}</td>
         <td>{dateText}</td>
-        <td className={styles.buttonColumn}>
+        <td>
           <MenuDropdown
             button={
               <button
@@ -227,7 +227,11 @@ const EventTimesTable: React.FC<EventTimesTableProps> = ({
   }
 
   return (
-    <CustomTable className={styles.eventTimesTable} variant="light">
+    <CustomTable
+      className={styles.eventTimesTable}
+      hasActionButtons
+      variant="light"
+    >
       <thead>
         <HeaderRow>
           <th className={styles.indexColumn}>#</th>

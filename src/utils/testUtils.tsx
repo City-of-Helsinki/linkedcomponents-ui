@@ -167,13 +167,20 @@ const pasteToTextEditor = (
   fireEvent(editor, pasteEvent);
 };
 
-const loadingSpinnerIsNotInDocument = async (timeout = 5000): Promise<void> =>
-  waitFor(
+const loadingSpinnerIsNotInDocument = async (timeout = 5000): Promise<void> => {
+  await waitFor(
     () => {
       expect(screen.queryAllByTestId(testIds.loadingSpinner)).toHaveLength(0);
     },
     { timeout }
   );
+  await waitFor(
+    () => {
+      expect(screen.queryAllByText('Lataaminen päättynyt')).toHaveLength(0);
+    },
+    { timeout }
+  );
+};
 
 const waitReducerToBeCalled = async (
   dispatch: SpyInstance,

@@ -134,14 +134,15 @@ test('should add sort parameter to search query', async () => {
 
 it('scrolls to image row and calls history.replace correctly (deletes imageId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { imageId: images.data[0]?.id });
+  const imageId = images.data[0]?.id as string;
+  history.push(route, { imageId });
 
   const replaceSpy = vi.spyOn(history, 'replace');
 
   renderComponent({ history });
 
   await loadingSpinnerIsNotInDocument();
-  const imageButton = screen.getByRole('button', { name: imageNames[0] });
+  const imageLink = screen.getByRole('link', { name: imageId });
 
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
@@ -151,5 +152,5 @@ it('scrolls to image row and calls history.replace correctly (deletes imageId fr
     )
   );
 
-  await waitFor(() => expect(imageButton).toHaveFocus());
+  await waitFor(() => expect(imageLink).toHaveFocus());
 });

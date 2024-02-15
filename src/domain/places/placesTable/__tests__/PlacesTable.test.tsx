@@ -1,5 +1,6 @@
 import { fakePlaces } from '../../../../utils/mockDataUtils';
 import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
+import skipFalsyType from '../../../../utils/skipFalsyType';
 import {
   configure,
   render,
@@ -10,7 +11,7 @@ import {
 } from '../../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PLACE_ID } from '../../../place/constants';
-import { placeNames, places } from '../../__mocks__/placesPage';
+import { places } from '../../__mocks__/placesPage';
 import { PLACE_SORT_OPTIONS } from '../../constants';
 import PlacesTable, { PlacesTableProps } from '../PlacesTable';
 
@@ -39,6 +40,10 @@ const mocks = [mockedOrganizationAncestorsResponse];
 const renderComponent = (props?: Partial<PlacesTableProps>) =>
   render(<PlacesTable {...defaultProps} {...props} />, { mocks });
 
+const findPlaceRow = async (id: string) =>
+  (await screen.findByRole('link', { name: id })).parentElement
+    ?.parentElement as HTMLElement;
+
 test('should render places table', () => {
   renderComponent();
 
@@ -56,31 +61,19 @@ test('should render all places', () => {
   renderComponent({ places: places.data });
 
   // Test only first 2 to keep this test performant
-  for (const name of placeNames.slice(0, 2)) {
-    screen.getByRole('button', { name });
+  for (const { id } of places.data.filter(skipFalsyType).slice(0, 2)) {
+    screen.getByRole('link', { name: id as string });
   }
 });
 
-test('should open edit place page by clicking keyword', async () => {
+test('should open edit place page by clicking place id', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({
     places: fakePlaces(1, [{ name: { fi: placeName }, id: placeId }]).data,
   });
 
-  await user.click(screen.getByRole('button', { name: placeName }));
+  await user.click(screen.getByRole('link', { name: placeId }));
 
-  expect(history.location.pathname).toBe(
-    `/fi/administration/places/edit/${placeId}`
-  );
-});
-
-test('should open edit keyword page by pressing enter on row', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent({
-    places: fakePlaces(1, [{ name: { fi: placeName }, id: placeId }]).data,
-  });
-
-  await user.type(screen.getByRole('button', { name: placeName }), '{enter}');
   expect(history.location.pathname).toBe(
     `/fi/administration/places/edit/${placeId}`
   );
@@ -115,7 +108,7 @@ test('should open actions dropdown', async () => {
     places: fakePlaces(1, [{ name: { fi: placeName }, id: placeId }]).data,
   });
 
-  const withinRow = within(screen.getByRole('button', { name: placeName }));
+  const withinRow = within(await findPlaceRow(placeId));
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
   await user.click(menuButton);
 

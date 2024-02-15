@@ -131,18 +131,17 @@ test('should add sort parameter to search query', async () => {
   expect(history.location.search).toBe('?sort=name');
 });
 
-it('scrolls to keyword row and calls history.replace correctly (deletes keywordSetId from state)', async () => {
+it('scrolls to keyword set id and calls history.replace correctly (deletes keywordSetId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { keywordSetId: keywordSets.data[0]?.id });
+  const keywordSetId = keywordSets.data[0]?.id as string;
+  history.push(route, { keywordSetId });
 
   const replaceSpy = vi.spyOn(history, 'replace');
 
   renderComponent({ history });
 
   await loadingSpinnerIsNotInDocument();
-  const keywordSetButton = screen.getByRole('button', {
-    name: keywordSetNames[0],
-  });
+  const keywordSetButton = screen.getByRole('link', { name: keywordSetId });
 
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(

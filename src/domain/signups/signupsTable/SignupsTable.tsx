@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
 import Table from '../../../common/components/table/Table';
-import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import {
   RegistrationFieldsFragment,
   SignupFieldsFragment,
@@ -42,7 +41,7 @@ type ColumnProps = {
 const NameColumn: FC<ColumnProps> = ({ registration, signup }) => {
   const language = useLocale();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
-  const { fullName, signupGroupUrl, signupUrl } = getSignupFields({
+  const { fullName, id, signupGroupUrl, signupUrl } = getSignupFields({
     language,
     registration,
     signup,
@@ -52,6 +51,7 @@ const NameColumn: FC<ColumnProps> = ({ registration, signup }) => {
     <div className={styles.nameWrapper}>
       <Link
         className={styles.signupName}
+        id={getSignupItemId(id)}
         title={fullName}
         to={{
           pathname: signupGroupUrl ?? signupUrl,
@@ -165,8 +165,6 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const locale = useLocale();
-  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
   const signupListId = useIdWithPrefix({
     prefix: 'signup-attendee-list-',
@@ -196,18 +194,6 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
     pagePath,
     pageSize: SIGNUPS_PAGE_SIZE,
   });
-
-  const handleRowClick = (signup: object) => {
-    const { signupUrl, signupGroupUrl } = getSignupFields({
-      language: locale,
-      registration,
-      signup: signup as SignupFieldsFragment,
-    });
-    navigate({
-      pathname: signupGroupUrl || signupUrl,
-      search: queryStringWithReturnPath,
-    });
-  };
 
   React.useEffect(() => {
     const locationState = location.state as SignupsLocationState;
@@ -270,89 +256,57 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
     <div id={signupListId}>
       <h2 className={styles.heading}>{heading}</h2>
 
-      <TableWrapper>
-        <Table
-          caption={caption}
-          className={styles.signupsTable}
-          cols={[
-            {
-              className: styles.nameColumn,
-              key: 'name',
-              headerName: t('signupsPage.signupsTableColumns.name'),
-              onClick: (ev) => {
-                ev.stopPropagation();
-                ev.preventDefault();
-              },
-              transform: MemoizedNameColumn,
-            },
-            {
-              className: styles.phoneColumn,
-              key: 'phone',
-              headerName: t('signupsPage.signupsTableColumns.phoneNumber'),
-              transform: MemoizedPhoneColumn,
-            },
-            {
-              className: styles.emailColumn,
-              key: 'contactPersonEmail',
-              headerName: t(
-                'signupsPage.signupsTableColumns.contactPersonEmail'
-              ),
-              transform: MemoizedContactPersonEmailColumn,
-            },
-            {
-              className: styles.phoneColumn,
-              key: 'contactPersonPhone',
-              headerName: t(
-                'signupsPage.signupsTableColumns.contactPersonPhoneNumber'
-              ),
-              transform: MemoizedContactPersonPhoneColumn,
-            },
-            {
-              className: styles.statusColumn,
-              key: 'status',
-              headerName: t('signupsPage.signupsTableColumns.status'),
-              transform: MemoizedAttendeeStatusColumn,
-            },
-            {
-              className: styles.actionButtonsColumn,
-              key: 'actionButtons',
-              headerName: '',
-              onClick: (ev) => {
-                ev.stopPropagation();
-                ev.preventDefault();
-              },
-              transform: MemoizedSignupActionsDropdown,
-            },
-          ]}
-          getRowProps={(signup) => {
-            const { id, fullName } = getSignupFields({
-              language: locale,
-              registration,
-              signup: signup as SignupFieldsFragment,
-            });
+      <Table
+        caption={caption}
+        cols={[
+          {
+            key: 'name',
+            headerName: t('signupsPage.signupsTableColumns.name'),
+            transform: MemoizedNameColumn,
+          },
+          {
+            key: 'phone',
+            headerName: t('signupsPage.signupsTableColumns.phoneNumber'),
+            transform: MemoizedPhoneColumn,
+          },
+          {
+            key: 'contactPersonEmail',
+            headerName: t('signupsPage.signupsTableColumns.contactPersonEmail'),
+            transform: MemoizedContactPersonEmailColumn,
+          },
+          {
+            key: 'contactPersonPhone',
+            headerName: t(
+              'signupsPage.signupsTableColumns.contactPersonPhoneNumber'
+            ),
+            transform: MemoizedContactPersonPhoneColumn,
+          },
+          {
+            key: 'status',
+            headerName: t('signupsPage.signupsTableColumns.status'),
+            transform: MemoizedAttendeeStatusColumn,
+          },
+          {
+            key: 'actionButtons',
+            headerName: '',
+            transform: MemoizedSignupActionsDropdown,
+          },
+        ]}
+        hasActionButtons
+        indexKey="id"
+        loading={loading}
+        rows={signups}
+        variant="light"
+      />
 
-            return {
-              'aria-label': fullName,
-              'data-testid': id,
-              id: getSignupItemId(id),
-            };
-          }}
-          indexKey="id"
-          loading={loading}
-          onRowClick={handleRowClick}
-          rows={signups}
-          variant="light"
+      {pageCount > 1 && (
+        <Pagination
+          pageCount={pageCount}
+          pageHref={pageHref}
+          pageIndex={page - 1}
+          onChange={onPageChange}
         />
-
-        {pageCount > 1 && (
-          <Pagination
-            pageCount={pageCount}
-            pageHref={pageHref}
-            pageIndex={page - 1}
-            onChange={onPageChange}
-          />
-        )}
-      </TableWrapper>
+      )}
     </div>
   );
 };

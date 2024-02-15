@@ -3,185 +3,189 @@
 exports[`<Table /> spec > renders the component 1`] = `
 <DocumentFragment>
   <div
-    class="container"
-    tabindex="0"
+    class="tableWrapper"
   >
-    <table
-      class="table dark"
-      data-testid="hds-table-data-testid"
-      id="hds-table-id"
+    <div
+      class="Table-module_container__1CPuY table_hds-table-container__24SMd"
+      tabindex="0"
     >
-      <caption
-        class="caption"
+      <table
+        class="Table-module_table__3pIAR table_hds-table__nft5d Table-module_light__3eGYC"
+        data-testid="hds-table-data-testid"
+        id="hds-table-id"
       >
-        <span>
-          <b>
-            Table 1
-          </b>
-          : Table description
-        </span>
-      </caption>
-      <thead>
-        <tr
-          class="headerRow"
+        <caption
+          class="Table-module_caption__1l5F2 table_hds-table__caption__2oBXN"
         >
-          <th
-            scope="col"
+          <span>
+            <b>
+              Table 1
+            </b>
+            : Table description
+          </span>
+        </caption>
+        <thead>
+          <tr
+            class="Table-module_headerRow__1P1Ko table_hds-table__header-row__2UlyP"
           >
-            First name
-          </th>
-          <th
-            scope="col"
-          >
-            Surname
-          </th>
-          <th
-            scope="col"
-          >
-            Age
-          </th>
-          <th
-            scope="col"
-          >
-            Profession
-          </th>
-        </tr>
-      </thead>
-      <tbody
-        class="content"
-      >
-        <tr>
-          <td
-            data-testid="firstName-0"
-          >
-            Lauri
-          </td>
-          <td
-            data-testid="surname-0"
-          >
-            Kekkonen
-          </td>
-          <td
-            data-testid="age-0"
-          >
-            <div
-              style="text-align: right;"
+            <th
+              scope="col"
             >
-              39
-            </div>
-          </td>
-          <td
-            data-testid="profession-0"
-          >
-            Engineer
-          </td>
-        </tr>
-        <tr>
-          <td
-            data-testid="firstName-1"
-          >
-            Maria
-          </td>
-          <td
-            data-testid="surname-1"
-          >
-            Sarasoja
-          </td>
-          <td
-            data-testid="age-1"
-          >
-            <div
-              style="text-align: right;"
+              First name
+            </th>
+            <th
+              scope="col"
             >
-              62
-            </div>
-          </td>
-          <td
-            data-testid="profession-1"
-          >
-            Designer
-          </td>
-        </tr>
-        <tr>
-          <td
-            data-testid="firstName-2"
-          >
-            Anneli
-          </td>
-          <td
-            data-testid="surname-2"
-          >
-            Routa
-          </td>
-          <td
-            data-testid="age-2"
-          >
-            <div
-              style="text-align: right;"
+              Surname
+            </th>
+            <th
+              scope="col"
             >
-              50
-            </div>
-          </td>
-          <td
-            data-testid="profession-2"
-          >
-            Meteorologist
-          </td>
-        </tr>
-        <tr>
-          <td
-            data-testid="firstName-3"
-          >
-            Osku
-          </td>
-          <td
-            data-testid="surname-3"
-          >
-            Rausku
-          </td>
-          <td
-            data-testid="age-3"
-          >
-            <div
-              style="text-align: right;"
+              Age
+            </th>
+            <th
+              scope="col"
             >
-              18
-            </div>
-          </td>
-          <td
-            data-testid="profession-3"
-          >
-            Mail Carrier
-          </td>
-        </tr>
-        <tr>
-          <td
-            data-testid="firstName-4"
-          >
-            Linda
-          </td>
-          <td
-            data-testid="surname-4"
-          >
-            Koululainen
-          </td>
-          <td
-            data-testid="age-4"
-          >
-            <div
-              style="text-align: right;"
+              Profession
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          class="Table-module_content__36xU2 table_hds-table__content__3WvvL"
+        >
+          <tr>
+            <td
+              data-testid="firstName-0"
             >
-              8
-            </div>
-          </td>
-          <td
-            data-testid="profession-4"
-          >
-            School student
-          </td>
-        </tr>
-      </tbody>
-    </table>
+              Lauri
+            </td>
+            <td
+              data-testid="surname-0"
+            >
+              Kekkonen
+            </td>
+            <td
+              data-testid="age-0"
+            >
+              <div
+                style="text-align: right;"
+              >
+                39
+              </div>
+            </td>
+            <td
+              data-testid="profession-0"
+            >
+              Engineer
+            </td>
+          </tr>
+          <tr>
+            <td
+              data-testid="firstName-1"
+            >
+              Maria
+            </td>
+            <td
+              data-testid="surname-1"
+            >
+              Sarasoja
+            </td>
+            <td
+              data-testid="age-1"
+            >
+              <div
+                style="text-align: right;"
+              >
+                62
+              </div>
+            </td>
+            <td
+              data-testid="profession-1"
+            >
+              Designer
+            </td>
+          </tr>
+          <tr>
+            <td
+              data-testid="firstName-2"
+            >
+              Anneli
+            </td>
+            <td
+              data-testid="surname-2"
+            >
+              Routa
+            </td>
+            <td
+              data-testid="age-2"
+            >
+              <div
+                style="text-align: right;"
+              >
+                50
+              </div>
+            </td>
+            <td
+              data-testid="profession-2"
+            >
+              Meteorologist
+            </td>
+          </tr>
+          <tr>
+            <td
+              data-testid="firstName-3"
+            >
+              Osku
+            </td>
+            <td
+              data-testid="surname-3"
+            >
+              Rausku
+            </td>
+            <td
+              data-testid="age-3"
+            >
+              <div
+                style="text-align: right;"
+              >
+                18
+              </div>
+            </td>
+            <td
+              data-testid="profession-3"
+            >
+              Mail Carrier
+            </td>
+          </tr>
+          <tr>
+            <td
+              data-testid="firstName-4"
+            >
+              Linda
+            </td>
+            <td
+              data-testid="surname-4"
+            >
+              Koululainen
+            </td>
+            <td
+              data-testid="age-4"
+            >
+              <div
+                style="text-align: right;"
+              >
+                8
+              </div>
+            </td>
+            <td
+              data-testid="profession-4"
+            >
+              School student
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </DocumentFragment>
 `;

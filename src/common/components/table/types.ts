@@ -1,7 +1,5 @@
+/* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MouseEvent, ReactElement } from 'react';
-
-/* eslint-disable max-len */
 export type Header = {
   className?: string;
   /**
@@ -24,12 +22,12 @@ export type Header = {
    * Sort icon type to be used in sorting. Use type string if the content is a string, otherwise use type other.
    * @default 'string'
    */
-  onClick?: (event: MouseEvent) => void;
   sortIconType?: 'string' | 'other';
   /**
    * Transform function for the corresponding row data. Use this to render custom content inside the table cell.
    */
-  transform?: ({ args }: any, index: number) => string | ReactElement; // eslint-disable-line @typescript-eslint/no-explicit-any
+  transform?: ({ args }: any) => string | JSX.Element;
 };
 
 export type Order = 'asc' | 'desc';
+export type OrderWithUnset = Order | 'unset';

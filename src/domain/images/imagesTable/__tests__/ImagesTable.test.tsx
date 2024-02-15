@@ -39,6 +39,10 @@ const mocks = [mockedOrganizationAncestorsResponse];
 const renderComponent = (props?: Partial<ImagesTableProps>) =>
   render(<ImagesTable {...defaultProps} {...props} />, { mocks });
 
+const findImageRow = async (id: string) =>
+  (await screen.findByRole('link', { name: id })).parentElement
+    ?.parentElement as HTMLElement;
+
 test('should render images table', () => {
   renderComponent();
 
@@ -56,30 +60,17 @@ test('should render all images', () => {
   renderComponent({ images: images.data });
 
   for (const name of imageNames) {
-    screen.getByRole('button', { name });
+    screen.getByText(name);
   }
 });
 
-test('should open edit image page by clicking keyword', async () => {
+test('should open edit image page by clicking image id', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({
     images: fakeImages(1, [{ name: imageName, id: imageId }]).data,
   });
 
-  await user.click(screen.getByRole('button', { name: imageName }));
-
-  expect(history.location.pathname).toBe(
-    `/fi/administration/images/edit/${imageId}`
-  );
-});
-
-test('should open edit keyword page by pressing enter on row', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent({
-    images: fakeImages(1, [{ name: imageName, id: imageId }]).data,
-  });
-
-  await user.type(screen.getByRole('button', { name: imageName }), '{enter}');
+  await user.click(screen.getByRole('link', { name: imageId }));
 
   expect(history.location.pathname).toBe(
     `/fi/administration/images/edit/${imageId}`
@@ -106,7 +97,7 @@ test('should open actions dropdown', async () => {
     images: fakeImages(1, [{ name: imageName, id: imageId }]).data,
   });
 
-  const withinRow = within(screen.getByRole('button', { name: imageName }));
+  const withinRow = within(await findImageRow(imageId));
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
   await user.click(menuButton);
 

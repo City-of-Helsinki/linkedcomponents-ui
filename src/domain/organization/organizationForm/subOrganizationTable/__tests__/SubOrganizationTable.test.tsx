@@ -53,28 +53,10 @@ test('should open sub organization edit page', async () => {
     name: `${props.title}, järjestys Nimi, nouseva`,
   });
 
-  const organizationButton = await screen.findByRole('button', {
+  const organizationButton = await screen.findByRole('link', {
     name: getValue(organizations.data[0]?.name, ''),
   });
   await user.click(organizationButton);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(
-      `/fi/administration/organizations/edit/${organizations.data[0]?.id}`
-    )
-  );
-});
-
-test('should open sub organization edit page by pressing enter on row', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent();
-
-  await loadingSpinnerIsNotInDocument();
-
-  const organizationButton = await screen.findByRole('button', {
-    name: getValue(organizations.data[0]?.name, ''),
-  });
-  await user.type(organizationButton, '{enter}');
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(

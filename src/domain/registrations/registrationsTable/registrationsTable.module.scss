@@ -1,18 +1,3 @@
-.nameColumn,
-.publisherColumn {
-  width: 50%;
-}
-
-.nameColumn {
-  max-width: 360px;
-}
-
-.publisherColumn {
-  max-width: 200px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
 .nameWrapper {
   display: flex;
   align-items: center;
@@ -21,13 +6,4 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-}
-
-.signupsColumn,
-.waitingListColumn {
-  white-space: nowrap;
-}
-
-.actionButtonsColumn {
-  padding: var(--focus-outline-width) !important;
 }

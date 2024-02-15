@@ -48,6 +48,10 @@ const mocks = [
 const renderComponent = (props?: Partial<OrganizationsTableProps>) =>
   render(<OrganizationsTable {...defaultProps} {...props} />, { mocks });
 
+const findOrganizationRow = async (name: string) =>
+  (await screen.findByRole('link', { name })).parentElement?.parentElement
+    ?.parentElement?.parentElement as HTMLElement;
+
 test('should render organizations table', () => {
   renderComponent();
 
@@ -72,33 +76,17 @@ test('should render all organizations', () => {
   renderComponent({ organizations: organizationItems });
 
   for (const { name } of organizationItems) {
-    screen.getByRole('button', { name: getValue(name, '') });
+    screen.getByRole('link', { name: getValue(name, '') });
   }
 });
 
-test('should open edit organization page by clicking organization', async () => {
+test('should open edit organization page by clicking organization name', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({
     organizations: organizations.data as Organization[],
   });
 
-  await user.click(screen.getByRole('button', { name: organizationName }));
-
-  expect(history.location.pathname).toBe(
-    `/fi/administration/organizations/edit/${organizationId}`
-  );
-});
-
-test('should open edit organization page by pressing enter on row', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent({
-    organizations: organizations.data as Organization[],
-  });
-
-  await user.type(
-    screen.getByRole('button', { name: organizationName }),
-    '{enter}'
-  );
+  await user.click(screen.getByRole('link', { name: organizationName }));
 
   expect(history.location.pathname).toBe(
     `/fi/administration/organizations/edit/${organizationId}`
@@ -129,9 +117,7 @@ test('should open actions dropdown', async () => {
     organizations: organizations.data as Organization[],
   });
 
-  const withinRow = within(
-    screen.getByRole('button', { name: organizationName })
-  );
+  const withinRow = within(await findOrganizationRow(organizationName));
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
   await user.click(menuButton);
 

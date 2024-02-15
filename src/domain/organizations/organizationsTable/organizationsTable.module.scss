@@ -26,12 +26,3 @@
 .parentColumn {
   max-width: 200px;
 }
-
-.actionButtonsColumn {
-  width: 1%;
-  padding: var(--focus-outline-width) !important;
-}
-
-.clickableRow {
-  composes: clickableRow from '../../../common/components/table/clickableRow.module.scss';
-}

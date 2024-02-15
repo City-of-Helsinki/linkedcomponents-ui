@@ -1,8 +1,10 @@
+import { Order } from '../common/components/table/types';
+
 const getSortByOrderAndColKey = ({
   order,
   colKey,
 }: {
-  order: 'asc' | 'desc';
+  order: Order;
   colKey: string;
 }) => (order === 'asc' ? colKey : `-${colKey}`);
 

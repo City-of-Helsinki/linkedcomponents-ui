@@ -1,21 +1,3 @@
-.signupsTable {
-  --table-head-background: var(--color-white);
-}
-
-.nameColumn,
-.emailColumn,
-.phoneColumn {
-  width: 25%;
-}
-
-.statusColumn {
-  width: 10%;
-}
-
-.nameColumn {
-  max-width: 360px;
-}
-
 .nameWrapper {
   display: flex;
   align-items: center;
@@ -24,15 +6,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-}
-
-.actionButtonsColumn {
-  width: 1%;
-  padding: var(--focus-outline-width) !important;
-}
-
-.statusOk {
-  color: var(--color-success);
 }
 
 .heading {

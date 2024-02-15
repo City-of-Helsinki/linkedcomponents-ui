@@ -1,7 +1,6 @@
 import isNumber from 'lodash/isNumber';
-import React from 'react';
+import React, { FC, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import Table from '../../../common/components/table/Table';
@@ -27,10 +26,14 @@ export interface RegistrationsTableProps {
   registrations: RegistrationsQuery['registrations']['data'];
 }
 
-const NameColumn = (registration: RegistrationFieldsFragment) => {
+type ColumnProps = {
+  registration: RegistrationFieldsFragment;
+};
+
+const NameColumn: FC<ColumnProps> = ({ registration }) => {
   const locale = useLocale();
   const queryStringWithReturnPath = useQueryStringWithReturnPath();
-  const { event, registrationUrl } = getRegistrationFields(
+  const { event, id, registrationUrl } = getRegistrationFields(
     registration,
     locale
   );
@@ -39,6 +42,7 @@ const NameColumn = (registration: RegistrationFieldsFragment) => {
     <div className={styles.nameWrapper}>
       <Link
         className={styles.registrationName}
+        id={getRegistrationItemId(id)}
         title={event?.name}
         to={{ pathname: registrationUrl, search: queryStringWithReturnPath }}
       >
@@ -48,11 +52,11 @@ const NameColumn = (registration: RegistrationFieldsFragment) => {
   );
 };
 
-const PublisherColumn = (registration: RegistrationFieldsFragment) => {
+const PublisherColumn: FC<ColumnProps> = ({ registration }) => {
   return <OrganizationName id={getValue(registration.publisher, '')} />;
 };
 
-export const SignupsColumn = (registration: RegistrationFieldsFragment) => {
+export const SignupsColumn: FC<ColumnProps> = ({ registration }) => {
   const locale = useLocale();
   const { currentAttendeeCount, maximumAttendeeCapacity } =
     getRegistrationFields(registration, locale);
@@ -62,7 +66,7 @@ export const SignupsColumn = (registration: RegistrationFieldsFragment) => {
     : `${currentAttendeeCount}`;
 };
 
-export const WaitingListColumn = (registration: RegistrationFieldsFragment) => {
+export const WaitingListColumn: FC<ColumnProps> = ({ registration }) => {
   const locale = useLocale();
   const { currentWaitingListCount, waitingListCapacity } =
     getRegistrationFields(registration, locale);
@@ -72,7 +76,7 @@ export const WaitingListColumn = (registration: RegistrationFieldsFragment) => {
     : `${currentWaitingListCount}`;
 };
 
-const EnrolmentTimeColumn = (registration: RegistrationFieldsFragment) => {
+const EnrolmentTimeColumn: FC<ColumnProps> = ({ registration }) => {
   const locale = useLocale();
   const { enrolmentStartTime, enrolmentEndTime } = getRegistrationFields(
     registration,
@@ -82,7 +86,7 @@ const EnrolmentTimeColumn = (registration: RegistrationFieldsFragment) => {
   return <TimeText startTime={enrolmentStartTime} endTime={enrolmentEndTime} />;
 };
 
-const EventTimeColumn = (registration: RegistrationFieldsFragment) => {
+const EventTimeColumn: FC<ColumnProps> = ({ registration }) => {
   const locale = useLocale();
   const { event } = getRegistrationFields(registration, locale);
 
@@ -99,101 +103,98 @@ const RegistrationsTable: React.FC<RegistrationsTableProps> = ({
   registrations,
 }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const locale = useLocale();
-  const queryStringWithReturnPath = useQueryStringWithReturnPath();
 
-  const handleRowClick = (registration: object) => {
-    const { registrationUrl } = getRegistrationFields(
-      registration as RegistrationFieldsFragment,
-      locale
-    );
-
-    navigate({
-      pathname: registrationUrl,
-      search: queryStringWithReturnPath,
-    });
-  };
+  const MemoizedNameColumn = useCallback(
+    (registration: RegistrationFieldsFragment) => (
+      <NameColumn registration={registration} />
+    ),
+    []
+  );
+  const MemoizedPublisherColumn = useCallback(
+    (registration: RegistrationFieldsFragment) => (
+      <PublisherColumn registration={registration} />
+    ),
+    []
+  );
+  const MemoizedSignupsColumn = useCallback(
+    (registration: RegistrationFieldsFragment) => (
+      <SignupsColumn registration={registration} />
+    ),
+    []
+  );
+  const MemoizedWaitingListColumn = useCallback(
+    (registration: RegistrationFieldsFragment) => (
+      <WaitingListColumn registration={registration} />
+    ),
+    []
+  );
+  const MemoizedEnrolmentTimeColumn = useCallback(
+    (registration: RegistrationFieldsFragment) => (
+      <EnrolmentTimeColumn registration={registration} />
+    ),
+    []
+  );
+  const MemoizedEventTimeColumn = useCallback(
+    (registration: RegistrationFieldsFragment) => (
+      <EventTimeColumn registration={registration} />
+    ),
+    []
+  );
 
   return (
     <Table
       caption={caption}
-      className={className}
+      theme={{ '--header-background-color': 'transparent' }}
+      inlineWithBackground
+      wrapperClassName={className}
       cols={[
         {
-          className: styles.nameColumn,
           key: 'name',
           headerName: t('registrationsPage.registrationsTableColumns.name'),
-          onClick: (ev) => {
-            ev.stopPropagation();
-            ev.preventDefault();
-          },
-          transform: NameColumn,
+          transform: MemoizedNameColumn,
         },
         {
-          className: styles.publisherColumn,
           key: 'publisher',
           headerName: t(
             'registrationsPage.registrationsTableColumns.publisher'
           ),
-          transform: PublisherColumn,
+          transform: MemoizedPublisherColumn,
         },
         {
-          className: styles.signupsColumn,
           key: 'signups',
           headerName: t('registrationsPage.registrationsTableColumns.signups'),
-          transform: SignupsColumn,
+          transform: MemoizedSignupsColumn,
         },
         {
-          className: styles.waitingListColumn,
           key: 'waitingList',
           headerName: t(
             'registrationsPage.registrationsTableColumns.waitingList'
           ),
-          transform: WaitingListColumn,
+          transform: MemoizedWaitingListColumn,
         },
         {
-          className: styles.enrolmentTimeColumn,
           key: 'enrolmentTime',
           headerName: t(
             'registrationsPage.registrationsTableColumns.enrolmentTime'
           ),
-          transform: EnrolmentTimeColumn,
+          transform: MemoizedEnrolmentTimeColumn,
         },
         {
-          className: styles.eventTime,
           key: 'eventTime',
           headerName: t(
             'registrationsPage.registrationsTableColumns.eventTime'
           ),
-          transform: EventTimeColumn,
+          transform: MemoizedEventTimeColumn,
         },
 
         {
-          className: styles.actionButtonsColumn,
           key: '',
           headerName: '',
-          onClick: (ev) => {
-            ev.stopPropagation();
-            ev.preventDefault();
-          },
           transform: ActionsColumn,
         },
       ]}
-      getRowProps={(registration) => {
-        const { id } = getRegistrationFields(
-          registration as RegistrationFieldsFragment,
-          locale
-        );
-
-        return {
-          'aria-label': id,
-          'data-testid': id,
-          id: getRegistrationItemId(id),
-        };
-      }}
+      hasActionButtons
       indexKey="id"
-      onRowClick={handleRowClick}
       renderIndexCol={false}
       rows={registrations as RegistrationFieldsFragment[]}
       variant="light"

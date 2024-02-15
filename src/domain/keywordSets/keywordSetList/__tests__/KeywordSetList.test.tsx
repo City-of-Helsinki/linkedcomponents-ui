@@ -71,14 +71,14 @@ test('should navigate between pages', async () => {
   await loadingSpinnerIsNotInDocument();
 
   // Page 1 event should be visible.
-  screen.getByRole('button', { name: keywordSetNames[0] });
+  screen.getByText(keywordSetNames[0]);
 
   const page2Button = getElement('page2Button');
   await user.click(page2Button);
 
   await loadingSpinnerIsNotInDocument();
   // Page 2 event should be visible.
-  screen.getByRole('button', { name: page2KeywordSetNames[0] });
+  screen.getByText(page2KeywordSetNames[0]);
   await waitFor(() => expect(history.location.search).toBe('?page=2'));
 
   // Should clear page from url search if selecting the first page
@@ -95,7 +95,7 @@ test('should change sort order', async () => {
   await loadingSpinnerIsNotInDocument();
 
   // Page 1 keywords should be visible.
-  screen.getByRole('button', { name: keywordSetNames[0] });
+  screen.getByText(keywordSetNames[0]);
   await waitFor(() => expect(history.location.search).toBe(''));
 
   const sortNameButton = getElement('sortNameButton');
@@ -103,7 +103,7 @@ test('should change sort order', async () => {
 
   await loadingSpinnerIsNotInDocument();
   // Sorted keywords should be visible.
-  screen.getByRole('button', { name: sortedKeywordSetNames[0] });
+  screen.getByText(sortedKeywordSetNames[0]);
   await waitFor(() => expect(history.location.search).toBe('?sort=name'));
 });
 

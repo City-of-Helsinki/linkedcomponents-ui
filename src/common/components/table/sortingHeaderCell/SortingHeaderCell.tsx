@@ -10,6 +10,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import styles from '../table.module.scss';
+import { Order, OrderWithUnset } from '../types';
 
 export type SortingHeaderCellProps = React.ComponentPropsWithoutRef<'th'> & {
   ariaLabelSortButtonUnset?: string;
@@ -17,78 +18,56 @@ export type SortingHeaderCellProps = React.ComponentPropsWithoutRef<'th'> & {
   ariaLabelSortButtonDescending?: string;
   className?: string;
   colKey: string;
-  onSort?: (
-    order: 'asc' | 'desc',
-    colKey: string,
-    handleSort: () => void
-  ) => void;
-  order: 'unset' | 'asc' | 'desc';
+  onSort?: (order: Order, colKey: string, handleSort: () => void) => void;
+  order: OrderWithUnset;
   title: string;
   setSortingAndOrder: (colKey: string) => void;
   sortIconType: 'string' | 'other';
 };
 
+type SortingIconAriaLabels = {
+  asc: string;
+  desc: string;
+  unset: string;
+};
+
 type SortingIconProps = {
-  ariaLabelSortButtonUnset: string;
-  ariaLabelSortButtonAscending: string;
-  ariaLabelSortButtonDescending: string;
-  order: 'unset' | 'asc' | 'desc';
+  ariaLabels: SortingIconAriaLabels;
+  order: OrderWithUnset;
   sortIconType: 'string' | 'other';
 };
 
 const renderSortIcon = ({
-  ariaLabelSortButtonUnset,
-  ariaLabelSortButtonAscending,
-  ariaLabelSortButtonDescending,
+  ariaLabels,
   order,
   sortIconType,
 }: SortingIconProps) => {
-  if (order === 'unset') {
-    return (
-      <IconSort
-        className={styles.sortIcon}
-        aria-label={ariaLabelSortButtonUnset}
-      />
-    );
-  }
-  if (order === 'asc') {
-    if (sortIconType === 'string') {
-      return (
-        <IconSortAlphabeticalAscending
-          className={styles.sortIcon}
-          aria-label={ariaLabelSortButtonAscending}
-        />
+  const props = {
+    className: styles.sortIcon,
+    ariaLabel: ariaLabels[order],
+  };
+  switch (order) {
+    case 'unset':
+      return <IconSort {...props} />;
+    case 'asc':
+      return sortIconType === 'string' ? (
+        <IconSortAlphabeticalAscending {...props} />
+      ) : (
+        <IconSortAscending {...props} />
       );
-    }
-    return (
-      <IconSortAscending
-        className={styles.sortIcon}
-        aria-label={ariaLabelSortButtonAscending}
-      />
-    );
+    case 'desc':
+      return sortIconType === 'string' ? (
+        <IconSortAlphabeticalDescending {...props} />
+      ) : (
+        <IconSortDescending {...props} />
+      );
   }
-
-  if (sortIconType === 'string') {
-    return (
-      <IconSortAlphabeticalDescending
-        className={styles.sortIcon}
-        aria-label={ariaLabelSortButtonDescending}
-      />
-    );
-  }
-
-  return (
-    <IconSortDescending
-      className={styles.sortIcon}
-      aria-label={ariaLabelSortButtonDescending}
-    />
-  );
 };
 
 const resolveNewOrder = ({
   previousOrder,
 }: {
-  previousOrder: 'asc' | 'desc' | 'unset';
+  previousOrder: OrderWithUnset;
 }) => {
   if (previousOrder === 'unset') {
     return 'asc';
@@ -117,6 +96,35 @@ export const SortingHeaderCell = ({
   };
   const { t } = useTranslation();
 
+  const sortIcon = renderSortIcon({
+    ariaLabels: {
+      asc:
+        ariaLabelSortButtonAscending ??
+        t('common.table.ariaLabelSortButtonAscending'),
+      desc:
+        ariaLabelSortButtonDescending ??
+        t('common.table.ariaLabelSortButtonDescending'),
+      unset: ariaLabelSortButtonUnset ?? '',
+    },
+    order,
+    sortIconType,
+  });
+
+  const handleSort: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+    // Prevent default to not submit form if we happen to be inside form
+    event.preventDefault();
+
+    if (onSort) {
+      onSort(
+        resolveNewOrder({ previousOrder: order }),
+        colKey,
+        sortingCallback
+      );
+    } else {
+      setSortingAndOrder(colKey);
+    }
+  };
+
   return (
     <th
       className={classNames(styles.sortingHeader, className)}
@@ -128,34 +136,10 @@ export const SortingHeaderCell = ({
           data-testid={`hds-table-sorting-header-${colKey}`}
           className={styles.sortButton}
           type="button"
-          onClick={(event) => {
-            // Prevent default to not submit form if we happen to be inside form
-            event.preventDefault();
-
-            if (onSort) {
-              onSort(
-                resolveNewOrder({ previousOrder: order }),
-                colKey,
-                sortingCallback
-              );
-            } else {
-              setSortingAndOrder(colKey);
-            }
-          }}
+          onClick={handleSort}
         >
           <span>{title}</span>
-          {renderSortIcon({
-            ariaLabelSortButtonAscending:
-              ariaLabelSortButtonAscending ||
-              t('common.table.ariaLabelSortButtonAscending'),
-            ariaLabelSortButtonDescending:
-              ariaLabelSortButtonDescending ||
-              t('common.table.ariaLabelSortButtonDescending'),
-            ariaLabelSortButtonUnset: ariaLabelSortButtonUnset || '',
-
-            order,
-            sortIconType,
-          })}
+          {sortIcon}
         </button>
       </div>
     </th>

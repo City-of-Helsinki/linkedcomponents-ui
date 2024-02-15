@@ -1,5 +1,4 @@
 import { ROUTES } from '../../../../constants';
-import getValue from '../../../../utils/getValue';
 import { mockUnauthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
@@ -53,17 +52,17 @@ const getElement = (key: 'searchButton' | 'searchInput') => {
 };
 
 test('should search by text', async () => {
-  const searchValue = getValue(organizations.data[0]?.name, '');
+  const searchValue = organizations.data[0]?.name as string;
   const user = userEvent.setup();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
-  screen.getByRole('button', {
-    name: getValue(organizations.data[0]?.name, ''),
+  screen.getByRole('link', {
+    name: organizations.data[0]?.name as string,
   });
-  screen.getByRole('button', {
-    name: getValue(organizations.data[2]?.name, ''),
+  screen.getByRole('link', {
+    name: organizations.data[2]?.name as string,
   });
   await waitFor(() => expect(history.location.search).toBe(''));
 
@@ -79,13 +78,13 @@ test('should search by text', async () => {
 
   await waitFor(() =>
     expect(
-      screen.queryByRole('button', {
-        name: getValue(organizations.data[2]?.name, ''),
+      screen.queryByRole('link', {
+        name: organizations.data[2]?.name as string,
       })
     ).not.toBeInTheDocument()
   );
-  screen.getByRole('button', {
-    name: getValue(organizations.data[0]?.name, ''),
+  screen.getByRole('link', {
+    name: organizations.data[0]?.name as string,
   });
 });
 
@@ -96,30 +95,24 @@ test('should show sub events', async () => {
   await loadingSpinnerIsNotInDocument();
 
   const showMoreButton = screen.getByRole('button', {
-    name: `Näytä alaorganisaatiot: ${getValue(
-      organizations.data[0]?.name,
-      ''
-    )}`,
+    name: `Näytä alaorganisaatiot: ${organizations.data[0]?.name}`,
   });
   await user.click(showMoreButton);
 
   // Should show sub-organization
-  await screen.findByRole('button', {
-    name: getValue(organizations.data[1]?.name, ''),
+  await screen.findByRole('link', {
+    name: organizations.data[1]?.name as string,
   });
 
   const hideButton = screen.getByRole('button', {
-    name: `Piilota alaorganisaatiot: ${getValue(
-      organizations.data[0]?.name,
-      ''
-    )}`,
+    name: `Piilota alaorganisaatiot: ${organizations.data[0]?.name}`,
   });
   await user.click(hideButton);
 
   // Sub-organization should be hidden
   expect(
-    screen.queryByRole('button', {
-      name: getValue(organizations.data[1]?.name, ''),
+    screen.queryByRole('link', {
+      name: organizations.data[1]?.name as string,
     })
   ).not.toBeInTheDocument();
 });

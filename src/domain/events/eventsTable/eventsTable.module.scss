@@ -38,10 +38,6 @@
   }
 }
 
-.actionButtonsColumn {
-  padding: var(--focus-outline-width) !important;
-}
-
 .noBorder {
   td {
     border-bottom: 1px solid transparent !important;
@@ -67,8 +63,4 @@
   color: var(--color-white);
   padding: 0.25em 1em;
   border-radius: 1em;
-}
-
-.clickableRow {
-  composes: clickableRow from '../../../common/components/table/clickableRow.module.scss';
 }

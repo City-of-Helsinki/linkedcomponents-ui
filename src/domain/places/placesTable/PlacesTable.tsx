@@ -1,18 +1,16 @@
+import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import Table from '../../../common/components/table/Table';
 import { PlaceFieldsFragment, PlacesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getSortByOrderAndColKey from '../../../utils/getSortByOrderAndColKey';
 import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
 import { getPlaceFields, getPlaceItemId } from '../../place/utils';
 import { PLACE_SORT_OPTIONS } from '../constants';
 import PlaceActionsDropdown from '../placeActionsDropdown/PlaceActionsDropdown';
-import styles from './placesTable.module.scss';
 
 export interface PlacesTableProps {
   caption: string;
@@ -24,16 +22,10 @@ export interface PlacesTableProps {
 
 const IdColumn = (place: PlaceFieldsFragment) => {
   const locale = useLocale();
-  const { placeUrl } = getPlaceFields(place, locale);
+  const { id, placeUrl } = getPlaceFields(place, locale);
 
   return (
-    <Link
-      onClick={
-        /* istanbul ignore next */
-        (e) => e.preventDefault()
-      }
-      to={placeUrl}
-    >
+    <Link id={getPlaceItemId(id)} to={placeUrl}>
       {place.id}
     </Link>
   );
@@ -72,18 +64,6 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
   sort,
 }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const locale = useLocale();
-  const queryStringWithReturnPath = useQueryStringWithReturnPath();
-
-  const handleRowClick = (place: object) => {
-    const { placeUrl } = getPlaceFields(place as PlaceFieldsFragment, locale);
-
-    navigate({
-      pathname: placeUrl,
-      search: queryStringWithReturnPath,
-    });
-  };
 
   const handleSortChange = (key: string) => {
     setSort(key as PLACE_SORT_OPTIONS);
@@ -101,10 +81,9 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
   return (
     <Table
       caption={caption}
-      className={className}
+      wrapperClassName={classNames(className)}
       cols={[
         {
-          className: styles.idColumn,
           isSortable: true,
           key: PLACE_SORT_OPTIONS.ID,
           headerName: t('placesPage.placesTableColumns.id'),
@@ -112,7 +91,6 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           transform: IdColumn,
         },
         {
-          className: styles.nameColumn,
           isSortable: true,
           key: PLACE_SORT_OPTIONS.NAME,
           headerName: t('placesPage.placesTableColumns.name'),
@@ -120,7 +98,6 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           transform: NameColumn,
         },
         {
-          className: styles.nEventsColumn,
           isSortable: true,
           key: PLACE_SORT_OPTIONS.N_EVENTS,
           headerName: t('placesPage.placesTableColumns.nEvents'),
@@ -128,7 +105,6 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           transform: EventsAmountColumn,
         },
         {
-          className: styles.streetAddressColumn,
           isSortable: true,
           key: PLACE_SORT_OPTIONS.STREET_ADDRESS,
           headerName: t('placesPage.placesTableColumns.streetAddress'),
@@ -136,32 +112,15 @@ const PlacesTable: React.FC<PlacesTableProps> = ({
           transform: StreetAddressColumn,
         },
         {
-          className: styles.actionButtonsColumn,
           key: '',
           headerName: '',
-          onClick: (ev) => {
-            ev.stopPropagation();
-            ev.preventDefault();
-          },
           transform: ActionsColumn,
         },
       ]}
-      getRowProps={(place) => {
-        const { id, name } = getPlaceFields(
-          place as PlaceFieldsFragment,
-          locale
-        );
-
-        return {
-          'aria-label': name,
-          'data-testid': id,
-          id: getPlaceItemId(id),
-        };
-      }}
+      hasActionButtons
       indexKey="id"
       initialSortingColumnKey={initialSortingColumnKey}
       initialSortingOrder={initialSortingOrder}
-      onRowClick={handleRowClick}
       onSort={(order, colKey, handleSort) => {
         handleSortChange(getSortByOrderAndColKey({ order, colKey }));
         handleSort();

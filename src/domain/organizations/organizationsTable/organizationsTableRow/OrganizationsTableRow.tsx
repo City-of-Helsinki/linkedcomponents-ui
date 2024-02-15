@@ -1,10 +1,10 @@
-import { IconAngleDown, IconAngleUp } from 'hds-react';
 import omit from 'lodash/omit';
-import React, { useContext } from 'react';
+import React, { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
+import CollapseButton from '../../../../common/components/table/collapseButton/CollapseButton';
 import { OrganizationFieldsFragment } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import getValue from '../../../../utils/getValue';
@@ -25,37 +25,72 @@ export interface OrganizationsTableRowProps {
   organization: OrganizationFieldsFragment;
 }
 
-const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
-  level = 0,
+type NameColumnProps = {
+  level?: number;
+  open: boolean;
+  organization: OrganizationFieldsFragment;
+  showCollapseButton: boolean;
+  toggle: () => void;
+};
+
+const NameColumn: FC<NameColumnProps> = ({
+  level,
+  open,
+  organization,
+  showCollapseButton,
+  toggle,
+}) => {
+  const locale = useLocale();
+  const { t } = useTranslation();
+
+  const { fullName, id, organizationUrl } = getOrganizationFields(
+    organization,
+    locale,
+    t
+  );
+
+  return (
+    <div
+      className={styles.nameWrapper}
+      style={{ paddingLeft: `calc(${level} * var(--spacing-m))` }}
+    >
+      {showCollapseButton && (
+        <CollapseButton
+          ariaLabel={t(
+            open
+              ? 'organizationsPage.organizationsTable.hideSubOrganizations'
+              : 'organizationsPage.organizationsTable.showSubOrganizations',
+            { name: fullName }
+          )}
+          onClick={toggle}
+          open={open}
+        />
+      )}
+      <span className={styles.organizationName} title={fullName}>
+        <Link id={getOrganizationItemId(id)} to={organizationUrl}>
+          {fullName}
+        </Link>
+      </span>
+    </div>
+  );
+};
+
+type ParentOrganizationColumnProps = {
+  organization: OrganizationFieldsFragment;
+};
+
+const ParentOrganizationColumn: FC<ParentOrganizationColumnProps> = ({
   organization,
 }) => {
-  const { onRowClick, showSubOrganizations, sortedOrganizations } = useContext(
-    OrganizationsTableContext
-  );
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const location = useLocation();
   const locale = useLocale();
-  const {
-    organizations: {
-      addExpandedOrganization,
-      expandedOrganizations,
-      removeExpandedOrganization,
-    },
-  } = usePageSettings();
-  const rowRef = React.useRef<HTMLTableRowElement>(null);
+  const { t } = useTranslation();
 
-  const {
-    affiliatedOrganizations,
-    classification,
-    dataSource,
-    fullName,
-    id,
-    organizationUrl,
-    parentOrganization: parentOrganizationAtId,
-    subOrganizations,
-  } = getOrganizationFields(organization, locale, t);
-  const subOrganizationIds = [...affiliatedOrganizations, ...subOrganizations];
+  const { parentOrganization: parentOrganizationAtId } = getOrganizationFields(
+    organization,
+    locale,
+    t
+  );
+  const { sortedOrganizations } = useContext(OrganizationsTableContext);
   const parentOrganization = sortedOrganizations.find(
     (o) => o.atId === parentOrganizationAtId
   );
@@ -63,31 +98,48 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
     ? getOrganizationFields(parentOrganization, locale, t)
     : { name: '' };
 
+  return (
+    <div className={styles.nameWrapper}>
+      <span className={styles.organizationName} title={parentOrganizationName}>
+        {getValue(parentOrganizationName, '–')}
+      </span>
+    </div>
+  );
+};
+
+const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
+  level = 0,
+  organization,
+}) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const locale = useLocale();
+
+  const rowRef = React.useRef<HTMLTableRowElement>(null);
+
+  const { showSubOrganizations } = useContext(OrganizationsTableContext);
+  const {
+    organizations: {
+      addExpandedOrganization,
+      expandedOrganizations,
+      removeExpandedOrganization,
+    },
+  } = usePageSettings();
+
+  const {
+    affiliatedOrganizations,
+    classification,
+    dataSource,
+    id,
+    subOrganizations,
+  } = getOrganizationFields(organization, locale, t);
+  const subOrganizationIds = [...affiliatedOrganizations, ...subOrganizations];
+
   const open = expandedOrganizations.includes(id);
 
-  const toggle = (ev: React.MouseEvent) => {
-    ev.preventDefault();
-    ev.stopPropagation();
-
-    if (open) {
-      removeExpandedOrganization(id);
-    } else {
-      addExpandedOrganization(id);
-    }
-  };
-
-  const handleRowClick = (ev: React.MouseEvent) => {
-    /* istanbul ignore else */
-    if (ev.target instanceof Node && rowRef.current?.contains(ev.target)) {
-      onRowClick(organization);
-    }
-  };
-
-  const handleKeyDown = (ev: React.KeyboardEvent) => {
-    /* istanbul ignore else */
-    if (ev.key === 'Enter' && ev.target === rowRef.current) {
-      onRowClick(organization);
-    }
+  const toggle = () => {
+    open ? removeExpandedOrganization(id) : addExpandedOrganization(id);
   };
 
   React.useEffect(() => {
@@ -104,62 +156,17 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
 
   return (
     <>
-      <tr
-        ref={rowRef}
-        role="button"
-        aria-label={fullName}
-        id={getOrganizationItemId(id)}
-        className={styles.clickableRow}
-        data-testid={id}
-        onClick={handleRowClick}
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-      >
+      <tr ref={rowRef} data-testid={id}>
         <td className={styles.nameColumn}>
-          <div
-            className={styles.nameWrapper}
-            style={{ paddingLeft: `calc(${level} * var(--spacing-m))` }}
-          >
-            {showSubOrganizations && !!subOrganizationIds.length && (
-              <button
-                aria-label={
-                  open
-                    ? getValue(
-                        t(
-                          'organizationsPage.organizationsTable.hideSubOrganizations',
-                          { name: fullName }
-                        ),
-                        undefined
-                      )
-                    : getValue(
-                        t(
-                          'organizationsPage.organizationsTable.showSubOrganizations',
-                          { name: fullName }
-                        ),
-                        undefined
-                      )
-                }
-                onClick={toggle}
-              >
-                {open ? (
-                  <IconAngleUp aria-hidden={true} size="s" />
-                ) : (
-                  <IconAngleDown aria-hidden={true} size="s" />
-                )}
-              </button>
-            )}
-            <span className={styles.organizationName} title={fullName}>
-              <Link
-                onClick={
-                  /* istanbul ignore next */
-                  (e) => e.preventDefault()
-                }
-                to={organizationUrl}
-              >
-                {fullName}
-              </Link>
-            </span>
-          </div>
+          <NameColumn
+            level={level}
+            open={open}
+            organization={organization}
+            showCollapseButton={
+              showSubOrganizations && !!subOrganizationIds.length
+            }
+            toggle={toggle}
+          />
         </td>
 
         <td className={styles.idColumn}>{id}</td>
@@ -170,22 +177,9 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
           <OrganizationClassName id={classification} />
         </td>
         <td className={styles.parentColumn}>
-          <div className={styles.nameWrapper}>
-            <span
-              className={styles.organizationName}
-              title={parentOrganizationName}
-            >
-              {getValue(parentOrganizationName, '–')}
-            </span>
-          </div>
+          <ParentOrganizationColumn organization={organization} />
         </td>
-        <td
-          className={styles.actionButtonsColumn}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-        >
+        <td>
           <OrganizationActionsDropdown organization={organization} />
         </td>
       </tr>

@@ -82,6 +82,10 @@ const getElement = (key: 'page1' | 'page2') => {
   }
 };
 
+const findSignupRow = async (name: string) =>
+  (await screen.findByRole('link', { name })).parentElement?.parentElement
+    ?.parentElement as HTMLElement;
+
 test('should render signups table', async () => {
   renderComponent([
     ...defaultMocks,
@@ -122,9 +126,9 @@ test('should navigate between pages', async () => {
   ].join(' ');
 
   // Page 1 signup should be visible.
-  screen.getByRole('button', { name: signupName });
+  screen.getByRole('link', { name: signupName });
   expect(
-    screen.queryByRole('button', { name: attendeePage2Name })
+    screen.queryByRole('link', { name: attendeePage2Name })
   ).not.toBeInTheDocument();
 
   const page2Button = getElement('page2');
@@ -132,10 +136,10 @@ test('should navigate between pages', async () => {
 
   // Page 2 signup should be visible.
   expect(
-    await screen.findByRole('button', { name: attendeePage2Name })
+    await screen.findByRole('link', { name: attendeePage2Name })
   ).toBeInTheDocument();
   expect(
-    screen.queryByRole('button', { name: signupName })
+    screen.queryByRole('link', { name: signupName })
   ).not.toBeInTheDocument();
 
   const page1Button = getElement('page1');
@@ -143,26 +147,11 @@ test('should navigate between pages', async () => {
 
   // Page 1 signup should be visible.
   expect(
-    await screen.findByRole('button', { name: signupName })
+    await screen.findByRole('link', { name: signupName })
   ).toBeInTheDocument();
   expect(
-    screen.queryByRole('button', { name: attendeePage2Name })
+    screen.queryByRole('link', { name: attendeePage2Name })
   ).not.toBeInTheDocument();
-});
-
-test('signup name should work as a link to edit signup page', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent([
-    ...defaultMocks,
-    mockedAttendeesResponse,
-  ]);
-
-  const signupLink = await screen.findByRole('link', { name: signupName });
-  await user.click(signupLink);
-
-  expect(history.location.pathname).toBe(
-    `/fi/registrations/${registrationId}/signup/edit/${attendees.data[0].id}`
-  );
 });
 
 test('should open edit signup page by clicking a signup without group', async () => {
@@ -172,26 +161,11 @@ test('should open edit signup page by clicking a signup without group', async ()
     mockedAttendeesResponse,
   ]);
 
-  const signupButton = await screen.findByRole('button', { name: signupName });
-  await user.click(signupButton);
-
-  expect(history.location.pathname).toBe(
-    `/fi/registrations/${registrationId}/signup/edit/${attendees.data[0].id}`
-  );
-});
-
-test('signup group name should work as a link to edit signup group page', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent([
-    ...defaultMocks,
-    getMockedAttendeesResponse(attendeesWithGroup),
-  ]);
-
   const signupLink = await screen.findByRole('link', { name: signupName });
   await user.click(signupLink);
 
   expect(history.location.pathname).toBe(
-    `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
+    `/fi/registrations/${registrationId}/signup/edit/${attendees.data[0].id}`
   );
 });
 
@@ -202,46 +176,10 @@ test('should open edit signup group page by clicking a signup with group', async
     getMockedAttendeesResponse(attendeesWithGroup),
   ]);
 
-  const signupButton = await screen.findByRole('button', {
+  const signupLink = await screen.findByRole('link', {
     name: signupName,
   });
-  await user.click(signupButton);
-
-  expect(history.location.pathname).toBe(
-    `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
-  );
-});
-
-test('should open edit signup page by pressing enter on a signup without group', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent([
-    ...defaultMocks,
-    mockedAttendeesResponse,
-  ]);
-
-  await loadingSpinnerIsNotInDocument();
-  const signupButton = await screen.findByRole('button', {
-    name: signupName,
-  });
-  await user.type(signupButton, '{enter}');
-
-  expect(history.location.pathname).toBe(
-    `/fi/registrations/${registrationId}/signup/edit/${attendees.data[0].id}`
-  );
-});
-
-test('should open edit signup group page by pressing enter on a signup with group', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent([
-    ...defaultMocks,
-    getMockedAttendeesResponse(attendeesWithGroup),
-  ]);
-
-  await loadingSpinnerIsNotInDocument();
-  const signupButton = await screen.findByRole('button', {
-    name: signupName,
-  });
-  await user.type(signupButton, '{enter}');
+  await user.click(signupLink);
 
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
@@ -252,17 +190,11 @@ test("should display contact person's email and phone number for a signup", asyn
   renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
 
   await loadingSpinnerIsNotInDocument();
-  const signupButton = await screen.findByRole('button', {
-    name: signupName,
-  });
+  const withinRow = within(await findSignupRow(signupName));
   const { email, phoneNumber } = attendees.data[0]
     .contactPerson as ContactPerson;
-  expect(
-    await within(signupButton).findByText(email as string)
-  ).toBeInTheDocument();
-  expect(
-    await within(signupButton).findByText(phoneNumber as string)
-  ).toBeInTheDocument();
+  expect(await withinRow.findByText(email as string)).toBeInTheDocument();
+  expect(await withinRow.findByText(phoneNumber as string)).toBeInTheDocument();
 });
 
 test("should display contact person's email and phone number for a signup group", async () => {
@@ -272,16 +204,10 @@ test("should display contact person's email and phone number for a signup group"
   ]);
 
   await loadingSpinnerIsNotInDocument();
-  const signupButton = await screen.findByRole('button', {
-    name: signupName,
-  });
+  const withinRow = within(await findSignupRow(signupName));
   const { email, phoneNumber } = signupGroup.contactPerson as ContactPerson;
-  expect(
-    await within(signupButton).findByText(email as string)
-  ).toBeInTheDocument();
-  expect(
-    await within(signupButton).findByText(phoneNumber as string)
-  ).toBeInTheDocument();
+  expect(await withinRow.findByText(email as string)).toBeInTheDocument();
+  expect(await withinRow.findByText(phoneNumber as string)).toBeInTheDocument();
 });
 
 test('should open actions dropdown', async () => {
@@ -292,9 +218,7 @@ test('should open actions dropdown', async () => {
     getMockedAttendeesResponse(attendeesWithGroup),
   ]);
 
-  const withinRow = within(
-    await screen.findByRole('button', { name: signupName })
-  );
+  const withinRow = within(await findSignupRow(signupName));
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
   await user.click(menuButton);
 

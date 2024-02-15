@@ -1,13 +1,12 @@
+import classNames from 'classnames';
 import { IconPhoto } from 'hds-react';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import Table from '../../../common/components/table/Table';
 import { ImageFieldsFragment, ImagesQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import useShowPlaceholderImage from '../../../hooks/useShowPlaceholderImage';
 import formatDate from '../../../utils/formatDate';
 import getSortByOrderAndColKey from '../../../utils/getSortByOrderAndColKey';
@@ -52,13 +51,7 @@ const IdColumn = (image: ImageFieldsFragment) => {
   const { imageUrl, id } = getImageFields(image, locale);
 
   return (
-    <Link
-      onClick={
-        /* istanbul ignore next */
-        (e) => e.preventDefault()
-      }
-      to={imageUrl}
-    >
+    <Link id={getImageItemId(id)} to={imageUrl}>
       {id}
     </Link>
   );
@@ -90,18 +83,6 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
   sort,
 }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const locale = useLocale();
-  const queryStringWithReturnPath = useQueryStringWithReturnPath();
-
-  const handleRowClick = (image: object) => {
-    const { imageUrl } = getImageFields(image as ImageFieldsFragment, locale);
-
-    navigate({
-      pathname: imageUrl,
-      search: queryStringWithReturnPath,
-    });
-  };
 
   const handleSortChange = (key: string) => {
     setSort(key as IMAGE_SORT_OPTIONS);
@@ -119,16 +100,13 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
   return (
     <Table
       caption={caption}
-      className={className}
       cols={[
         {
-          className: styles.imageColumn,
           key: 'image',
           headerName: t('imagesPage.imagesTableColumns.image'),
           transform: ImageColumn,
         },
         {
-          className: styles.idColumn,
           isSortable: true,
           key: IMAGE_SORT_OPTIONS.ID,
           headerName: t('imagesPage.imagesTableColumns.id'),
@@ -136,7 +114,6 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
           transform: IdColumn,
         },
         {
-          className: styles.nameColumn,
           isSortable: true,
           key: IMAGE_SORT_OPTIONS.NAME,
           headerName: t('imagesPage.imagesTableColumns.name'),
@@ -144,7 +121,6 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
           transform: NameColumn,
         },
         {
-          className: styles.lastModifiedTimeColumn,
           isSortable: true,
           key: IMAGE_SORT_OPTIONS.LAST_MODIFIED_TIME,
           headerName: t('imagesPage.imagesTableColumns.lastModifiedTime'),
@@ -152,38 +128,22 @@ const ImagesTable: React.FC<ImagesTableProps> = ({
           transform: LastModifiedTimeColumn,
         },
         {
-          className: styles.actionButtonsColumn,
           key: 'actionButtons',
           headerName: '',
-          onClick: (ev) => {
-            ev.stopPropagation();
-            ev.preventDefault();
-          },
           transform: ActionColumn,
         },
       ]}
-      getRowProps={(image) => {
-        const { id, name } = getImageFields(
-          image as ImageFieldsFragment,
-          locale
-        );
-
-        return {
-          'aria-label': name,
-          'data-testid': id,
-          id: getImageItemId(id),
-        };
-      }}
+      hasActionButtons
       indexKey="id"
       initialSortingColumnKey={initialSortingColumnKey}
       initialSortingOrder={initialSortingOrder}
-      onRowClick={handleRowClick}
       onSort={(order, colKey, handleSort) => {
         handleSortChange(getSortByOrderAndColKey({ order, colKey }));
         handleSort();
       }}
       rows={images as ImageFieldsFragment[]}
       variant="light"
+      wrapperClassName={classNames(className, styles.imagesTable)}
     />
   );
 };
