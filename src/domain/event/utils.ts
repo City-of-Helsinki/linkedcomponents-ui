@@ -662,6 +662,7 @@ const SKIP_FIELDS = new Set([
   'keywords',
   'audience',
   'images',
+  'infoUrl',
   'languages',
   'inLanguage',
   'subEvents',
