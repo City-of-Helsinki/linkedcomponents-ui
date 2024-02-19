@@ -510,6 +510,7 @@
         "general": "If it is possible to register for the event, specify the start and end times of the registration here.",
         "volunteering": "If it is possible to register for the volunteering, specify the start and end times of the registration here."
       },
+      "infoTextEnvironmentalCertificate": "If the company or event has a certificate, its name is mandatory information (e.g. ecocompass). If there is no certificate, the certificate field is left blank.",
       "infoTextEventTimes1": {
         "course": "To add a recurring course spanning over multiple days, there is an “Add Course Date” button and a “Recurring event” tool for a regularly recurring course.",
         "general": "To add a recurring event spanning over multiple days, there is an “Add Event Date” button and a “Recurring event” tool for a regularly recurring event.",
@@ -741,6 +742,7 @@
         "general": "Event description",
         "volunteering": "Volunteering description"
       },
+      "notificationTitleEnvironmentalCertificate": "Environment certificate",
       "notificationTitleEventTimes": {
         "course": "Course times",
         "general": "Event times",
