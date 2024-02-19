@@ -24,7 +24,11 @@ const ConfirmDeleteEventModal: React.FC<ConfirmDeleteEventModalProps> = ({
       bodyContent={
         <>
           <p style={{ marginTop: 0 }}>{t('event.deleteEventModal.text2')}</p>
-          <p>{t('event.deleteEventModal.text3')}</p>
+          {!!event.registration?.atId && (
+            <p>{t('event.deleteEventModal.text3')}</p>
+          )}
+
+          <p>{t('event.deleteEventModal.text4')}</p>
           <EventHierarchy event={event} />
         </>
       }

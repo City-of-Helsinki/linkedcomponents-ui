@@ -355,7 +355,8 @@
     "cancelEventModal": {
       "buttonCancel": "Cancel event",
       "text1": "This action will cancel the event. You can also postpone the event or delete an event you may have inputted accidentally.",
-      "text2": "The following events will be cancelled:",
+      "text2": "When you accept the cancellation of the event, the registration form related to the event and the participants registered for the event will be deleted from the database.",
+      "text3": "The following events will be cancelled:",
       "textPastEventAreNotUpdated": "Please note the changes are only applied to future events in the series. Events in the past will not be cancelled when cancelling an umbrella event.",
       "title": "Confirm event cancellation",
       "titlePastEventAreNotUpdated": "Past events in series will not be cancelled",
@@ -364,8 +365,9 @@
     "deleteEventModal": {
       "buttonDelete": "Delete event",
       "text1": "This action will permanently remove the event.",
-      "text2": "If necessary, you can cancel or postpone the event.",
-      "text3": "The following events will be deleted:",
+      "text2": "When you accept the deletion of the event, the registration form related to the event and the participants registered for the event will be deleted from the database.",
+      "text3": "If necessary, you can cancel or postpone the event.",
+      "text4": "The following events will be deleted:",
       "title": "Confirm event deletion"
     },
     "editEventTimeModal": {

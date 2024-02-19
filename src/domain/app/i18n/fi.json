@@ -356,7 +356,8 @@
     "cancelEventModal": {
       "buttonCancel": "Peruuta tapahtuma",
       "text1": "Tämä toiminto peruuttaa tapahtuman. Voit myös lykätä tapahtuman tulevaisuuteen, tai poistaa sellaisen tapahtuman, jonka syötit vahingossa.",
-      "text2": "Seuraavat tapahtumat peruutetaan:",
+      "text2": "Hyväksyessäsi tapahtuman peruutuksen, poistetaan tapahtumaan liittyvä ilmoittautumislomake ja tapahtumaan ilmoittautuneet osallistujat tietokannasta.",
+      "text3": "Seuraavat tapahtumat peruutetaan:",
       "textPastEventAreNotUpdated": "Huomioithan myös, että muutokset pätevät vain sarjan tuleviin tapahtumiin. Sarjan menneitä tapahtumia ei peruta kattotapahtumaa peruttaessa.",
       "title": "Varmista tapahtuman peruminen",
       "titlePastEventAreNotUpdated": "Sarjan menneitä tapahtumia ei peruta",
@@ -365,8 +366,9 @@
     "deleteEventModal": {
       "buttonDelete": "Poista tapahtuma",
       "text1": "Tämä toiminto poistaa tapahtuman lopullisesti.",
-      "text2": "Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
-      "text3": "Seuraavat tapahtumat poistetaan:",
+      "text2": "Hyväksyessäsi tapahtuman poistamisen, poistetaan tapahtumaan liittyvä ilmoittautumislomake ja tapahtumaan ilmoittautuneet osallistujat tietokannasta.",
+      "text3": "Voit tarvittaessa myös perua tapahtuman tai lykätä sitä.",
+      "text4": "Seuraavat tapahtumat poistetaan:",
       "title": "Varmista tapahtuman poistaminen"
     },
     "editEventTimeModal": {

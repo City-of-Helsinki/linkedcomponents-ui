@@ -23,7 +23,10 @@ const ConfirmCancelEventModal: React.FC<ConfirmCancelEventModalProps> = ({
       {...props}
       bodyContent={
         <>
-          <p>{t('event.cancelEventModal.text2')}</p>
+          {!!event.registration?.atId && (
+            <p>{t('event.cancelEventModal.text2')}</p>
+          )}
+          <p>{t('event.cancelEventModal.text3')}</p>
           <EventHierarchy event={event} />
           {Boolean(event.superEventType) && (
             <p>

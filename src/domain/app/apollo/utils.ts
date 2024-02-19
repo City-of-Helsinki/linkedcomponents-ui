@@ -5,6 +5,7 @@ import {
   Division,
   Event,
   ExternalLink,
+  IdObject,
   Image,
   Keyword,
   KeywordSet,
@@ -92,6 +93,7 @@ export const addTypenameEvent = (event?: Event | null): Event | null =>
           event.offers?.map((offer) => addTypenameOffer(offer)),
           []
         ),
+        registration: addTypenameIdObject(event.registration),
         superEvent: event.superEvent
           ? addTypenameEvent(event.superEvent)
           : null,
@@ -107,6 +109,11 @@ export const addTypenameExternalLink = (
   externalLink?: ExternalLink | null
 ): ExternalLink | null =>
   externalLink ? { ...externalLink, __typename: 'ExternalLink' } : null;
+
+export const addTypenameIdObject = (
+  idObject?: IdObject | null
+): IdObject | null =>
+  idObject ? { ...idObject, __typename: 'IdObject' } : null;
 
 export const addTypenameImage = (image?: Image | null): Image | null =>
   image

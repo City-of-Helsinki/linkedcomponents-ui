@@ -356,7 +356,8 @@
     "cancelEventModal": {
       "buttonCancel": "Ställ in evenemang",
       "text1": "Den här funktionen ställer in  evenemanget. Du kan också skjuta upp det eller radera ett evenemang som du lagt till av misstag. ",
-      "text2": "Följande evenemang kommer att ställas in:",
+      "text2": "När du accepterar avbokningen av evenemanget kommer registreringsformuläret som är relaterat till evenemanget och deltagarna som registrerats för evenemanget att raderas från databasen.",
+      "text3": "Följande evenemang kommer att ställas in:",
       "textPastEventAreNotUpdated": "Notera att ändringarna bara gäller för seriens kommande evenemang. Tidigare evenemang påverkas inte om huvudevenemanget ställs in.",
       "title": "Bekräfta att evenemanget ställs in",
       "titlePastEventAreNotUpdated": "Seriens tidigare evenemang ställs inte in",
@@ -365,8 +366,9 @@
     "deleteEventModal": {
       "buttonDelete": "Radera evenemanget",
       "text1": "Den här funktionen raderar bort evenemanget permanent.",
-      "text2": "Vid behov kan du också ställ in eller skjuta upp evenemanget.",
-      "text3": "Följande evenemang kommer att raderas:",
+      "text2": "När du accepterar raderingen av evenemanget kommer registreringsformuläret som är relaterat till evenemanget och deltagarna som registrerats för evenemanget att raderas från databasen.",
+      "text3": "Vid behov kan du också ställ in eller skjuta upp evenemanget.",
+      "text4": "Följande evenemang kommer att raderas:",
       "title": "Bekräfta raderingen av evenemanget"
     },
     "editEventTimeModal": {
