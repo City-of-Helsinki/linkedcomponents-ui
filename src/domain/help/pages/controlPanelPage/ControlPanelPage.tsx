@@ -78,12 +78,7 @@ const ControlPanelPage: React.FC = () => {
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.en">
                 CC 4.0 BY
               </ExternalLink>{' '}
-              or "use limited to only in connection with the event". Some freely
-              usable illustrations can be found at{' '}
-              <ExternalLink href="https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat">
-                hel.fi/tapahtumakuvat
-              </ExternalLink>
-              .
+              or "use limited to only in connection with the event".
             </p>
             <p>
               Before uploading an image, edit the image to fit for low bandwith
@@ -239,12 +234,7 @@ const ControlPanelPage: React.FC = () => {
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.fi">
                 CC 4.0 BY
               </ExternalLink>{' '}
-              tai "käyttö vain tapahtuman yhteydessä". Joitakin vapaasti
-              käytettäviä kuvituskuvia löytyy osoitteesta{' '}
-              <ExternalLink href="https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat">
-                hel.fi/tapahtumakuvat
-              </ExternalLink>
-              .
+              tai "käyttö vain tapahtuman yhteydessä".
             </p>
             <p>
               Muokkaa kuva ennen syöttöä verkkoon sopivaksi ja
@@ -398,12 +388,7 @@ const ControlPanelPage: React.FC = () => {
               <ExternalLink href="https://creativecommons.org/licenses/by/4.0/deed.sv">
                 CC 4.0 BY
               </ExternalLink>{' '}
-              eller "använd endast i samband med evenemanget". Några fritt
-              användbara illustrationer finns på{' '}
-              <ExternalLink href="https://www.hel.fi/helsinki/fi/tapahtumakalenteri/kuvat">
-                hel.fi/tapahtumakuvat
-              </ExternalLink>
-              .
+              eller "använd endast i samband med evenemanget".
             </p>
             <p>
               Innan du laddar upp redigerar du bilden så att den passar internet
