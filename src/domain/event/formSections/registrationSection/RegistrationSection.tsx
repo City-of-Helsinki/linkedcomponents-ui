@@ -9,6 +9,7 @@ import { ROUTES } from '../../../../constants';
 import {
   EventFieldsFragment,
   PublicationStatus,
+  SuperEventType,
 } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../../hooks/useQueryStringWithReturnPath';
@@ -64,7 +65,9 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({ event }) => {
   }
 
   if (
-    event.superEventType === null &&
+    (
+      [null, SuperEventType.Recurring] as Array<typeof event.superEventType>
+    ).includes(event.superEventType) &&
     event.publicationStatus === PublicationStatus.Public &&
     checkCanUserDoRegistrationAction({
       action: REGISTRATION_ACTIONS.CREATE,

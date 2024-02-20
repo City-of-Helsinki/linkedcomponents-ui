@@ -1,5 +1,6 @@
 import isSameDay from 'date-fns/isSameDay';
 import isValid from 'date-fns/isValid';
+import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
@@ -8,6 +9,7 @@ import {
   EventsQueryVariables,
   EventTypeId,
   PublicationStatus,
+  SuperEventType,
 } from '../../generated/graphql';
 import { PathBuilderProps } from '../../types';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
@@ -265,6 +267,18 @@ export const getEventDateText = (
     return `– ${formatDate(new Date(endTime))}`;
   }
   return '-';
+};
+
+export const getSuperEventTypeText = (
+  superEventType: SuperEventType | null | undefined,
+  t: TFunction
+) => {
+  if (superEventType) {
+    const superEventText = t(`event.superEventType.${superEventType}`);
+    return `(${superEventText})`;
+  }
+
+  return '';
 };
 
 export const getEventParamValue = ({

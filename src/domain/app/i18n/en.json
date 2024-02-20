@@ -1743,6 +1743,7 @@
       "labelEnrolmentStartTimeTime": "Registration begins at",
       "labelEvent": "Event",
       "labelFilterByDates": "Event time",
+      "labelFilterRecurringEvent": "Registration for the season",
       "labelInstructions": "Registration instructions {{langText}} (optional)",
       "labelMaximumAttendeeCapacity": "Maximum number of seats",
       "labelMaximumGroupSize": "Maximum group size",

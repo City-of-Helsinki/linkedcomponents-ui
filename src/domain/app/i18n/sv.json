@@ -1744,6 +1744,7 @@
       "labelEnrolmentStartTimeTime": "Registreringen börjar kl",
       "labelEvent": "Evenemang",
       "labelFilterByDates": "Evenemangets datum",
+      "labelFilterRecurringEvent": "Anmälan till säsongen",
       "labelInstructions": "Anvisningar för registrering {{langText}} (valfritt)",
       "labelMaximumAttendeeCapacity": "Max antal platser",
       "labelMaximumGroupSize": "Maximal gruppstorlek",
