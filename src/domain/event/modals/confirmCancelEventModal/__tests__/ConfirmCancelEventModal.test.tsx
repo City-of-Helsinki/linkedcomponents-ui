@@ -1,5 +1,4 @@
-import React from 'react';
-
+import generateAtId from '../../../../../utils/generateAtId';
 import {
   configure,
   render,
@@ -7,6 +6,7 @@ import {
   userEvent,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
+import { TEST_REGISTRATION_ID } from '../../../../registration/constants';
 import {
   event,
   eventName,
@@ -31,14 +31,31 @@ const defaultProps: ConfirmCancelEventModalProps = {
 const renderComponent = (props?: Partial<ConfirmCancelEventModalProps>) =>
   render(<ConfirmCancelEventModal {...defaultProps} {...props} />, { mocks });
 
-test('should render component', async () => {
-  renderComponent();
+const eventWithRegistration = {
+  ...event,
+  registration: { atId: generateAtId(TEST_REGISTRATION_ID, 'registration') },
+};
+
+test.each([
+  [event, false],
+  [eventWithRegistration, true],
+])('should render modal', async (event, hasRegistration) => {
+  renderComponent({ event });
 
   screen.getByRole('heading', { name: 'Varmista tapahtuman peruminen' });
   screen.getByText(translations.event.cancelEventModal.warning);
   screen.getByText(translations.common.warning);
   screen.getByText(translations.event.cancelEventModal.text1);
-  screen.getByText(translations.event.cancelEventModal.text2);
+
+  if (hasRegistration) {
+    screen.getByText(translations.event.cancelEventModal.text2);
+  } else {
+    expect(
+      screen.queryByText(translations.event.cancelEventModal.text2)
+    ).not.toBeInTheDocument();
+  }
+
+  screen.getByText(translations.event.cancelEventModal.text3);
 
   screen.getByText(eventName);
   await screen.findByText(subEventName);
