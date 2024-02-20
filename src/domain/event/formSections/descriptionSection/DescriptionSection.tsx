@@ -205,7 +205,24 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                 />
               </FormGroup>
               {isExternalUser && (
-                <FieldRow>
+                <FieldRow
+                  notification={
+                    <Notification
+                      label={t(
+                        'event.form.notificationTitleEnvironmentalCertificate'
+                      )}
+                      type="info"
+                    >
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: t(
+                            'event.form.infoTextEnvironmentalCertificate'
+                          ),
+                        }}
+                      />
+                    </Notification>
+                  }
+                >
                   <FormGroup>
                     <Field
                       component={CheckboxField}

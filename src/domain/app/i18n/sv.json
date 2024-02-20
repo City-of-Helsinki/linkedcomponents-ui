@@ -508,6 +508,7 @@
           "paragraph3": "Anteckna även volontärens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär."
         }
       },
+      "infoTextEnvironmentalCertificate": "Om företaget eller evenemanget har ett certifikat är dess namn obligatorisk information (t.ex. ekokompass). Om det inte finns något certifikat lämnas certifikatfältet tomt.",
       "infoTextEnrolmentTime": {
         "course": "Om det är möjligt att registrera sig för kursen, ange start- och sluttiderna för registreringen här.",
         "general": "Om det är möjligt att registrera sig för evenemanget, ange start- och sluttiderna för registreringen här.",
@@ -744,6 +745,7 @@
         "general": "Evenemangbeskrivning",
         "volunteering": "Volontärarbetebeskrivning"
       },
+      "notificationTitleEnvironmentalCertificate": "Miljöcertifikat",
       "notificationTitleEventTimes": {
         "course": "Kurstider",
         "general": "Evenemamgtider",

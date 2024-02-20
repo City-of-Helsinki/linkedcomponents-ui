@@ -508,6 +508,7 @@
           "paragraph3": "Kirjaa myös vapaaehtoistehtävän <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja."
         }
       },
+      "infoTextEnvironmentalCertificate": "Jos yrityksellä tai tapahtumalla on sertifikaatti, sen nimi on pakollinen tieto (esim. ekokompassi). Jos sertifikaattia ei ole, kohtaan sertifikaatti ei merkitä mitään.",
       "infoTextEnrolmentTime": {
         "course": "Jos kurssille on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",
         "general": "Jos tapahtumaan on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",
@@ -744,6 +745,7 @@
         "general": "Tapahtuman kuvaus",
         "volunteering": "Vapaaehtoistehtävän kuvaus"
       },
+      "notificationTitleEnvironmentalCertificate": "Ympäristösertifikaatti",
       "notificationTitleEventTimes": {
         "course": "Kurssin ajankohdat",
         "general": "Tapahtuman ajankohdat",
