@@ -1892,6 +1892,7 @@
       "text2": "Seuraavat ilmoittautumiset poistetaan:",
       "title": "Haluatko varmasti poistaa ilmoittautumisen?"
     },
+    "eventTimes": "Kaikki tapahtuma-ajat",
     "form": {
       "buttonSave": "Tallenna osallistuja",
       "buttonUpdateParticipantAmount": "Päivitä",

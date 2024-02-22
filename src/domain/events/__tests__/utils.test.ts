@@ -4,6 +4,7 @@ import {
   EventTypeId,
   PublicationStatus,
 } from '../../../generated/graphql';
+import { Language } from '../../../types';
 import { waitReducerToBeCalled } from '../../../utils/testUtils';
 import { EVENT_TYPE, TEST_EVENT_ID } from '../../event/constants';
 import {
@@ -24,6 +25,7 @@ import {
   getEventParamValue,
   getEventSearchQuery,
   getEventsQueryVariables,
+  getEventTimeStr,
   removeExpandedEvent,
   replaceParamsToEventQueryString,
   setEventListOptions,
@@ -362,4 +364,80 @@ describe('setEventListOptions function', () => {
       type: EventListOptionsActionTypes.SET_EVENT_LIST_OPTIONS,
     });
   });
+});
+
+describe('getEventTimeStr function', () => {
+  const testCases: [
+    {
+      endTime: Date | null;
+      language: Language;
+      startTime: Date | null;
+    },
+    string,
+  ][] = [
+    [{ startTime: null, endTime: null, language: 'fi' }, ''],
+    [
+      {
+        startTime: null,
+        endTime: new Date('2019-12-03T08:42:36.318755Z'),
+        language: 'fi',
+      },
+      '– 3.12.2019, 08.42',
+    ],
+    [
+      {
+        startTime: new Date('2019-12-03T08:42:36.318755Z'),
+        endTime: null,
+        language: 'fi',
+      },
+      '3.12.2019, 08.42 –',
+    ],
+    [
+      {
+        startTime: new Date('2019-12-03T08:42:36.318755Z'),
+        endTime: null,
+        language: 'en',
+      },
+      '3.12.2019, 8:42 AM –',
+    ],
+    [
+      {
+        startTime: new Date('2019-12-03T08:42:36.318755Z'),
+        endTime: new Date('2019-12-03T10:42:36.318755Z'),
+        language: 'fi',
+      },
+      '3.12.2019, 08.42 – 10.42',
+    ],
+    [
+      {
+        startTime: new Date('2019-12-03T08:42:36.318755Z'),
+        endTime: new Date('2019-12-13T10:42:36.318755Z'),
+        language: 'fi',
+      },
+      '3 – 13.12.2019',
+    ],
+    [
+      {
+        startTime: new Date('2019-11-03T08:42:36.318755Z'),
+        endTime: new Date('2019-12-13T10:42:36.318755Z'),
+        language: 'fi',
+      },
+      '3.11 – 13.12.2019',
+    ],
+    [
+      {
+        startTime: new Date('2019-11-03T08:42:36.318755Z'),
+        endTime: new Date('2020-12-13T10:42:36.318755Z'),
+        language: 'fi',
+      },
+      '3.11.2019 – 13.12.2020',
+    ],
+  ];
+
+  it.each(testCases)(
+    'should return date range in correct format, %s -> %s',
+    (params, expectedResults) => {
+      expect(getEventTimeStr(params)).toBe(expectedResults);
+    }
+  );
 });
