@@ -3,7 +3,7 @@
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../common/components/button/Button';
@@ -228,8 +228,6 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
 };
 
 const SignupsPageWrapper: React.FC = () => {
-  const location = useLocation();
-
   const { loading, registration } = useRegistrationAndEventData({
     shouldFetchEvent: false,
   });
@@ -241,7 +239,7 @@ const SignupsPageWrapper: React.FC = () => {
           <SignupsPage registration={registration} />
         </SignupGroupFormProvider>
       ) : (
-        <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
+        <NotFound />
       )}
     </LoadingSpinner>
   );

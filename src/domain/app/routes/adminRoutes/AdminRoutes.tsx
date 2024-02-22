@@ -126,7 +126,12 @@ const AdminPageRoutes: React.FC = () => {
               element={<PlacesPage />}
             />
 
-            <Route path="*" element={<NotFoundPage />} />
+            <Route
+              path="*"
+              element={
+                <NotFoundPage pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />
+              }
+            />
           </Routes>
         </AdminPageLayout>
       ) : (

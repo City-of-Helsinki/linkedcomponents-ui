@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { useLocation, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { useEventQuery } from '../../generated/graphql';
@@ -14,7 +14,6 @@ import useEventFieldOptionsData from './hooks/useEventFieldOptionsData';
 import { eventPathBuilder } from './utils';
 
 const EditEventPageWrapper: React.FC = () => {
-  const location = useLocation();
   const { id } = useParams<{ id: string }>();
   const { loading: loadingUser } = useUser();
 
@@ -42,7 +41,7 @@ const EditEventPageWrapper: React.FC = () => {
       {eventData?.event ? (
         <EventForm event={eventData?.event} refetch={refetch} />
       ) : (
-        <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
+        <NotFound />
       )}
     </LoadingSpinner>
   );

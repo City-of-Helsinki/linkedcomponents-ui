@@ -60,7 +60,9 @@ const InstructionsRoutes: React.FC<Props> = ({ locale }) => {
         path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_REGISTRATION)}
         element={<RegistrationInstructions />}
       />
-      <Route element={<NotFound />} />
+      <Route
+        element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}
+      />
     </Routes>
   );
 };
@@ -99,7 +101,9 @@ const TechnologyRoutes: React.FC<Props> = ({ locale }) => {
           path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_SOURCE_CODE)}
           element={<SourceCodePage />}
         />
-        <Route element={<NotFound />} />
+        <Route
+          element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}
+        />
       </Routes>
     </React.Suspense>
   );
@@ -130,7 +134,9 @@ const SupportRoutes: React.FC<Props> = ({ locale }) => {
         path={getSupportRoutePath(ROUTES.SUPPORT_TERMS_OF_USE)}
         element={<TermsOfUsePage />}
       />
-      <Route element={<NotFound />} />
+      <Route
+        element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}
+      />
     </Routes>
   );
 };
@@ -162,7 +168,10 @@ const HelpPageRoutes: React.FC = () => {
         path={getHelpRoutePath(ROUTES.FEATURES)}
         element={<FeaturesPage />}
       />
-      <Route path="*" element={<NotFound />} />
+      <Route
+        path="*"
+        element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}
+      />
     </Routes>
   );
 };

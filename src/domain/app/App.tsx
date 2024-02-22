@@ -2,8 +2,8 @@
 
 import { ApolloProvider } from '@apollo/client';
 import { createInstance, MatomoProvider } from '@datapunt/matomo-tracker-react';
-import { LoginProvider } from 'hds-react';
-import React, { PropsWithChildren, useMemo } from 'react';
+import { LoginProvider, useApiTokensClient, useOidcClient } from 'hds-react';
+import React, { PropsWithChildren, useEffect, useMemo, useRef } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import theme from '../../assets/theme/theme';
@@ -32,6 +32,31 @@ const instance = createInstance({
   siteId: Number(import.meta.env.REACT_APP_MATOMO_SITE_ID),
 });
 
+const RefreshApiTokenOnLoad: React.FC = () => {
+  const { getUser } = useOidcClient();
+  const { fetch: fetchApiTokens } = useApiTokensClient();
+  const isFetchingStarted = useRef(false);
+
+  useEffect(() => {
+    // Refresh api tokens when page is loaded if the user is already authenticated.
+    // Reason for this is to make sure that expired api token is not used.
+    // That might happen if page is refreshed after refreshing access token. In that case
+    // api token is not refreshed  and might be expired already.
+    // The information about api token expiration time is not stored anywhere.
+    const fetchNewApiToken = async () => {
+      const user = getUser();
+      if (user && !isFetchingStarted.current) {
+        isFetchingStarted.current = true;
+        fetchApiTokens(user);
+      }
+    };
+
+    fetchNewApiToken();
+  });
+
+  return null;
+};
+
 const ApolloWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   const { addNotification } = useNotificationsContext();
 
@@ -48,6 +73,7 @@ const App: React.FC = () => {
     <ThemeProvider initTheme={theme}>
       <NotificationsProvider>
         <LoginProvider {...loginProviderProps}>
+          <RefreshApiTokenOnLoad />
           <PageSettingsProvider>
             <BrowserRouter>
               {/* @ts-ignore */}

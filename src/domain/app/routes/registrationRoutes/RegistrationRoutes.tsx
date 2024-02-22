@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router';
 
 import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../../../constants';
+import useLocale from '../../../../hooks/useLocale';
 import NotFoundPage from '../../../notFound/NotFound';
 import useUser from '../../../user/hooks/useUser';
 import { areRegistrationRoutesAllowed } from '../../../user/permissions';
@@ -35,6 +36,7 @@ const SignupsPage = React.lazy(() => import('../../../signups/SignupsPage'));
 
 const RegistrationRoutes: React.FC = () => {
   const { loading, user } = useUser();
+  const locale = useLocale();
   const getRegistrationRoutePath = (path: string) =>
     path.replace(ROUTES.REGISTRATIONS, '');
 
@@ -79,7 +81,12 @@ const RegistrationRoutes: React.FC = () => {
             element={<EditSignupPage />}
           />
 
-          <Route path="*" element={<NotFoundPage />} />
+          <Route
+            path="*"
+            element={
+              <NotFoundPage pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />
+            }
+          />
         </Routes>
       ) : (
         <NotFoundPage />

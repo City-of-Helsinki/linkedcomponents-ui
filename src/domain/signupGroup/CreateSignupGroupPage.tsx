@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import {
@@ -81,7 +80,6 @@ const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
 };
 
 const CreateSignupGroupPageWrapper: React.FC = () => {
-  const location = useLocation();
   const { event, loading, registration } = useRegistrationAndEventData({
     shouldFetchEvent: true,
   });
@@ -104,7 +102,7 @@ const CreateSignupGroupPageWrapper: React.FC = () => {
           )}
         </>
       ) : (
-        <NotFound pathAfterSignIn={`${location.pathname}${location.search}`} />
+        <NotFound />
       )}
     </LoadingSpinner>
   );
