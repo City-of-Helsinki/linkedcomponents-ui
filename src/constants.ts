@@ -36,6 +36,7 @@ export enum ROUTES {
   EDIT_KEYWORD = '/administration/keywords/edit/:id',
   EDIT_KEYWORD_SET = '/administration/keyword-sets/edit/:id',
   EDIT_ORGANIZATION = '/administration/organizations/edit/:id',
+  EDIT_PRICE_GROUP = '/administration/price-groups/edit/:id',
   EDIT_PLACE = '/administration/places/edit/:id',
   EDIT_REGISTRATION = '/registrations/edit/:id',
   EDIT_SIGNUP = '/registrations/:registrationId/signup/edit/:signupId',
@@ -57,6 +58,7 @@ export enum ROUTES {
   LOGOUT = '/logout',
   ORGANIZATIONS = '/administration/organizations',
   PLACES = '/administration/places',
+  PRICE_GROUPS = '/administration/price-groups',
   REGISTRATIONS = '/registrations',
   REGISTRATION_SAVED = '/registrations/completed/:id',
   REGISTRATION_SIGNUPS = '/registrations/:registrationId/signups',
@@ -217,6 +219,7 @@ export const testIds = {
   loadingSpinner: 'loading-spinner',
   organizationList: { resultList: 'organization-result-list' },
   placeList: { resultList: 'place-result-list' },
+  priceGroupList: { resultList: 'price-group-result-list' },
   registrationList: { resultList: 'registration-result-list' },
 };
 

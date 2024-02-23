@@ -88,6 +88,7 @@ import {
   place,
 } from '../../../../place/__mocks__/editPlacePage';
 import { mockedPlacesResponse } from '../../../../places/__mocks__/placesPage';
+import { mockedPriceGroupsResponse } from '../../../../priceGroups/__mocks__/priceGroupsPage';
 import {
   mockedRegistrationResponse,
   registrationId,
@@ -159,6 +160,7 @@ const mocks = [
   mockedCreateSeatsReservationResponse,
   mockedRegistrationsResponse,
   mockedEventResponse,
+  mockedPriceGroupsResponse,
   mockedSignupResponse,
   mockedSignupGroupResponse,
   mockedUserResponse,
@@ -560,6 +562,16 @@ it('should render edit place page', async () => {
     history,
     pageTitle: 'Muokkaa paikkaa - Linked Events',
     pathname: `/fi/administration/places/edit/${id}`,
+  });
+});
+
+it('should render price groups page', async () => {
+  const { history } = await renderRoute(`${ROUTES.PRICE_GROUPS}`);
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Asiakasryhmät - Linked Events',
+    pathname: '/fi/administration/price-groups',
   });
 });
 

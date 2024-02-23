@@ -20,6 +20,7 @@ const AdminPageLayout: React.FC<PropsWithChildren> = ({ children }) => {
     { label: t('imagesPage.title'), to: ROUTES.IMAGES },
     { label: t('organizationsPage.title'), to: ROUTES.ORGANIZATIONS },
     { label: t('placesPage.title'), to: ROUTES.PLACES },
+    { label: t('priceGroupsPage.title'), to: ROUTES.PRICE_GROUPS },
   ];
 
   const levels = [

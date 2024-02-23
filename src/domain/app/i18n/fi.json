@@ -38,6 +38,8 @@
     "noRightsUpdateOrganizationLabel": "Ei oikeuksia muokata organisaatioita.",
     "noRightsUpdatePlace": "Sinulla ei ole oikeuksia muokata paikkoja.",
     "noRightsUpdatePlaceLabel": "Ei oikeuksia muokata paikkoja.",
+    "noRightsUpdatePriceGroup": "Sinulla ei ole oikeuksia muokata asiakasryhmiä.",
+    "noRightsUpdatePriceGroupLabel": "Ei oikeuksia muokata asiakasryhmiä.",
     "noRightsUpdateRegistration": "Sinulla ei ole oikeuksia muokata ilmoittautumisia.",
     "noRightsUpdateRegistrationLabel": "Ei oikeuksia muokata ilmoittautumisia.",
     "noRightsUpdateSignup": "Sinulla ei ole oikeuksia muokata osallistujia.",
@@ -226,6 +228,7 @@
     "multiSelectDropdown": {
       "searchPlaceholder": "Hae"
     },
+    "no": "Ei",
     "noResults": "Ei tuloksia",
     "numberInput": {
       "buttonDecrease": "Vähennä",
@@ -255,7 +258,8 @@
       "minutsLabel": "minuutit"
     },
     "total": "Yhteensä",
-    "warning": "Varoitus!"
+    "warning": "Varoitus!",
+    "yes": "Kyllä"
   },
   "createEventPage": {
     "pageTitle": {
@@ -1439,6 +1443,7 @@
     "permission": "oikeudet",
     "place": "paikka",
     "platform": "alusta",
+    "priceGroup": "asiakasryhmä",
     "questions": "kysymykset",
     "registration": "ilmoittautuminen",
     "report": "ilmoita",
@@ -1716,6 +1721,44 @@
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda paikkoja.",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä paikkaa."
   },
+  "priceGroup": {
+    "deletePriceGroupModal": {
+      "buttonDelete": "Poista asiakasryhmä",
+      "text": "Tämä toiminto poistaa asiakasryhmän lopullisesti.",
+      "title": "Varmista asiakasryhmän poistaminen"
+    },
+    "form": {
+      "buttonDelete": "Poista asiakasryhmä",
+      "notificationPriceGroupDeleted": "Asiakasryhmä on poistettu",
+      "notificationTitleCannotEdit": "Asiakasryhmää ei voi muokata"
+    }
+  },
+  "priceGroupsPage": {
+    "actionButtons": {
+      "edit": "Muokkaa asiakasryhmää"
+    },
+    "count": "{{count}} asiakasryhmä",
+    "count_other": "{{count}} asiakasryhmää",
+    "labelSearch": "Hae asiakasryhmiä",
+    "pageDescription": "Asiakasryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin asiakasryhmiä.",
+    "pageTitle": "Asiakasryhmät",
+    "priceGroupsTableCaption": "Asiakasryhmät, järjestys {{sort}}",
+    "priceGroupsTableColumns": {
+      "description": "Kuvaus",
+      "id": "ID",
+      "isFree": "Ilmainen",
+      "publisher": "Julkaisija"
+    },
+    "sortOptions": {
+      "description": "Kuvaus, nouseva",
+      "descriptionDesc": "Kuvaus, laskeva",
+      "id": "Id, nouseva",
+      "idDesc": "Id, laskeva"
+    },
+    "title": "Asiakasryhmät",
+    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda asiakasryhmiä.",
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä asiakasryhmää."
+  },
   "registration": {
     "deleteRegistrationModal": {
       "buttonDelete": "Poista ilmoittautuminen",
@@ -1943,7 +1986,7 @@
         "labelFirstName": "Etunimi",
         "labelLastName": "Sukunimi",
         "labelPhoneNumber": "Puhelinnumero",
-        "labelPriceGroup": "Hintaryhmä",
+        "labelPriceGroup": "Asiakasryhmä",
         "labelStreetAddress": "Katuosoite",
         "labelZipcode": "Postinumero",
         "placeholderCity": "Syötä kaupunki",
@@ -1951,7 +1994,7 @@
         "placeholderFirstName": "Syötä ilmoittautujan etunimi",
         "placeholderLastName": "Syötä ilmoittautujan sukunimi",
         "placeholderPhoneNumber": "+358 44 1234 567",
-        "placeholderPriceGroup": "Valitse hintaryhmä",
+        "placeholderPriceGroup": "Valitse asiakasryhmä",
         "placeholderStreetAddress": "Syötä katuosoite",
         "placeholderZipcode": "Syötä postinumero",
         "signupDefaultTitle": "Osallistuja {{index}}",

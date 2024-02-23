@@ -1,6 +1,6 @@
+/* eslint-disable import/no-named-as-default */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/export */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import {
   act,
@@ -11,6 +11,7 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { createMemoryHistory, History } from 'history';
 import React, { ReducerAction } from 'react';
 import {
@@ -18,7 +19,7 @@ import {
   Routes,
   unstable_HistoryRouter as Router,
 } from 'react-router-dom';
-import { SpyInstance } from 'vitest';
+import { Mock, SpyInstance } from 'vitest';
 import wait from 'waait';
 
 import { testIds } from '../constants';
@@ -210,6 +211,56 @@ const waitPageMetaDataToBeSet = async ({
   expect(ogDescription).toHaveAttribute('content', pageDescription);
 };
 
+// Dropdown menu helpers
+const openDropdownMenu = async (label: string | RegExp = /valinnat/i) => {
+  const user = userEvent.setup();
+  const toggleButton = screen.getByRole('button', { name: label });
+  await user.click(toggleButton);
+  const menu = screen.getByRole('region', { name: label });
+
+  return { menu, toggleButton };
+};
+
+const shouldToggleDropdownMenu = async (
+  toggleButtonLabel: string | RegExp = /valinnat/i
+) => {
+  const user = userEvent.setup();
+  const { toggleButton } = await openDropdownMenu(toggleButtonLabel);
+  await user.click(toggleButton);
+  expect(
+    screen.queryByRole('region', { name: /valinnat/i })
+  ).not.toBeInTheDocument();
+};
+
+// Modal helpers
+const shouldCallModalButtonAction = async (
+  buttonLabel: string | RegExp,
+  onClick: Mock
+) => {
+  const user = userEvent.setup();
+  const button = screen.getByRole('button', { name: buttonLabel });
+  await user.click(button);
+  expect(onClick).toBeCalled();
+};
+
+const shouldRenderDeleteModal = ({
+  confirmButtonLabel,
+  heading,
+  text,
+}: {
+  confirmButtonLabel: string | RegExp;
+  heading: string | RegExp;
+  text: string | RegExp;
+}) => {
+  expect(screen.getByRole('heading', { name: heading })).toBeInTheDocument();
+  expect(screen.getByText('Varoitus!')).toBeInTheDocument();
+  expect(screen.getByText(text)).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Peruuta' })).toBeInTheDocument();
+  expect(
+    screen.getByRole('button', { name: confirmButtonLabel })
+  ).toBeInTheDocument();
+};
+
 export type { CustomRenderOptions, CustomRenderResult };
 
 export {
@@ -224,9 +275,13 @@ export {
   loadingSpinnerIsNotInDocument,
   mockFile,
   mockString,
+  openDropdownMenu,
   pasteToTextEditor,
   customRender as render,
   renderWithRoute,
+  shouldCallModalButtonAction,
+  shouldRenderDeleteModal,
+  shouldToggleDropdownMenu,
   tabKeyPressHelper,
   waitPageMetaDataToBeSet,
   waitReducerToBeCalled,

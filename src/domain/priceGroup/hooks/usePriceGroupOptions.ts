@@ -6,7 +6,7 @@ import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { eventPathBuilder } from '../../event/utils';
-import { PRICE_GROUPS_PAGE_SIZE } from '../constants';
+import { PRICE_GROUPS_PAGE_SIZE_LARGE } from '../constants';
 import { PriceGroupOption } from '../types';
 import {
   getPriceGroupOption,
@@ -39,7 +39,7 @@ const usePriceGroupOptions = ({
   const { data: priceGroupsData, loading: loadingDefaults } =
     usePriceGroupsQuery({
       variables: {
-        pageSize: PRICE_GROUPS_PAGE_SIZE,
+        pageSize: PRICE_GROUPS_PAGE_SIZE_LARGE,
         publisher: ['none', publisher].filter(skipFalsyType),
         createPath: getPathBuilder(priceGroupsPathBuilder),
       },

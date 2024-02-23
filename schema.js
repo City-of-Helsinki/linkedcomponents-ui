@@ -26,6 +26,7 @@ module.exports = buildSchema(/* GraphQL */ `
     deleteKeywordSet(id: ID!): NoContent
     deleteOrganization(id: ID!): NoContent
     deletePlace(id: ID!): NoContent
+    deletePriceGroup(id: Int!): NoContent
     deleteRegistration(id: ID!): NoContent
     deleteSignup(id: ID!): NoContent
     deleteSignupGroup(id: ID!): NoContent
@@ -155,6 +156,7 @@ module.exports = buildSchema(/* GraphQL */ `
       page: Int
       pageSize: Int
       publisher: [String]
+      sort: String
     ): PriceGroupsResponse!
     registration(id: ID, include: [String]): Registration!
     registrations(

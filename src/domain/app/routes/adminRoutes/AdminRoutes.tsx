@@ -44,6 +44,9 @@ const OrganizationsPage = React.lazy(
   () => import('../../../organizations/OrganizationsPage')
 );
 const PlacesPage = React.lazy(() => import('../../../places/PlacesPage'));
+const PriceGroupsPage = React.lazy(
+  () => import('../../../priceGroups/PriceGroupsPage')
+);
 
 const AdminPageRoutes: React.FC = () => {
   const locale = useLocale();
@@ -124,6 +127,11 @@ const AdminPageRoutes: React.FC = () => {
             <Route
               path={getAdminRoutePath(ROUTES.PLACES)}
               element={<PlacesPage />}
+            />
+
+            <Route
+              path={getAdminRoutePath(ROUTES.PRICE_GROUPS)}
+              element={<PriceGroupsPage />}
             />
 
             <Route

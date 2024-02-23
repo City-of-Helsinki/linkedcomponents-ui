@@ -38,6 +38,8 @@
     "noRightsUpdateOrganizationLabel": "Inga rättigheter att redigera organisationer",
     "noRightsUpdatePlace": "Du har inte behörighet att redigera platser.",
     "noRightsUpdatePlaceLabel": "Inga rättigheter att redigera platser",
+    "noRightsUpdatePriceGroup": "Du har inte behörighet att redigera kundgrupper.",
+    "noRightsUpdatePriceGroupLabel": "Inga rättigheter att redigera kundgrupper",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
     "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar",
     "noRightsUpdateSignup": "Du har inte behörighet att redigera deltagare.",
@@ -226,6 +228,7 @@
     "multiSelectDropdown": {
       "searchPlaceholder": "Sök"
     },
+    "no": "Nej",
     "noResults": "Inga resultat",
     "numberInput": {
       "buttonDecrease": "Ta bort",
@@ -255,7 +258,8 @@
       "minutsLabel": "minuter"
     },
     "total": "Totalt",
-    "warning": "Varning!"
+    "warning": "Varning!",
+    "yes": "Ja"
   },
   "createEventPage": {
     "pageTitle": {
@@ -1439,6 +1443,7 @@
     "permission": "tillstånd",
     "place": "plats",
     "platform": "plattform",
+    "priceGroup": "prisgrup",
     "questions": "frågor",
     "registration": "registrering",
     "report": "rapport",
@@ -1716,6 +1721,44 @@
     "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa platser.",
     "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här plats."
   },
+  "priceGroup": {
+    "deletePriceGroupModal": {
+      "buttonDelete": "Radera kundgrupp",
+      "text": "Denna åtgärd tar bort kundgrupp permanent.",
+      "title": "Bekräfta raderingen av kundgruppen"
+    },
+    "form": {
+      "buttonDelete": "Radera kundgrupp",
+      "notificationPriceGroupDeleted": "Kundgruppen har tagits bort",
+      "notificationTitleCannotEdit": "Kundgruppen kan inte redigeras"
+    }
+  },
+  "priceGroupsPage": {
+    "actionButtons": {
+      "edit": "Redigera kundgrupp"
+    },
+    "count": "{{count}} kundgrupp",
+    "count_other": "{{count}} kundgrupper",
+    "labelSearch": "Sök kundgrupper",
+    "pageDescription": "Kundgruppslista. Bläddra, filtrera och redigera Linked Events kundgrupper.",
+    "pageTitle": "Kundgrupper",
+    "priceGroupsTableCaption": "Kundgrupper, sorterade efter {{sort}}",
+    "priceGroupsTableColumns": {
+      "description": "Beskrivning",
+      "id": "ID",
+      "isFree": "Är gratis",
+      "publisher": "Utgivare"
+    },
+    "sortOptions": {
+      "description": "Beskrivning, stigande",
+      "descriptionDesc": "Beskrivning, fallande",
+      "id": "Id, stigande",
+      "idDesc": "Id, fallande"
+    },
+    "title": "Kundgrupper",
+    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa kundgrupper.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera den här kundgruppen."
+  },
   "registration": {
     "deleteRegistrationModal": {
       "buttonDelete": "Radera registreringen",
@@ -1943,7 +1986,7 @@
         "labelFirstName": "Förnamn",
         "labelLastName": "Efternamn",
         "labelPhoneNumber": "Telefonnummer",
-        "labelPriceGroup": "Prisgrupp",
+        "labelPriceGroup": "Kundgrupp",
         "labelStreetAddress": "Gatuadress",
         "labelZipcode": "Postnummer",
         "placeholderCity": "Ange staden",
@@ -1951,7 +1994,7 @@
         "placeholderLastName": "Ange registrantens efternamn",
         "placeholderExtraInfo": "Ange ytterligare information eller begäran",
         "placeholderPhoneNumber": "+358 44 1234 567",
-        "placeholderPriceGroup": "Välj prisgrupp",
+        "placeholderPriceGroup": "Välj kundgrupp",
         "placeholderStreetAddress": "Ange en gatuadress",
         "placeholderZipcode": "Ange postnummer",
         "signupDefaultTitle": "Deltagare {{index}}",
