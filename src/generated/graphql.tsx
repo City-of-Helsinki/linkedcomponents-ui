@@ -460,6 +460,7 @@ export type Mutation = {
   deleteKeywordSet?: Maybe<NoContent>;
   deleteOrganization?: Maybe<NoContent>;
   deletePlace?: Maybe<NoContent>;
+  deletePriceGroup?: Maybe<NoContent>;
   deleteRegistration?: Maybe<NoContent>;
   deleteSignup?: Maybe<NoContent>;
   deleteSignupGroup?: Maybe<NoContent>;
@@ -559,6 +560,11 @@ export type MutationDeleteOrganizationArgs = {
 
 export type MutationDeletePlaceArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type MutationDeletePriceGroupArgs = {
+  id: Scalars['Int']['input'];
 };
 
 
@@ -790,6 +796,7 @@ export type PriceGroup = {
   createdTime?: Maybe<Scalars['String']['output']>;
   description?: Maybe<LocalisedObject>;
   id: Scalars['Int']['output'];
+  isDefault?: Maybe<Scalars['Boolean']['output']>;
   isFree?: Maybe<Scalars['Boolean']['output']>;
   lastModifiedBy?: Maybe<Scalars['String']['output']>;
   lastModifiedTime?: Maybe<Scalars['String']['output']>;
@@ -998,6 +1005,7 @@ export type QueryPriceGroupsArgs = {
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   publisher?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  sort?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -1814,7 +1822,14 @@ export type PlacesQueryVariables = Exact<{
 
 export type PlacesQuery = { __typename?: 'Query', places: { __typename?: 'PlacesResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null> } };
 
-export type PriceGroupFieldsFragment = { __typename?: 'PriceGroup', id: number, isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null };
+export type DeletePriceGroupMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeletePriceGroupMutation = { __typename?: 'Mutation', deletePriceGroup?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
+
+export type PriceGroupFieldsFragment = { __typename?: 'PriceGroup', id: number, isDefault?: boolean | null, isFree?: boolean | null, publisher?: string | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null };
 
 export type PriceGroupsQueryVariables = Exact<{
   description?: InputMaybe<Scalars['String']['input']>;
@@ -1822,11 +1837,12 @@ export type PriceGroupsQueryVariables = Exact<{
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   publisher?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
+  sort?: InputMaybe<Scalars['String']['input']>;
   createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
 
-export type PriceGroupsQuery = { __typename?: 'Query', priceGroups: { __typename?: 'PriceGroupsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'PriceGroup', id: number, isFree?: boolean | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null> } };
+export type PriceGroupsQuery = { __typename?: 'Query', priceGroups: { __typename?: 'PriceGroupsResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'PriceGroup', id: number, isDefault?: boolean | null, isFree?: boolean | null, publisher?: string | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null> } };
 
 export type CreateRegistrationMutationVariables = Exact<{
   input: CreateRegistrationMutationInput;
@@ -2154,7 +2170,9 @@ export const PriceGroupFieldsFragmentDoc = gql`
   description {
     ...localisedFields
   }
+  isDefault
   isFree
+  publisher
 }
     ${LocalisedFieldsFragmentDoc}`;
 export const ExternalLinkFieldsFragmentDoc = gql`
@@ -4050,14 +4068,48 @@ export function usePlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pla
 export type PlacesQueryHookResult = ReturnType<typeof usePlacesQuery>;
 export type PlacesLazyQueryHookResult = ReturnType<typeof usePlacesLazyQuery>;
 export type PlacesQueryResult = Apollo.QueryResult<PlacesQuery, PlacesQueryVariables>;
+export const DeletePriceGroupDocument = gql`
+    mutation DeletePriceGroup($id: Int!) {
+  deletePriceGroup(id: $id) @rest(type: "NoContent", path: "/price_group/{args.id}/", method: "DELETE") {
+    noContent
+  }
+}
+    `;
+export type DeletePriceGroupMutationFn = Apollo.MutationFunction<DeletePriceGroupMutation, DeletePriceGroupMutationVariables>;
+
+/**
+ * __useDeletePriceGroupMutation__
+ *
+ * To run a mutation, you first call `useDeletePriceGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePriceGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePriceGroupMutation, { data, loading, error }] = useDeletePriceGroupMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeletePriceGroupMutation(baseOptions?: Apollo.MutationHookOptions<DeletePriceGroupMutation, DeletePriceGroupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePriceGroupMutation, DeletePriceGroupMutationVariables>(DeletePriceGroupDocument, options);
+      }
+export type DeletePriceGroupMutationHookResult = ReturnType<typeof useDeletePriceGroupMutation>;
+export type DeletePriceGroupMutationResult = Apollo.MutationResult<DeletePriceGroupMutation>;
+export type DeletePriceGroupMutationOptions = Apollo.BaseMutationOptions<DeletePriceGroupMutation, DeletePriceGroupMutationVariables>;
 export const PriceGroupsDocument = gql`
-    query PriceGroups($description: String, $isFree: Boolean, $page: Int, $pageSize: Int, $publisher: [String], $createPath: Any) {
+    query PriceGroups($description: String, $isFree: Boolean, $page: Int, $pageSize: Int, $publisher: [String], $sort: String, $createPath: Any) {
   priceGroups(
     description: $description
     isFree: $isFree
     page: $page
     pageSize: $pageSize
     publisher: $publisher
+    sort: $sort
   ) @rest(type: "PriceGroupsResponse", pathBuilder: $createPath) {
     meta {
       ...metaFields
@@ -4087,6 +4139,7 @@ ${PriceGroupFieldsFragmentDoc}`;
  *      page: // value for 'page'
  *      pageSize: // value for 'pageSize'
  *      publisher: // value for 'publisher'
+ *      sort: // value for 'sort'
  *      createPath: // value for 'createPath'
  *   },
  * });

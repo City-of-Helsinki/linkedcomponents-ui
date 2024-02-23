@@ -9,13 +9,14 @@ import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
+import adminListPageStyles from '../admin/layout/adminListPage.module.scss';
+import AdminListPageWrapper from '../admin/layout/adminListPageWrapper/AdminListPageWrapper';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { KEYWORD_SET_ACTIONS } from '../keywordSet/constants';
 import KeywordSetAuthenticationNotification from '../keywordSet/keywordSetAuthenticationNotification/KeywordSetAuthenticationNotification';
 import useUser from '../user/hooks/useUser';
 import KeywordSetList from './keywordSetList/KeywordSetList';
-import styles from './keywordSetsPage.module.scss';
 
 const KeywordsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -27,7 +28,7 @@ const KeywordsPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.keywordSetsPage}>
+    <AdminListPageWrapper>
       <TitleRow
         breadcrumb={
           <Breadcrumb
@@ -40,7 +41,6 @@ const KeywordsPage: React.FC = () => {
         }
         button={
           <Button
-            className={styles.addButton}
             fullWidth={true}
             iconLeft={<IconPlus aria-hidden={true} />}
             onClick={goToCreateKeywordSetPage}
@@ -54,12 +54,12 @@ const KeywordsPage: React.FC = () => {
 
       <KeywordSetAuthenticationNotification
         action={KEYWORD_SET_ACTIONS.CREATE}
-        className={styles.notification}
+        className={adminListPageStyles.notification}
         organization=""
       />
 
       <KeywordSetList />
-    </div>
+    </AdminListPageWrapper>
   );
 };
 

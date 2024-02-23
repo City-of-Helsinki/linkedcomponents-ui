@@ -1,0 +1,6 @@
+export enum PRICE_GROUP_SORT_OPTIONS {
+  ID = 'id',
+  ID_DESC = '-id',
+}
+
+export const DEFAULT_PRICE_GROUP_SORT = PRICE_GROUP_SORT_OPTIONS.ID_DESC;

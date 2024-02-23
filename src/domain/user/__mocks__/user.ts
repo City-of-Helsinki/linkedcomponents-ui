@@ -43,6 +43,16 @@ const mockedExternalAdminUserResponse = getMockedUserResponse({
   registrationAdminOrganizations: [],
 });
 
+const mockedFinancialAdminUserResponse = getMockedUserResponse({
+  adminOrganizations: [],
+  displayName: userName,
+  firstName: userFirstName,
+  financialAdminOrganizations: [TEST_PUBLISHER_ID],
+  organization: TEST_PUBLISHER_ID,
+  organizationMemberships: [],
+  registrationAdminOrganizations: [],
+});
+
 const mockedRegistrationUserResponse = getMockedUserResponse({
   adminOrganizations: [],
   displayName: userName,
@@ -89,6 +99,7 @@ const mockedUsersResponse = {
 export {
   getMockedUserResponse,
   mockedExternalAdminUserResponse,
+  mockedFinancialAdminUserResponse,
   mockedRegistrationUserResponse,
   mockedRegularUserResponse,
   mockedUserResponse,

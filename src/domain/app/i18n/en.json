@@ -38,6 +38,8 @@
     "noRightsUpdateOrganizationLabel": "No permissions to edit organizations.",
     "noRightsUpdatePlace": "You do not have permission to edit places.",
     "noRightsUpdatePlaceLabel": "No permissions to edit places.",
+    "noRightsUpdatePriceGroup": "You do not have permission to edit price groups.",
+    "noRightsUpdatePriceGroupLabel": "No permissions to edit price groups.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations",
     "noRightsUpdateSignup": "You do not have permission to edit participants.",
@@ -224,6 +226,7 @@
     "multiSelectDropdown": {
       "searchPlaceholder": "Search"
     },
+    "no": "No",
     "noResults": "No results",
     "numberInput": {
       "buttonDecrease": "Subtract",
@@ -253,7 +256,8 @@
       "minutsLabel": "minutes"
     },
     "total": "In total",
-    "warning": "Warning!"
+    "warning": "Warning!",
+    "yes": "Yes"
   },
   "createEventPage": {
     "pageTitle": {
@@ -1437,6 +1441,7 @@
     "permission": "permission",
     "place": "place",
     "platform": "platform",
+    "placeGroup": "price, group",
     "questions": "questions",
     "registration": "registration",
     "report": "report",
@@ -1713,6 +1718,43 @@
     "title": "Places",
     "warningNoRightsToCreate": "You have insufficient rights to create places.",
     "warningNoRightsToEdit": "You have insufficient rights to edit this place."
+  },
+  "priceGroup": {
+    "deletePriceGroupModal": {
+      "buttonDelete": "Delete price group",
+      "text": "This action will permanently remove the price group.",
+      "title": "Confirm price group deletion"
+    },
+    "form": {
+      "buttonDelete": "Delete price group",
+      "notificationPriceGroupDeleted": "The price group has been deleted",
+      "notificationTitleCannotEdit": "The price group cannot be edited"
+    }
+  },
+  "priceGroupsPage": {
+    "actionButtons": {
+      "edit": "Edit price group"
+    },
+    "count": "{{count}} price group",
+    "count_other": "{{count}} price groups",
+    "labelSearch": "Search price groups",
+    "pageDescription": "Price group listing. Browse, filter and edit Linked Events price groups.",
+    "pageTitle": "Price groups",
+    "priceGroupsTableCaption": "Price groups, sorted by {{sort}}",
+    "priceGroupsTableColumns": {
+      "description": "Description",
+      "id": "ID",
+      "isDefault": "Is default",
+      "isFree": "Is free",
+      "publisher": "Publisher"
+    },
+    "sortOptions": {
+      "id": "Id, ascending",
+      "idDesc": "Id, descending"
+    },
+    "title": "Price groups",
+    "warningNoRightsToCreate": "You have insufficient rights to create price groups.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this price group."
   },
   "registration": {
     "deleteRegistrationModal": {

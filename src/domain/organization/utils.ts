@@ -166,6 +166,21 @@ export const isAdminUserInOrganization = ({
     organizationAncestors,
   });
 
+export const isFinancialAdminUserInOrganization = ({
+  id,
+  organizationAncestors,
+  user,
+}: {
+  id: string | null;
+  organizationAncestors: OrganizationFieldsFragment[];
+  user?: UserFieldsFragment;
+}): boolean =>
+  _isAdminUserInOrganization({
+    adminOrganizations: getValue(user?.financialAdminOrganizations, []),
+    id,
+    organizationAncestors,
+  });
+
 export const isRegistrationAdminUserInOrganization = ({
   id,
   organizationAncestors,

@@ -1,6 +1,18 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable max-len */
+import i18n from 'i18next';
+
 import { PriceGroupsQueryVariables } from '../../../generated/graphql';
+import { fakeOrganization, fakeUser } from '../../../utils/mockDataUtils';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import { PRICE_GROUP_ACTIONS } from '../constants';
 import { PriceGroupOption } from '../types';
-import { priceGroupsPathBuilder, sortPriceGroupOptions } from '../utils';
+import {
+  checkCanUserDoPriceGroupAction,
+  getEditPriceGroupWarning,
+  priceGroupsPathBuilder,
+  sortPriceGroupOptions,
+} from '../utils';
 
 describe('priceGroupsPathBuilder function', () => {
   const cases: [PriceGroupsQueryVariables, string][] = [
@@ -44,5 +56,129 @@ describe('sortPriceGroupOptions function', () => {
       option1,
       option2,
     ]);
+  });
+});
+
+describe('checkCanUserDoPriceGroupAction function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
+  it('should allow correct actions if financialAdminArganizations contains publisher', () => {
+    const user = fakeUser({ financialAdminOrganizations: [publisher] });
+
+    const allowedActions = [
+      PRICE_GROUP_ACTIONS.CREATE,
+      PRICE_GROUP_ACTIONS.DELETE,
+      PRICE_GROUP_ACTIONS.EDIT,
+      PRICE_GROUP_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoPriceGroupAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if organizationAncestors contains any of the financialAdminArganizations', () => {
+    const financialAdminOrganization = 'financialadmin:1';
+    const user = fakeUser({
+      financialAdminOrganizations: [financialAdminOrganization],
+    });
+
+    const allowedActions = [
+      PRICE_GROUP_ACTIONS.CREATE,
+      PRICE_GROUP_ACTIONS.DELETE,
+      PRICE_GROUP_ACTIONS.EDIT,
+      PRICE_GROUP_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoPriceGroupAction({
+          action,
+          organizationAncestors: [
+            fakeOrganization({ id: financialAdminOrganization }),
+          ],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if publisher is not defined and user has at least one financial admin organization', () => {
+    const financialAdminOrganization = 'financialadmin:1';
+    const user = fakeUser({
+      financialAdminOrganizations: [financialAdminOrganization],
+    });
+
+    const allowedActions = [
+      PRICE_GROUP_ACTIONS.CREATE,
+      PRICE_GROUP_ACTIONS.EDIT,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoPriceGroupAction({
+          action,
+          organizationAncestors: [],
+          publisher: '',
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+});
+
+describe('getEditPriceGroupWarning function', () => {
+  it('should return correct warning if user is not authenticated', () => {
+    const allowedActions = [PRICE_GROUP_ACTIONS.EDIT];
+
+    const commonProps = {
+      authenticated: false,
+      t: i18n.t.bind(i18n),
+      userCanDoAction: false,
+    };
+
+    allowedActions.forEach((action) => {
+      expect(getEditPriceGroupWarning({ action, ...commonProps })).toBe('');
+    });
+
+    const deniedActions = [
+      PRICE_GROUP_ACTIONS.CREATE,
+      PRICE_GROUP_ACTIONS.DELETE,
+      PRICE_GROUP_ACTIONS.UPDATE,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(getEditPriceGroupWarning({ action, ...commonProps })).toBe(
+        'Sinulla ei ole oikeuksia muokata hintaryhmiä.'
+      );
+    });
+  });
+
+  it('should return correct warning if user cannot do action', () => {
+    expect(
+      getEditPriceGroupWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: PRICE_GROUP_ACTIONS.CREATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia luoda hintaryhmiä.');
+
+    expect(
+      getEditPriceGroupWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: PRICE_GROUP_ACTIONS.UPDATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia muokata tätä hintaryhmää.');
   });
 });

@@ -477,6 +477,7 @@ export const fakePriceGroup = (overrides?: Partial<PriceGroup>): PriceGroup => {
       createdBy: faker.person.firstName(),
       createdTime: null,
       description: fakeLocalisedObject(),
+      isDefault: false,
       isFree: false,
       lastModifiedBy: faker.person.firstName(),
       lastModifiedTime: '2020-09-12T15:00:00.000000Z',

@@ -104,6 +104,24 @@ export const clearPlacesQueries = (
     fieldName: 'places',
   });
 
+export const clearPriceGroupQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>,
+  args?: PlaceQueryVariables
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'priceGroup',
+    args,
+  });
+
+export const clearPriceGroupsQueries = (
+  apolloClient: ApolloClient<NormalizedCacheObject>
+): boolean =>
+  apolloClient.cache.evict({
+    id: 'ROOT_QUERY',
+    fieldName: 'priceGroups',
+  });
+
 export const clearRegistrationQueries = (
   apolloClient: ApolloClient<NormalizedCacheObject>,
   args?: RegistrationQueryVariables
