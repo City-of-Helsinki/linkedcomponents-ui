@@ -332,6 +332,10 @@
     "pageTitle": "Muokkaa paikkaa",
     "title": "Muokkaa paikkaa"
   },
+  "editPriceGroupPage": {
+    "pageTitle": "Muokkaa hintaryhmää",
+    "title": "Muokkaa hintaryhmää"
+  },
   "editRegistrationPage": {
     "pageTitle": "Muokkaa ilmoittautumista",
     "title": "Muokkaa ilmoittautumista"
@@ -1728,7 +1732,12 @@
     },
     "form": {
       "buttonDelete": "Poista hintaryhmä",
+      "labelDescription": "Kuvaus",
+      "labelId": "ID",
+      "labelIsFree": "Ilmainen",
+      "labelPublisher": "Julkaisija",
       "notificationPriceGroupDeleted": "Hintaryhmä on poistettu",
+      "notificationPriceGroupUpdated": "Hintaryhmä on tallennettu",
       "notificationTitleCannotEdit": "Hintaryhmää ei voi muokata"
     }
   },
@@ -1745,7 +1754,6 @@
     "priceGroupsTableColumns": {
       "description": "Kuvaus",
       "id": "ID",
-      "isDefault": "Oletus",
       "isFree": "Ilmainen",
       "publisher": "Julkaisija"
     },

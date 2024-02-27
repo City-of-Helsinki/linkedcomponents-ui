@@ -331,6 +331,10 @@
     "pageTitle": "Edit place",
     "title": "Edit place"
   },
+  "editPriceGroupPage": {
+    "pageTitle": "Edit price group",
+    "title": "Edit price group"
+  },
   "editRegistrationPage": {
     "pageTitle": "Edit registration",
     "title": "Edit registration"
@@ -1727,7 +1731,12 @@
     },
     "form": {
       "buttonDelete": "Delete price group",
+      "labelDescription": "Description",
+      "labelId": "ID",
+      "labelIsFree": "Free",
+      "labelPublisher": "Publisher",
       "notificationPriceGroupDeleted": "The price group has been deleted",
+      "notificationPriceGroupUpdated": "The price group has been saved",
       "notificationTitleCannotEdit": "The price group cannot be edited"
     }
   },
@@ -1744,7 +1753,6 @@
     "priceGroupsTableColumns": {
       "description": "Description",
       "id": "ID",
-      "isDefault": "Is default",
       "isFree": "Is free",
       "publisher": "Publisher"
     },

@@ -7,8 +7,14 @@ export const QUERY_PRICE_GROUP = gql`
     description {
       ...localisedFields
     }
-    isDefault
     isFree
     publisher
+  }
+
+  query PriceGroup($id: ID!) {
+    priceGroup(id: $id)
+      @rest(type: "PriceGroup", path: "/price_group/{args.id}/") {
+      ...priceGroupFields
+    }
   }
 `;

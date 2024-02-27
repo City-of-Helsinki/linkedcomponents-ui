@@ -7,9 +7,11 @@ import {
   OrganizationFieldsFragment,
   PriceGroupFieldsFragment,
   PriceGroupsQueryVariables,
+  UpdatePriceGroupMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
+import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
@@ -19,8 +21,13 @@ import {
   PRICE_GROUP_ACTION_ICONS,
   PRICE_GROUP_ACTION_LABEL_KEYS,
   PRICE_GROUP_ACTIONS,
+  PRICE_GROUP_FORM_SELECT_FIELDS,
 } from './constants';
-import { PriceGroupFields, PriceGroupOption } from './types';
+import {
+  PriceGroupFields,
+  PriceGroupFormFields,
+  PriceGroupOption,
+} from './types';
 
 export const getPriceGroupOption = (
   priceGroup: PriceGroupFieldsFragment,
@@ -192,7 +199,6 @@ export const getPriceGroupFields = (
   return {
     id,
     description: getLocalisedString(priceGroup.description, locale),
-    isDefault: !!priceGroup.isDefault,
     isFree: !!priceGroup.isFree,
     priceGroupUrl: `/${locale}${ROUTES.EDIT_PRICE_GROUP.replace(':id', id)}`,
     publisher: getValue(priceGroup.publisher, ''),
@@ -201,3 +207,32 @@ export const getPriceGroupFields = (
 
 export const getPriceGroupItemId = (id: string): string =>
   `price-group-item-${id}`;
+
+export const getPriceGroupInitialValues = (
+  priceGroup: PriceGroupFieldsFragment
+): PriceGroupFormFields => ({
+  description: getLocalisedObject(priceGroup.description),
+  id: priceGroup.id,
+  isFree: !!priceGroup.isFree,
+  publisher: getValue(priceGroup.publisher, ''),
+});
+
+export const getPriceGroupPayload = (
+  formValues: PriceGroupFormFields
+): UpdatePriceGroupMutationInput => {
+  const { id, ...restFormValues } = formValues;
+
+  return {
+    ...restFormValues,
+    id: id ?? undefined,
+  };
+};
+
+export const getFocusableFieldId = (fieldName: string): string => {
+  // For the select elements, focus the toggle button
+  if (PRICE_GROUP_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
+    return `${fieldName}-toggle-button`;
+  }
+
+  return fieldName;
+};

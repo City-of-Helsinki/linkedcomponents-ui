@@ -59,14 +59,6 @@ const IsFreeColumn = (priceGroup: PriceGroupFieldsFragment) => {
   return getBooleanText(isFree, t);
 };
 
-const IsDefaultColumn = (priceGroup: PriceGroupFieldsFragment) => {
-  const locale = useLocale();
-  const { t } = useTranslation();
-  const { isDefault } = getPriceGroupFields(priceGroup, locale);
-
-  return getBooleanText(isDefault, t);
-};
-
 const ActionsColumn = (priceGroup: PriceGroupFieldsFragment) => {
   return <PriceGroupActionsDropdown priceGroup={priceGroup} />;
 };
@@ -121,11 +113,6 @@ const PriceGroupsTable: React.FC<PriceGroupsTableProps> = ({
           key: 'isFree',
           headerName: t('priceGroupsPage.priceGroupsTableColumns.isFree'),
           transform: IsFreeColumn,
-        },
-        {
-          key: 'isDefault',
-          headerName: t('priceGroupsPage.priceGroupsTableColumns.isDefault'),
-          transform: IsDefaultColumn,
         },
         {
           key: '',

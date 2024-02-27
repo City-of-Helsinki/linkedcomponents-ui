@@ -50,7 +50,7 @@ const findPriceGroupRow = async (id: number) =>
 test('should render price groups table', () => {
   renderComponent();
 
-  const columnHeaders = ['ID', 'Julkaisija', 'Kuvaus', 'Ilmainen', 'Oletus'];
+  const columnHeaders = ['ID', 'Julkaisija', 'Kuvaus', 'Ilmainen'];
 
   for (const name of columnHeaders) {
     screen.getByRole('columnheader', { name });

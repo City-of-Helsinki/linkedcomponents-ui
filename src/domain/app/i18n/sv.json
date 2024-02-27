@@ -332,6 +332,10 @@
     "pageTitle": "Redigera plats",
     "title": "Redigera plats"
   },
+  "editPriceGroupPage": {
+    "pageTitle": "Redigera prisgrupp",
+    "title": "Redigera prisgrupp"
+  },
   "editRegistrationPage": {
     "pageTitle": "Redigera registrering",
     "title": "Redigera registrering"
@@ -1728,7 +1732,12 @@
     },
     "form": {
       "buttonDelete": "Radera prisgrupp",
+      "labelDescription": "Beskrivning",
+      "labelId": "ID",
+      "labelIsFree": "Gratis",
+      "labelPublisher": "Utgivare",
       "notificationPriceGroupDeleted": "Prisgruppen har tagits bort",
+      "notificationPriceGroupUpdated": "Prisgruppen har sparats",
       "notificationTitleCannotEdit": "Prisgruppen kan inte redigeras"
     }
   },
@@ -1745,7 +1754,6 @@
     "priceGroupsTableColumns": {
       "description": "Beskrivning",
       "id": "ID",
-      "isDefault": "Är standard",
       "isFree": "Är gratis",
       "publisher": "Utgivare"
     },

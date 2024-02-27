@@ -1,5 +1,22 @@
 import { IconCogwheel, IconCrossCircle, IconPen } from 'hds-react';
 
+import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../constants';
+import { PriceGroupFormFields } from './types';
+
+export enum PRICE_GROUP_FIELDS {
+  DESCRIPTION = 'description',
+  ID = 'id',
+  IS_FREE = 'isFree',
+  PUBLISHER = 'publisher',
+}
+
+export const PRICE_GROUP_INITIAL_VALUES: PriceGroupFormFields = {
+  [PRICE_GROUP_FIELDS.DESCRIPTION]: EMPTY_MULTI_LANGUAGE_OBJECT,
+  [PRICE_GROUP_FIELDS.ID]: null,
+  [PRICE_GROUP_FIELDS.IS_FREE]: false,
+  [PRICE_GROUP_FIELDS.PUBLISHER]: '',
+};
+
 export enum PRICE_GROUP_ACTIONS {
   CREATE = 'create',
   DELETE = 'delete',
@@ -35,3 +52,5 @@ export enum PRICE_GROUP_SEARCH_PARAMS {
 export const PRICE_GROUPS_PAGE_SIZE = 10;
 
 export const PRICE_GROUPS_PAGE_SIZE_LARGE = 100;
+
+export const PRICE_GROUP_FORM_SELECT_FIELDS = [PRICE_GROUP_FIELDS.PUBLISHER];

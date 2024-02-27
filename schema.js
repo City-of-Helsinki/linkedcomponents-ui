@@ -45,6 +45,7 @@ module.exports = buildSchema(/* GraphQL */ `
     updateKeywordSet(input: UpdateKeywordSetMutationInput!): KeywordSet!
     updateOrganization(input: UpdateOrganizationMutationInput!): Organization!
     updatePlace(input: UpdatePlaceMutationInput!): Place!
+    updatePriceGroup(input: UpdatePriceGroupMutationInput!): PriceGroup!
     updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
     updateSeatsReservation(
       id: ID!
@@ -150,6 +151,7 @@ module.exports = buildSchema(/* GraphQL */ `
       sort: String
       text: String
     ): PlacesResponse!
+    priceGroup(id: ID!): PriceGroup!
     priceGroups(
       description: String
       isFree: Boolean
@@ -524,6 +526,13 @@ module.exports = buildSchema(/* GraphQL */ `
     publisher: String
     streetAddress: LocalisedObjectInput
     telephone: LocalisedObjectInput
+  }
+
+  input UpdatePriceGroupMutationInput {
+    description: LocalisedObjectInput
+    id: Int
+    isFree: Boolean
+    publisher: String
   }
 
   input PositionInput {
@@ -944,7 +953,6 @@ module.exports = buildSchema(/* GraphQL */ `
     createdBy: String
     createdTime: String
     description: LocalisedObject
-    isDefault: Boolean
     isFree: Boolean
     lastModifiedBy: String
     lastModifiedTime: String

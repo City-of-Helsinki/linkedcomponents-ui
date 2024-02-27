@@ -3,13 +3,18 @@
 import i18n from 'i18next';
 
 import { PriceGroupsQueryVariables } from '../../../generated/graphql';
-import { fakeOrganization, fakeUser } from '../../../utils/mockDataUtils';
+import {
+  fakeOrganization,
+  fakePriceGroup,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
-import { PRICE_GROUP_ACTIONS } from '../constants';
+import { PRICE_GROUP_ACTIONS, TEST_PRICE_GROUP_ID } from '../constants';
 import { PriceGroupOption } from '../types';
 import {
   checkCanUserDoPriceGroupAction,
   getEditPriceGroupWarning,
+  getPriceGroupInitialValues,
   priceGroupsPathBuilder,
   sortPriceGroupOptions,
 } from '../utils';
@@ -180,5 +185,57 @@ describe('getEditPriceGroupWarning function', () => {
         action: PRICE_GROUP_ACTIONS.UPDATE,
       })
     ).toBe('Sinulla ei ole oikeuksia muokata tätä hintaryhmää.');
+  });
+});
+
+describe('getPlaceInitialValues getPriceGroupInitialValues', () => {
+  it('should return default values if value is not set', () => {
+    expect(
+      getPriceGroupInitialValues(
+        fakePriceGroup({
+          description: null,
+          id: TEST_PRICE_GROUP_ID,
+          isFree: null,
+          publisher: null,
+        })
+      )
+    ).toEqual({
+      description: { ar: '', en: '', fi: '', ru: '', sv: '', zhHans: '' },
+      id: TEST_PRICE_GROUP_ID,
+      isFree: false,
+      publisher: '',
+    });
+  });
+
+  it('should return initial values', () => {
+    expect(
+      getPriceGroupInitialValues(
+        fakePriceGroup({
+          description: {
+            ar: 'Description ar',
+            en: 'Description en',
+            fi: 'Description fi',
+            ru: 'Description ru',
+            sv: 'Description sv',
+            zhHans: 'Description zhHans',
+          },
+          id: TEST_PRICE_GROUP_ID,
+          isFree: true,
+          publisher: TEST_PUBLISHER_ID,
+        })
+      )
+    ).toEqual({
+      description: {
+        ar: 'Description ar',
+        en: 'Description en',
+        fi: 'Description fi',
+        ru: 'Description ru',
+        sv: 'Description sv',
+        zhHans: 'Description zhHans',
+      },
+      id: TEST_PRICE_GROUP_ID,
+      isFree: true,
+      publisher: TEST_PUBLISHER_ID,
+    });
   });
 });
