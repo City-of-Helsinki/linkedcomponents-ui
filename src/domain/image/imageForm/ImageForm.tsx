@@ -156,7 +156,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
 
             await onUpdate(values);
           } catch (error) {
-            showFormErrors({
+            showFormErrors<ImageFormFields>({
               error: error as ValidationError,
               setErrors,
               setTouched,

@@ -156,7 +156,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
               await onCreate(values);
             }
           } catch (error) {
-            showFormErrors({
+            showFormErrors<KeywordFormFields>({
               error: error as ValidationError,
               setErrors,
               setTouched,

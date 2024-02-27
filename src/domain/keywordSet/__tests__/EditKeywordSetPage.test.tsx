@@ -12,9 +12,9 @@ import {
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
+  shouldDeleteInstance,
   userEvent,
   waitFor,
-  within,
 } from '../../../utils/testUtils';
 import { mockedKeywordSetsResponse } from '../../keywordSets/__mocks__/keywordSetsPage';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
@@ -74,7 +74,7 @@ const findElement = (key: 'deleteButton' | 'nameInput' | 'saveButton') => {
 
 test('should scroll to first validation error input field', async () => {
   const user = userEvent.setup();
-  await renderComponent();
+  renderComponent();
 
   await loadingSpinnerIsNotInDocument();
 
@@ -89,28 +89,18 @@ test('should scroll to first validation error input field', async () => {
 });
 
 test('should delete keyword', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedDeleteKeywordSetResponse,
   ]);
 
-  await loadingSpinnerIsNotInDocument();
-
-  const deleteButton = await findElement('deleteButton');
-  await waitFor(() => expect(deleteButton).toBeEnabled());
-  await user.click(deleteButton);
-
-  const withinModal = within(screen.getByRole('dialog'));
-  const deleteKeywordSetButton = withinModal.getByRole('button', {
-    name: 'Poista avainsanaryhmä',
+  await shouldDeleteInstance({
+    confirmDeleteButtonLabel: 'Poista avainsanaryhmä',
+    deleteButtonLabel: 'Poista avainsanaryhmä',
+    expectedNotificationText: 'Avainsanaryhmä on poistettu',
+    expectedUrl: '/fi/administration/keyword-sets',
+    history,
   });
-  await user.click(deleteKeywordSetButton);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/administration/keyword-sets`)
-  );
-  await screen.findByRole('alert', { name: 'Avainsanaryhmä on poistettu' });
 });
 
 test('should update keyword set', async () => {

@@ -163,7 +163,7 @@ const AskPermissionPage: React.FC = () => {
 
               submitAskPermissionForm(values, { resetForm, validateForm });
             } catch (error) {
-              showFormErrors({
+              showFormErrors<AskPermissionFormFields>({
                 error: error as ValidationError,
                 setErrors,
                 setTouched,

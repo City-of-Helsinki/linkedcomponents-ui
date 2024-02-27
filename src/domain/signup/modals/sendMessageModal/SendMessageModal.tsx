@@ -121,7 +121,7 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
               });
               submitSendMessage(values);
             } catch (error) {
-              showFormErrors({
+              showFormErrors<SendMessageFormFields>({
                 error: error as ValidationError,
                 setErrors,
                 setTouched,

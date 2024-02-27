@@ -172,7 +172,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
               await onCreate(values);
             }
           } catch (error) {
-            showFormErrors({
+            showFormErrors<PlaceFormFields>({
               error: error as ValidationError,
               setErrors,
               setTouched,

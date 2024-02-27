@@ -9,9 +9,9 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedDataSourceResponse } from '../../dataSource/__mocks__/dataSource';
 import { mockedOrganizationClassResponse } from '../../organizationClass/__mocks__/organizationClass';
@@ -49,12 +49,8 @@ const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
     ...renderOptions,
   });
 
-const findElement = (key: 'title') => {
-  switch (key) {
-    case 'title':
-      return screen.findByRole('heading', { name: 'Organisaatiot' });
-  }
-};
+const findHeading = () =>
+  screen.findByRole('heading', { name: 'Organisaatiot' });
 
 const getElement = (
   key:
@@ -83,7 +79,7 @@ const getElement = (
 test('should render organizations page', async () => {
   renderComponent();
 
-  await findElement('title');
+  await findHeading();
   await loadingSpinnerIsNotInDocument();
   getElement('breadcrumb');
   getElement('createOrganizationButton');
@@ -92,24 +88,22 @@ test('should render organizations page', async () => {
 });
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Organisaatiot - Linked Events';
-  const pageDescription =
-    'Organisaatioiden listaus. Selaa, suodata ja muokkaa Linked Eventsin organisaatioita.';
-  const pageKeywords =
-    'organisaatio, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await shouldApplyExpectedMetaData({
+    expectedDescription:
+      'Organisaatioiden listaus. Selaa, suodata ja muokkaa Linked Eventsin organisaatioita.',
+    expectedKeywords:
+      'organisaatio, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Organisaatiot - Linked Events',
+  });
 });
 
 test('should open create organization page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await findElement('title');
+  await findHeading();
   await loadingSpinnerIsNotInDocument();
 
   const createOrganizationButton = getElement('createOrganizationButton');

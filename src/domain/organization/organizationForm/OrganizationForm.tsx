@@ -170,7 +170,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
               await onCreate(values);
             }
           } catch (error) {
-            showFormErrors({
+            showFormErrors<OrganizationFormFields>({
               error: error as ValidationError,
               setErrors,
               setTouched,

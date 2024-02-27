@@ -176,7 +176,7 @@ const ContactPage: React.FC = () => {
 
               submitContactForm(values, { resetForm, validateForm });
             } catch (error) {
-              showFormErrors({
+              showFormErrors<ContactFormFields>({
                 error: error as ValidationError,
                 setErrors,
                 setTouched,

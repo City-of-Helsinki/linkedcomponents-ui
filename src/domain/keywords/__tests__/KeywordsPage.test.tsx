@@ -8,9 +8,9 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
@@ -49,12 +49,7 @@ const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
     ...renderOptions,
   });
 
-const findElement = (key: 'title') => {
-  switch (key) {
-    case 'title':
-      return screen.findByRole('heading', { name: 'Avainsanat' });
-  }
-};
+const findHeading = () => screen.findByRole('heading', { name: 'Avainsanat' });
 
 const getElement = (
   key:
@@ -86,7 +81,7 @@ const getElement = (
 test('should render keywords page', async () => {
   renderComponent();
 
-  await findElement('title');
+  await findHeading();
   await loadingSpinnerIsNotInDocument();
   getElement('breadcrumb');
   getElement('createKeywordButton');
@@ -95,23 +90,22 @@ test('should render keywords page', async () => {
 });
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Avainsanat - Linked Events';
-  const pageDescription =
-    'Avainsanojen listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanoja.';
-  const pageKeywords =
-    'avainsana, lista, selailla, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
-  await loadingSpinnerIsNotInDocument();
 
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await shouldApplyExpectedMetaData({
+    expectedDescription:
+      'Avainsanojen listaus. Selaa, suodata ja muokkaa Linked Eventsin avainsanoja.',
+    expectedKeywords:
+      'avainsana, lista, selailla, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Avainsanat - Linked Events',
+  });
 });
 
 test('should open create keyword page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await findElement('title');
+  await findHeading();
   await loadingSpinnerIsNotInDocument();
 
   const createKeywordButton = getElement('createKeywordButton');

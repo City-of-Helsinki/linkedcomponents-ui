@@ -8,9 +8,9 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
@@ -49,12 +49,7 @@ const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
     ...renderOptions,
   });
 
-const findElement = (key: 'title') => {
-  switch (key) {
-    case 'title':
-      return screen.findByRole('heading', { name: 'Kuvat' });
-  }
-};
+const findHeading = () => screen.findByRole('heading', { name: 'Kuvat' });
 
 const getElement = (
   key:
@@ -86,7 +81,7 @@ const getElement = (
 test('should render images page', async () => {
   renderComponent();
 
-  await findElement('title');
+  await findHeading();
   await loadingSpinnerIsNotInDocument();
   getElement('breadcrumb');
   getElement('createImageButton');
@@ -95,23 +90,22 @@ test('should render images page', async () => {
 });
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Kuvat - Linked Events';
-  const pageDescription =
-    'Kuvien listaus. Selaa, suodata ja muokkaa Linked Events -kuvia.';
-  const pageKeywords =
-    'kuva, lista, selailla, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
-  await loadingSpinnerIsNotInDocument();
 
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await shouldApplyExpectedMetaData({
+    expectedDescription:
+      'Kuvien listaus. Selaa, suodata ja muokkaa Linked Events -kuvia.',
+    expectedKeywords:
+      'kuva, lista, selailla, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Kuvat - Linked Events',
+  });
 });
 
 test('should open create image page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await findElement('title');
+  await findHeading();
   await loadingSpinnerIsNotInDocument();
 
   const createImageButton = getElement('createImageButton');

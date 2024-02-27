@@ -165,7 +165,7 @@ const PriceGroupForm: React.FC<PriceGroupFormProps> = ({ priceGroup }) => {
               await onCreate(values);
             }
           } catch (error) {
-            showFormErrors({
+            showFormErrors<PriceGroupFormFields>({
               error: error as ValidationError,
               setErrors,
               setTouched,

@@ -8,9 +8,9 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
@@ -91,17 +91,15 @@ test('should render price groups page', async () => {
 });
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Hintaryhmät - Linked Events';
-  const pageDescription =
-    'Hintaryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin hintaryhmiä.';
-  const pageKeywords =
-    'hintaryhmä, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await shouldApplyExpectedMetaData({
+    expectedDescription:
+      'Hintaryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin hintaryhmiä.',
+    expectedKeywords:
+      'hintaryhmä, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Hintaryhmät - Linked Events',
+  });
 });
 
 test('should open create price group page', async () => {

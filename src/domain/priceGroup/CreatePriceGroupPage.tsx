@@ -9,7 +9,7 @@ import TitleRow from '../app/layout/titleRow/TitleRow';
 import useUser from '../user/hooks/useUser';
 import PriceGroupForm from './priceGroupForm/PriceGroupForm';
 
-const CreatePlacePage: React.FC = () => {
+const CreatePriceGroupPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
@@ -20,12 +20,12 @@ const CreatePlacePage: React.FC = () => {
             list={[
               { title: t('common.home'), path: ROUTES.HOME },
               { title: t('adminPage.title'), path: ROUTES.ADMIN },
-              { title: t('placesPage.title'), path: ROUTES.PLACES },
+              { title: t('priceGroupsPage.title'), path: ROUTES.PRICE_GROUPS },
               { title: t('createPriceGroupPage.title'), path: null },
             ]}
           />
         }
-        title={t('createPlacePage.title')}
+        title={t('createPriceGroupPage.title')}
       />
 
       <PriceGroupForm />
@@ -43,7 +43,7 @@ const CreatePriceGroupPageWrapper: React.FC = () => {
       title="createPriceGroupPage.pageTitle"
     >
       <LoadingSpinner isLoading={loadingUser}>
-        <CreatePlacePage />
+        <CreatePriceGroupPage />
       </LoadingSpinner>
     </PageWrapper>
   );

@@ -7,9 +7,9 @@ import {
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
+  shouldDeleteInstance,
   userEvent,
   waitFor,
-  within,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
@@ -49,8 +49,6 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
     path: ROUTES.EDIT_PRICE_GROUP,
   });
 
-const findDeleteButton = () =>
-  screen.findByRole('button', { name: /poista hintaryhmä/i });
 const findDescriptionInput = () =>
   screen.findByLabelText(/kuvaus \(suomeksi\)/i);
 const getSaveButton = () => screen.getByRole('button', { name: /tallenna/i });
@@ -70,27 +68,18 @@ test('should scroll to first validation error input field', async () => {
 });
 
 test('should delete price group', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedDeletePriceGroupResponse,
   ]);
 
-  await loadingSpinnerIsNotInDocument();
-
-  const deleteButton = await findDeleteButton();
-  await user.click(deleteButton);
-
-  const withinModal = within(screen.getByRole('dialog'));
-  const confirmDeleteButton = withinModal.getByRole('button', {
-    name: 'Poista hintaryhmä',
+  await shouldDeleteInstance({
+    confirmDeleteButtonLabel: 'Poista hintaryhmä',
+    deleteButtonLabel: 'Poista hintaryhmä',
+    expectedNotificationText: 'Hintaryhmä on poistettu',
+    expectedUrl: `/fi/administration/price-groups`,
+    history,
   });
-  await user.click(confirmDeleteButton);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/administration/places`)
-  );
-  await screen.findByRole('alert', { name: 'Hintaryhmä on poistettu' });
 });
 
 test('should update price group', async () => {

@@ -12,9 +12,9 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
@@ -47,12 +47,7 @@ const defaultMocks = [
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   render(<CreateKeywordSetPage />, { mocks });
 
-const findElement = (key: 'saveButton') => {
-  switch (key) {
-    case 'saveButton':
-      return screen.findByRole('button', { name: /tallenna/i });
-  }
-};
+const findSaveButton = () => screen.findByRole('button', { name: /tallenna/i });
 
 const getElement = (
   key:
@@ -99,15 +94,14 @@ const fillInputValues = async () => {
 };
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Lisää avainsanaryhmä - Linked Events';
-  const pageDescription = 'Lisää uusi avainsanaryhmä Linked Eventsiin.';
-  const pageKeywords =
-    'lisää, uusi, avainsana, ryhmä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
-  await loadingSpinnerIsNotInDocument();
 
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await shouldApplyExpectedMetaData({
+    expectedDescription: 'Lisää uusi avainsanaryhmä Linked Eventsiin.',
+    expectedKeywords:
+      'lisää, uusi, avainsana, ryhmä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Lisää avainsanaryhmä - Linked Events',
+  });
 });
 
 test('should focus to first validation error when trying to save new keyword set', async () => {
@@ -116,7 +110,7 @@ test('should focus to first validation error when trying to save new keyword set
 
   await loadingSpinnerIsNotInDocument();
 
-  const saveButton = await findElement('saveButton');
+  const saveButton = await findSaveButton();
   await waitFor(() => expect(saveButton).toBeEnabled());
 
   const originIdInput = getElement('originIdInput');
@@ -144,7 +138,7 @@ test('should move to keywords page after creating new keyword', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const saveButton = await findElement('saveButton');
+  const saveButton = await findSaveButton();
   await waitFor(() => expect(saveButton).toBeEnabled());
 
   await fillInputValues();
@@ -162,7 +156,7 @@ test('should show server errors', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const saveButton = await findElement('saveButton');
+  const saveButton = await findSaveButton();
   await waitFor(() => expect(saveButton).toBeEnabled());
 
   await fillInputValues();

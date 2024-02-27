@@ -221,7 +221,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
               await handleCreate(values);
             }
           } catch (error) {
-            showFormErrors({
+            showFormErrors<RegistrationFormFields>({
               error: error as ValidationError,
               setErrors,
               setTouched,

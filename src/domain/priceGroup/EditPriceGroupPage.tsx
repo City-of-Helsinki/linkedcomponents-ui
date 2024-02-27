@@ -46,14 +46,14 @@ const EditPriceGroupPage: React.FC<Props> = ({ priceGroup }) => {
       priceGroup,
     });
 
-  const goToPlacesPage = () => {
-    navigate(`/${locale}${ROUTES.PLACES}`);
+  const goToPriceGroupsPage = () => {
+    navigate(`/${locale}${ROUTES.PRICE_GROUPS}`);
   };
 
   const handleDelete = () => {
     deletePriceGroup({
       onSuccess: () => {
-        goToPlacesPage();
+        goToPriceGroupsPage();
         addNotification({
           label: t('priceGroup.form.notificationPriceGroupDeleted'),
           type: 'success',

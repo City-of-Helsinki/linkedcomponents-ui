@@ -8,9 +8,9 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
@@ -51,12 +51,7 @@ const renderComponent = ({
     ...restRenderOptions,
   });
 
-const findElement = (key: 'title') => {
-  switch (key) {
-    case 'title':
-      return screen.findByRole('heading', { name: 'Paikat' });
-  }
-};
+const findHeading = () => screen.findByRole('heading', { name: 'Paikat' });
 
 const getElement = (
   key:
@@ -88,7 +83,7 @@ const getElement = (
 test('should render keywords page', async () => {
   renderComponent();
 
-  await findElement('title');
+  await findHeading();
   await loadingSpinnerIsNotInDocument();
   getElement('breadcrumb');
   getElement('createPlaceButton');
@@ -98,24 +93,22 @@ test('should render keywords page', async () => {
 });
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Paikat - Linked Events';
-  const pageDescription =
-    'Paikkojen listaus. Selaa, suodata ja muokkaa Linked Eventsin paikkoja.';
-  const pageKeywords =
-    'paikka, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await shouldApplyExpectedMetaData({
+    expectedDescription:
+      'Paikkojen listaus. Selaa, suodata ja muokkaa Linked Eventsin paikkoja.',
+    expectedKeywords:
+      'paikka, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Paikat - Linked Events',
+  });
 });
 
 test('should open create place page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await findElement('title');
+  await findHeading();
   await loadingSpinnerIsNotInDocument();
 
   const createKeywordButton = getElement('createPlaceButton');

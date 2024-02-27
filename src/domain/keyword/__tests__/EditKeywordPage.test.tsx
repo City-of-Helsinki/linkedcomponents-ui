@@ -7,9 +7,9 @@ import {
   configure,
   renderWithRoute,
   screen,
+  shouldDeleteInstance,
   userEvent,
   waitFor,
-  within,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
@@ -60,12 +60,7 @@ const findElement = (key: 'deleteButton' | 'nameInput') => {
   }
 };
 
-const getElement = (key: 'saveButton') => {
-  switch (key) {
-    case 'saveButton':
-      return screen.getByRole('button', { name: /tallenna/i });
-  }
-};
+const getSaveButton = () => screen.getByRole('button', { name: /tallenna/i });
 
 test('should scroll to first validation error input field', async () => {
   const user = userEvent.setup();
@@ -73,32 +68,25 @@ test('should scroll to first validation error input field', async () => {
 
   const nameInput = await findElement('nameInput');
   await user.clear(nameInput);
-  const saveButton = getElement('saveButton');
+  const saveButton = getSaveButton();
   await user.click(saveButton);
 
   await waitFor(() => expect(nameInput).toHaveFocus());
 });
 
 test('should delete keyword', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedDeleteKeywordResponse,
   ]);
 
-  const deleteButton = await findElement('deleteButton');
-  await user.click(deleteButton);
-
-  const withinModal = within(screen.getByRole('dialog'));
-  const deleteKeywordButton = withinModal.getByRole('button', {
-    name: 'Poista avainsana',
+  await shouldDeleteInstance({
+    confirmDeleteButtonLabel: 'Poista avainsana',
+    deleteButtonLabel: 'Poista avainsana',
+    expectedNotificationText: 'Avainsana on poistettu',
+    expectedUrl: '/fi/administration/keywords',
+    history,
   });
-  await user.click(deleteKeywordButton);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/administration/keywords`)
-  );
-  await screen.findByRole('alert', { name: 'Avainsana on poistettu' });
 });
 
 test('should update keyword', async () => {
@@ -110,8 +98,8 @@ test('should update keyword', async () => {
 
   await findElement('nameInput');
 
-  const submitButton = getElement('saveButton');
-  await user.click(submitButton);
+  const saveButton = getSaveButton();
+  await user.click(saveButton);
 
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/keywords`)
@@ -125,8 +113,8 @@ test('should show server errors', async () => {
 
   await findElement('nameInput');
 
-  const submitButton = getElement('saveButton');
-  await user.click(submitButton);
+  const saveButton = getSaveButton();
+  await user.click(saveButton);
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);

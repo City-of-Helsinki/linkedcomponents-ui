@@ -105,7 +105,7 @@ type SignupGroupFormProps = Omit<
   setTouched: (
     touched: FormikTouched<SignupGroupFormFieldsType>,
     shouldValidate?: boolean
-  ) => void;
+  ) => Promise<void | FormikErrors<SignupGroupFormFieldsType>>;
   values: SignupGroupFormFieldsType;
 };
 
@@ -289,7 +289,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
         handleCreate(values);
       }
     } catch (error) {
-      showFormErrors({
+      showFormErrors<SignupFormFields>({
         error: error as ValidationError,
         setErrors,
         setTouched,
