@@ -212,7 +212,7 @@ export const getPriceGroupInitialValues = (
   priceGroup: PriceGroupFieldsFragment
 ): PriceGroupFormFields => ({
   description: getLocalisedObject(priceGroup.description),
-  id: priceGroup.id,
+  id: priceGroup.id.toString(),
   isFree: !!priceGroup.isFree,
   publisher: getValue(priceGroup.publisher, ''),
 });
@@ -224,7 +224,7 @@ export const getPriceGroupPayload = (
 
   return {
     ...restFormValues,
-    id: id ?? undefined,
+    id: id ? Number(id) : undefined,
   };
 };
 

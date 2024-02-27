@@ -586,6 +586,16 @@ it('should render price groups page', async () => {
   });
 });
 
+it('should render create price group page', async () => {
+  const { history } = await renderRoute(ROUTES.CREATE_PRICE_GROUP);
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Lisää hintaryhmä - Linked Events',
+    pathname: '/fi/administration/price-groups/create',
+  });
+});
+
 it('should render edit price group page', async () => {
   const id = priceGroup.id.toString();
   const { history } = await renderRoute(

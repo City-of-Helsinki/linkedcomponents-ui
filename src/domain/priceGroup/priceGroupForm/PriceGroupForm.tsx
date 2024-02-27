@@ -34,6 +34,7 @@ import {
   PRICE_GROUP_FIELDS,
   PRICE_GROUP_INITIAL_VALUES,
 } from '../constants';
+import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import usePriceGroupActions from '../hooks/usePriceGroupActions';
 import usePriceGroupServerErrors from '../hooks/usePriceGroupServerErrors';
@@ -65,13 +66,22 @@ const PriceGroupForm: React.FC<PriceGroupFormProps> = ({ priceGroup }) => {
   const { organizationAncestors } =
     useOrganizationAncestors(savedPlacePublisher);
 
-  const { saving, updatePriceGroup } = usePriceGroupActions({ priceGroup });
+  const { createPriceGroup, saving, updatePriceGroup } = usePriceGroupActions({
+    priceGroup,
+  });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     usePriceGroupServerErrors();
 
   const goToPriceGroupsPage = () => {
     navigate(`/${locale}${ROUTES.PRICE_GROUPS}`);
+  };
+
+  const onCreate = async (values: PriceGroupFormFields) => {
+    await createPriceGroup(values, {
+      onError: (error: ServerError) => showServerErrors({ error }),
+      onSuccess: goToPriceGroupsPage,
+    });
   };
 
   const onUpdate = async (values: PriceGroupFormFields) => {
@@ -152,7 +162,7 @@ const PriceGroupForm: React.FC<PriceGroupFormProps> = ({ priceGroup }) => {
             if (priceGroup) {
               await onUpdate(values);
             } else {
-              // await onCreate(values);
+              await onCreate(values);
             }
           } catch (error) {
             showFormErrors({
@@ -236,7 +246,13 @@ const PriceGroupForm: React.FC<PriceGroupFormProps> = ({ priceGroup }) => {
                 publisher={publisher}
                 saving={saving}
               />
-            ) : null}
+            ) : (
+              <CreateButtonPanel
+                onSave={handleSubmit}
+                publisher={publisher}
+                saving={saving}
+              />
+            )}
           </Form>
         );
       }}

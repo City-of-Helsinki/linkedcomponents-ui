@@ -13,7 +13,7 @@ export type PriceGroupFields = {
 
 export type PriceGroupFormFields = {
   [PRICE_GROUP_FIELDS.DESCRIPTION]: MultiLanguageObject;
-  [PRICE_GROUP_FIELDS.ID]: number | null;
+  [PRICE_GROUP_FIELDS.ID]: string;
   [PRICE_GROUP_FIELDS.IS_FREE]: boolean;
   [PRICE_GROUP_FIELDS.PUBLISHER]: string;
 };

@@ -77,6 +77,7 @@
     "buttonAddKeywordSet": "Lisää avainsanaryhmä",
     "buttonAddOrganization": "Lisää uusi organisaatio",
     "buttonAddPlace": "Lisää paikka",
+    "buttonAddPriceGroup": "Lisää hintaryhmä",
     "buttonAddRegistration": "Lisää uusi",
     "buttonBack": "Takaisin",
     "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
@@ -296,6 +297,11 @@
     "pageDescription": "Lisää uusi paikka Linked Eventsiin.",
     "pageTitle": "Lisää paikka",
     "title": "Lisää paikka"
+  },
+  "createPriceGroupPage": {
+    "pageDescription": "Lisää uusi hintaryhmä Linked Eventsiin.",
+    "pageTitle": "Lisää hintaryhmä",
+    "title": "Lisää hintaryhmä"
   },
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",
@@ -1446,7 +1452,7 @@
     "permission": "oikeudet",
     "place": "paikka",
     "platform": "alusta",
-    "placeGroup": "hintaryhmä",
+    "priceGroup": "hintaryhmä",
     "questions": "kysymykset",
     "registration": "ilmoittautuminen",
     "report": "ilmoita",

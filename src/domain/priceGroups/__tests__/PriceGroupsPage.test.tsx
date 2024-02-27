@@ -57,11 +57,18 @@ const findHeading = () => {
 };
 
 const getElement = (
-  key: 'breadcrumb' | 'searchInput' | 'sortByIdButton' | 'table'
+  key:
+    | 'breadcrumb'
+    | 'createPriceGroupButton'
+    | 'searchInput'
+    | 'sortByIdButton'
+    | 'table'
 ) => {
   switch (key) {
     case 'breadcrumb':
       return screen.getByRole('navigation', { name: 'Murupolku' });
+    case 'createPriceGroupButton':
+      return screen.getByRole('button', { name: 'Lisää hintaryhmä' });
     case 'searchInput':
       return screen.getByRole('combobox', { name: 'Hae hintaryhmiä' });
     case 'sortByIdButton':
@@ -95,6 +102,21 @@ test('applies expected metadata', async () => {
   await loadingSpinnerIsNotInDocument();
 
   await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+});
+
+test('should open create price group page', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent();
+
+  await findHeading();
+  await loadingSpinnerIsNotInDocument();
+
+  const createPriceGroupButton = getElement('createPriceGroupButton');
+  await user.click(createPriceGroupButton);
+
+  expect(history.location.pathname).toBe(
+    '/fi/administration/price-groups/create'
+  );
 });
 
 test('should add sort parameter to search query', async () => {

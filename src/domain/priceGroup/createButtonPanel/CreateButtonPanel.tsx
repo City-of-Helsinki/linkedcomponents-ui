@@ -6,23 +6,19 @@ import buttonPanelStyles from '../../../common/components/buttonPanel/buttonPane
 import LoadingButton from '../../../common/components/loadingButton/LoadingButton';
 import { ROUTES } from '../../../constants';
 import useGoBack from '../../../hooks/useGoBack';
-import getValue from '../../../utils/getValue';
 import useAuth from '../../auth/hooks/useAuth';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
-import { PriceGroupsLocationState } from '../../priceGroups/types';
 import useUser from '../../user/hooks/useUser';
 import { PRICE_GROUP_ACTIONS } from '../constants';
 import { getEditPriceGroupButtonProps } from '../utils';
 
-export interface EditButtonPanelProps {
-  id: string;
+export interface CreateButtonPanelProps {
   onSave: () => void;
   publisher: string;
   saving: PRICE_GROUP_ACTIONS | null;
 }
 
-const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
-  id,
+const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
   onSave,
   publisher,
   saving,
@@ -34,13 +30,10 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const goBack = useGoBack<PriceGroupsLocationState>({
-    defaultReturnPath: ROUTES.PRICE_GROUPS,
-    state: { priceGroupId: getValue(id?.toString(), '') },
-  });
+  const goBack = useGoBack({ defaultReturnPath: ROUTES.KEYWORDS });
 
   const buttonProps = getEditPriceGroupButtonProps({
-    action: PRICE_GROUP_ACTIONS.UPDATE,
+    action: PRICE_GROUP_ACTIONS.CREATE,
     authenticated,
     onClick: onSave,
     organizationAncestors,
@@ -58,7 +51,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
           {...buttonProps}
           className={buttonPanelStyles.fullWidthOnMobile}
           disabled={buttonProps.disabled}
-          loading={saving === PRICE_GROUP_ACTIONS.UPDATE}
+          loading={saving === PRICE_GROUP_ACTIONS.CREATE}
           type="submit"
         >
           {buttonProps.label}
@@ -69,4 +62,4 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   );
 };
 
-export default EditButtonPanel;
+export default CreateButtonPanel;

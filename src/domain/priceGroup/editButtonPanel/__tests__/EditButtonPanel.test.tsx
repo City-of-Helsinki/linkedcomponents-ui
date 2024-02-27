@@ -29,7 +29,7 @@ const mocks = [
 ];
 
 const defaultProps: EditButtonPanelProps = {
-  id: priceGroup.id,
+  id: priceGroup.id.toString(),
   onSave: vi.fn(),
   publisher: TEST_PUBLISHER_ID,
   saving: null,

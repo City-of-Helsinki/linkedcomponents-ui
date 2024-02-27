@@ -1,10 +1,14 @@
 /* eslint-disable max-len */
+import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
+import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
+import useLocale from '../../hooks/useLocale';
 import adminListPageStyles from '../admin/layout/adminListPage.module.scss';
 import AdminListPageWrapper from '../admin/layout/adminListPageWrapper/AdminListPageWrapper';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
@@ -16,6 +20,13 @@ import PriceGroupList from './priceGroupList/PriceGroupList';
 
 const PriceGroupsPage: React.FC = () => {
   const { t } = useTranslation();
+  const locale = useLocale();
+  const navigate = useNavigate();
+
+  const goToCreatePriceGroupPage = () => {
+    navigate(`/${locale}${ROUTES.CREATE_PRICE_GROUP}`);
+  };
+
   return (
     <AdminListPageWrapper>
       <TitleRow
@@ -27,6 +38,16 @@ const PriceGroupsPage: React.FC = () => {
               { title: t('priceGroupsPage.title'), path: null },
             ]}
           />
+        }
+        button={
+          <Button
+            fullWidth={true}
+            iconLeft={<IconPlus aria-hidden={true} />}
+            onClick={goToCreatePriceGroupPage}
+            variant="primary"
+          >
+            {t('common.buttonAddPriceGroup')}
+          </Button>
         }
         title={t('priceGroupsPage.title')}
       />
@@ -48,7 +69,7 @@ const PriceGroupPageWrapper: React.FC = () => {
   return (
     <PageWrapper
       description="priceGroupsPage.pageDescription"
-      keywords={['keywords.placeGroup', 'keywords.listing']}
+      keywords={['keywords.priceGroup', 'keywords.listing']}
       title="priceGroupsPage.pageTitle"
     >
       <LoadingSpinner isLoading={loadingUser}>

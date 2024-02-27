@@ -7,6 +7,7 @@ import {
 import {
   PriceGroupFieldsFragment,
   UpdatePriceGroupMutationInput,
+  useCreatePriceGroupMutation,
   useDeletePriceGroupMutation,
   useUpdatePriceGroupMutation,
 } from '../../../generated/graphql';
@@ -32,6 +33,10 @@ interface Props {
 
 type UsePriceGroupActionsState = {
   closeModal: () => void;
+  createPriceGroup: (
+    values: PriceGroupFormFields,
+    callbacks?: MutationCallbacks<number>
+  ) => Promise<void>;
   deletePriceGroup: (callbacks?: MutationCallbacks<number>) => Promise<void>;
   openModal: PRICE_GROUP_MODALS | null;
   saving: PRICE_GROUP_ACTIONS | null;
@@ -51,6 +56,7 @@ const usePriceGroupActions = ({
   );
   const [saving, setSaving] = useMountedState<PRICE_GROUP_ACTIONS | null>(null);
 
+  const [createPriceGroupMutation] = useCreatePriceGroupMutation();
   const [deletePriceGroupMutation] = useDeletePriceGroupMutation();
   const [updatePriceGroupMutation] = useUpdatePriceGroupMutation();
 
@@ -83,6 +89,30 @@ const usePriceGroupActions = ({
     number
   >();
 
+  const createPriceGroup = async (
+    values: PriceGroupFormFields,
+    callbacks?: MutationCallbacks<number>
+  ) => {
+    setSaving(PRICE_GROUP_ACTIONS.CREATE);
+    const payload = getPriceGroupPayload(values);
+
+    try {
+      const { data } = await createPriceGroupMutation({
+        variables: { input: payload },
+      });
+
+      await cleanAfterUpdate(data?.createPriceGroup.id as number, callbacks);
+    } catch (error) /* istanbul ignore next */ {
+      handleError({
+        callbacks,
+        error,
+        message: 'Failed to create price group',
+        payload,
+        savingFinished,
+      });
+    }
+  };
+
   const deletePriceGroup = async (callbacks?: MutationCallbacks<number>) => {
     try {
       const id = priceGroup?.id as number;
@@ -95,7 +125,7 @@ const usePriceGroupActions = ({
       handleError({
         callbacks,
         error,
-        message: 'Failed to delete place',
+        message: 'Failed to delete price group',
         savingFinished,
       });
     }
@@ -105,6 +135,7 @@ const usePriceGroupActions = ({
     values: PriceGroupFormFields,
     callbacks?: MutationCallbacks<number>
   ) => {
+    const id = priceGroup?.id as number;
     const payload: UpdatePriceGroupMutationInput = getPriceGroupPayload(values);
 
     try {
@@ -112,12 +143,12 @@ const usePriceGroupActions = ({
 
       await updatePriceGroupMutation({ variables: { input: payload } });
 
-      await cleanAfterUpdate(values.id as number, callbacks);
+      await cleanAfterUpdate(id, callbacks);
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
         error,
-        message: 'Failed to update keyword',
+        message: 'Failed to update price group',
         payload,
         savingFinished,
       });
@@ -126,6 +157,7 @@ const usePriceGroupActions = ({
 
   return {
     closeModal,
+    createPriceGroup,
     deletePriceGroup,
     openModal,
     saving,

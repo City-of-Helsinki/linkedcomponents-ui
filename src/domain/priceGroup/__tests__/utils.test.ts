@@ -201,7 +201,7 @@ describe('getPlaceInitialValues getPriceGroupInitialValues', () => {
       )
     ).toEqual({
       description: { ar: '', en: '', fi: '', ru: '', sv: '', zhHans: '' },
-      id: TEST_PRICE_GROUP_ID,
+      id: '123',
       isFree: false,
       publisher: '',
     });
@@ -233,7 +233,7 @@ describe('getPlaceInitialValues getPriceGroupInitialValues', () => {
         sv: 'Description sv',
         zhHans: 'Description zhHans',
       },
-      id: TEST_PRICE_GROUP_ID,
+      id: '123',
       isFree: true,
       publisher: TEST_PUBLISHER_ID,
     });
