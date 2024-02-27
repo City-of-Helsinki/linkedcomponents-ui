@@ -111,7 +111,7 @@ const PriceGroupListContainer: React.FC = () => {
   const { count, onSearchSubmit, ...listProps } = useCommonListProps({
     defaultSort: DEFAULT_PRICE_GROUP_SORT,
     listId: priceGroupListId,
-    meta: priceGroupsData?.priceGroups.meta,
+    meta: priceGroupsData?.priceGroups?.meta,
     pageSize: PRICE_GROUPS_PAGE_SIZE,
   });
 

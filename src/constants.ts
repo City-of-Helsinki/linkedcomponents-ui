@@ -29,6 +29,7 @@ export enum ROUTES {
   CREATE_KEYWORD_SET = '/administration/keyword-sets/create',
   CREATE_ORGANIZATION = '/administration/organizations/create',
   CREATE_PLACE = '/administration/places/create',
+  CREATE_PRICE_GROUP = '/administration/price-groups/create',
   CREATE_REGISTRATION = '/registrations/create',
   CREATE_SIGNUP_GROUP = '/registrations/:registrationId/signup-group/create',
   EDIT_EVENT = '/events/edit/:id',

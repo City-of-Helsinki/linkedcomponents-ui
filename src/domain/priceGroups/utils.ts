@@ -4,6 +4,7 @@ import { PriceGroupsQueryVariables } from '../../generated/graphql';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
+import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import {
@@ -64,6 +65,17 @@ export const addParamsToPriceGroupQueryString = (
   queryParams: Partial<PriceGroupSearchParams>
 ): string => {
   return addParamsToQueryString<PriceGroupSearchParams>(
+    queryString,
+    queryParams,
+    getPriceGroupParamValue
+  );
+};
+
+export const replaceParamsToPriceGroupQueryString = (
+  queryString: string,
+  queryParams: Partial<PriceGroupSearchParams>
+): string => {
+  return replaceParamsToQueryString<PriceGroupSearchParams>(
     queryString,
     queryParams,
     getPriceGroupParamValue

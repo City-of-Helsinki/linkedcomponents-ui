@@ -22,7 +22,10 @@ import {
   getPriceGroupFields,
 } from '../../priceGroup/utils';
 import useUser from '../../user/hooks/useUser';
-import { addParamsToPriceGroupQueryString } from '../utils';
+import {
+  addParamsToPriceGroupQueryString,
+  replaceParamsToPriceGroupQueryString,
+} from '../utils';
 
 export interface PriceGroupActionsDropdownProps {
   className?: string;
@@ -55,6 +58,17 @@ const PriceGroupActionsDropdown: React.FC<PriceGroupActionsDropdownProps> = ({
 
     navigate({
       pathname: `/${locale}${ROUTES.EDIT_PRICE_GROUP.replace(':id', id)}`,
+      search: queryString,
+    });
+  };
+
+  const goToPriceGroupsPage = () => {
+    const queryString = replaceParamsToPriceGroupQueryString(search, {
+      page: null,
+    });
+
+    navigate({
+      pathname: `/${locale}${ROUTES.PRICE_GROUPS}`,
       search: queryString,
     });
   };
@@ -102,6 +116,7 @@ const PriceGroupActionsDropdown: React.FC<PriceGroupActionsDropdownProps> = ({
                   label: t('priceGroup.form.notificationPriceGroupDeleted'),
                   type: 'success',
                 });
+                goToPriceGroupsPage();
               },
             });
           }}

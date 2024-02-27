@@ -78,6 +78,7 @@
     "buttonAddKeywordSet": "Lisää avainsanaryhmä",
     "buttonAddOrganization": "Lisää uusi organisaatio",
     "buttonAddPlace": "Lisää paikka",
+    "buttonAddPriceGroup": "Lisää asiakasryhmä",
     "buttonAddRegistration": "Lisää uusi",
     "buttonBack": "Takaisin",
     "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
@@ -297,6 +298,11 @@
     "pageDescription": "Lisää uusi paikka Linked Eventsiin.",
     "pageTitle": "Lisää paikka",
     "title": "Lisää paikka"
+  },
+  "createPriceGroupPage": {
+    "pageDescription": "Lisää uusi asiakasryhmä Linked Eventsiin.",
+    "pageTitle": "Lisää asiakasryhmä",
+    "title": "Lisää asiakasryhmä"
   },
   "createRegistrationPage": {
     "pageTitle": "Uusi ilmoittautuminen",

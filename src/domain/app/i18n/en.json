@@ -78,6 +78,7 @@
     "buttonAddKeywordSet": "Add keyword set",
     "buttonAddOrganization": "Add new organization",
     "buttonAddPlace": "Add place",
+    "buttonAddPriceGroup": "Add customer group",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
     "cancel": "Undo",
@@ -296,6 +297,11 @@
     "pageDescription": "Add new place to Linked Events.",
     "pageTitle": "Add place",
     "title": "Add place"
+  },
+  "createPriceGroupPage": {
+    "pageDescription": "Add new customer group to Linked Events.",
+    "pageTitle": "Add customer group",
+    "title": "Add customer group"
   },
   "createRegistrationPage": {
     "pageTitle": "New registration",

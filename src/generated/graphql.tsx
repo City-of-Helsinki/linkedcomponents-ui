@@ -143,6 +143,13 @@ export type CreatePlaceMutationInput = {
   telephone?: InputMaybe<LocalisedObjectInput>;
 };
 
+export type CreatePriceGroupMutationInput = {
+  description?: InputMaybe<LocalisedObjectInput>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  isFree?: InputMaybe<Scalars['Boolean']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type CreateRegistrationMutationInput = {
   audienceMaxAge?: InputMaybe<Scalars['Int']['input']>;
   audienceMinAge?: InputMaybe<Scalars['Int']['input']>;
@@ -450,6 +457,7 @@ export type Mutation = {
   createKeywordSet: KeywordSet;
   createOrganization: Organization;
   createPlace: Place;
+  createPriceGroup: PriceGroup;
   createRegistration: Registration;
   createSeatsReservation: SeatsReservation;
   createSignupGroup: CreateSignupGroupResponse;
@@ -511,6 +519,11 @@ export type MutationCreateOrganizationArgs = {
 
 export type MutationCreatePlaceArgs = {
   input: CreatePlaceMutationInput;
+};
+
+
+export type MutationCreatePriceGroupArgs = {
+  input: CreatePriceGroupMutationInput;
 };
 
 
@@ -1839,6 +1852,13 @@ export type PlacesQueryVariables = Exact<{
 
 
 export type PlacesQuery = { __typename?: 'Query', places: { __typename?: 'PlacesResponse', meta: { __typename?: 'Meta', count: number, next?: string | null, previous?: string | null }, data: Array<{ __typename?: 'Place', id?: string | null, atId: string, addressRegion?: string | null, contactType?: string | null, dataSource?: string | null, email?: string | null, hasUpcomingEvents?: boolean | null, nEvents?: number | null, publisher?: string | null, postalCode?: string | null, postOfficeBoxNum?: string | null, addressLocality?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, divisions: Array<{ __typename?: 'Division', type?: string | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null>, infoUrl?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, name?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, streetAddress?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, telephone?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null, position?: { __typename?: 'Position', coordinates: Array<number | null> } | null } | null> } };
+
+export type CreatePriceGroupMutationVariables = Exact<{
+  input: CreatePriceGroupMutationInput;
+}>;
+
+
+export type CreatePriceGroupMutation = { __typename?: 'Mutation', createPriceGroup: { __typename?: 'PriceGroup', id: number, isFree?: boolean | null, publisher?: string | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } };
 
 export type DeletePriceGroupMutationVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -4099,6 +4119,39 @@ export function usePlacesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pla
 export type PlacesQueryHookResult = ReturnType<typeof usePlacesQuery>;
 export type PlacesLazyQueryHookResult = ReturnType<typeof usePlacesLazyQuery>;
 export type PlacesQueryResult = Apollo.QueryResult<PlacesQuery, PlacesQueryVariables>;
+export const CreatePriceGroupDocument = gql`
+    mutation CreatePriceGroup($input: CreatePriceGroupMutationInput!) {
+  createPriceGroup(input: $input) @rest(type: "PriceGroup", path: "/price_group/", method: "POST", bodyKey: "input") {
+    ...priceGroupFields
+  }
+}
+    ${PriceGroupFieldsFragmentDoc}`;
+export type CreatePriceGroupMutationFn = Apollo.MutationFunction<CreatePriceGroupMutation, CreatePriceGroupMutationVariables>;
+
+/**
+ * __useCreatePriceGroupMutation__
+ *
+ * To run a mutation, you first call `useCreatePriceGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePriceGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPriceGroupMutation, { data, loading, error }] = useCreatePriceGroupMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreatePriceGroupMutation(baseOptions?: Apollo.MutationHookOptions<CreatePriceGroupMutation, CreatePriceGroupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePriceGroupMutation, CreatePriceGroupMutationVariables>(CreatePriceGroupDocument, options);
+      }
+export type CreatePriceGroupMutationHookResult = ReturnType<typeof useCreatePriceGroupMutation>;
+export type CreatePriceGroupMutationResult = Apollo.MutationResult<CreatePriceGroupMutation>;
+export type CreatePriceGroupMutationOptions = Apollo.BaseMutationOptions<CreatePriceGroupMutation, CreatePriceGroupMutationVariables>;
 export const DeletePriceGroupDocument = gql`
     mutation DeletePriceGroup($id: Int!) {
   deletePriceGroup(id: $id) @rest(type: "NoContent", path: "/price_group/{args.id}/", method: "DELETE") {

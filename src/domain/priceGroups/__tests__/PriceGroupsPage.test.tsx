@@ -57,11 +57,18 @@ const findHeading = () => {
 };
 
 const getElement = (
-  key: 'breadcrumb' | 'searchInput' | 'sortByDescriptionButton' | 'table'
+  key:
+    | 'breadcrumb'
+    | 'createPriceGroupButton'
+    | 'searchInput'
+    | 'sortByDescriptionButton'
+    | 'table'
 ) => {
   switch (key) {
     case 'breadcrumb':
       return screen.getByRole('navigation', { name: 'Murupolku' });
+    case 'createPriceGroupButton':
+      return screen.getByRole('button', { name: 'Lisää asiakasryhmä' });
     case 'searchInput':
       return screen.getByRole('combobox', { name: 'Hae asiakasryhmiä' });
     case 'sortByDescriptionButton':
@@ -93,6 +100,21 @@ test('applies expected metadata', async () => {
       'asiakasryhmä, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
     expectedTitle: 'Asiakasryhmät - Linked Events',
   });
+});
+
+test('should open create price group page', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent();
+
+  await findHeading();
+  await loadingSpinnerIsNotInDocument();
+
+  const createPriceGroupButton = getElement('createPriceGroupButton');
+  await user.click(createPriceGroupButton);
+
+  expect(history.location.pathname).toBe(
+    '/fi/administration/price-groups/create'
+  );
 });
 
 test('should add sort parameter to search query', async () => {

@@ -78,6 +78,7 @@
     "buttonAddKeywordSet": "Lägg till nyckelorduppsättningar",
     "buttonAddOrganization": "Lägg till organisation",
     "buttonAddPlace": "Lägg till plats",
+    "buttonAddPriceGroup": "Lägg till kundgrupp",
     "buttonAddRegistration": "Lägg till",
     "buttonBack": "Tillbaka",
     "buttonRemoveFilter": "Ta bort filtret: {{name}}",
@@ -297,6 +298,11 @@
     "pageDescription": "Lägg till ny plats till Linked Events.",
     "pageTitle": "Lägg till plats",
     "title": "Lägg till plats"
+  },
+  "createPriceGroupPage": {
+    "pageDescription": "Lägg till ny kundgrupp till Linked Events.",
+    "pageTitle": "Lägg till kundgrupp",
+    "title": "Lägg till kundgrupp"
   },
   "createRegistrationPage": {
     "pageTitle": "Ny registrering",

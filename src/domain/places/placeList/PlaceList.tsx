@@ -100,7 +100,7 @@ const PlaceListContainer: React.FC = () => {
   const { count, onSearchSubmit, ...listProps } = useCommonListProps({
     defaultSort: DEFAULT_PLACE_SORT,
     listId: placeListId,
-    meta: placesData?.places.meta,
+    meta: placesData?.places?.meta,
     pageSize: PLACES_PAGE_SIZE,
   });
 
