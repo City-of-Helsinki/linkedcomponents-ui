@@ -8,9 +8,9 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
@@ -84,17 +84,15 @@ test('should render price groups page', async () => {
 });
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Asiakasryhmät - Linked Events';
-  const pageDescription =
-    'Asiakasryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin asiakasryhmiä.';
-  const pageKeywords =
-    'asiakasryhmä, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await shouldApplyExpectedMetaData({
+    expectedDescription:
+      'Asiakasryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin asiakasryhmiä.',
+    expectedKeywords:
+      'asiakasryhmä, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Asiakasryhmät - Linked Events',
+  });
 });
 
 test('should add sort parameter to search query', async () => {

@@ -333,6 +333,11 @@
     "pageTitle": "Redigera plats",
     "title": "Redigera plats"
   },
+  "editPriceGroupPage": {
+    "pageDescription": "Redigera kundgruppen i Linked Events",
+    "pageTitle": "Redigera kundgrupp",
+    "title": "Redigera kundgrupp"
+  },
   "editRegistrationPage": {
     "pageTitle": "Redigera registrering",
     "title": "Redigera registrering"
@@ -1443,7 +1448,7 @@
     "permission": "tillstånd",
     "place": "plats",
     "platform": "plattform",
-    "priceGroup": "prisgrup",
+    "priceGroup": "kundgrup",
     "questions": "frågor",
     "registration": "registrering",
     "report": "rapport",
@@ -1729,7 +1734,12 @@
     },
     "form": {
       "buttonDelete": "Radera kundgrupp",
+      "labelDescription": "Beskrivning",
+      "labelId": "ID",
+      "labelIsFree": "Gratis",
+      "labelPublisher": "Utgivare",
       "notificationPriceGroupDeleted": "Kundgruppen har tagits bort",
+      "notificationPriceGroupUpdated": "Kundgruppen har sparats",
       "notificationTitleCannotEdit": "Kundgruppen kan inte redigeras"
     }
   },
@@ -1757,7 +1767,8 @@
     },
     "title": "Kundgrupper",
     "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa kundgrupper.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera den här kundgruppen."
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera den här kundgruppen.",
+    "warningNoRightsToEditDefaultPriceGroup": "Kundgruppen är standardkundgruppen. Standardkundgrupperna kan inte ändras."
   },
   "registration": {
     "deleteRegistrationModal": {

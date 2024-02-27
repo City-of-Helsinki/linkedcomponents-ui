@@ -3,13 +3,23 @@
 import i18n from 'i18next';
 
 import { PriceGroupsQueryVariables } from '../../../generated/graphql';
-import { fakeOrganization, fakeUser } from '../../../utils/mockDataUtils';
+import {
+  fakeOrganization,
+  fakePriceGroup,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
-import { PRICE_GROUP_ACTIONS } from '../constants';
+import {
+  PRICE_GROUP_ACTIONS,
+  PRICE_GROUP_FIELDS,
+  TEST_PRICE_GROUP_ID,
+} from '../constants';
 import { PriceGroupOption } from '../types';
 import {
   checkCanUserDoPriceGroupAction,
   getEditPriceGroupWarning,
+  getFocusableFieldId,
+  getPriceGroupInitialValues,
   priceGroupsPathBuilder,
   sortPriceGroupOptions,
 } from '../utils';
@@ -137,11 +147,13 @@ describe('checkCanUserDoPriceGroupAction function', () => {
 });
 
 describe('getEditPriceGroupWarning function', () => {
+  const publisher = TEST_PUBLISHER_ID;
   it('should return correct warning if user is not authenticated', () => {
     const allowedActions = [PRICE_GROUP_ACTIONS.EDIT];
 
     const commonProps = {
       authenticated: false,
+      publisher,
       t: i18n.t.bind(i18n),
       userCanDoAction: false,
     };
@@ -167,6 +179,7 @@ describe('getEditPriceGroupWarning function', () => {
     expect(
       getEditPriceGroupWarning({
         authenticated: true,
+        publisher,
         t: i18n.t.bind(i18n),
         userCanDoAction: false,
         action: PRICE_GROUP_ACTIONS.CREATE,
@@ -176,10 +189,89 @@ describe('getEditPriceGroupWarning function', () => {
     expect(
       getEditPriceGroupWarning({
         authenticated: true,
+        publisher: '',
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: PRICE_GROUP_ACTIONS.UPDATE,
+      })
+    ).toBe(
+      'Asiakasryhmä on oletusasiakasryhmä. Oletusasiakasryhmiä ei voi muokata.'
+    );
+
+    expect(
+      getEditPriceGroupWarning({
+        authenticated: true,
+        publisher,
         t: i18n.t.bind(i18n),
         userCanDoAction: false,
         action: PRICE_GROUP_ACTIONS.UPDATE,
       })
     ).toBe('Sinulla ei ole oikeuksia muokata tätä asiakasryhmää.');
   });
+});
+
+describe('getPriceGroupInitialValues function', () => {
+  it('should return default values if value is not set', () => {
+    expect(
+      getPriceGroupInitialValues(
+        fakePriceGroup({
+          description: null,
+          id: TEST_PRICE_GROUP_ID,
+          isFree: null,
+          publisher: null,
+        })
+      )
+    ).toEqual({
+      description: { ar: '', en: '', fi: '', ru: '', sv: '', zhHans: '' },
+      id: '123',
+      isFree: false,
+      publisher: '',
+    });
+  });
+
+  it('should return initial values', () => {
+    expect(
+      getPriceGroupInitialValues(
+        fakePriceGroup({
+          description: {
+            ar: 'Description ar',
+            en: 'Description en',
+            fi: 'Description fi',
+            ru: 'Description ru',
+            sv: 'Description sv',
+            zhHans: 'Description zhHans',
+          },
+          id: TEST_PRICE_GROUP_ID,
+          isFree: true,
+          publisher: TEST_PUBLISHER_ID,
+        })
+      )
+    ).toEqual({
+      description: {
+        ar: 'Description ar',
+        en: 'Description en',
+        fi: 'Description fi',
+        ru: 'Description ru',
+        sv: 'Description sv',
+        zhHans: 'Description zhHans',
+      },
+      id: '123',
+      isFree: true,
+      publisher: TEST_PUBLISHER_ID,
+    });
+  });
+});
+
+describe('getFocusableFieldId function', () => {
+  it.each([
+    [PRICE_GROUP_FIELDS.DESCRIPTION, 'description'],
+    [PRICE_GROUP_FIELDS.ID, 'id'],
+    [PRICE_GROUP_FIELDS.IS_FREE, 'isFree'],
+    [PRICE_GROUP_FIELDS.PUBLISHER, 'publisher-toggle-button'],
+  ])(
+    'should return correct field id, %s -> %s',
+    (fieldName, expectedErrorId) => {
+      expect(getFocusableFieldId(fieldName)).toBe(expectedErrorId);
+    }
+  );
 });

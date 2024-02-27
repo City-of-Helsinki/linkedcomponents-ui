@@ -104,7 +104,7 @@ type EventFormProps = EventFormWrapperProps & {
   setTouched: (
     touched: FormikTouched<EventFormFields>,
     shouldValidate?: boolean
-  ) => void;
+  ) => Promise<void | FormikErrors<EventFormFields>>;
   values: EventFormFields;
   isExternalUser: boolean;
 };

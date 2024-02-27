@@ -250,17 +250,17 @@ export const getErrorText = (
 // This functions sets formik errors and touched values correctly after validation.
 // The reason for this is to show all errors after validating the form.
 // Errors are shown only for touched fields so set all fields with error touched
-export const showFormErrors = ({
+export const showFormErrors = <Values = unknown>({
   error,
   setErrors,
   setTouched,
 }: {
   error: Yup.ValidationError;
-  setErrors: (errors: FormikErrors<unknown>) => void;
+  setErrors: (errors: FormikErrors<Values>) => void;
   setTouched: (
-    touched: FormikTouched<unknown>,
+    touched: FormikTouched<Values>,
     shouldValidate?: boolean
-  ) => void;
+  ) => Promise<void | FormikErrors<Values>>;
 }): void => {
   /* istanbul ignore else */
   if (error.name === 'ValidationError') {

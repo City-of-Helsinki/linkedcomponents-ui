@@ -475,6 +475,7 @@ export type Mutation = {
   updateKeywordSet: KeywordSet;
   updateOrganization: Organization;
   updatePlace: Place;
+  updatePriceGroup: PriceGroup;
   updateRegistration: Registration;
   updateSeatsReservation: SeatsReservation;
   updateSignup: Signup;
@@ -636,6 +637,11 @@ export type MutationUpdateOrganizationArgs = {
 
 export type MutationUpdatePlaceArgs = {
   input: UpdatePlaceMutationInput;
+};
+
+
+export type MutationUpdatePriceGroupArgs = {
+  input: UpdatePriceGroupMutationInput;
 };
 
 
@@ -838,6 +844,7 @@ export type Query = {
   organizations: OrganizationsResponse;
   place: Place;
   places: PlacesResponse;
+  priceGroup: PriceGroup;
   priceGroups: PriceGroupsResponse;
   registration: Registration;
   registrations: RegistrationsResponse;
@@ -995,6 +1002,11 @@ export type QueryPlacesArgs = {
   showAllPlaces?: InputMaybe<Scalars['Boolean']['input']>;
   sort?: InputMaybe<Scalars['String']['input']>;
   text?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryPriceGroupArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -1331,6 +1343,13 @@ export type UpdatePlaceMutationInput = {
   publisher?: InputMaybe<Scalars['String']['input']>;
   streetAddress?: InputMaybe<LocalisedObjectInput>;
   telephone?: InputMaybe<LocalisedObjectInput>;
+};
+
+export type UpdatePriceGroupMutationInput = {
+  description?: InputMaybe<LocalisedObjectInput>;
+  id?: InputMaybe<Scalars['Int']['input']>;
+  isFree?: InputMaybe<Scalars['Boolean']['input']>;
+  publisher?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateRegistrationMutationInput = {
@@ -1828,7 +1847,21 @@ export type DeletePriceGroupMutationVariables = Exact<{
 
 export type DeletePriceGroupMutation = { __typename?: 'Mutation', deletePriceGroup?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
 
+export type UpdatePriceGroupMutationVariables = Exact<{
+  input: UpdatePriceGroupMutationInput;
+}>;
+
+
+export type UpdatePriceGroupMutation = { __typename?: 'Mutation', updatePriceGroup: { __typename?: 'PriceGroup', id: number, isFree?: boolean | null, publisher?: string | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } };
+
 export type PriceGroupFieldsFragment = { __typename?: 'PriceGroup', id: number, isFree?: boolean | null, publisher?: string | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null };
+
+export type PriceGroupQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type PriceGroupQuery = { __typename?: 'Query', priceGroup: { __typename?: 'PriceGroup', id: number, isFree?: boolean | null, publisher?: string | null, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } };
 
 export type PriceGroupsQueryVariables = Exact<{
   description?: InputMaybe<Scalars['String']['input']>;
@@ -4099,6 +4132,74 @@ export function useDeletePriceGroupMutation(baseOptions?: Apollo.MutationHookOpt
 export type DeletePriceGroupMutationHookResult = ReturnType<typeof useDeletePriceGroupMutation>;
 export type DeletePriceGroupMutationResult = Apollo.MutationResult<DeletePriceGroupMutation>;
 export type DeletePriceGroupMutationOptions = Apollo.BaseMutationOptions<DeletePriceGroupMutation, DeletePriceGroupMutationVariables>;
+export const UpdatePriceGroupDocument = gql`
+    mutation UpdatePriceGroup($input: UpdatePriceGroupMutationInput!) {
+  updatePriceGroup(input: $input) @rest(type: "PriceGroup", path: "/price_group/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    ...priceGroupFields
+  }
+}
+    ${PriceGroupFieldsFragmentDoc}`;
+export type UpdatePriceGroupMutationFn = Apollo.MutationFunction<UpdatePriceGroupMutation, UpdatePriceGroupMutationVariables>;
+
+/**
+ * __useUpdatePriceGroupMutation__
+ *
+ * To run a mutation, you first call `useUpdatePriceGroupMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdatePriceGroupMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updatePriceGroupMutation, { data, loading, error }] = useUpdatePriceGroupMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdatePriceGroupMutation(baseOptions?: Apollo.MutationHookOptions<UpdatePriceGroupMutation, UpdatePriceGroupMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdatePriceGroupMutation, UpdatePriceGroupMutationVariables>(UpdatePriceGroupDocument, options);
+      }
+export type UpdatePriceGroupMutationHookResult = ReturnType<typeof useUpdatePriceGroupMutation>;
+export type UpdatePriceGroupMutationResult = Apollo.MutationResult<UpdatePriceGroupMutation>;
+export type UpdatePriceGroupMutationOptions = Apollo.BaseMutationOptions<UpdatePriceGroupMutation, UpdatePriceGroupMutationVariables>;
+export const PriceGroupDocument = gql`
+    query PriceGroup($id: ID!) {
+  priceGroup(id: $id) @rest(type: "PriceGroup", path: "/price_group/{args.id}/") {
+    ...priceGroupFields
+  }
+}
+    ${PriceGroupFieldsFragmentDoc}`;
+
+/**
+ * __usePriceGroupQuery__
+ *
+ * To run a query within a React component, call `usePriceGroupQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePriceGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePriceGroupQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function usePriceGroupQuery(baseOptions: Apollo.QueryHookOptions<PriceGroupQuery, PriceGroupQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PriceGroupQuery, PriceGroupQueryVariables>(PriceGroupDocument, options);
+      }
+export function usePriceGroupLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PriceGroupQuery, PriceGroupQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PriceGroupQuery, PriceGroupQueryVariables>(PriceGroupDocument, options);
+        }
+export type PriceGroupQueryHookResult = ReturnType<typeof usePriceGroupQuery>;
+export type PriceGroupLazyQueryHookResult = ReturnType<typeof usePriceGroupLazyQuery>;
+export type PriceGroupQueryResult = Apollo.QueryResult<PriceGroupQuery, PriceGroupQueryVariables>;
 export const PriceGroupsDocument = gql`
     query PriceGroups($description: String, $isFree: Boolean, $page: Int, $pageSize: Int, $publisher: [String], $sort: String, $createPath: Any) {
   priceGroups(

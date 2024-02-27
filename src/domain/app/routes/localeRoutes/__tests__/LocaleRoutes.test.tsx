@@ -88,6 +88,14 @@ import {
   place,
 } from '../../../../place/__mocks__/editPlacePage';
 import { mockedPlacesResponse } from '../../../../places/__mocks__/placesPage';
+import {
+  mockedPriceGroupResponse,
+  priceGroup,
+} from '../../../../priceGroup/__mocks__/editPriceGoupPage';
+import {
+  mockedDefaultPriceGroupsResponse,
+  mockedPublisherPriceGroupsResponse,
+} from '../../../../priceGroup/__mocks__/priceGroups';
 import { mockedPriceGroupsResponse } from '../../../../priceGroups/__mocks__/priceGroupsPage';
 import {
   mockedRegistrationResponse,
@@ -160,6 +168,9 @@ const mocks = [
   mockedCreateSeatsReservationResponse,
   mockedRegistrationsResponse,
   mockedEventResponse,
+  mockedDefaultPriceGroupsResponse,
+  mockedPublisherPriceGroupsResponse,
+  mockedPriceGroupResponse,
   mockedPriceGroupsResponse,
   mockedSignupResponse,
   mockedSignupGroupResponse,
@@ -572,6 +583,19 @@ it('should render price groups page', async () => {
     history,
     pageTitle: 'Asiakasryhmät - Linked Events',
     pathname: '/fi/administration/price-groups',
+  });
+});
+
+it('should render edit price group page', async () => {
+  const id = priceGroup.id.toString();
+  const { history } = await renderRoute(
+    `${ROUTES.EDIT_PRICE_GROUP.replace(':id', id)}`
+  );
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Muokkaa asiakasryhmää - Linked Events',
+    pathname: `/fi/administration/price-groups/edit/${id}`,
   });
 });
 

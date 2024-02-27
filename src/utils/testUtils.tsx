@@ -1,15 +1,18 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/export */
+import { ApolloError } from '@apollo/client';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import {
   act,
   createEvent,
   fireEvent,
   render,
+  RenderHookResult,
   RenderResult,
   screen,
   waitFor,
+  within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory, History } from 'history';
@@ -27,6 +30,7 @@ import { createCache } from '../domain/app/apollo/apolloClient';
 import { NotificationsProvider } from '../domain/app/notificationsContext/NotificationsContext';
 import { PageSettingsProvider } from '../domain/app/pageSettingsContext/PageSettingsContext';
 import { ThemeProvider } from '../domain/app/theme/Theme';
+import { ServerErrorItem, UseServerErrorsState } from '../types';
 
 type CustomRenderOptions = {
   history?: History;
@@ -261,6 +265,87 @@ const shouldRenderDeleteModal = ({
   ).toBeInTheDocument();
 };
 
+// Server error helpers
+const shouldSetGenericServerErrors = (
+  result: RenderHookResult<UseServerErrorsState, any>['result']
+) => {
+  const error = new ApolloError({
+    networkError: {
+      result: { detail: 'Metodi "POST" ei ole sallittu.' },
+    } as any,
+  });
+
+  act(() => result.current.showServerErrors({ error }));
+
+  expect(result.current.serverErrorItems).toEqual([
+    { label: '', message: 'Metodi "POST" ei ole sallittu.' },
+  ]);
+};
+
+const shouldSetServerErrors = (
+  result: RenderHookResult<UseServerErrorsState, any>['result'],
+  errors: Record<string, any>,
+  expectedErrors: ServerErrorItem[]
+) => {
+  const callbackFn = vi.fn();
+  const error = new ApolloError({
+    networkError: { result: errors } as any,
+  });
+
+  act(() => result.current.showServerErrors({ callbackFn, error }));
+
+  expect(result.current.serverErrorItems).toEqual(expectedErrors);
+  expect(callbackFn).toBeCalled();
+};
+
+// Edit pages
+const shouldApplyExpectedMetaData = async ({
+  expectedDescription,
+  expectedKeywords,
+  expectedTitle,
+}: {
+  expectedDescription: string;
+  expectedKeywords: string;
+  expectedTitle: string;
+}) => {
+  await loadingSpinnerIsNotInDocument();
+  await waitPageMetaDataToBeSet({
+    pageDescription: expectedDescription,
+    pageKeywords: expectedKeywords,
+    pageTitle: expectedTitle,
+  });
+  await actWait(10);
+};
+
+const shouldDeleteInstance = async ({
+  confirmDeleteButtonLabel,
+  deleteButtonLabel,
+  expectedNotificationText,
+  expectedUrl,
+  history,
+}: {
+  confirmDeleteButtonLabel: string | RegExp;
+  deleteButtonLabel: string | RegExp;
+  expectedNotificationText: string;
+  expectedUrl: string;
+  history: History;
+}) => {
+  const user = userEvent.setup();
+  await loadingSpinnerIsNotInDocument();
+
+  const deleteButton = await screen.findByRole('button', {
+    name: deleteButtonLabel,
+  });
+  await user.click(deleteButton);
+  const withinModal = within(screen.getByRole('dialog'));
+  const confirmDeleteButton = withinModal.getByRole('button', {
+    name: confirmDeleteButtonLabel,
+  });
+  await user.click(confirmDeleteButton);
+  await waitFor(() => expect(history.location.pathname).toBe(expectedUrl));
+  await screen.findByRole('alert', { name: expectedNotificationText });
+};
+
 export type { CustomRenderOptions, CustomRenderResult };
 
 export {
@@ -279,8 +364,12 @@ export {
   pasteToTextEditor,
   customRender as render,
   renderWithRoute,
+  shouldApplyExpectedMetaData,
   shouldCallModalButtonAction,
+  shouldDeleteInstance,
   shouldRenderDeleteModal,
+  shouldSetGenericServerErrors,
+  shouldSetServerErrors,
   shouldToggleDropdownMenu,
   tabKeyPressHelper,
   waitPageMetaDataToBeSet,

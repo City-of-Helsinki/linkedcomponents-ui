@@ -12,4 +12,16 @@ export const MUTATION_PRICE_GROUP = gql`
       noContent
     }
   }
+
+  mutation UpdatePriceGroup($input: UpdatePriceGroupMutationInput!) {
+    updatePriceGroup(input: $input)
+      @rest(
+        type: "PriceGroup"
+        path: "/price_group/{args.input.id}/"
+        method: "PUT"
+        bodyKey: "input"
+      ) {
+      ...priceGroupFields
+    }
+  }
 `;

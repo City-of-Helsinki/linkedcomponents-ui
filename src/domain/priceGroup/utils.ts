@@ -7,9 +7,11 @@ import {
   OrganizationFieldsFragment,
   PriceGroupFieldsFragment,
   PriceGroupsQueryVariables,
+  UpdatePriceGroupMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
+import getLocalisedObject from '../../utils/getLocalisedObject';
 import getLocalisedString from '../../utils/getLocalisedString';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
@@ -19,8 +21,13 @@ import {
   PRICE_GROUP_ACTION_ICONS,
   PRICE_GROUP_ACTION_LABEL_KEYS,
   PRICE_GROUP_ACTIONS,
+  PRICE_GROUP_FORM_SELECT_FIELDS,
 } from './constants';
-import { PriceGroupFields, PriceGroupOption } from './types';
+import {
+  PriceGroupFields,
+  PriceGroupFormFields,
+  PriceGroupOption,
+} from './types';
 
 export const getPriceGroupOption = (
   priceGroup: PriceGroupFieldsFragment,
@@ -90,11 +97,13 @@ export const checkCanUserDoPriceGroupAction = ({
 export const getEditPriceGroupWarning = ({
   action,
   authenticated,
+  publisher,
   t,
   userCanDoAction,
 }: {
   action: PRICE_GROUP_ACTIONS;
   authenticated: boolean;
+  publisher: string;
   t: TFunction;
   userCanDoAction: boolean;
 }): string => {
@@ -109,6 +118,8 @@ export const getEditPriceGroupWarning = ({
   if (!userCanDoAction) {
     if (action === PRICE_GROUP_ACTIONS.CREATE) {
       return t('priceGroupsPage.warningNoRightsToCreate');
+    } else if (!publisher) {
+      return t('priceGroupsPage.warningNoRightsToEditDefaultPriceGroup');
     } else {
       return t('priceGroupsPage.warningNoRightsToEdit');
     }
@@ -142,6 +153,7 @@ export const checkIsEditPriceGroupActionAllowed = ({
   const warning = getEditPriceGroupWarning({
     action,
     authenticated,
+    publisher,
     t,
     userCanDoAction,
   });
@@ -201,3 +213,32 @@ export const getPriceGroupFields = (
 
 export const getPriceGroupItemId = (id: string): string =>
   `price-group-item-${id}`;
+
+export const getPriceGroupInitialValues = (
+  priceGroup: PriceGroupFieldsFragment
+): PriceGroupFormFields => ({
+  description: getLocalisedObject(priceGroup.description),
+  id: priceGroup.id.toString(),
+  isFree: !!priceGroup.isFree,
+  publisher: getValue(priceGroup.publisher, ''),
+});
+
+export const getPriceGroupPayload = (
+  formValues: PriceGroupFormFields
+): UpdatePriceGroupMutationInput => {
+  const { id, ...restFormValues } = formValues;
+
+  return {
+    ...restFormValues,
+    id: id ? Number(id) : undefined,
+  };
+};
+
+export const getFocusableFieldId = (fieldName: string): string => {
+  // For the select elements, focus the toggle button
+  if (PRICE_GROUP_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
+    return `${fieldName}-toggle-button`;
+  }
+
+  return fieldName;
+};

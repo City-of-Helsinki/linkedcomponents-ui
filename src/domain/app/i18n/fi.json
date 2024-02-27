@@ -333,6 +333,11 @@
     "pageTitle": "Muokkaa paikkaa",
     "title": "Muokkaa paikkaa"
   },
+  "editPriceGroupPage": {
+    "pageDescription": "Muokkaa Linked Eventsiin tallennettua asiakasryhmää.",
+    "pageTitle": "Muokkaa asiakasryhmää",
+    "title": "Muokkaa asiakasryhmää"
+  },
   "editRegistrationPage": {
     "pageTitle": "Muokkaa ilmoittautumista",
     "title": "Muokkaa ilmoittautumista"
@@ -1729,7 +1734,12 @@
     },
     "form": {
       "buttonDelete": "Poista asiakasryhmä",
+      "labelDescription": "Kuvaus",
+      "labelId": "ID",
+      "labelIsFree": "Ilmainen",
+      "labelPublisher": "Julkaisija",
       "notificationPriceGroupDeleted": "Asiakasryhmä on poistettu",
+      "notificationPriceGroupUpdated": "Asiakasryhmä on tallennettu",
       "notificationTitleCannotEdit": "Asiakasryhmää ei voi muokata"
     }
   },
@@ -1757,7 +1767,8 @@
     },
     "title": "Asiakasryhmät",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda asiakasryhmiä.",
-    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä asiakasryhmää."
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä asiakasryhmää.",
+    "warningNoRightsToEditDefaultPriceGroup": "Asiakasryhmä on oletusasiakasryhmä. Oletusasiakasryhmiä ei voi muokata."
   },
   "registration": {
     "deleteRegistrationModal": {

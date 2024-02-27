@@ -332,6 +332,11 @@
     "pageTitle": "Edit place",
     "title": "Edit place"
   },
+  "editPriceGroupPage": {
+    "pageDescription": "Edit existing customer group in Linked Events.",
+    "pageTitle": "Edit customer group",
+    "title": "Edit customer group"
+  },
   "editRegistrationPage": {
     "pageTitle": "Edit registration",
     "title": "Edit registration"
@@ -1728,7 +1733,12 @@
     },
     "form": {
       "buttonDelete": "Delete customer group",
+      "labelDescription": "Description",
+      "labelId": "ID",
+      "labelIsFree": "Free",
+      "labelPublisher": "Publisher",
       "notificationPriceGroupDeleted": "The customer group has been deleted",
+      "notificationPriceGroupUpdated": "The customer group has been saved",
       "notificationTitleCannotEdit": "The customer group cannot be edited"
     }
   },
@@ -1756,7 +1766,8 @@
     },
     "title": "Customer groups",
     "warningNoRightsToCreate": "You have insufficient rights to create customer groups.",
-    "warningNoRightsToEdit": "You have insufficient rights to edit this customer group."
+    "warningNoRightsToEdit": "You have insufficient rights to edit this customer group.",
+    "warningNoRightsToEditDefaultPriceGroup": "The customer group is the default customer group. The default customer groups cannot be edited."
   },
   "registration": {
     "deleteRegistrationModal": {
