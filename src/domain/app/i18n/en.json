@@ -1763,6 +1763,8 @@
       "publisher": "Publisher"
     },
     "sortOptions": {
+      "description": "Description, ascending",
+      "descriptionDesc": "Description, descending",
       "id": "Id, ascending",
       "idDesc": "Id, descending"
     },

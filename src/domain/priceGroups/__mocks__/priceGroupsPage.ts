@@ -75,7 +75,7 @@ const sortedPriceGroupsResponse = {
 };
 const sortedPriceGroupsVariables = {
   ...priceGroupsVariables,
-  sort: PRICE_GROUP_SORT_OPTIONS.ID,
+  sort: PRICE_GROUP_SORT_OPTIONS.DESCRIPTION_DESC,
 };
 const mockedSortedPriceGroupsResponse = {
   request: {

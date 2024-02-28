@@ -52,7 +52,7 @@ const getElement = (
     | 'page2Button'
     | 'searchButton'
     | 'searchInput'
-    | 'sortByIdButton'
+    | 'sortByDescriptionButton'
 ) => {
   switch (key) {
     case 'page1Button':
@@ -63,8 +63,8 @@ const getElement = (
       return screen.getByRole('button', { name: /etsi/i });
     case 'searchInput':
       return screen.getByRole('combobox', { name: /hae hintaryhmiä/i });
-    case 'sortByIdButton':
-      return screen.getByRole('button', { name: 'ID' });
+    case 'sortByDescriptionButton':
+      return screen.getByRole('button', { name: 'Kuvaus' });
   }
 };
 
@@ -102,13 +102,15 @@ test('should change sort order', async () => {
   screen.getByText(priceGroupDescriptions[0]);
   await waitFor(() => expect(history.location.search).toBe(''));
 
-  const sortByIdButton = getElement('sortByIdButton');
-  await user.click(sortByIdButton);
+  const sortByDescriptionButton = getElement('sortByDescriptionButton');
+  await user.click(sortByDescriptionButton);
 
   await loadingSpinnerIsNotInDocument();
   // Sorted keywords should be visible.
   screen.getByText(sortedPriceGroupDescriptions[0]);
-  await waitFor(() => expect(history.location.search).toBe('?sort=id'));
+  await waitFor(() =>
+    expect(history.location.search).toBe('?sort=-description')
+  );
 });
 
 test('should search by text', async () => {

@@ -1764,6 +1764,8 @@
       "publisher": "Utgivare"
     },
     "sortOptions": {
+      "description": "Beskrivning, stigande",
+      "descriptionDesc": "Beskrivning, fallande",
       "id": "Id, stigande",
       "idDesc": "Id, fallande"
     },

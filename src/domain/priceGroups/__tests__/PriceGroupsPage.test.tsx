@@ -61,7 +61,7 @@ const getElement = (
     | 'breadcrumb'
     | 'createPriceGroupButton'
     | 'searchInput'
-    | 'sortByIdButton'
+    | 'sortByDescriptionButton'
     | 'table'
 ) => {
   switch (key) {
@@ -71,11 +71,11 @@ const getElement = (
       return screen.getByRole('button', { name: 'Lisää hintaryhmä' });
     case 'searchInput':
       return screen.getByRole('combobox', { name: 'Hae hintaryhmiä' });
-    case 'sortByIdButton':
-      return screen.getByRole('button', { name: 'ID' });
+    case 'sortByDescriptionButton':
+      return screen.getByRole('button', { name: 'Kuvaus' });
     case 'table':
       return screen.getByRole('table', {
-        name: 'Hintaryhmät, järjestys Id, laskeva',
+        name: 'Hintaryhmät, järjestys Kuvaus, nouseva',
       });
   }
 };
@@ -123,10 +123,10 @@ test('should add sort parameter to search query', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const sortByIdButton = getElement('sortByIdButton');
+  const sortByIdButton = getElement('sortByDescriptionButton');
   await user.click(sortByIdButton);
 
-  expect(history.location.search).toBe('?sort=id');
+  expect(history.location.search).toBe('?sort=-description');
 });
 
 it('scrolls to price group id and calls history.replace correctly (deletes priceGroupId from state)', async () => {

@@ -1764,6 +1764,8 @@
       "publisher": "Julkaisija"
     },
     "sortOptions": {
+      "description": "Kuvaus, nouseva",
+      "descriptionDesc": "Kuvaus, laskeva",
       "id": "Id, nouseva",
       "idDesc": "Id, laskeva"
     },

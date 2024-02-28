@@ -91,10 +91,8 @@ const PriceGroupsTable: React.FC<PriceGroupsTableProps> = ({
       className={className}
       cols={[
         {
-          isSortable: true,
           key: 'id',
           headerName: t('priceGroupsPage.priceGroupsTableColumns.id'),
-          sortIconType: 'string',
           transform: IdColumn,
         },
         {

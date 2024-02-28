@@ -89,11 +89,11 @@ test('should call setSort when clicking sortable column header', async () => {
   const user = userEvent.setup();
   renderComponent({ setSort });
 
-  const idButton = screen.getByRole('button', {
-    name: 'ID',
+  const descriptionButton = screen.getByRole('button', {
+    name: 'Kuvaus',
   });
-  await user.click(idButton);
-  await waitFor(() => expect(setSort).toBeCalledWith('id'));
+  await user.click(descriptionButton);
+  await waitFor(() => expect(setSort).toBeCalledWith('description'));
 });
 
 test('should open actions dropdown', async () => {
