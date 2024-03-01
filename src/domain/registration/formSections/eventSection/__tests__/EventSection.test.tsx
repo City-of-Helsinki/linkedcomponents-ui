@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Formik } from 'formik';
 import * as formik from 'formik';
-import React from 'react';
 
 import {
   configure,
@@ -19,6 +18,7 @@ import {
   mockedFilteredByDatesEventsResponse,
   mockedFilteredByStartDateEventsResponse,
   mockedFilteredEventsResponse,
+  mockedFilteredRecurringEventsResponse,
 } from '../__mocks__/eventSection';
 import EventSection from '../EventSection';
 
@@ -38,6 +38,7 @@ const mocks = [
   mockedFilteredByDatesEventsResponse,
   mockedFilteredByStartDateEventsResponse,
   mockedFilteredEventsResponse,
+  mockedFilteredRecurringEventsResponse,
 ];
 
 const renderComponent = (initialValues?: Partial<InitialValues>) => {
@@ -58,6 +59,7 @@ const getElement = (
     | 'dateSelectorButton'
     | 'endDateInput'
     | 'inputField'
+    | 'recurringEventCheckbox'
     | 'startDateInput'
     | 'toggleButton'
 ) => {
@@ -68,6 +70,8 @@ const getElement = (
       return screen.getByPlaceholderText('Loppuu p.k.vvvv');
     case 'inputField':
       return screen.getByRole('combobox', { name: 'Tapahtuma *' });
+    case 'recurringEventCheckbox':
+      return screen.getByRole('checkbox', { name: 'Kauden ilmoittautuminen' });
     case 'startDateInput':
       return screen.getByPlaceholderText('Alkaa p.k.vvvv');
     case 'toggleButton':
@@ -158,4 +162,24 @@ test('should filter events by start and end date', async () => {
   await user.click(eventOption);
   const inputField = getElement('inputField');
   await waitFor(() => expect(inputField).toHaveValue('Event name 13.7.2020 –'));
+});
+
+test('should filter events by super event type', async () => {
+  const user = userEvent.setup();
+  const eventLabel = 'Event name 13.7.2020 – 1.12.2022 (Sarja)';
+
+  renderComponent();
+
+  const recurringEventCheckbox = getElement('recurringEventCheckbox');
+  await user.click(recurringEventCheckbox);
+
+  const toggleButton = getElement('toggleButton');
+  await user.click(toggleButton);
+  const eventOption = await screen.findByRole('option', {
+    name: eventLabel,
+  });
+  await user.click(eventOption);
+
+  const inputField = getElement('inputField');
+  await waitFor(() => expect(inputField).toHaveValue(eventLabel));
 });

@@ -1,14 +1,19 @@
 import { FieldProps } from 'formik';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { getEventFields } from '../../../../domain/event/utils';
 import { EVENT_SORT_OPTIONS } from '../../../../domain/events/constants';
-import { getEventDateText } from '../../../../domain/events/utils';
+import {
+  getEventDateText,
+  getSuperEventTypeText,
+} from '../../../../domain/events/utils';
 import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../../generated/graphql';
 import { Language, OptionType } from '../../../../types';
+import skipFalsyType from '../../../../utils/skipFalsyType';
 import EventSelector, {
   EventSelectorProps,
 } from '../../eventSelector/EventSelector';
@@ -19,17 +24,6 @@ type Props = {
 } & EventSelectorProps &
   FieldProps<string>;
 
-const getEventOption = (
-  event: EventFieldsFragment,
-  locale: Language
-): OptionType => {
-  const { endTime, atId, name, startTime } = getEventFields(event, locale);
-  return {
-    label: `${name} ${getEventDateText(endTime, startTime)}`,
-    value: atId,
-  };
-};
-
 const RegistrationEventSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
@@ -39,6 +33,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
   variables,
   ...rest
 }) => {
+  const { t } = useTranslation();
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
     disabled,
     name,
@@ -47,6 +42,24 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
     onChangeCb,
     value,
   });
+
+  const getEventOption = (
+    event: EventFieldsFragment,
+    locale: Language
+  ): OptionType => {
+    const { endTime, atId, name, startTime } = getEventFields(event, locale);
+
+    return {
+      label: [
+        name,
+        getEventDateText(endTime, startTime),
+        getSuperEventTypeText(event.superEventType, t),
+      ]
+        .filter(skipFalsyType)
+        .join(' '),
+      value: atId,
+    };
+  };
 
   return (
     <EventSelector

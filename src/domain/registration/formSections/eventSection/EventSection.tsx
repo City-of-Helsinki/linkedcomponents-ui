@@ -11,6 +11,7 @@ import omitBy from 'lodash/omitBy';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import Checkbox from '../../../../common/components/checkbox/Checkbox';
 import DateSelectorDropdown, {
   DATE_FIELDS,
 } from '../../../../common/components/dateSelectorDropdown/DateSelectorDropdown';
@@ -43,6 +44,7 @@ interface Props {
 
 type SearchState = {
   end: Date | null;
+  recurringEvent: boolean;
   start: Date | null;
 };
 
@@ -51,6 +53,7 @@ const EventSection: React.FC<Props> = ({ isEditingAllowed }) => {
 
   const [searchState, setSearchState] = useSearchState<SearchState>({
     end: null,
+    recurringEvent: false,
     start: null,
   });
 
@@ -104,10 +107,24 @@ const EventSection: React.FC<Props> = ({ isEditingAllowed }) => {
     }
   };
 
+  const handleChangeRecurringEvent: React.ChangeEventHandler<
+    HTMLInputElement
+  > = (ev) => {
+    setSearchState({ recurringEvent: ev.target.checked });
+  };
+
   return (
     <Fieldset heading={t('registration.form.sections.event')} hideLegend>
       <FieldRow>
         <FieldColumn>
+          <FormGroup>
+            <Checkbox
+              id="recurring"
+              label={t(`registration.form.labelFilterRecurringEvent`)}
+              checked={searchState.recurringEvent}
+              onChange={handleChangeRecurringEvent}
+            />
+          </FormGroup>
           <FormGroup>
             <DateSelectorDropdown
               className={styles.dateSelector}
@@ -135,6 +152,9 @@ const EventSection: React.FC<Props> = ({ isEditingAllowed }) => {
                   : undefined,
                 end: searchState.end
                   ? formatDate(searchState.end, DATE_FORMAT_API)
+                  : undefined,
+                superEventType: searchState.recurringEvent
+                  ? ['recurring']
                   : undefined,
               },
               isUndefined

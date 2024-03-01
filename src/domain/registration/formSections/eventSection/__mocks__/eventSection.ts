@@ -2,6 +2,7 @@ import {
   EventDocument,
   EventsDocument,
   PublicationStatus,
+  SuperEventType,
 } from '../../../../../generated/graphql';
 import { fakeEvent, fakeEvents } from '../../../../../utils/mockDataUtils';
 import { TEST_EVENT_ID } from '../../../../event/constants';
@@ -83,6 +84,27 @@ const mockedFilteredByDatesEventsResponse = {
   result: eventsResponse,
 };
 
+const filteredRecurringEventsVariables = {
+  ...eventsVariables,
+  superEventType: ['recurring'],
+};
+
+const recurringEvent = {
+  ...event,
+  endTime: '2022-12-01T09:00:00.000000Z',
+  superEventType: SuperEventType.Recurring,
+};
+const recurringEvents = fakeEvents(1, [recurringEvent]);
+const recurringEventsResponse = { data: { events: recurringEvents } };
+
+const mockedFilteredRecurringEventsResponse = {
+  request: {
+    query: EventsDocument,
+    variables: filteredRecurringEventsVariables,
+  },
+  result: recurringEventsResponse,
+};
+
 export {
   event,
   eventName,
@@ -91,4 +113,6 @@ export {
   mockedFilteredByDatesEventsResponse,
   mockedFilteredByStartDateEventsResponse,
   mockedFilteredEventsResponse,
+  mockedFilteredRecurringEventsResponse,
+  recurringEvents,
 };
