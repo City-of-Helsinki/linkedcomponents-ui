@@ -1,10 +1,7 @@
-import React from 'react';
-
 import {
   configure,
   render,
-  screen,
-  userEvent,
+  shouldClickButton,
 } from '../../../../../utils/testUtils';
 import ConfirmDeleteSignupFromFormModal, {
   ConfirmDeleteSignupFromFormModalProps,
@@ -26,22 +23,17 @@ const renderComponent = (
 
 test('should call onConfirm', async () => {
   const onConfirm = vi.fn();
-  const user = userEvent.setup();
   renderComponent({ onConfirm });
 
-  const deleteParticipantButton = screen.getByRole('button', {
-    name: 'Poista osallistuja',
+  await shouldClickButton({
+    buttonLabel: 'Poista osallistuja',
+    onClick: onConfirm,
   });
-  await user.click(deleteParticipantButton);
-  expect(onConfirm).toBeCalled();
 });
 
 test('should call onClose', async () => {
   const onClose = vi.fn();
-  const user = userEvent.setup();
   renderComponent({ onClose });
 
-  const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  await user.click(closeButton);
-  expect(onClose).toBeCalled();
+  await shouldClickButton({ buttonLabel: 'Peruuta', onClick: onClose });
 });

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import copyToClipboard from 'copy-to-clipboard';
 
 import { ROUTES } from '../../../../constants';
@@ -8,8 +7,10 @@ import {
 } from '../../../../utils/mockLoginHooks';
 import {
   configure,
+  openDropdownMenu,
   render,
   screen,
+  shouldToggleDropdownMenu,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
@@ -76,7 +77,6 @@ const getElement = (
     | 'delete'
     | 'exportAsExcel'
     | 'markPresent'
-    | 'menu'
     | 'showSignups'
     | 'toggle'
     | 'update'
@@ -96,8 +96,6 @@ const getElement = (
       });
     case 'markPresent':
       return screen.getByRole('button', { name: 'Merkkaa läsnäolijat' });
-    case 'menu':
-      return screen.getByRole('region', { name: /valinnat/i });
     case 'showSignups':
       return screen.getByRole('button', { name: /näytä ilmoittautuneet/i });
     case 'toggle':
@@ -107,24 +105,10 @@ const getElement = (
   }
 };
 
-const openMenu = async () => {
-  const user = userEvent.setup();
-  const toggleButton = getElement('toggle');
-  await user.click(toggleButton);
-  getElement('menu');
-
-  return toggleButton;
-};
-
 test('should toggle menu by clicking actions button', async () => {
-  const user = userEvent.setup();
   renderComponent();
 
-  const toggleButton = await openMenu();
-  await user.click(toggleButton);
-  expect(
-    screen.queryByRole('region', { name: /valinnat/i })
-  ).not.toBeInTheDocument();
+  await shouldToggleDropdownMenu();
 });
 
 test('should render all buttons when user is authenticated', async () => {
@@ -134,7 +118,7 @@ test('should render all buttons when user is authenticated', async () => {
   const user = userEvent.setup();
   renderComponent({ props: { onDelete, onUpdate } });
 
-  await openMenu();
+  await openDropdownMenu();
 
   await findElement('showSignups');
   getElement('copy');
@@ -153,7 +137,7 @@ test('all buttons should be disabled when user is not logged in', async () => {
   mockUnauthenticatedLoginState();
   renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
   const disabledButtons = [
     getElement('copy'),
@@ -171,7 +155,7 @@ test('should route to signups page when clicking show signups button', async () 
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
   const showSignupsButton = await findElement('showSignups');
   await user.click(showSignupsButton);
@@ -188,7 +172,7 @@ test('should route to attendance list page when clicking mark present button', a
 
   const { history } = renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
   const markPresentButton = getElement('markPresent');
   await waitFor(() => expect(markPresentButton).toBeEnabled());
@@ -206,7 +190,7 @@ test('should route to attendance list page when clicking mark present button', a
 
 test('should export signups as an excel after clicking export as excel button', async () => {
   renderComponent();
-  await openMenu();
+  await openDropdownMenu();
   const exportAsExcelButton = getElement('exportAsExcel');
   await shouldExportSignupsAsExcel({ exportAsExcelButton, registration });
 });
@@ -215,7 +199,7 @@ test('should route to create registration page when clicking copy button', async
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
   const copyButton = getElement('copy');
   await user.click(copyButton);
@@ -229,7 +213,7 @@ test('should copy registration link to clipboard', async () => {
   const user = userEvent.setup();
   renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
   const copyLinkButton = getElement('copyLink');
   await user.click(copyLinkButton);

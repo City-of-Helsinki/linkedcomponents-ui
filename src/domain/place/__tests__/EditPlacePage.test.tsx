@@ -8,9 +8,9 @@ import {
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
+  shouldDeleteInstance,
   userEvent,
   waitFor,
-  within,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
@@ -50,14 +50,7 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
     path: ROUTES.EDIT_PLACE,
   });
 
-const findElement = (key: 'deleteButton' | 'nameInput') => {
-  switch (key) {
-    case 'deleteButton':
-      return screen.findByRole('button', { name: /poista paikka/i });
-    case 'nameInput':
-      return screen.findByLabelText(/nimi \(suomeksi\)/i);
-  }
-};
+const findNameInput = () => screen.findByLabelText(/nimi \(suomeksi\)/i);
 
 const getElement = (key: 'saveButton') => {
   switch (key) {
@@ -71,7 +64,7 @@ test('should scroll to first validation error input field', async () => {
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
-  const nameInput = await findElement('nameInput');
+  const nameInput = await findNameInput();
   const saveButton = getElement('saveButton');
 
   await user.clear(nameInput);
@@ -81,27 +74,18 @@ test('should scroll to first validation error input field', async () => {
 });
 
 test('should delete place', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedDeletePlaceResponse,
   ]);
 
-  await loadingSpinnerIsNotInDocument();
-
-  const deleteButton = await findElement('deleteButton');
-  await user.click(deleteButton);
-
-  const withinModal = within(screen.getByRole('dialog'));
-  const confirmDeleteButton = withinModal.getByRole('button', {
-    name: 'Poista paikka',
+  await shouldDeleteInstance({
+    confirmDeleteButtonLabel: 'Poista paikka',
+    deleteButtonLabel: 'Poista paikka',
+    expectedNotificationText: 'Paikka on poistettu',
+    expectedUrl: `/fi/administration/places`,
+    history,
   });
-  await user.click(confirmDeleteButton);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/administration/places`)
-  );
-  await screen.findByRole('alert', { name: 'Paikka on poistettu' });
 });
 
 test('should update place', async () => {

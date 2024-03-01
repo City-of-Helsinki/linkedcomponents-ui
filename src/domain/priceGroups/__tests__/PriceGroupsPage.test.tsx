@@ -9,7 +9,9 @@ import {
   render,
   screen,
   shouldApplyExpectedMetaData,
-  userEvent,
+  shouldClickListPageCreateButton,
+  shouldRenderListPage,
+  shouldSortListPageTable,
   waitFor,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
@@ -56,38 +58,15 @@ const findHeading = () => {
   return screen.findByRole('heading', { name: 'Asiakasryhmät' });
 };
 
-const getElement = (
-  key:
-    | 'breadcrumb'
-    | 'createPriceGroupButton'
-    | 'searchInput'
-    | 'sortByDescriptionButton'
-    | 'table'
-) => {
-  switch (key) {
-    case 'breadcrumb':
-      return screen.getByRole('navigation', { name: 'Murupolku' });
-    case 'createPriceGroupButton':
-      return screen.getByRole('button', { name: 'Lisää asiakasryhmä' });
-    case 'searchInput':
-      return screen.getByRole('combobox', { name: 'Hae asiakasryhmiä' });
-    case 'sortByDescriptionButton':
-      return screen.getByRole('button', { name: 'Kuvaus' });
-    case 'table':
-      return screen.getByRole('table', {
-        name: 'Asiakasryhmät, järjestys Kuvaus, nouseva',
-      });
-  }
-};
-
 test('should render price groups page', async () => {
   renderComponent();
 
-  await findHeading();
-  await loadingSpinnerIsNotInDocument();
-  getElement('breadcrumb');
-  getElement('searchInput');
-  getElement('table');
+  await shouldRenderListPage({
+    createButtonLabel: 'Lisää asiakasryhmä',
+    heading: 'Asiakasryhmät',
+    searchInputLabel: 'Hae asiakasryhmiä',
+    tableCaption: 'Asiakasryhmät, järjestys Kuvaus, nouseva',
+  });
 });
 
 test('applies expected metadata', async () => {
@@ -103,30 +82,24 @@ test('applies expected metadata', async () => {
 });
 
 test('should open create price group page', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent();
 
   await findHeading();
-  await loadingSpinnerIsNotInDocument();
-
-  const createPriceGroupButton = getElement('createPriceGroupButton');
-  await user.click(createPriceGroupButton);
-
-  expect(history.location.pathname).toBe(
-    '/fi/administration/price-groups/create'
-  );
+  await shouldClickListPageCreateButton({
+    createButtonLabel: 'Lisää asiakasryhmä',
+    expectedPathname: '/fi/administration/price-groups/create',
+    history,
+  });
 });
 
 test('should add sort parameter to search query', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  const sortByDescriptionButton = getElement('sortByDescriptionButton');
-  await user.click(sortByDescriptionButton);
-
-  expect(history.location.search).toBe('?sort=-description');
+  await shouldSortListPageTable({
+    columnHeader: 'Kuvaus',
+    expectedSearch: '?sort=-description',
+    history,
+  });
 });
 
 it('scrolls to price group id and calls history.replace correctly (deletes priceGroupId from state)', async () => {

@@ -6,8 +6,10 @@ import {
 } from '../../../../utils/mockLoginHooks';
 import {
   configure,
+  openDropdownMenu,
   render,
   screen,
+  shouldToggleDropdownMenu,
   userEvent,
   waitFor,
   within,
@@ -51,13 +53,11 @@ const renderComponent = ({
   });
 
 const getElement = (
-  key: 'back' | 'menu' | 'publish' | 'toggle' | 'updateDraft' | 'updatePublic'
+  key: 'back' | 'publish' | 'toggle' | 'updateDraft' | 'updatePublic'
 ) => {
   switch (key) {
     case 'back':
       return screen.getByRole('button', { name: 'Takaisin' });
-    case 'menu':
-      return screen.getByRole('region', { name: /valinnat/i });
     case 'publish':
       return screen.getByRole('button', { name: 'Hyväksy ja julkaise' });
     case 'toggle':
@@ -86,26 +86,12 @@ const getMenuButton = (
   }
 };
 
-const openMenu = async () => {
-  const user = userEvent.setup();
-  const toggleButton = getElement('toggle');
-  await user.click(toggleButton);
-  const menu = getElement('menu');
-
-  return { menu, toggleButton };
-};
-
 test('should toggle menu by clicking actions button', async () => {
-  const user = userEvent.setup();
   renderComponent({
     props: { event: { ...event, publicationStatus: PublicationStatus.Draft } },
   });
 
-  const { toggleButton } = await openMenu();
-  await user.click(toggleButton);
-  expect(
-    screen.queryByRole('region', { name: /valinnat/i })
-  ).not.toBeInTheDocument();
+  await shouldToggleDropdownMenu();
 });
 
 test('should show correct buttons for draft event', async () => {
@@ -123,7 +109,7 @@ test('should show correct buttons for draft event', async () => {
     },
   });
 
-  const { menu } = await openMenu();
+  const { menu } = await openDropdownMenu();
 
   getMenuButton('copy', menu);
 
@@ -142,7 +128,7 @@ test('should show correct buttons for draft event', async () => {
   await user.click(publishButton);
   expect(onUpdate).toHaveBeenLastCalledWith(PublicationStatus.Public);
 
-  await openMenu();
+  await openDropdownMenu();
 
   const disabledButtons = [
     getMenuButton('postpone', menu),
@@ -158,7 +144,7 @@ test('all buttons should be disabled when user is not logged in (draft)', async 
     props: { event: { ...event, publicationStatus: PublicationStatus.Draft } },
   });
 
-  const { menu } = await openMenu();
+  const { menu } = await openDropdownMenu();
 
   const disabledButtons = [
     getMenuButton('copy', menu),
@@ -188,7 +174,7 @@ test('should render correct buttons for public event', async () => {
     },
   });
 
-  const { menu } = await openMenu();
+  const { menu } = await openDropdownMenu();
 
   getMenuButton('copy', menu);
 
@@ -197,14 +183,14 @@ test('should render correct buttons for public event', async () => {
   await user.click(postponeButton);
   expect(onPostpone).toBeCalled();
 
-  const { menu: menu2 } = await openMenu();
+  const { menu: menu2 } = await openDropdownMenu();
 
   const cancelButton = getMenuButton('cancel', menu2);
   await waitFor(() => expect(cancelButton).toBeEnabled());
   await user.click(cancelButton);
   expect(onCancel).toBeCalled();
 
-  const { menu: menu3 } = await openMenu();
+  const { menu: menu3 } = await openDropdownMenu();
 
   const deleteButton = getMenuButton('delete', menu3);
   await waitFor(() => expect(deleteButton).toBeEnabled());
@@ -234,7 +220,7 @@ test('only copy and delete button should be enabled when event is cancelled', as
     },
   });
 
-  const { menu } = await openMenu();
+  const { menu } = await openDropdownMenu();
 
   const enabledButtons = [
     getMenuButton('delete', menu),
@@ -256,7 +242,7 @@ test('all buttons should be disabled when user is not logged in (public)', async
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });
 
-  const { menu } = await openMenu();
+  const { menu } = await openDropdownMenu();
 
   const disabledButtons = [
     getMenuButton('copy', menu),
@@ -274,7 +260,7 @@ test('should route to create event page when clicking copy button', async () => 
     props: { event: { ...event, publicationStatus: PublicationStatus.Public } },
   });
 
-  const { menu } = await openMenu();
+  const { menu } = await openDropdownMenu();
 
   const copyButton = getMenuButton('copy', menu);
   await waitFor(() => expect(copyButton).toBeEnabled());

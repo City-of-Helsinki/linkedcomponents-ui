@@ -4,8 +4,10 @@ import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   configure,
   CustomRenderOptions,
+  openDropdownMenu,
   render,
   screen,
+  shouldToggleDropdownMenu,
   userEvent,
   waitFor,
   within,
@@ -51,43 +53,25 @@ const renderComponent = (
     routes: [route],
   });
 
-const getElement = (key: 'deleteButton' | 'editButton' | 'menu' | 'toggle') => {
+const getElement = (key: 'deleteButton' | 'editButton') => {
   switch (key) {
     case 'deleteButton':
       return screen.getByRole('button', { name: /poista paikka/i });
     case 'editButton':
       return screen.getByRole('button', { name: /muokkaa/i });
-    case 'menu':
-      return screen.getByRole('region', { name: /valinnat/i });
-    case 'toggle':
-      return screen.getByRole('button', { name: /valinnat/i });
   }
 };
 
-const openMenu = async () => {
-  const user = userEvent.setup();
-  const toggleButton = getElement('toggle');
-  await user.click(toggleButton);
-  getElement('menu');
-
-  return toggleButton;
-};
-
 test('should toggle menu by clicking actions button', async () => {
-  const user = userEvent.setup();
   renderComponent();
 
-  const toggleButton = await openMenu();
-  await user.click(toggleButton);
-  expect(
-    screen.queryByRole('region', { name: /valinnat/i })
-  ).not.toBeInTheDocument();
+  await shouldToggleDropdownMenu();
 });
 
 test('should render correct buttons', async () => {
   renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
   const enabledButtons = [getElement('deleteButton'), getElement('editButton')];
   enabledButtons.forEach((button) => expect(button).toBeEnabled());
@@ -97,7 +81,7 @@ test('should route to edit place page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
   const editButton = getElement('editButton');
   await user.click(editButton);
@@ -117,7 +101,7 @@ test('should delete place', async () => {
   const user = userEvent.setup();
   renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
   const deleteButton = getElement('deleteButton');
   await user.click(deleteButton);

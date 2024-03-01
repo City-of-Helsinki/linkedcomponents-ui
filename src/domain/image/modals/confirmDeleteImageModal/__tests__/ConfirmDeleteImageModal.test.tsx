@@ -1,10 +1,8 @@
-import React from 'react';
-
 import {
   configure,
   render,
-  screen,
-  userEvent,
+  shouldClickButton,
+  shouldRenderDeleteModal,
 } from '../../../../../utils/testUtils';
 import ConfirmDeleteImageModal, {
   ConfirmDeleteImageModalProps,
@@ -24,32 +22,24 @@ const renderComponent = (props?: Partial<ConfirmDeleteImageModalProps>) =>
 
 test('should render component', async () => {
   renderComponent();
-  screen.getByRole('heading', { name: 'Varmista kuvan poistaminen' });
-  screen.getByText('Varoitus!');
-  screen.getByText('Tämä toiminto poistaa kuvan lopullisesti.');
 
-  screen.getByRole('button', { name: 'Poista kuva' });
-  screen.getByRole('button', { name: 'Peruuta' });
+  shouldRenderDeleteModal({
+    confirmButtonLabel: 'Poista kuva',
+    heading: 'Varmista kuvan poistaminen',
+    text: 'Tämä toiminto poistaa kuvan lopullisesti.',
+  });
 });
 
 test('should call onConfirm', async () => {
   const onConfirm = vi.fn();
-  const user = userEvent.setup();
-
   renderComponent({ onConfirm });
 
-  const deleteButton = screen.getByRole('button', { name: 'Poista kuva' });
-  await user.click(deleteButton);
-  expect(onConfirm).toBeCalled();
+  await shouldClickButton({ buttonLabel: 'Poista kuva', onClick: onConfirm });
 });
 
 test('should call onClose', async () => {
   const onClose = vi.fn();
-  const user = userEvent.setup();
-
   renderComponent({ onClose });
 
-  const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  await user.click(closeButton);
-  expect(onClose).toBeCalled();
+  await shouldClickButton({ buttonLabel: 'Peruuta', onClick: onClose });
 });
