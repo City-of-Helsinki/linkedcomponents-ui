@@ -1,25 +1,8 @@
-@import '../../../assets/styles/breakpoints';
-@import '../../../assets/styles/mixins';
-
-.imageColumn {
-  width: 1%;
-}
-
-.idColumn {
-  width: 20%;
-}
-
-.nameColumn {
-  width: 50%;
-}
-
-.lastModifiedTimeColumn {
-  width: 20%;
-}
-
-.actionButtonsColumn {
-  width: 1px;
-  padding: var(--focus-outline-width) !important;
+.imagesTable {
+  thead tr th:first-of-type,
+  tbody tr td:first-of-type {
+    width: 1%;
+  }
 }
 
 .imagePreview {

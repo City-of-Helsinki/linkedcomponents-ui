@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import { testIds } from '../../../constants';
 import {
   KeywordSetsQuery,
@@ -71,14 +70,12 @@ const KeywordSetList: React.FC<KeywordSetListProps> = ({
 
   return (
     <div>
-      <TableWrapper>
-        <KeywordSetsTable
-          caption={getTableCaption()}
-          keywordSets={keywordSets}
-          setSort={onSortChange}
-          sort={sort as KEYWORD_SET_SORT_OPTIONS}
-        />
-      </TableWrapper>
+      <KeywordSetsTable
+        caption={getTableCaption()}
+        keywordSets={keywordSets}
+        setSort={onSortChange}
+        sort={sort as KEYWORD_SET_SORT_OPTIONS}
+      />
       {pageCount > 1 && (
         <Pagination
           pageCount={pageCount}

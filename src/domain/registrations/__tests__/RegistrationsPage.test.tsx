@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 import { createMemoryHistory } from 'history';
 
-import getValue from '../../../utils/getValue';
 import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
@@ -119,10 +118,10 @@ it('scrolls to registration table row and calls history.replace correctly (delet
     )
   );
 
-  const eventRowButton = await screen.findByRole(
-    'button',
-    { name: getValue(registrations.data[0]?.id, '') },
+  const registrationLink = await screen.findByRole(
+    'link',
+    { name: registrations.data[0]?.event?.name?.fi as string },
     { timeout: 20000 }
   );
-  await waitFor(() => expect(eventRowButton).toHaveFocus());
+  await waitFor(() => expect(registrationLink).toHaveFocus());
 });

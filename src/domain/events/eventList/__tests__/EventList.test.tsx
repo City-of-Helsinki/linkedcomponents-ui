@@ -155,14 +155,14 @@ test('should navigate between pages', async () => {
   ).not.toBeInTheDocument();
 
   // Page 1 event should be visible.
-  screen.getByRole('button', { name: eventNames[0] });
+  screen.getByText(eventNames[0]);
 
   const page2Button = getElement('page2');
   await user.click(page2Button);
 
   await loadingSpinnerIsNotInDocument();
   // Page 2 event should be visible.
-  screen.getByRole('button', { name: page2EventNames[0] });
+  screen.getByText(page2EventNames[0]);
   await waitFor(() => expect(history.location.search).toBe('?page=2'));
 
   // Should clear page from url search if selecting the first page

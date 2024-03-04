@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import { testIds } from '../../../constants';
 import { KeywordsQuery, useKeywordsQuery } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
@@ -68,14 +67,12 @@ const KeywordList: React.FC<KeywordListProps> = ({
 
   return (
     <div>
-      <TableWrapper>
-        <KeywordsTable
-          caption={getTableCaption()}
-          keywords={keywords}
-          setSort={onSortChange}
-          sort={sort as KEYWORD_SORT_OPTIONS}
-        />
-      </TableWrapper>
+      <KeywordsTable
+        caption={getTableCaption()}
+        keywords={keywords}
+        setSort={onSortChange}
+        sort={sort as KEYWORD_SORT_OPTIONS}
+      />
       {pageCount > 1 && (
         <Pagination
           pageCount={pageCount}

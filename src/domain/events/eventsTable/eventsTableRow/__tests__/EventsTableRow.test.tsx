@@ -45,7 +45,7 @@ const renderComponent = (event: EventFieldsFragment, mocks: MockedResponse[]) =>
   render(
     <table>
       <tbody>
-        <EventsTableRow event={event} onRowClick={vi.fn()} />
+        <EventsTableRow event={event} />
       </tbody>
     </table>,
     { mocks }
@@ -77,7 +77,7 @@ test('should render event data correctly', async () => {
 
   renderComponent(event, mocks);
 
-  screen.getByRole('button', { name: eventValues.name });
+  screen.getByRole('link', { name: eventValues.name });
   await screen.findByRole(
     'cell',
     { name: organizationName },
@@ -153,9 +153,9 @@ test('should show sub events', async () => {
   await user.click(showMoreButton);
 
   // Should show sub-events
-  await screen.findByRole('button', { name: subEventFields[0].name });
+  await screen.findByRole('link', { name: subEventFields[0].name });
   for (const { name } of subEventFields.slice(1)) {
-    screen.getByRole('button', { name });
+    screen.getByRole('link', { name });
   }
 
   const hideButton = screen.getByRole('button', {
@@ -165,7 +165,7 @@ test('should show sub events', async () => {
 
   // Sub-events should be hidden
   for (const { name } of subEventFields) {
-    expect(screen.queryByRole('button', { name })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name })).not.toBeInTheDocument();
   }
 });
 

@@ -1,6 +1,36 @@
 @import '../../../assets/styles/breakpoints.scss';
 @import '../../../assets/styles/mixins';
 
+.tableWrapper {
+  display: grid;
+
+  table {
+    caption {
+      @include hidden-from-screen;
+    }
+  }
+
+  &.inlineWithBackground {
+    margin-top: calc(0px - var(--spacing-2-xl) + 8px);
+
+    @include medium-up {
+      margin-top: calc(0px - var(--spacing-2-xl) - 2px);
+    }
+  }
+
+  &.hasActionButtonColumn {
+    thead tr th:last-of-type,
+    tbody tr td:last-of-type {
+      width: 1%;
+      padding: var(--focus-outline-width) !important;
+    }
+
+    thead tr th:last-of-type {
+      @include hidden-from-screen;
+    }
+  }
+}
+
 .table {
   --content-background-color: var(--color-white);
 
@@ -78,14 +108,6 @@
   composes: hds-table--zebra from 'hds-core/lib/components/table/table.css';
 }
 
-.verticalLines {
-  composes: hds-table--with-vertical-lines from 'hds-core/lib/components/table/table.css';
-}
-
-.textAlignRight {
-  composes: hds-table--text-align-right from 'hds-core/lib/components/table/table.css';
-}
-
 .textAlignContentRight {
   composes: hds-table__content--text-align-td-right from 'hds-core/lib/components/table/table.css';
 }
@@ -131,8 +153,9 @@
   align-items: center;
 }
 
-.noResultsRow {
-  text-align: center;
+.noResults {
+  display: grid;
+  justify-content: center;
 
   .wrapper {
     max-width: 80vw;
@@ -143,22 +166,6 @@
       max-width: 100%;
       display: block;
       margin: var(--spacing-m) auto 0;
-    }
-  }
-}
-
-.clickableRow {
-  composes: clickableRow from '../../../common/components/table/clickableRow.module.scss';
-}
-
-.tableWrapper {
-  display: grid;
-
-  &.inlineWithBackground {
-    margin-top: calc(0px - var(--spacing-2-xl) + 4px);
-
-    @include medium-up {
-      margin-top: calc(0px - var(--spacing-2-xl) - 2px);
     }
   }
 }

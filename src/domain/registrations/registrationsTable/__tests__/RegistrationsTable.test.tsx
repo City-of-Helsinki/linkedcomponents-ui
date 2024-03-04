@@ -57,6 +57,10 @@ const renderComponent = (props?: Partial<RegistrationsTableProps>) =>
     mocks,
   });
 
+const findRegistrationRow = async (name: string) =>
+  (await screen.findByRole('link', { name: name })).parentElement?.parentElement
+    ?.parentElement as HTMLElement;
+
 test('should render registrations table', async () => {
   renderComponent();
 
@@ -67,6 +71,7 @@ test('should render registrations table', async () => {
     'Jono',
     'Ilmoittautumisaika',
     'Tapahtuman ajankohta',
+    'Toiminnot',
   ];
 
   for (const name of columnHeaders) {
@@ -81,7 +86,7 @@ describe('SignupsColumn', () => {
   const renderSignupsColumn = (registration: RegistrationFieldsFragment) => {
     const wrapper = ({ children }: PropsWithChildren) => <div>{children}</div>;
 
-    return renderHook(() => SignupsColumn(registration), { wrapper });
+    return renderHook(() => SignupsColumn({ registration }), { wrapper });
   };
 
   test('should show correct signup numbers', async () => {
@@ -115,7 +120,7 @@ describe('WaitingListColumn', () => {
   ) => {
     const wrapper = ({ children }: PropsWithChildren) => <div>{children}</div>;
 
-    return renderHook(() => WaitingListColumn(registration), { wrapper });
+    return renderHook(() => WaitingListColumn({ registration }), { wrapper });
   };
   test('should show correct waiting list numbers', async () => {
     expect(
@@ -147,46 +152,12 @@ test('should open registration page by clicking event name', async () => {
 
   const { history } = renderComponent({ registrations: [registration] });
 
-  const button = await screen.findByRole(
-    'button',
-    { name: registrationId },
-    { timeout: FIND_LINK_TIMEOUT }
-  );
-  await user.click(button);
-  expect(history.location.pathname).toBe(
-    `/fi/registrations/edit/${registrationId}`
-  );
-});
-
-test('event name should work as a link to edit registration page', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent({ registrations: [registration] });
-
-  const registrationLink = await screen.findByRole(
+  const link = await screen.findByRole(
     'link',
     { name: eventName },
     { timeout: FIND_LINK_TIMEOUT }
   );
-  await user.click(registrationLink);
-
-  expect(history.location.pathname).toBe(
-    `/fi/registrations/edit/${registrationId}`
-  );
-});
-
-test('should open registration page by pressing enter on row', async () => {
-  const user = userEvent.setup();
-
-  const { history } = renderComponent({ registrations: [registration] });
-
-  const button = await screen.findByRole(
-    'button',
-    { name: registrationId },
-    { timeout: FIND_LINK_TIMEOUT }
-  );
-  await user.click(button);
-  await user.type(button, '{enter}');
-
+  await user.click(link);
   expect(history.location.pathname).toBe(
     `/fi/registrations/edit/${registrationId}`
   );
@@ -197,9 +168,7 @@ test('should open actions dropdown', async () => {
 
   const { history } = renderComponent({ registrations: [registration] });
 
-  const withinRow = within(
-    screen.getByRole('button', { name: registrationId })
-  );
+  const withinRow = within(await findRegistrationRow(eventName));
   const menuButton = withinRow.getByRole('button', { name: 'Valinnat' });
   await user.click(menuButton);
 

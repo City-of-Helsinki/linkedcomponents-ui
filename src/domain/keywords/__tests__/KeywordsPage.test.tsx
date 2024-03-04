@@ -15,7 +15,6 @@ import {
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
-  keywordNames,
   keywords,
   mockedKeywordsResponse,
   mockedSortedKeywordsResponse,
@@ -134,14 +133,15 @@ test('should add sort parameter to search query', async () => {
 
 it('scrolls to keyword row and calls history.replace correctly (deletes keywordId from state)', async () => {
   const history = createMemoryHistory();
-  history.push(route, { keywordId: keywords.data[0]?.id });
+  const keywordId = keywords.data[0]?.id as string;
+  history.push(route, { keywordId });
 
   const replaceSpy = vi.spyOn(history, 'replace');
 
   renderComponent({ history });
 
   await loadingSpinnerIsNotInDocument();
-  const keywordButton = screen.getByRole('button', { name: keywordNames[0] });
+  const keywordLink = screen.getByRole('link', { name: keywordId });
 
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
@@ -151,5 +151,5 @@ it('scrolls to keyword row and calls history.replace correctly (deletes keywordI
     )
   );
 
-  await waitFor(() => expect(keywordButton).toHaveFocus());
+  await waitFor(() => expect(keywordLink).toHaveFocus());
 });

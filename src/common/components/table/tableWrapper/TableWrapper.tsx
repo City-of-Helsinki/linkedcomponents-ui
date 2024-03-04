@@ -3,20 +3,23 @@ import React from 'react';
 
 import styles from '../table.module.scss';
 
-interface Props {
-  className?: string;
+export type TableWrapperProps = {
+  hasActionButtons?: boolean;
   inlineWithBackground?: boolean;
-}
+  wrapperClassName?: string;
+};
 
-const TableWrapper: React.FC<React.PropsWithChildren<Props>> = ({
+const TableWrapper: React.FC<React.PropsWithChildren<TableWrapperProps>> = ({
   children,
-  className,
+  hasActionButtons,
   inlineWithBackground,
+  wrapperClassName,
 }) => {
   return (
     <div
-      className={classNames(styles.tableWrapper, className, {
+      className={classNames(styles.tableWrapper, wrapperClassName, {
         [styles.inlineWithBackground]: inlineWithBackground,
+        [styles.hasActionButtonColumn]: hasActionButtons,
       })}
     >
       {children}

@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import { testIds } from '../../../constants';
 import { ImagesQuery, useImagesQuery } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
@@ -65,14 +64,12 @@ const ImageList: React.FC<ImageListProps> = ({
 
   return (
     <div>
-      <TableWrapper>
-        <ImagesTable
-          caption={getTableCaption()}
-          images={images}
-          setSort={onSortChange}
-          sort={sort as IMAGE_SORT_OPTIONS}
-        />
-      </TableWrapper>
+      <ImagesTable
+        caption={getTableCaption()}
+        images={images}
+        setSort={onSortChange}
+        sort={sort as IMAGE_SORT_OPTIONS}
+      />
       {pageCount > 1 && (
         <Pagination
           pageCount={pageCount}

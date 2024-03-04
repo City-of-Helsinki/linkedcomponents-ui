@@ -1,18 +1,13 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
 
 import CustomTable from '../../../common/components/table/CustomTable';
 import HeaderRow from '../../../common/components/table/headerRow/HeaderRow';
-import NoResultsRow from '../../../common/components/table/noResultsRow/NoResultsRow';
 import { SortingHeaderCell } from '../../../common/components/table/sortingHeaderCell/SortingHeaderCell';
 import TableBody from '../../../common/components/table/tableBody/TableBody';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
-import useLocale from '../../../hooks/useLocale';
-import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getSortByColKey from '../../../utils/getSortByColKey';
 import getSortOrderAndKey from '../../../utils/getSortOrderAndKey';
-import { getOrganizationFields } from '../../organization/utils';
 import { ORGANIZATION_SORT_OPTIONS } from '../constants';
 import styles from './organizationsTable.module.scss';
 import OrganizationsTableContext from './OrganizationsTableContext';
@@ -38,25 +33,6 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
   sortedOrganizations,
 }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const locale = useLocale();
-  const queryStringWithReturnPath = useQueryStringWithReturnPath();
-
-  const onRowClick = useCallback(
-    (organization: OrganizationFieldsFragment) => {
-      const { organizationUrl } = getOrganizationFields(
-        organization,
-        locale,
-        t
-      );
-
-      navigate({
-        pathname: organizationUrl,
-        search: queryStringWithReturnPath,
-      });
-    },
-    [locale, navigate, queryStringWithReturnPath, t]
-  );
 
   const handleSort = (key: string) => {
     setSort(key as ORGANIZATION_SORT_OPTIONS);
@@ -73,12 +49,18 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
   };
 
   const value = useMemo(
-    () => ({ onRowClick, showSubOrganizations, sortedOrganizations }),
-    [onRowClick, showSubOrganizations, sortedOrganizations]
+    () => ({ showSubOrganizations, sortedOrganizations }),
+    [showSubOrganizations, sortedOrganizations]
   );
   return (
     <OrganizationsTableContext.Provider value={value}>
-      <CustomTable className={className} caption={caption} variant="light">
+      <CustomTable
+        className={className}
+        caption={caption}
+        hasActionButtons
+        showNoResults={!organizations.length}
+        variant="light"
+      >
         <thead>
           <HeaderRow>
             <SortingHeaderCell
@@ -133,20 +115,16 @@ const OrganizationsTable: React.FC<OrganizationsTableProps> = ({
               setSortingAndOrder={setSortingAndOrder}
               sortIconType={'other'}
             />
-            <th className={styles.actionButtonsColumn}></th>
+            <th>{t('common.actions')}</th>
           </HeaderRow>
         </thead>
         <TableBody>
-          {organizations.map(
-            (organization) =>
-              organization && (
-                <OrganizationsTableRow
-                  key={organization?.id}
-                  organization={organization}
-                />
-              )
-          )}
-          {!organizations.length && <NoResultsRow colSpan={5} />}
+          {organizations.map((organization) => (
+            <OrganizationsTableRow
+              key={organization?.id}
+              organization={organization}
+            />
+          ))}
         </TableBody>
       </CustomTable>
     </OrganizationsTableContext.Provider>

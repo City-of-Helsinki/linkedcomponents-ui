@@ -6,7 +6,6 @@ import { useLocation, useNavigate } from 'react-router';
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import { testIds } from '../../../constants';
 import {
   EventsQueryVariables,
@@ -78,12 +77,10 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
   return (
     <div className={styles.contentWrapperTable}>
       <Container withOffset={true}>
-        <TableWrapper inlineWithBackground>
-          <RegistrationsTable
-            caption={getTableCaption()}
-            registrations={registrations}
-          />
-        </TableWrapper>
+        <RegistrationsTable
+          caption={getTableCaption()}
+          registrations={registrations}
+        />
         {pageCount > 1 && (
           <Pagination
             pageCount={pageCount}

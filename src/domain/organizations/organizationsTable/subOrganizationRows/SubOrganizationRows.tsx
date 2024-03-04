@@ -32,21 +32,13 @@ const SubOrganizationRows: React.FC<Props> = ({ level, organizationId }) => {
     return null;
   }
 
-  return (
-    <>
-      {subOrganizationsObjects.map((subOrganization) => {
-        return (
-          subOrganization && (
-            <OrganizationsTableRow
-              key={subOrganization.id}
-              level={level + 1}
-              organization={subOrganization}
-            />
-          )
-        );
-      })}
-    </>
-  );
+  return subOrganizationsObjects.map((subOrganization) => (
+    <OrganizationsTableRow
+      key={subOrganization.id}
+      level={level + 1}
+      organization={subOrganization}
+    />
+  ));
 };
 
 export default SubOrganizationRows;

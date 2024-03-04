@@ -150,10 +150,8 @@ test('scrolls to signup table row and calls history.replace correctly (deletes s
     attendees.data[0].firstName,
     attendees.data[0].lastName,
   ].join(' ');
-  const signupRowButton = screen.getAllByRole('button', {
-    name: attendeeName,
-  })[0];
-  await waitFor(() => expect(signupRowButton).toHaveFocus());
+  const signupLink = screen.getByRole('link', { name: attendeeName });
+  await waitFor(() => expect(signupLink).toHaveFocus());
 });
 
 test("should show not found page if registration doesn't exist", async () => {

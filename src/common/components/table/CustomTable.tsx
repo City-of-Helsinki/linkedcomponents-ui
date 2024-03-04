@@ -5,12 +5,19 @@ import 'hds-core';
 import { TableProps as HdsTableProps } from 'hds-react';
 import React, { FC, PropsWithChildren } from 'react';
 
+import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import NoResults from './noResults/NoResults';
 import styles from './table.module.scss';
 import { TableContainer } from './tableContainer/TableContainer';
+import TableWrapper, { TableWrapperProps } from './tableWrapper/TableWrapper';
 
 type TableProps = React.ComponentPropsWithoutRef<'table'> & {
   className?: string;
-} & Pick<
+  loading?: boolean;
+  noResultsText?: string;
+  showNoResults?: boolean;
+} & TableWrapperProps &
+  Pick<
     HdsTableProps,
     'caption' | 'dataTestId' | 'dense' | 'variant' | 'verticalLines' | 'zebra'
   >;
@@ -20,25 +27,39 @@ const CustomTable: FC<PropsWithChildren<TableProps>> = ({
   children,
   dataTestId = 'hds-table-data-testid',
   dense = false,
+  hasActionButtons,
   id = 'hds-table-id',
+  inlineWithBackground,
+  loading,
+  noResultsText,
+  showNoResults,
   variant,
   verticalLines = false,
   zebra = false,
+  wrapperClassName,
   ...rest
 }) => {
   return (
-    <TableContainer
-      variant={variant}
-      dataTestId={dataTestId}
-      dense={dense}
-      id={id}
-      zebra={zebra}
-      verticalLines={verticalLines}
-      {...rest}
+    <TableWrapper
+      hasActionButtons={hasActionButtons}
+      inlineWithBackground={inlineWithBackground}
+      wrapperClassName={wrapperClassName}
     >
-      {caption && <caption className={styles.caption}>{caption}</caption>}
-      {children}
-    </TableContainer>
+      <TableContainer
+        variant={variant}
+        dataTestId={dataTestId}
+        dense={dense}
+        id={id}
+        zebra={zebra}
+        verticalLines={verticalLines}
+        {...rest}
+      >
+        {caption && <caption className={styles.caption}>{caption}</caption>}
+        {children}
+      </TableContainer>
+      {loading && <LoadingSpinner isLoading={true} />}
+      {!loading && showNoResults && <NoResults noResultsText={noResultsText} />}
+    </TableWrapper>
   );
 };
 

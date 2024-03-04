@@ -141,7 +141,7 @@ it('scrolls to organization row and calls history.replace correctly (deletes org
   renderComponent({ history });
 
   await loadingSpinnerIsNotInDocument();
-  const organizationButton = screen.getByRole('button', {
+  const organizationButton = screen.getByRole('link', {
     name: getValue(organizations.data[0]?.name, ''),
   });
 

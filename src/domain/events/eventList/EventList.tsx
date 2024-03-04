@@ -8,7 +8,6 @@ import FeedbackButton from '../../../common/components/feedbackButton/FeedbackBu
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
 import SingleSelect from '../../../common/components/singleSelect/SingleSelect';
-import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
 import { testIds } from '../../../constants';
 import {
   EventsQuery,
@@ -110,14 +109,12 @@ const EventList: React.FC<EventListProps> = ({
     <div className={styles[`contentWrapper${upperCaseFirstLetter(listType)}`]}>
       <Container className={styles.contentContainer} withOffset={true}>
         {listType === EVENT_LIST_TYPES.TABLE && (
-          <TableWrapper inlineWithBackground>
-            <EventsTable
-              caption={getTableCaption()}
-              events={events}
-              setSort={onSortChange}
-              sort={sort as EVENT_SORT_OPTIONS}
-            />
-          </TableWrapper>
+          <EventsTable
+            caption={getTableCaption()}
+            events={events}
+            setSort={onSortChange}
+            sort={sort as EVENT_SORT_OPTIONS}
+          />
         )}
         {listType === EVENT_LIST_TYPES.CARD_LIST && (
           <div className={styles.eventCards}>

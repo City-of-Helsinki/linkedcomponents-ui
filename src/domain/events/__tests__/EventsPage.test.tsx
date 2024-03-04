@@ -257,8 +257,8 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
     )
   );
 
-  const eventRowButton = screen.getByRole('button', {
+  const eventLink = screen.getByRole('link', {
     name: getValue(waitingApprovalEvents.data[0]?.name?.fi, ''),
   });
-  await waitFor(() => expect(eventRowButton).toHaveFocus());
+  await waitFor(() => expect(eventLink).toHaveFocus());
 });
