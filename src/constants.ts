@@ -77,8 +77,7 @@ export enum ROUTES {
 // Supported languages
 export enum SUPPORTED_LANGUAGES {
   FI = 'fi',
-  // TODO: Add Swedish to supported languages when UI texts has been translated
-  // SV = 'sv',
+  SV = 'sv',
   EN = 'en',
 }
 

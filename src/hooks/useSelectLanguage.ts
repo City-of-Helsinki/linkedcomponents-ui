@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router';
 
 import { SUPPORTED_LANGUAGES } from '../constants';
 import { OptionType } from '../types';
+import { featureFlagUtils } from '../utils/featureFlags';
 import updateLocaleParam from '../utils/updateLocaleParam';
 import useLocale from './useLocale';
 
@@ -22,10 +23,16 @@ const useSelectLanguage = (): UseSelectLanguageState => {
   const location = useLocation();
 
   const languageOptions: OptionType[] = React.useMemo(() => {
-    return Object.values(SUPPORTED_LANGUAGES).map((language) => ({
-      label: t(`navigation.languages.${language}`),
-      value: language,
-    }));
+    return Object.values(SUPPORTED_LANGUAGES)
+      .filter(
+        (lang) =>
+          featureFlagUtils.isFeatureEnabled('SWEDISH_TRANSLATIONS') ||
+          lang !== SUPPORTED_LANGUAGES.SV
+      )
+      .map((language) => ({
+        label: t(`navigation.languages.${language}`),
+        value: language,
+      }));
   }, [t]);
 
   const changeLanguage = async (

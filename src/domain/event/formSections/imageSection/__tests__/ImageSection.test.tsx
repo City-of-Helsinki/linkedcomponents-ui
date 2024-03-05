@@ -55,6 +55,7 @@ beforeEach(() => {
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
 });

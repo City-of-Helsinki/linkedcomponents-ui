@@ -51,6 +51,7 @@ console.error = (msg: any, ...optionalParams: any[]) => {
 };
 
 import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS = 'true';
+import.meta.env.REACT_APP_ENABLE_SWEDISH_TRANSLATIONS = 'true';
 import.meta.env.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION = 'false';
 import.meta.env.REACT_APP_MAINTENANCE_DISABLE_LOGIN = 'false';
 import.meta.env.REACT_APP_ALLOWED_SUBSTITUTE_USER_DOMAINS = 'hel.fi';

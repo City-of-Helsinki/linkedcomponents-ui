@@ -45,14 +45,18 @@ const renderComponent = ({
   route?: string;
 } = {}) => render(<Header />, { mocks, routes: [route] });
 
-const getElement = (key: 'fiOption' | 'enOption' | 'menuButton') => {
+const getElement = (
+  key: 'fiOption' | 'enOption' | 'menuButton' | 'svOption'
+) => {
   switch (key) {
     case 'fiOption':
-      return screen.getByRole('button', { hidden: false, name: /suomeksi/i });
+      return screen.getByRole('button', { name: /suomeksi/i });
     case 'enOption':
-      return screen.getByRole('button', { hidden: false, name: /in english/i });
+      return screen.getByRole('button', { name: /in english/i });
     case 'menuButton':
       return screen.getByRole('button', { name: 'Valikko' });
+    case 'svOption':
+      return screen.getByRole('button', { name: /på svenska/i });
   }
 };
 
@@ -68,8 +72,7 @@ const getElements = (key: 'signInButton' | 'signOutLink') => {
 const findUserMenuButton = () =>
   screen.findByRole('button', { name: userName }, { timeout: 10000 });
 
-// TODO: Skip this test because SV UI language is temporarily disabled
-test.skip('matches snapshot', async () => {
+test('matches snapshot', async () => {
   i18n.changeLanguage('sv');
   const { container } = renderComponent({ route: '/sv' });
 
@@ -80,6 +83,7 @@ test('should show navigation links and should route to correct page after clicki
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
   const user = userEvent.setup();
@@ -130,6 +134,7 @@ test.each(registrationAndAdminTabTestCases)(
     setFeatureFlags({
       LOCALIZED_IMAGE: true,
       SHOW_ADMIN: true,
+      SWEDISH_TRANSLATIONS: true,
       WEB_STORE_INTEGRATION: true,
     });
     const userMocks: Record<typeof role, MockedResponse> = {
@@ -167,6 +172,7 @@ test('should not show admin and registrations link when those features are disab
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: false,
+    SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
   const user = userEvent.setup();
@@ -206,19 +212,43 @@ test('should show mobile menu', async () => {
 });
 
 test('should change language', async () => {
-  global.innerWidth = 1200;
+  setFeatureFlags({
+    LOCALIZED_IMAGE: true,
+    SHOW_ADMIN: true,
+    SWEDISH_TRANSLATIONS: true,
+    WEB_STORE_INTEGRATION: true,
+  });
+
   const user = userEvent.setup();
   const { history } = renderComponent();
 
   expect(history.location.pathname).toBe('/fi');
 
-  const fiOption = getElement('fiOption');
-  await user.click(fiOption);
+  const testCases: [HTMLElement, string][] = [
+    [getElement('enOption'), '/en'],
+    [getElement('fiOption'), '/fi'],
+    [getElement('svOption'), '/sv'],
+  ];
 
-  const enOption = getElement('enOption');
-  await user.click(enOption);
+  for (const item of testCases) {
+    await user.click(item[0]);
+    expect(history.location.pathname).toBe(item[1]);
+  }
+});
 
-  expect(history.location.pathname).toBe('/en');
+test('should not display Swedish language if Swedish translations are not enabled', async () => {
+  setFeatureFlags({
+    LOCALIZED_IMAGE: true,
+    SHOW_ADMIN: true,
+    SWEDISH_TRANSLATIONS: false,
+    WEB_STORE_INTEGRATION: true,
+  });
+
+  renderComponent();
+
+  expect(
+    screen.queryByRole('button', { name: /på svenska/i })
+  ).not.toBeInTheDocument();
 });
 
 test('should start login process', async () => {

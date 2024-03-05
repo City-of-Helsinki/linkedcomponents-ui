@@ -45,6 +45,7 @@ const GeneralInstructionsPage: React.FC = () => {
         );
     }
   };
+
   return (
     <PageWrapper
       description="helpPage.pageDescriptionInstructions"
