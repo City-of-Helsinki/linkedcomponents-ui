@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-require-imports */
 import 'swagger-ui-react/swagger-ui.css';
+import './documentationPage.module.scss';
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -91,8 +92,11 @@ const DocumentationPage: React.FC = () => {
         title={t('helpPage.pageTitleDocumentation')}
       />
       {getContent(locale)}
-      {/* @ts-ignore */}
-      <SwaggerUI url={SWAGGER_SCHEMA_URL} />
+
+      <div lang="en">
+        {/* @ts-ignore */}
+        <SwaggerUI url={SWAGGER_SCHEMA_URL} />
+      </div>
     </PageWrapper>
   );
 };
