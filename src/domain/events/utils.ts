@@ -1,17 +1,19 @@
 import isSameDay from 'date-fns/isSameDay';
+import isSameMonth from 'date-fns/isSameMonth';
+import isSameYear from 'date-fns/isSameYear';
 import isValid from 'date-fns/isValid';
 import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
-import { DATE_FORMAT_API } from '../../constants';
+import { DATE_FORMAT, DATE_FORMAT_API } from '../../constants';
 import {
   EventsQueryVariables,
   EventTypeId,
   PublicationStatus,
   SuperEventType,
 } from '../../generated/graphql';
-import { PathBuilderProps } from '../../types';
+import { Language, PathBuilderProps } from '../../types';
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import formatDate from '../../utils/formatDate';
 import getPathBuilder from '../../utils/getPathBuilder';
@@ -278,6 +280,68 @@ export const getSuperEventTypeText = (
     return `(${superEventText})`;
   }
 
+  return '';
+};
+
+const getEventTimeFormat = (language: Language) => {
+  const timeFormats = {
+    en: 'h:mm aaa',
+    fi: 'HH.mm',
+    sv: 'HH:mm',
+  };
+  return timeFormats[language];
+};
+
+const formatEventDateAndTime = (date: Date, language: Language) => {
+  const timeFormat = getEventTimeFormat(language);
+  return formatDate(date, `${DATE_FORMAT}, ${timeFormat}`, language);
+};
+
+const formatEventStartAndEndTime = (
+  startTime: Date,
+  endTime: Date,
+  language: Language
+) => {
+  const timeFormat = getEventTimeFormat(language);
+  let startDateStr = formatDate(startTime);
+  const endDateStr = formatDate(endTime);
+
+  if (isSameDay(startTime, endTime)) {
+    const startTimeStr = formatDate(startTime, timeFormat, language);
+    const endTimeStr = formatDate(endTime, timeFormat, language);
+    const timeStr = `${startTimeStr} – ${endTimeStr}`;
+
+    return [endDateStr, timeStr].join(', ');
+  }
+
+  if (isSameMonth(startTime, endTime)) {
+    startDateStr = formatDate(startTime, 'd');
+  } else if (isSameYear(startTime, endTime)) {
+    startDateStr = formatDate(startTime, 'd.M');
+  }
+  return `${startDateStr} – ${endDateStr}`;
+};
+
+export const getEventTimeStr = ({
+  endTime,
+  language,
+  startTime,
+}: {
+  endTime: Date | null;
+  language: Language;
+  startTime: Date | null;
+}): string => {
+  if (startTime && endTime) {
+    return formatEventStartAndEndTime(startTime, endTime, language);
+  } else if (startTime) {
+    const startDateAndTime = formatEventDateAndTime(startTime, language);
+
+    return `${startDateAndTime} –`;
+  } else if (endTime) {
+    const endDateAndTime = formatEventDateAndTime(endTime, language);
+
+    return `– ${endDateAndTime}`;
+  }
   return '';
 };
 

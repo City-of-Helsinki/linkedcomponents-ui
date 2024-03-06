@@ -15,6 +15,7 @@ import DateText from '../../events/eventCard/dateText/DateText';
 import PriceText from '../../events/eventCard/priceText/PriceText';
 import { getPlaceFields } from '../../place/utils';
 import styles from './eventInfo.module.scss';
+import EventTimes from './EventTimes';
 
 type EventInfoProps = {
   event: EventFieldsFragment;
@@ -96,6 +97,9 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
               {capitalize(getLocalisedString(keyword.name, locale))}
             </Tag>
           ))}
+        </div>
+        <div className={styles.eventTimesRow}>
+          <EventTimes event={event} />
         </div>
       </div>
     </div>

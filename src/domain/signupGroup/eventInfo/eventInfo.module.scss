@@ -74,4 +74,18 @@
       grid-gap: var(--spacing-m);
     }
   }
+
+  .eventTimesRow {
+    order: 6;
+  }
+}
+
+.eventTimesAccordion {
+  border-bottom-color: transparent !important;
+  box-shadow: none !important;
+
+  ul {
+    margin: 0;
+    padding: 0 0 0 var(--spacing-s);
+  }
 }

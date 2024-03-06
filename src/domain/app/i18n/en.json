@@ -1891,6 +1891,7 @@
       "text2": "Following registrations will be deleted:",
       "title": "Are you sure you want to cancel the registration?"
     },
+    "eventTimes": "All event times",
     "form": {
       "buttonSave": "Save participant",
       "buttonUpdateParticipantAmount": "Update",

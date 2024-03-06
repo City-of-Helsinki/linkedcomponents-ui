@@ -247,6 +247,8 @@ export const EVENT_INCLUDES = [
   'super_event',
 ];
 
+export const EVENT_WITH_SUB_EVENTS_INCLUDES = ['sub_events'];
+
 export enum EVENT_ACTIONS {
   ACCEPT_AND_PUBLISH = 'acceptAndPublish',
   CANCEL = 'cancel',

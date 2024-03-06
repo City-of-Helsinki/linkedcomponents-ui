@@ -1892,6 +1892,7 @@
       "text2": "Följande registreringar kommer att raderas",
       "title": "Är du säker på att du vill avbryta registreringen?"
     },
+    "eventTimes": "Alla evenemangstider",
     "form": {
       "buttonSave": "Spara deltagare",
       "buttonUpdateParticipantAmount": "Uppdatera",
