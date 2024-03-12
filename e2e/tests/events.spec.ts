@@ -47,7 +47,6 @@ test.describe('Event search page', () => {
     await searchInput.fill(eventFinnishName);
 
     await page.locator('button').filter({ hasText: 'Etsi tapahtumia' }).click();
-    // await expect(page.getByText('0 tapahtumaa')).toBeVisible();
     await expect(page.getByText(eventFinnishName)).toBeVisible();
 
     if (eventId) {

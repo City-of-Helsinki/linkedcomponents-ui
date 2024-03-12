@@ -1,7 +1,11 @@
 import react from '@vitejs/plugin-react-swc';
 import eslint from 'vite-plugin-eslint';
-// eslint-disable-next-line import/no-unresolved
-import { coverageConfigDefaults, defineConfig } from 'vitest/config';
+import {
+  configDefaults,
+  coverageConfigDefaults,
+  defineConfig,
+  // eslint-disable-next-line import/no-unresolved
+} from 'vitest/config';
 
 export default defineConfig({
   base: '/',
@@ -22,7 +26,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
-    exclude: ['e2e/tests'],
+    exclude: [...configDefaults.exclude, 'e2e/tests'],
     css: {
       modules: {
         classNameStrategy: 'non-scoped',
