@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import MultiLanguageField from '../../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
 import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
-import { EVENT_FIELDS } from '../../../constants';
+import { EVENT_FIELDS, EVENT_OFFER_FIELDS } from '../../../constants';
 
 type Props = {
   isEditingAllowed: boolean;
@@ -31,7 +31,7 @@ const FreeEventFields: React.FC<Props> = ({ isEditingAllowed }) => {
           languages={eventInfoLanguages}
           name={getFieldName(
             `${EVENT_FIELDS.OFFERS}[0]`,
-            EVENT_FIELDS.OFFER_INFO_URL
+            EVENT_OFFER_FIELDS.OFFER_INFO_URL
           )}
           placeholderKey={`event.form.placeholderOfferInfoUrl`}
         />

@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { CHARACTER_LIMITS } from '../../constants';
 import { PublicationStatus } from '../../generated/graphql';
 import { Maybe } from '../../types';
+import { featureFlagUtils } from '../../utils/featureFlags';
 import getValue from '../../utils/getValue';
 import skipFalsyType from '../../utils/skipFalsyType';
 import {
@@ -24,16 +25,19 @@ import {
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import { imageDetailsSchema } from '../image/validation';
+import { PriceGroupOption } from '../priceGroup/types';
+import { getPriceGroupSchema } from '../registration/validation';
 import {
   ADD_EVENT_TIME_FORM_NAME,
   EDIT_EVENT_TIME_FORM_NAME,
   EVENT_FIELDS,
+  EVENT_OFFER_FIELDS,
   EVENT_TIME_FIELDS,
   EXTERNAL_LINK_FIELDS,
   RECURRING_EVENT_FIELDS,
   VIDEO_DETAILS_FIELDS,
 } from './constants';
-import { EventTime, Offer, RecurringEventSettings } from './types';
+import { EventTime, OfferFields, RecurringEventSettings } from './types';
 
 const createMultiLanguageValidationByInfoLanguages = (
   rule: Yup.StringSchema<Maybe<string>>
@@ -79,18 +83,39 @@ const eventTimesSchema = Yup.array().when(
   validateEventTimes
 );
 
-const createPaidOfferSchema = (eventInfoLanguage: string[]) =>
+const getPriceGroupsSchema = (
+  isRegistrationPlanned: boolean,
+  priceGroupOptions: PriceGroupOption[]
+) => {
+  return isRegistrationPlanned
+    ? Yup.array().of(getPriceGroupSchema(priceGroupOptions))
+    : Yup.array();
+};
+
+const createPaidOfferSchema = (
+  isRegistrationPlanned: boolean,
+  eventInfoLanguage: string[],
+  priceGroupOptions: PriceGroupOption[]
+) =>
   Yup.object().shape({
-    [EVENT_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
+    [EVENT_OFFER_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
       eventInfoLanguage,
       Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     ),
-    [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
+    [EVENT_OFFER_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
       eventInfoLanguage,
       Yup.string().test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
         isValidUrl(value)
       )
     ),
+    ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
+      ? {
+          [EVENT_OFFER_FIELDS.OFFER_PRICE_GROUPS]: getPriceGroupsSchema(
+            isRegistrationPlanned,
+            priceGroupOptions
+          ),
+        }
+      : {}),
   });
 
 type ValidateOptionsWithIndex = Yup.ValidateOptions & {
@@ -105,7 +130,7 @@ const createFreeOfferSchema = (eventInfoLanguage: string[]) =>
       try {
         await Yup.object()
           .shape({
-            [EVENT_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
+            [EVENT_OFFER_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
               eventInfoLanguage,
               Yup.string().test(
                 'is-url-valid',
@@ -127,11 +152,23 @@ const createFreeOfferSchema = (eventInfoLanguage: string[]) =>
 
 const validateOffers = (
   values: any[],
-  schema: Yup.ArraySchema<Offer[] | undefined, Yup.AnyObject>
+  schema: Yup.ArraySchema<OfferFields[] | undefined, Yup.AnyObject>
 ) => {
-  const [hasPrice, eventInfoLanguage] = values as [boolean, string[]];
+  const [
+    hasPrice,
+    isRegistrationPlanned,
+    eventInfoLanguage,
+    priceGroupOptions,
+  ] = values as [boolean, boolean, string[], PriceGroupOption[]];
+
   return hasPrice
-    ? schema.of(createPaidOfferSchema(eventInfoLanguage))
+    ? schema.of(
+        createPaidOfferSchema(
+          isRegistrationPlanned,
+          eventInfoLanguage,
+          priceGroupOptions
+        )
+      )
     : schema.of(createFreeOfferSchema(eventInfoLanguage));
 };
 
@@ -355,7 +392,12 @@ export const publicEventSchema = Yup.object().shape(
     [EVENT_FIELDS.OFFERS]: Yup.array()
       .min(1, VALIDATION_MESSAGE_KEYS.OFFERS_REQUIRED)
       .when(
-        [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
+        [
+          EVENT_FIELDS.HAS_PRICE,
+          EVENT_FIELDS.IS_REGISTRATION_PLANNED,
+          EVENT_FIELDS.EVENT_INFO_LANGUAGES,
+          EVENT_FIELDS.PRICE_GROUP_OPTIONS,
+        ],
         validateOffers
       ),
     [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(

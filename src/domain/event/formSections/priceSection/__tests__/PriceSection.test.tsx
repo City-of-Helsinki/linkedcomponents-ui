@@ -9,7 +9,9 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
+import { mockedFreePriceGroupsResponse } from '../../../../priceGroup/__mocks__/priceGroups';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
+import { OfferFields } from '../../../types';
 import { getEmptyOffer } from '../../../utils';
 import { publicEventSchema } from '../../../validation';
 import PriceSection from '../PriceSection';
@@ -18,30 +20,38 @@ configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
 
-const renderPriceSection = () =>
+type InitialValues = {
+  [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: string[];
+  [EVENT_FIELDS.HAS_PRICE]: boolean;
+  [EVENT_FIELDS.IS_REGISTRATION_PLANNED]: boolean;
+  [EVENT_FIELDS.OFFERS]: OfferFields[];
+  [EVENT_FIELDS.TYPE]: string;
+};
+
+const defaultInitialValues: InitialValues = {
+  [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [LE_DATA_LANGUAGES.FI],
+  [EVENT_FIELDS.HAS_PRICE]: false,
+  [EVENT_FIELDS.IS_REGISTRATION_PLANNED]: false,
+  [EVENT_FIELDS.OFFERS]: [getEmptyOffer()],
+  [EVENT_FIELDS.TYPE]: type,
+};
+
+const mocks = [mockedFreePriceGroupsResponse];
+
+const renderPriceSection = (initialValues?: Partial<InitialValues>) =>
   render(
     <Formik
-      initialValues={{
-        [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: [LE_DATA_LANGUAGES.FI],
-        [EVENT_FIELDS.HAS_PRICE]: false,
-        [EVENT_FIELDS.OFFERS]: [getEmptyOffer()],
-        [EVENT_FIELDS.TYPE]: type,
-      }}
+      initialValues={{ ...defaultInitialValues, ...initialValues }}
       onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
       <PriceSection isEditingAllowed={true} />
-    </Formik>
+    </Formik>,
+    { mocks }
   );
 
-const findElement = (key: 'addButton') => {
-  switch (key) {
-    case 'addButton':
-      return screen.findByRole('button', {
-        name: /lisää hintatieto/i,
-      });
-  }
-};
+const findAddOfferButton = () =>
+  screen.findByRole('button', { name: /lisää hintatieto/i });
 
 const queryElements = (
   key: 'deleteButtons' | 'instructions' | 'priceInputs'
@@ -53,19 +63,46 @@ const queryElements = (
       });
     case 'instructions':
       return screen.queryAllByText(/merkitse onko tapahtuma maksuton/i);
+
     case 'priceInputs':
       return screen.queryAllByPlaceholderText(/syötä tapahtuman hinta/i);
   }
 };
 
-const getElement = (key: 'hasPriceCheckbox' | 'heading') => {
+const getDeletePriceGroupButtons = () =>
+  screen.getAllByRole('button', { name: 'Poista asiakasryhmä' });
+
+const getElement = (
+  key:
+    | 'addPriceGroupButton'
+    | 'hasPriceCheckbox'
+    | 'heading'
+    | 'isRegistrationPlannedCheckbox'
+    | 'priceGroupSelectButton'
+    | 'priceInput'
+    | 'vatSelectButton'
+) => {
   switch (key) {
+    case 'addPriceGroupButton':
+      return screen.getByRole('button', { name: 'Lisää uusi asiakasryhmä' });
     case 'hasPriceCheckbox':
-      return screen.getByLabelText(/tapahtuma on maksullinen/i);
+      return screen.getByRole('checkbox', {
+        name: /tapahtuma on maksullinen/i,
+      });
     case 'heading':
       return screen.getByRole('heading', {
         name: /tapahtuman hintatiedot/i,
       });
+    case 'isRegistrationPlannedCheckbox':
+      return screen.getByRole('checkbox', {
+        name: 'Tapahtumalle luodaan Linked Registration -ilmoittautuminen',
+      });
+    case 'priceGroupSelectButton':
+      return screen.getByRole('button', { name: /Asiakasryhmä/ });
+    case 'priceInput':
+      return screen.getByRole('spinbutton', { name: 'Hinta (€) *' });
+    case 'vatSelectButton':
+      return screen.getByRole('button', { name: /ALV %/ });
   }
 };
 
@@ -88,8 +125,8 @@ test('should add and delete an offer', async () => {
     screen.getByPlaceholderText(placeholder);
   }
 
-  const addButton = await findElement('addButton');
-  await user.click(addButton);
+  const addOfferButton = await findAddOfferButton();
+  await user.click(addOfferButton);
 
   await waitFor(() =>
     expect(screen.queryAllByPlaceholderText(placeholders[0])).toHaveLength(2)
@@ -142,9 +179,44 @@ test('should show instructions only once', async () => {
 
   await waitFor(() => expect(queryElements('priceInputs')).toHaveLength(1));
 
-  const addButton = await findElement('addButton');
-  await user.click(addButton);
+  const addOfferButton = await findAddOfferButton();
+  await user.click(addOfferButton);
 
   await waitFor(() => expect(queryElements('priceInputs')).toHaveLength(2));
   expect(queryElements('instructions')).toHaveLength(1);
+});
+
+test('should show add price group button only if registration is planned', async () => {
+  const user = userEvent.setup();
+  renderPriceSection({ hasPrice: true, isRegistrationPlanned: false });
+
+  expect(
+    screen.queryByRole('button', { name: 'Lisää uusi asiakasryhmä' })
+  ).not.toBeInTheDocument();
+
+  await user.click(getElement('isRegistrationPlannedCheckbox'));
+  expect(getElement('addPriceGroupButton')).toBeInTheDocument();
+});
+
+test('should add and remove price group', async () => {
+  const user = userEvent.setup();
+
+  renderPriceSection({ hasPrice: true, isRegistrationPlanned: true });
+
+  const addPriceGroupButton = getElement('addPriceGroupButton');
+  await user.click(addPriceGroupButton);
+
+  getElement('priceGroupSelectButton');
+  getElement('priceInput');
+  getElement('vatSelectButton');
+
+  await user.click(addPriceGroupButton);
+  expect(screen.getAllByRole('button', { name: /Asiakasryhmä/ })).toHaveLength(
+    2
+  );
+
+  await user.click(getDeletePriceGroupButtons()[1]);
+  expect(screen.getAllByRole('button', { name: /Asiakasryhmä/ })).toHaveLength(
+    1
+  );
 });

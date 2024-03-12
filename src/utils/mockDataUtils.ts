@@ -39,6 +39,7 @@ import {
   LocalisedObject,
   Meta,
   Offer,
+  OfferPriceGroup,
   Organization,
   OrganizationClass,
   OrganizationClassesResponse,
@@ -335,12 +336,38 @@ export const fakeLanguage = (overrides?: Partial<Language>): Language => {
   );
 };
 
+export const fakeOfferPriceGroup = (
+  overrides?: Partial<OfferPriceGroup>
+): OfferPriceGroup => {
+  const id = overrides?.id ?? faker.number.int();
+
+  return merge<OfferPriceGroup, typeof overrides>(
+    {
+      id,
+      price: faker.string.numeric(),
+      priceGroup: fakePriceGroupDense(),
+      priceWithoutVat: faker.string.numeric(),
+      vat: faker.string.numeric(),
+      vatPercentage: '24.00',
+      __typename: 'OfferPriceGroup',
+    },
+    overrides
+  );
+};
+
+export const fakeOfferPriceGroups = (
+  count = 1,
+  offerPriceGroups?: Partial<OfferPriceGroup>[]
+): OfferPriceGroup[] =>
+  generateNodeArray((i) => fakeOfferPriceGroup(offerPriceGroups?.[i]), count);
+
 export const fakeOffer = (overrides?: Partial<Offer>): Offer =>
   merge(
     {
       description: fakeLocalisedObject(),
       infoUrl: fakeLocalisedObject(faker.internet.url()),
       isFree: false,
+      offerPriceGroups: [],
       price: fakeLocalisedObject(),
       __typename: 'Offer',
     },

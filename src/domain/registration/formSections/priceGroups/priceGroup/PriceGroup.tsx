@@ -6,23 +6,21 @@ import DeleteButton from '../../../../../common/components/deleteButton/DeleteBu
 import SingleSelectField from '../../../../../common/components/formFields/singleSelectField/SingleSelectField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
-import parseIdFromAtId from '../../../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../../../utils/skipFalsyType';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
 import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
 import FieldWithButton from '../../../../event/layout/FieldWithButton';
 import usePriceGroupOptions from '../../../../priceGroup/hooks/usePriceGroupOptions';
 import useVatOptions from '../../../../priceGroup/hooks/useVatOptions';
-import {
-  REGISTRATION_FIELDS,
-  REGISTRATION_PRICE_GROUP_FIELDS,
-} from '../../../constants';
+import { REGISTRATION_PRICE_GROUP_FIELDS } from '../../../constants';
 import { RegistrationPriceGroupFormFields } from '../../../types';
 
 type Props = {
   isEditingAllowed: boolean;
   onDelete: () => void;
+  publisher: string;
   priceGroup: RegistrationPriceGroupFormFields;
+  priceGroups: RegistrationPriceGroupFormFields[];
   priceGroupPath: string;
   showDelete: boolean;
 };
@@ -33,7 +31,9 @@ const getFieldName = (priceGroupPath: string, field: string) =>
 const PriceGroup: React.FC<Props> = ({
   isEditingAllowed,
   onDelete,
+  publisher,
   priceGroup,
+  priceGroups,
   priceGroupPath,
   showDelete,
 }) => {
@@ -58,26 +58,20 @@ const PriceGroup: React.FC<Props> = ({
     [priceGroupPath]
   );
 
-  const [{ value: eventAtId }] = useField<string | null>(
-    REGISTRATION_FIELDS.EVENT
-  );
-  const [{ value: priceGroups }] = useField<RegistrationPriceGroupFormFields[]>(
-    REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS
-  );
   const [, , { setValue: setPrice }] = useField<string>(fieldNames.price);
 
-  const eventId = parseIdFromAtId(eventAtId);
   const { loading: loadingPriceGroupOptions, options: priceGroupOptions } =
-    usePriceGroupOptions({ eventId });
+    usePriceGroupOptions({ publisher });
   const filteredPriceGroupOptions = useMemo(() => {
-    const disabledOptions = priceGroups
-      .filter(
-        (pg) => pg !== priceGroup && pg.priceGroup !== priceGroup.priceGroup
-      )
-      .map((pg) => pg.priceGroup?.toString())
-      .filter(skipFalsyType);
+    const disabledOptions =
+      priceGroups
+        ?.filter(
+          (pg) => pg !== priceGroup && pg.priceGroup !== priceGroup.priceGroup
+        )
+        .map((pg) => pg.priceGroup?.toString())
+        .filter(skipFalsyType) || [];
 
-    return priceGroupOptions.filter((o) => !disabledOptions.includes(o.value));
+    return priceGroupOptions?.filter((o) => !disabledOptions.includes(o.value));
   }, [priceGroup, priceGroupOptions, priceGroups]);
 
   const vatOptions = useVatOptions();

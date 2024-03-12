@@ -683,6 +683,11 @@
         "general": "Website URL of the event homepage {{langText}}",
         "volunteering": "Website URL of the volunteering homepage {{langText}}"
       },
+      "labelIsRegistrationPlanned": {
+        "course": "A Linked Registration will be created for the course",
+        "general": "A Linked Registration will be created for the event",
+        "volunteering": "A Linked Registration will be created for the volunteering"
+      },
       "labelIsUmbrella": {
         "course": "This course is an umbrella event.",
         "general": "This event is an umbrella event.",

@@ -8,7 +8,6 @@ import {
   IconEnvelope,
   IconPen,
 } from 'hds-react';
-import React from 'react';
 
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -42,6 +41,14 @@ export enum RECURRING_EVENT_FIELDS {
   REPEAT_INTERVAL = 'repeatInterval',
   START_DATE = 'startDate',
   START_TIME = 'startTime',
+}
+
+export enum EVENT_OFFER_FIELDS {
+  OFFER_DESCRIPTION = 'description',
+  OFFER_INFO_URL = 'infoUrl',
+  OFFER_IS_FREE = 'isFree',
+  OFFER_PRICE = 'price',
+  OFFER_PRICE_GROUPS = 'offerPriceGroups',
 }
 
 export enum VIDEO_DETAILS_FIELDS {
@@ -86,6 +93,7 @@ export enum EVENT_FIELDS {
   IN_LANGUAGE = 'inLanguage',
   INFO_URL = 'infoUrl',
   IS_IMAGE_EDITABLE = 'isImageEditable',
+  IS_REGISTRATION_PLANNED = 'isRegistrationPlanned',
   IS_VERIFIED = 'isVerified',
   IS_UMBRELLA = 'isUmbrella',
   KEYWORDS = 'keywords',
@@ -95,11 +103,8 @@ export enum EVENT_FIELDS {
   MAXIMUM_ATTENDEE_CAPACITY = 'maximumAttendeeCapacity',
   MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',
   NAME = 'name',
-  OFFER_DESCRIPTION = 'description',
-  OFFER_INFO_URL = 'infoUrl',
-  OFFER_IS_FREE = 'isFree',
-  OFFER_PRICE = 'price',
   OFFERS = 'offers',
+  PRICE_GROUP_OPTIONS = 'priceGroupOptions',
   PROVIDER = 'provider',
   PUBLISHER = 'publisher',
   RECURRING_EVENTS = 'recurringEvents',
@@ -152,6 +157,7 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.IS_VERIFIED]: false,
   [EVENT_FIELDS.INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.IS_IMAGE_EDITABLE]: false,
+  [EVENT_FIELDS.IS_REGISTRATION_PLANNED]: false,
   [EVENT_FIELDS.IS_UMBRELLA]: false,
   [EVENT_FIELDS.KEYWORDS]: [],
   [EVENT_FIELDS.LOCATION]: null,
@@ -162,11 +168,17 @@ export const EVENT_INITIAL_VALUES: EventFormFields = {
   [EVENT_FIELDS.NAME]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.OFFERS]: [
     {
-      [EVENT_FIELDS.OFFER_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-      [EVENT_FIELDS.OFFER_INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-      [EVENT_FIELDS.OFFER_PRICE]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+      [EVENT_OFFER_FIELDS.OFFER_DESCRIPTION]: {
+        ...EMPTY_MULTI_LANGUAGE_OBJECT,
+      },
+      [EVENT_OFFER_FIELDS.OFFER_INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+      [EVENT_OFFER_FIELDS.OFFER_PRICE]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+      [EVENT_OFFER_FIELDS.OFFER_PRICE_GROUPS]: [
+        { id: null, price: '', priceGroup: '', vatPercentage: '' },
+      ],
     },
   ],
+  [EVENT_FIELDS.PRICE_GROUP_OPTIONS]: [],
   [EVENT_FIELDS.PROVIDER]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
   [EVENT_FIELDS.PUBLISHER]: '',
   [EVENT_FIELDS.RECURRING_EVENTS]: [],

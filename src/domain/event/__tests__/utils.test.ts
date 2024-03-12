@@ -25,9 +25,12 @@ import {
   fakeKeywords,
   fakeLanguage,
   fakeLanguages,
+  fakeOffer,
+  fakeOfferPriceGroups,
   fakeOffers,
   fakeOrganization,
   fakePlace,
+  fakePriceGroupDense,
   fakeUser,
   fakeVideo,
 } from '../../../utils/mockDataUtils';
@@ -54,6 +57,7 @@ import {
   getEventFields,
   getEventInfoLanguages,
   getEventInitialValues,
+  getEventOfferFields,
   getEventPayload,
   getEventTimes,
   getIsButtonVisible,
@@ -445,6 +449,20 @@ describe('getEventPayload function', () => {
               en: 'http://urlen.com',
               sv: '',
             },
+            offerPriceGroups: [
+              {
+                id: 1,
+                priceGroup: '123',
+                price: '12.00',
+                vatPercentage: '24.00',
+              },
+              {
+                id: null,
+                priceGroup: '234',
+                price: '7.20',
+                vatPercentage: '24.00',
+              },
+            ],
             price: {
               ...EMPTY_MULTI_LANGUAGE_OBJECT,
               fi: 'Price fi',
@@ -542,6 +560,20 @@ describe('getEventPayload function', () => {
             sv: '',
             zhHans: null,
           },
+          offerPriceGroups: [
+            {
+              id: 1,
+              priceGroup: 123,
+              price: '12.00',
+              vatPercentage: '24.00',
+            },
+            {
+              id: undefined,
+              priceGroup: 234,
+              price: '7.20',
+              vatPercentage: '24.00',
+            },
+          ],
           price: {
             ar: null,
             en: null,
@@ -843,6 +875,65 @@ describe('getEventInfoLanguages function', () => {
   });
 });
 
+describe('getEventOfferFields function', () => {
+  it('should return event offer fields', () => {
+    const description = {
+      ar: 'Description ar',
+      en: 'Description en',
+      fi: 'Description fi',
+      ru: 'Description ru',
+      sv: 'Description sv',
+      zhHans: 'Description zh',
+    };
+    const infoUrl = {
+      ar: 'https://infourl.ar',
+      en: 'https://infourl.en',
+      fi: 'https://infourl.fi',
+      ru: 'https://infourl.ru',
+      sv: 'https://infourl.sv',
+      zhHans: 'https://infourl.zh',
+    };
+    const price = {
+      ar: 'Price ar',
+      en: 'Price en',
+      fi: 'Price fi',
+      ru: 'Price ru',
+      sv: 'Price sv',
+      zhHans: 'Price zh',
+    };
+
+    expect(
+      getEventOfferFields(
+        fakeOffer({
+          description,
+          infoUrl,
+          offerPriceGroups: fakeOfferPriceGroups(1, [
+            {
+              id: 1,
+              price: '8.50',
+              priceGroup: fakePriceGroupDense({ id: 2 }),
+              vatPercentage: '24.00',
+            },
+          ]),
+          price,
+        })
+      )
+    ).toEqual({
+      description,
+      infoUrl,
+      offerPriceGroups: [
+        {
+          id: 1,
+          price: '8.50',
+          priceGroup: '2',
+          vatPercentage: '24.00',
+        },
+      ],
+      price,
+    });
+  });
+});
+
 describe('getEventInitialValues function', () => {
   it('should return event edit form initial values', () => {
     const audienceAtIds = [
@@ -931,6 +1022,7 @@ describe('getEventInitialValues function', () => {
           sv: 'http://infourl.com',
           zhHans: 'http://infourl.com',
         },
+        offerPriceGroups: [],
         price: {
           ar: 'Price ar',
           en: 'Price en',
@@ -1090,6 +1182,7 @@ describe('getEventInitialValues function', () => {
       infoUrl,
       inLanguage: inLanguageAtIds,
       isImageEditable: false,
+      isRegistrationPlanned: false,
       isUmbrella: false,
       isVerified: true,
       keywords: keywordAtIds,
@@ -1100,6 +1193,7 @@ describe('getEventInitialValues function', () => {
       minimumAttendeeCapacity,
       name,
       offers,
+      priceGroupOptions: [],
       provider,
       publisher,
       recurringEvents: [],
@@ -1867,6 +1961,18 @@ describe('copyEventInfoToRegistrationSessionStorage function', () => {
     enrolmentStartTime: '2021-06-13T12:00:00.000Z',
     maximumAttendeeCapacity: 10,
     minimumAttendeeCapacity: 5,
+    offers: [
+      fakeOffer({
+        offerPriceGroups: fakeOfferPriceGroups(1, [
+          {
+            id: null,
+            price: '10.00',
+            priceGroup: fakePriceGroupDense({ id: 1 }),
+            vat: '24.00',
+          },
+        ]),
+      }),
+    ],
   });
 
   it('should copy registration info from event to new event', async () => {
@@ -1876,7 +1982,7 @@ describe('copyEventInfoToRegistrationSessionStorage function', () => {
     expect(setItemSpy).toHaveBeenCalledWith(
       FORM_NAMES.REGISTRATION_FORM,
       expect.stringContaining(
-        `"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"${event.atId}","hasPrice":false,"infoLanguages":["fi"],"instructions":{"fi":"Ilmoittautumisen teknisissä ongelmissa ole yhteydessä:\\nPalvelukeskus Helsinki\\n09 310 25280, palveluaika klo 8-18","sv":"För tekniska problem med registreringen, vänligen kontakta:\\nPalvelukeskus Helsinki\\n09 310 25280, servicetid 08.00 till 18.00","en":"For technical problems with registration, please contact:\\nPalvelukeskus Helsinki\\n09 310 25280, service hours 8 a.m. to 6 p.m","ru":"","zhHans":"","ar":""},"mandatoryFields":["first_name","last_name"],"maximumAttendeeCapacity":10,"maximumGroupSize":"","minimumAttendeeCapacity":5,"priceGroupOptions":[],"registrationPriceGroups":[],"registrationUserAccesses":[],"waitingListCapacity":""`
+        `"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"${event.atId}","hasPrice":true,"infoLanguages":["fi"],"instructions":{"fi":"Ilmoittautumisen teknisissä ongelmissa ole yhteydessä:\\nPalvelukeskus Helsinki\\n09 310 25280, palveluaika klo 8-18","sv":"För tekniska problem med registreringen, vänligen kontakta:\\nPalvelukeskus Helsinki\\n09 310 25280, servicetid 08.00 till 18.00","en":"For technical problems with registration, please contact:\\nPalvelukeskus Helsinki\\n09 310 25280, service hours 8 a.m. to 6 p.m","ru":"","zhHans":"","ar":""},"mandatoryFields":["first_name","last_name"],"maximumAttendeeCapacity":10,"maximumGroupSize":"","minimumAttendeeCapacity":5,"priceGroupOptions":[],"registrationPriceGroups":[{"id":null,"price":"10.00","priceGroup":"1","vatPercentage":"24.00"}],"registrationUserAccesses":[],"waitingListCapacity":""`
       )
     );
   });

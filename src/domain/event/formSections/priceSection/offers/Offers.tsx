@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../../../../common/components/button/Button';
 import { EVENT_FIELDS } from '../../../constants';
 import FieldWithButton from '../../../layout/FieldWithButton';
-import { Offer as OfferType } from '../../../types';
+import { OfferFields } from '../../../types';
 import { getEmptyOffer } from '../../../utils';
 import Offer from './offer/Offer';
 
@@ -19,7 +19,7 @@ interface Props {
 const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
 
-  const [{ value: offers }] = useField<OfferType[]>({
+  const [{ value: offers }] = useField<OfferFields[]>({
     name: EVENT_FIELDS.OFFERS,
   });
 
@@ -43,6 +43,7 @@ const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
           <FieldWithButton>
             <Button
               type="button"
+              disabled={!isEditingAllowed}
               fullWidth={true}
               onClick={() => arrayHelpers.push(getEmptyOffer())}
               iconLeft={<IconPlus />}

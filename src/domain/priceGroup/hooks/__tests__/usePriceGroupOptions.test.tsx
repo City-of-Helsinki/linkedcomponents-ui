@@ -4,11 +4,8 @@ import { MockedProvider } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
 import { PropsWithChildren } from 'react';
 
-import {
-  event,
-  mockedEventResponse,
-} from '../../../../common/components/eventSelector/__mocks__/eventSelector';
 import { createCache } from '../../../app/apollo/apolloClient';
+import { TEST_PUBLISHER_ID } from '../../../organization/constants';
 import {
   mockedDefaultPriceGroupsResponse,
   mockedPublisherPriceGroupsResponse,
@@ -19,7 +16,6 @@ import usePriceGroupOptions, {
 
 const mocks = [
   mockedDefaultPriceGroupsResponse,
-  mockedEventResponse,
   mockedPublisherPriceGroupsResponse,
 ];
 
@@ -54,7 +50,9 @@ test('should return price group without organization', async () => {
 });
 
 test('should return price group with organization', async () => {
-  const { result, waitFor } = await getHookWrapper({ eventId: event.id });
+  const { result, waitFor } = await getHookWrapper({
+    publisher: TEST_PUBLISHER_ID,
+  });
   // Wait for the results
   await waitFor(() => expect(result.current.loading).toBeFalsy());
   await waitFor(() =>

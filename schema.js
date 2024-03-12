@@ -242,10 +242,18 @@ module.exports = buildSchema(/* GraphQL */ `
     zhHans: String
   }
 
+  input OfferPriceGroupInput {
+    id: Int
+    price: String
+    priceGroup: Int
+    vatPercentage: String
+  }
+
   input OfferInput {
     description: LocalisedObjectInput
     infoUrl: LocalisedObjectInput
     isFree: Boolean
+    offerPriceGroups: [OfferPriceGroupInput]
     price: LocalisedObjectInput
   }
 
@@ -838,10 +846,20 @@ module.exports = buildSchema(/* GraphQL */ `
     zhHans: String
   }
 
+  type OfferPriceGroup {
+    id: Int
+    priceGroup: PriceGroupDense
+    price: String
+    vatPercentage: String
+    priceWithoutVat: String
+    vat: String
+  }
+
   type Offer {
     description: LocalisedObject
     infoUrl: LocalisedObject
     isFree: Boolean
+    offerPriceGroups: [OfferPriceGroup]
     price: LocalisedObject
   }
 

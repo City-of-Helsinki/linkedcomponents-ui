@@ -6,10 +6,13 @@ import {
 } from '../../generated/graphql';
 import { MultiLanguageObject } from '../../types';
 import { IMAGE_FIELDS } from '../image/constants';
+import { PriceGroupOption } from '../priceGroup/types';
+import { RegistrationPriceGroupFormFields } from '../registration/types';
 import {
   ADD_EVENT_TIME_FORM_NAME,
   EDIT_EVENT_TIME_FORM_NAME,
   EVENT_FIELDS,
+  EVENT_OFFER_FIELDS,
   EVENT_TIME_FIELDS,
   EXTERNAL_LINK_FIELDS,
   RECURRING_EVENT_FIELDS,
@@ -35,7 +38,7 @@ export type EventFields = {
   keywords: KeywordFieldsFragment[];
   lastModifiedTime: Date | null;
   name: string;
-  offers: Offer[];
+  offers: OfferFields[];
   publicationStatus: PublicationStatus;
   publisher: string | null;
   registrationAtId: string | null;
@@ -77,6 +80,7 @@ export type EventFormFields = {
   [EVENT_FIELDS.IN_LANGUAGE]: string[];
   [EVENT_FIELDS.INFO_URL]: MultiLanguageObject;
   [EVENT_FIELDS.IS_IMAGE_EDITABLE]: boolean;
+  [EVENT_FIELDS.IS_REGISTRATION_PLANNED]: boolean;
   [EVENT_FIELDS.IS_VERIFIED]: boolean;
   [EVENT_FIELDS.IS_UMBRELLA]: boolean;
   [EVENT_FIELDS.KEYWORDS]: string[];
@@ -86,7 +90,8 @@ export type EventFormFields = {
   [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: number | '';
   [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
   [EVENT_FIELDS.NAME]: MultiLanguageObject;
-  [EVENT_FIELDS.OFFERS]: Offer[];
+  [EVENT_FIELDS.OFFERS]: OfferFields[];
+  [EVENT_FIELDS.PRICE_GROUP_OPTIONS]: PriceGroupOption[];
   [EVENT_FIELDS.PROVIDER]: MultiLanguageObject;
   [EVENT_FIELDS.PUBLISHER]: string;
   [EVENT_FIELDS.RECURRING_EVENTS]: RecurringEventSettings[];
@@ -137,10 +142,11 @@ export type VideoDetails = {
   [VIDEO_DETAILS_FIELDS.URL]: string;
 };
 
-export type Offer = {
-  [EVENT_FIELDS.OFFER_DESCRIPTION]: MultiLanguageObject;
-  [EVENT_FIELDS.OFFER_INFO_URL]: MultiLanguageObject;
-  [EVENT_FIELDS.OFFER_PRICE]: MultiLanguageObject;
+export type OfferFields = {
+  [EVENT_OFFER_FIELDS.OFFER_DESCRIPTION]: MultiLanguageObject;
+  [EVENT_OFFER_FIELDS.OFFER_INFO_URL]: MultiLanguageObject;
+  [EVENT_OFFER_FIELDS.OFFER_PRICE]: MultiLanguageObject;
+  [EVENT_OFFER_FIELDS.OFFER_PRICE_GROUPS]: RegistrationPriceGroupFormFields[];
 };
 
 export type RecurringEventSettings = {
