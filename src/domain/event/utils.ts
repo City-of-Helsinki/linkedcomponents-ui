@@ -42,6 +42,7 @@ import {
   EventStatus,
   EventTypeId,
   Language as LELanguage,
+  Offer,
   OrganizationFieldsFragment,
   PublicationStatus,
   SuperEventType,
@@ -55,6 +56,7 @@ import {
   MultiLanguageObject,
   PathBuilderProps,
 } from '../../types';
+import { featureFlagUtils } from '../../utils/featureFlags';
 import { filterUnselectedLanguages } from '../../utils/filterUnselectedLanguages';
 import formatDate from '../../utils/formatDate';
 import formatDateAndTimeForApi from '../../utils/formatDateAndTimeForApi';
@@ -82,6 +84,7 @@ import { REGISTRATION_INITIAL_VALUES } from '../registration/constants';
 import {
   CommonRegistrationAndEventFields,
   RegistrationFormFields,
+  RegistrationPriceGroupFormFields,
 } from '../registration/types';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -96,6 +99,7 @@ import {
   EVENT_INCLUDES,
   EVENT_INITIAL_VALUES,
   EVENT_LABEL_KEYS,
+  EVENT_OFFER_FIELDS,
   EVENT_SELECT_FIELDS,
   EVENT_TYPE,
   NOT_ALLOWED_WHEN_CANCELLED,
@@ -112,7 +116,7 @@ import {
   EventFormFields,
   EventTime,
   ImageDetails,
-  Offer,
+  OfferFields,
   RecurringEventSettings,
   VideoDetails,
 } from './types';
@@ -166,11 +170,12 @@ const languageWeight = (lang: Maybe<string>): number => {
 export const sortLanguage = (a: LELanguage, b: LELanguage): number =>
   languageWeight(a.id) - languageWeight(b.id);
 
-export const getEmptyOffer = (): Offer => {
+export const getEmptyOffer = (): OfferFields => {
   return {
-    [EVENT_FIELDS.OFFER_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-    [EVENT_FIELDS.OFFER_INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
-    [EVENT_FIELDS.OFFER_PRICE]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    [EVENT_OFFER_FIELDS.OFFER_DESCRIPTION]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    [EVENT_OFFER_FIELDS.OFFER_INFO_URL]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    [EVENT_OFFER_FIELDS.OFFER_PRICE]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+    [EVENT_OFFER_FIELDS.OFFER_PRICE_GROUPS]: [],
   };
 };
 
@@ -222,9 +227,10 @@ export const getEventFields = (
     keywords: event.keywords.filter(skipFalsyType),
     lastModifiedTime: getDateFromString(event.lastModifiedTime),
     name: getLocalisedString(event.name, language),
-    offers: event.offers.filter(
-      (offer) => !!offer && !offer?.isFree
-    ) as Offer[],
+    offers: event.offers
+      .filter((offer) => !offer?.isFree)
+      .filter(skipFalsyType)
+      .map(getEventOfferFields),
     publisher: getValue(event.publisher, null),
     publicationStatus,
     registrationAtId: getValue(registrationAtId, null),
@@ -513,7 +519,7 @@ export const getEventBasePayload = (
     videos,
   } = formValues;
 
-  const basePayload = {
+  const basePayload: CreateEventMutationInput = {
     publicationStatus,
     audience: audience.map((atId) => ({ atId })),
     audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
@@ -561,6 +567,15 @@ export const getEventBasePayload = (
           ),
           infoUrl: filterUnselectedLanguages(offer.infoUrl, eventInfoLanguages),
           isFree: false,
+          ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
+            ? {
+                offerPriceGroups: offer.offerPriceGroups.map((pg) => ({
+                  ...pg,
+                  id: pg.id ?? undefined,
+                  priceGroup: Number(pg.priceGroup),
+                })),
+              }
+            : {}),
           price: filterUnselectedLanguages(offer.price, eventInfoLanguages),
         }))
       : [
@@ -665,6 +680,7 @@ const SKIP_FIELDS = new Set([
   'infoUrl',
   'languages',
   'inLanguage',
+  'offerPriceGroups',
   'subEvents',
   'superEvent',
 ]);
@@ -705,6 +721,10 @@ const hasEventPrice = (event: EventFieldsFragment): boolean => {
   return event.offers?.[0]?.isFree === false;
 };
 
+const isRegistrationPlanned = (event: EventFieldsFragment): boolean => {
+  return Boolean(event.offers?.find((o) => o?.offerPriceGroups?.length));
+};
+
 const getSavedEventTimes = (event: EventFieldsFragment): EventTime[] => {
   if (event.superEventType === SuperEventType.Recurring) {
     return event.subEvents
@@ -743,20 +763,31 @@ const getEventImageDetails = (event: EventFieldsFragment): ImageDetails => {
   };
 };
 
-const getEventOffers = (event: EventFieldsFragment): Offer[] => {
+export const getEventOfferFields = (offer: Offer): OfferFields => ({
+  description: getLocalisedObject(offer?.description),
+  infoUrl: getLocalisedObject(offer?.infoUrl),
+  offerPriceGroups: getValue(
+    offer.offerPriceGroups?.map((pg) => ({
+      id: getValue(pg?.id, null),
+      price: getValue(pg?.price, ''),
+      priceGroup: getValue(pg?.priceGroup?.id.toString(), ''),
+      vatPercentage: getValue(pg?.vatPercentage, ''),
+    })),
+    []
+  ),
+  price: getLocalisedObject(offer?.price),
+});
+
+const getEventOffers = (event: EventFieldsFragment): OfferFields[] => {
   const hasPrice = hasEventPrice(event);
 
-  const offers: Offer[] = (
+  const offers: OfferFields[] = (
     hasPrice
       ? event.offers.filter((offer) => !offer?.isFree)
       : [event.offers[0]]
   )
     .filter(skipFalsyType)
-    .map((offer) => ({
-      description: getLocalisedObject(offer?.description),
-      infoUrl: getLocalisedObject(offer?.infoUrl),
-      price: getLocalisedObject(offer?.price),
-    }));
+    .map(getEventOfferFields);
 
   if (!offers.length) {
     offers.push(getEmptyOffer());
@@ -837,6 +868,7 @@ export const getEventInitialValues = (
     inLanguage: event.inLanguage
       .filter(skipFalsyType)
       .map((language) => language.atId),
+    isRegistrationPlanned: isRegistrationPlanned(event),
     isUmbrella: isUmbrella,
     isVerified: true,
     keywords: event.keywords
@@ -1406,6 +1438,16 @@ export const getEventInfoToRegistrationForm = (
     maximumAttendeeCapacity,
     minimumAttendeeCapacity,
   } = getEventInitialValues(event);
+  const registrationPriceGroups = event.offers
+    .filter(skipFalsyType)
+    .map(getEventOfferFields)
+    .reduce(
+      (prev: RegistrationPriceGroupFormFields[], curr) => [
+        ...prev,
+        ...curr.offerPriceGroups.map((pg) => ({ ...pg, id: null })),
+      ],
+      []
+    );
 
   return {
     audienceMaxAge,
@@ -1414,8 +1456,10 @@ export const getEventInfoToRegistrationForm = (
     enrolmentEndTimeTime,
     enrolmentStartTimeDate,
     enrolmentStartTimeTime,
+    hasPrice: Boolean(registrationPriceGroups.length),
     maximumAttendeeCapacity,
     minimumAttendeeCapacity,
+    registrationPriceGroups,
   };
 };
 

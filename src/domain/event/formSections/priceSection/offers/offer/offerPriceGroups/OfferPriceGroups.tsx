@@ -3,38 +3,34 @@ import { Button, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import getValue from '../../../../utils/getValue';
-import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
-import useEventPublisher from '../../../event/hooks/useEventPublisher';
-import FieldWithButton from '../../../event/layout/FieldWithButton';
-import { REGISTRATION_FIELDS } from '../../constants';
-import { RegistrationPriceGroupFormFields } from '../../types';
-import { getEmptyRegistrationPriceGroup } from '../../utils';
-import PriceGroup from './priceGroup/PriceGroup';
+import PriceGroup from '../../../../../../registration/formSections/priceGroups/priceGroup/PriceGroup';
+import { RegistrationPriceGroupFormFields } from '../../../../../../registration/types';
+import { getEmptyRegistrationPriceGroup } from '../../../../../../registration/utils';
+import { EVENT_FIELDS, EVENT_OFFER_FIELDS } from '../../../../../constants';
+import FieldWithButton from '../../../../../layout/FieldWithButton';
 
-const getPriceGroupPath = (index: number) =>
-  `${REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS}[${index}]`;
+const getPriceGroupPath = (priceGroupPath: string, index: number) =>
+  `${priceGroupPath}[${index}]`;
 
 interface Props {
   isEditingAllowed: boolean;
+  offerPath: string;
 }
 
-const PriceGroups: React.FC<Props> = ({ isEditingAllowed }) => {
+const OfferPriceGroups: React.FC<Props> = ({ isEditingAllowed, offerPath }) => {
   const { t } = useTranslation();
 
+  const priceGroupsPath = `${offerPath}.${EVENT_OFFER_FIELDS.OFFER_PRICE_GROUPS}`;
   const [{ value: priceGroups }] = useField<RegistrationPriceGroupFormFields[]>(
-    { name: REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS }
+    { name: priceGroupsPath }
   );
-  const [{ value: eventAtId }] = useField<string>({
-    name: REGISTRATION_FIELDS.EVENT,
-  });
-  const { publisher } = useEventPublisher({
-    eventId: getValue(parseIdFromAtId(eventAtId), ''),
+  const [{ value: publisher }] = useField<string>({
+    name: EVENT_FIELDS.PUBLISHER,
   });
 
   return (
     <FieldArray
-      name={REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS}
+      name={priceGroupsPath}
       render={(arrayHelpers) => (
         <>
           {priceGroups.map((priceGroup, index) => {
@@ -46,8 +42,8 @@ const PriceGroups: React.FC<Props> = ({ isEditingAllowed }) => {
                 publisher={publisher}
                 priceGroup={priceGroup}
                 priceGroups={priceGroups}
-                priceGroupPath={getPriceGroupPath(index)}
-                showDelete={priceGroups.length > 1}
+                priceGroupPath={getPriceGroupPath(priceGroupsPath, index)}
+                showDelete={true}
               />
             );
           })}
@@ -55,6 +51,7 @@ const PriceGroups: React.FC<Props> = ({ isEditingAllowed }) => {
           <FieldWithButton>
             <Button
               type="button"
+              disabled={!isEditingAllowed}
               fullWidth={true}
               onClick={() =>
                 arrayHelpers.push(getEmptyRegistrationPriceGroup())
@@ -71,4 +68,4 @@ const PriceGroups: React.FC<Props> = ({ isEditingAllowed }) => {
   );
 };
 
-export default PriceGroups;
+export default OfferPriceGroups;

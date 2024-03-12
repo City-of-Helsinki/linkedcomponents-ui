@@ -2,6 +2,7 @@
 import { ApolloError } from '@apollo/client';
 import { act, renderHook } from '@testing-library/react';
 
+import { ServerErrorItem } from '../../../../types';
 import { EVENT_TYPE } from '../../constants';
 import useEventServerErrors from '../useEventServerErrors';
 
@@ -199,3 +200,76 @@ it('should return server error items when result is array of string', () => {
   ]);
   expect(callbackFn).toBeCalled();
 });
+
+const offerTestCases: [Record<string, unknown>[], ServerErrorItem[]][] = [
+  [
+    [
+      {
+        offers: ['Price info must be specified before an event is published.'],
+      },
+    ],
+    [
+      {
+        label: 'Tapahtuman hintatiedot',
+        message: 'Hintatiedot on määritettävä ennen tapahtuman julkaisemista.',
+      },
+    ],
+  ],
+  [
+    [
+      {
+        offers: [
+          {
+            offer_price_groups: [
+              {
+                price_group: [
+                  'Epäkelpo pääavain 0 - objektia ei ole olemassa.',
+                ],
+                price: ['Kelvollinen luku vaaditaan.'],
+                vat_percentage: ['Kelvollinen luku vaaditaan.'],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    [
+      {
+        label: 'Asiakasryhmä',
+        message: 'Epäkelpo pääavain 0 - objektia ei ole olemassa.',
+      },
+      {
+        label: 'Hinta (€)',
+        message: 'Kelvollinen luku vaaditaan.',
+      },
+      {
+        label: 'ALV %',
+        message: 'Kelvollinen luku vaaditaan.',
+      },
+    ],
+  ],
+];
+
+it.each(offerTestCases)(
+  'should return server error items for offers error',
+  (errors, expectedErrorItems) => {
+    const { result } = getHookWrapper();
+    const callbackFn = vi.fn();
+    const error = new ApolloError({
+      networkError: {
+        result: errors,
+      } as any,
+    });
+
+    act(() =>
+      result.current.showServerErrors({
+        callbackFn,
+        eventType: EVENT_TYPE.General,
+        error,
+      })
+    );
+
+    expect(result.current.serverErrorItems).toEqual(expectedErrorItems);
+    expect(callbackFn).toBeCalled();
+  }
+);

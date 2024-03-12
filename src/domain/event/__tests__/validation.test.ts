@@ -6,13 +6,22 @@ import { TEST_KEYWORD_ID } from '../../keyword/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { TEST_PLACE_ID } from '../../place/constants';
 import { EVENT_INITIAL_VALUES } from '../constants';
-import { EventFormFields, EventTimeFormFields } from '../types';
+import { EventFormFields, EventTimeFormFields, OfferFields } from '../types';
 import { getEmptyOffer } from '../utils';
 import { eventTimeSchema, publicEventSchema } from '../validation';
 
 const testEventTimeSchema = async (eventTime: EventTimeFormFields) => {
   try {
     await eventTimeSchema.validate(eventTime);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const testPublicEventSchema = async (event: EventFormFields) => {
+  try {
+    await publicEventSchema.validate(event);
     return true;
   } catch (e) {
     return false;
@@ -40,6 +49,19 @@ describe('publiEventSchema', () => {
     },
   };
 
+  const validOffer: OfferFields = {
+    infoUrl: EMPTY_MULTI_LANGUAGE_OBJECT,
+    description: EMPTY_MULTI_LANGUAGE_OBJECT,
+    offerPriceGroups: [],
+    price: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Price' },
+  };
+  const validPriceGroup = {
+    id: 1,
+    priceGroup: '1',
+    price: '10.00',
+    vatPercentage: '24.00',
+  };
+
   it('should return correct errors for default initial values', async () => {
     try {
       await publicEventSchema.validate(EVENT_INITIAL_VALUES, {
@@ -59,6 +81,7 @@ describe('publiEventSchema', () => {
       });
     }
   });
+
   it('should return correct errors for offers', async () => {
     const values = {
       ...requiredValues,
@@ -73,6 +96,38 @@ describe('publiEventSchema', () => {
         offers: [{ infoUrl: { fi: 'form.validation.string.url' } }],
       });
     }
+  });
+
+  it('should return true is offer_price_group is valid', async () => {
+    const values: EventFormFields = {
+      ...requiredValues,
+      hasPrice: true,
+      isRegistrationPlanned: true,
+      offers: [
+        {
+          ...validOffer,
+          offerPriceGroups: [validPriceGroup],
+        },
+      ],
+    };
+
+    expect(await testPublicEventSchema(values)).toBeTruthy();
+  });
+
+  it('should return false is offer_price_group is invalid', async () => {
+    const values: EventFormFields = {
+      ...requiredValues,
+      hasPrice: true,
+      isRegistrationPlanned: true,
+      offers: [
+        {
+          ...validOffer,
+          offerPriceGroups: [{ ...validPriceGroup, price: '' }],
+        },
+      ],
+    };
+
+    expect(await testPublicEventSchema(values)).toBeFalsy();
   });
 
   it('should validate only first offer for free event', async () => {

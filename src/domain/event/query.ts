@@ -13,6 +13,17 @@ export const QUERY_EVENT = gql`
     url
   }
 
+  fragment offerPriceGroupFields on OfferPriceGroup {
+    id
+    priceGroup {
+      ...densePriceGroupFields
+    }
+    price
+    vatPercentage
+    priceWithoutVat
+    vat
+  }
+
   fragment offerFields on Offer {
     description {
       ...localisedFields
@@ -21,6 +32,9 @@ export const QUERY_EVENT = gql`
       ...localisedFields
     }
     isFree
+    offerPriceGroups {
+      ...offerPriceGroupFields
+    }
     price {
       ...localisedFields
     }

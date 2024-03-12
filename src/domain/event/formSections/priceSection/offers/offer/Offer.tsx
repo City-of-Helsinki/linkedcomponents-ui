@@ -5,9 +5,11 @@ import { useTranslation } from 'react-i18next';
 import DeleteButton from '../../../../../../common/components/deleteButton/DeleteButton';
 import MultiLanguageField from '../../../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
 import FormGroup from '../../../../../../common/components/formGroup/FormGroup';
+import { featureFlagUtils } from '../../../../../../utils/featureFlags';
 import FieldRow from '../../../../../app/layout/fieldRow/FieldRow';
-import { EVENT_FIELDS } from '../../../../constants';
+import { EVENT_FIELDS, EVENT_OFFER_FIELDS } from '../../../../constants';
 import FieldWithButton from '../../../../layout/FieldWithButton';
+import OfferPriceGroups from './offerPriceGroups/OfferPriceGroups';
 
 type Props = {
   isEditingAllowed: boolean;
@@ -31,6 +33,9 @@ const Offer: React.FC<Props> = ({
   const [{ value: eventInfoLanguages }] = useField({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
+  const [{ value: isRegistrationPlanned }] = useField({
+    name: EVENT_FIELDS.IS_REGISTRATION_PLANNED,
+  });
 
   return (
     <>
@@ -53,7 +58,7 @@ const Offer: React.FC<Props> = ({
                 disabled={!isEditingAllowed}
                 labelKey={`event.form.labelOfferPrice`}
                 languages={eventInfoLanguages}
-                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_PRICE)}
+                name={getFieldName(offerPath, EVENT_OFFER_FIELDS.OFFER_PRICE)}
                 placeholderKey={`event.form.placeholderOfferPrice.${type}`}
                 required={true}
               />
@@ -64,7 +69,10 @@ const Offer: React.FC<Props> = ({
                 disabled={!isEditingAllowed}
                 labelKey={`event.form.labelOfferInfoUrl`}
                 languages={eventInfoLanguages}
-                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_INFO_URL)}
+                name={getFieldName(
+                  offerPath,
+                  EVENT_OFFER_FIELDS.OFFER_INFO_URL
+                )}
                 placeholderKey={`event.form.placeholderOfferInfoUrl`}
               />
             </FormGroup>
@@ -74,13 +82,26 @@ const Offer: React.FC<Props> = ({
                 disabled={!isEditingAllowed}
                 labelKey={`event.form.labelOfferDescription`}
                 languages={eventInfoLanguages}
-                name={getFieldName(offerPath, EVENT_FIELDS.OFFER_DESCRIPTION)}
+                name={getFieldName(
+                  offerPath,
+                  EVENT_OFFER_FIELDS.OFFER_DESCRIPTION
+                )}
                 placeholderKey={`event.form.placeholderOfferDescription`}
               />
             </FormGroup>
           </>
         </FieldWithButton>
       </FieldRow>
+
+      {isRegistrationPlanned &&
+        featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') && (
+          <FormGroup>
+            <OfferPriceGroups
+              isEditingAllowed={isEditingAllowed}
+              offerPath={offerPath}
+            />
+          </FormGroup>
+        )}
     </>
   );
 };

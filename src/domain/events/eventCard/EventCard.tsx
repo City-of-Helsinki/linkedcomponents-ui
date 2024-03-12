@@ -69,7 +69,6 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
     imageUrl,
     inLanguage,
     name,
-    offers,
     publisher,
     publicationStatus,
     startTime,
@@ -210,7 +209,12 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                           className={styles.icon}
                         />
                       }
-                      text={<PriceText freeEvent={freeEvent} offers={offers} />}
+                      text={
+                        <PriceText
+                          freeEvent={freeEvent}
+                          offers={event.offers.filter(skipFalsyType)}
+                        />
+                      }
                     />
                   </div>
                   <div className={styles.audienceColumn}>

@@ -5,9 +5,11 @@ import { useTranslation } from 'react-i18next';
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
+import getValue from '../../../../utils/getValue';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
+import useEventPublisher from '../../../event/hooks/useEventPublisher';
 import usePriceGroupOptions from '../../../priceGroup/hooks/usePriceGroupOptions';
 import { PriceGroupOption } from '../../../priceGroup/types';
 import { REGISTRATION_FIELDS } from '../../constants';
@@ -32,8 +34,9 @@ const PriceGroupsSection: React.FC<Props> = ({ isEditingAllowed }) => {
     REGISTRATION_FIELDS.PRICE_GROUP_OPTIONS
   );
 
-  const eventId = parseIdFromAtId(eventAtId);
-  const { options: priceGroupOptions } = usePriceGroupOptions({ eventId });
+  const eventId = getValue(parseIdFromAtId(eventAtId), '');
+  const { publisher } = useEventPublisher({ eventId });
+  const { options: priceGroupOptions } = usePriceGroupOptions({ publisher });
 
   useEffect(() => {
     setPriceGroupOptions(priceGroupOptions);

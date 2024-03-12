@@ -684,6 +684,11 @@
         "general": "Webbadressen till evenemangets hemsida {{langText}}",
         "volunteering": "Webbadressen till volontärarbetets hemsida {{langText}}"
       },
+      "labelIsRegistrationPlanned": {
+        "course": "En Linked Registration-registrering kommer att skapas för kursen",
+        "general": "En Linked Registration-registrering kommer att skapas för evenemanget",
+        "volunteering": "En Linked Registration-registrering kommer att skapas för volontärarbete"
+      },
       "labelIsUmbrella": {
         "course": "Detta kurs är ett huvudevenemang.",
         "general": "Detta evenemang är ett huvudevenemang.",

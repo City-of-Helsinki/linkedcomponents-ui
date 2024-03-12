@@ -103,8 +103,10 @@ test('should copy values from event to registration form when event is selected'
     enrolmentStartTimeDate: new Date('2022-12-01T09:00:00.000Z'),
     enrolmentStartTimeTime: '09:00',
     event: event.atId,
+    hasPrice: false,
     maximumAttendeeCapacity: 10,
     minimumAttendeeCapacity: 5,
+    registrationPriceGroups: [],
   });
 });
 
@@ -130,8 +132,10 @@ test('should clear values from registration form when event is unselected', asyn
       enrolmentStartTimeDate: null,
       enrolmentStartTimeTime: '',
       event: '',
+      hasPrice: false,
       maximumAttendeeCapacity: '',
       minimumAttendeeCapacity: '',
+      registrationPriceGroups: [],
     })
   );
 });

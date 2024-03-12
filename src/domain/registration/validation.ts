@@ -19,6 +19,30 @@ import {
   REGISTRATION_USER_ACCESS_FIELDS,
 } from './constants';
 
+export const getPriceGroupSchema = (priceGroupOptions: PriceGroupOption[]) =>
+  Yup.object().shape({
+    [REGISTRATION_PRICE_GROUP_FIELDS.PRICE_GROUP]: Yup.string().required(
+      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    ),
+    [REGISTRATION_PRICE_GROUP_FIELDS.PRICE]: Yup.number().when(
+      [REGISTRATION_PRICE_GROUP_FIELDS.PRICE_GROUP],
+      ([priceGroup]: string[], schema) =>
+        priceGroupOptions?.find((pg) => pg.value === priceGroup)?.isFree
+          ? schema.nullable().transform(transformNumber)
+          : schema
+              .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+              .min(0, createNumberMinErrorMessage)
+              .test(
+                'maxDigitsAfterDecimal',
+                VALIDATION_MESSAGE_KEYS.PRICE_INVALID,
+                (number) => Number.isInteger(number * 10 ** 2)
+              )
+    ),
+    [REGISTRATION_PRICE_GROUP_FIELDS.VAT_PERCENTAGE]: Yup.string().required(
+      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    ),
+  });
+
 const priceGroupsSchema = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   values: any[],
@@ -29,29 +53,9 @@ const priceGroupsSchema = (
     PriceGroupOption[],
   ];
   return hasPrice
-    ? schema.min(1, VALIDATION_MESSAGE_KEYS.PRICE_GROUPS_REQUIRED).of(
-        Yup.object().shape({
-          [REGISTRATION_PRICE_GROUP_FIELDS.PRICE_GROUP]: Yup.string().required(
-            VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-          ),
-          [REGISTRATION_PRICE_GROUP_FIELDS.PRICE]: Yup.number().when(
-            [REGISTRATION_PRICE_GROUP_FIELDS.PRICE_GROUP],
-            ([priceGroup]: string[], schema) =>
-              priceGroupOptions?.find((pg) => pg.value === priceGroup)?.isFree
-                ? schema.nullable().transform(transformNumber)
-                : schema
-                    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-                    .min(0, createNumberMinErrorMessage)
-                    .test(
-                      'maxDigitsAfterDecimal',
-                      VALIDATION_MESSAGE_KEYS.PRICE_INVALID,
-                      (number) => Number.isInteger(number * 10 ** 2)
-                    )
-          ),
-          [REGISTRATION_PRICE_GROUP_FIELDS.VAT_PERCENTAGE]:
-            Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-        })
-      )
+    ? schema
+        .min(1, VALIDATION_MESSAGE_KEYS.PRICE_GROUPS_REQUIRED)
+        .of(getPriceGroupSchema(priceGroupOptions))
     : schema;
 };
 

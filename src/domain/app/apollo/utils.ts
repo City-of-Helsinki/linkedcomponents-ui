@@ -13,6 +13,7 @@ import {
   LocalisedObject,
   Meta,
   Offer,
+  OfferPriceGroup,
   Organization,
   OrganizationClass,
   Place,
@@ -176,6 +177,17 @@ export const addTypenameMeta = (meta: Meta): Meta => ({
   __typename: 'Meta',
 });
 
+export const addTypenameOfferPriceGroup = (
+  offerPriceGroup?: OfferPriceGroup | null
+): OfferPriceGroup | null =>
+  offerPriceGroup
+    ? {
+        ...offerPriceGroup,
+        priceGroup: addTypenamePriceGroupDense(offerPriceGroup.priceGroup),
+        __typename: 'OfferPriceGroup',
+      }
+    : null;
+
 export const addTypenameOffer = (offer?: Offer | null): Offer | null =>
   offer
     ? {
@@ -183,6 +195,9 @@ export const addTypenameOffer = (offer?: Offer | null): Offer | null =>
         description: addTypenameLocalisedObject(offer.description),
         infoUrl: addTypenameLocalisedObject(offer.infoUrl),
         price: addTypenameLocalisedObject(offer.price),
+        offerPriceGroups: offer.offerPriceGroups?.map((i) =>
+          addTypenameOfferPriceGroup(i)
+        ),
         __typename: 'Offer',
       }
     : null;

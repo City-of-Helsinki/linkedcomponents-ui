@@ -13,6 +13,7 @@ import {
 import isGenericServerError from '../../../utils/isGenericServerError';
 import lowerCaseFirstLetter from '../../../utils/lowerCaseFirstLetter';
 import parseServerErrorArray from '../../../utils/parseServerErrorArray';
+import parseServerErrorLabel from '../../../utils/parseServerErrorLabel';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
@@ -78,6 +79,8 @@ export const parseEventServerErrors = ({
         return parseLocalizedServerError({ error, key });
       case 'external_links':
         return parseExternalLinkServerError({ error, key });
+      case 'offers':
+        return parseOffersServerError({ error, key });
       case 'videos':
         return parseServerErrorArray({
           error,
@@ -147,6 +150,56 @@ export const parseEventServerErrors = ({
     }
   }
 
+  function parseOfferPriceGroupServerErrorLabel({
+    key,
+  }: {
+    key: string;
+  }): string {
+    return t(
+      `registration.form.registrationPriceGroup.label${pascalCase(key)}`
+    );
+  }
+
+  function parseOffersServerError({
+    error,
+    key,
+  }: {
+    error: LEServerError;
+    key: string;
+  }): ServerErrorItem[] {
+    if (key === 'offer_price_groups') {
+      return parseServerErrorArray({
+        error,
+        parseLabelFn: parseOfferPriceGroupServerErrorLabel,
+        t,
+      });
+    }
+
+    if (Array.isArray(error)) {
+      return error.reduce((prev, curr) => {
+        return [...prev, ...parseOffersServerError({ error: curr, key })];
+      }, [] as ServerErrorItem[]);
+    } else if (typeof error === 'object') {
+      return Object.entries(error).reduce(
+        (previous: ServerErrorItem[], [k, e]) => [
+          ...previous,
+          ...parseOffersServerError({ error: e as LEServerError, key: k }),
+        ],
+        []
+      );
+    }
+
+    return [
+      {
+        label: parseServerErrorLabel({
+          key,
+          parseFn: () => t(`event.form.titlePriceInfo.${eventType}`),
+        }),
+        message: parseServerErrorMessage({ error, t }),
+      },
+    ];
+  }
+
   // Get error items for video fields
   function parseVideoServerErrorLabel({ key }: { key: string }): string {
     return t(`event.form.labelVideo${pascalCase(key)}`);
@@ -183,8 +236,6 @@ export const parseEventServerErrors = ({
         });
       case 'external_links':
         return t(`event.form.titleSocialMedia.${eventType}`);
-      case 'offers':
-        return t(`event.form.titlePriceInfo.${eventType}`);
       default:
         return t(`event.form.label${pascalCase(key)}`);
     }

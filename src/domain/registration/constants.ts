@@ -87,10 +87,13 @@ export const DEFAULT_COMMON_REGISTRATION_AND_EVENT_FIELD_VALUES: CommonRegistrat
     enrolmentEndTimeTime: REGISTRATION_INITIAL_VALUES.enrolmentEndTimeTime,
     enrolmentStartTimeDate: REGISTRATION_INITIAL_VALUES.enrolmentStartTimeDate,
     enrolmentStartTimeTime: REGISTRATION_INITIAL_VALUES.enrolmentStartTimeTime,
+    hasPrice: REGISTRATION_INITIAL_VALUES.hasPrice,
     maximumAttendeeCapacity:
       REGISTRATION_INITIAL_VALUES.maximumAttendeeCapacity,
     minimumAttendeeCapacity:
       REGISTRATION_INITIAL_VALUES.minimumAttendeeCapacity,
+    registrationPriceGroups:
+      REGISTRATION_INITIAL_VALUES.registrationPriceGroups,
   };
 
 export const REGISTRATION_FIELD_ARRAYS: string[] = [

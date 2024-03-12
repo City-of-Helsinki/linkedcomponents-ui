@@ -684,6 +684,11 @@
         "general": "Tapahtuman kotisivun URL {{langText}}",
         "volunteering": "Vapaaehtoistehtävän kotisivun URL {{langText}}"
       },
+      "labelIsRegistrationPlanned": {
+        "course": "Kurssille luodaan Linked Registration -ilmoittautuminen",
+        "general": "Tapahtumalle luodaan Linked Registration -ilmoittautuminen",
+        "volunteering": "Vapaaehtoistehtävälle luodaan Linked Registration -ilmoittautuminen"
+      },
       "labelIsUmbrella": {
         "course": "Tämä kurssi on kattotapahtuma.",
         "general": "Tämä tapahtuma on kattotapahtuma.",

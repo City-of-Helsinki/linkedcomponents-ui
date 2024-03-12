@@ -32,7 +32,6 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
     imageUrl,
     keywords,
     name,
-    offers,
     startTime,
   } = getEventFields(event, locale);
 
@@ -79,7 +78,12 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
         <div className={styles.ticketRow}>
           <TextWithIcon
             icon={<IconTicket aria-hidden className={styles.icon} />}
-            text={<PriceText freeEvent={freeEvent} offers={offers} />}
+            text={
+              <PriceText
+                freeEvent={freeEvent}
+                offers={event.offers.filter(skipFalsyType)}
+              />
+            }
           />
           <TextWithIcon
             icon={<IconUser aria-hidden className={styles.icon} />}

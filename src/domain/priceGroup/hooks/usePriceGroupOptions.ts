@@ -1,11 +1,10 @@
 import React, { useMemo } from 'react';
 
-import { useEventQuery, usePriceGroupsQuery } from '../../../generated/graphql';
+import { usePriceGroupsQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { eventPathBuilder } from '../../event/utils';
 import { PRICE_GROUPS_PAGE_SIZE_LARGE } from '../constants';
 import { PriceGroupOption } from '../types';
 import {
@@ -20,21 +19,13 @@ type UsePriceGroupOptionsState = {
 };
 
 export type UsePriceGroupOptionsProps = {
-  eventId?: string | null;
+  publisher: string;
 };
 
-const usePriceGroupOptions = ({
-  eventId,
-}: UsePriceGroupOptionsProps = {}): UsePriceGroupOptionsState => {
+const usePriceGroupOptions = (
+  { publisher }: UsePriceGroupOptionsProps = { publisher: '' }
+): UsePriceGroupOptionsState => {
   const locale = useLocale();
-  const { data: eventData } = useEventQuery({
-    skip: !eventId,
-    variables: {
-      createPath: getPathBuilder(eventPathBuilder),
-      id: eventId as string,
-    },
-  });
-  const publisher = eventData?.event.publisher;
 
   const { data: priceGroupsData, loading: loadingDefaults } =
     usePriceGroupsQuery({
@@ -48,7 +39,7 @@ const usePriceGroupOptions = ({
   const priceGroupOptions = React.useMemo(() => {
     return getValue(
       priceGroupsData?.priceGroups.data
-        .filter(skipFalsyType)
+        ?.filter(skipFalsyType)
         .map((priceGroup) => getPriceGroupOption(priceGroup, locale)),
       []
     );
