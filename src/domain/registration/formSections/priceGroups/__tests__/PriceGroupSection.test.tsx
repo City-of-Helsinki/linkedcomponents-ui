@@ -5,6 +5,7 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
 } from '../../../../../utils/testUtils';
 import {
   mockedFreePriceGroupsResponse,
@@ -107,11 +108,11 @@ test('should disable price and vat fields if price group is free', async () => {
   await user.type(priceInput, '10.00');
   expect(priceInput).toHaveValue(10);
 
-  // Price is cleater after changing to a free price group
+  // Price is cleared after changing to a free price group
   await user.click(priceGroupSelectButton);
   const priceGroupOption = screen.getByRole('option', {
     name: priceGroupDescription,
   });
   await user.click(priceGroupOption);
-  expect(priceInput).toHaveValue(0);
+  await waitFor(() => expect(priceInput).toHaveValue(0));
 });

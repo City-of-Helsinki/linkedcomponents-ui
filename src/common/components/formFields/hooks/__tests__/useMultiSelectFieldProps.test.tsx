@@ -1,6 +1,6 @@
-import { renderHook } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 import { Formik } from 'formik';
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 
 import useMultiSelectFieldProps, {
   UseMultiSelectFieldPropsProps,
@@ -43,7 +43,9 @@ describe('useMultiSelectFieldProps', () => {
 
     result.current.handleChange([]);
 
-    expect(onChange).toBeCalledWith({ target: { id: 'name', value: [] } });
+    await waitFor(() =>
+      expect(onChange).toBeCalledWith({ target: { id: 'name', value: [] } })
+    );
   });
 
   it('should not call onChange if hook is disabled', async () => {

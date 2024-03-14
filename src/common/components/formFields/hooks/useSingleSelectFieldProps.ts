@@ -41,13 +41,17 @@ const useSingleSelectFieldProps = ({
     // is disabled. Remove if statement when that behaviour is fixed to HDS
     if (!disabled) {
       const newValue = getValue(selected?.value, null);
-      onChange({
-        target: { id: name, value: newValue },
-      });
 
-      if (onChangeCb) {
-        onChangeCb(newValue);
-      }
+      // Set timeout to prevent Android devices to end up to an infinite loop when changing value
+      setTimeout(() => {
+        onChange({
+          target: { id: name, value: newValue },
+        });
+
+        if (onChangeCb) {
+          onChangeCb(newValue);
+        }
+      }, 5);
     }
   };
 
