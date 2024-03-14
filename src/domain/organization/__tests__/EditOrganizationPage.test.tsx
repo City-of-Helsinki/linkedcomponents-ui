@@ -7,9 +7,9 @@ import {
   configure,
   renderWithRoute,
   screen,
+  shouldDeleteInstance,
   userEvent,
   waitFor,
-  within,
 } from '../../../utils/testUtils';
 import {
   mockedOrganizationResponse,
@@ -63,10 +63,8 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
     path: ROUTES.EDIT_ORGANIZATION,
   });
 
-const findElement = (key: 'deleteButton' | 'nameInput' | 'saveButton') => {
+const findElement = (key: 'nameInput' | 'saveButton') => {
   switch (key) {
-    case 'deleteButton':
-      return screen.findByRole('button', { name: /poista organisaatio/i });
     case 'nameInput':
       return screen.findByLabelText(/nimi/i);
     case 'saveButton':
@@ -115,27 +113,18 @@ test('should scroll to first validation error input field', async () => {
 });
 
 test('should delete organization', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedDeleteOrganizationResponse,
   ]);
 
-  const deleteButton = await findElement('deleteButton');
-  await user.click(deleteButton);
-
-  const dialog = screen.getByRole('dialog', {
-    name: 'Varmista organisaation poistaminen',
+  await shouldDeleteInstance({
+    confirmDeleteButtonLabel: 'Poista organisaatio',
+    deleteButtonLabel: 'Poista organisaatio',
+    expectedNotificationText: 'Organisaatio on poistettu',
+    expectedUrl: `/fi/administration/organizations`,
+    history,
   });
-  const confirmDeleteButton = within(dialog).getByRole('button', {
-    name: 'Poista organisaatio',
-  });
-  await user.click(confirmDeleteButton);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/administration/organizations`)
-  );
-  await screen.findByRole('alert', { name: 'Organisaatio on poistettu' });
 });
 
 test('should update organization', async () => {

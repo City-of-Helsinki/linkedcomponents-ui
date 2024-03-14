@@ -4,8 +4,10 @@ import { ROUTES } from '../../../../constants';
 import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
+  openDropdownMenu,
   render,
   screen,
+  shouldToggleDropdownMenu,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
@@ -77,15 +79,13 @@ const findElement = (key: 'cancelButton') => {
 };
 
 const getElement = (
-  key: 'backButton' | 'cancelButton' | 'menu' | 'saveButton' | 'toggleButton'
+  key: 'backButton' | 'cancelButton' | 'saveButton' | 'toggleButton'
 ) => {
   switch (key) {
     case 'backButton':
       return screen.getByRole('button', { name: 'Takaisin' });
     case 'cancelButton':
       return screen.getByRole('button', { name: 'Peruuta osallistuminen' });
-    case 'menu':
-      return screen.getByRole('region', { name: /valinnat/i });
     case 'saveButton':
       return screen.getByRole('button', { name: 'Tallenna osallistuja' });
     case 'toggleButton':
@@ -93,25 +93,10 @@ const getElement = (
   }
 };
 
-const openMenu = async () => {
-  const user = userEvent.setup();
-  const toggleButton = getElement('toggleButton');
-  await user.click(toggleButton);
-  getElement('menu');
-
-  return toggleButton;
-};
-
 test('should toggle menu by clicking actions button', async () => {
-  const user = userEvent.setup();
   renderComponent();
 
-  const toggleButton = await openMenu();
-  await user.click(toggleButton);
-
-  expect(
-    screen.queryByRole('region', { name: /valinnat/i })
-  ).not.toBeInTheDocument();
+  await shouldToggleDropdownMenu();
 });
 
 test('should call onDelete clicking cancel button', async () => {
@@ -119,7 +104,7 @@ test('should call onDelete clicking cancel button', async () => {
   const user = userEvent.setup();
   renderComponent({ props: { onDelete } });
 
-  await openMenu();
+  await openDropdownMenu();
   const cancelButton = await findElement('cancelButton');
   await user.click(cancelButton);
   expect(onDelete).toBeCalled();

@@ -1,10 +1,7 @@
-import React from 'react';
-
 import {
   configure,
   render,
-  screen,
-  userEvent,
+  shouldClickButton,
 } from '../../../../../utils/testUtils';
 import PersonsAddedToWaitingListModal, {
   PersonsAddedToWaitingListModalProps,
@@ -22,9 +19,7 @@ const renderComponent = (props: Partial<PersonsAddedToWaitingListModalProps>) =>
 
 test('should call onClose', async () => {
   const onClose = vi.fn();
-  const user = userEvent.setup();
   renderComponent({ onClose });
 
-  const closeButton = screen.getByRole('button', { name: 'Sulje' });
-  await user.click(closeButton);
+  await shouldClickButton({ buttonLabel: 'Sulje', onClick: onClose });
 });

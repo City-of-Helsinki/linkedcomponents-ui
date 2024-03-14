@@ -7,11 +7,12 @@ import {
   configure,
   CustomRenderOptions,
   loadingSpinnerIsNotInDocument,
+  openDropdownMenu,
   renderWithRoute,
   screen,
+  shouldDeleteInstance,
   userEvent,
   waitFor,
-  within,
 } from '../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import {
@@ -62,24 +63,6 @@ const renderComponent = (
     ...renderOptions,
   });
 
-const openMenu = async () => {
-  const user = userEvent.setup();
-  const toggleButton = await screen.findByRole('button', { name: /valinnat/i });
-
-  await user.click(toggleButton);
-  const menu = screen.getByRole('region', { name: /valinnat/i });
-
-  return { menu, toggleButton };
-};
-
-const getConfirmDeleteModal = () =>
-  screen.getByRole('dialog', { name: 'Varmista ilmoittautumisen poistaminen' });
-
-const queryConfirmDeleteModal = () =>
-  screen.queryByRole('dialog', {
-    name: 'Varmista ilmoittautumisen poistaminen',
-  });
-
 const findUpdateButton = () => {
   return screen.findByRole('button', { name: 'Tallenna muutokset' });
 };
@@ -106,28 +89,17 @@ test('should show link to event page', async () => {
 
 test('should move to registrations page after deleting registration', async () => {
   const mocks = [...baseMocks, mockedDeleteRegistrationResponse];
-  const user = userEvent.setup();
   const { history } = renderComponent(mocks);
 
-  await loadingSpinnerIsNotInDocument();
-  const { menu } = await openMenu();
+  await openDropdownMenu();
 
-  const deleteButton = within(menu).getByRole('button', {
-    name: 'Poista ilmoittautuminen',
+  await shouldDeleteInstance({
+    confirmDeleteButtonLabel: 'Poista ilmoittautuminen',
+    deleteButtonLabel: 'Poista ilmoittautuminen',
+    expectedNotificationText: 'Ilmoittautuminen on poistettu',
+    expectedUrl: `/fi/registrations`,
+    history,
   });
-  await user.click(deleteButton);
-
-  const withinModal = within(getConfirmDeleteModal());
-  const confirmDeleteButton = withinModal.getByRole('button', {
-    name: 'Poista ilmoittautuminen',
-  });
-  await user.click(confirmDeleteButton);
-
-  await waitFor(
-    () => expect(queryConfirmDeleteModal()).not.toBeInTheDocument(),
-    { timeout: 10000 }
-  );
-  expect(history.location.pathname).toBe('/fi/registrations');
 });
 
 test('should update registration', async () => {

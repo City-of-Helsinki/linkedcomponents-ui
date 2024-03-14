@@ -1,10 +1,8 @@
-import React from 'react';
-
 import {
   configure,
   render,
   screen,
-  userEvent,
+  shouldClickButton,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import {
@@ -50,24 +48,17 @@ test('should render component', async () => {
 
 test('should call onConfirm', async () => {
   const onConfirm = vi.fn();
-  const user = userEvent.setup();
-
   renderComponent({ onConfirm });
 
-  const postponeEventButton = screen.getByRole('button', {
-    name: 'Lykkää tapahtumaa',
+  await shouldClickButton({
+    buttonLabel: 'Lykkää tapahtumaa',
+    onClick: onConfirm,
   });
-  await user.click(postponeEventButton);
-  expect(onConfirm).toBeCalled();
 });
 
 test('should call onClose', async () => {
   const onClose = vi.fn();
-  const user = userEvent.setup();
-
   renderComponent({ onClose });
 
-  const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  await user.click(closeButton);
-  expect(onClose).toBeCalled();
+  await shouldClickButton({ buttonLabel: 'Peruuta', onClick: onClose });
 });

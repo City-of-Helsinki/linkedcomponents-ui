@@ -218,7 +218,7 @@ const waitPageMetaDataToBeSet = async ({
 // Dropdown menu helpers
 const openDropdownMenu = async (label: string | RegExp = /valinnat/i) => {
   const user = userEvent.setup();
-  const toggleButton = screen.getByRole('button', { name: label });
+  const toggleButton = await screen.findByRole('button', { name: label });
   await user.click(toggleButton);
   const menu = screen.getByRole('region', { name: label });
 
@@ -237,16 +237,6 @@ const shouldToggleDropdownMenu = async (
 };
 
 // Modal helpers
-const shouldCallModalButtonAction = async (
-  buttonLabel: string | RegExp,
-  onClick: Mock
-) => {
-  const user = userEvent.setup();
-  const button = screen.getByRole('button', { name: buttonLabel });
-  await user.click(button);
-  expect(onClick).toBeCalled();
-};
-
 const shouldRenderDeleteModal = ({
   confirmButtonLabel,
   heading,
@@ -263,6 +253,20 @@ const shouldRenderDeleteModal = ({
   expect(
     screen.getByRole('button', { name: confirmButtonLabel })
   ).toBeInTheDocument();
+};
+
+const shouldClickButton = async ({
+  buttonLabel,
+  onClick,
+}: {
+  buttonLabel: string | RegExp;
+  onClick: Mock;
+}) => {
+  const user = userEvent.setup();
+
+  const button = screen.getByRole('button', { name: buttonLabel });
+  await user.click(button);
+  expect(onClick).toBeCalled();
 };
 
 // Server error helpers
@@ -296,6 +300,74 @@ const shouldSetServerErrors = (
 
   expect(result.current.serverErrorItems).toEqual(expectedErrors);
   expect(callbackFn).toBeCalled();
+};
+
+// List pages
+const shouldRenderListPage = async ({
+  createButtonLabel,
+  heading,
+  searchInputLabel,
+  tableCaption,
+}: {
+  createButtonLabel: string | RegExp;
+  heading: string | RegExp;
+  searchInputLabel: string | RegExp;
+  tableCaption: string | RegExp;
+}) => {
+  await screen.findByRole('heading', { name: heading });
+  await loadingSpinnerIsNotInDocument();
+  expect(
+    screen.getByRole('navigation', { name: 'Murupolku' })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole('button', { name: createButtonLabel })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole('combobox', { name: searchInputLabel })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole('table', {
+      name: tableCaption,
+    })
+  );
+};
+
+const shouldClickListPageCreateButton = async ({
+  createButtonLabel,
+  expectedPathname,
+  history,
+}: {
+  createButtonLabel: string | RegExp;
+  expectedPathname: string;
+  history: History;
+}) => {
+  const user = userEvent.setup();
+  await loadingSpinnerIsNotInDocument(10000);
+
+  const createEventButton = screen.getByRole('button', {
+    name: createButtonLabel,
+  });
+  await user.click(createEventButton);
+
+  expect(history.location.pathname).toBe(expectedPathname);
+};
+
+const shouldSortListPageTable = async ({
+  columnHeader,
+  expectedSearch,
+  history,
+}: {
+  columnHeader: string | RegExp;
+  expectedSearch: string;
+  history: History;
+}) => {
+  const user = userEvent.setup();
+  await loadingSpinnerIsNotInDocument();
+
+  const sortButton = screen.getByRole('button', { name: columnHeader });
+  await user.click(sortButton);
+
+  expect(history.location.search).toBe(expectedSearch);
 };
 
 // Edit pages
@@ -365,11 +437,14 @@ export {
   customRender as render,
   renderWithRoute,
   shouldApplyExpectedMetaData,
-  shouldCallModalButtonAction,
+  shouldClickButton,
+  shouldClickListPageCreateButton,
   shouldDeleteInstance,
   shouldRenderDeleteModal,
+  shouldRenderListPage,
   shouldSetGenericServerErrors,
   shouldSetServerErrors,
+  shouldSortListPageTable,
   shouldToggleDropdownMenu,
   tabKeyPressHelper,
   waitPageMetaDataToBeSet,

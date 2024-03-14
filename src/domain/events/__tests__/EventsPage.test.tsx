@@ -8,9 +8,11 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
+  shouldClickListPageCreateButton,
+  shouldSortListPageTable,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
@@ -67,18 +69,14 @@ beforeEach(() => {
 
 const getElement = (
   key:
-    | 'createEventButton'
     | 'draftsTab'
     | 'eventCardType'
     | 'ownPublishedTab'
     | 'publishedTab'
-    | 'sortName'
     | 'waitingApprovalTab'
     | 'waitingApprovalTable'
 ) => {
   switch (key) {
-    case 'createEventButton':
-      return screen.getByRole('button', { name: /lisää uusi tapahtuma/i });
     case 'draftsTab':
       return screen.getByRole('tab', {
         name: `Luonnokset (${draftEventsCount})`,
@@ -93,8 +91,6 @@ const getElement = (
       return screen.getByRole('tab', {
         name: `Julkaistut (${publicEventsCount})`,
       });
-    case 'sortName':
-      return screen.getByRole('button', { name: 'Nimi' });
     case 'waitingApprovalTab':
       return screen.getByRole('tab', {
         name: `Odottaa (${waitingApprovalEventsCount})`,
@@ -132,15 +128,15 @@ const findElement = (
 };
 
 test('should show correct title, description and keywords', async () => {
-  const pageTitle = 'Omat tapahtumat - Linked Events';
-  const pageDescription =
-    'Tapahtumien listaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.';
-  const pageKeywords =
-    'minun, luetteloni, muokkaa, päivitä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
 
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await shouldApplyExpectedMetaData({
+    expectedDescription:
+      'Tapahtumien listaus. Hallinnoi tapahtumia: selaa ja muokkaa tapahtumia.',
+    expectedKeywords:
+      'minun, luetteloni, muokkaa, päivitä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Omat tapahtumat - Linked Events',
+  });
 });
 
 test('should render events page', async () => {
@@ -155,15 +151,13 @@ test('should render events page', async () => {
 });
 
 test('should open create event page', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await loadingSpinnerIsNotInDocument(10000);
-
-  const createEventButton = getElement('createEventButton');
-  await user.click(createEventButton);
-
-  expect(history.location.pathname).toBe('/fi/events/create');
+  await shouldClickListPageCreateButton({
+    createButtonLabel: /lisää uusi tapahtuma/i,
+    expectedPathname: '/fi/events/create',
+    history,
+  });
 });
 
 test('should change list type to event card', async () => {
@@ -222,16 +216,13 @@ test('should change active tab to drafts', async () => {
 });
 
 test('should add sort parameter to search query', async () => {
-  const user = userEvent.setup();
-
   const { history } = renderComponent();
 
-  await loadingSpinnerIsNotInDocument(10000);
-
-  const sortNameButton = getElement('sortName');
-  await user.click(sortNameButton);
-
-  expect(history.location.search).toBe('?sort=name');
+  await shouldSortListPageTable({
+    columnHeader: 'Nimi',
+    expectedSearch: '?sort=name',
+    history,
+  });
 });
 
 it('scrolls to event table row and calls history.replace correctly (deletes eventId from state)', async () => {

@@ -7,8 +7,8 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
@@ -44,16 +44,15 @@ const renderComponent = () =>
   render(<EventSearchPage />, { mocks, routes: [route] });
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Etsi tapahtumia - Linked Events';
-  const pageDescription =
-    'Hae tapahtumia Linked Eventsistä. Voit suodattaa tuloksia päivämäärän, paikan ja tyypin mukaan.';
-  const pageKeywords =
-    'haku, suodatus, päivämäärä, paikka, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
-  await loadingSpinnerIsNotInDocument();
 
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await shouldApplyExpectedMetaData({
+    expectedDescription:
+      'Hae tapahtumia Linked Eventsistä. Voit suodattaa tuloksia päivämäärän, paikan ja tyypin mukaan.',
+    expectedKeywords:
+      'haku, suodatus, päivämäärä, paikka, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Etsi tapahtumia - Linked Events',
+  });
 });
 
 test('should render events in the event list', async () => {

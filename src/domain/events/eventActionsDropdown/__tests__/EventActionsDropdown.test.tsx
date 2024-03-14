@@ -9,8 +9,10 @@ import {
 } from '../../../../utils/mockLoginHooks';
 import {
   configure,
+  openDropdownMenu,
   render,
   screen,
+  shouldToggleDropdownMenu,
   userEvent,
   waitFor,
   within,
@@ -65,15 +67,7 @@ const renderComponent = ({
   });
 
 const getElement = (
-  key:
-    | 'cancel'
-    | 'copy'
-    | 'delete'
-    | 'edit'
-    | 'menu'
-    | 'postpone'
-    | 'toggle'
-    | 'email'
+  key: 'cancel' | 'copy' | 'delete' | 'edit' | 'postpone' | 'email'
 ) => {
   switch (key) {
     case 'cancel':
@@ -84,41 +78,23 @@ const getElement = (
       return screen.getByRole('button', { name: 'Poista tapahtuma' });
     case 'edit':
       return screen.getByRole('button', { name: 'Muokkaa tapahtumaa' });
-    case 'menu':
-      return screen.getByRole('region', { name: /valinnat/i });
     case 'postpone':
       return screen.getByRole('button', { name: 'Lykkää tapahtumaa' });
-    case 'toggle':
-      return screen.getByRole('button', { name: /valinnat/i });
     case 'email':
       return screen.getByRole('button', { name: 'Lähetä sähköposti' });
   }
 };
 
-const openMenu = async () => {
-  const user = userEvent.setup();
-  const toggleButton = getElement('toggle');
-  await user.click(toggleButton);
-  getElement('menu');
-
-  return toggleButton;
-};
-
 test('should toggle menu by clicking actions button', async () => {
-  const user = userEvent.setup();
   renderComponent();
 
-  const toggleButton = await openMenu();
-  await user.click(toggleButton);
-  expect(
-    screen.queryByRole('region', { name: /valinnat/i })
-  ).not.toBeInTheDocument();
+  await shouldToggleDropdownMenu();
 });
 
 test('should render correct buttons for draft event', async () => {
   renderComponent({ props: { event: draftEvent } });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const disabledButtons = [getElement('postpone'), getElement('cancel')];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
@@ -135,7 +111,7 @@ test('only edit button should be enabled when user is not logged in (draft)', as
   mockUnauthenticatedLoginState();
   renderComponent({ props: { event: draftEvent } });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const disabledButtons = [
     getElement('copy'),
@@ -154,7 +130,7 @@ test('should render correct buttons for public event', async () => {
     props: { event: publicEvent },
   });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const enabledButtons = [
     getElement('cancel'),
@@ -169,7 +145,7 @@ test('should render correct buttons for public event', async () => {
 test('only copy, edit and delete button should be enabled when event is cancelled', async () => {
   renderComponent({ props: { event: cancelledEvent } });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const disabledButtons = [getElement('postpone'), getElement('cancel')];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
@@ -186,7 +162,7 @@ test('only edit button should be enabled when user is not logged in (public)', a
   mockUnauthenticatedLoginState();
   renderComponent({ props: { event: publicEvent } });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const disabledButtons = [
     getElement('copy'),
@@ -206,7 +182,7 @@ test('should route to create event page when clicking copy button', async () => 
     props: { event: publicEvent },
   });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const copyButton = getElement('copy');
   await waitFor(() => expect(copyButton).toBeEnabled());
@@ -221,7 +197,7 @@ test('should route to edit page when clicking edit button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent({ props: { event: publicEvent } });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const editButton = getElement('edit');
   await user.click(editButton);
@@ -238,7 +214,7 @@ test('should cancel event', async () => {
 
   renderComponent({ props: { event }, mocks });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const cancelButton = getElement('cancel');
   await user.click(cancelButton);
@@ -260,7 +236,7 @@ test('should delete event', async () => {
 
   renderComponent({ props: { event }, mocks });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const deleteButton = getElement('delete');
   await user.click(deleteButton);
@@ -285,7 +261,7 @@ test('should postpone event', async () => {
 
   renderComponent({ props: { event }, mocks });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const postponeButton = getElement('postpone');
   await user.click(postponeButton);
@@ -315,7 +291,7 @@ test('should call the mailto function when clicking Send Email button', async ()
   const user = userEvent.setup();
   renderComponent({ props: { event: specialEvent }, mocks });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const sendMailButton = getElement('email');
   await user.click(sendMailButton);
@@ -344,7 +320,7 @@ test('should find the email address even when the createdBy field has extra dash
   const user = userEvent.setup();
   renderComponent({ props: { event: specialEvent }, mocks });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const sendMailButton = getElement('email');
   await user.click(sendMailButton);
