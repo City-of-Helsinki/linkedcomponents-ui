@@ -3,7 +3,7 @@ import {
   configure,
   render,
   screen,
-  userEvent,
+  shouldClickButton,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
 import { TEST_REGISTRATION_ID } from '../../../../registration/constants';
@@ -70,24 +70,17 @@ test.each([
 
 test('should call onConfirm', async () => {
   const onConfirm = vi.fn();
-  const user = userEvent.setup();
-
   renderComponent({ onConfirm });
 
-  const cancelEventButton = screen.getByRole('button', {
-    name: 'Peruuta tapahtuma',
+  await shouldClickButton({
+    buttonLabel: 'Peruuta tapahtuma',
+    onClick: onConfirm,
   });
-  await user.click(cancelEventButton);
-  expect(onConfirm).toBeCalled();
 });
 
 test('should call onClose', async () => {
   const onClose = vi.fn();
-  const user = userEvent.setup();
-
   renderComponent({ onClose });
 
-  const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  await user.click(closeButton);
-  expect(onClose).toBeCalled();
+  await shouldClickButton({ buttonLabel: 'Peruuta', onClick: onClose });
 });

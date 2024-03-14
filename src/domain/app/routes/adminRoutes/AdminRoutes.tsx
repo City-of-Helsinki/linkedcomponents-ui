@@ -24,6 +24,9 @@ const CreateOrganizationPage = React.lazy(
 const CreatePlacePage = React.lazy(
   () => import('../../../place/CreatePlacePage')
 );
+const CreatePriceGroupPage = React.lazy(
+  () => import('../../../priceGroup/CreatePriceGroupPage')
+);
 const EditImagePage = React.lazy(() => import('../../../image/EditImagePage'));
 const EditKeywordPage = React.lazy(
   () => import('../../../keyword/EditKeywordPage')
@@ -35,6 +38,9 @@ const EditOrganizationPage = React.lazy(
   () => import('../../../organization/EditOrganizationPage')
 );
 const EditPlacePage = React.lazy(() => import('../../../place/EditPlacePage'));
+const EditPriceGroupPage = React.lazy(
+  () => import('../../../priceGroup/EditPriceGroupPage')
+);
 const ImagesPage = React.lazy(() => import('../../../images/ImagesPage'));
 const KeywordsPage = React.lazy(() => import('../../../keywords/KeywordsPage'));
 const KeywordSetsPage = React.lazy(
@@ -129,6 +135,14 @@ const AdminPageRoutes: React.FC = () => {
               element={<PlacesPage />}
             />
 
+            <Route
+              path={getAdminRoutePath(ROUTES.CREATE_PRICE_GROUP)}
+              element={<CreatePriceGroupPage />}
+            />
+            <Route
+              path={getAdminRoutePath(ROUTES.EDIT_PRICE_GROUP)}
+              element={<EditPriceGroupPage />}
+            />
             <Route
               path={getAdminRoutePath(ROUTES.PRICE_GROUPS)}
               element={<PriceGroupsPage />}

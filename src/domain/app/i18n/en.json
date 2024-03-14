@@ -78,6 +78,7 @@
     "buttonAddKeywordSet": "Add keyword set",
     "buttonAddOrganization": "Add new organization",
     "buttonAddPlace": "Add place",
+    "buttonAddPriceGroup": "Add customer group",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
     "cancel": "Undo",
@@ -297,6 +298,11 @@
     "pageTitle": "Add place",
     "title": "Add place"
   },
+  "createPriceGroupPage": {
+    "pageDescription": "Add new customer group to Linked Events.",
+    "pageTitle": "Add customer group",
+    "title": "Add customer group"
+  },
   "createRegistrationPage": {
     "pageTitle": "New registration",
     "title": "New registration"
@@ -331,6 +337,11 @@
   "editPlacePage": {
     "pageTitle": "Edit place",
     "title": "Edit place"
+  },
+  "editPriceGroupPage": {
+    "pageDescription": "Edit existing customer group in Linked Events.",
+    "pageTitle": "Edit customer group",
+    "title": "Edit customer group"
   },
   "editRegistrationPage": {
     "pageTitle": "Edit registration",
@@ -1728,7 +1739,12 @@
     },
     "form": {
       "buttonDelete": "Delete customer group",
+      "labelDescription": "Description",
+      "labelId": "ID",
+      "labelIsFree": "Free",
+      "labelPublisher": "Publisher",
       "notificationPriceGroupDeleted": "The customer group has been deleted",
+      "notificationPriceGroupUpdated": "The customer group has been saved",
       "notificationTitleCannotEdit": "The customer group cannot be edited"
     }
   },
@@ -1756,7 +1772,8 @@
     },
     "title": "Customer groups",
     "warningNoRightsToCreate": "You have insufficient rights to create customer groups.",
-    "warningNoRightsToEdit": "You have insufficient rights to edit this customer group."
+    "warningNoRightsToEdit": "You have insufficient rights to edit this customer group.",
+    "warningNoRightsToEditDefaultPriceGroup": "The customer group is the default customer group. The default customer groups cannot be edited."
   },
   "registration": {
     "deleteRegistrationModal": {

@@ -190,7 +190,7 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
   const { onPageChange, pageCount, pageHref } = useCommonListProps({
     defaultSort: '',
     listId: signupListId,
-    meta: signupsData?.signups.meta,
+    meta: signupsData?.signups?.meta,
     pagePath,
     pageSize: SIGNUPS_PAGE_SIZE,
   });

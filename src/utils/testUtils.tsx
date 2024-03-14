@@ -1,15 +1,18 @@
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/export */
+import { ApolloError } from '@apollo/client';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import {
   act,
   createEvent,
   fireEvent,
   render,
+  RenderHookResult,
   RenderResult,
   screen,
   waitFor,
+  within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory, History } from 'history';
@@ -27,6 +30,7 @@ import { createCache } from '../domain/app/apollo/apolloClient';
 import { NotificationsProvider } from '../domain/app/notificationsContext/NotificationsContext';
 import { PageSettingsProvider } from '../domain/app/pageSettingsContext/PageSettingsContext';
 import { ThemeProvider } from '../domain/app/theme/Theme';
+import { ServerErrorItem, UseServerErrorsState } from '../types';
 
 type CustomRenderOptions = {
   history?: History;
@@ -214,7 +218,7 @@ const waitPageMetaDataToBeSet = async ({
 // Dropdown menu helpers
 const openDropdownMenu = async (label: string | RegExp = /valinnat/i) => {
   const user = userEvent.setup();
-  const toggleButton = screen.getByRole('button', { name: label });
+  const toggleButton = await screen.findByRole('button', { name: label });
   await user.click(toggleButton);
   const menu = screen.getByRole('region', { name: label });
 
@@ -233,16 +237,6 @@ const shouldToggleDropdownMenu = async (
 };
 
 // Modal helpers
-const shouldCallModalButtonAction = async (
-  buttonLabel: string | RegExp,
-  onClick: Mock
-) => {
-  const user = userEvent.setup();
-  const button = screen.getByRole('button', { name: buttonLabel });
-  await user.click(button);
-  expect(onClick).toBeCalled();
-};
-
 const shouldRenderDeleteModal = ({
   confirmButtonLabel,
   heading,
@@ -259,6 +253,169 @@ const shouldRenderDeleteModal = ({
   expect(
     screen.getByRole('button', { name: confirmButtonLabel })
   ).toBeInTheDocument();
+};
+
+const shouldClickButton = async ({
+  buttonLabel,
+  onClick,
+}: {
+  buttonLabel: string | RegExp;
+  onClick: Mock;
+}) => {
+  const user = userEvent.setup();
+
+  const button = screen.getByRole('button', { name: buttonLabel });
+  await user.click(button);
+  expect(onClick).toBeCalled();
+};
+
+// Server error helpers
+const shouldSetGenericServerErrors = (
+  result: RenderHookResult<UseServerErrorsState, any>['result']
+) => {
+  const error = new ApolloError({
+    networkError: {
+      result: { detail: 'Metodi "POST" ei ole sallittu.' },
+    } as any,
+  });
+
+  act(() => result.current.showServerErrors({ error }));
+
+  expect(result.current.serverErrorItems).toEqual([
+    { label: '', message: 'Metodi "POST" ei ole sallittu.' },
+  ]);
+};
+
+const shouldSetServerErrors = (
+  result: RenderHookResult<UseServerErrorsState, any>['result'],
+  errors: Record<string, any>,
+  expectedErrors: ServerErrorItem[]
+) => {
+  const callbackFn = vi.fn();
+  const error = new ApolloError({
+    networkError: { result: errors } as any,
+  });
+
+  act(() => result.current.showServerErrors({ callbackFn, error }));
+
+  expect(result.current.serverErrorItems).toEqual(expectedErrors);
+  expect(callbackFn).toBeCalled();
+};
+
+// List pages
+const shouldRenderListPage = async ({
+  createButtonLabel,
+  heading,
+  searchInputLabel,
+  tableCaption,
+}: {
+  createButtonLabel: string | RegExp;
+  heading: string | RegExp;
+  searchInputLabel: string | RegExp;
+  tableCaption: string | RegExp;
+}) => {
+  await screen.findByRole('heading', { name: heading });
+  await loadingSpinnerIsNotInDocument();
+  expect(
+    screen.getByRole('navigation', { name: 'Murupolku' })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole('button', { name: createButtonLabel })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole('combobox', { name: searchInputLabel })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole('table', {
+      name: tableCaption,
+    })
+  );
+};
+
+const shouldClickListPageCreateButton = async ({
+  createButtonLabel,
+  expectedPathname,
+  history,
+}: {
+  createButtonLabel: string | RegExp;
+  expectedPathname: string;
+  history: History;
+}) => {
+  const user = userEvent.setup();
+  await loadingSpinnerIsNotInDocument(10000);
+
+  const createEventButton = screen.getByRole('button', {
+    name: createButtonLabel,
+  });
+  await user.click(createEventButton);
+
+  expect(history.location.pathname).toBe(expectedPathname);
+};
+
+const shouldSortListPageTable = async ({
+  columnHeader,
+  expectedSearch,
+  history,
+}: {
+  columnHeader: string | RegExp;
+  expectedSearch: string;
+  history: History;
+}) => {
+  const user = userEvent.setup();
+  await loadingSpinnerIsNotInDocument();
+
+  const sortButton = screen.getByRole('button', { name: columnHeader });
+  await user.click(sortButton);
+
+  expect(history.location.search).toBe(expectedSearch);
+};
+
+// Edit pages
+const shouldApplyExpectedMetaData = async ({
+  expectedDescription,
+  expectedKeywords,
+  expectedTitle,
+}: {
+  expectedDescription: string;
+  expectedKeywords: string;
+  expectedTitle: string;
+}) => {
+  await loadingSpinnerIsNotInDocument();
+  await waitPageMetaDataToBeSet({
+    pageDescription: expectedDescription,
+    pageKeywords: expectedKeywords,
+    pageTitle: expectedTitle,
+  });
+  await actWait(10);
+};
+
+const shouldDeleteInstance = async ({
+  confirmDeleteButtonLabel,
+  deleteButtonLabel,
+  expectedNotificationText,
+  expectedUrl,
+  history,
+}: {
+  confirmDeleteButtonLabel: string | RegExp;
+  deleteButtonLabel: string | RegExp;
+  expectedNotificationText: string;
+  expectedUrl: string;
+  history: History;
+}) => {
+  const user = userEvent.setup();
+  await loadingSpinnerIsNotInDocument();
+
+  const deleteButton = await screen.findByRole('button', {
+    name: deleteButtonLabel,
+  });
+  await user.click(deleteButton);
+  const withinModal = within(screen.getByRole('dialog'));
+  const confirmDeleteButton = withinModal.getByRole('button', {
+    name: confirmDeleteButtonLabel,
+  });
+  await user.click(confirmDeleteButton);
+  await waitFor(() => expect(history.location.pathname).toBe(expectedUrl));
+  await screen.findByRole('alert', { name: expectedNotificationText });
 };
 
 export type { CustomRenderOptions, CustomRenderResult };
@@ -279,8 +436,15 @@ export {
   pasteToTextEditor,
   customRender as render,
   renderWithRoute,
-  shouldCallModalButtonAction,
+  shouldApplyExpectedMetaData,
+  shouldClickButton,
+  shouldClickListPageCreateButton,
+  shouldDeleteInstance,
   shouldRenderDeleteModal,
+  shouldRenderListPage,
+  shouldSetGenericServerErrors,
+  shouldSetServerErrors,
+  shouldSortListPageTable,
   shouldToggleDropdownMenu,
   tabKeyPressHelper,
   waitPageMetaDataToBeSet,

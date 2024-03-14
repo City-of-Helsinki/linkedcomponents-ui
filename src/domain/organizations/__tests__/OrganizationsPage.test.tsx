@@ -9,9 +9,11 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
-  userEvent,
+  shouldApplyExpectedMetaData,
+  shouldClickListPageCreateButton,
+  shouldRenderListPage,
+  shouldSortListPageTable,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedDataSourceResponse } from '../../dataSource/__mocks__/dataSource';
 import { mockedOrganizationClassResponse } from '../../organizationClass/__mocks__/organizationClass';
@@ -49,87 +51,53 @@ const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
     ...renderOptions,
   });
 
-const findElement = (key: 'title') => {
-  switch (key) {
-    case 'title':
-      return screen.findByRole('heading', { name: 'Organisaatiot' });
-  }
-};
-
-const getElement = (
-  key:
-    | 'breadcrumb'
-    | 'createOrganizationButton'
-    | 'searchInput'
-    | 'sortNameButton'
-    | 'table'
-) => {
-  switch (key) {
-    case 'breadcrumb':
-      return screen.getByRole('navigation', { name: 'Murupolku' });
-    case 'createOrganizationButton':
-      return screen.getByRole('button', { name: 'Lisää uusi organisaatio' });
-    case 'searchInput':
-      return screen.getByRole('combobox', { name: 'Hae organisaatioita' });
-    case 'sortNameButton':
-      return screen.getByRole('button', { name: /nimi/i });
-    case 'table':
-      return screen.getByRole('table', {
-        name: 'Organisaatiot, järjestys Nimi, nouseva',
-      });
-  }
-};
+const findHeading = () =>
+  screen.findByRole('heading', { name: 'Organisaatiot' });
 
 test('should render organizations page', async () => {
   renderComponent();
 
-  await findElement('title');
-  await loadingSpinnerIsNotInDocument();
-  getElement('breadcrumb');
-  getElement('createOrganizationButton');
-  getElement('searchInput');
-  getElement('table');
+  await shouldRenderListPage({
+    createButtonLabel: 'Lisää uusi organisaatio',
+    heading: 'Organisaatiot',
+    searchInputLabel: 'Hae organisaatioita',
+    tableCaption: 'Organisaatiot, järjestys Nimi, nouseva',
+  });
 });
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Organisaatiot - Linked Events';
-  const pageDescription =
-    'Organisaatioiden listaus. Selaa, suodata ja muokkaa Linked Eventsin organisaatioita.';
-  const pageKeywords =
-    'organisaatio, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
+  await shouldApplyExpectedMetaData({
+    expectedDescription:
+      'Organisaatioiden listaus. Selaa, suodata ja muokkaa Linked Eventsin organisaatioita.',
+    expectedKeywords:
+      'organisaatio, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Organisaatiot - Linked Events',
+  });
 
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await loadingSpinnerIsNotInDocument();
 });
 
 test('should open create organization page', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await findElement('title');
-  await loadingSpinnerIsNotInDocument();
-
-  const createOrganizationButton = getElement('createOrganizationButton');
-  await user.click(createOrganizationButton);
-
-  expect(history.location.pathname).toBe(
-    '/fi/administration/organizations/create'
-  );
+  await findHeading();
+  await shouldClickListPageCreateButton({
+    createButtonLabel: 'Lisää uusi organisaatio',
+    expectedPathname: '/fi/administration/organizations/create',
+    history,
+  });
 });
 
 test('should add sort parameter to search query', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  const sortNameButton = getElement('sortNameButton');
-  await user.click(sortNameButton);
-
-  expect(history.location.search).toBe('?sort=-name');
+  await shouldSortListPageTable({
+    columnHeader: 'Nimi',
+    expectedSearch: '?sort=-name',
+    history,
+  });
 });
 
 it('scrolls to organization row and calls history.replace correctly (deletes organizationId from state)', async () => {

@@ -1,7 +1,7 @@
 import {
   configure,
   render,
-  shouldCallModalButtonAction,
+  shouldClickButton,
   shouldRenderDeleteModal,
 } from '../../../../../utils/testUtils';
 import ConfirmDeletePriceGroupModal, {
@@ -33,12 +33,15 @@ test('should call onConfirm', async () => {
   const onConfirm = vi.fn();
   renderComponent({ onConfirm });
 
-  await shouldCallModalButtonAction('Poista asiakasryhmä', onConfirm);
+  await shouldClickButton({
+    buttonLabel: 'Poista asiakasryhmä',
+    onClick: onConfirm,
+  });
 });
 
 test('should call onClose', async () => {
   const onClose = vi.fn();
   renderComponent({ onClose });
 
-  await shouldCallModalButtonAction('Peruuta', onClose);
+  await shouldClickButton({ buttonLabel: 'Peruuta', onClick: onClose });
 });

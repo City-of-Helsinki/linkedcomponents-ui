@@ -8,9 +8,11 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
-  userEvent,
+  shouldApplyExpectedMetaData,
+  shouldClickListPageCreateButton,
+  shouldRenderListPage,
+  shouldSortListPageTable,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
@@ -56,57 +58,48 @@ const findHeading = () => {
   return screen.findByRole('heading', { name: 'Asiakasryhmät' });
 };
 
-const getElement = (
-  key: 'breadcrumb' | 'searchInput' | 'sortByDescriptionButton' | 'table'
-) => {
-  switch (key) {
-    case 'breadcrumb':
-      return screen.getByRole('navigation', { name: 'Murupolku' });
-    case 'searchInput':
-      return screen.getByRole('combobox', { name: 'Hae asiakasryhmiä' });
-    case 'sortByDescriptionButton':
-      return screen.getByRole('button', { name: 'Kuvaus' });
-    case 'table':
-      return screen.getByRole('table', {
-        name: 'Asiakasryhmät, järjestys Kuvaus, nouseva',
-      });
-  }
-};
-
 test('should render price groups page', async () => {
   renderComponent();
 
-  await findHeading();
-  await loadingSpinnerIsNotInDocument();
-  getElement('breadcrumb');
-  getElement('searchInput');
-  getElement('table');
+  await shouldRenderListPage({
+    createButtonLabel: 'Lisää asiakasryhmä',
+    heading: 'Asiakasryhmät',
+    searchInputLabel: 'Hae asiakasryhmiä',
+    tableCaption: 'Asiakasryhmät, järjestys Kuvaus, nouseva',
+  });
 });
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Asiakasryhmät - Linked Events';
-  const pageDescription =
-    'Asiakasryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin asiakasryhmiä.';
-  const pageKeywords =
-    'asiakasryhmä, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
+  await shouldApplyExpectedMetaData({
+    expectedDescription:
+      'Asiakasryhmien listaus. Selaa, suodata ja muokkaa Linked Eventsin asiakasryhmiä.',
+    expectedKeywords:
+      'asiakasryhmä, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Asiakasryhmät - Linked Events',
+  });
+});
 
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+test('should open create price group page', async () => {
+  const { history } = renderComponent();
+
+  await findHeading();
+  await shouldClickListPageCreateButton({
+    createButtonLabel: 'Lisää asiakasryhmä',
+    expectedPathname: '/fi/administration/price-groups/create',
+    history,
+  });
 });
 
 test('should add sort parameter to search query', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
-
-  const sortByDescriptionButton = getElement('sortByDescriptionButton');
-  await user.click(sortByDescriptionButton);
-
-  expect(history.location.search).toBe('?sort=-description');
+  await shouldSortListPageTable({
+    columnHeader: 'Kuvaus',
+    expectedSearch: '?sort=-description',
+    history,
+  });
 });
 
 it('scrolls to price group id and calls history.replace correctly (deletes priceGroupId from state)', async () => {

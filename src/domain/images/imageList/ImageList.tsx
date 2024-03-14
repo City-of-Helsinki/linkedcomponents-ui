@@ -99,7 +99,7 @@ const ImageListContainer: React.FC = () => {
   const { count, onSearchSubmit, ...listProps } = useCommonListProps({
     defaultSort: DEFAULT_IMAGE_SORT,
     listId: imageListId,
-    meta: imagesData?.images.meta,
+    meta: imagesData?.images?.meta,
     pageSize: IMAGES_PAGE_SIZE,
   });
 
