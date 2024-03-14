@@ -7,9 +7,10 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
-  userEvent,
+  shouldApplyExpectedMetaData,
+  shouldClickListPageCreateButton,
+  shouldRenderListPage,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
@@ -37,35 +38,16 @@ const mocks = [
   mockedUserResponse,
 ];
 
-const findElement = (key: 'createRegistrationButton') => {
-  switch (key) {
-    case 'createRegistrationButton':
-      return screen.findByRole('button', { name: /lisää uusi/i });
-  }
-};
-
-const getElement = (key: 'createRegistrationButton' | 'table') => {
-  switch (key) {
-    case 'createRegistrationButton':
-      return screen.getByRole('button', { name: /lisää uusi/i });
-    case 'table':
-      return screen.getByRole('table', {
-        name: /ilmoittautumiset, järjestys viimeksi muokattu, laskeva/i,
-        hidden: true,
-      });
-  }
-};
-
 test('should show correct title, description and keywords', async () => {
-  const pageTitle = 'Ilmoittautuminen - Linked Events';
-  const pageDescription =
-    'Ilmoittautumisten listaus. Selaa, suodata ja muokkaa ilmoittautumisiasi.';
-  const pageKeywords =
-    'ilmoittautuminen, lista, muokkaa, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   render(<RegistrationsPage />, { mocks });
 
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await shouldApplyExpectedMetaData({
+    expectedDescription:
+      'Ilmoittautumisten listaus. Selaa, suodata ja muokkaa ilmoittautumisiasi.',
+    expectedKeywords:
+      'ilmoittautuminen, lista, muokkaa, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Ilmoittautuminen - Linked Events',
+  });
 });
 
 test('should render registrations page', async () => {
@@ -73,26 +55,24 @@ test('should render registrations page', async () => {
 
   await loadingSpinnerIsNotInDocument(10000);
 
-  await findElement('createRegistrationButton');
-  getElement('table');
+  await shouldRenderListPage({
+    createButtonLabel: 'Lisää uusi',
+    heading: 'Ilmoittautuminen',
+    searchInputLabel: 'Hae ilmoittautumisia',
+    tableCaption: /ilmoittautumiset, järjestys viimeksi muokattu, laskeva/i,
+  });
 });
 
 test('should open create registration page', async () => {
-  const user = userEvent.setup();
   const { history } = render(<RegistrationsPage />, {
     mocks,
   });
 
-  await loadingSpinnerIsNotInDocument(10000);
-
-  const createRegistrationButton = await findElement(
-    'createRegistrationButton'
-  );
-  await user.click(createRegistrationButton);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/registrations/create')
-  );
+  await shouldClickListPageCreateButton({
+    createButtonLabel: 'Lisää uusi',
+    expectedPathname: '/fi/registrations/create',
+    history,
+  });
 });
 
 it('scrolls to registration table row and calls history.replace correctly (deletes registrationId from state)', async () => {

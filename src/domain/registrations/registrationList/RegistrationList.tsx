@@ -111,7 +111,7 @@ const RegistrationListContainer: React.FC = () => {
   const { count, ...listProps } = useCommonListProps({
     defaultSort: DEFAULT_REGISTRATION_SORT,
     listId: registrationListId,
-    meta: registrationsData?.registrations.meta,
+    meta: registrationsData?.registrations?.meta,
     pageSize: REGISTRATIONS_PAGE_SIZE,
   });
 

@@ -1,5 +1,4 @@
 import { IconPen } from 'hds-react';
-import React from 'react';
 
 import {
   arrowDownKeyPressHelper,
@@ -7,6 +6,7 @@ import {
   configure,
   enterKeyPressHelper,
   escKeyPressHelper,
+  openDropdownMenu,
   render,
   screen,
   tabKeyPressHelper,
@@ -24,33 +24,11 @@ const renderMenuDropdown = (props: MenuDropdownProps) => {
   const getItemAtIndex = (index: number) =>
     screen.getByRole('button', { name: items[index].label });
 
-  return {
-    getItemAtIndex,
-    getElement,
-  };
+  return { getItemAtIndex };
 };
 
-const getElement = (key: 'toggleButton') => {
-  switch (key) {
-    case 'toggleButton':
-      return screen.getByRole('button', { name: defaultProps.buttonLabel });
-  }
-};
-
-const findElement = (key: 'menu') => {
-  switch (key) {
-    case 'menu':
-      return screen.findByRole('region', { name: defaultProps.buttonLabel });
-  }
-};
-
-const openMenu = async () => {
-  const user = userEvent.setup();
-  const toggleButton = getElement('toggleButton');
-  await user.click(toggleButton);
-
-  await findElement('menu');
-};
+const findMenu = () =>
+  screen.findByRole('region', { name: defaultProps.buttonLabel });
 
 const menuShouldBeClosed = async () =>
   await waitFor(() =>
@@ -76,7 +54,7 @@ const defaultProps: MenuDropdownProps = {
 test('changes focused item correctly', async () => {
   const { getItemAtIndex } = renderMenuDropdown(defaultProps);
 
-  await openMenu();
+  await openDropdownMenu(defaultProps.buttonLabel);
 
   arrowDownKeyPressHelper();
   expect(getItemAtIndex(0).className).toStrictEqual(
@@ -108,7 +86,7 @@ test('changes focused item correctly', async () => {
 test('should call onClick when pressing enter key', async () => {
   renderMenuDropdown(defaultProps);
 
-  await openMenu();
+  await openDropdownMenu(defaultProps.buttonLabel);
 
   arrowDownKeyPressHelper();
 
@@ -121,7 +99,7 @@ test('calls onClick callback correctly', async () => {
   const user = userEvent.setup();
   const { getItemAtIndex } = renderMenuDropdown(defaultProps);
 
-  await openMenu();
+  await openDropdownMenu(defaultProps.buttonLabel);
 
   for (const [index, item] of items.entries()) {
     await user.click(getItemAtIndex(index));
@@ -132,7 +110,7 @@ test('calls onClick callback correctly', async () => {
 test('menu should be closed with esc key', async () => {
   renderMenuDropdown(defaultProps);
 
-  await openMenu();
+  await openDropdownMenu(defaultProps.buttonLabel);
   escKeyPressHelper();
   await menuShouldBeClosed();
 });
@@ -140,25 +118,25 @@ test('menu should be closed with esc key', async () => {
 test('menu should be open with arrow up/down key', async () => {
   renderMenuDropdown(defaultProps);
 
-  await openMenu();
+  await openDropdownMenu(defaultProps.buttonLabel);
 
   escKeyPressHelper();
   await menuShouldBeClosed();
 
   arrowDownKeyPressHelper();
-  await findElement('menu');
+  await findMenu();
 
   escKeyPressHelper();
   await menuShouldBeClosed();
 
   arrowUpKeyPressHelper();
-  await findElement('menu');
+  await findMenu();
 });
 
 test('menu should be closed with teb key', async () => {
   renderMenuDropdown(defaultProps);
 
-  await openMenu();
+  await openDropdownMenu(defaultProps.buttonLabel);
 
   tabKeyPressHelper();
   await menuShouldBeClosed();

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   fakeSignup,
   fakeSignupGroup,
@@ -8,7 +6,7 @@ import {
   configure,
   render,
   screen,
-  userEvent,
+  shouldClickButton,
 } from '../../../../../utils/testUtils';
 import { registration } from '../../../../registration/__mocks__/registration';
 import { signup } from '../../../__mocks__/signup';
@@ -39,24 +37,19 @@ const renderComponent = (
 
 test('should call onConfirm', async () => {
   const onConfirm = vi.fn();
-  const user = userEvent.setup();
   renderComponent({ onConfirm });
 
-  const cancelEventButton = screen.getByRole('button', {
-    name: 'Peruuta ilmoittautuminen',
+  await shouldClickButton({
+    buttonLabel: 'Peruuta ilmoittautuminen',
+    onClick: onConfirm,
   });
-  await user.click(cancelEventButton);
-  expect(onConfirm).toBeCalled();
 });
 
 test('should call onClose', async () => {
   const onClose = vi.fn();
-  const user = userEvent.setup();
   renderComponent({ onClose });
 
-  const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  await user.click(closeButton);
-  expect(onClose).toBeCalled();
+  await shouldClickButton({ buttonLabel: 'Peruuta', onClick: onClose });
 });
 
 test('should should list of signup name if signup is defined', async () => {

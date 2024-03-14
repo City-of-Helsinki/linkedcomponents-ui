@@ -107,7 +107,7 @@ const KeywordSetListContainer: React.FC = () => {
   const { count, onSearchSubmit, ...listProps } = useCommonListProps({
     defaultSort: DEFAULT_KEYWORD_SET_SORT,
     listId: keywordSetListId,
-    meta: keywordSetsData?.keywordSets.meta,
+    meta: keywordSetsData?.keywordSets?.meta,
     pageSize: KEYWORD_SETS_PAGE_SIZE,
   });
 

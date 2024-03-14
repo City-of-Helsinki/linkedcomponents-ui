@@ -4,8 +4,10 @@ import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   configure,
   CustomRenderOptions,
+  openDropdownMenu,
   render,
   screen,
+  shouldToggleDropdownMenu,
   userEvent,
   waitFor,
   within,
@@ -51,54 +53,25 @@ const renderComponent = (
     routes: [route],
   });
 
-const findElement = (key: 'deleteButton') => {
-  switch (key) {
-    case 'deleteButton':
-      return screen.findByRole('button', { name: /poista organisaatio/i });
-  }
-};
+const findDeleteButton = () =>
+  screen.findByRole('button', { name: /poista organisaatio/i });
 
-const getElement = (key: 'editButton' | 'menu' | 'toggle') => {
-  switch (key) {
-    case 'editButton':
-      return screen.getByRole('button', { name: /muokkaa organisaatiota/i });
-    case 'menu':
-      return screen.getByRole('region', { name: /valinnat/i });
-    case 'toggle':
-      return screen.getByRole('button', { name: /valinnat/i });
-  }
-};
-
-const openMenu = async () => {
-  const user = userEvent.setup();
-  const toggleButton = getElement('toggle');
-  await user.click(toggleButton);
-  getElement('menu');
-
-  return toggleButton;
-};
+const getEditButton = () =>
+  screen.getByRole('button', { name: /muokkaa organisaatiota/i });
 
 test('should toggle menu by clicking actions button', async () => {
-  const user = userEvent.setup();
   renderComponent();
 
-  const toggleButton = await openMenu();
-  getElement('editButton');
-  await findElement('deleteButton');
-
-  await user.click(toggleButton);
-  expect(
-    screen.queryByRole('region', { name: /valinnat/i })
-  ).not.toBeInTheDocument();
+  await shouldToggleDropdownMenu();
 });
 
 test('should route to edit organization page', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
-  const editButton = getElement('editButton');
+  const editButton = getEditButton();
   await user.click(editButton);
 
   await waitFor(() =>
@@ -116,9 +89,9 @@ test('should delete organization', async () => {
   const user = userEvent.setup();
   renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
-  const deleteButton = await findElement('deleteButton');
+  const deleteButton = await findDeleteButton();
   await user.click(deleteButton);
 
   const withinModal = within(screen.getByRole('dialog'));

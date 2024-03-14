@@ -15,13 +15,13 @@ import {
   organizationName,
 } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
-import { mockedUserResponse } from '../../user/__mocks__/user';
+import { mockedFinancialAdminUserResponse } from '../../user/__mocks__/user';
 import {
-  mockedCreatePlaceResponse,
-  mockedInvalidCreatePlaceResponse,
-  placeValues,
-} from '../__mocks__/createPlacePage';
-import CreatePlacePage from '../CreatePlacePage';
+  mockedCreatePriceGroupResponse,
+  mockedInvalidCreatePriceGroupResponse,
+  priceGroupValues,
+} from '../__mocks__/createPriceGroupPage';
+import CreatePriceGroupPage from '../CreatePriceGroupPage';
 
 configure({ defaultHidden: true });
 
@@ -36,25 +36,22 @@ beforeEach(() => {
 const defaultMocks = [
   mockedOrganizationResponse,
   mockedOrganizationAncestorsResponse,
-  mockedUserResponse,
+  mockedFinancialAdminUserResponse,
 ];
 
 const renderComponent = (mocks: MockedResponse[] = []) =>
-  render(<CreatePlacePage />, { mocks });
+  render(<CreatePriceGroupPage />, { mocks });
 
 const getElement = (
   key:
-    | 'nameInput'
-    | 'originIdInput'
+    | 'descriptionInput'
     | 'publisherInput'
     | 'publisherToggleButton'
     | 'saveButton'
 ) => {
   switch (key) {
-    case 'nameInput':
-      return screen.getByLabelText(/nimi \(suomeksi\)/i);
-    case 'originIdInput':
-      return screen.getByLabelText(/lähdetunniste/i);
+    case 'descriptionInput':
+      return screen.getByLabelText(/kuvaus \(suomeksi\)/i);
     case 'publisherInput':
       return screen.getByRole('combobox', { name: /julkaisija/i });
     case 'publisherToggleButton':
@@ -66,26 +63,23 @@ const getElement = (
 
 const fillInputValues = async () => {
   const user = userEvent.setup();
-  const originIdInput = getElement('originIdInput');
-  await user.type(originIdInput, placeValues.originId);
-
   const publisherToggleButton = getElement('publisherToggleButton');
   await user.click(publisherToggleButton);
   const option = await screen.findByRole('option', { name: organizationName });
   await user.click(option);
 
-  const nameInput = getElement('nameInput');
-  await user.type(nameInput, placeValues.name);
+  const descriptionInput = getElement('descriptionInput');
+  await user.type(descriptionInput, priceGroupValues.description);
 };
 
 test('applies expected metadata', async () => {
   renderComponent(defaultMocks);
 
   await shouldApplyExpectedMetaData({
-    expectedDescription: 'Lisää uusi paikka Linked Eventsiin.',
+    expectedDescription: 'Lisää uusi asiakasryhmä Linked Eventsiin.',
     expectedKeywords:
-      'lisää, uusi, paikka, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
-    expectedTitle: 'Lisää paikka - Linked Events',
+      'lisää, uusi, asiakasryhmä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Lisää asiakasryhmä - Linked Events',
   });
 });
 
@@ -96,23 +90,18 @@ test('should focus to first validation error when trying to save new place', asy
 
   await loadingSpinnerIsNotInDocument();
 
-  const originIdInput = getElement('originIdInput');
   const publisherToggleButton = getElement('publisherToggleButton');
   const saveButton = getElement('saveButton');
 
   await user.click(saveButton);
-  await waitFor(() => expect(originIdInput).toHaveFocus());
-
-  await user.type(originIdInput, placeValues.originId);
-  await user.click(saveButton);
   await waitFor(() => expect(publisherToggleButton).toHaveFocus());
 });
 
-test('should move to places page after creating new place', async () => {
+test('should move to price groups page after creating new price group', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
-    mockedCreatePlaceResponse,
+    mockedCreatePriceGroupResponse,
   ]);
 
   await loadingSpinnerIsNotInDocument();
@@ -123,13 +112,13 @@ test('should move to places page after creating new place', async () => {
   await user.click(saveButton);
 
   await waitFor(() =>
-    expect(history.location.pathname).toBe(`/fi/administration/places`)
+    expect(history.location.pathname).toBe(`/fi/administration/price-groups`)
   );
 });
 
 test('should show server errors', async () => {
   const user = userEvent.setup();
-  renderComponent([...defaultMocks, mockedInvalidCreatePlaceResponse]);
+  renderComponent([...defaultMocks, mockedInvalidCreatePriceGroupResponse]);
 
   await loadingSpinnerIsNotInDocument();
 

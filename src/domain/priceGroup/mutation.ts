@@ -2,6 +2,18 @@
 import gql from 'graphql-tag';
 
 export const MUTATION_PRICE_GROUP = gql`
+  mutation CreatePriceGroup($input: CreatePriceGroupMutationInput!) {
+    createPriceGroup(input: $input)
+      @rest(
+        type: "PriceGroup"
+        path: "/price_group/"
+        method: "POST"
+        bodyKey: "input"
+      ) {
+      ...priceGroupFields
+    }
+  }
+
   mutation DeletePriceGroup($id: Int!) {
     deletePriceGroup(id: $id)
       @rest(
