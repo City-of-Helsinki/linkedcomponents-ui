@@ -4,7 +4,7 @@ import { reportError } from '../domain/app/sentry/utils';
 import useUser from '../domain/user/hooks/useUser';
 import { MutationCallbacks } from '../types';
 
-type UseHandleErrorState<PayloadType, ObjectType> = {
+type UseHandleErrorState<PayloadType, ObjectType, CallbackDataType = string> = {
   handleError: ({
     callbacks,
     error,
@@ -13,7 +13,7 @@ type UseHandleErrorState<PayloadType, ObjectType> = {
     payload,
     savingFinished,
   }: {
-    callbacks?: MutationCallbacks;
+    callbacks?: MutationCallbacks<CallbackDataType>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;
@@ -23,10 +23,11 @@ type UseHandleErrorState<PayloadType, ObjectType> = {
   }) => void;
 };
 
-function useHandleError<PayloadType, ObjectType>(): UseHandleErrorState<
+function useHandleError<
   PayloadType,
-  ObjectType
-> {
+  ObjectType,
+  CallbackDataType = string,
+>(): UseHandleErrorState<PayloadType, ObjectType, CallbackDataType> {
   const { user } = useUser();
   const location = useLocation();
 
@@ -38,7 +39,7 @@ function useHandleError<PayloadType, ObjectType>(): UseHandleErrorState<
     payload,
     savingFinished,
   }: {
-    callbacks?: MutationCallbacks;
+    callbacks?: MutationCallbacks<CallbackDataType>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
     message: string;

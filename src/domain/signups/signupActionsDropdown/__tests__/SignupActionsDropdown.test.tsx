@@ -7,9 +7,11 @@ import stripLanguageFromPath from '../../../../utils/stripLanguageFromPath';
 import {
   configure,
   fireEvent,
+  openDropdownMenu,
   pasteToTextEditor,
   render,
   screen,
+  shouldToggleDropdownMenu,
   userEvent,
   waitFor,
   within,
@@ -75,47 +77,27 @@ const renderComponent = ({
     }
   );
 
-const getElement = (
-  key: 'cancel' | 'edit' | 'menu' | 'sendMessage' | 'toggle'
-) => {
+const getElement = (key: 'cancel' | 'edit' | 'sendMessage') => {
   switch (key) {
     case 'cancel':
       return screen.getByRole('button', { name: 'Peruuta osallistuminen' });
     case 'edit':
       return screen.getByRole('button', { name: 'Muokkaa tietoja' });
-    case 'menu':
-      return screen.getByRole('region', { name: /valinnat/i });
     case 'sendMessage':
       return screen.getByRole('button', { name: 'Lähetä viesti' });
-    case 'toggle':
-      return screen.getByRole('button', { name: /valinnat/i });
   }
 };
 
-const openMenu = async () => {
-  const user = userEvent.setup();
-  const toggleButton = getElement('toggle');
-  await user.click(toggleButton);
-  getElement('menu');
-
-  return toggleButton;
-};
-
 test('should toggle menu by clicking actions button', async () => {
-  const user = userEvent.setup();
   renderComponent();
 
-  const toggleButton = await openMenu();
-  await user.click(toggleButton);
-  expect(
-    screen.queryByRole('region', { name: /valinnat/i })
-  ).not.toBeInTheDocument();
+  await shouldToggleDropdownMenu();
 });
 
 test('should render correct buttons', async () => {
   renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
   const enabledButtons = [getElement('cancel'), getElement('edit')];
   enabledButtons.forEach((button) => expect(button).toBeEnabled());
@@ -125,7 +107,7 @@ test("should route to edit signup page when clicking edit button and signup does
   const user = userEvent.setup();
   const { history } = renderComponent({ props: { signup } });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const editButton = getElement('edit');
   await user.click(editButton);
@@ -143,7 +125,7 @@ test('should route to edit signup group page when clicking edit button and signu
     props: { signup: signupWithGroup },
   });
 
-  await openMenu();
+  await openDropdownMenu();
 
   const editButton = getElement('edit');
   await user.click(editButton);
@@ -166,7 +148,7 @@ test('should send message to participant when clicking send message button', asy
   const user = userEvent.setup();
   renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
   const sendMessageButton = getElement('sendMessage');
   await user.click(sendMessageButton);
@@ -197,7 +179,7 @@ test('should try to cancel signup when clicking cancel button', async () => {
   const user = userEvent.setup();
   renderComponent();
 
-  await openMenu();
+  await openDropdownMenu();
 
   const cancelButton = getElement('cancel');
   await user.click(cancelButton);

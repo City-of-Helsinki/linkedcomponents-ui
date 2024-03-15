@@ -6,7 +6,10 @@ import {
   fakePriceGroups,
 } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
-import { PRICE_GROUPS_PAGE_SIZE, TEST_PRICE_GROUP_ID } from '../constants';
+import {
+  PRICE_GROUPS_PAGE_SIZE_LARGE,
+  TEST_PRICE_GROUP_ID,
+} from '../constants';
 
 const priceGroupDescription = 'Price group name';
 
@@ -21,7 +24,7 @@ const defaultPriceGroupsResponse = {
 };
 const defaultPriceGroupsVariables = {
   createPath: undefined,
-  pageSize: PRICE_GROUPS_PAGE_SIZE,
+  pageSize: PRICE_GROUPS_PAGE_SIZE_LARGE,
   publisher: ['none'],
 };
 const mockedDefaultPriceGroupsResponse: MockedResponse = {

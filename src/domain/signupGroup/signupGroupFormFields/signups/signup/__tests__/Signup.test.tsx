@@ -104,7 +104,7 @@ test('price group button should be disabled in editing mode', async () => {
   });
   await loadingSpinnerIsNotInDocument();
 
-  expect(screen.getByRole('button', { name: 'Hintaryhmä *' })).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'Asiakasryhmä *' })).toBeDisabled();
 });
 
 test('should display all mandatory fields', () => {

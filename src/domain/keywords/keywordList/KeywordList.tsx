@@ -102,7 +102,7 @@ const KeywordListContainer: React.FC = () => {
   const { count, onSearchSubmit, ...listProps } = useCommonListProps({
     defaultSort: DEFAULT_KEYWORD_SORT,
     listId: keywordListId,
-    meta: keywordsData?.keywords.meta,
+    meta: keywordsData?.keywords?.meta,
     pageSize: KEYWORDS_PAGE_SIZE,
   });
 

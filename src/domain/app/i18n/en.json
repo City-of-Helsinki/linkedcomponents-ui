@@ -38,6 +38,8 @@
     "noRightsUpdateOrganizationLabel": "No permissions to edit organizations.",
     "noRightsUpdatePlace": "You do not have permission to edit places.",
     "noRightsUpdatePlaceLabel": "No permissions to edit places.",
+    "noRightsUpdatePriceGroup": "You do not have permission to edit customer groups.",
+    "noRightsUpdatePriceGroupLabel": "No permissions to edit customer groups.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
     "noRightsUpdateRegistrationLabel": "No permissions to edit registrations",
     "noRightsUpdateSignup": "You do not have permission to edit participants.",
@@ -76,6 +78,7 @@
     "buttonAddKeywordSet": "Add keyword set",
     "buttonAddOrganization": "Add new organization",
     "buttonAddPlace": "Add place",
+    "buttonAddPriceGroup": "Add customer group",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
     "cancel": "Undo",
@@ -225,6 +228,7 @@
     "multiSelectDropdown": {
       "searchPlaceholder": "Search"
     },
+    "no": "No",
     "noResults": "No results",
     "numberInput": {
       "buttonDecrease": "Subtract",
@@ -254,7 +258,8 @@
       "minutsLabel": "minutes"
     },
     "total": "In total",
-    "warning": "Warning!"
+    "warning": "Warning!",
+    "yes": "Yes"
   },
   "createEventPage": {
     "pageTitle": {
@@ -293,6 +298,11 @@
     "pageTitle": "Add place",
     "title": "Add place"
   },
+  "createPriceGroupPage": {
+    "pageDescription": "Add new customer group to Linked Events.",
+    "pageTitle": "Add customer group",
+    "title": "Add customer group"
+  },
   "createRegistrationPage": {
     "pageTitle": "New registration",
     "title": "New registration"
@@ -327,6 +337,11 @@
   "editPlacePage": {
     "pageTitle": "Edit place",
     "title": "Edit place"
+  },
+  "editPriceGroupPage": {
+    "pageDescription": "Edit existing customer group in Linked Events.",
+    "pageTitle": "Edit customer group",
+    "title": "Edit customer group"
   },
   "editRegistrationPage": {
     "pageTitle": "Edit registration",
@@ -1438,6 +1453,7 @@
     "permission": "permission",
     "place": "place",
     "platform": "platform",
+    "priceGroup": "customer group",
     "questions": "questions",
     "registration": "registration",
     "report": "report",
@@ -1715,6 +1731,50 @@
     "warningNoRightsToCreate": "You have insufficient rights to create places.",
     "warningNoRightsToEdit": "You have insufficient rights to edit this place."
   },
+  "priceGroup": {
+    "deletePriceGroupModal": {
+      "buttonDelete": "Delete customer group",
+      "text": "This action will permanently remove the customer group.",
+      "title": "Confirm customer group deletion"
+    },
+    "form": {
+      "buttonDelete": "Delete customer group",
+      "labelDescription": "Description",
+      "labelId": "ID",
+      "labelIsFree": "Free",
+      "labelPublisher": "Publisher",
+      "notificationPriceGroupDeleted": "The customer group has been deleted",
+      "notificationPriceGroupUpdated": "The customer group has been saved",
+      "notificationTitleCannotEdit": "The customer group cannot be edited"
+    }
+  },
+  "priceGroupsPage": {
+    "actionButtons": {
+      "edit": "Edit customer group"
+    },
+    "count": "{{count}} customer group",
+    "count_other": "{{count}} customer groups",
+    "labelSearch": "Search customer groups",
+    "pageDescription": "Customer group listing. Browse, filter and edit Linked Events customer groups.",
+    "pageTitle": "Customer groups",
+    "priceGroupsTableCaption": "Customer groups, sorted by {{sort}}",
+    "priceGroupsTableColumns": {
+      "description": "Description",
+      "id": "ID",
+      "isFree": "Is free",
+      "publisher": "Publisher"
+    },
+    "sortOptions": {
+      "description": "Description, ascending",
+      "descriptionDesc": "Description, descending",
+      "id": "Id, ascending",
+      "idDesc": "Id, descending"
+    },
+    "title": "Customer groups",
+    "warningNoRightsToCreate": "You have insufficient rights to create customer groups.",
+    "warningNoRightsToEdit": "You have insufficient rights to edit this customer group.",
+    "warningNoRightsToEditDefaultPriceGroup": "The customer group is the default customer group. The default customer groups cannot be edited."
+  },
   "registration": {
     "deleteRegistrationModal": {
       "buttonDelete": "Delete registration",
@@ -1943,7 +2003,7 @@
         "labelFirstName": "First name",
         "labelLastName": "Last name",
         "labelPhoneNumber": "Telephone number",
-        "labelPriceGroup": "Price group",
+        "labelPriceGroup": "Customer group",
         "labelStreetAddress": "Street address",
         "labelZipcode": "Postcode",
         "placeholderCity": "Enter city",
@@ -1951,7 +2011,7 @@
         "placeholderFirstName": "Enter the registrant's first name",
         "placeholderLastName": "Enter the registrant's last name",
         "placeholderPhoneNumber": "+358 44 1234 567",
-        "placeholderPriceGroup": "Select price group",
+        "placeholderPriceGroup": "Select customer group",
         "placeholderStreetAddress": "Enter a street address",
         "placeholderZipcode": "Enter postcode",
         "signupDefaultTitle": "Participant {{index}}",

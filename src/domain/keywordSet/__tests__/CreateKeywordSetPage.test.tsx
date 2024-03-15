@@ -12,9 +12,9 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
@@ -99,15 +99,14 @@ const fillInputValues = async () => {
 };
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Lisää avainsanaryhmä - Linked Events';
-  const pageDescription = 'Lisää uusi avainsanaryhmä Linked Eventsiin.';
-  const pageKeywords =
-    'lisää, uusi, avainsana, ryhmä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
-  await loadingSpinnerIsNotInDocument();
 
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
+  await shouldApplyExpectedMetaData({
+    expectedDescription: 'Lisää uusi avainsanaryhmä Linked Eventsiin.',
+    expectedKeywords:
+      'lisää, uusi, avainsana, ryhmä, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Lisää avainsanaryhmä - Linked Events',
+  });
 });
 
 test('should focus to first validation error when trying to save new keyword set', async () => {

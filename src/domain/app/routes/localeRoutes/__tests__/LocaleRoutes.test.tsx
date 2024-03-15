@@ -89,6 +89,15 @@ import {
 } from '../../../../place/__mocks__/editPlacePage';
 import { mockedPlacesResponse } from '../../../../places/__mocks__/placesPage';
 import {
+  mockedPriceGroupResponse,
+  priceGroup,
+} from '../../../../priceGroup/__mocks__/editPriceGoupPage';
+import {
+  mockedDefaultPriceGroupsResponse,
+  mockedPublisherPriceGroupsResponse,
+} from '../../../../priceGroup/__mocks__/priceGroups';
+import { mockedPriceGroupsResponse } from '../../../../priceGroups/__mocks__/priceGroupsPage';
+import {
   mockedRegistrationResponse,
   registrationId,
 } from '../../../../registration/__mocks__/editRegistrationPage';
@@ -159,6 +168,10 @@ const mocks = [
   mockedCreateSeatsReservationResponse,
   mockedRegistrationsResponse,
   mockedEventResponse,
+  mockedDefaultPriceGroupsResponse,
+  mockedPublisherPriceGroupsResponse,
+  mockedPriceGroupResponse,
+  mockedPriceGroupsResponse,
   mockedSignupResponse,
   mockedSignupGroupResponse,
   mockedUserResponse,
@@ -560,6 +573,39 @@ it('should render edit place page', async () => {
     history,
     pageTitle: 'Muokkaa paikkaa - Linked Events',
     pathname: `/fi/administration/places/edit/${id}`,
+  });
+});
+
+it('should render price groups page', async () => {
+  const { history } = await renderRoute(`${ROUTES.PRICE_GROUPS}`);
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Asiakasryhmät - Linked Events',
+    pathname: '/fi/administration/price-groups',
+  });
+});
+
+it('should render create price group page', async () => {
+  const { history } = await renderRoute(ROUTES.CREATE_PRICE_GROUP);
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Lisää asiakasryhmä - Linked Events',
+    pathname: '/fi/administration/price-groups/create',
+  });
+});
+
+it('should render edit price group page', async () => {
+  const id = priceGroup.id.toString();
+  const { history } = await renderRoute(
+    `${ROUTES.EDIT_PRICE_GROUP.replace(':id', id)}`
+  );
+
+  await isPageRendered({
+    history,
+    pageTitle: 'Muokkaa asiakasryhmää - Linked Events',
+    pathname: `/fi/administration/price-groups/edit/${id}`,
   });
 });
 

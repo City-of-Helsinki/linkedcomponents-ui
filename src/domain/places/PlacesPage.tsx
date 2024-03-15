@@ -8,13 +8,14 @@ import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
+import adminListPageStyles from '../admin/layout/adminListPage.module.scss';
+import AdminListPageWrapper from '../admin/layout/adminListPageWrapper/AdminListPageWrapper';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { PLACE_ACTIONS } from '../place/constants';
 import PlaceAuthenticationNotification from '../place/placeAuthenticationNotification/PlaceAuthenticationNotification';
 import useUser from '../user/hooks/useUser';
 import PlaceList from './placeList/PlaceList';
-import styles from './placesPage.module.scss';
 
 const PlacesPage: React.FC = () => {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ const PlacesPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.placesPage}>
+    <AdminListPageWrapper>
       <TitleRow
         breadcrumb={
           <Breadcrumb
@@ -52,12 +53,12 @@ const PlacesPage: React.FC = () => {
 
       <PlaceAuthenticationNotification
         action={PLACE_ACTIONS.CREATE}
-        className={styles.notification}
+        className={adminListPageStyles.notification}
         publisher=""
       />
 
       <PlaceList />
-    </div>
+    </AdminListPageWrapper>
   );
 };
 

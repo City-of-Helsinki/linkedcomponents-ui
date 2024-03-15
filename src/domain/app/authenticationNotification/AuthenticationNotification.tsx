@@ -21,6 +21,7 @@ export type AdminType =
   | 'admin'
   | 'any'
   | 'external'
+  | 'financialAdmin'
   | 'registrationAdmin'
   | 'substituteUser';
 
@@ -68,6 +69,10 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   const { authenticated } = useAuth();
   const { user } = useUser();
   const adminOrganizations = getValue(user?.adminOrganizations, []);
+  const financialAdminOrganizations = getValue(
+    user?.financialAdminOrganizations,
+    []
+  );
   const registrationAdminOrganizations = getValue(
     user?.registrationAdminOrganizations,
     []
@@ -87,6 +92,13 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
     if (
       requiredOrganizationType.includes('admin') &&
       adminOrganizations.length
+    ) {
+      return true;
+    }
+
+    if (
+      requiredOrganizationType.includes('financialAdmin') &&
+      financialAdminOrganizations.length
     ) {
       return true;
     }

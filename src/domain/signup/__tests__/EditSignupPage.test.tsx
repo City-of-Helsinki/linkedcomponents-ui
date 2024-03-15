@@ -7,6 +7,7 @@ import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   fireEvent,
+  openDropdownMenu,
   pasteToTextEditor,
   renderWithRoute,
   screen,
@@ -54,15 +55,6 @@ afterEach(() => {
 beforeEach(() => {
   mockAuthenticatedLoginState();
 });
-
-const openMenu = async () => {
-  const user = userEvent.setup();
-  const toggleButton = getSignupFormElement('toggle');
-  await user.click(toggleButton);
-  const menu = getSignupFormElement('menu');
-
-  return { menu, toggleButton };
-};
 
 const defaultMocks = [
   mockedSignupResponse,
@@ -190,7 +182,7 @@ test('should send message to participant', async () => {
   renderComponent([...defaultMocks, mockedSendMessageResponse]);
 
   await findFirstNameInputs();
-  const { menu } = await openMenu();
+  const { menu } = await openDropdownMenu();
 
   const sendMessageButton = await within(menu).findByRole('button', {
     name: 'Lähetä viesti',

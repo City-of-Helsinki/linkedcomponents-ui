@@ -1,10 +1,8 @@
-import React from 'react';
-
 import {
   configure,
   render,
-  screen,
-  userEvent,
+  shouldClickButton,
+  shouldRenderDeleteModal,
 } from '../../../../../utils/testUtils';
 import ConfirmDeleteKeywordModal, {
   ConfirmDeleteKeywordModalProps,
@@ -24,30 +22,27 @@ const renderComponent = (props?: Partial<ConfirmDeleteKeywordModalProps>) =>
 
 test('should render component', async () => {
   renderComponent();
-  screen.getByRole('heading', { name: 'Varmista avainsanan poistaminen' });
-  screen.getByText('Varoitus!');
-  screen.getByText('Tämä toiminto poistaa avainsanan lopullisesti.');
 
-  screen.getByRole('button', { name: 'Poista avainsana' });
-  screen.getByRole('button', { name: 'Peruuta' });
+  shouldRenderDeleteModal({
+    confirmButtonLabel: 'Poista avainsana',
+    heading: 'Varmista avainsanan poistaminen',
+    text: 'Tämä toiminto poistaa avainsanan lopullisesti.',
+  });
 });
 
 test('should call onConfirm', async () => {
   const onConfirm = vi.fn();
-  const user = userEvent.setup();
   renderComponent({ onConfirm });
 
-  const deleteButton = screen.getByRole('button', { name: 'Poista avainsana' });
-  await user.click(deleteButton);
-  expect(onConfirm).toBeCalled();
+  await shouldClickButton({
+    buttonLabel: 'Poista avainsana',
+    onClick: onConfirm,
+  });
 });
 
 test('should call onClose', async () => {
   const onClose = vi.fn();
-  const user = userEvent.setup();
   renderComponent({ onClose });
 
-  const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  await user.click(closeButton);
-  expect(onClose).toBeCalled();
+  await shouldClickButton({ buttonLabel: 'Peruuta', onClick: onClose });
 });

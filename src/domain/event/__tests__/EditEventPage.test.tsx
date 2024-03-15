@@ -19,6 +19,7 @@ import {
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
+  shouldDeleteInstance,
   userEvent,
   waitFor,
   within,
@@ -264,31 +265,18 @@ test('should delete event', async () => {
     // Request to update event
     mockedDeleteEventResponse,
   ];
-
-  const user = userEvent.setup();
   const { history } = renderComponent(mocks);
 
   await waitLoadingAndFindNameInput();
-  const { menu } = await openMenu();
+  await openMenu();
 
-  const deleteButton = within(menu).getByRole('button', {
-    name: 'Poista tapahtuma',
+  await shouldDeleteInstance({
+    confirmDeleteButtonLabel: 'Poista tapahtuma',
+    deleteButtonLabel: 'Poista tapahtuma',
+    expectedNotificationText: 'Tapahtuma on poistettu',
+    expectedUrl: '/fi/search',
+    history,
   });
-  await user.click(deleteButton);
-
-  const modal = screen.getByRole('dialog', {
-    name: 'Varmista tapahtuman poistaminen',
-  });
-  // Delete event button inside modal
-  const confirmDeleteButton = within(modal).getByRole('button', {
-    name: 'Poista tapahtuma',
-  });
-  await user.click(confirmDeleteButton);
-
-  await waitFor(() => expect(modal).not.toBeInTheDocument(), {
-    timeout: 10000,
-  });
-  expect(history.location.pathname).toBe('/fi/search');
 });
 
 test('should update event', async () => {

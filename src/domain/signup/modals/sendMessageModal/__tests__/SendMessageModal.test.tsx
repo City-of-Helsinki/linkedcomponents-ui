@@ -1,11 +1,10 @@
-import React from 'react';
-
 import {
   configure,
   fireEvent,
   pasteToTextEditor,
   render,
   screen,
+  shouldClickButton,
   userEvent,
 } from '../../../../../utils/testUtils';
 import { signupGroup } from '../../../../signupGroup/__mocks__/editSignupGroupPage';
@@ -125,10 +124,7 @@ test('should call onSendMessage when sending message to a signup group', async (
 
 test('should call onClose', async () => {
   const onClose = vi.fn();
-  const user = userEvent.setup();
   renderComponent({ onClose });
 
-  const closeButton = screen.getByRole('button', { name: 'Peruuta' });
-  await user.click(closeButton);
-  expect(onClose).toBeCalled();
+  await shouldClickButton({ buttonLabel: 'Peruuta', onClick: onClose });
 });

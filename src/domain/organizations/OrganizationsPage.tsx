@@ -8,13 +8,14 @@ import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
 import useLocale from '../../hooks/useLocale';
+import adminListPageStyles from '../admin/layout/adminListPage.module.scss';
+import AdminListPageWrapper from '../admin/layout/adminListPageWrapper/AdminListPageWrapper';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { ORGANIZATION_ACTIONS } from '../organization/constants';
 import OrganizationAuthenticationNotification from '../organization/organizationAuthenticationNotification/OrganizationAuthenticationNotification';
 import useUser from '../user/hooks/useUser';
 import OrganizationList from './organizationList/OrganizationList';
-import styles from './organizations.module.scss';
 
 const OrganizationsPage: React.FC = () => {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ const OrganizationsPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.organizationsPage}>
+    <AdminListPageWrapper>
       <TitleRow
         breadcrumb={
           <Breadcrumb
@@ -52,12 +53,12 @@ const OrganizationsPage: React.FC = () => {
 
       <OrganizationAuthenticationNotification
         action={ORGANIZATION_ACTIONS.CREATE}
-        className={styles.notification}
+        className={adminListPageStyles.notification}
         id=""
       />
 
       <OrganizationList />
-    </div>
+    </AdminListPageWrapper>
   );
 };
 

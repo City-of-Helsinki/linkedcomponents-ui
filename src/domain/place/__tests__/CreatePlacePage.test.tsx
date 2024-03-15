@@ -2,14 +2,13 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
-  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import {
   mockedOrganizationResponse,
@@ -80,17 +79,14 @@ const fillInputValues = async () => {
 };
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Lisää paikka - Linked Events';
-  const pageDescription = 'Lisää uusi paikka Linked Eventsiin.';
-  const pageKeywords =
-    'lisää, uusi, paikka, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent(defaultMocks);
 
-  await loadingSpinnerIsNotInDocument();
-
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
-  await actWait(10);
+  await shouldApplyExpectedMetaData({
+    expectedDescription: 'Lisää uusi paikka Linked Eventsiin.',
+    expectedKeywords:
+      'lisää, uusi, paikka, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Lisää paikka - Linked Events',
+  });
 });
 
 test('should focus to first validation error when trying to save new place', async () => {

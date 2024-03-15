@@ -3,14 +3,13 @@ import { MockedResponse } from '@apollo/client/testing';
 import getValue from '../../../utils/getValue';
 import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
-  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
 } from '../../../utils/testUtils';
 import {
   mockedOrganizationClassesResponse,
@@ -152,17 +151,16 @@ test('shows all fields', async () => {
 });
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Lisää organisaatio - Linked Events';
-  const pageDescription = 'Lisää uusi organisaatio Linked Eventsiin.';
-  const pageKeywords =
-    'lisää, uusi, organisaatio, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent(defaultMocks);
 
-  await loadingSpinnerIsNotInDocument();
+  await shouldApplyExpectedMetaData({
+    expectedDescription: 'Lisää uusi organisaatio Linked Eventsiin.',
+    expectedKeywords:
+      'lisää, uusi, organisaatio, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Lisää organisaatio - Linked Events',
+  });
 
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
-  await actWait(10);
+  await loadingSpinnerIsNotInDocument();
 });
 
 test('should focus to first validation error when trying to save new organization', async () => {

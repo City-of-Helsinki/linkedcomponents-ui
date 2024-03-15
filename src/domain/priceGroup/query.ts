@@ -8,29 +8,13 @@ export const QUERY_PRICE_GROUP = gql`
       ...localisedFields
     }
     isFree
+    publisher
   }
 
-  query PriceGroups(
-    $description: String
-    $isFree: Boolean
-    $page: Int
-    $pageSize: Int
-    $publisher: [String]
-    $createPath: Any
-  ) {
-    priceGroups(
-      description: $description
-      isFree: $isFree
-      page: $page
-      pageSize: $pageSize
-      publisher: $publisher
-    ) @rest(type: "PriceGroupsResponse", pathBuilder: $createPath) {
-      meta {
-        ...metaFields
-      }
-      data {
-        ...priceGroupFields
-      }
+  query PriceGroup($id: ID!) {
+    priceGroup(id: $id)
+      @rest(type: "PriceGroup", path: "/price_group/{args.id}/") {
+      ...priceGroupFields
     }
   }
 `;

@@ -172,7 +172,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
   const { count, onSortChange, ...listProps } = useCommonListProps({
     defaultSort: DEFAULT_EVENT_SORT,
     listId: eventListId,
-    meta: eventsData?.events.meta,
+    meta: eventsData?.events?.meta,
     pageSize: EVENTS_PAGE_SIZE,
   });
 

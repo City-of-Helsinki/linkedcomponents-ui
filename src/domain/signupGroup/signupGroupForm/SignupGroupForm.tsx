@@ -105,7 +105,7 @@ type SignupGroupFormProps = Omit<
   setTouched: (
     touched: FormikTouched<SignupGroupFormFieldsType>,
     shouldValidate?: boolean
-  ) => void;
+  ) => Promise<void | FormikErrors<SignupGroupFormFieldsType>>;
   values: SignupGroupFormFieldsType;
 };
 

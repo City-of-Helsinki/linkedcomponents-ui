@@ -1,16 +1,15 @@
 import { testIds } from '../../../constants';
 import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
-  actWait,
   configure,
   fireEvent,
   loadingSpinnerIsNotInDocument,
   mockFile,
   render,
   screen,
+  shouldApplyExpectedMetaData,
   userEvent,
   waitFor,
-  waitPageMetaDataToBeSet,
   within,
 } from '../../../utils/testUtils';
 import {
@@ -113,16 +112,14 @@ const uploadImageByUrl = async () => {
 };
 
 test('applies expected metadata', async () => {
-  const pageTitle = 'Lisää kuva - Linked Events';
-  const pageDescription = 'Lisää uusi kuva Linked Eventsiin.';
-  const pageKeywords =
-    'lisää, uusi, kuva, muokkaa, lataa, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi';
-
   renderComponent();
-  await loadingSpinnerIsNotInDocument();
 
-  await waitPageMetaDataToBeSet({ pageDescription, pageKeywords, pageTitle });
-  await actWait(10);
+  await shouldApplyExpectedMetaData({
+    expectedDescription: 'Lisää uusi kuva Linked Eventsiin.',
+    expectedKeywords:
+      'lisää, uusi, kuva, muokkaa, lataa, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
+    expectedTitle: 'Lisää kuva - Linked Events',
+  });
 });
 
 test('should scroll to first validation error input field', async () => {

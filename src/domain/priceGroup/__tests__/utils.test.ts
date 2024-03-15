@@ -1,6 +1,28 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable max-len */
+import i18n from 'i18next';
+
 import { PriceGroupsQueryVariables } from '../../../generated/graphql';
+import {
+  fakeOrganization,
+  fakePriceGroup,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
+import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import {
+  PRICE_GROUP_ACTIONS,
+  PRICE_GROUP_FIELDS,
+  TEST_PRICE_GROUP_ID,
+} from '../constants';
 import { PriceGroupOption } from '../types';
-import { priceGroupsPathBuilder, sortPriceGroupOptions } from '../utils';
+import {
+  checkCanUserDoPriceGroupAction,
+  getEditPriceGroupWarning,
+  getFocusableFieldId,
+  getPriceGroupInitialValues,
+  priceGroupsPathBuilder,
+  sortPriceGroupOptions,
+} from '../utils';
 
 describe('priceGroupsPathBuilder function', () => {
   const cases: [PriceGroupsQueryVariables, string][] = [
@@ -10,6 +32,7 @@ describe('priceGroupsPathBuilder function', () => {
     [{ page: 3 }, '/price_group/?page=3'],
     [{ pageSize: 10 }, '/price_group/?page_size=10'],
     [{ publisher: 'test' }, '/price_group/?publisher=test'],
+    [{ sort: 'id' }, '/price_group/?sort=id'],
   ];
 
   it.each(cases)(
@@ -45,4 +68,210 @@ describe('sortPriceGroupOptions function', () => {
       option2,
     ]);
   });
+});
+
+describe('checkCanUserDoPriceGroupAction function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
+  it('should allow correct actions if financialAdminArganizations contains publisher', () => {
+    const user = fakeUser({ financialAdminOrganizations: [publisher] });
+
+    const allowedActions = [
+      PRICE_GROUP_ACTIONS.CREATE,
+      PRICE_GROUP_ACTIONS.DELETE,
+      PRICE_GROUP_ACTIONS.EDIT,
+      PRICE_GROUP_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoPriceGroupAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if organizationAncestors contains any of the financialAdminArganizations', () => {
+    const financialAdminOrganization = 'financialadmin:1';
+    const user = fakeUser({
+      financialAdminOrganizations: [financialAdminOrganization],
+    });
+
+    const allowedActions = [
+      PRICE_GROUP_ACTIONS.CREATE,
+      PRICE_GROUP_ACTIONS.DELETE,
+      PRICE_GROUP_ACTIONS.EDIT,
+      PRICE_GROUP_ACTIONS.UPDATE,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoPriceGroupAction({
+          action,
+          organizationAncestors: [
+            fakeOrganization({ id: financialAdminOrganization }),
+          ],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow correct actions if publisher is not defined and user has at least one financial admin organization', () => {
+    const financialAdminOrganization = 'financialadmin:1';
+    const user = fakeUser({
+      financialAdminOrganizations: [financialAdminOrganization],
+    });
+
+    const allowedActions = [
+      PRICE_GROUP_ACTIONS.CREATE,
+      PRICE_GROUP_ACTIONS.EDIT,
+    ];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoPriceGroupAction({
+          action,
+          organizationAncestors: [],
+          publisher: '',
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+});
+
+describe('getEditPriceGroupWarning function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+  it('should return correct warning if user is not authenticated', () => {
+    const allowedActions = [PRICE_GROUP_ACTIONS.EDIT];
+
+    const commonProps = {
+      authenticated: false,
+      publisher,
+      t: i18n.t.bind(i18n),
+      userCanDoAction: false,
+    };
+
+    allowedActions.forEach((action) => {
+      expect(getEditPriceGroupWarning({ action, ...commonProps })).toBe('');
+    });
+
+    const deniedActions = [
+      PRICE_GROUP_ACTIONS.CREATE,
+      PRICE_GROUP_ACTIONS.DELETE,
+      PRICE_GROUP_ACTIONS.UPDATE,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(getEditPriceGroupWarning({ action, ...commonProps })).toBe(
+        'Sinulla ei ole oikeuksia muokata asiakasryhmiä.'
+      );
+    });
+  });
+
+  it('should return correct warning if user cannot do action', () => {
+    expect(
+      getEditPriceGroupWarning({
+        authenticated: true,
+        publisher,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: PRICE_GROUP_ACTIONS.CREATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia luoda asiakasryhmiä.');
+
+    expect(
+      getEditPriceGroupWarning({
+        authenticated: true,
+        publisher: '',
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: PRICE_GROUP_ACTIONS.UPDATE,
+      })
+    ).toBe(
+      'Asiakasryhmä on oletusasiakasryhmä. Oletusasiakasryhmiä ei voi muokata.'
+    );
+
+    expect(
+      getEditPriceGroupWarning({
+        authenticated: true,
+        publisher,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: false,
+        action: PRICE_GROUP_ACTIONS.UPDATE,
+      })
+    ).toBe('Sinulla ei ole oikeuksia muokata tätä asiakasryhmää.');
+  });
+});
+
+describe('getPriceGroupInitialValues function', () => {
+  it('should return default values if value is not set', () => {
+    expect(
+      getPriceGroupInitialValues(
+        fakePriceGroup({
+          description: null,
+          id: TEST_PRICE_GROUP_ID,
+          isFree: null,
+          publisher: null,
+        })
+      )
+    ).toEqual({
+      description: { ar: '', en: '', fi: '', ru: '', sv: '', zhHans: '' },
+      id: '123',
+      isFree: false,
+      publisher: '',
+    });
+  });
+
+  it('should return initial values', () => {
+    expect(
+      getPriceGroupInitialValues(
+        fakePriceGroup({
+          description: {
+            ar: 'Description ar',
+            en: 'Description en',
+            fi: 'Description fi',
+            ru: 'Description ru',
+            sv: 'Description sv',
+            zhHans: 'Description zhHans',
+          },
+          id: TEST_PRICE_GROUP_ID,
+          isFree: true,
+          publisher: TEST_PUBLISHER_ID,
+        })
+      )
+    ).toEqual({
+      description: {
+        ar: 'Description ar',
+        en: 'Description en',
+        fi: 'Description fi',
+        ru: 'Description ru',
+        sv: 'Description sv',
+        zhHans: 'Description zhHans',
+      },
+      id: '123',
+      isFree: true,
+      publisher: TEST_PUBLISHER_ID,
+    });
+  });
+});
+
+describe('getFocusableFieldId function', () => {
+  it.each([
+    [PRICE_GROUP_FIELDS.DESCRIPTION, 'description'],
+    [PRICE_GROUP_FIELDS.ID, 'id'],
+    [PRICE_GROUP_FIELDS.IS_FREE, 'isFree'],
+    [PRICE_GROUP_FIELDS.PUBLISHER, 'publisher-toggle-button'],
+  ])(
+    'should return correct field id, %s -> %s',
+    (fieldName, expectedErrorId) => {
+      expect(getFocusableFieldId(fieldName)).toBe(expectedErrorId);
+    }
+  );
 });
