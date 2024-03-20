@@ -1,0 +1,11 @@
+{
+  "bootstrap-sha": "260c52c815d9e3d9c959ca7efd7e2b4e0280fe2b",
+  "sequential-calls": true,
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "linkedcomponents-ui"
+    }
+  },
+  "plugins": ["sentence-case"]
+}
