@@ -98,15 +98,11 @@ const testHelpPage = async (
   await i18n.changeLanguage(language);
 
   const { history } = await renderRoute(route, language);
-
-  // Swedish is not supported language at the moment
-  if (language !== 'sv') {
-    await shouldHaveCorrectMetaData({
-      description,
-      keywords,
-      title,
-    });
-  }
+  await shouldHaveCorrectMetaData({
+    description,
+    keywords,
+    title,
+  });
   await screen.findByRole('heading', { name: pageTitle });
   expect(history.location.pathname).toBe(expectedRoute);
 };
@@ -153,7 +149,18 @@ const generalInstructionCases: [Language, PageValues][] = [
       title: 'Tuki - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is added to supported languages
+  [
+    'sv',
+    {
+      description:
+        'Hjälp och instruktioner om hur du använder tjänsten och API: et.',
+      expectedRoute: '/sv/help/instructions/general',
+      keywords:
+        'stöd, hjälp, instruktioner, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Allmänt',
+      title: 'Stöd - Linked Events',
+    },
+  ],
 ];
 
 it.each(generalInstructionCases)(
@@ -187,7 +194,18 @@ const platformCases: [Language, PageValues][] = [
       title: 'Alusta - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is supported
+  [
+    'sv',
+    {
+      description:
+        'Introduktion till Linked Events-plattformen och kontrollpanelen.',
+      expectedRoute: '/sv/help/instructions/platform',
+      keywords:
+        'plattform, hjälp, instruktioner, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Plattform',
+      title: 'Plattform - Linked Events',
+    },
+  ],
 ];
 
 it.each(platformCases)(
@@ -221,7 +239,18 @@ const controlPanelCases: [Language, PageValues][] = [
       title: 'Hallintapaneeli - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is added to supported languages
+  [
+    'sv',
+    {
+      description:
+        'Hur man använder kontrollpanelen och administrationsfunktioner på Linked Events.',
+      expectedRoute: '/sv/help/instructions/control-panel',
+      keywords:
+        'kontrollpanel, hjälp, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Kontrollpanel',
+      title: 'Kontrollpanel - Linked Events',
+    },
+  ],
 ];
 
 it.each(controlPanelCases)(
@@ -260,7 +289,18 @@ const registrationInstructionsCases: [Language, PageValues][] = [
       title: 'Linked Registration -ohje - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is added to supported languages
+  [
+    'sv',
+    {
+      description:
+        'Linked Events är en samling mjukvarukomponenter och API-slutpunkter som möjliggör evenemnaghantering och distribution för olika evenemangsleverantörer i Finland.',
+      expectedRoute: '/sv/help/instructions/registration',
+      keywords:
+        'linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Linked Registration instruktioner',
+      title: 'Linked Registration instruktioner - Linked Events',
+    },
+  ],
 ];
 
 it.each(registrationInstructionsCases)(
@@ -297,7 +337,17 @@ const faqCases: [Language, PageValues][] = [
       title: 'Usein kysytyt kysymykset - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is supported
+  [
+    'sv',
+    {
+      description: 'Vanliga frågor om Linked Events.',
+      expectedRoute: '/sv/help/instructions/faq',
+      keywords:
+        'ukk, frågade, frågor, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Vanliga frågor',
+      title: 'Vanliga frågor - Linked Events',
+    },
+  ],
 ];
 
 it.each(faqCases)(
@@ -332,7 +382,17 @@ const generalTechnologyCases: [Language, PageValues][] = [
       title: 'Teknologia - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is added to supported languages
+  [
+    'sv',
+    {
+      description: 'Mer information om tekniken bakom Linked Events.',
+      expectedRoute: '/sv/help/technology/general',
+      keywords:
+        'teknologi, hjälp, stöd, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Allmänt',
+      title: 'Teknologi - Linked Events',
+    },
+  ],
 ];
 
 it.each(generalTechnologyCases)(
@@ -367,7 +427,18 @@ const apiCases: [Language, PageValues][] = [
       title: 'Rajapinta - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is added to supported languages
+  [
+    'sv',
+    {
+      description:
+        'Mer information om API (application protocol interface) för Linked Events.',
+      expectedRoute: '/sv/help/technology/api',
+      keywords:
+        'hjälp, dokumentation, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'API',
+      title: 'API - Linked Events',
+    },
+  ],
 ];
 
 it.each(apiCases)(
@@ -402,7 +473,18 @@ const imageRightsCases: [Language, PageValues][] = [
       title: 'Kuvaoikeudet - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is added to supported languages
+  [
+    'sv',
+    {
+      description:
+        'Mer information om Linked Events bildrättigheter och licenser.',
+      expectedRoute: '/sv/help/technology/image-rights',
+      keywords:
+        'bild, rättigheter, licens, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Bildrättigheter',
+      title: 'Bildrättigheter - Linked Events',
+    },
+  ],
 ];
 
 it.each(imageRightsCases)(
@@ -439,7 +521,18 @@ const sourceCodeCases: [Language, PageValues][] = [
       title: 'Lähdekoodi - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is added to supported languages
+  [
+    'sv',
+    {
+      description:
+        'Få en djupare titt på källkoden för Linked Events i Github.',
+      expectedRoute: '/sv/help/technology/source-code',
+      keywords:
+        'källkod, hjälp, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Källkod',
+      title: 'Källkod - Linked Events',
+    },
+  ],
 ];
 
 it.each(sourceCodeCases)(
@@ -475,7 +568,17 @@ const documentationCases: [Language, PageValues][] = [
       title: 'Dokumentaatio - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is added to supported languages
+  [
+    'sv',
+    {
+      description: 'Läs mer om Linked Events dokumentation och API-design.',
+      expectedRoute: '/sv/help/technology/documentation',
+      keywords:
+        'dokumentation, hjälp, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Dokumentation',
+      title: 'Dokumentation - Linked Events',
+    },
+  ],
 ];
 
 it.each(documentationCases)(
@@ -512,7 +615,17 @@ const termsOfUseCases: [Language, PageValues][] = [
       title: 'Tietosuoja ja käyttöehdot - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is added to supported languages
+  [
+    'sv',
+    {
+      description: 'Dataskydd och användarvillkor för Linked Events.',
+      expectedRoute: '/sv/help/support/terms-of-use',
+      keywords:
+        'villkor, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Dataskydd och användarvillkor',
+      title: 'Dataskydd och användarvillkor - Linked Events',
+    },
+  ],
 ];
 
 it.each(termsOfUseCases)(
@@ -547,7 +660,18 @@ const contactCases: [Language, PageValues][] = [
       title: 'Ota yhteyttä - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is supported
+  [
+    'sv',
+    {
+      description:
+        'Skicka en felrapport eller funktionsförfrågan. Eller skicka oss lite feedback om tjänsten.',
+      expectedRoute: '/sv/help/support/contact',
+      keywords:
+        'kontakt, formulär, bugg, rapport, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Ta kontakt',
+      title: 'Ta kontakt - Linked Events',
+    },
+  ],
 ];
 
 it.each(contactCases)(
@@ -580,7 +704,17 @@ const askPermissionCases: [Language, PageValues][] = [
       title: 'Pyydä käyttöoikeutta - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is added to supported languages
+  [
+    'sv',
+    {
+      description: 'Be om tillåtelse till Linked Events-organisationen.',
+      expectedRoute: '/sv/help/support/ask-permission',
+      keywords:
+        'fråga, tillstånd, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Begära tillgång',
+      title: 'Begära tillgång - Linked Events',
+    },
+  ],
 ];
 
 it.each(askPermissionCases)(
@@ -615,7 +749,18 @@ const featuresCases: [Language, PageValues][] = [
       title: 'Palvelun ominaisuudet - Linked Events',
     },
   ],
-  // TODO: Add this when Swedish is added to supported languages
+  [
+    'sv',
+    {
+      description:
+        'Läs om Linked Eventsfunktioner. Bli bekant med event management och Linked Events API.',
+      expectedRoute: '/sv/help/features',
+      keywords:
+        'funktioner, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+      pageTitle: 'Tjänstens egenskaper',
+      title: 'Tjänstens egenskaper - Linked Events',
+    },
+  ],
 ];
 
 it.each(featuresCases)(

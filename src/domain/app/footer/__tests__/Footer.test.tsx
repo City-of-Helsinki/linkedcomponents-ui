@@ -45,14 +45,13 @@ const renderComponent = ({
   route = '/fi',
 } = {}) => render(<Footer />, { mocks, routes: [route] });
 
-// TODO: Swedish language is disabled at the moment, so skip this test
-test.skip('matches snapshot', async () => {
+test('matches snapshot', async () => {
   mockAuthenticatedLoginState();
   i18n.changeLanguage('sv');
 
   const { container } = renderComponent({ route: '/sv' });
 
-  screen.getByRole('link', { name: 'Evenemang' });
+  screen.getByRole('link', { name: 'Mina evenemangen' });
   expect(container.firstChild).toMatchSnapshot();
 });
 
@@ -60,6 +59,7 @@ test('should show navigation links and should route to correct page after clicki
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
 
@@ -111,6 +111,7 @@ test.each(registrationAndAdminTabTestCases)(
     setFeatureFlags({
       LOCALIZED_IMAGE: true,
       SHOW_ADMIN: true,
+      SWEDISH_TRANSLATIONS: true,
       WEB_STORE_INTEGRATION: true,
     });
 
@@ -148,6 +149,7 @@ test('should not show admin links when those features are disabled', async () =>
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: false,
+    SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
 
@@ -162,6 +164,7 @@ test('should show and open utility links', async () => {
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
 

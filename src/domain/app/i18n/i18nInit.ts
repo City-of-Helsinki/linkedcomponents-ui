@@ -3,6 +3,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
 import { SUPPORTED_LANGUAGES } from '../../../constants';
+import { featureFlagUtils } from '../../../utils/featureFlags';
 import en from './en.json';
 import fi from './fi.json';
 import sv from './sv.json';
@@ -30,8 +31,9 @@ i18n
     supportedLngs: [
       SUPPORTED_LANGUAGES.EN,
       SUPPORTED_LANGUAGES.FI,
-      // TODO: Add Swedish to supported languages when UI texts has been translated
-      // SUPPORTED_LANGUAGES.SV,
+      ...(featureFlagUtils.isFeatureEnabled('SWEDISH_TRANSLATIONS')
+        ? [SUPPORTED_LANGUAGES.SV as string]
+        : []),
     ],
     resources: {
       en: { translation: en },
