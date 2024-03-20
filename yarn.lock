@@ -2564,15 +2564,6 @@
     lodash "4.6.1 || ^4.16.1"
     pinkie-promise "^2.0.0"
 
-"@digitak/esrun@^3.2.25":
-  version "3.2.25"
-  resolved "https://registry.yarnpkg.com/@digitak/esrun/-/esrun-3.2.25.tgz#4d1c5c45ce400d2ead6fa7d66e9d6f33a96e68a0"
-  integrity sha512-5f9ocBBiJNcmHXUniFh7FCLl9Dqrqf/yxgEmcsXuINH+xwywMIrg6ENjmARsNabwzfeldxJxWbbyEyRZo1q6lQ==
-  dependencies:
-    "@digitak/grubber" "^3.1.4"
-    chokidar "^3.5.1"
-    esbuild "^0.17.4"
-
 "@digitak/grubber@^3.1.4":
   version "3.1.4"
   resolved "https://registry.yarnpkg.com/@digitak/grubber/-/grubber-3.1.4.tgz#f29280bc8d205995b6bf4d73344f08b01f21fc65"
@@ -7409,6 +7400,15 @@ esrecurse@^4.3.0:
   integrity sha512-KmfKL3b6G+RXvP8N1vr3Tq1kL/oCFgn2NYXEtqP8/L3pKapUA4G8cFVaoF3SU323CD4XypR/ffioHmkti6/Tag==
   dependencies:
     estraverse "^5.2.0"
+
+esrun@^3.2.26:
+  version "3.2.26"
+  resolved "https://registry.yarnpkg.com/esrun/-/esrun-3.2.26.tgz#ca93d8ffebedbdd617b6bc81bad9834e161e83ec"
+  integrity sha512-gDjP87qj4RW0BryZXPY3/L161hPo9uG6luBTjLsuHG3cKnhSMrzB7eNzSzvDyBLg7OgugyvzSgB2ov7mZ/oa7Q==
+  dependencies:
+    "@digitak/grubber" "^3.1.4"
+    chokidar "^3.5.1"
+    esbuild "^0.17.4"
 
 estraverse@^4.1.1:
   version "4.3.0"
