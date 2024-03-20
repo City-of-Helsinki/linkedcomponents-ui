@@ -7,7 +7,7 @@
     "@ckeditor/ckeditor5-build-classic": "41.2.1",
     "@ckeditor/ckeditor5-react": "^6.2.0",
     "@datapunt/matomo-tracker-react": "^0.5.1",
-    "@emotion/react": "^11.11.1",
+    "@emotion/react": "^11.11.4",
     "@faker-js/faker": "^8.0.2",
     "@sentry/react": "^7.75.1",
     "@testing-library/jest-dom": "^6.1.3",
