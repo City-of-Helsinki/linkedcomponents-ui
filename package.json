@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.9.8",
-    "@ckeditor/ckeditor5-build-classic": "39.0.2",
-    "@ckeditor/ckeditor5-react": "^6.1.0",
+    "@ckeditor/ckeditor5-build-classic": "41.2.1",
+    "@ckeditor/ckeditor5-react": "^6.2.0",
     "@datapunt/matomo-tracker-react": "^0.5.1",
     "@digitak/esrun": "^3.2.25",
     "@emotion/react": "^11.11.1",
