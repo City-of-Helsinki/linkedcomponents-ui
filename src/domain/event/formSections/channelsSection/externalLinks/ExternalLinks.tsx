@@ -1,4 +1,4 @@
-import { FieldArray, useField } from 'formik';
+import { ArrayHelpers, FieldArray, useField } from 'formik';
 import React from 'react';
 
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
@@ -20,7 +20,7 @@ const ExternalLinks: React.FC<Props> = ({ isEditingAllowed }) => {
   return (
     <FieldArray
       name={EVENT_FIELDS.EXTERNAL_LINKS}
-      render={(arrayHelpers) => (
+      render={(arrayHelpers: ArrayHelpers) => (
         <div>
           {externalLinks.map((externalLink, index) => {
             return (

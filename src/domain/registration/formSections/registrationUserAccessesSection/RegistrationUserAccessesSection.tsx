@@ -1,4 +1,4 @@
-import { FieldArray, useField } from 'formik';
+import { ArrayHelpers, FieldArray, useField } from 'formik';
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -36,7 +36,7 @@ const RegistrationUserAccessesSection: React.FC<Props> = ({
     >
       <FieldArray
         name={REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES}
-        render={(arrayHelpers) => (
+        render={(arrayHelpers: ArrayHelpers) => (
           <div>
             {registrationUserAccesses.map((_, index) => {
               return (

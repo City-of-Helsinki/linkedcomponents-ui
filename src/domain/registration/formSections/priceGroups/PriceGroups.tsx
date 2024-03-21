@@ -1,4 +1,4 @@
-import { FieldArray, useField } from 'formik';
+import { ArrayHelpers, FieldArray, useField } from 'formik';
 import { Button, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -35,7 +35,7 @@ const PriceGroups: React.FC<Props> = ({ isEditingAllowed }) => {
   return (
     <FieldArray
       name={REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS}
-      render={(arrayHelpers) => (
+      render={(arrayHelpers: ArrayHelpers) => (
         <>
           {priceGroups.map((priceGroup, index) => {
             return (

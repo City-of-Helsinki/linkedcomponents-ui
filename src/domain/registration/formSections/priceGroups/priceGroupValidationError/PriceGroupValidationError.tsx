@@ -13,7 +13,7 @@ const PriceGroupValidationError: React.FC = () => {
       key={locale}
       name={REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS}
     >
-      {(error) => (
+      {(error: string) => (
         <ErrorText
           id={`${REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS}-error`}
           error={error}
