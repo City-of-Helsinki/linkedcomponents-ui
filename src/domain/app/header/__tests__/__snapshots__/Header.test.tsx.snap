@@ -59,6 +59,7 @@ exports[`matches snapshot 1`] = `
               class="HeaderLanguageSelector-module_languageNodes__lTe8p"
             >
               <button
+                aria-current="false"
                 class="HeaderLanguageSelector-module_item__3_I7N"
                 lang="fi"
                 type="button"
@@ -68,6 +69,7 @@ exports[`matches snapshot 1`] = `
                 </span>
               </button>
               <button
+                aria-current="true"
                 class="HeaderLanguageSelector-module_item__3_I7N HeaderLanguageSelector-module_activeItem__15LKg"
                 lang="sv"
                 type="button"
@@ -77,6 +79,7 @@ exports[`matches snapshot 1`] = `
                 </span>
               </button>
               <button
+                aria-current="false"
                 class="HeaderLanguageSelector-module_item__3_I7N"
                 lang="en"
                 type="button"
