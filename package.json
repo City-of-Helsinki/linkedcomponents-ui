@@ -82,7 +82,7 @@
     "vitest-axe": "^0.1.0",
     "waait": "^1.0.5",
     "xml-js": "^1.6.11",
-    "yup": "^1.2.0"
+    "yup": "^1.4.0"
   },
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
