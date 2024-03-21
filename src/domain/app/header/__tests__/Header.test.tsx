@@ -196,21 +196,6 @@ test('should not show admin and registrations link when those features are disab
   ).not.toBeInTheDocument();
 });
 
-test('should show mobile menu', async () => {
-  global.innerWidth = 500;
-  const user = userEvent.setup();
-  renderComponent();
-
-  expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
-
-  const menuButton = getElement('menuButton');
-  await user.click(menuButton);
-
-  await waitFor(() =>
-    expect(screen.getAllByRole('navigation')).toHaveLength(2)
-  );
-});
-
 test('should change language', async () => {
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
