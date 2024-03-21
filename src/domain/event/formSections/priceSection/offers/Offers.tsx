@@ -1,4 +1,4 @@
-import { FieldArray, useField } from 'formik';
+import { ArrayHelpers, FieldArray, useField } from 'formik';
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,7 @@ const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
   return (
     <FieldArray
       name={EVENT_FIELDS.OFFERS}
-      render={(arrayHelpers) => (
+      render={(arrayHelpers: ArrayHelpers) => (
         <>
           {offers.map((_, index) => {
             return (

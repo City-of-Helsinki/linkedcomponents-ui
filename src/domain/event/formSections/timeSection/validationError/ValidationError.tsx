@@ -10,7 +10,7 @@ const ValidationError: React.FC = () => {
 
   return (
     <ErrorMessage key={locale} name={EVENT_FIELDS.EVENT_TIMES}>
-      {(error) => (
+      {(error: string) => (
         <ErrorText error={error} id={`${EVENT_FIELDS.EVENT_TIMES}-error`} />
       )}
     </ErrorMessage>

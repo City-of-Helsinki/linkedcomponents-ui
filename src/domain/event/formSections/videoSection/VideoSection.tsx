@@ -1,4 +1,4 @@
-import { FieldArray, useField } from 'formik';
+import { ArrayHelpers, FieldArray, useField } from 'formik';
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -29,7 +29,7 @@ const VideoSection: React.FC<Props> = ({ isEditingAllowed }) => {
     <Fieldset heading={t('event.form.sections.video')} hideLegend>
       <FieldArray
         name={EVENT_FIELDS.VIDEOS}
-        render={(arrayHelpers) => (
+        render={(arrayHelpers: ArrayHelpers) => (
           <div>
             {videos.map((_, index) => {
               return (

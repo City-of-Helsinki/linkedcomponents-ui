@@ -38,7 +38,7 @@ const CheckboxField: React.FC<Props> = ({
       />
       {/* Add key to for error message to be updated when UI language changes */}
       <ErrorMessage key={locale} name={name}>
-        {(error) => <div className={styles.errorText}>{t(error)}</div>}
+        {(error: string) => <div className={styles.errorText}>{t(error)}</div>}
       </ErrorMessage>
     </div>
   );
