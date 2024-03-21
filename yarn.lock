@@ -5702,16 +5702,7 @@ axe-core@^4.4.2, axe-core@^4.6.2:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.8.2.tgz#2f6f3cde40935825cf4465e3c1c9e77b240ff6ae"
   integrity sha512-/dlp0fxyM3R8YW7MFzaHWXrf4zzbr0vaYb23VBFCl83R7nWNPg/yaQw2Dc8jzCMmDVLhSdzH8MjrsuIUuvX+6g==
 
-axios@^1.4.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.5.0.tgz#f02e4af823e2e46a9768cfc74691fdd0517ea267"
-  integrity sha512-D4DdjDo5CY50Qms0qGQTTw6Q44jl7zRwY7bthds06pUGfChBCTcQs+N743eFWGEd6pRTMd6A+I87aWyFV5wiZQ==
-  dependencies:
-    follow-redirects "^1.15.0"
-    form-data "^4.0.0"
-    proxy-from-env "^1.1.0"
-
-axios@^1.6.8:
+axios@1.6.8, axios@^1.4.0, axios@^1.6.8:
   version "1.6.8"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.8.tgz#66d294951f5d988a00e87a0ffb955316a619ea66"
   integrity sha512-v/ZHtJDU39mDpyBoFVkETcd/uNdxrWRrg3bKpOKzXFA6Bvqopts6ALSMU3y6ijYxbw2B+wPrIv46egTzJXCLGQ==
@@ -7872,11 +7863,6 @@ focus-visible@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/focus-visible/-/focus-visible-5.2.0.tgz#3a9e41fccf587bd25dcc2ef045508284f0a4d6b3"
   integrity sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==
-
-follow-redirects@^1.15.0:
-  version "1.15.2"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
-  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
 
 follow-redirects@^1.15.6:
   version "1.15.6"
@@ -11510,10 +11496,10 @@ snake-case@^3.0.4:
     dot-case "^3.0.4"
     tslib "^2.0.3"
 
-snyk@^1.1220.0:
-  version "1.1220.0"
-  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.1220.0.tgz#0153455bb101563c82290c3c75c7302326071385"
-  integrity sha512-dK59Wpcxx7M+yv33M4CYdGqcoZi9RxbwVY1lzVxVHsbwqr32Atspi7FVj7TsgTjYRb4aeCni9gvoKwCfwWBonA==
+snyk@^1.1285.0:
+  version "1.1285.0"
+  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.1285.0.tgz#1812125ae8a0d6f145acac6d9443a83426b4a819"
+  integrity sha512-VpU1fvHVeUX8Q0rW6aAY37w9ddvG3tVBMgZRohTGDSxfhheGWl0yA82brQhV+i6y0gLZJnsg77Rfg/BIsidVeg==
   dependencies:
     "@sentry/node" "^7.36.0"
     global-agent "^3.0.0"
