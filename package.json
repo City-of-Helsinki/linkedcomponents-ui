@@ -55,9 +55,6 @@
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
     "object-keys-normalizer": "^1.0.1",
-    "oidc-client": "^1.11.5",
-    "path-browserify": "^1.0.1",
-    "postcss-normalize": "^10.0.1",
     "pretty": "^2.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -113,7 +110,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.1",
