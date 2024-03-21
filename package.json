@@ -120,7 +120,7 @@
     "@vitest/coverage-istanbul": "^0.34.6",
     "eslint": "^8.57.0",
     "graphql": "16.8.1",
-    "jsdom": "^22.1.0",
+    "jsdom": "^24.0.0",
     "prettier": "^3.2.5",
     "snyk": "^1.1220.0",
     "source-map-explorer": "^2.5.3",
