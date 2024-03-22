@@ -8,6 +8,8 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/typ
 import { ROUTES } from '../../../constants';
 import { PriceGroupFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useResetPageParamAndGoToPage from '../../../hooks/useResetPageParam';
+import { addParamsToAdminListQueryString } from '../../../utils/adminListQueryStringUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useAuth from '../../auth/hooks/useAuth';
@@ -22,10 +24,6 @@ import {
   getPriceGroupFields,
 } from '../../priceGroup/utils';
 import useUser from '../../user/hooks/useUser';
-import {
-  addParamsToPriceGroupQueryString,
-  replaceParamsToPriceGroupQueryString,
-} from '../utils';
 
 export interface PriceGroupActionsDropdownProps {
   className?: string;
@@ -36,6 +34,7 @@ const PriceGroupActionsDropdown: React.FC<PriceGroupActionsDropdownProps> = ({
   className,
   priceGroup,
 }) => {
+  const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
   const { addNotification } = useNotificationsContext();
   const { t } = useTranslation();
   const locale = useLocale();
@@ -52,23 +51,12 @@ const PriceGroupActionsDropdown: React.FC<PriceGroupActionsDropdownProps> = ({
     });
 
   const goToEditPriceGroupPage = () => {
-    const queryString = addParamsToPriceGroupQueryString(search, {
+    const queryString = addParamsToAdminListQueryString(search, {
       returnPath: pathname,
     });
 
     navigate({
       pathname: `/${locale}${ROUTES.EDIT_PRICE_GROUP.replace(':id', id)}`,
-      search: queryString,
-    });
-  };
-
-  const goToPriceGroupsPage = () => {
-    const queryString = replaceParamsToPriceGroupQueryString(search, {
-      page: null,
-    });
-
-    navigate({
-      pathname: `/${locale}${ROUTES.PRICE_GROUPS}`,
       search: queryString,
     });
   };
@@ -116,7 +104,7 @@ const PriceGroupActionsDropdown: React.FC<PriceGroupActionsDropdownProps> = ({
                   label: t('priceGroup.form.notificationPriceGroupDeleted'),
                   type: 'success',
                 });
-                goToPriceGroupsPage();
+                resetPageParamAndGoToPage(ROUTES.PRICE_GROUPS);
               },
             });
           }}

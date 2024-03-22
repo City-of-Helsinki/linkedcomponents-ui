@@ -1,41 +1,23 @@
 import { INCLUDE } from '../../constants';
 import { KeywordSetsQueryVariables } from '../../generated/graphql';
-import addParamsToQueryString from '../../utils/addParamsToQueryString';
+import { AdminListSearchInitialValues } from '../../types';
+import { getAdminListSearchInitialValues } from '../../utils/adminListQueryStringUtils';
 import getPathBuilder from '../../utils/getPathBuilder';
-import getValue from '../../utils/getValue';
-import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
-import { assertUnreachable } from '../../utils/typescript';
 import { keywordSetsPathBuilder } from '../keywordSet/utils';
 import {
   DEFAULT_KEYWORD_SET_SORT,
-  KEYWORD_SET_SEARCH_PARAMS,
   KEYWORD_SET_SORT_OPTIONS,
   KEYWORD_SETS_PAGE_SIZE,
 } from './constants';
-import {
-  KeywordSetSearchInitialValues,
-  KeywordSetSearchParam,
-  KeywordSetSearchParams,
-} from './types';
 
 export const getKeywordSetSearchInitialValues = (
   search: string
-): KeywordSetSearchInitialValues => {
-  const searchParams = new URLSearchParams(search);
-  const page = searchParams.get(KEYWORD_SET_SEARCH_PARAMS.PAGE);
-  const sort = searchParams.get(
-    KEYWORD_SET_SEARCH_PARAMS.SORT
-  ) as KEYWORD_SET_SORT_OPTIONS;
-  const text = searchParams.get(KEYWORD_SET_SEARCH_PARAMS.TEXT);
-
-  return {
-    page: Number(page) || 1,
-    sort: Object.values(KEYWORD_SET_SORT_OPTIONS).includes(sort)
-      ? sort
-      : DEFAULT_KEYWORD_SET_SORT,
-    text: getValue(text, ''),
-  };
-};
+): AdminListSearchInitialValues<KEYWORD_SET_SORT_OPTIONS> =>
+  getAdminListSearchInitialValues<KEYWORD_SET_SORT_OPTIONS>(
+    search,
+    Object.values(KEYWORD_SET_SORT_OPTIONS),
+    DEFAULT_KEYWORD_SET_SORT
+  );
 
 export const getKeywordSetsQueryVariables = (
   search: string
@@ -50,34 +32,4 @@ export const getKeywordSetsQueryVariables = (
     sort,
     text,
   };
-};
-
-export const getKeywordSetParamValue = ({
-  param,
-  value,
-}: {
-  param: KeywordSetSearchParam;
-  value: string;
-}): string => {
-  switch (param) {
-    case KEYWORD_SET_SEARCH_PARAMS.PAGE:
-    case KEYWORD_SET_SEARCH_PARAMS.SORT:
-    case KEYWORD_SET_SEARCH_PARAMS.TEXT:
-      return value;
-    case KEYWORD_SET_SEARCH_PARAMS.RETURN_PATH:
-      return stripLanguageFromPath(value);
-    default:
-      return assertUnreachable(param, 'Unknown keyword set query parameter');
-  }
-};
-
-export const addParamsToKeywordSetQueryString = (
-  queryString: string,
-  queryParams: Partial<KeywordSetSearchParams>
-): string => {
-  return addParamsToQueryString<KeywordSetSearchParams>(
-    queryString,
-    queryParams,
-    getKeywordSetParamValue
-  );
 };

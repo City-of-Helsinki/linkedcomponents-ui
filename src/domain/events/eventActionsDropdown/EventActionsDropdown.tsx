@@ -8,6 +8,7 @@ import { ROUTES } from '../../../constants';
 import { EventFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
+import useResetPageParamAndGoToPage from '../../../hooks/useResetPageParam';
 import getLocalisedString from '../../../utils/getLocalisedString';
 import getValue from '../../../utils/getValue';
 import {
@@ -40,6 +41,7 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
   event,
 }) => {
   const { t } = useTranslation();
+  const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
   const { addNotification } = useNotificationsContext();
   const { authenticated } = useAuth();
   const locale = useLocale();
@@ -154,6 +156,7 @@ const EventActionsDropdown: React.FC<EventActionsDropdownProps> = ({
                   label: t('event.form.notificationEventDeleted'),
                   type: 'success',
                 });
+                resetPageParamAndGoToPage(ROUTES.EVENTS);
               },
             })
           }

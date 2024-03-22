@@ -15,11 +15,4 @@ export enum KEYWORD_SET_USAGE_OPTIONS {
 
 export const DEFAULT_KEYWORD_SET_SORT = KEYWORD_SET_SORT_OPTIONS.ID;
 
-export enum KEYWORD_SET_SEARCH_PARAMS {
-  PAGE = 'page',
-  RETURN_PATH = 'returnPath',
-  SORT = 'sort',
-  TEXT = 'text',
-}
-
 export const KEYWORD_SETS_PAGE_SIZE = 10;

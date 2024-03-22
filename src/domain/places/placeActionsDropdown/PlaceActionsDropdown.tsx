@@ -7,6 +7,8 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/typ
 import { ROUTES } from '../../../constants';
 import { PlaceFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useResetPageParamAndGoToPage from '../../../hooks/useResetPageParam';
+import { addParamsToAdminListQueryString } from '../../../utils/adminListQueryStringUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useAuth from '../../auth/hooks/useAuth';
@@ -18,7 +20,6 @@ import usePlaceUpdateActions, {
 import ConfirmDeletePlaceModal from '../../place/modals/confirmDeletePlaceModal/ConfirmDeletePlaceModal';
 import { getEditButtonProps, getPlaceFields } from '../../place/utils';
 import useUser from '../../user/hooks/useUser';
-import { addParamsToPlaceQueryString } from '../utils';
 
 export interface PlaceActionsDropdownProps {
   className?: string;
@@ -30,6 +31,7 @@ const PlaceActionsDropdown: React.FC<PlaceActionsDropdownProps> = ({
   place,
 }) => {
   const { t } = useTranslation();
+  const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
   const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -45,7 +47,7 @@ const PlaceActionsDropdown: React.FC<PlaceActionsDropdownProps> = ({
     });
 
   const goToEditPlacePage = () => {
-    const queryString = addParamsToPlaceQueryString(search, {
+    const queryString = addParamsToAdminListQueryString(search, {
       returnPath: pathname,
     });
 
@@ -98,6 +100,7 @@ const PlaceActionsDropdown: React.FC<PlaceActionsDropdownProps> = ({
                   label: t('place.form.notificationPlaceDeleted'),
                   type: 'success',
                 });
+                resetPageParamAndGoToPage(ROUTES.PLACES);
               },
             });
           }}

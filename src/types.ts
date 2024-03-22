@@ -3,7 +3,11 @@ import { ButtonVariant } from 'hds-react';
 import { MouseEvent } from 'react';
 
 import { MenuItemOptionProps } from './common/components/menuDropdown/types';
-import { LE_DATA_LANGUAGES, SEARCH_PARAMS } from './constants';
+import {
+  ADMIN_LIST_SEARCH_PARAMS,
+  LE_DATA_LANGUAGES,
+  SEARCH_PARAMS,
+} from './constants';
 
 export type Language = 'en' | 'fi' | 'sv';
 
@@ -91,4 +95,19 @@ export type CommonListProps = {
   onSortChange: (sort: string) => void;
   pageCount: number;
   pageHref: (index: number) => string;
+};
+
+export type AdminListSearchParams = {
+  [ADMIN_LIST_SEARCH_PARAMS.PAGE]?: number | null;
+  [ADMIN_LIST_SEARCH_PARAMS.RETURN_PATH]?: string | null;
+  [ADMIN_LIST_SEARCH_PARAMS.SORT]?: string | null;
+  [ADMIN_LIST_SEARCH_PARAMS.TEXT]?: string;
+};
+
+export type AdminListSearchParam = keyof AdminListSearchParams;
+
+export type AdminListSearchInitialValues<SortType> = {
+  [ADMIN_LIST_SEARCH_PARAMS.PAGE]: number;
+  [ADMIN_LIST_SEARCH_PARAMS.SORT]: SortType;
+  [ADMIN_LIST_SEARCH_PARAMS.TEXT]: string;
 };

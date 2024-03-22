@@ -8,6 +8,8 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/typ
 import { ROUTES } from '../../../constants';
 import { KeywordSetFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useResetPageParamAndGoToPage from '../../../hooks/useResetPageParam';
+import { addParamsToAdminListQueryString } from '../../../utils/adminListQueryStringUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useAuth from '../../auth/hooks/useAuth';
@@ -22,7 +24,6 @@ import {
 } from '../../keywordSet/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import { addParamsToKeywordSetQueryString } from '../utils';
 
 export interface KeywordSetActionsDropdownProps {
   className?: string;
@@ -34,6 +35,7 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
   keywordSet,
 }) => {
   const { t } = useTranslation();
+  const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
   const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -50,7 +52,7 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
     });
 
   const goToEditKeywordSetPage = () => {
-    const queryString = addParamsToKeywordSetQueryString(search, {
+    const queryString = addParamsToAdminListQueryString(search, {
       returnPath: pathname,
     });
 
@@ -103,6 +105,7 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
                   label: t('keywordSet.form.notificationKeywordSetDeleted'),
                   type: 'success',
                 });
+                resetPageParamAndGoToPage(ROUTES.KEYWORD_SETS);
               },
             });
           }}

@@ -11,11 +11,4 @@ export enum KEYWORD_SORT_OPTIONS {
 
 export const DEFAULT_KEYWORD_SORT = KEYWORD_SORT_OPTIONS.N_EVENTS_DESC;
 
-export enum KEYWORD_SEARCH_PARAMS {
-  PAGE = 'page',
-  RETURN_PATH = 'returnPath',
-  SORT = 'sort',
-  TEXT = 'text',
-}
-
 export const KEYWORDS_PAGE_SIZE = 10;

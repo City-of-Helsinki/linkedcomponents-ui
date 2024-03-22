@@ -1,39 +1,22 @@
 import { KeywordsQueryVariables } from '../../generated/graphql';
-import addParamsToQueryString from '../../utils/addParamsToQueryString';
+import { AdminListSearchInitialValues } from '../../types';
+import { getAdminListSearchInitialValues } from '../../utils/adminListQueryStringUtils';
 import getPathBuilder from '../../utils/getPathBuilder';
-import getValue from '../../utils/getValue';
-import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
-import { assertUnreachable } from '../../utils/typescript';
 import { keywordsPathBuilder } from '../keyword/utils';
 import {
   DEFAULT_KEYWORD_SORT,
-  KEYWORD_SEARCH_PARAMS,
   KEYWORD_SORT_OPTIONS,
   KEYWORDS_PAGE_SIZE,
 } from './constants';
-import {
-  KeywordSearchInitialValues,
-  KeywordSearchParam,
-  KeywordSearchParams,
-} from './types';
 
 export const getKeywordSearchInitialValues = (
   search: string
-): KeywordSearchInitialValues => {
-  const searchParams = new URLSearchParams(search);
-  const page = searchParams.get(KEYWORD_SEARCH_PARAMS.PAGE);
-  const sort = searchParams.get(
-    KEYWORD_SEARCH_PARAMS.SORT
-  ) as KEYWORD_SORT_OPTIONS;
-  const text = searchParams.get(KEYWORD_SEARCH_PARAMS.TEXT);
-
-  return {
-    page: Number(page) || 1,
-    sort: Object.values(KEYWORD_SORT_OPTIONS).includes(sort)
-      ? sort
-      : DEFAULT_KEYWORD_SORT,
-    text: getValue(text, ''),
-  };
+): AdminListSearchInitialValues<KEYWORD_SORT_OPTIONS> => {
+  return getAdminListSearchInitialValues<KEYWORD_SORT_OPTIONS>(
+    search,
+    Object.values(KEYWORD_SORT_OPTIONS),
+    DEFAULT_KEYWORD_SORT
+  );
 };
 
 export const getKeywordsQueryVariables = (
@@ -49,34 +32,4 @@ export const getKeywordsQueryVariables = (
     sort,
     text,
   };
-};
-
-export const getKeywordParamValue = ({
-  param,
-  value,
-}: {
-  param: KeywordSearchParam;
-  value: string;
-}): string => {
-  switch (param) {
-    case KEYWORD_SEARCH_PARAMS.PAGE:
-    case KEYWORD_SEARCH_PARAMS.SORT:
-    case KEYWORD_SEARCH_PARAMS.TEXT:
-      return value;
-    case KEYWORD_SEARCH_PARAMS.RETURN_PATH:
-      return stripLanguageFromPath(value);
-    default:
-      return assertUnreachable(param, 'Unknown keyword query parameter');
-  }
-};
-
-export const addParamsToKeywordQueryString = (
-  queryString: string,
-  queryParams: Partial<KeywordSearchParams>
-): string => {
-  return addParamsToQueryString<KeywordSearchParams>(
-    queryString,
-    queryParams,
-    getKeywordParamValue
-  );
 };

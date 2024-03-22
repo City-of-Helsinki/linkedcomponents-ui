@@ -7,6 +7,8 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/typ
 import { ROUTES } from '../../../constants';
 import { KeywordFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useResetPageParamAndGoToPage from '../../../hooks/useResetPageParam';
+import { addParamsToAdminListQueryString } from '../../../utils/adminListQueryStringUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useAuth from '../../auth/hooks/useAuth';
@@ -18,7 +20,6 @@ import ConfirmDeleteKeywordModal from '../../keyword/modals/confirmDeleteKeyword
 import { getEditButtonProps, getKeywordFields } from '../../keyword/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import { addParamsToKeywordQueryString } from '../utils';
 
 export interface KeywordActionsDropdownProps {
   className?: string;
@@ -30,6 +31,7 @@ const KeywordActionsDropdown: React.FC<KeywordActionsDropdownProps> = ({
   keyword,
 }) => {
   const { t } = useTranslation();
+  const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
   const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -45,7 +47,7 @@ const KeywordActionsDropdown: React.FC<KeywordActionsDropdownProps> = ({
     });
 
   const goToEditKeywordPage = () => {
-    const queryString = addParamsToKeywordQueryString(search, {
+    const queryString = addParamsToAdminListQueryString(search, {
       returnPath: pathname,
     });
 
@@ -98,6 +100,7 @@ const KeywordActionsDropdown: React.FC<KeywordActionsDropdownProps> = ({
                   label: t('keyword.form.notificationKeywordDeleted'),
                   type: 'success',
                 });
+                resetPageParamAndGoToPage(ROUTES.KEYWORDS);
               },
             })
           }
