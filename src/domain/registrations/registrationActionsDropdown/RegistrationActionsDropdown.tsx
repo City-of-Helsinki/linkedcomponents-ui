@@ -9,6 +9,7 @@ import { ROUTES } from '../../../constants';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
+import useResetPageParamAndGoToPage from '../../../hooks/useResetPageParam';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
@@ -36,6 +37,7 @@ const RegistrationActionsDropdown: React.FC<
   RegistrationActionsDropdownProps
 > = ({ className, registration }) => {
   const { t } = useTranslation();
+  const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
   const { authenticated } = useAuth();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -64,6 +66,7 @@ const RegistrationActionsDropdown: React.FC<
       search: queryStringWithReturnPath,
     });
   };
+
   const goToAttendenceListPage = () => {
     navigate({
       pathname: `/${locale}${ROUTES.ATTENDANCE_LIST.replace(
@@ -149,6 +152,7 @@ const RegistrationActionsDropdown: React.FC<
                   label: t('registration.form.notificationRegistrationDeleted'),
                   type: 'success',
                 });
+                resetPageParamAndGoToPage(ROUTES.REGISTRATIONS);
               },
             })
           }

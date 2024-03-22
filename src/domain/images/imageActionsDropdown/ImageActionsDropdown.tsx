@@ -7,6 +7,8 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/typ
 import { ROUTES } from '../../../constants';
 import { ImageFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useResetPageParamAndGoToPage from '../../../hooks/useResetPageParam';
+import { addParamsToAdminListQueryString } from '../../../utils/adminListQueryStringUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useAuth from '../../auth/hooks/useAuth';
@@ -18,18 +20,18 @@ import ConfirmDeleteImageModal from '../../image/modals/confirmDeleteImageModal/
 import { getEditButtonProps, getImageFields } from '../../image/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
-import { addParamsToImageQueryString } from '../utils';
 
 export interface ImageActionsDropdownProps {
   className?: string;
   image: ImageFieldsFragment;
 }
 
-const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = (
-  { className, image },
-  ref
-) => {
+const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = ({
+  className,
+  image,
+}) => {
   const { t } = useTranslation();
+  const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
   const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -45,7 +47,7 @@ const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = (
     });
 
   const goToEditImagePage = () => {
-    const queryString = addParamsToImageQueryString(search, {
+    const queryString = addParamsToAdminListQueryString(search, {
       returnPath: pathname,
     });
 
@@ -98,6 +100,7 @@ const ImageActionsDropdown: React.FC<ImageActionsDropdownProps> = (
                   label: t('image.form.notificationImageDeleted'),
                   type: 'success',
                 });
+                resetPageParamAndGoToPage(ROUTES.IMAGES);
               },
             })
           }

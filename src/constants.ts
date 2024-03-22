@@ -241,3 +241,10 @@ export enum SPLITTED_ROW_TYPE {
 }
 
 export const DEFAULT_SPLITTED_ROW_TYPE = SPLITTED_ROW_TYPE.MEDIUM_MEDIUM;
+
+export enum ADMIN_LIST_SEARCH_PARAMS {
+  PAGE = 'page',
+  RETURN_PATH = 'returnPath',
+  SORT = 'sort',
+  TEXT = 'text',
+}

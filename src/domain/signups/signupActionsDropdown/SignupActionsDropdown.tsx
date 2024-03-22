@@ -5,11 +5,13 @@ import { useLocation, useNavigate } from 'react-router';
 
 import ActionsDropdown from '../../../common/components/actionsDropdown/ActionsDropdown';
 import { MenuItemOptionProps } from '../../../common/components/menuDropdown/types';
+import { ROUTES } from '../../../constants';
 import {
   RegistrationFieldsFragment,
   SignupFieldsFragment,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useResetPageParamAndGoToPage from '../../../hooks/useResetPageParam';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
@@ -37,6 +39,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
   signup,
 }) => {
   const { t } = useTranslation();
+  const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
   const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
@@ -125,6 +128,12 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
                   label: t('signup.form.notificationSignupDeleted'),
                   type: 'success',
                 });
+                resetPageParamAndGoToPage(
+                  ROUTES.REGISTRATION_SIGNUPS.replace(
+                    ':registrationId',
+                    registration.id as string
+                  )
+                );
               },
             })
           }
