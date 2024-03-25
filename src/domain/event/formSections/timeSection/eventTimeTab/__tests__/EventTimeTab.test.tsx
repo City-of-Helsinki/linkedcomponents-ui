@@ -155,10 +155,10 @@ test('should add/delete event time', async () => {
   await user.click(addButton);
 
   await screen.findByRole('row', {
-    name: '1 14.4.2021 12.00 – 14.4.2021 14.00',
+    name: '14.4.2021 12.00 – 14.4.2021 14.00',
   });
   screen.getByRole('row', {
-    name: '2 11.6.2021 12.00 – 11.6.2021 15.00',
+    name: '11.6.2021 12.00 – 11.6.2021 15.00',
   });
 
   const toggleButton = getSingleEventElement('toggle');
@@ -170,12 +170,12 @@ test('should add/delete event time', async () => {
   await waitFor(() =>
     expect(
       screen.queryByRole('row', {
-        name: '1 14.4.2021 12.00 – 14.4.2021 14.00',
+        name: '14.4.2021 12.00 – 14.4.2021 14.00',
       })
     ).not.toBeInTheDocument()
   );
   screen.getByRole('row', {
-    name: '1 11.6.2021 12.00 – 11.6.2021 15.00',
+    name: '11.6.2021 12.00 – 11.6.2021 15.00',
   });
 });
 
@@ -188,7 +188,7 @@ test('should edit event time', async () => {
   renderComponent(initialValues);
 
   screen.getByRole('row', {
-    name: '1 11.6.2021 12.00 – 11.6.2021 15.00',
+    name: '11.6.2021 12.00 – 11.6.2021 15.00',
   });
 
   const toggleMenuButton = screen.getByRole('button', { name: /valinnat/i });
@@ -211,7 +211,7 @@ test('should edit event time', async () => {
   await user.click(updateButton);
 
   await screen.findByRole('row', {
-    name: '1 2.5.2021 12.00 – 11.6.2021 15.00',
+    name: '2.5.2021 12.00 – 11.6.2021 15.00',
   });
 });
 

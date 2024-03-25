@@ -6,8 +6,7 @@ import useTimeSectionContext from '../hooks/useTimeSectionContext';
 import RecurringEvent from './recurringEvent/RecurringEvent';
 
 const RecurringEvents: React.FC = () => {
-  const { events, recurringEvents, setRecurringEvents } =
-    useTimeSectionContext();
+  const { recurringEvents, setRecurringEvents } = useTimeSectionContext();
 
   const handleDelete = (index: number) => {
     setRecurringEvents(
@@ -27,15 +26,6 @@ const RecurringEvents: React.FC = () => {
     );
   };
 
-  const getStartIndex = (index: number) => {
-    let startIndex = 1 + events.length;
-
-    recurringEvents.slice(0, index).forEach((recurringEvent) => {
-      startIndex = startIndex + recurringEvent.eventTimes.length;
-    });
-    return startIndex;
-  };
-
   return (
     <>
       {recurringEvents.map((recurringEvent, index) => {
@@ -47,7 +37,6 @@ const RecurringEvents: React.FC = () => {
               onDelete={handleDelete}
               onUpdateEventTimes={handleUpdateEventTimes}
               recurringEvent={recurringEvent}
-              startIndex={getStartIndex(index)}
             />
           </FormGroup>
         );

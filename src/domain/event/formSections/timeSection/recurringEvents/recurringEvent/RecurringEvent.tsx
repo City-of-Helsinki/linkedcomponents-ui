@@ -17,7 +17,6 @@ type Props = {
   onDelete: (index: number) => void;
   onUpdateEventTimes: (index: number, eventTimes: EventTime[]) => void;
   recurringEvent: RecurringEventSettings;
-  startIndex: number;
 };
 
 const RecurringEvent: React.FC<Props> = ({
@@ -25,7 +24,6 @@ const RecurringEvent: React.FC<Props> = ({
   onDelete,
   onUpdateEventTimes,
   recurringEvent,
-  startIndex,
 }) => {
   const { endDate, startDate } = useMemo(() => {
     return {
@@ -80,7 +78,6 @@ const RecurringEvent: React.FC<Props> = ({
           setEventTimes={(eventTimes: EventTime[]) => {
             onUpdateEventTimes(index, eventTimes);
           }}
-          startIndex={startIndex}
         />
       </Collapsible>
     </FieldWithButton>

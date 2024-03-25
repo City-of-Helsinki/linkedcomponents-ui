@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import EventTimesTable from '../eventTimesTable/EventTimesTable';
@@ -10,16 +10,6 @@ import styles from '../timeSection.module.scss';
 const EventTimesSummary: React.FC = () => {
   const { events, eventTimes, recurringEvents, setEventTimes } =
     useTimeSectionContext();
-
-  const eventTimesStartIndex = useMemo(() => {
-    let startIndex = 1 + events.length;
-
-    recurringEvents.forEach((recurringEvent) => {
-      startIndex = startIndex + recurringEvent.eventTimes.length;
-    });
-
-    return startIndex;
-  }, [events.length, recurringEvents]);
 
   const isVisible =
     events?.length || eventTimes?.length || recurringEvents?.length;
@@ -40,7 +30,6 @@ const EventTimesSummary: React.FC = () => {
         <EventTimesTable
           eventTimes={eventTimes}
           setEventTimes={setEventTimes}
-          startIndex={eventTimesStartIndex}
         />
       </FieldColumn>
     </>

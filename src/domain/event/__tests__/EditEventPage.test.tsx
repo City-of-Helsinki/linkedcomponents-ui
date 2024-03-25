@@ -336,7 +336,7 @@ test('should update recurring event', async () => {
   // Delete first sub-event
   const withinRow = within(
     screen.getByRole('row', {
-      name: `1 ${formatDate(
+      name: `${formatDate(
         subEventTimes[0].startTime,
         DATETIME_FORMAT
       )} – ${formatDate(subEventTimes[0].endTime, DATETIME_FORMAT)}`,

@@ -71,8 +71,8 @@ test('should render event times table', async () => {
   renderComponent({ eventTimes });
 
   screen.getByRole('table');
-  screen.getByRole('row', { name: '1 2.5.2021 12.00 – 2.5.2021 15.00' });
-  screen.getByRole('row', { name: '2 3.5.2021 12.00 – 3.5.2021 15.00' });
+  screen.getByRole('row', { name: '2.5.2021 12.00 – 2.5.2021 15.00' });
+  screen.getByRole('row', { name: '3.5.2021 12.00 – 3.5.2021 15.00' });
 });
 
 test('should call setEventTimes when deleting an event time', async () => {
@@ -85,7 +85,7 @@ test('should call setEventTimes when deleting an event time', async () => {
   renderComponent({ eventTimes, setEventTimes });
 
   const withinRow = within(
-    screen.getByRole('row', { name: '1 2.5.2021 12.00 – 2.5.2021 15.00' })
+    screen.getByRole('row', { name: '2.5.2021 12.00 – 2.5.2021 15.00' })
   );
   const toggleMenuButton = withinRow.getByRole('button', { name: /valinnat/i });
   await user.click(toggleMenuButton);
@@ -105,7 +105,7 @@ test('should call setEventTimes when updating an event time', async () => {
   renderComponent({ eventTimes, setEventTimes });
 
   const withinRow = within(
-    screen.getByRole('row', { name: '1 2.5.2021 12.00 – 2.5.2021 15.00' })
+    screen.getByRole('row', { name: '2.5.2021 12.00 – 2.5.2021 15.00' })
   );
   const toggleMenuButton = withinRow.getByRole('button', { name: /valinnat/i });
   await user.click(toggleMenuButton);

@@ -37,7 +37,6 @@ interface EventTimeRowProps {
   index: number;
   onDelete: (index: number) => void;
   onUpdate: (index: number, values: EventTime) => void;
-  startIndex: number;
 }
 
 const formatDateStr = (date: Date | null) => formatDate(date, DATETIME_FORMAT);
@@ -47,7 +46,6 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
   index,
   onDelete,
   onUpdate,
-  startIndex,
 }) => {
   const { t } = useTranslation();
   const { isEditingAllowed, savedEvent } = useTimeSectionContext();
@@ -170,7 +168,6 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
       )}
 
       <tr>
-        <td className={styles.indexColumn}>{startIndex + index}</td>
         <td>{dateText}</td>
         <td>
           <MenuDropdown
@@ -198,13 +195,11 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
 export interface EventTimesTableProps {
   eventTimes: EventTime[];
   setEventTimes: (eventTimes: EventTime[]) => void;
-  startIndex?: number;
 }
 
 const EventTimesTable: React.FC<EventTimesTableProps> = ({
   eventTimes,
   setEventTimes,
-  startIndex = 1,
 }) => {
   const { t } = useTranslation();
 
@@ -234,9 +229,8 @@ const EventTimesTable: React.FC<EventTimesTableProps> = ({
     >
       <thead>
         <HeaderRow>
-          <th className={styles.indexColumn}>#</th>
-          <th>{t('event.form.labelTime')}</th>
-          <th>{t('common.actions')}</th>
+          <th>{t('event.form.timesTableColumns.time')}</th>
+          <th>{t('event.form.timesTableColumns.actions')}</th>
         </HeaderRow>
       </thead>
       <TableBody>
@@ -248,7 +242,6 @@ const EventTimesTable: React.FC<EventTimesTableProps> = ({
               index={index}
               onDelete={handleDelete}
               onUpdate={handleUpdate}
-              startIndex={startIndex}
             />
           );
         })}

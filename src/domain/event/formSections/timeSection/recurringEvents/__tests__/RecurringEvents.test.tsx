@@ -87,11 +87,11 @@ test('should render component', async () => {
   await user.click(toggleButton1);
 
   screen.getByRole('row', {
-    name: '1 2.5.2021 12.00 – 2.5.2021 15.00',
+    name: '2.5.2021 12.00 – 2.5.2021 15.00',
     hidden: false,
   });
   screen.getByRole('row', {
-    name: '2 9.5.2021 12.00 – 9.5.2021 15.00',
+    name: '9.5.2021 12.00 – 9.5.2021 15.00',
     hidden: false,
   });
 
@@ -101,11 +101,11 @@ test('should render component', async () => {
   await user.click(toggleButton2);
 
   screen.getByRole('row', {
-    name: '3 2.6.2021 12.00 – 2.6.2021 15.00',
+    name: '2.6.2021 12.00 – 2.6.2021 15.00',
     hidden: false,
   });
   screen.getByRole('row', {
-    name: '4 9.6.2021 12.00 – 9.6.2021 15.00',
+    name: '9.6.2021 12.00 – 9.6.2021 15.00',
     hidden: false,
   });
 });
@@ -124,7 +124,7 @@ test('should call setRecurringEvents when deleting a single event time', async (
 
   const withinEventRow = within(
     screen.getByRole('row', {
-      name: '1 2.5.2021 12.00 – 2.5.2021 15.00',
+      name: '2.5.2021 12.00 – 2.5.2021 15.00',
     })
   );
   const toggleMenuButton = withinEventRow.getByRole('button', {

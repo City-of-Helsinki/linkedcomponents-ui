@@ -916,6 +916,10 @@
       "tabEventTime": "Event time",
       "tabRecurringEvent": "Recurring event",
       "textNoLinksToEvents": "No links.",
+      "timesTableColumns": {
+        "actions": "Edit or delete the date",
+        "time": "Time"
+      },
       "titleAttendeeCapacity": "Attendee capacity",
       "titleAudience": "Target groups",
       "titleAudienceAge": "Age restrictions",
