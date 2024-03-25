@@ -79,9 +79,9 @@ test('should render event times summary', async () => {
   });
   await user.click(toggleButton);
 
-  screen.getByRole('row', { name: '1 7.5.2021 12.00 – 7.5.2021 15.00' });
-  screen.getByRole('row', { name: '2 9.5.2021 12.00 – 9.5.2021 15.00' });
+  screen.getByRole('row', { name: '7.5.2021 12.00 – 7.5.2021 15.00' });
+  screen.getByRole('row', { name: '9.5.2021 12.00 – 9.5.2021 15.00' });
 
-  screen.getByRole('row', { name: '3 2.5.2021 12.00 – 2.5.2021 15.00' });
-  screen.getByRole('row', { name: '4 3.5.2021 12.00 – 3.5.2021 15.00' });
+  screen.getByRole('row', { name: '2.5.2021 12.00 – 2.5.2021 15.00' });
+  screen.getByRole('row', { name: '3.5.2021 12.00 – 3.5.2021 15.00' });
 });

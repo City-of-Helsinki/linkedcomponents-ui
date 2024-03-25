@@ -132,7 +132,7 @@ test('should render all event times', async () => {
 
   // Event
   await screen.findByRole('row', {
-    name: '1 18.4.2021 12.00 – 18.4.2021 15.00',
+    name: '18.4.2021 12.00 – 18.4.2021 15.00',
   });
   // Recurring event
   screen.getByRole('heading', {
@@ -140,7 +140,7 @@ test('should render all event times', async () => {
   });
   // Single event time
   screen.getByRole('row', {
-    name: '4 11.6.2021 12.00 – 11.6.2021 15.00',
+    name: '11.6.2021 12.00 – 11.6.2021 15.00',
   });
 });
 

@@ -912,6 +912,10 @@
       "tabEventTime": "Evenemangstid",
       "tabRecurringEvent": "Återkommande evenemang",
       "textNoLinksToEvents": "Inga länkar.",
+      "timesTableColumns": {
+        "actions": "Redigera eller ta bort tid",
+        "time": "Tid"
+      },
       "titleAttendeeCapacity": "Deltagarkapacitet",
       "titleAudience": "Målgrupper",
       "titleAudienceAge": "Åldersbegränsningar",

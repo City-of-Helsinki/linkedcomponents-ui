@@ -26,7 +26,7 @@
     }
 
     thead tr th:last-of-type {
-      @include hidden-from-screen;
+      font-size: 0;
     }
   }
 }
