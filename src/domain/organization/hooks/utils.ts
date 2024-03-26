@@ -1,7 +1,7 @@
 import { TFunction } from 'i18next';
 
 import { LEServerError, ServerErrorItem } from '../../../types';
-import isGenericServerError from '../../../utils/isGenericServerError';
+import parseServerErrorLabel from '../../../utils/parseServerErrorLabel';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
 import pascalCase from '../../../utils/pascalCase';
@@ -28,9 +28,15 @@ export const parseOrganizationServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
+    if (key === 'web_store_merchants') {
+      return parseWebStoreMerchantServerErrors({ error });
+    }
     return [
       {
-        label: parseOrganizationServerErrorLabel({ key }),
+        label: parseServerErrorLabel({
+          key,
+          parseFn: parseOrganizationServerErrorLabel,
+        }),
         message: parseServerErrorMessage({ error, t }),
       },
     ];
@@ -38,10 +44,37 @@ export const parseOrganizationServerErrors = ({
 
   // Get correct field name for an error item
   function parseOrganizationServerErrorLabel({ key }: { key: string }): string {
-    if (isGenericServerError(key)) {
-      return '';
-    }
-
     return t(`organization.form.label${pascalCase(key)}`);
+  }
+
+  // Get error items for web store merchant fields
+  function parseWebStoreMerchantServerErrors({
+    error,
+  }: {
+    error: LEServerError;
+  }): ServerErrorItem[] {
+    return Array.isArray(error)
+      ? Object.entries(error[0]).reduce(
+          (previous: ServerErrorItem[], [key, e]) => [
+            ...previous,
+            {
+              label: parseServerErrorLabel({
+                key,
+                parseFn: parseWebStoreMerchantServerErrorLabel,
+              }),
+              message: parseServerErrorMessage({ error: e as string[], t }),
+            },
+          ],
+          []
+        )
+      : /* istanbul ignore next */ [];
+  }
+
+  function parseWebStoreMerchantServerErrorLabel({
+    key,
+  }: {
+    key: string;
+  }): string {
+    return t(`organization.form.merchant.label${pascalCase(key)}`);
   }
 };

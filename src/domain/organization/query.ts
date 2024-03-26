@@ -2,6 +2,22 @@
 import gql from 'graphql-tag';
 
 export const QUERY_ORGANIZATION = gql`
+  fragment webStoreMerchantFields on WebStoreMerchant {
+    active
+    businessId
+    city
+    email
+    id
+    merchantId
+    name
+    paytrailMerchantId
+    phoneNumber
+    streetAddress
+    termsOfServiceUrl
+    url
+    zipcode
+  }
+
   fragment organizationFields on Organization {
     adminUsers {
       ...userFields
@@ -30,6 +46,9 @@ export const QUERY_ORGANIZATION = gql`
     }
     replacedBy
     subOrganizations
+    webStoreMerchants {
+      ...webStoreMerchantFields
+    }
   }
 
   query Organization($id: ID!, $createPath: Any, $dissolved: Boolean) {

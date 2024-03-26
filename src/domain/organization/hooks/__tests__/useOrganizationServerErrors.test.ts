@@ -22,9 +22,38 @@ it('should set generic server error items', async () => {
 it('should set server error items', async () => {
   const { result } = getHookWrapper();
 
-  await shouldSetServerErrors(
+  shouldSetServerErrors(result, { name: ['The name must be specified.'] }, [
+    { label: 'Nimi', message: 'Nimi on pakollinen.' },
+  ]);
+});
+
+it('should set server error items if merchant is invalid', async () => {
+  const { result } = getHookWrapper();
+
+  shouldSetServerErrors(
     result,
-    { name: ['The name must be specified.'] },
-    [{ label: 'Nimi', message: 'Nimi on pakollinen.' }]
+    {
+      web_store_merchants: [
+        {
+          name: ['Tämä kenttä ei voi olla tyhjä.'],
+          street_address: ['Tämä kenttä ei voi olla tyhjä.'],
+          zipcode: ['Tämä kenttä ei voi olla tyhjä.'],
+        },
+      ],
+    },
+    [
+      {
+        label: 'Nimi',
+        message: 'Tämä kenttä ei voi olla tyhjä.',
+      },
+      {
+        label: 'Katuosoite',
+        message: 'Tämä kenttä ei voi olla tyhjä.',
+      },
+      {
+        label: 'Postinumero',
+        message: 'Tämä kenttä ei voi olla tyhjä.',
+      },
+    ]
   );
 });

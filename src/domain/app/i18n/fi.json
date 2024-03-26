@@ -1619,7 +1619,9 @@
       "title": "Varmista organisaation poistaminen"
     },
     "form": {
+      "buttonAddMerchant": "Lisää uusi kauppias",
       "buttonDelete": "Poista organisaatio",
+      "buttonDeleteMerchant": "Poista kauppias",
       "labelAdminUsers": "Pääkäyttäjät",
       "labelClassification": "Luokittelu",
       "labelDataSource": "Datan lähde",
@@ -1634,9 +1636,24 @@
       "labelRegistrationAdminUsers": "Ilmoittautumisen pääkäyttäjät",
       "labelRegularUsers": "Peruskäyttäjät",
       "labelReplacedBy": "Korvaava organisaatio",
+      "merchant": {
+        "labelActive": "Aktiivinen",
+        "labelBusinessId": "Y-tunnus",
+        "labelCity": "Kaupunki",
+        "labelEmail": "Sähköposti",
+        "labelMerchantId": "Kauppiastunnus",
+        "labelName": "Nimi",
+        "labelPaytrailMerchantId": "Paytrail-kauppiastunnus",
+        "labelPhoneNumber": "Puhelinnumero",
+        "labelStreetAddress": "Katuosoite",
+        "labelTermsOfServiceUrl": "Palveluehdot URL",
+        "labelUrl": "URL-osoite",
+        "labelZipcode": "Postinumero"
+      },
       "notificationOrganizationDeleted": "Organisaatio on poistettu",
       "notificationOrganizationUpdated": "Organisaatio on tallennettu",
-      "notificationTitleCannotEdit": "Organisaatiota ei voi muokata"
+      "notificationTitleCannotEdit": "Organisaatiota ei voi muokata",
+      "titleMerchant": "Kauppias"
     },
     "internalType": {
       "affiliated": "Liitännäisorganisaatio",

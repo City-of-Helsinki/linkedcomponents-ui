@@ -65,6 +65,7 @@ import {
   User,
   UsersResponse,
   Video,
+  WebStoreMerchant,
 } from '../generated/graphql';
 import generateAtId from './generateAtId';
 
@@ -402,6 +403,7 @@ export const fakeOrganization = (
       registrationAdminUsers: [],
       regularUsers: [],
       subOrganizations: [],
+      webStoreMerchants: [],
       __typename: 'Organization',
     },
     overrides
@@ -772,6 +774,34 @@ export const fakeVideo = (overrides?: Partial<Video>): Video =>
       name: faker.lorem.word(),
       url: faker.image.url(),
       __typename: 'Video',
+    },
+    overrides
+  );
+
+export const fakeWebStoreMerchant = (
+  overrides?: Partial<WebStoreMerchant>
+): WebStoreMerchant =>
+  merge<WebStoreMerchant, typeof overrides>(
+    {
+      active: false,
+
+      businessId: faker.string.uuid(),
+      city: faker.location.city(),
+      createdBy: null,
+      createdTime: null,
+      email: faker.internet.email(),
+      id: faker.number.int(),
+      lastModifiedBy: null,
+      lastModifiedTime: null,
+      merchantId: faker.string.uuid(),
+      name: faker.lorem.word(),
+      paytrailMerchantId: faker.string.uuid(),
+      phoneNumber: faker.phone.number(),
+      streetAddress: faker.location.streetAddress(),
+      termsOfServiceUrl: faker.image.url(),
+      url: faker.image.url(),
+      zipcode: faker.location.zipCode(),
+      __typename: 'WebStoreMerchant',
     },
     overrides
   );

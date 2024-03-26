@@ -463,6 +463,21 @@ module.exports = buildSchema(/* GraphQL */ `
     usage: String
   }
 
+  input WebStoreMerchantInput {
+    active: Boolean
+    businessId: String
+    city: String
+    email: String
+    id: Int
+    name: String
+    paytrailMerchantId: String
+    phoneNumber: String
+    streetAddress: String
+    termsOfServiceUrl: String
+    url: String
+    zipcode: String
+  }
+
   input CreateOrganizationMutationInput {
     adminUsers: [String]
     affiliatedOrganizations: [String]
@@ -480,6 +495,7 @@ module.exports = buildSchema(/* GraphQL */ `
     regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
+    webStoreMerchants: [WebStoreMerchantInput]
   }
 
   input UpdateOrganizationMutationInput {
@@ -498,6 +514,7 @@ module.exports = buildSchema(/* GraphQL */ `
     regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
+    webStoreMerchants: [WebStoreMerchantInput]
   }
 
   input CreatePlaceMutationInput {
@@ -863,6 +880,26 @@ module.exports = buildSchema(/* GraphQL */ `
     price: LocalisedObject
   }
 
+  type WebStoreMerchant {
+    active: Boolean
+    businessId: String
+    city: String
+    createdBy: String
+    createdTime: String
+    email: String
+    id: Int
+    lastModifiedBy: String
+    lastModifiedTime: String
+    merchantId: String
+    name: String
+    paytrailMerchantId: String
+    phoneNumber: String
+    streetAddress: String
+    termsOfServiceUrl: String
+    url: String
+    zipcode: String
+  }
+
   type Organization {
     adminUsers: [User]
     affiliatedOrganizations: [String]
@@ -882,6 +919,7 @@ module.exports = buildSchema(/* GraphQL */ `
     regularUsers: [User]
     replacedBy: String
     subOrganizations: [String]
+    webStoreMerchants: [WebStoreMerchant]
     atContext: String
     atId: String!
     atType: String

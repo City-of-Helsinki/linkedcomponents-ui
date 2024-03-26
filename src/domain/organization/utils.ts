@@ -16,8 +16,10 @@ import {
   OrganizationsQueryVariables,
   UpdateOrganizationMutationInput,
   UserFieldsFragment,
+  WebStoreMerchantFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
+import { featureFlagUtils } from '../../utils/featureFlags';
 import formatDate from '../../utils/formatDate';
 import getDateFromString from '../../utils/getDateFromString';
 import getPathBuilder from '../../utils/getPathBuilder';
@@ -32,7 +34,11 @@ import {
   ORGANIZATION_ACTIONS,
   ORGANIZATION_INTERNAL_TYPE,
 } from './constants';
-import { OrganizationFields, OrganizationFormFields } from './types';
+import {
+  OrganizationFields,
+  OrganizationFormFields,
+  WebStoreMerchantFormFields,
+} from './types';
 
 export const organizationPathBuilder = ({
   args,
@@ -360,6 +366,26 @@ export const getEditButtonProps = ({
   };
 };
 
+export const getWebStoreMerchantInitialValues = (
+  webStoreMerchant: WebStoreMerchantFieldsFragment
+): WebStoreMerchantFormFields => {
+  return {
+    active: Boolean(webStoreMerchant.active),
+    businessId: getValue(webStoreMerchant.businessId, ''),
+    city: getValue(webStoreMerchant.city, ''),
+    email: getValue(webStoreMerchant.email, ''),
+    id: getValue(webStoreMerchant.id, null),
+    merchantId: getValue(webStoreMerchant.merchantId, ''),
+    name: getValue(webStoreMerchant.name, ''),
+    paytrailMerchantId: getValue(webStoreMerchant.paytrailMerchantId, ''),
+    phoneNumber: getValue(webStoreMerchant.phoneNumber, ''),
+    streetAddress: getValue(webStoreMerchant.streetAddress, ''),
+    termsOfServiceUrl: getValue(webStoreMerchant.termsOfServiceUrl, ''),
+    url: getValue(webStoreMerchant.url, ''),
+    zipcode: getValue(webStoreMerchant.zipcode, ''),
+  };
+};
+
 export const getOrganizationInitialValues = (
   organization: OrganizationFieldsFragment
 ): OrganizationFormFields => {
@@ -400,6 +426,12 @@ export const getOrganizationInitialValues = (
       organization.subOrganizations?.filter(skipFalsyType),
       []
     ),
+    webStoreMerchants: getValue(
+      organization.webStoreMerchants
+        ?.filter(skipFalsyType)
+        .map((i) => getWebStoreMerchantInitialValues(i)),
+      []
+    ),
   };
 };
 
@@ -415,6 +447,7 @@ export const getOrganizationPayload = (
     originId,
     parentOrganization,
     regularUsers,
+    webStoreMerchants,
     ...restFormValues
   } = formValues;
 
@@ -435,6 +468,14 @@ export const getOrganizationPayload = (
     originId,
     parentOrganization: parentOrganization || undefined,
     regularUsers,
+    ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
+      ? {
+          webStoreMerchants: webStoreMerchants.map((wsm) => ({
+            ...wsm,
+            id: wsm.id ?? undefined,
+          })),
+        }
+      : /* istanbul ignore next */ {}),
   };
 };
 

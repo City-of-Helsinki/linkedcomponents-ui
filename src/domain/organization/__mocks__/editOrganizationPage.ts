@@ -41,6 +41,7 @@ const payload = {
   foundingDate: '2021-01-01',
   id: TEST_PUBLISHER_ID,
   originId: '1',
+  webStoreMerchants: [],
 };
 
 const updateOrganizationVariables = { input: payload };
