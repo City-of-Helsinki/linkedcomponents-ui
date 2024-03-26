@@ -1619,7 +1619,9 @@
       "title": "Bekräfta raderingen av organisationen"
     },
     "form": {
+      "buttonAddMerchant": "Lägg till ny handlare",
       "buttonDelete": "Radera organisation",
+      "buttonDeleteMerchant": "Radera handlare",
       "labelAdminUsers": "Adminanvändare",
       "labelClassification": "Klassificering",
       "labelDataSource": "Datakälla",
@@ -1634,9 +1636,24 @@
       "labelRegistrationAdminUsers": "Registrering admin användare",
       "labelRegularUsers": "Regelbundna användare",
       "labelReplacedBy": "Ersatt av",
+      "merchant": {
+        "labelActive": "Är aktiv",
+        "labelBusinessId": "Företags-ID",
+        "labelCity": "Staden",
+        "labelEmail": "E-postadress",
+        "labelMerchantId": "Säljar-ID",
+        "labelName": "Namn",
+        "labelPaytrailMerchantId": "Paytrail säljar-ID",
+        "labelPhoneNumber": "Telefonnummer",
+        "labelStreetAddress": "Gatuadress",
+        "labelTermsOfServiceUrl": "Användarvillkor URL",
+        "labelUrl": "URL-adress",
+        "labelZipcode": "Postnummer"
+      },
       "notificationOrganisationDeleted": "Organisation har tagits bort",
       "notificationOrganisationUpdated": "Organisation har sparats",
-      "notificationTitleCannotEdit": "Organisation kan inte redigeras"
+      "notificationTitleCannotEdit": "Organisation kan inte redigeras",
+      "titleMerchant": "Handlare"
     },
     "internalType": {
       "affiliated": "Ansluten organisation",

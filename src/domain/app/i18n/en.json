@@ -1618,7 +1618,9 @@
       "title": "Confirm organization deletion"
     },
     "form": {
+      "buttonAddMerchant": "Add new merchant",
       "buttonDelete": "Delete organization",
+      "buttonDeleteMerchant": "Delete merchant",
       "labelAdminUsers": "Admin users",
       "labelClassification": "Classification",
       "labelDataSource": "Data source",
@@ -1633,9 +1635,24 @@
       "labelRegistrationAdminUsers": "Registration admin users",
       "labelRegularUsers": "Regular users",
       "labelReplacedBy": "Replaced by",
+      "merchant": {
+        "labelActive": "Is active",
+        "labelBusinessId": "Business ID",
+        "labelCity": "City",
+        "labelEmail": "Email",
+        "labelMerchantId": "Merchant ID",
+        "labelName": "Name",
+        "labelPaytrailMerchantId": "Paytrail merchant ID",
+        "labelPhoneNumber": "Telephone number",
+        "labelStreetAddress": "Street address",
+        "labelTermsOfServiceUrl": "Terms of Service URL",
+        "labelUrl": "URL address",
+        "labelZipcode": "Postcode"
+      },
       "notificationOrganizationDeleted": "The organization has been deleted",
       "notificationOrganizationUpdated": "The organization has been saved",
-      "notificationTitleCannotEdit": "The organization cannot be edited"
+      "notificationTitleCannotEdit": "The organization cannot be edited",
+      "titleMerchant": "Merchant"
     },
     "internalType": {
       "affiliated": "Affiliated organization",

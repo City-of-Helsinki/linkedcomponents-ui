@@ -16,6 +16,7 @@ import ServerErrorSummary from '../../../common/components/serverErrorSummary/Se
 import { ROUTES } from '../../../constants';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import { featureFlagUtils } from '../../../utils/featureFlags';
 import getValue from '../../../utils/getValue';
 import {
   scrollToFirstError,
@@ -23,6 +24,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import Section from '../../app/layout/section/Section';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useUser from '../../user/hooks/useUser';
 import {
@@ -40,6 +42,7 @@ import OrganizationAuthenticationNotification from '../organizationAuthenticatio
 import { OrganizationFormFields } from '../types';
 import { checkCanUserDoAction, getOrganizationInitialValues } from '../utils';
 import { getFocusableFieldId, organizationSchema } from '../validation';
+import Merchants from './merchants/Merchants';
 import SubOrganizationTable from './subOrganizationTable/SubOrganizationTable';
 
 type OrganizationFormProps = {
@@ -347,6 +350,14 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
               organizationIds={values.affiliatedOrganizations}
               title={t('organization.affiliatedOrganizationsTableTitle')}
             />
+            {featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') && (
+              <Section title={t('organization.form.titleMerchant')}>
+                <Merchants
+                  isEditingAllowed={isEditingAllowed}
+                  organization={organization}
+                />
+              </Section>
+            )}
 
             {organization ? (
               <EditButtonPanel

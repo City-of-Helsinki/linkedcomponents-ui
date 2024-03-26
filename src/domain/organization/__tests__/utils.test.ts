@@ -33,6 +33,22 @@ import {
 
 const apolloClient = createApolloClient({ addNotification: vi.fn() });
 
+const merchant = {
+  active: true,
+  businessId: 'business:1',
+  city: 'Helsinki',
+  email: 'test@email.com',
+  id: 1,
+  merchantId: 'merchant:1',
+  name: 'Merchant',
+  paytrailMerchantId: 'paytrail:1',
+  phoneNumber: '0441234567',
+  streetAddress: 'Osoite',
+  termsOfServiceUrl: 'https://test.com',
+  url: 'https://test2.com',
+  zipcode: '00100',
+};
+
 describe('organizationPathBuilder function', () => {
   it('should create correct path for organization class request', () => {
     expect(organizationPathBuilder({ args: { id: '123' } })).toBe(
@@ -244,6 +260,7 @@ describe('getOrganizationInitialValues function', () => {
           registrationAdminUsers: null,
           regularUsers: null,
           subOrganizations: null,
+          webStoreMerchants: null,
         })
       )
     ).toEqual({
@@ -263,6 +280,7 @@ describe('getOrganizationInitialValues function', () => {
       regularUsers: [],
       replacedBy: '',
       subOrganizations: [],
+      webStoreMerchants: [],
     });
   });
 
@@ -287,6 +305,7 @@ describe('getOrganizationInitialValues function', () => {
           ]).data,
           regularUsers: fakeUsers(1, [{ username: 'regular:1' }]).data,
           subOrganizations: ['organization:sub'],
+          webStoreMerchants: [merchant],
         })
       )
     ).toEqual({
@@ -306,6 +325,7 @@ describe('getOrganizationInitialValues function', () => {
       regularUsers: ['regular:1'],
       replacedBy: '',
       subOrganizations: ['organization:sub'],
+      webStoreMerchants: [merchant],
     });
   });
 });
@@ -329,6 +349,7 @@ describe('getOrganizationPayload function', () => {
       regularUsers: [],
       replacedBy: '',
       subOrganizations: [],
+      webStoreMerchants: [],
     });
 
     expect(
@@ -349,6 +370,7 @@ describe('getOrganizationPayload function', () => {
         regularUsers: ['regular:1'],
         replacedBy: 'organization:replaced',
         subOrganizations: ['organization:sub'],
+        webStoreMerchants: [merchant, { ...merchant, id: null }],
       })
     ).toEqual({
       adminUsers: ['admin:1'],
@@ -367,6 +389,7 @@ describe('getOrganizationPayload function', () => {
       regularUsers: ['regular:1'],
       replacedBy: 'organization:replaced',
       subOrganizations: ['organization:sub'],
+      webStoreMerchants: [merchant, { ...merchant, id: undefined }],
     });
   });
 });
