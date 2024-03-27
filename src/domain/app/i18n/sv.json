@@ -1326,8 +1326,9 @@
       "imageAltText2": "Välj det evenemang som du vill skapa en registrering för; du kan också skriva i fältet.",
       "imageAltText3": "Välj de inmatningsspråk du vill använda och ange eventuella registreringsinstruktioner och ytterligare text för bekräftelsemeddelandet på de språk du har valt.",
       "imageAltText4": "Vänligen välj de obligatoriska personuppgiftsfälten på registreringsformuläret.",
-      "imageAltText5": "På förstasidan i registreringsavsnittet ser du en lista över evenemang för vilka registrering har skapats.",
-      "imageAltText6": "Du kan se deltagarna på förstasidan för registreringsavsnittet genom att välja evenemanget i menyn Visa deltagare.",
+      "imageAltText5": "Lägg till läsbehörighet till deltagarlistan för personer som behöver komma åt deltagarlistan.",
+      "imageAltText6": "På förstasidan i registreringsavsnittet ser du en lista över evenemang för vilka registrering har skapats.",
+      "imageAltText7": "Du kan se deltagarna på förstasidan för registreringsavsnittet genom att välja evenemanget i menyn Visa deltagare.",
       "pageTitle": "Linked Registration instruktioner"
     },
     "sideNavigation": {

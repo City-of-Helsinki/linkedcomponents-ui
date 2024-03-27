@@ -1326,8 +1326,9 @@
       "imageAltText2": "Select the event for which you want to create a registration; you can also type in the field.",
       "imageAltText3": "Select the input languages you wish to use and enter any registration instructions and additional text for the confirmation message in the languages you have chosen.",
       "imageAltText4": "Please select the mandatory personal data fields on the registration form.",
-      "imageAltText5": "On the front page of the registration section, you will see a list of events for which registration has been created.",
-      "imageAltText6": "You can view the participants on the registration section home page by selecting the event from three-dot menu Show participants.",
+      "imageAltText5": "Add read access rights to the participant list for people who need to access the participant list.",
+      "imageAltText6": "On the front page of the registration section, you will see a list of events for which registration has been created.",
+      "imageAltText7": "You can view the participants on the registration section home page by selecting the event from three-dot menu Show participants.",
       "pageTitle": "Linked Registration instructions"
     },
     "sideNavigation": {
