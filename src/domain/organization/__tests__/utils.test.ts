@@ -89,14 +89,10 @@ describe('checkCanUserDoAction function', () => {
     });
   });
 
-  it('should allow correct actions if publisher is not defined and user has at least one admin organization', () => {
-    const adminOrganization = 'admin:1';
-    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+  it('should allow superuser to do any action', () => {
+    const user = fakeUser({ isSuperuser: true });
 
-    const allowedActions = [
-      ORGANIZATION_ACTIONS.CREATE,
-      ORGANIZATION_ACTIONS.EDIT,
-    ];
+    const allowedActions = Object.values(ORGANIZATION_ACTIONS);
 
     allowedActions.forEach((action) => {
       expect(
@@ -107,6 +103,26 @@ describe('checkCanUserDoAction function', () => {
         })
       ).toBe(true);
     });
+  });
+});
+
+it('should allow correct actions if publisher is not defined and user has at least one admin organization', () => {
+  const adminOrganization = 'admin:1';
+  const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+  const allowedActions = [
+    ORGANIZATION_ACTIONS.CREATE,
+    ORGANIZATION_ACTIONS.EDIT,
+  ];
+
+  allowedActions.forEach((action) => {
+    expect(
+      checkCanUserDoAction({
+        action,
+        id: '',
+        user,
+      })
+    ).toBe(true);
   });
 });
 

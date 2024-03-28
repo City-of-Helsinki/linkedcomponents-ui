@@ -261,6 +261,7 @@ export const checkCanUserDoAction = ({
   user?: UserFieldsFragment;
 }): boolean => {
   /* istanbul ignore next */
+  const isSuperuser = !!user?.isSuperuser;
   const isAdminUser = isAdminUserInOrganization({
     id,
     organizationAncestors: [],
@@ -272,10 +273,10 @@ export const checkCanUserDoAction = ({
     case ORGANIZATION_ACTIONS.EDIT:
       return true;
     case ORGANIZATION_ACTIONS.CREATE:
-      return !!adminOrganizations.length;
+      return !!adminOrganizations.length || isSuperuser;
     case ORGANIZATION_ACTIONS.DELETE:
     case ORGANIZATION_ACTIONS.UPDATE:
-      return isAdminUser;
+      return isAdminUser || isSuperuser;
   }
 };
 
