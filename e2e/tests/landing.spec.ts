@@ -5,73 +5,97 @@ test.describe('Landing page', () => {
     await page.goto('/fi');
   });
 
-  test('Footer links work', async ({ page }) => {
-    await expect(
-      page
-        .getByRole('contentinfo')
-        .getByRole('link', { name: 'Omat tapahtumat' })
-    ).toBeVisible();
-    await expect(
-      page
-        .getByRole('contentinfo')
-        .getByRole('link', { name: 'Etsi tapahtumia' })
-    ).toBeVisible();
-    await expect(
-      page.getByRole('contentinfo').getByRole('link', { name: 'Tuki' })
-    ).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Tietosuoja' })).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: 'Saavutettavuusseloste' })
-    ).toBeVisible();
+  test('Footer links are visible', async ({ page }) => {
+    await expect
+      .soft(
+        page
+          .getByRole('contentinfo')
+          .getByRole('link', { name: 'Omat tapahtumat' })
+      )
+      .toBeVisible();
+    await expect
+      .soft(
+        page
+          .getByRole('contentinfo')
+          .getByRole('link', { name: 'Etsi tapahtumia' })
+      )
+      .toBeVisible();
+    await expect
+      .soft(page.getByRole('contentinfo').getByRole('link', { name: 'Tuki' }))
+      .toBeVisible();
+    await expect
+      .soft(page.getByRole('link', { name: 'Tietosuoja' }))
+      .toBeVisible();
+    await expect
+      .soft(page.getByRole('link', { name: 'Saavutettavuusseloste' }))
+      .toBeVisible();
   });
 
   test('English translations', async ({ page }) => {
     await page.getByRole('button', { name: 'In English' }).click();
 
-    await expect(
-      page.locator('#page-header').getByRole('link', { name: 'My events' })
-    ).toBeVisible();
-    await expect(
-      page.locator('#page-header').getByRole('link', { name: 'Search events' })
-    ).toBeVisible();
-    await expect(
-      page.locator('#page-header').getByRole('link', { name: 'Support' })
-    ).toBeVisible();
+    await expect
+      .soft(
+        page.locator('#page-header').getByRole('link', { name: 'My events' })
+      )
+      .toBeVisible();
+    await expect
+      .soft(
+        page
+          .locator('#page-header')
+          .getByRole('link', { name: 'Search events' })
+      )
+      .toBeVisible();
+    await expect
+      .soft(page.locator('#page-header').getByRole('link', { name: 'Support' }))
+      .toBeVisible();
 
-    await expect(page.getByPlaceholder('Search events')).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Sign in' })).toBeVisible();
-    await expect(
-      page.getByRole('button', { name: 'Add new event' })
-    ).toBeVisible();
-    await expect(
-      page.getByRole('heading', { name: 'Events and hobbies in Helsinki' })
-    ).toBeVisible();
-    await expect(
-      page.getByRole('heading', { name: 'Helsinki event sites' })
-    ).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Front page' })).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: 'Instructions', exact: true })
-    ).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Technology' })).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: 'Service features' })
-    ).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: 'Data Protection' })
-    ).toBeVisible();
-    await expect(
-      page.getByRole('link', { name: 'Accessibility Statement' })
-    ).toBeVisible();
-    await expect(
-      page.getByRole('contentinfo').getByRole('link', { name: 'My events' })
-    ).toBeVisible();
-    await expect(
-      page.getByRole('contentinfo').getByRole('link', { name: 'Support' })
-    ).toBeVisible();
+    await expect.soft(page.getByPlaceholder('Search events')).toBeVisible();
+    await expect
+      .soft(page.getByRole('button', { name: 'Sign in' }))
+      .toBeVisible();
+    await expect
+      .soft(page.getByRole('button', { name: 'Add new event' }))
+      .toBeVisible();
+    await expect
+      .soft(
+        page.getByRole('heading', { name: 'Events and hobbies in Helsinki' })
+      )
+      .toBeVisible();
+    await expect
+      .soft(page.getByRole('heading', { name: 'Helsinki event sites' }))
+      .toBeVisible();
+    await expect
+      .soft(page.getByRole('link', { name: 'Front page' }))
+      .toBeVisible();
+    await expect
+      .soft(page.getByRole('link', { name: 'Instructions', exact: true }))
+      .toBeVisible();
+    await expect
+      .soft(page.getByRole('link', { name: 'Technology' }))
+      .toBeVisible();
+    await expect
+      .soft(page.getByRole('link', { name: 'Service features' }))
+      .toBeVisible();
+    await expect
+      .soft(page.getByRole('link', { name: 'Data Protection' }))
+      .toBeVisible();
+    await expect
+      .soft(page.getByRole('link', { name: 'Accessibility Statement' }))
+      .toBeVisible();
+    await expect
+      .soft(
+        page.getByRole('contentinfo').getByRole('link', { name: 'My events' })
+      )
+      .toBeVisible();
+    await expect
+      .soft(
+        page.getByRole('contentinfo').getByRole('link', { name: 'Support' })
+      )
+      .toBeVisible();
   });
 
-  test('Header tabs field work', async ({ page }) => {
+  test('Header tabs links are visible', async ({ page }) => {
     await expect(
       page
         .locator('#page-header')
@@ -87,7 +111,7 @@ test.describe('Landing page', () => {
     ).toBeVisible();
   });
 
-  test('Add new event button', async ({ page }) => {
+  test('Add new event button functionality', async ({ page }) => {
     await expect(
       page.getByRole('heading', { name: 'Tapahtumatyyppi' })
     ).toBeHidden();
@@ -95,7 +119,7 @@ test.describe('Landing page', () => {
     expect(page.url()).toContain('events/create');
   });
 
-  test('search button', async ({ page }) => {
+  test('Search button functionality', async ({ page }) => {
     await expect(
       page.getByRole('heading', { name: 'Etsi tapahtumia' })
     ).toBeHidden();
@@ -105,7 +129,9 @@ test.describe('Landing page', () => {
     ).toBeVisible();
   });
 
-  test('headers, links and buttons', async ({ page }) => {
+  test('Verify headers, links, and buttons on landing page', async ({
+    page,
+  }) => {
     await expect(
       page.getByRole('button', { name: 'Lisää uusi tapahtuma' })
     ).toBeVisible();
@@ -140,7 +166,9 @@ test.describe('Landing page', () => {
     ).toBeVisible();
   });
 
-  test('create new event button', async ({ page }) => {
+  test('Clicking on "Lisää uusi tapahtuma" button should navigate to the create event page', async ({
+    page,
+  }) => {
     await expect(
       page.getByRole('button', { name: 'Lisää uusi tapahtuma' })
     ).toBeEnabled();
@@ -148,7 +176,7 @@ test.describe('Landing page', () => {
     await expect(page).toHaveURL('fi/events/create');
   });
 
-  test('cookies', async ({ page }) => {
+  test('Cookie consent buttons are enabled', async ({ page }) => {
     await expect(
       page.getByTestId('cookie-consent-approve-button')
     ).toBeEnabled();

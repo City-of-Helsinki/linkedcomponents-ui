@@ -10,7 +10,7 @@ test.describe('Event search page', () => {
     await expect(page.getByTestId('hds-pagination-next-button')).toBeVisible();
   });
 
-  test('shows places in filter options', async ({ page }) => {
+  test('Displays places in filter options', async ({ page }) => {
     const res = await fetch(`${LINKED_EVENTS_URL}/place/?`);
     const json: PlacesResponse = await res.json();
     const places = json.data;
@@ -27,7 +27,9 @@ test.describe('Event search page', () => {
     await page.getByLabel(placeFinnishName).first().check();
   });
 
-  test('events are found in search', async ({ page }) => {
+  test('Searching for specific event displays the event card', async ({
+    page,
+  }) => {
     const res = await fetch(`${LINKED_EVENTS_URL}/event/`);
     const json: EventsResponse = await res.json();
     const events = json.data;
@@ -55,7 +57,7 @@ test.describe('Event search page', () => {
     }
   });
 
-  test('headings and buttons', async ({ page }) => {
+  test('Verify search controls and results', async ({ page }) => {
     // Search controls
     await expect(
       page.getByText('Hae Linked Events -rajapinnasta')
@@ -79,7 +81,7 @@ test.describe('Event search page', () => {
     ).toBeVisible();
   });
 
-  test('clear search input', async ({ page }) => {
+  test('Should clear search input', async ({ page }) => {
     const searchInput = page.getByPlaceholder('Hae tapahtumia');
     const textToSearch = 'Hello world';
 
@@ -93,7 +95,7 @@ test.describe('Event search page', () => {
     await expect(searchInput).toHaveValue('');
   });
 
-  test('invalid search returns no results', async ({ page }) => {
+  test('Should return no results for invalid search', async ({ page }) => {
     const searchInput = page.getByPlaceholder('Hae tapahtumia');
     const textToSearch = 'xxx zzz yyy 123';
 
@@ -105,7 +107,7 @@ test.describe('Event search page', () => {
   });
 });
 
-test('logged out', async ({ page }) => {
+test('should display logged out message', async ({ page }) => {
   await page.goto('fi/events');
   await expect(
     page.getByText(
@@ -121,7 +123,7 @@ test('logged out', async ({ page }) => {
   ).toBeEnabled();
 });
 
-test('create page', async ({ page }) => {
+test('Create event page', async ({ page }) => {
   await page.goto('/fi/events/create');
 
   // Info text for logged out users
