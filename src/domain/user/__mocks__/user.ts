@@ -26,13 +26,20 @@ const getMockedUserResponse = (userSettings: Partial<User>): MockedResponse => {
   };
 };
 
-const mockedUserResponse = getMockedUserResponse({
+const adminUserOptions: Partial<User> = {
   adminOrganizations: [TEST_PUBLISHER_ID],
   displayName: userName,
   firstName: userFirstName,
   organization: TEST_PUBLISHER_ID,
   organizationMemberships: [],
   registrationAdminOrganizations: [],
+};
+
+const mockedUserResponse = getMockedUserResponse(adminUserOptions);
+
+const mockedSuperuserResponse = getMockedUserResponse({
+  ...adminUserOptions,
+  isSuperuser: true,
 });
 
 const mockedExternalAdminUserResponse = getMockedUserResponse({
@@ -102,6 +109,7 @@ export {
   mockedFinancialAdminUserResponse,
   mockedRegistrationUserResponse,
   mockedRegularUserResponse,
+  mockedSuperuserResponse,
   mockedUserResponse,
   mockedUsersResponse,
   mockedUserWithoutOrganizationsResponse,

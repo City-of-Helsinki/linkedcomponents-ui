@@ -11,7 +11,7 @@ import {
 } from '../../../organizationClass/__mocks__/organizationClass';
 import { mockedOrganizationsResponse } from '../../../organizations/__mocks__/organizationsPage';
 import {
-  mockedUserResponse,
+  mockedSuperuserResponse,
   mockedUsersResponse,
 } from '../../../user/__mocks__/user';
 import OrganizationForm from '../OrganizationForm';
@@ -20,7 +20,7 @@ const defaultMocks = [
   mockedOrganizationsResponse,
   mockedOrganizationClassResponse,
   mockedOrganizationClassesResponse,
-  mockedUserResponse,
+  mockedSuperuserResponse,
   mockedUsersResponse,
 ];
 

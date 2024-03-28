@@ -997,6 +997,7 @@ module.exports = buildSchema(/* GraphQL */ `
     isExternal: Boolean
     isStaff: Boolean
     isSubstituteUser: Boolean
+    isSuperuser: Boolean
     lastLogin: String
     lastName: String
     organization: String

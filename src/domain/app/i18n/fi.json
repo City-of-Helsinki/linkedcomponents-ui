@@ -1696,7 +1696,8 @@
       "parentOrganizationDesc": "Pääorganisaatio, laskeva"
     },
     "title": "Organisaatiot",
-    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä organisaatiota."
+    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä organisaatiota.",
+    "warningNoRightsToEditMerchant": "Vain järjestelmän pääkäyttäjät voivat muokata kauppiaita"
   },
   "place": {
     "deletePlaceModal": {

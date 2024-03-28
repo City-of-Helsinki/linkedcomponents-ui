@@ -8,7 +8,9 @@ import TextInputField from '../../../../../common/components/formFields/textInpu
 import { OrganizationFieldsFragment } from '../../../../../generated/graphql';
 import styles from '../../../../admin/layout/form.module.scss';
 import FormRow from '../../../../admin/layout/formRow/FormRow';
+import useUser from '../../../../user/hooks/useUser';
 import { WEB_STORE_MERCHANT_FIELDS } from '../../../constants';
+import { checkIsEditMerchantAllowed } from '../../../utils';
 
 type Props = {
   isEditingAllowed: boolean;
@@ -29,6 +31,8 @@ const Merchant: React.FC<Props> = ({
   showDeleteButton,
 }) => {
   const { t } = useTranslation();
+  const { user } = useUser();
+  const { editable, warning } = checkIsEditMerchantAllowed({ t, user });
 
   const fieldNames = React.useMemo(
     () => ({
@@ -85,125 +89,137 @@ const Merchant: React.FC<Props> = ({
       <FormRow className={styles.borderInMobile}>
         <Field
           component={CheckboxField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelActive`)}
           name={fieldNames.active}
+          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfOrganization}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelName`)}
           name={fieldNames.name}
           required
+          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfOrganization}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelStreetAddress`)}
           name={fieldNames.streetAddress}
           required
+          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfOrganization}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelZipcode`)}
           name={fieldNames.zipcode}
           required
+          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfOrganization}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelCity`)}
           name={fieldNames.city}
           required
+          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfOrganization}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelEmail`)}
           name={fieldNames.email}
           required
+          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfOrganization}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelPhoneNumber`)}
           name={fieldNames.phoneNumber}
           required
+          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfOrganization}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelUrl`)}
           name={fieldNames.url}
           required
+          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfOrganization}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelTermsOfServiceUrl`)}
           name={fieldNames.termsOfServiceUrl}
           required
+          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfOrganization}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelBusinessId`)}
           name={fieldNames.businessId}
           required
+          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfOrganization}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelPaytrailMerchantId`)}
           name={fieldNames.paytrailMerchantId}
           required
+          title={warning}
         />
       </FormRow>
       <FormRow className={styles.borderInMobile}>
         <Field
           className={styles.alignedInputWithFullBorder}
           component={TextInputField}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelMerchantId`)}
           name={fieldNames.merchantId}
           readOnly={true}
+          title={warning}
         />
       </FormRow>
       {showDeleteButton && (
         <DeleteButton
           ariaLabel={t('organization.form.buttonDeleteMerchant')}
-          disabled={!isEditingAllowed}
+          disabled={!editable || !isEditingAllowed}
           label={t('organization.form.buttonDeleteMerchant')}
           onClick={onDelete}
         />

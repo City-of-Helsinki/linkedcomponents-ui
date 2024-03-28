@@ -41,7 +41,7 @@ import useOrganizationServerErrors from '../hooks/useOrganizationServerErrors';
 import OrganizationAuthenticationNotification from '../organizationAuthenticationNotification/OrganizationAuthenticationNotification';
 import { OrganizationFormFields } from '../types';
 import { checkCanUserDoAction, getOrganizationInitialValues } from '../utils';
-import { getFocusableFieldId, organizationSchema } from '../validation';
+import { getFocusableFieldId, getOrganizationSchema } from '../validation';
 import Merchants from './merchants/Merchants';
 import SubOrganizationTable from './subOrganizationTable/SubOrganizationTable';
 
@@ -151,7 +151,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
-      validationSchema={isEditingAllowed && organizationSchema}
+      validationSchema={isEditingAllowed && getOrganizationSchema({ user })}
     >
       {({ setErrors, setTouched, values }) => {
         const clearErrors = () => setErrors({});
@@ -165,7 +165,9 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             setServerErrorItems([]);
             clearErrors();
 
-            await organizationSchema.validate(values, { abortEarly: false });
+            await getOrganizationSchema({ user }).validate(values, {
+              abortEarly: false,
+            });
 
             if (organization) {
               await onUpdate(values);

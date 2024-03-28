@@ -332,7 +332,12 @@ describe('getOrganizationInitialValues function', () => {
 
 describe('getOrganizationPayload function', () => {
   it('should return organization payload', () => {
-    expect(getOrganizationPayload(ORGANIZATION_INITIAL_VALUES)).toEqual({
+    expect(
+      getOrganizationPayload(
+        ORGANIZATION_INITIAL_VALUES,
+        fakeUser({ isSuperuser: true })
+      )
+    ).toEqual({
       adminUsers: [],
       affiliatedOrganizations: [],
       classification: '',
@@ -353,25 +358,28 @@ describe('getOrganizationPayload function', () => {
     });
 
     expect(
-      getOrganizationPayload({
-        adminUsers: ['admin:1'],
-        affiliatedOrganizations: ['organization:affiliated'],
-        classification: 'ahjo:1',
-        dataSource: 'helsinki',
-        dissolutionDate: new Date('2021-12-12'),
-        financialAdminUsers: ['financialAdmin:1'],
-        foundingDate: new Date('2021-12-12'),
-        id: '',
-        internalType: 'normal',
-        name: 'name',
-        originId: '123',
-        parentOrganization: 'organization:parent',
-        registrationAdminUsers: ['registrationAdmin:1'],
-        regularUsers: ['regular:1'],
-        replacedBy: 'organization:replaced',
-        subOrganizations: ['organization:sub'],
-        webStoreMerchants: [merchant, { ...merchant, id: null }],
-      })
+      getOrganizationPayload(
+        {
+          adminUsers: ['admin:1'],
+          affiliatedOrganizations: ['organization:affiliated'],
+          classification: 'ahjo:1',
+          dataSource: 'helsinki',
+          dissolutionDate: new Date('2021-12-12'),
+          financialAdminUsers: ['financialAdmin:1'],
+          foundingDate: new Date('2021-12-12'),
+          id: '',
+          internalType: 'normal',
+          name: 'name',
+          originId: '123',
+          parentOrganization: 'organization:parent',
+          registrationAdminUsers: ['registrationAdmin:1'],
+          regularUsers: ['regular:1'],
+          replacedBy: 'organization:replaced',
+          subOrganizations: ['organization:sub'],
+          webStoreMerchants: [merchant, { ...merchant, id: null }],
+        },
+        fakeUser({ isSuperuser: true })
+      )
     ).toEqual({
       adminUsers: ['admin:1'],
       affiliatedOrganizations: ['organization:affiliated'],

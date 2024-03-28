@@ -1695,7 +1695,8 @@
       "parentOrganizationDesc": "Parent organization, descending"
     },
     "title": "Organizations",
-    "warningNoRightsToEdit": "You have insufficient rights to edit this organization."
+    "warningNoRightsToEdit": "You have insufficient rights to edit this organization.",
+    "warningNoRightsToEditMerchant": "Only superusers can manage web store merchants"
   },
   "place": {
     "deletePlaceModal": {

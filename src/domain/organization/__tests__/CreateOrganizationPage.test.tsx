@@ -21,6 +21,7 @@ import {
   organizations,
 } from '../../organizations/__mocks__/organizationsPage';
 import {
+  mockedSuperuserResponse,
   mockedUserResponse,
   mockedUsersResponse,
 } from '../../user/__mocks__/user';
@@ -45,7 +46,7 @@ const defaultMocks = [
   mockedOrganizationsResponse,
   mockedOrganizationClassResponse,
   mockedOrganizationClassesResponse,
-  mockedUserResponse,
+  mockedSuperuserResponse,
   mockedUsersResponse,
 ];
 
@@ -223,4 +224,19 @@ test('should show server errors', async () => {
     timeout: 10000,
   });
   screen.getByText(/Tämän kentän arvo ei voi olla "null"./i);
+});
+
+test('should not allow non-superuser to edit merchants', async () => {
+  renderComponent([
+    mockedOrganizationsResponse,
+    mockedOrganizationClassResponse,
+    mockedOrganizationClassesResponse,
+    mockedUserResponse,
+    mockedUsersResponse,
+  ]);
+
+  await loadingSpinnerIsNotInDocument();
+  await screen.findByText(
+    'Vain järjestelmän pääkäyttäjät voivat muokata kauppiaita'
+  );
 });
