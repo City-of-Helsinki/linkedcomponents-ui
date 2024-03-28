@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 
+import { UserFieldsFragment } from '../../generated/graphql';
 import { featureFlagUtils } from '../../utils/featureFlags';
 import {
   createStringMaxErrorMessage,
@@ -87,34 +88,40 @@ export const webStoreMerchantSchema = Yup.object().shape({
     ),
 });
 
-export const organizationSchema = Yup.object().shape({
-  [ORGANIZATION_FIELDS.ORIGIN_ID]: Yup.string().when(
-    [ORGANIZATION_FIELDS.ID],
-    ([id], schema) =>
-      id ? schema : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-  ),
-  [ORGANIZATION_FIELDS.NAME]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .nullable(),
-  [ORGANIZATION_FIELDS.FOUNDING_DATE]: Yup.date()
-    .nullable()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
-  [ORGANIZATION_FIELDS.DISSOLUTION_DATE]: Yup.date()
-    .nullable()
-    .typeError(VALIDATION_MESSAGE_KEYS.DATE),
-  [ORGANIZATION_FIELDS.PARENT_ORGANIZATION]: Yup.string().when(
-    [ORGANIZATION_FIELDS.ID],
-    ([id], schema) =>
-      id ? schema : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-  ),
-  ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
-    ? {
-        [ORGANIZATION_FIELDS.WEB_STORE_MERCHANTS]: Yup.array().of(
-          webStoreMerchantSchema
-        ),
-      }
-    : /* istanbul ignore next */ {}),
-});
+export const getOrganizationSchema = ({
+  user,
+}: {
+  user?: UserFieldsFragment;
+}) =>
+  Yup.object().shape({
+    [ORGANIZATION_FIELDS.ORIGIN_ID]: Yup.string().when(
+      [ORGANIZATION_FIELDS.ID],
+      ([id], schema) =>
+        id ? schema : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    ),
+    [ORGANIZATION_FIELDS.NAME]: Yup.string()
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      .nullable(),
+    [ORGANIZATION_FIELDS.FOUNDING_DATE]: Yup.date()
+      .nullable()
+      .typeError(VALIDATION_MESSAGE_KEYS.DATE),
+    [ORGANIZATION_FIELDS.DISSOLUTION_DATE]: Yup.date()
+      .nullable()
+      .typeError(VALIDATION_MESSAGE_KEYS.DATE),
+    [ORGANIZATION_FIELDS.PARENT_ORGANIZATION]: Yup.string().when(
+      [ORGANIZATION_FIELDS.ID],
+      ([id], schema) =>
+        id ? schema : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    ),
+    ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
+    user?.isSuperuser
+      ? {
+          [ORGANIZATION_FIELDS.WEB_STORE_MERCHANTS]: Yup.array().of(
+            webStoreMerchantSchema
+          ),
+        }
+      : /* istanbul ignore next */ {}),
+  });
 
 export const getFocusableFieldId = (fieldName: string): string => {
   if (ORGANIZATION_SELECT_FIELDS.find((item) => item === fieldName)) {

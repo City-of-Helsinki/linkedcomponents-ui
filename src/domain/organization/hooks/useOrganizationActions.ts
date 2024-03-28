@@ -20,6 +20,7 @@ import {
   clearOrganizationQueries,
   clearOrganizationsQueries,
 } from '../../app/apollo/clearCacheUtils';
+import useUser from '../../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from '../constants';
 import { OrganizationFormFields } from '../types';
 import {
@@ -56,6 +57,7 @@ const useOrganizationUpdateActions = ({
   organization,
 }: Props): UseKeywordUpdateActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
+  const { user } = useUser();
   const [openModal, setOpenModal] = useMountedState<ORGANIZATION_MODALS | null>(
     null
   );
@@ -100,7 +102,7 @@ const useOrganizationUpdateActions = ({
     callbacks?: MutationCallbacks<string>
   ) => {
     setSaving(ORGANIZATION_ACTIONS.CREATE);
-    const payload = getOrganizationPayload(values);
+    const payload = getOrganizationPayload(values, user);
 
     try {
       const { data } = await createOrganizationMutation({
@@ -143,8 +145,10 @@ const useOrganizationUpdateActions = ({
     values: OrganizationFormFields,
     callbacks?: MutationCallbacks<string>
   ) => {
-    const payload: UpdateOrganizationMutationInput =
-      getOrganizationPayload(values);
+    const payload: UpdateOrganizationMutationInput = getOrganizationPayload(
+      values,
+      user
+    );
 
     try {
       setSaving(ORGANIZATION_ACTIONS.UPDATE);

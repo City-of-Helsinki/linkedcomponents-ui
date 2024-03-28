@@ -35,7 +35,8 @@ export const getUserFields = (user: UserFieldsFragment): UserFields => ({
   adminOrganizations: user.adminOrganizations,
   displayName: getValue(user.displayName, ''),
   email: getValue(user.email, ''),
-  isStaff: user.isStaff || false,
+  isStaff: !!user.isStaff,
+  isSuperuser: !!user.isSuperuser,
   organizationMemberships: user.organizationMemberships,
   username: getValue(user.username, ''),
 });

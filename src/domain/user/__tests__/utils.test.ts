@@ -18,18 +18,21 @@ describe('usersPathBuilder function', () => {
 
 describe('getUserFields function', () => {
   it('should return default values if value is not set', () => {
-    const { displayName, email, isStaff, username } = getUserFields(
-      fakeUser({
-        displayName: null,
-        email: null,
-        isStaff: null,
-        username: null,
-      })
-    );
+    const { displayName, email, isStaff, isSuperuser, username } =
+      getUserFields(
+        fakeUser({
+          displayName: null,
+          email: null,
+          isStaff: null,
+          isSuperuser: null,
+          username: null,
+        })
+      );
 
     expect(displayName).toBe('');
     expect(email).toBe('');
     expect(isStaff).toBe(false);
+    expect(isSuperuser).toBe(false);
     expect(username).toBe('');
   });
 });

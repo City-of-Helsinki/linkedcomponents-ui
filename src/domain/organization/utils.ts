@@ -334,6 +334,35 @@ export const checkIsEditActionAllowed = ({
   return { editable: !warning, warning };
 };
 
+export const getEditMerchantWarning = ({
+  t,
+  user,
+}: {
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): string => {
+  if (!user?.isSuperuser) {
+    return t('organizationsPage.warningNoRightsToEditMerchant');
+  }
+
+  return '';
+};
+
+export const checkIsEditMerchantAllowed = ({
+  t,
+  user,
+}: {
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): Editability => {
+  const warning = getEditMerchantWarning({
+    t,
+    user,
+  });
+
+  return { editable: !warning, warning };
+};
+
 export const getEditButtonProps = ({
   action,
   authenticated,
@@ -436,7 +465,8 @@ export const getOrganizationInitialValues = (
 };
 
 export const getOrganizationPayload = (
-  formValues: OrganizationFormFields
+  formValues: OrganizationFormFields,
+  user?: UserFieldsFragment
 ): CreateOrganizationMutationInput => {
   const {
     adminUsers,
@@ -468,7 +498,8 @@ export const getOrganizationPayload = (
     originId,
     parentOrganization: parentOrganization || undefined,
     regularUsers,
-    ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
+    ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
+    user?.isSuperuser
       ? {
           webStoreMerchants: webStoreMerchants.map((wsm) => ({
             ...wsm,

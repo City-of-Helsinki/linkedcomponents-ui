@@ -1696,7 +1696,8 @@
       "parentOrganizationDesc": "Föräldraorganisation, descending"
     },
     "title": "Organisationer",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här organisation."
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här organisation.",
+    "warningNoRightsToEditMerchant": "Endast systemadministratörer kan redigera handlare"
   },
   "place": {
     "deletePlaceModal": {

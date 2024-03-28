@@ -13,6 +13,7 @@ export const QUERY_USER = gql`
     isExternal
     isStaff
     isSubstituteUser
+    isSuperuser
     lastLogin
     lastName
     organization
