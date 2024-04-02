@@ -78,7 +78,6 @@ describe('copyRegistrationToSessionStorage function', () => {
         id: null,
         price: '10.00',
         priceGroup: '2',
-        vatPercentage: '24.00',
       },
     ]);
   });
@@ -305,9 +304,9 @@ describe('getRegistrationInitialValues function', () => {
           id: 1,
           priceGroup: '123',
           price: '12.00',
-          vatPercentage: '24.00',
         },
       ],
+      registrationPriceGroupsVatPercentage: '24.00',
       registrationUserAccesses: [
         {
           email: 'user@email.com',
@@ -375,15 +374,14 @@ describe('getRegistrationPayload function', () => {
           id: 1,
           priceGroup: '123',
           price: '12.00',
-          vatPercentage: '24.00',
         },
         {
           id: null,
           priceGroup: '123',
           price: '10.00',
-          vatPercentage: '0.00',
         },
       ],
+      registrationPriceGroupsVatPercentage = '24.00',
       registrationUserAccesses = [
         {
           email: 'user@email.com',
@@ -417,6 +415,7 @@ describe('getRegistrationPayload function', () => {
       maximumGroupSize,
       minimumAttendeeCapacity,
       registrationPriceGroups,
+      registrationPriceGroupsVatPercentage,
       registrationUserAccesses,
       waitingListCapacity,
     });
@@ -458,7 +457,7 @@ describe('getRegistrationPayload function', () => {
           id: undefined,
           price: '10.00',
           priceGroup: 123,
-          vatPercentage: '0.00',
+          vatPercentage: '24.00',
         },
       ],
       registrationUserAccesses: [

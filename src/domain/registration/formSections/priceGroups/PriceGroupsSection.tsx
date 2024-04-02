@@ -16,6 +16,7 @@ import { REGISTRATION_FIELDS } from '../../constants';
 import PriceGroups from './PriceGroups';
 import styles from './priceGroupSection.module.scss';
 import PriceGroupValidationError from './priceGroupValidationError/PriceGroupValidationError';
+import VatPercentageField from './vatPercentageField/VatPercentageField';
 
 interface Props {
   isEditingAllowed: boolean;
@@ -36,6 +37,7 @@ const PriceGroupsSection: React.FC<Props> = ({ isEditingAllowed }) => {
 
   const eventId = getValue(parseIdFromAtId(eventAtId), '');
   const { publisher } = useEventPublisher({ eventId });
+
   const { options: priceGroupOptions } = usePriceGroupOptions({ publisher });
 
   useEffect(() => {
@@ -58,7 +60,24 @@ const PriceGroupsSection: React.FC<Props> = ({ isEditingAllowed }) => {
           <PriceGroupValidationError />
         </FieldColumn>
       </FieldRow>
-      {hasPrice && <PriceGroups isEditingAllowed={isEditingAllowed} />}
+      {hasPrice && (
+        <>
+          <FormGroup>
+            <FieldRow>
+              <FieldColumn>
+                <VatPercentageField
+                  disabled={!isEditingAllowed}
+                  name={
+                    REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE
+                  }
+                  required={true}
+                />
+              </FieldColumn>
+            </FieldRow>
+          </FormGroup>
+          <PriceGroups isEditingAllowed={isEditingAllowed} />
+        </>
+      )}
     </Fieldset>
   );
 };

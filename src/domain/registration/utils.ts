@@ -93,7 +93,6 @@ export const getEmptyRegistrationPriceGroup =
     id: null,
     price: '',
     priceGroup: '',
-    vatPercentage: '',
   });
 
 export const getEmptyRegistrationUserAccess =
@@ -166,9 +165,12 @@ export const getRegistrationInitialValues = (
         id: getValue(pg?.id, null),
         price: getValue(pg?.price, ''),
         priceGroup: getValue(pg?.priceGroup?.id.toString(), ''),
-        vatPercentage: getValue(pg?.vatPercentage, ''),
       })),
       []
+    ),
+    [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE]: getValue(
+      registration.registrationPriceGroups?.[0]?.vatPercentage,
+      ''
     ),
     [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: getValue(
       registration.registrationUserAccesses?.map((ru) => ({
@@ -286,6 +288,7 @@ export const getRegistrationPayload = (
     registrationPriceGroups,
     registrationUserAccesses,
     waitingListCapacity,
+    registrationPriceGroupsVatPercentage,
   } = formValues;
 
   return {
@@ -319,9 +322,10 @@ export const getRegistrationPayload = (
     ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
       ? {
           registrationPriceGroups: registrationPriceGroups.map((pg) => ({
-            ...pg,
             id: pg.id ?? undefined,
+            price: pg.price,
             priceGroup: Number(pg.priceGroup),
+            vatPercentage: registrationPriceGroupsVatPercentage,
           })),
         }
       : {}),

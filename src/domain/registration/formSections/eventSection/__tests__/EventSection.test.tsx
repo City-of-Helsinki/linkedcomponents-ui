@@ -108,6 +108,7 @@ test('should copy values from event to registration form when event is selected'
       maximumAttendeeCapacity: 10,
       minimumAttendeeCapacity: 5,
       registrationPriceGroups: [],
+      registrationPriceGroupsVatPercentage: '',
     })
   );
 });
@@ -138,6 +139,7 @@ test('should clear values from registration form when event is unselected', asyn
       maximumAttendeeCapacity: '',
       minimumAttendeeCapacity: '',
       registrationPriceGroups: [],
+      registrationPriceGroupsVatPercentage: '',
     })
   );
 });
