@@ -42,6 +42,7 @@ describe('publiEventSchema', () => {
     location: TEST_PLACE_ID,
     mainCategories: [TEST_KEYWORD_ID],
     name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Name' },
+    offersVatPercentage: '24.00',
     publisher: TEST_PUBLISHER_ID,
     shortDescription: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
@@ -59,7 +60,6 @@ describe('publiEventSchema', () => {
     id: 1,
     priceGroup: '1',
     price: '10.00',
-    vatPercentage: '24.00',
   };
 
   it('should return correct errors for default initial values', async () => {
@@ -125,6 +125,17 @@ describe('publiEventSchema', () => {
           offerPriceGroups: [{ ...validPriceGroup, price: '' }],
         },
       ],
+    };
+
+    expect(await testPublicEventSchema(values)).toBeFalsy();
+  });
+  it('should return false is offersVatPercentage is empty', async () => {
+    const values: EventFormFields = {
+      ...requiredValues,
+      hasPrice: true,
+      isRegistrationPlanned: true,
+      offers: [validOffer],
+      offersVatPercentage: '',
     };
 
     expect(await testPublicEventSchema(values)).toBeFalsy();

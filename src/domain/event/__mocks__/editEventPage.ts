@@ -277,6 +277,7 @@ const baseFormValues: EventFormFields = {
     isFree: false,
     offerPriceGroups: [],
   })),
+  offersVatPercentage: '',
   priceGroupOptions: [],
   provider,
   publisher,

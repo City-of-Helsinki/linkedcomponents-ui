@@ -506,6 +506,7 @@ export const getEventBasePayload = (
     minimumAttendeeCapacity,
     name,
     offers,
+    offersVatPercentage,
     provider,
     publisher,
     shortDescription,
@@ -570,9 +571,10 @@ export const getEventBasePayload = (
           ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
             ? {
                 offerPriceGroups: offer.offerPriceGroups.map((pg) => ({
-                  ...pg,
                   id: pg.id ?? undefined,
+                  price: pg.price,
                   priceGroup: Number(pg.priceGroup),
+                  vatPercentage: offersVatPercentage,
                 })),
               }
             : {}),
@@ -771,12 +773,18 @@ export const getEventOfferFields = (offer: Offer): OfferFields => ({
       id: getValue(pg?.id, null),
       price: getValue(pg?.price, ''),
       priceGroup: getValue(pg?.priceGroup?.id.toString(), ''),
-      vatPercentage: getValue(pg?.vatPercentage, ''),
     })),
     []
   ),
   price: getLocalisedObject(offer?.price),
 });
+
+const getOffersVatPercentage = (event: EventFieldsFragment): string =>
+  getValue(
+    event.offers.find((offer) => offer?.offerPriceGroups?.length)
+      ?.offerPriceGroups?.[0]?.vatPercentage,
+    ''
+  );
 
 const getEventOffers = (event: EventFieldsFragment): OfferFields[] => {
   const hasPrice = hasEventPrice(event);
@@ -880,6 +888,7 @@ export const getEventInitialValues = (
     minimumAttendeeCapacity: event.minimumAttendeeCapacity ?? '',
     name: getLocalisedObject(event.name),
     offers,
+    offersVatPercentage: getOffersVatPercentage(event),
     publisher: getValue(event.publisher, ''),
     provider: getLocalisedObject(event.provider),
     recurringEventEndTime: getRecurringEventDate(
@@ -1437,6 +1446,7 @@ export const getEventInfoToRegistrationForm = (
     enrolmentStartTimeTime,
     maximumAttendeeCapacity,
     minimumAttendeeCapacity,
+    offersVatPercentage,
   } = getEventInitialValues(event);
   const registrationPriceGroups = event.offers
     .filter(skipFalsyType)
@@ -1460,6 +1470,7 @@ export const getEventInfoToRegistrationForm = (
     maximumAttendeeCapacity,
     minimumAttendeeCapacity,
     registrationPriceGroups,
+    registrationPriceGroupsVatPercentage: offersVatPercentage,
   };
 };
 

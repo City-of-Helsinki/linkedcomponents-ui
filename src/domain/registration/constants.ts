@@ -32,6 +32,7 @@ export enum REGISTRATION_FIELDS {
   MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',
   PRICE_GROUP_OPTIONS = 'priceGroupOptions',
   REGISTRATION_PRICE_GROUPS = 'registrationPriceGroups',
+  REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE = 'registrationPriceGroupsVatPercentage',
   REGISTRATION_USER_ACCESSES = 'registrationUserAccesses',
   WAITING_LIST_CAPACITY = 'waitingListCapacity',
 }
@@ -40,7 +41,6 @@ export enum REGISTRATION_PRICE_GROUP_FIELDS {
   ID = 'id',
   PRICE = 'price',
   PRICE_GROUP = 'priceGroup',
-  VAT_PERCENTAGE = 'vatPercentage',
 }
 
 export enum REGISTRATION_USER_ACCESS_FIELDS {
@@ -75,6 +75,7 @@ export const REGISTRATION_INITIAL_VALUES: RegistrationFormFields = {
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: '',
   [REGISTRATION_FIELDS.PRICE_GROUP_OPTIONS]: [],
   [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS]: [],
+  [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE]: '',
   [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: [],
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: '',
 };
@@ -94,6 +95,7 @@ export const DEFAULT_COMMON_REGISTRATION_AND_EVENT_FIELD_VALUES: CommonRegistrat
       REGISTRATION_INITIAL_VALUES.minimumAttendeeCapacity,
     registrationPriceGroups:
       REGISTRATION_INITIAL_VALUES.registrationPriceGroups,
+    registrationPriceGroupsVatPercentage: '',
   };
 
 export const REGISTRATION_FIELD_ARRAYS: string[] = [

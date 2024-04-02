@@ -91,6 +91,7 @@ export type EventFormFields = {
   [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
   [EVENT_FIELDS.NAME]: MultiLanguageObject;
   [EVENT_FIELDS.OFFERS]: OfferFields[];
+  [EVENT_FIELDS.OFFERS_VAT_PERCENTAGE]: string;
   [EVENT_FIELDS.PRICE_GROUP_OPTIONS]: PriceGroupOption[];
   [EVENT_FIELDS.PROVIDER]: MultiLanguageObject;
   [EVENT_FIELDS.PUBLISHER]: string;

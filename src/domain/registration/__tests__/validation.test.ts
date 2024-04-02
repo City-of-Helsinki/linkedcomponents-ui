@@ -24,13 +24,13 @@ describe('registrationSchema', () => {
     enrolmentStartTimeDate: new Date('2023-01-01'),
     enrolmentStartTimeTime: '15:00',
     event: TEST_EVENT_ID,
+    registrationPriceGroupsVatPercentage: '24.00',
   };
 
   const validPriceGroup = {
     id: 1,
     priceGroup: '1',
     price: '10.00',
-    vatPercentage: '24.00',
   };
 
   beforeEach(() => {
@@ -255,12 +255,13 @@ describe('registrationSchema', () => {
     ).toBe(false);
   });
 
-  it('should return false if vatPercentage of registration price group is empty', async () => {
+  it('should return false if vatPercentage  is empty', async () => {
     expect(
       await testRegistrationSchema({
         ...validRegistrationValues,
         hasPrice: true,
-        registrationPriceGroups: [{ ...validPriceGroup, vatPercentage: '' }],
+        registrationPriceGroups: [validPriceGroup],
+        registrationPriceGroupsVatPercentage: '',
       })
     ).toBe(false);
   });
@@ -270,9 +271,10 @@ describe('registrationSchema', () => {
       await testRegistrationSchema({
         ...validRegistrationValues,
         priceGroupOptions: [{ isFree: true, label: 'Price group', value: '1' }],
-        hasPrice: true,
-        registrationPriceGroups: [{ ...validPriceGroup, vatPercentage: '' }],
+        hasPrice: false,
+        registrationPriceGroups: [validPriceGroup],
+        registrationPriceGroupsVatPercentage: '',
       })
-    ).toBe(false);
+    ).toBe(true);
   });
 });
