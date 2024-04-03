@@ -54,7 +54,7 @@ const renderComponent = (
   });
 
 const getSearchInput = () =>
-  screen.getByRole('combobox', { name: 'Hae osallistujia' });
+  screen.getByRole('textbox', { name: 'Hae osallistujia' });
 
 test('should show attendance list page', async () => {
   renderComponent();

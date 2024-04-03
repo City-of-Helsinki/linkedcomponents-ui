@@ -23,14 +23,8 @@ beforeEach(() => {
   mockAuthenticatedLoginState();
 });
 
-const getElement = (key: 'searchInput') => {
-  switch (key) {
-    case 'searchInput':
-      return screen.getByRole('combobox', {
-        name: /hae osallistujia/i,
-      });
-  }
-};
+const getSearchInput = () =>
+  screen.getByRole('textbox', { name: /hae osallistujia/i });
 
 const defaultRoute = `${ROUTES.REGISTRATION_SIGNUPS.replace(
   ':registrationId',
@@ -49,7 +43,7 @@ test('should initialize search panel input', async () => {
   const searchValue = 'search';
   renderComponent(`${defaultRoute}?signupText=${searchValue}`);
 
-  const searchInput = getElement('searchInput');
+  const searchInput = getSearchInput();
   await waitFor(() => expect(searchInput).toHaveValue(searchValue));
 });
 
@@ -59,7 +53,7 @@ test('should search signups with correct search params', async () => {
   const { history } = renderComponent();
 
   // Text filtering
-  const searchInput = getElement('searchInput');
+  const searchInput = getSearchInput();
   fireEvent.change(searchInput, { target: { value: values.text } });
   await waitFor(() => expect(searchInput).toHaveValue(values.text));
 

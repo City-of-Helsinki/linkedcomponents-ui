@@ -27,7 +27,7 @@ const getElement = (
     case 'buttonSearch2':
       return screen.getAllByRole('button', { name: /etsi tapahtumia/i })[1];
     case 'searchInput':
-      return screen.getByRole('combobox', {
+      return screen.getByRole('textbox', {
         name: 'Hae Linked Events -rajapinnasta',
       });
     case 'title':

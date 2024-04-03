@@ -323,7 +323,7 @@ const shouldRenderListPage = async ({
     screen.getByRole('button', { name: createButtonLabel })
   ).toBeInTheDocument();
   expect(
-    screen.getByRole('combobox', { name: searchInputLabel })
+    screen.getByRole('textbox', { name: searchInputLabel })
   ).toBeInTheDocument();
   expect(
     screen.getByRole('table', {

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 
 import SearchInput from '../../../../common/components/searchInput/SearchInput';
 import styles from './adminSearchRow.module.scss';
