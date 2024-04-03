@@ -6,7 +6,6 @@ import myHelsinkiImage from '../../assets/images/jpg/myhelsinki-card.jpg';
 import tapahtumatImage from '../../assets/images/jpg/tapahtumat-hel-card.jpg';
 import Highlight from '../../common/components/highlight/Highlight';
 import useLocale from '../../hooks/useLocale';
-import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
@@ -64,25 +63,16 @@ const LandingPage: React.FC = () => {
               <ServiceCard
                 backgroundColor="metro"
                 backgroundImageUrl={myHelsinkiImage}
-                description={getValue(
-                  t('landingPage.myHelsinkiDescription'),
-                  undefined
-                )}
+                description={t('landingPage.myHelsinkiDescription')}
                 href={myHelsinkiRoute}
                 title={t('landingPage.myHelsinkiTitle')}
               />
               <ServiceCard
                 backgroundColor="suomenlinna"
                 backgroundImageUrl={tapahtumatImage}
-                description={getValue(
-                  t('landingPage.tapahtumatHelDescription'),
-                  undefined
-                )}
+                description={t('landingPage.tapahtumatHelDescription')}
                 href={tapahtumatHelRoute}
-                imageAuthor={getValue(
-                  t('landingPage.tapahtumatHelImageAuthor'),
-                  undefined
-                )}
+                imageAuthor={t('landingPage.tapahtumatHelImageAuthor')}
                 title={t('landingPage.tapahtumatHelTitle')}
               />
             </div>

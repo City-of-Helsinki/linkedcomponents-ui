@@ -48,21 +48,25 @@ const PlatformPage: React.FC = () => {
       <h2>{t('helpPage.platformPage.titleServiceHighlights')}</h2>
       <div className={styles.highlights}>
         <Highlight
+          headingLevel={3}
           icon={<IconCogwheel />}
           text={t('helpPage.platformPage.textEventManagement')}
           title={t('helpPage.platformPage.titleEventManagement')}
         />
         <Highlight
+          headingLevel={3}
           icon={<IconCloud />}
           text={t('helpPage.platformPage.textApi')}
           title={t('helpPage.platformPage.titleApi')}
         />
         <Highlight
+          headingLevel={3}
           icon={<IconPhone />}
           text={t('helpPage.platformPage.textSupport')}
           title={t('helpPage.platformPage.titleSupport')}
         />
         <Highlight
+          headingLevel={3}
           icon={<IconCalendar />}
           text={t('helpPage.platformPage.textRegistration')}
           title={t('helpPage.platformPage.titleRegistration')}

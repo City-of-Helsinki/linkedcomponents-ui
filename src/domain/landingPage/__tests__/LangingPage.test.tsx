@@ -19,9 +19,9 @@ test('should show correct title', async () => {
 test('should render landing page', async () => {
   render(<LandingPage />);
 
-  screen.getByText('35 000 tapahtumaa vuodessa');
-  screen.getByText('25 tapahtumasivustoa');
-  screen.getByText('60 000 riviä koodia');
+  screen.getByRole('heading', { name: '35 000 tapahtumaa vuodessa' });
+  screen.getByRole('heading', { name: '25 tapahtumasivustoa' });
+  screen.getByRole('heading', { name: '60 000 riviä koodia' });
 
   screen.getByRole('link', {
     name: new RegExp(translations.landingPage.myHelsinkiTitle),

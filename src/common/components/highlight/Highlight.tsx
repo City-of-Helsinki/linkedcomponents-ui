@@ -5,6 +5,7 @@ import styles from './highlight.module.scss';
 
 interface HighlightProps {
   className?: string;
+  headingLevel?: number;
   icon: React.ReactNode;
   text: string | React.ReactNode;
   title: string;
@@ -12,18 +13,30 @@ interface HighlightProps {
 
 const Highlight: React.FC<HighlightProps> = ({
   className,
+  headingLevel = 2,
   icon,
   text,
   title,
 }) => {
+  const titleParts = title.split('\n');
+
   return (
-    <div className={classNames(styles.highlight, className)}>
+    <section className={classNames(styles.highlight, className)}>
       <div className={styles.iconWrapper} aria-hidden={true}>
         {icon}
       </div>
-      <div className={styles.title}>{title}</div>
+      <div
+        className={styles.title}
+        role="heading"
+        aria-level={headingLevel}
+        aria-label={titleParts.join(' ')}
+      >
+        {titleParts.map((part, index) => (
+          <span key={index}>{part}</span>
+        ))}
+      </div>
       <div className={styles.text}>{text}</div>
-    </div>
+    </section>
   );
 };
 
