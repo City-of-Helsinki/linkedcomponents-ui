@@ -27,7 +27,7 @@ const getElement = (key: 'clearButton' | 'input' | 'searchButton') => {
     case 'clearButton':
       return screen.getByRole('button', { name: 'Tyhjennä' });
     case 'input':
-      return screen.getByRole('combobox', { name: label });
+      return screen.getByRole('textbox', { name: label });
     case 'searchButton':
       return screen.getByRole('button', { name: 'Etsi' });
   }
@@ -37,10 +37,8 @@ test('should render component with default texts', async () => {
   renderComponent({ value: '' });
 
   getElement('input');
+  getElement('clearButton');
   getElement('searchButton');
-  expect(
-    screen.queryByRole('button', { name: 'Tyhjennä' })
-  ).not.toBeInTheDocument();
 });
 
 test('should clear search value', async () => {

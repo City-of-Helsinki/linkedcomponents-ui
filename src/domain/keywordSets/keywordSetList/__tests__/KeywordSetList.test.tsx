@@ -58,7 +58,7 @@ const getElement = (
     case 'searchButton':
       return screen.getByRole('button', { name: /etsi/i });
     case 'searchInput':
-      return screen.getByRole('combobox', { name: /hae avainsanaryhmiä/i });
+      return screen.getByRole('textbox', { name: /hae avainsanaryhmiä/i });
     case 'sortNameButton':
       return screen.getByRole('button', { name: /nimi/i });
   }

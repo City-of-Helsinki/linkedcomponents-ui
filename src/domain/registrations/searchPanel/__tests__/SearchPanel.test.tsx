@@ -18,7 +18,7 @@ const getElement = (key: 'eventTypeSelectorButton' | 'searchInput') => {
     case 'eventTypeSelectorButton':
       return screen.getByRole('button', { name: 'Tyyppi' });
     case 'searchInput':
-      return screen.getByRole('combobox', { name: 'Hae ilmoittautumisia' });
+      return screen.getByRole('textbox', { name: 'Hae ilmoittautumisia' });
   }
 };
 
