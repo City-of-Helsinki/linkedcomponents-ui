@@ -43,7 +43,6 @@ const AudienceSection: React.FC<Props> = ({ isEditingAllowed }) => {
             label={t(`event.form.titleAudience`)}
             name={EVENT_FIELDS.AUDIENCE}
             options={audienceOptions}
-            visibleOptionAmount={10}
           />
         </FieldColumn>
       </FieldRow>

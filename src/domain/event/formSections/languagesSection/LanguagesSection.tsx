@@ -80,7 +80,6 @@ const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
             label={t(`event.form.titleInLanguages.${eventType}`)}
             name={EVENT_FIELDS.IN_LANGUAGE}
             options={inLanguageOptions}
-            visibleOptionAmount={10}
           />
         </FieldColumn>
       </FieldRow>
