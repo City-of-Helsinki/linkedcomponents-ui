@@ -91,7 +91,6 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
             label={t(`event.form.titleMainCategories`)}
             options={keywordOptions}
             name={EVENT_FIELDS.KEYWORDS}
-            visibleOptionAmount={10}
           />
         </FieldColumn>
       </FieldRow>
