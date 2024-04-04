@@ -95,19 +95,21 @@ test('should copy values from event to registration form when event is selected'
     name: new RegExp(eventName),
   });
   await user.click(eventOption);
-  expect(setValues).toBeCalledWith({
-    audienceMaxAge: 18,
-    audienceMinAge: 12,
-    enrolmentEndTimeDate: new Date('2022-12-10T12:00:00.000Z'),
-    enrolmentEndTimeTime: '12:00',
-    enrolmentStartTimeDate: new Date('2022-12-01T09:00:00.000Z'),
-    enrolmentStartTimeTime: '09:00',
-    event: event.atId,
-    hasPrice: false,
-    maximumAttendeeCapacity: 10,
-    minimumAttendeeCapacity: 5,
-    registrationPriceGroups: [],
-  });
+  await waitFor(() =>
+    expect(setValues).toBeCalledWith({
+      audienceMaxAge: 18,
+      audienceMinAge: 12,
+      enrolmentEndTimeDate: new Date('2022-12-10T12:00:00.000Z'),
+      enrolmentEndTimeTime: '12:00',
+      enrolmentStartTimeDate: new Date('2022-12-01T09:00:00.000Z'),
+      enrolmentStartTimeTime: '09:00',
+      event: event.atId,
+      hasPrice: false,
+      maximumAttendeeCapacity: 10,
+      minimumAttendeeCapacity: 5,
+      registrationPriceGroups: [],
+    })
+  );
 });
 
 test('should clear values from registration form when event is unselected', async () => {
