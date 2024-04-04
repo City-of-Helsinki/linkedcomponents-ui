@@ -250,6 +250,11 @@
     "signIn": "Sign in",
     "signOut": "Sign out",
     "table": {
+      "accessibility": {
+        "noResultsFound": "Your search returned no results.",
+        "resultsFoundText": "{{count}} search result found",
+        "resultsFoundText_other": "{{count}} search results found"
+      },
       "ariaLabelSortButtonAscending": "Sorted in ascending order",
       "ariaLabelSortButtonDescending": "Sorted in descending order",
       "noResultsText": "Your search returned no results. Check your search terms and try again."
@@ -2124,7 +2129,8 @@
       "sendMessage": "Send message"
     },
     "attendeeTableCaption": "Participants",
-    "attendeeTableHeading": "Participants",
+    "attendeeTableCount": "{{count}} participant",
+    "attendeeTableCount_other": "{{count}} participants",
     "buttonClearFilters": "Clear filters",
     "pageTitle": "Signups: {{name}}",
     "searchPanel": {
@@ -2142,7 +2148,7 @@
     },
     "title": "Signups",
     "waitingListTableCaption": "Waiting list",
-    "waitingListTableHeading": "Waiting list",
+    "waitingListTableCount": "{{count}} in Waiting list",
     "warningNoRightsToCreate": "You have insufficient rights to create participants to this registration.",
     "warningNoRightsToEdit": "You have insufficient rights to edit this participant.",
     "warningNoRightsToView": "You have insufficient rights to view participants of this registration."

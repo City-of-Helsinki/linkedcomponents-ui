@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
+import SearchStatus from '../../../common/components/searchStatus/SearchStatus';
 import { testIds } from '../../../constants';
 import { ImagesQuery, useImagesQuery } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
@@ -68,7 +69,7 @@ const ImageList: React.FC<ImageListProps> = ({
         caption={getTableCaption()}
         images={images}
         setSort={onSortChange}
-        sort={sort as IMAGE_SORT_OPTIONS}
+        sort={sort}
       />
       {pageCount > 1 && (
         <Pagination
@@ -105,6 +106,7 @@ const ImageListContainer: React.FC = () => {
 
   return (
     <div id={imageListId} data-testid={testIds.imageList.resultList}>
+      <SearchStatus count={count} loading={loading} />
       <AdminSearchRow
         countText={t('imagesPage.count', { count })}
         onSearchChange={setSearch}

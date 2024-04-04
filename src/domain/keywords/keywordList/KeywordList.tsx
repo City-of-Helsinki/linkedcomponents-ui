@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
+import SearchStatus from '../../../common/components/searchStatus/SearchStatus';
 import { testIds } from '../../../constants';
 import { KeywordsQuery, useKeywordsQuery } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
@@ -71,7 +72,7 @@ const KeywordList: React.FC<KeywordListProps> = ({
         caption={getTableCaption()}
         keywords={keywords}
         setSort={onSortChange}
-        sort={sort as KEYWORD_SORT_OPTIONS}
+        sort={sort}
       />
       {pageCount > 1 && (
         <Pagination
@@ -108,6 +109,7 @@ const KeywordListContainer: React.FC = () => {
 
   return (
     <div id={keywordListId} data-testid={testIds.keywordList.resultList}>
+      <SearchStatus count={count} loading={loading} />
       <AdminSearchRow
         countText={t('keywordsPage.count', { count })}
         onSearchSubmit={onSearchSubmit}

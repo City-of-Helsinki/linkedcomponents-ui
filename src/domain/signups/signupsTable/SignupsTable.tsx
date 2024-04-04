@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
+import SearchStatus from '../../../common/components/searchStatus/SearchStatus';
 import Table from '../../../common/components/table/Table';
 import {
   RegistrationFieldsFragment,
@@ -149,7 +150,8 @@ const AttendeeStatusColumn: FC<ColumnProps> = ({ registration, signup }) => {
 
 export interface SignupsTableProps {
   caption: string;
-  heading: string;
+  countKey: string;
+  enableAccessibilityNotifications?: boolean;
   pagePath: 'attendeePage' | 'waitingPage';
   registration: RegistrationFieldsFragment;
   signupsVariables: Partial<SignupsQueryVariables>;
@@ -157,7 +159,8 @@ export interface SignupsTableProps {
 
 const SignupsTable: React.FC<SignupsTableProps> = ({
   caption,
-  heading,
+  countKey,
+  enableAccessibilityNotifications,
   pagePath,
   registration,
   signupsVariables,
@@ -187,7 +190,7 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
 
   const signups = getValue(signupsData?.signups.data, []).filter(skipFalsyType);
 
-  const { onPageChange, pageCount, pageHref } = useCommonListProps({
+  const { count, onPageChange, pageCount, pageHref } = useCommonListProps({
     defaultSort: '',
     listId: signupListId,
     meta: signupsData?.signups?.meta,
@@ -254,7 +257,10 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
 
   return (
     <div id={signupListId}>
-      <h2 className={styles.heading}>{heading}</h2>
+      <h2 className={styles.heading}>{t(countKey, { count })}</h2>
+      {enableAccessibilityNotifications && (
+        <SearchStatus count={count} loading={loading} />
+      )}
 
       <Table
         caption={caption}

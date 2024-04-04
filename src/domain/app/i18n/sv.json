@@ -250,9 +250,14 @@
     "signIn": "Logga in",
     "signOut": "Logga ut",
     "table": {
+      "accessibility": {
+        "noResultsFound": "Din sökning gav inga resultat.",
+        "resultsFoundText": "{{count}} sökresultat hittades",
+        "resultsFoundText_other": "{{count}} sökresultat hittades"
+      },
       "ariaLabelSortButtonAscending": "Sorterad i stigande ordning",
       "ariaLabelSortButtonDescending": "Sorterad i fallande ordning",
-      "noResultsText": "Din sökning gav inga resultat. Kontrollera dina nyckelord och försök igen."
+      "noResultsText": "Din sökning gav inga resultat. Kontrollera dina söktermer och försök igen."
     },
     "timeInput": {
       "hoursLabel": "timmar",
@@ -2124,9 +2129,9 @@
       "sendMessage": "Skicka meddelande"
     },
     "attendeeTableCaption": "Deltagare",
-    "attendeeTableHeading": "Deltagare",
+    "attendeeTableCount": "{{count}} deltagare",
     "buttonClearFilters": "Ta bort filter",
-    "pageTitle": "Deltagarna: {{name}}",
+    "pageTitle": "Deltagare: {{name}}",
     "searchPanel": {
       "buttonCreate": "Lägg till deltagare",
       "buttonSearch": "Filter",
@@ -2142,7 +2147,7 @@
     },
     "title": "Deltagarna",
     "waitingListTableCaption": "Väntelista",
-    "waitingListTableHeading": "Väntelista",
+    "waitingListTableCount": "{{count}} i väntelista",
     "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
     "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna deltagare.",
     "warningNoRightsToView": "Du har inte tillräckliga rättigheter för att se deltagare i denna registrering."

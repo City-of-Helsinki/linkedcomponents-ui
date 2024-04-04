@@ -54,7 +54,7 @@ const defaultMocks = [
 
 const defaultProps: SignupsTableProps = {
   caption: 'Signups table',
-  heading: 'Signups table',
+  countKey: 'signupsPage.attendeeTableCount',
   pagePath: 'attendeePage',
   registration: registration,
   signupsVariables: { attendeeStatus: AttendeeStatus.Attending },
@@ -92,7 +92,10 @@ test('should render signups table', async () => {
     getMockedAttendeesResponse(fakeSignups(0)),
   ]);
 
-  screen.getByRole('heading', { name: 'Signups table' });
+  await loadingSpinnerIsNotInDocument();
+
+  screen.getByRole('heading', { name: '0 osallistujaa' });
+  screen.getByRole('table', { name: 'Signups table' });
 
   const columnHeaders = [
     'Nimi',

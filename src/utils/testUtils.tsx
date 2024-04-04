@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/export */
@@ -25,6 +26,7 @@ import {
 import { Mock, SpyInstance } from 'vitest';
 import wait from 'waait';
 
+import { AccessibilityNotificationProvider } from '../common/components/accessibilityNotificationContext/AccessibilityNotificationContext';
 import { testIds } from '../constants';
 import { createCache } from '../domain/app/apollo/apolloClient';
 import { NotificationsProvider } from '../domain/app/notificationsContext/NotificationsContext';
@@ -78,13 +80,15 @@ const customRender: CustomRender = (
     children,
   }) => (
     <ThemeProvider>
-      <NotificationsProvider>
-        <PageSettingsProvider>
-          <MockedProvider cache={createCache()} mocks={mocks}>
-            <Router history={history as any}>{children}</Router>
-          </MockedProvider>
-        </PageSettingsProvider>
-      </NotificationsProvider>
+      <AccessibilityNotificationProvider>
+        <NotificationsProvider>
+          <PageSettingsProvider>
+            <MockedProvider cache={createCache()} mocks={mocks}>
+              <Router history={history as any}>{children}</Router>
+            </MockedProvider>
+          </PageSettingsProvider>
+        </NotificationsProvider>
+      </AccessibilityNotificationProvider>
     </ThemeProvider>
   );
 
@@ -128,17 +132,19 @@ const renderWithRoute: CustomRender = (
     children,
   }) => (
     <ThemeProvider>
-      <NotificationsProvider>
-        <PageSettingsProvider>
-          <MockedProvider cache={createCache()} mocks={mocks}>
-            <Router history={history as any}>
-              <Routes>
-                <Route path={path} element={children} />
-              </Routes>
-            </Router>
-          </MockedProvider>
-        </PageSettingsProvider>
-      </NotificationsProvider>
+      <AccessibilityNotificationProvider>
+        <NotificationsProvider>
+          <PageSettingsProvider>
+            <MockedProvider cache={createCache()} mocks={mocks}>
+              <Router history={history as any}>
+                <Routes>
+                  <Route path={path} element={children} />
+                </Routes>
+              </Router>
+            </MockedProvider>
+          </PageSettingsProvider>
+        </NotificationsProvider>
+      </AccessibilityNotificationProvider>
     </ThemeProvider>
   );
 

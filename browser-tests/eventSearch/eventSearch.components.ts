@@ -50,7 +50,7 @@ export const getEventSearchPage = (t: TestController) => {
         });
       },
       placeSearchInput() {
-        return withinSearchBanner().findByRole('textbox', { name: /hae/i });
+        return withinSearchBanner().findByRole('textbox', { name: 'Hae' });
       },
       searchInput() {
         return withinSearchBanner().findByPlaceholderText('Hae tapahtumia');
