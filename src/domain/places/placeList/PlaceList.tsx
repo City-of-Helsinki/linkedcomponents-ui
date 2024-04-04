@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
+import SearchStatus from '../../../common/components/searchStatus/SearchStatus';
 import { testIds } from '../../../constants';
 import { PlacesQuery, usePlacesQuery } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
@@ -68,7 +69,7 @@ const PlaceList: React.FC<PlaceListProps> = ({
         caption={getTableCaption()}
         places={places}
         setSort={onSortChange}
-        sort={sort as PLACE_SORT_OPTIONS}
+        sort={sort}
       />
 
       {pageCount > 1 && (
@@ -106,6 +107,7 @@ const PlaceListContainer: React.FC = () => {
 
   return (
     <div id={placeListId} data-testid={testIds.placeList.resultList}>
+      <SearchStatus count={count} loading={loading} />
       <AdminSearchRow
         countText={t('placesPage.count', { count })}
         onSearchSubmit={onSearchSubmit}

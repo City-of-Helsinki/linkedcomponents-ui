@@ -19,7 +19,8 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
     <div className={styles.attendeeList}>
       <SignupsTable
         caption={t('signupsPage.attendeeTableCaption')}
-        heading={t('signupsPage.attendeeTableHeading')}
+        countKey={'signupsPage.attendeeTableCount'}
+        enableAccessibilityNotifications={true}
         pagePath="attendeePage"
         registration={registration}
         signupsVariables={{ attendeeStatus: AttendeeStatus.Attending }}

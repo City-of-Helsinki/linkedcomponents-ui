@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router';
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
+import SearchStatus from '../../../common/components/searchStatus/SearchStatus';
 import SingleSelect from '../../../common/components/singleSelect/SingleSelect';
 import { testIds } from '../../../constants';
 import {
@@ -113,7 +114,7 @@ const EventList: React.FC<EventListProps> = ({
             caption={getTableCaption()}
             events={events}
             setSort={onSortChange}
-            sort={sort as EVENT_SORT_OPTIONS}
+            sort={sort}
           />
         )}
         {listType === EVENT_LIST_TYPES.CARD_LIST && (
@@ -198,7 +199,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
                 value={listType}
               />
             )}
-
+            <SearchStatus count={count} loading={loading} />
             <span className={styles.count}>
               {t('eventsPage.count', { count })}
             </span>
@@ -216,6 +217,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
           </div>
         </div>
       </Container>
+
       <LoadingSpinner isLoading={loading}>
         <EventList
           {...props}

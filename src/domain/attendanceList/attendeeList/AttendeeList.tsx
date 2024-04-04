@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Checkbox from '../../../common/components/checkbox/Checkbox';
+import SearchStatus from '../../../common/components/searchStatus/SearchStatus';
 import {
   AttendeeStatus,
   PresenceStatus,
@@ -92,6 +93,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
   };
   return (
     <>
+      <SearchStatus count={attendees.length} loading={false} />
       <AdminSearchRow
         countText={t('attendanceListPage.count', {
           count: attendees.length,

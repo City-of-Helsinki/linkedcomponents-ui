@@ -5,6 +5,7 @@ import { useLocation } from 'react-router';
 
 import { PAGE_SIZE } from '../../../common/components/imageSelector/constants';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import SearchStatus from '../../../common/components/searchStatus/SearchStatus';
 import { testIds } from '../../../constants';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
@@ -64,6 +65,7 @@ const OrganizationList: React.FC = () => {
       id={organizationListId}
       data-testid={testIds.organizationList.resultList}
     >
+      <SearchStatus count={organizationsCount} loading={false} />
       <AdminSearchRow
         countText={t('organizationsPage.count', { count: organizationsCount })}
         searchInputLabel={t('organizationsPage.labelSearch')}

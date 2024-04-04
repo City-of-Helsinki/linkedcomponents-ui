@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router';
 import FeedbackButton from '../../../common/components/feedbackButton/FeedbackButton';
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
+import SearchStatus from '../../../common/components/searchStatus/SearchStatus';
 import { testIds } from '../../../constants';
 import {
   EventsQueryVariables,
@@ -122,6 +123,7 @@ const RegistrationListContainer: React.FC = () => {
       data-testid={testIds.registrationList.resultList}
     >
       <Container withOffset={true}>
+        <SearchStatus count={count} loading={loading} />
         <span className={styles.count}>
           {t('registrationsPage.count', { count })}
         </span>

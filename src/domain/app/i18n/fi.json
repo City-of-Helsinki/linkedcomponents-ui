@@ -250,6 +250,11 @@
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
     "table": {
+      "accessibility": {
+        "noResultsFound": "Hakusi ei tuottanut yhtään tuloksia.",
+        "resultsFoundText": "{{count}} hakutulos löytynyt",
+        "resultsFoundText_other": "{{count}} hakutulosta löytynyt"
+      },
       "ariaLabelSortButtonAscending": "Järjestetty nousevaan järjestykseen",
       "ariaLabelSortButtonDescending": "Järjestetty laskevaan järjestykseen",
       "noResultsText": "Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan."
@@ -2124,7 +2129,8 @@
       "sendMessage": "Lähetä viesti"
     },
     "attendeeTableCaption": "Osallistujat",
-    "attendeeTableHeading": "Osallistujat",
+    "attendeeTableCount": "{{count}} osallistuja",
+    "attendeeTableCount_other": "{{count}} osallistujaa",
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "pageTitle": "Ilmoittautuneet: {{name}}",
     "searchPanel": {
@@ -2142,7 +2148,7 @@
     },
     "title": "Ilmoittautuneet",
     "waitingListTableCaption": "Jonopaikat",
-    "waitingListTableHeading": "Jonopaikat",
+    "waitingListTableCount": "{{count}} jonopaikalla",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia lisätä osallistujia tähän ilmoittautumiseen.",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa.",
     "warningNoRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."
