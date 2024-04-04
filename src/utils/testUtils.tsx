@@ -418,6 +418,11 @@ const shouldDeleteInstance = async ({
   await screen.findByRole('alert', { name: expectedNotificationText });
 };
 
+// re-export everything
+export * from '@testing-library/react';
+export { render as defaultRender } from '@testing-library/react';
+export { default as userEvent } from '@testing-library/user-event';
+
 export type { CustomRenderOptions, CustomRenderResult };
 
 export {
@@ -450,8 +455,3 @@ export {
   waitPageMetaDataToBeSet,
   waitReducerToBeCalled,
 };
-
-// re-export everything
-export * from '@testing-library/react';
-export { render as defaultRender } from '@testing-library/react';
-export { default as userEvent } from '@testing-library/user-event';
