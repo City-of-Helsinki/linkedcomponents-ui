@@ -83,6 +83,12 @@
     "buttonBack": "Tillbaka",
     "buttonRemoveFilter": "Ta bort filter: {{namn}}",
     "cancel": "Ångra",
+    "checkboxGroup": {
+      "accessibility": {
+        "hideOptionsNotification": "Vissa alternativ dolda från listan",
+        "showAllOptionsNotification": "Fler alternativ har lagts till på listan"
+      }
+    },
     "clear": "Klar",
     "close": "Stäng",
     "combobox": {

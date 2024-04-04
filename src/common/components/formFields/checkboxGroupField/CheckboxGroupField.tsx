@@ -3,6 +3,7 @@ import { IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import useAccessibilityNotification from '../../../../hooks/useAccessibilityNotification';
 import { OptionType } from '../../../../types';
 import { getErrorText } from '../../../../utils/validationUtils';
 import Button from '../../button/Button';
@@ -12,7 +13,7 @@ import SelectionGroup, {
 } from '../../selectionGroup/SelectionGroup';
 import styles from './checkboxGroupField.module.scss';
 
-type Props = React.PropsWithChildren<
+export type CheckboxGroupFieldProps = React.PropsWithChildren<
   {
     disabledOptions: string[];
     errorName?: string;
@@ -23,7 +24,7 @@ type Props = React.PropsWithChildren<
     SelectionGroupProps
 >;
 
-const CheckboxGroupField: React.FC<Props> = ({
+const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
   columns = 2,
   disabled,
   disabledOptions,
@@ -38,6 +39,7 @@ const CheckboxGroupField: React.FC<Props> = ({
   const { t } = useTranslation();
   const [, { error, touched: touchedError }] = useField(errorName || name);
   const [, { touched }] = useField(name);
+  const { setAccessibilityText } = useAccessibilityNotification();
 
   const errorText = getErrorText(error, touched || touchedError, t);
   const [showAll, setShowAll] = React.useState(false);
@@ -48,7 +50,14 @@ const CheckboxGroupField: React.FC<Props> = ({
   );
 
   const toggleShowAll = () => {
-    setShowAll(!showAll);
+    setAccessibilityText(
+      t(
+        showAll
+          ? 'common.checkboxGroup.accessibility.hideOptionsNotification'
+          : 'common.checkboxGroup.accessibility.showAllOptionsNotification'
+      )
+    );
+    setShowAll((o) => !o);
   };
 
   const handleBlur = () => {
