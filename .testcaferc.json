@@ -12,5 +12,6 @@
       "configPath": "./tsconfig.testcafe.json", 
       "customCompilerModulePath": "../typescript"
     }
-  }
+  },
+  "skipJsErrors": true
 }

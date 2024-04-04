@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import { ApolloProvider } from '@apollo/client';
-import { createInstance, MatomoProvider } from '@datapunt/matomo-tracker-react';
 import { LoginProvider, useApiTokensClient, useOidcClient } from 'hds-react';
 import React, { PropsWithChildren, useEffect, useMemo, useRef } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import theme from '../../assets/theme/theme';
+import { MatomoContext } from '../../common/components/matomoTracker/matomo-context';
+import MatomoTracker from '../../common/components/matomoTracker/MatomoTracker';
 import getValue from '../../utils/getValue';
 import { loginProviderProps } from '../auth/constants';
 import { createApolloClient } from './apollo/apolloClient';
@@ -16,21 +17,6 @@ import { NotificationsProvider } from './notificationsContext/NotificationsConte
 import { PageSettingsProvider } from './pageSettingsContext/PageSettingsContext';
 import AppRoutes from './routes/appRoutes/AppRoutes';
 import { ThemeProvider } from './theme/Theme';
-
-const getMatomoUrlPath = (path: string) =>
-  `${import.meta.env.REACT_APP_MATOMO_URL_BASE}${path}`;
-
-const instance = createInstance({
-  disabled: import.meta.env.REACT_APP_MATOMO_ENABLED !== 'true',
-  urlBase: getValue(import.meta.env.REACT_APP_MATOMO_URL_BASE, ''),
-  srcUrl:
-    import.meta.env.REACT_APP_MATOMO_SRC_URL &&
-    getMatomoUrlPath(import.meta.env.REACT_APP_MATOMO_SRC_URL),
-  trackerUrl:
-    import.meta.env.REACT_APP_MATOMO_TRACKER_URL &&
-    getMatomoUrlPath(import.meta.env.REACT_APP_MATOMO_TRACKER_URL),
-  siteId: Number(import.meta.env.REACT_APP_MATOMO_SITE_ID),
-});
 
 const RefreshApiTokenOnLoad: React.FC = () => {
   const { getUser } = useOidcClient();
@@ -69,6 +55,20 @@ const ApolloWrapper: React.FC<PropsWithChildren> = ({ children }) => {
 };
 
 const App: React.FC = () => {
+  const matomoTracker = useMemo(
+    () =>
+      new MatomoTracker({
+        urlBase: getValue(import.meta.env.REACT_APP_MATOMO_URL_BASE, ''),
+        siteId: import.meta.env.REACT_APP_MATOMO_SITE_ID,
+        srcUrl: import.meta.env.REACT_APP_MATOMO_SRC_URL,
+        enabled: import.meta.env.REACT_APP_MATOMO_ENABLED === 'true',
+        configurations: {
+          setDoNotTrack: undefined,
+        },
+      }),
+    []
+  );
+
   return (
     <ThemeProvider initTheme={theme}>
       <NotificationsProvider>
@@ -77,12 +77,12 @@ const App: React.FC = () => {
           <PageSettingsProvider>
             <BrowserRouter>
               {/* @ts-ignore */}
-              <MatomoProvider value={instance}>
+              <MatomoContext.Provider value={matomoTracker}>
                 <ApolloWrapper>
                   <CookieConsent />
                   <AppRoutes />
                 </ApolloWrapper>
-              </MatomoProvider>
+              </MatomoContext.Provider>
             </BrowserRouter>
           </PageSettingsProvider>
         </LoginProvider>
