@@ -26,7 +26,7 @@ import useOrganizationUpdateActions, {
 import ConfirmDeleteOrganizationModal from './modals/confirmDeleteOrganizationModal/ConfirmDeleteOrganizationModal';
 import OrganizationForm from './organizationForm/OrganizationForm';
 import {
-  getEditButtonProps,
+  getEditOrganizationButtonProps,
   getOrganizationFields,
   organizationPathBuilder,
 } from './utils';
@@ -65,7 +65,7 @@ const EditOrganizationPage: React.FC<Props> = ({ organization }) => {
     });
   };
 
-  const buttonProps = getEditButtonProps({
+  const buttonProps = getEditOrganizationButtonProps({
     action: ORGANIZATION_ACTIONS.DELETE,
     authenticated,
     id,

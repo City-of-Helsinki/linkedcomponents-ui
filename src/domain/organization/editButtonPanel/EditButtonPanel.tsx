@@ -10,7 +10,7 @@ import useAuth from '../../auth/hooks/useAuth';
 import { OrganizationsLocationState } from '../../organizations/types';
 import useUser from '../../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from '../constants';
-import { getEditButtonProps } from '../utils';
+import { getEditOrganizationButtonProps } from '../utils';
 
 export interface EditButtonPanelProps {
   id: string;
@@ -33,7 +33,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     state: { organizationId: id },
   });
 
-  const buttonProps = getEditButtonProps({
+  const buttonProps = getEditOrganizationButtonProps({
     action: ORGANIZATION_ACTIONS.UPDATE,
     authenticated,
     id,

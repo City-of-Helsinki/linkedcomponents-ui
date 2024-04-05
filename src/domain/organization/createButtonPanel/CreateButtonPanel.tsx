@@ -9,7 +9,7 @@ import useGoBack from '../../../hooks/useGoBack';
 import useAuth from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from '../constants';
-import { getEditButtonProps } from '../utils';
+import { getEditOrganizationButtonProps } from '../utils';
 
 export interface CreateButtonPanelProps {
   onSave: () => void;
@@ -27,7 +27,7 @@ const CreateButtonPanel: React.FC<CreateButtonPanelProps> = ({
 
   const goBack = useGoBack({ defaultReturnPath: ROUTES.KEYWORD_SETS });
 
-  const buttonProps = getEditButtonProps({
+  const buttonProps = getEditOrganizationButtonProps({
     action: ORGANIZATION_ACTIONS.CREATE,
     authenticated,
     id: '',

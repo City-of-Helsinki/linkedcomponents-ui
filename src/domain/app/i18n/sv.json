@@ -1697,7 +1697,7 @@
     },
     "title": "Organisationer",
     "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här organisation.",
-    "warningNoRightsToEditMerchant": "Endast systemadministratörer kan redigera handlare"
+    "warningNoRightsToEditMerchant": "Endast systemadministratörer och finansiella administratörer kan redigera handlare."
   },
   "place": {
     "deletePlaceModal": {

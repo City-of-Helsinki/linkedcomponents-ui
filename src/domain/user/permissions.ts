@@ -1,17 +1,19 @@
 import { UserFieldsFragment } from '../../generated/graphql';
 import {
   hasAdminOrganization,
+  hasFinancialAdminOrganization,
   hasRegistrationAdminOrganization,
 } from '../organization/utils';
 
-export const areAdminRoutesAllowed = (user?: UserFieldsFragment) =>
-  hasAdminOrganization(user);
+export const areAdminRoutesAllowed = (user?: UserFieldsFragment): boolean =>
+  user?.isSuperuser ||
+  hasAdminOrganization(user) ||
+  hasFinancialAdminOrganization(user);
 
 export const areRegistrationRoutesAllowed = (
   user?: UserFieldsFragment
 ): boolean =>
-  Boolean(
-    hasAdminOrganization(user) ||
-      hasRegistrationAdminOrganization(user) ||
-      user?.isSubstituteUser
-  );
+  user?.isSuperuser ||
+  user?.isSubstituteUser ||
+  hasAdminOrganization(user) ||
+  hasRegistrationAdminOrganization(user);

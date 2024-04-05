@@ -473,6 +473,7 @@ export type Mutation = {
   deleteRegistration?: Maybe<NoContent>;
   deleteSignup?: Maybe<NoContent>;
   deleteSignupGroup?: Maybe<NoContent>;
+  patchOrganization: Organization;
   postFeedback?: Maybe<Feedback>;
   postGuestFeedback?: Maybe<Feedback>;
   sendMessage?: Maybe<SendMessageResponse>;
@@ -595,6 +596,12 @@ export type MutationDeleteSignupArgs = {
 
 export type MutationDeleteSignupGroupArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type MutationPatchOrganizationArgs = {
+  id: Scalars['ID']['input'];
+  input: UpdateOrganizationMutationInput;
 };
 
 
@@ -1814,6 +1821,14 @@ export type DeleteOrganizationMutationVariables = Exact<{
 
 
 export type DeleteOrganizationMutation = { __typename?: 'Mutation', deleteOrganization?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
+
+export type PatchOrganizationMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+  input: UpdateOrganizationMutationInput;
+}>;
+
+
+export type PatchOrganizationMutation = { __typename?: 'Mutation', patchOrganization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null, adminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, financialAdminOrganizations: Array<string>, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, isSubstituteUser?: boolean | null, isSuperuser?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, financialAdminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, financialAdminOrganizations: Array<string>, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, isSubstituteUser?: boolean | null, isSuperuser?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, registrationAdminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, financialAdminOrganizations: Array<string>, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, isSubstituteUser?: boolean | null, isSuperuser?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, regularUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, financialAdminOrganizations: Array<string>, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, isSubstituteUser?: boolean | null, isSuperuser?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, webStoreMerchants?: Array<{ __typename?: 'WebStoreMerchant', active?: boolean | null, businessId?: string | null, city?: string | null, email?: string | null, id?: number | null, merchantId?: string | null, name?: string | null, paytrailMerchantId?: string | null, phoneNumber?: string | null, streetAddress?: string | null, termsOfServiceUrl?: string | null, url?: string | null, zipcode?: string | null } | null> | null } };
 
 export type UpdateOrganizationMutationVariables = Exact<{
   input: UpdateOrganizationMutationInput;
@@ -3826,6 +3841,40 @@ export function useDeleteOrganizationMutation(baseOptions?: Apollo.MutationHookO
 export type DeleteOrganizationMutationHookResult = ReturnType<typeof useDeleteOrganizationMutation>;
 export type DeleteOrganizationMutationResult = Apollo.MutationResult<DeleteOrganizationMutation>;
 export type DeleteOrganizationMutationOptions = Apollo.BaseMutationOptions<DeleteOrganizationMutation, DeleteOrganizationMutationVariables>;
+export const PatchOrganizationDocument = gql`
+    mutation PatchOrganization($id: ID!, $input: UpdateOrganizationMutationInput!) {
+  patchOrganization(id: $id, input: $input) @rest(type: "Organization", path: "/organization/{args.id}/", method: "PATCH", bodyKey: "input") {
+    ...organizationFields
+  }
+}
+    ${OrganizationFieldsFragmentDoc}`;
+export type PatchOrganizationMutationFn = Apollo.MutationFunction<PatchOrganizationMutation, PatchOrganizationMutationVariables>;
+
+/**
+ * __usePatchOrganizationMutation__
+ *
+ * To run a mutation, you first call `usePatchOrganizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePatchOrganizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [patchOrganizationMutation, { data, loading, error }] = usePatchOrganizationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function usePatchOrganizationMutation(baseOptions?: Apollo.MutationHookOptions<PatchOrganizationMutation, PatchOrganizationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PatchOrganizationMutation, PatchOrganizationMutationVariables>(PatchOrganizationDocument, options);
+      }
+export type PatchOrganizationMutationHookResult = ReturnType<typeof usePatchOrganizationMutation>;
+export type PatchOrganizationMutationResult = Apollo.MutationResult<PatchOrganizationMutation>;
+export type PatchOrganizationMutationOptions = Apollo.BaseMutationOptions<PatchOrganizationMutation, PatchOrganizationMutationVariables>;
 export const UpdateOrganizationDocument = gql`
     mutation UpdateOrganization($input: UpdateOrganizationMutationInput!) {
   updateOrganization(input: $input) @rest(type: "Organization", path: "/organization/{args.input.id}/", method: "PUT", bodyKey: "input") {

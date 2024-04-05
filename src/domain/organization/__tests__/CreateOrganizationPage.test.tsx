@@ -237,6 +237,6 @@ test('should not allow non-superuser to edit merchants', async () => {
 
   await loadingSpinnerIsNotInDocument();
   await screen.findByText(
-    'Vain järjestelmän pääkäyttäjät voivat muokata kauppiaita'
+    'Vain järjestelmän pääkäyttäjät ja taloushallinnon pääkäyttäjät voivat muokata kauppiaita.'
   );
 });

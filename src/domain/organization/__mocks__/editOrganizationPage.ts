@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 
 import {
   DeleteOrganizationDocument,
+  PatchOrganizationDocument,
   UpdateOrganizationDocument,
 } from '../../../generated/graphql';
 import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
@@ -9,9 +10,11 @@ import { organizations } from '../../organizations/__mocks__/organizationsPage';
 import { users } from '../../user/__mocks__/user';
 import { TEST_PUBLISHER_ID } from '../constants';
 import {
+  merchantPayload,
   organization,
   organizationClassification,
   organizationName,
+  organizationWithMerchant,
 } from './organization';
 
 const deleteOrganizationVariables = { id: organization.id };
@@ -69,8 +72,30 @@ const mockedInvalidUpdateOrganizationResponse: MockedResponse = {
   } as Error,
 };
 
+const patchPayload = {
+  webStoreMerchants: [merchantPayload],
+};
+
+const patchOrganizationWithMerchantVariables = {
+  id: TEST_PUBLISHER_ID,
+  input: patchPayload,
+};
+
+const patchOrganizationWithMerchantResponse = {
+  data: { patchOrganization: organizationWithMerchant },
+};
+
+const mockedPatchOrganizationWithMerchantResponse: MockedResponse = {
+  request: {
+    query: PatchOrganizationDocument,
+    variables: patchOrganizationWithMerchantVariables,
+  },
+  result: patchOrganizationWithMerchantResponse,
+};
+
 export {
   mockedDeleteOrganizationResponse,
   mockedInvalidUpdateOrganizationResponse,
+  mockedPatchOrganizationWithMerchantResponse,
   mockedUpdateOrganizationResponse,
 };

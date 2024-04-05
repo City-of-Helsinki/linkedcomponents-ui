@@ -14,6 +14,11 @@ export enum ORGANIZATION_ACTIONS {
   UPDATE = 'update',
 }
 
+export enum ORGANIZATION_MERCHANT_ACTIONS {
+  MANAGE_IN_CREATE = 'manage_in_create',
+  MANAGE_IN_UPDATE = 'manage_in_update',
+}
+
 export const ORGANIZATION_ACTION_ICONS = {
   [ORGANIZATION_ACTIONS.CREATE]: <IconPen aria-hidden={true} />,
   [ORGANIZATION_ACTIONS.DELETE]: <IconCrossCircle aria-hidden={true} />,

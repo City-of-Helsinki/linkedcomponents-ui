@@ -9,6 +9,7 @@ import {
   UpdateOrganizationMutationInput,
   useCreateOrganizationMutation,
   useDeleteOrganizationMutation,
+  usePatchOrganizationMutation,
   useUpdateOrganizationMutation,
 } from '../../../generated/graphql';
 import useHandleError from '../../../hooks/useHandleError';
@@ -21,9 +22,14 @@ import {
   clearOrganizationsQueries,
 } from '../../app/apollo/clearCacheUtils';
 import useUser from '../../user/hooks/useUser';
-import { ORGANIZATION_ACTIONS } from '../constants';
+import {
+  ORGANIZATION_ACTIONS,
+  ORGANIZATION_MERCHANT_ACTIONS,
+} from '../constants';
 import { OrganizationFormFields } from '../types';
 import {
+  checkCanUserDoMerchantAction,
+  checkCanUserDoOrganizationAction,
   getOrganizationPayload,
   omitSensitiveDataFromOrganizationPayload,
 } from '../utils';
@@ -67,6 +73,7 @@ const useOrganizationUpdateActions = ({
 
   const [createOrganizationMutation] = useCreateOrganizationMutation();
   const [deleteOrganizationMutation] = useDeleteOrganizationMutation();
+  const [patchOrganizationMutation] = usePatchOrganizationMutation();
   const [updateOrganizationMutation] = useUpdateOrganizationMutation();
 
   const closeModal = () => {
@@ -141,7 +148,7 @@ const useOrganizationUpdateActions = ({
     }
   };
 
-  const updateOrganization = async (
+  const patchOrganization = async (
     values: OrganizationFormFields,
     callbacks?: MutationCallbacks<string>
   ) => {
@@ -153,17 +160,60 @@ const useOrganizationUpdateActions = ({
     try {
       setSaving(ORGANIZATION_ACTIONS.UPDATE);
 
-      await updateOrganizationMutation({ variables: { input: payload } });
+      await patchOrganizationMutation({
+        variables: { id: values.id, input: payload },
+      });
 
       await cleanAfterUpdate(values.id, callbacks);
     } catch (error) /* istanbul ignore next */ {
       handleError({
         callbacks,
         error,
-        message: 'Failed to update organization',
+        message: 'Failed to patch organization',
         payload: omitSensitiveDataFromOrganizationPayload(payload),
         savingFinished,
       });
+    }
+  };
+
+  const updateOrganization = async (
+    values: OrganizationFormFields,
+    callbacks?: MutationCallbacks<string>
+  ) => {
+    if (
+      !checkCanUserDoOrganizationAction({
+        action: ORGANIZATION_ACTIONS.UPDATE,
+        id: values.id,
+        user,
+      }) &&
+      checkCanUserDoMerchantAction({
+        action: ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE,
+        organizationId: values.id,
+        user,
+      })
+    ) {
+      patchOrganization(values, callbacks);
+    } else {
+      const payload: UpdateOrganizationMutationInput = getOrganizationPayload(
+        values,
+        user
+      );
+
+      try {
+        setSaving(ORGANIZATION_ACTIONS.UPDATE);
+
+        await updateOrganizationMutation({ variables: { input: payload } });
+
+        await cleanAfterUpdate(values.id, callbacks);
+      } catch (error) /* istanbul ignore next */ {
+        handleError({
+          callbacks,
+          error,
+          message: 'Failed to update organization',
+          payload: omitSensitiveDataFromOrganizationPayload(payload),
+          savingFinished,
+        });
+      }
     }
   };
 

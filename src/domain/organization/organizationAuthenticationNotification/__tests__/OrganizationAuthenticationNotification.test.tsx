@@ -11,6 +11,7 @@ import {
   waitFor,
 } from '../../../../utils/testUtils';
 import {
+  mockedFinancialAdminUserResponse,
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
 } from '../../../user/__mocks__/user';
@@ -59,6 +60,17 @@ test('should not show notification if user is signed in and has an admin organiz
 
   mockAuthenticatedLoginState();
   renderComponent({ mocks });
+
+  await waitFor(() =>
+    expect(screen.queryByRole('region')).not.toBeInTheDocument()
+  );
+});
+
+test('should not show notification if financial admin tries to update organization', async () => {
+  const mocks = [mockedOrganizationResponse, mockedFinancialAdminUserResponse];
+
+  mockAuthenticatedLoginState();
+  renderComponent({ mocks }, { action: ORGANIZATION_ACTIONS.UPDATE });
 
   await waitFor(() =>
     expect(screen.queryByRole('region')).not.toBeInTheDocument()

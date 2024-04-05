@@ -25,6 +25,21 @@ export const MUTATION_ORGANIZATION = gql`
     }
   }
 
+  mutation PatchOrganization(
+    $id: ID!
+    $input: UpdateOrganizationMutationInput!
+  ) {
+    patchOrganization(id: $id, input: $input)
+      @rest(
+        type: "Organization"
+        path: "/organization/{args.id}/"
+        method: "PATCH"
+        bodyKey: "input"
+      ) {
+      ...organizationFields
+    }
+  }
+
   mutation UpdateOrganization($input: UpdateOrganizationMutationInput!) {
     updateOrganization(input: $input)
       @rest(

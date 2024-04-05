@@ -33,6 +33,7 @@ import {
   ORGANIZATION_ACTION_LABEL_KEYS,
   ORGANIZATION_ACTIONS,
   ORGANIZATION_INTERNAL_TYPE,
+  ORGANIZATION_MERCHANT_ACTIONS,
 } from './constants';
 import {
   OrganizationFields,
@@ -134,6 +135,10 @@ export const getOrganizationQueryResult = async (
 };
 export const hasAdminOrganization = (user?: UserFieldsFragment): boolean =>
   !!user?.adminOrganizations.length;
+
+export const hasFinancialAdminOrganization = (
+  user?: UserFieldsFragment
+): boolean => !!user?.financialAdminOrganizations.length;
 
 export const hasRegistrationAdminOrganization = (
   user?: UserFieldsFragment
@@ -251,7 +256,7 @@ export const getOrganizationAncestorsQueryResult = async (
   }
 };
 
-export const checkCanUserDoAction = ({
+export const checkCanUserDoOrganizationAction = ({
   action,
   id,
   user,
@@ -306,7 +311,7 @@ export const getEditOrganizationWarning = ({
   return '';
 };
 
-export const checkIsEditActionAllowed = ({
+export const checkIsEditOrganizationActionAllowed = ({
   action,
   authenticated,
   id,
@@ -319,7 +324,7 @@ export const checkIsEditActionAllowed = ({
   t: TFunction;
   user?: UserFieldsFragment;
 }): Editability => {
-  const userCanDoAction = checkCanUserDoAction({
+  const userCanDoAction = checkCanUserDoOrganizationAction({
     action,
     id,
     user,
@@ -335,36 +340,7 @@ export const checkIsEditActionAllowed = ({
   return { editable: !warning, warning };
 };
 
-export const getEditMerchantWarning = ({
-  t,
-  user,
-}: {
-  t: TFunction;
-  user?: UserFieldsFragment;
-}): string => {
-  if (!user?.isSuperuser) {
-    return t('organizationsPage.warningNoRightsToEditMerchant');
-  }
-
-  return '';
-};
-
-export const checkIsEditMerchantAllowed = ({
-  t,
-  user,
-}: {
-  t: TFunction;
-  user?: UserFieldsFragment;
-}): Editability => {
-  const warning = getEditMerchantWarning({
-    t,
-    user,
-  });
-
-  return { editable: !warning, warning };
-};
-
-export const getEditButtonProps = ({
+export const getEditOrganizationButtonProps = ({
   action,
   authenticated,
   id,
@@ -379,13 +355,29 @@ export const getEditButtonProps = ({
   t: TFunction;
   user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
-  const { editable, warning } = checkIsEditActionAllowed({
+  let { editable, warning } = checkIsEditOrganizationActionAllowed({
     action,
     authenticated,
     id,
     t,
     user,
   });
+  // Don't display warning if user is allowed to update or create organization merchants
+  if (
+    (action === ORGANIZATION_ACTIONS.CREATE ||
+      action === ORGANIZATION_ACTIONS.UPDATE) &&
+    checkCanUserDoMerchantAction({
+      action:
+        action === ORGANIZATION_ACTIONS.CREATE
+          ? ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE
+          : ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE,
+      organizationId: id,
+      user,
+    })
+  ) {
+    editable = true;
+    warning = '';
+  }
 
   return {
     disabled: !editable,
@@ -394,6 +386,73 @@ export const getEditButtonProps = ({
     onClick,
     title: warning,
   };
+};
+
+export const checkCanUserDoMerchantAction = ({
+  action,
+  organizationId,
+  user,
+}: {
+  action: ORGANIZATION_MERCHANT_ACTIONS;
+  organizationId: string;
+  user?: UserFieldsFragment;
+}): boolean => {
+  /* istanbul ignore next */
+  const isSuperuser = !!user?.isSuperuser;
+  const isFinancialAdminUser = isFinancialAdminUserInOrganization({
+    id: organizationId,
+    organizationAncestors: [],
+    user,
+  });
+  switch (action) {
+    case ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE:
+      return (
+        (!!user?.adminOrganizations.length &&
+          !!user.financialAdminOrganizations.length) ||
+        isSuperuser
+      );
+    case ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE:
+      return isSuperuser || isFinancialAdminUser;
+  }
+};
+
+export const getEditMerchantWarning = ({
+  action,
+  organizationId,
+  t,
+  user,
+}: {
+  action: ORGANIZATION_MERCHANT_ACTIONS;
+  organizationId: string;
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): string => {
+  if (!checkCanUserDoMerchantAction({ action, organizationId, user })) {
+    return t('organizationsPage.warningNoRightsToEditMerchant');
+  }
+
+  return '';
+};
+
+export const checkIsEditMerchantAllowed = ({
+  action,
+  organizationId,
+  t,
+  user,
+}: {
+  action: ORGANIZATION_MERCHANT_ACTIONS;
+  organizationId: string;
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): Editability => {
+  const warning = getEditMerchantWarning({
+    action,
+    organizationId,
+    t,
+    user,
+  });
+
+  return { editable: !warning, warning };
 };
 
 export const getWebStoreMerchantInitialValues = (
@@ -483,24 +542,43 @@ export const getOrganizationPayload = (
   } = formValues;
 
   const dataSource = formValues.dataSource || LINKED_EVENTS_SYSTEM_DATA_SOURCE;
+  const organizationAction = id
+    ? ORGANIZATION_ACTIONS.UPDATE
+    : ORGANIZATION_ACTIONS.CREATE;
+
+  const merchantAction = id
+    ? ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE
+    : ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE;
 
   return {
-    ...restFormValues,
-    adminUsers,
-    dataSource,
-    dissolutionDate: dissolutionDate
-      ? formatDate(dissolutionDate, DATE_FORMAT_API)
-      : null,
-    financialAdminUsers,
-    foundingDate: foundingDate
-      ? formatDate(foundingDate, DATE_FORMAT_API)
-      : null,
-    id: id || (originId ? `${dataSource}:${originId}` : undefined),
-    originId,
-    parentOrganization: parentOrganization || undefined,
-    regularUsers,
+    ...(checkCanUserDoOrganizationAction({
+      action: organizationAction,
+      id,
+      user,
+    })
+      ? {
+          ...restFormValues,
+          adminUsers,
+          dataSource,
+          dissolutionDate: dissolutionDate
+            ? formatDate(dissolutionDate, DATE_FORMAT_API)
+            : null,
+          financialAdminUsers,
+          foundingDate: foundingDate
+            ? formatDate(foundingDate, DATE_FORMAT_API)
+            : null,
+          id: id || (originId ? `${dataSource}:${originId}` : undefined),
+          originId,
+          parentOrganization: parentOrganization || undefined,
+          regularUsers,
+        }
+      : /* istanbul ignore next */ {}),
     ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
-    user?.isSuperuser
+    checkCanUserDoMerchantAction({
+      action: merchantAction,
+      organizationId: id,
+      user,
+    })
       ? {
           webStoreMerchants: webStoreMerchants.map((wsm) => ({
             ...wsm,
