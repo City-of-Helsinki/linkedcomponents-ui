@@ -27,6 +27,7 @@ import {
   SignupGroup,
   SignupPriceGroup,
   User,
+  WebStoreAccount,
   WebStoreMerchant,
 } from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
@@ -209,6 +210,10 @@ export const addTypenameOrganization = (
   organization
     ? {
         ...organization,
+        webStoreAccounts:
+          organization.webStoreAccounts?.map((o) =>
+            addTypenameWebStoreAccount(o)
+          ) ?? [],
         webStoreMerchants:
           organization.webStoreMerchants?.map((o) =>
             addTypenameWebStoreMerchant(o)
@@ -350,6 +355,13 @@ export const addTypenameSignupGroup = (
 
 export const addTypenameUser = (user?: User | null): User | null =>
   user ? { ...user, __typename: 'User' } : null;
+
+export const addTypenameWebStoreAccount = (
+  webStoreAccount?: WebStoreAccount | null
+): WebStoreAccount | null =>
+  webStoreAccount
+    ? { ...webStoreAccount, __typename: 'WebStoreAccount' }
+    : null;
 
 export const addTypenameWebStoreMerchant = (
   webStoreMerchant?: WebStoreMerchant | null

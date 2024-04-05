@@ -1,4 +1,8 @@
-import { ORGANIZATION_FIELDS, WEB_STORE_MERCHANT_FIELDS } from './constants';
+import {
+  ORGANIZATION_FIELDS,
+  WEB_STORE_ACCOUNT_FIELDS,
+  WEB_STORE_MERCHANT_FIELDS,
+} from './constants';
 
 export type OrganizationFields = {
   affiliatedOrganizations: string[];
@@ -13,6 +17,19 @@ export type OrganizationFields = {
   originId: string;
   parentOrganization: string | null;
   subOrganizations: string[];
+};
+
+export type WebStoreAccountFormFields = {
+  [WEB_STORE_ACCOUNT_FIELDS.ACTIVE]: boolean;
+  [WEB_STORE_ACCOUNT_FIELDS.BALANCE_PROFIT_CENTER]: string;
+  [WEB_STORE_ACCOUNT_FIELDS.COMPANY_CODE]: string;
+  [WEB_STORE_ACCOUNT_FIELDS.ID]: number | null;
+  [WEB_STORE_ACCOUNT_FIELDS.INTERNAL_ORDER]: string;
+  [WEB_STORE_ACCOUNT_FIELDS.MAIN_LEDGER_ACCOUNT]: string;
+  [WEB_STORE_ACCOUNT_FIELDS.OPERATION_AREA]: string;
+  [WEB_STORE_ACCOUNT_FIELDS.PROFIT_CENTER]: string;
+  [WEB_STORE_ACCOUNT_FIELDS.PROJECT]: string;
+  [WEB_STORE_ACCOUNT_FIELDS.VAT_CODE]: string;
 };
 
 export type WebStoreMerchantFormFields = {
@@ -48,5 +65,6 @@ export type OrganizationFormFields = {
   [ORGANIZATION_FIELDS.REGULAR_USERS]: string[];
   [ORGANIZATION_FIELDS.REPLACED_BY]: string;
   [ORGANIZATION_FIELDS.SUB_ORGANIZATIONS]: string[];
+  [ORGANIZATION_FIELDS.WEB_STORE_ACCOUNTS]: WebStoreAccountFormFields[];
   [ORGANIZATION_FIELDS.WEB_STORE_MERCHANTS]: WebStoreMerchantFormFields[];
 };

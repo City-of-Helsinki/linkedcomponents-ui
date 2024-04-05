@@ -14,13 +14,13 @@ import { createApolloClient } from '../../app/apollo/apolloClient';
 import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
 import {
   ORGANIZATION_ACTIONS,
+  ORGANIZATION_FINANCIAL_INFO_ACTIONS,
   ORGANIZATION_INITIAL_VALUES,
   ORGANIZATION_INTERNAL_TYPE,
-  ORGANIZATION_MERCHANT_ACTIONS,
   TEST_PUBLISHER_ID,
 } from '../constants';
 import {
-  checkCanUserDoMerchantAction,
+  checkCanUserDoFinancialInfoAction,
   checkCanUserDoOrganizationAction,
   getEditOrganizationWarning,
   getOrganizationAncestorsQueryResult,
@@ -35,9 +35,22 @@ import {
 
 const apolloClient = createApolloClient({ addNotification: vi.fn() });
 
+const account = {
+  active: true,
+  balanceProfitCenter: '738',
+  companyCode: '143',
+  id: 1,
+  internalOrder: '1',
+  mainLedgerAccount: '971',
+  operationArea: '2',
+  profitCenter: '3',
+  project: '4',
+  vatCode: '54',
+};
+
 const merchant = {
   active: true,
-  businessId: 'business:1',
+  businessId: '12345678',
   city: 'Helsinki',
   email: 'test@email.com',
   id: 1,
@@ -67,20 +80,20 @@ describe('organizationsPathBuilder function', () => {
   });
 });
 
-describe('checkCanUserDoMerchantAction function', () => {
+describe('checkCanUserDoFinancialInfoAction function', () => {
   const publisher = TEST_PUBLISHER_ID;
 
   it('should deny all actions if from event admins', () => {
     const user = fakeUser({ adminOrganizations: [publisher] });
 
     const deniedActions = [
-      ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE,
-      ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE,
+      ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE,
+      ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE,
     ];
 
     deniedActions.forEach((action) => {
       expect(
-        checkCanUserDoMerchantAction({
+        checkCanUserDoFinancialInfoAction({
           action,
           organizationId: publisher,
           user,
@@ -89,29 +102,29 @@ describe('checkCanUserDoMerchantAction function', () => {
     });
   });
 
-  it('should allow financial admin and admin to create merchant', () => {
+  it('should allow financial admin and admin to create merchant and account', () => {
     const user = fakeUser({
       adminOrganizations: [publisher],
       financialAdminOrganizations: [publisher],
     });
 
     expect(
-      checkCanUserDoMerchantAction({
-        action: ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE,
+      checkCanUserDoFinancialInfoAction({
+        action: ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE,
         organizationId: publisher,
         user,
       })
     ).toBe(true);
   });
 
-  it('should allow financial admin and admin to update merchant', () => {
+  it('should allow financial admin and admin to update merchant and account', () => {
     const user = fakeUser({
       financialAdminOrganizations: [publisher],
     });
 
     expect(
-      checkCanUserDoMerchantAction({
-        action: ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE,
+      checkCanUserDoFinancialInfoAction({
+        action: ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE,
         organizationId: publisher,
         user,
       })
@@ -378,6 +391,7 @@ describe('getOrganizationInitialValues function', () => {
           registrationAdminUsers: null,
           regularUsers: null,
           subOrganizations: null,
+          webStoreAccounts: null,
           webStoreMerchants: null,
         })
       )
@@ -398,6 +412,7 @@ describe('getOrganizationInitialValues function', () => {
       regularUsers: [],
       replacedBy: '',
       subOrganizations: [],
+      webStoreAccounts: [],
       webStoreMerchants: [],
     });
   });
@@ -423,6 +438,7 @@ describe('getOrganizationInitialValues function', () => {
           ]).data,
           regularUsers: fakeUsers(1, [{ username: 'regular:1' }]).data,
           subOrganizations: ['organization:sub'],
+          webStoreAccounts: [account],
           webStoreMerchants: [merchant],
         })
       )
@@ -443,6 +459,7 @@ describe('getOrganizationInitialValues function', () => {
       regularUsers: ['regular:1'],
       replacedBy: '',
       subOrganizations: ['organization:sub'],
+      webStoreAccounts: [account],
       webStoreMerchants: [merchant],
     });
   });
@@ -472,6 +489,7 @@ describe('getOrganizationPayload function', () => {
       regularUsers: [],
       replacedBy: '',
       subOrganizations: [],
+      webStoreAccounts: [],
       webStoreMerchants: [],
     });
 
@@ -494,6 +512,7 @@ describe('getOrganizationPayload function', () => {
           regularUsers: ['regular:1'],
           replacedBy: 'organization:replaced',
           subOrganizations: ['organization:sub'],
+          webStoreAccounts: [account, { ...account, id: null }],
           webStoreMerchants: [merchant, { ...merchant, id: null }],
         },
         fakeUser({ isSuperuser: true })
@@ -515,6 +534,7 @@ describe('getOrganizationPayload function', () => {
       regularUsers: ['regular:1'],
       replacedBy: 'organization:replaced',
       subOrganizations: ['organization:sub'],
+      webStoreAccounts: [account, { ...account, id: undefined }],
       webStoreMerchants: [merchant, { ...merchant, id: undefined }],
     });
   });

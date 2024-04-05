@@ -1619,8 +1619,21 @@
       "title": "Confirm organization deletion"
     },
     "form": {
+      "account": {
+        "labelActive": "Is active",
+        "labelBalanceProfitCenter": "Balance profit center",
+        "labelCompanyCode": "SAP company code",
+        "labelInternalOrder": "Internal order",
+        "labelMainLedgerAccount": "Main ledger account",
+        "labelOperationArea": "SAP functional area",
+        "labelProfitCenter": "Profit center",
+        "labelProject": "Project",
+        "labelVatCode": "VAT code"
+      },
+      "buttonAddAccount": "Add new account",
       "buttonAddMerchant": "Add new merchant",
       "buttonDelete": "Delete organization",
+      "buttonDeleteAccount": "Delete account",
       "buttonDeleteMerchant": "Delete merchant",
       "labelAdminUsers": "Admin users",
       "labelClassification": "Classification",
@@ -1653,6 +1666,7 @@
       "notificationOrganizationDeleted": "The organization has been deleted",
       "notificationOrganizationUpdated": "The organization has been saved",
       "notificationTitleCannotEdit": "The organization cannot be edited",
+      "titleAccount": "Account",
       "titleMerchant": "Merchant"
     },
     "internalType": {
@@ -1697,7 +1711,7 @@
     },
     "title": "Organizations",
     "warningNoRightsToEdit": "You have insufficient rights to edit this organization.",
-    "warningNoRightsToEditMerchant": "Only superusers and financial admins can manage web store merchants."
+    "warningNoRightsToEditFinancialInfo": "Only superusers and financial admins can manage web store merchants or accounts."
   },
   "place": {
     "deletePlaceModal": {

@@ -24,39 +24,54 @@ const defaultMocks = [
   mockedUsersResponse,
 ];
 
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const renderComponent = () =>
   render(<OrganizationForm />, { mocks: defaultMocks });
 
-const getElement = (
-  key: 'addMerchantButton' | 'deleteMercantButton' | 'paytrailMerchantIdInput'
-) => {
-  switch (key) {
-    case 'addMerchantButton':
-      return screen.getByRole('button', { name: 'Lisää uusi kauppias' });
-    case 'deleteMercantButton':
-      return screen.getByRole('button', { name: 'Poista kauppias' });
-    case 'paytrailMerchantIdInput':
-      return screen.getByRole('textbox', { name: 'Paytrail-kauppiastunnus *' });
-  }
+const shouldAddAndRemoveItem = async ({
+  addButtonLabel,
+  deleteButtonLabel,
+  expectedInputLabel,
+}: {
+  addButtonLabel: string;
+  deleteButtonLabel: string;
+  expectedInputLabel: string;
+}) => {
+  const user = userEvent.setup();
+  await user.click(screen.getByRole('button', { name: addButtonLabel }));
+
+  expect(screen.getByRole('textbox', { name: expectedInputLabel }));
+  expect(
+    screen.queryByRole('button', { name: addButtonLabel })
+  ).not.toBeInTheDocument();
+
+  await user.click(screen.getByRole('button', { name: deleteButtonLabel }));
+  expect(
+    screen.queryByRole('textbox', { name: expectedInputLabel })
+  ).not.toBeInTheDocument();
 };
 
-test('should add and remove price group', async () => {
-  mockAuthenticatedLoginState();
-  const user = userEvent.setup();
-
+test('should add and remove account', async () => {
   renderComponent();
   await loadingSpinnerIsNotInDocument();
 
-  await user.click(getElement('addMerchantButton'));
+  await shouldAddAndRemoveItem({
+    addButtonLabel: 'Lisää uusi tili',
+    deleteButtonLabel: 'Poista tili',
+    expectedInputLabel: 'ALV-koodi *',
+  });
+});
 
-  getElement('paytrailMerchantIdInput');
+test('should add and remove merchant', async () => {
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
 
-  expect(
-    screen.queryByRole('button', { name: 'Lisää uusi kauppias' })
-  ).not.toBeInTheDocument();
-
-  await user.click(getElement('deleteMercantButton'));
-  expect(
-    screen.queryByRole('textbox', { name: 'Paytrail-kauppiastunnus *' })
-  ).not.toBeInTheDocument();
+  await shouldAddAndRemoveItem({
+    addButtonLabel: 'Lisää uusi kauppias',
+    deleteButtonLabel: 'Poista kauppias',
+    expectedInputLabel: 'Paytrail-kauppiastunnus *',
+  });
 });

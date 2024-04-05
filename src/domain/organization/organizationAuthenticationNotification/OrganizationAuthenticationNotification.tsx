@@ -6,10 +6,10 @@ import useAuth from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import {
   ORGANIZATION_ACTIONS,
-  ORGANIZATION_MERCHANT_ACTIONS,
+  ORGANIZATION_FINANCIAL_INFO_ACTIONS,
 } from '../constants';
 import {
-  checkCanUserDoMerchantAction,
+  checkCanUserDoFinancialInfoAction,
   checkIsEditOrganizationActionAllowed,
 } from '../utils';
 
@@ -45,11 +45,11 @@ const OrganizationAuthenticationNotification: React.FC<
         if (
           (action === ORGANIZATION_ACTIONS.CREATE ||
             action === ORGANIZATION_ACTIONS.UPDATE) &&
-          checkCanUserDoMerchantAction({
+          checkCanUserDoFinancialInfoAction({
             action:
               action === ORGANIZATION_ACTIONS.CREATE
-                ? ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE
-                : ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE,
+                ? ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE
+                : ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE,
             organizationId: id,
             user,
           })
