@@ -1,11 +1,27 @@
-import { WebStoreMerchantFieldsFragment } from '../../../generated/graphql';
 import { mockString } from '../../../utils/testUtils';
-import { WEB_STORE_MERCHANT_INITIAL_VALUES } from '../constants';
-import { WebStoreMerchantFormFields } from '../types';
-import { webStoreMerchantSchema } from '../validation';
+import {
+  WEB_STORE_ACCOUNT_INITIAL_VALUES,
+  WEB_STORE_MERCHANT_INITIAL_VALUES,
+} from '../constants';
+import {
+  WebStoreAccountFormFields,
+  WebStoreMerchantFormFields,
+} from '../types';
+import { webStoreAccountSchema, webStoreMerchantSchema } from '../validation';
+
+const testWebStoreAccountSchema = async (
+  account: WebStoreAccountFormFields
+) => {
+  try {
+    await webStoreAccountSchema.validate(account);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
 const testWebStoreMerchantSchema = async (
-  merchant: WebStoreMerchantFieldsFragment
+  merchant: WebStoreMerchantFormFields
 ) => {
   try {
     await webStoreMerchantSchema.validate(merchant);
@@ -14,6 +30,46 @@ const testWebStoreMerchantSchema = async (
     return false;
   }
 };
+
+describe('webStoreAccountSchema', () => {
+  const validAccountValues: WebStoreAccountFormFields = {
+    ...WEB_STORE_ACCOUNT_INITIAL_VALUES,
+    balanceProfitCenter: '16',
+    companyCode: '73',
+    mainLedgerAccount: '91',
+    vatCode: '11',
+  };
+
+  it('should return true if web store account is valid', async () => {
+    expect(await testWebStoreAccountSchema(validAccountValues)).toBe(true);
+  });
+
+  const testCases: [Partial<WebStoreAccountFormFields>][] = [
+    [{ vatCode: '' }],
+    [{ vatCode: mockString(3) }],
+    [{ companyCode: '' }],
+    [{ companyCode: mockString(5) }],
+    [{ mainLedgerAccount: '' }],
+    [{ mainLedgerAccount: mockString(7) }],
+    [{ balanceProfitCenter: '' }],
+    [{ balanceProfitCenter: mockString(11) }],
+    [{ internalOrder: mockString(11) }],
+    [{ profitCenter: mockString(8) }],
+    [{ project: mockString(17) }],
+    [{ operationArea: mockString(7) }],
+  ];
+  it.each(testCases)(
+    'should return false if account is invalid, %s',
+    async (accountOverrides) => {
+      expect(
+        await testWebStoreAccountSchema({
+          ...validAccountValues,
+          ...accountOverrides,
+        })
+      ).toBe(false);
+    }
+  );
+});
 
 describe('webStoreMerchantSchema', () => {
   const validMerchantValues: WebStoreMerchantFormFields = {

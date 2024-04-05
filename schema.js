@@ -467,6 +467,19 @@ module.exports = buildSchema(/* GraphQL */ `
     usage: String
   }
 
+  input WebStoreAccountInput {
+    active: Boolean
+    balanceProfitCenter: String
+    companyCode: String
+    id: Int
+    internalOrder: String
+    mainLedgerAccount: String
+    operationArea: String
+    profitCenter: String
+    project: String
+    vatCode: String
+  }
+
   input WebStoreMerchantInput {
     active: Boolean
     businessId: String
@@ -499,6 +512,7 @@ module.exports = buildSchema(/* GraphQL */ `
     regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
+    webStoreAccounts: [WebStoreAccountInput]
     webStoreMerchants: [WebStoreMerchantInput]
   }
 
@@ -518,6 +532,7 @@ module.exports = buildSchema(/* GraphQL */ `
     regularUsers: [String]
     replacedBy: String
     subOrganizations: [String]
+    webStoreAccounts: [WebStoreAccountInput]
     webStoreMerchants: [WebStoreMerchantInput]
   }
 
@@ -884,6 +899,23 @@ module.exports = buildSchema(/* GraphQL */ `
     price: LocalisedObject
   }
 
+  type WebStoreAccount {
+    active: Boolean
+    balanceProfitCenter: String
+    companyCode: String
+    createdBy: String
+    createdTime: String
+    id: Int
+    internalOrder: String
+    lastModifiedBy: String
+    lastModifiedTime: String
+    mainLedgerAccount: String
+    operationArea: String
+    profitCenter: String
+    project: String
+    vatCode: String
+  }
+
   type WebStoreMerchant {
     active: Boolean
     businessId: String
@@ -923,6 +955,7 @@ module.exports = buildSchema(/* GraphQL */ `
     regularUsers: [User]
     replacedBy: String
     subOrganizations: [String]
+    webStoreAccounts: [WebStoreAccount]
     webStoreMerchants: [WebStoreMerchant]
     atContext: String
     atId: String!

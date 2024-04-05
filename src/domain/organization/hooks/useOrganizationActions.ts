@@ -24,11 +24,11 @@ import {
 import useUser from '../../user/hooks/useUser';
 import {
   ORGANIZATION_ACTIONS,
-  ORGANIZATION_MERCHANT_ACTIONS,
+  ORGANIZATION_FINANCIAL_INFO_ACTIONS,
 } from '../constants';
 import { OrganizationFormFields } from '../types';
 import {
-  checkCanUserDoMerchantAction,
+  checkCanUserDoFinancialInfoAction,
   checkCanUserDoOrganizationAction,
   getOrganizationPayload,
   omitSensitiveDataFromOrganizationPayload,
@@ -175,23 +175,23 @@ const useOrganizationUpdateActions = ({
       });
     }
   };
+  const shouldPatchOrganization = (id: string) =>
+    !checkCanUserDoOrganizationAction({
+      action: ORGANIZATION_ACTIONS.UPDATE,
+      id: id,
+      user,
+    }) &&
+    checkCanUserDoFinancialInfoAction({
+      action: ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE,
+      organizationId: id,
+      user,
+    });
 
   const updateOrganization = async (
     values: OrganizationFormFields,
     callbacks?: MutationCallbacks<string>
   ) => {
-    if (
-      !checkCanUserDoOrganizationAction({
-        action: ORGANIZATION_ACTIONS.UPDATE,
-        id: values.id,
-        user,
-      }) &&
-      checkCanUserDoMerchantAction({
-        action: ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE,
-        organizationId: values.id,
-        user,
-      })
-    ) {
+    if (shouldPatchOrganization(values.id)) {
       patchOrganization(values, callbacks);
     } else {
       const payload: UpdateOrganizationMutationInput = getOrganizationPayload(

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
@@ -36,6 +36,7 @@ import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import useExistingUserOptions from '../hooks/useExistingUserOptions';
 import useOrganizationUpdateActions from '../hooks/useOrganizationActions';
+import useOrganizationFormStyles from '../hooks/useOrganizationFormStyles';
 import useOrganizationInternalTypeOptions from '../hooks/useOrganizationInternalTypeOptions';
 import useOrganizationServerErrors from '../hooks/useOrganizationServerErrors';
 import OrganizationAuthenticationNotification from '../organizationAuthenticationNotification/OrganizationAuthenticationNotification';
@@ -45,6 +46,7 @@ import {
   getOrganizationInitialValues,
 } from '../utils';
 import { getFocusableFieldId, getOrganizationSchema } from '../validation';
+import Accounts from './accounts/Accounts';
 import Merchants from './merchants/Merchants';
 import SubOrganizationTable from './subOrganizationTable/SubOrganizationTable';
 
@@ -106,34 +108,12 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
     });
   };
 
-  const inputRowBorderStyle = useMemo(
-    () =>
-      /* istanbul ignore next */
-      isEditingAllowed ? '' : styles.borderInMobile,
-    [isEditingAllowed]
-  );
-
-  const inputRowBorderStyleIfOrganization = useMemo(
-    () => (!isEditingAllowed || organization ? styles.borderInMobile : ''),
-    [isEditingAllowed, organization]
-  );
-
-  const alignedInputStyle = useMemo(
-    () =>
-      /* istanbul ignore next */
-      isEditingAllowed
-        ? styles.alignedInput
-        : styles.alignedInputWithFullBorder,
-    [isEditingAllowed]
-  );
-
-  const alignedInputStyleIfOrganization = useMemo(
-    () =>
-      !isEditingAllowed || organization
-        ? styles.alignedInputWithFullBorder
-        : styles.alignedInput,
-    [isEditingAllowed, organization]
-  );
+  const {
+    alignedInputStyle,
+    alignedInputStyleIfOrganization,
+    inputRowBorderStyle,
+    inputRowBorderStyleIfOrganization,
+  } = useOrganizationFormStyles({ isEditingAllowed, organization });
 
   return (
     <Formik
@@ -367,9 +347,15 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
               title={t('organization.affiliatedOrganizationsTableTitle')}
             />
             {featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') && (
-              <Section title={t('organization.form.titleMerchant')}>
-                <Merchants organization={organization} />
-              </Section>
+              <>
+                <Section title={t('organization.form.titleMerchant')}>
+                  <Merchants organization={organization} />
+                </Section>
+
+                <Section title={t('organization.form.titleAccount')}>
+                  <Accounts organization={organization} />
+                </Section>
+              </>
             )}
 
             {organization ? (

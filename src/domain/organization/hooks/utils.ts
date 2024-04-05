@@ -1,6 +1,7 @@
 import { TFunction } from 'i18next';
 
 import { LEServerError, ServerErrorItem } from '../../../types';
+import parseServerErrorArray from '../../../utils/parseServerErrorArray';
 import parseServerErrorLabel from '../../../utils/parseServerErrorLabel';
 import parseServerErrorMessage from '../../../utils/parseServerErrorMessage';
 import { parseServerErrors } from '../../../utils/parseServerErrors';
@@ -28,6 +29,9 @@ export const parseOrganizationServerErrors = ({
     error: LEServerError;
     key: string;
   }) {
+    if (key === 'web_store_accounts') {
+      return parseWebStoreAccountServerErrors({ error });
+    }
     if (key === 'web_store_merchants') {
       return parseWebStoreMerchantServerErrors({ error });
     }
@@ -48,26 +52,45 @@ export const parseOrganizationServerErrors = ({
   }
 
   // Get error items for web store merchant fields
+  function parseWebStoreAccountServerErrors({
+    error,
+  }: {
+    error: LEServerError;
+  }): ServerErrorItem[] {
+    return parseServerErrorArray({
+      error,
+      parseLabelFn: ({ key }) =>
+        parseServerErrorLabel({
+          key,
+          parseFn: parseWebStoreAccountServerErrorLabel,
+        }),
+      t,
+    });
+  }
+
+  // Get error items for web store merchant fields
   function parseWebStoreMerchantServerErrors({
     error,
   }: {
     error: LEServerError;
   }): ServerErrorItem[] {
-    return Array.isArray(error)
-      ? Object.entries(error[0]).reduce(
-          (previous: ServerErrorItem[], [key, e]) => [
-            ...previous,
-            {
-              label: parseServerErrorLabel({
-                key,
-                parseFn: parseWebStoreMerchantServerErrorLabel,
-              }),
-              message: parseServerErrorMessage({ error: e as string[], t }),
-            },
-          ],
-          []
-        )
-      : /* istanbul ignore next */ [];
+    return parseServerErrorArray({
+      error,
+      parseLabelFn: ({ key }) =>
+        parseServerErrorLabel({
+          key,
+          parseFn: parseWebStoreMerchantServerErrorLabel,
+        }),
+      t,
+    });
+  }
+
+  function parseWebStoreAccountServerErrorLabel({
+    key,
+  }: {
+    key: string;
+  }): string {
+    return t(`organization.form.account.label${pascalCase(key)}`);
   }
 
   function parseWebStoreMerchantServerErrorLabel({

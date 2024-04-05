@@ -1,6 +1,10 @@
 import { IconCogwheel, IconCrossCircle, IconPen } from 'hds-react';
 
-import { OrganizationFormFields, WebStoreMerchantFormFields } from './types';
+import {
+  OrganizationFormFields,
+  WebStoreAccountFormFields,
+  WebStoreMerchantFormFields,
+} from './types';
 
 export const TEST_PUBLISHER_ID = 'publisher:1';
 export const EXTERNAL_PUBLISHER_ID = 'others';
@@ -14,7 +18,7 @@ export enum ORGANIZATION_ACTIONS {
   UPDATE = 'update',
 }
 
-export enum ORGANIZATION_MERCHANT_ACTIONS {
+export enum ORGANIZATION_FINANCIAL_INFO_ACTIONS {
   MANAGE_IN_CREATE = 'manage_in_create',
   MANAGE_IN_UPDATE = 'manage_in_update',
 }
@@ -50,7 +54,21 @@ export enum ORGANIZATION_FIELDS {
   REGULAR_USERS = 'regularUsers',
   REPLACED_BY = 'replacedBy',
   SUB_ORGANIZATIONS = 'subOrganizations',
+  WEB_STORE_ACCOUNTS = 'webStoreAccounts',
   WEB_STORE_MERCHANTS = 'webStoreMerchants',
+}
+
+export enum WEB_STORE_ACCOUNT_FIELDS {
+  ACTIVE = 'active',
+  BALANCE_PROFIT_CENTER = 'balanceProfitCenter',
+  COMPANY_CODE = 'companyCode',
+  ID = 'id',
+  INTERNAL_ORDER = 'internalOrder',
+  MAIN_LEDGER_ACCOUNT = 'mainLedgerAccount',
+  OPERATION_AREA = 'operationArea',
+  PROFIT_CENTER = 'profitCenter',
+  PROJECT = 'project',
+  VAT_CODE = 'vatCode',
 }
 
 export enum WEB_STORE_MERCHANT_FIELDS {
@@ -73,6 +91,19 @@ export enum ORGANIZATION_INTERNAL_TYPE {
   NORMAL = 'normal',
   AFFILIATED = 'affiliated',
 }
+
+export const WEB_STORE_ACCOUNT_INITIAL_VALUES: WebStoreAccountFormFields = {
+  [WEB_STORE_ACCOUNT_FIELDS.ACTIVE]: true,
+  [WEB_STORE_ACCOUNT_FIELDS.BALANCE_PROFIT_CENTER]: '',
+  [WEB_STORE_ACCOUNT_FIELDS.COMPANY_CODE]: '',
+  [WEB_STORE_ACCOUNT_FIELDS.ID]: null,
+  [WEB_STORE_ACCOUNT_FIELDS.INTERNAL_ORDER]: '',
+  [WEB_STORE_ACCOUNT_FIELDS.MAIN_LEDGER_ACCOUNT]: '',
+  [WEB_STORE_ACCOUNT_FIELDS.OPERATION_AREA]: '',
+  [WEB_STORE_ACCOUNT_FIELDS.PROFIT_CENTER]: '',
+  [WEB_STORE_ACCOUNT_FIELDS.PROJECT]: '',
+  [WEB_STORE_ACCOUNT_FIELDS.VAT_CODE]: '',
+};
 
 export const WEB_STORE_MERCHANT_INITIAL_VALUES: WebStoreMerchantFormFields = {
   [WEB_STORE_MERCHANT_FIELDS.ACTIVE]: true,
@@ -107,6 +138,7 @@ export const ORGANIZATION_INITIAL_VALUES: OrganizationFormFields = {
   [ORGANIZATION_FIELDS.REGULAR_USERS]: [],
   [ORGANIZATION_FIELDS.REPLACED_BY]: '',
   [ORGANIZATION_FIELDS.SUB_ORGANIZATIONS]: [],
+  [ORGANIZATION_FIELDS.WEB_STORE_ACCOUNTS]: [],
   [ORGANIZATION_FIELDS.WEB_STORE_MERCHANTS]: [],
 };
 
@@ -116,6 +148,17 @@ export const ORGANIZATION_SELECT_FIELDS = [
   ORGANIZATION_FIELDS.CLASSIFICATION,
   ORGANIZATION_FIELDS.PARENT_ORGANIZATION,
 ];
+
+export const ACCOUNT_TEXT_FIELD_MAX_LENGTH = {
+  [WEB_STORE_ACCOUNT_FIELDS.BALANCE_PROFIT_CENTER]: 10,
+  [WEB_STORE_ACCOUNT_FIELDS.COMPANY_CODE]: 4,
+  [WEB_STORE_ACCOUNT_FIELDS.INTERNAL_ORDER]: 10,
+  [WEB_STORE_ACCOUNT_FIELDS.MAIN_LEDGER_ACCOUNT]: 6,
+  [WEB_STORE_ACCOUNT_FIELDS.OPERATION_AREA]: 6,
+  [WEB_STORE_ACCOUNT_FIELDS.PROFIT_CENTER]: 7,
+  [WEB_STORE_ACCOUNT_FIELDS.PROJECT]: 16,
+  [WEB_STORE_ACCOUNT_FIELDS.VAT_CODE]: 2,
+};
 
 export const MERCHANT_TEXT_FIELD_MAX_LENGTH = {
   [WEB_STORE_MERCHANT_FIELDS.BUSINESS_ID]: 9,

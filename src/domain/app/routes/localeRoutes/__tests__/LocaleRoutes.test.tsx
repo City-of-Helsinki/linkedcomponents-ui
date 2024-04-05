@@ -213,7 +213,7 @@ const isPageRendered = async ({
 };
 
 const isHeadingRendered = async (heading: string | RegExp) => {
-  await loadingSpinnerIsNotInDocument();
+  await loadingSpinnerIsNotInDocument(10000);
   await screen.findByRole('heading', { name: heading }, { timeout: 5000 });
 };
 

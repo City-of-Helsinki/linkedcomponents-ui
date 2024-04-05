@@ -10,11 +10,12 @@ import { organizations } from '../../organizations/__mocks__/organizationsPage';
 import { users } from '../../user/__mocks__/user';
 import { TEST_PUBLISHER_ID } from '../constants';
 import {
+  accountPayload,
   merchantPayload,
   organization,
   organizationClassification,
   organizationName,
-  organizationWithMerchant,
+  organizationWithFinanfialInfo,
 } from './organization';
 
 const deleteOrganizationVariables = { id: organization.id };
@@ -44,6 +45,7 @@ const payload = {
   foundingDate: '2021-01-01',
   id: TEST_PUBLISHER_ID,
   originId: '1',
+  webStoreAccounts: [],
   webStoreMerchants: [],
 };
 
@@ -73,29 +75,30 @@ const mockedInvalidUpdateOrganizationResponse: MockedResponse = {
 };
 
 const patchPayload = {
+  webStoreAccounts: [accountPayload],
   webStoreMerchants: [merchantPayload],
 };
 
-const patchOrganizationWithMerchantVariables = {
+const patchOrganizationWithFinanfialInfoVariables = {
   id: TEST_PUBLISHER_ID,
   input: patchPayload,
 };
 
-const patchOrganizationWithMerchantResponse = {
-  data: { patchOrganization: organizationWithMerchant },
+const patchOrganizationWithFinanfialInfoResponse = {
+  data: { patchOrganization: organizationWithFinanfialInfo },
 };
 
-const mockedPatchOrganizationWithMerchantResponse: MockedResponse = {
+const mockedPatchOrganizationWithFinanfialInfoResponse: MockedResponse = {
   request: {
     query: PatchOrganizationDocument,
-    variables: patchOrganizationWithMerchantVariables,
+    variables: patchOrganizationWithFinanfialInfoVariables,
   },
-  result: patchOrganizationWithMerchantResponse,
+  result: patchOrganizationWithFinanfialInfoResponse,
 };
 
 export {
   mockedDeleteOrganizationResponse,
   mockedInvalidUpdateOrganizationResponse,
-  mockedPatchOrganizationWithMerchantResponse,
+  mockedPatchOrganizationWithFinanfialInfoResponse,
   mockedUpdateOrganizationResponse,
 };

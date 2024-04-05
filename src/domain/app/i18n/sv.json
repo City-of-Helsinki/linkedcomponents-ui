@@ -1619,8 +1619,21 @@
       "title": "Bekräfta radering av organisation"
     },
     "form": {
+      "account": {
+        "labelActive": "Är aktiv",
+        "labelBalanceProfitCenter": "Balansera resultatenheten",
+        "labelCompanyCode": "SAP företagskod",
+        "labelInternalOrder": "Intern ordning",
+        "labelMainLedgerAccount": "Huvudbokkonto",
+        "labelOperationArea": "SAP funktionsområde",
+        "labelProfitCenter": "Resultatenheten",
+        "labelProject": "Projekt",
+        "labelVatCode": "Momskod"
+      },
+      "buttonAddAccount": "Lägg till nytt konto",
       "buttonAddMerchant": "Lägg till ny handlare",
       "buttonDelete": "Ta bort organisation",
+      "buttonDeleteAccount": "Ta bort konto",
       "buttonDeleteMerchant": "Ta bort handlare",
       "labelAdminUsers": "Adminanvändare",
       "labelClassification": "Klassificering",
@@ -1653,6 +1666,7 @@
       "notificationOrganisationDeleted": "Organisationen har tagits bort",
       "notificationOrganisationUpdated": "Organisationen har sparats",
       "notificationTitleCannotEdit": "Organisationen kan inte redigeras",
+      "titleAccount": "Konto",
       "titleMerchant": "Handlare"
     },
     "internalType": {
@@ -1696,8 +1710,8 @@
       "parentOrganizationDesc": "Föräldraorganisation, descending"
     },
     "title": "Organisationer",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna organisation.",
-    "warningNoRightsToEditMerchant": "Endast systemadministratörer och finansiella administratörer kan redigera handlare."
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här organisation.",
+    "warningNoRightsToEditFinanfialInfo": "Endast systemadministratörer och finansiella administratörer kan redigera handlare eller konton."
   },
   "place": {
     "deletePlaceModal": {

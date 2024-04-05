@@ -1619,8 +1619,21 @@
       "title": "Varmista organisaation poistaminen"
     },
     "form": {
+      "account": {
+        "labelActive": "Aktiivinen",
+        "labelBalanceProfitCenter": "Tasapainotettu tulosyksikkö",
+        "labelCompanyCode": "SAP-yrityskoodi",
+        "labelInternalOrder": "Sisäinen tilaus",
+        "labelMainLedgerAccount": "Pääkirjanpitotili",
+        "labelOperationArea": "SAP-toimintoalue",
+        "labelProfitCenter": "Tulosyksikkö",
+        "labelProject": "Projekti",
+        "labelVatCode": "ALV-koodi"
+      },
+      "buttonAddAccount": "Lisää uusi tili",
       "buttonAddMerchant": "Lisää uusi kauppias",
       "buttonDelete": "Poista organisaatio",
+      "buttonDeleteAccount": "Poista tili",
       "buttonDeleteMerchant": "Poista kauppias",
       "labelAdminUsers": "Pääkäyttäjät",
       "labelClassification": "Luokittelu",
@@ -1653,6 +1666,7 @@
       "notificationOrganizationDeleted": "Organisaatio on poistettu",
       "notificationOrganizationUpdated": "Organisaatio on tallennettu",
       "notificationTitleCannotEdit": "Organisaatiota ei voi muokata",
+      "titleAccount": "Tili",
       "titleMerchant": "Kauppias"
     },
     "internalType": {
@@ -1697,7 +1711,7 @@
     },
     "title": "Organisaatiot",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä organisaatiota.",
-    "warningNoRightsToEditMerchant": "Vain järjestelmän pääkäyttäjät ja taloushallinnon pääkäyttäjät voivat muokata kauppiaita."
+    "warningNoRightsToEditFinancialInfo": "Vain järjestelmän pääkäyttäjät ja taloushallinnon pääkäyttäjät voivat muokata kauppiaita tai tilejä."
   },
   "place": {
     "deletePlaceModal": {

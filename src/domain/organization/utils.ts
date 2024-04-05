@@ -16,6 +16,7 @@ import {
   OrganizationsQueryVariables,
   UpdateOrganizationMutationInput,
   UserFieldsFragment,
+  WebStoreAccountFieldsFragment,
   WebStoreMerchantFieldsFragment,
 } from '../../generated/graphql';
 import { Editability, Language, PathBuilderProps } from '../../types';
@@ -32,12 +33,13 @@ import {
   ORGANIZATION_ACTION_ICONS,
   ORGANIZATION_ACTION_LABEL_KEYS,
   ORGANIZATION_ACTIONS,
+  ORGANIZATION_FINANCIAL_INFO_ACTIONS,
   ORGANIZATION_INTERNAL_TYPE,
-  ORGANIZATION_MERCHANT_ACTIONS,
 } from './constants';
 import {
   OrganizationFields,
   OrganizationFormFields,
+  WebStoreAccountFormFields,
   WebStoreMerchantFormFields,
 } from './types';
 
@@ -366,11 +368,11 @@ export const getEditOrganizationButtonProps = ({
   if (
     (action === ORGANIZATION_ACTIONS.CREATE ||
       action === ORGANIZATION_ACTIONS.UPDATE) &&
-    checkCanUserDoMerchantAction({
+    checkCanUserDoFinancialInfoAction({
       action:
         action === ORGANIZATION_ACTIONS.CREATE
-          ? ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE
-          : ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE,
+          ? ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE
+          : ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE,
       organizationId: id,
       user,
     })
@@ -388,12 +390,12 @@ export const getEditOrganizationButtonProps = ({
   };
 };
 
-export const checkCanUserDoMerchantAction = ({
+export const checkCanUserDoFinancialInfoAction = ({
   action,
   organizationId,
   user,
 }: {
-  action: ORGANIZATION_MERCHANT_ACTIONS;
+  action: ORGANIZATION_FINANCIAL_INFO_ACTIONS;
   organizationId: string;
   user?: UserFieldsFragment;
 }): boolean => {
@@ -405,47 +407,47 @@ export const checkCanUserDoMerchantAction = ({
     user,
   });
   switch (action) {
-    case ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE:
+    case ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE:
       return (
         (!!user?.adminOrganizations.length &&
           !!user.financialAdminOrganizations.length) ||
         isSuperuser
       );
-    case ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE:
+    case ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE:
       return isSuperuser || isFinancialAdminUser;
   }
 };
 
-export const getEditMerchantWarning = ({
+export const getEditFinancialInfoWarning = ({
   action,
   organizationId,
   t,
   user,
 }: {
-  action: ORGANIZATION_MERCHANT_ACTIONS;
+  action: ORGANIZATION_FINANCIAL_INFO_ACTIONS;
   organizationId: string;
   t: TFunction;
   user?: UserFieldsFragment;
 }): string => {
-  if (!checkCanUserDoMerchantAction({ action, organizationId, user })) {
-    return t('organizationsPage.warningNoRightsToEditMerchant');
+  if (!checkCanUserDoFinancialInfoAction({ action, organizationId, user })) {
+    return t('organizationsPage.warningNoRightsToEditFinancialInfo');
   }
 
   return '';
 };
 
-export const checkIsEditMerchantAllowed = ({
+export const checkIsEditFinancialInfoAllowed = ({
   action,
   organizationId,
   t,
   user,
 }: {
-  action: ORGANIZATION_MERCHANT_ACTIONS;
+  action: ORGANIZATION_FINANCIAL_INFO_ACTIONS;
   organizationId: string;
   t: TFunction;
   user?: UserFieldsFragment;
 }): Editability => {
-  const warning = getEditMerchantWarning({
+  const warning = getEditFinancialInfoWarning({
     action,
     organizationId,
     t,
@@ -453,6 +455,23 @@ export const checkIsEditMerchantAllowed = ({
   });
 
   return { editable: !warning, warning };
+};
+
+export const getWebStoreAccountInitialValues = (
+  webStoreAccount: WebStoreAccountFieldsFragment
+): WebStoreAccountFormFields => {
+  return {
+    active: Boolean(webStoreAccount.active),
+    balanceProfitCenter: getValue(webStoreAccount.balanceProfitCenter, ''),
+    companyCode: getValue(webStoreAccount.companyCode, ''),
+    id: getValue(webStoreAccount.id, null),
+    internalOrder: getValue(webStoreAccount.internalOrder, ''),
+    operationArea: getValue(webStoreAccount.operationArea, ''),
+    mainLedgerAccount: getValue(webStoreAccount.mainLedgerAccount, ''),
+    profitCenter: getValue(webStoreAccount.profitCenter, ''),
+    project: getValue(webStoreAccount.project, ''),
+    vatCode: getValue(webStoreAccount.vatCode, ''),
+  };
 };
 
 export const getWebStoreMerchantInitialValues = (
@@ -515,6 +534,12 @@ export const getOrganizationInitialValues = (
       organization.subOrganizations?.filter(skipFalsyType),
       []
     ),
+    webStoreAccounts: getValue(
+      organization.webStoreAccounts
+        ?.filter(skipFalsyType)
+        .map((i) => getWebStoreAccountInitialValues(i)),
+      []
+    ),
     webStoreMerchants: getValue(
       organization.webStoreMerchants
         ?.filter(skipFalsyType)
@@ -537,6 +562,7 @@ export const getOrganizationPayload = (
     originId,
     parentOrganization,
     regularUsers,
+    webStoreAccounts,
     webStoreMerchants,
     ...restFormValues
   } = formValues;
@@ -546,9 +572,9 @@ export const getOrganizationPayload = (
     ? ORGANIZATION_ACTIONS.UPDATE
     : ORGANIZATION_ACTIONS.CREATE;
 
-  const merchantAction = id
-    ? ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE
-    : ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE;
+  const financialInfoAction = id
+    ? ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE
+    : ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE;
 
   return {
     ...(checkCanUserDoOrganizationAction({
@@ -574,12 +600,16 @@ export const getOrganizationPayload = (
         }
       : /* istanbul ignore next */ {}),
     ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
-    checkCanUserDoMerchantAction({
-      action: merchantAction,
+    checkCanUserDoFinancialInfoAction({
+      action: financialInfoAction,
       organizationId: id,
       user,
     })
       ? {
+          webStoreAccounts: webStoreAccounts.map((wsa) => ({
+            ...wsa,
+            id: wsa.id ?? undefined,
+          })),
           webStoreMerchants: webStoreMerchants.map((wsm) => ({
             ...wsm,
             id: wsm.id ?? undefined,

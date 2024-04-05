@@ -3,6 +3,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { OrganizationDocument } from '../../../generated/graphql';
 import {
   fakeOrganization,
+  fakeWebStoreAccount,
   fakeWebStoreMerchant,
 } from '../../../utils/mockDataUtils';
 import { TEST_DATA_SOURCE_ID } from '../../dataSource/constants';
@@ -32,6 +33,19 @@ const mockedOrganizationResponse: MockedResponse = {
   newData: () => organizationResponse,
 };
 
+const accountPayload = {
+  active: false,
+  balanceProfitCenter: '738',
+  companyCode: '524',
+  id: 123,
+  internalOrder: '',
+  mainLedgerAccount: '971',
+  operationArea: '',
+  profitCenter: '',
+  project: '',
+  vatCode: '55',
+};
+
 const merchantPayload = {
   active: false,
   businessId: '12345678',
@@ -48,20 +62,21 @@ const merchantPayload = {
   zipcode: '00100',
 };
 
-const organizationWithMerchant = fakeOrganization({
+const organizationWithFinanfialInfo = fakeOrganization({
   classification: organizationClassification,
   dataSource,
   id: organizationId,
   name: organizationName,
+  webStoreAccounts: [fakeWebStoreAccount(accountPayload)],
   webStoreMerchants: [fakeWebStoreMerchant(merchantPayload)],
 });
-const organizationWithMerchantResponse = {
-  data: { organization: organizationWithMerchant },
+const organizationWithFinanfialInfoResponse = {
+  data: { organization: organizationWithFinanfialInfo },
 };
-const mockedOrganizationWithMerchantResponse: MockedResponse = {
+const mockedOrganizationWithFinanfialInfoResponse: MockedResponse = {
   request: { query: OrganizationDocument, variables: organizationVariables },
-  result: organizationWithMerchantResponse,
-  newData: () => organizationWithMerchantResponse,
+  result: organizationWithFinanfialInfoResponse,
+  newData: () => organizationWithFinanfialInfoResponse,
 };
 
 const externalOrganization = fakeOrganization({
@@ -86,14 +101,15 @@ const mockedExternalOrganizationResponse: MockedResponse = {
 };
 
 export {
+  accountPayload,
   merchantPayload,
   mockedExternalOrganizationResponse,
   mockedOrganizationResponse,
-  mockedOrganizationWithMerchantResponse,
+  mockedOrganizationWithFinanfialInfoResponse,
   organization,
   organizationClassification,
   organizationId,
   organizationName,
   organizationVariables,
-  organizationWithMerchant,
+  organizationWithFinanfialInfo,
 };

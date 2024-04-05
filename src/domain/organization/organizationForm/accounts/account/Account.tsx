@@ -12,7 +12,7 @@ import FormRow from '../../../../admin/layout/formRow/FormRow';
 import useUser from '../../../../user/hooks/useUser';
 import {
   ORGANIZATION_FINANCIAL_INFO_ACTIONS,
-  WEB_STORE_MERCHANT_FIELDS,
+  WEB_STORE_ACCOUNT_FIELDS,
 } from '../../../constants';
 import useOrganizationFormStyles from '../../../hooks/useOrganizationFormStyles';
 import { checkIsEditFinancialInfoAllowed } from '../../../utils';
@@ -20,18 +20,18 @@ import { checkIsEditFinancialInfoAllowed } from '../../../utils';
 type Props = {
   isEditingAllowed: boolean;
   onDelete: () => void;
-  merchantPath: string;
+  accountPath: string;
   organization?: OrganizationFieldsFragment;
   showDeleteButton: boolean;
 };
 
-const getFieldName = (merchantPath: string, field: string) =>
-  `${merchantPath}.${field}`;
+const getFieldName = (accountPath: string, field: string) =>
+  `${accountPath}.${field}`;
 
-const Merchant: React.FC<Props> = ({
+const Account: React.FC<Props> = ({
   isEditingAllowed,
   onDelete,
-  merchantPath,
+  accountPath,
   organization,
   showDeleteButton,
 }) => {
@@ -49,38 +49,35 @@ const Merchant: React.FC<Props> = ({
 
   const fieldNames = React.useMemo(
     () => ({
-      active: getFieldName(merchantPath, WEB_STORE_MERCHANT_FIELDS.ACTIVE),
-      businessId: getFieldName(
-        merchantPath,
-        WEB_STORE_MERCHANT_FIELDS.BUSINESS_ID
+      active: getFieldName(accountPath, WEB_STORE_ACCOUNT_FIELDS.ACTIVE),
+      balanceProfitCenter: getFieldName(
+        accountPath,
+        WEB_STORE_ACCOUNT_FIELDS.BALANCE_PROFIT_CENTER
       ),
-      city: getFieldName(merchantPath, WEB_STORE_MERCHANT_FIELDS.CITY),
-      email: getFieldName(merchantPath, WEB_STORE_MERCHANT_FIELDS.EMAIL),
-      merchantId: getFieldName(
-        merchantPath,
-        WEB_STORE_MERCHANT_FIELDS.MERCHANT_ID
+      companyCode: getFieldName(
+        accountPath,
+        WEB_STORE_ACCOUNT_FIELDS.COMPANY_CODE
       ),
-      name: getFieldName(merchantPath, WEB_STORE_MERCHANT_FIELDS.NAME),
-      paytrailMerchantId: getFieldName(
-        merchantPath,
-        WEB_STORE_MERCHANT_FIELDS.PAYTRAIL_MERCHANT_ID
+      internalOrder: getFieldName(
+        accountPath,
+        WEB_STORE_ACCOUNT_FIELDS.INTERNAL_ORDER
       ),
-      phoneNumber: getFieldName(
-        merchantPath,
-        WEB_STORE_MERCHANT_FIELDS.PHONE_NUMBER
+      mainLedgerAccount: getFieldName(
+        accountPath,
+        WEB_STORE_ACCOUNT_FIELDS.MAIN_LEDGER_ACCOUNT
       ),
-      streetAddress: getFieldName(
-        merchantPath,
-        WEB_STORE_MERCHANT_FIELDS.STREET_ADDRESS
+      operationArea: getFieldName(
+        accountPath,
+        WEB_STORE_ACCOUNT_FIELDS.OPERATION_AREA
       ),
-      termsOfServiceUrl: getFieldName(
-        merchantPath,
-        WEB_STORE_MERCHANT_FIELDS.TERMS_OF_SERVICE_URL
+      profitCenter: getFieldName(
+        accountPath,
+        WEB_STORE_ACCOUNT_FIELDS.PROFIT_CENTER
       ),
-      url: getFieldName(merchantPath, WEB_STORE_MERCHANT_FIELDS.URL),
-      zipcode: getFieldName(merchantPath, WEB_STORE_MERCHANT_FIELDS.ZIPCODE),
+      project: getFieldName(accountPath, WEB_STORE_ACCOUNT_FIELDS.PROJECT),
+      vatCode: getFieldName(accountPath, WEB_STORE_ACCOUNT_FIELDS.VAT_CODE),
     }),
-    [merchantPath]
+    [accountPath]
   );
 
   const { alignedInputStyle, inputRowBorderStyleIfOrganization } =
@@ -92,7 +89,7 @@ const Merchant: React.FC<Props> = ({
         <Field
           component={CheckboxField}
           disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelActive`)}
+          label={t(`organization.form.account.labelActive`)}
           name={fieldNames.active}
           title={warning}
         />
@@ -102,8 +99,8 @@ const Merchant: React.FC<Props> = ({
           className={alignedInputStyle}
           component={TextInputField}
           disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelName`)}
-          name={fieldNames.name}
+          label={t(`organization.form.account.labelVatCode`)}
+          name={fieldNames.vatCode}
           required
           title={warning}
         />
@@ -113,8 +110,8 @@ const Merchant: React.FC<Props> = ({
           className={alignedInputStyle}
           component={TextInputField}
           disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelStreetAddress`)}
-          name={fieldNames.streetAddress}
+          label={t(`organization.form.account.labelCompanyCode`)}
+          name={fieldNames.companyCode}
           required
           title={warning}
         />
@@ -124,8 +121,8 @@ const Merchant: React.FC<Props> = ({
           className={alignedInputStyle}
           component={TextInputField}
           disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelZipcode`)}
-          name={fieldNames.zipcode}
+          label={t(`organization.form.account.labelMainLedgerAccount`)}
+          name={fieldNames.mainLedgerAccount}
           required
           title={warning}
         />
@@ -135,8 +132,8 @@ const Merchant: React.FC<Props> = ({
           className={alignedInputStyle}
           component={TextInputField}
           disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelCity`)}
-          name={fieldNames.city}
+          label={t(`organization.form.account.labelBalanceProfitCenter`)}
+          name={fieldNames.balanceProfitCenter}
           required
           title={warning}
         />
@@ -146,9 +143,8 @@ const Merchant: React.FC<Props> = ({
           className={alignedInputStyle}
           component={TextInputField}
           disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelEmail`)}
-          name={fieldNames.email}
-          required
+          label={t(`organization.form.account.labelInternalOrder`)}
+          name={fieldNames.internalOrder}
           title={warning}
         />
       </FormRow>
@@ -157,9 +153,8 @@ const Merchant: React.FC<Props> = ({
           className={alignedInputStyle}
           component={TextInputField}
           disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelPhoneNumber`)}
-          name={fieldNames.phoneNumber}
-          required
+          label={t(`organization.form.account.labelProfitCenter`)}
+          name={fieldNames.profitCenter}
           title={warning}
         />
       </FormRow>
@@ -168,9 +163,8 @@ const Merchant: React.FC<Props> = ({
           className={alignedInputStyle}
           component={TextInputField}
           disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelUrl`)}
-          name={fieldNames.url}
-          required
+          label={t(`organization.form.account.labelProject`)}
+          name={fieldNames.project}
           title={warning}
         />
       </FormRow>
@@ -179,50 +173,16 @@ const Merchant: React.FC<Props> = ({
           className={alignedInputStyle}
           component={TextInputField}
           disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelTermsOfServiceUrl`)}
-          name={fieldNames.termsOfServiceUrl}
-          required
-          title={warning}
-        />
-      </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
-        <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelBusinessId`)}
-          name={fieldNames.businessId}
-          required
-          title={warning}
-        />
-      </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
-        <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelPaytrailMerchantId`)}
-          name={fieldNames.paytrailMerchantId}
-          required
-          title={warning}
-        />
-      </FormRow>
-      <FormRow className={styles.borderInMobile}>
-        <Field
-          className={styles.alignedInputWithFullBorder}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelMerchantId`)}
-          name={fieldNames.merchantId}
-          readOnly={true}
+          label={t(`organization.form.account.labelOperationArea`)}
+          name={fieldNames.operationArea}
           title={warning}
         />
       </FormRow>
       {showDeleteButton && (
         <DeleteButton
-          ariaLabel={t('organization.form.buttonDeleteMerchant')}
+          ariaLabel={t('organization.form.buttonDeleteAccount')}
           disabled={!editable || !isEditingAllowed}
-          label={t('organization.form.buttonDeleteMerchant')}
+          label={t('organization.form.buttonDeleteAccount')}
           onClick={onDelete}
         />
       )}
@@ -230,4 +190,4 @@ const Merchant: React.FC<Props> = ({
   );
 };
 
-export default Merchant;
+export default Account;

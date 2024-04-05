@@ -12,20 +12,20 @@ import useUser from '../../../user/hooks/useUser';
 import {
   ORGANIZATION_FIELDS,
   ORGANIZATION_FINANCIAL_INFO_ACTIONS,
-  WEB_STORE_MERCHANT_INITIAL_VALUES,
+  WEB_STORE_ACCOUNT_INITIAL_VALUES,
 } from '../../constants';
-import { WebStoreMerchantFormFields } from '../../types';
+import { WebStoreAccountFormFields } from '../../types';
 import { checkIsEditFinancialInfoAllowed } from '../../utils';
-import Merchant from './merchant/Merchant';
+import Account from './account/Account';
 
 interface Props {
   organization?: OrganizationFieldsFragment;
 }
 
-const getMerchantPath = (index: number) =>
-  `${ORGANIZATION_FIELDS.WEB_STORE_MERCHANTS}[${index}]`;
+const getAccountPath = (index: number) =>
+  `${ORGANIZATION_FIELDS.WEB_STORE_ACCOUNTS}[${index}]`;
 
-const Merchants: React.FC<Props> = ({ organization }) => {
+const Accounts: React.FC<Props> = ({ organization }) => {
   const { t } = useTranslation();
   const { user } = useUser();
   const action = organization
@@ -38,13 +38,13 @@ const Merchants: React.FC<Props> = ({ organization }) => {
     user,
   });
 
-  const [{ value: webStoreMerchants }] = useField<WebStoreMerchantFormFields[]>(
-    { name: ORGANIZATION_FIELDS.WEB_STORE_MERCHANTS }
-  );
+  const [{ value: webStoreAccounts }] = useField<WebStoreAccountFormFields[]>({
+    name: ORGANIZATION_FIELDS.WEB_STORE_ACCOUNTS,
+  });
 
   return (
     <FieldArray
-      name={ORGANIZATION_FIELDS.WEB_STORE_MERCHANTS}
+      name={ORGANIZATION_FIELDS.WEB_STORE_ACCOUNTS}
       render={(arrayHelpers) => (
         <>
           {!!warning && (
@@ -52,33 +52,33 @@ const Merchants: React.FC<Props> = ({ organization }) => {
               <Notification type="info" label={warning} />
             </FormRow>
           )}
-          {webStoreMerchants.map((merchant, index) => {
+          {webStoreAccounts.map((account, index) => {
             return (
-              <Merchant
+              <Account
                 key={index}
                 isEditingAllowed={editable}
                 onDelete={() => arrayHelpers.remove(index)}
-                merchantPath={getMerchantPath(index)}
+                accountPath={getAccountPath(index)}
                 organization={organization}
-                showDeleteButton={editable && !merchant.id}
+                showDeleteButton={editable && !account.id}
               />
             );
           })}
 
-          {editable && webStoreMerchants.length < 1 && (
+          {editable && webStoreAccounts.length < 1 && (
             <FieldWithButton>
               <Button
                 type="button"
                 disabled={!editable}
                 fullWidth={true}
                 onClick={() =>
-                  arrayHelpers.push(WEB_STORE_MERCHANT_INITIAL_VALUES)
+                  arrayHelpers.push(WEB_STORE_ACCOUNT_INITIAL_VALUES)
                 }
                 iconLeft={<IconPlus />}
                 variant="primary"
                 title={warning}
               >
-                {t('organization.form.buttonAddMerchant')}
+                {t('organization.form.buttonAddAccount')}
               </Button>
             </FieldWithButton>
           )}
@@ -88,4 +88,4 @@ const Merchants: React.FC<Props> = ({ organization }) => {
   );
 };
 
-export default Merchants;
+export default Accounts;

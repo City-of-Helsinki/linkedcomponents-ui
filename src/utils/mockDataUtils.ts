@@ -65,6 +65,7 @@ import {
   User,
   UsersResponse,
   Video,
+  WebStoreAccount,
   WebStoreMerchant,
 } from '../generated/graphql';
 import generateAtId from './generateAtId';
@@ -403,6 +404,7 @@ export const fakeOrganization = (
       registrationAdminUsers: [],
       regularUsers: [],
       subOrganizations: [],
+      webStoreAccounts: [],
       webStoreMerchants: [],
       __typename: 'Organization',
     },
@@ -779,14 +781,37 @@ export const fakeVideo = (overrides?: Partial<Video>): Video =>
     overrides
   );
 
+export const fakeWebStoreAccount = (
+  overrides?: Partial<WebStoreAccount>
+): WebStoreAccount =>
+  merge<WebStoreAccount, typeof overrides>(
+    {
+      active: false,
+      balanceProfitCenter: faker.string.numeric({ length: 2 }),
+      companyCode: faker.string.numeric({ length: 2 }),
+      createdBy: null,
+      createdTime: null,
+      id: faker.number.int(),
+      internalOrder: faker.string.numeric({ length: 2 }),
+      lastModifiedBy: null,
+      lastModifiedTime: null,
+      mainLedgerAccount: faker.string.numeric({ length: 2 }),
+      operationArea: faker.string.numeric({ length: 2 }),
+      profitCenter: faker.string.numeric({ length: 2 }),
+      project: faker.string.numeric({ length: 2 }),
+      vatCode: faker.string.numeric({ length: 8 }),
+      __typename: 'WebStoreAccount',
+    },
+    overrides
+  );
+
 export const fakeWebStoreMerchant = (
   overrides?: Partial<WebStoreMerchant>
 ): WebStoreMerchant =>
   merge<WebStoreMerchant, typeof overrides>(
     {
       active: false,
-
-      businessId: faker.string.uuid(),
+      businessId: faker.string.numeric({ length: 8 }),
       city: faker.location.city(),
       createdBy: null,
       createdTime: null,

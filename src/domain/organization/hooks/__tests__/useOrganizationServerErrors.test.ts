@@ -27,6 +27,16 @@ it('should set server error items', async () => {
   ]);
 });
 
+it('should set server error items if account is invalid', async () => {
+  const { result } = getHookWrapper();
+
+  shouldSetServerErrors(
+    result,
+    { web_store_accounts: [{ vatCode: ['Tämä kenttä ei voi olla tyhjä.'] }] },
+    [{ label: 'ALV-koodi', message: 'Tämä kenttä ei voi olla tyhjä.' }]
+  );
+});
+
 it('should set server error items if merchant is invalid', async () => {
   const { result } = getHookWrapper();
 
@@ -42,18 +52,9 @@ it('should set server error items if merchant is invalid', async () => {
       ],
     },
     [
-      {
-        label: 'Nimi',
-        message: 'Tämä kenttä ei voi olla tyhjä.',
-      },
-      {
-        label: 'Katuosoite',
-        message: 'Tämä kenttä ei voi olla tyhjä.',
-      },
-      {
-        label: 'Postinumero',
-        message: 'Tämä kenttä ei voi olla tyhjä.',
-      },
+      { label: 'Nimi', message: 'Tämä kenttä ei voi olla tyhjä.' },
+      { label: 'Katuosoite', message: 'Tämä kenttä ei voi olla tyhjä.' },
+      { label: 'Postinumero', message: 'Tämä kenttä ei voi olla tyhjä.' },
     ]
   );
 });
