@@ -1696,7 +1696,7 @@
     },
     "title": "Organizations",
     "warningNoRightsToEdit": "You have insufficient rights to edit this organization.",
-    "warningNoRightsToEditMerchant": "Only superusers can manage web store merchants"
+    "warningNoRightsToEditMerchant": "Only superusers and financial admins can manage web store merchants."
   },
   "place": {
     "deletePlaceModal": {

@@ -9,10 +9,16 @@ import {
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
   MERCHANT_TEXT_FIELD_MAX_LENGTH,
+  ORGANIZATION_ACTIONS,
   ORGANIZATION_FIELDS,
+  ORGANIZATION_MERCHANT_ACTIONS,
   ORGANIZATION_SELECT_FIELDS,
   WEB_STORE_MERCHANT_FIELDS,
 } from './constants';
+import {
+  checkCanUserDoMerchantAction,
+  checkCanUserDoOrganizationAction,
+} from './utils';
 
 export const webStoreMerchantSchema = Yup.object().shape({
   [WEB_STORE_MERCHANT_FIELDS.NAME]: Yup.string()
@@ -89,32 +95,55 @@ export const webStoreMerchantSchema = Yup.object().shape({
 });
 
 export const getOrganizationSchema = ({
+  action,
+  publisher,
   user,
 }: {
+  action: ORGANIZATION_ACTIONS.CREATE | ORGANIZATION_ACTIONS.UPDATE;
+  publisher: string;
   user?: UserFieldsFragment;
 }) =>
   Yup.object().shape({
-    [ORGANIZATION_FIELDS.ORIGIN_ID]: Yup.string().when(
-      [ORGANIZATION_FIELDS.ID],
-      ([id], schema) =>
-        id ? schema : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    ),
-    [ORGANIZATION_FIELDS.NAME]: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .nullable(),
-    [ORGANIZATION_FIELDS.FOUNDING_DATE]: Yup.date()
-      .nullable()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE),
-    [ORGANIZATION_FIELDS.DISSOLUTION_DATE]: Yup.date()
-      .nullable()
-      .typeError(VALIDATION_MESSAGE_KEYS.DATE),
-    [ORGANIZATION_FIELDS.PARENT_ORGANIZATION]: Yup.string().when(
-      [ORGANIZATION_FIELDS.ID],
-      ([id], schema) =>
-        id ? schema : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    ),
+    ...(checkCanUserDoOrganizationAction({
+      action,
+      id: publisher,
+      user,
+    })
+      ? {
+          [ORGANIZATION_FIELDS.ORIGIN_ID]: Yup.string().when(
+            [ORGANIZATION_FIELDS.ID],
+            ([id], schema) =>
+              id
+                ? schema
+                : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+          ),
+          [ORGANIZATION_FIELDS.NAME]: Yup.string()
+            .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+            .nullable(),
+          [ORGANIZATION_FIELDS.FOUNDING_DATE]: Yup.date()
+            .nullable()
+            .typeError(VALIDATION_MESSAGE_KEYS.DATE),
+          [ORGANIZATION_FIELDS.DISSOLUTION_DATE]: Yup.date()
+            .nullable()
+            .typeError(VALIDATION_MESSAGE_KEYS.DATE),
+          [ORGANIZATION_FIELDS.PARENT_ORGANIZATION]: Yup.string().when(
+            [ORGANIZATION_FIELDS.ID],
+            ([id], schema) =>
+              id
+                ? schema
+                : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+          ),
+        }
+      : /* istanbul ignore next */ {}),
     ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
-    user?.isSuperuser
+    checkCanUserDoMerchantAction({
+      action:
+        action === ORGANIZATION_ACTIONS.UPDATE
+          ? ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE
+          : ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE,
+      organizationId: publisher,
+      user,
+    })
       ? {
           [ORGANIZATION_FIELDS.WEB_STORE_MERCHANTS]: Yup.array().of(
             webStoreMerchantSchema

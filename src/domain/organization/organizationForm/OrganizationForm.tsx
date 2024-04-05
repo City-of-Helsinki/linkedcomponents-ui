@@ -40,7 +40,10 @@ import useOrganizationInternalTypeOptions from '../hooks/useOrganizationInternal
 import useOrganizationServerErrors from '../hooks/useOrganizationServerErrors';
 import OrganizationAuthenticationNotification from '../organizationAuthenticationNotification/OrganizationAuthenticationNotification';
 import { OrganizationFormFields } from '../types';
-import { checkCanUserDoAction, getOrganizationInitialValues } from '../utils';
+import {
+  checkCanUserDoOrganizationAction,
+  getOrganizationInitialValues,
+} from '../utils';
 import { getFocusableFieldId, getOrganizationSchema } from '../validation';
 import Merchants from './merchants/Merchants';
 import SubOrganizationTable from './subOrganizationTable/SubOrganizationTable';
@@ -66,7 +69,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
 
   const existingUserOptions = useExistingUserOptions({ organization });
 
-  const isEditingAllowed = checkCanUserDoAction({
+  const isEditingAllowed = checkCanUserDoOrganizationAction({
     action,
     id,
     user,
@@ -151,7 +154,14 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
-      validationSchema={isEditingAllowed && getOrganizationSchema({ user })}
+      validationSchema={
+        isEditingAllowed &&
+        getOrganizationSchema({
+          action,
+          publisher: id,
+          user,
+        })
+      }
     >
       {({ setErrors, setTouched, values }) => {
         const clearErrors = () => setErrors({});
@@ -165,7 +175,11 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             setServerErrorItems([]);
             clearErrors();
 
-            await getOrganizationSchema({ user }).validate(values, {
+            await getOrganizationSchema({
+              action,
+              publisher: id,
+              user,
+            }).validate(values, {
               abortEarly: false,
             });
 
@@ -354,10 +368,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             />
             {featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') && (
               <Section title={t('organization.form.titleMerchant')}>
-                <Merchants
-                  isEditingAllowed={isEditingAllowed}
-                  organization={organization}
-                />
+                <Merchants organization={organization} />
               </Section>
             )}
 

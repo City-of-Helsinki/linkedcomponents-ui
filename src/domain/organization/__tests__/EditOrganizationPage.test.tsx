@@ -13,6 +13,7 @@ import {
 } from '../../../utils/testUtils';
 import {
   mockedOrganizationResponse,
+  mockedOrganizationWithMerchantResponse,
   organizationId,
 } from '../../organization/__mocks__/organization';
 import {
@@ -24,6 +25,7 @@ import {
   organizations,
 } from '../../organizations/__mocks__/organizationsPage';
 import {
+  mockedFinancialAdminUserResponse,
   mockedSuperuserResponse,
   mockedUsersResponse,
   users,
@@ -31,6 +33,7 @@ import {
 import {
   mockedDeleteOrganizationResponse,
   mockedInvalidUpdateOrganizationResponse,
+  mockedPatchOrganizationWithMerchantResponse,
   mockedUpdateOrganizationResponse,
 } from '../__mocks__/editOrganizationPage';
 import EditOrganizationPage from '../EditOrganizationPage';
@@ -158,4 +161,26 @@ test('should show server errors', async () => {
 
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/Nimi on pakollinen./i);
+});
+
+test('should patch organization merchants by financial admin', async () => {
+  const user = userEvent.setup();
+  const { history } = renderComponent([
+    mockedOrganizationWithMerchantResponse,
+    mockedOrganizationsResponse,
+    mockedOrganizationClassResponse,
+    mockedOrganizationClassesResponse,
+    mockedFinancialAdminUserResponse,
+    mockedUsersResponse,
+    mockedPatchOrganizationWithMerchantResponse,
+  ]);
+
+  const submitButton = await findElement('saveButton');
+
+  await user.click(submitButton);
+
+  await waitFor(() =>
+    expect(history.location.pathname).toBe(`/fi/administration/organizations`)
+  );
+  await screen.findByRole('alert', { name: 'Organisaatio on tallennettu' });
 });

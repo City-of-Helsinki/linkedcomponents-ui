@@ -17,7 +17,7 @@ import useOrganizationUpdateActions, {
 } from '../../organization/hooks/useOrganizationActions';
 import ConfirmDeleteOrganizationModal from '../../organization/modals/confirmDeleteOrganizationModal/ConfirmDeleteOrganizationModal';
 import {
-  getEditButtonProps,
+  getEditOrganizationButtonProps,
   getOrganizationFields,
 } from '../../organization/utils';
 import useUser from '../../user/hooks/useUser';
@@ -64,7 +64,7 @@ const OrganizationActionsDropdown: FC<OrganizationActionsDropdownProps> = ({
     action: ORGANIZATION_ACTIONS;
     onClick: () => void;
   }): MenuItemOptionProps | null => {
-    return getEditButtonProps({
+    return getEditOrganizationButtonProps({
       action,
       authenticated,
       id,

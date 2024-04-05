@@ -16,10 +16,12 @@ import {
   ORGANIZATION_ACTIONS,
   ORGANIZATION_INITIAL_VALUES,
   ORGANIZATION_INTERNAL_TYPE,
+  ORGANIZATION_MERCHANT_ACTIONS,
   TEST_PUBLISHER_ID,
 } from '../constants';
 import {
-  checkCanUserDoAction,
+  checkCanUserDoMerchantAction,
+  checkCanUserDoOrganizationAction,
   getEditOrganizationWarning,
   getOrganizationAncestorsQueryResult,
   getOrganizationFields,
@@ -65,7 +67,75 @@ describe('organizationsPathBuilder function', () => {
   });
 });
 
-describe('checkCanUserDoAction function', () => {
+describe('checkCanUserDoMerchantAction function', () => {
+  const publisher = TEST_PUBLISHER_ID;
+
+  it('should deny all actions if from event admins', () => {
+    const user = fakeUser({ adminOrganizations: [publisher] });
+
+    const deniedActions = [
+      ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE,
+      ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(
+        checkCanUserDoMerchantAction({
+          action,
+          organizationId: publisher,
+          user,
+        })
+      ).toBe(false);
+    });
+  });
+
+  it('should allow financial admin and admin to create merchant', () => {
+    const user = fakeUser({
+      adminOrganizations: [publisher],
+      financialAdminOrganizations: [publisher],
+    });
+
+    expect(
+      checkCanUserDoMerchantAction({
+        action: ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE,
+        organizationId: publisher,
+        user,
+      })
+    ).toBe(true);
+  });
+
+  it('should allow financial admin and admin to update merchant', () => {
+    const user = fakeUser({
+      financialAdminOrganizations: [publisher],
+    });
+
+    expect(
+      checkCanUserDoMerchantAction({
+        action: ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE,
+        organizationId: publisher,
+        user,
+      })
+    ).toBe(true);
+  });
+
+  it('should allow superuser to do any action', () => {
+    const user = fakeUser({ isSuperuser: true });
+
+    const allowedActions = Object.values(ORGANIZATION_ACTIONS);
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoOrganizationAction({
+          action,
+          id: '',
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+});
+
+describe('checkCanUserDoOrganizationAction function', () => {
   const publisher = TEST_PUBLISHER_ID;
 
   it('should allow correct actions if adminArganizations contains publisher', () => {
@@ -80,7 +150,39 @@ describe('checkCanUserDoAction function', () => {
 
     allowedActions.forEach((action) => {
       expect(
-        checkCanUserDoAction({
+        checkCanUserDoOrganizationAction({
+          action,
+          id: publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
+
+  it('should allow/deny correct actions if financialArganizations contains publisher', () => {
+    const user = fakeUser({ financialAdminOrganizations: [publisher] });
+
+    const deniedActions = [
+      ORGANIZATION_ACTIONS.CREATE,
+      ORGANIZATION_ACTIONS.DELETE,
+      ORGANIZATION_ACTIONS.UPDATE,
+    ];
+
+    deniedActions.forEach((action) => {
+      expect(
+        checkCanUserDoOrganizationAction({
+          action,
+          id: publisher,
+          user,
+        })
+      ).toBe(false);
+    });
+
+    const allowedActions = [ORGANIZATION_ACTIONS.EDIT];
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoOrganizationAction({
           action,
           id: publisher,
           user,
@@ -96,7 +198,7 @@ describe('checkCanUserDoAction function', () => {
 
     allowedActions.forEach((action) => {
       expect(
-        checkCanUserDoAction({
+        checkCanUserDoOrganizationAction({
           action,
           id: '',
           user,
@@ -117,7 +219,7 @@ it('should allow correct actions if publisher is not defined and user has at lea
 
   allowedActions.forEach((action) => {
     expect(
-      checkCanUserDoAction({
+      checkCanUserDoOrganizationAction({
         action,
         id: '',
         user,

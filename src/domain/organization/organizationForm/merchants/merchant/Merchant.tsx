@@ -6,10 +6,14 @@ import DeleteButton from '../../../../../common/components/deleteButton/DeleteBu
 import CheckboxField from '../../../../../common/components/formFields/checkboxField/CheckboxField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import { OrganizationFieldsFragment } from '../../../../../generated/graphql';
+import getValue from '../../../../../utils/getValue';
 import styles from '../../../../admin/layout/form.module.scss';
 import FormRow from '../../../../admin/layout/formRow/FormRow';
 import useUser from '../../../../user/hooks/useUser';
-import { WEB_STORE_MERCHANT_FIELDS } from '../../../constants';
+import {
+  ORGANIZATION_MERCHANT_ACTIONS,
+  WEB_STORE_MERCHANT_FIELDS,
+} from '../../../constants';
 import { checkIsEditMerchantAllowed } from '../../../utils';
 
 type Props = {
@@ -32,7 +36,15 @@ const Merchant: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const { user } = useUser();
-  const { editable, warning } = checkIsEditMerchantAllowed({ t, user });
+  const action = organization
+    ? ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE
+    : ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE;
+  const { editable, warning } = checkIsEditMerchantAllowed({
+    action,
+    organizationId: getValue(organization?.id, ''),
+    t,
+    user,
+  });
 
   const fieldNames = React.useMemo(
     () => ({
