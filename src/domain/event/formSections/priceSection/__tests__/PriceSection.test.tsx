@@ -51,7 +51,7 @@ const renderPriceSection = (initialValues?: Partial<InitialValues>) =>
   );
 
 const findAddOfferButton = () =>
-  screen.findByRole('button', { name: /lisää hintatieto/i });
+  screen.findByRole('button', { name: /lisää muita hintatietoja/i });
 
 const queryElements = (
   key: 'deleteButtons' | 'instructions' | 'priceInputs'
@@ -84,7 +84,7 @@ const getElement = (
 ) => {
   switch (key) {
     case 'addPriceGroupButton':
-      return screen.getByRole('button', { name: 'Lisää uusi asiakasryhmä' });
+      return screen.getByRole('button', { name: 'Lisää muita asiakasryhmiä' });
     case 'hasPriceCheckbox':
       return screen.getByRole('checkbox', {
         name: /tapahtuma on maksullinen/i,
@@ -191,7 +191,7 @@ test('should show add price group button only if registration is planned', async
   renderPriceSection({ hasPrice: true, isRegistrationPlanned: false });
 
   expect(
-    screen.queryByRole('button', { name: 'Lisää uusi asiakasryhmä' })
+    screen.queryByRole('button', { name: 'Lisää muita asiakasryhmiä' })
   ).not.toBeInTheDocument();
 
   await user.click(getElement('isRegistrationPlannedCheckbox'));
