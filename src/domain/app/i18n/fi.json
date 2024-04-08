@@ -5,7 +5,7 @@
   "adminPage": {
     "sideNavigation": {
       "labelAdmin": "Hallinta",
-      "toggleButtonLabel": "Siirry hallintasivulle"
+      "toggleButtonLabel": "Hallintatyökalut"
     },
     "title": "Hallinta"
   },

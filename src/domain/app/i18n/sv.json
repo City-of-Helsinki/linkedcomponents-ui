@@ -5,7 +5,7 @@
   "adminPage": {
     "sideNavigation": {
       "labelAdmin": "Admin",
-      "toggleButtonLabel": "Navigera till adminsidan"
+      "toggleButtonLabel": "Admin-verktyg"
     },
     "title": "Admin"
   },
