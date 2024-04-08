@@ -419,7 +419,7 @@
         "general": "Add event image",
         "volunteering": "Add volunteering image"
       },
-      "buttonAddOffer": "Add pricing information",
+      "buttonAddOffer": "Add other pricing information",
       "buttonAddRecurringEvent": {
         "course": "Add recurring course",
         "general": "Add recurring event",
@@ -430,7 +430,7 @@
         "general": "Add registration for event",
         "volunteering": "Add registration for volunteering"
       },
-      "buttonAddVideo": "Add video",
+      "buttonAddVideo": "Add other video",
       "buttonCancel": "Cancel event",
       "buttonCopy": "Copy as template",
       "buttonDelete": "Remove event",
@@ -594,9 +594,9 @@
         "volunteering": "Indicate whether the volunteering is free of charge. Enter a price in the form “5 €” for a paid volunteering."
       },
       "infoTextOffers2": {
-        "course": "If the course has multiple prices, click “Add new pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field.",
-        "general": "If the event has multiple prices, click “Add new pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field.",
-        "volunteering": "If the volunteering has multiple prices, click “Add new pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field."
+        "course": "If the course has multiple prices, click “Add other pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field.",
+        "general": "If the event has multiple prices, click “Add other pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field.",
+        "volunteering": "If the volunteering has multiple prices, click “Add other pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field."
       },
       "infoTextProvider": {
         "course": "Enter the name of the organization hosting the course if the organizer is not the same as the publisher.",
@@ -1809,8 +1809,8 @@
       "title": "Confirm registration deletion"
     },
     "form": {
-      "buttonAddPriceGroup": "Add new customer group",
-      "buttonAddRegistrationUserAccess": "Add new user",
+      "buttonAddPriceGroup": "Add other customer groups",
+      "buttonAddRegistrationUserAccess": "Add other users",
       "buttonCreate": "Save",
       "buttonDeletePriceGroup": "Remove customer group",
       "buttonDeleteRegistrationUserAccess": "Remove user",

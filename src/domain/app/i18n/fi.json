@@ -420,7 +420,7 @@
         "general": "Lisää tapahtuman kuva",
         "volunteering": "Lisää vapaaehtoistehtävän kuva"
       },
-      "buttonAddOffer": "Lisää hintatieto",
+      "buttonAddOffer": "Lisää muita hintatietoja",
       "buttonAddRecurringEvent": {
         "course": "Lisää toistuva kurssi",
         "general": "Lisää toistuva tapahtuma",
@@ -431,7 +431,7 @@
         "general": "Lisää tapahtumalle ilmoittautuminen",
         "volunteering": "Lisää vapaaehtoistehtävälle ilmoittautuminen"
       },
-      "buttonAddVideo": "Lisää video",
+      "buttonAddVideo": "Lisää muita videoita",
       "buttonCancel": "Peruuta tapahtuma",
       "buttonCopy": "Kopioi pohjaksi",
       "buttonDelete": "Poista tapahtuma",
@@ -595,9 +595,9 @@
         "volunteering": "Merkitse onko tapahtuma vapaaehtoistehtävä. Syötä maksulliselle vapaaehtoistehtävälle hinta muodossa “5€”."
       },
       "infoTextOffers2": {
-        "course": "Jos kurssilla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
-        "general": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
-        "volunteering": "Jos vapaaehtoistehtävällä on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
+        "course": "Jos kurssilla on useita hintoja, klikkaa “Lisää muita hintatietoja” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
+        "general": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää muita hintatietoja” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
+        "volunteering": "Jos vapaaehtoistehtävällä on useita hintoja, klikkaa “Lisää muita hintatietoja” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
       },
       "infoTextProvider": {
         "course": "Kirjoita tähän kurssin järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija.",
@@ -1810,8 +1810,8 @@
       "title": "Varmista ilmoittautumisen poistaminen"
     },
     "form": {
-      "buttonAddPriceGroup": "Lisää uusi asiakasryhmä",
-      "buttonAddRegistrationUserAccess": "Lisää uusi käyttäjä",
+      "buttonAddPriceGroup": "Lisää muita asiakasryhmiä",
+      "buttonAddRegistrationUserAccess": "Lisää muita käyttäjiä",
       "buttonCreate": "Tallenna ilmoittautuminen",
       "buttonDeletePriceGroup": "Poista asiakasryhmä",
       "buttonDeleteRegistrationUserAccess": "Poista käyttäjä",

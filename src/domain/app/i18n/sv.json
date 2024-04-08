@@ -420,7 +420,7 @@
         "general": "Lägg till evenemangets bild",
         "volunteering": "Lägg till volontärarbetets bild"
       },
-      "buttonAddOffer": "Lägg till prisinformation",
+      "buttonAddOffer": "Lägg till annan prisinformation",
       "buttonAddRecurringEvent": {
         "course": "Lägg till återkommande kurs",
         "general": "Lägg till återkommande evenemang",
@@ -431,7 +431,7 @@
         "general": "Lägg till registrering för evenemanget",
         "volunteering": "Lägg till registrering för volontärarbetet"
       },
-      "buttonAddVideo": "Lägg till video",
+      "buttonAddVideo": "Lägg till andra video",
       "buttonCancel": "Ställ in evenemang",
       "buttonCopy": "Kopiera som mall",
       "buttonDelete": "Radera evenemang",
@@ -595,9 +595,9 @@
         "volunteering": "Ange om volontärarbetet är gratis. Ange pris i form “5€” för volontärarbet som kostar."
       },
       "infoTextOffers2": {
-        "course": "Om kursen har flera priser klickar du på “Lägg till prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”.",
-        "general": "Om evenemanget har flera priser klickar du på “Lägg till prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”.",
-        "volunteering": "Om volontärarbetet har flera priser klickar du på “Lägg till prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”."
+        "course": "Om kursen har flera priser klickar du på “Lägg till annan prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”.",
+        "general": "Om evenemanget har flera priser klickar du på “Lägg till annan prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”.",
+        "volunteering": "Om volontärarbetet har flera priser klickar du på “Lägg till annan prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”."
       },
       "infoTextProvider": {
         "course": "Ange namnet på organisationen som är värd för kursen om arrangören inte är densamma som utgivaren.",
@@ -1810,8 +1810,8 @@
       "title": "Bekräfta raderingen av registeringen"
     },
     "form": {
-      "buttonAddPriceGroup": "Lägg till ny kundgrupp",
-      "buttonAddRegistrationUserAccess": "Lägg till ny användare",
+      "buttonAddPriceGroup": "Lägg till andra kundgrupper",
+      "buttonAddRegistrationUserAccess": "Lägg till andra användare",
       "buttonCreate": "Spara registrering",
       "buttonDeletePriceGroup": "Ta bort kundgrupp",
       "buttonDeleteRegistrationUserAccess": "Ta bort användare",

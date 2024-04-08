@@ -69,7 +69,7 @@ const renderRegistrationUserAccessesSection = (
   );
 
 const getAddButton = () =>
-  screen.getByRole('button', { name: 'Lisää uusi käyttäjä' });
+  screen.getByRole('button', { name: 'Lisää muita käyttäjiä' });
 
 test('should add and remove registration user assess', async () => {
   const user = userEvent.setup();
