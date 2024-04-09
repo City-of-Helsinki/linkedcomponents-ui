@@ -27,7 +27,7 @@
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
     "noRightsUpdateEvent": "You do not have permission to edit events.",
-    "noRightsUpdateEventLabel": "No permissions to edit events",
+    "noRightsUpdateEventLabel": "No permissions to edit events.",
     "noRightsUpdateImage": "You do not have permission to edit images.",
     "noRightsUpdateImageLabel": "No permissions to edit images.",
     "noRightsUpdateKeyword": "You do not have permission to edit keywords.",
@@ -41,23 +41,23 @@
     "noRightsUpdatePriceGroup": "You do not have permission to edit customer groups.",
     "noRightsUpdatePriceGroupLabel": "No permissions to edit customer groups.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
-    "noRightsUpdateRegistrationLabel": "No permissions to edit registrations",
+    "noRightsUpdateRegistrationLabel": "No permissions to edit registrations.",
     "noRightsUpdateSignup": "You do not have permission to edit participants.",
     "noRightsUpdateSignupLabel": "No permissions to edit participants.",
     "noRightsUpdateSignupGroup": "You do not have permission to edit participants.",
     "noRightsUpdateSignupGroupLabel": "No permissions to edit participants."
   },
+  "authenticationMethod": {
+    "espooEmployee": "City of Espoo employee ID",
+    "helsinki": "Helsinki ID",
+    "helsinkiEmployee": "City of Helsinki employee ID",
+    "some": "Facebook, Google or Twitter ID",
+    "yle": "YLE ID"
+  },
   "authenticationNotification": {
     "button": "sign in",
     "part1": "You can continue to explore the service, but you will need to",
     "part2": " to save your changes."
-  },
-  "authenticationMethod": {
-    "espooEmployee": "Stad Esbo anställd ID",
-    "helsinki": "Helsinki-ID",
-    "helsinkiEmployee": "Stad Helsinki anställd ID",
-    "some": "Facebook, Google eller Twitter ID",
-    "yle": "YLE ID"
   },
   "common": {
     "actions": "Actions",
@@ -81,6 +81,7 @@
     "buttonAddPriceGroup": "Add customer group",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
+    "buttonRemoveFilter": "Remove filter: {{name}}",
     "cancel": "Undo",
     "clear": "Clear",
     "close": "Close",
@@ -466,7 +467,7 @@
       "buttonUpdateDraft": "Save draft",
       "buttonUpdatePublic": "Save changes",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
-      "eventDraftStateInfo": "The saved information will automatically be visible to the moderator as well. However, the information can be edited until the moderator publishes the event. The latter can be avoided by writing \"UNFINISHED\" at the beginning of the event title while editing is in progress.",
+      "eventDraftStateInfo": "The saved information will automatically be visible to the moderator as well. However, the information can be edited until the moderator publishes the event. The latter can be avoided by writing \"KESKENERÄINEN\" at the beginning of the event title while editing is in progress.",
       "editButtonPanel": {
         "warningCancelledEvent": "Cancelled events can't be edited.",
         "warningCannotCancelDraft": "Event drafts can't be cancelled.",
@@ -475,7 +476,7 @@
         "warningDeletedEvent": "Deleted events can't be edited.",
         "warningEventInPast": "Past events can't be edited.",
         "warningNoRightsToEdit": "You have insufficient rights to edit this event.",
-        "warningNoEmailFound": "Could not find email address linked to this event"
+        "warningNoEmailFound": "Could not find email address linked to this event."
       },
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextAttendeeCapacity": {
@@ -1436,7 +1437,7 @@
     "browse": "browse",
     "bug": "bug",
     "contact": "contact",
-    "controlPanel": "control, panel",
+    "controlPanel": "control panel",
     "date": "date",
     "documentation": "documentation",
     "edit": "edit",
@@ -1456,7 +1457,7 @@
     "linked": "linked",
     "listing": "listing",
     "management": "management",
-    "myListing": "my, listing",
+    "myListing": "my listing",
     "new": "new",
     "organization": "organization",
     "permission": "permission",
@@ -1469,10 +1470,10 @@
     "rights": "rights",
     "search": "search",
     "set": "set",
-    "sourceCode": "source, code",
+    "sourceCode": "source code",
     "support": "support",
     "technology": "technology",
-    "termsOfUse": "terms, of, use",
+    "termsOfUse": "terms of use",
     "update": "update",
     "upload": "upload"
   },
@@ -1811,7 +1812,7 @@
     "form": {
       "buttonAddPriceGroup": "Add other customer groups",
       "buttonAddRegistrationUserAccess": "Add other users",
-      "buttonCreate": "Save",
+      "buttonCreate": "Save registration",
       "buttonDeletePriceGroup": "Remove customer group",
       "buttonDeleteRegistrationUserAccess": "Remove user",
       "buttonPanel": {
@@ -2114,7 +2115,6 @@
     "pageTitle": "Signups: {{name}}",
     "searchPanel": {
       "buttonCreate": "Add participant",
-      "buttonRemoveFilter": "Remove filter: {{name}}",
       "buttonSearch": "Filter",
       "labelSearch": "Filter participants",
       "placeholderSearch": "Filter participants"

@@ -472,7 +472,7 @@ const ControlPanelPage: React.FC = () => {
             <p>
               Du kan använda informationen från ett äldre evenemang när du ska
               skapa ett nytt, genom att öppna evenemanget och välja "Kopiera som
-              mall". Mina evenemang hittar du enkelt i Evenemangshantering och
+              mall". Mina evenemangen hittar du enkelt i Evenemangshantering och
               dom har du rättighet att redigera.
             </p>
           </>
