@@ -153,7 +153,7 @@ const generalInstructionCases: [Language, PageValues][] = [
     'sv',
     {
       description:
-        'Hjälp och instruktioner om hur du använder tjänsten och API: et.',
+        'Hjälp och instruktioner för hur du använder tjänsten och API:et.',
       expectedRoute: '/sv/help/instructions/general',
       keywords:
         'stöd, hjälp, instruktioner, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
@@ -198,7 +198,7 @@ const platformCases: [Language, PageValues][] = [
     'sv',
     {
       description:
-        'Introduktion till Linked Events-plattformen och kontrollpanelen.',
+        'Introduktion till Linked Events plattform och kontrollpanel.',
       expectedRoute: '/sv/help/instructions/platform',
       keywords:
         'plattform, hjälp, instruktioner, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
@@ -222,7 +222,7 @@ const controlPanelCases: [Language, PageValues][] = [
       description: 'How to use control panel and Linked events admin features.',
       expectedRoute: '/en/help/instructions/control-panel',
       keywords:
-        'control, panel, help, linked, events, event, management, api, admin, Helsinki, Finland',
+        'control panel, help, linked, events, event, management, api, admin, Helsinki, Finland',
       pageTitle: 'Control panel',
       title: 'Control panel - Linked Events',
     },
@@ -293,7 +293,7 @@ const registrationInstructionsCases: [Language, PageValues][] = [
     'sv',
     {
       description:
-        'Linked Events är en samling mjukvarukomponenter och API-slutpunkter som möjliggör evenemnaghantering och distribution för olika evenemangsleverantörer i Finland.',
+        'Linked Events är en samling programvarukomponenter och API-slutpunkter som möjliggör hantering och distribution av evenemang för olika evenemangsleverantörer i Finland.',
       expectedRoute: '/sv/help/instructions/registration',
       keywords:
         'linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
@@ -343,7 +343,7 @@ const faqCases: [Language, PageValues][] = [
       description: 'Vanliga frågor om Linked Events.',
       expectedRoute: '/sv/help/instructions/faq',
       keywords:
-        'ukk, frågade, frågor, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+        'faq, frågade, frågor, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
       pageTitle: 'Vanliga frågor',
       title: 'Vanliga frågor - Linked Events',
     },
@@ -477,7 +477,7 @@ const imageRightsCases: [Language, PageValues][] = [
     'sv',
     {
       description:
-        'Mer information om Linked Events bildrättigheter och licenser.',
+        'Mer information om bildrättigheter och licenser för Linked Events.',
       expectedRoute: '/sv/help/technology/image-rights',
       keywords:
         'bild, rättigheter, licens, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
@@ -505,7 +505,7 @@ const sourceCodeCases: [Language, PageValues][] = [
       description: 'Get a deeper look for Linked Events source code in Github.',
       expectedRoute: '/en/help/technology/source-code',
       keywords:
-        'source, code, help, linked, events, event, management, api, admin, Helsinki, Finland',
+        'source code, help, linked, events, event, management, api, admin, Helsinki, Finland',
       pageTitle: 'Source code',
       title: 'Source code - Linked Events',
     },
@@ -525,7 +525,7 @@ const sourceCodeCases: [Language, PageValues][] = [
     'sv',
     {
       description:
-        'Få en djupare titt på källkoden för Linked Events i Github.',
+        'Ta en djupare titt på källkoden för Linked Events i Github.',
       expectedRoute: '/sv/help/technology/source-code',
       keywords:
         'källkod, hjälp, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
@@ -599,7 +599,7 @@ const termsOfUseCases: [Language, PageValues][] = [
       description: 'Linked Events service Data Privacy and Terms of Use.',
       expectedRoute: '/en/help/support/terms-of-use',
       keywords:
-        'terms, of, use, linked, events, event, management, api, admin, Helsinki, Finland',
+        'terms of use, linked, events, event, management, api, admin, Helsinki, Finland',
       pageTitle: 'Data Privacy and Terms of Use',
       title: 'Data Privacy and Terms of Use - Linked Events',
     },
@@ -621,7 +621,7 @@ const termsOfUseCases: [Language, PageValues][] = [
       description: 'Dataskydd och användarvillkor för Linked Events.',
       expectedRoute: '/sv/help/support/terms-of-use',
       keywords:
-        'villkor, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
+        'användarvillkor, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
       pageTitle: 'Dataskydd och användarvillkor',
       title: 'Dataskydd och användarvillkor - Linked Events',
     },
@@ -664,12 +664,12 @@ const contactCases: [Language, PageValues][] = [
     'sv',
     {
       description:
-        'Skicka en felrapport eller funktionsförfrågan. Eller skicka oss lite feedback om tjänsten.',
+        'Skicka en felrapport eller en funktionsförfrågan. Eller ge oss feedback om tjänsten.',
       expectedRoute: '/sv/help/support/contact',
       keywords:
         'kontakt, formulär, bugg, rapport, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
-      pageTitle: 'Ta kontakt',
-      title: 'Ta kontakt - Linked Events',
+      pageTitle: 'Kontakta oss',
+      title: 'Kontakta oss - Linked Events',
     },
   ],
 ];
@@ -707,12 +707,12 @@ const askPermissionCases: [Language, PageValues][] = [
   [
     'sv',
     {
-      description: 'Be om tillåtelse till Linked Events-organisationen.',
+      description: 'Be om tillstånd för Linked Events organisation.',
       expectedRoute: '/sv/help/support/ask-permission',
       keywords:
         'fråga, tillstånd, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
-      pageTitle: 'Begära tillgång',
-      title: 'Begära tillgång - Linked Events',
+      pageTitle: 'Begär åtkomst',
+      title: 'Begär åtkomst - Linked Events',
     },
   ],
 ];
@@ -753,12 +753,12 @@ const featuresCases: [Language, PageValues][] = [
     'sv',
     {
       description:
-        'Läs om Linked Eventsfunktioner. Bli bekant med event management och Linked Events API.',
+        'Läs om Linked Events funktioner. Bekanta dig med evenemangshantering och Linked Events API.',
       expectedRoute: '/sv/help/features',
       keywords:
         'funktioner, linked, events, evenemang, ledning, api, admin, Helsingfors, Finland',
-      pageTitle: 'Tjänstens egenskaper',
-      title: 'Tjänstens egenskaper - Linked Events',
+      pageTitle: 'Servicefunktioner',
+      title: 'Servicefunktioner - Linked Events',
     },
   ],
 ];

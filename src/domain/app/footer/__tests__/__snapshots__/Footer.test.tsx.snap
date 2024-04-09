@@ -60,7 +60,7 @@ exports[`matches snapshot 1`] = `
               class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
               href="/sv/"
             >
-              Startsidan
+              Förstasidan
             </a>
             <a
               class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
@@ -414,7 +414,7 @@ exports[`matches snapshot 1`] = `
                 />
               </svg>
               <span>
-                Villkor
+                Användarvillkor
               </span>
             </a>
             <a
@@ -437,7 +437,7 @@ exports[`matches snapshot 1`] = `
                 />
               </svg>
               <span>
-                Ta kontakt
+                Kontakta oss
               </span>
             </a>
             <a
@@ -460,7 +460,7 @@ exports[`matches snapshot 1`] = `
                 />
               </svg>
               <span>
-                Begära tillgång
+                Begär åtkomst
               </span>
             </a>
           </div>
@@ -475,7 +475,7 @@ exports[`matches snapshot 1`] = `
               class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
               href="/sv/help/features"
             >
-              Tjänstens egenskaper
+              Servicefunktioner
             </a>
           </div>
         </div>
@@ -519,7 +519,7 @@ exports[`matches snapshot 1`] = `
             href="/sv/accessibility-statement"
           >
             <span>
-              Tillgänglighets­utlåtande
+              Tillgänglighetsutlåtande
             </span>
           </a>
         </div>

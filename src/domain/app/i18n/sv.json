@@ -1,6 +1,6 @@
 {
   "accessibilityStatementPage": {
-    "pageTitle": "Tillgänglighets­utlåtande"
+    "pageTitle": "Tillgänglighetsutlåtande"
   },
   "adminPage": {
     "sideNavigation": {
@@ -9,43 +9,43 @@
     },
     "title": "Admin"
   },
-  "appDescription": "Linked Events är en samling mjukvarukomponenter och API-slutpunkter som möjliggör evenemnaghantering och distribution för olika evenemangsleverantörer i Finland.",
+  "appDescription": "Linked Events är en samling programvarukomponenter och API-slutpunkter som möjliggör hantering och distribution av evenemang för olika evenemangsleverantörer i Finland.",
   "appName": "Linked Events",
   "attendanceListPage": {
     "count": "{{count}} deltagare",
     "count_other": "{{count}} deltagare",
     "errors": {
-      "presenceStatusUpdateFails": "Det gick inte att uppdatera närvaroinformation"
+      "presenceStatusUpdateFails": "Misslyckades med att uppdatera information om närvaro"
     },
     "labelSearch": "Sök deltagare",
-    "pageTitle": "Märk de närvarande: {{name}}",
-    "title": "Märk de närvarande"
+    "pageTitle": "Markera deltagare: {{name}}",
+    "title": "Markera deltagare"
   },
   "authentication": {
-    "errorMessage": "Ett fel har uppstått. Vänligen försök igen.",
+    "errorMessage": "Ett fel har uppstått. Vänligen försök igen senare.",
     "networkError": {
-      "message": "Ett fel har uppstått vid inloggningen: Kontrollera din nätförbindelse och försök igen."
+      "message": "Ett fel har uppstått under inloggningen: Kontrollera din internetanslutning och försök igen."
     },
     "noRightsUpdateEvent": "Du har inte rättigheter att redigera evenemang.",
-    "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang",
-    "noRightsUpdateImage": "Du har inte behörighet att redigera bilder.",
-    "noRightsUpdateImageLabel": "Inga rättigheter att redigera bilder",
-    "noRightsUpdateKeyword": "Du har inte behörighet att redigera nyckelord.",
-    "noRightsUpdateKeywordLabel": "Inga rättigheter att redigera nyckelord",
-    "noRightsUpdateKeywordSet": "Du har inte behörighet att redigera nyckelordsuppsättningar.",
-    "noRightsUpdateKeywordSetLabel": "Inga rättigheter att redigera nyckelordsuppsättningar",
-    "noRightsUpdateOrganization": "Du har inte behörighet att redigera organisationer.",
-    "noRightsUpdateOrganizationLabel": "Inga rättigheter att redigera organisationer",
-    "noRightsUpdatePlace": "Du har inte behörighet att redigera platser.",
-    "noRightsUpdatePlaceLabel": "Inga rättigheter att redigera platser",
-    "noRightsUpdatePriceGroup": "Du har inte behörighet att redigera kundgrupper.",
-    "noRightsUpdatePriceGroupLabel": "Inga rättigheter att redigera kundgrupper",
+    "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang.",
+    "noRightsUpdateImage": "Du har inte rättigheter att redigera bilder.",
+    "noRightsUpdateImageLabel": "Inga rättigheter att redigera bilder.",
+    "noRightsUpdateKeyword": "Du har inte rättigheter att redigera nyckelord.",
+    "noRightsUpdateKeywordLabel": "Inga rättigheter att redigera nyckelord.",
+    "noRightsUpdateKeywordSet": "Du har inte rättigheter att redigera nyckelordsuppsättningar.",
+    "noRightsUpdateKeywordSetLabel": "Inga rättigheter att redigera nyckelordsuppsättningar.",
+    "noRightsUpdateOrganization": "Du har inte rättigheter att redigera organisationer.",
+    "noRightsUpdateOrganizationLabel": "Inga rättigheter att redigera organisationer.",
+    "noRightsUpdatePlace": "Du har inte rättigheter att redigera platser.",
+    "noRightsUpdatePlaceLabel": "Inga rättigheter att redigera platser.",
+    "noRightsUpdatePriceGroup": "Du har inte rättigheter att redigera kundgrupper.",
+    "noRightsUpdatePriceGroupLabel": "Ingen rättigheter att redigera kundgrupper.",
     "noRightsUpdateRegistration": "Du har inte rättigheter att redigera registreringar.",
-    "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar",
-    "noRightsUpdateSignup": "Du har inte behörighet att redigera deltagare.",
-    "noRightsUpdateSignupLabel": "Inga rättigheter att redigera deltagare",
-    "noRightsUpdateSignupGroup": "Du har inte behörighet att redigera deltagare.",
-    "noRightsUpdateSignupGroupLabel": "Inga rättigheter att redigera deltagare"
+    "noRightsUpdateRegistrationLabel": "Inga rättigheter att redigera registreringar.",
+    "noRightsUpdateSignup": "Du har inte rättigheter att redigera deltagare.",
+    "noRightsUpdateSignupLabel": "Inga rättigheter att redigera deltagare.",
+    "noRightsUpdateSignupGroup": "Du har inte rättigheter att redigera deltagare.",
+    "noRightsUpdateSignupGroupLabel": "Inga rättigheter att redigera deltagare."
   },
   "authenticationMethod": {
     "espooEmployee": "Stad Esbo anställd ID",
@@ -57,57 +57,57 @@
   "authenticationNotification": {
     "button": "logga in",
     "part1": "Du kan fortsätta att utforska tjänsten, men du måste",
-    "part2": " för att spara dina ändringar."
+    "part2": " för att spara ändringarna."
   },
   "common": {
     "actions": "Åtgärder",
     "add": "Lägg till",
-    "affiliate": "Dotterbolag",
+    "affiliate": "Ansluten",
     "and": "och",
     "at": "kl {{time}}",
     "authError": {
-      "accessDenied": "Tillträde beviljas ej"
+      "accessDenied": "Åtkomst nekad"
     },
     "betweenDates": "{{startDate}} – {{endDate}}",
     "betweenTimes": "{{startTime}} – {{endTime}}",
     "breadcrumb": "Brödsmula",
-    "buttonActions": "Funktioner",
-    "buttonAddEvent": "Lägg till evenemang",
+    "buttonActions": "Åtgärder",
+    "buttonAddEvent": "Lägg till nytt evenemang",
     "buttonAddImage": "Lägg till bild",
     "buttonAddKeyword": "Lägg till nyckelord",
-    "buttonAddKeywordSet": "Lägg till nyckelorduppsättningar",
-    "buttonAddOrganization": "Lägg till organisation",
+    "buttonAddKeywordSet": "Lägg till nyckelordsuppsättning",
+    "buttonAddOrganization": "Lägg till ny organisation",
     "buttonAddPlace": "Lägg till plats",
     "buttonAddPriceGroup": "Lägg till kundgrupp",
-    "buttonAddRegistration": "Lägg till",
+    "buttonAddRegistration": "Lägg till ny",
     "buttonBack": "Tillbaka",
-    "buttonRemoveFilter": "Ta bort filtret: {{name}}",
+    "buttonRemoveFilter": "Ta bort filter: {{namn}}",
     "cancel": "Ångra",
     "clear": "Klar",
     "close": "Stäng",
     "combobox": {
-      "clearEvents": "Rensa valda evenemang",
-      "clearPlaces": "Rensa valda platser",
-      "clearKeywords": "Rensa valda sökord",
-      "clearOrganizations": "Rensa valda organisationer",
-      "clearUsers": "Rensa valda användare",
+      "clearEvents": "Ta bort valda evenemang",
+      "clearKeywords": "Ta bort valda nyckelord",
+      "clearOrganizations": "Ta bort valda organisationer",
+      "clearPlaces": "Ta bort valda platser",
+      "clearUsers": "Ta bort valda användare",
       "toggleButtonAriaLabel": "Menyn"
     },
     "cookieConsent": {
       "eventForm": {
-        "description": "Cookien som krävs för att spara evenemang formulär data",
-        "name": "Cookie för evenemang formulär"
+        "description": "Den cookie som krävs för att spara data från evenemangsformuläret",
+        "name": "Cookie för evenemangsformulär"
       },
       "expiration": {
         "session": "Session"
       },
       "registrationForm": {
-        "description": "Cookien som krävs för att spara registrering formulär data",
-        "name": "Cookie för registrering formulär"
+        "description": "Den cookie som krävs för att spara uppgifterna i registreringsformuläret",
+        "name": "Cookie för registreringsformulär"
       },
       "signupForm": {
-        "description": "Cookien som krävs för att spara deltagande formulär data",
-        "name": "Cookie för deltagande formulär"
+        "description": "Den cookie som krävs för att spara uppgifterna i deltagaresformuläret",
+        "name": "Cookie för deltagaresformulär"
       },
       "siteName": "Linked Events"
     },
@@ -116,50 +116,50 @@
       "placeholderEndDate": "Avslutar d.m.åååå",
       "placeholderStartDate": "Börjar d.m.åååå"
     },
-    "delete": "Radera",
-    "dissolved": "Avskaffas",
+    "delete": "Ta bort",
+    "dissolved": "Upplöst",
     "dropdown": {
-      "buttonClear": "Töm"
+      "buttonClear": "Klar"
     },
     "dropdownSelect": {
       "accessibility": {
         "noResults": "Inga alternativ",
-        "selectionMessage": "{{value}} är valt.",
-        "statusMessage": "{{count}} alternativ är valbart, flytta upp eller ner med piltangenterna. Tryck Enter för att göra ett val.",
-        "statusMessage_other": "{{count}} alternativ är valbart, flytta upp eller ner med piltangenterna. Tryck Enter för att göra ett val."
+        "selectionMessage": "{{value}} har valts.",
+        "statusMessage": "{{count}} alternativ tillgängligt, flytta upp eller ner med piltangenterna. Tryck på Enter för att göra ett val.",
+        "statusMessage_other": "{{count}} lternativ tillgängliga, flytta upp eller ner med piltangenterna. Tryck på Enter för att göra ett val."
       }
     },
     "edit": "Redigera",
-    "errorLoadMore": "Det gick inte att ladda fler",
+    "errorLoadMore": "Misslyckades med att ladda mer",
     "eventAmount": "{{count}} evenemang",
     "eventAmount_other": "{{count}} evenemang",
     "feedback": {
       "text": "Ge feedback"
     },
-    "goToHome": "Till startsidan",
-    "home": "Startsidan",
+    "goToHome": "Till förstasidan",
+    "home": "Förstasidan",
     "imageSelector": {
       "labelSearch": "Sök bilder"
     },
     "imageUploader": {
       "areaLabel": {
-        "cropArea": "Använd piltangenterna för att flytta området för val av beskärning",
-        "nwDragHandle": "Använd piltangenterna för att flytta det nordvästliga draghandtaget för att ändra området för val av beskärning",
-        "nDragHandle": "Använd upp- och nedpiltangenterna för att flytta det norra draghandtaget för att ändra området för val av beskärning",
-        "neDragHandle": "Använd piltangenterna för att flytta det nordöstra draghandtaget för att ändra området för val av beskärning",
-        "eDragHandle": "Använd piltangenterna för att flytta det östliga draghandtaget för att ändra området för val av beskärning",
-        "seDragHandle": "Använd piltangenterna för att flytta det sydöstra draghandtaget för att ändra området för val av beskärning",
-        "sDragHandle": "Använd piltangenterna för att flytta det södra draghandtaget för att ändra området för val av beskärning",
-        "swDragHandle": "Använd piltangenterna för att flytta det sydvästliga draghandtaget för att ändra området för val av beskärning",
-        "wDragHandle": "Använd piltangenterna för att flytta det västliga draghandtaget för att ändra området för val av beskärning"
+        "cropArea": "Använd piltangenterna för att flytta urvalsområdet för grödan",
+        "nwDragHandle": "Använd piltangenterna för att flytta det nordvästra draghandtaget för att ändra grödans urvalsområde",
+        "nDragHandle": "Använd piltangenterna upp och ned för att flytta det norra draghandtaget för att ändra grödans urvalsområde",
+        "neDragHandle": "Använd piltangenterna för att flytta det nordöstra draghandtaget för att ändra grödans urvalsområde",
+        "eDragHandle": "Använd piltangenterna upp och ned för att flytta det östra draghandtaget för att ändra grödans urvalsområde",
+        "seDragHandle": "Använd piltangenterna för att flytta det sydöstra draghandtaget för att ändra grödans urvalsområde",
+        "sDragHandle": "Använd piltangenterna upp och ned för att flytta det södra draghandtaget för att ändra grödans urvalsområde",
+        "swDragHandle": "Använd piltangenterna för att flytta det sydvästra draghandtaget för att ändra grödans urvalsområde",
+        "wDragHandle": "Använd piltangenterna upp och ned för att flytta det västra draghandtaget för att ändra grödans urvalsområde"
       },
-      "belowMinDimensions": "Minsta tillåtna bildstorlek är 300 x 200 pixlar",
-      "buttonDropImage": "Dra bilden hit eller klicka för att lägga till den från hårddisken",
+      "belowMinDimensions": "Lägsta tillåtna bildstorlek är 300 x 200 pixlar",
+      "buttonDropImage": "Dra och släpp en bild till detta område eller bläddra från din hårddisk genom att klicka på",
       "buttonRemoveImage": "Ta bort bild",
-      "notAllowedFileFormat": "Filformatet stöds inte",
-      "titleCropImage": "Beskära bild",
-      "tooLongFileName": "Filnamnet är för långt. Maximalt antal tecken är {{maxLength}}.",
-      "tooLargeFileSize": "Filstorleken är för stor. Största tillåtna storlek är {{maxSize}} MB"
+      "notAllowedFileFormat": "Filformat stöds inte",
+      "titleCropImage": "Beskär bilden",
+      "tooLongFileName": "Filnamnet är för långt. Maximal längd är {{maxLength}} tecken.",
+      "tooLargeFileSize": "Filstorleken är för stor. Den maximala filstorleken är {{maxSize}} MB"
     },
     "leaflet": {
       "drawLocal": {
@@ -167,21 +167,21 @@
           "handlers": {
             "marker": {
               "tooltip": {
-                "start": "Klicka på kartan för att fastställa en plats."
+                "start": "Klicka på kartan för att ange plats."
               }
             }
           },
           "toolbar": {
             "actions": {
               "text": "Avbryt",
-              "title": "Avbryt ritningen"
+              "title": "Avbryt ritning"
             },
             "buttons": {
               "marker": "Rita en markör"
             },
             "finish": {
               "text": "Avsluta",
-              "title": "Avsluta ritningen"
+              "title": "Avsluta ritning"
             }
           }
         },
@@ -189,13 +189,13 @@
           "handlers": {
             "edit": {
               "tooltip": {
-                "subtext": "Klicka på Avbryt för att ignorera dina ändringar",
+                "subtext": "Klicka på Avbryt för att förkasta ändringarna",
                 "text": "Dra markören för att redigera platsen."
               }
             },
             "remove": {
               "tooltip": {
-                "text": "Klicka på platsen du vill ta bort."
+                "text": "Klicka på den plats du vill ta bort."
               }
             }
           },
@@ -203,20 +203,20 @@
             "actions": {
               "cancel": {
                 "text": "Avbryt",
-                "title": "Avbryt redigering, ignorera alla ändringar."
+                "title": "Avbryt redigering, radera alla ändringar."
               },
               "clearAll": {
-                "text": "Ta bort allt",
-                "title": "Ta bort alla områden"
+                "text": "Ta bort alla",
+                "title": "Ta bort alla platser"
               },
               "save": {
                 "text": "Spara",
-                "title": "Spara ändringarna"
+                "title": "Spara ändringar"
               }
             },
             "buttons": {
               "edit": "Redigera plats",
-              "editDisabled": "Ingen redigerbar plats",
+              "editDisabled": "Ingen plats att redigera",
               "remove": "Ta bort plats",
               "removeDisabled": "Ingen plats att ta bort"
             }
@@ -224,18 +224,18 @@
         }
       }
     },
-    "loading": "Laddar...",
-    "loadingFinished": "Laddningen är klar",
+    "loading": "Laddning...",
+    "loadingFinished": "Lastning avslutad",
     "multiSelectDropdown": {
       "searchPlaceholder": "Sök"
     },
     "no": "Nej",
     "noResults": "Inga resultat",
     "numberInput": {
-      "buttonDecrease": "Ta bort",
-      "buttonIncrease": "Lägg till"
+      "buttonDecrease": "Subtrahera",
+      "buttonIncrease": "Ökning"
     },
-    "openInExternalDomain": "Flyttar till en annan webbplats.",
+    "openInExternalDomain": "Flyttar till en annan plats.",
     "openInNewTab": "(öppnas i en ny flik)",
     "paginationAriaLabel": "Paginering",
     "placeholderDate": "d.m.åååå",
@@ -250,9 +250,9 @@
     "signIn": "Logga in",
     "signOut": "Logga ut",
     "table": {
-      "ariaLabelSortButtonAscending": "Ordnade i stigande ordning",
-      "ariaLabelSortButtonDescending": "Ordnade i fallande ordning",
-      "noResultsText": "Din sökning gav inga resultat. Kontrollera dina söktermer och försök igen."
+      "ariaLabelSortButtonAscending": "Sorterad i stigande ordning",
+      "ariaLabelSortButtonDescending": "Sorterad i fallande ordning",
+      "noResultsText": "Din sökning gav inga resultat. Kontrollera dina nyckelord och försök igen."
     },
     "timeInput": {
       "hoursLabel": "timmar",
@@ -264,38 +264,38 @@
   },
   "createEventPage": {
     "pageTitle": {
-      "course": "Nytt kurs",
+      "course": "Ny kurs",
       "general": "Nytt evenemang",
-      "volunteering": "Nytt volontärarbete"
+      "volunteering": "Ny volontärsarbete"
     },
     "title": {
       "course": "Ny kurs",
       "general": "Nytt evenemang",
-      "volunteering": "Nytt volontärarbete"
+      "volunteering": "Ny volontärsarbete"
     }
   },
   "createImagePage": {
-    "pageDescription": "Lägg till ny bild till Linked Events.",
+    "pageDescription": "Lägg till ny bild i Linked Events.",
     "pageTitle": "Lägg till bild",
     "title": "Lägg till bild"
   },
   "createKeywordPage": {
-    "pageDescription": "Lägg till nytt nyckelord till Linked Events.",
+    "pageDescription": "Lägg till nytt nyckelord i Linked Events.",
     "pageTitle": "Lägg till nyckelord",
     "title": "Lägg till nyckelord"
   },
   "createKeywordSetPage": {
-    "pageDescription": "Lägg till ny nyckelordsuppsättning till Linked Events.",
+    "pageDescription": "Lägg till ny nyckelordsuppsättning i Linked Events.",
     "pageTitle": "Lägg till nyckelordsuppsättning",
     "title": "Lägg till nyckelordsuppsättning"
   },
   "createOrganizationPage": {
-    "pageDescription": "Lägg till ny organisation till Linked Events.",
+    "pageDescription": "Lägg till ny organisation i Linked Events.",
     "pageTitle": "Lägg till organisation",
     "title": "Lägg till organisation"
   },
   "createPlacePage": {
-    "pageDescription": "Lägg till ny plats till Linked Events.",
+    "pageDescription": "Lägg till ny plats i Linked Events.",
     "pageTitle": "Lägg till plats",
     "title": "Lägg till plats"
   },
@@ -316,7 +316,7 @@
     "title": {
       "course": "Redigera kurs",
       "general": "Redigera evenemang",
-      "volunteering": "Redigera volontärarbet"
+      "volunteering": "Redigera volontärarbete"
     }
   },
   "editImagePage": {
@@ -328,8 +328,8 @@
     "title": "Redigera nyckelord"
   },
   "editKeywordSetPage": {
-    "pageTitle": "Redigera nyckelordsuppsättningen",
-    "title": "Redigera nyckelordsuppsättningen"
+    "pageTitle": "Redigera nyckelordsuppsättning",
+    "title": "Redigera nyckelordsuppsättning"
   },
   "editOrganizationPage": {
     "pageTitle": "Redigera organisation",
@@ -340,7 +340,7 @@
     "title": "Redigera plats"
   },
   "editPriceGroupPage": {
-    "pageDescription": "Redigera kundgruppen i Linked Events",
+    "pageDescription": "Redigera befintlig kundgrupp i Linked Events.",
     "pageTitle": "Redigera kundgrupp",
     "title": "Redigera kundgrupp"
   },
@@ -356,12 +356,12 @@
     "title": "Redigera deltagare"
   },
   "errors": {
-    "authorizationRequired": "Logga in för att använda den här funktionen",
-    "deleted": "Innehållet raderat",
-    "forbidden": "Du har inte tillstånd att utföra den här funktionen. ",
-    "notFound": "Innehållet hittas inte",
+    "authorizationRequired": "Logga in för att använda denna funktion",
+    "deleted": "Innehåll borttaget",
+    "forbidden": "Du har inte tillstånd att använda den här funktionen.",
+    "notFound": "Innehåll saknas",
     "serverError": "Serverfel.",
-    "validationError": "Formuläret har fel. Vänligen kontrollera. "
+    "validationError": "Det finns fel i formuläret. Vänligen kontrollera formuläret."
   },
   "event": {
     "audienceAge": {
@@ -370,32 +370,32 @@
       "under": "Under {{max}} år"
     },
     "cancelEventModal": {
-      "buttonCancel": "Ställ in evenemang",
-      "text1": "Den här funktionen ställer in  evenemanget. Du kan också skjuta upp det eller radera ett evenemang som du lagt till av misstag. ",
-      "text2": "När du accepterar avbokningen av evenemanget kommer registreringsformuläret som är relaterat till evenemanget och deltagarna som registrerats för evenemanget att raderas från databasen.",
+      "buttonCancel": "Avbryt evenemang",
+      "text1": "Denna åtgärd kommer att avbryta evenemanget. Du kan också skjuta upp evenemanget eller radera ett evenemang som du kan ha angett av misstag.",
+      "text2": "När du accepterar att evenemanget ställs in raderas deltagaresformuläret för evenemanget och de deltagare som anmälts till evenemanget från databasen.",
       "text3": "Följande evenemang kommer att ställas in:",
-      "textPastEventAreNotUpdated": "Notera att ändringarna bara gäller för seriens kommande evenemang. Tidigare evenemang påverkas inte om huvudevenemanget ställs in.",
-      "title": "Bekräfta att evenemanget ställs in",
-      "titlePastEventAreNotUpdated": "Seriens tidigare evenemang ställs inte in",
-      "warning": "Notera att du också kan ordna evenemanget på distans istället för att ställa in. Välj “Internet” som evenamangsplats i redigeringsformuläret. Du kan också skjuta upp evenemanget."
+      "textPastEventAreNotUpdated": "Observera att ändringarna endast gäller framtida evenemang i serien. Evenemang i det förflutna kommer inte att avbokas när du avbokar ett paraplyevenemang.",
+      "title": "Bekräfta annullering av evenemang",
+      "titlePastEventAreNotUpdated": "Tidigare evenemang i serien kommer inte att ställas in",
+      "warning": "Istället för att avboka kan du också arrangera evenemanget på distans. Välj alternativet “internet” på evenemangsformuläret. Du har också möjlighet att skjuta upp evenemanget."
     },
     "deleteEventModal": {
-      "buttonDelete": "Radera evenemanget",
-      "text1": "Den här funktionen raderar bort evenemanget permanent.",
-      "text2": "När du accepterar raderingen av evenemanget kommer registreringsformuläret som är relaterat till evenemanget och deltagarna som registrerats för evenemanget att raderas från databasen.",
-      "text3": "Vid behov kan du också ställ in eller skjuta upp evenemanget.",
-      "text4": "Följande evenemang kommer att raderas:",
-      "title": "Bekräfta raderingen av evenemanget"
+      "buttonDelete": "Ta bort evenemang",
+      "text1": "Denna åtgärd kommer att permanent ta bort evenemanget.",
+      "text2": "När du godkänner att evenemanget raderas kommer registreringsformuläret för evenemanget och de deltagare som är registrerade för evenemanget att raderas från databasen.",
+      "text3": "Om det behövs kan du ställa in eller skjuta upp evenemanget.",
+      "text4": "Följande evenemang kommer att strykas:",
+      "title": "Bekräfta radering av evenemang"
     },
     "editEventTimeModal": {
-      "buttonSave": "Spara ändringarna",
-      "title": "Redigera tidpunkten"
+      "buttonSave": "Spara ändringar",
+      "title": "Justera datum"
     },
     "eventStatus": {
-      "eventCancelled": "Inställt",
+      "eventCancelled": "Avbokad",
       "eventPostponed": "Uppskjuten",
-      "eventRescheduled": "Ombokat",
-      "eventScheduled": "Bokat"
+      "eventRescheduled": "Omdisponerad",
+      "eventScheduled": "Schemalagd"
     },
     "extlink": {
       "facebook": "Facebook",
@@ -409,16 +409,16 @@
       "whatsapp": "WhatsApp"
     },
     "form": {
-      "buttonAcceptAndPublish": "Godkänn och publicera",
+      "buttonAcceptAndPublish": "Bekräfta och publicera",
       "buttonAddEventTime": {
-        "course": "Lägg till en ny kursstid",
-        "general": "Lägg till en ny evenemangstid",
-        "volunteering": "Lägg till en ny volontärarbetestid"
+        "course": "Lägg till tid för kurs",
+        "general": "Lägg till tid för evenemang",
+        "volunteering": "Lägg till tid för volontärarbete"
       },
       "buttonAddImage": {
-        "course": "Lägg till kursens bild",
-        "general": "Lägg till evenemangets bild",
-        "volunteering": "Lägg till volontärarbetets bild"
+        "course": "Lägg till bild för kurs",
+        "general": "Lägg till bild för evenemang",
+        "volunteering": "Lägg till bild för volontärarbete"
       },
       "buttonAddOffer": "Lägg till annan prisinformation",
       "buttonAddRecurringEvent": {
@@ -427,91 +427,91 @@
         "volunteering": "Lägg till återkommande volontärarbete"
       },
       "buttonAddRegistration": {
-        "course": "Lägg till registrering för kursen",
-        "general": "Lägg till registrering för evenemanget",
-        "volunteering": "Lägg till registrering för volontärarbetet"
+        "course": "Lägg till registrering för kurs",
+        "general": "Lägg till registrering för evenemang",
+        "volunteering": "Lägg till registrering för volontärarbete"
       },
       "buttonAddVideo": "Lägg till andra video",
-      "buttonCancel": "Ställ in evenemang",
+      "buttonCancel": "Avbryt evenemang",
       "buttonCopy": "Kopiera som mall",
-      "buttonDelete": "Radera evenemang",
-      "buttonDeleteEventTime": "Ta bort tidpunkt",
+      "buttonDelete": "Ta bort evenemang",
+      "buttonDeleteEventTime": "Ta bort tid",
       "buttonDeleteExternalLink": "Ta bort SoMe-länken",
-      "buttonDeleteOffer": "Ta bort prisuppgift",
+      "buttonDeleteOffer": "Ta bort prisinformation",
       "buttonDeleteRecurringEvent": "Ta bort återkommande evenemang",
       "buttonDeleteVideo": "Ta bort video",
-      "buttonEdit": "Redigera evenemanget",
+      "buttonEdit": "Redigera evenemang",
       "buttonOpenRecurringEventSettings": {
-        "course": "Öppna inställningarna för återkommande kurser",
-        "general": "Öppna inställningarna för återkommande evenemang",
-        "volunteering": "Öppna inställningarna för återkommande volontärarbetet"
+        "course": "Inställningar för öppna återkommande kurser",
+        "general": "Öppna inställningar för återkommande evenemang",
+        "volunteering": "Öppna inställningar för återkommande volontärarbete"
       },
       "buttonPanel": {
-        "warningNoRightsToCreate": "Du har inte rättigheter att skapa det här evenemanget.",
-        "warningNoRightsToPublish": "Du har inte rättigheter att publicera det här evenemanget.",
-        "warningNotAuthenticated": "Om du vill publicera evenemanget måste du först logga in."
+        "warningNoRightsToCreate": "Du har inte tillstånd att skapa detta evenemang.",
+        "warningNoRightsToPublish": "Du har inte tillstånd att publicera detta evenemang.",
+        "warningNotAuthenticated": "Om du vill publicera detta evenemang måste du först logga in."
       },
-      "buttonPostpone": "Skjut upp",
-      "buttonSendEmail": "Skicka epost",
+      "buttonPostpone": "Skjut upp evenemang",
+      "buttonSendEmail": "Skicka e-post",
       "buttonPublish": {
-        "course": "Publicera kursen",
-        "general": "Publicera evenemanget",
-        "volunteering": "Publicera volontärarbetet"
+        "course": "Publicera kurs",
+        "general": "Publicera evenemang",
+        "volunteering": "Publicera volontärarbete"
       },
       "buttonRemoveImage": {
-        "course": "Ta bort kursens bild",
-        "general": "Ta bort evenemangets bild",
-        "volunteering": "Ta bort volontärarbetets bild"
+        "course": "Ta bort bilden av kursen",
+        "general": "Ta bort bilden av evenemanget",
+        "volunteering": "Ta bort bilden av volontärarbetet"
       },
       "buttonSaveDraft": "Spara utkast",
       "buttonUpdateDraft": "Spara utkast",
       "buttonUpdatePublic": "Spara ändringar",
-      "checkboxIsVerified": "Jag verifierar att informationen jag har gett är korrekt och jag förbinder mig att följa <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"alla instruktioner och föreskrifter {{openInNewTab}}\">alla instruktioner och föreskrifter</a> som gäller Helsingfors stads kurser och evenemang.",
-      "eventDraftStateInfo": "Den sparade informationen kommer automatiskt att vara synlig även för moderatorn. Informationen kan dock redigeras fram till dess att moderatorn publicerar evenemanget. Det senare kan undvikas genom att skriva \"OFULLBORDAD\" i början av evenemangets titel medan redigeringen pågår.",
+      "checkboxIsVerified": "Jag intygar att de uppgifter jag lämnat är korrekta och jag förbinder mig att följa <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"alla instruktioner och bestämmelser {{openInNewTab}}\">alla instruktioner och bestämmelser</a> gällande Helsingfors stads kurser och evenemang.",
+      "eventDraftStateInfo": "Den sparade informationen kommer automatiskt att vara synlig även för moderatorn. Informationen kan dock redigeras fram till dess att moderatorn publicerar evenemanget. Det senare kan undvikas genom att skriva \"KESKENERÄINEN\" i början av evenemangets titel medan redigeringen pågår.",
       "editButtonPanel": {
-        "warningCancelledEvent": "Avbrutna evenemang kan inte redigeras.",
-        "warningCannotCancelDraft": "Evenemangs utkast kan inte avbrytas.",
-        "warningCannotPostponeDraft": "Evenemangs utkast kan inte skjutas upp.",
-        "warningCannotPublishSubEvent": "Ett underevenemang i en serie kan inte publiceras.",
+        "warningCancelledEvent": "Avbokade evenemang kan inte redigeras.",
+        "warningCannotCancelDraft": "Evenemangsutkast kan inte annulleras.",
+        "warningCannotPostponeDraft": "Evenemangsutkast kan inte skjutas upp.",
+        "warningCannotPublishSubEvent": "En delevenemang i en serie kan inte publiceras.",
         "warningDeletedEvent": "Raderade evenemang kan inte redigeras.",
-        "warningEventInPast": "Tidigare evenemnag kan inte redigeras.",
+        "warningEventInPast": "Tidigare evenemang kan inte redigeras.",
         "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta evenemang.",
-        "warningNoEmailFound": "E-postadressen som är kopplad till denna evenemang kunde inte hittas"
+        "warningNoEmailFound": "Det gick inte att hitta någon e-postadress kopplad till detta evenemang."
       },
-      "helperUmbrellaEvent": "Notera. Ett huvudevenemang måste skapas innan du kan lägga till underevenemangen till det.",
+      "helperUmbrellaEvent": "Observera! Ett paraplyevenemang måste skapas innan du kan lägga till underevenemang till det.",
       "infoTextAttendeeCapacity": {
         "course": "Om antalet deltagare i kursen är begränsat, ange lägsta och högsta antal deltagare här.",
         "general": "Om antalet deltagare i evenemanget är begränsat, ange lägsta och högsta antal deltagare här.",
         "volunteering": "Om antalet deltagare i volontärarbetet är begränsat, ange lägsta och högsta antal deltagare här."
       },
-      "infoTextAttendeeCapacityUserUnknown": "Om evenemangets deltagarantal inte är begränsat på något sätt, ange en grov uppskattning av det maximala antalet deltagare. (Denna information kommer att användas för statistiska ändamål).",
+      "infoTextAttendeeCapacityUserUnknown": "Om antalet deltagare i evenemanget inte begränsas på något sätt, gör en grov uppskattning av det maximala antalet deltagare. (Denna information kommer att användas för statistiska ändamål).",
       "infoTextAudience": {
-        "course": "Om kursen inte har en specifik målgrupp lämnar du valet tomt.",
-        "general": "Om evenemanget inte har en specifik målgrupp lämnar du valet tomt.",
-        "volunteering": "Om volontärarbetet inte har en specifik målgrupp lämnar du valet tomt."
+        "course": "Om kursen inte har en specifik målgrupp måste du lämna valet omarkerat.",
+        "general": "Om evenemanget inte har en specifik målgrupp måste du lämna markeringen omarkerad.",
+        "volunteering": "Om volontärarbetet inte har en specifik målgrupp måste du lämna valet omarkerat."
       },
       "infoTextAudienceAge": {
-        "course": "Om åldersbegränsningar gäller för kursen, ställ in lägsta och högsta åldersgräns här.",
-        "general": "Om åldersbegränsningar gäller för evenemanget, ställ in lägsta och högsta åldersgräns här.",
-        "volunteering": "Om åldersbegränsningar gäller för volontärarbetet, ställ in lägsta och högsta åldersgräns här."
+        "course": "Om åldersgränser gäller för kursen, ange lägsta och högsta åldersgräns här.",
+        "general": "Om åldersgränser gäller för evenemanget, ange lägsta och högsta åldersgräns här.",
+        "volunteering": "Om åldersgränser gäller för volontärarbetet, ange lägsta och högsta åldersgräns här."
       },
       "infoTextDescription": {
         "course": {
-          "paragraph1": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om kursen kortfattat.",
+          "paragraph1": "En kort beskrivning visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar kortfattat de viktigaste sakerna om kursen.",
           "paragraph2": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i kursen.",
-          "paragraph3": "Anteckna även kursens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär."
+          "paragraph3": "Registrera även kursens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara ca 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora den information som fylls i detta formulär."
         },
         "general": {
           "paragraph1": "Beskrivningstexten innehåller språkversioner: finska och engelska, eventuellt även svenska. <strong>Innehåll som specifikt riktar sig till besökare måste vara på minst finska och engelska.</strong>",
           "paragraph2": "En kort beskrivning visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den förklarar det viktigaste om händelsen på ett kortfattat sätt.",
-          "paragraph3": "Beskrivningen är en längre och mer detaljerad förklaring av innehållet i evenemanget.",
-          "paragraph4": "Texten innehåller inte felstavningar, omljud, superlativ eller \"vi\"-formen, eftersom den då hänvisar till staden Helsingfors, inte till själva evenemanget.",
+          "paragraph3": "En beskrivning är en längre och mer detaljerad förklaring av innehållet i evenemanget.",
+          "paragraph4": "Texten får inte innehålla felstavningar, omljud, superlativ och superlativ eller formen \"vi\", eftersom den då hänvisar till staden Helsingfors, inte till själva evenemanget.",
           "paragraph5": "Dessutom måste evenemangets innehåll följa Helsingfors stads riktlinjer, dvs. staden publicerar inte:",
           "exclusions": [
-            "Politiska händelser (demonstrationer, radikala händelser i samband med val eller krig etc.)",
+            "Politiska evenemang (demonstrationer, radikala evenemang i samband med val eller krig etc.).",
             "religiösa evenemang (gudstjänster, böner, även om konserter ingår i kalendern)",
-            "online-evenemang som inte är relaterade till Helsingfors eller huvudstadsregionen",
-            "evenemang i en privatbostad",
+            "online-evenemang som inte har anknytning till Helsingfors eller huvudstadsregionen",
+            "evenemang som äger rum i en privatbostad",
             "inte öppna för alla, t.ex. evenemang för yrkesverksamma eller investerare",
             "middag utan program; att bara äta är inte ett evenemang i sig",
             "Insamlingsevenemang (med undantag för välgörenhetsevenemang, där det finns ett program)",
@@ -519,80 +519,80 @@
           ]
         },
         "volunteering": {
-          "paragraph1": "Den korta beskrivningen visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar de viktigaste sakerna om volontärarbetet kortfattat.",
+          "paragraph1": "En kort beskrivning visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar kortfattat de viktigaste sakerna om volontärarbetet.",
           "paragraph2": "Beskrivningen är en längre och mer detaljerad beskrivning av innehållet i volontärarbetet.",
-          "paragraph3": "Anteckna även volontärens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara cirka 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora informationen i detta formulär."
+          "paragraph3": "Registrera även volontärens <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"ansvarsinformation {{openInNewTab}}\">ansvarsinformation</a>. Att fylla i formuläret tar bara ca 2 minuter och det öppnas i ett nytt fönster. Du kommer inte att förlora den information som fylls i detta formulär."
         }
       },
-      "infoTextEnvironmentalCertificate": "Om företaget eller evenemanget har ett certifikat är dess namn obligatorisk information (t.ex. ekokompass). Om det inte finns något certifikat lämnas certifikatfältet tomt.",
       "infoTextEnrolmentTime": {
-        "course": "Om det är möjligt att registrera sig för kursen, ange start- och sluttiderna för registreringen här.",
-        "general": "Om det är möjligt att registrera sig för evenemanget, ange start- och sluttiderna för registreringen här.",
-        "volunteering": "Om det är möjligt att registrera sig för volontärarbetet, ange start- och sluttiderna för registreringen här."
+        "course": "Om det är möjligt att registrera sig för kursen, ange start- och sluttid för registreringen här.",
+        "general": "Om det är möjligt att registrera sig för evenemanget, ange start- och sluttider för registreringen här.",
+        "volunteering": "Om det är möjligt att registrera sig för volontärarbetet, ange start- och sluttid för registreringen här."
       },
+      "infoTextEnvironmentalCertificate": "Om företaget eller evenemanget har ett certifikat, är dess namn obligatorisk information (t.ex. ecocompass). Om det inte finns något certifikat lämnas certifikatfältet tomt.",
       "infoTextEventTimes1": {
-        "course": "För att lägga till en flerdagars återkommande kurs finns det knappen Lägg till ny tid och ett vanligt återkommande kursverktyg för en regelbundet återkommande kurs.",
-        "general": "För att lägga till ett flerdagars återkommande evenemang finns det knappen Lägg till ny tid och ett vanligt återkommande evenemangverktyg för ett regelbundet återkommande evenemang.",
-        "volunteering": "För att lägga till ett flerdagars återkommande volontärarbete finns det knappen Lägg till ny tid och ett vanligt återkommande volontärarbeteverktyg för ett regelbundet återkommande volontärarbete."
+        "course": "För att lägga till en återkommande kurs som sträcker sig över flera dagar finns det en knapp \"Lägg till kursdatum\" och ett verktyg \"Återkommande evenemang\" för en regelbundet återkommande kurs.",
+        "general": "För att lägga till ett återkommande evenemang som sträcker sig över flera dagar finns det en knapp \"Lägg till evenemangsdatum\" och ett verktyg \"Återkommande evenemang\" för ett regelbundet återkommande evenemang.",
+        "volunteering": "För att lägga till ett återkommande volontärarbete som sträcker sig över flera dagar finns det en knapp \"Lägg till volontärarbetedatum\" och ett verktyg för \"Återkommande evenemang\" för ett regelbundet återkommande volontärarbete."
       },
       "infoTextEventTimes2": {
-        "course": "Ange startdatumet för kursen och även starttiden om kursen börjar vid en viss tidpunkt.",
-        "general": "Ange startdatumet för evenemanget och även starttiden om evenemanget börjar vid en viss tidpunkt.",
-        "volunteering": "Ange startdatumet för volontärarbetet och även starttiden om volontärarbetet börjar vid en viss tidpunkt."
+        "course": "Ange starttid för kursen och även starttid om kursen startar vid en viss tidpunkt.",
+        "general": "Ange starttid för evenemanget och även starttid om evenemanget startar vid en viss tidpunkt.",
+        "volunteering": "Ange starttid för volontärarbetet och även starttid om volontärarbetet börjar vid en viss tidpunkt."
       },
       "infoTextEventTimes3": {
-        "course": "Ange också sluttid samt sluttid om kursen slutar vid en viss tidpunkt.",
-        "general": "Ange också sluttid samt sluttid om evenemanget slutar vid en viss tidpunkt.",
-        "volunteering": "Ange också sluttid samt sluttid om volontärarbetet slutar vid en viss tidpunkt."
+        "course": "Ange också slutdatum och sluttid om kursen slutar vid en viss tidpunkt.",
+        "general": "Ange även slutdatum och sluttid om evenemanget avslutas vid en viss tidpunkt.",
+        "volunteering": "Ange också slutdatum och sluttid om volontärarbetet avslutas vid en viss tidpunkt."
       },
       "infoTextEventTimes4": {
-        "course": "Om kursen hålls mer än en gång kan du lägga till nya tid i kursen. Om kursen upprepas regelbundet kan du lägga till alla gånger samtidigt genom att välja Återkommande kurs.",
-        "general": "Om evenemanget hålls mer än en gång kan du lägga till nya tid i evenemanget. Om evenemanget upprepas regelbundet kan du lägga till alla gånger samtidigt genom att välja Återkommande evenemang.",
-        "volunteering": "Om volontärarbetet hålls mer än en gång kan du lägga till nya tid i volontärarbetet. Om volontärarbetet upprepas regelbundet kan du lägga till alla gånger samtidigt genom att välja Återkommande volontärarbete."
+        "course": "Om kursen hålls mer än en gång kan du lägga till nya tid för kursen. Om kursen upprepas regelbundet kan du lägga till alla tider på en gång genom att välja Återkommande kurs.",
+        "general": "Om evenemanget hålls mer än en gång kan du lägga till nya tid för evenemanget. Om evenemanget upprepas regelbundet kan du lägga till alla tider på en gång genom att välja Återkommande evenemang.",
+        "volunteering": "Om volontärarbetet utförs mer än en gång kan du lägga till nya tid för volontärarbetet. Om volontärarbetet upprepas regelbundet kan du lägga till alla tider på en gång genom att välja Återkommande volontärarbete."
       },
-      "infoTextEventTimes5": "För att radera en extra tid, välj minussymbolen bredvid tiden.",
+      "infoTextEventTimes5": "För att ta bort en extra tid, välj minusikonen bredvid tiden.",
       "infoTextImage1": {
-        "course": "Försök alltid hitta en bild för kursen. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras ganska fritt, eller \"Använd begränsad till kursen \".",
-        "general": "Försök alltid hitta en bild för evenemanget. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras ganska fritt, eller \"Använd begränsad till evenemanget \".",
-        "volunteering": "Försök alltid hitta en bild för volontärarbetet. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras ganska fritt, eller \"Använd begränsad till volontärarbetet \"."
+        "course": "Försök alltid att hitta en bild för kursen. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras helt fritt, eller \"Användning begränsad till kursen\".",
+        "general": "Försök alltid att hitta en bild för evenemanget. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras helt fritt, eller \"Användning begränsad till evenemanget\".",
+        "volunteering": "Försök alltid att hitta en bild för volontärarbetet. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras helt fritt, eller \"Användning begränsad till volontärarbetet\"."
       },
-      "infoTextImage2": "Innan du laddar upp, redigerar du bilden så att den passar internet och i ett horisontellt bildförhållande 3: 2, till exempel 1200 × 800 pixlar. Det är viktigt att filstorleken förblir rimlig även för mobil användning, helst mindre än 200 kilobyte (kb).",
-      "infoTextImage3": "Ge bilden ett namn och beskriv kort vad som händer i den.",
-      "infoTextImage4": "Alt-text förbättrar tillgängligheten eftersom skärmläsare skickar alt-text till användaren. Så beskriv innehållet i bilden på ett förståeligt sätt.",
+      "infoTextImage2": "Innan du laddar upp bilden ska du redigera den så att den passar för internetanvändning och använda ett horisontellt bildförhållande på 3:2, t.ex. 1200 × 800 px. Det är viktigt att filstorleken är rimlig för mobil användning, helst mindre än 200 kilobyte (kb).",
+      "infoTextImage3": "Namnge bilden och ge en kort beskrivning av vad bilden innehåller.",
+      "infoTextImage4": "Alt-text förbättrar tillgängligheten eftersom skärmläsare förmedlar alt-text till användaren. Beskriv alltså innehållet i bilden på ett begripligt sätt.",
       "infoTextInfoLanguages": {
-        "course": "Välj de språk som kursinformationen matas in på.",
-        "general": "Välj vilka språk du vill använda för att beskriva evenemangsinformationen i Linked Events. <strong>Innehåll som riktar sig specifikt till besökare måste finnas på minst finska och engelska.</strong>",
-        "volunteering": "Välj de språk som volontärarbetesinformation matas in på."
+        "course": "Välj de språk som ska användas för att mata in kursinformation för denna tjänst.",
+        "general": "Välj de språk du vill använda för att beskriva evenemangsinformationen i Linked Events. <strong>Innehåll som är särskilt riktat till besökare måste finnas på åtminstone finska och engelska.</strong>",
+        "volunteering": "Välj de språk som ska användas för att mata in volontärarbetesinformation för denna tjänst."
       },
       "infoTextInLanguages": {
-        "course": "Välj de språk det kommuniceras på under kursen.",
-        "general": "Välj de språk det kommuniceras på under evenemanget.",
-        "volunteering": "Välj de språk det kommuniceras på under volontärarbetet."
+        "course": "Välj de språk som används för att kommunicera under kursen.",
+        "general": "Välj de språk som används för att kommunicera under evenemanget.",
+        "volunteering": "Välj de språk som användes för att kommunicera under volontärarbetet."
       },
       "infoTextKeywords": {
-        "course": "Lägg till minst ett nyckelord för kursen som bäst beskriver dess tema. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till från listan nedan.",
-        "general": "Lägg till minst ett nyckelord för evenemanget som bäst beskriver dess tema. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till från listan nedan.",
-        "volunteering": "Lägg till minst ett nyckelord för volontärarbetet som bäst beskriver dess tema. Börja skriva ett nyckelord och välj det nyckelord som du vill lägga till från listan nedan."
+        "course": "Lägg till minst ett nyckelord i kursen som bäst beskriver kursens tema. Börja skriva ett nyckelord och välj det nyckelord du vill lägga till i listan nedan.",
+        "general": "Lägg till minst ett nyckelord till evenemanget som bäst beskriver evenemangets tema. Börja skriva ett nyckelord och välj det nyckelord du vill lägga till i listan nedan.",
+        "volunteering": "Lägg till minst ett nyckelord i volontärarbetet som bäst beskriver volontärarbetets tema. Börja skriva ett nyckelord och välj det nyckelord du vill lägga till i listan nedan."
       },
-      "infoTextLocation1": "Ange platsens namn eller gatuadress i platsfältet och välj rätt plats i listan. Sökresultaten sorteras efter antalet evenemang.",
+      "infoTextLocation1": "Ange lokalens namn eller gatuadress i fältet och välj rätt lokal från listan. Sökresultaten är sorterade efter antalet evenemang.",
       "infoTextLocation2": {
-        "course": "Om kursen bara hålls på distans på Internet, välj “Internet” som plats. Webbadressen till kursen ska anges i fältet hemsida och/eller sociala medier.",
-        "general": "Om evenemanget bara hålls på distans på Internet, välj “Internet” som plats. Webbadressen till evenemanget ska anges i fältet hemsida och/eller sociala medier.",
-        "volunteering": "Om volontärarbetet bara hålls på distans på Internet, välj “Internet” som plats. Webbadressen till volontärarbetet ska anges i fältet hemsida och/eller sociala medier."
+        "course": "Om kursen endast hålls på distans via Internet, välj Internet som plats. Kursens URL anges i fältet startsida och/eller i fältet Kursen på sociala medier.",
+        "general": "Om evenemanget endast hålls på distans på Internet, välj Internet som plats. Evenemangets URL anges i fältet startsida och/eller evenemanget på sociala medier.",
+        "volunteering": "Om volontärarbetet endast sker på distans via Internet, välj Internet som plats. Volontärarbetets URL anges i fältet Startsida och/eller i fältet Volontärarbete på sociala medier."
       },
-      "infoTextLocation3": "Om platsen finns i listan behöver dess plats inte beskrivas separat. Du kan dock ge ytterligare information för att hitta platsen, till exempel våningsnummer eller klassrumsnamn.",
-      "infoTextLocation4": "Om den exakta platsen inte finns i listan, välj närmaste gatuadress som plats och ange platsens namn eller andra detaljerade ankomstinstruktioner i fältet för ytterligare information.",
-      "infoTextLocation5": "Om platsinformationen har ändrats, uppdatera den i platsregistret. För tjänster utanför staden, lägg till eller uppdatera information i tjänsten <a href=\"https://kaupunkialustana.hel.fi/sv/\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Stadsplattform {{openInNewTab}}\">Stadsplattform</a>.",
-      "infoTextLocation6": "Välj var evenemanget huvudsakligen kommer att äga rum från alternativen Inomhus/Utomhus.",
+      "infoTextLocation3": "Om lokalen finns med i listan behöver dess läge inte beskrivas separat. Du kan dock ange ytterligare information för att hitta lokalen, t.ex. våningsnummer eller klassrumsnamn.",
+      "infoTextLocation4": "Om den exakta platsen inte finns i listan, välj närmaste gatuadress som plats, ange namnet på platsen eller andra korta ankomstinstruktioner i fältet för ytterligare information.",
+      "infoTextLocation5": "Om platsinformationen har ändrats, uppdatera den i platsregistret. För andra tjänster än staden, lägg till eller uppdatera informationen i tjänsten <a href=\"https://kaupunkialustana.hel.fi/sv/\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Stadsplattform {{openInNewTab}}\">Stadsplattform</a>.",
+      "infoTextLocation6": "Välj var evenemanget huvudsakligen kommer att äga rum från alternativen Inomhus/utomhus.",
       "infoTextMainCategories": {
-        "course": "Välj minst en huvudkategori. Rätt huvudkategori gör det lättare att hitta kursen.",
-        "general": "Välj minst en huvudkategori. Rätt huvudkategori gör det lättare att hitta evenemanget.",
-        "volunteering": "Välj minst en huvudkategori. Rätt huvudkategori gör det lättare att hitta volontärarbetet."
+        "course": "Välj minst en huvudkategori. Om du använder rätt huvudkategorier blir det lättare att hitta kursen.",
+        "general": "Välj minst en huvudkategori. Om du använder rätt huvudkategorier blir det lättare att hitta evenemanget.",
+        "volunteering": "Välj minst en huvudkategori. Om du använder rätt huvudkategorier blir det lättare att hitta frivilligarbetet."
       },
       "infoTextOffers1": {
-        "course": "Ange om kursen är gratis. Ange pris i form “5€” för kurs som kostar.",
-        "general": "Ange om evenemanget är gratis. Ange pris i form “5€” för evenemang som kostar.",
-        "volunteering": "Ange om volontärarbetet är gratis. Ange pris i form “5€” för volontärarbet som kostar."
+        "course": "Ange om kursen är kostnadsfri. Ange ett pris i formen \"5 €\" för en betald kurs.",
+        "general": "Ange om evenemanget är kostnadsfritt. Ange ett pris i formatet \"5 €\" för ett betalt evenemang.",
+        "volunteering": "Ange om volontärarbetet är kostnadsfritt. Ange ett pris i formatet \"5 €\" för betald volontärverksamhet."
       },
       "infoTextOffers2": {
         "course": "Om kursen har flera priser klickar du på “Lägg till annan prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”.",
@@ -600,89 +600,89 @@
         "volunteering": "Om volontärarbetet har flera priser klickar du på “Lägg till annan prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”."
       },
       "infoTextProvider": {
-        "course": "Ange namnet på organisationen som är värd för kursen om arrangören inte är densamma som utgivaren.",
-        "general": "Ange namnet på organisationen som är värd för evenemanget om arrangören inte är densamma som utgivaren.",
-        "volunteering": "Ange namnet på organisationen som är värd för volontärarbetet om arrangören inte är densamma som utgivaren."
+        "course": "Ange namnet på den organisation som arrangerar kursen om arrangören inte är densamma som utgivaren.",
+        "general": "Ange namnet på den organisation som arrangerar evenemanget om arrangören inte är densamma som utgivaren.",
+        "volunteering": "Ange namnet på den organisation som arrangerar volontärarbetet om arrangören inte är densamma som utgivaren."
       },
       "infoTextPublication": {
         "paragraph1": {
-          "general": "Publicerad information måste vara intressant för invånare och/eller besökare och vara lokaliserad i storstadsområdet. ",
-          "course": "Publicerad information måste vara intressant för invånare och/eller besökare och vara lokaliserad i storstadsområdet. ",
-          "volunteering": "Publicerad information måste vara intressant för invånare och/eller besökare och vara lokaliserad i storstadsområdet. "
+          "general": "Publicerad information måste vara intressant för invånare och/eller besökare och vara belägen i huvudstadsområdet.",
+          "course": "Publicerad information måste vara intressant för invånare och/eller besökare och vara belägen i huvudstadsområdet.",
+          "volunteering": "Publicerad information måste vara intressant för invånare och/eller besökare och vara belägen i huvudstadsområdet."
         },
         "paragraph2": "Vilken typ av evenemang du väljer kan publiceras i följande kanaler:",
-        "paragraph3": "eller via gränssnittet för andra tjänster",
+        "paragraph3": "eller via gränssnittet på andra tjänster.",
         "paragraph4": {
-          "general": "Vänligen ange endast evenemangs som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
-          "course": "Vänligen ange endast hobbyinformation som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
-          "volunteering": "Vänligen ange endast evenemangs som ännu inte har publicerats på någon av de tjänster som nämns ovan."
+          "course": "Ange endast hobbyinformation som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
+          "general": "Ange endast information om evenemang som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
+          "volunteering": "Ange endast information om volontärarbetet som ännu inte har publicerats på någon av de tjänster som nämns ovan."
         },
         "paragraph5": "Det evenemang som ska modereras måste tillkännages minst en vecka före evenemanget."
       },
       "infoTextPublisher": {
-        "course": "Välj den organisation som ska visas som kurssutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
-        "general": "Välj den organisation som ska visas som evenemangsutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation.",
-        "volunteering": "Välj den organisation som ska visas som volontärarbetesutgivare. Du behöver inte göra ett val om du bara har publiceringsrättigheter för en organisation."
+        "course": "Välj den organisation som ska visas som kursutgivare. Du behöver inte göra något val om du bara har rättigheter att publicera under en organisation.",
+        "general": "Välj den organisation som ska visas som utgivare av evenemanget. Du behöver inte göra något val om du bara har rättigheter att publicera under en organisation.",
+        "volunteering": "Välj den organisation som ska visas som utgivare av volontärarbetet. Du behöver inte göra något val om du bara har rättigheter att publicera under en organisation."
       },
       "infoTextSocialMedia": {
-        "course": "Frivillig. I URL-fältet anger du SoMe-länkarna för kursen.",
-        "general": "Frivillig. I URL-fältet anger du SoMe-länkarna för evenemangen.",
-        "volunteering": "Frivillig. I URL-fältet anger du SoMe-länkarna för volortararbetet."
+        "course": "Valfritt. Ange SoMe-länkarna för kursen i URL-fältet.",
+        "general": "Valfritt. Ange SoMe-länkarna för evenemanget i URL-fältet.",
+        "volunteering": "Valfritt. Ange SoMe-länkarna för volontärarbetet i URL-fältet."
       },
-      "infoTextType1": "Är det ett evenemang eller en kurs? Evenemang är ett engångstillfälle och börjar vid en viss tidpunkt, medan en kurs kan ha flera evenemang och aktiviteterna är i allmänhet målinriktade. I vissa fall kallas kurser också för hobbyer.",
-      "infoTextType2": "Valet av evenemangstyp påverkar hur och i vilka tjänster evenemangen visas för användaren.",
-      "infoTextUmrellaEvent1": "Flera olika evenemang kan grupperas under huvudevenemangen. Till exempel kan en festival vara ett huvudevenemang med flera evenemang under sig.",
-      "infoTextUmrellaEvent2": "Huvudevenemangalternativ kan lämnas omarkerade i de flesta fall",
-      "infoTextUmbrellaSubEvent": "Om du vill lägga till detta evenemang under ett huvudevenemang kan du göra det från tillhörande",
-      "infoTextUmbrellaSubEventLink": "toppnivåevenemanget",
+      "infoTextType1": "Anger du ett evenemang eller en kurs? Ett evenemang är en engångsföreteelse och börjar vid en viss tidpunkt, medan en kurs kan ha flera evenemang och aktiviteterna är i allmänhet målinriktade. I vissa fall kallas kurser även för hobbies.",
+      "infoTextType2": "Valet av evenemangstyp påverkar hur och i vilka tjänster evenemanget visas för användaren.",
+      "infoTextUmrellaEvent1": "Flera olika evenemang kan grupperas under paraplyevenemanget. Till exempel kan en festival vara ett paraplyevenemang med flera evenemang under.",
+      "infoTextUmrellaEvent2": "Alternativ för paraplyevenemang kan lämnas utan markering i de flesta fall",
+      "infoTextUmbrellaSubEvent": "Om du vill lägga till detta evenemang under ett paraplyevenemang kan du göra det från den tillhörande",
+      "infoTextUmbrellaSubEventLink": "evenemang på högsta nivå",
       "infoTextVideo1": {
         "course": "Om kursen har en video kan du lägga till dess URL här.",
         "general": "Om evenemanget har en video kan du lägga till dess URL här.",
-        "volunteering": "Om volotärarbetet har en video kan du lägga till dess URL här."
+        "volunteering": "Om det finns en video till volontärarbetet kan du lägga till webbadressen här."
       },
       "infoTextVideo2": "Namnge videon och ge en kort beskrivning av innehållet.",
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
       "labelDescription": {
-        "course": "Kursensbeskrivning {{langText}}",
-        "general": "Evenemangsbeskrivning {{langText}}",
-        "volunteering": "Volontärarbetetsbeskrivning {{langText}}"
+        "course": "Beskrivning av kursen {{langText}}",
+        "general": "Beskrivning av evenemanget {{langText}}",
+        "volunteering": "Beskrivning av volontärarbetet {{langText}}"
       },
-      "labelHasEnvironmentalCertificate": "Evenemanget ett Ekokompassi-certifikat eller en liknande miljöcertifiering",
+      "labelHasEnvironmentalCertificate": "Evenemanget har fått en Ekokompass eller liknande miljöcertifiering",
       "labelEmail": "E-postadress",
       "labelEnvironment": "Evenemanget hålls",
       "labelEnvironmentalCertificate": "Certifikatets namn",
       "labelEndDate": {
         "course": "Kursen avslutas",
         "general": "Evenemanget avslutas",
-        "volunteering": "Volontärarbetet avslutas"
+        "volunteering": "Volontärarbete upphör"
       },
       "labelEndTime": "Sluttid",
       "labelEnrolmentEndTimeDate": "Registreringen avslutas",
       "labelEnrolmentEndTimeTime": "Registreringen avslutas kl",
       "labelEnrolmentStartTimeDate": "Registreringen börjar",
       "labelEnrolmentStartTimeTime": "Registreringen börjar kl",
-      "labelExternalLink": "SoMe-länkstyp och URL",
+      "labelExternalLink": "Typ av SoMe-länk och URL",
       "labelExternalLinkLink": {
-        "course": "Kursens Facebook-URL",
-        "general": "Evenemangets Facebook-URL",
-        "volunteering": "Volontärarbetets Facebook-URL"
+        "course": "Kursens URL {{name}}",
+        "general": "Evenemangets URL {{name}}",
+        "volunteering": "Volontärarbetets URL {{name}}"
       },
-      "labelExternalLinkName": "SoMe-länkstyp",
+      "labelExternalLinkName": "Typ av SoMe-länk",
       "labelHasPrice": {
         "course": "Kursen kräver betalning",
         "general": "Evenemanget kräver betalning",
-        "volunteering": "Volontärarbetet kräver betalning"
+        "volunteering": "Volontärarbete kräver betalning"
       },
       "labelHasUmbrella": {
-        "course": "Detta kurs har ett huvudevenemang.",
-        "general": "Detta evenemang har ett huvudevenemang.",
-        "volunteering": "Detta volontärarbete har ett huvudevenemang."
+        "course": "Denna kurs har ett paraplyevenemang.",
+        "general": "Detta evenemang har ett paraplyevenemang.",
+        "volunteering": "Detta volontärarbete har ett paraplyevenemang."
       },
       "labelInfoUrl": {
-        "course": "Webbadressen till kursens hemsida {{langText}}",
-        "general": "Webbadressen till evenemangets hemsida {{langText}}",
-        "volunteering": "Webbadressen till volontärarbetets hemsida {{langText}}"
+        "course": "URL till kursens hemsida {{langText}}",
+        "general": "URL till evenemangets hemsida {{langText}}",
+        "volunteering": "URL till volontärarbetets hemsida {{langText}}"
       },
       "labelIsRegistrationPlanned": {
         "course": "En Linked Registration-registrering kommer att skapas för kursen",
@@ -690,25 +690,25 @@
         "volunteering": "En Linked Registration-registrering kommer att skapas för volontärarbete"
       },
       "labelIsUmbrella": {
-        "course": "Detta kurs är ett huvudevenemang.",
-        "general": "Detta evenemang är ett huvudevenemang.",
-        "volunteering": "Detta volontärarbete är ett huvudevenemang."
+        "course": "Denna kurs är ett paraplyevenemang.",
+        "general": "Detta evenemang är ett paraplyevenemang.",
+        "volunteering": "Detta volontärarbete är ett paraplyarrangemang."
       },
       "labelKeywords": "Nyckelordssökning",
       "labelLocation": "Plats",
       "labelLocationExtraInfo": "{{langText}}",
-      "labelLocationId": "Plats ID:",
+      "labelLocationId": "Plats-ID:",
       "labelMaximumAttendeeCapacity": "Högsta antal deltagare",
-      "labelMinimumAttendeeCapacity": "Minsta antal deltagare",
+      "labelMinimumAttendeeCapacity": "Lägsta antal deltagare",
       "labelName": {
-        "course": "Kursens title {{langText}}",
-        "general": "Evenemangets title {{langText}}",
-        "volunteering": "Volontärarbetets title {{langText}}"
+        "course": "Kursens titel {{langText}}",
+        "general": "Evenemangets titel {{langText}}",
+        "volunteering": "Volontärarbete titel {{langText}}"
       },
       "labelNewExternalLinkLink": {
-        "course": "Kursens SoMe-länk-URL",
-        "general": "Evenemangets SoMe-länk-URL",
-        "volunteering": "Volontärarbetets SoMe-länk-URL"
+        "course": "Kursens URL för SoMe-länk",
+        "general": "URL till evenemangets SoMe-länk",
+        "volunteering": "URL till volontärarbetets SoMe-länk"
       },
       "labelNewExternalLinkName": "Typ av ny SoMe-länk",
       "labelOfferDescription": "{{langText}}",
@@ -717,15 +717,15 @@
       "labelOrganization": "Organisation",
       "labelPhoneNumber": "Telefonnummer",
       "labelProvider": {
-        "course": "Arrangör av kurs {{langText}} (om det skiljer sig från utgivaren)",
-        "general": "Arrangör av evenemang {{langText}} (om det skiljer sig från utgivaren)",
-        "volunteering": "Arrangör av volontärarbete {{langText}} (om det skiljer sig från utgivaren)",
-        "other": "Arrangör av evenemang {{langText}}"
+        "course": "Arrangör av kurs {{langText}} (om annan än utgivare)",
+        "general": "Arrangör av evenemant {{langText}} (om annan än utgivare)",
+        "volunteering": "Arrangör av volontärarbete {{langText}} (om annan än utgivare)",
+        "other": "Arrangör av evenemant {{langText}}"
       },
       "labelPublisher": {
-        "course": "Kursutgivare",
-        "general": "Evenemangsutgivare",
-        "volunteering": "Volontärarbetesutgivare"
+        "course": "Utgivare av kurs",
+        "general": "Utgivare av evenemang",
+        "volunteering": "Utgivare av volontärarbete"
       },
       "labelShortDescription": {
         "course": "Kort beskrivning {{langText}} (upp till 160 tecken)",
@@ -739,17 +739,17 @@
       },
       "labelStartTime": "Starttid",
       "labelTime": "Tid",
-      "labelUmbrellaEvent": "Huvudevenemang",
-      "labelUserConsent": "Jag har läst <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Stod-%20och%20radgivningstjanster%20till%20foretag%20samt%20turistradgivning.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Registerutdrag {{openInNewTab}}\">Registerutdrag</a> och ger mitt samtycke till användningen av mina uppgifter.",
+      "labelUmbrellaEvent": "Paraplyevenemang",
+      "labelUserConsent": "Jag har läst <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Enterprise%20Support%20and%20Advisory%20Services%20Tourist%20Information%20Services.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Dataskyddsbeskrivning {{openInNewTab}}\">Dataskyddsbeskrivning</a> och ger mitt samtycke till användningen av mina uppgifter.",
       "labelUserName": "Namn",
-      "labelVideoAltText": "Videons alt-text",
-      "labelVideoName": "Namn på videon",
-      "labelVideoUrl": "Videons URL-webaddress",
+      "labelVideoAltText": "Alt-text för video",
+      "labelVideoName": "Namn för video",
+      "labelVideoUrl": "URL för video",
       "linkGoToRegistration": "Gå till registrering",
       "modalTitleImage": {
-        "course": "Lägg till kursens bild",
-        "general": "Lägg till evenemangets bild",
-        "volunteering": "Lägg till volontärarbetets bild"
+        "course": "Lägg till bild på kurs",
+        "general": "Lägg till bild på evenemang",
+        "volunteering": "Lägg till bild på volontärarbete"
       },
       "modalTitleRecurringEvent": {
         "course": "Ange återkommande kurs",
@@ -762,26 +762,26 @@
       "notificationEventUpdated": "Evenemanget har sparats",
       "notificationTitleCannotEdit": "Evenemanget kan inte redigeras",
       "notificationTitleDescription": {
-        "course": "Kursbeskrivning",
-        "general": "Evenemangbeskrivning",
-        "volunteering": "Volontärarbetebeskrivning"
+        "course": "Beskrivning av kursen",
+        "general": "Beskrivning av evenemanget",
+        "volunteering": "Beskrivning av volontärarbetet"
       },
       "notificationTitleEnvironmentalCertificate": "Miljöcertifikat",
       "notificationTitleEventTimes": {
-        "course": "Kurstider",
-        "general": "Evenemamgtider",
-        "volunteering": "Volontärarbetetider"
+        "course": "Tider för kurs",
+        "general": "Tider för evenemang",
+        "volunteering": "Tider för volontärarbete"
       },
       "notificationTitleImage": {
-        "course": "Kursens bild",
-        "general": "Evenemangets bild",
-        "volunteering": "Volontärarbetets bild"
+        "course": "Bild relaterad till kursen",
+        "general": "Bild relaterad till evenemanget",
+        "volunteering": "Bild relaterad till volontärarbetet"
       },
       "notificationTitleLocation": "Evenemangsplats",
       "notificationTitleMainCategories": {
-        "course": "Klassificering av kurs",
-        "general": "Klassificering av evenemang",
-        "volunteering": "Klassificering av volontärarbete"
+        "course": "Klassificering av kursen",
+        "general": "Klassificering av evenemanget",
+        "volunteering": "Klassificering av volontärarbetet"
       },
       "notificationTitleOffers": "Prisinformation",
       "notificationTitleProvider": {
@@ -789,21 +789,21 @@
         "general": "Arrangör av evenemang",
         "volunteering": "Arrangör av volontärarbete"
       },
-      "notificationTitlePublication": "Offentliggörande",
+      "notificationTitlePublication": "Utgivning",
       "notificationTitlePublisher": {
         "course": "Kursutgivare",
         "general": "Evenemangsutgivare",
         "volunteering": "Volontärarbetesutgivare"
       },
-      "notificationTitleUmrellaEvent": "Huvudevenemang",
-      "notificationTitleType": "Evenemangstyp",
+      "notificationTitleType": "Typ av evenemang",
+      "notificationTitleUmrellaEvent": "Paraplyevenemang",
       "notificationTitleVideo": {
-        "course": "Video för kursen",
-        "general": "Video för evenemanget",
-        "volunteering": "Video för volontärarbetet"
+        "course": "Video av kurs",
+        "general": "Video av evenemang",
+        "volunteering": "Video av volontärarbete"
       },
       "notificationNotAuthenticated": {
-        "paragraph1": "Helsingfors stad publicerar avgiftsfritt information om evenemang i huvudstadsregionen, till exempel på tjänsterna <a href=\"https://tapahtumat.hel.fi/sv\" target=\"_blank\" rel=\"noreferrer\">Evenemangskalender</a> och <a href=\"https://harrastukset.hel.fi/sv\" target=\"_blank\" rel=\"noreferrer\">Hobbyer</a>. Evenemangsinformation kommer också att synas på andra digitala plattformar som använder stadens Linked Events-gränssnitt.",
+        "paragraph1": "Helsingfors stad publicerar kostnadsfritt information om evenemang i huvudstadsregionen, till exempel på tjänsterna <a href=\"https://tapahtumat.hel.fi\" target=\"_blank\" rel=\"noreferrer\">tapahtumat.hel.fi</a> och <a href=\"https://harrastukset.hel.fi\" target=\"_blank\" rel=\"noreferrer\">harrastukset.hel.fi</a>. Evenemangsinformationen kommer också att synas på andra digitala plattformar som använder stadens Linked Events-gränssnitt.",
         "paragraph2": "Du kan fortsätta att utforska tjänsten, men du måste logga in om du vill spara ändringar."
       },
       "placeholderAudienceMaxAge": {
@@ -817,48 +817,48 @@
         "volunteering": "Ange lägsta ålder för volontärarbetet"
       },
       "placeholderDescription": {
-        "course": "Ange kursensbeskrivning",
-        "general": "Ange evenemangetsbeskrivning",
-        "volunteering": "Ange volontärarbetetsbeskrivning"
+        "course": "Ange en beskrivning av kursen",
+        "general": "Ange en beskrivning av evenemanget",
+        "volunteering": "Ange en beskrivning av volontärarbetet"
       },
-      "placeholderEmail": "Skriv in din mailadress",
+      "placeholderEmail": "Ange din e-postadress",
       "placeholderExternalLinkLink": {
-        "course": "Ange kursens Facebook-URL",
-        "general": "Ange evenemangets Facebook-URL",
-        "volunteering": "Ange volontärarbetets Facebook-URL"
+        "course": "Ange kursens URL {{name}}",
+        "general": "Ange evenemangets URL {{name}}",
+        "volunteering": "Ange volontärarbetets URL {{name}}"
       },
       "placeholderInfoUrl": {
-        "course": "Ange webbadressen till kursens hemsida {{langText}}",
-        "general": "Ange webbadressen till evenemangets hemsida {{langText}}",
-        "volunteering": "Ange webbadressen till volontärarbetets hemsida {{langText}}"
+        "course": "Ange URL för kursens startsida {{langText}}",
+        "general": "Ange URL för evenemangets startsida {{langText}}",
+        "volunteering": "Ange URL för volontärarbetets startsida {{langText}}"
       },
       "placeholderInstagramUrl": {
-        "course": "Ange webbadressen till kursens Instagram-flöde",
-        "general": "Ange webbadressen till evenemangets Instagram-flöde",
-        "volunteering": "Ange webbadressen till volontärarbetets Instagram-flöde"
+        "course": "Ange URL för kursens Instagram-flöde",
+        "general": "Ange URL för evenemangets Instagram-flöde",
+        "volunteering": "Ange URL för volontärarbetets Instagram-flöde"
       },
       "placeholderKeywords": "Sök eller välj nyckelord",
-      "placeholderLocation": "Välj eller sök efter en plats",
-      "placeholderLocationExtraInfo": "Ange mer information om mötesplats {{langText}}",
+      "placeholderLocation": "Välja eller söka efter en mötesplats",
+      "placeholderLocationExtraInfo": "Ange mer information om platsen {{langText}}",
       "placeholderName": {
         "course": "Ange kursens titel",
         "general": "Ange evenemangets titel",
-        "volunteering": "Ange volontärarbetets title"
+        "volunteering": "Ange volontärarbetets titel"
       },
-      "placeholderNewExternalLinkLink": "Välj först plattformen",
+      "placeholderNewExternalLinkLink": "Välj först plattform",
       "placeholderOfferDescription": "Ange ytterligare prisinformation {{langText}}",
-      "placeholderOfferInfoUrl": "Ange webbadressen till biljettförsäljning eller registrering {{langText}}",
+      "placeholderOfferInfoUrl": "Ange webbadressen för biljettförsäljning eller registrering {{langText}}",
       "placeholderOfferPrice": {
         "course": "Ange priset för kursen {{langText}}",
         "general": "Ange priset för evenemanget {{langText}}",
         "volunteering": "Ange priset för volontärarbetet {{langText}}"
       },
-      "placeholderOrganization": "Organisation namn",
+      "placeholderOrganization": "Organisationens namn",
       "placeholderPhoneNumber": "+358 44 1234 567",
       "placeholderProvider": {
-        "course": "Ange namnet på arrangören",
-        "general": "Ange namnet på arrangören",
-        "volunteering": "Ange namnet på arrangören"
+        "course": "Ange namnet på arrangören av kursen",
+        "general": "Ange namnet på arrangören av evenemanget",
+        "volunteering": "Ange namnet på arrangören av volontärarbetet"
       },
       "placeholderShortDescription": {
         "course": "Ange en kort beskrivning av kursen",
@@ -867,38 +867,38 @@
       },
       "placeholderUserName": "Ange ditt för- och efternamn eller smeknamn",
       "placeholderVideoAltText": "Ange videons alt-text för skärmläsare",
-      "placeholderVideoName": "Ange videon namn",
-      "placeholderVideoUrl": "Ange videons URL-webbaddress",
+      "placeholderVideoName": "Ange videons namn",
+      "placeholderVideoUrl": "Ange video-URL",
       "recurringEvent": {
         "helperRepeatInterval": "I veckor",
-        "labelEndDate": "Upprepningen slutar",
+        "labelEndDate": "Repetition slutar",
         "labelEndTime": {
-          "course": "Kursen slutar kl",
-          "general": "Evenemanget slutar kl",
-          "volunteering": "Volontärarbetet slutar kl"
+          "course": "Kursen avslutas kl",
+          "general": "Evenemanget avslutas kl",
+          "volunteering": "Volontärarbetet avslutas kl"
         },
         "labelRepeatInterval": {
           "course": "Kursen upprepas",
           "general": "Evenemanget upprepas",
           "volunteering": "Volontärarbetet upprepas"
         },
-        "labelStartDate": "Upprepningen börjar",
+        "labelStartDate": "Repetitionen börjar",
         "labelStartTime": {
           "course": "Kursen börjar kl",
           "general": "Evenemanget börjar kl",
           "volunteering": "Volontärarbetet börjar kl"
         },
         "textRepeatInterval": "Varje vecka",
-        "textRepeatInterval_other": "Var {{count}}: e vecka",
-        "titleRepeatDays": "Uppspelningsdagar"
+        "textRepeatInterval_other": "Var {{count}}:e vecka",
+        "titleRepeatDays": "Upprepa dagar"
       },
       "sections": {
         "additionalInfo": "Ytterligare information",
         "audience": "Målgrupper",
         "channels": {
-          "course": "Kursens medier",
-          "general": "Evenemangets medier",
-          "volunteering": "Volontärarbetets medier"
+          "course": "Kanaler för kurs",
+          "general": "Kanaler för evenemang",
+          "volunteering": "Kanaler för volontärarbete"
         },
         "classification": "Klassificering",
         "contact": "Kontakt",
@@ -909,12 +909,12 @@
         "place": "Plats",
         "price": "Pris",
         "registration": "Registrering",
-        "responsibilities": "Ansvar",
+        "responsibilities": "Ansvarsområden",
         "time": "Tid",
-        "type": "Evenemangstyp",
+        "type": "Typ av evenemang",
         "video": "Video"
       },
-      "tabEventTime": "Evenemangstid",
+      "tabEventTime": "Evenemangtid",
       "tabRecurringEvent": "Återkommande evenemang",
       "textNoLinksToEvents": "Inga länkar.",
       "timesTableColumns": {
@@ -923,87 +923,87 @@
       },
       "titleAttendeeCapacity": "Deltagarkapacitet",
       "titleAudience": "Målgrupper",
-      "titleAudienceAge": "Åldersbegränsningar",
-      "titleEnrolmentTime": "Registreringstid",
+      "titleAudienceAge": "Åldersgränser",
+      "titleEnrolmentTime": "Tid för registrering",
       "titleEnterEventTime": {
-        "course": "Ange tidpunkten för kursen",
-        "general": "Ange tidpunkten för evenemanget",
-        "volunteering": "Ange tidpunkten för volontärarbetet"
+        "course": "Ange tid för kursen",
+        "general": "Ange tid för evenemanget",
+        "volunteering": "Ange tid för volontärarbetet"
       },
-      "titleEventType": "Välj evenemangstyp",
+      "titleEventType": "Välj typ av evenemang",
       "titleImage": {
-        "course": "Kursens bild",
-        "general": "Evenemangets bild",
-        "volunteering": "Volontärarbetets bild"
+        "course": "Bild av kursen",
+        "general": "Bild av evenemanget",
+        "volunteering": "Bild av volontärarbetet"
       },
       "titleInfoLanguages": {
-        "course": "Inmatningsspråk för kursen",
-        "general": "Inmatningsspråk för evenemangen",
-        "volunteering": "Inmatningsspråk för volontärarbetet"
+        "course": "Språk för inmatning av kursen",
+        "general": "Språk för inmatning av evenemanget",
+        "volunteering": "Språk för inmatning av volontärarbetet"
       },
       "titleInfoUrl": {
-        "course": "Kursens hemsida",
-        "general": "Evenemangets hemsida",
-        "volunteering": "Volontärarbetets hemsida"
+        "course": "Kursens startsida",
+        "general": "Evenemangets startsida",
+        "volunteering": "Volontärarbetets startsida"
       },
       "titleInLanguages": {
-        "course": "Kursspråk (instruktionsspråk)",
-        "general": "Evenemangsspråk (instruktionsspråk)",
-        "volunteering": "Volontärarbetesspråk (instruktionsspråk)"
+        "course": "Kursspråk (undervisningsspråk)",
+        "general": "Evenemangetsspråk (undervisningsspråk)",
+        "volunteering": "Volontärarbetetsspråk (undervisningsspråk)"
       },
       "titleKeywords": "Lägg till nyckelord",
-      "titleLocation": "Venue",
-      "titleLocationExtraInfo": "Platsinformation",
+      "titleLocation": "Mötesplats",
+      "titleLocationExtraInfo": "Information om platsen",
       "titleMainCategories": "Välj kategori(er)",
       "titleOfferDescription": "Ytterligare prisinformation",
       "titleOfferInfoUrl": "Länk till biljettförsäljning eller registrering",
       "titleOfferPrice": "Pris",
       "titlePriceInfo": {
-        "course": "Prisinformation för kursen",
-        "general": "Prisinformation för evenemanget",
-        "volunteering": "Prisinformation för volontärarbetet"
+        "course": "Information om kursens pris",
+        "general": "Information om evenemangets pris",
+        "volunteering": "Information om volontärarbetets pris"
       },
       "titlePrice": "Pris",
       "titleRecurringEvent": "Återkommande evenemang",
       "titleServerErrorSummary": "Formuläret innehåller följande fel",
       "titleSocialMedia": {
-        "course": "Kursen på sociala medier",
-        "general": "Evenemanget på sociala medier",
-        "volunteering": "Volontärarbetet Evenemanget sociala medier"
+        "course": "Kurs på sociala medier",
+        "general": "Evenemang på sociala medier",
+        "volunteering": "Volontärarbete på sociala medier"
       },
       "titleTime": {
-        "course": "Kurstider",
-        "general": "Evenemangtider",
-        "volunteering": "Volontärarbetetider"
+        "course": "Tid för kursen",
+        "general": "Tid för evenemanget",
+        "volunteering": "Tid för volontärarbetet"
       },
-      "titleUmrellaEvent": "Huvudevenemang",
+      "titleUmrellaEvent": "Paraplyevenemang",
       "titleVideo": {
-        "course": "Video för kursen",
-        "general": "Video för evenemanget",
-        "volunteering": "Video för volontärarbetet"
+        "course": "Video av kursen",
+        "general": "Video av evenemanget",
+        "volunteering": "Video av volontärarbetet"
       },
-      "tooltipEventIsUmbrella": "Ett underevenemang kan inte vara ett huvudevenemang.",
+      "tooltipEventIsUmbrella": "Ett underordnat evenemang kan inte vara ett överordnat evenemang.",
       "placeOptions": {
         "in": "Inomhus",
         "out": "Utomhus"
       }
     },
-    "freeEvent": "Fri",
+    "freeEvent": "Gratis",
     "postponeEventModal": {
-      "buttonPostpone": "Skjut upp evenemanget",
-      "text1": "Denna funktion skjuter upp evenemanget till framtiden. Efter att ha skjutit upp kan du senare ange en ny tid för evenemanget.",
+      "buttonPostpone": "Skjut upp evenemang",
+      "text1": "Denna funktion skjuter upp evenemanget till framtiden. Efter uppskjutningen kan du senare ange en ny tid för evenemanget.",
       "text2": "Följande evenemang kommer att skjutas upp:",
-      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien skjuts inte upp när huvudevenemang skjuts upp.",
-      "title": "Skjut upp evenemanget",
+      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller för framtida evenemang i serien. Tidigare evenemang i serien skjuts inte upp när du skjuter upp tak-evenemanget.",
+      "title": "Skjut upp evenemang",
       "titlePastEventAreNotUpdated": "Tidigare evenemang i serien kommer inte att skjutas upp"
     },
     "publicationStatus": {
-      "draft": "Förslag",
+      "draft": "Utkast",
       "public": "Offentlig"
     },
-    "subEvents": "Underevenemangen",
+    "subEvents": "Underevenemang",
     "superEventType": {
-      "recurring": "Serier",
+      "recurring": "Serie",
       "umbrella": "Paraply"
     },
     "type": {
@@ -1013,39 +1013,39 @@
     },
     "updateEventModal": {
       "text1": "Data lagras för alla evenemang i denna serie. Ändringar av dessa evenemang kommer att gå förlorade. Är du säker på att du vill fortsätta?",
-      "text2": "Uppgifterna lagras i följande evenemangen",
-      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller framtida evenemang i serien. Tidigare evenemang i serien redigeras inte när du redigerar huvudevenemang.",
-      "title": "Spara evenemanget",
+      "text2": "Uppgifterna uppdateras i följande evenemang",
+      "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller för framtida evenemang i serien. Tidigare evenemang i serien redigeras inte när paraplyevenemanget redigeras.",
+      "title": "Spara evenemang",
       "titlePastEventAreNotUpdated": "Tidigare evenemang i serien kommer inte att redigeras"
     }
   },
   "eventSavedPage": {
     "buttonBackToEvents": "Tillbaka till evenemang",
-    "pageTitleDraftSaved": "Utkastet har sparats",
-    "pageTitlePublished": "Evenemanget har publicerats",
-    "titleDraftSaved": "Utkastet har sparats",
-    "titlePublished": "Evenemanget har publicerats"
+    "pageTitleDraftSaved": "Utkast sparat",
+    "pageTitlePublished": "Evenemang publicerat",
+    "titleDraftSaved": "Utkast sparat framgångsrikt",
+    "titlePublished": "Evenemanget publicerades framgångsrikt"
   },
   "eventsPage": {
-    "captionListTypes": "Listtyp",
+    "captionListTypes": "Typ av lista",
     "count": "{{count}} evenemang",
     "count_other": "{{count}} evenemang",
     "datetime": "{{date}} på {{time}}",
     "eventCard": {
-      "hideSubEvents": "Dölj underevenemangen",
-      "showSubEvents": "Visa underevenemangen ({{count}})",
+      "hideSubEvents": "Dölj underevenemang",
+      "showSubEvents": "Visa underevenemang ({{count}})",
       "goToEventPage": "Gå till evenemangssidan",
       "goToEventPageAriaLabel": "Gå till evenemangssidan: {{name}}"
     },
     "eventsTable": {
-      "hideSubEvents": "Dölj underevenemangen: {{name}}",
-      "showSubEvents": "Visa underevenemangen: {{name}}"
+      "hideSubEvents": "Dölj underevenemang: {{name}}",
+      "showSubEvents": "Visa underevenemang: {{name}}"
     },
     "eventsTableCaption": {
-      "drafts": "Utkasta evenemangen, sorterade efter {{sort}}",
-      "ownPublished": "Egna publicerade evenemangen, sorterade efter {{sort}}",
-      "published": "Publicerade evenemangen, sorterade efter {{sort}}",
-      "waitingApproval": "Evenemangen som väntar på godkännande, sorterade efter {{sort}}"
+      "drafts": "Utkast till evenemang, sorterade efter {{sort}}",
+      "ownPublished": "Egna publicerade evenemang, sorterade efter {{sort}}",
+      "published": "Publicerade evenemang, sorterade efter {{sort}}",
+      "waitingApproval": "Evenemang som väntar på godkännande, sorterade efter {{sort}}"
     },
     "eventsTableColumns": {
       "endTime": "Sluttid",
@@ -1060,7 +1060,7 @@
       "cardList": "Kortvy",
       "table": "Listvy"
     },
-    "pageDescription": "Evenemanglista. Hantera evenemang: bläddra och redigera dina evenemang.",
+    "pageDescription": "Lista över evenemang. Hantera evenemang: bläddra bland och redigera dina evenemang.",
     "pageTitle": "Mina evenemangen",
     "sortOptions": {
       "duration": "Varaktighet, stigande",
@@ -1076,11 +1076,29 @@
     },
     "tabs": {
       "drafts": "Utkast ({{count}})",
-      "ownPublished": "Egna publicerade ({{count}})",
-      "published": "Publicerat ({{count}})",
+      "ownPublished": "Egen publicering ({{count}})",
+      "published": "Publicerad ({{count}})",
       "waitingApproval": "Väntar ({{count}})"
     },
     "title": "Mina evenemangen"
+  },
+  "eventSearchPage": {
+    "buttonClearFilters": "Ta bort filter",
+    "pageDescription": "Sök efter evenemang från Linked Events. Du kan filtrera resultaten efter datum, plats och typ.",
+    "pageTitle": "Sök efter evenemang",
+    "searchPanel": {
+      "buttonCreateNew": "Lägg till nytt evenemang",
+      "buttonSearch": "Sök efter evenemang",
+      "labelEventType": "Typ",
+      "labelPlace": "Sök plats",
+      "labelSearch": "Sök efter evenemang från Linked Events",
+      "placeholderSearch": "Sök efter evenemang"
+    }
+  },
+  "footer": {
+    "backToTopLabel": "Tillbaka till toppen",
+    "copyrightHolder": "Helsingfors stad",
+    "copyrightText": "Alla rättigheter förbehållna."
   },
   "form": {
     "inLanguage": {
@@ -1101,8 +1119,8 @@
     },
     "validation": {
       "age": {
-        "max": "Maxåldern är {{max}} år.",
-        "min": "Minimiåldern är {{min}} år."
+        "max": "Högsta ålder är {{max}} år.",
+        "min": "Lägsta ålder är {{min}} år."
       },
       "array": {
         "min": "Minst {{min}} objekt måste väljas",
@@ -1110,26 +1128,26 @@
         "required": "Minst 1 objekt måste väljas"
       },
       "capacity": {
-        "max": "Max antal deltagare är {{max}}.",
-        "min": "Minsta antal deltagare är {{min}}."
+        "max": "Högsta antal deltagare är {{max}}.",
+        "min": "Lägsta antal deltagare är {{min}}."
       },
       "date": {
         "after": "Detta datum måste vara efter {{after}}",
         "before": "Detta datum måste vara före {{before}}",
-        "future": "Detta datum måste vara i framtiden",
-        "max": "Detta datum måste vara senast {{max}}",
+        "future": "Detta datum måste ligga i framtiden",
+        "max": "Detta datum får inte vara senare än {{max}}",
         "min": "Detta datum måste vara minst {{min}}",
-        "required": "Detta fält krävs"
+        "required": "Detta fält är obligatoriskt"
       },
-      "eventInfoVerified": "Informationen måste verifieras",
+      "eventInfoVerified": "Uppgifterna måste verifieras",
       "eventTimesRequired": "Minst 1 tid måste läggas till",
       "keywordRequired": "Minst 1 nyckelord måste väljas",
       "mainCategoryRequired": "Minst 1 huvudkategori måste väljas",
       "number": {
         "integer": "Värdet måste vara ett heltal",
-        "max": "Maxvärdet är {{max}}",
+        "max": "Maximalt värde är {{max}}",
         "min": "Värdet måste vara minst {{min}}",
-        "required": "Detta fält krävs"
+        "required": "Detta fält är obligatoriskt"
       },
       "offersRequired": "Minst 1 prisinformation måste läggas till",
       "priceInvalid": "Högst två decimaler är tillåtna",
@@ -1137,23 +1155,23 @@
       "string": {
         "charsLeft": "{{count}} tecken kvar",
         "charsLeft_other": "{{count}} tecken kvar",
-        "date": "This field must be valid date",
-        "email": "Detta fält måste vara en giltig e-postmeddelande",
-        "emailAllowedDomain": "Endast användare med en \"hel.fi\"-e-postadress får vara ersättningsanvändare.",
+        "date": "Detta fält måste vara ett giltigt datum",
+        "email": "Detta fält måste vara ett giltigt e-postmeddelande",
+        "emailAllowedDomain": "Endast användare med en e-postadress \"hel.fi\" får vara vikarierande användare.",
         "max": "Detta fält kan vara upp till {{max}} tecken långt",
         "min": "Detta fält måste vara minst {{min}} tecken långt",
-        "phone": "Detta fält måste vara en giltig telefonnummer",
-        "required": "Detta fält krävs",
-        "time": "Tid måste ges i följande format hh.mm",
-        "url": "Ange URL i rätt format (http: // ...)",
-        "zip": "Detta fält måste vara en giltig postnummer"
+        "phone": "Detta fält måste vara ett giltigt telefonnummer",
+        "required": "Detta fält är obligatoriskt",
+        "time": "Tiden måste anges i följande format hh.mm",
+        "url": "Ange webbadressen i korrekt format (http://...)",
+        "zip": "Detta fält måste vara ett giltigt postnummer"
       },
       "time": {
-        "after": "Den här tiden måste vara efter {{after}}",
-        "before": "Den här tiden måste vara före {{before}}",
-        "max": "Den här tiden måste vara senast {{max}}",
-        "min": "Den här tiden måste vara minst {{min}}",
-        "required": "Detta fält krävs"
+        "after": "Denna tid måste vara efter {{after}}",
+        "before": "Denna tid måste vara före {{before}}",
+        "max": "Denna tid får inte vara senare än {{max}}",
+        "min": "Detta datum måste vara minst {{min}}",
+        "required": "Detta fält är obligatoriskt"
       }
     },
     "weekDay": {
@@ -1175,24 +1193,6 @@
       "wed": "Ons"
     }
   },
-  "eventSearchPage": {
-    "buttonClearFilters": "Töm sökfilter",
-    "pageDescription": "Sök efter evenemang från Linked Events. Du kan filtrera resultat efter datum, plats och typ.",
-    "pageTitle": "Sök efter evenemang",
-    "searchPanel": {
-      "buttonCreateNew": "Lägg till evenemang",
-      "buttonSearch": "Sök efter evenemang",
-      "labelEventType": "Typ",
-      "labelPlace": "Sök plats",
-      "labelSearch": "Sök i Linked Events gränssnittet",
-      "placeholderSearch": "Sök efter evenemang"
-    }
-  },
-  "footer": {
-    "backToTopLabel": "Tillbaka till toppen",
-    "copyrightHolder": "Helsingfors stad",
-    "copyrightText": "Alla rättigheter förbehållna."
-  },
   "helpPage": {
     "askPermissionPage": {
       "buttonSend": "Skicka",
@@ -1201,19 +1201,19 @@
       "labelJobDescription": "Arbetsbeskrivning",
       "labelName": "Namn",
       "labelOrganization": "Organisation",
-      "pageDescription": "Be om tillåtelse till Linked Events-organisationen.",
-      "pageTitle": "Begära tillgång",
+      "pageDescription": "Be om tillstånd för Linked Events organisation.",
+      "pageTitle": "Begär åtkomst",
       "placeholderBody": "Ange ditt meddelande",
-      "placeholderEmail": "Skriv in din e-postadress",
+      "placeholderEmail": "Ange e-postadress",
       "placeholderJobDescription": "Beskriv din roll i organisationen",
       "placeholderName": "Ange ditt för- och efternamn eller smeknamn",
       "placeholderOrganization": "Välj en organisation",
-      "textSuccess": "Ditt meddelande har skickats. Vi kontaktar dig snart!",
-      "titleContactInfo": "Kontaktinformation",
-      "titleOrganization": "Organisationsinformation",
-      "titleSuccess": "Tack för att du kontaktar oss.",
+      "textSuccess": "Ditt meddelande har skickats med framgång. Vi kommer att kontakta dig mycket snart!",
+      "titleContactInfo": "Kontaktuppgifter",
+      "titleOrganization": "Organisatorisk information",
+      "titleSuccess": "Tack för att du kontaktade oss.",
       "topics": {
-        "access": "Begäran om åtkomst"
+        "access": "Begäran om tillgång"
       }
     },
     "contactPage": {
@@ -1221,63 +1221,63 @@
       "labelBody": "Meddelande",
       "labelEmail": "E-postadress",
       "labelName": "Namn",
-      "labelSubject": "Rubrik",
-      "labelTopic": "Kontaktämne",
-      "pageDescription": "Skicka en felrapport eller funktionsförfrågan. Eller skicka oss lite feedback om tjänsten.",
-      "pageTitle": "Ta kontakt",
+      "labelSubject": "Titel",
+      "labelTopic": "Ämne för kontakt",
+      "pageDescription": "Skicka en felrapport eller en funktionsförfrågan. Eller ge oss feedback om tjänsten.",
+      "pageTitle": "Kontakta oss",
       "placeholderBody": "Ange ditt meddelande",
-      "placeholderEmail": "Skriv in din e-postadress",
+      "placeholderEmail": "Ange e-postadress",
       "placeholderName": "Ange ditt för- och efternamn eller smeknamn",
-      "placeholderSubject": "Ange rubrik",
-      "placeholderTopic": "Välj ett kontaktämne",
-      "textSuccess": "Ditt meddelande har skickats. Vi kontaktar dig snart!",
-      "titleContactInfo": "Kontaktinformation",
+      "placeholderSubject": "Ange titel",
+      "placeholderTopic": "Välj ämne för kontakt",
+      "textSuccess": "Ditt meddelande har skickats med framgång. Vi kommer att kontakta dig mycket snart!",
+      "titleContactInfo": "Kontaktuppgifter",
       "titleMessage": "Meddelande",
-      "titleSuccess": "Tack för att du kontaktar oss.",
+      "titleSuccess": "Tack för att du kontaktade oss.",
       "titleSuggestedTopics": "Föreslagna ämnen",
       "topics": {
-        "eventForm": "Problem med evenemangformuläret",
-        "featureRequest": "Funktionsbegäran",
+        "eventForm": "Problem med evenemangsformulär",
+        "featureRequest": "Begäran om funktion",
         "general": "Allmän feedback",
         "other": "Annat ämne",
         "permissions": "Tillståndsproblem"
       }
     },
     "faq": {
-      "textAddingEvents1": "Du måste logga in på tjänsten först. För att göra detta behöver jag något av följande:",
-      "textAddingEvents2": "När du är inloggad kan du <a href={{controlPanelUrl}}>lägga till evenemang</a>, men du kan inte publicera dem ännu. Kontakta oss med hjälp av <a href={{contactUrl}}>kontaktformuläret</a> och berätta vilken organisation du behöver publiceringsrättigheter för.",
-      "textAddingToOwnProjects": "Ja. Gränssnittet för Linked Events är offentligt och öppet för alla. Dess användning är också tillåten i kommersiella tjänster i <a href={{termsOfServiceUrl}}>enlighet med villkoren</a>.",
-      "textEventFormNotWorking": "Se till att du använder en av dessa moderna webbläsare (Chrome, Firefox, Opera eller Safari). Andra alternativ för att åtgärda oväntade fel är att rensa webbläsarens cache eller starta om webbläsaren.",
-      "textEventNotShown": "Evenemang listas alltid enligt olika sökkriterier. Om inga sökkriterier anges, returnerar gränssnittet framtida evenemang inom vald basorganisation med ett evenemangstyp av \"event\". Som ett resultat visas till exempel kurser inte i sökresultaten om de inte specifikt definierats. Kontrollera också att evenemanget du lade till har publicerats och att datumet är i framtiden.",
-      "textImageRights": "Du måste ha rättigheter till bilden du laddade upp. Se avsnitt: <a href={{controlPanelUrl}}>bifoga en bild till evenemang</a>.",
-      "textPublishingPermission": "Du kan begära behörighetsrättigheter för att lägga till händelser i din organisation från oss. Kom ihåg att lägga till detaljerad information om din roll i organisationen.",
-      "textRegistrationForRecurringEvent": "Ja det kan du, men du måste skapa en separat anmälan för varje evenemang.",
-      "textSlowRequests": "Kontrollera först sökkriterierna för att bara hitta den information du behöver för din tjänst. Vi rekommenderar också att du förvarar informationen i din egen tjänst, i vilket fall du bara behöver hämta den ändrade eller tillagda informationen från gränssnittet för Linked Events.",
-      "titleAddingEvents": "Hur anger jag evenemang i Linked Events?",
-      "titleAddingToOwnProjects": "Kan gränssnittet för Linked Events användas för mina egna projekt?",
+      "textAddingEvents1": "Du måste först logga in på tjänsten. För att göra detta behöver jag något av följande:",
+      "textAddingEvents2": "När du är inloggad kan du <a href={{controlPanelUrl}}>lägga till evenemang</a>, men du kommer inte att kunna publicera dem ännu. Kontakta oss via <a href={kontaktUrl}}>kontaktformuläret</a> och berätta för oss vilken organisation du behöver publiceringsrättigheter för.",
+      "textAddingToOwnProjects": "Ja, gränssnittet för Linked Events är offentligt och öppet för alla. Det är också tillåtet att använda i kommersiella tjänster i enlighet med <a href={{termsOfServiceUrl}}>användarvillkoren</a>.",
+      "textEventFormNotWorking": "Se till att du använder någon av dessa moderna webbläsare (Chrome, Firefox, Opera eller Safari). Andra alternativ för att åtgärda oväntade fel är att ta bort webbläsarens cache eller starta om webbläsaren.",
+      "textEventNotShown": "Evenemang listas alltid enligt olika sökkriterier. Om inga sökkriterier anges returnerar gränssnittet framtida evenemang inom den valda basorganisationen med evenemangstypen \"evenemang\". Detta innebär att t.ex. kurser inte kommer att visas i sökresultaten om de inte definieras specifikt. Kontrollera också att händelsen du har lagt till har publicerats och att dess datum ligger i framtiden.",
+      "textImageRights": "Du måste ha rättigheter till den bild du laddade upp. Se avsnittet: <a href={{controlPanelUrl}}>bifoga en bild till evenemang</a>.",
+      "textPublishingPermission": "Du kan begära rättigheter att lägga till evenemang i din organisation från oss. Kom ihåg att lägga till detaljerad information om din roll i organisationen.",
+      "textRegistrationForRecurringEvent": "Ja, men du måste skapa en separat registrering för varje evenemang.",
+      "textSlowRequests": "Kontrollera först sökkriterierna så att du bara hittar den information du behöver för din tjänst. Vi rekommenderar också att du behåller informationen i din egen tjänst, i vilket fall du bara behöver hämta den ändrade eller tillagda informationen från Linked Events-gränssnittet.",
+      "titleAddingEvents": "Hur lägger jag in evenemang i Linked Events?",
+      "titleAddingToOwnProjects": "Kan jag använda Linked Events i mina egna projekt?",
       "titleEventFormNotWorking": "Evenemangsformuläret fungerar inte som förväntat, vad kan jag göra?",
-      "titleEventNotShown": "Evenemangen jag lade till visas inte på tjänsten, var är felet?",
-      "titleImageRights": "Kan jag lägga till vilka bilder som helst till evenemang?",
-      "titlePublishingPermission": "Vem har rätt att lägga till nya offentliga evenemang?",
+      "titleEventNotShown": "Evenemanget jag lade till visas inte i tjänsten, var ligger problemet?",
+      "titleImageRights": "Kan jag lägga till någon bild till evenemang?",
+      "titlePublishingPermission": "Vem har rätt att lägga till nya publika evenemang?",
       "titleRegistrationForRecurringEvent": "Kan du aktivera registreringar för återkommande evenemang?",
-      "titleSlowRequests": "Gränssnittssökningar är långsamma - hur gör jag dem snabbare?"
+      "titleSlowRequests": "API-sökningar är långsamma - hur kan jag göra dem snabbare?"
     },
     "pageDescriptionApi": "Mer information om API (application protocol interface) för Linked Events.",
     "pageDescriptionControlPanel": "Hur man använder kontrollpanelen och administrationsfunktioner på Linked Events.",
     "pageDescriptionDocumentation": "Läs mer om Linked Events dokumentation och API-design.",
     "pageDescriptionFaq": "Vanliga frågor om Linked Events.",
-    "pageDescriptionFeatures": "Läs om Linked Eventsfunktioner. Bli bekant med event management och Linked Events API.",
-    "pageDescriptionImageRights": "Mer information om Linked Events bildrättigheter och licenser.",
-    "pageDescriptionInstructions": "Hjälp och instruktioner om hur du använder tjänsten och API: et.",
-    "pageDescriptionSourceCode": "Få en djupare titt på källkoden för Linked Events i Github.",
+    "pageDescriptionFeatures": "Läs om Linked Events funktioner. Bekanta dig med evenemangshantering och Linked Events API.",
+    "pageDescriptionImageRights": "Mer information om bildrättigheter och licenser för Linked Events.",
+    "pageDescriptionInstructions": "Hjälp och instruktioner för hur du använder tjänsten och API:et.",
+    "pageDescriptionSourceCode": "Ta en djupare titt på källkoden för Linked Events i Github.",
     "pageDescriptionTechnology": "Mer information om tekniken bakom Linked Events.",
     "pageDescriptionTermsOfUse": "Dataskydd och användarvillkor för Linked Events.",
-    "pageTitle": "Hjälp",
+    "pageTitle": "Stöd",
     "pageTitleApi": "API",
     "pageTitleControlPanel": "Kontrollpanel",
     "pageTitleDocumentation": "Dokumentation",
     "pageTitleFaq": "Vanliga frågor",
-    "pageTitleFeatures": "Tjänstens egenskaper",
+    "pageTitleFeatures": "Servicefunktioner",
     "pageTitleImageRights": "Bildrättigheter",
     "pageTitleInstructions": "Stöd",
     "pageTitleSourceCode": "Källkod",
@@ -1285,39 +1285,39 @@
     "pageTitleTermsOfUse": "Dataskydd och användarvillkor",
     "platformPage": {
       "imageAlt": "Linked Events användning i surfplatta",
-      "pageDescription": "Introduktion till Linked Events-plattformen och kontrollpanelen.",
+      "pageDescription": "Introduktion till Linked Events plattform och kontrollpanel.",
       "pageTitle": "Plattform",
-      "textApi": "Med det offentliga API:et kan du hämta evenemang för din egen tjänst. Du kan också ge oss ett tips om en befintlig databank som ska införlivas i Linked Events.",
-      "textEventManagement": "Linked Events kontrollpanelen används för att ange evenemang, kurser och volontäruppgifter och för att hantera relaterad information och material.",
-      "textMainContent1": "Linked Events är ett öppet gränssnitt utvecklat av Helsingfors stad för evenemang, kurser och för volontärarbete i Helsingfors stad. Denna webbplats innehåller verktyg och instruktioner för att hantera evenemang och dokumentation om hur man använder det offentliga gränssnittet.",
-      "textMainContent2": "Evenemang kan skrivas in med tillstånd av staden. Evenemang behöver inte organiseras av staden. Du kan ange flera datum för ett evenemang. I det här fallet skapas automatiskt ett paraplyevenemang för evenamangssekvensen.",
-      "textMainContent3": "Du kan aktivera registrering för alla evenemang genom att fylla i de uppgifter som behövs för deltagandeformuläret.",
-      "textRegistration": "Linked Registrations kontrollpanelen används för att hantera registreringar och deltagare för evenemanget.",
-      "textSupport": "Kontakta oss om du behöver mer information eller funderingar eller förslag på hur vi kan förbättra tjänsten. I avsnittet Hjälp hittar du mer detaljerad information och ett kontaktformulär.",
-      "titleApi": "Linked Events API",
-      "titleEventManagement": "Evenemanghantering",
+      "textApi": "Med det publika API:et kan du hämta händelser till din egen tjänst. Du kan också tipsa oss om en befintlig databank som bör införlivas i Linked Events.",
+      "textEventManagement": "Linked Events kontrollpanelen används för att lägga in evenemang, kurser och volontäruppdrag samt för att hantera relaterad information och material.",
+      "textMainContent1": "Linked Events är ett öppet gränssnitt som utvecklats av Helsingfors stad för evenemang, kurser och volontärarbete i Helsingfors stad. På denna webbplats finns verktyg och anvisningar för att hantera evenemang och dokumentation om hur man använder det offentliga gränssnittet.",
+      "textMainContent2": "Evenemang kan anmälas med stadens tillstånd. Evenemang behöver inte organiseras av staden. Du kan ange flera tider för ett evenemang. I detta fall skapas automatiskt ett paraplyevenemang för evenemangssekvensen.",
+      "textMainContent3": "Du kan aktivera registrering för alla evenemang genom att fylla i den information som behövs för deltagarformuläret.",
+      "textRegistration": "Kontrollpanelen för Linked Registration används för att hantera registreringar och deltagare för evenemanget.",
+      "textSupport": "Kontakta oss om du behöver mer information, har frågor eller förslag på hur vi kan förbättra tjänsten. I avsnittet Support hittar du mer detaljerad information och ett kontaktformulär.",
+      "titleApi": "API för Linked Events",
+      "titleEventManagement": "Evenemangshantering",
       "titlePlatform": "Plattform",
-      "titleRegistration": "Registreringshantering",
-      "titleServiceHighlights": "Servicehöjdpunkter",
+      "titleRegistration": "Hantering av registreringar",
+      "titleServiceHighlights": "Service höjdpunkter",
       "titleSupport": "Stöd och vidareutveckling"
     },
     "registrationInstructionsPage": {
-      "imageAltText1": "Efter att ha publicerat ett evenemang: kom till avsnittet Registrering i Linked Events. Tryck på knappen Lägg till ny.",
-      "imageAltText2": "Välj det evenemang som du vill skapa en anmälan till; du kan också skriva i fältet.",
+      "imageAltText1": "När du har publicerat ett evenemang: gå till avsnittet Registrering i Linked Events. Tryck på knappen Lägg till ny.",
+      "imageAltText2": "Välj det evenemang som du vill skapa en registrering för; du kan också skriva i fältet.",
       "imageAltText3": "Välj de inmatningsspråk du vill använda och ange eventuella registreringsinstruktioner och ytterligare text för bekräftelsemeddelandet på de språk du har valt.",
-      "imageAltText4": "Vänligen välj de obligatoriska personuppgifterna på registreringsformuläret.",
-      "imageAltText5": "På förstasidan av anmälningssektionen ser du en lista över evenemang för vilka anmälan har skapats.",
-      "imageAltText6": "Du kan se deltagarna på startsidan för registreringssektionen genom att välja evenemanget från trepunktsmenyn Visa deltagare.",
+      "imageAltText4": "Vänligen välj de obligatoriska personuppgiftsfälten på registreringsformuläret.",
+      "imageAltText5": "På förstasidan i registreringsavsnittet ser du en lista över evenemang för vilka registrering har skapats.",
+      "imageAltText6": "Du kan se deltagarna på förstasidan för registreringsavsnittet genom att välja evenemanget i menyn Visa deltagare.",
       "pageTitle": "Linked Registration instruktioner"
     },
     "sideNavigation": {
       "labelApi": "API",
-      "labelAskPermission": "Begära tillgång",
-      "labelContact": "Ta kontakt",
+      "labelAskPermission": "Begär åtkomst",
+      "labelContact": "Kontakta oss",
       "labelControlPanel": "Kontrollpanel",
       "labelDocumentation": "Dokumentation",
       "labelFaq": "FAQ",
-      "labelFeatures": "Tjänstens egenskaper",
+      "labelFeatures": "Servicefunktioner",
       "labelGeneral": "Allmänt",
       "labelImageRights": "Bildrättigheter",
       "labelInstructions": "Instruktioner",
@@ -1326,21 +1326,21 @@
       "labelSourceCode": "Källkod",
       "labelSupport": "Stöd",
       "labelTechnology": "Teknologi",
-      "labelTermsOfUse": "Villkor",
+      "labelTermsOfUse": "Användarvillkor",
       "toggleButtonLabel": "Navigera till hjälpsidan"
     },
     "sourceCodeLinks": {
-      "api": "gränssnitt",
+      "api": "API",
       "documentation": "dokumentation",
-      "linkedEventsUi": "användargränssnitt för evenemnaghantering",
-      "linkedRegistrationsUi": "användargränssnitt för registrering"
+      "linkedEventsUi": "UI för evenemangshantering",
+      "linkedRegistrationsUi": "UI för registrering"
     }
   },
   "image": {
     "deleteImageModal": {
-      "buttonDelete": "Radera bild",
-      "text": "Denna åtgärd tar bort bilden permanent.",
-      "title": "Bekräfta raderingen av bilden"
+      "buttonDelete": "Ta bort bild",
+      "text": "Denna åtgärd kommer att permanent ta bort bilden.",
+      "title": "Bekräfta radering av bild"
     },
     "form": {
       "buttonAddImage": "Lägg till bild",
@@ -1348,17 +1348,17 @@
       "buttonUpload": "Ladda upp bild",
       "labelAltText": "Alternativ bildtext för skärmläsare (alt text)",
       "labelImage": "Bild",
-      "labelName": "Rubrik",
+      "labelName": "Bildtext",
       "labelPhotographerName": "Författarens namn",
       "labelPublisher": "Utgivare",
-      "labelUrl": "Bildens URL-webbaddress",
+      "labelUrl": "URL för bild",
       "notificationImageDeleted": "Bilden har tagits bort",
       "notificationImageUpdated": "Bilden har sparats",
       "notificationTitleCannotEdit": "Bilden kan inte redigeras",
-      "placeholderAltText": "Ange bildens alt-text för skärmläsare",
+      "placeholderAltText": "Ange alternativ text för skärmläsare",
       "placeholderName": "Ange bildtext",
       "placeholderPhotographerName": "Ange författarens namn",
-      "placeholderUrl": "Ange bildens URL",
+      "placeholderUrl": "Ange URL för bild",
       "titleImportFromHardDisk": "Importera från din hårddisk",
       "titleImportFromInternet": "Importera från internet",
       "titleLicense": "Licens",
@@ -1367,18 +1367,18 @@
     "license": {
       "ccBy": "Creative Commons BY 4.0",
       "eventOnly": {
-        "course": "Bilden får endast användas för den här kursen",
+        "course": "Bilden får endast användas för denna kurs",
         "general": "Bilden får endast användas för detta evenemang",
         "volunteering": "Bilden får endast användas för detta volontärarbete"
       }
     },
     "modalTitleAddImage": "Lägg till bild",
-    "warningLogInToUpdate": "Logga in för att redigera den här bilden.",
+    "warningLogInToUpdate": "Logga in för att redigera bilden.",
     "warningLogInToUpload": "Logga in för att lägga till bilder.",
     "warningNoImageSelected": "Ingen bild vald.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera den här bilden.",
-    "warningNoRightsToUpdate": "Du har inte tillräckliga rättigheter för att redigera den här bilden.",
-    "warningNoRightsToUpload": "You have insufficient rights to add images."
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna bild.",
+    "warningNoRightsToUpdate": "Du har inte tillräckliga rättigheter för att redigera denna bild.",
+    "warningNoRightsToUpload": "Du har inte tillräckliga rättigheter att lägga till bilder."
   },
   "imagesPage": {
     "actionButtons": {
@@ -1394,7 +1394,7 @@
       "name": "Namn"
     },
     "labelSearch": "Sök bilder",
-    "pageDescription": "Bildlista. Bläddra, filtrera och redigera Linked Events bilder.",
+    "pageDescription": "Lista över bilder. Bläddra, filtrera och redigera bilder från länkade evenemang.",
     "pageTitle": "Bilder",
     "sortOptions": {
       "id": "Id, stigande",
@@ -1405,31 +1405,31 @@
       "nameDesc": "Name, fallande"
     },
     "title": "Bilder",
-    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa bilder.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera den här bilden."
+    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter att skapa bilder.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna bild."
   },
   "keyword": {
     "deleteKeywordModal": {
-      "buttonDelete": "Radera nyckelord",
-      "text": "Denna åtgärd tar bort nyckelordet permanent.",
-      "title": "Bekräfta raderingen av nyckelordet"
+      "buttonDelete": "Ta bort nyckelord",
+      "text": "Denna åtgärd kommer att ta bort nyckelordet permanent.",
+      "title": "Bekräfta borttagning av nyckelord"
     },
     "form": {
-      "buttonDelete": "Radera nyckelord",
+      "buttonDelete": "Ta bort nyckelord",
       "labelDataSource": "Datakälla",
-      "labelDeprecated": "Utfasad",
+      "labelDeprecated": "Avskrivna",
       "labelId": "ID",
       "labelName": "Namn",
-      "labelOriginId": "Ursprungs-ID",
+      "labelOriginId": "Ursprung ID",
       "labelPublisher": "Utgivare",
       "labelReplacedBy": "Ersatt av",
       "notificationKeywordDeleted": "Nyckelordet har tagits bort",
       "notificationKeywordUpdated": "Nyckelordet har sparats",
-      "notificationTitleCannotEdit": "Nyckelord kan inte redigeras"
+      "notificationTitleCannotEdit": "Nyckelordet kan inte redigeras"
     }
   },
   "keywords": {
-    "add": "lägg till",
+    "add": "lägga till",
     "admin": "admin",
     "api": "api",
     "ask": "fråga",
@@ -1443,7 +1443,7 @@
     "edit": "redigera",
     "event": "evenemang",
     "events": "events",
-    "faq": "ukk",
+    "faq": "faq",
     "features": "funktioner",
     "filter": "filtrera",
     "finland": "Finland",
@@ -1457,25 +1457,25 @@
     "linked": "linked",
     "listing": "lista",
     "management": "ledning",
-    "myListing": "min, lista",
+    "myListing": "min lista",
     "new": "ny",
     "organization": "organisation",
     "permission": "tillstånd",
     "place": "plats",
     "platform": "plattform",
-    "priceGroup": "kundgrup",
+    "priceGroup": "kundgrupp",
     "questions": "frågor",
     "registration": "registrering",
     "report": "rapport",
     "rights": "rättigheter",
-    "set": "uppsättning",
     "search": "sök",
+    "set": "inställd",
     "sourceCode": "källkod",
     "support": "stöd",
     "technology": "teknologi",
-    "termsOfUse": "villkor",
+    "termsOfUse": "användarvillkor",
     "update": "uppdatering",
-    "upload": "ladda upp"
+    "upload": "uppladdning"
   },
   "keywordsPage": {
     "actionButtons": {
@@ -1490,7 +1490,7 @@
       "nEvents": "Antal evenemang"
     },
     "labelSearch": "Sök nyckelord",
-    "pageDescription": "Nyckelordslista. Bläddra, filtrera och redigera nyckelord för Linked Events.",
+    "pageDescription": "Lista över nyckelord. Bläddra, filtrera och redigera nyckelord för länkade händelser.",
     "pageTitle": "Nyckelord",
     "sortOptions": {
       "id": "Id, stigande",
@@ -1501,27 +1501,27 @@
       "nEventsDesc": "Antal evenemang, fallande"
     },
     "title": "Nyckelord",
-    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa nyckelord.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här nyckelordet."
+    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa nyckelord.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta nyckelord."
   },
   "keywordSet": {
     "deleteKeywordSetModal": {
-      "buttonDelete": "Radera nyckelordsuppsättning",
-      "text": "Denna åtgärd tar bort nyckelorsuppsättningen permanent.",
-      "title": "Bekräfta raderingen av nyckelorsuppsättningen"
+      "buttonDelete": "Ta bort nyckelordsuppsättning",
+      "text": "Denna åtgärd kommer att permanent ta bort nyckelordsuppsättningen.",
+      "title": "Bekräfta radering av nyckelordsuppsättning"
     },
     "form": {
-      "buttonDelete": "Radera nyckelordsuppsättning",
+      "buttonDelete": "Ta bort nyckelordsuppsättning",
       "labelDataSource": "Datakälla",
       "labelId": "ID",
       "labelKeywords": "Nyckelord",
       "labelName": "Namn",
       "labelOrganization": "Utgivare",
-      "labelOriginId": "Ursprungs-ID",
-      "labelUsage": "Användande",
-      "notificationKeywordSetDeleted": "Nyckelordsuppsättning har tagits bort",
-      "notificationKeywordSetUpdated": "Nyckelordsuppsättning har sparats",
-      "notificationTitleCannotEdit": "Nyckelordsuppsättning kan inte redigeras"
+      "labelOriginId": "Ursprung ID",
+      "labelUsage": "Användning",
+      "notificationKeywordSetDeleted": "Nyckelordsuppsättningen har tagits bort",
+      "notificationKeywordSetUpdated": "Nyckelordsuppsättningen har sparats",
+      "notificationTitleCannotEdit": "Nyckelordsuppsättningen kan inte redigeras"
     }
   },
   "keywordSetsPage": {
@@ -1534,10 +1534,10 @@
     "keywordSetsTableColumns": {
       "id": "ID",
       "name": "Namn",
-      "usage": "Användande"
+      "usage": "Användning"
     },
-    "labelSearch": "Sök nyckelordsuppsättningar",
-    "pageDescription": "Sökordsuppsättning. Bläddra, filtrera och redigera sökordsuppsättningar för Linked Events.",
+    "labelSearch": "Sök i nyckelordsuppsättningar",
+    "pageDescription": "Lista över nyckelordsuppsättningar. Bläddra, filtrera och redigera nyckelordsuppsättningar för Linked Events.",
     "pageTitle": "Nyckelordsuppsättningar",
     "sortOptions": {
       "id": "Id, stigande",
@@ -1549,38 +1549,38 @@
     },
     "title": "Nyckelordsuppsättningar",
     "usageOptions": {
-      "any": "Allmän",
+      "any": "Allmänt",
       "audience": "Målgrupp",
       "keyword": "Nyckelord"
     },
-    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa nyckelordsuppsättningar.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera den här nyckelordsuppsättningen."
+    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa nyckelordsuppsättningar.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna nyckelordsuppsättning."
   },
   "landingPage": {
     "heroTitle": "Evenemang och hobbyer i Helsingfors",
-    "highlight1Text": "Evenemang i Helsingfors från guidade lekparkaktiviteter till festivaler i världsklass.",
-    "highlight1Title": "35 000\nmiljoner evenemang per år",
-    "highlight2Text": "Information om evenemang sprids genom ett öppet gränssnitt till flera platser för stadsbor att hitta.",
+    "highlight1Text": "Evenemang i Helsingfors från guidade lekparksaktiviteter till festivaler i världsklass.",
+    "highlight1Title": "35 000\nevenemang per år",
+    "highlight2Text": "Evenemanginformation sprids via ett öppet API till flera webbplatser som stadens invånare kan upptäcka.",
     "highlight2Title": "25\nevenemangssidor",
-    "highlight3Text": "Linked Events är <a href={{githubUrl}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"öppen källkod {{openInNewTab}}\">öppen källkod</a>. Många städer har valt att använda det gratis. ",
-    "highlight3Title": "60 000\nrader kod",
-    "myHelsinkiDescription": "MyHelsinki.fi är en tjänst som sammanför innehåll om Helsingfors erbjudanden för besökare och företag. Webbplatsen hjälper till att hitta information om trender, attraktioner, restauranger och evenemang i staden samt avslöjar tips från invånarna. Think Sustainably -service erbjuder rekommendationer för Helsingfors hållbara erbjudanden.",
+    "highlight3Text": "Linked Events är <a href={{githubUrl}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"öppen källkod {{openInNewTab}}\">öppen källkod</a>. Många städer har valt att använda det gratis.",
+    "highlight3Title": "60 000\nlinjer av kod",
+    "myHelsinkiDescription": "MyHelsinki.fi är en tjänst som samlar innehåll om Helsingfors utbud för besökare och företag. På webbplatsen hittar man information om trender, sevärdheter, restauranger och evenemang i staden samt tips från invånarna. Think Sustainably -tjänsten erbjuder rekommendationer för Helsingfors hållbara utbud.",
     "myHelsinkiTitle": "MyHelsinki.fi",
-    "tapahtumatHelDescription": "En ny webbplats som sammanför Helsingfors stads evenemangsutbud. Tapahtumat.hel.fi erbjuder en lättanvänd händelsesökning, från vilken användaren kan söka efter händelser av intresse för honom, till exempel efter tid, plats eller händelsekategori. Nästa version av webbplatsen kommer också att samla hobbyer för barn och ungdomar som erbjuds av staden på ett ställe.",
+    "tapahtumatHelDescription": "En ny webbplats som samlar Helsingfors stads evenemangsutbud. Tapahtumat.hel.fi erbjuder en lättanvänd evenemangssökning, där användaren kan söka efter evenemang av intresse för dem, till exempel efter tid, plats eller evenemangskategori. I nästa version av webbplatsen finns också stadens hobbyer för barn och unga samlade på ett och samma ställe.",
     "tapahtumatHelImageAuthor": "Helsingfors stad / Aki Rask",
     "tapahtumatHelTitle": "tapahtumat.hel.fi",
-    "titlePartners": "Tjänster som redan är beroende av Linked Events",
-    "titleServices": "Helsingfors evenemangsplatser"
+    "titlePartners": "Tjänster som redan förlitar sig på Linked Events",
+    "titleServices": "Evenemangsplatser i Helsingfors"
   },
   "logoutPage": {
-    "buttonBackToHome": "Tillbaka till startsidan",
+    "buttonBackToHome": "Tillbaka till förstasidan",
     "pageTitle": "Logga ut",
-    "text": "Du har loggat ut från tjänsten. Logga in igen eller återvänd till hemsidan."
+    "text": "Du har blivit utloggad från tjänsten. Logga in igen eller gå tillbaka till förstasidan."
   },
   "maintenance": {
     "header": {
-      "label": "Den nya inloggningen av Helsingfors profil kommer att införas i mitten av januari 2024.",
-      "text": "Inloggningsmetoderna för Google, YLE och Facebook kommer att tas bort. Samtidigt kommer de anställdas AD-autentisering att ändras.<br/>Efter ändringen kommer tjänsten Helsinki Profile att användas för inloggning, och användarna kommer att kunna hantera sina egna uppgifter i stadens olika digitala tjänster.<br/>I och med införandet av Helsingfors profilen kommer åtkomsten till tidigare innehåll som gjorts under inloggning att inaktiveras.<br/>Förändringen kommer också att ta bort innehållsproduktionsrättigheter. För att kunna producera innehåll bör du ta dig tid att förnya dina innehållsproduktionsrättigheter.<br/>"
+      "label": "Helsingfors nya profilinloggning kommer att införas i mitten av januari 2024.",
+      "text": "Inloggningsmetoderna Google, YLE och Facebook tas bort. Samtidigt ändras AD-autentiseringen för de anställda.<br/> Efter ändringen används tjänsten Helsinki Profile för inloggning, och användarna kan hantera sina egna uppgifter i stadens olika digitala tjänster.<br/> I och med införandet av Helsinki Profile kommer tillgången till tidigare innehåll att inaktiveras.<br/> Ändringen kommer också att ta bort rättigheterna för innehållsproduktion. För att kunna producera innehåll bör du ta dig tid att förnya dina rättigheter för innehållsproduktion.<br/>"
     },
     "toast": "På onsdag 30.8. kommer Linked Events-tjänsten att uppdateras, vilket innebär att inloggning inte kommer att vara möjlig."
   },
@@ -1593,9 +1593,9 @@
     "languageSelectorAriaLabel": "Svenska - språkval",
     "logo": "Helsingfors stad - logo",
     "menuToggleAriaLabel": "Menyn",
-    "skipToContentLabel": "Gå till innehållet",
+    "skipToContentLabel": "Hoppa till innehåll",
     "tabs": {
-      "accessibilityStatement": "Tillgänglighets­utlåtande",
+      "accessibilityStatement": "Tillgänglighetsutlåtande",
       "admin": "Admin",
       "events": "Mina evenemangen",
       "help": "Stöd",
@@ -1606,35 +1606,35 @@
   },
   "notFound": {
     "pageTitle": "Hittades inte",
-    "text": "Innehållet du letade efter kunde inte hittas. Logga in igen eller återvänd till hemsidan."
+    "text": "Innehållet du letade efter kunde inte hittas. Logga in eller återgå till förstasidan."
   },
   "notSigned": {
-    "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller gå tillbaka till startsidan."
+    "text": "Du måste vara inloggad för att se detta innehåll. Logga in eller återgå till förstasidan."
   },
   "organization": {
     "affiliatedOrganizationsTableTitle": "Anslutna organisationer",
-    "deleteKeywordSetModal": {
-      "buttonDelete": "Radera organisation",
-      "text": "Denna åtgärd tar bort organisationen permanent.",
-      "title": "Bekräfta raderingen av organisationen"
+    "deleteOrganizationModal": {
+      "buttonDelete": "Ta bort organisation",
+      "text": "Denna åtgärd kommer att permanent ta bort organisationen.",
+      "title": "Bekräfta radering av organisation"
     },
     "form": {
       "buttonAddMerchant": "Lägg till ny handlare",
-      "buttonDelete": "Radera organisation",
-      "buttonDeleteMerchant": "Radera handlare",
+      "buttonDelete": "Ta bort organisation",
+      "buttonDeleteMerchant": "Ta bort handlare",
       "labelAdminUsers": "Adminanvändare",
       "labelClassification": "Klassificering",
       "labelDataSource": "Datakälla",
-      "labelDissolutionDate": "Upplösningsdatum",
-      "labelFinancialAdminUsers": "Finans admin användare",
-      "labelFoundingDate": "Grundningsdatum",
+      "labelDissolutionDate": "Datum för upplösning",
+      "labelFinancialAdminUsers": "Finansiella admin-användare",
+      "labelFoundingDate": "Datum för grundande",
       "labelId": "ID",
       "labelInternalType": "Intern typ",
       "labelName": "Namn",
-      "labelOriginId": "Ursprungs-ID",
+      "labelOriginId": "Ursprung ID",
       "labelParentOrganization": "Föräldraorganisation",
-      "labelRegistrationAdminUsers": "Registrering admin användare",
-      "labelRegularUsers": "Regelbundna användare",
+      "labelRegistrationAdminUsers": "Registrering admin-användare",
+      "labelRegularUsers": "Vanliga användare",
       "labelReplacedBy": "Ersatt av",
       "merchant": {
         "labelActive": "Är aktiv",
@@ -1650,9 +1650,9 @@
         "labelUrl": "URL-adress",
         "labelZipcode": "Postnummer"
       },
-      "notificationOrganisationDeleted": "Organisation har tagits bort",
-      "notificationOrganisationUpdated": "Organisation har sparats",
-      "notificationTitleCannotEdit": "Organisation kan inte redigeras",
+      "notificationOrganisationDeleted": "Organisationen har tagits bort",
+      "notificationOrganisationUpdated": "Organisationen har sparats",
+      "notificationTitleCannotEdit": "Organisationen kan inte redigeras",
       "titleMerchant": "Handlare"
     },
     "internalType": {
@@ -1681,7 +1681,7 @@
       "name": "Namn",
       "parentOrganization": "Föräldraorganisation"
     },
-    "pageDescription": "Organisationsförteckning. Bläddra, filtrera och redigera Linked Events organisationer.",
+    "pageDescription": "Organization listing. Browse, filter and edit Linked Events organizations.",
     "pageTitle": "Organisationer",
     "sortOptions": {
       "classification": "Klassificering, stigande",
@@ -1696,17 +1696,17 @@
       "parentOrganizationDesc": "Föräldraorganisation, descending"
     },
     "title": "Organisationer",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här organisation.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna organisation.",
     "warningNoRightsToEditMerchant": "Endast systemadministratörer och finansiella administratörer kan redigera handlare."
   },
   "place": {
     "deletePlaceModal": {
-      "buttonDelete": "Radera plats",
-      "text": "Denna åtgärd tar bort plats permanent.",
-      "title": "Bekräfta raderingen av platsen"
+      "buttonDelete": "Ta bort plats",
+      "text": "Denna åtgärd kommer att permanent ta bort platsen.",
+      "title": "Bekräfta radering av plats"
     },
     "form": {
-      "buttonDelete": "Radera plats",
+      "buttonDelete": "Ta bort plats",
       "labelAddressLocality": "Postdistrikt ({{langText}})",
       "labelAddressRegion": "Adressregion",
       "labelContactType": "Kontakt typ",
@@ -1714,18 +1714,18 @@
       "labelDescription": "Beskrivning ({{langText}})",
       "labelEmail": "E-postadress",
       "labelId": "ID",
-      "labelInfoUrl": "Platsens hemsida ({{langText}})",
+      "labelInfoUrl": "Webbplats för plats ({{langText}})",
       "labelName": "Namn",
-      "labelOriginId": "Ursprungs-ID",
+      "labelOriginId": "Ursprung ID",
       "labelPostalCode": "Postnummer",
-      "labelPostOfficeBoxNum": "PO Box",
+      "labelPostOfficeBoxNum": "Postbox",
       "labelPublisher": "Utgivare",
       "labelStreetAddress": "Gatuadress ({{langText}})",
       "labelTelephone": "Telefonnummer ({{langText}})",
       "notificationPlaceDeleted": "Platsen har tagits bort",
       "notificationPlaceUpdated": "Platsen har sparats",
       "notificationTitleCannotEdit": "Platsen kan inte redigeras",
-      "titleContactInfo": "Kontaktinformation",
+      "titleContactInfo": "Kontaktuppgifter",
       "titleLocation": "Position"
     }
   },
@@ -1735,8 +1735,8 @@
     },
     "count": "{{count}} plats",
     "count_other": "{{count}} platser",
-    "labelSearch": "Sök platser",
-    "pageDescription": "Platsnotering. Bläddra, filtrera och redigera Linked Events platser.",
+    "labelSearch": "Sök efter platser",
+    "pageDescription": "Lista över platser. Bläddra, filtrera och redigera platser för Linked Events.",
     "pageTitle": "Platser",
     "placesTableCaption": "Platser, sorterade efter {{sort}}",
     "placesTableColumns": {
@@ -1756,17 +1756,17 @@
       "streetAddressDesc": "Gatuadress, fallande"
     },
     "title": "Platser",
-    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa platser.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera det här plats."
+    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa platser.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna plats."
   },
   "priceGroup": {
     "deletePriceGroupModal": {
-      "buttonDelete": "Radera kundgrupp",
-      "text": "Denna åtgärd tar bort kundgrupp permanent.",
-      "title": "Bekräfta raderingen av kundgruppen"
+      "buttonDelete": "Ta bort kundgrupp",
+      "text": "Denna åtgärd kommer att ta bort kundgruppen permanent.",
+      "title": "Bekräfta radering av kundgrupp"
     },
     "form": {
-      "buttonDelete": "Radera kundgrupp",
+      "buttonDelete": "Ta bort kundgrupp",
       "labelDescription": "Beskrivning",
       "labelId": "ID",
       "labelIsFree": "Gratis",
@@ -1783,7 +1783,7 @@
     "count": "{{count}} kundgrupp",
     "count_other": "{{count}} kundgrupper",
     "labelSearch": "Sök kundgrupper",
-    "pageDescription": "Kundgruppslista. Bläddra, filtrera och redigera Linked Events kundgrupper.",
+    "pageDescription": "Lista över kundgrupper. Bläddra, filtrera och redigera Linked Events kundgrupper.",
     "pageTitle": "Kundgrupper",
     "priceGroupsTableCaption": "Kundgrupper, sorterade efter {{sort}}",
     "priceGroupsTableColumns": {
@@ -1799,15 +1799,15 @@
       "idDesc": "Id, fallande"
     },
     "title": "Kundgrupper",
-    "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa kundgrupper.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera den här kundgruppen.",
-    "warningNoRightsToEditDefaultPriceGroup": "Kundgruppen är standardkundgruppen. Standardkundgrupperna kan inte ändras."
+    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa kundgrupper.",
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna kundgrupp.",
+    "warningNoRightsToEditDefaultPriceGroup": "Kundgruppen är den förvalda kundgruppen. De förvalda kundgrupperna kan inte redigeras."
   },
   "registration": {
     "deleteRegistrationModal": {
-      "buttonDelete": "Radera registreringen",
-      "text": "Denna åtgärd tar bort registreringen permanent.",
-      "title": "Bekräfta raderingen av registeringen"
+      "buttonDelete": "Ta bort registrering",
+      "text": "Denna åtgärd kommer att permanent ta bort registreringen.",
+      "title": "Bekräfta radering av registrering"
     },
     "form": {
       "buttonAddPriceGroup": "Lägg till andra kundgrupper",
@@ -1820,42 +1820,42 @@
       },
       "editButtonPanel": {
         "warningHasSignups": "Registreringar med deltagare kan inte raderas.",
-        "warningNoRightsToCreate": "Du har otillräckliga rättigheter att skapa registreringar.",
-        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta registrering."
+        "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa registreringar.",
+        "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna registrering."
       },
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
-      "labelConfirmationMessage": "Bekräftelsemeddelande {{langText}}(valfritt)",
+      "labelConfirmationMessage": "Bekräftelsemeddelande {{langText}} (valfritt)",
       "labelEnrolmentEndTimeDate": "Registreringen avslutas",
       "labelEnrolmentEndTimeTime": "Registreringen avslutas kl",
       "labelEnrolmentStartTimeDate": "Registreringen börjar",
       "labelEnrolmentStartTimeTime": "Registreringen börjar kl",
       "labelEvent": "Evenemang",
-      "labelFilterByDates": "Evenemangets datum",
-      "labelFilterRecurringEvent": "Anmälan till säsongen",
-      "labelInstructions": "Anvisningar för registrering {{langText}} (valfritt)",
-      "labelMaximumAttendeeCapacity": "Max antal platser",
+      "labelFilterByDates": "Evenemangstid",
+      "labelFilterRecurringEvent": "Registrering för säsongen",
+      "labelInstructions": "Instruktioner för registrering {{langText}} (valfritt)",
+      "labelMaximumAttendeeCapacity": "Högsta antal platser",
       "labelMaximumGroupSize": "Maximal gruppstorlek",
-      "labelMinimumAttendeeCapacity": "Minsta antal platser",
+      "labelMinimumAttendeeCapacity": "Lägsta antal platser",
       "labelName": "Namn",
-      "labelWaitingListCapacity": "Antal reservplatser",
+      "labelWaitingListCapacity": "Antal reservsäten",
       "messages": {
         "failedToSendInvitation": "Det gick inte att skicka inbjudan",
-        "succeededToSendInvitation": "En inbjudan till deltagarlista har skickats till {{email}}."
+        "succeededToSendInvitation": "En inbjudan till deltagarlistan har skickats till {{email}}."
       },
-      "notificationRegistrationDeleted": "Registreringen har raderats",
-      "notificationRegistrationUpdated": "Registreringen har sparad",
-      "notificationTitleCannotEdit": "Registreringet kan inte redigeras",
-      "placeholderConfirmationMessage": "Ange ett bekräftelsemeddelande för registranter",
+      "notificationRegistrationDeleted": "Registreringen har tagits bort",
+      "notificationRegistrationUpdated": "Registreringen har sparats",
+      "notificationTitleCannotEdit": "Registreringen kan inte redigeras",
+      "placeholderConfirmationMessage": "Ange bekräftelsemeddelande för registranter",
       "placeholderEvent": "Välj eller sök efter evenemanget",
-      "placeholderInstructions": "Ange registreringsinstruktioner",
+      "placeholderInstructions": "Ange instruktioner för registrering",
       "registrationUserAccess": {
         "labelEmail": "Användarens e-postadress",
         "labelIsSubstituteUser": "Ersättande användare",
         "labelLanguage": "Språk",
-        "notificationTextAccessRights": "Här kan du ge läsrätt för denna registrering till en annan stadsanställd eller en extern evenemangsarrangör, eller tilldela dig själv en vikarie med samma behörighet som du.",
-        "notificationTitleAccessRights": "Användningsrättigheter",
-        "notificationTextSubstituteUser": "Lägg till dig själv en ersättare för eventuell frånvaro. Utifrån detta ges vikarien samma åtkomsträttigheter till denna registrering som du har. Om du inte har en tydlig ersättare, sätt då din föregångare som ersättare.",
+        "notificationTextAccessRights": "Här kan du ge läsrättigheter för denna registrering till en annan stadsanställd eller en extern evenemangsarrangör, eller tilldela dig själv en ersättare med samma åtkomsträttigheter som du.",
+        "notificationTitleAccessRights": "Tillträdesrättigheter",
+        "notificationTextSubstituteUser": "Lägg till en ersättare för eventuell frånvaro. Baserat på detta får vikarien samma åtkomsträttigheter till denna registrering som du har. Om du inte har en tydlig ersättare, lägg då till din föregångare som ersättare.",
         "notificationTitleSubstituteUser": "Ersättande användare",
         "placeholderEmail": "Ange användarens e-postadress",
         "placeholderLanguage": "Välj språk"
@@ -1865,7 +1865,7 @@
         "labelPrice": "Pris (€)",
         "labelPriceGroup": "Kundgrupp",
         "labelVatPercentage": "MOMS %",
-        "placeholderPrice": "Ange priset",
+        "placeholderPrice": "Ange pris",
         "placeholderPriceGroup": "Välj kundgrupp",
         "placeholderVatPercentage": "Välj MOMS %"
       },
@@ -1879,11 +1879,11 @@
         "languages": "Språk",
         "mandatoryFields": "Obligatoriska fält",
         "priceGroups": "Kundgrupper",
-        "registrationUserAccesses": "Användningsrättigheter",
+        "registrationUserAccesses": "Tillträdesrättigheter",
         "waitingList": "Väntelista"
       },
       "sendInvitation": "Skicka inbjudan igen",
-      "titleContactInfo": "Kontaktinformation",
+      "titleContactInfo": "Kontaktuppgifter",
       "titleInfoLanguages": "Inmatningsspråk",
       "titleParticipantBasicInfo": "Grundläggande information om deltagaren",
       "titlePriceGroup": "Kundgrupp"
@@ -1893,34 +1893,34 @@
   "registrationsPage": {
     "actionButtons": {
       "copy": "Kopiera som mall",
-      "copyLink": "Kopiera länken",
-      "delete": "Radera registrering",
+      "copyLink": "Kopiera länk",
+      "delete": "Ta bort registrering",
       "edit": "Redigera",
-      "editAttendanceList": "Märk de närvarande",
+      "editAttendanceList": "Markera deltagare",
       "exportSignupsAsExcel": "Exportera deltagare (Excel)",
       "showSignups": "Visa deltagare",
       "update": "Spara ändringar"
     },
-    "buttonClearFilters": "Töm sökfilter",
+    "buttonClearFilters": "Ta bort filter",
     "count": "{{count}} registrering",
     "count_other": "{{count}} registreringar",
-    "pageDescription": "Registreringsförteckning. Bläddra, filtrera och redigera dina registreringar.",
+    "pageDescription": "Lista över registreringar. Bläddra, filtrera och redigera dina registreringar.",
     "pageTitle": "Registrering",
     "registrationsTableCaption": "Registreringar, sorterade efter {{sort}}",
     "registrationsTableColumns": {
-      "enrolmentTime": "Anmälantid",
-      "eventTime": "Eventtid",
+      "enrolmentTime": "Inskrivningstid",
+      "eventTime": "Evenemangstid",
       "name": "Namn",
       "publisher": "Utgivare",
-      "signups": "Deltagarna",
+      "signups": "Deltagare",
       "waitingList": "Väntelista"
     },
     "searchPanel": {
       "buttonSearch": "Sök",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",
-      "labelSearch": "Sök efter registreringar",
-      "placeholderSearch": "Sök efter registreringar"
+      "labelSearch": "Sök registreringar",
+      "placeholderSearch": "Sök registreringar"
     },
     "sortOptions": {
       "lastModifiedTime": "Senast ändrad, stigande",
@@ -1930,114 +1930,114 @@
   },
   "registrationSavedPage": {
     "buttonBackToRegistrations": "Tillbaka till registreringar",
-    "pageTitle": "Registreringen sparad",
-    "title": "Registreringen har sparats"
+    "pageTitle": "Registrering sparad",
+    "title": "Registrering framgångsrikt sparad"
   },
   "serverError": {
     "emailMustBeUnique": "E-post har redan registrering.",
-    "endTimeInPast": "Sluttiden kan inte vara tidigare. Ange en framtida sluttid.",
-    "invalidUrl": "Ange rätt URL.",
+    "endTimeInPast": "Sluttiden kan inte vara i det förflutna. Ange en framtida sluttid.",
+    "invalidUrl": "Ange en giltig URL.",
     "maxGroupSize": "Den maximala gruppstorleken är {{maxGroupSize}}.",
     "maxLength255": "Värdet kan vara upp till 255 tecken långt.",
     "methodDeleteNotAllowed": "\"DELETE\"-metoden är inte tillåten.",
     "methodPostNotAllowed": "\"POST\"-metoden är inte tillåten.",
     "methodPutNotAllowed": "\"PUT\"-metoden är inte tillåten.",
+    "min0": "Detta tal måste vara minst 0.",
     "mustBeUnique": "Värdet måste vara unikt.",
-    "min0": "Detta nummer måste vara minst 0.",
-    "nameIsRequired": "Namnet krävs.",
-    "notAllowedEmailDomain": "Användarens e-postdomän är inte en av de tillåtna domänerna för ersättningsanvändare.",
-    "notEnoughSeats": "Det finns inte tillräckligt med platser kvar. Platser kvar: {{seatsLeft}}.",
-    "notEnoughWaitingListSeats": "Det finns inte tillräckligt med köer kvar. Platser kvar: {{seatsLeft}}.",
-    "notFoundAllObjects": "Det gick inte att hitta alla objekt att uppdatera.",
-    "notNull": "Värdet på detta fält kan inte vara \"null\".",
-    "offersIsRequired": "Prisinformation måste anges innan ett evenemang publiceras.",
+    "nameIsRequired": "Namnet måste anges.",
+    "notAllowedEmailDomain": "Användarens e-postdomän är inte en av de tillåtna domänerna för ersättande användare.",
+    "notEnoughSeats": "Inte tillräckligt många platser tillgängliga. Kapacitet kvar: {{seatsLeft}}.",
+    "notEnoughWaitingListSeats": "Inte tillräckligt med kapacitet i väntelistan. Kapacitet kvar: {{seatsLeft}}.",
+    "notFoundAllObjects": "Kunde inte hitta alla objekt att uppdatera.",
+    "notNull": "Värdet av detta område kan inte vara \"null\".",
+    "offersIsRequired": "Prisinformation måste anges innan en händelse publiceras.",
     "participantTooOld": "Deltagaren är för gammal.",
     "participantTooYoung": "Deltagaren är för ung.",
-    "phoneNumberMustBeUnique": "Telefonnumret har redan registrering.",
-    "required": "Det här fältet kan inte lämnas tomt.",
+    "phoneNumberMustBeUnique": "Phone number already has registration.",
+    "required": "Detta fält får inte lämnas tomt.",
     "requiredWhenPublishing": "Detta fält måste anges innan ett evenemang publiceras.",
-    "shortDescriptionTooLong": "Kort beskrivningslängd måste vara 160 tecken eller mindre.",
+    "shortDescriptionTooLong": "En kort beskrivning får inte vara längre än 160 tecken.",
     "validValueRequired": "Ett giltigt nummer krävs"
   },
   "signup": {
     "attendeeStatus": {
-      "attending": "Deltar",
-      "waitlisted": "På väntelista"
+      "attending": "Deltagande",
+      "waitlisted": "På väntelistan"
     },
     "deleteSignupFromFormModal": {
       "buttonDelete": "Ta bort deltagare",
       "buttonDelete_other": "Ta bort deltagare",
-      "text1": "Är du säker på att du vill ta bort deltagaren? Deltagarens reservationer tas också bort.",
-      "text1_other": "Är du säker på att du vill ta bort deltagare? Deltagarnas reservationer tas också bort.",
-      "text2": "Denna operation kan inte ångras.",
-      "title": "Bekräfta borttagning av deltagare",
-      "title_other": "Bekräfta borttagning av deltagare"
+      "text1": "Är du säker på att du vill ta bort deltagaren? Deltagarens bokningar kommer också att tas bort.",
+      "text1_other": "Är du säker på att du vill ta bort deltagare? Deltagarnas reservationer kommer också att tas bort.",
+      "text2": "Denna åtgärd kan inte ångras.",
+      "title": "Bekräfta radering av deltagare",
+      "title_other": "Bekräfta radering av deltagare"
     },
     "deleteSignupModal": {
-      "buttonCancel": "Avbryt registreringen",
-      "text1": "Denna operation kan inte ångras.",
-      "text2": "Följande registreringar kommer att raderas",
-      "title": "Är du säker på att du vill avbryta registreringen?"
+      "buttonCancel": "Avbryt registrering",
+      "text1": "Denna åtgärd kan inte ångras.",
+      "text2": "Följande registreringar kommer att raderas:",
+      "title": "Är du säker på att du vill avboka registreringen?"
     },
-    "eventTimes": "Alla evenemangstider",
+    "eventTimes": "Alla tider för evenemanget",
     "form": {
       "buttonSave": "Spara deltagare",
-      "buttonUpdateParticipantAmount": "Uppdatera",
+      "buttonUpdateParticipantAmount": "Uppdatering",
       "contactPerson": {
         "cannotEditContactPersonNotification": {
-          "linkText": "Redigera deltagargruppen",
-          "text": "Deltagargruppens kontaktpersonsuppgifter kan inte redigeras från denna sida. Kontaktinformation kan redigeras från redigeringssidan för deltagargruppen.",
-          "title": "Kontaktinformation kan inte redigeras"
+          "linkText": "Redigera deltagaresgruppen",
+          "text": "Deltagaresgruppens kontaktuppgifter kan inte redigeras från den här sidan. Kontaktuppgifter kan redigeras från deltagaresgruppens redigeringssida.",
+          "title": "Information om kontaktperson kan inte redigeras"
         },
         "labelEmail": "E-postadress",
         "labelFirstName": "Förnamn",
         "labelLastName": "Efternamn",
-        "labelMembershipNumber": "Medlemskortnummer (valfritt)",
+        "labelMembershipNumber": "Nummer på medlemskort (valfritt)",
         "labelNativeLanguage": "Modersmål",
         "labelPhoneNumber": "Telefonnummer",
-        "labelServiceLanguage": "Transaktionsspråk",
+        "labelServiceLanguage": "Språk för kommunikation",
         "notificationTextContactPersonInfo": "Ange din vårdnadshavares kontaktuppgifter här om du är minderårig.",
-        "placeholderEmail": "Skriv in din mailadress",
-        "placeholderFirstName": "Ange kontaktens förnamn",
-        "placeholderLastName": "Ange kontaktens efternamn",
+        "placeholderEmail": "Ange din e-postadress",
+        "placeholderFirstName": "Ange kontaktpersonens förnamn",
+        "placeholderLastName": "Ange kontaktpersonens efternamn",
         "placeholderMembershipNumber": "Ange medlemskortets nummer",
-        "placeholderNativeLanguage": "Välj modersmål",
+        "placeholderNativeLanguage": "Välj språk",
         "placeholderPhoneNumber": "+358 44 1234 567",
-        "placeholderServiceLanguage": "Välj transaktionsspråk",
+        "placeholderServiceLanguage": "Välj språk",
         "titleAdditionalInfo": "Ytterligare information",
-        "titleCannotEditContactPerson": "Deltagargruppens kontaktpersonsuppgifter kan inte redigeras från denna sida.",
-        "titleContactInfo": "Kontaktinformation",
-        "titleContactPersonInfo": "Information om kontaktperson",
-        "titleNotifications": "Evenemangmeddelanden"
+        "titleCannotEditContactPerson": "Deltagaresgruppens kontaktpersonsinformation kan inte redigeras från den här sidan.",
+        "titleContactInfo": "Kontaktuppgifter",
+        "titleContactPersonInfo": "Information om kontaktpersonen",
+        "titleNotifications": "Meddelanden om evenemang"
       },
       "freeAttendeeCapacity": "Tillgängliga platser",
-      "freeWaitingListCapacity": "Tillgängliga väntelistplatser",
+      "freeWaitingListCapacity": "Tillgängliga platser på väntelistan",
       "labelContactPerson": "Kontaktperson",
-      "labelExtraInfo": "Ytterligare registreringsinformation (valfritt)",
-      "labelParticipantAmount": "Antal registrerade",
+      "labelExtraInfo": "Ytterligare registreringsinformation (valfritt))",
+      "labelParticipantAmount": "Antal registrerade personer",
       "labelRegistration": "Registrering",
-      "notificationSignupDeleted": "Deltagarinformation har raderats",
-      "notificationSignupUpdated": "Deltagarinformation har sparad",
-      "notificationSignupGroupDeleted": "Deltagarinformation har raderats",
-      "notificationSignupGroupUpdated": "Deltagarinformation har sparad",
-      "notificationTitleCannotEdit": "Deltagaren kan inte redigeras",
-      "placeholderExtraInfo": "Ange ytterligare information eller begäran",
+      "notificationSignupDeleted": "Deltagarinformation har tagits bort",
+      "notificationSignupUpdated": "Deltagarinformation har sparats",
+      "notificationSignupGroupDeleted": "Deltagarinformation har tagits bort",
+      "notificationSignupGroupUpdated": "Deltagarinformation har sparats",
+      "notificationTitleCannotEdit": "Deltagare kan inte redigeras",
+      "placeholderExtraInfo": "Ange eventuell ytterligare information eller begäran",
       "signup": {
         "buttonDeleteSignup": "Ta bort deltagare",
-        "helperExtraInfo": "Ange här information om eventuella allergier, specialkost, tillgänglighet eller andra särskilda behov, om det är information som behövs för att delta i evenemanget. Vi vidarebefordrar informationen till arrangören för att evenemangets säkerhet och tillgänglighet kan säkerställas. Genom att ange uppgifterna ger du ditt samtycke till behandlingen av uppgifterna. Du kan återkalla ditt samtycke genom att radera uppgifterna.",
-        "labelCity": "Staden",
+        "helperExtraInfo": "Ange här information om eventuella allergier, specialdieter, tillgänglighet eller andra särskilda behov, om de är nödvändiga för att kunna delta i evenemanget. Vi vidarebefordrar informationen till evenemangsarrangören så att säkerheten och tillgängligheten för evenemanget kan säkerställas. Genom att ange uppgifterna ger du ditt samtycke till behandlingen av uppgifterna. Du kan återkalla ditt samtycke genom att radera uppgifterna.",
+        "labelCity": "Stad",
         "labelDateOfBirth": "Födelsedatum",
-        "labelExtraInfo": "Ytterligare information (valfritt)",
+        "labelExtraInfo": "Ytterligare information (valfritt))",
         "labelFirstName": "Förnamn",
         "labelLastName": "Efternamn",
         "labelPhoneNumber": "Telefonnummer",
         "labelPriceGroup": "Kundgrupp",
         "labelStreetAddress": "Gatuadress",
         "labelZipcode": "Postnummer",
-        "placeholderCity": "Ange staden",
-        "placeholderFirstName": "Ange registrantens förnamn",
-        "placeholderLastName": "Ange registrantens efternamn",
-        "placeholderExtraInfo": "Ange ytterligare information eller begäran",
+        "placeholderCity": "Ange stad",
+        "placeholderExtraInfo": "Ange eventuell ytterligare information eller begäran",
+        "placeholderFirstName": "Ange den registrerades förnamn",
+        "placeholderLastName": "Ange den registrerades efternamn",
         "placeholderPhoneNumber": "+358 44 1234 567",
         "placeholderPriceGroup": "Välj kundgrupp",
         "placeholderStreetAddress": "Ange en gatuadress",
@@ -2046,22 +2046,23 @@
         "titleBasicInfo": "Grundläggande information om registranten"
       },
 
-      "timeLeft": "Tid kvar att registrera sig",
+      "timeLeft": "Tid kvar för registrering",
+
       "titleRegistration": "Registrering",
       "titleSignups": "Registrerade personer"
     },
     "inWaitingList": {
       "text": "På väntelista",
-      "tooltip": "Deltagare har lagts till i kön av anmälda med reservplats. Anmälan bekräftas först när en plats i kön blir ledig. Du får ett meddelande via e-post om att platsen är bekräftad."
+      "tooltip": "Deltagarna har lagts till i kön av anmälda med en reserverad plats. Registreringen bekräftas först när en plats i kön blir tillgänglig. Du kommer att få ett meddelande via e-post om att platsen har bekräftats."
     },
     "notifications": {
       "email": "Via e-post",
-      "sms": "Med sms"
+      "sms": "Via textmeddelande"
     },
     "personsAddedToWaitingListModal": {
-      "buttonClose": "Stänga",
-      "text": "Du kommer att få ett separat bekräftelsemeddelande om din anmälan till din e-post, om en plats blir ledig för dig.",
-      "title": "Du anmäler dig till evenemanget till bokningskön"
+      "buttonClose": "Stäng",
+      "text": "Du kommer att få ett separat bekräftelsemeddelande om din registrering till din e-post om en plats blir tillgänglig för dig.",
+      "title": "Du registrerar dig i evenemangets bokningskö"
     },
     "reservationTimeExpiredModal": {
       "buttonTryAgain": "Försök igen",
@@ -2074,17 +2075,17 @@
       "labelSubject": "Ämne",
       "placeholderBody": "Ange meddelande",
       "placeholderSubject": "Ange ämne",
-      "title": "Skicka ett meddelande till deltagarna",
-      "titleSingle": "Skicka ett meddelande till deltagaren"
+      "title": "Skicka meddelande till deltagarna",
+      "titleSingle": "Skicka meddelande till deltagaren"
     },
-    "signupIsEnded": "Anmälan till evenemanget är avslutad",
+    "signupIsEnded": "Anmälan till evenemanget har avslutats",
     "warnings": {
       "allSeatsReserved": "Alla platser i evenemanget är för närvarande bokade. Vänligen försök igen senare.",
-      "capacityInWaitingList": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} plats kvar i kön.",
-      "capacityInWaitingList_other": "Registrering för detta evenemang är fortfarande möjligt, men det är bara {{count}} platser kvar i kön.",
-      "capacityInWaitingListNoLimit": "Registrering till detta evenemang är fortfarande möjlig, men det finns endast platser kvar i kön.",
+      "capacityInWaitingList": "Anmälan till detta evenemang är fortfarande möjligt, men det finns endast {{count}} platser kvar i kön.",
+      "capacityInWaitingList_other": "Det är fortfarande möjligt att anmäla sig till detta evenemang, men det finns endast {{count}} platser kvar i kön.",
+      "capacityInWaitingListNoLimit": "Det går fortfarande bra att anmäla sig till evenemanget, men det finns bara några platser kvar i kön.",
       "closed": "Registreringen för detta evenemang är för närvarande stängd. Vänligen försök igen senare.",
-      "closedWithEnrolmentTime": "Anmälan till detta evenemang öppnar den {{openingDate}} kl {{openingTime}}."
+      "closedWithEnrolmentTime": "Registreringen för detta evenemang öppnar den {{openingDate}} vid {{openingTime}}."
     }
   },
   "signupGroup": {
@@ -2094,42 +2095,42 @@
     },
     "form": {
       "buttonCreate": "Skicka in registrering",
-      "buttonUpdate": "Rädda deltagare"
+      "buttonUpdate": "Spara deltagare"
     },
     "warnings": {
       "noRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
-      "noRightsToEdit": "Du har otillräckliga rättigheter att redigera deltagare.",
-      "noRightsToView": "Du har inte tillräckliga rättigheter att se deltagare i denna registrering."
+      "noRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera deltagare.",
+      "noRightsToView": "Du har inte tillräckliga rättigheter för att se deltagare i denna registrering."
     }
   },
   "signupsPage": {
     "actionButtons": {
       "delete": "Avbryt deltagande",
       "edit": "Redigera information",
-      "sendMessage": "Skicka ett meddelande"
+      "sendMessage": "Skicka meddelande"
     },
-    "attendeeTableCaption": "Deltagarna",
-    "attendeeTableHeading": "Deltagarna",
-    "buttonClearFilters": "Töm sökfilter",
-    "pageTitle": "Anmälningar: {{name}}",
+    "attendeeTableCaption": "Deltagare",
+    "attendeeTableHeading": "Deltagare",
+    "buttonClearFilters": "Ta bort filter",
+    "pageTitle": "Deltagarna: {{name}}",
     "searchPanel": {
       "buttonCreate": "Lägg till deltagare",
-      "buttonSearch": "Filtrera",
-      "labelSearch": "Filtrera registreringar",
-      "placeholderSearch": "Filtrera registreringar"
+      "buttonSearch": "Filter",
+      "labelSearch": "Filtrera deltagare",
+      "placeholderSearch": "Filtrera deltagare"
     },
     "signupsTableColumns": {
-      "contactPersonEmail": "Kontaktpersons e-post",
-      "contactPersonPhoneNumber": "Kontaktpersons telefonnummer",
-      "name": "Name",
+      "contactPersonEmail": "Kontaktpersonens e-postadress",
+      "contactPersonPhoneNumber": "Kontaktpersonens telefonnummer",
+      "name": "Namn",
       "phoneNumber": "Telefonnummer",
       "status": "Status"
     },
-    "title": "Anmälningar",
+    "title": "Deltagarna",
     "waitingListTableCaption": "Väntelista",
     "waitingListTableHeading": "Väntelista",
     "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta deltagare.",
-    "warningNoRightsToView": "Du har inte tillräckliga rättigheter att se deltagare i denna registrering."
+    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna deltagare.",
+    "warningNoRightsToView": "Du har inte tillräckliga rättigheter för att se deltagare i denna registrering."
   }
 }
