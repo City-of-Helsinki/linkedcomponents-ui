@@ -11,6 +11,7 @@ import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import usePriceGroupOptions from '../../../priceGroup/hooks/usePriceGroupOptions';
 import { PriceGroupOption } from '../../../priceGroup/types';
 import { EVENT_FIELDS } from '../../constants';
+import styles from '../../eventPage.module.scss';
 import FreeEventFields from './freeEventFields/FreeEventFields';
 import Offers from './offers/Offers';
 import PriceNotification from './priceNotification/PriceNotification';
@@ -41,7 +42,11 @@ const PriceSection: React.FC<Props> = ({ isEditingAllowed }) => {
   return (
     <Fieldset heading={t('event.form.sections.price')} hideLegend>
       <h3>{t(`event.form.titlePriceInfo.${type}`)}</h3>
-      <FieldRow notification={<PriceNotification />}>
+      <FieldRow
+        notification={
+          <PriceNotification className={styles.notificationForTitle} />
+        }
+      >
         <FieldColumn>
           <FormGroup>
             <Field
