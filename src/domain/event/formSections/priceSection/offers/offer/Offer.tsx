@@ -70,19 +70,6 @@ const Offer: React.FC<Props> = ({
               />
             </FormGroup>
             <FormGroup>
-              <h3>{t('event.form.titleOfferInfoUrl')}</h3>
-              <MultiLanguageField
-                disabled={!isEditingAllowed}
-                labelKey={`event.form.labelOfferInfoUrl`}
-                languages={eventInfoLanguages}
-                name={getFieldName(
-                  offerPath,
-                  EVENT_OFFER_FIELDS.OFFER_INFO_URL
-                )}
-                placeholderKey={`event.form.placeholderOfferInfoUrl`}
-              />
-            </FormGroup>
-            <FormGroup>
               <h3>{t('event.form.titleOfferDescription')}</h3>
               <MultiLanguageField
                 disabled={!isEditingAllowed}
@@ -93,6 +80,19 @@ const Offer: React.FC<Props> = ({
                   EVENT_OFFER_FIELDS.OFFER_DESCRIPTION
                 )}
                 placeholderKey={`event.form.placeholderOfferDescription`}
+              />
+            </FormGroup>
+            <FormGroup>
+              <h3>{t('event.form.titleOfferInfoUrl')}</h3>
+              <MultiLanguageField
+                disabled={!isEditingAllowed}
+                labelKey={`event.form.labelOfferInfoUrl`}
+                languages={eventInfoLanguages}
+                name={getFieldName(
+                  offerPath,
+                  EVENT_OFFER_FIELDS.OFFER_INFO_URL
+                )}
+                placeholderKey={`event.form.placeholderOfferInfoUrl`}
               />
             </FormGroup>
           </>

@@ -166,24 +166,25 @@ test('should validate an offer', async () => {
   );
 });
 
-test('should show instructions only once', async () => {
+test('should show instructions for each offer', async () => {
   const user = userEvent.setup();
   renderPriceSection();
 
   getElement('heading');
 
-  // Should be instructions to free event
+  // Should have instructions to free event
   expect(queryElements('instructions')).toHaveLength(1);
 
   await user.click(getElement('hasPriceCheckbox'));
 
   await waitFor(() => expect(queryElements('priceInputs')).toHaveLength(1));
+  expect(queryElements('instructions')).toHaveLength(2);
 
   const addOfferButton = await findAddOfferButton();
   await user.click(addOfferButton);
 
   await waitFor(() => expect(queryElements('priceInputs')).toHaveLength(2));
-  expect(queryElements('instructions')).toHaveLength(1);
+  expect(queryElements('instructions')).toHaveLength(3);
 });
 
 test('should show add price group button only if registration is planned', async () => {
