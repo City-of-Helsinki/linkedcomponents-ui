@@ -241,6 +241,15 @@
     "placeholderDate": "d.m.åååå",
     "placeholderDateTime": "d.m.åååå hh.mm",
     "placeholderTime": "hh.mm",
+    "reservationTimer": {
+      "hour": "{{count}} timme",
+      "hour_other": "{{count}} timmar",
+      "minute": "{{count}} minut",
+      "minute_other": "{{count}} minuter",
+      "second": "{{count}} sekund",
+      "second_other": "{{count}} sekunder",
+      "timeLeft": "Tid kvar att registrera sig:"
+    },
     "save": "Spara",
     "search": "Sök",
     "select": "Välj",

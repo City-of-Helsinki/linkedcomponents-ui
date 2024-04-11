@@ -241,6 +241,15 @@
     "placeholderDate": "p.k.vvvv",
     "placeholderDateTime": "p.k.vvvv hh.mm",
     "placeholderTime": "hh.mm",
+    "reservationTimer": {
+      "hour": "{{count}} tunti",
+      "hour_other": "{{count}} tuntia",
+      "minute": "{{count}} minuutti",
+      "minute_other": "{{count}} minuuttia",
+      "second": "{{count}} sekunti",
+      "second_other": "{{count}} sekuntia",
+      "timeLeft": "Aikaa jäljellä ilmoittautumisen tekoon:"
+    },
     "save": "Tallenna",
     "search": "Etsi",
     "select": "Valitse",

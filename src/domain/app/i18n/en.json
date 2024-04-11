@@ -241,6 +241,15 @@
     "placeholderDate": "d.m.yyyy",
     "placeholderDateTime": "d.m.yyyy hh.mm",
     "placeholderTime": "hh.mm",
+    "reservationTimer": {
+      "hour": "{{count}} hour",
+      "hour_other": "{{count}} hours",
+      "minute": "{{count}} minute",
+      "minute_other": "{{count}} minutes",
+      "second": "{{count}} second",
+      "second_other": "{{count}} seconds",
+      "timeLeft": "Time left to register:"
+    },
     "save": "Save",
     "search": "Search",
     "select": "Select",
