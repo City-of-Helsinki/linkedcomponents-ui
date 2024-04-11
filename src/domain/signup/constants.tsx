@@ -38,6 +38,7 @@ export enum SIGNUP_MODALS {
   DELETE_SIGNUP_FROM_FORM = 'deleteSignupFromForm',
   PERSONS_ADDED_TO_WAITLIST = 'personsAddedToWaitList',
   RESERVATION_TIME_EXPIRED = 'reservationTimeExpired',
+  RESERVATION_TIME_EXPIRING = 'reservationTimeExpiring',
   SEND_MESSAGE = 'sendMessage',
   SEND_MESSAGE_TO_SIGNUP = 'sendMessageToSignup',
 }

@@ -2097,6 +2097,12 @@
       "text": "Tyvärr har bokningstiden gått ut.",
       "title": "Tiden är ute."
     },
+    "reservationTimeExpiringModal": {
+      "buttonClose": "Stäng",
+      "text": "Reservationen är på väg att löpa ut om {{count}} sekund",
+      "text_other": "Reservationen är på väg att löpa ut om {{count}} sekunder",
+      "title": "Reservationsperioden går ut"
+    },
     "sendMessageModal": {
       "buttonSendMessage": "Skicka meddelande",
       "labelBody": "Meddelande",

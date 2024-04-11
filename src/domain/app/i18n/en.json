@@ -2097,6 +2097,12 @@
       "text": "Unfortunately, the Reservation time has expired.",
       "title": "Time’s Up."
     },
+    "reservationTimeExpiringModal": {
+      "buttonClose": "Close",
+      "text": "The reservation is about to expire in {{count}} seconds",
+      "text_other": "The reservation is about to expire in {{count}} seconds",
+      "title": "The reservation period is ending"
+    },
     "sendMessageModal": {
       "buttonSendMessage": "Send message",
       "labelBody": "Message",
