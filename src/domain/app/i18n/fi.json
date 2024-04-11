@@ -2097,6 +2097,12 @@
       "text": "Valitettavasti varausaika on umpeutunut.",
       "title": "Varausaika on täynnä."
     },
+    "reservationTimeExpiringModal": {
+      "buttonClose": "Sulje",
+      "text": "Varauksen aika on päättymässä {{count}} sekunnin päästä",
+      "text_other": "Varauksen aika on päättymässä {{count}} sekunnin päästä",
+      "title": "Varauksen aika on päättymässä"
+    },
     "sendMessageModal": {
       "buttonSendMessage": "Lähetä viesti",
       "labelBody": "Viesti",

@@ -15,9 +15,12 @@ import {
 import { SIGNUP_MODALS } from '../../signup/constants';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
 import ReservationTimeExpiredModal from '../modals/reservationTimeExpiredModal/ReservationTimeExpiredModal';
+import ReservationTimeExpiringModal from '../modals/reservationTimeExpiringModal/ReservationTimeExpiringModal';
 import { useSignupGroupFormContext } from '../signupGroupFormContext/hooks/useSignupGroupFormContext';
 import { SignupFormFields } from '../types';
 import { clearCreateSignupGroupFormData } from '../utils';
+
+const EXPIRING_THRESHOLD = 60;
 
 const getTimeParts = (timeLeft: number) => {
   const hours = Math.floor(timeLeft / 3600);
@@ -55,6 +58,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
   setSignups,
   signups,
 }) => {
+  const isExpiringModalAlreadyDisplayed = useRef(false);
   const navigate = useNavigate();
   const { setAccessibilityText } = useAccessibilityNotificationContext();
   const { t } = useTranslation();
@@ -73,7 +77,7 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
     setSignups,
     signups,
   });
-  const { openModal, setOpenModal } = useSignupGroupFormContext();
+  const { closeModal, openModal, setOpenModal } = useSignupGroupFormContext();
   const { setServerErrorItems, showServerErrors } =
     useSignupServerErrorsContext();
 
@@ -131,7 +135,8 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
       /* istanbul ignore else */
       if (timerEnabled.current) {
         const data = getSeatsReservationData(registrationId);
-        setTimeLeft(getRegistrationTimeLeft(data));
+        const newTimeLeft = getRegistrationTimeLeft(data);
+        setTimeLeft(newTimeLeft);
 
         /* istanbul ignore else */
         if (!callbacksDisabled) {
@@ -142,6 +147,12 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
             clearSeatsReservationData(registrationId);
 
             setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRED);
+          } else if (
+            !isExpiringModalAlreadyDisplayed.current &&
+            newTimeLeft <= EXPIRING_THRESHOLD
+          ) {
+            setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRING);
+            isExpiringModalAlreadyDisplayed.current = true;
           }
         }
       }
@@ -159,6 +170,11 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
 
   return (
     <>
+      <ReservationTimeExpiringModal
+        isOpen={openModal === SIGNUP_MODALS.RESERVATION_TIME_EXPIRING}
+        onClose={closeModal}
+        timeLeft={timeLeft}
+      />
       <ReservationTimeExpiredModal
         isOpen={openModal === SIGNUP_MODALS.RESERVATION_TIME_EXPIRED}
         onClose={handleTryAgain}
