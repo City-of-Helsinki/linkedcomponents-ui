@@ -32,6 +32,10 @@ export const checkCanUserDoRegistrationAction = ({
   registration?: RegistrationFieldsFragment;
   user?: UserFieldsFragment;
 }): boolean => {
+  if (user?.isSuperuser) {
+    return true;
+  }
+
   const publisher = getValue(registration?.publisher, '');
   const isAdminUser = isAdminUserInOrganization({
     id: publisher,
@@ -43,7 +47,6 @@ export const checkCanUserDoRegistrationAction = ({
     organizationAncestors,
     user,
   });
-
   const hasAdminOrg =
     hasAdminOrganization(user) || hasRegistrationAdminOrganization(user);
 

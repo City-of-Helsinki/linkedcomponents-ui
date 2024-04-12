@@ -144,6 +144,22 @@ describe('checkCanUserDoPriceGroupAction function', () => {
       ).toBe(true);
     });
   });
+
+  it('should allow any action for superuser', () => {
+    const user = fakeUser({ isSuperuser: true });
+    const allowedActions = Object.values(PRICE_GROUP_ACTIONS);
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoPriceGroupAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
 });
 
 describe('getEditPriceGroupWarning function', () => {

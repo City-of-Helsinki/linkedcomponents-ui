@@ -72,10 +72,8 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
       ) {
         await updateImage({
           variables: {
-            input: {
-              id: getValue(parseIdFromAtId(imageId), ''),
-              ...imageDetails,
-            },
+            id: getValue(parseIdFromAtId(imageId), ''),
+            input: imageDetails,
           },
         });
 

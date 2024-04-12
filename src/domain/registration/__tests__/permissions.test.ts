@@ -120,6 +120,22 @@ describe('checkCanUserDoRegistrationAction function', () => {
       ).toBe(isAllowed);
     }
   );
+
+  it('should allow any action for superuser', () => {
+    const user = fakeUser({ isSuperuser: true });
+    const allowedActions = Object.values(REGISTRATION_ACTIONS);
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoRegistrationAction({
+          action,
+          organizationAncestors: [],
+          registration: fakeRegistration({ publisher }),
+          user,
+        })
+      ).toBe(true);
+    });
+  });
 });
 
 describe('getRegistrationActionWarning function', () => {

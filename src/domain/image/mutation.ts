@@ -9,11 +9,11 @@ export const MUTATION_IMAGE = gql`
     }
   }
 
-  mutation UpdateImage($input: UpdateImageMutationInput!) {
-    updateImage(input: $input)
+  mutation UpdateImage($id: ID!, $input: UpdateImageMutationInput!) {
+    updateImage(id: $id, input: $input)
       @rest(
         type: "Image"
-        path: "/image/{args.input.id}/"
+        path: "/image/{args.id}/"
         method: "PUT"
         bodyKey: "input"
       ) {

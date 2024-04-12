@@ -175,4 +175,20 @@ describe('checkCanUserDoSignupAction function', () => {
       ).toBe(isAllowed);
     }
   );
+
+  it('should allow any action for superuser', () => {
+    const user = fakeUser({ isSuperuser: true });
+    const allowedActions = Object.values(SIGNUP_ACTIONS);
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoSignupAction({
+          action,
+          organizationAncestors: [],
+          registration: fakeRegistration({ publisher }),
+          user,
+        })
+      ).toBe(true);
+    });
+  });
 });

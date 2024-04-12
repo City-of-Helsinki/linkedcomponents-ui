@@ -267,6 +267,7 @@ test('should update only start time if new end time would be in past but start t
   };
 
   const updateEventVariables = {
+    id: superEventId,
     input: {
       ...basePayload,
       description: omit(superEvent.description, '__typename'),
@@ -341,6 +342,7 @@ test('should return new super event if recurring event is updated', async () => 
   };
 
   const updateEventVariables = {
+    id: superEventId,
     input: {
       ...basePayload,
       description: omit(superEvent.description, '__typename'),

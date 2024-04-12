@@ -3,6 +3,7 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
+import omit from 'lodash/omit';
 
 import {
   ImageFieldsFragment,
@@ -111,12 +112,17 @@ const useImageUpdateActions = ({
     values: ImageFormFields,
     callbacks?: MutationCallbacks
   ) => {
-    const payload: UpdateImageMutationInput = getImagePayload(values);
+    const payload: UpdateImageMutationInput = omit(
+      getImagePayload(values),
+      'id'
+    );
 
     try {
       setSaving(IMAGE_ACTIONS.UPDATE);
 
-      await updateImageMutation({ variables: { input: payload } });
+      await updateImageMutation({
+        variables: { id: values.id, input: payload },
+      });
 
       await cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {

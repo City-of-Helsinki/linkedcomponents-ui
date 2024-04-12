@@ -182,6 +182,10 @@ export const checkCanUserDoAction = ({
   publisher: string;
   user?: UserFieldsFragment;
 }): boolean => {
+  if (user?.isSuperuser) {
+    return true;
+  }
+
   /* istanbul ignore next */
   const adminOrganizations = getValue(user?.adminOrganizations, []);
   const isAdminUser = isAdminUserInOrganization({

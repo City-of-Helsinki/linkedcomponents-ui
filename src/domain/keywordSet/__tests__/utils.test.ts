@@ -154,6 +154,22 @@ describe('checkCanUserDoAction function', () => {
       ).toBe(true);
     });
   });
+
+  it('should allow any action for superuser', () => {
+    const user = fakeUser({ isSuperuser: true });
+    const allowedActions = Object.values(KEYWORD_SET_ACTIONS);
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organization: '',
+          organizationAncestors: [],
+          user,
+        })
+      ).toBe(true);
+    });
+  });
 });
 
 describe('getEditKeywordSetWarning function', () => {

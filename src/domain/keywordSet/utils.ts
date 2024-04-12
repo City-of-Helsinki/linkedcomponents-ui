@@ -131,6 +131,10 @@ export const checkCanUserDoAction = ({
   organizationAncestors: OrganizationFieldsFragment[];
   user?: UserFieldsFragment;
 }): boolean => {
+  if (user?.isSuperuser) {
+    return true;
+  }
+
   const adminOrganizations = getValue(user?.adminOrganizations, []);
   const isAdminUser = isAdminUserInOrganization({
     id: organization,

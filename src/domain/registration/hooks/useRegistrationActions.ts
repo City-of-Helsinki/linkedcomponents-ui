@@ -147,18 +147,14 @@ const useRegistrationActions = ({
 
     let payload: UpdateRegistrationMutationInput = {
       event: { atId: values.event },
-      id,
     };
 
     try {
       setSaving(REGISTRATION_ACTIONS.UPDATE);
 
-      payload = {
-        ...getRegistrationPayload(values),
-        id,
-      };
+      payload = getRegistrationPayload(values);
 
-      await updateRegistrationMutation({ variables: { input: payload } });
+      await updateRegistrationMutation({ variables: { id, input: payload } });
 
       await cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {

@@ -25,11 +25,14 @@ export const MUTATION_REGISTRATION = gql`
     }
   }
 
-  mutation UpdateRegistration($input: UpdateRegistrationMutationInput!) {
-    updateRegistration(input: $input)
+  mutation UpdateRegistration(
+    $id: ID!
+    $input: UpdateRegistrationMutationInput!
+  ) {
+    updateRegistration(id: $id, input: $input)
       @rest(
         type: "Registration"
-        path: "/registration/{args.input.id}/"
+        path: "/registration/{args.id}/"
         method: "PUT"
         bodyKey: "input"
       ) {

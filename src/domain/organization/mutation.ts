@@ -40,11 +40,14 @@ export const MUTATION_ORGANIZATION = gql`
     }
   }
 
-  mutation UpdateOrganization($input: UpdateOrganizationMutationInput!) {
-    updateOrganization(input: $input)
+  mutation UpdateOrganization(
+    $id: ID!
+    $input: UpdateOrganizationMutationInput!
+  ) {
+    updateOrganization(id: $id, input: $input)
       @rest(
         type: "Organization"
-        path: "/organization/{args.input.id}/"
+        path: "/organization/{args.id}/"
         method: "PUT"
         bodyKey: "input"
       ) {

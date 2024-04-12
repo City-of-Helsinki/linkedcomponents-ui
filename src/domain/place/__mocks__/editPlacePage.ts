@@ -61,11 +61,10 @@ const payload = {
   publisher: placeValues.publisher,
   streetAddress: { ...emptyLangObj, fi: placeValues.streetAddress?.fi },
   telephone: { ...emptyLangObj, fi: placeValues.telephone?.fi },
-  id: placeValues.id,
   originId: placeValues.id?.split(':')[1],
 };
 
-const updatePlaceVariables = { input: payload };
+const updatePlaceVariables = { id: placeValues.id, input: payload };
 
 const updatePlaceResponse = { data: { updatePlace: place } };
 
