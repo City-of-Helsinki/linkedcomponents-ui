@@ -208,6 +208,22 @@ describe('checkCanUserDoAction function', () => {
       ).toBe(true);
     });
   });
+
+  it('should allow any action for superuser', () => {
+    const user = fakeUser({ isSuperuser: true });
+    const allowedActions = Object.values(PLACE_ACTIONS);
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+  });
 });
 
 describe('getEditPlaceWarning function', () => {

@@ -1,4 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
+import omit from 'lodash/omit';
 
 import {
   DeleteRegistrationDocument,
@@ -77,8 +78,9 @@ const mockedDeleteRegistrationResponse: MockedResponse = {
 
 const updatedLastModifiedTime = '2021-08-23T12:00:00.000Z';
 const updateRegistrationVariables = {
+  id: registrationId,
   input: {
-    ...registrationOverrides,
+    ...omit(registrationOverrides, 'id'),
     event: { atId: event.atId },
   },
 };

@@ -628,6 +628,7 @@ export type MutationSendRegistrationUserAccessInvitationArgs = {
 
 
 export type MutationUpdateEventArgs = {
+  id: Scalars['ID']['input'];
   input: UpdateEventMutationInput;
 };
 
@@ -638,36 +639,43 @@ export type MutationUpdateEventsArgs = {
 
 
 export type MutationUpdateImageArgs = {
+  id: Scalars['ID']['input'];
   input: UpdateImageMutationInput;
 };
 
 
 export type MutationUpdateKeywordArgs = {
+  id: Scalars['ID']['input'];
   input: UpdateKeywordMutationInput;
 };
 
 
 export type MutationUpdateKeywordSetArgs = {
+  id: Scalars['ID']['input'];
   input: UpdateKeywordSetMutationInput;
 };
 
 
 export type MutationUpdateOrganizationArgs = {
+  id: Scalars['ID']['input'];
   input: UpdateOrganizationMutationInput;
 };
 
 
 export type MutationUpdatePlaceArgs = {
+  id: Scalars['ID']['input'];
   input: UpdatePlaceMutationInput;
 };
 
 
 export type MutationUpdatePriceGroupArgs = {
+  id: Scalars['Int']['input'];
   input: UpdatePriceGroupMutationInput;
 };
 
 
 export type MutationUpdateRegistrationArgs = {
+  id: Scalars['ID']['input'];
   input: UpdateRegistrationMutationInput;
 };
 
@@ -1327,7 +1335,6 @@ export type UpdateEventMutationInput = {
 
 export type UpdateImageMutationInput = {
   altText?: InputMaybe<LocalisedObjectInput>;
-  id: Scalars['ID']['input'];
   license?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
   photographerName?: InputMaybe<Scalars['String']['input']>;
@@ -1337,7 +1344,6 @@ export type UpdateImageMutationInput = {
 export type UpdateKeywordMutationInput = {
   dataSource?: InputMaybe<Scalars['String']['input']>;
   deprecated?: InputMaybe<Scalars['Boolean']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<LocalisedObjectInput>;
   publisher?: InputMaybe<Scalars['String']['input']>;
   replacedBy?: InputMaybe<Scalars['String']['input']>;
@@ -1345,7 +1351,6 @@ export type UpdateKeywordMutationInput = {
 
 export type UpdateKeywordSetMutationInput = {
   dataSource?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
   keywords?: InputMaybe<Array<IdObjectInput>>;
   name?: InputMaybe<LocalisedObjectInput>;
   organization?: InputMaybe<Scalars['String']['input']>;
@@ -1379,7 +1384,6 @@ export type UpdatePlaceMutationInput = {
   dataSource?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<LocalisedObjectInput>;
   email?: InputMaybe<Scalars['String']['input']>;
-  id?: InputMaybe<Scalars['String']['input']>;
   infoUrl?: InputMaybe<LocalisedObjectInput>;
   name?: InputMaybe<LocalisedObjectInput>;
   position?: InputMaybe<PositionInput>;
@@ -1392,7 +1396,6 @@ export type UpdatePlaceMutationInput = {
 
 export type UpdatePriceGroupMutationInput = {
   description?: InputMaybe<LocalisedObjectInput>;
-  id?: InputMaybe<Scalars['Int']['input']>;
   isFree?: InputMaybe<Scalars['Boolean']['input']>;
   publisher?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1404,7 +1407,6 @@ export type UpdateRegistrationMutationInput = {
   enrolmentEndTime?: InputMaybe<Scalars['String']['input']>;
   enrolmentStartTime?: InputMaybe<Scalars['String']['input']>;
   event: IdObjectInput;
-  id: Scalars['ID']['input'];
   instructions?: InputMaybe<LocalisedObjectInput>;
   mandatoryFields?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   maximumAttendeeCapacity?: InputMaybe<Scalars['Int']['input']>;
@@ -1595,6 +1597,7 @@ export type DeleteEventMutationVariables = Exact<{
 export type DeleteEventMutation = { __typename?: 'Mutation', deleteEvent?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
 
 export type UpdateEventMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
   input: UpdateEventMutationInput;
 }>;
 
@@ -1704,6 +1707,7 @@ export type DeleteImageMutationVariables = Exact<{
 export type DeleteImageMutation = { __typename?: 'Mutation', deleteImage?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
 
 export type UpdateImageMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
   input: UpdateImageMutationInput;
 }>;
 
@@ -1757,6 +1761,7 @@ export type DeleteKeywordMutationVariables = Exact<{
 export type DeleteKeywordMutation = { __typename?: 'Mutation', deleteKeyword?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
 
 export type UpdateKeywordMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
   input: UpdateKeywordMutationInput;
 }>;
 
@@ -1803,6 +1808,7 @@ export type DeleteKeywordSetMutationVariables = Exact<{
 export type DeleteKeywordSetMutation = { __typename?: 'Mutation', deleteKeywordSet?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
 
 export type UpdateKeywordSetMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
   input: UpdateKeywordSetMutationInput;
 }>;
 
@@ -1865,6 +1871,7 @@ export type PatchOrganizationMutationVariables = Exact<{
 export type PatchOrganizationMutation = { __typename?: 'Mutation', patchOrganization: { __typename?: 'Organization', affiliatedOrganizations?: Array<string | null> | null, atId: string, classification?: string | null, createdTime?: string | null, dataSource?: string | null, dissolutionDate?: string | null, foundingDate?: string | null, hasRegularUsers?: boolean | null, id?: string | null, isAffiliated?: boolean | null, lastModifiedTime?: string | null, name?: string | null, parentOrganization?: string | null, replacedBy?: string | null, subOrganizations?: Array<string | null> | null, adminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, financialAdminOrganizations: Array<string>, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, isSubstituteUser?: boolean | null, isSuperuser?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, financialAdminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, financialAdminOrganizations: Array<string>, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, isSubstituteUser?: boolean | null, isSuperuser?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, registrationAdminUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, financialAdminOrganizations: Array<string>, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, isSubstituteUser?: boolean | null, isSuperuser?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, regularUsers?: Array<{ __typename?: 'User', adminOrganizations: Array<string>, dateJoined?: string | null, departmentName?: string | null, displayName?: string | null, email?: string | null, financialAdminOrganizations: Array<string>, firstName?: string | null, isExternal?: boolean | null, isStaff?: boolean | null, isSubstituteUser?: boolean | null, isSuperuser?: boolean | null, lastLogin?: string | null, lastName?: string | null, organization?: string | null, organizationMemberships: Array<string>, registrationAdminOrganizations: Array<string>, username?: string | null, uuid?: string | null } | null> | null, webStoreAccounts?: Array<{ __typename?: 'WebStoreAccount', active?: boolean | null, balanceProfitCenter?: string | null, companyCode?: string | null, id?: number | null, internalOrder?: string | null, mainLedgerAccount?: string | null, operationArea?: string | null, profitCenter?: string | null, project?: string | null, vatCode?: string | null } | null> | null, webStoreMerchants?: Array<{ __typename?: 'WebStoreMerchant', active?: boolean | null, businessId?: string | null, city?: string | null, email?: string | null, id?: number | null, merchantId?: string | null, name?: string | null, paytrailMerchantId?: string | null, phoneNumber?: string | null, streetAddress?: string | null, termsOfServiceUrl?: string | null, url?: string | null, zipcode?: string | null } | null> | null } };
 
 export type UpdateOrganizationMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
   input: UpdateOrganizationMutationInput;
 }>;
 
@@ -1932,6 +1939,7 @@ export type DeletePlaceMutationVariables = Exact<{
 export type DeletePlaceMutation = { __typename?: 'Mutation', deletePlace?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
 
 export type UpdatePlaceMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
   input: UpdatePlaceMutationInput;
 }>;
 
@@ -1982,6 +1990,7 @@ export type DeletePriceGroupMutationVariables = Exact<{
 export type DeletePriceGroupMutation = { __typename?: 'Mutation', deletePriceGroup?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
 
 export type UpdatePriceGroupMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
   input: UpdatePriceGroupMutationInput;
 }>;
 
@@ -2025,6 +2034,7 @@ export type DeleteRegistrationMutationVariables = Exact<{
 export type DeleteRegistrationMutation = { __typename?: 'Mutation', deleteRegistration?: { __typename?: 'NoContent', noContent?: boolean | null } | null };
 
 export type UpdateRegistrationMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
   input: UpdateRegistrationMutationInput;
 }>;
 
@@ -2918,8 +2928,8 @@ export type DeleteEventMutationHookResult = ReturnType<typeof useDeleteEventMuta
 export type DeleteEventMutationResult = Apollo.MutationResult<DeleteEventMutation>;
 export type DeleteEventMutationOptions = Apollo.BaseMutationOptions<DeleteEventMutation, DeleteEventMutationVariables>;
 export const UpdateEventDocument = gql`
-    mutation UpdateEvent($input: UpdateEventMutationInput!) {
-  updateEvent(input: $input) @rest(type: "Event", path: "/event/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    mutation UpdateEvent($id: ID!, $input: UpdateEventMutationInput!) {
+  updateEvent(id: $id, input: $input) @rest(type: "Event", path: "/event/{args.id}/", method: "PUT", bodyKey: "input") {
     ...eventFields
   }
 }
@@ -2939,6 +2949,7 @@ export type UpdateEventMutationFn = Apollo.MutationFunction<UpdateEventMutation,
  * @example
  * const [updateEventMutation, { data, loading, error }] = useUpdateEventMutation({
  *   variables: {
+ *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
  * });
@@ -3267,8 +3278,8 @@ export type DeleteImageMutationHookResult = ReturnType<typeof useDeleteImageMuta
 export type DeleteImageMutationResult = Apollo.MutationResult<DeleteImageMutation>;
 export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<DeleteImageMutation, DeleteImageMutationVariables>;
 export const UpdateImageDocument = gql`
-    mutation UpdateImage($input: UpdateImageMutationInput!) {
-  updateImage(input: $input) @rest(type: "Image", path: "/image/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    mutation UpdateImage($id: ID!, $input: UpdateImageMutationInput!) {
+  updateImage(id: $id, input: $input) @rest(type: "Image", path: "/image/{args.id}/", method: "PUT", bodyKey: "input") {
     ...imageFields
   }
 }
@@ -3288,6 +3299,7 @@ export type UpdateImageMutationFn = Apollo.MutationFunction<UpdateImageMutation,
  * @example
  * const [updateImageMutation, { data, loading, error }] = useUpdateImageMutation({
  *   variables: {
+ *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
  * });
@@ -3503,8 +3515,8 @@ export type DeleteKeywordMutationHookResult = ReturnType<typeof useDeleteKeyword
 export type DeleteKeywordMutationResult = Apollo.MutationResult<DeleteKeywordMutation>;
 export type DeleteKeywordMutationOptions = Apollo.BaseMutationOptions<DeleteKeywordMutation, DeleteKeywordMutationVariables>;
 export const UpdateKeywordDocument = gql`
-    mutation UpdateKeyword($input: UpdateKeywordMutationInput!) {
-  updateKeyword(input: $input) @rest(type: "Keyword", path: "/keyword/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    mutation UpdateKeyword($id: ID!, $input: UpdateKeywordMutationInput!) {
+  updateKeyword(id: $id, input: $input) @rest(type: "Keyword", path: "/keyword/{args.id}/", method: "PUT", bodyKey: "input") {
     ...keywordFields
   }
 }
@@ -3524,6 +3536,7 @@ export type UpdateKeywordMutationFn = Apollo.MutationFunction<UpdateKeywordMutat
  * @example
  * const [updateKeywordMutation, { data, loading, error }] = useUpdateKeywordMutation({
  *   variables: {
+ *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
  * });
@@ -3706,8 +3719,8 @@ export type DeleteKeywordSetMutationHookResult = ReturnType<typeof useDeleteKeyw
 export type DeleteKeywordSetMutationResult = Apollo.MutationResult<DeleteKeywordSetMutation>;
 export type DeleteKeywordSetMutationOptions = Apollo.BaseMutationOptions<DeleteKeywordSetMutation, DeleteKeywordSetMutationVariables>;
 export const UpdateKeywordSetDocument = gql`
-    mutation UpdateKeywordSet($input: UpdateKeywordSetMutationInput!) {
-  updateKeywordSet(input: $input) @rest(type: "KeywordSet", path: "/keyword_set/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    mutation UpdateKeywordSet($id: ID!, $input: UpdateKeywordSetMutationInput!) {
+  updateKeywordSet(id: $id, input: $input) @rest(type: "KeywordSet", path: "/keyword_set/{args.id}/", method: "PUT", bodyKey: "input") {
     ...keywordSetFields
   }
 }
@@ -3727,6 +3740,7 @@ export type UpdateKeywordSetMutationFn = Apollo.MutationFunction<UpdateKeywordSe
  * @example
  * const [updateKeywordSetMutation, { data, loading, error }] = useUpdateKeywordSetMutation({
  *   variables: {
+ *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
  * });
@@ -3985,8 +3999,8 @@ export type PatchOrganizationMutationHookResult = ReturnType<typeof usePatchOrga
 export type PatchOrganizationMutationResult = Apollo.MutationResult<PatchOrganizationMutation>;
 export type PatchOrganizationMutationOptions = Apollo.BaseMutationOptions<PatchOrganizationMutation, PatchOrganizationMutationVariables>;
 export const UpdateOrganizationDocument = gql`
-    mutation UpdateOrganization($input: UpdateOrganizationMutationInput!) {
-  updateOrganization(input: $input) @rest(type: "Organization", path: "/organization/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    mutation UpdateOrganization($id: ID!, $input: UpdateOrganizationMutationInput!) {
+  updateOrganization(id: $id, input: $input) @rest(type: "Organization", path: "/organization/{args.id}/", method: "PUT", bodyKey: "input") {
     ...organizationFields
   }
 }
@@ -4006,6 +4020,7 @@ export type UpdateOrganizationMutationFn = Apollo.MutationFunction<UpdateOrganiz
  * @example
  * const [updateOrganizationMutation, { data, loading, error }] = useUpdateOrganizationMutation({
  *   variables: {
+ *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
  * });
@@ -4272,8 +4287,8 @@ export type DeletePlaceMutationHookResult = ReturnType<typeof useDeletePlaceMuta
 export type DeletePlaceMutationResult = Apollo.MutationResult<DeletePlaceMutation>;
 export type DeletePlaceMutationOptions = Apollo.BaseMutationOptions<DeletePlaceMutation, DeletePlaceMutationVariables>;
 export const UpdatePlaceDocument = gql`
-    mutation UpdatePlace($input: UpdatePlaceMutationInput!) {
-  updatePlace(input: $input) @rest(type: "Place", path: "/place/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    mutation UpdatePlace($id: ID!, $input: UpdatePlaceMutationInput!) {
+  updatePlace(id: $id, input: $input) @rest(type: "Place", path: "/place/{args.id}/", method: "PUT", bodyKey: "input") {
     ...placeFields
   }
 }
@@ -4293,6 +4308,7 @@ export type UpdatePlaceMutationFn = Apollo.MutationFunction<UpdatePlaceMutation,
  * @example
  * const [updatePlaceMutation, { data, loading, error }] = useUpdatePlaceMutation({
  *   variables: {
+ *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
  * });
@@ -4475,8 +4491,8 @@ export type DeletePriceGroupMutationHookResult = ReturnType<typeof useDeletePric
 export type DeletePriceGroupMutationResult = Apollo.MutationResult<DeletePriceGroupMutation>;
 export type DeletePriceGroupMutationOptions = Apollo.BaseMutationOptions<DeletePriceGroupMutation, DeletePriceGroupMutationVariables>;
 export const UpdatePriceGroupDocument = gql`
-    mutation UpdatePriceGroup($input: UpdatePriceGroupMutationInput!) {
-  updatePriceGroup(input: $input) @rest(type: "PriceGroup", path: "/price_group/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    mutation UpdatePriceGroup($id: Int!, $input: UpdatePriceGroupMutationInput!) {
+  updatePriceGroup(id: $id, input: $input) @rest(type: "PriceGroup", path: "/price_group/{args.id}/", method: "PUT", bodyKey: "input") {
     ...priceGroupFields
   }
 }
@@ -4496,6 +4512,7 @@ export type UpdatePriceGroupMutationFn = Apollo.MutationFunction<UpdatePriceGrou
  * @example
  * const [updatePriceGroupMutation, { data, loading, error }] = useUpdatePriceGroupMutation({
  *   variables: {
+ *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
  * });
@@ -4531,7 +4548,7 @@ export const PriceGroupDocument = gql`
  *   },
  * });
  */
-export function usePriceGroupQuery(baseOptions: Apollo.QueryHookOptions<PriceGroupQuery, PriceGroupQueryVariables>) {
+export function usePriceGroupQuery(baseOptions: Apollo.QueryHookOptions<PriceGroupQuery, PriceGroupQueryVariables> & ({ variables: PriceGroupQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<PriceGroupQuery, PriceGroupQueryVariables>(PriceGroupDocument, options);
       }
@@ -4539,8 +4556,13 @@ export function usePriceGroupLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<PriceGroupQuery, PriceGroupQueryVariables>(PriceGroupDocument, options);
         }
+export function usePriceGroupSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<PriceGroupQuery, PriceGroupQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<PriceGroupQuery, PriceGroupQueryVariables>(PriceGroupDocument, options);
+        }
 export type PriceGroupQueryHookResult = ReturnType<typeof usePriceGroupQuery>;
 export type PriceGroupLazyQueryHookResult = ReturnType<typeof usePriceGroupLazyQuery>;
+export type PriceGroupSuspenseQueryHookResult = ReturnType<typeof usePriceGroupSuspenseQuery>;
 export type PriceGroupQueryResult = Apollo.QueryResult<PriceGroupQuery, PriceGroupQueryVariables>;
 export const PriceGroupsDocument = gql`
     query PriceGroups($description: String, $isFree: Boolean, $page: Int, $pageSize: Int, $publisher: [String], $sort: String, $createPath: Any) {
@@ -4668,8 +4690,8 @@ export type DeleteRegistrationMutationHookResult = ReturnType<typeof useDeleteRe
 export type DeleteRegistrationMutationResult = Apollo.MutationResult<DeleteRegistrationMutation>;
 export type DeleteRegistrationMutationOptions = Apollo.BaseMutationOptions<DeleteRegistrationMutation, DeleteRegistrationMutationVariables>;
 export const UpdateRegistrationDocument = gql`
-    mutation UpdateRegistration($input: UpdateRegistrationMutationInput!) {
-  updateRegistration(input: $input) @rest(type: "Registration", path: "/registration/{args.input.id}/", method: "PUT", bodyKey: "input") {
+    mutation UpdateRegistration($id: ID!, $input: UpdateRegistrationMutationInput!) {
+  updateRegistration(id: $id, input: $input) @rest(type: "Registration", path: "/registration/{args.id}/", method: "PUT", bodyKey: "input") {
     ...registrationFields
   }
 }
@@ -4689,6 +4711,7 @@ export type UpdateRegistrationMutationFn = Apollo.MutationFunction<UpdateRegistr
  * @example
  * const [updateRegistrationMutation, { data, loading, error }] = useUpdateRegistrationMutation({
  *   variables: {
+ *      id: // value for 'id'
  *      input: // value for 'input'
  *   },
  * });

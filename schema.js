@@ -42,21 +42,33 @@ module.exports = buildSchema(/* GraphQL */ `
       registration: ID
     ): SendMessageResponse
     sendRegistrationUserAccessInvitation(id: Int): NoContent
-    updateEvent(input: UpdateEventMutationInput!): Event!
+    updateEvent(id: ID!, input: UpdateEventMutationInput!): Event!
     updateEvents(input: [UpdateEventMutationInput!]!): [Event!]!
-    updateImage(input: UpdateImageMutationInput!): Image!
+    updateImage(id: ID!, input: UpdateImageMutationInput!): Image!
     uploadImage(input: UploadImageMutationInput!): Image!
-    updateKeyword(input: UpdateKeywordMutationInput!): Keyword!
-    updateKeywordSet(input: UpdateKeywordSetMutationInput!): KeywordSet!
-    updateOrganization(input: UpdateOrganizationMutationInput!): Organization!
-    updatePlace(input: UpdatePlaceMutationInput!): Place!
-    updatePriceGroup(input: UpdatePriceGroupMutationInput!): PriceGroup!
-    updateRegistration(input: UpdateRegistrationMutationInput!): Registration!
+    updateKeyword(id: ID!, input: UpdateKeywordMutationInput!): Keyword!
+    updateKeywordSet(
+      id: ID!
+      input: UpdateKeywordSetMutationInput!
+    ): KeywordSet!
+    updateOrganization(
+      id: ID!
+      input: UpdateOrganizationMutationInput!
+    ): Organization!
+    updatePlace(id: ID!, input: UpdatePlaceMutationInput!): Place!
+    updatePriceGroup(
+      id: Int!
+      input: UpdatePriceGroupMutationInput!
+    ): PriceGroup!
+    updateRegistration(
+      id: ID!
+      input: UpdateRegistrationMutationInput!
+    ): Registration!
     updateSeatsReservation(
       id: ID!
       input: UpdateSeatsReservationMutationInput!
     ): SeatsReservation!
-    updateSignup(input: UpdateSignupMutationInput!, id: ID!): Signup!
+    updateSignup(id: ID!, input: UpdateSignupMutationInput!): Signup!
     updateSignupGroup(
       id: ID!
       input: UpdateSignupGroupMutationInput!
@@ -414,7 +426,6 @@ module.exports = buildSchema(/* GraphQL */ `
 
   input UpdateImageMutationInput {
     altText: LocalisedObjectInput
-    id: ID!
     license: String
     name: String!
     photographerName: String
@@ -443,7 +454,6 @@ module.exports = buildSchema(/* GraphQL */ `
   input UpdateKeywordMutationInput {
     dataSource: String
     deprecated: Boolean
-    id: String
     name: LocalisedObjectInput
     publisher: String
     replacedBy: String
@@ -460,7 +470,6 @@ module.exports = buildSchema(/* GraphQL */ `
 
   input UpdateKeywordSetMutationInput {
     dataSource: String
-    id: String
     keywords: [IdObjectInput!]
     name: LocalisedObjectInput
     organization: String
@@ -562,7 +571,6 @@ module.exports = buildSchema(/* GraphQL */ `
     dataSource: String
     description: LocalisedObjectInput
     email: String
-    id: String
     infoUrl: LocalisedObjectInput
     name: LocalisedObjectInput
     position: PositionInput
@@ -582,7 +590,6 @@ module.exports = buildSchema(/* GraphQL */ `
 
   input UpdatePriceGroupMutationInput {
     description: LocalisedObjectInput
-    id: Int
     isFree: Boolean
     publisher: String
   }
@@ -624,7 +631,6 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input UpdateRegistrationMutationInput {
-    id: ID!
     audienceMaxAge: Int
     audienceMinAge: Int
     confirmationMessage: LocalisedObjectInput

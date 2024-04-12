@@ -43,13 +43,12 @@ const payload = {
   dataSource: TEST_DATA_SOURCE_ID,
   dissolutionDate: null,
   foundingDate: '2021-01-01',
-  id: TEST_PUBLISHER_ID,
   originId: '1',
   webStoreAccounts: [],
   webStoreMerchants: [],
 };
 
-const updateOrganizationVariables = { input: payload };
+const updateOrganizationVariables = { id: TEST_PUBLISHER_ID, input: payload };
 
 const updateOrganizationResponse = {
   data: { updateOrganization: organization },

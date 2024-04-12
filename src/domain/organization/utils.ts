@@ -267,8 +267,6 @@ export const checkCanUserDoOrganizationAction = ({
   id: string;
   user?: UserFieldsFragment;
 }): boolean => {
-  /* istanbul ignore next */
-  const isSuperuser = !!user?.isSuperuser;
   const isAdminUser = isAdminUserInOrganization({
     id,
     organizationAncestors: [],
@@ -276,14 +274,18 @@ export const checkCanUserDoOrganizationAction = ({
   });
   const adminOrganizations = getValue(user?.adminOrganizations, []);
 
+  if (!!user?.isSuperuser) {
+    return true;
+  }
+
   switch (action) {
     case ORGANIZATION_ACTIONS.EDIT:
       return true;
     case ORGANIZATION_ACTIONS.CREATE:
-      return !!adminOrganizations.length || isSuperuser;
+      return !!adminOrganizations.length;
     case ORGANIZATION_ACTIONS.DELETE:
     case ORGANIZATION_ACTIONS.UPDATE:
-      return isAdminUser || isSuperuser;
+      return isAdminUser;
   }
 };
 
@@ -399,22 +401,25 @@ export const checkCanUserDoFinancialInfoAction = ({
   organizationId: string;
   user?: UserFieldsFragment;
 }): boolean => {
+  if (user?.isSuperuser) {
+    return true;
+  }
+
   /* istanbul ignore next */
-  const isSuperuser = !!user?.isSuperuser;
   const isFinancialAdminUser = isFinancialAdminUserInOrganization({
     id: organizationId,
     organizationAncestors: [],
     user,
   });
+
   switch (action) {
     case ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE:
       return (
-        (!!user?.adminOrganizations.length &&
-          !!user.financialAdminOrganizations.length) ||
-        isSuperuser
+        !!user?.adminOrganizations.length &&
+        !!user.financialAdminOrganizations.length
       );
     case ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE:
-      return isSuperuser || isFinancialAdminUser;
+      return isFinancialAdminUser;
   }
 };
 

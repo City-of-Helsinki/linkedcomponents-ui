@@ -25,11 +25,11 @@ export const MUTATION_KEYWORD_SET = gql`
     }
   }
 
-  mutation UpdateKeywordSet($input: UpdateKeywordSetMutationInput!) {
-    updateKeywordSet(input: $input)
+  mutation UpdateKeywordSet($id: ID!, $input: UpdateKeywordSetMutationInput!) {
+    updateKeywordSet(id: $id, input: $input)
       @rest(
         type: "KeywordSet"
-        path: "/keyword_set/{args.input.id}/"
+        path: "/keyword_set/{args.id}/"
         method: "PUT"
         bodyKey: "input"
       ) {

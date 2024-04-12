@@ -21,11 +21,11 @@ export const MUTATION_KEYWORD = gql`
     }
   }
 
-  mutation UpdateKeyword($input: UpdateKeywordMutationInput!) {
-    updateKeyword(input: $input)
+  mutation UpdateKeyword($id: ID!, $input: UpdateKeywordMutationInput!) {
+    updateKeyword(id: $id, input: $input)
       @rest(
         type: "Keyword"
-        path: "/keyword/{args.input.id}/"
+        path: "/keyword/{args.id}/"
         method: "PUT"
         bodyKey: "input"
       ) {

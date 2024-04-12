@@ -121,6 +121,9 @@ export const checkCanUserDoAction = ({
     organizationAncestors,
     user,
   });
+  if (!!user?.isSuperuser) {
+    return true;
+  }
 
   switch (action) {
     case KEYWORD_ACTIONS.EDIT:

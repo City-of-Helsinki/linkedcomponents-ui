@@ -1,4 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
+import omit from 'lodash/omit';
 
 import { keywordAtId } from '../../../common/components/keywordSelector/__mocks__/keywordSelector';
 import {
@@ -37,7 +38,10 @@ const mockedKeywordSetResponse = {
   result: keywordSetResponse,
 };
 
-const updateKeywordSetVariables = { input: keywordSetValues };
+const updateKeywordSetVariables = {
+  id: keywordSetValues.id,
+  input: omit(keywordSetValues, 'id'),
+};
 
 const updateKeywordSetResponse = { data: { updateKeywordSet: keywordSet } };
 

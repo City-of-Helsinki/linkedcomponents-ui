@@ -16,11 +16,11 @@ export const MUTATION_EVENT = gql`
     }
   }
 
-  mutation UpdateEvent($input: UpdateEventMutationInput!) {
-    updateEvent(input: $input)
+  mutation UpdateEvent($id: ID!, $input: UpdateEventMutationInput!) {
+    updateEvent(id: $id, input: $input)
       @rest(
         type: "Event"
-        path: "/event/{args.input.id}/"
+        path: "/event/{args.id}/"
         method: "PUT"
         bodyKey: "input"
       ) {

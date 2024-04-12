@@ -145,7 +145,9 @@ const useUpdateRecurringEventIfNeeded =
             : null,
           superEventType: SuperEventType.Recurring,
         };
-        const data = await updateEvent({ variables: { input: payload } });
+        const data = await updateEvent({
+          variables: { id: superEvent.id, input: payload },
+        });
 
         return getValue(data.data?.updateEvent, null);
       } catch (error) {

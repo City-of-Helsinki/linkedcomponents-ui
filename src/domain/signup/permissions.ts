@@ -25,6 +25,10 @@ export const checkCanUserDoSignupAction = ({
   registration: RegistrationFieldsFragment;
   user?: UserFieldsFragment;
 }): boolean => {
+  if (user?.isSuperuser) {
+    return true;
+  }
+
   const publisher = getValue(registration.publisher, '');
   const isAdminUser = isAdminUserInOrganization({
     id: publisher,

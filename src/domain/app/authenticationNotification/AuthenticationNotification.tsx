@@ -85,6 +85,10 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
   ];
 
   const hasRequiredOrganization = () => {
+    if (user?.isSuperuser) {
+      return true;
+    }
+
     if (requiredOrganizationType.includes('external')) {
       return true;
     }

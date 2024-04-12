@@ -83,6 +83,10 @@ export const checkCanUserDoPriceGroupAction = ({
     user,
   });
 
+  if (publisher && user?.isSuperuser) {
+    return true;
+  }
+
   switch (action) {
     case PRICE_GROUP_ACTIONS.EDIT:
       return true;
@@ -228,10 +232,7 @@ export const getPriceGroupPayload = (
 ): UpdatePriceGroupMutationInput => {
   const { id, ...restFormValues } = formValues;
 
-  return {
-    ...restFormValues,
-    id: id ? Number(id) : undefined,
-  };
+  return restFormValues;
 };
 
 export const getFocusableFieldId = (fieldName: string): string => {

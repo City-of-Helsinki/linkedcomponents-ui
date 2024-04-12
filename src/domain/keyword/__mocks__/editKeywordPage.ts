@@ -1,4 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
+import omit from 'lodash/omit';
 
 import {
   DeleteKeywordDocument,
@@ -50,7 +51,10 @@ const mockedKeywordsResponse: MockedResponse = {
   result: keywordsResponse,
 };
 
-const updateKeywordVariables = { input: keywordValues };
+const updateKeywordVariables = {
+  id: keywordValues.id,
+  input: omit(keywordValues, 'id'),
+};
 
 const updateKeywordResponse = { data: { updateKeyword: keyword } };
 

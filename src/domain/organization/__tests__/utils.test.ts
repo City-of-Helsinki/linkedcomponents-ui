@@ -219,6 +219,21 @@ describe('checkCanUserDoOrganizationAction function', () => {
       ).toBe(true);
     });
   });
+
+  it('should allow any action for superuser', () => {
+    const user = fakeUser({ isSuperuser: true });
+    const allowedActions = Object.values(ORGANIZATION_ACTIONS);
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoOrganizationAction({
+          action,
+          id: '',
+          user,
+        })
+      ).toBe(true);
+    });
+  });
 });
 
 it('should allow correct actions if publisher is not defined and user has at least one admin organization', () => {

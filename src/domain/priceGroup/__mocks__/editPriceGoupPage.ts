@@ -1,4 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
+import omit from 'lodash/omit';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import {
@@ -31,13 +32,12 @@ const mockedPriceGroupResponse: MockedResponse = {
 
 const emptyLangObj = { fi: '', sv: '', en: '', ru: '', zhHans: '', ar: '' };
 const payload = {
-  ...priceGroupValues,
+  ...omit(priceGroupValues, 'id'),
   description: { ...emptyLangObj, fi: priceGroupValues.description?.fi },
-  id: priceGroupValues.id,
   isFree: false,
 };
 
-const updatePriceGroupVariables = { input: payload };
+const updatePriceGroupVariables = { id: priceGroupValues.id, input: payload };
 
 const updatePriceGroupResponse = { data: { updatePriceGroup: priceGroup } };
 

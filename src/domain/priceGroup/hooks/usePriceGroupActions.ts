@@ -3,6 +3,7 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
+import omit from 'lodash/omit';
 
 import {
   PriceGroupFieldsFragment,
@@ -136,12 +137,17 @@ const usePriceGroupActions = ({
     callbacks?: MutationCallbacks<number>
   ) => {
     const id = priceGroup?.id as number;
-    const payload: UpdatePriceGroupMutationInput = getPriceGroupPayload(values);
+    const payload: UpdatePriceGroupMutationInput = omit(
+      getPriceGroupPayload(values),
+      'id'
+    );
 
     try {
       setSaving(PRICE_GROUP_ACTIONS.UPDATE);
 
-      await updatePriceGroupMutation({ variables: { input: payload } });
+      await updatePriceGroupMutation({
+        variables: { id, input: payload },
+      });
 
       await cleanAfterUpdate(id, callbacks);
     } catch (error) /* istanbul ignore next */ {

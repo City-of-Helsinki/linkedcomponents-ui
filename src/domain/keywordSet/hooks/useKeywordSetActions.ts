@@ -3,6 +3,7 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
+import omit from 'lodash/omit';
 
 import {
   CreateKeywordSetMutationInput,
@@ -137,12 +138,17 @@ const useKeywordSetActions = ({
     values: KeywordSetFormFields,
     callbacks?: MutationCallbacks
   ) => {
-    const payload: UpdateKeywordSetMutationInput = getKeywordSetPayload(values);
+    const payload: UpdateKeywordSetMutationInput = omit(
+      getKeywordSetPayload(values),
+      'id'
+    );
 
     try {
       setSaving(KEYWORD_SET_ACTIONS.UPDATE);
 
-      await updateKeywordSetMutation({ variables: { input: payload } });
+      await updateKeywordSetMutation({
+        variables: { id: values.id, input: payload },
+      });
 
       await cleanAfterUpdate(callbacks);
     } catch (error) /* istanbul ignore next */ {

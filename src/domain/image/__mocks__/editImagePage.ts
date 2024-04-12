@@ -1,4 +1,5 @@
 import { MockedResponse } from '@apollo/client/testing';
+import omit from 'lodash/omit';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import {
@@ -29,7 +30,10 @@ const mockedImageResponse = {
   result: imageResponse,
 };
 
-const updateImageVariables = { input: imageValues };
+const updateImageVariables = {
+  id: imageValues.id,
+  input: omit(imageValues, 'id'),
+};
 
 const updateImageResponse = { data: { updateImage: image } };
 

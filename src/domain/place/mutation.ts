@@ -16,11 +16,11 @@ export const MUTATION_PLACE = gql`
     }
   }
 
-  mutation UpdatePlace($input: UpdatePlaceMutationInput!) {
-    updatePlace(input: $input)
+  mutation UpdatePlace($id: ID!, $input: UpdatePlaceMutationInput!) {
+    updatePlace(id: $id, input: $input)
       @rest(
         type: "Place"
-        path: "/place/{args.input.id}/"
+        path: "/place/{args.id}/"
         method: "PUT"
         bodyKey: "input"
       ) {

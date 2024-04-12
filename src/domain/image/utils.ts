@@ -118,6 +118,10 @@ export const checkCanUserDoAction = ({
   publisher: string;
   user?: UserFieldsFragment;
 }): boolean => {
+  if (user?.isSuperuser) {
+    return true;
+  }
+
   const isRegularUser = isReqularUserInOrganization({ id: publisher, user });
   const isAdminUser = isAdminUserInOrganization({
     id: publisher,

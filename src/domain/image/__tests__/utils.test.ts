@@ -220,6 +220,22 @@ describe('checkCanUserDoAction function', () => {
       ).toBe(false);
     });
   });
+
+  it('should allow any action for superuser', () => {
+    const user = fakeUser({ isSuperuser: true });
+    const allowedActions = Object.values(IMAGE_ACTIONS);
+
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher: '',
+          user,
+        })
+      ).toBe(true);
+    });
+  });
 });
 
 describe('getImageAltText function', () => {

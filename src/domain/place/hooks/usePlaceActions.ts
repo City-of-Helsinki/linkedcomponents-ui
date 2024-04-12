@@ -3,6 +3,7 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
+import omit from 'lodash/omit';
 
 import {
   PlaceFieldsFragment,
@@ -132,12 +133,17 @@ const usePlaceUpdateActions = ({
     values: PlaceFormFields,
     callbacks?: MutationCallbacks
   ) => {
-    const payload: UpdatePlaceMutationInput = getPlacePayload(values);
+    const payload: UpdatePlaceMutationInput = omit(
+      getPlacePayload(values),
+      'id'
+    );
 
     try {
       setSaving(PLACE_ACTIONS.UPDATE);
 
-      await updatePlaceMutation({ variables: { input: payload } });
+      await updatePlaceMutation({
+        variables: { id: values.id, input: payload },
+      });
 
       await cleanAfterUpdate(values.id, callbacks);
     } catch (error) /* istanbul ignore next */ {

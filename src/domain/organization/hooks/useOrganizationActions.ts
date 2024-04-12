@@ -3,6 +3,7 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
+import omit from 'lodash/omit';
 
 import {
   OrganizationFieldsFragment,
@@ -152,9 +153,9 @@ const useOrganizationUpdateActions = ({
     values: OrganizationFormFields,
     callbacks?: MutationCallbacks<string>
   ) => {
-    const payload: UpdateOrganizationMutationInput = getOrganizationPayload(
-      values,
-      user
+    const payload: UpdateOrganizationMutationInput = omit(
+      getOrganizationPayload(values, user),
+      'id'
     );
 
     try {
@@ -194,15 +195,17 @@ const useOrganizationUpdateActions = ({
     if (shouldPatchOrganization(values.id)) {
       patchOrganization(values, callbacks);
     } else {
-      const payload: UpdateOrganizationMutationInput = getOrganizationPayload(
-        values,
-        user
+      const payload: UpdateOrganizationMutationInput = omit(
+        getOrganizationPayload(values, user),
+        'id'
       );
 
       try {
         setSaving(ORGANIZATION_ACTIONS.UPDATE);
 
-        await updateOrganizationMutation({ variables: { input: payload } });
+        await updateOrganizationMutation({
+          variables: { id: values.id, input: payload },
+        });
 
         await cleanAfterUpdate(values.id, callbacks);
       } catch (error) /* istanbul ignore next */ {
