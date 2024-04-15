@@ -14,6 +14,7 @@ import {
   ORGANIZATION_FIELDS,
   ORGANIZATION_FINANCIAL_INFO_ACTIONS,
   ORGANIZATION_SELECT_FIELDS,
+  ORGANIZATION_TEXT_FIELD_MAX_LENGTH,
   WEB_STORE_ACCOUNT_FIELDS,
   WEB_STORE_MERCHANT_FIELDS,
 } from './constants';
@@ -159,16 +160,22 @@ export const getOrganizationSchema = ({
       user,
     })
       ? {
-          [ORGANIZATION_FIELDS.ORIGIN_ID]: Yup.string().when(
-            [ORGANIZATION_FIELDS.ID],
-            ([id], schema) =>
+          [ORGANIZATION_FIELDS.ORIGIN_ID]: Yup.string()
+            .when([ORGANIZATION_FIELDS.ID], ([id], schema) =>
               id
                 ? schema
                 : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          ),
+            )
+            .max(
+              ORGANIZATION_TEXT_FIELD_MAX_LENGTH[ORGANIZATION_FIELDS.ORIGIN_ID],
+              createStringMaxErrorMessage
+            ),
           [ORGANIZATION_FIELDS.NAME]: Yup.string()
             .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-            .nullable(),
+            .max(
+              ORGANIZATION_TEXT_FIELD_MAX_LENGTH[ORGANIZATION_FIELDS.NAME],
+              createStringMaxErrorMessage
+            ),
           [ORGANIZATION_FIELDS.FOUNDING_DATE]: Yup.date()
             .nullable()
             .typeError(VALIDATION_MESSAGE_KEYS.DATE),

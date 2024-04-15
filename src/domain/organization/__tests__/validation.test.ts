@@ -1,13 +1,22 @@
+import { fakeUser } from '../../../utils/mockDataUtils';
 import { mockString } from '../../../utils/testUtils';
 import {
+  ORGANIZATION_ACTIONS,
+  ORGANIZATION_INITIAL_VALUES,
+  TEST_PUBLISHER_ID,
   WEB_STORE_ACCOUNT_INITIAL_VALUES,
   WEB_STORE_MERCHANT_INITIAL_VALUES,
 } from '../constants';
 import {
+  OrganizationFormFields,
   WebStoreAccountFormFields,
   WebStoreMerchantFormFields,
 } from '../types';
-import { webStoreAccountSchema, webStoreMerchantSchema } from '../validation';
+import {
+  getOrganizationSchema,
+  webStoreAccountSchema,
+  webStoreMerchantSchema,
+} from '../validation';
 
 const testWebStoreAccountSchema = async (
   account: WebStoreAccountFormFields
@@ -58,6 +67,7 @@ describe('webStoreAccountSchema', () => {
     [{ project: mockString(17) }],
     [{ operationArea: mockString(7) }],
   ];
+
   it.each(testCases)(
     'should return false if account is invalid, %s',
     async (accountOverrides) => {
@@ -70,6 +80,19 @@ describe('webStoreAccountSchema', () => {
     }
   );
 });
+
+const testOrganizationSchema = async (organization: OrganizationFormFields) => {
+  try {
+    await getOrganizationSchema({
+      action: ORGANIZATION_ACTIONS.CREATE,
+      publisher: TEST_PUBLISHER_ID,
+      user: fakeUser({ isSuperuser: true }),
+    }).validate(organization);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
 describe('webStoreMerchantSchema', () => {
   const validMerchantValues: WebStoreMerchantFormFields = {
@@ -119,6 +142,38 @@ describe('webStoreMerchantSchema', () => {
         await testWebStoreMerchantSchema({
           ...validMerchantValues,
           ...merchantOverrides,
+        })
+      ).toBe(false);
+    }
+  );
+});
+
+describe('getOrganizationSchema', () => {
+  const validOrganizationValues: OrganizationFormFields = {
+    ...ORGANIZATION_INITIAL_VALUES,
+    name: 'Name',
+    originId: '123',
+    parentOrganization: TEST_PUBLISHER_ID,
+  };
+
+  it('should return true if organization is valid', async () => {
+    expect(await testOrganizationSchema(validOrganizationValues)).toBe(true);
+  });
+
+  const testCases: [Partial<OrganizationFormFields>][] = [
+    [{ originId: '' }],
+    [{ originId: mockString(256) }],
+    [{ name: '' }],
+    [{ name: mockString(256) }],
+    [{ parentOrganization: '' }],
+  ];
+  it.each(testCases)(
+    'should return false if organization is invalid, %s',
+    async (orgnizationOverrides) => {
+      expect(
+        await testOrganizationSchema({
+          ...validOrganizationValues,
+          ...orgnizationOverrides,
         })
       ).toBe(false);
     }
