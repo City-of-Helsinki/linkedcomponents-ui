@@ -234,7 +234,7 @@ test('should create and select new image by entering image url', async () => {
 });
 
 test('should show validation error if image alt text is too long', async () => {
-  const altText = mockString(161);
+  const altText = mockString(321);
   const image = fakeImage({
     altText: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: altText },
     publisher,
@@ -259,7 +259,7 @@ test('should show validation error if image alt text is too long', async () => {
   await user.click(altTextInput);
   await user.click(nameInput);
 
-  await screen.findByText('Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä');
+  await screen.findByText('Tämä kenttä voi olla korkeintaan 320 merkkiä pitkä');
 });
 
 test('should show validation error if image name is too long', async () => {
