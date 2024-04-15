@@ -9,7 +9,6 @@ import PlaceSelectorField from '../../../../common/components/formFields/placeSe
 import RadioButtonGroupField from '../../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
-import { CHARACTER_LIMITS } from '../../../../constants';
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
@@ -87,7 +86,6 @@ const PlaceSection: React.FC<Props> = ({
               disabled={!isEditingAllowed}
               labelKey={`event.form.labelLocationExtraInfo`}
               languages={eventInfoLanguages}
-              maxLength={CHARACTER_LIMITS.SHORT_STRING}
               name={EVENT_FIELDS.LOCATION_EXTRA_INFO}
               placeholderKey={`event.form.placeholderLocationExtraInfo`}
             />
