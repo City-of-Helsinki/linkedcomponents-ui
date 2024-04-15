@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
+import TextAreaField from '../../../../common/components/formFields/textAreaField/TextAreaField';
 import TextEditorField from '../../../../common/components/formFields/textEditorField/TextEditorField';
 import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
@@ -175,7 +176,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                   </FormGroup>
                   <FormGroup>
                     <Field
-                      component={TextInputField}
+                      component={TextAreaField}
                       disabled={!isEditingAllowed}
                       label={t(`event.form.labelShortDescription.${type}`, {
                         langText,
