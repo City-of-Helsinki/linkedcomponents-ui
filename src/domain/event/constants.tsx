@@ -214,8 +214,6 @@ export enum URL_PARAMS {
   TAB = 'tab',
 }
 
-export const IMAGE_ALT_TEXT_MIN_LENGTH = 6;
-
 export const DESCRIPTION_SECTION_FIELDS = [
   EVENT_FIELDS.NAME,
   EVENT_FIELDS.DESCRIPTION,
