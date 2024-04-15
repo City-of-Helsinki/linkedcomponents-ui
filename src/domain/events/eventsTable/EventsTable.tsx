@@ -90,10 +90,10 @@ const EventsTable: React.FC<EventsTableProps> = ({
             {t('eventsPage.eventsTableColumns.publisher')}
           </th>
           <SortingHeaderCell
-            {...headerColumnProps[EVENT_SORT_OPTIONS.END_TIME]}
+            {...headerColumnProps[EVENT_SORT_OPTIONS.START_TIME]}
           />
           <SortingHeaderCell
-            {...headerColumnProps[EVENT_SORT_OPTIONS.START_TIME]}
+            {...headerColumnProps[EVENT_SORT_OPTIONS.END_TIME]}
           />
           <th className={styles.statusColumn}>
             {t('eventsPage.eventsTableColumns.status')}
