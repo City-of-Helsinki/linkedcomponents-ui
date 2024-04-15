@@ -169,7 +169,7 @@ export const getContactPersonSchema = () => {
       .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
       .min(1, createArrayMinErrorMessage),
     [CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER]: getStringSchema(false),
-    [CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE]: getStringSchema(true),
+    [CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE]: getStringSchema(false).nullable(),
     [CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE]: getStringSchema(true),
     [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: getStringSchema(false),
   });

@@ -210,7 +210,7 @@ test('should validate signup group form fields', async () => {
   const contactPersonPhoneInput = getSignupFormElement(
     'contactPersonPhoneInput'
   );
-  const nativeLanguageButton = getSignupFormElement('nativeLanguageButton');
+  const serviceLanguageButton = getSignupFormElement('serviceLanguageButton');
   const createButton = await findCreateButton();
 
   await user.type(firstNameInput, signupValues.firstName);
@@ -230,7 +230,7 @@ test('should validate signup group form fields', async () => {
   await user.type(contactPersonPhoneInput, contactPersonValues.phoneNumber);
   await user.click(createButton);
 
-  await waitFor(() => expect(nativeLanguageButton).toHaveFocus());
+  await waitFor(() => expect(serviceLanguageButton).toHaveFocus());
 });
 
 test('should route to signup list page after creating a signup', async () => {
