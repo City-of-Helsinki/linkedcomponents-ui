@@ -188,22 +188,25 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                       required={true}
                     />
                   </FormGroup>
+                  <FormGroup>
+                    <Field
+                      component={TextEditorField}
+                      disabled={!isEditingAllowed}
+                      label={t(`event.form.labelDescription.${type}`, {
+                        langText,
+                      })}
+                      maxLength={CHARACTER_LIMITS.LONG_STRING}
+                      name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
+                      placeholder={t(
+                        `event.form.placeholderDescription.${type}`
+                      )}
+                      required={true}
+                      sanitizeAfterBlur={sanitizeDescription}
+                    />
+                  </FormGroup>
                 </FieldColumn>
               </FieldRow>
-              <FormGroup>
-                <Field
-                  component={TextEditorField}
-                  disabled={!isEditingAllowed}
-                  label={t(`event.form.labelDescription.${type}`, {
-                    langText,
-                  })}
-                  maxLength={CHARACTER_LIMITS.LONG_STRING}
-                  name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
-                  placeholder={t(`event.form.placeholderDescription.${type}`)}
-                  required={true}
-                  sanitizeAfterBlur={sanitizeDescription}
-                />
-              </FormGroup>
+
               {isExternalUser && (
                 <FieldRow
                   notification={
