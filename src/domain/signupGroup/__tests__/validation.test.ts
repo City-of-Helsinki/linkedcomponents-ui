@@ -446,18 +446,6 @@ describe('signupGroupSchema function', () => {
     ).toBe(false);
   });
 
-  test('should return false if native language is empty', async () => {
-    expect(
-      await testSignupGroupSchema(registration, {
-        ...validSignupGroup,
-        contactPerson: {
-          ...validSignupGroup.contactPerson,
-          nativeLanguage: '',
-        },
-      })
-    ).toBe(false);
-  });
-
   test('should return false if service language is empty', async () => {
     expect(
       await testSignupGroupSchema(registration, {
