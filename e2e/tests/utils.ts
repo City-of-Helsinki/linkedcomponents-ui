@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import { BrowserContext } from '@playwright/test';
 
 export const LINKED_EVENTS_URL =
@@ -23,7 +21,8 @@ export const setCookieConsent = async (context: BrowserContext) => {
     {
       name: 'city-of-helsinki-cookie-consents',
       value: encodedCookieConsents(),
-      domain: process.env.E2E_TESTS_ENV_URL ?? 'linkedevents.dev.hel.ninja',
+      domain: process.env.E2E_TESTS_ENV_URL || 'linkedevents.dev.hel.ninja',
+      path: '/',
     },
   ]);
 };
