@@ -11,7 +11,6 @@ import PublisherSelectorField from '../../../common/components/formFields/publis
 import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import {
-  CHARACTER_LIMITS,
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
   ROUTES,
@@ -221,7 +220,6 @@ const PriceGroupForm: React.FC<PriceGroupFormProps> = ({ priceGroup }) => {
                     label={`${t(
                       'priceGroup.form.labelDescription'
                     )} (${langText})`}
-                    maxLength={CHARACTER_LIMITS.MEDIUM_STRING}
                     name={`${PRICE_GROUP_FIELDS.DESCRIPTION}.${language}`}
                     readOnly={!isEditingAllowed}
                     required={language === LE_DATA_LANGUAGES.FI}
