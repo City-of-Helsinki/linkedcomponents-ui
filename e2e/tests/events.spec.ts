@@ -5,7 +5,7 @@ import { LINKED_EVENTS_URL } from './utils';
 
 test.describe('Event search page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('fi/search');
+    await page.goto('/fi/search');
 
     await expect(page.getByTestId('hds-pagination-next-button')).toBeVisible();
   });
@@ -108,7 +108,7 @@ test.describe('Event search page', () => {
 });
 
 test('should display logged out message', async ({ page }) => {
-  await page.goto('fi/events');
+  await page.goto('/fi/events');
   await expect(
     page.getByText(
       'Sinun täytyy olla kirjautuneena sisään tarkastellaksesi tätä sisältöä'

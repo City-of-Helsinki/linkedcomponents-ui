@@ -26,7 +26,7 @@ export default defineConfig({
   use: {
     // Base URL to use in actions like `await page.goto('/')`
     baseURL:
-      process.env.E2E_TESTS_ENV_URL ?? 'https://linkedevents.dev.hel.ninja/',
+      process.env.E2E_TESTS_ENV_URL ?? 'https://linkedevents.dev.hel.ninja',
 
     // Whether to ignore HTTPS errors when sending network requests
     ignoreHTTPSErrors: true,

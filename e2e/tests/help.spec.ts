@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test.describe('Help page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('fi/help/instructions/general');
+    await page.goto('/fi/help/instructions/general');
   });
 
   test('Side navigation tabs work', async ({ page }) => {
