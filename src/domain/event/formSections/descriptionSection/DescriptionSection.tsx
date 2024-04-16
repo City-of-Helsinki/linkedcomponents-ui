@@ -11,12 +11,16 @@ import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import Notification from '../../../../common/components/notification/Notification';
 import TabPanel from '../../../../common/components/tabs/tabPanel/TabPanel';
 import Tabs from '../../../../common/components/tabs/Tabs';
-import { CHARACTER_LIMITS, LE_DATA_LANGUAGES } from '../../../../constants';
+import { LE_DATA_LANGUAGES } from '../../../../constants';
 import lowerCaseFirstLetter from '../../../../utils/lowerCaseFirstLetter';
 import skipFalsyType from '../../../../utils/skipFalsyType';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
-import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
+import {
+  EVENT_FIELDS,
+  EVENT_TEXT_FIELD_MAX_LENGTH,
+  EVENT_TYPE,
+} from '../../constants';
 import useLanguageTabOptions from '../../hooks/useLanguageTabOptions';
 import useSortedInfoLanguages from '../../hooks/useSortedInfoLanguages';
 import { formatSingleDescription } from '../../utils';
@@ -181,7 +185,11 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                       label={t(`event.form.labelShortDescription.${type}`, {
                         langText,
                       })}
-                      maxLength={CHARACTER_LIMITS.SHORT_STRING}
+                      maxLength={
+                        EVENT_TEXT_FIELD_MAX_LENGTH[
+                          EVENT_FIELDS.SHORT_DESCRIPTION
+                        ]
+                      }
                       name={`${EVENT_FIELDS.SHORT_DESCRIPTION}.${selectedLanguage}`}
                       placeholder={t(
                         `event.form.placeholderShortDescription.${type}`
@@ -196,7 +204,9 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                       label={t(`event.form.labelDescription.${type}`, {
                         langText,
                       })}
-                      maxLength={CHARACTER_LIMITS.LONG_STRING}
+                      maxLength={
+                        EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.DESCRIPTION]
+                      }
                       name={`${EVENT_FIELDS.DESCRIPTION}.${selectedLanguage}`}
                       placeholder={t(
                         `event.form.placeholderDescription.${type}`

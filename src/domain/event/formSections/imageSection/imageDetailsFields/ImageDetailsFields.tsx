@@ -8,7 +8,6 @@ import { useTranslation } from 'react-i18next';
 import RadioButtonGroupField from '../../../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import {
-  CHARACTER_LIMITS,
   EMPTY_MULTI_LANGUAGE_OBJECT,
   LE_DATA_LANGUAGES,
   ORDERED_LE_DATA_LANGUAGES,
@@ -158,7 +157,6 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
         name={getFieldName(IMAGE_FIELDS.NAME)}
         component={TextInputField}
         label={t(`image.form.labelName`)}
-        maxLength={CHARACTER_LIMITS.MEDIUM_STRING}
         placeholder={t(`image.form.placeholderName`)}
         required={editable}
         title={warning}

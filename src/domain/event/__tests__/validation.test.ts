@@ -1,18 +1,48 @@
 import { yupToFormErrors } from 'formik';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
+import { mockString } from '../../../utils/testUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { TEST_KEYWORD_ID } from '../../keyword/constants';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { TEST_PLACE_ID } from '../../place/constants';
 import { EVENT_INITIAL_VALUES } from '../constants';
-import { EventFormFields, EventTimeFormFields, OfferFields } from '../types';
+import {
+  EventFormFields,
+  EventTimeFormFields,
+  ExternalLink,
+  OfferFields,
+  VideoDetails,
+} from '../types';
 import { getEmptyOffer } from '../utils';
-import { eventTimeSchema, publicEventSchema } from '../validation';
+import {
+  eventTimeSchema,
+  externalLinksSchema,
+  publicEventSchema,
+  videoSchema,
+} from '../validation';
+
+const testExternalLinkSchema = async (externalLink: ExternalLink) => {
+  try {
+    await externalLinksSchema.validate([externalLink]);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
 const testEventTimeSchema = async (eventTime: EventTimeFormFields) => {
   try {
     await eventTimeSchema.validate(eventTime);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const testVideoSchema = async (video: VideoDetails) => {
+  try {
+    await videoSchema.validate(video);
     return true;
   } catch (e) {
     return false;
@@ -179,49 +209,104 @@ describe('event time validation', () => {
     expect(await testEventTimeSchema(validEventTime)).toBe(true);
   });
 
-  test('should return false if start date is missing', async () => {
-    expect(
-      await testEventTimeSchema({ ...validEventTime, startDate: null })
-    ).toBe(false);
-  });
-
-  test('should return false if start time is missing', async () => {
-    expect(
-      await testEventTimeSchema({ ...validEventTime, startTime: '' })
-    ).toBe(false);
-  });
-
-  test('should return false if end date is missing', async () => {
-    expect(
-      await testEventTimeSchema({ ...validEventTime, endDate: null })
-    ).toBe(false);
-  });
-
-  test('should return false if end time is missing', async () => {
-    expect(await testEventTimeSchema({ ...validEventTime, endTime: '' })).toBe(
-      false
-    );
-  });
-
-  test('should return false if end time is not in the future', async () => {
-    expect(
-      await testEventTimeSchema({
+  const testCases: [Partial<EventTimeFormFields>][] = [
+    [{ startDate: null }],
+    [{ startTime: '' }],
+    [{ endDate: null }],
+    [{ endTime: '' }],
+    // end time is not in the future
+    [
+      {
         endDate: new Date('2022-11-05'),
         endTime: '15:00',
         startDate: new Date('2022-11-04'),
         startTime: '12:00',
-      })
-    ).toBe(false);
-  });
-
-  test('should return false if end time is before start time', async () => {
-    expect(
-      await testEventTimeSchema({
+      },
+    ],
+    // end time is before start time
+    [
+      {
         endDate: new Date('2022-11-11'),
         endTime: '15:00',
         startDate: new Date('2022-11-12'),
         startTime: '12:00',
-      })
-    ).toBe(false);
+      },
+    ],
+  ];
+
+  it.each(testCases)(
+    'should return false if event time is invalid, %s',
+    async (eventTimeOverrides) => {
+      expect(
+        await testEventTimeSchema({
+          ...validEventTime,
+          ...eventTimeOverrides,
+        })
+      ).toBe(false);
+    }
+  );
+});
+
+describe('external link validation', () => {
+  const validExternalLink: ExternalLink = {
+    link: 'https://valid.com',
+    name: 'facebook',
+  };
+
+  test('should return true if external link is valid', async () => {
+    expect(await testExternalLinkSchema(validExternalLink)).toBe(true);
   });
+
+  const testCases: [Partial<ExternalLink>][] = [
+    [{ link: '' }],
+    [{ link: 'not-url' }],
+    [{ link: `https://${mockString(201)}.com` }],
+    [{ name: '' }],
+  ];
+
+  it.each(testCases)(
+    'should return false if external link is invalid, %s',
+    async (externalLinkOverrides) => {
+      expect(
+        await testExternalLinkSchema({
+          ...validExternalLink,
+          ...externalLinkOverrides,
+        })
+      ).toBe(false);
+    }
+  );
+});
+
+describe('video validation', () => {
+  const validVideo: VideoDetails = {
+    altText: 'Alt text',
+    name: 'Name',
+    url: 'https://test.com',
+  };
+
+  test('should return true if video is valid', async () => {
+    expect(await testVideoSchema(validVideo)).toBe(true);
+  });
+
+  const testCases: [Partial<VideoDetails>][] = [
+    [{ altText: '' }],
+    [{ altText: mockString(321) }],
+    [{ name: '' }],
+    [{ name: mockString(256) }],
+    [{ url: '' }],
+    [{ url: `https://${mockString(201)}.com` }],
+    [{ url: 'not-url' }],
+  ];
+
+  it.each(testCases)(
+    'should return false if video is invalid, %s',
+    async (videoOverrides) => {
+      expect(
+        await testVideoSchema({
+          ...validVideo,
+          ...videoOverrides,
+        })
+      ).toBe(false);
+    }
+  );
 });

@@ -90,7 +90,7 @@ test('should show validation error if location extra info is too long', async ()
   renderComponent({
     [EVENT_FIELDS.LOCATION_EXTRA_INFO]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
-      fi: mockString(161),
+      fi: mockString(401),
     },
   });
 
@@ -100,5 +100,5 @@ test('should show validation error if location extra info is too long', async ()
   await user.click(locationExtraInfoInput);
   await user.click(locationCombobox);
 
-  await screen.findByText('Tämä kenttä voi olla korkeintaan 160 merkkiä pitkä');
+  await screen.findByText('Tämä kenttä voi olla korkeintaan 400 merkkiä pitkä');
 });
