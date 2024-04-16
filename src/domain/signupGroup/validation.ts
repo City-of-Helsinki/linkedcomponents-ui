@@ -13,14 +13,17 @@ import { featureFlagUtils } from '../../utils/featureFlags';
 import getValue from '../../utils/getValue';
 import {
   createArrayMinErrorMessage,
+  createStringMaxErrorMessage,
   isValidPhoneNumber,
   isValidZip,
 } from '../../utils/validationUtils';
 import wait from '../../utils/wait';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
+  CONTACT_PERSON_TEXT_FIELD_MAX_LENGTH,
   SEND_MESSAGE_FIELDS,
   SEND_MESSAGE_FORM_NAME,
+  SIGNUP_TEXT_FIELD_MAX_LENGTH,
 } from '../signup/constants';
 import {
   CONTACT_PERSON_FIELDS,
@@ -62,7 +65,7 @@ const getStringSchema = (
   schema?: Yup.StringSchema<string | undefined>
 ): Yup.StringSchema<string | undefined> =>
   required
-    ? schema ?? Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    ? (schema ?? Yup.string()).required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     : Yup.string();
 
 const getDateSchema = (
@@ -87,23 +90,38 @@ export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
         !!registration.registrationPriceGroups?.length
     ),
     [SIGNUP_FIELDS.FIRST_NAME]: getStringSchema(
-      isSignupFieldRequired(registration, SIGNUP_FIELDS.FIRST_NAME)
+      isSignupFieldRequired(registration, SIGNUP_FIELDS.FIRST_NAME),
+      Yup.string().max(
+        SIGNUP_TEXT_FIELD_MAX_LENGTH[SIGNUP_FIELDS.FIRST_NAME],
+        createStringMaxErrorMessage
+      )
     ),
     [SIGNUP_FIELDS.LAST_NAME]: getStringSchema(
-      isSignupFieldRequired(registration, SIGNUP_FIELDS.LAST_NAME)
+      isSignupFieldRequired(registration, SIGNUP_FIELDS.LAST_NAME),
+      Yup.string().max(
+        SIGNUP_TEXT_FIELD_MAX_LENGTH[SIGNUP_FIELDS.LAST_NAME],
+        createStringMaxErrorMessage
+      )
     ),
     [SIGNUP_FIELDS.PHONE_NUMBER]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_FIELDS.PHONE_NUMBER),
       Yup.string()
-        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
         .test(
           'isValidPhoneNumber',
           VALIDATION_MESSAGE_KEYS.PHONE,
           (value) => !value || isValidPhoneNumber(value)
         )
+        .max(
+          SIGNUP_TEXT_FIELD_MAX_LENGTH[SIGNUP_FIELDS.PHONE_NUMBER],
+          createStringMaxErrorMessage
+        )
     ),
     [SIGNUP_FIELDS.STREET_ADDRESS]: getStringSchema(
-      isSignupFieldRequired(registration, SIGNUP_FIELDS.STREET_ADDRESS)
+      isSignupFieldRequired(registration, SIGNUP_FIELDS.STREET_ADDRESS),
+      Yup.string().max(
+        SIGNUP_TEXT_FIELD_MAX_LENGTH[SIGNUP_FIELDS.STREET_ADDRESS],
+        createStringMaxErrorMessage
+      )
     ),
     [SIGNUP_FIELDS.DATE_OF_BIRTH]: getDateSchema(
       isDateOfBirthFieldRequired(registration),
@@ -131,15 +149,22 @@ export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
     [SIGNUP_FIELDS.ZIPCODE]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_FIELDS.ZIPCODE),
       Yup.string()
-        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
         .test(
           'isValidZip',
           VALIDATION_MESSAGE_KEYS.ZIP,
           (value) => !value || isValidZip(value)
         )
+        .max(
+          SIGNUP_TEXT_FIELD_MAX_LENGTH[SIGNUP_FIELDS.ZIPCODE],
+          createStringMaxErrorMessage
+        )
     ),
     [SIGNUP_FIELDS.CITY]: getStringSchema(
-      isSignupFieldRequired(registration, SIGNUP_FIELDS.CITY)
+      isSignupFieldRequired(registration, SIGNUP_FIELDS.CITY),
+      Yup.string().max(
+        SIGNUP_TEXT_FIELD_MAX_LENGTH[SIGNUP_FIELDS.CITY],
+        createStringMaxErrorMessage
+      )
     ),
     [SIGNUP_FIELDS.EXTRA_INFO]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_FIELDS.EXTRA_INFO)
@@ -151,7 +176,11 @@ export const getContactPersonSchema = () => {
   return Yup.object().shape({
     [CONTACT_PERSON_FIELDS.EMAIL]: Yup.string()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .email(VALIDATION_MESSAGE_KEYS.EMAIL),
+      .email(VALIDATION_MESSAGE_KEYS.EMAIL)
+      .max(
+        CONTACT_PERSON_TEXT_FIELD_MAX_LENGTH[CONTACT_PERSON_FIELDS.EMAIL],
+        createStringMaxErrorMessage
+      ),
     [CONTACT_PERSON_FIELDS.PHONE_NUMBER]: Yup.string()
       .test(
         'isValidPhoneNumber',
@@ -164,11 +193,30 @@ export const getContactPersonSchema = () => {
           notifications.includes(NOTIFICATIONS.SMS)
             ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
             : schema
+      )
+      .max(
+        CONTACT_PERSON_TEXT_FIELD_MAX_LENGTH[
+          CONTACT_PERSON_FIELDS.PHONE_NUMBER
+        ],
+        createStringMaxErrorMessage
       ),
+    [CONTACT_PERSON_FIELDS.FIRST_NAME]: Yup.string().max(
+      CONTACT_PERSON_TEXT_FIELD_MAX_LENGTH[CONTACT_PERSON_FIELDS.FIRST_NAME],
+      createStringMaxErrorMessage
+    ),
+    [CONTACT_PERSON_FIELDS.LAST_NAME]: Yup.string().max(
+      CONTACT_PERSON_TEXT_FIELD_MAX_LENGTH[CONTACT_PERSON_FIELDS.LAST_NAME],
+      createStringMaxErrorMessage
+    ),
     [CONTACT_PERSON_FIELDS.NOTIFICATIONS]: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
       .min(1, createArrayMinErrorMessage),
-    [CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER]: getStringSchema(false),
+    [CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER]: getStringSchema(false).max(
+      CONTACT_PERSON_TEXT_FIELD_MAX_LENGTH[
+        CONTACT_PERSON_FIELDS.MEMBERSHIP_NUMBER
+      ],
+      createStringMaxErrorMessage
+    ),
     [CONTACT_PERSON_FIELDS.NATIVE_LANGUAGE]: getStringSchema(false).nullable(),
     [CONTACT_PERSON_FIELDS.SERVICE_LANGUAGE]: getStringSchema(true),
     [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: getStringSchema(false),

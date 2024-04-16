@@ -5,12 +5,18 @@ import {
   fakeRegistration,
   fakeRegistrationPriceGroup,
 } from '../../../utils/mockDataUtils';
+import { mockNumberString, mockString } from '../../../utils/testUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../../app/i18n/constants';
 import { TEST_PRICE_GROUP_ID } from '../../priceGroup/constants';
 import { REGISTRATION_MANDATORY_FIELDS } from '../../registration/constants';
 import { NOTIFICATIONS } from '../constants';
-import { SignupFormFields, SignupGroupFormFields } from '../types';
 import {
+  ContactPersonFormFields,
+  SignupFormFields,
+  SignupGroupFormFields,
+} from '../types';
+import {
+  getContactPersonSchema,
   getSignupGroupSchema,
   getSignupSchema,
   isAboveMinAge,
@@ -61,6 +67,17 @@ const testBelowMaxAge = async (
         (date) => isBelowMaxAge(date, startTime, maxAge)
       )
       .validate(date);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+const testContactPersonSchema = async (
+  contactPerson: ContactPersonFormFields
+) => {
+  try {
+    await getContactPersonSchema().validate(contactPerson);
     return true;
   } catch (e) {
     return false;
@@ -170,6 +187,49 @@ describe('isBelowMaxAge function', () => {
 });
 
 describe('signupSchema function', () => {
+  const validContactPerson: ContactPersonFormFields = {
+    email: 'test@email.com',
+    firstName: 'First name',
+    id: null,
+    lastName: 'Last name',
+    membershipNumber: 'xxx',
+    nativeLanguage: 'fi',
+    notifications: [NOTIFICATIONS.EMAIL],
+    phoneNumber: '0441234567',
+    serviceLanguage: 'fi',
+  };
+
+  test('should return true if contact person is valid', async () => {
+    expect(await testContactPersonSchema(validContactPerson)).toBe(true);
+  });
+
+  const testCases: [Partial<ContactPersonFormFields>][] = [
+    [{ email: '' }],
+    [{ email: `${mockString(255)}@email.com` }],
+    [{ email: 'not-email' }],
+    [{ phoneNumber: 'xxx' }],
+    [{ phoneNumber: mockNumberString(19) }],
+    [{ firstName: mockString(51) }],
+    [{ lastName: mockString(51) }],
+    [{ notifications: [] }],
+    [{ membershipNumber: mockString(51) }],
+    [{ serviceLanguage: '' }],
+  ];
+
+  it.each(testCases)(
+    'should return false if contact person is invalid, %s',
+    async (contactPersonOverrides) => {
+      expect(
+        await testContactPersonSchema({
+          ...validContactPerson,
+          ...contactPersonOverrides,
+        })
+      ).toBe(false);
+    }
+  );
+});
+
+describe('signupSchema function', () => {
   const registration = fakeRegistration({
     registrationPriceGroups: [
       fakeRegistrationPriceGroup({ id: TEST_PRICE_GROUP_ID }),
@@ -193,7 +253,7 @@ describe('signupSchema function', () => {
     expect(await testSignupSchema(registration, validSignup)).toBe(true);
   });
 
-  test('should return true if price group is missing', async () => {
+  test('should return false if price group is missing', async () => {
     expect(
       await testSignupSchema(registration, { ...validSignup, priceGroup: '' })
     ).toBe(false);
@@ -206,67 +266,6 @@ describe('signupSchema function', () => {
         { ...validSignup, priceGroup: '' }
       )
     ).toBe(true);
-  });
-
-  test('should return false if first name is missing', async () => {
-    expect(
-      await testSignupSchema(
-        fakeRegistration({
-          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.FIRST_NAME],
-        }),
-        { ...validSignup, firstName: '' }
-      )
-    ).toBe(false);
-  });
-
-  test('should return false if last name is missing', async () => {
-    expect(
-      await testSignupSchema(
-        fakeRegistration({
-          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.LAST_NAME],
-        }),
-        { ...validSignup, lastName: '' }
-      )
-    ).toBe(false);
-  });
-
-  test('should return false if phone number is missing', async () => {
-    expect(
-      await testSignupSchema(
-        fakeRegistration({
-          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
-        }),
-        {
-          ...validSignup,
-          phoneNumber: '',
-        }
-      )
-    ).toBe(false);
-  });
-
-  test('should return false if phone number is invalid', async () => {
-    expect(
-      await testSignupSchema(
-        fakeRegistration({
-          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER],
-        }),
-        {
-          ...validSignup,
-          phoneNumber: 'xxx',
-        }
-      )
-    ).toBe(false);
-  });
-
-  test('should return false if street address is missing', async () => {
-    expect(
-      await testSignupSchema(
-        fakeRegistration({
-          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.STREET_ADDRESS],
-        }),
-        { ...validSignup, streetAddress: '' }
-      )
-    ).toBe(false);
   });
 
   test('should return false if date of birth is missing', async () => {
@@ -323,41 +322,45 @@ describe('signupSchema function', () => {
     ).toBe(false);
   });
 
-  test('should return false if city is missing', async () => {
-    expect(
-      await testSignupSchema(
-        fakeRegistration({
-          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.CITY],
-        }),
-        { ...validSignup, city: '' }
-      )
-    ).toBe(false);
-  });
+  const testCases: [Partial<SignupFormFields>][] = [
+    [{ city: '' }],
+    [{ city: mockString(51) }],
+    [{ firstName: '' }],
+    [{ firstName: mockString(51) }],
+    [{ lastName: '' }],
+    [{ lastName: mockString(51) }],
+    [{ phoneNumber: '' }],
+    [{ phoneNumber: 'xxx' }],
+    [{ streetAddress: '' }],
+    [{ streetAddress: mockString(501) }],
+    [{ zipcode: '' }],
+    [{ zipcode: '123456' }],
+    [{ zipcode: mockString(11) }],
+  ];
 
-  test('should return false if zip is missing', async () => {
-    expect(
-      await testSignupSchema(
-        fakeRegistration({
-          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.ZIPCODE],
-        }),
-        { ...validSignup, zipcode: '' }
-      )
-    ).toBe(false);
-  });
-
-  test('should return false if zip is invalid', async () => {
-    expect(
-      await testSignupSchema(
-        fakeRegistration({
-          mandatoryFields: [REGISTRATION_MANDATORY_FIELDS.ZIPCODE],
-        }),
-        {
-          ...validSignup,
-          zipcode: '123456',
-        }
-      )
-    ).toBe(false);
-  });
+  it.each(testCases)(
+    'should return false if signup is invalid, %s',
+    async (signupOverrides) => {
+      expect(
+        await testSignupSchema(
+          fakeRegistration({
+            mandatoryFields: [
+              REGISTRATION_MANDATORY_FIELDS.CITY,
+              REGISTRATION_MANDATORY_FIELDS.FIRST_NAME,
+              REGISTRATION_MANDATORY_FIELDS.LAST_NAME,
+              REGISTRATION_MANDATORY_FIELDS.PHONE_NUMBER,
+              REGISTRATION_MANDATORY_FIELDS.STREET_ADDRESS,
+              REGISTRATION_MANDATORY_FIELDS.ZIPCODE,
+            ],
+          }),
+          {
+            ...validSignup,
+            ...signupOverrides,
+          }
+        )
+      ).toBe(false);
+    }
+  );
 });
 
 describe('signupGroupSchema function', () => {

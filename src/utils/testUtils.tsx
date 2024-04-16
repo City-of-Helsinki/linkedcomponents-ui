@@ -98,6 +98,11 @@ const customRender: CustomRender = (
 
 const actWait = (amount?: number): Promise<void> => act(() => wait(amount));
 
+const mockNumberString = (size: number): string =>
+  [...Array(size)]
+    .map(() => Math.floor(Math.random() * 10).toString())
+    .join('');
+
 const mockString = (size: number): string =>
   [...Array(size)].map(() => Math.random().toString(36)[2]).join('');
 
@@ -442,6 +447,7 @@ export {
   escKeyPressHelper,
   loadingSpinnerIsNotInDocument,
   mockFile,
+  mockNumberString,
   mockString,
   openDropdownMenu,
   pasteToTextEditor,
