@@ -1,7 +1,10 @@
 import { expect, test } from '@playwright/test';
 
+import { setCookieConsent } from './utils';
+
 test.describe('Landing page', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ context, page }) => {
+    await setCookieConsent(context);
     await page.goto('/fi');
   });
 
@@ -176,7 +179,10 @@ test.describe('Landing page', () => {
     await expect(page).toHaveURL('fi/events/create');
   });
 
-  test('Cookie consent buttons are enabled', async ({ page }) => {
+  test('Cookie consent buttons are enabled', async ({ context, page }) => {
+    await context.clearCookies();
+    await page.reload();
+
     await expect(
       page.getByTestId('cookie-consent-approve-button')
     ).toBeEnabled();

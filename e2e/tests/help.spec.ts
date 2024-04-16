@@ -1,7 +1,10 @@
 import { expect, test } from '@playwright/test';
 
+import { setCookieConsent } from './utils';
+
 test.describe('Help page', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ context, page }) => {
+    await setCookieConsent(context);
     await page.goto('/fi/help/instructions/general');
   });
 

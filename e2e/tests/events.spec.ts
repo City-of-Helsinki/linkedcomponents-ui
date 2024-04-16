@@ -1,10 +1,11 @@
 import { expect, test } from '@playwright/test';
 
 import { EventsResponse, PlacesResponse } from '../../src/generated/graphql';
-import { LINKED_EVENTS_URL } from './utils';
+import { LINKED_EVENTS_URL, setCookieConsent } from './utils';
 
 test.describe('Event search page', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ context, page }) => {
+    await setCookieConsent(context);
     await page.goto('/fi/search');
 
     await expect(page.getByTestId('hds-pagination-next-button')).toBeVisible();
