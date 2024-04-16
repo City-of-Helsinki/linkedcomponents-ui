@@ -175,8 +175,6 @@ test('Create event page', async ({ page }) => {
   await expect(page.getByText('Tapahtuman otsikko suomeksi*')).toBeVisible();
   await expect(page.getByText('Lyhyt kuvaus suomeksi (')).toBeVisible();
 
-  // Ajankohta
-
   // Paikka
   await expect(
     page.getByRole('heading', { name: 'Paikka', exact: true })
