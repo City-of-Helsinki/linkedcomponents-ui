@@ -2,7 +2,6 @@
 import isFuture from 'date-fns/isFuture';
 import * as Yup from 'yup';
 
-import { CHARACTER_LIMITS } from '../../constants';
 import { PublicationStatus } from '../../generated/graphql';
 import { Maybe } from '../../types';
 import { featureFlagUtils } from '../../utils/featureFlags';
@@ -30,9 +29,13 @@ import { getPriceGroupSchema } from '../registration/validation';
 import {
   ADD_EVENT_TIME_FORM_NAME,
   EDIT_EVENT_TIME_FORM_NAME,
+  EVENT_EXTERNAL_LINK_TEXT_FIELD_MAX_LENGTH,
   EVENT_FIELDS,
   EVENT_OFFER_FIELDS,
+  EVENT_OFFER_TEXT_FIELD_MAX_LENGTH,
+  EVENT_TEXT_FIELD_MAX_LENGTH,
   EVENT_TIME_FIELDS,
+  EVENT_VIDEO_TEXT_FIELD_MAX_LENGTH,
   EXTERNAL_LINK_FIELDS,
   RECURRING_EVENT_FIELDS,
   VIDEO_DETAILS_FIELDS,
@@ -100,13 +103,23 @@ const createPaidOfferSchema = (
   Yup.object().shape({
     [EVENT_OFFER_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
       eventInfoLanguage,
-      Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      Yup.string()
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .max(
+          EVENT_OFFER_TEXT_FIELD_MAX_LENGTH[EVENT_OFFER_FIELDS.OFFER_PRICE],
+          createStringMaxErrorMessage
+        )
     ),
     [EVENT_OFFER_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
       eventInfoLanguage,
-      Yup.string().test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
-        isValidUrl(value)
-      )
+      Yup.string()
+        .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+          isValidUrl(value)
+        )
+        .max(
+          EVENT_OFFER_TEXT_FIELD_MAX_LENGTH[EVENT_OFFER_FIELDS.OFFER_INFO_URL],
+          createStringMaxErrorMessage
+        )
     ),
     ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
       ? {
@@ -132,11 +145,16 @@ const createFreeOfferSchema = (eventInfoLanguage: string[]) =>
           .shape({
             [EVENT_OFFER_FIELDS.OFFER_INFO_URL]: createMultiLanguageValidation(
               eventInfoLanguage,
-              Yup.string().test(
-                'is-url-valid',
-                VALIDATION_MESSAGE_KEYS.URL,
-                (value) => isValidUrl(value)
-              )
+              Yup.string()
+                .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+                  isValidUrl(value)
+                )
+                .max(
+                  EVENT_OFFER_TEXT_FIELD_MAX_LENGTH[
+                    EVENT_OFFER_FIELDS.OFFER_INFO_URL
+                  ],
+                  createStringMaxErrorMessage
+                )
             ),
           })
           .validate(values, options);
@@ -172,12 +190,16 @@ const validateOffers = (
     : schema.of(createFreeOfferSchema(eventInfoLanguage));
 };
 
-const externalLinksSchema = Yup.array().of(
+export const externalLinksSchema = Yup.array().of(
   Yup.object().shape({
     [EXTERNAL_LINK_FIELDS.LINK]: Yup.string()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
       .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
         isValidUrl(value)
+      )
+      .max(
+        EVENT_EXTERNAL_LINK_TEXT_FIELD_MAX_LENGTH[EXTERNAL_LINK_FIELDS.LINK],
+        createStringMaxErrorMessage
       ),
     [EXTERNAL_LINK_FIELDS.NAME]: Yup.string().required(
       VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
@@ -204,16 +226,26 @@ const validateVideoFields = (
     ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     : schema;
 
-const videoSchema = Yup.object().shape(
+export const videoSchema = Yup.object().shape(
   {
-    [VIDEO_DETAILS_FIELDS.ALT_TEXT]: Yup.string().when(
-      [VIDEO_DETAILS_FIELDS.NAME, VIDEO_DETAILS_FIELDS.URL],
-      validateVideoFields as () => Yup.StringSchema
-    ),
-    [VIDEO_DETAILS_FIELDS.NAME]: Yup.string().when(
-      [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.URL],
-      validateVideoFields as () => Yup.StringSchema
-    ),
+    [VIDEO_DETAILS_FIELDS.ALT_TEXT]: Yup.string()
+      .when(
+        [VIDEO_DETAILS_FIELDS.NAME, VIDEO_DETAILS_FIELDS.URL],
+        validateVideoFields as () => Yup.StringSchema
+      )
+      .max(
+        EVENT_VIDEO_TEXT_FIELD_MAX_LENGTH[VIDEO_DETAILS_FIELDS.ALT_TEXT],
+        createStringMaxErrorMessage
+      ),
+    [VIDEO_DETAILS_FIELDS.NAME]: Yup.string()
+      .when(
+        [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.URL],
+        validateVideoFields as () => Yup.StringSchema
+      )
+      .max(
+        EVENT_VIDEO_TEXT_FIELD_MAX_LENGTH[VIDEO_DETAILS_FIELDS.NAME],
+        createStringMaxErrorMessage
+      ),
     [VIDEO_DETAILS_FIELDS.URL]: Yup.string()
       .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
         isValidUrl(value)
@@ -221,6 +253,10 @@ const videoSchema = Yup.object().shape(
       .when(
         [VIDEO_DETAILS_FIELDS.ALT_TEXT, VIDEO_DETAILS_FIELDS.NAME],
         validateVideoFields as () => Yup.StringSchema
+      )
+      .max(
+        EVENT_VIDEO_TEXT_FIELD_MAX_LENGTH[VIDEO_DETAILS_FIELDS.URL],
+        createStringMaxErrorMessage
       ),
   },
   [
@@ -364,19 +400,36 @@ export const publicEventSchema = Yup.object().shape(
     [EVENT_FIELDS.PUBLISHER]: Yup.string()
       .nullable()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+    [EVENT_FIELDS.PROVIDER]: createMultiLanguageValidationByInfoLanguages(
+      Yup.string().max(
+        EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.PROVIDER],
+        createStringMaxErrorMessage
+      )
+    ),
     [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      Yup.string()
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .max(
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.NAME],
+          createStringMaxErrorMessage
+        )
     ),
     [EVENT_FIELDS.SHORT_DESCRIPTION]:
       createMultiLanguageValidationByInfoLanguages(
         Yup.string()
           .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-          .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
+          .max(
+            EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.SHORT_DESCRIPTION],
+            createStringMaxErrorMessage
+          )
       ),
     [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
       Yup.string()
         .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-        .max(CHARACTER_LIMITS.LONG_STRING, createStringMaxErrorMessage)
+        .max(
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.DESCRIPTION],
+          createStringMaxErrorMessage
+        )
     ),
     [EVENT_FIELDS.EVENT_TIMES]: eventTimesSchema,
     [EVENT_FIELDS.LOCATION]: Yup.string()
@@ -385,7 +438,7 @@ export const publicEventSchema = Yup.object().shape(
     [EVENT_FIELDS.LOCATION_EXTRA_INFO]:
       createMultiLanguageValidationByInfoLanguages(
         Yup.string().max(
-          CHARACTER_LIMITS.SHORT_STRING,
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.LOCATION_EXTRA_INFO],
           createStringMaxErrorMessage
         )
       ),
@@ -408,9 +461,14 @@ export const publicEventSchema = Yup.object().shape(
           : schema
     ),
     [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string().test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
-        isValidUrl(value)
-      )
+      Yup.string()
+        .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+          isValidUrl(value)
+        )
+        .max(
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.INFO_URL],
+          createStringMaxErrorMessage
+        )
     ),
     [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
     [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
@@ -440,20 +498,40 @@ export const draftEventSchema = Yup.object().shape(
     [EVENT_FIELDS.PUBLISHER]: Yup.string()
       .nullable()
       .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+    [EVENT_FIELDS.PROVIDER]: createMultiLanguageValidationByInfoLanguages(
+      Yup.string().max(
+        EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.PROVIDER],
+        createStringMaxErrorMessage
+      )
+    ),
     [EVENT_FIELDS.NAME]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      Yup.string()
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .max(
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.NAME],
+          createStringMaxErrorMessage
+        )
     ),
     [EVENT_FIELDS.SHORT_DESCRIPTION]:
       createMultiLanguageValidationByInfoLanguages(
-        Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
+        Yup.string().max(
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.SHORT_DESCRIPTION],
+          createStringMaxErrorMessage
+        )
       ),
     [EVENT_FIELDS.DESCRIPTION]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string().max(CHARACTER_LIMITS.LONG_STRING)
+      Yup.string().max(
+        EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.DESCRIPTION],
+        createStringMaxErrorMessage
+      )
     ),
     [EVENT_FIELDS.EVENT_TIMES]: eventTimesSchema,
     [EVENT_FIELDS.LOCATION_EXTRA_INFO]:
       createMultiLanguageValidationByInfoLanguages(
-        Yup.string().max(CHARACTER_LIMITS.SHORT_STRING)
+        Yup.string().max(
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.LOCATION_EXTRA_INFO],
+          createStringMaxErrorMessage
+        )
       ),
     [EVENT_FIELDS.OFFERS]: Yup.array()
       .min(1, VALIDATION_MESSAGE_KEYS.OFFERS_REQUIRED)
@@ -462,9 +540,14 @@ export const draftEventSchema = Yup.object().shape(
         validateOffers
       ),
     [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
-      Yup.string().test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
-        isValidUrl(value)
-      )
+      Yup.string()
+        .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+          isValidUrl(value)
+        )
+        .max(
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.INFO_URL],
+          createStringMaxErrorMessage
+        )
     ),
     [EVENT_FIELDS.EXTERNAL_LINKS]: externalLinksSchema,
     [EVENT_FIELDS.IMAGE_DETAILS]: Yup.object().when(
@@ -492,23 +575,38 @@ export const getExternalUserEventSchema = (
 
   return Yup.object().shape(
     {
-      [EVENT_FIELDS.PROVIDER]: createMultiLanguageValidationByInfoLanguages(
-        Yup.string().required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      ),
       ...baseSchema.fields,
+      [EVENT_FIELDS.PROVIDER]: createMultiLanguageValidationByInfoLanguages(
+        Yup.string()
+          .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+          .max(
+            EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.PROVIDER],
+            createStringMaxErrorMessage
+          )
+      ),
       [EVENT_FIELDS.PUBLISHER]: Yup.string().nullable().optional(),
       [EVENT_FIELDS.SHORT_DESCRIPTION]:
         createMultiLanguageValidationByInfoLanguages(
           Yup.string()
             .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-            .max(CHARACTER_LIMITS.SHORT_STRING, createStringMaxErrorMessage)
+            .max(
+              EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.SHORT_DESCRIPTION],
+              createStringMaxErrorMessage
+            )
         ),
       [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: Yup.string().when(
         [EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE],
         {
           is: (hasCertificate: boolean) => hasCertificate,
           then: (schema) =>
-            schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+            schema
+              .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+              .max(
+                EVENT_TEXT_FIELD_MAX_LENGTH[
+                  EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE
+                ],
+                createStringMaxErrorMessage
+              ),
         }
       ),
       [EVENT_FIELDS.ENVIRONMENT]: Yup.string().required(
@@ -532,16 +630,23 @@ export const getExternalUserEventSchema = (
             .nullable();
         }
       ),
-      [EVENT_FIELDS.USER_NAME]: Yup.string().required(
-        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-      ),
+      [EVENT_FIELDS.USER_NAME]: Yup.string()
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .max(
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.USER_NAME],
+          createStringMaxErrorMessage
+        ),
       [EVENT_FIELDS.USER_EMAIL]: Yup.string()
         .when([EVENT_FIELDS.USER_PHONE_NUMBER], {
           is: (phoneNumber: string) => !phoneNumber || phoneNumber.length === 0,
           then: (schema) =>
             schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
         })
-        .email(VALIDATION_MESSAGE_KEYS.EMAIL),
+        .email(VALIDATION_MESSAGE_KEYS.EMAIL)
+        .max(
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.USER_EMAIL],
+          createStringMaxErrorMessage
+        ),
       [EVENT_FIELDS.USER_PHONE_NUMBER]: Yup.string()
         .when([EVENT_FIELDS.USER_EMAIL], {
           is: (email: string) => !email || email.length === 0,
@@ -552,6 +657,10 @@ export const getExternalUserEventSchema = (
           'is-valid-phone-number',
           VALIDATION_MESSAGE_KEYS.PHONE,
           (value) => !value || isValidPhoneNumber(value)
+        )
+        .max(
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.USER_PHONE_NUMBER],
+          createStringMaxErrorMessage
         ),
       [EVENT_FIELDS.USER_CONSENT]: Yup.bool().oneOf(
         [true],
