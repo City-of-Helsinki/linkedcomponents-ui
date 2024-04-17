@@ -178,7 +178,7 @@ Launches the test runner and generates coverage report
 
 Install [Playwright](https://playwright.dev) for running browser tests
 
-### `test:e2e:start`
+### `test:e2e`
 
 Running browser tests
 
