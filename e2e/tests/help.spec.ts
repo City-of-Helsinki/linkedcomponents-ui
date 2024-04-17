@@ -14,12 +14,12 @@ test.describe('Help page', () => {
       .getByRole('link', { name: 'Tuki' })
       .click();
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Yleistä' })
       .click();
 
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Alusta' })
       .click();
     await expect
@@ -27,7 +27,7 @@ test.describe('Help page', () => {
       .toBeVisible();
 
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Hallintapaneeli' })
       .click();
     await expect
@@ -35,7 +35,7 @@ test.describe('Help page', () => {
       .toBeVisible();
 
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Linked Registration -ohje' })
       .click();
     await expect
@@ -43,7 +43,7 @@ test.describe('Help page', () => {
       .toBeVisible();
 
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'UKK' })
       .click();
     await expect
@@ -60,7 +60,7 @@ test.describe('Help page', () => {
       .toBeVisible();
 
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Rajapinta' })
       .click();
     await expect
@@ -68,7 +68,7 @@ test.describe('Help page', () => {
       .toBeVisible();
 
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Kuvaoikeudet' })
       .click();
     await expect
@@ -76,7 +76,7 @@ test.describe('Help page', () => {
       .toBeVisible();
 
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Lähdekoodi' })
       .click();
     await expect
@@ -84,7 +84,7 @@ test.describe('Help page', () => {
       .toBeVisible();
 
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Dokumentaatio' })
       .click();
     await expect
@@ -93,7 +93,7 @@ test.describe('Help page', () => {
 
     await page.getByRole('button', { name: 'Tuki' }).click();
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Käyttöehdot' })
       .click();
     await expect
@@ -101,7 +101,7 @@ test.describe('Help page', () => {
       .toBeVisible();
 
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Ota yhteyttä' })
       .click();
     await expect
@@ -109,7 +109,7 @@ test.describe('Help page', () => {
       .toBeVisible();
 
     await page
-      .getByLabel('Siirry ohjesivulle')
+      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Pyydä käyttöoikeutta' })
       .click();
     await expect
