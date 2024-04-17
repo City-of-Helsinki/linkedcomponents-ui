@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "esModuleInterop": true,
-    "resolveJsonModule": true
-  },
-  "include": [
-    "browser-tests"
-  ]
-}
