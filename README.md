@@ -174,11 +174,11 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 Launches the test runner and generates coverage report
 
-### `test:e2e:install`
+### `yarn test:e2e:install`
 
 Install [Playwright](https://playwright.dev) for running browser tests
 
-### `test:e2e`
+### `yarn test:e2e`
 
 Running browser tests
 
