@@ -571,19 +571,21 @@ describe('isRegistrationPossible', () => {
     vi.setSystemTime('2022-11-07');
 
     expect(
-      isRegistrationPossible(
-        fakeRegistration({
+      isRegistrationPossible({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           enrolmentStartTime: new Date('2022-11-08').toISOString(),
           enrolmentEndTime: '',
-        })
-      )
+        }),
+      })
     ).toBe(false);
   });
 
   it('should return false if all seats are reserved', () => {
     expect(
-      isRegistrationPossible(
-        fakeRegistration({
+      isRegistrationPossible({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           enrolmentStartTime: '',
           enrolmentEndTime: '',
           currentAttendeeCount: 10,
@@ -592,43 +594,46 @@ describe('isRegistrationPossible', () => {
           waitingListCapacity: 10,
           remainingAttendeeCapacity: 0,
           remainingWaitingListCapacity: 0,
-        })
-      )
+        }),
+      })
     ).toBe(false);
   });
 
   it('should return true if all seats in event are not reserved', () => {
     expect(
-      isRegistrationPossible(
-        fakeRegistration({
+      isRegistrationPossible({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           enrolmentStartTime: '',
           enrolmentEndTime: '',
           currentAttendeeCount: 5,
           maximumAttendeeCapacity: 10,
           remainingAttendeeCapacity: 5,
-        })
-      )
+        }),
+      })
     ).toBe(true);
   });
 
   it('should return false if all seats in event are reserved', () => {
     expect(
-      isRegistrationPossible(
-        fakeRegistration({
+      isRegistrationPossible({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           enrolmentStartTime: '',
           enrolmentEndTime: '',
           currentAttendeeCount: 5,
           maximumAttendeeCapacity: 10,
           remainingAttendeeCapacity: 0,
-        })
-      )
+        }),
+      })
     ).toBe(false);
   });
 
   it('should return true if all seats in waiting list are not reserved', () => {
     expect(
-      isRegistrationPossible(
-        fakeRegistration({
+      isRegistrationPossible({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           enrolmentStartTime: '',
           enrolmentEndTime: '',
           currentAttendeeCount: 10,
@@ -637,15 +642,16 @@ describe('isRegistrationPossible', () => {
           waitingListCapacity: 10,
           remainingAttendeeCapacity: 0,
           remainingWaitingListCapacity: 5,
-        })
-      )
+        }),
+      })
     ).toBe(true);
   });
 
   it('should return false if all seats in waiting list are reserved', () => {
     expect(
-      isRegistrationPossible(
-        fakeRegistration({
+      isRegistrationPossible({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           enrolmentStartTime: '',
           enrolmentEndTime: '',
           currentAttendeeCount: 10,
@@ -654,8 +660,8 @@ describe('isRegistrationPossible', () => {
           waitingListCapacity: 10,
           remainingAttendeeCapacity: 0,
           remainingWaitingListCapacity: 0,
-        })
-      )
+        }),
+      })
     ).toBe(false);
   });
 });
@@ -729,38 +735,41 @@ describe('getRegistrationWarning', () => {
 
   it('should return empty string if it is possible to enrol to the event', () => {
     expect(
-      getRegistrationWarning(
-        fakeRegistration({
+      getRegistrationWarning({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           ...singleRegistrationOverrides,
           currentAttendeeCount: 0,
           remainingAttendeeCapacity: 10,
         }),
-        i18n.t.bind(i18n)
-      )
+        t: i18n.t.bind(i18n),
+      })
     ).toBe('');
   });
 
   it('should return correct warning if enrolment is not open', () => {
     expect(
-      getRegistrationWarning(
-        fakeRegistration({
+      getRegistrationWarning({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           ...singleRegistrationOverrides,
           enrolmentStartTime: new Date('2022-11-04').toISOString(),
           enrolmentEndTime: new Date('2022-11-06').toISOString(),
         }),
-        i18n.t.bind(i18n)
-      )
+        t: i18n.t.bind(i18n),
+      })
     ).toBe('Ilmoittautuminen tähän tapahtumaan avautuu 4.11.2022 klo 00.00.');
 
     expect(
-      getRegistrationWarning(
-        fakeRegistration({
+      getRegistrationWarning({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           ...singleRegistrationOverrides,
           enrolmentStartTime: '',
           enrolmentEndTime: new Date('2022-11-06').toISOString(),
         }),
-        i18n.t.bind(i18n)
-      )
+        t: i18n.t.bind(i18n),
+      })
     ).toBe(
       'Ilmoittautuminen tähän tapahtumaan on tällä hetkellä suljettu. Kokeile myöhemmin uudelleen.'
     );
@@ -768,16 +777,17 @@ describe('getRegistrationWarning', () => {
 
   it('should return correct warning if there is no available seats', () => {
     expect(
-      getRegistrationWarning(
-        fakeRegistration({
+      getRegistrationWarning({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           ...singleRegistrationOverrides,
           currentAttendeeCount: 10,
           currentWaitingListCount: 0,
           remainingAttendeeCapacity: 0,
           remainingWaitingListCapacity: 0,
         }),
-        i18n.t.bind(i18n)
-      )
+        t: i18n.t.bind(i18n),
+      })
     ).toBe(
       'Tapahtuman kaikki paikat ovat tällä hetkellä varatut. Kokeile myöhemmin uudelleen.'
     );
@@ -785,16 +795,17 @@ describe('getRegistrationWarning', () => {
 
   it('should return correct warning if there are free seats in waiting list', () => {
     expect(
-      getRegistrationWarning(
-        fakeRegistration({
+      getRegistrationWarning({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           ...singleRegistrationOverrides,
           currentAttendeeCount: 10,
           currentWaitingListCount: 0,
           remainingAttendeeCapacity: 0,
           remainingWaitingListCapacity: 10,
         }),
-        i18n.t.bind(i18n)
-      )
+        t: i18n.t.bind(i18n),
+      })
     ).toBe(
       'Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta jonopaikkoja on jäljellä vain 10 kpl.'
     );
@@ -802,29 +813,31 @@ describe('getRegistrationWarning', () => {
 
   it('should return empty string if maximum attendee capacity is not set', () => {
     expect(
-      getRegistrationWarning(
-        fakeRegistration({
+      getRegistrationWarning({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           ...singleRegistrationOverrides,
           currentAttendeeCount: 10,
           maximumAttendeeCapacity: null,
           remainingAttendeeCapacity: null,
         }),
-        i18n.t.bind(i18n)
-      )
+        t: i18n.t.bind(i18n),
+      })
     ).toBe('');
   });
 
   it('should return correct warning if event is full and waiting list capacity is not set', () => {
     expect(
-      getRegistrationWarning(
-        fakeRegistration({
+      getRegistrationWarning({
+        organizationAncestors: [],
+        registration: fakeRegistration({
           ...singleRegistrationOverrides,
           currentAttendeeCount: 10,
           remainingAttendeeCapacity: 0,
           waitingListCapacity: null,
         }),
-        i18n.t.bind(i18n)
-      )
+        t: i18n.t.bind(i18n),
+      })
     ).toBe(
       'Ilmoittautuminen tähän tapahtumaan on vielä mahdollista, mutta vain jonopaikkoja on jäljellä.'
     );

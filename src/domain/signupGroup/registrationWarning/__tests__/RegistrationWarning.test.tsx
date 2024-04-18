@@ -1,6 +1,5 @@
 import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
-import React from 'react';
 
 import { RegistrationFieldsFragment } from '../../../../generated/graphql';
 import {
@@ -8,12 +7,21 @@ import {
   getMockedSeatsReservationData,
   setSessionStorageValues,
 } from '../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import { render, screen } from '../../../../utils/testUtils';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_REGISTRATION_ID } from '../../../registration/constants';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import RegistrationWarning from '../RegistrationWarning';
 
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
+const mocks = [mockedOrganizationAncestorsResponse, mockedUserResponse];
+
 const renderComponent = (registration: RegistrationFieldsFragment) =>
-  render(<RegistrationWarning registration={registration} />);
+  render(<RegistrationWarning registration={registration} />, { mocks });
 
 const now = new Date();
 const enrolmentStartTime = subDays(now, 1).toISOString();
