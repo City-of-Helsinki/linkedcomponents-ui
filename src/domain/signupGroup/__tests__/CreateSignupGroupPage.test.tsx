@@ -37,7 +37,10 @@ import {
   registrationId,
 } from '../../registration/__mocks__/registration';
 import { TEST_SEATS_RESERVATION_CODE } from '../../seatsReservation/constants';
-import { mockedRegistrationUserResponse } from '../../user/__mocks__/user';
+import {
+  mockedRegistrationUserResponse,
+  mockedUserResponse,
+} from '../../user/__mocks__/user';
 import {
   contactPersonValues,
   mockedCreateSignupGroupResponse,
@@ -324,11 +327,26 @@ test('should show server errors if creating signup group fails', async () => {
 });
 
 test('should show signup is closed text if enrolment end date is in the past', async () => {
-  renderComponent([...baseMocks, mockedPastRegistrationResponse]);
+  renderComponent([
+    mockedOrganizationAncestorsResponse,
+    mockedUserResponse,
+    mockedPastRegistrationResponse,
+  ]);
 
   await loadingSpinnerIsNotInDocument();
 
   await screen.findByText(/ilmoittautuminen tapahtumaan on päättynyt/i);
+});
+
+test('should not show signup is closed text for registration admin user', async () => {
+  renderComponent([...defaultMocks, mockedPastRegistrationResponse]);
+
+  await loadingSpinnerIsNotInDocument();
+
+  expect(await findCreateButton()).toBeInTheDocument();
+  expect(
+    screen.queryByText(/ilmoittautuminen tapahtumaan on päättynyt/i)
+  ).not.toBeInTheDocument();
 });
 
 test('should add and delete participants', async () => {

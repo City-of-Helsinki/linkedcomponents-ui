@@ -55,6 +55,25 @@ export const checkCanUserDoSignupGroupAction = ({
   }
 };
 
+export const checkCanUserSignupAfterSignupIsEnded = ({
+  organizationAncestors,
+  registration,
+  user,
+}: {
+  organizationAncestors: OrganizationFieldsFragment[];
+  registration: RegistrationFieldsFragment;
+  user?: UserFieldsFragment;
+}): boolean => {
+  const publisher = getValue(registration.publisher, '');
+  const isRegistrationAdminUser = isRegistrationAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
+
+  return Boolean(isRegistrationAdminUser || user?.isSuperuser);
+};
+
 export const getSignupGroupActionWarning = ({
   action,
   authenticated,

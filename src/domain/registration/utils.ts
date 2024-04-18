@@ -17,9 +17,11 @@ import {
 } from '../../constants';
 import {
   CreateRegistrationMutationInput,
+  OrganizationFieldsFragment,
   RegistrationFieldsFragment,
   RegistrationQueryVariables,
   UpdateRegistrationMutationInput,
+  UserFieldsFragment,
 } from '../../generated/graphql';
 import { Language, MultiLanguageObject, PathBuilderProps } from '../../types';
 import { featureFlagUtils } from '../../utils/featureFlags';
@@ -41,6 +43,7 @@ import {
   getSeatsReservationData,
   isSeatsReservationExpired,
 } from '../seatsReservation/utils';
+import { checkCanUserSignupAfterSignupIsEnded } from '../signupGroup/permissions';
 import { REGISTRATION_FIELDS } from './constants';
 import {
   RegistrationFields,
@@ -356,19 +359,25 @@ export const registrationPathBuilder = ({
 export const isRegistrationOpen = (
   registration: RegistrationFieldsFragment
 ): boolean => {
-  const enrolmentStartTime = registration.enrolmentStartTime;
-  const enrolmentEndTime = registration.enrolmentEndTime;
-
   // Registration is not open if enrolment start time is defined and in the future
-  if (enrolmentStartTime && isFuture(new Date(enrolmentStartTime))) {
+  if (isSignupNotOpened(registration)) {
     return false;
   }
   // Registration is not open if enrolment end time is defined and in the past
-  if (enrolmentEndTime && isPast(new Date(enrolmentEndTime))) {
+  if (isSignupEnded(registration)) {
     return false;
   }
 
   return true;
+};
+
+export const isSignupNotOpened = (
+  registration: RegistrationFieldsFragment
+): boolean => {
+  const enrolmentStartTime = registration.enrolmentStartTime;
+
+  // Registration is not open if enrolment start time is defined and in the future
+  return Boolean(enrolmentStartTime && isFuture(new Date(enrolmentStartTime)));
 };
 
 export const isSignupEnded = (
@@ -451,17 +460,32 @@ export const hasSignups = (
   );
 };
 
-export const isRegistrationPossible = (
-  registration: RegistrationFieldsFragment
-): boolean => {
-  const registrationOpen = isRegistrationOpen(registration);
+export const isRegistrationPossible = ({
+  organizationAncestors,
+  registration,
+  user,
+}: {
+  organizationAncestors: OrganizationFieldsFragment[];
+  registration: RegistrationFieldsFragment;
+  user?: UserFieldsFragment;
+}): boolean => {
+  const signupNotOpened = isSignupNotOpened(registration);
+  const signupEnded = isSignupEnded(registration);
   const attendeeCapacityUsed = isAttendeeCapacityUsed(registration);
   const freeAttendeeCapacity = getFreeAttendeeCapacity(registration);
   const waitingListCapacityUsed = isWaitingListCapacityUsed(registration);
   const freeWaitingListCapacity = getFreeWaitingListCapacity(registration);
 
-  // Enrolment is not opened or is already closed
-  if (!registrationOpen) {
+  // Enrolment is not opened or is already closed and user cannot add signups to closed registration
+  if (
+    signupNotOpened ||
+    (signupEnded &&
+      !checkCanUserSignupAfterSignupIsEnded({
+        organizationAncestors,
+        registration,
+        user,
+      }))
+  ) {
     return false;
   }
   // Attendee capacity and waiting list capacity is used
@@ -477,12 +501,23 @@ export const isRegistrationPossible = (
   return freeWaitingListCapacity !== 0;
 };
 
-export const getRegistrationWarning = (
-  registration: RegistrationFieldsFragment,
-  t: TFunction
-): string => {
+export const getRegistrationWarning = ({
+  organizationAncestors,
+  registration,
+  t,
+  user,
+}: {
+  organizationAncestors: OrganizationFieldsFragment[];
+  registration: RegistrationFieldsFragment;
+  t: TFunction;
+  user?: UserFieldsFragment;
+}): string => {
   const registrationOpen = isRegistrationOpen(registration);
-  const registrationPossible = isRegistrationPossible(registration);
+  const registrationPossible = isRegistrationPossible({
+    organizationAncestors,
+    registration,
+    user,
+  });
   const attendeeCapacityUsed = isAttendeeCapacityUsed(registration);
   const waitingListCapacityUsed = isWaitingListCapacityUsed(registration);
   const freeWaitlistCapacity = getFreeWaitingListCapacity(registration);
