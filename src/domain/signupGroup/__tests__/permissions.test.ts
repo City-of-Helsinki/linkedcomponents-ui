@@ -6,6 +6,7 @@ import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';
 import {
   checkCanUserDoSignupGroupAction,
+  checkCanUserSignupAfterSignupIsEnded,
   getSignupGroupActionWarning,
 } from '../permissions';
 
@@ -177,5 +178,71 @@ describe('checkCanUserDoSignupGroupAction function', () => {
         })
       ).toBe(true);
     });
+  });
+});
+
+describe('checkCanUserSignupAfterSignupIsEnded function', () => {
+  const commonProps = {
+    organizationAncestors: [],
+    registration: fakeRegistration(),
+    userCanDoAction: false,
+  };
+
+  it('should return false if user is not allowed to create signups if signup is ended', () => {
+    expect(checkCanUserSignupAfterSignupIsEnded(commonProps)).toBeFalsy();
+  });
+
+  it('should return true if user is registration admin', () => {
+    expect(
+      checkCanUserSignupAfterSignupIsEnded({
+        ...commonProps,
+        registration: fakeRegistration({ publisher: TEST_PUBLISHER_ID }),
+        user: fakeUser({ registrationAdminOrganizations: [TEST_PUBLISHER_ID] }),
+      })
+    ).toBeTruthy();
+  });
+
+  it('should return false if user is admin but is not the registration creator', () => {
+    expect(
+      checkCanUserSignupAfterSignupIsEnded({
+        ...commonProps,
+        registration: fakeRegistration({
+          isCreatedByCurrentUser: false,
+          publisher: TEST_PUBLISHER_ID,
+        }),
+        user: fakeUser({ adminOrganizations: [TEST_PUBLISHER_ID] }),
+      })
+    ).toBeFalsy();
+  });
+
+  it('should return true if user is admin and the registration creator', () => {
+    expect(
+      checkCanUserSignupAfterSignupIsEnded({
+        ...commonProps,
+        registration: fakeRegistration({
+          isCreatedByCurrentUser: true,
+          publisher: TEST_PUBLISHER_ID,
+        }),
+        user: fakeUser({ adminOrganizations: [TEST_PUBLISHER_ID] }),
+      })
+    ).toBeTruthy();
+  });
+
+  it('should return true if user has subsitute user access', () => {
+    expect(
+      checkCanUserSignupAfterSignupIsEnded({
+        ...commonProps,
+        registration: fakeRegistration({ hasSubstituteUserAccess: true }),
+      })
+    ).toBeTruthy();
+  });
+
+  it('should return true if user is superadmin', () => {
+    expect(
+      checkCanUserSignupAfterSignupIsEnded({
+        ...commonProps,
+        user: fakeUser({ isSuperuser: true }),
+      })
+    ).toBeTruthy();
   });
 });

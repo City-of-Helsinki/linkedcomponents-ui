@@ -22,7 +22,10 @@ import SignupPageBreadcrumb from '../signup/signupPageBreadbrumb/SignupPageBread
 import { SignupServerErrorsProvider } from '../signup/signupServerErrorsContext/SignupServerErrorsContext';
 import useUser from '../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS } from './constants';
-import { checkCanUserDoSignupGroupAction } from './permissions';
+import {
+  checkCanUserDoSignupGroupAction,
+  checkCanUserSignupAfterSignupIsEnded,
+} from './permissions';
 import SignupGroupForm from './signupGroupForm/SignupGroupForm';
 import { SignupGroupFormProvider } from './signupGroupFormContext/SignupGroupFormContext';
 import styles from './signupGroupPage.module.scss';
@@ -49,7 +52,7 @@ const CreateSignupGroupPage: React.FC<Props> = ({ event, registration }) => {
     }
 
     return (
-      !isRegistrationPossible(registration) ||
+      !isRegistrationPossible({ organizationAncestors, registration, user }) ||
       !checkCanUserDoSignupGroupAction({
         action: SIGNUP_GROUP_ACTIONS.CREATE,
         organizationAncestors,
@@ -83,12 +86,23 @@ const CreateSignupGroupPageWrapper: React.FC = () => {
   const { event, loading, registration } = useRegistrationAndEventData({
     shouldFetchEvent: true,
   });
+  const { loading: loadingUser, user } = useUser();
+  const publisher = getValue(registration?.publisher, '');
+  const { loading: loadingOrganizationAncestors, organizationAncestors } =
+    useOrganizationAncestors(publisher);
 
   return (
-    <LoadingSpinner isLoading={loading}>
+    <LoadingSpinner
+      isLoading={loading || loadingUser || loadingOrganizationAncestors}
+    >
       {event && registration ? (
         <>
-          {isSignupEnded(registration) ? (
+          {isSignupEnded(registration) &&
+          !checkCanUserSignupAfterSignupIsEnded({
+            organizationAncestors,
+            registration,
+            user,
+          }) ? (
             <SignupIsEnded registration={registration} />
           ) : (
             <SignupGroupFormProvider registration={registration}>

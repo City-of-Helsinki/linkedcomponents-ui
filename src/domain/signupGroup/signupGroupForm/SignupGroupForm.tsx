@@ -26,6 +26,7 @@ import getValue from '../../../utils/getValue';
 import { showFormErrors } from '../../../utils/validationUtils';
 import Container from '../../app/layout/container/Container';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
+import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import { isRegistrationPossible } from '../../registration/utils';
 import { replaceParamsToRegistrationQueryString } from '../../registrations/utils';
 import { clearSeatsReservationData } from '../../seatsReservation/utils';
@@ -36,6 +37,7 @@ import ConfirmDeleteSignupOrSignupGroupModal from '../../signup/modals/confirmDe
 import SendMessageModal from '../../signup/modals/sendMessageModal/SendMessageModal';
 import SignupAuthenticationNotification from '../../signup/signupAuthenticationNotification/SignupAuthenticationNotification';
 import { useSignupServerErrorsContext } from '../../signup/signupServerErrorsContext/hooks/useSignupServerErrorsContext';
+import useUser from '../../user/hooks/useUser';
 import { SIGNUP_GROUP_ACTIONS, SIGNUP_GROUP_FIELDS } from '../constants';
 import CreateSignupGroupButtonPanel from '../createButtonPanel/CreateSignupGroupButtonPanel';
 import Divider from '../divider/Divider';
@@ -131,6 +133,10 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
   const locale = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { user } = useUser();
+  const publisher = getValue(registration?.publisher, '');
+  const { organizationAncestors } = useOrganizationAncestors(publisher);
 
   const timerCallbacksDisabled = useRef(false);
 
@@ -357,7 +363,11 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
                 <>
                   <Divider />
                   <RegistrationWarning registration={registration} />
-                  {isRegistrationPossible(registration) && (
+                  {isRegistrationPossible({
+                    organizationAncestors,
+                    registration,
+                    user,
+                  }) && (
                     <>
                       <ReservationTimer
                         callbacksDisabled={timerCallbacksDisabled.current}
