@@ -96,7 +96,8 @@
     "test:e2e:ci": "npx playwright test",
     "test:e2e:record": "npx playwright codegen https://linkedevents.dev.hel.ninja/",
     "lint": "eslint --ext js,ts,tsx src",
-    "lint:fix": "eslint --ext js,ts,tsx src --fix"
+    "lint:fix": "eslint --ext js,ts,tsx src --fix",
+    "prepare": "husky"
   },
   "browserslist": [
     ">0.2%",
@@ -104,6 +105,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@commitlint/cli": "^19.2.2",
+    "@commitlint/config-conventional": "^19.2.2",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/typescript": "^4.0.6",
@@ -113,6 +116,7 @@
     "@vitest/coverage-istanbul": "^1.4.0",
     "eslint": "^8.57.0",
     "graphql": "16.8.1",
+    "husky": "^9.0.11",
     "jsdom": "^24.0.0",
     "prettier": "^3.2.5",
     "snyk": "^1.1285.0",
