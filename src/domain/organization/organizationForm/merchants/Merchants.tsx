@@ -11,11 +11,11 @@ import FieldWithButton from '../../../event/layout/FieldWithButton';
 import useUser from '../../../user/hooks/useUser';
 import {
   ORGANIZATION_FIELDS,
-  ORGANIZATION_MERCHANT_ACTIONS,
+  ORGANIZATION_FINANCIAL_INFO_ACTIONS,
   WEB_STORE_MERCHANT_INITIAL_VALUES,
 } from '../../constants';
 import { WebStoreMerchantFormFields } from '../../types';
-import { checkIsEditMerchantAllowed } from '../../utils';
+import { checkIsEditFinancialInfoAllowed } from '../../utils';
 import Merchant from './merchant/Merchant';
 
 interface Props {
@@ -29,9 +29,9 @@ const Merchants: React.FC<Props> = ({ organization }) => {
   const { t } = useTranslation();
   const { user } = useUser();
   const action = organization
-    ? ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE
-    : ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE;
-  const { editable, warning } = checkIsEditMerchantAllowed({
+    ? ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE
+    : ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE;
+  const { editable, warning } = checkIsEditFinancialInfoAllowed({
     action,
     organizationId: getValue(organization?.id, ''),
     t,

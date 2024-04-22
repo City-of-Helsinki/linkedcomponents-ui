@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
-import TableWrapper from '../../../common/components/table/tableWrapper/TableWrapper';
+import SearchStatus from '../../../common/components/searchStatus/SearchStatus';
 import { testIds } from '../../../constants';
 import {
   PriceGroupsQuery,
@@ -71,14 +71,12 @@ const PriceGroupList: React.FC<PriceGroupListProps> = ({
 
   return (
     <div>
-      <TableWrapper>
-        <PriceGroupsTable
-          caption={getTableCaption()}
-          priceGroups={priceGroups}
-          setSort={onSortChange}
-          sort={sort as PRICE_GROUP_SORT_OPTIONS}
-        />
-      </TableWrapper>
+      <PriceGroupsTable
+        caption={getTableCaption()}
+        priceGroups={priceGroups}
+        setSort={onSortChange}
+        sort={sort}
+      />
 
       {pageCount > 1 && (
         <Pagination
@@ -117,6 +115,7 @@ const PriceGroupListContainer: React.FC = () => {
 
   return (
     <div id={priceGroupListId} data-testid={testIds.priceGroupList.resultList}>
+      <SearchStatus count={count} loading={loading} />
       <AdminSearchRow
         countText={t('priceGroupsPage.count', { count })}
         onSearchSubmit={onSearchSubmit}

@@ -2,6 +2,19 @@
 import gql from 'graphql-tag';
 
 export const QUERY_ORGANIZATION = gql`
+  fragment webStoreAccountFields on WebStoreAccount {
+    active
+    balanceProfitCenter
+    companyCode
+    id
+    internalOrder
+    mainLedgerAccount
+    operationArea
+    profitCenter
+    project
+    vatCode
+  }
+
   fragment webStoreMerchantFields on WebStoreMerchant {
     active
     businessId
@@ -46,6 +59,9 @@ export const QUERY_ORGANIZATION = gql`
     }
     replacedBy
     subOrganizations
+    webStoreAccounts {
+      ...webStoreAccountFields
+    }
     webStoreMerchants {
       ...webStoreMerchantFields
     }

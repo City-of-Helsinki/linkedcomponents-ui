@@ -40,7 +40,7 @@ const getElement = (
     case 'placeSelectorButton':
       return screen.getByRole('button', { name: 'Etsi tapahtumapaikkaa' });
     case 'searchInput':
-      return screen.getByRole('combobox', {
+      return screen.getByRole('textbox', {
         name: 'Hae Linked Events -rajapinnasta',
       });
     case 'startDateInput':

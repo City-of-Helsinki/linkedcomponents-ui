@@ -39,7 +39,7 @@ const getElement = (
 ) => {
   switch (key) {
     case 'addPriceGroupButton':
-      return screen.getByRole('button', { name: 'Lisää uusi asiakasryhmä' });
+      return screen.getByRole('button', { name: 'Lisää muita asiakasryhmiä' });
     case 'hasPriceCheckbox':
       return screen.getByRole('checkbox', { name: 'Tapahtuma on maksullinen' });
     case 'priceGroupSelectButton':
@@ -58,7 +58,7 @@ test('should not show add price groups button if event is free', async () => {
   expect(hasPriceCheckbox).not.toBeChecked();
 
   expect(
-    screen.queryByRole('button', { name: 'Lisää uusi asiakasryhmä' })
+    screen.queryByRole('button', { name: 'Lisää muita asiakasryhmiä' })
   ).not.toBeInTheDocument();
 });
 

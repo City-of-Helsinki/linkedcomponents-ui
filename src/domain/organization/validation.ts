@@ -8,17 +8,66 @@ import {
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
+  ACCOUNT_TEXT_FIELD_MAX_LENGTH,
   MERCHANT_TEXT_FIELD_MAX_LENGTH,
   ORGANIZATION_ACTIONS,
   ORGANIZATION_FIELDS,
-  ORGANIZATION_MERCHANT_ACTIONS,
+  ORGANIZATION_FINANCIAL_INFO_ACTIONS,
   ORGANIZATION_SELECT_FIELDS,
+  WEB_STORE_ACCOUNT_FIELDS,
   WEB_STORE_MERCHANT_FIELDS,
 } from './constants';
 import {
-  checkCanUserDoMerchantAction,
+  checkCanUserDoFinancialInfoAction,
   checkCanUserDoOrganizationAction,
 } from './utils';
+
+export const webStoreAccountSchema = Yup.object().shape({
+  [WEB_STORE_ACCOUNT_FIELDS.VAT_CODE]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(
+      ACCOUNT_TEXT_FIELD_MAX_LENGTH[WEB_STORE_ACCOUNT_FIELDS.VAT_CODE],
+      createStringMaxErrorMessage
+    ),
+  [WEB_STORE_ACCOUNT_FIELDS.COMPANY_CODE]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(
+      ACCOUNT_TEXT_FIELD_MAX_LENGTH[WEB_STORE_ACCOUNT_FIELDS.COMPANY_CODE],
+      createStringMaxErrorMessage
+    ),
+  [WEB_STORE_ACCOUNT_FIELDS.MAIN_LEDGER_ACCOUNT]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(
+      ACCOUNT_TEXT_FIELD_MAX_LENGTH[
+        WEB_STORE_ACCOUNT_FIELDS.MAIN_LEDGER_ACCOUNT
+      ],
+      createStringMaxErrorMessage
+    ),
+  [WEB_STORE_ACCOUNT_FIELDS.BALANCE_PROFIT_CENTER]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(
+      ACCOUNT_TEXT_FIELD_MAX_LENGTH[
+        WEB_STORE_ACCOUNT_FIELDS.BALANCE_PROFIT_CENTER
+      ],
+      createStringMaxErrorMessage
+    ),
+  [WEB_STORE_ACCOUNT_FIELDS.INTERNAL_ORDER]: Yup.string().max(
+    ACCOUNT_TEXT_FIELD_MAX_LENGTH[WEB_STORE_ACCOUNT_FIELDS.INTERNAL_ORDER],
+    createStringMaxErrorMessage
+  ),
+  [WEB_STORE_ACCOUNT_FIELDS.PROFIT_CENTER]: Yup.string().max(
+    ACCOUNT_TEXT_FIELD_MAX_LENGTH[WEB_STORE_ACCOUNT_FIELDS.PROFIT_CENTER],
+    createStringMaxErrorMessage
+  ),
+  [WEB_STORE_ACCOUNT_FIELDS.PROJECT]: Yup.string().max(
+    ACCOUNT_TEXT_FIELD_MAX_LENGTH[WEB_STORE_ACCOUNT_FIELDS.PROJECT],
+    createStringMaxErrorMessage
+  ),
+  [WEB_STORE_ACCOUNT_FIELDS.OPERATION_AREA]: Yup.string().max(
+    ACCOUNT_TEXT_FIELD_MAX_LENGTH[WEB_STORE_ACCOUNT_FIELDS.OPERATION_AREA],
+    createStringMaxErrorMessage
+  ),
+});
 
 export const webStoreMerchantSchema = Yup.object().shape({
   [WEB_STORE_MERCHANT_FIELDS.NAME]: Yup.string()
@@ -136,15 +185,18 @@ export const getOrganizationSchema = ({
         }
       : /* istanbul ignore next */ {}),
     ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
-    checkCanUserDoMerchantAction({
+    checkCanUserDoFinancialInfoAction({
       action:
         action === ORGANIZATION_ACTIONS.UPDATE
-          ? ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE
-          : ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE,
+          ? ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE
+          : ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE,
       organizationId: publisher,
       user,
     })
       ? {
+          [ORGANIZATION_FIELDS.WEB_STORE_ACCOUNTS]: Yup.array().of(
+            webStoreAccountSchema
+          ),
           [ORGANIZATION_FIELDS.WEB_STORE_MERCHANTS]: Yup.array().of(
             webStoreMerchantSchema
           ),

@@ -1,5 +1,5 @@
 import { Field } from 'formik';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import DeleteButton from '../../../../../common/components/deleteButton/DeleteButton';
@@ -11,10 +11,11 @@ import styles from '../../../../admin/layout/form.module.scss';
 import FormRow from '../../../../admin/layout/formRow/FormRow';
 import useUser from '../../../../user/hooks/useUser';
 import {
-  ORGANIZATION_MERCHANT_ACTIONS,
+  ORGANIZATION_FINANCIAL_INFO_ACTIONS,
   WEB_STORE_MERCHANT_FIELDS,
 } from '../../../constants';
-import { checkIsEditMerchantAllowed } from '../../../utils';
+import useOrganizationFormStyles from '../../../hooks/useOrganizationFormStyles';
+import { checkIsEditFinancialInfoAllowed } from '../../../utils';
 
 type Props = {
   isEditingAllowed: boolean;
@@ -37,9 +38,9 @@ const Merchant: React.FC<Props> = ({
   const { t } = useTranslation();
   const { user } = useUser();
   const action = organization
-    ? ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_UPDATE
-    : ORGANIZATION_MERCHANT_ACTIONS.MANAGE_IN_CREATE;
-  const { editable, warning } = checkIsEditMerchantAllowed({
+    ? ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE
+    : ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE;
+  const { editable, warning } = checkIsEditFinancialInfoAllowed({
     action,
     organizationId: getValue(organization?.id, ''),
     t,
@@ -82,19 +83,8 @@ const Merchant: React.FC<Props> = ({
     [merchantPath]
   );
 
-  const inputRowBorderStyleIfOrganization = useMemo(
-    () => (!isEditingAllowed || organization ? styles.borderInMobile : ''),
-    [isEditingAllowed, organization]
-  );
-
-  const alignedInputStyle = useMemo(
-    () =>
-      /* istanbul ignore next */
-      isEditingAllowed
-        ? styles.alignedInput
-        : styles.alignedInputWithFullBorder,
-    [isEditingAllowed]
-  );
+  const { alignedInputStyle, inputRowBorderStyleIfOrganization } =
+    useOrganizationFormStyles({ isEditingAllowed, organization });
 
   return (
     <>

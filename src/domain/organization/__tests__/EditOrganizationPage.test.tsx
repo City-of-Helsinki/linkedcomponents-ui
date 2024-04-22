@@ -13,7 +13,7 @@ import {
 } from '../../../utils/testUtils';
 import {
   mockedOrganizationResponse,
-  mockedOrganizationWithMerchantResponse,
+  mockedOrganizationWithFinanfialInfoResponse,
   organizationId,
 } from '../../organization/__mocks__/organization';
 import {
@@ -33,7 +33,7 @@ import {
 import {
   mockedDeleteOrganizationResponse,
   mockedInvalidUpdateOrganizationResponse,
-  mockedPatchOrganizationWithMerchantResponse,
+  mockedPatchOrganizationWithFinanfialInfoResponse,
   mockedUpdateOrganizationResponse,
 } from '../__mocks__/editOrganizationPage';
 import EditOrganizationPage from '../EditOrganizationPage';
@@ -166,13 +166,13 @@ test('should show server errors', async () => {
 test('should patch organization merchants by financial admin', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent([
-    mockedOrganizationWithMerchantResponse,
+    mockedOrganizationWithFinanfialInfoResponse,
     mockedOrganizationsResponse,
     mockedOrganizationClassResponse,
     mockedOrganizationClassesResponse,
     mockedFinancialAdminUserResponse,
     mockedUsersResponse,
-    mockedPatchOrganizationWithMerchantResponse,
+    mockedPatchOrganizationWithFinanfialInfoResponse,
   ]);
 
   const submitButton = await findElement('saveButton');

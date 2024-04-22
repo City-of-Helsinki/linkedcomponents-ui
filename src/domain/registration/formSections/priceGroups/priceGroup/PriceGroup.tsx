@@ -11,7 +11,6 @@ import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
 import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
 import FieldWithButton from '../../../../event/layout/FieldWithButton';
 import usePriceGroupOptions from '../../../../priceGroup/hooks/usePriceGroupOptions';
-import useVatOptions from '../../../../priceGroup/hooks/useVatOptions';
 import { REGISTRATION_PRICE_GROUP_FIELDS } from '../../../constants';
 import { RegistrationPriceGroupFormFields } from '../../../types';
 
@@ -50,10 +49,6 @@ const PriceGroup: React.FC<Props> = ({
         priceGroupPath,
         REGISTRATION_PRICE_GROUP_FIELDS.PRICE_GROUP
       ),
-      vatPercentage: getFieldName(
-        priceGroupPath,
-        REGISTRATION_PRICE_GROUP_FIELDS.VAT_PERCENTAGE
-      ),
     }),
     [priceGroupPath]
   );
@@ -73,8 +68,6 @@ const PriceGroup: React.FC<Props> = ({
 
     return priceGroupOptions?.filter((o) => !disabledOptions.includes(o.value));
   }, [priceGroup, priceGroupOptions, priceGroups]);
-
-  const vatOptions = useVatOptions();
 
   const isFree = useMemo(() => {
     return !!priceGroupOptions.find((pg) => pg.value === priceGroup.priceGroup)
@@ -132,19 +125,6 @@ const PriceGroup: React.FC<Props> = ({
                 min="0"
                 step="0.01"
                 type="number"
-              />
-              <Field
-                component={SingleSelectField}
-                disabled={!isEditingAllowed}
-                label={t(
-                  'registration.form.registrationPriceGroup.labelVatPercentage'
-                )}
-                name={fieldNames.vatPercentage}
-                options={vatOptions}
-                placeholder={t(
-                  'registration.form.registrationPriceGroup.placeholderVatPercentage'
-                )}
-                required={true}
               />
             </SplittedRow>
           </FormGroup>

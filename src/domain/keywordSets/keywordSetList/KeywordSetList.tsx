@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';
+import SearchStatus from '../../../common/components/searchStatus/SearchStatus';
 import { testIds } from '../../../constants';
 import {
   KeywordSetsQuery,
@@ -74,7 +75,7 @@ const KeywordSetList: React.FC<KeywordSetListProps> = ({
         caption={getTableCaption()}
         keywordSets={keywordSets}
         setSort={onSortChange}
-        sort={sort as KEYWORD_SET_SORT_OPTIONS}
+        sort={sort}
       />
       {pageCount > 1 && (
         <Pagination
@@ -113,6 +114,7 @@ const KeywordSetListContainer: React.FC = () => {
 
   return (
     <div id={keywordSetListId} data-testid={testIds.keywordSetList.resultList}>
+      <SearchStatus count={count} loading={loading} />
       <AdminSearchRow
         countText={t('keywordSetsPage.count', { count })}
         onSearchChange={setSearch}

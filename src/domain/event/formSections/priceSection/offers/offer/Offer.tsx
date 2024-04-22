@@ -8,7 +8,9 @@ import FormGroup from '../../../../../../common/components/formGroup/FormGroup';
 import { featureFlagUtils } from '../../../../../../utils/featureFlags';
 import FieldRow from '../../../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS, EVENT_OFFER_FIELDS } from '../../../../constants';
+import styles from '../../../../eventPage.module.scss';
 import FieldWithButton from '../../../../layout/FieldWithButton';
+import PriceNotification from '../../priceNotification/PriceNotification';
 import OfferPriceGroups from './offerPriceGroups/OfferPriceGroups';
 
 type Props = {
@@ -39,7 +41,11 @@ const Offer: React.FC<Props> = ({
 
   return (
     <>
-      <FieldRow>
+      <FieldRow
+        notification={
+          <PriceNotification className={styles.secondNotification} />
+        }
+      >
         <FieldWithButton
           button={
             showDelete && (
@@ -64,19 +70,6 @@ const Offer: React.FC<Props> = ({
               />
             </FormGroup>
             <FormGroup>
-              <h3>{t('event.form.titleOfferInfoUrl')}</h3>
-              <MultiLanguageField
-                disabled={!isEditingAllowed}
-                labelKey={`event.form.labelOfferInfoUrl`}
-                languages={eventInfoLanguages}
-                name={getFieldName(
-                  offerPath,
-                  EVENT_OFFER_FIELDS.OFFER_INFO_URL
-                )}
-                placeholderKey={`event.form.placeholderOfferInfoUrl`}
-              />
-            </FormGroup>
-            <FormGroup>
               <h3>{t('event.form.titleOfferDescription')}</h3>
               <MultiLanguageField
                 disabled={!isEditingAllowed}
@@ -87,6 +80,19 @@ const Offer: React.FC<Props> = ({
                   EVENT_OFFER_FIELDS.OFFER_DESCRIPTION
                 )}
                 placeholderKey={`event.form.placeholderOfferDescription`}
+              />
+            </FormGroup>
+            <FormGroup>
+              <h3>{t('event.form.titleOfferInfoUrl')}</h3>
+              <MultiLanguageField
+                disabled={!isEditingAllowed}
+                labelKey={`event.form.labelOfferInfoUrl`}
+                languages={eventInfoLanguages}
+                name={getFieldName(
+                  offerPath,
+                  EVENT_OFFER_FIELDS.OFFER_INFO_URL
+                )}
+                placeholderKey={`event.form.placeholderOfferInfoUrl`}
               />
             </FormGroup>
           </>

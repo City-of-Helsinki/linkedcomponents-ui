@@ -31,6 +31,7 @@ const payload = {
   foundingDate: null,
   id: `${organizationValues.dataSource}:${organizationValues.originId}`,
   originId: organizationValues.originId,
+  webStoreAccounts: [],
   webStoreMerchants: [],
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import { ApolloProvider } from '@apollo/client';
@@ -7,6 +8,7 @@ import React, { PropsWithChildren, useEffect, useMemo, useRef } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import theme from '../../assets/theme/theme';
+import { AccessibilityNotificationProvider } from '../../common/components/accessibilityNotificationContext/AccessibilityNotificationContext';
 import getValue from '../../utils/getValue';
 import { loginProviderProps } from '../auth/constants';
 import { createApolloClient } from './apollo/apolloClient';
@@ -71,22 +73,24 @@ const ApolloWrapper: React.FC<PropsWithChildren> = ({ children }) => {
 const App: React.FC = () => {
   return (
     <ThemeProvider initTheme={theme}>
-      <NotificationsProvider>
-        <LoginProvider {...loginProviderProps}>
-          <RefreshApiTokenOnLoad />
-          <PageSettingsProvider>
-            <BrowserRouter>
-              {/* @ts-ignore */}
-              <MatomoProvider value={instance}>
-                <ApolloWrapper>
-                  <CookieConsent />
-                  <AppRoutes />
-                </ApolloWrapper>
-              </MatomoProvider>
-            </BrowserRouter>
-          </PageSettingsProvider>
-        </LoginProvider>
-      </NotificationsProvider>
+      <AccessibilityNotificationProvider>
+        <NotificationsProvider>
+          <LoginProvider {...loginProviderProps}>
+            <RefreshApiTokenOnLoad />
+            <PageSettingsProvider>
+              <BrowserRouter>
+                {/* @ts-ignore */}
+                <MatomoProvider value={instance}>
+                  <ApolloWrapper>
+                    <CookieConsent />
+                    <AppRoutes />
+                  </ApolloWrapper>
+                </MatomoProvider>
+              </BrowserRouter>
+            </PageSettingsProvider>
+          </LoginProvider>
+        </NotificationsProvider>
+      </AccessibilityNotificationProvider>
     </ThemeProvider>
   );
 };

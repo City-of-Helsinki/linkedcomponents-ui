@@ -5,7 +5,7 @@
   "adminPage": {
     "sideNavigation": {
       "labelAdmin": "Hallinta",
-      "toggleButtonLabel": "Siirry hallintasivulle"
+      "toggleButtonLabel": "Hallintatyökalut"
     },
     "title": "Hallinta"
   },
@@ -83,6 +83,12 @@
     "buttonBack": "Takaisin",
     "buttonRemoveFilter": "Poista suodatusehto: {{name}}",
     "cancel": "Peruuta",
+    "checkboxGroup": {
+      "accessibility": {
+        "hideOptionsNotification": "Osa vaihtoehdoista piilotettu listauksesta",
+        "showAllOptionsNotification": "Lisää vaihtoehtoja lisätty listaukseen"
+      }
+    },
     "clear": "Tyhjennä",
     "close": "Sulje",
     "combobox": {
@@ -241,6 +247,15 @@
     "placeholderDate": "p.k.vvvv",
     "placeholderDateTime": "p.k.vvvv hh.mm",
     "placeholderTime": "hh.mm",
+    "reservationTimer": {
+      "hour": "{{count}} tunti",
+      "hour_other": "{{count}} tuntia",
+      "minute": "{{count}} minuutti",
+      "minute_other": "{{count}} minuuttia",
+      "second": "{{count}} sekunti",
+      "second_other": "{{count}} sekuntia",
+      "timeLeft": "Aikaa jäljellä ilmoittautumisen tekoon:"
+    },
     "save": "Tallenna",
     "search": "Etsi",
     "select": "Valitse",
@@ -250,6 +265,11 @@
     "signIn": "Kirjaudu sisään",
     "signOut": "Kirjaudu ulos",
     "table": {
+      "accessibility": {
+        "noResultsFound": "Hakusi ei tuottanut yhtään tuloksia.",
+        "resultsFoundText": "{{count}} hakutulos löytynyt",
+        "resultsFoundText_other": "{{count}} hakutulosta löytynyt"
+      },
       "ariaLabelSortButtonAscending": "Järjestetty nousevaan järjestykseen",
       "ariaLabelSortButtonDescending": "Järjestetty laskevaan järjestykseen",
       "noResultsText": "Hakusi ei tuottanut yhtään tuloksia. Tarkista hakutermisi ja yritä uudestaan."
@@ -420,7 +440,7 @@
         "general": "Lisää tapahtuman kuva",
         "volunteering": "Lisää vapaaehtoistehtävän kuva"
       },
-      "buttonAddOffer": "Lisää hintatieto",
+      "buttonAddOffer": "Lisää muita hintatietoja",
       "buttonAddRecurringEvent": {
         "course": "Lisää toistuva kurssi",
         "general": "Lisää toistuva tapahtuma",
@@ -431,7 +451,7 @@
         "general": "Lisää tapahtumalle ilmoittautuminen",
         "volunteering": "Lisää vapaaehtoistehtävälle ilmoittautuminen"
       },
-      "buttonAddVideo": "Lisää video",
+      "buttonAddVideo": "Lisää muita videoita",
       "buttonCancel": "Peruuta tapahtuma",
       "buttonCopy": "Kopioi pohjaksi",
       "buttonDelete": "Poista tapahtuma",
@@ -595,9 +615,9 @@
         "volunteering": "Merkitse onko tapahtuma vapaaehtoistehtävä. Syötä maksulliselle vapaaehtoistehtävälle hinta muodossa “5€”."
       },
       "infoTextOffers2": {
-        "course": "Jos kurssilla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
-        "general": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
-        "volunteering": "Jos vapaaehtoistehtävällä on useita hintoja, klikkaa “Lisää uusi hintatieto” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
+        "course": "Jos kurssilla on useita hintoja, klikkaa “Lisää muita hintatietoja” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
+        "general": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää muita hintatietoja” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
+        "volunteering": "Jos vapaaehtoistehtävällä on useita hintoja, klikkaa “Lisää muita hintatietoja” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
       },
       "infoTextProvider": {
         "course": "Kirjoita tähän kurssin järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija.",
@@ -1619,8 +1639,21 @@
       "title": "Varmista organisaation poistaminen"
     },
     "form": {
+      "account": {
+        "labelActive": "Aktiivinen",
+        "labelBalanceProfitCenter": "Tasapainotettu tulosyksikkö",
+        "labelCompanyCode": "SAP-yrityskoodi",
+        "labelInternalOrder": "Sisäinen tilaus",
+        "labelMainLedgerAccount": "Pääkirjanpitotili",
+        "labelOperationArea": "SAP-toimintoalue",
+        "labelProfitCenter": "Tulosyksikkö",
+        "labelProject": "Projekti",
+        "labelVatCode": "ALV-koodi"
+      },
+      "buttonAddAccount": "Lisää uusi tili",
       "buttonAddMerchant": "Lisää uusi kauppias",
       "buttonDelete": "Poista organisaatio",
+      "buttonDeleteAccount": "Poista tili",
       "buttonDeleteMerchant": "Poista kauppias",
       "labelAdminUsers": "Pääkäyttäjät",
       "labelClassification": "Luokittelu",
@@ -1653,6 +1686,7 @@
       "notificationOrganizationDeleted": "Organisaatio on poistettu",
       "notificationOrganizationUpdated": "Organisaatio on tallennettu",
       "notificationTitleCannotEdit": "Organisaatiota ei voi muokata",
+      "titleAccount": "Tili",
       "titleMerchant": "Kauppias"
     },
     "internalType": {
@@ -1697,7 +1731,7 @@
     },
     "title": "Organisaatiot",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä organisaatiota.",
-    "warningNoRightsToEditMerchant": "Vain järjestelmän pääkäyttäjät ja taloushallinnon pääkäyttäjät voivat muokata kauppiaita."
+    "warningNoRightsToEditFinancialInfo": "Vain järjestelmän pääkäyttäjät ja taloushallinnon pääkäyttäjät voivat muokata kauppiaita tai tilejä."
   },
   "place": {
     "deletePlaceModal": {
@@ -1810,8 +1844,8 @@
       "title": "Varmista ilmoittautumisen poistaminen"
     },
     "form": {
-      "buttonAddPriceGroup": "Lisää uusi asiakasryhmä",
-      "buttonAddRegistrationUserAccess": "Lisää uusi käyttäjä",
+      "buttonAddPriceGroup": "Lisää muita asiakasryhmiä",
+      "buttonAddRegistrationUserAccess": "Lisää muita käyttäjiä",
       "buttonCreate": "Tallenna ilmoittautuminen",
       "buttonDeletePriceGroup": "Poista asiakasryhmä",
       "buttonDeleteRegistrationUserAccess": "Poista käyttäjä",
@@ -2069,6 +2103,12 @@
       "text": "Valitettavasti varausaika on umpeutunut.",
       "title": "Varausaika on täynnä."
     },
+    "reservationTimeExpiringModal": {
+      "buttonClose": "Sulje",
+      "text": "Varauksen aika on päättymässä {{count}} sekunnin päästä",
+      "text_other": "Varauksen aika on päättymässä {{count}} sekunnin päästä",
+      "title": "Varauksen aika on päättymässä"
+    },
     "sendMessageModal": {
       "buttonSendMessage": "Lähetä viesti",
       "labelBody": "Viesti",
@@ -2110,7 +2150,8 @@
       "sendMessage": "Lähetä viesti"
     },
     "attendeeTableCaption": "Osallistujat",
-    "attendeeTableHeading": "Osallistujat",
+    "attendeeTableCount": "{{count}} osallistuja",
+    "attendeeTableCount_other": "{{count}} osallistujaa",
     "buttonClearFilters": "Tyhjennä hakuehdot",
     "pageTitle": "Ilmoittautuneet: {{name}}",
     "searchPanel": {
@@ -2128,7 +2169,7 @@
     },
     "title": "Ilmoittautuneet",
     "waitingListTableCaption": "Jonopaikat",
-    "waitingListTableHeading": "Jonopaikat",
+    "waitingListTableCount": "{{count}} jonopaikalla",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia lisätä osallistujia tähän ilmoittautumiseen.",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa.",
     "warningNoRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."

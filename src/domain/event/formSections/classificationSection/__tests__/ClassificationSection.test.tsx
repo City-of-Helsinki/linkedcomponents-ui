@@ -1,5 +1,4 @@
 import { Formik } from 'formik';
-import React from 'react';
 
 import getValue from '../../../../../utils/getValue';
 import {
@@ -86,7 +85,6 @@ const getElement = (
     | 'infoTextKeywords'
     | 'infoTextMainCategories'
     | 'mainCategories'
-    | 'showMoreButton'
     | 'titleMainCategories'
     | 'titleNotification'
     | 'toggleButton'
@@ -100,8 +98,6 @@ const getElement = (
       return screen.getByText(/valitse vähintään yksi pääluokka/i);
     case 'mainCategories':
       return screen.getByRole('group', { name: /valitse kategoria\(t\)/i });
-    case 'showMoreButton':
-      return screen.getByRole('button', { name: /näytä lisää/i });
     case 'titleMainCategories':
       return screen.getByRole('heading', { name: /Valitse kategoria\(t\)/i });
     case 'titleNotification':
@@ -127,30 +123,15 @@ test('should render classification section', async () => {
   await findElement('keywordText');
 });
 
-test('should show 10 first topics by default and rest by clicking show more', async () => {
+test('should show all topic options', async () => {
   const sortedKeywords = [...eventTopicNames, removeParticipationName].sort();
-  const defaultKeywords = sortedKeywords.slice(0, 10);
-  const restKeywords = [...sortedKeywords].slice(10);
 
-  const user = userEvent.setup();
   renderComponent();
 
   const mainCategories = getElement('mainCategories');
   await within(mainCategories).findByLabelText(eventTopicNames[0]);
 
-  for (const name of defaultKeywords.slice(1)) {
-    within(mainCategories).getByLabelText(name);
-  }
-  for (const name of restKeywords) {
-    expect(
-      within(mainCategories).queryByLabelText(name)
-    ).not.toBeInTheDocument();
-  }
-
-  await user.click(getElement('showMoreButton'));
-
-  await within(mainCategories).findByLabelText(restKeywords[0]);
-  for (const name of restKeywords.slice(1)) {
+  for (const name of sortedKeywords) {
     within(mainCategories).getByLabelText(name);
   }
 });

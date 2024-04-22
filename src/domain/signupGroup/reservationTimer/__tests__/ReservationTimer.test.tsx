@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { ApolloError } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
-import React from 'react';
 
 import {
   CreateSeatsReservationDocument,
@@ -145,6 +144,24 @@ test('should show modal if any of the reserved seats is in waiting list', async 
   );
 
   await user.click(within(modal).getByRole('button', { name: 'Sulje' }));
+
+  await waitFor(() => expect(modal).not.toBeInTheDocument());
+});
+
+test('should display reservation expiring modal if there is less than 60 seconds left', async () => {
+  const user = userEvent.setup();
+
+  setSessionStorageValues(getMockedSeatsReservationData(59), registration);
+
+  renderComponent();
+
+  const modal = await screen.findByRole(
+    'dialog',
+    { name: 'Varauksen aika on päättymässä' },
+    { timeout: 5000 }
+  );
+  const closeButton = within(modal).getByRole('button', { name: 'Sulje' });
+  await user.click(closeButton);
 
   await waitFor(() => expect(modal).not.toBeInTheDocument());
 });

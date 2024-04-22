@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, ReactElement } from 'react';
+import React, { FC, PropsWithChildren, ReactElement } from 'react';
 
 import Button from '../button/Button';
 import SearchInput from '../searchInput/SearchInput';

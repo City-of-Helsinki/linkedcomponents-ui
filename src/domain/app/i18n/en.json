@@ -5,7 +5,7 @@
   "adminPage": {
     "sideNavigation": {
       "labelAdmin": "Admin",
-      "toggleButtonLabel": "Navigate to admin page"
+      "toggleButtonLabel": "Admin tools"
     },
     "title": "Admin"
   },
@@ -27,7 +27,7 @@
       "message": "An error has occurred during login: Please check your internet connection and try again."
     },
     "noRightsUpdateEvent": "You do not have permission to edit events.",
-    "noRightsUpdateEventLabel": "No permissions to edit events",
+    "noRightsUpdateEventLabel": "No permissions to edit events.",
     "noRightsUpdateImage": "You do not have permission to edit images.",
     "noRightsUpdateImageLabel": "No permissions to edit images.",
     "noRightsUpdateKeyword": "You do not have permission to edit keywords.",
@@ -41,23 +41,23 @@
     "noRightsUpdatePriceGroup": "You do not have permission to edit customer groups.",
     "noRightsUpdatePriceGroupLabel": "No permissions to edit customer groups.",
     "noRightsUpdateRegistration": "You do not have permission to edit registrations.",
-    "noRightsUpdateRegistrationLabel": "No permissions to edit registrations",
+    "noRightsUpdateRegistrationLabel": "No permissions to edit registrations.",
     "noRightsUpdateSignup": "You do not have permission to edit participants.",
     "noRightsUpdateSignupLabel": "No permissions to edit participants.",
     "noRightsUpdateSignupGroup": "You do not have permission to edit participants.",
     "noRightsUpdateSignupGroupLabel": "No permissions to edit participants."
   },
+  "authenticationMethod": {
+    "espooEmployee": "City of Espoo employee ID",
+    "helsinki": "Helsinki ID",
+    "helsinkiEmployee": "City of Helsinki employee ID",
+    "some": "Facebook, Google or Twitter ID",
+    "yle": "YLE ID"
+  },
   "authenticationNotification": {
     "button": "sign in",
     "part1": "You can continue to explore the service, but you will need to",
     "part2": " to save your changes."
-  },
-  "authenticationMethod": {
-    "espooEmployee": "Stad Esbo anställd ID",
-    "helsinki": "Helsinki-ID",
-    "helsinkiEmployee": "Stad Helsinki anställd ID",
-    "some": "Facebook, Google eller Twitter ID",
-    "yle": "YLE ID"
   },
   "common": {
     "actions": "Actions",
@@ -81,7 +81,14 @@
     "buttonAddPriceGroup": "Add customer group",
     "buttonAddRegistration": "Add new",
     "buttonBack": "Back",
+    "buttonRemoveFilter": "Remove filter: {{name}}",
     "cancel": "Undo",
+    "checkboxGroup": {
+      "accessibility": {
+        "hideOptionsNotification": "Some options hidden from the list",
+        "showAllOptionsNotification": "More options added to the list"
+      }
+    },
     "clear": "Clear",
     "close": "Close",
     "combobox": {
@@ -240,6 +247,15 @@
     "placeholderDate": "d.m.yyyy",
     "placeholderDateTime": "d.m.yyyy hh.mm",
     "placeholderTime": "hh.mm",
+    "reservationTimer": {
+      "hour": "{{count}} hour",
+      "hour_other": "{{count}} hours",
+      "minute": "{{count}} minute",
+      "minute_other": "{{count}} minutes",
+      "second": "{{count}} second",
+      "second_other": "{{count}} seconds",
+      "timeLeft": "Time left to register:"
+    },
     "save": "Save",
     "search": "Search",
     "select": "Select",
@@ -249,6 +265,11 @@
     "signIn": "Sign in",
     "signOut": "Sign out",
     "table": {
+      "accessibility": {
+        "noResultsFound": "Your search returned no results.",
+        "resultsFoundText": "{{count}} search result found",
+        "resultsFoundText_other": "{{count}} search results found"
+      },
       "ariaLabelSortButtonAscending": "Sorted in ascending order",
       "ariaLabelSortButtonDescending": "Sorted in descending order",
       "noResultsText": "Your search returned no results. Check your search terms and try again."
@@ -419,7 +440,7 @@
         "general": "Add event image",
         "volunteering": "Add volunteering image"
       },
-      "buttonAddOffer": "Add pricing information",
+      "buttonAddOffer": "Add other pricing information",
       "buttonAddRecurringEvent": {
         "course": "Add recurring course",
         "general": "Add recurring event",
@@ -430,7 +451,7 @@
         "general": "Add registration for event",
         "volunteering": "Add registration for volunteering"
       },
-      "buttonAddVideo": "Add video",
+      "buttonAddVideo": "Add other video",
       "buttonCancel": "Cancel event",
       "buttonCopy": "Copy as template",
       "buttonDelete": "Remove event",
@@ -466,7 +487,7 @@
       "buttonUpdateDraft": "Save draft",
       "buttonUpdatePublic": "Save changes",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
-      "eventDraftStateInfo": "The saved information will automatically be visible to the moderator as well. However, the information can be edited until the moderator publishes the event. The latter can be avoided by writing \"UNFINISHED\" at the beginning of the event title while editing is in progress.",
+      "eventDraftStateInfo": "The saved information will automatically be visible to the moderator as well. However, the information can be edited until the moderator publishes the event. The latter can be avoided by writing \"KESKENERÄINEN\" at the beginning of the event title while editing is in progress.",
       "editButtonPanel": {
         "warningCancelledEvent": "Cancelled events can't be edited.",
         "warningCannotCancelDraft": "Event drafts can't be cancelled.",
@@ -475,7 +496,7 @@
         "warningDeletedEvent": "Deleted events can't be edited.",
         "warningEventInPast": "Past events can't be edited.",
         "warningNoRightsToEdit": "You have insufficient rights to edit this event.",
-        "warningNoEmailFound": "Could not find email address linked to this event"
+        "warningNoEmailFound": "Could not find email address linked to this event."
       },
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
       "infoTextAttendeeCapacity": {
@@ -594,9 +615,9 @@
         "volunteering": "Indicate whether the volunteering is free of charge. Enter a price in the form “5 €” for a paid volunteering."
       },
       "infoTextOffers2": {
-        "course": "If the course has multiple prices, click “Add new pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field.",
-        "general": "If the event has multiple prices, click “Add new pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field.",
-        "volunteering": "If the volunteering has multiple prices, click “Add new pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field."
+        "course": "If the course has multiple prices, click “Add other pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field.",
+        "general": "If the event has multiple prices, click “Add other pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field.",
+        "volunteering": "If the volunteering has multiple prices, click “Add other pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field."
       },
       "infoTextProvider": {
         "course": "Enter the name of the organization hosting the course if the organizer is not the same as the publisher.",
@@ -1436,7 +1457,7 @@
     "browse": "browse",
     "bug": "bug",
     "contact": "contact",
-    "controlPanel": "control, panel",
+    "controlPanel": "control panel",
     "date": "date",
     "documentation": "documentation",
     "edit": "edit",
@@ -1456,7 +1477,7 @@
     "linked": "linked",
     "listing": "listing",
     "management": "management",
-    "myListing": "my, listing",
+    "myListing": "my listing",
     "new": "new",
     "organization": "organization",
     "permission": "permission",
@@ -1469,10 +1490,10 @@
     "rights": "rights",
     "search": "search",
     "set": "set",
-    "sourceCode": "source, code",
+    "sourceCode": "source code",
     "support": "support",
     "technology": "technology",
-    "termsOfUse": "terms, of, use",
+    "termsOfUse": "terms of use",
     "update": "update",
     "upload": "upload"
   },
@@ -1618,8 +1639,21 @@
       "title": "Confirm organization deletion"
     },
     "form": {
+      "account": {
+        "labelActive": "Is active",
+        "labelBalanceProfitCenter": "Balance profit center",
+        "labelCompanyCode": "SAP company code",
+        "labelInternalOrder": "Internal order",
+        "labelMainLedgerAccount": "Main ledger account",
+        "labelOperationArea": "SAP functional area",
+        "labelProfitCenter": "Profit center",
+        "labelProject": "Project",
+        "labelVatCode": "VAT code"
+      },
+      "buttonAddAccount": "Add new account",
       "buttonAddMerchant": "Add new merchant",
       "buttonDelete": "Delete organization",
+      "buttonDeleteAccount": "Delete account",
       "buttonDeleteMerchant": "Delete merchant",
       "labelAdminUsers": "Admin users",
       "labelClassification": "Classification",
@@ -1652,6 +1686,7 @@
       "notificationOrganizationDeleted": "The organization has been deleted",
       "notificationOrganizationUpdated": "The organization has been saved",
       "notificationTitleCannotEdit": "The organization cannot be edited",
+      "titleAccount": "Account",
       "titleMerchant": "Merchant"
     },
     "internalType": {
@@ -1696,7 +1731,7 @@
     },
     "title": "Organizations",
     "warningNoRightsToEdit": "You have insufficient rights to edit this organization.",
-    "warningNoRightsToEditMerchant": "Only superusers and financial admins can manage web store merchants."
+    "warningNoRightsToEditFinancialInfo": "Only superusers and financial admins can manage web store merchants or accounts."
   },
   "place": {
     "deletePlaceModal": {
@@ -1809,9 +1844,9 @@
       "title": "Confirm registration deletion"
     },
     "form": {
-      "buttonAddPriceGroup": "Add new customer group",
-      "buttonAddRegistrationUserAccess": "Add new user",
-      "buttonCreate": "Save",
+      "buttonAddPriceGroup": "Add other customer groups",
+      "buttonAddRegistrationUserAccess": "Add other users",
+      "buttonCreate": "Save registration",
       "buttonDeletePriceGroup": "Remove customer group",
       "buttonDeleteRegistrationUserAccess": "Remove user",
       "buttonPanel": {
@@ -2068,6 +2103,12 @@
       "text": "Unfortunately, the Reservation time has expired.",
       "title": "Time’s Up."
     },
+    "reservationTimeExpiringModal": {
+      "buttonClose": "Close",
+      "text": "The reservation is about to expire in {{count}} seconds",
+      "text_other": "The reservation is about to expire in {{count}} seconds",
+      "title": "The reservation period is ending"
+    },
     "sendMessageModal": {
       "buttonSendMessage": "Send message",
       "labelBody": "Message",
@@ -2109,12 +2150,12 @@
       "sendMessage": "Send message"
     },
     "attendeeTableCaption": "Participants",
-    "attendeeTableHeading": "Participants",
+    "attendeeTableCount": "{{count}} participant",
+    "attendeeTableCount_other": "{{count}} participants",
     "buttonClearFilters": "Clear filters",
     "pageTitle": "Signups: {{name}}",
     "searchPanel": {
       "buttonCreate": "Add participant",
-      "buttonRemoveFilter": "Remove filter: {{name}}",
       "buttonSearch": "Filter",
       "labelSearch": "Filter participants",
       "placeholderSearch": "Filter participants"
@@ -2128,7 +2169,7 @@
     },
     "title": "Signups",
     "waitingListTableCaption": "Waiting list",
-    "waitingListTableHeading": "Waiting list",
+    "waitingListTableCount": "{{count}} in Waiting list",
     "warningNoRightsToCreate": "You have insufficient rights to create participants to this registration.",
     "warningNoRightsToEdit": "You have insufficient rights to edit this participant.",
     "warningNoRightsToView": "You have insufficient rights to view participants of this registration."

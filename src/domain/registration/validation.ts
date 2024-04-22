@@ -38,9 +38,6 @@ export const getPriceGroupSchema = (priceGroupOptions: PriceGroupOption[]) =>
                 (number) => Number.isInteger(number * 10 ** 2)
               )
     ),
-    [REGISTRATION_PRICE_GROUP_FIELDS.VAT_PERCENTAGE]: Yup.string().required(
-      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-    ),
   });
 
 const priceGroupsSchema = (
@@ -153,6 +150,14 @@ export const registrationSchema = Yup.object().shape({
           ],
           priceGroupsSchema
         ),
+        [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE]:
+          Yup.string().when(
+            [REGISTRATION_FIELDS.HAS_PRICE],
+            ([hasPrice], schema) =>
+              hasPrice
+                ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+                : schema
+          ),
       }
     : {}),
   [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: Yup.array().of(

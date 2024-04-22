@@ -45,7 +45,7 @@ const getElement = (
 ) => {
   switch (key) {
     case 'addButton':
-      return screen.getByRole('button', { name: 'Lisää video' });
+      return screen.getByRole('button', { name: 'Lisää muita videoita' });
     case 'altTextInput':
       return screen.getByLabelText('Videon alt-teksti');
     case 'nameInput':

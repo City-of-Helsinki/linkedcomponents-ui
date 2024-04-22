@@ -1,11 +1,9 @@
 import { Formik } from 'formik';
-import React from 'react';
 
 import {
   configure,
   render,
   screen,
-  userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
@@ -57,35 +55,14 @@ test('should render audience section', async () => {
   ).toBeInTheDocument();
 });
 
-test('should show 10 first audiences by default and rest by clicking show more', async () => {
-  const user = userEvent.setup();
+test('should show all audience options', async () => {
   renderComponent();
 
   const sortedAudienceNames = audienceNames
     .slice()
     .sort((a, b) => a.localeCompare(b, 'en'));
 
-  await waitFor(() => {
-    expect(screen.queryByLabelText(sortedAudienceNames[0])).toBeInTheDocument();
-  });
-  const defaultKeywords = sortedAudienceNames.slice(0, 10);
-  const restKeywords = sortedAudienceNames.slice(10);
-
-  defaultKeywords.forEach((keyword) => {
-    expect(screen.queryByLabelText(keyword)).toBeInTheDocument();
-  });
-
-  restKeywords.forEach((keyword) => {
-    expect(screen.queryByLabelText(keyword)).not.toBeInTheDocument();
-  });
-
-  await user.click(screen.getByRole('button', { name: /näytä lisää/i }));
-
-  await waitFor(() => {
-    expect(screen.queryByLabelText(restKeywords[0])).toBeInTheDocument();
-  });
-
-  restKeywords.forEach((keyword) => {
-    expect(screen.queryByLabelText(keyword)).toBeInTheDocument();
-  });
+  for (const keyword of sortedAudienceNames) {
+    expect(await screen.findByLabelText(keyword)).toBeInTheDocument();
+  }
 });

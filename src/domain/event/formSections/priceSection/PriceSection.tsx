@@ -6,11 +6,14 @@ import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
 import { featureFlagUtils } from '../../../../utils/featureFlags';
+import FormRow from '../../../admin/layout/formRow/FormRow';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import usePriceGroupOptions from '../../../priceGroup/hooks/usePriceGroupOptions';
 import { PriceGroupOption } from '../../../priceGroup/types';
+import VatPercentageField from '../../../registration/formSections/priceGroups/vatPercentageField/VatPercentageField';
 import { EVENT_FIELDS } from '../../constants';
+import styles from '../../eventPage.module.scss';
 import FreeEventFields from './freeEventFields/FreeEventFields';
 import Offers from './offers/Offers';
 import PriceNotification from './priceNotification/PriceNotification';
@@ -25,6 +28,9 @@ const PriceSection: React.FC<Props> = ({ isEditingAllowed }) => {
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: hasPrice }] = useField({ name: EVENT_FIELDS.HAS_PRICE });
+  const [{ value: isRegistrationPlanned }] = useField({
+    name: EVENT_FIELDS.IS_REGISTRATION_PLANNED,
+  });
   const [{ value: publisher }] = useField<string>(EVENT_FIELDS.PUBLISHER);
 
   const [, , { setValue: setPriceGroupOptions }] = useField<PriceGroupOption[]>(
@@ -41,7 +47,11 @@ const PriceSection: React.FC<Props> = ({ isEditingAllowed }) => {
   return (
     <Fieldset heading={t('event.form.sections.price')} hideLegend>
       <h3>{t(`event.form.titlePriceInfo.${type}`)}</h3>
-      <FieldRow notification={<PriceNotification />}>
+      <FieldRow
+        notification={
+          <PriceNotification className={styles.notificationForTitle} />
+        }
+      >
         <FieldColumn>
           <FormGroup>
             <Field
@@ -65,7 +75,21 @@ const PriceSection: React.FC<Props> = ({ isEditingAllowed }) => {
       </FieldRow>
 
       {hasPrice ? (
-        <Offers isEditingAllowed={isEditingAllowed} />
+        <>
+          {isRegistrationPlanned && (
+            <FormRow>
+              <FieldColumn>
+                <VatPercentageField
+                  disabled={!isEditingAllowed}
+                  name={EVENT_FIELDS.OFFERS_VAT_PERCENTAGE}
+                  required={true}
+                />
+              </FieldColumn>
+            </FormRow>
+          )}
+
+          <Offers isEditingAllowed={isEditingAllowed} />
+        </>
       ) : (
         <FreeEventFields isEditingAllowed={isEditingAllowed} />
       )}

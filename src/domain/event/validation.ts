@@ -400,6 +400,13 @@ export const publicEventSchema = Yup.object().shape(
         ],
         validateOffers
       ),
+    [EVENT_FIELDS.OFFERS_VAT_PERCENTAGE]: Yup.string().when(
+      [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.IS_REGISTRATION_PLANNED],
+      ([hasPrice, isRegistrationPlanned], schema) =>
+        hasPrice && isRegistrationPlanned
+          ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+          : schema
+    ),
     [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
       Yup.string().test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
         isValidUrl(value)

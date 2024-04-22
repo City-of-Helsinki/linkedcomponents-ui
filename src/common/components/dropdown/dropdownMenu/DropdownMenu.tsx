@@ -51,7 +51,7 @@ const DropdownMenu: React.FC<React.PropsWithChildren<DropdownMenuProps>> = ({
       </div>
       {onClear && (
         <ClearButton onClick={onClear}>
-          {clearButtonLabel || t('common.dropdown.buttonClear')}
+          {clearButtonLabel ?? t('common.dropdown.buttonClear')}
         </ClearButton>
       )}
     </div>
