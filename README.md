@@ -174,19 +174,13 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 Launches the test runner and generates coverage report
 
-### `yarn browser-test`
+### `yarn test:e2e:install`
 
-Running browser tests against test environment
+Install [Playwright](https://playwright.dev) for running browser tests
 
-Browser tests are written in TypeScript with [TestCafe](https://devexpress.github.io/testcafe/) framework.
+### `yarn test:e2e`
 
-### `yarn browser-test:local`
-
-Running browser tests against local environment
-
-### `yarn browser-test:prod`
-
-Running browser tests against production environment
+Running browser tests
 
 ### `yarn build`
 
