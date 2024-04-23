@@ -6687,15 +6687,15 @@ hastscript@^6.0.0:
     property-information "^5.0.0"
     space-separated-tokens "^1.0.0"
 
-hds-core@3.6.0, hds-core@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-3.6.0.tgz#8a6fab39f229fab6405efa987e0343b1c902fb58"
-  integrity sha512-ZsKGPhLKCzNpJIOfOOkXQadAXUjgAP+ltf+jGHP/NcaQLPHIh225NGtmmW7QJwY/y0wgunYXB/84xKcYiYuaOg==
+hds-core@3.7.0, hds-core@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-3.7.0.tgz#4a4d65786afac4a8c4d10d1739b10cc8e2fc611f"
+  integrity sha512-rgr7r2b6nGqLiYR7StG2dY/31zXT988hsSLu8ipkDM4hTdFRLGGtqNpPP+6B8WlksAmszVmMwF6BbDxdAxtWfA==
 
-hds-react@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-3.6.0.tgz#91a17f225e8ddb2c35b17f07ba3598ee79a43b20"
-  integrity sha512-NyU2dpUX7RRHycOgS2WZyTmNLIbZHadeaxCwB9bOscIFz6RjQGU0ipqfCySH8Hj8QlBcBIxw+W5oPsjVxkx1MA==
+hds-react@^3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-3.7.0.tgz#22ca9bbf72efe8ec49e4b4c50c644dbe2a5fd002"
+  integrity sha512-HF4WqO7ciapvCnCmPRjtj568L+A495g7n+m7rmZhsOYr8Q3/uI1C9bQrPA/Kpu794Cw9ulxekbRao905Ju4XhA==
   dependencies:
     "@babel/runtime" "7.17.9"
     "@emotion/styled-base" "^11.0.0"
@@ -6711,7 +6711,7 @@ hds-react@^3.6.0:
     crc-32 "1.2.0"
     date-fns "2.16.1"
     downshift "6.0.6"
-    hds-core "3.6.0"
+    hds-core "3.7.0"
     http-status-typed "^1.0.1"
     jwt-decode "^3.1.2"
     kashe "1.0.4"
