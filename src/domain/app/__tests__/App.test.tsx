@@ -2,10 +2,8 @@
 /* eslint-disable max-len */
 import { render, within } from '@testing-library/react';
 import i18n from 'i18next';
-import React from 'react';
 
 import {
-  act,
   configure,
   screen,
   userEvent,
@@ -33,25 +31,17 @@ beforeEach(() => {
   i18n.changeLanguage('fi');
 });
 
-const renderApp = async () =>
-  act(async () => {
-    await render(<App />);
-  });
+const renderApp = async () => render(<App />);
 
 const acceptAllCookieText =
-  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22eventForm%22%3Atrue%2C%22registrationForm%22%3Atrue%2C%22signupForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22matomo%22%3Atrue%7D';
+  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22eventForm%22%3Atrue%2C%22registrationForm%22%3Atrue%2C%22signupForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22city-of-helsinki-consent-version%22%3Atrue%2C%22matomo%22%3Atrue%7D';
 const acceptOnlyNecessaryCookieText =
-  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22eventForm%22%3Atrue%2C%22registrationForm%22%3Atrue%2C%22signupForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22matomo%22%3Afalse%7D';
+  'city-of-helsinki-cookie-consents=%7B%22tunnistamo%22%3Atrue%2C%22eventForm%22%3Atrue%2C%22registrationForm%22%3Atrue%2C%22signupForm%22%3Atrue%2C%22city-of-helsinki-cookie-consents%22%3Atrue%2C%22city-of-helsinki-consent-version%22%3Atrue%2C%22matomo%22%3Afalse%7D';
 
-const findElement = (key: 'cookieConsentModal') => {
-  switch (key) {
-    case 'cookieConsentModal':
-      return screen.findByTestId('cookie-consent');
-  }
-};
+const findCookieConsentModal = () => screen.findByTestId('cookie-consent');
 
 const waitCookieConsentModalToBeVisible = async () => {
-  const cookieConsentModal = await findElement('cookieConsentModal');
+  const cookieConsentModal = await findCookieConsentModal();
   await within(cookieConsentModal).findByRole('heading', {
     name: 'Linked Events käyttää evästeitä',
   });
@@ -104,14 +94,14 @@ const findCookieConsentModalElement = async (
 };
 
 it('should show cookie consent modal if consent is not saved to cookie', async () => {
-  await renderApp();
+  renderApp();
 
   await waitCookieConsentModalToBeVisible();
 });
 
 it('should change cookie consent modal language', async () => {
   const user = userEvent.setup();
-  await renderApp();
+  renderApp();
 
   const cookieConsentModal = await waitCookieConsentModalToBeVisible();
   const languageSelector = await findCookieConsentModalElement(
@@ -145,7 +135,7 @@ it('should change cookie consent modal language', async () => {
 it('should store consent to cookie when clicking accept all button', async () => {
   const user = userEvent.setup();
 
-  await renderApp();
+  renderApp();
 
   const cookieConsentModal = await waitCookieConsentModalToBeVisible();
   const acceptAllButton = await findCookieConsentModalElement(
@@ -161,7 +151,7 @@ it('should store consent to cookie when clicking accept all button', async () =>
 it('should store consent to cookie when clicking accept only necessary button', async () => {
   const user = userEvent.setup();
 
-  await renderApp();
+  renderApp();
 
   const cookieConsentModal = await waitCookieConsentModalToBeVisible();
   const acceptOnlyNecessaryButton = await findCookieConsentModalElement(
@@ -180,7 +170,7 @@ it('should store consent to cookie when clicking accept only necessary button', 
 it('should not show cookie consent modal if consent is saved', async () => {
   document.cookie = acceptAllCookieText;
 
-  await renderApp();
+  renderApp();
 
   await waitCookieConsentModalToBeHidden();
 });

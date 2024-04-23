@@ -31,7 +31,6 @@ const CookieConsent: FC = () => {
 
   return (
     <CookieModal
-      cookieDomain={hostname}
       contentSource={{
         siteName: t('common.cookieConsent.siteName'),
         currentLanguage: language,
