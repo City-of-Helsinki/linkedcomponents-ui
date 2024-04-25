@@ -44,6 +44,10 @@ import {
   placeAtId,
 } from '../../place/__mocks__/place';
 import {
+  mockedDefaultPriceGroupsResponse,
+  mockedPublisherPriceGroupsResponse,
+} from '../../priceGroup/__mocks__/priceGroups';
+import {
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
 } from '../../user/__mocks__/user';
@@ -77,7 +81,7 @@ beforeEach(() => {
   sessionStorage.clear();
 });
 
-const defaultMocks = [
+const commonMocks = [
   mockedImagesResponse,
   mockedImageResponse,
   mockedUmbrellaEventsResponse,
@@ -90,10 +94,13 @@ const defaultMocks = [
   // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
   mockedFilteredPlacesResponse,
   mockedFilteredPlacesResponse,
+  mockedDefaultPriceGroupsResponse,
+  mockedPublisherPriceGroupsResponse,
   mockedOrganizationResponse,
   mockedOrganizationAncestorsResponse,
-  mockedUserResponse,
 ];
+
+const defaultMocks = [...commonMocks, mockedUserResponse];
 
 const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
   render(<CreateEventPage />, {
@@ -182,23 +189,7 @@ test('should focus to first validation error when trying to save draft event', a
 test('should focus to first validation error when trying to save draft event as external user', async () => {
   const user = userEvent.setup();
 
-  const mocks = [
-    mockedImagesResponse,
-    mockedImageResponse,
-    mockedUmbrellaEventsResponse,
-    mockedAudienceKeywordSetResponse,
-    mockedTopicsKeywordSetResponse,
-    mockedKeywordSelectorKeywordsResponse,
-    mockedLanguagesResponse,
-    mockedPlaceResponse,
-    mockedPlacesResponse,
-    // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
-    mockedFilteredPlacesResponse,
-    mockedFilteredPlacesResponse,
-    mockedOrganizationResponse,
-    mockedOrganizationAncestorsResponse,
-    mockedUserWithoutOrganizationsResponse,
-  ];
+  const mocks = [...commonMocks, mockedUserWithoutOrganizationsResponse];
 
   renderComponent(mocks);
 
@@ -456,23 +447,7 @@ test('should route to event completed page after publishing event', async () => 
 });
 
 test('should render fields for external user', async () => {
-  const mocks = [
-    mockedImagesResponse,
-    mockedImageResponse,
-    mockedUmbrellaEventsResponse,
-    mockedAudienceKeywordSetResponse,
-    mockedTopicsKeywordSetResponse,
-    mockedKeywordSelectorKeywordsResponse,
-    mockedLanguagesResponse,
-    mockedPlaceResponse,
-    mockedPlacesResponse,
-    // PlaceSelector component requires second mock. https://github.com/apollographql/react-apollo/issues/617
-    mockedFilteredPlacesResponse,
-    mockedFilteredPlacesResponse,
-    mockedOrganizationResponse,
-    mockedOrganizationAncestorsResponse,
-    mockedUserWithoutOrganizationsResponse,
-  ];
+  const mocks = [...commonMocks, mockedUserWithoutOrganizationsResponse];
 
   renderComponent(mocks);
 
