@@ -48,6 +48,10 @@ import {
   mockedPlacesResponse,
 } from '../../place/__mocks__/place';
 import {
+  mockedExternalUserPriceGroupsResponse,
+  mockedPublisherPriceGroupsResponse,
+} from '../../priceGroup/__mocks__/priceGroups';
+import {
   mockedExternalAdminUserResponse,
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
@@ -105,6 +109,8 @@ const baseMocks = [
   mockedUserResponse,
   mockedOrganizationResponse,
   mockedOrganizationAncestorsResponse,
+  mockedPublisherPriceGroupsResponse,
+  mockedExternalUserPriceGroupsResponse,
 ];
 
 const route = ROUTES.EDIT_EVENT.replace(':id', eventId);
@@ -494,6 +500,7 @@ test('should render fields for external user', async () => {
     mockedUserWithoutOrganizationsResponse,
     mockedOrganizationResponse,
     mockedOrganizationAncestorsResponse,
+    mockedPublisherPriceGroupsResponse,
   ];
 
   renderComponent(mocks);
