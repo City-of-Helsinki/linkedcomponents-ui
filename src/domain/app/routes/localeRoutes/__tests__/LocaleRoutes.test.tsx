@@ -1,14 +1,12 @@
 /* eslint-disable max-len */
+import { MockedResponse } from '@apollo/client/testing';
 import { History } from 'history';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { mockedRegistrationEventSelectorEventsResponse } from '../../../../../common/components/formFields/registrationEventSelectorField/__mocks__/registrationEventSelectorField';
 import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsReponse } from '../../../../../common/components/keywordSelector/__mocks__/keywordSelector';
-import {
-  mockedFilteredPlacesResponse as mockedPlaceSelectorFilteredPlacesReponse,
-  mockedPlacesResponse as mockedPlaceSelectorPlacesReponse,
-} from '../../../../../common/components/placeSelector/__mocks__/placeSelector';
+import { mockedPlacesResponse as mockedPlaceSelectorPlacesReponse } from '../../../../../common/components/placeSelector/__mocks__/placeSelector';
 import { DEPRECATED_ROUTES, ROUTES } from '../../../../../constants';
 import { AttendeeStatus } from '../../../../../generated/graphql';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
@@ -17,20 +15,15 @@ import getValue from '../../../../../utils/getValue';
 import { fakeSignups } from '../../../../../utils/mockDataUtils';
 import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
-  act,
   actWait,
   configure,
-  CustomRenderResult,
   loadingSpinnerIsNotInDocument,
   render,
   screen,
   waitFor,
 } from '../../../../../utils/testUtils';
 import { mockedRegistrationResponse as mockedAttendanceListRegistrationResponse } from '../../../../attendanceList/__mocks__/attendanceListPage';
-import {
-  mockedDataSourceResponse,
-  mockedDataSourcesResponse,
-} from '../../../../dataSource/__mocks__/dataSource';
+import { mockedDataSourceResponse } from '../../../../dataSource/__mocks__/dataSource';
 import {
   eventName,
   mockedEventResponse,
@@ -38,9 +31,11 @@ import {
 import { TEST_EVENT_ID } from '../../../../event/constants';
 import {
   mockedBaseDraftEventsResponse,
+  mockedBaseOwnPublishedEventsResponse,
   mockedBasePublicEventsResponse,
   mockedBaseWaitingApprovalEventsResponse,
   mockedDraftEventsResponse,
+  mockedOwnPublishedEventsResponse,
   mockedWaitingApprovalEventsResponse,
 } from '../../../../events/__mocks__/eventsPage';
 import {
@@ -48,11 +43,7 @@ import {
   mockedPlacesResponse as mockedEventSearchPlacesResponse,
   searchText,
 } from '../../../../eventSearch/__mocks__/eventSearchPage';
-import {
-  image,
-  mockedImageResponse,
-  mockedImagesResponse as mockedImageSelectorImagesResponse,
-} from '../../../../image/__mocks__/image';
+import { image, mockedImageResponse } from '../../../../image/__mocks__/image';
 import { mockedImagesResponse } from '../../../../images/__mocks__/imagesPage';
 import {
   keyword,
@@ -103,7 +94,6 @@ import {
 } from '../../../../registration/__mocks__/editRegistrationPage';
 import { TEST_REGISTRATION_ID } from '../../../../registration/constants';
 import { mockedRegistrationsResponse } from '../../../../registrations/__mocks__/registrationsPage';
-import { mockedCreateSeatsReservationResponse } from '../../../../seatsReservation/__mocks__/createSeatsReservation';
 import {
   mockedSignupResponse,
   signupId,
@@ -129,73 +119,22 @@ beforeEach(() => {
   mockAuthenticatedLoginState();
 });
 
-const mocks = [
-  mockedAttendanceListRegistrationResponse,
-  mockedDataSourceResponse,
-  mockedDataSourcesResponse,
-  mockedEventResponse,
-  mockedBaseDraftEventsResponse,
-  mockedBaseWaitingApprovalEventsResponse,
-  mockedBasePublicEventsResponse,
-  mockedDraftEventsResponse,
-  mockedWaitingApprovalEventsResponse,
-  mockedEventsResponse,
-  mockedImageResponse,
-  mockedImagesResponse,
-  mockedImageSelectorImagesResponse,
-  mockedKeywordResponse,
-  mockedKeywordsResponse,
-  mockedKeywordSelectorKeywordsReponse,
-  mockedEditKeywordKeywordsResponse,
-  mockedKeywordSetResponse,
-  mockedTopicsKeywordSetResponse,
-  mockedAudienceKeywordSetResponse,
-  mockedKeywordSetsResponse,
-  mockedLanguagesResponse,
-  mockedServiceLanguagesResponse,
-  mockedOrganizationResponse,
-  mockedOrganizationsResponse,
-  mockedOrganizationAncestorsResponse,
-  mockedOrganizationClassResponse,
-  mockedOrganizationClassesResponse,
-  mockedPlaceResponse,
-  mockedEventSearchPlacesResponse,
-  mockedPlacesResponse,
-  mockedPlaceSelectorPlacesReponse,
-  mockedPlaceSelectorFilteredPlacesReponse,
-  mockedRegistrationEventSelectorEventsResponse,
-  mockedRegistrationResponse,
-  mockedCreateSeatsReservationResponse,
-  mockedRegistrationsResponse,
-  mockedEventResponse,
-  mockedDefaultPriceGroupsResponse,
-  mockedPublisherPriceGroupsResponse,
-  mockedPriceGroupResponse,
-  mockedPriceGroupsResponse,
-  mockedSignupResponse,
-  mockedSignupGroupResponse,
-  mockedUserResponse,
-  mockedUsersResponse,
-  getMockedAttendeesResponse(fakeSignups(0)),
-  getMockedAttendeesResponse(fakeSignups(0), {
-    attendeeStatus: AttendeeStatus.Waitlisted,
-  }),
-];
+const renderRoute = ({
+  locale = 'fi',
+  mocks = [],
+  route,
+}: {
+  route: string;
+  locale?: Language;
+  mocks?: MockedResponse[];
+}) =>
+  render(
+    <Routes>
+      <Route path={`/:locale/*`} element={<LocaleRoutes />} />
+    </Routes>,
+    { mocks, routes: [`/${locale}${route}`] }
+  );
 
-const renderRoute = async (route: string, locale: Language = 'fi') => {
-  let result: CustomRenderResult | null = null;
-
-  await act(async () => {
-    result = await render(
-      <Routes>
-        <Route path={`/:locale/*`} element={<LocaleRoutes />} />
-      </Routes>,
-      { mocks, routes: [`/${locale}${route}`] }
-    );
-  });
-
-  return result as unknown as CustomRenderResult;
-};
 const isPageRendered = async ({
   history,
   pageTitle,
@@ -227,7 +166,10 @@ beforeEach(() => {
 });
 
 it('should redirect to terms of use page from deprecated terms page', async () => {
-  const { history } = await renderRoute(DEPRECATED_ROUTES.TERMS);
+  const { history } = renderRoute({
+    mocks: [mockedUserResponse],
+    route: DEPRECATED_ROUTES.TERMS,
+  });
 
   await isPageRendered({
     history,
@@ -237,7 +179,10 @@ it('should redirect to terms of use page from deprecated terms page', async () =
 });
 
 it('should render event search page', async () => {
-  const { history } = await renderRoute(`${ROUTES.SEARCH}?text=${searchText}`);
+  const { history } = renderRoute({
+    mocks: [mockedEventSearchPlacesResponse, mockedUserResponse],
+    route: `${ROUTES.SEARCH}?text=${searchText}`,
+  });
 
   await isPageRendered({
     history,
@@ -249,7 +194,22 @@ it('should render event search page', async () => {
 it.each([DEPRECATED_ROUTES.MODERATION, ROUTES.EVENTS])(
   'should render events page, route %p',
   async (route) => {
-    const { history } = await renderRoute(`${route}`);
+    const { history } = renderRoute({
+      mocks: [
+        mockedBaseDraftEventsResponse,
+        mockedBaseWaitingApprovalEventsResponse,
+        mockedBasePublicEventsResponse,
+        mockedBaseOwnPublishedEventsResponse,
+        mockedDraftEventsResponse,
+        mockedWaitingApprovalEventsResponse,
+        mockedEventsResponse,
+        mockedOwnPublishedEventsResponse,
+        mockedUserResponse,
+        mockedOrganizationAncestorsResponse,
+        mockedOrganizationResponse,
+      ],
+      route: `${route}`,
+    });
 
     await isPageRendered({
       history,
@@ -262,7 +222,19 @@ it.each([DEPRECATED_ROUTES.MODERATION, ROUTES.EVENTS])(
 it.each([DEPRECATED_ROUTES.CREATE_EVENT, ROUTES.CREATE_EVENT])(
   'should render create event page, route %p',
   async (route) => {
-    const { history } = await renderRoute(route);
+    const { history } = renderRoute({
+      mocks: [
+        mockedKeywordSelectorKeywordsReponse,
+        mockedTopicsKeywordSetResponse,
+        mockedAudienceKeywordSetResponse,
+        mockedLanguagesResponse,
+        mockedOrganizationResponse,
+        mockedPlaceSelectorPlacesReponse,
+        mockedPublisherPriceGroupsResponse,
+        mockedUserResponse,
+      ],
+      route,
+    });
 
     await isPageRendered({
       history,
@@ -277,7 +249,23 @@ it.each([
   DEPRECATED_ROUTES.VIEW_EVENT.replace(':id', TEST_EVENT_ID),
   ROUTES.EDIT_EVENT.replace(':id', TEST_EVENT_ID),
 ])('should render edit event page, route %p', async (route) => {
-  const { history } = await renderRoute(route);
+  const { history } = renderRoute({
+    mocks: [
+      mockedEventResponse,
+      mockedImageResponse,
+      mockedPlaceResponse,
+      mockedKeywordSelectorKeywordsReponse,
+      mockedTopicsKeywordSetResponse,
+      mockedAudienceKeywordSetResponse,
+      mockedLanguagesResponse,
+      mockedOrganizationResponse,
+      mockedPlaceSelectorPlacesReponse,
+      mockedPublisherPriceGroupsResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route,
+  });
 
   await isHeadingRendered(eventName);
   await actWait(100);
@@ -291,7 +279,10 @@ it.each([
 });
 
 it('should render accessibility statement page', async () => {
-  const { history } = await renderRoute(`${ROUTES.ACCESSIBILITY_STATEMENT}`);
+  const { history } = renderRoute({
+    mocks: [mockedUserResponse],
+    route: `${ROUTES.ACCESSIBILITY_STATEMENT}`,
+  });
 
   await isPageRendered({
     history,
@@ -301,7 +292,15 @@ it('should render accessibility statement page', async () => {
 });
 
 it('should render registrations page', async () => {
-  const { history } = await renderRoute(`${ROUTES.REGISTRATIONS}`);
+  const { history } = renderRoute({
+    mocks: [
+      mockedOrganizationResponse,
+      mockedOrganizationAncestorsResponse,
+      mockedRegistrationsResponse,
+      mockedUserResponse,
+    ],
+    route: `${ROUTES.REGISTRATIONS}`,
+  });
 
   await isPageRendered({
     history,
@@ -311,7 +310,14 @@ it('should render registrations page', async () => {
 });
 
 it('should render create registration page', async () => {
-  const { history } = await renderRoute(`${ROUTES.CREATE_REGISTRATION}`);
+  const { history } = renderRoute({
+    mocks: [
+      mockedRegistrationEventSelectorEventsResponse,
+      mockedDefaultPriceGroupsResponse,
+      mockedUserResponse,
+    ],
+    route: `${ROUTES.CREATE_REGISTRATION}`,
+  });
 
   await isPageRendered({
     history,
@@ -321,9 +327,10 @@ it('should render create registration page', async () => {
 });
 
 it('should render registration saved page', async () => {
-  const { history } = await renderRoute(
-    `${ROUTES.REGISTRATION_SAVED.replace(':id', TEST_REGISTRATION_ID)}`
-  );
+  const { history } = renderRoute({
+    mocks: [mockedRegistrationResponse, mockedUserResponse],
+    route: `${ROUTES.REGISTRATION_SAVED.replace(':id', TEST_REGISTRATION_ID)}`,
+  });
 
   await isPageRendered({
     history,
@@ -333,9 +340,15 @@ it('should render registration saved page', async () => {
 });
 
 it('should render edit registration page', async () => {
-  const { history } = await renderRoute(
-    `${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`
-  );
+  const { history } = renderRoute({
+    mocks: [
+      mockedRegistrationResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+      mockedPublisherPriceGroupsResponse,
+    ],
+    route: `${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`,
+  });
 
   await isPageRendered({
     history,
@@ -345,9 +358,14 @@ it('should render edit registration page', async () => {
 });
 
 it('should render attendance list page', async () => {
-  const { history } = await renderRoute(
-    `${ROUTES.ATTENDANCE_LIST.replace(':registrationId', registrationId)}`
-  );
+  const { history } = renderRoute({
+    mocks: [
+      mockedAttendanceListRegistrationResponse,
+      mockedOrganizationAncestorsResponse,
+      mockedUserResponse,
+    ],
+    route: `${ROUTES.ATTENDANCE_LIST.replace(':registrationId', registrationId)}`,
+  });
 
   await isPageRendered({
     history,
@@ -357,9 +375,18 @@ it('should render attendance list page', async () => {
 });
 
 it('should render registration signups page', async () => {
-  const { history } = await renderRoute(
-    `${ROUTES.REGISTRATION_SIGNUPS.replace(':registrationId', registrationId)}`
-  );
+  const { history } = renderRoute({
+    mocks: [
+      mockedOrganizationAncestorsResponse,
+      mockedRegistrationResponse,
+      mockedUserResponse,
+      getMockedAttendeesResponse(fakeSignups(0)),
+      getMockedAttendeesResponse(fakeSignups(0), {
+        attendeeStatus: AttendeeStatus.Waitlisted,
+      }),
+    ],
+    route: `${ROUTES.REGISTRATION_SIGNUPS.replace(':registrationId', registrationId)}`,
+  });
 
   await isPageRendered({
     history,
@@ -369,9 +396,10 @@ it('should render registration signups page', async () => {
 });
 
 it('should render create signup group page', async () => {
-  const { history } = await renderRoute(
-    `${ROUTES.CREATE_SIGNUP_GROUP.replace(':registrationId', registrationId)}`
-  );
+  const { history } = renderRoute({
+    mocks: [mockedRegistrationResponse, mockedUserResponse],
+    route: `${ROUTES.CREATE_SIGNUP_GROUP.replace(':registrationId', registrationId)}`,
+  });
 
   await isPageRendered({
     history,
@@ -381,12 +409,20 @@ it('should render create signup group page', async () => {
 });
 
 it('should render edit signup group page', async () => {
-  const { history } = await renderRoute(
-    `${ROUTES.EDIT_SIGNUP_GROUP.replace(
+  const { history } = renderRoute({
+    mocks: [
+      mockedRegistrationResponse,
+      mockedSignupGroupResponse,
+      mockedLanguagesResponse,
+      mockedServiceLanguagesResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.EDIT_SIGNUP_GROUP.replace(
       ':registrationId',
       registrationId
-    ).replace(':signupGroupId', signupGroupId)}`
-  );
+    ).replace(':signupGroupId', signupGroupId)}`,
+  });
 
   await isPageRendered({
     history,
@@ -396,12 +432,20 @@ it('should render edit signup group page', async () => {
 });
 
 it('should render edit signup page', async () => {
-  const { history } = await renderRoute(
-    `${ROUTES.EDIT_SIGNUP.replace(':registrationId', registrationId).replace(
-      ':signupId',
-      signupId
-    )}`
-  );
+  const { history } = renderRoute({
+    mocks: [
+      mockedRegistrationResponse,
+      mockedSignupResponse,
+      mockedLanguagesResponse,
+      mockedServiceLanguagesResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.EDIT_SIGNUP.replace(
+      ':registrationId',
+      registrationId
+    ).replace(':signupId', signupId)}`,
+  });
 
   await isPageRendered({
     history,
@@ -411,7 +455,14 @@ it('should render edit signup page', async () => {
 });
 
 it('should render images page', async () => {
-  const { history } = await renderRoute(`${ROUTES.IMAGES}`);
+  const { history } = renderRoute({
+    mocks: [
+      mockedImagesResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.IMAGES}`,
+  });
 
   await isPageRendered({
     history,
@@ -421,7 +472,14 @@ it('should render images page', async () => {
 });
 
 it('should render create image page', async () => {
-  const { history } = await renderRoute(`${ROUTES.CREATE_IMAGE}`);
+  const { history } = renderRoute({
+    mocks: [
+      mockedOrganizationResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.CREATE_IMAGE}`,
+  });
 
   await isHeadingRendered(/lisää kuva/i);
   await isPageRendered({
@@ -433,9 +491,15 @@ it('should render create image page', async () => {
 
 it('should render edit image page', async () => {
   const id = getValue(image.id, '');
-  const { history } = await renderRoute(
-    `${ROUTES.EDIT_IMAGE.replace(':id', id)}`
-  );
+  const { history } = renderRoute({
+    mocks: [
+      mockedImageResponse,
+      mockedOrganizationResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.EDIT_IMAGE.replace(':id', id)}`,
+  });
 
   await isHeadingRendered(/muokkaa kuvaa/i);
   await isPageRendered({
@@ -446,7 +510,14 @@ it('should render edit image page', async () => {
 });
 
 it('should render keywords page', async () => {
-  const { history } = await renderRoute(`${ROUTES.KEYWORDS}`);
+  const { history } = renderRoute({
+    mocks: [
+      mockedKeywordsResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.KEYWORDS}`,
+  });
 
   await isPageRendered({
     history,
@@ -456,7 +527,14 @@ it('should render keywords page', async () => {
 });
 
 it('should render create keyword page', async () => {
-  const { history } = await renderRoute(`${ROUTES.CREATE_KEYWORD}`);
+  const { history } = renderRoute({
+    mocks: [
+      mockedOrganizationResponse,
+      mockedEditKeywordKeywordsResponse,
+      mockedUserResponse,
+    ],
+    route: `${ROUTES.CREATE_KEYWORD}`,
+  });
 
   await isPageRendered({
     history,
@@ -467,9 +545,16 @@ it('should render create keyword page', async () => {
 
 it('should render edit keyword page', async () => {
   const id = getValue(keyword.id, '');
-  const { history } = await renderRoute(
-    `${ROUTES.EDIT_KEYWORD.replace(':id', id)}`
-  );
+  const { history } = renderRoute({
+    mocks: [
+      mockedKeywordResponse,
+      mockedOrganizationResponse,
+      mockedEditKeywordKeywordsResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.EDIT_KEYWORD.replace(':id', id)}`,
+  });
 
   await isPageRendered({
     history,
@@ -479,7 +564,14 @@ it('should render edit keyword page', async () => {
 });
 
 it('should render keyword sets page', async () => {
-  const { history } = await renderRoute(`${ROUTES.KEYWORD_SETS}`);
+  const { history } = renderRoute({
+    mocks: [
+      mockedKeywordSetsResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.KEYWORD_SETS}`,
+  });
 
   await isPageRendered({
     history,
@@ -489,7 +581,15 @@ it('should render keyword sets page', async () => {
 });
 
 it('should render create keyword set page', async () => {
-  const { history } = await renderRoute(`${ROUTES.CREATE_KEYWORD_SET}`);
+  const { history } = renderRoute({
+    mocks: [
+      mockedOrganizationResponse,
+      mockedKeywordSelectorKeywordsReponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.CREATE_KEYWORD_SET}`,
+  });
 
   await isPageRendered({
     history,
@@ -500,9 +600,17 @@ it('should render create keyword set page', async () => {
 
 it('should render edit keyword set page', async () => {
   const id = getValue(keywordSet.id, '');
-  const { history } = await renderRoute(
-    `${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`
-  );
+  const { history } = renderRoute({
+    mocks: [
+      mockedKeywordSetResponse,
+      mockedOrganizationResponse,
+      mockedKeywordResponse,
+      mockedKeywordSelectorKeywordsReponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.EDIT_KEYWORD_SET.replace(':id', id)}`,
+  });
 
   await isPageRendered({
     history,
@@ -512,7 +620,15 @@ it('should render edit keyword set page', async () => {
 });
 
 it('should render organizations page', async () => {
-  const { history } = await renderRoute(`${ROUTES.ORGANIZATIONS}`);
+  const { history } = renderRoute({
+    mocks: [
+      mockedDataSourceResponse,
+      mockedOrganizationsResponse,
+      mockedOrganizationClassResponse,
+      mockedUserResponse,
+    ],
+    route: `${ROUTES.ORGANIZATIONS}`,
+  });
 
   await isPageRendered({
     history,
@@ -522,7 +638,15 @@ it('should render organizations page', async () => {
 });
 
 it('should render create organization page', async () => {
-  const { history } = await renderRoute(ROUTES.CREATE_ORGANIZATION);
+  const { history } = renderRoute({
+    mocks: [
+      mockedOrganizationClassesResponse,
+      mockedOrganizationsResponse,
+      mockedUserResponse,
+      mockedUsersResponse,
+    ],
+    route: ROUTES.CREATE_ORGANIZATION,
+  });
 
   await isPageRendered({
     history,
@@ -533,9 +657,17 @@ it('should render create organization page', async () => {
 
 it('should render edit organization page', async () => {
   const id = organizationId;
-  const { history } = await renderRoute(
-    `${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`
-  );
+  const { history } = renderRoute({
+    mocks: [
+      mockedOrganizationResponse,
+      mockedOrganizationsResponse,
+      mockedOrganizationClassesResponse,
+      mockedOrganizationClassResponse,
+      mockedUserResponse,
+      mockedUsersResponse,
+    ],
+    route: `${ROUTES.EDIT_ORGANIZATION.replace(':id', id)}`,
+  });
 
   await isPageRendered({
     history,
@@ -545,7 +677,14 @@ it('should render edit organization page', async () => {
 });
 
 it('should render places page', async () => {
-  const { history } = await renderRoute(`${ROUTES.PLACES}`);
+  const { history } = renderRoute({
+    mocks: [
+      mockedPlacesResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.PLACES}`,
+  });
 
   await isPageRendered({
     history,
@@ -555,7 +694,14 @@ it('should render places page', async () => {
 });
 
 it('should render create place page', async () => {
-  const { history } = await renderRoute(ROUTES.CREATE_PLACE);
+  const { history } = renderRoute({
+    mocks: [
+      mockedOrganizationResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: ROUTES.CREATE_PLACE,
+  });
 
   await isPageRendered({
     history,
@@ -566,9 +712,15 @@ it('should render create place page', async () => {
 
 it('should render edit place page', async () => {
   const id = getValue(place.id, '');
-  const { history } = await renderRoute(
-    `${ROUTES.EDIT_PLACE.replace(':id', id)}`
-  );
+  const { history } = renderRoute({
+    mocks: [
+      mockedPlaceResponse,
+      mockedOrganizationResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.EDIT_PLACE.replace(':id', id)}`,
+  });
 
   await isPageRendered({
     history,
@@ -578,7 +730,15 @@ it('should render edit place page', async () => {
 });
 
 it('should render price groups page', async () => {
-  const { history } = await renderRoute(`${ROUTES.PRICE_GROUPS}`);
+  const { history } = renderRoute({
+    mocks: [
+      mockedPriceGroupsResponse,
+      mockedOrganizationResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.PRICE_GROUPS}`,
+  });
 
   await isPageRendered({
     history,
@@ -588,7 +748,14 @@ it('should render price groups page', async () => {
 });
 
 it('should render create price group page', async () => {
-  const { history } = await renderRoute(ROUTES.CREATE_PRICE_GROUP);
+  const { history } = renderRoute({
+    mocks: [
+      mockedOrganizationResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: ROUTES.CREATE_PRICE_GROUP,
+  });
 
   await isPageRendered({
     history,
@@ -599,9 +766,15 @@ it('should render create price group page', async () => {
 
 it('should render edit price group page', async () => {
   const id = priceGroup.id.toString();
-  const { history } = await renderRoute(
-    `${ROUTES.EDIT_PRICE_GROUP.replace(':id', id)}`
-  );
+  const { history } = renderRoute({
+    mocks: [
+      mockedPriceGroupResponse,
+      mockedOrganizationResponse,
+      mockedUserResponse,
+      mockedOrganizationAncestorsResponse,
+    ],
+    route: `${ROUTES.EDIT_PRICE_GROUP.replace(':id', id)}`,
+  });
 
   await isPageRendered({
     history,
@@ -611,7 +784,10 @@ it('should render edit price group page', async () => {
 });
 
 it('should route to default help page', async () => {
-  const { history } = await renderRoute(ROUTES.HELP);
+  const { history } = renderRoute({
+    mocks: [mockedUserResponse],
+    route: ROUTES.HELP,
+  });
 
   await isPageRendered({
     history,
