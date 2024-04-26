@@ -12,12 +12,19 @@ export const encodedCookieConsents = () =>
       registrationForm: true,
       signupForm: true,
       'city-of-helsinki-cookie-consents': true,
-      matomo: false,
+      'city-of-helsinki-consent-version': true,
+      matomo: true,
     })
   );
 
 export const setCookieConsent = async (context: BrowserContext) => {
   await context.addCookies([
+    {
+      name: 'city-of-helsinki-consent-version',
+      value: '1',
+      domain: process.env.E2E_TESTS_ENV_URL || 'linkedevents.dev.hel.ninja',
+      path: '/',
+    },
     {
       name: 'city-of-helsinki-cookie-consents',
       value: encodedCookieConsents(),
