@@ -111,6 +111,10 @@ describe('<Table /> spec', () => {
   });
 
   it('should not have basic accessibility issues', async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    HTMLCanvasElement.prototype.getContext = vi.fn();
+
     const { container } = render(
       <Table
         caption={caption}
