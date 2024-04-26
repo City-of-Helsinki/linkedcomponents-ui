@@ -5,8 +5,8 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { mockedRegistrationEventSelectorEventsResponse } from '../../../../../common/components/formFields/registrationEventSelectorField/__mocks__/registrationEventSelectorField';
-import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsReponse } from '../../../../../common/components/keywordSelector/__mocks__/keywordSelector';
-import { mockedPlacesResponse as mockedPlaceSelectorPlacesReponse } from '../../../../../common/components/placeSelector/__mocks__/placeSelector';
+import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse } from '../../../../../common/components/keywordSelector/__mocks__/keywordSelector';
+import { mockedPlacesResponse as mockedPlaceSelectorPlacesResponse } from '../../../../../common/components/placeSelector/__mocks__/placeSelector';
 import { DEPRECATED_ROUTES, ROUTES } from '../../../../../constants';
 import { AttendeeStatus } from '../../../../../generated/graphql';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
@@ -224,12 +224,12 @@ it.each([DEPRECATED_ROUTES.CREATE_EVENT, ROUTES.CREATE_EVENT])(
   async (route) => {
     const { history } = renderRoute({
       mocks: [
-        mockedKeywordSelectorKeywordsReponse,
+        mockedKeywordSelectorKeywordsResponse,
         mockedTopicsKeywordSetResponse,
         mockedAudienceKeywordSetResponse,
         mockedLanguagesResponse,
         mockedOrganizationResponse,
-        mockedPlaceSelectorPlacesReponse,
+        mockedPlaceSelectorPlacesResponse,
         mockedPublisherPriceGroupsResponse,
         mockedUserResponse,
       ],
@@ -254,12 +254,12 @@ it.each([
       mockedEventResponse,
       mockedImageResponse,
       mockedPlaceResponse,
-      mockedKeywordSelectorKeywordsReponse,
+      mockedKeywordSelectorKeywordsResponse,
       mockedTopicsKeywordSetResponse,
       mockedAudienceKeywordSetResponse,
       mockedLanguagesResponse,
       mockedOrganizationResponse,
-      mockedPlaceSelectorPlacesReponse,
+      mockedPlaceSelectorPlacesResponse,
       mockedPublisherPriceGroupsResponse,
       mockedUserResponse,
       mockedOrganizationAncestorsResponse,
@@ -584,7 +584,7 @@ it('should render create keyword set page', async () => {
   const { history } = renderRoute({
     mocks: [
       mockedOrganizationResponse,
-      mockedKeywordSelectorKeywordsReponse,
+      mockedKeywordSelectorKeywordsResponse,
       mockedUserResponse,
       mockedOrganizationAncestorsResponse,
     ],
@@ -605,7 +605,7 @@ it('should render edit keyword set page', async () => {
       mockedKeywordSetResponse,
       mockedOrganizationResponse,
       mockedKeywordResponse,
-      mockedKeywordSelectorKeywordsReponse,
+      mockedKeywordSelectorKeywordsResponse,
       mockedUserResponse,
       mockedOrganizationAncestorsResponse,
     ],

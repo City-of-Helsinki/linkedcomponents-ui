@@ -20,8 +20,8 @@ import {
 import {
   images,
   loadMoreImages,
-  mockedImagesReponse,
-  mockedImagesUserWithoutOrganizationsReponse,
+  mockedImagesResponse,
+  mockedImagesUserWithoutOrganizationsResponse,
   mockedLoadMoreImagesResponse,
   publisher,
 } from '../__mocks__/imageSelector';
@@ -56,7 +56,7 @@ const defaultImageItemProps: ImageItemProps = {
 };
 
 const defaultMocks = [
-  mockedImagesReponse,
+  mockedImagesResponse,
   mockedLoadMoreImagesResponse,
   mockedOrganizationAncestorsResponse,
   mockedUserResponse,
@@ -150,8 +150,8 @@ describe('ImageSelector', () => {
 
   test('should call onChange with external user', async () => {
     const mocks = [
-      mockedImagesUserWithoutOrganizationsReponse,
-      mockedLoadMoreImagesResponse,
+      mockedImagesResponse,
+      mockedImagesUserWithoutOrganizationsResponse,
       mockedOrganizationAncestorsResponse,
       mockedUserWithoutOrganizationsResponse,
     ];

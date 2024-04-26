@@ -29,15 +29,15 @@ const imagesResponse = {
     },
   },
 };
-const mockedImagesReponse = {
+const mockedImagesResponse = {
   request: { query: ImagesDocument, variables: imagesVariables },
   result: imagesResponse,
 };
 
-const mockedImagesUserWithoutOrganizationsReponse = {
-  ...mockedImagesReponse,
+const mockedImagesUserWithoutOrganizationsResponse = {
+  ...mockedImagesResponse,
   request: {
-    ...mockedImagesReponse.request,
+    ...mockedImagesResponse.request,
     variables: { ...imagesVariables, createdBy: 'me', publisher: '' },
   },
 };
@@ -64,8 +64,8 @@ const mockedLoadMoreImagesResponse = {
 export {
   images,
   loadMoreImages,
-  mockedImagesReponse,
-  mockedImagesUserWithoutOrganizationsReponse,
+  mockedImagesResponse,
+  mockedImagesUserWithoutOrganizationsResponse,
   mockedLoadMoreImagesResponse,
   publisher,
 };
