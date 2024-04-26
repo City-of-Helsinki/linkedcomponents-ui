@@ -93,10 +93,10 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
   };
   return (
     <>
-      <SearchStatus count={attendees.length} loading={false} />
+      <SearchStatus count={filteredAttendees.length} loading={false} />
       <AdminSearchRow
         countText={t('attendanceListPage.count', {
-          count: attendees.length,
+          count: filteredAttendees.length,
         })}
         onSearchSubmit={
           /* istanbul ignore next */
