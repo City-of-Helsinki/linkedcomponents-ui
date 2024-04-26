@@ -43,7 +43,7 @@ const mockedImagesResponse: MockedResponse = {
   newData: () => imagesResponse,
 };
 
-const mockedImagesUserWithoutOrganizationsReponse = {
+const mockedImagesUserWithoutOrganizationsResponse = {
   ...mockedImagesResponse,
   request: {
     ...mockedImagesResponse.request,
@@ -59,7 +59,7 @@ const mockedImageResponse: MockedResponse = {
   result: imageResponse,
 };
 
-const mockedImageUserWithoutOrganizationsReponse = {
+const mockedImageUserWithoutOrganizationsResponse = {
   ...mockedImageResponse,
   request: {
     ...mockedImageResponse.request,
@@ -124,8 +124,8 @@ export {
   imageUrl,
   mockedImageResponse,
   mockedImagesResponse,
-  mockedImagesUserWithoutOrganizationsReponse,
-  mockedImageUserWithoutOrganizationsReponse,
+  mockedImagesUserWithoutOrganizationsResponse,
+  mockedImageUserWithoutOrganizationsResponse,
   mockedUploadImage1Response,
   mockedUploadImage1UserWithoutOrganizationsResponse,
   mockedUploadImage2Response,

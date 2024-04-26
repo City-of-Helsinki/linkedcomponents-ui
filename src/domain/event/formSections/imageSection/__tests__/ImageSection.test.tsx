@@ -38,8 +38,8 @@ import {
   imageUrl,
   mockedImageResponse,
   mockedImagesResponse,
-  mockedImagesUserWithoutOrganizationsReponse,
-  mockedImageUserWithoutOrganizationsReponse,
+  mockedImagesUserWithoutOrganizationsResponse,
+  mockedImageUserWithoutOrganizationsResponse,
   mockedUploadImage1Response,
   mockedUploadImage1UserWithoutOrganizationsResponse,
   mockedUploadImage2Response,
@@ -294,8 +294,8 @@ test('should create and select new image by selecting image file for external us
 
   const mockValues = { ...defaultInitialValues, [EVENT_FIELDS.PUBLISHER]: '' };
   const mocks = [
-    mockedImagesUserWithoutOrganizationsReponse,
-    mockedImageUserWithoutOrganizationsReponse,
+    mockedImagesUserWithoutOrganizationsResponse,
+    mockedImageUserWithoutOrganizationsResponse,
     mockedUploadImage1UserWithoutOrganizationsResponse,
     mockedUploadImage2UserWithoutOrganizationsResponse,
     mockedOrganizationAncestorsResponse,
@@ -327,8 +327,8 @@ test('should create and select new image by entering image url for external user
 
   const mockValues = { ...defaultInitialValues, [EVENT_FIELDS.PUBLISHER]: '' };
   const mocks = [
-    mockedImagesUserWithoutOrganizationsReponse,
-    mockedImageUserWithoutOrganizationsReponse,
+    mockedImagesUserWithoutOrganizationsResponse,
+    mockedImageUserWithoutOrganizationsResponse,
     mockedUploadImage1UserWithoutOrganizationsResponse,
     mockedUploadImage2UserWithoutOrganizationsResponse,
     mockedOrganizationAncestorsResponse,

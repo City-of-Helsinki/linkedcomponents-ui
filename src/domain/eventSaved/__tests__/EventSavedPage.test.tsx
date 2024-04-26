@@ -22,7 +22,7 @@ const route = ROUTES.EVENT_SAVED.replace(':id', eventId);
 const getMocks = (publicationStatus: PublicationStatus): MockedResponse[] => {
   const event = fakeEvent({ id: eventId, publicationStatus });
   const eventResponse = { data: { event: event } };
-  const mockedEventReponse = {
+  const mockedEventResponse = {
     request: {
       query: EventDocument,
       variables: { id: eventId, createPath: undefined },
@@ -30,7 +30,7 @@ const getMocks = (publicationStatus: PublicationStatus): MockedResponse[] => {
     result: eventResponse,
   };
 
-  return [mockedEventReponse];
+  return [mockedEventResponse];
 };
 
 const getElement = (
