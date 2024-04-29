@@ -14,6 +14,7 @@ import {
 import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import { CommonListProps } from '../../../types';
+import { featureFlagUtils } from '../../../utils/featureFlags';
 import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
@@ -102,6 +103,7 @@ const PriceGroupListContainer: React.FC = () => {
   const priceGroupListId = useIdWithPrefix({ prefix: 'price-group-list-' });
 
   const { data: priceGroupsData, loading } = usePriceGroupsQuery({
+    skip: !featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION'),
     variables: getPriceGroupsQueryVariables(location.search),
   });
 
