@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.7.0...linkedcomponents-ui-v1.7.1) (2024-04-29)
+
+
+### Bug Fixes
+
+* Fetch price groups only if web store is enabled ([7cb887c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7cb887c0b55da0091ca4ffe35d573eba3ba33d80))
+
 ## [1.7.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.6.0...linkedcomponents-ui-v1.7.0) (2024-04-26)
 
 
