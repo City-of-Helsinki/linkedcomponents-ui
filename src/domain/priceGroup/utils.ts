@@ -83,7 +83,7 @@ export const checkCanUserDoPriceGroupAction = ({
     user,
   });
 
-  if (publisher && user?.isSuperuser) {
+  if (user?.isSuperuser) {
     return true;
   }
 

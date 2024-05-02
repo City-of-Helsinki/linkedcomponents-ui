@@ -23,7 +23,8 @@ export type AdminType =
   | 'external'
   | 'financialAdmin'
   | 'registrationAdmin'
-  | 'substituteUser';
+  | 'substituteUser'
+  | 'superUser';
 
 type CommonProps = {
   className?: string;
@@ -118,6 +119,10 @@ const AuthenticationNotification: React.FC<AuthenticationNotificationProps> = ({
       requiredOrganizationType.includes('substituteUser') &&
       user?.isSubstituteUser
     ) {
+      return true;
+    }
+
+    if (requiredOrganizationType.includes('superUser') && user?.isSuperuser) {
       return true;
     }
 

@@ -7,7 +7,10 @@ import useLocale from '../../../../hooks/useLocale';
 import AdminPageLayout from '../../../admin/layout/AdminPageLayout';
 import NotFoundPage from '../../../notFound/NotFound';
 import useUser from '../../../user/hooks/useUser';
-import { areAdminRoutesAllowed } from '../../../user/permissions';
+import {
+  areAdminRoutesAllowed,
+  arePriceGroupRoutesAllowed,
+} from '../../../user/permissions';
 
 const CreateImagePage = React.lazy(
   () => import('../../../image/CreateImagePage')
@@ -135,18 +138,22 @@ const AdminPageRoutes: React.FC = () => {
               element={<PlacesPage />}
             />
 
-            <Route
-              path={getAdminRoutePath(ROUTES.CREATE_PRICE_GROUP)}
-              element={<CreatePriceGroupPage />}
-            />
-            <Route
-              path={getAdminRoutePath(ROUTES.EDIT_PRICE_GROUP)}
-              element={<EditPriceGroupPage />}
-            />
-            <Route
-              path={getAdminRoutePath(ROUTES.PRICE_GROUPS)}
-              element={<PriceGroupsPage />}
-            />
+            {arePriceGroupRoutesAllowed(user) && (
+              <>
+                <Route
+                  path={getAdminRoutePath(ROUTES.CREATE_PRICE_GROUP)}
+                  element={<CreatePriceGroupPage />}
+                />
+                <Route
+                  path={getAdminRoutePath(ROUTES.EDIT_PRICE_GROUP)}
+                  element={<EditPriceGroupPage />}
+                />
+                <Route
+                  path={getAdminRoutePath(ROUTES.PRICE_GROUPS)}
+                  element={<PriceGroupsPage />}
+                />
+              </>
+            )}
 
             <Route
               path="*"

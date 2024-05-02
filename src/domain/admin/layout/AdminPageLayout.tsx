@@ -5,10 +5,13 @@ import { matchPath, useLocation } from 'react-router';
 
 import { ROUTES } from '../../../constants';
 import LayoutWithSideNavigation from '../../app/layout/layoutWithSideNavigation/LayoutWithSideNavigation';
+import useUser from '../../user/hooks/useUser';
+import { arePriceGroupRoutesAllowed } from '../../user/permissions';
 
 const AdminPageLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
+  const { user } = useUser();
 
   const getIsActive = (localePath: string) => {
     return !!matchPath({ path: localePath, end: false }, pathname);
@@ -20,7 +23,9 @@ const AdminPageLayout: React.FC<PropsWithChildren> = ({ children }) => {
     { label: t('imagesPage.title'), to: ROUTES.IMAGES },
     { label: t('organizationsPage.title'), to: ROUTES.ORGANIZATIONS },
     { label: t('placesPage.title'), to: ROUTES.PLACES },
-    { label: t('priceGroupsPage.title'), to: ROUTES.PRICE_GROUPS },
+    ...(arePriceGroupRoutesAllowed(user)
+      ? [{ label: t('priceGroupsPage.title'), to: ROUTES.PRICE_GROUPS }]
+      : []),
   ];
 
   const levels = [
