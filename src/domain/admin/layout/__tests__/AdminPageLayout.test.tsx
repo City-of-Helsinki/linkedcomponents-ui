@@ -36,12 +36,12 @@ const shouldRenderDefaultTabs = () => {
   screen.getByRole('link', { name: 'Avainsanat' });
   screen.getByRole('link', { name: 'Avainsanaryhmät' });
   screen.getByRole('link', { name: 'Kuvat' });
-  screen.getByRole('link', { name: 'Organisaatiot' });
   screen.getByRole('link', { name: 'Paikat' });
 };
 
 const shouldRenderFinancialAdminTabs = async () => {
-  await screen.findByRole('link', { name: 'Asiakasryhmät' });
+  await screen.findByRole('link', { name: 'Organisaatiot' });
+  screen.getByRole('link', { name: 'Asiakasryhmät' });
 };
 
 const shouldNotRenderFinancialAdminTabs = async () => {
