@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from 'react-router';
 import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
+import { featureFlagUtils } from '../../../../utils/featureFlags';
 import AdminPageLayout from '../../../admin/layout/AdminPageLayout';
 import NotFoundPage from '../../../notFound/NotFound';
 import useUser from '../../../user/hooks/useUser';
@@ -124,19 +125,22 @@ const AdminPageRoutes: React.FC = () => {
               path={getAdminRoutePath(ROUTES.ORGANIZATIONS)}
               element={<OrganizationsPage />}
             />
-
-            <Route
-              path={getAdminRoutePath(ROUTES.CREATE_PLACE)}
-              element={<CreatePlacePage />}
-            />
-            <Route
-              path={getAdminRoutePath(ROUTES.EDIT_PLACE)}
-              element={<EditPlacePage />}
-            />
-            <Route
-              path={getAdminRoutePath(ROUTES.PLACES)}
-              element={<PlacesPage />}
-            />
+            {featureFlagUtils.isFeatureEnabled('SHOW_PLACE_PAGES') && (
+              <>
+                <Route
+                  path={getAdminRoutePath(ROUTES.CREATE_PLACE)}
+                  element={<CreatePlacePage />}
+                />
+                <Route
+                  path={getAdminRoutePath(ROUTES.EDIT_PLACE)}
+                  element={<EditPlacePage />}
+                />
+                <Route
+                  path={getAdminRoutePath(ROUTES.PLACES)}
+                  element={<PlacesPage />}
+                />
+              </>
+            )}
 
             {arePriceGroupRoutesAllowed(user) && (
               <>

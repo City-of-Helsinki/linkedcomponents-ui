@@ -2,6 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
+import { setFeatureFlags } from '../../../../test/featureFlags/featureFlags';
 import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
@@ -21,6 +22,14 @@ configure({ defaultHidden: true });
 
 beforeEach(() => {
   mockAuthenticatedLoginState();
+
+  setFeatureFlags({
+    LOCALIZED_IMAGE: true,
+    SHOW_ADMIN: true,
+    SHOW_PLACE_PAGES: true,
+    SWEDISH_TRANSLATIONS: true,
+    WEB_STORE_INTEGRATION: true,
+  });
 });
 
 const defaultMocks = [mockedSuperuserResponse];

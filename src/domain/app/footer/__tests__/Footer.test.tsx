@@ -59,6 +59,7 @@ test('should show navigation links and should route to correct page after clicki
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
@@ -110,6 +111,7 @@ test.each(registrationAndAdminTabTestCases)(
     setFeatureFlags({
       LOCALIZED_IMAGE: true,
       SHOW_ADMIN: true,
+      SHOW_PLACE_PAGES: true,
       SWEDISH_TRANSLATIONS: true,
       WEB_STORE_INTEGRATION: true,
     });
@@ -148,6 +150,7 @@ test('should not show admin links when those features are disabled', async () =>
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: false,
+    SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
@@ -163,6 +166,7 @@ test('should show and open utility links', async () => {
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });

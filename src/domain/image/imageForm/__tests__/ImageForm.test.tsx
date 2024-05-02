@@ -29,6 +29,7 @@ test('should show localized alt-text fields', async () => {
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
@@ -61,6 +62,7 @@ test('should show only Finnish alt-text field', async () => {
   setFeatureFlags({
     LOCALIZED_IMAGE: false,
     SHOW_ADMIN: true,
+    SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
