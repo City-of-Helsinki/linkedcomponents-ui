@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
@@ -26,6 +26,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import useAdminFormStyles from '../../admin/layout/hooks/useAdminFormStyles';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -75,10 +76,12 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
     keyword,
   });
 
+  /* istanbul ignore next */
   const goToKeywordsPage = () => {
     navigate(`/${locale}${ROUTES.KEYWORDS}`);
   };
 
+  /* istanbul ignore next */
   const onCreate = async (values: KeywordFormFields) => {
     await createKeyword(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
@@ -86,6 +89,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
     });
   };
 
+  /* istanbul ignore next */
   const onUpdate = async (values: KeywordFormFields) => {
     await updateKeyword(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
@@ -99,23 +103,14 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
     });
   };
 
-  const inputRowBorderStyle = useMemo(
-    () => (isEditingAllowed ? '' : styles.borderInMobile),
-    [isEditingAllowed]
-  );
-
-  const inputRowBorderStyleIfKeyword = useMemo(
-    () => (!isEditingAllowed || keyword ? styles.borderInMobile : ''),
-    [isEditingAllowed, keyword]
-  );
-
-  const alignedInputStyleIfKeyword = useMemo(
-    () =>
-      !isEditingAllowed || keyword
-        ? styles.alignedInputWithFullBorder
-        : styles.alignedInput,
-    [isEditingAllowed, keyword]
-  );
+  const {
+    inputRowBorderStyle,
+    inputRowBorderStyleIfHasInstance,
+    alignedInputStyleIfHasInstance,
+  } = useAdminFormStyles({
+    isEditingAllowed,
+    instance: keyword,
+  });
 
   return (
     <Formik
@@ -134,11 +129,16 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
-      validationSchema={isEditingAllowed && keywordSchema}
+      validationSchema={
+        /* istanbul ignore next */
+        isEditingAllowed && keywordSchema
+      }
     >
       {({ setErrors, setTouched, values }) => {
+        /* istanbul ignore next */
         const clearErrors = () => setErrors({});
 
+        /* istanbul ignore next */
         const handleSubmit = async (
           event?: React.FormEvent<HTMLFormElement>
         ) => {
@@ -170,6 +170,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
           ? getValue(keyword.publisher, '')
           : values.publisher;
 
+        /* istanbul ignore next */
         const disabledIfKeyword = !isEditingAllowed || !!keyword;
 
         return (
@@ -192,7 +193,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
 
             <FormRow className={styles.borderInMobile}>
               <Field
-                className={alignedInputStyleIfKeyword}
+                className={alignedInputStyleIfHasInstance}
                 component={TextInputField}
                 label={t(`keyword.form.labelDataSource`)}
                 name={KEYWORD_FIELDS.DATA_SOURCE}
@@ -200,7 +201,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
               />
             </FormRow>
 
-            <FormRow className={inputRowBorderStyleIfKeyword}>
+            <FormRow className={inputRowBorderStyleIfHasInstance}>
               <Field
                 className={styles.alignedInput}
                 component={TextInputField}

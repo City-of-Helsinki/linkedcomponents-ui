@@ -1,14 +1,10 @@
 /* eslint-disable max-len */
-import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
-import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
-import useLocale from '../../hooks/useLocale';
 import adminListPageStyles from '../admin/layout/adminListPage.module.scss';
 import AdminListPageWrapper from '../admin/layout/adminListPageWrapper/AdminListPageWrapper';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
@@ -20,12 +16,6 @@ import KeywordList from './keywordList/KeywordList';
 
 const KeywordsPage: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const locale = useLocale();
-
-  const goToCreateKeywordPage = () => {
-    navigate(`/${locale}${ROUTES.CREATE_KEYWORD}`);
-  };
 
   return (
     <AdminListPageWrapper>
@@ -38,16 +28,6 @@ const KeywordsPage: React.FC = () => {
               { title: t('keywordsPage.title'), path: null },
             ]}
           />
-        }
-        button={
-          <Button
-            fullWidth={true}
-            iconLeft={<IconPlus aria-hidden={true} />}
-            onClick={goToCreateKeywordPage}
-            variant="primary"
-          >
-            {t('common.buttonAddKeyword')}
-          </Button>
         }
         title={t('keywordsPage.title')}
       />

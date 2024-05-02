@@ -24,6 +24,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import useAdminFormStyles from '../../admin/layout/hooks/useAdminFormStyles';
 import Section from '../../app/layout/section/Section';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useUser from '../../user/hooks/useUser';
@@ -36,7 +37,6 @@ import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
 import useExistingUserOptions from '../hooks/useExistingUserOptions';
 import useOrganizationUpdateActions from '../hooks/useOrganizationActions';
-import useOrganizationFormStyles from '../hooks/useOrganizationFormStyles';
 import useOrganizationInternalTypeOptions from '../hooks/useOrganizationInternalTypeOptions';
 import useOrganizationServerErrors from '../hooks/useOrganizationServerErrors';
 import OrganizationAuthenticationNotification from '../organizationAuthenticationNotification/OrganizationAuthenticationNotification';
@@ -110,10 +110,10 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
 
   const {
     alignedInputStyle,
-    alignedInputStyleIfOrganization,
+    alignedInputStyleIfHasInstance,
     inputRowBorderStyle,
-    inputRowBorderStyleIfOrganization,
-  } = useOrganizationFormStyles({ isEditingAllowed, organization });
+    inputRowBorderStyleIfHasInstance,
+  } = useAdminFormStyles({ isEditingAllowed, instance: organization });
 
   return (
     <Formik
@@ -201,14 +201,14 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
             </FormRow>
             <FormRow className={styles.borderInMobile}>
               <Field
-                className={alignedInputStyleIfOrganization}
+                className={alignedInputStyleIfHasInstance}
                 component={TextInputField}
                 label={t(`organization.form.labelDataSource`)}
                 name={ORGANIZATION_FIELDS.DATA_SOURCE}
                 readOnly
               />
             </FormRow>
-            <FormRow className={inputRowBorderStyleIfOrganization}>
+            <FormRow className={inputRowBorderStyleIfHasInstance}>
               <Field
                 className={alignedInputStyle}
                 component={TextInputField}
@@ -297,16 +297,16 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 name={ORGANIZATION_FIELDS.CLASSIFICATION}
               />
             </FormRow>
-            <FormRow className={inputRowBorderStyleIfOrganization}>
+            <FormRow className={inputRowBorderStyleIfHasInstance}>
               <Field
-                className={alignedInputStyleIfOrganization}
+                className={alignedInputStyleIfHasInstance}
                 component={DateInputField}
                 label={t(`organization.form.labelFoundingDate`)}
                 name={ORGANIZATION_FIELDS.FOUNDING_DATE}
                 readOnly={disabledIfOrganization}
               />
             </FormRow>
-            <FormRow className={inputRowBorderStyleIfOrganization}>
+            <FormRow className={inputRowBorderStyleIfHasInstance}>
               <Field
                 className={styles.alignedInput}
                 component={DateInputField}

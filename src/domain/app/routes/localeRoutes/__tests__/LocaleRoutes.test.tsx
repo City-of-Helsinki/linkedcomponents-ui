@@ -527,23 +527,6 @@ it('should render keywords page', async () => {
   });
 });
 
-it('should render create keyword page', async () => {
-  const { history } = renderRoute({
-    mocks: [
-      mockedOrganizationResponse,
-      mockedEditKeywordKeywordsResponse,
-      mockedSuperuserResponse,
-    ],
-    route: `${ROUTES.CREATE_KEYWORD}`,
-  });
-
-  await isPageRendered({
-    history,
-    pageTitle: 'Lisää avainsana - Linked Events',
-    pathname: '/fi/administration/keywords/create',
-  });
-});
-
 it('should render edit keyword page', async () => {
   const id = getValue(keyword.id, '');
   const { history } = renderRoute({

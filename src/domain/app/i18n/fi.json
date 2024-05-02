@@ -30,8 +30,8 @@
     "noRightsUpdateEventLabel": "Ei oikeuksia muokata tapahtumia.",
     "noRightsUpdateImage": "Sinulla ei ole oikeuksia muokata kuvia.",
     "noRightsUpdateImageLabel": "Ei oikeuksia muokata kuvia.",
-    "noRightsUpdateKeyword": "Sinulla ei ole oikeuksia muokata avainsanoja.",
-    "noRightsUpdateKeywordLabel": "Ei oikeuksia muokata avainsanoja.",
+    "noRightsUpdateKeyword": "Avainsanoja ei voi muokata palvelun kautta.",
+    "noRightsUpdateKeywordLabel": "Avainsanoja ei voi muokata.",
     "noRightsUpdateKeywordSet": "Sinulla ei ole oikeuksia muokata avainsanaryhmiä.",
     "noRightsUpdateKeywordSetLabel": "Ei oikeuksia muokata avainsanaryhmiä.",
     "noRightsUpdateOrganization": "Sinulla ei ole oikeuksia muokata organisaatioita.",
@@ -1445,7 +1445,7 @@
       "labelReplacedBy": "Korvaus",
       "notificationKeywordDeleted": "Avainsana on poistettu",
       "notificationKeywordUpdated": "Avainsana on tallennettu",
-      "notificationTitleCannotEdit": "Avainsanaa ei voi muokata"
+      "notificationTitleCannotEdit": "Avainsanoja ei voi muokata"
     }
   },
   "keywords": {
@@ -1520,8 +1520,8 @@
       "nEventsDesc": "Tapahtumien lukumäärä, laskeva"
     },
     "title": "Avainsanat",
-    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda avainsanoja.",
-    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä avainsanaa."
+    "warningNoRightsToCreate": "Avainsanoja ei voi muokata palvelun kautta.",
+    "warningNoRightsToEdit": "Avainsanoja ei voi muokata palvelun kautta."
   },
   "keywordSet": {
     "deleteKeywordSetModal": {

@@ -9,12 +9,12 @@ import { OrganizationFieldsFragment } from '../../../../../generated/graphql';
 import getValue from '../../../../../utils/getValue';
 import styles from '../../../../admin/layout/form.module.scss';
 import FormRow from '../../../../admin/layout/formRow/FormRow';
+import useAdminFormStyles from '../../../../admin/layout/hooks/useAdminFormStyles';
 import useUser from '../../../../user/hooks/useUser';
 import {
   ORGANIZATION_FINANCIAL_INFO_ACTIONS,
   WEB_STORE_MERCHANT_FIELDS,
 } from '../../../constants';
-import useOrganizationFormStyles from '../../../hooks/useOrganizationFormStyles';
 import { checkIsEditFinancialInfoAllowed } from '../../../utils';
 
 type Props = {
@@ -83,8 +83,8 @@ const Merchant: React.FC<Props> = ({
     [merchantPath]
   );
 
-  const { alignedInputStyle, inputRowBorderStyleIfOrganization } =
-    useOrganizationFormStyles({ isEditingAllowed, organization });
+  const { alignedInputStyle, inputRowBorderStyleIfHasInstance } =
+    useAdminFormStyles({ isEditingAllowed, instance: organization });
 
   return (
     <>
@@ -97,7 +97,7 @@ const Merchant: React.FC<Props> = ({
           title={warning}
         />
       </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
+      <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
@@ -108,7 +108,7 @@ const Merchant: React.FC<Props> = ({
           title={warning}
         />
       </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
+      <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
@@ -119,7 +119,7 @@ const Merchant: React.FC<Props> = ({
           title={warning}
         />
       </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
+      <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
@@ -130,7 +130,7 @@ const Merchant: React.FC<Props> = ({
           title={warning}
         />
       </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
+      <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
@@ -141,7 +141,7 @@ const Merchant: React.FC<Props> = ({
           title={warning}
         />
       </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
+      <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
@@ -152,7 +152,7 @@ const Merchant: React.FC<Props> = ({
           title={warning}
         />
       </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
+      <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
@@ -163,7 +163,7 @@ const Merchant: React.FC<Props> = ({
           title={warning}
         />
       </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
+      <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
@@ -174,7 +174,7 @@ const Merchant: React.FC<Props> = ({
           title={warning}
         />
       </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
+      <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
@@ -185,7 +185,7 @@ const Merchant: React.FC<Props> = ({
           title={warning}
         />
       </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
+      <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}
@@ -196,7 +196,7 @@ const Merchant: React.FC<Props> = ({
           title={warning}
         />
       </FormRow>
-      <FormRow className={inputRowBorderStyleIfOrganization}>
+      <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
           className={alignedInputStyle}
           component={TextInputField}

@@ -7,16 +7,10 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/typ
 import { ROUTES } from '../../../constants';
 import { KeywordFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import useResetPageParamAndGoToPage from '../../../hooks/useResetPageParam';
 import { addParamsToAdminListQueryString } from '../../../utils/adminListQueryStringUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useAuth from '../../auth/hooks/useAuth';
 import { KEYWORD_ACTIONS } from '../../keyword/constants';
-import useKeywordUpdateActions, {
-  KEYWORD_MODALS,
-} from '../../keyword/hooks/useKeywordActions';
-import ConfirmDeleteKeywordModal from '../../keyword/modals/confirmDeleteKeywordModal/ConfirmDeleteKeywordModal';
 import { getEditButtonProps, getKeywordFields } from '../../keyword/utils';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -31,8 +25,6 @@ const KeywordActionsDropdown: React.FC<KeywordActionsDropdownProps> = ({
   keyword,
 }) => {
   const { t } = useTranslation();
-  const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
-  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { authenticated } = useAuth();
@@ -40,11 +32,6 @@ const KeywordActionsDropdown: React.FC<KeywordActionsDropdownProps> = ({
   const { id, publisher } = getKeywordFields(keyword, locale);
   const { organizationAncestors } = useOrganizationAncestors(publisher);
   const { pathname, search } = useLocation();
-
-  const { closeModal, deleteKeyword, openModal, saving, setOpenModal } =
-    useKeywordUpdateActions({
-      keyword,
-    });
 
   const goToEditKeywordPage = () => {
     const queryString = addParamsToAdminListQueryString(search, {
@@ -80,35 +67,9 @@ const KeywordActionsDropdown: React.FC<KeywordActionsDropdownProps> = ({
       action: KEYWORD_ACTIONS.EDIT,
       onClick: goToEditKeywordPage,
     }),
-    getActionItemProps({
-      action: KEYWORD_ACTIONS.DELETE,
-      onClick: () => setOpenModal(KEYWORD_MODALS.DELETE),
-    }),
   ].filter(skipFalsyType);
 
-  return (
-    <>
-      {openModal === KEYWORD_MODALS.DELETE && (
-        <ConfirmDeleteKeywordModal
-          isOpen={openModal === KEYWORD_MODALS.DELETE}
-          isSaving={saving === KEYWORD_ACTIONS.DELETE}
-          onClose={closeModal}
-          onConfirm={() =>
-            deleteKeyword({
-              onSuccess: () => {
-                addNotification({
-                  label: t('keyword.form.notificationKeywordDeleted'),
-                  type: 'success',
-                });
-                resetPageParamAndGoToPage(ROUTES.KEYWORDS);
-              },
-            })
-          }
-        />
-      )}
-      <ActionsDropdown className={className} items={actionItems} />
-    </>
-  );
+  return <ActionsDropdown className={className} items={actionItems} />;
 };
 
 export default KeywordActionsDropdown;

@@ -327,12 +327,17 @@ const shouldRenderListPage = async ({
 }) => {
   await screen.findByRole('heading', { name: heading });
   await loadingSpinnerIsNotInDocument();
+
   expect(
     screen.getByRole('navigation', { name: 'Murupolku' })
   ).toBeInTheDocument();
-  expect(
-    screen.getByRole('button', { name: createButtonLabel })
-  ).toBeInTheDocument();
+
+  if (createButtonLabel) {
+    expect(
+      screen.getByRole('button', { name: createButtonLabel })
+    ).toBeInTheDocument();
+  }
+
   expect(
     screen.getByRole('textbox', { name: searchInputLabel })
   ).toBeInTheDocument();

@@ -30,8 +30,8 @@
     "noRightsUpdateEventLabel": "Inga rättigheter att redigera evenemang.",
     "noRightsUpdateImage": "Du har inte rättigheter att redigera bilder.",
     "noRightsUpdateImageLabel": "Inga rättigheter att redigera bilder.",
-    "noRightsUpdateKeyword": "Du har inte rättigheter att redigera nyckelord.",
-    "noRightsUpdateKeywordLabel": "Inga rättigheter att redigera nyckelord.",
+    "noRightsUpdateKeyword": "Nyckelord kan inte redigeras via tjänsten.",
+    "noRightsUpdateKeywordLabel": "Nyckelord kan inte redigeras.",
     "noRightsUpdateKeywordSet": "Du har inte rättigheter att redigera nyckelordsuppsättningar.",
     "noRightsUpdateKeywordSetLabel": "Inga rättigheter att redigera nyckelordsuppsättningar.",
     "noRightsUpdateOrganization": "Du har inte rättigheter att redigera organisationer.",
@@ -1445,7 +1445,7 @@
       "labelReplacedBy": "Ersatt av",
       "notificationKeywordDeleted": "Nyckelordet har tagits bort",
       "notificationKeywordUpdated": "Nyckelordet har sparats",
-      "notificationTitleCannotEdit": "Nyckelordet kan inte redigeras"
+      "notificationTitleCannotEdit": "Nyckelord kan inte redigeras"
     }
   },
   "keywords": {
@@ -1520,8 +1520,8 @@
       "nEventsDesc": "Antal evenemang, fallande"
     },
     "title": "Nyckelord",
-    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa nyckelord.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera detta nyckelord."
+    "warningNoRightsToCreate": "Nyckelord kan inte redigeras via tjänsten.",
+    "warningNoRightsToEdit": "Nyckelord kan inte redigeras via tjänsten."
   },
   "keywordSet": {
     "deleteKeywordSetModal": {

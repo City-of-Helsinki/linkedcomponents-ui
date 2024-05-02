@@ -30,8 +30,8 @@
     "noRightsUpdateEventLabel": "No permissions to edit events.",
     "noRightsUpdateImage": "You do not have permission to edit images.",
     "noRightsUpdateImageLabel": "No permissions to edit images.",
-    "noRightsUpdateKeyword": "You do not have permission to edit keywords.",
-    "noRightsUpdateKeywordLabel": "No permissions to edit keywords.",
+    "noRightsUpdateKeyword": "Keywords cannot be edited through the service.",
+    "noRightsUpdateKeywordLabel": "Keywords cannot be edited.",
     "noRightsUpdateKeywordSet": "You do not have permission to edit keyword sets.",
     "noRightsUpdateKeywordSetLabel": "No permissions to edit keyword sets.",
     "noRightsUpdateOrganization": "You do not have permission to edit organizations.",
@@ -1445,7 +1445,7 @@
       "labelReplacedBy": "Replaced by",
       "notificationKeywordDeleted": "The keyword has been deleted",
       "notificationKeywordUpdated": "The keyword has been saved",
-      "notificationTitleCannotEdit": "The keyword cannot be edited"
+      "notificationTitleCannotEdit": "Keywords cannot be edited"
     }
   },
   "keywords": {
@@ -1520,8 +1520,8 @@
       "nEventsDesc": "Number of events, descending"
     },
     "title": "Keywords",
-    "warningNoRightsToCreate": "You have insufficient rights to create keywords.",
-    "warningNoRightsToEdit": "You have insufficient rights to edit this keyword."
+    "warningNoRightsToCreate": "Keywords cannot be edited through the service.",
+    "warningNoRightsToEdit": "Keywords cannot be edited through the service."
   },
   "keywordSet": {
     "deleteKeywordSetModal": {

@@ -16,9 +16,6 @@ import {
 const CreateImagePage = React.lazy(
   () => import('../../../image/CreateImagePage')
 );
-const CreateKeywordPage = React.lazy(
-  () => import('../../../keyword/CreateKeywordPage')
-);
 const CreateKeywordSetPage = React.lazy(
   () => import('../../../keywordSet/CreateKeywordSetPage')
 );
@@ -87,10 +84,6 @@ const AdminPageRoutes: React.FC = () => {
               element={<ImagesPage />}
             />
 
-            <Route
-              path={getAdminRoutePath(ROUTES.CREATE_KEYWORD)}
-              element={<CreateKeywordPage />}
-            />
             <Route
               path={getAdminRoutePath(ROUTES.EDIT_KEYWORD)}
               element={<EditKeywordPage />}

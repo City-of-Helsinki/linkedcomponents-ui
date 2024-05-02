@@ -1,11 +1,9 @@
+/* eslint-disable max-len */
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 
-import {
-  fakeKeyword,
-  fakeOrganization,
-  fakeUser,
-} from '../../../utils/mockDataUtils';
+import { User } from '../../../generated/graphql';
+import { fakeKeyword, fakeUser } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import {
   KEYWORD_ACTIONS,
@@ -225,83 +223,61 @@ describe('getKeywordPayload function', () => {
 describe('checkCanUserDoAction function', () => {
   const publisher = TEST_PUBLISHER_ID;
 
-  it('should allow correct actions if adminArganizations contains publisher', () => {
+  const allowedActions = [KEYWORD_ACTIONS.EDIT];
+  const deniedActions = [
+    KEYWORD_ACTIONS.CREATE,
+    KEYWORD_ACTIONS.DELETE,
+    KEYWORD_ACTIONS.UPDATE,
+  ];
+
+  const shouldAllowOnlyEditAction = ({ user }: { user: User }) => {
+    allowedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(true);
+    });
+
+    deniedActions.forEach((action) => {
+      expect(
+        checkCanUserDoAction({
+          action,
+          organizationAncestors: [],
+          publisher,
+          user,
+        })
+      ).toBe(false);
+    });
+  };
+
+  it('should allow only edit action if adminArganizations contains publisher', () => {
     const user = fakeUser({ adminOrganizations: [publisher] });
 
-    const allowedActions = [
-      KEYWORD_ACTIONS.CREATE,
-      KEYWORD_ACTIONS.DELETE,
-      KEYWORD_ACTIONS.EDIT,
-      KEYWORD_ACTIONS.UPDATE,
-    ];
-
-    allowedActions.forEach((action) => {
-      expect(
-        checkCanUserDoAction({
-          action,
-          organizationAncestors: [],
-          publisher,
-          user,
-        })
-      ).toBe(true);
-    });
+    shouldAllowOnlyEditAction({ user });
   });
 
-  it('should allow correct actions if organizationAncestors contains any of the adminArganizations', () => {
+  it('should allow only edit action if organizationAncestors contains any of the adminArganizations', () => {
     const adminOrganization = 'admin:1';
     const user = fakeUser({ adminOrganizations: [adminOrganization] });
 
-    const allowedActions = [
-      KEYWORD_ACTIONS.CREATE,
-      KEYWORD_ACTIONS.DELETE,
-      KEYWORD_ACTIONS.EDIT,
-      KEYWORD_ACTIONS.UPDATE,
-    ];
-
-    allowedActions.forEach((action) => {
-      expect(
-        checkCanUserDoAction({
-          action,
-          organizationAncestors: [fakeOrganization({ id: adminOrganization })],
-          publisher,
-          user,
-        })
-      ).toBe(true);
-    });
+    shouldAllowOnlyEditAction({ user });
   });
 
-  it('should allow correct actions if publisher is not defined and user has at least one admin organization', () => {
+  it('should allow only edit should allow only edit  if publisher is not defined and user has at least one admin organization', () => {
     const adminOrganization = 'admin:1';
     const user = fakeUser({ adminOrganizations: [adminOrganization] });
 
-    const allowedActions = [KEYWORD_ACTIONS.CREATE, KEYWORD_ACTIONS.EDIT];
-
-    allowedActions.forEach((action) => {
-      expect(
-        checkCanUserDoAction({
-          action,
-          organizationAncestors: [],
-          publisher: '',
-          user,
-        })
-      ).toBe(true);
-    });
+    shouldAllowOnlyEditAction({ user });
   });
 
-  it('should allow any action for superuser', () => {
+  it('should allow only edit action for superuser', () => {
     const user = fakeUser({ isSuperuser: true });
-    const allowedActions = Object.values(KEYWORD_ACTIONS);
 
-    allowedActions.forEach((action) => {
-      expect(
-        checkCanUserDoAction({
-          action,
-          organizationAncestors: [],
-          publisher: '',
-          user,
-        })
-      ).toBe(true);
-    });
+    shouldAllowOnlyEditAction({ user });
   });
 });
 
@@ -327,7 +303,7 @@ describe('getEditKeywordWarning function', () => {
 
     deniedActions.forEach((action) => {
       expect(getEditKeywordWarning({ action, ...commonProps })).toBe(
-        'Sinulla ei ole oikeuksia muokata avainsanoja.'
+        'Avainsanoja ei voi muokata palvelun kautta.'
       );
     });
   });
@@ -340,7 +316,7 @@ describe('getEditKeywordWarning function', () => {
         userCanDoAction: false,
         action: KEYWORD_ACTIONS.CREATE,
       })
-    ).toBe('Sinulla ei ole oikeuksia luoda avainsanoja.');
+    ).toBe('Avainsanoja ei voi muokata palvelun kautta.');
 
     expect(
       getEditKeywordWarning({
@@ -349,6 +325,6 @@ describe('getEditKeywordWarning function', () => {
         userCanDoAction: false,
         action: KEYWORD_ACTIONS.UPDATE,
       })
-    ).toBe('Sinulla ei ole oikeuksia muokata tätä avainsanaa.');
+    ).toBe('Avainsanoja ei voi muokata palvelun kautta.');
   });
 });

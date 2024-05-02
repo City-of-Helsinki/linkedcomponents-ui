@@ -41,6 +41,7 @@ const KeywordAuthenticationNotification: React.FC<
         'authentication.noRightsUpdateKeywordLabel'
       )}
       noRequiredOrganizationText={t('authentication.noRightsUpdateKeyword')}
+      requiredOrganizationType={[]}
     />
   );
 };

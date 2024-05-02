@@ -9,7 +9,6 @@ import {
   shouldToggleDropdownMenu,
   userEvent,
   waitFor,
-  within,
 } from '../../../../utils/testUtils';
 import {
   keyword,
@@ -50,9 +49,6 @@ const renderComponent = (props?: Partial<KeywordActionsDropdownProps>) =>
     routes,
   });
 
-const findDeleteButton = () =>
-  screen.findByRole('button', { name: /poista avainsana/i });
-
 const getEditButton = () => screen.getByRole('button', { name: /muokkaa/i });
 
 test('should toggle menu by clicking actions button', async () => {
@@ -66,7 +62,6 @@ test('should render correct buttons', async () => {
 
   await openDropdownMenu();
 
-  await findDeleteButton();
   getEditButton();
 });
 
@@ -88,25 +83,4 @@ test('should route to edit keyword page', async () => {
   expect(history.location.search).toBe(
     `?returnPath=${encodeURIComponent(stripLanguageFromPath(route))}`
   );
-});
-
-test('should delete keyword', async () => {
-  const user = userEvent.setup();
-  renderComponent();
-
-  await openDropdownMenu();
-
-  const deleteButton = await findDeleteButton();
-  await user.click(deleteButton);
-
-  const withinModal = within(screen.getByRole('dialog'));
-  const deleteKeywordButton = withinModal.getByRole('button', {
-    name: /Poista avainsana/i,
-  });
-  await user.click(deleteKeywordButton);
-
-  await waitFor(() =>
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-  );
-  await screen.findByRole('alert', { name: 'Avainsana on poistettu' });
 });

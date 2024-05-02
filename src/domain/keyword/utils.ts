@@ -21,7 +21,6 @@ import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
-import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
   KEYWORD_ACTION_ICONS,
@@ -105,34 +104,19 @@ export const getKeywordFields = (
 
 export const checkCanUserDoAction = ({
   action,
-  organizationAncestors,
-  publisher,
-  user,
 }: {
   action: KEYWORD_ACTIONS;
   organizationAncestors: OrganizationFieldsFragment[];
   publisher: string;
   user?: UserFieldsFragment;
 }): boolean => {
-  /* istanbul ignore next */
-  const adminOrganizations = getValue(user?.adminOrganizations, []);
-  const isAdminUser = isAdminUserInOrganization({
-    id: publisher,
-    organizationAncestors,
-    user,
-  });
-  if (!!user?.isSuperuser) {
-    return true;
-  }
-
   switch (action) {
     case KEYWORD_ACTIONS.EDIT:
       return true;
     case KEYWORD_ACTIONS.CREATE:
-      return publisher ? isAdminUser : !!adminOrganizations.length;
     case KEYWORD_ACTIONS.DELETE:
     case KEYWORD_ACTIONS.UPDATE:
-      return isAdminUser;
+      return false;
   }
 };
 

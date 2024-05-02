@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
-import Button from '../../common/components/button/Button';
 import LoadingSpinner from '../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../constants';
 import {
@@ -16,9 +15,7 @@ import getValue from '../../utils/getValue';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
 import TitleRow from '../app/layout/titleRow/TitleRow';
 import { useNotificationsContext } from '../app/notificationsContext/hooks/useNotificationsContext';
-import useAuth from '../auth/hooks/useAuth';
 import NotFound from '../notFound/NotFound';
-import useOrganizationAncestors from '../organization/hooks/useOrganizationAncestors';
 import useUser from '../user/hooks/useUser';
 import { KEYWORD_ACTIONS } from './constants';
 import useKeywordUpdateActions, {
@@ -26,11 +23,7 @@ import useKeywordUpdateActions, {
 } from './hooks/useKeywordActions';
 import KeywordForm from './keywordForm/KeywordForm';
 import ConfirmDeleteKeywordModal from './modals/confirmDeleteKeywordModal/ConfirmDeleteKeywordModal';
-import {
-  getEditButtonProps,
-  getKeywordFields,
-  keywordPathBuilder,
-} from './utils';
+import { keywordPathBuilder } from './utils';
 
 type Props = {
   keyword: KeywordFieldsFragment;
@@ -41,20 +34,18 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
   const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
-  const { publisher } = getKeywordFields(keyword, locale);
-  const { authenticated } = useAuth();
-  const { user } = useUser();
-  const { organizationAncestors } = useOrganizationAncestors(publisher);
 
-  const { closeModal, deleteKeyword, openModal, saving, setOpenModal } =
+  const { closeModal, deleteKeyword, openModal, saving } =
     useKeywordUpdateActions({
       keyword,
     });
 
+  /* istanbul ignore next */
   const goToKeywordsPage = () => {
     navigate(`/${locale}${ROUTES.KEYWORDS}`);
   };
 
+  /* istanbul ignore next */
   const handleDelete = () => {
     deleteKeyword({
       onSuccess: () => {
@@ -66,16 +57,6 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
       },
     });
   };
-
-  const buttonProps = getEditButtonProps({
-    action: KEYWORD_ACTIONS.DELETE,
-    authenticated,
-    onClick: () => setOpenModal(KEYWORD_MODALS.DELETE),
-    organizationAncestors,
-    publisher,
-    t,
-    user,
-  });
 
   return (
     <div>
@@ -95,16 +76,6 @@ const EditKeywordPage: React.FC<Props> = ({ keyword }) => {
               { title: t('editKeywordPage.title'), path: null },
             ]}
           />
-        }
-        button={
-          <Button
-            {...buttonProps}
-            fullWidth={true}
-            iconLeft={buttonProps.icon}
-            variant="danger"
-          >
-            {buttonProps.label}
-          </Button>
         }
         title={t('editKeywordPage.title')}
       />
