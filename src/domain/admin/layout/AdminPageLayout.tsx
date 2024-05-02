@@ -21,7 +21,9 @@ const AdminPageLayout: React.FC<PropsWithChildren> = ({ children }) => {
     { label: t('keywordsPage.title'), to: ROUTES.KEYWORDS },
     { label: t('keywordSetsPage.title'), to: ROUTES.KEYWORD_SETS },
     { label: t('imagesPage.title'), to: ROUTES.IMAGES },
-    { label: t('organizationsPage.title'), to: ROUTES.ORGANIZATIONS },
+    ...(arePriceGroupRoutesAllowed(user)
+      ? [{ label: t('organizationsPage.title'), to: ROUTES.ORGANIZATIONS }]
+      : []),
     { label: t('placesPage.title'), to: ROUTES.PLACES },
     ...(arePriceGroupRoutesAllowed(user)
       ? [{ label: t('priceGroupsPage.title'), to: ROUTES.PRICE_GROUPS }]
