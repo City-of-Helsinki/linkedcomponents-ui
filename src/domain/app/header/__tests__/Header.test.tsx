@@ -83,6 +83,7 @@ test('should show navigation links and should route to correct page after clicki
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
@@ -134,6 +135,7 @@ test.each(registrationAndAdminTabTestCases)(
     setFeatureFlags({
       LOCALIZED_IMAGE: true,
       SHOW_ADMIN: true,
+      SHOW_PLACE_PAGES: true,
       SWEDISH_TRANSLATIONS: true,
       WEB_STORE_INTEGRATION: true,
     });
@@ -172,6 +174,7 @@ test('should not show admin and registrations link when those features are disab
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: false,
+    SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
@@ -200,6 +203,7 @@ test('should change language', async () => {
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
@@ -225,6 +229,7 @@ test('should not display Swedish language if Swedish translations are not enable
   setFeatureFlags({
     LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
+    SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: false,
     WEB_STORE_INTEGRATION: true,
   });
