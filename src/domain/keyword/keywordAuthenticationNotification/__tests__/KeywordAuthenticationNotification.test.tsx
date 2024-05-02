@@ -4,7 +4,6 @@ import {
   CustomRenderOptions,
   render,
   screen,
-  waitFor,
 } from '../../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { TEST_PUBLISHER_ID } from '../../../organization/constants';
@@ -43,10 +42,11 @@ test("should show notification if user is signed in but doesn't have any organiz
 
   renderComponent({ mocks });
 
-  screen.getByRole('heading', { name: 'Ei oikeuksia muokata avainsanoja.' });
+  await screen.findByRole('heading', { name: 'Avainsanoja ei voi muokata.' });
+  screen.getByText('Avainsanoja ei voi muokata palvelun kautta.');
 });
 
-test('should not show notification if user is signed in and has an admin organization', async () => {
+test('should show notification if user is signed in and has an admin organization', async () => {
   const mockedUserResponse = getMockedUserResponse({
     adminOrganizations: [TEST_PUBLISHER_ID],
     organizationMemberships: [],
@@ -55,9 +55,8 @@ test('should not show notification if user is signed in and has an admin organiz
 
   renderComponent({ mocks });
 
-  await waitFor(() =>
-    expect(screen.queryByRole('region')).not.toBeInTheDocument()
-  );
+  await screen.findByRole('heading', { name: 'Avainsanoja ei voi muokata.' });
+  screen.getByText('Avainsanoja ei voi muokata palvelun kautta.');
 });
 
 test('should show notification if user has an admin organization but it is different than publisher', async () => {
@@ -69,6 +68,6 @@ test('should show notification if user has an admin organization but it is diffe
 
   renderComponent({ mocks });
 
-  await screen.findByRole('heading', { name: 'Avainsanaa ei voi muokata' });
-  screen.getByText('Sinulla ei ole oikeuksia muokata tätä avainsanaa.');
+  await screen.findByRole('heading', { name: 'Avainsanoja ei voi muokata.' });
+  screen.getByText('Avainsanoja ei voi muokata palvelun kautta.');
 });

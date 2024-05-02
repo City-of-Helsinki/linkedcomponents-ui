@@ -65,15 +65,9 @@ test('should route to keywords page when clicking back button', async () => {
   );
 });
 
-test('should call onSave', async () => {
-  const onSave = vi.fn();
-  const user = userEvent.setup();
-
-  renderComponent({ onSave });
+test('save button should be disabled', async () => {
+  renderComponent();
 
   const saveButton = getElement('saveButton');
-  await waitFor(() => expect(saveButton).toBeEnabled());
-  await user.click(saveButton);
-
-  expect(onSave).toBeCalled();
+  expect(saveButton).toBeDisabled();
 });
