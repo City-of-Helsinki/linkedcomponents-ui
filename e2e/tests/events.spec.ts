@@ -102,9 +102,11 @@ test.describe('Event search page', () => {
 
     // Search controls
     await searchInput.fill(textToSearch);
-    await expect(page.getByText('0 tapahtumaa')).not.toBeVisible();
+    await expect(
+      page.getByText('0 tapahtumaa', { exact: true })
+    ).not.toBeVisible();
     await page.locator('button').filter({ hasText: 'Etsi tapahtumia' }).click();
-    await expect(page.getByText('0 tapahtumaa')).toBeVisible();
+    await expect(page.getByText('0 tapahtumaa', { exact: true })).toBeVisible();
   });
 });
 
