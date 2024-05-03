@@ -48,7 +48,6 @@ import { normalizeKey } from '../../../utils/apolloUtils';
 import { featureFlagUtils } from '../../../utils/featureFlags';
 import generateAtId from '../../../utils/generateAtId';
 import getValue from '../../../utils/getValue';
-import { getApiTokenFromStorage } from '../../auth/utils';
 import i18n from '../i18n/i18nInit';
 import {
   addTypenameDataSource,
@@ -227,17 +226,17 @@ export const createCache = (): InMemoryCache =>
     },
   });
 
-const authLink = setContext(async (_, { headers }) => {
-  const token = getApiTokenFromStorage();
-
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : null,
-      'Accept-language': i18n.language,
-    },
-  };
-});
+const createAuthLink = (getApiToken: () => string | null) =>
+  setContext(async (_, { headers }) => {
+    const apiToken = getApiToken();
+    return {
+      headers: {
+        ...headers,
+        authorization: apiToken ? `Bearer ${apiToken}` : null,
+        'Accept-language': i18n.language,
+      },
+    };
+  });
 
 const addNocacheToUrl = (urlStr: string): string => {
   const url = new URL(urlStr);
@@ -538,17 +537,21 @@ const sentryLink = new SentryLink({
     ),
 });
 
+const cache = createCache();
+
 export const createApolloClient = ({
   addNotification,
+  getApiToken,
 }: {
   addNotification: (props: NotificationProps) => void;
+  getApiToken: () => string | null;
 }) =>
   new ApolloClient({
-    cache: createCache(),
+    cache,
     link: ApolloLink.from([
       createErrorLink({ addNotification }),
       sentryLink,
-      authLink,
+      createAuthLink(getApiToken),
       linkedEventsLink,
     ]),
   });

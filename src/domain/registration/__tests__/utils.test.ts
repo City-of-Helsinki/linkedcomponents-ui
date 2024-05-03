@@ -22,7 +22,6 @@ import {
   getMockedSeatsReservationData,
   setSessionStorageValues,
 } from '../../../utils/mockDataUtils';
-import { setApiTokenToStorage } from '../../auth/utils';
 import { TEST_SIGNUP_ID } from '../../signup/constants';
 import {
   REGISTRATION_INITIAL_VALUES,
@@ -1059,7 +1058,6 @@ describe('exportSignupsAsExcel function', () => {
   const registration = fakeRegistration({ id: TEST_REGISTRATION_ID });
 
   it('should download signups as excel', async () => {
-    setApiTokenToStorage('api-token');
     global.fetch = vi.fn(() =>
       Promise.resolve({ blob: () => Promise.resolve({}), status: 200 })
     ) as any;
@@ -1071,6 +1069,7 @@ describe('exportSignupsAsExcel function', () => {
 
     exportSignupsAsExcel({
       addNotification: vi.fn(),
+      apiToken: 'api-token',
       registration,
       uiLanguage: 'fi',
     });
@@ -1099,7 +1098,12 @@ describe('exportSignupsAsExcel function', () => {
           status: status,
         })
       ) as any;
-      exportSignupsAsExcel({ addNotification, registration, uiLanguage: 'fi' });
+      exportSignupsAsExcel({
+        addNotification,
+        apiToken: 'api-token',
+        registration,
+        uiLanguage: 'fi',
+      });
 
       await waitFor(() =>
         expect(addNotification).toBeCalledWith({ label: error, type: 'error' })
