@@ -9,7 +9,6 @@ import {
   render,
   screen,
   shouldApplyExpectedMetaData,
-  shouldClickListPageCreateButton,
   shouldRenderListPage,
   shouldSortListPageTable,
   waitFor,
@@ -50,14 +49,11 @@ const renderComponent = (renderOptions: CustomRenderOptions = {}) =>
     ...renderOptions,
   });
 
-const findHeading = () =>
-  screen.findByRole('heading', { name: 'Avainsanaryhmät' });
-
 test('should render keyword sets page', async () => {
   renderComponent();
 
   await shouldRenderListPage({
-    createButtonLabel: 'Lisää avainsanaryhmä',
+    createButtonLabel: '',
     heading: 'Avainsanaryhmät',
     searchInputLabel: 'Hae avainsanaryhmiä',
     tableCaption: 'Avainsanaryhmät, järjestys Id, nouseva',
@@ -73,17 +69,6 @@ test('applies expected metadata', async () => {
     expectedKeywords:
       'avainsana, ryhmä, lista, linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
     expectedTitle: 'Avainsanaryhmät - Linked Events',
-  });
-});
-
-test('should open create keyword set page', async () => {
-  const { history } = renderComponent();
-
-  await findHeading();
-  await shouldClickListPageCreateButton({
-    createButtonLabel: 'Lisää avainsanaryhmä',
-    expectedPathname: '/fi/administration/keyword-sets/create',
-    history,
   });
 });
 

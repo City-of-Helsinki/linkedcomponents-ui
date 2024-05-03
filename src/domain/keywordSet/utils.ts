@@ -24,7 +24,6 @@ import getLocalisedString from '../../utils/getLocalisedString';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
-import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
   KEYWORD_SET_ACTION_ICONS,
@@ -122,34 +121,19 @@ export const getEditKeywordSetWarning = ({
 
 export const checkCanUserDoAction = ({
   action,
-  organization,
-  organizationAncestors,
-  user,
 }: {
   action: KEYWORD_SET_ACTIONS;
   organization: string;
   organizationAncestors: OrganizationFieldsFragment[];
   user?: UserFieldsFragment;
 }): boolean => {
-  if (user?.isSuperuser) {
-    return true;
-  }
-
-  const adminOrganizations = getValue(user?.adminOrganizations, []);
-  const isAdminUser = isAdminUserInOrganization({
-    id: organization,
-    organizationAncestors,
-    user,
-  });
-
   switch (action) {
     case KEYWORD_SET_ACTIONS.EDIT:
       return true;
     case KEYWORD_SET_ACTIONS.CREATE:
-      return organization ? isAdminUser : !!adminOrganizations.length;
     case KEYWORD_SET_ACTIONS.DELETE:
     case KEYWORD_SET_ACTIONS.UPDATE:
-      return isAdminUser;
+      return false;
   }
 };
 export const checkIsEditActionAllowed = ({

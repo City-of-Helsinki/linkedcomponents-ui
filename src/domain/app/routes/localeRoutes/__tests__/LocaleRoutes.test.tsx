@@ -564,24 +564,6 @@ it('should render keyword sets page', async () => {
   });
 });
 
-it('should render create keyword set page', async () => {
-  const { history } = renderRoute({
-    mocks: [
-      mockedOrganizationResponse,
-      mockedKeywordSelectorKeywordsResponse,
-      mockedSuperuserResponse,
-      mockedOrganizationAncestorsResponse,
-    ],
-    route: `${ROUTES.CREATE_KEYWORD_SET}`,
-  });
-
-  await isPageRendered({
-    history,
-    pageTitle: 'Lisää avainsanaryhmä - Linked Events',
-    pathname: '/fi/administration/keyword-sets/create',
-  });
-});
-
 it('should render edit keyword set page', async () => {
   const id = getValue(keywordSet.id, '');
   const { history } = renderRoute({

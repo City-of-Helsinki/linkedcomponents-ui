@@ -32,8 +32,8 @@
     "noRightsUpdateImageLabel": "Inga rättigheter att redigera bilder.",
     "noRightsUpdateKeyword": "Nyckelord kan inte redigeras via tjänsten.",
     "noRightsUpdateKeywordLabel": "Nyckelord kan inte redigeras.",
-    "noRightsUpdateKeywordSet": "Du har inte rättigheter att redigera nyckelordsuppsättningar.",
-    "noRightsUpdateKeywordSetLabel": "Inga rättigheter att redigera nyckelordsuppsättningar.",
+    "noRightsUpdateKeywordSet": "Nyckelordsuppsättningar kan inte redigeras via tjänsten.",
+    "noRightsUpdateKeywordSetLabel": "Nyckelordsuppsättningar kan inte redigeras.",
     "noRightsUpdateOrganization": "Du har inte rättigheter att redigera organisationer.",
     "noRightsUpdateOrganizationLabel": "Inga rättigheter att redigera organisationer.",
     "noRightsUpdatePlace": "Du har inte rättigheter att redigera platser.",
@@ -1540,7 +1540,7 @@
       "labelUsage": "Användning",
       "notificationKeywordSetDeleted": "Nyckelordsuppsättningen har tagits bort",
       "notificationKeywordSetUpdated": "Nyckelordsuppsättningen har sparats",
-      "notificationTitleCannotEdit": "Nyckelordsuppsättningen kan inte redigeras"
+      "notificationTitleCannotEdit": "Nyckelordsuppsättningar kan inte redigeras"
     }
   },
   "keywordSetsPage": {
@@ -1572,8 +1572,8 @@
       "audience": "Målgrupp",
       "keyword": "Nyckelord"
     },
-    "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa nyckelordsuppsättningar.",
-    "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna nyckelordsuppsättning."
+    "warningNoRightsToCreate": "Nyckelordsuppsättningar kan inte redigeras via tjänsten.",
+    "warningNoRightsToEdit": "Nyckelordsuppsättningar kan inte redigeras via tjänsten."
   },
   "landingPage": {
     "heroTitle": "Evenemang och hobbyer i Helsingfors",

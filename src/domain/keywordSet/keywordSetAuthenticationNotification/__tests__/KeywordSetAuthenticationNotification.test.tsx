@@ -9,7 +9,6 @@ import {
   CustomRenderOptions,
   render,
   screen,
-  waitFor,
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
@@ -45,18 +44,20 @@ test("should show notification if user is signed in but doesn't have any organiz
   renderComponent({ mocks });
 
   await screen.findByRole('heading', {
-    name: 'Ei oikeuksia muokata avainsanaryhmiä.',
+    name: 'Avainsanaryhmiä ei voi muokata.',
   });
+  screen.getByText('Avainsanaryhmiä ei voi muokata palvelun kautta.');
 });
 
-test('should not show notification if user is signed in and has an admin organization', async () => {
+test('should show notification if user is signed in and has an admin organization', async () => {
   const mocks = [...defaultMocks, mockedUserResponse];
 
   renderComponent({ mocks });
 
-  await waitFor(() =>
-    expect(screen.queryByRole('region')).not.toBeInTheDocument()
-  );
+  await screen.findByRole('heading', {
+    name: 'Avainsanaryhmiä ei voi muokata.',
+  });
+  screen.getByText('Avainsanaryhmiä ei voi muokata palvelun kautta.');
 });
 
 test('should show notification if user has an admin organization but to different organization', async () => {
@@ -73,9 +74,7 @@ test('should show notification if user has an admin organization but to differen
   renderComponent({ mocks });
 
   await screen.findByRole('heading', {
-    name: 'Avainsanaryhmää ei voi muokata',
+    name: 'Avainsanaryhmiä ei voi muokata.',
   });
-  await screen.findByText(
-    'Sinulla ei ole oikeuksia muokata tätä avainsanaryhmää.'
-  );
+  screen.getByText('Avainsanaryhmiä ei voi muokata palvelun kautta.');
 });

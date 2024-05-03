@@ -1,7 +1,12 @@
+/* eslint-disable max-len */
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 
 import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../../envVariables';
+import {
+  OrganizationFieldsFragment,
+  UserFieldsFragment,
+} from '../../../generated/graphql';
 import {
   fakeKeyword,
   fakeKeywordSet,
@@ -87,87 +92,76 @@ describe('getKeywordSetFields function', () => {
 });
 
 describe('checkCanUserDoAction function', () => {
-  const organization = TEST_PUBLISHER_ID;
+  const allowedActions = [KEYWORD_SET_ACTIONS.EDIT];
+  const deniedActions = [
+    KEYWORD_SET_ACTIONS.CREATE,
+    KEYWORD_SET_ACTIONS.DELETE,
+    KEYWORD_SET_ACTIONS.UPDATE,
+  ];
 
-  it('should allow correct actions if adminArganizations contains publisher', () => {
-    const user = fakeUser({ adminOrganizations: [organization] });
-
-    const allowedActions = [
-      KEYWORD_SET_ACTIONS.CREATE,
-      KEYWORD_SET_ACTIONS.DELETE,
-      KEYWORD_SET_ACTIONS.EDIT,
-      KEYWORD_SET_ACTIONS.UPDATE,
-    ];
-
+  const shouldAllowOnlyEditAction = ({
+    organization = TEST_KEYWORD_ID,
+    organizationAncestors = [],
+    user,
+  }: {
+    organization?: string;
+    organizationAncestors?: OrganizationFieldsFragment[];
+    user: UserFieldsFragment;
+  }) => {
     allowedActions.forEach((action) => {
       expect(
         checkCanUserDoAction({
           action,
-          organizationAncestors: [],
+          organizationAncestors,
           organization,
           user,
         })
       ).toBe(true);
     });
-  });
 
-  it('should allow correct actions if organizationAncestors contains any of the adminArganizations', () => {
-    const adminOrganization = 'admin:1';
-    const user = fakeUser({ adminOrganizations: [adminOrganization] });
-
-    const allowedActions = [
-      KEYWORD_SET_ACTIONS.CREATE,
-      KEYWORD_SET_ACTIONS.DELETE,
-      KEYWORD_SET_ACTIONS.EDIT,
-      KEYWORD_SET_ACTIONS.UPDATE,
-    ];
-
-    allowedActions.forEach((action) => {
+    deniedActions.forEach((action) => {
       expect(
         checkCanUserDoAction({
           action,
+          organizationAncestors,
           organization,
-          organizationAncestors: [fakeOrganization({ id: adminOrganization })],
           user,
         })
-      ).toBe(true);
+      ).toBe(false);
     });
+  };
+
+  it('should allow only edit action if adminArganizations contains publisher', () => {
+    const user = fakeUser({ adminOrganizations: [TEST_PUBLISHER_ID] });
+
+    shouldAllowOnlyEditAction({ user });
   });
 
-  it('should allow correct actions if organization is not defined and user has at least one admin organization', () => {
+  it('should allow only edit action if organizationAncestors contains any of the adminArganizations', () => {
     const adminOrganization = 'admin:1';
     const user = fakeUser({ adminOrganizations: [adminOrganization] });
 
-    const allowedActions = [
-      KEYWORD_SET_ACTIONS.CREATE,
-      KEYWORD_SET_ACTIONS.EDIT,
-    ];
-
-    allowedActions.forEach((action) => {
-      expect(
-        checkCanUserDoAction({
-          action,
-          organization: '',
-          organizationAncestors: [],
-          user,
-        })
-      ).toBe(true);
+    shouldAllowOnlyEditAction({
+      organizationAncestors: [fakeOrganization({ id: adminOrganization })],
+      user,
     });
   });
 
-  it('should allow any action for superuser', () => {
+  it('should allow only edit action if organization is not defined and user has at least one admin organization', () => {
+    const adminOrganization = 'admin:1';
+    const user = fakeUser({ adminOrganizations: [adminOrganization] });
+
+    shouldAllowOnlyEditAction({
+      organization: '',
+      user,
+    });
+  });
+
+  it('should allow only edit action for superuser', () => {
     const user = fakeUser({ isSuperuser: true });
-    const allowedActions = Object.values(KEYWORD_SET_ACTIONS);
 
-    allowedActions.forEach((action) => {
-      expect(
-        checkCanUserDoAction({
-          action,
-          organization: '',
-          organizationAncestors: [],
-          user,
-        })
-      ).toBe(true);
+    shouldAllowOnlyEditAction({
+      user,
     });
   });
 });
@@ -194,7 +188,7 @@ describe('getEditKeywordSetWarning function', () => {
 
     deniedActions.forEach((action) => {
       expect(getEditKeywordSetWarning({ action, ...commonProps })).toBe(
-        'Sinulla ei ole oikeuksia muokata avainsanaryhmiä.'
+        'Avainsanaryhmiä ei voi muokata palvelun kautta.'
       );
     });
   });
@@ -207,7 +201,7 @@ describe('getEditKeywordSetWarning function', () => {
         userCanDoAction: false,
         action: KEYWORD_SET_ACTIONS.CREATE,
       })
-    ).toBe('Sinulla ei ole oikeuksia luoda avainsanaryhmiä.');
+    ).toBe('Avainsanaryhmiä ei voi muokata palvelun kautta.');
 
     expect(
       getEditKeywordSetWarning({
@@ -216,7 +210,7 @@ describe('getEditKeywordSetWarning function', () => {
         userCanDoAction: false,
         action: KEYWORD_SET_ACTIONS.UPDATE,
       })
-    ).toBe('Sinulla ei ole oikeuksia muokata tätä avainsanaryhmää.');
+    ).toBe('Avainsanaryhmiä ei voi muokata palvelun kautta.');
   });
 });
 

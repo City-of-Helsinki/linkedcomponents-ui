@@ -10,7 +10,6 @@ import {
   shouldToggleDropdownMenu,
   userEvent,
   waitFor,
-  within,
 } from '../../../../utils/testUtils';
 import {
   keywordSet,
@@ -51,9 +50,6 @@ const renderComponent = (
     routes: [route],
   });
 
-const findDeleteButton = () =>
-  screen.findByRole('button', { name: /poista avainsanaryhmä/i });
-
 const getEditButton = () => screen.getByRole('button', { name: /muokkaa/i });
 
 test('should toggle menu by clicking actions button', async () => {
@@ -80,30 +76,4 @@ test('should route to edit keyword set page', async () => {
   expect(history.location.search).toBe(
     `?returnPath=${encodeURIComponent(stripLanguageFromPath(route))}`
   );
-});
-
-test('should delete keyword set', async () => {
-  const user = userEvent.setup();
-  renderComponent();
-
-  await openDropdownMenu();
-
-  const deleteButton = await findDeleteButton();
-  await user.click(deleteButton);
-
-  const dialog = await screen.findByRole(
-    'dialog',
-    { name: /Varmista avainsanaryhmän poistaminen/i },
-    { timeout: 5000 }
-  );
-  const withinModal = within(dialog);
-  const deleteKeywordButton = withinModal.getByRole('button', {
-    name: /Poista avainsanaryhmä/i,
-  });
-  await user.click(deleteKeywordButton);
-
-  await waitFor(() =>
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-  );
-  await screen.findByRole('alert', { name: 'Avainsanaryhmä on poistettu' });
 });
