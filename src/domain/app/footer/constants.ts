@@ -1,17 +1,7 @@
 import { PathPattern } from 'react-router';
 
 import { ROUTES } from '../../../constants';
-
-type NavigationGroup = {
-  heading: string;
-  headingLink: string;
-  items?: NavigationGroupItem[];
-};
-
-type NavigationGroupItem = {
-  label: string;
-  url: string;
-};
+import { NavigationGroup, NavigationGroupItem } from './types';
 
 const NAVIGATION_GROUP_ITEMS_MAIN: NavigationGroupItem[] = [
   {
@@ -72,21 +62,6 @@ const NAVIGATION_GROUP_ITEMS_SUPPORT: NavigationGroupItem[] = [
   },
 ];
 
-const NAVIGATION_GROUP_ITEMS_INSTRUCTIONS: NavigationGroupItem[] = [
-  {
-    label: 'helpPage.sideNavigation.labelEventsInstructions',
-    url: ROUTES.INSTRUCTIONS_EVENTS,
-  },
-  {
-    label: 'helpPage.sideNavigation.labelRegistrationInstructions',
-    url: ROUTES.INSTRUCTIONS_REGISTRATION,
-  },
-  {
-    label: 'helpPage.sideNavigation.labelFaq',
-    url: ROUTES.INSTRUCTIONS_FAQ,
-  },
-];
-
 const NAVIGATION_GROUP_ITEMS_TECHNOLOGY: NavigationGroupItem[] = [
   {
     label: 'helpPage.sideNavigation.labelSourceCode',
@@ -129,12 +104,6 @@ export const navigationGroupAdmin: NavigationGroup = {
   heading: 'navigation.tabs.admin',
   headingLink: ROUTES.ADMIN,
   items: NAVIGATION_GROUP_ITEMS_ADMIN,
-};
-
-export const navigationGroupInstructions: NavigationGroup = {
-  heading: 'helpPage.sideNavigation.labelInstructions',
-  headingLink: ROUTES.INSTRUCTIONS,
-  items: NAVIGATION_GROUP_ITEMS_INSTRUCTIONS,
 };
 
 export const navigationGroupTechnology: NavigationGroup = {

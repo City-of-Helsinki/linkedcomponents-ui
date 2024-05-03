@@ -10,9 +10,8 @@ export const areAdminRoutesAllowed = (user?: UserFieldsFragment): boolean =>
   hasAdminOrganization(user) ||
   hasFinancialAdminOrganization(user);
 
-export const arePriceGroupRoutesAllowed = (
-  user?: UserFieldsFragment
-): boolean => user?.isSuperuser || hasFinancialAdminOrganization(user);
+export const areFinancialRoutesAllowed = (user?: UserFieldsFragment): boolean =>
+  user?.isSuperuser || hasFinancialAdminOrganization(user);
 
 export const areRegistrationRoutesAllowed = (
   user?: UserFieldsFragment

@@ -7,7 +7,7 @@ import { ROUTES } from '../../../constants';
 import { featureFlagUtils } from '../../../utils/featureFlags';
 import LayoutWithSideNavigation from '../../app/layout/layoutWithSideNavigation/LayoutWithSideNavigation';
 import useUser from '../../user/hooks/useUser';
-import { arePriceGroupRoutesAllowed } from '../../user/permissions';
+import { areFinancialRoutesAllowed } from '../../user/permissions';
 
 const AdminPageLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const { t } = useTranslation();
@@ -22,13 +22,13 @@ const AdminPageLayout: React.FC<PropsWithChildren> = ({ children }) => {
     { label: t('keywordsPage.title'), to: ROUTES.KEYWORDS },
     { label: t('keywordSetsPage.title'), to: ROUTES.KEYWORD_SETS },
     { label: t('imagesPage.title'), to: ROUTES.IMAGES },
-    ...(arePriceGroupRoutesAllowed(user)
+    ...(areFinancialRoutesAllowed(user)
       ? [{ label: t('organizationsPage.title'), to: ROUTES.ORGANIZATIONS }]
       : []),
     ...(featureFlagUtils.isFeatureEnabled('SHOW_PLACE_PAGES')
       ? [{ label: t('placesPage.title'), to: ROUTES.PLACES }]
       : []),
-    ...(arePriceGroupRoutesAllowed(user)
+    ...(areFinancialRoutesAllowed(user)
       ? [{ label: t('priceGroupsPage.title'), to: ROUTES.PRICE_GROUPS }]
       : []),
   ];

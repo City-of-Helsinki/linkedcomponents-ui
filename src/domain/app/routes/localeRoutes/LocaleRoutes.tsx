@@ -9,7 +9,6 @@ import getValue from '../../../../utils/getValue';
 import AccessibilityStatementPage from '../../../accessibilityStatement/AccessibilityStatement';
 import LogoutPage from '../../../auth/logoutPage/LogoutPage';
 import EventSavedPage from '../../../eventSaved/EventSavedPage';
-import HelpPageLayout from '../../../help/layout/HelpPageLayout';
 import LandingPage from '../../../landingPage/LandingPage';
 import NotFound from '../../../notFound/NotFound';
 import PageLayout from '../../layout/pageLayout/PageLayout';
@@ -108,14 +107,7 @@ const LocaleRoutes: React.FC = () => {
               element={<AdminPageRoutes />}
             ></Route>
           )}
-          <Route
-            path={`${ROUTES.HELP}/*`}
-            element={
-              <HelpPageLayout>
-                <HelpPageRoutes />
-              </HelpPageLayout>
-            }
-          />
+          <Route path={`${ROUTES.HELP}/*`} element={<HelpPageRoutes />} />
           <Route
             path="*"
             element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}

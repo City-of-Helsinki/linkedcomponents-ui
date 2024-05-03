@@ -10,7 +10,7 @@ import NotFoundPage from '../../../notFound/NotFound';
 import useUser from '../../../user/hooks/useUser';
 import {
   areAdminRoutesAllowed,
-  arePriceGroupRoutesAllowed,
+  areFinancialRoutesAllowed,
 } from '../../../user/permissions';
 
 const CreateImagePage = React.lazy(
@@ -99,18 +99,22 @@ const AdminPageRoutes: React.FC = () => {
               element={<KeywordSetsPage />}
             />
 
-            <Route
-              path={getAdminRoutePath(ROUTES.CREATE_ORGANIZATION)}
-              element={<CreateOrganizationPage />}
-            />
-            <Route
-              path={getAdminRoutePath(ROUTES.EDIT_ORGANIZATION)}
-              element={<EditOrganizationPage />}
-            />
-            <Route
-              path={getAdminRoutePath(ROUTES.ORGANIZATIONS)}
-              element={<OrganizationsPage />}
-            />
+            {areFinancialRoutesAllowed(user) && (
+              <>
+                <Route
+                  path={getAdminRoutePath(ROUTES.CREATE_ORGANIZATION)}
+                  element={<CreateOrganizationPage />}
+                />
+                <Route
+                  path={getAdminRoutePath(ROUTES.EDIT_ORGANIZATION)}
+                  element={<EditOrganizationPage />}
+                />
+                <Route
+                  path={getAdminRoutePath(ROUTES.ORGANIZATIONS)}
+                  element={<OrganizationsPage />}
+                />
+              </>
+            )}
             {featureFlagUtils.isFeatureEnabled('SHOW_PLACE_PAGES') && (
               <>
                 <Route
@@ -128,7 +132,7 @@ const AdminPageRoutes: React.FC = () => {
               </>
             )}
 
-            {arePriceGroupRoutesAllowed(user) && (
+            {areFinancialRoutesAllowed(user) && (
               <>
                 <Route
                   path={getAdminRoutePath(ROUTES.CREATE_PRICE_GROUP)}

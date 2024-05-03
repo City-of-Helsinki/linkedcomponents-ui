@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 
 import { ROUTES } from '../../../constants';
 import LayoutWithSideNavigation from '../../app/layout/layoutWithSideNavigation/LayoutWithSideNavigation';
+import useUser from '../../user/hooks/useUser';
+import { areRegistrationRoutesAllowed } from '../../user/permissions';
 import styles from './helpPageLayout.module.scss';
 
 interface Props {
@@ -12,16 +14,21 @@ interface Props {
 
 const HelpPageLayout: React.FC<Props> = ({ children }) => {
   const { t } = useTranslation();
+  const { user } = useUser();
 
   const instructionsSubLevels = [
     {
       label: t('helpPage.sideNavigation.labelEventsInstructions'),
       to: ROUTES.INSTRUCTIONS_EVENTS,
     },
-    {
-      label: t('helpPage.sideNavigation.labelRegistrationInstructions'),
-      to: ROUTES.INSTRUCTIONS_REGISTRATION,
-    },
+    ...(areRegistrationRoutesAllowed(user)
+      ? [
+          {
+            label: t('helpPage.sideNavigation.labelRegistrationInstructions'),
+            to: ROUTES.INSTRUCTIONS_REGISTRATION,
+          },
+        ]
+      : []),
     {
       label: t('helpPage.sideNavigation.labelFaq'),
       to: ROUTES.INSTRUCTIONS_FAQ,

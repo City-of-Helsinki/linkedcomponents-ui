@@ -1,9 +1,11 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 
+import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import { ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
+import HelpPageLayout from '../../../help/layout/HelpPageLayout';
 import AskPermissionPage from '../../../help/pages/askPermissionPage/AskPermissionPage';
 import ContactPage from '../../../help/pages/contactPage/ContactPage';
 import EventsInstructionsPage from '../../../help/pages/eventsInstructionsPage/EventsInstructionsPage';
@@ -13,6 +15,8 @@ import ServiceInformationPage from '../../../help/pages/serviceInformation/Servi
 import SourceCodePage from '../../../help/pages/sourceCodePage/SourceCodePage';
 import TermsOfUsePage from '../../../help/pages/termsOfUsePage/TermsOfUsePage';
 import NotFound from '../../../notFound/NotFound';
+import useUser from '../../../user/hooks/useUser';
+import { areRegistrationRoutesAllowed } from '../../../user/permissions';
 /* istanbul ignore next */
 const DocumentationPage = React.lazy(
   () => import('../../../help/pages/documentationPage/DocumentationPage')
@@ -26,6 +30,7 @@ const InstructionsRoutes: React.FC<Props> = ({ locale }) => {
   const getInstructionsRoutePath = (path: string) =>
     path.replace(ROUTES.INSTRUCTIONS, '');
   const getLocalePath = (path: string) => `/${locale}${path}`;
+  const { user } = useUser();
 
   return (
     <Routes>
@@ -39,15 +44,18 @@ const InstructionsRoutes: React.FC<Props> = ({ locale }) => {
         path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_EVENTS)}
         element={<EventsInstructionsPage />}
       />
+      {areRegistrationRoutesAllowed(user) && (
+        <Route
+          path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_REGISTRATION)}
+          element={<RegistrationInstructions />}
+        />
+      )}
       <Route
         path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_FAQ)}
         element={<FaqPage />}
       />
       <Route
-        path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_REGISTRATION)}
-        element={<RegistrationInstructions />}
-      />
-      <Route
+        path="*"
         element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}
       />
     </Routes>
@@ -79,8 +87,8 @@ const TechnologyRoutes: React.FC<Props> = ({ locale }) => {
           path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_DOCUMENTATION)}
           element={<DocumentationPage />}
         />
-
         <Route
+          path="*"
           element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}
         />
       </Routes>
@@ -121,6 +129,7 @@ const SupportRoutes: React.FC<Props> = ({ locale }) => {
         element={<TermsOfUsePage />}
       />
       <Route
+        path="*"
         element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}
       />
     </Routes>
@@ -131,30 +140,35 @@ const HelpPageRoutes: React.FC = () => {
   const locale = useLocale();
   const getHelpRoutePath = (path: string) => path.replace(ROUTES.HELP, '');
   const getLocalePath = (path: string) => `/${locale}${path}`;
+  const { loading } = useUser();
 
   return (
-    <Routes>
-      <Route
-        path={getHelpRoutePath(ROUTES.HELP)}
-        element={<Navigate replace to={getLocalePath(ROUTES.SUPPORT)} />}
-      />
-      <Route
-        path={`${getHelpRoutePath(ROUTES.SUPPORT)}/*`}
-        element={<SupportRoutes locale={locale} />}
-      />
-      <Route
-        path={`${getHelpRoutePath(ROUTES.INSTRUCTIONS)}/*`}
-        element={<InstructionsRoutes locale={locale} />}
-      />
-      <Route
-        path={`${getHelpRoutePath(ROUTES.TECHNOLOGY)}/*`}
-        element={<TechnologyRoutes locale={locale} />}
-      />
-      <Route
-        path="*"
-        element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}
-      />
-    </Routes>
+    <LoadingSpinner isLoading={loading}>
+      <HelpPageLayout>
+        <Routes>
+          <Route
+            path={getHelpRoutePath(ROUTES.HELP)}
+            element={<Navigate replace to={getLocalePath(ROUTES.SUPPORT)} />}
+          />
+          <Route
+            path={`${getHelpRoutePath(ROUTES.SUPPORT)}/*`}
+            element={<SupportRoutes locale={locale} />}
+          />
+          <Route
+            path={`${getHelpRoutePath(ROUTES.INSTRUCTIONS)}/*`}
+            element={<InstructionsRoutes locale={locale} />}
+          />
+          <Route
+            path={`${getHelpRoutePath(ROUTES.TECHNOLOGY)}/*`}
+            element={<TechnologyRoutes locale={locale} />}
+          />
+          <Route
+            path="*"
+            element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}
+          />
+        </Routes>
+      </HelpPageLayout>
+    </LoadingSpinner>
   );
 };
 

@@ -57,14 +57,6 @@ test.describe('Help page', () => {
 
     await page
       .getByLabel('Lisätietoa palvelusta')
-      .getByRole('link', { name: 'Ilmoittautumisen ohjeet' })
-      .click();
-    await expect
-      .soft(page.getByRole('heading', { name: 'Ilmoittautumisen ohjeet' }))
-      .toBeVisible();
-
-    await page
-      .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'UKK' })
       .click();
     await expect

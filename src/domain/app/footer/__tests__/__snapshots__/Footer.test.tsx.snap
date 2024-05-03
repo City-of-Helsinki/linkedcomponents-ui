@@ -244,29 +244,6 @@ exports[`matches snapshot 1`] = `
             </a>
             <a
               class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
-              href="/sv/help/instructions/registration"
-            >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                />
-              </svg>
-              <span>
-                Registreringsinstruktioner
-              </span>
-            </a>
-            <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
               href="/sv/help/instructions/faq"
             >
               <svg

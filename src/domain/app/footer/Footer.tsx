@@ -25,13 +25,13 @@ import {
   navigationGroupAdmin,
   navigationGroupEvents,
   navigationGroupHome,
-  navigationGroupInstructions,
   navigationGroupRegistrations,
   navigationGroupSupport,
   navigationGroupTechnology,
   NO_FOOTER_PATHS,
 } from './constants';
 import styles from './footer.module.scss';
+import { getNavigationGroupInstructions } from './utils';
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
                 areAdminRoutesAllowed(user) &&
                 navigationGroupAdmin,
               navigationGroupSupport,
-              navigationGroupInstructions,
+              getNavigationGroupInstructions(user),
               navigationGroupTechnology,
             ]
               .filter(skipFalsyType)
