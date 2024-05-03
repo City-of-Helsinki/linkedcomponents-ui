@@ -32,8 +32,8 @@
     "noRightsUpdateImageLabel": "No permissions to edit images.",
     "noRightsUpdateKeyword": "Keywords cannot be edited through the service.",
     "noRightsUpdateKeywordLabel": "Keywords cannot be edited.",
-    "noRightsUpdateKeywordSet": "You do not have permission to edit keyword sets.",
-    "noRightsUpdateKeywordSetLabel": "No permissions to edit keyword sets.",
+    "noRightsUpdateKeywordSet": "Keyword sets cannot be edited through the service.",
+    "noRightsUpdateKeywordSetLabel": "Keyword sets cannot be edited.",
     "noRightsUpdateOrganization": "You do not have permission to edit organizations.",
     "noRightsUpdateOrganizationLabel": "No permissions to edit organizations.",
     "noRightsUpdatePlace": "You do not have permission to edit places.",
@@ -1540,7 +1540,7 @@
       "labelUsage": "Usage",
       "notificationKeywordSetDeleted": "The keyword set has been deleted",
       "notificationKeywordSetUpdated": "The keyword set has been saved",
-      "notificationTitleCannotEdit": "The keyword set cannot be edited"
+      "notificationTitleCannotEdit": "Keyword sets cannot be edited"
     }
   },
   "keywordSetsPage": {
@@ -1572,8 +1572,8 @@
       "audience": "Audience",
       "keyword": "Keyword"
     },
-    "warningNoRightsToCreate": "You have insufficient rights to create keyword sets.",
-    "warningNoRightsToEdit": "You have insufficient rights to edit this keyword set."
+    "warningNoRightsToCreate": "Keyword sets cannot be edited through the service.",
+    "warningNoRightsToEdit": "Keyword sets cannot be edited through the service."
   },
   "landingPage": {
     "heroTitle": "Events and hobbies in Helsinki",

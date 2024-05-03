@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
@@ -26,6 +26,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import useAdminFormStyles from '../../admin/layout/hooks/useAdminFormStyles';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useKeywordSetUsageOptions from '../../keywordSets/hooks/useKeywordSetUsageOptions';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -75,10 +76,12 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useKeywordSetServerErrors();
 
+  /* istanbul ignore next */
   const goToKeywordSetsPage = () => {
     navigate(`/${locale}${ROUTES.KEYWORD_SETS}`);
   };
 
+  /* istanbul ignore next */
   const onCreate = async (values: KeywordSetFormFields) => {
     await createKeywordSet(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
@@ -86,6 +89,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
     });
   };
 
+  /* istanbul ignore next */
   const onUpdate = async (values: KeywordSetFormFields) => {
     await updateKeywordSet(values, {
       onError: (error: ServerError) => showServerErrors({ error }),
@@ -99,25 +103,14 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
     });
   };
 
-  const inputRowBorderStyle = useMemo(
-    () =>
-      /* istanbul ignore next */
-      isEditingAllowed ? '' : styles.borderInMobile,
-    [isEditingAllowed]
-  );
-
-  const inputRowBorderStyleIfKeywordSet = useMemo(
-    () => (!isEditingAllowed || keywordSet ? styles.borderInMobile : ''),
-    [isEditingAllowed, keywordSet]
-  );
-
-  const alignedInputStyleIfKeywordSet = useMemo(
-    () =>
-      !isEditingAllowed || keywordSet
-        ? styles.alignedInputWithFullBorder
-        : styles.alignedInput,
-    [isEditingAllowed, keywordSet]
-  );
+  const {
+    alignedInputStyleIfHasInstance,
+    inputRowBorderStyle,
+    inputRowBorderStyleIfHasInstance,
+  } = useAdminFormStyles({
+    isEditingAllowed,
+    instance: keywordSet,
+  });
 
   return (
     <Formik
@@ -130,7 +123,6 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
       // We have custom way to handle onSubmit so here is empty function
       // to silent TypeScript error. The reason for custom onSubmit is that
       // we want to scroll to first invalid field if error occurs
-
       onSubmit={
         /* istanbul ignore next */
         () => undefined
@@ -138,11 +130,16 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
       validateOnMount
       validateOnBlur={true}
       validateOnChange={true}
-      validationSchema={isEditingAllowed && keywordSetSchema}
+      validationSchema={
+        /* istanbul ignore next */
+        isEditingAllowed && keywordSetSchema
+      }
     >
       {({ setErrors, setTouched, values }) => {
+        /* istanbul ignore next */
         const clearErrors = () => setErrors({});
 
+        /* istanbul ignore next */
         const handleSubmit = async (
           event?: React.FormEvent<HTMLFormElement>
         ) => {
@@ -176,6 +173,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
           ? getValue(keywordSet.organization, '')
           : values.organization;
 
+        /* istanbul ignore next */
         const disabledIfKeywordSet = !isEditingAllowed || !!keywordSet;
 
         return (
@@ -198,7 +196,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
 
             <FormRow className={styles.borderInMobile}>
               <Field
-                className={alignedInputStyleIfKeywordSet}
+                className={alignedInputStyleIfHasInstance}
                 component={TextInputField}
                 label={t(`keywordSet.form.labelDataSource`)}
                 name={KEYWORD_SET_FIELDS.DATA_SOURCE}
@@ -206,7 +204,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
               />
             </FormRow>
 
-            <FormRow className={inputRowBorderStyleIfKeywordSet}>
+            <FormRow className={inputRowBorderStyleIfHasInstance}>
               <Field
                 className={styles.alignedInput}
                 component={TextInputField}

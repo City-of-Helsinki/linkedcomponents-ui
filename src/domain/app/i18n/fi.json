@@ -32,8 +32,8 @@
     "noRightsUpdateImageLabel": "Ei oikeuksia muokata kuvia.",
     "noRightsUpdateKeyword": "Avainsanoja ei voi muokata palvelun kautta.",
     "noRightsUpdateKeywordLabel": "Avainsanoja ei voi muokata.",
-    "noRightsUpdateKeywordSet": "Sinulla ei ole oikeuksia muokata avainsanaryhmiä.",
-    "noRightsUpdateKeywordSetLabel": "Ei oikeuksia muokata avainsanaryhmiä.",
+    "noRightsUpdateKeywordSet": "Avainsanaryhmiä ei voi muokata palvelun kautta.",
+    "noRightsUpdateKeywordSetLabel": "Avainsanaryhmiä ei voi muokata.",
     "noRightsUpdateOrganization": "Sinulla ei ole oikeuksia muokata organisaatioita.",
     "noRightsUpdateOrganizationLabel": "Ei oikeuksia muokata organisaatioita.",
     "noRightsUpdatePlace": "Sinulla ei ole oikeuksia muokata paikkoja.",
@@ -1540,7 +1540,7 @@
       "labelUsage": "Käyttötarkoitus",
       "notificationKeywordSetDeleted": "Avainsanaryhmä on poistettu",
       "notificationKeywordSetUpdated": "Avainsanaryhmä on tallennettu",
-      "notificationTitleCannotEdit": "Avainsanaryhmää ei voi muokata"
+      "notificationTitleCannotEdit": "Avainsanaryhmiä ei voi muokata"
     }
   },
   "keywordSetsPage": {
@@ -1572,8 +1572,8 @@
       "audience": "Kohderyhmä",
       "keyword": "Avainsana"
     },
-    "warningNoRightsToCreate": "Sinulla ei ole oikeuksia luoda avainsanaryhmiä.",
-    "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä avainsanaryhmää."
+    "warningNoRightsToCreate": "Avainsanaryhmiä ei voi muokata palvelun kautta.",
+    "warningNoRightsToEdit": "Avainsanaryhmiä ei voi muokata palvelun kautta."
   },
   "landingPage": {
     "heroTitle": "Helsingin tapahtumat ja harrastukset",

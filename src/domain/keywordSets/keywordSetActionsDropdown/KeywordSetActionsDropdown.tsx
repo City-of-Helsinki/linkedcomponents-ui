@@ -8,16 +8,10 @@ import { MenuItemOptionProps } from '../../../common/components/menuDropdown/typ
 import { ROUTES } from '../../../constants';
 import { KeywordSetFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import useResetPageParamAndGoToPage from '../../../hooks/useResetPageParam';
 import { addParamsToAdminListQueryString } from '../../../utils/adminListQueryStringUtils';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useAuth from '../../auth/hooks/useAuth';
 import { KEYWORD_SET_ACTIONS } from '../../keywordSet/constants';
-import useKeywordSetUpdateActions, {
-  KEYWORD_SET_MODALS,
-} from '../../keywordSet/hooks/useKeywordSetActions';
-import ConfirmDeleteKeywordSetModal from '../../keywordSet/modals/confirmDeleteKeywordSetModal/ConfirmDeleteKeywordSetModal';
 import {
   getEditButtonProps,
   getKeywordSetFields,
@@ -35,8 +29,6 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
   keywordSet,
 }) => {
   const { t } = useTranslation();
-  const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
-  const { addNotification } = useNotificationsContext();
   const locale = useLocale();
   const navigate = useNavigate();
   const { authenticated } = useAuth();
@@ -45,11 +37,6 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
   const { organizationAncestors } = useOrganizationAncestors(organization);
 
   const { pathname, search } = useLocation();
-
-  const { closeModal, deleteKeywordSet, openModal, saving, setOpenModal } =
-    useKeywordSetUpdateActions({
-      keywordSet,
-    });
 
   const goToEditKeywordSetPage = () => {
     const queryString = addParamsToAdminListQueryString(search, {
@@ -85,35 +72,9 @@ const KeywordSetActionsDropdown: React.FC<KeywordSetActionsDropdownProps> = ({
       action: KEYWORD_SET_ACTIONS.EDIT,
       onClick: goToEditKeywordSetPage,
     }),
-    getActionItemProps({
-      action: KEYWORD_SET_ACTIONS.DELETE,
-      onClick: () => setOpenModal(KEYWORD_SET_MODALS.DELETE),
-    }),
   ].filter(skipFalsyType);
 
-  return (
-    <>
-      {openModal === KEYWORD_SET_MODALS.DELETE && (
-        <ConfirmDeleteKeywordSetModal
-          isOpen={openModal === KEYWORD_SET_MODALS.DELETE}
-          isSaving={saving === KEYWORD_SET_ACTIONS.DELETE}
-          onClose={closeModal}
-          onConfirm={() => {
-            deleteKeywordSet({
-              onSuccess: () => {
-                addNotification({
-                  label: t('keywordSet.form.notificationKeywordSetDeleted'),
-                  type: 'success',
-                });
-                resetPageParamAndGoToPage(ROUTES.KEYWORD_SETS);
-              },
-            });
-          }}
-        />
-      )}
-      <ActionsDropdown className={className} items={actionItems} />
-    </>
-  );
+  return <ActionsDropdown className={className} items={actionItems} />;
 };
 
 export default KeywordSetActionsDropdown;

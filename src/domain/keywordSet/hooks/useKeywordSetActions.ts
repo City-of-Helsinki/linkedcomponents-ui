@@ -63,14 +63,17 @@ const useKeywordSetActions = ({
   const [deleteKeywordSetMutation] = useDeleteKeywordSetMutation();
   const [updateKeywordSetMutation] = useUpdateKeywordSetMutation();
 
+  /* istanbul ignore next */
   const closeModal = () => {
     setOpenModal(null);
   };
 
+  /* istanbul ignore next */
   const savingFinished = () => {
     setSaving(null);
   };
 
+  /* istanbul ignore next */
   const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
     /* istanbul ignore next */
     !isTestEnv && clearKeywordSetQueries(apolloClient);
@@ -88,6 +91,7 @@ const useKeywordSetActions = ({
     null
   >();
 
+  /* istanbul ignore next */
   const createKeywordSet = async (
     values: KeywordSetFormFields,
     callbacks?: MutationCallbacks
@@ -115,6 +119,7 @@ const useKeywordSetActions = ({
     }
   };
 
+  /* istanbul ignore next */
   const deleteKeywordSet = async (callbacks?: MutationCallbacks) => {
     try {
       setSaving(KEYWORD_SET_ACTIONS.DELETE);
@@ -134,6 +139,7 @@ const useKeywordSetActions = ({
     }
   };
 
+  /* istanbul ignore next */
   const updateKeywordSet = async (
     values: KeywordSetFormFields,
     callbacks?: MutationCallbacks

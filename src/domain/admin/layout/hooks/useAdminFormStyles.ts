@@ -2,13 +2,17 @@ import { useMemo } from 'react';
 
 import {
   KeywordFieldsFragment,
+  KeywordSetFieldsFragment,
   OrganizationFieldsFragment,
 } from '../../../../generated/graphql';
 import styles from '../form.module.scss';
 
 type UseAdminFormStylesProps = {
   isEditingAllowed: boolean;
-  instance?: KeywordFieldsFragment | OrganizationFieldsFragment;
+  instance?:
+    | KeywordFieldsFragment
+    | KeywordSetFieldsFragment
+    | OrganizationFieldsFragment;
 };
 
 type UseAdminFormStylesState = {
