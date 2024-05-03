@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import { userEvent, waitFor } from '../../../utils/testUtils';
-import { setApiTokenToStorage } from '../../auth/utils';
 
 export const shouldExportSignupsAsExcel = async ({
   exportAsExcelButton,
@@ -12,7 +11,6 @@ export const shouldExportSignupsAsExcel = async ({
 }) => {
   const user = userEvent.setup();
 
-  setApiTokenToStorage('api-token');
   global.fetch = vi.fn(() =>
     Promise.resolve({ blob: () => Promise.resolve({}), status: 200 })
   ) as any;

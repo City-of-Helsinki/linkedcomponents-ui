@@ -33,7 +33,10 @@ import {
   organizationsPathBuilder,
 } from '../utils';
 
-const apolloClient = createApolloClient({ addNotification: vi.fn() });
+const apolloClient = createApolloClient({
+  addNotification: vi.fn(),
+  getApiToken: () => null,
+});
 
 const account = {
   active: true,

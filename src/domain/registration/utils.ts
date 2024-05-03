@@ -35,7 +35,6 @@ import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
 import stripTrailingSlash from '../../utils/stripTrailingSlash';
 import i18n from '../app/i18n/i18nInit';
-import { getApiTokenFromStorage } from '../auth/utils';
 import { getEventFields } from '../event/utils';
 import {
   getSeatsReservationData,
@@ -571,20 +570,21 @@ const downloadBlob = (blob: Blob, filename: string) => {
 
 export const exportSignupsAsExcel = ({
   addNotification,
+  apiToken,
   registration,
   uiLanguage,
 }: {
   addNotification: (props: NotificationProps) => void;
+  apiToken: string | null;
   registration: RegistrationFieldsFragment;
   uiLanguage: Language;
 }) => {
   const url = getExportSignupsExcelUrl({ registration, uiLanguage });
-  const token = getApiTokenFromStorage();
   const { t } = i18n;
 
   fetch(url, {
     headers: {
-      ...(token ? { authorization: `Bearer ${token}` } : undefined),
+      ...(apiToken ? { authorization: `Bearer ${apiToken}` } : undefined),
       'Accept-language': i18n.language,
     },
   })
