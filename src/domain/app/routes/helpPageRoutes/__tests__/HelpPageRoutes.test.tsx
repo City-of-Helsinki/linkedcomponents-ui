@@ -6,7 +6,7 @@ import { Route, Routes } from 'react-router';
 
 import { ROUTES } from '../../../../../constants';
 import { Language } from '../../../../../types';
-import { mockUnauthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -21,14 +21,6 @@ import HelpPageRoutes from '../HelpPageRoutes';
 
 configure({ defaultHidden: true });
 
-afterEach(() => {
-  vi.resetAllMocks();
-});
-
-beforeEach(() => {
-  mockUnauthenticatedLoginState();
-});
-
 let initialHeadInnerHTML: string | null = null;
 
 beforeEach(async () => {
@@ -38,10 +30,14 @@ beforeEach(async () => {
   document.head.innerHTML = '';
 
   await i18n.changeLanguage('fi');
+
+  mockAuthenticatedLoginState();
 });
 
 afterEach(() => {
   document.head.innerHTML = initialHeadInnerHTML || '';
+
+  vi.resetAllMocks();
 });
 
 const mocks = [

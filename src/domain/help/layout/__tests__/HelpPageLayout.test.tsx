@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
+import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -8,13 +9,22 @@ import {
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import { mockedUserResponse } from '../../../user/__mocks__/user';
 import HelpPageLayout from '../HelpPageLayout';
 
 configure({ defaultHidden: true });
 
+beforeEach(async () => {
+  mockAuthenticatedLoginState();
+});
+
+const mocks = [mockedUserResponse];
+
 const route = `/fi${ROUTES.SUPPORT_SERVICE_INFORMATION}`;
+
 const renderComponent = () =>
   render(<HelpPageLayout>Content</HelpPageLayout>, {
+    mocks,
     routes: [route],
   });
 
