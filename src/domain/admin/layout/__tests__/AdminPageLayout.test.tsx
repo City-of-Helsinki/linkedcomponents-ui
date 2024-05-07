@@ -1,13 +1,7 @@
 import React from 'react';
 
 import { ROUTES } from '../../../../constants';
-import {
-  configure,
-  render,
-  screen,
-  userEvent,
-  waitFor,
-} from '../../../../utils/testUtils';
+import { configure, render, screen } from '../../../../utils/testUtils';
 import AdminPageLayout from '../AdminPageLayout';
 
 configure({ defaultHidden: true });
@@ -23,16 +17,4 @@ test('should render help page layout', async () => {
 
   screen.getByRole('button', { name: 'Hallinta' });
   screen.getByRole('link', { name: 'Avainsanat' });
-});
-
-test('should route to features help page', async () => {
-  const user = userEvent.setup();
-  const { history } = renderComponent();
-
-  const keywordsLink = screen.getByRole('link', { name: 'Avainsanat' });
-  await user.click(keywordsLink);
-
-  await waitFor(() =>
-    expect(history.location.pathname).toBe('/fi/administration/keywords')
-  );
 });

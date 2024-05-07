@@ -1,7 +1,7 @@
 @import '../../../../assets/styles/breakpoints';
 
-.platformPage {
-  --platform-page-image-min-height: 250px;
+.serviceInformationPagePage {
+  --service-information-page-image-min-height: 250px;
 
   h2 {
     font-size: var(--fontsize-heading-l) !important;
@@ -12,7 +12,7 @@
   display: grid;
   grid-gap: var(--spacing-m);
   margin-bottom: var(--spacing-5-xl);
-  min-height: var(--platform-page-image-min-height);
+  min-height: var(--service-information-page-image-min-height);
 
   :is(img) {
     width: 100%;

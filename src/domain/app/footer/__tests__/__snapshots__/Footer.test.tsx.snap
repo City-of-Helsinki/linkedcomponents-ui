@@ -132,267 +132,9 @@ exports[`matches snapshot 1`] = `
           >
             <a
               class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
-              href="/sv/help/instructions"
-            >
-              Instruktioner
-            </a>
-            <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
-              href="/sv/help/instructions/general"
-            >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                />
-              </svg>
-              <span>
-                Allmänt
-              </span>
-            </a>
-            <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
-              href="/sv/help/instructions/platform"
-            >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                />
-              </svg>
-              <span>
-                Plattform
-              </span>
-            </a>
-            <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
-              href="/sv/help/instructions/control-panel"
-            >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                />
-              </svg>
-              <span>
-                Kontrollpanel
-              </span>
-            </a>
-            <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
-              href="/sv/help/instructions/registration"
-            >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                />
-              </svg>
-              <span>
-                Linked Registration instruktioner
-              </span>
-            </a>
-            <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
-              href="/sv/help/instructions/faq"
-            >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                />
-              </svg>
-              <span>
-                FAQ
-              </span>
-            </a>
-          </div>
-        </div>
-        <div
-          class="FooterNavigationGroup-module_navigationGroup__1R66O"
-        >
-          <div
-            class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
-          >
-            <a
-              class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
-              href="/sv/help/technology"
-            >
-              Teknologi
-            </a>
-            <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
-              href="/sv/help/technology/general"
-            >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                />
-              </svg>
-              <span>
-                Allmänt
-              </span>
-            </a>
-            <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
-              href="/sv/help/technology/api"
-            >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                />
-              </svg>
-              <span>
-                API
-              </span>
-            </a>
-            <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
-              href="/sv/help/technology/image-rights"
-            >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                />
-              </svg>
-              <span>
-                Bildrättigheter
-              </span>
-            </a>
-            <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
-              href="/sv/help/technology/source-code"
-            >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                />
-              </svg>
-              <span>
-                Källkod
-              </span>
-            </a>
-            <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
-              href="/sv/help/technology/documentation"
-            >
-              <svg
-                aria-hidden="true"
-                aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
-                role="img"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clip-rule="evenodd"
-                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
-                  fill="currentColor"
-                  fill-rule="evenodd"
-                />
-              </svg>
-              <span>
-                Dokumentation
-              </span>
-            </a>
-          </div>
-        </div>
-        <div
-          class="FooterNavigationGroup-module_navigationGroup__1R66O"
-        >
-          <div
-            class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
-          >
-            <a
-              class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
               href="/sv/help/support"
             >
-              Stöd
+              Kunskap om tjänsten
             </a>
             <a
               class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
@@ -473,9 +215,138 @@ exports[`matches snapshot 1`] = `
           >
             <a
               class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
-              href="/sv/help/features"
+              href="/sv/help/instructions"
             >
-              Servicefunktioner
+              Instruktioner
+            </a>
+            <a
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              href="/sv/help/instructions/events"
+            >
+              <svg
+                aria-hidden="true"
+                aria-label="angle-right"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                />
+              </svg>
+              <span>
+                Instruktioner för innehållsproduktion
+              </span>
+            </a>
+            <a
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              href="/sv/help/instructions/registration"
+            >
+              <svg
+                aria-hidden="true"
+                aria-label="angle-right"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                />
+              </svg>
+              <span>
+                Registreringsinstruktioner
+              </span>
+            </a>
+            <a
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              href="/sv/help/instructions/faq"
+            >
+              <svg
+                aria-hidden="true"
+                aria-label="angle-right"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                />
+              </svg>
+              <span>
+                FAQ
+              </span>
+            </a>
+          </div>
+        </div>
+        <div
+          class="FooterNavigationGroup-module_navigationGroup__1R66O"
+        >
+          <div
+            class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
+          >
+            <a
+              class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
+              href="/sv/help/technology"
+            >
+              Teknologi
+            </a>
+            <a
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              href="/sv/help/technology/source-code"
+            >
+              <svg
+                aria-hidden="true"
+                aria-label="angle-right"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                />
+              </svg>
+              <span>
+                Källkod och API
+              </span>
+            </a>
+            <a
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              href="/sv/help/technology/documentation"
+            >
+              <svg
+                aria-hidden="true"
+                aria-label="angle-right"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M13.5 12L8.5 7L10 5.5L16.5 12L10 18.5L8.5 17L13.5 12Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                />
+              </svg>
+              <span>
+                Dokumentation
+              </span>
             </a>
           </div>
         </div>

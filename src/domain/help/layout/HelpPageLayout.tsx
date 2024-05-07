@@ -1,9 +1,4 @@
-import {
-  IconCogwheel,
-  IconHome,
-  IconLayers,
-  IconQuestionCircle,
-} from 'hds-react';
+import { IconCogwheel, IconHome, IconQuestionCircle } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -20,16 +15,8 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
 
   const instructionsSubLevels = [
     {
-      label: t('helpPage.sideNavigation.labelGeneral'),
-      to: ROUTES.INSTRUCTIONS_GENERAL,
-    },
-    {
-      label: t('helpPage.sideNavigation.labelPlatform'),
-      to: ROUTES.INSTRUCTIONS_PLATFORM,
-    },
-    {
-      label: t('helpPage.sideNavigation.labelControlPanel'),
-      to: ROUTES.INSTRUCTIONS_CONTROL_PANEL,
+      label: t('helpPage.sideNavigation.labelEventsInstructions'),
+      to: ROUTES.INSTRUCTIONS_EVENTS,
     },
     {
       label: t('helpPage.sideNavigation.labelRegistrationInstructions'),
@@ -43,18 +30,6 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
 
   const technologySubLevels = [
     {
-      label: t('helpPage.sideNavigation.labelGeneral'),
-      to: ROUTES.TECHNOLOGY_GENERAL,
-    },
-    {
-      label: t('helpPage.sideNavigation.labelApi'),
-      to: ROUTES.TECHNOLOGY_API,
-    },
-    {
-      label: t('helpPage.sideNavigation.labelImageRights'),
-      to: ROUTES.TECHNOLOGY_IMAGE_RIGHTS,
-    },
-    {
       label: t('helpPage.sideNavigation.labelSourceCode'),
       to: ROUTES.TECHNOLOGY_SOURCE_CODE,
     },
@@ -65,6 +40,10 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
   ];
 
   const supportSubLevels = [
+    {
+      label: t('helpPage.sideNavigation.labelServiceInformation'),
+      to: ROUTES.SUPPORT_SERVICE_INFORMATION,
+    },
     {
       label: t('helpPage.sideNavigation.labelTermsOfUse'),
       to: ROUTES.SUPPORT_TERMS_OF_USE,
@@ -81,6 +60,12 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
 
   const levels = [
     {
+      icon: <IconQuestionCircle aria-hidden={true} />,
+      label: t('helpPage.sideNavigation.labelSupport'),
+      subLevels: supportSubLevels,
+      to: ROUTES.SUPPORT,
+    },
+    {
       icon: <IconHome aria-hidden={true} />,
       label: t('helpPage.sideNavigation.labelInstructions'),
       subLevels: instructionsSubLevels,
@@ -91,18 +76,6 @@ const HelpPageLayout: React.FC<Props> = ({ children }) => {
       label: t('helpPage.sideNavigation.labelTechnology'),
       subLevels: technologySubLevels,
       to: ROUTES.TECHNOLOGY,
-    },
-    {
-      icon: <IconQuestionCircle aria-hidden={true} />,
-      label: t('helpPage.sideNavigation.labelSupport'),
-      subLevels: supportSubLevels,
-      to: ROUTES.SUPPORT,
-    },
-    {
-      icon: <IconLayers aria-hidden={true} />,
-      label: t('helpPage.sideNavigation.labelFeatures'),
-      subLevels: [],
-      to: ROUTES.FEATURES,
     },
   ];
 

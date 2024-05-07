@@ -74,16 +74,8 @@ const NAVIGATION_GROUP_ITEMS_SUPPORT: NavigationGroupItem[] = [
 
 const NAVIGATION_GROUP_ITEMS_INSTRUCTIONS: NavigationGroupItem[] = [
   {
-    label: 'helpPage.sideNavigation.labelGeneral',
-    url: ROUTES.INSTRUCTIONS_GENERAL,
-  },
-  {
-    label: 'helpPage.sideNavigation.labelPlatform',
-    url: ROUTES.INSTRUCTIONS_PLATFORM,
-  },
-  {
-    label: 'helpPage.sideNavigation.labelControlPanel',
-    url: ROUTES.INSTRUCTIONS_CONTROL_PANEL,
+    label: 'helpPage.sideNavigation.labelEventsInstructions',
+    url: ROUTES.INSTRUCTIONS_EVENTS,
   },
   {
     label: 'helpPage.sideNavigation.labelRegistrationInstructions',
@@ -96,18 +88,6 @@ const NAVIGATION_GROUP_ITEMS_INSTRUCTIONS: NavigationGroupItem[] = [
 ];
 
 const NAVIGATION_GROUP_ITEMS_TECHNOLOGY: NavigationGroupItem[] = [
-  {
-    label: 'helpPage.sideNavigation.labelGeneral',
-    url: ROUTES.TECHNOLOGY_GENERAL,
-  },
-  {
-    label: 'helpPage.sideNavigation.labelApi',
-    url: ROUTES.TECHNOLOGY_API,
-  },
-  {
-    label: 'helpPage.sideNavigation.labelImageRights',
-    url: ROUTES.TECHNOLOGY_IMAGE_RIGHTS,
-  },
   {
     label: 'helpPage.sideNavigation.labelSourceCode',
     url: ROUTES.TECHNOLOGY_SOURCE_CODE,
@@ -167,9 +147,4 @@ export const navigationGroupSupport: NavigationGroup = {
   heading: 'helpPage.sideNavigation.labelSupport',
   headingLink: ROUTES.SUPPORT,
   items: NAVIGATION_GROUP_ITEMS_SUPPORT,
-};
-
-export const navigationGroupFeatures: NavigationGroup = {
-  heading: 'helpPage.sideNavigation.labelFeatures',
-  headingLink: ROUTES.FEATURES,
 };

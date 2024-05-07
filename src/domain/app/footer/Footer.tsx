@@ -24,7 +24,6 @@ import { useTheme } from '../theme/Theme';
 import {
   navigationGroupAdmin,
   navigationGroupEvents,
-  navigationGroupFeatures,
   navigationGroupHome,
   navigationGroupInstructions,
   navigationGroupRegistrations,
@@ -106,10 +105,9 @@ const Footer: React.FC = () => {
               featureFlagUtils.isFeatureEnabled('SHOW_ADMIN') &&
                 areAdminRoutesAllowed(user) &&
                 navigationGroupAdmin,
+              navigationGroupSupport,
               navigationGroupInstructions,
               navigationGroupTechnology,
-              navigationGroupSupport,
-              navigationGroupFeatures,
             ]
               .filter(skipFalsyType)
               .map((group) => (

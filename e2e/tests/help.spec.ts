@@ -13,85 +13,15 @@ test.describe('Help page', () => {
       .locator('#page-header')
       .getByRole('link', { name: 'Tuki' })
       .click();
-    await page
-      .getByLabel('Lisätietoa palvelusta')
-      .getByRole('link', { name: 'Yleistä' })
-      .click();
 
     await page
       .getByLabel('Lisätietoa palvelusta')
-      .getByRole('link', { name: 'Alusta' })
+      .getByRole('link', { name: 'Tietoa palvelusta' })
       .click();
     await expect
-      .soft(page.getByRole('heading', { name: 'Alusta' }))
+      .soft(page.getByRole('heading', { name: 'Tietoa palvelusta' }))
       .toBeVisible();
 
-    await page
-      .getByLabel('Lisätietoa palvelusta')
-      .getByRole('link', { name: 'Hallintapaneeli' })
-      .click();
-    await expect
-      .soft(page.getByRole('heading', { name: 'Hallintapaneeli' }))
-      .toBeVisible();
-
-    await page
-      .getByLabel('Lisätietoa palvelusta')
-      .getByRole('link', { name: 'Linked Registration -ohje' })
-      .click();
-    await expect
-      .soft(page.getByRole('heading', { name: 'Linked Registration -ohje' }))
-      .toBeVisible();
-
-    await page
-      .getByLabel('Lisätietoa palvelusta')
-      .getByRole('link', { name: 'UKK' })
-      .click();
-    await expect
-      .soft(page.getByRole('heading', { name: 'Usein kysytyt kysymykset' }))
-      .toBeVisible();
-
-    await page.getByRole('button', { name: 'Teknologia' }).click();
-    await page
-      .locator('[id="\\/fi\\/help\\/technology-menu"]')
-      .getByRole('link', { name: 'Yleistä' })
-      .click();
-    await expect
-      .soft(page.getByRole('heading', { name: 'Yleistä' }))
-      .toBeVisible();
-
-    await page
-      .getByLabel('Lisätietoa palvelusta')
-      .getByRole('link', { name: 'Rajapinta' })
-      .click();
-    await expect
-      .soft(page.getByRole('heading', { name: 'Rajapinta' }))
-      .toBeVisible();
-
-    await page
-      .getByLabel('Lisätietoa palvelusta')
-      .getByRole('link', { name: 'Kuvaoikeudet' })
-      .click();
-    await expect
-      .soft(page.getByRole('heading', { name: 'Kuvaoikeudet' }))
-      .toBeVisible();
-
-    await page
-      .getByLabel('Lisätietoa palvelusta')
-      .getByRole('link', { name: 'Lähdekoodi' })
-      .click();
-    await expect
-      .soft(page.getByRole('heading', { name: 'Lähdekoodi' }))
-      .toBeVisible();
-
-    await page
-      .getByLabel('Lisätietoa palvelusta')
-      .getByRole('link', { name: 'Dokumentaatio' })
-      .click();
-    await expect
-      .soft(page.getByRole('heading', { name: 'Dokumentaatio' }))
-      .toBeVisible();
-
-    await page.getByRole('button', { name: 'Tuki' }).click();
     await page
       .getByLabel('Lisätietoa palvelusta')
       .getByRole('link', { name: 'Käyttöehdot' })
@@ -116,9 +46,46 @@ test.describe('Help page', () => {
       .soft(page.getByRole('heading', { name: 'Pyydä käyttöoikeutta' }))
       .toBeVisible();
 
-    await page.getByLabel('Palvelun ominaisuudet').click();
+    await page.getByRole('button', { name: 'Ohjeet' }).click();
+    await page
+      .getByLabel('Lisätietoa palvelusta')
+      .getByRole('link', { name: 'Sisällöntuotannon ohjeet' })
+      .click();
     await expect
-      .soft(page.getByRole('heading', { name: 'Palvelun ominaisuudet' }))
+      .soft(page.getByRole('heading', { name: 'Sisällöntuotannon ohjeet' }))
+      .toBeVisible();
+
+    await page
+      .getByLabel('Lisätietoa palvelusta')
+      .getByRole('link', { name: 'Ilmoittautumisen ohjeet' })
+      .click();
+    await expect
+      .soft(page.getByRole('heading', { name: 'Ilmoittautumisen ohjeet' }))
+      .toBeVisible();
+
+    await page
+      .getByLabel('Lisätietoa palvelusta')
+      .getByRole('link', { name: 'UKK' })
+      .click();
+    await expect
+      .soft(page.getByRole('heading', { name: 'Usein kysytyt kysymykset' }))
+      .toBeVisible();
+
+    await page.getByRole('button', { name: 'Teknologia' }).click();
+    await page
+      .getByLabel('Lisätietoa palvelusta')
+      .getByRole('link', { name: 'Lähdekoodi ja rajapinta' })
+      .click();
+    await expect
+      .soft(page.getByRole('heading', { name: 'Lähdekoodi ja rajapinta' }))
+      .toBeVisible();
+
+    await page
+      .getByLabel('Lisätietoa palvelusta')
+      .getByRole('link', { name: 'Dokumentaatio' })
+      .click();
+    await expect
+      .soft(page.getByRole('heading', { name: 'Dokumentaatio' }))
       .toBeVisible();
   });
 

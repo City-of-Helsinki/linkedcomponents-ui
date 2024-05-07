@@ -27,7 +27,7 @@ const AddingEventsFaq: React.FC = () => {
         dangerouslySetInnerHTML={{
           __html: t('helpPage.faq.textAddingEvents2', {
             contactUrl: getLocalePath(ROUTES.SUPPORT_CONTACT),
-            controlPanelUrl: getLocalePath(ROUTES.INSTRUCTIONS_CONTROL_PANEL),
+            eventsInstructionsUrl: getLocalePath(ROUTES.INSTRUCTIONS_EVENTS),
           }),
         }}
       />
