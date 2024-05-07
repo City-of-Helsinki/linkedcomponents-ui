@@ -4,20 +4,15 @@ import { Navigate, Route, Routes } from 'react-router';
 import { ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
-import ApiPage from '../../../help/pages/apiPage/ApiPage';
 import AskPermissionPage from '../../../help/pages/askPermissionPage/AskPermissionPage';
 import ContactPage from '../../../help/pages/contactPage/ContactPage';
-import ControlPanelPage from '../../../help/pages/controlPanelPage/ControlPanelPage';
+import EventsInstructionsPage from '../../../help/pages/eventsInstructionsPage/EventsInstructionsPage';
 import FaqPage from '../../../help/pages/faqPage/FaqPage';
-import FeaturesPage from '../../../help/pages/featuresPage/FeaturesPage';
-import GeneralInstructionsPage from '../../../help/pages/generalInstructionsPage/GeneralInstructionsPage';
-import GeneralTechnologyPage from '../../../help/pages/generalTechologyPage/GeneralTechnologyPage';
-import ImageRightsPage from '../../../help/pages/imageRightsPage/ImageRightsPage';
-import PlatformPage from '../../../help/pages/platformPage/PlatformPage';
 import RegistrationInstructions from '../../../help/pages/registrationInstructions/RegistrationInstructions';
+import ServiceInformationPage from '../../../help/pages/serviceInformation/ServiceInformationPage';
 import SourceCodePage from '../../../help/pages/sourceCodePage/SourceCodePage';
 import TermsOfUsePage from '../../../help/pages/termsOfUsePage/TermsOfUsePage';
-import NotFound from '.././../../notFound/NotFound';
+import NotFound from '../../../notFound/NotFound';
 /* istanbul ignore next */
 const DocumentationPage = React.lazy(
   () => import('../../../help/pages/documentationPage/DocumentationPage')
@@ -37,24 +32,16 @@ const InstructionsRoutes: React.FC<Props> = ({ locale }) => {
       <Route
         path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS)}
         element={
-          <Navigate replace to={getLocalePath(ROUTES.INSTRUCTIONS_GENERAL)} />
+          <Navigate replace to={getLocalePath(ROUTES.INSTRUCTIONS_EVENTS)} />
         }
       />
       <Route
-        path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_CONTROL_PANEL)}
-        element={<ControlPanelPage />}
+        path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_EVENTS)}
+        element={<EventsInstructionsPage />}
       />
       <Route
         path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_FAQ)}
         element={<FaqPage />}
-      />
-      <Route
-        path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_GENERAL)}
-        element={<GeneralInstructionsPage />}
-      />
-      <Route
-        path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_PLATFORM)}
-        element={<PlatformPage />}
       />
       <Route
         path={getInstructionsRoutePath(ROUTES.INSTRUCTIONS_REGISTRATION)}
@@ -78,29 +65,21 @@ const TechnologyRoutes: React.FC<Props> = ({ locale }) => {
         <Route
           path={getTechnologyRoutePath(ROUTES.TECHNOLOGY)}
           element={
-            <Navigate replace to={getLocalePath(ROUTES.TECHNOLOGY_GENERAL)} />
+            <Navigate
+              replace
+              to={getLocalePath(ROUTES.TECHNOLOGY_SOURCE_CODE)}
+            />
           }
-        />
-        <Route
-          path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_API)}
-          element={<ApiPage />}
-        />
-        <Route
-          path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_DOCUMENTATION)}
-          element={<DocumentationPage />}
-        />
-        <Route
-          path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_GENERAL)}
-          element={<GeneralTechnologyPage />}
-        />
-        <Route
-          path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_IMAGE_RIGHTS)}
-          element={<ImageRightsPage />}
         />
         <Route
           path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_SOURCE_CODE)}
           element={<SourceCodePage />}
         />
+        <Route
+          path={getTechnologyRoutePath(ROUTES.TECHNOLOGY_DOCUMENTATION)}
+          element={<DocumentationPage />}
+        />
+
         <Route
           element={<NotFound pathAfterSignIn={`/${locale}${ROUTES.HOME}`} />}
         />
@@ -119,8 +98,15 @@ const SupportRoutes: React.FC<Props> = ({ locale }) => {
       <Route
         path={getSupportRoutePath(ROUTES.SUPPORT)}
         element={
-          <Navigate replace to={getLocalePath(ROUTES.SUPPORT_TERMS_OF_USE)} />
+          <Navigate
+            replace
+            to={getLocalePath(ROUTES.SUPPORT_SERVICE_INFORMATION)}
+          />
         }
+      />
+      <Route
+        path={getSupportRoutePath(ROUTES.SUPPORT_SERVICE_INFORMATION)}
+        element={<ServiceInformationPage />}
       />
       <Route
         path={getSupportRoutePath(ROUTES.SUPPORT_ASK_PERMISSION)}
@@ -150,7 +136,11 @@ const HelpPageRoutes: React.FC = () => {
     <Routes>
       <Route
         path={getHelpRoutePath(ROUTES.HELP)}
-        element={<Navigate replace to={getLocalePath(ROUTES.INSTRUCTIONS)} />}
+        element={<Navigate replace to={getLocalePath(ROUTES.SUPPORT)} />}
+      />
+      <Route
+        path={`${getHelpRoutePath(ROUTES.SUPPORT)}/*`}
+        element={<SupportRoutes locale={locale} />}
       />
       <Route
         path={`${getHelpRoutePath(ROUTES.INSTRUCTIONS)}/*`}
@@ -159,14 +149,6 @@ const HelpPageRoutes: React.FC = () => {
       <Route
         path={`${getHelpRoutePath(ROUTES.TECHNOLOGY)}/*`}
         element={<TechnologyRoutes locale={locale} />}
-      />
-      <Route
-        path={`${getHelpRoutePath(ROUTES.SUPPORT)}/*`}
-        element={<SupportRoutes locale={locale} />}
-      />
-      <Route
-        path={getHelpRoutePath(ROUTES.FEATURES)}
-        element={<FeaturesPage />}
       />
       <Route
         path="*"

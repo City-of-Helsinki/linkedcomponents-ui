@@ -18,7 +18,7 @@ const ImageRightsFaq: React.FC = () => {
       <p
         dangerouslySetInnerHTML={{
           __html: t('helpPage.faq.textImageRights', {
-            controlPanelUrl: getLocalePath(ROUTES.INSTRUCTIONS_CONTROL_PANEL),
+            eventsInstructionsUrl: getLocalePath(ROUTES.INSTRUCTIONS_EVENTS),
           }),
         }}
       ></p>

@@ -78,7 +78,6 @@ Use .env.development.local for development.
 | REACT_APP_MATOMO_TRACKER_URL               | matomo.php                                                                                                                                               |
 | REACT_APP_MATOMO_ENABLED                   | Flag to enable matomo. Default false.                                                                                                                    |
 | REACT_APP_SWAGGER_URL                      | https://dev.hel.fi/apis/linkedevents                                                                                                                     |
-| REACT_APP_SWAGGER_SCHEMA_URL               | https://raw.githubusercontent.com/City-of-Helsinki/api-linked-events/master/linked-events.swagger.yaml                                                   |
 | REACT_APP_INTERNET_PLACE_ID                | Id of the internet place. system:internet in development server, helsinki:internet in production                                                         |
 | REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID  | yso:p26626                                                                                                                                               |
 | REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE | helsinki                                                                                                                                                 |

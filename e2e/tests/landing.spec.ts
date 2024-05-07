@@ -24,7 +24,11 @@ test.describe('Landing page', () => {
       )
       .toBeVisible();
     await expect
-      .soft(page.getByRole('contentinfo').getByRole('link', { name: 'Tuki' }))
+      .soft(
+        page
+          .getByRole('contentinfo')
+          .getByRole('link', { name: 'Tietoa palvelusta' })
+      )
       .toBeVisible();
     await expect
       .soft(page.getByRole('link', { name: 'Tietosuoja' }))
@@ -78,9 +82,6 @@ test.describe('Landing page', () => {
       .soft(page.getByRole('link', { name: 'Technology' }))
       .toBeVisible();
     await expect
-      .soft(page.getByRole('link', { name: 'Service features' }))
-      .toBeVisible();
-    await expect
       .soft(page.getByRole('link', { name: 'Data Protection' }))
       .toBeVisible();
     await expect
@@ -93,7 +94,9 @@ test.describe('Landing page', () => {
       .toBeVisible();
     await expect
       .soft(
-        page.getByRole('contentinfo').getByRole('link', { name: 'Support' })
+        page
+          .getByRole('contentinfo')
+          .getByRole('link', { name: 'Information about the service' })
       )
       .toBeVisible();
   });

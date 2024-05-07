@@ -791,7 +791,7 @@ it('should route to default help page', async () => {
 
   await isPageRendered({
     history,
-    pageTitle: 'Tuki - Linked Events',
-    pathname: '/fi/help/instructions/general',
+    pageTitle: 'Tietoa palvelusta - Linked Events',
+    pathname: '/fi/help/support/service-information',
   });
 });

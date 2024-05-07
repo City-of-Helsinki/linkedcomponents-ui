@@ -742,7 +742,7 @@ const TermsOfUsePage: React.FC = () => {
               { title: t('common.home'), path: ROUTES.HOME },
               { title: t('helpPage.pageTitle'), path: ROUTES.HELP },
               {
-                title: t('helpPage.pageTitle'),
+                title: t('helpPage.pageTitleSupport'),
                 path: ROUTES.SUPPORT,
               },
               {

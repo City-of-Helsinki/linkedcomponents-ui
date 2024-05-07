@@ -73,8 +73,7 @@ test('should show navigation links and should route to correct page after clicki
     { name: 'Hallinta', url: `/fi${ROUTES.ADMIN}` },
     { name: /ohjeet/i, url: `/fi${ROUTES.INSTRUCTIONS}` },
     { name: /teknologia/i, url: `/fi${ROUTES.TECHNOLOGY}` },
-    { name: /tuki/i, url: `/fi${ROUTES.SUPPORT}` },
-    { name: /palvelun ominaisuudet/i, url: `/fi${ROUTES.FEATURES}` },
+    { name: /tietoa palvelusta/i, url: `/fi${ROUTES.SUPPORT}` },
   ];
 
   for (const { name, url } of links) {
