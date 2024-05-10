@@ -1,11 +1,10 @@
 .textEditor {
   --text-editor-border-width: 1px;
   --text-editor-border-color: var(--color-black-50);
-  --text-editor-editor-max-height: 20rem;
-  --text-editor-editor-min-height: var(--spacing-layout-2-xl);
+  --text-editor-editor-max-height: unset;
+  --text-editor-editor-min-height: 22rem;
 }
 
 .inputWrapper > div {
   display: block;
 }
-

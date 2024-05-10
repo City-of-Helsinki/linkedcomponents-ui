@@ -3,7 +3,7 @@
 exports[`should match snapshot 1`] = `
 <div>
   <div
-    class="TextInput-module_root__2CMNr text-input_hds-text-input__2LODq css-0"
+    class="TextInput-module_root__2CMNr text-input_hds-text-input__2LODq textArea css-0"
   >
     <label
       class="FieldLabel-module_label__1zrXK "
