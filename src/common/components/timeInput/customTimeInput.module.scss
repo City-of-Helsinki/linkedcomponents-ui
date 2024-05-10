@@ -6,9 +6,9 @@
   padding: 0 calc(var(--spacing-s) - 3px);
 
   &.disabled {
-    background-color: var(--input-background-disabled);
-    border-color: var(--input-border-color-disabled);
-    color: var(--input-color-disabled);
+    background-color: var(--input-background-disabled) !important;
+    border-color: var(--input-border-color-disabled) !important;
+    color: var(--input-color-disabled) !important;
     cursor: not-allowed;
 
     &:hover {
