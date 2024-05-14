@@ -70,9 +70,9 @@ export const AccessibilityNotificationProvider: FC<PropsWithChildren> = ({
   return (
     <AccessibilityNotificationContext.Provider value={value}>
       {notifications.map(({ text, id }) => (
-        <output key={id} className={styles.accessibilityNotification}>
+        <div role="alert" key={id} className={styles.accessibilityNotification}>
           {text}
-        </output>
+        </div>
       ))}
 
       {children}
