@@ -8,6 +8,7 @@ export const QUERY_REGISTRATIONS = gql`
     $include: [String]
     $page: Int
     $pageSize: Int
+    $publisher: [String]
     $text: String
     $createPath: Any
   ) {
@@ -17,6 +18,7 @@ export const QUERY_REGISTRATIONS = gql`
       include: $include
       page: $page
       pageSize: $pageSize
+      publisher: $publisher
       text: $text
     ) @rest(type: "RegistrationsResponse", pathBuilder: $createPath) {
       meta {

@@ -42,6 +42,7 @@ export type EventSearchInitialValues = {
   end: Date | null;
   page: number;
   places: string[];
+  publisher: string[];
   [EVENT_SEARCH_PARAMS.SORT]: EVENT_SORT_OPTIONS;
   start: Date | null;
   text: string;
@@ -52,6 +53,7 @@ export type EventSearchParams = {
   [EVENT_SEARCH_PARAMS.END]?: Date | null;
   [EVENT_SEARCH_PARAMS.PAGE]?: number | null;
   [EVENT_SEARCH_PARAMS.PLACE]?: string[];
+  [EVENT_SEARCH_PARAMS.PUBLISHER]?: string[];
   [EVENT_SEARCH_PARAMS.RETURN_PATH]?: string | null;
   [EVENT_SEARCH_PARAMS.SORT]?: EVENT_SORT_OPTIONS | null;
   [EVENT_SEARCH_PARAMS.START]?: Date | null;

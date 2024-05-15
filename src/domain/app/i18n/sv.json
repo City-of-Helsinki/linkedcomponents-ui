@@ -1111,6 +1111,7 @@
       "buttonSearch": "Sök efter evenemang",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",
+      "labelPublisher": "Sök utgivare",
       "labelSearch": "Sök efter evenemang från Linked Events",
       "placeholderSearch": "Sök efter evenemang"
     }
@@ -1952,6 +1953,7 @@
       "buttonSearch": "Sök",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",
+      "labelPublisher": "Sök utgivare",
       "labelSearch": "Sök registreringar",
       "placeholderSearch": "Sök registreringar"
     },

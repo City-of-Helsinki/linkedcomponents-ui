@@ -1083,6 +1083,7 @@ export type QueryRegistrationsArgs = {
   include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
+  publisher?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   text?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -2071,6 +2072,7 @@ export type RegistrationsQueryVariables = Exact<{
   include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
+  publisher?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
   text?: InputMaybe<Scalars['String']['input']>;
   createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
@@ -4799,13 +4801,14 @@ export type SendRegistrationUserAccessInvitationMutationHookResult = ReturnType<
 export type SendRegistrationUserAccessInvitationMutationResult = Apollo.MutationResult<SendRegistrationUserAccessInvitationMutation>;
 export type SendRegistrationUserAccessInvitationMutationOptions = Apollo.BaseMutationOptions<SendRegistrationUserAccessInvitationMutation, SendRegistrationUserAccessInvitationMutationVariables>;
 export const RegistrationsDocument = gql`
-    query Registrations($adminUser: Boolean, $eventType: [EventTypeId], $include: [String], $page: Int, $pageSize: Int, $text: String, $createPath: Any) {
+    query Registrations($adminUser: Boolean, $eventType: [EventTypeId], $include: [String], $page: Int, $pageSize: Int, $publisher: [String], $text: String, $createPath: Any) {
   registrations(
     adminUser: $adminUser
     eventType: $eventType
     include: $include
     page: $page
     pageSize: $pageSize
+    publisher: $publisher
     text: $text
   ) @rest(type: "RegistrationsResponse", pathBuilder: $createPath) {
     meta {
@@ -4836,6 +4839,7 @@ ${RegistrationFieldsFragmentDoc}`;
  *      include: // value for 'include'
  *      page: // value for 'page'
  *      pageSize: // value for 'pageSize'
+ *      publisher: // value for 'publisher'
  *      text: // value for 'text'
  *      createPath: // value for 'createPath'
  *   },

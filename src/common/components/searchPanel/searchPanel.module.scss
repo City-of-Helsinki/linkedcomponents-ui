@@ -7,7 +7,7 @@
   margin-top: var(--spacing-m);
   margin-bottom: var(--spacing-m);
 
-  @include medium-up {
+  @include large-up {
     display: flex;
   }
 }

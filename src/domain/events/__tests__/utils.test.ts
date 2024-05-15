@@ -172,6 +172,7 @@ describe('getEventsQueryVariables', () => {
     location: [],
     page: 1,
     pageSize: 10,
+    publisher: [],
     sort: DEFAULT_EVENT_SORT,
     start: null,
     text: '',
@@ -183,6 +184,10 @@ describe('getEventsQueryVariables', () => {
     [
       '?place=place:1&place=place:2',
       { ...defaultVariables, location: ['place:1', 'place:2'] },
+    ],
+    [
+      '?publisher=publisher:1&publisher=publisher:2',
+      { ...defaultVariables, publisher: ['publisher:1', 'publisher:2'] },
     ],
     ['?sort=name', { ...defaultVariables, sort: 'name' }],
     ['?start=2021-05-27', { ...defaultVariables, start: '2021-05-27' }],

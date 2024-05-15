@@ -1,24 +1,18 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { organizationPathBuilder } from '../../../domain/organization/utils';
+import {
+  getOrganizationOption,
+  organizationPathBuilder,
+} from '../../../domain/organization/utils';
 import useUser from '../../../domain/user/hooks/useUser';
 import useUserOrganizations from '../../../domain/user/hooks/useUserOrganizations';
-import {
-  OrganizationFieldsFragment,
-  useOrganizationQuery,
-} from '../../../generated/graphql';
+import { useOrganizationQuery } from '../../../generated/graphql';
+import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
-
-const getOption = (organization: OrganizationFieldsFragment): OptionType => {
-  return {
-    label: getValue(organization.name, ''),
-    value: getValue(organization.id, ''),
-  };
-};
 
 export type PublisherSelectorProps = {
   publisher?: string | null;
@@ -33,6 +27,7 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
   ...rest
 }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
   const { user } = useUser();
   const { loading, organizations } = useUserOrganizations(user);
 
@@ -48,17 +43,29 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
   const selectedOrganization = React.useMemo(
     () =>
       organizationData?.organization
-        ? getOption(organizationData.organization)
+        ? getOrganizationOption({
+            idPath: 'id',
+            locale,
+            organization: organizationData.organization,
+            t,
+          })
         : null,
-    [organizationData]
+    [locale, organizationData?.organization, t]
   );
 
   const options = useMemo(() => {
     if (publisher) {
       return selectedOrganization ? [selectedOrganization] : [];
     }
-    return organizations.map((org) => getOption(org));
-  }, [organizations, publisher, selectedOrganization]);
+    return organizations.map((org) =>
+      getOrganizationOption({
+        idPath: 'id',
+        locale,
+        organization: org,
+        t,
+      })
+    );
+  }, [locale, organizations, publisher, selectedOrganization, t]);
 
   return (
     <Combobox

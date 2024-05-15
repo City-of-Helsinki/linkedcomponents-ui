@@ -5,6 +5,7 @@ import {
   configure,
   render,
   screen,
+  shouldDisplayAndRemoveFilter,
   userEvent,
 } from '../../../../utils/testUtils';
 import { registrationId } from '../../../registration/__mocks__/registration';
@@ -23,16 +24,13 @@ const renderComponent = (route = defaultRoute) =>
   render(<FilterSummary />, { routes: [route] });
 
 test('should render and remove text filter', async () => {
-  const user = userEvent.setup();
   const { history } = renderComponent(`${defaultRoute}?signupText=${text}`);
 
-  const deleteFilterButton = screen.getByRole('button', {
-    name: `Poista suodatusehto: ${text}`,
+  await shouldDisplayAndRemoveFilter({
+    deleteButtonLabel: `Poista suodatusehto: ${text}`,
+    expectedPathname: defaultRoute,
+    history,
   });
-  await user.click(deleteFilterButton);
-
-  expect(history.location.pathname).toBe(defaultRoute);
-  expect(history.location.search).toBe('');
 });
 
 test('should remove all filters with clear button', async () => {

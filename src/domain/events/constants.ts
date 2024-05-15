@@ -19,6 +19,7 @@ export enum EVENT_SEARCH_PARAMS {
   END = 'end',
   PAGE = 'page',
   PLACE = 'place',
+  PUBLISHER = 'publisher',
   RETURN_PATH = 'returnPath',
   SORT = 'sort',
   START = 'start',

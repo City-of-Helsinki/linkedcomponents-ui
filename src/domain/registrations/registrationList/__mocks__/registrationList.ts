@@ -46,6 +46,7 @@ const registrationsVariables = {
   include: REGISTRATION_LIST_INCLUDES,
   page: 1,
   pageSize: REGISTRATIONS_PAGE_SIZE,
+  publisher: [],
   text: '',
 };
 

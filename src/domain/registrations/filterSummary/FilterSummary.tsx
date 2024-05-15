@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router';
 
 import EventTypeFilterTag from '../../../common/components/filterTag/evenTypeFilterTag/EventTypeFilterTag';
 import FilterTag from '../../../common/components/filterTag/FilterTag';
+import PublisherFilterTag from '../../../common/components/filterTag/publisherFilterTag/PublisherFilterTag';
 import { FilterType } from '../../../types';
 import {
   getRegistrationSearchInitialValues,
@@ -20,13 +21,15 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
-  const { eventType, text } = getRegistrationSearchInitialValues(search);
+  const { eventType, publisher, text } =
+    getRegistrationSearchInitialValues(search);
 
   const clearFilters = () => {
     navigate({
       pathname,
       search: replaceParamsToRegistrationQueryString(search, {
         eventType: [],
+        publisher: [],
         text: '',
       }),
     });
@@ -44,13 +47,17 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
         type === 'eventType'
           ? eventType.filter((item) => item !== value)
           : eventType,
+      publisher:
+        type === 'publisher'
+          ? publisher.filter((item) => item !== value)
+          : publisher,
       text: type === 'text' ? '' : text,
     });
 
     navigate({ pathname, search: newSearch });
   };
 
-  const hasFilters = Boolean(eventType.length || text);
+  const hasFilters = Boolean(eventType.length || publisher.length || text);
 
   if (!hasFilters) return null;
 
@@ -67,6 +74,11 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
       {eventType.map((type) => {
         return (
           <EventTypeFilterTag key={type} onDelete={removeFilter} value={type} />
+        );
+      })}
+      {publisher.map((org) => {
+        return (
+          <PublisherFilterTag key={org} onDelete={removeFilter} value={org} />
         );
       })}
 

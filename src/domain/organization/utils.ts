@@ -19,7 +19,12 @@ import {
   WebStoreAccountFieldsFragment,
   WebStoreMerchantFieldsFragment,
 } from '../../generated/graphql';
-import { Editability, Language, PathBuilderProps } from '../../types';
+import {
+  Editability,
+  Language,
+  OptionType,
+  PathBuilderProps,
+} from '../../types';
 import { featureFlagUtils } from '../../utils/featureFlags';
 import formatDate from '../../utils/formatDate';
 import getDateFromString from '../../utils/getDateFromString';
@@ -633,3 +638,19 @@ export const omitSensitiveDataFromOrganizationPayload = (
     'registrationAdminUsers',
     'regularUsers',
   ]);
+
+export const getOrganizationOption = ({
+  idPath,
+  locale,
+  organization,
+  t,
+}: {
+  idPath: 'atId' | 'id';
+  locale: Language;
+  organization: OrganizationFieldsFragment;
+  t: TFunction;
+}): OptionType => {
+  const { fullName: label } = getOrganizationFields(organization, locale, t);
+
+  return { label, value: getValue(organization[idPath], '') };
+};

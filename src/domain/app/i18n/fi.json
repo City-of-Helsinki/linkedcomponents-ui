@@ -1204,6 +1204,7 @@
       "buttonSearch": "Etsi tapahtumia",
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikkaa",
+      "labelPublisher": "Etsi julkaisijaa",
       "labelSearch": "Hae Linked Events -rajapinnasta",
       "placeholderSearch": "Hae tapahtumia"
     }
@@ -1952,6 +1953,7 @@
       "buttonSearch": "Etsi",
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikkaa",
+      "labelPublisher": "Etsi julkaisijaa",
       "labelSearch": "Hae ilmoittautumisia",
       "placeholderSearch": "Hae ilmoittautumisia"
     },

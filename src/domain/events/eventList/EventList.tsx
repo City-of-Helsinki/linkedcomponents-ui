@@ -158,9 +158,18 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
   const listTypeOptions = useEventListTypeOptions();
   const sortOptions = useEventSortOptions();
 
+  const eventsQueryVariables = getEventsQueryVariables(
+    location.search,
+    baseVariables
+  );
+
+  /* istanbul ignore next */
   const variables = {
     ...baseVariables,
-    ...getEventsQueryVariables(location.search, baseVariables),
+    ...eventsQueryVariables,
+    publisher: eventsQueryVariables.publisher?.length
+      ? eventsQueryVariables.publisher
+      : baseVariables?.publisher,
   };
 
   const { data: eventsData, loading } = useEventsQuery({

@@ -1,14 +1,16 @@
-import React from 'react';
-
 import { ROUTES } from '../../../../constants';
 import {
   configure,
-  fireEvent,
   render,
   screen,
+  shouldFilterEventsOrRegistrations,
   userEvent,
   waitFor,
 } from '../../../../utils/testUtils';
+import {
+  mockedOrganizationsResponse,
+  organizations,
+} from '../../../organizations/__mocks__/organizationsPage';
 import {
   mockedPlaceResponse,
   mockedPlacesResponse,
@@ -19,7 +21,11 @@ import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
 
-const mocks = [mockedPlacesResponse, mockedPlaceResponse];
+const mocks = [
+  mockedOrganizationsResponse,
+  mockedPlacesResponse,
+  mockedPlaceResponse,
+];
 
 const getElement = (
   key:
@@ -27,6 +33,7 @@ const getElement = (
     | 'endDateInput'
     | 'eventTypeSelectorButton'
     | 'placeSelectorButton'
+    | 'publisherSelectorButton'
     | 'searchInput'
     | 'startDateInput'
 ) => {
@@ -39,6 +46,8 @@ const getElement = (
       return screen.getByRole('button', { name: 'Tyyppi' });
     case 'placeSelectorButton':
       return screen.getByRole('button', { name: 'Etsi tapahtumapaikkaa' });
+    case 'publisherSelectorButton':
+      return screen.getByRole('button', { name: 'Etsi julkaisijaa' });
     case 'searchInput':
       return screen.getByRole('textbox', {
         name: 'Hae Linked Events -rajapinnasta',
@@ -64,15 +73,10 @@ test('should search events with correct search params', async () => {
     endDate: '12.3.2021',
     place: placeId,
     startDate: '5.3.2021',
-    text: 'search',
   };
 
   const user = userEvent.setup();
   const { history } = renderComponent();
-
-  // Text filtering
-  const searchInput = getElement('searchInput');
-  fireEvent.change(searchInput, { target: { value: values.text } });
 
   // Date filtering
   const dateSelectorButton = getElement('dateSelectorButton');
@@ -92,18 +96,16 @@ test('should search events with correct search params', async () => {
   const placeCheckbox = screen.getByLabelText(placeName);
   await user.click(placeCheckbox);
 
-  // Event type filtering
-  const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
-  await user.click(eventTypeSelectorButton);
-  const eventTypeCheckbox = await screen.findByLabelText('Tapahtuma');
-  await user.click(eventTypeCheckbox);
-
-  const searchButton = screen.getAllByRole('button', {
-    name: 'Etsi tapahtumia',
-  })[1];
-  await user.click(searchButton);
-  await waitFor(() => expect(history.location.pathname).toBe('/fi/search'));
-  expect(history.location.search).toBe(
-    '?place=place%3A1&text=search&type=general&end=2021-03-12&start=2021-03-05'
-  );
+  await shouldFilterEventsOrRegistrations({
+    expectedPathname: '/fi/search',
+    expectedSearch:
+      '?place=place%3A1&publisher=organization%3A1&text=search&type=general&end=2021-03-12&start=2021-03-05',
+    history,
+    searchButtonLabel: 'Etsi tapahtumia',
+    searchInputLabel: 'Hae Linked Events -rajapinnasta',
+    values: {
+      publisher: organizations.data[0]?.name as string,
+      text: 'search',
+    },
+  });
 });
