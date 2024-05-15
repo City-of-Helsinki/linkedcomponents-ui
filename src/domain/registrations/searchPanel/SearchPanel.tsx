@@ -1,17 +1,19 @@
 import { ClassNames } from '@emotion/react';
+import { IconGroup } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
 import { SearchRow } from '../../../common/components/searchPanel/SearchPanel';
 import { ROUTES } from '../../../constants';
+import useEventSearchHelpers from '../../../hooks/useEventSearchHelpers';
 import useLocale from '../../../hooks/useLocale';
 import useSearchState from '../../../hooks/useSearchState';
-import { OptionType } from '../../../types';
 import { useTheme } from '../../app/theme/Theme';
 import { EVENT_TYPE } from '../../event/constants';
 import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
 import EventTypeSelector from '../../events/searchPanel/eventTypeSelector/EventTypeSelector';
+import PublisherSelector from '../../eventSearch/searchPanel/publisherSelector/PublisherSelector';
 import {
   getRegistrationSearchInitialValues,
   getRegistrationSearchQuery,
@@ -20,6 +22,7 @@ import styles from './searchPanel.module.scss';
 
 type SearchState = {
   eventType: EVENT_TYPE[];
+  publisher: string[];
   text: string;
 };
 
@@ -34,18 +37,12 @@ const SearchPanel: React.FC = () => {
 
   const [searchState, setSearchState] = useSearchState<SearchState>({
     eventType: [],
+    publisher: [],
     text: '',
   });
 
-  const handleChangeEventTypes = (newTypes: OptionType[]) => {
-    setSearchState({
-      eventType: newTypes.map((type) => type.value) as EVENT_TYPE[],
-    });
-  };
-
-  const handleChangeText = (text: string) => {
-    setSearchState({ text });
-  };
+  const { handleChangeEventTypes, handleChangePublishers, handleChangeText } =
+    useEventSearchHelpers(setSearchState);
 
   const handleSearch = () => {
     navigate({
@@ -55,10 +52,10 @@ const SearchPanel: React.FC = () => {
   };
 
   React.useEffect(() => {
-    const { eventType, text } = getRegistrationSearchInitialValues(
+    const { eventType, publisher, text } = getRegistrationSearchInitialValues(
       location.search
     );
-    setSearchState({ eventType, text });
+    setSearchState({ eventType, publisher, text });
   }, [location.search, setSearchState]);
 
   return (
@@ -80,16 +77,26 @@ const SearchPanel: React.FC = () => {
               'registrationsPage.searchPanel.placeholderSearch'
             )}
             searchInputValue={searchState.text}
-            selector={
+            selectors={[
               <EventTypeSelector
+                key="event-type"
                 onChange={handleChangeEventTypes}
                 options={eventTypeOptions}
                 toggleButtonLabel={t(
                   'registrationsPage.searchPanel.labelEventType'
                 )}
                 value={searchState.eventType}
-              />
-            }
+              />,
+              <PublisherSelector
+                key="publisher"
+                icon={<IconGroup aria-hidden />}
+                onChange={handleChangePublishers}
+                toggleButtonLabel={t(
+                  'registrationsPage.searchPanel.labelPublisher'
+                )}
+                value={searchState.publisher}
+              />,
+            ]}
           />
         </div>
       )}

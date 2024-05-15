@@ -24,6 +24,7 @@ describe('addParamsToRegistrationQueryString function', () => {
     [{ eventType: [EVENT_TYPE.Volunteering] }, '?eventType=volunteering'],
     [{ eventType: [] }, ''],
     [{ page: 3 }, '?page=3'],
+    [{ publisher: ['publisher:1'] }, '?publisher=publisher%3A1'],
     [
       { returnPath: `/fi${ROUTES.REGISTRATIONS}` },
       '?returnPath=%2Fregistrations',
@@ -81,6 +82,11 @@ describe('getRegistrationSearchQuery function', () => {
     ['', { ...defaultParams, page: 2 }, 'text=text&page=2'],
     [
       '',
+      { ...defaultParams, publisher: ['publisher:1'] },
+      'text=text&publisher=publisher%3A1',
+    ],
+    [
+      '',
       { ...defaultParams, returnPath: `/fi${ROUTES.REGISTRATIONS}` },
       'text=text&returnPath=%2Ffi%2Fregistrations',
     ],
@@ -111,6 +117,11 @@ describe('replaceParamsToRegistrationQueryString', () => {
       '?eventType=volunteering&eventType=course',
     ],
     [{ page: 2 }, '?page=3', '?page=2'],
+    [
+      { publisher: ['publisher:2'] },
+      '?publisher=publisher:1',
+      '?publisher=publisher%3A2',
+    ],
     [
       { returnPath: `/fi${ROUTES.REGISTRATIONS}` },
       '?returnPath=%2Fsearch',
@@ -143,6 +154,7 @@ describe('getRegistrationsQueryVariables', () => {
     include: REGISTRATION_LIST_INCLUDES,
     page: 1,
     pageSize: 10,
+    publisher: [],
     text: '',
   };
   const testCases: [string, RegistrationsQueryVariables][] = [
@@ -155,6 +167,10 @@ describe('getRegistrationsQueryVariables', () => {
       },
     ],
     ['?page=2', { ...defaultVariables, page: 2 }],
+    [
+      '?publisher=publisher:1',
+      { ...defaultVariables, publisher: ['publisher:1'] },
+    ],
     ['?text=search', { ...defaultVariables, text: 'search' }],
   ];
   it.each(testCases)(
@@ -181,6 +197,10 @@ describe('registrationsPathBuilder function', () => {
     [
       { pageSize: 10 },
       '/registration/?event_type=Course,General,Volunteering&page_size=10',
+    ],
+    [
+      { publisher: ['publisher:1', 'publisher:2'] },
+      '/registration/?event_type=Course,General,Volunteering&publisher=publisher:1,publisher:2',
     ],
     [
       { text: 'text' },

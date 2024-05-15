@@ -35,6 +35,7 @@ export const getRegistrationSearchInitialValues = (
     REGISTRATION_SEARCH_PARAMS.EVENT_TYPE
   ) as EVENT_TYPE[];
   const page = searchParams.get(REGISTRATION_SEARCH_PARAMS.PAGE);
+  const publisher = searchParams.getAll(REGISTRATION_SEARCH_PARAMS.PUBLISHER);
   const sort = searchParams.get(
     REGISTRATION_SEARCH_PARAMS.SORT
   ) as REGISTRATION_SORT_OPTIONS;
@@ -43,6 +44,7 @@ export const getRegistrationSearchInitialValues = (
   return {
     eventType,
     page: Number(page) || 1,
+    publisher,
     sort: Object.values(REGISTRATION_SORT_OPTIONS).includes(sort)
       ? sort
       : DEFAULT_REGISTRATION_SORT,
@@ -65,7 +67,8 @@ export const getRegistrationSearchQuery = (
 export const getRegistrationsQueryVariables = (
   search: string
 ): RegistrationsQueryVariables => {
-  const { eventType, page, text } = getRegistrationSearchInitialValues(search);
+  const { eventType, page, publisher, text } =
+    getRegistrationSearchInitialValues(search);
 
   return {
     adminUser: true,
@@ -74,6 +77,7 @@ export const getRegistrationsQueryVariables = (
     include: REGISTRATION_LIST_INCLUDES,
     page,
     pageSize: REGISTRATIONS_PAGE_SIZE,
+    publisher,
     text,
   };
 };
@@ -90,6 +94,7 @@ export const getRegistrationParamValue = ({
     case REGISTRATION_SEARCH_PARAMS.SIGNUP_TEXT:
     case REGISTRATION_SEARCH_PARAMS.EVENT_TYPE:
     case REGISTRATION_SEARCH_PARAMS.PAGE:
+    case REGISTRATION_SEARCH_PARAMS.PUBLISHER:
     case REGISTRATION_SEARCH_PARAMS.SORT:
     case REGISTRATION_SEARCH_PARAMS.TEXT:
     case REGISTRATION_SEARCH_PARAMS.WAITING_PAGE:
@@ -126,7 +131,8 @@ export const replaceParamsToRegistrationQueryString = (
 export const registrationsPathBuilder = ({
   args,
 }: PathBuilderProps<RegistrationsQueryVariables>): string => {
-  const { adminUser, eventType, include, page, pageSize, text } = args;
+  const { adminUser, eventType, include, page, pageSize, publisher, text } =
+    args;
 
   const variableToKeyItems = [
     { key: 'admin_user', value: adminUser },
@@ -137,6 +143,7 @@ export const registrationsPathBuilder = ({
     { key: 'include', value: include },
     { key: 'page', value: page },
     { key: 'page_size', value: pageSize },
+    { key: 'publisher', value: publisher },
     { key: 'text', value: text },
   ];
 

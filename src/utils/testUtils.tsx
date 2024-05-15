@@ -429,6 +429,76 @@ const shouldDeleteInstance = async ({
   await screen.findByRole('alert', { name: expectedNotificationText });
 };
 
+const shouldDisplayAndRemoveFilter = async ({
+  deleteButtonLabel,
+  expectedPathname,
+  history,
+}: {
+  deleteButtonLabel: string | RegExp;
+  expectedPathname: string;
+  history: History;
+}) => {
+  const user = userEvent.setup();
+
+  const deleteFilterButton = await screen.findByRole('button', {
+    name: deleteButtonLabel,
+  });
+  await user.click(deleteFilterButton);
+
+  expect(history.location.pathname).toBe(expectedPathname);
+  expect(history.location.search).toBe('');
+};
+
+const shouldFilterEventsOrRegistrations = async ({
+  expectedPathname,
+  expectedSearch,
+  history,
+  searchButtonLabel,
+  searchInputLabel,
+  values,
+}: {
+  expectedPathname: string;
+  expectedSearch: string;
+  history: History;
+  searchButtonLabel: string;
+  searchInputLabel: string;
+  values: { publisher: string; text: string };
+}) => {
+  const user = userEvent.setup();
+
+  // Text filtering
+  const searchInput = screen.getByRole('textbox', {
+    name: searchInputLabel,
+  });
+  fireEvent.change(searchInput, { target: { value: values.text } });
+
+  // Event type filtering
+  const eventTypeSelectorButton = screen.getByRole('button', {
+    name: 'Tyyppi',
+  });
+  await user.click(eventTypeSelectorButton);
+  const eventTypeCheckbox = screen.getByRole('checkbox', {
+    name: /tapahtuma/i,
+  });
+  await user.click(eventTypeCheckbox);
+
+  // Publisher filtering
+  const publisherSelectorButton = screen.getByRole('button', {
+    name: 'Etsi julkaisijaa',
+  });
+  await user.click(publisherSelectorButton);
+  const publisherCheckbox = screen.getByLabelText(values.publisher);
+  await user.click(publisherCheckbox);
+
+  const searchButton = screen.getAllByRole('button', {
+    name: searchButtonLabel,
+  })[1];
+  await user.click(searchButton);
+
+  expect(history.location.pathname).toBe(expectedPathname);
+  expect(history.location.search).toBe(expectedSearch);
+};
+
 // re-export everything
 export * from '@testing-library/react';
 export { render as defaultRender } from '@testing-library/react';
@@ -457,6 +527,8 @@ export {
   shouldClickButton,
   shouldClickListPageCreateButton,
   shouldDeleteInstance,
+  shouldDisplayAndRemoveFilter,
+  shouldFilterEventsOrRegistrations,
   shouldRenderDeleteModal,
   shouldRenderListPage,
   shouldSetGenericServerErrors,

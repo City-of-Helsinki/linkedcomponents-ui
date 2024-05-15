@@ -190,6 +190,7 @@ export const getEventSearchInitialValues = (
   const end = searchParams.get(EVENT_SEARCH_PARAMS.END);
   const page = searchParams.get(EVENT_SEARCH_PARAMS.PAGE);
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
+  const publisher = searchParams.getAll(EVENT_SEARCH_PARAMS.PUBLISHER);
   const sort = searchParams.get(EVENT_SEARCH_PARAMS.SORT) as EVENT_SORT_OPTIONS;
   const start = searchParams.get(EVENT_SEARCH_PARAMS.START);
   const text = searchParams.get(EVENT_SEARCH_PARAMS.TEXT);
@@ -199,6 +200,7 @@ export const getEventSearchInitialValues = (
     end: end && isValid(new Date(end)) ? new Date(end) : null,
     page: Number(page) || 1,
     places,
+    publisher,
     sort: Object.values(EVENT_SORT_OPTIONS).includes(sort)
       ? sort
       : DEFAULT_EVENT_SORT,
@@ -224,6 +226,7 @@ export const getEventsQueryVariables = (
 
   const end = searchParams.get(EVENT_SEARCH_PARAMS.END);
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
+  const publisher = searchParams.getAll(EVENT_SEARCH_PARAMS.PUBLISHER);
 
   const { page, sort, text, types } = getEventSearchInitialValues(search);
 
@@ -235,6 +238,7 @@ export const getEventsQueryVariables = (
     location: places,
     page,
     pageSize: EVENTS_PAGE_SIZE,
+    publisher,
     sort,
     start,
     text,
@@ -358,6 +362,7 @@ export const getEventParamValue = ({
       return formatDate(new Date(value), DATE_FORMAT_API);
     case EVENT_SEARCH_PARAMS.PAGE:
     case EVENT_SEARCH_PARAMS.PLACE:
+    case EVENT_SEARCH_PARAMS.PUBLISHER:
     case EVENT_SEARCH_PARAMS.SORT:
     case EVENT_SEARCH_PARAMS.TEXT:
     case EVENT_SEARCH_PARAMS.TYPE:

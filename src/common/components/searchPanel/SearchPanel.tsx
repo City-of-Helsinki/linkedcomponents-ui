@@ -13,7 +13,7 @@ export type SearchRowProps = {
   searchInputLabel: string;
   searchInputPlaceholder: string;
   searchInputValue: string;
-  selector?: ReactElement;
+  selectors?: ReactElement[];
 };
 
 const SearchRow: FC<SearchRowProps> = ({
@@ -25,11 +25,13 @@ const SearchRow: FC<SearchRowProps> = ({
   searchInputLabel,
   searchInputPlaceholder,
   searchInputValue,
-  selector,
+  selectors,
 }) => {
   return (
     <div className={styles.searchRow}>
-      {selector && <SelectorColumn>{selector}</SelectorColumn>}
+      {selectors?.map((selector, index) => (
+        <SelectorColumn key={index}>{selector}</SelectorColumn>
+      ))}
       <TextSearchColumn>
         <SearchInput
           className={searchInputClassName}

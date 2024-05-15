@@ -1,17 +1,22 @@
 import { ClassNames } from '@emotion/react';
-import { IconCalendar, IconHeart, IconLocation, Koros } from 'hds-react';
+import {
+  IconCalendar,
+  IconGroup,
+  IconHeart,
+  IconLocation,
+  Koros,
+} from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
 import Breadcrumb from '../../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../../common/components/button/Button';
-import DateSelectorDropdown, {
-  DATE_FIELDS,
-} from '../../../common/components/dateSelectorDropdown/DateSelectorDropdown';
+import DateSelectorDropdown from '../../../common/components/dateSelectorDropdown/DateSelectorDropdown';
 import MultiSelectDropdown from '../../../common/components/multiSelectDropdown/MultiSelectDropdown';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import { ROUTES, testIds } from '../../../constants';
+import useEventSearchHelpers from '../../../hooks/useEventSearchHelpers';
 import useLocale from '../../../hooks/useLocale';
 import useSearchState from '../../../hooks/useSearchState';
 import { OptionType } from '../../../types';
@@ -28,11 +33,13 @@ import {
   getEventSearchQuery,
 } from '../../events/utils';
 import PlaceSelector from './placeSelector/PlaceSelector';
+import PublisherSelector from './publisherSelector/PublisherSelector';
 import styles from './searchPanel.module.scss';
 
 type SearchState = {
   end: Date | null;
   place: string[];
+  publisher: string[];
   start: Date | null;
   text: string;
   type: EVENT_TYPE[];
@@ -50,10 +57,19 @@ const SearchPanel: React.FC = () => {
   const [searchState, setSearchState] = useSearchState<SearchState>({
     end: null,
     place: [],
+    publisher: [],
     start: null,
     text: '',
     type: [],
   });
+
+  const {
+    handleChangeDate,
+    handleChangePlaces,
+    handleChangePublishers,
+    handleChangeText,
+    handleChangeTypes,
+  } = useEventSearchHelpers(setSearchState);
 
   const handleSearch = () => {
     navigate({
@@ -62,36 +78,10 @@ const SearchPanel: React.FC = () => {
     });
   };
 
-  const handleChangePlaces = (newPlaces: OptionType[]) => {
-    setSearchState({ place: newPlaces.map((item) => item.value) });
-  };
-
-  const handleChangeEventTypes = (newTypes: OptionType[]) => {
-    setSearchState({
-      type: newTypes.map((type) => type.value) as EVENT_TYPE[],
-    });
-  };
-
-  const handleChangeText = (text: string) => {
-    setSearchState({ text });
-  };
-
-  const handleChangeDate = (field: DATE_FIELDS, value: Date | null) => {
-    switch (field) {
-      case DATE_FIELDS.END_DATE:
-        setSearchState({ end: value });
-        break;
-      case DATE_FIELDS.START_DATE:
-        setSearchState({ start: value });
-        break;
-    }
-  };
-
   React.useEffect(() => {
-    const { end, places, start, text, types } = getEventSearchInitialValues(
-      location.search
-    );
-    setSearchState({ end, place: places, start, text, type: types });
+    const { end, places, publisher, start, text, types } =
+      getEventSearchInitialValues(location.search);
+    setSearchState({ end, place: places, publisher, start, text, type: types });
   }, [location.search, setSearchState]);
 
   return (
@@ -157,7 +147,7 @@ const SearchPanel: React.FC = () => {
                     <div>
                       <MultiSelectDropdown
                         icon={<IconHeart />}
-                        onChange={handleChangeEventTypes}
+                        onChange={handleChangeTypes}
                         options={eventTypeOptions}
                         showSearch={true}
                         toggleButtonLabel={t(
@@ -172,6 +162,16 @@ const SearchPanel: React.FC = () => {
                               )
                             ) as OptionType[]
                         }
+                      />
+                    </div>
+                    <div>
+                      <PublisherSelector
+                        icon={<IconGroup aria-hidden />}
+                        onChange={handleChangePublishers}
+                        toggleButtonLabel={t(
+                          'eventSearchPage.searchPanel.labelPublisher'
+                        )}
+                        value={searchState.publisher}
                       />
                     </div>
                   </div>

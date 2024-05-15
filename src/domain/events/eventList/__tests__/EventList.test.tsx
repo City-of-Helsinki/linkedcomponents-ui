@@ -42,6 +42,7 @@ const variables = {
   eventType: [],
   include: EVENT_LIST_INCLUDES,
   location: [],
+  publisher: [],
   start: null,
   text: '',
 };

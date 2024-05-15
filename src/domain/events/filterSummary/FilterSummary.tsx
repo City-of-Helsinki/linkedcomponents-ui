@@ -7,6 +7,7 @@ import DateFilterTag from '../../../common/components/filterTag/dateFilterTag/Da
 import EventTypeFilterTag from '../../../common/components/filterTag/evenTypeFilterTag/EventTypeFilterTag';
 import FilterTag from '../../../common/components/filterTag/FilterTag';
 import PlaceFilterTag from '../../../common/components/filterTag/placeFilterTag/PlaceFilterTag';
+import PublisherFilterTag from '../../../common/components/filterTag/publisherFilterTag/PublisherFilterTag';
 import { FilterType } from '../../../types';
 import {
   getEventSearchInitialValues,
@@ -22,7 +23,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
-  const { end, places, start, text, types } =
+  const { end, places, publisher, start, text, types } =
     getEventSearchInitialValues(search);
 
   const clearFilters = () => {
@@ -31,6 +32,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
       search: replaceParamsToEventQueryString(search, {
         end: null,
         place: [],
+        publisher: [],
         start: null,
         text: '',
         type: [],
@@ -52,6 +54,10 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
           type === 'eventType' ? types.filter((item) => item !== value) : types,
         place:
           type === 'place' ? places.filter((item) => item !== value) : places,
+        publisher:
+          type === 'publisher'
+            ? publisher.filter((item) => item !== value)
+            : publisher,
         start: type === 'date' ? null : start,
         text: type === 'text' ? '' : text,
       });
@@ -82,11 +88,14 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
       )),
       ...types.map((type) => (
         <EventTypeFilterTag key={type} onDelete={removeFilter} value={type} />
+      )),
+      ...publisher.map((org) => (
+        <PublisherFilterTag key={org} onDelete={removeFilter} value={org} />
       ))
     );
 
     return filters;
-  }, [end, navigate, pathname, places, search, start, text, types]);
+  }, [end, navigate, pathname, places, publisher, search, start, text, types]);
 
   if (!filters.length) return null;
 

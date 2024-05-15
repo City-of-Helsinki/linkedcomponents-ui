@@ -3,21 +3,28 @@ import React from 'react';
 import { ROUTES } from '../../../../constants';
 import {
   configure,
-  fireEvent,
   render,
   screen,
-  userEvent,
+  shouldFilterEventsOrRegistrations,
   waitFor,
   within,
 } from '../../../../utils/testUtils';
+import {
+  mockedOrganizationsResponse,
+  organizations,
+} from '../../../organizations/__mocks__/organizationsPage';
 import SearchPanel from '../SearchPanel';
 
 configure({ defaultHidden: true });
 
-const getElement = (key: 'eventTypeSelectorButton' | 'searchInput') => {
+const getElement = (
+  key: 'eventTypeSelectorButton' | 'publisherSelectorButton' | 'searchInput'
+) => {
   switch (key) {
     case 'eventTypeSelectorButton':
       return screen.getByRole('button', { name: 'Tyyppi' });
+    case 'publisherSelectorButton':
+      return screen.getByRole('button', { name: 'Etsi julkaisijaa' });
     case 'searchInput':
       return screen.getByRole('textbox', {
         name: 'Hae Linked Events -rajapinnasta',
@@ -25,8 +32,10 @@ const getElement = (key: 'eventTypeSelectorButton' | 'searchInput') => {
   }
 };
 
+const mocks = [mockedOrganizationsResponse];
+
 const renderComponent = (route: string = ROUTES.EVENTS) =>
-  render(<SearchPanel />, { routes: [route] });
+  render(<SearchPanel />, { routes: [route], mocks });
 
 test('should initialize search panel input', async () => {
   const searchValue = 'search';
@@ -40,26 +49,17 @@ test('should initialize search panel input', async () => {
 });
 
 test('should search events with correct search params', async () => {
-  const values = { text: 'search' };
-  const user = userEvent.setup();
-
   const { history } = renderComponent();
 
-  // Text filtering
-  const searchInput = getElement('searchInput');
-  fireEvent.change(searchInput, { target: { value: values.text } });
-
-  // Event type filtering
-  const eventTypeSelectorButton = getElement('eventTypeSelectorButton');
-  await user.click(eventTypeSelectorButton);
-  const eventTypeCheckbox = screen.getByLabelText(/tapahtuma/i);
-  await user.click(eventTypeCheckbox);
-
-  const searchButton = screen.getAllByRole('button', {
-    name: /etsi tapahtumia/i,
-  })[1];
-  await user.click(searchButton);
-
-  expect(history.location.pathname).toBe('/fi/events');
-  expect(history.location.search).toBe('?text=search&type=general');
+  await shouldFilterEventsOrRegistrations({
+    expectedPathname: '/fi/events',
+    expectedSearch: '?publisher=organization%3A1&text=search&type=general',
+    history,
+    searchButtonLabel: 'Etsi tapahtumia',
+    searchInputLabel: 'Hae Linked Events -rajapinnasta',
+    values: {
+      publisher: organizations.data[0]?.name as string,
+      text: 'search',
+    },
+  });
 });

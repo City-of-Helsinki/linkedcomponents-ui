@@ -1111,6 +1111,7 @@
       "buttonSearch": "Search events",
       "labelEventType": "Type",
       "labelPlace": "Search venue",
+      "labelPublisher": "Search publisher",
       "labelSearch": "Search Linked Events",
       "placeholderSearch": "Search events"
     }
@@ -1952,6 +1953,7 @@
       "buttonSearch": "Search",
       "labelEventType": "Type",
       "labelPlace": "Search venue",
+      "labelPublisher": "Search publisher",
       "labelSearch": "Search registrations",
       "placeholderSearch": "Search registrations"
     },

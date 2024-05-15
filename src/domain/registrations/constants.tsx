@@ -25,6 +25,7 @@ export enum REGISTRATION_SEARCH_PARAMS {
   ATTENDEE_PAGE = 'attendeePage',
   EVENT_TYPE = 'eventType',
   PAGE = 'page',
+  PUBLISHER = 'publisher',
   RETURN_PATH = 'returnPath',
   SIGNUP_TEXT = 'signupText',
   SORT = 'sort',
