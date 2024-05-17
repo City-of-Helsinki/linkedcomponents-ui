@@ -5,7 +5,8 @@ exports[`matches snapshot 1`] = `
   class="Footer-module_footer__1aD3T custom-theme-1 footer"
 >
   <div
-    class="Koros-module_koros__1r3rg Footer-module_koros__Orx_W Footer-module_basic__2VejY"
+    class="Koros-module_koros__1r3rg Footer-module_koros__Orx_W"
+    style="height: 15px;"
   >
     <svg
       aria-hidden="true"
