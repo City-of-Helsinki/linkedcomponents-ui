@@ -1740,12 +1740,19 @@ describe('getEventActionWarning function', () => {
   });
 
   it('should return correct warning if event is cancelled', () => {
-    const event = fakeEvent({ eventStatus: EventStatus.EventCancelled });
+    vi.setSystemTime('2021-01-01');
+    const event = fakeEvent({
+      endTime: '2022-12-12',
+      eventStatus: EventStatus.EventCancelled,
+    });
 
     const allowedActions = [
+      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
       EVENT_ACTIONS.COPY,
       EVENT_ACTIONS.DELETE,
       EVENT_ACTIONS.EDIT,
+      EVENT_ACTIONS.UPDATE_DRAFT,
+      EVENT_ACTIONS.UPDATE_PUBLIC,
     ];
 
     const commonProps = {
@@ -1763,13 +1770,7 @@ describe('getEventActionWarning function', () => {
       ).toBe('');
     });
 
-    const deniedActions = [
-      EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
-      EVENT_ACTIONS.CANCEL,
-      EVENT_ACTIONS.POSTPONE,
-      EVENT_ACTIONS.UPDATE_DRAFT,
-      EVENT_ACTIONS.UPDATE_PUBLIC,
-    ];
+    const deniedActions = [EVENT_ACTIONS.CANCEL, EVENT_ACTIONS.POSTPONE];
 
     deniedActions.forEach((action) => {
       expect(
@@ -1777,11 +1778,11 @@ describe('getEventActionWarning function', () => {
           ...commonProps,
           action,
         })
-      ).toBe('Peruttuja tapahtumia ei voi muokata.');
+      ).toBe('Peruttuja tapahtumia ei voi lykätä tai perua.');
     });
   });
 
-  it('should return correct warning if event is cancelled', () => {
+  it('should return correct warning if event is deleted', () => {
     const event = fakeEvent({ deleted: '2021-12-12' });
 
     const allowedActions = [EVENT_ACTIONS.COPY, EVENT_ACTIONS.EDIT];
