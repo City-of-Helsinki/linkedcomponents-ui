@@ -489,7 +489,7 @@
       "checkboxIsVerified": "Vakuutan, että antamani tiedot ovat oikein ja sitoudun noudattamaan kaikkia Helsingin kaupungin kursseja ja tapahtumia <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"koskevia ohjeita ja säädöksiä {{openInNewTab}}\">koskevia ohjeita ja säädöksiä</a>.",
       "eventDraftStateInfo": "Tallennetut luonnokset tulevat automaattisesti näkyviin moderoijalle. Tietoja voi muokata, kunnes moderoija julkaisee tapahtuman. Julkaisun voi välttää kirjoittamalla muokkauksen ajaksi tapahtuman otsikon alkuun \"KESKENERÄINEN\"",
       "editButtonPanel": {
-        "warningCancelledEvent": "Peruttuja tapahtumia ei voi muokata.",
+        "warningCancelledEvent": "Peruttuja tapahtumia ei voi lykätä tai perua.",
         "warningCannotCancelDraft": "Tapahtumaluonnosta ei voi perua.",
         "warningCannotPostponeDraft": "Tapahtumaluonnosta ei voi lykätä.",
         "warningCannotPublishSubEvent": "Sarjan alatapahtumia ei voi julkaista.",

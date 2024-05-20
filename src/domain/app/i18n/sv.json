@@ -489,7 +489,7 @@
       "checkboxIsVerified": "Jag intygar att de uppgifter jag lämnat är korrekta och jag förbinder mig att följa <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"alla instruktioner och bestämmelser {{openInNewTab}}\">alla instruktioner och bestämmelser</a> gällande Helsingfors stads kurser och evenemang.",
       "eventDraftStateInfo": "Sparade utkast kommer automatiskt att vara synliga för moderatorn. Informationen kan redigeras tills moderatorn publicerar evenemanget. Du kan undvika publicering genom att skriva \"OFULLBORDAD\" i början av evenemangets titel medan redigeringen pågår.",
       "editButtonPanel": {
-        "warningCancelledEvent": "Avbokade evenemang kan inte redigeras.",
+        "warningCancelledEvent": "Inställda evenemang kan inte skjutas upp eller ställas in.",
         "warningCannotCancelDraft": "Evenemangsutkast kan inte annulleras.",
         "warningCannotPostponeDraft": "Evenemangsutkast kan inte skjutas upp.",
         "warningCannotPublishSubEvent": "En delevenemang i en serie kan inte publiceras.",

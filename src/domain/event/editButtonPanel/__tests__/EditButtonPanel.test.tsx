@@ -209,7 +209,7 @@ test('should render correct buttons for public event', async () => {
   );
 });
 
-test('only copy and delete button should be enabled when event is cancelled', async () => {
+test('postpone and cancel actions should be disabled when event is cancelled', async () => {
   renderComponent({
     props: {
       event: {
@@ -225,11 +225,11 @@ test('only copy and delete button should be enabled when event is cancelled', as
   const enabledButtons = [
     getMenuButton('delete', menu),
     getMenuButton('copy', menu),
+    getElement('updatePublic'),
   ];
   enabledButtons.forEach((button) => expect(button).toBeEnabled());
 
   const disabledButtons = [
-    getElement('updatePublic'),
     getMenuButton('postpone', menu),
     getMenuButton('cancel', menu),
   ];
