@@ -4,6 +4,8 @@ import {
   KeywordFieldsFragment,
   KeywordSetFieldsFragment,
   OrganizationFieldsFragment,
+  PlaceFieldsFragment,
+  PriceGroupFieldsFragment,
 } from '../../../../generated/graphql';
 import styles from '../form.module.scss';
 
@@ -12,7 +14,9 @@ type UseAdminFormStylesProps = {
   instance?:
     | KeywordFieldsFragment
     | KeywordSetFieldsFragment
-    | OrganizationFieldsFragment;
+    | OrganizationFieldsFragment
+    | PlaceFieldsFragment
+    | PriceGroupFieldsFragment;
 };
 
 type UseAdminFormStylesState = {
