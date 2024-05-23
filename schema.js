@@ -484,6 +484,7 @@ module.exports = buildSchema(/* GraphQL */ `
     id: Int
     internalOrder: String
     mainLedgerAccount: String
+    name: String
     operationArea: String
     profitCenter: String
     project: String
@@ -917,6 +918,7 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedBy: String
     lastModifiedTime: String
     mainLedgerAccount: String
+    name: String
     operationArea: String
     profitCenter: String
     project: String

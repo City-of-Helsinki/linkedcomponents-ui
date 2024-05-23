@@ -1645,6 +1645,7 @@
         "labelCompanyCode": "SAP företagskod",
         "labelInternalOrder": "Intern ordning",
         "labelMainLedgerAccount": "Huvudbokkonto",
+        "labelName": "Namn",
         "labelOperationArea": "SAP funktionsområde",
         "labelProfitCenter": "Resultatenheten",
         "labelProject": "Projekt",
@@ -1686,7 +1687,7 @@
       "notificationOrganisationDeleted": "Organisationen har tagits bort",
       "notificationOrganisationUpdated": "Organisationen har sparats",
       "notificationTitleCannotEdit": "Organisationen kan inte redigeras",
-      "titleAccount": "Konto",
+      "titleAccounts": "Bokföringskonton",
       "titleMerchant": "Handlare"
     },
     "internalType": {

@@ -40,6 +40,7 @@ const accountPayload = {
   id: 123,
   internalOrder: '',
   mainLedgerAccount: '971',
+  name: 'account',
   operationArea: '',
   profitCenter: '',
   project: '',

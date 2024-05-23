@@ -9,6 +9,7 @@ export const QUERY_ORGANIZATION = gql`
     id
     internalOrder
     mainLedgerAccount
+    name
     operationArea
     profitCenter
     project

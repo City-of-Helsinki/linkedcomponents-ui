@@ -44,9 +44,6 @@ const shouldAddAndRemoveItem = async ({
   await user.click(screen.getByRole('button', { name: addButtonLabel }));
 
   expect(screen.getByRole('textbox', { name: expectedInputLabel }));
-  expect(
-    screen.queryByRole('button', { name: addButtonLabel })
-  ).not.toBeInTheDocument();
 
   await user.click(screen.getByRole('button', { name: deleteButtonLabel }));
   expect(

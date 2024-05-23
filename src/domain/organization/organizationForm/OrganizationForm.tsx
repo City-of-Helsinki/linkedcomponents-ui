@@ -352,7 +352,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                   <Merchants organization={organization} />
                 </Section>
 
-                <Section title={t('organization.form.titleAccount')}>
+                <Section title={t('organization.form.titleAccounts')}>
                   <Accounts organization={organization} />
                 </Section>
               </>

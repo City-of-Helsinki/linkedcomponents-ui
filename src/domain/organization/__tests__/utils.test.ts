@@ -45,6 +45,7 @@ const account = {
   id: 1,
   internalOrder: '1',
   mainLedgerAccount: '971',
+  name: 'account',
   operationArea: '2',
   profitCenter: '3',
   project: '4',

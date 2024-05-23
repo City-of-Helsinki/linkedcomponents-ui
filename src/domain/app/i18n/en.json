@@ -1645,6 +1645,7 @@
         "labelCompanyCode": "SAP company code",
         "labelInternalOrder": "Internal order",
         "labelMainLedgerAccount": "Main ledger account",
+        "labelName": "Name",
         "labelOperationArea": "SAP functional area",
         "labelProfitCenter": "Profit center",
         "labelProject": "Project",
@@ -1686,7 +1687,7 @@
       "notificationOrganizationDeleted": "The organization has been deleted",
       "notificationOrganizationUpdated": "The organization has been saved",
       "notificationTitleCannotEdit": "The organization cannot be edited",
-      "titleAccount": "Account",
+      "titleAccounts": "Ledger accounts",
       "titleMerchant": "Merchant"
     },
     "internalType": {
