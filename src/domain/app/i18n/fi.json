@@ -1681,7 +1681,6 @@
         "labelPhoneNumber": "Puhelinnumero",
         "labelStreetAddress": "Katuosoite",
         "labelTermsOfServiceUrl": "Palveluehdot URL",
-        "labelUrl": "URL-osoite",
         "labelZipcode": "Postinumero"
       },
       "notificationOrganizationDeleted": "Organisaatio on poistettu",

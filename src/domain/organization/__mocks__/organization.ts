@@ -59,7 +59,6 @@ const merchantPayload = {
   phoneNumber: '044 1234567',
   streetAddress: 'Street address',
   termsOfServiceUrl: 'https://picsum.photos/seed/IZ2q7OT/640/480',
-  url: 'https://picsum.photos/seed/MFy5n9/640/480',
   zipcode: '00100',
 };
 

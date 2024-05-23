@@ -825,7 +825,6 @@ export const fakeWebStoreMerchant = (
       phoneNumber: faker.phone.number(),
       streetAddress: faker.location.streetAddress(),
       termsOfServiceUrl: faker.image.url(),
-      url: faker.image.url(),
       zipcode: faker.location.zipCode(),
       __typename: 'WebStoreMerchant',
     },

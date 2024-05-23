@@ -114,15 +114,6 @@ export const webStoreMerchantSchema = Yup.object().shape({
       MERCHANT_TEXT_FIELD_MAX_LENGTH[WEB_STORE_MERCHANT_FIELDS.PHONE_NUMBER],
       createStringMaxErrorMessage
     ),
-  [WEB_STORE_MERCHANT_FIELDS.URL]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .max(
-      MERCHANT_TEXT_FIELD_MAX_LENGTH[WEB_STORE_MERCHANT_FIELDS.URL],
-      createStringMaxErrorMessage
-    )
-    .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
-      isValidUrl(value)
-    ),
   [WEB_STORE_MERCHANT_FIELDS.TERMS_OF_SERVICE_URL]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .max(

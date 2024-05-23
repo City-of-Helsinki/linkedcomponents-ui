@@ -500,7 +500,6 @@ export const getWebStoreMerchantInitialValues = (
     phoneNumber: getValue(webStoreMerchant.phoneNumber, ''),
     streetAddress: getValue(webStoreMerchant.streetAddress, ''),
     termsOfServiceUrl: getValue(webStoreMerchant.termsOfServiceUrl, ''),
-    url: getValue(webStoreMerchant.url, ''),
     zipcode: getValue(webStoreMerchant.zipcode, ''),
   };
 };

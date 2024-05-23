@@ -28,7 +28,6 @@ export const QUERY_ORGANIZATION = gql`
     phoneNumber
     streetAddress
     termsOfServiceUrl
-    url
     zipcode
   }
 
