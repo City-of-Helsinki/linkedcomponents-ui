@@ -2,7 +2,7 @@ import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';
 
-import { EMPTY_MULTI_LANGUAGE_OBJECT, testIds } from '../../../../../constants';
+import { testIds } from '../../../../../constants';
 import { ImageDocument } from '../../../../../generated/graphql';
 import { setFeatureFlags } from '../../../../../test/featureFlags/featureFlags';
 import getValue from '../../../../../utils/getValue';
@@ -53,7 +53,6 @@ configure({ defaultHidden: true });
 beforeEach(() => {
   mockAuthenticatedLoginState();
   setFeatureFlags({
-    LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
     SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,
@@ -86,7 +85,7 @@ const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.TYPE]: eventType,
   [EVENT_FIELDS.IMAGES]: [],
   [EVENT_FIELDS.IMAGE_DETAILS]: {
-    [IMAGE_FIELDS.ALT_TEXT]: EMPTY_MULTI_LANGUAGE_OBJECT,
+    [IMAGE_FIELDS.ALT_TEXT]: '',
     [IMAGE_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
     [IMAGE_FIELDS.NAME]: '',
     [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
@@ -131,7 +130,7 @@ const getElement = (
       })[0];
     case 'altTextInput':
       return screen.getByRole('textbox', {
-        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
+        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *',
       });
     case 'modalHeading':
       return screen.getByRole('heading', { name: 'Lisää tapahtuman kuva' });
@@ -237,7 +236,7 @@ test('should create and select new image by entering image url', async () => {
 test('should show validation error if image alt text is too long', async () => {
   const altText = mockString(321);
   const image = fakeImage({
-    altText: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: altText },
+    altText,
     publisher,
   });
   const imageVariables = { createPath: undefined, id: image.id };

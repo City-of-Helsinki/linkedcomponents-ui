@@ -243,7 +243,7 @@ export const fakeImage = (overrides?: Partial<Image>): Image => {
     {
       id,
       atId: generateAtId(id, 'image'),
-      altText: fakeLocalisedObject(faker.lorem.words()),
+      altText: faker.lorem.words(),
       lastModifiedTime: null,
       license: 'cc_by',
       name: faker.lorem.words(),

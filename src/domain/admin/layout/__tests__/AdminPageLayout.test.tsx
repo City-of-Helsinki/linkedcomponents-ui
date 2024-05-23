@@ -24,7 +24,6 @@ beforeEach(() => {
   mockAuthenticatedLoginState();
 
   setFeatureFlags({
-    LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
     SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,

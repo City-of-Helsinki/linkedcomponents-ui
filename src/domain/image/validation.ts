@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Yup from 'yup';
 
-import { LE_DATA_LANGUAGES, ORDERED_LE_DATA_LANGUAGES } from '../../constants';
 import { Maybe } from '../../types';
-import { featureFlagUtils } from '../../utils/featureFlags';
 import {
-  createMultiLanguageValidation,
   createStringMaxErrorMessage,
   createStringMinErrorMessage,
   isValidUrl,
@@ -21,33 +18,16 @@ import {
 
 // This schema is used in event form when validating image fields
 export const imageDetailsSchema = Yup.object().shape({
-  [IMAGE_FIELDS.ALT_TEXT]: Yup.object().shape({
-    [LE_DATA_LANGUAGES.FI]: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .min(
-        IMAGE_TEXT_FIELD_MIN_LENGTH[IMAGE_FIELDS.ALT_TEXT],
-        createStringMinErrorMessage
-      )
-      .max(
-        IMAGE_TEXT_FIELD_MAX_LENGTH[IMAGE_FIELDS.ALT_TEXT],
-        createStringMaxErrorMessage
-      ),
-    ...(featureFlagUtils.isFeatureEnabled('LOCALIZED_IMAGE') &&
-      createMultiLanguageValidation(
-        ORDERED_LE_DATA_LANGUAGES.filter((l) => l !== LE_DATA_LANGUAGES.FI),
-        Yup.string()
-          .nullable()
-          .transform((v, o) => (o === '' ? null : v))
-          .min(
-            IMAGE_TEXT_FIELD_MIN_LENGTH[IMAGE_FIELDS.ALT_TEXT],
-            createStringMinErrorMessage
-          )
-          .max(
-            IMAGE_TEXT_FIELD_MAX_LENGTH[IMAGE_FIELDS.ALT_TEXT],
-            createStringMaxErrorMessage
-          )
-      ).fields),
-  }),
+  [IMAGE_FIELDS.ALT_TEXT]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .min(
+      IMAGE_TEXT_FIELD_MIN_LENGTH[IMAGE_FIELDS.ALT_TEXT],
+      createStringMinErrorMessage
+    )
+    .max(
+      IMAGE_TEXT_FIELD_MAX_LENGTH[IMAGE_FIELDS.ALT_TEXT],
+      createStringMaxErrorMessage
+    ),
   [IMAGE_FIELDS.NAME]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .max(

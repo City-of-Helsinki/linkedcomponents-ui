@@ -1,4 +1,3 @@
-import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import { ImageFieldsFragment } from '../../../generated/graphql';
 import {
   fakeImage,
@@ -11,7 +10,6 @@ import { DEFAULT_LICENSE_TYPE, IMAGE_ACTIONS } from '../constants';
 import {
   checkCanUserDoAction,
   getImageActionWarning,
-  getImageAltText,
   getImageFields,
   getImageInitialValues,
   imagePathBuilder,
@@ -82,7 +80,7 @@ describe('getImageFields function', () => {
     const { altText, id, license, name, photographerName, publisher, url } =
       getImageFields(image, 'fi');
 
-    expect(altText).toEqual(EMPTY_MULTI_LANGUAGE_OBJECT);
+    expect(altText).toEqual('');
     expect(id).toBe('');
     expect(license).toBe(DEFAULT_LICENSE_TYPE);
     expect(name).toBe('');
@@ -116,7 +114,7 @@ describe('getImageInitialValues function', () => {
         })
       )
     ).toEqual({
-      altText: EMPTY_MULTI_LANGUAGE_OBJECT,
+      altText: '',
       id: '',
       license: '',
       name: '',
@@ -234,30 +232,6 @@ describe('checkCanUserDoAction function', () => {
           user,
         })
       ).toBe(true);
-    });
-  });
-});
-
-describe('getImageAltText function', () => {
-  it('should return alt text when entered data is string', () => {
-    expect(getImageAltText('Alt text')).toEqual({
-      ar: '',
-      en: '',
-      fi: 'Alt text',
-      ru: '',
-      sv: '',
-      zhHans: '',
-    });
-  });
-
-  it('should return alt text when entered data is object', () => {
-    expect(getImageAltText({ fi: 'Alt text' })).toEqual({
-      ar: '',
-      en: '',
-      fi: 'Alt text',
-      ru: '',
-      sv: '',
-      zhHans: '',
     });
   });
 });

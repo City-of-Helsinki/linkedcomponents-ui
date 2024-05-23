@@ -7,16 +7,9 @@ import { useTranslation } from 'react-i18next';
 
 import RadioButtonGroupField from '../../../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
-import {
-  EMPTY_MULTI_LANGUAGE_OBJECT,
-  LE_DATA_LANGUAGES,
-  ORDERED_LE_DATA_LANGUAGES,
-} from '../../../../../constants';
 import { ImageDocument, ImageQuery } from '../../../../../generated/graphql';
 import useLocale from '../../../../../hooks/useLocale';
-import { featureFlagUtils } from '../../../../../utils/featureFlags';
 import getPathBuilder from '../../../../../utils/getPathBuilder';
-import lowerCaseFirstLetter from '../../../../../utils/lowerCaseFirstLetter';
 import parseIdFromAtId from '../../../../../utils/parseIdFromAtId';
 import {
   DEFAULT_LICENSE_TYPE,
@@ -64,7 +57,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
     setFieldValue(
       field,
       {
-        [IMAGE_FIELDS.ALT_TEXT]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+        [IMAGE_FIELDS.ALT_TEXT]: '',
         [IMAGE_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
         [IMAGE_FIELDS.NAME]: '',
         [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
@@ -117,41 +110,15 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
 
   return (
     <div className={styles.imageDetailsFields}>
-      {/* TODO: Remove LOCALIZED_IMAGE feature flag when localized image alt
-          text is deployed to production of API */}
-      {featureFlagUtils.isFeatureEnabled('LOCALIZED_IMAGE') ? (
-        ORDERED_LE_DATA_LANGUAGES.map((language) => {
-          const langText = lowerCaseFirstLetter(
-            t(`form.inLanguage.${language}`)
-          );
-
-          return (
-            <Field
-              key={language}
-              className={styles.alignedInput}
-              component={TextInputField}
-              disabled={!editable}
-              label={`${t('image.form.labelAltText')} (${langText})`}
-              name={`${getFieldName(IMAGE_FIELDS.ALT_TEXT)}.${language}`}
-              placeholder={`${t(
-                'image.form.placeholderAltText'
-              )} (${langText})`}
-              required={language === LE_DATA_LANGUAGES.FI}
-              title={warning}
-            />
-          );
-        })
-      ) : (
-        <Field
-          className={styles.alignedInput}
-          component={TextInputField}
-          disabled={!editable}
-          label={t('image.form.labelAltText')}
-          name={getFieldName(`${IMAGE_FIELDS.ALT_TEXT}.fi`)}
-          placeholder={t('image.form.placeholderAltText')}
-          required={true}
-        />
-      )}
+      <Field
+        className={styles.alignedInput}
+        component={TextInputField}
+        disabled={!editable}
+        label={t('image.form.labelAltText')}
+        name={getFieldName(IMAGE_FIELDS.ALT_TEXT)}
+        placeholder={t('image.form.placeholderAltText')}
+        required={true}
+      />
       <Field
         disabled={!editable}
         name={getFieldName(IMAGE_FIELDS.NAME)}

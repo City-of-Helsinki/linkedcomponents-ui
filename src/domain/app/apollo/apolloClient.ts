@@ -45,7 +45,6 @@ import {
   UsersResponse,
 } from '../../../generated/graphql';
 import { normalizeKey } from '../../../utils/apolloUtils';
-import { featureFlagUtils } from '../../../utils/featureFlags';
 import generateAtId from '../../../utils/generateAtId';
 import getValue from '../../../utils/getValue';
 import i18n from '../i18n/i18nInit';
@@ -265,18 +264,11 @@ const linkedEventsLink = new RestLink({
       if (config.method === 'GET') {
         return fetch(addNocacheToUrl(request), config);
       } else if (config.method === 'PUT' && requestParts[0] === 'image') {
-        // TODO: Remove LOCALIZED_IMAGE feature flag when localized image alt text
-        // is deployed to production of API
         const bodyObj = JSON.parse(getValue(config.body?.toString(), ''));
 
         return fetch(request, {
           ...config,
-          body: JSON.stringify({
-            ...bodyObj,
-            alt_text: featureFlagUtils.isFeatureEnabled('LOCALIZED_IMAGE')
-              ? bodyObj.alt_text
-              : bodyObj.alt_text?.fi ?? null,
-          }),
+          body: JSON.stringify(bodyObj),
         });
       }
     }

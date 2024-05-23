@@ -1,10 +1,9 @@
 import { PixelCrop } from 'react-image-crop';
 
-import { MultiLanguageObject } from '../../types';
 import { ADD_IMAGE_FIELDS, IMAGE_FIELDS } from './constants';
 
 export type ImageFormFields = {
-  [IMAGE_FIELDS.ALT_TEXT]: MultiLanguageObject;
+  [IMAGE_FIELDS.ALT_TEXT]: string;
   [IMAGE_FIELDS.ID]: string;
   [IMAGE_FIELDS.LICENSE]: string;
   [IMAGE_FIELDS.NAME]: string;

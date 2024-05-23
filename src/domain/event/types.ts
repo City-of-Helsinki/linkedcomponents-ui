@@ -131,7 +131,7 @@ export type ExternalLink = {
 };
 
 export type ImageDetails = {
-  [IMAGE_FIELDS.ALT_TEXT]: MultiLanguageObject;
+  [IMAGE_FIELDS.ALT_TEXT]: string;
   [IMAGE_FIELDS.LICENSE]: string;
   [IMAGE_FIELDS.NAME]: string;
   [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: string;

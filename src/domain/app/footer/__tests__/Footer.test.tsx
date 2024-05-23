@@ -57,7 +57,6 @@ test('matches snapshot', async () => {
 
 test('should show navigation links and should route to correct page after clicking link', async () => {
   setFeatureFlags({
-    LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
     SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,
@@ -109,7 +108,6 @@ test.each(registrationAndAdminTabTestCases)(
   'should show admin and registration links if user has sufficient permissions, %p',
   async ({ role, showAdminTab, showRegistrationTab }) => {
     setFeatureFlags({
-      LOCALIZED_IMAGE: true,
       SHOW_ADMIN: true,
       SHOW_PLACE_PAGES: true,
       SWEDISH_TRANSLATIONS: true,
@@ -148,7 +146,6 @@ test.each(registrationAndAdminTabTestCases)(
 
 test('should not show admin links when those features are disabled', async () => {
   setFeatureFlags({
-    LOCALIZED_IMAGE: true,
     SHOW_ADMIN: false,
     SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,
@@ -164,7 +161,6 @@ test('should not show admin links when those features are disabled', async () =>
 
 test('should show and open utility links', async () => {
   setFeatureFlags({
-    LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
     SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,

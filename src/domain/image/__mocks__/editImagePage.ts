@@ -1,7 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import omit from 'lodash/omit';
 
-import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import {
   DeleteImageDocument,
   ImageDocument,
@@ -13,7 +12,7 @@ import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { TEST_IMAGE_ID } from '../constants';
 
 const imageValues: Partial<ImageFieldsFragment> = {
-  altText: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Image alt text' },
+  altText: 'Image alt text',
   id: TEST_IMAGE_ID,
   license: 'cc_by',
   name: 'Image name',

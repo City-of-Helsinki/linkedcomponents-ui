@@ -158,7 +158,6 @@ const isHeadingRendered = async (heading: string | RegExp) => {
 
 beforeEach(() => {
   setFeatureFlags({
-    LOCALIZED_IMAGE: true,
     SHOW_ADMIN: true,
     SHOW_PLACE_PAGES: true,
     SWEDISH_TRANSLATIONS: true,

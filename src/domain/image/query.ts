@@ -5,9 +5,7 @@ export const QUERY_IMAGE = gql`
   fragment imageFields on Image {
     id
     atId
-    altText {
-      ...localisedFields
-    }
+    altText
     lastModifiedTime
     license
     name
