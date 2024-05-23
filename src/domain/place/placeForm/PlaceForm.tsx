@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
@@ -27,6 +27,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import useAdminFormStyles from '../../admin/layout/hooks/useAdminFormStyles';
 import Section from '../../app/layout/section/Section';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
@@ -104,34 +105,20 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
     });
   };
 
-  const inputRowBorderStyle = useMemo(
-    () =>
-      /* istanbul ignore next */
-      isEditingAllowed ? '' : styles.borderInMobile,
-    [isEditingAllowed]
-  );
+  const {
+    alignedInputStyle,
+    alignedInputStyleIfHasInstance,
+    inputRowBorderStyle,
+    inputRowBorderStyleIfHasInstance,
+  } = useAdminFormStyles({
+    instance: place,
+    isEditingAllowed,
+  });
 
-  const inputRowBorderStyleIfPlace = useMemo(
-    () => (!isEditingAllowed || place ? styles.borderInMobile : ''),
-    [isEditingAllowed, place]
-  );
-
-  const alignedInputStyle = useMemo(
-    () =>
-      /* istanbul ignore next */
-      isEditingAllowed
-        ? styles.alignedInput
-        : styles.alignedInputWithFullBorder,
-    [isEditingAllowed]
-  );
-
-  const alignedInputStyleIfPlace = useMemo(
-    () =>
-      !isEditingAllowed || place
-        ? styles.alignedInputWithFullBorder
-        : styles.alignedInput,
-    [isEditingAllowed, place]
-  );
+  const commonTextInputFieldProps = {
+    className: alignedInputStyle,
+    component: TextInputField,
+  };
 
   return (
     <Formik
@@ -211,17 +198,16 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
             </FormRow>
             <FormRow className={styles.borderInMobile}>
               <Field
-                className={alignedInputStyleIfPlace}
+                className={alignedInputStyleIfHasInstance}
                 component={TextInputField}
                 label={t(`place.form.labelDataSource`)}
                 name={PLACE_FIELDS.DATA_SOURCE}
                 readOnly
               />
             </FormRow>
-            <FormRow className={inputRowBorderStyleIfPlace}>
+            <FormRow className={inputRowBorderStyleIfHasInstance}>
               <Field
-                className={styles.alignedInput}
-                component={TextInputField}
+                {...commonTextInputFieldProps}
                 label={t(`place.form.labelOriginId`)}
                 name={PLACE_FIELDS.ORIGIN_ID}
                 readOnly={disabledIfPlace}
@@ -248,8 +234,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
               return (
                 <FormRow key={language} className={inputRowBorderStyle}>
                   <Field
-                    className={alignedInputStyle}
-                    component={TextInputField}
+                    {...commonTextInputFieldProps}
                     label={`${t('place.form.labelName')} (${langText})`}
                     name={`${PLACE_FIELDS.NAME}.${language}`}
                     readOnly={!isEditingAllowed}
@@ -285,8 +270,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
               return (
                 <FormRow key={language} className={inputRowBorderStyle}>
                   <Field
-                    className={alignedInputStyle}
-                    component={TextInputField}
+                    {...commonTextInputFieldProps}
                     label={t('place.form.labelInfoUrl', { langText })}
                     name={`${PLACE_FIELDS.INFO_URL}.${language}`}
                     readOnly={!isEditingAllowed}
@@ -315,8 +299,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
             <Section title={t('place.form.titleContactInfo')}>
               <FormRow className={inputRowBorderStyle}>
                 <Field
-                  className={alignedInputStyle}
-                  component={TextInputField}
+                  {...commonTextInputFieldProps}
                   label={t(`place.form.labelEmail`)}
                   name={PLACE_FIELDS.EMAIL}
                   readOnly={!isEditingAllowed}
@@ -331,8 +314,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 return (
                   <FormRow key={language} className={inputRowBorderStyle}>
                     <Field
-                      className={alignedInputStyle}
-                      component={TextInputField}
+                      {...commonTextInputFieldProps}
                       label={t('place.form.labelTelephone', { langText })}
                       name={`${PLACE_FIELDS.TELEPHONE}.${language}`}
                       readOnly={!isEditingAllowed}
@@ -343,8 +325,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
 
               <FormRow className={inputRowBorderStyle}>
                 <Field
-                  className={alignedInputStyle}
-                  component={TextInputField}
+                  {...commonTextInputFieldProps}
                   label={t(`place.form.labelContactType`)}
                   name={PLACE_FIELDS.CONTACT_TYPE}
                   readOnly={!isEditingAllowed}
@@ -359,8 +340,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 return (
                   <FormRow key={language} className={inputRowBorderStyle}>
                     <Field
-                      className={alignedInputStyle}
-                      component={TextInputField}
+                      {...commonTextInputFieldProps}
                       label={t('place.form.labelStreetAddress', { langText })}
                       name={`${PLACE_FIELDS.STREET_ADDRESS}.${language}`}
                       readOnly={!isEditingAllowed}
@@ -377,8 +357,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 return (
                   <FormRow key={language} className={inputRowBorderStyle}>
                     <Field
-                      className={alignedInputStyle}
-                      component={TextInputField}
+                      {...commonTextInputFieldProps}
                       label={t('place.form.labelAddressLocality', { langText })}
                       name={`${PLACE_FIELDS.ADDRESS_LOCALITY}.${language}`}
                       readOnly={!isEditingAllowed}
@@ -389,8 +368,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
 
               <FormRow className={inputRowBorderStyle}>
                 <Field
-                  className={alignedInputStyle}
-                  component={TextInputField}
+                  {...commonTextInputFieldProps}
                   label={t(`place.form.labelAddressRegion`)}
                   name={PLACE_FIELDS.ADDRESS_REGION}
                   readOnly={!isEditingAllowed}
@@ -399,8 +377,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
 
               <FormRow className={inputRowBorderStyle}>
                 <Field
-                  className={alignedInputStyle}
-                  component={TextInputField}
+                  {...commonTextInputFieldProps}
                   label={t(`place.form.labelPostalCode`)}
                   name={PLACE_FIELDS.POSTAL_CODE}
                   readOnly={!isEditingAllowed}
@@ -409,8 +386,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
 
               <FormRow className={inputRowBorderStyle}>
                 <Field
-                  className={alignedInputStyle}
-                  component={TextInputField}
+                  {...commonTextInputFieldProps}
                   label={t(`place.form.labelPostOfficeBoxNum`)}
                   name={PLACE_FIELDS.POST_OFFICE_BOX_NUM}
                   readOnly={!isEditingAllowed}

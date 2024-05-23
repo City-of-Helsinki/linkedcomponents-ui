@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { ServerError } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
@@ -25,6 +25,7 @@ import {
 } from '../../../utils/validationUtils';
 import styles from '../../admin/layout/form.module.scss';
 import FormRow from '../../admin/layout/formRow/FormRow';
+import useAdminFormStyles from '../../admin/layout/hooks/useAdminFormStyles';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import useOrganizationAncestors from '../../organization/hooks/useOrganizationAncestors';
 import useUser from '../../user/hooks/useUser';
@@ -103,21 +104,10 @@ const PriceGroupForm: React.FC<PriceGroupFormProps> = ({ priceGroup }) => {
     user,
   });
 
-  const inputRowBorderStyle = useMemo(
-    () =>
-      /* istanbul ignore next */
-      isEditingAllowed ? '' : styles.borderInMobile,
-    [isEditingAllowed]
-  );
-
-  const alignedInputStyle = useMemo(
-    () =>
-      /* istanbul ignore next */
-      isEditingAllowed
-        ? styles.alignedInput
-        : styles.alignedInputWithFullBorder,
-    [isEditingAllowed]
-  );
+  const { alignedInputStyle, inputRowBorderStyle } = useAdminFormStyles({
+    instance: priceGroup,
+    isEditingAllowed,
+  });
 
   return (
     <Formik
