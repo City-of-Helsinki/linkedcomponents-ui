@@ -46,6 +46,7 @@ describe('webStoreAccountSchema', () => {
     balanceProfitCenter: '16',
     companyCode: '73',
     mainLedgerAccount: '91',
+    name: 'account',
     vatCode: '11',
   };
 
@@ -54,6 +55,8 @@ describe('webStoreAccountSchema', () => {
   });
 
   const testCases: [Partial<WebStoreAccountFormFields>][] = [
+    [{ name: '' }],
+    [{ name: mockString(256) }],
     [{ vatCode: '' }],
     [{ vatCode: mockString(3) }],
     [{ companyCode: '' }],

@@ -1645,6 +1645,7 @@
         "labelCompanyCode": "SAP-yrityskoodi",
         "labelInternalOrder": "Sisäinen tilaus",
         "labelMainLedgerAccount": "Pääkirjanpitotili",
+        "labelName": "Nimi",
         "labelOperationArea": "SAP-toimintoalue",
         "labelProfitCenter": "Tulosyksikkö",
         "labelProject": "Projekti",
@@ -1686,7 +1687,7 @@
       "notificationOrganizationDeleted": "Organisaatio on poistettu",
       "notificationOrganizationUpdated": "Organisaatio on tallennettu",
       "notificationTitleCannotEdit": "Organisaatiota ei voi muokata",
-      "titleAccount": "Tili",
+      "titleAccounts": "Kirjanpitotilit",
       "titleMerchant": "Kauppias"
     },
     "internalType": {

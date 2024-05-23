@@ -65,7 +65,7 @@ const Accounts: React.FC<Props> = ({ organization }) => {
             );
           })}
 
-          {editable && webStoreAccounts.length < 1 && (
+          {editable && (
             <FieldWithButton>
               <Button
                 type="button"
@@ -75,6 +75,11 @@ const Accounts: React.FC<Props> = ({ organization }) => {
                   arrayHelpers.push(WEB_STORE_ACCOUNT_INITIAL_VALUES)
                 }
                 iconLeft={<IconPlus />}
+                style={{
+                  marginTop: webStoreAccounts.length
+                    ? 'var(--spacing-m)'
+                    : undefined,
+                }}
                 variant="primary"
                 title={warning}
               >

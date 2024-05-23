@@ -66,6 +66,7 @@ const Account: React.FC<Props> = ({
         accountPath,
         WEB_STORE_ACCOUNT_FIELDS.MAIN_LEDGER_ACCOUNT
       ),
+      name: getFieldName(accountPath, WEB_STORE_ACCOUNT_FIELDS.NAME),
       operationArea: getFieldName(
         accountPath,
         WEB_STORE_ACCOUNT_FIELDS.OPERATION_AREA
@@ -83,99 +84,92 @@ const Account: React.FC<Props> = ({
   const { alignedInputStyle, inputRowBorderStyleIfHasInstance } =
     useAdminFormStyles({ isEditingAllowed, instance: organization });
 
+  const commonFieldProps = {
+    disabled: !editable || !isEditingAllowed,
+    title: warning,
+  };
+  const commonInputFieldProps = {
+    ...commonFieldProps,
+    className: alignedInputStyle,
+    component: TextInputField,
+  };
+
   return (
     <>
       <FormRow className={styles.borderInMobile}>
         <Field
+          {...commonFieldProps}
           component={CheckboxField}
-          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.account.labelActive`)}
           name={fieldNames.active}
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
+          label={t(`organization.form.account.labelName`)}
+          name={fieldNames.name}
+          required
+        />
+      </FormRow>
+      <FormRow className={inputRowBorderStyleIfHasInstance}>
+        <Field
+          {...commonInputFieldProps}
           label={t(`organization.form.account.labelVatCode`)}
           name={fieldNames.vatCode}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.account.labelCompanyCode`)}
           name={fieldNames.companyCode}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.account.labelMainLedgerAccount`)}
           name={fieldNames.mainLedgerAccount}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.account.labelBalanceProfitCenter`)}
           name={fieldNames.balanceProfitCenter}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.account.labelInternalOrder`)}
           name={fieldNames.internalOrder}
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.account.labelProfitCenter`)}
           name={fieldNames.profitCenter}
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.account.labelProject`)}
           name={fieldNames.project}
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.account.labelOperationArea`)}
           name={fieldNames.operationArea}
-          title={warning}
         />
       </FormRow>
       {showDeleteButton && (

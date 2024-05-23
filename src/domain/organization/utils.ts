@@ -279,7 +279,7 @@ export const checkCanUserDoOrganizationAction = ({
   });
   const adminOrganizations = getValue(user?.adminOrganizations, []);
 
-  if (!!user?.isSuperuser) {
+  if (user?.isSuperuser) {
     return true;
   }
 
@@ -478,6 +478,7 @@ export const getWebStoreAccountInitialValues = (
     internalOrder: getValue(webStoreAccount.internalOrder, ''),
     operationArea: getValue(webStoreAccount.operationArea, ''),
     mainLedgerAccount: getValue(webStoreAccount.mainLedgerAccount, ''),
+    name: getValue(webStoreAccount.name, ''),
     profitCenter: getValue(webStoreAccount.profitCenter, ''),
     project: getValue(webStoreAccount.project, ''),
     vatCode: getValue(webStoreAccount.vatCode, ''),

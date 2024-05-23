@@ -163,7 +163,7 @@ test('should show server errors', async () => {
   screen.getByText(/Nimi on pakollinen./i);
 });
 
-test('should patch organization merchants by financial admin', async () => {
+test('should patch organization merchants and accounts by financial admin', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent([
     mockedOrganizationWithFinanfialInfoResponse,
