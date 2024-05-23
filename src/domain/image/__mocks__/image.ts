@@ -2,7 +2,6 @@ import { MockedResponse } from '@apollo/client/testing';
 import omit from 'lodash/omit';
 
 import { PAGE_SIZE } from '../../../common/components/imageSelector/constants';
-import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../constants';
 import {
   ImageDocument,
   ImagesDocument,
@@ -19,7 +18,7 @@ const publisher = TEST_PUBLISHER_ID;
 const imageFields = {
   id: imageId,
   atId: imageAtId,
-  altText: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Image alt text' },
+  altText: 'Image alt text',
   license: LICENSE_TYPES.EVENT_ONLY,
   name: 'Image name',
   photographerName: 'Photographer name',

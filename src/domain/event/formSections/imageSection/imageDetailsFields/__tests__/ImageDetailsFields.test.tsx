@@ -1,10 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
-import React from 'react';
 
-import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../../../constants';
-import { setFeatureFlags } from '../../../../../../test/featureFlags/featureFlags';
-import { MultiLanguageObject } from '../../../../../../types';
 import { mockAuthenticatedLoginState } from '../../../../../../utils/mockLoginHooks';
 import {
   act,
@@ -60,7 +56,7 @@ const eventType = EVENT_TYPE.General;
 interface InitialValues {
   [EVENT_FIELDS.IMAGES]: string[];
   [EVENT_FIELDS.IMAGE_DETAILS]: {
-    [IMAGE_FIELDS.ALT_TEXT]: MultiLanguageObject;
+    [IMAGE_FIELDS.ALT_TEXT]: string;
     [IMAGE_FIELDS.LICENSE]: string;
     [IMAGE_FIELDS.NAME]: string;
     [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: string;
@@ -71,7 +67,7 @@ interface InitialValues {
 const defaultInitialValus: InitialValues = {
   [EVENT_FIELDS.IMAGES]: [],
   [EVENT_FIELDS.IMAGE_DETAILS]: {
-    [IMAGE_FIELDS.ALT_TEXT]: EMPTY_MULTI_LANGUAGE_OBJECT,
+    [IMAGE_FIELDS.ALT_TEXT]: '',
     [IMAGE_FIELDS.LICENSE]: DEFAULT_LICENSE_TYPE,
     [IMAGE_FIELDS.NAME]: '',
     [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
@@ -101,14 +97,10 @@ const renderComponent = ({
     );
   });
 
-const findElement = (key: 'altText') => {
-  switch (key) {
-    case 'altText':
-      return screen.findByRole('textbox', {
-        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
-      });
-  }
-};
+const findAltTextInput = () =>
+  screen.findByRole('textbox', {
+    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *',
+  });
 
 const getElement = (
   key: 'altText' | 'ccByRadio' | 'eventOnlyRadio' | 'name' | 'photographerName'
@@ -116,7 +108,7 @@ const getElement = (
   switch (key) {
     case 'altText':
       return screen.getByRole('textbox', {
-        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
+        name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) *',
       });
     case 'ccByRadio':
       return screen.getByRole('radio', { name: 'Creative Commons BY 4.0' });
@@ -131,44 +123,7 @@ const getElement = (
   }
 };
 
-const setLocalizedImageFeatureFlag = (localizedImage: boolean) => {
-  setFeatureFlags({
-    LOCALIZED_IMAGE: localizedImage,
-    SHOW_ADMIN: true,
-    SHOW_PLACE_PAGES: true,
-    SWEDISH_TRANSLATIONS: true,
-    WEB_STORE_INTEGRATION: true,
-  });
-};
-
-test('should show localized alt-text fields', async () => {
-  setLocalizedImageFeatureFlag(true);
-
-  await renderComponent({});
-
-  screen.getByRole('textbox', {
-    name: 'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (suomeksi) *',
-  });
-  screen.getByLabelText(
-    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (ruotsiksi)'
-  );
-  screen.getByLabelText(
-    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (englanniksi)'
-  );
-  screen.getByLabelText(
-    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (venäjäksi)'
-  );
-  screen.getByLabelText(
-    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (kiinaksi)'
-  );
-  screen.getByLabelText(
-    'Kuvan vaihtoehtoinen teksti ruudunlukijoille (alt-teksti) (arabiaksi)'
-  );
-});
-
 test('should show only Finnish alt-text field', async () => {
-  setLocalizedImageFeatureFlag(false);
-
   await renderComponent({});
 
   screen.getByRole('textbox', {
@@ -177,11 +132,9 @@ test('should show only Finnish alt-text field', async () => {
 });
 
 test('all fields should be disabled when imageAtId is empty', async () => {
-  setLocalizedImageFeatureFlag(true);
-
   await renderComponent({ props: { imageAtId: '' } });
 
-  await findElement('altText');
+  await findAltTextInput();
   const textInputs = [
     getElement('altText'),
     getElement('name'),
@@ -194,16 +147,11 @@ test('all fields should be disabled when imageAtId is empty', async () => {
 });
 
 test('should clear field values when imageAtId is empty', async () => {
-  setLocalizedImageFeatureFlag(true);
-
   await renderComponent({
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
-        [IMAGE_FIELDS.ALT_TEXT]: {
-          ...EMPTY_MULTI_LANGUAGE_OBJECT,
-          fi: 'Lorem ipsum',
-        },
+        [IMAGE_FIELDS.ALT_TEXT]: 'Lorem ipsum',
         [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
         [IMAGE_FIELDS.NAME]: 'Lorem ipsum',
         [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
@@ -213,7 +161,7 @@ test('should clear field values when imageAtId is empty', async () => {
     props: { imageAtId: '' },
   });
 
-  await findElement('altText');
+  await findAltTextInput();
   const textInputs = [
     getElement('altText'),
     getElement('name'),
@@ -225,16 +173,11 @@ test('should clear field values when imageAtId is empty', async () => {
 });
 
 test('should clear field values when image with imageAtId does not exist', async () => {
-  setLocalizedImageFeatureFlag(true);
-
   await renderComponent({
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [imageNotFoundAtId],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
-        [IMAGE_FIELDS.ALT_TEXT]: {
-          ...EMPTY_MULTI_LANGUAGE_OBJECT,
-          fi: 'Lorem ipsum',
-        },
+        [IMAGE_FIELDS.ALT_TEXT]: 'Lorem ipsum',
         [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.EVENT_ONLY,
         [IMAGE_FIELDS.NAME]: 'Lorem ipsum',
         [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: 'Lorem ipsum',
@@ -257,12 +200,10 @@ test('should clear field values when image with imageAtId does not exist', async
 });
 
 test('should set field values', async () => {
-  setLocalizedImageFeatureFlag(true);
-
   await renderComponent({ props: { imageAtId: imageFields.atId } });
 
   const textInputCases = [
-    { input: getElement('altText'), expectedValue: imageFields.altText.fi },
+    { input: getElement('altText'), expectedValue: imageFields.altText },
     { input: getElement('name'), expectedValue: imageFields.name },
     {
       input: getElement('photographerName'),
@@ -280,18 +221,13 @@ test('should set field values', async () => {
 });
 
 test('should show validation error when entering too short altText', async () => {
-  setLocalizedImageFeatureFlag(true);
-
   const user = userEvent.setup();
 
   await renderComponent({
     initialValues: {
       [EVENT_FIELDS.IMAGES]: [imageFields.atId],
       [EVENT_FIELDS.IMAGE_DETAILS]: {
-        [IMAGE_FIELDS.ALT_TEXT]: {
-          ...EMPTY_MULTI_LANGUAGE_OBJECT,
-          fi: 'Lorem ipsum',
-        },
+        [IMAGE_FIELDS.ALT_TEXT]: 'Lorem ipsum',
         [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.CC_BY,
         [IMAGE_FIELDS.NAME]: '',
         [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: '',
@@ -303,7 +239,7 @@ test('should show validation error when entering too short altText', async () =>
 
   const altTextInput = getElement('altText');
 
-  await waitFor(() => expect(altTextInput).toHaveValue(imageFields.altText.fi));
+  await waitFor(() => expect(altTextInput).toHaveValue(imageFields.altText));
 
   await user.clear(altTextInput);
   await user.type(altTextInput, '123');

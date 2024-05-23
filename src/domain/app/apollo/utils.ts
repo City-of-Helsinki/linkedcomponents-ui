@@ -119,13 +119,7 @@ export const addTypenameIdObject = (
   idObject ? { ...idObject, __typename: 'IdObject' } : null;
 
 export const addTypenameImage = (image?: Image | null): Image | null =>
-  image
-    ? {
-        ...image,
-        altText: addTypenameLocalisedObject(image.altText),
-        __typename: 'Image',
-      }
-    : null;
+  image ? { ...image, __typename: 'Image' } : null;
 
 export const addTypenameKeyword = (keyword?: Keyword | null): Keyword | null =>
   keyword

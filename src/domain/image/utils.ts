@@ -12,20 +12,12 @@ import {
   ImageQuery,
   ImageQueryVariables,
   ImagesQueryVariables,
-  LocalisedFieldsFragment,
   OrganizationFieldsFragment,
   UpdateImageMutationInput,
   UserFieldsFragment,
 } from '../../generated/graphql';
-import {
-  Editability,
-  Language,
-  Maybe,
-  MultiLanguageObject,
-  PathBuilderProps,
-} from '../../types';
+import { Editability, Language, PathBuilderProps } from '../../types';
 import getDateFromString from '../../utils/getDateFromString';
-import getLocalisedObject from '../../utils/getLocalisedObject';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
@@ -72,7 +64,7 @@ export const imagesPathBuilder = ({
 };
 
 type ImageFields = {
-  altText: MultiLanguageObject;
+  altText: string;
   id: string;
   imageUrl: string;
   lastModifiedTime: Date | null;
@@ -90,7 +82,7 @@ export const getImageFields = (
   const id = getValue(image.id, '');
 
   return {
-    altText: getImageAltText(image.altText),
+    altText: getValue(image.altText, ''),
     id,
     imageUrl: `/${language}${ROUTES.EDIT_IMAGE.replace(':id', id)}`,
     lastModifiedTime: getDateFromString(image.lastModifiedTime),
@@ -101,11 +93,6 @@ export const getImageFields = (
     url: getValue(image.url, ''),
   };
 };
-
-export const getImageAltText = (
-  altText: Maybe<LocalisedFieldsFragment> | string
-) =>
-  getLocalisedObject(typeof altText === 'string' ? { fi: altText } : altText);
 
 export const checkCanUserDoAction = ({
   action,
@@ -259,7 +246,7 @@ export const getImageInitialValues = (
   image: ImageFieldsFragment
 ): ImageFormFields => {
   return {
-    altText: getLocalisedObject(image.altText),
+    altText: getValue(image.altText, ''),
     id: getValue(image.id, ''),
     license: getValue(image.license, ''),
     name: getValue(image.name, ''),

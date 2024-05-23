@@ -425,7 +425,7 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input UpdateImageMutationInput {
-    altText: LocalisedObjectInput
+    altText: String
     license: String
     name: String!
     photographerName: String
@@ -433,7 +433,7 @@ module.exports = buildSchema(/* GraphQL */ `
   }
 
   input UploadImageMutationInput {
-    altText: LocalisedObjectInput
+    altText: String
     image: Any
     license: String
     name: String!
@@ -807,7 +807,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   type Image {
     id: ID
-    altText: LocalisedObject
+    altText: String
     createdBy: String
     createdTime: String
     cropping: String

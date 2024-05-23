@@ -956,7 +956,7 @@ describe('getEventInitialValues function', () => {
     const hasEnvironmentalCertificate = true;
     const id = 'event:1';
     const imageDetails = {
-      altText: EMPTY_MULTI_LANGUAGE_OBJECT,
+      altText: '',
       license: 'cc_by',
       name: '',
       photographerName: '',

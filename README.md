@@ -83,7 +83,6 @@ Use .env.development.local for development.
 | REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE | helsinki                                                                                                                                                 |
 | REACT_APP_SHOW_ADMIN                       | Flag to show admin pages, Default true. pages                                                                                                            |
 | REACT_APP_SHOW_PLACE_PAGES                 | Flag to show place pages, Default is false.                                                                                                              |
-| REACT_APP_LOCALIZED_IMAGE                  | Flag to disabled localized image alt texts, Default true.                                                                                                |
 | REACT_APP_ENABLE_SWEDISH_TRANSLATIONS      | Flag to enable swedish translations, Default is false.                                                                                                   |
 | REACT_APP_ENABLE_EXTERNAL_USER_EVENTS      | Flag to enable events for users without an organization, Default true.                                                                                   |
 | REACT_APP_MAINTENANCE_SHOW_NOTIFICATION    | Flag to show maintenance notification in each page. Default is false.                                                                                    |
@@ -112,12 +111,6 @@ Note that also `REACT_APP_SHOW_PLACE_PAGES` has to be enabled to see place pages
 Features enabled:
 
 - Editing places.
-
-`REACT_APP_LOCALIZED_IMAGE`:
-
-Features enabled:
-
-- Localized alt-text of image.
 
 `REACT_APP_WEB_STORE_INTEGRATION_ENABLED`:
 

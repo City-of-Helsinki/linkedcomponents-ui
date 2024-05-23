@@ -1,7 +1,6 @@
 import { IconCogwheel, IconCrossCircle, IconPen, IconUpload } from 'hds-react';
 import React from 'react';
 
-import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../constants';
 import { AddImageSettings, ImageFormFields } from './types';
 
 export enum LICENSE_TYPES {
@@ -50,7 +49,7 @@ export enum IMAGE_FIELDS {
 }
 
 export const IMAGE_INITIAL_VALUES: ImageFormFields = {
-  [IMAGE_FIELDS.ALT_TEXT]: { ...EMPTY_MULTI_LANGUAGE_OBJECT },
+  [IMAGE_FIELDS.ALT_TEXT]: '',
   [IMAGE_FIELDS.ID]: '',
   [IMAGE_FIELDS.LICENSE]: LICENSE_TYPES.CC_BY,
   [IMAGE_FIELDS.NAME]: '',

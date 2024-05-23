@@ -74,7 +74,6 @@ import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
 import skipFalsyType from '../../utils/skipFalsyType';
 import wait from '../../utils/wait';
-import { getImageAltText } from '../image/utils';
 import {
   isAdminUserInOrganization,
   isExternalUserWithoutOrganization,
@@ -749,7 +748,7 @@ const getSavedEventTimes = (event: EventFieldsFragment): EventTime[] => {
 
 const getEventImageDetails = (event: EventFieldsFragment): ImageDetails => {
   return {
-    altText: getImageAltText(event.images[0]?.altText),
+    altText: getValue(event.images[0]?.altText, ''),
     license: getValue(
       event.images[0]?.license,
       EVENT_INITIAL_VALUES.imageDetails.license

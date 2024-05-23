@@ -16,7 +16,7 @@ const testImageSchema = async (image: ImageFormFields) => {
 describe('imageSchema', () => {
   const validImageValues: ImageFormFields = {
     ...IMAGE_INITIAL_VALUES,
-    altText: { ...IMAGE_INITIAL_VALUES.altText, fi: 'Alt text' },
+    altText: 'Alt text',
     name: 'Image name',
     publisher: TEST_PUBLISHER_ID,
   };
@@ -26,19 +26,8 @@ describe('imageSchema', () => {
   });
 
   const testCases: [Partial<ImageFormFields>][] = [
-    [{ altText: { ...validImageValues.altText, fi: '' } }],
-    [{ altText: { ...validImageValues.altText, ar: mockString(321) } }],
-    [{ altText: { ...validImageValues.altText, ar: mockString(5) } }],
-    [{ altText: { ...validImageValues.altText, en: mockString(321) } }],
-    [{ altText: { ...validImageValues.altText, en: mockString(5) } }],
-    [{ altText: { ...validImageValues.altText, fi: mockString(321) } }],
-    [{ altText: { ...validImageValues.altText, fi: mockString(5) } }],
-    [{ altText: { ...validImageValues.altText, ru: mockString(321) } }],
-    [{ altText: { ...validImageValues.altText, ru: mockString(5) } }],
-    [{ altText: { ...validImageValues.altText, sv: mockString(321) } }],
-    [{ altText: { ...validImageValues.altText, sv: mockString(5) } }],
-    [{ altText: { ...validImageValues.altText, zhHans: mockString(321) } }],
-    [{ altText: { ...validImageValues.altText, zhHans: mockString(5) } }],
+    [{ altText: '' }],
+    [{ altText: mockString(321) }],
     [{ name: mockString(256) }],
     [{ photographerName: mockString(256) }],
     [{ publisher: '' }],
