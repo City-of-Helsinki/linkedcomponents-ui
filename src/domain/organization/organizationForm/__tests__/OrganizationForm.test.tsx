@@ -43,7 +43,13 @@ const shouldAddAndRemoveItem = async ({
   const user = userEvent.setup();
   await user.click(screen.getByRole('button', { name: addButtonLabel }));
 
-  expect(screen.getByRole('textbox', { name: expectedInputLabel }));
+  expect(
+    screen.getByRole('textbox', { name: expectedInputLabel })
+  ).toBeInTheDocument();
+  // Allow multiple merchants or accounts
+  expect(
+    screen.getByRole('button', { name: addButtonLabel })
+  ).toBeInTheDocument();
 
   await user.click(screen.getByRole('button', { name: deleteButtonLabel }));
   expect(

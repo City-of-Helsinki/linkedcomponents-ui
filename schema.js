@@ -502,7 +502,6 @@ module.exports = buildSchema(/* GraphQL */ `
     phoneNumber: String
     streetAddress: String
     termsOfServiceUrl: String
-    url: String
     zipcode: String
   }
 
@@ -941,7 +940,6 @@ module.exports = buildSchema(/* GraphQL */ `
     phoneNumber: String
     streetAddress: String
     termsOfServiceUrl: String
-    url: String
     zipcode: String
   }
 

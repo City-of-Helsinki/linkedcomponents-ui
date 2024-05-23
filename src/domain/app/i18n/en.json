@@ -1681,7 +1681,6 @@
         "labelPhoneNumber": "Telephone number",
         "labelStreetAddress": "Street address",
         "labelTermsOfServiceUrl": "Terms of Service URL",
-        "labelUrl": "URL address",
         "labelZipcode": "Postcode"
       },
       "notificationOrganizationDeleted": "The organization has been deleted",

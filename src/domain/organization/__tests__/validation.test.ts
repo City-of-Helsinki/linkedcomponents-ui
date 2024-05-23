@@ -108,7 +108,6 @@ describe('webStoreMerchantSchema', () => {
     phoneNumber: '0401234567',
     streetAddress: 'Test address',
     termsOfServiceUrl: 'https://test.com',
-    url: 'https://test.com',
     zipcode: '00100',
   };
 
@@ -129,8 +128,6 @@ describe('webStoreMerchantSchema', () => {
     [{ email: 'invalid-email' }],
     [{ phoneNumber: '' }],
     [{ phoneNumber: mockString(19) }],
-    [{ url: '' }],
-    [{ url: 'invalid-url' }],
     [{ termsOfServiceUrl: '' }],
     [{ termsOfServiceUrl: 'invalid-url' }],
     [{ businessId: '' }],

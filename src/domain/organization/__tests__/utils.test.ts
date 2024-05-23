@@ -64,7 +64,6 @@ const merchant = {
   phoneNumber: '0441234567',
   streetAddress: 'Osoite',
   termsOfServiceUrl: 'https://test.com',
-  url: 'https://test2.com',
   zipcode: '00100',
 };
 

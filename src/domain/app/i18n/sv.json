@@ -1681,7 +1681,6 @@
         "labelPhoneNumber": "Telefonnummer",
         "labelStreetAddress": "Gatuadress",
         "labelTermsOfServiceUrl": "Användarvillkor URL",
-        "labelUrl": "URL-adress",
         "labelZipcode": "Postnummer"
       },
       "notificationOrganisationDeleted": "Organisationen har tagits bort",

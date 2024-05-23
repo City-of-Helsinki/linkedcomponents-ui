@@ -77,7 +77,6 @@ const Merchant: React.FC<Props> = ({
         merchantPath,
         WEB_STORE_MERCHANT_FIELDS.TERMS_OF_SERVICE_URL
       ),
-      url: getFieldName(merchantPath, WEB_STORE_MERCHANT_FIELDS.URL),
       zipcode: getFieldName(merchantPath, WEB_STORE_MERCHANT_FIELDS.ZIPCODE),
     }),
     [merchantPath]
@@ -86,136 +85,105 @@ const Merchant: React.FC<Props> = ({
   const { alignedInputStyle, inputRowBorderStyleIfHasInstance } =
     useAdminFormStyles({ isEditingAllowed, instance: organization });
 
+  const commonFieldProps = {
+    disabled: !editable || !isEditingAllowed,
+    title: warning,
+  };
+  const commonInputFieldProps = {
+    ...commonFieldProps,
+    className: alignedInputStyle,
+    component: TextInputField,
+  };
+
   return (
     <>
       <FormRow className={styles.borderInMobile}>
         <Field
+          {...commonFieldProps}
           component={CheckboxField}
-          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelActive`)}
           name={fieldNames.active}
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.merchant.labelName`)}
           name={fieldNames.name}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.merchant.labelStreetAddress`)}
           name={fieldNames.streetAddress}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.merchant.labelZipcode`)}
           name={fieldNames.zipcode}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.merchant.labelCity`)}
           name={fieldNames.city}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.merchant.labelEmail`)}
           name={fieldNames.email}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.merchant.labelPhoneNumber`)}
           name={fieldNames.phoneNumber}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
-          label={t(`organization.form.merchant.labelUrl`)}
-          name={fieldNames.url}
-          required
-          title={warning}
-        />
-      </FormRow>
-      <FormRow className={inputRowBorderStyleIfHasInstance}>
-        <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.merchant.labelTermsOfServiceUrl`)}
           name={fieldNames.termsOfServiceUrl}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.merchant.labelBusinessId`)}
           name={fieldNames.businessId}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={inputRowBorderStyleIfHasInstance}>
         <Field
-          className={alignedInputStyle}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
+          {...commonInputFieldProps}
           label={t(`organization.form.merchant.labelPaytrailMerchantId`)}
           name={fieldNames.paytrailMerchantId}
           required
-          title={warning}
         />
       </FormRow>
       <FormRow className={styles.borderInMobile}>
         <Field
+          {...commonInputFieldProps}
           className={styles.alignedInputWithFullBorder}
-          component={TextInputField}
-          disabled={!editable || !isEditingAllowed}
           label={t(`organization.form.merchant.labelMerchantId`)}
           name={fieldNames.merchantId}
           readOnly={true}
-          title={warning}
         />
       </FormRow>
       {showDeleteButton && (

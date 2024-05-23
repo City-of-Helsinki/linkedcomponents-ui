@@ -65,7 +65,7 @@ const Merchants: React.FC<Props> = ({ organization }) => {
             );
           })}
 
-          {editable && webStoreMerchants.length < 1 && (
+          {editable && (
             <FieldWithButton>
               <Button
                 type="button"
@@ -75,6 +75,11 @@ const Merchants: React.FC<Props> = ({ organization }) => {
                   arrayHelpers.push(WEB_STORE_MERCHANT_INITIAL_VALUES)
                 }
                 iconLeft={<IconPlus />}
+                style={{
+                  marginTop: webStoreMerchants.length
+                    ? 'var(--spacing-m)'
+                    : undefined,
+                }}
                 variant="primary"
                 title={warning}
               >
