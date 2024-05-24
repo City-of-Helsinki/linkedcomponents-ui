@@ -47,7 +47,6 @@ describe('webStoreAccountSchema', () => {
     companyCode: '73',
     mainLedgerAccount: '91',
     name: 'account',
-    vatCode: '11',
   };
 
   it('should return true if web store account is valid', async () => {
@@ -57,8 +56,6 @@ describe('webStoreAccountSchema', () => {
   const testCases: [Partial<WebStoreAccountFormFields>][] = [
     [{ name: '' }],
     [{ name: mockString(256) }],
-    [{ vatCode: '' }],
-    [{ vatCode: mockString(3) }],
     [{ companyCode: '' }],
     [{ companyCode: mockString(5) }],
     [{ mainLedgerAccount: '' }],

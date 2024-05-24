@@ -591,6 +591,8 @@ export const fakeRegistration = (
       maximumAttendeeCapacity: 0,
       maximumGroupSize: null,
       minimumAttendeeCapacity: 0,
+      registrationAccount: null,
+      registrationMerchant: null,
       registrationPriceGroups: [],
       registrationUserAccesses: [],
       remainingAttendeeCapacity: 0,
@@ -799,7 +801,6 @@ export const fakeWebStoreAccount = (
       operationArea: faker.string.numeric({ length: 2 }),
       profitCenter: faker.string.numeric({ length: 2 }),
       project: faker.string.numeric({ length: 2 }),
-      vatCode: faker.string.numeric({ length: 8 }),
       __typename: 'WebStoreAccount',
     },
     overrides

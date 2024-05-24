@@ -1,7 +1,13 @@
+import { mockString } from '../../../utils/testUtils';
 import { TEST_EVENT_ID } from '../../event/constants';
-import { REGISTRATION_INITIAL_VALUES } from '../constants';
+import {
+  REGISTRATION_ACCOUNT_FIELDS,
+  REGISTRATION_FIELDS,
+  REGISTRATION_INITIAL_VALUES,
+  REGISTRATION_MERCHANT_FIELDS,
+} from '../constants';
 import { RegistrationFormFields } from '../types';
-import { registrationSchema } from '../validation';
+import { getFocusableFieldId, registrationSchema } from '../validation';
 
 const testRegistrationSchema = async (registration: RegistrationFormFields) => {
   try {
@@ -17,13 +23,28 @@ afterEach(() => {
 });
 
 describe('registrationSchema', () => {
+  const validRegistrationAccount = {
+    account: '1',
+    balanceProfitCenter: '1723',
+    companyCode: '1947',
+    internalOrder: '',
+    mainLedgerAccount: '3503',
+    operationArea: '',
+    profitCenter: '',
+    project: '',
+  };
   const validRegistrationValues: RegistrationFormFields = {
     ...REGISTRATION_INITIAL_VALUES,
+
     enrolmentEndTimeDate: new Date('2023-01-01'),
     enrolmentEndTimeTime: '15:00',
     enrolmentStartTimeDate: new Date('2023-01-01'),
     enrolmentStartTimeTime: '15:00',
     event: TEST_EVENT_ID,
+    registrationAccount: validRegistrationAccount,
+    registrationMerchant: {
+      merchant: '1',
+    },
     registrationPriceGroupsVatPercentage: '24.00',
   };
 
@@ -255,13 +276,51 @@ describe('registrationSchema', () => {
     ).toBe(false);
   });
 
-  it('should return false if vatPercentage  is empty', async () => {
+  it('should return false if vatPercentage is empty', async () => {
     expect(
       await testRegistrationSchema({
         ...validRegistrationValues,
         hasPrice: true,
         registrationPriceGroups: [validPriceGroup],
         registrationPriceGroupsVatPercentage: '',
+      })
+    ).toBe(false);
+  });
+
+  it.each([
+    [{ account: '' }],
+    [{ balanceProfitCenter: '' }],
+    [{ balanceProfitCenter: mockString(11) }],
+    [{ companyCode: '' }],
+    [{ companyCode: mockString(5) }],
+    [{ internalOrder: mockString(11) }],
+    [{ mainLedgerAccount: '' }],
+    [{ mainLedgerAccount: mockString(7) }],
+    [{ operationArea: mockString(7) }],
+    [{ profitCenter: mockString(8) }],
+    [{ project: mockString(17) }],
+  ])('should return false if account is invalid', async (accountFields) => {
+    expect(
+      await testRegistrationSchema({
+        ...validRegistrationValues,
+
+        hasPrice: true,
+        registrationAccount: {
+          ...validRegistrationAccount,
+          ...accountFields,
+        },
+        registrationPriceGroups: [validPriceGroup],
+      })
+    ).toBe(false);
+  });
+
+  it('should return false if merchant is empty', async () => {
+    expect(
+      await testRegistrationSchema({
+        ...validRegistrationValues,
+        hasPrice: true,
+        registrationMerchant: { merchant: '' },
+        registrationPriceGroups: [validPriceGroup],
       })
     ).toBe(false);
   });
@@ -276,5 +335,26 @@ describe('registrationSchema', () => {
         registrationPriceGroupsVatPercentage: '',
       })
     ).toBe(true);
+  });
+});
+
+describe('getFocusableFieldId', () => {
+  it.each([
+    [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE, 'audienceMaxAge'],
+    [REGISTRATION_FIELDS.EVENT, 'event-input'],
+    [
+      REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE,
+      'registrationPriceGroupsVatPercentage-toggle-button',
+    ],
+    [
+      `${REGISTRATION_FIELDS.REGISTRATION_ACCOUNT}.${REGISTRATION_ACCOUNT_FIELDS.ACCOUNT}`,
+      'registrationAccount.account-toggle-button',
+    ],
+    [
+      `${REGISTRATION_FIELDS.REGISTRATION_MERCHANT}.${REGISTRATION_MERCHANT_FIELDS.MERCHANT}`,
+      'registrationMerchant.merchant-toggle-button',
+    ],
+  ])('should return corrent field id', (fieldName, expectedId) => {
+    expect(getFocusableFieldId(fieldName)).toBe(expectedId);
   });
 });

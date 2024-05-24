@@ -1641,15 +1641,14 @@
     "form": {
       "account": {
         "labelActive": "Aktiivinen",
-        "labelBalanceProfitCenter": "Tasapainotettu tulosyksikkö",
-        "labelCompanyCode": "SAP-yrityskoodi",
+        "labelBalanceProfitCenter": "Tasetilin tulosyksikkö",
+        "labelCompanyCode": "SAP-yritystunnus",
         "labelInternalOrder": "Sisäinen tilaus",
-        "labelMainLedgerAccount": "Pääkirjanpitotili",
+        "labelMainLedgerAccount": "Pääkirjatili",
         "labelName": "Nimi",
         "labelOperationArea": "SAP-toimintoalue",
         "labelProfitCenter": "Tulosyksikkö",
-        "labelProject": "Projekti",
-        "labelVatCode": "ALV-koodi"
+        "labelProject": "Projekti"
       },
       "buttonAddAccount": "Lisää uusi tili",
       "buttonAddMerchant": "Lisää uusi kauppias",
@@ -1883,6 +1882,39 @@
       "placeholderConfirmationMessage": "Syötä vahvistusviesti ilmoittautuneille",
       "placeholderEvent": "Valitse tai hae tapahtuma",
       "placeholderInstructions": "Syötä ilmoittautumisohjeet",
+      "registrationAccount": {
+        "buttonReturnDefaults": "Palauta tilin oletusarvot",
+        "helperDefaultValue": "Oletusarvo: {{value}}",
+        "labelAccount": "Kirjanpitotili",
+        "labelBalanceProfitCenter": "Tasetilin tulosyksikkö",
+        "labelCompanyCode": "SAP-yritystunnus",
+        "labelInternalOrder": "Sisäinen tilaus",
+        "labelMainLedgerAccount": "Pääkirjatili",
+        "labelOperationArea": "SAP-toimintoalue",
+        "labelProfitCenter": "Tulosyksikkö",
+        "labelProject": "Projekti",
+        "placeholderAccount": "Valitse kirjanpitotili",
+        "placeholderBalanceProfitCenter": "Syötä tasetilin tulosyksikkö",
+        "placeholderCompanyCode": "Syötä SAP-yritystunnus",
+        "placeholderInternalOrder": "Syötä sisäinen tilaus",
+        "placeholderMainLedgerAccount": "Syötä pääkirjatili",
+        "placeholderOperationArea": "Syötä SAP-toimintoalue",
+        "placeholderProfitCenter": "Syötä tulosyksikkö",
+        "placeholderProject": "Syötä projekti"
+      },
+      "registrationMerchant": {
+        "labelMerchant": "Kauppias",
+        "placeholderMerchant": "Valitse kauppias"
+      },
+      "registrationPriceGroup": {
+        "labelHasPrice": "Tapahtuma on maksullinen",
+        "labelPrice": "Hinta (€)",
+        "labelPriceGroup": "Asiakasryhmä",
+        "labelVatPercentage": "ALV %",
+        "placeholderPrice": "Syötä hinta",
+        "placeholderPriceGroup": "Valitse asiakasryhmä",
+        "placeholderVatPercentage": "Valitse ALV %"
+      },
       "registrationUserAccess": {
         "labelEmail": "Käyttäjän sähköpostiosoite",
         "labelIsSubstituteUser": "Sijainen",
@@ -1893,15 +1925,6 @@
         "notificationTitleSubstituteUser": "Sijainen",
         "placeholderEmail": "Syötä käyttäjän sähköpostiosoite",
         "placeholderLanguage": "Valitse kieli"
-      },
-      "registrationPriceGroup": {
-        "labelHasPrice": "Tapahtuma on maksullinen",
-        "labelPrice": "Hinta (€)",
-        "labelPriceGroup": "Asiakasryhmä",
-        "labelVatPercentage": "ALV %",
-        "placeholderPrice": "Syötä hinta",
-        "placeholderPriceGroup": "Valitse asiakasryhmä",
-        "placeholderVatPercentage": "Valitse ALV %"
       },
       "sections": {
         "attendeeCount": "Paikat",

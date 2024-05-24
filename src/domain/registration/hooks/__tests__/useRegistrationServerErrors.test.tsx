@@ -22,7 +22,7 @@ it('should set generic server error items', async () => {
 it('should set server error items', async () => {
   const { result } = getHookWrapper();
 
-  await shouldSetServerErrors(
+  shouldSetServerErrors(
     result,
     {
       audience_min_age: ['Tämän luvun on oltava vähintään 0.'],
@@ -33,6 +33,12 @@ it('should set server error items', async () => {
       event: ['Tämän kentän arvo ei voi olla "null".'],
       maximum_attendee_capacity: ['Tämän luvun on oltava vähintään 0.'],
       minimum_attendee_capacity: ['Tämän luvun on oltava vähintään 0.'],
+      registration_merchant: {
+        non_field_errors: ['Odotettiin sanakirjaa, saatiin tyyppi int.'],
+      },
+      registration_account: {
+        non_field_errors: ['Odotettiin sanakirjaa, saatiin tyyppi int.'],
+      },
       registration_user_accesses: [
         {
           is_substitute_user: [
@@ -64,6 +70,14 @@ it('should set server error items', async () => {
         message: 'Tämän luvun on oltava vähintään 0.',
       },
       {
+        label: 'Kauppias',
+        message: 'Odotettiin sanakirjaa, saatiin tyyppi int.',
+      },
+      {
+        label: 'Kirjanpitotili',
+        message: 'Odotettiin sanakirjaa, saatiin tyyppi int.',
+      },
+      {
         label: 'Sijainen',
         message:
           'Käyttäjän sähköpostin verkkotunnus ei ole sallittu sijaiselle.',
@@ -75,6 +89,51 @@ it('should set server error items', async () => {
       {
         label: 'Jonopaikkojen lukumäärä',
         message: 'Tämän luvun on oltava vähintään 0.',
+      },
+    ]
+  );
+
+  shouldSetServerErrors(
+    result,
+    {
+      registration_merchant: [
+        'This field is required when registration has customer groups.',
+      ],
+      registration_account: [
+        'This field is required when registration has customer groups.',
+      ],
+    },
+    [
+      {
+        label: 'Kauppias',
+        message:
+          'This field is required when registration has customer groups.',
+      },
+      {
+        label: 'Kirjanpitotili',
+        message:
+          'This field is required when registration has customer groups.',
+      },
+    ]
+  );
+  shouldSetServerErrors(
+    result,
+    {
+      registration_account: {
+        account: ['Kenttä on pakollinen.'],
+      },
+      registration_merchant: {
+        merchant: ['Kenttä on pakollinen.'],
+      },
+    },
+    [
+      {
+        label: 'Kirjanpitotili',
+        message: 'Kenttä on pakollinen.',
+      },
+      {
+        label: 'Kauppias',
+        message: 'Kenttä on pakollinen.',
       },
     ]
   );

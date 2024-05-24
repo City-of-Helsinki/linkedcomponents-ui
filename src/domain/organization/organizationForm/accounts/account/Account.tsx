@@ -76,7 +76,6 @@ const Account: React.FC<Props> = ({
         WEB_STORE_ACCOUNT_FIELDS.PROFIT_CENTER
       ),
       project: getFieldName(accountPath, WEB_STORE_ACCOUNT_FIELDS.PROJECT),
-      vatCode: getFieldName(accountPath, WEB_STORE_ACCOUNT_FIELDS.VAT_CODE),
     }),
     [accountPath]
   );
@@ -109,14 +108,6 @@ const Account: React.FC<Props> = ({
           {...commonInputFieldProps}
           label={t(`organization.form.account.labelName`)}
           name={fieldNames.name}
-          required
-        />
-      </FormRow>
-      <FormRow className={inputRowBorderStyleIfHasInstance}>
-        <Field
-          {...commonInputFieldProps}
-          label={t(`organization.form.account.labelVatCode`)}
-          name={fieldNames.vatCode}
           required
         />
       </FormRow>

@@ -2,10 +2,27 @@ import { MultiLanguageObject } from '../../types';
 import { EventFields } from '../event/types';
 import { PriceGroupOption } from '../priceGroup/types';
 import {
+  REGISTRATION_ACCOUNT_FIELDS,
   REGISTRATION_FIELDS,
+  REGISTRATION_MERCHANT_FIELDS,
   REGISTRATION_PRICE_GROUP_FIELDS,
   REGISTRATION_USER_ACCESS_FIELDS,
 } from './constants';
+
+export type RegistrationAccountFormFields = {
+  [REGISTRATION_ACCOUNT_FIELDS.ACCOUNT]: string;
+  [REGISTRATION_ACCOUNT_FIELDS.BALANCE_PROFIT_CENTER]: string;
+  [REGISTRATION_ACCOUNT_FIELDS.COMPANY_CODE]: string;
+  [REGISTRATION_ACCOUNT_FIELDS.INTERNAL_ORDER]: string;
+  [REGISTRATION_ACCOUNT_FIELDS.MAIN_LEDGER_ACCOUNT]: string;
+  [REGISTRATION_ACCOUNT_FIELDS.OPERATION_AREA]: string;
+  [REGISTRATION_ACCOUNT_FIELDS.PROFIT_CENTER]: string;
+  [REGISTRATION_ACCOUNT_FIELDS.PROJECT]: string;
+};
+
+export type RegistrationMerchantFormFields = {
+  [REGISTRATION_MERCHANT_FIELDS.MERCHANT]: string;
+};
 
 export type RegistrationPriceGroupFormFields = {
   [REGISTRATION_PRICE_GROUP_FIELDS.ID]: number | null;
@@ -37,6 +54,8 @@ export type RegistrationFormFields = {
   [REGISTRATION_FIELDS.MAXIMUM_GROUP_SIZE]: number | '';
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: number | '';
   [REGISTRATION_FIELDS.PRICE_GROUP_OPTIONS]: PriceGroupOption[];
+  [REGISTRATION_FIELDS.REGISTRATION_ACCOUNT]: RegistrationAccountFormFields;
+  [REGISTRATION_FIELDS.REGISTRATION_MERCHANT]: RegistrationMerchantFormFields;
   [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS]: RegistrationPriceGroupFormFields[];
   [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE]: string;
   [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: RegistrationUserAccessFormFields[];

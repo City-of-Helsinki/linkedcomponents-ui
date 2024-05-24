@@ -193,6 +193,8 @@ describe('getRegistrationInitialValues function', () => {
       instructions,
       maximumAttendeeCapacity,
       minimumAttendeeCapacity,
+      registrationAccount,
+      registrationMerchant,
       registrationUserAccesses,
       waitingListCapacity,
     } = getRegistrationInitialValues(
@@ -233,11 +235,22 @@ describe('getRegistrationInitialValues function', () => {
     });
     expect(maximumAttendeeCapacity).toBe('');
     expect(minimumAttendeeCapacity).toBe('');
+    expect(registrationAccount).toEqual({
+      account: '',
+      balanceProfitCenter: '',
+      companyCode: '',
+      internalOrder: '',
+      mainLedgerAccount: '',
+      operationArea: '',
+      profitCenter: '',
+      project: '',
+    });
+    expect(registrationMerchant).toEqual({ merchant: '' });
     expect(registrationUserAccesses).toEqual([]);
     expect(waitingListCapacity).toBe('');
   });
 
-  it('should return initial values if value is not set', () => {
+  it('should return initial values', () => {
     expect(
       getRegistrationInitialValues(
         fakeRegistration({
@@ -256,6 +269,19 @@ describe('getRegistrationInitialValues function', () => {
           mandatoryFields: ['city'],
           maximumAttendeeCapacity: 15,
           minimumAttendeeCapacity: 5,
+          registrationAccount: {
+            account: 1,
+            balanceProfitCenter: 'balance profic center',
+            companyCode: 'company code',
+            internalOrder: 'internal order',
+            mainLedgerAccount: 'main ledger account',
+            operationArea: 'operation code',
+            profitCenter: 'profit center',
+            project: 'project',
+          },
+          registrationMerchant: {
+            merchant: 2,
+          },
           registrationPriceGroups: [
             {
               id: 1,
@@ -298,6 +324,19 @@ describe('getRegistrationInitialValues function', () => {
       maximumGroupSize: '',
       minimumAttendeeCapacity: 5,
       priceGroupOptions: [],
+      registrationAccount: {
+        account: '1',
+        balanceProfitCenter: 'balance profic center',
+        companyCode: 'company code',
+        internalOrder: 'internal order',
+        mainLedgerAccount: 'main ledger account',
+        operationArea: 'operation code',
+        profitCenter: 'profit center',
+        project: 'project',
+      },
+      registrationMerchant: {
+        merchant: '2',
+      },
       registrationPriceGroups: [
         {
           id: 1,
@@ -404,6 +443,7 @@ describe('getRegistrationPayload function', () => {
       enrolmentStartTimeDate: new Date(enrolmentStartTime),
       enrolmentStartTimeTime: '09:15',
       event,
+      hasPrice: true,
       instructions: {
         ...EMPTY_MULTI_LANGUAGE_OBJECT,
         fi: instructionsFi,
@@ -413,6 +453,19 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity,
       maximumGroupSize,
       minimumAttendeeCapacity,
+      registrationAccount: {
+        account: '1',
+        balanceProfitCenter: 'balance profic center',
+        companyCode: 'company code',
+        internalOrder: 'internal order',
+        mainLedgerAccount: 'main ledger account',
+        operationArea: 'operation code',
+        profitCenter: 'profit center',
+        project: 'project',
+      },
+      registrationMerchant: {
+        merchant: '2',
+      },
       registrationPriceGroups,
       registrationPriceGroupsVatPercentage,
       registrationUserAccesses,
@@ -445,6 +498,19 @@ describe('getRegistrationPayload function', () => {
       maximumAttendeeCapacity,
       maximumGroupSize,
       minimumAttendeeCapacity,
+      registrationAccount: {
+        account: 1,
+        balanceProfitCenter: 'balance profic center',
+        companyCode: 'company code',
+        internalOrder: 'internal order',
+        mainLedgerAccount: 'main ledger account',
+        operationArea: 'operation code',
+        profitCenter: 'profit center',
+        project: 'project',
+      },
+      registrationMerchant: {
+        merchant: 2,
+      },
       registrationPriceGroups: [
         {
           id: 1,
@@ -469,6 +535,31 @@ describe('getRegistrationPayload function', () => {
       ],
       waitingListCapacity,
     });
+  });
+
+  it("should return undefined for account and merchant if registration doesn't have price", () => {
+    const { registrationAccount, registrationMerchant } =
+      getRegistrationPayload({
+        ...REGISTRATION_INITIAL_VALUES,
+
+        hasPrice: false,
+        registrationAccount: {
+          account: '1',
+          balanceProfitCenter: 'balance profic center',
+          companyCode: 'company code',
+          internalOrder: 'internal order',
+          mainLedgerAccount: 'main ledger account',
+          operationArea: 'operation code',
+          profitCenter: 'profit center',
+          project: 'project',
+        },
+        registrationMerchant: {
+          merchant: '2',
+        },
+      });
+
+    expect(registrationAccount).toBeUndefined();
+    expect(registrationMerchant).toBeUndefined();
   });
 });
 

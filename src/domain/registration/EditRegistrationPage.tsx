@@ -27,7 +27,6 @@ const EditRegistrationPageWrapper: React.FC = () => {
           title={'editRegistrationPage.title'}
         >
           <RegistrationForm
-            event={event}
             refetch={refetchRegistration}
             registration={registration}
           />

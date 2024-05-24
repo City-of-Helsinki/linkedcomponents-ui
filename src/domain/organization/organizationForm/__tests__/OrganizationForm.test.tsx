@@ -64,7 +64,7 @@ test('should add and remove account', async () => {
   await shouldAddAndRemoveItem({
     addButtonLabel: 'Lisää uusi tili',
     deleteButtonLabel: 'Poista tili',
-    expectedInputLabel: 'ALV-koodi *',
+    expectedInputLabel: 'SAP-yritystunnus *',
   });
 });
 

@@ -32,8 +32,12 @@ it('should set server error items if account is invalid', async () => {
 
   shouldSetServerErrors(
     result,
-    { web_store_accounts: [{ vatCode: ['Tämä kenttä ei voi olla tyhjä.'] }] },
-    [{ label: 'ALV-koodi', message: 'Tämä kenttä ei voi olla tyhjä.' }]
+    {
+      web_store_accounts: [
+        { main_ledger_account: ['Tämä kenttä ei voi olla tyhjä.'] },
+      ],
+    },
+    [{ label: 'Pääkirjatili', message: 'Tämä kenttä ei voi olla tyhjä.' }]
   );
 });
 

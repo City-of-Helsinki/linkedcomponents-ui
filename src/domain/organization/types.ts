@@ -30,7 +30,6 @@ export type WebStoreAccountFormFields = {
   [WEB_STORE_ACCOUNT_FIELDS.OPERATION_AREA]: string;
   [WEB_STORE_ACCOUNT_FIELDS.PROFIT_CENTER]: string;
   [WEB_STORE_ACCOUNT_FIELDS.PROJECT]: string;
-  [WEB_STORE_ACCOUNT_FIELDS.VAT_CODE]: string;
 };
 
 export type WebStoreMerchantFormFields = {

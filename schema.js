@@ -148,6 +148,8 @@ module.exports = buildSchema(/* GraphQL */ `
     ): KeywordSetsResponse!
     languages(serviceLanguage: Boolean): LanguagesResponse!
     organization(id: ID!, dissolved: Boolean): Organization!
+    organizationAccounts(id: ID!): [WebStoreAccount!]!
+    organizationMerchants(id: ID!): [WebStoreMerchant!]!
     organizations(
       child: ID
       page: Int
@@ -488,7 +490,6 @@ module.exports = buildSchema(/* GraphQL */ `
     operationArea: String
     profitCenter: String
     project: String
-    vatCode: String
   }
 
   input WebStoreMerchantInput {
@@ -614,6 +615,21 @@ module.exports = buildSchema(/* GraphQL */ `
     language: String
   }
 
+  input RegistrationAccountInput {
+    account: Int
+    balanceProfitCenter: String
+    companyCode: String
+    internalOrder: String
+    mainLedgerAccount: String
+    operationArea: String
+    profitCenter: String
+    project: String
+  }
+
+  input RegistrationMerchantInput {
+    merchant: Int
+  }
+
   input CreateRegistrationMutationInput {
     audienceMaxAge: Int
     audienceMinAge: Int
@@ -626,6 +642,8 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    registrationAccount: RegistrationAccountInput
+    registrationMerchant: RegistrationMerchantInput
     registrationPriceGroups: [RegistrationPriceGroupInput]
     registrationUserAccesses: [RegistrationUserAccessInput]
     waitingListCapacity: Int
@@ -643,6 +661,8 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumAttendeeCapacity: Int
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
+    registrationAccount: RegistrationAccountInput
+    registrationMerchant: RegistrationMerchantInput
     registrationPriceGroups: [RegistrationPriceGroupInput]
     registrationUserAccesses: [RegistrationUserAccessInput]
     waitingListCapacity: Int
@@ -921,7 +941,6 @@ module.exports = buildSchema(/* GraphQL */ `
     operationArea: String
     profitCenter: String
     project: String
-    vatCode: String
   }
 
   type WebStoreMerchant {
@@ -1078,6 +1097,21 @@ module.exports = buildSchema(/* GraphQL */ `
     description: LocalisedObject
   }
 
+  type RegistrationAccount {
+    account: Int
+    balanceProfitCenter: String
+    companyCode: String
+    internalOrder: String
+    mainLedgerAccount: String
+    operationArea: String
+    profitCenter: String
+    project: String
+  }
+
+  type RegistrationMerchant {
+    merchant: Int
+  }
+
   type RegistrationPriceGroup {
     id: Int
     priceGroup: PriceGroupDense
@@ -1124,6 +1158,8 @@ module.exports = buildSchema(/* GraphQL */ `
     maximumGroupSize: Int
     minimumAttendeeCapacity: Int
     publisher: String
+    registrationAccount: RegistrationAccount
+    registrationMerchant: RegistrationMerchant
     registrationPriceGroups: [RegistrationPriceGroup]
     registrationUserAccesses: [RegistrationUserAccess]
     remainingAttendeeCapacity: Int
