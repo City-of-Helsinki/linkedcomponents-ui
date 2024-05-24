@@ -82,6 +82,14 @@ const mockedPublisherPriceGroupsResponse: MockedResponse = {
   result: publisherPriceGroupsResponse,
 };
 
+const mockedPublisherFreePriceGroupsResponse: MockedResponse = {
+  request: {
+    query: PriceGroupsDocument,
+    variables: publisherPriceGroupsVariables,
+  },
+  result: freePriceGroupsResponse,
+};
+
 const externalUserPriceGroupsVariables = {
   createPath: undefined,
   pageSize: PRICE_GROUPS_PAGE_SIZE_LARGE,
@@ -100,6 +108,7 @@ export {
   mockedDefaultPriceGroupsResponse,
   mockedExternalUserPriceGroupsResponse,
   mockedFreePriceGroupsResponse,
+  mockedPublisherFreePriceGroupsResponse,
   mockedPublisherPriceGroupsResponse,
   priceGroupDescription,
   publisherPriceGroups,

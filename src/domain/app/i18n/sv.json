@@ -1648,8 +1648,7 @@
         "labelName": "Namn",
         "labelOperationArea": "SAP funktionsområde",
         "labelProfitCenter": "Resultatenheten",
-        "labelProject": "Projekt",
-        "labelVatCode": "Momskod"
+        "labelProject": "Projekt"
       },
       "buttonAddAccount": "Lägg till nytt konto",
       "buttonAddMerchant": "Lägg till ny handlare",
@@ -1883,6 +1882,39 @@
       "placeholderConfirmationMessage": "Ange bekräftelsemeddelande för registranter",
       "placeholderEvent": "Välj eller sök efter evenemanget",
       "placeholderInstructions": "Ange instruktioner för registrering",
+      "registrationAccount": {
+        "buttonReturnDefaults": "Återställa kontots förinställda värden",
+        "helperDefaultValue": "Förinställt värde: {{value}}",
+        "labelAccount": "Redovisningskonto",
+        "labelBalanceProfitCenter": "Balansräkningens resultatenhet",
+        "labelCompanyCode": "SAP företagskod",
+        "labelInternalOrder": "Intern ordning",
+        "labelMainLedgerAccount": "Huvudbokkonto",
+        "labelOperationArea": "SAP funktionsområde",
+        "labelProfitCenter": "Resultatenheten",
+        "labelProject": "Projekt",
+        "placeholderAccount": "Välj redovisningskonto",
+        "placeholderBalanceProfitCenter": "Ange balansräkningens resultatenhet",
+        "placeholderCompanyCode": "Ange SAP företagskod",
+        "placeholderInternalOrder": "Ange intern ordning",
+        "placeholderMainLedgerAccount": "Ange huvudbokkonto",
+        "placeholderOperationArea": "Ange SAP funktionsområde",
+        "placeholderProfitCenter": "Ange resultatenheten",
+        "placeholderProject": "Ange projekt"
+      },
+      "registrationMerchant": {
+        "labelMerchant": "Handlare",
+        "placeholderMerchant": "Välj handlare"
+      },
+      "registrationPriceGroup": {
+        "labelHasPrice": "Evenemanget kräver betalning",
+        "labelPrice": "Pris (€)",
+        "labelPriceGroup": "Kundgrupp",
+        "labelVatPercentage": "MOMS %",
+        "placeholderPrice": "Ange pris",
+        "placeholderPriceGroup": "Välj kundgrupp",
+        "placeholderVatPercentage": "Välj MOMS %"
+      },
       "registrationUserAccess": {
         "labelEmail": "Användarens e-postadress",
         "labelIsSubstituteUser": "Ersättande användare",
@@ -1893,15 +1925,6 @@
         "notificationTitleSubstituteUser": "Ersättande användare",
         "placeholderEmail": "Ange användarens e-postadress",
         "placeholderLanguage": "Välj språk"
-      },
-      "registrationPriceGroup": {
-        "labelHasPrice": "Evenemanget kräver betalning",
-        "labelPrice": "Pris (€)",
-        "labelPriceGroup": "Kundgrupp",
-        "labelVatPercentage": "MOMS %",
-        "placeholderPrice": "Ange pris",
-        "placeholderPriceGroup": "Välj kundgrupp",
-        "placeholderVatPercentage": "Välj MOMS %"
       },
       "sections": {
         "attendeeCount": "Sittplatser",

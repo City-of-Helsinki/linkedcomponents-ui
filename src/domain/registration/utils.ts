@@ -5,7 +5,6 @@ import isPast from 'date-fns/isPast';
 import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
 import isNil from 'lodash/isNil';
-import isNumber from 'lodash/isNumber';
 import omit from 'lodash/omit';
 
 import { NotificationProps } from '../../common/components/notification/Notification';
@@ -18,6 +17,7 @@ import {
 import {
   CreateRegistrationMutationInput,
   OrganizationFieldsFragment,
+  RegistrationAccountFieldsFragment,
   RegistrationFieldsFragment,
   RegistrationQueryVariables,
   UpdateRegistrationMutationInput,
@@ -32,6 +32,7 @@ import getDateFromString from '../../utils/getDateFromString';
 import { getInfoLanguages } from '../../utils/getInfoLanguages';
 import getLocalisedObject from '../../utils/getLocalisedObject';
 import getNumberFieldValue from '../../utils/getNumberFieldValue';
+import getNumericPayloadValue from '../../utils/getNumericPayloadValue';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
@@ -45,6 +46,7 @@ import {
 import { checkCanUserSignupAfterSignupIsEnded } from '../signupGroup/permissions';
 import { REGISTRATION_FIELDS } from './constants';
 import {
+  RegistrationAccountFormFields,
   RegistrationFields,
   RegistrationFormFields,
   RegistrationPriceGroupFormFields,
@@ -76,17 +78,17 @@ export const getRegistrationFields = (
       registration.mandatoryFields?.filter(skipFalsyType),
       []
     ),
-    maximumAttendeeCapacity: isNumber(registration.maximumAttendeeCapacity)
-      ? registration.maximumAttendeeCapacity
-      : null,
+    maximumAttendeeCapacity: getNumericPayloadValue(
+      registration.maximumAttendeeCapacity
+    ),
     publisher: getValue(registration.publisher, null),
     registrationUrl: `/${language}${ROUTES.EDIT_REGISTRATION.replace(
       ':id',
       id
     )}`,
-    waitingListCapacity: isNumber(registration.waitingListCapacity)
-      ? registration.waitingListCapacity
-      : null,
+    waitingListCapacity: getNumericPayloadValue(
+      registration.waitingListCapacity
+    ),
   };
 };
 
@@ -105,6 +107,19 @@ export const getEmptyRegistrationUserAccess =
     language: '',
   });
 
+export const getRegistrationAccountInitialValues = (
+  registrationAccount?: RegistrationAccountFieldsFragment | null
+): RegistrationAccountFormFields => ({
+  account: getValue(registrationAccount?.account?.toString(), ''),
+  balanceProfitCenter: getValue(registrationAccount?.balanceProfitCenter, ''),
+  companyCode: getValue(registrationAccount?.companyCode, ''),
+  internalOrder: getValue(registrationAccount?.internalOrder, ''),
+  mainLedgerAccount: getValue(registrationAccount?.mainLedgerAccount, ''),
+  operationArea: getValue(registrationAccount?.operationArea, ''),
+  profitCenter: getValue(registrationAccount?.profitCenter, ''),
+  project: getValue(registrationAccount?.project, ''),
+});
+
 export const getRegistrationInitialValues = (
   registration: RegistrationFieldsFragment
 ): RegistrationFormFields => {
@@ -112,6 +127,7 @@ export const getRegistrationInitialValues = (
     registration,
     new Set(['event', 'registrationPriceGroups'])
   );
+  const { registrationAccount, registrationMerchant } = registration;
 
   return {
     [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE]: getNumberFieldValue(
@@ -162,6 +178,11 @@ export const getRegistrationInitialValues = (
       registration.minimumAttendeeCapacity
     ),
     [REGISTRATION_FIELDS.PRICE_GROUP_OPTIONS]: [],
+    [REGISTRATION_FIELDS.REGISTRATION_ACCOUNT]:
+      getRegistrationAccountInitialValues(registrationAccount),
+    [REGISTRATION_FIELDS.REGISTRATION_MERCHANT]: {
+      merchant: getValue(registrationMerchant?.merchant?.toString(), ''),
+    },
     [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS]: getValue(
       registration.registrationPriceGroups?.map((pg) => ({
         id: getValue(pg?.id, null),
@@ -281,21 +302,51 @@ export const getRegistrationPayload = (
     enrolmentStartTimeDate,
     enrolmentStartTimeTime,
     event,
+    hasPrice,
     infoLanguages,
     instructions,
     mandatoryFields,
     maximumAttendeeCapacity,
     maximumGroupSize,
     minimumAttendeeCapacity,
+    registrationAccount,
+    registrationMerchant,
     registrationPriceGroups,
     registrationUserAccesses,
     waitingListCapacity,
     registrationPriceGroupsVatPercentage,
   } = formValues;
 
+  const webStoreFields = featureFlagUtils.isFeatureEnabled(
+    'WEB_STORE_INTEGRATION'
+  )
+    ? {
+        ...(hasPrice
+          ? {
+              registrationAccount: {
+                ...registrationAccount,
+                account: Number(registrationAccount.account),
+              },
+              registrationMerchant: {
+                ...registrationMerchant,
+                merchant: Number(registrationMerchant.merchant),
+              },
+            }
+          : {}),
+        registrationPriceGroups: hasPrice
+          ? registrationPriceGroups.map((pg) => ({
+              id: pg.id ?? undefined,
+              price: pg.price,
+              priceGroup: Number(pg.priceGroup),
+              vatPercentage: registrationPriceGroupsVatPercentage,
+            }))
+          : [],
+      }
+    : {};
+
   return {
-    audienceMaxAge: isNumber(audienceMaxAge) ? audienceMaxAge : null,
-    audienceMinAge: isNumber(audienceMinAge) ? audienceMinAge : null,
+    audienceMaxAge: getNumericPayloadValue(audienceMaxAge),
+    audienceMinAge: getNumericPayloadValue(audienceMinAge),
     confirmationMessage: filterUnselectedLanguages(
       confirmationMessage,
       infoLanguages
@@ -314,32 +365,17 @@ export const getRegistrationPayload = (
     event: { atId: event },
     instructions: filterUnselectedLanguages(instructions, infoLanguages),
     mandatoryFields,
-    maximumAttendeeCapacity: isNumber(maximumAttendeeCapacity)
-      ? maximumAttendeeCapacity
-      : null,
-    maximumGroupSize: isNumber(maximumGroupSize) ? maximumGroupSize : null,
-    minimumAttendeeCapacity: isNumber(minimumAttendeeCapacity)
-      ? minimumAttendeeCapacity
-      : null,
-    ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
-      ? {
-          registrationPriceGroups: registrationPriceGroups.map((pg) => ({
-            id: pg.id ?? undefined,
-            price: pg.price,
-            priceGroup: Number(pg.priceGroup),
-            vatPercentage: registrationPriceGroupsVatPercentage,
-          })),
-        }
-      : {}),
+    maximumAttendeeCapacity: getNumericPayloadValue(maximumAttendeeCapacity),
+    maximumGroupSize: getNumericPayloadValue(maximumGroupSize),
+    minimumAttendeeCapacity: getNumericPayloadValue(minimumAttendeeCapacity),
+    ...webStoreFields,
     registrationUserAccesses: registrationUserAccesses.map((ru) => ({
       email: ru.email,
       id: getValue(ru.id, null),
       isSubstituteUser: ru.isSubstituteUser,
       language: getValue(ru.language, null),
     })),
-    waitingListCapacity: isNumber(waitingListCapacity)
-      ? waitingListCapacity
-      : null,
+    waitingListCapacity: getNumericPayloadValue(waitingListCapacity),
   };
 };
 

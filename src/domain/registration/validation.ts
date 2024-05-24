@@ -4,16 +4,21 @@ import { PriceGroup } from '../../generated/graphql';
 import { featureFlagUtils } from '../../utils/featureFlags';
 import {
   createNumberMinErrorMessage,
+  createStringMaxErrorMessage,
   isAfterStartDateAndTime,
   isEmailInAllowedDomain,
   isValidTime,
   transformNumber,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
+import { ACCOUNT_TEXT_FIELD_MAX_LENGTH } from '../organization/constants';
 import { PriceGroupOption } from '../priceGroup/types';
 import {
+  REGISTRATION_ACCOUNT_FIELDS,
+  REGISTRATION_COMBOBOX_FIELDS,
   REGISTRATION_FIELD_ARRAYS,
   REGISTRATION_FIELDS,
+  REGISTRATION_MERCHANT_FIELDS,
   REGISTRATION_PRICE_GROUP_FIELDS,
   REGISTRATION_SELECT_FIELDS,
   REGISTRATION_USER_ACCESS_FIELDS,
@@ -55,6 +60,56 @@ const priceGroupsSchema = (
         .of(getPriceGroupSchema(priceGroupOptions))
     : schema;
 };
+
+const registrationAccountSchema = Yup.object().shape({
+  [REGISTRATION_ACCOUNT_FIELDS.ACCOUNT]: Yup.string().required(
+    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+  ),
+  [REGISTRATION_ACCOUNT_FIELDS.COMPANY_CODE]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(
+      ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.COMPANY_CODE],
+      createStringMaxErrorMessage
+    ),
+  [REGISTRATION_ACCOUNT_FIELDS.MAIN_LEDGER_ACCOUNT]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(
+      ACCOUNT_TEXT_FIELD_MAX_LENGTH[
+        REGISTRATION_ACCOUNT_FIELDS.MAIN_LEDGER_ACCOUNT
+      ],
+      createStringMaxErrorMessage
+    ),
+  [REGISTRATION_ACCOUNT_FIELDS.BALANCE_PROFIT_CENTER]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(
+      ACCOUNT_TEXT_FIELD_MAX_LENGTH[
+        REGISTRATION_ACCOUNT_FIELDS.BALANCE_PROFIT_CENTER
+      ],
+      createStringMaxErrorMessage
+    ),
+  [REGISTRATION_ACCOUNT_FIELDS.INTERNAL_ORDER]: Yup.string().max(
+    ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.INTERNAL_ORDER],
+    createStringMaxErrorMessage
+  ),
+  [REGISTRATION_ACCOUNT_FIELDS.PROFIT_CENTER]: Yup.string().max(
+    ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.PROFIT_CENTER],
+    createStringMaxErrorMessage
+  ),
+  [REGISTRATION_ACCOUNT_FIELDS.PROJECT]: Yup.string().max(
+    ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.PROJECT],
+    createStringMaxErrorMessage
+  ),
+  [REGISTRATION_ACCOUNT_FIELDS.OPERATION_AREA]: Yup.string().max(
+    ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.OPERATION_AREA],
+    createStringMaxErrorMessage
+  ),
+});
+
+const registrationMerchantSchema = Yup.object().shape({
+  [REGISTRATION_MERCHANT_FIELDS.MERCHANT]: Yup.string().required(
+    VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+  ),
+});
 
 const registrationUserAccessSchema = Yup.object().shape({
   [REGISTRATION_USER_ACCESS_FIELDS.EMAIL]: Yup.string()
@@ -158,6 +213,16 @@ export const registrationSchema = Yup.object().shape({
                 ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
                 : schema
           ),
+        [REGISTRATION_FIELDS.REGISTRATION_MERCHANT]: Yup.object().when(
+          [REGISTRATION_FIELDS.HAS_PRICE],
+          ([hasPrice], schema) =>
+            hasPrice ? registrationMerchantSchema : schema
+        ),
+        [REGISTRATION_FIELDS.REGISTRATION_ACCOUNT]: Yup.object().when(
+          [REGISTRATION_FIELDS.HAS_PRICE],
+          ([hasPrice], schema) =>
+            hasPrice ? registrationAccountSchema : schema
+        ),
       }
     : {}),
   [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: Yup.array().of(
@@ -166,8 +231,10 @@ export const registrationSchema = Yup.object().shape({
 });
 
 export const getFocusableFieldId = (fieldName: string): string => {
-  if (REGISTRATION_SELECT_FIELDS.find((item) => item === fieldName)) {
+  if (REGISTRATION_COMBOBOX_FIELDS.find((item) => item === fieldName)) {
     return `${fieldName}-input`;
+  } else if (REGISTRATION_SELECT_FIELDS.find((item) => item === fieldName)) {
+    return `${fieldName}-toggle-button`;
   } else if (REGISTRATION_FIELD_ARRAYS.includes(fieldName)) {
     return `${fieldName}-error`;
   }

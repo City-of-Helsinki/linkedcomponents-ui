@@ -30,12 +30,6 @@ export const webStoreAccountSchema = Yup.object().shape({
       ACCOUNT_TEXT_FIELD_MAX_LENGTH[WEB_STORE_ACCOUNT_FIELDS.NAME],
       createStringMaxErrorMessage
     ),
-  [WEB_STORE_ACCOUNT_FIELDS.VAT_CODE]: Yup.string()
-    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    .max(
-      ACCOUNT_TEXT_FIELD_MAX_LENGTH[WEB_STORE_ACCOUNT_FIELDS.VAT_CODE],
-      createStringMaxErrorMessage
-    ),
   [WEB_STORE_ACCOUNT_FIELDS.COMPANY_CODE]: Yup.string()
     .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
     .max(

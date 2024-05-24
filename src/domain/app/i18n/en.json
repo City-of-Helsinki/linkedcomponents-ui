@@ -1648,8 +1648,7 @@
         "labelName": "Name",
         "labelOperationArea": "SAP functional area",
         "labelProfitCenter": "Profit center",
-        "labelProject": "Project",
-        "labelVatCode": "VAT code"
+        "labelProject": "Project"
       },
       "buttonAddAccount": "Add new account",
       "buttonAddMerchant": "Add new merchant",
@@ -1883,6 +1882,40 @@
       "placeholderConfirmationMessage": "Enter confirmation message for registrants",
       "placeholderEvent": "Select or search for an event",
       "placeholderInstructions": "Enter registration instructions",
+      "registrationAccount": {
+        "buttonReturnDefaults": "Restore account default values",
+        "helperDefaultValue": "Default value: {{value}}",
+        "labelAccount": "Account",
+        "labelBalanceProfitCenter": "Balance profit center",
+        "labelCompanyCode": "SAP company code",
+        "labelInternalOrder": "Internal order",
+        "labelMainLedgerAccount": "Main ledger account",
+        "labelOperationArea": "SAP functional area",
+        "labelProfitCenter": "Profit center",
+        "labelProject": "Project",
+        "placeholderAccount": "Select account",
+        "placeholderBalanceProfitCenter": "Enter balance profit center",
+        "placeholderCompanyCode": "Enter SAP company code",
+        "placeholderInternalOrder": "Enter internal order",
+        "placeholderMainLedgerAccount": "Enter main ledger account",
+        "placeholderOperationArea": "Enter SAP functional area",
+        "placeholderProfitCenter": "Enter profit center",
+        "placeholderProject": "Enter project"
+      },
+      "registrationMerchant": {
+        "labelMerchant": "Merchant",
+        "placeholderMerchant": "Select merchant"
+      },
+      "registrationPriceGroup": {
+        "labelHasPrice": "Event requires payment",
+        "labelPrice": "Price (€)",
+        "labelPriceGroup": "Customer group",
+        "labelVatPercentage": "VAT %",
+
+        "placeholderPrice": "Enter price",
+        "placeholderPriceGroup": "Select customer group",
+        "placeholderVatPercentage": "Select VAT %"
+      },
       "registrationUserAccess": {
         "labelEmail": "User's email address",
         "labelIsSubstituteUser": "Substitute user",
@@ -1893,15 +1926,6 @@
         "notificationTitleSubstituteUser": "Substitute user",
         "placeholderEmail": "Enter user's email address",
         "placeholderLanguage": "Select language"
-      },
-      "registrationPriceGroup": {
-        "labelHasPrice": "Event requires payment",
-        "labelPrice": "Price (€)",
-        "labelPriceGroup": "Customer group",
-        "labelVatPercentage": "VAT %",
-        "placeholderPrice": "Enter price",
-        "placeholderPriceGroup": "Select customer group",
-        "placeholderVatPercentage": "Select VAT %"
       },
       "sections": {
         "attendeeCount": "Seating",

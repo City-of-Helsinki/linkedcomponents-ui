@@ -12,7 +12,6 @@ import FormikPersist from '../../../common/components/formikPersist/FormikPersis
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { FORM_NAMES, ROUTES } from '../../../constants';
 import {
-  EventFieldsFragment,
   RegistrationFieldsFragment,
   RegistrationQuery,
   RegistrationQueryVariables,
@@ -61,13 +60,11 @@ import wait from 'waait';
 import { featureFlagUtils } from '../../../utils/featureFlags';
 
 export type CreateRegistrationFormProps = {
-  event?: null;
   refetch?: null;
   registration?: null;
 };
 
 export type EditRegistrationFormProps = {
-  event: EventFieldsFragment;
   refetch: (
     variables?: Partial<RegistrationQueryVariables>
   ) => Promise<ApolloQueryResult<RegistrationQuery>>;
@@ -79,7 +76,6 @@ export type RegistrationFormProps =
   | EditRegistrationFormProps;
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({
-  event,
   refetch,
   registration,
 }) => {

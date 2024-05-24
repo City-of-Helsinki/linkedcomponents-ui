@@ -481,7 +481,6 @@ export const getWebStoreAccountInitialValues = (
     name: getValue(webStoreAccount.name, ''),
     profitCenter: getValue(webStoreAccount.profitCenter, ''),
     project: getValue(webStoreAccount.project, ''),
-    vatCode: getValue(webStoreAccount.vatCode, ''),
   };
 };
 

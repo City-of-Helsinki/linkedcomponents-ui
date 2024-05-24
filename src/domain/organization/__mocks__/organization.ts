@@ -1,6 +1,10 @@
 import { MockedResponse } from '@apollo/client/testing';
 
-import { OrganizationDocument } from '../../../generated/graphql';
+import {
+  OrganizationAccountsDocument,
+  OrganizationDocument,
+  OrganizationMerchantsDocument,
+} from '../../../generated/graphql';
 import {
   fakeOrganization,
   fakeWebStoreAccount,
@@ -44,7 +48,6 @@ const accountPayload = {
   operationArea: '',
   profitCenter: '',
   project: '',
-  vatCode: '55',
 };
 
 const merchantPayload = {
@@ -100,10 +103,62 @@ const mockedExternalOrganizationResponse: MockedResponse = {
   newData: () => externalOrganizationResponse,
 };
 
+const accountOptions = [
+  { label: 'Account 1', value: '1' },
+  { label: 'Account 2', value: '2' },
+];
+
+const accounts = accountOptions.map((option) =>
+  fakeWebStoreAccount({
+    ...accountPayload,
+    active: true,
+    id: Number(option.value),
+    name: option.label,
+  })
+);
+
+const accountsResponse = { data: { organizationAccounts: accounts } };
+
+const accountsVariables = { id: TEST_PUBLISHER_ID };
+const mockedOrganizationAccountsResponse = {
+  request: {
+    query: OrganizationAccountsDocument,
+    variables: accountsVariables,
+  },
+  result: accountsResponse,
+};
+
+const merchantOptions = [
+  { label: 'Merchant 1', value: '1' },
+  { label: 'Merchant 2', value: '2' },
+];
+
+const merchants = merchantOptions.map((option) =>
+  fakeWebStoreMerchant({
+    id: Number(option.value),
+    name: option.label,
+  })
+);
+
+const merchantsResponse = { data: { organizationMerchants: merchants } };
+
+const merchantsVariables = { id: TEST_PUBLISHER_ID };
+const mockedOrganizationMerchantsResponse = {
+  request: {
+    query: OrganizationMerchantsDocument,
+    variables: merchantsVariables,
+  },
+  result: merchantsResponse,
+};
+
 export {
+  accountOptions,
   accountPayload,
+  merchantOptions,
   merchantPayload,
   mockedExternalOrganizationResponse,
+  mockedOrganizationAccountsResponse,
+  mockedOrganizationMerchantsResponse,
   mockedOrganizationResponse,
   mockedOrganizationWithFinanfialInfoResponse,
   organization,

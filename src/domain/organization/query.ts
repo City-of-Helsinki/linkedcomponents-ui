@@ -13,7 +13,6 @@ export const QUERY_ORGANIZATION = gql`
     operationArea
     profitCenter
     project
-    vatCode
   }
 
   fragment webStoreMerchantFields on WebStoreMerchant {
@@ -64,6 +63,26 @@ export const QUERY_ORGANIZATION = gql`
     }
     webStoreMerchants {
       ...webStoreMerchantFields
+    }
+  }
+
+  query OrganizationMerchants($id: ID!) {
+    organizationMerchants(id: $id)
+      @rest(
+        type: "[WebStoreMerchant]"
+        path: "/organization/{args.id}/merchants/"
+      ) {
+      ...webStoreMerchantFields
+    }
+  }
+
+  query OrganizationAccounts($id: ID!) {
+    organizationAccounts(id: $id)
+      @rest(
+        type: "[WebStoreAccount]"
+        path: "/organization/{args.id}/accounts/"
+      ) {
+      ...webStoreAccountFields
     }
   }
 

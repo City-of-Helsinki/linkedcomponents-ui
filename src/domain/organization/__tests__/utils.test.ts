@@ -49,7 +49,6 @@ const account = {
   operationArea: '2',
   profitCenter: '3',
   project: '4',
-  vatCode: '54',
 };
 
 const merchant = {

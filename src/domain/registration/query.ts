@@ -9,6 +9,21 @@ export const QUERY_REGISTRATION = gql`
     }
   }
 
+  fragment registrationAccountFields on RegistrationAccount {
+    account
+    balanceProfitCenter
+    companyCode
+    internalOrder
+    mainLedgerAccount
+    operationArea
+    profitCenter
+    project
+  }
+
+  fragment registrationMerchantFields on RegistrationMerchant {
+    merchant
+  }
+
   fragment registrationPriceGroupFields on RegistrationPriceGroup {
     id
     priceGroup {
@@ -58,6 +73,12 @@ export const QUERY_REGISTRATION = gql`
     remainingAttendeeCapacity
     remainingWaitingListCapacity
     publisher
+    registrationAccount {
+      ...registrationAccountFields
+    }
+    registrationMerchant {
+      ...registrationMerchantFields
+    }
     registrationPriceGroups {
       ...registrationPriceGroupFields
     }

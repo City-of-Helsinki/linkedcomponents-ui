@@ -14,6 +14,21 @@ export enum REGISTRATION_MANDATORY_FIELDS {
   CITY = 'city',
 }
 
+export enum REGISTRATION_ACCOUNT_FIELDS {
+  ACCOUNT = 'account',
+  BALANCE_PROFIT_CENTER = 'balanceProfitCenter',
+  COMPANY_CODE = 'companyCode',
+  INTERNAL_ORDER = 'internalOrder',
+  MAIN_LEDGER_ACCOUNT = 'mainLedgerAccount',
+  OPERATION_AREA = 'operationArea',
+  PROFIT_CENTER = 'profitCenter',
+  PROJECT = 'project',
+}
+
+export enum REGISTRATION_MERCHANT_FIELDS {
+  MERCHANT = 'merchant',
+}
+
 export enum REGISTRATION_FIELDS {
   AUDIENCE_MAX_AGE = 'audienceMaxAge',
   AUDIENCE_MIN_AGE = 'audienceMinAge',
@@ -31,6 +46,8 @@ export enum REGISTRATION_FIELDS {
   MAXIMUM_GROUP_SIZE = 'maximumGroupSize',
   MINIMUM_ATTENDEE_CAPACITY = 'minimumAttendeeCapacity',
   PRICE_GROUP_OPTIONS = 'priceGroupOptions',
+  REGISTRATION_ACCOUNT = 'registrationAccount',
+  REGISTRATION_MERCHANT = 'registrationMerchant',
   REGISTRATION_PRICE_GROUPS = 'registrationPriceGroups',
   REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE = 'registrationPriceGroupsVatPercentage',
   REGISTRATION_USER_ACCESSES = 'registrationUserAccesses',
@@ -74,6 +91,17 @@ export const REGISTRATION_INITIAL_VALUES: RegistrationFormFields = {
   [REGISTRATION_FIELDS.MAXIMUM_GROUP_SIZE]: '',
   [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: '',
   [REGISTRATION_FIELDS.PRICE_GROUP_OPTIONS]: [],
+  [REGISTRATION_FIELDS.REGISTRATION_ACCOUNT]: {
+    account: '',
+    balanceProfitCenter: '',
+    companyCode: '',
+    internalOrder: '',
+    mainLedgerAccount: '',
+    operationArea: '',
+    profitCenter: '',
+    project: '',
+  },
+  [REGISTRATION_FIELDS.REGISTRATION_MERCHANT]: { merchant: '' },
   [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS]: [],
   [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE]: '',
   [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: [],
@@ -102,7 +130,13 @@ export const REGISTRATION_FIELD_ARRAYS: string[] = [
   REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS,
 ];
 
-export const REGISTRATION_SELECT_FIELDS = [REGISTRATION_FIELDS.EVENT];
+export const REGISTRATION_COMBOBOX_FIELDS = [REGISTRATION_FIELDS.EVENT];
+
+export const REGISTRATION_SELECT_FIELDS = [
+  REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE,
+  `${REGISTRATION_FIELDS.REGISTRATION_MERCHANT}.${REGISTRATION_MERCHANT_FIELDS.MERCHANT}`,
+  `${REGISTRATION_FIELDS.REGISTRATION_ACCOUNT}.${REGISTRATION_ACCOUNT_FIELDS.ACCOUNT}`,
+];
 
 export const REGISTRATION_INCLUDES = ['event', 'keywords', 'location'];
 

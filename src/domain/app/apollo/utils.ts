@@ -21,6 +21,8 @@ import {
   PriceGroup,
   PriceGroupDense,
   Registration,
+  RegistrationAccount,
+  RegistrationMerchant,
   RegistrationPriceGroup,
   RegistrationUserAccess,
   Signup,
@@ -268,6 +270,20 @@ export const addTypenamePriceGroupDense = (
       }
     : null;
 
+export const addTypenameRegistrationAccount = (
+  registrationAccount?: RegistrationAccount | null
+): RegistrationAccount | null =>
+  registrationAccount
+    ? { ...registrationAccount, __typename: 'RegistrationAccount' }
+    : null;
+
+export const addTypenameRegistrationMerchant = (
+  registrationMerchant?: RegistrationMerchant | null
+): RegistrationMerchant | null =>
+  registrationMerchant
+    ? { ...registrationMerchant, __typename: 'RegistrationMerchant' }
+    : null;
+
 export const addTypenameRegistrationPriceGroup = (
   registrationPriceGroup?: RegistrationPriceGroup | null
 ): RegistrationPriceGroup | null =>
@@ -299,6 +315,12 @@ export const addTypenameRegistration = (
         ),
         event: addTypenameEvent(registration?.event),
         instructions: addTypenameLocalisedObject(registration?.instructions),
+        registrationAccount: addTypenameRegistrationAccount(
+          registration.registrationAccount
+        ),
+        registrationMerchant: addTypenameRegistrationMerchant(
+          registration.registrationMerchant
+        ),
         registrationPriceGroups: registration.registrationPriceGroups?.map(
           (pg) => addTypenameRegistrationPriceGroup(pg)
         ),
