@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
@@ -43,12 +43,17 @@ const OrganizationName: React.FC<OrganizationNameProps> = ({
 interface OrganizationNameContainerProps {
   id: string | null;
   withIcon?: boolean;
+  wrapper?: React.FC<PropsWithChildren>;
 }
 
 const OrganizationNameContainer: React.FC<OrganizationNameContainerProps> = ({
   id,
   withIcon,
+  wrapper,
 }) => {
+  // the variable name must be capitalized
+  const Wrapper = wrapper ?? React.Fragment;
+
   const { data: organizationData, loading } = useOrganizationQuery({
     skip: !id,
     variables: {
@@ -60,10 +65,12 @@ const OrganizationNameContainer: React.FC<OrganizationNameContainerProps> = ({
 
   return (
     <LoadingSpinner className={styles.loadingSpinner} isLoading={loading} small>
-      <OrganizationName
-        organization={organizationData?.organization}
-        withIcon={withIcon}
-      />
+      <Wrapper>
+        <OrganizationName
+          organization={organizationData?.organization}
+          withIcon={withIcon}
+        />
+      </Wrapper>
     </LoadingSpinner>
   );
 };

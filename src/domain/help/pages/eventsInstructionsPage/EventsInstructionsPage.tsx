@@ -333,7 +333,7 @@ const EventsInstructionsPage: React.FC = () => {
             {getImage(2, locale)}
             <p>
               Ajankohta-kohdassa kun on annettu päivämäärät ja kellonajat, tulee
-              muistaa painaa Lisää ajankohta - painiketta. Muutoin haluttu
+              muistaa painaa Tallenna ajankohta - painiketta. Muutoin haluttu
               ajankohta ei tallennu tapahtuman tietoihin ja tapahtuman julkaisu
               estyy.
             </p>
@@ -415,8 +415,8 @@ const EventsInstructionsPage: React.FC = () => {
             <p>
               Tapahtuman luokittelu asiasanoilla on tärkeää, jotta eri
               sovellusten käyttäjät löytävät tapahtuman suuresta
-              tapahtumamassasta. Valitse useampi asiasana ja suosi niitä, joita
-              on käytetty useissa tapahtumissa. Asiasanat (ks. YSO-sanasto)
+              tapahtumamassasta. Valitse useampi avainsana ja suosi niitä, joita
+              on käytetty useissa tapahtumissa. Avainsanat (ks. YSO-sanasto)
               löytyvät useimmiten monikkomuodossa, esim. kirjat, perheet,
               näytelmät ja maalaukset.
             </p>

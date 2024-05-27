@@ -234,7 +234,10 @@ export const isExternalUserWithoutOrganization = ({
 }: {
   user?: UserFieldsFragment;
 }): boolean => {
-  return Boolean(user?.isExternal);
+  const ENABLE_EXTERNAL_USER_EVENTS =
+    import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+
+  return ENABLE_EXTERNAL_USER_EVENTS && Boolean(user?.isExternal);
 };
 
 export const getOrganizationAncestorsQueryResult = async (

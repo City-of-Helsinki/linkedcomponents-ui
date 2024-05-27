@@ -14,9 +14,13 @@ const getOfferPath = (index: number) => `${EVENT_FIELDS.OFFERS}[${index}]`;
 
 interface Props {
   isEditingAllowed: boolean;
+  showRegistrationPriceGroupFields: boolean;
 }
 
-const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
+const Offers: React.FC<Props> = ({
+  isEditingAllowed,
+  showRegistrationPriceGroupFields,
+}) => {
   const { t } = useTranslation();
 
   const [{ value: offers }] = useField<OfferFields[]>({
@@ -36,6 +40,9 @@ const Offers: React.FC<Props> = ({ isEditingAllowed }) => {
                 offerPath={getOfferPath(index)}
                 onDelete={() => arrayHelpers.remove(index)}
                 showDelete={offers.length > 1}
+                showRegistrationPriceGroupFields={
+                  showRegistrationPriceGroupFields
+                }
               />
             );
           })}

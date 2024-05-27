@@ -92,7 +92,7 @@ const getElement = (
   switch (key) {
     case 'infoTextKeywords':
       return screen.getByText(
-        /liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa./i
+        /liitä tapahtumaan vähintään yksi avainsana, joka kuvaa tapahtuman teemaa./i
       );
     case 'infoTextMainCategories':
       return screen.getByText(/valitse vähintään yksi pääluokka/i);

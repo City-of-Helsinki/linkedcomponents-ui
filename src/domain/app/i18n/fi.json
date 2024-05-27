@@ -431,9 +431,9 @@
     "form": {
       "buttonAcceptAndPublish": "Hyväksy ja julkaise",
       "buttonAddEventTime": {
-        "course": "Lisää ajankohta",
-        "general": "Lisää ajankohta",
-        "volunteering": "Lisää ajankohta"
+        "course": "Tallenna ajankohta",
+        "general": "Tallenna ajankohta",
+        "volunteering": "Tallenna ajankohta"
       },
       "buttonAddImage": {
         "course": "Lisää kurssin kuva",
@@ -442,9 +442,9 @@
       },
       "buttonAddOffer": "Lisää muita hintatietoja",
       "buttonAddRecurringEvent": {
-        "course": "Lisää toistuva kurssi",
-        "general": "Lisää toistuva tapahtuma",
-        "volunteering": "Lisää toistuva vapaaehtoistehtävä"
+        "course": "Tallenna toistuva kurssi",
+        "general": "Tallenna toistuva tapahtuma",
+        "volunteering": "Tallenna toistuva vapaaehtoistehtävä"
       },
       "buttonAddRegistration": {
         "course": "Lisää kurssille ilmoittautuminen",
@@ -484,10 +484,11 @@
         "volunteering": "Poista vapaaehtoistehtävän kuva"
       },
       "buttonSaveDraft": "Tallenna luonnos",
+      "buttonSendToModerator": "Tallenna ja lähetä moderoijalle",
       "buttonUpdateDraft": "Tallenna luonnos",
       "buttonUpdatePublic": "Tallenna muutokset",
       "checkboxIsVerified": "Vakuutan, että antamani tiedot ovat oikein ja sitoudun noudattamaan kaikkia Helsingin kaupungin kursseja ja tapahtumia <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"koskevia ohjeita ja säädöksiä {{openInNewTab}}\">koskevia ohjeita ja säädöksiä</a>.",
-      "eventDraftStateInfo": "Tallennetut luonnokset tulevat automaattisesti näkyviin moderoijalle. Tietoja voi muokata, kunnes moderoija julkaisee tapahtuman. Julkaisun voi välttää kirjoittamalla muokkauksen ajaksi tapahtuman otsikon alkuun \"KESKENERÄINEN\"",
+      "eventDraftStateInfo": "Tallennetut luonnokset tulevat automaattisesti näkyviin moderoijalle. Tietoja voi muokata, kunnes moderoija julkaisee tapahtuman. Julkaisun voi välttää kirjoittamalla muokkauksen ajaksi tapahtuman otsikon alkuun \"KESKENERÄINEN\". Saat julkaisusta vahvistusviestin sähköpostiisi.",
       "editButtonPanel": {
         "warningCancelledEvent": "Peruttuja tapahtumia ei voi lykätä tai perua.",
         "warningCannotCancelDraft": "Tapahtumaluonnosta ei voi perua.",
@@ -557,9 +558,9 @@
         "volunteering": "Jos vapaaehtoistehtävään on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä."
       },
       "infoTextEventTimes1": {
-        "course": "Useana päivänä toistuvan kurssin lisäämiseksi on Lisää uusi ajankohta -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
-        "general": "Useana päivänä toistuvan tapahtuman lisäämiseksi on Lisää uusi ajankohta -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu.",
-        "volunteering": "Useana päivänä toistuvan vapaaehtoistehtävän lisäämiseksi on Lisää uusi ajankohta -nappi ja säännöllisesti toistuvalle vapaaehtoistehtävälle oma Toistuva vapaaehtoistehtävä -työkalu."
+        "course": "Useana päivänä toistuvan kurssin lisäämiseksi on Tallenna ajankohta -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
+        "general": "Useana päivänä toistuvan tapahtuman lisäämiseksi on Tallenna ajankohta -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu.",
+        "volunteering": "Useana päivänä toistuvan vapaaehtoistehtävän lisäämiseksi on Tallenna ajankohta -nappi ja säännöllisesti toistuvalle vapaaehtoistehtävälle oma Toistuva vapaaehtoistehtävä -työkalu."
       },
       "infoTextEventTimes2": {
         "course": "Kirjoita kurssin alkamispäivä ja myös alkamisaika, jos kurssi alkaa tiettyyn kellonaikaan.",
@@ -596,9 +597,9 @@
         "volunteering": "Valitse kielet, joilla vapaaehtoistehtävässä kommunikoidaan tapahtuman aikana."
       },
       "infoTextKeywords": {
-        "course": "Liitä kurssiin vähintään yksi asiasana, joka kuvaa kurssin teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
-        "general": "Liitä tapahtumaan vähintään yksi asiasana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta.",
-        "volunteering": "Liitä vapaaehtoistehtävään vähintään yksi asiasana, joka kuvaa vapaaehtoistehtävän teemaa. Aloita kirjoittamaan asiasanaa ja valitse lisättävä asiasana alle ilmestyvästä listasta."
+        "course": "Liitä kurssiin vähintään yksi avainsana, joka kuvaa kurssin teemaa. Aloita kirjoittamaan avainsanaa ja valitse lisättävä avainsana alle ilmestyvästä listasta.",
+        "general": "Liitä tapahtumaan vähintään yksi avainsana, joka kuvaa tapahtuman teemaa. Aloita kirjoittamaan avainsanaa ja valitse lisättävä avainsana alle ilmestyvästä listasta.",
+        "volunteering": "Liitä vapaaehtoistehtävään vähintään yksi avainsana, joka kuvaa vapaaehtoistehtävän teemaa. Aloita kirjoittamaan avainsanaa ja valitse lisättävä avainsana alle ilmestyvästä listasta."
       },
       "infoTextLocation1": "Kirjoita kenttään tapahtumapaikan nimi tai katuosoite ja valitse oikea paikka listasta. Hakutulokset järjestyvät tapahtumien lukumäärän mukaan.",
       "infoTextLocation2": {
@@ -641,14 +642,19 @@
           "course": "Julkaistavien harrastustietojen tulee olla kaupunkilaisia ja/tai vierailijoita kiinnostavia ja sijaita pääkaupunkiseudulla.",
           "volunteering": "Julkaistavien tapahtumatietojen tulee olla kaupunkilaisia ja/tai vierailijoita kiinnostavia ja sijaita pääkaupunkiseudulla."
         },
-        "paragraph2": "Valitsemasi tapahtumatyyppi voidaan julkaista seuraavissa kanavissa:",
-        "paragraph3": "tai rajapinnan kautta muissa palveluissa.",
-        "paragraph4": {
-          "general": "Ilmoitathan vain tapahtumatietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista.",
-          "course": "Ilmoitathan vain harrastustietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista.",
-          "volunteering": "Ilmoitathan vain tapahtumatietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista."
+        "paragraph2": {
+          "sentence1": "Valitsemasi tapahtumatyyppi voidaan julkaista seuraavissa kanavissa:",
+          "sentence2": "tai rajapinnan kautta muissa palveluissa."
         },
-        "paragraph5": "Moderoitava tapahtuma pitää ilmoittaa vähintään viikkoa ennen tapahtumaa."
+        "paragraph3": {
+          "sentence1": {
+            "general": "Ilmoitathan vain tapahtumatietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista.",
+            "course": "Ilmoitathan vain harrastustietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista.",
+            "volunteering": "Ilmoitathan vain tapahtumatietoja, joita ei ole vielä julkaistu joissakin edellä mainituista palveluista."
+          },
+          "sentence2": "Moderoitava tapahtuma pitää ilmoittaa vähintään viikkoa ennen tapahtumaa."
+        },
+        "paragraph4": "Tarkempi ohjeistus julkaistavien tapahtumien sisällöstä löytyy <a href=\"https://www.myhelsinki.fi/fi/info/tervetuloa-ilmoittamaan-tapahtumasi-tiedot-myhelsinkifi-sivustolle\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"MyHelsingin-sivuilta {{openInNewTab}}\">MyHelsingin-sivuilta</a>."
       },
       "infoTextPublisher": {
         "course": "Valitse organisaatio, joka näytetään kurssin julkaisijana. Valintaa ei tarvitse tehdä, jos sinulla on vain yhden organisaation julkaisuoikeudet.",
@@ -1278,8 +1284,8 @@
     "eventsInstructionsPage": {
       "imageAltText1": "Aloita tapahtuman luominen painamalla Lisää uusi tapahtuma -painiketta.",
       "imageAltText2": "Täytä tiedot niin laajasti ja tarkasti kuin mahdollista. Lomakkeen ohjetekstit avustavat täyttämisessä.",
-      "imageAltText3": "Ajankohta-kohdassa kun on annettu päivämäärät ja kellonajat, tulee muistaa painaa Lisää ajankohta - painiketta. Muutoin haluttu ajankohta ei tallennu tapahtuman tietoihin ja tapahtuman julkaisu estyy.",
-      "imageAltText4": "Lisätty ajankohta näytetään Lisää ajankohta - painikkeen alapuolella olevassa taulukossa.",
+      "imageAltText3": "Ajankohta-kohdassa kun on annettu päivämäärät ja kellonajat, tulee muistaa painaa Tallenna ajankohta - painiketta. Muutoin haluttu ajankohta ei tallennu tapahtuman tietoihin ja tapahtuman julkaisu estyy.",
+      "imageAltText4": "Lisätty ajankohta näytetään Tallenna ajankohta - painikkeen alapuolella olevassa taulukossa.",
       "imageAltText5": "Tapahtuman paikka valitaan kaupungin toimipisterekisterin paikoista. Osoite- ja muut tiedot haetaan siis automaattisesti, kun oikea paikka löytyy.",
       "imageAltText6": "Pyri aina löytämään tapahtumalle kuva. Kuvalle voi merkitä käyttöoikeuden CC 4.0 BY tai \"käyttö vain tapahtuman yhteydessä\".",
       "imageAltText7": "Omat tapahtumat -osiossa näet listat tapahtumista, jotka on julkaistu tai tallennettu luonnokseksi organisaatiotasossa, johon sinulla on käyttöoikeus."

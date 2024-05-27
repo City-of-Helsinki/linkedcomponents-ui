@@ -1,8 +1,6 @@
 import { Formik } from 'formik';
-import React from 'react';
 import { ObjectSchema } from 'yup';
 
-import { PublicationStatus } from '../../../../../generated/graphql';
 import {
   configure,
   render,
@@ -13,7 +11,7 @@ import {
 import translations from '../../../../app/i18n/fi.json';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import {
-  getExternalUserEventSchema,
+  externalUserEventSchema,
   publicEventSchema,
 } from '../../../validation';
 import AdditionalInfoSection, {
@@ -111,9 +109,7 @@ const getElement = (
       return screen.getByLabelText('Ilmoittautuminen päättyy');
     case 'endTimeTime':
       return within(
-        screen.getByRole('group', {
-          name: /ilmoittautuminen päättyy klo/i,
-        })
+        screen.getByRole('group', { name: /ilmoittautuminen päättyy klo/i })
       ).getByLabelText('tunnit');
     case 'maxAge':
       return screen.getByRole('spinbutton', { name: 'Yläikäraja' });
@@ -131,9 +127,7 @@ const getElement = (
       return screen.getByLabelText('Ilmoittautuminen alkaa');
     case 'startTimeTime':
       return within(
-        screen.getByRole('group', {
-          name: /ilmoittautuminen alkaa klo/i,
-        })
+        screen.getByRole('group', { name: /ilmoittautuminen alkaa klo/i })
       ).getByLabelText('tunnit');
   }
 };
@@ -254,7 +248,7 @@ test('should show validation error if min attendee capacity is less than 0', asy
 
 test('maximum attendee capacity should be required for external user', async () => {
   const user = userEvent.setup();
-  const schema = getExternalUserEventSchema(PublicationStatus.Draft);
+  const schema = externalUserEventSchema;
 
   const { rerender } = renderComponent(
     {

@@ -166,7 +166,7 @@ const getAddEventTimeElements = () => {
     screen.getByRole('tabpanel', { name: /tapahtuman ajankohta/i })
   );
   const addButton = withinAddEventTime.getByRole('button', {
-    name: /lisää ajankohta/i,
+    name: /tallenna ajankohta/i,
   });
   const endDateInput = withinAddEventTime.getByLabelText(/Tapahtuma päättyy/i);
   const endTimeGroup = withinAddEventTime.getByRole('group', {

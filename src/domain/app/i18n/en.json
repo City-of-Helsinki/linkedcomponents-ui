@@ -431,9 +431,9 @@
     "form": {
       "buttonAcceptAndPublish": "Confirm and publish",
       "buttonAddEventTime": {
-        "course": "Add course date",
-        "general": "Add event date",
-        "volunteering": "Add volunteering date"
+        "course": "Save course date",
+        "general": "Save event date",
+        "volunteering": "Save volunteering date"
       },
       "buttonAddImage": {
         "course": "Add course image",
@@ -442,9 +442,9 @@
       },
       "buttonAddOffer": "Add other pricing information",
       "buttonAddRecurringEvent": {
-        "course": "Add recurring course",
-        "general": "Add recurring event",
-        "volunteering": "Add recurring volunteering"
+        "course": "Save recurring course",
+        "general": "Save recurring event",
+        "volunteering": "Save recurring volunteering"
       },
       "buttonAddRegistration": {
         "course": "Add registration for course",
@@ -484,10 +484,11 @@
         "volunteering": "Remove volunteering image"
       },
       "buttonSaveDraft": "Save draft",
+      "buttonSendToModerator": "Save and send to moderator",
       "buttonUpdateDraft": "Save draft",
       "buttonUpdatePublic": "Save changes",
       "checkboxIsVerified": "I verify that the information I have provided is correct and I undertake to comply with <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"all instructions and regulations {{openInNewTab}}\">all instructions and regulations</a> concerning the courses and events of the City of Helsinki.",
-      "eventDraftStateInfo": "Saved drafts will automatically be visible to the moderator. The information can be edited until the moderator publishes the event. You can avoid publication by writing \"UNFINISHED\" at the beginning of the event title while editing is in progress.",
+      "eventDraftStateInfo": "Saved drafts will automatically be visible to the moderator. The information can be edited until the moderator publishes the event. You can avoid publication by writing \"UNFINISHED\" at the beginning of the event title while editing is in progress. You will receive a confirmation email about the publication.",
       "editButtonPanel": {
         "warningCancelledEvent": "Cancelled events cannot be postponed or cancelled.",
         "warningCannotCancelDraft": "Event drafts can't be cancelled.",
@@ -557,9 +558,9 @@
       },
       "infoTextEnvironmentalCertificate": "If the company or event has a certificate, its name is mandatory information (e.g. ecocompass). If there is no certificate, the certificate field is left blank.",
       "infoTextEventTimes1": {
-        "course": "To add a recurring course spanning over multiple days, there is an “Add Course Date” button and a “Recurring event” tool for a regularly recurring course.",
-        "general": "To add a recurring event spanning over multiple days, there is an “Add Event Date” button and a “Recurring event” tool for a regularly recurring event.",
-        "volunteering": "To add a recurring volunteering spanning over multiple days, there is an “Add Volunteering Date” button and a “Recurring event” tool for a regularly recurring volunteering."
+        "course": "To add a recurring course spanning over multiple days, there is an “Save Course Date” button and a “Recurring event” tool for a regularly recurring course.",
+        "general": "To add a recurring event spanning over multiple days, there is an “Save Event Date” button and a “Recurring event” tool for a regularly recurring event.",
+        "volunteering": "To add a recurring volunteering spanning over multiple days, there is an “Save Volunteering Date” button and a “Recurring event” tool for a regularly recurring volunteering."
       },
       "infoTextEventTimes2": {
         "course": "Enter the start date of the course and also the start time if the course starts at a specific time.",
@@ -641,14 +642,19 @@
           "course": "Published information must be interesting to residents and/or visitors and be located in the Metropolitan Area.",
           "volunteering": "Published information must be interesting to residents and/or visitors and be located in the Metropolitan Area."
         },
-        "paragraph2": "The type of event you choose can be published in the following channels:",
-        "paragraph3": "or via the interface on other services.",
-        "paragraph4": {
-          "general": "Please only enter event information that has not yet been published on any of the services mentioned above.",
-          "course": "Please only enter hobby information that has not yet been published on any of the services mentioned above.",
-          "volunteering": "Please only enter event information that has not yet been published on any of the services mentioned above."
+        "paragraph2": {
+          "sentence1": "The type of event you choose can be published in the following channels:",
+          "sentence2": "or via the interface on other services."
         },
-        "paragraph5": "The event to be moderated must be announced at least one week before the event."
+        "paragraph3": {
+          "sentence1": {
+            "general": "Please only enter event information that has not yet been published on any of the services mentioned above.",
+            "course": "Please only enter hobby information that has not yet been published on any of the services mentioned above.",
+            "volunteering": "Please only enter event information that has not yet been published on any of the services mentioned above."
+          },
+          "sentence2": "The event to be moderated must be announced at least one week before the event."
+        },
+        "paragraph4": "More detailed instructions on the content of the events to be published can be found on the <a href=\"https://www.myhelsinki.fi/info/submit-your-event-to-the-myhelsinkifi-event-calendar\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"MyHelsinki website {{openInNewTab}}\">MyHelsinki website</a>."
       },
       "infoTextPublisher": {
         "course": "Select the organization to be displayed as the course publisher. You do not need to make a selection if you only have rights to publish under one organization.",
@@ -1278,8 +1284,8 @@
     "eventsInstructionsPage": {
       "imageAltText1": "To start creating an event, press the Add new event button.",
       "imageAltText2": "Fill in the information as widely and accurately as possible. The help texts on the form will assist you in filling in the form.",
-      "imageAltText3": "In the Time section, once the dates and times have been entered, remember to press the Add time button. Otherwise, the desired time will not be saved in the event data and the event will not be published.",
-      "imageAltText4": "The added time is displayed in the table below the Add time button.",
+      "imageAltText3": "In the Time section, once the dates and times have been entered, remember to press the Save event date button. Otherwise, the desired time will not be saved in the event data and the event will not be published.",
+      "imageAltText4": "The added time is displayed in the table below the Save event date button.",
       "imageAltText5": "The location of the event is selected from the locations of the city's office register. Address information among other information is retrieved automatically when the correct location is found.",
       "imageAltText6": "Always try to find an image for the event. The image can be marked CC 4.0 BY or \"use limited to only in connection with the event\".",
       "imageAltText7": "In the My Events section, you can see lists of events that have been published or saved as a draft at the organizational level to which you have access."

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -71,18 +71,24 @@ const NameColumn: FC<NameColumnProps> = ({ event, level, open, toggle }) => {
   );
 };
 
+const ExternalPublisherWrapper: FC<PropsWithChildren> = ({ children }) => (
+  <span className={styles.externalPublisher}>{children}</span>
+);
+
 const PublisherColumn: FC<ColumnProps> = ({ event }) => {
   const locale = useLocale();
 
   const { publisher } = getEventFields(event, locale);
 
-  if (publisher !== EXTERNAL_PUBLISHER_ID) {
-    return <OrganizationName id={publisher} />;
-  }
   return (
-    <span className={styles.externalPublisher}>
-      <OrganizationName id={publisher} />
-    </span>
+    <OrganizationName
+      id={publisher}
+      wrapper={
+        publisher === EXTERNAL_PUBLISHER_ID
+          ? ExternalPublisherWrapper
+          : undefined
+      }
+    />
   );
 };
 

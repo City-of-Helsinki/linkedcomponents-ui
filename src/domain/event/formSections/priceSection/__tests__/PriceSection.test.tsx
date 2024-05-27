@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
-import React from 'react';
 
 import { LE_DATA_LANGUAGES } from '../../../../../constants';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -10,6 +10,7 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import { mockedFreePriceGroupsResponse } from '../../../../priceGroup/__mocks__/priceGroups';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { OfferFields } from '../../../types';
 import { getEmptyOffer } from '../../../utils';
@@ -17,6 +18,10 @@ import { publicEventSchema } from '../../../validation';
 import PriceSection from '../PriceSection';
 
 configure({ defaultHidden: true });
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 const type = EVENT_TYPE.General;
 
@@ -36,7 +41,7 @@ const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.TYPE]: type,
 };
 
-const mocks = [mockedFreePriceGroupsResponse];
+const mocks = [mockedFreePriceGroupsResponse, mockedUserResponse];
 
 const renderPriceSection = (initialValues?: Partial<InitialValues>) =>
   render(

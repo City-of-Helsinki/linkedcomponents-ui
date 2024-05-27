@@ -11,11 +11,6 @@ type ExternalUserField = {
 export const testExternalUserFields = async () => {
   const fieldGroups: { name: RegExp | string; fields: ExternalUserField[] }[] =
     [
-      // Event type
-      {
-        name: /tapahtumatyyppi/i,
-        fields: [{ label: /tapahtuma/i, role: 'radio', disabled: true }],
-      },
       // Responsibilities
       {
         name: /vastuut/i,

@@ -56,7 +56,7 @@ test('buttons should be enabled when external user is authenticated', async () =
   renderComponent(mocks);
 
   const buttonSaveDraft = await screen.findByRole('button', {
-    name: /tallenna luonnos/i,
+    name: /Tallenna ja lähetä moderoijalle/i,
   });
 
   expect(buttonSaveDraft).toBeEnabled();

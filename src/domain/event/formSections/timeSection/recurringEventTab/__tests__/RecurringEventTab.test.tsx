@@ -98,14 +98,15 @@ const getRecurringEventElement = (
 ) => {
   switch (key) {
     case 'addButton':
-      return screen.getByRole('button', { name: /lisää toistuva tapahtuma/i });
+      return screen.getByRole('button', {
+        name: /tallenna toistuva tapahtuma/i,
+      });
     case 'endDate':
       return screen.getByLabelText(/toisto päättyy/i);
     case 'endTime':
-      const endTimeGroup = screen.getByRole('group', {
-        name: /tapahtuma päättyy klo/i,
-      });
-      return within(endTimeGroup).getByLabelText('tunnit');
+      return within(
+        screen.getByRole('group', { name: /tapahtuma päättyy klo/i })
+      ).getByLabelText('tunnit');
     case 'monCheckbox':
       return screen.getByLabelText('Ma');
     case 'repeatInterval':
@@ -113,10 +114,9 @@ const getRecurringEventElement = (
     case 'startDate':
       return screen.getByLabelText(/toisto alkaa/i);
     case 'startTime':
-      const startTimeGroup = screen.getByRole('group', {
-        name: /tapahtuma alkaa klo/i,
-      });
-      return within(startTimeGroup).getByLabelText('tunnit');
+      return within(
+        screen.getByRole('group', { name: /tapahtuma alkaa klo/i })
+      ).getByLabelText('tunnit');
     case 'tueCheckbox':
       return screen.getByLabelText('Ti');
   }
@@ -234,7 +234,7 @@ test('should show validation error when end date is before start date', async ()
 test('should show validation error when end time is before start time in recurring event form', async () => {
   const user = userEvent.setup();
 
-  await renderComponent();
+  renderComponent();
 
   const endTimeInput = getRecurringEventElement('endTime');
   const startTimeInput = getRecurringEventElement('startTime');

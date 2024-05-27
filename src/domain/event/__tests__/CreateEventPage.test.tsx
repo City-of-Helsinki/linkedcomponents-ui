@@ -147,7 +147,13 @@ const getElement = (
 };
 
 const findElement = (
-  key: 'description' | 'name' | 'nameSv' | 'saveDraft' | 'superEvent'
+  key:
+    | 'description'
+    | 'name'
+    | 'nameSv'
+    | 'saveDraft'
+    | 'sendToModerator'
+    | 'superEvent'
 ) => {
   switch (key) {
     case 'description':
@@ -157,8 +163,10 @@ const findElement = (
     case 'nameSv':
       return screen.findByLabelText(/tapahtuman otsikko ruotsiksi/i);
     case 'saveDraft':
+      return screen.findByRole('button', { name: 'Tallenna luonnos' });
+    case 'sendToModerator':
       return screen.findByRole('button', {
-        name: 'Tallenna luonnos',
+        name: 'Tallenna ja lähetä moderoijalle',
       });
     case 'superEvent':
       return screen.findByRole(
@@ -195,12 +203,12 @@ test('should focus to first validation error when trying to save draft event as 
 
   await loadingSpinnerIsNotInDocument();
 
-  const saveDraftButton = await findElement('saveDraft');
+  const sendToModeratorButton = await findElement('sendToModerator');
   const providerField = await screen.findByLabelText(
     /tapahtuman järjestäjä suomeksi/i
   );
 
-  await user.click(saveDraftButton);
+  await user.click(sendToModeratorButton);
 
   await waitFor(() => expect(providerField).toHaveFocus());
 });

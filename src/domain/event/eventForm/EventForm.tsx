@@ -8,6 +8,7 @@ import { ValidationError } from 'yup';
 
 import Breadcrumb from '../../../common/components/breadcrumb/Breadcrumb';
 import FormikPersist from '../../../common/components/formikPersist/FormikPersist';
+import Notification from '../../../common/components/notification/Notification';
 import ServerErrorSummary from '../../../common/components/serverErrorSummary/ServerErrorSummary';
 import { FORM_NAMES, LE_DATA_LANGUAGES, ROUTES } from '../../../constants';
 import {
@@ -39,6 +40,7 @@ import {
   EVENT_INITIAL_VALUES,
   EVENT_MODALS,
   EVENT_TYPE,
+  PUBLICATION_LIST_LINKS,
 } from '../constants';
 import CreateButtonPanel from '../createButtonPanel/CreateButtonPanel';
 import EditButtonPanel from '../editButtonPanel/EditButtonPanel';
@@ -61,6 +63,7 @@ import RegistrationSection from '../formSections/registrationSection/Registratio
 import ResponsibilitiesSection from '../formSections/responsibilitiesSection/ResponsibilitiesSection';
 import SummarySection from '../formSections/summarySection/SummarySection';
 import TimeSection from '../formSections/timeSection/TimeSection';
+import PublicationListLinks from '../formSections/typeSection/publicationListLinks/PublicationListLinks';
 import TypeSection from '../formSections/typeSection/TypeSection';
 import VideoSection from '../formSections/videoSection/VideoSection';
 import useEventActions from '../hooks/useEventActions';
@@ -77,10 +80,11 @@ import {
   getEventFields,
   getEventInitialValues,
   scrollToFirstError,
+  shouldShowTypeSection,
 } from '../utils';
 import {
   draftEventSchema,
-  getExternalUserEventSchema,
+  externalUserEventSchema,
   publicEventSchema,
 } from '../validation';
 
@@ -140,6 +144,7 @@ const EventForm: React.FC<EventFormProps> = ({
   const [, , { setValue: setMainCategories }] = useField<string[]>({
     name: EVENT_FIELDS.MAIN_CATEGORIES,
   });
+  const [{ value: type }] = useField<EVENT_TYPE>({ name: EVENT_FIELDS.TYPE });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEventServerErrors();
@@ -300,9 +305,7 @@ const EventForm: React.FC<EventFormProps> = ({
       clearErrors();
 
       if (isExternalUser) {
-        const validationSchema = getExternalUserEventSchema(publicationStatus);
-
-        await validationSchema.validate(valuesWithMainCategories, {
+        await externalUserEventSchema.validate(valuesWithMainCategories, {
           abortEarly: false,
         });
       } else if (publicationStatus === PublicationStatus.Draft) {
@@ -348,6 +351,7 @@ const EventForm: React.FC<EventFormProps> = ({
   }, [mainCategories]);
 
   const { name } = event ? getEventFields(event, locale) : { name: '' };
+
   return (
     <>
       {event && (
@@ -428,13 +432,51 @@ const EventForm: React.FC<EventFormProps> = ({
               {event && <EventInfo event={event} />}
               <ServerErrorSummary errors={serverErrorItems} />
 
-              <Section title={t('event.form.sections.type')}>
-                <TypeSection
-                  isEditingAllowed={isEditingAllowed}
-                  isExternalUser={isExternalUser}
-                  savedEvent={event}
-                />
-              </Section>
+              <Notification
+                className={styles.publicationNotification}
+                label={t('event.form.notificationTitlePublication')}
+                type="info"
+              >
+                <p>{t(`event.form.infoTextPublication.paragraph1.${type}`)}</p>
+                <p>
+                  {t('event.form.infoTextPublication.paragraph2.sentence1')}{' '}
+                  <PublicationListLinks links={PUBLICATION_LIST_LINKS[type]} />{' '}
+                  {t('event.form.infoTextPublication.paragraph2.sentence2')}
+                </p>
+                <p>
+                  {t(
+                    `event.form.infoTextPublication.paragraph3.sentence1.${type}`
+                  )}{' '}
+                  {t('event.form.infoTextPublication.paragraph3.sentence2')}
+                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: t(`event.form.infoTextPublication.paragraph4`, {
+                      openInNewTab: t('common.openInNewTab'),
+                    }),
+                  }}
+                ></p>
+                {isExternalUser && (
+                  <p>
+                    <strong>{t('event.form.eventDraftStateInfo')}</strong>
+                  </p>
+                )}
+              </Notification>
+
+              {shouldShowTypeSection({
+                event,
+                organizationAncestors,
+                user,
+              }) && (
+                <Section title={t('event.form.sections.type')}>
+                  <TypeSection
+                    isEditingAllowed={isEditingAllowed}
+                    isExternalUser={isExternalUser}
+                    savedEvent={event}
+                  />
+                </Section>
+              )}
+
               <Section title={t('event.form.sections.languages')}>
                 <LanguagesSection isEditingAllowed={isEditingAllowed} />
               </Section>
@@ -466,7 +508,10 @@ const EventForm: React.FC<EventFormProps> = ({
                 />
               </Section>
               <Section title={t('event.form.sections.price')}>
-                <PriceSection isEditingAllowed={isEditingAllowed} />
+                <PriceSection
+                  event={event}
+                  isEditingAllowed={isEditingAllowed}
+                />
               </Section>
               <Section title={t(`event.form.sections.channels.${values.type}`)}>
                 <ChannelsSection isEditingAllowed={isEditingAllowed} />
@@ -561,7 +606,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
   );
 
   const validationSchema = externalUser
-    ? getExternalUserEventSchema()
+    ? externalUserEventSchema
     : publicEventSchema;
 
   return (

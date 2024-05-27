@@ -18,6 +18,7 @@ type Props = {
   offerPath: string;
   onDelete: () => void;
   showDelete: boolean;
+  showRegistrationPriceGroupFields: boolean;
 };
 
 const getFieldName = (offerPath: string, field: string) =>
@@ -28,15 +29,13 @@ const Offer: React.FC<Props> = ({
   offerPath,
   onDelete,
   showDelete,
+  showRegistrationPriceGroupFields,
 }) => {
   const { t } = useTranslation();
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: eventInfoLanguages }] = useField({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
-  });
-  const [{ value: isRegistrationPlanned }] = useField({
-    name: EVENT_FIELDS.IS_REGISTRATION_PLANNED,
   });
 
   return (
@@ -99,7 +98,7 @@ const Offer: React.FC<Props> = ({
         </FieldWithButton>
       </FieldRow>
 
-      {isRegistrationPlanned &&
+      {showRegistrationPriceGroupFields &&
         featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') && (
           <FormGroup>
             <OfferPriceGroups

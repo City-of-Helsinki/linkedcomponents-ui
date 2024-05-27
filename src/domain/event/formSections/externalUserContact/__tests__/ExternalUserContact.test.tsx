@@ -1,7 +1,5 @@
 import { Formik } from 'formik';
-import React from 'react';
 
-import { PublicationStatus } from '../../../../../generated/graphql';
 import {
   configure,
   render,
@@ -9,7 +7,7 @@ import {
   userEvent,
 } from '../../../../../utils/testUtils';
 import { EVENT_FIELDS } from '../../../constants';
-import { getExternalUserEventSchema } from '../../../validation';
+import { externalUserEventSchema } from '../../../validation';
 import ExternalUserContact, {
   ExternalUserContactProps,
 } from '../ExternalUserContact';
@@ -45,7 +43,7 @@ const renderComponent = (
       initialValues={{ ...defaultInitialValues, ...initialValues }}
       onSubmit={vi.fn()}
       enableReinitialize={true}
-      validationSchema={getExternalUserEventSchema(PublicationStatus.Draft)}
+      validationSchema={externalUserEventSchema}
     >
       <ExternalUserContact {...defaultProps} {...props} />
     </Formik>
