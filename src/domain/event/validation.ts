@@ -2,7 +2,6 @@
 import isFuture from 'date-fns/isFuture';
 import * as Yup from 'yup';
 
-import { PublicationStatus } from '../../generated/graphql';
 import { Maybe } from '../../types';
 import { featureFlagUtils } from '../../utils/featureFlags';
 import getValue from '../../utils/getValue';
@@ -566,93 +565,84 @@ export const draftEventSchema = Yup.object().shape(
   CYCLIC_DEPENDENCIES
 );
 
-export const getExternalUserEventSchema = (
-  publicationStatus?: PublicationStatus
-) => {
-  const baseSchema =
-    publicationStatus && publicationStatus === PublicationStatus.Draft
-      ? draftEventSchema
-      : publicEventSchema;
-
-  return Yup.object().shape(
-    {
-      ...baseSchema.fields,
-      [EVENT_FIELDS.PROVIDER]: createMultiLanguageValidationByInfoLanguages(
+export const externalUserEventSchema = Yup.object().shape(
+  {
+    ...publicEventSchema.fields,
+    [EVENT_FIELDS.PROVIDER]: createMultiLanguageValidationByInfoLanguages(
+      Yup.string()
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .max(
+          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.PROVIDER],
+          createStringMaxErrorMessage
+        )
+    ),
+    [EVENT_FIELDS.PUBLISHER]: Yup.string().nullable().optional(),
+    [EVENT_FIELDS.SHORT_DESCRIPTION]:
+      createMultiLanguageValidationByInfoLanguages(
         Yup.string()
           .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
           .max(
-            EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.PROVIDER],
+            EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.SHORT_DESCRIPTION],
             createStringMaxErrorMessage
           )
       ),
-      [EVENT_FIELDS.PUBLISHER]: Yup.string().nullable().optional(),
-      [EVENT_FIELDS.SHORT_DESCRIPTION]:
-        createMultiLanguageValidationByInfoLanguages(
-          Yup.string()
+    [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: Yup.string().when(
+      [EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE],
+      {
+        is: (hasCertificate: boolean) => hasCertificate,
+        then: (schema) =>
+          schema
             .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
             .max(
-              EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.SHORT_DESCRIPTION],
+              EVENT_TEXT_FIELD_MAX_LENGTH[
+                EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE
+              ],
               createStringMaxErrorMessage
-            )
-        ),
-      [EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE]: Yup.string().when(
-        [EVENT_FIELDS.HAS_ENVIRONMENTAL_CERTIFICATE],
-        {
-          is: (hasCertificate: boolean) => hasCertificate,
-          then: (schema) =>
-            schema
-              .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-              .max(
-                EVENT_TEXT_FIELD_MAX_LENGTH[
-                  EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE
-                ],
-                createStringMaxErrorMessage
-              ),
-        }
+            ),
+      }
+    ),
+    [EVENT_FIELDS.ENVIRONMENT]: Yup.string().required(
+      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    ),
+    [EVENT_FIELDS.USER_NAME]: Yup.string()
+      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+      .max(
+        EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.USER_NAME],
+        createStringMaxErrorMessage
       ),
-      [EVENT_FIELDS.ENVIRONMENT]: Yup.string().required(
-        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    [EVENT_FIELDS.USER_EMAIL]: Yup.string()
+      .when([EVENT_FIELDS.USER_PHONE_NUMBER], {
+        is: (phoneNumber: string) => !phoneNumber || phoneNumber.length === 0,
+        then: (schema) =>
+          schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+      })
+      .email(VALIDATION_MESSAGE_KEYS.EMAIL)
+      .max(
+        EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.USER_EMAIL],
+        createStringMaxErrorMessage
       ),
-      [EVENT_FIELDS.USER_NAME]: Yup.string()
-        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-        .max(
-          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.USER_NAME],
-          createStringMaxErrorMessage
-        ),
-      [EVENT_FIELDS.USER_EMAIL]: Yup.string()
-        .when([EVENT_FIELDS.USER_PHONE_NUMBER], {
-          is: (phoneNumber: string) => !phoneNumber || phoneNumber.length === 0,
-          then: (schema) =>
-            schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-        })
-        .email(VALIDATION_MESSAGE_KEYS.EMAIL)
-        .max(
-          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.USER_EMAIL],
-          createStringMaxErrorMessage
-        ),
-      [EVENT_FIELDS.USER_PHONE_NUMBER]: Yup.string()
-        .when([EVENT_FIELDS.USER_EMAIL], {
-          is: (email: string) => !email || email.length === 0,
-          then: (schema) =>
-            schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
-        })
-        .test(
-          'is-valid-phone-number',
-          VALIDATION_MESSAGE_KEYS.PHONE,
-          (value) => !value || isValidPhoneNumber(value)
-        )
-        .max(
-          EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.USER_PHONE_NUMBER],
-          createStringMaxErrorMessage
-        ),
-      [EVENT_FIELDS.USER_CONSENT]: Yup.bool().oneOf(
-        [true],
-        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    [EVENT_FIELDS.USER_PHONE_NUMBER]: Yup.string()
+      .when([EVENT_FIELDS.USER_EMAIL], {
+        is: (email: string) => !email || email.length === 0,
+        then: (schema) =>
+          schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED),
+      })
+      .test(
+        'is-valid-phone-number',
+        VALIDATION_MESSAGE_KEYS.PHONE,
+        (value) => !value || isValidPhoneNumber(value)
+      )
+      .max(
+        EVENT_TEXT_FIELD_MAX_LENGTH[EVENT_FIELDS.USER_PHONE_NUMBER],
+        createStringMaxErrorMessage
       ),
-    },
-    EXTERNAL_USER_CYCLIC_DEPENDENCIES
-  );
-};
+    [EVENT_FIELDS.USER_CONSENT]: Yup.bool().oneOf(
+      [true],
+      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
+    ),
+  },
+  EXTERNAL_USER_CYCLIC_DEPENDENCIES
+);
 
 export const eventTimeSchema = Yup.object().shape({
   [EVENT_TIME_FIELDS.START_DATE]: Yup.date()

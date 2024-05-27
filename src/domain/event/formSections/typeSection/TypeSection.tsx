@@ -18,16 +18,11 @@ import {
 import useLocale from '../../../../hooks/useLocale';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
-import {
-  EVENT_FIELDS,
-  EVENT_TYPE,
-  PUBLICATION_LIST_LINKS,
-} from '../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useEventTypeOptions from '../../hooks/useEventTypeOptions';
 import { EventTime, RecurringEventSettings } from '../../types';
 import { getEventFields, isRecurringEvent } from '../../utils';
-import PublicationListLinks from './publicationListLinks/PublicationListLinks';
 
 export interface TypeSectionProps {
   isEditingAllowed: boolean;
@@ -114,28 +109,14 @@ const TypeSection: React.FC<TypeSectionProps> = ({
       <h3>{t('event.form.titleEventType')}</h3>
       <FieldRow
         notification={
-          <>
-            <Notification
-              className={styles.notificationForTitle}
-              label={t('event.form.notificationTitleType')}
-              type="info"
-            >
-              <p>{t('event.form.infoTextType1')}</p>
-              <p>{t('event.form.infoTextType2')}</p>
-            </Notification>
-            <Notification
-              className={styles.secondNotification}
-              label={t('event.form.notificationTitlePublication')}
-              type="info"
-            >
-              <p>{t(`event.form.infoTextPublication.paragraph1.${type}`)}</p>
-              <p>{t('event.form.infoTextPublication.paragraph2')}</p>
-              <PublicationListLinks links={PUBLICATION_LIST_LINKS[type]} />
-              <p>{t('event.form.infoTextPublication.paragraph3')}</p>
-              <p>{t(`event.form.infoTextPublication.paragraph4.${type}`)}</p>
-              <p>{t('event.form.infoTextPublication.paragraph5')}</p>
-            </Notification>
-          </>
+          <Notification
+            className={styles.notificationForTitle}
+            label={t('event.form.notificationTitleType')}
+            type="info"
+          >
+            <p>{t('event.form.infoTextType1')}</p>
+            <p>{t('event.form.infoTextType2')}</p>
+          </Notification>
         }
       >
         <FieldColumn>
@@ -183,7 +164,9 @@ const TypeSection: React.FC<TypeSectionProps> = ({
             <Field
               component={CheckboxField}
               disabled={
-                !isEditingAllowed || getDisabled(EVENT_FIELDS.IS_UMBRELLA)
+                !isEditingAllowed ||
+                isExternalUser ||
+                getDisabled(EVENT_FIELDS.IS_UMBRELLA)
               }
               label={t(`event.form.labelIsUmbrella.${type}`)}
               name={EVENT_FIELDS.IS_UMBRELLA}
@@ -198,7 +181,9 @@ const TypeSection: React.FC<TypeSectionProps> = ({
             <Field
               component={CheckboxField}
               disabled={
-                !isEditingAllowed || getDisabled(EVENT_FIELDS.HAS_UMBRELLA)
+                !isEditingAllowed ||
+                isExternalUser ||
+                getDisabled(EVENT_FIELDS.HAS_UMBRELLA)
               }
               label={t(`event.form.labelHasUmbrella.${type}`)}
               name={EVENT_FIELDS.HAS_UMBRELLA}
@@ -208,7 +193,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({
             <FormGroup>
               <Field
                 component={UmbrellaEventSelectorField}
-                disabled={!isEditingAllowed}
+                disabled={!isEditingAllowed || isExternalUser}
                 helper={t('event.form.helperUmbrellaEvent')}
                 label={t('event.form.labelUmbrellaEvent')}
                 name={EVENT_FIELDS.SUPER_EVENT}

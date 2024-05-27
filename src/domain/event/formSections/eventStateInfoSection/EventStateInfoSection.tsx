@@ -10,7 +10,9 @@ const EventStateInfoSection: React.FC<EventStateInfoProps> = ({ text }) => {
   return (
     <figure className={styles.infoWrapper}>
       <blockquote className={styles.infoBlock}>
-        <p className={styles.infoText}>{text}</p>
+        <p className={styles.infoText}>
+          <strong>{text}</strong>
+        </p>
       </blockquote>
     </figure>
   );

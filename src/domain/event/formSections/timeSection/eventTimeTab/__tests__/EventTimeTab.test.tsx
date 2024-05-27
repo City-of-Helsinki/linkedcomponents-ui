@@ -81,7 +81,7 @@ const getSingleEventElement = (
 ) => {
   switch (key) {
     case 'addButton':
-      return screen.getByRole('button', { name: /lisää ajankohta/i });
+      return screen.getByRole('button', { name: /tallenna ajankohta/i });
     case 'delete':
       return screen.getByRole('button', { name: /poista/i });
     case 'endDate':

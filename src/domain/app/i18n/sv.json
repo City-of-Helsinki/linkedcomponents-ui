@@ -431,9 +431,9 @@
     "form": {
       "buttonAcceptAndPublish": "Bekräfta och publicera",
       "buttonAddEventTime": {
-        "course": "Lägg till tid för kurs",
-        "general": "Lägg till tid för evenemang",
-        "volunteering": "Lägg till tid för volontärarbete"
+        "course": "Spara tid för kurs",
+        "general": "Spara tid för evenemang",
+        "volunteering": "Spara tid för volontärarbete"
       },
       "buttonAddImage": {
         "course": "Lägg till bild för kurs",
@@ -442,9 +442,9 @@
       },
       "buttonAddOffer": "Lägg till annan prisinformation",
       "buttonAddRecurringEvent": {
-        "course": "Lägg till återkommande kurs",
-        "general": "Lägg till återkommande evenemang",
-        "volunteering": "Lägg till återkommande volontärarbete"
+        "course": "Spara återkommande kurs",
+        "general": "Spara återkommande evenemang",
+        "volunteering": "Spara återkommande volontärarbete"
       },
       "buttonAddRegistration": {
         "course": "Lägg till registrering för kurs",
@@ -484,10 +484,11 @@
         "volunteering": "Ta bort bilden av volontärarbetet"
       },
       "buttonSaveDraft": "Spara utkast",
+      "buttonSendToModerator": "Spara och skicka till moderator",
       "buttonUpdateDraft": "Spara utkast",
       "buttonUpdatePublic": "Spara ändringar",
       "checkboxIsVerified": "Jag intygar att de uppgifter jag lämnat är korrekta och jag förbinder mig att följa <a href={{url}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"alla instruktioner och bestämmelser {{openInNewTab}}\">alla instruktioner och bestämmelser</a> gällande Helsingfors stads kurser och evenemang.",
-      "eventDraftStateInfo": "Sparade utkast kommer automatiskt att vara synliga för moderatorn. Informationen kan redigeras tills moderatorn publicerar evenemanget. Du kan undvika publicering genom att skriva \"OFULLBORDAD\" i början av evenemangets titel medan redigeringen pågår.",
+      "eventDraftStateInfo": "Sparade utkast kommer automatiskt att vara synliga för moderatorn. Informationen kan redigeras tills moderatorn publicerar evenemanget. Du kan undvika publicering genom att skriva \"OFULLBORDAD\" i början av evenemangets titel medan redigeringen pågår. Du kommer att få en bekräftelse på publiceringen via e-post.",
       "editButtonPanel": {
         "warningCancelledEvent": "Inställda evenemang kan inte skjutas upp eller ställas in.",
         "warningCannotCancelDraft": "Evenemangsutkast kan inte annulleras.",
@@ -557,9 +558,9 @@
       },
       "infoTextEnvironmentalCertificate": "Om företaget eller evenemanget har ett certifikat, är dess namn obligatorisk information (t.ex. ecocompass). Om det inte finns något certifikat lämnas certifikatfältet tomt.",
       "infoTextEventTimes1": {
-        "course": "För att lägga till en återkommande kurs som sträcker sig över flera dagar finns det en knapp \"Lägg till kursdatum\" och ett verktyg \"Återkommande evenemang\" för en regelbundet återkommande kurs.",
-        "general": "För att lägga till ett återkommande evenemang som sträcker sig över flera dagar finns det en knapp \"Lägg till evenemangsdatum\" och ett verktyg \"Återkommande evenemang\" för ett regelbundet återkommande evenemang.",
-        "volunteering": "För att lägga till ett återkommande volontärarbete som sträcker sig över flera dagar finns det en knapp \"Lägg till volontärarbetedatum\" och ett verktyg för \"Återkommande evenemang\" för ett regelbundet återkommande volontärarbete."
+        "course": "För att lägga till en återkommande kurs som sträcker sig över flera dagar finns det en knapp \"Spara tid för kurs\" och ett verktyg \"Återkommande evenemang\" för en regelbundet återkommande kurs.",
+        "general": "För att lägga till ett återkommande evenemang som sträcker sig över flera dagar finns det en knapp \"Spara tid för evenemang\" och ett verktyg \"Återkommande evenemang\" för ett regelbundet återkommande evenemang.",
+        "volunteering": "För att lägga till ett återkommande volontärarbete som sträcker sig över flera dagar finns det en knapp \"Spara tid för volontärarbete\" och ett verktyg för \"Återkommande evenemang\" för ett regelbundet återkommande volontärarbete."
       },
       "infoTextEventTimes2": {
         "course": "Ange starttid för kursen och även starttid om kursen startar vid en viss tidpunkt.",
@@ -641,14 +642,19 @@
           "course": "Publicerad information måste vara intressant för invånare och/eller besökare och vara belägen i huvudstadsområdet.",
           "volunteering": "Publicerad information måste vara intressant för invånare och/eller besökare och vara belägen i huvudstadsområdet."
         },
-        "paragraph2": "Vilken typ av evenemang du väljer kan publiceras i följande kanaler:",
-        "paragraph3": "eller via gränssnittet på andra tjänster.",
-        "paragraph4": {
-          "course": "Ange endast hobbyinformation som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
-          "general": "Ange endast information om evenemang som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
-          "volunteering": "Ange endast information om volontärarbetet som ännu inte har publicerats på någon av de tjänster som nämns ovan."
+        "paragraph2": {
+          "sentence1": "Vilken typ av evenemang du väljer kan publiceras i följande kanaler:",
+          "sentence2": "eller via gränssnittet på andra tjänster."
         },
-        "paragraph5": "Det evenemang som ska modereras måste tillkännages minst en vecka före evenemanget."
+        "paragraph3": {
+          "sentence1": {
+            "course": "Ange endast hobbyinformation som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
+            "general": "Ange endast information om evenemang som ännu inte har publicerats på någon av de tjänster som nämns ovan.",
+            "volunteering": "Ange endast information om volontärarbetet som ännu inte har publicerats på någon av de tjänster som nämns ovan."
+          },
+          "sentence2": "Det evenemang som ska modereras måste tillkännages minst en vecka före evenemanget."
+        },
+        "paragraph4": "Närmare anvisningar om innehållet i de evenemang som ska publiceras finns på <a href=\"https://www.myhelsinki.fi/fi/info/tervetuloa-ilmoittamaan-tapahtumasi-tiedot-myhelsinkifi-sivustolle\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"MyHelsinkis webbplats {{openInNewTab}}\">MyHelsinkis webbplats</a>."
       },
       "infoTextPublisher": {
         "course": "Välj den organisation som ska visas som kursutgivare. Du behöver inte göra något val om du bara har rättigheter att publicera under en organisation.",
@@ -1278,8 +1284,8 @@
     "eventsInstructionsPage": {
       "imageAltText1": "För att börja skapa ett evenemang trycker du på knappen Lägg till nytt evenemang.",
       "imageAltText2": "Fyll i uppgifterna så mångsidigt och noggrant som möjligt. Hjälptexterna på blanketten hjälper dig att fylla i blanketten.",
-      "imageAltText3": "När du har angett datum och tid i avsnittet Tid måste du komma ihåg att trycka på knappen Lägg till tid för evenemang. Annars sparas inte den önskade tiden i evenemangsdata och evenemanget publiceras inte.",
-      "imageAltText4": "Den tillagda tiden visas i tabellen under knappen Lägg till tid.",
+      "imageAltText3": "När du har angett datum och tid i avsnittet Tid måste du komma ihåg att trycka på knappen Spara tid för evenemang. Annars sparas inte den önskade tiden i evenemangsdata och evenemanget publiceras inte.",
+      "imageAltText4": "Den tillagda tiden visas i tabellen under knappen Spara tid för evenemang.",
       "imageAltText5": "Platsen för evenemanget väljs bland de platser som finns i stadens register över affärslokaler. Adressen och andra uppgifter hämtas därför automatiskt när rätt plats hittas.",
       "imageAltText6": "Försök alltid hitta en bild för evenemanget. Bilden kan markeras CC 4.0 BY eller \"använd endast i samband med evenemanget\".",
       "imageAltText7": "I avsnittet Mina evenemangen kan du se listor över evenemangen som har publicerats eller sparats i utkastform på den organisationsnivå som du har tillgång till."

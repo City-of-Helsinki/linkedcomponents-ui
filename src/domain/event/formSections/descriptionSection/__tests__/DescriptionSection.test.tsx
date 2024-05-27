@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Formik } from 'formik';
-import React from 'react';
 import { ObjectSchema } from 'yup';
 
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   LE_DATA_LANGUAGES,
 } from '../../../../../constants';
-import { PublicationStatus } from '../../../../../generated/graphql';
 import { MultiLanguageObject } from '../../../../../types';
 import {
   configure,
@@ -18,7 +16,7 @@ import {
 } from '../../../../../utils/testUtils';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import {
-  getExternalUserEventSchema,
+  externalUserEventSchema,
   publicEventSchema,
 } from '../../../validation';
 import DescriptionSection, {
@@ -94,12 +92,8 @@ const renderComponent = (
   };
 };
 
-const findElement = (key: 'descriptionFi') => {
-  switch (key) {
-    case 'descriptionFi':
-      return screen.findByLabelText(/editorin muokkausalue: main/i);
-  }
-};
+const findDescriptionFiInput = () =>
+  screen.findByLabelText(/editorin muokkausalue: main/i);
 
 const getElement = (
   key: 'fiButton' | 'nameFi' | 'shortDescriptionFi' | 'svButton'
@@ -245,7 +239,7 @@ test('should show validation error if description is missing', async () => {
     { setSelectedLanguage }
   );
 
-  const descriptionInput = await findElement('descriptionFi');
+  const descriptionInput = await findDescriptionFiInput();
   const shortDescriptionInput = getElement('shortDescriptionFi');
 
   await user.click(descriptionInput);
@@ -273,7 +267,7 @@ test('should show validation error if description is too long', async () => {
     { setSelectedLanguage }
   );
 
-  const descriptionInput = await findElement('descriptionFi');
+  const descriptionInput = await findDescriptionFiInput();
   const shortDescriptionInput = getElement('shortDescriptionFi');
 
   await user.click(descriptionInput);
@@ -286,7 +280,7 @@ test('should show validation error if description is too long', async () => {
 
 test('environmental cerfiticate should be required if hasEnvironmentalCerfiticate is checked', async () => {
   const user = userEvent.setup();
-  const schema = getExternalUserEventSchema(PublicationStatus.Draft);
+  const schema = externalUserEventSchema;
 
   renderComponent(
     {

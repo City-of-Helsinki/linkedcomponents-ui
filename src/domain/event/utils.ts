@@ -74,6 +74,7 @@ import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
 import skipFalsyType from '../../utils/skipFalsyType';
 import wait from '../../utils/wait';
+import { EXTERNAL_PUBLISHER_ID } from '../organization/constants';
 import {
   isAdminUserInOrganization,
   isExternalUserWithoutOrganization,
@@ -1146,10 +1147,7 @@ export const checkCanUserDoAction = ({
     user,
   });
 
-  const ENABLE_EXTERNAL_USER_EVENTS =
-    import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
-  const isExternalUser =
-    ENABLE_EXTERNAL_USER_EVENTS && isExternalUserWithoutOrganization({ user });
+  const isExternalUser = isExternalUserWithoutOrganization({ user });
 
   const canCreateDraft =
     (!publisher && !!user?.organization) ||
@@ -1377,14 +1375,24 @@ export const getEventButtonProps = (
   const { warning, userCanDoAction } = checkIsActionAllowed(props);
   const { action, eventType = EVENT_TYPE.General, onClick, t } = props;
 
+  const getButtonLabel = () => {
+    if (action === EVENT_ACTIONS.PUBLISH) {
+      return t(`${EVENT_LABEL_KEYS[action]}.${eventType}`);
+    } else if (
+      props.user?.isExternal &&
+      action === EVENT_ACTIONS.CREATE_DRAFT
+    ) {
+      return t('event.form.buttonSendToModerator');
+    }
+
+    return t(EVENT_LABEL_KEYS[action]);
+  };
+
   return getIsButtonVisible({ ...props, userCanDoAction })
     ? {
         disabled: !!warning,
         icon: EVENT_ICONS[action],
-        label:
-          action === EVENT_ACTIONS.PUBLISH
-            ? t(`${EVENT_LABEL_KEYS[action]}.${eventType}`)
-            : t(EVENT_LABEL_KEYS[action]),
+        label: getButtonLabel(),
         onClick,
         title: warning,
       }
@@ -1522,3 +1530,50 @@ export const omitSensitiveDataFromEventPayload = (
   payload: CreateEventMutationInput | UpdateEventMutationInput
 ): Partial<CreateEventMutationInput | UpdateEventMutationInput> =>
   omit(payload, ['userEmail', 'userName', 'userPhoneNumber']);
+
+export const shouldShowTypeSection = ({
+  event,
+  organizationAncestors,
+  user,
+}: {
+  event?: EventFieldsFragment | null;
+  organizationAncestors: OrganizationFieldsFragment[];
+  user?: UserFieldsFragment;
+}): boolean => {
+  const publisher = getValue(event?.publisher, '');
+  const isAdminUser = isAdminUserInOrganization({
+    id: publisher,
+    organizationAncestors,
+    user,
+  });
+  const isExternalUser = isExternalUserWithoutOrganization({ user });
+
+  if (publisher === EXTERNAL_PUBLISHER_ID) {
+    return isAdminUser || Boolean(user?.isSuperuser);
+  }
+
+  if (isExternalUser) {
+    return !!event;
+  }
+
+  return true;
+};
+
+export const shouldShowRegistrationPriceGroupFields = ({
+  event,
+  isRegistrationPlanned,
+  user,
+}: {
+  event?: EventFieldsFragment | null;
+  isRegistrationPlanned: boolean;
+  user?: UserFieldsFragment;
+}): boolean => {
+  const publisher = getValue(event?.publisher, '');
+  const isExternalUser = isExternalUserWithoutOrganization({ user });
+
+  return !(
+    isExternalUser ||
+    publisher === EXTERNAL_PUBLISHER_ID ||
+    !isRegistrationPlanned
+  );
+};

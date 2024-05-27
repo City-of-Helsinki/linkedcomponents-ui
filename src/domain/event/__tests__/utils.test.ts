@@ -36,7 +36,10 @@ import {
   fakeVideo,
 } from '../../../utils/mockDataUtils';
 import { TEST_IMAGE_ID } from '../../image/constants';
-import { TEST_PUBLISHER_ID } from '../../organization/constants';
+import {
+  EXTERNAL_PUBLISHER_ID,
+  TEST_PUBLISHER_ID,
+} from '../../organization/constants';
 import {
   EVENT_ACTIONS,
   EVENT_EXTERNAL_USER_INITIAL_VALUES,
@@ -65,6 +68,8 @@ import {
   getNewEventTimes,
   getRecurringEventPayload,
   omitSensitiveDataFromEventPayload,
+  shouldShowRegistrationPriceGroupFields,
+  shouldShowTypeSection,
   sortLanguage,
   sortWeekDays,
 } from '../utils';
@@ -2004,5 +2009,129 @@ describe('omitSensitiveDataFromEventPayload function', () => {
     expect(filteredPayload.userEmail).toBeUndefined();
     expect(filteredPayload.userName).toBeUndefined();
     expect(filteredPayload.userPhoneNumber).toBeUndefined();
+  });
+});
+
+describe('shouldShowTypeSection function', () => {
+  it('should return true if user is admin', () => {
+    expect(
+      shouldShowTypeSection({
+        event: fakeEvent({ publisher: EXTERNAL_PUBLISHER_ID }),
+        organizationAncestors: [],
+        user: fakeUser({ adminOrganizations: [EXTERNAL_PUBLISHER_ID] }),
+      })
+    ).toBeTruthy();
+
+    expect(
+      shouldShowTypeSection({
+        event: fakeEvent({ publisher: EXTERNAL_PUBLISHER_ID }),
+        organizationAncestors: [],
+        user: fakeUser({ adminOrganizations: [], isSuperuser: true }),
+      })
+    ).toBeTruthy();
+  });
+
+  it('should return false if external user is creating an event', () => {
+    expect(
+      shouldShowTypeSection({
+        event: null,
+        organizationAncestors: [],
+        user: fakeUser({ isExternal: true }),
+      })
+    ).toBeFalsy();
+  });
+
+  it('should return false if user is not admin in external organization', () => {
+    const commonParams = {
+      event: fakeEvent({ publisher: EXTERNAL_PUBLISHER_ID }),
+      organizationAncestors: [],
+    };
+    expect(
+      shouldShowTypeSection({
+        ...commonParams,
+        user: fakeUser({
+          adminOrganizations: [],
+          organizationMemberships: [EXTERNAL_PUBLISHER_ID],
+        }),
+      })
+    ).toBeFalsy();
+
+    expect(
+      shouldShowTypeSection({
+        ...commonParams,
+        user: fakeUser({
+          adminOrganizations: [],
+          isExternal: true,
+        }),
+      })
+    ).toBeFalsy();
+  });
+
+  it("should return true if user is not admin but it's not the external organization", () => {
+    const commonParams = {
+      event: fakeEvent({ publisher: TEST_PUBLISHER_ID }),
+      organizationAncestors: [],
+    };
+    expect(
+      shouldShowTypeSection({
+        ...commonParams,
+        user: fakeUser({
+          adminOrganizations: [],
+          organizationMemberships: [TEST_PUBLISHER_ID],
+        }),
+      })
+    ).toBeTruthy();
+
+    expect(
+      shouldShowTypeSection({
+        ...commonParams,
+        user: fakeUser({
+          adminOrganizations: [],
+          isExternal: true,
+        }),
+      })
+    ).toBeTruthy();
+  });
+});
+
+describe('shouldShowRegistrationPriceGroupFields function', () => {
+  it('should return true if event is not by external publisher and user is not external user', () => {
+    expect(
+      shouldShowRegistrationPriceGroupFields({
+        event: fakeEvent({ publisher: TEST_PUBLISHER_ID }),
+        isRegistrationPlanned: true,
+        user: fakeUser({ isExternal: false }),
+      })
+    ).toBeTruthy();
+  });
+
+  it('should return false if user is external user', () => {
+    expect(
+      shouldShowRegistrationPriceGroupFields({
+        event: fakeEvent({ publisher: TEST_PUBLISHER_ID }),
+        isRegistrationPlanned: true,
+        user: fakeUser({ isExternal: true }),
+      })
+    ).toBeFalsy();
+  });
+
+  it('should return false if event is by external publisher', () => {
+    expect(
+      shouldShowRegistrationPriceGroupFields({
+        event: fakeEvent({ publisher: EXTERNAL_PUBLISHER_ID }),
+        isRegistrationPlanned: true,
+        user: fakeUser({ isExternal: false }),
+      })
+    ).toBeFalsy();
+  });
+
+  it('should return false if registration is not planned', () => {
+    expect(
+      shouldShowRegistrationPriceGroupFields({
+        event: fakeEvent({ publisher: EXTERNAL_PUBLISHER_ID }),
+        isRegistrationPlanned: false,
+        user: fakeUser({ isExternal: false }),
+      })
+    ).toBeFalsy();
   });
 });
