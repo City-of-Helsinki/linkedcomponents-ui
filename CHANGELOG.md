@@ -1,5 +1,39 @@
 # Changelog
 
+## [1.8.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.7.1...linkedcomponents-ui-v1.8.0) (2024-05-28)
+
+
+### Features
+
+* Add commit lint to the project ([91c7997](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/91c7997ab0a875c7a0eb4e1f0d129795ec01ef7f))
+* Add feature flag to enable place routes ([aca93f0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/aca93f034a9e7471c702334eb0419ba924a0609c))
+* Add organization filter to event and registration search pages ([fb6c283](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/fb6c283b84db631c9d6bc8ba5ad432b0aa50b070))
+* Allow only admin users to see registration instructions ([62e2bdd](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/62e2bdd3a96001a9ab69cfa12fefb158550d9b01))
+* Allow organization pages only for financial admins and superusers ([3b7ebb0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/3b7ebb002a988f58e2657b637b0a94542e69dc73))
+* Allow price group pages only for financial admins and superusers ([92c1dbc](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/92c1dbc43bf7345d631347ba2dd556fcfe7dd1d7))
+* Allow registration admin to signup to a closed registration ([d47aabb](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/d47aabb006cac0c506d15025c86b3696cd47ba80))
+* Allow superuser to modify any instance ([853682d](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/853682dbbcf2abaa087a05eb796aaf4d790f36f0))
+* Display all keyword pages in read-only ([527663e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/527663e849e5545876dbdc39731746d2ca42a411))
+* Display all keyword set pages in read-only ([23085dd](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/23085dd34988534d435de63214c206cd48100185))
+* Re-organise help pages navigation ([5c245cb](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5c245cb66db0db1533caad2d635d3b7d555ef47c))
+
+
+### Bug Fixes
+
+* Fine-tune input components disabled styles ([de8d86a](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/de8d86a7c1a4b0e8508c5e17cbeabd03e302f7e9))
+* Pass getApiToken to createApolloClient function ([e5d2889](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e5d288929f582441a675f3b77f62eea4db9a2440))
+* Require exact match in event search test ([2fd1bb0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/2fd1bb06caa2d3360b7a5d3c531b4f60f99d2ff7))
+* Update cookie consent cookies for playwright tests ([2e9d97d](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/2e9d97dd6f373f5f6b6f1122b7f1c367d5a98554))
+* Use alert role in accessibility notification ([6d89bdc](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/6d89bdcff6a2d39fb0cc3f1e93c7844699ea3a2c))
+* Validate max lengths of event fields ([c5d5821](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/c5d582140a61abb210a8a111a35891442c7ab6b4))
+* Validate max lengths of image fields ([5c2833f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5c2833f19e1d05418d3e9973abce5a363911ea61))
+* Validate max lengths of keyword fields ([3582372](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/3582372e7976ac9052545075b7e712d515ef5f59))
+* Validate max lengths of keyword set fields ([e7a14f9](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e7a14f90453cf1573847efaec4fa755d9bc465bc))
+* Validate max lengths of organization fields ([ef1d729](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/ef1d7292adea5c7df14ecee7e7477effb891e0c0))
+* Validate max lengths of place fields ([5c45cea](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5c45ceae50ea1565d91837c27a0178e879044504))
+* Validate max lengths of price group fields ([0affcdd](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/0affcdd5b1229f9f0cdc008b6ab04696236ef6d1))
+* Validate max lengths of signup fields ([a5bea58](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/a5bea58c0cf28cf85daa982d980fcd4c059730ca))
+
 ## [1.7.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.7.0...linkedcomponents-ui-v1.7.1) (2024-04-29)
 
 
