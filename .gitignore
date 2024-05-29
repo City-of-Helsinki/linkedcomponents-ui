@@ -9,6 +9,7 @@
 /coverage
 /report
 /screenshots
+/test-results
 jest-report.xml
 report.xml
 .dccache

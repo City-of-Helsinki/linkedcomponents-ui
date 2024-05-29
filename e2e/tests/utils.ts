@@ -1,8 +1,15 @@
-import { BrowserContext } from '@playwright/test';
+import { BrowserContext, expect, Page } from '@playwright/test';
 
-export const LINKED_EVENTS_URL =
-  process.env.REACT_APP_LINKED_EVENTS_URL ??
-  'https://linkedevents.api.dev.hel.ninja/v1';
+import { E2E_TESTS_ENV_URL } from '../../playwright.config';
+
+export const login = async (page: Page, email: string, password: string) => {
+  await page.getByRole('button', { name: 'Kirjaudu sisään' }).click();
+  await expect(page.locator('.login-pf-page')).toBeVisible();
+  await expect(page.locator('#kc-error-message')).toBeHidden();
+  await page.getByLabel('Sähköposti').fill(email);
+  await page.getByLabel('Salasana').fill(password);
+  await page.getByRole('button', { name: 'Kirjaudu sisään' }).click();
+};
 
 export const encodedCookieConsents = () =>
   encodeURIComponent(
@@ -22,13 +29,13 @@ export const setCookieConsent = async (context: BrowserContext) => {
     {
       name: 'city-of-helsinki-consent-version',
       value: '1',
-      domain: process.env.E2E_TESTS_ENV_URL || 'linkedevents.dev.hel.ninja',
+      domain: E2E_TESTS_ENV_URL,
       path: '/',
     },
     {
       name: 'city-of-helsinki-cookie-consents',
       value: encodedCookieConsents(),
-      domain: process.env.E2E_TESTS_ENV_URL || 'linkedevents.dev.hel.ninja',
+      domain: E2E_TESTS_ENV_URL,
       path: '/',
     },
   ]);
