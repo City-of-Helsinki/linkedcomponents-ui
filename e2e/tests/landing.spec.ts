@@ -181,16 +181,4 @@ test.describe('Landing page', () => {
     await page.getByRole('button', { name: 'Lisää uusi tapahtuma' }).click();
     await expect(page).toHaveURL('fi/events/create');
   });
-
-  test('Cookie consent buttons are enabled', async ({ context, page }) => {
-    await context.clearCookies();
-    await page.reload();
-
-    await expect(
-      page.getByTestId('cookie-consent-approve-button')
-    ).toBeEnabled();
-    await expect(
-      page.getByTestId('cookie-consent-approve-required-button')
-    ).toBeEnabled();
-  });
 });

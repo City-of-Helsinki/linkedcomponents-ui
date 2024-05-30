@@ -81,31 +81,21 @@ test.describe('Help page', () => {
       .toBeVisible();
   });
 
-  test('Should submit contact form successfully', async ({
-    browserName,
-    page,
-  }) => {
-    test.skip(
-      browserName === 'chromium',
-      'Select option fails in chromium test'
-    );
-
+  test('Should submit contact form successfully', async ({ page }) => {
     await page.goto('/fi/help/support/contact');
-    await page.getByPlaceholder('Syötä etu- ja sukunimi tai').fill('Test User');
-    await page.getByPlaceholder('Syötä sähköposti').fill('test@example.org');
+    await page.locator('#name').fill('Test User');
+    await page.locator('#email').fill('test@example.org');
+    await Promise.all([
+      page.locator('#topic-toggle-button').click(),
+      expect(page.locator('#topic-menu')).toBeVisible(),
+    ]);
 
-    await page.getByLabel('Valitse yhteydenoton aihe').click();
-    await page.getByRole('option', { name: 'Käyttöoikeudet' }).click(); // TODO: Fails with chromium
-
-    await page
-      .getByPlaceholder('Syötä yhteydenottoa kuvaileva')
-      .fill('Testiotsikko');
-    await page.getByPlaceholder('Syötä viestisi').fill('Testiviesti');
+    await page.locator('#topic-item-0').click();
+    await page.locator('#subject').fill('Testiotsikko');
+    await page.locator('#body').fill('Testiviesti');
     await page.getByRole('button', { name: 'Lähetä' }).click();
 
     await expect.soft(page.getByText('Kiitos yhteydenotostasi.')).toBeVisible();
-    await expect
-      .soft(page.getByText('Viestisi on lähetetty. Otamme'))
-      .toBeVisible();
+    await expect.soft(page.getByText('Viestisi on lähetetty')).toBeVisible();
   });
 });
