@@ -19,6 +19,8 @@ const AccessibilityStatementPage: React.FC = () => {
   const { t } = useTranslation();
   const accessibilityRequirementsWebsiteUrl =
     'https://www.saavutettavuusvaatimukset.fi';
+  const accessibilityRequirementsWebsiteUrlEn =
+    'https://www.webaccessibility.fi/';
   const accessibilityRequirementsWebsiteUrlSv =
     'https://www.tillganglighetskrav.fi';
 
@@ -80,7 +82,7 @@ const AccessibilityStatementPage: React.FC = () => {
             <p>Regional State Administrative Agency for Southern Finland</p>
             <p>Accessibility Monitoring Unit</p>
             <p>
-              <ExternalLink href={accessibilityRequirementsWebsiteUrl}>
+              <ExternalLink href={accessibilityRequirementsWebsiteUrlEn}>
                 Accessibility Requirements website
               </ExternalLink>{' '}
               (in Finnish and Swedish)
@@ -92,77 +94,17 @@ const AccessibilityStatementPage: React.FC = () => {
             <p>The Linked Events web service is not yet fully accessible.</p>
 
             <h2>Content or features that are not yet accessible</h2>
-            <h3>Navigation and Structure:</h3>
-            <ul>
-              <li>
-                The service does not offer multiple ways to locate desired
-                content. (WCAG 2.4.5)
-              </li>
-              <li>
-                There are some links in the service that are not consistently
-                labeled; the links have the same functionality, but they are
-                labeled differently. (WCAG 3.2.4)
-              </li>
-              <li>
-                Navigation elements are not consistently repeated within a set
-                of web pages, because the breadcrumb navigation is not
-                consistently present on every web page. (WCAG 3.2.3)
-              </li>
-              <li>
-                The service does not fully adapt to the horizontal orientation
-                of a mobile device, causing some content to be inaccessible or
-                requiring scrolling in two dimensions. (WCAG 1.3.4 and 1.4.10)
-              </li>
-              <li>
-                On the Documentation page, there are some content that the
-                screen reader reads in the wrong language. (WCAG 3.1.2)
-              </li>
-            </ul>
             <h3>Using the service</h3>
             <ul>
-              <li>
-                The screen reader cannot convey the state of selected language
-                in the service's language choices, and the information is
-                provided only visually. (WCAG 4.1.2)
-              </li>
-              <li>
-                There are situations in the service where changes on the page or
-                search results are not adequately communicated to screen reader
-                users. (WCAG 4.1.3)
-              </li>
-              <li>
-                There are some shortcomings in presenting information to screen
-                readers: Some texts and links are not grouped logically, some
-                tables have empty header cells, and there are table and card
-                views of events and registrations, but screen readers cannot
-                read all their content. (WCAG 1.3.1)
-              </li>
               <li>
                 Some dropdown menus in the service are not accessible to screen
                 readers. Submitting the contact form is therefore currently not
                 possible with a screen reader. (WCAG 1.3.1)
               </li>
-              <li>
-                There are some comboboxes in the service where the visible label
-                is not associated with the field. (WCAG 1.3.1)
-              </li>
-              <li>
-                There is a single unnamed remove-button in the service. (WCAG
-                4.1.2)
-              </li>
-              <li>
-                Some individual buttons in the service are named in a
-                non-descriptive manner. (WCAG 2.4.6)
-              </li>
-              <li>
-                The color contrasts in the service are mostly accessible, but
-                there are individual texts with insufficient color contrast
-                compared to their background. (WCAG 1.4.3)
-              </li>
             </ul>
             <p>
               An effort will be made to correct the shortcomings listed in this
-              statement by 30.04.2024.
+              statement by 30.10.2024.
             </p>
 
             <h2>How have we tested accessibility?</h2>
@@ -173,7 +115,7 @@ const AccessibilityStatementPage: React.FC = () => {
             </p>
             <p>The online service was published on 28 November 2023.</p>
             <p>This statement was prepared on 21 November 2023.</p>
-            <p>The statement was last updated on 21 November 2023.</p>
+            <p>The statement was last updated on 3 June 2024.</p>
             <p>
               <ExternalLink href="https://www.finlex.fi/fi/laki/alkup/2019/20190306">
                 Act on the Provision of Digital Services (306/2019)
@@ -181,7 +123,7 @@ const AccessibilityStatementPage: React.FC = () => {
               (in Finnish and Swedish)
             </p>
             <p>
-              <ExternalLink href={accessibilityRequirementsWebsiteUrl}>
+              <ExternalLink href={accessibilityRequirementsWebsiteUrlEn}>
                 Accessibility Requirements website
               </ExternalLink>{' '}
               (in Finnish and Swedish)
@@ -247,77 +189,17 @@ const AccessibilityStatementPage: React.FC = () => {
             <h2>Tarkemmat tiedot teknisestä saavutettavuudesta</h2>
             <p>Palvelu ei ole vielä kaikilta osin saavutettava.</p>
             <h2>Sisällöt tai toiminnot, jotka eivät vielä ole saavutettavia</h2>
-            <h3>Navigaatio ja rakenne</h3>
-            <ul>
-              <li>
-                Palvelussa ei ole vielä tarjolla useita tapoja paikantaa
-                haluttua sisältöä. (WCAG 2.4.5)
-              </li>
-              <li>
-                Palvelun linkkejä ei ole aina nimetty johdonmukaisesti, sillä
-                samaan paikkaan johtavat linkit ovat paikoin nimetty keskenään
-                eri tavalla. (WCAG 3.2.4)
-              </li>
-              <li>
-                Navigaatioelementit ei aina toistu johdonmukaisesti palvelussa,
-                sillä murupolku ei ole löydettävissä joka sivulta. (WCAG 3.2.3)
-              </li>
-              <li>
-                Palvelu ei mukaudu ongelmitta vaakasuuntaiselle mobiilinäytölle,
-                sillä osa sisällöstä jää tällöin täysin saavuttamatta, tai
-                vaatii kahdensuuntaista vierittämistä. (WCAG 1.3.4 ja 1.4.10)
-              </li>
-              <li>
-                Palvelun Dokumentaatiosivulla sisältöä, jonka ohjelmallinen
-                kielimerkintä ei vastaa käytettyä kieltä. (WCAG 3.1.2)
-              </li>
-            </ul>
             <h3>Palvelun käyttäminen</h3>
             <ul>
-              <li>
-                Palvelun kielivalinnoista ei käy ruudunlukijalla ilmi, mikä on
-                valittuna oleva kieli. Tieto kerrotaan vain visuaalisesti. (WCAG
-                4.1.2)
-              </li>
-              <li>
-                Palvelussa on tilanteita, joissa ruudunlukijakäyttäjille ei
-                informoida riittävästi sivulla tapahtuneista muutoksista, tai
-                hakutuloksista. (WCAG 4.1.3)
-              </li>
-              <li>
-                Palvelussa on tilanteita, joissa sen tiedot ja suhteet ei välity
-                oikein ruudunlukijoiden kautta: Jotkin tekstit ja linkit eivät
-                ryhmity ymmärrettävästi, joissakin taulukoissa on tyhjiä
-                otsikkosoluja ja palvelussa on taulukko- ja korttinäkymiä
-                tapahtumista ja ilmoittautumisista, mutta ruudunlukijalla ei
-                pysty lukemaan näiden kaikkea sisältöä. (WCAG 1.3.1)
-              </li>
               <li>
                 Palvelussa on muutamia alasvetovalikoita, jotka eivät ole
                 ruudunlukijalla käytettävissä. Tämän vuoksi
                 yhteydenottokaavakkeen lähettäminen ei tällä hetkellä onnistu
                 ruudunlukijan avulla. (WCAG 1.3.1)
               </li>
-              <li>
-                Palvelussa on joitakin yhdistelmäruutuja, joiden näkyvää
-                nimilappua ei ole yhdistetty kenttään. (WCAG 1.3.1)
-              </li>
-              <li>
-                Palvelussa on yksittäinen nimeämätön painike, jolla voi poistaa
-                valittuja avainsanoja. (WCAG 4.1.2)
-              </li>
-              <li>
-                Palvelussa on joitain yksittäisiä painikkeita, jotka ovat
-                epäkuvaavasti nimettyjä. (WCAG 2.4.6)
-              </li>
-              <li>
-                Palvelun värikontrastit ovat pääasiassa saavutettavia, mutta
-                siellä on yksittäisiä tekstejä, joiden värikontrastit ovat
-                taustaansa nähden riittämättömät. (WCAG 1.4.3)
-              </li>
             </ul>
             <p>
-              Tässä listatut puutteet pyritään korjaamaan 30.4.2024 mennessä.
+              Tässä listatut puutteet pyritään korjaamaan 30.10.2024 mennessä.
             </p>
             <h2>Miten olemme testanneet saavutettavuutta?</h2>
             <p>
@@ -327,7 +209,7 @@ const AccessibilityStatementPage: React.FC = () => {
             </p>
             <p>Palvelu on julkaistu 28.11.2023.</p>
             <p>Tämä seloste on laadittu 21.11.2023.</p>
-            <p>Selostetta on päivitetty viimeksi 21.11.2023.</p>
+            <p>Selostetta on päivitetty viimeksi 3.6.2024.</p>
             <p>
               <ExternalLink href="https://www.finlex.fi/fi/laki/alkup/2019/20190306">
                 Laki digitaalisten palvelujen tarjoamisesta (306/2019)
@@ -398,78 +280,16 @@ const AccessibilityStatementPage: React.FC = () => {
             <h2>Närmare information om tekniska tillgängligheten</h2>
             <p>Tjänsten är inte ännu till alla delar tillgänglig.</p>
             <h2>Innehåll eller funktioner som inte ännu är tillgängliga</h2>
-            <h3>Navigering och struktur</h3>
-            <ul>
-              <li>
-                Tjänsten innefattar inte för tillfället flera sätt att
-                lokalisera det önskade innehållet. (WCAG 2.4.5)
-              </li>
-              <li>
-                Tjänstens länkar är inte alltid logiskt namngivna, eftersom
-                länkar som leder till samma destination är tidvis sinsemellan
-                annorlunda namngivna. (WCAG 3.2.4)
-              </li>
-              <li>
-                Navigeringselementerna upprepas inte alltid logiskt i tjänsten,
-                eftersom brödsmulestigen inte alltid går att hitta på varje
-                sida. (WCAG 3.2.3)
-              </li>
-              <li>
-                Tjänsten anpassar sig inte problemfritt till horisontell
-                skärmriktning, eftersom en del av innehållet förblir då helt
-                otillgängligt, eller kräver tvåvägsrullning. (WCAG 1.3.4 ja
-                1.4.10)
-              </li>
-              <li>
-                Tjänstens Dokumentaatio-sida har innehåll vars programmatiska
-                språkmarkering inte motsvarar det använda språket. (WCAG 3.1.2)
-              </li>
-            </ul>
             <h3>Användning av tjänsten</h3>
             <ul>
-              <li>
-                Ur tjänstens språkval vet man inte med skärmläsare vilket det
-                valda språket är. Informationen berättas endast visuellt. (WCAG
-                4.1.2)
-              </li>
-              <li>
-                Tjänsten innehåller situationer där skärmläsaranvändare inte
-                informeras tillräckligt om ändringar som sker på sidan eller om
-                sökresultat. (WCAG 4.1.3)
-              </li>
-              <li>
-                Tjänsten innehåller situationer där dess information och
-                relationer inte förmedlas korrekt via skärmläsare: en del texter
-                och länkar grupperas inte begripligt, en del tabeller har tomma
-                rubrikceller och tjänsten har tabell- och kortvyer om händelser
-                och registreringar, men skärmläsare kan inte läsa allt deras
-                innehåll. (WCAG 1.3.1)
-              </li>
               <li>
                 Tjänsten innehåller några rullgardinsmenyer som inte är
                 tillgängliga med skärmläsare. Följaktligen går det inte för
                 tillfället att skicka kontaktformuläret med skärmläsare. (WCAG
                 1.3.1)
               </li>
-              <li>
-                Tjänsten innehåller en del kombinationsrutor vars synliga
-                namnlapp inte har kopplats till fältet. (WCAG 1.3.1)
-              </li>
-              <li>
-                Tjänsten innehåller en enstaka namnlös knapp som kan radera
-                valda nyckelord. (WCAG 4.1.2)
-              </li>
-              <li>
-                Tjänsten innehåller en del enstaka knappar som är
-                icke-deskriptivt namngivna. (WCAG 2.4.6)
-              </li>
-              <li>
-                Tjänstens färgkontraster är i huvudsak tillgängliga, men det
-                förekommer enstaka texter vars färger inte uppfyller
-                kontrastkraven. (WCAG 1.4.3)
-              </li>
             </ul>
-            <p>De uppräknade bristerna åtgärdas senast 30.4.2024.</p>
+            <p>De uppräknade bristerna åtgärdas senast 30.10.2024.</p>
 
             <h2>Hur har vi testat tillgängligheten?</h2>
             <p>
@@ -479,7 +299,7 @@ const AccessibilityStatementPage: React.FC = () => {
             </p>
             <p>Tjänsten är publicerad 28.11.2023.</p>
             <p>Detta utlåtande har upprättats 21.11.2023.</p>
-            <p>Utlåtandet uppdaterades senast 21.11.2023.</p>
+            <p>Utlåtandet uppdaterades senast 3.6.2024.</p>
             <p>
               <ExternalLink href="https://www.finlex.fi/sv/laki/alkup/2019/20190306">
                 Lag om tillhandahållande av digitala tjänster (306/2019)
