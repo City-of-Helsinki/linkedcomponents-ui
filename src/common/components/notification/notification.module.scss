@@ -1,3 +1,7 @@
 .notification {
   --notification-z-index-toast: 10 !important;
+
+  p:last-of-type {
+    margin-bottom: 0;
+  }
 }

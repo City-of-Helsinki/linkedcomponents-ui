@@ -62,7 +62,9 @@ const queryElements = (
         name: 'Poista hintatieto',
       });
     case 'instructions':
-      return screen.queryAllByText(/merkitse onko tapahtuma maksuton/i);
+      return screen.queryAllByText(
+        /Hinta- ja hintatietojen kuvaus -kenttien tiedot menevät tapahtumailmoitukselle näkyviin./i
+      );
 
     case 'priceInputs':
       return screen.queryAllByPlaceholderText(/syötä tapahtuman hinta/i);
@@ -95,7 +97,7 @@ const getElement = (
       });
     case 'isRegistrationPlannedCheckbox':
       return screen.getByRole('checkbox', {
-        name: 'Tapahtumalle luodaan Linked Registration -ilmoittautuminen',
+        name: 'Tapahtumalle luodaan Linked Events -ilmoittautuminen',
       });
     case 'priceGroupSelectButton':
       return screen.getByRole('button', { name: /Asiakasryhmä/ });
@@ -172,19 +174,19 @@ test('should show instructions for each offer', async () => {
 
   getElement('heading');
 
-  // Should have instructions to free event
-  expect(queryElements('instructions')).toHaveLength(1);
+  // Should not have instructions to free event
+  expect(queryElements('instructions')).toHaveLength(0);
 
   await user.click(getElement('hasPriceCheckbox'));
 
   await waitFor(() => expect(queryElements('priceInputs')).toHaveLength(1));
-  expect(queryElements('instructions')).toHaveLength(2);
+  expect(queryElements('instructions')).toHaveLength(1);
 
   const addOfferButton = await findAddOfferButton();
   await user.click(addOfferButton);
 
   await waitFor(() => expect(queryElements('priceInputs')).toHaveLength(2));
-  expect(queryElements('instructions')).toHaveLength(3);
+  expect(queryElements('instructions')).toHaveLength(2);
 });
 
 test('should show add price group button only if registration is planned', async () => {
