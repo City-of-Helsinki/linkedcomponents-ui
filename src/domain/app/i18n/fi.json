@@ -610,14 +610,19 @@
         "volunteering": "Valitse vähintään yksi pääluokka (kategoria). Oikeiden pääkategorioiden käyttäminen helpottaa vapaaehtoistehtävän löytämistä."
       },
       "infoTextOffers1": {
-        "course": "Merkitse onko kurssi maksuton. Syötä maksulliselle kurssille hinta muodossa “5€”.",
-        "general": "Merkitse onko tapahtuma maksuton. Syötä maksulliselle tapahtumalle hinta muodossa “5€”.",
-        "volunteering": "Merkitse onko tapahtuma vapaaehtoistehtävä. Syötä maksulliselle vapaaehtoistehtävälle hinta muodossa “5€”."
+        "course": "Hinta- ja hintatietojen kuvaus -kenttien tiedot menevät tapahtumailmoitukselle näkyviin. Syötä maksulliselle kurssille hinta muodossa “5€”.",
+        "general": "Hinta- ja hintatietojen kuvaus -kenttien tiedot menevät tapahtumailmoitukselle näkyviin. Syötä maksulliselle tapahtumalle hinta muodossa “5€”.",
+        "volunteering": "Hinta- ja hintatietojen kuvaus -kenttien tiedot menevät tapahtumailmoitukselle näkyviin. Syötä maksulliselle vapaaehtoistehtävälle hinta muodossa “5€”."
       },
       "infoTextOffers2": {
         "course": "Jos kurssilla on useita hintoja, klikkaa “Lisää muita hintatietoja” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
         "general": "Jos tapahtumalla on useita hintoja, klikkaa “Lisää muita hintatietoja” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään.",
         "volunteering": "Jos vapaaehtoistehtävällä on useita hintoja, klikkaa “Lisää muita hintatietoja” ja merkitse kunkin hintaryhmän nimi (esim. Lapset) Hintatietojen kuvaus -kenttään."
+      },
+      "infoTextOffers3": {
+        "course": "Jos luot kurssille Linked Events -ilmoittautumisen, syötä asiakasryhmät ja niille hinnat. Nämä tiedot siirtyvät ilmoittautumiselle.",
+        "general": "Jos luot tapahtumalle Linked Events -ilmoittautumisen, syötä asiakasryhmät ja niille hinnat. Nämä tiedot siirtyvät ilmoittautumiselle.",
+        "volunteering": "Jos luot vapaaehtoistehtävälle Linked Events -ilmoittautumisen, syötä asiakasryhmät ja niille hinnat. Nämä tiedot siirtyvät ilmoittautumiselle."
       },
       "infoTextProvider": {
         "course": "Kirjoita tähän kurssin järjestävän organisaation nimi, jos järjestäjä ei ole sama kuin julkaisija.",
@@ -705,9 +710,9 @@
         "volunteering": "Vapaaehtoistehtävän kotisivun URL {{langText}}"
       },
       "labelIsRegistrationPlanned": {
-        "course": "Kurssille luodaan Linked Registration -ilmoittautuminen",
-        "general": "Tapahtumalle luodaan Linked Registration -ilmoittautuminen",
-        "volunteering": "Vapaaehtoistehtävälle luodaan Linked Registration -ilmoittautuminen"
+        "course": "Kurssille luodaan Linked Events -ilmoittautuminen",
+        "general": "Tapahtumalle luodaan Linked Events -ilmoittautuminen",
+        "volunteering": "Vapaaehtoistehtävälle luodaan Linked Events -ilmoittautuminen"
       },
       "labelIsUmbrella": {
         "course": "Tämä kurssi on kattotapahtuma.",

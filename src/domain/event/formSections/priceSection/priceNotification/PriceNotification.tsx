@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Notification from '../../../../../common/components/notification/Notification';
+import { featureFlagUtils } from '../../../../../utils/featureFlags';
 import { EVENT_FIELDS } from '../../../constants';
 
 type PriceNotificationProps = {
@@ -21,6 +22,9 @@ const PriceNotification: FC<PriceNotificationProps> = ({ className }) => {
     >
       <p>{t(`event.form.infoTextOffers1.${type}`)}</p>
       <p>{t(`event.form.infoTextOffers2.${type}`)}</p>
+      {featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') && (
+        <p>{t(`event.form.infoTextOffers3.${type}`)}</p>
+      )}
     </Notification>
   );
 };

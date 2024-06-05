@@ -610,14 +610,19 @@
         "volunteering": "Välj minst en huvudkategori. Om du använder rätt huvudkategorier blir det lättare att hitta frivilligarbetet."
       },
       "infoTextOffers1": {
-        "course": "Ange om kursen är kostnadsfri. Ange ett pris i formen \"5 €\" för en betald kurs.",
-        "general": "Ange om evenemanget är kostnadsfritt. Ange ett pris i formatet \"5 €\" för ett betalt evenemang.",
-        "volunteering": "Ange om volontärarbetet är kostnadsfritt. Ange ett pris i formatet \"5 €\" för betald volontärverksamhet."
+        "course": "Informationen i fälten pris och prisbeskrivning visas i evenemangets annons. Ange ett pris i formen \"5 €\" för en betald kurs.",
+        "general": "Informationen i fälten pris och prisbeskrivning visas i evenemangets annons. Ange ett pris i formatet \"5 €\" för ett betalt evenemang.",
+        "volunteering": "Informationen i fälten pris och prisbeskrivning visas i evenemangets annons. Ange ett pris i formatet \"5 €\" för betald volontärverksamhet."
       },
       "infoTextOffers2": {
         "course": "Om kursen har flera priser klickar du på “Lägg till annan prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”.",
         "general": "Om evenemanget har flera priser klickar du på “Lägg till annan prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”.",
         "volunteering": "Om volontärarbetet har flera priser klickar du på “Lägg till annan prisinformation” och anger namnet på varje prisgrupp (t.ex. barn) i fältet “Ytterligare prisinformation”."
+      },
+      "infoTextOffers3": {
+        "course": "Om du skapar en Linked Events-registrering för en kurs, ange kundgrupper och deras priser. Denna information kommer att överföras till registreringen.",
+        "general": "Om du skapar en Linked Events-registrering för ett evenemang, ange kundgrupper och deras priser. Denna information kommer att överföras till registreringen.",
+        "volunteering": "Om du skapar en Linked Events-registrering för ett volontärarbete, ange kundgrupper och deras priser. Denna information kommer att överföras till registreringen."
       },
       "infoTextProvider": {
         "course": "Ange namnet på den organisation som arrangerar kursen om arrangören inte är densamma som utgivaren.",
@@ -705,9 +710,9 @@
         "volunteering": "URL till volontärarbetets hemsida {{langText}}"
       },
       "labelIsRegistrationPlanned": {
-        "course": "En Linked Registration-registrering kommer att skapas för kursen",
-        "general": "En Linked Registration-registrering kommer att skapas för evenemanget",
-        "volunteering": "En Linked Registration-registrering kommer att skapas för volontärarbete"
+        "course": "En Linked Events-registrering kommer att skapas för kursen",
+        "general": "En Linked Events-registrering kommer att skapas för evenemanget",
+        "volunteering": "En Linked Events-registrering kommer att skapas för volontärarbete"
       },
       "labelIsUmbrella": {
         "course": "Denna kurs är ett paraplyevenemang.",

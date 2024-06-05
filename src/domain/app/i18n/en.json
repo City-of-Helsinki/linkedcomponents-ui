@@ -610,14 +610,19 @@
         "volunteering": "Select at least one main category. Using the correct main categories makes it easier to find the volunteering."
       },
       "infoTextOffers1": {
-        "course": "Indicate whether the course is free of charge. Enter a price in the form “5 €” for a paid course.",
-        "general": "Indicate whether the event is free of charge. Enter a price in the form “5 €” for a paid event.",
-        "volunteering": "Indicate whether the volunteering is free of charge. Enter a price in the form “5 €” for a paid volunteering."
+        "course": "If you create a Linked Events registration for a course, enter the customer groups and their prices. This information will be transferred to the enrolment.",
+        "general": "If you create a Linked Events registration for an event, enter the customer groups and their prices. This information will be transferred to the enrolment.",
+        "volunteering": "If you create a Linked Events registration for a volunteering, enter the customer groups and their prices. This information will be transferred to the enrolment."
       },
       "infoTextOffers2": {
         "course": "If the course has multiple prices, click “Add other pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field.",
         "general": "If the event has multiple prices, click “Add other pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field.",
         "volunteering": "If the volunteering has multiple prices, click “Add other pricing information” and enter the name of each price group (e.g. Children) in the “Additional price information” field."
+      },
+      "infoTextOffers3": {
+        "course": "If you create a Linked Events registration for a course, enter the customer groups and their prices. This information will be transferred to the enrolment.",
+        "general": "If you create a Linked Events registration for an event, enter the customer groups and their prices. This information will be transferred to the enrolment.",
+        "volunteering": "If you create a Linked Events registration for a volunteering, enter the customer groups and their prices. This information will be transferred to the enrolment."
       },
       "infoTextProvider": {
         "course": "Enter the name of the organization hosting the course if the organizer is not the same as the publisher.",
@@ -705,9 +710,9 @@
         "volunteering": "Website URL of the volunteering homepage {{langText}}"
       },
       "labelIsRegistrationPlanned": {
-        "course": "A Linked Registration will be created for the course",
-        "general": "A Linked Registration will be created for the event",
-        "volunteering": "A Linked Registration will be created for the volunteering"
+        "course": "A Linked Events registration will be created for the course",
+        "general": "A Linked Events registration will be created for the event",
+        "volunteering": "A Linked Events registration will be created for the volunteering"
       },
       "labelIsUmbrella": {
         "course": "This course is an umbrella event.",
