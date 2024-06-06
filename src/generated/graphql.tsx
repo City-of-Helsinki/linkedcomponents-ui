@@ -178,6 +178,7 @@ export type CreateSeatsReservationMutationInput = {
 
 export type CreateSignupGroupMutationInput = {
   contactPerson?: InputMaybe<ContactPersonInput>;
+  createPayment?: InputMaybe<Scalars['Boolean']['input']>;
   extraInfo?: InputMaybe<Scalars['String']['input']>;
   registration?: InputMaybe<Scalars['ID']['input']>;
   reservationCode?: InputMaybe<Scalars['String']['input']>;
@@ -1305,6 +1306,7 @@ export type SignupGroup = {
 export type SignupInput = {
   city?: InputMaybe<Scalars['String']['input']>;
   contactPerson?: InputMaybe<ContactPersonInput>;
+  createPayment?: InputMaybe<Scalars['Boolean']['input']>;
   dateOfBirth?: InputMaybe<Scalars['String']['input']>;
   extraInfo?: InputMaybe<Scalars['String']['input']>;
   firstName?: InputMaybe<Scalars['String']['input']>;

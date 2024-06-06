@@ -1,10 +1,12 @@
 import {
+  AttendeeStatus,
   ContactPersonInput,
   CreateSignupGroupMutationInput,
   SignupInput,
 } from '../../../generated/graphql';
 import {
   fakeRegistration,
+  fakeRegistrationPriceGroup,
   fakeSignup,
   fakeSignupGroup,
   fakeSignupPriceGroup,
@@ -39,6 +41,7 @@ import {
   isRestoringSignupGroupFormDataDisabled,
   isSignupFieldRequired,
   omitSensitiveDataFromSignupGroupPayload,
+  shouldCreatePayment,
 } from '../utils';
 
 beforeEach(() => {
@@ -303,7 +306,7 @@ describe('getSignupGroupPayload function', () => {
       nativeLanguage = 'fi',
       notifications = [NOTIFICATIONS.EMAIL],
       phoneNumber = '0441234567',
-      priceGroup = 'pricegroup:1',
+      priceGroup = '132',
       serviceLanguage = 'sv',
       streetAddress = 'Street address',
       zipcode = '00100';
@@ -338,7 +341,15 @@ describe('getSignupGroupPayload function', () => {
           },
         ],
       },
-      registration,
+      registration: fakeRegistration({
+        id: TEST_REGISTRATION_ID,
+        registrationPriceGroups: [
+          fakeRegistrationPriceGroup({
+            price: '10.00',
+            id: Number(priceGroup),
+          }),
+        ],
+      }),
       reservationCode: TEST_SEATS_RESERVATION_CODE,
     });
 
@@ -354,6 +365,7 @@ describe('getSignupGroupPayload function', () => {
         phoneNumber,
         serviceLanguage,
       },
+      createPayment: true,
       extraInfo: groupExtraInfo,
       registration: registrationId,
       reservationCode: TEST_SEATS_RESERVATION_CODE,
@@ -677,4 +689,56 @@ describe('calculateTotalPrice', () => {
     const totalPrice = calculateTotalPrice(priceGroupOptions, signups);
     expect(totalPrice).toEqual(35);
   });
+});
+
+describe('shouldCreatePayment', () => {
+  const priceGroupOptions: SignupPriceGroupOption[] = [
+    { label: 'Price 1', value: '1', price: 12.0 },
+    { label: 'Price 2', value: '2', price: 0 },
+  ];
+  const chargeableSignup = getSignupInitialValues(
+    fakeSignup({
+      attendeeStatus: AttendeeStatus.Attending,
+      priceGroup: fakeSignupPriceGroup({ registrationPriceGroup: 1 }),
+    })
+  );
+  const chargeableSignupInWaitingList = getSignupInitialValues(
+    fakeSignup({
+      attendeeStatus: AttendeeStatus.Waitlisted,
+      priceGroup: fakeSignupPriceGroup({ registrationPriceGroup: 1 }),
+    })
+  );
+  const freeSignup = getSignupInitialValues(
+    fakeSignup({
+      attendeeStatus: AttendeeStatus.Attending,
+      priceGroup: fakeSignupPriceGroup({ registrationPriceGroup: 2 }),
+    })
+  );
+  const freeSignupInWaitingList = getSignupInitialValues(
+    fakeSignup({
+      attendeeStatus: AttendeeStatus.Waitlisted,
+      priceGroup: fakeSignupPriceGroup({ registrationPriceGroup: 2 }),
+    })
+  );
+
+  it.each([
+    [[chargeableSignup], true],
+    [[chargeableSignupInWaitingList], false],
+    [[freeSignup], false],
+    [[freeSignupInWaitingList], false],
+    [[chargeableSignup, chargeableSignup], true],
+    [[chargeableSignup, chargeableSignupInWaitingList], true],
+    [[chargeableSignup, freeSignup], true],
+    [[chargeableSignup, freeSignupInWaitingList], true],
+    [[chargeableSignupInWaitingList, freeSignup], false],
+    [[chargeableSignupInWaitingList, freeSignupInWaitingList], false],
+    [[freeSignup, freeSignupInWaitingList], false],
+  ])(
+    'should return true if any chargeable signup is attending',
+    (signups, createPayment) => {
+      expect(shouldCreatePayment(priceGroupOptions, signups)).toEqual(
+        createPayment
+      );
+    }
+  );
 });

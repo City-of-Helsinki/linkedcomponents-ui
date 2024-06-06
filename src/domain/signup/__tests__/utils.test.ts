@@ -2,7 +2,10 @@ import {
   CreateSignupsMutationInput,
   SignupInput,
 } from '../../../generated/graphql';
-import { fakeSignup } from '../../../utils/mockDataUtils';
+import {
+  fakeRegistrationPriceGroup,
+  fakeSignup,
+} from '../../../utils/mockDataUtils';
 import { registration } from '../../registration/__mocks__/registration';
 import {
   NOTIFICATION_TYPE,
@@ -11,6 +14,7 @@ import {
 } from '../../signupGroup/constants';
 import { TEST_CONTACT_PERSON_ID, TEST_SIGNUP_ID } from '../constants';
 import {
+  getCreateSignupsPayload,
   getSignupGroupInitialValuesFromSignup,
   getUpdateSignupPayload,
   omitSensitiveDataFromSignupPayload,
@@ -37,6 +41,159 @@ const signupPayload: SignupInput = {
   streetAddress: 'Address',
   zipcode: '123456',
 };
+
+const city = 'City',
+  contactPersonFirstName = 'Contact first name',
+  contactPersonLastName = 'Contact last name',
+  dateOfBirth = new Date('1999-10-10'),
+  email = 'Email',
+  extraInfo = 'Extra info',
+  firstName = 'First name',
+  lastName = 'Last name',
+  membershipNumber = 'XXX-123',
+  nativeLanguage = 'fi',
+  notifications = [NOTIFICATIONS.EMAIL],
+  phoneNumber = '0441234567',
+  priceGroup = '12',
+  serviceLanguage = 'sv',
+  streetAddress = 'Street address',
+  zipcode = '00100';
+
+describe('getCreateSignupPayload function', () => {
+  const reservationCode = 'reservation-code';
+  const signups = [
+    {
+      city,
+      dateOfBirth,
+      extraInfo,
+      firstName,
+      id: null,
+      inWaitingList: false,
+      lastName,
+      phoneNumber,
+      priceGroup,
+      streetAddress,
+      zipcode,
+    },
+  ];
+
+  it('should return create signup payload for free event', () => {
+    const payload = getCreateSignupsPayload({
+      formValues: {
+        ...SIGNUP_GROUP_INITIAL_VALUES,
+        contactPerson: {
+          email,
+          firstName: contactPersonFirstName,
+          id: null,
+          lastName: contactPersonLastName,
+          membershipNumber,
+          nativeLanguage,
+          notifications,
+          phoneNumber,
+          serviceLanguage,
+        },
+        extraInfo: '',
+        signups,
+      },
+      registration,
+      reservationCode,
+    });
+
+    expect(payload).toEqual({
+      registration: registration.id,
+      reservationCode,
+      signups: [
+        {
+          city,
+          contactPerson: {
+            email,
+            firstName: contactPersonFirstName,
+            id: null,
+            lastName: contactPersonLastName,
+            membershipNumber,
+            nativeLanguage,
+            notifications: NOTIFICATION_TYPE.EMAIL,
+            phoneNumber,
+            serviceLanguage,
+          },
+          dateOfBirth: '1999-10-10',
+          extraInfo,
+          firstName,
+          lastName,
+          phoneNumber,
+          priceGroup: {
+            registrationPriceGroup: priceGroup,
+          },
+          streetAddress,
+          zipcode,
+        },
+      ],
+    });
+  });
+
+  it('should return create signup payload for not free event', () => {
+    const payload = getCreateSignupsPayload({
+      formValues: {
+        ...SIGNUP_GROUP_INITIAL_VALUES,
+        contactPerson: {
+          email,
+          firstName: contactPersonFirstName,
+          id: null,
+          lastName: contactPersonLastName,
+          membershipNumber,
+          nativeLanguage,
+          notifications,
+          phoneNumber,
+          serviceLanguage,
+        },
+        extraInfo: '',
+        signups,
+      },
+      registration: {
+        ...registration,
+        registrationPriceGroups: [
+          fakeRegistrationPriceGroup({
+            id: Number(priceGroup),
+            price: '10.00',
+          }),
+        ],
+      },
+      reservationCode,
+    });
+
+    expect(payload).toEqual({
+      registration: registration.id,
+      reservationCode,
+      signups: [
+        {
+          city,
+          contactPerson: {
+            email,
+            firstName: contactPersonFirstName,
+            id: null,
+            lastName: contactPersonLastName,
+            membershipNumber,
+            nativeLanguage,
+            notifications: NOTIFICATION_TYPE.EMAIL,
+            phoneNumber,
+            serviceLanguage,
+          },
+          createPayment: true,
+          dateOfBirth: '1999-10-10',
+          extraInfo,
+          firstName,
+          lastName,
+          phoneNumber,
+          priceGroup: {
+            registrationPriceGroup: priceGroup,
+          },
+          streetAddress,
+          zipcode,
+        },
+      ],
+    });
+  });
+});
 
 describe('getUpdateSignupPayload function', () => {
   it('should return update signup payload for initial values', () => {
@@ -83,22 +240,6 @@ describe('getUpdateSignupPayload function', () => {
   });
 
   it('should return update signup payload', () => {
-    const city = 'City',
-      contactPersonFirstName = 'Contact first name',
-      contactPersonLastName = 'Contact last name',
-      dateOfBirth = new Date('1999-10-10'),
-      email = 'Email',
-      extraInfo = 'Extra info',
-      firstName = 'First name',
-      lastName = 'Last name',
-      membershipNumber = 'XXX-123',
-      nativeLanguage = 'fi',
-      notifications = [NOTIFICATIONS.EMAIL],
-      phoneNumber = '0441234567',
-      priceGroup = 'pricegroup:1',
-      serviceLanguage = 'sv',
-      streetAddress = 'Street address',
-      zipcode = '00100';
     const signups = [
       {
         city,
@@ -305,27 +446,6 @@ describe('getSignupGroupInitialValuesFromSignup function', () => {
 });
 
 describe('omitSensitiveDataFromSignupPayload', () => {
-  const signupPayload: SignupInput = {
-    city: 'Helsinki',
-    contactPerson: {
-      email: 'test@email.com',
-      firstName: 'First name',
-      lastName: 'Last name',
-      membershipNumber: 'XYZ',
-      nativeLanguage: 'fi',
-      notifications: NOTIFICATION_TYPE.EMAIL,
-      phoneNumber: '0441234567',
-      serviceLanguage: 'fi',
-    },
-    dateOfBirth: '1999-10-10',
-    extraInfo: 'Signup entra info',
-    firstName: 'First name',
-    id: '1',
-    lastName: 'Last name',
-    streetAddress: 'Address',
-    zipcode: '123456',
-  };
-
   it('should omit sensitive data from payload', () => {
     const filteredPayload = omitSensitiveDataFromSignupPayload(
       signupPayload
