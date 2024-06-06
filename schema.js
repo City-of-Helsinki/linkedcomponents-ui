@@ -301,6 +301,7 @@ module.exports = buildSchema(/* GraphQL */ `
   input SignupInput {
     city: String
     contactPerson: ContactPersonInput
+    createPayment: Boolean
     dateOfBirth: String
     extraInfo: String
     firstName: String
@@ -321,6 +322,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   input CreateSignupGroupMutationInput {
     contactPerson: ContactPersonInput
+    createPayment: Boolean
     extraInfo: String
     registration: ID
     reservationCode: String

@@ -155,8 +155,15 @@ export const getSignupGroupPayload = ({
     getSignupPayload({ signupData })
   );
 
+  const priceGroupOptions = getSignupPriceGroupOptions(registration, 'fi');
+  const createPayment = shouldCreatePayment(priceGroupOptions, signupsValues);
+
   return {
     contactPerson: getContactPersonPayload(contactPerson),
+    ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
+    createPayment
+      ? { createPayment }
+      : {}),
     extraInfo: groupExtraInfo,
     registration: registration.id,
     reservationCode,
@@ -295,5 +302,7 @@ export const shouldCreatePayment = (
   signups: SignupFormFields[]
 ) =>
   featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
-  calculateTotalPrice(priceGroupOptions, signups) > 0 &&
-  signups.every((su) => !su.inWaitingList);
+  calculateTotalPrice(
+    priceGroupOptions,
+    signups.filter((su) => !su.inWaitingList)
+  ) > 0;

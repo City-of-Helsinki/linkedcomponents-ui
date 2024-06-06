@@ -19,6 +19,8 @@ import { SignupFormFields, SignupGroupFormFields } from '../signupGroup/types';
 import {
   getContactPersonInitialValues,
   getContactPersonPayload,
+  getSignupPriceGroupOptions,
+  shouldCreatePayment,
 } from '../signupGroup/utils';
 
 export const getSignupPayload = ({
@@ -91,9 +93,15 @@ export const getCreateSignupsPayload = ({
   reservationCode: string;
 }): CreateSignupsMutationInput => {
   const { contactPerson, signups: signupsValues } = formValues;
+  const priceGroupOptions = getSignupPriceGroupOptions(registration, 'fi');
+  const createPayment = shouldCreatePayment(priceGroupOptions, signupsValues);
 
   const signups: SignupInput[] = signupsValues.map((signupData, index) => ({
     ...getSignupPayload({ signupData }),
+    ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
+    createPayment
+      ? { createPayment }
+      : {}),
     contactPerson: getContactPersonPayload(contactPerson),
   }));
 
