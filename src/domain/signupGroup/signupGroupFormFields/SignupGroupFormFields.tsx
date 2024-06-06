@@ -72,6 +72,7 @@ const CannotEditContactPersonNotification: FC<{
 
 interface Props {
   contactPersonFieldsDisabled?: boolean;
+  createPayment: boolean;
   disabled?: boolean;
   registration: RegistrationFieldsFragment;
   signup?: SignupFieldsFragment;
@@ -80,6 +81,7 @@ interface Props {
 
 const SignupGroupFormFields: React.FC<Props> = ({
   contactPersonFieldsDisabled,
+  createPayment,
   disabled,
   registration,
   signup,
@@ -169,6 +171,7 @@ const SignupGroupFormFields: React.FC<Props> = ({
               disabled={disabled || contactPersonFieldsDisabled}
               label={getContactPersonTranslation('labelFirstName')}
               placeholder={getContactPersonTranslation('placeholderFirstName')}
+              required={createPayment}
               title={titleCannotEditContactPerson}
             />
             <Field
@@ -177,6 +180,7 @@ const SignupGroupFormFields: React.FC<Props> = ({
               disabled={disabled || contactPersonFieldsDisabled}
               label={getContactPersonTranslation('labelLastName')}
               placeholder={getContactPersonTranslation('placeholderLastName')}
+              required={createPayment}
               title={titleCannotEditContactPerson}
             />
           </div>

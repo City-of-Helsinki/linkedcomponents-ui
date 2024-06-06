@@ -23,6 +23,32 @@ import {
   isBelowMaxAge,
 } from '../validation';
 
+const validSignup: SignupFormFields = {
+  city: 'City',
+  dateOfBirth: new Date('2000-01-01'),
+  extraInfo: '',
+  firstName: 'first name',
+  id: null,
+  inWaitingList: true,
+  lastName: 'last name',
+  phoneNumber: '0441234567',
+  priceGroup: '',
+  streetAddress: 'Street address',
+  zipcode: '00100',
+};
+
+const validContactPerson: ContactPersonFormFields = {
+  email: 'test@email.com',
+  firstName: 'First name',
+  id: null,
+  lastName: 'Last name',
+  membershipNumber: 'xxx',
+  nativeLanguage: 'fi',
+  notifications: [NOTIFICATIONS.EMAIL],
+  phoneNumber: '0441234567',
+  serviceLanguage: 'fi',
+};
+
 afterEach(() => {
   vi.useRealTimers();
 });
@@ -74,10 +100,12 @@ const testBelowMaxAge = async (
 };
 
 const testContactPersonSchema = async (
+  registration: RegistrationFieldsFragment,
+  signups: SignupFormFields[],
   contactPerson: ContactPersonFormFields
 ) => {
   try {
-    await getContactPersonSchema().validate(contactPerson);
+    await getContactPersonSchema(registration, signups).validate(contactPerson);
     return true;
   } catch (e) {
     return false;
@@ -186,29 +214,23 @@ describe('isBelowMaxAge function', () => {
   });
 });
 
-describe('signupSchema function', () => {
-  const validContactPerson: ContactPersonFormFields = {
-    email: 'test@email.com',
-    firstName: 'First name',
-    id: null,
-    lastName: 'Last name',
-    membershipNumber: 'xxx',
-    nativeLanguage: 'fi',
-    notifications: [NOTIFICATIONS.EMAIL],
-    phoneNumber: '0441234567',
-    serviceLanguage: 'fi',
-  };
+describe('getContactPersonSchema function', () => {
+  const registration = fakeRegistration();
+  const signups: SignupFormFields[] = [];
 
   test('should return true if contact person is valid', async () => {
-    expect(await testContactPersonSchema(validContactPerson)).toBe(true);
+    expect(
+      await testContactPersonSchema(registration, signups, validContactPerson)
+    ).toBe(true);
   });
 
   const testCases: [Partial<ContactPersonFormFields>][] = [
     [{ email: '' }],
     [{ email: `${mockString(255)}@email.com` }],
     [{ email: 'not-email' }],
-    [{ phoneNumber: 'xxx' }],
-    [{ phoneNumber: mockNumberString(19) }],
+    [{ phoneNumber: '', notifications: [NOTIFICATIONS.SMS] }],
+    [{ phoneNumber: 'xxx', notifications: [NOTIFICATIONS.SMS] }],
+    [{ phoneNumber: mockNumberString(19), notifications: [NOTIFICATIONS.SMS] }],
     [{ firstName: mockString(51) }],
     [{ lastName: mockString(51) }],
     [{ notifications: [] }],
@@ -220,13 +242,73 @@ describe('signupSchema function', () => {
     'should return false if contact person is invalid, %s',
     async (contactPersonOverrides) => {
       expect(
-        await testContactPersonSchema({
+        await testContactPersonSchema(registration, signups, {
           ...validContactPerson,
           ...contactPersonOverrides,
         })
       ).toBe(false);
     }
   );
+
+  test('should return true if signup is free and first name is empty', async () => {
+    const registration = fakeRegistration({
+      registrationPriceGroups: [
+        fakeRegistrationPriceGroup({ id: 1, price: '0.00' }),
+      ],
+    });
+    const signups: SignupFormFields[] = [{ ...validSignup, priceGroup: '1' }];
+    expect(
+      await testContactPersonSchema(registration, signups, {
+        ...validContactPerson,
+        firstName: '',
+      })
+    ).toBe(true);
+  });
+
+  test('should return false if payment is required and first name is empty', async () => {
+    const registration = fakeRegistration({
+      registrationPriceGroups: [
+        fakeRegistrationPriceGroup({ id: 1, price: '12.00' }),
+      ],
+    });
+    const signups: SignupFormFields[] = [{ ...validSignup, priceGroup: '1' }];
+    expect(
+      await testContactPersonSchema(registration, signups, {
+        ...validContactPerson,
+        firstName: '',
+      })
+    ).toBe(false);
+  });
+
+  test('should return true if signup is free and last name is empty', async () => {
+    const registration = fakeRegistration({
+      registrationPriceGroups: [
+        fakeRegistrationPriceGroup({ id: 1, price: '0.00' }),
+      ],
+    });
+    const signups: SignupFormFields[] = [{ ...validSignup, priceGroup: '1' }];
+    expect(
+      await testContactPersonSchema(registration, signups, {
+        ...validContactPerson,
+        lastName: '',
+      })
+    ).toBe(true);
+  });
+
+  test('should return false if payment is required and last name is empty', async () => {
+    const registration = fakeRegistration({
+      registrationPriceGroups: [
+        fakeRegistrationPriceGroup({ id: 1, price: '12.00' }),
+      ],
+    });
+    const signups: SignupFormFields[] = [{ ...validSignup, priceGroup: '1' }];
+    expect(
+      await testContactPersonSchema(registration, signups, {
+        ...validContactPerson,
+        lastName: '',
+      })
+    ).toBe(false);
+  });
 });
 
 describe('signupSchema function', () => {
