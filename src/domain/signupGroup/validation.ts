@@ -32,7 +32,13 @@ import {
   SIGNUP_FORM_SELECT_FIELDS,
   SIGNUP_GROUP_FIELDS,
 } from './constants';
-import { isDateOfBirthFieldRequired, isSignupFieldRequired } from './utils';
+import { SignupFormFields } from './types';
+import {
+  calculateTotalPrice,
+  getSignupPriceGroupOptions,
+  isDateOfBirthFieldRequired,
+  isSignupFieldRequired,
+} from './utils';
 
 export const isAboveMinAge = (
   date: Maybe<Date>,
@@ -66,7 +72,7 @@ const getStringSchema = (
 ): Yup.StringSchema<string | undefined> =>
   required
     ? (schema ?? Yup.string()).required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    : Yup.string();
+    : schema ?? Yup.string();
 
 const getDateSchema = (
   required: boolean,
@@ -172,16 +178,21 @@ export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
   });
 };
 
-export const getContactPersonSchema = () => {
+export const getContactPersonSchema = (
+  registration: RegistrationFieldsFragment,
+  signups: SignupFormFields[]
+) => {
+  const priceGroupOptions = getSignupPriceGroupOptions(registration, 'fi');
+  const paymentRequired = calculateTotalPrice(priceGroupOptions, signups) > 0;
+
   return Yup.object().shape({
-    [CONTACT_PERSON_FIELDS.EMAIL]: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    [CONTACT_PERSON_FIELDS.EMAIL]: getStringSchema(true)
       .email(VALIDATION_MESSAGE_KEYS.EMAIL)
       .max(
         CONTACT_PERSON_TEXT_FIELD_MAX_LENGTH[CONTACT_PERSON_FIELDS.EMAIL],
         createStringMaxErrorMessage
       ),
-    [CONTACT_PERSON_FIELDS.PHONE_NUMBER]: Yup.string()
+    [CONTACT_PERSON_FIELDS.PHONE_NUMBER]: getStringSchema(false)
       .test(
         'isValidPhoneNumber',
         VALIDATION_MESSAGE_KEYS.PHONE,
@@ -200,11 +211,11 @@ export const getContactPersonSchema = () => {
         ],
         createStringMaxErrorMessage
       ),
-    [CONTACT_PERSON_FIELDS.FIRST_NAME]: Yup.string().max(
+    [CONTACT_PERSON_FIELDS.FIRST_NAME]: getStringSchema(paymentRequired).max(
       CONTACT_PERSON_TEXT_FIELD_MAX_LENGTH[CONTACT_PERSON_FIELDS.FIRST_NAME],
       createStringMaxErrorMessage
     ),
-    [CONTACT_PERSON_FIELDS.LAST_NAME]: Yup.string().max(
+    [CONTACT_PERSON_FIELDS.LAST_NAME]: getStringSchema(paymentRequired).max(
       CONTACT_PERSON_TEXT_FIELD_MAX_LENGTH[CONTACT_PERSON_FIELDS.LAST_NAME],
       createStringMaxErrorMessage
     ),
@@ -232,7 +243,11 @@ export const getSignupGroupSchema = (
       getSignupSchema(registration)
     ),
     ...(validateContactPerson && {
-      [SIGNUP_GROUP_FIELDS.CONTACT_PERSON]: getContactPersonSchema(),
+      [SIGNUP_GROUP_FIELDS.CONTACT_PERSON]: Yup.object().when(
+        [SIGNUP_GROUP_FIELDS.SIGNUPS],
+        ([signups]: SignupFormFields[][]) =>
+          getContactPersonSchema(registration, signups)
+      ),
     }),
     [SIGNUP_GROUP_FIELDS.EXTRA_INFO]: getStringSchema(
       isSignupFieldRequired(registration, SIGNUP_GROUP_FIELDS.EXTRA_INFO)

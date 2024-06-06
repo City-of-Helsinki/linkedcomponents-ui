@@ -14,6 +14,9 @@ import {
   SignupInput,
   UpdateSignupGroupMutationInput,
 } from '../../generated/graphql';
+import { Language } from '../../types';
+import { featureFlagUtils } from '../../utils/featureFlags';
+import getLocalisedString from '../../utils/getLocalisedString';
 import getValue from '../../utils/getValue';
 import skipFalsyType from '../../utils/skipFalsyType';
 import {
@@ -266,3 +269,31 @@ export const calculateTotalPrice = (
       (priceGroupOptions.find((o) => o.value === curr.priceGroup)?.price ?? 0),
     0
   );
+
+export const getSignupPriceGroupOptions = (
+  registration: RegistrationFieldsFragment,
+  locale: Language
+) => {
+  return (
+    registration.registrationPriceGroups?.map((pg) => {
+      const price = pg?.price ? Number(pg.price) : 0;
+
+      return {
+        label: [
+          `${getLocalisedString(pg?.priceGroup?.description, locale)}`,
+          `${price.toFixed(2).replace('.', ',')} €`,
+        ].join(' '),
+        price,
+        value: pg?.id?.toString() ?? /* istanbul ignore next */ '',
+      };
+    }) ?? /* istanbul ignore next */ []
+  );
+};
+
+export const shouldCreatePayment = (
+  priceGroupOptions: SignupPriceGroupOption[],
+  signups: SignupFormFields[]
+) =>
+  featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
+  calculateTotalPrice(priceGroupOptions, signups) > 0 &&
+  signups.every((su) => !su.inWaitingList);

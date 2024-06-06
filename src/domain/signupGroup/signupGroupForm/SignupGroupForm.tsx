@@ -56,7 +56,9 @@ import {
 } from '../types';
 import {
   clearCreateSignupGroupFormData,
+  getSignupPriceGroupOptions,
   isRestoringSignupGroupFormDataDisabled,
+  shouldCreatePayment,
 } from '../utils';
 import { getSignupGroupSchema, scrollToFirstError } from '../validation';
 import AvailableSeatsText from './availableSeatsText/AvailableSeatsText';
@@ -172,6 +174,9 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 
   const { closeModal, openModal, setOpenModal, setOpenParticipant } =
     useSignupGroupFormContext();
+
+  const priceGroupOptions = getSignupPriceGroupOptions(registration, locale);
+  const createPayment = shouldCreatePayment(priceGroupOptions, values.signups);
 
   const goToSignupsPage = () => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
@@ -394,6 +399,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
 
               <SignupGroupFormFields
                 contactPersonFieldsDisabled={contactPersonFieldsDisabled}
+                createPayment={createPayment}
                 disabled={disabled}
                 registration={registration}
                 signup={signup}
