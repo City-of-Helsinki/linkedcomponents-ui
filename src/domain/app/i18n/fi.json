@@ -414,8 +414,8 @@
     "eventStatus": {
       "eventCancelled": "Peruutettu",
       "eventPostponed": "Lykätty",
-      "eventRescheduled": "Ajoitettu uudelleen",
-      "eventScheduled": "Ajoitettu"
+      "eventRescheduled": "Aikataulutettu uudelleen",
+      "eventScheduled": "Aikataulutettu"
     },
     "extlink": {
       "facebook": "Facebook",
@@ -1219,6 +1219,7 @@
     "searchPanel": {
       "buttonCreateNew": "Lisää uusi tapahtuma",
       "buttonSearch": "Etsi tapahtumia",
+      "labelEventStatus": "Tapahtuman tila",
       "labelEventType": "Tyyppi",
       "labelPlace": "Etsi tapahtumapaikkaa",
       "labelPublisher": "Etsi julkaisijaa",

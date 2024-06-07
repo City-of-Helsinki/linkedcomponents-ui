@@ -1,23 +1,25 @@
-import { IconGroup } from 'hds-react';
+import { IconBell, IconGroup, IconHeart } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
 import { SearchRow } from '../../../common/components/searchPanel/SearchPanel';
 import { ROUTES } from '../../../constants';
+import { EventStatus } from '../../../generated/graphql';
 import useEventSearchHelpers from '../../../hooks/useEventSearchHelpers';
 import useLocale from '../../../hooks/useLocale';
 import useSearchState from '../../../hooks/useSearchState';
 import Container from '../../app/layout/container/Container';
 import { EVENT_TYPE } from '../../event/constants';
-import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
+import EventStatusSelector from '../../eventSearch/searchPanel/eventStatusSelector/EventStatusSelector';
 import PublisherSelector from '../../eventSearch/searchPanel/publisherSelector/PublisherSelector';
+import TypeSelector from '../../eventSearch/searchPanel/typeSelector/TypeSelector';
 import FilterSummary from '../filterSummary/FilterSummary';
 import { getEventSearchInitialValues, getEventSearchQuery } from '../utils';
-import EventTypeSelector from './eventTypeSelector/EventTypeSelector';
 import styles from './searchPanel.module.scss';
 
 type SearchState = {
+  eventStatus: EventStatus[];
   publisher: string[];
   text: string;
   type: EVENT_TYPE[];
@@ -29,16 +31,19 @@ const SearchPanel: React.FC = () => {
   const location = useLocation();
   const locale = useLocale();
 
-  const eventTypeOptions = useEventTypeOptions();
-
   const [searchState, setSearchState] = useSearchState<SearchState>({
+    eventStatus: [],
     publisher: [],
     text: '',
     type: [],
   });
 
-  const { handleChangePublishers, handleChangeText, handleChangeTypes } =
-    useEventSearchHelpers(setSearchState);
+  const {
+    handleChangeEventStatuses,
+    handleChangePublishers,
+    handleChangeText,
+    handleChangeTypes,
+  } = useEventSearchHelpers(setSearchState);
 
   const handleSearch = () => {
     navigate({
@@ -48,10 +53,10 @@ const SearchPanel: React.FC = () => {
   };
 
   React.useEffect(() => {
-    const { publisher, text, types } = getEventSearchInitialValues(
+    const { eventStatus, publisher, text, types } = getEventSearchInitialValues(
       location.search
     );
-    setSearchState({ publisher, text, type: types });
+    setSearchState({ eventStatus, publisher, text, type: types });
   }, [location.search, setSearchState]);
 
   return (
@@ -69,10 +74,10 @@ const SearchPanel: React.FC = () => {
           )}
           searchInputValue={searchState.text}
           selectors={[
-            <EventTypeSelector
+            <TypeSelector
               key="event-type"
+              icon={<IconHeart aria-hidden />}
               onChange={handleChangeTypes}
-              options={eventTypeOptions}
               toggleButtonLabel={t(
                 'eventSearchPage.searchPanel.labelEventType'
               )}
@@ -86,6 +91,15 @@ const SearchPanel: React.FC = () => {
                 'eventSearchPage.searchPanel.labelPublisher'
               )}
               value={searchState.publisher}
+            />,
+            <EventStatusSelector
+              key="event-status"
+              icon={<IconBell area-hidden />}
+              onChange={handleChangeEventStatuses}
+              toggleButtonLabel={t(
+                'eventSearchPage.searchPanel.labelEventStatus'
+              )}
+              value={searchState.eventStatus}
             />,
           ]}
         />

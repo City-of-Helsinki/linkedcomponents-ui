@@ -10,6 +10,7 @@ import {
   shouldApplyExpectedMetaData,
   waitFor,
 } from '../../../utils/testUtils';
+import { mockedOrganizationsResponse } from '../../organizations/__mocks__/organizationsPage';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   eventNames,
@@ -38,7 +39,12 @@ beforeEach(() => {
 });
 
 const route = `${ROUTES.SEARCH}?text=${searchText}`;
-const mocks = [mockedEventsResponse, mockedPlacesResponse, mockedUserResponse];
+const mocks = [
+  mockedEventsResponse,
+  mockedOrganizationsResponse,
+  mockedPlacesResponse,
+  mockedUserResponse,
+];
 
 const renderComponent = () =>
   render(<EventSearchPage />, { mocks, routes: [route] });

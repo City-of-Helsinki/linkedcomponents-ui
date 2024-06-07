@@ -1,9 +1,11 @@
+/* eslint-disable max-len */
 import {
   mockedPlaceResponse,
   placeId,
   placeName,
 } from '../../../../common/components/placeSelector/__mocks__/placeSelector';
 import { ROUTES } from '../../../../constants';
+import { EventStatus } from '../../../../generated/graphql';
 import {
   configure,
   render,
@@ -76,6 +78,18 @@ test('should render and remove date filter', async () => {
   });
 });
 
+test('should render and remove event status filter', async () => {
+  const { history } = renderComponent(
+    `/fi${ROUTES.SEARCH}?eventStatus=${EventStatus.EventCancelled}`
+  );
+
+  await shouldDisplayAndRemoveFilter({
+    deleteButtonLabel: 'Poista suodatusehto: Peruutettu',
+    expectedPathname: '/fi/search',
+    history,
+  });
+});
+
 test('should render and remove type filter', async () => {
   const { history } = renderComponent(`/fi${ROUTES.SEARCH}?type=${type}`);
 
@@ -89,7 +103,7 @@ test('should render and remove type filter', async () => {
 test('should remove all filters with clear button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent(
-    `/fi${ROUTES.SEARCH}?text=${text}&place=${placeId}&publisher=${publisherId}&end=${end}&start=${start}&type=${type}`
+    `/fi${ROUTES.SEARCH}?text=${text}&place=${placeId}&publisher=${publisherId}&end=${end}&start=${start}&type=${type}&eventStatus=${EventStatus.EventCancelled}`
   );
 
   screen.getByRole('button', {
@@ -103,6 +117,10 @@ test('should remove all filters with clear button', async () => {
   });
   screen.getByRole('button', {
     name: `Poista suodatusehto: 5.10.2021 - 13.10.2021`,
+  });
+
+  screen.getByRole('button', {
+    name: `Poista suodatusehto: Peruutettu`,
   });
 
   screen.getByRole('button', {

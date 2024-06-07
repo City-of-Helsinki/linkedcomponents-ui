@@ -39,6 +39,7 @@ const variables = {
   pageSize: EVENTS_PAGE_SIZE,
   sort: DEFAULT_EVENT_SORT,
   end: null,
+  eventStatus: [],
   eventType: [],
   include: EVENT_LIST_INCLUDES,
   location: [],

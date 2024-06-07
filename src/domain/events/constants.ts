@@ -17,6 +17,7 @@ export const DEFAULT_EVENT_LIST_TYPE = EVENT_LIST_TYPES.TABLE;
 
 export enum EVENT_SEARCH_PARAMS {
   END = 'end',
+  EVENT_STATUS = 'eventStatus',
   PAGE = 'page',
   PLACE = 'place',
   PUBLISHER = 'publisher',

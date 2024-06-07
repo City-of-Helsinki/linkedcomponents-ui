@@ -9,6 +9,7 @@ import React from 'react';
 import { DATE_FORMAT, DATE_FORMAT_API } from '../../constants';
 import {
   EventsQueryVariables,
+  EventStatus,
   EventTypeId,
   PublicationStatus,
   SuperEventType,
@@ -21,6 +22,7 @@ import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
 import { getSearchQuery } from '../../utils/searchUtils';
+import skipFalsyType from '../../utils/skipFalsyType';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import { EVENT_TYPE } from '../event/constants';
@@ -54,6 +56,7 @@ export const eventsPathBuilder = ({
     end,
     endsAfter,
     endsBefore,
+    eventStatus,
     eventType,
     inLanguage,
     include,
@@ -88,6 +91,7 @@ export const eventsPathBuilder = ({
     { key: 'end', value: end },
     { key: 'ends_after', value: endsAfter },
     { key: 'ends_before', value: endsBefore },
+    { key: 'event_status', value: eventStatus },
     {
       key: 'event_type',
       value: eventType?.length ? eventType : Object.values(EventTypeId),
@@ -188,6 +192,14 @@ export const getEventSearchInitialValues = (
 ): EventSearchInitialValues => {
   const searchParams = new URLSearchParams(search);
   const end = searchParams.get(EVENT_SEARCH_PARAMS.END);
+  const eventStatus = searchParams
+    .getAll(EVENT_SEARCH_PARAMS.EVENT_STATUS)
+    .map((s) =>
+      Object.values(EventStatus).find(
+        (v) => v.toLocaleLowerCase() === s.toLocaleLowerCase()
+      )
+    )
+    .filter(skipFalsyType);
   const page = searchParams.get(EVENT_SEARCH_PARAMS.PAGE);
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
   const publisher = searchParams.getAll(EVENT_SEARCH_PARAMS.PUBLISHER);
@@ -198,6 +210,7 @@ export const getEventSearchInitialValues = (
 
   return {
     end: end && isValid(new Date(end)) ? new Date(end) : null,
+    eventStatus,
     page: Number(page) || 1,
     places,
     publisher,
@@ -228,11 +241,13 @@ export const getEventsQueryVariables = (
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
   const publisher = searchParams.getAll(EVENT_SEARCH_PARAMS.PUBLISHER);
 
-  const { page, sort, text, types } = getEventSearchInitialValues(search);
+  const { eventStatus, page, sort, text, types } =
+    getEventSearchInitialValues(search);
 
   return {
     createPath: getPathBuilder(eventsPathBuilder),
     end,
+    eventStatus,
     eventType: types.map((type) => capitalize(type)) as EventTypeId[],
     include: EVENT_LIST_INCLUDES,
     location: places,
@@ -360,6 +375,7 @@ export const getEventParamValue = ({
     case EVENT_SEARCH_PARAMS.END:
     case EVENT_SEARCH_PARAMS.START:
       return formatDate(new Date(value), DATE_FORMAT_API);
+    case EVENT_SEARCH_PARAMS.EVENT_STATUS:
     case EVENT_SEARCH_PARAMS.PAGE:
     case EVENT_SEARCH_PARAMS.PLACE:
     case EVENT_SEARCH_PARAMS.PUBLISHER:

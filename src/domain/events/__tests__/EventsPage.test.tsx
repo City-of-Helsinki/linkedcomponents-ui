@@ -16,6 +16,7 @@ import {
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
+import { mockedOrganizationsResponse } from '../../organizations/__mocks__/organizationsPage';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   draftEventsCount,
@@ -56,6 +57,7 @@ const mocks = [
   mockedBaseDraftEventsResponse,
   mockedDraftEventsResponse,
   mockedOrganizationResponse,
+  mockedOrganizationsResponse,
   mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];

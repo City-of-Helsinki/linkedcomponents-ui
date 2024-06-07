@@ -1126,6 +1126,7 @@
     "searchPanel": {
       "buttonCreateNew": "Add new event",
       "buttonSearch": "Search events",
+      "labelEventStatus": "Event status",
       "labelEventType": "Type",
       "labelPlace": "Search venue",
       "labelPublisher": "Search publisher",

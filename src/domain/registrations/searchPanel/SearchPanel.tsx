@@ -11,9 +11,8 @@ import useLocale from '../../../hooks/useLocale';
 import useSearchState from '../../../hooks/useSearchState';
 import { useTheme } from '../../app/theme/Theme';
 import { EVENT_TYPE } from '../../event/constants';
-import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
-import EventTypeSelector from '../../events/searchPanel/eventTypeSelector/EventTypeSelector';
 import PublisherSelector from '../../eventSearch/searchPanel/publisherSelector/PublisherSelector';
+import TypeSelector from '../../eventSearch/searchPanel/typeSelector/TypeSelector';
 import {
   getRegistrationSearchInitialValues,
   getRegistrationSearchQuery,
@@ -32,8 +31,6 @@ const SearchPanel: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const locale = useLocale();
-
-  const eventTypeOptions = useEventTypeOptions();
 
   const [searchState, setSearchState] = useSearchState<SearchState>({
     eventType: [],
@@ -78,10 +75,9 @@ const SearchPanel: React.FC = () => {
             )}
             searchInputValue={searchState.text}
             selectors={[
-              <EventTypeSelector
+              <TypeSelector
                 key="event-type"
                 onChange={handleChangeEventTypes}
-                options={eventTypeOptions}
                 toggleButtonLabel={t(
                   'registrationsPage.searchPanel.labelEventType'
                 )}

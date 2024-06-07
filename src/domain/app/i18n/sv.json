@@ -414,7 +414,7 @@
     "eventStatus": {
       "eventCancelled": "Avbokad",
       "eventPostponed": "Uppskjuten",
-      "eventRescheduled": "Omdisponerad",
+      "eventRescheduled": "Omplanerad",
       "eventScheduled": "Schemalagd"
     },
     "extlink": {
@@ -1126,6 +1126,7 @@
     "searchPanel": {
       "buttonCreateNew": "Lägg till nytt evenemang",
       "buttonSearch": "Sök efter evenemang",
+      "labelEventStatus": "Evenemangets status",
       "labelEventType": "Typ",
       "labelPlace": "Sök plats",
       "labelPublisher": "Sök utgivare",

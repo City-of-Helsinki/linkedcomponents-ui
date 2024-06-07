@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { ROUTES } from '../../../../constants';
 import {
   configure,
@@ -31,6 +32,7 @@ const getElement = (
   key:
     | 'dateSelectorButton'
     | 'endDateInput'
+    | 'eventStatusSelectorButton'
     | 'eventTypeSelectorButton'
     | 'placeSelectorButton'
     | 'publisherSelectorButton'
@@ -42,6 +44,8 @@ const getElement = (
       return screen.getByRole('button', { name: 'Valitse päivämäärät' });
     case 'endDateInput':
       return screen.getByPlaceholderText('Loppuu p.k.vvvv');
+    case 'eventStatusSelectorButton':
+      return screen.getByRole('button', { name: 'Tapahtuman tila' });
     case 'eventTypeSelectorButton':
       return screen.getByRole('button', { name: 'Tyyppi' });
     case 'placeSelectorButton':
@@ -96,10 +100,16 @@ test('should search events with correct search params', async () => {
   const placeCheckbox = screen.getByLabelText(placeName);
   await user.click(placeCheckbox);
 
+  // Event status filtering
+  const eventStatusSelectorButton = getElement('eventStatusSelectorButton');
+  await user.click(eventStatusSelectorButton);
+  const eventStatusCheckbox = screen.getByLabelText('Peruutettu');
+  await user.click(eventStatusCheckbox);
+
   await shouldFilterEventsOrRegistrations({
     expectedPathname: '/fi/search',
     expectedSearch:
-      '?place=place%3A1&publisher=organization%3A1&text=search&type=general&end=2021-03-12&start=2021-03-05',
+      '?eventStatus=EventCancelled&place=place%3A1&publisher=organization%3A1&text=search&type=general&end=2021-03-12&start=2021-03-05',
     history,
     searchButtonLabel: 'Etsi tapahtumia',
     searchInputLabel: 'Hae Linked Events -rajapinnasta',

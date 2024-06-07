@@ -953,6 +953,7 @@ export type QueryEventsArgs = {
   end?: InputMaybe<Scalars['String']['input']>;
   endsAfter?: InputMaybe<Scalars['String']['input']>;
   endsBefore?: InputMaybe<Scalars['String']['input']>;
+  eventStatus?: InputMaybe<Array<InputMaybe<EventStatus>>>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>>>;
   inLanguage?: InputMaybe<Scalars['String']['input']>;
   include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -1718,6 +1719,7 @@ export type EventsQueryVariables = Exact<{
   end?: InputMaybe<Scalars['String']['input']>;
   endsAfter?: InputMaybe<Scalars['String']['input']>;
   endsBefore?: InputMaybe<Scalars['String']['input']>;
+  eventStatus?: InputMaybe<Array<InputMaybe<EventStatus>> | InputMaybe<EventStatus>>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>> | InputMaybe<EventTypeId>>;
   include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
   inLanguage?: InputMaybe<Scalars['String']['input']>;
@@ -3218,7 +3220,7 @@ export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventSuspenseQueryHookResult = ReturnType<typeof useEventSuspenseQuery>;
 export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
-    query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $eventType: [EventTypeId], $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $registration: Boolean, $registrationAdminUser: Boolean, $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $createPath: Any) {
+    query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $eventStatus: [EventStatus], $eventType: [EventTypeId], $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $registration: Boolean, $registrationAdminUser: Boolean, $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $text: String, $translation: String, $createPath: Any) {
   events(
     adminUser: $adminUser
     createdBy: $createdBy
@@ -3227,6 +3229,7 @@ export const EventsDocument = gql`
     end: $end
     endsAfter: $endsAfter
     endsBefore: $endsBefore
+    eventStatus: $eventStatus
     eventType: $eventType
     include: $include
     inLanguage: $inLanguage
@@ -3282,6 +3285,7 @@ ${EventFieldsFragmentDoc}`;
  *      end: // value for 'end'
  *      endsAfter: // value for 'endsAfter'
  *      endsBefore: // value for 'endsBefore'
+ *      eventStatus: // value for 'eventStatus'
  *      eventType: // value for 'eventType'
  *      include: // value for 'include'
  *      inLanguage: // value for 'inLanguage'
