@@ -1,6 +1,7 @@
 import { ROUTES } from '../../../constants';
 import {
   EventsQueryVariables,
+  EventStatus,
   EventTypeId,
   PublicationStatus,
 } from '../../../generated/graphql';
@@ -17,12 +18,17 @@ import {
   EVENTS_PAGE_TABS,
   ExpandedEventsActionTypes,
 } from '../constants';
-import { EventSearchParam, EventSearchParams } from '../types';
+import {
+  EventSearchInitialValues,
+  EventSearchParam,
+  EventSearchParams,
+} from '../types';
 import {
   addExpandedEvent,
   addParamsToEventQueryString,
   eventsPathBuilder,
   getEventParamValue,
+  getEventSearchInitialValues,
   getEventSearchQuery,
   getEventsQueryVariables,
   getEventTimeStr,
@@ -60,6 +66,10 @@ describe('eventsPathBuilder function', () => {
     [
       { endsBefore: '14' },
       '/event/?ends_before=14&event_type=Course,General,Volunteering',
+    ],
+    [
+      { eventStatus: [EventStatus.EventCancelled, EventStatus.EventPostponed] },
+      '/event/?event_status=EventCancelled,EventPostponed&event_type=Course,General,Volunteering',
     ],
     [
       { eventType: [EventTypeId.Course, EventTypeId.General] },
@@ -167,6 +177,7 @@ describe('getEventsQueryVariables', () => {
   const defaultVariables = {
     createPath: undefined,
     end: null,
+    eventStatus: [],
     eventType: [],
     include: EVENT_LIST_INCLUDES,
     location: [],
@@ -180,6 +191,10 @@ describe('getEventsQueryVariables', () => {
   const testCases: [string, EventsQueryVariables][] = [
     ['', defaultVariables],
     ['?end=2021-05-27', { ...defaultVariables, end: '2021-05-27' }],
+    [
+      '?eventStatus=eventScheduled',
+      { ...defaultVariables, eventStatus: [EventStatus.EventScheduled] },
+    ],
     ['?page=2', { ...defaultVariables, page: 2 }],
     [
       '?place=place:1&place=place:2',
@@ -204,6 +219,59 @@ describe('getEventsQueryVariables', () => {
     'should get events query variables, search %p',
     (search, expectedVariables) =>
       expect(getEventsQueryVariables(search)).toEqual(expectedVariables)
+  );
+});
+
+describe('getEventSearchInitialValues function', () => {
+  const defaultSearchValues: EventSearchInitialValues = {
+    end: null,
+    eventStatus: [],
+    page: 1,
+    places: [],
+    publisher: [],
+    sort: DEFAULT_EVENT_SORT,
+    start: null,
+    text: '',
+    types: [],
+  };
+  const cases: [string, EventSearchInitialValues][] = [
+    ['end=2021-12-12', { ...defaultSearchValues, end: new Date('2021-12-12') }],
+    [
+      'eventStatus=eventScheduled&eventStatus=EventCancelled',
+      {
+        ...defaultSearchValues,
+        eventStatus: [EventStatus.EventScheduled, EventStatus.EventCancelled],
+      },
+    ],
+    ['page=2', { ...defaultSearchValues, page: 2 }],
+    [
+      'place=place%3A1&place=place%3A2',
+      { ...defaultSearchValues, places: ['place:1', 'place:2'] },
+    ],
+    [
+      'publisher=publisher:1&publisher=publisher:2',
+      { ...defaultSearchValues, publisher: ['publisher:1', 'publisher:2'] },
+    ],
+    [
+      'sort=end_time',
+      { ...defaultSearchValues, sort: EVENT_SORT_OPTIONS.END_TIME },
+    ],
+    [
+      'start=2021-12-20',
+      { ...defaultSearchValues, start: new Date('2021-12-20') },
+    ],
+    ['text=search', { ...defaultSearchValues, text: 'search' }],
+    [
+      'type=volunteering',
+      { ...defaultSearchValues, types: [EVENT_TYPE.Volunteering] },
+    ],
+  ];
+
+  it.each(cases)(
+    'should get search query %p with params %p, returns %p',
+    (search, expectedSearchValues) => {
+      expect(getEventSearchInitialValues(search)).toEqual(expectedSearchValues);
+    }
   );
 });
 

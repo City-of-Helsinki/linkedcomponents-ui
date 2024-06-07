@@ -1,5 +1,6 @@
 import { ClassNames } from '@emotion/react';
 import {
+  IconBell,
   IconCalendar,
   IconGroup,
   IconHeart,
@@ -13,31 +14,31 @@ import { useLocation, useNavigate } from 'react-router';
 import Breadcrumb from '../../../common/components/breadcrumb/Breadcrumb';
 import Button from '../../../common/components/button/Button';
 import DateSelectorDropdown from '../../../common/components/dateSelectorDropdown/DateSelectorDropdown';
-import MultiSelectDropdown from '../../../common/components/multiSelectDropdown/MultiSelectDropdown';
 import SearchInput from '../../../common/components/searchInput/SearchInput';
 import { ROUTES, testIds } from '../../../constants';
+import { EventStatus } from '../../../generated/graphql';
 import useEventSearchHelpers from '../../../hooks/useEventSearchHelpers';
 import useLocale from '../../../hooks/useLocale';
 import useSearchState from '../../../hooks/useSearchState';
-import { OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
-import skipFalsyType from '../../../utils/skipFalsyType';
 import Container from '../../app/layout/container/Container';
 import TitleRow from '../../app/layout/titleRow/TitleRow';
 import { useTheme } from '../../app/theme/Theme';
 import { EVENT_TYPE } from '../../event/constants';
-import useEventTypeOptions from '../../event/hooks/useEventTypeOptions';
 import FilterSummary from '../../events/filterSummary/FilterSummary';
 import {
   getEventSearchInitialValues,
   getEventSearchQuery,
 } from '../../events/utils';
+import EventStatusSelector from './eventStatusSelector/EventStatusSelector';
 import PlaceSelector from './placeSelector/PlaceSelector';
 import PublisherSelector from './publisherSelector/PublisherSelector';
 import styles from './searchPanel.module.scss';
+import TypeSelector from './typeSelector/TypeSelector';
 
 type SearchState = {
   end: Date | null;
+  eventStatus: EventStatus[];
   place: string[];
   publisher: string[];
   start: Date | null;
@@ -52,10 +53,9 @@ const SearchPanel: React.FC = () => {
   const location = useLocation();
   const locale = useLocale();
 
-  const eventTypeOptions = useEventTypeOptions();
-
   const [searchState, setSearchState] = useSearchState<SearchState>({
     end: null,
+    eventStatus: [],
     place: [],
     publisher: [],
     start: null,
@@ -65,6 +65,7 @@ const SearchPanel: React.FC = () => {
 
   const {
     handleChangeDate,
+    handleChangeEventStatuses,
     handleChangePlaces,
     handleChangePublishers,
     handleChangeText,
@@ -79,9 +80,17 @@ const SearchPanel: React.FC = () => {
   };
 
   React.useEffect(() => {
-    const { end, places, publisher, start, text, types } =
+    const { end, eventStatus, places, publisher, start, text, types } =
       getEventSearchInitialValues(location.search);
-    setSearchState({ end, place: places, publisher, start, text, type: types });
+    setSearchState({
+      end,
+      eventStatus,
+      place: places,
+      publisher,
+      start,
+      text,
+      type: types,
+    });
   }, [location.search, setSearchState]);
 
   return (
@@ -145,23 +154,13 @@ const SearchPanel: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <MultiSelectDropdown
+                      <TypeSelector
                         icon={<IconHeart />}
                         onChange={handleChangeTypes}
-                        options={eventTypeOptions}
-                        showSearch={true}
                         toggleButtonLabel={t(
                           'eventSearchPage.searchPanel.labelEventType'
                         )}
-                        value={
-                          searchState.type
-                            .filter(skipFalsyType)
-                            .map((type) =>
-                              eventTypeOptions.find(
-                                (item) => item.value === type
-                              )
-                            ) as OptionType[]
-                        }
+                        value={searchState.type}
                       />
                     </div>
                     <div>
@@ -172,6 +171,16 @@ const SearchPanel: React.FC = () => {
                           'eventSearchPage.searchPanel.labelPublisher'
                         )}
                         value={searchState.publisher}
+                      />
+                    </div>
+                    <div>
+                      <EventStatusSelector
+                        icon={<IconBell aria-hidden />}
+                        onChange={handleChangeEventStatuses}
+                        toggleButtonLabel={t(
+                          'eventSearchPage.searchPanel.labelEventStatus'
+                        )}
+                        value={searchState.eventStatus}
                       />
                     </div>
                   </div>

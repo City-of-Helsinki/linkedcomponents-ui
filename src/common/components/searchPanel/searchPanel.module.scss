@@ -1,22 +1,43 @@
 @import '../../../assets/styles/breakpoints';
 @import '../../../assets/styles/widths';
 
-.searchRow {
+.searchRow,
+.filterRow {
   display: grid;
   grid-gap: var(--spacing-m);
-  margin-top: var(--spacing-m);
-  margin-bottom: var(--spacing-m);
 
   @include large-up {
     display: flex;
   }
 }
 
-.selectorColumn,
-.buttonColumn {
+.searchRow {
+  margin-top: var(--spacing-m);
+  margin-bottom: var(--spacing-m);
+}
+
+.filterRow {
+  flex-wrap: wrap;
+}
+
+.buttonWrapper {
   @include min-width-column(2);
 }
 
+.selectorColumn {
+  @include min-width-column(3);
+
+  &.small {
+    @include min-width-column(2);
+  }
+}
+
+.inputWrapper,
 .textSearchColumn {
   flex: 1 1 0%;
+}
+
+.inputWrapper {
+  display: grid;
+  grid-gap: var(--spacing-m);
 }

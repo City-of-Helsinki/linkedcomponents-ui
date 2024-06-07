@@ -43,7 +43,13 @@ export type ReturnParams = {
   remainingQueryString: string;
 };
 
-export type FilterType = 'date' | 'eventType' | 'place' | 'publisher' | 'text';
+export type FilterType =
+  | 'date'
+  | 'eventStatus'
+  | 'eventType'
+  | 'place'
+  | 'publisher'
+  | 'text';
 
 export type FalsyType = false | null | undefined | '' | 0;
 

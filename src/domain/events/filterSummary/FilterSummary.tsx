@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
 import DateFilterTag from '../../../common/components/filterTag/dateFilterTag/DateFilterTag';
+import EventStatusFilterTag from '../../../common/components/filterTag/eventStatusFilterTag/EventStatusFilterTag';
 import EventTypeFilterTag from '../../../common/components/filterTag/evenTypeFilterTag/EventTypeFilterTag';
 import FilterTag from '../../../common/components/filterTag/FilterTag';
 import PlaceFilterTag from '../../../common/components/filterTag/placeFilterTag/PlaceFilterTag';
@@ -23,7 +24,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
-  const { end, places, publisher, start, text, types } =
+  const { end, eventStatus, places, publisher, start, text, types } =
     getEventSearchInitialValues(search);
 
   const clearFilters = () => {
@@ -31,6 +32,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
       pathname,
       search: replaceParamsToEventQueryString(search, {
         end: null,
+        eventStatus: [],
         place: [],
         publisher: [],
         start: null,
@@ -50,6 +52,10 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     }) => {
       const newSearch = replaceParamsToEventQueryString(search, {
         end: type === 'date' ? null : end,
+        eventStatus:
+          type === 'eventStatus'
+            ? eventStatus.filter((item) => item !== value)
+            : eventStatus,
         type:
           type === 'eventType' ? types.filter((item) => item !== value) : types,
         place:
@@ -86,6 +92,13 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
       ...places.map((place) => (
         <PlaceFilterTag key={place} onDelete={removeFilter} value={place} />
       )),
+      ...eventStatus.map((status) => (
+        <EventStatusFilterTag
+          key={status}
+          onDelete={removeFilter}
+          value={status}
+        />
+      )),
       ...types.map((type) => (
         <EventTypeFilterTag key={type} onDelete={removeFilter} value={type} />
       )),
@@ -95,7 +108,18 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     );
 
     return filters;
-  }, [end, navigate, pathname, places, publisher, search, start, text, types]);
+  }, [
+    end,
+    eventStatus,
+    navigate,
+    pathname,
+    places,
+    publisher,
+    search,
+    start,
+    text,
+    types,
+  ]);
 
   if (!filters.length) return null;
 

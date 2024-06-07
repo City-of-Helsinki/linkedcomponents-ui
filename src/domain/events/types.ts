@@ -1,3 +1,4 @@
+import { EventStatus } from '../../generated/graphql';
 import { EVENT_TYPE } from '../event/constants';
 import {
   EVENT_LIST_TYPES,
@@ -40,6 +41,7 @@ export type EventsPageSettingsState = EventsPageSettings & EventsActions;
 
 export type EventSearchInitialValues = {
   end: Date | null;
+  eventStatus: EventStatus[];
   page: number;
   places: string[];
   publisher: string[];
@@ -51,6 +53,7 @@ export type EventSearchInitialValues = {
 
 export type EventSearchParams = {
   [EVENT_SEARCH_PARAMS.END]?: Date | null;
+  [EVENT_SEARCH_PARAMS.EVENT_STATUS]?: EventStatus[];
   [EVENT_SEARCH_PARAMS.PAGE]?: number | null;
   [EVENT_SEARCH_PARAMS.PLACE]?: string[];
   [EVENT_SEARCH_PARAMS.PUBLISHER]?: string[];

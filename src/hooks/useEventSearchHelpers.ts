@@ -3,11 +3,12 @@ import { OptionType } from '../types';
 
 type UseEventSearchHelpersState = {
   handleChangeDate: (field: DATE_FIELDS, value: Date | null) => void;
-  handleChangeEventTypes: (newPublishers: OptionType[]) => void;
+  handleChangeEventStatuses: (newStatuses: OptionType[]) => void;
+  handleChangeEventTypes: (newTypes: OptionType[]) => void;
   handleChangePlaces: (newPlaces: OptionType[]) => void;
   handleChangePublishers: (newPublishers: OptionType[]) => void;
   handleChangeText: (text: string) => void;
-  handleChangeTypes: (newPublishers: OptionType[]) => void;
+  handleChangeTypes: (newTypes: OptionType[]) => void;
 };
 
 const useEventSearchHelpers = (
@@ -22,6 +23,10 @@ const useEventSearchHelpers = (
         setSearchState({ start: value });
         break;
     }
+  };
+
+  const handleChangeEventStatuses = (newStatuses: OptionType[]) => {
+    setSearchState({ eventStatus: newStatuses.map((type) => type.value) });
   };
 
   const handleChangeEventTypes = (newTypes: OptionType[]) => {
@@ -46,6 +51,7 @@ const useEventSearchHelpers = (
 
   return {
     handleChangeDate,
+    handleChangeEventStatuses,
     handleChangeEventTypes,
     handleChangePlaces,
     handleChangePublishers,

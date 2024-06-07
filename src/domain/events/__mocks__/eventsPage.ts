@@ -14,6 +14,7 @@ const baseEventsVariables = {
 
 const commonSearchVariables = {
   end: null,
+  eventStatus: [],
   eventType: [],
   location: [],
   page: 1,
