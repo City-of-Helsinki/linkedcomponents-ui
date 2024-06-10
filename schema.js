@@ -1205,6 +1205,20 @@ module.exports = buildSchema(/* GraphQL */ `
     serviceLanguage: String
   }
 
+  type PaymentCancellation {
+    createdTime: String
+    id: Int
+    payment: Int
+  }
+
+  type PaymentRefund {
+    amount: String
+    createdTime: String
+    externalRefundId: String
+    id: Int
+    payment: Int
+  }
+
   type SignupPriceGroup {
     id: Int
     priceGroup: PriceGroupDense
@@ -1228,6 +1242,8 @@ module.exports = buildSchema(/* GraphQL */ `
     lastModifiedBy: String
     lastModifiedTime: String
     lastName: String
+    paymentCancellation: PaymentCancellation
+    paymentRefund: PaymentRefund
     phoneNumber: String
     priceGroup: SignupPriceGroup
     presenceStatus: PresenceStatus
@@ -1245,6 +1261,8 @@ module.exports = buildSchema(/* GraphQL */ `
     id: ID
     lastModifiedBy: String
     lastModifiedTime: String
+    paymentCancellation: PaymentCancellation
+    paymentRefund: PaymentRefund
     registration: ID
     signups: [Signup]
   }

@@ -10,6 +10,8 @@ import {
   SignupsResponse,
 } from '../../../generated/graphql';
 import {
+  fakePaymentCancellation,
+  fakePaymentRefund,
   fakeSendMessageResponse,
   fakeSignups,
 } from '../../../utils/mockDataUtils';
@@ -64,10 +66,37 @@ const attendeesWithGroup = fakeSignups(
   }))
 );
 
-const getMockedAttendeesResponse = (
-  signupsResponse: SignupsResponse,
-  overrideVariables?: Partial<SignupsQueryVariables>
-): MockedResponse => {
+const attendeesWithPaymentCancellation = fakeSignups(
+  attendeeNames.length,
+  attendeeNames.map(({ firstName, lastName }, index) => ({
+    attendeeStatus: AttendeeStatus.Attending,
+    id: `attending:${index}`,
+    firstName,
+    lastName,
+    paymentCancellation: fakePaymentCancellation(),
+  }))
+);
+
+const attendeesWithPaymentRefund = fakeSignups(
+  attendeeNames.length,
+  attendeeNames.map(({ firstName, lastName }, index) => ({
+    attendeeStatus: AttendeeStatus.Attending,
+    id: `attending:${index}`,
+    firstName,
+    lastName,
+    paymentRefund: fakePaymentRefund(),
+  }))
+);
+
+const getMockedAttendeesResponse = ({
+  overrideVariables,
+  refetchSignupsResponse,
+  signupsResponse,
+}: {
+  signupsResponse: SignupsResponse;
+  overrideVariables?: Partial<SignupsQueryVariables>;
+  refetchSignupsResponse?: SignupsResponse;
+}): MockedResponse => {
   const defaultVariables = {
     createPath: undefined,
     page: 1,
@@ -77,25 +106,36 @@ const getMockedAttendeesResponse = (
     attendeeStatus: AttendeeStatus.Attending,
   };
 
+  let queryCalled = false;
   return {
     request: {
       query: SignupsDocument,
       variables: { ...defaultVariables, ...overrideVariables },
     },
-    result: { data: { signups: signupsResponse } },
+    newData: () => {
+      if (queryCalled) {
+        return { data: { signups: refetchSignupsResponse ?? signupsResponse } };
+      } else {
+        queryCalled = true;
+        return { data: { signups: signupsResponse } };
+      }
+    },
   };
 };
 
-const mockedAttendeesResponse = getMockedAttendeesResponse(attendees, {
-  attendeeStatus: AttendeeStatus.Attending,
+const mockedAttendeesResponse = getMockedAttendeesResponse({
+  signupsResponse: attendees,
+  overrideVariables: {
+    attendeeStatus: AttendeeStatus.Attending,
+  },
 });
-const mockedAttendeesPage2Response = getMockedAttendeesResponse(
-  attendeesPage2,
-  {
+const mockedAttendeesPage2Response = getMockedAttendeesResponse({
+  signupsResponse: attendeesPage2,
+  overrideVariables: {
     attendeeStatus: AttendeeStatus.Attending,
     page: 2,
-  }
-);
+  },
+});
 
 const waitingAttendeeNames = range(1, 2).map((n) => ({
   firstName: `Waiting attendee`,
@@ -112,10 +152,10 @@ const waitingAttendees = fakeSignups(
   }))
 );
 
-const mockedWaitingAttendeesResponse = getMockedAttendeesResponse(
-  waitingAttendees,
-  { attendeeStatus: AttendeeStatus.Waitlisted }
-);
+const mockedWaitingAttendeesResponse = getMockedAttendeesResponse({
+  signupsResponse: waitingAttendees,
+  overrideVariables: { attendeeStatus: AttendeeStatus.Waitlisted },
+});
 
 const sendMessageValues = {
   body: '<p>Message</p>',
@@ -145,6 +185,8 @@ export {
   attendeeNamesPage2,
   attendees,
   attendeesWithGroup,
+  attendeesWithPaymentCancellation,
+  attendeesWithPaymentRefund,
   getMockedAttendeesResponse,
   mockedAttendeesPage2Response,
   mockedAttendeesResponse,

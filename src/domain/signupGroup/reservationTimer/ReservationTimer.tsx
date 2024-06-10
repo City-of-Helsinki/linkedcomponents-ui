@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 
 import { useAccessibilityNotificationContext } from '../../../common/components/accessibilityNotificationContext/hooks/useAccessibilityNotificationContext';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
+import useInterval from '../../../hooks/useInterval';
 import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsReservationActions';
 import {
   clearSeatsReservationData,
@@ -130,43 +131,34 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  React.useEffect(() => {
-    const interval = setInterval(() => {
+  const handleTimerActions = () => {
+    /* istanbul ignore else */
+    if (timerEnabled.current) {
+      const data = getSeatsReservationData(registrationId);
+      const newTimeLeft = getRegistrationTimeLeft(data);
+      setTimeLeft(newTimeLeft);
+
       /* istanbul ignore else */
-      if (timerEnabled.current) {
-        const data = getSeatsReservationData(registrationId);
-        const newTimeLeft = getRegistrationTimeLeft(data);
-        setTimeLeft(newTimeLeft);
+      if (!callbacksDisabled) {
+        if (!data || isSeatsReservationExpired(data)) {
+          disableCallbacks();
 
-        /* istanbul ignore else */
-        if (!callbacksDisabled) {
-          if (!data || isSeatsReservationExpired(data)) {
-            disableCallbacks();
+          clearCreateSignupGroupFormData(registrationId);
+          clearSeatsReservationData(registrationId);
 
-            clearCreateSignupGroupFormData(registrationId);
-            clearSeatsReservationData(registrationId);
-
-            setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRED);
-          } else if (
-            !isExpiringModalAlreadyDisplayed.current &&
-            newTimeLeft <= EXPIRING_THRESHOLD
-          ) {
-            setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRING);
-            isExpiringModalAlreadyDisplayed.current = true;
-          }
+          setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRED);
+        } else if (
+          !isExpiringModalAlreadyDisplayed.current &&
+          newTimeLeft <= EXPIRING_THRESHOLD
+        ) {
+          setOpenModal(SIGNUP_MODALS.RESERVATION_TIME_EXPIRING);
+          isExpiringModalAlreadyDisplayed.current = true;
         }
       }
-    }, 1000);
+    }
+  };
 
-    return () => clearInterval(interval);
-  }, [
-    callbacksDisabled,
-    disableCallbacks,
-    registrationId,
-    setOpenModal,
-    setTimeLeft,
-    timeLeft,
-  ]);
+  useInterval(handleTimerActions, 1000);
 
   return (
     <>

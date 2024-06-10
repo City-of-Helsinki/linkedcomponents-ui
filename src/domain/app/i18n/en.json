@@ -2118,6 +2118,8 @@
       "email": "By email",
       "sms": "By text message"
     },
+    "paymentCancellationOnGoing": "Payment cancellation",
+    "paymentRefundOnGoing": "Payment refund",
     "personsAddedToWaitingListModal": {
       "buttonClose": "Close",
       "text": "You will receive a separate confirmation message about your registration to your e-mail if a place becomes available for you.",

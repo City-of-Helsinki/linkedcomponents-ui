@@ -17,6 +17,12 @@ export const QUERY_SIGNUP_GROUP = gql`
     }
     extraInfo
     id
+    paymentCancellation {
+      ...paymentCancellationFields
+    }
+    paymentRefund {
+      ...paymentRefundFields
+    }
     registration
     signups {
       ...signupFields

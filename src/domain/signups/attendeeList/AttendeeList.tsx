@@ -8,11 +8,11 @@ import {
 import styles from '../signupsPage.module.scss';
 import SignupsTable from '../signupsTable/SignupsTable';
 
-interface Props {
+export interface AttendeeListProps {
   registration: RegistrationFieldsFragment;
 }
 
-const AttendeeList: React.FC<Props> = ({ registration }) => {
+const AttendeeList: React.FC<AttendeeListProps> = ({ registration }) => {
   const { t } = useTranslation();
 
   return (
@@ -21,6 +21,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
         caption={t('signupsPage.attendeeTableCaption')}
         countKey={'signupsPage.attendeeTableCount'}
         enableAccessibilityNotifications={true}
+        enableDataRefetch={true}
         pagePath="attendeePage"
         registration={registration}
         signupsVariables={{ attendeeStatus: AttendeeStatus.Attending }}

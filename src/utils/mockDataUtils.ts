@@ -44,6 +44,8 @@ import {
   OrganizationClass,
   OrganizationClassesResponse,
   OrganizationsResponse,
+  PaymentCancellation,
+  PaymentRefund,
   Place,
   PlacesResponse,
   PresenceStatus,
@@ -686,6 +688,36 @@ export const fakeSignups = (
   __typename: 'SignupsResponse',
 });
 
+export const fakePaymentCancellation = (
+  overrides?: Partial<PaymentCancellation>
+): PaymentCancellation => {
+  return merge<PaymentCancellation, typeof overrides>(
+    {
+      createdTime: null,
+      id: faker.number.int(),
+      payment: faker.number.int(),
+      __typename: 'PaymentCancellation',
+    },
+    overrides
+  );
+};
+
+export const fakePaymentRefund = (
+  overrides?: Partial<PaymentRefund>
+): PaymentRefund => {
+  return merge<PaymentRefund, typeof overrides>(
+    {
+      amount: '1.00',
+      createdTime: null,
+      externalRefundId: '1',
+      id: faker.number.int(),
+      payment: faker.number.int(),
+      __typename: 'PaymentRefund',
+    },
+    overrides
+  );
+};
+
 export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
   const id = overrides?.id || faker.string.uuid();
 
@@ -703,6 +735,8 @@ export const fakeSignup = (overrides?: Partial<Signup>): Signup => {
       lastModifiedBy: null,
       lastModifiedTime: null,
       lastName: faker.person.lastName(),
+      paymentCancellation: null,
+      paymentRefund: null,
       phoneNumber: faker.phone.number(),
       priceGroup: null,
       presenceStatus: PresenceStatus.NotPresent,
@@ -729,6 +763,8 @@ export const fakeSignupGroup = (
       extraInfo: '',
       lastModifiedBy: null,
       lastModifiedTime: null,
+      paymentCancellation: null,
+      paymentRefund: null,
       registration: TEST_REGISTRATION_ID,
       signups: [],
     },
