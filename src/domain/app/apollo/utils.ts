@@ -16,6 +16,8 @@ import {
   OfferPriceGroup,
   Organization,
   OrganizationClass,
+  PaymentCancellation,
+  PaymentRefund,
   Place,
   Position,
   PriceGroup,
@@ -345,11 +347,35 @@ export const addTypenameSignupPriceGroup = (
       }
     : null;
 
+export const addTypenamePaymentCancellation = (
+  paymentCancellation?: PaymentCancellation | null
+): PaymentCancellation | null =>
+  paymentCancellation
+    ? {
+        ...paymentCancellation,
+        __typename: 'PaymentCancellation',
+      }
+    : null;
+
+export const addTypenamePaymentRefund = (
+  paymentRefund?: PaymentRefund | null
+): PaymentRefund | null =>
+  paymentRefund
+    ? {
+        ...paymentRefund,
+        __typename: 'PaymentRefund',
+      }
+    : null;
+
 export const addTypenameSignup = (signup?: Signup | null): Signup | null =>
   signup
     ? {
         ...signup,
         contactPerson: addTypenameContactPerson(signup.contactPerson),
+        paymentCancellation: addTypenamePaymentCancellation(
+          signup.paymentCancellation
+        ),
+        paymentRefund: addTypenamePaymentRefund(signup.paymentRefund),
         priceGroup: addTypenameSignupPriceGroup(signup.priceGroup),
         __typename: 'Signup',
       }
@@ -362,6 +388,10 @@ export const addTypenameSignupGroup = (
     ? {
         ...signupGroup,
         contactPerson: addTypenameContactPerson(signupGroup.contactPerson),
+        paymentCancellation: addTypenamePaymentCancellation(
+          signupGroup.paymentCancellation
+        ),
+        paymentRefund: addTypenamePaymentRefund(signupGroup.paymentRefund),
         signups: Array.isArray(signupGroup.signups)
           ? signupGroup.signups.map((signup) => addTypenameSignup(signup))
           : [],

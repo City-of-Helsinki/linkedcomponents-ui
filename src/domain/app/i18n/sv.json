@@ -2117,6 +2117,8 @@
       "email": "Via e-post",
       "sms": "Via textmeddelande"
     },
+    "paymentCancellationOnGoing": "Annullering av betalning",
+    "paymentRefundOnGoing": "Återbetalning av betalning",
     "personsAddedToWaitingListModal": {
       "buttonClose": "Stäng",
       "text": "Du kommer att få ett separat bekräftelsemeddelande om din registrering till din e-post om en plats blir tillgänglig för dig.",

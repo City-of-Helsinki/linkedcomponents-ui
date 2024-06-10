@@ -1,5 +1,6 @@
+import { StatusLabel } from 'hds-react';
 import omit from 'lodash/omit';
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -17,6 +18,7 @@ import {
 } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
+import useInterval from '../../../hooks/useInterval';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';
 import getPathBuilder from '../../../utils/getPathBuilder';
@@ -33,6 +35,8 @@ import {
   signupsPathBuilder,
 } from '../utils';
 import styles from './signupsTable.module.scss';
+
+const SIGNUPS_REFETCH_INTERVAL = 30000;
 
 type ColumnProps = {
   registration: RegistrationFieldsFragment;
@@ -139,19 +143,62 @@ const ContactPersonPhoneColumn: FC<ColumnProps> = ({
 const AttendeeStatusColumn: FC<ColumnProps> = ({ registration, signup }) => {
   const { t } = useTranslation();
   const language = useLocale();
-  const { attendeeStatus } = getSignupFields({
+  const { attendeeStatus, signupGroup } = getSignupFields({
     language,
     registration,
     signup,
   });
 
-  return <>{t(`signup.attendeeStatus.${attendeeStatus}`)}</>;
+  const { data: signupGroupData, loading: loadingSignupGroup } =
+    useSignupGroupQuery({
+      skip: !signupGroup,
+      variables: { id: getValue(signupGroup, '') },
+    });
+
+  const statusText = useMemo(() => {
+    if (
+      signupGroupData?.signupGroup.paymentCancellation ||
+      signup.paymentCancellation
+    ) {
+      return (
+        <StatusLabel type="alert">
+          {t('signup.paymentCancellationOnGoing')}
+        </StatusLabel>
+      );
+    }
+    if (signupGroupData?.signupGroup.paymentRefund || signup.paymentRefund) {
+      return (
+        <StatusLabel type="alert">
+          {t('signup.paymentRefundOnGoing')}
+        </StatusLabel>
+      );
+    }
+    return t(`signup.attendeeStatus.${attendeeStatus}`);
+  }, [
+    attendeeStatus,
+    signup.paymentCancellation,
+    signup.paymentRefund,
+    signupGroupData?.signupGroup.paymentCancellation,
+    signupGroupData?.signupGroup.paymentRefund,
+    t,
+  ]);
+
+  return (
+    <LoadingSpinner
+      className={styles.columnLoadingSpinner}
+      isLoading={loadingSignupGroup}
+      small
+    >
+      {statusText}
+    </LoadingSpinner>
+  );
 };
 
 export interface SignupsTableProps {
   caption: string;
   countKey: string;
   enableAccessibilityNotifications?: boolean;
+  enableDataRefetch?: boolean;
   pagePath: 'attendeePage' | 'waitingPage';
   registration: RegistrationFieldsFragment;
   signupsVariables: Partial<SignupsQueryVariables>;
@@ -161,6 +208,7 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
   caption,
   countKey,
   enableAccessibilityNotifications,
+  enableDataRefetch,
   pagePath,
   registration,
   signupsVariables,
@@ -177,7 +225,11 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
     location.search
   );
 
-  const { data: signupsData, loading } = useSignupsQuery({
+  const {
+    data: signupsData,
+    loading,
+    refetch,
+  } = useSignupsQuery({
     variables: {
       ...signupsVariables,
       page,
@@ -187,6 +239,14 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
       createPath: getPathBuilder(signupsPathBuilder),
     },
   });
+
+  const refetchSignupsIfNeeded = () => {
+    if (enableDataRefetch && registration.registrationPriceGroups?.length) {
+      refetch();
+    }
+  };
+
+  useInterval(refetchSignupsIfNeeded, SIGNUPS_REFETCH_INTERVAL);
 
   const signups = getValue(signupsData?.signups.data, []).filter(skipFalsyType);
 

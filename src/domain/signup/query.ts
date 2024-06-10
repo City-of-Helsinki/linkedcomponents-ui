@@ -21,6 +21,20 @@ export const QUERY_SIGNUP = gql`
     serviceLanguage
   }
 
+  fragment paymentCancellationFields on PaymentCancellation {
+    createdTime
+    id
+    payment
+  }
+
+  fragment paymentRefundFields on PaymentRefund {
+    amount
+    createdTime
+    externalRefundId
+    id
+    payment
+  }
+
   fragment signupPriceGroupFields on SignupPriceGroup {
     id
     priceGroup {
@@ -44,6 +58,12 @@ export const QUERY_SIGNUP = gql`
     firstName
     id
     lastName
+    paymentCancellation {
+      ...paymentCancellationFields
+    }
+    paymentRefund {
+      ...paymentRefundFields
+    }
     phoneNumber
     priceGroup {
       ...signupPriceGroupFields

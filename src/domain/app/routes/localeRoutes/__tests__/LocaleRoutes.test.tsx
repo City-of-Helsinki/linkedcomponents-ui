@@ -380,9 +380,12 @@ it('should render registration signups page', async () => {
       mockedOrganizationAncestorsResponse,
       mockedRegistrationResponse,
       mockedSuperuserResponse,
-      getMockedAttendeesResponse(fakeSignups(0)),
-      getMockedAttendeesResponse(fakeSignups(0), {
-        attendeeStatus: AttendeeStatus.Waitlisted,
+      getMockedAttendeesResponse({ signupsResponse: fakeSignups(0) }),
+      getMockedAttendeesResponse({
+        signupsResponse: fakeSignups(0),
+        overrideVariables: {
+          attendeeStatus: AttendeeStatus.Waitlisted,
+        },
       }),
     ],
     route: `${ROUTES.REGISTRATION_SIGNUPS.replace(':registrationId', registrationId)}`,

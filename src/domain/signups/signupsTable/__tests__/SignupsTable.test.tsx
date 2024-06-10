@@ -28,6 +28,8 @@ import {
   attendeeNamesPage2,
   attendees,
   attendeesWithGroup,
+  attendeesWithPaymentCancellation,
+  attendeesWithPaymentRefund,
   getMockedAttendeesResponse,
   mockedAttendeesPage2Response,
   mockedAttendeesResponse,
@@ -89,7 +91,7 @@ const findSignupRow = async (name: string) =>
 test('should render signups table', async () => {
   renderComponent([
     ...defaultMocks,
-    getMockedAttendeesResponse(fakeSignups(0)),
+    getMockedAttendeesResponse({ signupsResponse: fakeSignups(0) }),
   ]);
 
   await loadingSpinnerIsNotInDocument();
@@ -177,7 +179,7 @@ test('should open edit signup group page by clicking a signup with group', async
   const user = userEvent.setup();
   const { history } = renderComponent([
     ...defaultMocks,
-    getMockedAttendeesResponse(attendeesWithGroup),
+    getMockedAttendeesResponse({ signupsResponse: attendeesWithGroup }),
   ]);
 
   const signupLink = await screen.findByRole('link', {
@@ -191,7 +193,10 @@ test('should open edit signup group page by clicking a signup with group', async
 });
 
 test("should display contact person's email and phone number for a signup", async () => {
-  renderComponent([...defaultMocks, getMockedAttendeesResponse(attendees)]);
+  renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse({ signupsResponse: attendees }),
+  ]);
 
   await loadingSpinnerIsNotInDocument();
   const withinRow = within(await findSignupRow(signupName));
@@ -204,7 +209,7 @@ test("should display contact person's email and phone number for a signup", asyn
 test("should display contact person's email and phone number for a signup group", async () => {
   renderComponent([
     ...defaultMocks,
-    getMockedAttendeesResponse(attendeesWithGroup),
+    getMockedAttendeesResponse({ signupsResponse: attendeesWithGroup }),
   ]);
 
   await loadingSpinnerIsNotInDocument();
@@ -214,12 +219,36 @@ test("should display contact person's email and phone number for a signup group"
   expect(await withinRow.findByText(phoneNumber as string)).toBeInTheDocument();
 });
 
+test('should display status tag if payment is cancelled', async () => {
+  renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse({
+      signupsResponse: attendeesWithPaymentCancellation,
+    }),
+  ]);
+
+  await loadingSpinnerIsNotInDocument();
+  const withinRow = within(await findSignupRow(signupName));
+  expect(await withinRow.findByText('Maksua perutaan')).toBeInTheDocument();
+});
+
+test('should display status tag if payment is refunded', async () => {
+  renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse({ signupsResponse: attendeesWithPaymentRefund }),
+  ]);
+
+  await loadingSpinnerIsNotInDocument();
+  const withinRow = within(await findSignupRow(signupName));
+  expect(await withinRow.findByText('Maksua hyvitetään')).toBeInTheDocument();
+});
+
 test('should open actions dropdown', async () => {
   const user = userEvent.setup();
 
   const { history } = renderComponent([
     ...defaultMocks,
-    getMockedAttendeesResponse(attendeesWithGroup),
+    getMockedAttendeesResponse({ signupsResponse: attendeesWithGroup }),
   ]);
 
   const withinRow = within(await findSignupRow(signupName));

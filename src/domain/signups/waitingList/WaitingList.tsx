@@ -20,6 +20,7 @@ const WaitingList: React.FC<Props> = ({ registration }) => {
       <SignupsTable
         caption={t('signupsPage.waitingListTableCaption')}
         countKey={'signupsPage.waitingListTableCount'}
+        enableDataRefetch={false}
         pagePath="waitingPage"
         registration={registration}
         signupsVariables={{ attendeeStatus: AttendeeStatus.Waitlisted }}

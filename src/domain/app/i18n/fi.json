@@ -2117,6 +2117,8 @@
       "email": "Sähköpostilla",
       "sms": "Tekstiviestillä"
     },
+    "paymentCancellationOnGoing": "Maksua perutaan",
+    "paymentRefundOnGoing": "Maksua hyvitetään",
     "personsAddedToWaitingListModal": {
       "buttonClose": "Sulje",
       "text": "Mikäli sinulle vapautuu paikka, saat ilmoittautumisestasi erillisen vahvistusviestin sähköpostiisi.",

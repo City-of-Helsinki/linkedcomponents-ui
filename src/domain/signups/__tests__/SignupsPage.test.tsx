@@ -56,9 +56,12 @@ const defaultMocks = [
   mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
   mockedRegistrationUserResponse,
-  getMockedAttendeesResponse(attendees),
-  getMockedAttendeesResponse(fakeSignups(0), {
-    attendeeStatus: AttendeeStatus.Waitlisted,
+  getMockedAttendeesResponse({ signupsResponse: attendees }),
+  getMockedAttendeesResponse({
+    signupsResponse: fakeSignups(0),
+    overrideVariables: {
+      attendeeStatus: AttendeeStatus.Waitlisted,
+    },
   }),
 ];
 
