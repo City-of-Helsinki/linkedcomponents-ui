@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.9.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.8.0...linkedcomponents-ui-v1.9.0) (2024-06-11)
+
+
+### Features
+
+* Allow multiple accounts per organization ([8751dc2](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/8751dc2f9f78c2b03be9d885eef47b943ff11403))
+* Allow multiple merchants per organization ([31880e7](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/31880e783b7795b2bc7a4a3dadabd496e45897c0))
+* Allow to update cancelled event ([ef84e4e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/ef84e4ecd6706efa8e7b5a9875c3860f78b5ff6d))
+* Disable delete button if there is payment cancellation/refund ([5928c56](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5928c56222ebe34ce232ae976696dfe4b600d7d8))
+* Display payment status in signups table ([9a5b2f3](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/9a5b2f38987ce0931ffb5623c1932efa136ed528))
+* Select merchant and account in registration form ([ba08808](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/ba08808d86af10bfa18a4c8e990d655e5a5f187d))
+* Update accessibility statement ([3a38662](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/3a386625b8fd19d106c87d19418f85d1aaecf1aa))
+
+
+### Bug Fixes
+
+* Add create_payment to create signup group payload if needed ([960f316](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/960f316d1b36378261bfcab209ab704e31d8e5d7))
+* Fine-tune styles of description fields ([c382131](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/c3821316260d244a6f41fa945fe3359b2967561f))
+* Remove deprecated REACT_APP_LOCALIZED_IMAGE feature flag ([df13ed0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/df13ed03f50656f075cdbbec42592cf5c574fef5))
+* Validate contact person first and last name ([f153811](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/f1538119d023e4b682e09800f4c2dc933dcd8cff))
+
+
+### Dependencies
+
+* Patch braces to 3.0.3 LINK-2031 ([b9279f4](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/b9279f4912e1c70279360b7500dfcc4cef8cba2e))
+* Patch micromatch to 4.0.6 LINK-2031 ([18e8415](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/18e8415c421ac9356b88caffe791975aecea8683))
+* Remove unnecessary resolutions LINK-2031 ([99060dc](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/99060dcb0186cb0f739990d17786090f9a72d6c7))
+* Replace source-map-explorer with vite-bundle-visualizer LINK-2031 ([77a5aa7](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/77a5aa77fb5e1d0a89008081ab7032db8fe3595b))
+* Upgrade @testing-library/react to 15.0.7 LINK-2031 ([231d940](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/231d940ddecb99dfe3ab42b4c12f501eba5807eb))
+
 ## [1.8.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.7.1...linkedcomponents-ui-v1.8.0) (2024-05-28)
 
 
