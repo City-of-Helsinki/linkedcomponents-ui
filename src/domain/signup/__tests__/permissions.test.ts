@@ -1,7 +1,13 @@
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 
-import { fakeRegistration, fakeUser } from '../../../utils/mockDataUtils';
+import {
+  fakePaymentCancellation,
+  fakePaymentRefund,
+  fakeRegistration,
+  fakeSignup,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { SIGNUP_ACTIONS } from '../constants';
 import {
@@ -72,6 +78,34 @@ describe('getSignupActionWarning function', () => {
       ).toBe(warning);
     }
   );
+
+  it('should return correct warning when trying to delete signup with payment cancellation', () => {
+    expect(
+      getSignupActionWarning({
+        authenticated: true,
+        signup: fakeSignup({
+          paymentCancellation: fakePaymentCancellation(),
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_ACTIONS.DELETE,
+      })
+    ).toBe('Osallistujan maksua perutaan eikä osallistujaa voi poistaa.');
+  });
+
+  it('should return correct warning when trying to delete signup with payment refund', () => {
+    expect(
+      getSignupActionWarning({
+        authenticated: true,
+        signup: fakeSignup({
+          paymentRefund: fakePaymentRefund(),
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_ACTIONS.DELETE,
+      })
+    ).toBe('Osallistujan maksua hyvitetään eikä osallistujaa voi poistaa.');
+  });
 });
 
 describe('checkCanUserDoSignupAction function', () => {

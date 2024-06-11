@@ -86,6 +86,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
       onClick,
       organizationAncestors,
       registration,
+      signup,
       t,
       user,
     });

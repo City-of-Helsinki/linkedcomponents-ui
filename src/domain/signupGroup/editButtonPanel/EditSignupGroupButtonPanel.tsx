@@ -86,6 +86,7 @@ const EditSignupGroupButtonPanel: React.FC<EditSignupGroupButtonPanelProps> = ({
       onClick,
       organizationAncestors,
       registration,
+      signupGroup,
       t,
       user,
     });

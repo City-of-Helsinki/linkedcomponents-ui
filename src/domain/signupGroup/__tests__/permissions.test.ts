@@ -1,7 +1,13 @@
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 
-import { fakeRegistration, fakeUser } from '../../../utils/mockDataUtils';
+import {
+  fakePaymentCancellation,
+  fakePaymentRefund,
+  fakeRegistration,
+  fakeSignupGroup,
+  fakeUser,
+} from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import { SIGNUP_GROUP_ACTIONS } from '../constants';
 import {
@@ -64,6 +70,38 @@ describe('getSignupGroupActionWarning function', () => {
       ).toBe(warning);
     }
   );
+
+  it('should return correct warning when trying to delete signup group with payment cancellation', () => {
+    expect(
+      getSignupGroupActionWarning({
+        authenticated: true,
+        signupGroup: fakeSignupGroup({
+          paymentCancellation: fakePaymentCancellation(),
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_GROUP_ACTIONS.DELETE,
+      })
+    ).toBe(
+      'Osallistujaryhmän maksua perutaan eikä osallistujaryhmää voi poistaa.'
+    );
+  });
+
+  it('should return correct warning when trying to delete signup group with payment refund', () => {
+    expect(
+      getSignupGroupActionWarning({
+        authenticated: true,
+        signupGroup: fakeSignupGroup({
+          paymentRefund: fakePaymentRefund(),
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_GROUP_ACTIONS.DELETE,
+      })
+    ).toBe(
+      'Osallistujaryhmän maksua hyvitetään eikä osallistujaryhmää voi poistaa.'
+    );
+  });
 });
 
 describe('checkCanUserDoSignupGroupAction function', () => {
