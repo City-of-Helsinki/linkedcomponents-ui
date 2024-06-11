@@ -2164,6 +2164,8 @@
       "buttonUpdate": "Spara deltagare"
     },
     "warnings": {
+      "hasPaymentCancellation": "Deltagarens gruppavgift kommer att annulleras och deltagargruppen kan inte tas bort.",
+      "hasPaymentRefund": "Avgiften för deltagargruppen kommer att återbetalas och deltagargruppen kan inte tas bort.",
       "noRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
       "noRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera deltagare.",
       "noRightsToView": "Du har inte tillräckliga rättigheter för att se deltagare i denna registrering."
@@ -2195,6 +2197,8 @@
     "title": "Deltagarna",
     "waitingListTableCaption": "Väntelista",
     "waitingListTableCount": "{{count}} i väntelista",
+    "warningHasPaymentCancellation": "Deltagarens avgift kommer att annulleras och deltagaren kan inte tas bort.",
+    "warningHasPaymentRefund": "Deltagarens avgift kommer att återbetalas och deltagaren kan inte tas bort.",
     "warningNoRightsToCreate": "Du har inte tillräckliga rättigheter för att skapa deltagare till denna registrering.",
     "warningNoRightsToEdit": "Du har inte tillräckliga rättigheter för att redigera denna deltagare.",
     "warningNoRightsToView": "Du har inte tillräckliga rättigheter för att se deltagare i denna registrering."

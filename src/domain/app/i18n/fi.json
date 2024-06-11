@@ -2164,6 +2164,8 @@
       "buttonUpdate": "Tallenna osallistujat"
     },
     "warnings": {
+      "hasPaymentCancellation": "Osallistujaryhmän maksua perutaan eikä osallistujaryhmää voi poistaa.",
+      "hasPaymentRefund": "Osallistujaryhmän maksua hyvitetään eikä osallistujaryhmää voi poistaa.",
       "noRightsToCreate": "Sinulla ei ole oikeuksia lisätä osallistujia tähän ilmoittautumiseen.",
       "noRightsToEdit": "Sinulla ei ole oikeuksia muokata osallistujia.",
       "noRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."
@@ -2196,6 +2198,8 @@
     "title": "Ilmoittautuneet",
     "waitingListTableCaption": "Jonopaikat",
     "waitingListTableCount": "{{count}} jonopaikalla",
+    "warningHasPaymentCancellation": "Osallistujan maksua perutaan eikä osallistujaa voi poistaa.",
+    "warningHasPaymentRefund": "Osallistujan maksua hyvitetään eikä osallistujaa voi poistaa.",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia lisätä osallistujia tähän ilmoittautumiseen.",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa.",
     "warningNoRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."

@@ -2165,6 +2165,8 @@
       "buttonUpdate": "Save participants"
     },
     "warnings": {
+      "hasPaymentCancellation": "The participant group payment will be cancelled and the participant group cannot be removed.",
+      "hasPaymentRefund": "The participant group payment will be refunded and the participant group cannot be removed.",
       "noRightsToCreate": "You have insufficient rights to create participants to this registration.",
       "noRightsToEdit": "You have insufficient rights to edit participants.",
       "noRightsToView": "You have insufficient rights to view participants of this registration."
@@ -2197,6 +2199,8 @@
     "title": "Signups",
     "waitingListTableCaption": "Waiting list",
     "waitingListTableCount": "{{count}} in Waiting list",
+    "warningHasPaymentCancellation": "The participant's payment will be cancelled and the participant cannot be removed.",
+    "warningHasPaymentRefund": "The participant's payment will be refunded and the participant cannot be removed.",
     "warningNoRightsToCreate": "You have insufficient rights to create participants to this registration.",
     "warningNoRightsToEdit": "You have insufficient rights to edit this participant.",
     "warningNoRightsToView": "You have insufficient rights to view participants of this registration."
