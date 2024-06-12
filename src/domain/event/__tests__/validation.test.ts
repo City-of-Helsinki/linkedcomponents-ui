@@ -71,6 +71,7 @@ describe('publiEventSchema', () => {
     keywords: [TEST_KEYWORD_ID],
     location: TEST_PLACE_ID,
     mainCategories: [TEST_KEYWORD_ID],
+    maximumAttendeeCapacity: 2,
     name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Name' },
     offersVatPercentage: '24.00',
     publisher: TEST_PUBLISHER_ID,
@@ -105,6 +106,7 @@ describe('publiEventSchema', () => {
         keywords: 'form.validation.keywordRequired',
         location: VALIDATION_MESSAGE_KEYS.STRING_REQUIRED,
         mainCategories: 'form.validation.mainCategoryRequired',
+        maximumAttendeeCapacity: VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED,
         name: { fi: VALIDATION_MESSAGE_KEYS.STRING_REQUIRED },
         publisher: VALIDATION_MESSAGE_KEYS.STRING_REQUIRED,
         shortDescription: { fi: VALIDATION_MESSAGE_KEYS.STRING_REQUIRED },
@@ -187,7 +189,7 @@ describe('publiEventSchema', () => {
       ...values,
       audienceMaxAge: null,
       audienceMinAge: null,
-      maximumAttendeeCapacity: null,
+      maximumAttendeeCapacity: 2,
       minimumAttendeeCapacity: null,
     });
   });

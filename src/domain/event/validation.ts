@@ -213,9 +213,7 @@ const validateImageDetails = (
 ) => {
   const [images, isImageEditable] = values as [string[], boolean];
 
-  return isImageEditable && images && images.length
-    ? imageDetailsSchema
-    : schema;
+  return isImageEditable && images?.length ? imageDetailsSchema : schema;
 };
 
 const validateVideoFields = (
@@ -320,7 +318,6 @@ const enrolmentSchemaFields = {
         ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
         : schema
     )
-
     .when(
       [
         EVENT_FIELDS.ENROLMENT_START_TIME_DATE,
@@ -340,20 +337,24 @@ const enrolmentSchemaFields = {
       isValidTime(value)
     ),
   [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: Yup.number()
-    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-    .min(0, createNumberMinErrorMessage)
     .nullable()
-    .transform(transformNumber),
-  [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
-    [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
-    ([minimumAttendeeCapacity]) => {
-      return Yup.number()
-        .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-        .min(minimumAttendeeCapacity || 0, createNumberMinErrorMessage)
-        .nullable()
-        .transform(transformNumber);
-    }
-  ),
+    .transform(transformNumber)
+    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+    .min(0, createNumberMinErrorMessage),
+  [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number()
+    .nullable()
+    .transform(transformNumber)
+    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+    .when(
+      [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
+      ([minimumAttendeeCapacity], schema) => {
+        return schema.min(
+          minimumAttendeeCapacity || 0,
+          createNumberMinErrorMessage
+        );
+      }
+    ),
 };
 
 const CYCLIC_DEPENDENCIES: [string, string][] = [
@@ -611,24 +612,6 @@ export const getExternalUserEventSchema = (
       ),
       [EVENT_FIELDS.ENVIRONMENT]: Yup.string().required(
         VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-      ),
-      [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
-        [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
-        ([minimumAttendeeCapacity], schema) => {
-          if (minimumAttendeeCapacity) {
-            return Yup.number()
-              .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-              .min(minimumAttendeeCapacity || 1, createNumberMinErrorMessage)
-              .nullable()
-              .transform(transformNumber);
-          }
-
-          return schema
-            .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
-            .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-            .min(1, createNumberMinErrorMessage)
-            .nullable();
-        }
       ),
       [EVENT_FIELDS.USER_NAME]: Yup.string()
         .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)

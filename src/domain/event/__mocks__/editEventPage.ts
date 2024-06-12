@@ -176,6 +176,7 @@ const eventOverrides = {
   lastModifiedTime,
   location: place,
   locationExtraInfo,
+  maximumAttendeeCapacity: 50,
   name,
   offers: fakeOffers(
     offers.length,
@@ -210,7 +211,7 @@ const basePayload = {
   keywords: topicAtIds.map((atId) => ({ atId })),
   location: { atId: placeAtId },
   locationExtraInfo,
-  maximumAttendeeCapacity: null,
+  maximumAttendeeCapacity: 50,
   minimumAttendeeCapacity: null,
   name,
   offers: offers.map((offer) => ({
@@ -269,7 +270,7 @@ const baseFormValues: EventFormFields = {
   location: placeAtId,
   locationExtraInfo,
   mainCategories: [...topicAtIds],
-  maximumAttendeeCapacity: '',
+  maximumAttendeeCapacity: 50,
   minimumAttendeeCapacity: '',
   name,
   offers: offers.map((offer) => ({

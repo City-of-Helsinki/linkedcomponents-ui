@@ -65,7 +65,7 @@ const baseEventPayload = {
     sv: null,
     zhHans: null,
   },
-  maximumAttendeeCapacity: null,
+  maximumAttendeeCapacity: 50,
   minimumAttendeeCapacity: null,
   name: {
     ar: null,

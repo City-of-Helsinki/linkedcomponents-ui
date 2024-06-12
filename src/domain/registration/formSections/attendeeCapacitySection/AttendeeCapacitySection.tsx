@@ -39,6 +39,7 @@ const AttendeeCapacitySection: React.FC<Props> = ({ isEditingAllowed }) => {
               min={0}
               name={REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
               placeholder={0}
+              required
             />
           </SplittedRow>
         </FieldColumn>

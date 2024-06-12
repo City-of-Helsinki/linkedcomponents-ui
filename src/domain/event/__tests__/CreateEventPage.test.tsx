@@ -349,6 +349,7 @@ test('should show server errors', async () => {
   setFormValues({
     [EVENT_FIELDS.EVENT_TIMES]: [eventValues.eventTimes[0]],
     [EVENT_FIELDS.IS_VERIFIED]: true,
+    [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: 50,
     [EVENT_FIELDS.NAME]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.name,
@@ -374,6 +375,7 @@ test('should route to event completed page after saving draft event', async () =
   setFormValues({
     [EVENT_FIELDS.EVENT_TIMES]: [eventValues.eventTimes[0]],
     [EVENT_FIELDS.IS_VERIFIED]: true,
+    [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: 50,
     [EVENT_FIELDS.NAME]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.name,
@@ -412,6 +414,7 @@ test('should route to event completed page after publishing event', async () => 
     [EVENT_FIELDS.IS_VERIFIED]: true,
     [EVENT_FIELDS.KEYWORDS]: [keywordAtId],
     [EVENT_FIELDS.LOCATION]: placeAtId,
+    [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: 50,
     [EVENT_FIELDS.NAME]: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,
       fi: eventValues.name,

@@ -1,4 +1,5 @@
 @import '../../assets/styles/breakpoints';
+@import '../../assets/styles/widths.scss';
 
 .eventPage {
   h1,
@@ -51,6 +52,16 @@
 
   @include medium-up {
     grid-gap: var(--spacing-m);
+  }
+}
+
+.fieldWithLongText {
+  label {
+    white-space: nowrap;
+  }
+
+  @include medium-up {
+    @include max-width-column(2);
   }
 }
 

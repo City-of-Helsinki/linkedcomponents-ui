@@ -41,6 +41,7 @@ describe('registrationSchema', () => {
     enrolmentStartTimeDate: new Date('2023-01-01'),
     enrolmentStartTimeTime: '15:00',
     event: TEST_EVENT_ID,
+    maximumAttendeeCapacity: 50,
     registrationAccount: validRegistrationAccount,
     registrationMerchant: {
       merchant: '1',
@@ -62,138 +63,41 @@ describe('registrationSchema', () => {
     expect(await testRegistrationSchema(validRegistrationValues)).toBe(true);
   });
 
-  it('should return false if event is missing', async () => {
-    expect(
-      await testRegistrationSchema({ ...validRegistrationValues, event: '' })
-    ).toBe(false);
-  });
+  it.each([
+    [{ audienceMaxAge: -1 }],
+    [{ audienceMinAge: -1 }],
+    [{ audienceMaxAge: 14, audienceMinAge: 15 }],
 
-  it('should return false if enrolment start time is missing', async () => {
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        enrolmentStartTimeDate: null,
-      })
-    ).toBe(false);
-
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        enrolmentStartTimeTime: '',
-      })
-    ).toBe(false);
-  });
-
-  it('should return false if enrolment end time is missing', async () => {
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        enrolmentEndTimeDate: null,
-      })
-    ).toBe(false);
-
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        enrolmentEndTimeTime: '',
-      })
-    ).toBe(false);
-  });
-
-  it('should return false if enrolment end time is before start time', async () => {
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
+    [{ enrolmentEndTimeDate: null }],
+    [{ enrolmentEndTimeTime: '' }],
+    [{ enrolmentStartTimeDate: null }],
+    [{ enrolmentStartTimeTime: '' }],
+    [
+      {
+        enrolmentEndTimeDate: new Date('2023-01-01'),
         enrolmentEndTimeTime: '09:00',
-      })
-    ).toBe(false);
-  });
-
-  it('should return false if minimum attendee capacity is invalid', async () => {
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        minimumAttendeeCapacity: -1,
-      })
-    ).toBe(false);
-  });
-
-  it('should return false if maximum attendee capacity is invalid', async () => {
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        maximumAttendeeCapacity: -1,
-      })
-    ).toBe(false);
-
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        maximumAttendeeCapacity: 14,
-        minimumAttendeeCapacity: 15,
-      })
-    ).toBe(false);
-
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        maximumAttendeeCapacity: 16,
-        minimumAttendeeCapacity: 15,
-      })
-    ).toBe(true);
-  });
-
-  it('should return false if waiting list capacity is invalid', async () => {
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        waitingListCapacity: -1,
-      })
-    ).toBe(false);
-  });
-
-  it('should return false if maximum group size is invalid', async () => {
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        maximumGroupSize: 0,
-      })
-    ).toBe(false);
-  });
-
-  it('should return false if audience min age is invalid', async () => {
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        audienceMinAge: -1,
-      })
-    ).toBe(false);
-  });
-
-  it('should return false if audience max age is invalid', async () => {
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        audienceMaxAge: -1,
-      })
-    ).toBe(false);
-
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        audienceMaxAge: 14,
-        audienceMinAge: 15,
-      })
-    ).toBe(false);
-
-    expect(
-      await testRegistrationSchema({
-        ...validRegistrationValues,
-        audienceMaxAge: 16,
-        audienceMinAge: 15,
-      })
-    ).toBe(true);
-  });
+        enrolmentStartTimeDate: new Date('2023-01-01'),
+        enrolmentStartTimeTime: '15:00',
+      },
+    ],
+    [{ event: '' }],
+    [{ maximumAttendeeCapacity: '' }],
+    [{ maximumAttendeeCapacity: -1 }],
+    [{ minimumAttendeeCapacity: -1 }],
+    [{ maximumAttendeeCapacity: 14, minimumAttendeeCapacity: 15 }],
+    [{ maximumGroupSize: 0 }],
+    [{ waitingListCapacity: -1 }],
+  ] as Partial<RegistrationFormFields>[])(
+    'should return false if registration is invalid',
+    async (registrationFields) => {
+      expect(
+        await testRegistrationSchema({
+          ...validRegistrationValues,
+          ...registrationFields,
+        })
+      ).toBe(false);
+    }
+  );
 
   it.each([
     [{ email: '', id: null, isSubstituteUser: false, language: '' }, false],

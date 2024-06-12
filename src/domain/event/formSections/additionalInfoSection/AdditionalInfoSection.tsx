@@ -141,10 +141,10 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
             label={t(`event.form.titleAttendeeCapacity`)}
             type="info"
           >
-            <p>{t(`event.form.infoTextAttendeeCapacity.${type}`)}</p>
-            {isExternalUser && (
-              <p>{t('event.form.infoTextAttendeeCapacityUserUnknown')}</p>
-            )}
+            <p>{t('event.form.infoTextAttendeeCapacity1')}</p>
+            <p>{t(`event.form.infoTextAttendeeCapacity2.${type}`)}</p>
+            <p>{t('event.form.infoTextAttendeeCapacity3')}</p>
+            <p>{t(`event.form.infoTextAttendeeCapacity4.${type}`)}</p>
           </Notification>
         }
       >
@@ -152,6 +152,7 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
           <div className={styles.numberRow}>
             <FormGroup>
               <Field
+                className={styles.fieldWithLongText}
                 component={NumberInputField}
                 disabled={!isEditingAllowed}
                 label={t(`event.form.labelMinimumAttendeeCapacity`)}
@@ -162,13 +163,14 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
             </FormGroup>
             <FormGroup>
               <Field
+                className={styles.fieldWithLongText}
                 component={NumberInputField}
                 disabled={!isEditingAllowed}
                 label={t(`event.form.labelMaximumAttendeeCapacity`)}
                 min={0}
                 name={EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY}
                 placeholder={0}
-                required={isExternalUser}
+                required={true}
               />
             </FormGroup>
           </div>
