@@ -110,17 +110,18 @@ const getElement = (
     case 'endTimeDate':
       return screen.getByLabelText('Ilmoittautuminen päättyy');
     case 'endTimeTime':
-      const endTimeGroup = screen.getByRole('group', {
-        name: /ilmoittautuminen päättyy klo/i,
-      });
-      return within(endTimeGroup).getByLabelText('tunnit');
+      return within(
+        screen.getByRole('group', {
+          name: /ilmoittautuminen päättyy klo/i,
+        })
+      ).getByLabelText('tunnit');
     case 'maxAge':
       return screen.getByRole('spinbutton', { name: 'Yläikäraja' });
     case 'minAge':
       return screen.getByRole('spinbutton', { name: 'Alaikäraja' });
     case 'maxCapacity':
       return screen.getByRole('spinbutton', {
-        name: 'Enimmäisosallistujamäärä',
+        name: 'Enimmäisosallistujamäärä tai -arvio *',
       });
     case 'minCapacity':
       return screen.getByRole('spinbutton', {
@@ -129,10 +130,11 @@ const getElement = (
     case 'startTimeDate':
       return screen.getByLabelText('Ilmoittautuminen alkaa');
     case 'startTimeTime':
-      const startTimeGroup = screen.getByRole('group', {
-        name: /ilmoittautuminen alkaa klo/i,
-      });
-      return within(startTimeGroup).getByLabelText('tunnit');
+      return within(
+        screen.getByRole('group', {
+          name: /ilmoittautuminen alkaa klo/i,
+        })
+      ).getByLabelText('tunnit');
   }
 };
 
@@ -265,7 +267,7 @@ test('maximum attendee capacity should be required for external user', async () 
 
   const minCapacityInput = getElement('minCapacity');
   const maxCapacityInput = screen.getByRole('spinbutton', {
-    name: 'Enimmäisosallistujamäärä *',
+    name: 'Enimmäisosallistujamäärä tai -arvio *',
   });
 
   expect(maxCapacityInput).toBeInTheDocument();

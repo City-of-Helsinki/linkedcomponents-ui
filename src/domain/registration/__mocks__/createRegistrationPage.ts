@@ -13,6 +13,7 @@ const registrationValues = {
   enrolmentEndTimeTime: '21:00',
   enrolmentStartTimeDate: new Date('2020-12-31T18:00:00.000Z'),
   enrolmentStartTimeTime: '18:00',
+  maximumAttendeeCapacity: 50,
 };
 const registrationId = TEST_REGISTRATION_ID;
 
@@ -39,7 +40,7 @@ const payload = {
     ar: null,
   },
   mandatoryFields: ['first_name', 'last_name'],
-  maximumAttendeeCapacity: null,
+  maximumAttendeeCapacity: 50,
   maximumGroupSize: null,
   minimumAttendeeCapacity: null,
   registrationPriceGroups: [],

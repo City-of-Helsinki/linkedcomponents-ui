@@ -499,12 +499,18 @@
         "warningNoEmailFound": "Tähän tapahtumaan ei liity sähköpostiosoitetta."
       },
       "helperUmbrellaEvent": "Huom. Kattotapahtuma täytyy luoda ennen kuin voit lisätä sille alatapahtumia.",
-      "infoTextAttendeeCapacity": {
-        "course": "Jos kurssin osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä.",
-        "general": "Jos tapahtuman osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä.",
-        "volunteering": "Jos vapaaehtoistehtävän osallistujien määrää on rajoitettu, määrittele vähimmäis- ja enimmäisosallistujamäärät tässä."
+      "infoTextAttendeeCapacity1": "Merkitse enimmäisosallistujamäärä tai osallistujamääräarvio.",
+      "infoTextAttendeeCapacity2": {
+        "course": "Jos kurssin osallistujien määrä ei ole rajoitettu, ilmoita karkea arvio vähintään enimmäisosallistujamäärästä. (Tätä tietoa käytetään tilastointitarkoituksiin).",
+        "general": "Jos tapahtuman osallistujien määrä ei ole rajoitettu, ilmoita karkea arvio vähintään enimmäisosallistujamäärästä. (Tätä tietoa käytetään tilastointitarkoituksiin).",
+        "volunteering": "Jos vapaaehtoistehtävän osallistujien määrä ei ole rajoitettu, ilmoita karkea arvio vähintään enimmäisosallistujamäärästä. (Tätä tietoa käytetään tilastointitarkoituksiin)."
       },
-      "infoTextAttendeeCapacityUserUnknown": "Jos tapahtuman osallistujien määrä ei ole rajoitettu, ilmoita karkea arvio vähintään enimmäisosallistujamäärästä. (Tätä tietoa käytetään tilastointitarkoituksiin).",
+      "infoTextAttendeeCapacity3": "Enimmäisosallistujamäärä on kaupunkistrategiassa oleva mittari, jolla seurataan kaupungissa pidettävien tapahtumien volyymeja.",
+      "infoTextAttendeeCapacity4": {
+        "course": "Arviota voi myös muuttaa myöhemmin kurssille, jos arvio on epävarma.",
+        "general": "Arviota voi myös muuttaa myöhemmin tapahtumalle, jos arvio on epävarma.",
+        "volunteering": "Arviota voi myös muuttaa myöhemmin vapaaehtoistehtävälle, jos arvio on epävarma."
+      },
       "infoTextAudience": {
         "course": "Jos kurssilla ei ole erityistä kohderyhmää, älä valitse mitään.",
         "general": "Jos tapahtumalla ei ole erityistä kohderyhmää, älä valitse mitään.",
@@ -718,7 +724,7 @@
       "labelLocation": "Paikka",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Paikan ID:",
-      "labelMaximumAttendeeCapacity": "Enimmäisosallistujamäärä",
+      "labelMaximumAttendeeCapacity": "Enimmäisosallistujamäärä tai -arvio",
       "labelMinimumAttendeeCapacity": "Vähimmäisosallistujamäärä",
       "labelName": {
         "course": "Kurssin otsikko {{langText}}",

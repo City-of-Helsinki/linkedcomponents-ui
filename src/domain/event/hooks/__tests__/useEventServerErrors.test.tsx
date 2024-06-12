@@ -108,7 +108,7 @@ it('should set server error items', async () => {
       message: 'Tämä kenttä on määritettävä ennen tapahtuman julkaisemista.',
     },
     {
-      label: 'Enimmäisosallistujamäärä',
+      label: 'Enimmäisosallistujamäärä tai -arvio',
       message: 'Tämän luvun on oltava vähintään 0.',
     },
     {

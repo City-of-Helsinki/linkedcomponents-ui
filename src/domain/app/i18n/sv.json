@@ -499,12 +499,18 @@
         "warningNoEmailFound": "Det gick inte att hitta någon e-postadress kopplad till detta evenemang."
       },
       "helperUmbrellaEvent": "Observera! Ett paraplyevenemang måste skapas innan du kan lägga till underevenemang till det.",
-      "infoTextAttendeeCapacity": {
-        "course": "Om antalet deltagare i kursen är begränsat, ange lägsta och högsta antal deltagare här.",
-        "general": "Om antalet deltagare i evenemanget är begränsat, ange lägsta och högsta antal deltagare här.",
-        "volunteering": "Om antalet deltagare i volontärarbetet är begränsat, ange lägsta och högsta antal deltagare här."
+      "infoTextAttendeeCapacity1": "Vänligen ange det maximala antalet deltagare eller det uppskattade antalet deltagare.",
+      "infoTextAttendeeCapacity2": {
+        "course": "Om antalet deltagare i kursen inte är begränsat, vänligen ge en grov uppskattning av åtminstone det maximala antalet deltagare (denna information används för statistiska ändamål).",
+        "general": "Om antalet deltagare i evenemanget inte är begränsat, vänligen ge en grov uppskattning av åtminstone det maximala antalet deltagare (denna information används för statistiska ändamål).",
+        "volunteering": "Om antalet deltagare i volontärarbetet inte är begränsat, vänligen ge en grov uppskattning av åtminstone det maximala antalet deltagare (denna information används för statistiska ändamål)."
       },
-      "infoTextAttendeeCapacityUserUnknown": "Om antalet deltagare i evenemanget inte begränsas på något sätt, gör en grov uppskattning av det maximala antalet deltagare. (Denna information kommer att användas för statistiska ändamål).",
+      "infoTextAttendeeCapacity3": "Det maximala antalet deltagare är en indikator i stadens strategi för att övervaka volymen på de evenemang som äger rum i staden.",
+      "infoTextAttendeeCapacity4": {
+        "course": "Uppskattningen kan också ändras senare för en kurs om uppskattningen är osäker.",
+        "general": "Uppskattningen kan också ändras senare för ett evenemang om uppskattningen är osäker.",
+        "volunteering": "Uppskattningen kan också ändras senare för ett volontärarbete om uppskattningen är osäker."
+      },
       "infoTextAudience": {
         "course": "Om kursen inte har en specifik målgrupp måste du lämna valet omarkerat.",
         "general": "Om evenemanget inte har en specifik målgrupp måste du lämna markeringen omarkerad.",
@@ -718,7 +724,7 @@
       "labelLocation": "Plats",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Plats-ID:",
-      "labelMaximumAttendeeCapacity": "Högsta antal deltagare",
+      "labelMaximumAttendeeCapacity": "Högsta antal eller uppskattning av antalet deltagare",
       "labelMinimumAttendeeCapacity": "Lägsta antal deltagare",
       "labelName": {
         "course": "Kursens titel {{langText}}",

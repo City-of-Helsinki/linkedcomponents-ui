@@ -15,6 +15,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import { mockedOrganizationAccountsResponse } from '../../organization/__mocks__/organization';
 import {
   mockedDefaultPriceGroupsResponse,
   mockedPublisherPriceGroupsResponse,
@@ -48,6 +49,7 @@ const commonMocks = [
   mockedPublisherPriceGroupsResponse,
   mockedEventResponse,
   mockedRegistrationEventSelectorEventsResponse,
+  mockedOrganizationAccountsResponse,
   mockedUserResponse,
 ];
 

@@ -305,16 +305,14 @@ const EventForm: React.FC<EventFormProps> = ({
         await validationSchema.validate(valuesWithMainCategories, {
           abortEarly: false,
         });
+      } else if (publicationStatus === PublicationStatus.Draft) {
+        await draftEventSchema.validate(valuesWithMainCategories, {
+          abortEarly: false,
+        });
       } else {
-        if (publicationStatus === PublicationStatus.Draft) {
-          await draftEventSchema.validate(valuesWithMainCategories, {
-            abortEarly: false,
-          });
-        } else {
-          await publicEventSchema.validate(valuesWithMainCategories, {
-            abortEarly: false,
-          });
-        }
+        await publicEventSchema.validate(valuesWithMainCategories, {
+          abortEarly: false,
+        });
       }
 
       if (event) {

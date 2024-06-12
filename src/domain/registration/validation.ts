@@ -164,16 +164,20 @@ export const registrationSchema = Yup.object().shape({
     .min(0, createNumberMinErrorMessage)
     .nullable()
     .transform(transformNumber),
-  [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number().when(
-    [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
-    ([minimumAttendeeCapacity]) => {
-      return Yup.number()
-        .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
-        .min(minimumAttendeeCapacity || 0, createNumberMinErrorMessage)
-        .nullable()
-        .transform(transformNumber);
-    }
-  ),
+  [REGISTRATION_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: Yup.number()
+    .nullable()
+    .transform(transformNumber)
+    .required(VALIDATION_MESSAGE_KEYS.NUMBER_REQUIRED)
+    .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
+    .when(
+      [REGISTRATION_FIELDS.MINIMUM_ATTENDEE_CAPACITY],
+      ([minimumAttendeeCapacity], schema) => {
+        return schema.min(
+          minimumAttendeeCapacity || 0,
+          createNumberMinErrorMessage
+        );
+      }
+    ),
   [REGISTRATION_FIELDS.WAITING_LIST_CAPACITY]: Yup.number()
     .integer(VALIDATION_MESSAGE_KEYS.NUMBER_INTEGER)
     .min(0, createNumberMinErrorMessage)

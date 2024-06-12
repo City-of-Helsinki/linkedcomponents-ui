@@ -499,12 +499,18 @@
         "warningNoEmailFound": "Could not find email address linked to this event."
       },
       "helperUmbrellaEvent": "Note. An umbrella event must be created before you can add subevents to it.",
-      "infoTextAttendeeCapacity": {
-        "course": "If the number of participants in the course is limited, specify the minimum and maximum number of participants here.",
-        "general": "If the number of participants in the event is limited, specify the minimum and maximum number of participants here.",
-        "volunteering": "If the number of participants in the volunteering is limited, specify the minimum and maximum number of participants here."
+      "infoTextAttendeeCapacity1": "Please indicate the maximum number of participants or the estimated number of participants.",
+      "infoTextAttendeeCapacity2": {
+        "course": "If the number of participants is not limited, please provide a rough estimate of at least the maximum number of participants (this information is used for statistical purposes).",
+        "general": "If the number of participants is not limited, please provide a rough estimate of at least the maximum number of participants (this information is used for statistical purposes).",
+        "volunteering": "If the number of participants is not limited, please provide a rough estimate of at least the maximum number of participants (this information is used for statistical purposes)."
       },
-      "infoTextAttendeeCapacityUserUnknown": "If the number of event participants is not limited in any way, write a rough estimate of the maximum number of participants. (This information will be used for statistical purposes).",
+      "infoTextAttendeeCapacity3": "The maximum number of participants is an indicator in the city strategy to monitor the volume of events taking place in the city.",
+      "infoTextAttendeeCapacity4": {
+        "course": "The estimate can also be changed later for a course if the estimate is uncertain.",
+        "general": "The estimate can also be changed later for an event if the estimate is uncertain.",
+        "volunteering": "The estimate can also be changed later for a volunteering if the estimate is uncertain."
+      },
       "infoTextAudience": {
         "course": "If the course does not have a specific target group, you must leave the selection unchecked.",
         "general": "If the event does not have a specific target group, you must leave the selection unchecked.",
@@ -718,7 +724,7 @@
       "labelLocation": "Location",
       "labelLocationExtraInfo": "{{langText}}",
       "labelLocationId": "Location ID:",
-      "labelMaximumAttendeeCapacity": "Maximum number of participants",
+      "labelMaximumAttendeeCapacity": "Maximum number or estimate of participants",
       "labelMinimumAttendeeCapacity": "Minimum number of participants",
       "labelName": {
         "course": "Course title {{langText}}",
