@@ -48,20 +48,24 @@ import EventAuthenticationNotification from '../eventAuthenticationNotification/
 import EventInfo from '../eventInfo/EventInfo';
 import styles from '../eventPage.module.scss';
 import AdditionalInfoSection from '../formSections/additionalInfoSection/AdditionalInfoSection';
+import AudienceInstructions from '../formSections/audienceSection/audienceInstructions/AudienceInstructions';
 import AudienceSection from '../formSections/audienceSection/AudienceSection';
 import ChannelsSection from '../formSections/channelsSection/ChannelsSection';
 import ClassificationSection from '../formSections/classificationSection/ClassificationSection';
+import DescriptionInstructions from '../formSections/descriptionSection/descriptionInstructions/DescriptionInstructions';
 import DescriptionSection from '../formSections/descriptionSection/DescriptionSection';
 import EventStateInfoSection from '../formSections/eventStateInfoSection/EventStateInfoSection';
 import ExternalUserContact from '../formSections/externalUserContact/ExternalUserContact';
 import ImageSection from '../formSections/imageSection/ImageSection';
 import LanguagesSection from '../formSections/languagesSection/LanguagesSection';
 import LinksToEventsSection from '../formSections/linksToEventsSection/LinksToEventsSection';
+import LocationInstructions from '../formSections/placeSection/locationInstructions/LocationInstructions';
 import PlaceSection from '../formSections/placeSection/PlaceSection';
 import PriceSection from '../formSections/priceSection/PriceSection';
 import RegistrationSection from '../formSections/registrationSection/RegistrationSection';
 import ResponsibilitiesSection from '../formSections/responsibilitiesSection/ResponsibilitiesSection';
 import SummarySection from '../formSections/summarySection/SummarySection';
+import TimeInstructions from '../formSections/timeSection/timeInstructions/TimeInstructions';
 import TimeSection from '../formSections/timeSection/TimeSection';
 import PublicationListLinks from '../formSections/typeSection/publicationListLinks/PublicationListLinks';
 import TypeSection from '../formSections/typeSection/TypeSection';
@@ -81,6 +85,7 @@ import {
   getEventInitialValues,
   scrollToFirstError,
   shouldShowTypeSection,
+  showTooltipInstructions,
 } from '../utils';
 import {
   draftEventSchema,
@@ -144,7 +149,9 @@ const EventForm: React.FC<EventFormProps> = ({
   const [, , { setValue: setMainCategories }] = useField<string[]>({
     name: EVENT_FIELDS.MAIN_CATEGORIES,
   });
-  const [{ value: type }] = useField<EVENT_TYPE>({ name: EVENT_FIELDS.TYPE });
+  const [{ value: eventType }] = useField<EVENT_TYPE>({
+    name: EVENT_FIELDS.TYPE,
+  });
 
   const { serverErrorItems, setServerErrorItems, showServerErrors } =
     useEventServerErrors();
@@ -437,15 +444,19 @@ const EventForm: React.FC<EventFormProps> = ({
                 label={t('event.form.notificationTitlePublication')}
                 type="info"
               >
-                <p>{t(`event.form.infoTextPublication.paragraph1.${type}`)}</p>
+                <p>
+                  {t(`event.form.infoTextPublication.paragraph1.${eventType}`)}
+                </p>
                 <p>
                   {t('event.form.infoTextPublication.paragraph2.sentence1')}{' '}
-                  <PublicationListLinks links={PUBLICATION_LIST_LINKS[type]} />{' '}
+                  <PublicationListLinks
+                    links={PUBLICATION_LIST_LINKS[eventType]}
+                  />{' '}
                   {t('event.form.infoTextPublication.paragraph2.sentence2')}
                 </p>
                 <p>
                   {t(
-                    `event.form.infoTextPublication.paragraph3.sentence1.${type}`
+                    `event.form.infoTextPublication.paragraph3.sentence1.${eventType}`
                   )}{' '}
                   {t('event.form.infoTextPublication.paragraph3.sentence2')}
                 </p>
@@ -487,7 +498,13 @@ const EventForm: React.FC<EventFormProps> = ({
                   savedEvent={event}
                 />
               </Section>
-              <Section title={t('event.form.sections.description')}>
+              <Section
+                showTooltip={showTooltipInstructions(user)}
+                title={t('event.form.sections.description')}
+                tooltipContent={
+                  <DescriptionInstructions eventType={eventType} />
+                }
+              >
                 <DescriptionSection
                   isEditingAllowed={isEditingAllowed}
                   isExternalUser={isExternalUser}
@@ -495,13 +512,25 @@ const EventForm: React.FC<EventFormProps> = ({
                   setSelectedLanguage={setDescriptionLanguage}
                 />
               </Section>
-              <Section title={t('event.form.sections.time')}>
+              <Section
+                showTooltip={showTooltipInstructions(user)}
+                title={t('event.form.sections.time')}
+                tooltipContent={<TimeInstructions eventType={eventType} />}
+                tooltipLabel={t(
+                  `event.form.notificationTitleEventTimes.${eventType}`
+                )}
+              >
                 <TimeSection
                   isEditingAllowed={isEditingAllowed}
                   savedEvent={event}
                 />
               </Section>
-              <Section title={t('event.form.sections.place')}>
+              <Section
+                showTooltip={showTooltipInstructions(user)}
+                title={t('event.form.sections.place')}
+                tooltipContent={<LocationInstructions eventType={eventType} />}
+                tooltipLabel={t('event.form.notificationTitleLocation')}
+              >
                 <PlaceSection
                   isEditingAllowed={isEditingAllowed}
                   isExternalUser={isExternalUser}
@@ -525,7 +554,12 @@ const EventForm: React.FC<EventFormProps> = ({
               <Section title={t('event.form.sections.classification')}>
                 <ClassificationSection isEditingAllowed={isEditingAllowed} />
               </Section>
-              <Section title={t('event.form.sections.audience')}>
+              <Section
+                showTooltip={showTooltipInstructions(user)}
+                title={t('event.form.sections.audience')}
+                tooltipContent={<AudienceInstructions eventType={eventType} />}
+                tooltipLabel={t(`event.form.titleAudience`)}
+              >
                 <AudienceSection isEditingAllowed={isEditingAllowed} />
               </Section>
               <Section title={t('event.form.sections.additionalInfo')}>
@@ -625,7 +659,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
       validateOnBlur={true}
       validateOnChange={true}
     >
-      {({ errors, setErrors, setTouched, values }) => {
+      {({ setErrors, setTouched, values }) => {
         return (
           <FormikPersist
             name={FORM_NAMES.EVENT_FORM}

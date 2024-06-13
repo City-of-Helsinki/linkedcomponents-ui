@@ -3,7 +3,9 @@ import React from 'react';
 
 import { SuperEventType } from '../../../../../generated/graphql';
 import { fakeEvent } from '../../../../../utils/mockDataUtils';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import { configure, render, screen } from '../../../../../utils/testUtils';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import { mockedUmbrellaEventsResponse } from '../../../__mocks__/createEventPage';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { EventTime, RecurringEventSettings } from '../../../types';
@@ -13,7 +15,15 @@ configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
 
-const mocks = [mockedUmbrellaEventsResponse];
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
+const mocks = [mockedUserResponse, mockedUmbrellaEventsResponse];
 
 type InitialValues = {
   [EVENT_FIELDS.EVENT_TIMES]: EventTime[];

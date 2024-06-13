@@ -5,11 +5,18 @@ import { useTranslation } from 'react-i18next';
 import DeleteButton from '../../../../../../common/components/deleteButton/DeleteButton';
 import MultiLanguageField from '../../../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
 import FormGroup from '../../../../../../common/components/formGroup/FormGroup';
+import HeadingWithTooltip from '../../../../../../common/components/headingWithTooltip/HeadingWithTooltip';
 import { featureFlagUtils } from '../../../../../../utils/featureFlags';
 import FieldRow from '../../../../../app/layout/fieldRow/FieldRow';
+import useUser from '../../../../../user/hooks/useUser';
 import { EVENT_FIELDS, EVENT_OFFER_FIELDS } from '../../../../constants';
 import styles from '../../../../eventPage.module.scss';
 import FieldWithButton from '../../../../layout/FieldWithButton';
+import {
+  showNotificationInstructions,
+  showTooltipInstructions,
+} from '../../../../utils';
+import PriceInstructions from '../../priceInstructions/PriceInstructions';
 import PriceNotification from '../../priceNotification/PriceNotification';
 import OfferPriceGroups from './offerPriceGroups/OfferPriceGroups';
 
@@ -32,6 +39,7 @@ const Offer: React.FC<Props> = ({
   showRegistrationPriceGroupFields,
 }) => {
   const { t } = useTranslation();
+  const { user } = useUser();
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: eventInfoLanguages }] = useField({
@@ -42,7 +50,9 @@ const Offer: React.FC<Props> = ({
     <>
       <FieldRow
         notification={
-          <PriceNotification className={styles.secondNotification} />
+          showNotificationInstructions(user) ? (
+            <PriceNotification className={styles.secondNotification} />
+          ) : undefined
         }
       >
         <FieldWithButton
@@ -58,7 +68,14 @@ const Offer: React.FC<Props> = ({
         >
           <>
             <FormGroup>
-              <h3>{t('event.form.titleOfferPrice')}</h3>
+              <HeadingWithTooltip
+                heading={t('event.form.titleOfferPrice')}
+                showTooltip={showTooltipInstructions(user)}
+                tag="h3"
+                tooltipContent={<PriceInstructions eventType={type} />}
+                tooltipLabel={t(`event.form.titlePriceInfo.${type}`)}
+              />
+
               <MultiLanguageField
                 disabled={!isEditingAllowed}
                 labelKey={`event.form.labelOfferPrice`}

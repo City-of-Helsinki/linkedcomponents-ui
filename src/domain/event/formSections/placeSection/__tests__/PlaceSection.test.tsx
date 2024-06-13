@@ -8,6 +8,7 @@ import {
   LE_DATA_LANGUAGES,
 } from '../../../../../constants';
 import { MultiLanguageObject } from '../../../../../types';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   mockString,
@@ -19,16 +20,26 @@ import {
   mockedPlacesResponse,
   mockedSortedPlacesResponse,
 } from '../../../../places/__mocks__/placesPage';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { publicEventSchema } from '../../../validation';
 import PlaceSection from '../PlaceSection';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const mocks = [
   mockedPlaceSelectorPlacesResponse,
   mockedSortedPlacesResponse,
   mockedPlacesResponse,
+  mockedUserResponse,
 ];
 
 const languages: LE_DATA_LANGUAGES[] = [LE_DATA_LANGUAGES.FI];

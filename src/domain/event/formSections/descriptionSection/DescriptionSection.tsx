@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Field, useField, useFormikContext } from 'formik';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,14 +17,17 @@ import lowerCaseFirstLetter from '../../../../utils/lowerCaseFirstLetter';
 import skipFalsyType from '../../../../utils/skipFalsyType';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
-import {
-  EVENT_FIELDS,
-  EVENT_TEXT_FIELD_MAX_LENGTH,
-  EVENT_TYPE,
-} from '../../constants';
+import useUser from '../../../user/hooks/useUser';
+import { EVENT_FIELDS, EVENT_TEXT_FIELD_MAX_LENGTH } from '../../constants';
 import useLanguageTabOptions from '../../hooks/useLanguageTabOptions';
 import useSortedInfoLanguages from '../../hooks/useSortedInfoLanguages';
-import { formatSingleDescription } from '../../utils';
+import {
+  formatSingleDescription,
+  showNotificationInstructions,
+  showTooltipInstructions,
+} from '../../utils';
+import DescriptionInstructions from './descriptionInstructions/DescriptionInstructions';
+import EnvironmentalCertificateInstructions from './environmentalCertificateInstruction/EnvironmentalCertificateInstructions';
 
 const FIELDS = [
   EVENT_FIELDS.DESCRIPTION,
@@ -45,6 +49,8 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
   setSelectedLanguage,
 }) => {
   const { t } = useTranslation();
+  const { user } = useUser();
+
   const [{ value: eventInfoLanguages }] = useField<LE_DATA_LANGUAGES[]>({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
   });
@@ -112,57 +118,16 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
             <TabPanel key={value}>
               <FieldRow
                 notification={
-                  <Notification
-                    label={t(`event.form.notificationTitleDescription.${type}`)}
-                    type="info"
-                  >
-                    <p
-                      dangerouslySetInnerHTML={{
-                        __html: t(
-                          `event.form.infoTextDescription.${type}.paragraph1`
-                        ),
-                      }}
-                    />
-                    <p>
-                      {t(`event.form.infoTextDescription.${type}.paragraph2`)}
-                    </p>
-                    <p
-                      dangerouslySetInnerHTML={{
-                        __html: t(
-                          `event.form.infoTextDescription.${type}.paragraph3`,
-                          {
-                            openInNewTab: t('common.openInNewTab'),
-                          }
-                        ),
-                      }}
-                    />
-                    {type === EVENT_TYPE.General && (
-                      <>
-                        <p>
-                          {t(
-                            `event.form.infoTextDescription.${type}.paragraph4`
-                          )}
-                        </p>
-                        <p>
-                          {t(
-                            `event.form.infoTextDescription.${type}.paragraph5`
-                          )}
-                        </p>
-                        <ul style={{ paddingInlineStart: 'var(--spacing-s)' }}>
-                          {Object.values(
-                            t(
-                              `event.form.infoTextDescription.${type}.exclusions`,
-                              {
-                                returnObjects: true,
-                              }
-                            )
-                          ).map((exlusion, index) => (
-                            <li key={index}>{exlusion as string}</li>
-                          ))}
-                        </ul>
-                      </>
-                    )}
-                  </Notification>
+                  showNotificationInstructions(user) ? (
+                    <Notification
+                      label={t(
+                        `event.form.notificationTitleDescription.${type}`
+                      )}
+                      type="info"
+                    >
+                      <DescriptionInstructions eventType={type} />
+                    </Notification>
+                  ) : undefined
                 }
               >
                 <FieldColumn>
@@ -221,20 +186,16 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
               {isExternalUser && (
                 <FieldRow
                   notification={
-                    <Notification
-                      label={t(
-                        'event.form.notificationTitleEnvironmentalCertificate'
-                      )}
-                      type="info"
-                    >
-                      <p
-                        dangerouslySetInnerHTML={{
-                          __html: t(
-                            'event.form.infoTextEnvironmentalCertificate'
-                          ),
-                        }}
-                      />
-                    </Notification>
+                    showNotificationInstructions(user) ? (
+                      <Notification
+                        label={t(
+                          'event.form.notificationTitleEnvironmentalCertificate'
+                        )}
+                        type="info"
+                      >
+                        <EnvironmentalCertificateInstructions />
+                      </Notification>
+                    ) : undefined
                   }
                 >
                   <FormGroup>
@@ -256,6 +217,17 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                         label={t('event.form.labelEnvironmentalCertificate')}
                         name={EVENT_FIELDS.ENVIRONMENTAL_CERTIFICATE}
                         required
+                        {...(showTooltipInstructions(user)
+                          ? {
+                              tooltipButtonLabel: t('common.showInstructions'),
+                              tooltipLabel: t(
+                                'event.form.labelEnvironmentalCertificate'
+                              ),
+                              tooltipText: (
+                                <EnvironmentalCertificateInstructions />
+                              ),
+                            }
+                          : {})}
                       ></Field>
                     </FieldColumn>
                   </FormGroup>

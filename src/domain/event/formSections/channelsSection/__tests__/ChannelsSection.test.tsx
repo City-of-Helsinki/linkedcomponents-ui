@@ -5,6 +5,7 @@ import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   LE_DATA_LANGUAGES,
 } from '../../../../../constants';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -13,6 +14,7 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { publicEventSchema } from '../../../validation';
 import ChannelsSection from '../ChannelsSection';
@@ -20,6 +22,16 @@ import ChannelsSection from '../ChannelsSection';
 configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
+const mocks = [mockedUserResponse];
 
 const renderComponent = () =>
   render(
@@ -37,7 +49,8 @@ const renderComponent = () =>
       validationSchema={publicEventSchema}
     >
       <ChannelsSection isEditingAllowed={true} />
-    </Formik>
+    </Formik>,
+    { mocks }
   );
 
 const findElements = (key: 'deleteButtons' | 'facebookLinks') => {

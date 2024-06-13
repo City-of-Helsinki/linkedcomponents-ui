@@ -259,6 +259,7 @@
     "save": "Spara",
     "search": "Sök",
     "select": "Välj",
+    "showInstructions": "Visa instruktioner",
     "showLess": "Visa mindre",
     "showMore": "Visa mer",
     "showMoreWithCount": "Visa mer ({{count}})",

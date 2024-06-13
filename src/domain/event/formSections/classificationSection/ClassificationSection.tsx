@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxGroupField from '../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
 import KeywordSelectorField from '../../../../common/components/formFields/keywordSelectorField/KeywordSelectorField';
+import HeadingWithTooltip from '../../../../common/components/headingWithTooltip/HeadingWithTooltip';
 import Notification from '../../../../common/components/notification/Notification';
 import useLocale from '../../../../hooks/useLocale';
 import getValue from '../../../../utils/getValue';
@@ -15,9 +16,16 @@ import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { REMOTE_PARTICIPATION_KEYWORD } from '../../../keyword/constants';
 import { getKeywordOption } from '../../../keywordSet/utils';
 import { INTERNET_PLACE_ID } from '../../../place/constants';
+import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useEventFieldOptionsData from '../../hooks/useEventFieldOptionsData';
+import {
+  showNotificationInstructions,
+  showTooltipInstructions,
+} from '../../utils';
+import KeywordsInstructions from './keywordsInstructions/KeywordsInstructions';
+import MainCategoriesInstructions from './mainCategoriesInstructions/MainCategoriesInstructions';
 
 interface Props {
   isEditingAllowed: boolean;
@@ -26,6 +34,7 @@ interface Props {
 const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const locale = useLocale();
+  const { user } = useUser();
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: eventLocation }] = useField({ name: EVENT_FIELDS.LOCATION });
@@ -69,16 +78,24 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
 
   return (
     <Fieldset heading={t('event.form.sections.classification')} hideLegend>
-      <h3>{t(`event.form.titleMainCategories`)}</h3>
+      <HeadingWithTooltip
+        heading={t(`event.form.titleMainCategories`)}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<MainCategoriesInstructions eventType={type} />}
+        tooltipLabel={t(`event.form.notificationTitleMainCategories.${type}`)}
+      />
       <FieldRow
         notification={
-          <Notification
-            className={styles.notificationForTitle}
-            label={t(`event.form.notificationTitleMainCategories.${type}`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextMainCategories.${type}`)}</p>
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              className={styles.notificationForTitle}
+              label={t(`event.form.notificationTitleMainCategories.${type}`)}
+              type="info"
+            >
+              <MainCategoriesInstructions eventType={type} />
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>
@@ -95,16 +112,24 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
         </FieldColumn>
       </FieldRow>
 
-      <h3>{t(`event.form.titleKeywords`)}</h3>
+      <HeadingWithTooltip
+        heading={t('event.form.titleKeywords')}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<KeywordsInstructions eventType={type} />}
+        tooltipLabel={t('event.form.titleKeywords')}
+      />
       <FieldRow
         notification={
-          <Notification
-            className={styles.notificationForTitle}
-            label={t(`event.form.titleKeywords`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextKeywords.${type}`)}</p>
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              className={styles.notificationForTitle}
+              label={t(`event.form.titleKeywords`)}
+              type="info"
+            >
+              <KeywordsInstructions eventType={type} />
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>

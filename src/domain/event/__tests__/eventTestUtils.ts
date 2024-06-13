@@ -82,3 +82,40 @@ export const testExternalUserFields = async () => {
     }
   }
 };
+
+export const testInstructionNotifications = async (
+  shouldBeVisible: boolean
+) => {
+  const notificationTitles: string[] = [
+    'Tapahtumatietojen syöttökielet',
+    'Tapahtuman kielet (ohjauskielet)',
+    'Tapahtuman julkaisija',
+    'Tapahtuman järjestäjä',
+    'Tapahtuman kuvaus',
+    'Ympäristösertifikaatti',
+    'Tapahtuman ajankohdat',
+    'Tapahtumapaikka',
+    'Tapahtuma sosiaalisessa mediassa',
+    'Tapahtumaan liittyvä kuva',
+    'Tapahtuman video',
+    'Tapahtuman luokittelu',
+    'Lisää avainsanoja',
+    'Kohderyhmät',
+    'Ikärajoitukset',
+    'Ilmoittautumisaika',
+    'Osallistujamäärä',
+  ];
+
+  for (const title of notificationTitles) {
+    const notification = screen.queryByRole('region', { name: title });
+
+    if (shouldBeVisible) {
+      expect(notification).toBeInTheDocument();
+    } else {
+      expect(notification).not.toBeInTheDocument();
+    }
+  }
+  expect(
+    screen.queryByRole('region', { name: 'Julkaisu' })
+  ).toBeInTheDocument();
+};

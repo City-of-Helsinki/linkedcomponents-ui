@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
 import React from 'react';
 
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -8,6 +9,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../../../utils/testUtils';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import {
   EVENT_FIELDS,
   EVENT_INITIAL_VALUES,
@@ -26,6 +28,16 @@ const defaultInitialValue = {
   [EVENT_FIELDS.VIDEOS]: EVENT_INITIAL_VALUES.videos,
 };
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
+const mocks = [mockedUserResponse];
+
 const renderVideoSection = (initialValues?: Partial<EventFormFields>) =>
   render(
     <Formik
@@ -37,7 +49,8 @@ const renderVideoSection = (initialValues?: Partial<EventFormFields>) =>
       validationSchema={publicEventSchema}
     >
       <VideoSection isEditingAllowed={true} />
-    </Formik>
+    </Formik>,
+    { mocks }
   );
 
 const getElement = (

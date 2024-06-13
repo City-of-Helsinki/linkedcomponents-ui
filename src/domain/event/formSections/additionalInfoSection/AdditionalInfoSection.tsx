@@ -7,13 +7,22 @@ import DateInputField from '../../../../common/components/formFields/dateInputFi
 import NumberInputField from '../../../../common/components/formFields/numberInputField/NumberInputField';
 import TimeInputField from '../../../../common/components/formFields/timeInputField/TimeInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
+import HeadingWithTooltip from '../../../../common/components/headingWithTooltip/HeadingWithTooltip';
 import Notification from '../../../../common/components/notification/Notification';
 import getDatePickerInitialMonth from '../../../../utils/getDatePickerInitialMonth';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import SplittedRow from '../../../app/layout/splittedRow/SplittedRow';
+import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
+import {
+  showNotificationInstructions,
+  showTooltipInstructions,
+} from '../../utils';
+import AttendeeCapacityInstructions from './attendeeCapacityInstructions/AttendeeCapacityInstructions';
+import AudienceAgeInstructions from './audienceAgeInstructions/AudienceAgeInstructions';
+import EnrolmentTimeInstructions from './enrolmentTimeInstructions/EnrolmentTimeInstructions';
 
 export interface AdditionalInfoSectionProps {
   isEditingAllowed: boolean;
@@ -25,6 +34,8 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
   isExternalUser,
 }) => {
   const { t } = useTranslation();
+  const { user } = useUser();
+
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: enrolmentStartTime }] = useField({
     name: EVENT_FIELDS.ENROLMENT_START_TIME_DATE,
@@ -32,16 +43,24 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
 
   return (
     <Fieldset heading={t('event.form.sections.additionalInfo')} hideLegend>
-      <h3>{t(`event.form.titleAudienceAge`)}</h3>
+      <HeadingWithTooltip
+        heading={t('event.form.titleAudienceAge')}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<AudienceAgeInstructions eventType={type} />}
+        tooltipLabel={t('event.form.titleAudienceAge')}
+      />
       <FieldRow
         notification={
-          <Notification
-            className={styles.notificationForTitle}
-            label={t(`event.form.titleAudienceAge`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextAudienceAge.${type}`)}</p>
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              className={styles.notificationForTitle}
+              label={t('event.form.titleAudienceAge')}
+              type="info"
+            >
+              <AudienceAgeInstructions eventType={type} />
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>
@@ -70,18 +89,25 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
         </FieldColumn>
       </FieldRow>
 
-      <h3 className={styles.noTopMargin}>
-        {t(`event.form.titleEnrolmentTime`)}
-      </h3>
+      <HeadingWithTooltip
+        className={styles.noTopMargin}
+        heading={t('event.form.titleEnrolmentTime')}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<EnrolmentTimeInstructions eventType={type} />}
+        tooltipLabel={t('event.form.titleEnrolmentTime')}
+      />
       <FieldRow
         notification={
-          <Notification
-            className={styles.notificationForTitle}
-            label={t(`event.form.titleEnrolmentTime`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextEnrolmentTime.${type}`)}</p>
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              className={styles.notificationForTitle}
+              label={t(`event.form.titleEnrolmentTime`)}
+              type="info"
+            >
+              <EnrolmentTimeInstructions eventType={type} />
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>
@@ -131,21 +157,25 @@ const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
         </FieldColumn>
       </FieldRow>
 
-      <h3 className={styles.noTopMargin}>
-        {t(`event.form.titleAttendeeCapacity`)}
-      </h3>
+      <HeadingWithTooltip
+        className={styles.noTopMargin}
+        heading={t('event.form.titleAttendeeCapacity')}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<AttendeeCapacityInstructions eventType={type} />}
+        tooltipLabel={t('event.form.titleAttendeeCapacity')}
+      />
       <FieldRow
         notification={
-          <Notification
-            className={styles.notificationForTitle}
-            label={t(`event.form.titleAttendeeCapacity`)}
-            type="info"
-          >
-            <p>{t('event.form.infoTextAttendeeCapacity1')}</p>
-            <p>{t(`event.form.infoTextAttendeeCapacity2.${type}`)}</p>
-            <p>{t('event.form.infoTextAttendeeCapacity3')}</p>
-            <p>{t(`event.form.infoTextAttendeeCapacity4.${type}`)}</p>
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              className={styles.notificationForTitle}
+              label={t('event.form.titleAttendeeCapacity')}
+              type="info"
+            >
+              <AttendeeCapacityInstructions eventType={type} />
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>

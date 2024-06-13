@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -9,6 +10,7 @@ import {
 import translations from '../../../../app/i18n/fi.json';
 import { mockedTopicsKeywordSetResponse } from '../../../../keywordSet/__mocks__/keywordSets';
 import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
+import { mockedUserWithoutOrganizationsResponse } from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import {
   audienceNames,
@@ -20,10 +22,19 @@ configure({ defaultHidden: true });
 
 const type = EVENT_TYPE.General;
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const mocks = [
   mockedAudiencesKeywordSetResponse,
   mockedLanguagesResponse,
   mockedTopicsKeywordSetResponse,
+  mockedUserWithoutOrganizationsResponse,
 ];
 
 const renderComponent = () =>

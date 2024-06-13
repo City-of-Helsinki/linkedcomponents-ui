@@ -13,6 +13,8 @@ export type NotificationProps = { id?: string } & HdsNotificationProps;
 const Notification: React.FC<NotificationProps> = ({
   className,
   id,
+  label,
+  notificationAriaLabel,
   type = 'success',
   ...rest
 }) => {
@@ -29,6 +31,13 @@ const Notification: React.FC<NotificationProps> = ({
               className,
               css(theme.notification.type?.[type])
             )}
+            label={label}
+            notificationAriaLabel={
+              /* istanbul ignore next */
+              typeof label === 'string'
+                ? label ?? notificationAriaLabel
+                : notificationAriaLabel
+            }
             type={type}
           />
         </div>

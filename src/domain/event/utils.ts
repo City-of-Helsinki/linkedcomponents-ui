@@ -1577,3 +1577,10 @@ export const shouldShowRegistrationPriceGroupFields = ({
     !isRegistrationPlanned
   );
 };
+
+export const showTooltipInstructions = (user?: UserFieldsFragment): boolean =>
+  !!user?.adminOrganizations.length || !!user?.isSuperuser;
+
+export const showNotificationInstructions = (
+  user?: UserFieldsFragment
+): boolean => !showTooltipInstructions(user);

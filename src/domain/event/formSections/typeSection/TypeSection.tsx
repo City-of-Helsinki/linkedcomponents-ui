@@ -2,15 +2,14 @@
 import { Field, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
 import RadioButtonGroupField from '../../../../common/components/formFields/radioButtonGroupField/RadioButtonGroupField';
 import UmbrellaEventSelectorField from '../../../../common/components/formFields/umbrellaEventSelectorField/UmbrellaEventSelectorField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
+import HeadingWithTooltip from '../../../../common/components/headingWithTooltip/HeadingWithTooltip';
 import Notification from '../../../../common/components/notification/Notification';
-import { ROUTES } from '../../../../constants';
 import {
   EventFieldsFragment,
   SuperEventType,
@@ -18,11 +17,19 @@ import {
 import useLocale from '../../../../hooks/useLocale';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
+import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useEventTypeOptions from '../../hooks/useEventTypeOptions';
 import { EventTime, RecurringEventSettings } from '../../types';
-import { getEventFields, isRecurringEvent } from '../../utils';
+import {
+  getEventFields,
+  isRecurringEvent,
+  showNotificationInstructions,
+  showTooltipInstructions,
+} from '../../utils';
+import TypeInstructions from './typeInstructions/TypeInstructions';
+import UmbrellaEventInstructions from './umbrellaEventInstructions/UmbrellaEventInstructions';
 
 export interface TypeSectionProps {
   isEditingAllowed: boolean;
@@ -38,6 +45,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
   const typeOptions = useEventTypeOptions();
+  const { user } = useUser();
 
   const [{ value: type }] = useField<EVENT_TYPE>({ name: EVENT_FIELDS.TYPE });
   const [{ value: hasUmbrella }] = useField({
@@ -58,7 +66,6 @@ const TypeSection: React.FC<TypeSectionProps> = ({
     ? getEventFields(savedEvent, locale)
     : { superEventAtId: null, superEventType: null };
   const superEventSuperEventType = savedEvent?.superEvent?.superEventType;
-  const superEventId = savedEvent?.superEvent?.id;
 
   const getDisabled = (
     name: EVENT_FIELDS.HAS_UMBRELLA | EVENT_FIELDS.IS_UMBRELLA
@@ -106,17 +113,27 @@ const TypeSection: React.FC<TypeSectionProps> = ({
 
   return (
     <Fieldset heading={t('event.form.sections.type')} hideLegend>
-      <h3>{t('event.form.titleEventType')}</h3>
+      <HeadingWithTooltip
+        heading={t('event.form.titleEventType')}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<TypeInstructions />}
+        tooltipLabel={t('event.form.sections.type')}
+      ></HeadingWithTooltip>
+
       <FieldRow
         notification={
-          <Notification
-            className={styles.notificationForTitle}
-            label={t('event.form.notificationTitleType')}
-            type="info"
-          >
-            <p>{t('event.form.infoTextType1')}</p>
-            <p>{t('event.form.infoTextType2')}</p>
-          </Notification>
+          <>
+            {showNotificationInstructions(user) && (
+              <Notification
+                className={styles.notificationForTitle}
+                label={t('event.form.notificationTitleType')}
+                type="info"
+              >
+                <TypeInstructions />
+              </Notification>
+            )}
+          </>
         }
       >
         <FieldColumn>
@@ -132,31 +149,24 @@ const TypeSection: React.FC<TypeSectionProps> = ({
         </FieldColumn>
       </FieldRow>
 
-      <h3>{t('event.form.titleUmrellaEvent')}</h3>
+      <HeadingWithTooltip
+        heading={t('event.form.titleUmrellaEvent')}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<UmbrellaEventInstructions savedEvent={savedEvent} />}
+        tooltipLabel={t('event.form.notificationTitleUmrellaEvent')}
+      ></HeadingWithTooltip>
       <FieldRow
         notification={
-          <Notification
-            className={styles.notificationForTitle}
-            label={t('event.form.notificationTitleUmrellaEvent')}
-            type="info"
-          >
-            <p>{t('event.form.infoTextUmrellaEvent1')}</p>
-            <p>{t('event.form.infoTextUmrellaEvent2')}</p>
-            {superEventId &&
-              superEventSuperEventType === SuperEventType.Recurring && (
-                <p>
-                  {t('event.form.infoTextUmbrellaSubEvent')}{' '}
-                  <Link
-                    to={`/${locale}${ROUTES.EDIT_EVENT.replace(
-                      ':id',
-                      superEventId
-                    )}`}
-                  >
-                    {t('event.form.infoTextUmbrellaSubEventLink')}.
-                  </Link>
-                </p>
-              )}
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              className={styles.notificationForTitle}
+              label={t('event.form.notificationTitleUmrellaEvent')}
+              type="info"
+            >
+              <UmbrellaEventInstructions savedEvent={savedEvent} />
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>

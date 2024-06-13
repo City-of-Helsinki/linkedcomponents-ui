@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '../../../../common/components/button/Button';
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
+import HeadingWithTooltip from '../../../../common/components/headingWithTooltip/HeadingWithTooltip';
 import ImagePreview from '../../../../common/components/imagePreview/ImagePreview';
 import { PAGE_SIZE } from '../../../../common/components/imageSelector/constants';
 import Modal from '../../../../common/components/modal/Modal';
@@ -35,7 +36,12 @@ import { imagePathBuilder } from '../../../image/utils';
 import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS } from '../../constants';
 import eventPageStyles from '../../eventPage.module.scss';
+import {
+  showNotificationInstructions,
+  showTooltipInstructions,
+} from '../../utils';
 import ImageDetailsFields from './imageDetailsFields/ImageDetailsFields';
+import ImageInstructions from './imageInstructions/ImageInstructions';
 import styles from './imageSection.module.scss';
 
 interface Props {
@@ -45,7 +51,7 @@ interface Props {
 const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
-  const { loading: loadingUser, externalUser } = useUser();
+  const { loading: loadingUser, externalUser, user } = useUser();
 
   const { closeModal, openModal, setOpenModal, uploadImage } =
     useImageUpdateActions({});
@@ -138,25 +144,25 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
       )}
 
       <Fieldset heading={t('event.form.sections.image')} hideLegend>
-        <h3>{t(`event.form.titleImage.${type}`)}</h3>
+        <HeadingWithTooltip
+          heading={t(`event.form.titleImage.${type}`)}
+          showTooltip={showTooltipInstructions(user)}
+          tag="h3"
+          tooltipContent={<ImageInstructions eventType={type} />}
+          tooltipLabel={t(`event.form.notificationTitleImage.${type}`)}
+        />
+
         <FieldRow
           notification={
-            <Notification
-              className={eventPageStyles.notificationForTitle}
-              label={t(`event.form.notificationTitleImage.${type}`)}
-              type="info"
-            >
-              <p
-                dangerouslySetInnerHTML={{
-                  __html: t(`event.form.infoTextImage1.${type}`, {
-                    openInNewTab: t('common.openInNewTab'),
-                  }),
-                }}
-              />
-              <p>{t(`event.form.infoTextImage2`)}</p>
-              <p>{t(`event.form.infoTextImage3`)}</p>
-              <p>{t(`event.form.infoTextImage4`)}</p>
-            </Notification>
+            showNotificationInstructions(user) ? (
+              <Notification
+                className={eventPageStyles.notificationForTitle}
+                label={t(`event.form.notificationTitleImage.${type}`)}
+                type="info"
+              >
+                <ImageInstructions eventType={type} />
+              </Notification>
+            ) : undefined
           }
         >
           <FieldColumn

@@ -5,12 +5,19 @@ import { useTranslation } from 'react-i18next';
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import MultiLanguageField from '../../../../common/components/formFields/multiLanguageField/MultiLanguageField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
+import HeadingWithTooltip from '../../../../common/components/headingWithTooltip/HeadingWithTooltip';
 import Notification from '../../../../common/components/notification/Notification';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
+import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
+import {
+  showNotificationInstructions,
+  showTooltipInstructions,
+} from '../../utils';
 import ExternalLinks from './externalLinks/ExternalLinks';
+import SocialMediaInstructions from './socialMediaInstructions/SocialMediaInstructions';
 
 interface Props {
   isEditingAllowed: boolean;
@@ -18,6 +25,8 @@ interface Props {
 
 const ChannelsSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
+  const { user } = useUser();
+
   const [{ value: type }] = useField(EVENT_FIELDS.TYPE);
   const [{ value: eventInfoLanguages }] = useField({
     name: EVENT_FIELDS.EVENT_INFO_LANGUAGES,
@@ -39,16 +48,25 @@ const ChannelsSection: React.FC<Props> = ({ isEditingAllowed }) => {
           </FormGroup>
         </FieldColumn>
       </FieldRow>
-      <h3>{t(`event.form.titleSocialMedia.${type}`)}</h3>
+
+      <HeadingWithTooltip
+        heading={t(`event.form.titleSocialMedia.${type}`)}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<SocialMediaInstructions eventType={type} />}
+        tooltipLabel={t(`event.form.titleSocialMedia.${type}`)}
+      />
       <FieldRow
         notification={
-          <Notification
-            className={styles.notificationForTitle}
-            label={t(`event.form.titleSocialMedia.${type}`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextSocialMedia.${type}`)}</p>
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              className={styles.notificationForTitle}
+              label={t(`event.form.titleSocialMedia.${type}`)}
+              type="info"
+            >
+              <SocialMediaInstructions eventType={type} />
+            </Notification>
+          ) : undefined
         }
       >
         <ExternalLinks isEditingAllowed={isEditingAllowed} />

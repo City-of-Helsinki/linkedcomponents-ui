@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
+import HeadingWithTooltip from '../../../../common/components/headingWithTooltip/HeadingWithTooltip';
 import { EventFieldsFragment } from '../../../../generated/graphql';
 import { featureFlagUtils } from '../../../../utils/featureFlags';
 import FormRow from '../../../admin/layout/formRow/FormRow';
@@ -15,9 +16,13 @@ import { PriceGroupOption } from '../../../priceGroup/types';
 import VatPercentageField from '../../../registration/formSections/priceGroups/vatPercentageField/VatPercentageField';
 import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS } from '../../constants';
-import { shouldShowRegistrationPriceGroupFields } from '../../utils';
+import {
+  shouldShowRegistrationPriceGroupFields,
+  showTooltipInstructions,
+} from '../../utils';
 import FreeEventFields from './freeEventFields/FreeEventFields';
 import Offers from './offers/Offers';
+import PriceInstructions from './priceInstructions/PriceInstructions';
 import ValidationError from './validationError/ValidationError';
 
 interface Props {
@@ -56,7 +61,14 @@ const PriceSection: React.FC<Props> = ({ event, isEditingAllowed }) => {
 
   return (
     <Fieldset heading={t('event.form.sections.price')} hideLegend>
-      <h3>{t(`event.form.titlePriceInfo.${type}`)}</h3>
+      <HeadingWithTooltip
+        heading={t(`event.form.titlePriceInfo.${type}`)}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<PriceInstructions eventType={type} />}
+        tooltipLabel={t(`event.form.titlePriceInfo.${type}`)}
+      />
+
       <FieldRow>
         <FieldColumn>
           <FormGroup>

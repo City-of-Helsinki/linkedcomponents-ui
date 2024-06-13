@@ -1,3 +1,4 @@
+import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 
 import { LE_DATA_LANGUAGES } from '../../../../../constants';
@@ -10,7 +11,10 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import { mockedFreePriceGroupsResponse } from '../../../../priceGroup/__mocks__/priceGroups';
-import { mockedUserResponse } from '../../../../user/__mocks__/user';
+import {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { OfferFields } from '../../../types';
 import { getEmptyOffer } from '../../../utils';
@@ -24,6 +28,14 @@ beforeEach(() => {
 });
 
 const type = EVENT_TYPE.General;
+
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
 
 type InitialValues = {
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: string[];
@@ -41,9 +53,15 @@ const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.TYPE]: type,
 };
 
-const mocks = [mockedFreePriceGroupsResponse, mockedUserResponse];
+const defaultMocks = [mockedFreePriceGroupsResponse, mockedUserResponse];
 
-const renderPriceSection = (initialValues?: Partial<InitialValues>) =>
+const renderPriceSection = ({
+  initialValues,
+  mocks = defaultMocks,
+}: {
+  initialValues?: Partial<InitialValues>;
+  mocks?: MockedResponse[];
+} = {}) =>
   render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
@@ -175,7 +193,12 @@ test('should validate an offer', async () => {
 
 test('should show instructions for each offer', async () => {
   const user = userEvent.setup();
-  renderPriceSection();
+  renderPriceSection({
+    mocks: [
+      mockedFreePriceGroupsResponse,
+      mockedUserWithoutOrganizationsResponse,
+    ],
+  });
 
   getElement('heading');
 
@@ -196,7 +219,9 @@ test('should show instructions for each offer', async () => {
 
 test('should show add price group button only if registration is planned', async () => {
   const user = userEvent.setup();
-  renderPriceSection({ hasPrice: true, isRegistrationPlanned: false });
+  renderPriceSection({
+    initialValues: { hasPrice: true, isRegistrationPlanned: false },
+  });
 
   expect(
     screen.queryByRole('button', { name: 'Lisää muita asiakasryhmiä' })
@@ -209,7 +234,9 @@ test('should show add price group button only if registration is planned', async
 test('should add and remove price group', async () => {
   const user = userEvent.setup();
 
-  renderPriceSection({ hasPrice: true, isRegistrationPlanned: true });
+  renderPriceSection({
+    initialValues: { hasPrice: true, isRegistrationPlanned: true },
+  });
 
   const addPriceGroupButton = getElement('addPriceGroupButton');
   await user.click(addPriceGroupButton);
