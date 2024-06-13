@@ -7,6 +7,7 @@ import {
   LE_DATA_LANGUAGES,
 } from '../../../../../constants';
 import { MultiLanguageObject } from '../../../../../types';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   mockString,
@@ -14,6 +15,7 @@ import {
   screen,
   userEvent,
 } from '../../../../../utils/testUtils';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import {
   externalUserEventSchema,
@@ -56,6 +58,16 @@ const defaultProps: DescriptionSectionProps = {
   setSelectedLanguage: vi.fn(),
 };
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
+const mocks = [mockedUserResponse];
+
 const renderComponent = (
   initialValues?: Partial<InitialValues>,
   props?: Partial<DescriptionSectionProps>,
@@ -69,7 +81,8 @@ const renderComponent = (
       validationSchema={schema}
     >
       <DescriptionSection {...defaultProps} {...props} />
-    </Formik>
+    </Formik>,
+    { mocks }
   );
 
   return {

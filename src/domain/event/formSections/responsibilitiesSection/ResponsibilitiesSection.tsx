@@ -14,6 +14,10 @@ import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import useUser from '../../../user/hooks/useUser';
 import useUserOrganizations from '../../../user/hooks/useUserOrganizations';
 import { EVENT_FIELDS } from '../../constants';
+import {
+  showNotificationInstructions,
+  showTooltipInstructions,
+} from '../../utils';
 
 export interface ResponsibilitiesSectionProps {
   isEditingAllowed: boolean;
@@ -61,12 +65,14 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
     <Fieldset heading={t('event.form.sections.responsibilities')} hideLegend>
       <FieldRow
         notification={
-          <Notification
-            label={t(`event.form.notificationTitlePublisher.${type}`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextPublisher.${type}`)}</p>
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              label={t(`event.form.notificationTitlePublisher.${type}`)}
+              type="info"
+            >
+              <p>{t(`event.form.infoTextPublisher.${type}`)}</p>
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>
@@ -78,18 +84,27 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
             label={t(`event.form.labelPublisher.${type}`)}
             name={EVENT_FIELDS.PUBLISHER}
             publisher={savedEvent?.publisher}
+            {...(showTooltipInstructions(user)
+              ? {
+                  tooltipButtonLabel: t('common.showInstructions'),
+                  tooltipLabel: t(`event.form.labelPublisher.${type}`),
+                  tooltipText: t(`event.form.infoTextPublisher.${type}`),
+                }
+              : {})}
           />
         </FieldColumn>
       </FieldRow>
 
       <FieldRow
         notification={
-          <Notification
-            label={t(`event.form.notificationTitleProvider.${type}`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextProvider.${type}`)}</p>
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              label={t(`event.form.notificationTitleProvider.${type}`)}
+              type="info"
+            >
+              <p>{t(`event.form.infoTextProvider.${type}`)}</p>
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>
@@ -107,6 +122,17 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
               undefined
             )}
             required={isExternalUser}
+            {...(showTooltipInstructions(user)
+              ? {
+                  tooltipButtonLabel: t('common.showInstructions'),
+                  tooltipLabel:
+                    /* istanbul ignore next */
+                    isExternalUser
+                      ? 'event.form.labelProvider.other'
+                      : `event.form.labelProvider.${type}`,
+                  tooltipText: t(`event.form.infoTextProvider.${type}`),
+                }
+              : {})}
           />
         </FieldColumn>
       </FieldRow>

@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import Fieldset from '../../../../../common/components/fieldset/Fieldset';
 import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
+import useUser from '../../../../user/hooks/useUser';
 import { EventTime } from '../../../types';
-import { isRecurringEvent } from '../../../utils';
+import { isRecurringEvent, showNotificationInstructions } from '../../../utils';
 import AddEventTimeForm from '../addEventTimeForm/AddEventTimeForm';
 import EventTimesSummary from '../eventTimesSummary/EventTimesSummary';
 import useTimeSectionContext from '../hooks/useTimeSectionContext';
@@ -15,6 +16,7 @@ import ValidationError from '../validationError/ValidationError';
 
 const EventTimeTab: React.FC = () => {
   const { t } = useTranslation();
+  const { user } = useUser();
   const {
     events,
     eventTimes,
@@ -44,7 +46,13 @@ const EventTimeTab: React.FC = () => {
       hideLegend
     >
       <h3>{t(`event.form.titleEnterEventTime.${eventType}`)}</h3>
-      <FieldRow notification={<TimeSectionNotification />}>
+      <FieldRow
+        notification={
+          showNotificationInstructions(user) ? (
+            <TimeSectionNotification />
+          ) : undefined
+        }
+      >
         <FieldColumn>
           <AddEventTimeForm addEventTime={addEventTime} />
           <ValidationError />

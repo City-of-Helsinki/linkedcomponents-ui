@@ -1,7 +1,9 @@
+import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 
-import { mockUnauthenticatedLoginState } from '../../../../../../utils/mockLoginHooks';
+import { mockAuthenticatedLoginState } from '../../../../../../utils/mockLoginHooks';
 import {
+  actWait,
   configure,
   fireEvent,
   render,
@@ -10,6 +12,10 @@ import {
   waitFor,
   within,
 } from '../../../../../../utils/testUtils';
+import {
+  mockedUserResponse,
+  mockedUserWithoutOrganizationsResponse,
+} from '../../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../../constants';
 import { EventTime, RecurringEventSettings } from '../../../../types';
 import { publicEventSchema } from '../../../../validation';
@@ -29,7 +35,7 @@ afterEach(() => {
 
 beforeEach(() => {
   vi.setSystemTime('2021-04-12');
-  mockUnauthenticatedLoginState();
+  mockAuthenticatedLoginState();
 });
 
 const type = EVENT_TYPE.General;
@@ -72,7 +78,15 @@ const recurringEvents: RecurringEventSettings[] = [
   },
 ];
 
-const renderComponent = (initialValues?: Partial<typeof defaultInitialValue>) =>
+const defaultMocks = [mockedUserResponse];
+
+const renderComponent = ({
+  initialValues,
+  mocks = defaultMocks,
+}: {
+  initialValues?: Partial<typeof defaultInitialValue>;
+  mocks?: MockedResponse[];
+} = {}) =>
   render(
     <Formik
       initialValues={{ ...defaultInitialValue, ...initialValues }}
@@ -82,7 +96,8 @@ const renderComponent = (initialValues?: Partial<typeof defaultInitialValue>) =>
       <TimeSectionProvider isEditingAllowed>
         <RecurringEventTab />
       </TimeSectionProvider>
-    </Formik>
+    </Formik>,
+    { mocks }
   );
 
 const getRecurringEventElement = (
@@ -158,7 +173,7 @@ test('should add/delete recurring event', async () => {
 
   const initialValues = { [EVENT_FIELDS.RECURRING_EVENTS]: recurringEvents };
 
-  renderComponent(initialValues);
+  renderComponent({ initialValues });
 
   const addButton = getRecurringEventElement('addButton');
 
@@ -271,7 +286,8 @@ test('should set isUmbrella to false when adding more than 1 event time', async 
       >
         <RecurringEventTab />
       </TimeSectionContext.Provider>
-    </Formik>
+    </Formik>,
+    { mocks: defaultMocks }
   );
 
   await enterFormValues();
@@ -281,4 +297,26 @@ test('should set isUmbrella to false when adding more than 1 event time', async 
   await user.click(addButton);
 
   expect(setIsUmbrella).toBeCalledWith(false);
+});
+
+test('should not show instructions for admin user', async () => {
+  renderComponent();
+  // Wait user data to be loaded
+  await actWait(100);
+
+  expect(
+    screen.queryByRole('region', { name: 'Tapahtuman ajankohdat' })
+  ).not.toBeInTheDocument();
+});
+
+test('should show instructions for external user', async () => {
+  const mocks = [mockedUserWithoutOrganizationsResponse];
+  // Wait user data to be loaded
+  await actWait(100);
+
+  renderComponent({ mocks });
+
+  expect(
+    screen.getByRole('region', { name: 'Tapahtuman ajankohdat' })
+  ).toBeInTheDocument();
 });

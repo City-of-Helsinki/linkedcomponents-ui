@@ -7,9 +7,12 @@ import CheckboxGroupField from '../../../../common/components/formFields/checkbo
 import Notification from '../../../../common/components/notification/Notification';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
+import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useAudienceOptions from '../../hooks/useAudienceOptions';
+import { showNotificationInstructions } from '../../utils';
+import AudienceInstructions from './audienceInstructions/AudienceInstructions';
 
 interface Props {
   isEditingAllowed: boolean;
@@ -17,6 +20,7 @@ interface Props {
 
 const AudienceSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
+  const { user } = useUser();
 
   const audienceOptions = useAudienceOptions();
 
@@ -26,13 +30,15 @@ const AudienceSection: React.FC<Props> = ({ isEditingAllowed }) => {
     <Fieldset heading={t('event.form.sections.audience')} hideLegend>
       <FieldRow
         notification={
-          <Notification
-            className={styles.notificationForTitle}
-            label={t(`event.form.titleAudience`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextAudience.${type}`)}</p>
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              className={styles.notificationForTitle}
+              label={t(`event.form.titleAudience`)}
+              type="info"
+            >
+              <AudienceInstructions eventType={type} />
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>

@@ -5,11 +5,18 @@ import { useTranslation } from 'react-i18next';
 import DeleteButton from '../../../../../common/components/deleteButton/DeleteButton';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
+import HeadingWithTooltip from '../../../../../common/components/headingWithTooltip/HeadingWithTooltip';
 import Notification from '../../../../../common/components/notification/Notification';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
+import useUser from '../../../../user/hooks/useUser';
 import { VIDEO_DETAILS_FIELDS } from '../../../constants';
 import styles from '../../../eventPage.module.scss';
 import FieldWithButton from '../../../layout/FieldWithButton';
+import {
+  showNotificationInstructions,
+  showTooltipInstructions,
+} from '../../../utils';
+import VideoInstructions from '../videoInstructions/VideoInstructions';
 
 type Props = {
   canDelete: boolean;
@@ -32,6 +39,7 @@ const Video: React.FC<Props> = ({
   videoPath,
 }) => {
   const { t } = useTranslation();
+  const { user } = useUser();
 
   const fieldNames = React.useMemo(
     () => ({
@@ -59,17 +67,23 @@ const Video: React.FC<Props> = ({
 
   return (
     <>
-      <h3>{t(`event.form.titleVideo.${type}`)}</h3>
+      <HeadingWithTooltip
+        heading={t(`event.form.titleVideo.${type}`)}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<VideoInstructions eventType={type} />}
+        tooltipLabel={t(`event.form.notificationTitleVideo.${type}`)}
+      />
+
       <FieldRow
         notification={
-          showInstructions ? (
+          showInstructions && showNotificationInstructions(user) ? (
             <Notification
               className={styles.notificationForTitle}
               label={t(`event.form.notificationTitleVideo.${type}`)}
               type="info"
             >
-              <p>{t(`event.form.infoTextVideo1.${type}`)}</p>
-              <p>{t(`event.form.infoTextVideo2`)}</p>
+              <VideoInstructions eventType={type} />
             </Notification>
           ) : undefined
         }

@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
 
 import getValue from '../../../../../utils/getValue';
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -12,6 +13,7 @@ import {
 import { mockedAudienceKeywordSetResponse } from '../../../../keywordSet/__mocks__/keywordSets';
 import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
 import { INTERNET_PLACE_ID } from '../../../../place/constants';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { publicEventSchema } from '../../../validation';
 import {
@@ -28,6 +30,14 @@ import ClassificationSection from '../ClassificationSection';
 
 configure({ defaultHidden: true });
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
 const type = EVENT_TYPE.General;
 
 const mocks = [
@@ -37,6 +47,7 @@ const mocks = [
   mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
+  mockedUserResponse,
 ];
 
 type InitialValues = {

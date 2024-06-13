@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
 import { ObjectSchema } from 'yup';
 
+import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
   configure,
   render,
@@ -9,6 +10,7 @@ import {
   within,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
+import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import {
   externalUserEventSchema,
@@ -51,6 +53,16 @@ const defaultProps: AdditionalInfoSectionProps = {
   isExternalUser: false,
 };
 
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+beforeEach(() => {
+  mockAuthenticatedLoginState();
+});
+
+const mocks = [mockedUserResponse];
+
 const renderComponent = (
   initialValues?: Partial<InitialValues>,
   props?: Partial<AdditionalInfoSectionProps>,
@@ -65,7 +77,8 @@ const renderComponent = (
       validationSchema={schema}
     >
       <AdditionalInfoSection {...defaultProps} {...props} />
-    </Formik>
+    </Formik>,
+    { mocks }
   );
 
   return {

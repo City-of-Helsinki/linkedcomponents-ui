@@ -259,6 +259,7 @@
     "save": "Tallenna",
     "search": "Etsi",
     "select": "Valitse",
+    "showInstructions": "Näytä ohjeet",
     "showLess": "Näytä vähemmän",
     "showMore": "Näytä lisää",
     "showMoreWithCount": "Näytä lisää ({{count}})",

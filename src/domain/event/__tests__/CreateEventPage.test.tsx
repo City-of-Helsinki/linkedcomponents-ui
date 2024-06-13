@@ -48,6 +48,7 @@ import {
   mockedPublisherPriceGroupsResponse,
 } from '../../priceGroup/__mocks__/priceGroups';
 import {
+  mockedSuperuserResponse,
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
 } from '../../user/__mocks__/user';
@@ -64,7 +65,10 @@ import {
 import { EVENT_EXTERNAL_USER_INITIAL_VALUES, EVENT_FIELDS } from '../constants';
 import CreateEventPage from '../CreateEventPage';
 import { EventFormFields } from '../types';
-import { testExternalUserFields } from './eventTestUtils';
+import {
+  testExternalUserFields,
+  testInstructionNotifications,
+} from './eventTestUtils';
 
 configure({ defaultHidden: true });
 
@@ -465,4 +469,31 @@ test('should render fields for external user', async () => {
   await loadingSpinnerIsNotInDocument();
 
   await testExternalUserFields();
+});
+
+test('should render instruction notifications for external user', async () => {
+  const mocks = [...commonMocks, mockedUserWithoutOrganizationsResponse];
+
+  renderComponent(mocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  await testInstructionNotifications(true);
+});
+
+test('should not render instruction notifications for admin user', async () => {
+  renderComponent(defaultMocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  await testInstructionNotifications(false);
+});
+
+test('should not render instruction notifications for superuser', async () => {
+  const mocks = [...commonMocks, mockedSuperuserResponse];
+  renderComponent(mocks);
+
+  await loadingSpinnerIsNotInDocument();
+
+  await testInstructionNotifications(false);
 });

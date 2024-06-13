@@ -12,8 +12,11 @@ import Notification from '../../../../common/components/notification/Notificatio
 import parseIdFromAtId from '../../../../utils/parseIdFromAtId';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
+import useUser from '../../../user/hooks/useUser';
 import { EVENT_ENVIRONMENT_VALUE, EVENT_FIELDS } from '../../constants';
 import stylesEventPage from '../../eventPage.module.scss';
+import { showNotificationInstructions } from '../../utils';
+import LocationInstructions from './locationInstructions/LocationInstructions';
 import styles from './placeSection.module.scss';
 
 interface Props {
@@ -26,6 +29,7 @@ const PlaceSection: React.FC<Props> = ({
   isExternalUser,
 }) => {
   const { t } = useTranslation();
+  const { user } = useUser();
 
   const [{ value: type }] = useField({ name: EVENT_FIELDS.TYPE });
   const [{ value: location }] = useField({ name: EVENT_FIELDS.LOCATION });
@@ -45,24 +49,15 @@ const PlaceSection: React.FC<Props> = ({
       <h3>{t(`event.form.titleLocation`)}</h3>
       <FieldRow
         notification={
-          <Notification
-            className={stylesEventPage.notificationForTitle}
-            label={t(`event.form.notificationTitleLocation`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextLocation1`)}</p>
-            <p>{t(`event.form.infoTextLocation2.${type}`)}</p>
-            <p>{t(`event.form.infoTextLocation3`)}</p>
-            <p>{t(`event.form.infoTextLocation4`)}</p>
-            <p
-              dangerouslySetInnerHTML={{
-                __html: t(`event.form.infoTextLocation5`, {
-                  openInNewTab: t('common.openInNewTab'),
-                }),
-              }}
-            />
-            <p>{t(`event.form.infoTextLocation6`)}</p>
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              className={stylesEventPage.notificationForTitle}
+              label={t(`event.form.notificationTitleLocation`)}
+              type="info"
+            >
+              <LocationInstructions eventType={type} />
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>

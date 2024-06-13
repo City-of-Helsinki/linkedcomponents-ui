@@ -4,14 +4,22 @@ import { useTranslation } from 'react-i18next';
 
 import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxGroupField from '../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
+import HeadingWithTooltip from '../../../../common/components/headingWithTooltip/HeadingWithTooltip';
 import Notification from '../../../../common/components/notification/Notification';
 import { ORDERED_LE_DATA_LANGUAGES } from '../../../../constants';
 import { OptionType } from '../../../../types';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import useLanguageOptions from '../../../language/hooks/useLanguageOptions';
+import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS } from '../../constants';
 import styles from '../../eventPage.module.scss';
+import {
+  showNotificationInstructions,
+  showTooltipInstructions,
+} from '../../utils';
+import InfoLanguagesInstructions from './infoLanguagesInstructions/InfoLanguagesInstructions';
+import InLanguagesInstructions from './inLanguagesInstructions/InLanguageInstructions';
 
 interface Props {
   isEditingAllowed: boolean;
@@ -19,7 +27,9 @@ interface Props {
 
 const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const { t } = useTranslation();
-  const [{ value: eventType }] = useField({ name: EVENT_FIELDS.TYPE });
+  const { user } = useUser();
+
+  const [{ value: eventType }] = useField<string>({ name: EVENT_FIELDS.TYPE });
   const inLanguageOptions = useLanguageOptions({ idKey: 'atId' });
   const eventInfoLanguageOptions: OptionType[] = ORDERED_LE_DATA_LANGUAGES.map(
     (type) => ({
@@ -30,20 +40,24 @@ const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
 
   return (
     <Fieldset heading={t('event.form.sections.languages')} hideLegend>
-      <h3>{t(`event.form.titleInfoLanguages.${eventType}`)}</h3>
+      <HeadingWithTooltip
+        heading={t(`event.form.titleInfoLanguages.${eventType}`)}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<InfoLanguagesInstructions eventType={eventType} />}
+        tooltipLabel={t(`event.form.titleInfoLanguages.${eventType}`)}
+      />
       <FieldRow
         notification={
-          <Notification
-            className={styles.notificationForTitle}
-            label={t(`event.form.titleInfoLanguages.${eventType}`)}
-            type="info"
-          >
-            <p
-              dangerouslySetInnerHTML={{
-                __html: t(`event.form.infoTextInfoLanguages.${eventType}`),
-              }}
-            />
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              className={styles.notificationForTitle}
+              label={t(`event.form.titleInfoLanguages.${eventType}`)}
+              type="info"
+            >
+              <InfoLanguagesInstructions eventType={eventType} />
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>
@@ -60,16 +74,24 @@ const LanguagesSection: React.FC<Props> = ({ isEditingAllowed }) => {
         </FieldColumn>
       </FieldRow>
 
-      <h3>{t(`event.form.titleInLanguages.${eventType}`)}</h3>
+      <HeadingWithTooltip
+        heading={t(`event.form.titleInLanguages.${eventType}`)}
+        showTooltip={showTooltipInstructions(user)}
+        tag="h3"
+        tooltipContent={<InLanguagesInstructions eventType={eventType} />}
+        tooltipLabel={t(`event.form.titleInLanguages.${eventType}`)}
+      />
       <FieldRow
         notification={
-          <Notification
-            className={styles.notificationForTitle}
-            label={t(`event.form.titleInLanguages.${eventType}`)}
-            type="info"
-          >
-            <p>{t(`event.form.infoTextInLanguages.${eventType}`)}</p>
-          </Notification>
+          showNotificationInstructions(user) ? (
+            <Notification
+              className={styles.notificationForTitle}
+              label={t(`event.form.titleInLanguages.${eventType}`)}
+              type="info"
+            >
+              <InLanguagesInstructions eventType={eventType} />
+            </Notification>
+          ) : undefined
         }
       >
         <FieldColumn>

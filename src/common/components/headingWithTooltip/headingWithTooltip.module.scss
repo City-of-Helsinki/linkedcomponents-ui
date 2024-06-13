@@ -1,0 +1,17 @@
+.headingWithTooltip {
+  align-items: center;
+  display: flex;
+  grid-column-gap: var(--spacing-2-xs);
+  justify-content: flex-start;
+}
+
+.tooltipButton {
+  align-items: center;
+  display: flex;
+}
+
+.tooltipContent {
+  p:last-of-type {
+    margin-bottom: 0;
+  }
+}
