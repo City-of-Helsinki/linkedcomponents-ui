@@ -247,6 +247,26 @@ const shouldToggleDropdownMenu = async (
   ).not.toBeInTheDocument();
 };
 
+const shouldOpenMenuAndSelectOption = async ({
+  optionLabels,
+  toggleButtonLabel,
+}: {
+  optionLabels: string[];
+  toggleButtonLabel: RegExp | string;
+}) => {
+  const user = userEvent.setup();
+
+  const toggleButton = screen.getByRole('button', { name: toggleButtonLabel });
+  await user.click(toggleButton);
+
+  await screen.findByRole('option', { hidden: true, name: optionLabels[0] });
+  optionLabels.forEach((name) =>
+    expect(
+      screen.getByRole('option', { hidden: true, name })
+    ).toBeInTheDocument()
+  );
+};
+
 // Modal helpers
 const shouldRenderDeleteModal = ({
   confirmButtonLabel,
@@ -534,6 +554,7 @@ export {
   shouldDeleteInstance,
   shouldDisplayAndRemoveFilter,
   shouldFilterEventsOrRegistrations,
+  shouldOpenMenuAndSelectOption,
   shouldRenderDeleteModal,
   shouldRenderListPage,
   shouldSetGenericServerErrors,

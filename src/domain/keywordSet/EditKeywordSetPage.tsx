@@ -42,10 +42,18 @@ const EditKeywordSetPage: React.FC<Props> = ({ keywordSet }) => {
       keywordSet,
     });
 
+  // TODO: Deleting keyword set is disabled at the moment.
+  // Include goToKeywordSetsPage function in coverage report if
+  // deleting enabled at some point
+  /* istanbul ignore next */
   const goToKeywordSetsPage = () => {
     navigate(`/${locale}${ROUTES.KEYWORD_SETS}`);
   };
 
+  // TODO: Deleting keyword set is disabled at the moment.
+  // Include goToKeywordSetsPage function in coverage report if
+  // deleting enabled at some point
+  /* istanbul ignore next */
   const handleDelete = () => {
     deleteKeywordSet({
       onSuccess: () => {

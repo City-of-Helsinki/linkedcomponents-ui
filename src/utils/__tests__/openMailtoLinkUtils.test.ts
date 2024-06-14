@@ -5,6 +5,8 @@ import {
   parseEmailFromCreatedBy,
 } from '../openMailtoLinkUtils';
 const cases = [
+  ['', ''],
+  ['invalid-email', ''],
   [
     'Testi-Ukko Kapiainen - ukko.kapiainen@testiosoite.fi',
     'ukko.kapiainen@testiosoite.fi',

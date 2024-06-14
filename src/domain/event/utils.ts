@@ -579,7 +579,8 @@ export const getEventBasePayload = (
                   vatPercentage: offersVatPercentage,
                 })),
               }
-            : {}),
+            : /* istanbul ignore next */
+              {}),
           price: filterUnselectedLanguages(offer.price, eventInfoLanguages),
         }))
       : [

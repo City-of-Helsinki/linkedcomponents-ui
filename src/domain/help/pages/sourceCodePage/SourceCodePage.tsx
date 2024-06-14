@@ -294,7 +294,7 @@ const SourceCodePage: React.FC = () => {
         title={t('helpPage.pageTitleSourceCode')}
       />
       {getGeneralContent(locale)}
-      <SourceCodeLinks />
+      <SourceCodeLinks showExplanations />
       {getApiContent(locale)}
       {getFeaturesContent(locale)}
       {getImageRightsContent(locale)}

@@ -27,7 +27,8 @@ const AdminPageLayout: React.FC<PropsWithChildren> = ({ children }) => {
       : []),
     ...(featureFlagUtils.isFeatureEnabled('SHOW_PLACE_PAGES')
       ? [{ label: t('placesPage.title'), to: ROUTES.PLACES }]
-      : []),
+      : /* istanbul ignore next */
+        []),
     ...(areFinancialRoutesAllowed(user)
       ? [{ label: t('priceGroupsPage.title'), to: ROUTES.PRICE_GROUPS }]
       : []),

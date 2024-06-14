@@ -34,7 +34,10 @@ const getOption = ({
   return { label, value };
 };
 
-export type SingleKeywordSelectorProps = SingleComboboxProps<string>;
+export type SingleKeywordSelectorProps = Omit<
+  SingleComboboxProps<string>,
+  'toggleButtonAriaLabel'
+>;
 
 const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
   label,

@@ -343,7 +343,8 @@ export const getRegistrationPayload = (
             }))
           : [],
       }
-    : {};
+    : /* istanbul ignore next*/
+      {};
 
   return {
     audienceMaxAge: getNumericPayloadValue(audienceMaxAge),

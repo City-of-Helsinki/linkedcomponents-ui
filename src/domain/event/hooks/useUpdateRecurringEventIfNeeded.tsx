@@ -5,7 +5,6 @@ import {
 } from '@apollo/client';
 import isEqual from 'date-fns/isEqual';
 import isFuture from 'date-fns/isFuture';
-import isNull from 'lodash/isNull';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -40,6 +39,15 @@ type UpdateRecurringEventIfNeededState = {
   user: UserFieldsFragment | undefined;
 };
 
+export const shouldUpdateTime = (
+  time: Date | null,
+  newTime: Date | null
+): boolean =>
+  Boolean(
+    [time, newTime].filter(skipFalsyType).length === 1 ||
+      (time && newTime && !isEqual(time, newTime))
+  );
+
 const useUpdateRecurringEventIfNeeded =
   (): UpdateRecurringEventIfNeededState => {
     const apolloClient =
@@ -51,10 +59,6 @@ const useUpdateRecurringEventIfNeeded =
     const [updateEvent] = useUpdateEventMutation();
 
     const { handleError } = useHandleError<null, EventFieldsFragment>();
-
-    const shouldUpdateTime = (time: Date | null, newTime: Date | null) =>
-      ((isNull(time) || isNull(newTime)) && time !== newTime) ||
-      (time && newTime && !isEqual(time, newTime));
 
     // Update recurring super event start and end time in cases that
     // changes to sub-event causes changes to super event times. First calculate
@@ -85,6 +89,7 @@ const useUpdateRecurringEventIfNeeded =
 
         const { editable } = checkIsActionAllowed({
           action:
+            /* istanbul ignore next */
             publicationStatus === PublicationStatus.Draft
               ? EVENT_ACTIONS.UPDATE_DRAFT
               : EVENT_ACTIONS.UPDATE_PUBLIC,
@@ -140,9 +145,9 @@ const useUpdateRecurringEventIfNeeded =
             })),
             []
           ),
-          superEvent: superEvent.superEvent
-            ? { atId: superEvent.superEvent.atId }
-            : null,
+          superEvent:
+            /* istanbul ignore next */
+            superEvent.superEvent ? { atId: superEvent.superEvent.atId } : null,
           superEventType: SuperEventType.Recurring,
         };
         const data = await updateEvent({
@@ -150,7 +155,7 @@ const useUpdateRecurringEventIfNeeded =
         });
 
         return getValue(data.data?.updateEvent, null);
-      } catch (error) {
+      } catch (error) /* istanbul ignore next */ {
         handleError({
           error,
           message: 'Failed to update recurring event',

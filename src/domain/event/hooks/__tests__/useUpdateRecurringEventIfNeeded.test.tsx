@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
+
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
@@ -9,14 +10,16 @@ import { unstable_HistoryRouter as Router } from 'react-router-dom';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../constants';
 import {
+  Event,
   EventDocument,
+  EventFieldsFragment,
   OrganizationsDocument,
   SuperEventType,
   UpdateEventDocument,
 } from '../../../../generated/graphql';
-import generateAtId from '../../../../utils/generateAtId';
 import { fakeEvent, fakeOrganizations } from '../../../../utils/mockDataUtils';
 import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
+import skipFalsyType from '../../../../utils/skipFalsyType';
 import { createCache } from '../../../app/apollo/apolloClient';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import {
@@ -25,7 +28,9 @@ import {
 } from '../../../organization/constants';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import { EVENT_INCLUDES } from '../../constants';
-import useUpdateRecurringEventIfNeeded from '../useUpdateRecurringEventIfNeeded';
+import useUpdateRecurringEventIfNeeded, {
+  shouldUpdateTime,
+} from '../useUpdateRecurringEventIfNeeded';
 
 beforeEach(() => {
   mockAuthenticatedLoginState();
@@ -51,8 +56,6 @@ const description = {
 const superEventId = 'super-event:1';
 const subEventId1 = 'sub-event:1';
 const subEventId2 = 'sub-event:2';
-const subEventAtId1 = generateAtId(subEventId1, 'event');
-const subEventAtId2 = generateAtId(subEventId2, 'event');
 const superEventVariables = {
   id: 'super-event:1',
   include: EVENT_INCLUDES,
@@ -88,6 +91,52 @@ const basePayload = {
   id: superEventId,
 };
 
+const getMockedSuperEventResponse = (
+  superEvent: EventFieldsFragment
+): MockedResponse => {
+  const superEventResponse = { data: { event: superEvent } };
+  return {
+    request: { query: EventDocument, variables: superEventVariables },
+    result: superEventResponse,
+  };
+};
+
+const getMockedUpdateSuperEventResponse = ({
+  endTime,
+  startTime,
+  superEvent,
+}: {
+  endTime: string;
+  startTime: string;
+  superEvent: EventFieldsFragment;
+}): MockedResponse => {
+  const updateEventVariables = {
+    id: superEventId,
+    input: {
+      ...basePayload,
+      description: omit(superEvent.description, '__typename'),
+      infoUrl: omit(superEvent.infoUrl, '__typename'),
+      location: { atId: superEvent.location?.atId },
+      locationExtraInfo: omit(superEvent.locationExtraInfo, '__typename'),
+      name: omit(superEvent.name, '__typename'),
+      provider: omit(superEvent.provider, '__typename'),
+      shortDescription: omit(superEvent.shortDescription, '__typename'),
+      endTime,
+      startTime,
+      subEvents: superEvent.subEvents
+        .filter(skipFalsyType)
+        .map(({ atId }) => ({ atId })),
+    },
+  };
+
+  const updatedSuperEvent = { ...superEvent, endTime, startTime };
+  const updateEventResponse = { data: { updateEvent: updatedSuperEvent } };
+  return {
+    request: { query: UpdateEventDocument, variables: updateEventVariables },
+    result: updateEventResponse,
+  };
+};
+
 const getHookWrapper = (mocks: MockedResponse[] = commonMocks) => {
   const wrapper = ({ children }: PropsWithChildren) => (
     <Router history={createMemoryHistory() as any}>
@@ -105,6 +154,17 @@ const getHookWrapper = (mocks: MockedResponse[] = commonMocks) => {
   return { result };
 };
 
+describe('shouldUpdateTime', () => {
+  it.each<[Date | null, Date | null, boolean]>([
+    [null, null, false],
+    [new Date('2024-01-01'), null, true],
+    [null, new Date('2024-01-01'), true],
+    [new Date('2024-01-01'), new Date('2024-01-01'), false],
+  ])('shouldUpdateTime(%o, %o) -> %s', (oldTime, newTime, shouldUpdate) => {
+    expect(shouldUpdateTime(oldTime, newTime)).toEqual(shouldUpdate);
+  });
+});
+
 test("should return null if event doesn't have super event ", async () => {
   const { result } = getHookWrapper();
 
@@ -119,12 +179,11 @@ test('should return null if super event type of super event is not recurring ', 
     id: superEventId,
     superEventType: SuperEventType.Umbrella,
   });
-  const superEventResponse = { data: { event: superEvent } };
-  const mockedSuperEventResponse: MockedResponse = {
-    request: { query: EventDocument, variables: superEventVariables },
-    result: superEventResponse,
-  };
-  const { result } = getHookWrapper([...commonMocks, mockedSuperEventResponse]);
+
+  const { result } = getHookWrapper([
+    ...commonMocks,
+    getMockedSuperEventResponse(superEvent),
+  ]);
 
   const event = fakeEvent({ superEvent });
   await act(async () => {
@@ -159,15 +218,11 @@ test('should return null if event is not editable', async () => {
     publisher,
     superEventType: SuperEventType.Recurring,
   });
-  const superEventResponse = { data: { event: superEvent } };
-  const mockedSuperEventResponse: MockedResponse = {
-    request: { query: EventDocument, variables: superEventVariables },
-    result: superEventResponse,
-  };
+
   const { result } = getHookWrapper([
     ...commonMocks,
     mockedOrganizationAncestorsResponse,
-    mockedSuperEventResponse,
+    getMockedSuperEventResponse(superEvent),
   ]);
 
   const event = fakeEvent({ superEvent });
@@ -178,75 +233,30 @@ test('should return null if event is not editable', async () => {
   });
 });
 
-test('should return null if recurring event start/end time is not changed', async () => {
-  vi.setSystemTime('2021-05-05');
-  const superEvent = fakeEvent({
-    id: superEventId,
-    publisher,
-    endTime: '2021-12-31T21:00:00.000Z',
-    startTime: '2021-12-31T18:00:00.000Z',
-    subEvents: [
+const testCases: [Event[], { startTime: string; endTime: string } | null][] = [
+  // should return null if recurring event start/end time is not changed
+  [
+    [
       fakeEvent({
         endTime: '2021-12-31T21:00:00.000Z',
-        startTime: '2021-12-31T18:00:00.000Z',
+        startTime: '2020-12-31T18:00:00.000Z',
       }),
     ],
-    superEventType: SuperEventType.Recurring,
-  });
-  const superEventResponse = { data: { event: superEvent } };
-  const mockedSuperEventResponse: MockedResponse = {
-    request: { query: EventDocument, variables: superEventVariables },
-    result: superEventResponse,
-  };
-  const { result } = getHookWrapper([...commonMocks, mockedSuperEventResponse]);
-
-  const event = fakeEvent({ superEvent });
-
-  await act(async () => {
-    const response = await result.current.updateRecurringEventIfNeeded(event);
-    expect(response).toBeNull();
-  });
-});
-
-test('should return null if new end date would be in past', async () => {
-  vi.setSystemTime('2021-05-05');
-  const superEvent = fakeEvent({
-    id: superEventId,
-    publisher,
-    endTime: '2021-12-31T21:00:00.000Z',
-    startTime: '2020-12-31T18:00:00.000Z',
-    subEvents: [
+    null,
+  ],
+  // should return null if new end date would be in past
+  [
+    [
       fakeEvent({
         endTime: '2021-04-05T21:00:00.000Z',
         startTime: '2020-12-31T18:00:00.000Z',
       }),
     ],
-    superEventType: SuperEventType.Recurring,
-  });
-  const superEventResponse = { data: { event: superEvent } };
-  const mockedSuperEventResponse: MockedResponse = {
-    request: { query: EventDocument, variables: superEventVariables },
-    result: superEventResponse,
-  };
-  const { result } = getHookWrapper([...commonMocks, mockedSuperEventResponse]);
-
-  const event = fakeEvent({ superEvent });
-
-  await act(async () => {
-    const response = await result.current.updateRecurringEventIfNeeded(event);
-    expect(response).toBeNull();
-  });
-});
-
-test('should update only start time if new end time would be in past but start time is changed', async () => {
-  vi.setSystemTime('2021-05-05');
-  const superEvent = fakeEvent({
-    id: superEventId,
-    publisher,
-    description,
-    endTime: '2021-12-31T21:00:00.000Z',
-    startTime: '2021-12-31T18:00:00.000Z',
-    subEvents: [
+    null,
+  ],
+  // should update only start time if new end time would be in past but start time is changed
+  [
+    [
       fakeEvent({
         id: subEventId1,
         endTime: '2020-12-30T21:00:00.000Z',
@@ -258,70 +268,14 @@ test('should update only start time if new end time would be in past but start t
         startTime: '2021-01-15T18:00:00.000Z',
       }),
     ],
-    superEventType: SuperEventType.Recurring,
-  });
-  const superEventResponse = { data: { event: superEvent } };
-  const mockedSuperEventResponse: MockedResponse = {
-    request: { query: EventDocument, variables: superEventVariables },
-    result: superEventResponse,
-  };
-
-  const updateEventVariables = {
-    id: superEventId,
-    input: {
-      ...basePayload,
-      description: omit(superEvent.description, '__typename'),
-      infoUrl: omit(superEvent.infoUrl, '__typename'),
-      location: {
-        atId: superEvent.location?.atId,
-      },
-      locationExtraInfo: omit(superEvent.locationExtraInfo, '__typename'),
-      name: omit(superEvent.name, '__typename'),
-      provider: omit(superEvent.provider, '__typename'),
-      shortDescription: omit(superEvent.shortDescription, '__typename'),
+    {
       endTime: '2021-12-31T21:00:00.000Z',
       startTime: '2020-12-30T18:00:00.000Z',
-      subEvents: [{ atId: subEventAtId1 }, { atId: subEventAtId2 }],
     },
-  };
-
-  const updatedSuperEvent = {
-    ...superEvent,
-    startTime: '2020-12-30T18:00:00.000Z',
-  };
-  const updateEventResponse = { data: { updateEvent: updatedSuperEvent } };
-  const mockedUpdateEventResponse: MockedResponse = {
-    request: {
-      query: UpdateEventDocument,
-      variables: updateEventVariables,
-    },
-    result: updateEventResponse,
-  };
-
-  const { result } = getHookWrapper([
-    ...commonMocks,
-    mockedSuperEventResponse,
-    mockedUpdateEventResponse,
-  ]);
-  const event = fakeEvent({ superEvent });
-
-  await waitFor(() => expect(result.current.user).toBeDefined());
-  await act(async () => {
-    const response = await result.current.updateRecurringEventIfNeeded(event);
-    expect(response).toEqual(updatedSuperEvent);
-  });
-});
-
-test('should return new super event if recurring event is updated', async () => {
-  vi.setSystemTime('2021-05-05');
-
-  const superEvent = fakeEvent({
-    id: superEventId,
-    publisher,
-    description,
-    endTime: '2021-12-31T21:00:00.000Z',
-    startTime: '2021-12-31T18:00:00.000Z',
-    subEvents: [
+  ],
+  // should update both start time and end time
+  [
+    [
       fakeEvent({
         id: subEventId1,
         endTime: '2021-12-30T21:00:00.000Z',
@@ -333,55 +287,47 @@ test('should return new super event if recurring event is updated', async () => 
         startTime: '2021-12-31T18:00:00.000Z',
       }),
     ],
-    superEventType: SuperEventType.Recurring,
-  });
-  const superEventResponse = { data: { event: superEvent } };
-  const mockedSuperEventResponse: MockedResponse = {
-    request: { query: EventDocument, variables: superEventVariables },
-    result: superEventResponse,
-  };
-
-  const updateEventVariables = {
-    id: superEventId,
-    input: {
-      ...basePayload,
-      description: omit(superEvent.description, '__typename'),
-      infoUrl: omit(superEvent.infoUrl, '__typename'),
-      location: { atId: superEvent.location?.atId },
-      locationExtraInfo: omit(superEvent.locationExtraInfo, '__typename'),
-      name: omit(superEvent.name, '__typename'),
-      provider: omit(superEvent.provider, '__typename'),
-      shortDescription: omit(superEvent.shortDescription, '__typename'),
+    {
       endTime: '2021-12-31T22:00:00.000Z',
       startTime: '2021-12-30T18:00:00.000Z',
-      subEvents: [{ atId: subEventAtId1 }, { atId: subEventAtId2 }],
     },
-  };
-  const updatedSuperEvent = {
-    ...superEvent,
-    endTime: '2021-12-31T22:00:00.000Z',
-    startTime: '2021-12-30T18:00:00.000Z',
-  };
-  const updateEventResponse = {
-    data: { updateEvent: updatedSuperEvent },
-  };
-  const mockedUpdateEventResponse: MockedResponse = {
-    request: {
-      query: UpdateEventDocument,
-      variables: updateEventVariables,
-    },
-    result: updateEventResponse,
-  };
+  ],
+];
 
-  const { result } = getHookWrapper([
-    ...commonMocks,
-    mockedSuperEventResponse,
-    mockedUpdateEventResponse,
-  ]);
-  const event = fakeEvent({ superEvent });
-  await waitFor(() => expect(result.current.user).toBeDefined());
-  await act(async () => {
-    const response = await result.current.updateRecurringEventIfNeeded(event);
-    expect(response).toEqual(updatedSuperEvent);
-  });
-});
+test.each(testCases)(
+  'should update recurring event if start or end time is changed',
+  async (subEvents, newSuperEventTimes) => {
+    vi.setSystemTime('2021-05-05');
+    const superEvent = fakeEvent({
+      id: superEventId,
+      publisher,
+      description,
+      endTime: '2021-12-31T21:00:00.000Z',
+      startTime: '2020-12-31T18:00:00.000Z',
+      subEvents,
+      superEventType: SuperEventType.Recurring,
+    });
+
+    const mocks = [...commonMocks, getMockedSuperEventResponse(superEvent)];
+    const updatedSuperEvent = { ...superEvent, ...newSuperEventTimes };
+    if (newSuperEventTimes) {
+      mocks.push(
+        getMockedUpdateSuperEventResponse({ ...newSuperEventTimes, superEvent })
+      );
+    }
+
+    const { result } = getHookWrapper(mocks);
+
+    const event = fakeEvent({ superEvent });
+
+    await waitFor(() => expect(result.current.user).toBeDefined());
+    await act(async () => {
+      const response = await result.current.updateRecurringEventIfNeeded(event);
+      if (newSuperEventTimes) {
+        expect(response).toEqual(updatedSuperEvent);
+      } else {
+        expect(response).toBeNull();
+      }
+    });
+  }
+);

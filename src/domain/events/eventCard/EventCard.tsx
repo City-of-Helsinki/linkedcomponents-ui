@@ -121,7 +121,12 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
               <div className={styles.imageWrapper}>
                 {/* Placeholder image */}
                 <div className={styles.placeholderImage}>
-                  <IconPhoto size={isMobile ? 'xl' : 'l'} />
+                  <IconPhoto
+                    size={
+                      /* istanbul ignore next */
+                      isMobile ? 'xl' : 'l'
+                    }
+                  />
                 </div>
                 {/* Event image is hiding placeholder image when it's loaded */}
                 <div

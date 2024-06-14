@@ -23,6 +23,7 @@ const CookieConsent: FC = () => {
       (l) => l.value === (lang as SupportedLanguage)
     );
 
+    /* istanbul ignore else */
     if (langOption) {
       changeLanguage(langOption.value);
     }

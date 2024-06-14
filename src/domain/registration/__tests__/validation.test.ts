@@ -165,6 +165,23 @@ describe('registrationSchema', () => {
     ).toBe(true);
   });
 
+  it('should return true if price of free registration price group is empty', async () => {
+    expect(
+      await testRegistrationSchema({
+        ...validRegistrationValues,
+        priceGroupOptions: [
+          {
+            isFree: true,
+            label: 'Price group option',
+            value: validPriceGroup.id.toString(),
+          },
+        ],
+        hasPrice: true,
+        registrationPriceGroups: [{ ...validPriceGroup, price: '' }],
+      })
+    ).toBe(true);
+  });
+
   it('should return false if price of registration price group is empty', async () => {
     expect(
       await testRegistrationSchema({
@@ -246,6 +263,7 @@ describe('registrationSchema', () => {
     ).toBe(true);
   });
 });
+
 describe('getFocusableRegistrationFieldId', () => {
   it.each([
     [
