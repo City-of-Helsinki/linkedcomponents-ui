@@ -127,7 +127,8 @@ const createPaidOfferSchema = (
             priceGroupOptions
           ),
         }
-      : {}),
+      : /* istanbul ignore next */
+        {}),
   });
 
 type ValidateOptionsWithIndex = Yup.ValidateOptions & {

@@ -282,6 +282,25 @@ describe('checkCanUserDoAction function', () => {
 });
 
 describe('getEditKeywordWarning function', () => {
+  it('should return empty string if action is allowed', () => {
+    const allowedActions = [
+      KEYWORD_ACTIONS.CREATE,
+      KEYWORD_ACTIONS.DELETE,
+      KEYWORD_ACTIONS.EDIT,
+      KEYWORD_ACTIONS.UPDATE,
+    ];
+
+    const commonProps = {
+      authenticated: true,
+      t: i18n.t.bind(i18n),
+      userCanDoAction: true,
+    };
+
+    allowedActions.forEach((action) => {
+      expect(getEditKeywordWarning({ action, ...commonProps })).toBe('');
+    });
+  });
+
   it('should return correct warning if user is not authenticated', () => {
     const allowedActions = [KEYWORD_ACTIONS.EDIT];
 

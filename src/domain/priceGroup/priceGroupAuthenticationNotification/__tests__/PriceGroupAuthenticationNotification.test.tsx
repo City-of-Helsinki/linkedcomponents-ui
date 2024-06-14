@@ -61,6 +61,22 @@ test('should not show notification if user is signed in and has a financial admi
   );
 });
 
+test('should not show notification if user is signed in and is superadmin', async () => {
+  const mockedUserResponse = getMockedUserResponse({
+    adminOrganizations: [],
+    financialAdminOrganizations: [],
+    organizationMemberships: [],
+    isSuperuser: true,
+  });
+  const mocks = [...defaultMocks, mockedUserResponse];
+
+  renderComponent({ mocks });
+
+  await waitFor(() =>
+    expect(screen.queryByRole('region')).not.toBeInTheDocument()
+  );
+});
+
 test('should show notification if user has a financial admin organization but it is different than publisher', async () => {
   const mockedUserResponse = getMockedUserResponse({
     financialAdminOrganizations: ['not-publisher'],

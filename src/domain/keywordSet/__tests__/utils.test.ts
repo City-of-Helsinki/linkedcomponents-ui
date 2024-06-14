@@ -212,6 +212,17 @@ describe('getEditKeywordSetWarning function', () => {
       })
     ).toBe('Avainsanaryhmiä ei voi muokata palvelun kautta.');
   });
+
+  it('should return empty string if action is user can do action', () => {
+    expect(
+      getEditKeywordSetWarning({
+        authenticated: true,
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: KEYWORD_SET_ACTIONS.CREATE,
+      })
+    ).toBe('');
+  });
 });
 
 describe('getKeywordInitialValues function', () => {

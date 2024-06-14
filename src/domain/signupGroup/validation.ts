@@ -69,23 +69,27 @@ export const isBelowMaxAge = (
 
 const getStringSchema = (
   required: boolean,
-  schema?: Yup.StringSchema<string | undefined>
-): Yup.StringSchema<string | undefined> =>
-  required
-    ? (schema ?? Yup.string()).required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-    : schema ?? Yup.string();
+  baseSchema?: Yup.StringSchema<string | undefined>
+): Yup.StringSchema<string | undefined> => {
+  const schema = baseSchema ?? Yup.string();
+
+  return required
+    ? schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    : schema;
+};
 
 const getDateSchema = (
   required: boolean,
-  schema?: Yup.DateSchema<Date | null | undefined>
-): Yup.DateSchema<Date | null | undefined> =>
-  required
-    ? schema ??
-      Yup.date()
-        .nullable()
-        .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-        .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
-    : Yup.date().nullable().typeError(VALIDATION_MESSAGE_KEYS.DATE);
+  baseSchema?: Yup.DateSchema<Date | null | undefined>
+): Yup.DateSchema<Date | null | undefined> => {
+  /* istanbul ignore next */
+  const schema =
+    baseSchema ?? Yup.date().nullable().typeError(VALIDATION_MESSAGE_KEYS.DATE);
+
+  return required
+    ? schema.required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
+    : schema;
+};
 
 export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
   const { audienceMaxAge, audienceMinAge } = registration;

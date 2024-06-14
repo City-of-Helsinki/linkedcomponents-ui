@@ -41,6 +41,18 @@ describe('parseSignupGroupServerErrors', () => {
       { label: 'Etunimi', message: 'Nimi on pakollinen.' },
       { label: '', message: 'Sähköpostiosoitteella on jo ilmoittautuminen.' },
     ]);
+
+    expect(
+      parseSignupGroupServerErrors({
+        result: { contact_person: ['Tämän kentän arvo ei voi olla "null".'] },
+        t: i18n.t.bind(i18n),
+      })
+    ).toEqual([
+      {
+        label: 'Yhteyshenkilö',
+        message: 'Tämän kentän arvo ei voi olla "null".',
+      },
+    ]);
   });
 
   it('should return server error items when result is array', () => {

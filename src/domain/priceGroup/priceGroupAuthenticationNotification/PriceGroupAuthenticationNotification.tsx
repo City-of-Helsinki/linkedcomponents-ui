@@ -43,7 +43,7 @@ const PriceGroupAuthenticationNotification: React.FC<
         'authentication.noRightsUpdatePriceGroupLabel'
       )}
       noRequiredOrganizationText={t('authentication.noRightsUpdatePriceGroup')}
-      requiredOrganizationType={['financialAdmin', 'superUser']}
+      requiredOrganizationType={['financialAdmin']}
     />
   );
 };

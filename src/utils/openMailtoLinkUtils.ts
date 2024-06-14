@@ -8,6 +8,7 @@ const parseEmailFromCreatedBy = (
   const targetEmail = createdBy.match(filterRegexp);
   return targetEmail ? targetEmail[0] : '';
 };
+
 const openMailtoLink = (
   targetEmail: string | null | undefined,
   subject: string | null | undefined

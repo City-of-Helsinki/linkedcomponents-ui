@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { ROUTES } from '../../../../constants';
 import { EventStatus, PublicationStatus } from '../../../../generated/graphql';
 import {
@@ -70,7 +71,7 @@ const getElement = (
 };
 
 const getMenuButton = (
-  key: 'cancel' | 'copy' | 'delete' | 'postpone',
+  key: 'cancel' | 'copy' | 'delete' | 'postpone' | 'sendEmail',
   menu: HTMLElement
 ) => {
   const withinMenu = within(menu);
@@ -83,6 +84,8 @@ const getMenuButton = (
       return withinMenu.getByRole('button', { name: 'Poista tapahtuma' });
     case 'postpone':
       return withinMenu.getByRole('button', { name: 'Lykkää tapahtumaa' });
+    case 'sendEmail':
+      return withinMenu.getByRole('button', { name: 'Lähetä sähköposti' });
   }
 };
 
@@ -252,6 +255,32 @@ test('all buttons should be disabled when user is not logged in (public)', async
     getMenuButton('cancel', menu),
   ];
   disabledButtons.forEach((button) => expect(button).toBeDisabled());
+});
+
+test('should call the mailto function when clicking Send Email button', async () => {
+  const originalLocation = window.location;
+  /* @ts-ignore */
+  delete window.location;
+
+  window.location = { href: '' } as Location;
+  const specialEvent = { ...event };
+  specialEvent.createdBy = 'Jaska Jokunen - testisähköposti@testidomaini.fi';
+
+  const user = userEvent.setup();
+  renderComponent({ props: { event: specialEvent } });
+
+  const { menu } = await openDropdownMenu();
+
+  const sendMailButton = getMenuButton('sendEmail', menu);
+  await user.click(sendMailButton);
+
+  await waitFor(() =>
+    expect(window.location.href).toBe(
+      'mailto:testisähköposti@testidomaini.fi?subject=Name fi'
+    )
+  );
+
+  window.location = originalLocation;
 });
 
 test('should route to create event page when clicking copy button', async () => {

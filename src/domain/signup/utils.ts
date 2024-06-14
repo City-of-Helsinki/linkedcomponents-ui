@@ -54,7 +54,8 @@ export const getSignupPayload = ({
             ? { registrationPriceGroup: priceGroup }
             : undefined,
         }
-      : {}),
+      : /* istanbul ignore next */
+        {}),
     streetAddress: getValue(streetAddress, null),
     zipcode: getValue(zipcode, null),
   };
@@ -136,7 +137,10 @@ export const getSignupGroupInitialValuesFromSignup = (
   signupGroup?: SignupGroupFieldsFragment
 ): SignupGroupFormFields => {
   const contactPerson =
-    signupGroup?.contactPerson ?? signup?.contactPerson ?? {};
+    signupGroup?.contactPerson ??
+    signup?.contactPerson ??
+    /* istanbul ignore next */
+    {};
   return {
     contactPerson: getContactPersonInitialValues(contactPerson),
     extraInfo: '',

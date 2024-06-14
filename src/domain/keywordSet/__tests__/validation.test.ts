@@ -1,5 +1,9 @@
 import { mockString } from '../../../utils/testUtils';
-import { KEYWORD_SET_FIELDS, KEYWORD_SET_INITIAL_VALUES } from '../constants';
+import {
+  KEYWORD_SET_FIELDS,
+  KEYWORD_SET_INITIAL_VALUES,
+  TEST_KEYWORD_SET_ID,
+} from '../constants';
 import { KeywordSetFormFields } from '../types';
 import { getFocusableKeywordSetFieldId, keywordSetSchema } from '../validation';
 
@@ -25,7 +29,18 @@ describe('keywordSetSchema', () => {
     expect(await testKeywordSetSchema(validKeywordSetValues)).toBe(true);
   });
 
+  it('should return true if originId is missing but there is id', async () => {
+    expect(
+      await testKeywordSetSchema({
+        ...validKeywordSetValues,
+        id: TEST_KEYWORD_SET_ID,
+        originId: '',
+      })
+    ).toBe(true);
+  });
+
   const testCases: [Partial<KeywordSetFormFields>][] = [
+    [{ originId: '' }],
     [{ originId: mockString(101) }],
     [{ name: { ...validKeywordSetValues.name, fi: '' } }],
     [{ name: { ...validKeywordSetValues.name, ar: mockString(256) } }],

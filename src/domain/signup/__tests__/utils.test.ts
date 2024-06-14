@@ -469,7 +469,7 @@ describe('omitSensitiveDataFromSignupPayload', () => {
   });
 });
 
-describe('omitSensitiveDataFromSignupGroupPayload', () => {
+describe('omitSensitiveDataFromSignupsPayload', () => {
   it('should omit sensitive data from payload', () => {
     const payload: CreateSignupsMutationInput = {
       registration: registration.id,

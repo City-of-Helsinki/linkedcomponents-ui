@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 
 import { useAccessibilityNotificationContext } from '../../../common/components/accessibilityNotificationContext/hooks/useAccessibilityNotificationContext';
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
+// eslint-disable-next-line import/no-named-as-default
 import useInterval from '../../../hooks/useInterval';
 import useSeatsReservationActions from '../../seatsReservation/hooks/useSeatsReservationActions';
 import {

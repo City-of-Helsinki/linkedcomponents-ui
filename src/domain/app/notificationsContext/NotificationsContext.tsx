@@ -63,6 +63,7 @@ export const NotificationsProvider: FC<PropsWithChildren> = ({ children }) => {
         return (
           <Notification
             notificationAriaLabel={
+              /* istanbul ignore next */
               typeof props.label === 'string' ? props.label : undefined
             }
             {...props}

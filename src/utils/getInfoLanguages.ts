@@ -22,7 +22,7 @@ function* propertyNames(
 
 export const getInfoLanguages = (
   obj: Record<string, unknown>,
-  skipFields: Set<string> = new Set([])
+  skipFields: Set<string>
 ): string[] => {
   const languages = new Set(ORDERED_LE_DATA_LANGUAGES);
   const foundLanguages = new Set<string>();

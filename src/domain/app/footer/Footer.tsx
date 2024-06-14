@@ -49,6 +49,7 @@ const Footer: React.FC = () => {
       return logoLanguage === 'sv' ? logoSv : logoFi;
     }
 
+    /* istanbul ignore next */
     return logoLanguage === 'sv' ? logoSvDark : logoFiDark;
   }, [isHelpPage, logoLanguage]);
 

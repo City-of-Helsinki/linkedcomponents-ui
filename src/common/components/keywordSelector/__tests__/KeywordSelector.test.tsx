@@ -1,10 +1,8 @@
-import React from 'react';
-
 import {
   configure,
   render,
   screen,
-  userEvent,
+  shouldOpenMenuAndSelectOption,
 } from '../../../../utils/testUtils';
 import {
   keywordAtId,
@@ -46,20 +44,10 @@ test('should combobox input value to be selected keyword option label', async ()
 });
 
 test('should open menu by clickin toggle button and list of options should be visible', async () => {
-  const user = userEvent.setup();
   renderComponent();
 
-  const combobox = screen.getByRole('combobox', { name: new RegExp(label) });
-
-  expect(combobox.getAttribute('aria-expanded')).toBe('false');
-
-  const toggleButton = screen.getByRole('button', { name: new RegExp(label) });
-  await user.click(toggleButton);
-
-  expect(combobox.getAttribute('aria-expanded')).toBe('true');
-
-  await screen.findByRole('option', { hidden: true, name: keywordName });
-  keywordNames.forEach((name) =>
-    screen.getByRole('option', { hidden: true, name })
-  );
+  await shouldOpenMenuAndSelectOption({
+    optionLabels: keywordNames,
+    toggleButtonLabel: new RegExp(label),
+  });
 });

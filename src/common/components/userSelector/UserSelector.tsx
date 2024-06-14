@@ -13,13 +13,9 @@ export type UserSelectorProps = {
   extraOptions?: OptionType[];
 } & MultiComboboxProps<string>;
 
-const UserSelector: React.FC<UserSelectorProps> = ({
-  extraOptions = [],
-  label,
-  name,
-  value,
-  ...rest
-}) => {
+const UserSelector: React.FC<UserSelectorProps> = (props) => {
+  /* istanbul ignore next */
+  const { extraOptions = [], label, name, value, ...rest } = props;
   const { t } = useTranslation();
 
   const { users } = useAllUsers();

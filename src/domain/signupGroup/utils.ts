@@ -107,7 +107,7 @@ export const getSignupGroupInitialValues = (
   ).filter(skipFalsyType);
   return {
     contactPerson: getContactPersonInitialValues(
-      signupGroup.contactPerson ?? {}
+      getValue(signupGroup.contactPerson, {})
     ),
     extraInfo: getValue(signupGroup.extraInfo, ''),
     signups: signups.map((su) => getSignupInitialValues(su)),
@@ -260,7 +260,7 @@ export const omitSensitiveDataFromSignupGroupPayload = (
   ...omit(payload, ['extraInfo']),
   contactPerson: payload.contactPerson
     ? omitSensitiveDataFromContactPerson(payload.contactPerson)
-    : payload.contactPerson,
+    : null,
   signups: payload.signups
     ?.filter(skipFalsyType)
     .map((s) => omitSensitiveDataFromSignupPayload(s)),
@@ -281,7 +281,7 @@ export const getSignupPriceGroupOptions = (
   registration: RegistrationFieldsFragment,
   locale: Language
 ) => {
-  return (
+  return getValue(
     registration.registrationPriceGroups?.map((pg) => {
       const price = pg?.price ? Number(pg.price) : 0;
 
@@ -291,9 +291,10 @@ export const getSignupPriceGroupOptions = (
           `${price.toFixed(2).replace('.', ',')} €`,
         ].join(' '),
         price,
-        value: pg?.id?.toString() ?? /* istanbul ignore next */ '',
+        value: getValue(pg?.id?.toString(), ''),
       };
-    }) ?? /* istanbul ignore next */ []
+    }),
+    []
   );
 };
 

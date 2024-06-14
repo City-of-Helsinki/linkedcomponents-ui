@@ -5,6 +5,7 @@ import {
   SignupInput,
 } from '../../../generated/graphql';
 import {
+  fakePriceGroupDense,
   fakeRegistration,
   fakeRegistrationPriceGroup,
   fakeSignup,
@@ -37,6 +38,7 @@ import {
   getSignupGroupPayload,
   getSignupNotificationsCode,
   getSignupNotificationTypes,
+  getSignupPriceGroupOptions,
   getUpdateSignupGroupPayload,
   isRestoringSignupGroupFormDataDisabled,
   isSignupFieldRequired,
@@ -652,6 +654,16 @@ describe('omitSensitiveDataFromSignupGroupPayload', () => {
     expect(signup.lastName).toBeUndefined();
     expect(signup.streetAddress).toBeUndefined();
     expect(signup.zipcode).toBeUndefined();
+
+    // Set contactPerson to null if it's not defined
+    [null, undefined].forEach((contactPerson) => {
+      expect(
+        omitSensitiveDataFromSignupGroupPayload({
+          ...payload,
+          contactPerson,
+        })
+      ).toEqual(expect.objectContaining({ contactPerson: null }));
+    });
   });
 });
 
@@ -741,4 +753,55 @@ describe('shouldCreatePayment', () => {
       );
     }
   );
+});
+
+describe('getSignupPriceGroupOptions', () => {
+  it('should get price group options', () => {
+    expect(
+      getSignupPriceGroupOptions(
+        fakeRegistration({
+          registrationPriceGroups: [
+            fakeRegistrationPriceGroup({
+              id: 1,
+              price: null,
+              priceGroup: fakePriceGroupDense({
+                description: { fi: 'First price group' },
+              }),
+            }),
+            fakeRegistrationPriceGroup({
+              id: 2,
+              price: '12.00',
+              priceGroup: fakePriceGroupDense({
+                description: { fi: 'Second price group' },
+              }),
+            }),
+            fakeRegistrationPriceGroup({
+              id: 3,
+              price: '1.20',
+              priceGroup: fakePriceGroupDense({
+                description: { fi: 'Third price group' },
+              }),
+            }),
+          ],
+        }),
+        'fi'
+      )
+    ).toEqual([
+      {
+        label: 'First price group 0,00 €',
+        price: 0,
+        value: '1',
+      },
+      {
+        label: 'Second price group 12,00 €',
+        price: 12,
+        value: '2',
+      },
+      {
+        label: 'Third price group 1,20 €',
+        price: 1.2,
+        value: '3',
+      },
+    ]);
+  });
 });

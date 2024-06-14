@@ -229,7 +229,8 @@ export const registrationSchema = Yup.object().shape({
             hasPrice ? registrationAccountSchema : schema
         ),
       }
-    : {}),
+    : /* istanbul ignore next */
+      {}),
   [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: Yup.array().of(
     registrationUserAccessSchema
   ),

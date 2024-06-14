@@ -22,7 +22,7 @@ interface SubLevel {
   to: string;
 }
 
-interface Props {
+export interface LayoutWithSideNavigationProps {
   children: React.ReactNode;
   className?: string;
   getIsActive?: (localePath: string) => boolean;
@@ -30,7 +30,7 @@ interface Props {
   toggleButtonLabel: string;
 }
 
-const LayoutWithSideNavigation: React.FC<Props> = ({
+const LayoutWithSideNavigation: React.FC<LayoutWithSideNavigationProps> = ({
   children,
   className,
   getIsActive: _getIsActive,
