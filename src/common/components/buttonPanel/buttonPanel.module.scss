@@ -3,14 +3,9 @@
 @import '../../../assets/styles/widths';
 
 .buttonPanel {
-  position: sticky;
-  bottom: 0;
-  left: 0;
-  right: 0;
   padding: var(--spacing-m) 0;
   background-color: var(--color-white);
   border-top: 1px solid var(--color-black-10);
-  z-index: 9;
 }
 
 .buttonsRow {
