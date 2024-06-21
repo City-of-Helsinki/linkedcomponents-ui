@@ -64,7 +64,6 @@ export default defineConfig({
         'src/domain/app/apollo/utils.ts',
         'src/domain/app/hooks/usePageSettings.ts',
         'src/domain/app/i18n/i18nInit.ts',
-        'src/domain/app/sentry/utils.ts',
         'src/domain/app/theme/Theme.tsx',
         'src/domain/auth/hooks/useAuth.ts',
         'src/domain/auth/oidcCallback/OidcCallback.tsx',

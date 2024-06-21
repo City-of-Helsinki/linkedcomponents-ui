@@ -8,9 +8,12 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 import App from './domain/app/App';
+import { beforeSend, beforeSendTransaction } from './domain/app/sentry/utils';
 
 if (import.meta.env.REACT_APP_SENTRY_ENVIRONMENT) {
   Sentry.init({
+    beforeSend,
+    beforeSendTransaction: beforeSendTransaction,
     dsn: import.meta.env.REACT_APP_SENTRY_DSN,
     environment: import.meta.env.REACT_APP_SENTRY_ENVIRONMENT,
     ignoreErrors: [
