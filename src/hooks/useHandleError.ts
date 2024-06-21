@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router';
 
-import { reportError } from '../domain/app/sentry/utils';
+import { cleanSensitiveData, reportError } from '../domain/app/sentry/utils';
 import useUser from '../domain/user/hooks/useUser';
 import { MutationCallbacks } from '../types';
 
@@ -53,7 +53,7 @@ function useHandleError<
     reportError({
       data: {
         error,
-        payloadAsString: payload && JSON.stringify(payload),
+        payloadAsString: payload && JSON.stringify(cleanSensitiveData(payload)),
         object,
       },
       location,
