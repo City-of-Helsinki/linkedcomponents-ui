@@ -139,7 +139,7 @@ test('should clear values from registration form when event is unselected', asyn
       maximumAttendeeCapacity: '',
       minimumAttendeeCapacity: '',
       registrationPriceGroups: [],
-      registrationPriceGroupsVatPercentage: '',
+      registrationPriceGroupsVatPercentage: '25.50',
     })
   );
 });
