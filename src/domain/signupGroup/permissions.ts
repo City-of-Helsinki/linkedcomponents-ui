@@ -116,10 +116,16 @@ export const getSignupGroupActionWarning = ({
         return t('signupGroup.warnings.noRightsToEdit');
     }
   } else if (action === SIGNUP_GROUP_ACTIONS.DELETE) {
-    if (signupGroup?.paymentCancellation) {
+    if (
+      signupGroup?.paymentCancellation ||
+      signupGroup?.signups?.some((signup) => signup?.paymentCancellation)
+    ) {
       return t('signupGroup.warnings.hasPaymentCancellation');
     }
-    if (signupGroup?.paymentRefund) {
+    if (
+      signupGroup?.paymentRefund ||
+      signupGroup?.signups?.some((signup) => signup?.paymentRefund)
+    ) {
       return t('signupGroup.warnings.hasPaymentRefund');
     }
   }
