@@ -5,6 +5,7 @@ import {
   fakePaymentCancellation,
   fakePaymentRefund,
   fakeRegistration,
+  fakeSignup,
   fakeSignupGroup,
   fakeUser,
 } from '../../../utils/mockDataUtils';
@@ -70,6 +71,40 @@ describe('getSignupGroupActionWarning function', () => {
       ).toBe(warning);
     }
   );
+
+  it('should return correct warning when trying to delete signup group with signup with payment cancellation', () => {
+    expect(
+      getSignupGroupActionWarning({
+        authenticated: true,
+        signupGroup: fakeSignupGroup({
+          signups: [
+            fakeSignup({ paymentCancellation: fakePaymentCancellation() }),
+          ],
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_GROUP_ACTIONS.DELETE,
+      })
+    ).toBe(
+      'Osallistujaryhmän maksua perutaan eikä osallistujaryhmää voi poistaa.'
+    );
+  });
+
+  it('should return correct warning when trying to delete signup group with signup with with payment refund', () => {
+    expect(
+      getSignupGroupActionWarning({
+        authenticated: true,
+        signupGroup: fakeSignupGroup({
+          signups: [fakeSignup({ paymentRefund: fakePaymentRefund() })],
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_GROUP_ACTIONS.DELETE,
+      })
+    ).toBe(
+      'Osallistujaryhmän maksua hyvitetään eikä osallistujaryhmää voi poistaa.'
+    );
+  });
 
   it('should return correct warning when trying to delete signup group with payment cancellation', () => {
     expect(
