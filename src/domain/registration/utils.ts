@@ -44,7 +44,7 @@ import {
   isSeatsReservationExpired,
 } from '../seatsReservation/utils';
 import { checkCanUserSignupAfterSignupIsEnded } from '../signupGroup/permissions';
-import { REGISTRATION_FIELDS } from './constants';
+import { DEFAULT_VAT_PERCENTAGE, REGISTRATION_FIELDS } from './constants';
 import {
   RegistrationAccountFormFields,
   RegistrationFields,
@@ -193,7 +193,7 @@ export const getRegistrationInitialValues = (
     ),
     [REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE]: getValue(
       registration.registrationPriceGroups?.[0]?.vatPercentage,
-      ''
+      DEFAULT_VAT_PERCENTAGE
     ),
     [REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES]: getValue(
       registration.registrationUserAccesses?.map((ru) => ({
