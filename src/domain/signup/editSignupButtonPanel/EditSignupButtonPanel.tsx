@@ -10,6 +10,7 @@ import { ROUTES } from '../../../constants';
 import {
   RegistrationFieldsFragment,
   SignupFieldsFragment,
+  useSignupGroupQuery,
 } from '../../../generated/graphql';
 import useGoBack from '../../../hooks/useGoBack';
 import getValue from '../../../utils/getValue';
@@ -45,6 +46,12 @@ const EditSignupButtonPanel: React.FC<EditSignupButtonPanelProps> = ({
   const publisher = getValue(registration.publisher, '');
   const { organizationAncestors } = useOrganizationAncestors(publisher);
 
+  const { data: signupGroupData } = useSignupGroupQuery({
+    skip: !signup.signupGroup,
+    variables: { id: signup.signupGroup as string },
+  });
+  const signupGroup = signupGroupData?.signupGroup;
+
   const goBack = useGoBack<SignupsLocationState>({
     defaultReturnPath: ROUTES.REGISTRATION_SIGNUPS.replace(
       ':registrationId',
@@ -67,6 +74,7 @@ const EditSignupButtonPanel: React.FC<EditSignupButtonPanelProps> = ({
       organizationAncestors,
       registration,
       signup,
+      signupGroup,
       t,
       user,
     });

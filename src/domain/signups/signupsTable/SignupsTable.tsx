@@ -194,6 +194,30 @@ const AttendeeStatusColumn: FC<ColumnProps> = ({ registration, signup }) => {
   );
 };
 
+const SignupActionsDropdownColumn: FC<ColumnProps> = ({
+  registration,
+  signup,
+}) => {
+  const { data: signupGroupData, loading } = useSignupGroupQuery({
+    skip: !signup.signupGroup,
+    variables: { id: signup.signupGroup as string },
+  });
+
+  return (
+    <LoadingSpinner
+      className={styles.columnLoadingSpinner}
+      isLoading={loading}
+      small
+    >
+      <SignupActionsDropdown
+        registration={registration}
+        signup={signup}
+        signupGroup={signupGroupData?.signupGroup}
+      />
+    </LoadingSpinner>
+  );
+};
+
 export interface SignupsTableProps {
   caption: string;
   countKey: string;
@@ -308,9 +332,12 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
     [registration]
   );
 
-  const MemoizedSignupActionsDropdown = React.useCallback(
+  const MemoizedSignupActionsDropdownColumn = React.useCallback(
     (signup: SignupFieldsFragment) => (
-      <SignupActionsDropdown registration={registration} signup={signup} />
+      <SignupActionsDropdownColumn
+        registration={registration}
+        signup={signup}
+      />
     ),
     [registration]
   );
@@ -355,7 +382,7 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
           {
             key: 'actionButtons',
             headerName: t('common.actions'),
-            transform: MemoizedSignupActionsDropdown,
+            transform: MemoizedSignupActionsDropdownColumn,
           },
         ]}
         hasActionButtons

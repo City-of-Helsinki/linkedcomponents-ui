@@ -5,6 +5,7 @@ import {
   OrganizationFieldsFragment,
   RegistrationFieldsFragment,
   SignupFieldsFragment,
+  SignupGroupFieldsFragment,
   UserFieldsFragment,
 } from '../../generated/graphql';
 import { Editability } from '../../types';
@@ -61,12 +62,14 @@ export const getSignupActionWarning = ({
   action,
   authenticated,
   signup,
+  signupGroup,
   t,
   userCanDoAction,
 }: {
   action: SIGNUP_ACTIONS;
   authenticated: boolean;
   signup?: SignupFieldsFragment;
+  signupGroup?: SignupGroupFieldsFragment;
   t: TFunction;
   userCanDoAction: boolean;
 }): string => {
@@ -84,10 +87,10 @@ export const getSignupActionWarning = ({
         return t('signupsPage.warningNoRightsToEdit');
     }
   } else if (action === SIGNUP_ACTIONS.DELETE) {
-    if (signup?.paymentCancellation) {
+    if (signup?.paymentCancellation || signupGroup?.paymentCancellation) {
       return t('signupsPage.warningHasPaymentCancellation');
     }
-    if (signup?.paymentRefund) {
+    if (signup?.paymentRefund || signupGroup?.paymentRefund) {
       return t('signupsPage.warningHasPaymentRefund');
     }
   }
@@ -101,6 +104,7 @@ export const checkIsSignupActionAllowed = ({
   organizationAncestors,
   registration,
   signup,
+  signupGroup,
   t,
   user,
 }: {
@@ -109,6 +113,7 @@ export const checkIsSignupActionAllowed = ({
   organizationAncestors: OrganizationFieldsFragment[];
   registration: RegistrationFieldsFragment;
   signup?: SignupFieldsFragment;
+  signupGroup?: SignupGroupFieldsFragment;
   t: TFunction;
   user?: UserFieldsFragment;
 }): Editability => {
@@ -123,6 +128,7 @@ export const checkIsSignupActionAllowed = ({
     action,
     authenticated,
     signup,
+    signupGroup,
     t,
     userCanDoAction,
   });
@@ -137,6 +143,7 @@ export const getSignupActionButtonProps = ({
   organizationAncestors,
   registration,
   signup,
+  signupGroup,
   t,
   user,
 }: {
@@ -146,6 +153,7 @@ export const getSignupActionButtonProps = ({
   organizationAncestors: OrganizationFieldsFragment[];
   registration: RegistrationFieldsFragment;
   signup?: SignupFieldsFragment;
+  signupGroup?: SignupGroupFieldsFragment;
   t: TFunction;
   user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
@@ -155,6 +163,7 @@ export const getSignupActionButtonProps = ({
     organizationAncestors,
     registration,
     signup,
+    signupGroup,
     t,
     user,
   });

@@ -9,6 +9,7 @@ import { ROUTES } from '../../../constants';
 import {
   RegistrationFieldsFragment,
   SignupFieldsFragment,
+  SignupGroupFieldsFragment,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useResetPageParamAndGoToPage from '../../../hooks/useResetPageParam';
@@ -31,12 +32,14 @@ export interface SignupActionsDropdownProps {
   className?: string;
   registration: RegistrationFieldsFragment;
   signup: SignupFieldsFragment;
+  signupGroup?: SignupGroupFieldsFragment;
 }
 
 const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
   className,
   registration,
   signup,
+  signupGroup,
 }) => {
   const { t } = useTranslation();
   const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
@@ -87,6 +90,7 @@ const SignupActionsDropdown: React.FC<SignupActionsDropdownProps> = ({
       organizationAncestors,
       registration,
       signup,
+      signupGroup,
       t,
       user,
     });
