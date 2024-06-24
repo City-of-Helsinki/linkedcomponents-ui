@@ -78,6 +78,7 @@ describe('getSignupGroupActionWarning function', () => {
         authenticated: true,
         signupGroup: fakeSignupGroup({
           signups: [
+            fakeSignup({ paymentCancellation: null }),
             fakeSignup({ paymentCancellation: fakePaymentCancellation() }),
           ],
         }),
@@ -95,7 +96,10 @@ describe('getSignupGroupActionWarning function', () => {
       getSignupGroupActionWarning({
         authenticated: true,
         signupGroup: fakeSignupGroup({
-          signups: [fakeSignup({ paymentRefund: fakePaymentRefund() })],
+          signups: [
+            fakeSignup({ paymentRefund: null }),
+            fakeSignup({ paymentRefund: fakePaymentRefund() }),
+          ],
         }),
         t: i18n.t.bind(i18n),
         userCanDoAction: true,

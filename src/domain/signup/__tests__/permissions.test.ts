@@ -6,6 +6,7 @@ import {
   fakePaymentRefund,
   fakeRegistration,
   fakeSignup,
+  fakeSignupGroup,
   fakeUser,
 } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
@@ -93,11 +94,41 @@ describe('getSignupActionWarning function', () => {
     ).toBe('Osallistujan maksua perutaan eikä osallistujaa voi poistaa.');
   });
 
+  it('should return correct warning when trying to delete signup with signup group with payment cancellation', () => {
+    expect(
+      getSignupActionWarning({
+        authenticated: true,
+        signup: fakeSignup(),
+        signupGroup: fakeSignupGroup({
+          paymentCancellation: fakePaymentCancellation(),
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_ACTIONS.DELETE,
+      })
+    ).toBe('Osallistujan maksua perutaan eikä osallistujaa voi poistaa.');
+  });
+
   it('should return correct warning when trying to delete signup with payment refund', () => {
     expect(
       getSignupActionWarning({
         authenticated: true,
         signup: fakeSignup({
+          paymentRefund: fakePaymentRefund(),
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_ACTIONS.DELETE,
+      })
+    ).toBe('Osallistujan maksua hyvitetään eikä osallistujaa voi poistaa.');
+  });
+
+  it('should return correct warning when trying to delete signup with signup group with payment refund', () => {
+    expect(
+      getSignupActionWarning({
+        authenticated: true,
+        signup: fakeSignup(),
+        signupGroup: fakeSignupGroup({
           paymentRefund: fakePaymentRefund(),
         }),
         t: i18n.t.bind(i18n),
