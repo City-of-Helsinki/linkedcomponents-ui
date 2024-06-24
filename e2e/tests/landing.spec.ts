@@ -126,13 +126,9 @@ test.describe('Landing page', () => {
   });
 
   test('Search button functionality', async ({ page }) => {
-    await expect(
-      page.getByRole('heading', { name: 'Etsi tapahtumia' })
-    ).toBeHidden();
     await page.getByTestId('landing-page-search-button').click();
-    await expect(
-      page.getByRole('heading', { name: 'Etsi tapahtumia' })
-    ).toBeVisible();
+    await expect(page).toHaveURL(/\/fi\/search/);
+    await expect(page.getByTestId('event-search-panel')).toBeVisible();
   });
 
   test('Verify headers, links, and buttons on landing page', async ({
@@ -175,9 +171,6 @@ test.describe('Landing page', () => {
   test('Clicking on "Lisää uusi tapahtuma" button should navigate to the create event page', async ({
     page,
   }) => {
-    await expect(
-      page.getByRole('button', { name: 'Lisää uusi tapahtuma' })
-    ).toBeEnabled();
     await page.getByRole('button', { name: 'Lisää uusi tapahtuma' }).click();
     await expect(page).toHaveURL('fi/events/create');
   });

@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test';
 
+import { LINKED_EVENTS_URL } from '../../playwright.config';
 import { EventsResponse, PlacesResponse } from '../../src/generated/graphql';
-import { LINKED_EVENTS_URL, setCookieConsent } from './utils';
+import { setCookieConsent } from './utils';
 
 test.describe('Event search page', () => {
   test.beforeEach(async ({ context, page }) => {
