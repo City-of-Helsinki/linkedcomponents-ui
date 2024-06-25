@@ -23,14 +23,15 @@ const HeadingWithTooltip: FC<HeadingWithTooltipProps> = ({
   tooltipLabel,
 }) => {
   const { t } = useTranslation();
-  return (
-    <Heading
+  return showTooltip ? (
+    <div
       className={classNames(
-        { [styles.headingWithTooltip]: showTooltip },
+        styles.headingWithTooltip,
+        styles[Heading],
         className
       )}
     >
-      {heading}
+      <Heading>{heading}</Heading>
       {showTooltip && (
         <Tooltip
           buttonClassName={styles.tooltipButton}
@@ -41,7 +42,9 @@ const HeadingWithTooltip: FC<HeadingWithTooltipProps> = ({
           {tooltipContent}
         </Tooltip>
       )}
-    </Heading>
+    </div>
+  ) : (
+    <Heading className={className}>{heading}</Heading>
   );
 };
 

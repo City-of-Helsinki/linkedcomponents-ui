@@ -3,6 +3,19 @@
   display: flex;
   grid-column-gap: var(--spacing-2-xs);
   justify-content: flex-start;
+
+  h2,
+  h3 {
+    margin: 0 !important;
+  }
+
+  &.h2 {
+    margin: 0;
+  }
+
+  &.h3 {
+    margin: var(--spacing-m) 0;
+  }
 }
 
 .tooltipButton {
