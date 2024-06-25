@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.10.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.9.0...linkedcomponents-ui-v1.10.0) (2024-06-25)
+
+
+### Features
+
+* Filter events by event status ([d69d087](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/d69d08795e1ea93d01be02c0628e20aa4ae0d8f6))
+* Hide instruction notifications from admin users ([1c40012](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/1c40012ce9f5f26adfce50b368a458a68e03cf99))
+* Improvements to external user event form ([3db96ff](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/3db96ff7c2287724d09ac1b7dd37d760f5e398ff))
+* Make maximum attendee capacity field required ([fadef96](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/fadef96d4252e7e8d618bd01e106a39ad58ffaeb))
+* Update event price section instruction texts ([44fb37e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/44fb37e7b030c5bcd39760a74e5cd807976923af))
+
+
+### Bug Fixes
+
+* A11y make ButtonPanel not sticky LINK-1751 ([b243769](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/b243769149ffa0e1e32b29820710e11631379374))
+* Don't show tooltip as a part of heading in screen reader ([e12f6b4](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e12f6b41a8a91ae98767d335216fbe7a8d832801))
+* Prevent to delete signup group with signup with payment refund ([90f9047](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/90f9047319af965ef7f05dc49444a90c7283c0d1))
+* Prevent to delete signup with signup group with payment refund ([9ea077b](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/9ea077b83cb1de4e1b884ffa7a8af06ffb48c7f4))
+
 ## [1.9.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.8.0...linkedcomponents-ui-v1.9.0) (2024-06-11)
 
 
