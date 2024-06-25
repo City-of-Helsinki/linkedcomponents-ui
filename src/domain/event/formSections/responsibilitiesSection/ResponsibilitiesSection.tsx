@@ -125,11 +125,9 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
             {...(showTooltipInstructions(user)
               ? {
                   tooltipButtonLabel: t('common.showInstructions'),
-                  tooltipLabel:
-                    /* istanbul ignore next */
-                    isExternalUser
-                      ? 'event.form.labelProvider.other'
-                      : `event.form.labelProvider.${type}`,
+                  tooltipLabel: t(
+                    `event.form.notificationTitleProvider.${type}`
+                  ),
                   tooltipText: t(`event.form.infoTextProvider.${type}`),
                 }
               : {})}
