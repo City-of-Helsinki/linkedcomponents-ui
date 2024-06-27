@@ -1,7 +1,7 @@
 import { mockString } from '../../../utils/testUtils';
-import { KEYWORD_INITIAL_VALUES } from '../constants';
+import { KEYWORD_FIELDS, KEYWORD_INITIAL_VALUES } from '../constants';
 import { KeywordFormFields } from '../types';
-import { keywordSchema } from '../validation';
+import { getFocusableKeywordFieldId, keywordSchema } from '../validation';
 
 const testKeywordSchema = async (keyword: KeywordFormFields) => {
   try {
@@ -42,6 +42,26 @@ describe('keywordSchema', () => {
           ...keywordOverrides,
         })
       ).toBe(false);
+    }
+  );
+});
+
+describe('getFocusableKeywordFieldId', () => {
+  it.each([
+    [KEYWORD_FIELDS.ID, { fieldId: 'id', type: 'default' }],
+    [KEYWORD_FIELDS.DATA_SOURCE, { fieldId: 'dataSource', type: 'default' }],
+    [
+      KEYWORD_FIELDS.PUBLISHER,
+      { fieldId: 'publisher-input', type: 'combobox' },
+    ],
+    [
+      KEYWORD_FIELDS.REPLACED_BY,
+      { fieldId: 'replacedBy-toggle-button', type: 'select' },
+    ],
+  ])(
+    'should return corrent field id and type',
+    (fieldName, expectedIdAndType) => {
+      expect(getFocusableKeywordFieldId(fieldName)).toEqual(expectedIdAndType);
     }
   );
 });

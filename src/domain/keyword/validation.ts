@@ -4,9 +4,15 @@ import { LE_DATA_LANGUAGES, ORDERED_LE_DATA_LANGUAGES } from '../../constants';
 import {
   createMultiLanguageValidation,
   createStringMaxErrorMessage,
+  getFocusableFieldId,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { KEYWORD_FIELDS, KEYWORD_TEXT_FIELD_MAX_LENGTH } from './constants';
+import {
+  KEYWORD_FIELDS,
+  KEYWORD_FORM_COMBOBOX_FIELDS,
+  KEYWORD_FORM_SELECT_FIELDS,
+  KEYWORD_TEXT_FIELD_MAX_LENGTH,
+} from './constants';
 
 export const keywordSchema = Yup.object().shape({
   [KEYWORD_FIELDS.ORIGIN_ID]: Yup.string().max(
@@ -29,3 +35,12 @@ export const keywordSchema = Yup.object().shape({
       ),
   }),
 });
+
+export const getFocusableKeywordFieldId = (fieldName: string) =>
+  getFocusableFieldId(fieldName, {
+    arrayFields: [],
+    checkboxGroupFields: [],
+    comboboxFields: KEYWORD_FORM_COMBOBOX_FIELDS,
+    selectFields: KEYWORD_FORM_SELECT_FIELDS,
+    textEditorFields: [],
+  });

@@ -5,12 +5,17 @@ import { Maybe } from '../../types';
 import {
   createMultiLanguageValidation,
   createStringMaxErrorMessage,
+  getFocusableFieldId,
   isValidPhoneNumber,
   isValidUrl,
   isValidZip,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
-import { PLACE_FIELDS, PLACE_TEXT_FIELD_MAX_LENGTH } from './constants';
+import {
+  PLACE_FIELDS,
+  PLACE_FORM_SELECT_FIELDS,
+  PLACE_TEXT_FIELD_MAX_LENGTH,
+} from './constants';
 
 const createMultiLanguageValidationByOrderedLanguages = (
   rule: Yup.StringSchema<Maybe<string>>
@@ -110,3 +115,12 @@ export const placeSchema = Yup.object().shape({
     createStringMaxErrorMessage
   ),
 });
+
+export const getFocusablePlaceFieldId = (fieldName: string) =>
+  getFocusableFieldId(fieldName, {
+    arrayFields: [],
+    checkboxGroupFields: [],
+    comboboxFields: [],
+    selectFields: PLACE_FORM_SELECT_FIELDS,
+    textEditorFields: [],
+  });

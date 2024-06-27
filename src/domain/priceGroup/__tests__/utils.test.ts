@@ -9,16 +9,11 @@ import {
   fakeUser,
 } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
-import {
-  PRICE_GROUP_ACTIONS,
-  PRICE_GROUP_FIELDS,
-  TEST_PRICE_GROUP_ID,
-} from '../constants';
+import { PRICE_GROUP_ACTIONS, TEST_PRICE_GROUP_ID } from '../constants';
 import { PriceGroupOption } from '../types';
 import {
   checkCanUserDoPriceGroupAction,
   getEditPriceGroupWarning,
-  getFocusableFieldId,
   getPriceGroupInitialValues,
   priceGroupsPathBuilder,
   sortPriceGroupOptions,
@@ -276,18 +271,4 @@ describe('getPriceGroupInitialValues function', () => {
       publisher: TEST_PUBLISHER_ID,
     });
   });
-});
-
-describe('getFocusableFieldId function', () => {
-  it.each([
-    [PRICE_GROUP_FIELDS.DESCRIPTION, 'description'],
-    [PRICE_GROUP_FIELDS.ID, 'id'],
-    [PRICE_GROUP_FIELDS.IS_FREE, 'isFree'],
-    [PRICE_GROUP_FIELDS.PUBLISHER, 'publisher-toggle-button'],
-  ])(
-    'should return correct field id, %s -> %s',
-    (fieldName, expectedErrorId) => {
-      expect(getFocusableFieldId(fieldName)).toBe(expectedErrorId);
-    }
-  );
 });

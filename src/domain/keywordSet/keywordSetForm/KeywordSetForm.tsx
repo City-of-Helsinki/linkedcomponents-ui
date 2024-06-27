@@ -43,7 +43,7 @@ import useKeywordSetServerErrors from '../hooks/useKeywordSetServerErrors';
 import KeywordSetAuthenticationNotification from '../keywordSetAuthenticationNotification/KeywordSetAuthenticationNotification';
 import { KeywordSetFormFields } from '../types';
 import { checkCanUserDoAction, getKeywordSetInitialValues } from '../utils';
-import { getFocusableFieldId, keywordSetSchema } from '../validation';
+import { getFocusableKeywordSetFieldId, keywordSetSchema } from '../validation';
 
 type KeywordSetFormProps = {
   keywordSet?: KeywordSetFieldsFragment;
@@ -164,7 +164,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
 
             scrollToFirstError({
               error: error as ValidationError,
-              getFocusableFieldId,
+              getFocusableFieldId: getFocusableKeywordSetFieldId,
             });
           }
         };

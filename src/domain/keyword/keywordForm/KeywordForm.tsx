@@ -42,7 +42,7 @@ import useKeywordServerErrors from '../hooks/useKeywordServerErrors';
 import KeywordAuthenticationNotification from '../keywordAuthenticationNotification/KeywordAuthenticationNotification';
 import { KeywordFormFields } from '../types';
 import { checkCanUserDoAction, getKeywordInitialValues } from '../utils';
-import { keywordSchema } from '../validation';
+import { getFocusableKeywordFieldId, keywordSchema } from '../validation';
 
 type KeywordFormProps = {
   keyword?: KeywordFieldsFragment;
@@ -162,7 +162,10 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
               setTouched,
             });
 
-            scrollToFirstError({ error: error as ValidationError });
+            scrollToFirstError({
+              error: error as ValidationError,
+              getFocusableFieldId: getFocusableKeywordFieldId,
+            });
           }
         };
 

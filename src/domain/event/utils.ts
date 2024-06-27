@@ -18,7 +18,6 @@ import isNumber from 'lodash/isNumber';
 import omit from 'lodash/omit';
 import sortBy from 'lodash/sortBy';
 import { MouseEvent } from 'react';
-import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
@@ -28,7 +27,6 @@ import {
   LE_DATA_LANGUAGES,
   ROUTES,
   TIME_FORMAT_DATA,
-  VALIDATION_ERROR_SCROLLER_OPTIONS,
   WEEK_DAY,
 } from '../../constants';
 import {
@@ -73,6 +71,10 @@ import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
 import skipFalsyType from '../../utils/skipFalsyType';
+import {
+  getFocusableFieldId,
+  scrollToFirstError,
+} from '../../utils/validationUtils';
 import wait from '../../utils/wait';
 import { EXTERNAL_PUBLISHER_ID } from '../organization/constants';
 import {
@@ -91,23 +93,23 @@ import {
   DAY_CODES,
   DESCRIPTION_SECTION_FIELDS,
   EVENT_ACTIONS,
+  EVENT_CHECKBOX_GROUP_FIELDS,
+  EVENT_COMBOBOX_FIELDS,
   EVENT_ENVIRONMENT_VALUE,
   EVENT_EXTERNAL_USER_INITIAL_VALUES,
   EVENT_FIELD_ARRAYS,
-  EVENT_FIELDS,
   EVENT_ICONS,
   EVENT_INCLUDES,
   EVENT_INITIAL_VALUES,
   EVENT_LABEL_KEYS,
   EVENT_OFFER_FIELDS,
-  EVENT_SELECT_FIELDS,
+  EVENT_TEXT_EDITOR_FIELDS,
   EVENT_TYPE,
   NOT_ALLOWED_WHEN_CANCELLED,
   NOT_ALLOWED_WHEN_DELETED,
   NOT_ALLOWED_WHEN_IN_PAST,
   SUB_EVENTS_VARIABLES,
   TEXT_EDITOR_ALLOWED_TAGS,
-  TEXT_EDITOR_FIELDS,
   VIDEO_DETAILS_FIELDS,
 } from './constants';
 import { sortEventTimes } from './formSections/timeSection/utils';
@@ -925,31 +927,14 @@ export const getEventInitialValues = (
   return baseInitialValues;
 };
 
-type EventErrorFieldType =
-  | 'array'
-  | 'default'
-  | 'checkboxGroup'
-  | 'select'
-  | 'textEditor';
-
-interface EventErrorField {
-  fieldId: string;
-  type: EventErrorFieldType;
-}
-const getFocusableFieldId = (fieldName: string): EventErrorField => {
-  // For the select elements, focus the toggle button
-  if (EVENT_SELECT_FIELDS.find((item) => item === fieldName)) {
-    return { fieldId: `${fieldName}-input`, type: 'select' };
-  } else if (TEXT_EDITOR_FIELDS.find((item) => fieldName.startsWith(item))) {
-    return { fieldId: `${fieldName}-text-editor`, type: 'textEditor' };
-  } else if (fieldName === EVENT_FIELDS.MAIN_CATEGORIES) {
-    return { fieldId: fieldName, type: 'checkboxGroup' };
-  } else if (EVENT_FIELD_ARRAYS.includes(fieldName)) {
-    return { fieldId: `${fieldName}-error`, type: 'array' };
-  }
-
-  return { fieldId: fieldName, type: 'default' };
-};
+const getFocusableEventFieldId = (fieldName: string) =>
+  getFocusableFieldId(fieldName, {
+    arrayFields: EVENT_FIELD_ARRAYS,
+    checkboxGroupFields: EVENT_CHECKBOX_GROUP_FIELDS,
+    comboboxFields: EVENT_COMBOBOX_FIELDS,
+    selectFields: [],
+    textEditorFields: EVENT_TEXT_EDITOR_FIELDS,
+  });
 
 const changeLanguageIfNeeded = async ({
   descriptionLanguage,
@@ -976,31 +961,7 @@ const changeLanguageIfNeeded = async ({
   }
 };
 
-const focusToError = async ({
-  field,
-  fieldType,
-}: {
-  field: HTMLElement;
-  fieldType: EventErrorFieldType;
-}) => {
-  switch (fieldType) {
-    case 'checkboxGroup':
-      const focusable = field.querySelectorAll('input');
-
-      /* istanbul ignore else */
-      if (focusable?.[0]) {
-        focusable[0].focus();
-      }
-      break;
-    case 'textEditor':
-      field.click();
-      break;
-    default:
-      field.focus();
-  }
-};
-
-export const scrollToFirstError = async ({
+export const scrollToFirstEventError = async ({
   descriptionLanguage,
   error,
   setDescriptionLanguage,
@@ -1009,30 +970,18 @@ export const scrollToFirstError = async ({
   error: Yup.ValidationError;
   setDescriptionLanguage: (value: LE_DATA_LANGUAGES) => void;
 }): Promise<void> => {
-  for (const e of error.inner) {
-    const path = getValue(e.path, '');
-
-    await changeLanguageIfNeeded({
+  const preFocusFn = async (path: string) =>
+    changeLanguageIfNeeded({
       descriptionLanguage,
       path,
       setDescriptionLanguage,
     });
 
-    const { fieldId, type: fieldType } = getFocusableFieldId(path);
-
-    if (fieldType === 'array') {
-      await wait(100);
-    }
-    const field = document.getElementById(fieldId);
-
-    /* istanbul ignore else */
-    if (field) {
-      scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
-
-      await focusToError({ field, fieldType });
-      break;
-    }
-  }
+  scrollToFirstError({
+    error,
+    getFocusableFieldId: getFocusableEventFieldId,
+    preFocusFn,
+  });
 };
 
 const getSubEvents = async ({

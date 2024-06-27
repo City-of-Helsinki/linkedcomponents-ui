@@ -4,18 +4,18 @@ import isBefore from 'date-fns/isBefore';
 import max from 'date-fns/max';
 import startOfDay from 'date-fns/startOfDay';
 import subYears from 'date-fns/subYears';
-import { scroller } from 'react-scroll';
 import * as Yup from 'yup';
 
 import { RegistrationFieldsFragment } from '../../generated/graphql';
 import { Maybe } from '../../types';
 import { featureFlagUtils } from '../../utils/featureFlags';
-import getValue from '../../utils/getValue';
 import {
   createArrayMinErrorMessage,
   createStringMaxErrorMessage,
+  getFocusableFieldId,
   isValidPhoneNumber,
   isValidZip,
+  scrollToFirstError,
 } from '../../utils/validationUtils';
 import wait from '../../utils/wait';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
@@ -29,6 +29,7 @@ import {
   CONTACT_PERSON_FIELDS,
   NOTIFICATIONS,
   SIGNUP_FIELDS,
+  SIGNUP_FORM_CHECKBOX_GROUP_FIELDS,
   SIGNUP_FORM_SELECT_FIELDS,
   SIGNUP_GROUP_FIELDS,
 } from './constants';
@@ -266,67 +267,35 @@ export const sendMessageSchema = Yup.object().shape({
   }),
 });
 
-const getFocusableFieldId = (
-  fieldName: string
-): {
-  fieldId: string;
-  fieldType: 'default' | 'checkboxGroup' | 'select';
-} => {
-  // For the select elements, focus the toggle button
-  if (
-    SIGNUP_FORM_SELECT_FIELDS.find((item) => new RegExp(item).test(fieldName))
-  ) {
-    return { fieldId: `${fieldName}-toggle-button`, fieldType: 'select' };
-  } else if (
-    fieldName ===
-    `${SIGNUP_GROUP_FIELDS.CONTACT_PERSON}.${CONTACT_PERSON_FIELDS.NOTIFICATIONS}`
-  ) {
-    return { fieldId: fieldName, fieldType: 'checkboxGroup' };
-  }
-  return { fieldId: fieldName, fieldType: 'default' };
+const getFocusableSignupGroupFieldId = (fieldName: string) => {
+  return getFocusableFieldId(fieldName, {
+    arrayFields: [],
+    checkboxGroupFields: SIGNUP_FORM_CHECKBOX_GROUP_FIELDS,
+    comboboxFields: [],
+    selectFields: SIGNUP_FORM_SELECT_FIELDS,
+    textEditorFields: [],
+  });
 };
 
-export const scrollToFirstError = async ({
+export const scrollToFirstSignupGroupFormError = async ({
   error,
   setOpenAccordion,
 }: {
   error: Yup.ValidationError;
   setOpenAccordion: (index: number) => void;
 }): Promise<void> => {
-  for (const e of error.inner) {
-    const path = getValue(e.path, '');
-
+  const preFocusFn = async (path: string) => {
     if (/^signups\[\d*\]\./.test(path)) {
       const signupIndex = Number(path.match(/(?<=\[)[[\d]{1,4}(?=\])/)?.[0]);
       setOpenAccordion(signupIndex);
 
       await wait(100);
     }
+  };
 
-    const { fieldId, fieldType } = getFocusableFieldId(path);
-    const field = document.getElementById(fieldId);
-
-    /* istanbul ignore else */
-    if (field) {
-      scroller.scrollTo(fieldId, {
-        delay: 0,
-        duration: 500,
-        offset: -200,
-        smooth: true,
-      });
-
-      if (fieldType === 'checkboxGroup') {
-        const focusable = field.querySelectorAll('input');
-
-        /* istanbul ignore else */
-        if (focusable?.[0]) {
-          focusable[0].focus();
-        }
-      } else {
-        field.focus();
-      }
-
-      break;
-    }
-  }
+  scrollToFirstError({
+    error,
+    getFocusableFieldId: getFocusableSignupGroupFieldId,
+    preFocusFn,
+  });
 };

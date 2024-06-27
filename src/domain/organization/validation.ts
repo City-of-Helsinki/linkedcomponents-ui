@@ -4,6 +4,7 @@ import { UserFieldsFragment } from '../../generated/graphql';
 import { featureFlagUtils } from '../../utils/featureFlags';
 import {
   createStringMaxErrorMessage,
+  getFocusableFieldId,
   isValidUrl,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
@@ -11,9 +12,9 @@ import {
   ACCOUNT_TEXT_FIELD_MAX_LENGTH,
   MERCHANT_TEXT_FIELD_MAX_LENGTH,
   ORGANIZATION_ACTIONS,
+  ORGANIZATION_COMBOBOX_FIELDS,
   ORGANIZATION_FIELDS,
   ORGANIZATION_FINANCIAL_INFO_ACTIONS,
-  ORGANIZATION_SELECT_FIELDS,
   ORGANIZATION_TEXT_FIELD_MAX_LENGTH,
   WEB_STORE_ACCOUNT_FIELDS,
   WEB_STORE_MERCHANT_FIELDS,
@@ -202,9 +203,11 @@ export const getOrganizationSchema = ({
       : /* istanbul ignore next */ {}),
   });
 
-export const getFocusableFieldId = (fieldName: string): string => {
-  if (ORGANIZATION_SELECT_FIELDS.find((item) => item === fieldName)) {
-    return `${fieldName}-input`;
-  }
-  return fieldName;
-};
+export const getFocusableOrganizationFieldId = (fieldName: string) =>
+  getFocusableFieldId(fieldName, {
+    arrayFields: [],
+    checkboxGroupFields: [],
+    comboboxFields: ORGANIZATION_COMBOBOX_FIELDS,
+    selectFields: [],
+    textEditorFields: [],
+  });

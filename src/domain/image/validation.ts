@@ -5,13 +5,14 @@ import { Maybe } from '../../types';
 import {
   createStringMaxErrorMessage,
   createStringMinErrorMessage,
+  getFocusableFieldId,
   isValidUrl,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
   ADD_IMAGE_FIELDS,
+  IMAGE_COMBOBOX_FIELDS,
   IMAGE_FIELDS,
-  IMAGE_SELECT_FIELDS,
   IMAGE_TEXT_FIELD_MAX_LENGTH,
   IMAGE_TEXT_FIELD_MIN_LENGTH,
 } from './constants';
@@ -89,9 +90,11 @@ export const addImageSchema = Yup.object().shape(
   ]
 );
 
-export const getFocusableFieldId = (fieldName: string): string => {
-  if (IMAGE_SELECT_FIELDS.find((item) => item === fieldName)) {
-    return `${fieldName}-input`;
-  }
-  return fieldName;
-};
+export const getFocusableImageFieldId = (fieldName: string) =>
+  getFocusableFieldId(fieldName, {
+    arrayFields: [],
+    checkboxGroupFields: [],
+    comboboxFields: IMAGE_COMBOBOX_FIELDS,
+    selectFields: [],
+    textEditorFields: [],
+  });

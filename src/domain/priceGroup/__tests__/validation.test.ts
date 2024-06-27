@@ -1,8 +1,8 @@
 import { mockString } from '../../../utils/testUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
-import { PRICE_GROUP_INITIAL_VALUES } from '../constants';
+import { PRICE_GROUP_FIELDS, PRICE_GROUP_INITIAL_VALUES } from '../constants';
 import { PriceGroupFormFields } from '../types';
-import { priceGroupSchema } from '../validation';
+import { getFocusablePriceGroupFieldId, priceGroupSchema } from '../validation';
 
 const testPriceGroupSchema = async (priceGroup: PriceGroupFormFields) => {
   try {
@@ -77,4 +77,26 @@ describe('priceGroupSchema', () => {
       })
     ).toBe(true);
   });
+});
+
+describe('getFocusablePriceGroupFieldId function', () => {
+  it.each([
+    [
+      PRICE_GROUP_FIELDS.DESCRIPTION,
+      { fieldId: 'description', type: 'default' },
+    ],
+    [PRICE_GROUP_FIELDS.ID, { fieldId: 'id', type: 'default' }],
+    [PRICE_GROUP_FIELDS.IS_FREE, { fieldId: 'isFree', type: 'default' }],
+    [
+      PRICE_GROUP_FIELDS.PUBLISHER,
+      { fieldId: 'publisher-toggle-button', type: 'select' },
+    ],
+  ])(
+    'should return correct field id and type, %s -> %s',
+    (fieldName, expectedErrorIdAndType) => {
+      expect(getFocusablePriceGroupFieldId(fieldName)).toEqual(
+        expectedErrorIdAndType
+      );
+    }
+  );
 });

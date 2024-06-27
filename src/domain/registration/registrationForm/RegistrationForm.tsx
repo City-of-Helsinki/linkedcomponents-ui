@@ -48,7 +48,10 @@ import RegistrationInfo from '../registrationInfo/RegistrationInfo';
 import styles from '../registrationPage.module.scss';
 import { RegistrationFormFields } from '../types';
 import { getRegistrationInitialValues } from '../utils';
-import { getFocusableFieldId, registrationSchema } from '../validation';
+import {
+  getFocusableRegistrationFieldId,
+  registrationSchema,
+} from '../validation';
 import getValue from '../../../utils/getValue';
 import GroupSizeSection from '../formSections/groupSizeSection/GroupSizeSection';
 import LanguagesSection from '../formSections/languageSection/LanguageSection';
@@ -222,11 +225,14 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
               setErrors,
               setTouched,
             });
-            // Price group errors takes some time to render so wait 100 ms
-            await wait(100);
+
             scrollToFirstError({
               error: error as ValidationError,
-              getFocusableFieldId,
+              getFocusableFieldId: getFocusableRegistrationFieldId,
+              preFocusFn: async () => {
+                // Price group errors takes some time to render so wait 100 ms
+                await wait(100);
+              },
             });
           }
         };

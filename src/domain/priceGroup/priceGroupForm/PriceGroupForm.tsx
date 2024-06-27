@@ -42,10 +42,9 @@ import PriceGroupAuthenticationNotification from '../priceGroupAuthenticationNot
 import { PriceGroupFormFields } from '../types';
 import {
   checkCanUserDoPriceGroupAction,
-  getFocusableFieldId,
   getPriceGroupInitialValues,
 } from '../utils';
-import { priceGroupSchema } from '../validation';
+import { getFocusablePriceGroupFieldId, priceGroupSchema } from '../validation';
 
 type PriceGroupFormProps = {
   priceGroup?: PriceGroupFieldsFragment;
@@ -162,7 +161,7 @@ const PriceGroupForm: React.FC<PriceGroupFormProps> = ({ priceGroup }) => {
 
             scrollToFirstError({
               error: error as ValidationError,
-              getFocusableFieldId,
+              getFocusableFieldId: getFocusablePriceGroupFieldId,
             });
           }
         };
