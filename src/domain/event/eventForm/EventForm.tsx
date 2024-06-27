@@ -83,7 +83,7 @@ import {
   checkCanUserDoAction,
   getEventFields,
   getEventInitialValues,
-  scrollToFirstError,
+  scrollToFirstEventError,
   shouldShowTypeSection,
   showTooltipInstructions,
 } from '../utils';
@@ -344,7 +344,7 @@ const EventForm: React.FC<EventFormProps> = ({
         setTouched,
       });
 
-      await scrollToFirstError({
+      await scrollToFirstEventError({
         descriptionLanguage,
         error: error as ValidationError,
         setDescriptionLanguage,

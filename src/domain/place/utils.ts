@@ -27,7 +27,6 @@ import {
   PLACE_ACTION_ICONS,
   PLACE_ACTION_LABEL_KEYS,
   PLACE_ACTIONS,
-  PLACE_FORM_SELECT_FIELDS,
 } from './constants';
 import { PlaceFields, PlaceFormFields } from './types';
 
@@ -300,13 +299,4 @@ export const getEditButtonProps = ({
     onClick,
     title: warning,
   };
-};
-
-export const getFocusableFieldId = (fieldName: string): string => {
-  // For the select elements, focus the toggle button
-  if (PLACE_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
-    return `${fieldName}-toggle-button`;
-  }
-
-  return fieldName;
 };

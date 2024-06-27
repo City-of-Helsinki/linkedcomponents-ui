@@ -5,7 +5,6 @@ import isValid from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import { FormikErrors, FormikTouched } from 'formik';
 import { TFunction } from 'i18next';
-import forEach from 'lodash/forEach';
 import reduce from 'lodash/reduce';
 import set from 'lodash/set';
 import { scroller } from 'react-scroll';
@@ -23,6 +22,7 @@ import { Error, Maybe } from '../types';
 import formatDate from './formatDate';
 import getValue from './getValue';
 import setDateTime from './setDateTime';
+import wait from './wait';
 
 const createMaxErrorMessage = (
   message: { max: number },
@@ -279,24 +279,108 @@ export const showFormErrors = <Values = unknown>({
   }
 };
 
-export const scrollToFirstError = ({
+export type ErrorFieldType =
+  | 'array'
+  | 'default'
+  | 'checkboxGroup'
+  | 'combobox'
+  | 'select'
+  | 'textEditor';
+
+type FieldList = Array<string | RegExp>;
+
+type FieldLists = {
+  arrayFields: FieldList;
+  checkboxGroupFields: FieldList;
+  comboboxFields: FieldList;
+  selectFields: FieldList;
+  textEditorFields: FieldList;
+};
+
+export type ErrorFieldAndType = {
+  fieldId: string;
+  type: ErrorFieldType;
+};
+
+const isInFieldList = (fieldList: FieldList, fieldName: string): boolean =>
+  Boolean(fieldList.find((field) => new RegExp(field).test(fieldName)));
+
+const fieldMappings: Record<
+  keyof FieldLists,
+  { suffix: string; type: ErrorFieldType }
+> = {
+  comboboxFields: { suffix: '-input', type: 'combobox' },
+  selectFields: { suffix: '-toggle-button', type: 'select' },
+  textEditorFields: { suffix: '-text-editor', type: 'textEditor' },
+  checkboxGroupFields: { suffix: '', type: 'checkboxGroup' },
+  arrayFields: { suffix: '-error', type: 'array' },
+};
+
+export const getFocusableFieldId = (
+  fieldName: string,
+  fieldLists: FieldLists
+): ErrorFieldAndType => {
+  for (const [fieldListKey, { suffix, type }] of Object.entries(
+    fieldMappings
+  )) {
+    if (
+      isInFieldList(fieldLists[fieldListKey as keyof FieldLists], fieldName)
+    ) {
+      return { fieldId: `${fieldName}${suffix}`, type };
+    }
+  }
+
+  return { fieldId: fieldName, type: 'default' };
+};
+
+const focusToError = async ({
+  field,
+  fieldType,
+}: {
+  field: HTMLElement;
+  fieldType: ErrorFieldType;
+}) => {
+  if (fieldType === 'checkboxGroup') {
+    const focusable = field.querySelectorAll('input');
+
+    /* istanbul ignore else */
+    if (focusable?.[0]) {
+      focusable[0].focus();
+    }
+  } else if (fieldType === 'textEditor') {
+    field.click();
+  } else {
+    field.focus();
+  }
+};
+
+export const scrollToFirstError = async ({
   error,
   getFocusableFieldId,
+  preFocusFn,
 }: {
   error: Yup.ValidationError;
-  getFocusableFieldId?: (path: string) => string;
-}): void => {
-  forEach(error.inner, (e) => {
+  getFocusableFieldId: (path: string) => ErrorFieldAndType;
+  preFocusFn?: (path: string) => Promise<void>;
+}): Promise<void> => {
+  for (const e of error.inner) {
     const path = getValue(e.path, '');
-    const fieldId = getFocusableFieldId ? getFocusableFieldId(path) : path;
+
+    await preFocusFn?.(path);
+
+    const { fieldId, type: fieldType } = getFocusableFieldId(path);
+
+    if (fieldType === 'array') {
+      await wait(100);
+    }
     const field = document.getElementById(fieldId);
 
     /* istanbul ignore else */
     if (field) {
       scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
-      field.focus();
 
-      return false;
+      await focusToError({ field, fieldType });
+      break;
     }
-  });
+  }
 };

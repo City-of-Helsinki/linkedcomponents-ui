@@ -1,7 +1,7 @@
 import { mockString } from '../../../utils/testUtils';
-import { KEYWORD_SET_INITIAL_VALUES } from '../constants';
+import { KEYWORD_SET_FIELDS, KEYWORD_SET_INITIAL_VALUES } from '../constants';
 import { KeywordSetFormFields } from '../types';
-import { keywordSetSchema } from '../validation';
+import { getFocusableKeywordSetFieldId, keywordSetSchema } from '../validation';
 
 const testKeywordSetSchema = async (keywordSet: KeywordSetFormFields) => {
   try {
@@ -48,4 +48,30 @@ describe('keywordSetSchema', () => {
       ).toBe(false);
     }
   );
+});
+
+describe('getFocusableKeywordSetFieldId', () => {
+  it.each([
+    [
+      KEYWORD_SET_FIELDS.DATA_SOURCE,
+      { fieldId: 'dataSource', type: 'default' },
+    ],
+    [KEYWORD_SET_FIELDS.ID, { fieldId: 'id', type: 'default' }],
+    [
+      KEYWORD_SET_FIELDS.KEYWORDS,
+      { fieldId: 'keywords-toggle-button', type: 'select' },
+    ],
+    [KEYWORD_SET_FIELDS.NAME, { fieldId: 'name', type: 'default' }],
+    [
+      KEYWORD_SET_FIELDS.ORGANIZATION,
+      { fieldId: 'organization-toggle-button', type: 'select' },
+    ],
+    [KEYWORD_SET_FIELDS.ORIGIN_ID, { fieldId: 'originId', type: 'default' }],
+    [
+      KEYWORD_SET_FIELDS.USAGE,
+      { fieldId: 'usage-toggle-button', type: 'select' },
+    ],
+  ])('should return corrent field id', (fieldName, expectedId) => {
+    expect(getFocusableKeywordSetFieldId(fieldName)).toEqual(expectedId);
+  });
 });

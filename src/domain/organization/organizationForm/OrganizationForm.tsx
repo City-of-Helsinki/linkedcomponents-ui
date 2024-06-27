@@ -45,7 +45,10 @@ import {
   checkCanUserDoOrganizationAction,
   getOrganizationInitialValues,
 } from '../utils';
-import { getFocusableFieldId, getOrganizationSchema } from '../validation';
+import {
+  getFocusableOrganizationFieldId,
+  getOrganizationSchema,
+} from '../validation';
 import Accounts from './accounts/Accounts';
 import Merchants from './merchants/Merchants';
 import SubOrganizationTable from './subOrganizationTable/SubOrganizationTable';
@@ -177,7 +180,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
 
             scrollToFirstError({
               error: error as ValidationError,
-              getFocusableFieldId,
+              getFocusableFieldId: getFocusableOrganizationFieldId,
             });
           }
         };

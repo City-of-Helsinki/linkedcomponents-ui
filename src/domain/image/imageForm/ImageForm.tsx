@@ -47,7 +47,7 @@ import {
   getImageFields,
   getImageInitialValues,
 } from '../utils';
-import { getFocusableFieldId, imageSchema } from '../validation';
+import { getFocusableImageFieldId, imageSchema } from '../validation';
 
 type ImageFormProps = {
   image?: ImageFieldsFragment;
@@ -158,7 +158,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
 
             scrollToFirstError({
               error: error as ValidationError,
-              getFocusableFieldId,
+              getFocusableFieldId: getFocusableImageFieldId,
             });
           }
         };

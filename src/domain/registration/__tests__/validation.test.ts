@@ -5,9 +5,14 @@ import {
   REGISTRATION_FIELDS,
   REGISTRATION_INITIAL_VALUES,
   REGISTRATION_MERCHANT_FIELDS,
+  REGISTRATION_PRICE_GROUP_FIELDS,
+  REGISTRATION_USER_ACCESS_FIELDS,
 } from '../constants';
 import { RegistrationFormFields } from '../types';
-import { getFocusableFieldId, registrationSchema } from '../validation';
+import {
+  getFocusableRegistrationFieldId,
+  registrationSchema,
+} from '../validation';
 
 const testRegistrationSchema = async (registration: RegistrationFormFields) => {
   try {
@@ -241,24 +246,49 @@ describe('registrationSchema', () => {
     ).toBe(true);
   });
 });
-
-describe('getFocusableFieldId', () => {
+describe('getFocusableRegistrationFieldId', () => {
   it.each([
-    [REGISTRATION_FIELDS.AUDIENCE_MAX_AGE, 'audienceMaxAge'],
-    [REGISTRATION_FIELDS.EVENT, 'event-input'],
+    [
+      REGISTRATION_FIELDS.AUDIENCE_MAX_AGE,
+      { fieldId: 'audienceMaxAge', type: 'default' },
+    ],
+    [REGISTRATION_FIELDS.EVENT, { fieldId: 'event-input', type: 'combobox' }],
     [
       REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE,
-      'registrationPriceGroupsVatPercentage-toggle-button',
+      {
+        fieldId: 'registrationPriceGroupsVatPercentage-toggle-button',
+        type: 'select',
+      },
     ],
     [
       `${REGISTRATION_FIELDS.REGISTRATION_ACCOUNT}.${REGISTRATION_ACCOUNT_FIELDS.ACCOUNT}`,
-      'registrationAccount.account-toggle-button',
+      {
+        fieldId: 'registrationAccount.account-toggle-button',
+        type: 'select',
+      },
     ],
     [
       `${REGISTRATION_FIELDS.REGISTRATION_MERCHANT}.${REGISTRATION_MERCHANT_FIELDS.MERCHANT}`,
-      'registrationMerchant.merchant-toggle-button',
+      {
+        fieldId: 'registrationMerchant.merchant-toggle-button',
+        type: 'select',
+      },
+    ],
+    [
+      `${REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS}[0].${REGISTRATION_PRICE_GROUP_FIELDS.PRICE_GROUP}`,
+      {
+        fieldId: 'registrationPriceGroups[0].priceGroup-input',
+        type: 'combobox',
+      },
+    ],
+    [
+      `${REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES}[0].${REGISTRATION_USER_ACCESS_FIELDS.LANGUAGE}`,
+      {
+        fieldId: 'registrationUserAccesses[0].language-toggle-button',
+        type: 'select',
+      },
     ],
   ])('should return corrent field id', (fieldName, expectedId) => {
-    expect(getFocusableFieldId(fieldName)).toBe(expectedId);
+    expect(getFocusableRegistrationFieldId(fieldName)).toEqual(expectedId);
   });
 });

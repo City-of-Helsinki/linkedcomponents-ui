@@ -4,6 +4,7 @@ import { LE_DATA_LANGUAGES, ORDERED_LE_DATA_LANGUAGES } from '../../constants';
 import {
   createMultiLanguageValidation,
   createStringMaxErrorMessage,
+  getFocusableFieldId,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
@@ -44,11 +45,11 @@ export const keywordSetSchema = Yup.object().shape({
     .nullable(),
 });
 
-export const getFocusableFieldId = (fieldName: string): string => {
-  // For the select elements, focus the toggle button
-  if (KEYWORD_SET_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
-    return `${fieldName}-toggle-button`;
-  }
-
-  return fieldName;
-};
+export const getFocusableKeywordSetFieldId = (fieldName: string) =>
+  getFocusableFieldId(fieldName, {
+    arrayFields: [],
+    checkboxGroupFields: [],
+    comboboxFields: [],
+    selectFields: KEYWORD_SET_FORM_SELECT_FIELDS,
+    textEditorFields: [],
+  });

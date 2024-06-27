@@ -43,12 +43,8 @@ import usePlaceUpdateActions from '../hooks/usePlaceActions';
 import usePlaceServerErrors from '../hooks/usePlaceServerErrors';
 import PlaceAuthenticationNotification from '../placeAuthenticationNotification/PlaceAuthenticationNotification';
 import { PlaceFormFields } from '../types';
-import {
-  checkCanUserDoAction,
-  getFocusableFieldId,
-  getPlaceInitialValues,
-} from '../utils';
-import { placeSchema } from '../validation';
+import { checkCanUserDoAction, getPlaceInitialValues } from '../utils';
+import { getFocusablePlaceFieldId, placeSchema } from '../validation';
 
 type PlaceFormProps = {
   place?: PlaceFieldsFragment;
@@ -167,7 +163,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
 
             scrollToFirstError({
               error: error as ValidationError,
-              getFocusableFieldId,
+              getFocusableFieldId: getFocusablePlaceFieldId,
             });
           }
         };

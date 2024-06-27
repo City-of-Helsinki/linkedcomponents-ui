@@ -21,7 +21,6 @@ import {
   PRICE_GROUP_ACTION_ICONS,
   PRICE_GROUP_ACTION_LABEL_KEYS,
   PRICE_GROUP_ACTIONS,
-  PRICE_GROUP_FORM_SELECT_FIELDS,
 } from './constants';
 import {
   PriceGroupFields,
@@ -233,13 +232,4 @@ export const getPriceGroupPayload = (
   const { id, ...restFormValues } = formValues;
 
   return restFormValues;
-};
-
-export const getFocusableFieldId = (fieldName: string): string => {
-  // For the select elements, focus the toggle button
-  if (PRICE_GROUP_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
-    return `${fieldName}-toggle-button`;
-  }
-
-  return fieldName;
 };

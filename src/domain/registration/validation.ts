@@ -5,6 +5,7 @@ import { featureFlagUtils } from '../../utils/featureFlags';
 import {
   createNumberMinErrorMessage,
   createStringMaxErrorMessage,
+  getFocusableFieldId,
   isAfterStartDateAndTime,
   isEmailInAllowedDomain,
   isValidTime,
@@ -234,13 +235,11 @@ export const registrationSchema = Yup.object().shape({
   ),
 });
 
-export const getFocusableFieldId = (fieldName: string): string => {
-  if (REGISTRATION_COMBOBOX_FIELDS.find((item) => item === fieldName)) {
-    return `${fieldName}-input`;
-  } else if (REGISTRATION_SELECT_FIELDS.find((item) => item === fieldName)) {
-    return `${fieldName}-toggle-button`;
-  } else if (REGISTRATION_FIELD_ARRAYS.includes(fieldName)) {
-    return `${fieldName}-error`;
-  }
-  return fieldName;
-};
+export const getFocusableRegistrationFieldId = (fieldName: string) =>
+  getFocusableFieldId(fieldName, {
+    arrayFields: REGISTRATION_FIELD_ARRAYS,
+    checkboxGroupFields: [],
+    comboboxFields: REGISTRATION_COMBOBOX_FIELDS,
+    selectFields: REGISTRATION_SELECT_FIELDS,
+    textEditorFields: [],
+  });

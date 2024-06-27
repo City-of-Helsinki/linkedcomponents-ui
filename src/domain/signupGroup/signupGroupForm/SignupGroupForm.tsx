@@ -60,7 +60,10 @@ import {
   isRestoringSignupGroupFormDataDisabled,
   shouldCreatePayment,
 } from '../utils';
-import { getSignupGroupSchema, scrollToFirstError } from '../validation';
+import {
+  getSignupGroupSchema,
+  scrollToFirstSignupGroupFormError,
+} from '../validation';
 import AvailableSeatsText from './availableSeatsText/AvailableSeatsText';
 import styles from './signupGroupForm.module.scss';
 
@@ -306,7 +309,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
         setTouched,
       });
 
-      scrollToFirstError({
+      scrollToFirstSignupGroupFormError({
         error: error as ValidationError,
         setOpenAccordion: setOpenParticipant,
       });

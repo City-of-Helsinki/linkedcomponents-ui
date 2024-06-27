@@ -1,6 +1,7 @@
 import { User } from 'oidc-client-ts';
 
 import getValue from '../../utils/getValue';
+import { getFocusableFieldId } from '../../utils/validationUtils';
 import {
   ASK_PERMISSION_FORM_SELECT_FIELDS,
   askPermissionFormInitialValues,
@@ -9,25 +10,23 @@ import {
 } from './constants';
 import { AskPermissionFormFields, ContactFormFields } from './types';
 
-export const getAskPermissionFormFocusableFieldId = (
-  fieldName: string
-): string => {
-  // For the select elements, focus the toggle button
-  if (ASK_PERMISSION_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
-    return `${fieldName}-toggle-button`;
-  }
+export const getAskPermissionFormFocusableFieldId = (fieldName: string) =>
+  getFocusableFieldId(fieldName, {
+    arrayFields: [],
+    checkboxGroupFields: [],
+    comboboxFields: [],
+    selectFields: ASK_PERMISSION_FORM_SELECT_FIELDS,
+    textEditorFields: [],
+  });
 
-  return fieldName;
-};
-
-export const getContactFormFocusableFieldId = (fieldName: string): string => {
-  // For the select elements, focus the toggle button
-  if (CONTACT_FORM_SELECT_FIELDS.find((item) => item === fieldName)) {
-    return `${fieldName}-toggle-button`;
-  }
-
-  return fieldName;
-};
+export const getContactFormFocusableFieldId = (fieldName: string) =>
+  getFocusableFieldId(fieldName, {
+    arrayFields: [],
+    checkboxGroupFields: [],
+    comboboxFields: [],
+    selectFields: CONTACT_FORM_SELECT_FIELDS,
+    textEditorFields: [],
+  });
 
 export const getAskPermissionFormInitialValues = (
   user: User | null
