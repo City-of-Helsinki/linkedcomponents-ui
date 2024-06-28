@@ -5,11 +5,10 @@ import noResultsImage from '../../../../assets/images/jpg/no-results.jpg';
 import styles from '../table.module.scss';
 
 type NoResultsProps = {
-  colSpan?: number;
   noResultsText?: string;
 };
 
-const NoResults: FC<NoResultsProps> = ({ colSpan, noResultsText }) => {
+const NoResults: FC<NoResultsProps> = ({ noResultsText }) => {
   const { t } = useTranslation();
 
   const renderWrapper = () => {
@@ -20,14 +19,6 @@ const NoResults: FC<NoResultsProps> = ({ colSpan, noResultsText }) => {
       </div>
     );
   };
-
-  if (colSpan) {
-    return (
-      <tr className={styles.noResultsRow}>
-        <td colSpan={colSpan}>{renderWrapper()}</td>
-      </tr>
-    );
-  }
 
   return <div className={styles.noResults}>{renderWrapper()}</div>;
 };
