@@ -10,7 +10,6 @@ import TextInputField from '../textInputField/TextInputField';
 import styles from './multiLanguageField.module.scss';
 
 type Props = {
-  helperKey?: string;
   labelKey?: string;
   languages: string[];
   name: string;
@@ -19,7 +18,6 @@ type Props = {
 
 const MultiLanguageField: React.FC<Props> = ({
   helperText,
-  helperKey,
   label,
   labelKey,
   languages,
@@ -29,21 +27,22 @@ const MultiLanguageField: React.FC<Props> = ({
   ...rest
 }) => {
   const { t } = useTranslation();
-  if (!languages.length) return null;
 
   return (
     <div className={styles.multiLanguageField}>
-      {ORDERED_LE_DATA_LANGUAGES.map((language) => {
-        const langText = lowerCaseFirstLetter(t(`form.inLanguage.${language}`));
+      {ORDERED_LE_DATA_LANGUAGES.filter((l) => languages.includes(l)).map(
+        (language) => {
+          const langText = lowerCaseFirstLetter(
+            t(`form.inLanguage.${language}`)
+          );
 
-        return (
-          languages.includes(language) && (
+          return (
             <div key={language}>
               <Field
                 {...rest}
                 component={TextInputField}
                 name={`${name}.${language}`}
-                helper={helperText || (helperKey && t(helperKey, { langText }))}
+                helper={helperText}
                 label={
                   label ||
                   (labelKey && upperCaseFirstLetter(t(labelKey, { langText })))
@@ -54,9 +53,9 @@ const MultiLanguageField: React.FC<Props> = ({
                 }
               />
             </div>
-          )
-        );
-      })}
+          );
+        }
+      )}
     </div>
   );
 };
