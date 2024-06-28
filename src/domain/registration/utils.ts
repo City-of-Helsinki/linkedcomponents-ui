@@ -39,6 +39,7 @@ import skipFalsyType from '../../utils/skipFalsyType';
 import stripTrailingSlash from '../../utils/stripTrailingSlash';
 import i18n from '../app/i18n/i18nInit';
 import { getEventFields } from '../event/utils';
+import { PriceGroupOption } from '../priceGroup/types';
 import {
   getSeatsReservationData,
   isSeatsReservationExpired,
@@ -677,4 +678,29 @@ export const exportSignupsAsExcel = ({
     .catch((error) => {
       addNotification({ type: 'error', label: error.message });
     });
+};
+
+export const getPriceGroupOptionsForPriceGroup = ({
+  currentPriceGroup,
+  priceGroupOptions,
+  selectedPriceGroups,
+}: {
+  currentPriceGroup: RegistrationPriceGroupFormFields;
+  priceGroupOptions: PriceGroupOption[];
+  selectedPriceGroups: RegistrationPriceGroupFormFields[];
+}) => {
+  // Disable option if its not the current price group but is in the selected price groups
+  const disabledOptions: string[] = getValue(
+    selectedPriceGroups
+      ?.filter(
+        (pg) =>
+          pg !== currentPriceGroup &&
+          pg.priceGroup !== currentPriceGroup.priceGroup
+      )
+      .map((pg) => pg.priceGroup?.toString())
+      .filter(skipFalsyType),
+    []
+  );
+
+  return priceGroupOptions.filter((o) => !disabledOptions.includes(o.value));
 };
