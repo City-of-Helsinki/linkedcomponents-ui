@@ -18,7 +18,7 @@ import { MAIN_CONTENT_ID, PAGE_HEADER_ID, ROUTES } from '../../../constants';
 import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { featureFlagUtils } from '../../../utils/featureFlags';
-import skipFalsyType from '../../../utils/skipFalsyType';
+import getUserDisplayName from '../../../utils/getUserDisplayName';
 import useAuth from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import {
@@ -62,19 +62,10 @@ const Header: React.FC = () => {
   const { t } = useTranslation();
   const { user } = useUser();
 
-  const displayName = useMemo(() => {
-    if (authenticated) {
-      if (authUser?.profile) {
-        const { name, family_name, given_name } = authUser?.profile;
-        if (name) {
-          return name;
-        } else if (given_name && family_name) {
-          return [given_name, family_name].filter(skipFalsyType).join(' ');
-        }
-      }
-    }
-    return '';
-  }, [authUser, authenticated]);
+  const displayName = useMemo(
+    () => getUserDisplayName({ authUser, authenticated }),
+    [authUser, authenticated]
+  );
 
   const isTabActive = (pathname: string): boolean => {
     return location.pathname.startsWith(pathname);
