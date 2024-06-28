@@ -22,17 +22,20 @@ import {
   getMockedSeatsReservationData,
   setSessionStorageValues,
 } from '../../../utils/mockDataUtils';
+import { PriceGroupOption } from '../../priceGroup/types';
 import { TEST_SIGNUP_ID } from '../../signup/constants';
 import {
   REGISTRATION_INITIAL_VALUES,
   TEST_REGISTRATION_ID,
 } from '../constants';
+import { RegistrationPriceGroupFormFields } from '../types';
 import {
   copyRegistrationToSessionStorage,
   exportSignupsAsExcel,
   formatInstructions,
   getFreeAttendeeOrWaitingListCapacity,
   getMaxSeatsAmount,
+  getPriceGroupOptionsForPriceGroup,
   getRegistrationFields,
   getRegistrationInitialValues,
   getRegistrationPayload,
@@ -1212,6 +1215,69 @@ describe('exportSignupsAsExcel function', () => {
       await waitFor(() =>
         expect(addNotification).toBeCalledWith({ label: error, type: 'error' })
       );
+    }
+  );
+});
+
+describe('getPriceGroupOptionsForPriceGroup function', () => {
+  const priceGroup1: RegistrationPriceGroupFormFields = {
+    id: 1,
+    price: '1.00',
+    priceGroup: '1',
+  };
+  const priceGroup2: RegistrationPriceGroupFormFields = {
+    id: 2,
+    price: '2.00',
+    priceGroup: '2',
+  };
+  const priceGroupOption1: PriceGroupOption = {
+    isFree: false,
+    label: 'Price group 1',
+    value: '1',
+  };
+  const priceGroupOption2: PriceGroupOption = {
+    isFree: false,
+    label: 'Price group 2',
+    value: '2',
+  };
+  const priceGroupOption3: PriceGroupOption = {
+    isFree: false,
+    label: 'Price group 3',
+    value: '3',
+  };
+  const priceGroupOption4: PriceGroupOption = {
+    isFree: false,
+    label: 'Price group 4',
+    value: '4',
+  };
+  const priceGroupOptions: PriceGroupOption[] = [
+    priceGroupOption1,
+    priceGroupOption2,
+    priceGroupOption3,
+    priceGroupOption4,
+  ];
+
+  it.each([
+    [
+      priceGroup1,
+      [priceGroup1, priceGroup2],
+      [priceGroupOption1, priceGroupOption3, priceGroupOption4],
+    ],
+    [
+      priceGroup2,
+      [priceGroup1, priceGroup2],
+      [priceGroupOption2, priceGroupOption3, priceGroupOption4],
+    ],
+  ])(
+    'should download signups as excel',
+    async (currentPriceGroup, selectedPriceGroups, expectedOptions) => {
+      expect(
+        getPriceGroupOptionsForPriceGroup({
+          priceGroupOptions: priceGroupOptions,
+          currentPriceGroup,
+          selectedPriceGroups,
+        })
+      ).toEqual(expectedOptions);
     }
   );
 });

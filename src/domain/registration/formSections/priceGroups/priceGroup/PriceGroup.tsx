@@ -6,13 +6,13 @@ import DeleteButton from '../../../../../common/components/deleteButton/DeleteBu
 import SingleSelectField from '../../../../../common/components/formFields/singleSelectField/SingleSelectField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../../common/components/formGroup/FormGroup';
-import skipFalsyType from '../../../../../utils/skipFalsyType';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
 import SplittedRow from '../../../../app/layout/splittedRow/SplittedRow';
 import FieldWithButton from '../../../../event/layout/FieldWithButton';
 import usePriceGroupOptions from '../../../../priceGroup/hooks/usePriceGroupOptions';
 import { REGISTRATION_PRICE_GROUP_FIELDS } from '../../../constants';
 import { RegistrationPriceGroupFormFields } from '../../../types';
+import { getPriceGroupOptionsForPriceGroup } from '../../../utils';
 
 type Props = {
   isEditingAllowed: boolean;
@@ -57,17 +57,15 @@ const PriceGroup: React.FC<Props> = ({
 
   const { loading: loadingPriceGroupOptions, options: priceGroupOptions } =
     usePriceGroupOptions({ publisher });
-  const filteredPriceGroupOptions = useMemo(() => {
-    const disabledOptions =
-      priceGroups
-        ?.filter(
-          (pg) => pg !== priceGroup && pg.priceGroup !== priceGroup.priceGroup
-        )
-        .map((pg) => pg.priceGroup?.toString())
-        .filter(skipFalsyType) || [];
-
-    return priceGroupOptions?.filter((o) => !disabledOptions.includes(o.value));
-  }, [priceGroup, priceGroupOptions, priceGroups]);
+  const filteredPriceGroupOptions = useMemo(
+    () =>
+      getPriceGroupOptionsForPriceGroup({
+        currentPriceGroup: priceGroup,
+        priceGroupOptions,
+        selectedPriceGroups: priceGroups,
+      }),
+    [priceGroup, priceGroupOptions, priceGroups]
+  );
 
   const isFree = useMemo(() => {
     return !!priceGroupOptions.find((pg) => pg.value === priceGroup.priceGroup)
