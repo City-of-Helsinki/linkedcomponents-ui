@@ -5,7 +5,10 @@ import {
 } from '@apollo/client';
 import { useTranslation } from 'react-i18next';
 
-import { useUpdateImageMutation } from '../../../generated/graphql';
+import {
+  UserFieldsFragment,
+  useUpdateImageMutation,
+} from '../../../generated/graphql';
 import getValue from '../../../utils/getValue';
 import isTestEnv from '../../../utils/isTestEnv';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
@@ -26,7 +29,8 @@ import useUser from '../../user/hooks/useUser';
 import { EventFormFields } from '../types';
 
 type UpdateImageIfNeededState = {
-  updateImageIfNeeded: (values: EventFormFields) => Promise<void>;
+  updateImageIfNeeded: (values: EventFormFields) => Promise<boolean>;
+  user: UserFieldsFragment | undefined;
 };
 
 const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
@@ -36,14 +40,16 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
   const { user } = useUser();
   const [updateImage] = useUpdateImageMutation();
 
-  const cleanAfterUpdate = async () => {
+  const cleanAfterUpdate = () => {
     /* istanbul ignore next */
     !isTestEnv && clearImageQueries(apolloClient);
     /* istanbul ignore next */
     !isTestEnv && clearImagesQueries(apolloClient);
   };
 
-  const updateImageIfNeeded = async (values: EventFormFields) => {
+  const updateImageIfNeeded = async (
+    values: EventFormFields
+  ): Promise<boolean> => {
     const { imageDetails, images } = values;
 
     const imageAtId = images[0];
@@ -51,6 +57,11 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
     if (imageAtId) {
       const imageId = getValue(parseIdFromAtId(imageAtId), '');
       const image = await getImageQueryResult(imageId, apolloClient);
+
+      if (!image) {
+        return false;
+      }
+
       const publisher = getValue(image?.publisher, '');
       const organizationAncestors = await getOrganizationAncestorsQueryResult(
         publisher,
@@ -67,7 +78,6 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
 
       if (
         editable &&
-        image &&
         isImageUpdateNeeded(image, imageDetails as ImageFormFields)
       ) {
         await updateImage({
@@ -75,14 +85,18 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
             id: getValue(parseIdFromAtId(imageId), ''),
             input: imageDetails,
           },
+          onCompleted: () => {
+            cleanAfterUpdate();
+          },
         });
 
-        cleanAfterUpdate();
+        return true;
       }
     }
+    return false;
   };
 
-  return { updateImageIfNeeded };
+  return { updateImageIfNeeded, user };
 };
 
 export default useUpdateImageIfNeeded;

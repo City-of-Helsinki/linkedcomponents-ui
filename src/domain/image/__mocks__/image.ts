@@ -3,6 +3,7 @@ import omit from 'lodash/omit';
 
 import { PAGE_SIZE } from '../../../common/components/imageSelector/constants';
 import {
+  Image,
   ImageDocument,
   ImagesDocument,
   UpdateImageDocument,
@@ -26,11 +27,17 @@ const imageFields = {
 };
 const image = fakeImage(imageFields);
 const imageVariables = { createPath: undefined, id: imageId };
-const imageResponse = { data: { image } };
-const mockedImageResponse: MockedResponse = {
-  request: { query: ImageDocument, variables: imageVariables },
-  result: imageResponse,
+
+const getMockedImageResponse = (image: Image): MockedResponse => {
+  const imageResponse = { data: { image } };
+
+  return {
+    request: { query: ImageDocument, variables: imageVariables },
+    result: imageResponse,
+  };
 };
+
+const mockedImageResponse: MockedResponse = getMockedImageResponse(image);
 
 const imageNotFoundId = 'not-found';
 const imageNotFoundAtId = generateAtId(imageNotFoundId, 'image');
@@ -43,7 +50,10 @@ const mockedImageNotFoundResponse = {
   error: new Error('not found'),
 };
 
-const updateImageVariables = { input: omit(imageFields, 'atId') };
+const updateImageVariables = {
+  id: imageFields.id,
+  input: omit(imageFields, 'atId'),
+};
 const updateImageResponse = { data: { updateImage: image } };
 const mockedUpdateImageResponse: MockedResponse = {
   request: { query: UpdateImageDocument, variables: updateImageVariables },
@@ -64,6 +74,7 @@ const mockedImagesResponse: MockedResponse = {
 };
 
 export {
+  getMockedImageResponse,
   image,
   imageFields,
   imageNotFoundAtId,
