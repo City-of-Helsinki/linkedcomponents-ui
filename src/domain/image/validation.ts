@@ -6,7 +6,6 @@ import {
   createStringMaxErrorMessage,
   createStringMinErrorMessage,
   getFocusableFieldId,
-  isValidUrl,
 } from '../../utils/validationUtils';
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
@@ -59,35 +58,17 @@ const validateFile = ([ids, url]: any[], schema: Yup.MixedSchema<any>) =>
     ? schema
     : schema.required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED);
 
-const validateUrl = ([ids, imageFile]: any[], schema: Yup.StringSchema) =>
-  imageFile || ids.length
-    ? schema
-    : schema.test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
-        isValidUrl(value)
-      );
-
 export const addImageSchema = Yup.object().shape(
   {
     [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: Yup.array().when(
-      [ADD_IMAGE_FIELDS.IMAGE_FILE, ADD_IMAGE_FIELDS.URL],
+      [ADD_IMAGE_FIELDS.IMAGE_FILE],
       validateSelectedImage
     ),
     [ADD_IMAGE_FIELDS.IMAGE_FILE]: Yup.mixed()
       .nullable()
-      .when(
-        [ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL],
-        validateFile
-      ),
-    [ADD_IMAGE_FIELDS.URL]: Yup.string().when(
-      [ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.IMAGE_FILE],
-      validateUrl
-    ),
+      .when([ADD_IMAGE_FIELDS.SELECTED_IMAGE], validateFile),
   },
-  [
-    [ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.IMAGE_FILE],
-    [ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.URL],
-    [ADD_IMAGE_FIELDS.IMAGE_FILE, ADD_IMAGE_FIELDS.URL],
-  ]
+  [[ADD_IMAGE_FIELDS.SELECTED_IMAGE, ADD_IMAGE_FIELDS.IMAGE_FILE]]
 );
 
 export const getFocusableImageFieldId = (fieldName: string) =>

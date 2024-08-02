@@ -5,7 +5,6 @@ import { PixelCrop } from 'react-image-crop';
 
 import Button from '../../../common/components/button/Button';
 import ImageSelectorField from '../../../common/components/formFields/imageSelectorField/ImageSelectorField';
-import TextInputField from '../../../common/components/formFields/textInputField/TextInputField';
 import ImageUploader from '../../../common/components/imageUploader/ImageUploader';
 import {
   getCompressedImageFile,
@@ -78,7 +77,7 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
       validateOnMount={true}
       validationSchema={addImageSchema}
     >
-      {({ values: { selectedImage, url }, isValid, setFieldValue }) => {
+      {({ values: { selectedImage }, isValid, setFieldValue }) => {
         const handleImageFileChange = (
           file: File | null,
           crop: PixelCrop | null,
@@ -97,7 +96,6 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
                 <Field
                   name={ADD_IMAGE_FIELDS.SELECTED_IMAGE}
                   component={ImageSelectorField}
-                  disabled={Boolean(url)}
                   multiple={false}
                   onDoubleClick={(image: Image) => {
                     onSubmit({
@@ -118,19 +116,7 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
               title={warning}
             />
             <div className={styles.separationLine} />
-
-            <h3>{t('image.form.titleImportFromInternet')}</h3>
             <div className={styles.imageUrlRow}>
-              <div>
-                <Field
-                  disabled={!allowed || Boolean(selectedImage.length)}
-                  name={ADD_IMAGE_FIELDS.URL}
-                  component={TextInputField}
-                  label={t(`image.form.labelUrl`)}
-                  placeholder={t(`image.form.placeholderUrl`)}
-                  title={warning}
-                />
-              </div>
               <div className={styles.buttonsColumn}>
                 <div>
                   <Button

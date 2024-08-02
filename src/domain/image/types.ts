@@ -16,5 +16,4 @@ export type AddImageSettings = {
   [ADD_IMAGE_FIELDS.IMAGE_CROP]: PixelCrop | null;
   [ADD_IMAGE_FIELDS.IMAGE_FILE]: File | null;
   [ADD_IMAGE_FIELDS.SELECTED_IMAGE]: string[];
-  [ADD_IMAGE_FIELDS.URL]: string;
 };

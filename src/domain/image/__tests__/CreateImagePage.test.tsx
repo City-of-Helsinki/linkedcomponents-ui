@@ -20,7 +20,6 @@ import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks_
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
   file,
-  imageUrl,
   mockedUploadImageByFileResponse,
   mockedUploadImageByUrlResponse,
 } from '../__mocks__/createImagePage';
@@ -92,25 +91,6 @@ const uploadImageByFile = async () => {
   await user.click(submitButton);
 };
 
-const uploadImageByUrl = async () => {
-  const user = userEvent.setup();
-
-  const addButton = getElement('addButton');
-  await user.click(addButton);
-
-  const dialog = await screen.findByRole('dialog');
-  const withinModal = within(dialog);
-  withinModal.getByRole('heading', { name: /Lisää kuva/i });
-
-  const urlInput = withinModal.getByLabelText(/kuvan url-osoite/i);
-  await waitFor(() => expect(urlInput).toBeEnabled());
-  await user.type(urlInput, imageUrl);
-
-  const submitButton = withinModal.getByRole('button', { name: 'Lisää' });
-  await waitFor(() => expect(submitButton).toBeEnabled());
-  await user.click(submitButton);
-};
-
 test('applies expected metadata', async () => {
   renderComponent();
 
@@ -142,17 +122,6 @@ test('should create and select new image by selecting image file', async () => {
 
   await fillPublisherField();
   await uploadImageByFile();
-
-  await screen.findByTestId(testIds.imagePreview.image);
-});
-
-test('should create and select new image by entering image url', async () => {
-  renderComponent();
-
-  await loadingSpinnerIsNotInDocument();
-
-  await fillPublisherField();
-  await uploadImageByUrl();
 
   await screen.findByTestId(testIds.imagePreview.image);
 });

@@ -91,14 +91,6 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
     if (values.selectedImage.length) {
       setImagesValue(values.selectedImage);
       closeModal();
-    } else if (values.url) {
-      uploadImage(
-        {
-          publisher: imagePublisherValue,
-          url: values.url,
-        },
-        setImageFields
-      );
     }
   };
 

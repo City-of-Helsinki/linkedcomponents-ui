@@ -189,11 +189,8 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
           <>
             <AddImageModal
               isOpen={openModal === IMAGE_MODALS.ADD_IMAGE}
-              onAddImage={({ url }) =>
-                uploadImage(
-                  { publisher: values.publisher, url },
-                  setImageFields
-                )
+              onAddImage={() =>
+                uploadImage({ publisher: values.publisher }, setImageFields)
               }
               onClose={closeModal}
               onAddImageByFile={(image) =>
