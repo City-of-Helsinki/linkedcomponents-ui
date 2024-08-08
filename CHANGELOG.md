@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.11.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.10.0...linkedcomponents-ui-v1.11.0) (2024-08-08)
+
+
+### Features
+
+* Events page remove add image with url LINK-1625 ([cfd0b18](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/cfd0b1821512bc5c91f721faa35e8173f6d3cf42))
+* Improve test coverage ([075647e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/075647eca506b538cb893176ed76b77ad2ac22f8))
+* Refactor useUpdateImageIfNeeded hook to make it easier to test ([c336146](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/c3361463f87ed2aeb996a438601e7f407cce75d6))
+* Remove unused functions ([b96882f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/b96882f5897abd253f7658597c59d020466ee17f))
+* Remove unused helperkey prop from MultiLanguageField ([6d0ed90](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/6d0ed909a6e8b8a1508ac8d92688c3fbfef0ba3e))
+* Scrub sensitive data from Sentry requests ([f533fed](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/f533fed5f3765ba2964bcbad0741017196b4cc10))
+* Separate util function to get filtered price groups options ([8b37355](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/8b373559d67aadef56ea625413844e51dd539e8b))
+* Separate util function to get user name in header ([8c39dba](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/8c39dbad8d653745fdb40f8ea46409f8f610d6d4))
+* Simplify functions to scroll to first validation error ([f6e2703](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/f6e2703adfe612b75cd74d653dc189d1426be720))
+
+
+### Bug Fixes
+
+* Use correct tooltip label for provider field ([af471f0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/af471f072f5951a4288162732fb5ebd317087ee5))
+
 ## [1.10.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.9.0...linkedcomponents-ui-v1.10.0) (2024-06-25)
 
 
