@@ -91,7 +91,11 @@ const EventSavedPageWrapper: React.FC = () => {
   return (
     <MainContent>
       <LoadingSpinner isLoading={loading}>
-        {eventData ? <EventSavedPage event={eventData.event} /> : <NotFound />}
+        {eventData?.event ? (
+          <EventSavedPage event={eventData.event} />
+        ) : (
+          <NotFound />
+        )}
       </LoadingSpinner>
     </MainContent>
   );
