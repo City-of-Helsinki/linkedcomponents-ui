@@ -43,8 +43,8 @@ export const fakeOidcUserState = (overrides?: Partial<User>): User =>
 type LoginStateOptions = {
   authenticated: boolean;
   apiToken: string | null;
-  login: Mock<any, any>;
-  logout: Mock<any, any>;
+  login: Mock<any>;
+  logout: Mock<any>;
   user: User | null;
 };
 

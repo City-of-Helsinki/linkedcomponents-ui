@@ -23,7 +23,7 @@ import {
   Routes,
   unstable_HistoryRouter as Router,
 } from 'react-router-dom';
-import { Mock, SpyInstance } from 'vitest';
+import { Mock, MockInstance } from 'vitest';
 import wait from 'waait';
 
 import { AccessibilityNotificationProvider } from '../common/components/accessibilityNotificationContext/AccessibilityNotificationContext';
@@ -199,7 +199,7 @@ const loadingSpinnerIsNotInDocument = async (timeout = 5000): Promise<void> => {
 };
 
 const waitReducerToBeCalled = async (
-  dispatch: SpyInstance,
+  dispatch: MockInstance,
   action: ReducerAction<any>
 ) => await waitFor(() => expect(dispatch).toBeCalledWith(action));
 
