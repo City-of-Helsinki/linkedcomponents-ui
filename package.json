@@ -1,6 +1,6 @@
 {
   "name": "linkedcomponents-ui",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.9.8",
