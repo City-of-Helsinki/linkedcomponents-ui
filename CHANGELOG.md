@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.12.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.11.0...linkedcomponents-ui-v1.12.0) (2024-08-19)
+
+
+### Features
+
+* Events save not found fix LINK-2055 ([63afff3](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/63afff36c2f136e30fa9f921c6495c53b26cae31))
+
+
+### Dependencies
+
+* Upgrade vite and sentry deps LINK-2055 ([df54339](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/df543395e66657bd10f25a42b71928af3fb98a16))
+
 ## [1.11.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.10.0...linkedcomponents-ui-v1.11.0) (2024-08-08)
 
 
