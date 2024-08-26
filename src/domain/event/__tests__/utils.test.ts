@@ -474,7 +474,7 @@ describe('getEventPayload function', () => {
             },
           },
         ],
-        offersVatPercentage: '24.00',
+        offersVatPercentage: '25.50',
         provider: {
           ...EMPTY_MULTI_LANGUAGE_OBJECT,
           fi: 'Provider fi',
@@ -569,13 +569,13 @@ describe('getEventPayload function', () => {
               id: 1,
               priceGroup: 123,
               price: '12.00',
-              vatPercentage: '24.00',
+              vatPercentage: '25.50',
             },
             {
               id: undefined,
               priceGroup: 234,
               price: '7.20',
-              vatPercentage: '24.00',
+              vatPercentage: '25.50',
             },
           ],
           price: {
@@ -1035,7 +1035,7 @@ describe('getEventInitialValues function', () => {
         },
       },
     ];
-    const offersVatPercentage = '24.00';
+    const offersVatPercentage = '25.50';
     const provider = {
       ar: 'Provider ar',
       en: 'Provider en',
@@ -1981,7 +1981,7 @@ describe('copyEventInfoToRegistrationSessionStorage function', () => {
             id: null,
             price: '10.00',
             priceGroup: fakePriceGroupDense({ id: 1 }),
-            vatPercentage: '24.00',
+            vatPercentage: '25.50',
           },
         ]),
       }),
@@ -1994,7 +1994,7 @@ describe('copyEventInfoToRegistrationSessionStorage function', () => {
     expect(setItemSpy).toHaveBeenCalledWith(
       FORM_NAMES.REGISTRATION_FORM,
       expect.stringContaining(
-        `"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"${event.atId}","hasPrice":true,"infoLanguages":["fi"],"instructions":{"fi":"Ilmoittautumisen teknisissä ongelmissa ole yhteydessä:\\nPalvelukeskus Helsinki\\n09 310 25280, palveluaika klo 8-18","sv":"För tekniska problem med registreringen, vänligen kontakta:\\nPalvelukeskus Helsinki\\n09 310 25280, servicetid 08.00 till 18.00","en":"For technical problems with registration, please contact:\\nPalvelukeskus Helsinki\\n09 310 25280, service hours 8 a.m. to 6 p.m","ru":"","zhHans":"","ar":""},"mandatoryFields":["first_name","last_name"],"maximumAttendeeCapacity":10,"maximumGroupSize":"","minimumAttendeeCapacity":5,"priceGroupOptions":[],"registrationAccount":{"account":"","balanceProfitCenter":"","companyCode":"","internalOrder":"","mainLedgerAccount":"","operationArea":"","profitCenter":"","project":""},"registrationMerchant":{"merchant":""},"registrationPriceGroups":[{"id":null,"price":"10.00","priceGroup":"1"}],"registrationPriceGroupsVatPercentage":"24.00","registrationUserAccesses":[],"waitingListCapacity":""`
+        `"audienceMaxAge":18,"audienceMinAge":12,"confirmationMessage":{"fi":"","sv":"","en":"","ru":"","zhHans":"","ar":""},"enrolmentEndTimeDate":"2021-06-15T12:00:00.000Z","enrolmentEndTimeTime":"12:00","enrolmentStartTimeDate":"2021-06-13T12:00:00.000Z","enrolmentStartTimeTime":"12:00","event":"${event.atId}","hasPrice":true,"infoLanguages":["fi"],"instructions":{"fi":"Ilmoittautumisen teknisissä ongelmissa ole yhteydessä:\\nPalvelukeskus Helsinki\\n09 310 25280, palveluaika klo 8-18","sv":"För tekniska problem med registreringen, vänligen kontakta:\\nPalvelukeskus Helsinki\\n09 310 25280, servicetid 08.00 till 18.00","en":"For technical problems with registration, please contact:\\nPalvelukeskus Helsinki\\n09 310 25280, service hours 8 a.m. to 6 p.m","ru":"","zhHans":"","ar":""},"mandatoryFields":["first_name","last_name"],"maximumAttendeeCapacity":10,"maximumGroupSize":"","minimumAttendeeCapacity":5,"priceGroupOptions":[],"registrationAccount":{"account":"","balanceProfitCenter":"","companyCode":"","internalOrder":"","mainLedgerAccount":"","operationArea":"","profitCenter":"","project":""},"registrationMerchant":{"merchant":""},"registrationPriceGroups":[{"id":null,"price":"10.00","priceGroup":"1"}],"registrationPriceGroupsVatPercentage":"25.50","registrationUserAccesses":[],"waitingListCapacity":""`
       )
     );
   });

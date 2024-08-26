@@ -287,7 +287,7 @@ describe('getRegistrationInitialValues function', () => {
               id: 1,
               priceGroup: fakePriceGroupDense({ id: 123 }),
               price: '12.00',
-              vatPercentage: '24.00',
+              vatPercentage: '25.50',
             },
           ],
           registrationUserAccesses: [
@@ -344,7 +344,7 @@ describe('getRegistrationInitialValues function', () => {
           price: '12.00',
         },
       ],
-      registrationPriceGroupsVatPercentage: '24.00',
+      registrationPriceGroupsVatPercentage: '25.50',
       registrationUserAccesses: [
         {
           email: 'user@email.com',
@@ -419,7 +419,7 @@ describe('getRegistrationPayload function', () => {
           price: '10.00',
         },
       ],
-      registrationPriceGroupsVatPercentage = '24.00',
+      registrationPriceGroupsVatPercentage = '25.50',
       registrationUserAccesses = [
         {
           email: 'user@email.com',
@@ -516,13 +516,13 @@ describe('getRegistrationPayload function', () => {
           id: 1,
           price: '12.00',
           priceGroup: 123,
-          vatPercentage: '24.00',
+          vatPercentage: '25.50',
         },
         {
           id: undefined,
           price: '10.00',
           priceGroup: 123,
-          vatPercentage: '24.00',
+          vatPercentage: '25.50',
         },
       ],
       registrationUserAccesses: [
