@@ -352,7 +352,7 @@ export const fakeOfferPriceGroup = (
       priceGroup: fakePriceGroupDense(),
       priceWithoutVat: faker.string.numeric(),
       vat: faker.string.numeric(),
-      vatPercentage: '24.00',
+      vatPercentage: '25.50',
       __typename: 'OfferPriceGroup',
     },
     overrides
@@ -547,7 +547,7 @@ export const fakeRegistrationPriceGroup = (
       priceGroup: fakePriceGroupDense(),
       priceWithoutVat: faker.string.numeric(),
       vat: faker.string.numeric(),
-      vatPercentage: '24.00',
+      vatPercentage: '25.50',
       __typename: 'RegistrationPriceGroup',
     },
     overrides
@@ -672,7 +672,7 @@ export const fakeSignupPriceGroup = (
       priceWithoutVat: faker.string.numeric(),
       registrationPriceGroup: faker.number.int(),
       vat: faker.string.numeric(),
-      vatPercentage: '24.00',
+      vatPercentage: '25.50',
       __typename: 'SignupPriceGroup',
     },
     overrides

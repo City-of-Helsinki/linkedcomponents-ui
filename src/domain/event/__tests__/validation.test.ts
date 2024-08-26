@@ -73,7 +73,7 @@ describe('publiEventSchema', () => {
     mainCategories: [TEST_KEYWORD_ID],
     maximumAttendeeCapacity: 2,
     name: { ...EMPTY_MULTI_LANGUAGE_OBJECT, fi: 'Name' },
-    offersVatPercentage: '24.00',
+    offersVatPercentage: '25.50',
     publisher: TEST_PUBLISHER_ID,
     shortDescription: {
       ...EMPTY_MULTI_LANGUAGE_OBJECT,

@@ -51,7 +51,7 @@ describe('registrationSchema', () => {
     registrationMerchant: {
       merchant: '1',
     },
-    registrationPriceGroupsVatPercentage: '24.00',
+    registrationPriceGroupsVatPercentage: '25.50',
   };
 
   const validPriceGroup = {
