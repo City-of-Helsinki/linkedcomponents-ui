@@ -1172,6 +1172,7 @@
       "offersRequired": "Vähintään 1 hintatieto vaaditaan",
       "priceInvalid": "Enintään kaksi desimaalia on sallittu",
       "priceGroupsRequired": "Vähintään 1 asiakasryhmä vaaditaan",
+      "soMeLinkDuplicate": "SoMe-linkit eivät voi olla samoja",
       "string": {
         "charsLeft": "{{count}} merkki jäljellä",
         "charsLeft_other": "{{count}} merkkiä jäljellä",

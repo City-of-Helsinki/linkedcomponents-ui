@@ -1192,6 +1192,7 @@
       "offersRequired": "At least 1 price information must be added",
       "priceInvalid": "Maximum of two decimal places is allowed",
       "priceGroupsRequired": "At least 1 customer group must be added",
+      "soMeLinkDuplicate": "SoMe links cannot be the same",
       "string": {
         "charsLeft": "{{count}} character left",
         "charsLeft_other": "{{count}} characters left",

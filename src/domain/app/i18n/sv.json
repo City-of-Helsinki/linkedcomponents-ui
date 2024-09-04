@@ -1192,6 +1192,7 @@
       "offersRequired": "Minst 1 prisinformation måste läggas till",
       "priceInvalid": "Högst två decimaler är tillåtna",
       "priceGroupsRequired": "Minst 1 kundgrupp måste läggas till",
+      "soMeLinkDuplicate": "SoMe-länkar kan inte vara desamma",
       "string": {
         "charsLeft": "{{count}} tecken kvar",
         "charsLeft_other": "{{count}} tecken kvar",
