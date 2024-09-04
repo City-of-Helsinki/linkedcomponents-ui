@@ -22,9 +22,9 @@ import {
   videoSchema,
 } from '../validation';
 
-const testExternalLinkSchema = async (externalLink: ExternalLink) => {
+const testExternalLinkSchema = async (externalLinks: ExternalLink[]) => {
   try {
-    await externalLinksSchema.validate([externalLink]);
+    await externalLinksSchema.validate(externalLinks);
     return true;
   } catch (e) {
     return false;
@@ -256,7 +256,7 @@ describe('external link validation', () => {
   };
 
   test('should return true if external link is valid', async () => {
-    expect(await testExternalLinkSchema(validExternalLink)).toBe(true);
+    expect(await testExternalLinkSchema([validExternalLink])).toBe(true);
   });
 
   const testCases: [Partial<ExternalLink>][] = [
@@ -270,13 +270,22 @@ describe('external link validation', () => {
     'should return false if external link is invalid, %s',
     async (externalLinkOverrides) => {
       expect(
-        await testExternalLinkSchema({
-          ...validExternalLink,
-          ...externalLinkOverrides,
-        })
+        await testExternalLinkSchema([
+          validExternalLink,
+          externalLinkOverrides as ExternalLink,
+        ])
       ).toBe(false);
     }
   );
+
+  test('should return false if external links are not unique', async () => {
+    const duplicateExternalLinks: ExternalLink[] = [
+      validExternalLink,
+      validExternalLink,
+    ];
+
+    expect(await testExternalLinkSchema(duplicateExternalLinks)).toBe(false);
+  });
 });
 
 describe('video validation', () => {

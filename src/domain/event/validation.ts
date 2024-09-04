@@ -190,22 +190,63 @@ const validateOffers = (
     : schema.of(createFreeOfferSchema(eventInfoLanguage));
 };
 
-export const externalLinksSchema = Yup.array().of(
-  Yup.object().shape({
-    [EXTERNAL_LINK_FIELDS.LINK]: Yup.string()
-      .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
-      .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
-        isValidUrl(value)
-      )
-      .max(
-        EVENT_EXTERNAL_LINK_TEXT_FIELD_MAX_LENGTH[EXTERNAL_LINK_FIELDS.LINK],
-        createStringMaxErrorMessage
+export const externalLinksSchema = Yup.array()
+  .of(
+    Yup.object().shape({
+      [EXTERNAL_LINK_FIELDS.LINK]: Yup.string()
+        .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+        .test('is-url-valid', VALIDATION_MESSAGE_KEYS.URL, (value) =>
+          isValidUrl(value)
+        )
+        .max(
+          EVENT_EXTERNAL_LINK_TEXT_FIELD_MAX_LENGTH[EXTERNAL_LINK_FIELDS.LINK],
+          createStringMaxErrorMessage
+        ),
+      [EXTERNAL_LINK_FIELDS.NAME]: Yup.string().required(
+        VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
       ),
-    [EXTERNAL_LINK_FIELDS.NAME]: Yup.string().required(
-      VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
-    ),
-  })
-);
+    })
+  )
+  .test(
+    'unique',
+    VALIDATION_MESSAGE_KEYS.SOME_LINK_DUPLICATE,
+    (values, context) => {
+      if (!values?.length) {
+        return true;
+      }
+
+      const duplicates = values
+        .map((value, duplicateIndex) => {
+          const isDuplicateOf = values.findIndex(
+            (item) => item.link === value.link && item.name === value.name
+          );
+
+          const isDuplicate = isDuplicateOf !== duplicateIndex;
+
+          return isDuplicate ? { duplicateIndex, isDuplicateOf } : null;
+        })
+        .filter(Boolean);
+
+      if (!duplicates.length) {
+        return true;
+      }
+
+      const errors = duplicates
+        .map((duplicate) => [
+          context.createError({
+            path: `${context.path}[${duplicate?.duplicateIndex}].link`,
+            message: VALIDATION_MESSAGE_KEYS.SOME_LINK_DUPLICATE,
+          }),
+          context.createError({
+            path: `${context.path}[${duplicate?.isDuplicateOf}].link`,
+            message: VALIDATION_MESSAGE_KEYS.SOME_LINK_DUPLICATE,
+          }),
+        ])
+        .flat();
+
+      return context.createError({ message: () => errors });
+    }
+  );
 
 const validateImageDetails = (
   values: any[],
