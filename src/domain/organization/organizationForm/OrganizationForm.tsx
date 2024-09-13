@@ -80,6 +80,8 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
     user,
   });
 
+  const isSuperUser = user?.isSuperuser;
+
   const goToOrganizationsPage = () => {
     navigate(`/${locale}${ROUTES.ORGANIZATIONS}`);
   };
@@ -236,7 +238,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 className={styles.alignedSelect}
                 clearable
                 component={UserSelectorField}
-                disabled={!isEditingAllowed}
+                disabled={!isEditingAllowed || !isSuperUser}
                 extraOptions={existingUserOptions}
                 label={t(`organization.form.labelAdminUsers`)}
                 name={ORGANIZATION_FIELDS.ADMIN_USERS}
@@ -248,7 +250,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 className={styles.alignedSelect}
                 clearable
                 component={UserSelectorField}
-                disabled={!isEditingAllowed}
+                disabled={!isEditingAllowed || !isSuperUser}
                 extraOptions={existingUserOptions}
                 label={t(`organization.form.labelRegistrationAdminUsers`)}
                 name={ORGANIZATION_FIELDS.REGISTRATION_ADMIN_USERS}
@@ -260,7 +262,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 className={styles.alignedSelect}
                 clearable
                 component={UserSelectorField}
-                disabled={!isEditingAllowed}
+                disabled={!isEditingAllowed || !isSuperUser}
                 extraOptions={existingUserOptions}
                 label={t(`organization.form.labelFinancialAdminUsers`)}
                 name={ORGANIZATION_FIELDS.FINANCIAL_ADMIN_USERS}
@@ -272,7 +274,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 className={styles.alignedSelect}
                 clearable
                 component={UserSelectorField}
-                disabled={!isEditingAllowed}
+                disabled={!isEditingAllowed || !isSuperUser}
                 extraOptions={existingUserOptions}
                 label={t(`organization.form.labelRegularUsers`)}
                 name={ORGANIZATION_FIELDS.REGULAR_USERS}
