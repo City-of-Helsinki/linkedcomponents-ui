@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.13.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.12.0...linkedcomponents-ui-v1.13.0) (2024-09-16)
+
+
+### Features
+
+* Add 25.5% as new vat option ([654cfa8](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/654cfa8345d478e7d3a2a0a85d2127b6f57a5991))
+* Event form some links validation LINK-2140 ([1c65ba0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/1c65ba0220b26425a3cfd2c6fdd121bcc5b98e79))
+* Remove 24 percent vat option LINK-2065 ([4970268](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/4970268da99e03fc727281272d38591922deca5c))
+
 ## [1.12.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.11.0...linkedcomponents-ui-v1.12.0) (2024-08-19)
 
 
