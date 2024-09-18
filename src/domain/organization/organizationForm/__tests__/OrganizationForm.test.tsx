@@ -87,6 +87,15 @@ test('superuser can edit users', async () => {
   expect(
     screen.getByRole('combobox', { name: 'Pääkäyttäjät' })
   ).not.toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Ilmoittautumisen pääkäyttäjät' })
+  ).not.toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Taloushallinnon pääkäyttäjät' })
+  ).not.toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Peruskäyttäjät' })
+  ).not.toBeDisabled();
 });
 
 test('normal user cant edit users', async () => {
@@ -102,4 +111,13 @@ test('normal user cant edit users', async () => {
   await loadingSpinnerIsNotInDocument();
 
   expect(screen.getByRole('combobox', { name: 'Pääkäyttäjät' })).toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Ilmoittautumisen pääkäyttäjät' })
+  ).toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Taloushallinnon pääkäyttäjät' })
+  ).toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Peruskäyttäjät' })
+  ).toBeDisabled();
 });
