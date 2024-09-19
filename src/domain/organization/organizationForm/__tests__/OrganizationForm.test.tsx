@@ -12,6 +12,7 @@ import {
 import { mockedOrganizationsResponse } from '../../../organizations/__mocks__/organizationsPage';
 import {
   mockedSuperuserResponse,
+  mockedUserResponse,
   mockedUsersResponse,
 } from '../../../user/__mocks__/user';
 import OrganizationForm from '../OrganizationForm';
@@ -77,4 +78,46 @@ test('should add and remove merchant', async () => {
     deleteButtonLabel: 'Poista kauppias',
     expectedInputLabel: 'Paytrail-kauppiastunnus *',
   });
+});
+
+test('superuser can edit users', async () => {
+  renderComponent();
+  await loadingSpinnerIsNotInDocument();
+
+  expect(
+    screen.getByRole('combobox', { name: 'Pääkäyttäjät' })
+  ).not.toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Ilmoittautumisen pääkäyttäjät' })
+  ).not.toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Taloushallinnon pääkäyttäjät' })
+  ).not.toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Peruskäyttäjät' })
+  ).not.toBeDisabled();
+});
+
+test('normal user cant edit users', async () => {
+  const adminMocks = [
+    mockedOrganizationsResponse,
+    mockedOrganizationClassResponse,
+    mockedOrganizationClassesResponse,
+    mockedUserResponse,
+    mockedUsersResponse,
+  ];
+
+  render(<OrganizationForm />, { mocks: adminMocks });
+  await loadingSpinnerIsNotInDocument();
+
+  expect(screen.getByRole('combobox', { name: 'Pääkäyttäjät' })).toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Ilmoittautumisen pääkäyttäjät' })
+  ).toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Taloushallinnon pääkäyttäjät' })
+  ).toBeDisabled();
+  expect(
+    screen.getByRole('combobox', { name: 'Peruskäyttäjät' })
+  ).toBeDisabled();
 });
