@@ -139,7 +139,6 @@ export const getSignupSchema = (registration: RegistrationFieldsFragment) => {
       Yup.date()
         .nullable()
         .typeError(VALIDATION_MESSAGE_KEYS.DATE)
-        .required(VALIDATION_MESSAGE_KEYS.DATE_REQUIRED)
         .test(
           'isAboveMinAge',
           () => ({
