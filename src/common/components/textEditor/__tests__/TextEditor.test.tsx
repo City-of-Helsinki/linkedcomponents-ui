@@ -31,7 +31,9 @@ test('should call onChange', async () => {
   const onChange = vi.fn();
   renderComponent({ onChange });
 
-  const editor = await screen.findByLabelText(/editorin muokkausalue: main/i);
+  const editor = await screen.findByLabelText(
+    /tekstimuotoilueditori. muokkausalue: main/i
+  );
 
   pasteToTextEditor(editor, 'test');
 

@@ -161,7 +161,9 @@ const findElement = (
 ) => {
   switch (key) {
     case 'description':
-      return screen.findByLabelText(/editorin muokkausalue: main/i);
+      return screen.findByLabelText(
+        /tekstimuotoilueditori. muokkausalue: main/i
+      );
     case 'name':
       return screen.findByLabelText(/tapahtuman otsikko suomeksi/i);
     case 'nameSv':

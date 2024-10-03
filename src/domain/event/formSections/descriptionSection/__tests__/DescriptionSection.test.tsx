@@ -106,7 +106,7 @@ const renderComponent = (
 };
 
 const findDescriptionFiInput = () =>
-  screen.findByLabelText(/editorin muokkausalue: main/i);
+  screen.findByLabelText(/tekstimuotoilueditori. muokkausalue: main/i);
 
 const getElement = (
   key: 'fiButton' | 'nameFi' | 'shortDescriptionFi' | 'svButton'
