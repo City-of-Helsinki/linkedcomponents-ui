@@ -29,7 +29,7 @@ const getModalElements = async () => {
   });
   const subjectInput = screen.getByLabelText(/Otsikko/i);
   const messageInput = await screen.findByLabelText(
-    /editorin muokkausalue: main/i
+    /tekstimuotoilueditori. muokkausalue: main/i
   );
   return {
     messageInput,

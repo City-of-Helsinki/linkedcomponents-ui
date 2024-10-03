@@ -204,7 +204,7 @@ test('should send message to participants', async () => {
   );
   const subjectInput = withinModal.getByLabelText(/Otsikko/i);
   const messageInput = await withinModal.findByLabelText(
-    /editorin muokkausalue: main/i
+    /tekstimuotoilueditori. muokkausalue: main/i
   );
   fireEvent.change(subjectInput, {
     target: { value: sendMessageValues.subject },

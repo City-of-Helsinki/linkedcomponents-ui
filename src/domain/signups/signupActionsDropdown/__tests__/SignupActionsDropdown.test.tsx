@@ -158,7 +158,7 @@ test('should send message to participant when clicking send message button', asy
   );
   const subjectInput = withinModal.getByLabelText(/Otsikko/i);
   const messageInput = await withinModal.findByLabelText(
-    /editorin muokkausalue: main/i
+    /tekstimuotoilueditori. muokkausalue: main/i
   );
   fireEvent.change(subjectInput, {
     target: { value: sendMessageValues.subject },
