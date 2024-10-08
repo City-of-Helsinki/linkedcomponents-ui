@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.14.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.13.0...linkedcomponents-ui-v1.14.0) (2024-10-08)
+
+
+### Features
+
+* Limit updating organisation users only for superuser LINK-1464 ([#425](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/425)) ([905aa3f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/905aa3f82e348f19be6d46153ac039e52288607d))
+
+
+### Bug Fixes
+
+* Submit registration does nothing LINK-2178 ([#433](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/433)) ([59a5f6c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/59a5f6c24ab58641a5c4a19a7b0991d31d6dbef5))
+
+
+### Dependencies
+
+* Bump axios from 1.6.8 to 1.7.4 ([#427](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/427)) ([ce61190](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/ce6119003c961451ef5655f5412095f8a848752e))
+* Bump dompurify from 3.0.11 to 3.1.3 ([#428](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/428)) ([55434ec](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/55434ec926402019319342faf1e10f892bee599a))
+* Bump dset from 3.1.3 to 3.1.4 ([#431](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/431)) ([6909e74](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/6909e74d1cd288440315bc157c25221301ae58eb))
+* Bump vite from 5.4.0 to 5.4.6 ([#429](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/429)) ([0183fed](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/0183fed12c1ef2c4799c475c9e805e3d6dd0a0e2))
+* Bump ws from 8.16.0 to 8.18.0 ([#430](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/430)) ([0b1c808](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/0b1c808a61dcef2e41ed0d56af62a45efad25bdd))
+* Upgrade @ckeditor/ckeditor5-build-classic to 43.1.1 LINK-2191 ([5e104e0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5e104e0e466592374b14e8414981afde0df18767))
+* Upgrade micromatch to 4.0.8 LINK-2191 ([44b9b75](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/44b9b750fad995c147e855958640e341489f1824))
+
 ## [1.13.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.12.0...linkedcomponents-ui-v1.13.0) (2024-09-16)
 
 
