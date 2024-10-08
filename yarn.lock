@@ -2018,17 +2018,32 @@
     "@types/conventional-commits-parser" "^5.0.0"
     chalk "^5.3.0"
 
-"@datapunt/matomo-tracker-js@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@datapunt/matomo-tracker-js/-/matomo-tracker-js-0.5.1.tgz#92a746ffa421f91b3a59fefce707d45ca22be96b"
-  integrity sha512-9/MW9vt/BA5Db7tO6LqCeQKtuvBNjyq51faF3AzUmPMlYsJCnASIxcut3VqJKiribhUoey7aYbPIYuj9x4DLPA==
+"@devexpress/bin-v8-flags-filter@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@devexpress/bin-v8-flags-filter/-/bin-v8-flags-filter-1.3.0.tgz#3069f2525c0c5fb940810e9ec10fc592c47552db"
+  integrity sha512-LWLNfYGwVJKYpmHUDoODltnlqxdEAl5Qmw7ha1+TSpsABeF94NKSWkQTTV1TB4CM02j2pZyqn36nHgaFl8z7qw==
 
-"@datapunt/matomo-tracker-react@^0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@datapunt/matomo-tracker-react/-/matomo-tracker-react-0.5.1.tgz#d7a4e62b23610eab2b7513d4df41d500291aaa53"
-  integrity sha512-lrNYM9hFL6XK0VAdtMb7MwZrLWhaAconx4c7gOGAMvoWuoVm+ZZIYFuKtfYdYMeBf0avxWtmKRwjZEg7T8jV2A==
+"@devexpress/callsite-record@^4.1.6":
+  version "4.1.7"
+  resolved "https://registry.yarnpkg.com/@devexpress/callsite-record/-/callsite-record-4.1.7.tgz#045ece71df8c574d7adc15c75eeaac6c6ca6c97d"
+  integrity sha512-qr3VQYc0KopduFkEY6SxaOIi1Xhm0jIWQfrxxMVboI/p2rjF/Mj/iqaiUxQQP6F3ujpW/7l0mzhf17uwcFZhBA==
   dependencies:
-    "@datapunt/matomo-tracker-js" "^0.5.1"
+    "@types/lodash" "^4.14.72"
+    callsite "^1.0.0"
+    chalk "^2.4.0"
+    error-stack-parser "^2.1.4"
+    highlight-es "^1.0.0"
+    lodash "4.6.1 || ^4.16.1"
+    pinkie-promise "^2.0.0"
+
+"@digitak/esrun@^3.2.25":
+  version "3.2.25"
+  resolved "https://registry.yarnpkg.com/@digitak/esrun/-/esrun-3.2.25.tgz#4d1c5c45ce400d2ead6fa7d66e9d6f33a96e68a0"
+  integrity sha512-5f9ocBBiJNcmHXUniFh7FCLl9Dqrqf/yxgEmcsXuINH+xwywMIrg6ENjmARsNabwzfeldxJxWbbyEyRZo1q6lQ==
+  dependencies:
+    "@digitak/grubber" "^3.1.4"
+    chokidar "^3.5.1"
+    esbuild "^0.17.4"
 
 "@digitak/grubber@^3.1.4":
   version "3.1.4"
