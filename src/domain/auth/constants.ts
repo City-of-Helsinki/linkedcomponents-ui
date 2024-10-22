@@ -22,5 +22,4 @@ export const loginProviderProps: LoginProviderProps = {
     },
     audiences: [import.meta.env.REACT_APP_OIDC_API_SCOPE],
   },
-  sessionPollerSettings: { pollIntervalInMs: 10000 },
 };
