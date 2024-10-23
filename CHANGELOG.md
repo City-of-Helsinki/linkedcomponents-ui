@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.14.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.14.0...linkedcomponents-ui-v1.14.1) (2024-10-23)
+
+
+### Bug Fixes
+
+* Don't validate event form onChange LINK-2179 ([5cd9757](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5cd9757e090462a0326168920d14f533046244ac))
+* LoginProvider use sessionPoller default settings LINK-2179 ([658af78](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/658af78966768c318dfa128f16b5429c16b20e51))
+
 ## [1.14.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.13.0...linkedcomponents-ui-v1.14.0) (2024-10-08)
 
 
