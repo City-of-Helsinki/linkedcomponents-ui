@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.14.1...linkedcomponents-ui-v1.15.0) (2024-11-21)
+
+
+### Features
+
+* New Matomo tracker implementation LINK-1376 ([330e69e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/330e69ef6d3a094ab59c9f19e25503caa1e6f6f1))
+
 ## [1.14.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.14.0...linkedcomponents-ui-v1.14.1) (2024-10-23)
 
 
