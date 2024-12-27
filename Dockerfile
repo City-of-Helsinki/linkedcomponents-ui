@@ -111,7 +111,7 @@ RUN yarn generate-robots
 RUN yarn compress
 
 # =============================
-FROM registry.access.redhat.com/ubi8/nginx-120 AS production
+FROM registry.access.redhat.com/ubi9/nginx-120 AS production
 # =============================
 USER root
 
