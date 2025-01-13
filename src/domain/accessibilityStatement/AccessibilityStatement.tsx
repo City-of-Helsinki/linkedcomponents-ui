@@ -70,25 +70,24 @@ const AccessibilityStatementPage: React.FC = () => {
 
             <h2>Accessibility monitoring</h2>
             <p>
-              The Regional State Administrative Agency for Southern Finland
-              monitors the implementation of accessibility requirements. If you
-              are not satisfied with the response you have received or you do
-              not receive a response at all within two weeks, you can give
-              feedback to the Regional State Administrative Agency for Southern
-              Finland. The website of the Regional State Administrative Agency
-              for Southern Finland provides detailed information on how to file
-              a complaint and how the matter will be processed.
+              The Finnish Transport and Communication Agency Traficom monitors
+              the implementation of accessibility requirements. If you are not
+              satisfied with the response you have received or you do not
+              receive a response at all within two weeks, you can give feedback
+              to the Finnish Transport and Communication Agency Traficom. The
+              website of the Finnish Transport and Communication Agency Traficom
+              provides detailed information on how to file a complaint and how
+              the matter will be processed.
             </p>
-            <p>Regional State Administrative Agency for Southern Finland</p>
-            <p>Accessibility Monitoring Unit</p>
+            <p>Finnish Transport and Communication Agency Traficom</p>
+            <p>Digital Accessibility Supervision Unit</p>
             <p>
               <ExternalLink href={accessibilityRequirementsWebsiteUrlEn}>
                 Accessibility Requirements website
               </ExternalLink>{' '}
-              (in Finnish and Swedish)
             </p>
-            <p>saavutettavuus(at)avi.fi</p>
-            <p>Telephone (switchboard) +358 295 016 000</p>
+            <p>saavutettavuus@traficom.fi</p>
+            <p>telephone (switchboard) 029 534 5000</p>
 
             <h2>More detailed information on technical accessibility</h2>
             <p>The Linked Events web service is not yet fully accessible.</p>
@@ -170,22 +169,25 @@ const AccessibilityStatementPage: React.FC = () => {
             </p>
             <h2>Saavutettavuuden valvonta</h2>
             <p>
-              Etelä-Suomen aluehallintovirasto valvoo saavutettavuusvaatimusten
-              toteutumista. Jos et ole tyytyväinen saamaasi vastaukseen tai et
-              saa vastausta lainkaan kahden viikon aikana, voit antaa palautteen
-              Etelä-Suomen aluehallintovirastoon. Etelä-Suomen
-              aluehallintoviraston sivulla kerrotaan tarkasti, miten valituksen
-              voi tehdä ja miten asia käsitellään.
+              Liikenne- ja viestintävirasto Traficom valvoo
+              saavutettavuusvaatimusten toteutumista. Jos et ole tyytyväinen
+              saamaasi vastaukseen tai et saa vastausta lainkaan kahden viikon
+              aikana, voit antaa palautteen Liikenne- ja viestintävirasto
+              Traficomiin. Liikenne- ja viestintävirasto Traficomin sivulla
+              kerrotaan tarkasti, miten valituksen voi tehdä ja miten asia
+              käsitellään.
             </p>
-            <p>Etelä-Suomen aluehallintovirasto</p>
-            <p>Saavutettavuuden valvonnan yksikkö</p>
+            <p>Liikenne- ja viestintävirasto Traficom</p>
+            <p>
+              Digitaalisen esteettömyyden ja saavutettavuuden valvontayksikkö
+            </p>
             <p>
               <ExternalLink href={accessibilityRequirementsWebsiteUrl}>
                 www.saavutettavuusvaatimukset.fi
               </ExternalLink>
             </p>
-            <p>saavutettavuus(at)avi.fi</p>
-            <p>puhelinnumero vaihde 0295 016 000</p>
+            <p>saavutettavuus@traficom.fi</p>
+            <p>puhelinnumero (vaihde) 029 534 5000</p>
             <h2>Tarkemmat tiedot teknisestä saavutettavuudesta</h2>
             <p>Palvelu ei ole vielä kaikilta osin saavutettava.</p>
             <h2>Sisällöt tai toiminnot, jotka eivät vielä ole saavutettavia</h2>
@@ -261,22 +263,22 @@ const AccessibilityStatementPage: React.FC = () => {
             </p>
             <h2>Tillgänglighetstillsyn</h2>
             <p>
-              Regionförvaltningsverket i Södra Finland övervakar förverkligandet
-              av tillgänglighetskraven. Om du inte är nöjd med svaret du har
-              fått eller om du inte får något svar inom 14 dagar, kan du ge
-              respons till Regionförvaltningsverket i Södra Finland. På deras
-              hemsidor berättas i detalj hur du kan ge respons och hur ärendet
-              behandlas.
+              Transport- och kommunikationsverket Traficom övervakar
+              förverkligandet av tillgänglighetskraven. Om du inte är nöjd med
+              svaret du har fått eller om du inte får något svar inom 14 dagar,
+              kan du ge respons till Transport- och kommunikationsverket
+              Traficom. På deras hemsidor berättas i detalj hur du kan ge
+              respons och hur ärendet behandlas.
             </p>
-            <p>Regionförvaltningsverket i Södra Finland</p>
-            <p>Enheten för tillgänglighetstillsyn</p>
+            <p>Transport- och kommunikationsverket Traficom</p>
+            <p>Enheten för tillsyn över digital tillgänglighet</p>
             <p>
               <ExternalLink href={accessibilityRequirementsWebsiteUrlSv}>
                 www.tillganglighetskrav.fi
               </ExternalLink>
             </p>
-            <p>webbtillganglighet(at)rfv.fi</p>
-            <p>telefonväxel 0295 016 000</p>
+            <p>tillganglighet@traficom.fi</p>
+            <p>telefonnummer (växeln) 029 534 5000</p>
             <h2>Närmare information om tekniska tillgängligheten</h2>
             <p>Tjänsten är inte ännu till alla delar tillgänglig.</p>
             <h2>Innehåll eller funktioner som inte ännu är tillgängliga</h2>
