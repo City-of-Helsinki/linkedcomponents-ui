@@ -33,7 +33,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
 
   const attendees = orderBy(
     getValue(registration.signups, []) as SignupFieldsFragment[],
-    ['firstName', 'lastName'],
+    ['id'],
     ['asc', 'desc']
   ).filter((signup) => signup.attendeeStatus === AttendeeStatus.Attending);
 
