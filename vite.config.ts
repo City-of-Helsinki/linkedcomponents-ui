@@ -14,6 +14,14 @@ export default defineConfig({
   build: {
     outDir: './build',
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        // inline dynamic imports, because rollup generates so many chunks it triggers
+        inlineDynamicImports:
+          process.env.ROLLUP_INLINE_DYNAMIC_IMPORTS === 'true',
+        experimentalMinChunkSize: 100_000, // try to avoid small chunks that are less than 100 kB
+      },
+    },
   },
   server: {
     host: true,
