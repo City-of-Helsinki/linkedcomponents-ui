@@ -13,7 +13,7 @@ import {
 import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
-import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
+import Select, { SelectPropsWithValue } from '../select/Select';
 
 const getOption = ({
   organizationClass,
@@ -26,18 +26,24 @@ const getOption = ({
   return { label, value };
 };
 
-export type SingleOrganizationClassSelectorProps = SingleComboboxProps<
-  string | null
->;
+type SingleOrganizationClassSelectorProps = SelectPropsWithValue<string | null>;
 
 const SingleOrganizationClassSelector: React.FC<
   SingleOrganizationClassSelectorProps
-> = ({ label, name, value, ...rest }) => {
+> = ({ texts, name, value, ...rest }) => {
   const { t } = useTranslation();
 
   const { loading, organizationClasses } = useAllOrganizationClasses();
 
-  const options: OptionType[] = React.useMemo(
+  const { data: organizationClassData } = useOrganizationClassQuery({
+    skip: !value,
+    variables: {
+      id: getValue(value, ''),
+      createPath: getPathBuilder(organizationClassPathBuilder),
+    },
+  });
+
+  const options = React.useMemo(
     () =>
       getValue(
         organizationClasses.map((organizationClass) =>
@@ -48,32 +54,23 @@ const SingleOrganizationClassSelector: React.FC<
     [organizationClasses]
   );
 
-  const { data: organizationClassData } = useOrganizationClassQuery({
-    skip: !value,
-    variables: {
-      id: getValue(value, ''),
-      createPath: getPathBuilder(organizationClassPathBuilder),
-    },
-  });
-
   const selectedOrganizationClass = React.useMemo(() => {
     const organizationClass = organizationClassData?.organizationClass;
-    return organizationClass ? getOption({ organizationClass }) : null;
+    return organizationClass ? [getOption({ organizationClass })] : [];
   }, [organizationClassData]);
 
   return (
-    <Combobox
+    <Select
       {...rest}
-      multiselect={false}
+      multiSelect={false}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_one: t('common.combobox.clearOrganizations'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearOrganizations')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
-      // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
-      // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedOrganizationClass as OptionType | undefined}
+      value={selectedOrganizationClass}
     />
   );
 };

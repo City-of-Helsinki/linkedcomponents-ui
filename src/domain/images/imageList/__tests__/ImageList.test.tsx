@@ -60,7 +60,7 @@ const getElement = (
     case 'searchInput':
       return screen.getByRole('textbox', { name: /hae kuvia/i });
     case 'sortLastModifiedButton':
-      return screen.getByRole('button', { name: /viimeksi muokattu/i });
+      return screen.getByTestId('hds-table-sorting-header-last_modified_time');
   }
 };
 

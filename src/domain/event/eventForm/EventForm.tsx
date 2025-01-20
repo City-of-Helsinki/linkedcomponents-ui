@@ -658,7 +658,7 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
       validationSchema={validationSchema}
       validateOnMount
       validateOnBlur={true}
-      validateOnChange={false}
+      validateOnChange={true}
     >
       {({ setErrors, setTouched, values }) => {
         return (

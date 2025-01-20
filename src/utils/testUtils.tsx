@@ -257,9 +257,11 @@ const shouldOpenMenuAndSelectOption = async ({
   const user = userEvent.setup();
 
   const toggleButton = screen.getByRole('button', { name: toggleButtonLabel });
+
   await user.click(toggleButton);
 
   await screen.findByRole('option', { hidden: true, name: optionLabels[0] });
+
   optionLabels.forEach((name) =>
     expect(
       screen.getByRole('option', { hidden: true, name })
@@ -389,18 +391,18 @@ const shouldClickListPageCreateButton = async ({
 };
 
 const shouldSortListPageTable = async ({
-  columnHeader,
+  dataTestId,
   expectedSearch,
   history,
 }: {
-  columnHeader: string | RegExp;
+  dataTestId: string;
   expectedSearch: string;
   history: History;
 }) => {
   const user = userEvent.setup();
   await loadingSpinnerIsNotInDocument();
 
-  const sortButton = screen.getByRole('button', { name: columnHeader });
+  const sortButton = screen.getByTestId(dataTestId);
   await user.click(sortButton);
 
   expect(history.location.search).toBe(expectedSearch);
@@ -426,12 +428,14 @@ const shouldApplyExpectedMetaData = async ({
 };
 
 const shouldDeleteInstance = async ({
+  dialogName,
   confirmDeleteButtonLabel,
   deleteButtonLabel,
   expectedNotificationText,
   expectedUrl,
   history,
 }: {
+  dialogName?: string | RegExp;
   confirmDeleteButtonLabel: string | RegExp;
   deleteButtonLabel: string | RegExp;
   expectedNotificationText: string;
@@ -445,7 +449,10 @@ const shouldDeleteInstance = async ({
     name: deleteButtonLabel,
   });
   await user.click(deleteButton);
-  const withinModal = within(screen.getByRole('dialog'));
+
+  await waitFor(() => screen.getByRole('dialog', { name: dialogName }));
+
+  const withinModal = within(screen.getByRole('dialog', { name: dialogName }));
   const confirmDeleteButton = withinModal.getByRole('button', {
     name: confirmDeleteButtonLabel,
   });

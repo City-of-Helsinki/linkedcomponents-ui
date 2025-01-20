@@ -109,13 +109,14 @@ const findElement = (
 ) => {
   switch (key) {
     case 'keywordText':
-      return screen.findByText(
-        getValue(keyword?.name?.fi, ''),
-        { selector: 'span' },
-        { timeout: 2000 }
-      );
+      return screen.getByRole('button', {
+        name: new RegExp(
+          `1 valittu vaihtoehto.*${getValue(keyword?.name?.fi, '')}`,
+          'i'
+        ),
+      });
     case 'keywordOption':
-      return screen.findByRole('checkbox', {
+      return screen.findByRole('option', {
         name: getValue(keyword?.name?.fi, ''),
       });
     case 'educationLevelsKeywordOption':
@@ -172,7 +173,7 @@ test('should render classification section', async () => {
   getElement('infoTextMainCategories');
   getElement('infoTextKeywords');
 
-  await findElement('keywordText');
+  await waitFor(() => findElement('keywordText'));
 });
 
 test('should show all topic options', async () => {
@@ -181,6 +182,7 @@ test('should show all topic options', async () => {
   renderComponent();
 
   const mainCategories = getElement('mainCategories');
+
   await within(mainCategories).findByLabelText(eventTopicNames[0]);
 
   for (const name of sortedKeywords) {
@@ -247,15 +249,20 @@ test('should change keyword', async () => {
   renderComponent();
 
   const toggleButton = getElement('toggleButton');
+
   await user.click(toggleButton);
 
-  const keywordOption = await findElement('keywordOption');
+  expect(
+    await screen.findByRole('combobox', { name: /hae/i })
+  ).toBeInTheDocument();
+
+  const keywordOption = (await findElement(
+    'keywordOption'
+  )) as HTMLInputElement;
+
   await user.click(keywordOption);
 
-  expect(
-    screen.queryByRole('listbox', { name: /avainsanahaku/i })
-  ).not.toBeInTheDocument();
-  await findElement('keywordText');
+  await waitFor(() => findElement('keywordText'));
 });
 
 test('should show correct validation error if none main category is selected', async () => {
@@ -294,7 +301,7 @@ test('should show correct validation error if none keyword is selected', async (
 
   const toggleButton = getElement('toggleButton');
   await user.click(toggleButton);
-  await user.tab();
+  await user.click(document.body);
 
   await screen.findByText('Vähintään 1 avainsana tulee olla valittuna');
 });
@@ -324,13 +331,13 @@ test('should show validation error for kasko user if no education keywords are s
     mocks
   );
 
-  const educationLevelsKeyword = await findElement(
+  const educationLevelsKeyword = (await findElement(
     'educationLevelsKeywordOption'
-  );
+  )) as HTMLInputElement;
 
-  const educationModelsKeyword = await findElement(
+  const educationModelsKeyword = (await findElement(
     'educationModelsKeywordOption'
-  );
+  )) as HTMLInputElement;
 
   await user.click(educationLevelsKeyword);
   await user.click(educationLevelsKeyword);

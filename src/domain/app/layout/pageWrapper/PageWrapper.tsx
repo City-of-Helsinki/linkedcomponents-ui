@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useCookies } from 'hds-react';
+import { useGroupConsent } from 'hds-react';
 import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +7,7 @@ import { useLocation } from 'react-router';
 
 import useMatomo from '../../../../common/components/matomoTracker/hooks/useMatomo';
 import upperCaseFirstLetter from '../../../../utils/upperCaseFirstLetter';
+import { COOKIE_CONSENT_GROUP } from '../../hooks/useCookieConsentSettings';
 import styles from './pageWrapper.module.scss';
 
 export interface PageWrapperProps {
@@ -35,7 +36,7 @@ const PageWrapper: React.FC<React.PropsWithChildren<PageWrapperProps>> = ({
   title = 'appName',
   titleText,
 }) => {
-  const { getAllConsents } = useCookies();
+  const statisticsConsent = useGroupConsent(COOKIE_CONSENT_GROUP.Statistics);
   const { t } = useTranslation();
   const location = useLocation();
   const { trackPageView } = useMatomo();
@@ -82,14 +83,14 @@ const PageWrapper: React.FC<React.PropsWithChildren<PageWrapperProps>> = ({
 
   // Track page view
   React.useEffect(() => {
-    if (getAllConsents().matomo) {
+    if (statisticsConsent) {
       trackPageView({
         documentTitle: translatedTitle,
         href: window.location.href,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getAllConsents, location.pathname, location.search]);
+  }, [statisticsConsent, location.pathname, location.search]);
 
   return (
     <div

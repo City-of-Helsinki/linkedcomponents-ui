@@ -8,11 +8,13 @@ import { getErrorText } from '../../../../utils/validationUtils';
 type UseSingleSelectFieldPropsState = {
   errorText: string;
   handleBlur: () => void;
-  handleChange: (selected: OptionType | null) => void;
+  handleChange: (
+    selectedOptions: OptionType[],
+    clickedOption: OptionType
+  ) => void;
 };
 
 export type UseSingleSelectFieldPropsProps = {
-  disabled?: boolean;
   name: string;
   onBlur: FormikHandlers['handleBlur'];
   onChange: FormikHandlers['handleChange'];
@@ -20,7 +22,6 @@ export type UseSingleSelectFieldPropsProps = {
   value: string;
 };
 const useSingleSelectFieldProps = ({
-  disabled,
   name,
   onBlur,
   onChange,
@@ -36,23 +37,22 @@ const useSingleSelectFieldProps = ({
     onBlur({ target: { id: name, value } });
   };
 
-  const handleChange = (selected: OptionType | null) => {
-    // TODO: HDS Combobox component allowes to remove value even if component
-    // is disabled. Remove if statement when that behaviour is fixed to HDS
-    if (!disabled) {
-      const newValue = getValue(selected?.value, null);
+  const handleChange = (
+    _selectedOptions: OptionType[],
+    clickedOption: OptionType
+  ) => {
+    const newValue = getValue(clickedOption?.value, null);
 
-      // Set timeout to prevent Android devices to end up to an infinite loop when changing value
-      setTimeout(() => {
-        onChange({
-          target: { id: name, value: newValue },
-        });
+    // Set timeout to prevent Android devices to end up to an infinite loop when changing value
+    setTimeout(() => {
+      onChange({
+        target: { id: name, value: newValue },
+      });
 
-        if (onChangeCb) {
-          onChangeCb(newValue);
-        }
-      }, 5);
-    }
+      if (onChangeCb) {
+        onChangeCb(newValue);
+      }
+    }, 5);
   };
 
   return { errorText, handleBlur, handleChange };

@@ -5,7 +5,6 @@ import { mockAuthenticatedLoginState } from '../../../../../../utils/mockLoginHo
 import {
   actWait,
   configure,
-  fireEvent,
   render,
   screen,
   userEvent,
@@ -154,7 +153,8 @@ const enterFormValues = async () => {
   ];
 
   for (const { component, value } of dateFields) {
-    fireEvent.change(component, { target: { value } });
+    await user.clear(component);
+    await user.type(component, value);
   }
 
   const timeFields = [
