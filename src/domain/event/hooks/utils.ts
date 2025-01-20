@@ -46,7 +46,7 @@ export const getEventUpdateAction = (
 export const sortAudienceOptions =
   (locale: Language) =>
   (a: OptionType, b: OptionType): number =>
-    a.label.localeCompare(b.label, locale);
+    (a.label ?? '').localeCompare(b.label ?? '', locale);
 
 export const parseEventServerErrors = ({
   eventType,

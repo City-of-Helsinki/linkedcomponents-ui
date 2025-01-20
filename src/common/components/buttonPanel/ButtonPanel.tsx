@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconArrowLeft, IconMenuDots } from 'hds-react';
+import { ButtonVariant, IconArrowLeft, IconMenuDots } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -86,11 +86,11 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
               {onBack && (
                 <Button
                   className={classNames(styles.backButton, styles.smallButton)}
-                  iconLeft={<IconArrowLeft aria-hidden />}
+                  iconStart={<IconArrowLeft aria-hidden />}
                   fullWidth={true}
                   onClick={onBack}
                   type="button"
-                  variant="secondary"
+                  variant={ButtonVariant.Secondary}
                 >
                   {t('common.buttonBack')}
                 </Button>

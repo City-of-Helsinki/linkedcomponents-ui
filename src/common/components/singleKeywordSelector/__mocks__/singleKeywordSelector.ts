@@ -15,7 +15,6 @@ const keywords = fakeKeywords(1 + keywordNames.length, [
 const keywordsVariables = {
   createPath: undefined,
   showAllKeywords: true,
-  text: '',
 };
 const keywordsResponse = { data: { keywords } };
 const mockedKeywordsResponse = {

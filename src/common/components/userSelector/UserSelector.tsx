@@ -9,13 +9,13 @@ import { OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import Combobox, { MultiComboboxProps } from '../combobox/Combobox';
 
-export type UserSelectorProps = {
+type UserSelectorProps = {
   extraOptions?: OptionType[];
 } & MultiComboboxProps<string>;
 
 const UserSelector: React.FC<UserSelectorProps> = (props) => {
   /* istanbul ignore next */
-  const { extraOptions = [], label, name, value, ...rest } = props;
+  const { extraOptions = [], texts, name, value, ...rest } = props;
   const { t } = useTranslation();
 
   const { users } = useAllUsers();
@@ -38,17 +38,20 @@ const UserSelector: React.FC<UserSelectorProps> = (props) => {
     [extraOptions, users]
   );
 
-  const selectedUsers = options.filter(({ value: val }) => value.includes(val));
+  const selectedUsers = options.filter(({ value: val }) =>
+    value.includes(val as string)
+  );
 
   return (
     <Combobox
       {...rest}
-      multiselect={true}
+      multiSelect
       id={name}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_one: t('common.combobox.clearUsers'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearUsers')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       value={selectedUsers}
     />
   );

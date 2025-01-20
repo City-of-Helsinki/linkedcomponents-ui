@@ -16,8 +16,8 @@ export const testExternalUserFields = async () => {
         name: /vastuut/i,
         fields: [
           {
-            label: /tapahtuman julkaisija: valikko/i,
-            role: 'button',
+            label: /tapahtuman julkaisija/i,
+            role: 'combobox',
             disabled: true,
           },
           { label: /tapahtuman järjestäjä suomeksi/i, required: true },
@@ -74,7 +74,11 @@ export const testExternalUserFields = async () => {
       expect(element).toBeInTheDocument();
 
       if (disabled) {
-        expect(element).toBeDisabled();
+        if (role === 'combobox') {
+          expect(element.getAttribute('aria-disabled')).toBe('true');
+        } else {
+          expect(element).toBeDisabled();
+        }
       }
       if (required) {
         expect(element).toBeRequired();

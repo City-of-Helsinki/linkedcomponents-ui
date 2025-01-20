@@ -69,7 +69,9 @@ const getElement = (key: 'facebookOption' | 'toggleButton') => {
     case 'facebookOption':
       return screen.getByRole('option', { name: /facebook/i });
     case 'toggleButton':
-      return screen.getByRole('button', { name: /uuden some-linkin tyyppi/i });
+      return screen.getByRole('combobox', {
+        name: /uuden some-linkin tyyppi/i,
+      });
   }
 };
 

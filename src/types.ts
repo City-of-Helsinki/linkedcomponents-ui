@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ButtonVariant } from 'hds-react';
+import { ButtonVariant, OptionInProps } from 'hds-react';
 import { MouseEvent } from 'react';
 
 import { MenuItemOptionProps } from './common/components/menuDropdown/types';
@@ -13,10 +13,7 @@ export type Language = 'en' | 'fi' | 'sv';
 
 export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xlg';
 
-export type OptionType = {
-  label: string;
-  value: string;
-};
+export type OptionType = OptionInProps;
 
 export type TimeObject = { hours: number; minutes: number };
 

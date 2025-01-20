@@ -1,22 +1,20 @@
 import { FieldProps } from 'formik';
 import React from 'react';
 
-import SingleKeywordSelector, {
-  SingleKeywordSelectorProps,
-} from '../../singleKeywordSelector/SingleKeywordSelector';
+import { SingleComboboxProps } from '../../combobox/Combobox';
+import SingleKeywordSelector from '../../singleKeywordSelector/SingleKeywordSelector';
 import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
-type Props = SingleKeywordSelectorProps & FieldProps<string>;
+type Props = SingleComboboxProps<string> & FieldProps<string>;
 
 const SingleKeywordSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   disabled,
   ...rest
 }) => {
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
-    disabled,
     name,
     onBlur,
     onChange,
@@ -32,8 +30,7 @@ const SingleKeywordSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      helper={helper}
-      error={errorText}
+      texts={{ ...texts, error: errorText }}
       invalid={!!errorText}
     />
   );

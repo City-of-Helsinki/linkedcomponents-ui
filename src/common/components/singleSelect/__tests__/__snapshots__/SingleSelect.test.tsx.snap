@@ -6,52 +6,91 @@ exports[`renders the component 1`] = `
     class="comboboxLoadingSpinner"
   >
     <div
-      class="Select-module_root__Ka5uO custom-theme-2 select"
+      class="select Select-module_root__-GjU5"
+      id="hds-select-1"
+      tabindex="-1"
     >
       <label
         class="FieldLabel-module_label__1zrXK "
-        for="hds-select-1-toggle-button"
+        for="hds-select-1-main-button"
         id="hds-select-1-label"
       >
         Select label
       </label>
       <div
-        class="Select-module_wrapper__1WQXs"
+        class="Select-module_selectAndListContainer__vSJEv"
       >
-        <button
-          aria-expanded="false"
-          aria-haspopup="listbox"
-          aria-labelledby="hds-select-1-label hds-select-1-toggle-button"
-          aria-owns="hds-select-1-menu"
-          class="Select-module_button__1aIsm Select-module_placeholder__21c0j"
-          id="hds-select-1-toggle-button"
-          type="button"
+        <div
+          class="Select-module_selectedOptionsContainer__16tlC"
         >
-          <svg
-            aria-hidden="true"
-            aria-label="angle-down"
-            class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik Select-module_angleIcon__2-9AD"
-            role="img"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+          <button
+            aria-controls="hds-select-1-list"
+            aria-disabled="false"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-invalid="false"
+            aria-label="Select label. Valitse yksi. 0 valittua vaihtoehtoa."
+            class="Select-module_dropdownButton__2-_Ec Select-module_selectedOptions__VmvqD Select-module_placeholder__nKgDE Select-module_singleSelect__3hwAT"
+            id="hds-select-1-main-button"
+            role="combobox"
+            type="button"
           >
-            <path
-              clip-rule="evenodd"
-              d="M12 13.5L17 8.5L18.5 10L12 16.5L5.5 10L7 8.5L12 13.5Z"
-              fill="currentColor"
-              fill-rule="evenodd"
+            <div
+              aria-hidden="true"
+              class="Select-module_labels__2FlKK"
+            >
+              <span
+                class="Select-module_dropdownButtonOption__3Tfsz"
+                data-testid="placeholder"
+              >
+                Valitse yksi
+              </span>
+            </div>
+            <div
+              class="Select-module_arrowAndSpaceForClearButton__3Fufw Select-module_icon__3AwlD"
+            >
+              <svg
+                aria-hidden="true"
+                aria-label="angle-down"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik Select-module_angleIcon__3A9li"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M12 13.5L17 8.5L18.5 10L12 16.5L5.5 10L7 8.5L12 13.5Z"
+                  fill="currentColor"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div
+          aria-hidden="true"
+          class="Select-module_listAndInputContainer__2gZ6q"
+          id="hds-select-1-sl-container"
+        >
+          <div
+            class="Select-module_listContainer__2PfQA"
+            style="max-height: 286px;"
+          >
+            <ul
+              aria-multiselectable="false"
+              class="Select-module_list__2iKlZ"
+              id="hds-select-1-list"
+              role="listbox"
+              tabindex="-1"
             />
-          </svg>
-        </button>
-        <ul
-          aria-labelledby="hds-select-1-label"
-          class="Select-module_menu__1H2aU"
-          id="hds-select-1-menu"
-          role="listbox"
-          style="max-height: 260px;"
-          tabindex="-1"
-        />
+          </div>
+        </div>
       </div>
+      <div
+        aria-live="polite"
+        class="Select-module_screenReaderNotifications__2wzzH"
+        data-testid="hds-select-screen-reader-notifications"
+      />
     </div>
   </div>
 </div>

@@ -215,7 +215,9 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                   className={styles.alignedSelect}
                   component={PublisherSelectorField}
                   disabled={disabledIfPublisherSelected}
-                  label={t(`image.form.labelPublisher`)}
+                  texts={{
+                    label: t(`image.form.labelPublisher`),
+                  }}
                   name={IMAGE_FIELDS.PUBLISHER}
                 />
               </FormRow>
@@ -239,7 +241,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                         className={styles.addButton}
                         disabled={disabledIfNoPublisherSelected}
                         fullWidth={true}
-                        iconLeft={<IconPlusCircle aria-hidden />}
+                        iconStart={<IconPlusCircle aria-hidden />}
                         onClick={() => setOpenModal(IMAGE_MODALS.ADD_IMAGE)}
                       >
                         {t(`image.form.buttonAddImage`)}

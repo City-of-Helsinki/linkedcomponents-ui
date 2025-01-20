@@ -1,5 +1,5 @@
 import { FieldArray, useField } from 'formik';
-import { Button, IconPlus } from 'hds-react';
+import { Button, ButtonVariant, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -74,13 +74,13 @@ const Accounts: React.FC<Props> = ({ organization }) => {
                 onClick={() =>
                   arrayHelpers.push(WEB_STORE_ACCOUNT_INITIAL_VALUES)
                 }
-                iconLeft={<IconPlus />}
+                iconStart={<IconPlus />}
                 style={{
                   marginTop: webStoreAccounts.length
                     ? 'var(--spacing-m)'
                     : undefined,
                 }}
-                variant="primary"
+                variant={ButtonVariant.Primary}
                 title={warning}
               >
                 {t('organization.form.buttonAddAccount')}
