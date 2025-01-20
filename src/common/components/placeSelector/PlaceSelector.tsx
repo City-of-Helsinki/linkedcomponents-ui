@@ -58,13 +58,10 @@ export const getOption = ({
   };
 };
 
-export type PlaceSelectorProps = Omit<
-  SingleComboboxProps<string | null>,
-  'toggleButtonAriaLabel'
->;
+export type PlaceSelectorProps = SingleComboboxProps<string | null>;
 
 const PlaceSelector: React.FC<PlaceSelectorProps> = ({
-  label,
+  texts,
   name,
   value,
   ...rest
@@ -95,13 +92,13 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     },
   });
 
-  const handleFilter = (items: OptionType[], inputValue: string) => {
+  const handleFilter = (_option: OptionType, filterStr: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      setSearch(inputValue);
+      setSearch(filterStr);
     });
 
-    return items;
+    return true;
   };
 
   const options = React.useMemo(
@@ -137,17 +134,18 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     <Combobox
       {...rest}
       className={styles.placeSelector}
-      multiselect={false}
       filter={handleFilter}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_one: t('common.combobox.clearPlaces'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearPlaces')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+      // toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedPlace as OptionType | undefined}
+      value={selectedPlace?.value}
     />
   );
 };

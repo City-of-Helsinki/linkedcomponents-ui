@@ -78,7 +78,7 @@ const RegistrationSection: React.FC<RegistrationSectionProps> = ({ event }) => {
   ) {
     return renderSection(
       <Button
-        iconLeft={<IconPlus aria-hidden />}
+        iconStart={<IconPlus aria-hidden />}
         onClick={async () => {
           await copyEventInfoToRegistrationSessionStorage(event);
           navigate(`/${locale}${ROUTES.CREATE_REGISTRATION}`);

@@ -27,7 +27,7 @@ export type EventSelectorProps = {
 
 const EventSelector: React.FC<EventSelectorProps> = ({
   getOption,
-  label,
+  texts,
   name,
   value,
   variables,
@@ -59,13 +59,13 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     },
   });
 
-  const handleFilter = (items: OptionType[], inputValue: string) => {
+  const handleFilter = (_option: OptionType, filterStr: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      setSearch(inputValue);
+      setSearch(filterStr);
     });
 
-    return items;
+    return true;
   };
 
   const options: OptionType[] = React.useMemo(
@@ -92,17 +92,18 @@ const EventSelector: React.FC<EventSelectorProps> = ({
   return (
     <Combobox
       {...rest}
-      multiselect={false}
       filter={handleFilter}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_one: t('common.combobox.clearEvents'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearEvents')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+      // toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedEvent as OptionType | undefined}
+      value={selectedEvent?.value}
     />
   );
 };

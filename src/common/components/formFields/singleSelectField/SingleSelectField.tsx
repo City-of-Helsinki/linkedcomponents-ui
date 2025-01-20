@@ -2,6 +2,7 @@ import { FieldProps } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { OptionType } from '../../../../types';
 import SingleSelect, {
   SingleSelectProps,
 } from '../../singleSelect/SingleSelect';
@@ -13,7 +14,7 @@ type Props = SingleSelectProps &
 const SingleSelectField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   onChangeCb,
   options,
   disabled,
@@ -29,12 +30,13 @@ const SingleSelectField: React.FC<Props> = ({
     value,
   });
 
+  const selected = options?.find(
+    (option): option is OptionType =>
+      typeof option !== 'string' && option.value === value
+  );
+
   return (
     <SingleSelect
-      clearButtonAriaLabel={
-        /* istanbul ignore next */
-        t('common.clear') ?? undefined
-      }
       {...rest}
       {...field}
       disabled={disabled}
@@ -42,12 +44,12 @@ const SingleSelectField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       options={options}
-      value={
-        options.find((option) => option.value === value) ??
-        (null as unknown as undefined)
-      }
-      helper={helper}
-      error={errorText}
+      value={selected?.value}
+      texts={{
+        ...texts,
+        error: errorText,
+        clearButtonAriaLabel_one: t('common.clear') ?? undefined,
+      }}
       invalid={!!errorText}
     />
   );

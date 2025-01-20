@@ -1,5 +1,5 @@
 import { ClassNames } from '@emotion/react';
-import { IconAngleDown, IconAngleUp } from 'hds-react';
+import { IconAngleDown, IconAngleUp, IconSize } from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
@@ -45,7 +45,11 @@ const Collabsible: React.FC<React.PropsWithChildren<Props>> = ({
               onClick={togglePanel}
               type="button"
             >
-              {isOpen ? <IconAngleUp size="m" /> : <IconAngleDown size="m" />}
+              {isOpen ? (
+                <IconAngleUp size={IconSize.Medium} />
+              ) : (
+                <IconAngleDown size={IconSize.Medium} />
+              )}
               <span>{title}</span>
             </button>
           </div>

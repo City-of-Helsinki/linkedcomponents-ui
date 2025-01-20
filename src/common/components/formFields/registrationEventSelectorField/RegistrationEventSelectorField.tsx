@@ -27,7 +27,7 @@ type Props = {
 const RegistrationEventSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   disabled,
   onChangeCb,
   variables,
@@ -79,8 +79,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      helper={helper}
-      error={errorText}
+      texts={{ ...texts, error: errorText }}
       invalid={!!errorText}
       getOption={getEventOption}
     />

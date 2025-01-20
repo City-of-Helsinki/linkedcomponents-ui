@@ -15,7 +15,7 @@ export type UserSelectorProps = {
 
 const UserSelector: React.FC<UserSelectorProps> = (props) => {
   /* istanbul ignore next */
-  const { extraOptions = [], label, name, value, ...rest } = props;
+  const { extraOptions = [], texts, name, value, ...rest } = props;
   const { t } = useTranslation();
 
   const { users } = useAllUsers();
@@ -43,12 +43,14 @@ const UserSelector: React.FC<UserSelectorProps> = (props) => {
   return (
     <Combobox
       {...rest}
-      multiselect={true}
+      multiSelect
       id={name}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_one: t('common.combobox.clearUsers'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearUsers')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+      // toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       value={selectedUsers}
     />
   );

@@ -8,7 +8,10 @@ import { getErrorText } from '../../../../utils/validationUtils';
 type UseSingleSelectFieldPropsState = {
   errorText: string;
   handleBlur: () => void;
-  handleChange: (selected: OptionType | null) => void;
+  handleChange: (
+    selectedOptions: OptionType[],
+    clickedOption: OptionType
+  ) => void;
 };
 
 export type UseSingleSelectFieldPropsProps = {
@@ -36,11 +39,14 @@ const useSingleSelectFieldProps = ({
     onBlur({ target: { id: name, value } });
   };
 
-  const handleChange = (selected: OptionType | null) => {
+  const handleChange = (
+    _selectedOptions: OptionType[],
+    clickedOption: OptionType
+  ) => {
     // TODO: HDS Combobox component allowes to remove value even if component
     // is disabled. Remove if statement when that behaviour is fixed to HDS
     if (!disabled) {
-      const newValue = getValue(selected?.value, null);
+      const newValue = getValue(clickedOption?.value, null);
 
       // Set timeout to prevent Android devices to end up to an infinite loop when changing value
       setTimeout(() => {
