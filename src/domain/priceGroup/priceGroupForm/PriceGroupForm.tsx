@@ -191,7 +191,7 @@ const PriceGroupForm: React.FC<PriceGroupFormProps> = ({ priceGroup }) => {
                 clearable={!priceGroup}
                 component={PublisherSelectorField}
                 disabled={disabledIfEditing}
-                label={t(`priceGroup.form.labelPublisher`)}
+                texts={{ label: t(`priceGroup.form.labelPublisher`) }}
                 name={PRICE_GROUP_FIELDS.PUBLISHER}
                 required={true}
               />

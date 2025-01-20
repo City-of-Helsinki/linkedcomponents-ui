@@ -1,5 +1,6 @@
 import { ClassNames } from '@emotion/react';
 import {
+  ButtonVariant,
   IconBell,
   IconCalendar,
   IconGroup,
@@ -190,7 +191,7 @@ const SearchPanel: React.FC = () => {
                     className={styles.button}
                     fullWidth={true}
                     onClick={handleSearch}
-                    variant="success"
+                    variant={ButtonVariant.Success}
                   >
                     {t('eventSearchPage.searchPanel.buttonSearch')}
                   </Button>
