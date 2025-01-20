@@ -7,18 +7,16 @@ import { getErrorText } from '../../../../utils/validationUtils';
 type UseMultiSelectFieldPropsState = {
   errorText: string;
   handleBlur: () => void;
-  handleChange: (selected: OptionType[]) => void;
+  handleChange: (selectedOptions: OptionType[]) => void;
 };
 
 export type UseMultiSelectFieldPropsProps = {
-  disabled?: boolean;
   name: string;
   onBlur: FormikHandlers['handleBlur'];
   onChange: FormikHandlers['handleChange'];
   value: string[];
 };
 const useMultiSelectFieldProps = ({
-  disabled,
   name,
   onBlur,
   onChange,
@@ -33,17 +31,19 @@ const useMultiSelectFieldProps = ({
     onBlur({ target: { id: name, value } });
   };
 
-  const handleChange = (selected: OptionType[]) => {
+  const handleChange = (selectedOptions: OptionType[]) => {
     // TODO: HDS Combobox component allowes to remove value even if component
     // is disabled. Remove if statement when that behaviour is fixed to HDS
-    if (!disabled) {
-      // Set timeout to prevent Android devices to end up to an infinite loop when changing value
-      setTimeout(() => {
-        onChange({
-          target: { id: name, value: selected.map((item) => item.value) },
-        });
-      }, 5);
-    }
+
+    // Set timeout to prevent Android devices to end up to an infinite loop when changing value
+    setTimeout(() => {
+      onChange({
+        target: {
+          id: name,
+          value: selectedOptions.map((item) => item.value),
+        },
+      });
+    }, 5);
   };
 
   return { errorText, handleBlur, handleChange };

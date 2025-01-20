@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IconPlus } from 'hds-react';
+import { ButtonVariant, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -201,8 +201,8 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
               <Button
                 {...buttonProps}
                 fullWidth={true}
-                iconLeft={<IconPlus aria-hidden={true} />}
-                variant="primary"
+                iconStart={<IconPlus aria-hidden={true} />}
+                variant={ButtonVariant.Primary}
               >
                 {t('signupsPage.searchPanel.buttonCreate')}
               </Button>

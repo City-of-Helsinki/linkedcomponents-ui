@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
-import React from 'react';
+import { ApolloError } from '@apollo/client';
+import { SearchFunction, SearchResult } from 'hds-react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDebounce } from 'use-debounce';
 
-import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import {
   getKeywordFields,
   keywordPathBuilder,
@@ -12,11 +12,11 @@ import {
 import {
   Keyword,
   KeywordFieldsFragment,
+  KeywordsQuery,
   useKeywordQuery,
   useKeywordsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
@@ -34,33 +34,28 @@ const getOption = ({
   return { label, value };
 };
 
-export type SingleKeywordSelectorProps = Omit<
-  SingleComboboxProps<string>,
-  'toggleButtonAriaLabel'
->;
+export type SingleKeywordSelectorProps = SingleComboboxProps<string>;
 
 const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
-  label,
+  texts,
   name,
   value,
   ...rest
 }) => {
-  const timer = React.useRef<NodeJS.Timeout>();
   const { t } = useTranslation();
   const locale = useLocale();
-  const [search, setSearch] = useMountedState('');
-  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
+
+  const QUERY_VARIABLES = {
+    createPath: getPathBuilder(keywordsPathBuilder),
+    showAllKeywords: true,
+  };
 
   const {
     data: keywordsData,
     loading,
-    previousData: previousKeywordsData,
+    refetch,
   } = useKeywordsQuery({
-    variables: {
-      createPath: getPathBuilder(keywordsPathBuilder),
-      showAllKeywords: true,
-      text: debouncedSearch,
-    },
+    variables: QUERY_VARIABLES,
   });
 
   const { data: keywordData } = useKeywordQuery({
@@ -71,22 +66,39 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
     },
   });
 
-  const handleFilter = (items: OptionType[], inputValue: string) => {
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => setSearch(inputValue));
-
-    return items;
-  };
-
-  const options: OptionType[] = React.useMemo(
-    () =>
+  const getKeywordsData = useCallback(
+    (data: KeywordsQuery | undefined) =>
       getValue(
-        (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
+        data?.keywords.data.map((keyword) =>
           getOption({ keyword: keyword as KeywordFieldsFragment, locale })
         ),
         []
       ),
-    [keywordsData, locale, previousKeywordsData]
+    [locale]
+  );
+
+  const handleSearch: SearchFunction = async (
+    searchValue: string
+  ): Promise<SearchResult> => {
+    try {
+      const { data: searchKeywordsData, error } = await refetch({
+        ...QUERY_VARIABLES,
+        text: searchValue,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      return { options: getKeywordsData(searchKeywordsData) };
+    } catch (error) {
+      return Promise.reject(error as ApolloError);
+    }
+  };
+
+  const options = React.useMemo(
+    () => getKeywordsData(keywordsData),
+    [getKeywordsData, keywordsData]
   );
 
   const selectedKeyword = React.useMemo(
@@ -97,25 +109,20 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
     [keywordData, locale]
   );
 
-  React.useEffect(() => {
-    return () => clearTimeout(timer.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <Combobox
       {...rest}
-      multiselect={false}
-      filter={handleFilter}
+      onSearch={handleSearch}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_one: t('common.combobox.clearKeywords'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearKeywords')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedKeyword as OptionType | undefined}
+      value={selectedKeyword?.value}
     />
   );
 };
