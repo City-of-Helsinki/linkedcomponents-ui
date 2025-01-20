@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import { useField } from 'formik';
+import { ButtonVariant } from 'hds-react';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -107,7 +108,7 @@ const ParticipantAmountSelector: React.FC<Props> = ({
             disabled={disabled}
             onClick={handleUpdateClick}
             type="button"
-            variant="secondary"
+            variant={ButtonVariant.Secondary}
           >
             {t(`signup.form.buttonUpdateParticipantAmount`)}
           </Button>

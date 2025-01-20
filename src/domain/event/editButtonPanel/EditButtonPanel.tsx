@@ -133,18 +133,18 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     getActionButtonProps({
       action: EVENT_ACTIONS.UPDATE_DRAFT,
       onClick: () => onUpdate(PublicationStatus.Draft),
-      variant: 'secondary',
+      variant: ButtonVariant.Secondary,
     }),
     getActionButtonProps({
       action: EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
       onClick: () => onUpdate(PublicationStatus.Public),
-      variant: 'primary',
+      variant: ButtonVariant.Primary,
     }),
     /* Actions for public event */
     getActionButtonProps({
       action: EVENT_ACTIONS.UPDATE_PUBLIC,
       onClick: () => onUpdate(PublicationStatus.Public),
-      variant: 'primary',
+      variant: ButtonVariant.Primary,
     }),
   ].filter(skipFalsyType);
 

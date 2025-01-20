@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { IconPlus } from 'hds-react';
+import { ButtonVariant, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -41,9 +41,9 @@ const KeywordsPage: React.FC = () => {
         button={
           <Button
             fullWidth={true}
-            iconLeft={<IconPlus aria-hidden={true} />}
+            iconStart={<IconPlus aria-hidden={true} />}
             onClick={goToCreateImagePage}
-            variant="primary"
+            variant={ButtonVariant.Primary}
           >
             {t('common.buttonAddImage')}
           </Button>

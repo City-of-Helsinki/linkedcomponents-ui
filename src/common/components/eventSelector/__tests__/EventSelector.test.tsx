@@ -10,13 +10,13 @@ import {
   render,
   screen,
   userEvent,
-  waitFor,
 } from '../../../../utils/testUtils';
 import {
   event,
   eventName,
   filteredEvents,
   mockedEventResponse,
+  mockedEventsResponse,
   mockedFilteredEventsResponse,
 } from '../__mocks__/eventSelector';
 import EventSelector, { EventSelectorProps } from '../EventSelector';
@@ -35,53 +35,65 @@ const getOption = (
   return { label: name, value: atId };
 };
 
-const mocks = [mockedEventResponse, mockedFilteredEventsResponse];
+const mocks = [
+  mockedEventsResponse,
+  mockedEventResponse,
+  mockedFilteredEventsResponse,
+];
 
 const defaultProps: EventSelectorProps = {
   getOption,
-  helper,
-  label,
+  texts: { assistive: helper, label },
   name,
-  toggleButtonAriaLabel: '',
   value: event.atId,
   variables: {
     sort: EVENT_SORT_OPTIONS.NAME,
     superEventType: ['umbrella'],
   },
+  onChange: vi.fn(),
 };
 
 const renderComponent = (props?: Partial<EventSelectorProps>) =>
   render(<EventSelector {...defaultProps} {...props} />, { mocks });
 
-const getElement = (key: 'inputField' | 'toggleButton') => {
-  switch (key) {
-    case 'inputField':
-      return screen.getByRole('combobox', { name: new RegExp(helper) });
-    case 'toggleButton':
-      return screen.getByRole('button', { name: new RegExp(label) });
-  }
-};
+const getToggleButton = () =>
+  screen.getByRole('button', { name: new RegExp(label) });
 
-test('combobox input value to should be selected event name', async () => {
-  renderComponent();
-
-  const inputField = getElement('inputField');
-  await waitFor(() => expect(inputField).toHaveValue(eventName));
-});
+const getInput = (): HTMLInputElement =>
+  screen.getByRole('combobox', { name: new RegExp(label) });
 
 test('should open menu by clickin toggle button and list of options should be visible', async () => {
   const user = userEvent.setup();
+
   renderComponent();
 
-  const inputField = getElement('inputField');
-  expect(inputField.getAttribute('aria-expanded')).toBe('false');
-
-  const toggleButton = getElement('toggleButton');
+  const toggleButton = getToggleButton();
 
   await user.click(toggleButton);
-  expect(inputField.getAttribute('aria-expanded')).toBe('true');
+
+  expect(toggleButton.getAttribute('aria-expanded')).toBe('true');
 
   for (const option of filteredEvents.data) {
     await screen.findByRole('option', { name: getValue(option?.name?.fi, '') });
+  }
+});
+
+test('should search for places', async () => {
+  const user = userEvent.setup();
+  renderComponent();
+
+  const toggleButton = getToggleButton();
+
+  await user.click(toggleButton);
+
+  const input = getInput();
+
+  await user.type(input, eventName);
+
+  for (const option of filteredEvents.data) {
+    await screen.findByRole('option', {
+      hidden: true,
+      name: new RegExp(getValue(option?.name?.fi, '')),
+    });
   }
 });

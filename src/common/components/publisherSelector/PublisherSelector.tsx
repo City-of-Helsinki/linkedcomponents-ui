@@ -9,18 +9,17 @@ import useUser from '../../../domain/user/hooks/useUser';
 import useUserOrganizations from '../../../domain/user/hooks/useUserOrganizations';
 import { useOrganizationQuery } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 
 export type PublisherSelectorProps = {
   publisher?: string | null;
-} & Omit<SingleComboboxProps<string | null>, 'toggleButtonAriaLabel'>;
+} & SingleComboboxProps<string | null>;
 
 const PublisherSelector: React.FC<PublisherSelectorProps> = ({
   clearable = false,
-  label,
+  texts,
   name,
   publisher,
   value,
@@ -70,17 +69,17 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
   return (
     <Combobox
       {...rest}
-      multiselect={false}
       clearable={clearable}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_one: t('common.combobox.clearOrganizations'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearOrganizations')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedOrganization as OptionType | undefined}
+      value={selectedOrganization?.value}
     />
   );
 };

@@ -59,12 +59,12 @@ const CreateButtonPanel: React.FC<Props> = ({
     getActionButtonProps({
       action: EVENT_ACTIONS.CREATE_DRAFT,
       onClick: () => onSubmit(PublicationStatus.Draft),
-      variant: 'secondary',
+      variant: ButtonVariant.Secondary,
     }),
     getActionButtonProps({
       action: EVENT_ACTIONS.PUBLISH,
       onClick: () => onSubmit(PublicationStatus.Public),
-      variant: 'primary',
+      variant: ButtonVariant.Primary,
     }),
   ].filter(skipFalsyType);
 

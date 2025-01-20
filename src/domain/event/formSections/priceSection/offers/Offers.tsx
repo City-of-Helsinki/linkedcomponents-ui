@@ -1,5 +1,5 @@
 import { ArrayHelpers, FieldArray, useField } from 'formik';
-import { IconPlus } from 'hds-react';
+import { ButtonVariant, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -53,8 +53,8 @@ const Offers: React.FC<Props> = ({
               disabled={!isEditingAllowed}
               fullWidth={true}
               onClick={() => arrayHelpers.push(getEmptyOffer())}
-              iconLeft={<IconPlus />}
-              variant="primary"
+              iconStart={<IconPlus />}
+              variant={ButtonVariant.Primary}
             >
               {t('event.form.buttonAddOffer')}
             </Button>

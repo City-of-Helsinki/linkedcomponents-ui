@@ -25,13 +25,13 @@ export const sortLanguageOptions = (a: OptionType, b: OptionType): number => {
     sv: 2,
     en: 1,
   };
-  const aPriority = get(languagePriorities, a.value, 0);
-  const bPriority = get(languagePriorities, b.value, 0);
+  const aPriority = get(languagePriorities, a.value ?? '', 0);
+  const bPriority = get(languagePriorities, b.value ?? '', 0);
 
   if (aPriority !== bPriority) {
     return bPriority - aPriority;
   }
-  return a.label > b.label ? 1 : -1;
+  return (a.label ?? '') > (b.label ?? '') ? 1 : -1;
 };
 
 export const languagesPathBuilder = ({

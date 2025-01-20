@@ -1,4 +1,5 @@
 import { IconClock, IconLocation, IconTicket, IconUser, Tag } from 'hds-react';
+import { t } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
@@ -97,7 +98,11 @@ const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
         </div>
         <div className={styles.keywordsRow}>
           {keywords.map((keyword) => (
-            <Tag key={keyword.atId} id={getValue(keyword.id, '')}>
+            <Tag
+              key={keyword.atId}
+              id={getValue(keyword.id, '')}
+              placeholder={t('keywords.keyword')}
+            >
               {capitalize(getLocalisedString(keyword.name, locale))}
             </Tag>
           ))}

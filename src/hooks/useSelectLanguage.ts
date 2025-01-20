@@ -1,15 +1,15 @@
+import { LanguageOption } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 
 import { SUPPORTED_LANGUAGES } from '../constants';
-import { OptionType } from '../types';
 import { featureFlagUtils } from '../utils/featureFlags';
 import updateLocaleParam from '../utils/updateLocaleParam';
 import useLocale from './useLocale';
 
 type UseSelectLanguageState = {
-  languageOptions: OptionType[];
+  languageOptions: LanguageOption[];
   changeLanguage: (
     language: string,
     event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>
@@ -22,7 +22,7 @@ const useSelectLanguage = (): UseSelectLanguageState => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const languageOptions: OptionType[] = React.useMemo(() => {
+  const languageOptions: LanguageOption[] = React.useMemo(() => {
     return Object.values(SUPPORTED_LANGUAGES)
       .filter(
         (lang) =>
