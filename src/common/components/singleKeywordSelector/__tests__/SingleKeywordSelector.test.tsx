@@ -31,9 +31,10 @@ const mocks = [
 ];
 
 const defaultProps: SingleKeywordSelectorProps = {
-  label,
+  texts: { label },
   name,
   value: TEST_KEYWORD_ID,
+  onChange: vi.fn(),
 };
 
 const renderComponent = (props?: Partial<SingleKeywordSelectorProps>) =>

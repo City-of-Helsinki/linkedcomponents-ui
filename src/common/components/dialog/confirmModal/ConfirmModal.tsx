@@ -1,4 +1,6 @@
 import {
+  ButtonPresetTheme,
+  ButtonVariant,
   Dialog,
   DialogVariant,
   IconAlertCircle,
@@ -75,7 +77,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
     >
       <Dialog.Header
         id={titleId}
-        iconLeft={
+        iconStart={
           variant === 'primary' ? (
             <IconInfoCircle aria-hidden={true} />
           ) : (
@@ -101,16 +103,20 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
           loading={isSaving}
           onClick={handleConfirm}
           type="button"
-          variant={variant === 'danger' ? 'danger' : 'primary'}
+          variant={
+            variant === ButtonVariant.Danger
+              ? ButtonVariant.Danger
+              : ButtonVariant.Primary
+          }
         >
           {confirmButtonText}
         </LoadingButton>
         <Button
           disabled={isSaving}
           onClick={handleClose}
-          theme="black"
+          theme={ButtonPresetTheme.Black}
           type="button"
-          variant="secondary"
+          variant={ButtonVariant.Secondary}
         >
           {t('common.cancel')}
         </Button>

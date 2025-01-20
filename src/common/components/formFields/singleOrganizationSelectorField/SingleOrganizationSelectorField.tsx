@@ -11,7 +11,7 @@ type Props = SingleOrganizationSelectorProps & FieldProps;
 const SingleOrganizationSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   disabled,
   ...rest
 }) => {
@@ -32,8 +32,7 @@ const SingleOrganizationSelectorField: React.FC<Props> = ({
       onChange={handleChange}
       disabled={disabled}
       value={value}
-      helper={helper}
-      error={errorText}
+      texts={{ ...texts, error: errorText }}
       invalid={!!errorText}
     />
   );

@@ -40,13 +40,10 @@ const getOption = ({
   return { label, value };
 };
 
-export type KeywordSelectorProps = Omit<
-  MultiComboboxProps<string>,
-  'toggleButtonAriaLabel'
->;
+export type KeywordSelectorProps = MultiComboboxProps<string>;
 
 const KeywordSelector: React.FC<KeywordSelectorProps> = ({
-  label,
+  texts,
   name,
   value,
   ...rest
@@ -75,13 +72,13 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     },
   });
 
-  const handleFilter = (items: OptionType[], inputValue: string) => {
+  const handleFilter = (_option: OptionType, filterStr: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      setSearch(inputValue);
+      setSearch(filterStr);
     });
 
-    return items;
+    return true;
   };
 
   const options: OptionType[] = React.useMemo(
@@ -123,14 +120,16 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   return (
     <Combobox
       {...rest}
-      multiselect={true}
+      multiSelect
       filter={handleFilter}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_multiple: t('common.combobox.clearKeywords'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearKeywords')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+      // toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       value={selectedKeywords}
     />
   );

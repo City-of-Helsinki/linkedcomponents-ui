@@ -1,4 +1,4 @@
-import { IconArrowLeft } from 'hds-react';
+import { ButtonVariant, IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -36,10 +36,10 @@ const SignupIsEnded: React.FC<Props> = ({ registration }) => {
           buttons={
             <Button
               fullWidth={true}
-              iconLeft={<IconArrowLeft aria-hidden />}
+              iconStart={<IconArrowLeft aria-hidden />}
               onClick={goBack}
               type="button"
-              variant="primary"
+              variant={ButtonVariant.Primary}
             >
               {t('common.buttonBack')}
             </Button>
