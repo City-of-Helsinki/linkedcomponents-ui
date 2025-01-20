@@ -10,7 +10,6 @@ import {
   render,
   screen,
   userEvent,
-  waitFor,
 } from '../../../../utils/testUtils';
 import {
   filteredPlaces,
@@ -39,10 +38,10 @@ const label = 'Select place';
 const name = 'place';
 
 const defaultProps: PlaceSelectorProps = {
-  helper,
-  label,
+  texts: { assistive: helper, label },
   name,
   value: place.atId,
+  onChange: vi.fn(),
 };
 
 const renderComponent = (props?: Partial<PlaceSelectorProps>) =>
@@ -51,31 +50,42 @@ const renderComponent = (props?: Partial<PlaceSelectorProps>) =>
 const getElement = (key: 'inputField' | 'toggleButton') => {
   switch (key) {
     case 'inputField':
-      return screen.getByRole('combobox', { name: new RegExp(helper) });
+      return screen.getByRole('combobox', { name: new RegExp(label) });
     case 'toggleButton':
       return screen.getByRole('button', { name: new RegExp(label) });
   }
 };
 
-test('should combobox input value to be selected place option label', async () => {
-  renderComponent();
-
-  const inputField = getElement('inputField');
-
-  await waitFor(() => expect(inputField).toHaveValue(selectedPlaceText));
-});
-
 test('should open menu by clickin toggle button and list of options should be visible', async () => {
   const user = userEvent.setup();
   renderComponent();
 
-  const inputField = getElement('inputField');
-  expect(inputField.getAttribute('aria-expanded')).toBe('false');
-
   const toggleButton = getElement('toggleButton');
+
   await user.click(toggleButton);
 
-  expect(inputField.getAttribute('aria-expanded')).toBe('true');
+  expect(toggleButton.getAttribute('aria-expanded')).toBe('true');
+
+  for (const option of filteredPlaces.data) {
+    await screen.findByRole('option', {
+      hidden: true,
+      name: new RegExp(getValue(option?.name?.fi, '')),
+    });
+  }
+});
+
+test('should search for places', async () => {
+  const user = userEvent.setup();
+  renderComponent();
+
+  const toggleButton = getElement('toggleButton');
+
+  await user.click(toggleButton);
+
+  const input = getElement('inputField');
+
+  await user.type(input, selectedPlaceText);
+
   for (const option of filteredPlaces.data) {
     await screen.findByRole('option', {
       hidden: true,

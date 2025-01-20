@@ -9,7 +9,7 @@ import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
-import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
+import Select, { SelectPropsWithValue } from '../select/Select';
 
 const getOption = ({
   locale,
@@ -29,12 +29,10 @@ const getOption = ({
   return { label, value };
 };
 
-export type SingleOrganizationSelectorProps = SingleComboboxProps<
-  string | null
->;
+type SingleOrganizationSelectorProps = SelectPropsWithValue<string | null>;
 
 const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
-  label,
+  texts,
   name,
   value,
   ...rest
@@ -44,7 +42,7 @@ const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
 
   const { loading, organizations } = useAllOrganizations();
 
-  const options: OptionType[] = React.useMemo(
+  const options = React.useMemo(
     () =>
       sortBy(
         getValue(
@@ -58,28 +56,27 @@ const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
     [locale, organizations, t]
   );
 
-  const selectedOrganization = React.useMemo(
-    () =>
-      getValue(
-        options.find((o) => o.value === value),
-        null
-      ),
-    [options, value]
-  );
+  const selectedOrganization = React.useMemo(() => {
+    const option = getValue(
+      options.find((o) => o.value === value),
+      null
+    );
+
+    return option ? [option] : [];
+  }, [options, value]);
 
   return (
-    <Combobox
+    <Select
       {...rest}
-      multiselect={false}
+      multiSelect={false}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_one: t('common.combobox.clearOrganizations'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearOrganizations')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
-      // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
-      // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedOrganization as OptionType | undefined}
+      value={selectedOrganization}
     />
   );
 };

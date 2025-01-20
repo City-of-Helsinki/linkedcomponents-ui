@@ -1,22 +1,20 @@
 import { FieldProps } from 'formik';
 import React from 'react';
 
-import UserSelector, {
-  UserSelectorProps,
-} from '../../userSelector/UserSelector';
+import { MultiSelectPropsWithValue } from '../../select/Select';
+import UserSelector from '../../userSelector/UserSelector';
 import useMultiSelectFieldProps from '../hooks/useMultiSelectFieldProps';
 
-type Props = UserSelectorProps & FieldProps;
+type Props = MultiSelectPropsWithValue<string> & FieldProps;
 
 const UserSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   disabled,
   ...rest
 }) => {
-  const { errorText, handleBlur, handleChange } = useMultiSelectFieldProps({
-    disabled,
+  const { errorText, handleBlur, handleClose } = useMultiSelectFieldProps({
     name,
     onBlur,
     onChange,
@@ -30,10 +28,9 @@ const UserSelectorField: React.FC<Props> = ({
       disabled={disabled}
       name={name}
       onBlur={handleBlur}
-      onChange={handleChange}
+      onClose={handleClose}
       value={value}
-      helper={helper}
-      error={errorText}
+      texts={{ ...texts, error: errorText }}
       invalid={!!errorText}
     />
   );

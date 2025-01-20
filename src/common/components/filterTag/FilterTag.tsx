@@ -25,11 +25,12 @@ const FilterTag: React.FC<FilterTagProps> = ({
 
   return (
     <Tag
-      deleteButtonAriaLabel={getValue(
+      onDelete={deleteFilter}
+      placeholder={text}
+      aria-label={getValue(
         t('common.buttonRemoveFilter', { name: text }),
         undefined
       )}
-      onDelete={deleteFilter}
     >
       {text}
     </Tag>

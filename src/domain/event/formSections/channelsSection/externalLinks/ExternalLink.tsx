@@ -59,10 +59,12 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
           className={styles.nameSelector}
           component={SingleSelectField}
           disabled={!isEditingAllowed}
-          label={t(`event.form.labelExternalLinkName`)}
           name={getExternalLinkPath(index, EXTERNAL_LINK_FIELDS.NAME)}
           options={options}
-          placeholder={t(`common.select`)}
+          texts={{
+            label: t(`event.form.labelExternalLinkName`),
+            placeholder: t(`common.select`),
+          }}
           required
         />
         <Field

@@ -96,7 +96,7 @@ test('should add sort parameter to search query', async () => {
   const { history } = renderComponent();
 
   await shouldSortListPageTable({
-    columnHeader: 'Kuvaus',
+    dataTestId: 'hds-table-sorting-header-description',
     expectedSearch: '?sort=-description',
     history,
   });

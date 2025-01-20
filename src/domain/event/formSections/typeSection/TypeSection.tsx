@@ -204,8 +204,10 @@ const TypeSection: React.FC<TypeSectionProps> = ({
               <Field
                 component={UmbrellaEventSelectorField}
                 disabled={!isEditingAllowed || isExternalUser}
-                helper={t('event.form.helperUmbrellaEvent')}
-                label={t('event.form.labelUmbrellaEvent')}
+                texts={{
+                  label: t('event.form.labelUmbrellaEvent'),
+                  assistive: t('event.form.helperUmbrellaEvent'),
+                }}
                 name={EVENT_FIELDS.SUPER_EVENT}
               />
             </FormGroup>

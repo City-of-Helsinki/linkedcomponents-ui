@@ -78,7 +78,7 @@ const getElement = (
 ) => {
   switch (key) {
     case 'eventCombobox':
-      return screen.getByRole('combobox', { name: /tapahtuma/i });
+      return screen.getByRole('button', { name: /tapahtuma/i });
     case 'enrolmentStartTime':
       return screen.getByRole('textbox', { name: 'Ilmoittautuminen alkaa *' });
     case 'saveButton':

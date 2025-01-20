@@ -4,6 +4,7 @@ import {
   Logo,
   logoFi,
   logoFiDark,
+  LogoSize,
   logoSv,
   logoSvDark,
 } from 'hds-react';
@@ -147,12 +148,23 @@ const Footer: React.FC = () => {
               onClick={goToPage(getLocalePath(ROUTES.ACCESSIBILITY_STATEMENT))}
               label={t('navigation.tabs.accessibilityStatement')}
             />
+            <HdsFooter.Link
+              href={getLocalePath(ROUTES.COOKIES)}
+              onClick={goToPage(getLocalePath(ROUTES.COOKIES))}
+              label={t('navigation.tabs.cookies')}
+            />
           </HdsFooter.Utilities>
           <HdsFooter.Base
             copyrightHolder={t('footer.copyrightHolder')}
             copyrightText={t('footer.copyrightText')}
             backToTopLabel={t('footer.backToTopLabel')}
-            logo={<Logo src={logo} size="medium" alt={t('navigation.logo')} />}
+            logo={
+              <Logo
+                src={logo}
+                size={LogoSize.Medium}
+                alt={t('navigation.logo')}
+              />
+            }
           />
         </HdsFooter>
       )}

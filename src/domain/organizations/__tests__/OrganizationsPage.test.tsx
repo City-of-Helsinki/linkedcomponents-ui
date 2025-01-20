@@ -94,7 +94,7 @@ test('should add sort parameter to search query', async () => {
   const { history } = renderComponent();
 
   await shouldSortListPageTable({
-    columnHeader: 'Nimi',
+    dataTestId: 'hds-table-sorting-header-name',
     expectedSearch: '?sort=-name',
     history,
   });

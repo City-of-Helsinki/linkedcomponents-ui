@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import { Field, useField } from 'formik';
+import { Tooltip } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -76,21 +77,22 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
         }
       >
         <FieldColumn>
+          {showTooltipInstructions(user) && (
+            <Tooltip style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              {t(`event.form.infoTextPublisher.${type}`)}
+            </Tooltip>
+          )}
+
           <Field
             component={PublisherSelectorField}
             disabled={
               !isEditingAllowed || isExternalUser || isPublisherDisabled()
             }
-            label={t(`event.form.labelPublisher.${type}`)}
             name={EVENT_FIELDS.PUBLISHER}
+            texts={{
+              label: t(`event.form.labelPublisher.${type}`),
+            }}
             publisher={savedEvent?.publisher}
-            {...(showTooltipInstructions(user)
-              ? {
-                  tooltipButtonLabel: t('common.showInstructions'),
-                  tooltipLabel: t(`event.form.labelPublisher.${type}`),
-                  tooltipText: t(`event.form.infoTextPublisher.${type}`),
-                }
-              : {})}
           />
         </FieldColumn>
       </FieldRow>

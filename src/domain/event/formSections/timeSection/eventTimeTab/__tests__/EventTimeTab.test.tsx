@@ -3,7 +3,6 @@ import { Formik } from 'formik';
 import { mockUnauthenticatedLoginState } from '../../../../../../utils/mockLoginHooks';
 import {
   configure,
-  fireEvent,
   render,
   screen,
   userEvent,
@@ -121,8 +120,11 @@ const enterFormValues = async ({
   const startTimeInput = getSingleEventElement('startTime');
   const endTimeInput = getSingleEventElement('endTime');
 
-  fireEvent.change(startDateInput, { target: { value: startDate } });
-  fireEvent.change(endDateInput, { target: { value: endDate } });
+  await user.clear(startDateInput);
+  await user.type(startDateInput, startDate);
+
+  await user.clear(endDateInput);
+  await user.type(endDateInput, endDate);
 
   const timeFields = [
     { component: startTimeInput, value: startTime },
