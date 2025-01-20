@@ -1,3 +1,4 @@
+import { ButtonPresetTheme, Option } from 'hds-react';
 import camelCase from 'lodash/camelCase';
 import omit from 'lodash/omit';
 import React from 'react';
@@ -17,7 +18,7 @@ import {
 } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
-import { CommonListProps, OptionType } from '../../../types';
+import { CommonListProps } from '../../../types';
 import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
@@ -133,7 +134,7 @@ const EventList: React.FC<EventListProps> = ({
           />
         )}
 
-        <FeedbackButton theme="black" />
+        <FeedbackButton theme={ButtonPresetTheme.Black} />
       </Container>
     </div>
   );
@@ -186,9 +187,17 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
     pageSize: EVENTS_PAGE_SIZE,
   });
 
-  const handleSortSelectorChange = (sortOption: OptionType) => {
-    onSortChange(sortOption.value);
+  const handleSortSelectorChange = (
+    _selectedOptions: Option[],
+    clickedOption: Option
+  ) => {
+    onSortChange(clickedOption.value);
   };
+
+  const selected = sortOptions?.find(
+    (option): option is Option =>
+      typeof option !== 'string' && option.value === sort
+  );
 
   return (
     <div
@@ -217,10 +226,10 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
             {listType === EVENT_LIST_TYPES.CARD_LIST && (
               <SingleSelect
                 className={styles.sortOrderSelector}
-                label={t('eventsPage.labelSort')}
                 onChange={handleSortSelectorChange}
                 options={sortOptions}
-                value={sortOptions.find((option) => option.value === sort)}
+                value={selected?.value}
+                texts={{ label: t('eventsPage.labelSort') }}
               />
             )}
           </div>

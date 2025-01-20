@@ -1,4 +1,5 @@
 import { FieldProps } from 'formik';
+import { Option } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +13,7 @@ import {
   EventFieldsFragment,
   PublicationStatus,
 } from '../../../../generated/graphql';
-import { Language, OptionType } from '../../../../types';
+import { Language } from '../../../../types';
 import skipFalsyType from '../../../../utils/skipFalsyType';
 import EventSelector, {
   EventSelectorProps,
@@ -27,7 +28,7 @@ type Props = {
 const RegistrationEventSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   disabled,
   onChangeCb,
   variables,
@@ -46,7 +47,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
   const getEventOption = (
     event: EventFieldsFragment,
     locale: Language
-  ): OptionType => {
+  ): Partial<Option> => {
     const { endTime, atId, name, startTime } = getEventFields(event, locale);
 
     return {
@@ -79,8 +80,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      helper={helper}
-      error={errorText}
+      texts={{ ...texts, error: errorText }}
       invalid={!!errorText}
       getOption={getEventOption}
     />

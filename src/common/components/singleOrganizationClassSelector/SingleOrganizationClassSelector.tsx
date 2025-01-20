@@ -1,3 +1,4 @@
+import { Option } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -10,7 +11,6 @@ import {
   OrganizationClassFieldsFragment,
   useOrganizationClassQuery,
 } from '../../../generated/graphql';
-import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
@@ -19,7 +19,7 @@ const getOption = ({
   organizationClass,
 }: {
   organizationClass: OrganizationClassFieldsFragment;
-}): OptionType => {
+}): Partial<Option> => {
   const { id: value, name: label } =
     getOrganizationClassFields(organizationClass);
 
@@ -32,12 +32,12 @@ export type SingleOrganizationClassSelectorProps = SingleComboboxProps<
 
 const SingleOrganizationClassSelector: React.FC<
   SingleOrganizationClassSelectorProps
-> = ({ label, name, value, ...rest }) => {
+> = ({ texts, name, value, ...rest }) => {
   const { t } = useTranslation();
 
   const { loading, organizationClasses } = useAllOrganizationClasses();
 
-  const options: OptionType[] = React.useMemo(
+  const options: Partial<Option>[] = React.useMemo(
     () =>
       getValue(
         organizationClasses.map((organizationClass) =>
@@ -64,16 +64,17 @@ const SingleOrganizationClassSelector: React.FC<
   return (
     <Combobox
       {...rest}
-      multiselect={false}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_one: t('common.combobox.clearOrganizations'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearOrganizations')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+      // toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedOrganizationClass as OptionType | undefined}
+      value={selectedOrganizationClass?.value}
     />
   );
 };

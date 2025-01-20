@@ -23,7 +23,7 @@ const Breadcrumb = ({
   return (
     <HdsBreadcrumb
       {...rest}
-      ariaLabel={ariaLabel ?? t('common.breadcrumb')}
+      aria-label={ariaLabel ?? t('common.breadcrumb')}
       theme={theme.breadcrumb as BreadcrumbCustomTheme}
     />
   );

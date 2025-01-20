@@ -13,10 +13,10 @@ export type Language = 'en' | 'fi' | 'sv';
 
 export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xlg';
 
-export type OptionType = {
-  label: string;
-  value: string;
-};
+// export type OptionType = {
+//   label: string;
+//   value: string;
+// };
 
 export type TimeObject = { hours: number; minutes: number };
 

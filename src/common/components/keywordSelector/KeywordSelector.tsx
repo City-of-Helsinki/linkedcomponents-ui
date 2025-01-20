@@ -4,6 +4,7 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
+import { Option } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'use-debounce';
@@ -21,7 +22,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
-import { Language, OptionType } from '../../../types';
+import { Language } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
@@ -34,19 +35,16 @@ const getOption = ({
 }: {
   keyword: KeywordFieldsFragment | Keyword;
   locale: Language;
-}): OptionType => {
+}): Partial<Option> => {
   const { atId: value, name: label } = getKeywordFields(keyword, locale);
 
   return { label, value };
 };
 
-export type KeywordSelectorProps = Omit<
-  MultiComboboxProps<string>,
-  'toggleButtonAriaLabel'
->;
+export type KeywordSelectorProps = MultiComboboxProps<string>;
 
 const KeywordSelector: React.FC<KeywordSelectorProps> = ({
-  label,
+  texts,
   name,
   value,
   ...rest
@@ -58,9 +56,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   const [search, setSearch] = useMountedState('');
   const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
-  const [selectedKeywords, setSelectedKeywords] = React.useState<OptionType[]>(
-    []
-  );
+  const [selectedKeywords, setSelectedKeywords] = React.useState<Option[]>([]);
 
   const {
     data: keywordsData,
@@ -75,16 +71,16 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     },
   });
 
-  const handleFilter = (items: OptionType[], inputValue: string) => {
+  const handleFilter = (_option: Option, filterStr: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
-      setSearch(inputValue);
+      setSearch(filterStr);
     });
 
-    return items;
+    return true;
   };
 
-  const options: OptionType[] = React.useMemo(
+  const options: Partial<Option>[] = React.useMemo(
     () =>
       getValue(
         (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
@@ -109,7 +105,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
               return keyword ? getOption({ keyword: keyword, locale }) : null;
             })
           )
-        ).filter(skipFalsyType)
+        ).filter(skipFalsyType) as Option[]
       );
 
     getSelectedKeywordsFromCache();
@@ -123,14 +119,16 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   return (
     <Combobox
       {...rest}
-      multiselect={true}
+      multiSelect
       filter={handleFilter}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_multiple: t('common.combobox.clearKeywords'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearKeywords')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
+      // toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       value={selectedKeywords}
     />
   );

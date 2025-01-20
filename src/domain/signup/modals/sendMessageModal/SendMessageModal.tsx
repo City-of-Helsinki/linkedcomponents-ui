@@ -99,7 +99,7 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
     >
       <Dialog.Header
         id={titleId}
-        iconLeft={<IconInfoCircle aria-hidden={true} />}
+        iconStart={<IconInfoCircle aria-hidden={true} />}
         title={
           signup || signupGroup
             ? t('signup.sendMessageModal.titleSingle')

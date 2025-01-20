@@ -76,7 +76,7 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
     >
       <Dialog.Header
         id={titleId}
-        iconLeft={<IconInfoCircle aria-hidden={true} />}
+        iconStart={<IconInfoCircle aria-hidden={true} />}
         title={t('event.editEventTimeModal.title')}
       />
       <Formik

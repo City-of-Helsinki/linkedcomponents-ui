@@ -1,10 +1,11 @@
 import { FieldProps } from 'formik';
+import { Option } from 'hds-react';
 import React from 'react';
 
 import { getEventFields } from '../../../../domain/event/utils';
 import { EVENT_SORT_OPTIONS } from '../../../../domain/events/constants';
 import { EventFieldsFragment } from '../../../../generated/graphql';
-import { Language, OptionType } from '../../../../types';
+import { Language } from '../../../../types';
 import EventSelector, {
   EventSelectorProps,
 } from '../../eventSelector/EventSelector';
@@ -15,7 +16,7 @@ type Props = EventSelectorProps & FieldProps<string>;
 const getEventOption = (
   event: EventFieldsFragment,
   locale: Language
-): OptionType => {
+): Partial<Option> => {
   const { atId, name } = getEventFields(event, locale);
   return { label: name, value: atId };
 };
@@ -23,7 +24,7 @@ const getEventOption = (
 const UmbrellaEventSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   disabled,
   ...rest
 }) => {
@@ -48,8 +49,7 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      helper={helper}
-      error={errorText}
+      texts={{ ...texts, error: errorText }}
       invalid={!!errorText}
       getOption={getEventOption}
     />
