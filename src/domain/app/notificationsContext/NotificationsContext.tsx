@@ -1,3 +1,4 @@
+import { NotificationSize } from 'hds-react';
 import uniqueId from 'lodash/uniqueId';
 import React, {
   createContext,
@@ -69,7 +70,7 @@ export const NotificationsProvider: FC<PropsWithChildren> = ({ children }) => {
             {...props}
             style={getNotificationStyle()}
             key={props.id}
-            size="default"
+            size={NotificationSize.Medium}
             position="top-right"
             autoClose={true}
             onClose={removeNotification}

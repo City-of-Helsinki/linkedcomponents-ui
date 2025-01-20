@@ -19,12 +19,14 @@ const VatPercentageField: FC<Props> = ({ disabled, name, required }) => {
     <Field
       component={SingleSelectField}
       disabled={disabled}
-      label={t('registration.form.registrationPriceGroup.labelVatPercentage')}
       name={name}
       options={vatOptions}
-      placeholder={t(
-        'registration.form.registrationPriceGroup.placeholderVatPercentage'
-      )}
+      texts={{
+        label: t('registration.form.registrationPriceGroup.labelVatPercentage'),
+        placeholder: t(
+          'registration.form.registrationPriceGroup.placeholderVatPercentage'
+        ),
+      }}
       required={required}
     />
   );

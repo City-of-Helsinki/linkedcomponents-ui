@@ -240,7 +240,9 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 component={UserSelectorField}
                 disabled={!isEditingAllowed || !isSuperUser}
                 extraOptions={existingUserOptions}
-                label={t(`organization.form.labelAdminUsers`)}
+                texts={{
+                  label: t(`organization.form.labelAdminUsers`),
+                }}
                 name={ORGANIZATION_FIELDS.ADMIN_USERS}
               />
             </FormRow>
@@ -252,7 +254,9 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 component={UserSelectorField}
                 disabled={!isEditingAllowed || !isSuperUser}
                 extraOptions={existingUserOptions}
-                label={t(`organization.form.labelRegistrationAdminUsers`)}
+                texts={{
+                  label: t(`organization.form.labelRegistrationAdminUsers`),
+                }}
                 name={ORGANIZATION_FIELDS.REGISTRATION_ADMIN_USERS}
               />
             </FormRow>
@@ -264,7 +268,9 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 component={UserSelectorField}
                 disabled={!isEditingAllowed || !isSuperUser}
                 extraOptions={existingUserOptions}
-                label={t(`organization.form.labelFinancialAdminUsers`)}
+                texts={{
+                  label: t(`organization.form.labelFinancialAdminUsers`),
+                }}
                 name={ORGANIZATION_FIELDS.FINANCIAL_ADMIN_USERS}
               />
             </FormRow>
@@ -276,7 +282,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 component={UserSelectorField}
                 disabled={!isEditingAllowed || !isSuperUser}
                 extraOptions={existingUserOptions}
-                label={t(`organization.form.labelRegularUsers`)}
+                texts={{ label: t(`organization.form.labelRegularUsers`) }}
                 name={ORGANIZATION_FIELDS.REGULAR_USERS}
               />
             </FormRow>
@@ -286,9 +292,9 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 className={styles.alignedSelect}
                 component={SingleSelectField}
                 disabled={disabledIfOrganization}
-                label={t(`organization.form.labelInternalType`)}
                 options={internalTypeOptions}
                 name={ORGANIZATION_FIELDS.INTERNAL_TYPE}
+                texts={{ label: t(`organization.form.labelInternalType`) }}
               />
             </FormRow>
             <FormRow>
@@ -298,7 +304,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 clearable
                 component={SingleOrganizationClassSelectorField}
                 disabled={disabledIfOrganization}
-                label={t(`organization.form.labelClassification`)}
+                texts={{ label: t(`organization.form.labelClassification`) }}
                 name={ORGANIZATION_FIELDS.CLASSIFICATION}
               />
             </FormRow>
@@ -326,8 +332,10 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 className={styles.alignedSelect}
                 component={SingleOrganizationSelectorField}
                 disabled={disabledIfOrganization}
-                label={t(`organization.form.labelParentOrganization`)}
                 name={ORGANIZATION_FIELDS.PARENT_ORGANIZATION}
+                texts={{
+                  label: t(`organization.form.labelParentOrganization`),
+                }}
                 required={!organization}
               />
             </FormRow>
@@ -337,7 +345,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
                 className={styles.alignedSelect}
                 component={SingleOrganizationSelectorField}
                 disabled={!isEditingAllowed}
-                label={t(`organization.form.labelReplacedBy`)}
+                texts={{ label: t(`organization.form.labelReplacedBy`) }}
                 name={ORGANIZATION_FIELDS.REPLACED_BY}
               />
             </FormRow>

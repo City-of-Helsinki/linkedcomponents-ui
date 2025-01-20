@@ -8,6 +8,7 @@ import {
   Link,
   Logo,
   logoFiDark,
+  LogoSize,
   logoSvDark,
 } from 'hds-react';
 import React, { useMemo } from 'react';
@@ -187,7 +188,7 @@ const Header: React.FC = () => {
             logo={
               <Logo
                 src={locale === 'sv' ? logoSvDark : logoFiDark}
-                size="medium"
+                size={LogoSize.Medium}
                 alt={t('navigation.logo')}
               />
             }
@@ -199,8 +200,8 @@ const Header: React.FC = () => {
             {authenticated && authUser ? (
               <HDSHeader.ActionBarItem
                 fixedRightPosition
-                icon={<IconUser ariaHidden />}
-                closeIcon={<IconCross ariaHidden />}
+                icon={<IconUser aria-hidden />}
+                closeIcon={<IconCross aria-hidden />}
                 closeLabel={t('common.close')}
                 id="action-bar-user"
                 label={displayName}
@@ -217,9 +218,9 @@ const Header: React.FC = () => {
             ) : (
               <HDSHeader.ActionBarItem
                 fixedRightPosition
-                icon={<IconSignin ariaHidden />}
+                icon={<IconSignin aria-hidden />}
                 label={t('common.signIn')}
-                closeIcon={<IconCross ariaHidden />}
+                closeIcon={<IconCross aria-hidden />}
                 closeLabel={t('common.close')}
                 id="action-bar-sign-in"
                 onClick={handleSignIn}
