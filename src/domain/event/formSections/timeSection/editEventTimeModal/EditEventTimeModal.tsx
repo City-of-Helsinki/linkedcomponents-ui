@@ -1,5 +1,5 @@
 import { Field, Formik } from 'formik';
-import { Dialog, IconInfoCircle, IconPen } from 'hds-react';
+import { ButtonVariant, Dialog, IconInfoCircle, IconPen } from 'hds-react';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -145,13 +145,17 @@ const EditEventTimeModal: React.FC<EditEventTimeModalProps> = ({
               <Dialog.ActionButtons>
                 <Button
                   onClick={() => handleSubmit()}
-                  iconLeft={<IconPen />}
+                  iconStart={<IconPen />}
                   type="button"
-                  variant="primary"
+                  variant={ButtonVariant.Primary}
                 >
                   {t('event.editEventTimeModal.buttonSave')}
                 </Button>
-                <Button onClick={onCancel} type="button" variant="secondary">
+                <Button
+                  onClick={onCancel}
+                  type="button"
+                  variant={ButtonVariant.Secondary}
+                >
                   {t('common.cancel')}
                 </Button>
               </Dialog.ActionButtons>
