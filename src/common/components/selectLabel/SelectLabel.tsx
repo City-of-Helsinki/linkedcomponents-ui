@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import styles from './select.module.scss';
+import styles from './selectLabel.module.scss';
 
 interface SelectLabelProps {
   nEvents: number;

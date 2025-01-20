@@ -310,7 +310,7 @@ const fieldMappings: Record<
   keyof FieldLists,
   { suffix: string; type: ErrorFieldType }
 > = {
-  comboboxFields: { suffix: '-input', type: 'combobox' },
+  comboboxFields: { suffix: '-main-button', type: 'combobox' },
   selectFields: { suffix: '-toggle-button', type: 'select' },
   textEditorFields: { suffix: '-text-editor', type: 'textEditor' },
   checkboxGroupFields: { suffix: '', type: 'checkboxGroup' },
@@ -374,6 +374,7 @@ export const scrollToFirstError = async ({
     if (fieldType === 'array') {
       await wait(100);
     }
+
     const field = document.getElementById(fieldId);
 
     /* istanbul ignore else */

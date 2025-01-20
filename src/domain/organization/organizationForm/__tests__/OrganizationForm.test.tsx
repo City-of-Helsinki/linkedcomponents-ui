@@ -32,6 +32,35 @@ beforeEach(() => {
 const renderComponent = () =>
   render(<OrganizationForm />, { mocks: defaultMocks });
 
+const userFieldsAreDisabled = (expectedValue: boolean) => {
+  expect(
+    screen
+      .getAllByRole('combobox', { name: /pääkäyttäjät. valitse yksi./i })[0]
+      .getAttribute('aria-disabled')
+  ).toBe(expectedValue.toString());
+  expect(
+    screen
+      .getByRole('combobox', {
+        name: /ilmoittautumisen pääkäyttäjät. valitse yksi./i,
+      })
+      .getAttribute('aria-disabled')
+  ).toBe(expectedValue.toString());
+  expect(
+    screen
+      .getByRole('combobox', {
+        name: /taloushallinnon pääkäyttäjät. valitse yksi./i,
+      })
+      .getAttribute('aria-disabled')
+  ).toBe(expectedValue.toString());
+  expect(
+    screen
+      .getByRole('combobox', {
+        name: /peruskäyttäjät. valitse yksi./i,
+      })
+      .getAttribute('aria-disabled')
+  ).toBe(expectedValue.toString());
+};
+
 const shouldAddAndRemoveItem = async ({
   addButtonLabel,
   deleteButtonLabel,
@@ -82,20 +111,9 @@ test('should add and remove merchant', async () => {
 
 test('superuser can edit users', async () => {
   renderComponent();
-  await loadingSpinnerIsNotInDocument();
 
-  expect(
-    screen.getByRole('combobox', { name: 'Pääkäyttäjät' })
-  ).not.toBeDisabled();
-  expect(
-    screen.getByRole('combobox', { name: 'Ilmoittautumisen pääkäyttäjät' })
-  ).not.toBeDisabled();
-  expect(
-    screen.getByRole('combobox', { name: 'Taloushallinnon pääkäyttäjät' })
-  ).not.toBeDisabled();
-  expect(
-    screen.getByRole('combobox', { name: 'Peruskäyttäjät' })
-  ).not.toBeDisabled();
+  await loadingSpinnerIsNotInDocument();
+  userFieldsAreDisabled(false);
 });
 
 test('normal user cant edit users', async () => {
@@ -108,16 +126,7 @@ test('normal user cant edit users', async () => {
   ];
 
   render(<OrganizationForm />, { mocks: adminMocks });
-  await loadingSpinnerIsNotInDocument();
 
-  expect(screen.getByRole('combobox', { name: 'Pääkäyttäjät' })).toBeDisabled();
-  expect(
-    screen.getByRole('combobox', { name: 'Ilmoittautumisen pääkäyttäjät' })
-  ).toBeDisabled();
-  expect(
-    screen.getByRole('combobox', { name: 'Taloushallinnon pääkäyttäjät' })
-  ).toBeDisabled();
-  expect(
-    screen.getByRole('combobox', { name: 'Peruskäyttäjät' })
-  ).toBeDisabled();
+  await loadingSpinnerIsNotInDocument();
+  userFieldsAreDisabled(true);
 });

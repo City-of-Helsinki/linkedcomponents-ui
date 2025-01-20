@@ -64,14 +64,6 @@ const getElement = (
 const renderComponent = (route: string = ROUTES.SEARCH) =>
   render(<SearchPanel />, { mocks, routes: [route] });
 
-test('should initialize search panel inputs', async () => {
-  const searchValue = 'search';
-  renderComponent(`${ROUTES.SEARCH}?text=${searchValue}`);
-
-  const searchInput = getElement('searchInput');
-  await waitFor(() => expect(searchInput).toHaveValue(searchValue));
-});
-
 test('should search events with correct search params', async () => {
   const values = {
     endDate: '12.3.2021',
@@ -118,4 +110,12 @@ test('should search events with correct search params', async () => {
       text: 'search',
     },
   });
+});
+
+test('should initialize search panel inputs', async () => {
+  const searchValue = 'search';
+  renderComponent(`${ROUTES.SEARCH}?text=${searchValue}`);
+
+  const searchInput = getElement('searchInput');
+  await waitFor(() => expect(searchInput).toHaveValue(searchValue));
 });

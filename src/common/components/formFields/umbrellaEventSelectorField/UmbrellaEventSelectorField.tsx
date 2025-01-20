@@ -5,12 +5,11 @@ import { getEventFields } from '../../../../domain/event/utils';
 import { EVENT_SORT_OPTIONS } from '../../../../domain/events/constants';
 import { EventFieldsFragment } from '../../../../generated/graphql';
 import { Language, OptionType } from '../../../../types';
-import EventSelector, {
-  EventSelectorProps,
-} from '../../eventSelector/EventSelector';
+import EventSelector from '../../eventSelector/EventSelector';
+import { SelectPropsWithValue } from '../../select/Select';
 import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
-type Props = EventSelectorProps & FieldProps<string>;
+type Props = SelectPropsWithValue<string | null> & FieldProps<string>;
 
 const getEventOption = (
   event: EventFieldsFragment,
@@ -23,12 +22,11 @@ const getEventOption = (
 const UmbrellaEventSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   disabled,
   ...rest
 }) => {
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
-    disabled,
     name,
     onBlur,
     onChange,
@@ -48,8 +46,7 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      helper={helper}
-      error={errorText}
+      texts={{ ...texts, error: errorText }}
       invalid={!!errorText}
       getOption={getEventOption}
     />

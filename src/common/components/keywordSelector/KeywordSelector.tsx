@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
 import {
   ApolloClient,
+  ApolloError,
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import React from 'react';
+import { Option, SearchFunction, SearchResult, SelectData } from 'hds-react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDebounce } from 'use-debounce';
 
-import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import {
   getKeywordFields,
   getKeywordQueryResult,
@@ -20,13 +20,12 @@ import {
   useKeywordsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import skipFalsyType from '../../../utils/skipFalsyType';
-import Combobox, { MultiComboboxProps } from '../combobox/Combobox';
+import Select, { MultiSelectPropsWithValue } from '../select/Select';
 
 const getOption = ({
   keyword,
@@ -40,51 +39,43 @@ const getOption = ({
   return { label, value };
 };
 
-export type KeywordSelectorProps = Omit<
-  MultiComboboxProps<string>,
-  'toggleButtonAriaLabel'
->;
+export type KeywordSelectorProps = MultiSelectPropsWithValue<string> & {
+  handleClose: (selectedOptions: OptionType[]) => void;
+};
 
 const KeywordSelector: React.FC<KeywordSelectorProps> = ({
-  label,
+  texts,
   name,
   value,
+  handleClose,
   ...rest
 }) => {
-  const timer = React.useRef<NodeJS.Timeout>();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
   const locale = useLocale();
-  const [search, setSearch] = useMountedState('');
-  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
   const [selectedKeywords, setSelectedKeywords] = React.useState<OptionType[]>(
     []
   );
+  const [options, setOptions] = React.useState<OptionType[]>([]);
+
+  const initialOptions = React.useRef<OptionType[]>([]);
 
   const {
     data: keywordsData,
     loading,
     previousData: previousKeywordsData,
+    refetch,
   } = useKeywordsQuery({
     variables: {
       createPath: getPathBuilder(keywordsPathBuilder),
       dataSource: ['yso', 'helsinki'],
       showAllKeywords: true,
-      freeText: debouncedSearch,
+      freeText: '',
     },
   });
 
-  const handleFilter = (items: OptionType[], inputValue: string) => {
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      setSearch(inputValue);
-    });
-
-    return items;
-  };
-
-  const options: OptionType[] = React.useMemo(
+  const keywordsOptions = React.useMemo(
     () =>
       getValue(
         (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
@@ -95,42 +86,87 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     [keywordsData, locale, previousKeywordsData]
   );
 
+  useEffect(() => {
+    setOptions(keywordsOptions);
+
+    if (keywordsData && !initialOptions?.current.length) {
+      initialOptions.current = keywordsOptions;
+    }
+  }, [keywordsOptions, keywordsData]);
+
+  const handleSearch: SearchFunction = React.useCallback(
+    async (searchValue: string): Promise<SearchResult> => {
+      try {
+        const { error, data: newKeywordsData } = await refetch({
+          freeText: searchValue,
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        return Promise.resolve({
+          options: getValue(
+            newKeywordsData?.keywords.data.map((keyword) =>
+              getOption({ keyword: keyword as KeywordFieldsFragment, locale })
+            ),
+            []
+          ),
+        });
+      } catch (error) {
+        return Promise.reject(error as ApolloError);
+      }
+    },
+    [refetch, locale]
+  );
+
+  const onClose = React.useCallback(
+    (
+      selectedOptions: Option[],
+      _clickedOption: undefined,
+      _data: SelectData
+    ) => {
+      setOptions(initialOptions.current);
+
+      if (handleClose) {
+        handleClose(selectedOptions);
+      }
+    },
+    [handleClose]
+  );
+
   React.useEffect(() => {
-    const getSelectedKeywordsFromCache = async () =>
-      setSelectedKeywords(
-        (
-          await Promise.all(
-            value.map(async (atId) => {
-              const keyword = await getKeywordQueryResult(
-                getValue(parseIdFromAtId(atId), ''),
-                apolloClient
-              );
-              /* istanbul ignore next */
-              return keyword ? getOption({ keyword: keyword, locale }) : null;
-            })
-          )
-        ).filter(skipFalsyType)
+    const getSelectedKeywordsFromCache = async () => {
+      const selectedOptions = await Promise.all(
+        value.map(async (atId) => {
+          const keyword = await getKeywordQueryResult(
+            getValue(parseIdFromAtId(atId), ''),
+            apolloClient
+          );
+          /* istanbul ignore next */
+          return keyword ? getOption({ keyword: keyword, locale }) : null;
+        })
       );
+
+      setSelectedKeywords(selectedOptions.filter(skipFalsyType));
+    };
 
     getSelectedKeywordsFromCache();
   }, [apolloClient, locale, value]);
 
-  React.useEffect(() => {
-    return () => clearTimeout(timer.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
-    <Combobox
+    <Select
       {...rest}
-      multiselect={true}
-      filter={handleFilter}
+      multiSelect
+      onSearch={handleSearch}
+      onClose={onClose}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_multiple: t('common.combobox.clearKeywords'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearKeywords')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       value={selectedKeywords}
     />
   );

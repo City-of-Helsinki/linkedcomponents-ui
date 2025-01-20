@@ -7,7 +7,6 @@ import useMultiSelectFieldProps, {
 } from '../useMultiSelectFieldProps';
 
 const defaultProps: UseMultiSelectFieldPropsProps = {
-  disabled: false,
   name: 'name',
   onBlur: vi.fn(),
   onChange: vi.fn(),
@@ -37,26 +36,13 @@ describe('useMultiSelectFieldProps', () => {
   it('should call onChange if hook is not disabled', async () => {
     const onChange = vi.fn();
     const { result } = renderMultiSelectFieldPropsHook({
-      disabled: false,
       onChange,
     });
 
-    result.current.handleChange([]);
+    result.current.handleClose([]);
 
     await waitFor(() =>
       expect(onChange).toBeCalledWith({ target: { id: 'name', value: [] } })
     );
-  });
-
-  it('should not call onChange if hook is disabled', async () => {
-    const onChange = vi.fn();
-    const { result } = renderMultiSelectFieldPropsHook({
-      disabled: true,
-      onChange,
-    });
-
-    result.current.handleChange([]);
-
-    expect(onChange).not.toBeCalledWith({ target: { id: 'name', value: [] } });
   });
 });

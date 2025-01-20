@@ -1,22 +1,20 @@
 import { FieldProps } from 'formik';
 import React from 'react';
 
-import SingleOrganizationClassSelector, {
-  SingleOrganizationClassSelectorProps,
-} from '../../singleOrganizationClassSelector/SingleOrganizationClassSelector';
+import { SelectPropsWithValue } from '../../select/Select';
+import SingleOrganizationClassSelector from '../../singleOrganizationClassSelector/SingleOrganizationClassSelector';
 import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
-type Props = SingleOrganizationClassSelectorProps & FieldProps<string>;
+type Props = SelectPropsWithValue<string | null> & FieldProps<string>;
 
 const SingleOrganizationClassSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   disabled,
   ...rest
 }) => {
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
-    disabled,
     name,
     onBlur,
     onChange,
@@ -32,8 +30,7 @@ const SingleOrganizationClassSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      helper={helper}
-      error={errorText}
+      texts={{ ...texts, error: errorText }}
       invalid={!!errorText}
     />
   );

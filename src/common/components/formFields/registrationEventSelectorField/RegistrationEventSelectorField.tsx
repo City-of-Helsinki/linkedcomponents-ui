@@ -10,24 +10,25 @@ import {
 } from '../../../../domain/events/utils';
 import {
   EventFieldsFragment,
+  EventsQueryVariables,
   PublicationStatus,
 } from '../../../../generated/graphql';
 import { Language, OptionType } from '../../../../types';
 import skipFalsyType from '../../../../utils/skipFalsyType';
-import EventSelector, {
-  EventSelectorProps,
-} from '../../eventSelector/EventSelector';
+import EventSelector from '../../eventSelector/EventSelector';
+import { SelectPropsWithValue } from '../../select/Select';
 import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
 type Props = {
   onChangeCb?: (val: string | null) => void;
-} & EventSelectorProps &
+  variables: EventsQueryVariables;
+} & SelectPropsWithValue<string | null> &
   FieldProps<string>;
 
 const RegistrationEventSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   disabled,
   onChangeCb,
   variables,
@@ -35,7 +36,6 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
-    disabled,
     name,
     onBlur,
     onChange,
@@ -79,8 +79,7 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      helper={helper}
-      error={errorText}
+      texts={{ ...texts, error: errorText }}
       invalid={!!errorText}
       getOption={getEventOption}
     />

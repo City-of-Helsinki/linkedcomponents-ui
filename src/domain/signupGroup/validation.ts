@@ -30,6 +30,7 @@ import {
   NOTIFICATIONS,
   SIGNUP_FIELDS,
   SIGNUP_FORM_CHECKBOX_GROUP_FIELDS,
+  SIGNUP_FORM_COMBOBOX_FIELDS,
   SIGNUP_FORM_SELECT_FIELDS,
   SIGNUP_GROUP_FIELDS,
 } from './constants';
@@ -274,7 +275,7 @@ const getFocusableSignupGroupFieldId = (fieldName: string) => {
   return getFocusableFieldId(fieldName, {
     arrayFields: [],
     checkboxGroupFields: SIGNUP_FORM_CHECKBOX_GROUP_FIELDS,
-    comboboxFields: [],
+    comboboxFields: SIGNUP_FORM_COMBOBOX_FIELDS,
     selectFields: SIGNUP_FORM_SELECT_FIELDS,
     textEditorFields: [],
   });

@@ -1,22 +1,20 @@
 import { FieldProps } from 'formik';
 import React from 'react';
 
-import KeywordSelector, {
-  KeywordSelectorProps,
-} from '../../keywordSelector/KeywordSelector';
+import KeywordSelector from '../../keywordSelector/KeywordSelector';
+import { MultiSelectPropsWithValue } from '../../select/Select';
 import useMultiSelectFieldProps from '../hooks/useMultiSelectFieldProps';
 
-type Props = KeywordSelectorProps & FieldProps;
+type Props = MultiSelectPropsWithValue<string> & FieldProps;
 
 const KeywordSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   disabled,
   ...rest
 }) => {
-  const { errorText, handleBlur, handleChange } = useMultiSelectFieldProps({
-    disabled,
+  const { errorText, handleBlur, handleClose } = useMultiSelectFieldProps({
     name,
     onBlur,
     onChange,
@@ -30,10 +28,9 @@ const KeywordSelectorField: React.FC<Props> = ({
       disabled={disabled}
       name={name}
       onBlur={handleBlur}
-      onChange={handleChange}
+      handleClose={handleClose}
       value={value}
-      helper={helper}
-      error={errorText}
+      texts={{ ...texts, error: errorText }}
       invalid={!!errorText}
     />
   );

@@ -2,7 +2,11 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import { ApolloProvider } from '@apollo/client';
-import { LoginProvider } from 'hds-react';
+import {
+  CookieBanner,
+  CookieConsentContextProvider,
+  LoginProvider,
+} from 'hds-react';
 import React, { PropsWithChildren, useMemo } from 'react';
 import { BrowserRouter } from 'react-router';
 
@@ -14,7 +18,7 @@ import getValue from '../../utils/getValue';
 import { loginProviderProps } from '../auth/constants';
 import useAuth from '../auth/hooks/useAuth';
 import { createApolloClient } from './apollo/apolloClient';
-import CookieConsent from './cookieConsent/CookieConsent';
+import useCookieConsentSettings from './hooks/useCookieConsentSettings';
 import { useNotificationsContext } from './notificationsContext/hooks/useNotificationsContext';
 import { NotificationsProvider } from './notificationsContext/NotificationsContext';
 import { PageSettingsProvider } from './pageSettingsContext/PageSettingsContext';
@@ -47,25 +51,29 @@ const App: React.FC = () => {
     []
   );
 
+  const cookieConsentProps = useCookieConsentSettings();
+
   return (
     <ThemeProvider initTheme={theme}>
-      <AccessibilityNotificationProvider>
-        <NotificationsProvider>
-          <LoginProvider {...loginProviderProps}>
-            <PageSettingsProvider>
-              <BrowserRouter>
-                {/* @ts-ignore */}
-                <MatomoContext.Provider value={matomoTracker}>
-                  <ApolloWrapper>
-                    <CookieConsent />
-                    <AppRoutes />
-                  </ApolloWrapper>
-                </MatomoContext.Provider>
-              </BrowserRouter>
-            </PageSettingsProvider>
-          </LoginProvider>
-        </NotificationsProvider>
-      </AccessibilityNotificationProvider>
+      <CookieConsentContextProvider {...cookieConsentProps}>
+        <AccessibilityNotificationProvider>
+          <NotificationsProvider>
+            <LoginProvider {...loginProviderProps}>
+              <PageSettingsProvider>
+                <BrowserRouter>
+                  {/* @ts-ignore */}
+                  <MatomoContext.Provider value={matomoTracker}>
+                    <ApolloWrapper>
+                      <CookieBanner />
+                      <AppRoutes />
+                    </ApolloWrapper>
+                  </MatomoContext.Provider>
+                </BrowserRouter>
+              </PageSettingsProvider>
+            </LoginProvider>
+          </NotificationsProvider>
+        </AccessibilityNotificationProvider>
+      </CookieConsentContextProvider>
     </ThemeProvider>
   );
 };

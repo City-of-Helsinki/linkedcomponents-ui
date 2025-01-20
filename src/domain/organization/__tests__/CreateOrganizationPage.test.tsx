@@ -56,7 +56,6 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
 const getElement = (
   key:
     | 'adminUsersInput'
-    | 'classificationInput'
     | 'classificationToggleButton'
     | 'dissolutionDateInput'
     | 'foundingDateInput'
@@ -64,7 +63,6 @@ const getElement = (
     | 'nameInput'
     | 'originIdInput'
     | 'parentInput'
-    | 'parentToggleButton'
     | 'registrationAdminUsersInput'
     | 'regularUsersInput'
     | 'replacedByInput'
@@ -73,24 +71,20 @@ const getElement = (
   switch (key) {
     case 'adminUsersInput':
       return screen.getByRole('combobox', { name: /Pääkäyttäjät/ });
-    case 'classificationInput':
-      return screen.getByRole('combobox', { name: /luokittelu/i });
     case 'classificationToggleButton':
-      return screen.getByRole('button', { name: /luokittelu: valikko/i });
+      return screen.getByRole('combobox', { name: /luokittelu/i });
     case 'dissolutionDateInput':
       return screen.getByLabelText(/Lakkautuspäivä/i);
     case 'foundingDateInput':
       return screen.getByLabelText(/Perustuspäivä/i);
     case 'internalTypeToggleButton':
-      return screen.getByRole('button', { name: /sisäinen tyyppi/i });
+      return screen.getByRole('combobox', { name: /sisäinen tyyppi/i });
     case 'nameInput':
       return screen.getByLabelText(/nimi/i);
     case 'originIdInput':
       return screen.getByLabelText(/lähdetunniste/i);
     case 'parentInput':
       return screen.getByRole('combobox', { name: /pääorganisaatio/i });
-    case 'parentToggleButton':
-      return screen.getByRole('button', { name: /pääorganisaatio: valikko/i });
     case 'registrationAdminUsersInput':
       return screen.getByRole('combobox', {
         name: /Ilmoittautumisen pääkäyttäjät/,
@@ -119,7 +113,9 @@ const fillClassificationField = async () => {
 
 const fillParentField = async () => {
   const user = userEvent.setup();
-  await user.click(getElement('parentToggleButton'));
+
+  await user.click(getElement('parentInput'));
+
   const organizationOption = await screen.findByRole('option', {
     name: getValue(organizations.data[0]?.name, ''),
   });
@@ -144,7 +140,6 @@ test('shows all fields', async () => {
   getElement('registrationAdminUsersInput');
   getElement('regularUsersInput');
   getElement('internalTypeToggleButton');
-  getElement('classificationInput');
   getElement('foundingDateInput');
   getElement('dissolutionDateInput');
   getElement('parentInput');

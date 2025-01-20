@@ -1,8 +1,12 @@
-.label {
-  .text {
-    color: var(--color-black-90);
-  }
-  .amount {
-    color: var(--color-black-60);
+.select {
+  max-width: 100% !important;
+
+  > div:focus-within {
+    box-shadow: none;
+
+    input:global(.focus-visible) {
+      outline: var(--focus-outline-width) solid var(--focus-outline-color);
+      outline-offset: 1px;
+    }
   }
 }

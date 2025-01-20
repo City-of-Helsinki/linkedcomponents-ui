@@ -58,7 +58,7 @@ const getElement = (
   key:
     | 'dateSelectorButton'
     | 'endDateInput'
-    | 'inputField'
+    | 'clearInput'
     | 'recurringEventCheckbox'
     | 'startDateInput'
     | 'toggleButton'
@@ -68,14 +68,16 @@ const getElement = (
       return screen.getByRole('button', { name: 'Valitse päivämäärät' });
     case 'endDateInput':
       return screen.getByPlaceholderText('Loppuu p.k.vvvv');
-    case 'inputField':
-      return screen.getByRole('combobox', { name: 'Tapahtuma *' });
+    case 'clearInput':
+      return screen.getByRole('button', {
+        name: 'Tyhjennä valitut tapahtumat',
+      });
     case 'recurringEventCheckbox':
       return screen.getByRole('checkbox', { name: 'Kauden ilmoittautuminen' });
     case 'startDateInput':
       return screen.getByPlaceholderText('Alkaa p.k.vvvv');
     case 'toggleButton':
-      return screen.getByRole('button', { name: 'Tapahtuma: Valikko' });
+      return screen.getByRole('button', { name: /tapahtuma/i });
   }
 };
 
@@ -89,6 +91,7 @@ test('should copy values from event to registration form when event is selected'
   renderComponent();
 
   const toggleButton = getElement('toggleButton');
+
   await user.click(toggleButton);
 
   const eventOption = await screen.findByRole('option', {
@@ -122,9 +125,15 @@ test('should clear values from registration form when event is unselected', asyn
   const user = userEvent.setup();
   renderComponent({ event: event.atId });
 
-  const inputField = getElement('inputField');
-  await waitFor(() => expect(inputField).toHaveValue('Event name 13.7.2020 –'));
-  await user.clear(inputField);
+  await waitFor(async () =>
+    expect(
+      await screen.findByText('Event name 13.7.2020 –')
+    ).toBeInTheDocument()
+  );
+
+  const clearInput = getElement('clearInput');
+
+  await user.click(clearInput);
 
   await waitFor(() =>
     expect(setValues).toBeCalledWith({
@@ -167,9 +176,12 @@ test('should filter events by start and end date', async () => {
   const eventOption = await screen.findByRole('option', {
     name: new RegExp(eventName),
   });
+
   await user.click(eventOption);
-  const inputField = getElement('inputField');
-  await waitFor(() => expect(inputField).toHaveValue('Event name 13.7.2020 –'));
+
+  expect(
+    await screen.findAllByText('Event name 13.7.2020 –', { selector: 'span' })
+  ).toHaveLength(1);
 });
 
 test('should filter events by super event type', async () => {
@@ -188,6 +200,7 @@ test('should filter events by super event type', async () => {
   });
   await user.click(eventOption);
 
-  const inputField = getElement('inputField');
-  await waitFor(() => expect(inputField).toHaveValue(eventLabel));
+  expect(
+    await screen.findAllByText(eventLabel, { selector: 'span' })
+  ).toHaveLength(2);
 });

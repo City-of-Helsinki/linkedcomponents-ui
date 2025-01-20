@@ -23,10 +23,6 @@ import PriceSection from '../PriceSection';
 
 configure({ defaultHidden: true });
 
-beforeEach(() => {
-  mockAuthenticatedLoginState();
-});
-
 const type = EVENT_TYPE.General;
 
 afterEach(() => {
@@ -128,11 +124,11 @@ const getElement = (
         name: registrationCheckboxName,
       });
     case 'priceGroupSelectButton':
-      return screen.getByRole('button', { name: /Asiakasryhmä/ });
+      return screen.getByRole('combobox', { name: /asiakasryhmä/i });
     case 'priceInput':
       return screen.getByRole('spinbutton', { name: 'Hinta (€) *' });
     case 'vatSelectButton':
-      return screen.getByRole('button', { name: /ALV %/ });
+      return screen.getByRole('combobox', { name: /alv %/i });
   }
 };
 
@@ -251,14 +247,14 @@ test('should add and remove price group', async () => {
   getElement('vatSelectButton');
 
   await user.click(addPriceGroupButton);
-  expect(screen.getAllByRole('button', { name: /Asiakasryhmä/ })).toHaveLength(
-    2
-  );
+  expect(
+    screen.getAllByRole('combobox', { name: /asiakasryhmä/i })
+  ).toHaveLength(2);
 
   await user.click(getDeletePriceGroupButtons()[1]);
-  expect(screen.getAllByRole('button', { name: /Asiakasryhmä/ })).toHaveLength(
-    1
-  );
+  expect(
+    screen.getAllByRole('combobox', { name: /asiakasryhmä/i })
+  ).toHaveLength(1);
 });
 
 test('should not show registration checkbox to non admin user', async () => {

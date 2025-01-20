@@ -1,22 +1,20 @@
 import { FieldProps } from 'formik';
 import React from 'react';
 
-import PlaceSelector, {
-  PlaceSelectorProps,
-} from '../../placeSelector/PlaceSelector';
+import PlaceSelector from '../../placeSelector/PlaceSelector';
+import { SelectPropsWithValue } from '../../select/Select';
 import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
-type Props = PlaceSelectorProps & FieldProps<string>;
+type Props = SelectPropsWithValue<string | null> & FieldProps;
 
 const PlaceSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  helper,
+  texts,
   disabled,
   ...rest
 }) => {
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
-    disabled,
     name,
     onBlur,
     onChange,
@@ -32,8 +30,7 @@ const PlaceSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      helper={helper}
-      error={errorText}
+      texts={{ ...texts, error: errorText }}
       invalid={!!errorText}
     />
   );

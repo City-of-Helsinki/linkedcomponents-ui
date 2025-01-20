@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconPhoto } from 'hds-react';
+import { IconPhoto, IconSize } from 'hds-react';
 import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
@@ -38,7 +38,7 @@ const ImageColumn: FC<ColumnProps> = ({ image }) => {
       {showPlaceholder ? (
         /* istanbul ignore next */
         <div className={styles.placeholderImage}>
-          <IconPhoto size="xl" />
+          <IconPhoto size={IconSize.ExtraLarge} />
         </div>
       ) : (
         <div

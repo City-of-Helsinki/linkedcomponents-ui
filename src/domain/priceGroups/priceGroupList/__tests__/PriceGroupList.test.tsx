@@ -64,7 +64,7 @@ const getElement = (
     case 'searchInput':
       return screen.getByRole('textbox', { name: /hae asiakasryhmiä/i });
     case 'sortByDescriptionButton':
-      return screen.getByRole('button', { name: 'Kuvaus' });
+      return screen.getByTestId('hds-table-sorting-header-description');
   }
 };
 

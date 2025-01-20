@@ -34,7 +34,8 @@ test('should sort sub organizations', async () => {
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
-  const nameColumn = await screen.findByRole('button', { name: /nimi/i });
+
+  const nameColumn = await screen.findByTestId('hds-table-sorting-header-name');
 
   await user.click(nameColumn);
   screen.getByRole('table', {

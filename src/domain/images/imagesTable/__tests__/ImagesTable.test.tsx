@@ -89,9 +89,9 @@ test('should call setSort when clicking sortable column header', async () => {
 
   renderComponent({ setSort });
 
-  const lastModifiedButton = screen.getByRole('button', {
-    name: 'Viimeksi muokattu',
-  });
+  const lastModifiedButton = screen.getByTestId(
+    'hds-table-sorting-header-last_modified_time'
+  );
   await user.click(lastModifiedButton);
   expect(setSort).toBeCalledWith('last_modified_time');
 });
