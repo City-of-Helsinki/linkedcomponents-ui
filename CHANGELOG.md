@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.15.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.15.0...linkedcomponents-ui-v1.15.1) (2025-01-21)
+
+
+### Bug Fixes
+
+* Add support for inlining via ROLLUP_INLINE_DYNAMIC_IMPORTS ([4cd0baa](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/4cd0baa9cee2113c7139ea8329c3a27c86b723cf))
+* Direct nginx logs to stdout and stderr ([7850c2a](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7850c2a624650679464aba1745ad42bc734423fd))
+* Include ROLLUP_INLINE_DYNAMIC_IMPORTS in Dockerfile ([49db936](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/49db936eadcef654ff46a918e14da2b0a13cf862))
+* Sort attendees by id (from oldest to newest) instead of name ([59933ba](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/59933ba247a572df0e0fbf606ff74b9d486b3e63))
+* Use ubi9/nginx-120 ([98f4cd0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/98f4cd066a1c6f4e223df43aba8d53d3ec2acb13))
+
 ## [1.15.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.14.1...linkedcomponents-ui-v1.15.0) (2024-11-21)
 
 
