@@ -1,4 +1,3 @@
-import { Option } from 'hds-react';
 import { TFunction } from 'i18next';
 import sortBy from 'lodash/sortBy';
 import React from 'react';
@@ -8,7 +7,7 @@ import useAllOrganizations from '../../../domain/organization/hooks/useAllOrgani
 import { getOrganizationFields } from '../../../domain/organization/utils';
 import { OrganizationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import { Language } from '../../../types';
+import { Language, OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 
@@ -20,7 +19,7 @@ const getOption = ({
   locale: Language;
   organization: OrganizationFieldsFragment;
   t: TFunction;
-}): Partial<Option> => {
+}): OptionType => {
   const { atId: value, fullName: label } = getOrganizationFields(
     organization,
     locale,
@@ -45,7 +44,7 @@ const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
 
   const { loading, organizations } = useAllOrganizations();
 
-  const options: Partial<Option>[] = React.useMemo(
+  const options: OptionType[] = React.useMemo(
     () =>
       sortBy(
         getValue(

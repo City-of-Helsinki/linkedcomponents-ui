@@ -1,4 +1,3 @@
-import { Option } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -11,6 +10,7 @@ import {
   OrganizationClassFieldsFragment,
   useOrganizationClassQuery,
 } from '../../../generated/graphql';
+import { OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
@@ -19,7 +19,7 @@ const getOption = ({
   organizationClass,
 }: {
   organizationClass: OrganizationClassFieldsFragment;
-}): Partial<Option> => {
+}): OptionType => {
   const { id: value, name: label } =
     getOrganizationClassFields(organizationClass);
 
@@ -37,7 +37,7 @@ const SingleOrganizationClassSelector: React.FC<
 
   const { loading, organizationClasses } = useAllOrganizationClasses();
 
-  const options: Partial<Option>[] = React.useMemo(
+  const options: OptionType[] = React.useMemo(
     () =>
       getValue(
         organizationClasses.map((organizationClass) =>

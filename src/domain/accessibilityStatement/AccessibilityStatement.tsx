@@ -324,6 +324,7 @@ const AccessibilityStatementPage: React.FC = () => {
       <MainContent className={styles.accessibilityStatementPage}>
         <Container withOffset>
           <Breadcrumb
+            aria-label={t('common.breadcrumb')}
             list={[
               { title: t('common.home'), path: ROUTES.HOME },
               { title: pageTitle, path: null },

@@ -1,5 +1,4 @@
 import { ApolloClient, NormalizedCacheObject } from '@apollo/client';
-import { Option } from 'hds-react';
 import { TFunction } from 'i18next';
 import omit from 'lodash/omit';
 
@@ -20,7 +19,12 @@ import {
   WebStoreAccountFieldsFragment,
   WebStoreMerchantFieldsFragment,
 } from '../../generated/graphql';
-import { Editability, Language, PathBuilderProps } from '../../types';
+import {
+  Editability,
+  Language,
+  OptionType,
+  PathBuilderProps,
+} from '../../types';
 import { featureFlagUtils } from '../../utils/featureFlags';
 import formatDate from '../../utils/formatDate';
 import getDateFromString from '../../utils/getDateFromString';
@@ -647,7 +651,7 @@ export const getOrganizationOption = ({
   locale: Language;
   organization: OrganizationFieldsFragment;
   t: TFunction;
-}): Partial<Option> => {
+}): OptionType => {
   const { fullName: label } = getOrganizationFields(organization, locale, t);
 
   return { label, value: getValue(organization[idPath], '') };

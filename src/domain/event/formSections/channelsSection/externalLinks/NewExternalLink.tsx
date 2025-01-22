@@ -1,10 +1,9 @@
-import { Option } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import SingleSelect from '../../../../../common/components/singleSelect/SingleSelect';
 import TextInput from '../../../../../common/components/textInput/TextInput';
-// import { OptionType } from '../../../../../types';
+import { OptionType } from '../../../../../types';
 import getValue from '../../../../../utils/getValue';
 import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import useExtlinkOptions from '../../../hooks/useExtlinkOptions';
@@ -12,7 +11,7 @@ import styles from './externalLinks.module.scss';
 
 type ExternalLinkProps = {
   isEditingAllowed: boolean;
-  onChange: (item: Option) => void;
+  onChange: (item: OptionType) => void;
   type: string;
 };
 
@@ -25,7 +24,10 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({
 
   const options = useExtlinkOptions();
 
-  const handleChange = (_selectedOptions: Option[], clickedOption: Option) => {
+  const handleChange = (
+    _selectedOptions: OptionType[],
+    clickedOption: OptionType
+  ) => {
     onChange(clickedOption);
   };
 

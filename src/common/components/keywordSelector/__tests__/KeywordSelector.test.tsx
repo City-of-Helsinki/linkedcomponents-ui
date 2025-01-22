@@ -25,13 +25,16 @@ const clearButtonAriaLabel = 'Poista kaikki';
 const selectedItemRemoveButtonAriaLabel = 'Poista valinta';
 
 const defaultProps: KeywordSelectorProps = {
-  clearButtonAriaLabel,
-  helper,
-  label,
-  multiselect: true,
+  texts: {
+    clearButtonAriaLabel_multiple: clearButtonAriaLabel,
+    assistive: helper,
+    label,
+    tagRemoveSelectionAriaLabel: selectedItemRemoveButtonAriaLabel,
+  },
+  multiSelect: true,
   name,
-  selectedItemRemoveButtonAriaLabel,
   value: [keywordAtId],
+  onChange: vi.fn(),
 };
 
 const renderComponent = (props?: Partial<KeywordSelectorProps>) =>

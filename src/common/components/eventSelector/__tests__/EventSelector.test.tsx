@@ -39,15 +39,15 @@ const mocks = [mockedEventResponse, mockedFilteredEventsResponse];
 
 const defaultProps: EventSelectorProps = {
   getOption,
-  helper,
-  label,
+  texts: { assistive: helper, label },
   name,
-  toggleButtonAriaLabel: '',
+  // toggleButtonAriaLabel: '',
   value: event.atId,
   variables: {
     sort: EVENT_SORT_OPTIONS.NAME,
     superEventType: ['umbrella'],
   },
+  onChange: vi.fn(),
 };
 
 const renderComponent = (props?: Partial<EventSelectorProps>) =>

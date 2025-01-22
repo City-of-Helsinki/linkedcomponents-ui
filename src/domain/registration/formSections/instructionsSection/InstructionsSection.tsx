@@ -66,7 +66,9 @@ const InstructionsSection: React.FC<InstructionsSectionProps> = ({
       <Tabs
         name="instructions-language"
         onChange={
-          setSelectedLanguage as React.Dispatch<React.SetStateAction<string>>
+          setSelectedLanguage as React.Dispatch<
+            React.SetStateAction<string | undefined>
+          >
         }
         options={tabOptions}
         activeTab={selectedLanguage}

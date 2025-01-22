@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-import { Option } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'use-debounce';
@@ -15,14 +14,14 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
-import { Language } from '../../../types';
+import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
 
 export type EventSelectorProps = {
-  getOption: (event: EventFieldsFragment, locale: Language) => Partial<Option>;
+  getOption: (event: EventFieldsFragment, locale: Language) => OptionType;
   variables: EventsQueryVariables;
 } & SingleComboboxProps<string | null>;
 
@@ -60,7 +59,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     },
   });
 
-  const handleFilter = (_option: Option, filterStr: string) => {
+  const handleFilter = (_option: OptionType, filterStr: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       setSearch(filterStr);
@@ -69,7 +68,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     return true;
   };
 
-  const options: Partial<Option>[] = React.useMemo(
+  const options: OptionType[] = React.useMemo(
     () =>
       getValue(
         (eventsData || previousEventsData)?.events.data.map((event) =>

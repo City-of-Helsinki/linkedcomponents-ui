@@ -22,7 +22,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
-import { Language } from '../../../types';
+import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
@@ -35,7 +35,7 @@ const getOption = ({
 }: {
   keyword: KeywordFieldsFragment | Keyword;
   locale: Language;
-}): Partial<Option> => {
+}): OptionType => {
   const { atId: value, name: label } = getKeywordFields(keyword, locale);
 
   return { label, value };
@@ -71,7 +71,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     },
   });
 
-  const handleFilter = (_option: Option, filterStr: string) => {
+  const handleFilter = (_option: OptionType, filterStr: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       setSearch(filterStr);
@@ -80,7 +80,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     return true;
   };
 
-  const options: Partial<Option>[] = React.useMemo(
+  const options: OptionType[] = React.useMemo(
     () =>
       getValue(
         (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>

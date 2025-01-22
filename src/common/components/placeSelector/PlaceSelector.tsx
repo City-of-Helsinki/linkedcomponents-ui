@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-import { Option } from 'hds-react';
 import { TFunction } from 'i18next';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +17,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
-import { Language } from '../../../types';
+import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
@@ -38,7 +37,7 @@ export const getOption = ({
   place,
   showEventAmount = true,
   t,
-}: GetOptionArgs): Partial<Option> => {
+}: GetOptionArgs): OptionType => {
   const { addressLocality, atId, dataSource, name, nEvents, streetAddress } =
     getPlaceFields(place, locale);
 
@@ -93,7 +92,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     },
   });
 
-  const handleFilter = (_option: Option, filterStr: string) => {
+  const handleFilter = (_option: OptionType, filterStr: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => {
       setSearch(filterStr);

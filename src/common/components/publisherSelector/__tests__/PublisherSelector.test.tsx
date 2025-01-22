@@ -94,9 +94,10 @@ const mocks = [
 ];
 
 const defaultProps: PublisherSelectorProps = {
-  label,
+  texts: { label },
   name: 'publisher-selector',
   value: publisherId,
+  onChange: vi.fn(),
 };
 
 const renderComponent = (props?: Partial<PublisherSelectorProps>) =>
@@ -115,7 +116,7 @@ const getElement = (key: 'searchInput' | 'toggleButton') => {
 
 test('should show users organizations as menu options', async () => {
   const user = userEvent.setup();
-  renderComponent({ publisher: null, value: null });
+  renderComponent({ publisher: null, value: undefined });
 
   getElement('searchInput');
 

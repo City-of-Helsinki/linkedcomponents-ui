@@ -1,15 +1,17 @@
 import { FormikHandlers, useField } from 'formik';
-import { Option } from 'hds-react';
 import { useTranslation } from 'react-i18next';
 
-// import { OptionType } from '../../../../types';
+import { OptionType } from '../../../../types';
 import getValue from '../../../../utils/getValue';
 import { getErrorText } from '../../../../utils/validationUtils';
 
 type UseSingleSelectFieldPropsState = {
   errorText: string;
   handleBlur: () => void;
-  handleChange: (selectedOptions: Option[], clickedOption: Option) => void;
+  handleChange: (
+    selectedOptions: OptionType[],
+    clickedOption: OptionType
+  ) => void;
 };
 
 export type UseSingleSelectFieldPropsProps = {
@@ -37,7 +39,10 @@ const useSingleSelectFieldProps = ({
     onBlur({ target: { id: name, value } });
   };
 
-  const handleChange = (_selectedOptions: Option[], clickedOption: Option) => {
+  const handleChange = (
+    _selectedOptions: OptionType[],
+    clickedOption: OptionType
+  ) => {
     // TODO: HDS Combobox component allowes to remove value even if component
     // is disabled. Remove if statement when that behaviour is fixed to HDS
     if (!disabled) {

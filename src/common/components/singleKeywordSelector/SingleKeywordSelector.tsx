@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-import { Option } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'use-debounce';
@@ -18,7 +17,7 @@ import {
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
 import useMountedState from '../../../hooks/useMountedState';
-import { Language } from '../../../types';
+import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
@@ -29,7 +28,7 @@ const getOption = ({
 }: {
   keyword: KeywordFieldsFragment | Keyword;
   locale: Language;
-}): Partial<Option> => {
+}): OptionType => {
   const { id: value, name: label } = getKeywordFields(keyword, locale);
 
   return { label, value };
@@ -69,14 +68,14 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
     },
   });
 
-  const handleFilter = (_option: Option, filterStr: string) => {
+  const handleFilter = (_option: OptionType, filterStr: string) => {
     clearTimeout(timer.current);
     timer.current = setTimeout(() => setSearch(filterStr));
 
     return true;
   };
 
-  const options: Partial<Option>[] = React.useMemo(
+  const options: OptionType[] = React.useMemo(
     () =>
       getValue(
         (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>

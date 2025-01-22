@@ -1,11 +1,10 @@
 import { FieldProps } from 'formik';
-import { Option } from 'hds-react';
 import React from 'react';
 
 import { getEventFields } from '../../../../domain/event/utils';
 import { EVENT_SORT_OPTIONS } from '../../../../domain/events/constants';
 import { EventFieldsFragment } from '../../../../generated/graphql';
-import { Language } from '../../../../types';
+import { Language, OptionType } from '../../../../types';
 import EventSelector, {
   EventSelectorProps,
 } from '../../eventSelector/EventSelector';
@@ -16,7 +15,7 @@ type Props = EventSelectorProps & FieldProps<string>;
 const getEventOption = (
   event: EventFieldsFragment,
   locale: Language
-): Partial<Option> => {
+): OptionType => {
   const { atId, name } = getEventFields(event, locale);
   return { label: name, value: atId };
 };

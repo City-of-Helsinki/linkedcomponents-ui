@@ -108,9 +108,9 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
       id={id}
       options={options}
       renderOptionText={(option) => {
-        const place = getPlaceFromCache(option.value, apolloClient);
+        const place = getPlaceFromCache(option.value ?? '', apolloClient);
         /* istanbul ignore next */
-        return place ? getOption(place, locale).label : '';
+        return place ? getOption(place, locale).label ?? '' : '';
       }}
       searchValue={searchValue}
       setSearchValue={setSearchValue}

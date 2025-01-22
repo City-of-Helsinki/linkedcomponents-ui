@@ -1,5 +1,6 @@
 import { ClassNames } from '@emotion/react';
 import {
+  ButtonVariant,
   IconBell,
   IconCalendar,
   IconGroup,
@@ -106,6 +107,7 @@ const SearchPanel: React.FC = () => {
                 breadcrumbClassName={styles.titleRow}
                 breadcrumb={
                   <Breadcrumb
+                    aria-label={t('common.breadcrumb')}
                     list={[
                       { title: t('common.home'), path: ROUTES.HOME },
                       { title: t(`eventSearchPage.pageTitle`), path: null },
@@ -190,7 +192,7 @@ const SearchPanel: React.FC = () => {
                     className={styles.button}
                     fullWidth={true}
                     onClick={handleSearch}
-                    variant="success"
+                    variant={ButtonVariant.Success}
                   >
                     {t('eventSearchPage.searchPanel.buttonSearch')}
                   </Button>

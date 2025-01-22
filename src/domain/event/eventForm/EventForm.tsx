@@ -422,6 +422,7 @@ const EventForm: React.FC<EventFormProps> = ({
             >
               <div className={styles.breadcrumb}>
                 <Breadcrumb
+                  aria-label={t('common.breadcrumb')}
                   list={[
                     { title: t('common.home'), path: ROUTES.HOME },
                     { title: t('eventsPage.title'), path: ROUTES.EVENTS },

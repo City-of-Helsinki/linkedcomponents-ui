@@ -19,6 +19,7 @@ const SignupPageBreadcrumb: FC<Props> = ({ activeLabel, registration }) => {
   return (
     <div className={styles.breadcrumb}>
       <Breadcrumb
+        aria-label={t('common.breadcrumb')}
         list={[
           { title: t('common.home'), path: ROUTES.HOME },
           { title: t('registrationsPage.title'), path: ROUTES.REGISTRATIONS },

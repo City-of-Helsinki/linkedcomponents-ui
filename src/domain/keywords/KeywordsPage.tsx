@@ -22,6 +22,7 @@ const KeywordsPage: React.FC = () => {
       <TitleRow
         breadcrumb={
           <Breadcrumb
+            aria-label={t('common.breadcrumb')}
             list={[
               { title: t('common.home'), path: ROUTES.HOME },
               { title: t('adminPage.title'), path: ROUTES.ADMIN },

@@ -39,10 +39,10 @@ const label = 'Select place';
 const name = 'place';
 
 const defaultProps: PlaceSelectorProps = {
-  helper,
-  label,
+  texts: { assistive: helper, label },
   name,
   value: place.atId,
+  onChange: vi.fn(),
 };
 
 const renderComponent = (props?: Partial<PlaceSelectorProps>) =>

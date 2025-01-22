@@ -1,8 +1,8 @@
 import { FieldProps } from 'formik';
-import { Option } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { OptionType } from '../../../../types';
 import SingleSelect, {
   SingleSelectProps,
 } from '../../singleSelect/SingleSelect';
@@ -31,7 +31,7 @@ const SingleSelectField: React.FC<Props> = ({
   });
 
   const selected = options?.find(
-    (option): option is Option =>
+    (option): option is OptionType =>
       typeof option !== 'string' && option.value === value
   );
 

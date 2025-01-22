@@ -41,10 +41,12 @@ describe('useSingleSelectFieldProps', () => {
       onChange,
     });
 
-    result.current.handleChange(null);
+    result.current.handleChange([], { label: 'Label', value: 'value' });
 
     await waitFor(() =>
-      expect(onChange).toBeCalledWith({ target: { id: 'name', value: null } })
+      expect(onChange).toBeCalledWith({
+        target: { id: 'name', value: 'value' },
+      })
     );
   });
 
@@ -55,10 +57,10 @@ describe('useSingleSelectFieldProps', () => {
       onChange,
     });
 
-    result.current.handleChange(null);
+    result.current.handleChange([], { label: 'Label', value: 'value' });
 
     expect(onChange).not.toBeCalledWith({
-      target: { id: 'name', value: null },
+      target: { id: 'name', value: 'value' },
     });
   });
 });

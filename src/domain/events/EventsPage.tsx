@@ -1,4 +1,4 @@
-import { IconPlus } from 'hds-react';
+import { ButtonVariant, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -111,7 +111,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
     navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
-  const handleChangeTab = (newTab: string) => {
+  const handleChangeTab = (newTab: string | undefined) => {
     setActiveTab(newTab as EVENTS_PAGE_TABS);
     navigate({
       pathname: location.pathname,
@@ -125,6 +125,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
         <TitleRow
           breadcrumb={
             <Breadcrumb
+              aria-label={t('common.breadcrumb')}
               list={[
                 { title: t('common.home'), path: ROUTES.HOME },
                 { title: t(`eventsPage.title`), path: null },
@@ -135,9 +136,9 @@ const EventsPage: React.FC<Props> = ({ user }) => {
             <Button
               className={styles.addButton}
               fullWidth={true}
-              iconLeft={<IconPlus aria-hidden={true} />}
+              iconStart={<IconPlus aria-hidden={true} />}
               onClick={goToCreateEvent}
-              variant="primary"
+              variant={ButtonVariant.Primary}
             >
               {t('common.buttonAddEvent')}
             </Button>

@@ -1,4 +1,4 @@
-import { ButtonPresetTheme, Option } from 'hds-react';
+import { ButtonPresetTheme } from 'hds-react';
 import camelCase from 'lodash/camelCase';
 import omit from 'lodash/omit';
 import React from 'react';
@@ -18,7 +18,7 @@ import {
 } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
-import { CommonListProps } from '../../../types';
+import { CommonListProps, OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
 import upperCaseFirstLetter from '../../../utils/upperCaseFirstLetter';
@@ -188,14 +188,14 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
   });
 
   const handleSortSelectorChange = (
-    _selectedOptions: Option[],
-    clickedOption: Option
+    _selectedOptions: OptionType[],
+    clickedOption: OptionType
   ) => {
     onSortChange(clickedOption.value);
   };
 
   const selected = sortOptions?.find(
-    (option): option is Option =>
+    (option): option is OptionType =>
       typeof option !== 'string' && option.value === sort
   );
 

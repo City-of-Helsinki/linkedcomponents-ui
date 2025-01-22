@@ -31,6 +31,7 @@ const PlacesPage: React.FC = () => {
       <TitleRow
         breadcrumb={
           <Breadcrumb
+            aria-label={t('common.breadcrumb')}
             list={[
               { title: t('common.home'), path: ROUTES.HOME },
               { title: t('adminPage.title'), path: ROUTES.ADMIN },
@@ -41,7 +42,7 @@ const PlacesPage: React.FC = () => {
         button={
           <Button
             fullWidth={true}
-            iconLeft={<IconPlus aria-hidden={true} />}
+            iconStart={<IconPlus aria-hidden={true} />}
             onClick={goToCreatePlacePage}
             variant={ButtonVariant.Primary}
           >
