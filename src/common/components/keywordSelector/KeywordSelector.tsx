@@ -56,7 +56,9 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   const [search, setSearch] = useMountedState('');
   const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
-  const [selectedKeywords, setSelectedKeywords] = React.useState<Option[]>([]);
+  const [selectedKeywords, setSelectedKeywords] = React.useState<OptionType[]>(
+    []
+  );
 
   const {
     data: keywordsData,
@@ -105,7 +107,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
               return keyword ? getOption({ keyword: keyword, locale }) : null;
             })
           )
-        ).filter(skipFalsyType) as Option[]
+        ).filter(skipFalsyType)
       );
 
     getSelectedKeywordsFromCache();

@@ -29,7 +29,6 @@ const TypeSelector: React.FC<TypeSelectorProps> = ({
         .map((type) =>
           options.find(
             (item) =>
-              item.value &&
               item.value.toLocaleLowerCase() === type.toLocaleLowerCase()
           )
         )

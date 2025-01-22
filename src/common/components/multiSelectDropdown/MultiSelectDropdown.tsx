@@ -58,10 +58,8 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
 
   const filteredOptions = React.useMemo(() => {
     return [
-      ...options.filter(
-        (option) =>
-          option.label &&
-          option.label.toLowerCase().includes(searchValue.toLowerCase())
+      ...options.filter((option) =>
+        option.label.toLowerCase().includes(searchValue.toLowerCase())
       ),
     ].filter(skipFalsyType);
   }, [options, searchValue]);
@@ -98,7 +96,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
     (option: OptionType) => {
       onChange(
         value.map((item) => item.value).includes(option.value)
-          ? value.filter((v) => v.value && v.value !== option.value)
+          ? value.filter((v) => v.value !== option.value)
           : [...value, option]
       );
     },

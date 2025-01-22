@@ -91,7 +91,7 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
     t(`form.inLanguage.${selectedLanguage}`)
   );
 
-  const handleSelectedLanguageChange = (language: string | undefined) => {
+  const handleSelectedLanguageChange = (language: string) => {
     setSelectedLanguage(language as LE_DATA_LANGUAGES);
   };
 

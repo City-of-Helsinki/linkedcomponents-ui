@@ -29,7 +29,6 @@ const EventStatusSelector: React.FC<EventStatusSelectorProps> = ({
         .map((type) =>
           options.find(
             (item) =>
-              item.value &&
               item.value.toLocaleLowerCase() === type.toLocaleLowerCase()
           )
         )

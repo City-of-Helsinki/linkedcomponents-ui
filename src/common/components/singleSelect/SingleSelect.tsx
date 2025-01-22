@@ -2,13 +2,7 @@ import classNames from 'classnames';
 import { Select, SelectProps } from 'hds-react';
 import React from 'react';
 
-// import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../../domain/app/theme/Theme';
-// import { OptionType } from '../../../types';
-// import {
-//   getA11ySelectionMessage,
-//   getA11yStatusMessage,
-// } from '../../../utils/accessibilityUtils';
 import ComboboxLoadingSpinner, {
   ComboboxLoadingSpinnerProps,
 } from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
@@ -24,18 +18,12 @@ const SingleSelect: React.FC<SingleSelectProps> = ({
   ...rest
 }) => {
   const { theme } = useTheme();
-  // const { t } = useTranslation();
 
   return (
     <ComboboxLoadingSpinner alignedLabel={alignedLabel} isLoading={isLoading}>
       <Select
         {...rest}
         className={classNames(className, styles.select)}
-        // getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}
-        // getA11ySelectionMessage={
-        //   /* istanbul ignore next */
-        //   (options) => getA11ySelectionMessage(options, t)
-        // }
         theme={theme.select}
       />
     </ComboboxLoadingSpinner>

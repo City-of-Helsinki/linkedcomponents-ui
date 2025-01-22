@@ -41,8 +41,7 @@ const DeleteButton: React.FC<Props> = ({
           type={type}
           variant={ButtonVariant.Supplementary}
         >
-          {/* <span className={styles.label}>{label ?? t('common.delete')}</span> */}
-          {t('common.delete')}
+          {label ?? t('common.delete')}
         </Button>
       )}
     </ClassNames>
