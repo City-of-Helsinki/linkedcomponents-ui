@@ -82,7 +82,6 @@ const EditImagePage: React.FC<Props> = ({ image }) => {
       <TitleRow
         breadcrumb={
           <Breadcrumb
-            aria-label={t('common.breadcrumb')}
             list={[
               { title: t('common.home'), path: ROUTES.HOME },
               { title: t('adminPage.title'), path: ROUTES.ADMIN },

@@ -125,7 +125,6 @@ const EventsPage: React.FC<Props> = ({ user }) => {
         <TitleRow
           breadcrumb={
             <Breadcrumb
-              aria-label={t('common.breadcrumb')}
               list={[
                 { title: t('common.home'), path: ROUTES.HOME },
                 { title: t(`eventsPage.title`), path: null },

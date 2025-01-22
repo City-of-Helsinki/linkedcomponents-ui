@@ -178,7 +178,6 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
             actionItems={actionItems}
             breadcrumb={
               <Breadcrumb
-                aria-label={t('common.breadcrumb')}
                 list={[
                   { title: t('common.home'), path: ROUTES.HOME },
                   {

@@ -263,7 +263,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
                   >
                     <div className={styles.breadcrumb}>
                       <Breadcrumb
-                        aria-label={t('common.breadcrumb')}
                         list={[
                           { title: t('common.home'), path: ROUTES.HOME },
                           {

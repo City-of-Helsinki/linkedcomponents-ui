@@ -51,7 +51,6 @@ const AttendanceListPage: React.FC<AttendanceListPageProps> = ({
           withOffset={true}
         >
           <Breadcrumb
-            aria-label={t('common.breadcrumb')}
             list={[
               { title: t('common.home'), path: ROUTES.HOME },
               {
