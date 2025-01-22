@@ -111,7 +111,7 @@ const EventsPage: React.FC<Props> = ({ user }) => {
     navigate(`/${locale}${ROUTES.CREATE_EVENT}`);
   };
 
-  const handleChangeTab = (newTab: string | undefined) => {
+  const handleChangeTab = (newTab: string) => {
     setActiveTab(newTab as EVENTS_PAGE_TABS);
     navigate({
       pathname: location.pathname,
