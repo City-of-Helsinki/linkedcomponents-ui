@@ -56,7 +56,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
   const navigate = useNavigate();
   const locale = useLocale();
 
-  const { authenticated, getApiToken } = useAuth();
+  const { authenticated, apiToken } = useAuth();
   const publisher = getValue(registration.publisher, '');
   const { addNotification } = useNotificationsContext();
 
@@ -126,7 +126,7 @@ const SignupsPage: React.FC<SignupsPageProps> = ({ registration }) => {
       onClick: () =>
         exportSignupsAsExcel({
           addNotification,
-          apiToken: getApiToken(),
+          apiToken,
           registration,
           uiLanguage: locale,
         }),

@@ -60,3 +60,4 @@ import.meta.env.REACT_APP_MATOMO_URL_BASE = 'https://www.test.fi/';
 import.meta.env.REACT_APP_MATOMO_SITE_ID = 'test123';
 import.meta.env.REACT_APP_MATOMO_SRC_URL = 'test.js';
 import.meta.env.REACT_APP_MATOMO_ENABLED = 'false';
+import.meta.env.REACT_APP_OIDC_API_SCOPE = 'API_SCOPE';

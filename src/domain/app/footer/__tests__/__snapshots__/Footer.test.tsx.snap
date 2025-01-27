@@ -53,6 +53,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="FooterNavigationGroup-module_navigationGroup__1R66O"
+          variant="navigation"
         >
           <div
             class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
@@ -90,6 +91,7 @@ exports[`matches snapshot 1`] = `
         </div>
         <div
           class="FooterNavigationGroup-module_navigationGroup__1R66O"
+          variant="navigation"
         >
           <div
             class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
@@ -127,6 +129,7 @@ exports[`matches snapshot 1`] = `
         </div>
         <div
           class="FooterNavigationGroup-module_navigationGroup__1R66O"
+          variant="navigation"
         >
           <div
             class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
@@ -210,6 +213,7 @@ exports[`matches snapshot 1`] = `
         </div>
         <div
           class="FooterNavigationGroup-module_navigationGroup__1R66O"
+          variant="navigation"
         >
           <div
             class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
@@ -270,6 +274,7 @@ exports[`matches snapshot 1`] = `
         </div>
         <div
           class="FooterNavigationGroup-module_navigationGroup__1R66O"
+          variant="navigation"
         >
           <div
             class="FooterNavigationGroup-module_navigationGroupList__1ylGW"

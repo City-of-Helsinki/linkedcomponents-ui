@@ -40,11 +40,13 @@ const useSelectLanguage = (): UseSelectLanguageState => {
     event?: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
     event?.preventDefault();
-    await navigate({
+
+    i18n.changeLanguage(newLanguage);
+
+    navigate({
       pathname: updateLocaleParam(location.pathname, locale, newLanguage),
       search: location.search,
     });
-    i18n.changeLanguage(newLanguage);
   };
   return { changeLanguage, languageOptions };
 };

@@ -45,7 +45,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
   saving,
 }) => {
   const { t } = useTranslation();
-  const { authenticated, getApiToken } = useAuth();
+  const { authenticated, apiToken } = useAuth();
   const locale = useLocale();
   const navigate = useNavigate();
   const { id } = getRegistrationFields(registration, locale);
@@ -135,7 +135,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       onClick: () =>
         exportSignupsAsExcel({
           addNotification,
-          apiToken: getApiToken(),
+          apiToken,
           registration,
           uiLanguage: locale,
         }),

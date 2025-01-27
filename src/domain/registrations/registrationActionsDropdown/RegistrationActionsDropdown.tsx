@@ -38,7 +38,7 @@ const RegistrationActionsDropdown: React.FC<
 > = ({ className, registration }) => {
   const { t } = useTranslation();
   const { resetPageParamAndGoToPage } = useResetPageParamAndGoToPage();
-  const { authenticated, getApiToken } = useAuth();
+  const { authenticated, apiToken } = useAuth();
   const locale = useLocale();
   const navigate = useNavigate();
   const { id, registrationUrl } = getRegistrationFields(registration, locale);
@@ -118,7 +118,7 @@ const RegistrationActionsDropdown: React.FC<
       onClick: () =>
         exportSignupsAsExcel({
           addNotification,
-          apiToken: getApiToken(),
+          apiToken,
           registration,
           uiLanguage: locale,
         }),
