@@ -225,9 +225,8 @@ export const createCache = (): InMemoryCache =>
     },
   });
 
-const createAuthLink = (getApiToken: () => string | null) =>
+const createAuthLink = (apiToken: string | undefined) =>
   setContext(async (_, { headers }) => {
-    const apiToken = getApiToken();
     return {
       headers: {
         ...headers,
@@ -533,17 +532,17 @@ const cache = createCache();
 
 export const createApolloClient = ({
   addNotification,
-  getApiToken,
+  apiToken,
 }: {
   addNotification: (props: NotificationProps) => void;
-  getApiToken: () => string | null;
+  apiToken: string | undefined;
 }) =>
   new ApolloClient({
     cache,
     link: ApolloLink.from([
       createErrorLink({ addNotification }),
       sentryLink,
-      createAuthLink(getApiToken),
+      createAuthLink(apiToken),
       linkedEventsLink,
     ]),
   });
