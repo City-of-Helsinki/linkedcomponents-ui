@@ -43,7 +43,8 @@ const testCases: [Language, PageValues][] = [
       keywords:
         'linked, events, event, management, api, admin, Helsinki, Finland',
       pageTitle: 'Accessibility Statement - Linked Events',
-      title: 'Accessibility of Linked Events -web service',
+      title:
+        'Accessibility of Linked Events and Linked Registrations -web services',
     },
   ],
   [
@@ -54,7 +55,8 @@ const testCases: [Language, PageValues][] = [
       keywords:
         'linked, events, tapahtuma, hallinta, api, admin, Helsinki, Suomi',
       pageTitle: 'Saavutettavuusseloste - Linked Events',
-      title: 'Linked Events verkkopalvelun saavutettavuus',
+      title:
+        'Linked Events ja Linked Registrations verkkopalvelun saavutettavuus',
     },
   ],
   [
@@ -63,7 +65,8 @@ const testCases: [Language, PageValues][] = [
       description: '',
       keywords: '',
       pageTitle: '',
-      title: 'Linked Events-nättjänstens tillgänglighet',
+      title:
+        'Linked Events och Linked Registrations -nättjänstens tillgänglighet',
     },
   ],
 ];

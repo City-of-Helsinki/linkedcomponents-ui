@@ -29,13 +29,16 @@ const AccessibilityStatementPage: React.FC = () => {
       case 'en':
         return (
           <>
-            <h1>Accessibility of Linked Events -web service</h1>
+            <h1>
+              Accessibility of Linked Events and Linked Registrations -web
+              services
+            </h1>
             <p>
-              This accessibility statement explains how well the Linked Events
-              web service complies with the Act on the Provision of Digital
-              Services, what shortcomings there are in the accessibility of the
-              online service and how you can give us feedback on accessibility
-              problems.
+              This accessibility statement explains how well Linked Events and
+              Linked Registrations -web service complies with the Act on the
+              Provision of Digital Services, what shortcomings there are in the
+              accessibility of the online service and how you can give us
+              feedback on accessibility problems.
             </p>
             <p>
               The city of Helsinki is responsible for this online service. We
@@ -70,30 +73,31 @@ const AccessibilityStatementPage: React.FC = () => {
 
             <h2>Accessibility monitoring</h2>
             <p>
-              The Finnish Transport and Communication Agency Traficom monitors
-              the implementation of accessibility requirements. If you are not
-              satisfied with the response you have received or you do not
-              receive a response at all within two weeks, you can give feedback
-              to the Finnish Transport and Communication Agency Traficom. The
-              website of the Finnish Transport and Communication Agency Traficom
-              provides detailed information on how to file a complaint and how
-              the matter will be processed.
+              The Finnish Transport and Communications Agency (Traficom)
+              monitors the implementation of accessibility requirements. If you
+              are not satisfied with the response you receive, or if you do not
+              receive a response at all within two weeks, you can submit
+              feedback to Traficom. Traficom's website explains exactly how to
+              make a complaint and how the matter will be handled.
             </p>
             <p>Finnish Transport and Communication Agency Traficom</p>
             <p>Digital Accessibility Supervision Unit</p>
             <p>
               <ExternalLink href={accessibilityRequirementsWebsiteUrlEn}>
-                Accessibility Requirements website
+                www.webaccessibility.fi
               </ExternalLink>{' '}
             </p>
             <p>saavutettavuus@traficom.fi</p>
             <p>telephone (switchboard) 029 534 5000</p>
 
             <h2>More detailed information on technical accessibility</h2>
-            <p>The Linked Events web service is not yet fully accessible.</p>
+            <p>
+              Linked Events and Linked Registrations web service is not yet
+              fully accessible.
+            </p>
 
             <h2>Content or features that are not yet accessible</h2>
-            <h3>Using the service</h3>
+            <h3>Using the Linked Events web service</h3>
             <ul>
               <li>
                 Some dropdown menus in the service are not accessible to screen
@@ -101,11 +105,29 @@ const AccessibilityStatementPage: React.FC = () => {
                 possible with a screen reader. (WCAG 1.3.1)
               </li>
             </ul>
+            <h3>
+              Using the Linked Registrations web service with a screen reader
+            </h3>
+            <ul>
+              <li>
+                The service contains individual images that support information
+                but lack text alternatives. (WCAG 1.1.1)
+              </li>
+              <li>
+                Some essential dropdown menus in the registration view cannot be
+                used with a screen reader. As a result, the service is currently
+                not fully accessible with a screen reader.
+              </li>
+            </ul>
+            <p>
+              If you are unable to register through our service, please contact
+            </p>
+            <p>Service Centre Helsinki</p>
+            <p>09 310 25280, service hours 8-18</p>
             <p>
               An effort will be made to correct the shortcomings listed in this
-              statement by 30.10.2024.
+              statement by 31.3.2025.
             </p>
-
             <h2>How have we tested accessibility?</h2>
             <p>
               The observations in this accessibility statement are based on a
@@ -114,7 +136,7 @@ const AccessibilityStatementPage: React.FC = () => {
             </p>
             <p>The online service was published on 28 November 2023.</p>
             <p>This statement was prepared on 21 November 2023.</p>
-            <p>The statement was last updated on 3 June 2024.</p>
+            <p>The statement was last updated on 20 January 2025.</p>
             <p>
               <ExternalLink href="https://www.finlex.fi/fi/laki/alkup/2019/20190306">
                 Act on the Provision of Digital Services (306/2019)
@@ -132,12 +154,16 @@ const AccessibilityStatementPage: React.FC = () => {
       case 'fi':
         return (
           <>
-            <h1>Linked Events verkkopalvelun saavutettavuus</h1>
+            <h1>
+              Linked Events ja Linked Registrations verkkopalvelun
+              saavutettavuus
+            </h1>
             <p>
-              Tässä saavutettavuusselosteessa kerrotaan, miten Linked Events
-              verkkopalvelu noudattaa lakia digitaalisten palvelujen
-              tarjoamisesta, mitä puutteita palvelun saavutettavuudessa on ja
-              miten voit antaa meille palautetta saavutettavuusongelmista.
+              Tässä saavutettavuusselosteessa kerrotaan, miten Linked Events ja
+              Linked Registrations verkkopalvelu noudattaa lakia digitaalisten
+              palvelujen tarjoamisesta, mitä puutteita palvelun
+              saavutettavuudessa on ja miten voit antaa meille palautetta
+              saavutettavuusongelmista.
             </p>
             <p>
               Tästä palvelusta vastaa Helsingin kaupunki. Haluamme, että
@@ -172,8 +198,7 @@ const AccessibilityStatementPage: React.FC = () => {
               Liikenne- ja viestintävirasto Traficom valvoo
               saavutettavuusvaatimusten toteutumista. Jos et ole tyytyväinen
               saamaasi vastaukseen tai et saa vastausta lainkaan kahden viikon
-              aikana, voit antaa palautteen Liikenne- ja viestintävirasto
-              Traficomiin. Liikenne- ja viestintävirasto Traficomin sivulla
+              aikana, voit antaa palautteen Traficomille. Traficomin sivulla
               kerrotaan tarkasti, miten valituksen voi tehdä ja miten asia
               käsitellään.
             </p>
@@ -191,7 +216,7 @@ const AccessibilityStatementPage: React.FC = () => {
             <h2>Tarkemmat tiedot teknisestä saavutettavuudesta</h2>
             <p>Palvelu ei ole vielä kaikilta osin saavutettava.</p>
             <h2>Sisällöt tai toiminnot, jotka eivät vielä ole saavutettavia</h2>
-            <h3>Palvelun käyttäminen</h3>
+            <h3>Linked Events -palvelun käyttäminen</h3>
             <ul>
               <li>
                 Palvelussa on muutamia alasvetovalikoita, jotka eivät ole
@@ -200,8 +225,25 @@ const AccessibilityStatementPage: React.FC = () => {
                 ruudunlukijan avulla. (WCAG 1.3.1)
               </li>
             </ul>
+            <h3>Linked Registrations -palvelun käyttäminen ruudunlukijalla</h3>
+            <ul>
+              <li>
+                Palvelussa on yksittäisiä tietoa tukevia kuvia, joilla ei ole
+                tekstivastinetta. (WCAG 1.1.1)
+              </li>
+              <li>
+                Palvelun ilmoittautumisnäkymässä on joitain keskeisiä
+                alasvetovalikoita, joita ei voi käyttää ruudunlukijalla. Tämän
+                vuoksi palvelu ei ole vielä käytettävissä ruudunlukijalla.
+              </li>
+            </ul>
             <p>
-              Tässä listatut puutteet pyritään korjaamaan 30.10.2024 mennessä.
+              Jos et voi tehdä ilmoittautumista palvelumme kautta, ota yhteyttä
+            </p>
+            <p>Palvelukeskus Helsinki</p>
+            <p>09 310 25280, palveluaika klo 8-18</p>
+            <p>
+              Tässä listatut puutteet pyritään korjaamaan 31.3.2025 mennessä.
             </p>
             <h2>Miten olemme testanneet saavutettavuutta?</h2>
             <p>
@@ -211,7 +253,7 @@ const AccessibilityStatementPage: React.FC = () => {
             </p>
             <p>Palvelu on julkaistu 28.11.2023.</p>
             <p>Tämä seloste on laadittu 21.11.2023.</p>
-            <p>Selostetta on päivitetty viimeksi 3.6.2024.</p>
+            <p>Selostetta on päivitetty viimeksi 20.1.2025.</p>
             <p>
               <ExternalLink href="https://www.finlex.fi/fi/laki/alkup/2019/20190306">
                 Laki digitaalisten palvelujen tarjoamisesta (306/2019)
@@ -227,12 +269,16 @@ const AccessibilityStatementPage: React.FC = () => {
       case 'sv':
         return (
           <>
-            <h1>Linked Events-nättjänstens tillgänglighet</h1>
+            <h1>
+              Linked Events och Linked Registrations -nättjänstens
+              tillgänglighet
+            </h1>
             <p>
-              I detta tillgänglighetsutlåtande berättas hur väl Linked
-              Events-nättjänsten följer lagen om tillhandahållande av digitala
-              tjänster, brister i tjänstens tillgänglighet samt hur du kan ge
-              respons om tillgänglighetsproblem.
+              I detta tillgänglighetsutlåtande berättas hur väl Linked Events
+              och Linked Registrations -nättjänsten följer lagen om
+              tillhandahållande av digitala tjänster, brister i tjänstens
+              tillgänglighet samt hur du kan ge respons om
+              tillgänglighetsproblem.
             </p>
             <p>
               Helsingfors stad ansvarar för denna tjänst. Vi vill att så många
@@ -263,12 +309,11 @@ const AccessibilityStatementPage: React.FC = () => {
             </p>
             <h2>Tillgänglighetstillsyn</h2>
             <p>
-              Transport- och kommunikationsverket Traficom övervakar
+              Transport- och kommunikationsverket (Traficom) övervakar
               förverkligandet av tillgänglighetskraven. Om du inte är nöjd med
               svaret du har fått eller om du inte får något svar inom 14 dagar,
-              kan du ge respons till Transport- och kommunikationsverket
-              Traficom. På deras hemsidor berättas i detalj hur du kan ge
-              respons och hur ärendet behandlas.
+              kan du ge respons till Traficom. På deras hemsidor berättas i
+              detalj hur du kan ge respons och hur ärendet behandlas.
             </p>
             <p>Transport- och kommunikationsverket Traficom</p>
             <p>Enheten för tillsyn över digital tillgänglighet</p>
@@ -282,7 +327,7 @@ const AccessibilityStatementPage: React.FC = () => {
             <h2>Närmare information om tekniska tillgängligheten</h2>
             <p>Tjänsten är inte ännu till alla delar tillgänglig.</p>
             <h2>Innehåll eller funktioner som inte ännu är tillgängliga</h2>
-            <h3>Användning av tjänsten</h3>
+            <h3>Användning av Linked Events -tjänsten</h3>
             <ul>
               <li>
                 Tjänsten innehåller några rullgardinsmenyer som inte är
@@ -291,7 +336,24 @@ const AccessibilityStatementPage: React.FC = () => {
                 1.3.1)
               </li>
             </ul>
-            <p>De uppräknade bristerna åtgärdas senast 30.10.2024.</p>
+            <h3>
+              Användning av Linked Registrations -tjänsten med skärmläsare
+            </h3>
+            <ul>
+              <li>
+                Tjänsten innehåller enstaka informationsstödande bilder som
+                saknar textmotsvarighet. (WCAG 1.1.1)
+              </li>
+              <li>
+                I tjänstens anmälningsvy finns det en del väsentliga
+                rullgardinsmenyer som inte går att använda med skärmläsare.
+                Följaktligen är tjänsten inte ännu användbar med skärmläsare.
+              </li>
+            </ul>
+            <p>Ifall du inte kan göra anmälan via vår tjänst, kontakta</p>
+            <p>Servicecenter Helsingfors</p>
+            <p>09 310 25280, servicetid 8-18</p>
+            <p>De uppräknade bristerna åtgärdas senast 31.3.2025.</p>
 
             <h2>Hur har vi testat tillgängligheten?</h2>
             <p>
@@ -301,7 +363,7 @@ const AccessibilityStatementPage: React.FC = () => {
             </p>
             <p>Tjänsten är publicerad 28.11.2023.</p>
             <p>Detta utlåtande har upprättats 21.11.2023.</p>
-            <p>Utlåtandet uppdaterades senast 3.6.2024.</p>
+            <p>Utlåtandet uppdaterades senast 20.1.2025.</p>
             <p>
               <ExternalLink href="https://www.finlex.fi/sv/laki/alkup/2019/20190306">
                 Lag om tillhandahållande av digitala tjänster (306/2019)
