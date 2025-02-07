@@ -60,7 +60,7 @@ export const getRegistrationSearchQuery = (
 
   return getSearchQuery({
     ...params,
-    sort: sort !== DEFAULT_REGISTRATION_SORT ? sort : null,
+    sort: sort,
   });
 };
 
@@ -78,6 +78,7 @@ export const getRegistrationsQueryVariables = (
     page,
     pageSize: REGISTRATIONS_PAGE_SIZE,
     publisher,
+    sort: DEFAULT_REGISTRATION_SORT,
     text,
   };
 };
@@ -131,9 +132,16 @@ export const replaceParamsToRegistrationQueryString = (
 export const registrationsPathBuilder = ({
   args,
 }: PathBuilderProps<RegistrationsQueryVariables>): string => {
-  const { adminUser, eventType, include, page, pageSize, publisher, text } =
-    args;
-
+  const {
+    adminUser,
+    eventType,
+    include,
+    page,
+    pageSize,
+    publisher,
+    sort,
+    text,
+  } = args;
   const variableToKeyItems = [
     { key: 'admin_user', value: adminUser },
     {
@@ -144,6 +152,7 @@ export const registrationsPathBuilder = ({
     { key: 'page', value: page },
     { key: 'page_size', value: pageSize },
     { key: 'publisher', value: publisher },
+    { key: 'sort', value: sort },
     { key: 'text', value: text },
   ];
 

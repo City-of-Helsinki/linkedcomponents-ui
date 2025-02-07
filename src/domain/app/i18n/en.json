@@ -2002,8 +2002,7 @@
       "placeholderSearch": "Search registrations"
     },
     "sortOptions": {
-      "lastModifiedTime": "Last modified, ascending",
-      "lastModifiedTimeDesc": "Last modified, descending"
+      "eventStartTimeDesc": "Event start time, descending"
     },
     "title": "Registration"
   },

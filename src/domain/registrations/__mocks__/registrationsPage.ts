@@ -8,6 +8,7 @@ import {
 } from '../../../utils/mockDataUtils';
 import { TEST_PUBLISHER_ID } from '../../organization/constants';
 import {
+  DEFAULT_REGISTRATION_SORT,
   REGISTRATION_LIST_INCLUDES,
   REGISTRATIONS_PAGE_SIZE,
 } from '../constants';
@@ -49,6 +50,7 @@ const registrationsVariables = {
   page: 1,
   pageSize: REGISTRATIONS_PAGE_SIZE,
   publisher: [],
+  sort: DEFAULT_REGISTRATION_SORT,
   text: '',
 };
 

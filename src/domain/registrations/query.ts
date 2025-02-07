@@ -9,6 +9,7 @@ export const QUERY_REGISTRATIONS = gql`
     $page: Int
     $pageSize: Int
     $publisher: [String]
+    $sort: [String]
     $text: String
     $createPath: Any
   ) {
@@ -19,6 +20,7 @@ export const QUERY_REGISTRATIONS = gql`
       page: $page
       pageSize: $pageSize
       publisher: $publisher
+      sort: $sort
       text: $text
     ) @rest(type: "RegistrationsResponse", pathBuilder: $createPath) {
       meta {

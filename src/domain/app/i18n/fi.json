@@ -2001,8 +2001,7 @@
       "placeholderSearch": "Hae ilmoittautumisia"
     },
     "sortOptions": {
-      "lastModifiedTime": "Viimeksi muokattu, nouseva",
-      "lastModifiedTimeDesc": "Viimeksi muokattu, laskeva"
+      "eventStartTimeDesc": "Tapahtuman loppuaika, laskeva"
     },
     "title": "Ilmoittautuminen"
   },

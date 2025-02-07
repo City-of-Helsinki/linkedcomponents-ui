@@ -5,6 +5,7 @@ import {
 } from '../../../generated/graphql';
 import { EVENT_TYPE } from '../../event/constants';
 import {
+  DEFAULT_REGISTRATION_SORT,
   REGISTRATION_LIST_INCLUDES,
   REGISTRATION_SEARCH_PARAMS,
   REGISTRATION_SORT_OPTIONS,
@@ -30,8 +31,8 @@ describe('addParamsToRegistrationQueryString function', () => {
       '?returnPath=%2Fregistrations',
     ],
     [
-      { sort: REGISTRATION_SORT_OPTIONS.LAST_MODIFIED_TIME },
-      '?sort=last_modified_time',
+      { sort: REGISTRATION_SORT_OPTIONS.EVENT_START_TIME_DESC },
+      '?sort=-event__start_time',
     ],
     [{ text: 'search' }, '?text=search'],
   ];
@@ -71,32 +72,52 @@ describe('getRegistrationSearchQuery function', () => {
     [REGISTRATION_SEARCH_PARAMS.TEXT]: 'text',
   };
   const cases: [string, RegistrationSearchParams, string][] = [
-    ['', defaultParams, 'text=text'],
-    ['', { ...defaultParams, attendeePage: 2 }, 'text=text&attendeePage=2'],
-    ['', { ...defaultParams, signupText: 'text' }, 'text=text&signupText=text'],
+    ['', defaultParams, 'text=text&sort=-event__start_time'],
+    [
+      '',
+      { ...defaultParams, attendeePage: 2 },
+      'text=text&attendeePage=2&sort=-event__start_time',
+    ],
+    [
+      '',
+      { ...defaultParams, signupText: 'text' },
+      'text=text&signupText=text&sort=-event__start_time',
+    ],
     [
       '',
       { ...defaultParams, eventType: [EVENT_TYPE.Volunteering] },
-      'text=text&eventType=volunteering',
+      'text=text&eventType=volunteering&sort=-event__start_time',
     ],
-    ['', { ...defaultParams, page: 2 }, 'text=text&page=2'],
+    [
+      '',
+      { ...defaultParams, page: 2 },
+      'text=text&page=2&sort=-event__start_time',
+    ],
     [
       '',
       { ...defaultParams, publisher: ['publisher:1'] },
-      'text=text&publisher=publisher%3A1',
+      'text=text&publisher=publisher%3A1&sort=-event__start_time',
     ],
     [
       '',
       { ...defaultParams, returnPath: `/fi${ROUTES.REGISTRATIONS}` },
-      'text=text&returnPath=%2Ffi%2Fregistrations',
+      'text=text&returnPath=%2Ffi%2Fregistrations&sort=-event__start_time',
     ],
     [
-      '?sort=last_modified_time',
+      '?sort=-event__start_time',
       { ...defaultParams },
-      'text=text&sort=last_modified_time',
+      'text=text&sort=-event__start_time',
     ],
-    ['', { ...defaultParams, waitingPage: 2 }, 'text=text&waitingPage=2'],
-    ['', { ...defaultParams, text: 'search' }, 'text=search'],
+    [
+      '',
+      { ...defaultParams, waitingPage: 2 },
+      'text=text&waitingPage=2&sort=-event__start_time',
+    ],
+    [
+      '',
+      { ...defaultParams, text: 'search' },
+      'text=search&sort=-event__start_time',
+    ],
   ];
 
   it.each(cases)(
@@ -128,9 +149,9 @@ describe('replaceParamsToRegistrationQueryString', () => {
       '?returnPath=%2Fregistrations',
     ],
     [
-      { sort: REGISTRATION_SORT_OPTIONS.LAST_MODIFIED_TIME },
+      { sort: REGISTRATION_SORT_OPTIONS.EVENT_START_TIME_DESC },
       '?sort=-name',
-      '?sort=last_modified_time',
+      '?sort=-event__start_time',
     ],
     [{ text: 'search' }, '?text=text1', '?text=search'],
     [{ waitingPage: 1 }, '?waitingPage=2', '?waitingPage=1'],
@@ -155,6 +176,7 @@ describe('getRegistrationsQueryVariables', () => {
     page: 1,
     pageSize: 10,
     publisher: [],
+    sort: DEFAULT_REGISTRATION_SORT,
     text: '',
   };
   const testCases: [string, RegistrationsQueryVariables][] = [
