@@ -2001,8 +2001,7 @@
       "placeholderSearch": "Sök registreringar"
     },
     "sortOptions": {
-      "lastModifiedTime": "Senast ändrad, stigande",
-      "lastModifiedTimeDesc": "Senast ändrad, fallande"
+      "eventStartTimeDesc": "Evenemangets starttid, fallande"
     },
     "title": "Registrering"
   },

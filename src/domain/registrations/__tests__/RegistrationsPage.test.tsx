@@ -59,7 +59,7 @@ test('should render registrations page', async () => {
     createButtonLabel: 'Lisää uusi',
     heading: 'Ilmoittautuminen',
     searchInputLabel: 'Hae ilmoittautumisia',
-    tableCaption: /ilmoittautumiset, järjestys viimeksi muokattu, laskeva/i,
+    tableCaption: /ilmoittautumiset, järjestys tapahtuman loppuaika, laskeva/i,
   });
 });
 

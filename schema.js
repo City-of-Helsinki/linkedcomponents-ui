@@ -188,6 +188,7 @@ module.exports = buildSchema(/* GraphQL */ `
       page: Int
       pageSize: Int
       publisher: [String]
+      sort: [String]
       text: String
     ): RegistrationsResponse!
     signup(id: ID!): Signup!
