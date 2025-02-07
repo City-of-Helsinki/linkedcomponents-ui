@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.15.1...linkedcomponents-ui-v1.16.0) (2025-02-07)
+
+
+### Features
+
+* Update accessibility statement LINK-2230 ([c101de9](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/c101de97800f31d975cf112163530ee00bd8a082))
+
 ## [1.15.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.15.0...linkedcomponents-ui-v1.15.1) (2025-01-21)
 
 
