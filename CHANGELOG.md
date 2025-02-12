@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.16.1...linkedcomponents-ui-v1.16.2) (2025-02-12)
+
+
+### Bug Fixes
+
+* Sort registrations by descending event start time ([e050ebc](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e050ebc7222248cb9e87b609ba8e48d5f89c08db))
+
 ## [1.16.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.16.0...linkedcomponents-ui-v1.16.1) (2025-02-10)
 
 
