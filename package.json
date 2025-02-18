@@ -110,7 +110,7 @@
     "@graphql-codegen/typescript-operations": "^4.2.0",
     "@graphql-codegen/typescript-react-apollo": "^4.3.0",
     "@playwright/test": "^1.42.1",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/coverage-istanbul": "^2.1.9",
     "eslint": "^8.57.0",
     "graphql": "16.8.1",
     "husky": "^9.0.11",
