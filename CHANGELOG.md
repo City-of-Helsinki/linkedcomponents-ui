@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.16.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.16.1...linkedcomponents-ui-v1.16.2) (2025-02-18)
+
+
+### Bug Fixes
+
+* Sort registrations by descending event start time ([e050ebc](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e050ebc7222248cb9e87b609ba8e48d5f89c08db))
+
+
+### Dependencies
+
+* Bump @vitest/coverage-istanbul to 2.1.9 ([97ca601](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/97ca60183ec46a96cde2bffdcc6a4aebd869cb60))
+* Bump cross-spawn from 7.0.3 to 7.0.6 ([#439](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/439)) ([7ac032f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7ac032fbce7c463a9af59c78702c290cb1437667))
+* Bump nanoid from 3.3.7 to 3.3.8 ([#441](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/441)) ([dc13b5e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/dc13b5e88c39956ba0b11fedf49aa54170f2aec4))
+* Bump vite from 5.4.6 to 5.4.12 ([#449](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/449)) ([89b513e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/89b513e799c1588e5ae20fe568ebfe3a42a517fe))
+* Bump vitest from 2.0.5 to 2.1.9 ([c4d5636](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/c4d563687c3dcd8ea77f511f5792431c5d9c5be7))
+
 ## [1.16.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.16.0...linkedcomponents-ui-v1.16.1) (2025-02-10)
 
 
