@@ -143,8 +143,10 @@ const EventSection: React.FC<Props> = ({ isEditingAllowed }) => {
             name={REGISTRATION_FIELDS.EVENT}
             onChangeCb={onChangeEventCallback}
             placeholder={t(`registration.form.placeholderEvent`)}
-            required={true}
-            texts={{ label: t(`registration.form.labelEvent`) }}
+            texts={{
+              label: t(`registration.form.labelEvent`),
+              placeholder: t(`registration.form.placeholderEvent`),
+            }}
             variables={omitBy(
               {
                 start: searchState.start

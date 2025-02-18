@@ -71,7 +71,6 @@ const SingleOrganizationClassSelector: React.FC<
         clearButtonAriaLabel_one: t('common.combobox.clearOrganizations'),
       }}
       options={options}
-      // toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
       value={selectedOrganizationClass?.value}

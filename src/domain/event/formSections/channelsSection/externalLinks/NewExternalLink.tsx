@@ -41,7 +41,6 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({
           disabled={!isEditingAllowed}
           onChange={handleChange}
           options={options}
-          value={null as unknown as undefined}
           texts={{
             label: t(`event.form.labelNewExternalLinkName`),
             placeholder: getValue(t(`common.select`), undefined),

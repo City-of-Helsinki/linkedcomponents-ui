@@ -8,8 +8,9 @@ import ComboboxLoadingSpinner, {
 } from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 import styles from './singleSelect.module.scss';
 
-export type SingleSelectProps = ComboboxLoadingSpinnerProps &
-  SelectProps & { className?: string };
+export type SingleSelectProps = ComboboxLoadingSpinnerProps & {
+  className?: string;
+} & SelectProps;
 
 const SingleSelect: React.FC<SingleSelectProps> = ({
   alignedLabel,
@@ -25,6 +26,7 @@ const SingleSelect: React.FC<SingleSelectProps> = ({
         {...rest}
         className={classNames(className, styles.select)}
         theme={theme.select}
+        children={undefined}
       />
     </ComboboxLoadingSpinner>
   );

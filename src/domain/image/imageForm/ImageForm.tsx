@@ -215,7 +215,9 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                   className={styles.alignedSelect}
                   component={PublisherSelectorField}
                   disabled={disabledIfPublisherSelected}
-                  label={t(`image.form.labelPublisher`)}
+                  texts={{
+                    label: t(`image.form.labelPublisher`),
+                  }}
                   name={IMAGE_FIELDS.PUBLISHER}
                 />
               </FormRow>

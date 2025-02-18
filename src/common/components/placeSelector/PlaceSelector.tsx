@@ -1,6 +1,20 @@
 /* eslint-disable no-undef */
+import {
+  defaultFilter,
+  FilterFunction,
+  Option,
+  SearchFunction,
+  Select,
+  SelectData,
+} from 'hds-react';
 import { TFunction } from 'i18next';
-import React from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDebounce } from 'use-debounce';
 
@@ -12,6 +26,7 @@ import {
 } from '../../../domain/place/utils';
 import {
   PlaceFieldsFragment,
+  PlacesQuery,
   usePlaceQuery,
   usePlacesQuery,
 } from '../../../generated/graphql';
@@ -66,23 +81,13 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   value,
   ...rest
 }) => {
-  const timer = React.useRef<NodeJS.Timeout>();
+  // const timer = React.useRef<NodeJS.Timeout>();
   const { t } = useTranslation();
   const locale = useLocale();
-  const [search, setSearch] = useMountedState('');
-  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
+  // const [search, setSearch] = useMountedState('');
+  // const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
-  const {
-    data: placesData,
-    loading,
-    previousData: previousPlacesData,
-  } = usePlacesQuery({
-    variables: {
-      createPath: getPathBuilder(placesPathBuilder),
-      showAllPlaces: true,
-      text: debouncedSearch,
-    },
-  });
+  const { loading, refetch } = usePlacesQuery();
 
   const { data: placeData } = usePlaceQuery({
     skip: !value,
@@ -92,30 +97,46 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     },
   });
 
-  const handleFilter = (_option: OptionType, filterStr: string) => {
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      setSearch(filterStr);
-    });
+  // const handleFilter: FilterFunction = (option, filterStr) => {
+  //   return defaultFilter(option, filterStr);
+  // };
 
-    return true;
-  };
-
-  const options = React.useMemo(
-    () =>
+  const getPlacesData = useCallback(
+    (
+      places: PlacesQuery | undefined,
+      previousPlaces?: PlacesQuery | undefined
+    ) =>
       getValue(
-        (placesData || previousPlacesData)?.places.data.map((place) =>
+        (places || previousPlaces)?.places.data.map((place) =>
           getOption({ place: place as PlaceFieldsFragment, locale, t })
         ),
         []
       ),
-    [locale, placesData, previousPlacesData, t]
+    [locale, t]
   );
 
-  React.useEffect(() => {
-    return () => clearTimeout(timer.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleSearch: SearchFunction = async (searchValue, selectedOptions) => {
+    const { data: searchPlacesData, error } = await refetch({
+      createPath: getPathBuilder(placesPathBuilder),
+      showAllPlaces: true,
+      text: searchValue,
+    });
+
+    if (error) {
+      Promise.reject(error);
+    }
+
+    const options = getPlacesData(searchPlacesData);
+
+    console.log(options);
+
+    return Promise.resolve({ options: [] });
+  };
+
+  // React.useEffect(() => {
+  //   return () => clearTimeout(timer.current);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const selectedPlace = React.useMemo(
     () =>
@@ -134,17 +155,15 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     <Combobox
       {...rest}
       className={styles.placeSelector}
-      filter={handleFilter}
+      // filter={handleFilter}
+      onSearch={handleSearch}
       id={name}
       isLoading={loading}
       texts={{
         ...texts,
         clearButtonAriaLabel_one: t('common.combobox.clearPlaces'),
       }}
-      options={options}
-      // toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
-      // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
-      // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
+      // options={options}
       value={selectedPlace?.value}
     />
   );

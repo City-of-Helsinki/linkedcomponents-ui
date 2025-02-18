@@ -20,7 +20,7 @@ export type MultiComboboxProps<ValueType> = SelectProps & {
   value: ValueType[];
 };
 
-type Props = ComboboxLoadingSpinnerProps & SelectProps & { className?: string };
+type Props = ComboboxLoadingSpinnerProps & { className?: string } & SelectProps;
 
 const Combobox: React.FC<Props> = ({
   alignedLabel,
@@ -38,6 +38,7 @@ const Combobox: React.FC<Props> = ({
         className={classNames(className, styles.combobox)}
         theme={theme.select}
         texts={{ clearButtonAriaLabel_multiple: t('common.clear') }}
+        virtualize
       />
     </ComboboxLoadingSpinner>
   );
