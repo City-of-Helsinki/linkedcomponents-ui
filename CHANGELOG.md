@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.16.2...linkedcomponents-ui-v1.16.3) (2025-02-19)
+
+
+### Dependencies
+
+* Bump dompurify from 3.1.3 to 3.2.4 ([563dc77](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/563dc776d04e8e5e131825d41050b4cdcb471d11))
+
 ## [1.16.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.16.1...linkedcomponents-ui-v1.16.2) (2025-02-18)
 
 
