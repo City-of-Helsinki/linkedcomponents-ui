@@ -17,7 +17,7 @@
     }
   ],
   "siteName": "Linked Events",
-  "cookieName": "city-of-helsinki-cookie-consents",
+  "cookieName": "helfi-cookie-consents",
   "monitorInterval": 0,
   "fallbackLanguage": "en",
   "requiredGroups": [
@@ -70,7 +70,7 @@
             "sv": "Cookie för evenemangsformulär",
             "en": "Event form cookie"
           },
-          "host": "",
+          "host": "https://linkedevents.hel.fi",
           "storageType": 1,
           "description": {
             "fi": "Tapahtumalomakkeen tietojen säilymiseksi vaadittu eväste",
@@ -89,7 +89,7 @@
             "sv": "Cookie för registreringsformulär",
             "en": "Registration form cookie"
           },
-          "host": "",
+          "host": "https://linkedevents.hel.fi",
           "storageType": 1,
           "description": {
             "fi": "Ilmoittautumislomakkeen tietojen säilymiseksi vaadittu eväste",
@@ -108,7 +108,7 @@
             "sv": "Cookie för deltagande formulär",
             "en": "Signup form cookie"
           },
-          "host": "",
+          "host": "https://linkedevents.hel.fi",
           "storageType": 1,
           "description": {
             "fi": "Osallistumislomakkeen tietojen säilymiseksi vaadittu eväste",
@@ -137,8 +137,8 @@
       },
       "cookies": [
         {
-          "name": "city-of-helsinki-cookie-consents",
-          "host": "",
+          "name": "helfi-cookie-consents",
+          "host": "https://linkedevents.hel.fi",
           "storageType": 1,
           "description": {
             "fi": "Sivusto käyttää tätä evästettä tietojen tallentamiseen siitä, ovatko kävijät antaneet hyväksyntänsä tai kieltäytyneet evästeiden käytöstä.",
@@ -152,8 +152,8 @@
           }
         },
         {
-          "name": "city-of-helsinki-consent-version",
-          "host": "",
+          "name": "helfi-consent-version",
+          "host": "https://linkedevents.hel.fi",
           "storageType": 1,
           "description": {
             "fi": "Tähän evästeeseen tallennetaan käyttäjän hyväksymän evästeselosteen versio.",
@@ -185,7 +185,7 @@
       "cookies": [
         {
           "name": "_pk_id.*",
-          "host": "*.hel.fi",
+          "host": "https://linkedregistration.hel.fi",
           "storageType": 1,
           "description": {
             "fi": "Eväste kerää tietoa kävijän liikkeistä sivustolla.",
@@ -200,7 +200,7 @@
         },
         {
           "name": "_pk_ses*",
-          "host": "*.hel.fi",
+          "host": "https://linkedregistration.hel.fi",
           "description": {
             "fi": "Eväste kerää tietoa kävijän liikkeistä sivustolla.",
             "sv": "Statistiksystemets kaka samlar information om hur webbplatsen används.",
