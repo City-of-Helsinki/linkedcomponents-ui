@@ -163,6 +163,12 @@ beforeEach(() => {
     SWEDISH_TRANSLATIONS: true,
     WEB_STORE_INTEGRATION: true,
   });
+
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
 });
 
 it('should redirect to terms of use page from deprecated terms page', async () => {

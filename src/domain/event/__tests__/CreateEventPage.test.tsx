@@ -83,6 +83,12 @@ beforeEach(() => {
   // values stored in tests will also be available in other tests unless you run
   localStorage.clear();
   sessionStorage.clear();
+
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
 });
 
 const commonMocks = [

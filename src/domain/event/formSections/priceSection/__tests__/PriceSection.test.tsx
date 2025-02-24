@@ -23,10 +23,6 @@ import PriceSection from '../PriceSection';
 
 configure({ defaultHidden: true });
 
-beforeEach(() => {
-  mockAuthenticatedLoginState();
-});
-
 const type = EVENT_TYPE.General;
 
 afterEach(() => {
@@ -35,6 +31,12 @@ afterEach(() => {
 
 beforeEach(() => {
   mockAuthenticatedLoginState();
+
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
 });
 
 type InitialValues = {
