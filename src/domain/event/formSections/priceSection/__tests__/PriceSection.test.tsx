@@ -125,11 +125,11 @@ const getElement = (
         name: 'Tapahtumalle luodaan Linked Events -ilmoittautuminen',
       });
     case 'priceGroupSelectButton':
-      return screen.getByRole('button', { name: /Asiakasryhmä/ });
+      return screen.getByRole('combobox', { name: /asiakasryhmä/i });
     case 'priceInput':
       return screen.getByRole('spinbutton', { name: 'Hinta (€) *' });
     case 'vatSelectButton':
-      return screen.getByRole('button', { name: /ALV %/ });
+      return screen.getByRole('combobox', { name: /alv %/i });
   }
 };
 
@@ -248,12 +248,12 @@ test('should add and remove price group', async () => {
   getElement('vatSelectButton');
 
   await user.click(addPriceGroupButton);
-  expect(screen.getAllByRole('button', { name: /Asiakasryhmä/ })).toHaveLength(
-    2
-  );
+  expect(
+    screen.getAllByRole('combobox', { name: /asiakasryhmä/i })
+  ).toHaveLength(2);
 
   await user.click(getDeletePriceGroupButtons()[1]);
-  expect(screen.getAllByRole('button', { name: /Asiakasryhmä/ })).toHaveLength(
-    1
-  );
+  expect(
+    screen.getAllByRole('combobox', { name: /asiakasryhmä/i })
+  ).toHaveLength(1);
 });

@@ -30,6 +30,12 @@ afterEach(() => {
 
 beforeEach(() => {
   mockAuthenticatedLoginState();
+
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
 });
 
 const TEST_PAGE_SIZE = 2;
@@ -139,7 +145,7 @@ const getElement = (
     case 'sortOptionName':
       return screen.getByRole('option', { name: /nimi, nouseva/i });
     case 'sortSelect':
-      return screen.getByRole('button', { name: /Lajitteluperuste/i });
+      return screen.getByRole('combobox', { name: /lajitteluperuste/i });
   }
 };
 
@@ -185,6 +191,7 @@ test('should change sort order', async () => {
   await waitFor(() => expect(history.location.search).toBe(''));
 
   const sortSelect = getElement('sortSelect');
+
   await user.click(sortSelect);
 
   const sortOptionName = getElement('sortOptionName');
@@ -196,7 +203,7 @@ test('should change sort order', async () => {
   await waitFor(() => expect(history.location.search).toBe('?sort=name'));
 
   // Should clear sort from url search if selecting default sort value
-  await user.click(sortSelect);
+  // await user.click(sortSelect);
   const sortOptionLastModified = getElement('sortOptionLastModified');
   await user.click(sortOptionLastModified);
   await waitFor(() => expect(history.location.search).toBe(''));
