@@ -26,6 +26,7 @@ const Combobox: React.FC<Props> = ({
   alignedLabel,
   isLoading,
   className,
+  texts,
   ...rest
 }) => {
   const { theme } = useTheme();
@@ -37,7 +38,7 @@ const Combobox: React.FC<Props> = ({
         {...(rest as any)}
         className={classNames(className, styles.combobox)}
         theme={theme.select}
-        texts={{ clearButtonAriaLabel_multiple: t('common.clear') }}
+        texts={{ ...texts, clearButtonAriaLabel_multiple: t('common.clear') }}
         virtualize
       />
     </ComboboxLoadingSpinner>

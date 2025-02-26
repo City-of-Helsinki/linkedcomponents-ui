@@ -142,7 +142,6 @@ const EventSection: React.FC<Props> = ({ isEditingAllowed }) => {
             disabled={!isEditingAllowed}
             name={REGISTRATION_FIELDS.EVENT}
             onChangeCb={onChangeEventCallback}
-            placeholder={t(`registration.form.placeholderEvent`)}
             texts={{
               label: t(`registration.form.labelEvent`),
               placeholder: t(`registration.form.placeholderEvent`),

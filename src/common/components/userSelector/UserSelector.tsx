@@ -38,7 +38,9 @@ const UserSelector: React.FC<UserSelectorProps> = (props) => {
     [extraOptions, users]
   );
 
-  const selectedUsers = options.filter(({ value: val }) => value.includes(val));
+  const selectedUsers = options.filter(({ value: val }) =>
+    value.includes(val as string)
+  );
 
   return (
     <Combobox

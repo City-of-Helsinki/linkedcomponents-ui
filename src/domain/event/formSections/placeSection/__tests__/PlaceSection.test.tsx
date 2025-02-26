@@ -33,6 +33,12 @@ afterEach(() => {
 
 beforeEach(() => {
   mockAuthenticatedLoginState();
+
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
 });
 
 const mocks = [
@@ -93,7 +99,7 @@ test('should show validation error if location is missing', async () => {
   await user.click(locationCombobox);
   await user.click(locationExtraInfoInput);
 
-  await screen.findByText('Tämä kenttä on pakollinen');
+  await screen.findAllByText('Tämä kenttä on pakollinen');
 });
 
 test('should show validation error if location extra info is too long', async () => {

@@ -19,6 +19,12 @@ afterEach(() => {
 
 beforeEach(() => {
   mockUnauthenticatedLoginState();
+
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
 });
 
 const type = EVENT_TYPE.General;
@@ -60,8 +66,8 @@ const renderComponent = (
 const findElement = (key: 'publisherSelector') => {
   switch (key) {
     case 'publisherSelector':
-      return screen.findByRole('button', {
-        name: /tapahtuman julkaisija: valikko/i,
+      return screen.findByRole('combobox', {
+        name: /tapahtuman julkaisija/i,
       });
   }
 };

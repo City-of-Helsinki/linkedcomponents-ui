@@ -47,6 +47,14 @@ const defaultProps: SignupProps = {
   signupPath: 'signup[0]',
 };
 
+beforeEach(() => {
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
+});
+
 const renderComponent = (props?: Partial<SignupProps>) =>
   render(
     <Formik initialValues={{}} onSubmit={vi.fn()}>
@@ -104,7 +112,11 @@ test('price group button should be disabled in editing mode', async () => {
   });
   await loadingSpinnerIsNotInDocument();
 
-  expect(screen.getByRole('button', { name: 'Asiakasryhmä *' })).toBeDisabled();
+  expect(
+    screen
+      .getByRole('combobox', { name: /asiakasryhmä/i })
+      .getAttribute('aria-disabled')
+  ).toBe('true');
 });
 
 test('should display all mandatory fields', () => {

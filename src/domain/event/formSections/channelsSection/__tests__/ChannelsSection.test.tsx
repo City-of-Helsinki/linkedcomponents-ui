@@ -29,6 +29,12 @@ afterEach(() => {
 
 beforeEach(() => {
   mockAuthenticatedLoginState();
+
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
 });
 
 const mocks = [mockedUserResponse];
@@ -69,7 +75,9 @@ const getElement = (key: 'facebookOption' | 'toggleButton') => {
     case 'facebookOption':
       return screen.getByRole('option', { name: /facebook/i });
     case 'toggleButton':
-      return screen.getByRole('button', { name: /uuden some-linkin tyyppi/i });
+      return screen.getByRole('combobox', {
+        name: /uuden some-linkin tyyppi/i,
+      });
   }
 };
 
