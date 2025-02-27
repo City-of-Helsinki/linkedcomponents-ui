@@ -9,7 +9,8 @@ import './test/testI18nInit';
 import '@testing-library/jest-dom/vitest';
 import 'vitest-axe/extend-expect';
 
-import ResizeObserverPolyfill from 'resize-observer-polyfill';
+// import ResizeObserverPolyfill from 'resize-observer-polyfill';
+import { ResizeObserver } from '@juggle/resize-observer';
 import { expect } from 'vitest';
 import * as matchers from 'vitest-axe/matchers';
 
@@ -52,7 +53,7 @@ console.error = (msg: any, ...optionalParams: any[]) => {
   );
 };
 
-(global as any).ResizeObserver = ResizeObserverPolyfill;
+(global as any).ResizeObserver = ResizeObserver;
 
 import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS = 'true';
 import.meta.env.REACT_APP_ENABLE_SWEDISH_TRANSLATIONS = 'true';
