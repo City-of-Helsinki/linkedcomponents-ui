@@ -27,6 +27,12 @@ const defaultMocks = [
 
 beforeEach(() => {
   mockAuthenticatedLoginState();
+
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
 });
 
 const renderComponent = () =>
@@ -85,17 +91,31 @@ test('superuser can edit users', async () => {
   await loadingSpinnerIsNotInDocument();
 
   expect(
-    screen.getByRole('combobox', { name: 'Pääkäyttäjät' })
-  ).not.toBeDisabled();
+    screen
+      .getAllByRole('combobox', { name: /pääkäyttäjät. valitse yksi./i })[0]
+      .getAttribute('aria-disabled')
+  ).toBe('false');
   expect(
-    screen.getByRole('combobox', { name: 'Ilmoittautumisen pääkäyttäjät' })
-  ).not.toBeDisabled();
+    screen
+      .getByRole('combobox', {
+        name: /ilmoittautumisen pääkäyttäjät. valitse yksi./i,
+      })
+      .getAttribute('aria-disabled')
+  ).toBe('false');
   expect(
-    screen.getByRole('combobox', { name: 'Taloushallinnon pääkäyttäjät' })
-  ).not.toBeDisabled();
+    screen
+      .getByRole('combobox', {
+        name: /taloushallinnon pääkäyttäjät. valitse yksi./i,
+      })
+      .getAttribute('aria-disabled')
+  ).toBe('false');
   expect(
-    screen.getByRole('combobox', { name: 'Peruskäyttäjät' })
-  ).not.toBeDisabled();
+    screen
+      .getByRole('combobox', {
+        name: /peruskäyttäjät. valitse yksi./i,
+      })
+      .getAttribute('aria-disabled')
+  ).toBe('false');
 });
 
 test('normal user cant edit users', async () => {
@@ -110,14 +130,30 @@ test('normal user cant edit users', async () => {
   render(<OrganizationForm />, { mocks: adminMocks });
   await loadingSpinnerIsNotInDocument();
 
-  expect(screen.getByRole('combobox', { name: 'Pääkäyttäjät' })).toBeDisabled();
   expect(
-    screen.getByRole('combobox', { name: 'Ilmoittautumisen pääkäyttäjät' })
-  ).toBeDisabled();
+    screen
+      .getAllByRole('combobox', { name: /pääkäyttäjät. valitse yksi./i })[0]
+      .getAttribute('aria-disabled')
+  ).toBe('true');
   expect(
-    screen.getByRole('combobox', { name: 'Taloushallinnon pääkäyttäjät' })
-  ).toBeDisabled();
+    screen
+      .getByRole('combobox', {
+        name: /ilmoittautumisen pääkäyttäjät. valitse yksi./i,
+      })
+      .getAttribute('aria-disabled')
+  ).toBe('true');
   expect(
-    screen.getByRole('combobox', { name: 'Peruskäyttäjät' })
-  ).toBeDisabled();
+    screen
+      .getByRole('combobox', {
+        name: /taloushallinnon pääkäyttäjät. valitse yksi./i,
+      })
+      .getAttribute('aria-disabled')
+  ).toBe('true');
+  expect(
+    screen
+      .getByRole('combobox', {
+        name: /peruskäyttäjät. valitse yksi./i,
+      })
+      .getAttribute('aria-disabled')
+  ).toBe('true');
 });

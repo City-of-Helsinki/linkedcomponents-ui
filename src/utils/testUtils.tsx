@@ -426,12 +426,14 @@ const shouldApplyExpectedMetaData = async ({
 };
 
 const shouldDeleteInstance = async ({
+  dialogName,
   confirmDeleteButtonLabel,
   deleteButtonLabel,
   expectedNotificationText,
   expectedUrl,
   history,
 }: {
+  dialogName?: string | RegExp;
   confirmDeleteButtonLabel: string | RegExp;
   deleteButtonLabel: string | RegExp;
   expectedNotificationText: string;
@@ -445,7 +447,14 @@ const shouldDeleteInstance = async ({
     name: deleteButtonLabel,
   });
   await user.click(deleteButton);
-  const withinModal = within(screen.getByRole('dialog'));
+
+  await waitFor(() =>
+    screen.getByRole('dialog', { name: dialogName ? dialogName : undefined })
+  );
+
+  const withinModal = within(
+    screen.getByRole('dialog', { name: dialogName ? dialogName : undefined })
+  );
   const confirmDeleteButton = withinModal.getByRole('button', {
     name: confirmDeleteButtonLabel,
   });

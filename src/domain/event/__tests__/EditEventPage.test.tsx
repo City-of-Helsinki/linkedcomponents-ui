@@ -215,7 +215,14 @@ test('should cancel event', async () => {
   const cancelButton = within(menu).getByRole('button', {
     name: 'Peruuta tapahtuma',
   });
+
   await user.click(cancelButton);
+
+  await waitFor(() =>
+    screen.getByRole('dialog', {
+      name: 'Varmista tapahtuman peruminen',
+    })
+  );
 
   const modal = screen.getByRole('dialog', {
     name: 'Varmista tapahtuman peruminen',
@@ -253,6 +260,12 @@ test('should postpone event', async () => {
   });
   await user.click(postponeButton);
 
+  await waitFor(() =>
+    screen.getByRole('dialog', {
+      name: 'Varmista tapahtuman lykkääminen',
+    })
+  );
+
   const modal = screen.getByRole('dialog', {
     name: 'Varmista tapahtuman lykkääminen',
   });
@@ -283,6 +296,7 @@ test('should delete event', async () => {
   await openMenu();
 
   await shouldDeleteInstance({
+    dialogName: 'Varmista tapahtuman poistaminen',
     confirmDeleteButtonLabel: 'Poista tapahtuma',
     deleteButtonLabel: 'Poista tapahtuma',
     expectedNotificationText: 'Tapahtuma on poistettu',
@@ -385,6 +399,12 @@ test('should update recurring event', async () => {
 
   const updateButton = getElement('updatePublic');
   await user.click(updateButton);
+
+  await waitFor(() =>
+    screen.getByRole('dialog', {
+      name: 'Varmista tapahtuman tallentaminen',
+    })
+  );
 
   const modal = await screen.findByRole('dialog', {
     name: 'Varmista tapahtuman tallentaminen',

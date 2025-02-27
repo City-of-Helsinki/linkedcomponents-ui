@@ -36,6 +36,12 @@ beforeEach(() => {
 
   document.head.innerHTML = '';
   mockAuthenticatedLoginState();
+
+  global.ResizeObserver = vi.fn().mockImplementation(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  }));
 });
 
 const route = `${ROUTES.SEARCH}?text=${searchText}`;
