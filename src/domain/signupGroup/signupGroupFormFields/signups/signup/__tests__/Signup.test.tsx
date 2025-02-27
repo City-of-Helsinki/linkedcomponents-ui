@@ -47,14 +47,6 @@ const defaultProps: SignupProps = {
   signupPath: 'signup[0]',
 };
 
-beforeEach(() => {
-  global.ResizeObserver = vi.fn().mockImplementation(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  }));
-});
-
 const renderComponent = (props?: Partial<SignupProps>) =>
   render(
     <Formik initialValues={{}} onSubmit={vi.fn()}>

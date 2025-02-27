@@ -15,14 +15,6 @@ import KeywordSelector, { KeywordSelectorProps } from '../KeywordSelector';
 
 configure({ defaultHidden: true });
 
-beforeEach(() => {
-  global.ResizeObserver = vi.fn().mockImplementation(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  }));
-});
-
 const helper = 'Helper text';
 const label = 'Select keyword';
 const name = 'keyword';

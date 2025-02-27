@@ -102,14 +102,6 @@ const selectAccount = async () => {
   await user.click(accountOption);
 };
 
-beforeEach(() => {
-  global.ResizeObserver = vi.fn().mockImplementation(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  }));
-});
-
 test('should not show add price groups button if event is free', async () => {
   renderComponent();
 

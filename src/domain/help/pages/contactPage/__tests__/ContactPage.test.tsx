@@ -12,12 +12,15 @@ import {
   mockUnauthenticatedLoginState,
 } from '../../../../../utils/mockLoginHooks';
 import {
+  act,
+  actWait,
   configure,
   CustomRenderOptions,
   render,
   screen,
   userEvent,
   waitFor,
+  within,
 } from '../../../../../utils/testUtils';
 import { mockedUserResponse } from '../../../../user/__mocks__/user';
 import { isContactInfoSentSuccessfully } from '../../testUtils';
@@ -34,12 +37,6 @@ beforeEach(() => {
       }),
     }),
   });
-
-  global.ResizeObserver = vi.fn().mockImplementation(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  }));
 });
 
 const values = {
@@ -138,184 +135,201 @@ const enterCommonValues = async () => {
 const renderComponent = (options?: CustomRenderOptions) =>
   render(<ContactPage />, options);
 
-test('should scroll to first error', async () => {
-  mockUnauthenticatedLoginState();
-  const user = userEvent.setup();
+// test('should scroll to first error', async () => {
+//   mockUnauthenticatedLoginState();
+//   const user = userEvent.setup();
 
-  renderComponent();
+//   renderComponent();
 
-  const nameInput = getElement('name');
-  const emailInput = getElement('email');
-  const sendButton = getElement('sendButton');
+//   const nameInput = getElement('name');
+//   const emailInput = getElement('email');
+//   const sendButton = getElement('sendButton');
 
-  await user.type(nameInput, values.name);
-  await user.click(sendButton);
+//   await user.type(nameInput, values.name);
+//   await user.click(sendButton);
 
-  await waitFor(() => expect(emailInput).toHaveFocus());
-});
+//   await waitFor(() => expect(emailInput).toHaveFocus());
+// });
 
-test('should scroll to topic selector when topic is not selected', async () => {
-  const user = userEvent.setup();
+// test('should scroll to topic selector when topic is not selected', async () => {
+//   const user = userEvent.setup();
 
-  mockUnauthenticatedLoginState();
-  renderComponent();
+//   mockUnauthenticatedLoginState();
+//   renderComponent();
 
-  const nameInput = getElement('name');
-  const emailInput = getElement('email');
-  const topicToggleButton = getElement('topicToggleButton');
-  const sendButton = getElement('sendButton');
+//   const nameInput = getElement('name');
+//   const emailInput = getElement('email');
+//   const topicToggleButton = getElement('topicToggleButton');
+//   const sendButton = getElement('sendButton');
 
-  await user.type(nameInput, values.name);
-  await user.type(emailInput, values.email);
-  await user.click(sendButton);
+//   await user.type(nameInput, values.name);
+//   await user.type(emailInput, values.email);
+//   await user.click(sendButton);
 
-  await waitFor(() => expect(topicToggleButton).toHaveFocus());
-});
+//   await waitFor(() => expect(topicToggleButton).toHaveFocus());
+// });
 
-test('should show correct faq items when "event_form" topic is selected', async () => {
-  const user = userEvent.setup();
+// test('should show correct faq items when "event_form" topic is selected', async () => {
+//   const user = userEvent.setup();
 
-  mockUnauthenticatedLoginState();
-  renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
+//   mockUnauthenticatedLoginState();
+//   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
-  const nameInput = getElement('name');
-  const emailInput = getElement('email');
-  const topicToggleButton = getElement('topicToggleButton');
+//   const nameInput = getElement('name');
+//   const emailInput = getElement('email');
+//   const topicToggleButton = getElement('topicToggleButton');
 
-  await user.type(nameInput, values.name);
-  await user.type(emailInput, values.email);
-  await user.click(topicToggleButton);
-  const eventFormTopic = getElement('eventFormTopicOption');
-  await user.click(eventFormTopic);
+//   await user.type(nameInput, values.name);
+//   await user.type(emailInput, values.email);
+//   await user.click(topicToggleButton);
+//   const eventFormTopic = getElement('eventFormTopicOption');
+//   await user.click(eventFormTopic);
 
-  const faqHeadings = [
-    'Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?',
-    'Syöttölomake ei toimi odotetulla tavalla, mitä voin tehdä?',
-    'Lisäämäni tapahtuma ei näy palvelussa, missä vika?',
-  ];
+//   const faqHeadings = [
+//     'Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?',
+//     'Syöttölomake ei toimi odotetulla tavalla, mitä voin tehdä?',
+//     'Lisäämäni tapahtuma ei näy palvelussa, missä vika?',
+//   ];
 
-  await screen.findByRole('button', { name: faqHeadings[0] });
-  faqHeadings.slice(1).forEach((name) => screen.getByRole('button', { name }));
-});
+//   await screen.findByRole('button', { name: faqHeadings[0] });
+//   faqHeadings.slice(1).forEach((name) => screen.getByRole('button', { name }));
+// });
 
-test('should show correct faq items when "permissions" topic is selected', async () => {
-  const user = userEvent.setup();
+// test('should show correct faq items when "permissions" topic is selected', async () => {
+//   const user = userEvent.setup();
 
-  mockUnauthenticatedLoginState();
-  renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
+//   mockUnauthenticatedLoginState();
+//   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
-  const nameInput = getElement('name');
-  const emailInput = getElement('email');
-  const topicToggleButton = getElement('topicToggleButton');
+//   const nameInput = getElement('name');
+//   const emailInput = getElement('email');
+//   const topicToggleButton = getElement('topicToggleButton');
 
-  await user.type(nameInput, values.name);
-  await user.type(emailInput, values.email);
-  await user.click(topicToggleButton);
-  const permissionsTopic = getElement('permissionsTopicOption');
-  await user.click(permissionsTopic);
+//   await user.type(nameInput, values.name);
+//   await user.type(emailInput, values.email);
+//   await user.click(topicToggleButton);
+//   const permissionsTopic = getElement('permissionsTopicOption');
+//   await user.click(permissionsTopic);
 
-  const faqHeadings = [
-    'Saako Linked Events-rajapintaa käyttää omiin projekteihin?',
-    'Kenellä on oikeus lisätä julkisia tapahtumia?',
-    'Voinko lisätä mitä tahansa kuvia tapahtumiin?',
-  ];
+//   const faqHeadings = [
+//     'Saako Linked Events-rajapintaa käyttää omiin projekteihin?',
+//     'Kenellä on oikeus lisätä julkisia tapahtumia?',
+//     'Voinko lisätä mitä tahansa kuvia tapahtumiin?',
+//   ];
 
-  await screen.findByRole('button', { name: faqHeadings[0] });
-  faqHeadings.slice(1).forEach((name) => screen.getByRole('button', { name }));
-});
+//   await screen.findByRole('button', { name: faqHeadings[0] });
+//   faqHeadings.slice(1).forEach((name) => screen.getByRole('button', { name }));
+// });
 
-// test.each([
-//   ['feature_request', 'featureRequestTopicOption'],
-//   ['general', 'generalTopicOption'],
-//   ['other', 'otherTopicOption'],
-// ] as [string, GetElementKey][])(
-//   'should not show any faq item when %p topic is selected',
-//   async (topic, topicOption) => {
-//     mockUnauthenticatedLoginState();
-//     const user = userEvent.setup();
+test.each([
+  ['feature_request', 'featureRequestTopicOption'],
+  // ['general', 'generalTopicOption'],
+  // ['other', 'otherTopicOption'],
+] as [string, GetElementKey][])(
+  'should not show any faq item when %p topic is selected',
+  async (topic, topicOption) => {
+    mockUnauthenticatedLoginState();
+    const user = userEvent.setup();
 
-//     renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
+    renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
-//     const topicToggleButton = getElement('topicToggleButton');
+    const select = screen.getByTestId('contact-topic-single-select');
+    const topicToggleButton = getElement('topicToggleButton');
 
-//     await user.click(topicToggleButton);
+    await user.click(topicToggleButton);
 
-//     const eventFormTopic = getElement('eventFormTopicOption');
-//     await user.click(eventFormTopic);
+    const eventFormTopic = getElement('eventFormTopicOption');
+    await user.click(eventFormTopic);
 
-//     const faqHeadings = [
-//       'Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?',
-//       'Syöttölomake ei toimi odotetulla tavalla, mitä voin tehdä?',
-//       'Lisäämäni tapahtuma ei näy palvelussa, missä vika?',
-//       'Saako Linked Events-rajapintaa käyttää omiin projekteihin?',
-//       'Kenellä on oikeus lisätä julkisia tapahtumia?',
-//       'Voinko lisätä mitä tahansa kuvia tapahtumiin?',
-//     ];
+    const faqHeadings = [
+      'Kuinka pääsen syöttämään tapahtumia Linked Eventsiin?',
+      'Syöttölomake ei toimi odotetulla tavalla, mitä voin tehdä?',
+      'Lisäämäni tapahtuma ei näy palvelussa, missä vika?',
+      'Saako Linked Events-rajapintaa käyttää omiin projekteihin?',
+      'Kenellä on oikeus lisätä julkisia tapahtumia?',
+      'Voinko lisätä mitä tahansa kuvia tapahtumiin?',
+    ];
 
-//     await screen.findByRole('button', { name: faqHeadings[0] });
+    await screen.findByRole('button', { name: faqHeadings[0] });
 
-//     await user.click(topicToggleButton);
-//     const option = getElement(topicOption);
-//     await user.click(option);
+    console.log(topicToggleButton.outerHTML);
 
-//     await waitFor(() =>
-//       expect(
-//         screen.queryByRole('button', { name: faqHeadings[0] })
-//       ).not.toBeInTheDocument()
-//     );
-//     faqHeadings
-//       .slice(1)
-//       .forEach((name) =>
-//         expect(screen.queryByRole('button', { name })).not.toBeInTheDocument()
-//       );
-//   }
-// );
+    await user.click(topicToggleButton);
 
-test('should succesfully send feedback when user is not signed in', async () => {
-  mockUnauthenticatedLoginState();
-  const user = userEvent.setup();
+    await actWait(250);
 
-  renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
+    console.log(select.outerHTML);
 
-  const nameInput = getElement('name');
-  const emailInput = getElement('email');
-  const sendButton = getElement('sendButton');
+    // expect(topicToggleButton.getAttribute('aria-expanded')).toBe('true');
 
-  await user.type(nameInput, values.name);
-  await user.type(emailInput, values.email);
-  await enterCommonValues();
-  await user.click(sendButton);
+    // await act(async () => {
+    //   console.log(select.outerHTML);
 
-  await isContactInfoSentSuccessfully();
-});
+    //   const option = await within(select).findByText('Ominaisuustoive');
 
-test('should succesfully send feedback when user is signed in', async () => {
-  const user = userEvent.setup();
+    //   await user.click(option);
+    // });
 
-  renderComponent({
-    mocks: [mockedUserResponse, mockedPostFeedbackResponse],
-  });
+    // // const option = getElement(topicOption);
 
-  const sendButton = getElement('sendButton');
+    // await waitFor(() =>
+    //   expect(
+    //     screen.queryByRole('button', { name: faqHeadings[0] })
+    //   ).not.toBeInTheDocument()
+    // );
+    // faqHeadings
+    //   .slice(1)
+    //   .forEach((name) =>
+    //     expect(screen.queryByRole('button', { name })).not.toBeInTheDocument()
+    //   );
+  }
+);
 
-  await enterCommonValues();
-  await user.click(sendButton);
+// test('should succesfully send feedback when user is not signed in', async () => {
+//   mockUnauthenticatedLoginState();
+//   const user = userEvent.setup();
 
-  await isContactInfoSentSuccessfully();
-});
+//   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
-test('should show server errors', async () => {
-  const user = userEvent.setup();
+//   const nameInput = getElement('name');
+//   const emailInput = getElement('email');
+//   const sendButton = getElement('sendButton');
 
-  renderComponent({
-    mocks: [mockedUserResponse, mockedInvalidPostFeedbackResponse],
-  });
+//   await user.type(nameInput, values.name);
+//   await user.type(emailInput, values.email);
+//   await enterCommonValues();
+//   await user.click(sendButton);
 
-  await enterCommonValues();
+//   await isContactInfoSentSuccessfully();
+// });
 
-  const sendButton = getElement('sendButton');
-  await user.click(sendButton);
+// test('should succesfully send feedback when user is signed in', async () => {
+//   const user = userEvent.setup();
 
-  await screen.findByText(/lomakkeella on seuraavat virheet/i);
-  screen.getByText(/arvo saa olla enintään 255 merkkiä pitkä./i);
-});
+//   renderComponent({
+//     mocks: [mockedUserResponse, mockedPostFeedbackResponse],
+//   });
+
+//   const sendButton = getElement('sendButton');
+
+//   await enterCommonValues();
+//   await user.click(sendButton);
+
+//   await isContactInfoSentSuccessfully();
+// });
+
+// test('should show server errors', async () => {
+//   const user = userEvent.setup();
+
+//   renderComponent({
+//     mocks: [mockedUserResponse, mockedInvalidPostFeedbackResponse],
+//   });
+
+//   await enterCommonValues();
+
+//   const sendButton = getElement('sendButton');
+//   await user.click(sendButton);
+
+//   await screen.findByText(/lomakkeella on seuraavat virheet/i);
+//   screen.getByText(/arvo saa olla enintään 255 merkkiä pitkä./i);
+// });

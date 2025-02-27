@@ -3,14 +3,6 @@ import React from 'react';
 import { render } from '../../../../utils/testUtils';
 import SingleSelect from '../SingleSelect';
 
-beforeEach(() => {
-  global.ResizeObserver = vi.fn().mockImplementation(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  }));
-});
-
 const options = [
   { label: 'Option 1', value: 'option1' },
   { label: 'Option 2', value: 'option2' },

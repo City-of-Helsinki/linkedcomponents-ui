@@ -43,8 +43,6 @@ const useSingleSelectFieldProps = ({
     _selectedOptions: OptionType[],
     clickedOption: OptionType
   ) => {
-    console.log(clickedOption);
-
     // TODO: HDS Combobox component allowes to remove value even if component
     // is disabled. Remove if statement when that behaviour is fixed to HDS
     if (!disabled) {

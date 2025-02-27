@@ -227,6 +227,7 @@ const ContactPage: React.FC = () => {
               <FormGroup>
                 <Field
                   component={SingleSelectField}
+                  data-testid="contact-topic-single-select"
                   name={CONTACT_FORM_FIELD.TOPIC}
                   options={topicOptions}
                   texts={{
