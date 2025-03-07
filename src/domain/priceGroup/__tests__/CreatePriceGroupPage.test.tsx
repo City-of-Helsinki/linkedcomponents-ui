@@ -43,19 +43,13 @@ const renderComponent = (mocks: MockedResponse[] = []) =>
   render(<CreatePriceGroupPage />, { mocks });
 
 const getElement = (
-  key:
-    | 'descriptionInput'
-    | 'publisherInput'
-    | 'publisherToggleButton'
-    | 'saveButton'
+  key: 'descriptionInput' | 'publisherToggleButton' | 'saveButton'
 ) => {
   switch (key) {
     case 'descriptionInput':
       return screen.getByLabelText(/kuvaus \(suomeksi\)/i);
-    case 'publisherInput':
-      return screen.getByRole('combobox', { name: /julkaisija/i });
     case 'publisherToggleButton':
-      return screen.getByRole('button', { name: /julkaisija: valikko/i });
+      return screen.getByRole('combobox', { name: /julkaisija/i });
     case 'saveButton':
       return screen.getByRole('button', { name: /tallenna/i });
   }
@@ -65,7 +59,9 @@ const fillInputValues = async () => {
   const user = userEvent.setup();
   const publisherToggleButton = getElement('publisherToggleButton');
   await user.click(publisherToggleButton);
+
   const option = await screen.findByRole('option', { name: organizationName });
+
   await user.click(option);
 
   const descriptionInput = getElement('descriptionInput');

@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconCross } from 'hds-react';
+import { IconCross, IconSize } from 'hds-react';
 import React from 'react';
 
 import styles from './closeButton.module.scss';
@@ -25,7 +25,7 @@ const CloseButton: React.FC<Props> = ({
       onClick={onClick}
       type={type}
     >
-      <IconCross size="s" />
+      <IconCross size={IconSize.Small} />
     </button>
   );
 };

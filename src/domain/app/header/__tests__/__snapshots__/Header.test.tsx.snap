@@ -115,7 +115,7 @@ exports[`matches snapshot 1`] = `
                     <svg
                       aria-hidden="true"
                       aria-label="user"
-                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                       role="img"
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +137,7 @@ exports[`matches snapshot 1`] = `
                 <svg
                   aria-hidden="true"
                   aria-label="angle-down"
-                  class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                  class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                   role="img"
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
@@ -160,13 +160,13 @@ exports[`matches snapshot 1`] = `
               >
                 <ul>
                   <a
-                    class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F signoutLink"
+                    class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F signoutLink"
                     href="#"
                   >
                     <svg
                       aria-hidden="true"
                       aria-label="signout"
-                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                      class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                       role="img"
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
@@ -204,7 +204,7 @@ exports[`matches snapshot 1`] = `
                 class="HeaderLink-module_navigationLinkWrapper__2jd7A"
               >
                 <a
-                  class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F HeaderLink-module_headerLink__2i9-J navigationItem HeaderNavigationMenu-module_headerNavigationMenuLink__H_ogS"
+                  class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F HeaderLink-module_headerLink__2i9-J navigationItem HeaderNavigationMenu-module_headerNavigationMenuLink__H_ogS"
                   href="/sv/events"
                 >
                   Mina evenemangen
@@ -220,7 +220,7 @@ exports[`matches snapshot 1`] = `
                 class="HeaderLink-module_navigationLinkWrapper__2jd7A"
               >
                 <a
-                  class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F HeaderLink-module_headerLink__2i9-J navigationItem HeaderNavigationMenu-module_headerNavigationMenuLink__H_ogS"
+                  class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F HeaderLink-module_headerLink__2i9-J navigationItem HeaderNavigationMenu-module_headerNavigationMenuLink__H_ogS"
                   href="/sv/search"
                 >
                   Sök efter evenemang
@@ -236,7 +236,7 @@ exports[`matches snapshot 1`] = `
                 class="HeaderLink-module_navigationLinkWrapper__2jd7A"
               >
                 <a
-                  class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F HeaderLink-module_headerLink__2i9-J navigationItem HeaderNavigationMenu-module_headerNavigationMenuLink__H_ogS"
+                  class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F HeaderLink-module_headerLink__2i9-J navigationItem HeaderNavigationMenu-module_headerNavigationMenuLink__H_ogS"
                   href="/sv/help"
                 >
                   Stöd

@@ -101,9 +101,11 @@ const Signup: React.FC<SignupProps> = ({
                   name={getFieldName(signupPath, SIGNUP_FIELDS.PRICE_GROUP)}
                   component={SingleSelectField}
                   disabled={disabled || isEditingMode}
-                  label={translateSignupText('labelPriceGroup')}
                   options={priceGroupOptions}
-                  placeholder={translateSignupText('placeholderPriceGroup')}
+                  texts={{
+                    label: translateSignupText('labelPriceGroup'),
+                    placeholder: translateSignupText('placeholderPriceGroup'),
+                  }}
                   required={!!priceGroupOptions?.length}
                 />
               </div>

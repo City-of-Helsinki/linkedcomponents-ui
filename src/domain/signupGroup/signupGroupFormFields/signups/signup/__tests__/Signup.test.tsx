@@ -104,7 +104,11 @@ test('price group button should be disabled in editing mode', async () => {
   });
   await loadingSpinnerIsNotInDocument();
 
-  expect(screen.getByRole('button', { name: 'Asiakasryhmä *' })).toBeDisabled();
+  expect(
+    screen
+      .getByRole('combobox', { name: /asiakasryhmä/i })
+      .getAttribute('aria-disabled')
+  ).toBe('true');
 });
 
 test('should display all mandatory fields', () => {

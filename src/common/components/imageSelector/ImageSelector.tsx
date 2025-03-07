@@ -1,5 +1,5 @@
 import { ClassNames } from '@emotion/react';
-import { IconEye, IconPhoto } from 'hds-react';
+import { ButtonVariant, IconEye, IconPhoto, IconSize } from 'hds-react';
 import xor from 'lodash/xor';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -73,7 +73,7 @@ export const ImageItem: React.FC<ImageItemProps> = ({
           onClick={() => onClick(image)}
           onDoubleClick={() => onDoubleClick(image)}
         >
-          {showPlaceholder && <IconPhoto size="xl" />}
+          {showPlaceholder && <IconPhoto size={IconSize.ExtraLarge} />}
         </button>
       )}
     </ClassNames>
@@ -212,9 +212,9 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
           <div className={styles.buttonWrapper}>
             <Button
               disabled={disabledLoadMore}
-              iconLeft={<IconEye />}
+              iconStart={<IconEye />}
               onClick={fetchMore}
-              variant="supplementary"
+              variant={ButtonVariant.Supplementary}
             >
               {t('common.showMoreWithCount', { count: imagesLeft })}
             </Button>
