@@ -1,5 +1,5 @@
 # ===============================================
-FROM registry.access.redhat.com/ubi9/nodejs-18 AS appbase
+FROM registry.access.redhat.com/ubi9/nodejs-22 AS appbase
 # ===============================================
 WORKDIR /app
 
@@ -16,7 +16,7 @@ ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
 # Yarn
-ENV YARN_VERSION 1.22.5
+ENV YARN_VERSION 1.22.22
 RUN yarn policies set-version $YARN_VERSION
 
 COPY package.json yarn.lock /app/
