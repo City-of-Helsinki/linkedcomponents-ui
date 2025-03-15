@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.16.3...linkedcomponents-ui-v1.16.4) (2025-03-15)
+
+
+### Dependencies
+
+* Bump @babel/helpers from 7.24.4 to 7.26.10 ([#462](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/462)) ([16990df](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/16990dfaa28321470bdeb5288c4314d8c647d43a))
+
 ## [1.16.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.16.2...linkedcomponents-ui-v1.16.3) (2025-02-19)
 
 
