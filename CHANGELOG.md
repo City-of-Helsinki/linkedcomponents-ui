@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.17.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.16.3...linkedcomponents-ui-v1.17.0) (2025-03-17)
+
+
+### Features
+
+* Upgrade node to v22 LINK-2217 ([4acce7e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/4acce7e1b03a9714f8b4daea03a2c768199b5523))
+
+
+### Dependencies
+
+* Bump @babel/helpers from 7.24.4 to 7.26.10 ([#462](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/462)) ([16990df](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/16990dfaa28321470bdeb5288c4314d8c647d43a))
+
 ## [1.16.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.16.2...linkedcomponents-ui-v1.16.3) (2025-02-19)
 
 
