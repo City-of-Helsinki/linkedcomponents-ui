@@ -14,7 +14,8 @@ const EventStatusFilterTag: React.FC<Props> = ({ value, ...rest }) => {
       {...rest}
       text={getValue(
         options.find(
-          (item) => item.value.toLocaleLowerCase() === value.toLocaleLowerCase()
+          (item) =>
+            item.value?.toLocaleLowerCase() === value.toLocaleLowerCase()
         )?.label,
         '-'
       )}

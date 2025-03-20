@@ -3,9 +3,9 @@ import { User } from 'oidc-client-ts';
 import getValue from '../../utils/getValue';
 import { getFocusableFieldId } from '../../utils/validationUtils';
 import {
-  ASK_PERMISSION_FORM_SELECT_FIELDS,
+  ASK_PERMISSION_FORM_COMBOBOX_FIELDS,
   askPermissionFormInitialValues,
-  CONTACT_FORM_SELECT_FIELDS,
+  CONTACT_FORM_COMBOBOX_FIELDS,
   contactFormInitialValues,
 } from './constants';
 import { AskPermissionFormFields, ContactFormFields } from './types';
@@ -14,8 +14,8 @@ export const getAskPermissionFormFocusableFieldId = (fieldName: string) =>
   getFocusableFieldId(fieldName, {
     arrayFields: [],
     checkboxGroupFields: [],
-    comboboxFields: [],
-    selectFields: ASK_PERMISSION_FORM_SELECT_FIELDS,
+    comboboxFields: ASK_PERMISSION_FORM_COMBOBOX_FIELDS,
+    selectFields: [],
     textEditorFields: [],
   });
 
@@ -23,8 +23,8 @@ export const getContactFormFocusableFieldId = (fieldName: string) =>
   getFocusableFieldId(fieldName, {
     arrayFields: [],
     checkboxGroupFields: [],
-    comboboxFields: [],
-    selectFields: CONTACT_FORM_SELECT_FIELDS,
+    comboboxFields: CONTACT_FORM_COMBOBOX_FIELDS,
+    selectFields: [],
     textEditorFields: [],
   });
 

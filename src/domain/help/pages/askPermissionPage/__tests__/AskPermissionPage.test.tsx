@@ -103,7 +103,7 @@ const getElement = (key: GetElementKey) => {
         name: getValue(organizations.data[0]?.name, ''),
       });
     case 'organizationToggleButton':
-      return screen.getByRole('button', { name: /organisaatio/i });
+      return screen.getByRole('combobox', { name: /organisaatio/i });
     case 'sendButton':
       return screen.getByRole('button', { name: /lähetä/i });
   }
@@ -152,7 +152,7 @@ test('should disable all fields if user is not authenticated', async () => {
 
   expect(nameInput).toBeDisabled();
   expect(emailInput).toBeDisabled();
-  expect(organizationToggleButton).toBeDisabled();
+  expect(organizationToggleButton.getAttribute('aria-disabled')).toBe('true');
   expect(jobDescriptionInput).toBeDisabled();
   expect(bodyInput).toBeDisabled();
   expect(sendButton).toBeDisabled();

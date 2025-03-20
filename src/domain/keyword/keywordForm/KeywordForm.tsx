@@ -220,7 +220,9 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                 className={styles.alignedSelect}
                 clearable
                 component={PublisherSelectorField}
-                label={t(`keyword.form.labelPublisher`)}
+                texts={{
+                  label: t(`keyword.form.labelPublisher`),
+                }}
                 name={KEYWORD_FIELDS.PUBLISHER}
                 disabled={disabledIfKeyword}
               />
@@ -259,8 +261,10 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
                 clearable
                 component={SingleKeywordSelectorField}
                 disabled={!isEditingAllowed}
-                label={t(`keyword.form.labelReplacedBy`)}
                 name={KEYWORD_FIELDS.REPLACED_BY}
+                texts={{
+                  label: t(`keyword.form.labelReplacedBy`),
+                }}
               />
             </FormRow>
 

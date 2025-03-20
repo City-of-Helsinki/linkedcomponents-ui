@@ -14,14 +14,24 @@ const mockedEventResponse = {
   result: eventResponse,
 };
 
-const filteredEventsVariables = {
+const eventsVariables = {
   createPath: undefined,
   sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['umbrella'],
-  text: '',
 };
-const filteredEvents = fakeEvents(1, [event]);
-const filteredEventsResponse = { data: { events: filteredEvents } };
+const events = fakeEvents(1, [event]);
+const eventsResponse = { data: { events: events } };
+const mockedEventsResponse = {
+  request: { query: EventsDocument, variables: eventsVariables },
+  result: eventsResponse,
+};
+
+const filteredEventsVariables = {
+  ...eventsVariables,
+  text: eventName,
+};
+const filteredEvents = events;
+const filteredEventsResponse = eventsResponse;
 const mockedFilteredEventsResponse = {
   request: { query: EventsDocument, variables: filteredEventsVariables },
   result: filteredEventsResponse,
@@ -32,5 +42,6 @@ export {
   eventName,
   filteredEvents,
   mockedEventResponse,
+  mockedEventsResponse,
   mockedFilteredEventsResponse,
 };

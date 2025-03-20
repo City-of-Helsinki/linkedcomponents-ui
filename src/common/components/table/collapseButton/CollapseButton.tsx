@@ -1,4 +1,4 @@
-import { IconAngleDown, IconAngleUp, IconProps } from 'hds-react';
+import { IconAngleDown, IconAngleUp, IconProps, IconSize } from 'hds-react';
 import React, { FC } from 'react';
 
 export type CollapseButtonProps = {
@@ -18,7 +18,7 @@ const CollapseButton: FC<CollapseButtonProps> = ({
     onClick(event);
   };
 
-  const iconProps: IconProps = { 'aria-hidden': true, size: 's' };
+  const iconProps: IconProps = { 'aria-hidden': true, size: IconSize.Small };
 
   return (
     <button aria-label={ariaLabel} onClick={handleClick}>
