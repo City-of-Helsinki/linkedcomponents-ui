@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.17.1...linkedcomponents-ui-v1.17.2) (2025-03-28)
+
+
+### Reverts
+
+* UseAuth wait for token if renewing LINK-2192 ([11e724a](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/11e724ae3be81c8427c6ce177afefb78e488a141))
+
 ## [1.17.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.17.0...linkedcomponents-ui-v1.17.1) (2025-03-24)
 
 
