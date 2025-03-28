@@ -1,16 +1,12 @@
+import eslint from '@nabla/vite-plugin-eslint';
 import react from '@vitejs/plugin-react-swc';
-import eslint from 'vite-plugin-eslint';
-import {
-  configDefaults,
-  coverageConfigDefaults,
-  defineConfig,
-  // eslint-disable-next-line import/no-unresolved
-} from 'vitest/config';
+import { defineConfig } from 'vite';
+import { configDefaults, coverageConfigDefaults } from 'vitest/config';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   base: '/',
   envPrefix: 'REACT_APP_',
-  plugins: [react(), eslint()],
+  plugins: [react(), mode !== 'test' && eslint()],
   build: {
     outDir: './build',
     emptyOutDir: true,
@@ -91,4 +87,4 @@ export default defineConfig({
     },
     testTimeout: 1000000,
   },
-});
+}));
