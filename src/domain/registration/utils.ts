@@ -648,7 +648,7 @@ export const exportSignupsAsExcel = ({
   uiLanguage,
 }: {
   addNotification: (props: NotificationProps) => void;
-  apiToken: string | undefined;
+  apiToken: string | null;
   registration: RegistrationFieldsFragment;
   uiLanguage: Language;
 }) => {

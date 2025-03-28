@@ -23,11 +23,11 @@ import { ThemeProvider } from './theme/Theme';
 
 const ApolloWrapper: React.FC<PropsWithChildren> = ({ children }) => {
   const { addNotification } = useNotificationsContext();
-  const { apiToken } = useAuth();
+  const { getApiToken } = useAuth();
 
   const apolloClient = useMemo(() => {
-    return createApolloClient({ addNotification, apiToken });
-  }, [addNotification, apiToken]);
+    return createApolloClient({ addNotification, getApiToken });
+  }, [addNotification, getApiToken]);
 
   return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
 };
