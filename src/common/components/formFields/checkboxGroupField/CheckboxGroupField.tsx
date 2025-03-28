@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import { FieldProps, useField } from 'formik';
-import { IconAngleDown, IconAngleUp } from 'hds-react';
+import { ButtonVariant, IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -86,7 +86,7 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
               disabled={
                 disabled ||
                 (checked && value.length <= min) ||
-                disabledOptions?.includes(option.value)
+                disabledOptions?.includes(option.value ?? '')
               }
               onBlur={handleBlur}
               value={option.value}
@@ -100,9 +100,9 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
           <Button
             disabled={disabled}
             fullWidth={true}
-            iconLeft={showAll ? <IconAngleUp /> : <IconAngleDown />}
+            iconStart={showAll ? <IconAngleUp /> : <IconAngleDown />}
             onClick={toggleShowAll}
-            variant="supplementary"
+            variant={ButtonVariant.Supplementary}
           >
             {showAll ? t('common.showLess') : t('common.showMore')}
           </Button>

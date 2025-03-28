@@ -227,10 +227,12 @@ const ContactPage: React.FC = () => {
               <FormGroup>
                 <Field
                   component={SingleSelectField}
-                  label={t('helpPage.contactPage.labelTopic')}
                   name={CONTACT_FORM_FIELD.TOPIC}
                   options={topicOptions}
-                  placeholder={t('helpPage.contactPage.placeholderTopic')}
+                  texts={{
+                    label: t('helpPage.contactPage.labelTopic'),
+                    placeholder: t('helpPage.contactPage.placeholderTopic'),
+                  }}
                   required
                 />
               </FormGroup>
