@@ -1,3 +1,5 @@
+import { useApiTokens } from 'hds-react';
+
 import { UserFieldsFragment, useUserQuery } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
@@ -14,11 +16,13 @@ export type UserState = {
 };
 
 const useUser = (): UserState => {
-  const { user, apiToken } = useAuth();
+  const { user } = useAuth();
+  const { getStoredApiTokens } = useApiTokens();
   const userId = user?.profile.sub;
+  const [, apiTokens] = getStoredApiTokens();
 
   const { data: userData, loading: loadingUser } = useUserQuery({
-    skip: !apiToken || !userId,
+    skip: !apiTokens || !userId,
     variables: {
       id: getValue(userId, ''),
       createPath: getPathBuilder(userPathBuilder),

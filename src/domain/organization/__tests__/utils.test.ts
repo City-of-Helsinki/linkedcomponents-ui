@@ -35,7 +35,7 @@ import {
 
 const apolloClient = createApolloClient({
   addNotification: vi.fn(),
-  apiToken: undefined,
+  getApiToken: () => null,
 });
 
 const account = {
@@ -67,7 +67,7 @@ const merchant = {
 };
 
 describe('organizationPathBuilder function', () => {
-  it('should create correct path for organization class request', () => {
+  it('should create correct path for organization class request', () => {
     expect(organizationPathBuilder({ args: { id: '123' } })).toBe(
       '/organization/123/'
     );
@@ -75,7 +75,7 @@ describe('organizationPathBuilder function', () => {
 });
 
 describe('organizationsPathBuilder function', () => {
-  it('should create correct path for organizations request', () => {
+  it('should create correct path for organizations request', () => {
     expect(organizationsPathBuilder({ args: { child: '123' } })).toBe(
       '/organization/?child=123'
     );
