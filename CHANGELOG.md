@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.17.2...linkedcomponents-ui-v1.17.3) (2025-04-02)
+
+
+### Dependencies
+
+* Upgrade vite vitest, replace vite eslint plugin LINK-2191 ([a3a45e0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/a3a45e0fd5239d972773f10ee0b73b82a7b0f3b5))
+
 ## [1.17.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.17.1...linkedcomponents-ui-v1.17.2) (2025-03-28)
 
 
