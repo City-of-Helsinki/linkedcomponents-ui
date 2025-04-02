@@ -74,6 +74,12 @@ ARG REACT_APP_OIDC_API_SCOPE
 # Set Sentry settings
 ARG REACT_APP_SENTRY_DSN
 ARG REACT_APP_SENTRY_ENVIRONMENT
+ARG REACT_APP_SENTRY_RELEASE
+ARG REACT_APP_SENTRY_TRACES_SAMPLE_RATE
+ARG REACT_APP_SENTRY_TRACE_PROPAGATION_TARGETS
+ARG REACT_APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE
+ARG REACT_APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE
+ARG SENTRY_PROJECT
 
 # Set Matomo settings
 ARG REACT_APP_MATOMO_SRC_URL
@@ -105,7 +111,11 @@ ARG REACT_APP_WEB_STORE_INTEGRATION_ENABLED
 # Vite/Rollup build args
 ARG ROLLUP_INLINE_DYNAMIC_IMPORTS
 
-RUN yarn build
+# When building locally with Docker Compose, the auth token can be provided using SENTRY_AUTH_TOKEN environment variable.
+# Our AzDO pipeline uses /secrets/SENTRY_AUTH_TOKEN to pass the auth token so this works there too.
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,gid=0,target=/secrets/SENTRY_AUTH_TOKEN \
+    SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN 2>/dev/null)" yarn build
+
 RUN yarn generate-sitemap
 RUN yarn generate-robots
 RUN yarn compress
