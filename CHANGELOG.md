@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.17.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.17.3...linkedcomponents-ui-v1.17.4) (2025-04-07)
+
+
+### Dependencies
+
+* Bump vite from 6.2.3 to 6.2.4 ([#471](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/471)) ([009528c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/009528ce4bd0566bd8417e87f4d92a3544b0b913))
+* Bump vite from 6.2.4 to 6.2.5 ([#473](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/473)) ([84c3eaa](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/84c3eaaa107d02bdad7c58fe15d616988d030aee))
+* Upgrade hds to 4.2.0 LINK-1759 ([777a75c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/777a75c5c6641d79a07feab7a4ea43858f7f27e5))
+
 ## [1.17.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.17.2...linkedcomponents-ui-v1.17.3) (2025-04-02)
 
 
