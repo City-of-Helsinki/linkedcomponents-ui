@@ -1,12 +1,22 @@
 import eslint from '@nabla/vite-plugin-eslint';
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { configDefaults, coverageConfigDefaults } from 'vitest/config';
 
 export default defineConfig(({ mode }) => ({
   base: '/',
   envPrefix: 'REACT_APP_',
-  plugins: [react(), mode !== 'test' && eslint()],
+  plugins: [
+    react(),
+    mode !== 'test' && eslint(),
+    // Put the Sentry vite plugin after all other plugins
+    sentryVitePlugin({
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      org: 'helsinkicity',
+      project: 'linkedcomponents-ui',
+    }),
+  ],
   build: {
     outDir: './build',
     emptyOutDir: true,
@@ -18,6 +28,7 @@ export default defineConfig(({ mode }) => ({
         experimentalMinChunkSize: 100_000, // try to avoid small chunks that are less than 100 kB
       },
     },
+    sourcemap: true,
   },
   server: {
     host: true,

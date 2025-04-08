@@ -10,6 +10,7 @@
     "@faker-js/faker": "^8.4.1",
     "@nabla/vite-plugin-eslint": "^2.0.5",
     "@sentry/react": "^8.26.0",
+    "@sentry/vite-plugin": "^3.3.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "16.2.0",
