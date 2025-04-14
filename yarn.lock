@@ -4012,9 +4012,9 @@
     csstype "^3.0.2"
 
 "@types/scheduler@*":
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.23.0.tgz#0a6655b3e2708eaabca00b7372fafd7a792a7b09"
-  integrity sha512-YIoDCTH3Af6XM5VuwGG/QL/CJqga1Zm3NkU3HZ4ZHK2fRMPYP1VczsTUqtsf43PH/iJNVlPHAo2oWX7BSdB2Hw==
+  version "0.26.0"
+  resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.26.0.tgz#2b7183b9bbb622d130b23bedf06899b7fec7eed5"
+  integrity sha512-WFHp9YUJQ6CKshqoC37iOlHnQSmxNc795UhB26CyBBttrN9svdIrUjl/NjnNmfcwtncN0h/0PPAFWv9ovP8mLA==
 
 "@types/semver@^7.3.12":
   version "7.5.8"
@@ -6873,15 +6873,15 @@ hasown@^2.0.0, hasown@^2.0.1, hasown@^2.0.2:
   dependencies:
     function-bind "^1.1.2"
 
-hds-core@4.2.0, hds-core@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-4.2.0.tgz#2b7bbd94b48a5246c1abdc109d0c4dfdbfed7f32"
-  integrity sha512-D9GqQ/CdIrJp2ypQRB2FEbkfT/D4s/ehjwSWVQ/7pc5bZ8plOEvUTaIf2Kfl46/7U8QrQ6+N9BUd8nSl9TE0hA==
+hds-core@4.4.0, hds-core@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/hds-core/-/hds-core-4.4.0.tgz#6f17eaa1db94294fd8708395f759ffe350f84709"
+  integrity sha512-2CRkUGyOLSVLCLOE9bfOe/Ed75qxizPyZaSFuA+hCqb/67TB2H662v9LJ5ZTfMIIn90dPd3fAocepZeUiM3stQ==
 
-hds-react@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-4.2.0.tgz#5d8318f5883ea528bc8c30163ccfa0593fa93393"
-  integrity sha512-Tj1TzAb2Ov+JO/WSllcEvD3vlxEkSjJznTBcF1ScrAV/ZNwPDsIix+cs7bVFY/uNB8Kl2qoESf9vcd88cN0HSQ==
+hds-react@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/hds-react/-/hds-react-4.4.0.tgz#d66da099bf15f146436858e28cfe128b578654c4"
+  integrity sha512-VSUCiP5CSfw94V+Hb1AWVjZW/wXQGeNHSrTzM+ro6uZ+4pL/TLNK4+WONkLvPzzSmI5my837w9fLAKKVCf409A==
   dependencies:
     "@apollo/client" "^3.10.1"
     "@babel/runtime" "7.17.9"
@@ -6899,7 +6899,7 @@ hds-react@^4.2.0:
     date-fns "2.16.1"
     downshift "6.0.6"
     graphql "^16.8.1"
-    hds-core "4.2.0"
+    hds-core "4.4.0"
     jwt-decode "^3.1.2"
     kashe "1.0.4"
     lodash "^4.17.21"
@@ -8725,13 +8725,13 @@ quotemeta@0.0.0:
   resolved "https://registry.yarnpkg.com/quotemeta/-/quotemeta-0.0.0.tgz#51d3a06ee0fcd6e3b501dbd28904351ad7a5a38c"
   integrity sha512-1XGObUh7RN5b58vKuAsrlfqT+Rc4vmw8N4pP9gFCq1GFlTdV0Ex/D2Ro1Drvrqj++HPi3ig0Np17XPslELeMRA==
 
-react-dom@^18.2.0:
-  version "18.2.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
-  integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
+react-dom@^18.3.1:
+  version "18.3.1"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.3.1.tgz#c2265d79511b57d479b3dd3fdfa51536494c5cb4"
+  integrity sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==
   dependencies:
     loose-envify "^1.1.0"
-    scheduler "^0.23.0"
+    scheduler "^0.23.2"
 
 react-fast-compare@^2.0.1:
   version "2.0.4"
@@ -8858,10 +8858,10 @@ react-virtual@2.10.4:
   dependencies:
     "@reach/observe-rect" "^1.1.0"
 
-react@^18.2.0:
-  version "18.2.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
-  integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
+react@^18.3.1:
+  version "18.3.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.3.1.tgz#49ab892009c53933625bd16b2533fc754cab2891"
+  integrity sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==
   dependencies:
     loose-envify "^1.1.0"
 
@@ -9214,10 +9214,10 @@ saxes@^6.0.0:
   dependencies:
     xmlchars "^2.2.0"
 
-scheduler@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.23.0.tgz#ba8041afc3d30eb206a487b6b384002e4e61fdfe"
-  integrity sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==
+scheduler@^0.23.2:
+  version "0.23.2"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.23.2.tgz#414ba64a3b282892e944cf2108ecc078d115cdc3"
+  integrity sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==
   dependencies:
     loose-envify "^1.1.0"
 

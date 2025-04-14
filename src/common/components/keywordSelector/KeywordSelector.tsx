@@ -6,7 +6,7 @@ import {
   useApolloClient,
 } from '@apollo/client';
 import { SearchFunction, SearchResult } from 'hds-react';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -17,7 +17,6 @@ import {
 import {
   Keyword,
   KeywordFieldsFragment,
-  KeywordsQuery,
   useKeywordsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
@@ -56,42 +55,38 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     []
   );
 
-  const QUERY_VARIABLES = {
-    createPath: getPathBuilder(keywordsPathBuilder),
-    dataSource: ['yso', 'helsinki'],
-    showAllKeywords: true,
-  };
-
   const {
     data: keywordsData,
     loading,
+    previousData: previousKeywordsData,
     refetch,
   } = useKeywordsQuery({
-    variables: QUERY_VARIABLES,
+    variables: {
+      createPath: getPathBuilder(keywordsPathBuilder),
+      dataSource: ['yso', 'helsinki'],
+      showAllKeywords: true,
+      freeText: '',
+    },
   });
 
-  const getKeywordsData = useCallback(
-    (data: KeywordsQuery | undefined) =>
+  const getKeywordsData = React.useCallback(
+    () =>
       getValue(
-        data?.keywords.data.map((keyword) =>
+        (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
           getOption({ keyword: keyword as KeywordFieldsFragment, locale })
         ),
         []
       ),
-    [locale]
+    [keywordsData, locale, previousKeywordsData]
   );
 
-  const options = React.useMemo(
-    () => getKeywordsData(keywordsData),
-    [getKeywordsData, keywordsData]
-  );
+  const options = React.useMemo(() => getKeywordsData(), [getKeywordsData]);
 
   const handleSearch: SearchFunction = async (
     searchValue: string
   ): Promise<SearchResult> => {
     try {
-      const { data: searchKeywordsData, error } = await refetch({
-        ...QUERY_VARIABLES,
+      const { error } = await refetch({
         freeText: searchValue,
       });
 
@@ -99,7 +94,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
         throw error;
       }
 
-      return { options: getKeywordsData(searchKeywordsData) };
+      return Promise.resolve({ options: getKeywordsData() });
     } catch (error) {
       return Promise.reject(error as ApolloError);
     }

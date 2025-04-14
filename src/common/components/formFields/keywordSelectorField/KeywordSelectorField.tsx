@@ -14,7 +14,7 @@ const KeywordSelectorField: React.FC<Props> = ({
   disabled,
   ...rest
 }) => {
-  const { errorText, handleBlur, handleChange } = useMultiSelectFieldProps({
+  const { errorText, handleBlur, handleClose } = useMultiSelectFieldProps({
     name,
     onBlur,
     onChange,
@@ -28,7 +28,7 @@ const KeywordSelectorField: React.FC<Props> = ({
       disabled={disabled}
       name={name}
       onBlur={handleBlur}
-      onChange={handleChange}
+      onClose={handleClose}
       value={value}
       texts={{ ...texts, error: errorText }}
       invalid={!!errorText}

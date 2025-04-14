@@ -7,7 +7,7 @@ import { getErrorText } from '../../../../utils/validationUtils';
 type UseMultiSelectFieldPropsState = {
   errorText: string;
   handleBlur: () => void;
-  handleChange: (selectedOptions: OptionType[]) => void;
+  handleClose: (selectedOptions: OptionType[]) => void;
 };
 
 export type UseMultiSelectFieldPropsProps = {
@@ -31,7 +31,7 @@ const useMultiSelectFieldProps = ({
     onBlur({ target: { id: name, value } });
   };
 
-  const handleChange = (selectedOptions: OptionType[]) => {
+  const handleClose = (selectedOptions: OptionType[]) => {
     // TODO: HDS Combobox component allowes to remove value even if component
     // is disabled. Remove if statement when that behaviour is fixed to HDS
 
@@ -46,7 +46,7 @@ const useMultiSelectFieldProps = ({
     }, 5);
   };
 
-  return { errorText, handleBlur, handleChange };
+  return { errorText, handleBlur, handleClose };
 };
 
 export default useMultiSelectFieldProps;
