@@ -7,6 +7,7 @@ import { useLocation } from 'react-router';
 
 import useMatomo from '../../../../common/components/matomoTracker/hooks/useMatomo';
 import upperCaseFirstLetter from '../../../../utils/upperCaseFirstLetter';
+import { COOKIE_CONSENT_GROUP } from '../../hooks/useCookieConsentSettings';
 import styles from './pageWrapper.module.scss';
 
 export interface PageWrapperProps {
@@ -35,7 +36,7 @@ const PageWrapper: React.FC<React.PropsWithChildren<PageWrapperProps>> = ({
   title = 'appName',
   titleText,
 }) => {
-  const statisticsConsent = useGroupConsent('statistics');
+  const statisticsConsent = useGroupConsent(COOKIE_CONSENT_GROUP.Statistics);
   const { t } = useTranslation();
   const location = useLocation();
   const { trackPageView } = useMatomo();
