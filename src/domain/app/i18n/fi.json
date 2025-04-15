@@ -99,24 +99,6 @@
       "clearUsers": "Tyhjennä valitut käyttäjät",
       "toggleButtonAriaLabel": "Valikko"
     },
-    "cookieConsent": {
-      "eventForm": {
-        "description": "Tapahtumalomakkeen tietojen säilymiseksi vaadittu eväste",
-        "name": "Tapahtumalomakkeen eväste"
-      },
-      "expiration": {
-        "session": "Istunto"
-      },
-      "registrationForm": {
-        "description": "Ilmoittautumislomakkeen tietojen säilymiseksi vaadittu eväste",
-        "name": "Ilmoittautumislomakkeen eväste"
-      },
-      "signupForm": {
-        "description": "Osallistumislomakkeen tietojen säilymiseksi vaadittu eväste",
-        "name": "Osallistumislomakkeen eväste"
-      },
-      "siteName": "Linked Events"
-    },
     "dateSelector": {
       "buttonToggle": "Valitse päivämäärät",
       "placeholderEndDate": "Loppuu p.k.vvvv",
@@ -1638,6 +1620,7 @@
       "accessibilityStatement": "Saavutettavuusseloste",
       "admin": "Hallinta",
       "events": "Omat tapahtumat",
+      "cookies": "Evästeasetukset",
       "help": "Tuki",
       "registrations": "Ilmoittautuminen",
       "dataProtection": "Tietosuoja",
