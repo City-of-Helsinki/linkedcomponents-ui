@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
 
 import { TEST_USER_EMAIL, TEST_USER_PASSWORD } from '../../playwright.config';
-import { login, setCookieConsent } from './utils';
+import { acceptCookieConcent, login } from './utils';
 
 test.describe('Help page', () => {
   test.beforeEach(async ({ context, page }) => {
-    await setCookieConsent(context);
     await page.goto('/fi/help/instructions/general');
+    await acceptCookieConcent(page);
   });
 
   test('Side navigation tabs work', async ({ page }) => {

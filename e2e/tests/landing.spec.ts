@@ -1,11 +1,11 @@
 import { expect, test } from '@playwright/test';
 
-import { setCookieConsent } from './utils';
+import { acceptCookieConcent } from './utils';
 
 test.describe('Landing page', () => {
-  test.beforeEach(async ({ context, page }) => {
-    await setCookieConsent(context);
+  test.beforeEach(async ({ page }) => {
     await page.goto('/fi');
+    await acceptCookieConcent(page);
   });
 
   test('Footer links are visible', async ({ page }) => {

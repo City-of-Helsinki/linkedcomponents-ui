@@ -1,6 +1,4 @@
-import { BrowserContext, expect, Page } from '@playwright/test';
-
-import { E2E_TESTS_ENV_URL } from '../../playwright.config';
+import { expect, Page } from '@playwright/test';
 
 export const login = async (page: Page, email: string, password: string) => {
   await page.getByRole('button', { name: 'Kirjaudu sisään' }).click();
@@ -11,31 +9,10 @@ export const login = async (page: Page, email: string, password: string) => {
   await page.getByRole('button', { name: 'Kirjaudu sisään' }).click();
 };
 
-export const encodedCookieConsents = () => {
-  return encodeURIComponent(`helfi-cookie-consents=
-    ${JSON.stringify({
-      groups: {
-        tunnistamo: { checksum: 'ea5a1519', timestamp: 1530518207007 },
-        userInputs: { checksum: 'a5e73b70', timestamp: 1530518207007 },
-        shared: { checksum: '3ab2ff2e', timestamp: 1530518207007 },
-        statistics: { checksum: 'caa20391', timestamp: 1530518207007 },
-      },
-    })}`);
-};
+export const acceptCookieConcent = async (page: Page) => {
+  const cookieButton = page.getByRole('button', {
+    name: /hyväksy kaikki evästeet/i,
+  });
 
-export const setCookieConsent = async (context: BrowserContext) => {
-  await context.addCookies([
-    {
-      name: 'helfi-consent-version',
-      value: '1',
-      domain: E2E_TESTS_ENV_URL,
-      path: '/',
-    },
-    {
-      name: 'helfi-cookie-consents',
-      value: encodedCookieConsents(),
-      domain: E2E_TESTS_ENV_URL,
-      path: '/',
-    },
-  ]);
+  await cookieButton.click();
 };

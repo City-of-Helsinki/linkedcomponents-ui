@@ -2,14 +2,12 @@ import { expect, test } from '@playwright/test';
 
 import { LINKED_EVENTS_URL } from '../../playwright.config';
 import { EventsResponse, PlacesResponse } from '../../src/generated/graphql';
-import { setCookieConsent } from './utils';
+import { acceptCookieConcent } from './utils';
 
 test.describe('Event search page', () => {
-  test.beforeEach(async ({ context, page }) => {
-    await setCookieConsent(context);
+  test.beforeEach(async ({ page }) => {
     await page.goto('/fi/search');
-
-    await expect(page.getByRole('button', { name: 'Seuraava' })).toBeVisible();
+    await acceptCookieConcent(page);
   });
 
   test('Displays places in filter options', async ({ page }) => {

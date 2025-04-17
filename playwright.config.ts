@@ -9,7 +9,7 @@ import path from 'path';
 dotenv.config({ path: path.resolve(__dirname, '.env.local') });
 
 export const E2E_TESTS_ENV_URL =
-  process.env.E2E_TESTS_ENV_URL ?? 'https://linkedevents.dev.hel.ninja';
+  process.env.E2E_TESTS_ENV_URL ?? 'http://localhost:3000';
 
 export const LINKED_EVENTS_URL =
   process.env.REACT_APP_LINKED_EVENTS_URL ??
@@ -74,4 +74,9 @@ export default defineConfig({
       use: { ...devices['Desktop Firefox'] },
     },
   ],
+  webServer: {
+    command: 'yarn start',
+    url: E2E_TESTS_ENV_URL,
+    reuseExistingServer: true,
+  },
 });
