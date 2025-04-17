@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.18.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.17.4...linkedcomponents-ui-v1.18.0) (2025-04-17)
+
+
+### Features
+
+* Add cookie page route LINK-1759 ([a4be796](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/a4be79669bf4b232ba094da73a40131f36c64401))
+
+
+### Bug Fixes
+
+* CookieBanner enable matomo tracking LINK-1759 ([bab240f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/bab240fe62771f89e00d10dccdbb1a793fd9e9f3))
+* Firefox e2e issues LINK-2190 ([61423be](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/61423be5e2b388e88ad3c459f6acff12af65e934))
+* Fixed CI and README node mentions ([5b19b42](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5b19b42acb8d8eebcfcb0d83be5b53919ec7b0ee))
+
+
+### Dependencies
+
+* Bump vite from 6.2.5 to 6.2.6 ([#474](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/474)) ([9f17f23](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/9f17f236bacc278289da127f68d90b99a05d11f6))
+
 ## [1.17.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.17.3...linkedcomponents-ui-v1.17.4) (2025-04-07)
 
 
