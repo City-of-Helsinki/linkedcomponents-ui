@@ -31,9 +31,7 @@ const Tab: React.FC<TabProps> = ({
 }) => {
   const ref = React.useRef<HTMLButtonElement>(null);
   const handleClick = () => {
-    if (option.value) {
-      onClick(option.value);
-    }
+    onClick(option.value);
   };
 
   React.useEffect(() => {

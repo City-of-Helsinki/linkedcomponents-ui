@@ -229,14 +229,12 @@ const SignupGroupFormFields: React.FC<Props> = ({
               clearable
               component={SingleSelectField}
               disabled={disabled || contactPersonFieldsDisabled}
+              label={getContactPersonTranslation('labelNativeLanguage')}
               options={languageOptions}
-              texts={{
-                assistive: titleCannotEditContactPerson,
-                label: getContactPersonTranslation('labelNativeLanguage'),
-                placeholder: getContactPersonTranslation(
-                  'placeholderNativeLanguage'
-                ),
-              }}
+              placeholder={getContactPersonTranslation(
+                'placeholderNativeLanguage'
+              )}
+              title={titleCannotEditContactPerson}
             />
             <Field
               name={getContactPersonFieldName(
@@ -244,15 +242,13 @@ const SignupGroupFormFields: React.FC<Props> = ({
               )}
               component={SingleSelectField}
               disabled={disabled || contactPersonFieldsDisabled}
+              label={getContactPersonTranslation('labelServiceLanguage')}
               options={serviceLanguageOptions}
-              texts={{
-                assistive: titleCannotEditContactPerson,
-                label: getContactPersonTranslation('labelServiceLanguage'),
-                placeholder: getContactPersonTranslation(
-                  'placeholderServiceLanguage'
-                ),
-              }}
+              placeholder={getContactPersonTranslation(
+                'placeholderServiceLanguage'
+              )}
               required
+              title={titleCannotEditContactPerson}
             />
           </div>
         </FormGroup>

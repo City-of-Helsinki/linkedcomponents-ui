@@ -1,20 +1,22 @@
 import { FieldProps } from 'formik';
 import React from 'react';
 
-import { SingleComboboxProps } from '../../combobox/Combobox';
-import PublisherSelector from '../../publisherSelector/PublisherSelector';
+import PublisherSelector, {
+  PublisherSelectorProps,
+} from '../../publisherSelector/PublisherSelector';
 import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
-type Props = SingleComboboxProps<string | null> & FieldProps<string>;
+type Props = PublisherSelectorProps & FieldProps<string>;
 
 const PublisherSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  texts,
+  helper,
   disabled,
   ...rest
 }) => {
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
+    disabled,
     name,
     onBlur,
     onChange,
@@ -30,7 +32,8 @@ const PublisherSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      texts={{ ...texts, error: errorText }}
+      helper={helper}
+      error={errorText}
       invalid={!!errorText}
     />
   );

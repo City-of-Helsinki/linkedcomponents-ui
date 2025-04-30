@@ -9,13 +9,7 @@ const options = [
 ];
 
 const renderComponent = () =>
-  render(
-    <SingleSelect
-      texts={{ label: 'Select label' }}
-      options={options}
-      onChange={vi.fn()}
-    />
-  );
+  render(<SingleSelect label="Select label" options={options} />);
 
 test('renders the component', async () => {
   const { container } = renderComponent();

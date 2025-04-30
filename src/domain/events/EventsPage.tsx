@@ -1,4 +1,4 @@
-import { ButtonVariant, IconPlus } from 'hds-react';
+import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
@@ -135,9 +135,9 @@ const EventsPage: React.FC<Props> = ({ user }) => {
             <Button
               className={styles.addButton}
               fullWidth={true}
-              iconStart={<IconPlus aria-hidden={true} />}
+              iconLeft={<IconPlus aria-hidden={true} />}
               onClick={goToCreateEvent}
-              variant={ButtonVariant.Primary}
+              variant="primary"
             >
               {t('common.buttonAddEvent')}
             </Button>

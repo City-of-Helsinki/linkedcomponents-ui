@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
-import { ApolloError } from '@apollo/client';
-import { SearchFunction, SearchResult } from 'hds-react';
 import { TFunction } from 'i18next';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'use-debounce';
 
+import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import {
   getPlaceFields,
   placePathBuilder,
@@ -12,11 +12,11 @@ import {
 } from '../../../domain/place/utils';
 import {
   PlaceFieldsFragment,
-  PlacesQuery,
   usePlaceQuery,
   usePlacesQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
@@ -58,28 +58,33 @@ export const getOption = ({
   };
 };
 
-export type PlaceSelectorProps = SingleComboboxProps<string | null>;
+export type PlaceSelectorProps = Omit<
+  SingleComboboxProps<string | null>,
+  'toggleButtonAriaLabel'
+>;
 
 const PlaceSelector: React.FC<PlaceSelectorProps> = ({
-  texts,
-  value,
+  label,
   name,
+  value,
   ...rest
 }) => {
+  const timer = React.useRef<NodeJS.Timeout>();
   const { t } = useTranslation();
   const locale = useLocale();
-
-  const QUERY_VARIABLES = {
-    createPath: getPathBuilder(placesPathBuilder),
-    showAllPlaces: true,
-  };
+  const [search, setSearch] = useMountedState('');
+  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
   const {
-    loading,
-    refetch,
     data: placesData,
+    loading,
+    previousData: previousPlacesData,
   } = usePlacesQuery({
-    variables: QUERY_VARIABLES,
+    variables: {
+      createPath: getPathBuilder(placesPathBuilder),
+      showAllPlaces: true,
+      text: debouncedSearch,
+    },
   });
 
   const { data: placeData } = usePlaceQuery({
@@ -90,40 +95,30 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     },
   });
 
-  const getPlacesData = useCallback(
-    (data: PlacesQuery | undefined) =>
+  const handleFilter = (items: OptionType[], inputValue: string) => {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      setSearch(inputValue);
+    });
+
+    return items;
+  };
+
+  const options = React.useMemo(
+    () =>
       getValue(
-        data?.places.data.map((place) =>
+        (placesData || previousPlacesData)?.places.data.map((place) =>
           getOption({ place: place as PlaceFieldsFragment, locale, t })
         ),
         []
       ),
-    [locale, t]
+    [locale, placesData, previousPlacesData, t]
   );
 
-  const handleSearch: SearchFunction = async (
-    searchValue: string
-  ): Promise<SearchResult> => {
-    try {
-      const { data: searchPlacesData, error } = await refetch({
-        ...QUERY_VARIABLES,
-        text: searchValue,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      return { options: getPlacesData(searchPlacesData) };
-    } catch (error) {
-      return Promise.reject(error as ApolloError);
-    }
-  };
-
-  const options = React.useMemo(
-    () => getPlacesData(placesData),
-    [getPlacesData, placesData]
-  );
+  React.useEffect(() => {
+    return () => clearTimeout(timer.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const selectedPlace = React.useMemo(
     () =>
@@ -142,18 +137,17 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     <Combobox
       {...rest}
       className={styles.placeSelector}
-      multiSelect={false}
+      multiselect={false}
+      filter={handleFilter}
       id={name}
       isLoading={loading}
-      onSearch={handleSearch}
+      label={label}
       options={options}
-      texts={{
-        ...texts,
-        clearButtonAriaLabel_one: t('common.combobox.clearPlaces'),
-      }}
+      clearButtonAriaLabel={t('common.combobox.clearPlaces')}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedPlace?.value}
+      value={selectedPlace as OptionType | undefined}
     />
   );
 };

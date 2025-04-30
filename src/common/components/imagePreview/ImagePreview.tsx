@@ -1,6 +1,6 @@
 import { ResizeObserver } from '@juggle/resize-observer';
 import classNames from 'classnames';
-import { IconPhoto, IconSize } from 'hds-react';
+import { IconPhoto } from 'hds-react';
 import React from 'react';
 import useMeasure from 'react-use-measure';
 
@@ -73,7 +73,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
     >
       {showPlaceholder ? (
         <div className={styles.placeholderImage}>
-          <IconPhoto size={IconSize.ExtraLarge} />
+          <IconPhoto size="xl" />
         </div>
       ) : (
         <div

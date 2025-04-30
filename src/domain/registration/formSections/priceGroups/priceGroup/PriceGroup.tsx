@@ -92,6 +92,9 @@ const PriceGroup: React.FC<Props> = ({
               component={SingleSelectField}
               disabled={!isEditingAllowed}
               isLoading={loadingPriceGroupOptions}
+              label={t(
+                'registration.form.registrationPriceGroup.labelPriceGroup'
+              )}
               name={fieldNames.priceGroup}
               onChangeCb={(value: string) => {
                 /* istanbul ignore else */
@@ -100,15 +103,10 @@ const PriceGroup: React.FC<Props> = ({
                 }
               }}
               options={filteredPriceGroupOptions}
-              texts={{
-                label: t(
-                  'registration.form.registrationPriceGroup.labelPriceGroup'
-                ),
-                placeholder: t(
-                  'registration.form.registrationPriceGroup.placeholderPriceGroup'
-                ),
-              }}
-              required
+              placeholder={t(
+                'registration.form.registrationPriceGroup.placeholderPriceGroup'
+              )}
+              required={true}
             />
           </FormGroup>
           <FormGroup>

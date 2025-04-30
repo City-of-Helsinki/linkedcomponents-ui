@@ -53,7 +53,6 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="FooterNavigationGroup-module_navigationGroup__1R66O"
-          variant="navigation"
         >
           <div
             class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
@@ -65,13 +64,13 @@ exports[`matches snapshot 1`] = `
               Förstasidan
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
               href="/sv/search"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +90,6 @@ exports[`matches snapshot 1`] = `
         </div>
         <div
           class="FooterNavigationGroup-module_navigationGroup__1R66O"
-          variant="navigation"
         >
           <div
             class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
@@ -103,13 +101,13 @@ exports[`matches snapshot 1`] = `
               Mina evenemangen
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
               href="/sv/events/create"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +127,6 @@ exports[`matches snapshot 1`] = `
         </div>
         <div
           class="FooterNavigationGroup-module_navigationGroup__1R66O"
-          variant="navigation"
         >
           <div
             class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
@@ -141,13 +138,13 @@ exports[`matches snapshot 1`] = `
               Kunskap om tjänsten
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
               href="/sv/help/support/terms-of-use"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -164,13 +161,13 @@ exports[`matches snapshot 1`] = `
               </span>
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
               href="/sv/help/support/contact"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -187,13 +184,13 @@ exports[`matches snapshot 1`] = `
               </span>
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
               href="/sv/help/support/ask-permission"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -213,7 +210,6 @@ exports[`matches snapshot 1`] = `
         </div>
         <div
           class="FooterNavigationGroup-module_navigationGroup__1R66O"
-          variant="navigation"
         >
           <div
             class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
@@ -225,13 +221,13 @@ exports[`matches snapshot 1`] = `
               Instruktioner
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
               href="/sv/help/instructions/events"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -248,13 +244,13 @@ exports[`matches snapshot 1`] = `
               </span>
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
               href="/sv/help/instructions/faq"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -274,7 +270,6 @@ exports[`matches snapshot 1`] = `
         </div>
         <div
           class="FooterNavigationGroup-module_navigationGroup__1R66O"
-          variant="navigation"
         >
           <div
             class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
@@ -286,13 +281,13 @@ exports[`matches snapshot 1`] = `
               Teknologi
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
               href="/sv/help/technology/source-code"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -309,13 +304,13 @@ exports[`matches snapshot 1`] = `
               </span>
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
               href="/sv/help/technology/documentation"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -345,7 +340,7 @@ exports[`matches snapshot 1`] = `
           class="FooterUtilities-module_links__3P_Ga FooterUtilities-module_widerLinks__1h7MT"
         >
           <a
-            class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_utility__3jLSl"
+            class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_utility__3jLSl"
             href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Hantering%20av%20anvandar-id.pdf"
             target="_blank"
           >
@@ -355,7 +350,7 @@ exports[`matches snapshot 1`] = `
             <svg
               aria-hidden="true"
               aria-label="link-external"
-              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_icon__3KZCE link_icon__1UA7k"
+              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik FooterLink-module_icon__3KZCE link_icon__1UA7k"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -369,7 +364,7 @@ exports[`matches snapshot 1`] = `
             </svg>
           </a>
           <a
-            class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_utility__3jLSl"
+            class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_utility__3jLSl"
             href="/sv/accessibility-statement"
           >
             <span>
@@ -389,7 +384,7 @@ exports[`matches snapshot 1`] = `
           class="FooterBase-module_logoWrapper__3BI7d"
         >
           <a
-            class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B"
+            class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_linkM__30gsY link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B"
             tabindex="0"
           >
             <img
@@ -429,7 +424,7 @@ exports[`matches snapshot 1`] = `
             <svg
               aria-hidden="true"
               aria-label="arrow-up"
-              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"

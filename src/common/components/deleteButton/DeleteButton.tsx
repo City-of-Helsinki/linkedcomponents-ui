@@ -1,5 +1,5 @@
 import { ClassNames } from '@emotion/react';
-import { ButtonVariant, IconMinusCircle } from 'hds-react';
+import { IconMinusCircle } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -36,12 +36,12 @@ const DeleteButton: React.FC<Props> = ({
             className,
             css(theme.deleteButton)
           )}
-          iconStart={<IconMinusCircle aria-hidden={true} />}
+          iconLeft={<IconMinusCircle aria-hidden={true} />}
           onClick={onClick}
           type={type}
-          variant={ButtonVariant.Supplementary}
+          variant="supplementary"
         >
-          {label ?? t('common.delete')}
+          <span className={styles.label}>{label ?? t('common.delete')}</span>
         </Button>
       )}
     </ClassNames>

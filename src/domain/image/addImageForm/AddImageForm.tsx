@@ -1,5 +1,4 @@
 import { Field, Form, Formik } from 'formik';
-import { ButtonVariant } from 'hds-react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PixelCrop } from 'react-image-crop';
@@ -124,7 +123,7 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
                     fullWidth={true}
                     onClick={onCancel}
                     type="button"
-                    variant={ButtonVariant.Secondary}
+                    variant="secondary"
                   >
                     {t('common.cancel')}
                   </Button>

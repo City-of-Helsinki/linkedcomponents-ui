@@ -175,7 +175,7 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
                 <Button
                   disabled={!isEditingAllowed}
                   fullWidth={true}
-                  iconStart={<IconMinusCircle aria-hidden />}
+                  iconLeft={<IconMinusCircle aria-hidden />}
                   onClick={removeImage}
                 >
                   {t(`event.form.buttonRemoveImage.${type}`)}
@@ -184,7 +184,7 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
                 <Button
                   disabled={!isEditingAllowed}
                   fullWidth={true}
-                  iconStart={<IconPlusCircle aria-hidden />}
+                  iconLeft={<IconPlusCircle aria-hidden />}
                   onClick={openAddImageModal}
                 >
                   {t(`event.form.buttonAddImage.${type}`)}

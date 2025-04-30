@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Button, ButtonVariant, IconPlus } from 'hds-react';
+import { Button, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -41,9 +41,9 @@ const OrganizationsPage: React.FC = () => {
         button={
           <Button
             fullWidth={true}
-            iconStart={<IconPlus aria-hidden={true} />}
+            iconLeft={<IconPlus aria-hidden={true} />}
             onClick={goToCreateOrganizationPage}
-            variant={ButtonVariant.Primary}
+            variant="primary"
           >
             {t('common.buttonAddOrganization')}
           </Button>

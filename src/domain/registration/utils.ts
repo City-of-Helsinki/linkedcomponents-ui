@@ -703,7 +703,5 @@ export const getPriceGroupOptionsForPriceGroup = ({
     []
   );
 
-  return priceGroupOptions.filter(
-    (o) => !disabledOptions.includes(o.value ?? '')
-  );
+  return priceGroupOptions.filter((o) => !disabledOptions.includes(o.value));
 };

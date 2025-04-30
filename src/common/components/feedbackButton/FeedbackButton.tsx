@@ -1,10 +1,5 @@
 import classNames from 'classnames';
-import {
-  ButtonProps,
-  ButtonVariant,
-  IconAngleRight,
-  IconSpeechbubbleText,
-} from 'hds-react';
+import { ButtonProps, IconAngleRight, IconSpeechbubbleText } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -26,10 +21,10 @@ const FeedbackButton: React.FC<Omit<ButtonProps, 'children'>> = (props) => {
   return (
     <Button
       {...props}
-      iconStart={<IconSpeechbubbleText />}
-      iconEnd={<IconAngleRight />}
+      iconLeft={<IconSpeechbubbleText />}
+      iconRight={<IconAngleRight />}
       onClick={goToFeedback}
-      variant={ButtonVariant.Supplementary}
+      variant="supplementary"
       className={classNames(props.className, styles.feedbackButton)}
     >
       {t('common.feedback.text')}

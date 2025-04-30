@@ -1,12 +1,7 @@
 import { ClassNames } from '@emotion/react';
 import { ResizeObserver } from '@juggle/resize-observer';
 import classNames from 'classnames';
-import {
-  ButtonProps,
-  ButtonVariant,
-  IconAngleDown,
-  IconAngleUp,
-} from 'hds-react';
+import { ButtonProps, IconAngleDown, IconAngleUp } from 'hds-react';
 import React, { useRef, useState } from 'react';
 import mergeRefs from 'react-merge-refs';
 import useMeasure from 'react-use-measure';
@@ -165,12 +160,12 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
         {...commonProps}
         ref={toggleButton}
         fullWidth={true}
-        iconEnd={
+        iconRight={
           menuOpen ? <IconAngleUp aria-hidden /> : <IconAngleDown aria-hidden />
         }
-        variant={ButtonVariant.Secondary}
+        variant="secondary"
       >
-        {buttonLabel}
+        <span>{buttonLabel}</span>
       </Button>
     );
   };

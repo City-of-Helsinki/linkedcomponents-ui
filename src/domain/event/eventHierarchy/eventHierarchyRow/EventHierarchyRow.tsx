@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { IconAngleDown, IconAngleUp, IconSize } from 'hds-react';
+import { IconAngleDown, IconAngleUp } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -68,9 +68,9 @@ const EventHierarchyRow: React.FC<Props> = ({
           type="button"
         >
           {open ? (
-            <IconAngleUp aria-hidden={true} size={IconSize.Small} />
+            <IconAngleUp aria-hidden={true} size="s" />
           ) : (
-            <IconAngleDown aria-hidden={true} size={IconSize.Small} />
+            <IconAngleDown aria-hidden={true} size="s" />
           )}
         </button>
       )}

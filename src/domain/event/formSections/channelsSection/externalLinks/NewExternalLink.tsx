@@ -24,11 +24,8 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({
 
   const options = useExtlinkOptions();
 
-  const handleChange = (
-    _selectedOptions: OptionType[],
-    clickedOption: OptionType
-  ) => {
-    onChange(clickedOption);
+  const handleChange = (item: OptionType) => {
+    onChange(item);
   };
 
   return (
@@ -39,12 +36,11 @@ const NewExternalLink: React.FC<ExternalLinkProps> = ({
         <SingleSelect
           className={styles.nameSelector}
           disabled={!isEditingAllowed}
+          label={t(`event.form.labelNewExternalLinkName`)}
           onChange={handleChange}
           options={options}
-          texts={{
-            label: t(`event.form.labelNewExternalLinkName`),
-            placeholder: getValue(t(`common.select`), undefined),
-          }}
+          placeholder={getValue(t(`common.select`), undefined)}
+          value={null as unknown as undefined}
         />
         <TextInput
           id="new-some-link-input"

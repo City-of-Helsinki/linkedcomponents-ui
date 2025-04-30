@@ -1,11 +1,5 @@
 import { Field, Formik } from 'formik';
-import {
-  Button,
-  ButtonVariant,
-  Dialog,
-  IconInfoCircle,
-  IconPen,
-} from 'hds-react';
+import { Button, Dialog, IconInfoCircle, IconPen } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { scroller } from 'react-scroll';
@@ -99,7 +93,7 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
     >
       <Dialog.Header
         id={titleId}
-        iconStart={<IconInfoCircle aria-hidden={true} />}
+        iconLeft={<IconInfoCircle aria-hidden={true} />}
         title={
           signup || signupGroup
             ? t('signup.sendMessageModal.titleSingle')
@@ -166,15 +160,11 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
                   onClick={() => handleSubmit()}
                   icon={<IconPen />}
                   type="button"
-                  variant={ButtonVariant.Primary}
+                  variant="primary"
                 >
                   {t('signup.sendMessageModal.buttonSendMessage')}
                 </LoadingButton>
-                <Button
-                  onClick={onClose}
-                  type="button"
-                  variant={ButtonVariant.Secondary}
-                >
+                <Button onClick={onClose} type="button" variant="secondary">
                   {t('common.cancel')}
                 </Button>
               </Dialog.ActionButtons>

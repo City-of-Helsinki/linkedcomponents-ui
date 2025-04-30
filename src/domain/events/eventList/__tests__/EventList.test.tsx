@@ -139,7 +139,7 @@ const getElement = (
     case 'sortOptionName':
       return screen.getByRole('option', { name: /nimi, nouseva/i });
     case 'sortSelect':
-      return screen.getByRole('combobox', { name: /lajitteluperuste/i });
+      return screen.getByRole('button', { name: /Lajitteluperuste/i });
   }
 };
 
@@ -185,20 +185,18 @@ test('should change sort order', async () => {
   await waitFor(() => expect(history.location.search).toBe(''));
 
   const sortSelect = getElement('sortSelect');
-
   await user.click(sortSelect);
 
   const sortOptionName = getElement('sortOptionName');
-
   await user.click(sortOptionName);
 
   await loadingSpinnerIsNotInDocument();
-
-  //Sorted events should be visible.
+  // Sorted events should be visible.
   screen.getByRole('heading', { name: sortedEventNames[0] });
   await waitFor(() => expect(history.location.search).toBe('?sort=name'));
 
   // Should clear sort from url search if selecting default sort value
+  await user.click(sortSelect);
   const sortOptionLastModified = getElement('sortOptionLastModified');
   await user.click(sortOptionLastModified);
   await waitFor(() => expect(history.location.search).toBe(''));

@@ -23,14 +23,12 @@ const MerchantField: FC<Props> = ({ disabled, name, publisher, required }) => {
       component={SingleSelectField}
       disabled={disabled}
       isLoading={loading}
+      label={t('registration.form.registrationMerchant.labelMerchant')}
       name={name}
       options={options}
-      texts={{
-        label: t('registration.form.registrationMerchant.labelMerchant'),
-        placeholder: t(
-          'registration.form.registrationMerchant.placeholderMerchant'
-        ),
-      }}
+      placeholder={t(
+        'registration.form.registrationMerchant.placeholderMerchant'
+      )}
       required={required}
     />
   );

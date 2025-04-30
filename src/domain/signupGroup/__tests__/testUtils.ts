@@ -50,7 +50,7 @@ export const getSignupFormElement = (
     case 'menu':
       return screen.getByRole('region', { name: /valinnat/i });
     case 'nativeLanguageButton':
-      return screen.getByRole('combobox', { name: /äidinkieli/i });
+      return screen.getByRole('button', { name: /äidinkieli/i });
     case 'participantAmountInput':
       return screen.getByRole('spinbutton', {
         name: /ilmoittautujien määrä \*/i,
@@ -60,7 +60,7 @@ export const getSignupFormElement = (
     case 'phoneInput':
       return screen.getAllByLabelText(/puhelinnumero/i)[0];
     case 'serviceLanguageButton':
-      return screen.getByRole('combobox', { name: /asiointikieli/i });
+      return screen.getByRole('button', { name: /asiointikieli/i });
     case 'signupGroupExtraInfoField':
       return screen.getByRole('textbox', {
         name: 'Lisätietoa ilmoittautumisesta (valinnainen)',

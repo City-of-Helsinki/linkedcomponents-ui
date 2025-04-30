@@ -1,4 +1,3 @@
-import { ButtonPresetTheme } from 'hds-react';
 import camelCase from 'lodash/camelCase';
 import omit from 'lodash/omit';
 import React from 'react';
@@ -134,7 +133,7 @@ const EventList: React.FC<EventListProps> = ({
           />
         )}
 
-        <FeedbackButton theme={ButtonPresetTheme.Black} />
+        <FeedbackButton theme="black" />
       </Container>
     </div>
   );
@@ -187,19 +186,9 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
     pageSize: EVENTS_PAGE_SIZE,
   });
 
-  const handleSortSelectorChange = (
-    _selectedOptions: OptionType[],
-    clickedOption: OptionType
-  ) => {
-    if (clickedOption.value) {
-      onSortChange(clickedOption.value);
-    }
+  const handleSortSelectorChange = (sortOption: OptionType) => {
+    onSortChange(sortOption.value);
   };
-
-  const selected = sortOptions?.find(
-    (option): option is OptionType =>
-      typeof option !== 'string' && option.value === sort
-  );
 
   return (
     <div
@@ -228,10 +217,10 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
             {listType === EVENT_LIST_TYPES.CARD_LIST && (
               <SingleSelect
                 className={styles.sortOrderSelector}
+                label={t('eventsPage.labelSort')}
                 onChange={handleSortSelectorChange}
                 options={sortOptions}
-                value={selected?.value}
-                texts={{ label: t('eventsPage.labelSort') }}
+                value={sortOptions.find((option) => option.value === sort)}
               />
             )}
           </div>

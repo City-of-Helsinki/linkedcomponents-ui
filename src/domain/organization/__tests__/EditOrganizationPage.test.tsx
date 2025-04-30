@@ -80,9 +80,9 @@ const getElement = (
 ) => {
   switch (key) {
     case 'adminUsersToggleButton':
-      return screen.getAllByRole('combobox', { name: /pääkäyttäjät/i })[0];
+      return screen.getByRole('button', { name: /Pääkäyttäjät/ });
     case 'replacedByToggleButton':
-      return screen.getByRole('combobox', { name: /korvaava organisaatio/i });
+      return screen.getByRole('button', { name: /Korvaava organisaatio/i });
   }
 };
 

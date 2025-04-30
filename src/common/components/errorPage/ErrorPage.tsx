@@ -1,5 +1,5 @@
 import { ClassNames } from '@emotion/react';
-import { ButtonVariant, IconArrowLeft } from 'hds-react';
+import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -46,10 +46,10 @@ const ErrorPage: React.FC<Props> = ({
               <div className={styles.buttons}>
                 <Button
                   fullWidth={true}
-                  iconStart={<IconArrowLeft aria-hidden />}
+                  iconLeft={<IconArrowLeft aria-hidden />}
                   onClick={goToHome}
                   type="button"
-                  variant={ButtonVariant.Secondary}
+                  variant="secondary"
                 >
                   {homePageButtonText || t('common.goToHome')}
                 </Button>
@@ -57,7 +57,7 @@ const ErrorPage: React.FC<Props> = ({
                   fullWidth={true}
                   onClick={handleSignIn}
                   type="button"
-                  variant={ButtonVariant.Primary}
+                  variant="primary"
                 >
                   {t('common.signIn')}
                 </Button>

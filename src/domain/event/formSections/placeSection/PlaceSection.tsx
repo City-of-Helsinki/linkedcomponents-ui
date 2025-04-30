@@ -65,12 +65,10 @@ const PlaceSection: React.FC<Props> = ({
             <Field
               component={PlaceSelectorField}
               disabled={!isEditingAllowed}
+              label={t('event.form.labelLocation')}
               name={EVENT_FIELDS.LOCATION}
-              texts={{
-                label: t('event.form.labelLocation'),
-                placeholder: t('event.form.placeholderLocation'),
-              }}
-              required
+              placeholder={t('event.form.placeholderLocation')}
+              required={true}
             />
             <div className={styles.locationId}>
               {t('event.form.labelLocationId')} {parseIdFromAtId(location)}

@@ -1,4 +1,3 @@
-import { ButtonVariant } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
@@ -94,8 +93,8 @@ const EditImagePage: React.FC<Props> = ({ image }) => {
           <Button
             {...buttonProps}
             fullWidth={true}
-            iconStart={buttonProps.icon}
-            variant={ButtonVariant.Danger}
+            iconLeft={buttonProps.icon}
+            variant="danger"
           >
             {buttonProps.label}
           </Button>

@@ -23,10 +23,11 @@ const mockedPlaceResponse = {
   result: placeResponse,
 };
 
-const places = fakePlaces(1, [place]);
+const places = fakePlaces(0);
 const placesVariables = {
   createPath: undefined,
   showAllPlaces: true,
+  text: '',
 };
 const placesResponse = { data: { places } };
 const mockedPlacesResponse = {
@@ -34,7 +35,7 @@ const mockedPlacesResponse = {
   result: placesResponse,
 };
 
-const filteredPlaces = places;
+const filteredPlaces = fakePlaces(1, [place]);
 const filteredPlacesVariables = {
   createPath: undefined,
   showAllPlaces: true,

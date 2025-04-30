@@ -140,13 +140,11 @@ const EventSection: React.FC<Props> = ({ isEditingAllowed }) => {
           <Field
             component={RegistrationEventSelectorField}
             disabled={!isEditingAllowed}
-            clearable
+            label={t(`registration.form.labelEvent`)}
             name={REGISTRATION_FIELDS.EVENT}
             onChangeCb={onChangeEventCallback}
-            texts={{
-              label: t(`registration.form.labelEvent`),
-              placeholder: t(`registration.form.placeholderEvent`),
-            }}
+            placeholder={t(`registration.form.placeholderEvent`)}
+            required={true}
             variables={omitBy(
               {
                 start: searchState.start

@@ -14,7 +14,7 @@ const LoadingButton = React.forwardRef<HTMLButtonElement, Props>(
         {...rest}
         ref={ref}
         disabled={loading || disabled}
-        iconStart={
+        iconLeft={
           loading ? (
             <LoadingSpinner
               className={styles.loadingSpinner}

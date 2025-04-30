@@ -67,9 +67,7 @@ test('should call onChange when clicking page link', async () => {
   const user = userEvent.setup();
   renderComponent({ pageIndex: 0, onChange });
 
-  const links = screen.getAllByRole('listitem');
-  const page2Link = links[1].querySelector('a') as HTMLAnchorElement;
-
+  const page2Link = screen.getByTestId('hds-pagination-page-2');
   await user.click(page2Link);
 
   expect(onChange).toBeCalledWith(expect.objectContaining({}), 1);

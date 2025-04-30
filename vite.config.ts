@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => ({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./src/setupTests.ts', 'fake-indexeddb/auto'],
+    setupFiles: './src/setupTests.ts',
     exclude: [...configDefaults.exclude, 'e2e/tests'],
     css: {
       modules: {

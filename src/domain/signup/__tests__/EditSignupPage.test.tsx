@@ -154,8 +154,8 @@ test('contact person fields should be disabled if signup has a signup group', as
   expect(firstNameInput).toBeDisabled();
   expect(lastNameInput).toBeDisabled();
   expect(membershipNumberInput).toBeDisabled();
-  expect(nativeLanguageButton.getAttribute('aria-disabled')).toBe('true');
-  expect(serviceLanguageButton.getAttribute('aria-disabled')).toBe('true');
+  expect(nativeLanguageButton).toBeDisabled();
+  expect(serviceLanguageButton).toBeDisabled();
 });
 
 test('should delete signup', async () => {

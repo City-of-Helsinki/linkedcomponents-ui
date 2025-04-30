@@ -30,15 +30,13 @@ const AccountField: FC<Props> = ({
       component={SingleSelectField}
       disabled={disabled}
       isLoading={loading}
+      label={t('registration.form.registrationAccount.labelAccount')}
       name={name}
       onChangeCb={onChangeCb}
       options={options}
-      texts={{
-        label: t('registration.form.registrationAccount.labelAccount'),
-        placeholder: t(
-          'registration.form.registrationAccount.placeholderAccount'
-        ),
-      }}
+      placeholder={t(
+        'registration.form.registrationAccount.placeholderAccount'
+      )}
       required={required}
     />
   );

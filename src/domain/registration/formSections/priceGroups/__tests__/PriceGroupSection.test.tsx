@@ -59,19 +59,19 @@ const getElement = (
 ) => {
   switch (key) {
     case 'accountSelectButton':
-      return screen.getByRole('combobox', { name: /kirjanpitotili/i });
+      return screen.getByRole('button', { name: 'Kirjanpitotili *' });
     case 'addPriceGroupButton':
       return screen.getByRole('button', { name: 'Lisää muita asiakasryhmiä' });
     case 'hasPriceCheckbox':
       return screen.getByRole('checkbox', { name: 'Tapahtuma on maksullinen' });
     case 'merchantSelectButton':
-      return screen.getByRole('combobox', { name: /kauppias/i });
+      return screen.getByRole('button', { name: 'Kauppias *' });
     case 'priceGroupSelectButton':
-      return screen.getByRole('combobox', { name: /asiakasryhmä/i });
+      return screen.getByRole('button', { name: /Asiakasryhmä/ });
     case 'priceInput':
       return screen.getByRole('spinbutton', { name: 'Hinta (€) *' });
     case 'vatSelectButton':
-      return screen.getByRole('combobox', { name: /alv %/i });
+      return screen.getByRole('button', { name: /ALV %/ });
   }
 };
 
@@ -132,14 +132,14 @@ test('should add and remove price group', async () => {
   getElement('accountSelectButton');
 
   await user.click(addPriceGroupButton);
-  expect(
-    screen.getAllByRole('combobox', { name: /asiakasryhmä/ })
-  ).toHaveLength(2);
+  expect(screen.getAllByRole('button', { name: /Asiakasryhmä/ })).toHaveLength(
+    2
+  );
 
   await user.click(getDeletePriceGroupButtons()[1]);
-  expect(
-    screen.getAllByRole('combobox', { name: /asiakasryhmä/ })
-  ).toHaveLength(1);
+  expect(screen.getAllByRole('button', { name: /Asiakasryhmä/ })).toHaveLength(
+    1
+  );
 });
 
 test('should disable price field if price group is free', async () => {

@@ -60,8 +60,8 @@ const renderComponent = (
 const findElement = (key: 'publisherSelector') => {
   switch (key) {
     case 'publisherSelector':
-      return screen.findByRole('combobox', {
-        name: /tapahtuman julkaisija/i,
+      return screen.findByRole('button', {
+        name: /tapahtuman julkaisija: valikko/i,
       });
   }
 };

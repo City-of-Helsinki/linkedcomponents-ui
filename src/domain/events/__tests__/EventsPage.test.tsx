@@ -125,7 +125,7 @@ const findElement = (
         name: /julkaistut tapahtumat, järjestys viimeksi muokattu, laskeva/i,
       });
     case 'sortOrderButton':
-      return screen.findByRole('combobox', { name: /lajitteluperuste/i });
+      return screen.findByRole('button', { name: 'Lajitteluperuste' });
   }
 };
 

@@ -48,14 +48,16 @@ const mocks = [
 const renderComponent = () => render(<CreateImagePage />, { mocks });
 
 const getElement = (
-  key: 'addButton' | 'publisherToggleButton' | 'saveButton'
+  key: 'addButton' | 'publisherInput' | 'publisherToggleButton' | 'saveButton'
 ) => {
   switch (key) {
     // Both add button and preview image component have same label
     case 'addButton':
       return screen.getAllByRole('button', { name: /Lisää kuva/i })[0];
-    case 'publisherToggleButton':
+    case 'publisherInput':
       return screen.getByRole('combobox', { name: /julkaisija/i });
+    case 'publisherToggleButton':
+      return screen.getByRole('button', { name: /julkaisija: valikko/i });
     case 'saveButton':
       return screen.getByRole('button', { name: /tallenna/i });
   }
@@ -106,11 +108,11 @@ test('should scroll to first validation error input field', async () => {
 
   await loadingSpinnerIsNotInDocument();
 
-  const publisherToggleButton = getElement('publisherToggleButton');
+  const publisherInput = getElement('publisherInput');
   const saveButton = getElement('saveButton');
   await user.click(saveButton);
 
-  await waitFor(() => expect(publisherToggleButton).toHaveFocus());
+  await waitFor(() => expect(publisherInput).toHaveFocus());
 });
 
 test('should create and select new image by selecting image file', async () => {

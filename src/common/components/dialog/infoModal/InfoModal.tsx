@@ -1,4 +1,4 @@
-import { ButtonVariant, Dialog, IconInfoCircle } from 'hds-react';
+import { Dialog, IconInfoCircle } from 'hds-react';
 import React from 'react';
 
 import Button from '../../button/Button';
@@ -47,18 +47,14 @@ const InfoModal: React.FC<InfoModalProps> = ({
     >
       <Dialog.Header
         id={titleId}
-        iconStart={<IconInfoCircle aria-hidden={true} />}
+        iconLeft={<IconInfoCircle aria-hidden={true} />}
         title={heading}
       />
       <Dialog.Content>
         <p id={descriptionId}>{description}</p>
       </Dialog.Content>
       <Dialog.ActionButtons>
-        <Button
-          onClick={handleClose}
-          type="button"
-          variant={ButtonVariant.Primary}
-        >
+        <Button onClick={handleClose} type="button" variant="primary">
           {closeButtonText}
         </Button>
       </Dialog.ActionButtons>

@@ -1,19 +1,19 @@
 /* eslint-disable no-undef */
-import { ApolloError } from '@apollo/client';
-import { SearchFunction, SearchResult } from 'hds-react';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'use-debounce';
 
+import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import { eventPathBuilder } from '../../../domain/event/utils';
 import { eventsPathBuilder } from '../../../domain/events/utils';
 import {
   EventFieldsFragment,
-  EventsQuery,
   EventsQueryVariables,
   useEventQuery,
   useEventsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
@@ -27,26 +27,28 @@ export type EventSelectorProps = {
 
 const EventSelector: React.FC<EventSelectorProps> = ({
   getOption,
-  texts,
+  label,
   name,
   value,
   variables,
   ...rest
 }) => {
+  const timer = React.useRef<NodeJS.Timeout>();
   const { t } = useTranslation();
   const locale = useLocale();
-
-  const QUERY_VARIABLES = {
-    ...variables,
-    createPath: getPathBuilder(eventsPathBuilder),
-  };
+  const [search, setSearch] = useMountedState('');
+  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
   const {
     data: eventsData,
     loading,
-    refetch,
+    previousData: previousEventsData,
   } = useEventsQuery({
-    variables: QUERY_VARIABLES,
+    variables: {
+      ...variables,
+      createPath: getPathBuilder(eventsPathBuilder),
+      text: debouncedSearch,
+    },
   });
 
   const { data: eventData } = useEventQuery({
@@ -57,39 +59,24 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     },
   });
 
-  const getEventsData = useCallback(
-    (data: EventsQuery | undefined) =>
+  const handleFilter = (items: OptionType[], inputValue: string) => {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      setSearch(inputValue);
+    });
+
+    return items;
+  };
+
+  const options: OptionType[] = React.useMemo(
+    () =>
       getValue(
-        data?.events.data.map((event) =>
+        (eventsData || previousEventsData)?.events.data.map((event) =>
           getOption(event as EventFieldsFragment, locale)
         ),
         []
       ),
-    [getOption, locale]
-  );
-
-  const handleSearch: SearchFunction = async (
-    searchValue: string
-  ): Promise<SearchResult> => {
-    try {
-      const { data: searchEventsData, error } = await refetch({
-        ...QUERY_VARIABLES,
-        text: searchValue,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      return { options: getEventsData(searchEventsData) };
-    } catch (error) {
-      return Promise.reject(error as ApolloError);
-    }
-  };
-
-  const options = React.useMemo(
-    () => getEventsData(eventsData),
-    [eventsData, getEventsData]
+    [eventsData, getOption, locale, previousEventsData]
   );
 
   const selectedEvent = React.useMemo(
@@ -97,20 +84,25 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     [eventData?.event, getOption, locale]
   );
 
+  React.useEffect(() => {
+    return () => clearTimeout(timer.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Combobox
       {...rest}
-      onSearch={handleSearch}
+      multiselect={false}
+      filter={handleFilter}
       id={name}
       isLoading={loading}
-      texts={{
-        ...texts,
-        clearButtonAriaLabel_one: t('common.combobox.clearEvents'),
-      }}
+      label={label}
       options={options}
+      clearButtonAriaLabel={t('common.combobox.clearEvents')}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedEvent?.value}
+      value={selectedEvent as OptionType | undefined}
     />
   );
 };

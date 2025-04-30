@@ -1,4 +1,4 @@
-import { ButtonVariant, IconPlus } from 'hds-react';
+import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -41,9 +41,9 @@ const PlacesPage: React.FC = () => {
         button={
           <Button
             fullWidth={true}
-            iconStart={<IconPlus aria-hidden={true} />}
+            iconLeft={<IconPlus aria-hidden={true} />}
             onClick={goToCreatePlacePage}
-            variant={ButtonVariant.Primary}
+            variant="primary"
           >
             {t('common.buttonAddPlace')}
           </Button>

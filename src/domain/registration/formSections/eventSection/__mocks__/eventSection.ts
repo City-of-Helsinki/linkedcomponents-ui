@@ -40,6 +40,7 @@ const eventsVariables = {
   start: 'now',
   sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['none'],
+  text: '',
 };
 
 const events = fakeEvents(1, [event]);

@@ -1,4 +1,4 @@
-import { ButtonVariant, IconArrowLeft } from 'hds-react';
+import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
@@ -37,15 +37,12 @@ const RegistrationSavedPage: React.FC = () => {
         <div className={styles.buttonPanel}>
           <Button
             onClick={goToRegistrations}
-            iconStart={<IconArrowLeft />}
-            variant={ButtonVariant.Secondary}
+            iconLeft={<IconArrowLeft />}
+            variant="secondary"
           >
             {t('registrationSavedPage.buttonBackToRegistrations')}
           </Button>
-          <Button
-            onClick={goToCreateRegistration}
-            variant={ButtonVariant.Primary}
-          >
+          <Button onClick={goToCreateRegistration} variant="primary">
             {t('common.buttonAddRegistration')}
           </Button>
         </div>

@@ -29,10 +29,12 @@ const getOption = ({
   return { label, value };
 };
 
-type SingleOrganizationSelectorProps = SingleComboboxProps<string | null>;
+export type SingleOrganizationSelectorProps = SingleComboboxProps<
+  string | null
+>;
 
 const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
-  texts,
+  label,
   name,
   value,
   ...rest
@@ -42,7 +44,7 @@ const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
 
   const { loading, organizations } = useAllOrganizations();
 
-  const options = React.useMemo(
+  const options: OptionType[] = React.useMemo(
     () =>
       sortBy(
         getValue(
@@ -68,16 +70,16 @@ const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
   return (
     <Combobox
       {...rest}
+      multiselect={false}
       id={name}
       isLoading={loading}
-      texts={{
-        ...texts,
-        clearButtonAriaLabel_one: t('common.combobox.clearOrganizations'),
-      }}
+      label={label}
       options={options}
+      clearButtonAriaLabel={t('common.combobox.clearOrganizations')}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
       // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedOrganization?.value}
+      value={selectedOrganization as OptionType | undefined}
     />
   );
 };

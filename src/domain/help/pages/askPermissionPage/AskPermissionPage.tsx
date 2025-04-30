@@ -213,13 +213,11 @@ const AskPermissionPage: React.FC = () => {
                 <Field
                   component={SingleOrganizationSelectorField}
                   disabled={!authenticated}
+                  label={t('helpPage.askPermissionPage.labelOrganization')}
                   name={ASK_PERMISSION_FORM_FIELD.ORGANIZATION}
-                  texts={{
-                    label: t('helpPage.askPermissionPage.labelOrganization'),
-                    placeholder: t(
-                      'helpPage.askPermissionPage.placeholderOrganization'
-                    ),
-                  }}
+                  placeholder={t(
+                    'helpPage.askPermissionPage.placeholderOrganization'
+                  )}
                   required
                 />
               </FormGroup>
