@@ -99,24 +99,6 @@
       "clearUsers": "Ta bort valda användare",
       "toggleButtonAriaLabel": "Menyn"
     },
-    "cookieConsent": {
-      "eventForm": {
-        "description": "Den cookie som krävs för att spara data från evenemangsformuläret",
-        "name": "Cookie för evenemangsformulär"
-      },
-      "expiration": {
-        "session": "Session"
-      },
-      "registrationForm": {
-        "description": "Den cookie som krävs för att spara uppgifterna i registreringsformuläret",
-        "name": "Cookie för registreringsformulär"
-      },
-      "signupForm": {
-        "description": "Den cookie som krävs för att spara uppgifterna i deltagaresformuläret",
-        "name": "Cookie för deltagaresformulär"
-      },
-      "siteName": "Linked Events"
-    },
     "dateSelector": {
       "buttonToggle": "Välj datum",
       "placeholderEndDate": "Avslutar d.m.åååå",
@@ -1638,6 +1620,7 @@
       "accessibilityStatement": "Tillgänglighetsutlåtande",
       "admin": "Admin",
       "events": "Mina evenemangen",
+      "cookies": "Kakinställningar",
       "help": "Stöd",
       "registrations": "Registrering",
       "dataProtection": "Dataskydd",
