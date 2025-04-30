@@ -148,11 +148,6 @@ const Footer: React.FC = () => {
               onClick={goToPage(getLocalePath(ROUTES.ACCESSIBILITY_STATEMENT))}
               label={t('navigation.tabs.accessibilityStatement')}
             />
-            <HdsFooter.Link
-              href={getLocalePath(ROUTES.COOKIES)}
-              onClick={goToPage(getLocalePath(ROUTES.COOKIES))}
-              label={t('navigation.tabs.cookies')}
-            />
           </HdsFooter.Utilities>
           <HdsFooter.Base
             copyrightHolder={t('footer.copyrightHolder')}

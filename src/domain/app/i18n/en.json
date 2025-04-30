@@ -99,6 +99,24 @@
       "clearUsers": "Clear selected users",
       "toggleButtonAriaLabel": "Menu"
     },
+    "cookieConsent": {
+      "eventForm": {
+        "description": "The cookie required to save the event form data",
+        "name": "Event form cookie"
+      },
+      "expiration": {
+        "session": "Session"
+      },
+      "registrationForm": {
+        "description": "The cookie required to save the registration form data",
+        "name": "Registration form cookie"
+      },
+      "signupForm": {
+        "description": "The cookie required to save the signup form data",
+        "name": "Signup form cookie"
+      },
+      "siteName": "Linked Events"
+    },
     "dateSelector": {
       "buttonToggle": "Choose dates",
       "placeholderEndDate": "Ends d.m.yyyy",
@@ -1620,7 +1638,6 @@
       "accessibilityStatement": "Accessibility Statement",
       "admin": "Admin",
       "events": "My events",
-      "cookies": "Cookie settings",
       "help": "Support",
       "registrations": "Registration",
       "dataProtection": "Data Protection",

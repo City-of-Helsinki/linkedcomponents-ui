@@ -1,4 +1,3 @@
-import { CookieSettingsPage } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, Route, Routes, useParams } from 'react-router';
@@ -92,7 +91,6 @@ const LocaleRoutes: React.FC = () => {
             path={ROUTES.ACCESSIBILITY_STATEMENT}
             element={<AccessibilityStatementPage />}
           />
-          <Route path={ROUTES.COOKIES} element={<CookieSettingsPage />} />
           <Route path={ROUTES.CREATE_EVENT} element={<CreateEventPage />} />
           <Route path={ROUTES.EVENT_SAVED} element={<EventSavedPage />} />
           <Route path={ROUTES.EDIT_EVENT} element={<EditEventPage />} />
