@@ -18,7 +18,8 @@ const filteredEventsVariables = {
   createPath: undefined,
   sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['umbrella'],
-  text: '',
+  x_full_text: '',
+  x_full_text_language: 'fi',
 };
 const filteredEvents = fakeEvents(1, [event]);
 const filteredEventsResponse = { data: { events: filteredEvents } };

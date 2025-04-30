@@ -35,7 +35,9 @@ const renderComponent = (route = `/fi${ROUTES.SEARCH}`) =>
   render(<FilterSummary />, { mocks, routes: [route] });
 
 test('should render and remove text filter', async () => {
-  const { history } = renderComponent(`/fi${ROUTES.SEARCH}?text=${text}`);
+  const { history } = renderComponent(
+    `/fi${ROUTES.SEARCH}?x_full_text=${text}`
+  );
 
   await shouldDisplayAndRemoveFilter({
     deleteButtonLabel: `Poista suodatusehto: ${text}`,
@@ -103,7 +105,7 @@ test('should render and remove type filter', async () => {
 test('should remove all filters with clear button', async () => {
   const user = userEvent.setup();
   const { history } = renderComponent(
-    `/fi${ROUTES.SEARCH}?text=${text}&place=${placeId}&publisher=${publisherId}&end=${end}&start=${start}&type=${type}&eventStatus=${EventStatus.EventCancelled}`
+    `/fi${ROUTES.SEARCH}?x_full_text=${text}&place=${placeId}&publisher=${publisherId}&end=${end}&start=${start}&type=${type}&eventStatus=${EventStatus.EventCancelled}`
   );
 
   screen.getByRole('button', {

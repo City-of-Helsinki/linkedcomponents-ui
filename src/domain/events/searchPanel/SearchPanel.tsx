@@ -21,8 +21,8 @@ import styles from './searchPanel.module.scss';
 type SearchState = {
   eventStatus: EventStatus[];
   publisher: string[];
-  text: string;
   type: EVENT_TYPE[];
+  x_full_text: string;
 };
 
 const SearchPanel: React.FC = () => {
@@ -34,8 +34,8 @@ const SearchPanel: React.FC = () => {
   const [searchState, setSearchState] = useSearchState<SearchState>({
     eventStatus: [],
     publisher: [],
-    text: '',
     type: [],
+    x_full_text: '',
   });
 
   const {
@@ -53,11 +53,15 @@ const SearchPanel: React.FC = () => {
   };
 
   React.useEffect(() => {
-    const { eventStatus, publisher, text, types } = getEventSearchInitialValues(
-      location.search
-    );
-    setSearchState({ eventStatus, publisher, text, type: types });
-  }, [location.search, setSearchState]);
+    const { eventStatus, publisher, fullText, types } =
+      getEventSearchInitialValues(location.search);
+    setSearchState({
+      eventStatus,
+      publisher,
+      x_full_text: fullText,
+      type: types,
+    });
+  }, [locale, location.search, setSearchState]);
 
   return (
     <div className={styles.searchPanel}>
@@ -72,7 +76,7 @@ const SearchPanel: React.FC = () => {
           searchInputPlaceholder={t(
             'eventSearchPage.searchPanel.placeholderSearch'
           )}
-          searchInputValue={searchState.text}
+          searchInputValue={searchState.x_full_text}
           selectors={[
             <TypeSelector
               key="event-type"

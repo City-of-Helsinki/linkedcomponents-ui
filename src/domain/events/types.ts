@@ -1,4 +1,5 @@
 import { EventStatus } from '../../generated/graphql';
+import { Language } from '../../types';
 import { EVENT_TYPE } from '../event/constants';
 import {
   EVENT_LIST_TYPES,
@@ -42,25 +43,26 @@ export type EventsPageSettingsState = EventsPageSettings & EventsActions;
 export type EventSearchInitialValues = {
   end: Date | null;
   eventStatus: EventStatus[];
+  fullText: string;
   page: number;
   places: string[];
   publisher: string[];
   [EVENT_SEARCH_PARAMS.SORT]: EVENT_SORT_OPTIONS;
   start: Date | null;
-  text: string;
   types: EVENT_TYPE[];
 };
 
 export type EventSearchParams = {
   [EVENT_SEARCH_PARAMS.END]?: Date | null;
   [EVENT_SEARCH_PARAMS.EVENT_STATUS]?: EventStatus[];
+  [EVENT_SEARCH_PARAMS.FULL_TEXT]: string;
+  [EVENT_SEARCH_PARAMS.FULL_TEXT_LANGUAGE]?: Language;
   [EVENT_SEARCH_PARAMS.PAGE]?: number | null;
   [EVENT_SEARCH_PARAMS.PLACE]?: string[];
   [EVENT_SEARCH_PARAMS.PUBLISHER]?: string[];
   [EVENT_SEARCH_PARAMS.RETURN_PATH]?: string | null;
   [EVENT_SEARCH_PARAMS.SORT]?: EVENT_SORT_OPTIONS | null;
   [EVENT_SEARCH_PARAMS.START]?: Date | null;
-  [EVENT_SEARCH_PARAMS.TEXT]: string;
   [EVENT_SEARCH_PARAMS.TYPE]?: EVENT_TYPE[];
 };
 
