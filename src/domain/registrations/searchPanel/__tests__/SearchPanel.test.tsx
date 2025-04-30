@@ -51,7 +51,7 @@ test('should search registrations with correct search params', async () => {
   await shouldFilterEventsOrRegistrations({
     expectedPathname: '/fi/registrations',
     expectedSearch:
-      '?eventType=general&publisher=organization%3A1&text=search&sort=-event__start_time',
+      '?eventType=general&publisher=organization%3A1&full_text=search&sort=-event__start_time',
     history,
     searchButtonLabel: 'Etsi',
     searchInputLabel: 'Hae ilmoittautumisia',

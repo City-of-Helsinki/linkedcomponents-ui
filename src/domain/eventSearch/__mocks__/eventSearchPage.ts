@@ -27,7 +27,8 @@ const eventsVariables = {
   page: 1,
   pageSize: EVENTS_PAGE_SIZE,
   start: null,
-  text: searchText,
+  full_text: searchText,
+  full_text_language: 'fi',
   sort: DEFAULT_EVENT_SORT,
 };
 const eventNames = range(1, EVENTS_PAGE_SIZE + 1).map((n) => `Event name ${n}`);
