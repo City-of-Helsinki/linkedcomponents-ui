@@ -45,7 +45,8 @@ const variables = {
   location: [],
   publisher: [],
   start: null,
-  text: '',
+  x_full_text: '',
+  x_full_text_language: 'fi',
 };
 
 const eventNames = range(1, TEST_PAGE_SIZE + 1).map((n) => `Event name ${n}`);

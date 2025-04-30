@@ -18,7 +18,8 @@ const eventsVariables = {
   createPath: undefined,
   sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['umbrella'],
-  text: '',
+  x_full_text: '',
+  x_full_text_language: 'fi',
 };
 const events = fakeEvents(1, [event]);
 const eventsResponse = { data: { events: events } };
