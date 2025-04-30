@@ -23,7 +23,6 @@ export enum ROUTES {
   ACCESSIBILITY_STATEMENT = '/accessibility-statement',
   ATTENDANCE_LIST = '/registrations/:registrationId/attendance-list',
   CALLBACK = '/callback',
-  COOKIES = '/cookies',
   CREATE_EVENT = '/events/create',
   CREATE_IMAGE = '/administration/images/create',
   CREATE_KEYWORD = '/administration/keywords/create',
