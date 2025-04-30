@@ -40,7 +40,8 @@ const eventsVariables = {
   start: 'now',
   sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['none'],
-  text: '',
+  full_text: '',
+  full_text_language: 'fi',
 };
 
 const events = fakeEvents(1, [event]);
@@ -52,7 +53,7 @@ const mockedEventsResponse = {
 
 const filteredEventsVariables = {
   ...eventsVariables,
-  text: 'Event name 13.7.2020 –',
+  full_text: 'Event name 13.7.2020 –',
 };
 
 const mockedFilteredEventsResponse = {
