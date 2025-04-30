@@ -1,29 +1,62 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import classNames from 'classnames';
-import { Select } from 'hds-react';
+import {
+  Combobox as BaseCombobox,
+  ComboboxProps,
+  MultiSelectProps,
+  SingleSelectProps,
+} from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
-import ComboboxLoadingSpinner from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
-import { SingleSelectProps } from '../singleSelect/SingleSelect';
+import { OptionType } from '../../../types';
+import {
+  getA11ySelectionMessage,
+  getA11yStatusMessage,
+} from '../../../utils/accessibilityUtils';
+import ComboboxLoadingSpinner, {
+  ComboboxLoadingSpinnerProps,
+} from '../comboboxLoadingSpinner/ComboboxLoadingSpinner';
 import styles from './combobox.module.scss';
 
-export type SingleComboboxProps<ValueType> = SingleSelectProps & {
-  name: string;
-  value: ValueType;
-};
+type FilterFunction<OptionType> = (
+  options: OptionType[],
+  search: string
+) => OptionType[];
 
-export type MultiComboboxProps<ValueType> = SingleSelectProps & {
-  name: string;
-  value: ValueType[];
-};
+type CommonComboboxProps = {
+  'aria-describedby'?: string;
+  catchEscapeKey?: boolean;
+  filter?: FilterFunction<OptionType>;
+  showToggleButton?: boolean;
+  toggleButtonAriaLabel: string;
+} & ComboboxLoadingSpinnerProps;
 
-const Combobox: React.FC<SingleSelectProps> = ({
+export type MultiComboboxProps<ValueType> = Omit<
+  MultiSelectProps<OptionType>,
+  'aria-labelledby' | 'options' | 'value'
+> &
+  CommonComboboxProps & {
+    name: string;
+    value: ValueType[];
+  };
+
+export type SingleComboboxProps<ValueType> = Omit<
+  SingleSelectProps<OptionType>,
+  'aria-labelledby' | 'options' | 'value'
+> &
+  CommonComboboxProps & {
+    name: string;
+    value: ValueType;
+  };
+
+type Props = ComboboxLoadingSpinnerProps & ComboboxProps<OptionType>;
+
+const Combobox: React.FC<Props> = ({
   alignedLabel,
   isLoading,
   className,
-  texts,
   ...rest
 }) => {
   const { theme } = useTheme();
@@ -31,11 +64,17 @@ const Combobox: React.FC<SingleSelectProps> = ({
 
   return (
     <ComboboxLoadingSpinner alignedLabel={alignedLabel} isLoading={isLoading}>
-      <Select
+      <BaseCombobox
+        clearButtonAriaLabel={t('common.clear')}
         {...(rest as any)}
         className={classNames(className, styles.combobox)}
+        getA11yStatusMessage={(options) => getA11yStatusMessage(options, t)}
+        getA11ySelectionMessage={
+          /* istanbul ignore next */
+          (options) => getA11ySelectionMessage(options, t)
+        }
         theme={theme.select}
-        texts={{ ...texts, clearButtonAriaLabel_multiple: t('common.clear') }}
+        virtualized={true}
       />
     </ComboboxLoadingSpinner>
   );

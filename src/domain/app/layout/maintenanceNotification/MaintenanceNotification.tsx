@@ -13,7 +13,7 @@ const MaintenanceNotification: FC = () => {
   return (
     <div className={styles.wrapper}>
       <Notification
-        data-testid="maintenance-notification"
+        dataTestId="maintenance-notification"
         className={styles.notification}
         label={t('maintenance.header.label')}
       >

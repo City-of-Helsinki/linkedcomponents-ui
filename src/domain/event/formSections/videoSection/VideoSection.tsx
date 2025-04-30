@@ -1,5 +1,5 @@
 import { ArrayHelpers, FieldArray, useField } from 'formik';
-import { ButtonVariant, IconPlus } from 'hds-react';
+import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -49,10 +49,10 @@ const VideoSection: React.FC<Props> = ({ isEditingAllowed }) => {
               <Button
                 disabled={!isEditingAllowed}
                 fullWidth={true}
-                iconStart={<IconPlus />}
+                iconLeft={<IconPlus />}
                 onClick={() => arrayHelpers.push(getEmptyOffer())}
                 type="button"
-                variant={ButtonVariant.Primary}
+                variant="primary"
               >
                 {t('event.form.buttonAddVideo')}
               </Button>

@@ -1,4 +1,4 @@
-import { IconSearch, IconSize } from 'hds-react';
+import { IconSearch } from 'hds-react';
 import React from 'react';
 
 import FieldLabel from '../../fieldLabel/FieldLabel';
@@ -15,7 +15,7 @@ const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
   ({ id, onChange, placeholder, value }, ref) => {
     return (
       <div className={styles.searchInput}>
-        <IconSearch size={IconSize.Small} />
+        <IconSearch size="s" />
         <FieldLabel hidden={true} inputId={id} label={placeholder} />
         <input
           ref={ref}

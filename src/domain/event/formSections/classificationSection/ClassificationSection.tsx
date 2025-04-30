@@ -136,11 +136,9 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
           <Field
             component={KeywordSelectorField}
             disabled={!isEditingAllowed}
+            label={t(`event.form.labelKeywords`)}
             name={EVENT_FIELDS.KEYWORDS}
-            texts={{
-              label: t(`event.form.labelKeywords`),
-              placeholder: t(`event.form.placeholderKeywords`),
-            }}
+            placeholder={t(`event.form.placeholderKeywords`)}
           />
         </FieldColumn>
       </FieldRow>

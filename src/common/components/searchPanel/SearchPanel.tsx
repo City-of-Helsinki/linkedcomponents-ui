@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import { ButtonVariant } from 'hds-react';
 import { FC, PropsWithChildren, ReactElement } from 'react';
 
 import Button from '../button/Button';
@@ -66,11 +65,7 @@ const SearchRow: FC<SearchRowProps> = ({
         )}
       </InputWrapper>
       <ButtonWrapper>
-        <Button
-          fullWidth={true}
-          onClick={onSearch}
-          variant={ButtonVariant.Secondary}
-        >
+        <Button fullWidth={true} onClick={onSearch} variant="secondary">
           {searchButtonText}
         </Button>
       </ButtonWrapper>

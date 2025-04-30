@@ -81,10 +81,8 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
             disabled={
               !isEditingAllowed || isExternalUser || isPublisherDisabled()
             }
+            label={t(`event.form.labelPublisher.${type}`)}
             name={EVENT_FIELDS.PUBLISHER}
-            texts={{
-              label: t(`event.form.labelPublisher.${type}`),
-            }}
             publisher={savedEvent?.publisher}
             {...(showTooltipInstructions(user)
               ? {

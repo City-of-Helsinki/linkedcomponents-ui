@@ -1,4 +1,4 @@
-import { ButtonVariant, IconArrowLeft } from 'hds-react';
+import { IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
@@ -63,12 +63,12 @@ const EventSavedPage: React.FC<EventSavedPageProps> = ({ event }) => {
         <div className={styles.buttonPanel}>
           <Button
             onClick={goToEvents}
-            iconStart={<IconArrowLeft />}
-            variant={ButtonVariant.Secondary}
+            iconLeft={<IconArrowLeft />}
+            variant="secondary"
           >
             {t('eventSavedPage.buttonBackToEvents')}
           </Button>
-          <Button onClick={goToCreateEvent} variant={ButtonVariant.Primary}>
+          <Button onClick={goToCreateEvent} variant="primary">
             {t('common.buttonAddEvent')}
           </Button>
         </div>

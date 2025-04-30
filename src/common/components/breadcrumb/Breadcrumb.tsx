@@ -10,7 +10,7 @@ import { useTheme } from '../../../domain/app/theme/Theme';
 
 export type BreadcrumbProps = { ariaLabel?: string } & Omit<
   HdsBreadcrumbProps,
-  'aria-label'
+  'ariaLabel'
 >;
 
 const Breadcrumb = ({
@@ -23,7 +23,7 @@ const Breadcrumb = ({
   return (
     <HdsBreadcrumb
       {...rest}
-      aria-label={ariaLabel ?? t('common.breadcrumb')}
+      ariaLabel={ariaLabel ?? t('common.breadcrumb')}
       theme={theme.breadcrumb as BreadcrumbCustomTheme}
     />
   );

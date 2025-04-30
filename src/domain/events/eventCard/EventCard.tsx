@@ -7,7 +7,6 @@ import {
   IconClock,
   IconLocation,
   IconPhoto,
-  IconSize,
   IconTicket,
   IconUser,
 } from 'hds-react';
@@ -125,7 +124,7 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
                   <IconPhoto
                     size={
                       /* istanbul ignore next */
-                      isMobile ? IconSize.ExtraLarge : IconSize.Large
+                      isMobile ? 'xl' : 'l'
                     }
                   />
                 </div>
@@ -274,9 +273,9 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
             {!!subEventAtIds.length && (
               <button className={styles.toggleButton} onClick={toggle}>
                 {open ? (
-                  <IconAngleUp aria-hidden={true} size={IconSize.Small} />
+                  <IconAngleUp aria-hidden={true} size="s" />
                 ) : (
-                  <IconAngleDown aria-hidden={true} size={IconSize.Small} />
+                  <IconAngleDown aria-hidden={true} size="s" />
                 )}
                 <span>
                   {open

@@ -13,7 +13,7 @@ import {
 import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
 import {
   PLACE_FIELDS,
-  PLACE_FORM_COMBOBOX_FIELDS,
+  PLACE_FORM_SELECT_FIELDS,
   PLACE_TEXT_FIELD_MAX_LENGTH,
 } from './constants';
 
@@ -120,7 +120,7 @@ export const getFocusablePlaceFieldId = (fieldName: string) =>
   getFocusableFieldId(fieldName, {
     arrayFields: [],
     checkboxGroupFields: [],
-    comboboxFields: PLACE_FORM_COMBOBOX_FIELDS,
-    selectFields: [],
+    comboboxFields: [],
+    selectFields: PLACE_FORM_SELECT_FIELDS,
     textEditorFields: [],
   });

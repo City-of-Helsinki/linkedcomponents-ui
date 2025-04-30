@@ -123,7 +123,7 @@ const AddEventTimeForm: React.FC<Props> = ({ addEventTime }) => {
             <Button
               disabled={disabled || !isValid}
               fullWidth={true}
-              iconStart={<IconPlus />}
+              iconLeft={<IconPlus />}
               onClick={() => handleSubmit()}
               type="button"
             >

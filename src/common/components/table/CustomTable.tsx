@@ -19,8 +19,8 @@ type TableProps = React.ComponentPropsWithoutRef<'table'> & {
 } & TableWrapperProps &
   Pick<
     HdsTableProps,
-    'caption' | 'dense' | 'variant' | 'verticalLines' | 'zebra'
-  > & { dataTestId?: string };
+    'caption' | 'dataTestId' | 'dense' | 'variant' | 'verticalLines' | 'zebra'
+  >;
 
 const CustomTable: FC<PropsWithChildren<TableProps>> = ({
   caption,

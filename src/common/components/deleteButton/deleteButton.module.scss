@@ -7,5 +7,9 @@
   color: var(--delete-button-color-icon) !important;
   height: var(--delete-button-height);
 
+  .label {
+    color: var(--delete-button-color);
+  }
+
   @include focus-outline();
 }

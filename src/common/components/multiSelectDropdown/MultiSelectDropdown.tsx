@@ -19,7 +19,7 @@ export interface MultiselectDropdownProps {
   loadingSpinnerText?: string;
   onChange: (values: OptionType[]) => void;
   options: OptionType[];
-  renderOptionText?: (option: OptionType) => string | undefined;
+  renderOptionText?: (option: OptionType) => React.ReactChild;
   searchPlaceholder?: string;
   searchValue?: string;
   setSearchValue?: (newVal: string) => void;
@@ -59,7 +59,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   const filteredOptions = React.useMemo(() => {
     return [
       ...options.filter((option) =>
-        option.label?.toLowerCase().includes(searchValue.toLowerCase())
+        option.label.toLowerCase().includes(searchValue.toLowerCase())
       ),
     ].filter(skipFalsyType);
   }, [options, searchValue]);

@@ -1,4 +1,3 @@
-import { ButtonPresetTheme } from 'hds-react';
 import omit from 'lodash/omit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -92,7 +91,7 @@ const RegistrationList: React.FC<RegistrationListProps> = ({
           />
         )}
 
-        <FeedbackButton theme={ButtonPresetTheme.Black} />
+        <FeedbackButton theme="black" />
       </Container>
     </div>
   );

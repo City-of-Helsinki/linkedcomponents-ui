@@ -1,20 +1,22 @@
 import { FieldProps } from 'formik';
 import React from 'react';
 
-import { SingleComboboxProps } from '../../combobox/Combobox';
-import SingleOrganizationSelector from '../../singleOrganizationSelector/SingleOrganizationSelector';
+import SingleOrganizationSelector, {
+  SingleOrganizationSelectorProps,
+} from '../../singleOrganizationSelector/SingleOrganizationSelector';
 import useSingleSelectFieldProps from '../hooks/useSingleSelectFieldProps';
 
-type Props = SingleComboboxProps<string | null> & FieldProps;
+type Props = SingleOrganizationSelectorProps & FieldProps;
 
 const SingleOrganizationSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
   form,
-  texts,
+  helper,
   disabled,
   ...rest
 }) => {
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
+    disabled,
     name,
     onBlur,
     onChange,
@@ -30,7 +32,8 @@ const SingleOrganizationSelectorField: React.FC<Props> = ({
       onChange={handleChange}
       disabled={disabled}
       value={value}
-      texts={{ ...texts, error: errorText }}
+      helper={helper}
+      error={errorText}
       invalid={!!errorText}
     />
   );

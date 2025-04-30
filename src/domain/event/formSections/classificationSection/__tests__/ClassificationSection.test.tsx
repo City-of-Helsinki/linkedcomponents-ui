@@ -79,11 +79,13 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
 const findElement = (key: 'keywordText' | 'keywordOption') => {
   switch (key) {
     case 'keywordText':
-      return screen.findAllByText(getValue(keyword?.name?.fi, ''), {
-        selector: 'span',
-      });
+      return screen.findByText(
+        getValue(keyword?.name?.fi, ''),
+        { selector: 'span' },
+        { timeout: 2000 }
+      );
     case 'keywordOption':
-      return screen.findByRole('option', {
+      return screen.findByRole('checkbox', {
         name: getValue(keyword?.name?.fi, ''),
       });
   }
@@ -138,7 +140,6 @@ test('should show all topic options', async () => {
   renderComponent();
 
   const mainCategories = getElement('mainCategories');
-
   await within(mainCategories).findByLabelText(eventTopicNames[0]);
 
   for (const name of sortedKeywords) {
@@ -162,17 +163,14 @@ test('should change keyword', async () => {
   renderComponent();
 
   const toggleButton = getElement('toggleButton');
-
   await user.click(toggleButton);
 
-  const keywordOption = (await findElement('keywordOption')) as HTMLLIElement;
-
+  const keywordOption = await findElement('keywordOption');
   await user.click(keywordOption);
 
   expect(
     screen.queryByRole('listbox', { name: /avainsanahaku/i })
   ).not.toBeInTheDocument();
-
   await findElement('keywordText');
 });
 
@@ -204,4 +202,15 @@ test('should select remote participation if internet is selected as a location',
 
   await waitFor(() => expect(remoteParticipationCheckbox).toBeChecked());
   expect(remoteParticipationCheckbox).toBeDisabled();
+});
+
+test('should show correct validation error if none keyword is selected', async () => {
+  const user = userEvent.setup();
+  renderComponent();
+
+  const toggleButton = getElement('toggleButton');
+  await user.click(toggleButton);
+  await user.tab();
+
+  await screen.findByText('Vähintään 1 avainsana tulee olla valittuna');
 });

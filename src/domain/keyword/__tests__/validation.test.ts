@@ -52,7 +52,7 @@ describe('getFocusableKeywordFieldId', () => {
     [KEYWORD_FIELDS.DATA_SOURCE, { fieldId: 'dataSource', type: 'default' }],
     [
       KEYWORD_FIELDS.PUBLISHER,
-      { fieldId: 'publisher-main-button', type: 'combobox' },
+      { fieldId: 'publisher-input', type: 'combobox' },
     ],
     [
       KEYWORD_FIELDS.REPLACED_BY,

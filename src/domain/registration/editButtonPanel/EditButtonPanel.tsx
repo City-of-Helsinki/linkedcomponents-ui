@@ -162,7 +162,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
       action: REGISTRATION_ACTIONS.UPDATE,
       onClick: () => onUpdate(),
       type: 'submit',
-      variant: ButtonVariant.Primary,
+      variant: 'primary',
     }),
   ].filter(skipFalsyType);
 

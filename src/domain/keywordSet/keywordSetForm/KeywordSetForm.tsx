@@ -222,7 +222,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
                 clearable
                 component={PublisherSelectorField}
                 disabled={disabledIfKeywordSet}
-                texts={{ label: t(`keywordSet.form.labelOrganization`) }}
+                label={t(`keywordSet.form.labelOrganization`)}
                 name={KEYWORD_SET_FIELDS.ORGANIZATION}
               />
             </FormRow>
@@ -257,10 +257,8 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
                 className={styles.alignedSelect}
                 component={KeywordSelectorField}
                 disabled={!isEditingAllowed}
+                label={t(`keywordSet.form.labelKeywords`)}
                 name={KEYWORD_SET_FIELDS.KEYWORDS}
-                texts={{
-                  label: t(`keywordSet.form.labelKeywords`),
-                }}
                 required
               />
             </FormRow>
@@ -271,9 +269,9 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
                 className={styles.alignedSelect}
                 component={SingleSelectField}
                 disabled={!isEditingAllowed}
+                label={t(`keywordSet.form.labelUsage`)}
                 name={KEYWORD_SET_FIELDS.USAGE}
                 options={usageOptions}
-                texts={{ label: t(`keywordSet.form.labelUsage`) }}
                 required
               />
             </FormRow>

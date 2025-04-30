@@ -1,5 +1,5 @@
 import { ClassNames } from '@emotion/react';
-import { ButtonVariant, IconPlus, Koros } from 'hds-react';
+import { IconPlus, Koros } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -52,9 +52,9 @@ const Hero: React.FC = () => {
                     <Button
                       className={styles.ctaButton}
                       fullWidth={true}
-                      iconStart={<IconPlus aria-hidden={true} />}
+                      iconLeft={<IconPlus aria-hidden={true} />}
                       onClick={goToCreateEventPage}
-                      variant={ButtonVariant.Primary}
+                      variant="primary"
                     >
                       {t('eventSearchPage.searchPanel.buttonCreateNew')}
                     </Button>
@@ -88,7 +88,7 @@ const Hero: React.FC = () => {
                         data-testid={testIds.landingPage.searchButton}
                         fullWidth={true}
                         onClick={() => handleSearch(searchValue)}
-                        variant={ButtonVariant.Secondary}
+                        variant="secondary"
                       >
                         {t('eventSearchPage.searchPanel.buttonSearch')}
                       </Button>

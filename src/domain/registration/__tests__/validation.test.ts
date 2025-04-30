@@ -270,10 +270,7 @@ describe('getFocusableRegistrationFieldId', () => {
       REGISTRATION_FIELDS.AUDIENCE_MAX_AGE,
       { fieldId: 'audienceMaxAge', type: 'default' },
     ],
-    [
-      REGISTRATION_FIELDS.EVENT,
-      { fieldId: 'event-main-button', type: 'combobox' },
-    ],
+    [REGISTRATION_FIELDS.EVENT, { fieldId: 'event-input', type: 'combobox' }],
     [
       REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS_VAT_PERCENTAGE,
       {
@@ -298,7 +295,7 @@ describe('getFocusableRegistrationFieldId', () => {
     [
       `${REGISTRATION_FIELDS.REGISTRATION_PRICE_GROUPS}[0].${REGISTRATION_PRICE_GROUP_FIELDS.PRICE_GROUP}`,
       {
-        fieldId: 'registrationPriceGroups[0].priceGroup-main-button',
+        fieldId: 'registrationPriceGroups[0].priceGroup-input',
         type: 'combobox',
       },
     ],

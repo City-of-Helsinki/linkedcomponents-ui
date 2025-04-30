@@ -11,6 +11,8 @@ exports[`<Table /> spec > renders the component 1`] = `
     >
       <table
         class="Table-module_table__3pIAR table_hds-table__nft5d Table-module_light__3eGYC"
+        data-testid="hds-table-data-testid"
+        id="hds-table-id"
       >
         <caption
           class="Table-module_caption__1l5F2 table_hds-table__caption__2oBXN"

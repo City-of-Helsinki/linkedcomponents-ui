@@ -12,7 +12,6 @@ import {
   mockUnauthenticatedLoginState,
 } from '../../../../../utils/mockLoginHooks';
 import {
-  act,
   configure,
   CustomRenderOptions,
   render,
@@ -114,7 +113,7 @@ const getElement = (key: GetElementKey) => {
     case 'subject':
       return screen.getByLabelText(/otsikko/i);
     case 'topicToggleButton':
-      return screen.getByRole('combobox', { name: /yhteydenoton aihe/i });
+      return screen.getByRole('button', { name: /yhteydenoton aihe/i });
   }
 };
 
@@ -233,16 +232,13 @@ test.each([
     mockUnauthenticatedLoginState();
     const user = userEvent.setup();
 
-    renderComponent({
-      mocks: [mockedPostGuestFeedbackResponse],
-    });
+    renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
     const topicToggleButton = getElement('topicToggleButton');
 
-    await act(async () => await user.click(topicToggleButton));
+    await user.click(topicToggleButton);
 
     const eventFormTopic = getElement('eventFormTopicOption');
-
     await user.click(eventFormTopic);
 
     const faqHeadings = [
@@ -254,14 +250,10 @@ test.each([
       'Voinko lisätä mitä tahansa kuvia tapahtumiin?',
     ];
 
-    expect(
-      await screen.findByRole('button', { name: faqHeadings[0] })
-    ).toBeInTheDocument();
+    await screen.findByRole('button', { name: faqHeadings[0] });
 
-    await act(() => user.click(topicToggleButton));
-
+    await user.click(topicToggleButton);
     const option = getElement(topicOption);
-
     await user.click(option);
 
     await waitFor(() =>
@@ -269,7 +261,6 @@ test.each([
         screen.queryByRole('button', { name: faqHeadings[0] })
       ).not.toBeInTheDocument()
     );
-
     faqHeadings
       .slice(1)
       .forEach((name) =>

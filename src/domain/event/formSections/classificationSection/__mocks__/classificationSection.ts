@@ -82,6 +82,7 @@ const keywordsVariables = {
   createPath: undefined,
   dataSource: ['yso', 'helsinki'],
   showAllKeywords: true,
+  freeText: '',
 };
 const keywordsResponse = { data: { keywords: eventTopics } };
 const mockedKeywordsResponse = {

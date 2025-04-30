@@ -43,15 +43,22 @@ const renderComponent = (mocks: MockedResponse[] = []) =>
   render(<CreatePlacePage />, { mocks });
 
 const getElement = (
-  key: 'nameInput' | 'originIdInput' | 'publisherToggleButton' | 'saveButton'
+  key:
+    | 'nameInput'
+    | 'originIdInput'
+    | 'publisherInput'
+    | 'publisherToggleButton'
+    | 'saveButton'
 ) => {
   switch (key) {
     case 'nameInput':
       return screen.getByLabelText(/nimi \(suomeksi\)/i);
     case 'originIdInput':
       return screen.getByLabelText(/lähdetunniste/i);
-    case 'publisherToggleButton':
+    case 'publisherInput':
       return screen.getByRole('combobox', { name: /julkaisija/i });
+    case 'publisherToggleButton':
+      return screen.getByRole('button', { name: /julkaisija: valikko/i });
     case 'saveButton':
       return screen.getByRole('button', { name: /tallenna/i });
   }

@@ -181,15 +181,13 @@ const RegistrationUserAccess: React.FC<Props> = ({
                 component={SingleSelectField}
                 clearable={true}
                 disabled={!isEditingAllowed}
+                label={t(
+                  `registration.form.registrationUserAccess.labelLanguage`
+                )}
                 options={serviceLanguageOptions}
-                texts={{
-                  label: t(
-                    `registration.form.registrationUserAccess.labelLanguage`
-                  ),
-                  placeholder: t(
-                    `registration.form.registrationUserAccess.placeholderLanguage`
-                  ),
-                }}
+                placeholder={t(
+                  `registration.form.registrationUserAccess.placeholderLanguage`
+                )}
               />
             </FormGroup>
           </>

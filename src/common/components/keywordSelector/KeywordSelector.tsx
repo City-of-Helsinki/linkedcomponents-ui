@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
 import {
   ApolloClient,
-  ApolloError,
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { SearchFunction, SearchResult } from 'hds-react';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDebounce } from 'use-debounce';
 
+import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import {
   getKeywordFields,
   getKeywordQueryResult,
@@ -17,10 +17,10 @@ import {
 import {
   Keyword,
   KeywordFieldsFragment,
-  KeywordsQuery,
   useKeywordsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
+import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
@@ -40,70 +40,60 @@ const getOption = ({
   return { label, value };
 };
 
-export type KeywordSelectorProps = MultiComboboxProps<string>;
+export type KeywordSelectorProps = Omit<
+  MultiComboboxProps<string>,
+  'toggleButtonAriaLabel'
+>;
 
 const KeywordSelector: React.FC<KeywordSelectorProps> = ({
-  texts,
+  label,
   name,
   value,
   ...rest
 }) => {
+  const timer = React.useRef<NodeJS.Timeout>();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
   const locale = useLocale();
+  const [search, setSearch] = useMountedState('');
+  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
   const [selectedKeywords, setSelectedKeywords] = React.useState<OptionType[]>(
     []
   );
 
-  const QUERY_VARIABLES = {
-    createPath: getPathBuilder(keywordsPathBuilder),
-    dataSource: ['yso', 'helsinki'],
-    showAllKeywords: true,
-  };
-
   const {
     data: keywordsData,
     loading,
-    refetch,
+    previousData: previousKeywordsData,
   } = useKeywordsQuery({
-    variables: QUERY_VARIABLES,
+    variables: {
+      createPath: getPathBuilder(keywordsPathBuilder),
+      dataSource: ['yso', 'helsinki'],
+      showAllKeywords: true,
+      freeText: debouncedSearch,
+    },
   });
 
-  const getKeywordsData = useCallback(
-    (data: KeywordsQuery | undefined) =>
+  const handleFilter = (items: OptionType[], inputValue: string) => {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      setSearch(inputValue);
+    });
+
+    return items;
+  };
+
+  const options: OptionType[] = React.useMemo(
+    () =>
       getValue(
-        data?.keywords.data.map((keyword) =>
+        (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
           getOption({ keyword: keyword as KeywordFieldsFragment, locale })
         ),
         []
       ),
-    [locale]
+    [keywordsData, locale, previousKeywordsData]
   );
-
-  const options = React.useMemo(
-    () => getKeywordsData(keywordsData),
-    [getKeywordsData, keywordsData]
-  );
-
-  const handleSearch: SearchFunction = async (
-    searchValue: string
-  ): Promise<SearchResult> => {
-    try {
-      const { data: searchKeywordsData, error } = await refetch({
-        ...QUERY_VARIABLES,
-        freeText: searchValue,
-      });
-
-      if (error) {
-        throw error;
-      }
-
-      return { options: getKeywordsData(searchKeywordsData) };
-    } catch (error) {
-      return Promise.reject(error as ApolloError);
-    }
-  };
 
   React.useEffect(() => {
     const getSelectedKeywordsFromCache = async () =>
@@ -125,18 +115,22 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     getSelectedKeywordsFromCache();
   }, [apolloClient, locale, value]);
 
+  React.useEffect(() => {
+    return () => clearTimeout(timer.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <Combobox
       {...rest}
-      multiSelect
-      onSearch={handleSearch}
+      multiselect={true}
+      filter={handleFilter}
       id={name}
       isLoading={loading}
-      texts={{
-        ...texts,
-        clearButtonAriaLabel_multiple: t('common.combobox.clearKeywords'),
-      }}
+      label={label}
       options={options}
+      clearButtonAriaLabel={t('common.combobox.clearKeywords')}
+      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       value={selectedKeywords}
     />
   );

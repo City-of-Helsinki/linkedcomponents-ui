@@ -1,4 +1,4 @@
-import { ButtonVariant, IconMinusCircle } from 'hds-react';
+import { IconMinusCircle } from 'hds-react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PixelCrop } from 'react-image-crop';
@@ -66,10 +66,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           </div>
           <Button
             className={styles.removeButton}
-            iconStart={<IconMinusCircle aria-hidden={true} />}
+            iconLeft={<IconMinusCircle aria-hidden={true} />}
             onClick={removeImageFile}
             type="button"
-            variant={ButtonVariant.Danger}
+            variant="danger"
           >
             {t('common.imageUploader.buttonRemoveImage')}
           </Button>

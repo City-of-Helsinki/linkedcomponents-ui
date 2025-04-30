@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { Button, ButtonVariant, IconPlus } from 'hds-react';
+import { Button, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
@@ -65,8 +65,8 @@ const RegistrationsPage: React.FC<Props> = ({ user }) => {
             <Button
               {...buttonProps}
               fullWidth={true}
-              iconStart={<IconPlus aria-hidden={true} />}
-              variant={ButtonVariant.Primary}
+              iconLeft={<IconPlus aria-hidden={true} />}
+              variant="primary"
             >
               {t('common.buttonAddRegistration')}
             </Button>

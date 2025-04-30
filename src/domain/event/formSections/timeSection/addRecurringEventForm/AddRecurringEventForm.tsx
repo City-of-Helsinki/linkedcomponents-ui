@@ -149,7 +149,7 @@ const AddRecurringEventForm: React.FC<Props> = ({ onSubmit }) => {
               <Button
                 disabled={disabled || !isValid}
                 fullWidth={true}
-                iconStart={<IconPlus aria-hidden={true} />}
+                iconLeft={<IconPlus aria-hidden={true} />}
                 onClick={() => handleSubmit()}
                 type="button"
               >

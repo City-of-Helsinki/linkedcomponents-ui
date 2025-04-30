@@ -294,7 +294,6 @@ export type Theme = {
     supplementary?: ButtonCSSProperties;
     success?: ButtonCSSProperties;
     danger?: ButtonCSSProperties;
-    clear?: ButtonCSSProperties;
   };
   checkbox: CheckboxCSSProperties;
   collapsible: CollapsibleCSSProperties;

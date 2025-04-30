@@ -6,7 +6,7 @@ import { useTheme } from '../../../domain/app/theme/Theme';
 import styles from './button.module.scss';
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = ButtonVariant.Primary, ...rest }, ref) => {
+  ({ className, variant = 'primary', ...rest }, ref) => {
     const { theme } = useTheme();
     return (
       <ClassNames>

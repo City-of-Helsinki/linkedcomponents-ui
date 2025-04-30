@@ -11,6 +11,7 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
 } from '../../../../utils/testUtils';
 import PublisherSelector, {
   PublisherSelectorProps,
@@ -93,10 +94,9 @@ const mocks = [
 ];
 
 const defaultProps: PublisherSelectorProps = {
-  texts: { label },
+  label,
   name: 'publisher-selector',
   value: publisherId,
-  onChange: vi.fn(),
 };
 
 const renderComponent = (props?: Partial<PublisherSelectorProps>) =>
@@ -104,29 +104,36 @@ const renderComponent = (props?: Partial<PublisherSelectorProps>) =>
     mocks,
   });
 
-const getToggleButton = () =>
-  screen.getByRole('combobox', { name: new RegExp(label) });
+const getElement = (key: 'searchInput' | 'toggleButton') => {
+  switch (key) {
+    case 'searchInput':
+      return screen.getByRole('combobox', { name: label });
+    case 'toggleButton':
+      return screen.getByRole('button', { name: `${label}: Valikko` });
+  }
+};
 
 test('should show users organizations as menu options', async () => {
   const user = userEvent.setup();
-  renderComponent({ publisher: null, value: undefined });
+  renderComponent({ publisher: null, value: null });
 
-  const toggleButton = getToggleButton();
+  getElement('searchInput');
 
+  const toggleButton = getElement('toggleButton');
   await user.click(toggleButton);
 
   await screen.findByRole('option', { name: organizationName });
-
   screen.getByRole('option', { name: adminOrganizationName });
 });
 
 test('should show publisher as menu option', async () => {
   const user = userEvent.setup();
-
   renderComponent({ publisher: publisherId });
 
-  const toggleButton = getToggleButton();
+  const searchinput = getElement('searchInput');
+  await waitFor(() => expect(searchinput).toHaveValue(publisherName));
 
+  const toggleButton = getElement('toggleButton');
   await user.click(toggleButton);
 
   await screen.findByRole('option', { name: publisherName });
