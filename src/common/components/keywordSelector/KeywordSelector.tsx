@@ -1,14 +1,14 @@
 /* eslint-disable no-undef */
 import {
   ApolloClient,
+  ApolloError,
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
+import { SearchFunction, SearchResult } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDebounce } from 'use-debounce';
 
-import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import {
   getKeywordFields,
   getKeywordQueryResult,
@@ -20,7 +20,6 @@ import {
   useKeywordsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
@@ -40,23 +39,17 @@ const getOption = ({
   return { label, value };
 };
 
-export type KeywordSelectorProps = Omit<
-  MultiComboboxProps<string>,
-  'toggleButtonAriaLabel'
->;
+export type KeywordSelectorProps = MultiComboboxProps<string>;
 
 const KeywordSelector: React.FC<KeywordSelectorProps> = ({
-  label,
+  texts,
   name,
   value,
   ...rest
 }) => {
-  const timer = React.useRef<NodeJS.Timeout>();
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { t } = useTranslation();
   const locale = useLocale();
-  const [search, setSearch] = useMountedState('');
-  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
 
   const [selectedKeywords, setSelectedKeywords] = React.useState<OptionType[]>(
     []
@@ -66,25 +59,17 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     data: keywordsData,
     loading,
     previousData: previousKeywordsData,
+    refetch,
   } = useKeywordsQuery({
     variables: {
       createPath: getPathBuilder(keywordsPathBuilder),
       dataSource: ['yso', 'helsinki'],
       showAllKeywords: true,
-      freeText: debouncedSearch,
+      freeText: '',
     },
   });
 
-  const handleFilter = (items: OptionType[], inputValue: string) => {
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      setSearch(inputValue);
-    });
-
-    return items;
-  };
-
-  const options: OptionType[] = React.useMemo(
+  const getKeywordsData = React.useCallback(
     () =>
       getValue(
         (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
@@ -94,6 +79,26 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
       ),
     [keywordsData, locale, previousKeywordsData]
   );
+
+  const options = React.useMemo(() => getKeywordsData(), [getKeywordsData]);
+
+  const handleSearch: SearchFunction = async (
+    searchValue: string
+  ): Promise<SearchResult> => {
+    try {
+      const { error } = await refetch({
+        freeText: searchValue,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      return Promise.resolve({ options: getKeywordsData() });
+    } catch (error) {
+      return Promise.reject(error as ApolloError);
+    }
+  };
 
   React.useEffect(() => {
     const getSelectedKeywordsFromCache = async () =>
@@ -115,22 +120,18 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
     getSelectedKeywordsFromCache();
   }, [apolloClient, locale, value]);
 
-  React.useEffect(() => {
-    return () => clearTimeout(timer.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <Combobox
       {...rest}
-      multiselect={true}
-      filter={handleFilter}
+      multiSelect
+      onSearch={handleSearch}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_multiple: t('common.combobox.clearKeywords'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearKeywords')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
       value={selectedKeywords}
     />
   );

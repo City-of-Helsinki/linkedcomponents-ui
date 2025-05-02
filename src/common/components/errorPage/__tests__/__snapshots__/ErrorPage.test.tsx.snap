@@ -18,7 +18,7 @@ exports[`should render component 1`] = `
           <svg
             aria-hidden="true"
             aria-label="alert-circle"
-            class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik icon"
+            class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik icon"
             role="img"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
@@ -40,17 +40,17 @@ exports[`should render component 1`] = `
               class="buttons"
             >
               <button
-                class="Button-module_button__1msFE button_hds-button__2A0je Button-module_secondary__1nABp button_hds-button--secondary__1NOWS Button-module_fullWidth__31eVK button_hds-button--fullwidth__1_hG9 button css-0"
+                class="Button-module_button__1msFE Button-module_secondary__1nABp Button-module_fullWidth__31eVK button css-0"
                 type="button"
               >
                 <div
                   aria-hidden="true"
-                  class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
+                  class="Button-module_icon__O-h7R"
                 >
                   <svg
                     aria-hidden="true"
                     aria-label="arrow-left"
-                    class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                    class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                     role="img"
                     viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg"
@@ -63,36 +63,32 @@ exports[`should render component 1`] = `
                     />
                   </svg>
                 </div>
-                <span
-                  class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
-                >
+                <span>
                   Etusivulle
                 </span>
               </button>
               <button
-                class="Button-module_button__1msFE button_hds-button__2A0je Button-module_primary__2LfKB button_hds-button--primary__2NVvO Button-module_fullWidth__31eVK button_hds-button--fullwidth__1_hG9 button css-0"
+                class="Button-module_button__1msFE Button-module_primary__2LfKB Button-module_fullWidth__31eVK button css-0"
                 type="button"
               >
-                <span
-                  class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
-                >
+                <span>
                   Kirjaudu sisään
                 </span>
               </button>
             </div>
           </div>
           <button
-            class="Button-module_button__1msFE button_hds-button__2A0je Button-module_supplementary__3YKiS button_hds-button--supplementary__GcHcV feedbackButton button css-0"
+            class="Button-module_button__1msFE Button-module_supplementary__3YKiS feedbackButton button css-0"
             type="button"
           >
             <div
               aria-hidden="true"
-              class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
+              class="Button-module_icon__O-h7R"
             >
               <svg
                 aria-hidden="true"
                 aria-label="speechbubble-text"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -105,19 +101,17 @@ exports[`should render component 1`] = `
                 />
               </svg>
             </div>
-            <span
-              class="Button-module_label__a4np1 button_hds-button__label__2EQa-"
-            >
+            <span>
               Anna palautetta
             </span>
             <div
               aria-hidden="true"
-              class="Button-module_icon__O-h7R button_hds-icon__17j8Z"
+              class="Button-module_icon__O-h7R"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_s__2WGWe icon_hds-icon--size-s__2Lkik"
+                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"

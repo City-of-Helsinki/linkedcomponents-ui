@@ -1,5 +1,5 @@
 import { ArrayHelpers, FieldArray, useField } from 'formik';
-import { IconPlus } from 'hds-react';
+import { ButtonVariant, IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -55,12 +55,12 @@ const RegistrationUserAccessesSection: React.FC<Props> = ({
               <Button
                 disabled={!isEditingAllowed}
                 fullWidth={true}
-                iconLeft={<IconPlus />}
+                iconStart={<IconPlus />}
                 onClick={() =>
                   arrayHelpers.push(getEmptyRegistrationUserAccess())
                 }
                 type="button"
-                variant="primary"
+                variant={ButtonVariant.Primary}
               >
                 {t('registration.form.buttonAddRegistrationUserAccess')}
               </Button>

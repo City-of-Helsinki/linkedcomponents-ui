@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { Linkbox } from 'hds-react';
+import { Linkbox, LinkboxSize } from 'hds-react';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -44,7 +44,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         linkboxAriaLabel={title}
         openInExternalDomainAriaLabel={t('common.openInExternalDomain')}
         openInNewTabAriaLabel={t('common.openInNewTab')}
-        size="large"
+        size={LinkboxSize.Large}
       >
         <p>{description}</p>
       </Linkbox>

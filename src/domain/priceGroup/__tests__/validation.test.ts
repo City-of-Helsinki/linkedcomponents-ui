@@ -89,7 +89,7 @@ describe('getFocusablePriceGroupFieldId function', () => {
     [PRICE_GROUP_FIELDS.IS_FREE, { fieldId: 'isFree', type: 'default' }],
     [
       PRICE_GROUP_FIELDS.PUBLISHER,
-      { fieldId: 'publisher-toggle-button', type: 'select' },
+      { fieldId: 'publisher-main-button', type: 'combobox' },
     ],
   ])(
     'should return correct field id and type, %s -> %s',
