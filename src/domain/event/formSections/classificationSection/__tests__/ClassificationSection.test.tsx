@@ -1,3 +1,4 @@
+import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 
 import getValue from '../../../../../utils/getValue';
@@ -10,10 +11,19 @@ import {
   waitFor,
   within,
 } from '../../../../../utils/testUtils';
-import { mockedAudienceKeywordSetResponse } from '../../../../keywordSet/__mocks__/keywordSets';
+import {
+  educationLevelsKeyword,
+  educationModelsKeyword,
+  mockedAudienceKeywordSetResponse,
+  mockedEducationLevelsKeywordSetResponse,
+  mockedEducationModelsKeywordSetResponse,
+} from '../../../../keywordSet/__mocks__/keywordSets';
 import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
 import { INTERNET_PLACE_ID } from '../../../../place/constants';
-import { mockedUserResponse } from '../../../../user/__mocks__/user';
+import {
+  mockedKaskoUserResponse,
+  mockedUserResponse,
+} from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
 import { publicEventSchema } from '../../../validation';
 import {
@@ -40,10 +50,12 @@ beforeEach(() => {
 
 const type = EVENT_TYPE.General;
 
-const mocks = [
+const defaultMocks = [
   mockedEventTopicsKeywordSetResponse,
   mockedCourseTopicsKeywordSetResponse,
   mockedAudienceKeywordSetResponse,
+  mockedEducationLevelsKeywordSetResponse,
+  mockedEducationModelsKeywordSetResponse,
   mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
@@ -55,6 +67,7 @@ type InitialValues = {
   [EVENT_FIELDS.LOCATION]: string;
   [EVENT_FIELDS.MAIN_CATEGORIES]: string[];
   [EVENT_FIELDS.TYPE]: string;
+  [EVENT_FIELDS.CROSS_INSTITUTIONAL_STUDIES]: boolean;
 };
 
 const defaultInitialValues: InitialValues = {
@@ -62,8 +75,12 @@ const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.LOCATION]: '',
   [EVENT_FIELDS.MAIN_CATEGORIES]: [],
   [EVENT_FIELDS.TYPE]: type,
+  [EVENT_FIELDS.CROSS_INSTITUTIONAL_STUDIES]: false,
 };
-const renderComponent = (initialValues?: Partial<InitialValues>) =>
+const renderComponent = (
+  initialValues?: Partial<InitialValues>,
+  mocks: MockedResponse[] = defaultMocks
+) =>
   render(
     <Formik
       initialValues={{ ...defaultInitialValues, ...initialValues }}
@@ -76,7 +93,13 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
     { mocks }
   );
 
-const findElement = (key: 'keywordText' | 'keywordOption') => {
+const findElement = (
+  key:
+    | 'keywordText'
+    | 'keywordOption'
+    | 'educationLevelsKeywordOption'
+    | 'educationModelsKeywordOption'
+) => {
   switch (key) {
     case 'keywordText':
       return screen.findByText(
@@ -88,6 +111,14 @@ const findElement = (key: 'keywordText' | 'keywordOption') => {
       return screen.findByRole('checkbox', {
         name: getValue(keyword?.name?.fi, ''),
       });
+    case 'educationLevelsKeywordOption':
+      return screen.findByRole('checkbox', {
+        name: getValue(educationLevelsKeyword?.name?.fi, ''),
+      });
+    case 'educationModelsKeywordOption':
+      return screen.findByRole('checkbox', {
+        name: getValue(educationModelsKeyword?.name?.fi, ''),
+      });
   }
 };
 
@@ -98,6 +129,7 @@ const getElement = (
     | 'mainCategories'
     | 'titleMainCategories'
     | 'titleNotification'
+    | 'titleCrossInstitutionalStudies'
     | 'toggleButton'
 ) => {
   switch (key) {
@@ -113,6 +145,8 @@ const getElement = (
       return screen.getByRole('heading', { name: /Valitse kategoria\(t\)/i });
     case 'titleNotification':
       return screen.getByRole('heading', { name: /tapahtuman luokittelu/i });
+    case 'titleCrossInstitutionalStudies':
+      return screen.getByRole('heading', { name: /toiseen asteen opinnot/i });
     case 'toggleButton':
       return screen.getByRole('button', { name: /avainsanahaku/i });
   }
@@ -156,6 +190,24 @@ test('should show course topics', async () => {
   for (const name of courseTopicNames.slice(1)) {
     within(mainCategories).getByLabelText(name);
   }
+});
+
+test('should show education fields for kasko user', async () => {
+  const mocks = [
+    mockedEventTopicsKeywordSetResponse,
+    mockedCourseTopicsKeywordSetResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedEducationLevelsKeywordSetResponse,
+    mockedEducationModelsKeywordSetResponse,
+    mockedKeywordResponse,
+    mockedKeywordsResponse,
+    mockedLanguagesResponse,
+    mockedKaskoUserResponse,
+  ];
+
+  renderComponent({ type: EVENT_TYPE.Course }, mocks);
+
+  await waitFor(() => getElement('titleCrossInstitutionalStudies'));
 });
 
 test('should change keyword', async () => {
@@ -213,4 +265,48 @@ test('should show correct validation error if none keyword is selected', async (
   await user.tab();
 
   await screen.findByText('Vähintään 1 avainsana tulee olla valittuna');
+});
+
+test('should show validation error for kasko user if no education keywords are selected', async () => {
+  const mocks = [
+    mockedEventTopicsKeywordSetResponse,
+    mockedCourseTopicsKeywordSetResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedEducationLevelsKeywordSetResponse,
+    mockedEducationModelsKeywordSetResponse,
+    mockedKeywordResponse,
+    mockedKeywordsResponse,
+    mockedLanguagesResponse,
+    mockedKaskoUserResponse,
+  ];
+
+  const user = userEvent.setup();
+
+  renderComponent(
+    {
+      type: EVENT_TYPE.Course,
+      [EVENT_FIELDS.CROSS_INSTITUTIONAL_STUDIES]: true,
+    },
+    mocks
+  );
+
+  const educationLevelsKeyword = await findElement(
+    'educationLevelsKeywordOption'
+  );
+
+  const educationModelsKeyword = await findElement(
+    'educationModelsKeywordOption'
+  );
+
+  await user.click(educationLevelsKeyword);
+  await user.click(educationLevelsKeyword);
+
+  await user.tab();
+
+  await user.click(educationModelsKeyword);
+  await user.click(educationModelsKeyword);
+
+  await user.tab();
+
+  await screen.findAllByText('Vähintään 1 avainsana tulee olla valittuna');
 });

@@ -398,6 +398,29 @@ const enrolmentSchemaFields = {
     ),
 };
 
+const crossInstitutionalStudiesSchema = {
+  [EVENT_FIELDS.EDUCATION_LEVELS_KEYWORDS]: Yup.array().when(
+    [EVENT_FIELDS.CROSS_INSTITUTIONAL_STUDIES],
+    {
+      is: (isCrossInstitutionalStudies: boolean) => isCrossInstitutionalStudies,
+      then: (schema) =>
+        schema
+          .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
+          .min(1, VALIDATION_MESSAGE_KEYS.KEYWORD_REQUIRED),
+    }
+  ),
+  [EVENT_FIELDS.EDUCATION_MODELS_KEYWORDS]: Yup.array().when(
+    [EVENT_FIELDS.CROSS_INSTITUTIONAL_STUDIES],
+    {
+      is: (isCrossInstitutionalStudies: boolean) => isCrossInstitutionalStudies,
+      then: (schema) =>
+        schema
+          .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
+          .min(1, VALIDATION_MESSAGE_KEYS.KEYWORD_REQUIRED),
+    }
+  ),
+};
+
 const CYCLIC_DEPENDENCIES: [string, string][] = [
   [
     EVENT_FIELDS.ENROLMENT_START_TIME_DATE,
@@ -525,6 +548,8 @@ export const publicEventSchema = Yup.object().shape(
     [EVENT_FIELDS.KEYWORDS]: Yup.array()
       .required(VALIDATION_MESSAGE_KEYS.ARRAY_REQUIRED)
       .min(1, VALIDATION_MESSAGE_KEYS.KEYWORD_REQUIRED),
+    //Validate education related fields
+    ...crossInstitutionalStudiesSchema,
     // Validate enrolment related fields
     ...enrolmentSchemaFields,
     [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(
@@ -597,6 +622,8 @@ export const draftEventSchema = Yup.object().shape(
       validateImageDetails
     ),
     [EVENT_FIELDS.VIDEOS]: Yup.array().of(videoSchema),
+    //Validate education related fields
+    ...crossInstitutionalStudiesSchema,
     // Validate enrolment related fields
     ...enrolmentSchemaFields,
     [EVENT_FIELDS.IS_VERIFIED]: Yup.bool().oneOf(

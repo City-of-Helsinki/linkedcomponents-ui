@@ -134,6 +134,7 @@ const EventForm: React.FC<EventFormProps> = ({
   const navigate = useNavigate();
 
   const { user } = useUser();
+
   const { organizationAncestors } = useOrganizationAncestors(
     getValue(event?.publisher, '')
   );

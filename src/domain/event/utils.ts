@@ -13,6 +13,7 @@ import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import { FormikState } from 'formik';
 import { TFunction } from 'i18next';
+import { cloneDeep } from 'lodash';
 import capitalize from 'lodash/capitalize';
 import isNumber from 'lodash/isNumber';
 import omit from 'lodash/omit';
@@ -39,6 +40,7 @@ import {
   EventsQuery,
   EventStatus,
   EventTypeId,
+  KeywordFieldsFragment,
   Language as LELanguage,
   Offer,
   OrganizationFieldsFragment,
@@ -76,6 +78,7 @@ import {
   scrollToFirstError,
 } from '../../utils/validationUtils';
 import wait from '../../utils/wait';
+import { CROSS_INSTITUTIONAL_STUDIES_KEYWORD } from '../keyword/constants';
 import { EXTERNAL_PUBLISHER_ID } from '../organization/constants';
 import {
   isAdminUserInOrganization,
@@ -476,6 +479,31 @@ const formatDescription = (formValues: EventFormFields) => {
   return formattedDescriptions;
 };
 
+const keywordsMap = (
+  keywords: string[],
+  isCrossInstitutionalStudies: boolean,
+  educationLevelsKeywords: string[],
+  educationModelsKeywords: string[]
+) => {
+  if (
+    isCrossInstitutionalStudies &&
+    educationLevelsKeywords.length &&
+    educationModelsKeywords.length
+  ) {
+    const keywordsClone = cloneDeep(keywords);
+
+    const combined = keywordsClone
+      .concat([...educationLevelsKeywords, ...educationModelsKeywords])
+      .map((atId) => ({ atId }));
+
+    combined.push({ atId: CROSS_INSTITUTIONAL_STUDIES_KEYWORD });
+
+    return combined;
+  }
+
+  return keywords.map((atId) => ({ atId }));
+};
+
 export const getEventBasePayload = (
   formValues: EventFormFields,
   publicationStatus: PublicationStatus
@@ -487,6 +515,9 @@ export const getEventBasePayload = (
     audience,
     audienceMaxAge,
     audienceMinAge,
+    crossInstitutionalStudies,
+    educationLevelsKeywords,
+    educationModelsKeywords,
     enrolmentEndTimeDate,
     enrolmentEndTimeTime,
     enrolmentStartTimeDate,
@@ -549,7 +580,12 @@ export const getEventBasePayload = (
     images: images.map((atId) => ({ atId })),
     infoUrl: filterUnselectedLanguages(infoUrl, eventInfoLanguages),
     inLanguage: inLanguage.map((atId) => ({ atId })),
-    keywords: keywords.map((atId) => ({ atId })),
+    keywords: keywordsMap(
+      keywords,
+      crossInstitutionalStudies,
+      educationLevelsKeywords,
+      educationModelsKeywords
+    ),
     location: location ? { atId: location } : null,
     locationExtraInfo: filterUnselectedLanguages(
       locationExtraInfo,
@@ -834,6 +870,9 @@ const getRecurringEventDate = (
   return null;
 };
 
+const getKeywordIds = (keywords: Array<KeywordFieldsFragment | null>) =>
+  keywords.filter(skipFalsyType).map((keyword) => keyword.atId);
+
 export const getEventInitialValues = (
   event: EventFieldsFragment
 ): EventFormFields => {
@@ -858,8 +897,14 @@ export const getEventInitialValues = (
       .filter(skipFalsyType),
     audienceMaxAge: event.audienceMaxAge ?? '',
     audienceMinAge: event.audienceMinAge ?? '',
+    crossInstitutionalStudies: Boolean(
+      event.educationLevelsKeywords.length &&
+        event.educationModelsKeywords.length
+    ),
     description: getSanitizedDescription(event),
     events,
+    educationLevelsKeywords: getKeywordIds(event.educationLevelsKeywords),
+    educationModelsKeywords: getKeywordIds(event.educationModelsKeywords),
     enrolmentEndTimeDate: getDateFromString(event.enrolmentEndTime),
     enrolmentEndTimeTime: getEventTime(event.enrolmentEndTime),
     enrolmentStartTimeDate: getDateFromString(event.enrolmentStartTime),
@@ -882,9 +927,7 @@ export const getEventInitialValues = (
     isRegistrationPlanned: isRegistrationPlanned(event),
     isUmbrella: isUmbrella,
     isVerified: true,
-    keywords: event.keywords
-      .filter(skipFalsyType)
-      .map((keyword) => keyword.atId),
+    keywords: getKeywordIds(event.keywords),
     location: getValue(event.location?.atId, ''),
     locationExtraInfo: getLocalisedObject(event.locationExtraInfo),
     maximumAttendeeCapacity: event.maximumAttendeeCapacity ?? '',

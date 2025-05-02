@@ -30,6 +30,8 @@ import {
 } from '../../image/__mocks__/image';
 import {
   mockedAudienceKeywordSetResponse,
+  mockedEducationLevelsKeywordSetResponse,
+  mockedEducationModelsKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
   topicName,
 } from '../../keywordSet/__mocks__/keywordSets';
@@ -102,6 +104,8 @@ const baseMocks = [
   mockedKeywordSelectorKeywordsResponse,
   mockedAudienceKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
+  mockedEducationLevelsKeywordSetResponse,
+  mockedEducationModelsKeywordSetResponse,
   mockedLanguagesResponse,
   mockedPlaceResponse,
   mockedPlacesResponse,
@@ -493,6 +497,8 @@ test('should render fields for external user', async () => {
     mockedKeywordSelectorKeywordsResponse,
     mockedAudienceKeywordSetResponse,
     mockedTopicsKeywordSetResponse,
+    mockedEducationLevelsKeywordSetResponse,
+    mockedEducationModelsKeywordSetResponse,
     mockedLanguagesResponse,
     mockedPlaceResponse,
     mockedPlacesResponse,

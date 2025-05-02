@@ -53,6 +53,12 @@ export const QUERY_EVENT = gql`
     description {
       ...localisedFields
     }
+    educationLevelsKeywords {
+      ...keywordFields
+    }
+    educationModelsKeywords {
+      ...keywordFields
+    }
     endTime
     enrolmentEndTime
     enrolmentStartTime

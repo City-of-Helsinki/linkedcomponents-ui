@@ -11,6 +11,13 @@ export const REMOTE_PARTICIPATION_KEYWORD = `${
   import.meta.env.REACT_APP_LINKED_EVENTS_URL
 }/keyword/${REMOTE_PARTICIPATION_KEYWORD_ID}/`;
 
+const CROSS_INSTITUTIONAL_STUDIES_KEYWORD_ID =
+  'helsinki:secondary_schools_cross_institutional_studies';
+
+export const CROSS_INSTITUTIONAL_STUDIES_KEYWORD = `${
+  import.meta.env.REACT_APP_LINKED_EVENTS_URL
+}/keyword/${CROSS_INSTITUTIONAL_STUDIES_KEYWORD_ID}/`;
+
 export const TEST_KEYWORD_ID = 'keyword:1';
 
 export enum KEYWORD_FIELDS {

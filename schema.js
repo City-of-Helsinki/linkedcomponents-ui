@@ -781,6 +781,8 @@ module.exports = buildSchema(/* GraphQL */ `
     datePublished: String
     deleted: String
     description: LocalisedObject
+    educationLevelsKeywords: [Keyword]!
+    educationModelsKeywords: [Keyword]!
     endTime: String
     enrolmentEndTime: String
     enrolmentStartTime: String

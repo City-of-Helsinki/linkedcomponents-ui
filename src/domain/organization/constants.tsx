@@ -8,6 +8,7 @@ import {
 
 export const TEST_PUBLISHER_ID = 'publisher:1';
 export const EXTERNAL_PUBLISHER_ID = 'others';
+export const KASKO_ORGANIZATION_ID = 'ahjo:u420300';
 
 export const MAX_OGRANIZATIONS_PAGE_SIZE = 1000;
 

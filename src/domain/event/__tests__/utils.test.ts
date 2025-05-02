@@ -36,6 +36,7 @@ import {
   fakeVideo,
 } from '../../../utils/mockDataUtils';
 import { TEST_IMAGE_ID } from '../../image/constants';
+import { CROSS_INSTITUTIONAL_STUDIES_KEYWORD } from '../../keyword/constants';
 import {
   EXTERNAL_PUBLISHER_ID,
   TEST_PUBLISHER_ID,
@@ -728,6 +729,96 @@ describe('getEventPayload function', () => {
 
     process.env = originalEnv;
   });
+
+  it('should map education keywords correctly for kasko event', () => {
+    const crossInstitutionalKeywowrd = CROSS_INSTITUTIONAL_STUDIES_KEYWORD;
+    const educationLevelsKeywords = ['educationLevels:1'];
+    const educationModelsKeywords = ['educationModels:1'];
+    const enrolmentEndTime = '2020-01-01T15:15:00.000Z';
+    const enrolmentStartTime = '2020-01-01T09:15:00.000Z';
+    const maximumAttendeeCapacity = 10;
+    const publicationStatus = PublicationStatus.Draft;
+    const publisher = TEST_PUBLISHER_ID;
+
+    const payload = getEventPayload(
+      {
+        ...EVENT_INITIAL_VALUES,
+        audience: ['audience:1'],
+        description: {
+          ...EMPTY_MULTI_LANGUAGE_OBJECT,
+          fi: 'Description fi',
+          en: '',
+          sv: '',
+        },
+        crossInstitutionalStudies: true,
+        educationLevelsKeywords,
+        educationModelsKeywords,
+        enrolmentEndTimeDate: new Date(enrolmentEndTime),
+        enrolmentEndTimeTime: '15:15',
+        enrolmentStartTimeDate: new Date(enrolmentStartTime),
+        enrolmentStartTimeTime: '9:15',
+        keywords: ['keyword:1'],
+        location: 'location:1',
+        maximumAttendeeCapacity,
+        name: {
+          ...EMPTY_MULTI_LANGUAGE_OBJECT,
+          fi: 'Name fi',
+          en: '',
+          sv: '',
+        },
+        publisher,
+        type: EVENT_TYPE.Course,
+        shortDescription: {
+          ...EMPTY_MULTI_LANGUAGE_OBJECT,
+          fi: 'Short description fi',
+          en: '',
+          sv: '',
+        },
+      },
+      publicationStatus
+    );
+
+    expect(payload).toEqual({
+      ...defaultEventPayload,
+      audience: [{ atId: 'audience:1' }],
+      description: {
+        ar: null,
+        en: null,
+        fi: '<p>Description fi</p>',
+        ru: null,
+        sv: null,
+        zhHans: null,
+      },
+      enrolmentEndTime,
+      enrolmentStartTime,
+      keywords: [
+        { atId: 'keyword:1' },
+        { atId: 'educationLevels:1' },
+        { atId: 'educationModels:1' },
+        { atId: crossInstitutionalKeywowrd },
+      ],
+      location: { atId: 'location:1' },
+      maximumAttendeeCapacity,
+      name: {
+        ar: null,
+        en: null,
+        fi: 'Name fi',
+        ru: null,
+        sv: null,
+        zhHans: null,
+      },
+      publisher,
+      shortDescription: {
+        ar: null,
+        en: null,
+        fi: 'Short description fi',
+        ru: null,
+        sv: null,
+        zhHans: null,
+      },
+      typeId: EventTypeId.Course,
+    });
+  });
 });
 
 describe('getNewEventTimes function', () => {
@@ -944,6 +1035,7 @@ describe('getEventInitialValues function', () => {
     ];
     const audienceMaxAge = 18;
     const audienceMinAge = 12;
+    const crossInstitutionalStudies = false;
     const description = {
       ar: 'Description ar',
       en: 'Description en',
@@ -953,6 +1045,8 @@ describe('getEventInitialValues function', () => {
       zhHans: 'Description zh',
     };
     const endTime = new Date('2021-07-13T05:51:05.761Z');
+    const educationLevelsKeywords: string[] = [];
+    const educationModelsKeywords: string[] = [];
     const enrolmentEndTime = new Date('2021-06-15T05:51:05.761Z');
     const enrolmentStartTime = new Date('2021-05-05T05:51:05.761Z');
     const environment = 'in';
@@ -1153,10 +1247,13 @@ describe('getEventInitialValues function', () => {
       audience: audienceAtIds,
       audienceMaxAge,
       audienceMinAge,
+      crossInstitutionalStudies,
       description: Object.entries(description).reduce(
         (prev, [key, val]) => ({ ...prev, [key]: `<p>${val}</p>` }),
         {}
       ),
+      educationLevelsKeywords,
+      educationModelsKeywords,
       enrolmentEndTimeDate: enrolmentEndTime,
       enrolmentEndTimeTime: '05:51',
       enrolmentStartTimeDate: enrolmentStartTime,
