@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.18.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.18.0...linkedcomponents-ui-v1.18.1) (2025-05-02)
+
+
+### Reverts
+
+* Add cookie page route LINK-1759 ([fade43b](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/fade43b8806e7fea0cbb7db1c6d39d923fefc89f))
+* CookieBanner enable matomo tracking LINK-1759 ([41d3ed3](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/41d3ed32c0d1d853405a932ff93e7adcdee2eeb7))
+* Upgrade hds to 4.2.0 LINK-1759 ([5f062d4](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5f062d4c20fb078d5744ae494806f58356068e91))
+
 ## [1.18.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.17.4...linkedcomponents-ui-v1.18.0) (2025-04-17)
 
 
