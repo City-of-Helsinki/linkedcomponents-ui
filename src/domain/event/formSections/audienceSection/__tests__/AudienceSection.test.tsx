@@ -8,7 +8,11 @@ import {
   waitFor,
 } from '../../../../../utils/testUtils';
 import translations from '../../../../app/i18n/fi.json';
-import { mockedTopicsKeywordSetResponse } from '../../../../keywordSet/__mocks__/keywordSets';
+import {
+  mockedEducationLevelsKeywordSetResponse,
+  mockedEducationModelsKeywordSetResponse,
+  mockedTopicsKeywordSetResponse,
+} from '../../../../keywordSet/__mocks__/keywordSets';
 import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
 import { mockedUserWithoutOrganizationsResponse } from '../../../../user/__mocks__/user';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../../constants';
@@ -34,6 +38,8 @@ const mocks = [
   mockedAudiencesKeywordSetResponse,
   mockedLanguagesResponse,
   mockedTopicsKeywordSetResponse,
+  mockedEducationLevelsKeywordSetResponse,
+  mockedEducationModelsKeywordSetResponse,
   mockedUserWithoutOrganizationsResponse,
 ];
 

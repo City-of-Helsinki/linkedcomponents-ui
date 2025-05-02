@@ -28,6 +28,8 @@ import {
 } from '../../image/__mocks__/image';
 import {
   mockedAudienceKeywordSetResponse,
+  mockedEducationLevelsKeywordSetResponse,
+  mockedEducationModelsKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
   topicAtIds,
 } from '../../keywordSet/__mocks__/keywordSets';
@@ -91,6 +93,8 @@ const commonMocks = [
   mockedUmbrellaEventsResponse,
   mockedAudienceKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
+  mockedEducationLevelsKeywordSetResponse,
+  mockedEducationModelsKeywordSetResponse,
   mockedKeywordSelectorKeywordsResponse,
   mockedLanguagesResponse,
   mockedPlaceResponse,

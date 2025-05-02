@@ -681,12 +681,15 @@
       "infoTextVideo2": "Anna videolle nimi ja kuvaa lyhyesti mitä siinä tapahtuu.",
       "labelAudienceMaxAge": "Yläikäraja",
       "labelAudienceMinAge": "Alaikäraja",
+      "labelCrossInstitutionalStudies": "Kyseessä on toisen asteen opinnot",
       "labelDescription": {
         "course": "Kurssin kuvaus {{langText}}",
         "general": "Tapahtuman kuvaus {{langText}}",
         "volunteering": "Vapaaehtoistehtävän kuvaus {{langText}}"
       },
       "labelHasEnvironmentalCertificate": "Tapahtumalla on ekokompassi tai muu vastaava sertifikaatti",
+      "labelEducationLevels": "Opintojen taso",
+      "labelEducationModels": "Opiskelumuoto",
       "labelEmail": "Sähköpostiosoite",
       "labelEnvironment": "Tapahtuma järjestetään",
       "labelEnvironmentalCertificate": "Sertifikaatin nimi",
@@ -962,6 +965,7 @@
       "titleAttendeeCapacity": "Osallistujamäärä",
       "titleAudience": "Kohderyhmät",
       "titleAudienceAge": "Ikärajoitukset",
+      "titleCrossInstitutionalStudies": "Toiseen asteen opinnot",
       "titleEnrolmentTime": "Ilmoittautumisaika",
       "titleEnterEventTime": {
         "course": "Syötä kurssin ajankohta",

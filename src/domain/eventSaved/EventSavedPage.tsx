@@ -17,6 +17,7 @@ import getValue from '../../utils/getValue';
 import Container from '../app/layout/container/Container';
 import MainContent from '../app/layout/mainContent/MainContent';
 import PageWrapper from '../app/layout/pageWrapper/PageWrapper';
+import useEventWithEducationKeywordsData from '../event/hooks/useEventWithEducationKeywordsData';
 import {
   clearEventFormData,
   eventPathBuilder,
@@ -88,14 +89,12 @@ const EventSavedPageWrapper: React.FC = () => {
     },
   });
 
+  const event = useEventWithEducationKeywordsData(eventData);
+
   return (
     <MainContent>
       <LoadingSpinner isLoading={loading}>
-        {eventData?.event ? (
-          <EventSavedPage event={eventData.event} />
-        ) : (
-          <NotFound />
-        )}
+        {event ? <EventSavedPage event={event} /> : <NotFound />}
       </LoadingSpinner>
     </MainContent>
   );

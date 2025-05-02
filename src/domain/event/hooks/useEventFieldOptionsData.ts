@@ -11,6 +11,8 @@ import { EVENT_TYPE } from '../constants';
 
 type EventFieldOptionsDataState = {
   audienceData?: KeywordSetQuery;
+  educationLevelsData?: KeywordSetQuery;
+  educationModelsData?: KeywordSetQuery;
   loading: boolean;
   topicsData?: KeywordSetQuery;
 };
@@ -42,8 +44,37 @@ const useEventFieldOptionsData = (
     },
   });
 
-  const loading = loadingLanguages || loadingKeywords || loadingAudiences;
-  return { audienceData, loading, topicsData };
+  const { data: educationModelsData, loading: loadingEducationModels } =
+    useKeywordSetQuery({
+      variables: {
+        createPath: getPathBuilder(keywordSetPathBuilder),
+        id: KEYWORD_SETS.EDUCATION_MODELS,
+        include: [INCLUDE.KEYWORDS],
+      },
+    });
+
+  const { data: educationLevelsData, loading: loadingEducationLevels } =
+    useKeywordSetQuery({
+      variables: {
+        createPath: getPathBuilder(keywordSetPathBuilder),
+        id: KEYWORD_SETS.EDUCATION_LEVELS,
+        include: [INCLUDE.KEYWORDS],
+      },
+    });
+
+  const loading =
+    loadingLanguages ||
+    loadingKeywords ||
+    loadingAudiences ||
+    loadingEducationModels ||
+    loadingEducationLevels;
+  return {
+    audienceData,
+    educationLevelsData,
+    educationModelsData,
+    loading,
+    topicsData,
+  };
 };
 
 export default useEventFieldOptionsData;

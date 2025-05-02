@@ -681,12 +681,15 @@
       "infoTextVideo2": "Namnge videon och ge en kort beskrivning av innehållet.",
       "labelAudienceMaxAge": "Högsta ålder",
       "labelAudienceMinAge": "Lägsta ålder",
+      "labelCrossInstitutionalStudies": "Detta är en kurs för gymnasieutbildning",
       "labelDescription": {
         "course": "Beskrivning av kursen {{langText}}",
         "general": "Beskrivning av evenemanget {{langText}}",
         "volunteering": "Beskrivning av volontärarbetet {{langText}}"
       },
       "labelHasEnvironmentalCertificate": "Evenemanget har fått en Ekokompass eller liknande miljöcertifiering",
+      "labelEducationLevels": "Nivå av studier",
+      "labelEducationModels": "Typ av studier",
       "labelEmail": "E-postadress",
       "labelEnvironment": "Evenemanget hålls",
       "labelEnvironmentalCertificate": "Certifikatets namn",
@@ -962,6 +965,7 @@
       "titleAttendeeCapacity": "Deltagarkapacitet",
       "titleAudience": "Målgrupper",
       "titleAudienceAge": "Åldersgränser",
+      "titleCrossInstitutionalStudies": "Eftergymnasiala studier",
       "titleEnrolmentTime": "Tid för registrering",
       "titleEnterEventTime": {
         "course": "Ange tid för kursen",

@@ -681,12 +681,15 @@
       "infoTextVideo2": "Name the video and give a brief description of the contents.",
       "labelAudienceMaxAge": "Maximum age",
       "labelAudienceMinAge": "Minimum age",
+      "labelCrossInstitutionalStudies": "This is a secondary education course",
       "labelDescription": {
         "course": "Course description {{langText}}",
         "general": "Event description {{langText}}",
         "volunteering": "Volunteering description {{langText}}"
       },
       "labelHasEnvironmentalCertificate": "Event has received an EcoCompass or similar environmental certification",
+      "labelEducationLevels": "Level of study",
+      "labelEducationModels": "Type of study",
       "labelEmail": "Email address",
       "labelEnvironment": "Event is held",
       "labelEnvironmentalCertificate": "Certificate name",
@@ -962,6 +965,7 @@
       "titleAttendeeCapacity": "Attendee capacity",
       "titleAudience": "Target groups",
       "titleAudienceAge": "Age restrictions",
+      "titleCrossInstitutionalStudies": "Secondary education",
       "titleEnrolmentTime": "Registration time",
       "titleEnterEventTime": {
         "course": "Enter course date",

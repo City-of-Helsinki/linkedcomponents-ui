@@ -62,10 +62,82 @@ const mockedTopicsKeywordSetResponse: MockedResponse = {
   result: topicsKeywordSetResponse,
 };
 
+const educationModelsId = 'kasko:educationModels:1';
+const educationModelsName = 'Education model 1';
+const educationModelsAtIds = [generateAtId(educationModelsId, 'keyword')];
+const educationModels = fakeKeywords(
+  educationModelsAtIds.length,
+  educationModelsAtIds.map((atId) => ({
+    atId,
+    id: educationModelsId,
+    name: { fi: educationModelsName },
+  }))
+);
+const educationModelsKeyword = educationModels.data[0];
+
+const educationModelsKeywordSet = fakeKeywordSet({
+  id: KEYWORD_SETS.EDUCATION_MODELS,
+  keywords: educationModels.data,
+});
+
+const educationModelsKeywordSetVariables = {
+  createPath: undefined,
+  id: KEYWORD_SETS.EDUCATION_MODELS,
+  include: [INCLUDE.KEYWORDS],
+};
+const educationModelsKeywordSetResponse = {
+  data: { keywordSet: educationModelsKeywordSet },
+};
+const mockedEducationModelsKeywordSetResponse: MockedResponse = {
+  request: {
+    query: KeywordSetDocument,
+    variables: educationModelsKeywordSetVariables,
+  },
+  result: educationModelsKeywordSetResponse,
+};
+
+const educationLevelsId = 'kasko:educationLevels:1';
+const educationLevelsName = 'Education level 1';
+const educationLevelsAtIds = [generateAtId(educationLevelsId, 'keyword')];
+const educationLevels = fakeKeywords(
+  educationLevelsAtIds.length,
+  educationLevelsAtIds.map((atId) => ({
+    atId,
+    id: educationLevelsId,
+    name: { fi: educationLevelsName },
+  }))
+);
+const educationLevelsKeyword = educationLevels.data[0];
+
+const educationLevelsKeywordSet = fakeKeywordSet({
+  id: KEYWORD_SETS.EDUCATION_LEVELS,
+  keywords: educationLevels.data,
+});
+
+const educationLevelsKeywordSetVariables = {
+  createPath: undefined,
+  id: KEYWORD_SETS.EDUCATION_LEVELS,
+  include: [INCLUDE.KEYWORDS],
+};
+const educationLevelsKeywordSetResponse = {
+  data: { keywordSet: educationLevelsKeywordSet },
+};
+const mockedEducationLevelsKeywordSetResponse: MockedResponse = {
+  request: {
+    query: KeywordSetDocument,
+    variables: educationLevelsKeywordSetVariables,
+  },
+  result: educationLevelsKeywordSetResponse,
+};
+
 export {
   audience,
   audienceAtIds,
+  educationLevelsKeyword,
+  educationModelsKeyword,
   mockedAudienceKeywordSetResponse,
+  mockedEducationLevelsKeywordSetResponse,
+  mockedEducationModelsKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
   topicAtIds,
   topicName,

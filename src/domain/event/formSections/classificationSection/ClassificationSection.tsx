@@ -15,15 +15,19 @@ import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { REMOTE_PARTICIPATION_KEYWORD } from '../../../keyword/constants';
 import { getKeywordOption } from '../../../keywordSet/utils';
+import { KASKO_ORGANIZATION_ID } from '../../../organization/constants';
+import useOrganizationAncestors from '../../../organization/hooks/useOrganizationAncestors';
+import { isAdminUserInOrganization } from '../../../organization/utils';
 import { INTERNET_PLACE_ID } from '../../../place/constants';
 import useUser from '../../../user/hooks/useUser';
-import { EVENT_FIELDS } from '../../constants';
+import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
 import styles from '../../eventPage.module.scss';
 import useEventFieldOptionsData from '../../hooks/useEventFieldOptionsData';
 import {
   showNotificationInstructions,
   showTooltipInstructions,
 } from '../../utils';
+import CrossInstitutionalStudiesSection from './CrossInstitutionalStudiesSection/CrossInstitutionalStudiesSection';
 import KeywordsInstructions from './keywordsInstructions/KeywordsInstructions';
 import MainCategoriesInstructions from './mainCategoriesInstructions/MainCategoriesInstructions';
 
@@ -40,6 +44,13 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const [{ value: eventLocation }] = useField({ name: EVENT_FIELDS.LOCATION });
   const [{ value: keywords }, , { setValue: setKeywords }] = useField<string[]>(
     { name: EVENT_FIELDS.KEYWORDS }
+  );
+  const [{ value: publisher }] = useField({
+    name: EVENT_FIELDS.PUBLISHER,
+  });
+
+  const { organizationAncestors } = useOrganizationAncestors(
+    getValue(publisher, '')
   );
 
   const { topicsData } = useEventFieldOptionsData(type);
@@ -75,6 +86,13 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
         : [],
     [eventLocation]
   );
+
+  const eventTypeIsCourse = type === EVENT_TYPE.Course;
+  const isUserAdminInKaskoOrganization = isAdminUserInOrganization({
+    id: KASKO_ORGANIZATION_ID,
+    organizationAncestors,
+    user,
+  });
 
   return (
     <Fieldset heading={t('event.form.sections.classification')} hideLegend>
@@ -142,6 +160,9 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
           />
         </FieldColumn>
       </FieldRow>
+      {isUserAdminInKaskoOrganization && eventTypeIsCourse && (
+        <CrossInstitutionalStudiesSection isEditingAllowed={isEditingAllowed} />
+      )}
     </Fieldset>
   );
 };

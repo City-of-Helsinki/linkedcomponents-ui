@@ -6,6 +6,7 @@ import { User, UserDocument, UsersDocument } from '../../../generated/graphql';
 import { fakeUser, fakeUsers } from '../../../utils/mockDataUtils';
 import {
   EXTERNAL_PUBLISHER_ID,
+  KASKO_ORGANIZATION_ID,
   TEST_PUBLISHER_ID,
 } from '../../organization/constants';
 
@@ -60,6 +61,15 @@ const mockedFinancialAdminUserResponse = getMockedUserResponse({
   registrationAdminOrganizations: [],
 });
 
+const mockedKaskoUserResponse = getMockedUserResponse({
+  adminOrganizations: [KASKO_ORGANIZATION_ID],
+  displayName: userName,
+  firstName: userFirstName,
+  organization: KASKO_ORGANIZATION_ID,
+  organizationMemberships: [],
+  registrationAdminOrganizations: [],
+});
+
 const mockedRegistrationUserResponse = getMockedUserResponse({
   adminOrganizations: [],
   displayName: userName,
@@ -107,6 +117,7 @@ export {
   getMockedUserResponse,
   mockedExternalAdminUserResponse,
   mockedFinancialAdminUserResponse,
+  mockedKaskoUserResponse,
   mockedRegistrationUserResponse,
   mockedRegularUserResponse,
   mockedSuperuserResponse,

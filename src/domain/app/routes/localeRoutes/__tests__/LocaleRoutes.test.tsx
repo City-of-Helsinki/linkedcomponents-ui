@@ -57,6 +57,8 @@ import {
 } from '../../../../keywordSet/__mocks__/editKeywordSetPage';
 import {
   mockedAudienceKeywordSetResponse,
+  mockedEducationLevelsKeywordSetResponse,
+  mockedEducationModelsKeywordSetResponse,
   mockedTopicsKeywordSetResponse,
 } from '../../../../keywordSet/__mocks__/keywordSets';
 import { mockedKeywordSetsResponse } from '../../../../keywordSets/__mocks__/keywordSetsPage';
@@ -227,6 +229,8 @@ it.each([DEPRECATED_ROUTES.CREATE_EVENT, ROUTES.CREATE_EVENT])(
         mockedKeywordSelectorKeywordsResponse,
         mockedTopicsKeywordSetResponse,
         mockedAudienceKeywordSetResponse,
+        mockedEducationLevelsKeywordSetResponse,
+        mockedEducationModelsKeywordSetResponse,
         mockedLanguagesResponse,
         mockedOrganizationResponse,
         mockedPlaceSelectorPlacesResponse,
@@ -257,6 +261,8 @@ it.each([
       mockedKeywordSelectorKeywordsResponse,
       mockedTopicsKeywordSetResponse,
       mockedAudienceKeywordSetResponse,
+      mockedEducationLevelsKeywordSetResponse,
+      mockedEducationModelsKeywordSetResponse,
       mockedLanguagesResponse,
       mockedOrganizationResponse,
       mockedPlaceSelectorPlacesResponse,
