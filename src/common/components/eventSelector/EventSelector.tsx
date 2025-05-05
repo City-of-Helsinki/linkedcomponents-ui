@@ -47,7 +47,8 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     variables: {
       ...variables,
       createPath: getPathBuilder(eventsPathBuilder),
-      text: debouncedSearch,
+      x_full_text: debouncedSearch,
+      x_full_text_language: locale,
     },
   });
 
