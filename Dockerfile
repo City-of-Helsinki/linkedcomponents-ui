@@ -82,7 +82,6 @@ ARG REACT_APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE
 ARG SENTRY_URL
 ARG SENTRY_ORG
 ARG SENTRY_PROJECT
-ARG SENTRY_AUTH_TOKEN
 
 # Set Matomo settings
 ARG REACT_APP_MATOMO_SRC_URL
@@ -114,7 +113,7 @@ ARG REACT_APP_WEB_STORE_INTEGRATION_ENABLED
 # Vite/Rollup build args
 ARG ROLLUP_INLINE_DYNAMIC_IMPORTS
 
-RUN yarn build
+RUN --mount=type=secret,id=sentry_auth_token,env=SENTRY_AUTH_TOKEN yarn build
 RUN yarn generate-sitemap
 RUN yarn generate-robots
 RUN yarn compress
