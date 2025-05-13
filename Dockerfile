@@ -11,12 +11,12 @@ COPY / /app
 
 RUN pwd
 RUN ls -al /run
-RUN ls -al /run/secrets
-RUN ls -al /run/secrets/rhsm
+RUN ls -alR /run/secrets
 
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(ls -al /run/secrets)"
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(ls -alR /run/secrets)"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat /run/secrets/rhsm/SENTRY_AUTH_TOKEN)"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat ./SENTRY_AUTH_TOKEN)"
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(printenv)"
 
 # Halt execution
 RUN exit 1
