@@ -7,8 +7,8 @@ WORKDIR /app
 
 RUN echo "SECRET: $SENTRY_AUTH_TOKEN"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $SENTRY_AUTH_TOKEN"
-RUN SENTRY_AUTH_TOKEN="$(cat /tmp/secrets/SENTRY_AUTH_TOKEN)" echo "SECRET: $SENTRY_AUTH_TOKEN"
-RUN cat /tmp/secrets/SENTRY_AUTH_TOKEN
+RUN SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN)" echo "SECRET: $SENTRY_AUTH_TOKEN"
+RUN cat /secrets/SENTRY_AUTH_TOKEN
 
 # Halt execution
 RUN exit 1
