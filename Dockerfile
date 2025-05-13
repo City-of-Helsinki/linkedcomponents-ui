@@ -2,7 +2,7 @@
 FROM registry.access.redhat.com/ubi9/nodejs-22 AS appbase
 # ===============================================
 USER root
-RUN ls -al /tmp
+RUN ls -alR /tmp
 
 WORKDIR /app
 
@@ -13,8 +13,8 @@ RUN pwd
 RUN ls -al /run
 RUN ls -alR /run/secrets
 
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(ls -alR /run/secrets)"
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat /run/secrets/rhsm/SENTRY_AUTH_TOKEN)"
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(ls -alR /tmp/secrets)"
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat /tmp/secrets/SENTRY_AUTH_TOKEN)"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat ./SENTRY_AUTH_TOKEN)"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(printenv)"
 
