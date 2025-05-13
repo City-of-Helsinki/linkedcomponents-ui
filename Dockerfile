@@ -13,6 +13,9 @@ RUN pwd
 RUN ls -al /run
 RUN ls -alR /run/secrets
 
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,target=/tmp/SENTRY_AUTH_TOKEN echo "$(ls -al /tmp/SENTRY_AUTH_TOKEN )"
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,target=/tmp/SENTRY_AUTH_TOKEN echo "SECRET: $(cat /tmp/SENTRY_AUTH_TOKEN)"
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,target=/tmp/SENTRY_AUTH_TOKEN echo "SECRET: $(printenv"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(ls -alR /tmp/secrets)"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat /tmp/secrets/SENTRY_AUTH_TOKEN)"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat ./SENTRY_AUTH_TOKEN)"
