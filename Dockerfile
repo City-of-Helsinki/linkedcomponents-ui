@@ -5,8 +5,8 @@ USER root
 
 WORKDIR /app
 
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $SENTRY_AUTH_TOKEN"
 RUN SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN)" echo "SECRET: $SENTRY_AUTH_TOKEN"
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN SENTRY_AUTH_TOKEN="$(cat /run/secrets/SENTRY_AUTH_TOKEN)" echo "SECRET: $SENTRY_AUTH_TOKEN"
 
 # Halt execution
 RUN exit 1
