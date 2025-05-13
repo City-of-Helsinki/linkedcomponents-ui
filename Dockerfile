@@ -2,27 +2,23 @@
 FROM registry.access.redhat.com/ubi9/nodejs-22 AS appbase
 # ===============================================
 USER root
-RUN ls -alR /tmp
 
 WORKDIR /app
 
-COPY / /app
+RUN SENTRY_AUTH_TOKEN="$(cat /tmp/secrets/SENTRY_AUTH_TOKEN)" echo "SECRET: $(SENTRY_AUTH_TOKEN)"
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN SENTRY_AUTH_TOKEN="$(cat /run/secrets/SENTRY_AUTH_TOKEN)" echo "SECRET: $(SENTRY_AUTH_TOKEN)"
 
-
-RUN pwd
-RUN ls -al /run
-RUN ls -alR /run/secrets
+# Halt execution
+RUN exit 1
 
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,target=/tmp/SENTRY_AUTH_TOKEN echo "$(ls -al /tmp/SENTRY_AUTH_TOKEN )"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,target=/tmp/SENTRY_AUTH_TOKEN echo "SECRET: $(cat /tmp/SENTRY_AUTH_TOKEN)"
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,target=/tmp/secrets/SENTRY_AUTH_TOKEN echo "SECRET: $(printenv)"
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,target=/tmp/secrets/SENTRY_AUTH_TOKEN echo "SECRET: $(SENTRY_AUTH_TOKEN)"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(ls -alR /tmp/secrets)"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat /tmp/secrets/SENTRY_AUTH_TOKEN)"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat ./SENTRY_AUTH_TOKEN)"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(printenv)"
 
-# Halt execution
-RUN exit 1
 
 
 USER root
