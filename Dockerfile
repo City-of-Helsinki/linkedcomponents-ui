@@ -2,7 +2,6 @@
 FROM registry.access.redhat.com/ubi9/nodejs-22 AS appbase
 # ===============================================
 USER root
-COPY ./linkedevents-secret-eso /tmp/linkedevents-secret-eso
 RUN ls -al /tmp
 
 WORKDIR /app
