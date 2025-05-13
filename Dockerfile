@@ -1,14 +1,19 @@
 # ===============================================
 FROM registry.access.redhat.com/ubi9/nodejs-22 AS appbase
 # ===============================================
+WORKDIR /app
+USER root
+
+COPY / /app
+
 RUN pwd
 RUN ls -al
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat /run/secrets/SENTRY_AUTH_TOKEN)"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat ./SENTRY_AUTH_TOKEN)"
+
 # Halt execution
 RUN exit 1
 
-WORKDIR /app
 
 USER root
 RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
