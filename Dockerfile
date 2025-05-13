@@ -5,21 +5,12 @@ USER root
 
 WORKDIR /app
 
+RUN echo "SECRET: $SENTRY_AUTH_TOKEN"
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $SENTRY_AUTH_TOKEN"
 RUN SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN)" echo "SECRET: $SENTRY_AUTH_TOKEN"
 
 # Halt execution
 RUN exit 1
-
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,target=/tmp/SENTRY_AUTH_TOKEN echo "$(ls -al /tmp/SENTRY_AUTH_TOKEN )"
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,target=/tmp/SENTRY_AUTH_TOKEN echo "SECRET: $(cat /tmp/SENTRY_AUTH_TOKEN)"
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,target=/tmp/secrets/SENTRY_AUTH_TOKEN echo "SECRET: $(SENTRY_AUTH_TOKEN)"
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(ls -alR /tmp/secrets)"
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat /tmp/secrets/SENTRY_AUTH_TOKEN)"
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(cat ./SENTRY_AUTH_TOKEN)"
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN echo "SECRET: $(printenv)"
-
-
 
 USER root
 RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
