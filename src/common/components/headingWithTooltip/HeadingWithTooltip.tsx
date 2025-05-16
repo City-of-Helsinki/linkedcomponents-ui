@@ -9,7 +9,7 @@ export type HeadingWithTooltipProps = {
   className?: string;
   heading: string;
   showTooltip: boolean;
-  tag: 'h2' | 'h3';
+  tag: 'h2' | 'h3' | 'h4';
   tooltipContent: ReactNode;
   tooltipLabel: string;
 };
