@@ -5,13 +5,16 @@ import { useTranslation } from 'react-i18next';
 
 import CheckboxField from '../../../../../common/components/formFields/checkboxField/CheckboxField';
 import CheckboxGroupField from '../../../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
+import HeadingWithTooltip from '../../../../../common/components/headingWithTooltip/HeadingWithTooltip';
 import useLocale from '../../../../../hooks/useLocale';
 import getValue from '../../../../../utils/getValue';
 import FieldColumn from '../../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../../app/layout/fieldRow/FieldRow';
 import { getKeywordOption } from '../../../../keywordSet/utils';
+import useUser from '../../../../user/hooks/useUser';
 import { EVENT_FIELDS } from '../../../constants';
 import useEventFieldOptionsData from '../../../hooks/useEventFieldOptionsData';
+import { showTooltipInstructions } from '../../../utils';
 
 interface Props {
   isEditingAllowed: boolean;
@@ -22,6 +25,7 @@ const CrossInstitutionalStudiesSection: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
   const locale = useLocale();
+  const { user } = useUser();
 
   const [{ value: isCrossInstitutionalStudies }] = useField({
     name: EVENT_FIELDS.CROSS_INSTITUTIONAL_STUDIES,
@@ -61,7 +65,16 @@ const CrossInstitutionalStudiesSection: React.FC<Props> = ({
   return (
     <FieldRow>
       <FieldColumn>
-        <h3>{t('event.form.titleCrossInstitutionalStudies')}</h3>
+        <HeadingWithTooltip
+          heading={t('event.form.titleCrossInstitutionalStudies')}
+          tag="h3"
+          showTooltip={showTooltipInstructions(user)}
+          tooltipContent={
+            <p>{t('event.form.infoTextCrossInstitutionalStudies')}</p>
+          }
+          tooltipLabel={t('event.form.titleCrossInstitutionalStudies')}
+        />
+
         <Field
           component={CheckboxField}
           name={EVENT_FIELDS.CROSS_INSTITUTIONAL_STUDIES}
@@ -72,7 +85,13 @@ const CrossInstitutionalStudiesSection: React.FC<Props> = ({
       {!!isCrossInstitutionalStudies && (
         <>
           <FieldColumn>
-            <h4>{t('event.form.labelEducationModels')}</h4>
+            <HeadingWithTooltip
+              heading={t('event.form.labelEducationModels')}
+              tag="h4"
+              showTooltip={showTooltipInstructions(user)}
+              tooltipContent={<p>{t('event.form.infoTextEducationModels')}</p>}
+              tooltipLabel={t('event.form.labelEducationModels')}
+            />
             <Field
               component={CheckboxGroupField}
               name={EVENT_FIELDS.EDUCATION_MODELS_KEYWORDS}
@@ -83,7 +102,13 @@ const CrossInstitutionalStudiesSection: React.FC<Props> = ({
             />
           </FieldColumn>
           <FieldColumn>
-            <h4>{t('event.form.labelEducationLevels')}</h4>
+            <HeadingWithTooltip
+              heading={t('event.form.labelEducationLevels')}
+              tag="h4"
+              showTooltip={showTooltipInstructions(user)}
+              tooltipContent={<p>{t('event.form.infoTextEducationLevels')}</p>}
+              tooltipLabel={t('event.form.labelEducationLevels')}
+            />
             <Field
               component={CheckboxGroupField}
               name={EVENT_FIELDS.EDUCATION_LEVELS_KEYWORDS}

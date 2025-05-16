@@ -523,6 +523,7 @@
         "general": "If age restrictions apply to the event, set the age minimum and maximum age limit here.",
         "volunteering": "If age restrictions apply to the volunteering, set the age minimum and maximum age limit here."
       },
+      "infoTextCrossInstitutionalStudies": "If the course is an approved course for secondary cross-institutional studies, select yes.",
       "infoTextDescription": {
         "course": {
           "paragraph1": "A short description is displayed in some services when there is no space for a long description. It tells the most essential things about the course concisely.",
@@ -557,6 +558,8 @@
         "general": "If it is possible to register for the event, specify the start and end times of the registration here.",
         "volunteering": "If it is possible to register for the volunteering, specify the start and end times of the registration here."
       },
+      "infoTextEducationModels": "Choose the learning methods for the course",
+      "infoTextEducationLevels": "Select the type of institution producing the course",
       "infoTextEnvironmentalCertificate": "If the company or event has a certificate, its name is mandatory information (e.g. ecocompass). If there is no certificate, the certificate field is left blank.",
       "infoTextEventTimes1": {
         "course": "To add a recurring course spanning over multiple days, there is an “Save Course Date” button and a “Recurring event” tool for a regularly recurring course.",

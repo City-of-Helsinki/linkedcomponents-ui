@@ -523,6 +523,7 @@
         "general": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua tapahtumaan, määritä ikärajat tässä.",
         "volunteering": "Jos vain tietyn ikäisten henkilöiden on sallittua osallistua vapaaehtoistehtävään, määritä ikärajat tässä."
       },
+      "infoTextCrossInstitutionalStudies": "Jos kurssi on toisen asteen ristiinopiskeluun hyväksytty kurssi, valitse kyllä.",
       "infoTextDescription": {
         "course": {
           "paragraph1": "Lyhyt kuvaus näytetään joissain palveluissa silloin kun pitkälle kuvaukselle ei ole tilaa. Se kertoo kurssista olennaisimmat asiat ytimekkäästi.",
@@ -552,6 +553,8 @@
           "paragraph3": "Kirjaa myös vapaaehtoistehtävän <a href=\"https://q.surveypal.com/thinksustainably-Tapahtumat-kriteerit-2021/0\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"vastuullisuustiedot {{openInNewTab}}\">vastuullisuustiedot</a>. Lomakkeen täyttäminen vie vain noin 2 minuuttia ja se avataan uuteen ikkunaan. Et menetä tähän lomakkeeseen täytettyjä tietoja."
         }
       },
+      "infoTextEducationModels": "Valitse kurssilla toteutuvat opiskelumuodot",
+      "infoTextEducationLevels": "Valitse opinahjon tyyppi, joka kurssin tuottaa",
       "infoTextEnvironmentalCertificate": "Jos yrityksellä tai tapahtumalla on sertifikaatti, sen nimi on pakollinen tieto (esim. ekokompassi). Jos sertifikaattia ei ole, kohtaan sertifikaatti ei merkitä mitään.",
       "infoTextEnrolmentTime": {
         "course": "Jos kurssille on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä.",

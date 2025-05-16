@@ -523,6 +523,7 @@
         "general": "Om åldersgränser gäller för evenemanget, ange lägsta och högsta åldersgräns här.",
         "volunteering": "Om åldersgränser gäller för volontärarbetet, ange lägsta och högsta åldersgräns här."
       },
+      "infoTextCrossInstitutionalStudies": "Om kursen är en godkänd kurs för andra stadiets korsstudier, välj ja.",
       "infoTextDescription": {
         "course": {
           "paragraph1": "En kort beskrivning visas i vissa tjänster när det inte finns plats för en lång beskrivning. Den berättar kortfattat de viktigaste sakerna om kursen.",
@@ -557,6 +558,8 @@
         "general": "Om det är möjligt att registrera sig för evenemanget, ange start- och sluttider för registreringen här.",
         "volunteering": "Om det är möjligt att registrera sig för volontärarbetet, ange start- och sluttid för registreringen här."
       },
+      "infoTextEducationModels": "Välj inlärningsmetoder för kursen",
+      "infoTextEducationLevels": "Välj vilken typ av institution som ska ge kursen",
       "infoTextEnvironmentalCertificate": "Om företaget eller evenemanget har ett certifikat, är dess namn obligatorisk information (t.ex. ecocompass). Om det inte finns något certifikat lämnas certifikatfältet tomt.",
       "infoTextEventTimes1": {
         "course": "För att lägga till en återkommande kurs som sträcker sig över flera dagar finns det en knapp \"Spara tid för kurs\" och ett verktyg \"Återkommande evenemang\" för en regelbundet återkommande kurs.",
