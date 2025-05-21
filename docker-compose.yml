@@ -18,4 +18,4 @@ services:
       - '3000:8000'
 secrets:
   SENTRY_AUTH_TOKEN:
-    file: ./sentry_auth_token.txt
+    environment: SENTRY_AUTH_TOKEN
