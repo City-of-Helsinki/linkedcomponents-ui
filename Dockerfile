@@ -4,6 +4,7 @@ FROM registry.access.redhat.com/ubi9/nodejs-22 AS appbase
 WORKDIR /app
 
 USER root
+
 RUN curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo
 RUN yum -y install yarn
 
@@ -113,7 +114,9 @@ ARG REACT_APP_WEB_STORE_INTEGRATION_ENABLED
 # Vite/Rollup build args
 ARG ROLLUP_INLINE_DYNAMIC_IMPORTS
 
-RUN SENTRY_AUTH_TOKEN="$(cat /secrets/SENTRY_AUTH_TOKEN)" yarn build
+USER root
+
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN SENTRY_AUTH_TOKEN="$(cat /run/secrets/SENTRY_AUTH_TOKEN)" yarn build
 RUN yarn generate-sitemap
 RUN yarn generate-robots
 RUN yarn compress
