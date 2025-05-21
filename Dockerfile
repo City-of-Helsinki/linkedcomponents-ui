@@ -114,9 +114,9 @@ ARG REACT_APP_WEB_STORE_INTEGRATION_ENABLED
 # Vite/Rollup build args
 ARG ROLLUP_INLINE_DYNAMIC_IMPORTS
 
-USER root
-
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN SENTRY_AUTH_TOKEN="$(cat /run/secrets/SENTRY_AUTH_TOKEN)" yarn build
+RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN,env=SENTRY_AUTH_TOKEN \
+    SENTRY_AUTH_TOKEN="${SENTRY_AUTH_TOKEN:-$(cat /secrets/SENTRY_AUTH_TOKEN 2>/dev/null || echo '')}" \
+    yarn build
 RUN yarn generate-sitemap
 RUN yarn generate-robots
 RUN yarn compress
