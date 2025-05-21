@@ -38,6 +38,7 @@ resources:
     # Azure DevOps repository
     - repository: linkedevents-pipelines
       type: git
+      ref: refs/heads/sentry_auth_token
       # Azure DevOps project/repository
       name: linkedevents/linkedevents-pipelines
 
