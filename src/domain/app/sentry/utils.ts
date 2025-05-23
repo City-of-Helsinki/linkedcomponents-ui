@@ -1,5 +1,5 @@
+import { ErrorEvent, TransactionEvent } from '@sentry/core';
 import * as Sentry from '@sentry/react';
-import { ErrorEvent, TransactionEvent } from '@sentry/types';
 import * as H from 'history';
 import isObject from 'lodash/isObject';
 import snakeCase from 'lodash/snakeCase';
