@@ -71,8 +71,17 @@ const SENTRY_DENYLIST = [
   'zipcode',
 ];
 
-export const cleanSensitiveData = (data: Record<string, unknown>) => {
+export const cleanSensitiveData = (
+  data: Record<string, unknown>,
+  seen: WeakSet<object> = new WeakSet()
+) => {
   Object.entries(data).forEach(([key, value]) => {
+    if (seen.has(data)) {
+      return data;
+    }
+    seen.add(data);
+
+    console.log(`Processing key: ${key}, value:`, JSON.stringify(value));
     if (
       SENTRY_DENYLIST.includes(key) ||
       SENTRY_DENYLIST.includes(snakeCase(key))
