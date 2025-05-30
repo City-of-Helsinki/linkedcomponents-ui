@@ -72,9 +72,9 @@ const SENTRY_DENYLIST = [
 ];
 
 export const cleanSensitiveData = (data: Record<string, unknown>) => {
-  console.log('Cleaning sensitive data:', data);
+  console.log('Cleaning sensitive data:', JSON.stringify(data));
   Object.entries(data).forEach(([key, value]) => {
-    console.log(`Processing key: ${key}, value:`, value);
+    console.log(`Processing key: ${key}, value:`, JSON.stringify(value));
     if (
       SENTRY_DENYLIST.includes(key) ||
       SENTRY_DENYLIST.includes(snakeCase(key))
