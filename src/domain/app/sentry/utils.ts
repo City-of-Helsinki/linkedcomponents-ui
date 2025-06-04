@@ -71,7 +71,16 @@ const SENTRY_DENYLIST = [
   'zipcode',
 ];
 
-export const cleanSensitiveData = (data: Record<string, unknown>) => {
+export const cleanSensitiveData = (
+  data: Record<string, unknown>,
+  visited = new Set<unknown>()
+) => {
+  // To avoid infinite recursion for circular references
+  if (visited.has(data)) {
+    return data;
+  }
+  visited.add(data);
+
   Object.entries(data).forEach(([key, value]) => {
     if (
       SENTRY_DENYLIST.includes(key) ||
@@ -81,11 +90,11 @@ export const cleanSensitiveData = (data: Record<string, unknown>) => {
     } else if (Array.isArray(value)) {
       data[key] = value.map((item) =>
         isObject(item)
-          ? cleanSensitiveData(item as Record<string, unknown>)
+          ? cleanSensitiveData(item as Record<string, unknown>, visited)
           : item
       );
     } else if (isObject(value)) {
-      data[key] = cleanSensitiveData(value as Record<string, unknown>);
+      data[key] = cleanSensitiveData(value as Record<string, unknown>, visited);
     }
   });
 
