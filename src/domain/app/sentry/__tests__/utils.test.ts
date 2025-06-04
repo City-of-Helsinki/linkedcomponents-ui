@@ -34,6 +34,7 @@ const originalData = {
   ],
   arrayOfStrings: [safe],
   object: { c: safe, userEmail: sensitive, userName: sensitive },
+  referenceObject: {},
 };
 
 const cleanedData = {
@@ -41,6 +42,7 @@ const cleanedData = {
   arrayOfObjects: [{ a: safe }, { b: safe }],
   arrayOfStrings: [safe],
   object: { c: safe },
+  referenceObject: {},
 };
 
 describe('beforeSend', () => {
@@ -64,6 +66,12 @@ describe('beforeSendTransaction', () => {
 
 describe('cleanSensitiveData', () => {
   it('should clear sensitive data', () => {
+    expect(cleanSensitiveData(originalData)).toEqual(cleanedData);
+  });
+
+  it('should handle circular references without throwing an error', () => {
+    originalData['referenceObject'] = originalData;
+    cleanedData['referenceObject'] = cleanedData;
     expect(cleanSensitiveData(originalData)).toEqual(cleanedData);
   });
 });
