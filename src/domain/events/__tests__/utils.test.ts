@@ -157,8 +157,12 @@ describe('eventsPathBuilder function', () => {
       '/event/?event_type=Course,General,Volunteering&super_event_type=type1,type2',
     ],
     [
-      { text: 'text' },
-      '/event/?event_type=Course,General,Volunteering&text=text',
+      { x_full_text: 'text' },
+      '/event/?event_type=Course,General,Volunteering&x_full_text=text',
+    ],
+    [
+      { x_full_text_language: 'fi' },
+      '/event/?event_type=Course,General,Volunteering&x_full_text_language=fi',
     ],
     [
       { translation: 'fi' },
@@ -186,7 +190,8 @@ describe('getEventsQueryVariables', () => {
     publisher: [],
     sort: DEFAULT_EVENT_SORT,
     start: null,
-    text: '',
+    x_full_text: '',
+    x_full_text_language: 'fi',
   };
   const testCases: [string, EventsQueryVariables][] = [
     ['', defaultVariables],
@@ -206,7 +211,7 @@ describe('getEventsQueryVariables', () => {
     ],
     ['?sort=name', { ...defaultVariables, sort: 'name' }],
     ['?start=2021-05-27', { ...defaultVariables, start: '2021-05-27' }],
-    ['?text=search', { ...defaultVariables, text: 'search' }],
+    ['?x_full_text=search', { ...defaultVariables, x_full_text: 'search' }],
     [
       '?type=general&type=course',
       {
@@ -218,7 +223,7 @@ describe('getEventsQueryVariables', () => {
   it.each(testCases)(
     'should get events query variables, search %p',
     (search, expectedVariables) =>
-      expect(getEventsQueryVariables(search)).toEqual(expectedVariables)
+      expect(getEventsQueryVariables(search, 'fi')).toEqual(expectedVariables)
   );
 });
 
@@ -231,7 +236,7 @@ describe('getEventSearchInitialValues function', () => {
     publisher: [],
     sort: DEFAULT_EVENT_SORT,
     start: null,
-    text: '',
+    fullText: '',
     types: [],
   };
   const cases: [string, EventSearchInitialValues][] = [
@@ -260,7 +265,7 @@ describe('getEventSearchInitialValues function', () => {
       'start=2021-12-20',
       { ...defaultSearchValues, start: new Date('2021-12-20') },
     ],
-    ['text=search', { ...defaultSearchValues, text: 'search' }],
+    ['x_full_text=search', { ...defaultSearchValues, fullText: 'search' }],
     [
       'type=volunteering',
       { ...defaultSearchValues, types: [EVENT_TYPE.Volunteering] },
@@ -277,37 +282,37 @@ describe('getEventSearchInitialValues function', () => {
 
 describe('getEventSearchQuery function', () => {
   const defaultParams = {
-    [EVENT_SEARCH_PARAMS.TEXT]: 'text',
+    [EVENT_SEARCH_PARAMS.FULL_TEXT]: 'text',
   };
   const cases: [string, EventSearchParams, string][] = [
-    ['', defaultParams, 'text=text'],
+    ['', defaultParams, 'x_full_text=text'],
     [
       '',
       { ...defaultParams, end: new Date('2021-12-12') },
-      'text=text&end=2021-12-12',
+      'x_full_text=text&end=2021-12-12',
     ],
-    ['', { ...defaultParams, page: 2 }, 'text=text&page=2'],
+    ['', { ...defaultParams, page: 2 }, 'x_full_text=text&page=2'],
     [
       '',
       { ...defaultParams, place: ['place:1', 'place:2'] },
-      'text=text&place=place%3A1&place=place%3A2',
+      'x_full_text=text&place=place%3A1&place=place%3A2',
     ],
     [
       '',
       { ...defaultParams, returnPath: `/fi${ROUTES.SEARCH}` },
-      'text=text&returnPath=%2Ffi%2Fsearch',
+      'x_full_text=text&returnPath=%2Ffi%2Fsearch',
     ],
-    ['?sort=name', { ...defaultParams }, 'text=text&sort=name'],
+    ['?sort=name', { ...defaultParams }, 'x_full_text=text&sort=name'],
     [
       '',
       { ...defaultParams, start: new Date('2021-12-20') },
-      'text=text&start=2021-12-20',
+      'x_full_text=text&start=2021-12-20',
     ],
-    ['', { ...defaultParams, text: 'search' }, 'text=search'],
+    ['', { ...defaultParams, x_full_text: 'search' }, 'x_full_text=search'],
     [
       '',
       { ...defaultParams, type: [EVENT_TYPE.Volunteering] },
-      'text=text&type=volunteering',
+      'x_full_text=text&type=volunteering',
     ],
   ];
 
@@ -347,7 +352,7 @@ describe('addParamsToEventQueryString function', () => {
     [{ returnPath: `/fi${ROUTES.SEARCH}` }, '?returnPath=%2Fsearch'],
     [{ sort: EVENT_SORT_OPTIONS.NAME }, '?sort=name'],
     [{ start: new Date('2021-12-20') }, '?start=2021-12-20'],
-    [{ text: 'search' }, '?text=search'],
+    [{ x_full_text: 'search' }, '?x_full_text=search'],
     [{ type: [EVENT_TYPE.Volunteering] }, '?type=volunteering'],
     [{ type: [] }, ''],
   ];
@@ -380,7 +385,7 @@ describe('replaceParamsToEventQueryString', () => {
       '?start=2021-10-11',
       '?start=2021-12-20',
     ],
-    [{ text: 'search' }, '?text=text1', '?text=search'],
+    [{ x_full_text: 'search' }, '?x_full_text=text1', '?x_full_text=search'],
     [{ type: [] }, '?type=volunteering', ''],
   ];
 

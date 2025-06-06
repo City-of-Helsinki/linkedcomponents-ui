@@ -70,7 +70,7 @@ test('should route to search page when click button inside search input', async 
   await user.click(searchButton);
 
   expect(history.location.pathname).toBe('/fi/search');
-  expect(history.location.search).toBe(`?text=${searchValue}`);
+  expect(history.location.search).toBe(`?x_full_text=${searchValue}`);
 });
 
 test('should route to search page when click search button', async () => {
@@ -86,5 +86,5 @@ test('should route to search page when click search button', async () => {
   await user.click(searchButton);
 
   expect(history.location.pathname).toBe('/fi/search');
-  expect(history.location.search).toBe(`?text=${searchValue}`);
+  expect(history.location.search).toBe(`?x_full_text=${searchValue}`);
 });
