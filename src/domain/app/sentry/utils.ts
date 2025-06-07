@@ -72,32 +72,41 @@ const SENTRY_DENYLIST = [
 ];
 
 export const cleanSensitiveData = (
-  data: Record<string, unknown>,
+  data: unknown,
   visited = new Set<unknown>()
-) => {
+): unknown => {
   // To avoid infinite recursion for circular references
   if (visited.has(data)) {
     return data;
   }
   visited.add(data);
 
-  Object.entries(data).forEach(([key, value]) => {
-    if (
-      SENTRY_DENYLIST.includes(key) ||
-      SENTRY_DENYLIST.includes(snakeCase(key))
-    ) {
-      delete data[key];
-    } else if (Array.isArray(value)) {
-      data[key] = value.map((item) =>
-        isObject(item)
-          ? cleanSensitiveData(item as Record<string, unknown>, visited)
-          : item
-      );
-    } else if (isObject(value)) {
-      data[key] = cleanSensitiveData(value as Record<string, unknown>, visited);
-    }
-  });
+  if (Array.isArray(data)) {
+    // Clone array and clean each item
+    return data.map((item) =>
+      isObject(item) || Array.isArray(item)
+        ? cleanSensitiveData(item, visited)
+        : item
+    );
+  }
 
+  if (isObject(data)) {
+    // Clone object before mutation
+    const clone: Record<string, unknown> = { ...data };
+    Object.entries(clone).forEach(([key, value]) => {
+      if (
+        SENTRY_DENYLIST.includes(key) ||
+        SENTRY_DENYLIST.includes(snakeCase(key))
+      ) {
+        delete clone[key];
+      } else if (Array.isArray(value) || isObject(value)) {
+        clone[key] = cleanSensitiveData(value, visited);
+      }
+    });
+    return clone;
+  }
+
+  // Primitive value, return as is
   return data;
 };
 
