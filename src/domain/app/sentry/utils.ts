@@ -101,17 +101,25 @@ export const cleanSensitiveData = (
   return data;
 };
 
-export const beforeSend = (event: ErrorEvent): ErrorEvent =>
-  cleanSensitiveData(
+export const beforeSend = (event: ErrorEvent): ErrorEvent => {
+  // eslint-disable-next-line no-console
+  console.log('cleanSensitiveData called from beforeSend (error)');
+  return cleanSensitiveData(
     event as unknown as Record<string, unknown>
   ) as unknown as ErrorEvent;
+};
 
 export const beforeSendTransaction = (
   event: TransactionEvent
-): TransactionEvent =>
-  cleanSensitiveData(
+): TransactionEvent => {
+  // eslint-disable-next-line no-console
+  console.log(
+    'cleanSensitiveData called from beforeSendTransaction (transaction)'
+  );
+  return cleanSensitiveData(
     event as unknown as Record<string, unknown>
   ) as unknown as TransactionEvent;
+};
 
 const reportError = ({
   data,
