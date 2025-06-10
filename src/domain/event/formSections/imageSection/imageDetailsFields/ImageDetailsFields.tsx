@@ -135,6 +135,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
         label={t(`image.form.labelPhotographerName`)}
         placeholder={t(`image.form.placeholderPhotographerName`)}
         title={warning}
+        required
       />
       <div>
         <h3 className={eventPageStyles.noTopMargin}>

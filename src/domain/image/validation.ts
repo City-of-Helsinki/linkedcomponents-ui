@@ -34,10 +34,12 @@ export const imageDetailsSchema = Yup.object().shape({
       IMAGE_TEXT_FIELD_MAX_LENGTH[IMAGE_FIELDS.NAME],
       createStringMaxErrorMessage
     ),
-  [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: Yup.string().max(
-    IMAGE_TEXT_FIELD_MAX_LENGTH[IMAGE_FIELDS.PHOTOGRAPHER_NAME],
-    createStringMaxErrorMessage
-  ),
+  [IMAGE_FIELDS.PHOTOGRAPHER_NAME]: Yup.string()
+    .required(VALIDATION_MESSAGE_KEYS.STRING_REQUIRED)
+    .max(
+      IMAGE_TEXT_FIELD_MAX_LENGTH[IMAGE_FIELDS.PHOTOGRAPHER_NAME],
+      createStringMaxErrorMessage
+    ),
 });
 
 export const imageSchema = Yup.object().shape({

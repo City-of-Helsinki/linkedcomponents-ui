@@ -19,6 +19,7 @@ describe('imageSchema', () => {
     altText: 'Alt text',
     name: 'Image name',
     publisher: TEST_PUBLISHER_ID,
+    photographerName: 'Photo Name/Photo source',
   };
 
   it('should return true if image is valid', async () => {
