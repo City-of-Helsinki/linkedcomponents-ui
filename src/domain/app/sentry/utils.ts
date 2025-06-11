@@ -1,7 +1,6 @@
 import { ErrorEvent, TransactionEvent } from '@sentry/core';
 import * as Sentry from '@sentry/react';
 import * as H from 'history';
-import isObject from 'lodash/isObject';
 import snakeCase from 'lodash/snakeCase';
 
 import { UserFieldsFragment } from '../../../generated/graphql';
@@ -72,46 +71,68 @@ const SENTRY_DENYLIST = [
 ];
 
 export const cleanSensitiveData = (
-  data: Record<string, unknown>,
-  visited = new Set<unknown>()
-) => {
-  // To avoid infinite recursion for circular references
-  if (visited.has(data)) {
+  data: unknown,
+  visited = new WeakMap<object, unknown>(),
+  depth = 0,
+  maxDepth = 32
+): unknown => {
+  if (depth > maxDepth) {
+    return '[MaxDepthExceeded]';
+  }
+
+  if (typeof data !== 'object' || data === null) {
     return data;
   }
-  visited.add(data);
 
-  Object.entries(data).forEach(([key, value]) => {
+  // To avoid infinite recursion for circular references
+  if (visited.has(data)) {
+    return visited.get(data);
+  }
+
+  if (Array.isArray(data)) {
+    const result: unknown[] = [];
+    visited.set(data, result);
+    for (const item of data) {
+      result.push(cleanSensitiveData(item, visited, depth + 1, maxDepth));
+    }
+    return result;
+  }
+
+  const result: Record<string, unknown> = {};
+  visited.set(data, result);
+
+  for (const [key, value] of Object.entries(data)) {
     if (
       SENTRY_DENYLIST.includes(key) ||
       SENTRY_DENYLIST.includes(snakeCase(key))
     ) {
-      delete data[key];
-    } else if (Array.isArray(value)) {
-      data[key] = value.map((item) =>
-        isObject(item)
-          ? cleanSensitiveData(item as Record<string, unknown>, visited)
-          : item
-      );
-    } else if (isObject(value)) {
-      data[key] = cleanSensitiveData(value as Record<string, unknown>, visited);
+      continue; // omit sensitive key
     }
-  });
+    result[key] = cleanSensitiveData(value, visited, depth + 1, maxDepth);
+  }
 
-  return data;
+  return result;
 };
 
-export const beforeSend = (event: ErrorEvent): ErrorEvent =>
-  cleanSensitiveData(
+export const beforeSend = (event: ErrorEvent): ErrorEvent => {
+  // eslint-disable-next-line no-console
+  console.log('cleanSensitiveData called from beforeSend (error)');
+  return cleanSensitiveData(
     event as unknown as Record<string, unknown>
   ) as unknown as ErrorEvent;
+};
 
 export const beforeSendTransaction = (
   event: TransactionEvent
-): TransactionEvent =>
-  cleanSensitiveData(
+): TransactionEvent => {
+  // eslint-disable-next-line no-console
+  console.log(
+    'cleanSensitiveData called from beforeSendTransaction (transaction)'
+  );
+  return cleanSensitiveData(
     event as unknown as Record<string, unknown>
   ) as unknown as TransactionEvent;
+};
 
 const reportError = ({
   data,
