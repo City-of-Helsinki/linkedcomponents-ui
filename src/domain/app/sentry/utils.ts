@@ -72,8 +72,14 @@ const SENTRY_DENYLIST = [
 
 export const cleanSensitiveData = (
   data: unknown,
-  visited = new WeakMap<object, unknown>()
+  visited = new WeakMap<object, unknown>(),
+  depth = 0,
+  maxDepth = 32
 ): unknown => {
+  if (depth > maxDepth) {
+    return '[MaxDepthExceeded]';
+  }
+
   if (typeof data !== 'object' || data === null) {
     return data;
   }
@@ -87,7 +93,7 @@ export const cleanSensitiveData = (
     const result: unknown[] = [];
     visited.set(data, result);
     for (const item of data) {
-      result.push(cleanSensitiveData(item, visited));
+      result.push(cleanSensitiveData(item, visited, depth + 1, maxDepth));
     }
     return result;
   }
@@ -102,8 +108,7 @@ export const cleanSensitiveData = (
     ) {
       continue; // omit sensitive key
     }
-
-    result[key] = cleanSensitiveData(value, visited);
+    result[key] = cleanSensitiveData(value, visited, depth + 1, maxDepth);
   }
 
   return result;
