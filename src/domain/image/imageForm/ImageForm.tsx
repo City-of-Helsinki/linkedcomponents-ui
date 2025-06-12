@@ -280,6 +280,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
                   label={t(`image.form.labelPhotographerName`)}
                   name={IMAGE_FIELDS.PHOTOGRAPHER_NAME}
                   placeholder={t(`image.form.placeholderPhotographerName`)}
+                  required
                 />
               </FormRow>
               <FormRow>

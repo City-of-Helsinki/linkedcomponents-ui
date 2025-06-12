@@ -119,7 +119,7 @@ const getElement = (
     case 'name':
       return screen.getByLabelText(/Kuvateksti/i);
     case 'photographerName':
-      return screen.getByLabelText('Kuvaajan nimi');
+      return screen.getByLabelText(/^Kuvaajan nimi/);
   }
 };
 
