@@ -19,6 +19,7 @@ import {
   mockedEducationModelsKeywordSetResponse,
 } from '../../../../keywordSet/__mocks__/keywordSets';
 import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
+import { mockedKaskoOrganizationDecendantsResponse } from '../../../../organization/__mocks__/organizationDecendants';
 import { INTERNET_PLACE_ID } from '../../../../place/constants';
 import {
   mockedKaskoUserResponse,
@@ -203,6 +204,7 @@ test('should show education fields for kasko user', async () => {
     mockedKeywordsResponse,
     mockedLanguagesResponse,
     mockedKaskoUserResponse,
+    mockedKaskoOrganizationDecendantsResponse,
   ];
 
   renderComponent({ type: EVENT_TYPE.Course }, mocks);
@@ -278,6 +280,7 @@ test('should show validation error for kasko user if no education keywords are s
     mockedKeywordsResponse,
     mockedLanguagesResponse,
     mockedKaskoUserResponse,
+    mockedKaskoOrganizationDecendantsResponse,
   ];
 
   const user = userEvent.setup();
