@@ -34,6 +34,7 @@ import queryBuilder from '../../utils/queryBuilder';
 import skipFalsyType from '../../utils/skipFalsyType';
 import {
   AUTHENTICATION_NOT_NEEDED,
+  KASKO_ORGANIZATION_ID,
   MAX_OGRANIZATIONS_PAGE_SIZE,
   ORGANIZATION_ACTION_ICONS,
   ORGANIZATION_ACTION_LABEL_KEYS,
@@ -63,12 +64,13 @@ export const organizationPathBuilder = ({
 export const organizationsPathBuilder = ({
   args,
 }: PathBuilderProps<OrganizationsQueryVariables>): string => {
-  const { child, page, pageSize, dissolved } = args;
+  const { child, page, pageSize, parent, dissolved } = args;
 
   const variableToKeyItems = [
     { key: 'child', value: child },
     { key: 'page', value: page },
     { key: 'page_size', value: pageSize },
+    { key: 'parent', value: parent },
     { key: 'dissolved', value: dissolved },
   ];
 
@@ -183,6 +185,23 @@ export const isAdminUserInOrganization = ({
     id,
     organizationAncestors,
   });
+
+export const isAdminUserInKaskoOrganization = ({
+  kaskoOrganizations,
+  user,
+}: {
+  kaskoOrganizations: OrganizationFieldsFragment[];
+  user?: UserFieldsFragment;
+}): boolean => {
+  const adminOrganizations = getValue(user?.adminOrganizations, []);
+  const kaskoOrganizationsIds = kaskoOrganizations.map((org) => org.id);
+
+  kaskoOrganizationsIds.push(KASKO_ORGANIZATION_ID);
+
+  return !adminOrganizations.some(
+    (adminOrgId) => !kaskoOrganizationsIds.includes(adminOrgId)
+  );
+};
 
 export const isFinancialAdminUserInOrganization = ({
   id,

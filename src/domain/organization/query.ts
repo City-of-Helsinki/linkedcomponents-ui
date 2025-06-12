@@ -98,6 +98,7 @@ export const QUERY_ORGANIZATION = gql`
     $createPath: Any
     $page: Int
     $pageSize: Int
+    $parent: ID
     $dissolved: Boolean
     $text: String
   ) {
@@ -105,6 +106,7 @@ export const QUERY_ORGANIZATION = gql`
       child: $child
       page: $page
       pageSize: $pageSize
+      parent: $parent
       dissolved: $dissolved
       text: $text
     ) @rest(type: "OrganizationsResponse", pathBuilder: $createPath) {
