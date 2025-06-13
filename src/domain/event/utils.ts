@@ -717,6 +717,8 @@ const SKIP_FIELDS = new Set([
   'location',
   'keywords',
   'audience',
+  'educationLevelsKeywords',
+  'educationModelsKeywords',
   'images',
   'infoUrl',
   'languages',
