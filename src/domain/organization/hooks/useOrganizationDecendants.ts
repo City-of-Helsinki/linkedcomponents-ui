@@ -5,25 +5,26 @@ import {
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import skipFalsyType from '../../../utils/skipFalsyType';
+import { organizationsPathBuilder } from '../../organization/utils';
 import { MAX_OGRANIZATIONS_PAGE_SIZE } from '../constants';
-import { organizationsPathBuilder } from '../utils';
 import useDebounceLoadAllQuery from './useDebounceLoadAllQuery';
 
-type UseAllOrganizationsState = {
+type OrganizationState = {
   loading: boolean;
-  organizations: OrganizationFieldsFragment[];
+  organizationDecendants: OrganizationFieldsFragment[];
 };
 
-const useAllOrganizations = (): UseAllOrganizationsState => {
+const useOrganizationDecendants = (id: string): OrganizationState => {
   const {
     data: organizationsData,
-    fetchMore,
     loading,
+    fetchMore,
   } = useOrganizationsQuery({
-    notifyOnNetworkStatusChange: true,
+    skip: !id,
     variables: {
       createPath: getPathBuilder(organizationsPathBuilder),
       pageSize: MAX_OGRANIZATIONS_PAGE_SIZE,
+      parent: id,
       dissolved: false,
     },
   });
@@ -36,11 +37,11 @@ const useAllOrganizations = (): UseAllOrganizationsState => {
 
   return {
     loading: debouncedLoading,
-    organizations: getValue(
+    organizationDecendants: getValue(
       organizationsData?.organizations.data.filter(skipFalsyType),
       []
     ),
   };
 };
 
-export default useAllOrganizations;
+export default useOrganizationDecendants;

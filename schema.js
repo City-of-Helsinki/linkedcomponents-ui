@@ -155,6 +155,7 @@ module.exports = buildSchema(/* GraphQL */ `
       child: ID
       page: Int
       pageSize: Int
+      parent: ID
       dissolved: Boolean
       text: String
     ): OrganizationsResponse!
