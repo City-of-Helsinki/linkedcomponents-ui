@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.19.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.18.1...linkedcomponents-ui-v1.19.0) (2025-06-16)
+
+
+### Features
+
+* Add cross institutional info texts LINK-2329 ([6887794](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/6887794b24c9a4b47f1e6fc041bab5d033f0a40c))
+* Add support for Sentry sourcemaps, tracing, replays and releases ([4daa29e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/4daa29ea4948775a7f31e2494b5345c7a6e9369e))
+* Event form secondary education fields LINK-2252 ([3b4ffd0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/3b4ffd0784cf6c1ebf96f1c4a3935959e9eb2952))
+* Make photographer and source mandatory ([#494](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/494)) ([ddeaa87](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/ddeaa879138346afe3018bda9a8547ce98039736))
+
+
+### Bug Fixes
+
+* Avoid circular reference on sentry calls LINK-2332 ([#493](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/493)) ([16c8ac8](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/16c8ac89687986706d7706e378de3420d8f6db3d))
+* **sentry:** Make sensitive data scrubber more robust ([83fa0f8](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/83fa0f8725f82be8122b5da21755f997919714c1))
+
+
+### Dependencies
+
+* Bump Sentry SDK to v9 ([1ec326d](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/1ec326d0c94c16fcac007e4317e1a2195c3b4806))
+* Bump vite from 6.2.6 to 6.2.7 ([#486](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/486)) ([7764f36](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7764f36bdffe77687b0384ebb2695b48aa81fafd))
+
 ## [1.18.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.18.0...linkedcomponents-ui-v1.18.1) (2025-05-02)
 
 
