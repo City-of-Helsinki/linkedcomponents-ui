@@ -62,7 +62,7 @@ const mockedFinancialAdminUserResponse = getMockedUserResponse({
 });
 
 const mockedKaskoUserResponse = getMockedUserResponse({
-  adminOrganizations: [KASKO_ORGANIZATION_ID],
+  adminOrganizations: [TEST_PUBLISHER_ID, KASKO_ORGANIZATION_ID],
   displayName: userName,
   firstName: userFirstName,
   organization: KASKO_ORGANIZATION_ID,
