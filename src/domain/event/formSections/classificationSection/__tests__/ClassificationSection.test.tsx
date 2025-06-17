@@ -19,6 +19,11 @@ import {
   mockedEducationModelsKeywordSetResponse,
 } from '../../../../keywordSet/__mocks__/keywordSets';
 import { mockedLanguagesResponse } from '../../../../language/__mocks__/language';
+import { mockedKaskoOrganizationDecendantsResponse } from '../../../../organization/__mocks__/organizationDecendants';
+import {
+  KASKO_ORGANIZATION_ID,
+  TEST_PUBLISHER_ID,
+} from '../../../../organization/constants';
 import { INTERNET_PLACE_ID } from '../../../../place/constants';
 import {
   mockedKaskoUserResponse,
@@ -68,6 +73,7 @@ type InitialValues = {
   [EVENT_FIELDS.MAIN_CATEGORIES]: string[];
   [EVENT_FIELDS.TYPE]: string;
   [EVENT_FIELDS.CROSS_INSTITUTIONAL_STUDIES]: boolean;
+  [EVENT_FIELDS.PUBLISHER]: string;
 };
 
 const defaultInitialValues: InitialValues = {
@@ -76,6 +82,7 @@ const defaultInitialValues: InitialValues = {
   [EVENT_FIELDS.MAIN_CATEGORIES]: [],
   [EVENT_FIELDS.TYPE]: type,
   [EVENT_FIELDS.CROSS_INSTITUTIONAL_STUDIES]: false,
+  [EVENT_FIELDS.PUBLISHER]: TEST_PUBLISHER_ID,
 };
 const renderComponent = (
   initialValues?: Partial<InitialValues>,
@@ -203,11 +210,36 @@ test('should show education fields for kasko user', async () => {
     mockedKeywordsResponse,
     mockedLanguagesResponse,
     mockedKaskoUserResponse,
+    mockedKaskoOrganizationDecendantsResponse,
+  ];
+
+  renderComponent(
+    { type: EVENT_TYPE.Course, publisher: KASKO_ORGANIZATION_ID },
+    mocks
+  );
+
+  await waitFor(() => getElement('titleCrossInstitutionalStudies'));
+});
+
+test('should not show education fields if user in multiple organizations with wrong publisher', async () => {
+  const mocks = [
+    mockedEventTopicsKeywordSetResponse,
+    mockedCourseTopicsKeywordSetResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedEducationLevelsKeywordSetResponse,
+    mockedEducationModelsKeywordSetResponse,
+    mockedKeywordResponse,
+    mockedKeywordsResponse,
+    mockedLanguagesResponse,
+    mockedKaskoOrganizationDecendantsResponse,
+    mockedKaskoUserResponse,
   ];
 
   renderComponent({ type: EVENT_TYPE.Course }, mocks);
 
-  await waitFor(() => getElement('titleCrossInstitutionalStudies'));
+  expect(
+    screen.queryByRole('title', { name: /toiseen asteen opinnot/i })
+  ).not.toBeInTheDocument();
 });
 
 test('should change keyword', async () => {
@@ -278,6 +310,7 @@ test('should show validation error for kasko user if no education keywords are s
     mockedKeywordsResponse,
     mockedLanguagesResponse,
     mockedKaskoUserResponse,
+    mockedKaskoOrganizationDecendantsResponse,
   ];
 
   const user = userEvent.setup();
@@ -285,6 +318,7 @@ test('should show validation error for kasko user if no education keywords are s
   renderComponent(
     {
       type: EVENT_TYPE.Course,
+      publisher: KASKO_ORGANIZATION_ID,
       [EVENT_FIELDS.CROSS_INSTITUTIONAL_STUDIES]: true,
     },
     mocks

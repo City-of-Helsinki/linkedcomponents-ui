@@ -16,8 +16,11 @@ import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { REMOTE_PARTICIPATION_KEYWORD } from '../../../keyword/constants';
 import { getKeywordOption } from '../../../keywordSet/utils';
 import { KASKO_ORGANIZATION_ID } from '../../../organization/constants';
-import useOrganizationAncestors from '../../../organization/hooks/useOrganizationAncestors';
-import { isAdminUserInOrganization } from '../../../organization/utils';
+import useOrganizationDecendants from '../../../organization/hooks/useOrganizationDecendants';
+import {
+  isAdminUserInKaskoOrganization,
+  isInKaskoOrganization,
+} from '../../../organization/utils';
 import { INTERNET_PLACE_ID } from '../../../place/constants';
 import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
@@ -49,11 +52,11 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
     name: EVENT_FIELDS.PUBLISHER,
   });
 
-  const { organizationAncestors } = useOrganizationAncestors(
-    getValue(publisher, '')
-  );
-
   const { topicsData } = useEventFieldOptionsData(type);
+  const {
+    loading: loadingKaskoOrganizations,
+    organizationDecendants: kaskoOrganizations,
+  } = useOrganizationDecendants(KASKO_ORGANIZATION_ID);
 
   const keywordOptions = React.useMemo(
     () =>
@@ -88,11 +91,18 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
   );
 
   const eventTypeIsCourse = type === EVENT_TYPE.Course;
-  const isUserAdminInKaskoOrganization = isAdminUserInOrganization({
-    id: KASKO_ORGANIZATION_ID,
-    organizationAncestors,
+
+  const isUserAdminInKaskoOrganization = isAdminUserInKaskoOrganization({
+    kaskoOrganizations,
     user,
   });
+
+  const isPublisherInKaskoOrganization =
+    publisher &&
+    isInKaskoOrganization({
+      kaskoOrganizations,
+      adminOrganizations: [publisher],
+    });
 
   return (
     <Fieldset heading={t('event.form.sections.classification')} hideLegend>
@@ -160,9 +170,13 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
           />
         </FieldColumn>
       </FieldRow>
-      {isUserAdminInKaskoOrganization && eventTypeIsCourse && (
-        <CrossInstitutionalStudiesSection isEditingAllowed={isEditingAllowed} />
-      )}
+      {!loadingKaskoOrganizations &&
+        (isUserAdminInKaskoOrganization || isPublisherInKaskoOrganization) &&
+        eventTypeIsCourse && (
+          <CrossInstitutionalStudiesSection
+            isEditingAllowed={isEditingAllowed}
+          />
+        )}
     </Fieldset>
   );
 };
