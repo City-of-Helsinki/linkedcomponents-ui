@@ -186,6 +186,24 @@ export const isAdminUserInOrganization = ({
     organizationAncestors,
   });
 
+export const isInKaskoOrganization = ({
+  kaskoOrganizations,
+  adminOrganizations,
+}: {
+  kaskoOrganizations: OrganizationFieldsFragment[];
+  adminOrganizations: string[];
+}) => {
+  const kaskoOrganizationsIds = kaskoOrganizations.map((org) => org.id);
+
+  if (!kaskoOrganizationsIds.includes(KASKO_ORGANIZATION_ID)) {
+    kaskoOrganizationsIds.push(KASKO_ORGANIZATION_ID);
+  }
+
+  return !adminOrganizations.some(
+    (adminOrgId) => !kaskoOrganizationsIds.includes(adminOrgId)
+  );
+};
+
 export const isAdminUserInKaskoOrganization = ({
   kaskoOrganizations,
   user,
@@ -194,13 +212,8 @@ export const isAdminUserInKaskoOrganization = ({
   user?: UserFieldsFragment;
 }): boolean => {
   const adminOrganizations = getValue(user?.adminOrganizations, []);
-  const kaskoOrganizationsIds = kaskoOrganizations.map((org) => org.id);
 
-  kaskoOrganizationsIds.push(KASKO_ORGANIZATION_ID);
-
-  return !adminOrganizations.some(
-    (adminOrgId) => !kaskoOrganizationsIds.includes(adminOrgId)
-  );
+  return isInKaskoOrganization({ kaskoOrganizations, adminOrganizations });
 };
 
 export const isFinancialAdminUserInOrganization = ({

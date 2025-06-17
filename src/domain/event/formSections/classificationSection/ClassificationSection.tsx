@@ -17,7 +17,10 @@ import { REMOTE_PARTICIPATION_KEYWORD } from '../../../keyword/constants';
 import { getKeywordOption } from '../../../keywordSet/utils';
 import { KASKO_ORGANIZATION_ID } from '../../../organization/constants';
 import useOrganizationDecendants from '../../../organization/hooks/useOrganizationDecendants';
-import { isAdminUserInKaskoOrganization } from '../../../organization/utils';
+import {
+  isAdminUserInKaskoOrganization,
+  isInKaskoOrganization,
+} from '../../../organization/utils';
 import { INTERNET_PLACE_ID } from '../../../place/constants';
 import useUser from '../../../user/hooks/useUser';
 import { EVENT_FIELDS, EVENT_TYPE } from '../../constants';
@@ -45,6 +48,9 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
   const [{ value: keywords }, , { setValue: setKeywords }] = useField<string[]>(
     { name: EVENT_FIELDS.KEYWORDS }
   );
+  const [{ value: publisher }] = useField({
+    name: EVENT_FIELDS.PUBLISHER,
+  });
 
   const { topicsData } = useEventFieldOptionsData(type);
   const {
@@ -90,6 +96,13 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
     kaskoOrganizations,
     user,
   });
+
+  const isPublisherInKaskoOrganization =
+    publisher &&
+    isInKaskoOrganization({
+      kaskoOrganizations,
+      adminOrganizations: [publisher],
+    });
 
   return (
     <Fieldset heading={t('event.form.sections.classification')} hideLegend>
@@ -158,7 +171,7 @@ const ClassificationSection: React.FC<Props> = ({ isEditingAllowed }) => {
         </FieldColumn>
       </FieldRow>
       {!loadingKaskoOrganizations &&
-        isUserAdminInKaskoOrganization &&
+        (isUserAdminInKaskoOrganization || isPublisherInKaskoOrganization) &&
         eventTypeIsCourse && (
           <CrossInstitutionalStudiesSection
             isEditingAllowed={isEditingAllowed}
