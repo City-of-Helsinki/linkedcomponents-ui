@@ -8,65 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  commitlint:
-    name: Check commit messages
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Run commitlint
-        uses: wagoid/commitlint-github-action@v6.1.2
-
-  build:
-    name: Lint and build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn --prefer-offline
-
-      - name: Lint application
-        run: yarn lint
-
-      - name: Build application
-        run: yarn build
-
-  tests:
-    name: Test and SonarCloud Scan
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn --prefer-offline
-
-      - name: Run tests with coverage
-        run: yarn test:coverage
-        env:
-          CI: true
-
-      - name: SonarQube Cloud Scan
-        uses: SonarSource/sonarqube-scan-action@v5.1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  common:
+    uses: City-of-Helsinki/.github/.github/workflows/ci-node.yml@main
+    secrets: inherit
+    with:
+      node-version: 22.x
