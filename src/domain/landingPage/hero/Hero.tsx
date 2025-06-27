@@ -30,7 +30,9 @@ const Hero: React.FC = () => {
   const handleSearch = (text: string) => {
     navigate({
       pathname: `/${locale}${ROUTES.SEARCH}`,
-      search: getEventSearchQuery({ text }),
+      search: getEventSearchQuery({
+        x_full_text: text,
+      }),
     });
   };
 

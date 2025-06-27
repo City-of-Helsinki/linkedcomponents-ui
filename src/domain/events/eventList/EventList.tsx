@@ -17,6 +17,7 @@ import {
 } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
+import useLocale from '../../../hooks/useLocale';
 import { CommonListProps, OptionType } from '../../../types';
 import getValue from '../../../utils/getValue';
 import { scrollToItem } from '../../../utils/scrollToItem';
@@ -150,6 +151,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
   } = props;
   const { t } = useTranslation();
   const location = useLocation();
+  const locale = useLocale();
 
   const { page, sort } = getEventSearchInitialValues(location.search);
 
@@ -160,6 +162,7 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
 
   const eventsQueryVariables = getEventsQueryVariables(
     location.search,
+    locale,
     baseVariables
   );
 

@@ -94,6 +94,7 @@ test('should copy values from event to registration form when event is selected'
   const eventOption = await screen.findByRole('option', {
     name: new RegExp(eventName),
   });
+
   await user.click(eventOption);
   await waitFor(() =>
     expect(setValues).toBeCalledWith({

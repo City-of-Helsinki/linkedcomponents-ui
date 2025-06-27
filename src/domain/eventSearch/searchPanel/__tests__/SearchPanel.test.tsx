@@ -66,7 +66,7 @@ const renderComponent = (route: string = ROUTES.SEARCH) =>
 
 test('should initialize search panel inputs', async () => {
   const searchValue = 'search';
-  renderComponent(`${ROUTES.SEARCH}?text=${searchValue}`);
+  renderComponent(`${ROUTES.SEARCH}?x_full_text=${searchValue}`);
 
   const searchInput = getElement('searchInput');
   await waitFor(() => expect(searchInput).toHaveValue(searchValue));
@@ -109,7 +109,7 @@ test('should search events with correct search params', async () => {
   await shouldFilterEventsOrRegistrations({
     expectedPathname: '/fi/search',
     expectedSearch:
-      '?eventStatus=EventCancelled&place=place%3A1&publisher=organization%3A1&text=search&type=general&end=2021-03-12&start=2021-03-05',
+      '?eventStatus=EventCancelled&place=place%3A1&publisher=organization%3A1&type=general&x_full_text=search&end=2021-03-12&start=2021-03-05',
     history,
     searchButtonLabel: 'Etsi tapahtumia',
     searchInputLabel: 'Hae Linked Events -rajapinnasta',
