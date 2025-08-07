@@ -131,7 +131,7 @@ test('should render event card fields', async () => {
 
   screen.getByRole('heading', { name: eventValues.name });
   const imageWrapper = screen.getByTestId(testIds.eventCard.image);
-  expect(imageWrapper.style.backgroundImage).toBe('url(http://imageurl.com)');
+  expect(imageWrapper.style.backgroundImage).toBe('url("http://imageurl.com")');
   expect(screen.getAllByText('4.1.2021 – 23.1.2021')).toHaveLength(2);
   screen.getByText(eventValues.inLanguage);
   const locationTexts = await screen.findAllByText(locationText);
