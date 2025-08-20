@@ -35,7 +35,7 @@ if (import.meta.env.REACT_APP_SENTRY_DSN) {
       import.meta.env.REACT_APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE || '0'
     ),
     replaysOnErrorSampleRate: parseFloat(
-      import.meta.env.REACT_APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE || '0'
+      import.meta.env.REACT_APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE || '0.0'
     ),
   });
 }
