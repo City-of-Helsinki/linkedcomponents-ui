@@ -68,7 +68,7 @@ const renderPriceSection = ({
       onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
-      <PriceSection isEditingAllowed={true} />
+      <PriceSection isEditingAllowed={true} isAdminUser={true} />
     </Formik>,
     { mocks }
   );
