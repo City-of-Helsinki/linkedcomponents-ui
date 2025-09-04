@@ -37,6 +37,9 @@ beforeEach(() => {
   mockAuthenticatedLoginState();
 });
 
+const registrationCheckboxName =
+  'Tapahtumalle luodaan Linked Events -ilmoittautuminen';
+
 type InitialValues = {
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: string[];
   [EVENT_FIELDS.HAS_PRICE]: boolean;
@@ -122,7 +125,7 @@ const getElement = (
       });
     case 'isRegistrationPlannedCheckbox':
       return screen.getByRole('checkbox', {
-        name: 'Tapahtumalle luodaan Linked Events -ilmoittautuminen',
+        name: registrationCheckboxName,
       });
     case 'priceGroupSelectButton':
       return screen.getByRole('button', { name: /Asiakasryhmä/ });
@@ -268,7 +271,7 @@ test('should not show registration checkbox to non admin user', async () => {
 
   expect(
     screen.queryByRole('checkbox', {
-      name: 'Tapahtumalle luodaan Linked Events -ilmoittautuminen',
+      name: registrationCheckboxName,
     })
   ).not.toBeInTheDocument();
 });
