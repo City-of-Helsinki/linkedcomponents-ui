@@ -37,6 +37,9 @@ beforeEach(() => {
   mockAuthenticatedLoginState();
 });
 
+const registrationCheckboxName =
+  'Tapahtumalle luodaan Linked Events -ilmoittautuminen';
+
 type InitialValues = {
   [EVENT_FIELDS.EVENT_INFO_LANGUAGES]: string[];
   [EVENT_FIELDS.HAS_PRICE]: boolean;
@@ -58,9 +61,11 @@ const defaultMocks = [mockedFreePriceGroupsResponse, mockedUserResponse];
 const renderPriceSection = ({
   initialValues,
   mocks = defaultMocks,
+  isAdminUser = true,
 }: {
   initialValues?: Partial<InitialValues>;
   mocks?: MockedResponse[];
+  isAdminUser?: boolean;
 } = {}) =>
   render(
     <Formik
@@ -68,7 +73,7 @@ const renderPriceSection = ({
       onSubmit={vi.fn()}
       validationSchema={publicEventSchema}
     >
-      <PriceSection isEditingAllowed={true} />
+      <PriceSection isEditingAllowed={true} isAdminUser={isAdminUser} />
     </Formik>,
     { mocks }
   );
@@ -120,7 +125,7 @@ const getElement = (
       });
     case 'isRegistrationPlannedCheckbox':
       return screen.getByRole('checkbox', {
-        name: 'Tapahtumalle luodaan Linked Events -ilmoittautuminen',
+        name: registrationCheckboxName,
       });
     case 'priceGroupSelectButton':
       return screen.getByRole('button', { name: /Asiakasryhmä/ });
@@ -254,4 +259,19 @@ test('should add and remove price group', async () => {
   expect(screen.getAllByRole('button', { name: /Asiakasryhmä/ })).toHaveLength(
     1
   );
+});
+
+test('should not show registration checkbox to non admin user', async () => {
+  const user = userEvent.setup();
+  renderPriceSection({
+    isAdminUser: false,
+  });
+
+  await user.click(getElement('hasPriceCheckbox'));
+
+  expect(
+    screen.queryByRole('checkbox', {
+      name: registrationCheckboxName,
+    })
+  ).not.toBeInTheDocument();
 });

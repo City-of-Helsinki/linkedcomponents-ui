@@ -28,9 +28,14 @@ import ValidationError from './validationError/ValidationError';
 interface Props {
   event?: EventFieldsFragment | null;
   isEditingAllowed: boolean;
+  isAdminUser: boolean;
 }
 
-const PriceSection: React.FC<Props> = ({ event, isEditingAllowed }) => {
+const PriceSection: React.FC<Props> = ({
+  event,
+  isEditingAllowed,
+  isAdminUser,
+}) => {
   const { t } = useTranslation();
   const { user } = useUser();
 
@@ -79,14 +84,15 @@ const PriceSection: React.FC<Props> = ({ event, isEditingAllowed }) => {
               name={EVENT_FIELDS.HAS_PRICE}
             />
           </FormGroup>
-          {featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') && (
-            <Field
-              component={CheckboxField}
-              disabled={!isEditingAllowed || !hasPrice}
-              label={t(`event.form.labelIsRegistrationPlanned.${type}`)}
-              name={EVENT_FIELDS.IS_REGISTRATION_PLANNED}
-            />
-          )}
+          {featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
+            isAdminUser && (
+              <Field
+                component={CheckboxField}
+                disabled={!isEditingAllowed || !hasPrice}
+                label={t(`event.form.labelIsRegistrationPlanned.${type}`)}
+                name={EVENT_FIELDS.IS_REGISTRATION_PLANNED}
+              />
+            )}
 
           <ValidationError />
         </FieldColumn>

@@ -541,6 +541,7 @@ const EventForm: React.FC<EventFormProps> = ({
                 <PriceSection
                   event={event}
                   isEditingAllowed={isEditingAllowed}
+                  isAdminUser={isAdminUser}
                 />
               </Section>
               <Section title={t(`event.form.sections.channels.${values.type}`)}>
