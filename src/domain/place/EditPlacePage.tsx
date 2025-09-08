@@ -1,4 +1,4 @@
-import { Button } from 'hds-react';
+import { Button, ButtonVariant } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router';
@@ -91,8 +91,8 @@ const EditPlacePage: React.FC<Props> = ({ place }) => {
           <Button
             {...buttonProps}
             fullWidth={true}
-            iconLeft={buttonProps.icon}
-            variant="danger"
+            iconStart={buttonProps.icon}
+            variant={ButtonVariant.Danger}
           >
             {buttonProps.label}
           </Button>

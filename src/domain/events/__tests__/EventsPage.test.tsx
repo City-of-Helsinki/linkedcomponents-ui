@@ -125,7 +125,7 @@ const findElement = (
         name: /julkaistut tapahtumat, järjestys viimeksi muokattu, laskeva/i,
       });
     case 'sortOrderButton':
-      return screen.findByRole('button', { name: 'Lajitteluperuste' });
+      return screen.findByRole('combobox', { name: /lajitteluperuste/i });
   }
 };
 
@@ -221,7 +221,7 @@ test('should add sort parameter to search query', async () => {
   const { history } = renderComponent();
 
   await shouldSortListPageTable({
-    columnHeader: 'Nimi',
+    dataTestId: 'hds-table-sorting-header-name',
     expectedSearch: '?sort=name',
     history,
   });

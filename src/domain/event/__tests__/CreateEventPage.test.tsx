@@ -180,7 +180,7 @@ const findElement = (
       });
     case 'superEvent':
       return screen.findByRole(
-        'combobox',
+        'button',
         { name: /Kattotapahtuma/ },
         { timeout: 10000 }
       );

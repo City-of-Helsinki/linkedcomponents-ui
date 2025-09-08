@@ -40,7 +40,7 @@ export const getPriceGroupOption = (
 export const sortPriceGroupOptions = (
   a: PriceGroupOption,
   b: PriceGroupOption
-): number => (a.label > b.label ? 1 : -1);
+): number => ((a.label ?? '') > (b.label ?? '') ? 1 : -1);
 
 export const priceGroupsPathBuilder = ({
   args,

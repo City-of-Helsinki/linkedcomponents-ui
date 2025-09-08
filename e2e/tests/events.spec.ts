@@ -73,9 +73,9 @@ test.describe('Event search page', () => {
     // Results
     await expect(page.getByLabel('Viimeksi muokattu, laskeva')).toBeVisible();
     await expect(
-      page.getByTestId('hds-pagination-previous-button')
+      page.getByRole('button', { name: 'Edellinen' })
     ).toBeDisabled();
-    await expect(page.getByTestId('hds-pagination-next-button')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Seuraava' })).toBeVisible();
     await expect(
       page.getByRole('button', { name: 'Anna palautetta' })
     ).toBeVisible();
