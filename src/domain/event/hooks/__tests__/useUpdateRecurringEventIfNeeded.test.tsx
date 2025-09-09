@@ -3,10 +3,9 @@
 
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
 import omit from 'lodash/omit';
 import { PropsWithChildren } from 'react';
-import { unstable_HistoryRouter as Router } from 'react-router-dom';
+import { createMemoryRouter, RouterProvider } from 'react-router';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../constants';
 import {
@@ -138,13 +137,18 @@ const getMockedUpdateSuperEventResponse = ({
 };
 
 const getHookWrapper = (mocks: MockedResponse[] = commonMocks) => {
-  const wrapper = ({ children }: PropsWithChildren) => (
-    <Router history={createMemoryHistory() as any}>
+  const wrapper = ({ children }: PropsWithChildren) => {
+    const element = (
       <MockedProvider cache={createCache()} mocks={mocks}>
         {children}
       </MockedProvider>
-    </Router>
-  );
+    );
+    const router = createMemoryRouter([{ path: '*', element }], {
+      initialEntries: ['/'],
+    });
+
+    return <RouterProvider router={router} />;
+  };
   const { result } = renderHook(() => useUpdateRecurringEventIfNeeded(), {
     wrapper,
   });

@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 
 import { EventFieldsFragment } from '../../../../generated/graphql';
 import useLocale from '../../../../hooks/useLocale';

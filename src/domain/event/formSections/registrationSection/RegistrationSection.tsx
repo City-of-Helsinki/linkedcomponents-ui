@@ -2,7 +2,7 @@ import { useField } from 'formik';
 import { IconPlus } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 
 import Button from '../../../../common/components/button/Button';
 import { ROUTES } from '../../../../constants';
