@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';

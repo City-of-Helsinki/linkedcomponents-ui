@@ -18,11 +18,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory, History } from 'history';
 import React, { ReducerAction } from 'react';
-import {
-  Route,
-  Routes,
-  unstable_HistoryRouter as Router,
-} from 'react-router-dom';
+import { Route, Routes, unstable_HistoryRouter as Router } from 'react-router';
 import { Mock, MockInstance } from 'vitest';
 import wait from 'waait';
 

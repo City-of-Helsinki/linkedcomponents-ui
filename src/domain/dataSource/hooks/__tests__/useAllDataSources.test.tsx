@@ -6,7 +6,7 @@ import { createMemoryHistory } from 'history';
 import map from 'lodash/map';
 import range from 'lodash/range';
 import { PropsWithChildren } from 'react';
-import { unstable_HistoryRouter as Router } from 'react-router-dom';
+import { unstable_HistoryRouter as Router } from 'react-router';
 
 import { DataSourcesDocument, Meta } from '../../../../generated/graphql';
 import { fakeDataSources } from '../../../../utils/mockDataUtils';

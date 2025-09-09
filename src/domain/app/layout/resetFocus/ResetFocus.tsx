@@ -5,7 +5,7 @@ import useLocale from '../../../../hooks/useLocale';
 
 /**
  * Ensure that browser focus is set to body when navigating using
- * <Link> from react-router-dom.
+ * <Link> from react-router.
  */
 interface Props {
   disabled?: boolean;

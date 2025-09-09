@@ -6,7 +6,7 @@ import { createMemoryHistory } from 'history';
 import map from 'lodash/map';
 import range from 'lodash/range';
 import { PropsWithChildren } from 'react';
-import { unstable_HistoryRouter as Router } from 'react-router-dom';
+import { unstable_HistoryRouter as Router } from 'react-router';
 
 import { MAX_PAGE_SIZE } from '../../../../constants';
 import { Meta, UsersDocument } from '../../../../generated/graphql';

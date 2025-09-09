@@ -2,7 +2,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import { History } from 'history';
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 
 import { mockedRegistrationEventSelectorEventsResponse } from '../../../../../common/components/formFields/registrationEventSelectorField/__mocks__/registrationEventSelectorField';
 import { mockedKeywordsResponse as mockedKeywordSelectorKeywordsResponse } from '../../../../../common/components/keywordSelector/__mocks__/keywordSelector';

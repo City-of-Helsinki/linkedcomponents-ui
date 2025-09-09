@@ -2,8 +2,7 @@ import { StatusLabel } from 'hds-react';
 import omit from 'lodash/omit';
 import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
 import Pagination from '../../../common/components/pagination/Pagination';

@@ -1,7 +1,7 @@
 import { Field, useField } from 'formik';
 import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import Fieldset from '../../../common/components/fieldset/Fieldset';
 import CheckboxGroupField from '../../../common/components/formFields/checkboxGroupField/CheckboxGroupField';
