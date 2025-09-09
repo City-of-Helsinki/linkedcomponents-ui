@@ -3,7 +3,7 @@ import { useLocation } from 'react-router';
 
 /**
  * Ensure that browser scrolls to top when navigating using
- * <Link> from react-router-dom.
+ * <Link> from react-router.
  *
  * Implementation fetched from
  * https://reacttraining.com/react-router/web/guides/scroll-restoration

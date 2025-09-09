@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import Breadcrumb from '../../common/components/breadcrumb/Breadcrumb';
 import ExternalLink from '../../common/components/externalLink/ExternalLink';

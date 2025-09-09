@@ -3,7 +3,7 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { PropsWithChildren } from 'react';
-import { unstable_HistoryRouter as Router } from 'react-router-dom';
+import { unstable_HistoryRouter as Router } from 'react-router';
 
 import {
   EventFieldsFragment,

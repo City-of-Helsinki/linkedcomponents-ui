@@ -1,7 +1,7 @@
 import orderBy from 'lodash/orderBy';
 import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import LoadingSpinner from '../../../../common/components/loadingSpinner/LoadingSpinner';
 import Table from '../../../../common/components/table/Table';

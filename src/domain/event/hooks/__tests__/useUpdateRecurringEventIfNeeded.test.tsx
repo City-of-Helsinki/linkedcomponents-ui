@@ -6,7 +6,7 @@ import { act, renderHook, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import omit from 'lodash/omit';
 import { PropsWithChildren } from 'react';
-import { unstable_HistoryRouter as Router } from 'react-router-dom';
+import { unstable_HistoryRouter as Router } from 'react-router';
 
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../../../constants';
 import {

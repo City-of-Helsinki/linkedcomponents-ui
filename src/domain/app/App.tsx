@@ -4,7 +4,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { LoginProvider } from 'hds-react';
 import React, { PropsWithChildren, useMemo } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 
 import theme from '../../assets/theme/theme';
 import { AccessibilityNotificationProvider } from '../../common/components/accessibilityNotificationContext/AccessibilityNotificationContext';
