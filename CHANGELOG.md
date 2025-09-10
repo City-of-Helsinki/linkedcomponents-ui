@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.19.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.18.1...linkedcomponents-ui-v1.19.0) (2025-09-10)
+
+
+### Features
+
+* Add cross institutional info texts LINK-2329 ([6887794](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/6887794b24c9a4b47f1e6fc041bab5d033f0a40c))
+* Add support for Sentry sourcemaps, tracing, replays and releases ([4daa29e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/4daa29ea4948775a7f31e2494b5345c7a6e9369e))
+* Event form secondary education fields LINK-2252 ([3b4ffd0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/3b4ffd0784cf6c1ebf96f1c4a3935959e9eb2952))
+* Make photographer and source mandatory ([#494](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/494)) ([ddeaa87](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/ddeaa879138346afe3018bda9a8547ce98039736))
+
+
+### Bug Fixes
+
+* Avoid circular reference on sentry calls LINK-2332 ([#493](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/493)) ([16c8ac8](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/16c8ac89687986706d7706e378de3420d8f6db3d))
+* Education fields should not populate language fields LINK-2252 ([df2555d](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/df2555d025aac91d74f6034402571050568d3191))
+* Only admin can see add registration checkbox LINK-2257 ([#500](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/500)) ([9defb98](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/9defb98b0edef258ea8aa7ac90fae2b430c77b9d))
+* Only users within Kasko can create secondary edu courses LINK-2252 ([e281503](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e28150311cd6472b17f33fea9a9271705024ff26))
+* Publisher can show education fields LINK-2252 ([cc1f3ed](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/cc1f3ed59b6eec83c0fb8a5583d1075161c5662b))
+* **sentry:** Make sensitive data scrubber more robust ([83fa0f8](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/83fa0f8725f82be8122b5da21755f997919714c1))
+
+
+### Dependencies
+
+* Bump form-data from 4.0.0 to 4.0.4 ([68e2b1c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/68e2b1c32d789c4698d17c6b99940f5688f68d05))
+* Bump Sentry SDK to v9 ([1ec326d](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/1ec326d0c94c16fcac007e4317e1a2195c3b4806))
+* Bump snyk from 1.1287.0 to 1.1297.3 ([#498](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/498)) ([7a07e8f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7a07e8fe95913b7876d29d6d893c181e749e18aa))
+* Bump vite from 6.2.6 to 6.2.7 ([#486](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/486)) ([7764f36](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7764f36bdffe77687b0384ebb2695b48aa81fafd))
+* Upgrade axios and jsdom LINK-2191 ([bb29e65](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/bb29e65ecfee3030bd6a99301868d9ed2c9c73c6))
+
 ## [1.18.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.18.0...linkedcomponents-ui-v1.18.1) (2025-05-02)
 
 
