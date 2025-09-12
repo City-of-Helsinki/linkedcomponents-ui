@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.0...linkedcomponents-ui-v1.19.1) (2025-09-12)
+
+
+### Bug Fixes
+
+* Cross institutional studies initial values LINK-2252 ([95455be](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/95455bee8e17fe81fc0706c920edc68e5c0226f0))
+
 ## [1.19.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.18.1...linkedcomponents-ui-v1.19.0) (2025-09-10)
 
 
