@@ -487,8 +487,8 @@ const keywordsMap = (
 ) => {
   if (
     isCrossInstitutionalStudies &&
-    educationLevelsKeywords.length &&
-    educationModelsKeywords.length
+    educationLevelsKeywords?.length &&
+    educationModelsKeywords?.length
   ) {
     const keywordsClone = cloneDeep(keywords);
 
@@ -873,7 +873,7 @@ const getRecurringEventDate = (
 };
 
 const getKeywordIds = (keywords: Array<KeywordFieldsFragment | null>) =>
-  keywords.filter(skipFalsyType).map((keyword) => keyword.atId);
+  keywords && keywords.filter(skipFalsyType).map((keyword) => keyword.atId);
 
 export const getEventInitialValues = (
   event: EventFieldsFragment
@@ -900,8 +900,8 @@ export const getEventInitialValues = (
     audienceMaxAge: event.audienceMaxAge ?? '',
     audienceMinAge: event.audienceMinAge ?? '',
     crossInstitutionalStudies: Boolean(
-      event.educationLevelsKeywords.length &&
-        event.educationModelsKeywords.length
+      event.educationLevelsKeywords?.length &&
+        event.educationModelsKeywords?.length
     ),
     description: getSanitizedDescription(event),
     events,
