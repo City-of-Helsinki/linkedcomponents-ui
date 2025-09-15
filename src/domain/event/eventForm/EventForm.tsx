@@ -136,11 +136,11 @@ const EventForm: React.FC<EventFormProps> = ({
   const { user } = useUser();
 
   const { organizationAncestors } = useOrganizationAncestors(
-    getValue(event?.publisher, '')
+    getValue(event?.publisher, values.publisher)
   );
 
   const isAdminUser = isAdminUserInOrganization({
-    id: getValue(event?.publisher, ''),
+    id: getValue(event?.publisher, values.publisher),
     organizationAncestors,
     user,
   });
