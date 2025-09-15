@@ -572,7 +572,8 @@ const EventForm: React.FC<EventFormProps> = ({
               </Section>
               {(isExternalUser ||
                 (isAdminUser &&
-                  event?.publisher === EXTERNAL_PUBLISHER_ID)) && (
+                  getValue(event?.publisher, values.publisher) ===
+                    EXTERNAL_PUBLISHER_ID)) && (
                 <Section title={t('event.form.sections.contact')}>
                   <ExternalUserContact
                     isEditingAllowed={isEditingAllowed && !isAdminUser}
