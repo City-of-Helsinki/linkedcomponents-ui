@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.1...linkedcomponents-ui-v1.19.2) (2025-09-15)
+
+
+### Dependencies
+
+* Bump axios from 1.11.0 to 1.12.0 ([171d1e2](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/171d1e22d0011ea5f01fee84a710a9c4190bda91))
+
 ## [1.19.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.0...linkedcomponents-ui-v1.19.1) (2025-09-12)
 
 
