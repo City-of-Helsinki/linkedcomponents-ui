@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.19.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.2...linkedcomponents-ui-v1.19.3) (2025-09-16)
+
+
+### Bug Fixes
+
+* Event form isAdminUser always use latest publisher LINK-2384 ([e85b9aa](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e85b9aa1bdb8c4d40da44f813f23a7ae41cee65c))
+* External contact fields use latest publisher LINK-2384 ([6e4e8af](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/6e4e8afd1b63bc895f770aa0e458e1c6e9134571))
+
 ## [1.19.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.1...linkedcomponents-ui-v1.19.2) (2025-09-15)
 
 
