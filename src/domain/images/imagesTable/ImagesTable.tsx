@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { IconPhoto } from 'hds-react';
 import React, { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 import Table from '../../../common/components/table/Table';
 import { ImageFieldsFragment, ImagesQuery } from '../../../generated/graphql';
