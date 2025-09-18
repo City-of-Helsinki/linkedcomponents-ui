@@ -1,5 +1,4 @@
 import eslint from '@nabla/vite-plugin-eslint';
-import { sentryVitePlugin } from '@sentry/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import { configDefaults, coverageConfigDefaults } from 'vitest/config';
@@ -7,17 +6,7 @@ import { configDefaults, coverageConfigDefaults } from 'vitest/config';
 export default defineConfig(({ mode }) => ({
   base: '/',
   envPrefix: 'REACT_APP_',
-  plugins: [
-    react(),
-    mode !== 'test' && eslint(),
-    // Put the Sentry vite plugin after all other plugins
-    process.env.SENTRY_AUTH_TOKEN && sentryVitePlugin({
-      project: process.env.SENTRY_PROJECT,
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      release: { name: process.env.REACT_APP_SENTRY_RELEASE },
-      telemetry: false,
-    }),
-  ],
+  plugins: [react(), mode !== 'test' && eslint()],
   build: {
     outDir: './build',
     emptyOutDir: true,
