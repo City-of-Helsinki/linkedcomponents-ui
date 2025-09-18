@@ -4,8 +4,6 @@ services:
     build:
       context: .
       target: ${DOCKER_TARGET:-development}
-      secrets:
-        - SENTRY_AUTH_TOKEN
     env_file:
       - .env
       - .env.local
@@ -14,6 +12,3 @@ services:
       - '/app/node_modules'
     ports:
       - '3000:8000'
-secrets:
-  SENTRY_AUTH_TOKEN:
-    environment: SENTRY_AUTH_TOKEN
