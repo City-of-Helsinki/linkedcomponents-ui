@@ -72,7 +72,7 @@ Use .env.development.local for development.
 | REACT_APP_OIDC_API_SCOPE                   | Linked Events API scope. Default in .env.local is linkedevents-api-dev                                                                                   |
 | REACT_APP_SENTRY_DSN                       | Sentry DSN. Both REACT_APP_SENTRY_DSN and REACT_APP_SENTRY_ENVIRONMENT has to be set to send error reports.                                              |
 | REACT_APP_SENTRY_ENVIRONMENT               | Setry environment.                                                                                                                                       |
-| REACT_APP_MATOMO_URL_BASE                  | //matomo.hel.ninja/                                                                                                                                  |
+| REACT_APP_MATOMO_URL_BASE                  | //matomo.hel.ninja/                                                                                                                                      |
 | REACT_APP_MATOMO_SITE_ID                   | 42                                                                                                                                                       |
 | REACT_APP_MATOMO_SRC_URL                   | matomo.js                                                                                                                                                |
 | REACT_APP_MATOMO_ENABLED                   | Flag to enable matomo. Default false.                                                                                                                    |
@@ -221,3 +221,5 @@ Run linter to all the files in app
 ### `yarn lint:fix`
 
 Run linter and fix all the linter errors
+
+WIP testing
