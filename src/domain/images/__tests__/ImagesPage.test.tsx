@@ -90,7 +90,7 @@ test('should add sort parameter to search query', async () => {
   const { history } = renderComponent();
 
   await shouldSortListPageTable({
-    columnHeader: 'Viimeksi muokattu',
+    dataTestId: 'hds-table-sorting-header-last_modified_time',
     expectedSearch: '?sort=last_modified_time',
     history,
   });

@@ -85,9 +85,7 @@ test('should call setSort when clicking sortable column header', async () => {
   const user = userEvent.setup();
   renderComponent({ setSort });
 
-  const nameButton = screen.getByRole('button', {
-    name: 'Nimi',
-  });
+  const nameButton = screen.getByTestId('hds-table-sorting-header-name');
   await user.click(nameButton);
   expect(setSort).toBeCalledWith('-name');
 

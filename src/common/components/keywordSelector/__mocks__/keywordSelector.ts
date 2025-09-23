@@ -40,11 +40,24 @@ const mockedKeywordsResponse = {
   result: keywordsResponse,
 };
 
+const filteredKeywordsVariables = {
+  ...keywordsVariables,
+  freeText: keywordName,
+};
+const filteredKeywords = keywords;
+const filteredEventsResponse = keywordsResponse;
+const mockedFilteredKeywordsResponse = {
+  request: { query: KeywordDocument, variables: filteredKeywordsVariables },
+  result: filteredEventsResponse,
+};
+
 export {
+  filteredKeywords,
   keyword,
   keywordAtId,
   keywordName,
   keywordNames,
+  mockedFilteredKeywordsResponse,
   mockedKeywordResponse,
   mockedKeywordsResponse,
 };

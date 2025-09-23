@@ -217,7 +217,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
                 clearable={!place}
                 component={PublisherSelectorField}
                 disabled={disabledIfPlace}
-                label={t(`place.form.labelPublisher`)}
+                texts={{ label: t(`place.form.labelPublisher`) }}
                 name={PLACE_FIELDS.PUBLISHER}
                 required={true}
               />

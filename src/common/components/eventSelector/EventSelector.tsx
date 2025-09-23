@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
-import React from 'react';
+import { ApolloError } from '@apollo/client';
+import { Option, SearchFunction, SearchResult, SelectData } from 'hds-react';
+import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDebounce } from 'use-debounce';
 
-import { COMBOBOX_DEBOUNCE_TIME_MS } from '../../../constants';
 import { eventPathBuilder } from '../../../domain/event/utils';
 import { eventsPathBuilder } from '../../../domain/events/utils';
 import {
@@ -13,41 +13,42 @@ import {
   useEventsQuery,
 } from '../../../generated/graphql';
 import useLocale from '../../../hooks/useLocale';
-import useMountedState from '../../../hooks/useMountedState';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import parseIdFromAtId from '../../../utils/parseIdFromAtId';
-import Combobox, { SingleComboboxProps } from '../combobox/Combobox';
+import Select, { SelectPropsWithValue } from '../select/Select';
 
 export type EventSelectorProps = {
   getOption: (event: EventFieldsFragment, locale: Language) => OptionType;
   variables: EventsQueryVariables;
-} & SingleComboboxProps<string | null>;
+} & SelectPropsWithValue<string | null>;
 
 const EventSelector: React.FC<EventSelectorProps> = ({
   getOption,
-  label,
+  texts,
   name,
   value,
   variables,
+  onChange,
   ...rest
 }) => {
-  const timer = React.useRef<NodeJS.Timeout>();
   const { t } = useTranslation();
   const locale = useLocale();
-  const [search, setSearch] = useMountedState('');
-  const [debouncedSearch] = useDebounce(search, COMBOBOX_DEBOUNCE_TIME_MS);
+
+  const [options, setOptions] = React.useState<OptionType[]>([]);
+  const initialOptions = React.useRef<OptionType[]>([]);
 
   const {
     data: eventsData,
     loading,
     previousData: previousEventsData,
+    refetch,
   } = useEventsQuery({
     variables: {
       ...variables,
       createPath: getPathBuilder(eventsPathBuilder),
-      text: debouncedSearch,
+      text: '',
     },
   });
 
@@ -59,16 +60,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     },
   });
 
-  const handleFilter = (items: OptionType[], inputValue: string) => {
-    clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      setSearch(inputValue);
-    });
-
-    return items;
-  };
-
-  const options: OptionType[] = React.useMemo(
+  const getEventsData = useCallback(
     () =>
       getValue(
         (eventsData || previousEventsData)?.events.data.map((event) =>
@@ -79,30 +71,72 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     [eventsData, getOption, locale, previousEventsData]
   );
 
+  const eventsOptions = React.useMemo(() => getEventsData(), [getEventsData]);
+
+  useEffect(() => {
+    setOptions(eventsOptions);
+
+    if (eventsData && !initialOptions?.current.length) {
+      initialOptions.current = eventsOptions;
+    }
+  }, [eventsOptions, eventsData]);
+
+  const handleSearch: SearchFunction = React.useCallback(
+    async (searchValue: string): Promise<SearchResult> => {
+      try {
+        const { error, data: newEventsData } = await refetch({
+          text: searchValue,
+        });
+
+        if (error) {
+          throw error;
+        }
+
+        return {
+          options: getValue(
+            newEventsData?.events.data.map((event) =>
+              getOption(event as EventFieldsFragment, locale)
+            ),
+            []
+          ),
+        };
+      } catch (error) {
+        return Promise.reject(error as ApolloError);
+      }
+    },
+    [refetch, getOption, locale]
+  );
+
+  const handleChange = React.useCallback(
+    (selectedOptions: Option[], clickedOption: Option, data: SelectData) => {
+      setOptions(initialOptions.current);
+
+      if (onChange) {
+        onChange(selectedOptions, clickedOption, data);
+      }
+    },
+    [onChange]
+  );
+
   const selectedEvent = React.useMemo(
-    () => (eventData?.event ? getOption(eventData.event, locale) : null),
+    () => (eventData?.event ? [getOption(eventData.event, locale)] : []),
     [eventData?.event, getOption, locale]
   );
 
-  React.useEffect(() => {
-    return () => clearTimeout(timer.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
-    <Combobox
+    <Select
       {...rest}
-      multiselect={false}
-      filter={handleFilter}
+      multiSelect={false}
+      onSearch={handleSearch}
+      onChange={handleChange}
       id={name}
       isLoading={loading}
-      label={label}
+      texts={{
+        ...texts,
+        clearButtonAriaLabel_one: t('common.combobox.clearEvents'),
+      }}
       options={options}
-      clearButtonAriaLabel={t('common.combobox.clearEvents')}
-      toggleButtonAriaLabel={t('common.combobox.toggleButtonAriaLabel')}
-      // Combobox doesn't accept null as value so cast null to undefined. Null is needed to avoid
-      // "A component has changed the uncontrolled prop "selectedItem" to be controlled" warning
-      value={selectedEvent as OptionType | undefined}
+      value={selectedEvent}
     />
   );
 };
