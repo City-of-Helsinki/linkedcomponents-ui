@@ -1,6 +1,6 @@
 {
   "name": "linkedcomponents-ui",
-  "version": "1.19.3",
+  "version": "1.19.4",
   "private": true,
   "engines": {
     "node": ">=22.13.0"
