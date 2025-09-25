@@ -873,7 +873,7 @@ const getRecurringEventDate = (
 };
 
 const getKeywordIds = (keywords: Array<KeywordFieldsFragment | null>) =>
-  keywords && keywords.filter(skipFalsyType).map((keyword) => keyword.atId);
+  keywords ? keywords.filter(skipFalsyType).map((keyword) => keyword.atId) : [];
 
 export const getEventInitialValues = (
   event: EventFieldsFragment
