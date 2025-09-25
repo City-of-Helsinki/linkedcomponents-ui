@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { act, renderHook, waitFor } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
 import { PropsWithChildren } from 'react';
-import { unstable_HistoryRouter as Router } from 'react-router-dom';
+import { createMemoryRouter, RouterProvider } from 'react-router';
 
 import {
   EventFieldsFragment,
@@ -50,7 +49,6 @@ beforeEach(() => {
   mockAuthenticatedLoginState();
 });
 
-const history = createMemoryHistory();
 const commonMocks = [
   mockedEventResponse,
   mockedImageResponse,
@@ -62,16 +60,19 @@ const getHookWrapper = (
   event: EventFieldsFragment,
   mocks: MockedResponse[] = []
 ) => {
-  const wrapper = ({ children }: PropsWithChildren) => (
-    <MockedProvider cache={createCache()} mocks={[...commonMocks, ...mocks]}>
-      <Router
-        /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-        history={history as any}
-      >
+  const wrapper = ({ children }: PropsWithChildren) => {
+    const element = (
+      <MockedProvider cache={createCache()} mocks={[...commonMocks, ...mocks]}>
         {children}
-      </Router>
-    </MockedProvider>
-  );
+      </MockedProvider>
+    );
+    const router = createMemoryRouter([{ path: '*', element }], {
+      initialEntries: ['/'],
+    });
+
+    return <RouterProvider router={router} />;
+  };
+
   const { result } = renderHook(() => useEventActions(event), {
     wrapper,
   });

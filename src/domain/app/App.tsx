@@ -4,7 +4,7 @@
 import { ApolloProvider } from '@apollo/client';
 import { LoginProvider } from 'hds-react';
 import React, { PropsWithChildren, useMemo } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import theme from '../../assets/theme/theme';
 import { AccessibilityNotificationProvider } from '../../common/components/accessibilityNotificationContext/AccessibilityNotificationContext';
@@ -47,27 +47,34 @@ const App: React.FC = () => {
     []
   );
 
-  return (
+  const AppWrapper: React.FC = () => (
     <ThemeProvider initTheme={theme}>
       <AccessibilityNotificationProvider>
         <NotificationsProvider>
           <LoginProvider {...loginProviderProps}>
             <PageSettingsProvider>
-              <BrowserRouter>
-                {/* @ts-ignore */}
-                <MatomoContext.Provider value={matomoTracker}>
-                  <ApolloWrapper>
-                    <CookieConsent />
-                    <AppRoutes />
-                  </ApolloWrapper>
-                </MatomoContext.Provider>
-              </BrowserRouter>
+              {/* @ts-ignore */}
+              <MatomoContext.Provider value={matomoTracker}>
+                <ApolloWrapper>
+                  <CookieConsent />
+                  <AppRoutes />
+                </ApolloWrapper>
+              </MatomoContext.Provider>
             </PageSettingsProvider>
           </LoginProvider>
         </NotificationsProvider>
       </AccessibilityNotificationProvider>
     </ThemeProvider>
   );
+
+  const router = createBrowserRouter([
+    {
+      path: '*',
+      element: <AppWrapper />,
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 };
 
 export default App;

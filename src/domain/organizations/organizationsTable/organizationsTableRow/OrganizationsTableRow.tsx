@@ -1,8 +1,7 @@
 import omit from 'lodash/omit';
 import React, { FC, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router';
 
 import CollapseButton from '../../../../common/components/table/collapseButton/CollapseButton';
 import { OrganizationFieldsFragment } from '../../../../generated/graphql';

@@ -17,12 +17,8 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory, History } from 'history';
-import React, { ReducerAction } from 'react';
-import {
-  Route,
-  Routes,
-  unstable_HistoryRouter as Router,
-} from 'react-router-dom';
+import React, { ReducerAction, useLayoutEffect, useState } from 'react';
+import { Route, Router, Routes } from 'react-router';
 import { Mock, MockInstance } from 'vitest';
 import wait from 'waait';
 
@@ -33,6 +29,37 @@ import { NotificationsProvider } from '../domain/app/notificationsContext/Notifi
 import { PageSettingsProvider } from '../domain/app/pageSettingsContext/PageSettingsContext';
 import { ThemeProvider } from '../domain/app/theme/Theme';
 import { ServerErrorItem, UseServerErrorsState } from '../types';
+
+interface HistoryRouterProps {
+  history: History;
+  children: React.ReactNode;
+}
+
+/**
+ * A custom router component that syncs React Router v7 with the history package.
+ * This replaces the removed unstable_HistoryRouter from React Router v6.
+ */
+const HistoryRouter: React.FC<HistoryRouterProps> = ({ history, children }) => {
+  const [state, setState] = useState({
+    action: history.action,
+    location: history.location,
+  });
+
+  useLayoutEffect(() => {
+    const unlisten = history.listen(setState);
+    return unlisten;
+  }, [history]);
+
+  return (
+    <Router
+      location={state.location}
+      navigationType={state.action}
+      navigator={history}
+    >
+      {children}
+    </Router>
+  );
+};
 
 type CustomRenderOptions = {
   history?: History;
@@ -84,7 +111,7 @@ const customRender: CustomRender = (
         <NotificationsProvider>
           <PageSettingsProvider>
             <MockedProvider cache={createCache()} mocks={mocks}>
-              <Router history={history as any}>{children}</Router>
+              <HistoryRouter history={history}>{children}</HistoryRouter>
             </MockedProvider>
           </PageSettingsProvider>
         </NotificationsProvider>
@@ -141,11 +168,11 @@ const renderWithRoute: CustomRender = (
         <NotificationsProvider>
           <PageSettingsProvider>
             <MockedProvider cache={createCache()} mocks={mocks}>
-              <Router history={history as any}>
+              <HistoryRouter history={history}>
                 <Routes>
                   <Route path={path} element={children} />
                 </Routes>
-              </Router>
+              </HistoryRouter>
             </MockedProvider>
           </PageSettingsProvider>
         </NotificationsProvider>

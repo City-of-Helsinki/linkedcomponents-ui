@@ -2,11 +2,10 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { MockedProvider } from '@apollo/client/testing';
 import { renderHook, waitFor } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
 import map from 'lodash/map';
 import range from 'lodash/range';
 import { PropsWithChildren } from 'react';
-import { unstable_HistoryRouter as Router } from 'react-router-dom';
+import { createMemoryRouter, RouterProvider } from 'react-router';
 
 import {
   Meta,
@@ -101,15 +100,20 @@ const mocks = [
 ];
 
 const getHookWrapper = async () => {
-  const wrapper = ({ children }: PropsWithChildren) => (
-    <Router history={createMemoryHistory() as any}>
+  const wrapper = ({ children }: PropsWithChildren) => {
+    const element = (
       <NotificationsProvider>
         <MockedProvider cache={createCache()} mocks={mocks}>
           {children}
         </MockedProvider>
       </NotificationsProvider>
-    </Router>
-  );
+    );
+    const router = createMemoryRouter([{ path: '*', element }], {
+      initialEntries: ['/'],
+    });
+
+    return <RouterProvider router={router} />;
+  };
 
   const { result } = renderHook(() => useAllOrganizationClasses(), {
     wrapper,
