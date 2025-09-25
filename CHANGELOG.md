@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.19.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.3...linkedcomponents-ui-v1.19.4) (2025-09-25)
+
+
+### Bug Fixes
+
+* Initial edu keywords empty array Ref: LINK-2388 ([8fbb964](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/8fbb9640ca20b55a290b617721cffc39b5f57fac))
+* Stricter yarn configuration ([#508](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/508)) ([0142781](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/01427815af3f49bcd4abee7e3cc7e68670e74e0a))
+
 ## [1.19.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.2...linkedcomponents-ui-v1.19.3) (2025-09-16)
 
 
