@@ -608,12 +608,16 @@ export const getEventBasePayload = (
           isFree: false,
           ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION')
             ? {
-                offerPriceGroups: offer.offerPriceGroups.map((pg) => ({
-                  id: pg.id ?? undefined,
-                  price: pg.price,
-                  priceGroup: Number(pg.priceGroup),
-                  vatPercentage: offersVatPercentage,
-                })),
+                offerPriceGroups: offer.offerPriceGroups
+                  .filter(
+                    (pg) => Boolean(pg.price) && Boolean(offersVatPercentage)
+                  )
+                  .map((pg) => ({
+                    id: pg.id ?? undefined,
+                    price: pg.price,
+                    priceGroup: Number(pg.priceGroup),
+                    vatPercentage: offersVatPercentage,
+                  })),
               }
             : /* istanbul ignore next */
               {}),
