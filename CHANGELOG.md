@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.6](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.5...linkedcomponents-ui-v1.19.6) (2025-10-07)
+
+
+### Bug Fixes
+
+* Price group validation only when vat exists Ref: LINK-2403 ([742a742](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/742a74244a7ab0cbe48461f306fd9ea17ce5fb3c))
+
 ## [1.19.5](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.4...linkedcomponents-ui-v1.19.5) (2025-10-07)
 
 
