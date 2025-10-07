@@ -269,6 +269,7 @@ export const showFormErrors = <Values = unknown>({
         set(acc, getValue(e.path, ''), e.errors[0]),
       {}
     );
+
     const touchedFields = error.inner.reduce(
       (acc, e: Yup.ValidationError) => set(acc, getValue(e.path, ''), true),
       {}

@@ -87,9 +87,11 @@ const eventTimesSchema = Yup.array().when(
 
 const getPriceGroupsSchema = (
   isRegistrationPlanned: boolean,
-  priceGroupOptions: PriceGroupOption[]
+  priceGroupOptions: PriceGroupOption[],
+  offersVatPercentage?: string
 ) => {
-  return isRegistrationPlanned
+  // Only validate price groups if registration is planned AND we have VAT percentage
+  return isRegistrationPlanned && offersVatPercentage
     ? Yup.array().of(getPriceGroupSchema(priceGroupOptions))
     : Yup.array();
 };
@@ -97,7 +99,8 @@ const getPriceGroupsSchema = (
 const createPaidOfferSchema = (
   isRegistrationPlanned: boolean,
   eventInfoLanguage: string[],
-  priceGroupOptions: PriceGroupOption[]
+  priceGroupOptions: PriceGroupOption[],
+  offersVatPercentage?: string
 ) =>
   Yup.object().shape({
     [EVENT_OFFER_FIELDS.OFFER_PRICE]: createMultiLanguageValidation(
@@ -124,7 +127,8 @@ const createPaidOfferSchema = (
       ? {
           [EVENT_OFFER_FIELDS.OFFER_PRICE_GROUPS]: getPriceGroupsSchema(
             isRegistrationPlanned,
-            priceGroupOptions
+            priceGroupOptions,
+            offersVatPercentage
           ),
         }
       : /* istanbul ignore next */
@@ -177,14 +181,16 @@ const validateOffers = (
     isRegistrationPlanned,
     eventInfoLanguage,
     priceGroupOptions,
-  ] = values as [boolean, boolean, string[], PriceGroupOption[]];
+    offersVatPercentage,
+  ] = values as [boolean, boolean, string[], PriceGroupOption[], string];
 
   return hasPrice
     ? schema.of(
         createPaidOfferSchema(
           isRegistrationPlanned,
           eventInfoLanguage,
-          priceGroupOptions
+          priceGroupOptions,
+          offersVatPercentage
         )
       )
     : schema.of(createFreeOfferSchema(eventInfoLanguage));
@@ -515,6 +521,7 @@ export const publicEventSchema = Yup.object().shape(
           EVENT_FIELDS.IS_REGISTRATION_PLANNED,
           EVENT_FIELDS.EVENT_INFO_LANGUAGES,
           EVENT_FIELDS.PRICE_GROUP_OPTIONS,
+          EVENT_FIELDS.OFFERS_VAT_PERCENTAGE,
         ],
         validateOffers
       ),
@@ -603,7 +610,13 @@ export const draftEventSchema = Yup.object().shape(
     [EVENT_FIELDS.OFFERS]: Yup.array()
       .min(1, VALIDATION_MESSAGE_KEYS.OFFERS_REQUIRED)
       .when(
-        [EVENT_FIELDS.HAS_PRICE, EVENT_FIELDS.EVENT_INFO_LANGUAGES],
+        [
+          EVENT_FIELDS.HAS_PRICE,
+          EVENT_FIELDS.IS_REGISTRATION_PLANNED,
+          EVENT_FIELDS.EVENT_INFO_LANGUAGES,
+          EVENT_FIELDS.PRICE_GROUP_OPTIONS,
+          EVENT_FIELDS.OFFERS_VAT_PERCENTAGE,
+        ],
         validateOffers
       ),
     [EVENT_FIELDS.INFO_URL]: createMultiLanguageValidationByInfoLanguages(
