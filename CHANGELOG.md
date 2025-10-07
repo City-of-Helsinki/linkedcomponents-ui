@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.5](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.4...linkedcomponents-ui-v1.19.5) (2025-10-07)
+
+
+### Bug Fixes
+
+* Price group logic for external events Ref: LINK-2403 ([8a28484](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/8a284842727e14a25a63dfb2dd758f46f1c5aefd))
+
 ## [1.19.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.3...linkedcomponents-ui-v1.19.4) (2025-09-25)
 
 
