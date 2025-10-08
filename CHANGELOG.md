@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.19.7](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.6...linkedcomponents-ui-v1.19.7) (2025-10-08)
+
+
+### Dependencies
+
+* Bump react-router from 6.22.3 to 7.5.2 ([0ed3ff4](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/0ed3ff4eb9c54164876a39641e39f54523f400b3))
+* React-router 7.5.2 migration changes Ref: LINK-2191 ([3e3e98d](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/3e3e98d39856fab1970f5841e63e8073d8672300))
+
 ## [1.19.6](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.5...linkedcomponents-ui-v1.19.6) (2025-10-07)
 
 
