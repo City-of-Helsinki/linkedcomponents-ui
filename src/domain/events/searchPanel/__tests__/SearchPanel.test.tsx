@@ -48,7 +48,7 @@ test('should initialize search panel input', async () => {
   const user = userEvent.setup();
   const searchValue = 'search';
   renderComponent(
-    `${ROUTES.SEARCH}?text=${searchValue}&type=general&eventStatus=EventCancelled`
+    `${ROUTES.SEARCH}?x_full_text=${searchValue}&type=general&eventStatus=EventCancelled`
   );
 
   const searchInput = getElement('searchInput');
@@ -77,7 +77,7 @@ test('should search events with correct search params', async () => {
   await shouldFilterEventsOrRegistrations({
     expectedPathname: '/fi/events',
     expectedSearch:
-      '?eventStatus=EventCancelled&publisher=organization%3A1&text=search&type=general',
+      '?eventStatus=EventCancelled&publisher=organization%3A1&type=general&x_full_text=search',
     history,
     searchButtonLabel: 'Etsi tapahtumia',
     searchInputLabel: 'Hae Linked Events -rajapinnasta',

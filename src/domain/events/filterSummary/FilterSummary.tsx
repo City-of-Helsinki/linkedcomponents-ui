@@ -24,7 +24,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
-  const { end, eventStatus, places, publisher, start, text, types } =
+  const { end, eventStatus, places, publisher, start, fullText, types } =
     getEventSearchInitialValues(search);
 
   const clearFilters = () => {
@@ -36,8 +36,8 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
         place: [],
         publisher: [],
         start: null,
-        text: '',
         type: [],
+        x_full_text: '',
       }),
     });
   };
@@ -65,7 +65,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
             ? publisher.filter((item) => item !== value)
             : publisher,
         start: type === 'date' ? null : start,
-        text: type === 'text' ? '' : text,
+        x_full_text: type === 'text' ? '' : fullText,
       });
 
       navigate({ pathname, search: newSearch });
@@ -73,13 +73,13 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
 
     const filters: React.ReactElement[] = [];
 
-    if (text) {
+    if (fullText) {
       filters.push(
         <FilterTag
-          text={text}
+          text={fullText}
           onDelete={removeFilter}
           type="text"
-          value={text}
+          value={fullText}
         />
       );
     }
@@ -117,7 +117,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     publisher,
     search,
     start,
-    text,
+    fullText,
     types,
   ]);
 

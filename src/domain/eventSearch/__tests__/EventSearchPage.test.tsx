@@ -38,7 +38,7 @@ beforeEach(() => {
   mockAuthenticatedLoginState();
 });
 
-const route = `${ROUTES.SEARCH}?text=${searchText}`;
+const route = `${ROUTES.SEARCH}?x_full_text=${searchText}`;
 const mocks = [
   mockedEventsResponse,
   mockedOrganizationsResponse,
@@ -72,7 +72,7 @@ test('should render events in the event list', async () => {
 it('scrolls to event card and calls history.replace correctly (deletes eventId from state)', async () => {
   const route = ROUTES.SEARCH;
   const history = createMemoryHistory();
-  const search = `?text=${searchText}`;
+  const search = `?x_full_text=${searchText}`;
 
   history.push({ search, pathname: route }, { eventId: events.data[0]?.id });
 
