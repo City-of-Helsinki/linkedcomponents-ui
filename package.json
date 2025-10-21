@@ -71,7 +71,7 @@
     "typescript": "~5.4.3",
     "use-debounce": "^10.0.0",
     "use-deep-compare-effect": "^1.8.1",
-    "vite": "^6.2.7",
+    "vite": "^6.4.1",
     "vite-plugin-svgr": "^4.2.0",
     "vitest": "^3.0.9",
     "vitest-axe": "^0.1.0",
