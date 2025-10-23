@@ -119,6 +119,7 @@ export const eventsPathBuilder = ({
     { key: 'super_event_type', value: superEventType },
     { key: 'text', value: text },
     { key: 'translation', value: translation },
+    { key: 'use_image_proxy', value: true },
   ];
 
   const query = queryBuilder(variableToKeyItems);
