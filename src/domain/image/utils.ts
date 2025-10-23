@@ -39,14 +39,19 @@ import { ImageFormFields } from './types';
 export const imagePathBuilder = ({
   args,
 }: PathBuilderProps<ImageQueryVariables>): string => {
+  const USE_IMAGE_PROXY = import.meta.env.REACT_APP_USE_IMAGE_PROXY === 'true';
   const { id } = args;
 
-  return `/image/${id}/`;
+  const query = queryBuilder([
+    { key: 'use_image_proxy', value: USE_IMAGE_PROXY || null },
+  ]);
+  return `/image/${id}/${query}`;
 };
 
 export const imagesPathBuilder = ({
   args,
 }: PathBuilderProps<ImagesQueryVariables>): string => {
+  const USE_IMAGE_PROXY = import.meta.env.REACT_APP_USE_IMAGE_PROXY === 'true';
   const { dataSource, page, pageSize, publisher, sort, text, createdBy } = args;
   const variableToKeyItems = [
     { key: 'data_source', value: dataSource },
@@ -56,6 +61,7 @@ export const imagesPathBuilder = ({
     { key: 'sort', value: sort },
     { key: 'text', value: text },
     { key: 'created_by', value: createdBy },
+    { key: 'use_image_proxy', value: USE_IMAGE_PROXY || null },
   ];
 
   const query = queryBuilder(variableToKeyItems);
