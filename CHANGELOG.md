@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.19.8](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.7...linkedcomponents-ui-v1.19.8) (2025-10-27)
+
+
+### Bug Fixes
+
+* Publisher field tooltip Ref: LINK-1759 ([7078385](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7078385e709595ffc9064ec958f7290c603dd8d4))
+
+
+### Dependencies
+
+* Bump vite from 6.3.6 to 6.4.1 ([dd6c87a](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/dd6c87af01c13b4ef7f6620ea90a9e73d9d3e060))
+* Bump vitest vitest/coverage-istanbul to 3.2.4 ([53baf30](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/53baf3080b7347ef9988cce9b0ad73f17415b593))
+* Compatible react types Ref: LINK-1759 ([7078385](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7078385e709595ffc9064ec958f7290c603dd8d4))
+* Upgrade HDS to 4.7.1 Ref: LINK-1759 ([7078385](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7078385e709595ffc9064ec958f7290c603dd8d4))
+
 ## [1.19.7](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.6...linkedcomponents-ui-v1.19.7) (2025-10-08)
 
 
