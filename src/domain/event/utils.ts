@@ -130,7 +130,10 @@ export const eventPathBuilder = ({
   args,
 }: PathBuilderProps<EventQueryVariables>): string => {
   const { id, include } = args;
-  const variableToKeyItems = [{ key: 'include', value: include }];
+  const variableToKeyItems = [
+    { key: 'include', value: include },
+    { key: 'use_image_proxy', value: true },
+  ];
 
   const query = queryBuilder(variableToKeyItems);
 
