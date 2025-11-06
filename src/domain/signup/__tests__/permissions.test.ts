@@ -1,10 +1,14 @@
 /* eslint-disable import/no-named-as-default-member */
+import addDays from 'date-fns/addDays';
 import i18n from 'i18next';
 
 import {
+  fakeEvent,
   fakePaymentCancellation,
   fakePaymentRefund,
+  fakePriceGroup,
   fakeRegistration,
+  fakeRegistrationPriceGroup,
   fakeSignup,
   fakeSignupGroup,
   fakeUser,
@@ -29,6 +33,7 @@ describe('getSignupActionWarning function', () => {
     (action) => {
       const commonProps = {
         authenticated: false,
+        registration: fakeRegistration(),
         t: i18n.t.bind(i18n),
         userCanDoAction: false,
       };
@@ -72,6 +77,7 @@ describe('getSignupActionWarning function', () => {
       expect(
         getSignupActionWarning({
           authenticated: true,
+          registration: fakeRegistration(),
           t: i18n.t.bind(i18n),
           userCanDoAction: false,
           action,
@@ -84,6 +90,7 @@ describe('getSignupActionWarning function', () => {
     expect(
       getSignupActionWarning({
         authenticated: true,
+        registration: fakeRegistration(),
         signup: fakeSignup({
           paymentCancellation: fakePaymentCancellation(),
         }),
@@ -98,6 +105,7 @@ describe('getSignupActionWarning function', () => {
     expect(
       getSignupActionWarning({
         authenticated: true,
+        registration: fakeRegistration(),
         signup: fakeSignup(),
         signupGroup: fakeSignupGroup({
           paymentCancellation: fakePaymentCancellation(),
@@ -113,6 +121,7 @@ describe('getSignupActionWarning function', () => {
     expect(
       getSignupActionWarning({
         authenticated: true,
+        registration: fakeRegistration(),
         signup: fakeSignup({
           paymentRefund: fakePaymentRefund(),
         }),
@@ -127,6 +136,7 @@ describe('getSignupActionWarning function', () => {
     expect(
       getSignupActionWarning({
         authenticated: true,
+        registration: fakeRegistration(),
         signup: fakeSignup(),
         signupGroup: fakeSignupGroup({
           paymentRefund: fakePaymentRefund(),
@@ -136,6 +146,112 @@ describe('getSignupActionWarning function', () => {
         action: SIGNUP_ACTIONS.DELETE,
       })
     ).toBe('Osallistujan maksua hyvitetään eikä osallistujaa voi poistaa.');
+  });
+
+  it('should return correct warning when trying to delete paid signup past refund deadline', () => {
+    const eventInFiveDays = addDays(new Date(), 5);
+
+    expect(
+      getSignupActionWarning({
+        authenticated: true,
+        registration: fakeRegistration({
+          event: fakeEvent({ startTime: eventInFiveDays.toISOString() }),
+          registrationPriceGroups: [
+            fakeRegistrationPriceGroup({ price: '10.00' }),
+          ],
+        }),
+        signup: fakeSignup({
+          priceGroup: fakePriceGroup(),
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_ACTIONS.DELETE,
+      })
+    ).toBe('Hyvityksen määräaika on umpeutunut eikä osallistujaa voi poistaa.');
+  });
+
+  it('should return correct warning when trying to delete signup group with paid signups past refund deadline', () => {
+    const eventInFiveDays = addDays(new Date(), 5);
+
+    expect(
+      getSignupActionWarning({
+        authenticated: true,
+        registration: fakeRegistration({
+          event: fakeEvent({ startTime: eventInFiveDays.toISOString() }),
+          registrationPriceGroups: [
+            fakeRegistrationPriceGroup({ price: '10.00' }),
+          ],
+        }),
+        signupGroup: fakeSignupGroup({
+          signups: [fakeSignup({ priceGroup: fakePriceGroup() })],
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_ACTIONS.DELETE,
+      })
+    ).toBe('Hyvityksen määräaika on umpeutunut eikä osallistujaa voi poistaa.');
+  });
+
+  it('should not return refund deadline warning when trying to delete paid signup within refund deadline', () => {
+    const eventInTenDays = addDays(new Date(), 10);
+
+    expect(
+      getSignupActionWarning({
+        authenticated: true,
+        registration: fakeRegistration({
+          event: fakeEvent({ startTime: eventInTenDays.toISOString() }),
+          registrationPriceGroups: [
+            fakeRegistrationPriceGroup({ price: '10.00' }),
+          ],
+        }),
+        signup: fakeSignup({
+          priceGroup: fakePriceGroup(),
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_ACTIONS.DELETE,
+      })
+    ).toBe('');
+  });
+
+  it('should not return refund deadline warning when trying to delete free signup past deadline', () => {
+    const eventInFiveDays = addDays(new Date(), 5);
+
+    expect(
+      getSignupActionWarning({
+        authenticated: true,
+        registration: fakeRegistration({
+          event: fakeEvent({ startTime: eventInFiveDays.toISOString() }),
+          registrationPriceGroups: [
+            fakeRegistrationPriceGroup({ price: '0.00' }),
+          ],
+        }),
+        signup: fakeSignup(),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_ACTIONS.DELETE,
+      })
+    ).toBe('');
+  });
+
+  it('should not return refund deadline warning when registration has no pricing', () => {
+    const eventInFiveDays = addDays(new Date(), 5);
+
+    expect(
+      getSignupActionWarning({
+        authenticated: true,
+        registration: fakeRegistration({
+          event: fakeEvent({ startTime: eventInFiveDays.toISOString() }),
+          registrationPriceGroups: [],
+        }),
+        signup: fakeSignup({
+          priceGroup: fakePriceGroup(),
+        }),
+        t: i18n.t.bind(i18n),
+        userCanDoAction: true,
+        action: SIGNUP_ACTIONS.DELETE,
+      })
+    ).toBe('');
   });
 });
 

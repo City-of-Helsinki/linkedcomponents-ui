@@ -2213,6 +2213,7 @@
     "waitingListTableCount": "{{count}} jonopaikalla",
     "warningHasPaymentCancellation": "Osallistujan maksua perutaan eikä osallistujaa voi poistaa.",
     "warningHasPaymentRefund": "Osallistujan maksua hyvitetään eikä osallistujaa voi poistaa.",
+    "warningRefundDeadlinePassed": "Hyvityksen määräaika on umpeutunut eikä osallistujaa voi poistaa.",
     "warningNoRightsToCreate": "Sinulla ei ole oikeuksia lisätä osallistujia tähän ilmoittautumiseen.",
     "warningNoRightsToEdit": "Sinulla ei ole oikeuksia muokata tätä osallistujaa.",
     "warningNoRightsToView": "Sinulla ei ole oikeuksia nähdä tämän ilmoittautumisen osallistujia."

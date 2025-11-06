@@ -2214,6 +2214,7 @@
     "waitingListTableCount": "{{count}} in Waiting list",
     "warningHasPaymentCancellation": "The participant's payment will be cancelled and the participant cannot be removed.",
     "warningHasPaymentRefund": "The participant's payment will be refunded and the participant cannot be removed.",
+    "warningRefundDeadlinePassed": "The refund deadline has passed and the participant cannot be removed.",
     "warningNoRightsToCreate": "You have insufficient rights to create participants to this registration.",
     "warningNoRightsToEdit": "You have insufficient rights to edit this participant.",
     "warningNoRightsToView": "You have insufficient rights to view participants of this registration."
