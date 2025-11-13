@@ -544,26 +544,30 @@
       "infoTextEducationLevels": "Select the type of institution producing the course",
       "infoTextEnvironmentalCertificate": "If the company or event has a certificate, its name is mandatory information (e.g. ecocompass). If there is no certificate, the certificate field is left blank.",
       "infoTextEventTimes1": {
-        "course": "To add a recurring course spanning over multiple days, there is an “Save Course Date” button and a “Recurring event” tool for a regularly recurring course.",
-        "general": "To add a recurring event spanning over multiple days, there is an “Save Event Date” button and a “Recurring event” tool for a regularly recurring event.",
-        "volunteering": "To add a recurring volunteering spanning over multiple days, there is an “Save Volunteering Date” button and a “Recurring event” tool for a regularly recurring volunteering."
+        "course": "On the Event Date tab (default), it is recommended to enter a single course or a few days of courses. If the course repeats regularly several times, it is recommended to enter the date information on the Recurring Event tab.",
+        "general": "On the Event Date tab (default), it is recommended to enter a single event or a few days of events. If the event repeats regularly several times, it is recommended to enter the date information on the Recurring Event tab.",
+        "volunteering": "On the Event Date tab (default), it is recommended to enter a single volunteering or a few days of volunteerings. If the volunteering repeats regularly several times, it is recommended to enter the date information on the Recurring Event tab."
       },
       "infoTextEventTimes2": {
-        "course": "Enter the start date of the course and also the start time if the course starts at a specific time.",
-        "general": "Enter the start date of the event and also the start time if the event starts at a specific time.",
-        "volunteering": "Enter the start date of the volunteering and also the start time if the volunteering starts at a specific time."
+        "course": "Enter the start and end dates and times of the course.",
+        "general": "Enter the start and end dates and times of the event.",
+        "volunteering": "Enter the start and end dates and times of the volunteering."
       },
       "infoTextEventTimes3": {
-        "course": "Also enter the end date as well as the end time if the course ends at a specific time.",
-        "general": "Also enter the end date as well as the end time if the event ends at a specific time.",
-        "volunteering": "Also enter the end date as well as the end time if the volunteering ends at a specific time."
+        "course": "If the course is held several times, you can add new dates for the course. If the course is repeated regularly, you can add all the dates at once by selecting Recurring Event.",
+        "general": "If the event is held several times, you can add new dates for the event. If the event is repeated regularly, you can add all the dates at once by selecting Recurring Event.",
+        "volunteering": "If the volunteering is held several times, you can add new dates for the volunteering. If the volunteering is repeated regularly, you can add all the dates at once by selecting Recurring Event."
       },
       "infoTextEventTimes4": {
-        "course": "If the course is held more than once, you can add new dates to the course. If the course repeats regularly, you can add all times at once by selecting Recurring Course.",
-        "general": "If the event is held more than once, you can add new dates to the event. If the event repeats regularly, you can add all times at once by selecting “Recurring Event”.",
-        "volunteering": "If the volunteering is held more than once, you can add new dates to the volunteering. If the volunteering repeats regularly, you can add all times at once by selecting Recurring Volunteering."
+        "course": "If a recurring course has many occurrences, it is recommended that you enter the course as multiple courses to avoid errors. For example, if a course recurs twice a day for three months, it is best to enter this course as three separate courses each month so that the courses are saved correctly.",
+        "general": "If a recurring event has many occurrences, it is recommended that you enter the event as multiple events to avoid errors. For example, if an event recurs twice a day for three months, it is best to enter this event as three separate events each month so that the events are saved correctly.",
+        "volunteering": "If a recurring volunteering has many occurrences, it is recommended that you enter the volunteering as multiple volunteerings to avoid errors. For example, if a volunteering recurs twice a day for three months, it is best to enter this volunteering as three separate volunteerings each month so that the volunteerings are saved correctly."
       },
-      "infoTextEventTimes5": "To delete an extra time, select the minus icon next to the time.",
+      "infoTextEventTimes5": {
+        "course": "If a course is cancelled or there are changes to a recurring course, you can delete the extra time from the list of course times by pressing the minus symbol.",
+        "general": "If an event is cancelled or there are changes to a recurring event, you can delete the extra time from the list of event times by pressing the minus symbol.",
+        "volunteering": "If a volunteering is cancelled or there are changes to a recurring volunteering, you can delete the extra time from the list of volunteering times by pressing the minus symbol."
+      },
       "infoTextImage1": {
         "course": "Always try to find a picture for the course. The image can be licensed under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.en\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, in which case the image can be shared and modified quite freely, or \"Use limited to the course \".",
         "general": "Always try to find a picture for the event. The image can be licensed under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.en\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, in which case the image can be shared and modified quite freely, or \"Use limited to the event \".",
