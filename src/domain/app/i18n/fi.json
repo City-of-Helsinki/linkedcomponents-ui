@@ -544,26 +544,30 @@
         "volunteering": "Jos vapaaehtoistehtävään on mahdollista ilmoittautua, määrittele ilmoittautumisen alkamis- ja päättymisajat tässä."
       },
       "infoTextEventTimes1": {
-        "course": "Useana päivänä toistuvan kurssin lisäämiseksi on Tallenna ajankohta -nappi ja säännöllisesti toistuvalle kurssille oma Toistuva kurssi -työkalu.",
-        "general": "Useana päivänä toistuvan tapahtuman lisäämiseksi on Tallenna ajankohta -nappi ja säännöllisesti toistuvalle tapahtumalle oma Toistuva tapahtuma -työkalu.",
-        "volunteering": "Useana päivänä toistuvan vapaaehtoistehtävän lisäämiseksi on Tallenna ajankohta -nappi ja säännöllisesti toistuvalle vapaaehtoistehtävälle oma Toistuva vapaaehtoistehtävä -työkalu."
+        "course": "Tapahtuman ajankohta välilehdellä (oletuksena) kannattaa syöttää yhden tai muutaman päivän kurssin. Jos taas kurssi toistuu säännöllisesti useamman kerran, ajankohta-tiedot kannattaa syöttää Toistuva tapahtuma -välilehdellä.",
+        "general": "Tapahtuman ajankohta välilehdellä (oletuksena) kannattaa syöttää yhden tai muutaman päivän tapahtuman. Jos taas tapahtuma toistuu säännöllisesti useamman kerran, ajankohta-tiedot kannattaa syöttää Toistuva tapahtuma -välilehdellä.",
+        "volunteering": "Tapahtuman ajankohta välilehdellä (oletuksena) kannattaa syöttää yhden tai muutaman päivän vapaaehtoistehtävän. Jos taas vapaaehtoistehtävä toistuu säännöllisesti useamman kerran, ajankohta-tiedot kannattaa syöttää Toistuva tapahtuma -välilehdellä."
       },
       "infoTextEventTimes2": {
-        "course": "Kirjoita kurssin alkamispäivä ja myös alkamisaika, jos kurssi alkaa tiettyyn kellonaikaan.",
-        "general": "Kirjoita tapahtuman alkamispäivä ja myös alkamisaika, jos tapahtuma alkaa tiettyyn kellonaikaan.",
-        "volunteering": "Kirjoita vapaaehtoistehtävän alkamispäivä ja myös alkamisaika, jos vapaaehtoistehtävä alkaa tiettyyn kellonaikaan."
+        "course": "Kirjoita kurssin alkamis- ja päättymispäivä sekä alkamis- ja päättymisaika.",
+        "general": "Kirjoita tapahtuman alkamis- ja päättymispäivä sekä alkamis- ja päättymisaika.",
+        "volunteering": "Kirjoita vapaaehtoistehtävän alkamis- ja päättymispäivä sekä alkamis- ja päättymisaika."
       },
       "infoTextEventTimes3": {
-        "course": "Kirjoita myös päättymispäivä sekä päättymisaika, jos kurssi päättyy tiettyyn kellonaikaan.",
-        "general": "Kirjoita myös päättymispäivä sekä päättymisaika, jos tapahtuma päättyy tiettyyn kellonaikaan.",
-        "volunteering": "Kirjoita myös päättymispäivä sekä päättymisaika, jos vapaaehtoistehtävä päättyy tiettyyn kellonaikaan."
+        "course": "Jos kurssi järjestetään useamman kerran, voit lisätä kurssille uusia ajankohtia. Jos kurssi toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.",
+        "general": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.",
+        "volunteering": "Jos vapaaehtoistehtävä järjestetään useamman kerran, voit lisätä vapaaehtoistehtävälle uusia ajankohtia. Jos vapaaehtoistehtävä toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma."
       },
       "infoTextEventTimes4": {
-        "course": "Jos kurssi järjestetään useamman kerran, voit lisätä kurssille uusia ajankohtia. Jos kurssi toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva kurssi.",
-        "general": "Jos tapahtuma järjestetään useamman kerran, voit lisätä tapahtumalle uusia ajankohtia. Jos tapahtuma toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva tapahtuma.",
-        "volunteering": "Jos vapaaehtoistehtävä järjestetään useamman kerran, voit lisätä vapaaehtoistehtävälle uusia ajankohtia. Jos vapaaehtoistehtävä toistuu säännöllisesti, voit lisätä kaikki ajankohdat kerralla valitsemalla Toistuva vapaaehtoistehtävä."
+        "course": "Jos toistuvalla kurssilla on paljon tapahtumakertoja, suositellaan kurssin syöttämistä useana kurssina virhetilanteiden välttämiseksi. Esim. kurssi toistuu kolmen kuukauden ajan päivittäin 2 kertaa päivässä, tällainen kurssi kannattaa syöttää kolmena eri kurssina kuukausittain, jotta kurssit tallentuvat oikein.",
+        "general": "Jos toistuvalla tapahtumalla on paljon tapahtumakertoja, suositellaan tapahtuman syöttämistä useana tapahtumana virhetilanteiden välttämiseksi. Esim. tapahtuma toistuu kolmen kuukauden ajan päivittäin 2 kertaa päivässä, tällainen tapahtuma kannattaa syöttää kolmena eri tapahtumana kuukausittain, jotta tapahtumat tallentuvat oikein.",
+        "volunteering": "Jos toistuvalla vapaaehtoistehtävällä on paljon tapahtumakertoja, suositellaan vapaaehtoistehtävän syöttämistä useana vapaaehtoistehtävänä virhetilanteiden välttämiseksi. Esim. vapaaehtoistehtävä toistuu kolmen kuukauden ajan päivittäin 2 kertaa päivässä, tällainen vapaaehtoistehtävä kannattaa syöttää kolmena eri vapaaehtoistehtävänä kuukausittain, jotta vapaaehtoistehtävät tallentuvat oikein."
       },
-      "infoTextEventTimes5": "Ylimääräisen ajankohdan voit poistaa valitsemalla ajankohdan vieressä olevan miinussymbolin.",
+      "infoTextEventTimes5": {
+        "course": "Jos kurssin ajankohta peruuntuu tai toistuvassa kurssissa on muutoksia, ylimääräisen ajankohdan voi poistaa kurssi-aikojen listauksesta miinussymbolia painamalla.",
+        "general": "Jos tapahtuman ajankohta peruuntuu tai toistuvassa tapahtumassa on muutoksia, ylimääräisen ajankohdan voi poistaa tapahtuma-aikojen listauksesta miinussymbolia painamalla.",
+        "volunteering": "Jos vapaaehtoistehtävän ajankohta peruuntuu tai toistuvassa vapaaehtoistehtävässä on muutoksia, ylimääräisen ajankohdan voi poistaa vapaaehtoistehtävä-aikojen listauksesta miinussymbolia painamalla."
+      },
       "infoTextImage1": {
         "course": "Pyri aina löytämään kurssille kuva. Kuvalle voi merkitä käyttöoikeuden <a href=\"https://creativecommons.org/licenses/by/4.0/deed.fi\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, jolloin kuvaa voi melko vapaasti jakaa ja muunnella, tai \"Käyttö rajattu kurssin yhteyteen\".",
         "general": "Pyri aina löytämään tapahtumalle kuva. Kuvalle voi merkitä käyttöoikeuden <a href=\"https://creativecommons.org/licenses/by/4.0/deed.fi\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, jolloin kuvaa voi melko vapaasti jakaa ja muunnella, tai \"Käyttö rajattu tapahtuman yhteyteen\".",

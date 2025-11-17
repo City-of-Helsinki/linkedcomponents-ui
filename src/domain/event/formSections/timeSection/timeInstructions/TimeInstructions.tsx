@@ -13,7 +13,7 @@ const TimeInstructions: FC<TimeInstructionsProps> = ({ eventType }) => {
       <p>{t(`event.form.infoTextEventTimes2.${eventType}`)}</p>
       <p>{t(`event.form.infoTextEventTimes3.${eventType}`)}</p>
       <p>{t(`event.form.infoTextEventTimes4.${eventType}`)}</p>
-      <p>{t(`event.form.infoTextEventTimes5`)}</p>
+      <p>{t(`event.form.infoTextEventTimes5.${eventType}`)}</p>
     </>
   );
 };

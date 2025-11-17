@@ -544,26 +544,30 @@
       "infoTextEducationLevels": "Välj vilken typ av institution som ska ge kursen",
       "infoTextEnvironmentalCertificate": "Om företaget eller evenemanget har ett certifikat, är dess namn obligatorisk information (t.ex. ecocompass). Om det inte finns något certifikat lämnas certifikatfältet tomt.",
       "infoTextEventTimes1": {
-        "course": "För att lägga till en återkommande kurs som sträcker sig över flera dagar finns det en knapp \"Spara tid för kurs\" och ett verktyg \"Återkommande evenemang\" för en regelbundet återkommande kurs.",
-        "general": "För att lägga till ett återkommande evenemang som sträcker sig över flera dagar finns det en knapp \"Spara tid för evenemang\" och ett verktyg \"Återkommande evenemang\" för ett regelbundet återkommande evenemang.",
-        "volunteering": "För att lägga till ett återkommande volontärarbete som sträcker sig över flera dagar finns det en knapp \"Spara tid för volontärarbete\" och ett verktyg för \"Återkommande evenemang\" för ett regelbundet återkommande volontärarbete."
+        "course": "På fliken evenenmang tid (förvald) ska du ange en händelse för en eller några dagar. Om kursen däremot upprepas flera gånger med jämna mellanrum ska du ange tidsinformationen på fliken Återkommande evenenmang.",
+        "general": "På fliken evenenmang tid (förvald) ska du ange en händelse för en eller några dagar. Om evenemanget däremot upprepas flera gånger med jämna mellanrum ska du ange tidsinformationen på fliken Återkommande evenenmang.",
+        "volunteering": "På fliken evenenmang tid (förvald) ska du ange en händelse för en eller några dagar. Om volontärarbetet däremot upprepas flera gånger med jämna mellanrum ska du ange tidsinformationen på fliken Återkommande evenenmang."
       },
       "infoTextEventTimes2": {
-        "course": "Ange starttid för kursen och även starttid om kursen startar vid en viss tidpunkt.",
-        "general": "Ange starttid för evenemanget och även starttid om evenemanget startar vid en viss tidpunkt.",
-        "volunteering": "Ange starttid för volontärarbetet och även starttid om volontärarbetet börjar vid en viss tidpunkt."
+        "course": "Ange kursens start- och slutdatum samt start- och sluttid.",
+        "general": "Ange evenemangets start- och slutdatum samt start- och sluttid.",
+        "volunteering": "Ange volontärarbetets start- och slutdatum samt start- och sluttid."
       },
       "infoTextEventTimes3": {
-        "course": "Ange också slutdatum och sluttid om kursen slutar vid en viss tidpunkt.",
-        "general": "Ange även slutdatum och sluttid om evenemanget avslutas vid en viss tidpunkt.",
-        "volunteering": "Ange också slutdatum och sluttid om volontärarbetet avslutas vid en viss tidpunkt."
+        "course": "Om kursen arrangeras flera gånger kan du lägga till nya datum för kursen. Om kursen återkommer regelbundet kan du lägga till alla datum på en gång genom att välja återkommande evenemang.",
+        "general": "Om evenemanget arrangeras flera gånger kan du lägga till nya datum för evenemanget. Om evenemanget återkommer regelbundet kan du lägga till alla datum på en gång genom att välja återkommande evenemang.",
+        "volunteering": "Om volontärarbetet arrangeras flera gånger kan du lägga till nya datum för volontärarbetet. Om volontärarbetet återkommer regelbundet kan du lägga till alla datum på en gång genom att välja återkommande evenemang."
       },
       "infoTextEventTimes4": {
-        "course": "Om kursen hålls mer än en gång kan du lägga till nya tid för kursen. Om kursen upprepas regelbundet kan du lägga till alla tider på en gång genom att välja Återkommande kurs.",
-        "general": "Om evenemanget hålls mer än en gång kan du lägga till nya tid för evenemanget. Om evenemanget upprepas regelbundet kan du lägga till alla tider på en gång genom att välja Återkommande evenemang.",
-        "volunteering": "Om volontärarbetet utförs mer än en gång kan du lägga till nya tid för volontärarbetet. Om volontärarbetet upprepas regelbundet kan du lägga till alla tider på en gång genom att välja Återkommande volontärarbete."
+        "course": "Om det återkommande kursen har många tillfällen rekommenderas det att kursen läggs in som flera kurser för att undvika fel. Om kursen till exempel återkommer två gånger om dagen under tre månader bör det läggas in som tre olika kurser per månad så att kurserna sparas korrekt.",
+        "general": "Om det återkommande evenemanget har många evenemangstillfällen rekommenderas det att evenemanget läggs in som flera evenemang för att undvika fel. Om evenemanget till exempel återkommer två gånger om dagen under tre månader bör det läggas in som tre olika evenemang per månad så att evenemangen sparas korrekt.",
+        "volunteering": "Om det återkommande volontärarbetet har många tillfällen rekommenderas det att volontärarbetet läggs in som flera volontärarbeten för att undvika fel. Om volontärarbetet till exempel återkommer två gånger om dagen under tre månader bör det läggas in som tre olika volontärarbeten per månad så att volontärarbetena sparas korrekt."
       },
-      "infoTextEventTimes5": "För att ta bort en extra tid, välj minusikonen bredvid tiden.",
+      "infoTextEventTimes5": {
+        "course": "Om en kurs ställs in eller om det sker ändringar i en återkommande kurs kan du ta bort den extra kursen från listan över kurstider genom att trycka på minustecknet.",
+        "general": "Om ett evenemang ställs in eller om det sker ändringar i ett återkommande evenemang kan du ta bort det extra evenemanget från listan över evenemangstider genom att trycka på minustecknet.",
+        "volunteering": "Om ett volontärarbete ställs in eller om det sker ändringar i ett återkommande volontärarbete kan du ta bort det extra volontärarbetet från listan över tider genom att trycka på minustecknet."
+      },
       "infoTextImage1": {
         "course": "Försök alltid att hitta en bild för kursen. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras helt fritt, eller \"Användning begränsad till kursen\".",
         "general": "Försök alltid att hitta en bild för evenemanget. Bilden kan licensieras under <a href=\"https://creativecommons.org/licenses/by/4.0/deed.sv\" rel=\"noopener noreferrer\" target=\"_blank\" aria-label=\"Creative Commons 4.0 BY {{openInNewTab}}\">Creative Commons 4.0 BY</a>, i vilket fall bilden kan delas och ändras helt fritt, eller \"Användning begränsad till evenemanget\".",
