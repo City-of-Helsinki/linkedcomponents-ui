@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.9](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.8...linkedcomponents-ui-v1.19.9) (2025-11-23)
+
+
+### Dependencies
+
+* Bump js-yaml from 4.1.0 to 4.1.1 ([#524](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/524)) ([da04c9f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/da04c9fdb1ef7a87fb58581349be7f66eedf5f81))
+
 ## [1.19.8](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.7...linkedcomponents-ui-v1.19.8) (2025-10-27)
 
 
