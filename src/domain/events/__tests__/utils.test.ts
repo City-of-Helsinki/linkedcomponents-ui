@@ -173,6 +173,30 @@ describe('eventsPathBuilder function', () => {
   );
 });
 
+describe('eventsPathBuilder with USE_IMAGE_PROXY environment variable', () => {
+  const cases = [
+    [
+      'true',
+      '/event/?event_type=Course,General,Volunteering&use_image_proxy=true',
+    ],
+    ['false', '/event/?event_type=Course,General,Volunteering'],
+    [undefined, '/event/?event_type=Course,General,Volunteering'],
+  ];
+  it.each(cases)(
+    'should respect USE_IMAGE_PROXY environment variable with value %p, result %p',
+    (useImageProxyValue, expectedPath) => {
+      const originalEnv = process.env;
+
+      process.env = {
+        ...originalEnv,
+        REACT_APP_USE_IMAGE_PROXY: useImageProxyValue,
+      };
+
+      expect(eventsPathBuilder({ args: {} })).toBe(expectedPath);
+      process.env = originalEnv;
+    }
+  );
+});
 describe('getEventsQueryVariables', () => {
   const defaultVariables = {
     createPath: undefined,
