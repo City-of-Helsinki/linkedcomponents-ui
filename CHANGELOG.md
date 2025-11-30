@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.20.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.8...linkedcomponents-ui-v1.20.0) (2025-11-30)
+
+
+### Features
+
+* Update help text for event time ([d02912a](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/d02912ae7b0fb1ac270c41b48dd3d17f72d8a870))
+
+
+### Dependencies
+
+* Bump js-yaml from 4.1.0 to 4.1.1 ([#524](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/524)) ([da04c9f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/da04c9fdb1ef7a87fb58581349be7f66eedf5f81))
+
 ## [1.19.8](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.7...linkedcomponents-ui-v1.19.8) (2025-10-27)
 
 
