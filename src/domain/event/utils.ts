@@ -129,8 +129,12 @@ import {
 export const eventPathBuilder = ({
   args,
 }: PathBuilderProps<EventQueryVariables>): string => {
+  const USE_IMAGE_PROXY = import.meta.env.REACT_APP_USE_IMAGE_PROXY === 'true';
   const { id, include } = args;
-  const variableToKeyItems = [{ key: 'include', value: include }];
+  const variableToKeyItems = [
+    { key: 'include', value: include },
+    { key: 'use_image_proxy', value: USE_IMAGE_PROXY || null },
+  ];
 
   const query = queryBuilder(variableToKeyItems);
 
