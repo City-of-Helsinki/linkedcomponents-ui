@@ -88,6 +88,8 @@ const accountFields = [
   { name: 'SAP-toimintoalue', value: accountPayload.operationArea },
 ];
 
+const editableAccountFields = accountFields.splice(3);
+
 const selectAccount = async () => {
   const user = userEvent.setup();
 
@@ -187,7 +189,7 @@ test('should restore accounf fields default values', async () => {
 
   await selectAccount();
 
-  for (const { name } of accountFields) {
+  for (const { name } of editableAccountFields) {
     const el = await screen.findByRole('textbox', { name: name });
     await user.clear(el);
     expect(el).toHaveValue('');

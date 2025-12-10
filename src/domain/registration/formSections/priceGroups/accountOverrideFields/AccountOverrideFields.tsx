@@ -47,7 +47,8 @@ const AccountOverrideFields: React.FC<Props> = ({
 
   const getFieldProps = (
     field: keyof WebStoreAccountFieldsFragment,
-    required = false
+    required = false,
+    disabled = false
   ) => ({
     helperText: t('registration.form.registrationAccount.helperDefaultValue', {
       value: getValue(account?.[field], '-'),
@@ -58,16 +59,23 @@ const AccountOverrideFields: React.FC<Props> = ({
       `registration.form.registrationAccount.placeholder${pascalCase(field)}`
     ),
     required,
+    disabled,
   });
   const fieldProps = {
     balanceProfitCenter: getFieldProps(
       REGISTRATION_ACCOUNT_FIELDS.BALANCE_PROFIT_CENTER,
+      true,
       true
     ),
-    companyCode: getFieldProps(REGISTRATION_ACCOUNT_FIELDS.COMPANY_CODE, true),
+    companyCode: getFieldProps(
+      REGISTRATION_ACCOUNT_FIELDS.COMPANY_CODE,
+      true,
+      true
+    ),
     internalOrder: getFieldProps(REGISTRATION_ACCOUNT_FIELDS.INTERNAL_ORDER),
     mainLedgerAccount: getFieldProps(
       REGISTRATION_ACCOUNT_FIELDS.MAIN_LEDGER_ACCOUNT,
+      true,
       true
     ),
     operationArea: getFieldProps(REGISTRATION_ACCOUNT_FIELDS.OPERATION_AREA),
@@ -101,7 +109,7 @@ const AccountOverrideFields: React.FC<Props> = ({
           <Field
             {...props}
             component={TextInputField}
-            disabled={!isEditingAllowed}
+            disabled={props.disabled || !isEditingAllowed}
             name={name}
           />
         </FormGroup>
