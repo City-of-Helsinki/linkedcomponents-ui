@@ -12,3 +12,9 @@ export const ALLOWED_SUBSTITUTE_USER_DOMAINS =
   import.meta.env.REACT_APP_ALLOWED_SUBSTITUTE_USER_DOMAINS?.split(',') ?? [
     'hel.fi',
   ];
+
+/* istanbul ignore next */
+export const WEB_STORE_REFUND_DEADLINE_DAYS = parseInt(
+  import.meta.env?.REACT_APP_WEB_STORE_REFUND_DEADLINE_DAYS ?? '7',
+  10
+);
