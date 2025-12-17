@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { ApolloQueryResult, ServerError } from '@apollo/client';
 import { Form, Formik, FormikErrors, FormikTouched, useField } from 'formik';
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { ValidationError } from 'yup';
@@ -139,11 +139,15 @@ const EventForm: React.FC<EventFormProps> = ({
     getValue(event?.publisher, values.publisher)
   );
 
-  const isAdminUser = isAdminUserInOrganization({
-    id: getValue(event?.publisher, values.publisher),
-    organizationAncestors,
-    user,
-  });
+  const isAdminUser = useMemo(
+    () =>
+      isAdminUserInOrganization({
+        id: getValue(event?.publisher, values.publisher),
+        organizationAncestors,
+        user,
+      }),
+    [event?.publisher, values.publisher, organizationAncestors, user]
+  );
 
   const mainCategories = useMainCategories(values.type as EVENT_TYPE);
 
@@ -169,11 +173,14 @@ const EventForm: React.FC<EventFormProps> = ({
     updateEvent,
   } = useEventActions(event);
 
-  const goToEventSavedPage = (id: string) => {
-    navigate(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
-  };
+  const goToEventSavedPage = useCallback(
+    (id: string) => {
+      navigate(`/${locale}${ROUTES.EVENT_SAVED.replace(':id', id)}`);
+    },
+    [locale, navigate]
+  );
 
-  const goToEventsPage = (): void => {
+  const goToEventsPage = useCallback((): void => {
     const { returnPath, remainingQueryString } = extractLatestReturnPath(
       location.search,
       ROUTES.SEARCH
@@ -188,38 +195,41 @@ const EventForm: React.FC<EventFormProps> = ({
       },
       { state: { eventId: event?.id } }
     );
-  };
+  }, [locale, location.search, navigate, event?.id]);
 
-  const handleCancel = (eventType: string) => {
-    cancelEvent({
-      onError: /* istanbul ignore next */ (error) =>
-        showServerErrors({
-          error: error as ServerError,
-          eventType,
-          callbackFn: () => setOpenModal(null),
-        }),
-      onSuccess: async () => {
-        refetch && (await refetch());
-        window.scrollTo(0, 0);
-        addNotification({
-          label: t('event.form.notificationEventCancelled'),
-          type: 'success',
-        });
-      },
-    });
-  };
+  const handleCancel = useCallback(
+    (eventType: string) => {
+      cancelEvent({
+        onError: /* istanbul ignore next */ (error) =>
+          showServerErrors({
+            error: error as ServerError,
+            eventType,
+            callbackFn: () => setOpenModal(null),
+          }),
+        onSuccess: async () => {
+          refetch && (await refetch());
+          window.scrollTo(0, 0);
+          addNotification({
+            label: t('event.form.notificationEventCancelled'),
+            type: 'success',
+          });
+        },
+      });
+    },
+    [cancelEvent, showServerErrors, setOpenModal, refetch, addNotification, t]
+  );
 
-  const handleCreate = (
-    values: EventFormFields,
-    publicationStatus: PublicationStatus
-  ) => {
-    createEvent(values, publicationStatus, {
-      onError: (error) => showServerErrors({ error, eventType: values.type }),
-      onSuccess: (id) => goToEventSavedPage(getValue(id, '')),
-    });
-  };
+  const handleCreate = useCallback(
+    (values: EventFormFields, publicationStatus: PublicationStatus) => {
+      createEvent(values, publicationStatus, {
+        onError: (error) => showServerErrors({ error, eventType: values.type }),
+        onSuccess: (id) => goToEventSavedPage(getValue(id, '')),
+      });
+    },
+    [createEvent, showServerErrors, goToEventSavedPage]
+  );
 
-  const handleDelete = () => {
+  const handleDelete = useCallback(() => {
     deleteEvent({
       onSuccess: () => {
         goToEventsPage();
@@ -229,48 +239,51 @@ const EventForm: React.FC<EventFormProps> = ({
         });
       },
     });
-  };
+  }, [deleteEvent, goToEventsPage, addNotification, t]);
 
-  const handlePostpone = (eventType: string) => {
-    postponeEvent({
-      onError: /* istanbul ignore next */ (error) =>
-        showServerErrors({
-          error: error as ServerError,
-          eventType,
-          callbackFn: () => setOpenModal(null),
-        }),
-      onSuccess: async () => {
-        refetch && (await refetch());
-        window.scrollTo(0, 0);
-        addNotification({
-          label: t('event.form.notificationEventPostponed'),
-          type: 'success',
-        });
-      },
-    });
-  };
+  const handlePostpone = useCallback(
+    (eventType: string) => {
+      postponeEvent({
+        onError: /* istanbul ignore next */ (error) =>
+          showServerErrors({
+            error: error as ServerError,
+            eventType,
+            callbackFn: () => setOpenModal(null),
+          }),
+        onSuccess: async () => {
+          refetch && (await refetch());
+          window.scrollTo(0, 0);
+          addNotification({
+            label: t('event.form.notificationEventPostponed'),
+            type: 'success',
+          });
+        },
+      });
+    },
+    [postponeEvent, showServerErrors, setOpenModal, refetch, addNotification, t]
+  );
 
-  const handleUpdate = (
-    values: EventFormFields,
-    publicationStatus: PublicationStatus
-  ) => {
-    updateEvent(values, publicationStatus, {
-      onError: (error) =>
-        showServerErrors({
-          error: error as ServerError,
-          eventType: values.type,
-          callbackFn: () => setOpenModal(null),
-        }),
-      onSuccess: async () => {
-        refetch && (await refetch());
-        window.scrollTo(0, 0);
-        addNotification({
-          label: t('event.form.notificationEventUpdated'),
-          type: 'success',
-        });
-      },
-    });
-  };
+  const handleUpdate = useCallback(
+    (values: EventFormFields, publicationStatus: PublicationStatus) => {
+      updateEvent(values, publicationStatus, {
+        onError: (error) =>
+          showServerErrors({
+            error: error as ServerError,
+            eventType: values.type,
+            callbackFn: () => setOpenModal(null),
+          }),
+        onSuccess: async () => {
+          refetch && (await refetch());
+          window.scrollTo(0, 0);
+          addNotification({
+            label: t('event.form.notificationEventUpdated'),
+            type: 'success',
+          });
+        },
+      });
+    },
+    [updateEvent, showServerErrors, setOpenModal, refetch, addNotification, t]
+  );
 
   const [nextPublicationStatus, setNextPublicationStatus] = React.useState(
     event?.publicationStatus as PublicationStatus
@@ -284,81 +297,113 @@ const EventForm: React.FC<EventFormProps> = ({
     sortedEventInfoLanguages[0]
   );
 
-  const isEventActionAllowed = (actions: EVENT_ACTIONS[]) => {
-    return actions.some((action) =>
-      checkCanUserDoAction({
-        action,
-        organizationAncestors,
-        user,
-        ...(event ? { event } : { publisher: values.publisher }),
-      })
-    );
-  };
+  const isEventActionAllowed = useCallback(
+    (actions: EVENT_ACTIONS[]) => {
+      return actions.some((action) =>
+        checkCanUserDoAction({
+          action,
+          organizationAncestors,
+          user,
+          ...(event ? { event } : { publisher: values.publisher }),
+        })
+      );
+    },
+    [event, organizationAncestors, user, values.publisher]
+  );
 
   /* istanbul ignore next */
-  const isEditingAllowed = event
-    ? isEventActionAllowed([
-        EVENT_ACTIONS.UPDATE_DRAFT,
-        EVENT_ACTIONS.UPDATE_PUBLIC,
-        EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
-      ])
-    : isEventActionAllowed([EVENT_ACTIONS.CREATE_DRAFT, EVENT_ACTIONS.PUBLISH]);
+  const isEditingAllowed = useMemo(
+    () =>
+      event
+        ? isEventActionAllowed([
+            EVENT_ACTIONS.UPDATE_DRAFT,
+            EVENT_ACTIONS.UPDATE_PUBLIC,
+            EVENT_ACTIONS.ACCEPT_AND_PUBLISH,
+          ])
+        : isEventActionAllowed([
+            EVENT_ACTIONS.CREATE_DRAFT,
+            EVENT_ACTIONS.PUBLISH,
+          ]),
+    [event, isEventActionAllowed]
+  );
 
-  const clearErrors = () => setErrors({});
+  const clearErrors = useCallback(() => setErrors({}), [setErrors]);
 
-  const handleSubmit = async (publicationStatus: PublicationStatus) => {
-    try {
-      const valuesWithMainCategories = { ...values, mainCategories };
-      setServerErrorItems([]);
-      clearErrors();
+  const handleSubmit = useCallback(
+    async (publicationStatus: PublicationStatus) => {
+      try {
+        const valuesWithMainCategories = { ...values, mainCategories };
+        setServerErrorItems([]);
+        clearErrors();
 
-      if (isExternalUser) {
-        await externalUserEventSchema.validate(valuesWithMainCategories, {
-          abortEarly: false,
-        });
-      } else if (publicationStatus === PublicationStatus.Draft) {
-        await draftEventSchema.validate(valuesWithMainCategories, {
-          abortEarly: false,
-        });
-      } else {
-        await publicEventSchema.validate(valuesWithMainCategories, {
-          abortEarly: false,
-        });
-      }
-
-      if (event) {
-        const { superEventType } = getEventFields(event, locale);
-
-        if (superEventType === SuperEventType.Recurring) {
-          setNextPublicationStatus(publicationStatus);
-          setOpenModal(EVENT_MODALS.UPDATE);
+        if (isExternalUser) {
+          await externalUserEventSchema.validate(valuesWithMainCategories, {
+            abortEarly: false,
+          });
+        } else if (publicationStatus === PublicationStatus.Draft) {
+          await draftEventSchema.validate(valuesWithMainCategories, {
+            abortEarly: false,
+          });
         } else {
-          handleUpdate(values, publicationStatus);
+          await publicEventSchema.validate(valuesWithMainCategories, {
+            abortEarly: false,
+          });
         }
-      } else {
-        handleCreate(values, publicationStatus);
-      }
-    } catch (error) {
-      showFormErrors({
-        error: error as ValidationError,
-        setErrors,
-        setTouched,
-      });
 
-      await scrollToFirstEventError({
-        descriptionLanguage,
-        error: error as ValidationError,
-        setDescriptionLanguage,
-      });
-    }
-  };
+        if (event) {
+          const { superEventType } = getEventFields(event, locale);
+
+          if (superEventType === SuperEventType.Recurring) {
+            setNextPublicationStatus(publicationStatus);
+            setOpenModal(EVENT_MODALS.UPDATE);
+          } else {
+            handleUpdate(values, publicationStatus);
+          }
+        } else {
+          handleCreate(values, publicationStatus);
+        }
+      } catch (error) {
+        showFormErrors({
+          error: error as ValidationError,
+          setErrors,
+          setTouched,
+        });
+
+        await scrollToFirstEventError({
+          descriptionLanguage,
+          error: error as ValidationError,
+          setDescriptionLanguage,
+        });
+      }
+    },
+    [
+      values,
+      mainCategories,
+      setServerErrorItems,
+      clearErrors,
+      isExternalUser,
+      event,
+      locale,
+      setNextPublicationStatus,
+      setOpenModal,
+      handleUpdate,
+      handleCreate,
+      setErrors,
+      setTouched,
+      descriptionLanguage,
+      setDescriptionLanguage,
+    ]
+  );
 
   React.useEffect(() => {
     setMainCategories(mainCategories);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainCategories]);
 
-  const { name } = event ? getEventFields(event, locale) : { name: '' };
+  const { name } = useMemo(
+    () => (event ? getEventFields(event, locale) : { name: '' }),
+    [event, locale]
+  );
 
   return (
     <>
@@ -627,11 +672,13 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
   const { event } = props;
   const { user, externalUser } = useUser();
 
-  const eventInitialValues = externalUser
-    ? EVENT_EXTERNAL_USER_INITIAL_VALUES
-    : EVENT_INITIAL_VALUES;
+  const eventInitialValues = useMemo(
+    () =>
+      externalUser ? EVENT_EXTERNAL_USER_INITIAL_VALUES : EVENT_INITIAL_VALUES,
+    [externalUser]
+  );
 
-  const initialValues = React.useMemo(
+  const initialValues = useMemo(
     () =>
       event
         ? getEventInitialValues(event)
@@ -639,12 +686,13 @@ const EventFormWrapper: React.FC<EventFormWrapperProps> = (props) => {
             ...eventInitialValues,
             publisher: getValue(user?.organization, ''),
           },
-    [event, eventInitialValues, user]
+    [event, eventInitialValues, user?.organization]
   );
 
-  const validationSchema = externalUser
-    ? externalUserEventSchema
-    : publicEventSchema;
+  const validationSchema = useMemo(
+    () => (externalUser ? externalUserEventSchema : publicEventSchema),
+    [externalUser]
+  );
 
   return (
     <Formik
