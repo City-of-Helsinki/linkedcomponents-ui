@@ -46,6 +46,7 @@ type LoginStateOptions = {
   login: Mock<any>;
   logout: Mock<any>;
   user: User | null;
+  isRenewing: boolean;
 };
 
 const mockLoginState = ({
@@ -60,10 +61,12 @@ const mockLoginState = ({
     getUser: () => user,
     login: login ?? vi.fn(),
     logout: logout ?? vi.fn(),
+    isRenewing: () => false,
   } as any);
 
   const useApiTokens = vi.spyOn(hdsReact, 'useApiTokens').mockReturnValue({
     getStoredApiTokens: () => [null, apiToken ? { API_SCOPE: apiToken } : null],
+    isRenewing: () => false,
   } as any);
 
   return { useApiTokens, useOidcClient };
@@ -78,6 +81,7 @@ export const mockAuthenticatedLoginState = (
     apiToken,
     authenticated: true,
     user: fakeOidcUserState(),
+    isRenewing: false,
     ...options,
   });
 };

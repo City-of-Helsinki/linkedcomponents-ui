@@ -1,4 +1,5 @@
 import { useApiTokens } from 'hds-react';
+import { useEffect, useRef } from 'react';
 
 import { UserFieldsFragment, useUserQuery } from '../../../generated/graphql';
 import getPathBuilder from '../../../utils/getPathBuilder';
@@ -16,10 +17,12 @@ export type UserState = {
 };
 
 const useUser = (): UserState => {
-  const { user } = useAuth();
+  const { user, isRenewing } = useAuth();
   const { getStoredApiTokens } = useApiTokens();
   const userId = user?.profile.sub;
   const [, apiTokens] = getStoredApiTokens();
+
+  const lastValidUserRef = useRef<UserFieldsFragment | undefined>();
 
   const { data: userData, loading: loadingUser } = useUserQuery({
     skip: !apiTokens || !userId,
@@ -29,13 +32,24 @@ const useUser = (): UserState => {
     },
   });
 
+  useEffect(() => {
+    if (userData?.user && !isRenewing) {
+      lastValidUserRef.current = userData.user;
+    }
+  }, [userData?.user, isRenewing]);
+
   const loading = loadingUser;
 
+  const currentUser =
+    isRenewing && lastValidUserRef.current
+      ? lastValidUserRef.current
+      : userData?.user;
+
   const isExternalUser = isExternalUserWithoutOrganization({
-    user: userData?.user,
+    user: currentUser,
   });
 
-  return { loading, user: userData?.user, externalUser: isExternalUser };
+  return { loading, user: currentUser, externalUser: isExternalUser };
 };
 
 export default useUser;
