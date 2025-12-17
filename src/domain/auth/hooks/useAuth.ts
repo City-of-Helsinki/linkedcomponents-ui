@@ -13,12 +13,20 @@ type UseAuthState = {
   login: (signInPath?: string) => Promise<void>;
   logout: (signInPath?: string) => Promise<void>;
   user: User | null;
+  isRenewing: boolean;
 };
 
 const useAuth = (): UseAuthState => {
   const locale = useLocale();
-  const { isAuthenticated, getUser, login, logout } = useOidcClient();
-  const { getStoredApiTokens } = useApiTokens();
+  const {
+    isAuthenticated,
+    getUser,
+    login,
+    logout,
+    isRenewing: isOidcRenewing,
+  } = useOidcClient();
+  const { getStoredApiTokens, isRenewing: isApiTokensRenewing } =
+    useApiTokens();
 
   const getApiToken = useCallback(
     () =>
@@ -48,6 +56,7 @@ const useAuth = (): UseAuthState => {
     login: handleLogin,
     logout: handleLogout,
     user: getUser(),
+    isRenewing: isOidcRenewing() || isApiTokensRenewing(),
   };
 };
 
