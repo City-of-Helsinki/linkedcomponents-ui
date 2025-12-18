@@ -34,6 +34,7 @@ import {
   getOrganizationPayload,
   omitSensitiveDataFromOrganizationPayload,
 } from '../utils';
+import useOrganizationAncestors from './useOrganizationAncestors';
 
 export enum ORGANIZATION_MODALS {
   DELETE = 'delete',
@@ -65,6 +66,8 @@ const useOrganizationUpdateActions = ({
 }: Props): UseKeywordUpdateActionsState => {
   const apolloClient = useApolloClient() as ApolloClient<NormalizedCacheObject>;
   const { user } = useUser();
+  const organizationId = getValue(organization?.id, '');
+  const { organizationAncestors } = useOrganizationAncestors(organizationId);
   const [openModal, setOpenModal] = useMountedState<ORGANIZATION_MODALS | null>(
     null
   );
@@ -110,7 +113,7 @@ const useOrganizationUpdateActions = ({
     callbacks?: MutationCallbacks<string>
   ) => {
     setSaving(ORGANIZATION_ACTIONS.CREATE);
-    const payload = getOrganizationPayload(values, user);
+    const payload = getOrganizationPayload(values, user, organizationAncestors);
 
     try {
       const { data } = await createOrganizationMutation({
@@ -154,7 +157,7 @@ const useOrganizationUpdateActions = ({
     callbacks?: MutationCallbacks<string>
   ) => {
     const payload: UpdateOrganizationMutationInput = omit(
-      getOrganizationPayload(values, user),
+      getOrganizationPayload(values, user, organizationAncestors),
       'id'
     );
 
@@ -185,6 +188,7 @@ const useOrganizationUpdateActions = ({
     checkCanUserDoFinancialInfoAction({
       action: ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE,
       organizationId: id,
+      organizationAncestors,
       user,
     });
 
@@ -196,7 +200,7 @@ const useOrganizationUpdateActions = ({
       patchOrganization(values, callbacks);
     } else {
       const payload: UpdateOrganizationMutationInput = omit(
-        getOrganizationPayload(values, user),
+        getOrganizationPayload(values, user, organizationAncestors),
         'id'
       );
 
