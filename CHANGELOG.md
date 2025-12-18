@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.20.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.20.0...linkedcomponents-ui-v1.20.1) (2025-12-18)
+
+
+### Bug Fixes
+
+* EventForm add optimizations Ref: LINK-2459 ([9ad7685](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/9ad7685eaf71c71e0d7587faa9743f6785ce349c))
+* EventForm allow editing while renewing user Ref: LINK-2459 ([5fc477f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5fc477f858e56a4b5e5840623a3b7771e052a9bd))
+
 ## [1.20.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.19.8...linkedcomponents-ui-v1.20.0) (2025-12-11)
 
 
