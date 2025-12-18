@@ -14,6 +14,7 @@ import {
   ORGANIZATION_FINANCIAL_INFO_ACTIONS,
   WEB_STORE_ACCOUNT_INITIAL_VALUES,
 } from '../../constants';
+import useOrganizationAncestors from '../../hooks/useOrganizationAncestors';
 import { WebStoreAccountFormFields } from '../../types';
 import { checkIsEditFinancialInfoAllowed } from '../../utils';
 import Account from './account/Account';
@@ -28,12 +29,15 @@ const getAccountPath = (index: number) =>
 const Accounts: React.FC<Props> = ({ organization }) => {
   const { t } = useTranslation();
   const { user } = useUser();
+  const organizationId = getValue(organization?.id, '');
+  const { organizationAncestors } = useOrganizationAncestors(organizationId);
   const action = organization
     ? ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE
     : ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE;
   const { editable, warning } = checkIsEditFinancialInfoAllowed({
     action,
-    organizationId: getValue(organization?.id, ''),
+    organizationId,
+    organizationAncestors,
     t,
     user,
   });

@@ -389,6 +389,7 @@ export const getEditOrganizationButtonProps = ({
   authenticated,
   id,
   onClick,
+  organizationAncestors = [],
   t,
   user,
 }: {
@@ -396,6 +397,7 @@ export const getEditOrganizationButtonProps = ({
   authenticated: boolean;
   id: string;
   onClick: () => void;
+  organizationAncestors?: OrganizationFieldsFragment[];
   t: TFunction;
   user?: UserFieldsFragment;
 }): MenuItemOptionProps => {
@@ -416,6 +418,7 @@ export const getEditOrganizationButtonProps = ({
           ? ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE
           : ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE,
       organizationId: id,
+      organizationAncestors,
       user,
     })
   ) {
@@ -435,10 +438,12 @@ export const getEditOrganizationButtonProps = ({
 export const checkCanUserDoFinancialInfoAction = ({
   action,
   organizationId,
+  organizationAncestors = [],
   user,
 }: {
   action: ORGANIZATION_FINANCIAL_INFO_ACTIONS;
   organizationId: string;
+  organizationAncestors?: OrganizationFieldsFragment[];
   user?: UserFieldsFragment;
 }): boolean => {
   if (user?.isSuperuser) {
@@ -448,7 +453,7 @@ export const checkCanUserDoFinancialInfoAction = ({
   /* istanbul ignore next */
   const isFinancialAdminUser = isFinancialAdminUserInOrganization({
     id: organizationId,
-    organizationAncestors: [],
+    organizationAncestors,
     user,
   });
 
@@ -466,15 +471,24 @@ export const checkCanUserDoFinancialInfoAction = ({
 export const getEditFinancialInfoWarning = ({
   action,
   organizationId,
+  organizationAncestors = [],
   t,
   user,
 }: {
   action: ORGANIZATION_FINANCIAL_INFO_ACTIONS;
   organizationId: string;
+  organizationAncestors?: OrganizationFieldsFragment[];
   t: TFunction;
   user?: UserFieldsFragment;
 }): string => {
-  if (!checkCanUserDoFinancialInfoAction({ action, organizationId, user })) {
+  if (
+    !checkCanUserDoFinancialInfoAction({
+      action,
+      organizationId,
+      organizationAncestors,
+      user,
+    })
+  ) {
     return t('organizationsPage.warningNoRightsToEditFinancialInfo');
   }
 
@@ -484,17 +498,20 @@ export const getEditFinancialInfoWarning = ({
 export const checkIsEditFinancialInfoAllowed = ({
   action,
   organizationId,
+  organizationAncestors = [],
   t,
   user,
 }: {
   action: ORGANIZATION_FINANCIAL_INFO_ACTIONS;
   organizationId: string;
+  organizationAncestors?: OrganizationFieldsFragment[];
   t: TFunction;
   user?: UserFieldsFragment;
 }): Editability => {
   const warning = getEditFinancialInfoWarning({
     action,
     organizationId,
+    organizationAncestors,
     t,
     user,
   });
@@ -595,7 +612,8 @@ export const getOrganizationInitialValues = (
 
 export const getOrganizationPayload = (
   formValues: OrganizationFormFields,
-  user?: UserFieldsFragment
+  user?: UserFieldsFragment,
+  organizationAncestors: OrganizationFieldsFragment[] = []
 ): CreateOrganizationMutationInput => {
   const {
     adminUsers,
@@ -647,6 +665,7 @@ export const getOrganizationPayload = (
     checkCanUserDoFinancialInfoAction({
       action: financialInfoAction,
       organizationId: id,
+      organizationAncestors,
       user,
     })
       ? {

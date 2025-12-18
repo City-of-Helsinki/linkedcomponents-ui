@@ -6,16 +6,10 @@ import DeleteButton from '../../../../../common/components/deleteButton/DeleteBu
 import CheckboxField from '../../../../../common/components/formFields/checkboxField/CheckboxField';
 import TextInputField from '../../../../../common/components/formFields/textInputField/TextInputField';
 import { OrganizationFieldsFragment } from '../../../../../generated/graphql';
-import getValue from '../../../../../utils/getValue';
 import styles from '../../../../admin/layout/form.module.scss';
 import FormRow from '../../../../admin/layout/formRow/FormRow';
 import useAdminFormStyles from '../../../../admin/layout/hooks/useAdminFormStyles';
-import useUser from '../../../../user/hooks/useUser';
-import {
-  ORGANIZATION_FINANCIAL_INFO_ACTIONS,
-  WEB_STORE_ACCOUNT_FIELDS,
-} from '../../../constants';
-import { checkIsEditFinancialInfoAllowed } from '../../../utils';
+import { WEB_STORE_ACCOUNT_FIELDS } from '../../../constants';
 
 type Props = {
   isEditingAllowed: boolean;
@@ -36,16 +30,6 @@ const Account: React.FC<Props> = ({
   showDeleteButton,
 }) => {
   const { t } = useTranslation();
-  const { user } = useUser();
-  const action = organization
-    ? ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE
-    : ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE;
-  const { editable, warning } = checkIsEditFinancialInfoAllowed({
-    action,
-    organizationId: getValue(organization?.id, ''),
-    t,
-    user,
-  });
 
   const fieldNames = React.useMemo(
     () => ({
@@ -84,8 +68,7 @@ const Account: React.FC<Props> = ({
     useAdminFormStyles({ isEditingAllowed, instance: organization });
 
   const commonFieldProps = {
-    disabled: !editable || !isEditingAllowed,
-    title: warning,
+    disabled: !isEditingAllowed,
   };
   const commonInputFieldProps = {
     ...commonFieldProps,
@@ -166,7 +149,7 @@ const Account: React.FC<Props> = ({
       {showDeleteButton && (
         <DeleteButton
           ariaLabel={t('organization.form.buttonDeleteAccount')}
-          disabled={!editable || !isEditingAllowed}
+          disabled={!isEditingAllowed}
           label={t('organization.form.buttonDeleteAccount')}
           onClick={onDelete}
         />

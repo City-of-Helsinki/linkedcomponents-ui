@@ -10,6 +10,7 @@ import useAuth from '../../auth/hooks/useAuth';
 import { OrganizationsLocationState } from '../../organizations/types';
 import useUser from '../../user/hooks/useUser';
 import { ORGANIZATION_ACTIONS } from '../constants';
+import useOrganizationAncestors from '../hooks/useOrganizationAncestors';
 import { getEditOrganizationButtonProps } from '../utils';
 
 export interface EditButtonPanelProps {
@@ -27,6 +28,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
 
   const { authenticated } = useAuth();
   const { user } = useUser();
+  const { organizationAncestors } = useOrganizationAncestors(id);
 
   const goBack = useGoBack<OrganizationsLocationState>({
     defaultReturnPath: ROUTES.ORGANIZATIONS,
@@ -38,6 +40,7 @@ const EditButtonPanel: React.FC<EditButtonPanelProps> = ({
     authenticated,
     id,
     onClick: onSave,
+    organizationAncestors,
     t,
     user,
   });

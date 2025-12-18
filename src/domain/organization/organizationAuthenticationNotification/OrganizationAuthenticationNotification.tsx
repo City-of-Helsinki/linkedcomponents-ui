@@ -8,6 +8,7 @@ import {
   ORGANIZATION_ACTIONS,
   ORGANIZATION_FINANCIAL_INFO_ACTIONS,
 } from '../constants';
+import useOrganizationAncestors from '../hooks/useOrganizationAncestors';
 import {
   checkCanUserDoFinancialInfoAction,
   checkIsEditOrganizationActionAllowed,
@@ -25,6 +26,7 @@ const OrganizationAuthenticationNotification: React.FC<
   const { authenticated } = useAuth();
   const { user } = useUser();
   const { t } = useTranslation();
+  const { organizationAncestors } = useOrganizationAncestors(id);
 
   return (
     <AuthenticationNotification
@@ -51,6 +53,7 @@ const OrganizationAuthenticationNotification: React.FC<
                 ? ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE
                 : ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE,
             organizationId: id,
+            organizationAncestors,
             user,
           })
         ) {

@@ -104,7 +104,7 @@ describe('checkCanUserDoFinancialInfoAction function', () => {
     });
   });
 
-  it('should allow financial admin and admin to create merchant and account', () => {
+  it('should allow admin who is also financial admin to create merchant and account when creating organization', () => {
     const user = fakeUser({
       adminOrganizations: [publisher],
       financialAdminOrganizations: [publisher],
@@ -119,7 +119,35 @@ describe('checkCanUserDoFinancialInfoAction function', () => {
     ).toBe(true);
   });
 
-  it('should allow financial admin and admin to update merchant and account', () => {
+  it('should deny financial admin without admin rights to create merchant and account when creating org', () => {
+    const user = fakeUser({
+      financialAdminOrganizations: [publisher],
+    });
+
+    expect(
+      checkCanUserDoFinancialInfoAction({
+        action: ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE,
+        organizationId: publisher,
+        user,
+      })
+    ).toBe(false);
+  });
+
+  it('should deny admin without financial admin rights to create merchant and account when creating org', () => {
+    const user = fakeUser({
+      adminOrganizations: [publisher],
+    });
+
+    expect(
+      checkCanUserDoFinancialInfoAction({
+        action: ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_CREATE,
+        organizationId: publisher,
+        user,
+      })
+    ).toBe(false);
+  });
+
+  it('should allow financial admin to update merchant and account', () => {
     const user = fakeUser({
       financialAdminOrganizations: [publisher],
     });
@@ -131,6 +159,20 @@ describe('checkCanUserDoFinancialInfoAction function', () => {
         user,
       })
     ).toBe(true);
+  });
+
+  it('should deny admin without financial admin rights to update merchant and account', () => {
+    const user = fakeUser({
+      adminOrganizations: [publisher],
+    });
+
+    expect(
+      checkCanUserDoFinancialInfoAction({
+        action: ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE,
+        organizationId: publisher,
+        user,
+      })
+    ).toBe(false);
   });
 
   it('should allow superuser to do any action', () => {
@@ -147,6 +189,43 @@ describe('checkCanUserDoFinancialInfoAction function', () => {
         })
       ).toBe(true);
     });
+  });
+
+  it('should allow financial admin of parent organization to update merchant and account in suborganization', () => {
+    const parentOrgId = 'system:parent';
+    const subOrgId = 'system:sub';
+    const parentOrg = fakeOrganization({ id: parentOrgId });
+
+    const user = fakeUser({
+      financialAdminOrganizations: [parentOrgId],
+    });
+
+    expect(
+      checkCanUserDoFinancialInfoAction({
+        action: ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE,
+        organizationId: subOrgId,
+        organizationAncestors: [parentOrg],
+        user,
+      })
+    ).toBe(true);
+  });
+
+  it('should deny financial admin without ancestry to update merchant and account in suborganization', () => {
+    const parentOrgId = 'system:parent';
+    const subOrgId = 'system:sub';
+
+    const user = fakeUser({
+      financialAdminOrganizations: [parentOrgId],
+    });
+
+    expect(
+      checkCanUserDoFinancialInfoAction({
+        action: ORGANIZATION_FINANCIAL_INFO_ACTIONS.MANAGE_IN_UPDATE,
+        organizationId: subOrgId,
+        organizationAncestors: [],
+        user,
+      })
+    ).toBe(false);
   });
 });
 
