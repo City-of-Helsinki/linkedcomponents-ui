@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.20.1...linkedcomponents-ui-v1.20.2) (2025-12-23)
+
+
+### Bug Fixes
+
+* Allow financial admins to manage sub organizations ([d5fdf63](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/d5fdf636b3599df77d0f8ed6523ecc2a3a8ee982))
+
 ## [1.20.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.20.0...linkedcomponents-ui-v1.20.1) (2025-12-18)
 
 
