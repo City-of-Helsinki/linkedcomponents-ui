@@ -83,6 +83,8 @@ export const eventsPathBuilder = ({
     translation,
   } = args;
 
+  const USE_IMAGE_PROXY = import.meta.env.REACT_APP_USE_IMAGE_PROXY === 'true';
+
   const variableToKeyItems = [
     { key: 'admin_user', value: adminUser },
     { key: 'created_by', value: createdBy },
@@ -119,6 +121,7 @@ export const eventsPathBuilder = ({
     { key: 'super_event_type', value: superEventType },
     { key: 'text', value: text },
     { key: 'translation', value: translation },
+    { key: 'use_image_proxy', value: USE_IMAGE_PROXY || null },
   ];
 
   const query = queryBuilder(variableToKeyItems);

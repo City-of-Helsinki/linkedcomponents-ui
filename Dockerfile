@@ -106,6 +106,7 @@ ARG REACT_APP_ENABLE_EXTERNAL_USER_EVENTS
 ARG REACT_APP_MAINTENANCE_SHOW_NOTIFICATION
 ARG REACT_APP_MAINTENANCE_DISABLE_LOGIN
 ARG REACT_APP_WEB_STORE_INTEGRATION_ENABLED
+ARG REACT_APP_USE_IMAGE_PROXY
 
 # Vite/Rollup build args
 ARG ROLLUP_INLINE_DYNAMIC_IMPORTS
@@ -129,6 +130,7 @@ COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
 # Copy nginx config
 COPY .prod/nginx.conf /etc/nginx/nginx.conf
+COPY .prod/includes /etc/nginx/includes
 
 USER 1001
 
