@@ -130,6 +130,7 @@ COPY --from=staticbuilder /app/build /usr/share/nginx/html
 
 # Copy nginx config
 COPY .prod/nginx.conf /etc/nginx/nginx.conf
+COPY .prod/includes /etc/nginx/includes
 
 USER 1001
 
