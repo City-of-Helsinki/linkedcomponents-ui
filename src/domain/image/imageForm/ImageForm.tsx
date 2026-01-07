@@ -131,7 +131,7 @@ const ImageForm: React.FC<ImageFormProps> = ({ image }) => {
       }
       validateOnMount
       validateOnBlur={true}
-      validateOnChange={true}
+      validateOnChange={false}
       validationSchema={isEditingAllowed && imageSchema}
     >
       {({ setErrors, setFieldValue, setTouched, values }) => {

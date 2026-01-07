@@ -138,7 +138,7 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
       }
       validateOnMount
       validateOnBlur={true}
-      validateOnChange={true}
+      validateOnChange={false}
       validationSchema={
         isEditingAllowed &&
         getOrganizationSchema({

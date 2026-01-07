@@ -36,7 +36,7 @@ const OfferPriceGroups: React.FC<Props> = ({ isEditingAllowed, offerPath }) => {
           {priceGroups.map((priceGroup, index) => {
             return (
               <PriceGroup
-                key={index}
+                key={priceGroup.id || `offerpricegroup-${index}`}
                 isEditingAllowed={isEditingAllowed}
                 onDelete={() => arrayHelpers.remove(index)}
                 publisher={publisher}

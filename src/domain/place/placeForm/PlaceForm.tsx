@@ -132,7 +132,7 @@ const PlaceForm: React.FC<PlaceFormProps> = ({ place }) => {
       }
       validateOnMount
       validateOnBlur={true}
-      validateOnChange={true}
+      validateOnChange={false}
       validationSchema={isEditingAllowed && placeSchema}
     >
       {({ setErrors, setFieldValue, setTouched, values }) => {

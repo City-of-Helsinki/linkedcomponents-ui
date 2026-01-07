@@ -126,7 +126,7 @@ const PriceGroupForm: React.FC<PriceGroupFormProps> = ({ priceGroup }) => {
       }
       validateOnMount
       validateOnBlur={true}
-      validateOnChange={true}
+      validateOnChange={false}
       validationSchema={isEditingAllowed && priceGroupSchema}
     >
       {({ setErrors, setTouched, values }) => {

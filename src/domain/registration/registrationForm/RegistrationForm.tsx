@@ -195,7 +195,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
       }
       validateOnMount
       validateOnBlur={true}
-      validateOnChange={true}
+      validateOnChange={false}
       validationSchema={isEditingAllowed && registrationSchema}
     >
       {({ setErrors, setTouched, values }) => {
