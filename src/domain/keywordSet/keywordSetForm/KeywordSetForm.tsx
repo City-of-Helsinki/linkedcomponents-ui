@@ -129,7 +129,7 @@ const KeywordSetForm: React.FC<KeywordSetFormProps> = ({ keywordSet }) => {
       }
       validateOnMount
       validateOnBlur={true}
-      validateOnChange={true}
+      validateOnChange={false}
       validationSchema={
         /* istanbul ignore next */
         isEditingAllowed && keywordSetSchema

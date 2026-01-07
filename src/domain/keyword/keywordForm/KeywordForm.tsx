@@ -128,7 +128,7 @@ const KeywordForm: React.FC<KeywordFormProps> = ({ keyword }) => {
       }
       validateOnMount
       validateOnBlur={true}
-      validateOnChange={true}
+      validateOnChange={false}
       validationSchema={
         /* istanbul ignore next */
         isEditingAllowed && keywordSchema

@@ -59,7 +59,7 @@ const Merchants: React.FC<Props> = ({ organization }) => {
           {webStoreMerchants.map((merchant, index) => {
             return (
               <Merchant
-                key={index}
+                key={merchant.id || `merchant-${index}`}
                 isEditingAllowed={editable}
                 onDelete={() => arrayHelpers.remove(index)}
                 merchantPath={getMerchantPath(index)}

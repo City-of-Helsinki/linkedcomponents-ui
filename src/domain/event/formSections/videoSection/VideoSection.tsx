@@ -34,7 +34,7 @@ const VideoSection: React.FC<Props> = ({ isEditingAllowed }) => {
             {videos.map((_, index) => {
               return (
                 <Video
-                  key={index}
+                  key={`video-${index}`}
                   canDelete={videos.length > 1}
                   isEditingAllowed={isEditingAllowed}
                   onDelete={() => arrayHelpers.remove(index)}

@@ -38,10 +38,10 @@ const RegistrationUserAccessesSection: React.FC<Props> = ({
         name={REGISTRATION_FIELDS.REGISTRATION_USER_ACCESSES}
         render={(arrayHelpers: ArrayHelpers) => (
           <div>
-            {registrationUserAccesses.map((_, index) => {
+            {registrationUserAccesses.map((userAccess, index) => {
               return (
                 <RegistrationUserAccess
-                  key={index}
+                  key={userAccess.id || `useraccess-${index}`}
                   isEditingAllowed={isEditingAllowed}
                   onDelete={() => arrayHelpers.remove(index)}
                   registrationUserAccessPath={getRegistrationUserAccessPath(

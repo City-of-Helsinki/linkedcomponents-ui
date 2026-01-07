@@ -40,7 +40,7 @@ const PriceGroups: React.FC<Props> = ({ isEditingAllowed }) => {
           {priceGroups.map((priceGroup, index) => {
             return (
               <PriceGroup
-                key={index}
+                key={priceGroup.id || `pricegroup-${index}`}
                 isEditingAllowed={isEditingAllowed}
                 onDelete={() => arrayHelpers.remove(index)}
                 publisher={publisher}

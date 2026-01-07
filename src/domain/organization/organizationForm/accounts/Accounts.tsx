@@ -59,7 +59,7 @@ const Accounts: React.FC<Props> = ({ organization }) => {
           {webStoreAccounts.map((account, index) => {
             return (
               <Account
-                key={index}
+                key={account.id || `account-${index}`}
                 isEditingAllowed={editable}
                 onDelete={() => arrayHelpers.remove(index)}
                 accountPath={getAccountPath(index)}

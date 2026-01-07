@@ -24,7 +24,7 @@ const ExternalLinks: React.FC<Props> = ({ isEditingAllowed }) => {
         <div>
           {externalLinks.map((externalLink, index) => {
             return (
-              <FormGroup key={index}>
+              <FormGroup key={externalLink.name || `extlink-${index}`}>
                 <ExternalLink
                   externalLink={externalLink}
                   index={index}
