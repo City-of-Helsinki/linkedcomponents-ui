@@ -195,7 +195,7 @@ const Header: React.FC = () => {
             menuButtonAriaLabel={t('navigation.menuToggleAriaLabel')}
           >
             <HDSHeader.LanguageSelector
-              ariaLabel={t(`navigation.languages.${locale}`)}
+              aria-label={t(`navigation.languages.${locale}`)}
             />
             {authenticated && authUser ? (
               <HDSHeader.ActionBarItem
