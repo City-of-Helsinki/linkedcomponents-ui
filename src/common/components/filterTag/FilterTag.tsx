@@ -26,7 +26,6 @@ const FilterTag: React.FC<FilterTagProps> = ({
   return (
     <Tag
       onDelete={deleteFilter}
-      placeholder={text}
       aria-label={getValue(
         t('common.buttonRemoveFilter', { name: text }),
         undefined

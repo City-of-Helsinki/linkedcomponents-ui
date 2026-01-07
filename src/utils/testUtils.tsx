@@ -515,7 +515,11 @@ const shouldFilterEventsOrRegistrations = async ({
     name: 'Etsi julkaisijaa',
   });
   await user.click(publisherSelectorButton);
-  const publisherCheckbox = screen.getByLabelText(values.publisher);
+  const publisherCheckbox = await waitFor(() =>
+    screen.getByRole('checkbox', {
+      name: values.publisher,
+    })
+  );
   await user.click(publisherCheckbox);
 
   const searchButton = screen.getAllByRole('button', {

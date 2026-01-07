@@ -28,7 +28,6 @@ exports[`renders the component 1`] = `
             aria-disabled="false"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-invalid="false"
             aria-label="Select label. Valitse yksi. 0 valittua vaihtoehtoa."
             class="Select-module_dropdownButton__2-_Ec Select-module_selectedOptions__VmvqD Select-module_placeholder__nKgDE Select-module_singleSelect__3hwAT"
             id="hds-select-1-main-button"
