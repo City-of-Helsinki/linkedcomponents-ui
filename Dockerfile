@@ -25,7 +25,7 @@ RUN chown -R default:root /app
 USER default
 
 # Install dependencies
-RUN yarn && yarn cache clean --force
+RUN yarn install --frozen-lockfile --ignore-scripts && yarn cache clean --force
 
 # Copy all necessary files
 COPY index.html vite.config.ts tsconfig.json .eslintignore .eslintrc.json .prettierrc.json .env* /app/
