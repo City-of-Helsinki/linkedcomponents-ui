@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.21.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.20.2...linkedcomponents-ui-v1.21.0) (2026-01-09)
+
+
+### Features
+
+* Add support for nginx CSP ([5a92f02](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5a92f02085b291d8c7f8162b62dcc124e5c3e23d))
+* Set use_image_proxy for event and image queries ([f3e7cac](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/f3e7cac59b6ef3ebeec574e35715a0d7019979ee))
+
+
+### Bug Fixes
+
+* Move nginx include position in nginx.conf ([0f55f95](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/0f55f9599a67e1e55638d7775712508b39c3fd8d))
+* Optimize form performance ([ae5f289](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/ae5f2899a013d50ad385709eff2fe64c34ae8434))
+* Refactor pipelines ([#532](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/532)) ([f86f5bc](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/f86f5bcfd18e6e0816cbc07f748aee26647a5ac0))
+
 ## [1.20.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.20.1...linkedcomponents-ui-v1.20.2) (2025-12-23)
 
 
