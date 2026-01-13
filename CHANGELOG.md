@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.22.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.21.0...linkedcomponents-ui-v1.22.0) (2026-01-13)
+
+
+### Features
+
+* Yarn install hardening RATY-280 ([#538](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/538)) ([26cf6b5](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/26cf6b5165ccae6a75c85b94eb41bea7b47076af))
+
 ## [1.21.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.20.2...linkedcomponents-ui-v1.21.0) (2026-01-09)
 
 
