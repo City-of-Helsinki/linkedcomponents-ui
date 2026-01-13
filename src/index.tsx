@@ -10,6 +10,13 @@ import { createRoot } from 'react-dom/client';
 import App from './domain/app/App';
 import { beforeSend, beforeSendTransaction } from './domain/app/sentry/utils';
 
+// Handle dynamic import errors (e.g., when chunk files are not found after a deployment)
+// This typically happens when a user has a cached index.html that references old chunk files
+window.addEventListener('vite:preloadError', (event) => {
+  // Reload the page to fetch the fresh index.html with correct chunk references
+  window.location.reload();
+});
+
 if (import.meta.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
     beforeSend,
