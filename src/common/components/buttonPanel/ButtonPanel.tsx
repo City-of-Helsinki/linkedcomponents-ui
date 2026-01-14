@@ -7,6 +7,7 @@ import Button from '../../../common/components/button/Button';
 import MenuDropdown from '../../../common/components/menuDropdown/MenuDropdown';
 import Container from '../../../domain/app/layout/container/Container';
 import useIsMobile from '../../../hooks/useIsMobile';
+import isElementVisible from '../../../utils/isElementVisible';
 import { MenuItemOptionProps } from '../menuDropdown/types';
 import styles from './buttonPanel.module.scss';
 
@@ -39,6 +40,11 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
       target instanceof HTMLElement &&
       !buttonPanel.current?.contains(target)
     ) {
+      // Don't scroll for invisible elements (e.g. ResetFocus)
+      if (!isElementVisible(target)) {
+        return;
+      }
+
       const buttonPanelRect = buttonPanel.current?.getBoundingClientRect();
       const targetRect = target.getBoundingClientRect();
 
