@@ -20,6 +20,7 @@ import useLocale from '../../../hooks/useLocale';
 import useSelectLanguage from '../../../hooks/useSelectLanguage';
 import { featureFlagUtils } from '../../../utils/featureFlags';
 import getUserDisplayName from '../../../utils/getUserDisplayName';
+import isElementVisible from '../../../utils/isElementVisible';
 import useAuth from '../../auth/hooks/useAuth';
 import useUser from '../../user/hooks/useUser';
 import {
@@ -142,6 +143,11 @@ const Header: React.FC = () => {
       navigation instanceof HTMLElement &&
       !navigation.contains(target)
     ) {
+      // Don't scroll for invisible elements (e.g. ResetFocus)
+      if (!isElementVisible(target)) {
+        return;
+      }
+
       const navigationRect = navigation.getBoundingClientRect();
       const targetRect = target.getBoundingClientRect();
 
