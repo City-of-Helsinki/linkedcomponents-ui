@@ -90,9 +90,9 @@ const DateSelectorDropdown: React.FC<DateSelectorProps> = ({
     document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.addEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
-  });
+  }, [handleKeyDown]);
 
   return (
     <Dropdown className={className} ref={dropdownRef}>
