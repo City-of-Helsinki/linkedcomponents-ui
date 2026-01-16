@@ -33,7 +33,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
   const isMobile = useIsMobile();
 
   /* istanbul ignore next */
-  const onDocumentFocusin = (event: FocusEvent) => {
+  const onDocumentFocusin = React.useCallback((event: FocusEvent) => {
     const target = event.target;
 
     if (
@@ -59,7 +59,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
         );
       }
     }
-  };
+  }, []);
 
   React.useEffect(() => {
     document.addEventListener('focusin', onDocumentFocusin);
@@ -67,7 +67,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
     return () => {
       document.removeEventListener('focusin', onDocumentFocusin);
     };
-  });
+  }, [onDocumentFocusin]);
 
   return (
     <div ref={buttonPanel} className={styles.buttonPanel}>

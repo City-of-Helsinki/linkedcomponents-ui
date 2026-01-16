@@ -154,11 +154,11 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
     ? imagesData?.images.meta.count - imagesData?.images.data.length
     : 0;
 
-  const handleDocumentFocusin = () => {
+  const handleDocumentFocusin = React.useCallback(() => {
     if (!isComponentFocused()) {
       onBlur && onBlur(value);
     }
-  };
+  }, [isComponentFocused, onBlur, value]);
 
   React.useEffect(() => {
     document.addEventListener('focusin', handleDocumentFocusin);
@@ -166,7 +166,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
     return () => {
       document.removeEventListener('focusin', handleDocumentFocusin);
     };
-  });
+  }, [handleDocumentFocusin]);
 
   const disabledLoadMore = disabled || !imagesLeft || loading || loadingMore;
 

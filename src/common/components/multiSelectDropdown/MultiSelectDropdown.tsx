@@ -71,11 +71,7 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
     setIsMenuOpen,
   });
 
-  const {
-    focusedIndex,
-    setup: setupKeyboardNav,
-    teardown: teardownKeyboardNav,
-  } = useKeyboardNavigation({
+  const { focusedIndex } = useKeyboardNavigation({
     container: dropdown,
     listLength: filteredOptions.length,
     onKeyDown: (event: KeyboardEvent) => {
@@ -117,14 +113,6 @@ const MultiSelectDropdown: React.FC<MultiselectDropdownProps> = ({
   const toggleMenu = React.useCallback(() => {
     setIsMenuOpen(!isMenuOpen);
   }, [isMenuOpen]);
-
-  React.useEffect(() => {
-    setupKeyboardNav();
-
-    return () => {
-      teardownKeyboardNav();
-    };
-  }, [setupKeyboardNav, teardownKeyboardNav]);
 
   const handleItemChange = (option: OptionType) => {
     toggleOption(option);

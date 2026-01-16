@@ -134,7 +134,7 @@ const Header: React.FC = () => {
   const noNavRow = isMatch(NO_NAV_ROW_PATHS);
 
   /* istanbul ignore next */
-  const onDocumentFocusin = (event: FocusEvent) => {
+  const onDocumentFocusin = React.useCallback((event: FocusEvent) => {
     const target = event.target;
     const navigation = document.querySelector(`#${PAGE_HEADER_ID}`);
 
@@ -158,7 +158,7 @@ const Header: React.FC = () => {
         );
       }
     }
-  };
+  }, []);
 
   React.useEffect(() => {
     document.addEventListener('focusin', onDocumentFocusin);
@@ -166,7 +166,7 @@ const Header: React.FC = () => {
     return () => {
       document.removeEventListener('focusin', onDocumentFocusin);
     };
-  });
+  }, [onDocumentFocusin]);
 
   return (
     <ClassNames>
