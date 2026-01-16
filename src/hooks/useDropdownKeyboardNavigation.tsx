@@ -13,8 +13,6 @@ export interface KeyboardNavigationProps {
 interface DropdownKeyboardNavigationState {
   focusedIndex: number;
   setFocusedIndex: (index: number) => void;
-  setup: () => void;
-  teardown: () => void;
 }
 
 const useDropdownKeyboardNavigation = ({
@@ -93,12 +91,12 @@ const useDropdownKeyboardNavigation = ({
     ]
   );
 
-  const setup = React.useCallback(() => {
+  React.useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
 
-  const teardown = React.useCallback(() => {
-    document.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
   }, [handleKeyDown]);
 
   React.useEffect(() => {
@@ -110,7 +108,7 @@ const useDropdownKeyboardNavigation = ({
     setFocusedIndex(-1);
   }, [listLength]);
 
-  return { focusedIndex, setFocusedIndex, setup, teardown };
+  return { focusedIndex, setFocusedIndex };
 };
 
 export default useDropdownKeyboardNavigation;

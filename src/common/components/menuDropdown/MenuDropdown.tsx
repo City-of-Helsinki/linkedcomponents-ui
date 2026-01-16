@@ -66,12 +66,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
   const buttonId = `${id}-button`;
   const menuId = `${id}-menu`;
 
-  const {
-    focusedIndex,
-    setFocusedIndex,
-    setup: setupKeyboardNav,
-    teardown: teardownKeyoboardNav,
-  } = useDropdownKeyboardNavigation({
+  const { focusedIndex, setFocusedIndex } = useDropdownKeyboardNavigation({
     container: containerRef,
     disabledIndices: disabledIndices,
     listLength: items.length,
@@ -103,13 +98,13 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
     },
   });
 
-  const ensureMenuIsClosed = () => {
+  const ensureMenuIsClosed = React.useCallback(() => {
     /* istanbul ignore else */
     if (menuOpen) {
       setMenuOpen(false);
       setFocusedIndex(-1);
     }
-  };
+  }, [menuOpen, setFocusedIndex]);
 
   const ensureMenuIsOpen = () => {
     /* istanbul ignore else */
@@ -129,24 +124,25 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
     }
   };
 
-  const onDocumentClickOrFocusin = (event: FocusEvent | MouseEvent) => {
-    const target = event.target;
+  const onDocumentClickOrFocusin = React.useCallback(
+    (event: FocusEvent | MouseEvent) => {
+      const target = event.target;
 
-    if (!(target instanceof Node && containerRef.current?.contains(target))) {
-      ensureMenuIsClosed();
-    }
-  };
+      if (!(target instanceof Node && containerRef.current?.contains(target))) {
+        ensureMenuIsClosed();
+      }
+    },
+    [ensureMenuIsClosed]
+  );
 
   React.useEffect(() => {
-    setupKeyboardNav();
     document.addEventListener('click', onDocumentClickOrFocusin);
     document.addEventListener('focusin', onDocumentClickOrFocusin);
     return () => {
-      teardownKeyoboardNav();
       document.removeEventListener('click', onDocumentClickOrFocusin);
       document.removeEventListener('focusin', onDocumentClickOrFocusin);
     };
-  });
+  }, [onDocumentClickOrFocusin]);
 
   const getToggleButton = () => {
     const commonProps: Partial<ButtonProps> = {

@@ -36,7 +36,7 @@ const useDropdownCloseEvents = ({
       document.removeEventListener('click', handleDocumentClickOrFocusin);
       document.removeEventListener('focusin', handleDocumentClickOrFocusin);
     };
-  });
+  }, [handleDocumentClickOrFocusin]);
 };
 
 export default useDropdownCloseEvents;

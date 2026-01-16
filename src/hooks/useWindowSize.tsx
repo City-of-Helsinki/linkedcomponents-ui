@@ -1,24 +1,26 @@
 import React from 'react';
 
-const useWindowSize = (): { heigh?: number; width?: number } => {
-  const getSize = React.useCallback(() => {
-    return {
-      height: window.innerHeight,
-      width: window.innerWidth,
-    };
-  }, []);
+type WindowSize = {
+  height: number;
+  width: number;
+};
 
-  const [windowSize, setWindowSize] = React.useState(getSize);
+const getWindowSize = (): WindowSize => ({
+  height: window.innerHeight,
+  width: window.innerWidth,
+});
+
+const useWindowSize = (): WindowSize => {
+  const [windowSize, setWindowSize] = React.useState(getWindowSize);
 
   React.useEffect(() => {
     const handleResize = () => {
-      setWindowSize(getSize());
+      setWindowSize(getWindowSize());
     };
 
     window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
   return windowSize;

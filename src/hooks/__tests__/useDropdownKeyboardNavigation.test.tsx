@@ -24,12 +24,9 @@ const renderNavigationHook = (props?: Partial<KeyboardNavigationProps>) => {
     })
   );
 
-  result.current.setup();
   div.focus();
 
   const keyDown = (key: string) => {
-    result.current.teardown();
-    result.current.setup();
     fireEvent.keyDown(div, { key });
   };
 
