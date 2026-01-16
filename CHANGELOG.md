@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.22.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.0...linkedcomponents-ui-v1.22.1) (2026-01-16)
+
+
+### Bug Fixes
+
+* Added isElementVisible utility ([f0f5c0b](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/f0f5c0b7910533d5ea0d14220cee8ca722f2627e))
+* Remove duplicate event listener for keydown in DateSelectorDropdown ([b87cddf](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/b87cddf28672da830273f293f15a1fd51fa97f1d))
+
+
+### Dependencies
+
+* Bump @babel/runtime from 7.24.4 to 7.28.6 ([#543](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/543)) ([c6b93fd](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/c6b93fdd48cb41f3c5973994c9ebd06a5c0c7408))
+* Bump qs from 6.12.1 to 6.14.1 ([00956ec](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/00956ecf8a4e13fb9f1dadc24523fd7a07eae638))
+* Bump react-router from 7.5.2 to 7.12.0 ([da4a95c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/da4a95c25e3a1ed7e1a51d69c79fbcb1860f8351))
+
 ## [1.22.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.21.0...linkedcomponents-ui-v1.22.0) (2026-01-13)
 
 
