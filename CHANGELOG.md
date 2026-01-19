@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.22.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.1...linkedcomponents-ui-v1.22.2) (2026-01-19)
+
+
+### Bug Fixes
+
+* Prevent memory leaks in event listeners ([84f01c3](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/84f01c341f517ad13d73d03b13215131c7eca050))
+* Prevent unnecessary focus events in ResetFocus component ([dd87c1c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/dd87c1c9a2677063a30ab589b53ef34458f29b6d))
+
 ## [1.22.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.0...linkedcomponents-ui-v1.22.1) (2026-01-16)
 
 
