@@ -158,4 +158,4 @@ const Account: React.FC<Props> = ({
   );
 };
 
-export default Account;
+export default React.memo(Account);

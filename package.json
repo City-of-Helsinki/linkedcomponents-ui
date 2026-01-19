@@ -43,7 +43,6 @@
     "eslint-plugin-simple-import-sort": "^12.0.0",
     "eslint-plugin-vitest-globals": "^1.5.0",
     "esrun": "^3.2.26",
-    "focus-visible": "^5.2.0",
     "formik": "2.4.5",
     "gzipper": "^7.2.0",
     "hds-core": "^4.9.0",

@@ -55,7 +55,7 @@
       height: calc(100% - var(--focus-outline-adjust));
     }
 
-    &:not(:global(.focus-visible)):before {
+    &:not(:focus-visible):before {
       box-shadow: none;
     }
 

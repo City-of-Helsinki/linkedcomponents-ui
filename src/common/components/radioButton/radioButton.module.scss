@@ -1,5 +1,5 @@
 .radioButton {
-  input[type='radio']:focus:not(:global(.focus-visible)) + label:before {
+  input[type='radio']:focus:not(:focus-visible) + label:before {
     --focus-outline-color: transparent;
   }
 }

@@ -1,5 +1,5 @@
 .feedbackButton {
-  &:focus:not(:global(.focus-visible)) {
+  &:focus:not(:focus-visible) {
     --border-color-focus: transparent;
     --border-color-hover-focus: transparent;
   }

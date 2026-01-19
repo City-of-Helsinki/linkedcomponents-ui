@@ -134,4 +134,4 @@ const PriceGroup: React.FC<Props> = ({
   );
 };
 
-export default PriceGroup;
+export default React.memo(PriceGroup);
