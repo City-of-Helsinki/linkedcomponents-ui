@@ -1,5 +1,4 @@
 import './domain/app/i18n/i18nInit';
-import 'focus-visible';
 import 'hds-core/lib/base.min.css';
 import './assets/styles/main.scss';
 

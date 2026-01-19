@@ -181,4 +181,4 @@ const Merchant: React.FC<Props> = ({
   );
 };
 
-export default Merchant;
+export default React.memo(Merchant);

@@ -25,7 +25,7 @@
     outline: var(--focus-outline-width) solid $color;
     outline-offset: $offset;
 
-    &:not(:global(.focus-visible)) {
+    &:not(:focus-visible) {
       outline: none;
     }
   }
