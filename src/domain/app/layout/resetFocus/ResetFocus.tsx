@@ -32,7 +32,10 @@ const ResetFocus: React.FC<Props> = ({ disabled, ignoredPaths }) => {
 
   React.useEffect(() => {
     if (!disabled && !isMatch(ignoredPaths)) {
-      node.current?.focus();
+      // Only focus if not already focused to avoid unnecessary focus events
+      if (document.activeElement !== node.current) {
+        node.current?.focus();
+      }
     }
   }, [disabled, ignoredPaths, isMatch]);
 
