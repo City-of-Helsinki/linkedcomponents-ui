@@ -8,7 +8,7 @@
 
   a,
   button {
-    &:focus:not(:global(.focus-visible))::after {
+    &:focus:not(:focus-visible)::after {
       --footer-focus-outline-color: transparent !important;
     }
   }

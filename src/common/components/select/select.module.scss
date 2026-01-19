@@ -4,7 +4,7 @@
   > div:focus-within {
     box-shadow: none;
 
-    input:global(.focus-visible) {
+    input:focus-visible {
       outline: var(--focus-outline-width) solid var(--focus-outline-color);
       outline-offset: 1px;
     }

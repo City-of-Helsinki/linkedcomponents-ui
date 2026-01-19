@@ -250,4 +250,4 @@ const Signup: React.FC<SignupProps> = ({
   );
 };
 
-export default Signup;
+export default React.memo(Signup);
