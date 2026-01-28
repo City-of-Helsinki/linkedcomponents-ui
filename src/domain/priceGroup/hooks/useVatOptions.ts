@@ -1,7 +1,7 @@
 import useLocale from '../../../hooks/useLocale';
 import { OptionType } from '../../../types';
 
-const VAT_PERCENTAGES = [25.5, 14, 13.5, 10, 0];
+const VAT_PERCENTAGES = [25.5, 13.5, 10, 0];
 
 const useVatOptions = (): OptionType[] => {
   const locale = useLocale();
