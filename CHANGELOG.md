@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.22.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.1...linkedcomponents-ui-v1.22.2) (2026-01-29)
+
+
+### Bug Fixes
+
+* Prevent memory leaks in event listeners ([84f01c3](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/84f01c341f517ad13d73d03b13215131c7eca050))
+* Prevent unnecessary focus events in ResetFocus component ([dd87c1c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/dd87c1c9a2677063a30ab589b53ef34458f29b6d))
+* Remove focus-visible dependency + memoize field array components ([284ba29](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/284ba29eb5d66d66426fdbda440e2c9ac9b3b4c5))
+
+
+### Dependencies
+
+* Bump lodash from 4.17.21 to 4.17.23 ([#550](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/550)) ([8cf8f4d](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/8cf8f4d434d164510fbe9a9295c61de4e8e4b64d))
+
 ## [1.22.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.0...linkedcomponents-ui-v1.22.1) (2026-01-16)
 
 
