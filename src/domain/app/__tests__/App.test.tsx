@@ -43,9 +43,9 @@ afterAll(() => {
 const renderApp = async () => render(<App />);
 
 const acceptAllCookieText =
-  'helfi-cookie-consents=%7B%22groups%22%3A%7B%22tunnistamo%22%3A%7B%22checksum%22%3A%22ea5a1519%22%2C%22timestamp%22%3A1530518207007%7D%2C%22userInputs%22%3A%7B%22checksum%22%3A%22a5e73b70%22%2C%22timestamp%22%3A1530518207007%7D%2C%22shared%22%3A%7B%22checksum%22%3A%223ab2ff2e%22%2C%22timestamp%22%3A1530518207007%7D%2C%22statistics%22%3A%7B%22checksum%22%3A%22caa20391%22%2C%22timestamp%22%3A1530518207007%7D%7D%7D';
+  'helfi-cookie-consents=%7B%22groups%22%3A%7B%22tunnistamo%22%3A%7B%22checksum%22%3A%22ea5a1519%22%2C%22timestamp%22%3A1530518207007%7D%2C%22userInputs%22%3A%7B%22checksum%22%3A%22e5533ab3%22%2C%22timestamp%22%3A1530518207007%7D%2C%22shared%22%3A%7B%22checksum%22%3A%223ab2ff2e%22%2C%22timestamp%22%3A1530518207007%7D%2C%22statistics%22%3A%7B%22checksum%22%3A%22caa20391%22%2C%22timestamp%22%3A1530518207007%7D%7D%7D';
 const acceptOnlyNecessaryCookieText =
-  'helfi-cookie-consents=%7B%22groups%22%3A%7B%22tunnistamo%22%3A%7B%22checksum%22%3A%22ea5a1519%22%2C%22timestamp%22%3A1530518207007%7D%2C%22userInputs%22%3A%7B%22checksum%22%3A%22a5e73b70%22%2C%22timestamp%22%3A1530518207007%7D%2C%22shared%22%3A%7B%22checksum%22%3A%223ab2ff2e%22%2C%22timestamp%22%3A1530518207007%7D%7D%7D';
+  'helfi-cookie-consents=%7B%22groups%22%3A%7B%22tunnistamo%22%3A%7B%22checksum%22%3A%22ea5a1519%22%2C%22timestamp%22%3A1530518207007%7D%2C%22userInputs%22%3A%7B%22checksum%22%3A%22e5533ab3%22%2C%22timestamp%22%3A1530518207007%7D%2C%22shared%22%3A%7B%22checksum%22%3A%223ab2ff2e%22%2C%22timestamp%22%3A1530518207007%7D%7D%7D';
 
 const findCookieConsentModal = async () => {
   const regions = await shadowScreen.findAllByShadowRole('region');

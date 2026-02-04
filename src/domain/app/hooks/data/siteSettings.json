@@ -65,11 +65,7 @@
       },
       "cookies": [
         {
-          "name": {
-            "fi": "Tapahtumalomakkeen eväste",
-            "sv": "Cookie för evenemangsformulär",
-            "en": "Event form cookie"
-          },
+          "name": "event-form-cookie",
           "host": "https://linkedevents.hel.fi",
           "storageType": 1,
           "description": {
@@ -84,11 +80,7 @@
           }
         },
         {
-          "name": {
-            "fi": "Ilmoittautumislomakkeen eväste",
-            "sv": "Cookie för registreringsformulär",
-            "en": "Registration form cookie"
-          },
+          "name": "registration-form-cookie",
           "host": "https://linkedevents.hel.fi",
           "storageType": 1,
           "description": {
@@ -103,11 +95,7 @@
           }
         },
         {
-          "name": {
-            "fi": "Osallistumislomakkeen eväste",
-            "sv": "Cookie för deltagande formulär",
-            "en": "Signup form cookie"
-          },
+          "name": "signup-form-cookie",
           "host": "https://linkedevents.hel.fi",
           "storageType": 1,
           "description": {
