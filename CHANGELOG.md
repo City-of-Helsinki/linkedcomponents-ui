@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.22.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.2...linkedcomponents-ui-v1.22.3) (2026-02-05)
+
+
+### Bug Fixes
+
+* User input cookie names Refs: LINK-2494 ([9400b66](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/9400b6648dc075fb3122aa0887ebe5d3ab82af37))
+
 ## [1.22.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.1...linkedcomponents-ui-v1.22.2) (2026-01-29)
 
 
