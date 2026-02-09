@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.22.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.3...linkedcomponents-ui-v1.22.4) (2026-02-09)
+
+
+### Bug Fixes
+
+* Remove obsolete 14% VAT percentage ([bd861ba](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/bd861ba1c3b466b6a402de33271489ca8ee0bccf))
+
 ## [1.22.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.2...linkedcomponents-ui-v1.22.3) (2026-02-05)
 
 
