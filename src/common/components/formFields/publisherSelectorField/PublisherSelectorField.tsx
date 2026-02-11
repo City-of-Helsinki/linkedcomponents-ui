@@ -21,6 +21,11 @@ const PublisherSelectorField: React.FC<Props> = ({
     value,
   });
 
+  const memoizedTexts = React.useMemo(
+    () => ({ ...texts, error: errorText }),
+    [texts, errorText]
+  );
+
   return (
     <PublisherSelector
       {...rest}
@@ -30,7 +35,7 @@ const PublisherSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      texts={{ ...texts, error: errorText }}
+      texts={memoizedTexts}
       invalid={!!errorText}
     />
   );

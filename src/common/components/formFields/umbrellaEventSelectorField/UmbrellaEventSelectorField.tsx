@@ -33,20 +33,30 @@ const UmbrellaEventSelectorField: React.FC<Props> = ({
     value,
   });
 
+  const memoizedVariables = React.useMemo(
+    () => ({
+      sort: EVENT_SORT_OPTIONS.NAME,
+      superEventType: ['umbrella'],
+    }),
+    []
+  );
+
+  const memoizedTexts = React.useMemo(
+    () => ({ ...texts, error: errorText }),
+    [texts, errorText]
+  );
+
   return (
     <EventSelector
       {...rest}
       {...field}
       disabled={disabled}
       name={name}
-      variables={{
-        sort: EVENT_SORT_OPTIONS.NAME,
-        superEventType: ['umbrella'],
-      }}
+      variables={memoizedVariables}
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      texts={{ ...texts, error: errorText }}
+      texts={memoizedTexts}
       invalid={!!errorText}
       getOption={getEventOption}
     />

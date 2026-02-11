@@ -1,4 +1,5 @@
 import { FormikHandlers, useField } from 'formik';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../../types';
@@ -33,27 +34,27 @@ const useSingleSelectFieldProps = ({
 
   const errorText = getErrorText(error, touched, t);
 
-  const handleBlur = () => {
+  const handleBlur = useCallback(() => {
     onBlur({ target: { id: name, value } });
-  };
+  }, [name, onBlur, value]);
 
-  const handleChange = (
-    _selectedOptions: OptionType[],
-    clickedOption: OptionType
-  ) => {
-    const newValue = getValue(clickedOption?.value, null);
+  const handleChange = useCallback(
+    (_selectedOptions: OptionType[], clickedOption: OptionType) => {
+      const newValue = getValue(clickedOption?.value, null);
 
-    // Set timeout to prevent Android devices to end up to an infinite loop when changing value
-    setTimeout(() => {
-      onChange({
-        target: { id: name, value: newValue },
-      });
+      // Set timeout to prevent Android devices to end up to an infinite loop when changing value
+      setTimeout(() => {
+        onChange({
+          target: { id: name, value: newValue },
+        });
 
-      if (onChangeCb) {
-        onChangeCb(newValue);
-      }
-    }, 5);
-  };
+        if (onChangeCb) {
+          onChangeCb(newValue);
+        }
+      }, 5);
+    },
+    [name, onChange, onChangeCb]
+  );
 
   return { errorText, handleBlur, handleChange };
 };

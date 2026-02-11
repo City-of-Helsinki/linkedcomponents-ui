@@ -43,23 +43,41 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
     value,
   });
 
-  const getEventOption = (
-    event: EventFieldsFragment,
-    locale: Language
-  ): OptionType => {
-    const { endTime, atId, name, startTime } = getEventFields(event, locale);
+  const getEventOption = React.useCallback(
+    (event: EventFieldsFragment, locale: Language): OptionType => {
+      const { endTime, atId, name, startTime } = getEventFields(event, locale);
 
-    return {
-      label: [
-        name,
-        getEventDateText(endTime, startTime),
-        getSuperEventTypeText(event.superEventType, t),
-      ]
-        .filter(skipFalsyType)
-        .join(' '),
-      value: atId,
-    };
-  };
+      return {
+        label: [
+          name,
+          getEventDateText(endTime, startTime),
+          getSuperEventTypeText(event.superEventType, t),
+        ]
+          .filter(skipFalsyType)
+          .join(' '),
+        value: atId,
+      };
+    },
+    [t]
+  );
+
+  const memoizedVariables = React.useMemo(
+    () => ({
+      publicationStatus: PublicationStatus.Public,
+      registration: false,
+      registrationAdminUser: true,
+      start: 'now',
+      sort: EVENT_SORT_OPTIONS.NAME,
+      superEventType: ['none'],
+      ...variables,
+    }),
+    [variables]
+  );
+
+  const memoizedTexts = React.useMemo(
+    () => ({ ...texts, error: errorText }),
+    [texts, errorText]
+  );
 
   return (
     <EventSelector
@@ -67,19 +85,11 @@ const RegistrationEventSelectorField: React.FC<Props> = ({
       {...field}
       disabled={disabled}
       name={name}
-      variables={{
-        publicationStatus: PublicationStatus.Public,
-        registration: false,
-        registrationAdminUser: true,
-        start: 'now',
-        sort: EVENT_SORT_OPTIONS.NAME,
-        superEventType: ['none'],
-        ...variables,
-      }}
+      variables={memoizedVariables}
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      texts={{ ...texts, error: errorText }}
+      texts={memoizedTexts}
       invalid={!!errorText}
       getOption={getEventOption}
     />
