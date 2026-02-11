@@ -42,15 +42,20 @@ const UserSelector: React.FC<UserSelectorProps> = (props) => {
     value.includes(val as string)
   );
 
+  const memoizedTexts = React.useMemo(
+    () => ({
+      ...texts,
+      clearButtonAriaLabel_one: t('common.combobox.clearUsers'),
+    }),
+    [texts, t]
+  );
+
   return (
     <Select
       {...rest}
       multiSelect
       id={name}
-      texts={{
-        ...texts,
-        clearButtonAriaLabel_one: t('common.combobox.clearUsers'),
-      }}
+      texts={memoizedTexts}
       options={options}
       value={selectedUsers}
     />

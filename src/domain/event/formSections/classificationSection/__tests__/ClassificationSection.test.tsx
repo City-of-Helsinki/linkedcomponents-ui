@@ -331,6 +331,9 @@ test('should show validation error for kasko user if no education keywords are s
     mocks
   );
 
+  // Wait for the education section to load before interacting with it
+  await waitFor(() => getElement('titleCrossInstitutionalStudies'));
+
   const educationLevelsKeyword = (await findElement(
     'educationLevelsKeywordOption'
   )) as HTMLInputElement;

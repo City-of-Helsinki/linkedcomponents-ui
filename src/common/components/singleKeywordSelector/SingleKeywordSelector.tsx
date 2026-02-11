@@ -1,7 +1,6 @@
-/* eslint-disable no-undef */
 import { ApolloError } from '@apollo/client';
-import { Option, SearchFunction, SearchResult, SelectData } from 'hds-react';
-import React, { useCallback } from 'react';
+import { SearchFunction, SearchResult } from 'hds-react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -15,19 +14,17 @@ import {
   useKeywordQuery,
   useKeywordsQuery,
 } from '../../../generated/graphql';
+import useInitialSelectorOptions from '../../../hooks/useInitialSelectorOptions';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
 import getValue from '../../../utils/getValue';
 import Select, { SelectPropsWithValue } from '../select/Select';
 
-const getOption = ({
-  keyword,
-  locale,
-}: {
-  keyword: KeywordFieldsFragment | Keyword;
-  locale: Language;
-}): OptionType => {
+const getOption = (
+  keyword: KeywordFieldsFragment | Keyword,
+  locale: Language
+): OptionType => {
   const { id: value, name: label } = getKeywordFields(keyword, locale);
 
   return { label, value };
@@ -45,13 +42,9 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
 
-  const [options, setOptions] = React.useState<OptionType[]>([]);
-  const initialOptions = React.useRef<OptionType[]>([]);
-
   const {
     data: keywordsData,
     loading,
-    previousData: previousKeywordsData,
     refetch,
   } = useKeywordsQuery({
     variables: {
@@ -69,29 +62,11 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
     },
   });
 
-  const getKeywordsData = useCallback(
-    () =>
-      getValue(
-        (keywordsData || previousKeywordsData)?.keywords.data.map((keyword) =>
-          getOption({ keyword: keyword as KeywordFieldsFragment, locale })
-        ),
-        []
-      ),
-    [keywordsData, locale, previousKeywordsData]
+  // Update initial options when locale changes
+  const initialOptions = useInitialSelectorOptions(
+    keywordsData?.keywords.data as KeywordFieldsFragment[] | undefined,
+    getOption
   );
-
-  const keywordsOptions = React.useMemo(
-    () => getKeywordsData(),
-    [getKeywordsData]
-  );
-
-  React.useEffect(() => {
-    setOptions(keywordsOptions);
-
-    if (keywordsData && !initialOptions?.current.length) {
-      initialOptions.current = keywordsOptions;
-    }
-  }, [keywordsOptions, keywordsData]);
 
   const handleSearch: SearchFunction = React.useCallback(
     async (searchValue: string): Promise<SearchResult> => {
@@ -107,7 +82,7 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
         return {
           options: getValue(
             newkeywordsData?.keywords.data.map((keyword) =>
-              getOption({ keyword: keyword as KeywordFieldsFragment, locale })
+              getOption(keyword as KeywordFieldsFragment, locale)
             ),
             []
           ),
@@ -119,23 +94,18 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
     [refetch, locale]
   );
 
-  const handleChange = React.useCallback(
-    (selectedOptions: Option[], clickedOption: Option, data: SelectData) => {
-      setOptions(initialOptions.current);
-
-      if (onChange) {
-        onChange(selectedOptions, clickedOption, data);
-      }
-    },
-    [onChange]
-  );
-
   const selectedKeyword = React.useMemo(
     () =>
-      keywordData?.keyword
-        ? [getOption({ keyword: keywordData.keyword, locale })]
-        : [],
+      keywordData?.keyword ? [getOption(keywordData.keyword, locale)] : [],
     [keywordData, locale]
+  );
+
+  const memoizedTexts = React.useMemo(
+    () => ({
+      ...texts,
+      clearButtonAriaLabel_one: t('common.combobox.clearKeywords'),
+    }),
+    [texts, t]
   );
 
   return (
@@ -143,14 +113,11 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
       {...rest}
       multiSelect={false}
       onSearch={handleSearch}
-      onChange={handleChange}
+      onChange={onChange}
       id={name}
       isLoading={loading}
-      texts={{
-        ...texts,
-        clearButtonAriaLabel_one: t('common.combobox.clearKeywords'),
-      }}
-      options={options}
+      texts={memoizedTexts}
+      options={initialOptions}
       value={selectedKeyword}
     />
   );

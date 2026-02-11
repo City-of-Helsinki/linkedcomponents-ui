@@ -1,7 +1,6 @@
-/* eslint-disable no-undef */
 import { ApolloError } from '@apollo/client';
-import { Option, SearchFunction, SearchResult, SelectData } from 'hds-react';
-import React, { useCallback, useEffect } from 'react';
+import { SearchFunction, SearchResult } from 'hds-react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { eventPathBuilder } from '../../../domain/event/utils';
@@ -12,6 +11,7 @@ import {
   useEventQuery,
   useEventsQuery,
 } from '../../../generated/graphql';
+import useInitialSelectorOptions from '../../../hooks/useInitialSelectorOptions';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
@@ -36,20 +36,21 @@ const EventSelector: React.FC<EventSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
 
-  const [options, setOptions] = React.useState<OptionType[]>([]);
-  const initialOptions = React.useRef<OptionType[]>([]);
+  const queryVariables = React.useMemo(
+    () => ({
+      ...variables,
+      createPath: getPathBuilder(eventsPathBuilder),
+      text: '',
+    }),
+    [variables]
+  );
 
   const {
     data: eventsData,
     loading,
-    previousData: previousEventsData,
     refetch,
   } = useEventsQuery({
-    variables: {
-      ...variables,
-      createPath: getPathBuilder(eventsPathBuilder),
-      text: '',
-    },
+    variables: queryVariables,
   });
 
   const { data: eventData } = useEventQuery({
@@ -60,26 +61,12 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     },
   });
 
-  const getEventsData = useCallback(
-    () =>
-      getValue(
-        (eventsData || previousEventsData)?.events.data.map((event) =>
-          getOption(event as EventFieldsFragment, locale)
-        ),
-        []
-      ),
-    [eventsData, getOption, locale, previousEventsData]
+  // Update initial options when variables or locale change
+  const initialOptions = useInitialSelectorOptions(
+    eventsData?.events.data as EventFieldsFragment[] | undefined,
+    getOption,
+    [queryVariables]
   );
-
-  const eventsOptions = React.useMemo(() => getEventsData(), [getEventsData]);
-
-  useEffect(() => {
-    setOptions(eventsOptions);
-
-    if (eventsData && !initialOptions?.current.length) {
-      initialOptions.current = eventsOptions;
-    }
-  }, [eventsOptions, eventsData]);
 
   const handleSearch: SearchFunction = React.useCallback(
     async (searchValue: string): Promise<SearchResult> => {
@@ -107,20 +94,17 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     [refetch, getOption, locale]
   );
 
-  const handleChange = React.useCallback(
-    (selectedOptions: Option[], clickedOption: Option, data: SelectData) => {
-      setOptions(initialOptions.current);
+  const selectedEvent = React.useMemo(() => {
+    if (!eventData?.event) return [];
+    return [getOption(eventData.event, locale)];
+  }, [eventData?.event, getOption, locale]);
 
-      if (onChange) {
-        onChange(selectedOptions, clickedOption, data);
-      }
-    },
-    [onChange]
-  );
-
-  const selectedEvent = React.useMemo(
-    () => (eventData?.event ? [getOption(eventData.event, locale)] : []),
-    [eventData?.event, getOption, locale]
+  const memoizedTexts = React.useMemo(
+    () => ({
+      ...texts,
+      clearButtonAriaLabel_one: t('common.combobox.clearEvents'),
+    }),
+    [texts, t]
   );
 
   return (
@@ -128,14 +112,11 @@ const EventSelector: React.FC<EventSelectorProps> = ({
       {...rest}
       multiSelect={false}
       onSearch={handleSearch}
-      onChange={handleChange}
+      onChange={onChange}
       id={name}
       isLoading={loading}
-      texts={{
-        ...texts,
-        clearButtonAriaLabel_one: t('common.combobox.clearEvents'),
-      }}
-      options={options}
+      texts={memoizedTexts}
+      options={initialOptions}
       value={selectedEvent}
     />
   );

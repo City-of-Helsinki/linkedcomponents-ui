@@ -21,6 +21,11 @@ const KeywordSelectorField: React.FC<Props> = ({
     value,
   });
 
+  const memoizedTexts = React.useMemo(
+    () => ({ ...texts, error: errorText }),
+    [texts, errorText]
+  );
+
   return (
     <KeywordSelector
       {...rest}
@@ -30,7 +35,7 @@ const KeywordSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       handleClose={handleClose}
       value={value}
-      texts={{ ...texts, error: errorText }}
+      texts={memoizedTexts}
       invalid={!!errorText}
     />
   );

@@ -37,6 +37,15 @@ const SingleSelectField: React.FC<Props> = ({
     return option ? [option] : [];
   }, [options, value]);
 
+  const memoizedTexts = React.useMemo(
+    () => ({
+      ...texts,
+      error: errorText,
+      clearButtonAriaLabel_one: t('common.clear') ?? undefined,
+    }),
+    [texts, errorText, t]
+  );
+
   return (
     <SingleSelect
       {...rest}
@@ -47,11 +56,7 @@ const SingleSelectField: React.FC<Props> = ({
       onChange={handleChange}
       options={options}
       value={selected}
-      texts={{
-        ...texts,
-        error: errorText,
-        clearButtonAriaLabel_one: t('common.clear') ?? undefined,
-      }}
+      texts={memoizedTexts}
       invalid={!!errorText}
     />
   );
