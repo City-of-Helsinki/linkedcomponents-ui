@@ -68,6 +68,14 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
     );
   }, [locale, organizations, publisher, selectedOrganization, t]);
 
+  const memoizedTexts = React.useMemo(
+    () => ({
+      ...texts,
+      clearButtonAriaLabel_one: t('common.combobox.clearOrganizations'),
+    }),
+    [texts, t]
+  );
+
   return (
     <Select
       {...rest}
@@ -75,10 +83,7 @@ const PublisherSelector: React.FC<PublisherSelectorProps> = ({
       clearable={clearable}
       id={name}
       isLoading={loading}
-      texts={{
-        ...texts,
-        clearButtonAriaLabel_one: t('common.combobox.clearOrganizations'),
-      }}
+      texts={memoizedTexts}
       options={options}
       value={selectedOrganization}
     />

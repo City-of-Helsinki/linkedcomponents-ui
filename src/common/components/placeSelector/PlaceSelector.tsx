@@ -1,8 +1,7 @@
-/* eslint-disable no-undef */
 import { ApolloError } from '@apollo/client';
-import { Option, SearchFunction, SearchResult, SelectData } from 'hds-react';
+import { SearchFunction, SearchResult } from 'hds-react';
 import { TFunction } from 'i18next';
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -15,6 +14,7 @@ import {
   usePlaceQuery,
   usePlacesQuery,
 } from '../../../generated/graphql';
+import useInitialSelectorOptions from '../../../hooks/useInitialSelectorOptions';
 import useLocale from '../../../hooks/useLocale';
 import { Language, OptionType } from '../../../types';
 import getPathBuilder from '../../../utils/getPathBuilder';
@@ -24,19 +24,12 @@ import skipFalsyType from '../../../utils/skipFalsyType';
 import Select, { SelectPropsWithValue } from '../select/Select';
 import styles from './placeSelector.module.scss';
 
-export type GetOptionArgs = {
-  place: PlaceFieldsFragment;
-  locale: Language;
-  showEventAmount?: boolean;
-  t: TFunction;
-};
-
-export const getOption = ({
-  locale,
-  place,
-  showEventAmount = true,
-  t,
-}: GetOptionArgs): OptionType => {
+export const getOption = (
+  place: PlaceFieldsFragment,
+  locale: Language,
+  t: TFunction,
+  showEventAmount = true
+): OptionType => {
   const { addressLocality, atId, dataSource, name, nEvents, streetAddress } =
     getPlaceFields(place, locale);
 
@@ -69,13 +62,9 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   const { t } = useTranslation();
   const locale = useLocale();
 
-  const [options, setOptions] = React.useState<OptionType[]>([]);
-  const initialOptions = React.useRef<OptionType[]>([]);
-
   const {
     data: placesData,
     loading,
-    previousData: previousPlacesData,
     refetch,
   } = usePlacesQuery({
     variables: {
@@ -93,26 +82,11 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     },
   });
 
-  const getPlacesData = useCallback(
-    () =>
-      getValue(
-        (placesData || previousPlacesData)?.places.data.map((place) =>
-          getOption({ place: place as PlaceFieldsFragment, locale, t })
-        ),
-        []
-      ),
-    [locale, placesData, previousPlacesData, t]
+  // Update initial options when locale changes
+  const initialOptions = useInitialSelectorOptions(
+    placesData?.places.data as PlaceFieldsFragment[] | undefined,
+    getOption
   );
-
-  const placesOptions = React.useMemo(() => getPlacesData(), [getPlacesData]);
-
-  useEffect(() => {
-    setOptions(placesOptions);
-
-    if (placesData && !initialOptions?.current.length) {
-      initialOptions.current = placesOptions;
-    }
-  }, [placesOptions, placesData]);
 
   const handleSearch: SearchFunction = React.useCallback(
     async (searchValue: string): Promise<SearchResult> => {
@@ -128,7 +102,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
         return {
           options: getValue(
             newPlacesData?.places.data.map((place) =>
-              getOption({ place: place as PlaceFieldsFragment, locale, t })
+              getOption(place as PlaceFieldsFragment, locale, t)
             ),
             []
           ),
@@ -140,30 +114,18 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
     [refetch, locale, t]
   );
 
-  const handleChange = React.useCallback(
-    (selectedOptions: Option[], clickedOption: Option, data: SelectData) => {
-      setOptions(initialOptions.current);
-
-      if (onChange) {
-        onChange(selectedOptions, clickedOption, data);
-      }
-    },
-    [onChange]
-  );
-
   const selectedPlace = React.useMemo(
     () =>
-      placeData?.place
-        ? [
-            getOption({
-              locale,
-              place: placeData.place,
-              showEventAmount: false,
-              t,
-            }),
-          ]
-        : [],
+      placeData?.place ? [getOption(placeData.place, locale, t, false)] : [],
     [locale, placeData, t]
+  );
+
+  const memoizedTexts = React.useMemo(
+    () => ({
+      ...texts,
+      clearButtonAriaLabel_one: t('common.combobox.clearPlaces'),
+    }),
+    [texts, t]
   );
 
   return (
@@ -175,12 +137,9 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
       id={name}
       isLoading={loading}
       onSearch={handleSearch}
-      onChange={handleChange}
-      options={options}
-      texts={{
-        ...texts,
-        clearButtonAriaLabel_one: t('common.combobox.clearPlaces'),
-      }}
+      onChange={onChange}
+      options={initialOptions}
+      texts={memoizedTexts}
       value={selectedPlace}
     />
   );

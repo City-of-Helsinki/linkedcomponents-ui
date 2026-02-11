@@ -21,6 +21,11 @@ const SingleOrganizationSelectorField: React.FC<Props> = ({
     value,
   });
 
+  const memoizedTexts = React.useMemo(
+    () => ({ ...texts, error: errorText }),
+    [texts, errorText]
+  );
+
   return (
     <SingleOrganizationSelector
       {...rest}
@@ -30,7 +35,7 @@ const SingleOrganizationSelectorField: React.FC<Props> = ({
       onChange={handleChange}
       disabled={disabled}
       value={value}
-      texts={{ ...texts, error: errorText }}
+      texts={memoizedTexts}
       invalid={!!errorText}
     />
   );
