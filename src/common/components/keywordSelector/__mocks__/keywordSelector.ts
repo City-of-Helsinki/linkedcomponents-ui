@@ -47,7 +47,7 @@ const filteredKeywordsVariables = {
 const filteredKeywords = keywords;
 const filteredEventsResponse = keywordsResponse;
 const mockedFilteredKeywordsResponse = {
-  request: { query: KeywordDocument, variables: filteredKeywordsVariables },
+  request: { query: KeywordsDocument, variables: filteredKeywordsVariables },
   result: filteredEventsResponse,
 };
 

@@ -113,6 +113,33 @@ const EventSection: React.FC<Props> = ({ isEditingAllowed }) => {
     setSearchState({ recurringEvent: ev.target.checked });
   };
 
+  const eventSelectorVariables = React.useMemo(
+    () =>
+      omitBy(
+        {
+          start: searchState.start
+            ? formatDate(searchState.start, DATE_FORMAT_API)
+            : undefined,
+          end: searchState.end
+            ? formatDate(searchState.end, DATE_FORMAT_API)
+            : undefined,
+          superEventType: searchState.recurringEvent
+            ? ['recurring']
+            : undefined,
+        },
+        isUndefined
+      ),
+    [searchState.start, searchState.end, searchState.recurringEvent]
+  );
+
+  const eventSelectorTexts = React.useMemo(
+    () => ({
+      label: t(`registration.form.labelEvent`),
+      placeholder: t(`registration.form.placeholderEvent`),
+    }),
+    [t]
+  );
+
   return (
     <Fieldset heading={t('registration.form.sections.event')} hideLegend>
       <FieldRow>
@@ -143,24 +170,8 @@ const EventSection: React.FC<Props> = ({ isEditingAllowed }) => {
             clearable
             name={REGISTRATION_FIELDS.EVENT}
             onChangeCb={onChangeEventCallback}
-            texts={{
-              label: t(`registration.form.labelEvent`),
-              placeholder: t(`registration.form.placeholderEvent`),
-            }}
-            variables={omitBy(
-              {
-                start: searchState.start
-                  ? formatDate(searchState.start, DATE_FORMAT_API)
-                  : undefined,
-                end: searchState.end
-                  ? formatDate(searchState.end, DATE_FORMAT_API)
-                  : undefined,
-                superEventType: searchState.recurringEvent
-                  ? ['recurring']
-                  : undefined,
-              },
-              isUndefined
-            )}
+            texts={eventSelectorTexts}
+            variables={eventSelectorVariables}
           />
         </FieldColumn>
       </FieldRow>
