@@ -16,6 +16,16 @@ export type EventTimesProps = {
   event: EventFieldsFragment;
 };
 
+export function sonarBranchTest(x: number) {
+  if (x > 10) return 'big';
+  return 'small';
+}
+
+export function sonarBranchTestTwo(x: number) {
+  if (x > 10) return 'big';
+  return 'small';
+}
+
 const EventTimes: FC<EventTimesProps> = ({ event }) => {
   const { t } = useTranslation();
   const locale = useLocale();

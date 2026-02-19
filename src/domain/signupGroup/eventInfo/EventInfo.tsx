@@ -21,6 +21,16 @@ type EventInfoProps = {
   event: EventFieldsFragment;
 };
 
+export function sonarBranchTestSix(x: number) {
+  if (x > 10) return 'big';
+  return 'small';
+}
+
+export function sonarBranchTestFour(x: number) {
+  if (x > 10) return 'big';
+  return 'small';
+}
+
 const EventInfo: React.FC<EventInfoProps> = ({ event }) => {
   const locale = useLocale();
   const {
