@@ -9,7 +9,7 @@ import {
   userEvent,
 } from '../../../../utils/testUtils';
 import { EVENT_WITH_SUB_EVENTS_INCLUDES } from '../../../event/constants';
-import EventTimes, { EventTimesProps, sonarBranchTestTwo } from '../EventTimes';
+import EventTimes, { EventTimesProps } from '../EventTimes';
 
 const eventWithSubEvents = fakeEvent({
   superEventType: SuperEventType.Recurring,
@@ -67,15 +67,4 @@ test('should not show event times if super event type is null', async () => {
   expect(
     screen.queryByRole('button', { name: 'Kaikki tapahtuma-ajat' })
   ).not.toBeInTheDocument();
-});
-
-describe('sonarBranchTestTwo', () => {
-  test('should return big when x is greater than 10', () => {
-    expect(sonarBranchTestTwo(11)).toBe('big');
-  });
-
-  test('should return small when x is 10 or less', () => {
-    expect(sonarBranchTestTwo(10)).toBe('small');
-    expect(sonarBranchTestTwo(0)).toBe('small');
-  });
 });
