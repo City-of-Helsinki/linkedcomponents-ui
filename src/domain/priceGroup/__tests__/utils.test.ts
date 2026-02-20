@@ -16,6 +16,7 @@ import {
   getEditPriceGroupWarning,
   getPriceGroupInitialValues,
   priceGroupsPathBuilder,
+  sonarBranchTestMoo,
   sortPriceGroupOptions,
 } from '../utils';
 
@@ -218,6 +219,17 @@ describe('getEditPriceGroupWarning function', () => {
         action: PRICE_GROUP_ACTIONS.UPDATE,
       })
     ).toBe('Sinulla ei ole oikeuksia muokata tätä asiakasryhmää.');
+  });
+});
+
+describe('sonarBranchTestMoo', () => {
+  test('should return big when x is greater than 10', () => {
+    expect(sonarBranchTestMoo(11)).toBe('big');
+  });
+
+  test('should return small when x is 10 or less', () => {
+    expect(sonarBranchTestMoo(10)).toBe('small');
+    expect(sonarBranchTestMoo(0)).toBe('small');
   });
 });
 

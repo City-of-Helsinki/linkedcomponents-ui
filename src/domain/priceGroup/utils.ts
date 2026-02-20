@@ -131,6 +131,16 @@ export const getEditPriceGroupWarning = ({
   return '';
 };
 
+export function sonarBranchTest(x: number) {
+  if (x > 10) return 'big';
+  return 'small';
+}
+
+export function sonarBranchTestMoo(x: number) {
+  if (x > 10) return 'big';
+  return 'small';
+}
+
 export const checkIsEditPriceGroupActionAllowed = ({
   action,
   authenticated,
