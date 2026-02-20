@@ -111,6 +111,14 @@ const TypeSection: React.FC<TypeSectionProps> = ({
   const showIsUmbrellaTitle: boolean =
     hasUmbrella || isRecurringEvent(eventTimes, recurringEvents);
 
+  const umbrellaEventTexts = React.useMemo(
+    () => ({
+      label: t('event.form.labelUmbrellaEvent'),
+      assistive: t('event.form.helperUmbrellaEvent'),
+    }),
+    [t]
+  );
+
   return (
     <Fieldset heading={t('event.form.sections.type')} hideLegend>
       <HeadingWithTooltip
@@ -204,10 +212,7 @@ const TypeSection: React.FC<TypeSectionProps> = ({
               <Field
                 component={UmbrellaEventSelectorField}
                 disabled={!isEditingAllowed || isExternalUser}
-                texts={{
-                  label: t('event.form.labelUmbrellaEvent'),
-                  assistive: t('event.form.helperUmbrellaEvent'),
-                }}
+                texts={umbrellaEventTexts}
                 name={EVENT_FIELDS.SUPER_EVENT}
               />
             </FormGroup>

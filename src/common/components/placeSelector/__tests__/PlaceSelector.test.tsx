@@ -1,7 +1,8 @@
 /* eslint-disable import/no-named-as-default-member */
 import i18n from 'i18next';
 
-import { OptionType } from '../../../../types';
+import { PlaceFieldsFragment } from '../../../../generated/graphql';
+import { Language, OptionType } from '../../../../types';
 import generateAtId from '../../../../utils/generateAtId';
 import getValue from '../../../../utils/getValue';
 import { fakePlace } from '../../../../utils/mockDataUtils';
@@ -19,11 +20,7 @@ import {
   place,
   selectedPlaceText,
 } from '../__mocks__/placeSelector';
-import PlaceSelector, {
-  getOption,
-  GetOptionArgs,
-  PlaceSelectorProps,
-} from '../PlaceSelector';
+import PlaceSelector, { getOption, PlaceSelectorProps } from '../PlaceSelector';
 
 configure({ defaultHidden: true });
 
@@ -95,7 +92,7 @@ test('should search for places', async () => {
 });
 
 describe('getOption function', () => {
-  const commonProps: Pick<GetOptionArgs, 'locale' | 't'> = {
+  const commonProps: { locale: Language; t: typeof i18n.t } = {
     locale: 'fi',
     t: i18n.t.bind(i18n),
   };
@@ -112,7 +109,7 @@ describe('getOption function', () => {
   };
 
   const testCases: [
-    Pick<GetOptionArgs, 'place' | 'showEventAmount'>,
+    { place: PlaceFieldsFragment; showEventAmount?: boolean },
     OptionType,
   ][] = [
     [
@@ -164,6 +161,13 @@ describe('getOption function', () => {
   ];
 
   it.each(testCases)('with args %p returns %p', (args, expectedOption) => {
-    expect(getOption({ ...commonProps, ...args })).toEqual(expectedOption);
+    expect(
+      getOption(
+        args.place,
+        commonProps.locale,
+        commonProps.t,
+        args.showEventAmount
+      )
+    ).toEqual(expectedOption);
   });
 });

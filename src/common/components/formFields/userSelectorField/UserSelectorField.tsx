@@ -21,6 +21,11 @@ const UserSelectorField: React.FC<Props> = ({
     value,
   });
 
+  const memoizedTexts = React.useMemo(
+    () => ({ ...texts, error: errorText }),
+    [texts, errorText]
+  );
+
   return (
     <UserSelector
       {...rest}
@@ -30,7 +35,7 @@ const UserSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onClose={handleClose}
       value={value}
-      texts={{ ...texts, error: errorText }}
+      texts={memoizedTexts}
       invalid={!!errorText}
     />
   );

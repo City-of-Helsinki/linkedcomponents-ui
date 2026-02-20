@@ -65,16 +65,21 @@ const SingleOrganizationSelector: React.FC<SingleOrganizationSelectorProps> = ({
     return option ? [option] : [];
   }, [options, value]);
 
+  const memoizedTexts = React.useMemo(
+    () => ({
+      ...texts,
+      clearButtonAriaLabel_one: t('common.combobox.clearOrganizations'),
+    }),
+    [texts, t]
+  );
+
   return (
     <Select
       {...rest}
       multiSelect={false}
       id={name}
       isLoading={loading}
-      texts={{
-        ...texts,
-        clearButtonAriaLabel_one: t('common.combobox.clearOrganizations'),
-      }}
+      texts={memoizedTexts}
       options={options}
       value={selectedOrganization}
     />

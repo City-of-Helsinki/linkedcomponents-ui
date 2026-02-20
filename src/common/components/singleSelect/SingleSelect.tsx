@@ -3,6 +3,7 @@ import { Select as HDSSelect, SelectProps } from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import useLocale from '../../../hooks/useLocale';
 import SelectLoadingSpinner, {
   SelectLoadingSpinnerProps,
 } from '../selectLoadingSpinner/SelectLoadingSpinner';
@@ -16,15 +17,23 @@ const SingleSelect: React.FC<SingleSelectProps> = ({
   alignedLabel,
   className,
   isLoading,
+  texts,
   ...rest
 }) => {
+  const locale = useLocale();
   const { theme } = useTheme();
+
+  const memoizedTexts = React.useMemo(
+    () => ({ language: locale, ...texts }),
+    [locale, texts]
+  );
 
   return (
     <SelectLoadingSpinner alignedLabel={alignedLabel} isLoading={isLoading}>
       <HDSSelect
         {...rest}
         className={classNames(className, styles.select)}
+        texts={memoizedTexts}
         theme={theme.select}
         children={undefined}
       />

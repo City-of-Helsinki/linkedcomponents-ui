@@ -21,6 +21,11 @@ const SingleKeywordSelectorField: React.FC<Props> = ({
     value,
   });
 
+  const memoizedTexts = React.useMemo(
+    () => ({ ...texts, error: errorText }),
+    [texts, errorText]
+  );
+
   return (
     <SingleKeywordSelector
       {...rest}
@@ -30,7 +35,7 @@ const SingleKeywordSelectorField: React.FC<Props> = ({
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}
-      texts={{ ...texts, error: errorText }}
+      texts={memoizedTexts}
       invalid={!!errorText}
     />
   );
