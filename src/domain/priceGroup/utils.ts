@@ -136,7 +136,7 @@ export function sonarBranchTest(x: number) {
   return 'small';
 }
 
-export function sonarBranchTestTwo(x: number) {
+export function sonarBranchTestMoo(x: number) {
   if (x > 10) return 'big';
   return 'small';
 }

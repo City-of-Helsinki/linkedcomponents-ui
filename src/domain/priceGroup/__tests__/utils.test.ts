@@ -16,7 +16,7 @@ import {
   getEditPriceGroupWarning,
   getPriceGroupInitialValues,
   priceGroupsPathBuilder,
-  sonarBranchTestTwo,
+  sonarBranchTestMoo,
   sortPriceGroupOptions,
 } from '../utils';
 
@@ -222,14 +222,14 @@ describe('getEditPriceGroupWarning function', () => {
   });
 });
 
-describe('sonarBranchTestTwo', () => {
+describe('sonarBranchTestMoo', () => {
   test('should return big when x is greater than 10', () => {
-    expect(sonarBranchTestTwo(11)).toBe('big');
+    expect(sonarBranchTestMoo(11)).toBe('big');
   });
 
   test('should return small when x is 10 or less', () => {
-    expect(sonarBranchTestTwo(10)).toBe('small');
-    expect(sonarBranchTestTwo(0)).toBe('small');
+    expect(sonarBranchTestMoo(10)).toBe('small');
+    expect(sonarBranchTestMoo(0)).toBe('small');
   });
 });
 
