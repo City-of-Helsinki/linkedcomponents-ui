@@ -80,6 +80,7 @@
   },
   "scripts": {
     "analyze": "vite-bundle-visualizer",
+    "app:version": "echo \"$npm_package_version\"",
     "start": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
