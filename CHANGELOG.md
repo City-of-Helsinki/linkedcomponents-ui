@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.23.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.4...linkedcomponents-ui-v1.23.0) (2026-02-22)
+
+
+### Features
+
+* Readiness endpoint KEH-228 ([c596af7](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/c596af754a00ee0b52eb71d591d651508d7abc62))
+
+
+### Dependencies
+
+* Bump axios from 1.12.0 to 1.13.5 ([ca1de0f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/ca1de0f338aa1dae798f78f0050ec5bff59dfe75))
+* Upgrade playwright to 1.58.2 Refs: RATY-299 ([1dea86a](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/1dea86aa34607c80eb6e4b5c4acd83230c2e78d0))
+* Upgrade react-router-dom to 7.12.0 Refs: RATY-299 ([7166fb9](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7166fb9db92638d29bf9e175e9a5a7a39ae1ae77))
+
 ## [1.22.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.3...linkedcomponents-ui-v1.22.4) (2026-02-09)
 
 
