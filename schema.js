@@ -2,8 +2,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { buildSchema } = require('graphql');
 
-// TODO: replace x_full_text with full_text once implemented.
-// TODO: replace x_full_text_language with full_text_language once implemented.
 module.exports = buildSchema(/* GraphQL */ `
   scalar Any
 
@@ -117,8 +115,8 @@ module.exports = buildSchema(/* GraphQL */ `
       superEvent: ID
       superEventType: [String]
       translation: String
-      x_full_text: String
-      x_full_text_language: String
+      full_text: String
+      full_text_language: String
     ): EventsResponse!
     image(id: ID): Image!
     images(

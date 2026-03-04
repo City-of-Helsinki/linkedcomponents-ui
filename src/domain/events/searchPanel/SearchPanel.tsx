@@ -22,7 +22,7 @@ type SearchState = {
   eventStatus: EventStatus[];
   publisher: string[];
   type: EVENT_TYPE[];
-  x_full_text: string;
+  full_text: string;
 };
 
 const SearchPanel: React.FC = () => {
@@ -35,7 +35,7 @@ const SearchPanel: React.FC = () => {
     eventStatus: [],
     publisher: [],
     type: [],
-    x_full_text: '',
+    full_text: '',
   });
 
   const {
@@ -58,7 +58,7 @@ const SearchPanel: React.FC = () => {
     setSearchState({
       eventStatus,
       publisher,
-      x_full_text: fullText,
+      full_text: fullText,
       type: types,
     });
   }, [locale, location.search, setSearchState]);
@@ -76,7 +76,7 @@ const SearchPanel: React.FC = () => {
           searchInputPlaceholder={t(
             'eventSearchPage.searchPanel.placeholderSearch'
           )}
-          searchInputValue={searchState.x_full_text}
+          searchInputValue={searchState.full_text}
           selectors={[
             <TypeSelector
               key="event-type"

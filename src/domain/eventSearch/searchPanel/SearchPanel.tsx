@@ -44,7 +44,7 @@ type SearchState = {
   publisher: string[];
   start: Date | null;
   type: EVENT_TYPE[];
-  x_full_text: string;
+  full_text: string;
 };
 
 const SearchPanel: React.FC = () => {
@@ -61,7 +61,7 @@ const SearchPanel: React.FC = () => {
     publisher: [],
     start: null,
     type: [],
-    x_full_text: '',
+    full_text: '',
   });
 
   const {
@@ -90,7 +90,7 @@ const SearchPanel: React.FC = () => {
       publisher,
       start,
       type: types,
-      x_full_text: fullText,
+      full_text: fullText,
     });
   }, [locale, location.search, setSearchState]);
 
@@ -131,7 +131,7 @@ const SearchPanel: React.FC = () => {
                       t('eventSearchPage.searchPanel.buttonSearch'),
                       undefined
                     )}
-                    value={searchState.x_full_text}
+                    value={searchState.full_text}
                   />
                   <div className={styles.advancedFilters}>
                     <div>

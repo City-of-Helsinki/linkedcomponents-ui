@@ -80,8 +80,8 @@ export const eventsPathBuilder = ({
     superEvent,
     superEventType,
     translation,
-    x_full_text,
-    x_full_text_language,
+    full_text,
+    full_text_language,
   } = args;
 
   const USE_IMAGE_PROXY = import.meta.env.REACT_APP_USE_IMAGE_PROXY === 'true';
@@ -122,8 +122,8 @@ export const eventsPathBuilder = ({
     { key: 'super_event_type', value: superEventType },
     { key: 'translation', value: translation },
     { key: 'use_image_proxy', value: USE_IMAGE_PROXY || null },
-    { key: 'x_full_text', value: x_full_text },
-    { key: 'x_full_text_language', value: x_full_text_language },
+    { key: 'full_text', value: full_text },
+    { key: 'full_text_language', value: full_text_language },
   ];
 
   const query = queryBuilder(variableToKeyItems);
@@ -262,8 +262,8 @@ export const getEventsQueryVariables = (
     publisher,
     sort,
     start,
-    x_full_text: fullText,
-    x_full_text_language: locale,
+    full_text: fullText,
+    full_text_language: locale,
   };
 };
 

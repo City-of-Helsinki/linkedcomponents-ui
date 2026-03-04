@@ -157,12 +157,12 @@ describe('eventsPathBuilder function', () => {
       '/event/?event_type=Course,General,Volunteering&super_event_type=type1,type2',
     ],
     [
-      { x_full_text: 'text' },
-      '/event/?event_type=Course,General,Volunteering&x_full_text=text',
+      { full_text: 'text' },
+      '/event/?event_type=Course,General,Volunteering&full_text=text',
     ],
     [
-      { x_full_text_language: 'fi' },
-      '/event/?event_type=Course,General,Volunteering&x_full_text_language=fi',
+      { full_text_language: 'fi' },
+      '/event/?event_type=Course,General,Volunteering&full_text_language=fi',
     ],
     [
       { translation: 'fi' },
@@ -214,8 +214,8 @@ describe('getEventsQueryVariables', () => {
     publisher: [],
     sort: DEFAULT_EVENT_SORT,
     start: null,
-    x_full_text: '',
-    x_full_text_language: 'fi',
+    full_text: '',
+    full_text_language: 'fi',
   };
   const testCases: [string, EventsQueryVariables][] = [
     ['', defaultVariables],
@@ -235,7 +235,7 @@ describe('getEventsQueryVariables', () => {
     ],
     ['?sort=name', { ...defaultVariables, sort: 'name' }],
     ['?start=2021-05-27', { ...defaultVariables, start: '2021-05-27' }],
-    ['?x_full_text=search', { ...defaultVariables, x_full_text: 'search' }],
+    ['?full_text=search', { ...defaultVariables, full_text: 'search' }],
     [
       '?type=general&type=course',
       {
@@ -289,7 +289,7 @@ describe('getEventSearchInitialValues function', () => {
       'start=2021-12-20',
       { ...defaultSearchValues, start: new Date('2021-12-20') },
     ],
-    ['x_full_text=search', { ...defaultSearchValues, fullText: 'search' }],
+    ['full_text=search', { ...defaultSearchValues, fullText: 'search' }],
     [
       'type=volunteering',
       { ...defaultSearchValues, types: [EVENT_TYPE.Volunteering] },
@@ -309,34 +309,34 @@ describe('getEventSearchQuery function', () => {
     [EVENT_SEARCH_PARAMS.FULL_TEXT]: 'text',
   };
   const cases: [string, EventSearchParams, string][] = [
-    ['', defaultParams, 'x_full_text=text'],
+    ['', defaultParams, 'full_text=text'],
     [
       '',
       { ...defaultParams, end: new Date('2021-12-12') },
-      'x_full_text=text&end=2021-12-12',
+      'full_text=text&end=2021-12-12',
     ],
-    ['', { ...defaultParams, page: 2 }, 'x_full_text=text&page=2'],
+    ['', { ...defaultParams, page: 2 }, 'full_text=text&page=2'],
     [
       '',
       { ...defaultParams, place: ['place:1', 'place:2'] },
-      'x_full_text=text&place=place%3A1&place=place%3A2',
+      'full_text=text&place=place%3A1&place=place%3A2',
     ],
     [
       '',
       { ...defaultParams, returnPath: `/fi${ROUTES.SEARCH}` },
-      'x_full_text=text&returnPath=%2Ffi%2Fsearch',
+      'full_text=text&returnPath=%2Ffi%2Fsearch',
     ],
-    ['?sort=name', { ...defaultParams }, 'x_full_text=text&sort=name'],
+    ['?sort=name', { ...defaultParams }, 'full_text=text&sort=name'],
     [
       '',
       { ...defaultParams, start: new Date('2021-12-20') },
-      'x_full_text=text&start=2021-12-20',
+      'full_text=text&start=2021-12-20',
     ],
-    ['', { ...defaultParams, x_full_text: 'search' }, 'x_full_text=search'],
+    ['', { ...defaultParams, full_text: 'search' }, 'full_text=search'],
     [
       '',
       { ...defaultParams, type: [EVENT_TYPE.Volunteering] },
-      'x_full_text=text&type=volunteering',
+      'full_text=text&type=volunteering',
     ],
   ];
 
@@ -376,7 +376,7 @@ describe('addParamsToEventQueryString function', () => {
     [{ returnPath: `/fi${ROUTES.SEARCH}` }, '?returnPath=%2Fsearch'],
     [{ sort: EVENT_SORT_OPTIONS.NAME }, '?sort=name'],
     [{ start: new Date('2021-12-20') }, '?start=2021-12-20'],
-    [{ x_full_text: 'search' }, '?x_full_text=search'],
+    [{ full_text: 'search' }, '?full_text=search'],
     [{ type: [EVENT_TYPE.Volunteering] }, '?type=volunteering'],
     [{ type: [] }, ''],
   ];
@@ -409,7 +409,7 @@ describe('replaceParamsToEventQueryString', () => {
       '?start=2021-10-11',
       '?start=2021-12-20',
     ],
-    [{ x_full_text: 'search' }, '?x_full_text=text1', '?x_full_text=search'],
+    [{ full_text: 'search' }, '?full_text=text1', '?full_text=search'],
     [{ type: [] }, '?type=volunteering', ''],
   ];
 

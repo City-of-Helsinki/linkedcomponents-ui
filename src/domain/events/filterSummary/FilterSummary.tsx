@@ -37,7 +37,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
         publisher: [],
         start: null,
         type: [],
-        x_full_text: '',
+        full_text: '',
       }),
     });
   };
@@ -65,7 +65,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
             ? publisher.filter((item) => item !== value)
             : publisher,
         start: type === 'date' ? null : start,
-        x_full_text: type === 'text' ? '' : fullText,
+        full_text: type === 'text' ? '' : fullText,
       });
 
       navigate({ pathname, search: newSearch });

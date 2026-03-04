@@ -18,8 +18,8 @@ export const DEFAULT_EVENT_LIST_TYPE = EVENT_LIST_TYPES.TABLE;
 export enum EVENT_SEARCH_PARAMS {
   END = 'end',
   EVENT_STATUS = 'eventStatus',
-  FULL_TEXT = 'x_full_text',
-  FULL_TEXT_LANGUAGE = 'x_full_text_language',
+  FULL_TEXT = 'full_text',
+  FULL_TEXT_LANGUAGE = 'full_text_language',
   PAGE = 'page',
   PLACE = 'place',
   PUBLISHER = 'publisher',
