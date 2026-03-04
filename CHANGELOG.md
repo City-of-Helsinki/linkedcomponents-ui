@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.23.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.23.0...linkedcomponents-ui-v1.23.1) (2026-03-04)
+
+
+### Bug Fixes
+
+* Optimize selector re-rendering and preserve search input ([6001aa5](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/6001aa594861ff30d3019461e983a72bb810b301))
+
+
+### Dependencies
+
+* Bump qs from 6.14.1 to 6.14.2 ([71b2fa6](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/71b2fa6c493f2279d1eb4cd0318600ccb4771712))
+
 ## [1.23.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.22.4...linkedcomponents-ui-v1.23.0) (2026-02-24)
 
 
