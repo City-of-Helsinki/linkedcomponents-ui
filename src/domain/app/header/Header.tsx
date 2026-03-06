@@ -205,6 +205,7 @@ const Header: React.FC = () => {
             />
             {authenticated && authUser ? (
               <HDSHeader.ActionBarItem
+                className={styles.accountActionBarItem}
                 fixedRightPosition
                 icon={<IconUser aria-hidden />}
                 closeIcon={<IconCross aria-hidden />}
@@ -223,6 +224,7 @@ const Header: React.FC = () => {
               </HDSHeader.ActionBarItem>
             ) : (
               <HDSHeader.ActionBarItem
+                className={styles.accountActionBarItem}
                 fixedRightPosition
                 icon={<IconSignin aria-hidden />}
                 label={t('common.signIn')}

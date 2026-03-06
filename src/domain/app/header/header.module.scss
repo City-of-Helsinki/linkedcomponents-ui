@@ -11,6 +11,13 @@
     --nav-link-font-color: var(--color-black-90) !important;
   }
 
+  .accountActionBarItem {
+    @include medium-down {
+      --header-color: var(--color-black-90) !important;
+      --action-bar-item-title-font-color: var(--color-black-90) !important;
+    }
+  }
+
   &.hideNavRow {
     @include large-up {
       > div:first-of-type {
