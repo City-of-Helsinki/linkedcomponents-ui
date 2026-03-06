@@ -186,6 +186,7 @@ const Header: React.FC = () => {
             label={t('navigation.skipToContentLabel')}
           ></HDSHeader.SkipLink>
           <HDSHeader.ActionBar
+            className={styles.actionBar}
             title={t('appName')}
             titleHref={`/${locale}${ROUTES.HOME}`}
             onTitleClick={goToHomePage}
@@ -193,6 +194,7 @@ const Header: React.FC = () => {
             logoHref={`/${locale}${ROUTES.HOME}`}
             logo={
               <Logo
+                className={styles.mobileLogoContrast}
                 src={locale === 'sv' ? logoSvDark : logoFiDark}
                 size={LogoSize.Medium}
                 alt={t('navigation.logo')}
@@ -205,6 +207,7 @@ const Header: React.FC = () => {
             />
             {authenticated && authUser ? (
               <HDSHeader.ActionBarItem
+                className={styles.accountActionBarItem}
                 fixedRightPosition
                 icon={<IconUser aria-hidden />}
                 closeIcon={<IconCross aria-hidden />}
@@ -223,6 +226,7 @@ const Header: React.FC = () => {
               </HDSHeader.ActionBarItem>
             ) : (
               <HDSHeader.ActionBarItem
+                className={styles.accountActionBarItem}
                 fixedRightPosition
                 icon={<IconSignin aria-hidden />}
                 label={t('common.signIn')}
