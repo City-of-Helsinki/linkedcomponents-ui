@@ -95,7 +95,7 @@ exports[`matches snapshot 1`] = `
             aria-hidden="true"
           />
           <div
-            class="HeaderActionBarItem-module_container__1uq2m HeaderActionBarItem-module_hasContent__YJfOU HeaderActionBarItem-module_hasSubItems__1LVkh"
+            class="HeaderActionBarItem-module_container__1uq2m accountActionBarItem HeaderActionBarItem-module_hasContent__YJfOU HeaderActionBarItem-module_hasSubItems__1LVkh"
             id="action-bar-user"
           >
             <button
