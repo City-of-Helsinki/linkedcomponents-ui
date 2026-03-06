@@ -11,6 +11,13 @@
     --nav-link-font-color: var(--color-black-90) !important;
   }
 
+  .accountActionBarItem {
+    @include medium-down {
+      --header-color: var(--color-black-90) !important;
+      --action-bar-item-title-font-color: var(--color-black-90) !important;
+    }
+  }
+
   &.hideNavRow {
     @include large-up {
       > div:first-of-type {
@@ -34,6 +41,21 @@
 
     &:focus-visible {
       outline-color: var(--color-coat-of-arms) !important;
+    }
+  }
+
+  .actionBar {
+    .mobileLogoContrast {
+      @include medium-down {
+        filter: none !important;
+      }
+    }
+  }
+
+  .mobileLogoContrast {
+    @include medium-down {
+      /* HDS renders logo variants as embedded svg image, so apply image filter for mobile contrast */
+      filter: brightness(0) saturate(100%) !important;
     }
   }
 }
