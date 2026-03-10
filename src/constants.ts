@@ -216,11 +216,11 @@ export const testIds = {
 
 export const DATA_PROTECTION_URL: { [key in Language]: string } = {
   // eslint-disable-next-line max-len
-  fi: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf',
+  fi: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Linked-Events-ja-Linked-Registration-Tietosuojaseloste.pdf',
   // eslint-disable-next-line max-len
-  sv: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Hantering%20av%20anvandar-id.pdf',
+  sv: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Linked-Events-och-Linked-Registration-Integritetspolicy.pdf',
   // eslint-disable-next-line max-len
-  en: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Kayttajatunnusten%20hallinta.pdf',
+  en: 'https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Linked-Events-and-Linked-Registration-Privacy-policy.pdf',
 };
 
 export const SUPPORT_EMAIL = 'linkedevents@hel.fi';
