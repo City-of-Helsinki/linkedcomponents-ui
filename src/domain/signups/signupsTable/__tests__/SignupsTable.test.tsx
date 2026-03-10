@@ -28,6 +28,7 @@ import {
   attendeeNamesPage2,
   attendees,
   attendeesWithGroup,
+  attendeesWithMultipleStatuses,
   attendeesWithPaymentCancellation,
   attendeesWithPaymentRefund,
   getMockedAttendeesResponse,
@@ -59,7 +60,7 @@ const defaultProps: SignupsTableProps = {
   countKey: 'signupsPage.attendeeTableCount',
   pagePath: 'attendeePage',
   registration: registration,
-  signupsVariables: { attendeeStatus: AttendeeStatus.Attending },
+  signupsVariables: { attendeeStatus: [AttendeeStatus.Attending] },
 };
 
 const signupName = [attendeeNames[0].firstName, attendeeNames[0].lastName].join(
@@ -264,4 +265,78 @@ test('should open actions dropdown', async () => {
   expect(history.location.pathname).toBe(
     `/fi/registrations/${registrationId}/signup-group/edit/${signupGroupId}`
   );
+});
+
+test('should render signups table with multiple attendee statuses', async () => {
+  render(
+    <SignupGroupFormProvider registration={registration}>
+      <SignupsTable
+        {...defaultProps}
+        signupsVariables={{
+          attendeeStatus: [
+            AttendeeStatus.Attending,
+            AttendeeStatus.AwaitingPayment,
+          ],
+        }}
+      />
+    </SignupGroupFormProvider>,
+    {
+      mocks: [
+        ...defaultMocks,
+        getMockedAttendeesResponse({
+          signupsResponse: attendeesWithMultipleStatuses,
+          overrideVariables: {
+            attendeeStatus: [
+              AttendeeStatus.Attending,
+              AttendeeStatus.AwaitingPayment,
+            ],
+          },
+        }),
+      ],
+    }
+  );
+
+  await loadingSpinnerIsNotInDocument();
+
+  // Verify both Attending and AwaitingPayment signups are displayed
+  expect(await screen.findByText('Attending User 1')).toBeInTheDocument();
+  expect(await screen.findByText('Awaiting Payment 1')).toBeInTheDocument();
+  expect(await screen.findByText('Attending User 2')).toBeInTheDocument();
+  expect(await screen.findByText('Awaiting Payment 2')).toBeInTheDocument();
+});
+
+test('should query with correct variables when multiple statuses provided', async () => {
+  const mockResponse = getMockedAttendeesResponse({
+    signupsResponse: attendeesWithMultipleStatuses,
+    overrideVariables: {
+      attendeeStatus: [
+        AttendeeStatus.Attending,
+        AttendeeStatus.AwaitingPayment,
+      ],
+    },
+  });
+
+  render(
+    <SignupGroupFormProvider registration={registration}>
+      <SignupsTable
+        {...defaultProps}
+        signupsVariables={{
+          attendeeStatus: [
+            AttendeeStatus.Attending,
+            AttendeeStatus.AwaitingPayment,
+          ],
+        }}
+      />
+    </SignupGroupFormProvider>,
+    { mocks: [...defaultMocks, mockResponse] }
+  );
+
+  await loadingSpinnerIsNotInDocument();
+
+  // Verify the mock was consumed by checking that the data from attendeesWithMultipleStatuses is displayed
+  // This proves the query was made with the correct variables, as only that specific mock would return this data
+  expect(await screen.findByText('Attending User 1')).toBeInTheDocument();
+  expect(await screen.findByText('Awaiting Payment 1')).toBeInTheDocument();
+  expect(await screen.findByText('Attending User 2')).toBeInTheDocument();
+  expect(await screen.findByText('Awaiting Payment 2')).toBeInTheDocument();
 });

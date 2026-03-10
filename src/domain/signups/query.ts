@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 
 export const QUERY_SIGNUPS = gql`
   query Signups(
-    $attendeeStatus: AttendeeStatus
+    $attendeeStatus: [AttendeeStatus]
     $page: Int
     $pageSize: Int
     $registration: [ID]

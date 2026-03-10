@@ -84,8 +84,17 @@ describe('getSignupFields function', () => {
 describe('signupsPathBuilder function', () => {
   const cases: [SignupsQueryVariables, string][] = [
     [
-      { attendeeStatus: AttendeeStatus.Attending },
+      { attendeeStatus: [AttendeeStatus.Attending] },
       `/signup/?attendee_status=attending`,
+    ],
+    [
+      {
+        attendeeStatus: [
+          AttendeeStatus.Attending,
+          AttendeeStatus.AwaitingPayment,
+        ],
+      },
+      `/signup/?attendee_status=attending,awaiting_payment`,
     ],
     [{ page: 2 }, `/signup/?page=2`],
     [{ pageSize: 10 }, `/signup/?page_size=10`],

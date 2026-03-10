@@ -103,7 +103,7 @@ const getMockedAttendeesResponse = ({
     pageSize: SIGNUPS_PAGE_SIZE,
     registration: [registrationId],
     text: '',
-    attendeeStatus: AttendeeStatus.Attending,
+    attendeeStatus: [AttendeeStatus.Attending],
   };
 
   let queryCalled = false;
@@ -126,13 +126,13 @@ const getMockedAttendeesResponse = ({
 const mockedAttendeesResponse = getMockedAttendeesResponse({
   signupsResponse: attendees,
   overrideVariables: {
-    attendeeStatus: AttendeeStatus.Attending,
+    attendeeStatus: [AttendeeStatus.Attending],
   },
 });
 const mockedAttendeesPage2Response = getMockedAttendeesResponse({
   signupsResponse: attendeesPage2,
   overrideVariables: {
-    attendeeStatus: AttendeeStatus.Attending,
+    attendeeStatus: [AttendeeStatus.Attending],
     page: 2,
   },
 });
@@ -152,9 +152,53 @@ const waitingAttendees = fakeSignups(
   }))
 );
 
+const awaitingPaymentAttendeeNames = range(1, TEST_PAGE_SIZE + 1).map((n) => ({
+  firstName: `Awaiting`,
+  lastName: `Payment ${n}`,
+}));
+
+const awaitingPaymentAttendees = fakeSignups(
+  awaitingPaymentAttendeeNames.length,
+  awaitingPaymentAttendeeNames.map(({ firstName, lastName }, index) => ({
+    attendeeStatus: AttendeeStatus.AwaitingPayment,
+    id: `awaiting_payment:${index}`,
+    firstName,
+    lastName,
+  }))
+);
+awaitingPaymentAttendees.meta = meta;
+
+const attendeesWithMultipleStatuses = fakeSignups(4, [
+  {
+    attendeeStatus: AttendeeStatus.Attending,
+    id: 'attending:0',
+    firstName: 'Attending',
+    lastName: 'User 1',
+  },
+  {
+    attendeeStatus: AttendeeStatus.AwaitingPayment,
+    id: 'awaiting_payment:0',
+    firstName: 'Awaiting',
+    lastName: 'Payment 1',
+  },
+  {
+    attendeeStatus: AttendeeStatus.Attending,
+    id: 'attending:1',
+    firstName: 'Attending',
+    lastName: 'User 2',
+  },
+  {
+    attendeeStatus: AttendeeStatus.AwaitingPayment,
+    id: 'awaiting_payment:1',
+    firstName: 'Awaiting',
+    lastName: 'Payment 2',
+  },
+]);
+attendeesWithMultipleStatuses.meta = { ...meta, count: 4 };
+
 const mockedWaitingAttendeesResponse = getMockedAttendeesResponse({
   signupsResponse: waitingAttendees,
-  overrideVariables: { attendeeStatus: AttendeeStatus.Waitlisted },
+  overrideVariables: { attendeeStatus: [AttendeeStatus.Waitlisted] },
 });
 
 const sendMessageValues = {
@@ -185,8 +229,11 @@ export {
   attendeeNamesPage2,
   attendees,
   attendeesWithGroup,
+  attendeesWithMultipleStatuses,
   attendeesWithPaymentCancellation,
   attendeesWithPaymentRefund,
+  awaitingPaymentAttendeeNames,
+  awaitingPaymentAttendees,
   getMockedAttendeesResponse,
   mockedAttendeesPage2Response,
   mockedAttendeesResponse,

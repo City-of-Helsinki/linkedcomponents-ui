@@ -23,7 +23,7 @@ const WaitingList: React.FC<Props> = ({ registration }) => {
         enableDataRefetch={false}
         pagePath="waitingPage"
         registration={registration}
-        signupsVariables={{ attendeeStatus: AttendeeStatus.Waitlisted }}
+        signupsVariables={{ attendeeStatus: [AttendeeStatus.Waitlisted] }}
       />
     </div>
   );

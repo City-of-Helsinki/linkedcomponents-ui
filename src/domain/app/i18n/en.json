@@ -2034,6 +2034,7 @@
   "signup": {
     "attendeeStatus": {
       "attending": "Attending",
+      "awaiting_payment": "Awaiting payment",
       "waitlisted": "In wait list"
     },
     "deleteSignupFromFormModal": {

@@ -29,6 +29,7 @@ import {
 import { mockedRegistrationUserResponse } from '../../user/__mocks__/user';
 import {
   attendees,
+  attendeesWithMultipleStatuses,
   getMockedAttendeesResponse,
   mockedSendMessageResponse,
   sendMessageValues,
@@ -56,11 +57,19 @@ const defaultMocks = [
   mockedOrganizationAncestorsResponse,
   mockedRegistrationResponse,
   mockedRegistrationUserResponse,
-  getMockedAttendeesResponse({ signupsResponse: attendees }),
+  getMockedAttendeesResponse({
+    signupsResponse: attendees,
+    overrideVariables: {
+      attendeeStatus: [
+        AttendeeStatus.Attending,
+        AttendeeStatus.AwaitingPayment,
+      ],
+    },
+  }),
   getMockedAttendeesResponse({
     signupsResponse: fakeSignups(0),
     overrideVariables: {
-      attendeeStatus: AttendeeStatus.Waitlisted,
+      attendeeStatus: [AttendeeStatus.Waitlisted],
     },
   }),
 ];
@@ -250,4 +259,54 @@ test('should export signups as an excel after clicking export as excel button', 
   await openMenu();
   const exportAsExcelButton = getElement('exportAsExcel');
   await shouldExportSignupsAsExcel({ exportAsExcelButton, registration });
+});
+
+test('should display both Attending and AwaitingPayment signups in AttendeeList', async () => {
+  renderComponent([
+    mockedNotFoundRegistrationResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedRegistrationResponse,
+    mockedRegistrationUserResponse,
+    getMockedAttendeesResponse({
+      signupsResponse: attendeesWithMultipleStatuses,
+      overrideVariables: {
+        attendeeStatus: [
+          AttendeeStatus.Attending,
+          AttendeeStatus.AwaitingPayment,
+        ],
+      },
+    }),
+    getMockedAttendeesResponse({
+      signupsResponse: fakeSignups(0),
+      overrideVariables: {
+        attendeeStatus: [AttendeeStatus.Waitlisted],
+      },
+    }),
+  ]);
+
+  await loadingSpinnerIsNotInDocument(10000);
+
+  const attendeeTable = getElement('attendeeTable');
+
+  // Verify both Attending and AwaitingPayment signups are displayed
+  expect(
+    await within(attendeeTable).findByText('Attending User 1')
+  ).toBeInTheDocument();
+  expect(
+    await within(attendeeTable).findByText('Awaiting Payment 1')
+  ).toBeInTheDocument();
+  expect(
+    await within(attendeeTable).findByText('Attending User 2')
+  ).toBeInTheDocument();
+  expect(
+    await within(attendeeTable).findByText('Awaiting Payment 2')
+  ).toBeInTheDocument();
+
+  // Verify statuses are displayed correctly (use getAllByText since there are multiple instances)
+  const attendingStatuses =
+    await within(attendeeTable).findAllByText('Osallistuu');
+  expect(attendingStatuses.length).toBeGreaterThan(0);
+  const awaitingPaymentStatuses =
+    await within(attendeeTable).findAllByText('Odottaa maksua');
+  expect(awaitingPaymentStatuses.length).toBeGreaterThan(0);
 });
