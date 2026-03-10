@@ -143,10 +143,12 @@ test('should update organization', async () => {
 
   await user.click(submitButton);
 
+  // Wait for the notification first to ensure mutation completed
+  await screen.findByRole('alert', { name: 'Organisaatio on tallennettu' });
+
   await waitFor(() =>
     expect(history.location.pathname).toBe(`/fi/administration/organizations`)
   );
-  await screen.findByRole('alert', { name: 'Organisaatio on tallennettu' });
 });
 
 test('should show server errors', async () => {

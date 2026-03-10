@@ -20,6 +20,7 @@ export type Scalars = {
 
 export enum AttendeeStatus {
   Attending = 'attending',
+  AwaitingPayment = 'awaiting_payment',
   Waitlisted = 'waitlisted'
 }
 
@@ -1135,7 +1136,7 @@ export type QuerySignupGroupArgs = {
 
 
 export type QuerySignupsArgs = {
-  attendeeStatus?: InputMaybe<AttendeeStatus>;
+  attendeeStatus?: InputMaybe<Array<InputMaybe<AttendeeStatus>>>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   registration?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
@@ -2282,7 +2283,7 @@ export type SignupGroupQueryVariables = Exact<{
 export type SignupGroupQuery = { __typename?: 'Query', signupGroup: { __typename?: 'SignupGroup', extraInfo?: string | null, id?: string | null, registration?: string | null, contactPerson?: { __typename?: 'ContactPerson', email?: string | null, firstName?: string | null, id: string, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null } | null, paymentCancellation?: { __typename?: 'PaymentCancellation', createdTime?: string | null, id?: number | null, payment?: number | null } | null, paymentRefund?: { __typename?: 'PaymentRefund', amount?: string | null, createdTime?: string | null, externalRefundId?: string | null, id?: number | null, payment?: number | null } | null, signups?: Array<{ __typename?: 'Signup', attendeeStatus?: AttendeeStatus | null, city?: string | null, dateOfBirth?: string | null, extraInfo?: string | null, firstName?: string | null, id: string, lastName?: string | null, phoneNumber?: string | null, presenceStatus?: PresenceStatus | null, signupGroup?: string | null, streetAddress?: string | null, zipcode?: string | null, contactPerson?: { __typename?: 'ContactPerson', email?: string | null, firstName?: string | null, id: string, lastName?: string | null, membershipNumber?: string | null, nativeLanguage?: string | null, notifications?: string | null, phoneNumber?: string | null, serviceLanguage?: string | null } | null, paymentCancellation?: { __typename?: 'PaymentCancellation', createdTime?: string | null, id?: number | null, payment?: number | null } | null, paymentRefund?: { __typename?: 'PaymentRefund', amount?: string | null, createdTime?: string | null, externalRefundId?: string | null, id?: number | null, payment?: number | null } | null, priceGroup?: { __typename?: 'SignupPriceGroup', id?: number | null, price?: string | null, priceWithoutVat?: string | null, registrationPriceGroup?: number | null, vat?: string | null, vatPercentage?: string | null, priceGroup?: { __typename?: 'PriceGroupDense', id: number, description?: { __typename?: 'LocalisedObject', ar?: string | null, en?: string | null, fi?: string | null, ru?: string | null, sv?: string | null, zhHans?: string | null } | null } | null } | null } | null> | null } };
 
 export type SignupsQueryVariables = Exact<{
-  attendeeStatus?: InputMaybe<AttendeeStatus>;
+  attendeeStatus?: InputMaybe<Array<InputMaybe<AttendeeStatus>> | InputMaybe<AttendeeStatus>>;
   page?: InputMaybe<Scalars['Int']['input']>;
   pageSize?: InputMaybe<Scalars['Int']['input']>;
   registration?: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>> | InputMaybe<Scalars['ID']['input']>>;
@@ -5526,7 +5527,7 @@ export type SignupGroupLazyQueryHookResult = ReturnType<typeof useSignupGroupLaz
 export type SignupGroupSuspenseQueryHookResult = ReturnType<typeof useSignupGroupSuspenseQuery>;
 export type SignupGroupQueryResult = Apollo.QueryResult<SignupGroupQuery, SignupGroupQueryVariables>;
 export const SignupsDocument = gql`
-    query Signups($attendeeStatus: AttendeeStatus, $page: Int, $pageSize: Int, $registration: [ID], $text: String, $createPath: Any) {
+    query Signups($attendeeStatus: [AttendeeStatus], $page: Int, $pageSize: Int, $registration: [ID], $text: String, $createPath: Any) {
   signups(
     attendeeStatus: $attendeeStatus
     page: $page

@@ -2033,6 +2033,7 @@
   "signup": {
     "attendeeStatus": {
       "attending": "Osallistuu",
+      "awaiting_payment": "Odottaa maksua",
       "waitlisted": "Jonossa"
     },
     "deleteSignupFromFormModal": {

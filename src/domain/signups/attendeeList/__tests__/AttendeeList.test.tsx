@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 
+import { AttendeeStatus } from '../../../../generated/graphql';
 import {
   fakeRegistration,
   fakeRegistrationPriceGroup,
@@ -19,8 +20,11 @@ import { SignupGroupFormProvider } from '../../../signupGroup/signupGroupFormCon
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import {
   attendeeNames,
+  attendeesWithMultipleStatuses,
   attendeesWithPaymentCancellation,
   attendeesWithPaymentRefund,
+  awaitingPaymentAttendeeNames,
+  awaitingPaymentAttendees,
   getMockedAttendeesResponse,
 } from '../../__mocks__/signupsPage';
 import AttendeeList, { AttendeeListProps } from '../AttendeeList';
@@ -78,6 +82,12 @@ test('should refetch signups data after 30 seconds', async () => {
     getMockedAttendeesResponse({
       signupsResponse: attendeesWithPaymentCancellation,
       refetchSignupsResponse: attendeesWithPaymentRefund,
+      overrideVariables: {
+        attendeeStatus: [
+          AttendeeStatus.Attending,
+          AttendeeStatus.AwaitingPayment,
+        ],
+      },
     }),
   ]);
 
@@ -88,4 +98,74 @@ test('should refetch signups data after 30 seconds', async () => {
   vi.advanceTimersByTime(31000);
 
   expect(await withinRow.findByText('Maksua hyvitetään')).toBeInTheDocument();
+});
+
+test('should query signups with both Attending and AwaitingPayment statuses', async () => {
+  const mockResponse = getMockedAttendeesResponse({
+    signupsResponse: attendeesWithMultipleStatuses,
+    overrideVariables: {
+      attendeeStatus: [
+        AttendeeStatus.Attending,
+        AttendeeStatus.AwaitingPayment,
+      ],
+    },
+  });
+
+  renderComponent([...defaultMocks, mockResponse]);
+
+  await loadingSpinnerIsNotInDocument();
+
+  // Verify the mock was consumed by checking that the data from attendeesWithMultipleStatuses is displayed
+  // This proves the query was made with the correct variables, as only that specific mock would return this data
+  expect(await screen.findByText('Attending User 1')).toBeInTheDocument();
+  expect(await screen.findByText('Awaiting Payment 1')).toBeInTheDocument();
+  expect(await screen.findByText('Attending User 2')).toBeInTheDocument();
+  expect(await screen.findByText('Awaiting Payment 2')).toBeInTheDocument();
+});
+
+test('should display signups with AwaitingPayment status', async () => {
+  renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse({
+      signupsResponse: awaitingPaymentAttendees,
+      overrideVariables: {
+        attendeeStatus: [
+          AttendeeStatus.Attending,
+          AttendeeStatus.AwaitingPayment,
+        ],
+      },
+    }),
+  ]);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const awaitingPaymentName = [
+    awaitingPaymentAttendeeNames[0].firstName,
+    awaitingPaymentAttendeeNames[0].lastName,
+  ].join(' ');
+  expect(await screen.findByText(awaitingPaymentName)).toBeInTheDocument();
+});
+
+test('should display correct status text for awaiting_payment', async () => {
+  renderComponent([
+    ...defaultMocks,
+    getMockedAttendeesResponse({
+      signupsResponse: awaitingPaymentAttendees,
+      overrideVariables: {
+        attendeeStatus: [
+          AttendeeStatus.Attending,
+          AttendeeStatus.AwaitingPayment,
+        ],
+      },
+    }),
+  ]);
+
+  await loadingSpinnerIsNotInDocument();
+
+  const awaitingPaymentName = [
+    awaitingPaymentAttendeeNames[0].firstName,
+    awaitingPaymentAttendeeNames[0].lastName,
+  ].join(' ');
+  const withinRow = within(await findSignupRow(awaitingPaymentName));
+  expect(await withinRow.findByText('Odottaa maksua')).toBeInTheDocument();
 });

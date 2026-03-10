@@ -24,7 +24,12 @@ const AttendeeList: React.FC<AttendeeListProps> = ({ registration }) => {
         enableDataRefetch={true}
         pagePath="attendeePage"
         registration={registration}
-        signupsVariables={{ attendeeStatus: AttendeeStatus.Attending }}
+        signupsVariables={{
+          attendeeStatus: [
+            AttendeeStatus.Attending,
+            AttendeeStatus.AwaitingPayment,
+          ],
+        }}
       />
     </div>
   );

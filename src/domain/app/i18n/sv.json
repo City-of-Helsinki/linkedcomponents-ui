@@ -2033,6 +2033,7 @@
   "signup": {
     "attendeeStatus": {
       "attending": "Deltagande",
+      "awaiting_payment": "Väntar på betalning",
       "waitlisted": "På väntelistan"
     },
     "deleteSignupFromFormModal": {

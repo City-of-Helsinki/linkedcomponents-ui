@@ -194,7 +194,7 @@ module.exports = buildSchema(/* GraphQL */ `
     ): RegistrationsResponse!
     signup(id: ID!): Signup!
     signups(
-      attendeeStatus: AttendeeStatus
+      attendeeStatus: [AttendeeStatus]
       page: Int
       pageSize: Int
       registration: [ID]
@@ -207,6 +207,7 @@ module.exports = buildSchema(/* GraphQL */ `
 
   enum AttendeeStatus {
     attending
+    awaiting_payment
     waitlisted
   }
 
