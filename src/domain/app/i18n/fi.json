@@ -57,7 +57,7 @@
   "authenticationNotification": {
     "button": "kirjautua sisään",
     "part1": "Voit jatkaa palveluun tutustumista, mutta sinun täytyy",
-    "part2": ", jos haluat tallentaa muutoksia."
+    "part2": ", jos haluat ilmoittaa tapahtuman."
   },
   "common": {
     "actions": "Toiminnot",
@@ -1043,7 +1043,7 @@
       "volunteering": "Vapaaehtoistehtävä"
     },
     "updateEventModal": {
-      "text1": "Tiedot tallennetaan kaikkiin tapahtumiin tässä sarjassa. Näihin tapahtumiin tehdyt muutokset menetetään. Oletko varma että haluat jatkaa?",
+      "text1": "Tiedot tallennetaan kaikkiin sarjan alitapahtumiin. Sarjan alitapahtumiin tehdyt muutokset menetetään ja alitapahtumat yhdenmukaistuvat kattotapahtuman kanssa. Haluatko jatkaa?",
       "text2": "Tiedot tallennetaan seuraaviin tapahtumiin:",
       "textPastEventAreNotUpdated": "Huomioithan myös, että muutokset pätevät vain sarjan tuleviin tapahtumiin. Sarjan menneitä tapahtumia ei muokata kattotapahtumaa muokatessa.",
       "title": "Varmista tapahtuman tallentaminen",
@@ -1597,7 +1597,7 @@
     "highlight2Title": "25\ntapahtumasivustoa",
     "highlight3Text": "Linked Events on <a href={{githubUrl}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"avointa lähdekoodia {{openInNewTab}}\">avointa lähdekoodia</a>. Moni kaupunki on ottanut sen käyttöön ilmaiseksi.",
     "highlight3Title": "60 000\nriviä koodia",
-    "myHelsinkiDescription": "MyHelsinki.fi on palvelu, joka kokoaa yhteen Helsingin elämyksellistä ja elinkeinopuolesta kertovaa sisältöä. Palvelun avulla on helppo löytää Helsingin ilmiöt, käyntikohteet, ravintolat, tapahtumat ja paikallisten asukkaiden vinkit. Valitse vastuullisemmin -palvelu tarjoaa suosituksia kaupungin vastuulliseen tarjontaan ja elämyksiin.",
+    "myHelsinkiDescription": "MyHelsinki.fi on palvelu, joka kokoaa yhteen Helsingin elämyksellistä ja elinkeinopuolesta kertovaa sisältöä. Palvelun avulla on helppo löytää Helsingin ilmiöt, käyntikohteet, ravintolat, tapahtumat ja paikallisten asukkaiden vinkit.",
     "myHelsinkiTitle": "MyHelsinki.fi",
     "tapahtumatHelDescription": "Uusi sivusto, joka kokoaa yhteen Helsingin kaupungin tapahtumatarjonnan. Tapahtumat.hel.fi tarjoaa helposti käytettävän tapahtumien haun, josta käyttäjä voi hakea itseä kiinnostavia tapahtumia esimerkiksi ajan, paikan tai tapahtumakategorian mukaan. Sivuston seuraava versio kokoaa samaan paikkaan myös kaupungin tarjoamat lasten ja nuorten harrastukset.",
     "tapahtumatHelImageAuthor": "Helsingin kaupunki / Aki Rask",
@@ -1933,9 +1933,9 @@
         "labelEmail": "Käyttäjän sähköpostiosoite",
         "labelIsSubstituteUser": "Sijainen",
         "labelLanguage": "Kieli",
-        "notificationTextAccessRights": "Tässä voit antaa lukuoikeudet tätä ilmoittautumista koskien toiselle kaupungin työntekijälle tai ulkopuoliselle tapahtumanjärjestäjälle tai määrittää itsellesi sijainen samoin käyttöoikeuksin kuin sinulla.",
+        "notificationTextAccessRights": "Tässä voit antaa lukuoikeudet ilmoittautumista koskien toiselle kaupungin työntekijälle tai ulkopuoliselle tapahtumajärjestäjälle.",
         "notificationTitleAccessRights": "Käyttöoikeudet",
-        "notificationTextSubstituteUser": "Lisää itsellesi sijainen mahdollisia poissaoloja varten. Tämän perusteella sijaiselle annetaan samat käyttöoikeudet tähän ilmoittautumiseen kuin sinulla on. Jos sinulla ei ole selvää sijaista, niin laita sijaiseksi esihenkilösi.",
+        "notificationTextSubstituteUser": "Määritä toinen kaupungin työntekijä sijaiseksesi mahdollisia poissaoloja varten. Jos sinulla ei ole selvää sijaista, laita sijaiseksesi esihenkilösi. Sijaisen saat määritettyä rastimalla sijainen-valinnan.",
         "notificationTitleSubstituteUser": "Sijainen",
         "placeholderEmail": "Syötä käyttäjän sähköpostiosoite",
         "placeholderLanguage": "Valitse kieli"

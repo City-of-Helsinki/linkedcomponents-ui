@@ -57,7 +57,7 @@
   "authenticationNotification": {
     "button": "logga in",
     "part1": "Du kan fortsätta att utforska tjänsten, men du måste",
-    "part2": " för att spara ändringarna."
+    "part2": " om du vill rapportera ett evenemang."
   },
   "common": {
     "actions": "Åtgärder",
@@ -1043,7 +1043,7 @@
       "volunteering": "Volontärarbete"
     },
     "updateEventModal": {
-      "text1": "Data lagras för alla evenemang i denna serie. Ändringar av dessa evenemang kommer att gå förlorade. Är du säker på att du vill fortsätta?",
+      "text1": "Informationen sparas i alla underhändelser i serien. Ändringar som gjorts i underhändelserna i serien går förlorade och underhändelserna harmoniseras med huvudhändelsen. Vill du fortsätta?",
       "text2": "Uppgifterna uppdateras i följande evenemang",
       "textPastEventAreNotUpdated": "Observera också att ändringarna endast gäller för framtida evenemang i serien. Tidigare evenemang i serien redigeras inte när paraplyevenemanget redigeras.",
       "title": "Spara evenemang",
@@ -1597,7 +1597,7 @@
     "highlight2Title": "25\nevenemangssidor",
     "highlight3Text": "Linked Events är <a href={{githubUrl}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"öppen källkod {{openInNewTab}}\">öppen källkod</a>. Många städer har valt att använda det gratis.",
     "highlight3Title": "60 000\nlinjer av kod",
-    "myHelsinkiDescription": "MyHelsinki.fi är en tjänst som samlar innehåll om Helsingfors utbud för besökare och företag. På webbplatsen hittar man information om trender, sevärdheter, restauranger och evenemang i staden samt tips från invånarna. Think Sustainably -tjänsten erbjuder rekommendationer för Helsingfors hållbara utbud.",
+    "myHelsinkiDescription": "MyHelsinki.fi är en tjänst som samlar innehåll om Helsingfors utbud för besökare och företag. På webbplatsen hittar man information om trender, sevärdheter, restauranger och evenemang i staden samt tips från invånarna.",
     "myHelsinkiTitle": "MyHelsinki.fi",
     "tapahtumatHelDescription": "En ny webbplats som samlar Helsingfors stads evenemangsutbud. Tapahtumat.hel.fi erbjuder en lättanvänd evenemangssökning, där användaren kan söka efter evenemang av intresse för dem, till exempel efter tid, plats eller evenemangskategori. I nästa version av webbplatsen finns också stadens hobbyer för barn och unga samlade på ett och samma ställe.",
     "tapahtumatHelImageAuthor": "Helsingfors stad / Aki Rask",
@@ -1933,9 +1933,9 @@
         "labelEmail": "Användarens e-postadress",
         "labelIsSubstituteUser": "Ersättande användare",
         "labelLanguage": "Språk",
-        "notificationTextAccessRights": "Här kan du ge läsrättigheter för denna registrering till en annan stadsanställd eller en extern evenemangsarrangör, eller tilldela dig själv en ersättare med samma åtkomsträttigheter som du.",
+        "notificationTextAccessRights": "Här kan du ge läsrättigheter för denna registrering till en annan stadsanställd eller en extern evenemangsarrangör.",
         "notificationTitleAccessRights": "Tillträdesrättigheter",
-        "notificationTextSubstituteUser": "Lägg till en ersättare för eventuell frånvaro. Baserat på detta får vikarien samma åtkomsträttigheter till denna registrering som du har. Om du inte har en tydlig ersättare, lägg då till din föregångare som ersättare.",
+        "notificationTextSubstituteUser": "Utsett en annan anställd i staden som din vikarie för eventuella frånvaron. Om du inte har någon tydlig vikarie, ange din närmaste chef som vikarie. Du anger vikarie genom att kryssa i rutan för vikarieval.",
         "notificationTitleSubstituteUser": "Ersättande användare",
         "placeholderEmail": "Ange användarens e-postadress",
         "placeholderLanguage": "Välj språk"

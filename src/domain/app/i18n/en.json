@@ -56,8 +56,8 @@
   },
   "authenticationNotification": {
     "button": "sign in",
-    "part1": "You can continue to explore the service, but you will need to",
-    "part2": " to save your changes."
+    "part1": "You can continue exploring the service, but you must",
+    "part2": " if you want to submit an event."
   },
   "common": {
     "actions": "Actions",
@@ -1043,7 +1043,7 @@
       "volunteering": "Volunteering"
     },
     "updateEventModal": {
-      "text1": "Data is stored for all events in this series. Changes to these events will be lost. Are you sure you want to continue?",
+      "text1": "Changes will be saved for all subevents of the serie. Changes to the subevents will be lost and subevents will be unified with the main event. Do you want to continue?",
       "text2": "The data is updated in the following events",
       "textPastEventAreNotUpdated": "Please also note that the changes only apply to future events in the series. Past events in the series are not edited when editing the umbrella event.",
       "title": "Save event",
@@ -1597,7 +1597,7 @@
     "highlight2Title": "25\nevent sites",
     "highlight3Text": "Linked Events is <a href={{githubUrl}} target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"open source {{openInNewTab}}\">open source</a>. Many cities have opted to use it for free.",
     "highlight3Title": "60,000\nlines of code",
-    "myHelsinkiDescription": "MyHelsinki.fi is a service that brings together content about Helsinki’s offerings for visitors and businesses. The website helps to find information about the trends, attractions, restaurants and events in the city, as well as reveals tips from residents. The Think Sustainably -service offers recommendations for Helsinki's sustainable offerings.",
+    "myHelsinkiDescription": "MyHelsinki.fi is a service that brings together content about Helsinki’s offerings for visitors and businesses. The website helps to find information about the trends, attractions, restaurants and events in the city, as well as reveals tips from residents.",
     "myHelsinkiTitle": "MyHelsinki.fi",
     "tapahtumatHelDescription": "A new website that brings together the City of Helsinki's event offerings. Tapahtumat.hel.fi offers an easy-to-use event search, from which the user can search for events of interest to them, for example, by time, place or event category. The next version of the site also brings together the hobbies of children and young people offered by the city in one place.",
     "tapahtumatHelImageAuthor": "City of Helsinki / Aki Rask",
@@ -1934,9 +1934,9 @@
         "labelEmail": "User's email address",
         "labelIsSubstituteUser": "Substitute user",
         "labelLanguage": "Language",
-        "notificationTextAccessRights": "Here you can give reading rights for this registration to another city employee or an external event organizer, or assign yourself a substitute with the same access rights as you.",
+        "notificationTextAccessRights": "Here you can give reading rights for this registration to another city employee or an external event organizer.",
         "notificationTitleAccessRights": "Access rights",
-        "notificationTextSubstituteUser": "Add yourself a substitute for possible absences. Based on this, the substitute is given the same access rights to this registration as you have. If you don't have a clear substitute, then put your predecessor as the substitute.",
+        "notificationTextSubstituteUser": "Designate another city employee as your substitute in case of possible absences. If you do not have a clear substitute, designate your supervisor as your substitute. You can designate a substitute by checking the substitute selection box.",
         "notificationTitleSubstituteUser": "Substitute user",
         "placeholderEmail": "Enter user's email address",
         "placeholderLanguage": "Select language"
