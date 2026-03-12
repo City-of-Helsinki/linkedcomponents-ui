@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.24.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.23.1...linkedcomponents-ui-v1.24.0) (2026-03-12)
+
+
+### Features
+
+* Add the attendee_status - awaiting_payment ([#568](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/568)) ([4beb986](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/4beb986a9748c184e0292c7d27108c3e71f9c15a))
+
 ## [1.23.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.23.0...linkedcomponents-ui-v1.23.1) (2026-03-04)
 
 
