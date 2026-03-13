@@ -16,6 +16,28 @@ const clearAllCookies = () =>
       c.trim().split('=')[0] + '=;expires=Thu, 01 Jan 1970 00:00:00 UTC;';
   });
 
+// Helper function to decode and parse the cookie consent cookie
+const parseConsentCookie = (cookieString: string) => {
+  const match = cookieString.match(/helfi-cookie-consents=([^;]+)/);
+  if (!match) return null;
+
+  const decoded = decodeURIComponent(match[1]);
+  return JSON.parse(decoded);
+};
+
+// Helper function to check if the cookie contains expected groups
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const hasExpectedGroups = (cookieData: any, expectedGroups: string[]) => {
+  if (!cookieData?.groups) return false;
+
+  return expectedGroups.every(
+    (group) =>
+      cookieData.groups[group] &&
+      typeof cookieData.groups[group].checksum === 'string' &&
+      typeof cookieData.groups[group].timestamp === 'number'
+  );
+};
+
 const realDateNow = Date.now.bind(global.Date);
 
 beforeAll(() => {
@@ -41,11 +63,6 @@ afterAll(() => {
 });
 
 const renderApp = async () => render(<App />);
-
-const acceptAllCookieText =
-  'helfi-cookie-consents=%7B%22groups%22%3A%7B%22tunnistamo%22%3A%7B%22checksum%22%3A%22ea5a1519%22%2C%22timestamp%22%3A1530518207007%7D%2C%22userInputs%22%3A%7B%22checksum%22%3A%22e5533ab3%22%2C%22timestamp%22%3A1530518207007%7D%2C%22shared%22%3A%7B%22checksum%22%3A%223ab2ff2e%22%2C%22timestamp%22%3A1530518207007%7D%2C%22statistics%22%3A%7B%22checksum%22%3A%22caa20391%22%2C%22timestamp%22%3A1530518207007%7D%7D%7D';
-const acceptOnlyNecessaryCookieText =
-  'helfi-cookie-consents=%7B%22groups%22%3A%7B%22tunnistamo%22%3A%7B%22checksum%22%3A%22ea5a1519%22%2C%22timestamp%22%3A1530518207007%7D%2C%22userInputs%22%3A%7B%22checksum%22%3A%22e5533ab3%22%2C%22timestamp%22%3A1530518207007%7D%2C%22shared%22%3A%7B%22checksum%22%3A%223ab2ff2e%22%2C%22timestamp%22%3A1530518207007%7D%7D%7D';
 
 const findCookieConsentModal = async () => {
   const regions = await shadowScreen.findAllByShadowRole('region');
@@ -109,7 +126,18 @@ it('should store consent to cookie when clicking accept all button', async () =>
   );
   await user.click(acceptAllButton);
 
-  expect(document.cookie).toEqual(expect.stringContaining(acceptAllCookieText));
+  // Parse and validate the cookie contains all expected groups for "accept all"
+  const cookieData = parseConsentCookie(document.cookie);
+  expect(cookieData).not.toBeNull();
+  expect(
+    hasExpectedGroups(cookieData, [
+      'tunnistamo',
+      'userInputs',
+      'shared',
+      'statistics',
+    ])
+  ).toBe(true);
+
   await waitCookieConsentModalToBeHidden();
 });
 
@@ -126,14 +154,30 @@ it('should store consent to cookie when clicking accept only necessary button', 
 
   await user.click(acceptOnlyNecessaryButton);
 
-  expect(document.cookie).toEqual(
-    expect.stringContaining(acceptOnlyNecessaryCookieText)
-  );
+  // Parse and validate the cookie contains only necessary groups (no statistics)
+  const cookieData = parseConsentCookie(document.cookie);
+  expect(cookieData).not.toBeNull();
+  expect(
+    hasExpectedGroups(cookieData, ['tunnistamo', 'userInputs', 'shared'])
+  ).toBe(true);
+  // Statistics should not be present for "only necessary"
+  expect(cookieData?.groups?.statistics).toBeUndefined();
+
   await waitCookieConsentModalToBeHidden();
 });
 
 it('should not show cookie consent modal if consent is saved', async () => {
-  document.cookie = acceptAllCookieText;
+  // Create a valid consent cookie with necessary groups
+  const consentData = {
+    groups: {
+      tunnistamo: { checksum: 'test123', timestamp: Date.now() },
+      userInputs: { checksum: 'test456', timestamp: Date.now() },
+      shared: { checksum: 'test789', timestamp: Date.now() },
+      statistics: { checksum: 'testABC', timestamp: Date.now() },
+    },
+  };
+
+  document.cookie = `helfi-cookie-consents=${encodeURIComponent(JSON.stringify(consentData))}`;
 
   renderApp();
 

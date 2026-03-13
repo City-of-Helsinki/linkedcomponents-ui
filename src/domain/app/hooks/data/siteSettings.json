@@ -48,6 +48,81 @@
             "sv": "Session",
             "en": "Session"
           }
+        },
+        {
+          "name": "AUTH_SESSION_ID",
+          "host": "tunnistus.hel.fi",
+          "storageType": 1,
+          "description": {
+            "fi": "Tunnistautumisistunnon säilymiseksi vaadittu eväste.",
+            "sv": "Cookie som krävs för att bevara autentiseringssession.",
+            "en": "Required to persist the authentication session."
+          },
+          "expiration": {
+            "fi": "Istunto",
+            "sv": "Session",
+            "en": "Session"
+          }
+        },
+        {
+          "name": "KC_*",
+          "host": "tunnistus.hel.fi",
+          "storageType": 1,
+          "description": {
+            "fi": "Tunnistautumisistunnon säilymiseksi vaadittu eväste.",
+            "sv": "Cookie som krävs för att bevara autentiseringssession.",
+            "en": "Required to persist the authentication session."
+          },
+          "expiration": {
+            "fi": "Istunto",
+            "sv": "Session",
+            "en": "Session"
+          }
+        },
+        {
+          "name": "oidc.user:*",
+          "host": "linkedevents.hel.fi",
+          "storageType": 3,
+          "description": {
+            "fi": "Käyttäjän kirjautumistiedot tallennetaan selaimen muistiin (session storage).",
+            "sv": "Användarens inloggningsuppgifter lagras i webbläsarens minne (session storage).",
+            "en": "Authentication information of the user is saved to browser's memory (session storage)."
+          },
+          "expiration": {
+            "fi": "Istunto",
+            "sv": "Session",
+            "en": "Session"
+          }
+        },
+        {
+          "name": "hds_login_api_token_storage_key",
+          "host": "linkedevents.hel.fi",
+          "storageType": 3,
+          "description": {
+            "fi": "Kirjautuneen käyttäjän rajanpinta-avaimet (api tokens) tallennetaan selaimen muistiin (session storage).",
+            "sv": "Api-token för en autentiserad användare sparas i webbläsarens minne (session storage).",
+            "en": "Api tokens of an authenticated user is saved to browser's memory (session storage)."
+          },
+          "expiration": {
+            "fi": "Istunto",
+            "sv": "Session",
+            "en": "Session"
+          }
+        },
+        {
+          "name": "hds_login_api_token_user_reference",
+          "host": "linkedevents.hel.fi",
+          "storageType": 3,
+          "description": {
+            "fi": "Kirjautuneen käyttäjän pääsyoikeudet tallennetaan selaimen muistiin, jotta tunnistetaan kenen rajapinta-avaimet on tallessa.",
+            "sv": "Den inloggade användarens åtkomsträttigheter lagras i webbläsarens minne för att identifiera vems token som lagras.",
+            "en": "Access token of an authenticated user is saved to browser's memory (session storage) to identify whose api tokens are stored."
+          },
+          "expiration": {
+            "fi": "Istunto",
+            "sv": "Session",
+            "en": "Session"
+          }
         }
       ]
     },
@@ -64,6 +139,21 @@
         "en": "User-input cookies can be used to store information entered by the user in the service."
       },
       "cookies": [
+        {
+          "name": "i18nextLng",
+          "host": "linkedevents.hel.fi",
+          "storageType": 2,
+          "description": {
+            "fi": "Tallentaa käyttäjän valitseman kielen.",
+            "sv": "Behåller användarens valda språk.",
+            "en": "Persist the user's chosen language."
+          },
+          "expiration": {
+            "fi": "Pysyvä",
+            "sv": "Permanent",
+            "en": "Permanent"
+          }
+        },
         {
           "name": "event-form-cookie",
           "host": "https://linkedevents.hel.fi",
@@ -198,6 +288,21 @@
             "fi": "30 minuuttia",
             "sv": "30 minuter",
             "en": "30 minutes"
+          },
+          "storageType": 1
+        },
+        {
+          "name": "mtm_.*",
+          "host": "INSERT_YOUR_DOMAIN_NAME_HERE.hel.fi",
+          "description": {
+            "fi": "Evästeeseen tallennetaan suostumus tilastointievästeisiin.",
+            "sv": "Kakan lagrar samtycke för användning av statistikkakorna.",
+            "en": "Cookie stores consent for using analytics cookies."
+          },
+          "expiration": {
+            "fi": "400 päivää",
+            "sv": "400 dagar",
+            "en": "400 days"
           },
           "storageType": 1
         }
