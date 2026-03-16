@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.25.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.24.0...linkedcomponents-ui-v1.25.0) (2026-03-16)
+
+
+### Features
+
+* Events full text search Refs: LINK-2294 ([b596031](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/b596031f948bf43437722100ffbfca553a4b916a))
+
+
+### Dependencies
+
+* Bump dompurify from 3.2.4 to 3.3.2 ([b0c9ed1](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/b0c9ed16ae25707e7c385c7b04cf603cdc37e3e3))
+
 ## [1.24.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.23.1...linkedcomponents-ui-v1.24.0) (2026-03-12)
 
 
