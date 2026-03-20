@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.25.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.0...linkedcomponents-ui-v1.25.1) (2026-03-20)
+
+
+### Bug Fixes
+
+* Enhance cookie consent settings with auth and analytics cookies ([c9f85ed](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/c9f85ed472daaa6e93bbf48f64f95be46935ac7f))
+* Mobile user row icon and label contrast on light background ([8d7a69b](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/8d7a69b5de73da357ee25ec3eb64787d13a86765))
+* Update texts and links ([47b415e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/47b415ecca2bdf2aacb4e3f330c44fba98301bc5))
+
+
+### Dependencies
+
+* Bump rollup from 4.52.4 to 4.59.0 ([90192fc](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/90192fcc452b13a404c4b3a09281e904704b4520))
+
 ## [1.25.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.24.0...linkedcomponents-ui-v1.25.0) (2026-03-16)
 
 
