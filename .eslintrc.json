@@ -15,6 +15,13 @@
   "plugins": [
     "simple-import-sort"
   ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  },
   "rules": {
     "@typescript-eslint/brace-style": [
       "error",
@@ -62,6 +69,10 @@
     "import/order": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "import/named": "off"
+    "import/named": "off",
+    "import/no-named-as-default": "off",
+    "import/no-named-as-default-member": "off",
+    "import/no-duplicates": "off",
+    "import/no-unresolved": "error"
   }
 }
