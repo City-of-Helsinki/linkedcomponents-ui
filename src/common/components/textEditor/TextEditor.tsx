@@ -1,12 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import '@ckeditor/ckeditor5-build-classic/build/translations/fi';
-import '@ckeditor/ckeditor5-build-classic/build/translations/sv';
+import 'ckeditor5/ckeditor5.css';
 import './ckeditor.scss';
 
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { ClassNames } from '@emotion/react';
+import {
+  BlockQuote,
+  Bold,
+  ClassicEditor,
+  Essentials,
+  Italic,
+  Link,
+  List,
+  Paragraph,
+  Undo,
+} from 'ckeditor5';
+import fi from 'ckeditor5/translations/fi.js';
+import sv from 'ckeditor5/translations/sv.js';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDebounce } from 'use-debounce';
 
@@ -72,7 +83,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
   const setFocusToEditor: React.MouseEventHandler<HTMLDivElement> = (event) => {
     if (
       event.target instanceof HTMLElement &&
-      !editor.current?.sourceElement?.nextSibling?.contains(event.target)
+      !editor.current?.ui?.view?.editable?.element?.contains(event.target)
     ) {
       editor.current?.editing?.view?.focus();
     }
@@ -116,6 +127,16 @@ const TextEditor: React.FC<TextEditorProps> = ({
               disabled={disabled}
               editor={ClassicEditor}
               config={{
+                plugins: [
+                  Essentials,
+                  Bold,
+                  Italic,
+                  BlockQuote,
+                  Link,
+                  List,
+                  Paragraph,
+                  Undo,
+                ],
                 language: locale,
                 placeholder,
                 toolbar: {
@@ -133,6 +154,8 @@ const TextEditor: React.FC<TextEditorProps> = ({
                   ],
                   shouldNotGroupWhenFull: isTestEnv,
                 },
+                translations: [locale === 'fi' ? fi : sv],
+                licenseKey: 'GPL',
               }}
               data={value}
               onBlur={onBlur}
