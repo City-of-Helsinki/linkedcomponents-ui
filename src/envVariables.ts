@@ -1,7 +1,7 @@
 /* istanbul ignore next */
 export const SWAGGER_URL =
   import.meta.env?.REACT_APP_SWAGGER_URL ??
-  'https://dev.hel.fi/apis/linkedevents';
+  'https://api.hel.fi/linkedevents/api-docs/';
 
 /* istanbul ignore next */
 export const LINKED_EVENTS_SYSTEM_DATA_SOURCE =
