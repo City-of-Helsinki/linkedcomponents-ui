@@ -72,11 +72,11 @@ Use .env.development.local for development.
 | REACT_APP_OIDC_API_SCOPE                   | Linked Events API scope. Default in .env.local is linkedevents-api-dev                                                                                   |
 | REACT_APP_SENTRY_DSN                       | Sentry DSN. Both REACT_APP_SENTRY_DSN and REACT_APP_SENTRY_ENVIRONMENT has to be set to send error reports.                                              |
 | REACT_APP_SENTRY_ENVIRONMENT               | Setry environment.                                                                                                                                       |
-| REACT_APP_MATOMO_URL_BASE                  | //matomo.hel.ninja/                                                                                                                                  |
+| REACT_APP_MATOMO_URL_BASE                  | //matomo.hel.ninja/                                                                                                                                      |
 | REACT_APP_MATOMO_SITE_ID                   | 42                                                                                                                                                       |
 | REACT_APP_MATOMO_SRC_URL                   | matomo.js                                                                                                                                                |
 | REACT_APP_MATOMO_ENABLED                   | Flag to enable matomo. Default false.                                                                                                                    |
-| REACT_APP_SWAGGER_URL                      | https://dev.hel.fi/apis/linkedevents                                                                                                                     |
+| REACT_APP_SWAGGER_URL                      | https://api.hel.fi/linkedevents/api-docs/                                                                                                                |
 | REACT_APP_INTERNET_PLACE_ID                | Id of the internet place. system:internet in development server, helsinki:internet in production                                                         |
 | REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID  | yso:p26626                                                                                                                                               |
 | REACT_APP_LINKED_EVENTS_SYSTEM_DATA_SOURCE | helsinki                                                                                                                                                 |
