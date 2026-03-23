@@ -958,8 +958,8 @@ export type QueryEventsArgs = {
   endsBefore?: InputMaybe<Scalars['String']['input']>;
   eventStatus?: InputMaybe<Array<InputMaybe<EventStatus>>>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>>>;
-  full_text?: InputMaybe<Scalars['String']['input']>;
-  full_text_language?: InputMaybe<Scalars['String']['input']>;
+  fullText?: InputMaybe<Scalars['String']['input']>;
+  fullTextLanguage?: InputMaybe<Scalars['String']['input']>;
   inLanguage?: InputMaybe<Scalars['String']['input']>;
   include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   isFree?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1749,8 +1749,8 @@ export type EventsQueryVariables = Exact<{
   superEvent?: InputMaybe<Scalars['ID']['input']>;
   superEventType?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
   translation?: InputMaybe<Scalars['String']['input']>;
-  full_text?: InputMaybe<Scalars['String']['input']>;
-  full_text_language?: InputMaybe<Scalars['String']['input']>;
+  fullText?: InputMaybe<Scalars['String']['input']>;
+  fullTextLanguage?: InputMaybe<Scalars['String']['input']>;
   createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
@@ -3235,7 +3235,7 @@ export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventSuspenseQueryHookResult = ReturnType<typeof useEventSuspenseQuery>;
 export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
-    query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $eventStatus: [EventStatus], $eventType: [EventTypeId], $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $registration: Boolean, $registrationAdminUser: Boolean, $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $translation: String, $full_text: String, $full_text_language: String, $createPath: Any) {
+    query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $eventStatus: [EventStatus], $eventType: [EventTypeId], $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $registration: Boolean, $registrationAdminUser: Boolean, $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $translation: String, $fullText: String, $fullTextLanguage: String, $createPath: Any) {
   events(
     adminUser: $adminUser
     createdBy: $createdBy
@@ -3267,8 +3267,8 @@ export const EventsDocument = gql`
     startsBefore: $startsBefore
     superEvent: $superEvent
     superEventType: $superEventType
-    full_text: $full_text
-    full_text_language: $full_text_language
+    fullText: $fullText
+    fullTextLanguage: $fullTextLanguage
     translation: $translation
   ) @rest(type: "EventsResponse", pathBuilder: $createPath) {
     meta {
@@ -3325,8 +3325,8 @@ ${EventFieldsFragmentDoc}`;
  *      superEvent: // value for 'superEvent'
  *      superEventType: // value for 'superEventType'
  *      translation: // value for 'translation'
- *      full_text: // value for 'full_text'
- *      full_text_language: // value for 'full_text_language'
+ *      fullText: // value for 'fullText'
+ *      fullTextLanguage: // value for 'fullTextLanguage'
  *      createPath: // value for 'createPath'
  *   },
  * });

@@ -18,8 +18,8 @@ const eventsVariables = {
   createPath: undefined,
   sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['umbrella'],
-  full_text: '',
-  full_text_language: 'fi',
+  fullText: '',
+  fullTextLanguage: 'fi',
 };
 const events = fakeEvents(1, [event]);
 const eventsResponse = { data: { events: events } };
@@ -30,7 +30,7 @@ const mockedEventsResponse = {
 
 const filteredEventsVariables = {
   ...eventsVariables,
-  full_text: eventName,
+  fullText: eventName,
 };
 const filteredEvents = events;
 const filteredEventsResponse = eventsResponse;

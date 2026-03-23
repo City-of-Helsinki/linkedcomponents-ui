@@ -31,7 +31,7 @@ const Hero: React.FC = () => {
     navigate({
       pathname: `/${locale}${ROUTES.SEARCH}`,
       search: getEventSearchQuery({
-        full_text: text,
+        text,
       }),
     });
   };

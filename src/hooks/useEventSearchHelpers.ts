@@ -42,7 +42,7 @@ const useEventSearchHelpers = (
   };
 
   const handleChangeText = (text: string) => {
-    setSearchState({ full_text: text });
+    setSearchState({ text });
   };
 
   const handleChangeTypes = (newTypes: OptionType[]) => {
