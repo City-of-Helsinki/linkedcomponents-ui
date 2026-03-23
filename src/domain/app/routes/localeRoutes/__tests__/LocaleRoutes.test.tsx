@@ -15,9 +15,7 @@ import getValue from '../../../../../utils/getValue';
 import { fakeSignups } from '../../../../../utils/mockDataUtils';
 import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
-  actWait,
   configure,
-  loadingSpinnerIsNotInDocument,
   render,
   screen,
   waitFor,
@@ -153,7 +151,6 @@ const isPageRendered = async ({
   pageTitle: string;
   pathname: string;
 }) => {
-  await loadingSpinnerIsNotInDocument(10000);
   await waitFor(() => expect(history.location.pathname).toBe(pathname));
   await waitFor(() => expect(document.title).toBe(pageTitle), {
     timeout: 20000,
@@ -161,7 +158,6 @@ const isPageRendered = async ({
 };
 
 const isHeadingRendered = async (heading: string | RegExp) => {
-  await loadingSpinnerIsNotInDocument(10000);
   await screen.findByRole('heading', { name: heading }, { timeout: 5000 });
 };
 
@@ -291,14 +287,12 @@ it.each([
   });
 
   await isHeadingRendered(eventName);
-  await actWait(100);
 
   await isPageRendered({
     history,
     pageTitle: `${eventName} - Linked Events`,
     pathname: `/fi/events/edit/${TEST_EVENT_ID}`,
   });
-  await actWait(100);
 });
 
 it('should render accessibility statement page', async () => {

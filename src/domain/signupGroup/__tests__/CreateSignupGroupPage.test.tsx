@@ -15,12 +15,11 @@ import {
 } from '../../../utils/mockDataUtils';
 import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
-  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
-  userEvent,
+  setupUser,
   waitFor,
   within,
 } from '../../../utils/testUtils';
@@ -198,7 +197,7 @@ const waitLoadingAndFindNameInput = async () => {
 };
 
 test('should validate signup group form fields', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
@@ -237,7 +236,7 @@ test('should validate signup group form fields', async () => {
 });
 
 test('should route to signup list page after creating a signup', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedCreateSignupResponse,
@@ -248,8 +247,6 @@ test('should route to signup list page after creating a signup', async () => {
     seatsReservation: getMockedSeatsReservationData(1000),
     signupGroupFormValues: signupGroupWithSingleSignupValues,
   });
-
-  await loadingSpinnerIsNotInDocument();
 
   const createButton = await findCreateButton();
   await user.click(createButton);
@@ -262,7 +259,7 @@ test('should route to signup list page after creating a signup', async () => {
 });
 
 test('should route to signup list page after creating a signup group', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedCreateSignupGroupResponse,
@@ -273,8 +270,6 @@ test('should route to signup list page after creating a signup group', async () 
     seatsReservation: getMockedSeatsReservationData(1000),
     signupGroupFormValues: signupGroupValues,
   });
-
-  await loadingSpinnerIsNotInDocument();
 
   const createButton = await findCreateButton();
   await user.click(createButton);
@@ -287,7 +282,7 @@ test('should route to signup list page after creating a signup group', async () 
 });
 
 test('should show server errors if creating signup fails', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   setSignupGroupFormSessionStorageValues({
     registrationId: registration.id as string,
@@ -297,8 +292,6 @@ test('should show server errors if creating signup fails', async () => {
 
   renderComponent([...defaultMocks, mockedInvalidCreateSignupResponse]);
 
-  await loadingSpinnerIsNotInDocument();
-
   const createButton = await findCreateButton();
   await user.click(createButton);
 
@@ -307,7 +300,7 @@ test('should show server errors if creating signup fails', async () => {
 });
 
 test('should show server errors if creating signup group fails', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   setSignupGroupFormSessionStorageValues({
     registrationId: registration.id as string,
@@ -316,8 +309,6 @@ test('should show server errors if creating signup group fails', async () => {
   });
 
   renderComponent([...defaultMocks, mockedInvalidCreateSignupGroupResponse]);
-
-  await loadingSpinnerIsNotInDocument();
 
   const createButton = await findCreateButton();
   await user.click(createButton);
@@ -333,15 +324,11 @@ test('should show signup is closed text if enrolment end date is in the past', a
     mockedPastRegistrationResponse,
   ]);
 
-  await loadingSpinnerIsNotInDocument();
-
   await screen.findByText(/ilmoittautuminen tapahtumaan on päättynyt/i);
 });
 
 test('should not show signup is closed text for registration admin user', async () => {
   renderComponent([...defaultMocks, mockedPastRegistrationResponse]);
-
-  await loadingSpinnerIsNotInDocument();
 
   expect(await findCreateButton()).toBeInTheDocument();
   expect(
@@ -350,7 +337,7 @@ test('should not show signup is closed text for registration admin user', async 
 });
 
 test('should add and delete participants', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent([
     ...defaultMocks,
@@ -389,11 +376,10 @@ test('should add and delete participants', async () => {
       screen.queryByRole('button', { name: 'Osallistuja 2' })
     ).not.toBeInTheDocument()
   );
-  await actWait(100);
 });
 
 test('should show server errors when updating seats reservation fails', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent([
     ...defaultMocks,
@@ -423,7 +409,7 @@ test('should show server errors when updating seats reservation fails', async ()
 });
 
 test('should show and hide participant specific fields', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
@@ -444,7 +430,7 @@ test('should show and hide participant specific fields', async () => {
 });
 
 test('should delete participants by clicking delete participant button', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent([
     ...defaultMocks,
@@ -488,7 +474,7 @@ test('should delete participants by clicking delete participant button', async (
 });
 
 test('should show server errors when updating seats reservation fails', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent([
     ...defaultMocks,

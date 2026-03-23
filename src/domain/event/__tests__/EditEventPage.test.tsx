@@ -13,13 +13,12 @@ import { EventDocument } from '../../../generated/graphql';
 import formatDate from '../../../utils/formatDate';
 import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
-  actWait,
   configure,
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
+  setupUser,
   shouldDeleteInstance,
-  userEvent,
   waitFor,
   within,
 } from '../../../utils/testUtils';
@@ -128,7 +127,7 @@ const renderComponent = (mocks: MockedResponse[] = baseMocks) =>
   });
 
 const openMenu = async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const toggleButton = screen
     .getAllByRole('button', { name: /valinnat/i })
     .pop() as HTMLElement;
@@ -194,7 +193,6 @@ const getAddEventTimeElements = () => {
 };
 
 const waitLoadingAndFindNameInput = async () => {
-  await loadingSpinnerIsNotInDocument();
   return await findElement('nameFi');
 };
 
@@ -205,7 +203,7 @@ test('should cancel event', async () => {
     mockedCancelledEventResponse,
   ];
 
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent(mocks);
 
   await waitLoadingAndFindNameInput();
@@ -217,13 +215,7 @@ test('should cancel event', async () => {
 
   await user.click(cancelButton);
 
-  await waitFor(() =>
-    screen.getByRole('dialog', {
-      name: 'Varmista tapahtuman peruminen',
-    })
-  );
-
-  const modal = screen.getByRole('dialog', {
+  const modal = await screen.findByRole('dialog', {
     name: 'Varmista tapahtuman peruminen',
   });
   // Cancel event button inside modal
@@ -235,10 +227,7 @@ test('should cancel event', async () => {
   await waitFor(() => expect(modal).not.toBeInTheDocument(), {
     timeout: 10000,
   });
-  await loadingSpinnerIsNotInDocument(10000);
   await screen.findByText('Peruutettu');
-  // Wait organization selector and keyword selector components to be updated to avoid act warnings
-  await actWait(100);
 });
 
 test('should postpone event', async () => {
@@ -248,7 +237,7 @@ test('should postpone event', async () => {
     mockedPostponedEventResponse,
   ];
 
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent(mocks);
 
   await waitLoadingAndFindNameInput();
@@ -259,13 +248,7 @@ test('should postpone event', async () => {
   });
   await user.click(postponeButton);
 
-  await waitFor(() =>
-    screen.getByRole('dialog', {
-      name: 'Varmista tapahtuman lykkääminen',
-    })
-  );
-
-  const modal = screen.getByRole('dialog', {
+  const modal = await screen.findByRole('dialog', {
     name: 'Varmista tapahtuman lykkääminen',
   });
 
@@ -277,10 +260,7 @@ test('should postpone event', async () => {
   await waitFor(() => expect(modal).not.toBeInTheDocument(), {
     timeout: 10000,
   });
-  await loadingSpinnerIsNotInDocument(10000);
   await screen.findByText('Lykätty');
-  // Wait organization selector and keyword selector components to be updated to avoid act warnings
-  await actWait(100);
 });
 
 test('should delete event', async () => {
@@ -312,7 +292,7 @@ test('should update event', async () => {
     mockedUpdateImageResponse,
   ];
 
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent(mocks);
 
   await waitLoadingAndFindNameInput();
@@ -321,18 +301,13 @@ test('should update event', async () => {
   const topicCheckbox = await withinMainCategories.findByLabelText(topicName);
   await waitFor(() => expect(topicCheckbox).toBeChecked());
 
-  // Main categories are not visible in UI. Give some time to update main categories to formik
-  await actWait(100);
   const updateButton = getElement('updatePublic');
   await waitFor(() => expect(updateButton).toBeEnabled());
   await user.click(updateButton);
 
-  await loadingSpinnerIsNotInDocument(30000);
   await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
     timeout: 30000,
   });
-  // Wait organization selector and keyword selector components to be updated to avoid act warnings
-  await actWait(100);
 });
 
 test('should update recurring event', async () => {
@@ -352,11 +327,11 @@ test('should update recurring event', async () => {
     mockedUpdateImageResponse,
   ];
 
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent(mocks);
 
   await waitLoadingAndFindNameInput();
-  screen.getByText(expectedValues.lastModifiedTime);
+  await screen.findByText(expectedValues.lastModifiedTime);
 
   // Delete first sub-event
   const withinRow = within(
@@ -404,12 +379,6 @@ test('should update recurring event', async () => {
   const updateButton = getElement('updatePublic');
   await user.click(updateButton);
 
-  await waitFor(() =>
-    screen.getByRole('dialog', {
-      name: 'Varmista tapahtuman tallentaminen',
-    })
-  );
-
   const modal = await screen.findByRole('dialog', {
     name: 'Varmista tapahtuman tallentaminen',
   });
@@ -423,10 +392,7 @@ test('should update recurring event', async () => {
   await waitFor(() => expect(modal).not.toBeInTheDocument(), {
     timeout: 30000,
   });
-  await loadingSpinnerIsNotInDocument(30000);
-  await screen.findByText(expectedValues.updatedLastModifiedTime, undefined, {
-    timeout: 30000,
-  });
+  await screen.findByText(expectedValues.updatedLastModifiedTime);
 });
 
 test('should scroll to first error when validation error is thrown', async () => {
@@ -436,7 +402,7 @@ test('should scroll to first error when validation error is thrown', async () =>
     mockedInvalidEventResponse,
   ];
 
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent(mocks);
 
   const nameFiInput = await waitLoadingAndFindNameInput();
@@ -450,7 +416,7 @@ test('should scroll to first error when validation error is thrown', async () =>
 test('should show server errors', async () => {
   const mocks = [...baseMocks, mockedInvalidUpdateEventResponse];
 
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent(mocks);
 
   await waitLoadingAndFindNameInput();
@@ -463,7 +429,6 @@ test('should show server errors', async () => {
   await waitFor(() => expect(updateButton).toBeEnabled());
   await user.click(updateButton);
 
-  await loadingSpinnerIsNotInDocument(10000);
   await screen.findByText(/lomakkeella on seuraavat virheet/i);
   screen.getByText(/lopetusaika ei voi olla menneisyydessä./i);
 });
@@ -478,8 +443,6 @@ test('should render external user contact fields for admin', async () => {
     mockedExternalOrganizationAncestorsResponse,
     mockedExternalAdminUserResponse,
   ]);
-
-  await loadingSpinnerIsNotInDocument();
 
   const externalUserContactFields = [
     /nimi/i,

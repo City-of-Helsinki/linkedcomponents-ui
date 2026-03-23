@@ -7,7 +7,7 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
-  userEvent,
+  setupUser,
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
@@ -67,7 +67,7 @@ const getElement = (
 };
 
 test('should navigate between pages', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -91,7 +91,7 @@ test('should navigate between pages', async () => {
 });
 
 test('should change sort order', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -111,7 +111,7 @@ test('should change sort order', async () => {
 
 test('should search by text', async () => {
   const searchValue = placeNames[0];
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();

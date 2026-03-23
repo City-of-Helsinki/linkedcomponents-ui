@@ -16,7 +16,7 @@ import {
   CustomRenderOptions,
   render,
   screen,
-  userEvent,
+  setupUser,
   waitFor,
 } from '../../../../../utils/testUtils';
 import { mockedUserResponse } from '../../../../user/__mocks__/user';
@@ -135,7 +135,7 @@ const findElement = (key: GetElementKey) => {
 };
 
 const enterCommonValues = async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   const topicToggleButton = getElement('topicToggleButton');
   const subjectInput = getElement('subject');
@@ -155,7 +155,7 @@ const renderComponent = (options?: CustomRenderOptions) =>
 
 test('should scroll to first error', async () => {
   mockUnauthenticatedLoginState();
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
@@ -170,7 +170,7 @@ test('should scroll to first error', async () => {
 });
 
 test('should scroll to topic selector when topic is not selected', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   mockUnauthenticatedLoginState();
   renderComponent();
@@ -188,7 +188,7 @@ test('should scroll to topic selector when topic is not selected', async () => {
 });
 
 test('should show correct faq items when "event_form" topic is selected', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   mockUnauthenticatedLoginState();
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
@@ -214,7 +214,7 @@ test('should show correct faq items when "event_form" topic is selected', async 
 });
 
 test('should show correct faq items when "permissions" topic is selected', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   mockUnauthenticatedLoginState();
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
@@ -244,10 +244,10 @@ test.each([
   ['general', 'generalTopicOption'],
   ['other', 'otherTopicOption'],
 ] as [string, GetElementKey][])(
-  'should not show any faq item when %p topic is selected',
+  'should not show any faq item when %s topic is selected',
   async (topic, topicOption) => {
     mockUnauthenticatedLoginState();
-    const user = userEvent.setup({ delay: null });
+    const user = setupUser();
 
     renderComponent({
       mocks: [mockedPostGuestFeedbackResponse],
@@ -296,7 +296,7 @@ test.each([
 
 test('should succesfully send feedback when user is not signed in', async () => {
   mockUnauthenticatedLoginState();
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent({ mocks: [mockedPostGuestFeedbackResponse] });
 
@@ -313,7 +313,7 @@ test('should succesfully send feedback when user is not signed in', async () => 
 });
 
 test('should succesfully send feedback when user is signed in', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent({
     mocks: [mockedUserResponse, mockedPostFeedbackResponse],
@@ -328,7 +328,7 @@ test('should succesfully send feedback when user is signed in', async () => {
 });
 
 test('should show server errors', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent({
     mocks: [mockedUserResponse, mockedInvalidPostFeedbackResponse],

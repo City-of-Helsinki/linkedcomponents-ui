@@ -16,7 +16,7 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
-  userEvent,
+  setupUser,
   waitFor,
   within,
 } from '../../../utils/testUtils';
@@ -195,7 +195,7 @@ const waitLoadingAndFindNameInput = async () => {
 };
 
 test('should focus to first validation error when trying to save draft event', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent();
 
   const nameTextbox = await waitLoadingAndFindNameInput();
@@ -207,7 +207,7 @@ test('should focus to first validation error when trying to save draft event', a
 });
 
 test('should focus to first validation error when trying to save draft event as external user', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   const mocks = [...commonMocks, mockedUserWithoutOrganizationsResponse];
 
@@ -236,7 +236,7 @@ test('should focus to validation error of swedish name when trying to save draft
       fi: eventValues.name,
     },
   });
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
@@ -251,7 +251,7 @@ test('should focus to validation error of swedish name when trying to save draft
 
 test('should focus to select component in case of validation error', async () => {
   setFormValues({ [EVENT_FIELDS.HAS_UMBRELLA]: true });
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
@@ -276,7 +276,7 @@ test('should focus to text editor component in case of validation error', async 
       fi: eventValues.shortDescription,
     },
   });
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
@@ -306,7 +306,7 @@ test('should focus to event times error if none event time exists', async () => 
       fi: eventValues.shortDescription,
     },
   });
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
@@ -349,7 +349,7 @@ test('should focus to first main category checkbox if none main category is sele
     mockedCreatePublicEventResponse,
     mockedUpdateImageResponse,
   ];
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent(mocks);
 
@@ -376,7 +376,7 @@ test('should show server errors', async () => {
     },
   });
   const mocks = [...defaultMocks, mockedInvalidCreateDraftEventResponse];
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent(mocks);
 
@@ -402,7 +402,7 @@ test('should route to event completed page after saving draft event', async () =
     },
   });
   const mocks = [...defaultMocks, mockedCreateDraftEventResponse];
-  const user = userEvent.setup();
+  const user = setupUser();
 
   const { history } = renderComponent(mocks);
 
@@ -451,7 +451,7 @@ test('should route to event completed page after publishing event', async () => 
     mockedCreatePublicEventResponse,
     mockedUpdateImageResponse,
   ];
-  const user = userEvent.setup();
+  const user = setupUser();
 
   const { history } = renderComponent(mocks);
 

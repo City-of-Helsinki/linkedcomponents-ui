@@ -10,8 +10,8 @@ import {
   openDropdownMenu,
   renderWithRoute,
   screen,
+  setupUser,
   shouldDeleteInstance,
-  userEvent,
   waitFor,
 } from '../../../utils/testUtils';
 import { mockedOrganizationAccountsResponse } from '../../organization/__mocks__/organization';
@@ -74,7 +74,7 @@ const findMinimumAttendeeCapacityInput = () => {
 };
 
 test('should show link to event page', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -110,7 +110,7 @@ test('should update registration', async () => {
     mockedUpdateRegistrationResponse,
     mockedUpdatedRegistationResponse,
   ];
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
@@ -118,12 +118,13 @@ test('should update registration', async () => {
   const updateButton = await findUpdateButton();
   await user.click(updateButton);
 
-  await loadingSpinnerIsNotInDocument(30000);
-  await screen.findByText('23.8.2021 12.00');
+  await screen.findByRole('alert', {
+    name: 'Ilmoittautuminen on tallennettu',
+  });
 });
 
 test('should scroll to first error when validation error is thrown', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent();
 
   await loadingSpinnerIsNotInDocument();
@@ -150,7 +151,7 @@ test('should show "not found" page if registration doesn\'t exist', async () => 
 
 test('should show server errors', async () => {
   const mocks = [...baseMocks, mockedInvalidUpdateRegistrationResponse];
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent(mocks);
 
   await loadingSpinnerIsNotInDocument();
