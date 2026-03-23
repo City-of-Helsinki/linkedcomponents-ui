@@ -6,10 +6,9 @@ import { fakeEvents } from '../../../../utils/mockDataUtils';
 import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
   configure,
-  loadingSpinnerIsNotInDocument,
   render,
   screen,
-  userEvent,
+  setupUser,
   waitFor,
 } from '../../../../utils/testUtils';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
@@ -150,23 +149,20 @@ const renderComponent = (
 ) => render(<EventList {...defaultProps} {...props} />, { mocks });
 
 test('should navigate between pages', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent();
 
-  await loadingSpinnerIsNotInDocument();
+  // Page 1 event should be visible.
+  await screen.findByText(eventNames[0]);
   expect(
     screen.queryByRole('button', { name: /Lajitteluperuste/i })
   ).not.toBeInTheDocument();
 
-  // Page 1 event should be visible.
-  screen.getByText(eventNames[0]);
-
   const page2Button = getElement('page2');
   await user.click(page2Button);
 
-  await loadingSpinnerIsNotInDocument();
   // Page 2 event should be visible.
-  screen.getByText(page2EventNames[0]);
+  await screen.findByText(page2EventNames[0]);
   await waitFor(() => expect(history.location.search).toBe('?page=2'));
 
   // Should clear page from url search if selecting the first page
@@ -177,13 +173,11 @@ test('should navigate between pages', async () => {
 });
 
 test('should change sort order', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent({ listType: EVENT_LIST_TYPES.CARD_LIST });
 
-  await loadingSpinnerIsNotInDocument();
-
   // Page 1 events should be visible.
-  screen.getByRole('heading', { name: eventNames[0] });
+  await screen.findByRole('heading', { name: eventNames[0] });
   await waitFor(() => expect(history.location.search).toBe(''));
 
   const sortSelect = getElement('sortSelect');
@@ -194,10 +188,8 @@ test('should change sort order', async () => {
 
   await user.click(sortOptionName);
 
-  await loadingSpinnerIsNotInDocument();
-
-  //Sorted events should be visible.
-  screen.getByRole('heading', { name: sortedEventNames[0] });
+  // Sorted events should be visible.
+  await screen.findByRole('heading', { name: sortedEventNames[0] });
   await waitFor(() => expect(history.location.search).toBe('?sort=name'));
 
   // Should clear sort from url search if selecting default sort value

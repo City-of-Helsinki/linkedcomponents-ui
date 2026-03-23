@@ -9,7 +9,7 @@ import {
   loadingSpinnerIsNotInDocument,
   renderWithRoute,
   screen,
-  userEvent,
+  setupUser,
   waitFor,
 } from '../../../utils/testUtils';
 import {
@@ -99,7 +99,7 @@ test('should render all components for published event', async () => {
 });
 
 test('should route to event list page', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const mocks = getMocks(PublicationStatus.Draft);
   const { history } = renderComponent(mocks);
 
@@ -115,7 +115,7 @@ test('should route to event list page', async () => {
 });
 
 test('should route to create event page', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const mocks = getMocks(PublicationStatus.Draft);
   const { history } = renderComponent(mocks);
 

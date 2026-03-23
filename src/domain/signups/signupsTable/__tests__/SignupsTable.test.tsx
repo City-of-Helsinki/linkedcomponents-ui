@@ -8,7 +8,7 @@ import {
   loadingSpinnerIsNotInDocument,
   render,
   screen,
-  userEvent,
+  setupUser,
   within,
 } from '../../../../utils/testUtils';
 import { mockedEventResponse } from '../../../event/__mocks__/event';
@@ -118,7 +118,7 @@ test('should render signups table', async () => {
 });
 
 test('should navigate between pages', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent([
     ...defaultMocks,
@@ -162,7 +162,7 @@ test('should navigate between pages', async () => {
 });
 
 test('should open edit signup page by clicking a signup without group', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedAttendeesResponse,
@@ -177,7 +177,7 @@ test('should open edit signup page by clicking a signup without group', async ()
 });
 
 test('should open edit signup group page by clicking a signup with group', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent([
     ...defaultMocks,
     getMockedAttendeesResponse({ signupsResponse: attendeesWithGroup }),
@@ -245,7 +245,7 @@ test('should display status tag if payment is refunded', async () => {
 });
 
 test('should open actions dropdown', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   const { history } = renderComponent([
     ...defaultMocks,

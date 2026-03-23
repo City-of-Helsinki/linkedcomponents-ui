@@ -4,7 +4,6 @@ import { ROUTES } from '../../../constants';
 import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
-  loadingSpinnerIsNotInDocument,
   render,
   screen,
   shouldApplyExpectedMetaData,
@@ -65,9 +64,8 @@ test('applies expected metadata', async () => {
 
 test('should render events in the event list', async () => {
   renderComponent();
-  await loadingSpinnerIsNotInDocument();
 
-  screen.getByRole('heading', { name: eventNames[0] });
+  await screen.findByRole('heading', { name: eventNames[0] });
   screen.getByRole('heading', { name: eventNames[1] });
 });
 
@@ -86,7 +84,9 @@ it('scrolls to event card and calls history.replace correctly (deletes eventId f
     routes: [route],
   });
 
-  await loadingSpinnerIsNotInDocument();
+  const eventCardCTA = await screen.findByRole('link', {
+    name: `Siirry tapahtumasivulle: ${eventNames[0]}`,
+  });
 
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
@@ -95,10 +95,6 @@ it('scrolls to event card and calls history.replace correctly (deletes eventId f
       { replace: true, state: {} }
     )
   );
-
-  const eventCardCTA = screen.getByRole('link', {
-    name: `Siirry tapahtumasivulle: ${eventNames[0]}`,
-  });
 
   await waitFor(() => expect(eventCardCTA).toHaveFocus());
 });

@@ -6,7 +6,7 @@ import {
   configure,
   render,
   screen,
-  userEvent,
+  setupUser,
   waitFor,
 } from '../../../../../utils/testUtils';
 import { TEST_EVENT_ID } from '../../../../event/constants';
@@ -91,9 +91,7 @@ const accountFields = [
 
 const editableAccountFields = accountFields.splice(3);
 
-const selectAccount = async () => {
-  const user = userEvent.setup();
-
+const selectAccount = async (user = setupUser()) => {
   const hasPriceCheckbox = getElement('hasPriceCheckbox');
   await user.click(hasPriceCheckbox);
 
@@ -119,7 +117,7 @@ test('should not show add price groups button if event is free', async () => {
 });
 
 test('should add and remove price group', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
@@ -148,7 +146,7 @@ test('should add and remove price group', async () => {
 });
 
 test('should disable price field if price group is free', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
@@ -175,25 +173,31 @@ test('should disable price field if price group is free', async () => {
 });
 
 test('should should account override fields if account is selected', async () => {
+  const user = setupUser();
+
   renderComponent();
 
-  await selectAccount();
+  await selectAccount(user);
+
+  await screen.findByRole('textbox', { name: accountFields[0].name });
 
   for (const { name, value } of accountFields) {
-    const el = await screen.findByRole('textbox', { name: name });
+    const el = screen.getByRole('textbox', { name: name });
     expect(el).toHaveValue(value);
   }
 });
 
 test('should restore accounf fields default values', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
-  await selectAccount();
+  await selectAccount(user);
+
+  await screen.findByRole('textbox', { name: accountFields[0].name });
 
   for (const { name } of editableAccountFields) {
-    const el = await screen.findByRole('textbox', { name: name });
+    const el = screen.getByRole('textbox', { name: name });
     await user.clear(el);
     expect(el).toHaveValue('');
   }
@@ -203,7 +207,7 @@ test('should restore accounf fields default values', async () => {
   );
 
   for (const { name, value } of accountFields) {
-    const el = await screen.findByRole('textbox', { name: name });
+    const el = screen.getByRole('textbox', { name: name });
     expect(el).toHaveValue(value);
   }
 });

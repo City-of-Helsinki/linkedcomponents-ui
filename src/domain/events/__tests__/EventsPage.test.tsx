@@ -5,13 +5,12 @@ import { mockAuthenticatedLoginState } from '../../../utils/mockLoginHooks';
 import {
   configure,
   CustomRenderOptions,
-  loadingSpinnerIsNotInDocument,
   render,
   screen,
+  setupUser,
   shouldApplyExpectedMetaData,
   shouldClickListPageCreateButton,
   shouldSortListPageTable,
-  userEvent,
   waitFor,
 } from '../../../utils/testUtils';
 import { mockedOrganizationResponse } from '../../organization/__mocks__/organization';
@@ -110,6 +109,7 @@ const findElement = (
     | 'ownPublishedTable'
     | 'publishedTable'
     | 'sortOrderButton'
+    | 'waitingApprovalTable'
 ) => {
   switch (key) {
     case 'draftsTable':
@@ -126,6 +126,10 @@ const findElement = (
       });
     case 'sortOrderButton':
       return screen.findByRole('combobox', { name: /lajitteluperuste/i });
+    case 'waitingApprovalTable':
+      return screen.findByRole('table', {
+        name: /hyväksyntää odottavat tapahtumat, järjestys viimeksi muokattu, laskeva/i,
+      });
   }
 };
 
@@ -144,7 +148,7 @@ test('should show correct title, description and keywords', async () => {
 test('should render events page', async () => {
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument(10000);
+  await findElement('waitingApprovalTable');
 
   getElement('waitingApprovalTab');
   getElement('publishedTab');
@@ -163,11 +167,11 @@ test('should open create event page', async () => {
 });
 
 test('should change list type to event card', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument(10000);
+  await findElement('waitingApprovalTable');
   expect(
     screen.queryByRole('button', { name: 'Listteluperuste' })
   ).not.toBeInTheDocument();
@@ -179,11 +183,11 @@ test('should change list type to event card', async () => {
 });
 
 test('should change active tab to published', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument(10000);
+  await findElement('waitingApprovalTable');
 
   const publishedTab = getElement('publishedTab');
   await user.click(publishedTab);
@@ -192,11 +196,11 @@ test('should change active tab to published', async () => {
 });
 
 test('should change active tab to own published', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument(10000);
+  await findElement('waitingApprovalTable');
 
   const ownPublishedTab = getElement('ownPublishedTab');
   await user.click(ownPublishedTab);
@@ -205,11 +209,11 @@ test('should change active tab to own published', async () => {
 });
 
 test('should change active tab to drafts', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent();
 
-  await loadingSpinnerIsNotInDocument(10000);
+  await findElement('waitingApprovalTable');
 
   const draftsTab = getElement('draftsTab');
   await user.click(draftsTab);
@@ -240,8 +244,6 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
 
   renderComponent({ history, routes: [route] });
 
-  await loadingSpinnerIsNotInDocument(10000);
-
   await waitFor(() =>
     expect(replaceSpy).toHaveBeenCalledWith(
       { hash: '', pathname: route, search: search },
@@ -250,7 +252,7 @@ it('scrolls to event table row and calls history.replace correctly (deletes even
     )
   );
 
-  const eventLink = screen.getByRole('link', {
+  const eventLink = await screen.findByRole('link', {
     name: getValue(waitingApprovalEvents.data[0]?.name?.fi, ''),
   });
   await waitFor(() => expect(eventLink).toHaveFocus());

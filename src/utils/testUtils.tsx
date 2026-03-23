@@ -64,6 +64,8 @@ const escKeyPressHelper = (el?: HTMLElement): boolean =>
 const tabKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 9, key: 'Tab' });
 
+const setupUser = () => userEvent.setup({ delay: null });
+
 const customRender: CustomRender = (
   ui,
   {
@@ -186,12 +188,6 @@ const loadingSpinnerIsNotInDocument = async (timeout = 5000): Promise<void> => {
     },
     { timeout }
   );
-  await waitFor(
-    () => {
-      expect(screen.queryAllByText('Lataaminen päättynyt')).toHaveLength(0);
-    },
-    { timeout }
-  );
 };
 
 const waitReducerToBeCalled = async (
@@ -224,7 +220,7 @@ const waitPageMetaDataToBeSet = async ({
 
 // Dropdown menu helpers
 const openDropdownMenu = async (label: string | RegExp = /valinnat/i) => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const toggleButton = await screen.findByRole('button', { name: label });
   await user.click(toggleButton);
   const menu = screen.getByRole('region', { name: label });
@@ -235,7 +231,7 @@ const openDropdownMenu = async (label: string | RegExp = /valinnat/i) => {
 const shouldToggleDropdownMenu = async (
   toggleButtonLabel: string | RegExp = /valinnat/i
 ) => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { toggleButton } = await openDropdownMenu(toggleButtonLabel);
   await user.click(toggleButton);
   expect(
@@ -250,7 +246,7 @@ const shouldOpenMenuAndSelectOption = async ({
   optionLabels: string[];
   toggleButtonLabel: RegExp | string;
 }) => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   const toggleButton = screen.getByRole('button', { name: toggleButtonLabel });
 
@@ -291,7 +287,7 @@ const shouldClickButton = async ({
   buttonLabel: string | RegExp;
   onClick: Mock;
 }) => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   const button = screen.getByRole('button', { name: buttonLabel });
   await user.click(button);
@@ -375,7 +371,7 @@ const shouldClickListPageCreateButton = async ({
   expectedPathname: string;
   history: History;
 }) => {
-  const user = userEvent.setup();
+  const user = setupUser();
   await loadingSpinnerIsNotInDocument(10000);
 
   const createEventButton = screen.getByRole('button', {
@@ -395,7 +391,7 @@ const shouldSortListPageTable = async ({
   expectedSearch: string;
   history: History;
 }) => {
-  const user = userEvent.setup();
+  const user = setupUser();
   await loadingSpinnerIsNotInDocument();
 
   const sortButton = screen.getByTestId(dataTestId);
@@ -420,7 +416,6 @@ const shouldApplyExpectedMetaData = async ({
     pageKeywords: expectedKeywords,
     pageTitle: expectedTitle,
   });
-  await actWait(10);
 };
 
 const shouldDeleteInstance = async ({
@@ -438,7 +433,7 @@ const shouldDeleteInstance = async ({
   expectedUrl: string;
   history: History;
 }) => {
-  const user = userEvent.setup();
+  const user = setupUser();
   await loadingSpinnerIsNotInDocument();
 
   const deleteButton = await screen.findByRole('button', {
@@ -466,7 +461,7 @@ const shouldDisplayAndRemoveFilter = async ({
   expectedPathname: string;
   history: History;
 }) => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   const deleteFilterButton = await screen.findByRole('button', {
     name: deleteButtonLabel,
@@ -492,7 +487,7 @@ const shouldFilterEventsOrRegistrations = async ({
   searchInputLabel: string;
   values: { publisher: string; text: string };
 }) => {
-  const user = userEvent.setup();
+  const user = setupUser();
 
   // Text filtering
   const searchInput = screen.getByRole('textbox', {
@@ -555,6 +550,7 @@ export {
   pasteToTextEditor,
   customRender as render,
   renderWithRoute,
+  setupUser,
   shouldApplyExpectedMetaData,
   shouldClickButton,
   shouldClickListPageCreateButton,

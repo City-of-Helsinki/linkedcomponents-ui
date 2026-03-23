@@ -7,7 +7,7 @@ import {
   configure,
   render,
   screen,
-  userEvent,
+  setupUser,
   waitFor,
   within,
 } from '../../../../../utils/testUtils';
@@ -64,6 +64,7 @@ const defaultMocks = [
   mockedKeywordResponse,
   mockedKeywordsResponse,
   mockedLanguagesResponse,
+  mockedKaskoOrganizationDecendantsResponse,
   mockedUserResponse,
   mockedKaskoOrganizationDecendantsResponse,
 ];
@@ -243,12 +244,12 @@ test('should not show education fields if user in multiple organizations with wr
   await screen.findByRole('heading', { name: /Valitse kategoria\(t\)/i });
 
   expect(
-    screen.queryByRole('title', { name: /toiseen asteen opinnot/i })
+    screen.queryByRole('heading', { name: /toiseen asteen opinnot/i })
   ).not.toBeInTheDocument();
 });
 
 test('should change keyword', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent();
 
   const toggleButton = getElement('toggleButton');
@@ -269,7 +270,7 @@ test('should change keyword', async () => {
 });
 
 test('should show correct validation error if none main category is selected', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent();
 
   const mainCategories = getElement('mainCategories');
@@ -299,7 +300,7 @@ test('should select remote participation if internet is selected as a location',
 });
 
 test('should show correct validation error if none keyword is selected', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent();
 
   const toggleButton = getElement('toggleButton');
@@ -323,7 +324,7 @@ test('should show validation error for kasko user if no education keywords are s
     mockedKaskoOrganizationDecendantsResponse,
   ];
 
-  const user = userEvent.setup();
+  const user = setupUser();
 
   renderComponent(
     {

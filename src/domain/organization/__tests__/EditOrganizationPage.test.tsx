@@ -84,20 +84,30 @@ const getElement = (
 ) => {
   switch (key) {
     case 'adminUsersToggleButton':
-      return screen.getAllByRole('combobox', { name: /pääkäyttäjät/i })[0];
+      return screen.getByRole('combobox', { name: /^pääkäyttäjät\b/i });
     case 'replacedByToggleButton':
       return screen.getByRole('combobox', { name: /korvaava organisaatio/i });
   }
 };
 
-const fillFormValues = async () => {
-  const user = userEvent.setup();
-  await user.click(getElement('adminUsersToggleButton'));
+const fillFormValues = async (user: ReturnType<typeof userEvent.setup>) => {
+  const adminUsersToggleButton = getElement('adminUsersToggleButton');
+  await user.click(adminUsersToggleButton);
 
+  const userOptionLabel = `${users.data[0]?.displayName} - ${users.data[0]?.email}`;
   const userOption = await screen.findByRole('option', {
-    name: `${users.data[0]?.displayName} - ${users.data[0]?.email}`,
+    name: userOptionLabel,
   });
   await user.click(userOption);
+  await user.keyboard('{Escape}');
+
+  // Ensure the user is selected before proceeding.
+  await user.click(adminUsersToggleButton);
+  await screen.findByRole('option', {
+    name: userOptionLabel,
+    selected: true,
+  });
+  await user.keyboard('{Escape}');
 
   await user.click(getElement('replacedByToggleButton'));
   const organizationOption = await screen.findByRole('option', {
@@ -143,7 +153,7 @@ test('should update organization', async () => {
 
   const submitButton = await findElement('saveButton');
 
-  await fillFormValues();
+  await fillFormValues(user);
 
   await user.click(submitButton);
 
@@ -161,7 +171,7 @@ test('should show server errors', async () => {
 
   const submitButton = await findElement('saveButton');
 
-  await fillFormValues();
+  await fillFormValues(user);
 
   await user.click(submitButton);
 
