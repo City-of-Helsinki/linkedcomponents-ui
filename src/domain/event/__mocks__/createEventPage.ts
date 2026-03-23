@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 
+import { FULL_TEXT_LANGUAGES } from '../../../constants';
 import {
   CreateEventDocument,
   CreateEventsDocument,
@@ -215,7 +216,8 @@ const umbrellaEventsVariables = {
   createPath: undefined,
   sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['umbrella'],
-  text: '',
+  fullText: '',
+  fullTextLanguage: FULL_TEXT_LANGUAGES,
 };
 const umbrellaEventsResponse = { data: { events: fakeEvents(1) } };
 const mockedUmbrellaEventsResponse: MockedResponse = {

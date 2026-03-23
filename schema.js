@@ -116,7 +116,7 @@ module.exports = buildSchema(/* GraphQL */ `
       superEventType: [String]
       translation: String
       fullText: String
-      fullTextLanguage: String
+      fullTextLanguage: [String]
     ): EventsResponse!
     image(id: ID): Image!
     images(

@@ -959,7 +959,7 @@ export type QueryEventsArgs = {
   eventStatus?: InputMaybe<Array<InputMaybe<EventStatus>>>;
   eventType?: InputMaybe<Array<InputMaybe<EventTypeId>>>;
   fullText?: InputMaybe<Scalars['String']['input']>;
-  fullTextLanguage?: InputMaybe<Scalars['String']['input']>;
+  fullTextLanguage?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   inLanguage?: InputMaybe<Scalars['String']['input']>;
   include?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   isFree?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1750,7 +1750,7 @@ export type EventsQueryVariables = Exact<{
   superEventType?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
   translation?: InputMaybe<Scalars['String']['input']>;
   fullText?: InputMaybe<Scalars['String']['input']>;
-  fullTextLanguage?: InputMaybe<Scalars['String']['input']>;
+  fullTextLanguage?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>> | InputMaybe<Scalars['String']['input']>>;
   createPath?: InputMaybe<Scalars['Any']['input']>;
 }>;
 
@@ -3235,7 +3235,7 @@ export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventSuspenseQueryHookResult = ReturnType<typeof useEventSuspenseQuery>;
 export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
 export const EventsDocument = gql`
-    query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $eventStatus: [EventStatus], $eventType: [EventTypeId], $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $registration: Boolean, $registrationAdminUser: Boolean, $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $translation: String, $fullText: String, $fullTextLanguage: String, $createPath: Any) {
+    query Events($adminUser: Boolean, $createdBy: String, $combinedText: [String], $division: [String], $end: String, $endsAfter: String, $endsBefore: String, $eventStatus: [EventStatus], $eventType: [EventTypeId], $include: [String], $inLanguage: String, $isFree: Boolean, $keyword: [String], $keywordAnd: [String], $keywordNot: [String], $language: String, $location: [String], $page: Int, $pageSize: Int, $publicationStatus: PublicationStatus, $publisher: [String], $registration: Boolean, $registrationAdminUser: Boolean, $showAll: Boolean, $sort: String, $start: String, $startsAfter: String, $startsBefore: String, $superEvent: ID, $superEventType: [String], $translation: String, $fullText: String, $fullTextLanguage: [String], $createPath: Any) {
   events(
     adminUser: $adminUser
     createdBy: $createdBy

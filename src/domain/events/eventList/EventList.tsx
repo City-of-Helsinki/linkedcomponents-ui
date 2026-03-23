@@ -163,7 +163,6 @@ const EventListContainer: React.FC<EventListContainerProps> = (props) => {
 
   const eventsQueryVariables = getEventsQueryVariables(
     location.search,
-    locale,
     baseVariables
   );
 
