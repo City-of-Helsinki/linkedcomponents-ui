@@ -43,8 +43,8 @@ type SearchState = {
   place: string[];
   publisher: string[];
   start: Date | null;
+  text: string;
   type: EVENT_TYPE[];
-  full_text: string;
 };
 
 const SearchPanel: React.FC = () => {
@@ -60,8 +60,8 @@ const SearchPanel: React.FC = () => {
     place: [],
     publisher: [],
     start: null,
+    text: '',
     type: [],
-    full_text: '',
   });
 
   const {
@@ -81,7 +81,7 @@ const SearchPanel: React.FC = () => {
   };
 
   React.useEffect(() => {
-    const { end, eventStatus, places, publisher, start, fullText, types } =
+    const { end, eventStatus, places, publisher, start, text, types } =
       getEventSearchInitialValues(location.search);
     setSearchState({
       end,
@@ -89,8 +89,8 @@ const SearchPanel: React.FC = () => {
       place: places,
       publisher,
       start,
+      text,
       type: types,
-      full_text: fullText,
     });
   }, [locale, location.search, setSearchState]);
 
@@ -131,7 +131,7 @@ const SearchPanel: React.FC = () => {
                       t('eventSearchPage.searchPanel.buttonSearch'),
                       undefined
                     )}
-                    value={searchState.full_text}
+                    value={searchState.text}
                   />
                   <div className={styles.advancedFilters}>
                     <div>
@@ -176,7 +176,7 @@ const SearchPanel: React.FC = () => {
                     </div>
                     <div>
                       <EventStatusSelector
-                        icon={<IconBell aria-hidden />}
+                        icon={<IconBell />}
                         onChange={handleChangeEventStatuses}
                         toggleButtonLabel={t(
                           'eventSearchPage.searchPanel.labelEventStatus'

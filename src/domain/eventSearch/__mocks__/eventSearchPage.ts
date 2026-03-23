@@ -27,8 +27,8 @@ const eventsVariables = {
   page: 1,
   pageSize: EVENTS_PAGE_SIZE,
   start: null,
-  full_text: searchText,
-  full_text_language: 'fi',
+  fullText: '',
+  fullTextLanguage: 'fi',
   sort: DEFAULT_EVENT_SORT,
 };
 const eventNames = range(1, EVENTS_PAGE_SIZE + 1).map((n) => `Event name ${n}`);
@@ -44,6 +44,18 @@ const mockedEventsResponse: MockedResponse = {
   request: {
     query: EventsDocument,
     variables: eventsVariables,
+  },
+  result: eventsResponse,
+};
+
+const filteredEventsVariables = {
+  ...eventsVariables,
+  fullText: searchText,
+};
+const mockedFilteredEventsResponse: MockedResponse = {
+  request: {
+    query: EventsDocument,
+    variables: filteredEventsVariables,
   },
   result: eventsResponse,
 };
@@ -83,6 +95,7 @@ export {
   eventNames,
   events,
   mockedEventsResponse,
+  mockedFilteredEventsResponse,
   mockedPlaceResponse,
   mockedPlacesResponse,
   placeId,

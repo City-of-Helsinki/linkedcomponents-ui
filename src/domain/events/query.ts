@@ -34,8 +34,8 @@ export const QUERY_EVENTS = gql`
     $superEvent: ID
     $superEventType: [String]
     $translation: String
-    $full_text: String
-    $full_text_language: String
+    $fullText: String
+    $fullTextLanguage: String
     $createPath: Any
   ) {
     events(
@@ -69,8 +69,8 @@ export const QUERY_EVENTS = gql`
       startsBefore: $startsBefore
       superEvent: $superEvent
       superEventType: $superEventType
-      full_text: $full_text
-      full_text_language: $full_text_language
+      fullText: $fullText
+      fullTextLanguage: $fullTextLanguage
       translation: $translation
     ) @rest(type: "EventsResponse", pathBuilder: $createPath) {
       meta {

@@ -20,8 +20,8 @@ const commonSearchVariables = {
   page: 1,
   sort: '-last_modified_time',
   start: null,
-  full_text: '',
-  full_text_language: 'fi',
+  fullText: '',
+  fullTextLanguage: 'fi',
 };
 
 const waitingApprovalEventsCount = 1;

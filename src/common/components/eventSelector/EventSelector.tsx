@@ -40,8 +40,8 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     () => ({
       ...variables,
       createPath: getPathBuilder(eventsPathBuilder),
-      full_text: '',
-      full_text_language: locale,
+      fullText: '',
+      fullTextLanguage: locale,
     }),
     [locale, variables]
   );
@@ -73,7 +73,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
     async (searchValue: string): Promise<SearchResult> => {
       try {
         const { error, data: newEventsData } = await refetch({
-          full_text: searchValue,
+          fullText: searchValue,
         });
 
         if (error) {

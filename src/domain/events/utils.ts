@@ -80,8 +80,8 @@ export const eventsPathBuilder = ({
     superEvent,
     superEventType,
     translation,
-    full_text,
-    full_text_language,
+    fullText,
+    fullTextLanguage,
   } = args;
 
   const USE_IMAGE_PROXY = import.meta.env.REACT_APP_USE_IMAGE_PROXY === 'true';
@@ -122,8 +122,8 @@ export const eventsPathBuilder = ({
     { key: 'super_event_type', value: superEventType },
     { key: 'translation', value: translation },
     { key: 'use_image_proxy', value: USE_IMAGE_PROXY || null },
-    { key: 'full_text', value: full_text },
-    { key: 'full_text_language', value: full_text_language },
+    { key: 'full_text', value: fullText },
+    { key: 'full_text_language', value: fullTextLanguage },
   ];
 
   const query = queryBuilder(variableToKeyItems);
@@ -210,7 +210,7 @@ export const getEventSearchInitialValues = (
   const publisher = searchParams.getAll(EVENT_SEARCH_PARAMS.PUBLISHER);
   const sort = searchParams.get(EVENT_SEARCH_PARAMS.SORT) as EVENT_SORT_OPTIONS;
   const start = searchParams.get(EVENT_SEARCH_PARAMS.START);
-  const fullText = searchParams.get(EVENT_SEARCH_PARAMS.FULL_TEXT);
+  const text = searchParams.get(EVENT_SEARCH_PARAMS.TEXT);
   const types = searchParams.getAll(EVENT_SEARCH_PARAMS.TYPE) as EVENT_TYPE[];
 
   return {
@@ -224,7 +224,7 @@ export const getEventSearchInitialValues = (
       : DEFAULT_EVENT_SORT,
     start: start && isValid(new Date(start)) ? new Date(start) : null,
     types,
-    fullText: getValue(fullText, ''),
+    text: getValue(text, ''),
   };
 };
 
@@ -247,7 +247,7 @@ export const getEventsQueryVariables = (
   const places = searchParams.getAll(EVENT_SEARCH_PARAMS.PLACE);
   const publisher = searchParams.getAll(EVENT_SEARCH_PARAMS.PUBLISHER);
 
-  const { eventStatus, page, sort, fullText, types } =
+  const { eventStatus, page, sort, text, types } =
     getEventSearchInitialValues(search);
 
   return {
@@ -262,8 +262,8 @@ export const getEventsQueryVariables = (
     publisher,
     sort,
     start,
-    full_text: fullText,
-    full_text_language: locale,
+    fullText: text,
+    fullTextLanguage: locale,
   };
 };
 
@@ -383,12 +383,11 @@ export const getEventParamValue = ({
     case EVENT_SEARCH_PARAMS.START:
       return formatDate(new Date(value), DATE_FORMAT_API);
     case EVENT_SEARCH_PARAMS.EVENT_STATUS:
-    case EVENT_SEARCH_PARAMS.FULL_TEXT:
-    case EVENT_SEARCH_PARAMS.FULL_TEXT_LANGUAGE:
     case EVENT_SEARCH_PARAMS.PAGE:
     case EVENT_SEARCH_PARAMS.PLACE:
     case EVENT_SEARCH_PARAMS.PUBLISHER:
     case EVENT_SEARCH_PARAMS.SORT:
+    case EVENT_SEARCH_PARAMS.TEXT:
     case EVENT_SEARCH_PARAMS.TYPE:
       return value;
     case EVENT_SEARCH_PARAMS.RETURN_PATH:
