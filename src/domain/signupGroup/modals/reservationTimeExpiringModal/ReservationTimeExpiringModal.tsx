@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import InfoModal, {
@@ -14,6 +14,15 @@ const ReservationTimeExpiringModal: React.FC<
 > = ({ timeLeft, ...props }) => {
   const { t } = useTranslation();
 
+  const reReadDescription = useMemo(
+    () =>
+      timeLeft !== null &&
+      timeLeft > 0 &&
+      timeLeft <= 40 &&
+      timeLeft % 10 === 0,
+    [timeLeft]
+  );
+
   return (
     <InfoModal
       {...props}
@@ -21,6 +30,7 @@ const ReservationTimeExpiringModal: React.FC<
       description={t('signup.reservationTimeExpiringModal.text', {
         count: timeLeft as number,
       })}
+      reReadDescription={reReadDescription}
       heading={t('signup.reservationTimeExpiringModal.title')}
       id="reservation-time-expiring-modal"
     />

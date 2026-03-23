@@ -91,18 +91,21 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
     navigate(0);
   };
 
-  const setTimeLeftAndNotify = (newTimeLeft: number) => {
-    setTimeLeft(newTimeLeft);
-    const { hours, minutes, seconds } = getTimeParts(newTimeLeft);
-    setAccessibilityText(
-      [
-        t('common.reservationTimer.timeLeft'),
-        t('common.reservationTimer.hour', { count: hours }),
-        t('common.reservationTimer.minute', { count: minutes }),
-        t('common.reservationTimer.second', { count: seconds }),
-      ].join(' ')
-    );
-  };
+  const setAccessibilityTextFromTime = useCallback(
+    (timeLeft: number) => {
+      const { hours, minutes, seconds } = getTimeParts(timeLeft);
+      const parts = [t('common.reservationTimer.timeLeft')];
+      if (hours > 0) {
+        parts.push(t('common.reservationTimer.hour', { count: hours }));
+      }
+      if (minutes > 0) {
+        parts.push(t('common.reservationTimer.minute', { count: minutes }));
+      }
+      parts.push(t('common.reservationTimer.second', { count: seconds }));
+      setAccessibilityText(parts.join(' '));
+    },
+    [setAccessibilityText, t]
+  );
 
   React.useEffect(() => {
     const data = getSeatsReservationData(registrationId);
@@ -119,14 +122,18 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
         onError: (error) => showServerErrors({ error }, 'seatsReservation'),
         onSuccess: () => {
           const seatsReservation = getSeatsReservationData(registrationId);
+          const timeLeft = getRegistrationTimeLeft(seatsReservation);
 
           enableTimer();
-          setTimeLeftAndNotify(getRegistrationTimeLeft(seatsReservation));
+          setTimeLeft(timeLeft);
+          setAccessibilityTextFromTime(timeLeft);
         },
       });
     } else if (data) {
+      const timeLeft = getRegistrationTimeLeft(data);
       enableTimer();
-      setTimeLeftAndNotify(getRegistrationTimeLeft(data));
+      setTimeLeft(timeLeft);
+      setAccessibilityTextFromTime(timeLeft);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -138,6 +145,22 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
       const data = getSeatsReservationData(registrationId);
       const newTimeLeft = getRegistrationTimeLeft(data);
       setTimeLeft(newTimeLeft);
+
+      // Expiring modal closed, announce only when 30s left.
+      // Commented out global reading of expiring modal open, because it's not working yet
+      // consistently across browsers and screen readers. -> implement inside the modal for now
+      if (newTimeLeft > 0) {
+        const expiringModalOpen =
+          openModal === SIGNUP_MODALS.RESERVATION_TIME_EXPIRING;
+        const shouldAnnounceAccessibility =
+          // (expiringModalOpen &&
+          //   newTimeLeft <= EXPIRING_THRESHOLD - 20 &&
+          //   newTimeLeft % 10 === 0) ||
+          !expiringModalOpen && newTimeLeft === 30;
+        if (shouldAnnounceAccessibility) {
+          setAccessibilityTextFromTime(newTimeLeft);
+        }
+      }
 
       /* istanbul ignore else */
       if (!callbacksDisabled) {
@@ -159,7 +182,10 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
     }
   };
 
-  useInterval(handleTimerActions, 1000);
+  useInterval(
+    handleTimerActions,
+    openModal === SIGNUP_MODALS.RESERVATION_TIME_EXPIRED ? null : 1000
+  );
 
   return (
     <>
