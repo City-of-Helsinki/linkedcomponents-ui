@@ -1,5 +1,6 @@
 import range from 'lodash/range';
 
+import { FULL_TEXT_LANGUAGES } from '../../../../constants';
 import { EventsDocument, Meta } from '../../../../generated/graphql';
 import { fakeEvents } from '../../../../utils/mockDataUtils';
 import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
@@ -46,7 +47,7 @@ const variables = {
   publisher: [],
   start: null,
   fullText: '',
-  fullTextLanguage: 'fi',
+  fullTextLanguage: FULL_TEXT_LANGUAGES,
 };
 
 const eventNames = range(1, TEST_PAGE_SIZE + 1).map((n) => `Event name ${n}`);

@@ -1,3 +1,4 @@
+import { FULL_TEXT_LANGUAGES } from '../../../../../constants';
 import {
   EventDocument,
   EventsDocument,
@@ -41,7 +42,7 @@ const eventsVariables = {
   sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['none'],
   fullText: '',
-  fullTextLanguage: 'fi',
+  fullTextLanguage: FULL_TEXT_LANGUAGES,
 };
 
 const events = fakeEvents(1, [event]);

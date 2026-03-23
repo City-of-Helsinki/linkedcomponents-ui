@@ -3,6 +3,7 @@ import { SearchFunction, SearchResult } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { FULL_TEXT_LANGUAGES } from '../../../constants';
 import { eventPathBuilder } from '../../../domain/event/utils';
 import { eventsPathBuilder } from '../../../domain/events/utils';
 import {
@@ -41,9 +42,9 @@ const EventSelector: React.FC<EventSelectorProps> = ({
       ...variables,
       createPath: getPathBuilder(eventsPathBuilder),
       fullText: '',
-      fullTextLanguage: locale,
+      fullTextLanguage: FULL_TEXT_LANGUAGES,
     }),
-    [locale, variables]
+    [variables]
   );
 
   const {

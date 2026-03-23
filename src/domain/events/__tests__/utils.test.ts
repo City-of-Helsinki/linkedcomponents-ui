@@ -1,4 +1,4 @@
-import { ROUTES } from '../../../constants';
+import { FULL_TEXT_LANGUAGES, ROUTES } from '../../../constants';
 import {
   EventsQueryVariables,
   EventStatus,
@@ -161,8 +161,8 @@ describe('eventsPathBuilder function', () => {
       '/event/?event_type=Course,General,Volunteering&full_text=text',
     ],
     [
-      { fullTextLanguage: 'fi' },
-      '/event/?event_type=Course,General,Volunteering&full_text_language=fi',
+      { fullTextLanguage: FULL_TEXT_LANGUAGES },
+      '/event/?event_type=Course,General,Volunteering&full_text_language=fi,sv,en',
     ],
     [
       { translation: 'fi' },
@@ -215,7 +215,7 @@ describe('getEventsQueryVariables', () => {
     sort: DEFAULT_EVENT_SORT,
     start: null,
     fullText: '',
-    fullTextLanguage: 'fi',
+    fullTextLanguage: FULL_TEXT_LANGUAGES,
   };
   const testCases: [string, EventsQueryVariables][] = [
     ['', defaultVariables],
@@ -247,7 +247,7 @@ describe('getEventsQueryVariables', () => {
   it.each(testCases)(
     'should get events query variables, search %s',
     (search, expectedVariables) =>
-      expect(getEventsQueryVariables(search, 'fi')).toEqual(expectedVariables)
+      expect(getEventsQueryVariables(search)).toEqual(expectedVariables)
   );
 });
 

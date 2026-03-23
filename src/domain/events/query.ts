@@ -35,7 +35,7 @@ export const QUERY_EVENTS = gql`
     $superEventType: [String]
     $translation: String
     $fullText: String
-    $fullTextLanguage: String
+    $fullTextLanguage: [String]
     $createPath: Any
   ) {
     events(

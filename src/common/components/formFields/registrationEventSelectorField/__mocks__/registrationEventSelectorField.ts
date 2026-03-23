@@ -1,3 +1,4 @@
+import { FULL_TEXT_LANGUAGES } from '../../../../../constants';
 import { EventsDocument } from '../../../../../generated/graphql';
 import { fakeEvents } from '../../../../../utils/mockDataUtils';
 
@@ -9,7 +10,8 @@ const variables = {
   sort: 'name',
   superEventType: ['none'],
   createPath: undefined,
-  text: '',
+  fullText: '',
+  fullTextLanguage: FULL_TEXT_LANGUAGES,
 };
 
 const eventsResponse = { data: { events: fakeEvents(0) } };

@@ -1,5 +1,6 @@
 import { MockedResponse } from '@apollo/client/testing';
 
+import { FULL_TEXT_LANGUAGES } from '../../../constants';
 import { EventsDocument } from '../../../generated/graphql';
 import { fakeEvents } from '../../../utils/mockDataUtils';
 import { organizationId } from '../../organization/__mocks__/organization';
@@ -21,7 +22,7 @@ const commonSearchVariables = {
   sort: '-last_modified_time',
   start: null,
   fullText: '',
-  fullTextLanguage: 'fi',
+  fullTextLanguage: FULL_TEXT_LANGUAGES,
 };
 
 const waitingApprovalEventsCount = 1;

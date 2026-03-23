@@ -6,7 +6,11 @@ import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
-import { DATE_FORMAT, DATE_FORMAT_API } from '../../constants';
+import {
+  DATE_FORMAT,
+  DATE_FORMAT_API,
+  FULL_TEXT_LANGUAGES,
+} from '../../constants';
 import {
   EventsQueryVariables,
   EventStatus,
@@ -230,7 +234,6 @@ export const getEventSearchInitialValues = (
 
 export const getEventsQueryVariables = (
   search: string,
-  locale: Language,
   baseVariables?: EventsQueryVariables
 ): EventsQueryVariables => {
   const searchParams = new URLSearchParams(search);
@@ -263,7 +266,7 @@ export const getEventsQueryVariables = (
     sort,
     start,
     fullText: text,
-    fullTextLanguage: locale,
+    fullTextLanguage: FULL_TEXT_LANGUAGES,
   };
 };
 

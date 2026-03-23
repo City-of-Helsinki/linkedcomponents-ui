@@ -1,3 +1,4 @@
+import { FULL_TEXT_LANGUAGES } from '../../../../constants';
 import { TEST_EVENT_ID } from '../../../../domain/event/constants';
 import { EVENT_SORT_OPTIONS } from '../../../../domain/events/constants';
 import { EventDocument, EventsDocument } from '../../../../generated/graphql';
@@ -19,7 +20,7 @@ const eventsVariables = {
   sort: EVENT_SORT_OPTIONS.NAME,
   superEventType: ['umbrella'],
   fullText: '',
-  fullTextLanguage: 'fi',
+  fullTextLanguage: FULL_TEXT_LANGUAGES,
 };
 const events = fakeEvents(1, [event]);
 const eventsResponse = { data: { events: events } };

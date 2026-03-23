@@ -239,3 +239,5 @@ export enum ADMIN_LIST_SEARCH_PARAMS {
   SORT = 'sort',
   TEXT = 'text',
 }
+
+export const FULL_TEXT_LANGUAGES = ['fi', 'sv', 'en'];

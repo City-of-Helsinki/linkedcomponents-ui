@@ -1,6 +1,7 @@
 import { MockedResponse } from '@apollo/client/testing';
 import range from 'lodash/range';
 
+import { FULL_TEXT_LANGUAGES } from '../../../constants';
 import {
   EventsDocument,
   PlaceDocument,
@@ -28,7 +29,7 @@ const eventsVariables = {
   pageSize: EVENTS_PAGE_SIZE,
   start: null,
   fullText: '',
-  fullTextLanguage: 'fi',
+  fullTextLanguage: FULL_TEXT_LANGUAGES,
   sort: DEFAULT_EVENT_SORT,
 };
 const eventNames = range(1, EVENTS_PAGE_SIZE + 1).map((n) => `Event name ${n}`);
