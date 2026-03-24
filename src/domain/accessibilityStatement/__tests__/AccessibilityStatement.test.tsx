@@ -4,6 +4,7 @@ import i18n from 'i18next';
 
 import { Language } from '../../../types';
 import {
+  act,
   configure,
   render,
   screen,
@@ -22,9 +23,11 @@ beforeEach(() => {
   document.head.innerHTML = '';
 });
 
-afterEach(() => {
+afterEach(async () => {
   document.head.innerHTML = initialHeadInnerHTML || '';
-  i18n.changeLanguage('fi');
+  await act(async () => {
+    await i18n.changeLanguage('fi');
+  });
 });
 
 type PageValues = {
@@ -76,9 +79,11 @@ it.each(testCases)(
   async (language, expectedValues) => {
     const { description, keywords, pageTitle, title } = expectedValues;
 
-    await i18n.changeLanguage(language);
+    await act(async () => {
+      await i18n.changeLanguage(language);
+    });
 
-    await render(<AccessibilityStatementPage />);
+    render(<AccessibilityStatementPage />);
 
     // Swedish is not supported language at the moment
     if (language !== 'sv') {

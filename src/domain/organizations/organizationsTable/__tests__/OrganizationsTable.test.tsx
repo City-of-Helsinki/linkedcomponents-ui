@@ -11,7 +11,10 @@ import {
 import { mockedDataSourceResponse } from '../../../dataSource/__mocks__/dataSource';
 import { mockedOrganizationClassResponse } from '../../../organizationClass/__mocks__/organizationClass';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
-import { organizations } from '../../__mocks__/organizationsPage';
+import {
+  generateOrganizationsResponse,
+  organizations,
+} from '../../__mocks__/organizationsPage';
 import { ORGANIZATION_SORT_OPTIONS } from '../../constants';
 import OrganizationsTable, {
   OrganizationsTableProps,
@@ -42,6 +45,15 @@ const defaultProps: OrganizationsTableProps = {
 const mocks = [
   mockedDataSourceResponse,
   mockedOrganizationClassResponse,
+  generateOrganizationsResponse({
+    overrideVariables: { child: organizations.data[0]?.id },
+  }),
+  generateOrganizationsResponse({
+    overrideVariables: { child: organizations.data[1]?.id },
+  }),
+  generateOrganizationsResponse({
+    overrideVariables: { child: organizations.data[2]?.id },
+  }),
   mockedUserResponse,
 ];
 

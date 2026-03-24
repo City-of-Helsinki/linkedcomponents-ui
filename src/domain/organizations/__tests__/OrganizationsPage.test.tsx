@@ -19,6 +19,7 @@ import { mockedDataSourceResponse } from '../../dataSource/__mocks__/dataSource'
 import { mockedOrganizationClassResponse } from '../../organizationClass/__mocks__/organizationClass';
 import { mockedUserResponse } from '../../user/__mocks__/user';
 import {
+  generateOrganizationsResponse,
   mockedOrganizationsResponse,
   organizations,
 } from '../__mocks__/organizationsPage';
@@ -38,6 +39,15 @@ const mocks = [
   mockedDataSourceResponse,
   mockedOrganizationClassResponse,
   mockedOrganizationsResponse,
+  generateOrganizationsResponse({
+    overrideVariables: { child: organizations.data[0]?.id },
+  }),
+  generateOrganizationsResponse({
+    overrideVariables: { child: organizations.data[1]?.id },
+  }),
+  generateOrganizationsResponse({
+    overrideVariables: { child: organizations.data[2]?.id },
+  }),
   mockedUserResponse,
 ];
 

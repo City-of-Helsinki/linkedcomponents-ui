@@ -40,6 +40,7 @@ import {
 } from '../../../../events/__mocks__/eventsPage';
 import {
   mockedEventsResponse,
+  mockedFilteredEventsResponse,
   mockedPlacesResponse as mockedEventSearchPlacesResponse,
   searchText,
 } from '../../../../eventSearch/__mocks__/eventSearchPage';
@@ -67,15 +68,21 @@ import {
   mockedServiceLanguagesResponse,
 } from '../../../../language/__mocks__/language';
 import {
+  mockedOrganizationAccountsResponse,
   mockedOrganizationResponse,
   organizationId,
 } from '../../../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../../../organization/__mocks__/organizationAncestors';
+import { mockedKaskoOrganizationDecendantsResponse } from '../../../../organization/__mocks__/organizationDecendants';
 import {
   mockedOrganizationClassesResponse,
   mockedOrganizationClassResponse,
 } from '../../../../organizationClass/__mocks__/organizationClass';
-import { mockedOrganizationsResponse } from '../../../../organizations/__mocks__/organizationsPage';
+import {
+  generateOrganizationsResponse,
+  mockedOrganizationsResponse,
+  organizationsOverrides,
+} from '../../../../organizations/__mocks__/organizationsPage';
 import {
   mockedPlaceResponse,
   place,
@@ -182,7 +189,13 @@ it('should redirect to terms of use page from deprecated terms page', async () =
 
 it('should render event search page', async () => {
   const { history } = renderRoute({
-    mocks: [mockedEventSearchPlacesResponse, mockedSuperuserResponse],
+    mocks: [
+      mockedEventsResponse,
+      mockedFilteredEventsResponse,
+      mockedEventSearchPlacesResponse,
+      mockedOrganizationsResponse,
+      mockedSuperuserResponse,
+    ],
     route: `${ROUTES.SEARCH}?text=${searchText}`,
   });
 
@@ -207,6 +220,7 @@ it.each([DEPRECATED_ROUTES.MODERATION, ROUTES.EVENTS])(
         mockedEventsResponse,
         mockedOwnPublishedEventsResponse,
         mockedSuperuserResponse,
+        mockedOrganizationsResponse,
         mockedOrganizationAncestorsResponse,
         mockedOrganizationResponse,
       ],
@@ -233,6 +247,8 @@ it.each([DEPRECATED_ROUTES.CREATE_EVENT, ROUTES.CREATE_EVENT])(
         mockedEducationModelsKeywordSetResponse,
         mockedLanguagesResponse,
         mockedOrganizationResponse,
+        mockedOrganizationAncestorsResponse,
+        mockedKaskoOrganizationDecendantsResponse,
         mockedPlaceSelectorPlacesResponse,
         mockedPublisherPriceGroupsResponse,
         mockedSuperuserResponse,
@@ -265,6 +281,7 @@ it.each([
       mockedEducationModelsKeywordSetResponse,
       mockedLanguagesResponse,
       mockedOrganizationResponse,
+      mockedKaskoOrganizationDecendantsResponse,
       mockedPlaceSelectorPlacesResponse,
       mockedPublisherPriceGroupsResponse,
       mockedSuperuserResponse,
@@ -301,6 +318,7 @@ it('should render registrations page', async () => {
   const { history } = renderRoute({
     mocks: [
       mockedOrganizationResponse,
+      mockedOrganizationsResponse,
       mockedOrganizationAncestorsResponse,
       mockedRegistrationsResponse,
       mockedSuperuserResponse,
@@ -351,6 +369,7 @@ it('should render edit registration page', async () => {
       mockedRegistrationResponse,
       mockedSuperuserResponse,
       mockedOrganizationAncestorsResponse,
+      mockedOrganizationAccountsResponse,
       mockedPublisherPriceGroupsResponse,
     ],
     route: `${ROUTES.EDIT_REGISTRATION.replace(':id', registrationId)}`,
@@ -390,7 +409,16 @@ it('should render registration signups page', async () => {
       getMockedAttendeesResponse({
         signupsResponse: fakeSignups(0),
         overrideVariables: {
-          attendeeStatus: AttendeeStatus.Waitlisted,
+          attendeeStatus: [AttendeeStatus.Waitlisted],
+        },
+      }),
+      getMockedAttendeesResponse({
+        signupsResponse: fakeSignups(0),
+        overrideVariables: {
+          attendeeStatus: [
+            AttendeeStatus.Attending,
+            AttendeeStatus.AwaitingPayment,
+          ],
         },
       }),
     ],
@@ -406,7 +434,13 @@ it('should render registration signups page', async () => {
 
 it('should render create signup group page', async () => {
   const { history } = renderRoute({
-    mocks: [mockedRegistrationResponse, mockedSuperuserResponse],
+    mocks: [
+      mockedRegistrationResponse,
+      mockedSuperuserResponse,
+      mockedOrganizationAncestorsResponse,
+      mockedLanguagesResponse,
+      mockedServiceLanguagesResponse,
+    ],
     route: `${ROUTES.CREATE_SIGNUP_GROUP.replace(':registrationId', registrationId)}`,
   });
 
@@ -599,6 +633,12 @@ it('should render organizations page', async () => {
       mockedDataSourceResponse,
       mockedOrganizationsResponse,
       mockedOrganizationClassResponse,
+      generateOrganizationsResponse({
+        overrideVariables: { child: organizationsOverrides[0].id },
+      }),
+      generateOrganizationsResponse({
+        overrideVariables: { child: organizationsOverrides[2].id },
+      }),
       mockedSuperuserResponse,
     ],
     route: `${ROUTES.ORGANIZATIONS}`,
@@ -634,6 +674,7 @@ it('should render edit organization page', async () => {
   const { history } = renderRoute({
     mocks: [
       mockedOrganizationResponse,
+      mockedOrganizationAncestorsResponse,
       mockedOrganizationsResponse,
       mockedOrganizationClassesResponse,
       mockedOrganizationClassResponse,

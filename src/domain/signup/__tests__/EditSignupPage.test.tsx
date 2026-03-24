@@ -123,6 +123,7 @@ test('contact person fields should be disabled if signup has a signup group', as
     mockedPlaceResponse,
     mockedRegistrationResponse,
     mockedRegistrationUserResponse,
+    mockedSignupGroupResponse,
   ]);
 
   const firstNameInput = (await findFirstNameInputs())[1];

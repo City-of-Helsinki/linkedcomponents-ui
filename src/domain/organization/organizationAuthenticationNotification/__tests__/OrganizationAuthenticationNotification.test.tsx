@@ -10,12 +10,14 @@ import {
   screen,
   waitFor,
 } from '../../../../utils/testUtils';
+import { generateOrganizationsResponse } from '../../../organizations/__mocks__/organizationsPage';
 import {
   mockedFinancialAdminUserResponse,
   mockedUserResponse,
   mockedUserWithoutOrganizationsResponse,
 } from '../../../user/__mocks__/user';
 import { mockedOrganizationResponse } from '../../__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../__mocks__/organizationAncestors';
 import { ORGANIZATION_ACTIONS, TEST_PUBLISHER_ID } from '../../constants';
 import OrganizationAuthenticationNotification, {
   OrganizationAuthenticationNotificationProps,
@@ -44,6 +46,7 @@ const renderComponent = (
 test("should show notification if user is signed in but doesn't have any organizations", async () => {
   const mocks = [
     mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
     mockedUserWithoutOrganizationsResponse,
   ];
 
@@ -56,7 +59,11 @@ test("should show notification if user is signed in but doesn't have any organiz
 });
 
 test('should not show notification if user is signed in and has an admin organization', async () => {
-  const mocks = [mockedOrganizationResponse, mockedUserResponse];
+  const mocks = [
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedUserResponse,
+  ];
 
   mockAuthenticatedLoginState();
   renderComponent({ mocks });
@@ -67,7 +74,11 @@ test('should not show notification if user is signed in and has an admin organiz
 });
 
 test('should not show notification if financial admin tries to update organization', async () => {
-  const mocks = [mockedOrganizationResponse, mockedFinancialAdminUserResponse];
+  const mocks = [
+    mockedOrganizationResponse,
+    mockedOrganizationAncestorsResponse,
+    mockedFinancialAdminUserResponse,
+  ];
 
   mockAuthenticatedLoginState();
   renderComponent({ mocks }, { action: ORGANIZATION_ACTIONS.UPDATE });
@@ -88,7 +99,13 @@ test('should show notification if user has an admin organization but the id is d
     result: organizationResponse,
   };
 
-  const mocks = [mockedOrganizationResponse, mockedUserResponse];
+  const mocks = [
+    mockedOrganizationResponse,
+    mockedUserResponse,
+    generateOrganizationsResponse({
+      overrideVariables: { child: organizationId },
+    }),
+  ];
 
   mockAuthenticatedLoginState();
   renderComponent({ mocks }, { id: organizationId });

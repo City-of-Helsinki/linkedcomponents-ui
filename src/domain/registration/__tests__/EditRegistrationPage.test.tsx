@@ -14,6 +14,7 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import { mockedOrganizationAccountsResponse } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
 import {
   mockedDefaultPriceGroupsResponse,
@@ -46,6 +47,7 @@ const baseMocks = [
   mockedDefaultPriceGroupsResponse,
   mockedPublisherPriceGroupsResponse,
   mockedOrganizationAncestorsResponse,
+  mockedOrganizationAccountsResponse,
   mockedRegistrationResponse,
   mockedUserResponse,
 ];

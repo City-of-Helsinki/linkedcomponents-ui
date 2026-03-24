@@ -11,6 +11,7 @@ import {
   mockUnauthenticatedLoginState,
 } from '../../../../../utils/mockLoginHooks';
 import {
+  act,
   configure,
   CustomRenderOptions,
   render,
@@ -141,7 +142,9 @@ const enterCommonValues = async () => {
 
 test('should disable all fields if user is not authenticated', async () => {
   mockUnauthenticatedLoginState();
-  await renderComponent();
+  await act(async () => {
+    renderComponent();
+  });
 
   const nameInput = getElement('name');
   const emailInput = getElement('email');

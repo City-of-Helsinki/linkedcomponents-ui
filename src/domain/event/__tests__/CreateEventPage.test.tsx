@@ -39,6 +39,7 @@ import {
   organizationId,
 } from '../../organization/__mocks__/organization';
 import { mockedOrganizationAncestorsResponse } from '../../organization/__mocks__/organizationAncestors';
+import { mockedKaskoOrganizationDecendantsResponse } from '../../organization/__mocks__/organizationDecendants';
 import {
   mockedFilteredPlacesResponse,
   mockedPlaceResponse,
@@ -106,6 +107,7 @@ const commonMocks = [
   mockedPublisherPriceGroupsResponse,
   mockedOrganizationResponse,
   mockedOrganizationAncestorsResponse,
+  mockedKaskoOrganizationDecendantsResponse,
 ];
 
 const defaultMocks = [...commonMocks, mockedUserResponse];

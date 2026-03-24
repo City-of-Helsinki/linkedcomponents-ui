@@ -11,6 +11,7 @@ import {
   organizationClassName,
 } from '../../../../organizationClass/__mocks__/organizationClass';
 import { mockedUserResponse } from '../../../../user/__mocks__/user';
+import { generateOrganizationsResponse } from '../../../__mocks__/organizationsPage';
 import OrganizationsTableRow, {
   OrganizationsTableRowProps,
 } from '../OrganizationsTableRow';
@@ -32,6 +33,9 @@ const defaultProps: OrganizationsTableRowProps = {
 const mocks = [
   mockedDataSourceResponse,
   mockedOrganizationClassResponse,
+  generateOrganizationsResponse({
+    overrideVariables: { child: organization.id },
+  }),
   mockedUserResponse,
 ];
 

@@ -99,7 +99,7 @@ const SearchPanel: React.FC = () => {
             />,
             <EventStatusSelector
               key="event-status"
-              icon={<IconBell area-hidden />}
+              icon={<IconBell aria-hidden />}
               onChange={handleChangeEventStatuses}
               toggleButtonLabel={t(
                 'eventSearchPage.searchPanel.labelEventStatus'

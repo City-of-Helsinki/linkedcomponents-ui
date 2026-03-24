@@ -44,7 +44,7 @@ const renderSortIcon = ({
 }: SortingIconProps) => {
   const props = {
     className: styles.sortIcon,
-    ariaLabel: ariaLabels[order],
+    'aria-label': ariaLabels[order],
   };
   switch (order) {
     case 'unset':

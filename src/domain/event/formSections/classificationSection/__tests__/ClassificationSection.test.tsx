@@ -65,6 +65,7 @@ const defaultMocks = [
   mockedKeywordsResponse,
   mockedLanguagesResponse,
   mockedUserResponse,
+  mockedKaskoOrganizationDecendantsResponse,
 ];
 
 type InitialValues = {
@@ -238,6 +239,8 @@ test('should not show education fields if user in multiple organizations with wr
   ];
 
   renderComponent({ type: EVENT_TYPE.Course }, mocks);
+
+  await screen.findByRole('heading', { name: /Valitse kategoria\(t\)/i });
 
   expect(
     screen.queryByRole('title', { name: /toiseen asteen opinnot/i })

@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 
 import { mockAuthenticatedLoginState } from '../../../../../../utils/mockLoginHooks';
 import {
+  act,
   actWait,
   configure,
   render,
@@ -300,7 +301,9 @@ test('should set isUmbrella to false when adding more than 1 event time', async 
 });
 
 test('should not show instructions for admin user', async () => {
-  renderComponent();
+  await act(async () => {
+    renderComponent();
+  });
   // Wait user data to be loaded
   await actWait(100);
 
@@ -311,10 +314,11 @@ test('should not show instructions for admin user', async () => {
 
 test('should show instructions for external user', async () => {
   const mocks = [mockedUserWithoutOrganizationsResponse];
+  await act(async () => {
+    renderComponent({ mocks });
+  });
   // Wait user data to be loaded
   await actWait(100);
-
-  renderComponent({ mocks });
 
   expect(
     screen.getByRole('region', { name: 'Tapahtuman ajankohdat' })

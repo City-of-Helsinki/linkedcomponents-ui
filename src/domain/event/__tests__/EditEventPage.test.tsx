@@ -43,6 +43,7 @@ import {
   mockedExternalOrganizationAncestorsResponse,
   mockedOrganizationAncestorsResponse,
 } from '../../organization/__mocks__/organizationAncestors';
+import { mockedKaskoOrganizationDecendantsResponse } from '../../organization/__mocks__/organizationDecendants';
 import {
   mockedFilteredPlacesResponse,
   mockedPlaceResponse,
@@ -111,6 +112,7 @@ const baseMocks = [
   mockedFilteredPlacesResponse,
   mockedUserResponse,
   mockedOrganizationResponse,
+  mockedKaskoOrganizationDecendantsResponse,
   mockedOrganizationAncestorsResponse,
   mockedPublisherPriceGroupsResponse,
   mockedExternalUserPriceGroupsResponse,
@@ -529,6 +531,8 @@ test('should render fields for external user', async () => {
     mockedFilteredPlacesResponse,
     mockedUserWithoutOrganizationsResponse,
     mockedOrganizationResponse,
+    mockedKaskoOrganizationDecendantsResponse,
+    mockedExternalOrganizationAncestorsResponse,
     mockedOrganizationAncestorsResponse,
     mockedPublisherPriceGroupsResponse,
   ];
