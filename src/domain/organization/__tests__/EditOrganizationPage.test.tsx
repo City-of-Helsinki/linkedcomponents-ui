@@ -7,6 +7,7 @@ import {
   configure,
   renderWithRoute,
   screen,
+  setupUser,
   shouldDeleteInstance,
   userEvent,
   waitFor,
@@ -70,28 +71,29 @@ const renderComponent = (mocks: MockedResponse[] = defaultMocks) =>
     path: ROUTES.EDIT_ORGANIZATION,
   });
 
-const findElement = (key: 'nameInput' | 'saveButton') => {
+const findElement = (
+  key:
+    | 'adminUsersToggleButton'
+    | 'nameInput'
+    | 'replacedByToggleButton'
+    | 'saveButton'
+) => {
   switch (key) {
+    case 'adminUsersToggleButton':
+      return screen.findByRole('combobox', { name: /^pääkäyttäjät\b/i });
     case 'nameInput':
       return screen.findByLabelText(/nimi/i);
+    case 'replacedByToggleButton':
+      return screen.findByRole('combobox', { name: /korvaava organisaatio/i });
     case 'saveButton':
       return screen.findByRole('button', { name: /tallenna/i });
   }
 };
 
-const getElement = (
-  key: 'adminUsersToggleButton' | 'replacedByToggleButton'
-) => {
-  switch (key) {
-    case 'adminUsersToggleButton':
-      return screen.getByRole('combobox', { name: /^pääkäyttäjät\b/i });
-    case 'replacedByToggleButton':
-      return screen.getByRole('combobox', { name: /korvaava organisaatio/i });
-  }
-};
-
 const fillFormValues = async (user: ReturnType<typeof userEvent.setup>) => {
-  const adminUsersToggleButton = getElement('adminUsersToggleButton');
+  // Select admin user
+  const adminUsersToggleButton = await findElement('adminUsersToggleButton');
+  await waitFor(() => expect(adminUsersToggleButton).toBeEnabled());
   await user.click(adminUsersToggleButton);
 
   const userOptionLabel = `${users.data[0]?.displayName} - ${users.data[0]?.email}`;
@@ -101,23 +103,21 @@ const fillFormValues = async (user: ReturnType<typeof userEvent.setup>) => {
   await user.click(userOption);
   await user.keyboard('{Escape}');
 
-  // Ensure the user is selected before proceeding.
-  await user.click(adminUsersToggleButton);
-  await screen.findByRole('option', {
-    name: userOptionLabel,
-    selected: true,
-  });
-  await user.keyboard('{Escape}');
+  // Select replaced by organization
+  const replacedByToggleButton = await findElement('replacedByToggleButton');
+  await waitFor(() => expect(replacedByToggleButton).toBeEnabled());
+  await user.click(replacedByToggleButton);
 
-  await user.click(getElement('replacedByToggleButton'));
+  const organizationOptionLabel = getValue(organizations.data[0]?.name, '');
   const organizationOption = await screen.findByRole('option', {
-    name: getValue(organizations.data[0]?.name, ''),
+    name: organizationOptionLabel,
   });
   await user.click(organizationOption);
+  await user.keyboard('{Escape}');
 };
 
 test('should scroll to first validation error input field', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent();
 
   const nameInput = await findElement('nameInput');
@@ -145,15 +145,15 @@ test('should delete organization', async () => {
 });
 
 test('should update organization', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent([
     ...defaultMocks,
     mockedUpdateOrganizationResponse,
   ]);
 
-  const submitButton = await findElement('saveButton');
-
   await fillFormValues(user);
+
+  const submitButton = await findElement('saveButton');
 
   await user.click(submitButton);
 
@@ -166,12 +166,12 @@ test('should update organization', async () => {
 });
 
 test('should show server errors', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   renderComponent([...defaultMocks, mockedInvalidUpdateOrganizationResponse]);
 
-  const submitButton = await findElement('saveButton');
-
   await fillFormValues(user);
+
+  const submitButton = await findElement('saveButton');
 
   await user.click(submitButton);
 
@@ -180,7 +180,7 @@ test('should show server errors', async () => {
 });
 
 test('should patch organization merchants and accounts by financial admin', async () => {
-  const user = userEvent.setup();
+  const user = setupUser();
   const { history } = renderComponent([
     mockedOrganizationWithFinanfialInfoResponse,
     mockedOrganizationsResponse,

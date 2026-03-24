@@ -32,15 +32,15 @@ const useMultiSelectFieldProps = ({
   };
 
   const handleClose = (selectedOptions: OptionType[]) => {
-    // Set timeout to prevent Android devices to end up to an infinite loop when changing value
-    setTimeout(() => {
+    // Defer change handling to avoid Android infinite-loop issues when value changes.
+    queueMicrotask(() => {
       onChange({
         target: {
           id: name,
           value: selectedOptions.map((item) => item.value),
         },
       });
-    }, 5);
+    });
   };
 
   return { errorText, handleBlur, handleClose };

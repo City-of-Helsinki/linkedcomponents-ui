@@ -253,20 +253,21 @@ test('should change keyword', async () => {
   renderComponent();
 
   const toggleButton = getElement('toggleButton');
-
   await user.click(toggleButton);
 
   expect(
     await screen.findByRole('combobox', { name: /hae/i })
   ).toBeInTheDocument();
 
-  const keywordOption = (await findElement(
-    'keywordOption'
-  )) as HTMLInputElement;
-
+  const keywordOption = await findElement('keywordOption');
   await user.click(keywordOption);
 
-  await waitFor(() => findElement('keywordText'));
+  await screen.findByRole('button', {
+    name: new RegExp(
+      `1 valittu vaihtoehto.*${getValue(keyword?.name?.fi, '')}`,
+      'i'
+    ),
+  });
 });
 
 test('should show correct validation error if none main category is selected', async () => {

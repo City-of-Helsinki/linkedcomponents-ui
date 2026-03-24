@@ -1,6 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
 import React, { useState } from 'react';
 
+// eslint-disable-next-line import/no-named-as-default
 import useInterval from '../useInterval';
 
 const TestInterval = ({ delay }: { delay: number | null }) => {
