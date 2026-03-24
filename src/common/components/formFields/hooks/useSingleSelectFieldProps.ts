@@ -42,8 +42,8 @@ const useSingleSelectFieldProps = ({
     (_selectedOptions: OptionType[], clickedOption: OptionType) => {
       const newValue = getValue(clickedOption?.value, null);
 
-      // Set timeout to prevent Android devices to end up to an infinite loop when changing value
-      setTimeout(() => {
+      // Defer change handling to avoid Android infinite-loop issues when value changes.
+      queueMicrotask(() => {
         onChange({
           target: { id: name, value: newValue },
         });
@@ -51,7 +51,7 @@ const useSingleSelectFieldProps = ({
         if (onChangeCb) {
           onChangeCb(newValue);
         }
-      }, 5);
+      });
     },
     [name, onChange, onChangeCb]
   );

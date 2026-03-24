@@ -69,6 +69,11 @@ const mockedEventsResponse = {
   result: eventsResponse,
 };
 
+const mockedEventsResponseAfterSortReset = {
+  request: { query: EventsDocument, variables },
+  result: eventsResponse,
+};
+
 const page2EventNames = range(1, TEST_PAGE_SIZE + 1).map(
   (n) => `Page 2 event ${n}`
 );
@@ -108,6 +113,7 @@ const mocks = [
   mockedEventsResponse,
   mockedPage2EventsResponse,
   mockedSortedEventsResponse,
+  mockedEventsResponseAfterSortReset,
   mockedUserResponse,
 ];
 
@@ -120,28 +126,40 @@ const defaultProps: EventListContainerProps = {
   skip: false,
 };
 
-const getElement = (
-  key:
-    | 'page1'
-    | 'page2'
-    | 'sortOptionLastModified'
-    | 'sortOptionName'
-    | 'sortSelect'
-) => {
+const getElement = (key: 'page1' | 'page2' | 'sortSelect') => {
   switch (key) {
     case 'page1':
       return screen.getByRole('link', { name: 'Sivu 1' });
     case 'page2':
       return screen.getByRole('link', { name: 'Sivu 2' });
-    case 'sortOptionLastModified':
-      return screen.getByRole('option', {
-        name: /viimeksi muokattu, laskeva/i,
-      });
-    case 'sortOptionName':
-      return screen.getByRole('option', { name: /nimi, nouseva/i });
     case 'sortSelect':
       return screen.getByRole('combobox', { name: /lajitteluperuste/i });
   }
+};
+
+const findElement = (key: 'sortOptionLastModified' | 'sortOptionName') => {
+  switch (key) {
+    case 'sortOptionLastModified':
+      return screen.findByRole('option', {
+        name: /viimeksi muokattu, laskeva/i,
+      });
+    case 'sortOptionName':
+      return screen.findByRole('option', {
+        name: /nimi, nouseva/i,
+      });
+  }
+};
+
+const ensureSortMenuIsOpen = async (user: ReturnType<typeof setupUser>) => {
+  const sortSelect = getElement('sortSelect');
+
+  if (sortSelect.getAttribute('aria-expanded') !== 'true') {
+    await user.click(sortSelect);
+  }
+
+  await waitFor(() =>
+    expect(getElement('sortSelect')).toHaveAttribute('aria-expanded', 'true')
+  );
 };
 
 const renderComponent = (
@@ -180,11 +198,9 @@ test('should change sort order', async () => {
   await screen.findByRole('heading', { name: eventNames[0] });
   await waitFor(() => expect(history.location.search).toBe(''));
 
-  const sortSelect = getElement('sortSelect');
+  await ensureSortMenuIsOpen(user);
 
-  await user.click(sortSelect);
-
-  const sortOptionName = getElement('sortOptionName');
+  const sortOptionName = await findElement('sortOptionName');
 
   await user.click(sortOptionName);
 
@@ -192,8 +208,11 @@ test('should change sort order', async () => {
   await screen.findByRole('heading', { name: sortedEventNames[0] });
   await waitFor(() => expect(history.location.search).toBe('?sort=name'));
 
+  await ensureSortMenuIsOpen(user);
+
   // Should clear sort from url search if selecting default sort value
-  const sortOptionLastModified = getElement('sortOptionLastModified');
+  const sortOptionLastModified = await findElement('sortOptionLastModified');
   await user.click(sortOptionLastModified);
   await waitFor(() => expect(history.location.search).toBe(''));
+  await screen.findByRole('heading', { name: eventNames[0] });
 });
