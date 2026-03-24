@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 import { ApolloError } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
+import { act } from '@testing-library/react';
 
 import {
   CreateSeatsReservationDocument,
@@ -27,6 +28,15 @@ import {
 import { SignupGroupFormProvider } from '../../signupGroupFormContext/SignupGroupFormContext';
 import ReservationTimer from '../ReservationTimer';
 
+const setAccessibilityText = vi.fn();
+
+vi.mock(
+  '../../../../common/components/accessibilityNotificationContext/hooks/useAccessibilityNotificationContext',
+  () => ({
+    useAccessibilityNotificationContext: () => ({ setAccessibilityText }),
+  })
+);
+
 const mockedUseNavigate = vi.fn();
 
 vi.mock('react-router', async () => {
@@ -38,6 +48,7 @@ vi.mock('react-router', async () => {
 
 afterEach(() => {
   vi.resetAllMocks();
+  vi.useRealTimers();
   // values stored in tests will also be available in other tests unless you run
   localStorage.clear();
   sessionStorage.clear();
@@ -60,9 +71,14 @@ const payload = {
 
 const createSeatsReservationVariables = { input: payload };
 
+type RenderReservationTimerOptions = {
+  initReservationData?: boolean;
+};
+
 const renderComponent = (
   serverErrorProps?: Partial<SignupServerErrorsContextProps>,
-  mocks: MockedResponse[] = []
+  mocks: MockedResponse[] = [],
+  options?: RenderReservationTimerOptions
 ) =>
   render(
     <SignupGroupFormProvider registration={registration}>
@@ -72,7 +88,7 @@ const renderComponent = (
         <ReservationTimer
           callbacksDisabled={false}
           disableCallbacks={vi.fn()}
-          initReservationData={true}
+          initReservationData={options?.initReservationData ?? true}
           registration={registration}
           setSignups={vi.fn()}
           signups={[]}
@@ -184,4 +200,22 @@ test('should route to create signup page if reservation is expired', async () =>
   await user.click(tryAgainButton);
 
   await waitFor(() => expect(mockedUseNavigate).toBeCalledWith(0));
+});
+
+test('announces time left again when 30 seconds remain and expiring modal is closed', () => {
+  const start = new Date('2024-06-01T12:00:00.000Z');
+  vi.useFakeTimers({ now: start });
+
+  setSessionStorageValues(getMockedSeatsReservationData(31), registration);
+
+  renderComponent(undefined, [], { initReservationData: false });
+
+  expect(setAccessibilityText).toHaveBeenCalled();
+  setAccessibilityText.mockClear();
+
+  act(() => {
+    vi.advanceTimersByTime(1000);
+  });
+
+  expect(setAccessibilityText).toHaveBeenCalledTimes(1);
 });

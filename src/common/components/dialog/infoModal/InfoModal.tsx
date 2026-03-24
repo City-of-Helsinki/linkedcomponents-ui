@@ -12,6 +12,7 @@ export type CommonInfoModalProps = {
 type InfoModalProps = {
   closeButtonText: string;
   description: string;
+  reReadDescription?: boolean;
   heading: string;
   id: string;
 } & CommonInfoModalProps;
@@ -19,6 +20,7 @@ type InfoModalProps = {
 const InfoModal: React.FC<InfoModalProps> = ({
   closeButtonText,
   description,
+  reReadDescription,
   heading,
   id,
   isOpen,
@@ -51,7 +53,12 @@ const InfoModal: React.FC<InfoModalProps> = ({
         title={heading}
       />
       <Dialog.Content>
-        <p id={descriptionId}>{description}</p>
+        <p
+          id={descriptionId}
+          {...(reReadDescription ? { role: 'alert' as const } : {})}
+        >
+          {description}
+        </p>
       </Dialog.Content>
       <Dialog.ActionButtons>
         <Button
