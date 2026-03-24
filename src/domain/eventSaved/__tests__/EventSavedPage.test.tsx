@@ -12,6 +12,13 @@ import {
   userEvent,
   waitFor,
 } from '../../../utils/testUtils';
+import {
+  mockedAudienceKeywordSetResponse,
+  mockedEducationLevelsKeywordSetResponse,
+  mockedEducationModelsKeywordSetResponse,
+  mockedTopicsKeywordSetResponse,
+} from '../../keywordSet/__mocks__/keywordSets';
+import { mockedLanguagesResponse } from '../../language/__mocks__/language';
 import EventSavedPage from '../EventSavedPage';
 
 configure({ defaultHidden: true });
@@ -30,7 +37,14 @@ const getMocks = (publicationStatus: PublicationStatus): MockedResponse[] => {
     result: eventResponse,
   };
 
-  return [mockedEventResponse];
+  return [
+    mockedEventResponse,
+    mockedLanguagesResponse,
+    mockedTopicsKeywordSetResponse,
+    mockedAudienceKeywordSetResponse,
+    mockedEducationLevelsKeywordSetResponse,
+    mockedEducationModelsKeywordSetResponse,
+  ];
 };
 
 const getElement = (

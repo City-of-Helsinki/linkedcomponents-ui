@@ -2,6 +2,7 @@ import { Formik } from 'formik';
 
 import { mockedEventResponse } from '../../../../../common/components/eventSelector/__mocks__/eventSelector';
 import {
+  act,
   configure,
   render,
   screen,
@@ -105,7 +106,9 @@ const selectAccount = async () => {
 };
 
 test('should not show add price groups button if event is free', async () => {
-  renderComponent();
+  await act(async () => {
+    renderComponent();
+  });
 
   const hasPriceCheckbox = getElement('hasPriceCheckbox');
   expect(hasPriceCheckbox).not.toBeChecked();

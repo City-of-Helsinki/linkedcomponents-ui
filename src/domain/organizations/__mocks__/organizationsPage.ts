@@ -1,6 +1,7 @@
 import {
   OrganizationFieldsFragment,
   OrganizationsDocument,
+  OrganizationsQueryVariables,
 } from '../../../generated/graphql';
 import generateAtId from '../../../utils/generateAtId';
 import { fakeOrganizations } from '../../../utils/mockDataUtils';
@@ -44,4 +45,21 @@ const mockedOrganizationsResponse = {
   result: organizationsResponse,
 };
 
-export { mockedOrganizationsResponse, organizations, organizationsOverrides };
+const generateOrganizationsResponse = ({
+  overrideVariables,
+}: {
+  overrideVariables: Partial<OrganizationsQueryVariables>;
+}) => ({
+  request: {
+    query: OrganizationsDocument,
+    variables: { ...organizationsVariables, ...overrideVariables },
+  },
+  result: organizationsResponse,
+});
+
+export {
+  generateOrganizationsResponse,
+  mockedOrganizationsResponse,
+  organizations,
+  organizationsOverrides,
+};

@@ -12,7 +12,6 @@ import {
   mockUnauthenticatedLoginState,
 } from '../../../../../utils/mockLoginHooks';
 import {
-  act,
   configure,
   CustomRenderOptions,
   render,
@@ -115,6 +114,23 @@ const getElement = (key: GetElementKey) => {
       return screen.getByLabelText(/otsikko/i);
     case 'topicToggleButton':
       return screen.getByRole('combobox', { name: /yhteydenoton aihe/i });
+  }
+};
+
+const findElement = (key: GetElementKey) => {
+  switch (key) {
+    case 'eventFormTopicOption':
+      return screen.findByRole('option', {
+        name: /ongelma syöttölomakkeessa/i,
+      });
+    case 'featureRequestTopicOption':
+      return screen.findByRole('option', { name: /ominaisuustoive/i });
+    case 'generalTopicOption':
+      return screen.findByRole('option', { name: /yleinen palaute/i });
+    case 'otherTopicOption':
+      return screen.findByRole('option', { name: /muu asia/i });
+    default:
+      throw new Error(`No async find for key: ${key}`);
   }
 };
 
@@ -231,7 +247,7 @@ test.each([
   'should not show any faq item when %p topic is selected',
   async (topic, topicOption) => {
     mockUnauthenticatedLoginState();
-    const user = userEvent.setup();
+    const user = userEvent.setup({ delay: null });
 
     renderComponent({
       mocks: [mockedPostGuestFeedbackResponse],
@@ -239,9 +255,9 @@ test.each([
 
     const topicToggleButton = getElement('topicToggleButton');
 
-    await act(async () => await user.click(topicToggleButton));
+    await user.click(topicToggleButton);
 
-    const eventFormTopic = getElement('eventFormTopicOption');
+    const eventFormTopic = await findElement('eventFormTopicOption');
 
     await user.click(eventFormTopic);
 
@@ -258,9 +274,9 @@ test.each([
       await screen.findByRole('button', { name: faqHeadings[0] })
     ).toBeInTheDocument();
 
-    await act(() => user.click(topicToggleButton));
+    await user.click(topicToggleButton);
 
-    const option = getElement(topicOption);
+    const option = await findElement(topicOption);
 
     await user.click(option);
 

@@ -7,6 +7,7 @@ import {
 } from '../../../../utils/mockDataUtils';
 import { mockAuthenticatedLoginState } from '../../../../utils/mockLoginHooks';
 import {
+  act,
   configure,
   loadingSpinnerIsNotInDocument,
   render,
@@ -32,7 +33,9 @@ import AttendeeList, { AttendeeListProps } from '../AttendeeList';
 configure({ defaultHidden: true });
 
 afterEach(() => {
-  vi.runOnlyPendingTimers();
+  act(() => {
+    vi.runOnlyPendingTimers();
+  });
   vi.useRealTimers();
   vi.resetAllMocks();
 });
@@ -95,7 +98,9 @@ test('should refetch signups data after 30 seconds', async () => {
   const withinRow = within(await findSignupRow(signupName));
   expect(await withinRow.findByText('Maksua perutaan')).toBeInTheDocument();
 
-  vi.advanceTimersByTime(31000);
+  act(() => {
+    vi.advanceTimersByTime(31000);
+  });
 
   expect(await withinRow.findByText('Maksua hyvitetään')).toBeInTheDocument();
 });

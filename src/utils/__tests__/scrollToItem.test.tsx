@@ -1,5 +1,14 @@
 import { scrollToItem } from '../scrollToItem';
-import { render, screen, waitFor } from '../testUtils';
+import { act, render, screen } from '../testUtils';
+
+beforeEach(() => {
+  vi.useFakeTimers();
+});
+
+afterEach(() => {
+  vi.runOnlyPendingTimers();
+  vi.useRealTimers();
+});
 
 const renderComponent = () =>
   render(
@@ -18,25 +27,31 @@ test.each([
   renderComponent();
 
   scrollToItem(id, { last: last });
-  await waitFor(() =>
-    expect(screen.getByRole('button', { name: buttonLabel })).toHaveFocus()
-  );
+  await act(async () => {
+    vi.advanceTimersByTime(300);
+  });
+
+  expect(screen.getByRole('button', { name: buttonLabel })).toHaveFocus();
 });
 
 test('should set focus to the first element', async () => {
   renderComponent();
   scrollToItem('container', { last: false });
 
-  await waitFor(() =>
-    expect(screen.getByRole('button', { name: 'Button 1' })).toHaveFocus()
-  );
+  await act(async () => {
+    vi.advanceTimersByTime(300);
+  });
+
+  expect(screen.getByRole('button', { name: 'Button 1' })).toHaveFocus();
 });
 
 test('should set focus to the last element', async () => {
   renderComponent();
   scrollToItem('container', { last: true });
 
-  await waitFor(() =>
-    expect(screen.getByRole('button', { name: 'Button 2' })).toHaveFocus()
-  );
+  await act(async () => {
+    vi.advanceTimersByTime(300);
+  });
+
+  expect(screen.getByRole('button', { name: 'Button 2' })).toHaveFocus();
 });

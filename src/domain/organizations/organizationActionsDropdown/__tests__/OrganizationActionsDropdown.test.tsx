@@ -17,6 +17,7 @@ import {
   mockedOrganizationResponse,
   organization,
 } from '../../../organization/__mocks__/organization';
+import { mockedOrganizationAncestorsResponse } from '../../../organization/__mocks__/organizationAncestors';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
 import OrganizationActionsDropdown, {
   OrganizationActionsDropdownProps,
@@ -41,6 +42,7 @@ const route = `/fi${ROUTES.KEYWORD_SETS}`;
 const defaultMocks = [
   mockedDeleteOrganizationResponse,
   mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
   mockedUserResponse,
 ];
 

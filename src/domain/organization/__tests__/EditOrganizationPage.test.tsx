@@ -21,6 +21,7 @@ import {
   mockedOrganizationClassResponse,
 } from '../../organizationClass/__mocks__/organizationClass';
 import {
+  generateOrganizationsResponse,
   mockedOrganizationsResponse,
   organizations,
 } from '../../organizations/__mocks__/organizationsPage';
@@ -51,6 +52,9 @@ beforeEach(() => {
 const defaultMocks = [
   mockedOrganizationResponse,
   mockedOrganizationsResponse,
+  generateOrganizationsResponse({
+    overrideVariables: { child: organizationId },
+  }),
   mockedOrganizationClassResponse,
   mockedOrganizationClassesResponse,
   mockedSuperuserResponse,
@@ -170,6 +174,9 @@ test('should patch organization merchants and accounts by financial admin', asyn
   const { history } = renderComponent([
     mockedOrganizationWithFinanfialInfoResponse,
     mockedOrganizationsResponse,
+    generateOrganizationsResponse({
+      overrideVariables: { child: organizationId },
+    }),
     mockedOrganizationClassResponse,
     mockedOrganizationClassesResponse,
     mockedFinancialAdminUserResponse,

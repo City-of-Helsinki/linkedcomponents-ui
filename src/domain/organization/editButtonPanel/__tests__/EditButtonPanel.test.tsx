@@ -12,6 +12,7 @@ import {
   organizationId,
 } from '../../../organization/__mocks__/organization';
 import { mockedUserResponse } from '../../../user/__mocks__/user';
+import { mockedOrganizationAncestorsResponse } from '../../__mocks__/organizationAncestors';
 import EditButtonPanel, { EditButtonPanelProps } from '../EditButtonPanel';
 
 configure({ defaultHidden: true });
@@ -24,7 +25,11 @@ beforeEach(() => {
   mockAuthenticatedLoginState();
 });
 
-const mocks = [mockedOrganizationResponse, mockedUserResponse];
+const mocks = [
+  mockedOrganizationResponse,
+  mockedOrganizationAncestorsResponse,
+  mockedUserResponse,
+];
 
 const route = `/fi/${ROUTES.EDIT_ORGANIZATION.replace(':id', organizationId)}`;
 const routes = [route];
