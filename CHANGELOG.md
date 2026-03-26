@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.25.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.1...linkedcomponents-ui-v1.25.2) (2026-03-26)
+
+
+### Bug Fixes
+
+* Refine and fix screenReader announcements ([#580](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/580)) ([eb5b41a](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/eb5b41aff2fe31b540be2b6dec7c5671f9b00f44))
+* Update Swagger URL to point to the new API documentation ([e96efea](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e96efea3d395d97f0ae7e83619ceb2cb31097ac3))
+
+
+### Dependencies
+
+* Bump flatted from 3.3.1 to 3.4.2 ([2f3d8e4](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/2f3d8e47ed101a0560c96e88b1858b935cf4dd82))
+
 ## [1.25.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.0...linkedcomponents-ui-v1.25.1) (2026-03-20)
 
 
