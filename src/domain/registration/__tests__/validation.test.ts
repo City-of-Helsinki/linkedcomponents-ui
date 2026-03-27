@@ -36,7 +36,7 @@ describe('registrationSchema', () => {
     mainLedgerAccount: '3503',
     operationArea: '',
     profitCenter: '',
-    project: '',
+    project: 'project',
   };
   const validRegistrationValues: RegistrationFormFields = {
     ...REGISTRATION_INITIAL_VALUES,
@@ -219,11 +219,13 @@ describe('registrationSchema', () => {
     [{ balanceProfitCenter: mockString(11) }],
     [{ companyCode: '' }],
     [{ companyCode: mockString(5) }],
+    [{ internalOrder: 'internal order', profitCenter: 'profit center' }],
     [{ internalOrder: mockString(11) }],
     [{ mainLedgerAccount: '' }],
     [{ mainLedgerAccount: mockString(7) }],
     [{ operationArea: mockString(7) }],
     [{ profitCenter: mockString(8) }],
+    [{ internalOrder: '', profitCenter: '', project: '' }],
     [{ project: mockString(17) }],
   ])('should return false if account is invalid', async (accountFields) => {
     expect(

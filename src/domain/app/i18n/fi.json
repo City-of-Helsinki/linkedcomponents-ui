@@ -1165,6 +1165,10 @@
       "offersRequired": "Vähintään 1 hintatieto vaaditaan",
       "priceInvalid": "Enintään kaksi desimaalia on sallittu",
       "priceGroupsRequired": "Vähintään 1 asiakasryhmä vaaditaan",
+      "registrationAccount": {
+        "internalOrderOrProfitCenter": "Anna joko sisäinen tilaus tai tulosyksikkö, ei molempia.",
+        "projectRequired": "Projekti on pakollinen, jos sisäistä tilausta tai tulosyksikköä ei ole annettu."
+      },
       "soMeLinkDuplicate": "SoMe-linkit eivät voi olla samoja",
       "string": {
         "charsLeft": "{{count}} merkki jäljellä",
