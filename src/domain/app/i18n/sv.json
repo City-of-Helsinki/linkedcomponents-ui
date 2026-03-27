@@ -1185,6 +1185,10 @@
       "offersRequired": "Minst 1 prisinformation måste läggas till",
       "priceInvalid": "Högst två decimaler är tillåtna",
       "priceGroupsRequired": "Minst 1 kundgrupp måste läggas till",
+      "registrationAccount": {
+        "internalOrderOrProfitCenter": "Ange antingen intern order eller resultatenhet, inte båda.",
+        "projectRequired": "Projekt krävs när varken intern order eller resultatenhet har angetts."
+      },
       "soMeLinkDuplicate": "SoMe-länkar kan inte vara desamma",
       "string": {
         "charsLeft": "{{count}} tecken kvar",

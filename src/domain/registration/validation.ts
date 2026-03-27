@@ -11,7 +11,10 @@ import {
   isValidTime,
   transformNumber,
 } from '../../utils/validationUtils';
-import { VALIDATION_MESSAGE_KEYS } from '../app/i18n/constants';
+import {
+  REGISTRATION_ACCOUNT_VALIDATION_MESSAGE_KEYS,
+  VALIDATION_MESSAGE_KEYS,
+} from '../app/i18n/constants';
 import { ACCOUNT_TEXT_FIELD_MAX_LENGTH } from '../organization/constants';
 import { PriceGroupOption } from '../priceGroup/types';
 import {
@@ -62,6 +65,37 @@ const priceGroupsSchema = (
     : schema;
 };
 
+const hasNonEmptyValue = (value?: string | null): boolean =>
+  Boolean(value?.trim());
+
+// Prevent submitting both internal order and profit center at the same time.
+const internalOrderOrProfitCenterTest = {
+  name: 'internalOrderOrProfitCenter',
+  message:
+    REGISTRATION_ACCOUNT_VALIDATION_MESSAGE_KEYS.INTERNAL_ORDER_OR_PROFIT_CENTER,
+  test(this: Yup.TestContext) {
+    const { internalOrder, profitCenter } = this.parent;
+    return !(hasNonEmptyValue(internalOrder) && hasNonEmptyValue(profitCenter));
+  },
+};
+
+// If neither internal order nor profit center is given, project must be provided.
+const projectRequiredWhenNoInternalOrderOrProfitCenterTest = {
+  name: 'projectRequiredWhenNoInternalOrderOrProfitCenter',
+  message: REGISTRATION_ACCOUNT_VALIDATION_MESSAGE_KEYS.PROJECT_REQUIRED,
+  test(this: Yup.TestContext) {
+    const { internalOrder, profitCenter, project } = this.parent;
+    return (
+      hasNonEmptyValue(internalOrder) ||
+      hasNonEmptyValue(profitCenter) ||
+      hasNonEmptyValue(project)
+    );
+  },
+};
+
+// Registration account business rules:
+// 1) internal order and profit center are mutually exclusive
+// 2) project is required when both internal order and profit center are empty
 const registrationAccountSchema = Yup.object().shape({
   [REGISTRATION_ACCOUNT_FIELDS.ACCOUNT]: Yup.string().required(
     VALIDATION_MESSAGE_KEYS.STRING_REQUIRED
@@ -88,18 +122,24 @@ const registrationAccountSchema = Yup.object().shape({
       ],
       createStringMaxErrorMessage
     ),
-  [REGISTRATION_ACCOUNT_FIELDS.INTERNAL_ORDER]: Yup.string().max(
-    ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.INTERNAL_ORDER],
-    createStringMaxErrorMessage
-  ),
-  [REGISTRATION_ACCOUNT_FIELDS.PROFIT_CENTER]: Yup.string().max(
-    ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.PROFIT_CENTER],
-    createStringMaxErrorMessage
-  ),
-  [REGISTRATION_ACCOUNT_FIELDS.PROJECT]: Yup.string().max(
-    ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.PROJECT],
-    createStringMaxErrorMessage
-  ),
+  [REGISTRATION_ACCOUNT_FIELDS.INTERNAL_ORDER]: Yup.string()
+    .max(
+      ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.INTERNAL_ORDER],
+      createStringMaxErrorMessage
+    )
+    .test(internalOrderOrProfitCenterTest),
+  [REGISTRATION_ACCOUNT_FIELDS.PROFIT_CENTER]: Yup.string()
+    .max(
+      ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.PROFIT_CENTER],
+      createStringMaxErrorMessage
+    )
+    .test(internalOrderOrProfitCenterTest),
+  [REGISTRATION_ACCOUNT_FIELDS.PROJECT]: Yup.string()
+    .max(
+      ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.PROJECT],
+      createStringMaxErrorMessage
+    )
+    .test(projectRequiredWhenNoInternalOrderOrProfitCenterTest),
   [REGISTRATION_ACCOUNT_FIELDS.OPERATION_AREA]: Yup.string().max(
     ACCOUNT_TEXT_FIELD_MAX_LENGTH[REGISTRATION_ACCOUNT_FIELDS.OPERATION_AREA],
     createStringMaxErrorMessage

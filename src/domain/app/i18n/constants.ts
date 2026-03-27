@@ -39,3 +39,8 @@ export enum VALIDATION_MESSAGE_KEYS {
   URL = 'form.validation.string.url',
   ZIP = 'form.validation.string.zip',
 }
+
+export enum REGISTRATION_ACCOUNT_VALIDATION_MESSAGE_KEYS {
+  INTERNAL_ORDER_OR_PROFIT_CENTER = 'form.validation.registrationAccount.internalOrderOrProfitCenter',
+  PROJECT_REQUIRED = 'form.validation.registrationAccount.projectRequired',
+}
