@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.25.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.2...linkedcomponents-ui-v1.25.3) (2026-03-30)
+
+
+### Bug Fixes
+
+* Add cross-field validation for registration account fields ([1297531](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/1297531e90abfeaf185296bb3a0ce7f1233d718d))
+
+
+### Dependencies
+
+* Migrate ckeditor5 to v47 Refs: KEH-257 ([7baf444](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7baf4448587c3e410502a625891f1a73920aa578))
+
 ## [1.25.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.1...linkedcomponents-ui-v1.25.2) (2026-03-26)
 
 
