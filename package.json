@@ -29,7 +29,7 @@
     "@vitejs/plugin-react-swc": "^3.7.0",
     "apollo-link-rest": "^0.9.0",
     "apollo-link-sentry": "^4.0.0",
-    "axios": "^1.13.5",
+    "axios": "^1.15.0",
     "browser-image-compression": "^2.0.2",
     "ckeditor5": "^47.6.0",
     "classnames": "^2.5.1",
