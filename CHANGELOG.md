@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.25.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.3...linkedcomponents-ui-v1.25.4) (2026-04-14)
+
+
+### Dependencies
+
+* Bump axios from 1.13.5 to 1.15.0 ([66959f5](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/66959f54cc66dab4ed728c1d55f5469409c34ebf))
+* Bump follow-redirects from 1.15.11 to 1.16.0 ([690255e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/690255e4214505428eb569e6187110f791b93ab6))
+* Bump lodash-es from 4.17.21 to 4.17.23 ([#586](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/586)) ([8cc1312](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/8cc13124b3d164e7e5e4072a02d127f24939418a))
+* Bump vite from 6.4.1 to 6.4.2 ([25e8761](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/25e876161c4a9815554e759364eace72a30efba7))
+* Update packages ([#588](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/588)) ([047d2e7](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/047d2e703e1a3c3eb15af3df4de12cbae671128e))
+* Update vulnerable packages ([#584](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/584)) ([30b953c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/30b953c17ffa482d15c10033162e27e4f72a2e83))
+
 ## [1.25.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.2...linkedcomponents-ui-v1.25.3) (2026-03-30)
 
 
