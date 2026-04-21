@@ -148,7 +148,7 @@ test('should send message to signup group', async () => {
 });
 
 test('should update signup group', async () => {
-  global.scrollTo = vi.fn<any>();
+  global.scrollTo = vi.fn() as unknown as typeof global.scrollTo;
   renderComponent([
     ...defaultMocks,
     mockedUpdateSignupGroupResponse,

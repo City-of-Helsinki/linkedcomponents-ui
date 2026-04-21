@@ -100,7 +100,7 @@ export const isValidUrl = (url?: string): boolean => {
 
   try {
     new URL(url);
-  } catch (e) {
+  } catch {
     return false;
   }
   return true;

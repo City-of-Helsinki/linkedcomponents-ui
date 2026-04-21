@@ -213,7 +213,7 @@ test('should send message to participant', async () => {
 });
 
 test('should update signup', async () => {
-  global.scrollTo = vi.fn<any>();
+  global.scrollTo = vi.fn() as unknown as typeof global.scrollTo;
   renderComponent([
     ...defaultMocks,
     mockedUpdateSignupResponse,

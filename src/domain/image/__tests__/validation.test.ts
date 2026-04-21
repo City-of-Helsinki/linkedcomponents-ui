@@ -8,7 +8,7 @@ const testImageSchema = async (image: ImageFormFields) => {
   try {
     await imageSchema.validate(image);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

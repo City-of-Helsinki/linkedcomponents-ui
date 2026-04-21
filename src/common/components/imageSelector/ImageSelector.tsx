@@ -132,7 +132,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
         await fetchMoreImages({ variables: { page: nextPage } });
 
         setLoadingMore(false);
-      } catch (e) /* istanbul ignore next */ {
+      } catch /* istanbul ignore next */ {
         setLoadingMore(false);
       }
     }

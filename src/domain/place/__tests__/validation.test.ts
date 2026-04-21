@@ -8,7 +8,7 @@ const testPlaceSchema = async (image: PlaceFormFields) => {
   try {
     await placeSchema.validate(image);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

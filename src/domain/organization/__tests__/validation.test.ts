@@ -24,7 +24,7 @@ const testWebStoreAccountSchema = async (
   try {
     await webStoreAccountSchema.validate(account);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
@@ -35,7 +35,7 @@ const testWebStoreMerchantSchema = async (
   try {
     await webStoreMerchantSchema.validate(merchant);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
@@ -89,7 +89,7 @@ const testOrganizationSchema = async (organization: OrganizationFormFields) => {
       user: fakeUser({ isSuperuser: true }),
     }).validate(organization);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

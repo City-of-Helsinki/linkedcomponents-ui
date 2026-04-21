@@ -1519,7 +1519,7 @@ export const getRecurringEvent = async (
     });
 
     return eventData.event;
-  } catch (e) /* istanbul ignore next */ {
+  } catch /* istanbul ignore next */ {
     return null;
   }
 };

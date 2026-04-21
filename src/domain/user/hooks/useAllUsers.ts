@@ -42,7 +42,7 @@ const useAllUsers = (): UseAllOrganizationsState => {
     async (page: number) => {
       try {
         await fetchMore({ variables: { page } });
-      } catch (e) /* istanbul ignore next */ {
+      } catch /* istanbul ignore next */ {
         addNotification({ label: t('common.errorLoadMore'), type: 'error' });
       }
     },

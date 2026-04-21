@@ -11,7 +11,7 @@ const testKeywordSetSchema = async (keywordSet: KeywordSetFormFields) => {
   try {
     await keywordSetSchema.validate(keywordSet);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
