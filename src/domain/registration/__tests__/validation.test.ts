@@ -18,7 +18,7 @@ const testRegistrationSchema = async (registration: RegistrationFormFields) => {
   try {
     await registrationSchema.validate(registration);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

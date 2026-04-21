@@ -7,7 +7,7 @@ const testKeywordSchema = async (keyword: KeywordFormFields) => {
   try {
     await keywordSchema.validate(keyword);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

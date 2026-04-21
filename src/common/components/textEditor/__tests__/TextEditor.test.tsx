@@ -17,7 +17,7 @@ const label = 'Text editor label';
 const defaultProps: TextEditorProps = {
   id: 'text-editor-1',
   label,
-  onBlur: vi.fn<any>(),
+  onBlur: vi.fn() as TextEditorProps['onBlur'],
   onChange: vi.fn(),
   value: '',
 };

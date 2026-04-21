@@ -71,7 +71,7 @@ const testAboveMinAge = async (
       )
       .validate(date);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
@@ -94,7 +94,7 @@ const testBelowMaxAge = async (
       )
       .validate(date);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
@@ -107,7 +107,7 @@ const testContactPersonSchema = async (
   try {
     await getContactPersonSchema(registration, signups).validate(contactPerson);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
@@ -119,7 +119,7 @@ const testSignupSchema = async (
   try {
     await getSignupSchema(registration).validate(signup);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
@@ -131,7 +131,7 @@ const testSignupGroupSchema = async (
   try {
     await getSignupGroupSchema(registration).validate(signupGroup);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

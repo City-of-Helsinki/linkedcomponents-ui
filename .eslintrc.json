@@ -12,9 +12,7 @@
   "env": {
     "vitest-globals/env": true
   },
-  "plugins": [
-    "simple-import-sort"
-  ],
+  "plugins": ["simple-import-sort"],
   "settings": {
     "import/resolver": {
       "typescript": {
@@ -23,7 +21,7 @@
     }
   },
   "rules": {
-    "@typescript-eslint/brace-style": [
+    "brace-style": [
       "error",
       "1tbs",
       {
@@ -31,15 +29,9 @@
       }
     ],
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/func-call-spacing": [
-      "error"
-    ],
-    "@typescript-eslint/member-ordering": [
-      "warn"
-    ],
-    "@typescript-eslint/no-require-imports": [
-      "error"
-    ],
+    "func-call-spacing": "error",
+    "@typescript-eslint/member-ordering": "warn",
+    "@typescript-eslint/no-require-imports": "error",
     "@typescript-eslint/no-unused-expressions": "error",
     "react/no-unused-prop-types": [
       "warn",
@@ -47,10 +39,7 @@
         "skipShapeProps": true
       }
     ],
-    "array-bracket-spacing": [
-      "warn",
-      "never"
-    ],
+    "array-bracket-spacing": ["warn", "never"],
     "max-len": [
       "warn",
       {
@@ -61,10 +50,7 @@
     "no-plusplus": "error",
     "no-undef": "warn",
     "no-unused-expressions": "off",
-    "object-curly-spacing": [
-      "warn",
-      "always"
-    ],
+    "object-curly-spacing": ["warn", "always"],
     "sort-imports": "off",
     "import/order": "off",
     "simple-import-sort/imports": "error",

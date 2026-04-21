@@ -55,7 +55,7 @@ const useUserOrganizations = (
           );
           setLoading(false);
         }
-      } catch (e) /* istanbul ignore next */ {
+      } catch /* istanbul ignore next */ {
         setLoading(false);
       }
     };

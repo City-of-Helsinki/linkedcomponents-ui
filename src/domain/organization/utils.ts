@@ -138,7 +138,7 @@ export const getOrganizationQueryResult = async (
       });
 
     return organizationData.organization;
-  } catch (e) /* istanbul ignore next */ {
+  } catch /* istanbul ignore next */ {
     return null;
   }
 };
@@ -293,7 +293,7 @@ export const getOrganizationAncestorsQueryResult = async (
       });
 
     return organizationsData.organizations.data as OrganizationFieldsFragment[];
-  } catch (e) {
+  } catch {
     return [];
   }
 };

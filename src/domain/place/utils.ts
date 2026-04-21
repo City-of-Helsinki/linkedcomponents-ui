@@ -165,7 +165,7 @@ export const getPlaceQueryResult = async (
     });
 
     return placeData.place;
-  } catch (e) /* istanbul ignore next */ {
+  } catch /* istanbul ignore next */ {
     return null;
   }
 };

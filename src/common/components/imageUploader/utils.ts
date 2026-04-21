@@ -103,7 +103,7 @@ export const getCroppedImageFile = async (
     } else {
       return file;
     }
-  } catch (e) {
+  } catch {
     return file;
   }
 };
@@ -119,7 +119,7 @@ export const getCompressedImageFile = async (file: File) => {
       return new File([blob], file.name, { type: file.type });
     }
     return file;
-  } catch (e) {
+  } catch {
     return file;
   }
 };

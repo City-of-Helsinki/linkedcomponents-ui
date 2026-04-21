@@ -90,7 +90,7 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
             },
             true
           );
-        } catch (err) {
+        } catch {
           // clear values when error happens
           clearFields();
         }

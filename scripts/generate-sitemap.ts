@@ -5,64 +5,67 @@ import { promisify } from 'util';
 import * as convert from 'xml-js';
 
 import { ROUTES, SUPPORTED_LANGUAGES } from '../src/constants';
-import { featureFlagUtils } from '../src/utils/featureFlags';
 import { HOST, PATH_TO_BUILD_FOLDER, SITEMAP_FILENAME } from './constants';
 /* @ts-ignore */
 import.meta.env = {};
 dotenv.config({ processEnv: import.meta.env });
 
 const LANGUAGES = Object.values(SUPPORTED_LANGUAGES);
-const STATIC_URLS_BLACK_LIST = [
-  ROUTES.ADMIN,
-  ROUTES.ATTENDANCE_LIST,
-  ROUTES.CALLBACK,
-  ROUTES.CREATE_EVENT,
-  ROUTES.CREATE_REGISTRATION,
-  ROUTES.CREATE_SIGNUP_GROUP,
-  ROUTES.EDIT_EVENT,
-  ROUTES.EDIT_IMAGE,
-  ROUTES.EDIT_KEYWORD,
-  ROUTES.EDIT_KEYWORD_SET,
-  ROUTES.EDIT_ORGANIZATION,
-  ROUTES.EDIT_PLACE,
-  ROUTES.EDIT_PRICE_GROUP,
-  ROUTES.EDIT_REGISTRATION,
-  ROUTES.EDIT_SIGNUP,
-  ROUTES.EDIT_SIGNUP_GROUP,
-  ROUTES.EVENT_SAVED,
-  ROUTES.EVENTS,
-  ROUTES.HELP,
-  ROUTES.INSTRUCTIONS,
-  ROUTES.LOGOUT,
-  ROUTES.REGISTRATIONS,
-  ROUTES.REGISTRATION_SAVED,
-  ROUTES.REGISTRATION_SIGNUPS,
-  ROUTES.SEARCH,
-  ROUTES.SILENT_CALLBACK,
-  ROUTES.SUPPORT,
-  ROUTES.TECHNOLOGY,
-].concat(
-  featureFlagUtils.isFeatureEnabled('SHOW_ADMIN')
-    ? []
-    : [
-        ROUTES.CREATE_IMAGE,
-        ROUTES.CREATE_KEYWORD,
-        ROUTES.CREATE_KEYWORD_SET,
-        ROUTES.CREATE_ORGANIZATION,
-        ROUTES.CREATE_PLACE,
-        ROUTES.CREATE_PRICE_GROUP,
-        ROUTES.IMAGES,
-        ROUTES.KEYWORDS,
-        ROUTES.KEYWORD_SETS,
-        ROUTES.ORGANIZATIONS,
-        ROUTES.PLACES,
-        ROUTES.PRICE_GROUPS,
-      ]
-);
+const getStaticUrls = async () => {
+  const { featureFlagUtils } = await import('../src/utils/featureFlags');
 
-const STATIC_URLS = Object.values(ROUTES).filter(
-  (route) => !STATIC_URLS_BLACK_LIST.includes(route)
-);
+  const staticUrlsBlackList = [
+    ROUTES.ADMIN,
+    ROUTES.ATTENDANCE_LIST,
+    ROUTES.CALLBACK,
+    ROUTES.CREATE_EVENT,
+    ROUTES.CREATE_REGISTRATION,
+    ROUTES.CREATE_SIGNUP_GROUP,
+    ROUTES.EDIT_EVENT,
+    ROUTES.EDIT_IMAGE,
+    ROUTES.EDIT_KEYWORD,
+    ROUTES.EDIT_KEYWORD_SET,
+    ROUTES.EDIT_ORGANIZATION,
+    ROUTES.EDIT_PLACE,
+    ROUTES.EDIT_PRICE_GROUP,
+    ROUTES.EDIT_REGISTRATION,
+    ROUTES.EDIT_SIGNUP,
+    ROUTES.EDIT_SIGNUP_GROUP,
+    ROUTES.EVENT_SAVED,
+    ROUTES.EVENTS,
+    ROUTES.HELP,
+    ROUTES.INSTRUCTIONS,
+    ROUTES.LOGOUT,
+    ROUTES.REGISTRATIONS,
+    ROUTES.REGISTRATION_SAVED,
+    ROUTES.REGISTRATION_SIGNUPS,
+    ROUTES.SEARCH,
+    ROUTES.SILENT_CALLBACK,
+    ROUTES.SUPPORT,
+    ROUTES.TECHNOLOGY,
+  ].concat(
+    featureFlagUtils.isFeatureEnabled('SHOW_ADMIN')
+      ? []
+      : [
+          ROUTES.CREATE_IMAGE,
+          ROUTES.CREATE_KEYWORD,
+          ROUTES.CREATE_KEYWORD_SET,
+          ROUTES.CREATE_ORGANIZATION,
+          ROUTES.CREATE_PLACE,
+          ROUTES.CREATE_PRICE_GROUP,
+          ROUTES.IMAGES,
+          ROUTES.KEYWORDS,
+          ROUTES.KEYWORD_SETS,
+          ROUTES.ORGANIZATIONS,
+          ROUTES.PLACES,
+          ROUTES.PRICE_GROUPS,
+        ]
+  );
+
+  return Object.values(ROUTES).filter(
+    (route) => !staticUrlsBlackList.includes(route)
+  );
+};
 
 export type Element = {
   type: string;
@@ -99,10 +102,11 @@ const getTextElement = (name: string, text: string) => ({
   ],
 });
 
-const getStaticUrlElements = (time: Date): Element[] => {
+const getStaticUrlElements = async (time: Date): Promise<Element[]> => {
+  const staticUrls = await getStaticUrls();
   const elements: Element[] = [];
 
-  STATIC_URLS.forEach((url) => {
+  staticUrls.forEach((url) => {
     LANGUAGES.forEach((language) => {
       const element = getElement({
         name: 'url',
@@ -165,7 +169,7 @@ const saveSitemapFile = (elements: Element[]) => {
 const generateSitemap = async () => {
   const time = new Date();
 
-  const staticUrlElements = getStaticUrlElements(time);
+  const staticUrlElements = await getStaticUrlElements(time);
 
   await saveSitemapFile(staticUrlElements);
   return true;

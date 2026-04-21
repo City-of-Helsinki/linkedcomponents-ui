@@ -16,7 +16,7 @@ import * as matchers from 'vitest-axe/matchers';
 expect.extend(matchers);
 
 // Mock scrollTo function
-window.scrollTo = vi.fn<any>();
+window.scrollTo = vi.fn() as unknown as typeof window.scrollTo;
 
 const originalWarn = console.warn.bind(console.warn);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

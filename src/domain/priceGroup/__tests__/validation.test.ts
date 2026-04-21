@@ -8,7 +8,7 @@ const testPriceGroupSchema = async (priceGroup: PriceGroupFormFields) => {
   try {
     await priceGroupSchema.validate(priceGroup);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

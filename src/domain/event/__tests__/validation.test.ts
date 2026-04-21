@@ -26,7 +26,7 @@ const testExternalLinkSchema = async (externalLinks: ExternalLink[]) => {
   try {
     await externalLinksSchema.validate(externalLinks);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
@@ -35,7 +35,7 @@ const testEventTimeSchema = async (eventTime: EventTimeFormFields) => {
   try {
     await eventTimeSchema.validate(eventTime);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
@@ -44,7 +44,7 @@ const testVideoSchema = async (video: VideoDetails) => {
   try {
     await videoSchema.validate(video);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };
@@ -53,7 +53,7 @@ const testPublicEventSchema = async (event: EventFormFields) => {
   try {
     await publicEventSchema.validate(event);
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 };

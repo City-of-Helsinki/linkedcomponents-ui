@@ -282,7 +282,7 @@ export const getImageQueryResult = async (
     });
 
     return imageData.image;
-  } catch (e) /* istanbul ignore next */ {
+  } catch /* istanbul ignore next */ {
     return null;
   }
 };
