@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.25.5](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.4...linkedcomponents-ui-v1.25.5) (2026-04-22)
+
+
+### Bug Fixes
+
+* Update deps ([e1aaacd](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e1aaacdb43434921da03cba6ef902ed8aa4fcde2))
+
+
+### Dependencies
+
+* Bump dompurify from 3.3.2 to 3.4.0 ([24956d2](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/24956d2821512eb548e2aa0fd967a38c576d6566))
+
 ## [1.25.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.3...linkedcomponents-ui-v1.25.4) (2026-04-14)
 
 
