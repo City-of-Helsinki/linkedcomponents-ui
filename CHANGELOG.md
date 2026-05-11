@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.25.6](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.5...linkedcomponents-ui-v1.25.6) (2026-05-11)
+
+
+### Dependencies
+
+* Bump @babel/plugin-transform-modules-systemjs ([7d9d389](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7d9d389a76136a395912079006ff375c204b38c4))
+* Bump axios from 1.15.0 to 1.15.2 ([f96ed40](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/f96ed4055abf58f21dfb34b23611b68570e2dcb9))
+* Bump fast-uri from 3.1.0 to 3.1.2 ([7c4bd0b](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7c4bd0bbf424b60e545409834dd1d728737df35a))
+* Bump postcss from 8.5.6 to 8.5.14 ([0fa1e63](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/0fa1e635436ca7a2eccf3a4a80d6b967a64664e5))
+
 ## [1.25.5](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.4...linkedcomponents-ui-v1.25.5) (2026-04-22)
 
 
