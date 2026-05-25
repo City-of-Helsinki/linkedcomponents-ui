@@ -10,7 +10,8 @@
     "plugin:vitest-globals/recommended"
   ],
   "env": {
-    "vitest-globals/env": true
+    "vitest-globals/env": true,
+    "es2020": true
   },
   "plugins": ["simple-import-sort"],
   "settings": {
