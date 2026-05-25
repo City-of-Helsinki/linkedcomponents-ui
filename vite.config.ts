@@ -56,6 +56,7 @@ export default defineConfig(({ mode }) => ({
         '**/query.ts',
         '.*.d.ts',
         'src/index.tsx',
+        'src/envVariables.ts',
         'src/common/components/imageUploader/utils.ts',
         'src/common/components/imageUploader/imageCropper/ImageCropper.tsx',
         'src/common/components/menuDropdown/menu/Menu.tsx',
