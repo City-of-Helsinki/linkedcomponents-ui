@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import LoadingSpinner from '../../../common/components/loadingSpinner/LoadingSpinner';
+import { getEnvValue } from '../../../common/utils/envUtils';
 import {
   EventFieldsFragment,
   PublicationStatus,
@@ -32,7 +33,7 @@ const EventAuthenticationNotification: React.FC<
   );
 
   const ENABLE_EXTERNAL_USER_EVENTS =
-    import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+    getEnvValue('REACT_APP_ENABLE_EXTERNAL_USER_EVENTS') === 'true';
   const requiredOrganizationType: AdminType[] = ENABLE_EXTERNAL_USER_EVENTS
     ? ['external']
     : ['any'];

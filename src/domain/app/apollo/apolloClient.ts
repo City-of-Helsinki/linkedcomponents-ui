@@ -14,6 +14,7 @@ import { SentryLink } from 'apollo-link-sentry';
 import snakeCase from 'lodash/snakeCase';
 
 import { NotificationProps } from '../../../common/components/notification/Notification';
+import { getEnvValue } from '../../../common/utils/envUtils';
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from '../../../constants';
 import {
   DataSource,
@@ -257,7 +258,7 @@ const linkedEventsLink = new RestLink({
   customFetch: (request: Request | string, config) => {
     if (typeof request === 'string') {
       const requestParts = request
-        .replace(import.meta.env.REACT_APP_LINKED_EVENTS_URL || '', '')
+        .replace(getEnvValue('REACT_APP_LINKED_EVENTS_URL') || '', '')
         .split('/')
         .filter((t) => t);
 
@@ -403,7 +404,7 @@ const linkedEventsLink = new RestLink({
       return data;
     },
   },
-  uri: import.meta.env.REACT_APP_LINKED_EVENTS_URL,
+  uri: getEnvValue('REACT_APP_LINKED_EVENTS_URL'),
 });
 
 const QUERIES_TO_SHOW_ERROR = ['User'];

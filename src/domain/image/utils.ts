@@ -4,6 +4,7 @@ import isEqual from 'lodash/isEqual';
 import omit from 'lodash/omit';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
+import { getEnvValue } from '../../common/utils/envUtils';
 import { ROUTES } from '../../constants';
 import {
   Image,
@@ -39,7 +40,7 @@ import { ImageFormFields } from './types';
 export const imagePathBuilder = ({
   args,
 }: PathBuilderProps<ImageQueryVariables>): string => {
-  const USE_IMAGE_PROXY = import.meta.env.REACT_APP_USE_IMAGE_PROXY === 'true';
+  const USE_IMAGE_PROXY = getEnvValue('REACT_APP_USE_IMAGE_PROXY') === 'true';
   const { id } = args;
 
   const query = queryBuilder([
@@ -51,7 +52,7 @@ export const imagePathBuilder = ({
 export const imagesPathBuilder = ({
   args,
 }: PathBuilderProps<ImagesQueryVariables>): string => {
-  const USE_IMAGE_PROXY = import.meta.env.REACT_APP_USE_IMAGE_PROXY === 'true';
+  const USE_IMAGE_PROXY = getEnvValue('REACT_APP_USE_IMAGE_PROXY') === 'true';
   const { dataSource, page, pageSize, publisher, sort, text, createdBy } = args;
   const variableToKeyItems = [
     { key: 'data_source', value: dataSource },

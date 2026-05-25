@@ -14,7 +14,7 @@ import theme from '../../assets/theme/theme';
 import { AccessibilityNotificationProvider } from '../../common/components/accessibilityNotificationContext/AccessibilityNotificationContext';
 import { MatomoContext } from '../../common/components/matomoTracker/matomo-context';
 import MatomoTracker from '../../common/components/matomoTracker/MatomoTracker';
-import getValue from '../../utils/getValue';
+import { getEnvValue } from '../../common/utils/envUtils';
 import { loginProviderProps } from '../auth/constants';
 import useAuth from '../auth/hooks/useAuth';
 import { createApolloClient } from './apollo/apolloClient';
@@ -37,19 +37,23 @@ const ApolloWrapper: React.FC<PropsWithChildren> = ({ children }) => {
 };
 
 const App: React.FC = () => {
-  const matomoTracker = useMemo(
-    () =>
-      new MatomoTracker({
-        urlBase: getValue(import.meta.env.REACT_APP_MATOMO_URL_BASE, ''),
-        siteId: import.meta.env.REACT_APP_MATOMO_SITE_ID,
-        srcUrl: import.meta.env.REACT_APP_MATOMO_SRC_URL,
-        enabled: import.meta.env.REACT_APP_MATOMO_ENABLED === 'true',
-        configurations: {
-          setDoNotTrack: undefined,
-        },
-      }),
-    []
-  );
+  const matomoTracker = useMemo(() => {
+    const matomoSiteId = Number(getEnvValue('REACT_APP_MATOMO_SITE_ID'));
+    const matomoSrcUrl = getEnvValue('REACT_APP_MATOMO_SRC_URL') || '';
+    if (!Number.isFinite(matomoSiteId) || !matomoSrcUrl) {
+      return null;
+    }
+
+    return new MatomoTracker({
+      urlBase: getEnvValue('REACT_APP_MATOMO_URL_BASE') || '',
+      siteId: matomoSiteId,
+      srcUrl: matomoSrcUrl,
+      enabled: getEnvValue('REACT_APP_MATOMO_ENABLED') === 'true',
+      configurations: {
+        setDoNotTrack: undefined,
+      },
+    });
+  }, []);
 
   const cookieConsentProps = useCookieConsentSettings();
 

@@ -1,3 +1,5 @@
+import { getEnvValue } from '../common/utils/envUtils';
+
 export type FeatureFlags = {
   SHOW_ADMIN: boolean;
   SHOW_PLACE_PAGES: boolean;
@@ -5,13 +7,13 @@ export type FeatureFlags = {
   WEB_STORE_INTEGRATION: boolean;
 };
 
-const env = import.meta.env ?? process.env;
-
 const getFeatureFlags = (): FeatureFlags => ({
-  SHOW_ADMIN: env.REACT_APP_SHOW_ADMIN === 'true',
-  SHOW_PLACE_PAGES: env.REACT_APP_SHOW_PLACE_PAGES === 'true',
-  SWEDISH_TRANSLATIONS: env.REACT_APP_ENABLE_SWEDISH_TRANSLATIONS === 'true',
-  WEB_STORE_INTEGRATION: env.REACT_APP_WEB_STORE_INTEGRATION_ENABLED === 'true',
+  SHOW_ADMIN: getEnvValue('REACT_APP_SHOW_ADMIN') === 'true',
+  SHOW_PLACE_PAGES: getEnvValue('REACT_APP_SHOW_PLACE_PAGES') === 'true',
+  SWEDISH_TRANSLATIONS:
+    getEnvValue('REACT_APP_ENABLE_SWEDISH_TRANSLATIONS') === 'true',
+  WEB_STORE_INTEGRATION:
+    getEnvValue('REACT_APP_WEB_STORE_INTEGRATION_ENABLED') === 'true',
 });
 
 const isFeatureEnabled = (feature: keyof FeatureFlags): boolean =>

@@ -6,6 +6,7 @@ import { TFunction } from 'i18next';
 import capitalize from 'lodash/capitalize';
 import React from 'react';
 
+import { getEnvValue } from '../../common/utils/envUtils';
 import {
   DATE_FORMAT,
   DATE_FORMAT_API,
@@ -88,7 +89,7 @@ export const eventsPathBuilder = ({
     fullTextLanguage,
   } = args;
 
-  const USE_IMAGE_PROXY = import.meta.env.REACT_APP_USE_IMAGE_PROXY === 'true';
+  const USE_IMAGE_PROXY = getEnvValue('REACT_APP_USE_IMAGE_PROXY') === 'true';
 
   const variableToKeyItems = [
     { key: 'admin_user', value: adminUser },

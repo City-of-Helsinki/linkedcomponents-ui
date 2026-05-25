@@ -8,6 +8,7 @@ import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
 
 import { NotificationProps } from '../../common/components/notification/Notification';
+import { getEnvValue } from '../../common/utils/envUtils';
 import {
   FORM_NAMES,
   ROUTES,
@@ -588,9 +589,9 @@ export const getSignupLink = (
   registration: RegistrationFieldsFragment,
   locale: Language
 ): string =>
-  `${
-    import.meta.env.REACT_APP_LINKED_REGISTRATIONS_UI_URL
-  }/${locale}/registration/${registration.id}/signup-group/create`;
+  `${getEnvValue(
+    'REACT_APP_LINKED_REGISTRATIONS_UI_URL'
+  )}/${locale}/registration/${registration.id}/signup-group/create`;
 
 export const copySignupLinkToClipboard = ({
   addNotification,
@@ -622,7 +623,8 @@ const getExportSignupsExcelUrl = ({
   registration: RegistrationFieldsFragment;
   uiLanguage: Language;
 }) => {
-  const { REACT_APP_LINKED_EVENTS_URL } = import.meta.env;
+  const REACT_APP_LINKED_EVENTS_URL =
+    getEnvValue('REACT_APP_LINKED_EVENTS_URL') ?? '';
   // Remove trailing dash from Linked Events API url if needed
   const linkedEventsUrl = stripTrailingSlash(REACT_APP_LINKED_EVENTS_URL);
 
