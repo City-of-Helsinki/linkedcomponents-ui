@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.25.7](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.6...linkedcomponents-ui-v1.25.7) (2026-05-25)
+
+
+### Dependencies
+
+* Bump js-cookie from 3.0.5 to 3.0.7 ([05d9b0e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/05d9b0e23e35f9f95e93c38671917d3ff68905a0))
+* Bump qs from 6.14.2 to 6.15.2 ([4b3d2d1](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/4b3d2d16ff99ebb5dfbfbf386f5dc086eafd7023))
+
 ## [1.25.6](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.5...linkedcomponents-ui-v1.25.6) (2026-05-11)
 
 
