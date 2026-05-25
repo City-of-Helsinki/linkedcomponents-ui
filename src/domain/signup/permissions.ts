@@ -15,6 +15,7 @@ import {
   isRegistrationAdminUserInOrganization,
 } from '../organization/utils';
 import { SIGNUP_ACTIONS, SIGNUP_ICONS, SIGNUP_LABEL_KEYS } from './constants';
+import { isWithinRefundDeadline } from './refundDeadline';
 
 export const checkCanUserDoSignupAction = ({
   action,
@@ -61,6 +62,7 @@ export const checkCanUserDoSignupAction = ({
 export const getSignupActionWarning = ({
   action,
   authenticated,
+  registration,
   signup,
   signupGroup,
   t,
@@ -68,6 +70,7 @@ export const getSignupActionWarning = ({
 }: {
   action: SIGNUP_ACTIONS;
   authenticated: boolean;
+  registration: RegistrationFieldsFragment;
   signup?: SignupFieldsFragment;
   signupGroup?: SignupGroupFieldsFragment;
   t: TFunction;
@@ -92,6 +95,22 @@ export const getSignupActionWarning = ({
     }
     if (signup?.paymentRefund || signupGroup?.paymentRefund) {
       return t('signupsPage.warningHasPaymentRefund');
+    }
+
+    const hasPaidSignup = Boolean(
+      signup?.priceGroup || signupGroup?.signups?.some((s) => s?.priceGroup)
+    );
+    const registrationHasPricing = registration.registrationPriceGroups?.some(
+      (pg) => pg?.price && parseFloat(pg.price) > 0
+    );
+    const eventStartTime = registration.event?.startTime;
+
+    if (
+      hasPaidSignup &&
+      registrationHasPricing &&
+      !isWithinRefundDeadline(eventStartTime)
+    ) {
+      return t('signupsPage.warningRefundDeadlinePassed');
     }
   }
 
@@ -127,6 +146,7 @@ export const checkIsSignupActionAllowed = ({
   const warning = getSignupActionWarning({
     action,
     authenticated,
+    registration,
     signup,
     signupGroup,
     t,
