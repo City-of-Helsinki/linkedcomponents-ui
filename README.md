@@ -4,7 +4,7 @@ UI for Linked Events. Linked Events is a collection of software components and A
 
 ## Prerequisites
 
-1. Node 22 (`nvm use`)
+1. Node 24 (`nvm use`)
 1. Pnpm - Make sure you have [pnpm](https://pnpm.io/installation) installed globally.
 
 ## Development with Docker
