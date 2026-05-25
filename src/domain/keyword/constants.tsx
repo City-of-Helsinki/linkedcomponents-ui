@@ -1,22 +1,23 @@
 import { IconCogwheel, IconCrossCircle, IconPen } from 'hds-react';
 
+import { getEnvValue } from '../../common/utils/envUtils';
 import { EMPTY_MULTI_LANGUAGE_OBJECT } from '../../constants';
 import { KeywordFormFields } from './types';
 
 export const REMOTE_PARTICIPATION_KEYWORD_ID =
-  import.meta.env.REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID || 'yso:p26626';
+  getEnvValue('REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID') || 'yso:p26626';
 
 // eslint-disable-next-line max-len
-export const REMOTE_PARTICIPATION_KEYWORD = `${
-  import.meta.env.REACT_APP_LINKED_EVENTS_URL
-}/keyword/${REMOTE_PARTICIPATION_KEYWORD_ID}/`;
+export const REMOTE_PARTICIPATION_KEYWORD = `${getEnvValue(
+  'REACT_APP_LINKED_EVENTS_URL'
+)}/keyword/${REMOTE_PARTICIPATION_KEYWORD_ID}/`;
 
 const CROSS_INSTITUTIONAL_STUDIES_KEYWORD_ID =
   'helsinki:secondary_schools_cross_institutional_studies';
 
-export const CROSS_INSTITUTIONAL_STUDIES_KEYWORD = `${
-  import.meta.env.REACT_APP_LINKED_EVENTS_URL
-}/keyword/${CROSS_INSTITUTIONAL_STUDIES_KEYWORD_ID}/`;
+export const CROSS_INSTITUTIONAL_STUDIES_KEYWORD = `${getEnvValue(
+  'REACT_APP_LINKED_EVENTS_URL'
+)}/keyword/${CROSS_INSTITUTIONAL_STUDIES_KEYWORD_ID}/`;
 
 export const TEST_KEYWORD_ID = 'keyword:1';
 

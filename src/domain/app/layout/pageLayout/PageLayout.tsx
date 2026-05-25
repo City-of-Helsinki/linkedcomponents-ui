@@ -3,6 +3,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { matchPath, PathPattern, useLocation } from 'react-router';
 
+import { getEnvValue } from '../../../../common/utils/envUtils';
 import { ROUTES, SUPPORTED_LANGUAGES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import Footer from '../../footer/Footer';
@@ -47,7 +48,7 @@ const PageLayout: React.FC<React.PropsWithChildren<unknown>> = ({
   const canonicalUrl = host + pathname;
 
   const MAINTENANCE_SHOW_NOTIFICATION =
-    import.meta.env.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION === 'true';
+    getEnvValue('REACT_APP_MAINTENANCE_SHOW_NOTIFICATION') === 'true';
 
   return (
     <ClassNames>

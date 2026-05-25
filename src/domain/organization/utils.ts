@@ -3,6 +3,7 @@ import { TFunction } from 'i18next';
 import omit from 'lodash/omit';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
+import { getEnvValue } from '../../common/utils/envUtils';
 import { DATE_FORMAT_API, ROUTES } from '../../constants';
 import { LINKED_EVENTS_SYSTEM_DATA_SOURCE } from '../../envVariables';
 import {
@@ -267,7 +268,7 @@ export const isExternalUserWithoutOrganization = ({
   user?: UserFieldsFragment;
 }): boolean => {
   const ENABLE_EXTERNAL_USER_EVENTS =
-    import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+    getEnvValue('REACT_APP_ENABLE_EXTERNAL_USER_EVENTS') === 'true';
 
   return ENABLE_EXTERNAL_USER_EVENTS && Boolean(user?.isExternal);
 };

@@ -1,4 +1,6 @@
+import { getEnvValue } from '../common/utils/envUtils';
+
 /**
  * Check is the code run in test environment
  */
-export default import.meta.env.NODE_ENV === 'test';
+export default getEnvValue('NODE_ENV') === 'test';

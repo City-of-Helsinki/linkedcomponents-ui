@@ -22,6 +22,7 @@ import { MouseEvent } from 'react';
 import * as Yup from 'yup';
 
 import { MenuItemOptionProps } from '../../common/components/menuDropdown/types';
+import { getEnvValue } from '../../common/utils/envUtils';
 import {
   EMPTY_MULTI_LANGUAGE_OBJECT,
   FORM_NAMES,
@@ -129,7 +130,7 @@ import {
 export const eventPathBuilder = ({
   args,
 }: PathBuilderProps<EventQueryVariables>): string => {
-  const USE_IMAGE_PROXY = import.meta.env.REACT_APP_USE_IMAGE_PROXY === 'true';
+  const USE_IMAGE_PROXY = getEnvValue('REACT_APP_USE_IMAGE_PROXY') === 'true';
   const { id, include } = args;
   const variableToKeyItems = [
     { key: 'include', value: include },
@@ -513,7 +514,7 @@ export const getEventBasePayload = (
   publicationStatus: PublicationStatus
 ): Omit<CreateEventMutationInput, 'endTime' | 'startTime'> => {
   const ENABLE_EXTERNAL_USER_EVENTS =
-    import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+    getEnvValue('REACT_APP_ENABLE_EXTERNAL_USER_EVENTS') === 'true';
 
   const {
     audience,
@@ -896,7 +897,7 @@ export const getEventInitialValues = (
   const offers = getEventOffers(event);
 
   const ENABLE_EXTERNAL_USER_EVENTS =
-    import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS === 'true';
+    getEnvValue('REACT_APP_ENABLE_EXTERNAL_USER_EVENTS') === 'true';
 
   const baseInitialValues: EventFormFields = {
     ...(ENABLE_EXTERNAL_USER_EVENTS

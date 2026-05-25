@@ -37,3 +37,6 @@ yarn.lock
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+public/env-config.js
+public/test-env-config.js

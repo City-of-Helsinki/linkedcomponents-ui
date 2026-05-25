@@ -3,6 +3,7 @@ import { User } from 'oidc-client-ts';
 import { useCallback } from 'react';
 import { useLocation } from 'react-router';
 
+import { getEnvValue } from '../../../common/utils/envUtils';
 import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
 import { OidcLoginState } from '../types';
@@ -31,7 +32,8 @@ const useAuth = (): UseAuthState => {
   const getApiToken = useCallback(
     () =>
       getValue(
-        getStoredApiTokens()[1]?.[import.meta.env.REACT_APP_OIDC_API_SCOPE],
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        getStoredApiTokens()[1]?.[getEnvValue('REACT_APP_OIDC_API_SCOPE')!],
         null
       ),
     [getStoredApiTokens]
