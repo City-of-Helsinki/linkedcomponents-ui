@@ -52,6 +52,23 @@ console.error = (msg: any, ...optionalParams: any[]) => {
   );
 };
 
+const originalStderrWrite = process.stderr.write.bind(process.stderr);
+
+process.stderr.write = ((chunk: any, ...args: any[]) => {
+  const text =
+    typeof chunk === 'string'
+      ? chunk
+      : Buffer.isBuffer(chunk)
+        ? chunk.toString('utf8')
+        : String(chunk);
+
+  if (text.includes('Could not parse CSS stylesheet')) {
+    return true;
+  }
+
+  return originalStderrWrite(chunk, ...args);
+}) as typeof process.stderr.write;
+
 (global as any).ResizeObserver = ResizeObserver;
 
 import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS = 'true';
