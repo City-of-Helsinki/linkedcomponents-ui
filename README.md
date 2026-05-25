@@ -5,7 +5,7 @@ UI for Linked Events. Linked Events is a collection of software components and A
 ## Prerequisites
 
 1. Node 22 (`nvm use`)
-1. Yarn
+1. Pnpm - Make sure you have [pnpm](https://pnpm.io/installation) installed globally.
 
 ## Development with Docker
 
@@ -49,11 +49,11 @@ Run `docker-compose up`, now the app should be running at `http://localhost:3000
 
 OR
 
-Run `yarn && yarn start`
+Run `pnpm i && pnpm start`
 
 ## Running development environment locally without docker
 
-Run `yarn && yarn start`
+Run `pnpm i && pnpm start`
 
 ## Configurable environment variables
 
@@ -135,11 +135,11 @@ For details see the CLI documentation https://docs.snyk.io/features/snyk-cli
 
 How to get started
 
-1. Authenticate by running `yarn snyk auth`
-2. Test your local project with `yarn snyk test`
-3. Get alerted for new vulnerabilities with `yarn snyk monitor`
+1. Authenticate by running `pnpm snyk auth`
+2. Test your local project with `pnpm snyk test`
+3. Get alerted for new vulnerabilities with `pnpm snyk monitor`
 
-You can see all available command with `yarn snyk`
+You can see all available command with `pnpm snyk`
 
 You can install Snyk extension for Visual Studio Code from https://marketplace.visualstudio.com/items?itemName=snyk-security.snyk-vulnerability-scanner
 
@@ -147,16 +147,16 @@ You can install Snyk extension for Visual Studio Code from https://marketplace.v
 
 In the project directory, you can run:
 
-### `yarn analyze`
+### `pnpm analyze`
 
 Source map explorer analyzes JavaScript bundles using the source maps. This helps you understand where code bloat is coming from.
 
 To analyze the bundle run the production build then run the analyze script.
 
-    yarn build
-    yarn analyze
+    pnpm build
+    pnpm analyze
 
-### `yarn start`
+### `pnpm start`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -165,59 +165,55 @@ The page will reload if you make edits.
 
 https://vitejs.dev/guide/cli.html#build
 
-### `yarn codegen`
+### `pnpm codegen`
 
 Codegen settings in <b>codegen.yml</b>
 
 - Generate static types for GraphQL queries by using the schema from the local schema
 - Generate react hooks for GraphQL queries from <b>query.ts</b> and <b>mutation.ts</b> files.
 
-### `yarn test`
+### `pnpm test`
 
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn test:coverage`
+### `pnpm test:coverage`
 
 Launches the test runner and generates coverage report
 
-### `yarn test:e2e:install`
+### `pnpm test:e2e:install`
 
 Install [Playwright](https://playwright.dev) for running browser tests
 
-### `yarn test:e2e`
+### `pnpm test:e2e`
 
 Running browser tests
 
-### `yarn build`
+### `pnpm build`
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 https://vitejs.dev/guide/cli.html#build
 
-### `yarn serve`
+### `pnpm serve`
 
 Locally preview the production build. Do not use this as a production server as it's not designed for it.
 
 https://vitejs.dev/guide/cli.html#vite-preview
 
-### `yarn compress`
-
-Gzip compress build folder. Run this after building app to be able serve files in compressed format.
-
-### `yarn generate-sitemap`
+### `pnpm generate-sitemap`
 
 Generates sitemap for the app. Sitemap is generated only if PUBLIC_URL is set and GENERATE_SITEMAP === true.
 
-### `yarn generate-robots`
+### `pnpm generate-robots`
 
 Generates production robots.txt for the app. File is generated only if PUBLIC_URL is set and GENERATE_ROBOTS === true. Link to sitemap is added if GENERATE_SITEMAP === true
 
-### `yarn lint`
+### `pnpm lint`
 
 Run linter to all the files in app
 
-### `yarn lint:fix`
+### `pnpm lint:fix`
 
 Run linter and fix all the linter errors
