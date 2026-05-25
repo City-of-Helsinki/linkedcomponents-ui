@@ -75,7 +75,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'yarn start',
+    command: 'pnpm start',
     url: E2E_TESTS_ENV_URL,
     reuseExistingServer: true,
   },
