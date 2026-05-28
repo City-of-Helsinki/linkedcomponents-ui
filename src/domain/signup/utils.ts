@@ -97,7 +97,7 @@ export const getCreateSignupsPayload = ({
   const priceGroupOptions = getSignupPriceGroupOptions(registration, 'fi');
   const createPayment = shouldCreatePayment(priceGroupOptions, signupsValues);
 
-  const signups: SignupInput[] = signupsValues.map((signupData, index) => ({
+  const signups: SignupInput[] = signupsValues.map((signupData) => ({
     ...getSignupPayload({ signupData }),
     ...(featureFlagUtils.isFeatureEnabled('WEB_STORE_INTEGRATION') &&
     createPayment

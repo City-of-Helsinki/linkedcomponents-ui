@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-named-as-default
 import gql from 'graphql-tag';
 
 export const QUERY_IMAGE = gql`

@@ -4,7 +4,7 @@ import keys from 'lodash/keys';
 import { ORDERED_LE_DATA_LANGUAGES } from '../constants';
 
 // Enumerate all the property names of an object recursively.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function* propertyNames(
   obj: Record<string, unknown>,
   skipFields: Set<string>

@@ -455,7 +455,6 @@ export const formatSingleDescription = ({
         .toLowerCase()
         .includes(descriptionAppendData.expectedText.toLowerCase())
     ) {
-      // eslint-disable-next-line max-len
       const specialDescription = `<p>${descriptionAppendData.text}</p>`;
       return specialDescription + formattedDescription;
     } else {

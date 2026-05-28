@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloError, ServerError } from '@apollo/client';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

@@ -78,9 +78,11 @@ const uploadImageSerializer = (
   const formData = new FormData();
   const { image, url, ...restFields } = data;
 
-  data.image
-    ? formData.append('image', image)
-    : formData.append('url', url || '');
+  if (data.image) {
+    formData.append('image', image);
+  } else {
+    formData.append('url', url || '');
+  }
 
   for (const [key, value] of Object.entries(restFields)) {
     if (typeof value === 'string') {

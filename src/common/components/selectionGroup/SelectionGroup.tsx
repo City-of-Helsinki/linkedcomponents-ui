@@ -21,7 +21,6 @@ const SelectionGroup: React.FC<SelectionGroupProps> = ({
   children,
   columns,
   errorText,
-  wrapperId,
   ...rest
 }) => {
   return (

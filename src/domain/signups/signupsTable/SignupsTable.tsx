@@ -17,7 +17,6 @@ import {
 } from '../../../generated/graphql';
 import useCommonListProps from '../../../hooks/useCommonListProps';
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
-// eslint-disable-next-line import/no-named-as-default
 import useInterval from '../../../hooks/useInterval';
 import useLocale from '../../../hooks/useLocale';
 import useQueryStringWithReturnPath from '../../../hooks/useQueryStringWithReturnPath';

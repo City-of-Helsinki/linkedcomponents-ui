@@ -79,15 +79,12 @@ const useSignupGroupActions = ({
   };
 
   const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
-    /* istanbul ignore next */
-    !isTestEnv && clearSignupGroupQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearSignupGroupsQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearSignupQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearSignupsQueries(apolloClient);
-
+    if (!isTestEnv) {
+      clearSignupGroupQueries(apolloClient);
+      clearSignupGroupsQueries(apolloClient);
+      clearSignupQueries(apolloClient);
+      clearSignupsQueries(apolloClient);
+    }
     savingFinished();
     // Call callback function if defined
     await (callbacks?.onSuccess && callbacks.onSuccess());

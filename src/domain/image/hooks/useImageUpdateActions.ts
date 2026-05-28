@@ -76,10 +76,10 @@ const useImageUpdateActions = ({
   };
 
   const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
-    /* istanbul ignore next */
-    !isTestEnv && clearImageQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearImagesQueries(apolloClient);
+    if (!isTestEnv) {
+      clearImageQueries(apolloClient);
+      clearImagesQueries(apolloClient);
+    }
 
     savingFinished();
     closeModal();

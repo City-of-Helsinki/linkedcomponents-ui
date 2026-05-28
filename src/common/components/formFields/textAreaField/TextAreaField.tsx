@@ -9,6 +9,7 @@ type Props = FieldProps<string> & TextAreaProps;
 
 const TextAreaField: React.FC<Props> = ({
   field: { name, value, ...field },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   form,
   helperText,
   maxLength,

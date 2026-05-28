@@ -27,6 +27,7 @@ type Props = {
 
 const RegistrationEventSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   form,
   texts,
   disabled,

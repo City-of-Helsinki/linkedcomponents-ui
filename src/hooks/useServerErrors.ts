@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ApolloError, ServerError } from '@apollo/client';
 import { TFunction } from 'i18next';
 import React from 'react';
@@ -39,7 +38,7 @@ const useServerErrors = (
       /* istanbul ignore else */
       if (result) {
         setServerErrorItems(parseServerErrorFn({ result, t }));
-        callbackFn && callbackFn();
+        callbackFn?.();
       }
     }
   };

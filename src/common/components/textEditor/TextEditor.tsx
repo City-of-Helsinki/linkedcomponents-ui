@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import 'ckeditor5/ckeditor5.css';
 import './ckeditor.scss';
 

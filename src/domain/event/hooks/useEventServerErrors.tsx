@@ -37,7 +37,7 @@ const useEventServerErrors = (): UseEventServerErrorsState => {
       /* istanbul ignore else */
       if (result) {
         setServerErrorItems(parseEventServerErrors({ eventType, result, t }));
-        callbackFn && callbackFn();
+        callbackFn?.();
       }
     }
   };

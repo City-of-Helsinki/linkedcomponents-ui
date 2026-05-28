@@ -10,7 +10,6 @@ import { RegistrationFieldsFragment } from '../../../generated/graphql';
 import useMountedState from '../../../hooks/useMountedState';
 import { getSeatsReservationData } from '../../seatsReservation/utils';
 import { SIGNUP_MODALS } from '../../signup/constants';
-// eslint-disable-next-line max-len
 import PersonsAddedToWaitingListModal from '../modals/personsAddedToWaitingListModal/PersonsAddedToWaitingListModal';
 
 export type SignupGroupFormContextProps = {

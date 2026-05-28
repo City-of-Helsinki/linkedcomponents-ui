@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import copyToClipboard from 'copy-to-clipboard';
 import isFuture from 'date-fns/isFuture';
 import isPast from 'date-fns/isPast';

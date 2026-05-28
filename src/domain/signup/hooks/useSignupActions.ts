@@ -88,10 +88,10 @@ const useSignupActions = ({
     id: string,
     callbacks?: MutationCallbacks
   ) => {
-    /* istanbul ignore next */
-    !isTestEnv && clearSignupQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearSignupsQueries(apolloClient);
+    if (!isTestEnv) {
+      clearSignupQueries(apolloClient);
+      clearSignupsQueries(apolloClient);
+    }
 
     savingFinished();
     closeModal();

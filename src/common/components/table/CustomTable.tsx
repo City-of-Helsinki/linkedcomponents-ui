@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 // import core base styles
 import 'hds-core';
 
@@ -17,10 +16,9 @@ type TableProps = React.ComponentPropsWithoutRef<'table'> & {
   noResultsText?: string;
   showNoResults?: boolean;
 } & TableWrapperProps &
-  Pick<
-    HdsTableProps,
-    'caption' | 'dense' | 'variant' | 'verticalLines' | 'zebra'
-  > & { dataTestId?: string };
+  Pick<HdsTableProps, 'caption' | 'dense' | 'variant' | 'zebra'> & {
+    dataTestId?: string;
+  };
 
 const CustomTable: FC<PropsWithChildren<TableProps>> = ({
   caption,
@@ -34,7 +32,6 @@ const CustomTable: FC<PropsWithChildren<TableProps>> = ({
   noResultsText,
   showNoResults,
   variant,
-  verticalLines = false,
   zebra = false,
   wrapperClassName,
   ...rest
@@ -51,7 +48,6 @@ const CustomTable: FC<PropsWithChildren<TableProps>> = ({
         dense={dense}
         id={id}
         zebra={zebra}
-        verticalLines={verticalLines}
         {...rest}
       >
         {caption && <caption className={styles.caption}>{caption}</caption>}

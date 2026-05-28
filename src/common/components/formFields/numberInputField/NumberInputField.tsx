@@ -10,6 +10,7 @@ type Props = FieldProps & NumberInputProps;
 
 const NumberInputField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   form,
   ...rest
 }) => {

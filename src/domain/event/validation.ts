@@ -371,7 +371,7 @@ const enrolmentSchemaFields = {
         EVENT_FIELDS.ENROLMENT_START_TIME_TIME,
         EVENT_FIELDS.ENROLMENT_END_TIME_TIME,
       ],
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       isAfterStartDateAndTime as any
     ),
   [EVENT_FIELDS.ENROLMENT_END_TIME_TIME]: Yup.string()
@@ -747,7 +747,7 @@ export const eventTimeSchema = Yup.object().shape({
         EVENT_TIME_FIELDS.START_TIME,
         EVENT_TIME_FIELDS.END_TIME,
       ],
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       isAfterStartDateAndTime
     ),
   [EVENT_TIME_FIELDS.END_TIME]: Yup.string()

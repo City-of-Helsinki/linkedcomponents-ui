@@ -11,6 +11,7 @@ type Props = Omit<TimeInputProps, 'hoursLabel' | 'minutesLabel'> &
 
 const TimeInputField: React.FC<Props> = ({
   field: { name, onBlur, value, ...field },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   form,
   hoursLabel,
   ...rest

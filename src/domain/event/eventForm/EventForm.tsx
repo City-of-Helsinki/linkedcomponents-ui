@@ -207,7 +207,7 @@ const EventForm: React.FC<EventFormProps> = ({
             callbackFn: () => setOpenModal(null),
           }),
         onSuccess: async () => {
-          refetch && (await refetch());
+          await refetch?.();
           window.scrollTo(0, 0);
           addNotification({
             label: t('event.form.notificationEventCancelled'),
@@ -251,7 +251,7 @@ const EventForm: React.FC<EventFormProps> = ({
             callbackFn: () => setOpenModal(null),
           }),
         onSuccess: async () => {
-          refetch && (await refetch());
+          await refetch?.();
           window.scrollTo(0, 0);
           addNotification({
             label: t('event.form.notificationEventPostponed'),
@@ -273,7 +273,7 @@ const EventForm: React.FC<EventFormProps> = ({
             callbackFn: () => setOpenModal(null),
           }),
         onSuccess: async () => {
-          refetch && (await refetch());
+          await refetch?.();
           window.scrollTo(0, 0);
           addNotification({
             label: t('event.form.notificationEventUpdated'),
@@ -610,10 +610,7 @@ const EventForm: React.FC<EventFormProps> = ({
                 <AudienceSection isEditingAllowed={isEditingAllowed} />
               </Section>
               <Section title={t('event.form.sections.additionalInfo')}>
-                <AdditionalInfoSection
-                  isEditingAllowed={isEditingAllowed}
-                  isExternalUser={isExternalUser}
-                />
+                <AdditionalInfoSection isEditingAllowed={isEditingAllowed} />
               </Section>
               {(isExternalUser ||
                 (isAdminUser &&

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-duplicates */
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 

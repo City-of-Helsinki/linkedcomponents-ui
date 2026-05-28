@@ -229,6 +229,7 @@ export const getPriceGroupInitialValues = (
 export const getPriceGroupPayload = (
   formValues: PriceGroupFormFields
 ): UpdatePriceGroupMutationInput => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { id, ...restFormValues } = formValues;
 
   return restFormValues;

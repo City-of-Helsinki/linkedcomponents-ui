@@ -16,7 +16,6 @@ const useMainCategories = (type: EVENT_TYPE): string[] => {
         .map((k) => k.atId),
       []
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topicsData]);
 
   return mainCategories;

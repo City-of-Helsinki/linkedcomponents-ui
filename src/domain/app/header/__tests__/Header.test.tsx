@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
 import { MockedResponse } from '@apollo/client/testing';
 import i18n from 'i18next';
 

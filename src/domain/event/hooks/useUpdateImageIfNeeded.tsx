@@ -41,10 +41,10 @@ const useUpdateImageIfNeeded = (): UpdateImageIfNeededState => {
   const [updateImage] = useUpdateImageMutation();
 
   const cleanAfterUpdate = () => {
-    /* istanbul ignore next */
-    !isTestEnv && clearImageQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearImagesQueries(apolloClient);
+    if (!isTestEnv) {
+      clearImageQueries(apolloClient);
+      clearImagesQueries(apolloClient);
+    }
   };
 
   const updateImageIfNeeded = async (

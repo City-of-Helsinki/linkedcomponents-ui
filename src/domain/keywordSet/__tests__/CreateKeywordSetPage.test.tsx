@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
 
 import {

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable @typescript-eslint/no-require-imports */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';

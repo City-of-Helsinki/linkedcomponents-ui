@@ -1,5 +1,4 @@
 import { Formik } from 'formik';
-import { ObjectSchema } from 'yup';
 
 import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
@@ -50,7 +49,6 @@ const defaultInitialValues: InitialValues = {
 
 const defaultProps: AdditionalInfoSectionProps = {
   isEditingAllowed: true,
-  isExternalUser: false,
 };
 
 afterEach(() => {
@@ -67,7 +65,7 @@ const renderComponent = (
   initialValues?: Partial<InitialValues>,
   props?: Partial<AdditionalInfoSectionProps>,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  schema: ObjectSchema<any> = publicEventSchema
+  schema: any = publicEventSchema
 ) => {
   const { rerender, ...rest } = render(
     <Formik
@@ -268,7 +266,7 @@ test('maximum attendee capacity should be required for external user', async () 
       [EVENT_FIELDS.MAXIMUM_ATTENDEE_CAPACITY]: 0,
       [EVENT_FIELDS.MINIMUM_ATTENDEE_CAPACITY]: 1,
     },
-    { isExternalUser: true },
+    undefined,
     schema
   );
 

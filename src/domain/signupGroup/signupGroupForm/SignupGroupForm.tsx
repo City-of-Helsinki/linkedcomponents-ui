@@ -265,7 +265,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
       updateSignupGroup(values, {
         onError: (error: any) => showServerErrors({ error }, 'signup'),
         onSuccess: async () => {
-          refetchSignupGroup && (await refetchSignupGroup());
+          await refetchSignupGroup?.();
           window.scrollTo(0, 0);
           addNotification({
             label: t('signup.form.notificationSignupGroupUpdated'),
@@ -277,7 +277,7 @@ const SignupGroupForm: React.FC<SignupGroupFormProps> = ({
       updateSignup(values, {
         onError: (error: any) => showServerErrors({ error }, 'signup'),
         onSuccess: async () => {
-          refetchSignup && (await refetchSignup());
+          await refetchSignup?.();
           window.scrollTo(0, 0);
           addNotification({
             label: t('signup.form.notificationSignupUpdated'),

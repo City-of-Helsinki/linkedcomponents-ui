@@ -19,7 +19,7 @@ expect.extend(matchers);
 window.scrollTo = vi.fn() as unknown as typeof window.scrollTo;
 
 const originalWarn = console.warn.bind(console.warn);
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 console.warn = (msg: any, ...optionalParams: any[]) => {
   const msgStr = msg.toString();
 

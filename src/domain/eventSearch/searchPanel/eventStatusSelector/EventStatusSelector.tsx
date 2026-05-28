@@ -12,7 +12,6 @@ export type EventStatusSelectorProps = { value: string[] } & Omit<
 >;
 
 const EventStatusSelector: React.FC<EventStatusSelectorProps> = ({
-  id,
   toggleButtonLabel,
   value,
   ...rest

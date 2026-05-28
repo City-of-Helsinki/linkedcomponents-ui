@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/member-ordering */
-/* eslint-disable no-underscore-dangle */
+
 import { TRACK_TYPES } from './constants';
 
 interface MatomoUserOptionsProps {

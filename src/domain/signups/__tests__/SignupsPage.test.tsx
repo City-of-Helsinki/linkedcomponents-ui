@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-len */
 import { MockedResponse } from '@apollo/client/testing';
 import { createMemoryHistory } from 'history';
 

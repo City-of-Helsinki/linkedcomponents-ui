@@ -92,15 +92,15 @@ const useOrganizationUpdateActions = ({
     id: string,
     callbacks?: MutationCallbacks<string>
   ) => {
-    /* istanbul ignore next */
-    !isTestEnv && clearOrganizationQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearOrganizationsQueries(apolloClient);
+    if (!isTestEnv) {
+      clearOrganizationQueries(apolloClient);
+      clearOrganizationsQueries(apolloClient);
+    }
 
     savingFinished();
     closeModal();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess(id));
+    await callbacks?.onSuccess?.(id);
   };
 
   const { handleError } = useHandleError<
