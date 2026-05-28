@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Formik } from 'formik';
 import * as formik from 'formik';
+import { Formik } from 'formik';
 
 import {
   configure,

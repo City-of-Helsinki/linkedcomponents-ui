@@ -57,7 +57,7 @@ const useDropdownKeyboardNavigation = ({
       // Handle keyboard events only if current element is focused
       if (!isComponentFocused()) return;
 
-      onKeyDown && onKeyDown(event);
+      onKeyDown?.(event);
       switch (event.key) {
         case 'ArrowUp':
           if (isInitialNavigation && typeof initialFocusedIndex === 'number') {

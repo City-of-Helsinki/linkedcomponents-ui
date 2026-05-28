@@ -74,8 +74,9 @@ const useRegistrationActions = ({
     callbacks?: MutationCallbacks,
     id?: string
   ) => {
-    /* istanbul ignore next */
-    !isTestEnv && clearRegistrationsQueries(apolloClient);
+    if (!isTestEnv) {
+      clearRegistrationsQueries(apolloClient);
+    }
 
     savingFinished();
     closeModal();

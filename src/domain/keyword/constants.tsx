@@ -7,7 +7,6 @@ import { KeywordFormFields } from './types';
 export const REMOTE_PARTICIPATION_KEYWORD_ID =
   getEnvValue('REACT_APP_REMOTE_PARTICIPATION_KEYWORD_ID') || 'yso:p26626';
 
-// eslint-disable-next-line max-len
 export const REMOTE_PARTICIPATION_KEYWORD = `${getEnvValue(
   'REACT_APP_LINKED_EVENTS_URL'
 )}/keyword/${REMOTE_PARTICIPATION_KEYWORD_ID}/`;

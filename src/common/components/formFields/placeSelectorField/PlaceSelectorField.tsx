@@ -9,6 +9,7 @@ type Props = SelectPropsWithValue<string | null> & FieldProps;
 
 const PlaceSelectorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   form,
   texts,
   disabled,

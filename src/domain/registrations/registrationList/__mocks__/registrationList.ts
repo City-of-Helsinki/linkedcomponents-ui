@@ -67,7 +67,7 @@ const page2EventNames = range(PAGE_SIZE + 1, 2 * PAGE_SIZE + 1).map(
 
 const page2Registrations = fakeRegistrations(
   REGISTRATIONS_PAGE_SIZE,
-  page2RegistrationNames.map((name, index) => ({
+  page2RegistrationNames.map((name) => ({
     event: fakeEvent({ name: fakeLocalisedObject(name) }),
     name,
   }))

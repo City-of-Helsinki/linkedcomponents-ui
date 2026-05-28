@@ -124,7 +124,11 @@ const EventTableRow: React.FC<Props> = ({ event, hideBorder, level = 0 }) => {
   const open = expandedEvents.includes(id);
 
   const toggle = () => {
-    open ? removeExpandedEvent(id) : addExpandedEvent(id);
+    if (open) {
+      removeExpandedEvent(id);
+    } else {
+      addExpandedEvent(id);
+    }
   };
 
   return (

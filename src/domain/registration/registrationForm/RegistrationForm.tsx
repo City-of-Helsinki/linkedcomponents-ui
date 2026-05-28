@@ -163,7 +163,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({
     await updateRegistration(values, {
       onError: (error) => showServerErrors({ error }),
       onSuccess: async () => {
-        refetch && (await refetch());
+        await refetch?.();
         window.scrollTo(0, 0);
         addNotification({
           label: t('registration.form.notificationRegistrationUpdated'),

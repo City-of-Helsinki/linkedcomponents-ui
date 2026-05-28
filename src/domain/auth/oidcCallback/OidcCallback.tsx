@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { LoginCallbackHandler, useApiTokensClient } from 'hds-react';
 import { User } from 'oidc-client-ts';
 import React from 'react';

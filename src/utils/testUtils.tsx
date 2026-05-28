@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-/* eslint-disable import/no-named-as-default */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/export */
 import { ApolloError } from '@apollo/client';

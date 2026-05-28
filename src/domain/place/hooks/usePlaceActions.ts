@@ -73,9 +73,10 @@ const usePlaceUpdateActions = ({
     callbacks?: MutationCallbacks
   ) => {
     /* istanbul ignore next */
-    !isTestEnv && clearPlaceQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearPlacesQueries(apolloClient);
+    if (!isTestEnv) {
+      clearPlaceQueries(apolloClient);
+      clearPlacesQueries(apolloClient);
+    }
 
     savingFinished();
     closeModal();

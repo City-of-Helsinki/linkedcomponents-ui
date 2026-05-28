@@ -9,6 +9,7 @@ type Props = FieldProps & DateInputProps;
 
 const DateInputField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   form,
   helperText,
   ...rest

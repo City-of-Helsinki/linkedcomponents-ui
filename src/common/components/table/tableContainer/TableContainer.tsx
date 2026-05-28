@@ -11,7 +11,6 @@ export type TableContainerProps = React.ComponentPropsWithoutRef<'table'> & {
   dense?: boolean;
   id: string;
   variant?: 'dark' | 'light';
-  verticalLines?: boolean;
   zebra?: boolean;
 };
 
@@ -23,7 +22,6 @@ export const TableContainer = ({
   dense,
   id,
   style,
-  verticalLines,
   variant = 'dark',
   zebra,
   ...rest

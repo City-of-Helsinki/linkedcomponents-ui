@@ -78,7 +78,7 @@ const AddImageForm: React.FC<AddImageFormProps> = ({
       validateOnMount={true}
       validationSchema={addImageSchema}
     >
-      {({ values: { selectedImage }, isValid, setFieldValue }) => {
+      {({ isValid, setFieldValue }) => {
         const handleImageFileChange = (
           file: File | null,
           crop: PixelCrop | null,

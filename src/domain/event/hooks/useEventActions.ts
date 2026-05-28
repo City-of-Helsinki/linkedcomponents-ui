@@ -136,8 +136,9 @@ const useEventActions = (
     callbacks?: MutationCallbacks;
     id?: string;
   }) => {
-    /* istanbul ignore next */
-    !isTestEnv && clearEventsQueries(apolloClient);
+    if (!isTestEnv) {
+      clearEventsQueries(apolloClient);
+    }
 
     savingFinished();
     closeModal();

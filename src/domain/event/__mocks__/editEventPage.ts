@@ -558,7 +558,7 @@ const mockedUpdateSubEventsResponse: MockedResponse = {
 };
 
 const createNewSubEventsVariables = {
-  input: newSubEventTimes.map(({ endTime, id, startTime }) => ({
+  input: newSubEventTimes.map(({ endTime, startTime }) => ({
     ...omit(basePayload, ['id']),
     endTime: endTime.toISOString(),
     startTime: startTime.toISOString(),

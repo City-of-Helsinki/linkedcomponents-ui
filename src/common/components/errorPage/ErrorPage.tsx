@@ -1,4 +1,3 @@
-import { ClassNames } from '@emotion/react';
 import { ButtonVariant, IconArrowLeft } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -38,38 +37,34 @@ const ErrorPage: React.FC<Props> = ({
   };
 
   return (
-    <ClassNames>
-      {({ css }) => (
-        <MainContent>
-          <ErrorTemplate
-            buttons={
-              <div className={styles.buttons}>
-                <Button
-                  fullWidth={true}
-                  iconStart={<IconArrowLeft aria-hidden />}
-                  onClick={goToHome}
-                  type="button"
-                  variant={ButtonVariant.Secondary}
-                >
-                  {homePageButtonText || t('common.goToHome')}
-                </Button>
-                <Button
-                  fullWidth={true}
-                  onClick={handleSignIn}
-                  type="button"
-                  variant={ButtonVariant.Primary}
-                >
-                  {t('common.signIn')}
-                </Button>
-              </div>
-            }
-            text={text}
-          >
-            <FeedbackButton />
-          </ErrorTemplate>
-        </MainContent>
-      )}
-    </ClassNames>
+    <MainContent>
+      <ErrorTemplate
+        buttons={
+          <div className={styles.buttons}>
+            <Button
+              fullWidth={true}
+              iconStart={<IconArrowLeft aria-hidden />}
+              onClick={goToHome}
+              type="button"
+              variant={ButtonVariant.Secondary}
+            >
+              {homePageButtonText || t('common.goToHome')}
+            </Button>
+            <Button
+              fullWidth={true}
+              onClick={handleSignIn}
+              type="button"
+              variant={ButtonVariant.Primary}
+            >
+              {t('common.signIn')}
+            </Button>
+          </div>
+        }
+        text={text}
+      >
+        <FeedbackButton />
+      </ErrorTemplate>
+    </MainContent>
   );
 };
 

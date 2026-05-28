@@ -1,4 +1,3 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { createContext } from 'react';
 
 export interface MatomoInstance {

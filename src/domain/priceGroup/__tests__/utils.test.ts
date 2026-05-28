@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable max-len */
 import i18n from 'i18next';
 

@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { IconCross } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

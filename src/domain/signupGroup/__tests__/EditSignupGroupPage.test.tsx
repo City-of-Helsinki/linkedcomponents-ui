@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MockedResponse } from '@apollo/client/testing';
 
 import { ROUTES } from '../../../constants';

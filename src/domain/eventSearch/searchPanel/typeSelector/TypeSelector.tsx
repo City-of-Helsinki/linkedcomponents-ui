@@ -12,7 +12,6 @@ export type TypeSelectorProps = { value: string[] } & Omit<
 >;
 
 const TypeSelector: React.FC<TypeSelectorProps> = ({
-  id,
   toggleButtonLabel,
   value,
   ...rest

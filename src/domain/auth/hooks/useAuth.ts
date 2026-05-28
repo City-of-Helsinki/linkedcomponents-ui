@@ -32,7 +32,6 @@ const useAuth = (): UseAuthState => {
   const getApiToken = useCallback(
     () =>
       getValue(
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         getStoredApiTokens()[1]?.[getEnvValue('REACT_APP_OIDC_API_SCOPE')!],
         null
       ),

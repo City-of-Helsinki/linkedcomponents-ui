@@ -21,11 +21,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   title,
 }) => {
   const buttonRef = React.useRef<HTMLButtonElement>(null);
-  const onFocusOrMouseOver = (
-    event:
-      | React.FocusEvent<HTMLButtonElement>
-      | React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const onFocusOrMouseOver = () => {
     /* istanbul ignore else */
     if (!disabled) {
       setFocusedIndex(index);

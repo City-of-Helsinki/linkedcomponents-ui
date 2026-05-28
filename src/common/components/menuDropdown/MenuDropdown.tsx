@@ -16,7 +16,6 @@ import useDropdownKeyboardNavigation from '../../../hooks/useDropdownKeyboardNav
 import useIdWithPrefix from '../../../hooks/useIdWithPrefix';
 import useIsComponentFocused from '../../../hooks/useIsComponentFocused';
 import Button from '../button/Button';
-// eslint-disable-next-line import/no-named-as-default
 import Menu, { MenuPosition } from './menu/Menu';
 import styles from './menuDropdown.module.scss';
 import { MenuItemOptionProps } from './types';
@@ -117,7 +116,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
     toggleButton.current?.focus();
   };
 
-  const handleItemClick = (event?: React.MouseEvent<HTMLElement>) => {
+  const handleItemClick = () => {
     if (closeOnItemClick) {
       ensureMenuIsClosed();
       setFocusToButton();

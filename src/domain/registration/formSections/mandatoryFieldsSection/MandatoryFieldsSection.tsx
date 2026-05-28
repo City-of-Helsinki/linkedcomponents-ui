@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { Field } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';

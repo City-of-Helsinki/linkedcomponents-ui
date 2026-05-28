@@ -49,7 +49,6 @@ const DateInput = React.forwardRef<HTMLInputElement, DateInputProps>(
         const newInputValue = formatDateStr(value);
         setInputValue(newInputValue);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);
 
     return (

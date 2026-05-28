@@ -10,7 +10,6 @@ export const parseKeywordServerErrors = ({
   result,
   t,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   result: LEServerError;
   t: TFunction;
 }): ServerErrorItem[] => {

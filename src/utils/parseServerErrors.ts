@@ -8,7 +8,6 @@ export const parseServerErrors = ({
   result,
   t,
 }: {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parseServerError: (options: {
     error: LEServerError;
     key: string;

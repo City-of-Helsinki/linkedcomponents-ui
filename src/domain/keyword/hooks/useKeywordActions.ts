@@ -73,10 +73,10 @@ const useKeywordActions = ({
 
   /* istanbul ignore next */
   const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
-    /* istanbul ignore next */
-    !isTestEnv && clearKeywordQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearKeywordsQueries(apolloClient);
+    if (!isTestEnv) {
+      clearKeywordQueries(apolloClient);
+      clearKeywordsQueries(apolloClient);
+    }
 
     savingFinished();
     closeModal();

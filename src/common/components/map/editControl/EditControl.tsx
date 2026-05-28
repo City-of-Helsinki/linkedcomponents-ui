@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'leaflet-draw';
 import 'leaflet-draw/dist/leaflet.draw.css';
 
@@ -76,7 +75,7 @@ export function createEditControlComponent(
       const container = context.layerContainer || context.map;
       container.addLayer(e.layer);
 
-      onCreated && onCreated(e);
+      onCreated?.(e);
     };
 
     map.on(leaflet.Draw.Event.CREATED, onDrawCreated);
@@ -92,7 +91,9 @@ export function createEditControlComponent(
 
         const fn = props[handler as keyof typeof props];
 
-        typeof fn === 'function' && fn(evt);
+        if (typeof fn === 'function') {
+          fn(evt);
+        }
       });
     }
 

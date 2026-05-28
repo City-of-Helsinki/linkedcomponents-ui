@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-/* eslint-disable no-console */
 
 import { MockedResponse } from '@apollo/client/testing';
 import { FormikState } from 'formik';

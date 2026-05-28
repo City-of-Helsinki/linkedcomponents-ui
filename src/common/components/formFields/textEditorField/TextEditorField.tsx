@@ -8,6 +8,7 @@ type Props = { maxLength?: number } & FieldProps<string> & TextEditorProps;
 
 const TextEditorField: React.FC<Props> = ({
   field: { name, onBlur, onChange, value, ...field },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   form,
   helperText,
   maxLength,

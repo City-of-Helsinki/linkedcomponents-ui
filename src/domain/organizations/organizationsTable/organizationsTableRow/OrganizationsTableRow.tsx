@@ -138,7 +138,11 @@ const OrganizationsTableRow: React.FC<OrganizationsTableRowProps> = ({
   const open = expandedOrganizations.includes(id);
 
   const toggle = () => {
-    open ? removeExpandedOrganization(id) : addExpandedOrganization(id);
+    if (open) {
+      removeExpandedOrganization(id);
+    } else {
+      addExpandedOrganization(id);
+    }
   };
 
   React.useEffect(() => {

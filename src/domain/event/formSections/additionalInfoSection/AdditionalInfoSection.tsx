@@ -26,12 +26,10 @@ import EnrolmentTimeInstructions from './enrolmentTimeInstructions/EnrolmentTime
 
 export interface AdditionalInfoSectionProps {
   isEditingAllowed: boolean;
-  isExternalUser: boolean;
 }
 
 const AdditionalInfoSection: React.FC<AdditionalInfoSectionProps> = ({
   isEditingAllowed,
-  isExternalUser,
 }) => {
   const { t } = useTranslation();
   const { user } = useUser();

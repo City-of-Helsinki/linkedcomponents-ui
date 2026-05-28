@@ -96,7 +96,6 @@ test('should change form section language', async () => {
   await findInstructionsSvInput();
 });
 
-// eslint-disable-next-line max-len
 test('should change selected language when current selected language is removed from info languages', async () => {
   const { rerender } = await renderComponent();
 

@@ -8,7 +8,6 @@ import en from './en.json';
 import fi from './fi.json';
 import sv from './sv.json';
 
-// eslint-disable-next-line import/no-named-as-default-member
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)

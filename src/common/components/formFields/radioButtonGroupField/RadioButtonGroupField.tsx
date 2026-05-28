@@ -17,7 +17,9 @@ type Props = {
 const RadioButtonGroupField: React.FC<Props> = ({
   columns = 2,
   field: { name, value, ...field },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   label,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   form,
   options,
   ...rest

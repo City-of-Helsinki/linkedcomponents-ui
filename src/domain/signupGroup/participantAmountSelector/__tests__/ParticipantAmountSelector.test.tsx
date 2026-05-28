@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable @typescript-eslint/no-require-imports */
 import { MockedResponse } from '@apollo/client/testing';
 import { Formik } from 'formik';
 import React from 'react';

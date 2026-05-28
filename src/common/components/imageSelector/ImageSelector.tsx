@@ -147,7 +147,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   };
 
   const handleDoubleClick = (image: Image) => {
-    onDoubleClick && onDoubleClick(image);
+    onDoubleClick?.(image);
   };
 
   const imagesLeft = imagesData
@@ -156,7 +156,7 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
 
   const handleDocumentFocusin = React.useCallback(() => {
     if (!isComponentFocused()) {
-      onBlur && onBlur(value);
+      onBlur?.(value);
     }
   }, [isComponentFocused, onBlur, value]);
 

@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable import/no-named-as-default-member */
+
 import { waitFor } from '@testing-library/react';
 import i18n from 'i18next';
 
@@ -155,7 +154,6 @@ describe('getRegistrationFields function', () => {
       waitingListCapacity,
     } = getRegistrationFields(
       fakeRegistration({
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         atId: null as any,
         createdBy: null,
         currentAttendeeCount: null,

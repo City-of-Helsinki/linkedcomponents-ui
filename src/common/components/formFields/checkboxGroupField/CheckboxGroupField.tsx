@@ -30,6 +30,7 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
   disabled,
   disabledOptions,
   field: { name, onBlur, value, ...field },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   form,
   errorName,
   min = 0,

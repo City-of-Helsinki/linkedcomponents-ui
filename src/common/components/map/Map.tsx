@@ -65,7 +65,9 @@ const Map: React.FC<Props> = ({ disabled, onChange, position }) => {
   };
 
   React.useEffect(() => {
-    !isTestEnv && localizeMap(t);
+    if (!isTestEnv) {
+      localizeMap(t);
+    }
   }, [locale, t]);
 
   return (

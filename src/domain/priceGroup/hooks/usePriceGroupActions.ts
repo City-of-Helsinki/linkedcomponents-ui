@@ -73,15 +73,15 @@ const usePriceGroupActions = ({
     id: number,
     callbacks?: MutationCallbacks<number>
   ) => {
-    /* istanbul ignore next */
-    !isTestEnv && clearPriceGroupQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearPriceGroupsQueries(apolloClient);
+    if (!isTestEnv) {
+      clearPriceGroupQueries(apolloClient);
+      clearPriceGroupsQueries(apolloClient);
+    }
 
     savingFinished();
     closeModal();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess(id));
+    await callbacks?.onSuccess?.(id);
   };
 
   const { handleError } = useHandleError<

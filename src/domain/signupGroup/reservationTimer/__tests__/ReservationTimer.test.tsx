@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 import { ApolloError } from '@apollo/client';
 import { MockedResponse } from '@apollo/client/testing';
 import { act } from '@testing-library/react';

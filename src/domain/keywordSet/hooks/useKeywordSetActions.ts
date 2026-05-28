@@ -75,15 +75,15 @@ const useKeywordSetActions = ({
 
   /* istanbul ignore next */
   const cleanAfterUpdate = async (callbacks?: MutationCallbacks) => {
-    /* istanbul ignore next */
-    !isTestEnv && clearKeywordSetQueries(apolloClient);
-    /* istanbul ignore next */
-    !isTestEnv && clearKeywordSetsQueries(apolloClient);
+    if (!isTestEnv) {
+      clearKeywordSetQueries(apolloClient);
+      clearKeywordSetsQueries(apolloClient);
+    }
 
     savingFinished();
     closeModal();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess());
+    await callbacks?.onSuccess?.();
   };
 
   const { handleError } = useHandleError<

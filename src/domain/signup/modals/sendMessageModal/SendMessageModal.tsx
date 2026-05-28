@@ -59,7 +59,13 @@ export const scrollToFirstError = async (
     /* istanbul ignore else */
     if (field) {
       scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
-      isTextEditor(path) ? field.click() : field.focus();
+      if (isTextEditor(path)) {
+        // Text editor fields need to be clicked to show the error message element in the DOM,
+        // which is then focused by scrollTo function
+        field.click();
+      } else {
+        field.focus();
+      }
       break;
     }
   }

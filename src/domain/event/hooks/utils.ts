@@ -54,7 +54,7 @@ export const parseEventServerErrors = ({
   t,
 }: {
   eventType: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   result: LEServerError;
   t: TFunction;
 }): ServerErrorItem[] => {

@@ -47,7 +47,7 @@ const attendeeNamesPage2 = range(1, TEST_PAGE_SIZE + 1).map((n) => ({
 }));
 const attendeesPage2 = fakeSignups(
   attendeeNamesPage2.length,
-  attendeeNamesPage2.map(({ firstName, lastName }, index) => ({
+  attendeeNamesPage2.map(({ firstName, lastName }) => ({
     attendeeStatus: AttendeeStatus.Attending,
     firstName,
     lastName,

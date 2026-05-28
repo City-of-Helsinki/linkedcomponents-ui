@@ -1,5 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
-/* eslint-disable max-len */
 import { render, within } from '@testing-library/react';
 import { webcrypto } from 'crypto';
 import i18n from 'i18next';

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-/* eslint-disable import/no-named-as-default-member */
+
 import i18n from 'i18next';
 
 import { Language } from '../../../types';
