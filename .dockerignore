@@ -9,8 +9,7 @@
 !scripts
 !src
 !package.json
-!.eslintignore
-!.eslintrc.json
+!eslint.config.mjs
 !.prettierrc.json
 !tsconfig.json
 !vite.config.ts
