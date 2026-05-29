@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.26.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.7...linkedcomponents-ui-v1.26.0) (2026-05-29)
+
+
+### Features
+
+* Add runtime env config support ([a632a5f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/a632a5f6c9b81bdf478cca04d3ec93b86fcf1e57))
+* Migrate workspace from yarn to pnpm ([b54b4fa](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/b54b4faee13723af664548b51b608b9b39d07a83))
+
+
+### Bug Fixes
+
+* Add es2020 environment to ESLint configuration ([90b5fb3](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/90b5fb311082ee609044067180976fec50d94d4e))
+* **tests:** Suppress jsdom CSS parse noise in Vitest output ([2c5eeed](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/2c5eeedbb676da115056cb36a033eeae503811d2))
+* Update sonar coverage exclusions ([165bae0](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/165bae0ab73bc9ca832a1d2614407675f92b9d93))
+
+
+### Dependencies
+
+* **eslint:** Upgrade to ESLint 9 and migrate config ([4398c54](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/4398c54707a2a563c7f9a29878da0572642c01ba))
+
 ## [1.25.7](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.6...linkedcomponents-ui-v1.25.7) (2026-05-25)
 
 
