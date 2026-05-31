@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.26.0...linkedcomponents-ui-v1.26.1) (2026-05-31)
+
+
+### Bug Fixes
+
+* Remove unnecessary ESLint configuration files from Dockerfile ([078b2e8](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/078b2e84eff11869dd726faadbcf3854074054db))
+
 ## [1.26.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.25.7...linkedcomponents-ui-v1.26.0) (2026-05-29)
 
 
