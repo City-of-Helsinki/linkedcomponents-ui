@@ -111,7 +111,7 @@
     "@graphql-codegen/typescript": "^4.1.6",
     "@graphql-codegen/typescript-operations": "^4.6.1",
     "@graphql-codegen/typescript-react-apollo": "^4.4.2",
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.60.0",
     "@vitest/coverage-istanbul": "^4.1.4",
     "@eslint/js": "^9.39.1",
     "@typescript-eslint/eslint-plugin": "8.59.3",
