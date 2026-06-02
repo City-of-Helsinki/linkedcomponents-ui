@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.26.1...linkedcomponents-ui-v1.26.2) (2026-06-02)
+
+
+### Dependencies
+
+* Upgrade Playwright to 1.60.0 for Node 24 install fix ([923fd1d](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/923fd1de493b25abbf13f24d13c938ad943737ca))
+
 ## [1.26.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.26.0...linkedcomponents-ui-v1.26.1) (2026-05-31)
 
 
