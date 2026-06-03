@@ -1,9 +1,9 @@
 # Don't allow dependencies to be used before they have been released for at least 1 week
 minimumReleaseAge: 10080
 
-# Exclude js-cookie 3.0.6 so we can apply the fix for the prototype hijack/cookie injection advisory immediately.
+# Use minimumReleaseAgeExclude temporarily for emergency security vulnerability fixes
 minimumReleaseAgeExclude:
-  - js-cookie@3.0.6
+  - hasown@2.0.4
 
 # Don't warn about ignored build scripts
 ignoredBuiltDependencies: []
