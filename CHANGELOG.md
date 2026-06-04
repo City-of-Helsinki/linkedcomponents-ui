@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.26.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.26.2...linkedcomponents-ui-v1.26.3) (2026-06-04)
+
+
+### Dependencies
+
+* Bump axios from 1.15.2 to 1.16.0 ([ef4d0e7](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/ef4d0e7828532d1f9b233f6410feb9bbc082114b))
+* Bump react-router from 7.13.0 to 7.15.0 ([0f31c2c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/0f31c2c1f4722759ac9b24dea116ef406230787c))
+* MinimumReleaseAgeExclude hasown@2.0.4 ([5893685](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5893685396d7ddbc48cd25f8310c5adfe8a089a1))
+
 ## [1.26.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.26.1...linkedcomponents-ui-v1.26.2) (2026-06-02)
 
 
