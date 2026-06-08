@@ -52,7 +52,6 @@
     "i18next-browser-languagedetector": "^7.2.0",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
-    "object-keys-normalizer": "^1.0.1",
     "pretty": "^2.0.0",
     "qs": "^6.15.2",
     "react": "^18.3.1",
