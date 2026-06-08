@@ -131,24 +131,6 @@ specification, and line length is limited to 72 characters.
 
 [`commitlint`](https://github.com/conventional-changelog/commitlint) checks new commit messages for the correct format.
 
-## Snyk
-
-Snyk CLI scans and monitors your projects for security vulnerabilities and license issues.
-
-For more information visit the Snyk website https://snyk.io
-
-For details see the CLI documentation https://docs.snyk.io/features/snyk-cli
-
-How to get started
-
-1. Authenticate by running `pnpm snyk auth`
-2. Test your local project with `pnpm snyk test`
-3. Get alerted for new vulnerabilities with `pnpm snyk monitor`
-
-You can see all available command with `pnpm snyk`
-
-You can install Snyk extension for Visual Studio Code from https://marketplace.visualstudio.com/items?itemName=snyk-security.snyk-vulnerability-scanner
-
 ## Available Scripts
 
 In the project directory, you can run:
