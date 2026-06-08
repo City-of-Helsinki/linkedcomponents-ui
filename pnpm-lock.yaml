@@ -24,60 +24,9 @@ importers:
       '@emotion/react':
         specifier: ^11.11.4
         version: 11.11.4(@types/react@18.3.24)(react@18.3.1)
-      '@faker-js/faker':
-        specifier: ^8.4.1
-        version: 8.4.1
-      '@nabla/vite-plugin-eslint':
-        specifier: ^2.0.5
-        version: 2.0.5(eslint@9.39.4(jiti@2.6.1))(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))
       '@sentry/react':
         specifier: ^9.15.0
         version: 9.15.0(react@18.3.1)
-      '@testing-library/dom':
-        specifier: ^10.4.1
-        version: 10.4.1
-      '@testing-library/jest-dom':
-        specifier: ^6.4.2
-        version: 6.6.3
-      '@testing-library/react':
-        specifier: 16.2.0
-        version: 16.2.0(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.24))(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@testing-library/user-event':
-        specifier: 14.6.1
-        version: 14.6.1(@testing-library/dom@10.4.1)
-      '@types/dompurify':
-        specifier: ^3.0.5
-        version: 3.0.5
-      '@types/leaflet':
-        specifier: 1.9.8
-        version: 1.9.8
-      '@types/leaflet-draw':
-        specifier: ^1.0.11
-        version: 1.0.11
-      '@types/lodash':
-        specifier: ^4.17.0
-        version: 4.17.0
-      '@types/node':
-        specifier: ^24.12.4
-        version: 24.12.4
-      '@types/react':
-        specifier: ^18.3.0
-        version: 18.3.24
-      '@types/react-dom':
-        specifier: ^18.3.0
-        version: 18.3.7(@types/react@18.3.24)
-      '@types/react-helmet':
-        specifier: ^6.1.11
-        version: 6.1.11
-      '@types/react-modal':
-        specifier: ^3.16.3
-        version: 3.16.3
-      '@types/react-scroll':
-        specifier: ^1.8.10
-        version: 1.8.10
-      '@vitejs/plugin-react-swc':
-        specifier: ^4.3.0
-        version: 4.3.0(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))
       apollo-link-rest:
         specifier: ^0.9.0
         version: 0.9.0(@apollo/client@3.13.5(@types/react@18.3.24)(graphql-ws@6.0.8(graphql@16.8.1)(ws@8.20.1))(graphql@16.8.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(graphql@16.8.1)(qs@6.15.2)
@@ -102,24 +51,6 @@ importers:
       dompurify:
         specifier: ^3.4.0
         version: 3.4.0
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.5
-      eslint-config-prettier:
-        specifier: ^10.1.8
-        version: 10.1.8(eslint@9.39.4(jiti@2.6.1))
-      eslint-import-resolver-typescript:
-        specifier: ^4.4.4
-        version: 4.4.4(eslint-plugin-import@2.32.0)(eslint@9.39.4(jiti@2.6.1))
-      eslint-plugin-prettier:
-        specifier: ^5.5.4
-        version: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1))(prettier@3.2.5)
-      eslint-plugin-simple-import-sort:
-        specifier: ^13.0.0
-        version: 13.0.0(eslint@9.39.4(jiti@2.6.1))
-      eslint-plugin-vitest-globals:
-        specifier: ^1.6.1
-        version: 1.6.1
       formik:
         specifier: 2.4.5
         version: 2.4.5(react@18.3.1)
@@ -183,27 +114,12 @@ importers:
       sass:
         specifier: ^1.72.0
         version: 1.74.1
-      typescript:
-        specifier: ~5.4.3
-        version: 5.4.3
       use-debounce:
         specifier: ^10.0.0
         version: 10.0.0(react@18.3.1)
       use-deep-compare-effect:
         specifier: ^1.8.1
         version: 1.8.1(react@18.3.1)
-      vite:
-        specifier: ^8.0.9
-        version: 8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3)
-      vite-plugin-svgr:
-        specifier: ^5.2.0
-        version: 5.2.0(typescript@5.4.3)(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))
-      vitest:
-        specifier: ^4.1.4
-        version: 4.1.4(@types/node@24.12.4)(@vitest/coverage-istanbul@4.1.4)(jsdom@26.1.0)(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))
-      vitest-axe:
-        specifier: ^0.1.0
-        version: 0.1.0(vitest@4.1.4)
       waait:
         specifier: ^1.0.5
         version: 1.0.5
@@ -223,6 +139,9 @@ importers:
       '@eslint/js':
         specifier: ^9.39.1
         version: 9.39.4
+      '@faker-js/faker':
+        specifier: ^8.4.1
+        version: 8.4.1
       '@ffmpeg-installer/ffmpeg':
         specifier: ^1.1.0
         version: 1.1.0
@@ -238,30 +157,96 @@ importers:
       '@graphql-codegen/typescript-react-apollo':
         specifier: ^4.4.2
         version: 4.4.2(graphql@16.8.1)
+      '@nabla/vite-plugin-eslint':
+        specifier: ^2.0.5
+        version: 2.0.5(eslint@9.39.4(jiti@2.6.1))(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))
       '@playwright/test':
         specifier: ^1.60.0
         version: 1.60.0
+      '@testing-library/dom':
+        specifier: ^10.4.1
+        version: 10.4.1
+      '@testing-library/jest-dom':
+        specifier: ^6.4.2
+        version: 6.6.3
+      '@testing-library/react':
+        specifier: 16.2.0
+        version: 16.2.0(@testing-library/dom@10.4.1)(@types/react-dom@18.3.7(@types/react@18.3.24))(@types/react@18.3.24)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@testing-library/user-event':
+        specifier: 14.6.1
+        version: 14.6.1(@testing-library/dom@10.4.1)
+      '@types/dompurify':
+        specifier: ^3.0.5
+        version: 3.0.5
+      '@types/leaflet':
+        specifier: 1.9.8
+        version: 1.9.8
+      '@types/leaflet-draw':
+        specifier: ^1.0.11
+        version: 1.0.11
+      '@types/lodash':
+        specifier: ^4.17.0
+        version: 4.17.0
+      '@types/node':
+        specifier: ^24.12.4
+        version: 24.12.4
+      '@types/react':
+        specifier: ^18.3.0
+        version: 18.3.24
+      '@types/react-dom':
+        specifier: ^18.3.0
+        version: 18.3.7(@types/react@18.3.24)
+      '@types/react-helmet':
+        specifier: ^6.1.11
+        version: 6.1.11
+      '@types/react-modal':
+        specifier: ^3.16.3
+        version: 3.16.3
+      '@types/react-scroll':
+        specifier: ^1.8.10
+        version: 1.8.10
       '@typescript-eslint/eslint-plugin':
         specifier: 8.59.3
         version: 8.59.3(@typescript-eslint/parser@8.59.3(eslint@9.39.4(jiti@2.6.1))(typescript@5.4.3))(eslint@9.39.4(jiti@2.6.1))(typescript@5.4.3)
       '@typescript-eslint/parser':
         specifier: 8.59.3
         version: 8.59.3(eslint@9.39.4(jiti@2.6.1))(typescript@5.4.3)
+      '@vitejs/plugin-react-swc':
+        specifier: ^4.3.0
+        version: 4.3.0(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))
       '@vitest/coverage-istanbul':
         specifier: ^4.1.4
         version: 4.1.4(vitest@4.1.4)
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       eslint:
         specifier: ^9.39.1
         version: 9.39.4(jiti@2.6.1)
+      eslint-config-prettier:
+        specifier: ^10.1.8
+        version: 10.1.8(eslint@9.39.4(jiti@2.6.1))
+      eslint-import-resolver-typescript:
+        specifier: ^4.4.4
+        version: 4.4.4(eslint-plugin-import@2.32.0)(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-import:
         specifier: ^2.32.0
         version: 2.32.0(@typescript-eslint/parser@8.59.3(eslint@9.39.4(jiti@2.6.1))(typescript@5.4.3))(eslint-import-resolver-typescript@4.4.4)(eslint@9.39.4(jiti@2.6.1))
+      eslint-plugin-prettier:
+        specifier: ^5.5.4
+        version: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1))(prettier@3.2.5)
       eslint-plugin-react:
         specifier: ^7.37.5
         version: 7.37.5(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-react-hooks:
         specifier: ^5.2.0
         version: 5.2.0(eslint@9.39.4(jiti@2.6.1))
+      eslint-plugin-simple-import-sort:
+        specifier: ^13.0.0
+        version: 13.0.0(eslint@9.39.4(jiti@2.6.1))
+      eslint-plugin-vitest-globals:
+        specifier: ^1.6.1
+        version: 1.6.1
       fake-indexeddb:
         specifier: ^6.0.0
         version: 6.0.0
@@ -286,9 +271,24 @@ importers:
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
+      typescript:
+        specifier: ~5.4.3
+        version: 5.4.3
+      vite:
+        specifier: ^8.0.9
+        version: 8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3)
       vite-bundle-visualizer:
         specifier: ^1.2.1
         version: 1.2.1
+      vite-plugin-svgr:
+        specifier: ^5.2.0
+        version: 5.2.0(typescript@5.4.3)(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))
+      vitest:
+        specifier: ^4.1.4
+        version: 4.1.4(@types/node@24.12.4)(@vitest/coverage-istanbul@4.1.4)(jsdom@26.1.0)(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))
+      vitest-axe:
+        specifier: ^0.1.0
+        version: 0.1.0(vitest@4.1.4)
 
 packages:
 
@@ -5873,6 +5873,8 @@ snapshots:
       '@ckeditor/ckeditor5-core': 47.6.1
       '@ckeditor/ckeditor5-utils': 47.6.1
       ckeditor5: 47.6.1
+    transitivePeerDependencies:
+      - supports-color
 
   '@ckeditor/ckeditor5-code-block@47.6.1':
     dependencies:
@@ -5974,12 +5976,16 @@ snapshots:
     dependencies:
       '@ckeditor/ckeditor5-utils': 47.6.1
       es-toolkit: 1.39.5
+    transitivePeerDependencies:
+      - supports-color
 
   '@ckeditor/ckeditor5-enter@47.6.1':
     dependencies:
       '@ckeditor/ckeditor5-core': 47.6.1
       '@ckeditor/ckeditor5-engine': 47.6.1
       '@ckeditor/ckeditor5-utils': 47.6.1
+    transitivePeerDependencies:
+      - supports-color
 
   '@ckeditor/ckeditor5-essentials@47.6.1':
     dependencies:
@@ -6372,6 +6378,8 @@ snapshots:
       '@ckeditor/ckeditor5-icons': 47.6.1
       '@ckeditor/ckeditor5-ui': 47.6.1
       '@ckeditor/ckeditor5-utils': 47.6.1
+    transitivePeerDependencies:
+      - supports-color
 
   '@ckeditor/ckeditor5-upload@47.6.1':
     dependencies:
@@ -6382,6 +6390,8 @@ snapshots:
     dependencies:
       '@ckeditor/ckeditor5-ui': 47.6.1
       es-toolkit: 1.39.5
+    transitivePeerDependencies:
+      - supports-color
 
   '@ckeditor/ckeditor5-watchdog@47.6.1':
     dependencies:
