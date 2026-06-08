@@ -123,7 +123,6 @@
     "jsdom": "^26.1.0",
     "prettier": "^3.2.5",
     "shadow-dom-testing-library": "^1.11.3",
-    "snyk": "^1.1304.0",
     "tsx": "^4.21.0",
     "vite-bundle-visualizer": "^1.2.1"
   }

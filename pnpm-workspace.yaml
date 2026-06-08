@@ -25,5 +25,4 @@ allowBuilds:
   '@parcel/watcher': true
   '@swc/core': true
   esbuild: true
-  snyk: true
   unrs-resolver: true
