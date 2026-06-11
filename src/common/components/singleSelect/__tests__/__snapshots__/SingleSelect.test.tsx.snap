@@ -6,22 +6,22 @@ exports[`renders the component 1`] = `
     class="selectLoadingSpinner"
   >
     <div
-      class="select Select-module_root__-GjU5"
+      class="select Select-module_root__7RUyk"
       id="hds-select-1"
       tabindex="-1"
     >
       <label
-        class="FieldLabel-module_label__1zrXK "
+        class="FieldLabel-module_label__EyKsf "
         for="hds-select-1-main-button"
         id="hds-select-1-label"
       >
         Select label
       </label>
       <div
-        class="Select-module_selectAndListContainer__vSJEv"
+        class="Select-module_selectAndListContainer__0LfdG"
       >
         <div
-          class="Select-module_selectedOptionsContainer__16tlC"
+          class="Select-module_selectedOptionsContainer__7dBXl"
         >
           <button
             aria-controls="hds-select-1-list"
@@ -29,29 +29,29 @@ exports[`renders the component 1`] = `
             aria-expanded="false"
             aria-haspopup="listbox"
             aria-label="Select label. Valitse yksi. 0 valittua vaihtoehtoa."
-            class="Select-module_dropdownButton__2-_Ec Select-module_selectedOptions__VmvqD Select-module_placeholder__nKgDE Select-module_singleSelect__3hwAT"
+            class="Select-module_dropdownButton__JCbQQ Select-module_selectedOptions__ZV-qI Select-module_placeholder__u-WLf Select-module_singleSelect__y5Oup"
             id="hds-select-1-main-button"
             role="combobox"
             type="button"
           >
             <div
               aria-hidden="true"
-              class="Select-module_labels__2FlKK"
+              class="Select-module_labels__hujKB"
             >
               <span
-                class="Select-module_dropdownButtonOption__3Tfsz"
+                class="Select-module_dropdownButtonOption__QWCG-"
                 data-testid="placeholder"
               >
                 Valitse yksi
               </span>
             </div>
             <div
-              class="Select-module_arrowAndSpaceForClearButton__3Fufw Select-module_icon__3AwlD"
+              class="Select-module_arrowAndSpaceForClearButton__x2ij8 Select-module_icon__WBy3J"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-down"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik Select-module_angleIcon__3A9li"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo Select-module_angleIcon__tPtcz"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -66,28 +66,17 @@ exports[`renders the component 1`] = `
             </div>
           </button>
         </div>
-        <div
-          aria-hidden="true"
-          class="Select-module_listAndInputContainer__2gZ6q"
-          id="hds-select-1-sl-container"
-        >
+        <div>
           <div
-            class="Select-module_listContainer__2PfQA"
-            style="max-height: 286px;"
-          >
-            <ul
-              aria-multiselectable="false"
-              class="Select-module_list__2iKlZ"
-              id="hds-select-1-list"
-              role="listbox"
-              tabindex="-1"
-            />
-          </div>
+            aria-hidden="true"
+            class="Select-module_listAndInputContainer__9hv5c"
+            id="hds-select-1-sl-container"
+          />
         </div>
       </div>
       <div
         aria-live="polite"
-        class="Select-module_screenReaderNotifications__2wzzH"
+        class="Select-module_screenReaderNotifications__I0-Hs"
         data-testid="hds-select-screen-reader-notifications"
       />
     </div>

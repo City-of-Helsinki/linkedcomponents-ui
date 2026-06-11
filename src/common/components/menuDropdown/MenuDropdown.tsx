@@ -154,7 +154,11 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
       type: 'button',
     };
     return button ? (
-      React.cloneElement(button, { ...commonProps, ref: toggleButton })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      React.cloneElement(button as React.ReactElement<any>, {
+        ...commonProps,
+        ref: toggleButton,
+      })
     ) : (
       <Button
         {...commonProps}

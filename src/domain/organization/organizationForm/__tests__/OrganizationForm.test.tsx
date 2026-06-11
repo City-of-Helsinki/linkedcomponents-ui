@@ -35,27 +35,27 @@ const renderComponent = () =>
 const userFieldsAreDisabled = (expectedValue: boolean) => {
   expect(
     screen
-      .getAllByRole('combobox', { name: /pääkäyttäjät. valitse yksi./i })[0]
+      .getAllByRole('combobox', { name: /pääkäyttäjät\. valitse yksi\./i })[0]
       .getAttribute('aria-disabled')
   ).toBe(expectedValue.toString());
   expect(
     screen
       .getByRole('combobox', {
-        name: /ilmoittautumisen pääkäyttäjät. valitse yksi./i,
+        name: /ilmoittautumisen pääkäyttäjät\. valitse yksi\./i,
       })
       .getAttribute('aria-disabled')
   ).toBe(expectedValue.toString());
   expect(
     screen
       .getByRole('combobox', {
-        name: /taloushallinnon pääkäyttäjät. valitse yksi./i,
+        name: /taloushallinnon pääkäyttäjät\. valitse yksi\./i,
       })
       .getAttribute('aria-disabled')
   ).toBe(expectedValue.toString());
   expect(
     screen
       .getByRole('combobox', {
-        name: /peruskäyttäjät. valitse yksi./i,
+        name: /peruskäyttäjät\. valitse yksi\./i,
       })
       .getAttribute('aria-disabled')
   ).toBe(expectedValue.toString());

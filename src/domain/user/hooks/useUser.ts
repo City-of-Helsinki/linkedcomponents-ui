@@ -22,7 +22,7 @@ const useUser = (): UserState => {
   const userId = user?.profile.sub;
   const [, apiTokens] = getStoredApiTokens();
 
-  const lastValidUserRef = useRef<UserFieldsFragment | undefined>();
+  const lastValidUserRef = useRef<UserFieldsFragment | undefined>(undefined);
 
   const { data: userData, loading: loadingUser } = useUserQuery({
     skip: !apiTokens || !userId,

@@ -3,6 +3,7 @@ import { TimeInputProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import { getErrorText } from '../../../../utils/validationUtils';
 import TimeInput from '../../timeInput/TimeInput';
 
@@ -17,6 +18,7 @@ const TimeInputField: React.FC<Props> = ({
   ...rest
 }) => {
   const { t } = useTranslation();
+  const fieldId = sanitizeElementId(name);
   const [, { touched, error }] = useField(name);
 
   const errorText = getErrorText(error, touched, t);
@@ -30,7 +32,7 @@ const TimeInputField: React.FC<Props> = ({
       <TimeInput
         {...rest}
         {...field}
-        id={name}
+        id={fieldId}
         name={name}
         errorText={errorText}
         invalid={!!errorText}

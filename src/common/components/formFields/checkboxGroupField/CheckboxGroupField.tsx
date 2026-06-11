@@ -5,6 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../../types';
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import { getErrorText } from '../../../../utils/validationUtils';
 import { useAccessibilityNotificationContext } from '../../accessibilityNotificationContext/hooks/useAccessibilityNotificationContext';
 import Button from '../../button/Button';
@@ -39,6 +40,7 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
   ...rest
 }) => {
   const { t } = useTranslation();
+  const selectionGroupId = sanitizeElementId(errorName || name);
   const [, { error, touched: touchedError }] = useField(errorName || name);
   const [, { touched }] = useField(name);
   const { setAccessibilityText } = useAccessibilityNotificationContext();
@@ -72,16 +74,17 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
         {...rest}
         columns={columns}
         errorText={errorText}
-        id={errorName || name}
+        id={selectionGroupId}
       >
         {visibleOptions.map((option) => {
           const checked = Boolean(value?.includes(option.value));
+          const optionId = sanitizeElementId(`${name}-${option.value}`);
 
           return (
             <Checkbox
               key={option.value}
               {...field}
-              id={`${name}-${option.value}`}
+              id={optionId}
               name={name}
               checked={checked}
               disabled={

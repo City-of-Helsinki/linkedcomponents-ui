@@ -1,4 +1,4 @@
-import { ErrorSummary, ErrorSummarySize } from 'hds-react';
+import { Notification, NotificationSize } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { scroller } from 'react-scroll';
@@ -31,10 +31,11 @@ const ServerErrorSummary: React.FC<Props> = ({ errors, id: _id }) => {
 
   return (
     <div className={styles.serverErrorSummary} id={id}>
-      <ErrorSummary
+      <Notification
+        type="error"
         className={styles.serverErrorSummary}
         label={t('event.form.titleServerErrorSummary')}
-        size={ErrorSummarySize.Medium}
+        size={NotificationSize.Medium}
       >
         <ul>
           {errors.map(({ label, message }) => (
@@ -49,7 +50,7 @@ const ServerErrorSummary: React.FC<Props> = ({ errors, id: _id }) => {
             </li>
           ))}
         </ul>
-      </ErrorSummary>
+      </Notification>
     </div>
   );
 };

@@ -2,10 +2,10 @@
 
 exports[`matches snapshot 1`] = `
 <footer
-  class="Footer-module_footer__1aD3T custom-theme-1 footer"
+  class="Footer-module_footer__7u3nd custom-theme-1 footer"
 >
   <div
-    class="Koros-module_koros__1r3rg Footer-module_koros__Orx_W"
+    class="Koros-module_koros__NeX-o Footer-module_koros__wtlaj"
     style="height: 15px;"
   >
     <svg
@@ -38,40 +38,40 @@ exports[`matches snapshot 1`] = `
     </svg>
   </div>
   <div
-    class="Footer-module_footerContent__3MC14"
+    class="Footer-module_footerContent__rkiWs"
   >
     <div
-      class="Footer-module_footerSections__2nrr8"
+      class="Footer-module_footerSections__CWRc6"
     >
       <h2
-        class="Footer-module_title__269y7"
+        class="Footer-module_title__xabVz"
       >
         Linked Events
       </h2>
       <div
-        class="FooterNavigation-module_navigation__1gS9g"
+        class="FooterNavigation-module_navigation__7JFP0"
       >
         <div
-          class="FooterNavigationGroup-module_navigationGroup__1R66O"
+          class="FooterNavigationGroup-module_navigationGroup__13KlV"
           variant="navigation"
         >
           <div
-            class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
+            class="FooterNavigationGroup-module_navigationGroupList__fQKKo"
           >
             <a
-              class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
+              class="FooterGroupHeading-module_heading__OnaKE FooterGroupHeading-module_navigation__cA1M4"
               href="/sv/"
             >
               Förstasidan
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_subItem__v1ZEN FooterLink-module_navigation__61AGk"
               href="/sv/search"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo FooterLink-module_subItemIcon__F6CIw"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -90,26 +90,26 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="FooterNavigationGroup-module_navigationGroup__1R66O"
+          class="FooterNavigationGroup-module_navigationGroup__13KlV"
           variant="navigation"
         >
           <div
-            class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
+            class="FooterNavigationGroup-module_navigationGroupList__fQKKo"
           >
             <a
-              class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
+              class="FooterGroupHeading-module_heading__OnaKE FooterGroupHeading-module_navigation__cA1M4"
               href="/sv/events"
             >
               Mina evenemangen
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_subItem__v1ZEN FooterLink-module_navigation__61AGk"
               href="/sv/events/create"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo FooterLink-module_subItemIcon__F6CIw"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -128,26 +128,26 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="FooterNavigationGroup-module_navigationGroup__1R66O"
+          class="FooterNavigationGroup-module_navigationGroup__13KlV"
           variant="navigation"
         >
           <div
-            class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
+            class="FooterNavigationGroup-module_navigationGroupList__fQKKo"
           >
             <a
-              class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
+              class="FooterGroupHeading-module_heading__OnaKE FooterGroupHeading-module_navigation__cA1M4"
               href="/sv/help/support"
             >
               Kunskap om tjänsten
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_subItem__v1ZEN FooterLink-module_navigation__61AGk"
               href="/sv/help/support/terms-of-use"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo FooterLink-module_subItemIcon__F6CIw"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -164,13 +164,13 @@ exports[`matches snapshot 1`] = `
               </span>
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_subItem__v1ZEN FooterLink-module_navigation__61AGk"
               href="/sv/help/support/contact"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo FooterLink-module_subItemIcon__F6CIw"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -187,13 +187,13 @@ exports[`matches snapshot 1`] = `
               </span>
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_subItem__v1ZEN FooterLink-module_navigation__61AGk"
               href="/sv/help/support/ask-permission"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo FooterLink-module_subItemIcon__F6CIw"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -212,26 +212,26 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="FooterNavigationGroup-module_navigationGroup__1R66O"
+          class="FooterNavigationGroup-module_navigationGroup__13KlV"
           variant="navigation"
         >
           <div
-            class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
+            class="FooterNavigationGroup-module_navigationGroupList__fQKKo"
           >
             <a
-              class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
+              class="FooterGroupHeading-module_heading__OnaKE FooterGroupHeading-module_navigation__cA1M4"
               href="/sv/help/instructions"
             >
               Instruktioner
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_subItem__v1ZEN FooterLink-module_navigation__61AGk"
               href="/sv/help/instructions/events"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo FooterLink-module_subItemIcon__F6CIw"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -248,13 +248,13 @@ exports[`matches snapshot 1`] = `
               </span>
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_subItem__v1ZEN FooterLink-module_navigation__61AGk"
               href="/sv/help/instructions/faq"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo FooterLink-module_subItemIcon__F6CIw"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -273,26 +273,26 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="FooterNavigationGroup-module_navigationGroup__1R66O"
+          class="FooterNavigationGroup-module_navigationGroup__13KlV"
           variant="navigation"
         >
           <div
-            class="FooterNavigationGroup-module_navigationGroupList__1ylGW"
+            class="FooterNavigationGroup-module_navigationGroupList__fQKKo"
           >
             <a
-              class="FooterGroupHeading-module_heading__2iPBU FooterGroupHeading-module_navigation__10BLU"
+              class="FooterGroupHeading-module_heading__OnaKE FooterGroupHeading-module_navigation__cA1M4"
               href="/sv/help/technology"
             >
               Teknologi
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_subItem__v1ZEN FooterLink-module_navigation__61AGk"
               href="/sv/help/technology/source-code"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo FooterLink-module_subItemIcon__F6CIw"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -309,13 +309,13 @@ exports[`matches snapshot 1`] = `
               </span>
             </a>
             <a
-              class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_subItem__3unGg FooterLink-module_navigation__1pNfs"
+              class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_subItem__v1ZEN FooterLink-module_navigation__61AGk"
               href="/sv/help/technology/documentation"
             >
               <svg
                 aria-hidden="true"
                 aria-label="angle-right"
-                class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_subItemIcon__2UHZi"
+                class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo FooterLink-module_subItemIcon__F6CIw"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -335,17 +335,17 @@ exports[`matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="FooterUtilities-module_utilities__10PzW"
+        class="FooterUtilities-module_utilities__obX7o"
       >
         <hr
           aria-hidden="true"
-          class="FooterUtilities-module_divider__2VjbX"
+          class="FooterUtilities-module_divider__OShI4"
         />
         <div
-          class="FooterUtilities-module_links__3P_Ga FooterUtilities-module_widerLinks__1h7MT"
+          class="FooterUtilities-module_links__TuE43 FooterUtilities-module_widerLinks__pySDW"
         >
           <a
-            class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_utility__3jLSl"
+            class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_utility__-U3kO"
             href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Linked-Events-och-Linked-Registration-Integritetspolicy.pdf"
             target="_blank"
           >
@@ -355,7 +355,7 @@ exports[`matches snapshot 1`] = `
             <svg
               aria-hidden="true"
               aria-label="link-external"
-              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik FooterLink-module_icon__3KZCE link_icon__1UA7k"
+              class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo FooterLink-module_icon__43ePU undefined"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
@@ -369,7 +369,7 @@ exports[`matches snapshot 1`] = `
             </svg>
           </a>
           <a
-            class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_utility__3jLSl"
+            class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_utility__-U3kO"
             href="/sv/accessibility-statement"
           >
             <span>
@@ -377,7 +377,7 @@ exports[`matches snapshot 1`] = `
             </span>
           </a>
           <a
-            class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B FooterLink-module_utility__3jLSl"
+            class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky FooterLink-module_utility__-U3kO"
             href="/sv/cookies"
           >
             <span>
@@ -387,27 +387,27 @@ exports[`matches snapshot 1`] = `
         </div>
       </div>
       <div
-        class="FooterBase-module_base__2f0eu"
+        class="FooterBase-module_base__ndakn"
       >
         <hr
           aria-hidden="true"
-          class="FooterBase-module_divider__3sz3q"
+          class="FooterBase-module_divider__scofd"
         />
         <div
-          class="FooterBase-module_logoWrapper__3BI7d"
+          class="FooterBase-module_logoWrapper__lheeb"
         >
           <a
-            class="Link-module_link__TeBQo link_hds-link__5Oxo- Link-module_link-medium__3gvla link_hds-link--medium__xEU_F FooterLink-module_item__3Ig3B"
+            class="Link-module_link__8XuKE link_hds-link__MZCD0 FooterLink-module_item__rvkky"
           >
             <img
               alt="Helsingfors stad - logo"
-              class="Logo-module_logo__Y2mwP Logo-module_medium__1zyWm"
+              class="Logo-module_logo__uZrXp Logo-module_medium__Kpggg"
               src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTA0IDM2IiB0aXRsZT0iSGVsc2luZ2ZvcnMgc3RhZCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPHBhdGgKICAgICAgICBkPSJNMTAzLjEwNSAwdjIyLjkzNWMwIDUuMTc5LTQuMjY2IDkuMzk3LTkuNTI0IDkuMzk3bC0zNC44NjcuMDMyYTguNDYgOC40NiAwIDAwLTUuOTgxIDIuNDcxTDUxLjU1MyAzNmwtMS4xODEtMS4xNjVhOC40MDUgOC40MDUgMCAwMC01Ljk4Mi0yLjQ3MUg5LjQ3NkM0LjI1IDMyLjM2NCAwIDI4LjE0NSAwIDIyLjk2NlYwaDEwMy4xMDV6bS0yLjIzNiAyLjIzNUgyLjI1MXYyMC43MzFjMCAzLjk1MSAzLjI0MyA3LjE2MyA3LjIyNSA3LjE2M0g0NC4zOWMyLjY3NiAwIDUuMTk1Ljk2IDcuMTYyIDIuNzM5IDEuOTY4LTEuNzggNC40ODYtMi43NCA3LjE2Mi0yLjc0bDM0Ljg2Ny0uMDNjNC4wMTQgMCA3LjI4OC0zLjIxMiA3LjI4OC03LjE2M3YtMjAuN3pNNjIuMDIgMTIuMDlsMiAxLjE1Yy0uMDMyIDEuMDA3LS40ODkgMS40NzktMS4zNTQgMS40NzktLjIwNSAwLS40NzMtLjA0Ny0uNjE0LS4wOTR2LjA2MmMuNDI1LjMzMS45NDQuODgyLjk0NCAxLjc2MyAwIDEuNTEyLTEuNDY0IDIuNDcyLTMuMjc0IDIuNDcyLS44MzQgMC0xLjU1OC4yNjctMS41NTguNjc3IDAgLjMxNS4yNjcuNDU2LjkxMy40NTYuNjQ1IDAgMS4zNjktLjEyNiAyLjIwMy0uMTI2IDEuNjUzIDAgMi43NTUuNjYxIDIuNzU1IDIuMTU3IDAgMS43OTQtMi4wMTUgMi41MDMtNC4yODIgMi41MDMtMi4xMDkgMC00LjAzLS41OTgtNC4wMy0xLjk1MiAwLS44MTkuODUtMS4zMDcgMS42MjItMS40NDh2LS4wNDhjLS41ODItLjE3My0xLjEwMi0uNTUtMS4xMDItMS4yMTIgMC0uODY1Ljg4Mi0xLjMzOCAxLjc3OS0xLjUyN3YtLjA0N2MtLjgzNC0uMzMtMS41NDMtMS4wMDctMS41NDMtMi4xODggMC0xLjUxMSAxLjMyMi0yLjU1IDMuMTMzLTIuNTUuNjkyIDAgMS4wODYuMTQyIDEuNjA1LjE0Mi42NDYgMCAuODgyLS4zNjIuODgyLS45NDUgMC0uMjY3LS4wNDctLjUzNS0uMDc5LS43MjR6bS0xLjczMSA5LjU0Yy0uOTMgMC0yLjcyNC4wNzgtMi43MjQuNzg2IDAgLjUzNi44OTguNzg3IDIuMTU3LjgwMyAxLjQxNyAwIDIuMjM1LS4yNjcgMi4yMzUtLjkxMyAwLS41MDQtLjc1NS0uNjc3LTEuNjY4LS42Nzd6bTI4Ljk5NS04LjAxM2MxLjUyNyAwIDIuOTI4LjcyNCAzLjUyNiAxLjc0N2wtMS44NDIgMS4wNGExLjYyNCAxLjYyNCAwIDAwLTEuNjA2LTEuMjEzYy0uNTUgMC0xLjAwNy4yMzYtMS4wMDcuNjc3IDAgLjU4MiAxLjAwNy42NDUgMi4xNTcgMS4wMDggMS4xOTYuMzc3IDIuMjk4LjkyOCAyLjI5OCAyLjMzIDAgMS41NDItMS40MzMgMi40NTUtMy4xMDEgMi40NTUtMS43OTUgMC0zLjIxMS0uNzcxLTMuODQxLTEuOTg0bDEuODczLTEuMDU0Yy4yNTIuODM0LjkxMyAxLjQ2NCAxLjkzNiAxLjQ2NC41OTggMCAxLjAyMy0uMjY4IDEuMDIzLS43NCAwLS42MTQtLjg1LS43NTYtMS44NDEtMS4wMjMtMS4xNjUtLjMxNS0yLjYxMy0uODgyLTIuNjEzLTIuMzQ2IDAtMS40NDggMS4zODUtMi4zNiAzLjAzOC0yLjM2em0tMTQuNjU1IDBjMi4wNzggMCAzLjY5OSAxLjUyNyAzLjY5OSA0LjAxNHMtMS42MDYgNC4wMTQtMy43IDQuMDE0Yy0yLjEwOSAwLTMuNzE0LTEuNTI3LTMuNzE0LTQuMDE0czEuNjA1LTQuMDE0IDMuNzE1LTQuMDE0em0tNDkuNjggMGMyLjA2MyAwIDMuNDMyIDEuNDY0IDMuNDMyIDMuNTQyLjAxNi42MTQtLjA5NCAxLjAzOS0uMDk0IDEuMDM5aC00Ljk3NGMuMDk0IDEuMjQzLjc4NyAxLjg1NyAxLjY4NCAxLjg1Ny44MDMgMCAxLjM1NC0uNTM1IDEuNDgtMS4yNmwxLjgxIDEuMDI0Yy0uNTM1Ljk3Ni0xLjY4NCAxLjgyNi0zLjI5IDEuODI2LTIuMTQgMC0zLjcxNS0xLjQ5NS0zLjcxNS00LjAxNCAwLTIuNDg3IDEuNjA2LTQuMDE0IDMuNjY4LTQuMDE0em0xMy4wNjYtLjAxNmMxLjUyNyAwIDIuOTI4LjcyNCAzLjUyNiAxLjc0OGwtMS44NDIgMS4wMzljLS4xODktLjY3Ny0uNzU1LTEuMjEzLTEuNjA1LTEuMjEzLS41NTEgMC0xLjAwOC4yMzctMS4wMDguNjc3IDAgLjU4MyAxLjAwOC42NDYgMi4xNCAxLjAwOCAxLjE5Ny4zNzggMi4zLjkyOCAyLjMgMi4zMyAwIDEuNTQyLTEuNDMzIDIuNDQtMy4wODYgMi40NC0xLjc5NSAwLTMuMjExLS43NTYtMy44NDEtMS45ODRsMS44NzMtMS4wNTVjLjIzNi44MzUuOTEzIDEuNDY0IDEuOTM2IDEuNDY0LjU4My4wMTYgMS4wMDgtLjIzNiAxLjAwOC0uNzI0IDAtLjYxNC0uODUtLjc0LTEuODQyLTEuMDIzLTEuMTY1LS4zLTIuNTk3LS44ODItMi41OTctMi4zNDUgMC0xLjQ0OSAxLjM4NS0yLjM2MiAzLjAzOC0yLjM2MnpNMzIuMyAxMC41M3Y4LjUwMWMwIC4zNjIuMDQ3LjYxNC4xNTcuNzU2LjA5NS4xNTcuMjIuMjIuNTA0LjIyLjE3MyAwIC4zMyAwIC40NTYtLjAzMWEyLjAxIDIuMDEgMCAwMC40NTctLjEyNmwtLjE4OSAxLjQ0OGEyLjUzMiAyLjUzMiAwIDAxLS42NDUuMjM2Yy0uMjUyLjA0Ny0uNTIuMDc5LS43NzIuMDc5LS43NCAwLTEuMjc1LS4xNzQtMS42MjEtLjUzNi0uMzMtLjM2Mi0uNTA0LS45NDQtLjUwNC0xLjczMVYxMC41M2gyLjE1N3ptMTkuODE4IDMuMDg2YzEuNDggMCAyLjQwOCAxLjAyMyAyLjQwOCAyLjkyOHY0LjkxMWgtMi4xNTZWMTYuOTdjMC0xLjAwNy0uMzYyLTEuNTQzLTEuMTY1LTEuNTQzcy0xLjMyMi42MTQtMS4zMjIgMS40OTZ2NC41NDloLTIuMTQxdi03LjY2NmgyLjE0bC0uMTEgMS4yNmguMDQ4Yy4zNzgtLjcxIDEuMDM5LTEuNDQ5IDIuMjk4LTEuNDQ5em0xNi43MzMtMy4zMzdhMy4yNyAzLjI3IDAgMDEyLjczOSAxLjRsLTEuODU4IDEuMTM0Yy0uMDMxLS40NTYtLjI1Mi0uOTI4LS43NzEtLjkyOC0uNTM1IDAtLjc4Ny40MDktLjc4NyAxLjA4NnYuODM0aDEuNjg0djEuNjM3aC0xLjY4NHY2LjAyOWgtMi4xNHYtNi4wMjloLTEuMTgxdi0xLjYzN2gxLjE4di0uODE5YzAtMS43OTQgMS4xOC0yLjcwNyAyLjgxOC0yLjcwN3ptMTQuODEyIDMuMzg0YzEuMDg2IDAgMS42ODQuOTEzIDEuNjg0IDIuMDMgMCAuNTA1LS4wNzguODk4LS4wNzguODk4bC0xLjkzNiAxLjExOGMuMDMxLS4yMi4xMjYtLjc0LjEyNi0xLjI2IDAtLjUwMy0uMTktLjk3NS0uNzI1LS45NzUtLjY3NiAwLS45NDQuNjMtLjk0NCAxLjYydjQuMzc3aC0yLjE1N3YtNy42NWgyLjE1N2wtLjExIDEuMjU5aC4wNDdjLjM3OC0uNzQuOTYtMS40MTcgMS45MzYtMS40MTd6bS03MC41Mi0yLjcyM3Y0LjE3MWg0LjIwM3YtNC4xN2gyLjIzNXYxMC41MTRoLTIuMjM1di00LjM2aC00LjIwM3Y0LjM2aC0yLjIzNVYxMC45NGgyLjIzNXptMzIuMzMyIDIuODV2Ny42NjVINDMuMzJWMTMuNzloMi4xNTZ6bTI5LjE1MyAxLjQ2M2MtMS4wNyAwLTEuNTQzIDEuMDA4LTEuNTQzIDIuMzc3IDAgMS4zNy40NzIgMi4zNzcgMS41NDMgMi4zNzcgMS4wNTQgMCAxLjUyNy0xLjAwNyAxLjUyNy0yLjM3NyAwLTEuMzctLjQ3My0yLjM3Ny0xLjUyNy0yLjM3N3ptLTE0Ljg5MS0uMTg5Yy0uNzI0IDAtMS4zMDcuNDczLTEuMzA3IDEuMTk3IDAgLjc0LjU4MyAxLjIxMiAxLjMwNyAxLjE5Ni43MjQgMCAxLjMwNi0uNDcyIDEuMzA2LTEuMTk2cy0uNTgyLTEuMTk3LTEuMzA2LTEuMTk3em0tMzQuNzczLjA5NWMtLjc4NyAwLTEuNDMyLjU2Ni0xLjYwNSAxLjYwNWgzLjAzOGMwLS45MTMtLjU5OC0xLjYwNS0xLjQzMy0xLjYwNXptMTkuNDQtNC42NzVjLjY5MyAwIDEuMjQ0LjUwMyAxLjI0NCAxLjE5NnMtLjU1IDEuMTk2LTEuMjQzIDEuMTk2Yy0uNzA5IDAtMS4yNDQtLjUwMy0xLjI0NC0xLjE5NnMuNTUxLTEuMTk2IDEuMjQ0LTEuMTk2eiIKICAgICAgICBmaWxsPSJjdXJyZW50Q29sb3IiIC8+Cjwvc3ZnPg=="
             />
           </a>
         </div>
         <div
-          class="FooterBase-module_copyright__2iiev"
+          class="FooterBase-module_copyright__-sKpP"
         >
           <span>
             © 
@@ -416,7 +416,7 @@ exports[`matches snapshot 1`] = `
             2026
           </span>
           <span
-            class="FooterBase-module_copyrightDot__2AfS6"
+            class="FooterBase-module_copyrightDot__qc85L"
           >
             •
           </span>
@@ -425,10 +425,10 @@ exports[`matches snapshot 1`] = `
           </span>
         </div>
         <div
-          class="FooterBase-module_baseActions__1hCiR"
+          class="FooterBase-module_baseActions__3C-J5"
         >
           <button
-            class="FooterBase-module_backToTopButton__hXTHm"
+            class="FooterBase-module_backToTopButton__YzPvo"
             role="link"
             type="button"
           >
@@ -436,7 +436,7 @@ exports[`matches snapshot 1`] = `
             <svg
               aria-hidden="true"
               aria-label="arrow-up"
-              class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+              class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
               role="img"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"

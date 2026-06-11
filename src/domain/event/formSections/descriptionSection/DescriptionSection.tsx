@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import { Field, useField, useFormikContext } from 'formik';
+import { Tooltip } from 'hds-react';
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -219,12 +220,15 @@ const DescriptionSection: React.FC<DescriptionSectionProps> = ({
                         required
                         {...(showTooltipInstructions(user)
                           ? {
-                              tooltipButtonLabel: t('common.showInstructions'),
-                              tooltipLabel: t(
-                                'event.form.labelEnvironmentalCertificate'
-                              ),
-                              tooltipText: (
-                                <EnvironmentalCertificateInstructions />
+                              tooltip: (
+                                <Tooltip
+                                  buttonLabel={t('common.showInstructions')}
+                                  tooltipLabel={t(
+                                    'event.form.labelEnvironmentalCertificate'
+                                  )}
+                                >
+                                  <EnvironmentalCertificateInstructions />
+                                </Tooltip>
                               ),
                             }
                           : {})}

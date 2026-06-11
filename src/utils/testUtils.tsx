@@ -17,7 +17,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory, History } from 'history';
-import React, { ReducerAction } from 'react';
+import React from 'react';
 import { Route, Routes, unstable_HistoryRouter as Router } from 'react-router';
 import { Mock, MockInstance } from 'vitest';
 import wait from 'waait';
@@ -42,6 +42,7 @@ type CustomRender = {
 };
 
 type CustomRenderResult = RenderResult & { history: History };
+type AnyAction = { [key: string]: unknown; type?: string };
 
 const arrowUpKeyPressHelper = (el?: HTMLElement): boolean =>
   fireEvent.keyDown(el || document, { code: 38, key: 'ArrowUp' });
@@ -192,7 +193,7 @@ const loadingSpinnerIsNotInDocument = async (timeout = 5000): Promise<void> => {
 
 const waitReducerToBeCalled = async (
   dispatch: MockInstance,
-  action: ReducerAction<any>
+  action: AnyAction
 ) => await waitFor(() => expect(dispatch).toBeCalledWith(action));
 
 const waitPageMetaDataToBeSet = async ({

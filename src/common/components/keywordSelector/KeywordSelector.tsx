@@ -4,7 +4,7 @@ import {
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
-import { SearchFunction, SearchResult } from 'hds-react';
+import { SearchFunction } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -75,7 +75,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   );
 
   const handleSearch: SearchFunction = React.useCallback(
-    async (searchValue: string): Promise<SearchResult> => {
+    async (searchValue: string): ReturnType<SearchFunction> => {
       try {
         const { error, data: newKeywordsData } = await refetch({
           freeText: searchValue,
@@ -103,7 +103,7 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
   React.useEffect(() => {
     const getSelectedKeywordsFromCache = async () => {
       const selectedOptions = await Promise.all(
-        value.map(async (atId) => {
+        value.map(async (atId: string | null) => {
           const keyword = await getKeywordQueryResult(
             getValue(parseIdFromAtId(atId), ''),
             apolloClient

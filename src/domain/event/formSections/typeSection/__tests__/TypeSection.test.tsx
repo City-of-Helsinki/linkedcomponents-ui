@@ -64,7 +64,7 @@ const findElement = (key: 'isUmbrellaCheckbox' | 'umbrellaSelector') => {
         name: 'Tämä tapahtuma on kattotapahtuma.',
       });
     case 'umbrellaSelector':
-      return screen.findByRole('combobox', {
+      return screen.findByRole('button', {
         name: /Kattotapahtuma/,
       });
   }

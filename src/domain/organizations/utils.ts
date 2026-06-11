@@ -2,6 +2,7 @@ import React from 'react';
 
 import addParamsToQueryString from '../../utils/addParamsToQueryString';
 import getValue from '../../utils/getValue';
+import sanitizeElementId from '../../utils/sanitizeElementId';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
 import { assertUnreachable } from '../../utils/typescript';
 import {
@@ -64,7 +65,7 @@ export const getOrganizationSearchInitialValues = (
 };
 
 export const getOrganizationItemId = (id: string): string =>
-  `organization-item-${id}`;
+  sanitizeElementId(`organization-item-${id}`);
 
 export const addExpandedOrganization = ({
   dispatchExpandedOrganizationsState,

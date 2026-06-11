@@ -76,6 +76,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     if (text) {
       filters.push(
         <FilterTag
+          key="text"
           text={text}
           onDelete={removeFilter}
           type="text"
@@ -85,7 +86,12 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
     }
     if (end || start) {
       filters.push(
-        <DateFilterTag end={end} onDelete={removeFilter} start={start} />
+        <DateFilterTag
+          key="date"
+          end={end}
+          onDelete={removeFilter}
+          start={start}
+        />
       );
     }
     filters.push(
@@ -125,9 +131,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(styles.filterSummary, className)}>
-      {React.Children.map(filters, (filter) =>
-        cloneElement(filter, { ...filter.props })
-      )}
+      {React.Children.map(filters, (filter) => cloneElement(filter))}
       <button
         className={styles.clearButton}
         onClick={clearFilters}

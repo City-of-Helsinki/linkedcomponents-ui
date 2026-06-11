@@ -3,6 +3,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../../types';
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import { getErrorText } from '../../../../utils/validationUtils';
 import RadioButton from '../../radioButton/RadioButton';
 import SelectionGroup, {
@@ -34,7 +35,7 @@ const RadioButtonGroupField: React.FC<Props> = ({
         <RadioButton
           key={option.value}
           {...field}
-          id={`${name}-${option.value}`}
+          id={sanitizeElementId(`${name}-${option.value}`)}
           name={name}
           checked={value === option.value}
           value={option.value}

@@ -2,6 +2,7 @@ import { FieldProps } from 'formik';
 import { TextAreaProps } from 'hds-react';
 import React from 'react';
 
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import TextArea from '../../textArea/TextArea';
 import useCommonTextInputProps from '../hooks/useCommonTextInputProps';
 
@@ -15,6 +16,7 @@ const TextAreaField: React.FC<Props> = ({
   maxLength,
   ...rest
 }) => {
+  const fieldId = sanitizeElementId(name);
   const { errorText, charsLeftText } = useCommonTextInputProps({
     maxLength,
     name,
@@ -25,7 +27,7 @@ const TextAreaField: React.FC<Props> = ({
     <TextArea
       {...rest}
       {...field}
-      id={name}
+      id={fieldId}
       name={name}
       value={value}
       errorText={errorText}

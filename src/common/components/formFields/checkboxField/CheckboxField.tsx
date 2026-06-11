@@ -4,6 +4,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import useLocale from '../../../../hooks/useLocale';
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import Checkbox from '../../checkbox/Checkbox';
 import styles from './checkboxField.module.scss';
 
@@ -18,13 +19,14 @@ const CheckboxField: React.FC<Props> = ({
 }) => {
   const locale = useLocale();
   const { t } = useTranslation();
+  const fieldId = sanitizeElementId(name);
 
   return (
     <div>
       <Checkbox
         {...rest}
         {...field}
-        id={name}
+        id={fieldId}
         name={name}
         checked={value}
         value={value}

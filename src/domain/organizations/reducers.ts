@@ -17,6 +17,8 @@ export const expandedOrganizationsReducer = (
       return uniq([...state, payload]);
     case ExpandedOrganizationsActionTypes.REMOVE_EXPANDED_ORGANIZATION:
       return uniq(state.filter((id) => action.payload !== id));
+    default:
+      return state;
   }
 };
 export const reducers = {

@@ -6,6 +6,7 @@ import SideNavigation from '../../../../common/components/sideNavigation/SideNav
 import useLocale from '../../../../hooks/useLocale';
 import useWindowSize from '../../../../hooks/useWindowSize';
 import getPageHeaderHeight from '../../../../utils/getPageHeaderHeight';
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import Container from '../container/Container';
 import MainContent from '../mainContent/MainContent';
 import styles from './layoutWithSideNavigation.module.scss';
@@ -74,11 +75,12 @@ const LayoutWithSideNavigation: React.FC<LayoutWithSideNavigationProps> = ({
               >
                 {levels.map(({ icon, label, subLevels, to }) => {
                   const localePath = getLocalePath(to);
+                  const levelId = sanitizeElementId(localePath);
 
                   return (
                     <SideNavigation.MainLevel
                       key={localePath}
-                      id={localePath}
+                      id={levelId}
                       href={localePath}
                       icon={icon}
                       label={label}
@@ -90,11 +92,12 @@ const LayoutWithSideNavigation: React.FC<LayoutWithSideNavigationProps> = ({
                     >
                       {subLevels?.map(({ label, to }) => {
                         const localePath = getLocalePath(to);
+                        const subLevelId = sanitizeElementId(localePath);
 
                         return (
                           <SideNavigation.SubLevel
                             key={localePath}
-                            id={localePath}
+                            id={subLevelId}
                             active={getIsActive(localePath)}
                             href={localePath}
                             label={label}

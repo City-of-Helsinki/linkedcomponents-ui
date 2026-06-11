@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import { Select as HDSSelect, SelectProps } from 'hds-react';
-import React from 'react';
+import { Select as HDSSelect } from 'hds-react';
+import React, { ComponentProps } from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
 import useLocale from '../../../hooks/useLocale';
@@ -11,7 +11,7 @@ import styles from './singleSelect.module.scss';
 
 export type SingleSelectProps = SelectLoadingSpinnerProps & {
   className?: string;
-} & SelectProps;
+} & ComponentProps<typeof HDSSelect>;
 
 const SingleSelect: React.FC<SingleSelectProps> = ({
   alignedLabel,

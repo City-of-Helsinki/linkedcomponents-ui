@@ -21,6 +21,7 @@ import {
   SignupGroupFieldsFragment,
 } from '../../../../generated/graphql';
 import getValue from '../../../../utils/getValue';
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import { showFormErrors } from '../../../../utils/validationUtils';
 import { sendMessageSchema } from '../../../signupGroup/validation';
 import { SEND_MESSAGE_FIELDS, SEND_MESSAGE_FORM_NAME } from '../../constants';
@@ -54,15 +55,32 @@ export const scrollToFirstError = async (
   for (const e of error.inner) {
     const path = getValue(e.path, '');
     const fieldId = getFocusableFieldId(path);
-    const field = document.getElementById(fieldId);
+    const sanitizedPathId = sanitizeElementId(path);
+    const possibleFieldIds = isTextEditor(path)
+      ? [fieldId, sanitizeElementId(fieldId), `${sanitizedPathId}-text-editor`]
+      : [fieldId, sanitizeElementId(fieldId)];
+
+    const resolvedFieldId = possibleFieldIds.find(
+      (id) => !!document.getElementById(id)
+    );
+    const field = resolvedFieldId
+      ? document.getElementById(resolvedFieldId)
+      : null;
 
     /* istanbul ignore else */
     if (field) {
-      scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
+      scroller.scrollTo(
+        resolvedFieldId as string,
+        VALIDATION_ERROR_SCROLLER_OPTIONS
+      );
       if (isTextEditor(path)) {
         // Text editor fields need to be clicked to show the error message element in the DOM,
         // which is then focused by scrollTo function
         field.click();
+        const editable = field.querySelector(
+          '[contenteditable="true"]'
+        ) as HTMLElement | null;
+        editable?.focus();
       } else {
         field.focus();
       }

@@ -126,9 +126,7 @@ const CustomTimeInput: FC<TimeInputProps> = ({
   style,
   successText,
   infoText,
-  tooltipLabel,
-  tooltipText,
-  tooltipButtonLabel,
+  tooltip,
   type = 'text',
   ...rest
 }) => {
@@ -163,13 +161,11 @@ const CustomTimeInput: FC<TimeInputProps> = ({
     style,
     successText,
     infoText,
-    tooltipLabel,
-    tooltipText,
-    tooltipButtonLabel,
+    tooltip,
   };
 
   /**
-   * Update the full time input and dispatch the native onChange event
+   * Update the full time input and dispatch the onChange event
    */
   const updateTimeInput = (newHours: string, newMinutes: string) => {
     const newTimeValue = getNewTimeValue(newHours, newMinutes);
@@ -178,15 +174,19 @@ const CustomTimeInput: FC<TimeInputProps> = ({
     setMinutes(newMinutes);
     setTime(newTimeValue);
 
-    const nativeInputValueSetter = (
-      Object.getOwnPropertyDescriptor(
-        window.HTMLInputElement.prototype,
-        'value'
-      ) as PropertyDescriptor
-    ).set;
-    nativeInputValueSetter?.call(inputRef.current, newTimeValue);
-    const event = new Event('input', { bubbles: true });
-    inputRef.current?.dispatchEvent(event);
+    if (inputRef.current) {
+      inputRef.current.value = newTimeValue;
+      // Trigger onChange callback to notify parent (Formik) of the change
+      // In React 19, manually dispatched events don't trigger synthetic event handlers,
+      // so we call onChange directly instead with proper name/id for Formik
+      onChange({
+        target: {
+          value: newTimeValue,
+          name: inputRef.current.name,
+          id: inputRef.current.id,
+        },
+      } as React.ChangeEvent<HTMLInputElement>);
+    }
   };
 
   /**
@@ -348,6 +348,7 @@ const CustomTimeInput: FC<TimeInputProps> = ({
     <InputWrapper {...wrapperProps} id={id} labelId={labelId} isAriaLabelledBy>
       <div {...frameProps} role="group" aria-labelledby={labelId}>
         <input
+          {...rest}
           aria-hidden
           readOnly
           className={styles.fullInput}
@@ -359,7 +360,6 @@ const CustomTimeInput: FC<TimeInputProps> = ({
           type={type}
           tabIndex={-1}
           value={time}
-          {...rest}
         />
         <label htmlFor={hourInputId} className={styles.partialInputLabel}>
           {hoursLabel}

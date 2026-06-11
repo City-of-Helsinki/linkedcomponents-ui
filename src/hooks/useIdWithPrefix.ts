@@ -1,6 +1,7 @@
 import React from 'react';
 
 import getValue from '../utils/getValue';
+import sanitizeElementId from '../utils/sanitizeElementId';
 
 interface Props {
   id?: string;
@@ -8,8 +9,10 @@ interface Props {
 }
 
 const useIdWithPrefix = ({ id: _id, prefix }: Props) => {
-  const id = React.useId();
-  const [idWithPrefix] = React.useState(getValue(_id, `${prefix}${id}`));
+  const generatedId = sanitizeElementId(React.useId());
+  const [idWithPrefix] = React.useState(
+    getValue(_id, `${prefix}${generatedId}`)
+  );
 
   return idWithPrefix;
 };

@@ -75,7 +75,7 @@ const renderComponent = (initialValues?: Partial<InitialValues>) =>
 const getElement = (key: 'location' | 'locationExtraInfo') => {
   switch (key) {
     case 'location':
-      return screen.getByRole('combobox', { name: /paikka/i });
+      return screen.getByRole('button', { name: /paikka/i });
     case 'locationExtraInfo':
       return screen.getByPlaceholderText(
         /syötä lisätietoja tapahtumapaikasta/i
