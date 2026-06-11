@@ -22,6 +22,7 @@ import getDateFromString from '../../utils/getDateFromString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import sanitizeElementId from '../../utils/sanitizeElementId';
 import {
   isAdminUserInOrganization,
   isExternalUserWithoutOrganization,
@@ -288,7 +289,8 @@ export const getImageQueryResult = async (
   }
 };
 
-export const getImageItemId = (id: string): string => `image-item-${id}`;
+export const getImageItemId = (id: string): string =>
+  sanitizeElementId(`image-item-${id}`);
 
 export const isImageUpdateNeeded = (
   image: ImageFieldsFragment,

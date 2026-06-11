@@ -1,5 +1,5 @@
 import { ApolloError } from '@apollo/client';
-import { SearchFunction, SearchResult } from 'hds-react';
+import { SearchFunction } from 'hds-react';
 import { TFunction } from 'i18next';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -89,7 +89,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
   );
 
   const handleSearch: SearchFunction = React.useCallback(
-    async (searchValue: string): Promise<SearchResult> => {
+    async (searchValue: string): ReturnType<SearchFunction> => {
       try {
         const { error, data: newPlacesData } = await refetch({
           text: searchValue,

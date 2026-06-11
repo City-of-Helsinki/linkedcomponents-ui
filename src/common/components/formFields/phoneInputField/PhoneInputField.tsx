@@ -3,6 +3,7 @@ import { PhoneInputProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import { getErrorText } from '../../../../utils/validationUtils';
 import PhoneInput from '../../phoneInput/PhoneInput';
 
@@ -16,6 +17,7 @@ const PhoneInputField: React.FC<Props> = ({
   ...rest
 }) => {
   const { t } = useTranslation();
+  const fieldId = sanitizeElementId(name);
   const [, { touched, error }] = useField(name);
 
   const errorText = getErrorText(error, touched, t);
@@ -24,7 +26,7 @@ const PhoneInputField: React.FC<Props> = ({
     <PhoneInput
       {...rest}
       {...field}
-      id={name}
+      id={fieldId}
       name={name}
       value={value}
       errorText={errorText}

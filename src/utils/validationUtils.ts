@@ -21,6 +21,7 @@ import { ALLOWED_SUBSTITUTE_USER_DOMAINS } from '../envVariables';
 import { Error, Maybe } from '../types';
 import formatDate from './formatDate';
 import getValue from './getValue';
+import sanitizeElementId from './sanitizeElementId';
 import setDateTime from './setDateTime';
 import wait from './wait';
 
@@ -317,6 +318,13 @@ const fieldMappings: Record<
   arrayFields: { suffix: '-error', type: 'array' },
 };
 
+const focusableIdSuffixByFieldType: Partial<Record<ErrorFieldType, string>> = {
+  combobox: '-main-button',
+  select: '-toggle-button',
+  textEditor: '-text-editor',
+  array: '-error',
+};
+
 export const getFocusableFieldId = (
   fieldName: string,
   fieldLists: FieldLists
@@ -375,11 +383,25 @@ export const scrollToFirstError = async ({
       await wait(100);
     }
 
-    const field = document.getElementById(fieldId);
+    const sanitizedPath = sanitizeElementId(path);
+    const idByType = `${sanitizedPath}${
+      focusableIdSuffixByFieldType[fieldType] ?? ''
+    }`;
+
+    const candidateIds = [fieldId, sanitizeElementId(fieldId), idByType];
+    const resolvedFieldId = candidateIds.find((id) =>
+      Boolean(document.getElementById(id))
+    );
+    const field = resolvedFieldId
+      ? document.getElementById(resolvedFieldId)
+      : null;
 
     /* istanbul ignore else */
     if (field) {
-      scroller.scrollTo(fieldId, VALIDATION_ERROR_SCROLLER_OPTIONS);
+      scroller.scrollTo(
+        resolvedFieldId as string,
+        VALIDATION_ERROR_SCROLLER_OPTIONS
+      );
 
       await focusToError({ field, fieldType });
       break;

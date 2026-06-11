@@ -2,6 +2,7 @@ import { FieldProps, useField } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import { getErrorText } from '../../../../utils/validationUtils';
 import DateInput, { DateInputProps } from '../../dateInput/DateInput';
 
@@ -15,6 +16,7 @@ const DateInputField: React.FC<Props> = ({
   ...rest
 }) => {
   const { t } = useTranslation();
+  const fieldId = sanitizeElementId(name);
   const [, { touched, error }] = useField(name);
 
   const errorText = getErrorText(error, touched, t);
@@ -33,7 +35,7 @@ const DateInputField: React.FC<Props> = ({
     <DateInput
       {...rest}
       {...field}
-      id={name}
+      id={fieldId}
       name={name}
       disableConfirmation
       errorText={errorText}

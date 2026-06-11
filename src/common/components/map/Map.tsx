@@ -27,7 +27,7 @@ const Map: React.FC<Props> = ({ disabled, onChange, position }) => {
   const locale = useLocale();
   const { t } = useTranslation();
 
-  const featureGroup = React.useRef<any>();
+  const featureGroup = React.useRef<any>(null);
 
   const onCreated = (e: LeafletEvent) => {
     const layerId = e.layer._leaflet_id;

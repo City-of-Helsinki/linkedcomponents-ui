@@ -43,7 +43,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         linkAriaLabel={title}
         linkboxAriaLabel={title}
         openInExternalDomainAriaLabel={t('common.openInExternalDomain')}
-        openInNewTabAriaLabel={t('common.openInNewTab')}
+        openInNewTabLabel={t('common.openInNewTab')}
         size={LinkboxSize.Large}
       >
         <p>{description}</p>

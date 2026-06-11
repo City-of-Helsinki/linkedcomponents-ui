@@ -21,6 +21,7 @@ import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import sanitizeElementId from '../../utils/sanitizeElementId';
 import {
   AUTHENTICATION_NOT_NEEDED,
   KEYWORD_ACTION_ICONS,
@@ -85,7 +86,8 @@ export const getKeywordQueryResult = async (
   }
 };
 
-export const getKeywordItemId = (id: string): string => `keyword-item-${id}`;
+export const getKeywordItemId = (id: string): string =>
+  sanitizeElementId(`keyword-item-${id}`);
 
 export const getKeywordFields = (
   keyword: KeywordFieldsFragment,

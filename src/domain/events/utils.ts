@@ -26,6 +26,7 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
 import replaceParamsToQueryString from '../../utils/replaceParamsToQueryString';
+import sanitizeElementId from '../../utils/sanitizeElementId';
 import { getSearchQuery } from '../../utils/searchUtils';
 import skipFalsyType from '../../utils/skipFalsyType';
 import stripLanguageFromPath from '../../utils/stripLanguageFromPath';
@@ -423,7 +424,8 @@ export const replaceParamsToEventQueryString = (
   );
 };
 
-export const getEventItemId = (id: string): string => `event-item-${id}`;
+export const getEventItemId = (id: string): string =>
+  sanitizeElementId(`event-item-${id}`);
 
 export const addExpandedEvent = ({
   dispatchExpandedEventsState,

@@ -3,19 +3,19 @@
 exports[`should match snapshot 1`] = `
 <div>
   <div
-    class="TextInput-module_root__2CMNr text-input_hds-text-input__2LODq textArea css-0"
+    class="TextInput-module_root__lPctx text-input_hds-text-input__mG8r6 textArea css-0"
   >
     <label
-      class="FieldLabel-module_label__1zrXK "
+      class="FieldLabel-module_label__EyKsf "
       for="1"
     >
       Text area label
     </label>
     <div
-      class="TextInput-module_inputWrapper__3Rvel text-input_hds-text-input__input-wrapper__1OqYG"
+      class="TextInput-module_inputWrapper__9kbLn text-input_hds-text-input__input-wrapper__1RzOg"
     >
       <textarea
-        class="TextInput-module_input__1BlHi text-input_hds-text-input__input__GJm5C"
+        class="TextInput-module_input__LLKkZ text-input_hds-text-input__input__Kglq3"
         id="1"
         placeholder="Text area placeholder"
       />

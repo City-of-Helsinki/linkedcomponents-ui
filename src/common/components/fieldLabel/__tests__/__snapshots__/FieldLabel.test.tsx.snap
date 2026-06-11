@@ -15,12 +15,12 @@ exports[`matched snapshot 1`] = `
     </span>
   </label>
   <div
-    class="Tooltip-module_root__1Yo9t"
+    class="Tooltip-module_root__dqH0-"
   >
     <button
       aria-expanded="false"
       aria-label="Tooltip"
-      class="Tooltip-module_button__2x9m0 tooltipButton"
+      class="Tooltip-module_button__MvCgA tooltipButton"
       title="Tooltip"
       type="button"
     >
@@ -30,7 +30,7 @@ exports[`matched snapshot 1`] = `
         <svg
           aria-hidden="true"
           aria-label="question-circle"
-          class="Icon-module_icon__1Jtzj icon_hds-icon__1YqNC Icon-module_small__gTGkU icon_hds-icon--size-s__2Lkik"
+          class="Icon-module_icon__JQmVx icon_hds-icon__O6EV0 Icon-module_small__nAApk icon_hds-icon--size-s__SloSo"
           role="img"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"

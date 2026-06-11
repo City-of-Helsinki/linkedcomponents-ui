@@ -19,6 +19,8 @@ export const expandedEventsReducer = (
       return uniq([...state, payload]);
     case ExpandedEventsActionTypes.REMOVE_EXPANDED_EVENT:
       return uniq(state.filter((id) => action.payload !== id));
+    default:
+      return state;
   }
 };
 

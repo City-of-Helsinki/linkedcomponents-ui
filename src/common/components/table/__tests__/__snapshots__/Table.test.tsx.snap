@@ -6,14 +6,14 @@ exports[`<Table /> spec > renders the component 1`] = `
     class="tableWrapper"
   >
     <div
-      class="Table-module_container__1CPuY table_hds-table-container__24SMd"
+      class="Table-module_container__epi36 table_hds-table-container__7e2bq"
       tabindex="0"
     >
       <table
-        class="Table-module_table__3pIAR table_hds-table__nft5d Table-module_light__3eGYC"
+        class="Table-module_table__47sB8 table_hds-table__stZl3 Table-module_light__Uy9bs"
       >
         <caption
-          class="Table-module_caption__1l5F2 table_hds-table__caption__2oBXN"
+          class="Table-module_caption__6-kyJ table_hds-table__caption__k-eRq"
         >
           <span>
             <b>
@@ -24,7 +24,7 @@ exports[`<Table /> spec > renders the component 1`] = `
         </caption>
         <thead>
           <tr
-            class="Table-module_headerRow__1P1Ko table_hds-table__header-row__2UlyP"
+            class="Table-module_headerRow__0mV5Y table_hds-table__header-row__hO8od"
           >
             <th
               scope="col"
@@ -49,7 +49,7 @@ exports[`<Table /> spec > renders the component 1`] = `
           </tr>
         </thead>
         <tbody
-          class="Table-module_content__36xU2 table_hds-table__content__3WvvL"
+          class="Table-module_content__1jqq4 table_hds-table__content__zjMor"
         >
           <tr>
             <td

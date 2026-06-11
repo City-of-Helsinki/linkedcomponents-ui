@@ -35,6 +35,7 @@ import getNumberFieldValue from '../../utils/getNumberFieldValue';
 import getNumericPayloadValue from '../../utils/getNumericPayloadValue';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import sanitizeElementId from '../../utils/sanitizeElementId';
 import skipFalsyType from '../../utils/skipFalsyType';
 import stripTrailingSlash from '../../utils/stripTrailingSlash';
 import i18n from '../app/i18n/i18nInit';
@@ -235,7 +236,7 @@ export const copyRegistrationToSessionStorage = async (
 };
 
 export const getRegistrationItemId = (id: string): string =>
-  `registration-item-${id}`;
+  sanitizeElementId(`registration-item-${id}`);
 
 export const formatSingleInstructions = ({
   instructions,

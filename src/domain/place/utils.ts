@@ -21,6 +21,7 @@ import getLocalisedString from '../../utils/getLocalisedString';
 import getPathBuilder from '../../utils/getPathBuilder';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import sanitizeElementId from '../../utils/sanitizeElementId';
 import { isAdminUserInOrganization } from '../organization/utils';
 import {
   AUTHENTICATION_NOT_NEEDED,
@@ -30,7 +31,8 @@ import {
 } from './constants';
 import { PlaceFields, PlaceFormFields } from './types';
 
-export const getPlaceItemId = (id: string): string => `place-item-${id}`;
+export const getPlaceItemId = (id: string): string =>
+  sanitizeElementId(`place-item-${id}`);
 
 export const getPlaceFields = (
   place: PlaceFieldsFragment,

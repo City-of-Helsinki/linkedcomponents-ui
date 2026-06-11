@@ -2,7 +2,7 @@ import {
   FooterCustomTheme,
   LoadingSpinnerCustomTheme,
   PaginationCustomTheme,
-  SelectCustomTheme,
+  Select,
   SideNavigationCustomTheme,
   TableCustomTheme,
 } from 'hds-react';
@@ -237,7 +237,9 @@ type SearchPanelCSSProperties = {
   '--search-panel-button-color'?: string;
 };
 
-type SelectCSSProperties = Partial<SelectCustomTheme>;
+type SelectCSSProperties = Partial<
+  NonNullable<React.ComponentProps<typeof Select>['theme']>
+>;
 
 type StatusTagCSSProperties = {
   '--status-tag-background-color-cancelled'?: string;

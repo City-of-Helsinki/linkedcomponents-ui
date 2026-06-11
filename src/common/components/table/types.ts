@@ -1,5 +1,6 @@
-/* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { ReactElement } from 'react';
+
 export type Header = {
   className?: string;
   /**
@@ -26,7 +27,7 @@ export type Header = {
   /**
    * Transform function for the corresponding row data. Use this to render custom content inside the table cell.
    */
-  transform?: ({ args }: any) => string | JSX.Element;
+  transform?: ({ args }: any) => string | ReactElement;
 };
 
 export type Order = 'asc' | 'desc';

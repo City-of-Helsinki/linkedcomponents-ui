@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable max-len */
 
+import { scroller } from 'react-scroll';
+
+import { VALIDATION_ERROR_SCROLLER_OPTIONS } from '../../constants';
 import {
   getErrorText,
   isEmailInAllowedDomain,
   isValidDateText,
   isValidPhoneNumber,
   isValidUrl,
+  scrollToFirstError,
 } from '../validationUtils';
 
 describe('getErrorText', () => {
@@ -105,4 +109,66 @@ describe('isValidPhoneNumber function', () => {
       expect(isValidPhoneNumber(phoneNumber)).toBe(false);
     }
   );
+});
+
+describe('scrollToFirstError', () => {
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    vi.spyOn(scroller, 'scrollTo').mockImplementation(vi.fn());
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('should focus combobox when rendered id has sanitized path and type suffix', async () => {
+    document.body.innerHTML =
+      '<button id="contactPerson_serviceLanguage-main-button" type="button"></button>';
+
+    const getFocusableFieldId = () => ({
+      fieldId: 'contactPerson.serviceLanguage-main-button',
+      type: 'combobox' as const,
+    });
+
+    await scrollToFirstError({
+      error: {
+        inner: [{ path: 'contactPerson.serviceLanguage' }],
+      } as any,
+      getFocusableFieldId,
+    });
+
+    const element = document.getElementById(
+      'contactPerson_serviceLanguage-main-button'
+    );
+
+    expect(element).toHaveFocus();
+    expect(scroller.scrollTo).toHaveBeenCalledWith(
+      'contactPerson_serviceLanguage-main-button',
+      VALIDATION_ERROR_SCROLLER_OPTIONS
+    );
+  });
+
+  it('should focus field using sanitized path id for default field type', async () => {
+    document.body.innerHTML = '<input id="name_fi" />';
+
+    const getFocusableFieldId = () => ({
+      fieldId: 'name.fi',
+      type: 'default' as const,
+    });
+
+    await scrollToFirstError({
+      error: {
+        inner: [{ path: 'name.fi' }],
+      } as any,
+      getFocusableFieldId,
+    });
+
+    const element = document.getElementById('name_fi');
+
+    expect(element).toHaveFocus();
+    expect(scroller.scrollTo).toHaveBeenCalledWith(
+      'name_fi',
+      VALIDATION_ERROR_SCROLLER_OPTIONS
+    );
+  });
 });

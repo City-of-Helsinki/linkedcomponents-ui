@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { OptionType } from '../../../../types';
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import SingleSelect, {
   SingleSelectProps,
 } from '../../singleSelect/SingleSelect';
@@ -20,6 +21,7 @@ const SingleSelectField: React.FC<Props> = ({
   ...rest
 }) => {
   const { t } = useTranslation();
+  const fieldId = sanitizeElementId(name);
   const { errorText, handleBlur, handleChange } = useSingleSelectFieldProps({
     name,
     onBlur,
@@ -30,7 +32,7 @@ const SingleSelectField: React.FC<Props> = ({
 
   const selected = useMemo(() => {
     const option = options?.find(
-      (option): option is OptionType =>
+      (option: OptionType | string): option is OptionType =>
         typeof option !== 'string' && option.value === value
     );
 
@@ -51,7 +53,7 @@ const SingleSelectField: React.FC<Props> = ({
       {...rest}
       {...field}
       disabled={disabled}
-      id={name}
+      id={fieldId}
       onBlur={handleBlur}
       onChange={handleChange}
       options={options}

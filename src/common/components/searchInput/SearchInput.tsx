@@ -3,6 +3,7 @@ import { IconSearch, TextInput, TextInputProps } from 'hds-react';
 import React, { useId } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import sanitizeElementId from '../../../utils/sanitizeElementId';
 import styles from './searchInput.module.scss';
 
 export type SearchInputProps = {
@@ -25,7 +26,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   ...rest
 }) => {
   const { t } = useTranslation();
-  const id = useId();
+  const id = sanitizeElementId(useId());
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     onChange(event.target.value);

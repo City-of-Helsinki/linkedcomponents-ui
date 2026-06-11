@@ -3,6 +3,7 @@ import { IconAngleDown, IconAngleUp, IconSize } from 'hds-react';
 import React from 'react';
 
 import { useTheme } from '../../../domain/app/theme/Theme';
+import sanitizeElementId from '../../../utils/sanitizeElementId';
 import styles from './collapsible.module.scss';
 
 type Props = {
@@ -20,7 +21,7 @@ const Collabsible: React.FC<React.PropsWithChildren<Props>> = ({
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
 
-  const id = React.useId();
+  const id = sanitizeElementId(React.useId());
   const collapsibleHeadingId = `collapsible-heading-${id}`;
   const collapsiblePanelId = `collapsible-panel-${id}`;
 

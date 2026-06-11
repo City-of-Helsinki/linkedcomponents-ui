@@ -8,6 +8,7 @@ import {
 import { Language, PathBuilderProps } from '../../types';
 import getValue from '../../utils/getValue';
 import queryBuilder from '../../utils/queryBuilder';
+import sanitizeElementId from '../../utils/sanitizeElementId';
 import skipFalsyType from '../../utils/skipFalsyType';
 import { REGISTRATION_SEARCH_PARAMS } from '../registrations/constants';
 import { SignupFields, SignupSearchInitialValues } from './types';
@@ -69,7 +70,8 @@ export const getSignupFields = ({
   };
 };
 
-export const getSignupItemId = (id: string): string => `signup-item-${id}`;
+export const getSignupItemId = (id: string): string =>
+  sanitizeElementId(`signup-item-${id}`);
 
 export const signupsPathBuilder = ({
   args,

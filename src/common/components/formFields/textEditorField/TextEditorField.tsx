@@ -1,6 +1,7 @@
 import { FieldProps } from 'formik';
 import React from 'react';
 
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import TextEditor, { TextEditorProps } from '../../textEditor/TextEditor';
 import useCommonTextInputProps from '../hooks/useCommonTextInputProps';
 
@@ -14,6 +15,7 @@ const TextEditorField: React.FC<Props> = ({
   maxLength,
   ...rest
 }) => {
+  const fieldId = sanitizeElementId(name);
   const { errorText, charsLeftText } = useCommonTextInputProps({
     maxLength,
     name,
@@ -32,7 +34,7 @@ const TextEditorField: React.FC<Props> = ({
     <TextEditor
       {...rest}
       {...field}
-      id={name}
+      id={fieldId}
       onBlur={handleBlur}
       onChange={handleChange}
       value={value}

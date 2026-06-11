@@ -55,7 +55,8 @@ const Tabs: React.FC<React.PropsWithChildren<Props>> = ({
       );
     })
     .map((child, index) => {
-      return React.cloneElement(child as React.ReactElement, {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return React.cloneElement(child as React.ReactElement<any>, {
         index,
         name,
         isActive: activeIndex === index,

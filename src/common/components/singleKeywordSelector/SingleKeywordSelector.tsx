@@ -1,5 +1,5 @@
 import { ApolloError } from '@apollo/client';
-import { SearchFunction, SearchResult } from 'hds-react';
+import { SearchFunction } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -69,7 +69,7 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
   );
 
   const handleSearch: SearchFunction = React.useCallback(
-    async (searchValue: string): Promise<SearchResult> => {
+    async (searchValue: string): ReturnType<SearchFunction> => {
       try {
         const { error, data: newkeywordsData } = await refetch({
           text: searchValue,

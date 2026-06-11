@@ -15,6 +15,7 @@ import {
 import useHandleError from '../../../hooks/useHandleError';
 import useLocale from '../../../hooks/useLocale';
 import getValue from '../../../utils/getValue';
+import sanitizeElementId from '../../../utils/sanitizeElementId';
 import skipFalsyType from '../../../utils/skipFalsyType';
 import AdminSearchRow from '../../admin/layout/adminSearchRow/AdminSearchRow';
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
@@ -117,7 +118,7 @@ const AttendeeList: React.FC<Props> = ({ registration }) => {
           <Checkbox
             disabled={saving}
             key={signup.id}
-            id={signup.id}
+            id={sanitizeElementId(signup.id)}
             label={fullName}
             checked={signup.presenceStatus === PresenceStatus.Present}
             onChange={(e) => {

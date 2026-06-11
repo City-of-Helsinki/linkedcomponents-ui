@@ -3,6 +3,7 @@ import { NumberInputProps } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import sanitizeElementId from '../../../../utils/sanitizeElementId';
 import { getErrorText } from '../../../../utils/validationUtils';
 import NumberInput from '../../numberInput/NumberInput';
 
@@ -15,6 +16,7 @@ const NumberInputField: React.FC<Props> = ({
   ...rest
 }) => {
   const { t } = useTranslation();
+  const fieldId = sanitizeElementId(name);
   const [, { touched, error }] = useField(name);
 
   const errorText = getErrorText(error, touched, t);
@@ -30,7 +32,7 @@ const NumberInputField: React.FC<Props> = ({
       <NumberInput
         {...rest}
         {...field}
-        id={name}
+        id={fieldId}
         name={name}
         errorText={errorText}
         invalid={Boolean(errorText)}
