@@ -19,7 +19,7 @@ importers:
         specifier: ^3.10.1
         version: 3.13.5(@types/react@19.2.16)(graphql-ws@6.0.8(graphql@16.8.1)(ws@8.20.1))(graphql@16.8.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@ckeditor/ckeditor5-react':
-        specifier: ^9.0.0
+        specifier: ^9.5.0
         version: 9.5.0(ckeditor5@47.6.1)(react@19.2.7)
       '@emotion/react':
         specifier: ^11.11.4
@@ -31,8 +31,8 @@ importers:
         specifier: ^0.9.0
         version: 0.9.0(@apollo/client@3.13.5(@types/react@19.2.16)(graphql-ws@6.0.8(graphql@16.8.1)(ws@8.20.1))(graphql@16.8.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(graphql@16.8.1)(qs@6.15.2)
       apollo-link-sentry:
-        specifier: ^4.0.0
-        version: 4.0.0(@apollo/client@3.13.5(@types/react@19.2.16)(graphql-ws@6.0.8(graphql@16.8.1)(ws@8.20.1))(graphql@16.8.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@sentry/browser@9.15.0)(graphql@16.8.1)
+        specifier: 4.4.0
+        version: 4.4.0(@apollo/client@3.13.5(@types/react@19.2.16)(graphql-ws@6.0.8(graphql@16.8.1)(ws@8.20.1))(graphql@16.8.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@sentry/core@9.15.0)(graphql@16.8.1)
       browser-image-compression:
         specifier: ^2.0.2
         version: 2.0.2
@@ -97,11 +97,11 @@ importers:
         specifier: ^11.0.5
         version: 11.0.5(react@19.2.7)
       react-leaflet:
-        specifier: ^4.2.1
-        version: 4.2.1(leaflet@1.9.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^5.0.0
+        version: 5.0.0(leaflet@1.9.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react-modal:
-        specifier: ^3.16.1
-        version: 3.16.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^3.16.3
+        version: 3.16.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react-router:
         specifier: ^7.15.0
         version: 7.15.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -109,8 +109,8 @@ importers:
         specifier: ^7.12.0
         version: 7.13.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react-scroll:
-        specifier: ^1.9.0
-        version: 1.9.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^1.9.3
+        version: 1.9.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       sass:
         specifier: ^1.72.0
         version: 1.74.1
@@ -158,8 +158,8 @@ importers:
         specifier: ^4.4.2
         version: 4.4.2(graphql@16.8.1)
       '@nabla/vite-plugin-eslint':
-        specifier: ^2.0.5
-        version: 2.0.5(eslint@9.39.4(jiti@2.6.1))(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))
+        specifier: ^3.0.1
+        version: 3.0.1(eslint@9.39.4(jiti@2.6.1))(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))
       '@playwright/test':
         specifier: ^1.60.0
         version: 1.60.0
@@ -1368,11 +1368,11 @@ packages:
   '@kamilkisiela/fast-url-parser@1.1.4':
     resolution: {integrity: sha512-gbkePEBupNydxCelHCESvFSFM8XPh1Zs/OAVRW/rKpEqPAl5PbOM90Si8mv9bvnR53uPD2s/FiRxdvSejpRJew==}
 
-  '@nabla/vite-plugin-eslint@2.0.5':
-    resolution: {integrity: sha512-m6Q8ZVM0ASZfYyfFbG661mDklhZQZEeBMQgtB26NhdadxPSctHzHsUbF87msdSb0V4Z8R1p/vRkB5SHNOpANAQ==}
+  '@nabla/vite-plugin-eslint@3.0.1':
+    resolution: {integrity: sha512-iN7WF0izOiPhJaOGzKaNzGEvBSX5WuHA2eRPqo+cGfTsWd/DTWCAur0Jkm/8Fq0sqIB48RTOO3T+VFfRaCIt/w==}
     peerDependencies:
-      eslint: ^8.45 || ^9
-      vite: ^4 || ^5 || ^6
+      eslint: ^9 || ^10
+      vite: ^4 || ^5 || ^6 || ^7 || ^8
 
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
@@ -1427,12 +1427,12 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0
 
-  '@react-leaflet/core@2.1.0':
-    resolution: {integrity: sha512-Qk7Pfu8BSarKGqILj4x7bCSZ1pjuAPZ+qmRwH5S7mDS91VSbVVsJSrW4qA+GPrro8t69gFYVMWb1Zc4yFmPiVg==}
+  '@react-leaflet/core@3.0.0':
+    resolution: {integrity: sha512-3EWmekh4Nz+pGcr+xjf0KNyYfC3U2JjnkWsh0zcqaexYqmmB5ZhH37kz41JXGmKzpaMZCnPofBBm64i+YrEvGQ==}
     peerDependencies:
       leaflet: ^1.9.0
-      react: ^18.0.0
-      react-dom: ^18.0.0
+      react: ^19.0.0
+      react-dom: ^19.0.0
 
   '@react-spring/animated@9.3.2':
     resolution: {integrity: sha512-pBvKydRHbTzuyaeHtxGIOvnskZxGo/S5/YK1rtYm88b9NQZuZa95Rgd3O0muFL+99nvBMBL8cvQGD0UJmsqQsg==}
@@ -2237,12 +2237,12 @@ packages:
       graphql: '>=0.11'
       qs: '>=6'
 
-  apollo-link-sentry@4.0.0:
-    resolution: {integrity: sha512-CEd2dSuHwNfxud4Mo3ewnPuV6jBO5rAkzP55M7q8jg4p9OFbyrPcesbkJYXxoh342k6M1H2Km6TWHIcyt0RKgQ==}
+  apollo-link-sentry@4.4.0:
+    resolution: {integrity: sha512-ugGi+DXNcZsYiYUPwVhdOgycgbuEO/oD69YJn9ZRtAUY84b84gDADPLba1umOczzBaV6rIqtl/HUlTlaq1qrKg==}
     peerDependencies:
       '@apollo/client': ^3.2.3
-      '@sentry/browser': ^8.0.0
-      graphql: 15 - 16
+      '@sentry/core': ^8.33 || ^9 || ^10
+      graphql: ^15 || ^16
 
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
@@ -4528,12 +4528,12 @@ packages:
   react-is@17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
 
-  react-leaflet@4.2.1:
-    resolution: {integrity: sha512-p9chkvhcKrWn/H/1FFeVSqLdReGwn2qmiobOQGO3BifX+/vV/39qhY8dGqbdcPh1e6jxh/QHriLXr7a4eLFK4Q==}
+  react-leaflet@5.0.0:
+    resolution: {integrity: sha512-CWbTpr5vcHw5bt9i4zSlPEVQdTVcML390TjeDG0cK59z1ylexpqC6M1PJFjV8jD7CF+ACBFsLIDs6DRMoLEofw==}
     peerDependencies:
       leaflet: ^1.9.0
-      react: ^18.0.0
-      react-dom: ^18.0.0
+      react: ^19.0.0
+      react-dom: ^19.0.0
 
   react-lifecycles-compat@3.0.4:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
@@ -4541,12 +4541,11 @@ packages:
   react-merge-refs@1.1.0:
     resolution: {integrity: sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==}
 
-  react-modal@3.16.1:
-    resolution: {integrity: sha512-VStHgI3BVcGo7OXczvnJN7yT2TWHJPDXZWyI/a0ssFNhGZWsPmB8cF0z33ewDXq4VfYMO1vXgiv/g8Nj9NDyWg==}
-    engines: {node: '>=8'}
+  react-modal@3.16.3:
+    resolution: {integrity: sha512-yCYRJB5YkeQDQlTt17WGAgFJ7jr2QYcWa1SHqZ3PluDmnKJ/7+tVU+E6uKyZ0nODaeEj+xCpK4LcSnKXLMC0Nw==}
     peerDependencies:
-      react: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
-      react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18
+      react: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18 || ^19
+      react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17 || ^18 || ^19
 
   react-popper@2.2.5:
     resolution: {integrity: sha512-kxGkS80eQGtLl18+uig1UIf9MKixFSyPxglsgLBxlYnyDf65BiY9B3nZSc6C9XUNDgStROB0fMQlTEz1KxGddw==}
@@ -4581,11 +4580,11 @@ packages:
       react-dom:
         optional: true
 
-  react-scroll@1.9.0:
-    resolution: {integrity: sha512-mamNcaX9Ng+JeSbBu97nWwRhYvL2oba+xR2GxvyXsbDeGP+gkYIKZ+aDMMj/n20TbV9SCWm/H7nyuNTSiXA6yA==}
+  react-scroll@1.9.3:
+    resolution: {integrity: sha512-xv7FXqF3k63aSLNu4/NjFvRNI0ge7DmmmsbeGarP7LZVAlJMSjUuW3dTtLxp1Afijyv0lS2qwC0GiFHvx1KBHQ==}
     peerDependencies:
-      react: ^15.5.4 || ^16.0.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^15.5.4 || ^16.0.0 || ^17.0.0 || ^18.0.0
+      react: ^15.5.4 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^15.5.4 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   react-side-effect@2.1.2:
     resolution: {integrity: sha512-PVjOcvVOyIILrYoyGEpDN3vmYNLdy1CajSFNt4TDsVQC5KpTijDvWVoR+/7Rz2xT978D8/ZtFceXxzsPwZEDvw==}
@@ -5998,6 +5997,8 @@ snapshots:
       '@ckeditor/ckeditor5-utils': 47.6.1
       '@ckeditor/ckeditor5-widget': 47.6.1
       ckeditor5: 47.6.1
+    transitivePeerDependencies:
+      - supports-color
 
   '@ckeditor/ckeditor5-html-embed@47.6.1':
     dependencies:
@@ -7342,7 +7343,7 @@ snapshots:
 
   '@kamilkisiela/fast-url-parser@1.1.4': {}
 
-  '@nabla/vite-plugin-eslint@2.0.5(eslint@9.39.4(jiti@2.6.1))(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))':
+  '@nabla/vite-plugin-eslint@3.0.1(eslint@9.39.4(jiti@2.6.1))(vite@8.0.9(@types/node@24.12.4)(esbuild@0.27.7)(jiti@2.6.1)(sass@1.74.1)(tsx@4.21.0)(yaml@2.8.3))':
     dependencies:
       '@types/eslint': 9.6.1
       chalk: 4.1.2
@@ -7414,7 +7415,7 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@react-leaflet/core@2.1.0(leaflet@1.9.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@react-leaflet/core@3.0.0(leaflet@1.9.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       leaflet: 1.9.4
       react: 19.2.7
@@ -8177,10 +8178,10 @@ snapshots:
       graphql: 16.8.1
       qs: 6.15.2
 
-  apollo-link-sentry@4.0.0(@apollo/client@3.13.5(@types/react@19.2.16)(graphql-ws@6.0.8(graphql@16.8.1)(ws@8.20.1))(graphql@16.8.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@sentry/browser@9.15.0)(graphql@16.8.1):
+  apollo-link-sentry@4.4.0(@apollo/client@3.13.5(@types/react@19.2.16)(graphql-ws@6.0.8(graphql@16.8.1)(ws@8.20.1))(graphql@16.8.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(@sentry/core@9.15.0)(graphql@16.8.1):
     dependencies:
       '@apollo/client': 3.13.5(@types/react@19.2.16)(graphql-ws@6.0.8(graphql@16.8.1)(ws@8.20.1))(graphql@16.8.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@sentry/browser': 9.15.0
+      '@sentry/core': 9.15.0
       deepmerge: 4.3.1
       dot-prop: 6.0.1
       graphql: 16.8.1
@@ -10980,9 +10981,9 @@ snapshots:
 
   react-is@17.0.2: {}
 
-  react-leaflet@4.2.1(leaflet@1.9.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
+  react-leaflet@5.0.0(leaflet@1.9.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
-      '@react-leaflet/core': 2.1.0(leaflet@1.9.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@react-leaflet/core': 3.0.0(leaflet@1.9.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       leaflet: 1.9.4
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
@@ -10991,7 +10992,7 @@ snapshots:
 
   react-merge-refs@1.1.0: {}
 
-  react-modal@3.16.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
+  react-modal@3.16.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
       exenv: 1.2.2
       prop-types: 15.8.1
@@ -11029,7 +11030,7 @@ snapshots:
     optionalDependencies:
       react-dom: 19.2.7(react@19.2.7)
 
-  react-scroll@1.9.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
+  react-scroll@1.9.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
       lodash.throttle: 4.1.1
       prop-types: 15.8.1
