@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.26.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.26.3...linkedcomponents-ui-v1.26.4) (2026-06-12)
+
+
+### Dependencies
+
+* Add missing lodash dependency ([c74fcff](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/c74fcff21635632b64a31b35cd7c2885e9d69cbb))
+* Move tooling, tests, and types to devDependencies ([b480ece](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/b480ece3751c0924300b2ca1965d3adbb661d918))
+* Remove Snyk dependency from project ([fda6990](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/fda6990f3a343e944292b22350db554b38c63ff0))
+* Remove unused axios dependency ([ea37696](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/ea37696a1d3647a3bd1e6600c926f558bec03e18))
+* Remove unused object-keys-normalizer dependency ([ebedc89](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/ebedc8920d4de1f5ef21e3cbd4594ca0e92dc321))
+* Remove unused pretty dependency ([a5eeab4](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/a5eeab40b0b1710aecf78b1e7db91c90b2506e73))
+* Remove unused qs dependency ([e986ab5](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e986ab5685a70c2141f8a59661b5f55648fd7134))
+* Upgrade React 19 and HDS v6 related deps ([551369c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/551369c47428a1a787c536d713c77d2c94164d9d))
+* Upgrade to HDS v6 and React 19 with compatibility fixes ([77ee22b](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/77ee22b9fde040040c850b2e7f26108497e236c0))
+
 ## [1.26.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.26.2...linkedcomponents-ui-v1.26.3) (2026-06-04)
 
 
