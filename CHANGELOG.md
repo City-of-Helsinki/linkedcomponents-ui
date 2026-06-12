@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.26.4...linkedcomponents-ui-v1.27.0) (2026-06-12)
+
+
+### Features
+
+* **fonts:** Add HelsinkiGroteskPro variable font ([05894e5](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/05894e5d5bf7ccbbda67a21c41eb6f6922f28e94))
+
 ## [1.26.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.26.3...linkedcomponents-ui-v1.26.4) (2026-06-12)
 
 
