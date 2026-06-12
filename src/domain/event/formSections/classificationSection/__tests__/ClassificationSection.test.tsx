@@ -261,6 +261,7 @@ test('should change keyword', async () => {
 
   const keywordOption = await findElement('keywordOption');
   await user.click(keywordOption);
+  await user.keyboard('{Escape}');
 
   await screen.findByRole('button', {
     name: new RegExp(
