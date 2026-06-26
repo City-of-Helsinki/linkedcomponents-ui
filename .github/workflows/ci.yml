@@ -9,7 +9,7 @@ on:
 
 jobs:
   common:
-    uses: City-of-Helsinki/.github/.github/workflows/ci-pnpm-node.yml@dependabot/github_actions/github-actions-3cfa246e60
+    uses: City-of-Helsinki/.github/.github/workflows/ci-pnpm-node.yml@feature/KEH-351-dependency-review-ci
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     with:
