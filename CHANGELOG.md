@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.27.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.0...linkedcomponents-ui-v1.27.1) (2026-07-02)
+
+
+### Dependencies
+
+* Bump dompurify from 3.4.0 to 3.4.11 ([#622](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/622)) ([69074b2](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/69074b2bdb25fb8fe86b889dc8705fc0a506b5f2))
+* Bump react-router from 7.13.0 to 7.17.0 ([#615](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/615)) ([9deb211](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/9deb211b6e6c552f87ae17d08083d75bd19fcd44))
+* Bump vite from 8.0.9 to 8.0.16 ([#620](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/620)) ([7fb49a7](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7fb49a728cf36a97ccec32531057715b3d75d6d8))
+
 ## [1.27.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.26.4...linkedcomponents-ui-v1.27.0) (2026-06-12)
 
 
