@@ -4,6 +4,10 @@ minimumReleaseAge: 10080
 # Use minimumReleaseAgeExclude temporarily for emergency security vulnerability fixes
 minimumReleaseAgeExclude:
   - hasown@2.0.4
+  - react-router@7.17.0
+  - vite@8.0.16
+  - dompurify@3.4.11
+  - postcss@8.5.16
 
 # Don't warn about ignored build scripts
 ignoredBuiltDependencies: []
