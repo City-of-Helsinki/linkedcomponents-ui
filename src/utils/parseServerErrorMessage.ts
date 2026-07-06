@@ -12,7 +12,7 @@ const parseServerErrorMessage = ({
   error: LEServerError;
   t: TFunction;
 }): string => {
-  let errorStr = '';
+  let errorStr: string;
   if (typeof error === 'string') {
     errorStr = error;
   } else if (Array.isArray(error)) {

@@ -82,7 +82,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
           ensureMenuIsClosed();
           setFocusToButton();
           break;
-        case 'Enter':
+        case 'Enter': {
           const item = items[focusedIndex];
           /* istanbul ignore else */
           if (menuOpen && item) {
@@ -91,6 +91,7 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({
             event.preventDefault();
           }
           break;
+        }
         case 'Tab':
           ensureMenuIsClosed();
       }

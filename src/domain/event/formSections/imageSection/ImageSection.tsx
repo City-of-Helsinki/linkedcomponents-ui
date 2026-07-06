@@ -171,7 +171,7 @@ const ImageSection: React.FC<Props> = ({ isEditingAllowed }) => {
             </FormGroup>
 
             <FormGroup>
-              {!!images.length ? (
+              {images.length ? (
                 <Button
                   disabled={!isEditingAllowed}
                   fullWidth={true}

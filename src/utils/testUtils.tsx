@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable import/export */
+/* eslint-disable import-x/export */
 import { ApolloError } from '@apollo/client';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import {

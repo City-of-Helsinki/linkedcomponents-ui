@@ -450,7 +450,7 @@ export const formatSingleDescription = ({
       descriptionDataMapping[lang as keyof typeof descriptionDataMapping];
     if (
       shouldAppendDescription &&
-      descriptionDataMapping.hasOwnProperty(lang) &&
+      Object.hasOwn(descriptionDataMapping, lang) &&
       !formattedDescription
         .toLowerCase()
         .includes(descriptionAppendData.expectedText.toLowerCase())
