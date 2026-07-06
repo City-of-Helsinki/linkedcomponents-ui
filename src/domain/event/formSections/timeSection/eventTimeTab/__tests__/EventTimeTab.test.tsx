@@ -85,20 +85,22 @@ const getSingleEventElement = (
       return screen.getByRole('button', { name: /poista/i });
     case 'endDate':
       return screen.getByLabelText(/Tapahtuma päättyy/i);
-    case 'endTime':
+    case 'endTime': {
       const endTimeGroup = screen.getByRole('group', {
         name: /päättymisaika/i,
       });
       return within(endTimeGroup).getByLabelText('tunnit');
+    }
     case 'toggle':
       return screen.getAllByRole('button', { name: /valinnat/i })[0];
     case 'startDate':
       return screen.getByLabelText(/Tapahtuma alkaa/i);
-    case 'startTime':
+    case 'startTime': {
       const startTimeGroup = screen.getByRole('group', {
         name: /alkamisaika/i,
       });
       return within(startTimeGroup).getByLabelText('tunnit');
+    }
   }
 };
 

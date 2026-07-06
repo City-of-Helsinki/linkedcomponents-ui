@@ -207,7 +207,7 @@ const useEventActions = (
     values: EventFormFields,
     callbacks?: MutationCallbacks
   ) => {
-    let eventsData: FetchResult<CreateEventsMutation> | null = null;
+    let eventsData: FetchResult<CreateEventsMutation> | null;
 
     // Save sub-events
     try {

@@ -265,7 +265,7 @@ export const formatSingleInstructions = ({
 
   const appendData = dataMapping[lang as keyof typeof dataMapping];
   if (
-    dataMapping.hasOwnProperty(lang) &&
+    Object.hasOwn(dataMapping, lang) &&
     !trimmedText.toLowerCase().includes(serviceCenterName.toLowerCase())
   ) {
     const appendText = `${appendData.text1}\n${serviceCenterName}\n${appendData.text2}`;
