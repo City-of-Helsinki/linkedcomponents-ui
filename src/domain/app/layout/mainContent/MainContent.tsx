@@ -51,6 +51,7 @@ const MainContent: React.FC<React.PropsWithChildren<Props>> = ({
 
       scrollToContent();
 
+      // eslint-disable-next-line @eslint-react/web-api-no-leaked-timeout
       setTimeout(() => {
         setFocusToFirstFocusable();
       }, duration);

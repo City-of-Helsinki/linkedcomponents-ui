@@ -37,11 +37,9 @@ const Tab: React.FC<TabProps> = ({
   };
 
   React.useEffect(() => {
-    // eslint-disable-next-line react-hooks/immutability
     if (isMounted.current && autoFocusChange && isFocused) {
       ref.current?.focus();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocused]);
 
   // Keep useIsMounted hook after useEffect hook so the focus is not

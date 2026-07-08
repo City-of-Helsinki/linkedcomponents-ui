@@ -131,6 +131,7 @@ const FilterSummary: React.FC<Props> = ({ className }) => {
 
   return (
     <div className={classNames(styles.filterSummary, className)}>
+      {/* eslint-disable-next-line @eslint-react/no-children-map */}
       {React.Children.map(filters, (filter) => cloneElement(filter))}
       <button
         className={styles.clearButton}

@@ -105,7 +105,6 @@ const ImageDetailsFields: React.FC<ImageDetailsFieldsProps> = ({
 
   React.useEffect(() => {
     setFieldValue(EVENT_FIELDS.IS_IMAGE_EDITABLE, editable, true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editable]);
 
   return (

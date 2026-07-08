@@ -83,7 +83,6 @@ const PriceGroupsSection: React.FC<Props> = ({ isEditingAllowed }) => {
 
   useEffect(() => {
     setPriceGroupOptions(priceGroupOptions);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [priceGroupOptions]);
 
   return (

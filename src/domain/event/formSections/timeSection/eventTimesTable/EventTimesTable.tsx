@@ -158,6 +158,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
         <EditEventTimeModal
           eventTime={eventTime}
           focusAfterCloseElement={
+            // eslint-disable-next-line @eslint-react/purity
             document.getElementById(buttonId) ||
             /* istanbul ignore next */ undefined
           }

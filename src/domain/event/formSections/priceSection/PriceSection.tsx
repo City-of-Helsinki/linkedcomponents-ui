@@ -54,7 +54,6 @@ const PriceSection: React.FC<Props> = ({
 
   useEffect(() => {
     setPriceGroupOptions(priceGroupOptions);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [priceGroupOptions]);
 
   const showRegistrationPriceGroupFields =

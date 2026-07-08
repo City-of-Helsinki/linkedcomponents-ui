@@ -1,3 +1,4 @@
+import eslintReact from '@eslint-react/eslint-plugin';
 import js from '@eslint/js';
 import tsEslint from 'typescript-eslint';
 import tsParser from '@typescript-eslint/parser';
@@ -8,13 +9,33 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import vitestGlobalsPlugin from 'eslint-plugin-vitest-globals';
 import globals from 'globals';
 
+const reactFiles = [ '**/*.{js,jsx,ts,tsx}' ];
+
 export default [
   {
     ignores: [ 'build/**', 'report/**', 'test-results/**', 'src/generated/**' ],
   },
   js.configs.recommended,
   ...tsEslint.configs.recommended,
+  { files: reactFiles, ...eslintReact.configs[ 'recommended-typescript' ] },
   reactHooksPlugin.configs.flat[ 'recommended-latest' ],
+  { files: reactFiles, ...eslintReact.configs[ 'disable-conflict-eslint-plugin-react-hooks' ] },
+  {
+    files: reactFiles,
+    rules: {
+      '@eslint-react/exhaustive-deps': 'off',
+      '@eslint-react/naming-convention-ref-name': 'off',
+      '@eslint-react/dom-no-dangerously-set-innerhtml': 'off',
+      '@eslint-react/no-context-provider': 'off',
+      '@eslint-react/no-array-index-key': 'off',
+      '@eslint-react/no-use-context': 'off',
+      '@eslint-react/set-state-in-effect': 'off',
+      '@eslint-react/no-forward-ref': 'off',
+      '@eslint-react/use-state': 'off',
+      '@eslint-react/no-clone-element': 'off',
+      '@eslint-react/no-unnecessary-use-prefix': 'off',
+    },
+  },
   importPlugin.flatConfigs.recommended,
   importPlugin.flatConfigs.typescript,
   vitestGlobalsPlugin.configs[ 'flat/recommended' ],

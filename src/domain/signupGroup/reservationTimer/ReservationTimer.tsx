@@ -134,8 +134,6 @@ const ReservationTimer: React.FC<ReservationTimerProps> = ({
       setTimeLeft(timeLeft);
       setAccessibilityTextFromTime(timeLeft);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleTimerActions = () => {

@@ -341,7 +341,6 @@ const CustomTimeInput: FC<TimeInputProps> = ({
       setMinutes(getMinutes(newHoursAndMinutes));
       setTime(getTime(newHoursAndMinutes));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isControlledComponent, value]);
 
   return (

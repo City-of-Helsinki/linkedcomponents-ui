@@ -70,7 +70,6 @@ const FormikPersist: React.FC<React.PropsWithChildren<PersistProps>> = ({
     }
 
     return () => clearTimeout(timeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <>{isInitialized ? children : null}</>;

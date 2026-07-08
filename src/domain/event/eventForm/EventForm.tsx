@@ -397,7 +397,6 @@ const EventForm: React.FC<EventFormProps> = ({
 
   React.useEffect(() => {
     setMainCategories(mainCategories);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainCategories]);
 
   const { name } = useMemo(

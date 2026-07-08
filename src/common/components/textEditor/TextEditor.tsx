@@ -97,7 +97,6 @@ const TextEditor: React.FC<TextEditorProps> = ({
         onChange(sanitizedValue);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedIsFocused]);
 
   return (

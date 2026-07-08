@@ -32,8 +32,8 @@ const CreateButtonPanel: React.FC<Props> = ({ onSave, saving }) => {
     <ButtonPanel
       submitButtons={[
         <LoadingButton
-          {...buttonProps}
           key="create"
+          {...buttonProps}
           className={styles.fullWidthOnMobile}
           disabled={
             saving === REGISTRATION_ACTIONS.CREATE || buttonProps.disabled
