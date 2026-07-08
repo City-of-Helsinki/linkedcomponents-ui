@@ -99,7 +99,6 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
       );
 
     getSelectedPlacesFromCache();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apolloClient, locale, value]);
 
   return (

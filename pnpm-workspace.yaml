@@ -24,6 +24,11 @@ overrides:
   'js-yaml@^4': '^4.3.0'
   'ws@^8': '^8.21.0'
 
+# Allow plugins that lag on peer ranges to load under ESLint 10.
+peerDependencyRules:
+  allowedVersions:
+    eslint: '10'
+
 allowBuilds:
   '@ffmpeg-installer/darwin-arm64': true
   '@ffmpeg-installer/darwin-x64': true

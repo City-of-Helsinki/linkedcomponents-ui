@@ -60,7 +60,6 @@ const PlaceList: React.FC<PlaceListProps> = ({
       // location.search seems to reset if not added here (...location)
       navigate(location, { state, replace: true });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

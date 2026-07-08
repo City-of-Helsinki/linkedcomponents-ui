@@ -89,7 +89,6 @@ const PageWrapper: React.FC<React.PropsWithChildren<PageWrapperProps>> = ({
         href: window.location.href,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [statisticsConsent, location.pathname, location.search]);
 
   return (

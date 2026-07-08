@@ -44,7 +44,6 @@ const useInitialSelectorOptions = <T>(
       setOptions(data.map((item) => getOption(item, locale, t)));
       previousDependenciesRef.current = memoizedDependencies;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, options.length, hasChanges, getOption, locale, t]);
 
   return options;

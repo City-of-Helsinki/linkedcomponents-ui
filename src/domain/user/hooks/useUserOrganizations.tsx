@@ -63,8 +63,6 @@ const useUserOrganizations = (
     if (user) {
       getUserOrganizations();
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [apolloClient, user]);
 
   return { loading, organizations };

@@ -47,6 +47,7 @@ const Tabs: React.FC<React.PropsWithChildren<Props>> = ({
     }
   };
 
+  // eslint-disable-next-line @eslint-react/no-children-to-array
   const tabPanels = React.Children.toArray(children)
     .filter((child) => {
       return (

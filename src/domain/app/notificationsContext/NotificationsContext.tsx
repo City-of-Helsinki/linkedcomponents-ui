@@ -63,13 +63,13 @@ export const NotificationsProvider: FC<PropsWithChildren> = ({ children }) => {
         };
         return (
           <Notification
+            key={props.id}
             notificationAriaLabel={
               /* istanbul ignore next */
               typeof props.label === 'string' ? props.label : undefined
             }
             {...props}
             style={getNotificationStyle()}
-            key={props.id}
             size={NotificationSize.Medium}
             position="top-right"
             autoClose={true}

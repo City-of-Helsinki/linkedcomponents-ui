@@ -59,7 +59,6 @@ const ResponsibilitiesSection: React.FC<ResponsibilitiesSectionProps> = ({
       /* istanbul ignore next */
       setPublisher(getValue(user.organization, ''));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (

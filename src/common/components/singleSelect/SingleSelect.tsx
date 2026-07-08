@@ -35,6 +35,7 @@ const SingleSelect: React.FC<SingleSelectProps> = ({
         className={classNames(className, styles.select)}
         texts={memoizedTexts}
         theme={theme.select}
+        // eslint-disable-next-line @eslint-react/jsx-no-children-prop
         children={undefined}
       />
     </SelectLoadingSpinner>
