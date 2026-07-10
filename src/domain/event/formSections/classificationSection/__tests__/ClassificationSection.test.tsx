@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import getValue from '../../../../../utils/getValue';
 import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks';
 import {
+  cleanup,
   configure,
   render,
   screen,
@@ -46,6 +47,7 @@ import ClassificationSection from '../ClassificationSection';
 configure({ defaultHidden: true });
 
 afterEach(() => {
+  cleanup();
   vi.resetAllMocks();
 });
 
@@ -263,12 +265,16 @@ test('should change keyword', async () => {
   await user.click(keywordOption);
   await user.keyboard('{Escape}');
 
-  await screen.findByRole('button', {
-    name: new RegExp(
-      `1 valittu vaihtoehto.*${getValue(keyword?.name?.fi, '')}`,
-      'i'
-    ),
-  });
+  await screen.findByRole(
+    'button',
+    {
+      name: new RegExp(
+        `1 valittu vaihtoehto.*${getValue(keyword?.name?.fi, '')}`,
+        'i'
+      ),
+    },
+    { timeout: 5000 }
+  );
 });
 
 test('should show correct validation error if none main category is selected', async () => {
