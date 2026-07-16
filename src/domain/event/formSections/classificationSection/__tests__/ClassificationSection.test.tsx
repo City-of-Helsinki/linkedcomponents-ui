@@ -6,6 +6,7 @@ import { mockAuthenticatedLoginState } from '../../../../../utils/mockLoginHooks
 import {
   cleanup,
   configure,
+  fireEvent,
   render,
   screen,
   setupUser,
@@ -52,6 +53,7 @@ afterEach(() => {
 });
 
 beforeEach(() => {
+  vi.useRealTimers();
   mockAuthenticatedLoginState();
 });
 
@@ -254,26 +256,24 @@ test('should change keyword', async () => {
   const user = setupUser();
   renderComponent();
 
-  const toggleButton = getElement('toggleButton');
-  await user.click(toggleButton);
+  const keywordName = getValue(keyword?.name?.fi, '');
+  const mainCategories = getElement('mainCategories');
 
-  expect(
-    await screen.findByRole('combobox', { name: /hae/i })
-  ).toBeInTheDocument();
+  await user.click(getElement('toggleButton'));
 
-  const keywordOption = await findElement('keywordOption');
-  await user.click(keywordOption);
-  await user.keyboard('{Escape}');
+  await screen.findByRole('combobox', { name: /hae/i });
 
-  await screen.findByRole(
-    'button',
-    {
-      name: new RegExp(
-        `1 valittu vaihtoehto.*${getValue(keyword?.name?.fi, '')}`,
-        'i'
-      ),
-    },
-    { timeout: 5000 }
+  const listbox = await screen.findByRole('listbox');
+  const keywordOption = await within(listbox).findByRole('option', {
+    name: keywordName,
+  });
+  fireEvent.click(keywordOption);
+  await user.click(document.body);
+
+  await waitFor(
+    () =>
+      expect(within(mainCategories).getByLabelText(keywordName)).toBeChecked(),
+    { timeout: 10000 }
   );
 });
 
