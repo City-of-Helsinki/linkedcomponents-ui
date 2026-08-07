@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.27.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.0...linkedcomponents-ui-v1.27.1) (2026-08-07)
+
+
+### Dependencies
+
+* Bump @babel/core Refs: RATY-357 ([4e8c9aa](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/4e8c9aa45907a552b3a90083f8061b716b4f8e01))
+* Bump dompurify from 3.4.0 to 3.4.11 ([#622](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/622)) ([69074b2](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/69074b2bdb25fb8fe86b889dc8705fc0a506b5f2))
+* Bump dompurify from 3.4.11 to 3.4.12 ([21eb6d5](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/21eb6d580b8626d42b66a2631036a1144d1d5e04))
+* Bump eslint to version 10 Refs: RATY-357 ([563891a](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/563891a0dcc221ea311fb1d88872819a43d13d7a))
+* Bump react-router from 7.13.0 to 7.17.0 ([#615](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/615)) ([9deb211](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/9deb211b6e6c552f87ae17d08083d75bd19fcd44))
+* Bump react-router from 7.18.0 to 8.3.0 ([800ed87](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/800ed875e1da5536d5401f23c0ab73ffdfbd87a4))
+* Bump react-router Refs: RATY-357 ([a05a0ca](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/a05a0ca5e176e95cf2b840a96d60df7dd18355ce))
+* Bump tsx, resolve esbuild sec update Refs: RATY-357 ([3893551](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/389355170892238244fb798fcaf5491d523075ae))
+* Bump vite from 8.0.9 to 8.0.16 ([#620](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/620)) ([7fb49a7](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7fb49a728cf36a97ccec32531057715b3d75d6d8))
+* Bump vitest, ws override Refs: RATY-357 ([de9bf7b](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/de9bf7ba8900e3cc68a152ccbcfed62d967f8d09))
+* Eslint react plugin Refs: RATY-357 ([71f3120](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/71f31207ba97276c6176dfcab44122c89f69b353))
+* Override js-yaml version Refs: RATY-357 ([7a18d43](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7a18d43fe4f8bd35f1cde1fa5e4ce2fd1a5ff61e))
+
 ## [1.27.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.26.4...linkedcomponents-ui-v1.27.0) (2026-06-12)
 
 
