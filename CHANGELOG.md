@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.27.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.1...linkedcomponents-ui-v1.27.2) (2026-08-12)
+
+
+### Dependencies
+
+* Bump dompurify from 3.4.12 to 3.4.13 ([22bbe22](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/22bbe22e98692b3d547da5938f265ae36948cb2c))
+* Dompurify minimumReleaseAgeExclude Refs: RATY-357 ([5e4ba01](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/5e4ba01123129c5a440f93defba5db6b4dd50656))
+
 ## [1.27.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.0...linkedcomponents-ui-v1.27.1) (2026-08-07)
 
 
