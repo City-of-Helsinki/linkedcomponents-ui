@@ -1,4 +1,4 @@
-import { Formik } from 'formik';
+import { Formik, useFormikContext } from 'formik';
 
 import {
   configure,
@@ -110,4 +110,79 @@ test('email should be optional if phone number exists', async () => {
   expect(
     screen.queryByText('Tämä kenttä on pakollinen')
   ).not.toBeInTheDocument();
+});
+
+const FormikValuesProbe = () => {
+  const { values } = useFormikContext<Record<string, unknown>>();
+  return (
+    <div data-testid="formik-values">
+      {JSON.stringify({ userConsent: values[EVENT_FIELDS.USER_CONSENT] })}
+    </div>
+  );
+};
+
+test('toggling userConsent stores a boolean when initial value is false', async () => {
+  const user = userEvent.setup();
+
+  render(
+    <Formik
+      initialValues={{ ...defaultInitialValues }}
+      onSubmit={vi.fn()}
+      enableReinitialize={true}
+      validationSchema={externalUserEventSchema}
+    >
+      <>
+        <ExternalUserContact {...defaultProps} />
+        <FormikValuesProbe />
+      </>
+    </Formik>
+  );
+
+  const consentCheckbox = await screen.findByLabelText(
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i
+  );
+
+  await user.click(consentCheckbox);
+
+  expect(screen.getByTestId('formik-values')).toHaveTextContent(
+    '{"userConsent":true}'
+  );
+});
+
+test('toggling userConsent stores a boolean even when initial value is missing', async () => {
+  const user = userEvent.setup();
+
+  // Intentionally omit USER_CONSENT to simulate a stale FormikPersist snapshot
+  // written before the external-user initial values were applied. Before the
+  // fix, this made Formik's getValueForCheckbox fall back to the array branch
+  // and produce ["on"] instead of a boolean.
+  const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    [EVENT_FIELDS.USER_CONSENT]: _omitted,
+    ...initialValuesWithoutConsent
+  } = defaultInitialValues;
+
+  render(
+    <Formik
+      initialValues={initialValuesWithoutConsent}
+      onSubmit={vi.fn()}
+      enableReinitialize={true}
+      validationSchema={externalUserEventSchema}
+    >
+      <>
+        <ExternalUserContact {...defaultProps} />
+        <FormikValuesProbe />
+      </>
+    </Formik>
+  );
+
+  const consentCheckbox = await screen.findByLabelText(
+    /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i
+  );
+
+  await user.click(consentCheckbox);
+
+  expect(screen.getByTestId('formik-values')).toHaveTextContent(
+    '{"userConsent":true}'
+  );
 });
