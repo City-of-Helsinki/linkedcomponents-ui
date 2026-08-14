@@ -29,7 +29,13 @@ const CheckboxField: React.FC<Props> = ({
         id={fieldId}
         name={name}
         checked={value}
-        value={value}
+        // Force a stable, non-empty value so the underlying <input>'s
+        // `value` attribute is always "true" instead of the browser default
+        // "on". This keeps Formik's getValueForCheckbox on the boolean branch
+        // (Boolean(checked)) even when the field's current value is undefined,
+        // preventing it from producing the array ["on"] and breaking Yup's
+        // boolean validation.
+        value="true"
         label={label}
       />
       {/* Add key to for error message to be updated when UI language changes */}

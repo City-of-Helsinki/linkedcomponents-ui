@@ -722,11 +722,13 @@ describe('getEventPayload function', () => {
       REACT_APP_ENABLE_EXTERNAL_USER_EVENTS: 'false',
     };
 
-    expect(
-      getEventPayload(EVENT_INITIAL_VALUES, PublicationStatus.Draft)
-    ).toEqual(defaultEventPayload);
-
-    process.env = originalEnv;
+    try {
+      expect(
+        getEventPayload(EVENT_INITIAL_VALUES, PublicationStatus.Draft)
+      ).toEqual(defaultEventPayload);
+    } finally {
+      process.env = originalEnv;
+    }
   });
 
   it('should map education keywords correctly for kasko event', () => {
@@ -816,6 +818,7 @@ describe('getEventPayload function', () => {
         zhHans: null,
       },
       typeId: EventTypeId.Course,
+      userConsent: false,
     });
   });
 });
