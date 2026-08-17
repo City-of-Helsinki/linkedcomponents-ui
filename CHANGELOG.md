@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.2...linkedcomponents-ui-v1.27.3) (2026-08-17)
+
+
+### Bug Fixes
+
+* External user consent checkbox initial value Refs: LINK-2585 ([cc090a3](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/cc090a35cd5d64f0f4cb7acc910afdb4b82ce386))
+
 ## [1.27.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.1...linkedcomponents-ui-v1.27.2) (2026-08-12)
 
 
