@@ -176,6 +176,7 @@ const EventTimeRow: React.FC<EventTimeRowProps> = ({
               <button
                 className={styles.toggleButton}
                 disabled={!isEditingAllowed}
+                type="button"
               >
                 <IconMenuDots aria-hidden={true} />
               </button>

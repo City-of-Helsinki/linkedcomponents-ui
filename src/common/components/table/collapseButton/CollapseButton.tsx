@@ -21,7 +21,7 @@ const CollapseButton: FC<CollapseButtonProps> = ({
   const iconProps: IconProps = { 'aria-hidden': true, size: IconSize.Small };
 
   return (
-    <button aria-label={ariaLabel} onClick={handleClick}>
+    <button aria-label={ariaLabel} onClick={handleClick} type="button">
       {open ? <IconAngleUp {...iconProps} /> : <IconAngleDown {...iconProps} />}
     </button>
   );

@@ -149,6 +149,7 @@ const RegistrationUserAccess: React.FC<Props> = ({
                 <button
                   className={styles.toggleButton}
                   disabled={!isEditingAllowed}
+                  type="button"
                 >
                   <IconMenuDots aria-hidden={true} />
                 </button>

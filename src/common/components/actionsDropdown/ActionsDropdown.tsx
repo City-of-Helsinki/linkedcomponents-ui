@@ -16,7 +16,7 @@ const ActionsDropdown: React.FC<Props> = ({ className, items }) => {
   return (
     <MenuDropdown
       button={
-        <button className={styles.toggleButton}>
+        <button className={styles.toggleButton} type="button">
           <IconMenuDots aria-hidden={true} />
         </button>
       }

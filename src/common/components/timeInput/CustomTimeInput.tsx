@@ -83,7 +83,7 @@ const getNewHoursOrMinutesValue = ({
 }) => {
   const modifier = event.key === 'ArrowUp' ? 1 : -1;
   /* istanbul ignore next */
-  const minutesAsInt = parseInt(value, 10) || 0;
+  const minutesAsInt = Number.parseInt(value, 10) || 0;
   const maxValue = type === 'hours' ? 23 : 59;
 
   return zeroPad(`${incrementNumber(0, maxValue, minutesAsInt, modifier)}`);

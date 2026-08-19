@@ -272,7 +272,11 @@ const EventCard: React.FC<Props> = ({ event, level = 0 }) => {
               </div>
             </div>
             {!!subEventAtIds.length && (
-              <button className={styles.toggleButton} onClick={toggle}>
+              <button
+                className={styles.toggleButton}
+                onClick={toggle}
+                type="button"
+              >
                 {open ? (
                   <IconAngleUp aria-hidden={true} size={IconSize.Small} />
                 ) : (

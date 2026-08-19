@@ -17,7 +17,7 @@ const isElementVisible = (element: HTMLElement): boolean => {
   if (
     style.visibility === 'hidden' ||
     style.display === 'none' ||
-    parseFloat(style.opacity) === 0
+    Number.parseFloat(style.opacity) === 0
   ) {
     return false;
   }
