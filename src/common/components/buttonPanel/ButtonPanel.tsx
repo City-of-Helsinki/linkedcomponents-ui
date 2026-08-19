@@ -106,7 +106,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
                   <MenuDropdown
                     button={
                       isMobile ? (
-                        <button className={styles.toggleButton}>
+                        <button className={styles.toggleButton} type="button">
                           <IconMenuDots aria-hidden={true} />
                         </button>
                       ) : undefined

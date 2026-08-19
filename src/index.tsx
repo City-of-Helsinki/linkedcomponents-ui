@@ -25,16 +25,16 @@ if (getEnvValue('REACT_APP_SENTRY_DSN')) {
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration(),
     ],
-    tracesSampleRate: parseFloat(
+    tracesSampleRate: Number.parseFloat(
       getEnvValue('REACT_APP_SENTRY_TRACES_SAMPLE_RATE') || '0'
     ),
     tracePropagationTargets: (
       getEnvValue('REACT_APP_SENTRY_TRACE_PROPAGATION_TARGETS') || ''
     ).split(','),
-    replaysSessionSampleRate: parseFloat(
+    replaysSessionSampleRate: Number.parseFloat(
       getEnvValue('REACT_APP_SENTRY_REPLAYS_SESSION_SAMPLE_RATE') || '0'
     ),
-    replaysOnErrorSampleRate: parseFloat(
+    replaysOnErrorSampleRate: Number.parseFloat(
       getEnvValue('REACT_APP_SENTRY_REPLAYS_ON_ERROR_SAMPLE_RATE') || '0'
     ),
   });
