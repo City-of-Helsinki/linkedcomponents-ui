@@ -345,7 +345,7 @@ const CustomTimeInput: FC<TimeInputProps> = ({
 
   return (
     <InputWrapper {...wrapperProps} id={id} labelId={labelId} isAriaLabelledBy>
-      <div {...frameProps} role="group" aria-labelledby={labelId}>
+      <fieldset {...frameProps} aria-labelledby={labelId}>
         <input
           {...rest}
           aria-hidden
@@ -398,7 +398,7 @@ const CustomTimeInput: FC<TimeInputProps> = ({
           aria-describedby={ariaDescribedBy}
           placeholder="--"
         />
-      </div>
+      </fieldset>
     </InputWrapper>
   );
 };

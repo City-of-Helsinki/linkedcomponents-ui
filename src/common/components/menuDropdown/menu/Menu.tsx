@@ -60,10 +60,9 @@ export const Menu: React.FC<MenuProps> = ({
   if (!menuOpen) return null;
 
   return (
-    <div
-      role="region"
-      aria-hidden={!menuOpen}
+    <section
       aria-labelledby={ariaLabelledBy}
+      aria-hidden={!menuOpen}
       id={id}
       className={classNames(
         styles.menu,
@@ -97,7 +96,7 @@ export const Menu: React.FC<MenuProps> = ({
           />
         );
       })}
-    </div>
+    </section>
   );
 };
 

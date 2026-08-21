@@ -67,9 +67,8 @@ export const ImageItem: React.FC<ImageItemProps> = ({
           disabled={disabled}
           data-testid={`${testIds.imageSelector.imageItem}-${image.id}`}
           style={{ backgroundImage: `url(${url})` }}
-          role="checkbox"
           type="button"
-          aria-checked={checked}
+          aria-pressed={checked}
           onClick={() => onClick(image)}
           onDoubleClick={() => onDoubleClick(image)}
         >

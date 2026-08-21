@@ -85,11 +85,10 @@ const SignupAccordion: React.FC<
   return (
     <div className={styles.accordion}>
       <div className={styles.headingWrapper}>
-        <div
+        <button
           {...toggleButtonProps}
           tabIndex={0}
           className={styles.toggleButton}
-          role="button"
         >
           <span aria-hidden={true}>{icon}</span>
           <span className={styles.label}>
@@ -106,13 +105,13 @@ const SignupAccordion: React.FC<
               </div>
             )}
           </span>
-        </div>
+        </button>
         {deleteButton}
       </div>
 
-      <div {...contentProps} className={styles.content} role="region">
+      <section {...contentProps} className={styles.content}>
         {open && children}
-      </div>
+      </section>
     </div>
   );
 };

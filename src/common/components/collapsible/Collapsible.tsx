@@ -12,6 +12,8 @@ type Props = {
   title: string;
 };
 
+const HEADING_TAGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;
+
 const Collabsible: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   defaultOpen = false,
@@ -29,6 +31,8 @@ const Collabsible: React.FC<React.PropsWithChildren<Props>> = ({
     setIsOpen(!isOpen);
   };
 
+  const HeadingEl = HEADING_TAGS[headingLevel - 1] ?? 'h3';
+
   return (
     <ClassNames>
       {({ css, cx }) => (
@@ -37,7 +41,7 @@ const Collabsible: React.FC<React.PropsWithChildren<Props>> = ({
             [styles.expanded]: isOpen,
           })}
         >
-          <div role="heading" aria-level={headingLevel}>
+          <HeadingEl>
             <button
               className={styles.button}
               id={collapsibleHeadingId}
@@ -53,15 +57,14 @@ const Collabsible: React.FC<React.PropsWithChildren<Props>> = ({
               )}
               <span>{title}</span>
             </button>
-          </div>
-          <div
-            role="region"
+          </HeadingEl>
+          <section
             aria-labelledby={collapsibleHeadingId}
             id={collapsiblePanelId}
             hidden={!isOpen}
           >
             {children}
-          </div>
+          </section>
         </div>
       )}
     </ClassNames>
