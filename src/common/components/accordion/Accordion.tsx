@@ -37,14 +37,13 @@ const Accordion: React.FC<React.PropsWithChildren<AccordionProps>> = ({
         <span aria-hidden={true}>{icon}</span>
         <span>{toggleButtonLabel}</span>
       </button>
-      <div
+      <section
         aria-label={toggleButtonLabel}
         {...contentProps}
         className={styles.content}
-        role="region"
       >
         {children}
-      </div>
+      </section>
     </div>
   );
 };

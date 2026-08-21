@@ -9,6 +9,7 @@ const IconListOutdent: React.FC<IconProps> = ({
   size = 's',
   className = '',
   style = {},
+  'aria-label': ariaLabel = 'Outdent',
   ...rest
 }) => (
   <svg
@@ -16,6 +17,7 @@ const IconListOutdent: React.FC<IconProps> = ({
     style={style}
     viewBox="0 0 512 512"
     {...rest}
+    aria-label={ariaLabel}
     role="img"
     xmlns="http://www.w3.org/2000/svg"
   >

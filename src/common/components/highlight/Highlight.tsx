@@ -11,6 +11,8 @@ interface HighlightProps {
   title: string;
 }
 
+const HEADING_TAGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const;
+
 const Highlight: React.FC<HighlightProps> = ({
   className,
   headingLevel = 2,
@@ -19,22 +21,18 @@ const Highlight: React.FC<HighlightProps> = ({
   title,
 }) => {
   const titleParts = title.split('\n');
+  const HeadingEl = HEADING_TAGS[headingLevel - 1] ?? 'h2';
 
   return (
     <section className={classNames(styles.highlight, className)}>
       <div className={styles.iconWrapper} aria-hidden={true}>
         {icon}
       </div>
-      <div
-        className={styles.title}
-        role="heading"
-        aria-level={headingLevel}
-        aria-label={titleParts.join(' ')}
-      >
+      <HeadingEl className={styles.title} aria-label={titleParts.join(' ')}>
         {titleParts.map((part, index) => (
           <span key={index}>{part}</span>
         ))}
-      </div>
+      </HeadingEl>
       <div className={styles.text}>{text}</div>
     </section>
   );

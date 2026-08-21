@@ -29,3 +29,15 @@ test('should show content only when accordion is open', async () => {
 
   screen.getByRole('region');
 });
+
+test('should render the accordion content as a semantic <section> element', async () => {
+  const user = userEvent.setup();
+  renderComponent();
+
+  await user.click(screen.getByRole('button', { name: toggleButtonLabel }));
+
+  const region = screen.getByRole('region');
+
+  // Sonar S6819: prefer <section aria-label=...> over <div role="region">
+  expect(region.tagName).toBe('SECTION');
+});

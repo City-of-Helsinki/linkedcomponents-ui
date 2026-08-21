@@ -53,23 +53,17 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
   };
 
   return (
-    <div
+    <button
       aria-label={label}
       className={classNames(styles.imagePreview, className, {
         [styles.disabled]: disabled,
       })}
-      onClick={
-        /* istanbul ignore next */
-        disabled ? () => undefined : onClick
-      }
-      onKeyDown={
-        /* istanbul ignore next */
-        disabled ? () => undefined : handleKeyDown
-      }
+      disabled={disabled}
+      onClick={onClick}
+      onKeyDown={disabled ? () => undefined : handleKeyDown}
       ref={ref}
-      role="button"
       style={containerStyles}
-      tabIndex={0}
+      type="button"
     >
       {showPlaceholder ? (
         <div className={styles.placeholderImage}>
@@ -82,7 +76,7 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
           style={{ backgroundImage: `url(${imageUrl})` }}
         />
       )}
-    </div>
+    </button>
   );
 };
 
