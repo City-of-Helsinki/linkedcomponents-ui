@@ -85,16 +85,16 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
           throw error;
         }
 
-        return Promise.resolve({
+        return {
           options: getValue(
             newKeywordsData?.keywords.data.map((keyword) =>
               getOption(keyword as KeywordFieldsFragment, locale)
             ),
             []
           ),
-        });
+        };
       } catch (error) {
-        return Promise.reject(error as ApolloError);
+        throw error as ApolloError;
       }
     },
     [refetch, locale]

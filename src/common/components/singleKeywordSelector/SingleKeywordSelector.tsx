@@ -88,7 +88,7 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
           ),
         };
       } catch (error) {
-        return Promise.reject(error as ApolloError);
+        throw error as ApolloError;
       }
     },
     [refetch, locale]

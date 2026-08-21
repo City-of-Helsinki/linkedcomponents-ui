@@ -108,7 +108,7 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
           ),
         };
       } catch (error) {
-        return Promise.reject(error as ApolloError);
+        throw error as ApolloError;
       }
     },
     [refetch, locale, t]

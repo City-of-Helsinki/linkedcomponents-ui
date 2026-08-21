@@ -90,7 +90,7 @@ const EventSelector: React.FC<EventSelectorProps> = ({
           ),
         };
       } catch (error) {
-        return Promise.reject(error as ApolloError);
+        throw error as ApolloError;
       }
     },
     [refetch, getOption, locale]
