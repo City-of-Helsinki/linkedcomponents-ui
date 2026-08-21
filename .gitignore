@@ -40,3 +40,6 @@ yarn.lock
 
 public/env-config.js
 public/test-env-config.js
+
+# Copilot
+.agents
