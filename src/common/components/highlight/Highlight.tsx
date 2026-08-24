@@ -29,8 +29,8 @@ const Highlight: React.FC<HighlightProps> = ({
         {icon}
       </div>
       <HeadingEl className={styles.title} aria-label={titleParts.join(' ')}>
-        {titleParts.map((part, index) => (
-          <span key={index}>{part}</span>
+        {titleParts.map((part) => (
+          <span key={part}>{part}</span>
         ))}
       </HeadingEl>
       <div className={styles.text}>{text}</div>
