@@ -23,9 +23,11 @@ export type UsePriceGroupOptionsProps = {
   publisher: string;
 };
 
-const usePriceGroupOptions = (
-  { publisher }: UsePriceGroupOptionsProps = { publisher: '' }
-): UsePriceGroupOptionsState => {
+const DEFAULT_PROPS: UsePriceGroupOptionsProps = { publisher: '' };
+
+const usePriceGroupOptions = ({
+  publisher,
+}: UsePriceGroupOptionsProps = DEFAULT_PROPS): UsePriceGroupOptionsState => {
   const locale = useLocale();
 
   const { data: priceGroupsData, loading: loadingDefaults } =
