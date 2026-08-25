@@ -88,15 +88,15 @@ const SignupAccordion: React.FC<
           <span className={styles.label}>
             {toggleButtonLabel}
             {inWaitingList && (
-              <div className={styles.waitingListIndicator}>
-                {<div className={styles.separator}>—</div>}
+              <span className={styles.waitingListIndicator}>
+                {<span className={styles.separator}>—</span>}
                 {t('signup.inWaitingList.text')}
-                <div ref={tooltipRef}>
+                <span ref={tooltipRef}>
                   <Tooltip className={styles.tooltip}>
                     {t('signup.inWaitingList.tooltip')}
                   </Tooltip>
-                </div>
-              </div>
+                </span>
+              </span>
             )}
           </span>
         </button>

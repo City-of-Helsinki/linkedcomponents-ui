@@ -58,11 +58,11 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
       type="button"
     >
       {showPlaceholder ? (
-        <div className={styles.placeholderImage}>
+        <span className={styles.placeholderImage}>
           <IconPhoto size={IconSize.ExtraLarge} />
-        </div>
+        </span>
       ) : (
-        <div
+        <span
           data-testid={testIds.imagePreview.image}
           className={styles.image}
           style={{ backgroundImage: `url(${imageUrl})` }}
