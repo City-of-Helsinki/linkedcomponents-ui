@@ -409,11 +409,11 @@ const linkedEventsLink = new RestLink({
   uri: getEnvValue('REACT_APP_LINKED_EVENTS_URL'),
 });
 
-const QUERIES_TO_SHOW_ERROR = ['User'];
-const MUTATIONS_NOT_TO_SHOW_SERVER_ERROR = [
+const QUERIES_TO_SHOW_ERROR = new Set(['User']);
+const MUTATIONS_NOT_TO_SHOW_SERVER_ERROR = new Set([
   'SendRegistrationUserAccessInvitation',
-];
-const MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR = [
+]);
+const MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR = new Set([
   'CreateEvent',
   'CreateEvents',
   'CreateKeyword',
@@ -426,8 +426,8 @@ const MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR = [
   'UpdateKeywordSet',
   'UpdateOrganization',
   'UpdatePlace',
-];
-const MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR = [
+]);
+const MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR = new Set([
   'CreateKeyword',
   'CreateKeywordSet',
   'CreateOrganization',
@@ -437,7 +437,7 @@ const MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR = [
   'UpdateKeywordSet',
   'UpdateOrganization',
   'UpdatePlace',
-];
+]);
 
 const getNetworkErrorKey = (
   statusCode: number,
@@ -445,14 +445,14 @@ const getNetworkErrorKey = (
 ): string => {
   switch (statusCode) {
     case 400:
-      if (!MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR.includes(operationName)) {
+      if (!MUTATIONS_NOT_TO_SHOW_VALIDATION_ERROR.has(operationName)) {
         return 'errors.validationError';
       }
       break;
     case 401:
       return 'errors.authorizationRequired';
     case 403:
-      if (!MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR.includes(operationName)) {
+      if (!MUTATIONS_NOT_TO_SHOW_FORBIDDEN_ERROR.has(operationName)) {
         return 'errors.forbidden';
       }
       break;
@@ -461,7 +461,7 @@ const getNetworkErrorKey = (
     case 410:
       return 'errors.deleted';
     default:
-      if (!MUTATIONS_NOT_TO_SHOW_SERVER_ERROR.includes(operationName)) {
+      if (!MUTATIONS_NOT_TO_SHOW_SERVER_ERROR.has(operationName)) {
         return 'errors.serverError';
       }
   }
@@ -505,7 +505,7 @@ const createErrorLink = ({
     }
 
     if (
-      (isMutation || QUERIES_TO_SHOW_ERROR.includes(operation.operationName)) &&
+      (isMutation || QUERIES_TO_SHOW_ERROR.has(operation.operationName)) &&
       networkError
     ) {
       showNetwordErrorNotification(
