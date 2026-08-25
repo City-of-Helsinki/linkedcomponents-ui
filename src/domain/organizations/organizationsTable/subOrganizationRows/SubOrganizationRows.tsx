@@ -22,9 +22,12 @@ const SubOrganizationRows: React.FC<Props> = ({ level, organizationId }) => {
     ? getOrganizationFields(organization, locale, t)
     : /* istanbul ignore next */
       { affiliatedOrganizations: [], subOrganizations: [] };
-  const subOrganizationIds = [...affiliatedOrganizations, ...subOrganizations];
+  const subOrganizationIds = new Set([
+    ...affiliatedOrganizations,
+    ...subOrganizations,
+  ]);
   const subOrganizationsObjects = sortedOrganizations.filter((o) =>
-    subOrganizationIds.includes(o.atId)
+    subOrganizationIds.has(o.atId)
   );
 
   /* istanbul ignore next */
