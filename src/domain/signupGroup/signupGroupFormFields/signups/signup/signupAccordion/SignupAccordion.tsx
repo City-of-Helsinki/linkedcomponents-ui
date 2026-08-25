@@ -20,7 +20,6 @@ type ToggleButtonProps = {
   'aria-label': string;
   id: string;
   onClick: (e: React.MouseEvent) => void;
-  onKeyDown: (e: React.KeyboardEvent) => void;
 };
 
 type ContentProps = {
@@ -57,12 +56,6 @@ const SignupAccordion: React.FC<
     onClick: (e: React.MouseEvent) => {
       /* istanbul ignore else */
       if (!isEventFromTooltip(e)) {
-        onClick();
-      }
-    },
-    onKeyDown: (e: React.KeyboardEvent) => {
-      /* istanbul ignore else */
-      if (e.key === 'Enter' && !isEventFromTooltip(e)) {
         onClick();
       }
     },
