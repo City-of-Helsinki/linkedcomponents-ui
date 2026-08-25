@@ -1,4 +1,3 @@
-import { ApolloError } from '@apollo/client';
 import { SearchFunction } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -72,26 +71,22 @@ const EventSelector: React.FC<EventSelectorProps> = ({
 
   const handleSearch: SearchFunction = React.useCallback(
     async (searchValue: string): ReturnType<SearchFunction> => {
-      try {
-        const { error, data: newEventsData } = await refetch({
-          fullText: searchValue,
-        });
+      const { error, data: newEventsData } = await refetch({
+        fullText: searchValue,
+      });
 
-        if (error) {
-          throw error;
-        }
-
-        return {
-          options: getValue(
-            newEventsData?.events.data.map((event) =>
-              getOption(event as EventFieldsFragment, locale)
-            ),
-            []
-          ),
-        };
-      } catch (error) {
-        throw error as ApolloError;
+      if (error) {
+        throw error;
       }
+
+      return {
+        options: getValue(
+          newEventsData?.events.data.map((event) =>
+            getOption(event as EventFieldsFragment, locale)
+          ),
+          []
+        ),
+      };
     },
     [refetch, getOption, locale]
   );

@@ -1,6 +1,5 @@
 import {
   ApolloClient,
-  ApolloError,
   NormalizedCacheObject,
   useApolloClient,
 } from '@apollo/client';
@@ -76,26 +75,22 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({
 
   const handleSearch: SearchFunction = React.useCallback(
     async (searchValue: string): ReturnType<SearchFunction> => {
-      try {
-        const { error, data: newKeywordsData } = await refetch({
-          freeText: searchValue,
-        });
+      const { error, data: newKeywordsData } = await refetch({
+        freeText: searchValue,
+      });
 
-        if (error) {
-          throw error;
-        }
-
-        return {
-          options: getValue(
-            newKeywordsData?.keywords.data.map((keyword) =>
-              getOption(keyword as KeywordFieldsFragment, locale)
-            ),
-            []
-          ),
-        };
-      } catch (error) {
-        throw error as ApolloError;
+      if (error) {
+        throw error;
       }
+
+      return {
+        options: getValue(
+          newKeywordsData?.keywords.data.map((keyword) =>
+            getOption(keyword as KeywordFieldsFragment, locale)
+          ),
+          []
+        ),
+      };
     },
     [refetch, locale]
   );

@@ -1,4 +1,3 @@
-import { ApolloError } from '@apollo/client';
 import { SearchFunction } from 'hds-react';
 import { TFunction } from 'i18next';
 import React from 'react';
@@ -90,26 +89,22 @@ const PlaceSelector: React.FC<PlaceSelectorProps> = ({
 
   const handleSearch: SearchFunction = React.useCallback(
     async (searchValue: string): ReturnType<SearchFunction> => {
-      try {
-        const { error, data: newPlacesData } = await refetch({
-          text: searchValue,
-        });
+      const { error, data: newPlacesData } = await refetch({
+        text: searchValue,
+      });
 
-        if (error) {
-          throw error;
-        }
-
-        return {
-          options: getValue(
-            newPlacesData?.places.data.map((place) =>
-              getOption(place as PlaceFieldsFragment, locale, t)
-            ),
-            []
-          ),
-        };
-      } catch (error) {
-        throw error as ApolloError;
+      if (error) {
+        throw error;
       }
+
+      return {
+        options: getValue(
+          newPlacesData?.places.data.map((place) =>
+            getOption(place as PlaceFieldsFragment, locale, t)
+          ),
+          []
+        ),
+      };
     },
     [refetch, locale, t]
   );
