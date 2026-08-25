@@ -15,14 +15,15 @@
   }
 
   .image {
+    display: block;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
   }
 
   .placeholderImage {
-    align-items: center;
     display: grid;
+    align-items: center;
     justify-items: center;
     color: var(--color-black-40);
   }
