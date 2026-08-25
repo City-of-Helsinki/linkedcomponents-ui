@@ -94,6 +94,19 @@ export const parseSignupGroupServerErrors = ({
   }
 };
 
+// Get correct field name for an error item
+function parseSeatsReservationServerErrorLabel({
+  key,
+}: {
+  key: string;
+}): string {
+  if (key === 'seats') {
+    return '';
+  }
+
+  return key;
+}
+
 export const parseSeatsReservationServerErrors = ({
   result,
   t,
@@ -124,18 +137,5 @@ export const parseSeatsReservationServerErrors = ({
         message: parseServerErrorMessage({ error, t }),
       },
     ];
-  }
-
-  // Get correct field name for an error item
-  function parseSeatsReservationServerErrorLabel({
-    key,
-  }: {
-    key: string;
-  }): string {
-    if (key === 'seats') {
-      return '';
-    }
-
-    return key;
   }
 };
