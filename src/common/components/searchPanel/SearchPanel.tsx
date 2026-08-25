@@ -38,8 +38,10 @@ const SearchRow: FC<SearchRowProps> = ({
     <div className={styles.searchRow}>
       <InputWrapper>
         <FilterRow>
-          {mainSelectors?.map((selector) => (
-            <SelectorColumn key={selector.key}>{selector}</SelectorColumn>
+          {mainSelectors?.map((selector, index) => (
+            <SelectorColumn key={selector.key ?? `main-selector-${index}`}>
+              {selector}
+            </SelectorColumn>
           ))}
 
           <TextSearchColumn>
@@ -58,7 +60,10 @@ const SearchRow: FC<SearchRowProps> = ({
         {!!secondarySelectors?.length && (
           <FilterRow>
             {secondarySelectors?.map((selector, index) => (
-              <SelectorColumn key={selector.key} small={index % 3 === 2}>
+              <SelectorColumn
+                key={selector.key ?? `secondary-selector-${index}`}
+                small={index % 3 === 2}
+              >
                 {selector}
               </SelectorColumn>
             ))}
