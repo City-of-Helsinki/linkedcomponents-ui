@@ -9,10 +9,10 @@ import upperCaseFirstLetter from '../../../../utils/upperCaseFirstLetter';
 import { useTheme } from '../../../app/theme/Theme';
 import styles from './statusTag.module.scss';
 
-const eventStatusWhiteList = [
+const eventStatusWhiteList = new Set([
   EventStatus.EventCancelled,
   EventStatus.EventPostponed,
-];
+]);
 
 const eventStatusIconMap = {
   [EventStatus.EventCancelled]: <IconCross aria-hidden={true} />,
@@ -39,7 +39,7 @@ const StatusTag: React.FC<Props> = ({
 }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
-  const showEventStatus = eventStatusWhiteList.includes(eventStatus);
+  const showEventStatus = eventStatusWhiteList.has(eventStatus);
 
   return (
     <ClassNames>

@@ -16,7 +16,18 @@ import InputWrapper from '../inputWrapper/InputWrapper';
 import textInputStyles from '../inputWrapper/inputWrapper.module.scss';
 import styles from './customTimeInput.module.scss';
 
-const NUMBER_KEYS: string[] = '0,1,2,3,4,5,6,7,8,9'.split(',');
+const NUMBER_KEYS: Set<string> = new Set([
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+]);
 
 /**
  * Pad a one-char string with a leading zero
@@ -94,7 +105,7 @@ const shouldFocusToMinutesAfterHoursKeyUp = (
 ) =>
   event.currentTarget.value.length === 2 &&
   event.currentTarget.value !== '00' &&
-  NUMBER_KEYS.includes(event.key);
+  NUMBER_KEYS.has(event.key);
 
 const isArrowLeftKey = (event: React.KeyboardEvent<HTMLInputElement>) =>
   event.key === 'ArrowLeft' && !event.shiftKey;
