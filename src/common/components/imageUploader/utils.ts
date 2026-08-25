@@ -132,8 +132,7 @@ const needsToUpscale = async (file: File): Promise<boolean> => {
 export const getUpscaledImageFile = async (file: File): Promise<File> => {
   return !isTestEnv && (await needsToUpscale(file))
     ? new Promise((resolve) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const compressor = new Compressor(file, {
+        new Compressor(file, {
           minHeight: MIN_UPSCALED_IMAGE_HEIGHT,
           minWidth: MIN_UPSCALED_IMAGE_WIDTH,
           success(result) {
