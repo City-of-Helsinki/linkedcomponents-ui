@@ -2,7 +2,6 @@ import { configure, render, screen } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import React from 'react';
 
-import { enterKeyPressHelper } from '../../../../utils/testUtils';
 import ImagePreview, { ImagePreviewProps } from '../ImagePreview';
 
 configure({ defaultHidden: true });
@@ -29,12 +28,14 @@ test('should call onClick', async () => {
   expect(onClick).toBeCalled();
 });
 
-test('should call onClick when clicking enter', async () => {
+test('should call onClick when pressing enter', async () => {
+  const user = userEvent.setup();
   const onClick = vi.fn();
   renderComponent({ onClick });
 
   const button = screen.getByRole('button', { name: label });
-  enterKeyPressHelper(button);
+  button.focus();
+  await user.keyboard('{Enter}');
 
   expect(onClick).toBeCalled();
 });

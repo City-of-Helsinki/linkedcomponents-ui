@@ -45,13 +45,6 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
     };
   }, [menuContainerSize]);
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    /* istanbul ignore else  */
-    if (event.key === 'Enter') {
-      onClick();
-    }
-  };
-
   return (
     <button
       aria-label={label}
@@ -60,7 +53,6 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
       })}
       disabled={disabled}
       onClick={onClick}
-      onKeyDown={disabled ? () => undefined : handleKeyDown}
       ref={ref}
       style={containerStyles}
       type="button"
