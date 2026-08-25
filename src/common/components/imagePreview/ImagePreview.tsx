@@ -63,7 +63,6 @@ const ImagePreview: React.FC<ImagePreviewProps> = ({
       onKeyDown={disabled ? () => undefined : handleKeyDown}
       ref={ref}
       style={containerStyles}
-      type="button"
     >
       {showPlaceholder ? (
         <div className={styles.placeholderImage}>
