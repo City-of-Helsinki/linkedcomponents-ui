@@ -88,6 +88,7 @@ const SignupAccordion: React.FC<
         <button
           {...toggleButtonProps}
           tabIndex={0}
+          type="button"
           className={styles.toggleButton}
         >
           <span aria-hidden={true}>{icon}</span>

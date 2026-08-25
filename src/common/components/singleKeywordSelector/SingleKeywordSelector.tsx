@@ -1,4 +1,3 @@
-import { ApolloError } from '@apollo/client';
 import { SearchFunction } from 'hds-react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -70,26 +69,22 @@ const SingleKeywordSelector: React.FC<SingleKeywordSelectorProps> = ({
 
   const handleSearch: SearchFunction = React.useCallback(
     async (searchValue: string): ReturnType<SearchFunction> => {
-      try {
-        const { error, data: newkeywordsData } = await refetch({
-          text: searchValue,
-        });
+      const { error, data: newkeywordsData } = await refetch({
+        text: searchValue,
+      });
 
-        if (error) {
-          throw error;
-        }
-
-        return {
-          options: getValue(
-            newkeywordsData?.keywords.data.map((keyword) =>
-              getOption(keyword as KeywordFieldsFragment, locale)
-            ),
-            []
-          ),
-        };
-      } catch (error) {
-        throw error as ApolloError;
+      if (error) {
+        throw error;
       }
+
+      return {
+        options: getValue(
+          newkeywordsData?.keywords.data.map((keyword) =>
+            getOption(keyword as KeywordFieldsFragment, locale)
+          ),
+          []
+        ),
+      };
     },
     [refetch, locale]
   );
