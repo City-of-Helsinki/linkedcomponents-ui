@@ -259,14 +259,14 @@ const linkedEventsLink = new RestLink({
   },
   customFetch: (request: Request | string, config) => {
     if (typeof request === 'string') {
-      const requestParts = request
+      const firstRequestPart = request
         .replace(getEnvValue('REACT_APP_LINKED_EVENTS_URL') || '', '')
         .split('/')
-        .filter((t) => t);
+        .find((t) => t);
 
       if (config.method === 'GET') {
         return fetch(addNocacheToUrl(request), config);
-      } else if (config.method === 'PUT' && requestParts[0] === 'image') {
+      } else if (config.method === 'PUT' && firstRequestPart === 'image') {
         const bodyObj = JSON.parse(getValue(config.body?.toString(), ''));
 
         return fetch(request, {
