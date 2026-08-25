@@ -4,7 +4,7 @@ const parseEmailFromCreatedBy = (
   if (!createdBy) {
     return '';
   }
-  const filterRegexp = /[\S._%+-]+@[^\s@.]+(?:\.[^\s@.]+)*\.[A-Za-z]{2,}/gi;
+  const filterRegexp = /[\S]+@[^\s@.]+(?:\.[^\s@.]+)*\.[A-Za-z]{2,}/gi;
   const targetEmail = createdBy.match(filterRegexp);
   return targetEmail ? targetEmail[0] : '';
 };
