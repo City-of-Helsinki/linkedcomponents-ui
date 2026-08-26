@@ -8,7 +8,6 @@ const IconCloud: React.FC<IconProps> = ({
   size = 's',
   className = '',
   style = {},
-  'aria-label': ariaLabel = 'Cloud',
   ...rest
 }) => (
   <svg
@@ -16,7 +15,6 @@ const IconCloud: React.FC<IconProps> = ({
     style={style}
     viewBox="0 0 176 176"
     {...rest}
-    aria-label={ariaLabel}
     role="img"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

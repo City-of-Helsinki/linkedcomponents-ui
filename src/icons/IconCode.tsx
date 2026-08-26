@@ -9,7 +9,6 @@ const IconCode: React.FC<IconProps> = ({
   size = 's',
   className = '',
   style = {},
-  'aria-label': ariaLabel = 'Code',
   ...rest
 }) => (
   <svg
@@ -17,7 +16,6 @@ const IconCode: React.FC<IconProps> = ({
     style={style}
     viewBox="0 0 640 512"
     {...rest}
-    aria-label={ariaLabel}
     role="img"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
