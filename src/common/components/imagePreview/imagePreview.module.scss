@@ -5,8 +5,11 @@
   --image-preview-min-height: 339px;
 
   background-color: var(--image-preview-background-color);
+  box-sizing: border-box;
   display: grid;
   height: 100%;
+  width: 100%;
+  padding: 0;
 
   cursor: pointer;
 
