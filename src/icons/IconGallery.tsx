@@ -8,7 +8,6 @@ const IconGallery: React.FC<IconProps> = ({
   size = 's',
   className = '',
   style = {},
-  'aria-label': ariaLabel = 'Gallery',
   ...rest
 }) => (
   <svg
@@ -16,7 +15,6 @@ const IconGallery: React.FC<IconProps> = ({
     style={style}
     viewBox="0 0 24 24"
     {...rest}
-    aria-label={ariaLabel}
     role="img"
     xmlns="http://www.w3.org/2000/svg"
   >
