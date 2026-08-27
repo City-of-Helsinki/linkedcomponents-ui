@@ -84,7 +84,7 @@ const useImageUpdateActions = ({
     savingFinished();
     closeModal();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess());
+    await callbacks?.onSuccess?.();
   };
 
   const { handleError } = useHandleError<UpdateImageMutationInput, null>();

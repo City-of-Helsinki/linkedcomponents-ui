@@ -143,7 +143,7 @@ const useEventActions = (
     savingFinished();
     closeModal();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess(id));
+    await callbacks?.onSuccess?.(id);
   };
 
   const { handleError } = useHandleError<
