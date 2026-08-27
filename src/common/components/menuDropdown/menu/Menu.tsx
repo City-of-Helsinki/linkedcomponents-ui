@@ -46,10 +46,7 @@ export const Menu: React.FC<MenuProps> = ({
   const menuStyles: MenuStyles = React.useMemo(() => {
     const { height, right, top, width } = menuContainerSize;
     // the menu width should be at least 190px
-    const minWidth =
-      width < MENU_MIN_WIDTH
-        ? MENU_MIN_WIDTH
-        : /* istanbul ignore next */ width;
+    const minWidth = Math.max(width, MENU_MIN_WIDTH);
     return {
       minWidth,
       right: fixedPosition ? window.innerWidth - right : undefined,

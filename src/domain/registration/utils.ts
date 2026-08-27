@@ -671,11 +671,11 @@ export const exportSignupsAsExcel = ({
           });
           break;
         case 401:
-          throw Error(t('errors.authorizationRequired'));
+          throw new Error(t('errors.authorizationRequired'));
         case 403:
-          throw Error(t('errors.forbidden'));
+          throw new Error(t('errors.forbidden'));
         default:
-          throw Error(t('errors.serverError'));
+          throw new Error(t('errors.serverError'));
       }
     })
     .catch((error) => {
