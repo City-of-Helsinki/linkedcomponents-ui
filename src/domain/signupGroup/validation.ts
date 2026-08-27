@@ -290,7 +290,7 @@ export const scrollToFirstSignupGroupFormError = async ({
 }): Promise<void> => {
   const preFocusFn = async (path: string) => {
     if (/^signups\[\d*\]\./.test(path)) {
-      const signupIndex = Number(path.match(/(?<=\[)[[\d]{1,4}(?=\])/)?.[0]);
+      const signupIndex = Number(/(?<=\[)[[\d]{1,4}(?=\])/.exec(path)?.[0]);
       setOpenAccordion(signupIndex);
 
       await wait(100);

@@ -61,7 +61,7 @@ const incrementNumber = (
 const getHourAndMinuteValues = (value?: string): string[] | null => {
   const valueString = `${value}`;
   if (value && valueString.length > 0) {
-    if (valueString.match(/^\d{2}:\d{2}$/)) {
+    if (/^\d{2}:\d{2}$/.exec(valueString)) {
       return valueString.split(':');
     }
   }
@@ -117,7 +117,7 @@ const isArrowUpOrDownKey = (event: React.KeyboardEvent<HTMLInputElement>) =>
   ['ArrowUp', 'ArrowDown'].includes(event.key) && !event.shiftKey;
 
 const isShortNumericString = (inputValue: string): boolean =>
-  inputValue.match(/^(\d{1,2})?$/) !== null;
+  /^(\d{1,2})?$/.exec(inputValue) !== null;
 
 const CustomTimeInput: FC<TimeInputProps> = ({
   className,
