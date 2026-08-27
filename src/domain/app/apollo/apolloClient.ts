@@ -490,12 +490,10 @@ const createErrorLink = ({
   addNotification: (props: NotificationProps) => void;
 }) =>
   onError(({ graphQLErrors, networkError, operation }) => {
-    const isMutation = Boolean(
-      operation.query.definitions.find(
-        (definition) =>
-          definition.kind === 'OperationDefinition' &&
-          definition.operation === 'mutation'
-      )
+    const isMutation = operation.query.definitions.some(
+      (definition) =>
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'mutation'
     );
     if (graphQLErrors) {
       graphQLErrors.forEach(({ message, locations, path }) => {
