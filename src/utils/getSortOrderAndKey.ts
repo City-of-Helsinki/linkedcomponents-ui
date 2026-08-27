@@ -5,7 +5,7 @@ const getSortOrderAndKey = (
   order: 'desc' | 'asc';
 } => {
   return {
-    colKey: sort.replace(/-/g, ''),
+    colKey: sort.replaceAll('-', ''),
     order: sort.startsWith('-') ? 'desc' : 'asc',
   };
 };
