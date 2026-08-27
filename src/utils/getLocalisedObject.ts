@@ -12,7 +12,7 @@ const getLocalisedObject = (
     ORDERED_LE_DATA_LANGUAGES,
     (acc, lang) => ({
       ...acc,
-      [lang]: (obj && obj[lang]) || defaultValue,
+      [lang]: obj?.[lang] || defaultValue,
     }),
     {}
   ) as MultiLanguageObject;

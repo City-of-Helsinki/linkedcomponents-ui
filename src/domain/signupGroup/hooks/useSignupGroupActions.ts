@@ -87,7 +87,7 @@ const useSignupGroupActions = ({
     }
     savingFinished();
     // Call callback function if defined
-    await (callbacks?.onSuccess && callbacks.onSuccess());
+    await callbacks?.onSuccess?.();
   };
 
   const createSignupGroup = async (
