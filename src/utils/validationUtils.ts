@@ -305,7 +305,7 @@ export type ErrorFieldAndType = {
 };
 
 const isInFieldList = (fieldList: FieldList, fieldName: string): boolean =>
-  Boolean(fieldList.find((field) => new RegExp(field).test(fieldName)));
+  fieldList.some((field) => new RegExp(field).test(fieldName));
 
 const fieldMappings: Record<
   keyof FieldLists,

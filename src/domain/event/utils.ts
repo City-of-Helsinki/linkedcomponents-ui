@@ -412,7 +412,7 @@ export const formatSingleDescription = ({
   lang: string;
 }): string => {
   // look for the Service Centre Card keyword
-  const shouldAppendDescription = audience.find((item) =>
+  const shouldAppendDescription = audience.some((item) =>
     item.includes('/keyword/helsinki:aflfbat76e/')
   );
   const descriptionDataMapping = {
@@ -433,10 +433,10 @@ export const formatSingleDescription = ({
   if (description) {
     const trimmedDescription = description.trim();
     let formattedDescription =
-      TEXT_EDITOR_ALLOWED_TAGS.find((tag: string) =>
+      TEXT_EDITOR_ALLOWED_TAGS.some((tag: string) =>
         trimmedDescription.startsWith(`<${tag}>`)
       ) &&
-      TEXT_EDITOR_ALLOWED_TAGS.find((tag: string) =>
+      TEXT_EDITOR_ALLOWED_TAGS.some((tag: string) =>
         trimmedDescription.endsWith(`</${tag}>`)
       )
         ? trimmedDescription
@@ -999,7 +999,7 @@ const changeLanguageIfNeeded = async ({
   path: string;
   setDescriptionLanguage: (value: LE_DATA_LANGUAGES) => void;
 }): Promise<void> => {
-  const descriptionField = DESCRIPTION_SECTION_FIELDS.find((field) =>
+  const descriptionField = DESCRIPTION_SECTION_FIELDS.some((field) =>
     path.startsWith(field)
   );
   if (descriptionField) {

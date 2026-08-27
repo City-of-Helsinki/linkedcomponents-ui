@@ -44,7 +44,7 @@ export interface SendMessageModalProps {
 const TEXT_EDITOR_FIELDS = [SEND_MESSAGE_FIELDS.BODY];
 
 const isTextEditor = (fieldName: string): boolean =>
-  Boolean(TEXT_EDITOR_FIELDS.find((item) => fieldName.endsWith(item)));
+  TEXT_EDITOR_FIELDS.some((item) => fieldName.endsWith(item));
 
 const getFocusableFieldId = (fieldName: string): string =>
   isTextEditor(fieldName) ? `${fieldName}-text-editor` : fieldName;

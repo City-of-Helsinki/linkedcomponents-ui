@@ -286,7 +286,7 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
     const locationState = location.state as SignupsLocationState;
     if (
       locationState?.signupId &&
-      signups.find((item) => item?.id === locationState.signupId)
+      signups.some((item) => item?.id === locationState.signupId)
     ) {
       scrollToItem(getSignupItemId(locationState.signupId));
       // Clear registrationId value to keep scroll position correctly
