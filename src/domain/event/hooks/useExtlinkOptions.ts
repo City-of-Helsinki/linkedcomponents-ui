@@ -10,7 +10,7 @@ const useExtlinkOptions = (): OptionType[] => {
   const options: OptionType[] = React.useMemo(
     () =>
       Object.values(EXTLINK).map((type) => ({
-        label: t(`event.${type.split('_').join('.')}`),
+        label: t(`event.${type.replaceAll('_', '.')}`),
         value: type,
       })),
     [t]

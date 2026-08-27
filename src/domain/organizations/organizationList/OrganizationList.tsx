@@ -30,7 +30,7 @@ const OrganizationList: React.FC = () => {
 
   const sortedOrganizations = orderBy(
     organizations,
-    [sort.replace(/-/g, '')],
+    [sort.replaceAll('-', '')],
     [sort.startsWith('-') ? 'desc' : 'asc']
   ) as OrganizationFieldsFragment[];
 
