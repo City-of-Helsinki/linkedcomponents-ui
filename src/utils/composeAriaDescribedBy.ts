@@ -11,7 +11,7 @@ const composeAriaDescribedBy = (
     successText && `${id}-success`,
     infoText && `${id}-info`,
   ]
-    .filter((item) => item)
+    .filter(Boolean)
     .join(' ');
 };
 

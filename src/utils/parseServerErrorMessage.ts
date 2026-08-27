@@ -18,11 +18,11 @@ const parseServerErrorMessage = ({
   } else if (Array.isArray(error)) {
     const e =
       typeof error[0] === 'object'
-        ? Object.values(error[0]).find((item) => item)
+        ? Object.values(error[0]).find(Boolean)
         : error[0];
     errorStr = Array.isArray(e) ? e[0] : e;
   } else {
-    const e = Object.values(error).find((item) => item);
+    const e = Object.values(error).find(Boolean);
     errorStr = Array.isArray(e) ? e[0] : e;
   }
 

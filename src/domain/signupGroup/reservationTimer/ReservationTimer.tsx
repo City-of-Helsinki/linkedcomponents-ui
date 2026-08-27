@@ -38,7 +38,7 @@ const getTimeStr = (timeLeft: number) => {
     hours,
     ...[minutes, seconds].map((n) => n.toString().padStart(2, '0')),
   ]
-    .filter((i) => i)
+    .filter(Boolean)
     .join(':');
 };
 
