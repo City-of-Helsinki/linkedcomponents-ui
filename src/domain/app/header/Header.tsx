@@ -103,7 +103,7 @@ const Header: React.FC = () => {
       labelKey: 'navigation.tabs.help',
       url: ROUTES.HELP,
     },
-  ].filter((i) => i) as NavigationItem[];
+  ].filter(Boolean) as NavigationItem[];
 
   const navigationItems = NAVIGATION_ITEMS.map(
     ({ labelKey, url, ...rest }) => ({

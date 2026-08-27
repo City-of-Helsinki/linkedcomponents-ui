@@ -262,7 +262,7 @@ const linkedEventsLink = new RestLink({
       const firstRequestPart = request
         .replace(getEnvValue('REACT_APP_LINKED_EVENTS_URL') || '', '')
         .split('/')
-        .find((t) => t);
+        .find(Boolean);
 
       if (config.method === 'GET') {
         return fetch(addNocacheToUrl(request), config);
