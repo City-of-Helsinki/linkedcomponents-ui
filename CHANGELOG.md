@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.27.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.3...linkedcomponents-ui-v1.27.4) (2026-08-28)
+
+
+### Bug Fixes
+
+* ImagePreview styles fix Refs: LINK-2601 ([54ee656](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/54ee656c924b6ca565d173c9aa1af644e1cf2aa8))
+* Maintainability a11y Refs: LINK-2601 ([677f835](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/677f835408bbd692663437b13f2cae9758113f62))
+* Maintainability fixes Refs: LINK-2601 ([a5489a6](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/a5489a63cea9196e3f5037349b765606a1dbbec7))
+* No divs in buttons Refs: LINK-2601 ([008999f](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/008999f135889641d3b88ab5711872b8b3f759e2))
+* No index for key Refs: LINK-2601 ([606a95a](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/606a95a69d5485460b37c705946a91f6119d9713))
+* ParseEmailFromCreatedBy regex Refs: LINK-2601 ([4fd1449](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/4fd144900b5973ed418f84bf5ae8835be92d4f75))
+* Reliability and maintaina bility fixes Refs: LINK-2601 ([8a7e91a](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/8a7e91af8da6275e807e14c318cd675c3760d935))
+* SearchPanel fallback keys Refs: LINK-2601 ([7f895e3](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/7f895e3fb1614d84a0ad7479a0b4e161e237c6c4))
+* Sonar issue ([6551916](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/65519163fa18ae18140d459a329c3e2b755509a9))
+
 ## [1.27.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.2...linkedcomponents-ui-v1.27.3) (2026-08-17)
 
 
