@@ -18,25 +18,31 @@ ignoredBuiltDependencies: []
 shamefullyHoist: true
 
 overrides:
-  '@typescript-eslint/typescript-estree>minimatch': '>=9.0.7'
-  'editorconfig>minimatch': '>=9.0.7'
-  'hds-react>cookie': '0.7.2'
-  'lodash': '>=4.18.1'
-  'uuid': '>=11.1.1'
-  'js-yaml@^4': '^4.3.0'
-  'ws@^8': '^8.21.0'
-  'brace-expansion': '>=5.0.8'
+  "@typescript-eslint/typescript-estree>minimatch": ">=9.0.7"
+  "editorconfig>minimatch": ">=9.0.7"
+  "hds-react>cookie": "0.7.2"
+  "lodash": ">=4.18.1"
+  "uuid": ">=11.1.1"
+  "js-yaml@^4": "^4.3.1"
+  "ws@^8": "^8.21.0"
+  "brace-expansion": ">=5.0.9"
+  "shell-quote": ">=1.8.4"
+  "tmp": ">=0.2.6"
+  "fast-uri": ">=3.1.5"
+  "postcss": ">=8.5.18"
+  "sass>immutable": ">=4.3.9 <5"
+  "@ardatan/relay-compiler>immutable": ">=5.1.8"
 
 # Allow plugins that lag on peer ranges to load under ESLint 10.
 peerDependencyRules:
   allowedVersions:
-    eslint: '10'
+    eslint: "10"
 
 allowBuilds:
-  '@ffmpeg-installer/darwin-arm64': true
-  '@ffmpeg-installer/darwin-x64': true
-  '@ffmpeg-installer/linux-x64': true
-  '@parcel/watcher': true
-  '@swc/core': true
+  "@ffmpeg-installer/darwin-arm64": true
+  "@ffmpeg-installer/darwin-x64": true
+  "@ffmpeg-installer/linux-x64": true
+  "@parcel/watcher": true
+  "@swc/core": true
   esbuild: true
   unrs-resolver: true
