@@ -4,7 +4,9 @@ const parseEmailFromCreatedBy = (
   if (!createdBy) {
     return '';
   }
-  const filterRegexp = /\S+@[^\s@.]+(?:\.[^\s@.]+)*\.[A-Z]{2,}/gi;
+  // [^\s@]+ rather than \S+: \S matches "@" too, which makes the local part
+  // ambiguous and the whole match quadratic (sonar typescript:S8786).
+  const filterRegexp = /[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[A-Z]{2,}/gi;
   const targetEmail = createdBy.match(filterRegexp);
   return targetEmail ? targetEmail[0] : '';
 };

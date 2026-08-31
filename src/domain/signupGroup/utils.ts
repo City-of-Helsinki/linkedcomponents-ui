@@ -208,7 +208,7 @@ export const getNewSignups = ({
   const filledSignups = signups.filter((a) => !isEqual(a, signupInitialValues));
   return [
     ...filledSignups,
-    ...Array(Math.max(seats - filledSignups.length, 0)).fill(
+    ...new Array(Math.max(seats - filledSignups.length, 0)).fill(
       signupInitialValues
     ),
   ]

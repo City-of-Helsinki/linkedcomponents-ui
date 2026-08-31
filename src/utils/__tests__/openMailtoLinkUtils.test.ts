@@ -17,6 +17,10 @@ const cases = [
     'Ääripää Äijä - äijä-ääripää@älykäsosoite.fi',
     'äijä-ääripää@älykäsosoite.fi',
   ],
+  // A local part cannot contain an unquoted '@', so the address after the
+  // last '@' wins; consecutive '@' yields no usable address at all.
+  ['Testi Ukkeli - a@b@c.fi', 'b@c.fi'],
+  ['Testi Ukkeli - a@@b.fi', ''],
 ];
 
 it.each(cases)(
