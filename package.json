@@ -1,6 +1,6 @@
 {
   "name": "linkedcomponents-ui",
-  "version": "1.27.4",
+  "version": "1.27.5",
   "packageManager": "pnpm@11.9.0",
   "private": true,
   "engines": {

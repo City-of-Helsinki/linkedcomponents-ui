@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.5](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.4...linkedcomponents-ui-v1.27.5) (2026-08-31)
+
+
+### Bug Fixes
+
+* Dependabot security alert fixes ([6e03288](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/6e03288bf5d2c792b40ae592583bf2b16fd88553))
+
 ## [1.27.4](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.3...linkedcomponents-ui-v1.27.4) (2026-08-28)
 
 
