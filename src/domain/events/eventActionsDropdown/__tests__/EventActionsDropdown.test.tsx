@@ -298,7 +298,7 @@ test('should call the mailto function when clicking Send Email button', async ()
 
   await waitFor(() =>
     expect(window.location.href).toBe(
-      'mailto:testisähköposti@testidomaini.fi?subject=Name fi'
+      'mailto:testisähköposti@testidomaini.fi?subject=Name%20fi'
     )
   );
 
@@ -327,7 +327,7 @@ test('should find the email address even when the createdBy field has extra dash
 
   await waitFor(() =>
     expect(window.location.href).toBe(
-      'mailto:jaska_joki-niemi@testi-domaini.fi?subject=Name fi'
+      'mailto:jaska_joki-niemi@testi-domaini.fi?subject=Name%20fi'
     )
   );
 

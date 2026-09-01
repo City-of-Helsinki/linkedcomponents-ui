@@ -1,20 +1,26 @@
+// createdBy arrives from the API as "Firstname Lastname - email@domain.fi", so
+// the address has to be picked out of a display string. Non-global on purpose:
+// only the first match is used, and a global regex cannot be safely hoisted.
+//
+// sonar typescript:S8786 (super-linear backtracking) is accepted here, not
+// fixed: unanchored scanning for a TLD-terminated address is inherently
+// quadratic, and the input is short server-generated metadata rendered
+// client-side for an admin. Anchoring would need whitespace tokenisation and
+// would stop matching addresses followed by punctuation.
+const EMAIL_IN_CREATED_BY = /[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[A-Z]{2,}/i;
+
 const parseEmailFromCreatedBy = (
   createdBy: string | null | undefined
-): string => {
-  if (!createdBy) {
-    return '';
-  }
-  // [^\s@]+ rather than \S+: \S matches "@" too, which makes the local part
-  // ambiguous and the whole match quadratic (sonar typescript:S8786).
-  const filterRegexp = /[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[A-Z]{2,}/gi;
-  const targetEmail = createdBy.match(filterRegexp);
-  return targetEmail ? targetEmail[0] : '';
+): string => createdBy?.match(EMAIL_IN_CREATED_BY)?.[0] ?? '';
+
+const openMailtoLink = (targetEmail: string, subject: string): void => {
+  // "&" or "#" in an event name would otherwise truncate the subject silently.
+  // The address is escaped only for the characters a mailto URL would
+  // reinterpret, so internationalised addresses pass through unchanged.
+  const address = targetEmail.replace(/[&?#%]/g, (c) => encodeURIComponent(c));
+  window.location.href = `mailto:${address}?subject=${encodeURIComponent(
+    subject
+  )}`;
 };
 
-const openMailtoLink = (
-  targetEmail: string | null | undefined,
-  subject: string | null | undefined
-): void => {
-  window.location.href = 'mailto:' + targetEmail + '?subject=' + subject;
-};
 export { openMailtoLink, parseEmailFromCreatedBy };
