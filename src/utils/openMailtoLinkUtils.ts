@@ -7,7 +7,7 @@
 // quadratic, and the input is short server-generated metadata rendered
 // client-side for an admin. Anchoring would need whitespace tokenisation and
 // would stop matching addresses followed by punctuation.
-const EMAIL_IN_CREATED_BY = /[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[A-Z]{2,}/i;
+const EMAIL_IN_CREATED_BY = /[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[A-Z]{2,}/i; // NOSONAR
 
 const parseEmailFromCreatedBy = (
   createdBy: string | null | undefined
