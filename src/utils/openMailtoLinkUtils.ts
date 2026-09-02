@@ -15,9 +15,11 @@ const parseEmailFromCreatedBy = (
 
 const openMailtoLink = (targetEmail: string, subject: string): void => {
   // "&" or "#" in an event name would otherwise truncate the subject silently.
-  // The address is escaped only for the characters a mailto URL would
-  // reinterpret, so internationalised addresses pass through unchanged.
-  const address = targetEmail.replace(/[&?#%]/g, (c) => encodeURIComponent(c));
+  // The address is escaped only for the sub-delimiters RFC 6068 requires in an
+  // addr-spec, so internationalised addresses pass through unchanged.
+  const address = targetEmail.replace(/[&?#%;=]/g, (c) =>
+    encodeURIComponent(c)
+  );
   window.location.href = `mailto:${address}?subject=${encodeURIComponent(
     subject
   )}`;

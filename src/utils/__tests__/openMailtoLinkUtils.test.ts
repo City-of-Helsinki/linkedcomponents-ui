@@ -83,6 +83,15 @@ it('should keep "@" literal but encode the rest of the address', () => {
 
   expect(window.location.href).toBe('mailto:a%26b@c.fi?subject=otsikko');
 
+  // RFC 6068 requires "=" and ";" in the addr-spec to be percent-encoded.
+  openMailtoLink('a=b@c.fi', 'otsikko');
+
+  expect(window.location.href).toBe('mailto:a%3Db@c.fi?subject=otsikko');
+
+  openMailtoLink('a;b@c.fi', 'otsikko');
+
+  expect(window.location.href).toBe('mailto:a%3Bb@c.fi?subject=otsikko');
+
   openMailtoLink('äijä@älykäs.fi', 'otsikko');
 
   // Internationalised addresses must not be mangled.
