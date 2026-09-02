@@ -276,7 +276,7 @@ test('should call the mailto function when clicking Send Email button', async ()
 
   await waitFor(() =>
     expect(window.location.href).toBe(
-      'mailto:testisähköposti@testidomaini.fi?subject=Name fi'
+      'mailto:testisähköposti@testidomaini.fi?subject=Name%20fi'
     )
   );
 

@@ -70,6 +70,7 @@ import getPathBuilder from '../../utils/getPathBuilder';
 import getTimeObject from '../../utils/getTimeObject';
 import getValue from '../../utils/getValue';
 import isHtml from '../../utils/isHtml';
+import { parseEmailFromCreatedBy } from '../../utils/openMailtoLinkUtils';
 import parseIdFromAtId from '../../utils/parseIdFromAtId';
 import queryBuilder from '../../utils/queryBuilder';
 import sanitizeHtml from '../../utils/sanitizeHtml';
@@ -1211,10 +1212,6 @@ export const getIsButtonVisible = ({
   }
 };
 
-const validateCreatedBy = (createdBy: string | null | undefined): boolean => {
-  return !!createdBy && createdBy !== ' - ';
-};
-
 const getCreateEventActionWarning = ({
   action,
   authenticated,
@@ -1290,7 +1287,9 @@ const getUpdateEventActionWarning = (
   );
   const isCancelled = eventStatus === EventStatus.EventCancelled;
 
-  const noEmailFound = !validateCreatedBy(createdBy);
+  // Ask the parser rather than sniffing the API's format, so the warning and
+  // the disabled state always agree with what the mailto link will contain.
+  const noEmailFound = !parseEmailFromCreatedBy(createdBy);
 
   const isInThePast = isEventInThePast(event);
 

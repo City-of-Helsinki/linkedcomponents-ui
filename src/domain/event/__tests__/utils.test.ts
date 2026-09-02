@@ -2234,3 +2234,46 @@ describe('shouldShowRegistrationPriceGroupFields function', () => {
     ).toBeFalsy();
   });
 });
+
+describe('getEventActionWarning function, sendEmail', () => {
+  const commonProps = {
+    action: EVENT_ACTIONS.SEND_EMAIL,
+    authenticated: true,
+    t,
+    userCanDoAction: true,
+  };
+  const noEmailWarning = 'Tähän tapahtumaan ei liity sähköpostiosoitetta.';
+
+  const eventCreatedBy = (createdBy: string | null) =>
+    fakeEvent({ createdBy, publicationStatus: PublicationStatus.Public });
+
+  test('should not warn when createdBy contains an email address', () => {
+    expect(
+      getEventActionWarning({
+        ...commonProps,
+        event: eventCreatedBy('Jaska Jokunen - jaska.jokunen@testiosoite.fi'),
+      })
+    ).toBe('');
+  });
+
+  test('should warn when createdBy has a name but no email address', () => {
+    expect(
+      getEventActionWarning({
+        ...commonProps,
+        event: eventCreatedBy('Jaska Jokunen'),
+      })
+    ).toBe(noEmailWarning);
+  });
+
+  test('should warn when createdBy is the empty placeholder', () => {
+    expect(
+      getEventActionWarning({ ...commonProps, event: eventCreatedBy(' - ') })
+    ).toBe(noEmailWarning);
+  });
+
+  test('should warn when createdBy is missing', () => {
+    expect(
+      getEventActionWarning({ ...commonProps, event: eventCreatedBy(null) })
+    ).toBe(noEmailWarning);
+  });
+});
