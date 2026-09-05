@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.6](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.5...linkedcomponents-ui-v1.27.6) (2026-09-05)
+
+
+### Bug Fixes
+
+* Sonar reliability issues LINK-2598 ([#641](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/641)) ([b81df11](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/b81df1141867376a5d86e576a85add883db8e2a7))
+
 ## [1.27.5](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.4...linkedcomponents-ui-v1.27.5) (2026-08-31)
 
 
