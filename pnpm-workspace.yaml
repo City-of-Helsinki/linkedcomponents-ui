@@ -3,13 +3,10 @@ minimumReleaseAge: 10080
 
 # Use minimumReleaseAgeExclude temporarily for emergency security vulnerability fixes
 minimumReleaseAgeExclude:
-  - baseline-browser-mapping@2.11.13
-  - browserslist@4.28.8
-  - caniuse-lite@1.0.30001809
-  - electron-to-chromium@1.5.403
-  - nanoid@3.3.18
-  - node-releases@2.0.53
-  - update-browserslist-db@1.3.0
+  - baseline-browser-mapping@2.11.21
+  - browserslist@4.28.9
+  - electron-to-chromium@1.5.425
+  - node-releases@2.0.55
 
 # Don't warn about ignored build scripts
 ignoredBuiltDependencies: []
