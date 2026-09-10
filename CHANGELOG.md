@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.27.6](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.5...linkedcomponents-ui-v1.27.6) (2026-09-10)
+
+
+### Bug Fixes
+
+* **deps:** Update minimum release age exclusions ([e4b28c6](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e4b28c6fb8c260fa9cf5c02ce6776e96638c3931))
+* Sonar reliability issues LINK-2598 ([#641](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/641)) ([b81df11](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/b81df1141867376a5d86e576a85add883db8e2a7))
+
+
+### Dependencies
+
+* Bump @faker-js/faker from 8.4.1 to 10.5.0 ([33a4083](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/33a408360a55fe7fe4f72cef76f7ff5e446a5d2c))
+* Bump vitest from 4.1.9 to 4.1.11 ([1415581](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/1415581f776a8445cbd41fe5831bca0616b69176))
+
 ## [1.27.5](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.4...linkedcomponents-ui-v1.27.5) (2026-08-31)
 
 
