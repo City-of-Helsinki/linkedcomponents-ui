@@ -7,6 +7,8 @@ minimumReleaseAgeExclude:
   - browserslist@4.28.9
   - electron-to-chromium@1.5.425
   - node-releases@2.0.55
+  - obug@2.2.1
+  - tinyexec@1.3.1
 
 # Don't warn about ignored build scripts
 ignoredBuiltDependencies: []
