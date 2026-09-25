@@ -115,8 +115,8 @@ const EditSignupPageWrapper: React.FC = () => {
 
   const { data: signupGroupData, loading: loadingSignupGroup } =
     useSignupGroupQuery({
-      skip: !signupData?.signup.signupGroup,
-      variables: { id: signupData?.signup.signupGroup as string },
+      skip: !signupData?.signup?.signupGroup,
+      variables: { id: signupData?.signup?.signupGroup as string },
     });
 
   const signup = signupData?.signup;

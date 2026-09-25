@@ -204,7 +204,7 @@ export const isAfterTime = (
   [startsAt]: string[],
   schema: Yup.StringSchema
 ): Yup.StringSchema => {
-  if (isValidTime(startsAt)) {
+  if (startsAt && isValidTime(startsAt)) {
     return schema.test(
       'isAfterTime',
       () => ({

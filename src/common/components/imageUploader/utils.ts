@@ -114,6 +114,8 @@ export const getCompressedImageFile = async (file: File) => {
       const blob = await imageCompression(file, {
         maxSizeMB: MAX_IMAGE_SIZE_MB,
         maxWidthOrHeight: MAX_IMAGE_WIDTH,
+        // Web worker mode loads a script from cdn.jsdelivr.net, which our CSP blocks.
+        useWebWorker: false,
       });
 
       return new File([blob], file.name, { type: file.type });
