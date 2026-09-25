@@ -272,7 +272,9 @@ const SignupsTable: React.FC<SignupsTableProps> = ({
 
   useInterval(refetchSignupsIfNeeded, SIGNUPS_REFETCH_INTERVAL);
 
-  const signups = getValue(signupsData?.signups.data, []).filter(skipFalsyType);
+  const signups = getValue(signupsData?.signups?.data, []).filter(
+    skipFalsyType
+  );
 
   const { count, onPageChange, pageCount, pageHref } = useCommonListProps({
     defaultSort: '',

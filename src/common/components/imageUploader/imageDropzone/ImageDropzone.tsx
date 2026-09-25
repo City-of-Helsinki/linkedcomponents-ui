@@ -69,8 +69,12 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({
 
   /* istanbul ignore next */
   const validateImageMinDimensions = async (file: File): Promise<boolean> => {
-    const { height, width } = await getImageDimensions(file);
-    return height >= MIN_IMAGE_HEIGHT && width >= MIN_IMAGE_WIDTH;
+    try {
+      const { height, width } = await getImageDimensions(file);
+      return height >= MIN_IMAGE_HEIGHT && width >= MIN_IMAGE_WIDTH;
+    } catch {
+      return false;
+    }
   };
 
   const handleDragOver = (event: React.DragEvent) => {
@@ -95,7 +99,9 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({
     //let's grab the image file
     const imageFile = event.dataTransfer.files[0];
 
-    handleFile(imageFile);
+    if (imageFile) {
+      handleFile(imageFile);
+    }
 
     setHovered(false);
   };
