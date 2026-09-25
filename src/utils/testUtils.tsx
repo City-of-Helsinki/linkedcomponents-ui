@@ -20,7 +20,6 @@ import { createMemoryHistory, History } from 'history';
 import React from 'react';
 import { Route, Routes, unstable_HistoryRouter as Router } from 'react-router';
 import { Mock, MockInstance } from 'vitest';
-import wait from 'waait';
 
 import { AccessibilityNotificationProvider } from '../common/components/accessibilityNotificationContext/AccessibilityNotificationContext';
 import { testIds } from '../constants';
@@ -29,6 +28,7 @@ import { NotificationsProvider } from '../domain/app/notificationsContext/Notifi
 import { PageSettingsProvider } from '../domain/app/pageSettingsContext/PageSettingsContext';
 import { ThemeProvider } from '../domain/app/theme/Theme';
 import { ServerErrorItem, UseServerErrorsState } from '../types';
+import wait from './wait';
 
 type CustomRenderOptions = {
   history?: History;

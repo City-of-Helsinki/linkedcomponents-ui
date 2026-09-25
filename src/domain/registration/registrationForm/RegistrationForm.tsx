@@ -59,7 +59,7 @@ import RegistrationUserAccessesSection from '../formSections/registrationUserAcc
 import { useNotificationsContext } from '../../app/notificationsContext/hooks/useNotificationsContext';
 import { checkCanUserDoRegistrationAction } from '../permissions';
 import PriceGroupsSection from '../formSections/priceGroups/PriceGroupsSection';
-import wait from 'waait';
+import wait from '../../../utils/wait';
 import { featureFlagUtils } from '../../../utils/featureFlags';
 
 export type CreateRegistrationFormProps = {

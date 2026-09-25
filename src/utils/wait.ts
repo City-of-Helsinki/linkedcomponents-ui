@@ -1,4 +1,4 @@
-const wait = (ms: number): Promise<void> =>
+const wait = (ms = 0): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export default wait;

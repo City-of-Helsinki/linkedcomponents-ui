@@ -38,9 +38,6 @@ peerDependencyRules:
     eslint: "10"
 
 allowBuilds:
-  "@ffmpeg-installer/darwin-arm64": true
-  "@ffmpeg-installer/darwin-x64": true
-  "@ffmpeg-installer/linux-x64": true
   "@parcel/watcher": true
   "@swc/core": true
   esbuild: true
