@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.27.7](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.6...linkedcomponents-ui-v1.27.7) (2026-09-28)
+
+
+### Bug Fixes
+
+* Remove unused and deprecated dependencies ([f02ba47](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/f02ba47f88d64d310fef179b5df36df28e375e28))
+* Sentry issues fixes ([fa6e32c](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/fa6e32c87861471e6fe600662dec5c9473e94069))
+
 ## [1.27.6](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.5...linkedcomponents-ui-v1.27.6) (2026-09-10)
 
 
