@@ -576,6 +576,7 @@
       "infoTextImage2": "Innan du laddar upp bilden ska du redigera den så att den passar för internetanvändning och använda ett horisontellt bildförhållande på 3:2, t.ex. 1200 × 800 px. Det är viktigt att filstorleken är rimlig för mobil användning, helst mindre än 200 kilobyte (kb).",
       "infoTextImage3": "Namnge bilden och ge en kort beskrivning av vad bilden innehåller.",
       "infoTextImage4": "Alt-text förbättrar tillgängligheten eftersom skärmläsare förmedlar alt-text till användaren. Beskriv alltså innehållet i bilden på ett begripligt sätt.",
+      "infoTextImage5": "Bilder som skapats med hjälp av artificiell intelligens får inte användas i evenemang som läggs in i Linked Events.",
       "infoTextInfoLanguages": {
         "course": "Välj de språk som ska användas för att mata in kursinformation för denna tjänst.",
         "general": "Välj de språk du vill använda för att beskriva evenemangsinformationen i Linked Events. <strong>Innehåll som är särskilt riktat till besökare måste finnas på åtminstone finska och engelska.</strong>",
