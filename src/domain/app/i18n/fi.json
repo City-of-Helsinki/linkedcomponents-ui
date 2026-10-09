@@ -576,6 +576,7 @@
       "infoTextImage2": "Muokkaa kuva ennen syöttöä verkkoon sopivaksi ja 3:2 -vaakakuvasuhteeseen, esim. 1200×800px. Olennaista on, että tiedostokoko pysyy kohtuullisena myös mobiilikäyttöön eli mieluiten alle 200 kilotavun (kt).",
       "infoTextImage3": "Anna kuvalle nimi ja kuvaile lyhyesti mitä siinä tapahtuu.",
       "infoTextImage4": "Alt-teksti parantaa saavutettavuutta, sillä ruudunlukuohjelmat välittävät alt-tekstin sisällön käyttäjälle. Kuvaa tähän kohtaan siis kuvan sisältö ymmärrettävästi.",
+      "infoTextImage5": "Tekoälyllä luotuja kuvia ei saa käyttää Linked Eventsiin syötettävissä tapahtumissa.",
       "infoTextInfoLanguages": {
         "course": "Valitse kielet, joilla kuvaat kurssin tiedot Linked Events -palvelussa.",
         "general": "Valitse kielet, joilla kuvaat tapahtuman tiedot Linked Events -palvelussa. <strong>Erityisesti vierailijoille suunnattu sisältö pitää olla vähintään suomeksi ja englanniksi.</strong",

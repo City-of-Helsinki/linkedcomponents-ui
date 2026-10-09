@@ -20,6 +20,7 @@ const ImageInstructions: FC<ImageInstructionsProps> = ({ eventType }) => {
       <p>{t(`event.form.infoTextImage2`)}</p>
       <p>{t(`event.form.infoTextImage3`)}</p>
       <p>{t(`event.form.infoTextImage4`)}</p>
+      <p>{t(`event.form.infoTextImage5`)}</p>
     </>
   );
 };
