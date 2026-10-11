@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.27.8](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.7...linkedcomponents-ui-v1.27.8) (2026-10-11)
+
+
+### Dependencies
+
+* Bump dompurify from 3.4.13 to 3.4.16 ([93b33a5](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/93b33a569fe327e5865e7dd8ee579ed7546db9e0))
+* Update pnpm release age exclusions ([a0acfad](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/a0acfada5f840f36f3bd88a688665f5b65c80a50))
+
 ## [1.27.7](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.6...linkedcomponents-ui-v1.27.7) (2026-09-28)
 
 
