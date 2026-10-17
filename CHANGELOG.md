@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.28.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.8...linkedcomponents-ui-v1.28.0) (2026-10-17)
+
+
+### Features
+
+* Forbid AI-generated images in events ([dfc958e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/dfc958e09af1c9bc44da28abaabe2764ef2f1722))
+
+
+### Bug Fixes
+
+* Update help images ([e99609b](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e99609b86cd6a5b8bd1c7b02c7ef193b5bc3c033))
+
 ## [1.27.8](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.7...linkedcomponents-ui-v1.27.8) (2026-10-14)
 
 
