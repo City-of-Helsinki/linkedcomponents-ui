@@ -205,3 +205,42 @@ Run linter to all the files in app
 ### `pnpm lint:fix`
 
 Run linter and fix all the linter errors
+
+## License
+
+The source code in this repository is licensed under the MIT License; see
+[LICENSE](./LICENSE). The licenses of the third-party code included in the
+production build are listed in `third-party-licenses.txt`, which is generated
+during the build and served from the root of the deployed application. The
+same information is emitted alongside it as `oss-licenses.json`, for license
+audit tooling.
+
+The production build includes CKEditor 5, which this application uses under
+GPL-2.0-or-later. The generated notices state where the source of CKEditor 5
+and of this application can be obtained.
+
+The MIT License covers source code only. The following files are **not**
+covered by it and remain with their respective rights holders:
+
+| Files                                                                                                                                                                      | Rights holder and terms                                                                                                                                                                           |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `public/favicon.ico`, `public/images/android-chrome-*.png`, `public/images/apple-touch-icon.png`, `public/images/favicon-*.png`, `public/images/mstile-150x150.png`        | City of Helsinki. The City of Helsinki logo is a registered trademark.                                                                                                                            |
+| `public/images/email/`                                                                                                                                                     | City of Helsinki logo and graphics, which the City of Helsinki holds the rights to, and the logos of social media services, which are trademarks of those services.                               |
+| `public/images/layers*.png`, `public/images/marker-*.png`                                                                                                                  | Unmodified copies of the map images of [Leaflet](https://github.com/Leaflet/Leaflet), BSD-2-Clause. Leaflet is part of the production build, so its license is included in the generated notices. |
+| `src/assets/images/png/`                                                                                                                                                   | Screenshots of this application, made for its help pages; not offered for reuse under the MIT License.                                                                                            |
+| `public/images/linkedevents-og-image.jpg`, `public/images/noscript-background.jpg`, `public/images/external-link.svg`, `src/assets/images/jpg/`, `src/assets/images/webp/` | Photographs, illustrations and an icon whose source is not recorded in the repository history; not offered for reuse under the MIT License.                                                       |
+
+Two third-party components are loaded at runtime from a public CDN instead of
+being bundled, so they do not appear in either generated file, and they are not
+redistributed by this repository or by its build output:
+
+- [oidc-client-ts](https://github.com/authts/oidc-client-ts) (Apache-2.0),
+  loaded by [silent_renew.html](./public/silent_renew.html) from cdnjs with a
+  subresource integrity hash.
+- [normalize.css](https://github.com/necolas/normalize.css) (MIT), loaded by
+  the no-JavaScript fallback in [index.html](./index.html) from cdnjs.
+
+The Helsinki Grotesk typeface used by the user interface is proprietary and
+licensed by Camelot Typefaces. No font files are stored in this repository;
+they are loaded at runtime from a City of Helsinki service. See
+[fonts.scss](./src/assets/styles/fonts.scss).

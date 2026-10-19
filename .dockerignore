@@ -16,4 +16,7 @@
 !pnpm-lock.yaml
 !pnpm-workspace.yaml
 !index.html
+# The third-party notices plugin reads LICENSE during `pnpm build` to
+# reproduce the application license in the output.
+!LICENSE
 **/__tests__/**
