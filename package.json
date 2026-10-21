@@ -118,7 +118,7 @@
     "tsx": "^4.22.4",
     "typescript": "~5.4.3",
     "typescript-eslint": "^8.62.0",
-    "vite": "^8.0.16",
+    "vite": "^8.1.6",
     "vite-bundle-visualizer": "^1.2.1",
     "vitest": "^4.1.11",
     "vitest-axe": "^0.1.0"
