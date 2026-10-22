@@ -1,11 +1,11 @@
 {
   "name": "linkedcomponents-ui",
   "version": "1.27.8",
-  "packageManager": "pnpm@11.9.0",
+  "packageManager": "pnpm@11.28.7+sha512.2161a30a2dc64b0c0f09786496fbce5f061be96b8ff11f0bc98e6bc675e0074ceb225b9197a278f2f171e6c9fb971bd1df8932e5bc31053baccdd52b15a1ae26",
   "private": true,
   "engines": {
-    "node": ">=24.14.1",
-    "pnpm": ">=11.9.0"
+    "node": "^24",
+    "pnpm": ">=11.28.7"
   },
   "dependencies": {
     "@apollo/client": "^3.10.1",
