@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.28.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.8...linkedcomponents-ui-v1.28.0) (2026-10-27)
+
+
+### Features
+
+* Forbid AI-generated images in events ([dfc958e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/dfc958e09af1c9bc44da28abaabe2764ef2f1722))
+* Generate third-party license notices at build time ([#655](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/655)) ([c03a3ab](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/c03a3ab3b130d702f2661caa4c7188106ca896d2))
+
+
+### Bug Fixes
+
+* Dependabot alerts ([3896a51](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/3896a510ab3d290fd9bef51a36027323c6f0253d))
+* Update help images ([e99609b](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/e99609b86cd6a5b8bd1c7b02c7ef193b5bc3c033))
+* Use latest Node.js 24 LTS and pnpm 11.28.7 ([#657](https://github.com/City-of-Helsinki/linkedcomponents-ui/issues/657)) ([2292b59](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/2292b59b5054aa997950aa41a02f1ca12889f791))
+
+
+### Dependencies
+
+* Bump source-map-js from 1.2.1 to 1.2.2 ([3b17f91](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/3b17f911c2b9983e2157a61b341ac26c38ca2872))
+* Bump vite from 8.0.16 to 8.1.6 ([29f459b](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/29f459b91b95e7456c198ca11bd65af30e736129))
+
 ## [1.27.8](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.7...linkedcomponents-ui-v1.27.8) (2026-10-14)
 
 
