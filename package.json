@@ -76,7 +76,7 @@
     "@eslint-react/eslint-plugin": "^5.10.0",
     "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^10.5.0",
-    "@graphql-codegen/cli": "^5.0.7",
+    "@graphql-codegen/cli": "^7.4.6",
     "@graphql-codegen/typescript": "^4.1.6",
     "@graphql-codegen/typescript-operations": "^4.6.1",
     "@graphql-codegen/typescript-react-apollo": "^4.4.2",
@@ -96,8 +96,8 @@
     "@types/react-modal": "^3.16.3",
     "@types/react-scroll": "^1.8.10",
     "@typescript-eslint/parser": "^8.62.0",
-    "@vitejs/plugin-react-swc": "^4.3.0",
-    "@vitest/coverage-istanbul": "^4.1.9",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vitest/coverage-istanbul": "^4.1.12",
     "dotenv": "^16.4.5",
     "eslint": "^10.6.0",
     "eslint-config-prettier": "^10.1.8",
@@ -120,7 +120,7 @@
     "typescript-eslint": "^8.62.0",
     "vite": "^8.1.6",
     "vite-bundle-visualizer": "^1.2.1",
-    "vitest": "^4.1.11",
+    "vitest": "^4.1.12",
     "vitest-axe": "^0.1.0"
   }
 }

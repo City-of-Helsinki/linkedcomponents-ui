@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { thirdPartyLicensesConfig } from '../thirdPartyLicenses.config';
+import { thirdPartyLicensesConfig } from '../thirdPartyLicenses.config.mts';
 
 describe('thirdPartyLicensesConfig', () => {
   // The decisions are the part of the notices that a reader cannot verify

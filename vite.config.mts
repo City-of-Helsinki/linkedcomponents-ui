@@ -1,10 +1,10 @@
 import { thirdPartyLicenses } from '@city-of-helsinki/license-notices';
 import eslint from '@nabla/vite-plugin-eslint';
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { configDefaults, coverageConfigDefaults } from 'vitest/config';
 
-import { thirdPartyLicensesConfig } from './scripts/thirdPartyLicenses.config';
+import { thirdPartyLicensesConfig } from './scripts/thirdPartyLicenses.config.mts';
 
 export default defineConfig(({ mode }) => ({
   base: '/',
