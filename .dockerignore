@@ -12,7 +12,7 @@
 !eslint.config.mjs
 !.prettierrc.json
 !tsconfig.json
-!vite.config.ts
+!vite.config.mts
 !pnpm-lock.yaml
 !pnpm-workspace.yaml
 !index.html

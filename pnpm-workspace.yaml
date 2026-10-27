@@ -1,17 +1,6 @@
 # Don't allow dependencies to be used before they have been released for at least 1 week
 minimumReleaseAge: 10080
 
-# Use minimumReleaseAgeExclude temporarily for emergency security vulnerability fixes
-minimumReleaseAgeExclude:
-  - baseline-browser-mapping@2.11.27
-  - browserslist@4.29.3
-  - caniuse-lite@1.0.30001814
-  - electron-to-chromium@1.5.444
-  - node-releases@2.0.55
-  - obug@2.2.1
-  - source-map-js@1.2.2
-  - tinyexec@1.3.1
-
 # Don't warn about ignored build scripts
 ignoredBuiltDependencies: []
 
@@ -19,20 +8,8 @@ ignoredBuiltDependencies: []
 shamefullyHoist: true
 
 overrides:
-  "@typescript-eslint/typescript-estree>minimatch": ">=9.0.7"
-  "editorconfig>minimatch": ">=9.0.7"
-  "hds-react>cookie": "0.7.2"
   "lodash": ">=4.18.1"
-  "uuid": ">=11.1.1"
-  "js-yaml@^4": "^4.3.1"
-  "ws@^8": "^8.21.0"
-  "brace-expansion": ">=5.0.9"
-  "shell-quote": ">=1.8.4"
-  "tmp": ">=0.2.6"
-  "fast-uri": ">=3.1.5"
-  "postcss": ">=8.5.18"
-  "sass>immutable": ">=4.3.9 <5"
-  "@ardatan/relay-compiler>immutable": ">=5.1.8"
+  "@graphql-tools/utils": "12.0.3"
 
 # Allow plugins that lag on peer ranges to load under ESLint 10.
 peerDependencyRules:
