@@ -56,6 +56,9 @@ RUN pnpm build
 RUN pnpm generate-sitemap
 RUN pnpm generate-robots
 
+# Sentry CLI rewrites and injects debug IDs to sourcemaps. Not uploading to Sentry at this stage.
+RUN pnpm exec sentry-cli sourcemaps inject /app/build/assets
+
 # ============================================================
 # STAGE 4: Production Runtime
 # ============================================================
