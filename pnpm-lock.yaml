@@ -6,7 +6,7 @@ settings:
 
 overrides:
   lodash: '>=4.18.1'
-  '@graphql-tools/utils': 12.0.3
+  '@graphql-tools/utils': ^12.0.2
 
 importers:
 
@@ -21,6 +21,15 @@ importers:
       '@emotion/react':
         specifier: ^11.11.4
         version: 11.11.4(@types/react@19.2.16)(react@19.2.7)(supports-color@7.2.0)
+      '@juggle/resize-observer':
+        specifier: 3.2.0
+        version: 3.2.0
+      '@react-leaflet/core':
+        specifier: ^3.0.0
+        version: 3.0.0(leaflet@1.9.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@sentry/core':
+        specifier: ^9.15.0
+        version: 9.15.0
       '@sentry/react':
         specifier: ^9.15.0
         version: 9.15.0(react@19.2.7)
@@ -45,12 +54,18 @@ importers:
       copy-to-clipboard:
         specifier: ^3.3.3
         version: 3.3.3
+      date-fns:
+        specifier: 2.16.1
+        version: 2.16.1
       dompurify:
         specifier: ^3.4.17
         version: 3.4.17
       formik:
         specifier: 2.4.5
         version: 2.4.5(react@19.2.7)
+      graphql-tag:
+        specifier: ^2.12.6
+        version: 2.12.6(graphql@16.8.1)
       hds-core:
         specifier: ^6.0.2
         version: 6.0.2
@@ -75,6 +90,9 @@ importers:
       lodash:
         specifier: '>=4.18.1'
         version: 4.18.1
+      oidc-client-ts:
+        specifier: ^2.4.1
+        version: 2.5.0
       react:
         specifier: ^19.2.7
         version: 19.2.7
@@ -93,6 +111,9 @@ importers:
       react-leaflet:
         specifier: ^5.0.0
         version: 5.0.0(leaflet@1.9.4)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      react-merge-refs:
+        specifier: 1.1.0
+        version: 1.1.0
       react-modal:
         specifier: ^3.16.3
         version: 3.16.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -102,6 +123,9 @@ importers:
       react-scroll:
         specifier: ^1.9.3
         version: 1.9.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      react-use-measure:
+        specifier: 2.0.1
+        version: 2.0.1(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       sass:
         specifier: ^1.72.0
         version: 1.74.1
