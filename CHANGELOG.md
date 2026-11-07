@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.28.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.28.0...linkedcomponents-ui-v1.28.1) (2026-11-07)
+
+
+### Bug Fixes
+
+* Upgrade ckeditor5 to v49 to resolve xss advisories ([bbffa20](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/bbffa2031ab75558ec85fe1e635489232aa082de))
+
+
+### Dependencies
+
+* Declare hoisted imports and remove stale pnpm config ([fe90d25](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/fe90d25944e592b13484ca252cd258bb25c4ada7))
+
 ## [1.28.0](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.27.8...linkedcomponents-ui-v1.28.0) (2026-10-27)
 
 
