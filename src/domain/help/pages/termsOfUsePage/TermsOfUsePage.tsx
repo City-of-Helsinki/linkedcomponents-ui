@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import Breadcrumb from '../../../../common/components/breadcrumb/Breadcrumb';
 import ExternalLink from '../../../../common/components/externalLink/ExternalLink';
-import { ROUTES } from '../../../../constants';
+import { DATA_PROTECTION_URL, ROUTES } from '../../../../constants';
 import useLocale from '../../../../hooks/useLocale';
 import { Language } from '../../../../types';
 import PageWrapper from '../../../app/layout/pageWrapper/PageWrapper';
@@ -143,10 +143,9 @@ const TermsOfUsePage: React.FC = () => {
               (in Finnish)
             </p>
             <p>
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Tietosuojaseloste%20Linked%20Registrations.pdf">
-                Registration tietosuojaseloste
-              </ExternalLink>{' '}
-              (in Finnish).
+              <ExternalLink href={DATA_PROTECTION_URL.en}>
+                Linked Events and Linked Registration privacy policy
+              </ExternalLink>
             </p>
 
             <h2>Cookies</h2>
@@ -388,8 +387,8 @@ const TermsOfUsePage: React.FC = () => {
               </ExternalLink>
             </p>
             <p>
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Tietosuojaseloste%20Linked%20Registrations.pdf">
-                Registration tietosuojaseloste
+              <ExternalLink href={DATA_PROTECTION_URL.fi}>
+                Linked Events ja Linked Registration tietosuojaseloste
               </ExternalLink>
             </p>
 
@@ -622,10 +621,9 @@ const TermsOfUsePage: React.FC = () => {
               (på finska).
             </p>
             <p>
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Tietosuojaseloste%20Linked%20Registrations.pdf">
-                Registration tietosuojaseloste
-              </ExternalLink>{' '}
-              (på finska).
+              <ExternalLink href={DATA_PROTECTION_URL.sv}>
+                Linked Events och Linked Registration integritetspolicy
+              </ExternalLink>
             </p>
 
             <h2>Om kakor</h2>

@@ -1,5 +1,6 @@
 import { Formik, useFormikContext } from 'formik';
 
+import { DATA_PROTECTION_URL } from '../../../../../constants';
 import {
   configure,
   render,
@@ -61,6 +62,14 @@ test('should render fields', async () => {
       /olen lukenut tietosuojaselosteen ja annan luvan tietojeni käyttöön/i
     )
   ).toBeInTheDocument();
+});
+
+test('should link to Linked Events data protection description', async () => {
+  renderComponent();
+
+  expect(
+    await screen.findByRole('link', { name: /tietosuojaselosteen/i })
+  ).toHaveAttribute('href', DATA_PROTECTION_URL.fi);
 });
 
 test('should validate required fields', async () => {

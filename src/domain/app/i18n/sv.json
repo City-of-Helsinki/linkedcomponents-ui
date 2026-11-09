@@ -771,7 +771,7 @@
       "labelStartTime": "Starttid",
       "labelTime": "Tid",
       "labelUmbrellaEvent": "Paraplyevenemang",
-      "labelUserConsent": "Jag har läst <a href=\"https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Enterprise%20Support%20and%20Advisory%20Services%20Tourist%20Information%20Services.pdf\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Dataskyddsbeskrivning {{openInNewTab}}\">Dataskyddsbeskrivning</a> och ger mitt samtycke till användningen av mina uppgifter.",
+      "labelUserConsent": "Jag har läst <a href=\"{{url}}\" target=\"_blank\" rel=\"noopener noreferrer\" aria-label=\"Dataskyddsbeskrivning {{openInNewTab}}\">Dataskyddsbeskrivning</a> och ger mitt samtycke till användningen av mina uppgifter.",
       "labelUserName": "Namn",
       "labelVideoAltText": "Alt-text för video",
       "labelVideoName": "Namn för video",

@@ -6,6 +6,8 @@ import Fieldset from '../../../../common/components/fieldset/Fieldset';
 import CheckboxField from '../../../../common/components/formFields/checkboxField/CheckboxField';
 import TextInputField from '../../../../common/components/formFields/textInputField/TextInputField';
 import FormGroup from '../../../../common/components/formGroup/FormGroup';
+import { DATA_PROTECTION_URL } from '../../../../constants';
+import useLocale from '../../../../hooks/useLocale';
 import FieldColumn from '../../../app/layout/fieldColumn/FieldColumn';
 import FieldRow from '../../../app/layout/fieldRow/FieldRow';
 import { EVENT_FIELDS } from '../../constants';
@@ -19,6 +21,7 @@ const ExternalUserContact: FC<ExternalUserContactProps> = ({
   isEditingAllowed,
 }) => {
   const { t } = useTranslation();
+  const locale = useLocale();
 
   return (
     <Fieldset heading={t('event.form.sections.contact')} hideLegend>
@@ -74,6 +77,7 @@ const ExternalUserContact: FC<ExternalUserContactProps> = ({
                     dangerouslySetInnerHTML={{
                       __html: t('event.form.labelUserConsent', {
                         openInNewTab: t('common.openInNewTab'),
+                        url: DATA_PROTECTION_URL[locale],
                       }),
                     }}
                   />
