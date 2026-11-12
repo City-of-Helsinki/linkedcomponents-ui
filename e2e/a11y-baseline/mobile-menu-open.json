@@ -1,0 +1,6 @@
+{
+  "scan": "mobile menu open",
+  "violations": [
+    "label-content-name-mismatch button[aria-label=\"Valikko\"]"
+  ]
+}
