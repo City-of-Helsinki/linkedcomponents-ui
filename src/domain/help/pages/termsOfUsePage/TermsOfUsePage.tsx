@@ -137,12 +137,6 @@ const TermsOfUsePage: React.FC = () => {
               individual.
             </p>
             <p>
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf">
-                City of Helsinki’s Privacy Policy
-              </ExternalLink>{' '}
-              (in Finnish)
-            </p>
-            <p>
               <ExternalLink href={DATA_PROTECTION_URL.en}>
                 Linked Events and Linked Registration privacy policy
               </ExternalLink>
@@ -382,11 +376,6 @@ const TermsOfUsePage: React.FC = () => {
               yhdistää henkilöön.
             </p>
             <p>
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf">
-                Helsingin kaupungin käyttöoikeuksien tietosuojaseloste.
-              </ExternalLink>
-            </p>
-            <p>
               <ExternalLink href={DATA_PROTECTION_URL.fi}>
                 Linked Events ja Linked Registration tietosuojaseloste
               </ExternalLink>
@@ -613,12 +602,6 @@ const TermsOfUsePage: React.FC = () => {
               tidigare. De registrerades uppgifter anonymiseras 30 dagar efter
               evenemangets slut, varefter de inte kan kopplas till en enskild
               person.
-            </p>
-            <p>
-              <ExternalLink href="https://www.hel.fi/static/liitteet-2019/Kaupunginkanslia/Rekisteriselosteet/Keha/Sahkoisten%20asiointipalveluiden%20rekisteri.pdf">
-                Helsingfors stads integritetspolicy
-              </ExternalLink>{' '}
-              (på finska).
             </p>
             <p>
               <ExternalLink href={DATA_PROTECTION_URL.sv}>
