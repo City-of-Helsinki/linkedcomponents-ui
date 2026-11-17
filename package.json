@@ -67,6 +67,7 @@
     "test:e2e:install": "playwright install",
     "test:e2e": "playwright test",
     "test:e2e:ci": "playwright test",
+    "test:e2e:docker": "./e2e/docker/run.sh",
     "test:e2e:record": "playwright codegen https://linkedevents.dev.hel.ninja/",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
@@ -78,6 +79,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@city-of-helsinki/license-notices": "^0.1.0",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",

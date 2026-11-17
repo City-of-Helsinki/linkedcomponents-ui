@@ -1,0 +1,6 @@
+{
+  "scan": "event search with place filter open",
+  "violations": [
+    "color-contrast .Breadcrumb-module_listItem.breadcrumb_hds-breadcrumb__list-item:nth-child(1) > .Breadcrumb-module_link.breadcrumb_hds-breadcrumb__link[href=\"/\"]"
+  ]
+}

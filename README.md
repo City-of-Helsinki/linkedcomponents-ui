@@ -177,6 +177,29 @@ Install [Playwright](https://playwright.dev) for running browser tests
 
 Running browser tests
 
+### `pnpm test:e2e:docker`
+
+Runs the browser and accessibility tests in the official Playwright Docker image, against a
+production build of this app and the shared dev Linked Events API (the same API the PR review
+environments use). Only Docker is needed.
+
+- Playwright arguments are passed through, e.g.
+  `pnpm test:e2e:docker e2e/tests/accessibility.spec.ts --project=chromium`.
+- Reports are written to `report/` and `test-results/`.
+
+#### Accessibility tests
+
+`e2e/tests/accessibility.spec.ts` scans pages and UI states with axe against WCAG 2.1 A/AA and
+fails on violations. Known, not yet fixed violations are recorded in a baseline
+(`e2e/a11y-baseline/`), so that only new violations fail:
+
+```
+A11Y_UPDATE_BASELINE=1 pnpm test:e2e:docker e2e/tests/accessibility.spec.ts --project=chromium
+```
+
+Review the resulting baseline diff like any other change. Baselined violations that no longer
+occur are reported in the test results so the baseline can be shrunk.
+
 ### `pnpm build`
 
 Builds the app for production to the `build` folder.<br />
