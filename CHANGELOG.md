@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.28.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.28.1...linkedcomponents-ui-v1.28.2) (2026-11-17)
+
+
+### Bug Fixes
+
+* Remove privacy policy link ([37d8987](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/37d898740cbe28bf18f222bad486406913e3b179))
+* Update env-config.js script version to v2 ([c8f086e](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/c8f086e8200a88fe523ec911c265dbdbabba753b))
+
 ## [1.28.1](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.28.0...linkedcomponents-ui-v1.28.1) (2026-11-10)
 
 
