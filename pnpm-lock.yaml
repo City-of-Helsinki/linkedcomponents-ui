@@ -76,8 +76,8 @@ importers:
         specifier: ^3.3.1
         version: 3.3.1
       i18next:
-        specifier: ^23.10.1
-        version: 23.10.1
+        specifier: ^26.3.4
+        version: 26.7.2(typescript@5.4.3)
       i18next-browser-languagedetector:
         specifier: ^7.2.0
         version: 7.2.1
@@ -104,7 +104,7 @@ importers:
         version: 6.1.0(react@19.2.7)
       react-i18next:
         specifier: ^14.1.0
-        version: 14.1.0(i18next@23.10.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        version: 14.1.0(i18next@26.7.2(typescript@5.4.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react-image-crop:
         specifier: ^11.0.5
         version: 11.0.5(react@19.2.7)
@@ -3262,8 +3262,13 @@ packages:
   i18next-browser-languagedetector@7.2.1:
     resolution: {integrity: sha512-h/pM34bcH6tbz8WgGXcmWauNpQupCGr25XPp9cZwZInR9XHSjIFDYp1SIok7zSPsTOMxdvuLyu86V+g2Kycnfw==}
 
-  i18next@23.10.1:
-    resolution: {integrity: sha512-NDiIzFbcs3O9PXpfhkjyf7WdqFn5Vq6mhzhtkXzj51aOcNuPNcTwuYNuXCpHsanZGHlHKL35G7huoFeVic1hng==}
+  i18next@26.7.2:
+    resolution: {integrity: sha512-RsOY3BeaCDdkk52NeJSFAXELQ2rQXBO/tOub6L8ue2ICPfR/FRDWDOfEDg4xMPd1SqO5goVYQ6i72qWEUB/PPw==}
+    peerDependencies:
+      typescript: ^5 || ^6 || ^7
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
@@ -8753,9 +8758,9 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.29.2
 
-  i18next@23.10.1:
-    dependencies:
-      '@babel/runtime': 7.29.2
+  i18next@26.7.2(typescript@5.4.3):
+    optionalDependencies:
+      typescript: 5.4.3
 
   iconv-lite@0.6.3:
     dependencies:
@@ -9687,11 +9692,11 @@ snapshots:
     dependencies:
       react: 19.2.7
 
-  react-i18next@14.1.0(i18next@23.10.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
+  react-i18next@14.1.0(i18next@26.7.2(typescript@5.4.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:
       '@babel/runtime': 7.29.2
       html-parse-stringify: 3.0.1
-      i18next: 23.10.1
+      i18next: 26.7.2(typescript@5.4.3)
       react: 19.2.7
     optionalDependencies:
       react-dom: 19.2.7(react@19.2.7)

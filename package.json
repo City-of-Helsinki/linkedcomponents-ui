@@ -29,7 +29,7 @@
     "hds-core": "^6.0.2",
     "hds-react": "^6.0.2",
     "html-tags": "^3.3.1",
-    "i18next": "^23.10.1",
+    "i18next": "^26.3.4",
     "i18next-browser-languagedetector": "^7.2.0",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
