@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.28.3](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.28.2...linkedcomponents-ui-v1.28.3) (2026-11-26)
+
+
+### Dependencies
+
+* Bump i18next from 23.10.1 to 26.3.4 ([1320573](https://github.com/City-of-Helsinki/linkedcomponents-ui/commit/1320573d2f038f08882620dcb4b75c6be59d2531))
+
 ## [1.28.2](https://github.com/City-of-Helsinki/linkedcomponents-ui/compare/linkedcomponents-ui-v1.28.1...linkedcomponents-ui-v1.28.2) (2026-11-17)
 
 
