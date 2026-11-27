@@ -74,7 +74,6 @@ process.stderr.write = ((chunk: any, ...args: any[]) => {
 import.meta.env.REACT_APP_ENABLE_EXTERNAL_USER_EVENTS = 'true';
 import.meta.env.REACT_APP_ENABLE_SWEDISH_TRANSLATIONS = 'true';
 import.meta.env.REACT_APP_MAINTENANCE_SHOW_NOTIFICATION = 'false';
-import.meta.env.REACT_APP_MAINTENANCE_DISABLE_LOGIN = 'false';
 import.meta.env.REACT_APP_ALLOWED_SUBSTITUTE_USER_DOMAINS = 'hel.fi';
 import.meta.env.REACT_APP_WEB_STORE_INTEGRATION_ENABLED = 'true';
 import.meta.env.REACT_APP_MATOMO_URL_BASE = 'https://www.test.fi/';

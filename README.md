@@ -91,7 +91,6 @@ Use .env.development.local for development.
 | REACT_APP_ENABLE_EXTERNAL_USER_EVENTS         | Flag to enable events for users without an organization, Default true.                                                                                   |
 | REACT_APP_USE_IMAGE_PROXY                     | Flag to enable image proxy for event images. Default is true.                                                                                            |
 | REACT_APP_MAINTENANCE_SHOW_NOTIFICATION       | Flag to show maintenance notification in each page. Default is false.                                                                                    |
-| REACT_APP_MAINTENANCE_DISABLE_LOGIN           | Flag to disable login and to show toast message instead. Default is false                                                                                |
 | REACT_APP_ALLOWED_SUBSTITUTE_USER_DOMAINS     | Allowed domains for the substitute user email. Defaul is hel.fi                                                                                          |
 | REACT_APP_WEB_STORE_INTEGRATION_ENABLED       | Flag to enable Tapla integration. Default is false                                                                                                       |
 
